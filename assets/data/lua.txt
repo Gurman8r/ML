@@ -1,0 +1,10 @@
+# Lua	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type =	lua
+	name =	test
+	file =	../../../assets/lua/placeholder.lua
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

@@ -1,0 +1,10 @@
+# Skyboxes
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+#<item>
+#	type = skybox
+#	name = sunset
+#	file = ../../../assets/skyboxes/sunset.skybox
+#</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

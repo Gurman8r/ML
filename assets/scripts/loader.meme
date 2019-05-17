@@ -1,0 +1,26 @@
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+LOADER = nodeid();
+{
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+	load_texture = [](name, path);
+	{
+		return system("load", "texture", name, path);
+	};
+
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+	main = [](args);
+	{
+		load_texture("test", "../../../assets/images/dean.png");
+
+		return true;
+	};
+
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+	return main(__ARGS__);
+	
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+};

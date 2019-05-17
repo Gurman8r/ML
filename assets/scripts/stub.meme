@@ -1,0 +1,203 @@
+# Script for testing the Interpreter
+STUB = nodeid();
+{
+	testIf = [](value);
+	{
+		printl("Test If: {value}");
+		if(value == 0);
+		{
+			printl("if == 0");
+		};
+		elif (value == 1);
+		{
+			printl("elif == 1");
+		};
+		elif (value != 2);
+		{
+			printl("elif != 2");
+		};
+		else;
+		{
+			printl("else");
+		};
+		printl("End of If");
+		printl("");
+		return true;
+	};
+
+	testFor = [](min, max, it);
+	{
+		printl("Test For: i = {min}; i < {max}; i += {it}");
+		for(i = min; i < max; i = i + it);
+		{
+			printl("for: {i}");
+		};
+		delete(i);
+		printl("End of For");
+		printl("");
+		return true;
+	};
+
+	testWhile = [](value);
+	{
+		printl("Test While: {value} > 0");
+		i = value;
+		while(i > 0);
+		{	
+			printl("while: {i}");
+			i = i - 1;
+		};
+		delete(i);
+		printl("End of While");
+		printl("");
+		return true;
+	};
+
+	getFn = []();
+	{
+		return 3.33;
+	};
+
+	thruFn = [](value);
+	{
+		return value;
+	};
+
+	addFn = [](lhs, rhs);
+	{
+		return lhs + rhs;
+	};
+
+	subFn = [](lhs, rhs);
+	{
+		return lhs - rhs;
+	};
+
+	testVars = []();
+	{
+		printl("Test Vars");
+
+		a = 1;
+		b = 2.0;
+		c = 1 + 2;
+		d = a + b + a;
+		e = b + 3;
+		f = 2 + b + 2;
+
+		x = getFn();
+		y = thruFn(x);
+		z = addFn(y, 1);
+		w = subFn(1, z);
+
+		printl("a = {a}");
+		printl("b = {b}");
+		printl("c = {c}");
+		printl("d = {d}");
+		printl("e = {e}");
+		printl("f = {f}");
+		printl("x = {x}");
+		printl("y = {y}");
+		printl("z = {z}");
+		printl("w = {w}");
+
+		printl("End of Vars");
+		printl("");
+	};
+
+	testArrays = []();
+	{
+		printl("Test Arrays");
+
+		a = [ "a", "bb", "ccc", "dddd" ];
+		printl(a);
+
+		str = "Hello, World!";
+	
+		printl("Forward");
+		for(i = 0; i < 4; i = i + 1);
+		{
+			printl(a[i]);
+		};
+
+		printl("Reverse");
+		for(j = 3; j >= 0; j = j - 1);
+		{
+			tmp = a[j];
+			printl("{tmp}");
+		};
+
+		printl("End of Arrays");
+		printl("");
+		return a;
+	};
+
+	test1 = []();
+	{
+		return "Test";
+	};
+	test2 = [](value);
+	{
+		return value;
+	};
+
+	testFuncs = []();
+	{
+
+		printl("Start of Funcs");
+
+		a = "A"; 
+		b = a + test2("B") + test2("b");
+		c = a + test1();
+		d = test1() + a;
+		e = test2("E") + a;
+		f = a + test1() + test2("F") + "f";
+		g = a + test1() + f + test2("G");
+		h = "" + test1();
+		h = test2(h);
+
+		printl(a);
+		printl(b);
+		printl(c);
+		printl(d);
+		printl(e);
+		printl(f);
+		printl(g);
+		printl(h);
+
+		printl("End of Funcs");
+	};
+
+	testInput = []();
+	{
+		printl("What is your name?");
+		name = input();
+		printl("Hello, {name}");
+	};
+
+	stub = []();
+	{
+		printl("Start of Stub");
+
+		for(i = 0; i < 4; i = i + 1);
+		{
+			testIf(i);
+		};
+
+		testFor(0, 8, 2);
+
+		testWhile(5);
+
+		testVars();
+
+		testArrays();
+
+		testFuncs();
+
+		printl("End of Stub");
+
+		return true;
+	};
+
+	# Run Stub
+	return stub();
+}

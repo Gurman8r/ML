@@ -1,0 +1,52 @@
+# Images
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type = image
+	name = icon
+	file = ../../../assets/images/dean.png
+</item>
+
+<item>
+	type = image
+	name = dean
+	file = ../../../assets/images/dean.png
+</item>
+
+<item>
+	type = image
+	name = neutrino
+	file = ../../../assets/images/neutrino.png
+</item>
+
+<item>
+	type = image
+	name = sanic
+	file = ../../../assets/images/sanic.png
+</item>
+
+<item>
+	type = image
+	name = borg
+	file = ../../../assets/images/borg.png
+</item>
+
+<item>
+	type = image
+	name = grass
+	file = ../../../assets/images/grass.png
+</item>
+
+<item>
+	type = image
+	name = navball
+	file = ../../../assets/images/navball.png
+</item>
+
+<item>
+	type = image
+	name = buck
+	file = ../../../assets/images/buck.png
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

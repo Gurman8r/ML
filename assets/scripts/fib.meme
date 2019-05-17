@@ -1,0 +1,41 @@
+# Script to show a Fibonacci sequence
+FIB = nodeid();
+{
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+	main = [](args);
+	{
+		value = 100;
+
+		if ("int" == typename(args[0])); 
+		{
+			value = args[0];
+		};
+		
+		printl("Fibonacci: {value}");
+		if(value >= 0);
+		{
+			a = 0;
+			printl(a);
+			if(value >= 1);
+			{
+				b = 1;
+				printl(b);
+				c = a + b;
+				while(c <= value);
+				{
+					printl(c);
+					a = b;
+					b = c;
+					c = a + b;
+				};
+			};
+		};
+	};
+
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+	main(__ARGS__);
+
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+};

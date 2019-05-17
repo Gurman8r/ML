@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{0068CB93-352F-485B-AEDC-1B09ADFD072A}</ProjectGuid>
+    <RootNamespace>Editor</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ML_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ML_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ML_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ML_EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\ML\Editor\AnyVar.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Browser.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Builder.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\CustomShader.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Dockspace.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Document.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorApplication.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorCommands.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\GUI.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\GUI_Base.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\GUI_Tool.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\GUI_Window.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Builtin.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Helper.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Style.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Inspector.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\MainMenuBar.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\NetworkHUD.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Profiler.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\ResourceView.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\SceneView.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\StyleLoader.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Terminal.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\TextEditor.hpp" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\imconfig.h" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\imgui.h" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\imgui_impl_ml.hpp" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\imstb_truetype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\ML\Editor\AnyVar.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Browser.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Builder.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\CustomShader.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Dockspace.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Document.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorApplication.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorCommands.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\GUI.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\GUI_Base.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\GUI_Tool.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\GUI_Window.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\ImGui_Builtin.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Inspector.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\MainMenuBar.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\NetworkHUD.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Profiler.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\ResourceView.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\SceneView.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\StyleLoader.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Terminal.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\TextEditor.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_impl_ml.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_widgets.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\thirdparty\include\imgui\LICENSE.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

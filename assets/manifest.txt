@@ -1,0 +1,109 @@
+# Lua
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/lua.txt
+</item>
+
+# Fonts
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/fonts.txt
+</item>
+
+
+# Images
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/images.txt
+</item>
+
+
+# Shaders
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/shaders.txt
+</item>
+
+
+# Textures
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/textures.txt
+</item>
+
+
+# Materials
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/materials.txt
+</item>
+
+
+# Skyboxes
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/skyboxes.txt
+</item>
+
+
+# Meshes
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/meshes.txt
+</item>
+
+
+# Models
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/models.txt
+</item>
+
+
+# Sprites
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/sprites.txt
+</item>
+
+
+# Effects
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/effects.txt
+</item>
+
+
+# Scripts
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/scripts.txt
+</item>
+
+
+# Plugins
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/plugins.txt
+</item>
+
+
+# Entities
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<item>
+	type = manifest
+	name = ../../../assets/data/entities.txt
+</item>

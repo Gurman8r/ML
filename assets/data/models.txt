@@ -1,0 +1,22 @@
+# Models
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type = model
+	name = cube
+	mesh = cube
+</item>
+
+<item>
+	type = model
+	name = sphere8x6
+	mesh = sphere8x6
+</item>
+
+<item>
+	type = model
+	name = sphere32x24
+	mesh = sphere32x24
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

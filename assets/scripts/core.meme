@@ -1,0 +1,85 @@
+# MemeScript Core Library
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+clear = [](); { 
+	return command("clear");
+};
+
+pause = [](); { 
+	return command("pause");
+};
+
+exit = []();  { 
+	return command("exit");
+};
+
+getcwd = [](); {
+	return command("getcwd");
+};
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+chdir = [](chdir_value); { 
+	return command("cd " + chdir_value); 
+};
+
+lsdir = [](lsdir_value); {
+	return command("ls " + lsdir_value); 
+};
+
+exists = [](exists_value); { 
+	return command("exists " + exists_value);
+};
+
+read = [](read_value); {
+	return command("read " + read_value);
+};
+
+exec = [](exec_value);  { 
+	return command("exec " + exec_value);
+};
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+log_msg = [](log_msg_value); { return command("log msg " + log_msg_value); };
+log_wrn = [](log_wrn_value); { return command("log wrn " + log_wrn_value); };
+log_err = [](log_err_value); { return command("log err " + log_err_value); };
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+find_var = [](find_var_nodeid, find_var_name); {
+	return command("exists " + find_var_nodeid + " " + find_var_name);
+};
+
+get_var = [](get_var_nodeid, get_var_name); {
+	return command("get " + get_var_nodeid + " " + get_var_name);
+};
+
+set_var = [](set_var_nodeid, set_var_name, set_var_value); {
+	return command("set " + set_var_nodeid + " " + set_var_name + " " + set_var_value);
+};
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+get_target_name = [](); {
+	return command("target name");
+};
+
+get_target_config = [](); { 
+	return command("target config");
+};
+
+get_target_platform = [](); { 
+	return command("target platform"); 
+};
+
+get_target_file = [](); {
+	return
+		get_target_name() + "_" +
+		get_target_config() + "_" +
+		get_target_platform() + ".exe";
+};
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+CORE = nodeid();

@@ -1,0 +1,64 @@
+# Shaders
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type = shader
+	name = basic
+	file = ../../../assets/shaders/basic.shader
+</item>
+
+<item>
+	type = shader
+	name = sprites
+	file = ../../../assets/shaders/sprites.shader
+</item>
+
+<item>
+	type = shader
+	name = normal
+	file = ../../../assets/shaders/normal.shader
+</item>
+
+<item>
+	type = shader
+	name = text
+	file = ../../../assets/shaders/text.shader
+</item>
+
+<item>
+	type = shader
+	name = geometry
+	file = ../../../assets/shaders/geometry.shader
+</item>
+
+<item>
+	type = shader
+	name = framebuffer
+	file = ../../../assets/shaders/framebuffer.shader
+</item>
+
+<item>
+	type = shader
+	name = lighting
+	file = ../../../assets/shaders/lighting.shader
+</item>
+
+<item>
+	type = shader
+	name = solid
+	file = ../../../assets/shaders/solid.shader
+</item>
+
+<item>
+	type = shader
+	name = skybox
+	file = ../../../assets/shaders/skybox.shader
+</item>
+
+<item>
+	type = shader
+	name = example
+	file = ../../../assets/shaders/example.shader
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

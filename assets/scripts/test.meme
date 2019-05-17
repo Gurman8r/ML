@@ -1,0 +1,40 @@
+# Test Script
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+@"config b flag_itop 0"
+@"config b flag_toks 0"
+@"config b flag_tree 1"
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+TEST = nodeid();
+{
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+	
+	myStruct = $();
+	{
+		foo = 123;
+	};
+	
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+	main = [](args);
+	{
+		argc = sizeof(args);
+
+		for (i = 0; i < argc; i = i + 1);
+		{
+			printl(args[i]);
+		};
+		
+		printl(myStruct.foo);
+
+		return true;
+	};
+
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+	return main(__ARGS__);
+	
+	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+};

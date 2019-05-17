@@ -1,0 +1,22 @@
+# Effects
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type	=	effect
+	name	=	frame_main
+	model	=	default_quad
+	shader	=	framebuffer
+	width	=	1920
+	height	=	1080
+</item>
+
+<item>
+	type	=	effect
+	name	=	frame_post
+	model	=	default_quad
+	shader	=	framebuffer
+	width	=	1920
+	height	=	1080
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

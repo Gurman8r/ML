@@ -1,0 +1,10 @@
+# Plugins
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type = plugin
+	name = TestPlugin
+	file = ./TestPlugin_$(Configuration)_$(PlatformTarget).dll
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

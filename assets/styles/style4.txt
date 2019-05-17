@@ -1,0 +1,66 @@
+# Placeholder ImGui Style File
+
+[Style]
+FrameBorderSize			= 1.0f;
+FramePadding			= { 4.0f, 2.0f };
+ItemSpacing				= { 8.0f, 2.0f };
+WindowBorderSize		= 1.0f;
+TabBorderSize			= 1.0f;
+WindowRounding			= 1.0f;
+ChildRounding			= 1.0f;
+FrameRounding			= 1.0f;
+ScrollbarRounding		= 1.0f;
+GrabRounding			= 1.0f;
+TabRounding				= 1.0f;
+
+[Colors]
+Text					= { 1.00, 1.00, 1.00, 0.95 };
+TextDisabled			= { 0.50, 0.50, 0.50, 1.00 };
+WindowBg				= { 0.13, 0.12, 0.12, 1.00 };
+ChildBg					= { 1.00, 1.00, 1.00, 0.00 };
+PopupBg					= { 0.05, 0.05, 0.05, 0.94 };
+Border					= { 0.53, 0.53, 0.53, 0.46 };
+BorderShadow			= { 0.00, 0.00, 0.00, 0.00 };
+FrameBg					= { 0.00, 0.00, 0.00, 0.85 };
+FrameBgHovered			= { 0.22, 0.22, 0.22, 0.40 };
+FrameBgActive			= { 0.16, 0.16, 0.16, 0.53 };
+TitleBg					= { 0.00, 0.00, 0.00, 1.00 };
+TitleBgActive			= { 0.00, 0.00, 0.00, 1.00 };
+TitleBgCollapsed		= { 0.00, 0.00, 0.00, 0.51 };
+MenuBarBg				= { 0.12, 0.12, 0.12, 1.00 };
+ScrollbarBg				= { 0.02, 0.02, 0.02, 0.53 };
+ScrollbarGrab			= { 0.31, 0.31, 0.31, 1.00 };
+ScrollbarGrabHovered	= { 0.41, 0.41, 0.41, 1.00 };
+ScrollbarGrabActive		= { 0.48, 0.48, 0.48, 1.00 };
+CheckMark				= { 0.79, 0.79, 0.79, 1.00 };
+SliderGrab				= { 0.48, 0.47, 0.47, 0.91 };
+SliderGrabActive		= { 0.56, 0.55, 0.55, 0.62 };
+Button					= { 0.50, 0.50, 0.50, 0.63 };
+ButtonHovered			= { 0.67, 0.67, 0.68, 0.63 };
+ButtonActive			= { 0.26, 0.26, 0.26, 0.63 };
+Header					= { 0.54, 0.54, 0.54, 0.58 };
+HeaderHovered			= { 0.64, 0.65, 0.65, 0.80 };
+HeaderActive			= { 0.25, 0.25, 0.25, 0.80 };
+Separator				= { 0.58, 0.58, 0.58, 0.50 };
+SeparatorHovered		= { 0.81, 0.81, 0.81, 0.64 };
+SeparatorActive			= { 0.81, 0.81, 0.81, 0.64 };
+ResizeGrip				= { 0.87, 0.87, 0.87, 0.53 };
+ResizeGripHovered		= { 0.87, 0.87, 0.87, 0.74 };
+ResizeGripActive		= { 0.87, 0.87, 0.87, 0.74 };
+Tab						= { 0.01, 0.01, 0.01, 0.86 };
+TabHovered				= { 0.29, 0.29, 0.29, 1.00 };
+TabActive				= { 0.31, 0.31, 0.31, 1.00 };
+TabUnfocused			= { 0.02, 0.02, 0.02, 1.00 };
+TabUnfocusedActive		= { 0.19, 0.19, 0.19, 1.00 };
+DockingPreview			= { 0.38, 0.48, 0.60, 1.00 };
+DockingEmptyBg			= { 0.20, 0.20, 0.20, 1.00 };
+PlotLines				= { 0.61, 0.61, 0.61, 1.00 };
+PlotLinesHovered		= { 0.68, 0.68, 0.68, 1.00 };
+PlotHistogram			= { 0.90, 0.77, 0.33, 1.00 };
+PlotHistogramHovered	= { 0.87, 0.55, 0.08, 1.00 };
+TextSelectedBg			= { 0.47, 0.60, 0.76, 0.47 };
+DragDropTarget			= { 0.58, 0.58, 0.58, 0.90 };
+NavHighlight			= { 0.60, 0.60, 0.60, 1.00 };
+NavWindowingHighlight	= { 1.00, 1.00, 1.00, 0.70 };
+NavWindowingDimBg		= { 0.80, 0.80, 0.80, 0.20 };
+ModalWindowDimBg		= { 0.80, 0.80, 0.80, 0.35 };

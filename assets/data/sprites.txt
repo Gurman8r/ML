@@ -1,0 +1,10 @@
+# Sprites
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type = sprite
+	name = neutrino
+	texture = neutrino
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

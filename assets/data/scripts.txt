@@ -1,0 +1,52 @@
+# Scripts
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type = script
+	name = hello
+	file = ../../../assets/scripts/hello.meme
+</item>
+
+<item>
+	type = script
+	name = fib
+	file = ../../../assets/scripts/fib.meme
+</item>
+
+<item>
+	type = script
+	name = files
+	file = ../../../assets/scripts/files.meme
+</item>
+
+<item>
+	type = script
+	name = test
+	file = ../../../assets/scripts/test.meme
+</item>
+
+<item>
+	type = script
+	name = stub
+	file = ../../../assets/scripts/stub.meme
+</item>
+
+<item>
+	type = script
+	name = tool
+	file = ../../../assets/scripts/tool.meme
+</item>
+
+<item>
+	type = script
+	name = fizzbuzz
+	file = ../../../assets/scripts/fizzbuzz.meme
+</item>
+
+<item>
+	type = script
+	name = loader
+	file = ../../../assets/scripts/loader.meme
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

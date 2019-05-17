@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{5CF20D36-BF92-40A3-8C41-EBD1C2B43B77}</ProjectGuid>
+    <RootNamespace>Graphics</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\$(PlatformTarget)\</IntDir>
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ML_GRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ML_GRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ML_GRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ML_GRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\ML\Graphics\BufferLayout.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Camera.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Canvas.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Effect.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Font.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\FrameBuffer.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Glyph.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\GraphicsEvents.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\IDrawable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Image.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\IndexBuffer.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Material.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Model.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\OpenGL.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderBatch.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderBuffer.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Renderer.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderStates.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderTarget.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderVar.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderWindow.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Shader.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\ShaderAPI.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\ShaderParser.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Shapes.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Skybox.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Sprite.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Text.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Texture.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Uni.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Vertex.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\VertexArray.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\VertexBuffer.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\VertexList.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Canvas.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Effect.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Image.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Light.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Material.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Model.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\OpenGL.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Renderer.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderTarget.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderVar.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderWindow.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\ShaderParser.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Shapes.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Skybox.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Sprite.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Text.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Texture.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Vertex.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\VertexArray.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\VertexList.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

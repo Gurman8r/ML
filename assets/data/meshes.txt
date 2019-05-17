@@ -1,0 +1,22 @@
+# Meshes
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<item>
+	type = mesh
+	name = cube
+	file = ../../../assets/meshes/cube.mesh
+</item>
+
+<item>
+	type = mesh
+	name = sphere8x6
+	file = ../../../assets/meshes/sphere8x6.mesh
+</item>
+
+<item>
+	type = mesh
+	name = sphere32x24
+	file = ../../../assets/meshes/sphere32x24.mesh
+</item>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

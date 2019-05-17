@@ -1,4 +1,5 @@
 #include <ML/Engine/Preferences.hpp>
+#include <ML/Core/Debug.hpp>
 #include <INIReader.h>
 
 namespace ml
@@ -31,7 +32,7 @@ namespace ml
 	{
 		return ((!(m_ini) && (m_ini = static_cast<INIReader *>(new INIReader(filename))))
 			? (static_cast<INIReader *>(m_ini)->ParseError() == EXIT_SUCCESS)
-			: (false)
+			: (Debug::logError("Failed Loading Settings: \'{0}\'", filename))
 		);
 	}
 
@@ -45,7 +46,7 @@ namespace ml
 				name,
 				default_value
 			))
-			: ((default_value))
+			: (default_value)
 		);
 	}
 

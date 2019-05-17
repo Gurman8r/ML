@@ -3,7 +3,7 @@
 #include "Sandbox.hpp"
 #include "DemoPhysics.hpp"
 
-#include <ML/Audio/Audio.hpp>
+#include <ML/Audio/OpenAL.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/Dispatcher.hpp>
 #include <ML/Core/EventSystem.hpp>

@@ -2,6 +2,15 @@
 
 rem Set Target Name
 set TargetName=%1
+
+rem Set Configuration
+set Configuration=%2
+
+rem Set Platform Target
+set PlatformTarget=%3
+
+
+rem Validate Platform Target
 if "%TargetName%"=="" (
 	echo Target Name cannot be empty!
 	pause
@@ -10,8 +19,7 @@ if "%TargetName%"=="" (
 	echo Target Name: "%TargetName%"
 )
 
-rem Set Configuration
-set Configuration=%2
+rem Validate Configuration
 if "%Configuration%"=="" (
 	echo Configuration cannot be empty!
 	pause
@@ -20,8 +28,7 @@ if "%Configuration%"=="" (
 	echo Configuration: "%Configuration%"
 )
 
-rem Set Platform Target
-set PlatformTarget=%3
+rem Validate Platform Target
 if "%PlatformTarget%"=="" (
 	echo Platform Target cannot be empty!
 	pause

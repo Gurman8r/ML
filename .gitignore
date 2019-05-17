@@ -2,8 +2,8 @@
 /lib
 /bin
 /.vs
-/tools/glewinfo.txt
-/tools/visualinfo.txt
+/thirdparty/tools/glewinfo.txt
+/thirdparty/tools/visualinfo.txt
 imgui.ini
 desktop.ini
 *.log

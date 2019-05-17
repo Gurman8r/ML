@@ -1,5 +1,6 @@
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Application.hpp>
+#include <ML/Core/Debug.hpp>
 #include <ML/Core/Time.hpp>
 
 namespace ml
@@ -25,7 +26,10 @@ namespace ml
 
 	Application * Engine::launchApp(Application * value)
 	{
-		return ((!isRunning()) ? (m_app = value) : (NULL));
+		return ((!isRunning()) 
+			? (m_app = value) 
+			: (NULL)
+		);
 	}
 
 	int32_t Engine::freeApp(Application * value)

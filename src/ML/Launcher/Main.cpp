@@ -1,10 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include "../../../examples/Sandbox/Sandbox.hpp"
-#pragma comment(lib, "Sandbox_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -13,20 +8,20 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# ifndef ML_CONFIG_INI
-# define ML_CONFIG_INI "../../../ML_Config.ini"
+# include "../../../examples/Sandbox/Sandbox.hpp"
+# ifdef ML_SYSTEM_WINDOWS
+#	pragma comment(lib, "Sandbox_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 int32_t main(int32_t argc, char ** argv)
 {
-	// Load Preferences
+	// Load Prefs
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	if (!ML_Prefs.loadFromFile(ML_CONFIG_INI))
+	if (!ML_Prefs.loadFromFile("../../../ML_Config.ini"))
 	{
-		return ml::Debug::logError("Failed Loading Settings: \'{0}\'", ML_CONFIG_INI)
-			|| ml::Debug::pause(EXIT_FAILURE);
+		return ml::Debug::pause(EXIT_FAILURE);
 	}
 
 	// Setup Control States
@@ -43,45 +38,55 @@ int32_t main(int32_t argc, char ** argv)
 	static ml::StateMachine<State, ml::Application *> control =
 	{ 
 	{ State::Enter, [](auto app)
-	{	// Enter
+	{	// On Enter
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv));
 		return control.run(State::Load, app);
 	} },
+	
 	{ State::Load, [](auto app)
-	{	// Load
+	{	// On Load
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::LoadEvent());
 		return control.run(State::Start, app);
 	} },
+	
 	{ State::Start, [](auto app)
-	{	// Start
+	{	// On Start
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::StartEvent());
 		return control.run(State::Loop, app);
 	} },
+	
 	{ State::Loop, [](auto app)
-	{	// Loop
+	{	// Main Loop
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Engine.loop([]()
 		{
-			// Update
+			// On Update
+			/* * * * * * * * * * * * * * * * * * * * */
 			ML_EventSystem.fireEvent(ml::UpdateEvent(ML_Engine.elapsed()));
-			// Draw
+
+			// On Draw
+			/* * * * * * * * * * * * * * * * * * * * */
 			ML_EventSystem.fireEvent(ml::DrawEvent(ML_Engine.elapsed()));
-			// Gui
+
+			// On Gui
+			/* * * * * * * * * * * * * * * * * * * * */
 			ML_EventSystem.fireEvent(ml::GuiEvent(ML_Engine.elapsed()));
 		});
 		return control.run(State::Unload, app);
 	} },
+	
 	{ State::Unload, [](auto app)
-	{	// Unload
+	{	// On Unload
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::UnloadEvent());
 		return control.run(State::Exit, app);
 	} },
+	
 	{ State::Exit, [](auto app)
-	{	// Exit
+	{	// On Exit
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::ExitEvent());
 		return control.run(State::None, app);

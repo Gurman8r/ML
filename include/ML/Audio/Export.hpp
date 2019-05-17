@@ -9,6 +9,10 @@
 
 #include <ML/Core/Config.hpp>
 
+#ifdef __NULL_IMPORT_DESCRIPTOR
+#undef __NULL_IMPORT_DESCRIPTOR
+#endif // __NULL_IMPORT_DESCRIPTOR
+
 /* * * * * * * * * * * * * * * * * * * * */
 
 # if defined(ML_AUDIO_EXPORTS)

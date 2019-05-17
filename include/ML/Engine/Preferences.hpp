@@ -12,8 +12,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Meant to replace Demo Settings
-	// WIP
 	class ML_ENGINE_API Preferences final
 		: public ITrackable
 		, public IDisposable
@@ -40,6 +38,8 @@ namespace ml
 	private:
 		void * m_ini;
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_PREFERENCES_HPP_

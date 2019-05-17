@@ -42,47 +42,47 @@ int32_t main(int32_t argc, char ** argv)
 
 	static ml::StateMachine<State, ml::Application *> control =
 	{ 
-
 	{ State::Enter, [](auto app)
-	{	// Enter Event
+	{	// Enter
+		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv));
 		return control.run(State::Load, app);
 	} },
-
 	{ State::Load, [](auto app)
-	{	// Load Event
+	{	// Load
+		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::LoadEvent());
 		return control.run(State::Start, app);
 	} },
-
 	{ State::Start, [](auto app)
-	{	// Start Event
+	{	// Start
+		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::StartEvent());
 		return control.run(State::Loop, app);
 	} },
-
 	{ State::Loop, [](auto app)
-	{	// Main Loop
+	{	// Loop
+		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Engine.loop([]()
 		{
-			// Update Event
+			// Update
 			ML_EventSystem.fireEvent(ml::UpdateEvent(ML_Engine.elapsed()));
-			// Draw Event
+			// Draw
 			ML_EventSystem.fireEvent(ml::DrawEvent(ML_Engine.elapsed()));
-			// Gui Event
+			// Gui
 			ML_EventSystem.fireEvent(ml::GuiEvent(ML_Engine.elapsed()));
 		});
 		return control.run(State::Unload, app);
 	} },
-
 	{ State::Unload, [](auto app)
-	{	// Unload Event
+	{	// Unload
+		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::UnloadEvent());
 		return control.run(State::Exit, app);
 	} },
-
 	{ State::Exit, [](auto app)
-	{	// Exit Event
+	{	// Exit
+		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::ExitEvent());
 		return control.run(State::None, app);
 	} },
@@ -93,7 +93,6 @@ int32_t main(int32_t argc, char ** argv)
 	if (ml::Application * app = ML_Engine.launchApp(new DEMO::Sandbox()))
 	{
 		control.run(State::Enter, app);
-
 		return ML_Engine.freeApp(app);
 	}
 	else

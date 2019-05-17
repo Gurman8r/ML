@@ -1,18 +1,17 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Core/Debug.hpp>
-#include <GLFW/glfw3.h>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+//#define GLFW_DLL
+#include <GLFW/glfw3.h>
+
 # if defined(ML_SYSTEM_WINDOWS)
-#	ifdef APIENTRY
+#	if defined(APIENTRY)
 #		undef APIENTRY
 #	endif
 #	include <Windows.h>
-#	define ML_CLOSE		0xF060	// SC_CLOSE
-#	define ML_ENABLED	0		// MF_ENABLED
-#	define ML_GRAYED	1		// MF_GRAYED
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -33,7 +32,7 @@ namespace ml
 	{
 #if defined(ML_SYSTEM_WINDOWS)
 		// Disable Console Close Button
-		ML_Console.enableMenuItem(ML_CLOSE, ML_GRAYED);
+		ML_Console.enableMenuItem(SC_CLOSE, MF_GRAYED);
 #endif
 
 		ML_EventSystem.addListener(WindowEvent::EV_Char,		this);
@@ -57,7 +56,7 @@ namespace ml
 
 #if defined(ML_SYSTEM_WINDOWS)
 		// Enable Console Close Button
-		ML_Console.enableMenuItem(ML_CLOSE, ML_ENABLED);
+		ML_Console.enableMenuItem(SC_CLOSE, MF_ENABLED);
 #endif
 	}
 

@@ -39,7 +39,7 @@ namespace ml
 
 		inline void serialize(std::ostream & out) const override
 		{
-			out << GetTypeName() << " " << dir;
+			out << GetTypeName() << " | " << dir;
 		}
 	};
 
@@ -70,7 +70,7 @@ namespace ml
 
 		inline void serialize(std::ostream & out) const override
 		{
-			out << GetTypeName() << " "
+			out << GetTypeName() << " | "
 				<< cmd << " "
 				<< file << " "
 				<< args << " "

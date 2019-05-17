@@ -1,163 +1,163 @@
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = texture
 	name = dean
 	image = dean
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = neutrino
 	image = neutrino
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = sanic
 	image = sanic
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = borg
 	image = borg
 	smooth = 0
 	repeat = 1
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = grass
 	image = grass
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = navball
 	image = navball
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = buck
 	image = buck
-</item>
+</import>
 
 
 # Earth
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = texture
 	name = earth_cm
 	file = ../../../assets/textures/earth/earth_cm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = earth_dm
 	file = ../../../assets/textures/earth/earth_dm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = earth_hm
 	file = ../../../assets/textures/earth/earth_hm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = earth_lm
 	file = ../../../assets/textures/earth/earth_lm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = earth_nm
 	file = ../../../assets/textures/earth/earth_nm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = earth_sm
 	file = ../../../assets/textures/earth/earth_sm.png
-</item>
+</import>
 
 
 # Stone
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = texture
 	name = stone_dm
 	file = ../../../assets/textures/stone/stone_dm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = stone_hm
 	file = ../../../assets/textures/stone/stone_hm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = stone_nm
 	file = ../../../assets/textures/stone/stone_nm.png
-</item>
+</import>
 
 
 # Mars
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = texture
 	name = mars_dm
 	file = ../../../assets/textures/mars/mars_dm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = mars_nm
 	file = ../../../assets/textures/mars/mars_nm.png
-</item>
+</import>
 
 
 # Stone
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = texture
 	name = moon_dm
 	file = ../../../assets/textures/moon/moon_dm.png
-</item>
+</import>
 
-<item>
+<import>
 	type = texture
 	name = moon_nm
 	file = ../../../assets/textures/moon/moon_nm.png
-</item>
+</import>
 
 # Background
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-#<item>
+#<import>
 #	type = texture
 #	name = bg_clouds
 #	file = ../../../assets/textures/bg/bg_clouds.png
-#</item>
+#</import>
 
-#<item>
+#<import>
 #	type = texture
 #	name = sky_clouds
 #	file = ../../../assets/textures/bg/sky_clouds.png
-#</item>
+#</import>
 
-#<item>
+#<import>
 #	type = texture
 #	name = sky_water
 #	file = ../../../assets/textures/bg/sky_water.png
-#</item>
+#</import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

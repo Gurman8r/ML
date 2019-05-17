@@ -1,10 +1,10 @@
 # Skyboxes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-#<item>
+#<import>
 #	type = skybox
 #	name = sunset
 #	file = ../../../assets/skyboxes/sunset.skybox
-#</item>
+#</import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

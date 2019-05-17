@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
-
 #include "../../../proj/examples/Sandbox/Sandbox.hpp"
 #pragma comment(lib, "Sandbox_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
 
@@ -22,7 +21,7 @@
 
 int32_t main(int32_t argc, char ** argv)
 {
-	// Load Settings
+	// Load Preferences
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	if (!ML_Prefs.loadFromFile(ML_CONFIG_INI))
 	{
@@ -43,41 +42,41 @@ int32_t main(int32_t argc, char ** argv)
 
 	static ml::StateMachine<State, ml::Application *> control =
 	{
-	{ State::Enter, [](ml::Application * app)
-	{	// Enter
+	{ State::Enter, [](auto app)
+	{	// Enter Event
 		ML_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv));
 		return control.run(State::Load, app);
 	} },
-	{ State::Load, [](ml::Application * app)
-	{	// Load
+	{ State::Load, [](auto app)
+	{	// Load Event
 		ML_EventSystem.fireEvent(ml::LoadEvent());
 		return control.run(State::Start, app);
 	} },
-	{ State::Start, [](ml::Application * app)
-	{	// Start
+	{ State::Start, [](auto app)
+	{	// Start Event
 		ML_EventSystem.fireEvent(ml::StartEvent());
 		return control.run(State::Loop, app);
 	} },
-	{ State::Loop, [](ml::Application * app)
-	{	// Loop
+	{ State::Loop, [](auto app)
+	{	// Main Loop
 		ML_Engine.loop([]()
 		{
-			// Update
+			// Update Event
 			ML_EventSystem.fireEvent(ml::UpdateEvent(ML_Engine.elapsed()));
-			// Draw
+			// Draw Event
 			ML_EventSystem.fireEvent(ml::DrawEvent(ML_Engine.elapsed()));
-			// Gui
+			// Gui Event
 			ML_EventSystem.fireEvent(ml::GuiEvent(ML_Engine.elapsed()));
 		});
 		return control.run(State::Unload, app);
 	} },
-	{ State::Unload, [](ml::Application * app)
-	{	// Unload
+	{ State::Unload, [](auto app)
+	{	// Unload Event
 		ML_EventSystem.fireEvent(ml::UnloadEvent());
 		return control.run(State::Exit, app);
 	} },
-	{ State::Exit, [](ml::Application * app)
-	{	// Exit
+	{ State::Exit, [](auto app)
+	{	// Exit Event
 		ML_EventSystem.fireEvent(ml::ExitEvent());
 		return control.run(State::None, app);
 	} },

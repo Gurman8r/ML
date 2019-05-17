@@ -1,64 +1,64 @@
 # Shaders
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = shader
 	name = basic
 	file = ../../../assets/shaders/basic.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = sprites
 	file = ../../../assets/shaders/sprites.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = normal
 	file = ../../../assets/shaders/normal.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = text
 	file = ../../../assets/shaders/text.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = geometry
 	file = ../../../assets/shaders/geometry.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = framebuffer
 	file = ../../../assets/shaders/framebuffer.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = lighting
 	file = ../../../assets/shaders/lighting.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = solid
 	file = ../../../assets/shaders/solid.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = skybox
 	file = ../../../assets/shaders/skybox.shader
-</item>
+</import>
 
-<item>
+<import>
 	type = shader
 	name = example
 	file = ../../../assets/shaders/example.shader
-</item>
+</import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

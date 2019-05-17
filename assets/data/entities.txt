@@ -1,44 +1,44 @@
 # Entities
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = entity
 	name = camera
-</item>
+</import>
 
-<item>
+<import>
 	type = entity
 	name = light
-</item>
+</import>
 
-<item>
+<import>
 	type = entity
 	name = borg
-</item>
+</import>
 
-<item>
+<import>
 	type = entity
 	name = cube
-</item>
+</import>
 
-<item>
+<import>
 	type = entity
 	name = navball
-</item>
+</import>
 
-<item>
+<import>
 	type = entity
 	name = moon
-</item>
+</import>
 
-<item>
+<import>
 	type = entity
 	name = earth
-</item>
+</import>
 
-<item>
+<import>
 	type = entity
 	name = ground
-</item>
+</import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

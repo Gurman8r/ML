@@ -1,10 +1,10 @@
 # Plugins
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = plugin
 	name = TestPlugin
 	file = ./TestPlugin_$(Configuration)_$(PlatformTarget).dll
-</item>
+</import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

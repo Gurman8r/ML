@@ -1,10 +1,10 @@
 # Sprites
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = sprite
 	name = neutrino
 	texture = neutrino
-</item>
+</import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

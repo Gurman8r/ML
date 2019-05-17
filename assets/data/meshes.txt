@@ -1,22 +1,22 @@
 # Meshes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = mesh
 	name = cube
 	file = ../../../assets/meshes/cube.mesh
-</item>
+</import>
 
-<item>
+<import>
 	type = mesh
 	name = sphere8x6
 	file = ../../../assets/meshes/sphere8x6.mesh
-</item>
+</import>
 
-<item>
+<import>
 	type = mesh
 	name = sphere32x24
 	file = ../../../assets/meshes/sphere32x24.mesh
-</item>
+</import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

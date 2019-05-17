@@ -38,7 +38,7 @@ namespace ml
 
 	void Icon::serialize(std::ostream & out) const
 	{
-		out << GetTypeName() << " " << width << " " << height << " ";
+		out << GetTypeName() << " | " << width << " " << height << " ";
 	}
 
 	void Icon::deserialize(std::istream & in)

@@ -1,28 +1,28 @@
 # Fonts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<item>
+<import>
 	type = font
 	name = clacon
 	file = ../../../assets/fonts/clacon.ttf
-</item>
+</import>
 
-<item>
+<import>
 	type = font
 	name = consolas
 	file = ../../../assets/fonts/consolas.ttf
-</item>
+</import>
 
-<item>
+<import>
 	type = font
 	name = lconsole
 	file = ../../../assets/fonts/lucida_console.ttf
-</item>
+</import>
 
-<item>
+<import>
 	type = font
 	name = minecraft
 	file = ../../../assets/fonts/minecraft.ttf
-</item>
+</import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

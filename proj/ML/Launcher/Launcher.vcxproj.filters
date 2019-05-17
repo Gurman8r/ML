@@ -131,6 +131,9 @@
     <Filter Include="assets\shaders">
       <UniqueIdentifier>{94eb1e2a-d204-46b4-8908-c75bf8535224}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets\shaders\common">
+      <UniqueIdentifier>{c1498dae-039d-47ad-9f7e-c950a682aeff}</UniqueIdentifier>
+    </Filter>
     <Filter Include="assets\styles">
       <UniqueIdentifier>{d717b623-755a-45fd-9a88-35ec95aac4e6}</UniqueIdentifier>
     </Filter>
@@ -151,9 +154,6 @@
     </Filter>
     <Filter Include="assets\textures\bg\sunset">
       <UniqueIdentifier>{3cdc3b03-c612-4cfa-87ba-8ab2a6c28ca6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="assets\shaders\common">
-      <UniqueIdentifier>{c1498dae-039d-47ad-9f7e-c950a682aeff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

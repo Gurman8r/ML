@@ -1,21 +1,23 @@
 #ifndef _ML_CONFIG_HPP_
 #define _ML_CONFIG_HPP_
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 // Project Info
-/* * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define ML_PROJECT_VER "1.0.0"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
 
 // Disable C-Runtime Warnings
-/* * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # ifndef _CRT_SECURE_NO_WARNINGS
 #	define _CRT_SECURE_NO_WARNINGS
 # endif
 
 
-//	Configuration (Debug / Release)
-/* * * * * * * * * * * * * * * * * * * */
+//	Configuration (Debug/Release)
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_DEBUG)
 #	define ML_DEBUG			1
 #	define ML_RELEASE		0
@@ -28,15 +30,20 @@
 
 
 //	C/C++
-/* * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(__cplusplus)
 #	define ML_CPP
 # endif
 
 
 //	Operating System
-/* * * * * * * * * * * * * * * * * * * */
-# if defined(_WIN32) || defined(_WIN64)
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+# if defined(_WIN32		) \
+  || defined(_WIN64		) \
+  || defined(WIN32		) \
+  || defined(WIN64		) \
+  || defined(__WIN32__	) \
+  || defined(__MINGW32__)
 #	define ML_SYSTEM_WINDOWS
 #	ifndef NOMINMAX
 #		define NOMINMAX
@@ -59,8 +66,8 @@
 # endif
 
 
-//	Architecture / Platform
-/* * * * * * * * * * * * * * * * * * * */
+//	Architecture / Platform Target (x86/x64)
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_WIN64		)\
   || defined(WIN64		)\
   || defined(__x86_64__	)\
@@ -78,7 +85,7 @@
 
 
 //	Export / Import
-/* * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # ifndef ML_STATIC
 #	ifdef ML_SYSTEM_WINDOWS
 #		define ML_API_EXPORT __declspec(dllexport)
@@ -102,5 +109,7 @@
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
 # endif
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_CONFIG_HPP_

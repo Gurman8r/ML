@@ -1,109 +1,109 @@
 # Lua
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/lua.txt
-</item>
+</import>
 
 # Fonts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/fonts.txt
-</item>
+</import>
 
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/images.txt
-</item>
+</import>
 
 
 # Shaders
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/shaders.txt
-</item>
+</import>
 
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/textures.txt
-</item>
+</import>
 
 
 # Materials
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/materials.txt
-</item>
+</import>
 
 
 # Skyboxes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/skyboxes.txt
-</item>
+</import>
 
 
 # Meshes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/meshes.txt
-</item>
+</import>
 
 
 # Models
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/models.txt
-</item>
+</import>
 
 
 # Sprites
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/sprites.txt
-</item>
+</import>
 
 
 # Effects
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/effects.txt
-</item>
+</import>
 
 
 # Scripts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/scripts.txt
-</item>
+</import>
 
 
 # Plugins
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/plugins.txt
-</item>
+</import>
 
 
 # Entities
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<item>
+<import>
 	type = manifest
 	name = ../../../assets/data/entities.txt
-</item>
+</import>

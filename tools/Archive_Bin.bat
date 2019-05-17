@@ -1,37 +1,50 @@
 @echo off
 
-set ExeName=%1
-set ExeConf=%2
-set ExeCPU=%3
-
-if "%ExeName%"=="" (
+rem Set Target Name
+set TargetName=%1
+if "%TargetName%"=="" (
+	echo Target Name cannot be empty!
+	pause
 	exit 1
-)
-if "%ExeConf%"=="" (
-	exit 1
-)
-if "%ExeCPU%"=="" (
-	exit 1
+) else (
+	echo Target Name: "%TargetName%"
 )
 
-set CurDir=%cd%/
-set OutDir=%CurDir%
+rem Set Configuration
+set Configuration=%2
+if "%Configuration%"=="" (
+	echo Configuration cannot be empty!
+	pause
+	exit 1
+) else (
+	echo Configuration: "%Configuration%"
+)
 
-set ArchiveName=%ExeName%_%ExeConf%_%ExeCPU%
-set ArchiveType=.zip
+rem Set Platform Target
+set PlatformTarget=%3
+if "%PlatformTarget%"=="" (
+	echo Platform Target cannot be empty!
+	pause
+	exit 1
+) else (
+	echo Platform Target: "%PlatformTarget%"
+)
 
-set OutFile=%OutDir%%ArchiveName%%ArchiveType%
-set RunFile=Run_%ExeConf%_%ExeCPU%.bat
+rem Set Paths
+set WorkingDir=%cd%/
+set OutputDir=%WorkingDir%
+set OutputFile=%OutputDir%\%TargetName%_%Configuration%_%PlatformTarget%.zip
 
-set ZipDir=%ProgramFiles%\7-Zip
-cd %ZipDir%
+rem Generate Archive
+cd %ProgramFiles%\7-Zip
 
-rem 7z a 	%OutFile% %CurDir%%RunFile%
-7z a 	%OutFile% %CurDir%../%RunFile%
-7z a 	%OutFile% %CurDir%../ML_Config.ini
-7z a 	%OutFile% %CurDir%../README.md
-7z a -r %OutFile% %CurDir%../assets/
-7z a -r %OutFile% %CurDir%../*%ExeConf%_%ExeCPU%.exe*
-7z a -r %OutFile% %CurDir%../*%ExeConf%_%ExeCPU%.dll*
+7z a 	%OutputFile% %OutputDir%../Run_%Configuration%_%PlatformTarget%.bat
+7z a 	%OutputFile% %OutputDir%../ML_Config.ini
+7z a 	%OutputFile% %OutputDir%../README.md
+7z a -r %OutputFile% %OutputDir%../assets/
+7z a -r %OutputFile% %OutputDir%../*%Configuration%_%PlatformTarget%.exe*
+7z a -r %OutputFile% %OutputDir%../*%Configuration%_%PlatformTarget%.dll*
 
+rem Exit
+cd %WorkingDir%
 exit %ERRORLEVEL%

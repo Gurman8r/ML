@@ -1,3 +1,3 @@
 @echo off
-call Archive_Bin.bat Sandbox Debug x64
+call .\Archive_Bin.bat Launcher Debug x64
 exit %ERRORCODE%

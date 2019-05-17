@@ -1,23 +1,30 @@
-@echo off & setlocal
+rem Clean.bat
+@echo off
+cls
 
+rem Set Paths
 set WorkingDir=%cd%\
-set BinDir=%WorkingDir%..\bin
-set LibDir=%WorkingDir%..\lib
-set TmpDir=%WorkingDir%..\tmp
 
+rem Clean Binary Directory
+set BinDir=%WorkingDir%..\bin
 if exist "%BinDir%" (
 	rd /s /q %BinDir%
 	echo Cleaned "%BinDir%"
 )
 
+rem Clean Library Directory
+set LibDir=%WorkingDir%..\lib
 if exist "%LibDir%" (
 	rd /s /q %LibDir%
 	echo Cleaned "%LibDir%"
 )
 
-if exist "%TmpDir%" (
-	rd /s /q %TmpDir%
-	echo Cleaned "%TmpDir%"
+rem Clean Intermediate Directory
+set IntDir=%WorkingDir%..\tmp
+if exist "%IntDir%" (
+	rd /s /q %IntDir%
+	echo Cleaned "%IntDir%"
 )
 
+cd %WorkingDir%
 exit %ERRORLEVEL%

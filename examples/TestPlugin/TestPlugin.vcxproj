@@ -18,6 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestPlugin.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TestPlugin.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{460A52CB-AFC0-451A-8223-943538090422}</ProjectGuid>
@@ -157,12 +163,6 @@
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="TestPlugin.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="TestPlugin.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

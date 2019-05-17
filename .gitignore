@@ -6,3 +6,5 @@
 /tools/visualinfo.txt
 imgui.ini
 desktop.ini
+*.log
+*.lastbuildstate

@@ -3,6 +3,10 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+// ML Engine Exports
+
+/* * * * * * * * * * * * * * * * * * * * */
+
 #include <ML/Core/Config.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -15,7 +19,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_SYSTEM_WINDOWS)
+# ifdef ML_SYSTEM_WINDOWS
 #	pragma comment(lib, "lua.lib")
 # endif
 

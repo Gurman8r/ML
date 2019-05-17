@@ -8,6 +8,8 @@
 #include <ML/Graphics/Light.hpp>
 #include <ML/Physics/PhysicsEvents.hpp>
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

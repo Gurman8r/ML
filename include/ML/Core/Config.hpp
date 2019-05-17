@@ -4,7 +4,7 @@
 // Project Info
 /* * * * * * * * * * * * * * * * * * * */
 #define ML_PROJECT_VER "1.0.0"
-#define ML_PROJECT_URL "https://www.github.com/Gurman8r/Cppsandbox"
+#define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
 
 // Disable C-Runtime Warnings
@@ -102,6 +102,5 @@
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
 # endif
-
 
 #endif // !_ML_CONFIG_HPP_

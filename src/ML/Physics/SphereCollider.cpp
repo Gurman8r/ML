@@ -53,7 +53,7 @@ namespace ml
 				vec3 Norm = delta / dist;
 				if (dist < radius && dist != 0)
 				{
-					Debug::log("HIT");
+					//Debug::log("HIT");
 					collideFlag = true;
 					contactPoint = point;
 					collPush = Norm * (radius - dist);

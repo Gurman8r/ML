@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include "../../../proj/examples/Sandbox/Sandbox.hpp"
+#include "../../../examples/Sandbox/Sandbox.hpp"
 #pragma comment(lib, "Sandbox_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
 
 /* * * * * * * * * * * * * * * * * * * * */

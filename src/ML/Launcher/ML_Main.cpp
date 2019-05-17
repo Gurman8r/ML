@@ -41,22 +41,26 @@ int32_t main(int32_t argc, char ** argv)
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	static ml::StateMachine<State, ml::Application *> control =
-	{
+	{ 
+
 	{ State::Enter, [](auto app)
 	{	// Enter Event
 		ML_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv));
 		return control.run(State::Load, app);
 	} },
+
 	{ State::Load, [](auto app)
 	{	// Load Event
 		ML_EventSystem.fireEvent(ml::LoadEvent());
 		return control.run(State::Start, app);
 	} },
+
 	{ State::Start, [](auto app)
 	{	// Start Event
 		ML_EventSystem.fireEvent(ml::StartEvent());
 		return control.run(State::Loop, app);
 	} },
+
 	{ State::Loop, [](auto app)
 	{	// Main Loop
 		ML_Engine.loop([]()
@@ -70,11 +74,13 @@ int32_t main(int32_t argc, char ** argv)
 		});
 		return control.run(State::Unload, app);
 	} },
+
 	{ State::Unload, [](auto app)
 	{	// Unload Event
 		ML_EventSystem.fireEvent(ml::UnloadEvent());
 		return control.run(State::Exit, app);
 	} },
+
 	{ State::Exit, [](auto app)
 	{	// Exit Event
 		ML_EventSystem.fireEvent(ml::ExitEvent());

@@ -5,9 +5,7 @@
 
 #include <ML/Editor/EditorApplication.hpp>
 #include <ML/Graphics/Text.hpp>
-#include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Canvas.hpp>
-#include <ML/Graphics/Light.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

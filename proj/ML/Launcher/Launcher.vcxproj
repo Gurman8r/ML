@@ -150,7 +150,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\ML_Config.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

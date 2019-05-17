@@ -66,5 +66,6 @@ if exist "%OpenALPath%" (
 	)
 )
 
+echo OK
 pause
 exit 0

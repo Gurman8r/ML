@@ -1,12 +1,6 @@
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Color.hpp>
 
-#define ML_CAM_DEFAULT_FOV		45.0f
-#define ML_CAM_DEFAULT_PNEAR	0.1f
-#define ML_CAM_DEFAULT_PFAR		1000.0f
-#define ML_CAM_DEFAULT_ONEAR	-1.0f
-#define ML_CAM_DEFAULT_OFAR		+1.0f
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -17,11 +11,11 @@ namespace ml
 		, m_ortho	(mat4::Identity())
 		, m_persp	(mat4::Identity())
 		, position	(vec3::Zero)
-		, fov		(ML_CAM_DEFAULT_FOV)
-		, pNear		(ML_CAM_DEFAULT_PNEAR)
-		, pFar		(ML_CAM_DEFAULT_PFAR)
-		, oNear		(ML_CAM_DEFAULT_ONEAR)
-		, oFar		(ML_CAM_DEFAULT_OFAR)
+		, fov		(45.0f)
+		, pNear		(0.1f)
+		, pFar		(1000.0f)
+		, oNear		(-1.0f)
+		, oFar		(+1.0f)
 		, color		(Color::Black)
 	{
 	}

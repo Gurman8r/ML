@@ -1,8 +1,6 @@
 #include <ML/Engine/Preferences.hpp>
 #include <INIReader.h>
 
-#define ML_INI(e) static_cast<INIReader *>(e)
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -31,41 +29,65 @@ namespace ml
 	
 	bool Preferences::loadFromFile(const String & filename)
 	{
-		if (!(m_ini) && (m_ini = ML_INI(new INIReader(filename))))
-		{
-			return ML_INI(m_ini)->ParseError() == EXIT_SUCCESS;
-		}
-		return false;
+		return ((!(m_ini) && (m_ini = static_cast<INIReader *>(new INIReader(filename))))
+			? (static_cast<INIReader *>(m_ini)->ParseError() == EXIT_SUCCESS)
+			: (false)
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline bool Preferences::GetBoolean(String section, String name, bool default_value)
+	bool Preferences::GetBool(const String & section, const String & name, bool default_value)
 	{
 		return ((m_ini)
-			? (ML_INI(m_ini)->GetBoolean(section, name, default_value))
-			: ((default_value)));
+			? (static_cast<INIReader *>(m_ini)->GetBoolean(
+				section,
+				name,
+				default_value
+			))
+			: ((default_value))
+		);
 	}
 
-	inline float Preferences::GetFloat(String section, String name, float default_value)
+	float Preferences::GetFloat(const String & section, const String & name, float default_value)
 	{
 		return ((m_ini) 
-			? (float)(ML_INI(m_ini)->GetReal(section, name, default_value)) 
-			: (default_value));
+			? (float)(static_cast<INIReader *>(m_ini)->GetReal(
+				section,
+				name,
+				default_value
+			))
+			: (default_value)
+		);
 	}
 
-	inline long Preferences::GetInteger(String section, String name, long default_value)
+	int32_t Preferences::GetInt(const String & section, const String & name, int32_t default_value)
 	{
 		return ((m_ini) 
-			? (ML_INI(m_ini)->GetInteger(section, name, default_value)) 
-			: (default_value));
+			? (static_cast<INIReader *>(m_ini)->GetInteger(
+				section, 
+				name,
+				default_value
+			))
+			: (default_value)
+		);
 	}
 
-	inline String Preferences::GetString(String section, String name, String default_value)
+	uint32_t Preferences::GetUint(const String & section, const String & name, uint32_t default_value)
+	{
+		return (uint32_t)GetInt(section, name, (int32_t)default_value);
+	}
+
+	String Preferences::GetString(const String & section, const String & name, const String & default_value)
 	{
 		return ((m_ini)
-			? (ML_INI(m_ini)->Get(section, name, default_value)) 
-			: (default_value));
+			? (static_cast<INIReader *>(m_ini)->Get(
+				section, 
+				name, 
+				(std::string)default_value
+			))
+			: ((std::string)default_value)
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

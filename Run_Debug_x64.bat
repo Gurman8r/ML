@@ -1,6 +1,6 @@
 @echo off
 
-set TargetName=Sandbox
+set TargetName=Launcher
 set Configuration=Debug
 set PlatformTarget=x64
 

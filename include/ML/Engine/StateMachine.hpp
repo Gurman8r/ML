@@ -56,7 +56,7 @@ namespace ml
 			);
 		}
 
-		inline Key run(const Key & key, Args && ... args)
+		inline Key run(const Key & key, Args ... args)
 		{
 			fun_type fun;
 			return ((key != static_cast<Key>(ML_STATE_INVALID))

@@ -1,4 +1,12 @@
-int main(int argc, char ** argv)
+#include <ML/Launcher/Launcher.hpp>
+
+namespace ml
 {
-	return 0;
+	Launcher::Launcher()
+	{
+	}
+
+	Launcher::~Launcher()
+	{
+	}
 }

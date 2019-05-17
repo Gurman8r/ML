@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launcher", "proj\ML\Launcher\Launcher.vcxproj", "{E6B44D15-0792-4593-8633-4CE6F9B5326D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "proj\ML\Core\Core.vcxproj", "{528360E9-DDC7-4440-89A9-9D1FD9726AC1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MemeLib", "MemeLib", "{024646EB-32DE-41D9-9057-593E1999A5D9}"
@@ -63,21 +61,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "proj\ML\Physics\
 		{528360E9-DDC7-4440-89A9-9D1FD9726AC1} = {528360E9-DDC7-4440-89A9-9D1FD9726AC1}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{87A85053-544F-415D-A15F-21CADC148788}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "examples\Sandbox\Sandbox.vcxproj", "{623B2268-3A80-43C7-94F6-F70184373148}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4291F318-E725-4854-9E46-A01052E11D43} = {4291F318-E725-4854-9E46-A01052E11D43}
-		{3BA9EB2C-0D0F-43C5-8AB6-FB802FB5464B} = {3BA9EB2C-0D0F-43C5-8AB6-FB802FB5464B}
-		{C1672830-A43F-4EBF-9B7D-38C5366B769E} = {C1672830-A43F-4EBF-9B7D-38C5366B769E}
-		{5CF20D36-BF92-40A3-8C41-EBD1C2B43B77} = {5CF20D36-BF92-40A3-8C41-EBD1C2B43B77}
-		{0B547285-B392-4C80-93FC-2830DEEF73D2} = {0B547285-B392-4C80-93FC-2830DEEF73D2}
-		{0068CB93-352F-485B-AEDC-1B09ADFD072A} = {0068CB93-352F-485B-AEDC-1B09ADFD072A}
-		{2ED057AA-1F88-4FBC-A133-7302253C5CEE} = {2ED057AA-1F88-4FBC-A133-7302253C5CEE}
-		{7FF92CCF-D8FB-43B4-B564-A9901C230F86} = {7FF92CCF-D8FB-43B4-B564-A9901C230F86}
-		{528360E9-DDC7-4440-89A9-9D1FD9726AC1} = {528360E9-DDC7-4440-89A9-9D1FD9726AC1}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{F4BDFA9B-3BA2-4F75-A51F-211B89284009}"
 	ProjectSection(SolutionItems) = preProject
 		tools\Archive_Bin.bat = tools\Archive_Bin.bat
@@ -97,7 +80,177 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{F4BDFA9B
 		tools\INSTALL.bat = tools\INSTALL.bat
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPlugin", "examples\TestPlugin\TestPlugin.vcxproj", "{460A52CB-AFC0-451A-8223-943538090422}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{83623E09-8549-4386-9865-F03B95B7D5E6}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{20B5048D-9705-40EC-8254-97E121043F7D}"
+	ProjectSection(SolutionItems) = preProject
+		assets\manifest.txt = assets\manifest.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shaders", "shaders", "{FD4E60DB-E8FC-49A1-BF4C-4262F30EEB13}"
+	ProjectSection(SolutionItems) = preProject
+		assets\shaders\basic.shader = assets\shaders\basic.shader
+		assets\shaders\example.shader = assets\shaders\example.shader
+		assets\shaders\framebuffer.shader = assets\shaders\framebuffer.shader
+		assets\shaders\geometry.shader = assets\shaders\geometry.shader
+		assets\shaders\lighting.shader = assets\shaders\lighting.shader
+		assets\shaders\normal.shader = assets\shaders\normal.shader
+		assets\shaders\skybox.shader = assets\shaders\skybox.shader
+		assets\shaders\solid.shader = assets\shaders\solid.shader
+		assets\shaders\sprites.shader = assets\shaders\sprites.shader
+		assets\shaders\text.shader = assets\shaders\text.shader
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{458E5329-1CB6-473E-B721-4A5728EA2236}"
+	ProjectSection(SolutionItems) = preProject
+		assets\shaders\common\Frag.Draw.shader = assets\shaders\common\Frag.Draw.shader
+		assets\shaders\common\Frag.shader = assets\shaders\common\Frag.shader
+		assets\shaders\common\Geom.Curve.shader = assets\shaders\common\Geom.Curve.shader
+		assets\shaders\common\Time.shader = assets\shaders\common\Time.shader
+		assets\shaders\common\Vert.MVP.shader = assets\shaders\common\Vert.MVP.shader
+		assets\shaders\common\Vert.shader = assets\shaders\common\Vert.shader
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{D9380BFB-4286-489F-8CE9-6A51016BA27B}"
+	ProjectSection(SolutionItems) = preProject
+		assets\data\effects.txt = assets\data\effects.txt
+		assets\data\entities.txt = assets\data\entities.txt
+		assets\data\fonts.txt = assets\data\fonts.txt
+		assets\data\images.txt = assets\data\images.txt
+		assets\data\lua.txt = assets\data\lua.txt
+		assets\data\materials.txt = assets\data\materials.txt
+		assets\data\meshes.txt = assets\data\meshes.txt
+		assets\data\models.txt = assets\data\models.txt
+		assets\data\plugins.txt = assets\data\plugins.txt
+		assets\data\scripts.txt = assets\data\scripts.txt
+		assets\data\shaders.txt = assets\data\shaders.txt
+		assets\data\skyboxes.txt = assets\data\skyboxes.txt
+		assets\data\sprites.txt = assets\data\sprites.txt
+		assets\data\textures.txt = assets\data\textures.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{F8E2381B-1480-41F2-BBD6-B3AB6391C0FA}"
+	ProjectSection(SolutionItems) = preProject
+		assets\fonts\clacon.ttf = assets\fonts\clacon.ttf
+		assets\fonts\consolas.ttf = assets\fonts\consolas.ttf
+		assets\fonts\lucida_console.ttf = assets\fonts\lucida_console.ttf
+		assets\fonts\minecraft.ttf = assets\fonts\minecraft.ttf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{1E0D9A6F-36E4-41D3-AAA3-17240B84E625}"
+	ProjectSection(SolutionItems) = preProject
+		assets\images\borg.png = assets\images\borg.png
+		assets\images\buck.png = assets\images\buck.png
+		assets\images\dean.png = assets\images\dean.png
+		assets\images\grass.png = assets\images\grass.png
+		assets\images\navball.png = assets\images\navball.png
+		assets\images\neutrino.png = assets\images\neutrino.png
+		assets\images\Sanic.png = assets\images\Sanic.png
+		assets\images\test_sky.png = assets\images\test_sky.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meshes", "meshes", "{13780524-F4E0-4A9A-9AB0-377A7EA72825}"
+	ProjectSection(SolutionItems) = preProject
+		assets\meshes\cow.mesh = assets\meshes\cow.mesh
+		assets\meshes\cube.mesh = assets\meshes\cube.mesh
+		assets\meshes\pumpkin.mesh = assets\meshes\pumpkin.mesh
+		assets\meshes\sphere32x24.mesh = assets\meshes\sphere32x24.mesh
+		assets\meshes\sphere8x6.mesh = assets\meshes\sphere8x6.mesh
+		assets\meshes\teapot.mesh = assets\meshes\teapot.mesh
+		assets\meshes\teddy.mesh = assets\meshes\teddy.mesh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{8DB4072A-A25F-4EA9-8ED2-CAA369BCCE1F}"
+	ProjectSection(SolutionItems) = preProject
+		assets\scripts\core.meme = assets\scripts\core.meme
+		assets\scripts\fib.meme = assets\scripts\fib.meme
+		assets\scripts\files.meme = assets\scripts\files.meme
+		assets\scripts\fizzbuzz.meme = assets\scripts\fizzbuzz.meme
+		assets\scripts\hello.meme = assets\scripts\hello.meme
+		assets\scripts\loader.meme = assets\scripts\loader.meme
+		assets\scripts\stub.meme = assets\scripts\stub.meme
+		assets\scripts\test.meme = assets\scripts\test.meme
+		assets\scripts\tool.meme = assets\scripts\tool.meme
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "styles", "styles", "{A718FD5D-B0D1-4477-95FE-969BB27E3A49}"
+	ProjectSection(SolutionItems) = preProject
+		assets\styles\style4.txt = assets\styles\style4.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "textures", "textures", "{54D4BA77-4001-4BA9-9D6D-8227F09FB8BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bg", "bg", "{6A5CE835-24BD-4FCC-A411-78655382D4A8}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\bg\bg_clouds.png = assets\textures\bg\bg_clouds.png
+		assets\textures\bg\sky_clouds.png = assets\textures\bg\sky_clouds.png
+		assets\textures\bg\sky_water.png = assets\textures\bg\sky_water.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "earth", "earth", "{90E1E446-797F-4BA7-A5A8-DFEC5DC898AF}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\earth\earth_cm.png = assets\textures\earth\earth_cm.png
+		assets\textures\earth\earth_dm.png = assets\textures\earth\earth_dm.png
+		assets\textures\earth\earth_hm.png = assets\textures\earth\earth_hm.png
+		assets\textures\earth\earth_lm.png = assets\textures\earth\earth_lm.png
+		assets\textures\earth\earth_nm.png = assets\textures\earth\earth_nm.png
+		assets\textures\earth\earth_sm.png = assets\textures\earth\earth_sm.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mars", "mars", "{A89FEB80-3EDF-4201-9BD3-C27139C2A98B}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\mars\mars_dm.png = assets\textures\mars\mars_dm.png
+		assets\textures\mars\mars_nm.png = assets\textures\mars\mars_nm.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moon", "moon", "{371AAA18-20FF-4DD3-8DD5-C05DBAC2F84B}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\moon\moon_dm.png = assets\textures\moon\moon_dm.png
+		assets\textures\moon\moon_nm.png = assets\textures\moon\moon_nm.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stone", "stone", "{30F02A97-BCC1-41B7-8ED4-26DCB0F75637}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\stone\stone_dm.png = assets\textures\stone\stone_dm.png
+		assets\textures\stone\stone_hm.png = assets\textures\stone\stone_hm.png
+		assets\textures\stone\stone_nm.png = assets\textures\stone\stone_nm.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sunset", "sunset", "{CA58FD57-2413-43B6-BA34-9300BC0FF3E5}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\bg\sunset\sunset_back.png = assets\textures\bg\sunset\sunset_back.png
+		assets\textures\bg\sunset\sunset_down.png = assets\textures\bg\sunset\sunset_down.png
+		assets\textures\bg\sunset\sunset_front.png = assets\textures\bg\sunset\sunset_front.png
+		assets\textures\bg\sunset\sunset_left.png = assets\textures\bg\sunset\sunset_left.png
+		assets\textures\bg\sunset\sunset_right.png = assets\textures\bg\sunset\sunset_right.png
+		assets\textures\bg\sunset\sunset_up.png = assets\textures\bg\sunset\sunset_up.png
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "proj\examples\Sandbox\Sandbox.vcxproj", "{623B2268-3A80-43C7-94F6-F70184373148}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4291F318-E725-4854-9E46-A01052E11D43} = {4291F318-E725-4854-9E46-A01052E11D43}
+		{3BA9EB2C-0D0F-43C5-8AB6-FB802FB5464B} = {3BA9EB2C-0D0F-43C5-8AB6-FB802FB5464B}
+		{C1672830-A43F-4EBF-9B7D-38C5366B769E} = {C1672830-A43F-4EBF-9B7D-38C5366B769E}
+		{5CF20D36-BF92-40A3-8C41-EBD1C2B43B77} = {5CF20D36-BF92-40A3-8C41-EBD1C2B43B77}
+		{0B547285-B392-4C80-93FC-2830DEEF73D2} = {0B547285-B392-4C80-93FC-2830DEEF73D2}
+		{0068CB93-352F-485B-AEDC-1B09ADFD072A} = {0068CB93-352F-485B-AEDC-1B09ADFD072A}
+		{2ED057AA-1F88-4FBC-A133-7302253C5CEE} = {2ED057AA-1F88-4FBC-A133-7302253C5CEE}
+		{7FF92CCF-D8FB-43B4-B564-A9901C230F86} = {7FF92CCF-D8FB-43B4-B564-A9901C230F86}
+		{528360E9-DDC7-4440-89A9-9D1FD9726AC1} = {528360E9-DDC7-4440-89A9-9D1FD9726AC1}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launcher", "proj\ML\Launcher\Launcher.vcxproj", "{E6B44D15-0792-4593-8633-4CE6F9B5326D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{623B2268-3A80-43C7-94F6-F70184373148} = {623B2268-3A80-43C7-94F6-F70184373148}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{026655BA-80E0-4C8A-ABAF-52929E580EF0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPlugin", "proj\examples\TestPlugin\TestPlugin.vcxproj", "{460A52CB-AFC0-451A-8223-943538090422}"
 	ProjectSection(ProjectDependencies) = postProject
 		{623B2268-3A80-43C7-94F6-F70184373148} = {623B2268-3A80-43C7-94F6-F70184373148}
 	EndProjectSection
@@ -110,14 +263,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Debug|x64.ActiveCfg = Debug|x64
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Debug|x64.Build.0 = Debug|x64
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Debug|x86.ActiveCfg = Debug|Win32
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Debug|x86.Build.0 = Debug|Win32
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Release|x64.ActiveCfg = Release|x64
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Release|x64.Build.0 = Release|x64
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Release|x86.ActiveCfg = Release|Win32
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Release|x86.Build.0 = Release|Win32
 		{528360E9-DDC7-4440-89A9-9D1FD9726AC1}.Debug|x64.ActiveCfg = Debug|x64
 		{528360E9-DDC7-4440-89A9-9D1FD9726AC1}.Debug|x64.Build.0 = Debug|x64
 		{528360E9-DDC7-4440-89A9-9D1FD9726AC1}.Debug|x86.ActiveCfg = Debug|Win32
@@ -198,6 +343,14 @@ Global
 		{623B2268-3A80-43C7-94F6-F70184373148}.Release|x64.Build.0 = Release|x64
 		{623B2268-3A80-43C7-94F6-F70184373148}.Release|x86.ActiveCfg = Release|Win32
 		{623B2268-3A80-43C7-94F6-F70184373148}.Release|x86.Build.0 = Release|Win32
+		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Debug|x64.ActiveCfg = Debug|x64
+		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Debug|x64.Build.0 = Debug|x64
+		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Debug|x86.ActiveCfg = Debug|Win32
+		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Debug|x86.Build.0 = Debug|Win32
+		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Release|x64.ActiveCfg = Release|x64
+		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Release|x64.Build.0 = Release|x64
+		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Release|x86.ActiveCfg = Release|Win32
+		{E6B44D15-0792-4593-8633-4CE6F9B5326D}.Release|x86.Build.0 = Release|Win32
 		{460A52CB-AFC0-451A-8223-943538090422}.Debug|x64.ActiveCfg = Debug|x64
 		{460A52CB-AFC0-451A-8223-943538090422}.Debug|x64.Build.0 = Debug|x64
 		{460A52CB-AFC0-451A-8223-943538090422}.Debug|x86.ActiveCfg = Debug|Win32
@@ -220,8 +373,23 @@ Global
 		{0B547285-B392-4C80-93FC-2830DEEF73D2} = {024646EB-32DE-41D9-9057-593E1999A5D9}
 		{3BA9EB2C-0D0F-43C5-8AB6-FB802FB5464B} = {024646EB-32DE-41D9-9057-593E1999A5D9}
 		{4291F318-E725-4854-9E46-A01052E11D43} = {024646EB-32DE-41D9-9057-593E1999A5D9}
-		{623B2268-3A80-43C7-94F6-F70184373148} = {87A85053-544F-415D-A15F-21CADC148788}
-		{460A52CB-AFC0-451A-8223-943538090422} = {87A85053-544F-415D-A15F-21CADC148788}
+		{FD4E60DB-E8FC-49A1-BF4C-4262F30EEB13} = {20B5048D-9705-40EC-8254-97E121043F7D}
+		{458E5329-1CB6-473E-B721-4A5728EA2236} = {FD4E60DB-E8FC-49A1-BF4C-4262F30EEB13}
+		{D9380BFB-4286-489F-8CE9-6A51016BA27B} = {20B5048D-9705-40EC-8254-97E121043F7D}
+		{F8E2381B-1480-41F2-BBD6-B3AB6391C0FA} = {20B5048D-9705-40EC-8254-97E121043F7D}
+		{1E0D9A6F-36E4-41D3-AAA3-17240B84E625} = {20B5048D-9705-40EC-8254-97E121043F7D}
+		{13780524-F4E0-4A9A-9AB0-377A7EA72825} = {20B5048D-9705-40EC-8254-97E121043F7D}
+		{8DB4072A-A25F-4EA9-8ED2-CAA369BCCE1F} = {20B5048D-9705-40EC-8254-97E121043F7D}
+		{A718FD5D-B0D1-4477-95FE-969BB27E3A49} = {20B5048D-9705-40EC-8254-97E121043F7D}
+		{54D4BA77-4001-4BA9-9D6D-8227F09FB8BF} = {20B5048D-9705-40EC-8254-97E121043F7D}
+		{6A5CE835-24BD-4FCC-A411-78655382D4A8} = {54D4BA77-4001-4BA9-9D6D-8227F09FB8BF}
+		{90E1E446-797F-4BA7-A5A8-DFEC5DC898AF} = {54D4BA77-4001-4BA9-9D6D-8227F09FB8BF}
+		{A89FEB80-3EDF-4201-9BD3-C27139C2A98B} = {54D4BA77-4001-4BA9-9D6D-8227F09FB8BF}
+		{371AAA18-20FF-4DD3-8DD5-C05DBAC2F84B} = {54D4BA77-4001-4BA9-9D6D-8227F09FB8BF}
+		{30F02A97-BCC1-41B7-8ED4-26DCB0F75637} = {54D4BA77-4001-4BA9-9D6D-8227F09FB8BF}
+		{CA58FD57-2413-43B6-BA34-9300BC0FF3E5} = {6A5CE835-24BD-4FCC-A411-78655382D4A8}
+		{623B2268-3A80-43C7-94F6-F70184373148} = {026655BA-80E0-4C8A-ABAF-52929E580EF0}
+		{460A52CB-AFC0-451A-8223-943538090422} = {026655BA-80E0-4C8A-ABAF-52929E580EF0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D3845FD-50CB-410F-95BC-888FC73F4340}

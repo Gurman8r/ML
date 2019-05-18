@@ -178,10 +178,10 @@ namespace ml
 
 	Var EngineCommands::cmd_exit(Args & args)
 	{
-		if (Application * app = ML_Engine.app())
-		{
-			app->close();
-		}
+		//if (Application * app = ML_Engine.app())
+		//{
+		//	app->close();
+		//}
 		return Var().voidValue();
 	}
 
@@ -329,6 +329,32 @@ namespace ml
 			}
 		}
 		return Var().boolValue(false);
+	}
+
+	Var EngineCommands::cmd_run(Args & args)
+	{
+		bool flag_rebuild = args.find_and_erase("-r");
+
+		const String name = args.pop();
+		if (Script * scr = ML_Resources.scripts.get(name))
+		{
+			auto build_fun = ((flag_rebuild)
+				? (&Script::rebuild)
+				: (&Script::build)
+			);
+
+			args.pop_front();
+
+			if ((scr->*build_fun)(args))
+			{
+				if (scr->run())
+				{
+					return scr->retv();
+				}
+			}
+			return Var().stringValue(name);
+		}
+		return Var().errorValue("Script not found: {0}", name);
 	}
 
 	Var EngineCommands::cmd_set(Args & args)

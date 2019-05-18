@@ -64,8 +64,8 @@ namespace ml
 	struct ML_ENGINE_API LoadEvent final : public EngineEvent
 	{
 		const Preferences & prefs;
-		Engine &			engine;
-		Resources &			resources;
+		Engine & engine;
+		Resources &	resources;
 
 		LoadEvent(const Preferences & prefs, Engine & engine, Resources & resources)
 			: EngineEvent(EV_Load)
@@ -81,8 +81,8 @@ namespace ml
 	struct ML_ENGINE_API StartEvent final : public EngineEvent
 	{
 		const Preferences & prefs;
-		Engine &			engine;
-		Resources &			resources;
+		Engine		& engine;
+		Resources	& resources;
 
 		StartEvent(const Preferences & prefs, Engine & engine, Resources & resources)
 			: EngineEvent(EV_Start)
@@ -97,13 +97,11 @@ namespace ml
 
 	struct ML_ENGINE_API UpdateEvent final : public EngineEvent
 	{
-		const Duration	& elapsed;
-		Engine			& engine;
-		Resources		& resources;
+		Engine		& engine;
+		Resources	& resources;
 
-		UpdateEvent(const Duration & elapsed, Engine & engine, Resources & resources)
+		UpdateEvent(Engine & engine, Resources & resources)
 			: EngineEvent(EV_Update)
-			, elapsed(elapsed)
 			, engine(engine)
 			, resources(resources)
 		{
@@ -114,13 +112,11 @@ namespace ml
 
 	struct ML_ENGINE_API DrawEvent final : public EngineEvent
 	{
-		const Duration	& elapsed;
-		Engine			& engine;
-		Resources		& resources;
+		Engine		& engine;
+		Resources	& resources;
 
-		DrawEvent(const Duration & elapsed, Engine & engine, Resources & resources)
+		DrawEvent(Engine & engine, Resources & resources)
 			: EngineEvent(EV_Draw)
-			, elapsed(elapsed)
 			, engine(engine)
 			, resources(resources)
 		{
@@ -131,13 +127,11 @@ namespace ml
 
 	struct ML_ENGINE_API UnloadEvent final : public EngineEvent
 	{
-		const Duration	& elapsed;
-		Engine			& engine;
-		Resources		& resources;
+		Engine		& engine;
+		Resources	& resources;
 
 		UnloadEvent(Engine & engine, Resources & resources)
 			: EngineEvent(EV_Unload)
-			, elapsed(elapsed)
 			, engine(engine)
 			, resources(resources)
 		{

@@ -156,9 +156,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Canvas.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\GraphicsEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -243,9 +240,6 @@
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderWindow.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Canvas.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\OpenGL.cpp">

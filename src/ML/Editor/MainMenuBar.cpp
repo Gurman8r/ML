@@ -92,15 +92,15 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(ML_Terminal.title(), "Ctrl+Alt+T", &ML_Editor.show_terminal);
-				ImGui::MenuItem(ML_Browser.title(), "Ctrl+Alt+E", &ML_Editor.show_browser);
-				ImGui::MenuItem(ML_Builder.title(), "Ctrl+Alt+B", &ML_Editor.show_builder);
-				ImGui::MenuItem(ML_SceneView.title(), "Ctrl+Alt+S", &ML_Editor.show_sceneView);
-				ImGui::MenuItem(ML_Inspector.title(), "Ctrl+Alt+I", &ML_Editor.show_inspector);
-				ImGui::MenuItem(ML_Profiler.title(), NULL, &ML_Editor.show_profiler);
-				ImGui::MenuItem(ML_TextEditor.title(), NULL, &ML_Editor.show_textEditor);
-				ImGui::MenuItem(ML_ResourceView.title(), NULL, &ML_Editor.show_resourceView);
-				ImGui::MenuItem(ML_NetworkHUD.title(), NULL, &ML_Editor.show_network);
+				ImGui::MenuItem(ML_Editor.terminal.title(), "Ctrl+Alt+T", &ML_Editor.show_terminal);
+				ImGui::MenuItem(ML_Editor.browser.title(), "Ctrl+Alt+E", &ML_Editor.show_browser);
+				ImGui::MenuItem(ML_Editor.builder.title(), "Ctrl+Alt+B", &ML_Editor.show_builder);
+				ImGui::MenuItem(ML_Editor.sceneView.title(), "Ctrl+Alt+S", &ML_Editor.show_sceneView);
+				ImGui::MenuItem(ML_Editor.inspector.title(), "Ctrl+Alt+I", &ML_Editor.show_inspector);
+				ImGui::MenuItem(ML_Editor.profiler.title(), NULL, &ML_Editor.show_profiler);
+				ImGui::MenuItem(ML_Editor.textEditor.title(), NULL, &ML_Editor.show_textEditor);
+				ImGui::MenuItem(ML_Editor.resourceView.title(), NULL, &ML_Editor.show_resourceView);
+				ImGui::MenuItem(ML_Editor.networkHUD.title(), NULL, &ML_Editor.show_network);
 				ImGui::EndMenu();
 			}
 

@@ -17,11 +17,11 @@ namespace ml
 
 	Browser::Browser()
 		: BaseWidget("Browser")
-		, m_path()
-		, m_dir()
-		, m_type(T_Dir)
-		, m_index(0)
-		, m_preview()
+		, m_path	()
+		, m_dir		()
+		, m_type	(T_Dir)
+		, m_index	(0)
+		, m_preview	()
 		, m_isDouble(false)
 	{
 		ML_EventSystem.addListener(EditorEvent::EV_File_Open, this);

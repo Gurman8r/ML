@@ -16,21 +16,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_Editor		ml::Editor::getInstance()
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-#define ML_Browser		ML_Editor.browser
-#define ML_Builder		ML_Editor.builder
-#define ML_Dockspace	ML_Editor.dockspace
-#define ML_Inspector	ML_Editor.inspector
-#define ML_MainMenuBar	ML_Editor.mainMenuBar
-#define ML_NetworkHUD	ML_Editor.networkHUD
-#define ML_Profiler		ML_Editor.profiler
-#define ML_SceneView	ML_Editor.sceneView
-#define ML_ResourceView ML_Editor.resourceView
-#define ML_Terminal		ML_Editor.terminal
-#define ML_TextEditor	ML_Editor.textEditor
+#define ML_Editor ml::Editor::getInstance()
 
 /* * * * * * * * * * * * * * * * * * * * */
 

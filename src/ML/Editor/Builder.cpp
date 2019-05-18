@@ -102,7 +102,7 @@ namespace ml
 
 	Builder::Builder()
 		: BaseWidget("Builder")
-		, m_shader(ML_Resources.shaders.load(ML_TEST_SHADER))
+		, m_shader	(ML_Resources.shaders.load(ML_TEST_SHADER))
 	{
 		m_files.push_back(new BuildFile("Main", ML_MAIN_EXAMPLE));
 		m_files.push_back(new BuildFile("Vertex", ML_VERT_EXAMPLE));

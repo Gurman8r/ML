@@ -1,4 +1,4 @@
-#include <ML/Physics/Physics.hpp>
+#include <ML/Physics/PhysicsWorld.hpp>
 #include <ML/Physics/Rigidbody.hpp>
 #include <ML/Physics/Collider.hpp>
 #include <ML/Physics/Particle.hpp>
@@ -10,11 +10,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const vec3 Physics::Gravity(0.0f, ML_GRAVITY, 0.0f);
+	const vec3 PhysicsWorld::Gravity(0.0f, ML_GRAVITY, 0.0f);
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	Physics::Physics() 
+	PhysicsWorld::PhysicsWorld() 
 		: m_updating(false)
 		, m_state	()
 		, m_mutex	()
@@ -25,18 +25,18 @@ namespace ml
 	{
 	}
 	
-	Physics::~Physics() { dispose(); }
+	PhysicsWorld::~PhysicsWorld() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Physics::dispose()
+	bool PhysicsWorld::dispose()
 	{
 		return m_thread.dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Physics::createLinkToRigidbody(Rigidbody * value)
+	bool PhysicsWorld::createLinkToRigidbody(Rigidbody * value)
 	{
 		int32_t i;
 		if (value && ((i = value->index()) >= 0))
@@ -68,7 +68,7 @@ namespace ml
 		}
 	}
 
-	Rigidbody * Physics::getLinkedRigidbody(const int32_t index) const
+	Rigidbody * PhysicsWorld::getLinkedRigidbody(const int32_t index) const
 	{
 		return (((static_cast<size_t>(index) < m_rb.size()))
 			? (m_rb[static_cast<size_t>(index)])
@@ -78,7 +78,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Physics::beginUpdate(PhysicsState & value)
+	bool PhysicsWorld::beginUpdate(PhysicsState & value)
 	{
 		if (!m_updating)
 		{
@@ -98,7 +98,7 @@ namespace ml
 		}
 	}
 
-	bool Physics::endUpdate(const PhysicsState & value)
+	bool PhysicsWorld::endUpdate(const PhysicsState & value)
 	{
 		if (m_updating)
 		{
@@ -110,9 +110,9 @@ namespace ml
 
 			m_state.deepCopy(value);
 
-			if (m_elapsed < Physics::TimeStep)
+			if (m_elapsed < ML_PHYSICS_TIMESTEP)
 			{
-				m_thread.sleep(Physics::TimeStep - m_elapsed);
+				m_thread.sleep(ML_PHYSICS_TIMESTEP - m_elapsed);
 			}
 			
 			return true;

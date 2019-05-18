@@ -27,9 +27,6 @@
     <ClInclude Include="..\..\..\include\ML\Physics\Particle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Physics\Physics.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Physics\PhysicsEvents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -48,6 +45,9 @@
     <ClInclude Include="..\..\..\include\ML\Physics\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Physics\PhysicsWorld.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Physics\BoxCollider.cpp">
@@ -57,9 +57,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Physics\Particle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Physics\Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Physics\PhysicsState.cpp">
@@ -72,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Physics\SphereCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Physics\PhysicsWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

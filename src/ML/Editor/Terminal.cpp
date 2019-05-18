@@ -16,7 +16,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Terminal::Terminal()
-		: BaseWidget("Terminal")
+		: BaseWidget	("Terminal")
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()

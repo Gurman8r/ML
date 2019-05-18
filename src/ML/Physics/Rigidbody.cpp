@@ -1,5 +1,5 @@
 #include <ML/Physics/Rigidbody.hpp>
-#include <ML/Physics/Physics.hpp>
+#include <ML/Physics/PhysicsWorld.hpp>
 #include <ML/Physics/Collider.hpp>
 #include <ML/Physics/Particle.hpp>
 

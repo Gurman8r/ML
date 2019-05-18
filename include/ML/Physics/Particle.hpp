@@ -76,8 +76,8 @@ namespace ml
 		Particle & integrateEulerKinematic(const float dt);
 
 		/* * * * * * * * * * * * * * * * * * * * */
-		Particle & updateInertiaTensor();
-		Particle & updateCenterMass();
+		Particle & updateInertiaTensor(Rigidbody * rb);
+		Particle & updateCenterMass(Rigidbody * rb);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	};

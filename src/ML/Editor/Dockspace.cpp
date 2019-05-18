@@ -54,15 +54,15 @@ namespace ml
 
 				uint32_t center_DR = splitNode(center, ImGuiDir_Right, 0.25f, &center_D);
 
-				dockWindow(ML_Profiler.title(),		left_U);
-				dockWindow(ML_NetworkHUD.title(),	left_U);
-				dockWindow(ML_Browser.title(),		left_U);
-				dockWindow(ML_ResourceView.title(),	left_U);
-				dockWindow(ML_Terminal.title(),		left_D);
-				dockWindow(ML_SceneView.title(),	center_U);
-				dockWindow(ML_TextEditor.title(),	center_D);
-				dockWindow(ML_Builder.title(),		center_D);
-				dockWindow(ML_Inspector.title(),	center_DR);
+				dockWindow(ML_Editor.profiler.title(),		left_U);
+				dockWindow(ML_Editor.networkHUD.title(),	left_U);
+				dockWindow(ML_Editor.browser.title(),		left_U);
+				dockWindow(ML_Editor.resourceView.title(),	left_U);
+				dockWindow(ML_Editor.terminal.title(),		left_D);
+				dockWindow(ML_Editor.sceneView.title(),	center_U);
+				dockWindow(ML_Editor.textEditor.title(),	center_D);
+				dockWindow(ML_Editor.builder.title(),		center_D);
+				dockWindow(ML_Editor.inspector.title(),	center_DR);
 
 				endBuilder(root);
 			};

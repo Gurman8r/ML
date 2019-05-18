@@ -29,7 +29,7 @@ namespace ml
 	{
 		friend class ISingleton<Resources>;
 
-	private:
+	public:
 		Resources();
 		~Resources();
 

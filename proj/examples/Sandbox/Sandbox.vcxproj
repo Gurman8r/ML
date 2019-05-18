@@ -178,11 +178,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DemoPhysics.hpp" />
     <ClInclude Include="Sandbox.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DemoPhysics.cpp" />
     <ClCompile Include="Sandbox.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

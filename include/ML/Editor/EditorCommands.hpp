@@ -15,9 +15,6 @@ namespace ml
 
 		static Var cmd_clear	(Args & args); // Clear Terminal
 		static Var cmd_history	(Args & args); // Display Terminal History
-		static Var cmd_list		(Args & args); // Display Resources
-		static Var cmd_reload	(Args & args); // Reload Resources
-		static Var cmd_run		(Args & args); // Run Script
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

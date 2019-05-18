@@ -822,7 +822,7 @@ namespace ml
 				}, pair.first.c_str(), pair.second);
 			
 				ImGui::PopID();
-}
+			}
 		});
 	}
 

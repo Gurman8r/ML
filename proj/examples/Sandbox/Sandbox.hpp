@@ -7,7 +7,7 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Graphics/Text.hpp>
-#include <ML/Graphics/Canvas.hpp>
+#include <ML/Physics/PhysicsWorld.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -28,8 +28,21 @@ namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class Sandbox final
-		: public ml::EditorApplication
+	enum Rigidbody_ID : int32_t
+	{
+		RB_BORG,
+		RB_CUBE,
+		RB_NAVBALL,
+		RB_MOON,
+		RB_EARTH,
+		RB_GROUND,
+
+		MAX_DEMO_RIGIDBODY
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	class Sandbox final : public ml::EditorApplication
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -60,19 +73,20 @@ namespace DEMO
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			ml::SStream		rdstr		= ml::SStream();
-			ml::StreamBuf * rdbuf		= NULL;
-			ml::VAO			vao			= {};
-			ml::VBO			vbo			= {};
-			TextTable		text		= {};
-			ml::String		title		= {};
-			bool			isClient	= false;
-			bool			isServer	= false;
-			ml::Entity *	light		= NULL;
-			ml::Entity *	camera		= NULL;
-			bool			cameraOrbit = true;
-			float			cameraSpeed = 1.0f;
-			int32_t			effectMode	= 3;
+			ml::SStream			rdstr		= ml::SStream();
+			ml::StreamBuf *		rdbuf		= NULL;
+			ml::VAO				vao			= {};
+			ml::VBO				vbo			= {};
+			TextTable			text		= {};
+			ml::String			title		= {};
+			bool				isClient	= false;
+			bool				isServer	= false;
+			ml::Entity *		light		= NULL;
+			ml::Entity *		camera		= NULL;
+			bool				cameraOrbit = true;
+			float				cameraSpeed = 1.0f;
+			int32_t				effectMode	= 3;
+			ml::PhysicsWorld	physics		= {};
 
 			/* * * * * * * * * * * * * * * * * * * * */
 

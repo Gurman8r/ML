@@ -36,7 +36,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			graph.update("##Framerate", (float)ML_Engine.frameRate(), "fps {0}");
+			graph.update("##Framerate", (float)ev->engine.frameRate(), "fps {0}");
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}

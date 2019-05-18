@@ -5,7 +5,7 @@
 #include <ML/Core/Timer.hpp>
 #include <ML/Core/Thread.hpp>
 
-#define ML_Physics ml::Physics::getInstance()
+#define ML_PHYSICS_TIMESTEP static_cast<Milliseconds>(15)
 
 namespace ml
 {
@@ -15,35 +15,30 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PHYSICS_API Physics final
-		: public IDisposable
-		, public ISingleton<Physics>
+	class ML_PHYSICS_API PhysicsWorld final
+		: public ITrackable
+		, public IDisposable
+		, public INonCopyable
 	{
-		friend class ISingleton<Physics>;
-
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		static const vec3 Gravity;
 
-		static constexpr Duration TimeStep { static_cast<Milliseconds>(15) };
-
-	private:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		Physics();
-		~Physics();
-
+	public:
+		/* * * * * * * * * * * * * * * * * * * * */
+		PhysicsWorld();
+		~PhysicsWorld();
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool dispose() override;
 
-
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool createLinkToRigidbody(Rigidbody * rb);
 
 		template <class ... Args>
-		Rigidbody * createNewRigidbody(Args && ... args)
+		inline Rigidbody * createNewRigidbody(Args && ... args)
 		{
 			if (Rigidbody * temp = new Rigidbody(std::forward<Args>(args)...))
 			{
@@ -59,19 +54,17 @@ namespace ml
 		
 		Rigidbody * getLinkedRigidbody(const int32_t index) const;
 
-
 	private:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool beginUpdate(PhysicsState & value);
 		bool endUpdate(const PhysicsState & value);
 
-
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class Fun, 
 			class ... Args
-		> inline bool launch(Fun && fun, Args && ... args)
+		> inline bool launchFun(Fun && fun, Args && ... args)
 		{
 			return m_thread.launch(fun, (args)...);
 		}
@@ -79,7 +72,7 @@ namespace ml
 		template <
 			class Fun, 
 			class ... Args
-		> inline bool updateAll(Fun && fun, Args && ... args)
+		> inline bool updateFun(Fun && fun, Args && ... args)
 		{
 			PhysicsState temp;
 			if (beginUpdate(temp))
@@ -96,7 +89,7 @@ namespace ml
 		template <
 			class Fun, 
 			class ... Args
-		> inline bool getCopyState(Fun && fun, Args && ... args)
+		> inline bool syncFun(Fun && fun, Args && ... args)
 		{
 			PhysicsState temp;
 			if (!m_updating && temp.deepCopy(m_state))
@@ -107,7 +100,7 @@ namespace ml
 		}
 		
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		inline const PhysicsState &	state()		const	{ return m_state;	}
 		inline const Mutex &		mutex()		const	{ return m_mutex;	}
 		inline const Thread &		thread()	const	{ return m_thread;	}
@@ -115,7 +108,7 @@ namespace ml
 		inline const Duration &		elapsed()	const	{ return m_elapsed; }
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool			m_updating;
 		PhysicsState	m_state;
 		Mutex			m_mutex;
@@ -124,7 +117,6 @@ namespace ml
 		Duration		m_elapsed;
 
 		List<Rigidbody *> m_rb;
-
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

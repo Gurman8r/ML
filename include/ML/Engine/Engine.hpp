@@ -4,8 +4,6 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/Timer.hpp>
 
-#define ML_Engine ml::Engine::getInstance()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -16,11 +14,9 @@ namespace ml
 
 	class ML_ENGINE_API Engine final
 		: public ITrackable
-		, public ISingleton<Engine>
+		, public INonCopyable
 	{
-		friend class ISingleton<Engine>;
-
-	private:
+	public:
 		Engine();
 		~Engine();
 

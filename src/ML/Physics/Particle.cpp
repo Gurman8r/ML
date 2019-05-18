@@ -1,5 +1,5 @@
 #include <ML/Physics/Particle.hpp>
-#include <ML/Physics/Physics.hpp>
+#include <ML/Physics/PhysicsWorld.hpp>
 #include <ML/Physics/Rigidbody.hpp>
 #include <ML/Physics/BoxCollider.hpp>
 #include <ML/Physics/SphereCollider.hpp>
@@ -234,6 +234,8 @@ namespace ml
 		return force;
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	Particle & Particle::integrateEulerExplicit(const float dt)
 	{
 		pos += (vel * dt);
@@ -286,27 +288,23 @@ namespace ml
 		return (*this);
 	}
 
-	Particle & Particle::updateInertiaTensor()
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	Particle & Particle::updateInertiaTensor(Rigidbody * rb)
 	{
-		if (auto rb = ML_Physics.getLinkedRigidbody(index))
+		if (const Transform * transform = rb->transform())
 		{
-			if (const Transform * transform = rb->transform())
-			{
-				inertiaTensor_world = Transform::RebaseMatrix(inertiaTensor, transform->getMat());
-				inertiaTensorInv_world = Transform::RebaseMatrix(inertiaTensorInv, transform->getMat());
-			}
+			inertiaTensor_world = Transform::RebaseMatrix(inertiaTensor, transform->getMat());
+			inertiaTensorInv_world = Transform::RebaseMatrix(inertiaTensorInv, transform->getMat());
 		}
 		return (*this);
 	}
 
-	Particle & Particle::updateCenterMass()
+	Particle & Particle::updateCenterMass(Rigidbody * rb)
 	{
-		if (auto rb = ML_Physics.getLinkedRigidbody(index))
+		if (const Transform * transform = rb->transform())
 		{
-			if (const Transform * transform = rb->transform())
-			{
-				centerMass_world = Transform::RebasePoint(centerMass, transform->getMat());
-			}
+			centerMass_world = Transform::RebasePoint(centerMass, transform->getMat());
 		}
 		return (*this);
 	}

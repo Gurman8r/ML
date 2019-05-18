@@ -1,41 +1,39 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include "Sandbox.hpp"
-#include "DemoPhysics.hpp"
 
 #include <ML/Audio/OpenAL.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/Dispatcher.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
 #include <ML/Core/Random.hpp>
 #include <ML/Core/OS.hpp>
-#include <ML/Graphics/Camera.hpp>
+#include <ML/Graphics/GraphicsEvents.hpp>
 #include <ML/Graphics/OpenGL.hpp>
+#include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/ShaderAPI.hpp>
-#include <ML/Graphics/GraphicsEvents.hpp>
-#include <ML/Graphics/Canvas.hpp>
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Uni.hpp>
-#include <ML/Editor/Editor.hpp>
-#include <ML/Editor/EditorCommands.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Editor/GUI.hpp>
+#include <ML/Editor/EditorCommands.hpp>
+#include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Editor/StyleLoader.hpp>
-#include <ML/Engine/Engine.hpp>
-#include <ML/Engine/Entity.hpp>
 #include <ML/Engine/EngineCommands.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
-#include <ML/Physics/Rigidbody.hpp>
-#include <ML/Physics/BoxCollider.hpp>
-#include <ML/Physics/SphereCollider.hpp>
+#include <ML/Physics/PhysicsWorld.hpp>
+#include <ML/Physics/PhysicsState.hpp>
+#include <ML/Physics/Collider.hpp>
 #include <ML/Physics/Particle.hpp>
+#include <ML/Physics/Rigidbody.hpp>
+#include <ML/Physics/SphereCollider.hpp>
+#include <ML/Physics/BoxCollider.hpp>
 #include <ML/Script/Interpreter.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
@@ -324,7 +322,7 @@ namespace DEMO
 			}
 		}
 
-		// Setup Canvas
+		// Setup 2D Buffers
 		/* * * * * * * * * * * * * * * * * * * * */
 		sandbox.vao.create(ml::GL::Triangles).bind();
 		sandbox.vbo.create(ml::GL::DynamicDraw).bind();
@@ -425,7 +423,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(ML_Physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
 					RB_BORG, transform, collider, particle
 				));
 
@@ -471,7 +469,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(ML_Physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
 					RB_CUBE, transform, collider, particle
 				));
 
@@ -517,7 +515,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(ML_Physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
 					RB_NAVBALL, transform, collider, particle
 				));
 
@@ -563,7 +561,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(ML_Physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
 					RB_MOON, transform, collider, particle
 				));
 
@@ -616,7 +614,7 @@ namespace DEMO
 					transform->getPos(), // position
 					0.25f // mass
 				);
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(ML_Physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
 					RB_EARTH, transform, collider, particle
 				));
 
@@ -670,7 +668,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(ML_Physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
 					RB_GROUND, transform, collider, particle
 				));
 
@@ -700,10 +698,75 @@ namespace DEMO
 
 		// Setup Physics
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_Physics.launch(DemoPhysics::init))
+		sandbox.physics.launchFun([&]()
 		{
-			ml::Debug::fatal("Failed launching Physics");
-		}
+			static ml::Engine & engine(ev->engine);
+			while (engine.isRunning())
+			{
+				sandbox.physics.updateFun([](int32_t i, ml::PhysicsState & state)
+				{
+					using Rep = typename ml::Milliseconds;
+					using Per = typename ml::Ratio<1, 10000>;
+
+					const float totalT	= engine.mainTimer().elapsed().delta();
+					const float deltaT	= engine.loopTimer().elapsed().delta<Rep, Per>();
+					const float sinTime = std::sinf(totalT);
+					const float cosTime = std::cosf(totalT);
+
+					// Get copy state
+					ml::vec3 pos;
+					ml::quat rot;
+					ml::mat4 mat;
+					ml::mat4 inv;
+					if (state.get<state.T_Pos>(i, pos) &&
+						state.get<state.T_Rot>(i, rot) &&
+						state.get<state.T_Mat>(i, mat) &&
+						state.get<state.T_Inv>(i, inv))
+					{
+						// Modify copy state
+						switch (i)
+						{
+						case RB_BORG:
+							pos = { pos[0], +cosTime, pos[2] };
+							rot = ml::quat::angleAxis(totalT, ml::vec3::One);
+							break;
+
+						case RB_CUBE:
+							pos = { pos[0], -sinTime, pos[2] };
+							rot = ml::quat::angleAxis(totalT, ml::vec3::One);
+							break;
+
+						case RB_NAVBALL:
+							pos = { pos[0], -cosTime, pos[2] };
+							rot = ml::quat::angleAxis(totalT, ml::vec3::Forward);
+							break;
+
+						case RB_MOON:
+							pos = { pos[0], +sinTime, pos[2] };
+							rot = ml::quat::angleAxis(totalT, ml::vec3::Up);
+							break;
+
+						case RB_EARTH:
+							rot = ml::quat::angleAxis(totalT, ml::vec3::Up);
+							break;
+
+						case RB_GROUND:
+							break;
+						}
+
+						// Apply changes
+						assert(
+							state.set<state.T_Pos>(i, pos) &&
+							state.set<state.T_Rot>(i, rot) &&
+							state.set<state.T_Mat>(i, mat) &&
+							state.set<state.T_Inv>(i, inv) &&
+							"\n** Something went wrong... **\n"
+							"\n** Failed applying changes to physics state! **\n"
+						);
+					}
+				});
+			}
+		});
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -720,16 +783,34 @@ namespace DEMO
 			ev->engine.frameRate()
 		));
 
-		// Update Std Out
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (sandbox.rdbuf)
-		{
-			ML_Terminal.printss(sandbox.rdstr);
-		}
-
 		// Update Physics
 		/* * * * * * * * * * * * * * * * * * * * */
-		while (!ML_Physics.getCopyState(DemoPhysics::sync));
+		while (!sandbox.physics.syncFun([&](const ml::PhysicsState & state)
+		{
+			for (auto & pair : ML_Resources.entities)
+			{
+				if (ml::Rigidbody * rb = pair.second->get<ml::Rigidbody>())
+				{
+					ml::vec3 scl = rb->transform()->getScl();
+					ml::vec3 pos;
+					ml::quat rot;
+					ml::mat4 mat;
+					ml::mat4 inv;
+					if (state.get<state.T_Pos>(rb->index(), pos) &&
+						state.get<state.T_Rot>(rb->index(), rot) &&
+						state.get<state.T_Mat>(rb->index(), mat) &&
+						state.get<state.T_Inv>(rb->index(), inv))
+					{
+						(*rb->transform())
+							.update		(ml::mat4::Identity())
+							.translate	(pos)
+							.rotate		(rot)
+							.scale		(scl)
+							;
+					}
+				}
+			}
+		}));
 
 		// Update Network
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -1011,6 +1092,13 @@ namespace DEMO
 
 	void Sandbox::onGui(const ml::GuiEvent * ev)
 	{
+		// Update Terminal Output
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (sandbox.rdbuf)
+		{
+			ev->editor.terminal.printss(sandbox.rdstr);
+		}
+
 		// Main Menu Bar
 		if (ev->editor.show_mainMenuBar)	{ ev->editor.mainMenuBar.drawGui(ev, &ev->editor.show_mainMenuBar); }
 		
@@ -1037,7 +1125,7 @@ namespace DEMO
 		{
 			ev->editor.sceneView.drawFun(ev, &ev->editor.show_sceneView, [&]()
 			{
-				if (ml::Surface * post = ML_Resources.surfaces.get("surface_post"))
+				if (ml::Surface * post = ev->resources.surfaces.get("surface_post"))
 				{
 					ev->editor.sceneView.updateTexture(&post->texture());
 				}
@@ -1078,23 +1166,23 @@ namespace DEMO
 	{
 		ml::Debug::log("Unloading...");
 
-		// Cleanup Std Out
-		if (sandbox.rdbuf) 
-		{ 
-			ml::cout.rdbuf(sandbox.rdbuf);
-			sandbox.rdbuf = NULL; 
-		}
+		// Cleanup Physics Thread
+		sandbox.physics.dispose();
 
 		// Cleanup Resources
 		ev->resources.dispose();
-
-		// Cleanup Physics Thread
-		ML_Physics.dispose();
 	}
 
 	void Sandbox::onExit(const ml::ExitEvent * ev)
 	{
 		ml::Debug::log("Exiting...");
+
+		// Cleanup Std Out
+		if (sandbox.rdbuf)
+		{
+			ml::cout.rdbuf(sandbox.rdbuf);
+			sandbox.rdbuf = NULL;
+		}
 
 		// Shutdown ImGui
 		ImGui_ML_Shutdown();

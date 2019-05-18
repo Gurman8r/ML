@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Physics;
+	class PhysicsWorld;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -19,7 +19,7 @@ namespace ml
 		, public IDisposable
 		, public INonCopyable
 	{
-		friend class Physics;
+		friend class PhysicsWorld;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

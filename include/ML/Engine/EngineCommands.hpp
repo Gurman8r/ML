@@ -29,6 +29,7 @@ namespace ml
 		static Var cmd_pause	(Args & args); // System Pause
 		static Var cmd_os		(Args & args); // Execute OS Command
 		static Var cmd_read		(Args & args); // Return File/Dir Contents
+		static Var cmd_run		(Args & args); // Run Script
 		static Var cmd_set		(Args & args); // Set Variable
 		static Var cmd_system	(Args & args); // System Call
 		static Var cmd_target	(Args & args); // Return Program Info

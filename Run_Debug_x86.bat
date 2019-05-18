@@ -2,21 +2,20 @@
 rem Run_Debug_x86.bat
 cls
 
-set TargetExeName=Launcher
+set TargetName=Launcher
 set Configuration=Debug
 set PlatformTarget=x86
 
-set ExePath=.\bin\%Configuration%\%PlatformTarget%
-set ExeName=%TargetExeName%_%Configuration%_%PlatformTarget%.exe
-set ExeFull=%ExePath%\%ExeName%
+set ExePath=.\bin\%Configuration%\%PlatformTarget%\
+set ExeName=%TargetName%_%Configuration%_%PlatformTarget%.exe
 
-if not exist %ExeFull% (
-	echo File Not Found: "%ExeFull%"
+if not exist %ExePath%%ExeName% (
+	echo File Not Found: "%ExePath%%ExeName%"
 	pause
 	exit 1
 ) else (
-	echo Running "%ExeFull%"...
+	echo %ExePath%%ExeName%
 	cd %ExePath%
-	start %ExeName%
+	call %ExeName%
 	exit %ERRORLEVEL%
 )

@@ -19,6 +19,7 @@ enum ClientAPI
 };
 
 static ml::Window *	g_Window = NULL;
+static bool			g_LogEvents = false;
 static ClientAPI	g_ClientApi = API_Unknown;
 static double       g_Time = 0.0;
 static bool         g_MouseJustPressed[5] = { false, false, false, false, false };
@@ -40,6 +41,17 @@ static uint32_t		g_VboHandle					= NULL,
 					g_ElementsHandle			= NULL;
 
 /* * * * * * * * * * * * * * * * * * * * */
+
+template <class T>
+inline static void ImGui_ML_FireEvent(const T & value)
+{
+	ML_EventSystem.fireEvent(static_cast<const ml::IEvent &>(value));
+
+	if (g_LogEvents)
+	{
+		ml::cout << value << ml::endl;
+	}
+}
 
 inline static void ImGui_ML_HandleInput()
 {
@@ -702,12 +714,13 @@ void ImGui_ML_DestroyDeviceObjects()
 
 void ImGui_ML_MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods)
 {
-	if (action == ML_KEY_PRESS && button >= 0 && button < IM_ARRAYSIZE(g_MouseJustPressed))
+	if ((action == ML_KEY_PRESS) && 
+		(button >= 0) && 
+		(button < IM_ARRAYSIZE(g_MouseJustPressed)))
 	{
 		g_MouseJustPressed[button] = true;
 	}
-
-	ML_EventSystem.fireEvent(ml::MouseButtonEvent(button, action, mods));
+	ImGui_ML_FireEvent(ml::MouseButtonEvent(button, action, mods));
 }
 
 void ImGui_ML_ScrollCallback(void * window, double xoffset, double yoffset)
@@ -715,26 +728,15 @@ void ImGui_ML_ScrollCallback(void * window, double xoffset, double yoffset)
 	ImGuiIO & io = ImGui::GetIO();
 	io.MouseWheelH += (float)xoffset;
 	io.MouseWheel += (float)yoffset;
-
-	ML_EventSystem.fireEvent(ml::ScrollEvent(xoffset, yoffset));
+	ImGui_ML_FireEvent(ml::ScrollEvent(xoffset, yoffset));
 }
 
 void ImGui_ML_KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
 {
 	ImGuiIO & io = ImGui::GetIO();
-
-	if (action == ML_KEY_PRESS)
-	{
-		io.KeysDown[key] = true;
-	}
-
-	if (action == ML_RELEASE)
-	{
-		io.KeysDown[key] = false;
-	}
-
-	ML_EventSystem.fireEvent(ml::KeyEvent(key, scancode, action, 
-		// Modifiers are not reliable across systems
+	if (action == ML_KEY_PRESS) { io.KeysDown[key] = true; }
+	if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
+	ImGui_ML_FireEvent(ml::KeyEvent(key, scancode, action,
 		io.KeyShift = io.KeysDown[ml::KeyCode::LeftShift]	|| io.KeysDown[ml::KeyCode::RightShift],
 		io.KeyCtrl	= io.KeysDown[ml::KeyCode::LeftControl] || io.KeysDown[ml::KeyCode::RightControl],
 		io.KeyAlt	= io.KeysDown[ml::KeyCode::LeftAlt]		|| io.KeysDown[ml::KeyCode::RightAlt],
@@ -742,15 +744,14 @@ void ImGui_ML_KeyCallback(void * window, int32_t key, int32_t scancode, int32_t 
 	));
 }
 
-void ImGui_ML_CharCallback(void * window, uint32_t c)
+void ImGui_ML_CharCallback(void * window, uint32_t value)
 {
 	ImGuiIO & io = ImGui::GetIO();
-	if (c > 0 && c < 0x10000)
+	if ((value > 0) && (value < 0x10000))
 	{
-		io.AddInputCharacter((uint16_t)c);
+		io.AddInputCharacter((uint16_t)value);
 	}
-
-	ML_EventSystem.fireEvent(ml::CharEvent(c));
+	ImGui_ML_FireEvent(ml::CharEvent(value));
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

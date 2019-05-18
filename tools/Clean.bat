@@ -1,5 +1,5 @@
-rem Clean.bat
 @echo off
+rem Clean.bat
 cls
 
 rem Set Paths

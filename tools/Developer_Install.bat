@@ -1,5 +1,5 @@
-rem Developer_Install.bat
 @echo off
+rem Developer_Install.bat
 cls
 
 : initialize

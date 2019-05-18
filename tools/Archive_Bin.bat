@@ -1,4 +1,6 @@
 @echo off
+rem Archive_Bin.bat
+cls
 
 rem Set Target Name
 set TargetName=%1

@@ -1,7 +1,6 @@
-rem Run.bat
 @echo off
+rem Run.bat
 cls
-
 
 rem Set Target Name
 set TargetName=%1

@@ -1,5 +1,5 @@
-rem Build_All.bat
 @echo off
+rem Build_All.bat
 cls
 
 start Build_Debug_x64.bat

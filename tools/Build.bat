@@ -1,5 +1,5 @@
-rem Build.bat
 @echo off
+rem Build.bat
 cls
 
 rem Visual Studio .NET 2002 (Platform Toolset = 'v70')

@@ -8,14 +8,6 @@
 #include <ML/Window/Icon.hpp>
 #include <ML/Window/VideoMode.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
-
-#define ML_ASPECT(w, h) ((w && h) \
-	? (static_cast<float>(w) / static_cast<float>(h)) \
-	: (0.0f))
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

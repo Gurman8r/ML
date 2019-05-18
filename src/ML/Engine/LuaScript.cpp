@@ -1,9 +1,19 @@
 #include <ML/Engine/LuaScript.hpp>
-#include <ML/Engine/Lua.hpp>
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+extern "C"
+{
+#include <lua/lua.h>
+#include <lua/lauxlib.h>
+#include <lua/lualib.h>
+}
+
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	LuaScript::LuaScript()
 		: m_file()
@@ -20,7 +30,7 @@ namespace ml
 		dispose();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool LuaScript::dispose()
 	{
@@ -32,7 +42,5 @@ namespace ml
 		return m_file.loadFromFile(filename);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -1,40 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Audio\Sound.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\..\src\ML\Audio\AudioSource.cpp">
+      <Filter>Source Files\Handles</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Audio\AudioBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Audio\AudioSource.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Handles</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Audio\OpenAL.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Audio\Sound.cpp">
+      <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Audio\AL.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Audio\AudioBuffer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Audio\AudioEvents.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Audio\AudioSource.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Audio\OpenAL.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Audio\Sound.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Audio\Export.hpp">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Audio\AudioSource.hpp">
+      <Filter>Header Files\Handles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Audio\AudioBuffer.hpp">
+      <Filter>Header Files\Handles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Audio\AL.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Audio\AudioEvents.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Audio\OpenAL.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Audio\Sound.hpp">
+      <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +46,24 @@
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{040c1885-58c8-43f3-bdc3-7ec7b40e74fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handles">
+      <UniqueIdentifier>{cd3b78bf-87d2-4ea0-ab8d-39a512443399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handles">
+      <UniqueIdentifier>{435b706b-9449-4f68-9f5a-acb8156471e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{11fc8304-b605-4117-9f94-529103bac0ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DS">
+      <UniqueIdentifier>{c07d835f-8728-48e3-b029-b95d2b495e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DS">
+      <UniqueIdentifier>{45a75e91-612f-40f7-91fb-eb0bdaa6b4d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{4ef2a5fa-040f-4a13-933e-2ea82441a501}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -31,6 +31,9 @@ namespace ml
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 
+		void serialize(std::ostream & out) const override;
+		void deserialize(std::istream & in) override;
+
 	public:
 		bool bind() const;
 		void unbind() const;

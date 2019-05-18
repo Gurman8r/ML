@@ -15,7 +15,7 @@ namespace ml
 		{
 			MIN_GRAPHICS_EVENT = IEvent::EV_GRAPHICS + 1,
 
-			EV_GL_Error,
+			EV_RenderError,
 
 			MAX_GRAPHICS_EVENT
 		};
@@ -28,7 +28,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API GL_ErrorEvent final : public GraphicsEvent
+	struct ML_GRAPHICS_API RenderErrorEvent final : public GraphicsEvent
 	{
 		const String		& file;
 		const uint32_t		& line;
@@ -37,14 +37,14 @@ namespace ml
 		const String		& errorName;
 		const String		& errorDesc;
 
-		GL_ErrorEvent(
+		RenderErrorEvent(
 			const String	& file,
 			const uint32_t	& line,
 			const CString	& expr,
 			const uint32_t	& errorCode,
 			const String	& errorName,
 			const String	& errorDesc)
-			: GraphicsEvent	(EV_GL_Error)
+			: GraphicsEvent	(EV_RenderError)
 			, file			(file)
 			, line			(line)
 			, expr			(expr)

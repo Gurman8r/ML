@@ -108,7 +108,7 @@
     <None Include="..\..\..\assets\meshes\teddy.mesh">
       <Filter>Resource Files\assets\meshes</Filter>
     </None>
-    <None Include="..\..\..\ML_Config.ini">
+    <None Include="..\..\..\ML.ini">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

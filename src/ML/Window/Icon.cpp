@@ -12,7 +12,7 @@ namespace ml
 	}
 
 	Icon::Icon(const int32_t width, const int32_t height, uint8_t * pixels)
-		: width(width)
+		: width	(width)
 		, height(height)
 		, pixels(pixels)
 	{

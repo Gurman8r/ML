@@ -168,6 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\ML\Window\ContextSettings.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Icon.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\VideoMode.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp" />
@@ -177,10 +178,11 @@
     <ClInclude Include="..\..\..\include\ML\Window\Cursor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Icon.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\KeyCode.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\VideoMode.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Window.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\WindowEvents.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Window\WindowInput.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\MouseButton.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

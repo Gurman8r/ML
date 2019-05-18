@@ -10,7 +10,6 @@
 #include <ML/Core/FileSystem.hpp> 
 #include <ML/Core/Random.hpp>
 #include <ML/Core/OS.hpp>
-#include <ML/Core/Time.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
@@ -26,7 +25,6 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Editor/StyleLoader.hpp>
-#include <ML/Editor/AnyVar.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/EngineCommands.hpp>
@@ -124,9 +122,6 @@ namespace DEMO
 		{
 			// Seed Random
 			ML_Random.seed();
-
-			// Start Master Timer
-			ML_Time.start();
 
 			// Setup Std Out
 			if (!(m_rdbuf = ml::cout.rdbuf(m_rdstr.rdbuf())))
@@ -304,8 +299,6 @@ namespace DEMO
 			ml::Debug::logError("Failed Loading Manifest");
 		}
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Sandbox::onStart(const ml::StartEvent * ev)
 	{
@@ -704,25 +697,16 @@ namespace DEMO
 
 		// Launch Physics
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_Physics.launch(demo_physics::init))
+		if (!ML_Physics.launch(DemoPhysics::init))
 		{
 			ml::Debug::fatal("Failed launching Physics");
 		}
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	void Sandbox::onUpdate(const ml::UpdateEvent * ev)
 	{
-		// Sync Physics
-		/* * * * * * * * * * * * * * * * * * * * */
-		while (!ML_Physics.getCopyState(demo_physics::sync));
-
-		// Update Std Out
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (m_rdbuf)
-		{
-			ML_Terminal.printss(m_rdstr);
-		}
-
 		// Update Title
 		/* * * * * * * * * * * * * * * * * * * * */
 		this->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
@@ -732,6 +716,17 @@ namespace DEMO
 			ev->elapsed.delta(),
 			ML_Engine.frameRate()
 		));
+
+		// Update Std Out
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (m_rdbuf)
+		{
+			ML_Terminal.printss(m_rdstr);
+		}
+
+		// Update Physics
+		/* * * * * * * * * * * * * * * * * * * * */
+		while (!ML_Physics.getCopyState(DemoPhysics::sync));
 
 		// Update Network
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -830,7 +825,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("time: {0}").format(
-					ML_Time.elapsed()));
+					ML_Engine.mainTimer().elapsed()));
 
 			newLine();
 
@@ -839,14 +834,14 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("sin: {0}").format(
-					ML_Time.sin()));
+					std::sinf(ML_Engine.mainTimer().elapsed().delta())));
 
 			m_text["time_cos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cos: {0}").format(
-					ML_Time.cos()));
+					std::cosf(ML_Engine.mainTimer().elapsed().delta())));
 
 			newLine();
 
@@ -878,8 +873,6 @@ namespace DEMO
 			}
 		}
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Sandbox::onDraw(const ml::DrawEvent * ev)
 	{

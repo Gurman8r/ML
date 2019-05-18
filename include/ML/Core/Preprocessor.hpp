@@ -22,6 +22,14 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define ML_typeof(value) ((const std::type_info *)(&typeid(value)))->hash_code()
 
+
+// Aspect Ratio Macro
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+#define ML_ASPECT(w, h) ((w && h) \
+	? (static_cast<float>(w) / static_cast<float>(h)) \
+	: (0.0f))
+
+
 // Clamp Macro
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define ML_CLAMP(value, min, max) \

@@ -169,7 +169,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Lua.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />

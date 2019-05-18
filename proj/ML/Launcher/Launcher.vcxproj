@@ -191,7 +191,7 @@
     <None Include="..\..\..\assets\shaders\solid.shader" />
     <None Include="..\..\..\assets\shaders\sprites.shader" />
     <None Include="..\..\..\assets\shaders\text.shader" />
-    <None Include="..\..\..\ML_Config.ini" />
+    <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\assets\images\borg.png" />

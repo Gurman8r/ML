@@ -159,9 +159,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Dispatcher.hpp">
       <Filter>Header Files\Multicore</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Time.hpp">
-      <Filter>Header Files\Time</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp">
       <Filter>Header Files\Time</Filter>
     </ClInclude>
@@ -243,9 +240,6 @@
       <Filter>Source Files\Memory</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp">
-      <Filter>Source Files\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Time.cpp">
       <Filter>Source Files\Time</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Dispatcher.cpp">

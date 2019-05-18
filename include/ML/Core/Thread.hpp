@@ -22,6 +22,12 @@ namespace ml
 		~Thread();
 
 	public:
+		bool alive() const;
+		bool joinable() const;
+		bool dispose() override;
+		void sleep(const Duration & value);
+
+	public:
 		template <
 			class Fun, 
 			class ... Args, 
@@ -33,11 +39,6 @@ namespace ml
 				: (m_thr = new std::thread(fun, (args)...))
 			);
 		}
-
-		bool alive() const;
-		bool joinable() const;
-		bool dispose() override;
-		void sleep(const Duration & value);
 
 	private:
 		std::thread * m_thr;

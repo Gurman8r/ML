@@ -11,7 +11,7 @@ namespace ml
 	RenderWindow::RenderWindow()
 		: Window()
 	{
-		ML_EventSystem.addListener(GraphicsEvent::EV_GL_Error, this);
+		ML_EventSystem.addListener(GraphicsEvent::EV_RenderError, this);
 	}
 
 	RenderWindow::~RenderWindow() {}
@@ -56,8 +56,8 @@ namespace ml
 
 		switch (*value)
 		{
-		case GraphicsEvent::EV_GL_Error:
-			if (const auto * ev = value->as<GL_ErrorEvent>())
+		case GraphicsEvent::EV_RenderError:
+			if (const auto * ev = value->as<RenderErrorEvent>())
 			{
 				ml::cout << (*ev) << ml::endl;
 			}

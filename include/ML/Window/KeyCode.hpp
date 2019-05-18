@@ -1,42 +1,11 @@
-#ifndef _ML_WINDOW_INPUT_HPP_
-#define _ML_WINDOW_INPUT_HPP_
+#ifndef _ML_KEY_CODE_HPP_
+#define _ML_KEY_CODE_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
-
-#define ML_KEY_RELEASE	0
-#define ML_KEY_PRESS	1
-#define ML_KEY_REPEAT	2
-
-#define ML_MOD_SHIFT	(0 << 1)
-#define ML_MOD_CTRL		(1 << 1)
-#define ML_MOD_ALT		(1 << 2)
-#define ML_MOD_SUPER	(1 << 3)
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	struct ML_WINDOW_API MouseButton final
-	{
-		enum : int32_t
-		{
-			Button0,
-			Button1,
-			Button2,
-			Button3,
-			Button4,
-			Button5,
-			Button6,
-			Button7,
-
-			MAX_MOUSE_BUTTON,
-			MIN_MOUSE_BUTTON = Button0,
-		};
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	struct ML_WINDOW_API KeyCode final
 	{
 		enum : int32_t
@@ -166,8 +135,6 @@ namespace ml
 			MIN_KEYCODE = Space,
 		};
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_WINDOW_INPUT_HPP_
+#endif // !_ML_KEY_CODE_HPP_

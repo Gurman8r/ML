@@ -1,6 +1,6 @@
 #include <ML/Graphics/Material.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/File.hpp>
+#include <ML/Core/FileSystem.hpp>
 #include <ML/Graphics/Uni.hpp>
 
 namespace ml
@@ -54,7 +54,24 @@ namespace ml
 
 	bool Material::loadFromFile(const String & filename)
 	{
-		return true;
+		SStream ss;
+		if (ML_FS.getFileContents(filename, ss))
+		{
+			ss >> (*this);
+			return true;
+		}
+		return false;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	void Material::serialize(std::ostream & out) const
+	{
+		out << GetTypeName() << "";
+	}
+
+	void Material::deserialize(std::istream & in)
+	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -78,7 +95,7 @@ namespace ml
 					else if (auto u = dynamic_cast<const uni_flt_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
 					else if (auto u = dynamic_cast<const uni_flt_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Int
@@ -89,7 +106,7 @@ namespace ml
 					else if (auto u = dynamic_cast<const uni_int_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
 					else if (auto u = dynamic_cast<const uni_int_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Vec2
@@ -100,7 +117,7 @@ namespace ml
 					else if (auto u = dynamic_cast<const uni_vec2_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
 					else if (auto u = dynamic_cast<const uni_vec2_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Vec3
@@ -111,7 +128,7 @@ namespace ml
 					else if (auto u = dynamic_cast<const uni_vec3_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
 					else if (auto u = dynamic_cast<const uni_vec3_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Vec4
@@ -122,7 +139,7 @@ namespace ml
 					else if (auto u = dynamic_cast<const uni_vec4_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
 					else if (auto u = dynamic_cast<const uni_vec4_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Col4
@@ -133,7 +150,7 @@ namespace ml
 					else if (auto u = dynamic_cast<const uni_col4_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
 					else if (auto u = dynamic_cast<const uni_col4_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Mat3
@@ -144,7 +161,7 @@ namespace ml
 					else if (auto u = dynamic_cast<const uni_mat3_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
 					else if (auto u = dynamic_cast<const uni_mat3_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Mat4
@@ -155,14 +172,14 @@ namespace ml
 					else if (auto u = dynamic_cast<const uni_mat4_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
 					else if (auto u = dynamic_cast<const uni_mat4_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Tex
 					/* * * * * * * * * * * * * * * * * * * * */
 				case uni_tex_cp::ID:
 					if (auto u = dynamic_cast<const uni_tex_cp *>(pair.second))
-						m_shader->setUniform(u->name, *u->data);
+						m_shader->setUniform(u->name, (*u->data));
 					break;
 				}
 			}

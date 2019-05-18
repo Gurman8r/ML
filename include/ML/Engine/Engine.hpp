@@ -35,9 +35,8 @@ namespace ml
 
 	public:
 		template <
-			class Fun,
-			class ... Args
-		> inline void loop(Fun && fun, Args && ... args)
+			class Fun, class ... Args
+		> inline void runLoop(Fun && fun, Args && ... args)
 		{
 			while (this->isRunning())
 			{
@@ -50,14 +49,16 @@ namespace ml
 	public:
 		inline const Application *	app()		const	{ return m_app;			}
 		inline		 Application *	app()				{ return m_app;			}
-		inline const Timer &		timer()		const	{ return m_timer;		}
-		inline const Duration &		elapsed()	const	{ return m_elapsed;		}
+		inline const Timer &		mainTimer() const	{ return m_mainTimer;	}
+		inline const Timer &		loopTimer()	const	{ return m_loopTimer;	}
+		inline const Duration &		frameTime() const	{ return m_frameTime;	}
 		inline const uint32_t		frameRate()	const	{ return m_frameRate;	}
 
 	private:
 		Application *	m_app;
-		Timer			m_timer;
-		Duration		m_elapsed;
+		Timer			m_mainTimer;
+		Timer			m_loopTimer;
+		Duration		m_frameTime;
 		uint32_t		m_frameCount;
 		uint32_t		m_frameRate;
 		float			m_nextSecond;

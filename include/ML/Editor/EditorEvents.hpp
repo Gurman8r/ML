@@ -3,7 +3,7 @@
 
 #include <ML/Core/IEvent.hpp>
 #include <ML/Editor/Export.hpp>
-#include <ML/Core/Time.hpp>
+#include <ML/Core/Duration.hpp>
 
 namespace ml
 {

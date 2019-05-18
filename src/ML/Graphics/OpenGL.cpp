@@ -63,7 +63,7 @@ namespace ml
 				break;
 			}
 
-			ML_EventSystem.fireEvent(GL_ErrorEvent(
+			ML_EventSystem.fireEvent(RenderErrorEvent(
 				fileName,
 				line, 
 				expr,

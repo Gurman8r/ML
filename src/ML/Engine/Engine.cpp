@@ -1,7 +1,6 @@
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Application.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/Time.hpp>
 
 namespace ml
 {
@@ -9,17 +8,20 @@ namespace ml
 
 	Engine::Engine()
 		: m_app			(NULL)
-		, m_timer		(m_timer)
-		, m_elapsed	(m_elapsed)	
-		, m_frameCount	(m_frameCount)
-		, m_frameRate	(m_frameRate)	
-		, m_nextSecond	(m_nextSecond)
-		, m_prevSecond	(m_prevSecond)
+		, m_mainTimer	()
+		, m_loopTimer	()
+		, m_frameTime	(0)
+		, m_frameCount	(0)
+		, m_frameRate	(0)
+		, m_nextSecond	(0.0f)
+		, m_prevSecond	(0.0f)
 	{
+		m_mainTimer.start();
 	}
 
 	Engine::~Engine()
 	{
+		m_mainTimer.stop();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -50,7 +52,7 @@ namespace ml
 
 	void Engine::beginFrame()
 	{
-		m_timer.start();
+		m_loopTimer.start();
 
 		if (m_app)
 		{
@@ -65,11 +67,11 @@ namespace ml
 			m_app->swapBuffers();
 		}
 
-		m_elapsed = m_timer.stop().elapsed();
+		m_frameTime = m_loopTimer.stop().elapsed();
 
 		m_frameCount++;
 
-		if (((m_nextSecond += m_elapsed.delta()) - m_prevSecond) > 1.0f)
+		if (((m_nextSecond += m_frameTime.delta()) - m_prevSecond) > 1.0f)
 		{
 			m_prevSecond = m_nextSecond;
 			

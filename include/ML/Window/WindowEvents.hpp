@@ -1,11 +1,27 @@
 #ifndef _ML_WINDOW_EVENTS_HPP_
 #define _ML_WINDOW_EVENTS_HPP_
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 #include <ML/Window/Export.hpp>
-#include <ML/Window/WindowInput.hpp>
+#include <ML/Window/KeyCode.hpp>
+#include <ML/Window/MouseButton.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/Vector2.hpp>
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+#define ML_KEY_RELEASE	0
+#define ML_KEY_PRESS	1
+#define ML_KEY_REPEAT	2
+
+#define ML_MOD_SHIFT	(0 << 1)
+#define ML_MOD_CTRL		(1 << 1)
+#define ML_MOD_ALT		(1 << 2)
+#define ML_MOD_SUPER	(1 << 3)
+
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {

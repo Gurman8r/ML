@@ -56,11 +56,18 @@ namespace ml
 			if (line.find("#include") != String::npos)
 			{
 				String name, path;
-
-				if (parseWrapped(line, '\"', '\"', name))
+				
+				// '...'
+				if (parseWrapped(line, '\'', '\'', name))
 				{
 					path = ML_FS.getPathTo(name);
 				}
+				// "..."
+				else if (parseWrapped(line, '\"', '\"', name))
+				{
+					path = ML_FS.getPathTo(name);
+				}
+				// <...>
 				else if (parseWrapped(line, '<', '>', name))
 				{
 					path = ML_FS.getPathTo(ML_INCLUDE_SHADER_PATH + name);

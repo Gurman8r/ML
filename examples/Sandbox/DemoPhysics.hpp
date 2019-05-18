@@ -21,7 +21,7 @@ namespace DEMO
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct demo_physics final
+	struct DemoPhysics final
 	{
 		static void init();
 		

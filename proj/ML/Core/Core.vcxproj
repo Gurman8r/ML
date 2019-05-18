@@ -212,7 +212,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TestRequest.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Time.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector.hpp" />
@@ -236,7 +235,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\TestRequest.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Time.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Transform.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Worker.cpp" />

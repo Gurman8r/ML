@@ -4,13 +4,13 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-//#define GLFW_DLL
 #include <GLFW/glfw3.h>
 
+# if defined(APIENTRY)
+# 	undef APIENTRY
+# endif
+
 # if defined(ML_SYSTEM_WINDOWS)
-#	if defined(APIENTRY)
-#		undef APIENTRY
-#	endif
 #	include <Windows.h>
 # endif
 
@@ -365,33 +365,25 @@ namespace ml
 
 	Window & Window::setIcons(const List<Icon> & value)
 	{
-		if (const uint32_t count = (uint32_t)value.size())
-		{
-			std::vector<GLFWimage> temp(count);
+		const uint32_t count = (uint32_t)value.size();
 
-			for (size_t i = 0; i < count; i++)
-			{
-				temp[i] = GLFWimage {
-					value[i].width,
-					value[i].height,
-					value[i].pixels,
-				};
-			}
+		std::vector<GLFWimage> temp(count);
 
-			glfwSetWindowIcon(
-				static_cast<GLFWwindow *>(m_window),
-				count,
-				&temp[0]
-			);
-		}
-		else
+		for (size_t i = 0; i < count; i++)
 		{
-			glfwSetWindowIcon(
-				static_cast<GLFWwindow *>(m_window), 
-				NULL,
-				NULL
-			);
+			temp[i] = GLFWimage {
+				value[i].width,
+				value[i].height,
+				value[i].pixels,
+			};
 		}
+
+		glfwSetWindowIcon(
+			static_cast<GLFWwindow *>(m_window),
+			count,
+			&temp[0]
+		);
+
 		return (*this);
 	}
 

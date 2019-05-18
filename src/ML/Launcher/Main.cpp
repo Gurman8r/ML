@@ -8,6 +8,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+// this needs to be relegated to a DLL
 # include "../../../examples/Sandbox/Sandbox.hpp"
 # ifdef ML_SYSTEM_WINDOWS
 #	pragma comment(lib, "Sandbox_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
@@ -37,59 +38,56 @@ int32_t main(int32_t argc, char ** argv)
 
 	static ml::StateMachine<State, ml::Application *> control =
 	{ 
-	{ State::Enter, [](auto app)
-	{	// On Enter
+	{ State::Enter, [](auto data)
+	{	// Enter
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv));
-		return control.run(State::Load, app);
+		return control.run(State::Load, data);
 	} },
 	
-	{ State::Load, [](auto app)
-	{	// On Load
+	{ State::Load, [](auto data)
+	{	// Load
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::LoadEvent());
-		return control.run(State::Start, app);
+		return control.run(State::Start, data);
 	} },
 	
-	{ State::Start, [](auto app)
-	{	// On Start
+	{ State::Start, [](auto data)
+	{	// Start
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::StartEvent());
-		return control.run(State::Loop, app);
+		return control.run(State::Loop, data);
 	} },
 	
-	{ State::Loop, [](auto app)
-	{	// Main Loop
+	{ State::Loop, [](auto data)
+	{	// Loop
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Engine.loop([]()
 		{
-			// On Update
-			/* * * * * * * * * * * * * * * * * * * * */
+			// Update
 			ML_EventSystem.fireEvent(ml::UpdateEvent(ML_Engine.elapsed()));
 
-			// On Draw
-			/* * * * * * * * * * * * * * * * * * * * */
+			// Draw
 			ML_EventSystem.fireEvent(ml::DrawEvent(ML_Engine.elapsed()));
 
-			// On Gui
-			/* * * * * * * * * * * * * * * * * * * * */
+			// Gui
 			ML_EventSystem.fireEvent(ml::GuiEvent(ML_Engine.elapsed()));
 		});
-		return control.run(State::Unload, app);
+		return control.run(State::Unload, data);
 	} },
 	
-	{ State::Unload, [](auto app)
-	{	// On Unload
+	{ State::Unload, [](auto data)
+	{	// Unload
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::UnloadEvent());
-		return control.run(State::Exit, app);
+		return control.run(State::Exit, data);
 	} },
 	
-	{ State::Exit, [](auto app)
-	{	// On Exit
+	{ State::Exit, [](auto data)
+	{	// Exit
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::ExitEvent());
-		return control.run(State::None, app);
+		return control.run(State::None, data);
 	} },
 	};
 

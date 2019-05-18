@@ -2,9 +2,11 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Preferences.hpp>
+#include <ML/Engine/Resources.hpp>
 #include <ML/Engine/StateMachine.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -27,7 +29,8 @@ int32_t main(int32_t argc, char ** argv)
 	// Load Preferences
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	if (!ML_Prefs.loadFromFile("../../../ML.ini"))
+	static ml::Preferences prefs;
+	if (!prefs.loadFromFile("../../../ML.ini"))
 	{
 		return ml::Debug::pause(EXIT_FAILURE);
 	}
@@ -49,35 +52,35 @@ int32_t main(int32_t argc, char ** argv)
 	{ State::Enter, []()
 	{	// Enter State
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv));
+		ML_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv, prefs, ML_Res));
 		return control.run(State::Load);
 	} },
 	
 	{ State::Load, []()
 	{	// Load State
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::LoadEvent());
+		ML_EventSystem.fireEvent(ml::LoadEvent(prefs, ML_Res));
 		return control.run(State::Start);
 	} },
 	
 	{ State::Start, []()
 	{	// Start State
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::StartEvent());
+		ML_EventSystem.fireEvent(ml::StartEvent(prefs, ML_Res));
 		return control.run(State::Loop);
 	} },
 	
 	{ State::Loop, []()
 	{	// Loop State
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Engine.runLoop([]()
+		ML_Engine.loopFun([]()
 		{
 			// Update
-			ML_EventSystem.fireEvent(ml::UpdateEvent(ML_Engine.frameTime()));
+			ML_EventSystem.fireEvent(ml::UpdateEvent(ML_Engine.frameTime(), ML_Res));
 			// Draw
-			ML_EventSystem.fireEvent(ml::DrawEvent(ML_Engine.frameTime()));
+			ML_EventSystem.fireEvent(ml::DrawEvent(ML_Engine.frameTime(), ML_Res));
 			// Gui
-			ML_EventSystem.fireEvent(ml::GuiEvent(ML_Engine.frameTime()));
+			ML_EventSystem.fireEvent(ml::GuiEvent(ML_Engine.frameTime(), ML_Editor));
 		});
 		return control.run(State::Unload);
 	} },
@@ -85,14 +88,14 @@ int32_t main(int32_t argc, char ** argv)
 	{ State::Unload, []()
 	{	// Unload State
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::UnloadEvent());
+		ML_EventSystem.fireEvent(ml::UnloadEvent(ML_Res));
 		return control.run(State::Exit);
 	} },
 	
 	{ State::Exit, []()
 	{	// Exit State
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::ExitEvent());
+		ML_EventSystem.fireEvent(ml::ExitEvent(ML_Res));
 		return control.run(State::None);
 	} },
 	};

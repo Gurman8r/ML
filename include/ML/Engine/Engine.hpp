@@ -36,7 +36,7 @@ namespace ml
 	public:
 		template <
 			class Fun, class ... Args
-		> inline void runLoop(Fun && fun, Args && ... args)
+		> inline void loopFun(Fun && fun, Args && ... args)
 		{
 			while (this->isRunning())
 			{

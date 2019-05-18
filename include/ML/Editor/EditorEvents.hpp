@@ -9,6 +9,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	class Editor;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_EDITOR_API EditorEvent : public IEvent
 	{
 		enum : int32_t
@@ -42,10 +46,12 @@ namespace ml
 	struct ML_EDITOR_API GuiEvent final : public EditorEvent
 	{
 		const Duration & elapsed;
+		Editor & editor;
 
-		GuiEvent(const Duration & elapsed)
+		GuiEvent(const Duration & elapsed, Editor & editor)
 			: EditorEvent(EV_Gui)
 			, elapsed(elapsed)
+			, editor(editor)
 		{
 		}
 	};

@@ -38,7 +38,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Preferences::GetBool(const String & section, const String & name, bool default_value)
+	bool Preferences::GetBool(const String & section, const String & name, bool default_value) const
 	{
 		return ((m_ini)
 			? (static_cast<INIReader *>(m_ini)->GetBoolean(
@@ -50,7 +50,7 @@ namespace ml
 		);
 	}
 
-	float Preferences::GetFloat(const String & section, const String & name, float default_value)
+	float Preferences::GetFloat(const String & section, const String & name, float default_value) const
 	{
 		return ((m_ini) 
 			? (float)(static_cast<INIReader *>(m_ini)->GetReal(
@@ -62,7 +62,7 @@ namespace ml
 		);
 	}
 
-	int32_t Preferences::GetInt(const String & section, const String & name, int32_t default_value)
+	int32_t Preferences::GetInt(const String & section, const String & name, int32_t default_value) const
 	{
 		return ((m_ini) 
 			? (static_cast<INIReader *>(m_ini)->GetInteger(
@@ -74,12 +74,12 @@ namespace ml
 		);
 	}
 
-	uint32_t Preferences::GetUint(const String & section, const String & name, uint32_t default_value)
+	uint32_t Preferences::GetUint(const String & section, const String & name, uint32_t default_value) const
 	{
 		return (uint32_t)GetInt(section, name, (int32_t)default_value);
 	}
 
-	String Preferences::GetString(const String & section, const String & name, const String & default_value)
+	String Preferences::GetString(const String & section, const String & name, const String & default_value) const
 	{
 		return ((m_ini)
 			? (static_cast<INIReader *>(m_ini)->Get(

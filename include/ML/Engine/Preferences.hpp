@@ -6,8 +6,6 @@
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Core/IReadable.hpp>
 
-#define ML_Prefs ml::Preferences::getInstance()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -16,11 +14,9 @@ namespace ml
 		: public ITrackable
 		, public IDisposable
 		, public IReadable
-		, public ISingleton<Preferences>
+		, public INonCopyable
 	{
-		friend class ISingleton<Preferences>;
-
-	private:
+	public:
 		Preferences();
 		~Preferences();
 
@@ -29,11 +25,11 @@ namespace ml
 		bool loadFromFile(const String & filename) override;
 
 	public:
-		bool		GetBool		(const String & section, const String & name, bool default_value);
-		float		GetFloat	(const String & section, const String & name, float default_value);
-		int32_t		GetInt		(const String & section, const String & name, int32_t default_value);
-		uint32_t	GetUint		(const String & section, const String & name, uint32_t default_value);
-		String		GetString	(const String & section, const String & name, const String & default_value);
+		bool		GetBool		(const String & section, const String & name, bool default_value) const;
+		float		GetFloat	(const String & section, const String & name, float default_value) const;
+		int32_t		GetInt		(const String & section, const String & name, int32_t default_value) const;
+		uint32_t	GetUint		(const String & section, const String & name, uint32_t default_value) const;
+		String		GetString	(const String & section, const String & name, const String & default_value) const;
 	
 	private:
 		void * m_ini;

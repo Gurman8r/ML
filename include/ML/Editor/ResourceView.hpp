@@ -32,7 +32,7 @@ namespace ml
 		void draw_image_registry	();
 		void draw_lua_registry		();
 		void draw_material_registry	();
-		void draw_mesh_registry	();
+		void draw_mesh_registry		();
 		void draw_model_registry	();
 		void draw_plugin_registry	();
 		void draw_script_registry	();

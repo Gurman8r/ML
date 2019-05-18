@@ -453,7 +453,6 @@ namespace ml
 			{
 				if (ImGui::BeginMenu("New (WIP)"))
 				{
-					if (ImGui::MenuItem("Effect")) { /**/ }
 					if (ImGui::MenuItem("Entity")) { /**/ }
 					if (ImGui::MenuItem("Font")) { /**/ }
 					if (ImGui::MenuItem("Image")) { /**/ }
@@ -467,6 +466,7 @@ namespace ml
 					if (ImGui::MenuItem("Skybox")) { /**/ }
 					if (ImGui::MenuItem("Sound")) { /**/ }
 					if (ImGui::MenuItem("Sprite")) { /**/ }
+					if (ImGui::MenuItem("Surface")) { /**/ }
 					if (ImGui::MenuItem("Texture")) { /**/ }
 					ImGui::EndMenu();
 				}
@@ -477,21 +477,21 @@ namespace ml
 
 			Layout::Columns([&]()
 			{
-				draw_effects();
-				draw_entities();
-				draw_fonts();
-				draw_images();
-				draw_lua();
-				draw_meshes();
-				draw_materials();
-				draw_models();
-				draw_plugins();
-				draw_scripts();
-				draw_shaders();
-				draw_skyboxes();
-				draw_sounds();
-				draw_sprites();
-				draw_textures();
+				draw_entity_registry();
+				draw_font_registry();
+				draw_image_registry();
+				draw_lua_registry();
+				draw_mesh_registry();
+				draw_material_registry();
+				draw_model_registry();
+				draw_plugin_registry();
+				draw_script_registry();
+				draw_shader_registry();
+				draw_skybox_registry();
+				draw_sound_registry();
+				draw_sprite_registry();
+				draw_surface_registry();
+				draw_texture_registry();
 			});
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -501,46 +501,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceView::draw_effects()
-	{
-		if (ML_Res.effects.empty()) return;
-
-		Layout::Group(ML_Res.effects.name().c_str(), [&]()
-		{
-			for (auto & pair : ML_Res.effects)
-			{
-				Layout::Group(pair.first.c_str(), [&](CString name, const Effect * e)
-				{
-					Layout::Field("Name", [&](CString label)
-					{
-						ImGui::Text("%s", name);
-					});
-					if (const String file = ML_Res.effects.getFile(name))
-					{
-						Layout::Field("File", [&](CString)
-						{
-							const String fName = ML_FS.getFileName(file);
-							if (ImGui::Selectable(fName.c_str()))
-							{
-								ML_EventSystem.fireEvent(OS_ExecuteEvent("open", ML_FS.getPathTo(file)));
-							}
-						});
-						Layout::Field("Path", [&](CString)
-						{
-							const String fPath = ML_FS.getFilePath(file);
-							if (ImGui::Selectable(fPath.c_str()))
-							{
-								ML_EventSystem.fireEvent(OS_ExecuteEvent("open", ML_FS.getPathTo(fPath)));
-							}
-						});
-					}
-
-				}, pair.first.c_str(), pair.second);
-			}
-		});
-	}
-
-	void ResourceView::draw_entities()
+	void ResourceView::draw_entity_registry()
 	{
 		if (ML_Res.entities.empty()) return;
 
@@ -864,7 +825,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_fonts()
+	void ResourceView::draw_font_registry()
 	{
 		if (ML_Res.fonts.empty()) return;
 
@@ -907,7 +868,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_images()
+	void ResourceView::draw_image_registry()
 	{
 		if (ML_Res.images.empty()) return;
 
@@ -950,7 +911,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_lua()
+	void ResourceView::draw_lua_registry()
 	{
 		if (ML_Res.lua.empty()) return;
 
@@ -989,7 +950,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_materials()
+	void ResourceView::draw_material_registry()
 	{
 		if (ML_Res.materials.empty()) return;
 
@@ -1066,7 +1027,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_meshes()
+	void ResourceView::draw_mesh_registry()
 	{
 		if (ML_Res.meshes.empty()) return;
 
@@ -1105,7 +1066,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_models()
+	void ResourceView::draw_model_registry()
 	{
 		if (ML_Res.models.empty()) return;
 
@@ -1144,7 +1105,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_plugins()
+	void ResourceView::draw_plugin_registry()
 	{
 		if (ML_Res.plugins.empty()) return;
 
@@ -1183,7 +1144,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_scripts()
+	void ResourceView::draw_script_registry()
 	{
 		if (ML_Res.scripts.empty()) return;
 
@@ -1237,7 +1198,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_shaders()
+	void ResourceView::draw_shader_registry()
 	{
 		if (ML_Res.shaders.empty()) return;
 
@@ -1276,7 +1237,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_skyboxes()
+	void ResourceView::draw_skybox_registry()
 	{
 		if (ML_Res.skyboxes.empty()) return;
 
@@ -1315,7 +1276,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_sounds()
+	void ResourceView::draw_sound_registry()
 	{
 		if (ML_Res.sounds.empty()) return;
 
@@ -1354,7 +1315,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_sprites()
+	void ResourceView::draw_sprite_registry()
 	{
 		if (ML_Res.entities.empty()) return;
 
@@ -1450,7 +1411,46 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_textures()
+	void ResourceView::draw_surface_registry()
+	{
+		if (ML_Res.surfaces.empty()) return;
+
+		Layout::Group(ML_Res.surfaces.name().c_str(), [&]()
+		{
+			for (auto & pair : ML_Res.surfaces)
+			{
+				Layout::Group(pair.first.c_str(), [&](CString name, const Surface * e)
+				{
+					Layout::Field("Name", [&](CString label)
+					{
+						ImGui::Text("%s", name);
+					});
+					if (const String file = ML_Res.surfaces.getFile(name))
+					{
+						Layout::Field("File", [&](CString)
+						{
+							const String fName = ML_FS.getFileName(file);
+							if (ImGui::Selectable(fName.c_str()))
+							{
+								ML_EventSystem.fireEvent(OS_ExecuteEvent("open", ML_FS.getPathTo(file)));
+							}
+						});
+						Layout::Field("Path", [&](CString)
+						{
+							const String fPath = ML_FS.getFilePath(file);
+							if (ImGui::Selectable(fPath.c_str()))
+							{
+								ML_EventSystem.fireEvent(OS_ExecuteEvent("open", ML_FS.getPathTo(fPath)));
+							}
+						});
+					}
+
+				}, pair.first.c_str(), pair.second);
+			}
+		});
+	}
+
+	void ResourceView::draw_texture_registry()
 	{
 		if (ML_Res.textures.empty()) return;
 

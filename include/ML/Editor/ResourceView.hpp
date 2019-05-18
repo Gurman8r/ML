@@ -26,21 +26,21 @@ namespace ml
 	private:
 		struct Layout;
 
-		void draw_effects	();
-		void draw_entities	();
-		void draw_fonts		();
-		void draw_images	();
-		void draw_lua		();
-		void draw_materials	();
-		void draw_meshes	();
-		void draw_models	();
-		void draw_plugins	();
-		void draw_scripts	();
-		void draw_shaders	();
-		void draw_skyboxes	();
-		void draw_sounds	();
-		void draw_sprites	();
-		void draw_textures	();
+		void draw_surface_registry	();
+		void draw_entity_registry	();
+		void draw_font_registry		();
+		void draw_image_registry	();
+		void draw_lua_registry		();
+		void draw_material_registry	();
+		void draw_mesh_registry	();
+		void draw_model_registry	();
+		void draw_plugin_registry	();
+		void draw_script_registry	();
+		void draw_shader_registry	();
+		void draw_skybox_registry	();
+		void draw_sound_registry	();
+		void draw_sprite_registry	();
+		void draw_texture_registry	();
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

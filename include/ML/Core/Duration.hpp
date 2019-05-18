@@ -30,17 +30,17 @@ namespace ml
 
 	public: // Constructors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		constexpr Duration()
+		constexpr Duration() noexcept
 			: m_base(0)
 		{
 		}
 
-		constexpr Duration(const uint64_t value)
+		constexpr Duration(const uint64_t value) noexcept
 			: m_base(value)
 		{
 		}
 
-		constexpr Duration(const Duration & copy)
+		constexpr Duration(const Duration & copy) noexcept
 			: m_base(copy.m_base)
 		{
 		}
@@ -48,7 +48,7 @@ namespace ml
 		template <
 			class Rep,
 			class Per
-		> constexpr Duration(const std::chrono::duration<Rep, Per> & value)
+		> constexpr Duration(const std::chrono::duration<Rep, Per> & value) noexcept
 			: m_base(std::chrono::duration_cast<base_t>(value).count())
 		{
 		}

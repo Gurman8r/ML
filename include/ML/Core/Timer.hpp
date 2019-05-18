@@ -12,8 +12,8 @@ namespace ml
 		: public ITrackable
 	{
 	public:
-		using Clock		= std::chrono::high_resolution_clock;
-		using TimePoint = std::chrono::steady_clock::time_point;
+		using Clock		= typename std::chrono::high_resolution_clock;
+		using TimePoint = typename Clock::time_point;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -23,7 +23,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Timer & pause(bool pause);
+		Timer & pause(bool paused);
 		Timer & reset();
 		Timer & start();
 		Timer & stop();

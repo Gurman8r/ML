@@ -8,7 +8,7 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/LuaScript.hpp>
 #include <ML/Engine/Plugin.hpp>
-#include <ML/Graphics/Effect.hpp>
+#include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Skybox.hpp>
@@ -46,7 +46,7 @@ namespace ml
 		bool parseItem(const ManifestItem & data);
 
 	public:
-		Registry<Effect>	effects;
+		Registry<Surface>	surfaces;
 		Registry<Entity>	entities;
 		Registry<Font>		fonts;
 		Registry<Image>		images;

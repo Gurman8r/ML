@@ -34,14 +34,14 @@
     <Filter Include="Header Files\DS">
       <UniqueIdentifier>{f1d8200d-78e9-4f50-832b-67c37e7186b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\DS\Drawable">
-      <UniqueIdentifier>{f93d9792-0b73-4629-9818-1608f123286f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Rendering">
       <UniqueIdentifier>{f8195b15-4f1b-44d0-b96a-27f604117928}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Rendering">
       <UniqueIdentifier>{80f7abf8-e0bb-4f3b-84dc-9c2101c0619e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Drawable">
+      <UniqueIdentifier>{f93d9792-0b73-4629-9818-1608f123286f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,19 +49,19 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\IDrawable.hpp">
-      <Filter>Source Files\DS\Drawable</Filter>
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Sprite.hpp">
-      <Filter>Source Files\DS\Drawable</Filter>
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Text.hpp">
-      <Filter>Source Files\DS\Drawable</Filter>
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Renderer.hpp">
-      <Filter>Source Files\DS\Drawable</Filter>
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Model.hpp">
-      <Filter>Source Files\DS\Drawable</Filter>
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Texture.hpp">
       <Filter>Header Files\Handles</Filter>
@@ -126,9 +126,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Effect.hpp">
-      <Filter>Source Files\DS\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Shapes.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -164,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\GraphicsEvents.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp">
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -208,9 +208,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp">
       <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Effect.cpp">
-      <Filter>Source Files\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexList.cpp">
       <Filter>Source Files\DS</Filter>
@@ -262,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderVar.cpp">
       <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp">
+      <Filter>Source Files\Drawable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -223,7 +223,7 @@
     <Image Include="..\..\..\assets\textures\moon\moon_nm.png" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\assets\data\effects.txt" />
+    <Text Include="..\..\..\assets\data\surfaces.txt" />
     <Text Include="..\..\..\assets\data\entities.txt" />
     <Text Include="..\..\..\assets\data\fonts.txt" />
     <Text Include="..\..\..\assets\data\images.txt" />

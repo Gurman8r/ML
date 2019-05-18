@@ -28,15 +28,15 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Timer & Timer::pause(bool pause)
+	Timer & Timer::pause(bool paused)
 	{
-		if (pause && !m_paused)
+		if (paused && !m_paused)
 		{
 			m_paused = true;
 			m_next = m_clock.now();
 			m_elapsed = (m_next - m_prev);
 		}
-		else if (!pause && m_paused)
+		else if (!paused && m_paused)
 		{
 			m_paused = false;
 			m_prev = m_clock.now();

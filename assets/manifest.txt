@@ -77,11 +77,11 @@
 </import>
 
 
-# Effects
+# Surfaces
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/effects.txt
+	name = ../../../assets/data/surfaces.txt
 </import>
 
 

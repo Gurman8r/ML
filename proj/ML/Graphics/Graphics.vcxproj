@@ -170,7 +170,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Camera.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Canvas.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\Effect.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Font.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\FrameBuffer.hpp" />
@@ -212,7 +212,7 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Canvas.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\Effect.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Image.cpp" />

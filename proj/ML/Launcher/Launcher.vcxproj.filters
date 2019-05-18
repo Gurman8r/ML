@@ -33,9 +33,6 @@
     <None Include="..\..\..\assets\shaders\example.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\framebuffer.shader">
-      <Filter>Resource Files\assets\shaders</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\geometry.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
@@ -110,6 +107,9 @@
     </None>
     <None Include="..\..\..\ML.ini">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\framebuffer.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -255,9 +255,6 @@
     <Text Include="..\..\..\assets\styles\style4.txt">
       <Filter>Resource Files\assets\styles</Filter>
     </Text>
-    <Text Include="..\..\..\assets\data\effects.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
     <Text Include="..\..\..\assets\data\entities.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
@@ -299,6 +296,9 @@
     </Text>
     <Text Include="..\..\..\assets\manifest.txt">
       <Filter>Resource Files\assets</Filter>
+    </Text>
+    <Text Include="..\..\..\assets\data\surfaces.txt">
+      <Filter>Resource Files\assets\data</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

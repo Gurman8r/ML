@@ -6,8 +6,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Resources::Resources()
-		: effects	("Effects"	)
-		, entities	("Entities"	)
+		: entities	("Entities"	)
 		, fonts		("Fonts"	)
 		, images	("Images"	)
 		, lua		("Lua"		)
@@ -20,6 +19,7 @@ namespace ml
 		, skyboxes	("Skyboxes"	)
 		, sounds	("Sounds"	)
 		, sprites	("Sprites"	)
+		, surfaces	("Surfaces"	)
 		, textures	("Textures"	)
 	{
 	}
@@ -35,7 +35,7 @@ namespace ml
 	{
 		return
 			lua.clean()			+
-			effects.clean()		+
+			surfaces.clean()		+
 			sprites.clean()		+
 			materials.clean()	+
 			models.clean()		+
@@ -64,7 +64,7 @@ namespace ml
 			skyboxes.reload()	+
 			sprites.reload()	+
 			textures.reload()	+
-			effects.reload()	+
+			surfaces.reload()	+
 			entities.clean()	+
 			sounds.reload()		+
 			scripts.reload()	+
@@ -143,28 +143,6 @@ namespace ml
 			if (type == "manifest")
 			{
 				return loadFromFile(name);
-			}
-			// Effects
-			/* * * * * * * * * * * * * * * * * * * * */
-			else if (type == "effect")
-			{
-				const String m = import.getStr("model");
-				const String s = import.getStr("shader");
-				const int32_t w = import.getInt("width", 1920);
-				const int32_t h = import.getInt("height", 1080);
-				if (m && s)
-				{
-					Effect * e;
-					return
-						(e = effects.load(name)) &&
-						(e->create({ w, h }, GL::ColorAttachment0)) &&
-						(e->setModel(models.get(m))) &&
-						(e->setShader(shaders.get(s)));
-				}
-				else
-				{
-					return effects.load(name);
-				}
 			}
 			// Entities
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -350,6 +328,28 @@ namespace ml
 				else
 				{
 					return sprites.load(name);
+				}
+			}
+			// Surfaces
+			/* * * * * * * * * * * * * * * * * * * * */
+			else if (type == "surface")
+			{
+				const String m = import.getStr("model");
+				const String s = import.getStr("shader");
+				const int32_t w = import.getInt("width", 1920);
+				const int32_t h = import.getInt("height", 1080);
+				if (m && s)
+				{
+					Surface * e;
+					return
+						(e = surfaces.load(name)) &&
+						(e->create({ w, h }, GL::ColorAttachment0)) &&
+						(e->setModel(models.get(m))) &&
+						(e->setShader(shaders.get(s)));
+				}
+				else
+				{
+					return surfaces.load(name);
 				}
 			}
 			// Textures

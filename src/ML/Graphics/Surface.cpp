@@ -1,4 +1,4 @@
-#include <ML/Graphics/Effect.hpp>
+#include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/ShaderAPI.hpp>
@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Effect::Effect()
+	Surface::Surface()
 		: m_fbo			()
 		, m_rbo			()
 		, m_model		(NULL)
@@ -19,7 +19,7 @@ namespace ml
 	{
 	}
 
-	Effect::Effect(const Effect & copy)
+	Surface::Surface(const Surface & copy)
 		: m_fbo			(copy.m_fbo)
 		, m_rbo			(copy.m_rbo)
 		, m_model		(copy.m_model)
@@ -30,14 +30,14 @@ namespace ml
 	{
 	}
 
-	Effect::~Effect()
+	Surface::~Surface()
 	{
 		dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Effect::dispose()
+	bool Surface::dispose()
 	{
 		if (m_fbo && m_rbo)
 		{
@@ -47,14 +47,14 @@ namespace ml
 		return (!m_fbo && !m_rbo);
 	}
 
-	bool Effect::loadFromFile(const String & filename)
+	bool Surface::loadFromFile(const String & filename)
 	{
 		return true;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Effect::create(const vec2i & size, uint32_t attachment)
+	bool Surface::create(const vec2i & size, uint32_t attachment)
 	{
 		if (!m_fbo && !m_rbo)
 		{
@@ -94,7 +94,7 @@ namespace ml
 		return false;
 	}
 
-	bool Effect::resize(const vec2i & size)
+	bool Surface::resize(const vec2i & size)
 	{
 		return 
 			(size != vec2i::Zero) &&
@@ -105,31 +105,31 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Effect::bind() const
+	void Surface::bind() const
 	{
 		m_fbo.bind();
 	}
 	
-	void Effect::unbind() const
+	void Surface::unbind() const
 	{
 		m_fbo.unbind();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Effect::setModel(const Model * value)
+	bool Surface::setModel(const Model * value)
 	{
 		return (m_model = value);
 	}
 
-	bool Effect::setShader(const Shader * value)
+	bool Surface::setShader(const Shader * value)
 	{
 		return (m_shader = value);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Effect::draw(RenderTarget & target, RenderBatch batch) const
+	void Surface::draw(RenderTarget & target, RenderBatch batch) const
 	{
 		if (m_model && m_shader && m_texture)
 		{

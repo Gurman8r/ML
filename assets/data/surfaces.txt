@@ -1,9 +1,9 @@
-# Effects
+# Surfaces
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>
-	type	=	effect
-	name	=	frame_main
+	type	=	surface
+	name	=	surface_main
 	model	=	default_quad
 	shader	=	framebuffer
 	width	=	1920
@@ -11,8 +11,8 @@
 </import>
 
 <import>
-	type	=	effect
-	name	=	frame_post
+	type	=	surface
+	name	=	surface_post
 	model	=	default_quad
 	shader	=	framebuffer
 	width	=	1920

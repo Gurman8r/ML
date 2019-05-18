@@ -124,7 +124,7 @@ namespace DEMO
 			ML_Random.seed();
 
 			// Setup Std Out
-			if (!(m_rdbuf = ml::cout.rdbuf(m_rdstr.rdbuf())))
+			if (!(self.rdbuf = ml::cout.rdbuf(self.rdstr.rdbuf())))
 			{
 				return ml::Debug::fatal("Failed Redirecting Std Output Handle");
 			}
@@ -158,7 +158,7 @@ namespace DEMO
 		// Initialize Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (this->create(
-			m_title = ML_Prefs.GetString("Window", "title", "MemeLib"),
+			self.title = ML_Prefs.GetString("Window", "title", "MemeLib"),
 			ml::VideoMode({ 
 				ML_Prefs.GetUint("Window", "width",			1280), 
 				ML_Prefs.GetUint("Window", "height",		720) },
@@ -224,10 +224,10 @@ namespace DEMO
 
 		// Initialize Network
 		/* * * * * * * * * * * * * * * * * * * * */
-		m_isServer = ML_Prefs.GetBool("Network", "isServer", false);
-		m_isClient = ML_Prefs.GetBool("Network", "isClient", false);
+		self.isServer = ML_Prefs.GetBool("Network", "isServer", false);
+		self.isClient = ML_Prefs.GetBool("Network", "isClient", false);
 
-		if (m_isServer)
+		if (self.isServer)
 		{
 			// Start Server
 			ml::Debug::log("Starting Server...");
@@ -239,7 +239,7 @@ namespace DEMO
 				}
 			}
 		}
-		else if (m_isClient)
+		else if (self.isClient)
 		{
 			// Start Client
 			ml::Debug::log("Starting Client...");
@@ -332,7 +332,7 @@ namespace DEMO
 
 		// Setup Canvas
 		/* * * * * * * * * * * * * * * * * * * * */
-		m_canvas.create();
+		self.canvas.create();
 
 		// Setup Sprites
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -710,7 +710,7 @@ namespace DEMO
 		// Update Title
 		/* * * * * * * * * * * * * * * * * * * * */
 		this->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
-			m_title,
+			self.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
 			ev->elapsed.delta(),
@@ -719,9 +719,9 @@ namespace DEMO
 
 		// Update Std Out
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (m_rdbuf)
+		if (self.rdbuf)
 		{
-			ML_Terminal.printss(m_rdstr);
+			ML_Terminal.printss(self.rdstr);
 		}
 
 		// Update Physics
@@ -730,18 +730,18 @@ namespace DEMO
 
 		// Update Network
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (m_isServer)
+		if (self.isServer)
 		{
 			ML_NetServer.poll();
 		}
-		else if (m_isClient)
+		else if (self.isClient)
 		{
 			ML_NetClient.poll();
 		}
 
 		// Update Effects
 		/* * * * * * * * * * * * * * * * * * * * */
-		for (auto & pair : ML_Res.effects)
+		for (auto & pair : ML_Res.surfaces)
 		{
 			pair.second->resize(this->getFrameSize());
 		}
@@ -761,16 +761,16 @@ namespace DEMO
 					// Target Transform
 					if (const ml::Transform * target = ent->get<ml::Transform>())
 					{
-						if (globals.camAuto)
+						if (self.cameraOrbit)
 						{
 							camera->forward(target->getPos() - camera->position);
 
 							transform->lookAt(camera->position, camera->forward());
 
 							camera->position
-								+=	camera->right()
+								+= camera->right()
 								*	ev->elapsed.delta()
-								*	globals.camSpd;
+								*	self.cameraSpeed;
 						}
 					}
 				}
@@ -780,7 +780,7 @@ namespace DEMO
 		// Update Text
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
-			m_text["project_url"]
+			self.text["project_url"]
 				.setFont(ML_Res.fonts.get("minecraft"))
 				.setFontSize(56)
 				.setPosition({ 48, (float)this->getFrameHeight() - 48 })
@@ -796,14 +796,14 @@ namespace DEMO
 			size_t			lineNum	 = 0;
 			auto			newLine  = [&]() { return (linePos = (origin + (offset * (float)(lineNum++)))); };
 
-			m_text["gl_version"]
+			self.text["gl_version"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("GL Version: {0}").format(
 					ML_GL.getString(ml::GL::Version)));
 
-			m_text["gl_vendor"]
+			self.text["gl_vendor"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -812,7 +812,7 @@ namespace DEMO
 
 			newLine();
 
-			m_text["framerate"]
+			self.text["framerate"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -820,7 +820,7 @@ namespace DEMO
 					ev->elapsed.delta(),
 					ML_Engine.frameRate()));
 
-			m_text["time_total"]
+			self.text["time_total"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -829,14 +829,14 @@ namespace DEMO
 
 			newLine();
 
-			m_text["time_sin"]
+			self.text["time_sin"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("sin: {0}").format(
 					std::sinf(ML_Engine.mainTimer().elapsed().delta())));
 
-			m_text["time_cos"]
+			self.text["time_cos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -845,29 +845,29 @@ namespace DEMO
 
 			newLine();
 
-			m_text["cursor_pos"]
+			self.text["cursor_pos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cx/cy: {0}").format(
 					this->getCursorPos()));
 
-			m_text["window_pos"]
+			self.text["window_pos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("wx/wy: {0}").format(
 					this->getPosition()));
 
-			m_text["window_size"]
+			self.text["window_size"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("ww/wh: {0}").format(
 					this->getSize()));
 
-			// Force Update All Text
-			for (auto & pair : m_text)
+			// Ensure text update before main draw call
+			for (auto & pair : self.text)
 			{
 				pair.second.update();
 			}
@@ -878,7 +878,7 @@ namespace DEMO
 	{
 		// Draw Scene
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Effect * scene = ML_Res.effects.get("frame_main"))
+		if (const ml::Surface * scene = ML_Res.surfaces.get("surface_main"))
 		{
 			// Bind Scene
 			scene->bind();
@@ -921,7 +921,7 @@ namespace DEMO
 							new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	NULL),
 							}));
 
-					static ml::RenderBatch batch(&m_canvas.vao(), &m_canvas.vbo(), material);
+					static ml::RenderBatch batch(&self.canvas.vao(), &self.canvas.vbo(), material);
 
 					for (const auto & pair : ML_Res.sprites)
 					{
@@ -941,9 +941,9 @@ namespace DEMO
 							new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	NULL),
 							}));
 
-					static ml::RenderBatch batch(&m_canvas.vao(), &m_canvas.vbo(), material);
+					static ml::RenderBatch batch(&self.canvas.vao(), &self.canvas.vbo(), material);
 
-					for (const auto & pair : m_text)
+					for (const auto & pair : self.text)
 					{
 						this->draw(pair.second, batch);
 					}
@@ -977,12 +977,12 @@ namespace DEMO
 
 		// Draw Post
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Effect * post = ML_Res.effects.get("frame_post"))
+		if (const ml::Surface * post = ML_Res.surfaces.get("surface_post"))
 		{
 			post->bind();
-			if (const ml::Effect * scene = ML_Res.effects.get("frame_main"))
+			if (const ml::Surface * scene = ML_Res.surfaces.get("surface_main"))
 			{
-				scene->shader()->setUniform("Effect.mode", globals.effectMode);
+				scene->shader()->setUniform("Effect.mode", self.effectMode);
 
 				this->draw(*scene);
 			}
@@ -1018,7 +1018,7 @@ namespace DEMO
 		{
 			ML_SceneView.drawFun(&ML_Editor.show_sceneView, [&]()
 			{
-				if (ml::Effect * post = ML_Res.effects.get("frame_post"))
+				if (ml::Surface * post = ML_Res.surfaces.get("surface_post"))
 				{
 					ML_SceneView.updateTexture(&post->texture());
 				}
@@ -1040,14 +1040,14 @@ namespace DEMO
 					"Juicy",
 					"Inverted",
 				};
-				ImGui::Combo("Shader##Framebuffer", &globals.effectMode, fbo_modes, IM_ARRAYSIZE(fbo_modes));
+				ImGui::Combo("Shader##Framebuffer", &self.effectMode, fbo_modes, IM_ARRAYSIZE(fbo_modes));
 				ImGui::Separator();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				ImGui::Text("Camera");
-				ImGui::Checkbox("Auto##Camera", &globals.camAuto);
-				ImGui::DragFloat("Speed##Camera", &globals.camSpd, 0.1f, -5.f, 5.f);
+				ImGui::Checkbox("Orbit##Camera", &self.cameraOrbit);
+				ImGui::DragFloat("Speed##Camera", &self.cameraSpeed, 0.1f, -5.f, 5.f);
 				ImGui::Separator();
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -1062,10 +1062,10 @@ namespace DEMO
 		ml::Debug::log("Unloading...");
 
 		// Cleanup Std Out
-		if (m_rdbuf) 
+		if (self.rdbuf) 
 		{ 
-			ml::cout.rdbuf(m_rdbuf);
-			m_rdbuf = NULL; 
+			ml::cout.rdbuf(self.rdbuf);
+			self.rdbuf = NULL; 
 		}
 
 		// Cleanup Resources

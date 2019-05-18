@@ -23,8 +23,9 @@
 
 int32_t main(int32_t argc, char ** argv)
 {
-	// Load Prefs
+	// Load Preferences
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	if (!ML_Prefs.loadFromFile("../../../ML.ini"))
 	{
 		return ml::Debug::pause(EXIT_FAILURE);
@@ -32,6 +33,7 @@ int32_t main(int32_t argc, char ** argv)
 
 	// Setup Control States
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	enum State : int32_t
 	{
 		None = ML_STATE_INVALID,
@@ -39,33 +41,33 @@ int32_t main(int32_t argc, char ** argv)
 		MAX_STATE
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static ml::StateMachine<State> control =
 	{ 
 	{ State::Enter, []()
-	{	// Enter
+	{	// Enter State
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv));
 		return control.run(State::Load);
 	} },
 	
 	{ State::Load, []()
-	{	// Load
+	{	// Load State
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::LoadEvent());
 		return control.run(State::Start);
 	} },
 	
 	{ State::Start, []()
-	{	// Start
+	{	// Start State
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::StartEvent());
 		return control.run(State::Loop);
 	} },
 	
 	{ State::Loop, []()
-	{	// Loop
+	{	// Loop State
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Engine.runLoop([]()
 		{
@@ -80,14 +82,14 @@ int32_t main(int32_t argc, char ** argv)
 	} },
 	
 	{ State::Unload, []()
-	{	// Unload
+	{	// Unload State
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::UnloadEvent());
 		return control.run(State::Exit);
 	} },
 	
 	{ State::Exit, []()
-	{	// Exit
+	{	// Exit State
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EventSystem.fireEvent(ml::ExitEvent());
 		return control.run(State::None);
@@ -96,9 +98,11 @@ int32_t main(int32_t argc, char ** argv)
 
 	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	if (ml::Application * app = ML_Engine.launchApp(new MY_PROGRAM()))
 	{
 		control.run(State::Enter);
+
 		return ML_Engine.freeApp(app);
 	}
 	else
@@ -106,6 +110,8 @@ int32_t main(int32_t argc, char ** argv)
 		return ml::Debug::logError("Failed Launching Application")
 			|| ml::Debug::pause(EXIT_FAILURE);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

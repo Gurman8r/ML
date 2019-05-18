@@ -1,5 +1,5 @@
-#ifndef _ML_EFFECT_HPP_
-#define _ML_EFFECT_HPP_
+#ifndef _ML_SURFACE_HPP_
+#define _ML_SURFACE_HPP_
 
 #include <ML/Graphics/FrameBuffer.hpp>
 #include <ML/Graphics/RenderBuffer.hpp>
@@ -10,17 +10,17 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Effect is Framebuffer + Renderbuffer
-	class ML_GRAPHICS_API Effect final
+	// Surface is Framebuffer + Renderbuffer
+	class ML_GRAPHICS_API Surface final
 		: public ITrackable
 		, public IDisposable
 		, public IDrawable
 		, public IReadable
 	{
 	public:
-		Effect();
-		Effect(const Effect & copy);
-		~Effect();
+		Surface();
+		Surface(const Surface & copy);
+		~Surface();
 
 	public:
 		bool dispose() override;
@@ -57,4 +57,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_EFFECT_HPP_
+#endif // !_ML_SURFACE_HPP_

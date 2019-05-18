@@ -54,21 +54,20 @@ namespace DEMO
 
 		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 
-		ml::SStream		m_rdstr;
-		ml::StreamBuf * m_rdbuf = NULL;
-		ml::Canvas		m_canvas;
-		TextTable		m_text;
-		ml::String		m_title;
-		bool			m_isClient;
-		bool			m_isServer;
-
-		struct Globals
+		struct MyData final
 		{
-			bool	camAuto		= false;
-			float	camSpd		= 1.0f;
-			int32_t	effectMode	= 3;
-		
-		} globals;
+			ml::SStream		rdstr;
+			ml::StreamBuf * rdbuf = NULL;
+			ml::Canvas		canvas;
+			TextTable		text;
+			ml::String		title;
+			bool			isClient;
+			bool			isServer;
+			bool			cameraOrbit = true;
+			float			cameraSpeed = 1.0f;
+			int32_t			effectMode = 3;
+
+		} self;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	};

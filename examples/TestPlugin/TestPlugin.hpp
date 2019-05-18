@@ -7,15 +7,15 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# ifdef ML_SYSTEM_WINDOWS
-#	pragma comment(lib, "Audio"		"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Core"		"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Editor"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Engine"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Graphics"	"_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Network"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Physics"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Window"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
+# if defined(ML_SYSTEM_WINDOWS)
+#	pragma comment(lib, ML_LIB_STR("Audio")		)
+#	pragma comment(lib, ML_LIB_STR("Core")		)
+#	pragma comment(lib, ML_LIB_STR("Editor")	)
+#	pragma comment(lib, ML_LIB_STR("Engine")	)
+#	pragma comment(lib, ML_LIB_STR("Graphics")	)
+#	pragma comment(lib, ML_LIB_STR("Network")	)
+#	pragma comment(lib, ML_LIB_STR("Physics")	)
+#	pragma comment(lib, ML_LIB_STR("Window")	)
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * */

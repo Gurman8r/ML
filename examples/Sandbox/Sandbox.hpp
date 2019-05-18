@@ -4,20 +4,21 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Editor/EditorApplication.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Graphics/Text.hpp>
 #include <ML/Graphics/Canvas.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# ifdef ML_SYSTEM_WINDOWS
-#	pragma comment(lib, "Audio"		"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Core"		"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Editor"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Engine"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Graphics"	"_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Network"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Physics"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
-#	pragma comment(lib, "Window"	"_"	ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib")
+# if defined(ML_SYSTEM_WINDOWS)
+#	pragma comment(lib, ML_LIB_STR("Audio")		)
+#	pragma comment(lib, ML_LIB_STR("Core")		)
+#	pragma comment(lib, ML_LIB_STR("Editor")	)
+#	pragma comment(lib, ML_LIB_STR("Engine")	)
+#	pragma comment(lib, ML_LIB_STR("Graphics")	)
+#	pragma comment(lib, ML_LIB_STR("Network")	)
+#	pragma comment(lib, ML_LIB_STR("Physics")	)
+#	pragma comment(lib, ML_LIB_STR("Window")	)
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -54,20 +55,29 @@ namespace DEMO
 
 		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 
-		struct MyData final
+		struct MyData final : public ml::INonCopyable
 		{
-			ml::SStream		rdstr;
-			ml::StreamBuf * rdbuf = NULL;
-			ml::Canvas		canvas;
-			TextTable		text;
-			ml::String		title;
-			bool			isClient;
-			bool			isServer;
+			ml::SStream		rdstr		= ml::SStream();
+			ml::StreamBuf * rdbuf		= NULL;
+			ml::VAO			vao			= {};
+			ml::VBO			vbo			= {};
+			TextTable		text		= {};
+			ml::String		title		= {};
+			bool			isClient	= false;
+			bool			isServer	= false;
 			bool			cameraOrbit = true;
 			float			cameraSpeed = 1.0f;
-			int32_t			effectMode = 3;
+			int32_t			effectMode	= 3;
 
-		} self;
+			MyData(Sandbox & self) : m_self(self) {}
+
+			inline Sandbox * operator->()	{ return &m_self; }
+			inline Sandbox & operator *()	{ return  m_self; }
+
+		private:
+			Sandbox & m_self;
+
+		} sandbox;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	};

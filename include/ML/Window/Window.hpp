@@ -4,9 +4,9 @@
 #include <ML/Core/IEventListener.hpp>
 #include <ML/Core/INonCopyable.hpp>
 #include <ML/Window/Cursor.hpp>
-#include <ML/Window/ContextSettings.hpp>
+#include <ML/Window/Context.hpp>
 #include <ML/Window/Icon.hpp>
-#include <ML/Window/VideoMode.hpp>
+#include <ML/Window/Screen.hpp>
 
 namespace ml
 {
@@ -17,7 +17,7 @@ namespace ml
 		, public INonCopyable
 		, public IEventListener
 	{
-	public:
+	public: // Callback Types
 		/* * * * * * * * * * * * * * * * * * * * */
 		using CharFun			= void(*)(void *, uint32_t);
 		using CursorEnterFun	= void(*)(void *, int32_t);
@@ -32,7 +32,7 @@ namespace ml
 		using PositionFun		= void(*)(void *, int32_t, int32_t);
 		using SizeFun			= void(*)(void *, int32_t, int32_t);
 
-	public:
+	public: // Style
 		/* * * * * * * * * * * * * * * * * * * * */
 		enum Style : uint32_t
 		{
@@ -49,24 +49,20 @@ namespace ml
 			Default	= Resizable | Decorated | Focused | AutoIconify | Maximized,
 		};
 
-	public:
+	public: // C/D-tor
 		/* * * * * * * * * * * * * * * * * * * * */
 		Window();
 		virtual ~Window();
 
-	public:
+	public: // Core
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool create(
-			const String &			title, 
-			const VideoMode &		videoMode,
-			const uint32_t			style,
-			const ContextSettings & context);
+		bool create(const String & title, const Screen & screen, const uint32_t style, const Context & context);
 
 		virtual bool setup();
 
 		virtual void onEvent(const IEvent * ev) override;
 
-	public:
+	public: // Modifiers
 		/* * * * * * * * * * * * * * * * * * * * */
 		Window & close();
 		Window & destroy();
@@ -87,7 +83,7 @@ namespace ml
 		Window & setTitle(const String & value);
 		Window & terminate();
 
-	public:
+	public: // Accessors
 		/* * * * * * * * * * * * * * * * * * * * */
 		bool	isFocused() const;
 		bool	isOpen() const;
@@ -103,24 +99,27 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 		
-		inline const ContextSettings &	getContext()	const { return m_context; }
-		inline const uint32_t &			getStyle()		const { return m_style; }
-		inline const vec2i &			getPosition()	const { return m_position; }
-		inline const vec2u &			getSize()		const { return m_videoMode.size; }
-		inline const String &			getTitle()		const { return m_title; }
-		inline const uint32_t			getWidth()		const { return getSize()[0]; }
-		inline const uint32_t			getHeight()		const { return getSize()[1]; }
-		inline const int32_t			getFrameWidth()	const { return getFrameSize()[0]; }
-		inline const int32_t			getFrameHeight()const { return getFrameSize()[1]; }
-		inline const float				getAspect()		const { return ML_ASPECT(getWidth(), getHeight()); };
-		inline const float				getFrameAspect()const { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
+		inline const Context &	getContext()	const { return m_context; }
+		inline const uint32_t &	getStyle()		const { return m_style; }
+		inline const vec2i &	getPosition()	const { return m_position; }
+		inline const Screen &	getScreen()		const { return m_screen; }
+		inline const vec2u &	getSize()		const { return getScreen().resolution; }
+		inline const String &	getTitle()		const { return m_title; }
+		inline const uint32_t	getWidth()		const { return getSize()[0]; }
+		inline const uint32_t	getHeight()		const { return getSize()[1]; }
+		inline const int32_t	getFrameWidth()	const { return getFrameSize()[0]; }
+		inline const int32_t	getFrameHeight()const { return getFrameSize()[1]; }
+		inline const float		getAspect()		const { return ML_ASPECT(getWidth(), getHeight()); };
+		inline const float		getFrameAspect()const { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
 
-	public:
+
+	public: // Cursors
 		/* * * * * * * * * * * * * * * * * * * * */
 		void *	createCursor(uint32_t value) const;
 		void	destroyCursor(void * value) const;
 
-	public:
+
+	public: // Set Callbacks
 		/* * * * * * * * * * * * * * * * * * * * */
 		CharFun			setCharCallback			(CharFun		callback);
 		CursorEnterFun	setCursorEnterCallback	(CursorEnterFun callback);
@@ -135,13 +134,14 @@ namespace ml
 		PositionFun		setWindowPosCallback	(PositionFun	callback);
 		SizeFun			setWindowSizeCallback	(SizeFun		callback);
 
-	protected:
+
+	protected: // Data
 		/* * * * * * * * * * * * * * * * * * * * */
 		void *			m_window;
 		void *			m_monitor;
 		void *			m_share;
-		ContextSettings	m_context;
-		VideoMode		m_videoMode;
+		Context			m_context;
+		Screen			m_screen;
 		uint32_t		m_style;
 		vec2i			m_position;
 		String			m_title;

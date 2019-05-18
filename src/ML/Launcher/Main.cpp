@@ -3,8 +3,9 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Engine/Engine.hpp>
-#include <ML/Engine/StateMachine.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Preferences.hpp>
+#include <ML/Engine/StateMachine.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -12,7 +13,7 @@
 
 # define MY_PROGRAM DEMO::Sandbox
 # define MY_INCLUDE "../../../examples/Sandbox/Sandbox.hpp"
-# define MY_LIBRARY "Sandbox_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib"
+# define MY_LIBRARY ML_LIB_STR("Sandbox")
 
 # include MY_INCLUDE
 # if defined(ML_SYSTEM_WINDOWS)

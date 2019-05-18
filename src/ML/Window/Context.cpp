@@ -1,8 +1,8 @@
-#include <ML/Window/ContextSettings.hpp>
+#include <ML/Window/Context.hpp>
 
 namespace ml
 {
-	ContextSettings::ContextSettings(
+	Context::Context(
 		uint32_t		majorVersion,
 		uint32_t		minorVersion,
 		uint32_t		profile,
@@ -19,7 +19,7 @@ namespace ml
 		, srgbCapable	(srgbCapable)
 	{};
 
-	ContextSettings::ContextSettings(const ContextSettings & copy)
+	Context::Context(const Context & copy)
 		: majorVersion(	copy.majorVersion)
 		, minorVersion(	copy.minorVersion)
 		, profile(		copy.profile)

@@ -168,18 +168,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Window\ContextSettings.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Window\Context.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Icon.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Window\VideoMode.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Window\Screen.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Window\ContextSettings.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\Context.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Cursor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Icon.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\KeyCode.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Window\VideoMode.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\Screen.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Window.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\WindowEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\MouseButton.hpp" />

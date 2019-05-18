@@ -1,5 +1,5 @@
-#ifndef _ML_VIDEO_MODE_HPP_
-#define _ML_VIDEO_MODE_HPP_
+#ifndef _ML_SCREEN_HPP_
+#define _ML_SCREEN_HPP_
 
 #include <ML/Window/Export.hpp>
 #include <ML/Core/Vector2.hpp>
@@ -9,32 +9,34 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API VideoMode final
+	struct ML_WINDOW_API Screen final
 		: public ITrackable
-		, public IComparable<VideoMode>
+		, public IComparable<Screen>
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		vec2u	 size;
+		vec2u	 resolution;
 		uint32_t bitsPerPixel;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		VideoMode();
-		VideoMode(uint32_t width, uint32_t height, uint32_t bitsPerPixel = 32);
-		VideoMode(const vec2u & size, uint32_t bitsPerPixel = 32);
-		VideoMode(const VideoMode & copy);
-		~VideoMode();
+		Screen();
+		Screen(const uint32_t width, const uint32_t height);
+		Screen(const vec2u & size);
+		Screen(const uint32_t width, const uint32_t height, const uint32_t bitsPerPixel);
+		Screen(const vec2u & size, const uint32_t bitsPerPixel);
+		Screen(const Screen & copy);
+		~Screen();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		static const VideoMode & desktop();
-		static const List<VideoMode> & resolutions();
+		static const Screen &		desktop();
+		static const List<Screen> & resolutions();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline const uint32_t & width()  const { return size[0]; }
-		inline const uint32_t & height() const { return size[1]; }
+		inline const uint32_t & width()  const { return resolution[0]; }
+		inline const uint32_t & height() const { return resolution[1]; }
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -43,12 +45,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool equals(const VideoMode & value) const override;
-		bool lessThan(const VideoMode & value) const override;
+		bool equals(const Screen & value) const override;
+		bool lessThan(const Screen & value) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline bool good() const
+		inline bool isValidDesktopResolution() const
 		{
 			return std::find(
 				resolutions().begin(),
@@ -57,12 +59,10 @@ namespace ml
 			) != resolutions().end();
 		}
 
-		inline operator bool() const { return good(); }
-
 		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_VIDEO_MODE_HPP_
+#endif // !_ML_SCREEN_HPP_

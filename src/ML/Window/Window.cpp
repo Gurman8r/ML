@@ -25,8 +25,8 @@ namespace ml
 		, m_monitor		(NULL)
 		, m_share		(NULL)
 		, m_title		(GetTypeName())
-		, m_context		(ContextSettings())
-		, m_videoMode	(VideoMode())
+		, m_context		(Context())
+		, m_screen	(Screen())
 		, m_style		(Window::Default)
 		, m_position	(vec2i::Zero)
 	{
@@ -62,14 +62,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Window::create(
-		const String &			title, 
-		const VideoMode &		videoMode, 
-		const uint32_t			style,
-		const ContextSettings & context)
+	bool Window::create(const String & title, const Screen & screen, const uint32_t style, const Context & context)
 	{
 		m_title		= title;
-		m_videoMode	= videoMode;
+		m_screen	= screen;
 		m_style		= style;
 		m_context	= context;
 
@@ -248,7 +244,7 @@ namespace ml
 		case WindowEvent::EV_WindowSize:
 			if (const auto * ev = value->as<WindowSizeEvent>())
 			{
-				m_videoMode.size = (vec2u)ev->size();
+				m_screen.resolution = (vec2u)ev->size();
 			}
 			break;
 		}
@@ -400,7 +396,7 @@ namespace ml
 
 	Window & Window::setSize(const vec2u & value)
 	{
-		m_videoMode.size = value;
+		m_screen.resolution = value;
 		glfwSetWindowSize(
 			static_cast<GLFWwindow *>(m_window), 
 			value[0], 

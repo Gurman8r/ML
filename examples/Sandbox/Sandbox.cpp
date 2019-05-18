@@ -54,6 +54,7 @@ namespace DEMO
 
 	Sandbox::Sandbox() 
 		: EditorApplication() 
+		, sandbox(*this)
 	{
 	}
 
@@ -78,7 +79,7 @@ namespace DEMO
 				// Close (Escape)
 				if (ev->getKeyDown(ml::KeyCode::Escape))
 				{
-					this->close();
+					sandbox->close();
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -124,7 +125,7 @@ namespace DEMO
 			ML_Random.seed();
 
 			// Setup Std Out
-			if (!(self.rdbuf = ml::cout.rdbuf(self.rdstr.rdbuf())))
+			if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
 			{
 				return ml::Debug::fatal("Failed Redirecting Std Output Handle");
 			}
@@ -157,29 +158,31 @@ namespace DEMO
 
 		// Initialize Window
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (this->create(
-			self.title = ML_Prefs.GetString("Window", "title", "MemeLib"),
-			ml::VideoMode({ 
-				ML_Prefs.GetUint("Window", "width",			1280), 
-				ML_Prefs.GetUint("Window", "height",		720) },
-				ML_Prefs.GetUint("Window", "bitsPerPixel",	32)),
-			ml::Window::Style::Default, 
-			ml::ContextSettings 
+		if (sandbox->create(
+			sandbox.title = ML_Prefs.GetString("Window", "windowTitle", "New Window"),
+			ml::Screen
+			{ {
+			ML_Prefs.GetUint("Window", "windowWidth",	1280),
+			ML_Prefs.GetUint("Window", "windowHeight",	720) },
+			ML_Prefs.GetUint("Window", "bitsPerPixel",	32)
+			},
+			ML_Prefs.GetUint("Window", "windowStyle",	ml::Window::Default),
+			ml::Context
 			{
-				ML_Prefs.GetUint("Window", "majorVersion",	3),
-				ML_Prefs.GetUint("Window", "minorVersion",	3),
-				ML_Prefs.GetUint("Window", "profile",		ml::ContextSettings::Compat),
-				ML_Prefs.GetUint("Window", "depthBits",		24),
-				ML_Prefs.GetUint("Window", "stencilBits",	8),
-				ML_Prefs.GetBool("Window", "multisample",	false),
-				ML_Prefs.GetBool("Window", "srgbCapable",	false)
+			ML_Prefs.GetUint("Window", "majorVersion",	3),
+			ML_Prefs.GetUint("Window", "minorVersion",	3),
+			ML_Prefs.GetUint("Window", "profile",		ml::Context::Compat),
+			ML_Prefs.GetUint("Window", "depthBits",		24),
+			ML_Prefs.GetUint("Window", "stencilBits",	8),
+			ML_Prefs.GetBool("Window", "multisample",	false),
+			ML_Prefs.GetBool("Window", "srgbCapable",	false)
 			}
 		))
 		{
-			this->maximize();
-			this->seCursorMode(ml::Cursor::Normal);
-			this->setPosition((ml::VideoMode::desktop().size - this->getSize()) / 2);
-			this->setViewport(ml::vec2i::Zero, this->getFrameSize());
+			sandbox->maximize();
+			sandbox->seCursorMode(ml::Cursor::Normal);
+			sandbox->setPosition((ml::Screen::desktop().resolution - sandbox->getSize()) / 2);
+			sandbox->setViewport(ml::vec2i::Zero, sandbox->getFrameSize());
 		}
 		else
 		{
@@ -224,10 +227,10 @@ namespace DEMO
 
 		// Initialize Network
 		/* * * * * * * * * * * * * * * * * * * * */
-		self.isServer = ML_Prefs.GetBool("Network", "isServer", false);
-		self.isClient = ML_Prefs.GetBool("Network", "isClient", false);
+		sandbox.isServer = ML_Prefs.GetBool("Network", "isServer", false);
+		sandbox.isClient = ML_Prefs.GetBool("Network", "isClient", false);
 
-		if (self.isServer)
+		if (sandbox.isServer)
 		{
 			// Start Server
 			ml::Debug::log("Starting Server...");
@@ -239,7 +242,7 @@ namespace DEMO
 				}
 			}
 		}
-		else if (self.isClient)
+		else if (sandbox.isClient)
 		{
 			// Start Client
 			ml::Debug::log("Starting Client...");
@@ -291,9 +294,7 @@ namespace DEMO
 		// Load Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (!ML_Res.loadFromFile(ML_FS.getPathTo(ML_Prefs.GetString(
-			"General", 
-			"mainifest",
-			"../../../assets/manifest.txt"
+			"General", "mainifest", "../../../assets/manifest.txt"
 		))))
 		{
 			ml::Debug::logError("Failed Loading Manifest");
@@ -308,7 +309,7 @@ namespace DEMO
 		{
 			const ml::Image temp = ml::Image(*icon).flipVertically();
 
-			this->setIcons({ temp });
+			sandbox->setIcons({ temp });
 		}
 
 		// Setup Plugins
@@ -332,13 +333,18 @@ namespace DEMO
 
 		// Setup Canvas
 		/* * * * * * * * * * * * * * * * * * * * */
-		self.canvas.create();
+		sandbox.vao.create(ml::GL::Triangles).bind();
+		sandbox.vbo.create(ml::GL::DynamicDraw).bind();
+		sandbox.vbo.bufferData(NULL, ml::Shapes::RectQuad::Size);
+		ml::BufferLayout::Default.bind();
+		sandbox.vbo.unbind();
+		sandbox.vao.unbind();
 
 		// Setup Sprites
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Sprite * spr = ML_Res.sprites.get("neutrino"))
 		{
-			spr->setPosition(ml::vec2(0.95f, 0.925f) * this->getSize())
+			spr->setPosition(ml::vec2(0.95f, 0.925f) * sandbox->getSize())
 				.setScale	(0.5f)
 				.setRotation(0.0f)
 				.setOrigin	(0.5f)
@@ -695,7 +701,7 @@ namespace DEMO
 			}
 		}
 
-		// Launch Physics
+		// Setup Physics
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (!ML_Physics.launch(DemoPhysics::init))
 		{
@@ -709,8 +715,8 @@ namespace DEMO
 	{
 		// Update Title
 		/* * * * * * * * * * * * * * * * * * * * */
-		this->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
-			self.title,
+		sandbox->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
+			sandbox.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
 			ev->elapsed.delta(),
@@ -719,9 +725,9 @@ namespace DEMO
 
 		// Update Std Out
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (self.rdbuf)
+		if (sandbox.rdbuf)
 		{
-			ML_Terminal.printss(self.rdstr);
+			ML_Terminal.printss(sandbox.rdstr);
 		}
 
 		// Update Physics
@@ -730,11 +736,11 @@ namespace DEMO
 
 		// Update Network
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (self.isServer)
+		if (sandbox.isServer)
 		{
 			ML_NetServer.poll();
 		}
-		else if (self.isClient)
+		else if (sandbox.isClient)
 		{
 			ML_NetClient.poll();
 		}
@@ -743,14 +749,14 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		for (auto & pair : ML_Res.surfaces)
 		{
-			pair.second->resize(this->getFrameSize());
+			pair.second->resize(sandbox->getFrameSize());
 		}
 
 		// Update Camera
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Camera * camera = ML_CAMERA->get<ml::Camera>())
 		{
-			camera->updateRes(this->getFrameSize());
+			camera->updateRes(sandbox->getFrameSize());
 
 			// Camera Transform
 			if (ml::Transform * transform = ML_CAMERA->get<ml::Transform>())
@@ -761,7 +767,7 @@ namespace DEMO
 					// Target Transform
 					if (const ml::Transform * target = ent->get<ml::Transform>())
 					{
-						if (self.cameraOrbit)
+						if (sandbox.cameraOrbit)
 						{
 							camera->forward(target->getPos() - camera->position);
 
@@ -770,7 +776,7 @@ namespace DEMO
 							camera->position
 								+= camera->right()
 								*	ev->elapsed.delta()
-								*	self.cameraSpeed;
+								*	sandbox.cameraSpeed;
 						}
 					}
 				}
@@ -780,10 +786,10 @@ namespace DEMO
 		// Update Text
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
-			self.text["project_url"]
+			sandbox.text["project_url"]
 				.setFont(ML_Res.fonts.get("minecraft"))
 				.setFontSize(56)
-				.setPosition({ 48, (float)this->getFrameHeight() - 48 })
+				.setPosition({ 48, (float)sandbox->getFrameHeight() - 48 })
 				.setString(ML_PROJECT_URL);
 
 			const ml::Font *font	 = ML_Res.fonts.get("consolas");
@@ -796,14 +802,14 @@ namespace DEMO
 			size_t			lineNum	 = 0;
 			auto			newLine  = [&]() { return (linePos = (origin + (offset * (float)(lineNum++)))); };
 
-			self.text["gl_version"]
+			sandbox.text["gl_version"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("GL Version: {0}").format(
 					ML_GL.getString(ml::GL::Version)));
 
-			self.text["gl_vendor"]
+			sandbox.text["gl_vendor"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -812,7 +818,7 @@ namespace DEMO
 
 			newLine();
 
-			self.text["framerate"]
+			sandbox.text["framerate"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -820,7 +826,7 @@ namespace DEMO
 					ev->elapsed.delta(),
 					ML_Engine.frameRate()));
 
-			self.text["time_total"]
+			sandbox.text["time_total"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -829,14 +835,14 @@ namespace DEMO
 
 			newLine();
 
-			self.text["time_sin"]
+			sandbox.text["time_sin"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("sin: {0}").format(
 					std::sinf(ML_Engine.mainTimer().elapsed().delta())));
 
-			self.text["time_cos"]
+			sandbox.text["time_cos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -845,29 +851,29 @@ namespace DEMO
 
 			newLine();
 
-			self.text["cursor_pos"]
+			sandbox.text["cursor_pos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cx/cy: {0}").format(
-					this->getCursorPos()));
+					sandbox->getCursorPos()));
 
-			self.text["window_pos"]
+			sandbox.text["window_pos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("wx/wy: {0}").format(
-					this->getPosition()));
+					sandbox->getPosition()));
 
-			self.text["window_size"]
+			sandbox.text["window_size"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("ww/wh: {0}").format(
-					this->getSize()));
+					sandbox->getSize()));
 
 			// Ensure text update before main draw call
-			for (auto & pair : self.text)
+			for (auto & pair : sandbox.text)
 			{
 				pair.second.update();
 			}
@@ -884,12 +890,12 @@ namespace DEMO
 			scene->bind();
 
 			// Clear Screen
-			this->clear(ML_CAMERA->get<ml::Camera>()->color);
+			sandbox->clear(ML_CAMERA->get<ml::Camera>()->color);
 
 			// Draw Renderers
 			for (const auto & pair : ML_Res.entities)
 			{
-				this->draw(pair.second->get<ml::Renderer>());
+				sandbox->draw(pair.second->get<ml::Renderer>());
 			}
 
 			// Draw 2D
@@ -921,11 +927,11 @@ namespace DEMO
 							new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	NULL),
 							}));
 
-					static ml::RenderBatch batch(&self.canvas.vao(), &self.canvas.vbo(), material);
+					static ml::RenderBatch batch(&sandbox.vao, &sandbox.vbo, material);
 
 					for (const auto & pair : ML_Res.sprites)
 					{
-						this->draw(pair.second, batch);
+						sandbox->draw(pair.second, batch);
 					}
 				}
 
@@ -941,11 +947,11 @@ namespace DEMO
 							new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	NULL),
 							}));
 
-					static ml::RenderBatch batch(&self.canvas.vao(), &self.canvas.vbo(), material);
+					static ml::RenderBatch batch(&sandbox.vao, &sandbox.vbo, material);
 
-					for (const auto & pair : self.text)
+					for (const auto & pair : sandbox.text)
 					{
-						this->draw(pair.second, batch);
+						sandbox->draw(pair.second, batch);
 					}
 				}
 
@@ -982,9 +988,9 @@ namespace DEMO
 			post->bind();
 			if (const ml::Surface * scene = ML_Res.surfaces.get("surface_main"))
 			{
-				scene->shader()->setUniform("Effect.mode", self.effectMode);
+				scene->shader()->setUniform("Effect.mode", sandbox.effectMode);
 
-				this->draw(*scene);
+				sandbox->draw(*scene);
 			}
 			post->unbind();
 		}
@@ -1040,14 +1046,14 @@ namespace DEMO
 					"Juicy",
 					"Inverted",
 				};
-				ImGui::Combo("Shader##Framebuffer", &self.effectMode, fbo_modes, IM_ARRAYSIZE(fbo_modes));
+				ImGui::Combo("Shader##Framebuffer", &sandbox.effectMode, fbo_modes, IM_ARRAYSIZE(fbo_modes));
 				ImGui::Separator();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				ImGui::Text("Camera");
-				ImGui::Checkbox("Orbit##Camera", &self.cameraOrbit);
-				ImGui::DragFloat("Speed##Camera", &self.cameraSpeed, 0.1f, -5.f, 5.f);
+				ImGui::Checkbox("Orbit##Camera", &sandbox.cameraOrbit);
+				ImGui::DragFloat("Speed##Camera", &sandbox.cameraSpeed, 0.1f, -5.f, 5.f);
 				ImGui::Separator();
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -1062,10 +1068,10 @@ namespace DEMO
 		ml::Debug::log("Unloading...");
 
 		// Cleanup Std Out
-		if (self.rdbuf) 
+		if (sandbox.rdbuf) 
 		{ 
-			ml::cout.rdbuf(self.rdbuf);
-			self.rdbuf = NULL; 
+			ml::cout.rdbuf(sandbox.rdbuf);
+			sandbox.rdbuf = NULL; 
 		}
 
 		// Cleanup Resources

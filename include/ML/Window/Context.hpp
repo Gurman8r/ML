@@ -1,5 +1,5 @@
-#ifndef _ML_CONTEXT_SETTINGS_HPP_
-#define _ML_CONTEXT_SETTINGS_HPP_
+#ifndef _ML_CONTEXT_HPP_
+#define _ML_CONTEXT_HPP_
 
 #include <ML/Window/Export.hpp>
 #include <ML/Core/ITrackable.hpp>
@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API ContextSettings final
+	struct ML_WINDOW_API Context final
 		: public ITrackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -33,7 +33,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		ContextSettings(
+		Context(
 			uint32_t	majorVersion	= 1,
 			uint32_t	minorVersion	= 1,
 			uint32_t	profile			= Profile::Compat,
@@ -43,7 +43,7 @@ namespace ml
 			bool		srgbCapable		= false
 		);
 
-		ContextSettings(const ContextSettings & copy);
+		Context(const Context & copy);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	};
@@ -51,4 +51,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_CONTEXT_SETTINGS_HPP_
+#endif // !_ML_CONTEXT_HPP_

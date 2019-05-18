@@ -1,10 +1,11 @@
 #include <ML/Editor/Browser.hpp>
+#include <ML/Editor/Editor.hpp>
+#include <ML/Editor/EditorEvents.hpp>
+#include <ML/Editor/ImGui.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/OS.hpp>
-#include <ML/Editor/ImGui.hpp>
 
 namespace ml
 {
@@ -15,7 +16,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Browser::Browser()
-		: GUI_Window("Browser")
+		: BaseWidget("Browser")
 		, m_path()
 		, m_dir()
 		, m_type(T_Dir)
@@ -61,7 +62,7 @@ namespace ml
 		}
 	}
 
-	bool Browser::drawGui(bool * p_open)
+	bool Browser::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{

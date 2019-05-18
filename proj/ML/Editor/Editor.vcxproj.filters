@@ -108,15 +108,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\GUI.hpp">
       <Filter>Header Files\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\GUI_Base.hpp">
-      <Filter>Header Files\Internal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\GUI_Tool.hpp">
-      <Filter>Header Files\Internal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\GUI_Window.hpp">
-      <Filter>Header Files\Internal</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp">
       <Filter>Header Files\Internal</Filter>
     </ClInclude>
@@ -132,9 +123,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Document.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\StyleLoader.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -146,6 +134,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorCommands.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\StyleLoader.hpp">
+      <Filter>Header Files\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\BaseWidget.hpp">
+      <Filter>Header Files\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,15 +197,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\GUI.cpp">
       <Filter>Source Files\Internal</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\GUI_Base.cpp">
-      <Filter>Source Files\Internal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\GUI_Tool.cpp">
-      <Filter>Source Files\Internal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\GUI_Window.cpp">
-      <Filter>Source Files\Internal</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGui_Builtin.cpp">
       <Filter>Source Files\Internal</Filter>
     </ClCompile>
@@ -226,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorCommands.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\BaseWidget.cpp">
+      <Filter>Source Files\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

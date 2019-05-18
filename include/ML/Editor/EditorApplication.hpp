@@ -10,7 +10,7 @@ namespace ml
 		: public Application
 	{
 	public:
-		EditorApplication();
+		EditorApplication(EventSystem & eventSystem);
 		virtual ~EditorApplication();
 
 	public:

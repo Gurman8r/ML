@@ -1,18 +1,15 @@
 #ifndef _ML_TEXT_EDITOR_HPP_
 #define _ML_TEXT_EDITOR_HPP_
 
-#include <ML/Editor/GUI_Window.hpp>
+#include <ML/Editor/BaseWidget.hpp>
 #include <ML/Editor/Document.hpp>
-
-#define ML_TextEditor ml::TextEditor::getInstance()
 
 namespace ml
 {
 	class ML_EDITOR_API TextEditor final
-		: public GUI_Window
-		, public ISingleton<TextEditor>
+		: public BaseWidget
 	{
-		friend class ISingleton<TextEditor>;
+		friend class Editor;
 
 	private:
 		TextEditor();
@@ -20,7 +17,7 @@ namespace ml
 
 	public:
 		void onEvent(const IEvent * value) override;
-		bool drawGui(bool * p_open) override;
+		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	private:
 		void draw_menu();

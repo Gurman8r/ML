@@ -183,7 +183,7 @@
     <None Include="..\..\..\assets\shaders\common\Vert.MVP.shader" />
     <None Include="..\..\..\assets\shaders\common\Vert.shader" />
     <None Include="..\..\..\assets\shaders\example.shader" />
-    <None Include="..\..\..\assets\shaders\framebuffer.shader" />
+    <None Include="..\..\..\assets\shaders\surface.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />
     <None Include="..\..\..\assets\shaders\lighting.shader" />
     <None Include="..\..\..\assets\shaders\normal.shader" />

@@ -6,19 +6,19 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	EditorApplication::EditorApplication()
-		: Application()
+	EditorApplication::EditorApplication(EventSystem & eventSystem)
+		: Application(eventSystem)
 	{
-		ML_EventSystem.addListener(EditorEvent::EV_Gui, this);
-		ML_EventSystem.addListener(EditorEvent::EV_File_New, this);
-		ML_EventSystem.addListener(EditorEvent::EV_File_Open, this);
-		ML_EventSystem.addListener(EditorEvent::EV_File_Save, this);
-		ML_EventSystem.addListener(EditorEvent::EV_File_Close, this);
-		ML_EventSystem.addListener(EditorEvent::EV_Edit_Undo, this);
-		ML_EventSystem.addListener(EditorEvent::EV_Edit_Redo, this);
-		ML_EventSystem.addListener(EditorEvent::EV_Edit_Cut, this);
-		ML_EventSystem.addListener(EditorEvent::EV_Edit_Copy, this);
-		ML_EventSystem.addListener(EditorEvent::EV_Edit_Paste, this);
+		getEventSystem().addListener(EditorEvent::EV_Gui,		this);
+		getEventSystem().addListener(EditorEvent::EV_File_New,	this);
+		getEventSystem().addListener(EditorEvent::EV_File_Open,	this);
+		getEventSystem().addListener(EditorEvent::EV_File_Save,	this);
+		getEventSystem().addListener(EditorEvent::EV_File_Close,this);
+		getEventSystem().addListener(EditorEvent::EV_Edit_Undo,	this);
+		getEventSystem().addListener(EditorEvent::EV_Edit_Redo,	this);
+		getEventSystem().addListener(EditorEvent::EV_Edit_Cut,	this);
+		getEventSystem().addListener(EditorEvent::EV_Edit_Copy,	this);
+		getEventSystem().addListener(EditorEvent::EV_Edit_Paste,this);
 	}
 
 	EditorApplication::~EditorApplication() { }

@@ -1,17 +1,14 @@
 #ifndef _ML_INSPECTOR_HPP_
 #define _ML_INSPECTOR_HPP_
 
-#include <ML/Editor/GUI_Window.hpp>
-
-#define ML_Inspector ml::Inspector::getInstance()
+#include <ML/Editor/BaseWidget.hpp>
 
 namespace ml
 {
 	class ML_EDITOR_API Inspector final
-		: public GUI_Window
-		, public ISingleton<Inspector>
+		: public BaseWidget
 	{
-		friend class ISingleton<Inspector>;
+		friend class Editor;
 
 	private:
 		Inspector();
@@ -19,14 +16,14 @@ namespace ml
 
 	public:
 		void onEvent(const IEvent * value) override;
-		bool drawGui(bool * p_open) override;
+		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	public:
 		template <
-			typename _Fun
-		> inline bool drawFun(bool * p_open, _Fun fun)
+			class Fun
+		> inline bool drawFun(const GuiEvent * ev, bool * p_open, Fun && fun)
 		{
-			if (drawGui(p_open))
+			if (drawGui(ev, p_open))
 			{
 				fun();
 			}

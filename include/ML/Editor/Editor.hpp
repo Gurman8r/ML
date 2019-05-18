@@ -14,10 +14,30 @@
 #include <ML/Editor/NetworkHUD.hpp>
 #include <ML/Editor/Profiler.hpp>
 
-#define ML_Editor ml::Editor::getInstance()
+/* * * * * * * * * * * * * * * * * * * * */
+
+#define ML_Editor		ml::Editor::getInstance()
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+#define ML_Browser		ML_Editor.browser
+#define ML_Builder		ML_Editor.builder
+#define ML_Dockspace	ML_Editor.dockspace
+#define ML_Inspector	ML_Editor.inspector
+#define ML_MainMenuBar	ML_Editor.mainMenuBar
+#define ML_NetworkHUD	ML_Editor.networkHUD
+#define ML_Profiler		ML_Editor.profiler
+#define ML_SceneView	ML_Editor.sceneView
+#define ML_ResourceView ML_Editor.resourceView
+#define ML_Terminal		ML_Editor.terminal
+#define ML_TextEditor	ML_Editor.textEditor
+
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	class ML_EDITOR_API Editor final
 		: public ITrackable
 		, public ISingleton<Editor>
@@ -27,6 +47,19 @@ namespace ml
 	private:
 		Editor();
 		~Editor();
+
+	public:
+		Browser			browser;
+		Builder			builder;
+		Dockspace		dockspace;
+		Inspector		inspector;
+		MainMenuBar		mainMenuBar;
+		NetworkHUD		networkHUD;
+		Profiler		profiler;
+		ResourceView	resourceView;
+		SceneView		sceneView;
+		Terminal		terminal;
+		TextEditor		textEditor;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -41,7 +74,7 @@ namespace ml
 		bool show_terminal		= true;
 		bool show_browser		= true;
 		bool show_builder		= true;
-		bool show_inspector		= false;
+		bool show_inspector		= true;
 		bool show_sceneView		= true;
 		bool show_textEditor	= false;
 		bool show_resourceView	= true;
@@ -50,7 +83,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
-	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_EDITOR_HPP_

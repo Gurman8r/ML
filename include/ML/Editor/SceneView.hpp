@@ -1,20 +1,17 @@
 #ifndef _ML_SCENE_VIEW_HPP_
 #define _ML_SCENE_VIEW_HPP_
 
-#include <ML/Editor/GUI_Window.hpp>
+#include <ML/Editor/BaseWidget.hpp>
 #include <ML/Graphics/Texture.hpp>
-
-#define ML_SceneView ml::SceneView::getInstance()
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API SceneView final
-		: public GUI_Window
-		, public ISingleton<SceneView>
+		: public BaseWidget
 	{
-		friend class ISingleton<SceneView>;
+		friend class Editor;
 
 	private:
 		SceneView();
@@ -22,14 +19,14 @@ namespace ml
 
 	public:
 		void onEvent(const IEvent * value) override;
-		bool drawGui(bool * p_open) override;
+		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	public:
 		template <
-			typename _Fun
-		> inline bool drawFun(bool * p_open, _Fun fun)
+			class Fun
+		> inline bool drawFun(const GuiEvent * ev, bool * p_open, Fun && fun)
 		{
-			if (drawGui(p_open))
+			if (drawGui(ev, p_open))
 			{
 				fun();
 			}

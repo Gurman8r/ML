@@ -1,5 +1,5 @@
 #include <ML/Editor/TextEditor.hpp>
-#include <ML/Editor/Terminal.hpp>
+#include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 
 namespace ml
@@ -7,7 +7,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	TextEditor::TextEditor()
-		: GUI_Window("Text Editor")
+		: BaseWidget("Text Editor")
 		, m_selected(-1)
 	{
 	}
@@ -22,7 +22,7 @@ namespace ml
 	{
 	}
 
-	bool TextEditor::drawGui(bool * p_open)
+	bool TextEditor::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		if (beginDraw(p_open,
 			ImGuiWindowFlags_MenuBar |

@@ -1,20 +1,19 @@
 #ifndef _ML_BROWSER_HPP_
 #define _ML_BROWSER_HPP_
 
-#include <ML/Editor/GUI_Window.hpp>
+#include <ML/Editor/BaseWidget.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Bytes.hpp>
 
-#define ML_Browser ml::Browser::getInstance()
-
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	// File Browser
 	class ML_EDITOR_API Browser final
-		: public GUI_Window
-		, public ISingleton<Browser>
+		: public BaseWidget
 	{
-		friend class ISingleton<Browser>;
+		friend class Editor;
 
 	public:
 		enum : char
@@ -37,7 +36,7 @@ namespace ml
 
 	public:
 		void onEvent(const IEvent * value) override;
-		bool drawGui(bool * p_open) override;
+		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	private:
 		void draw_menu();
@@ -90,5 +89,7 @@ namespace ml
 		String		m_preview;	// File Contents
 		bool		m_isDouble;	// Has Double Click
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 #endif // !_ML_BROWSER_HPP_

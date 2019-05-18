@@ -5,7 +5,7 @@
 	type	=	surface
 	name	=	surface_main
 	model	=	default_quad
-	shader	=	framebuffer
+	shader	=	surface
 	width	=	1920
 	height	=	1080
 </import>
@@ -14,7 +14,7 @@
 	type	=	surface
 	name	=	surface_post
 	model	=	default_quad
-	shader	=	framebuffer
+	shader	=	surface
 	width	=	1920
 	height	=	1080
 </import>

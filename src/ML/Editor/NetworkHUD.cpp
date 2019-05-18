@@ -1,4 +1,5 @@
 #include <ML/Editor/NetworkHUD.hpp>
+#include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
@@ -6,7 +7,7 @@
 namespace ml
 {
 	NetworkHUD::NetworkHUD()
-		: GUI_Window("Network")
+		: BaseWidget("Network")
 	{
 	}
 
@@ -20,7 +21,7 @@ namespace ml
 	{
 	}
 
-	bool NetworkHUD::drawGui(bool * p_open)
+	bool NetworkHUD::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{

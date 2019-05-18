@@ -32,8 +32,6 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
-#include <ML/Physics/Physics.hpp>
-#include <ML/Physics/Force.hpp>
 #include <ML/Physics/Rigidbody.hpp>
 #include <ML/Physics/BoxCollider.hpp>
 #include <ML/Physics/SphereCollider.hpp>
@@ -43,17 +41,12 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_CAMERA	ML_Res.entities.get("camera")
-#define ML_LIGHT	ML_Res.entities.get("light")
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Sandbox::Sandbox() 
-		: EditorApplication() 
+	Sandbox::Sandbox(ml::EventSystem & eventSystem)
+		: EditorApplication(eventSystem)
 		, sandbox(*this)
 	{
 	}
@@ -172,7 +165,7 @@ namespace DEMO
 			ev->prefs.GetUint("Window", "majorVersion",	3),
 			ev->prefs.GetUint("Window", "minorVersion",	3),
 			ev->prefs.GetUint("Window", "profile",		ml::Context::Compat),
-			ev->prefs.GetUint("Window", "depthBits",		24),
+			ev->prefs.GetUint("Window", "depthBits",	24),
 			ev->prefs.GetUint("Window", "stencilBits",	8),
 			ev->prefs.GetBool("Window", "multisample",	false),
 			ev->prefs.GetBool("Window", "srgbCapable",	false)
@@ -260,42 +253,42 @@ namespace DEMO
 	{
 		// Load Default Meshes
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev->res.meshes.load("default_triangle")->loadFromMemory(
+		ev->resources.meshes.load("default_triangle")->loadFromMemory(
 			ml::Shapes::Triangle::Vertices,
 			ml::Shapes::Triangle::Indices
 		);
-		ev->res.meshes.load("default_quad")->loadFromMemory(
+		ev->resources.meshes.load("default_quad")->loadFromMemory(
 			ml::Shapes::Quad::Vertices,
 			ml::Shapes::Quad::Indices
 		);
-		ev->res.meshes.load("default_cube")->loadFromMemory(
+		ev->resources.meshes.load("default_cube")->loadFromMemory(
 			ml::Shapes::Cube::Vertices,
 			ml::Shapes::Cube::Indices
 		);
-		ev->res.meshes.load("default_skybox")->loadFromMemory(
+		ev->resources.meshes.load("default_skybox")->loadFromMemory(
 			ml::Shapes::Sky::Vertices
 		);
 
 		// Load Default Models
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev->res.models.load("default_triangle")->loadFromMemory(
-			*ev->res.meshes.get("default_triangle")
+		ev->resources.models.load("default_triangle")->loadFromMemory(
+			*ev->resources.meshes.get("default_triangle")
 		);
-		ev->res.models.load("default_quad")->loadFromMemory(
-			*ev->res.meshes.get("default_quad")
+		ev->resources.models.load("default_quad")->loadFromMemory(
+			*ev->resources.meshes.get("default_quad")
 		);
-		ev->res.models.load("default_cube")->loadFromMemory(
-			*ev->res.meshes.get("default_cube")
+		ev->resources.models.load("default_cube")->loadFromMemory(
+			*ev->resources.meshes.get("default_cube")
 		);
-		ev->res.models.load("default_skybox")->loadFromMemory(
-			*ev->res.meshes.get("default_skybox")
+		ev->resources.models.load("default_skybox")->loadFromMemory(
+			*ev->resources.meshes.get("default_skybox")
 		);
 
 		// Load Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev->res.loadFromFile(ML_FS.getPathTo(ev->prefs.GetString(
-			"General", "mainifest", "../../../assets/manifest.txt"
-		))))
+		if (!ev->resources.loadFromFile(ML_FS.getPathTo(
+			ev->prefs.GetString("General", "mainifest", "../../../assets/manifest.txt")
+		)))
 		{
 			ml::Debug::logError("Failed Loading Manifest");
 		}
@@ -305,7 +298,7 @@ namespace DEMO
 	{
 		// Set Icon
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Image * icon = ev->res.images.get("icon"))
+		if (const ml::Image * icon = ev->resources.images.get("icon"))
 		{
 			const ml::Image temp = ml::Image(*icon).flipVertically();
 
@@ -314,9 +307,9 @@ namespace DEMO
 
 		// Setup Plugins
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev->res.plugins.empty())
+		if (!ev->resources.plugins.empty())
 		{
-			if (ml::Plugin * plugin = ev->res.plugins.get("TestPlugin"))
+			if (ml::Plugin * plugin = ev->resources.plugins.get("TestPlugin"))
 			{
 				if (void * msg = plugin->lib().callFunction<void *>(
 					ML_str(ML_Plugin_Test), "TEST"
@@ -342,7 +335,7 @@ namespace DEMO
 
 		// Setup Sprites
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ml::Sprite * spr = ev->res.sprites.get("neutrino"))
+		if (ml::Sprite * spr = ev->resources.sprites.get("neutrino"))
 		{
 			spr->setPosition(ml::vec2(0.95f, 0.925f) * sandbox->getSize())
 				.setScale	(0.5f)
@@ -356,8 +349,10 @@ namespace DEMO
 		{
 			// Camera
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->res.entities.get("camera"))
+			if (ml::Entity * ent = ev->resources.entities.get("camera"))
 			{
+				sandbox.camera = ent;
+
 				ml::Camera * camera = ent->add<ml::Camera>(
 					ev->prefs.GetFloat("Graphics", "fieldOfView", 45.0),
 					ev->prefs.GetFloat("Graphics", "perspNear", 0.1f),
@@ -375,8 +370,10 @@ namespace DEMO
 
 			// Light
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->res.entities.get("light"))
+			if (ml::Entity * ent = ev->resources.entities.get("light"))
 			{
+				sandbox.light = ent;
+
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f, 1.0f, 30.0f }, // position
 					ml::vec3 { 1.0f }, // scale
@@ -387,31 +384,31 @@ namespace DEMO
 					ml::Color::LightYellow
 				);
 
-				const ml::Material * material = ev->res.materials.load_forward(
+				const ml::Material * material = ev->resources.materials.load_forward(
 					"mat_light",
-					ev->res.shaders.get("solid"),
+					ev->resources.shaders.get("solid"),
 					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		ML_CAMERA->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		ML_CAMERA->get<ml::Transform>()->getMat()),
+						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4_cr	(ML_FRAG_MAIN_COL,	light->color),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->res.models.get("sphere8x6"),
+					ev->resources.models.get("sphere8x6"),
 					material,
 					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, 1 } },
+						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
+						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
 					})
 				);
 			}
 
 			// Borg
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->res.entities.get("borg"))
+			if (ml::Entity * ent = ev->resources.entities.get("borg"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 5.0f, 0.0f, 0.0f }, // position
@@ -432,32 +429,32 @@ namespace DEMO
 					RB_BORG, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->res.materials.load_forward(
+				const ml::Material * material = ev->resources.materials.load_forward(
 					"mat_borg",
-					ev->res.shaders.get("basic"),
+					ev->resources.shaders.get("basic"),
 					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		ML_CAMERA->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		ML_CAMERA->get<ml::Transform>()->getMat()),
+						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->res.textures.get("borg")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->resources.textures.get("borg")),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->res.models.get("default_cube"),
+					ev->resources.models.get("default_cube"),
 					material,
 					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, 1 } },
+						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
+						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
 					})
 				);
 			}
 
 			// Cube
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->res.entities.get("cube"))
+			if (ml::Entity * ent = ev->resources.entities.get("cube"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f, 0.0f, -5.0f }, // position
@@ -478,32 +475,32 @@ namespace DEMO
 					RB_CUBE, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->res.materials.load_forward(
+				const ml::Material * material = ev->resources.materials.load_forward(
 					"mat_cube",
-					ev->res.shaders.get("normal"),
+					ev->resources.shaders.get("normal"),
 					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		ML_CAMERA->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		ML_CAMERA->get<ml::Transform>()->getMat()),
+						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->res.textures.get("stone_dm")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->resources.textures.get("stone_dm")),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->res.models.get("cube"),
+					ev->resources.models.get("cube"),
 					material,
 					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, 1 } },
+						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
+						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
 					})
 				);
 			}
 
 			// Navball
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->res.entities.get("navball"))
+			if (ml::Entity * ent = ev->resources.entities.get("navball"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { -5.0f, 0.0f, 0.0f }, // position
@@ -524,32 +521,32 @@ namespace DEMO
 					RB_NAVBALL, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->res.materials.load_forward(
+				const ml::Material * material = ev->resources.materials.load_forward(
 					"mat_navball",
-					ev->res.shaders.get("basic"),
+					ev->resources.shaders.get("basic"),
 					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		ML_CAMERA->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		ML_CAMERA->get<ml::Transform>()->getMat()),
+						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->res.textures.get("navball")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->resources.textures.get("navball")),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->res.models.get("sphere32x24"),
+					ev->resources.models.get("sphere32x24"),
 					material,
 					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, 1 } },
+						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
+						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
 						}
 				));
 			}
 
 			// Moon
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->res.entities.get("moon"))
+			if (ml::Entity * ent = ev->resources.entities.get("moon"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f, 0.0f, 5.0f }, // position
@@ -570,39 +567,39 @@ namespace DEMO
 					RB_MOON, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->res.materials.load_forward(
+				const ml::Material * material = ev->resources.materials.load_forward(
 					"mat_moon",
-					ev->res.shaders.get("lighting"),
+					ev->resources.shaders.get("lighting"),
 					ml::List<ml::uni_base *> ({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		ML_CAMERA->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		ML_CAMERA->get<ml::Transform>()->getMat()),
+						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_vec3_cr	("Frag.cameraPos",	ML_CAMERA->get<ml::Transform>()->getPos()),
-						new ml::uni_vec3_cr	("Frag.lightPos",	ML_LIGHT->get<ml::Transform>()->getPos()),
-						new ml::uni_col4_cr	("Frag.diffuse",	ML_LIGHT->get<ml::Light>()->color),
+						new ml::uni_vec3_cr	("Frag.cameraPos",	sandbox.camera->get<ml::Transform>()->getPos()),
+						new ml::uni_vec3_cr	("Frag.lightPos",	sandbox.light->get<ml::Transform>()->getPos()),
+						new ml::uni_col4_cr	("Frag.diffuse",	sandbox.light->get<ml::Light>()->color),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->res.textures.get("moon_dm")),
-						new ml::uni_tex_cp	("Frag.specTex",	ev->res.textures.get("moon_nm")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->resources.textures.get("moon_dm")),
+						new ml::uni_tex_cp	("Frag.specTex",	ev->resources.textures.get("moon_nm")),
 						new ml::uni_flt		("Frag.ambient",	0.01f),
 						new ml::uni_flt		("Frag.specular",	0.1f),
 						new ml::uni_int		("Frag.shininess",	8),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->res.models.get("sphere32x24"),
+					ev->resources.models.get("sphere32x24"),
 					material,
 					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, 1 } },
+						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
+						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
 						}
 				));
 			}
 
 			// Earth
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->res.entities.get("earth"))
+			if (ml::Entity * ent = ev->resources.entities.get("earth"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f }, // position
@@ -623,39 +620,39 @@ namespace DEMO
 					RB_EARTH, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->res.materials.load_forward(
+				const ml::Material * material = ev->resources.materials.load_forward(
 					"mat_earth",
-					ev->res.shaders.get("lighting"),
+					ev->resources.shaders.get("lighting"),
 					ml::List<ml::uni_base *> ({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		ML_CAMERA->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		ML_CAMERA->get<ml::Transform>()->getMat()),
+						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_vec3_cr	("Frag.cameraPos",	ML_CAMERA->get<ml::Transform>()->getPos()),
-						new ml::uni_vec3_cr	("Frag.lightPos",	ML_LIGHT->get<ml::Transform>()->getPos()),
-						new ml::uni_col4_cr	("Frag.diffuse",	ML_LIGHT->get<ml::Light>()->color),
+						new ml::uni_vec3_cr	("Frag.cameraPos",	sandbox.camera->get<ml::Transform>()->getPos()),
+						new ml::uni_vec3_cr	("Frag.lightPos",	sandbox.light->get<ml::Transform>()->getPos()),
+						new ml::uni_col4_cr	("Frag.diffuse",	sandbox.light->get<ml::Light>()->color),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->res.textures.get("earth_dm")),
-						new ml::uni_tex_cp	("Frag.specTex",	ev->res.textures.get("earth_sm")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->resources.textures.get("earth_dm")),
+						new ml::uni_tex_cp	("Frag.specTex",	ev->resources.textures.get("earth_sm")),
 						new ml::uni_flt		("Frag.ambient",	0.01f),
 						new ml::uni_flt		("Frag.specular",	0.1f),
 						new ml::uni_int		("Frag.shininess",	8),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->res.models.get("sphere32x24"),
+					ev->resources.models.get("sphere32x24"),
 					material,
 					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, 1 } },
+						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
+						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
 					}
 				));
 			}
 
 			// Ground
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->res.entities.get("ground"))
+			if (ml::Entity * ent = ev->resources.entities.get("ground"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f, -2.5f, 0.0f }, // position
@@ -677,25 +674,25 @@ namespace DEMO
 					RB_GROUND, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->res.materials.load_forward(
+				const ml::Material * material = ev->resources.materials.load_forward(
 					"mat_ground",
-					ev->res.shaders.get("normal"),
+					ev->resources.shaders.get("normal"),
 					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		ML_CAMERA->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		ML_CAMERA->get<ml::Transform>()->getMat()),
+						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->res.textures.get("stone_dm")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->resources.textures.get("stone_dm")),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->res.models.get("cube"),
+					ev->resources.models.get("cube"),
 					material,
 					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, 1 } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, 1 } },
+						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
+						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
+						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
 					})
 				);
 			}
@@ -719,8 +716,8 @@ namespace DEMO
 			sandbox.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
-			ev->elapsed.delta(),
-			ML_Engine.frameRate()
+			ev->engine.elapsed().delta(),
+			ev->engine.frameRate()
 		));
 
 		// Update Std Out
@@ -747,22 +744,22 @@ namespace DEMO
 
 		// Update Effects
 		/* * * * * * * * * * * * * * * * * * * * */
-		for (auto & pair : ev->res.surfaces)
+		for (auto & pair : ev->resources.surfaces)
 		{
 			pair.second->resize(sandbox->getFrameSize());
 		}
 
 		// Update Camera
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ml::Camera * camera = ML_CAMERA->get<ml::Camera>())
+		if (ml::Camera * camera = sandbox.camera->get<ml::Camera>())
 		{
 			camera->updateRes(sandbox->getFrameSize());
 
 			// Camera Transform
-			if (ml::Transform * transform = ML_CAMERA->get<ml::Transform>())
+			if (ml::Transform * transform = sandbox.camera->get<ml::Transform>())
 			{
 				// Target Entity
-				if (const ml::Entity * ent = ev->res.entities.get("earth"))
+				if (const ml::Entity * ent = ev->resources.entities.get("earth"))
 				{
 					// Target Transform
 					if (const ml::Transform * target = ent->get<ml::Transform>())
@@ -775,7 +772,7 @@ namespace DEMO
 
 							camera->position
 								+= camera->right()
-								*	ev->elapsed.delta()
+								*	ev->engine.elapsed().delta()
 								*	sandbox.cameraSpeed;
 						}
 					}
@@ -787,12 +784,12 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
 			sandbox.text["project_url"]
-				.setFont(ev->res.fonts.get("minecraft"))
+				.setFont(ev->resources.fonts.get("minecraft"))
 				.setFontSize(56)
 				.setPosition({ 48, (float)sandbox->getFrameHeight() - 48 })
 				.setString(ML_PROJECT_URL);
 
-			const ml::Font *font	 = ev->res.fonts.get("consolas");
+			const ml::Font *font	 = ev->resources.fonts.get("consolas");
 			const uint32_t	fontSize = 24;
 			const float		hOff	 = 0.0f;
 			const float		vOff	 = 4.0f;
@@ -807,14 +804,16 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("GL Version: {0}").format(
-					ML_GL.getString(ml::GL::Version)));
+					ML_GL.getString(ml::GL::Version))
+				);
 
 			sandbox.text["gl_vendor"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("GL Vendor: {0}").format(
-					ML_GL.getString(ml::GL::Vendor)));
+					ML_GL.getString(ml::GL::Vendor))
+				);
 
 			newLine();
 
@@ -823,15 +822,17 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("{0} ms/frame ({1} fps)").format(
-					ev->elapsed.delta(),
-					ML_Engine.frameRate()));
+					ev->engine.elapsed().delta(),
+					ev->engine.frameRate())
+				);
 
 			sandbox.text["time_total"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("time: {0}").format(
-					ML_Engine.mainTimer().elapsed()));
+					ev->engine.mainTimer().elapsed())
+				);
 
 			newLine();
 
@@ -840,14 +841,16 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("sin: {0}").format(
-					std::sinf(ML_Engine.mainTimer().elapsed().delta())));
+					std::sinf(ev->engine.mainTimer().elapsed().delta()))
+				);
 
 			sandbox.text["time_cos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cos: {0}").format(
-					std::cosf(ML_Engine.mainTimer().elapsed().delta())));
+					std::cosf(ev->engine.mainTimer().elapsed().delta()))
+				);
 
 			newLine();
 
@@ -856,21 +859,24 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cx/cy: {0}").format(
-					sandbox->getCursorPos()));
+					sandbox->getCursorPos())
+				);
 
 			sandbox.text["window_pos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("wx/wy: {0}").format(
-					sandbox->getPosition()));
+					sandbox->getPosition())
+				);
 
 			sandbox.text["window_size"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("ww/wh: {0}").format(
-					sandbox->getSize()));
+					sandbox->getSize())
+				);
 
 			// Ensure text update before main draw call
 			for (auto & pair : sandbox.text)
@@ -884,16 +890,16 @@ namespace DEMO
 	{
 		// Draw Scene
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Surface * scene = ev->res.surfaces.get("surface_main"))
+		if (const ml::Surface * scene = ev->resources.surfaces.get("surface_main"))
 		{
 			// Bind Scene
 			scene->bind();
 
 			// Clear Screen
-			sandbox->clear(ML_CAMERA->get<ml::Camera>()->color);
+			sandbox->clear(sandbox.camera->get<ml::Camera>()->color);
 
 			// Draw Renderers
-			for (const auto & pair : ev->res.entities)
+			for (const auto & pair : ev->resources.entities)
 			{
 				sandbox->draw(pair.second->get<ml::Renderer>());
 			}
@@ -902,23 +908,23 @@ namespace DEMO
 			/* * * * * * * * * * * * * * * * * * * * */
 			{
 				// Ortho Matrix
-				const ml::mat4 & ortho = ML_CAMERA->get<ml::Camera>()->getOrthoMatrix();
+				const ml::mat4 & ortho = sandbox.camera->get<ml::Camera>()->getOrthoMatrix();
 
 				// Render States
 				static ml::RenderStates states
 				({
-					{ ml::GL::AlphaTest,	{ ml::RenderVar::Bool, 1 } },
-					{ ml::GL::Blend,		{ ml::RenderVar::Bool, 1 } },
-					{ ml::GL::CullFace,		{ ml::RenderVar::Bool, 0 } },
-					{ ml::GL::DepthTest,	{ ml::RenderVar::Bool, 0 } },
-					{ ml::GL::Texture2D,	{ ml::RenderVar::Bool, 1 } },
+					{ ml::GL::AlphaTest,	{ ml::RenderVar::Bool, true } },
+					{ ml::GL::Blend,		{ ml::RenderVar::Bool, true } },
+					{ ml::GL::CullFace,		{ ml::RenderVar::Bool, false } },
+					{ ml::GL::DepthTest,	{ ml::RenderVar::Bool, false } },
+					{ ml::GL::Texture2D,	{ ml::RenderVar::Bool, true } },
 				});
 				states.apply();
 
 				// Draw Sprites
-				if (const ml::Shader * shader = ev->res.shaders.get("sprites"))
+				if (const ml::Shader * shader = ev->resources.shaders.get("sprites"))
 				{
-					static ml::Material * const material = ev->res.materials.load_forward(
+					static ml::Material * const material = ev->resources.materials.load_forward(
 						"mat_sprites",
 						shader,
 						ml::List<ml::uni_base *>({
@@ -927,18 +933,22 @@ namespace DEMO
 							new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	NULL),
 							}));
 
-					static ml::RenderBatch batch(&sandbox.vao, &sandbox.vbo, material);
+					static ml::RenderBatch batch(
+						&sandbox.vao, 
+						&sandbox.vbo, 
+						material
+					);
 
-					for (const auto & pair : ev->res.sprites)
+					for (const auto & pair : ev->resources.sprites)
 					{
 						sandbox->draw(pair.second, batch);
 					}
 				}
 
 				// Draw Text
-				if (const ml::Shader * shader = ev->res.shaders.get("text"))
+				if (const ml::Shader * shader = ev->resources.shaders.get("text"))
 				{
-					static ml::Material * const material = ev->res.materials.load_forward(
+					static ml::Material * const material = ev->resources.materials.load_forward(
 						"mat_text",
 						shader,
 						ml::List<ml::uni_base *>({
@@ -947,7 +957,11 @@ namespace DEMO
 							new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	NULL),
 							}));
 
-					static ml::RenderBatch batch(&sandbox.vao, &sandbox.vbo, material);
+					static ml::RenderBatch batch(
+						&sandbox.vao,
+						&sandbox.vbo,
+						material
+					);
 
 					for (const auto & pair : sandbox.text)
 					{
@@ -956,9 +970,9 @@ namespace DEMO
 				}
 
 				// Draw Geometry
-				if (const ml::Shader * shader = ev->res.shaders.get("geometry"))
+				if (const ml::Shader * shader = ev->resources.shaders.get("geometry"))
 				{
-					static ml::Material * const material = ev->res.materials.load_forward(
+					static ml::Material * const material = ev->resources.materials.load_forward(
 						"mat_geometry", 
 						shader,
 						ml::List<ml::uni_base *>({
@@ -983,13 +997,12 @@ namespace DEMO
 
 		// Draw Post
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Surface * post = ev->res.surfaces.get("surface_post"))
+		if (const ml::Surface * post = ev->resources.surfaces.get("surface_post"))
 		{
 			post->bind();
-			if (const ml::Surface * scene = ev->res.surfaces.get("surface_main"))
+			if (const ml::Surface * scene = ev->resources.surfaces.get("surface_main"))
 			{
-				scene->shader()->setUniform("Effect.mode", sandbox.effectMode);
-
+				scene->shader()->setUniform("Surface.mode", sandbox.effectMode);
 				sandbox->draw(*scene);
 			}
 			post->unbind();
@@ -999,10 +1012,10 @@ namespace DEMO
 	void Sandbox::onGui(const ml::GuiEvent * ev)
 	{
 		// Main Menu Bar
-		if (ev->editor.show_mainMenuBar)	{ ML_MainMenuBar.drawGui(); }
+		if (ev->editor.show_mainMenuBar)	{ ev->editor.mainMenuBar.drawGui(ev, &ev->editor.show_mainMenuBar); }
 		
 		// Dockspace
-		if (ev->editor.show_dockspace)		{ ML_Dockspace.drawGui(&ev->editor.show_dockspace); }
+		if (ev->editor.show_dockspace)		{ ev->editor.dockspace.drawGui(ev, &ev->editor.show_dockspace); }
 		
 		// ImGui Builtin
 		if (ev->editor.show_imgui_demo)		{ ml::ImGui_Builtin::showDemo(&ev->editor.show_imgui_demo); }
@@ -1010,23 +1023,23 @@ namespace DEMO
 		if (ev->editor.show_imgui_style)	{ ml::ImGui_Builtin::showStyle(&ev->editor.show_imgui_style); }
 		if (ev->editor.show_imgui_about)	{ ml::ImGui_Builtin::showAbout(&ev->editor.show_imgui_about); }
 
-		// Editors
-		if (ev->editor.show_network)		{ ML_NetworkHUD.drawGui(&ev->editor.show_network); }
-		if (ev->editor.show_profiler)		{ ML_Profiler.drawGui(&ev->editor.show_profiler); }
-		if (ev->editor.show_browser)		{ ML_Browser.drawGui(&ev->editor.show_browser); }
-		if (ev->editor.show_resourceView)	{ ML_ResourceView.drawGui(&ev->editor.show_resourceView); }
-		if (ev->editor.show_terminal)		{ ML_Terminal.drawGui(&ev->editor.show_terminal); }
-		if (ev->editor.show_textEditor)		{ ML_TextEditor.drawGui(&ev->editor.show_textEditor); }
-		if (ev->editor.show_builder)		{ ML_Builder.drawGui(&ev->editor.show_builder); }
+		// Widgets
+		if (ev->editor.show_network)		{ ev->editor.networkHUD.drawGui(ev, &ev->editor.show_network); }
+		if (ev->editor.show_profiler)		{ ev->editor.profiler.drawGui(ev, &ev->editor.show_profiler); }
+		if (ev->editor.show_browser)		{ ev->editor.browser.drawGui(ev, &ev->editor.show_browser); }
+		if (ev->editor.show_terminal)		{ ev->editor.terminal.drawGui(ev, &ev->editor.show_terminal); }
+		if (ev->editor.show_textEditor)		{ ev->editor.textEditor.drawGui(ev, &ev->editor.show_textEditor); }
+		if (ev->editor.show_resourceView)	{ ev->editor.resourceView.drawGui(ev, &ev->editor.show_resourceView); }
+		if (ev->editor.show_builder)		{ ev->editor.builder.drawGui(ev, &ev->editor.show_builder); }
 		
 		// Scene View
 		if (ev->editor.show_sceneView)
 		{
-			ML_SceneView.drawFun(&ev->editor.show_sceneView, [&]()
+			ev->editor.sceneView.drawFun(ev, &ev->editor.show_sceneView, [&]()
 			{
-				if (ml::Surface * post = ML_Res.surfaces.get("surface_post"))
+				if (ml::Surface * post = ML_Resources.surfaces.get("surface_post"))
 				{
-					ML_SceneView.updateTexture(&post->texture());
+					ev->editor.sceneView.updateTexture(&post->texture());
 				}
 			});
 		}
@@ -1034,26 +1047,24 @@ namespace DEMO
 		// Inspector
 		if (ev->editor.show_inspector)
 		{
-			ML_Inspector.drawFun(&ev->editor.show_inspector, [&]()
+			ev->editor.inspector.drawFun(ev, &ev->editor.show_inspector, [&]()
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ImGui::Text("Framebuffer");
-				static ml::CString fbo_modes[] = {
+				static ml::CString surf_modes[] = {
 					"Normal",
 					"Grayscale",
 					"Blur",
 					"Juicy",
 					"Inverted",
 				};
-				ImGui::Combo("Shader##Framebuffer", &sandbox.effectMode, fbo_modes, IM_ARRAYSIZE(fbo_modes));
+				ImGui::Combo("Surface Shader", &sandbox.effectMode, surf_modes, IM_ARRAYSIZE(surf_modes));
 				ImGui::Separator();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ImGui::Text("Camera");
-				ImGui::Checkbox("Orbit##Camera", &sandbox.cameraOrbit);
-				ImGui::DragFloat("Speed##Camera", &sandbox.cameraSpeed, 0.1f, -5.f, 5.f);
+				ImGui::Checkbox("Camera Orbit", &sandbox.cameraOrbit);
+				ImGui::DragFloat("Camera Speed", &sandbox.cameraSpeed, 0.1f, -5.f, 5.f);
 				ImGui::Separator();
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -1075,7 +1086,7 @@ namespace DEMO
 		}
 
 		// Cleanup Resources
-		ML_Res.dispose();
+		ev->resources.dispose();
 
 		// Cleanup Physics Thread
 		ML_Physics.dispose();

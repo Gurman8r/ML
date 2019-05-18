@@ -1,5 +1,6 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
+#include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -20,33 +21,33 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Window::Window()
-		: m_window		(NULL)
+	Window::Window(EventSystem & eventSystem)
+		: m_eventSystem	(eventSystem)
+		, m_window		(NULL)
 		, m_monitor		(NULL)
 		, m_share		(NULL)
 		, m_title		(GetTypeName())
 		, m_context		(Context())
-		, m_screen	(Screen())
+		, m_screen		(Screen())
 		, m_style		(Window::Default)
 		, m_position	(vec2i::Zero)
 	{
 #if defined(ML_SYSTEM_WINDOWS)
-		// Disable Console Close Button
+		// Disable CMD Window Close Button
 		ML_Console.enableMenuItem(SC_CLOSE, MF_GRAYED);
 #endif
-
-		ML_EventSystem.addListener(WindowEvent::EV_Char,		this);
-		ML_EventSystem.addListener(WindowEvent::EV_CursorEnter,	this);
-		ML_EventSystem.addListener(WindowEvent::EV_CursorPos,	this);
-		ML_EventSystem.addListener(WindowEvent::EV_FrameSize,	this);
-		ML_EventSystem.addListener(WindowEvent::EV_Key,			this);
-		ML_EventSystem.addListener(WindowEvent::EV_MouseButton,	this);
-		ML_EventSystem.addListener(WindowEvent::EV_Scroll,		this);
-		ML_EventSystem.addListener(WindowEvent::EV_WindowClose,	this);
-		ML_EventSystem.addListener(WindowEvent::EV_WindowError,	this);
-		ML_EventSystem.addListener(WindowEvent::EV_WindowFocus,	this);
-		ML_EventSystem.addListener(WindowEvent::EV_WindowSize,	this);
-		ML_EventSystem.addListener(WindowEvent::Ev_WindowPos,	this);
+		getEventSystem().addListener(WindowEvent::EV_Char,			this);
+		getEventSystem().addListener(WindowEvent::EV_CursorEnter,	this);
+		getEventSystem().addListener(WindowEvent::EV_CursorPos,		this);
+		getEventSystem().addListener(WindowEvent::EV_FrameSize,		this);
+		getEventSystem().addListener(WindowEvent::EV_Key,			this);
+		getEventSystem().addListener(WindowEvent::EV_MouseButton,	this);
+		getEventSystem().addListener(WindowEvent::EV_Scroll,		this);
+		getEventSystem().addListener(WindowEvent::EV_WindowClose,	this);
+		getEventSystem().addListener(WindowEvent::EV_WindowError,	this);
+		getEventSystem().addListener(WindowEvent::EV_WindowFocus,	this);
+		getEventSystem().addListener(WindowEvent::EV_WindowSize,	this);
+		getEventSystem().addListener(WindowEvent::Ev_WindowPos,		this);
 	}
 	
 	Window::~Window() 
@@ -55,7 +56,7 @@ namespace ml
 		this->terminate();
 
 #if defined(ML_SYSTEM_WINDOWS)
-		// Enable Console Close Button
+		// Enable CMD Window Close Button
 		ML_Console.enableMenuItem(SC_CLOSE, MF_ENABLED);
 #endif
 	}

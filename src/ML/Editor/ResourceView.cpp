@@ -1,7 +1,8 @@
 #include <ML/Editor/ResourceView.hpp>
+#include <ML/Editor/Editor.hpp>
+#include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Helper.hpp>
-#include <ML/Editor/Terminal.hpp>
 #include <ML/Editor/GUI.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Core/Debug.hpp>
@@ -10,10 +11,10 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Light.hpp>
-#include <ML/Physics/Rigidbody.hpp>
-#include <ML/Physics/Particle.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Uni.hpp>
+#include <ML/Physics/Rigidbody.hpp>
+#include <ML/Physics/Particle.hpp>
 
 namespace ml
 {
@@ -321,8 +322,8 @@ namespace ml
 				{
 					Layout::Field(value->name.c_str(), [&](CString)
 					{
-						int32_t index = ML_Res.textures.getIndexOf(u->data);
-						List<String> keys = ML_Res.textures.keys();
+						int32_t index = ML_Resources.textures.getIndexOf(u->data);
+						List<String> keys = ML_Resources.textures.keys();
 						if (ImGui::Combo(
 							String(label + "##Tex##Uni##" + value->name).c_str(),
 							&index,
@@ -330,7 +331,7 @@ namespace ml
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{
-							u->data = ML_Res.textures.getByIndex(index);
+							u->data = ML_Resources.textures.getByIndex(index);
 						}
 						toolbar_editable();
 					});
@@ -388,15 +389,15 @@ namespace ml
 						uni_base * u = NULL;
 						switch (type)
 						{
-						case uni_base::Flt: u = new uni_flt(name, 0);	break;
-						case uni_base::Int: u = new uni_int(name, 0);	break;
-						case uni_base::Vec2: u = new uni_vec2(name, 0);	break;
-						case uni_base::Vec3: u = new uni_vec3(name, 0);	break;
-						case uni_base::Vec4: u = new uni_vec4(name, 0);	break;
-						case uni_base::Col4: u = new uni_col4(name, 0);	break;
-						case uni_base::Mat3: u = new uni_mat3(name, 0);	break;
-						case uni_base::Mat4: u = new uni_mat4(name, 0);	break;
-						case uni_base::Tex: u = new uni_tex_cp(name, 0);	break;
+						case uni_base::Flt:  u = new uni_flt	(name, 0);	break;
+						case uni_base::Int:  u = new uni_int	(name, 0);	break;
+						case uni_base::Vec2: u = new uni_vec2	(name, 0);	break;
+						case uni_base::Vec3: u = new uni_vec3	(name, 0);	break;
+						case uni_base::Vec4: u = new uni_vec4	(name, 0);	break;
+						case uni_base::Col4: u = new uni_col4	(name, 0);	break;
+						case uni_base::Mat3: u = new uni_mat3	(name, 0);	break;
+						case uni_base::Mat4: u = new uni_mat4	(name, 0);	break;
+						case uni_base::Tex:  u = new uni_tex_cp	(name, 0);	break;
 						}
 						if (u && (u = mat->uniforms().insert({ name, u }).first->second))
 						{
@@ -429,7 +430,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	ResourceView::ResourceView()
-		: GUI_Window("Resources")
+		: BaseWidget("Resources")
 	{
 	}
 
@@ -443,7 +444,7 @@ namespace ml
 	{
 	}
 
-	bool ResourceView::drawGui(bool * p_open)
+	bool ResourceView::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{
@@ -453,21 +454,21 @@ namespace ml
 			{
 				if (ImGui::BeginMenu("New (WIP)"))
 				{
-					if (ImGui::MenuItem("Entity")) { /**/ }
-					if (ImGui::MenuItem("Font")) { /**/ }
-					if (ImGui::MenuItem("Image")) { /**/ }
-					if (ImGui::MenuItem("Lua")) { /**/ }
-					if (ImGui::MenuItem("Material")) { /**/ }
-					if (ImGui::MenuItem("Mesh")) { /**/ }
-					if (ImGui::MenuItem("Model")) { /**/ }
-					if (ImGui::MenuItem("Plugin")) { /**/ }
-					if (ImGui::MenuItem("Script")) { /**/ }
-					if (ImGui::MenuItem("Shader")) { /**/ }
-					if (ImGui::MenuItem("Skybox")) { /**/ }
-					if (ImGui::MenuItem("Sound")) { /**/ }
-					if (ImGui::MenuItem("Sprite")) { /**/ }
-					if (ImGui::MenuItem("Surface")) { /**/ }
-					if (ImGui::MenuItem("Texture")) { /**/ }
+					if (ImGui::MenuItem("Entity"))		{ /**/ }
+					if (ImGui::MenuItem("Font"))		{ /**/ }
+					if (ImGui::MenuItem("Image"))		{ /**/ }
+					if (ImGui::MenuItem("Lua"))			{ /**/ }
+					if (ImGui::MenuItem("Material"))	{ /**/ }
+					if (ImGui::MenuItem("Mesh"))		{ /**/ }
+					if (ImGui::MenuItem("Model"))		{ /**/ }
+					if (ImGui::MenuItem("Plugin"))		{ /**/ }
+					if (ImGui::MenuItem("Script"))		{ /**/ }
+					if (ImGui::MenuItem("Shader"))		{ /**/ }
+					if (ImGui::MenuItem("Skybox"))		{ /**/ }
+					if (ImGui::MenuItem("Sound"))		{ /**/ }
+					if (ImGui::MenuItem("Sprite"))		{ /**/ }
+					if (ImGui::MenuItem("Surface"))		{ /**/ }
+					if (ImGui::MenuItem("Texture"))		{ /**/ }
 					ImGui::EndMenu();
 				}
 				ImGui::EndMenuBar();
@@ -477,21 +478,21 @@ namespace ml
 
 			Layout::Columns([&]()
 			{
-				draw_entity_registry();
-				draw_font_registry();
-				draw_image_registry();
-				draw_lua_registry();
-				draw_mesh_registry();
-				draw_material_registry();
-				draw_model_registry();
-				draw_plugin_registry();
-				draw_script_registry();
-				draw_shader_registry();
-				draw_skybox_registry();
-				draw_sound_registry();
-				draw_sprite_registry();
-				draw_surface_registry();
-				draw_texture_registry();
+				draw_entity_registry	(ML_Resources.entities	);
+				draw_font_registry		(ML_Resources.fonts		);
+				draw_image_registry		(ML_Resources.images	);
+				draw_lua_registry		(ML_Resources.lua		);
+				draw_mesh_registry		(ML_Resources.meshes	);
+				draw_material_registry	(ML_Resources.materials	);
+				draw_model_registry		(ML_Resources.models	);
+				draw_plugin_registry	(ML_Resources.plugins	);
+				draw_script_registry	(ML_Resources.scripts	);
+				draw_shader_registry	(ML_Resources.shaders	);
+				draw_skybox_registry	(ML_Resources.skyboxes	);
+				draw_sound_registry		(ML_Resources.sounds	);
+				draw_sprite_registry	(ML_Resources.sprites	);
+				draw_surface_registry	(ML_Resources.surfaces	);
+				draw_texture_registry	(ML_Resources.textures	);
 			});
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -501,13 +502,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceView::draw_entity_registry()
+	void ResourceView::draw_entity_registry(Registry<Entity> & entities)
 	{
-		if (ML_Res.entities.empty()) return;
+		if (entities.empty()) return;
 
-		Layout::Group(ML_Res.entities.name().c_str(), [&]()
+		Layout::Group(entities.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.entities)
+			for (auto & pair : entities)
 			{
 				ImGui::PushID(pair.first.c_str());
 				
@@ -673,8 +674,8 @@ namespace ml
 								// Model
 								Layout::Field("Model", [&](CString)
 								{
-									List<String> keys = ML_Res.models.keys();
-									int32_t index = ML_Res.models.getIndexOf((Model *)(renderer->drawable()));
+									List<String> keys = ML_Resources.models.keys();
+									int32_t index = ML_Resources.models.getIndexOf((Model *)(renderer->drawable()));
 									if (ImGui::Combo(
 										"##Model##Renderer",
 										&index,
@@ -682,7 +683,7 @@ namespace ml
 										static_cast<void *>(&keys),
 										(int32_t)(keys.size())))
 									{
-										if (const Model * value = ML_Res.models.getByIndex(index))
+										if (const Model * value = ML_Resources.models.getByIndex(index))
 										{
 											renderer->drawable() = value;
 										}
@@ -796,7 +797,7 @@ namespace ml
 
 					// File
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (const String file = ML_Res.entities.getFile(name))
+					if (const String file = entities.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -825,13 +826,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_font_registry()
+	void ResourceView::draw_font_registry(Registry<Font> & fonts)
 	{
-		if (ML_Res.fonts.empty()) return;
+		if (fonts.empty()) return;
 
-		Layout::Group(ML_Res.fonts.name().c_str(), [&]()
+		Layout::Group(fonts.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.fonts)
+			for (auto & pair : fonts)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Font * e)
 				{
@@ -843,7 +844,7 @@ namespace ml
 					{
 						ImGui::Selectable(e->getInfo().family.c_str());
 					});
-					if (const String file = ML_Res.fonts.getFile(name))
+					if (const String file = fonts.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -868,13 +869,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_image_registry()
+	void ResourceView::draw_image_registry(Registry<Image> & images)
 	{
-		if (ML_Res.images.empty()) return;
+		if (images.empty()) return;
 
-		Layout::Group(ML_Res.images.name().c_str(), [&]()
+		Layout::Group(images.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.images)
+			for (auto & pair : images)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Image * e)
 				{
@@ -886,7 +887,7 @@ namespace ml
 					{
 						ImGui::Text("%u x %u", e->width(), e->height());
 					});
-					if (const String file = ML_Res.images.getFile(name))
+					if (const String file = images.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -911,13 +912,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_lua_registry()
+	void ResourceView::draw_lua_registry(Registry<LuaScript> & lua)
 	{
-		if (ML_Res.lua.empty()) return;
+		if (lua.empty()) return;
 
-		Layout::Group(ML_Res.lua.name().c_str(), [&]()
+		Layout::Group(lua.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.lua)
+			for (auto & pair : lua)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const LuaScript * e)
 				{
@@ -925,7 +926,7 @@ namespace ml
 					{
 						ImGui::Text("%s", name);
 					});
-					if (const String file = ML_Res.lua.getFile(name))
+					if (const String file = lua.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -950,13 +951,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_material_registry()
+	void ResourceView::draw_material_registry(Registry<Material> & materials)
 	{
-		if (ML_Res.materials.empty()) return;
+		if (materials.empty()) return;
 
-		Layout::Group(ML_Res.materials.name().c_str(), [&]()
+		Layout::Group(materials.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.materials)
+			for (auto & pair : materials)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, Material * mat)
 				{
@@ -969,8 +970,8 @@ namespace ml
 					// Shader
 					Layout::Field("Shader", [&](CString)
 					{
-						List<String> keys = ML_Res.shaders.keys();
-						int32_t index = ML_Res.shaders.getIndexOf(mat->shader());
+						List<String> keys = ML_Resources.shaders.keys();
+						int32_t index = ML_Resources.shaders.getIndexOf(mat->shader());
 						if (ImGui::Combo(
 							"##Shader##Renderer",
 							&index,
@@ -978,7 +979,7 @@ namespace ml
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{
-							if (const Shader * value = ML_Res.shaders.getByIndex(index))
+							if (const Shader * value = ML_Resources.shaders.getByIndex(index))
 							{
 								mat->shader() = value;
 							}
@@ -1027,13 +1028,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_mesh_registry()
+	void ResourceView::draw_mesh_registry(Registry<Mesh> & meshes)
 	{
-		if (ML_Res.meshes.empty()) return;
+		if (meshes.empty()) return;
 
-		Layout::Group(ML_Res.meshes.name().c_str(), [&]()
+		Layout::Group(meshes.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.meshes)
+			for (auto & pair : meshes)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Mesh * e)
 				{
@@ -1041,7 +1042,7 @@ namespace ml
 					{
 						ImGui::Text("%s", name);
 					});
-					if (const String file = ML_Res.meshes.getFile(name))
+					if (const String file = meshes.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1066,13 +1067,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_model_registry()
+	void ResourceView::draw_model_registry(Registry<Model> & models)
 	{
-		if (ML_Res.models.empty()) return;
+		if (models.empty()) return;
 
-		Layout::Group(ML_Res.models.name().c_str(), [&]()
+		Layout::Group(models.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.models)
+			for (auto & pair : models)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Model * e)
 				{
@@ -1080,7 +1081,7 @@ namespace ml
 					{
 						ImGui::Text("%s", name);
 					});
-					if (const String file = ML_Res.models.getFile(name))
+					if (const String file = models.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1105,13 +1106,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_plugin_registry()
+	void ResourceView::draw_plugin_registry(Registry<Plugin> & plugins)
 	{
-		if (ML_Res.plugins.empty()) return;
+		if (plugins.empty()) return;
 
-		Layout::Group(ML_Res.plugins.name().c_str(), [&]()
+		Layout::Group(plugins.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.plugins)
+			for (auto & pair : plugins)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Plugin * e)
 				{
@@ -1119,7 +1120,7 @@ namespace ml
 					{
 						ImGui::Text("%s", name);
 					});
-					if (const String file = ML_Res.plugins.getFile(name))
+					if (const String file = plugins.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1144,13 +1145,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_script_registry()
+	void ResourceView::draw_script_registry(Registry<Script> & scripts)
 	{
-		if (ML_Res.scripts.empty()) return;
+		if (scripts.empty()) return;
 
-		Layout::Group(ML_Res.scripts.name().c_str(), [&]()
+		Layout::Group(scripts.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.scripts)
+			for (auto & pair : scripts)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, Script * scr)
 				{
@@ -1173,7 +1174,7 @@ namespace ml
 							scr->buildAndRun({});
 						}
 					});
-					if (const String file = ML_Res.scripts.getFile(name))
+					if (const String file = scripts.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1198,13 +1199,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_shader_registry()
+	void ResourceView::draw_shader_registry(Registry<Shader> & shaders)
 	{
-		if (ML_Res.shaders.empty()) return;
+		if (shaders.empty()) return;
 
-		Layout::Group(ML_Res.shaders.name().c_str(), [&]()
+		Layout::Group(shaders.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.shaders)
+			for (auto & pair : shaders)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Shader * e)
 				{
@@ -1212,7 +1213,7 @@ namespace ml
 					{
 						ImGui::Text("%s", name);
 					});
-					if (const String file = ML_Res.shaders.getFile(name))
+					if (const String file = shaders.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1237,13 +1238,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_skybox_registry()
+	void ResourceView::draw_skybox_registry(Registry<Skybox> & skyboxes)
 	{
-		if (ML_Res.skyboxes.empty()) return;
+		if (skyboxes.empty()) return;
 
-		Layout::Group(ML_Res.skyboxes.name().c_str(), [&]()
+		Layout::Group(skyboxes.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.skyboxes)
+			for (auto & pair : skyboxes)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Skybox * e)
 				{
@@ -1251,7 +1252,7 @@ namespace ml
 					{
 						ImGui::Text("%s", name);
 					});
-					if (const String file = ML_Res.skyboxes.getFile(name))
+					if (const String file = skyboxes.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1276,13 +1277,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_sound_registry()
+	void ResourceView::draw_sound_registry(Registry<Sound> & sounds)
 	{
-		if (ML_Res.sounds.empty()) return;
+		if (sounds.empty()) return;
 
-		Layout::Group(ML_Res.sounds.name().c_str(), [&]()
+		Layout::Group(sounds.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.sounds)
+			for (auto & pair : sounds)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Sound * e)
 				{
@@ -1290,7 +1291,7 @@ namespace ml
 					{
 						ImGui::Text("%s", name);
 					});
-					if (const String file = ML_Res.sounds.getFile(name))
+					if (const String file = sounds.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1315,13 +1316,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_sprite_registry()
+	void ResourceView::draw_sprite_registry(Registry<Sprite> & sprites)
 	{
-		if (ML_Res.entities.empty()) return;
+		if (sprites.empty()) return;
 
-		Layout::Group(ML_Res.sprites.name().c_str(), [&]()
+		Layout::Group(sprites.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.sprites)
+			for (auto & pair : sprites)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, Sprite * spr)
 				{
@@ -1371,8 +1372,8 @@ namespace ml
 					});
 					Layout::Field("Texture", [&](CString label)
 					{
-						int32_t index = ML_Res.textures.getIndexOf(spr->texture());
-						List<String> keys = ML_Res.textures.keys();
+						int32_t index = ML_Resources.textures.getIndexOf(spr->texture());
+						List<String> keys = ML_Resources.textures.keys();
 						if (ImGui::Combo(
 							"##Tex2D##Value",
 							&index,
@@ -1380,13 +1381,13 @@ namespace ml
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{
-							if (const Texture * value = ML_Res.textures.getByIndex(index))
+							if (const Texture * value = ML_Resources.textures.getByIndex(index))
 							{
 								spr->setTexture(value);
 							}
 						}
 					});
-					if (const String file = ML_Res.sprites.getFile(name))
+					if (const String file = sprites.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1411,13 +1412,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_surface_registry()
+	void ResourceView::draw_surface_registry(Registry<Surface> & surfaces)
 	{
-		if (ML_Res.surfaces.empty()) return;
+		if (surfaces.empty()) return;
 
-		Layout::Group(ML_Res.surfaces.name().c_str(), [&]()
+		Layout::Group(surfaces.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.surfaces)
+			for (auto & pair : surfaces)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, const Surface * e)
 				{
@@ -1425,7 +1426,7 @@ namespace ml
 					{
 						ImGui::Text("%s", name);
 					});
-					if (const String file = ML_Res.surfaces.getFile(name))
+					if (const String file = surfaces.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{
@@ -1450,13 +1451,13 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_texture_registry()
+	void ResourceView::draw_texture_registry(Registry<Texture> & textures)
 	{
-		if (ML_Res.textures.empty()) return;
+		if (textures.empty()) return;
 
-		Layout::Group(ML_Res.textures.name().c_str(), [&]()
+		Layout::Group(textures.name().c_str(), [&]()
 		{
-			for (auto & pair : ML_Res.textures)
+			for (auto & pair : textures)
 			{
 				Layout::Group(pair.first.c_str(), [&](CString name, Texture * tex)
 				{
@@ -1497,7 +1498,7 @@ namespace ml
 						}
 					});
 
-					if (const String file = ML_Res.textures.getFile(name))
+					if (const String file = textures.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{

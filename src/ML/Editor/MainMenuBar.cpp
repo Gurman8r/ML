@@ -1,6 +1,6 @@
 #include <ML/Editor/MainMenuBar.hpp>
-#include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/Editor.hpp>
+#include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	MainMenuBar::MainMenuBar()
-		: GUI_Tool()
+		: BaseWidget("Main Menu Bar")
 	{
 		ML_OS; // initialize OS singleton
 	}
@@ -23,20 +23,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool MainMenuBar::beginDraw()
+	void MainMenuBar::onEvent(const IEvent * value)
 	{
-		return goodCheck(ImGui::BeginMainMenuBar());
 	}
 
-	bool MainMenuBar::endDraw()
+	bool MainMenuBar::drawGui(const GuiEvent * ev, bool * p_open)
 	{
-		ImGui::EndMainMenuBar();
-		return good();
-	}
-
-	bool MainMenuBar::drawGui()
-	{
-		if (beginDraw())
+		if (beginDraw(p_open, 0))
 		{
 			// File Menu
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -128,6 +121,23 @@ namespace ml
 			}
 		}
 		return endDraw();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	bool MainMenuBar::beginDraw(bool * p_open, int32_t flags)
+	{
+		return goodCheck(
+			((!p_open) || (*p_open)) &&
+			//((p_open) && (*p_open)) &&
+			ImGui::BeginMainMenuBar()
+		);
+	}
+
+	bool MainMenuBar::endDraw()
+	{
+		ImGui::EndMainMenuBar();
+		return good();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

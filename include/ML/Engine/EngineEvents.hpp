@@ -9,6 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	class Engine;
 	class Preferences;
 	class Resources;
 
@@ -41,17 +42,19 @@ namespace ml
 
 	struct ML_ENGINE_API EnterEvent final : public EngineEvent
 	{
-		int32_t argc;
-		char ** argv;
+		int32_t				argc;
+		char **				argv;
 		const Preferences & prefs;
-		Resources & res;
+		Engine &			engine;
+		Resources &			resources;
 
-		EnterEvent(int32_t argc, char ** argv, const Preferences & prefs, Resources & res)
+		EnterEvent(int32_t argc, char ** argv, const Preferences & prefs, Engine & engine, Resources & resources)
 			: EngineEvent(EV_Enter)
 			, argc(argc)
 			, argv(argv)
 			, prefs(prefs)
-			, res(res)
+			, engine(engine)
+			, resources(resources)
 		{
 		}
 	};
@@ -61,12 +64,14 @@ namespace ml
 	struct ML_ENGINE_API LoadEvent final : public EngineEvent
 	{
 		const Preferences & prefs;
-		Resources & res;
+		Engine &			engine;
+		Resources &			resources;
 
-		LoadEvent(const Preferences & prefs, Resources & res)
+		LoadEvent(const Preferences & prefs, Engine & engine, Resources & resources)
 			: EngineEvent(EV_Load)
 			, prefs(prefs)
-			, res(res)
+			, engine(engine)
+			, resources(resources)
 		{
 		}
 	};
@@ -76,12 +81,14 @@ namespace ml
 	struct ML_ENGINE_API StartEvent final : public EngineEvent
 	{
 		const Preferences & prefs;
-		Resources & res;
+		Engine &			engine;
+		Resources &			resources;
 
-		StartEvent(const Preferences & prefs, Resources & res)
+		StartEvent(const Preferences & prefs, Engine & engine, Resources & resources)
 			: EngineEvent(EV_Start)
 			, prefs(prefs)
-			, res(res)
+			, engine(engine)
+			, resources(resources)
 		{
 		}
 	};
@@ -90,13 +97,15 @@ namespace ml
 
 	struct ML_ENGINE_API UpdateEvent final : public EngineEvent
 	{
-		const Duration & elapsed;
-		Resources & res;
+		const Duration	& elapsed;
+		Engine			& engine;
+		Resources		& resources;
 
-		UpdateEvent(const Duration & elapsed, Resources & res)
+		UpdateEvent(const Duration & elapsed, Engine & engine, Resources & resources)
 			: EngineEvent(EV_Update)
 			, elapsed(elapsed)
-			, res(res)
+			, engine(engine)
+			, resources(resources)
 		{
 		}
 	};
@@ -105,13 +114,15 @@ namespace ml
 
 	struct ML_ENGINE_API DrawEvent final : public EngineEvent
 	{
-		const Duration & elapsed;
-		Resources & res;
+		const Duration	& elapsed;
+		Engine			& engine;
+		Resources		& resources;
 
-		DrawEvent(const Duration & elapsed, Resources & res)
+		DrawEvent(const Duration & elapsed, Engine & engine, Resources & resources)
 			: EngineEvent(EV_Draw)
 			, elapsed(elapsed)
-			, res(res)
+			, engine(engine)
+			, resources(resources)
 		{
 		}
 	};
@@ -120,10 +131,15 @@ namespace ml
 
 	struct ML_ENGINE_API UnloadEvent final : public EngineEvent
 	{
-		Resources & res;
-		UnloadEvent(Resources & res)
+		const Duration	& elapsed;
+		Engine			& engine;
+		Resources		& resources;
+
+		UnloadEvent(Engine & engine, Resources & resources)
 			: EngineEvent(EV_Unload)
-			, res(res)
+			, elapsed(elapsed)
+			, engine(engine)
+			, resources(resources)
 		{
 		}
 	};
@@ -132,10 +148,13 @@ namespace ml
 
 	struct ML_ENGINE_API ExitEvent final : public EngineEvent
 	{
-		Resources & res;
-		ExitEvent(Resources & res)
+		Engine		& engine;
+		Resources	& resources;
+
+		ExitEvent(Engine & engine, Resources & resources)
 			: EngineEvent(EV_Exit)
-			, res(res)
+			, engine(engine)
+			, resources(resources)
 		{
 		}
 	};

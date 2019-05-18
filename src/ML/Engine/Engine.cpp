@@ -10,7 +10,7 @@ namespace ml
 		: m_app			(NULL)
 		, m_mainTimer	()
 		, m_loopTimer	()
-		, m_frameTime	(0)
+		, m_elapsed	(0)
 		, m_frameCount	(0)
 		, m_frameRate	(0)
 		, m_nextSecond	(0.0f)
@@ -30,7 +30,7 @@ namespace ml
 	{
 		return ((!isRunning()) 
 			? (m_app = value) 
-			: (NULL)
+			: (Application *)(intptr_t)(Debug::logError("Failed Launching Application")) // returns NULL
 		);
 	}
 
@@ -67,11 +67,11 @@ namespace ml
 			m_app->swapBuffers();
 		}
 
-		m_frameTime = m_loopTimer.stop().elapsed();
+		m_elapsed = m_loopTimer.stop().elapsed();
 
 		m_frameCount++;
 
-		if (((m_nextSecond += m_frameTime.delta()) - m_prevSecond) > 1.0f)
+		if (((m_nextSecond += m_elapsed.delta()) - m_prevSecond) > 1.0f)
 		{
 			m_prevSecond = m_nextSecond;
 			

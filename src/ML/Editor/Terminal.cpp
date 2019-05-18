@@ -1,9 +1,10 @@
 #include <ML/Editor/Terminal.hpp>
+#include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Script/Interpreter.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Script/Interpreter.hpp>
 #include <ML/Script/ScriptEvents.hpp>
 
 # ifndef strdup
@@ -15,7 +16,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Terminal::Terminal()
-		: GUI_Window("Terminal")
+		: BaseWidget("Terminal")
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()
@@ -55,7 +56,7 @@ namespace ml
 		}
 	}
 
-	bool Terminal::drawGui(bool * p_open)
+	bool Terminal::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		if (beginDraw(p_open))
 		{

@@ -1,24 +1,25 @@
-#include <ML/Editor/GUI_Window.hpp>
+#include <ML/Editor/BaseWidget.hpp>
 #include <ML/Editor/ImGui.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	GUI_Window::GUI_Window(CString title)
-		: GUI_Base()
-		, m_title(title)
-		, m_open (NULL)
-		, m_flags(ImGuiWindowFlags_None)
+	BaseWidget::BaseWidget(CString title)
+		: m_good	(false)
+		, m_title	(title)
+		, m_open	(NULL)
+		, m_flags	(ImGuiWindowFlags_None)
 	{
 	}
-	GUI_Window::~GUI_Window()
+
+	BaseWidget::~BaseWidget()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool GUI_Window::beginDraw(bool * p_open, int32_t flags)
+	bool BaseWidget::beginDraw(bool * p_open, int32_t flags)
 	{
 		return goodCheck(ImGui::Begin(
 			(m_title),
@@ -27,7 +28,7 @@ namespace ml
 		);
 	}
 
-	bool GUI_Window::endDraw()
+	bool BaseWidget::endDraw()
 	{
 		ImGui::End();
 		return good();
@@ -35,7 +36,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	uint32_t GUI_Window::getID() const
+	uint32_t BaseWidget::getID() const
 	{
 		return ImGui::GetID(m_title);
 	}

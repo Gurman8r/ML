@@ -4,6 +4,7 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Editor/EditorApplication.hpp>
+#include <ML/Engine/Entity.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Graphics/Text.hpp>
 #include <ML/Graphics/Canvas.hpp>
@@ -32,7 +33,7 @@ namespace DEMO
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Sandbox();
+		Sandbox(ml::EventSystem & eventSystem);
 		~Sandbox();
 
 	public:
@@ -57,6 +58,8 @@ namespace DEMO
 
 		struct MyData final : public ml::INonCopyable
 		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
 			ml::SStream		rdstr		= ml::SStream();
 			ml::StreamBuf * rdbuf		= NULL;
 			ml::VAO			vao			= {};
@@ -65,14 +68,20 @@ namespace DEMO
 			ml::String		title		= {};
 			bool			isClient	= false;
 			bool			isServer	= false;
+			ml::Entity *	light		= NULL;
+			ml::Entity *	camera		= NULL;
 			bool			cameraOrbit = true;
 			float			cameraSpeed = 1.0f;
 			int32_t			effectMode	= 3;
 
+			/* * * * * * * * * * * * * * * * * * * * */
+
 			MyData(Sandbox & self) : m_self(self) {}
 
-			inline Sandbox * operator->()	{ return &m_self; }
-			inline Sandbox & operator *()	{ return  m_self; }
+			inline Sandbox * operator->() { return &m_self; }
+			inline Sandbox & operator *() { return  m_self; }
+
+			/* * * * * * * * * * * * * * * * * * * * */
 
 		private:
 			Sandbox & m_self;

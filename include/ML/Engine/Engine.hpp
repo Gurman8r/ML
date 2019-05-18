@@ -51,14 +51,14 @@ namespace ml
 		inline		 Application *	app()				{ return m_app;			}
 		inline const Timer &		mainTimer() const	{ return m_mainTimer;	}
 		inline const Timer &		loopTimer()	const	{ return m_loopTimer;	}
-		inline const Duration &		frameTime() const	{ return m_frameTime;	}
+		inline const Duration &		elapsed()	const	{ return m_elapsed;	}
 		inline const uint32_t		frameRate()	const	{ return m_frameRate;	}
 
 	private:
 		Application *	m_app;
 		Timer			m_mainTimer;
 		Timer			m_loopTimer;
-		Duration		m_frameTime;
+		Duration		m_elapsed;
 		uint32_t		m_frameCount;
 		uint32_t		m_frameRate;
 		float			m_nextSecond;

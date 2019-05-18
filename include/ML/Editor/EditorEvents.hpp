@@ -10,6 +10,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Editor;
+	class Engine;
+	class Resources;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -45,13 +47,17 @@ namespace ml
 
 	struct ML_EDITOR_API GuiEvent final : public EditorEvent
 	{
-		const Duration & elapsed;
-		Editor & editor;
+		const Duration	& elapsed;
+		Engine			& engine;
+		Editor			& editor;
+		Resources		& resources;
 
-		GuiEvent(const Duration & elapsed, Editor & editor)
+		GuiEvent(const Duration & elapsed, Engine & engine, Editor & editor, Resources & resources)
 			: EditorEvent(EV_Gui)
 			, elapsed(elapsed)
+			, engine(engine)
 			, editor(editor)
+			, resources(resources)
 		{
 		}
 	};

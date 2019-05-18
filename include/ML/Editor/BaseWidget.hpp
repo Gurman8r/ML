@@ -1,23 +1,23 @@
-#ifndef _ML_GUI_WINDOW_HPP_
-#define _ML_GUI_WINDOW_HPP_
+#ifndef _ML_BASE_WIDGET_HPP_
+#define _ML_BASE_WIDGET_HPP_
 
-#include <ML/Editor/GUI_Base.hpp>
+#include <ML/Editor/EditorEvents.hpp>
+#include <ML/Core/ITrackable.hpp>
 #include <ML/Core/IEventListener.hpp>
 
 namespace ml
 {
-	// A GUI drawer for Window
-	class ML_EDITOR_API GUI_Window
-		: public GUI_Base
+	class ML_EDITOR_API BaseWidget
+		: public ITrackable
 		, public IEventListener
 	{
 	public:
-		GUI_Window(CString title);
-		virtual ~GUI_Window();
+		BaseWidget(CString title);
+		virtual ~BaseWidget();
 
 	public:
 		virtual void onEvent(const IEvent * value) override = 0;
-		virtual bool drawGui(bool * p_open) = 0;
+		virtual bool drawGui(const GuiEvent * ev, bool * p_open) = 0;
 
 	protected:
 		virtual bool beginDraw(bool * p_open, int32_t flags = 0);
@@ -31,10 +31,15 @@ namespace ml
 		uint32_t getID() const;
 
 	protected:
+		inline bool	good() const { return (m_good); }
+		inline bool goodCheck(const bool value) { return (m_good = value); }
+
+	protected:
+		bool	m_good;
 		CString	m_title;
 		bool *	m_open;
 		int32_t m_flags;
 	};
 }
 
-#endif // !_ML_GUI_WINDOW_HPP_
+#endif // !_ML_BASE_WIDGET_HPP_

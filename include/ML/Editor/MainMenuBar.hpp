@@ -1,26 +1,26 @@
 #ifndef _ML_MAIN_MENU_BAR_HPP_
 #define _ML_MAIN_MENU_BAR_HPP_
 
-#include <ML/Editor/GUI_Tool.hpp>
-
-#define ML_MainMenuBar ml::MainMenuBar::getInstance()
+#include <ML/Editor/BaseWidget.hpp>
 
 namespace ml
 {
 	class ML_EDITOR_API MainMenuBar
-		: public GUI_Tool
-		, public ISingleton<MainMenuBar>
+		: public BaseWidget
 	{
-		friend class ISingleton<MainMenuBar>;
+		friend class Editor;
 
 	private:
 		MainMenuBar();
 		~MainMenuBar();
 
 	public:
-		bool beginDraw() override;
+		void onEvent(const IEvent * value) override;
+		bool drawGui(const GuiEvent * ev, bool * p_open) override;
+
+	protected:
+		bool beginDraw(bool * p_open, int32_t flags = 0) override;
 		bool endDraw() override;
-		bool drawGui();
 	};
 }
 

@@ -108,7 +108,7 @@
     <None Include="..\..\..\ML.ini">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\framebuffer.shader">
+    <None Include="..\..\..\assets\shaders\surface.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
   </ItemGroup>

@@ -229,7 +229,7 @@ namespace ml
 						{ "name", name },
 						{ "file", file },
 					};
-					if (ML_Res.parseItem(item))
+					if (ML_Resources.parseItem(item))
 					{
 						return Var().boolValue(Debug::log(
 							"Success loading {0}: {1} \'{2}\'",

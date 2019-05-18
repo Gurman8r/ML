@@ -8,10 +8,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	RenderWindow::RenderWindow()
-		: Window()
+	RenderWindow::RenderWindow(EventSystem & eventSystem)
+		: Window(eventSystem)
 	{
-		ML_EventSystem.addListener(GraphicsEvent::EV_RenderError, this);
+		getEventSystem().addListener(GraphicsEvent::EV_RenderError, this);
 	}
 
 	RenderWindow::~RenderWindow() {}

@@ -1,19 +1,16 @@
 #ifndef _ML_DOCKSPACE_HPP_
 #define _ML_DOCKSPACE_HPP_
 
-#include <ML/Editor/GUI_Window.hpp>
+#include <ML/Editor/BaseWidget.hpp>
 #include <ML/Core/Vector2.hpp>
-
-#define ML_Dockspace ml::Dockspace::getInstance()
 
 namespace ml
 {
 	// Docking/snapping area for windows
 	class ML_EDITOR_API Dockspace final 
-		: public GUI_Window
-		, public ISingleton<Dockspace>
+		: public BaseWidget
 	{
-		friend class ISingleton<Dockspace>;
+		friend class Editor;
 
 	private:
 		Dockspace();
@@ -21,7 +18,7 @@ namespace ml
 
 	public:
 		void onEvent(const IEvent * value) override;
-		bool drawGui(bool * p_open) override;
+		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	protected:
 		bool beginDraw(bool * p_open, int32_t flags = 0) override;

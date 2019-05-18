@@ -1,7 +1,8 @@
 #include <ML/Editor/Builder.hpp>
-#include <ML/Engine/Resources.hpp>
+#include <ML/Editor/Editor.hpp>
 #include <ML/Editor/GUI.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Uni.hpp>
@@ -68,13 +69,12 @@
 #define ML_MAIN_EXAMPLE \
 "/* * * * * * * * * * * * * * * * * * * * */\n" \
 "\n" \
-"#shader vertex\n" \
 "#include \"Vertex\"\n" \
 "\n" \
 "void main()\n" \
 "{\n" \
 "	Out.Position = a_Position;\n" \
-"	Out.Normal = a_Normal;\n" \
+"	Out.Normal   = a_Normal;\n" \
 "	Out.Texcoord = a_Texcoord;\n" \
 "	\n" \
 "	mat4 MVP = (Vert.proj * Vert.view * Vert.model);\n" \
@@ -84,7 +84,6 @@
 "\n" \
 "/* * * * * * * * * * * * * * * * * * * * */\n" \
 "\n" \
-"#shader fragment\n" \
 "#include \"Fragment\"\n" \
 "\n" \
 "void main()\n" \
@@ -102,8 +101,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Builder::Builder()
-		: GUI_Window("Builder")
-		, m_shader(ML_Res.shaders.load(ML_TEST_SHADER))
+		: BaseWidget("Builder")
+		, m_shader(ML_Resources.shaders.load(ML_TEST_SHADER))
 	{
 		m_files.push_back(new BuildFile("Main", ML_MAIN_EXAMPLE));
 		m_files.push_back(new BuildFile("Vertex", ML_VERT_EXAMPLE));
@@ -125,7 +124,7 @@ namespace ml
 	{
 	}
 
-	bool Builder::drawGui(bool * p_open)
+	bool Builder::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{
@@ -273,7 +272,7 @@ namespace ml
 					if (ImGui::BeginTabItem(
 						String("[" + std::to_string(i) + "] " + file->name).c_str(),
 						t_open,
-						0//file->dirty ? ImGuiTabItemFlags_UnsavedDocument : 0
+						file->dirty ? ImGuiTabItemFlags_UnsavedDocument : 0
 					))
 					{	// Input Text Content Area
 						if (ImGui::BeginChild(

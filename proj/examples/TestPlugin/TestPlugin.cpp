@@ -13,7 +13,7 @@ ML_PLUGIN_API void * ML_Plugin_Test(void * data)
 	}
 	else
 	{
-		return NULL;
+		return (void *)("Test Plugin Handled an Error!");
 	}
 }
 

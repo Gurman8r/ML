@@ -33,7 +33,7 @@ namespace DEMO
 	void DemoPhysics::update(const int32_t i, ml::PhysicsState & state)
 	{
 		const float totalTime = ML_Engine.mainTimer().elapsed().delta();
-		const float deltaTime = ML_Engine.loopTimer().elapsed().delta();
+		const float deltaTime = ML_Engine.loopTimer().elapsed().delta<ml::Milliseconds, ml::Ratio<1, 10000>>();
 		const float sinTime = std::sinf(totalTime);
 		const float cosTime = std::cosf(totalTime);
 
@@ -112,7 +112,7 @@ namespace DEMO
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void DemoPhysics::sync(const ml::PhysicsState & state)
 	{
-		for (auto & pair : ML_Res.entities)
+		for (auto & pair : ML_Resources.entities)
 		{
 			if (ml::Rigidbody * rb = pair.second->get<ml::Rigidbody>())
 			{

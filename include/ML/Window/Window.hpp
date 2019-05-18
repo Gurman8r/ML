@@ -12,6 +12,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	class EventSystem;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class ML_WINDOW_API Window
 		: public ITrackable
 		, public INonCopyable
@@ -32,7 +36,8 @@ namespace ml
 		using PositionFun		= void(*)(void *, int32_t, int32_t);
 		using SizeFun			= void(*)(void *, int32_t, int32_t);
 
-	public: // Style
+
+	public: // Styles
 		/* * * * * * * * * * * * * * * * * * * * */
 		enum Style : uint32_t
 		{
@@ -49,10 +54,12 @@ namespace ml
 			Default	= Resizable | Decorated | Focused | AutoIconify | Maximized,
 		};
 
+
 	public: // C/D-tor
 		/* * * * * * * * * * * * * * * * * * * * */
-		Window();
+		Window(EventSystem & eventSystem);
 		virtual ~Window();
+
 
 	public: // Core
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -61,6 +68,7 @@ namespace ml
 		virtual bool setup();
 
 		virtual void onEvent(const IEvent * ev) override;
+
 
 	public: // Modifiers
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -83,22 +91,25 @@ namespace ml
 		Window & setTitle(const String & value);
 		Window & terminate();
 
+
 	public: // Accessors
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool	isFocused() const;
-		bool	isOpen() const;
-		int32_t	getAttrib(const int32_t value) const;
-		char	getChar() const;
-		CString	getClipboardString() const;
-		vec2	getCursorPos() const;
-		vec2i	getFrameSize() const;
-		int32_t	getKey(const int32_t value) const;
-		int32_t	getInputMode() const;
-		int32_t	getMouseButton(const int32_t button) const;
-		double	getTime() const;
+		bool		isFocused() const;
+		bool		isOpen() const;
+		int32_t		getAttrib(const int32_t value) const;
+		char		getChar() const;
+		CString		getClipboardString() const;
+		vec2		getCursorPos() const;
+		vec2i		getFrameSize() const;
+		int32_t		getKey(const int32_t value) const;
+		int32_t		getInputMode() const;
+		int32_t		getMouseButton(const int32_t button) const;
+		double		getTime() const;
 
+
+	public: // Inline
 		/* * * * * * * * * * * * * * * * * * * * */
-		
+		inline EventSystem &	getEventSystem()const { return m_eventSystem; }
 		inline const Context &	getContext()	const { return m_context; }
 		inline const uint32_t &	getStyle()		const { return m_style; }
 		inline const vec2i &	getPosition()	const { return m_position; }
@@ -137,6 +148,7 @@ namespace ml
 
 	protected: // Data
 		/* * * * * * * * * * * * * * * * * * * * */
+		EventSystem &	m_eventSystem;
 		void *			m_window;
 		void *			m_monitor;
 		void *			m_share;

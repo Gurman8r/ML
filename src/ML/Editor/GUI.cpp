@@ -217,12 +217,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool GUI::Begin(CString label, bool * p_open, int32_t flags)
+	bool GUI::BeginWindow(CString label, bool * p_open, int32_t flags)
 	{
 		return ImGui::Begin(label, p_open, flags);
 	}
 
-	void GUI::End()
+	void GUI::EndWindow()
 	{
 		return ImGui::End();
 	}

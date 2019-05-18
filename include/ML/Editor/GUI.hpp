@@ -26,19 +26,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		static bool Begin(CString label, bool * p_open, int32_t flags);
-		static void End();
+		static bool BeginWindow(CString label, bool * p_open, int32_t flags);
+		static void EndWindow();
 
 		template <
-			typename _Fun
-		> inline static bool DrawWindow(CString label, bool * p_open, int32_t flags, _Fun fun)
+			typename Fun
+		> inline static bool DrawWindow(CString label, bool * p_open, int32_t flags, Fun fun)
 		{
 			bool good;
-			if (good = Begin(label, p_open, flags))
+			if (good = BeginWindow(label, p_open, flags))
 			{
 				fun();
 			}
-			End();
+			EndWindow();
 			return good;
 		}
 

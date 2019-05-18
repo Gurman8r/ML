@@ -1,4 +1,5 @@
 #include <ML/Editor/SceneView.hpp>
+#include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 
 namespace ml
@@ -6,7 +7,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	SceneView::SceneView()
-		: GUI_Window("Scene")
+		: BaseWidget("Scene")
 	{
 	}
 
@@ -20,7 +21,7 @@ namespace ml
 	{
 	}
 
-	bool SceneView::drawGui(bool * p_open)
+	bool SceneView::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		return beginDraw(p_open, ImGuiWindowFlags_MenuBar);
 	}
@@ -29,7 +30,7 @@ namespace ml
 
 	bool SceneView::beginDraw(bool * p_open, int32_t flags)
 	{
-		if (GUI_Window::beginDraw(p_open, flags))
+		if (BaseWidget::beginDraw(p_open, flags))
 		{
 			ImGui::BeginChild("Viewport", { -1, -1 });
 		}
@@ -42,7 +43,7 @@ namespace ml
 		{
 			ImGui::EndChild();
 		}
-		return GUI_Window::endDraw();
+		return BaseWidget::endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

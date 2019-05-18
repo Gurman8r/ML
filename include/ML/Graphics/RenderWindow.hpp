@@ -13,7 +13,7 @@ namespace ml
 		, public RenderTarget
 	{
 	public:
-		RenderWindow();
+		RenderWindow(EventSystem & eventSystem);
 		virtual ~RenderWindow();
 
 	public:

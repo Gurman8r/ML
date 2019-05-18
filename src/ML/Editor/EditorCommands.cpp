@@ -44,28 +44,28 @@ namespace ml
 		if (type == "all")
 		{
 			cout
-				<< "# Fonts" << endl << ML_Res.fonts
-				<< "# Images" << endl << ML_Res.images
-				<< "# Meshes" << endl << ML_Res.meshes
-				<< "# Models" << endl << ML_Res.models
-				<< "# Scripts" << endl << ML_Res.scripts
-				<< "# Shaders" << endl << ML_Res.shaders
-				<< "# Skyboxes" << endl << ML_Res.skyboxes
-				<< "# Sounds" << endl << ML_Res.sounds
-				<< "# Sprites" << endl << ML_Res.sprites
-				<< "# Textures" << endl << ML_Res.textures
+				<< "# Fonts" << endl << ML_Resources.fonts
+				<< "# Images" << endl << ML_Resources.images
+				<< "# Meshes" << endl << ML_Resources.meshes
+				<< "# Models" << endl << ML_Resources.models
+				<< "# Scripts" << endl << ML_Resources.scripts
+				<< "# Shaders" << endl << ML_Resources.shaders
+				<< "# Skyboxes" << endl << ML_Resources.skyboxes
+				<< "# Sounds" << endl << ML_Resources.sounds
+				<< "# Sprites" << endl << ML_Resources.sprites
+				<< "# Textures" << endl << ML_Resources.textures
 				<< endl;
 		}
-		else if (type == "fonts") { cout << ML_Res.fonts << endl; }
-		else if (type == "images") { cout << ML_Res.images << endl; }
-		else if (type == "meshes") { cout << ML_Res.meshes << endl; }
-		else if (type == "models") { cout << ML_Res.models << endl; }
-		else if (type == "scripts") { cout << ML_Res.scripts << endl; }
-		else if (type == "shaders") { cout << ML_Res.shaders << endl; }
-		else if (type == "skyboxes") { cout << ML_Res.skyboxes << endl; }
-		else if (type == "sounds") { cout << ML_Res.sounds << endl; }
-		else if (type == "sprites") { cout << ML_Res.sprites << endl; }
-		else if (type == "textures") { cout << ML_Res.textures << endl; }
+		else if (type == "fonts") { cout << ML_Resources.fonts << endl; }
+		else if (type == "images") { cout << ML_Resources.images << endl; }
+		else if (type == "meshes") { cout << ML_Resources.meshes << endl; }
+		else if (type == "models") { cout << ML_Resources.models << endl; }
+		else if (type == "scripts") { cout << ML_Resources.scripts << endl; }
+		else if (type == "shaders") { cout << ML_Resources.shaders << endl; }
+		else if (type == "skyboxes") { cout << ML_Resources.skyboxes << endl; }
+		else if (type == "sounds") { cout << ML_Resources.sounds << endl; }
+		else if (type == "sprites") { cout << ML_Resources.sprites << endl; }
+		else if (type == "textures") { cout << ML_Resources.textures << endl; }
 		else
 		{
 			return Var().errorValue("Type not found: {0}", type);
@@ -78,18 +78,18 @@ namespace ml
 		const String type = args.pop();
 		if (type == "all")
 		{
-			return Var().intValue((int32_t)ML_Res.reloadAll());
+			return Var().intValue((int32_t)ML_Resources.reloadAll());
 		}
-		else if (type == "fonts") { return Var().intValue((int32_t)ML_Res.fonts.reload()); }
-		else if (type == "images") { return Var().intValue((int32_t)ML_Res.images.reload()); }
-		else if (type == "meshes") { return Var().intValue((int32_t)ML_Res.meshes.reload()); }
-		else if (type == "models") { return Var().intValue((int32_t)ML_Res.models.reload()); }
-		else if (type == "scripts") { return Var().intValue((int32_t)ML_Res.scripts.reload()); }
-		else if (type == "shaders") { return Var().intValue((int32_t)ML_Res.shaders.reload()); }
-		else if (type == "skyboxes") { return Var().intValue((int32_t)ML_Res.skyboxes.reload()); }
-		else if (type == "sounds") { return Var().intValue((int32_t)ML_Res.sounds.reload()); }
-		else if (type == "sprites") { return Var().intValue((int32_t)ML_Res.sprites.reload()); }
-		else if (type == "textures") { return Var().intValue((int32_t)ML_Res.textures.reload()); }
+		else if (type == "fonts") { return Var().intValue((int32_t)ML_Resources.fonts.reload()); }
+		else if (type == "images") { return Var().intValue((int32_t)ML_Resources.images.reload()); }
+		else if (type == "meshes") { return Var().intValue((int32_t)ML_Resources.meshes.reload()); }
+		else if (type == "models") { return Var().intValue((int32_t)ML_Resources.models.reload()); }
+		else if (type == "scripts") { return Var().intValue((int32_t)ML_Resources.scripts.reload()); }
+		else if (type == "shaders") { return Var().intValue((int32_t)ML_Resources.shaders.reload()); }
+		else if (type == "skyboxes") { return Var().intValue((int32_t)ML_Resources.skyboxes.reload()); }
+		else if (type == "sounds") { return Var().intValue((int32_t)ML_Resources.sounds.reload()); }
+		else if (type == "sprites") { return Var().intValue((int32_t)ML_Resources.sprites.reload()); }
+		else if (type == "textures") { return Var().intValue((int32_t)ML_Resources.textures.reload()); }
 		else
 		{
 			return Var().errorValue("Type not found: {0}", type);
@@ -101,7 +101,7 @@ namespace ml
 		bool flag_rebuild = args.find_and_erase("-r");
 
 		const String name = args.pop();
-		if (Script * scr = ML_Res.scripts.get(name))
+		if (Script * scr = ML_Resources.scripts.get(name))
 		{
 			auto build_fun = ((flag_rebuild)
 				? (&Script::rebuild)

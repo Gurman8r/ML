@@ -1,4 +1,5 @@
 #include <ML/Editor/Profiler.hpp>
+#include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Engine.hpp>
 
@@ -7,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Profiler::Profiler()
-		: GUI_Window("Profiler")
+		: BaseWidget("Profiler")
 	{
 	}
 
@@ -21,7 +22,7 @@ namespace ml
 	{
 	}
 
-	bool Profiler::drawGui(bool * p_open)
+	bool Profiler::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{

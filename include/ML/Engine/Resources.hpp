@@ -15,7 +15,7 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Script/Script.hpp>
 
-#define ML_Res ml::Resources::getInstance()
+#define ML_Resources ml::Resources::getInstance()
 
 namespace ml
 {

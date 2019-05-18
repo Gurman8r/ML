@@ -24,11 +24,11 @@ void main()
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-struct Effect_Uniforms
+struct Surface_Uniforms
 {
 	int mode;
 };
-uniform Effect_Uniforms Effect;
+uniform Surface_Uniforms Surface;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -86,7 +86,7 @@ void drawKernel(in float kernel[9])
 
 void main()
 {
-	switch (Effect.mode)
+	switch (Surface.mode)
 	{
 	case MODE_GRAYSCALE:
 		drawGrayscale();

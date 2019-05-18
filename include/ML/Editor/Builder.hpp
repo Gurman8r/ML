@@ -1,10 +1,9 @@
 #ifndef _ML_BUILDER_HPP_
 #define _ML_BUILDER_HPP_
 
-#include <ML/Editor/GUI_Window.hpp>
+#include <ML/Editor/BaseWidget.hpp>
 #include <ML/Editor/Document.hpp>
 
-#define ML_Builder ml::Builder::getInstance()
 #define ML_TEST_SHADER "built_shader"
 
 namespace ml
@@ -16,10 +15,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API Builder final
-		: public GUI_Window
-		, public ISingleton<Builder>
+		: public BaseWidget
 	{
-		friend class ISingleton<Builder>;
+		friend class Editor;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -54,7 +52,7 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		void onEvent(const IEvent * value) override;
-		bool drawGui(bool * p_open) override;
+		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

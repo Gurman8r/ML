@@ -1,20 +1,17 @@
 #ifndef _ML_PROFILER_HPP_
 #define _ML_PROFILER_HPP_
 
-#include <ML/Editor/GUI_Window.hpp>
+#include <ML/Editor/BaseWidget.hpp>
 #include <ML/Core/Vector2.hpp>
-
-#define ML_Profiler ml::Profiler::getInstance()
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API Profiler
-		: public GUI_Window
-		, public ISingleton<Profiler>
+		: public BaseWidget
 	{
-		friend class ISingleton<Profiler>;
+		friend class Editor;
 
 	private:
 		Profiler();
@@ -22,7 +19,7 @@ namespace ml
 
 	public:
 		void onEvent(const IEvent * value) override;
-		bool drawGui(bool * p_open) override;
+		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 		struct GraphLines
 		{

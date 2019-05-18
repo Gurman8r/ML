@@ -12,7 +12,7 @@ namespace ml
 		: public RenderWindow
 	{
 	public:
-		Application();
+		Application(EventSystem & eventSystem);
 		virtual ~Application();
 
 	public:

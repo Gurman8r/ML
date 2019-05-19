@@ -27,7 +27,7 @@ namespace ml
 
 	public:
 		SharedLibrary & operator=(SharedLibrary && copy);
-		SharedLibrary & swap(SharedLibrary & other);
+		SharedLibrary & swap(SharedLibrary & copy);
 
 	public:
 		bool	dispose() override;

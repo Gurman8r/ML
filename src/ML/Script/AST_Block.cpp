@@ -124,7 +124,7 @@ namespace ml
 
 	Var *	AST_Block::getRet() const
 	{
-		if (Var * v = ML_Runtime.getVar(getID(), ML_NAME_RETV))
+		if (Var * v = ML_Runtime.getVar(getID(), ML_SCR_NAME_RETV))
 		{
 			return v;
 		}
@@ -133,7 +133,7 @@ namespace ml
 
 	Var *	AST_Block::setRet(const Var & value) const
 	{
-		return ML_Runtime.setVar(getID(), ML_NAME_RETV, value);
+		return ML_Runtime.setVar(getID(), ML_SCR_NAME_RETV, value);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

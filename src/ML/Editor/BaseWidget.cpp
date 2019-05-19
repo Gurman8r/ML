@@ -1,16 +1,21 @@
 #include <ML/Editor/BaseWidget.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Core/EventSystem.hpp>
+#include <ML/Editor/Editor.hpp>
+#include <ML/Engine/Engine.hpp>
+#include <ML/Engine/Resources.hpp>
+#include <ML/Engine/Preferences.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	BaseWidget::BaseWidget(EventSystem & eventSystem, CString title)
-		: m_eventSystem	(eventSystem)
-		, m_good		(false)
-		, m_title		(title)
-		, m_flags		(ImGuiWindowFlags_None)
-		, m_open		(NULL)
+	BaseWidget::BaseWidget(CString title, Editor & editor)
+		: m_editor	(editor)
+		, m_title	(title)
+		, m_good	(false)
+		, m_flags	(ImGuiWindowFlags_None)
+		, m_open	(NULL)
 	{
 	}
 
@@ -40,6 +45,33 @@ namespace ml
 	uint32_t BaseWidget::getID() const
 	{
 		return ImGui::GetID(m_title);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	Editor & BaseWidget::editor() const
+	{
+		return m_editor;
+	}
+
+	Engine & BaseWidget::engine() const
+	{
+		return editor().engine();
+	}
+
+	EventSystem & BaseWidget::eventSystem() const
+	{
+		return engine().eventSystem();
+	}
+
+	Preferences & BaseWidget::prefs() const
+	{
+		return engine().prefs();
+	}
+
+	Resources & BaseWidget::resources() const
+	{
+		return engine().resources();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

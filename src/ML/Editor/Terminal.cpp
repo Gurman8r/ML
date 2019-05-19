@@ -6,6 +6,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Script/Interpreter.hpp>
 #include <ML/Script/ScriptEvents.hpp>
+#include <ML/Engine/EngineEvents.hpp>
 
 # ifndef strdup
 # define strdup _strdup
@@ -15,8 +16,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Terminal::Terminal(EventSystem & eventSystem)
-		: BaseWidget	(eventSystem, "Terminal")
+	Terminal::Terminal(Editor & editor)
+		: BaseWidget	("Terminal", editor)
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()
@@ -29,6 +30,7 @@ namespace ml
 		std::memset(m_inputBuf, 0, sizeof(m_inputBuf));
 
 		m_autoFill.push_back("clear");
+		m_autoFill.push_back("exit");
 		m_autoFill.push_back("history");
 
 		for (auto & pair : ML_Interpreter.commands())
@@ -38,15 +40,16 @@ namespace ml
 
 		this->printf("# Using this feature may result in crashes or system instability.");
 		this->printf("# Type \'help\' for a list of commands.");
+
+		//ML_Interpreter.install({ "", [](Args &) 
+		//{
+		//	return Var(); 
+		//} });
 	}
 	
 	Terminal::~Terminal() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Terminal::onEvent(const IEvent * value)
-	{
-	}
 
 	bool Terminal::drawGui(const GuiEvent * ev, bool * p_open)
 	{
@@ -163,11 +166,15 @@ namespace ml
 		}
 		m_history.push_back(strdup(value));
 
-		if (std::strcmp(value, "clear") == 0)
+		if (!std::strcmp(value, "clear"))
 		{
 			this->clear();
 		}
-		else if (std::strcmp(value, "history") == 0)
+		else if (!std::strcmp(value, "exit"))
+		{
+			eventSystem().fireEvent(CloseEvent());
+		}
+		else if (!std::strcmp(value, "history"))
 		{
 			for (CString e : m_history)
 			{

@@ -10,6 +10,8 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Helper.hpp>
 #include <ML/Editor/GUI.hpp>
+#include <ML/Engine/Engine.hpp>
+#include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/LuaScript.hpp>
 #include <ML/Engine/Plugin.hpp>
@@ -439,8 +441,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ResourceView::ResourceView(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Resources")
+	ResourceView::ResourceView(Editor & editor)
+		: BaseWidget("Resources", editor)
 	{
 	}
 
@@ -450,14 +452,15 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceView::onEvent(const IEvent * value)
-	{
-	}
-
 	bool ResourceView::drawGui(const GuiEvent * ev, bool * p_open)
 	{
+
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			Resources & res = editor().engine().resources();
+
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			if (ImGui::BeginMenuBar())
@@ -488,21 +491,21 @@ namespace ml
 
 			Layout::Columns([&]()
 			{
-				draw_entity_registry	(ev->resources, ev->resources.entities	);
-				draw_font_registry		(ev->resources, ev->resources.fonts		);
-				draw_image_registry		(ev->resources, ev->resources.images	);
-				draw_lua_registry		(ev->resources, ev->resources.lua		);
-				draw_mesh_registry		(ev->resources, ev->resources.meshes	);
-				draw_material_registry	(ev->resources, ev->resources.materials	);
-				draw_model_registry		(ev->resources, ev->resources.models	);
-				draw_plugin_registry	(ev->resources, ev->resources.plugins	);
-				draw_script_registry	(ev->resources, ev->resources.scripts	);
-				draw_shader_registry	(ev->resources, ev->resources.shaders	);
-				draw_skybox_registry	(ev->resources, ev->resources.skyboxes	);
-				draw_sound_registry		(ev->resources, ev->resources.sounds	);
-				draw_sprite_registry	(ev->resources, ev->resources.sprites	);
-				draw_surface_registry	(ev->resources, ev->resources.surfaces	);
-				draw_texture_registry	(ev->resources, ev->resources.textures	);
+				draw_entity_registry	(res, res.entities	);
+				draw_font_registry		(res, res.fonts		);
+				draw_image_registry		(res, res.images	);
+				draw_lua_registry		(res, res.lua		);
+				draw_mesh_registry		(res, res.meshes	);
+				draw_material_registry	(res, res.materials	);
+				draw_model_registry		(res, res.models	);
+				draw_plugin_registry	(res, res.plugins	);
+				draw_script_registry	(res, res.scripts	);
+				draw_shader_registry	(res, res.shaders	);
+				draw_skybox_registry	(res, res.skyboxes	);
+				draw_sound_registry		(res, res.sounds	);
+				draw_sprite_registry	(res, res.sprites	);
+				draw_surface_registry	(res, res.surfaces	);
+				draw_texture_registry	(res, res.textures	);
 			});
 
 			/* * * * * * * * * * * * * * * * * * * * */

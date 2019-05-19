@@ -1,19 +1,18 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/StandardLib.hpp>
+#include <ML/Core/Config.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
+#if defined(ML_SYSTEM_WINDOWS)
 
-extern int32_t main(int32_t, char **);
+#include <Windows.h>
 
-/* * * * * * * * * * * * * * * * * * * * */
+extern INT main();
 
-# if defined(ML_SYSTEM_WINDOWS)
-# include <Windows.h>
 INT WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 {
-	return main(__argc, __argv);
+	return main();
 }
-# endif
+
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * */

@@ -81,7 +81,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Prefs.hpp">
+    <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,7 +113,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\LuaScript.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Prefs.cpp">
+    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>

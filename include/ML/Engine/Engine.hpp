@@ -10,6 +10,8 @@ namespace ml
 
 	class Application;
 	class EventSystem;
+	class Preferences;
+	class Resources;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -18,7 +20,7 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
-		Engine(EventSystem & eventSystem);
+		Engine(EventSystem & eventSystem, Preferences & prefs, Resources & resources);
 		~Engine();
 
 	public:
@@ -44,21 +46,28 @@ namespace ml
 		}
 
 	public:
-		inline const Application *	app()			const	{ return m_app;			}
-		inline		 Application *	app()					{ return m_app;			}
-		inline EventSystem &		eventSystem()	const	{ return m_eventSystem; }
-		inline const Timer &		mainTimer()		const	{ return m_mainTimer;	}
-		inline const Timer &		loopTimer()		const	{ return m_loopTimer;	}
-		inline const Duration &		elapsed()		const	{ return m_elapsed;	}
-		inline const uint32_t		frameRate()		const	{ return m_frameRate;	}
+		EventSystem &	eventSystem()	const;
+		Preferences &	prefs()			const;
+		Resources	&	resources()		const;
+
+	public:
+		inline const	Application *	app()			const	{ return m_application;	}
+		inline			Application *	app()					{ return m_application;	}
+		inline const	Timer		&	mainTimer()		const	{ return m_mainTimer;	}
+		inline const	Timer		&	loopTimer()		const	{ return m_loopTimer;	}
+		inline const	Duration	&	elapsed()		const	{ return m_elapsed;		}
+		inline const	uint32_t		frameRate()		const	{ return m_frameRate;	}
 
 	private:
-		Application *	m_app;
 		EventSystem &	m_eventSystem;
+		Preferences	&	m_prefs;
+		Resources	&	m_resources;
+		
+		Application *	m_application;
 		Timer			m_mainTimer;
 		Timer			m_loopTimer;
 		Duration		m_elapsed;
-		uint32_t		m_frameCount;
+		uint32_t		m_frameCounter;
 		uint32_t		m_frameRate;
 		float			m_nextSecond;
 		float			m_prevSecond;

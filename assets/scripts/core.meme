@@ -61,25 +61,4 @@ set_var = [](set_var_nodeid, set_var_name, set_var_value); {
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-get_target_name = [](); {
-	return command("target name");
-};
-
-get_target_config = [](); { 
-	return command("target config");
-};
-
-get_target_platform = [](); { 
-	return command("target platform"); 
-};
-
-get_target_file = [](); {
-	return
-		get_target_name() + "_" +
-		get_target_config() + "_" +
-		get_target_platform() + ".exe";
-};
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
 CORE = nodeid();

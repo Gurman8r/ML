@@ -9,16 +9,16 @@ namespace ml
 	EditorApplication::EditorApplication(EventSystem & eventSystem)
 		: Application(eventSystem)
 	{
-		this->eventSystem().addListener(EditorEvent::EV_Gui,		this);
-		this->eventSystem().addListener(EditorEvent::EV_File_New,	this);
-		this->eventSystem().addListener(EditorEvent::EV_File_Open,	this);
-		this->eventSystem().addListener(EditorEvent::EV_File_Save,	this);
-		this->eventSystem().addListener(EditorEvent::EV_File_Close,	this);
-		this->eventSystem().addListener(EditorEvent::EV_Edit_Undo,	this);
-		this->eventSystem().addListener(EditorEvent::EV_Edit_Redo,	this);
-		this->eventSystem().addListener(EditorEvent::EV_Edit_Cut,	this);
-		this->eventSystem().addListener(EditorEvent::EV_Edit_Copy,	this);
-		this->eventSystem().addListener(EditorEvent::EV_Edit_Paste,	this);
+		eventSystem.addListener(EditorEvent::EV_Gui,		this);
+		eventSystem.addListener(EditorEvent::EV_File_New,	this);
+		eventSystem.addListener(EditorEvent::EV_File_Open,	this);
+		eventSystem.addListener(EditorEvent::EV_File_Save,	this);
+		eventSystem.addListener(EditorEvent::EV_File_Close,	this);
+		eventSystem.addListener(EditorEvent::EV_Edit_Undo,	this);
+		eventSystem.addListener(EditorEvent::EV_Edit_Redo,	this);
+		eventSystem.addListener(EditorEvent::EV_Edit_Cut,	this);
+		eventSystem.addListener(EditorEvent::EV_Edit_Copy,	this);
+		eventSystem.addListener(EditorEvent::EV_Edit_Paste,	this);
 	}
 
 	EditorApplication::~EditorApplication() { }

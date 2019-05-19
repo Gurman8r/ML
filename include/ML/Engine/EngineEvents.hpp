@@ -6,14 +6,11 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class Engine;
-	class Prefs;
-	class RenderWindow;
-	class Resources;
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API EngineEvent : public IEvent
 	{
@@ -29,6 +26,8 @@ namespace ml
 			EV_Unload,
 			EV_Exit,
 
+			EV_Close,
+
 			MAX_ENGINE_EVENT
 		};
 
@@ -38,21 +37,26 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/*
+	struct EngineFlowEvent : public EngineEvent
+	{
+		Engine & engine;
+		EngineFlowEvent(int32_t id, Engine & engine)
+			: 
+		{
+		}
+	}
+	*/
 
 	struct ML_ENGINE_API EnterEvent final : public EngineEvent
 	{
-		const Prefs &	prefs;
-		Engine &		engine;
-		RenderWindow &	window;
-		Resources &		resources;
+		Engine & engine;
 
-		EnterEvent(const Prefs & prefs, Engine & engine, RenderWindow & window, Resources & resources)
+		EnterEvent(Engine & engine)
 			: EngineEvent(EV_Enter)
-			, prefs(prefs)
 			, engine(engine)
-			, window(window)
-			, resources(resources)
 		{
 		}
 	};
@@ -61,17 +65,11 @@ namespace ml
 
 	struct ML_ENGINE_API LoadEvent final : public EngineEvent
 	{
-		const Prefs &	prefs;
-		Engine &		engine;
-		RenderWindow &	window;
-		Resources &		resources;
+		Engine & engine;
 
-		LoadEvent(const Prefs & prefs, Engine & engine, RenderWindow & window, Resources & resources)
+		LoadEvent(Engine & engine)
 			: EngineEvent(EV_Load)
-			, prefs(prefs)
 			, engine(engine)
-			, window(window)
-			, resources(resources)
 		{
 		}
 	};
@@ -80,17 +78,11 @@ namespace ml
 
 	struct ML_ENGINE_API StartEvent final : public EngineEvent
 	{
-		const Prefs &	prefs;
-		Engine &		engine;
-		RenderWindow &	window;
-		Resources &		resources;
+		Engine & engine;
 
-		StartEvent(const Prefs & prefs, Engine & engine, RenderWindow & window, Resources & resources)
+		StartEvent(Engine & engine)
 			: EngineEvent(EV_Start)
-			, prefs(prefs)
 			, engine(engine)
-			, window(window)
-			, resources(resources)
 		{
 		}
 	};
@@ -99,15 +91,11 @@ namespace ml
 
 	struct ML_ENGINE_API UpdateEvent final : public EngineEvent
 	{
-		Engine &			engine;
-		RenderWindow &		window;
-		Resources &			resources;
+		Engine & engine;
 
-		UpdateEvent(Engine & engine, RenderWindow & window, Resources & resources)
+		UpdateEvent(Engine & engine)
 			: EngineEvent(EV_Update)
 			, engine(engine)
-			, window(window)
-			, resources(resources)
 		{
 		}
 	};
@@ -116,15 +104,11 @@ namespace ml
 
 	struct ML_ENGINE_API DrawEvent final : public EngineEvent
 	{
-		Engine &			engine;
-		RenderWindow &		window;
-		Resources &			resources;
+		Engine & engine;
 
-		DrawEvent(Engine & engine, RenderWindow & window, Resources & resources)
+		DrawEvent(Engine & engine)
 			: EngineEvent(EV_Draw)
 			, engine(engine)
-			, window(window)
-			, resources(resources)
 		{
 		}
 	};
@@ -133,13 +117,11 @@ namespace ml
 
 	struct ML_ENGINE_API UnloadEvent final : public EngineEvent
 	{
-		Engine &	engine;
-		Resources & resources;
+		Engine & engine;
 
-		UnloadEvent(Engine & engine, Resources & resources)
+		UnloadEvent(Engine & engine)
 			: EngineEvent(EV_Unload)
 			, engine(engine)
-			, resources(resources)
 		{
 		}
 	};
@@ -148,18 +130,26 @@ namespace ml
 
 	struct ML_ENGINE_API ExitEvent final : public EngineEvent
 	{
-		Engine &	engine;
-		Resources & resources;
+		Engine & engine;
 
-		ExitEvent(Engine & engine, Resources & resources)
+		ExitEvent(Engine & engine)
 			: EngineEvent(EV_Exit)
 			, engine(engine)
-			, resources(resources)
 		{
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_ENGINE_API CloseEvent final : public EngineEvent
+	{
+		CloseEvent()
+			: EngineEvent(EV_Close)
+		{
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ENGINE_EVENTS_HPP_

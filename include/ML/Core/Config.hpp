@@ -16,6 +16,13 @@
 # endif
 
 
+//	C/C++
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+# if defined(__cplusplus)
+#	define ML_CPP
+# endif
+
+
 //	Configuration (Debug/Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_DEBUG)
@@ -26,13 +33,6 @@
 #	define ML_DEBUG			0
 #	define ML_RELEASE		1
 #	define ML_CONFIGURATION "Release"
-# endif
-
-
-//	C/C++
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if defined(__cplusplus)
-#	define ML_CPP
 # endif
 
 

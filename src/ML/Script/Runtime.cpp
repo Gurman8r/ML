@@ -158,7 +158,7 @@ namespace ml
 		{
 			m_values->insert({ index, new VarMap() });
 
-			setVar(index, ML_NAME_RETV, Var().voidValue());
+			setVar(index, ML_SCR_NAME_RETV, Var().voidValue());
 		}
 		return values(index);
 	}

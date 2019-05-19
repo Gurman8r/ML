@@ -11,8 +11,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	MainMenuBar::MainMenuBar(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Main Menu Bar")
+	MainMenuBar::MainMenuBar(Editor & editor)
+		: BaseWidget("Main Menu Bar", editor)
 	{
 	}
 
@@ -21,10 +21,6 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	void MainMenuBar::onEvent(const IEvent * value)
-	{
-	}
 
 	bool MainMenuBar::drawGui(const GuiEvent * ev, bool * p_open)
 	{
@@ -91,11 +87,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(ev->editor.terminal.getTitle(), "Ctrl+Alt+T", &ev->editor.show_terminal);
-				ImGui::MenuItem(ev->editor.browser.getTitle(), "Ctrl+Alt+E", &ev->editor.show_browser);
-				ImGui::MenuItem(ev->editor.builder.getTitle(), "Ctrl+Alt+B", &ev->editor.show_builder);
-				ImGui::MenuItem(ev->editor.sceneView.getTitle(), "Ctrl+Alt+S", &ev->editor.show_sceneView);
-				ImGui::MenuItem(ev->editor.inspector.getTitle(), "Ctrl+Alt+I", &ev->editor.show_inspector);
+				ImGui::MenuItem(ev->editor.terminal.getTitle(), NULL, &ev->editor.show_terminal);
+				ImGui::MenuItem(ev->editor.browser.getTitle(), NULL, &ev->editor.show_browser);
+				ImGui::MenuItem(ev->editor.builder.getTitle(), NULL, &ev->editor.show_builder);
+				ImGui::MenuItem(ev->editor.sceneView.getTitle(), NULL, &ev->editor.show_sceneView);
+				ImGui::MenuItem(ev->editor.inspector.getTitle(), NULL, &ev->editor.show_inspector);
 				ImGui::MenuItem(ev->editor.profiler.getTitle(), NULL, &ev->editor.show_profiler);
 				ImGui::MenuItem(ev->editor.textEditor.getTitle(), NULL, &ev->editor.show_textEditor);
 				ImGui::MenuItem(ev->editor.resourceView.getTitle(), NULL, &ev->editor.show_resourceView);

@@ -1,4 +1,4 @@
-#include <ML/Engine/Prefs.hpp>
+#include <ML/Engine/Preferences.hpp>
 #include <ML/Core/Debug.hpp>
 #include <INIReader.h>
 
@@ -6,19 +6,44 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Prefs::Prefs()
+	Preferences::Preferences()
 		: m_ini(NULL)
 	{
 	}
 
-	Prefs::~Prefs()
+	Preferences::Preferences(const String & filename)
+		: Preferences()
+	{
+		loadFromFile(filename);
+	}
+
+	Preferences::Preferences(Preferences && copy)
+		: Preferences()
+	{
+		this->swap(copy);
+	}
+
+	Preferences::~Preferences()
 	{
 		dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Prefs::dispose()
+	Preferences & Preferences::operator=(Preferences && copy)
+	{
+		return this->swap(copy);
+	}
+
+	Preferences & Preferences::swap(Preferences & copy)
+	{
+		std::swap(m_ini, copy.m_ini);
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	bool Preferences::dispose()
 	{
 		if (m_ini)
 		{
@@ -28,7 +53,7 @@ namespace ml
 		return !(m_ini);
 	}
 	
-	bool Prefs::loadFromFile(const String & filename)
+	bool Preferences::loadFromFile(const String & filename)
 	{
 		return ((!(m_ini) && (m_ini = static_cast<INIReader *>(new INIReader(filename))))
 			? (static_cast<INIReader *>(m_ini)->ParseError() == EXIT_SUCCESS)
@@ -38,7 +63,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Prefs::GetBool(const String & section, const String & name, bool default_value) const
+	bool Preferences::GetBool(const String & section, const String & name, bool default_value) const
 	{
 		return ((m_ini)
 			? (static_cast<INIReader *>(m_ini)->GetBoolean(
@@ -50,7 +75,7 @@ namespace ml
 		);
 	}
 
-	float Prefs::GetFloat(const String & section, const String & name, float default_value) const
+	float Preferences::GetFloat(const String & section, const String & name, float default_value) const
 	{
 		return ((m_ini) 
 			? (float)(static_cast<INIReader *>(m_ini)->GetReal(
@@ -62,7 +87,7 @@ namespace ml
 		);
 	}
 
-	int32_t Prefs::GetInt(const String & section, const String & name, int32_t default_value) const
+	int32_t Preferences::GetInt(const String & section, const String & name, int32_t default_value) const
 	{
 		return ((m_ini) 
 			? (static_cast<INIReader *>(m_ini)->GetInteger(
@@ -74,12 +99,12 @@ namespace ml
 		);
 	}
 
-	uint32_t Prefs::GetUint(const String & section, const String & name, uint32_t default_value) const
+	uint32_t Preferences::GetUint(const String & section, const String & name, uint32_t default_value) const
 	{
 		return (uint32_t)GetInt(section, name, (int32_t)default_value);
 	}
 
-	String Prefs::GetString(const String & section, const String & name, const String & default_value) const
+	String Preferences::GetString(const String & section, const String & name, const String & default_value) const
 	{
 		return ((m_ini)
 			? (static_cast<INIReader *>(m_ini)->Get(

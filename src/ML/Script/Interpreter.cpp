@@ -1,5 +1,6 @@
 #include <ML/Script/Interpreter.hpp>	
 #include <ML/Script/ScriptMacros.hpp>
+#include <ML/Script/DefaultCommands.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
@@ -10,6 +11,8 @@ namespace ml
 
 	Interpreter::Interpreter()
 	{
+		DefaultCommands::install(*this);
+
 		//ML_EventSystem.addListener(ScriptEvent::EV_Command, this);
 	}
 
@@ -124,7 +127,7 @@ namespace ml
 
 				delete value;
 
-				return ((ML_Runtime.setVar(0, ML_NAME_RETV, v))
+				return ((ML_Runtime.setVar(0, ML_SCR_NAME_RETV, v))
 					? (v)
 					: (Var().errorValue("Interpreter : Failed setting return"))
 				);

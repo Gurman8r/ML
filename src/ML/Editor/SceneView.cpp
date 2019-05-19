@@ -6,8 +6,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	SceneView::SceneView(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Scene")
+	SceneView::SceneView(Editor & editor)
+		: BaseWidget("Scene", editor)
 	{
 	}
 
@@ -17,10 +17,6 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	void SceneView::onEvent(const IEvent * value)
-	{
-	}
-
 	bool SceneView::drawGui(const GuiEvent * ev, bool * p_open)
 	{
 		return beginDraw(p_open, ImGuiWindowFlags_MenuBar);

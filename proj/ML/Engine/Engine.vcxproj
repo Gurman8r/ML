@@ -172,7 +172,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Prefs.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
@@ -186,7 +186,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\LuaScript.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Prefs.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp" />
   </ItemGroup>

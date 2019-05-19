@@ -31,11 +31,10 @@ namespace ml
 		static const Bytes MaxPreviewSize;
 
 	private:
-		Browser(EventSystem & eventSystem);
+		Browser(Editor & editor);
 		~Browser();
 
 	public:
-		void onEvent(const IEvent * value) override;
 		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	private:

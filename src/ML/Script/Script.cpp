@@ -62,21 +62,21 @@ namespace ml
 				// __ARGS__
 				m_root->push_front(new AST_Assign(
 					Operator::OP_SET,
-					new AST_Name(ML_NAME_ARGS),
+					new AST_Name(ML_SCR_NAME_ARGS),
 					ML_Parser.generate<AST_Array>(ML_Lexer.genArgsArray(args)))
 				);
 
 				// __FILE__
 				m_root->push_front(new AST_Assign(
 					Operator::OP_SET,
-					new AST_Name(ML_NAME_FILE),
+					new AST_Name(ML_SCR_NAME_FILE),
 					new AST_String(m_path))
 				);
 
 				// __PATH__
 				m_root->push_front(new AST_Assign(
 					Operator::OP_SET,
-					new AST_Name(ML_NAME_PATH),
+					new AST_Name(ML_SCR_NAME_PATH),
 					new AST_String(ML_FS.getPathTo("")))
 				);
 

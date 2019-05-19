@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Profiler::Profiler(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Profiler")
+	Profiler::Profiler(Editor & editor)
+		: BaseWidget("Profiler", editor)
 	{
 	}
 
@@ -17,10 +17,6 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Profiler::onEvent(const IEvent * value)
-	{
-	}
 
 	bool Profiler::drawGui(const GuiEvent * ev, bool * p_open)
 	{
@@ -36,7 +32,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			graph.update("##Framerate", (float)ev->engine.frameRate(), "fps {0}");
+			graph.update("##Framerate", (float)ev->editor.engine().frameRate(), "fps {0}");
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}

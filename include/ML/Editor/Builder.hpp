@@ -46,12 +46,11 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Builder(EventSystem & eventSystem);
+		Builder(Editor & editor);
 		~Builder();
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		void onEvent(const IEvent * value) override;
 		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	private:

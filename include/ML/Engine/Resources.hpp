@@ -30,6 +30,7 @@ namespace ml
 		: public ITrackable
 		, public IDisposable
 		, public IReadable
+		, public INonCopyable
 	{
 	public:
 		Resources();

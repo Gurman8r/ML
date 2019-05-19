@@ -4,8 +4,6 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Core/File.hpp>
 
-#define ML_INCLUDE_SHADER_PATH "../../../assets/shaders/" // FIXME: shouldn't be hardcoded
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */

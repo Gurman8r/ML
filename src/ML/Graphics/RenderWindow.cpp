@@ -11,7 +11,7 @@ namespace ml
 	RenderWindow::RenderWindow(EventSystem & eventSystem)
 		: Window(eventSystem)
 	{
-		this->eventSystem().addListener(GraphicsEvent::EV_RenderError, this);
+		eventSystem.addListener(GraphicsEvent::EV_RenderError, this);
 	}
 
 	RenderWindow::~RenderWindow() {}

@@ -10,15 +10,21 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Prefs final
+	class ML_ENGINE_API Preferences final
 		: public ITrackable
 		, public IDisposable
 		, public IReadable
 		, public INonCopyable
 	{
 	public:
-		Prefs();
-		~Prefs();
+		Preferences();
+		explicit Preferences(const String & filename);
+		Preferences(Preferences && copy);
+		~Preferences();
+
+	public:
+		Preferences & operator=(Preferences && copy);
+		Preferences & swap(Preferences & copy);
 
 	public:
 		bool dispose() override;
@@ -31,6 +37,9 @@ namespace ml
 		uint32_t	GetUint		(const String & section, const String & name, uint32_t default_value) const;
 		String		GetString	(const String & section, const String & name, const String & default_value) const;
 	
+	public:
+		inline operator bool() const { return m_ini; }
+
 	private:
 		void * m_ini;
 	};

@@ -12,11 +12,10 @@ namespace ml
 		friend class Editor;
 
 	private:
-		TextEditor(EventSystem & eventSystem);
+		TextEditor(Editor & editor);
 		~TextEditor();
 
 	public:
-		void onEvent(const IEvent * value) override;
 		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	private:

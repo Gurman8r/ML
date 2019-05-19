@@ -10,10 +10,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Editor;
-	class Engine;
-	class RenderWindow;
-	class Resources;
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API EditorEvent : public IEvent
@@ -48,17 +44,11 @@ namespace ml
 
 	struct ML_EDITOR_API GuiEvent final : public EditorEvent
 	{
-		Engine &			engine;
-		RenderWindow &		window;
-		Editor &			editor;
-		Resources &			resources;
+		Editor & editor;
 
-		GuiEvent(Engine & engine, RenderWindow & window, Editor & editor, Resources & resources)
+		GuiEvent(Editor & editor)
 			: EditorEvent(EV_Gui)
-			, engine(engine)
-			, window(window)
 			, editor(editor)
-			, resources(resources)
 		{
 		}
 	};

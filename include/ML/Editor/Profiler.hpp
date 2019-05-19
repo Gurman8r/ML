@@ -14,11 +14,10 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Profiler(EventSystem & eventSystem);
+		Profiler(Editor & editor);
 		~Profiler();
 
 	public:
-		void onEvent(const IEvent * value) override;
 		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 		struct GraphLines

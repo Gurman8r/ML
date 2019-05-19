@@ -6,6 +6,7 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/OS.hpp>
+#include <ML/Engine/Engine.hpp>
 
 namespace ml
 {
@@ -15,8 +16,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Browser::Browser(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Browser")
+	Browser::Browser(Editor & editor)
+		: BaseWidget("Browser", editor)
 		, m_path	()
 		, m_dir		()
 		, m_type	(T_Dir)
@@ -24,7 +25,6 @@ namespace ml
 		, m_preview	()
 		, m_isDouble(false)
 	{
-		this->eventSystem().addListener(EditorEvent::EV_File_Open, this);
 	}
 
 	Browser::~Browser()
@@ -32,19 +32,6 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Browser::onEvent(const IEvent * value)
-	{
-		switch (*value)
-		{
-		case EditorEvent::EV_File_Open:
-			if (auto ev = value->as<File_Open_Event>())
-			{
-				OS::execute("open", get_selected_path());
-			}
-			break;
-		}
-	}
 
 	bool Browser::drawGui(const GuiEvent * ev, bool * p_open)
 	{

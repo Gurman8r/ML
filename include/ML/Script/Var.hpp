@@ -91,8 +91,8 @@ namespace ml
 
 	public: // Check Functions
 
-		bool	compareTokens(const TokenList& value) const;
-		bool	compareType(const int32_t& type) const;
+		bool	compareTokens(const TokenList & value) const;
+		bool	compareType(const int32_t & type) const;
 
 		bool	isValid() const;
 		bool	isArrayType() const;

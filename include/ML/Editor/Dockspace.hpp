@@ -13,11 +13,10 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Dockspace(EventSystem & eventSystem);
+		Dockspace(Editor & editor);
 		~Dockspace();
 
 	public:
-		void onEvent(const IEvent * value) override;
 		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	protected:

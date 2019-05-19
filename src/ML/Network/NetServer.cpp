@@ -17,7 +17,7 @@ namespace ml
 		: NetInterface(eventSystem)
 		, m_running(false)
 	{
-		this->eventSystem().addListener(NetworkEvent::EV_ServerRecievePacket, this);
+		eventSystem.addListener(NetworkEvent::EV_ServerRecievePacket, this);
 	}
 
 	NetServer::~NetServer()

@@ -8,13 +8,15 @@ namespace ml
 	Application::Application(EventSystem & eventSystem)
 		: RenderWindow(eventSystem)
 	{
-		this->eventSystem().addListener(EngineEvent::EV_Enter,	this);
-		this->eventSystem().addListener(EngineEvent::EV_Load,	this);
-		this->eventSystem().addListener(EngineEvent::EV_Start,	this);
-		this->eventSystem().addListener(EngineEvent::EV_Update,	this);
-		this->eventSystem().addListener(EngineEvent::EV_Draw,	this);
-		this->eventSystem().addListener(EngineEvent::EV_Unload,	this);
-		this->eventSystem().addListener(EngineEvent::EV_Exit,	this);
+		eventSystem.addListener(EngineEvent::EV_Enter,	this);
+		eventSystem.addListener(EngineEvent::EV_Load,	this);
+		eventSystem.addListener(EngineEvent::EV_Start,	this);
+		eventSystem.addListener(EngineEvent::EV_Update,	this);
+		eventSystem.addListener(EngineEvent::EV_Draw,	this);
+		eventSystem.addListener(EngineEvent::EV_Unload,	this);
+		eventSystem.addListener(EngineEvent::EV_Exit,	this);
+
+		eventSystem.addListener(EngineEvent::EV_Close,	this);
 	}
 
 	Application::~Application() { }
@@ -34,6 +36,8 @@ namespace ml
 		case EngineEvent::EV_Draw:	return onDraw	(value->as<DrawEvent>());
 		case EngineEvent::EV_Unload:return onUnload	(value->as<UnloadEvent>());
 		case EngineEvent::EV_Exit:	return onExit	(value->as<ExitEvent>());
+
+		case EngineEvent::EV_Close: this->close(); break;
 		}
 	}
 

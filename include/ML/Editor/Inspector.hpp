@@ -11,11 +11,10 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Inspector(EventSystem & eventSystem);
+		Inspector(Editor & editor);
 		~Inspector();
 
 	public:
-		void onEvent(const IEvent * value) override;
 		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	public:

@@ -34,8 +34,8 @@ namespace ml
 	private:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		Registry(String && name)
-			: m_name(name)
-			, m_data()
+			: m_name (name)
+			, m_data ()
 			, m_files()
 		{
 		}

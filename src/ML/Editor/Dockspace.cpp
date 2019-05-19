@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Dockspace::Dockspace(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Dockspace")
+	Dockspace::Dockspace(Editor & editor)
+		: BaseWidget("Dockspace", editor)
 		, m_border	(0.0f)
 		, m_padding	(vec2::Zero)
 		, m_rounding(0.0f)
@@ -20,10 +20,6 @@ namespace ml
 	Dockspace::~Dockspace() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Dockspace::onEvent(const IEvent * value)
-	{
-	}
 
 	bool Dockspace::drawGui(const GuiEvent * ev, bool * p_open)
 	{

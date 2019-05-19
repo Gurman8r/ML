@@ -6,8 +6,8 @@
 
 namespace ml
 {
-	NetworkHUD::NetworkHUD(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Network")
+	NetworkHUD::NetworkHUD(Editor & editor)
+		: BaseWidget("Network", editor)
 	{
 	}
 
@@ -16,10 +16,6 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	void NetworkHUD::onEvent(const IEvent * value)
-	{
-	}
 
 	bool NetworkHUD::drawGui(const GuiEvent * ev, bool * p_open)
 	{

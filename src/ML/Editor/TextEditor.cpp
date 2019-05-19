@@ -6,8 +6,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	TextEditor::TextEditor(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Text Editor")
+	TextEditor::TextEditor(Editor & editor)
+		: BaseWidget("Text Editor", editor)
 		, m_selected(-1)
 	{
 	}
@@ -17,10 +17,6 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	void TextEditor::onEvent(const IEvent * value)
-	{
-	}
 
 	bool TextEditor::drawGui(const GuiEvent * ev, bool * p_open)
 	{

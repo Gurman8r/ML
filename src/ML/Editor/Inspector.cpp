@@ -8,8 +8,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Inspector::Inspector(EventSystem & eventSystem)
-		: BaseWidget(eventSystem, "Inspector")
+	Inspector::Inspector(Editor & editor)
+		: BaseWidget("Inspector", editor)
 	{
 	}
 
@@ -18,10 +18,6 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Inspector::onEvent(const IEvent * value)
-	{
-	}
 
 	bool Inspector::drawGui(const GuiEvent * ev, bool * p_open)
 	{

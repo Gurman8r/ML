@@ -42,18 +42,18 @@ namespace ml
 		// Disable CMD Window Close Button
 		Console::enableMenuItem(SC_CLOSE, MF_GRAYED);
 #endif
-		this->eventSystem().addListener(WindowEvent::EV_Char,		this);
-		this->eventSystem().addListener(WindowEvent::EV_CursorEnter,this);
-		this->eventSystem().addListener(WindowEvent::EV_CursorPos,	this);
-		this->eventSystem().addListener(WindowEvent::EV_FrameSize,	this);
-		this->eventSystem().addListener(WindowEvent::EV_Key,		this);
-		this->eventSystem().addListener(WindowEvent::EV_MouseButton,this);
-		this->eventSystem().addListener(WindowEvent::EV_Scroll,		this);
-		this->eventSystem().addListener(WindowEvent::EV_WindowClose,this);
-		this->eventSystem().addListener(WindowEvent::EV_WindowError,this);
-		this->eventSystem().addListener(WindowEvent::EV_WindowFocus,this);
-		this->eventSystem().addListener(WindowEvent::EV_WindowSize,	this);
-		this->eventSystem().addListener(WindowEvent::Ev_WindowPos,	this);
+		eventSystem.addListener(WindowEvent::EV_Char,		this);
+		eventSystem.addListener(WindowEvent::EV_CursorEnter,this);
+		eventSystem.addListener(WindowEvent::EV_CursorPos,	this);
+		eventSystem.addListener(WindowEvent::EV_FrameSize,	this);
+		eventSystem.addListener(WindowEvent::EV_Key,		this);
+		eventSystem.addListener(WindowEvent::EV_MouseButton,this);
+		eventSystem.addListener(WindowEvent::EV_Scroll,		this);
+		eventSystem.addListener(WindowEvent::EV_WindowClose,this);
+		eventSystem.addListener(WindowEvent::EV_WindowError,this);
+		eventSystem.addListener(WindowEvent::EV_WindowFocus,this);
+		eventSystem.addListener(WindowEvent::EV_WindowSize,	this);
+		eventSystem.addListener(WindowEvent::Ev_WindowPos,	this);
 	}
 	
 	Window::~Window() 

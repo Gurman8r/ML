@@ -12,7 +12,7 @@ namespace ml
 		: NetInterface(eventSystem)
 		, m_connected(false)
 	{
-		this->eventSystem().addListener(NetworkEvent::EV_ClientRecievePacket, this);
+		eventSystem.addListener(NetworkEvent::EV_ClientRecievePacket, this);
 	}
 
 	NetClient::~NetClient()

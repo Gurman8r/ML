@@ -70,7 +70,7 @@ namespace ml
 				// <...>
 				else if (parseWrapped(line, '<', '>', name))
 				{
-					path = ML_FS.getPathTo(ML_INCLUDE_SHADER_PATH + name);
+					path = ML_FS.getPathTo("../../../assets/shaders/" + name);
 				}
 				else
 				{

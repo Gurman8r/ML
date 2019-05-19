@@ -14,11 +14,10 @@ namespace ml
 		friend class Editor;
 
 	private:
-		ResourceView(EventSystem & eventSystem);
+		ResourceView(Editor & editor);
 		~ResourceView();
 
 	public:
-		void onEvent(const IEvent * value) override;
 		bool drawGui(const GuiEvent * ev, bool * p_open) override;
 
 	private:

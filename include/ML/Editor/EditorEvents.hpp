@@ -10,6 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Editor;
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API EditorEvent : public IEvent

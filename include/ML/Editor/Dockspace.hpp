@@ -17,7 +17,7 @@ namespace ml
 		~Dockspace();
 
 	public:
-		bool drawGui(const GuiEvent * ev, bool * p_open) override;
+		bool drawGui(const GuiEvent & ev, bool * p_open) override;
 
 	protected:
 		bool beginDraw(bool * p_open, int32_t flags = 0) override;

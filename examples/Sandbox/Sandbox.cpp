@@ -131,7 +131,7 @@ namespace DEMO
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Sandbox::onEnter(const ml::EnterEvent * ev)
+	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
 		// Initialize Miscellaneous
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -150,13 +150,13 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
 			// Set Parser Flags
-			ML_Parser.showToks(ev->engine.prefs().GetBool("Script", "flagShowToks", false));
-			ML_Parser.showTree(ev->engine.prefs().GetBool("Script", "flagShowTree", false));
-			ML_Parser.showItoP(ev->engine.prefs().GetBool("Script", "flagShowItoP", false));
+			ML_Parser.showToks(ev.engine.prefs().GetBool("Script", "flagShowToks", false));
+			ML_Parser.showTree(ev.engine.prefs().GetBool("Script", "flagShowTree", false));
+			ML_Parser.showItoP(ev.engine.prefs().GetBool("Script", "flagShowItoP", false));
 
 			// Run Boot Script
 			ml::Script scr;
-			if (scr.loadFromFile(ML_FS.getPathTo(ev->engine.prefs().GetString(
+			if (scr.loadFromFile(ML_FS.getPathTo(ev.engine.prefs().GetString(
 				"Script", "bootScript", ""
 			))))
 			{
@@ -169,31 +169,31 @@ namespace DEMO
 
 		// Initialize Window
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ev->engine.app()->create(
-			sandbox.title = ev->engine.prefs().GetString("Window", "windowTitle", "New Window"),
+		if (ev.engine.app()->create(
+			sandbox.title = ev.engine.prefs().GetString("Window", "windowTitle", "New Window"),
 			ml::Screen
 			{ {
-			ev->engine.prefs().GetUint("Window", "windowWidth",	1280),
-			ev->engine.prefs().GetUint("Window", "windowHeight",	720) },
-			ev->engine.prefs().GetUint("Window", "bitsPerPixel",	32)
+			ev.engine.prefs().GetUint("Window", "windowWidth",	1280),
+			ev.engine.prefs().GetUint("Window", "windowHeight",	720) },
+			ev.engine.prefs().GetUint("Window", "bitsPerPixel",	32)
 			},
-			ev->engine.prefs().GetUint("Window", "windowStyle",	ml::Window::Default),
+			ev.engine.prefs().GetUint("Window", "windowStyle",	ml::Window::Default),
 			ml::Context
 			{
-			ev->engine.prefs().GetUint("Window", "majorVersion",	3),
-			ev->engine.prefs().GetUint("Window", "minorVersion",	3),
-			ev->engine.prefs().GetUint("Window", "profile",		ml::Context::Compat),
-			ev->engine.prefs().GetUint("Window", "depthBits",	24),
-			ev->engine.prefs().GetUint("Window", "stencilBits",	8),
-			ev->engine.prefs().GetBool("Window", "multisample",	false),
-			ev->engine.prefs().GetBool("Window", "srgbCapable",	false)
+			ev.engine.prefs().GetUint("Window", "majorVersion",	3),
+			ev.engine.prefs().GetUint("Window", "minorVersion",	3),
+			ev.engine.prefs().GetUint("Window", "profile",		ml::Context::Compat),
+			ev.engine.prefs().GetUint("Window", "depthBits",	24),
+			ev.engine.prefs().GetUint("Window", "stencilBits",	8),
+			ev.engine.prefs().GetBool("Window", "multisample",	false),
+			ev.engine.prefs().GetBool("Window", "srgbCapable",	false)
 			}
 		))
 		{
-			ev->engine.app()->maximize();
-			ev->engine.app()->seCursorMode(ml::Cursor::Normal);
-			ev->engine.app()->setPosition((ml::Screen::desktop().resolution - ev->engine.app()->getSize()) / 2);
-			ev->engine.app()->setViewport(ml::vec2i::Zero, ev->engine.app()->getFrameSize());
+			ev.engine.app()->maximize();
+			ev.engine.app()->seCursorMode(ml::Cursor::Normal);
+			ev.engine.app()->setPosition((ml::Screen::desktop().resolution - ev.engine.app()->getSize()) / 2);
+			ev.engine.app()->setViewport(ml::vec2i::Zero, ev.engine.app()->getFrameSize());
 		}
 		else
 		{
@@ -214,9 +214,9 @@ namespace DEMO
 
 			ImGui::StyleHelper::Style4();
 
-			const ml::String	fontFile = ev->engine.prefs().GetString("ImGui", "imguiFontFile", "");
-			const float			fontSize = ev->engine.prefs().GetFloat ("ImGui", "imguiFontSize", 12.0f);
-			const ml::String	imguiINI = ev->engine.prefs().GetString("ImGui", "imguiINI", "");
+			const ml::String	fontFile = ev.engine.prefs().GetString("ImGui", "imguiFontFile", "");
+			const float			fontSize = ev.engine.prefs().GetFloat ("ImGui", "imguiFontSize", 12.0f);
+			const ml::String	imguiINI = ev.engine.prefs().GetString("ImGui", "imguiINI", "");
 
 			if (fontFile && fontSize > 0.0f)
 			{
@@ -238,8 +238,8 @@ namespace DEMO
 
 		// Initialize Network
 		/* * * * * * * * * * * * * * * * * * * * */
-		sandbox.isServer = ev->engine.prefs().GetBool("Network", "isServer", false);
-		sandbox.isClient = ev->engine.prefs().GetBool("Network", "isClient", false);
+		sandbox.isServer = ev.engine.prefs().GetBool("Network", "isServer", false);
+		sandbox.isClient = ev.engine.prefs().GetBool("Network", "isClient", false);
 
 		if (sandbox.isServer)
 		{
@@ -267,68 +267,68 @@ namespace DEMO
 		}
 	}
 
-	void Sandbox::onLoad(const ml::LoadEvent * ev)
+	void Sandbox::onLoad(const ml::LoadEvent & ev)
 	{
 		// Load Default Meshes
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev->engine.resources().meshes.load("default_triangle")->loadFromMemory(
+		ev.engine.resources().meshes.load("default_triangle")->loadFromMemory(
 			ml::Shapes::Triangle::Vertices,
 			ml::Shapes::Triangle::Indices
 		);
-		ev->engine.resources().meshes.load("default_quad")->loadFromMemory(
+		ev.engine.resources().meshes.load("default_quad")->loadFromMemory(
 			ml::Shapes::Quad::Vertices,
 			ml::Shapes::Quad::Indices
 		);
-		ev->engine.resources().meshes.load("default_cube")->loadFromMemory(
+		ev.engine.resources().meshes.load("default_cube")->loadFromMemory(
 			ml::Shapes::Cube::Vertices,
 			ml::Shapes::Cube::Indices
 		);
-		ev->engine.resources().meshes.load("default_skybox")->loadFromMemory(
+		ev.engine.resources().meshes.load("default_skybox")->loadFromMemory(
 			ml::Shapes::Sky::Vertices
 		);
 
 		// Load Default Models
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev->engine.resources().models.load("default_triangle")->loadFromMemory(
-			*ev->engine.resources().meshes.get("default_triangle")
+		ev.engine.resources().models.load("default_triangle")->loadFromMemory(
+			*ev.engine.resources().meshes.get("default_triangle")
 		);
-		ev->engine.resources().models.load("default_quad")->loadFromMemory(
-			*ev->engine.resources().meshes.get("default_quad")
+		ev.engine.resources().models.load("default_quad")->loadFromMemory(
+			*ev.engine.resources().meshes.get("default_quad")
 		);
-		ev->engine.resources().models.load("default_cube")->loadFromMemory(
-			*ev->engine.resources().meshes.get("default_cube")
+		ev.engine.resources().models.load("default_cube")->loadFromMemory(
+			*ev.engine.resources().meshes.get("default_cube")
 		);
-		ev->engine.resources().models.load("default_skybox")->loadFromMemory(
-			*ev->engine.resources().meshes.get("default_skybox")
+		ev.engine.resources().models.load("default_skybox")->loadFromMemory(
+			*ev.engine.resources().meshes.get("default_skybox")
 		);
 
 		// Load Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
 		sandbox.manifest = ML_FS.getPathTo(
-			ev->engine.prefs().GetString("General", "mainifest", "../../../assets/manifest.txt")
+			ev.engine.prefs().GetString("General", "mainifest", "../../../assets/manifest.txt")
 		);
-		if (!ev->engine.resources().loadFromFile(sandbox.manifest))
+		if (!ev.engine.resources().loadFromFile(sandbox.manifest))
 		{
 			ml::Debug::logError("Failed Loading Manifest");
 		}
 	}
 
-	void Sandbox::onStart(const ml::StartEvent * ev)
+	void Sandbox::onStart(const ml::StartEvent & ev)
 	{
 		// Set Icon
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Image * icon = ev->engine.resources().images.get("icon"))
+		if (const ml::Image * icon = ev.engine.resources().images.get("icon"))
 		{
 			const ml::Image temp = ml::Image(*icon).flipVertically();
 
-			ev->engine.app()->setIcons({ temp });
+			ev.engine.app()->setIcons({ temp });
 		}
 
 		// Setup Plugins
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev->engine.resources().plugins.empty())
+		if (!ev.engine.resources().plugins.empty())
 		{
-			if (ml::Plugin * plugin = ev->engine.resources().plugins.get("TestPlugin"))
+			if (ml::Plugin * plugin = ev.engine.resources().plugins.get("TestPlugin"))
 			{
 				if (void * msg = plugin->lib().callFun<void *>(
 					ML_str(ML_Plugin_Test), "TEST"
@@ -354,9 +354,9 @@ namespace DEMO
 
 		// Setup Sprites
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ml::Sprite * spr = ev->engine.resources().sprites.get("neutrino"))
+		if (ml::Sprite * spr = ev.engine.resources().sprites.get("neutrino"))
 		{
-			spr->setPosition(ml::vec2(0.95f, 0.925f) * ev->engine.app()->getSize())
+			spr->setPosition(ml::vec2(0.95f, 0.925f) * ev.engine.app()->getSize())
 				.setScale	(0.5f)
 				.setRotation(0.0f)
 				.setOrigin	(0.5f)
@@ -368,16 +368,16 @@ namespace DEMO
 		{
 			// Camera
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->engine.resources().entities.get("camera"))
+			if (ml::Entity * ent = ev.engine.resources().entities.get("camera"))
 			{
 				sandbox.camera = ent;
 
 				ml::Camera * camera = ent->add<ml::Camera>(
-					ev->engine.prefs().GetFloat("Graphics", "fieldOfView", 45.0),
-					ev->engine.prefs().GetFloat("Graphics", "perspNear", 0.1f),
-					ev->engine.prefs().GetFloat("Graphics", "perspFar", 1000.0f),
-					ev->engine.prefs().GetFloat("Graphics", "orthoNear", -1.0f),
-					ev->engine.prefs().GetFloat("Graphics", "orthoFar", +1.0f)
+					ev.engine.prefs().GetFloat("Graphics", "fieldOfView", 45.0),
+					ev.engine.prefs().GetFloat("Graphics", "perspNear", 0.1f),
+					ev.engine.prefs().GetFloat("Graphics", "perspFar", 1000.0f),
+					ev.engine.prefs().GetFloat("Graphics", "orthoNear", -1.0f),
+					ev.engine.prefs().GetFloat("Graphics", "orthoFar", +1.0f)
 				);
 				camera->color = { ml::vec3 { 0.198f }, 1.0f };
 				camera->position = { 0.0f, 1.0f, 10.0f };
@@ -389,7 +389,7 @@ namespace DEMO
 
 			// Light
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->engine.resources().entities.get("light"))
+			if (ml::Entity * ent = ev.engine.resources().entities.get("light"))
 			{
 				sandbox.light = ent;
 
@@ -403,9 +403,9 @@ namespace DEMO
 					ml::Color::LightYellow
 				);
 
-				const ml::Material * material = ev->engine.resources().materials.load_forward(
+				const ml::Material * material = ev.engine.resources().materials.load_forward(
 					"mat_light",
-					ev->engine.resources().shaders.get("solid"),
+					ev.engine.resources().shaders.get("solid"),
 					ml::List<ml::uni_base *>({
 						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
 						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
@@ -414,7 +414,7 @@ namespace DEMO
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->engine.resources().models.get("sphere8x6"),
+					ev.engine.resources().models.get("sphere8x6"),
 					material,
 					ml::RenderStates({
 						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
@@ -427,7 +427,7 @@ namespace DEMO
 
 			// Borg
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->engine.resources().entities.get("borg"))
+			if (ml::Entity * ent = ev.engine.resources().entities.get("borg"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 5.0f, 0.0f, 0.0f }, // position
@@ -448,19 +448,19 @@ namespace DEMO
 					RB_BORG, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->engine.resources().materials.load_forward(
+				const ml::Material * material = ev.engine.resources().materials.load_forward(
 					"mat_borg",
-					ev->engine.resources().shaders.get("basic"),
+					ev.engine.resources().shaders.get("basic"),
 					ml::List<ml::uni_base *>({
 						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
 						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->engine.resources().textures.get("borg")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev.engine.resources().textures.get("borg")),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->engine.resources().models.get("default_cube"),
+					ev.engine.resources().models.get("default_cube"),
 					material,
 					ml::RenderStates({
 						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
@@ -473,7 +473,7 @@ namespace DEMO
 
 			// Cube
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->engine.resources().entities.get("cube"))
+			if (ml::Entity * ent = ev.engine.resources().entities.get("cube"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f, 0.0f, -5.0f }, // position
@@ -494,19 +494,19 @@ namespace DEMO
 					RB_CUBE, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->engine.resources().materials.load_forward(
+				const ml::Material * material = ev.engine.resources().materials.load_forward(
 					"mat_cube",
-					ev->engine.resources().shaders.get("normal"),
+					ev.engine.resources().shaders.get("normal"),
 					ml::List<ml::uni_base *>({
 						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
 						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->engine.resources().textures.get("stone_dm")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev.engine.resources().textures.get("stone_dm")),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->engine.resources().models.get("cube"),
+					ev.engine.resources().models.get("cube"),
 					material,
 					ml::RenderStates({
 						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
@@ -519,7 +519,7 @@ namespace DEMO
 
 			// Navball
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->engine.resources().entities.get("navball"))
+			if (ml::Entity * ent = ev.engine.resources().entities.get("navball"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { -5.0f, 0.0f, 0.0f }, // position
@@ -540,19 +540,19 @@ namespace DEMO
 					RB_NAVBALL, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->engine.resources().materials.load_forward(
+				const ml::Material * material = ev.engine.resources().materials.load_forward(
 					"mat_navball",
-					ev->engine.resources().shaders.get("basic"),
+					ev.engine.resources().shaders.get("basic"),
 					ml::List<ml::uni_base *>({
 						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
 						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->engine.resources().textures.get("navball")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev.engine.resources().textures.get("navball")),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->engine.resources().models.get("sphere32x24"),
+					ev.engine.resources().models.get("sphere32x24"),
 					material,
 					ml::RenderStates({
 						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
@@ -565,7 +565,7 @@ namespace DEMO
 
 			// Moon
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->engine.resources().entities.get("moon"))
+			if (ml::Entity * ent = ev.engine.resources().entities.get("moon"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f, 0.0f, 5.0f }, // position
@@ -586,9 +586,9 @@ namespace DEMO
 					RB_MOON, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->engine.resources().materials.load_forward(
+				const ml::Material * material = ev.engine.resources().materials.load_forward(
 					"mat_moon",
-					ev->engine.resources().shaders.get("lighting"),
+					ev.engine.resources().shaders.get("lighting"),
 					ml::List<ml::uni_base *> ({
 						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
 						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
@@ -597,15 +597,15 @@ namespace DEMO
 						new ml::uni_vec3_cr	("Frag.lightPos",	sandbox.light->get<ml::Transform>()->getPos()),
 						new ml::uni_col4_cr	("Frag.diffuse",	sandbox.light->get<ml::Light>()->color),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->engine.resources().textures.get("moon_dm")),
-						new ml::uni_tex_cp	("Frag.specTex",	ev->engine.resources().textures.get("moon_nm")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev.engine.resources().textures.get("moon_dm")),
+						new ml::uni_tex_cp	("Frag.specTex",	ev.engine.resources().textures.get("moon_nm")),
 						new ml::uni_flt		("Frag.ambient",	0.01f),
 						new ml::uni_flt		("Frag.specular",	0.1f),
 						new ml::uni_int		("Frag.shininess",	8),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->engine.resources().models.get("sphere32x24"),
+					ev.engine.resources().models.get("sphere32x24"),
 					material,
 					ml::RenderStates({
 						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
@@ -618,7 +618,7 @@ namespace DEMO
 
 			// Earth
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->engine.resources().entities.get("earth"))
+			if (ml::Entity * ent = ev.engine.resources().entities.get("earth"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f }, // position
@@ -639,9 +639,9 @@ namespace DEMO
 					RB_EARTH, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->engine.resources().materials.load_forward(
+				const ml::Material * material = ev.engine.resources().materials.load_forward(
 					"mat_earth",
-					ev->engine.resources().shaders.get("lighting"),
+					ev.engine.resources().shaders.get("lighting"),
 					ml::List<ml::uni_base *> ({
 						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
 						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
@@ -650,15 +650,15 @@ namespace DEMO
 						new ml::uni_vec3_cr	("Frag.lightPos",	sandbox.light->get<ml::Transform>()->getPos()),
 						new ml::uni_col4_cr	("Frag.diffuse",	sandbox.light->get<ml::Light>()->color),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->engine.resources().textures.get("earth_dm")),
-						new ml::uni_tex_cp	("Frag.specTex",	ev->engine.resources().textures.get("earth_sm")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev.engine.resources().textures.get("earth_dm")),
+						new ml::uni_tex_cp	("Frag.specTex",	ev.engine.resources().textures.get("earth_sm")),
 						new ml::uni_flt		("Frag.ambient",	0.01f),
 						new ml::uni_flt		("Frag.specular",	0.1f),
 						new ml::uni_int		("Frag.shininess",	8),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->engine.resources().models.get("sphere32x24"),
+					ev.engine.resources().models.get("sphere32x24"),
 					material,
 					ml::RenderStates({
 						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
@@ -671,7 +671,7 @@ namespace DEMO
 
 			// Ground
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev->engine.resources().entities.get("ground"))
+			if (ml::Entity * ent = ev.engine.resources().entities.get("ground"))
 			{
 				ml::Transform * transform = ent->add<ml::Transform>(
 					ml::vec3 { 0.0f, -2.5f, 0.0f }, // position
@@ -693,19 +693,19 @@ namespace DEMO
 					RB_GROUND, transform, collider, particle
 				));
 
-				const ml::Material * material = ev->engine.resources().materials.load_forward(
+				const ml::Material * material = ev.engine.resources().materials.load_forward(
 					"mat_ground",
-					ev->engine.resources().shaders.get("normal"),
+					ev.engine.resources().shaders.get("normal"),
 					ml::List<ml::uni_base *>({
 						new ml::uni_mat4_cr	(ML_VERT_PROJ,		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
 						new ml::uni_mat4_cr	(ML_VERT_VIEW,		sandbox.camera->get<ml::Transform>()->getMat()),
 						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
 						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev->engine.resources().textures.get("stone_dm")),
+						new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	ev.engine.resources().textures.get("stone_dm")),
 						}));
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev->engine.resources().models.get("cube"),
+					ev.engine.resources().models.get("cube"),
 					material,
 					ml::RenderStates({
 						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
@@ -721,7 +721,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		sandbox.physics.launchFun([&]()
 		{
-			static ml::Engine & engine(ev->engine);
+			static ml::Engine & engine(ev.engine);
 			while (engine.isRunning())
 			{
 				sandbox.physics.updateFun([](int32_t i, ml::PhysicsState & state)
@@ -792,23 +792,23 @@ namespace DEMO
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Sandbox::onUpdate(const ml::UpdateEvent * ev)
+	void Sandbox::onUpdate(const ml::UpdateEvent & ev)
 	{
 		// Update Title
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev->engine.app()->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
+		ev.engine.app()->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
 			sandbox.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
-			ev->engine.elapsed().delta(),
-			ev->engine.frameRate()
+			ev.engine.elapsed().delta(),
+			ev.engine.frameRate()
 		));
 
 		// Update Physics
 		/* * * * * * * * * * * * * * * * * * * * */
 		while (!sandbox.physics.syncFun([&](const ml::PhysicsState & state)
 		{
-			for (auto & pair : ev->engine.resources().entities)
+			for (auto & pair : ev.engine.resources().entities)
 			{
 				if (ml::Rigidbody * rb = pair.second->get<ml::Rigidbody>())
 				{
@@ -846,22 +846,22 @@ namespace DEMO
 
 		// Update Effects
 		/* * * * * * * * * * * * * * * * * * * * */
-		for (auto & pair : ev->engine.resources().surfaces)
+		for (auto & pair : ev.engine.resources().surfaces)
 		{
-			pair.second->resize(ev->engine.app()->getFrameSize());
+			pair.second->resize(ev.engine.app()->getFrameSize());
 		}
 
 		// Update Camera
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Camera * camera = sandbox.camera->get<ml::Camera>())
 		{
-			camera->updateRes(ev->engine.app()->getFrameSize());
+			camera->updateRes(ev.engine.app()->getFrameSize());
 
 			// Camera Transform
 			if (ml::Transform * transform = sandbox.camera->get<ml::Transform>())
 			{
 				// Target Entity
-				if (const ml::Entity * ent = ev->engine.resources().entities.get("earth"))
+				if (const ml::Entity * ent = ev.engine.resources().entities.get("earth"))
 				{
 					// Target Transform
 					if (const ml::Transform * target = ent->get<ml::Transform>())
@@ -874,7 +874,7 @@ namespace DEMO
 
 							camera->position
 								+= camera->right()
-								*	ev->engine.elapsed().delta()
+								*	ev.engine.elapsed().delta()
 								*	sandbox.cameraSpeed;
 						}
 					}
@@ -886,12 +886,12 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
 			sandbox.text["project_url"]
-				.setFont(ev->engine.resources().fonts.get("minecraft"))
+				.setFont(ev.engine.resources().fonts.get("minecraft"))
 				.setFontSize(56)
-				.setPosition({ 48, (float)ev->engine.app()->getFrameHeight() - 48 })
+				.setPosition({ 48, (float)ev.engine.app()->getFrameHeight() - 48 })
 				.setString(ML_PROJECT_URL);
 
-			const ml::Font *font	 = ev->engine.resources().fonts.get("consolas");
+			const ml::Font *font	 = ev.engine.resources().fonts.get("consolas");
 			const uint32_t	fontSize = 24;
 			const float		hOff	 = 0.0f;
 			const float		vOff	 = 4.0f;
@@ -924,8 +924,8 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("{0} ms/frame ({1} fps)").format(
-					ev->engine.elapsed().delta(),
-					ev->engine.frameRate())
+					ev.engine.elapsed().delta(),
+					ev.engine.frameRate())
 				);
 
 			sandbox.text["time_total"]
@@ -933,7 +933,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("time: {0}").format(
-					ev->engine.mainTimer().elapsed())
+					ev.engine.mainTimer().elapsed())
 				);
 
 			newLine();
@@ -943,7 +943,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("sin: {0}").format(
-					std::sinf(ev->engine.mainTimer().elapsed().delta()))
+					std::sinf(ev.engine.mainTimer().elapsed().delta()))
 				);
 
 			sandbox.text["time_cos"]
@@ -951,7 +951,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cos: {0}").format(
-					std::cosf(ev->engine.mainTimer().elapsed().delta()))
+					std::cosf(ev.engine.mainTimer().elapsed().delta()))
 				);
 
 			newLine();
@@ -961,7 +961,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cx/cy: {0}").format(
-					ev->engine.app()->getCursorPos())
+					ev.engine.app()->getCursorPos())
 				);
 
 			sandbox.text["window_pos"]
@@ -969,7 +969,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("wx/wy: {0}").format(
-					ev->engine.app()->getPosition())
+					ev.engine.app()->getPosition())
 				);
 
 			sandbox.text["window_size"]
@@ -977,7 +977,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("ww/wh: {0}").format(
-					ev->engine.app()->getSize())
+					ev.engine.app()->getSize())
 				);
 
 			// Ensure text update before main draw call
@@ -988,22 +988,22 @@ namespace DEMO
 		}
 	}
 
-	void Sandbox::onDraw(const ml::DrawEvent * ev)
+	void Sandbox::onDraw(const ml::DrawEvent & ev)
 	{
 		// Draw Scene
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Surface * scene = ev->engine.resources().surfaces.get("surface_main"))
+		if (const ml::Surface * scene = ev.engine.resources().surfaces.get("surface_main"))
 		{
 			// Bind Scene
 			scene->bind();
 
 			// Clear Screen
-			ev->engine.app()->clear(sandbox.camera->get<ml::Camera>()->color);
+			ev.engine.app()->clear(sandbox.camera->get<ml::Camera>()->color);
 
 			// Draw Renderers
-			for (const auto & pair : ev->engine.resources().entities)
+			for (const auto & pair : ev.engine.resources().entities)
 			{
-				ev->engine.app()->draw(pair.second->get<ml::Renderer>());
+				ev.engine.app()->draw(pair.second->get<ml::Renderer>());
 			}
 
 			// Draw 2D
@@ -1024,9 +1024,9 @@ namespace DEMO
 				states.apply();
 
 				// Draw Sprites
-				if (const ml::Shader * shader = ev->engine.resources().shaders.get("sprites"))
+				if (const ml::Shader * shader = ev.engine.resources().shaders.get("sprites"))
 				{
-					static ml::Material * const material = ev->engine.resources().materials.load_forward(
+					static ml::Material * const material = ev.engine.resources().materials.load_forward(
 						"mat_sprites",
 						shader,
 						ml::List<ml::uni_base *>({
@@ -1041,16 +1041,16 @@ namespace DEMO
 						material
 					);
 
-					for (const auto & pair : ev->engine.resources().sprites)
+					for (const auto & pair : ev.engine.resources().sprites)
 					{
-						ev->engine.app()->draw(pair.second, batch);
+						ev.engine.app()->draw(pair.second, batch);
 					}
 				}
 
 				// Draw Text
-				if (const ml::Shader * shader = ev->engine.resources().shaders.get("text"))
+				if (const ml::Shader * shader = ev.engine.resources().shaders.get("text"))
 				{
-					static ml::Material * const material = ev->engine.resources().materials.load_forward(
+					static ml::Material * const material = ev.engine.resources().materials.load_forward(
 						"mat_text",
 						shader,
 						ml::List<ml::uni_base *>({
@@ -1067,14 +1067,14 @@ namespace DEMO
 
 					for (const auto & pair : sandbox.text)
 					{
-						ev->engine.app()->draw(pair.second, batch);
+						ev.engine.app()->draw(pair.second, batch);
 					}
 				}
 
 				// Draw Geometry
-				if (const ml::Shader * shader = ev->engine.resources().shaders.get("geometry"))
+				if (const ml::Shader * shader = ev.engine.resources().shaders.get("geometry"))
 				{
-					static ml::Material * const material = ev->engine.resources().materials.load_forward(
+					static ml::Material * const material = ev.engine.resources().materials.load_forward(
 						"mat_geometry", 
 						shader,
 						ml::List<ml::uni_base *>({
@@ -1099,64 +1099,64 @@ namespace DEMO
 
 		// Draw Post
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Surface * post = ev->engine.resources().surfaces.get("surface_post"))
+		if (const ml::Surface * post = ev.engine.resources().surfaces.get("surface_post"))
 		{
 			post->bind();
-			if (const ml::Surface * scene = ev->engine.resources().surfaces.get("surface_main"))
+			if (const ml::Surface * scene = ev.engine.resources().surfaces.get("surface_main"))
 			{
 				scene->shader()->setUniform("Surface.mode", sandbox.effectMode);
-				ev->engine.app()->draw(*scene);
+				ev.engine.app()->draw(*scene);
 			}
 			post->unbind();
 		}
 	}
 
-	void Sandbox::onGui(const ml::GuiEvent * ev)
+	void Sandbox::onGui(const ml::GuiEvent & ev)
 	{
 		// Update Terminal Output
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (sandbox.rdbuf)
 		{
-			ev->editor.terminal.printss(sandbox.rdstr);
+			ev.editor.terminal.printss(sandbox.rdstr);
 		}
 
 		// Main Menu Bar
-		if (ev->editor.show_mainMenuBar)	{ ev->editor.mainMenuBar.drawGui(ev, &ev->editor.show_mainMenuBar); }
+		if (ev.editor.show_mainMenuBar)		{ ev.editor.mainMenuBar.drawGui(ev, &ev.editor.show_mainMenuBar); }
 		
 		// Dockspace
-		if (ev->editor.show_dockspace)		{ ev->editor.dockspace.drawGui(ev, &ev->editor.show_dockspace); }
+		if (ev.editor.show_dockspace)		{ ev.editor.dockspace.drawGui(ev, &ev.editor.show_dockspace); }
 		
 		// ImGui Builtin
-		if (ev->editor.show_imgui_demo)		{ ml::ImGui_Builtin::showDemo(&ev->editor.show_imgui_demo); }
-		if (ev->editor.show_imgui_metrics)	{ ml::ImGui_Builtin::showMetrics(&ev->editor.show_imgui_metrics); }
-		if (ev->editor.show_imgui_style)	{ ml::ImGui_Builtin::showStyle(&ev->editor.show_imgui_style); }
-		if (ev->editor.show_imgui_about)	{ ml::ImGui_Builtin::showAbout(&ev->editor.show_imgui_about); }
+		if (ev.editor.show_imgui_demo)		{ ml::ImGui_Builtin::showDemo(&ev.editor.show_imgui_demo); }
+		if (ev.editor.show_imgui_metrics)	{ ml::ImGui_Builtin::showMetrics(&ev.editor.show_imgui_metrics); }
+		if (ev.editor.show_imgui_style)		{ ml::ImGui_Builtin::showStyle(&ev.editor.show_imgui_style); }
+		if (ev.editor.show_imgui_about)		{ ml::ImGui_Builtin::showAbout(&ev.editor.show_imgui_about); }
 
 		// Widgets
-		if (ev->editor.show_network)		{ ev->editor.networkHUD.drawGui(ev, &ev->editor.show_network); }
-		if (ev->editor.show_profiler)		{ ev->editor.profiler.drawGui(ev, &ev->editor.show_profiler); }
-		if (ev->editor.show_browser)		{ ev->editor.browser.drawGui(ev, &ev->editor.show_browser); }
-		if (ev->editor.show_terminal)		{ ev->editor.terminal.drawGui(ev, &ev->editor.show_terminal); }
-		if (ev->editor.show_textEditor)		{ ev->editor.textEditor.drawGui(ev, &ev->editor.show_textEditor); }
-		if (ev->editor.show_resourceView)	{ ev->editor.resourceView.drawGui(ev, &ev->editor.show_resourceView); }
-		if (ev->editor.show_builder)		{ ev->editor.builder.drawGui(ev, &ev->editor.show_builder); }
+		if (ev.editor.show_network)			{ ev.editor.networkHUD.drawGui(ev, &ev.editor.show_network); }
+		if (ev.editor.show_profiler)		{ ev.editor.profiler.drawGui(ev, &ev.editor.show_profiler); }
+		if (ev.editor.show_browser)			{ ev.editor.browser.drawGui(ev, &ev.editor.show_browser); }
+		if (ev.editor.show_terminal)		{ ev.editor.terminal.drawGui(ev, &ev.editor.show_terminal); }
+		if (ev.editor.show_textEditor)		{ ev.editor.textEditor.drawGui(ev, &ev.editor.show_textEditor); }
+		if (ev.editor.show_resourceView)	{ ev.editor.resourceView.drawGui(ev, &ev.editor.show_resourceView); }
+		if (ev.editor.show_builder)			{ ev.editor.builder.drawGui(ev, &ev.editor.show_builder); }
 		
 		// Scene View
-		if (ev->editor.show_sceneView)
+		if (ev.editor.show_sceneView)
 		{
-			ev->editor.sceneView.drawFun(ev, &ev->editor.show_sceneView, [&]()
+			ev.editor.sceneView.drawFun(ev, &ev.editor.show_sceneView, [&]()
 			{
-				if (ml::Surface * post = ev->editor.engine().resources().surfaces.get("surface_post"))
+				if (ml::Surface * post = ev.editor.engine().resources().surfaces.get("surface_post"))
 				{
-					ev->editor.sceneView.updateTexture(&post->texture());
+					ev.editor.sceneView.updateTexture(&post->texture());
 				}
 			});
 		}
 
 		// Inspector
-		if (ev->editor.show_inspector)
+		if (ev.editor.show_inspector)
 		{
-			ev->editor.inspector.drawFun(ev, &ev->editor.show_inspector, [&]()
+			ev.editor.inspector.drawFun(ev, &ev.editor.show_inspector, [&]()
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1183,7 +1183,7 @@ namespace DEMO
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Sandbox::onUnload(const ml::UnloadEvent * ev)
+	void Sandbox::onUnload(const ml::UnloadEvent & ev)
 	{
 		ml::Debug::log("Unloading...");
 
@@ -1191,10 +1191,10 @@ namespace DEMO
 		sandbox.physics.dispose();
 
 		// Cleanup Resources
-		ev->engine.resources().dispose();
+		ev.engine.resources().dispose();
 	}
 
-	void Sandbox::onExit(const ml::ExitEvent * ev)
+	void Sandbox::onExit(const ml::ExitEvent & ev)
 	{
 		ml::Debug::log("Exiting...");
 

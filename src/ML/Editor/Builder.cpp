@@ -120,11 +120,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Builder::drawGui(const GuiEvent * ev, bool * p_open)
+	bool Builder::drawGui(const GuiEvent & ev, bool * p_open)
 	{
 		if (!m_shader)
 		{
-			m_shader = ev->editor.resources().shaders.load(ML_TEST_SHADER);
+			m_shader = ev.editor.resources().shaders.load(ML_TEST_SHADER);
 		}
 
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))

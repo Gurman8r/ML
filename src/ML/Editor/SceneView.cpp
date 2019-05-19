@@ -17,7 +17,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	bool SceneView::drawGui(const GuiEvent * ev, bool * p_open)
+	bool SceneView::drawGui(const GuiEvent & ev, bool * p_open)
 	{
 		return beginDraw(p_open, ImGuiWindowFlags_MenuBar);
 	}

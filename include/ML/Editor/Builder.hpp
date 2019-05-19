@@ -51,7 +51,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const GuiEvent * ev, bool * p_open) override;
+		bool drawGui(const GuiEvent & ev, bool * p_open) override;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

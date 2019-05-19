@@ -18,7 +18,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Profiler::drawGui(const GuiEvent * ev, bool * p_open)
+	bool Profiler::drawGui(const GuiEvent & ev, bool * p_open)
 	{
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{
@@ -32,7 +32,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			graph.update("##Framerate", (float)ev->editor.engine().frameRate(), "fps {0}");
+			graph.update("##Framerate", (float)ev.editor.engine().frameRate(), "fps {0}");
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}

@@ -26,7 +26,7 @@ namespace ml
 		virtual ~BaseWidget();
 
 	public:
-		virtual bool drawGui(const GuiEvent * ev, bool * p_open) = 0;
+		virtual bool drawGui(const GuiEvent & ev, bool * p_open) = 0;
 
 	public:
 		uint32_t getID() const;

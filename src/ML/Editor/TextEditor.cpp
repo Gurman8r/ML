@@ -18,7 +18,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool TextEditor::drawGui(const GuiEvent * ev, bool * p_open)
+	bool TextEditor::drawGui(const GuiEvent & ev, bool * p_open)
 	{
 		if (beginDraw(p_open,
 			ImGuiWindowFlags_MenuBar |

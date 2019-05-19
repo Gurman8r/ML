@@ -22,7 +22,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool MainMenuBar::drawGui(const GuiEvent * ev, bool * p_open)
+	bool MainMenuBar::drawGui(const GuiEvent & ev, bool * p_open)
 	{
 		if (beginDraw(p_open, 0))
 		{
@@ -87,15 +87,15 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(ev->editor.terminal.getTitle(), NULL, &ev->editor.show_terminal);
-				ImGui::MenuItem(ev->editor.browser.getTitle(), NULL, &ev->editor.show_browser);
-				ImGui::MenuItem(ev->editor.builder.getTitle(), NULL, &ev->editor.show_builder);
-				ImGui::MenuItem(ev->editor.sceneView.getTitle(), NULL, &ev->editor.show_sceneView);
-				ImGui::MenuItem(ev->editor.inspector.getTitle(), NULL, &ev->editor.show_inspector);
-				ImGui::MenuItem(ev->editor.profiler.getTitle(), NULL, &ev->editor.show_profiler);
-				ImGui::MenuItem(ev->editor.textEditor.getTitle(), NULL, &ev->editor.show_textEditor);
-				ImGui::MenuItem(ev->editor.resourceView.getTitle(), NULL, &ev->editor.show_resourceView);
-				ImGui::MenuItem(ev->editor.networkHUD.getTitle(), NULL, &ev->editor.show_network);
+				ImGui::MenuItem(ev.editor.terminal.getTitle(), NULL, &ev.editor.show_terminal);
+				ImGui::MenuItem(ev.editor.browser.getTitle(), NULL, &ev.editor.show_browser);
+				ImGui::MenuItem(ev.editor.builder.getTitle(), NULL, &ev.editor.show_builder);
+				ImGui::MenuItem(ev.editor.sceneView.getTitle(), NULL, &ev.editor.show_sceneView);
+				ImGui::MenuItem(ev.editor.inspector.getTitle(), NULL, &ev.editor.show_inspector);
+				ImGui::MenuItem(ev.editor.profiler.getTitle(), NULL, &ev.editor.show_profiler);
+				ImGui::MenuItem(ev.editor.textEditor.getTitle(), NULL, &ev.editor.show_textEditor);
+				ImGui::MenuItem(ev.editor.resourceView.getTitle(), NULL, &ev.editor.show_resourceView);
+				ImGui::MenuItem(ev.editor.networkHUD.getTitle(), NULL, &ev.editor.show_network);
 				ImGui::EndMenu();
 			}
 
@@ -108,10 +108,10 @@ namespace ml
 					OS::execute("open", ML_PROJECT_URL);
 				}
 				ImGui::Separator();
-				ImGui::MenuItem("ImGui Demo", "Ctrl+H", &ev->editor.show_imgui_demo);
-				ImGui::MenuItem("ImGui Metrics", NULL, &ev->editor.show_imgui_metrics);
-				ImGui::MenuItem("ImGui Style Editor", NULL, &ev->editor.show_imgui_style);
-				ImGui::MenuItem("About Dear ImGui", NULL, &ev->editor.show_imgui_about);
+				ImGui::MenuItem("ImGui Demo", "Ctrl+H", &ev.editor.show_imgui_demo);
+				ImGui::MenuItem("ImGui Metrics", NULL, &ev.editor.show_imgui_metrics);
+				ImGui::MenuItem("ImGui Style Editor", NULL, &ev.editor.show_imgui_style);
+				ImGui::MenuItem("About Dear ImGui", NULL, &ev.editor.show_imgui_about);
 				ImGui::EndMenu();
 			}
 		}

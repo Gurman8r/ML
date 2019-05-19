@@ -39,7 +39,7 @@ namespace ml
 				ImGui_ML_NewFrame();
 				ImGui::NewFrame();
 				{
-					this->onGui(ev);
+					this->onGui(*ev);
 				}
 				ImGui::Render();
 				ImGui_ML_Render(ImGui::GetDrawData());

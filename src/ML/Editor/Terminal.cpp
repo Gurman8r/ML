@@ -51,7 +51,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Terminal::drawGui(const GuiEvent * ev, bool * p_open)
+	bool Terminal::drawGui(const GuiEvent & ev, bool * p_open)
 	{
 		if (beginDraw(p_open))
 		{

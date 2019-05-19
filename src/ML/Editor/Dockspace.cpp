@@ -21,7 +21,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Dockspace::drawGui(const GuiEvent * ev, bool * p_open)
+	bool Dockspace::drawGui(const GuiEvent & ev, bool * p_open)
 	{
 		if (beginDraw(p_open,
 			ImGuiWindowFlags_NoTitleBar |
@@ -50,15 +50,15 @@ namespace ml
 
 				uint32_t center_DR = splitNode(center, ImGuiDir_Right, 0.25f, &center_D);
 
-				dockWindow(ev->editor.profiler.getTitle(),		left_U);
-				dockWindow(ev->editor.networkHUD.getTitle(),	left_U);
-				dockWindow(ev->editor.browser.getTitle(),		left_U);
-				dockWindow(ev->editor.resourceView.getTitle(),	left_U);
-				dockWindow(ev->editor.terminal.getTitle(),		left_D);
-				dockWindow(ev->editor.sceneView.getTitle(),	center_U);
-				dockWindow(ev->editor.textEditor.getTitle(),	center_D);
-				dockWindow(ev->editor.builder.getTitle(),		center_D);
-				dockWindow(ev->editor.inspector.getTitle(),	center_DR);
+				dockWindow(ev.editor.profiler.getTitle(),		left_U);
+				dockWindow(ev.editor.networkHUD.getTitle(),		left_U);
+				dockWindow(ev.editor.browser.getTitle(),		left_U);
+				dockWindow(ev.editor.resourceView.getTitle(),	left_U);
+				dockWindow(ev.editor.terminal.getTitle(),		left_D);
+				dockWindow(ev.editor.sceneView.getTitle(),		center_U);
+				dockWindow(ev.editor.textEditor.getTitle(),		center_D);
+				dockWindow(ev.editor.builder.getTitle(),		center_D);
+				dockWindow(ev.editor.inspector.getTitle(),		center_DR);
 
 				endBuilder(root);
 			};

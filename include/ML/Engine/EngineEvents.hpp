@@ -39,17 +39,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/*
-	struct EngineFlowEvent : public EngineEvent
-	{
-		Engine & engine;
-		EngineFlowEvent(int32_t id, Engine & engine)
-			: 
-		{
-		}
-	}
-	*/
-
 	struct ML_ENGINE_API EnterEvent final : public EngineEvent
 	{
 		Engine & engine;

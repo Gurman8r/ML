@@ -167,7 +167,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Chunk.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Console.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Detection.hpp" />

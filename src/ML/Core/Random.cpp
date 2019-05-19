@@ -4,6 +4,17 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	Random::Random()
+	{
+		this->seed();
+	}
+
+	Random::~Random()
+	{
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	void Random::seed()
 	{
 		return seed((uint32_t)time(NULL));

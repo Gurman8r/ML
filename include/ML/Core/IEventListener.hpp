@@ -1,7 +1,7 @@
 #ifndef _ML_I_EVENT_LISTENER_HPP_
 #define _ML_I_EVENT_LISTENER_HPP_
 
-#include <ML/Core/CoreEvents.hpp>
+#include <ML/Core/IEvent.hpp>
 
 namespace ml
 {

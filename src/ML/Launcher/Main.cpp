@@ -108,7 +108,6 @@ int32_t main()
 			if (engine.launchApp(app))
 			{
 				control.run(State::Enter);
-
 				return engine.freeApp(app);
 			}
 			else
@@ -117,11 +116,8 @@ int32_t main()
 					|| ml::Debug::pause(EXIT_FAILURE);
 			}
 		}
-		else
-		{
-			return ml::Debug::logError("Failed Calling Plugin Main")
-				|| ml::Debug::pause(EXIT_FAILURE);
-		}
+		return ml::Debug::logError("Failed Calling Plugin Main")
+			|| ml::Debug::pause(EXIT_FAILURE);
 	}
 	else
 	{

@@ -7,7 +7,6 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
-#include <ML/Core/Random.hpp>
 #include <ML/Core/OS.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Font.hpp>
@@ -133,17 +132,11 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
-		// Initialize Miscellaneous
+		// Initialize Std Out
 		/* * * * * * * * * * * * * * * * * * * * */
+		if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
 		{
-			// Seed Random
-			ml::Random::seed();
-
-			// Setup Std Out
-			if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
-			{
-				return ml::Debug::fatal("Failed Redirecting Std Output Handle");
-			}
+			return ml::Debug::fatal("Failed Redirecting Std Output Handle");
 		}
 
 		// Initialize Interpreter

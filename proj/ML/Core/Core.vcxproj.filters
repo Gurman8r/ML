@@ -216,9 +216,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>

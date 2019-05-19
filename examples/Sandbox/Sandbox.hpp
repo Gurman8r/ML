@@ -103,8 +103,8 @@ namespace DEMO
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			MyData(Sandbox & self)
-				: client(self.getEventSystem())
-				, server(self.getEventSystem())
+				: client(self.eventSystem())
+				, server(self.eventSystem())
 			{
 			}
 

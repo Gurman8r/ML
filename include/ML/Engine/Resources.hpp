@@ -1,22 +1,29 @@
 #ifndef _ML_RESOURCES_HPP_
 #define _ML_RESOURCES_HPP_
 
-#include <ML/Audio/Sound.hpp>
-#include <ML/Core/List.hpp>
 #include <ML/Engine/Registry.hpp>
 #include <ML/Engine/ManifestItem.hpp>
-#include <ML/Engine/Entity.hpp>
-#include <ML/Engine/LuaScript.hpp>
-#include <ML/Engine/Plugin.hpp>
-#include <ML/Graphics/Surface.hpp>
-#include <ML/Graphics/Font.hpp>
-#include <ML/Graphics/Model.hpp>
-#include <ML/Graphics/Skybox.hpp>
-#include <ML/Graphics/Sprite.hpp>
-#include <ML/Script/Script.hpp>
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	class Entity;
+	class Font;
+	class Image;
+	class LuaScript;
+	class Material;
+	class Mesh;
+	class Model;
+	class Plugin;
+	class Script;
+	class Shader;
+	class Skybox;
+	class Sound;
+	class Sprite;
+	class Surface;
+	class Texture;
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Resources final
@@ -41,7 +48,6 @@ namespace ml
 		bool parseItem(const ManifestItem & data);
 
 	public:
-		Registry<Surface>	surfaces;
 		Registry<Entity>	entities;
 		Registry<Font>		fonts;
 		Registry<Image>		images;
@@ -55,6 +61,7 @@ namespace ml
 		Registry<Skybox>	skyboxes;
 		Registry<Sound> 	sounds;
 		Registry<Sprite>	sprites;
+		Registry<Surface>	surfaces;
 		Registry<Texture>	textures;
 	};
 

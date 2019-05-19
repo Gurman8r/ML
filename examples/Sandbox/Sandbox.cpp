@@ -3,6 +3,7 @@
 #include "Sandbox.hpp"
 
 #include <ML/Audio/OpenAL.hpp>
+#include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
@@ -15,6 +16,11 @@
 #include <ML/Graphics/ShaderAPI.hpp>
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Uni.hpp>
+#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/Font.hpp>
+#include <ML/Graphics/Model.hpp>
+#include <ML/Graphics/Skybox.hpp>
+#include <ML/Graphics/Sprite.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -33,6 +39,7 @@
 #include <ML/Physics/SphereCollider.hpp>
 #include <ML/Physics/BoxCollider.hpp>
 #include <ML/Script/Interpreter.hpp>
+#include <ML/Script/Script.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
@@ -312,7 +319,7 @@ namespace DEMO
 		{
 			if (ml::Plugin * plugin = ev->resources.plugins.get("TestPlugin"))
 			{
-				if (void * msg = plugin->lib().callFunction<void *>(
+				if (void * msg = plugin->lib().callFun<void *>(
 					ML_str(ML_Plugin_Test), "TEST"
 					))
 				{

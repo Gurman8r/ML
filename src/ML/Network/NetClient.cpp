@@ -12,7 +12,7 @@ namespace ml
 		: NetInterface(eventSystem)
 		, m_connected(false)
 	{
-		getEventSystem().addListener(NetworkEvent::EV_ClientRecievePacket, this);
+		this->eventSystem().addListener(NetworkEvent::EV_ClientRecievePacket, this);
 	}
 
 	NetClient::~NetClient()
@@ -60,7 +60,7 @@ namespace ml
 			RakNet::RakString str;
 			if (bitStream.Read(str))
 			{
-				getEventSystem().fireEvent(ClientRecievePacketEvent(str.C_String()));
+				eventSystem().fireEvent(ClientRecievePacketEvent(str.C_String()));
 			}
 			break;
 		}

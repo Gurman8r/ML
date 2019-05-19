@@ -17,8 +17,17 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
+		using FunctionMap = typename Map<String, void *>;
+
+	public:
 		SharedLibrary();
+		explicit SharedLibrary(const String & filename);
+		SharedLibrary(SharedLibrary && copy);
 		~SharedLibrary();
+
+	public:
+		SharedLibrary & operator=(SharedLibrary && copy);
+		SharedLibrary & swap(SharedLibrary & other);
 
 	public:
 		bool	dispose() override;
@@ -27,26 +36,29 @@ namespace ml
 
 	public:
 		template <
-			class Out,
+			class Result,
 			class ... Args
-		> inline Out callFunction(const String & name, Args && ... args)
+		> inline Result callFun(const String & name, Args && ... args)
 		{
-			using Fun = Out(*)(Args...);
-			static Fun fun;
+			using Fun = Result(*)(Args...);
+			Fun fun;
 			return ((fun = reinterpret_cast<Fun>(loadFunction(name)))
-				? (static_cast<Out>(fun((args)...)))
-				: (static_cast<Out>(NULL)));
+				? (static_cast<Result>(fun((args)...)))
+				: (static_cast<Result>(NULL)));
 		}
 
 	public:
-		inline const String &	filename() const { return m_filename; }
-		inline const void *		instance() const { return m_instance; }
+		inline const void *			instance()	const { return m_instance;	}
+		inline const String &		filename()	const { return m_filename;	}
+		inline const FunctionMap &	functions() const { return m_functions; }
+
+	public:
+		inline operator bool() const { return (bool)(m_instance); }
 
 	private:
-		String m_filename;
-		void * m_instance;
-
-		mutable Map<String, void *> m_fun;
+		void *		m_instance;
+		String		m_filename;
+		FunctionMap m_functions;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

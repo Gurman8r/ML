@@ -1,20 +1,30 @@
 #include <ML/Editor/ResourceView.hpp>
+
+#include <ML/Audio/Sound.hpp>
+#include <ML/Core/Debug.hpp>
+#include <ML/Core/OS.hpp>
+#include <ML/Core/CoreEvents.hpp>
+#include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Helper.hpp>
 #include <ML/Editor/GUI.hpp>
-#include <ML/Engine/Resources.hpp>
-#include <ML/Core/Debug.hpp>
-#include <ML/Core/OS.hpp>
-#include <ML/Core/CoreEvents.hpp>
-#include <ML/Core/EventSystem.hpp>
+#include <ML/Engine/Entity.hpp>
+#include <ML/Engine/LuaScript.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Uni.hpp>
+#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/Font.hpp>
+#include <ML/Graphics/Model.hpp>
+#include <ML/Graphics/Skybox.hpp>
+#include <ML/Graphics/Sprite.hpp>
 #include <ML/Physics/Rigidbody.hpp>
 #include <ML/Physics/Particle.hpp>
+#include <ML/Script/Script.hpp>
 
 namespace ml
 {

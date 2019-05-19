@@ -50,7 +50,7 @@ int32_t main(int32_t argc, char ** argv)
 	// Setup Control
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum State : int32_t
+	enum ControlState : int32_t
 	{
 		None = ML_STATE_INVALID,
 		Enter, Load, Start, Loop, Unload, Exit,
@@ -59,9 +59,9 @@ int32_t main(int32_t argc, char ** argv)
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	static ml::StateMachine<State> control =
+	static ml::StateMachine<ControlState> control =
 	{ 
-	{ State::Enter, []()
+	{ ControlState::Enter, []()
 	{	// Enter
 		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::EnterEvent(
@@ -70,10 +70,10 @@ int32_t main(int32_t argc, char ** argv)
 			*engine.app(),
 			resources
 		));
-		return control.run(State::Load);
+		return control.run(ControlState::Load);
 	} },
 	
-	{ State::Load, []()
+	{ ControlState::Load, []()
 	{	// Load
 		eventSystem.fireEvent(ml::LoadEvent(
 			prefs,
@@ -81,10 +81,10 @@ int32_t main(int32_t argc, char ** argv)
 			*engine.app(),
 			resources
 		));
-		return control.run(State::Start);
+		return control.run(ControlState::Start);
 	} },
 	
-	{ State::Start, []()
+	{ ControlState::Start, []()
 	{	// Start
 		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::StartEvent(
@@ -93,10 +93,10 @@ int32_t main(int32_t argc, char ** argv)
 			*engine.app(),
 			resources
 		));
-		return control.run(State::Loop);
+		return control.run(ControlState::Loop);
 	} },
 	
-	{ State::Loop, []()
+	{ ControlState::Loop, []()
 	{	// Loop
 		/* * * * * * * * * * * * * * * * * * * * */
 		engine.loopFun([&]()
@@ -121,27 +121,27 @@ int32_t main(int32_t argc, char ** argv)
 				resources
 			));
 		});
-		return control.run(State::Unload);
+		return control.run(ControlState::Unload);
 	} },
 	
-	{ State::Unload, []()
+	{ ControlState::Unload, []()
 	{	// Unload
 		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::UnloadEvent(
 			engine,
 			resources
 		));
-		return control.run(State::Exit);
+		return control.run(ControlState::Exit);
 	} },
 	
-	{ State::Exit, []()
+	{ ControlState::Exit, []()
 	{	// Exit
 		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::ExitEvent(
 			engine,
 			resources
 		));
-		return control.run(State::None);
+		return control.run(ControlState::None);
 	} },
 	};
 
@@ -149,15 +149,14 @@ int32_t main(int32_t argc, char ** argv)
 	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static ml::SharedLibrary lib;
-	if (lib.loadFromFile(ML_FS.getPathTo(
-		prefs.GetString("General", "application", "") + ML_DLL_STR("")
-	)))
-	{	if (auto app = lib.callFunction<ml::Application *>(ML_str(ML_Plugin_Main), &eventSystem))
+	if (auto lib = ml::SharedLibrary(
+		ML_FS.getPathTo(prefs.GetString("General", "application", "") + ML_DLL_STR(""))
+	))
+	{	if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), &eventSystem))
 		{
 			if (engine.launchApp(app))
 			{
-				control.run(State::Enter);
+				control.run(ControlState::Enter);
 
 				return engine.freeApp(app);
 			}
@@ -169,7 +168,7 @@ int32_t main(int32_t argc, char ** argv)
 		}
 		else
 		{
-			return ml::Debug::logError("Failed Loading Plugin")
+			return ml::Debug::logError("Failed Calling Plugin Main")
 				|| ml::Debug::pause(EXIT_FAILURE);
 		}
 	}
@@ -178,6 +177,7 @@ int32_t main(int32_t argc, char ** argv)
 		return ml::Debug::logError("Failed Loading Library: \'{0}\'", lib.filename())
 			|| ml::Debug::pause(EXIT_FAILURE);
 	}
+
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

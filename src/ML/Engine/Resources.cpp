@@ -1,6 +1,17 @@
 #include <ML/Engine/Resources.hpp>
 #include <ML/Core/Debug.hpp>
 
+#include <ML/Audio/Sound.hpp>
+#include <ML/Engine/Entity.hpp>
+#include <ML/Engine/LuaScript.hpp>
+#include <ML/Engine/Plugin.hpp>
+#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/Font.hpp>
+#include <ML/Graphics/Model.hpp>
+#include <ML/Graphics/Skybox.hpp>
+#include <ML/Graphics/Sprite.hpp>
+#include <ML/Script/Script.hpp>
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -46,7 +46,7 @@ namespace ml
 	public:
 		inline const Application *	app()			const	{ return m_app;			}
 		inline		 Application *	app()					{ return m_app;			}
-		inline EventSystem &		getEventSystem()const	{ return m_eventSystem; }
+		inline EventSystem &		eventSystem()	const	{ return m_eventSystem; }
 		inline const Timer &		mainTimer()		const	{ return m_mainTimer;	}
 		inline const Timer &		loopTimer()		const	{ return m_loopTimer;	}
 		inline const Duration &		elapsed()		const	{ return m_elapsed;	}

@@ -24,7 +24,7 @@ namespace ml
 		, m_preview	()
 		, m_isDouble(false)
 	{
-		getEventSystem().addListener(EditorEvent::EV_File_Open, this);
+		this->eventSystem().addListener(EditorEvent::EV_File_Open, this);
 	}
 
 	Browser::~Browser()

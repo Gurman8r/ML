@@ -45,7 +45,7 @@ static uint32_t		g_VboHandle					= NULL,
 template <class T>
 inline static void ImGui_ML_FireEvent(const T & value)
 {
-	g_Window->getEventSystem().fireEvent(static_cast<const ml::IEvent &>(value));
+	g_Window->eventSystem().fireEvent(static_cast<const ml::IEvent &>(value));
 
 	if (g_LogEvents)
 	{

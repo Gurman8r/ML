@@ -109,7 +109,7 @@ namespace ml
 
 	public: // Inline
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline EventSystem &	getEventSystem()const { return m_eventSystem; }
+		inline EventSystem &	eventSystem()	const { return m_eventSystem; }
 		inline const Context &	getContext()	const { return m_context; }
 		inline const uint32_t &	getStyle()		const { return m_style; }
 		inline const vec2i &	getPosition()	const { return m_position; }

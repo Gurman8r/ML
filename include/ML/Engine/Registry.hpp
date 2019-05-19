@@ -21,8 +21,6 @@ namespace ml
 	{
 		friend class Resources;
 
-		ML_assert_is_base_of(IReadable, _Elem); // Type must derive IReadable
-
 	public:
 		using value_type	= typename _Elem;
 		using pointer		= typename value_type * ;
@@ -59,6 +57,7 @@ namespace ml
 			}
 			out << endl;
 		}
+
 		inline void deserialize(std::istream & in) override
 		{
 		}

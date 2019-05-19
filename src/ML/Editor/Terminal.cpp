@@ -176,7 +176,7 @@ namespace ml
 		}
 		else
 		{
-			getEventSystem().fireEvent(CommandEvent(value));
+			eventSystem().fireEvent(CommandEvent(value));
 		}
 	}
 

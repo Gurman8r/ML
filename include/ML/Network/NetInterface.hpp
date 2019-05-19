@@ -59,7 +59,7 @@ namespace ml
 		IpAddress	getAddressFromGUID(const GUID & value) const;
 
 	public:
-		inline EventSystem & getEventSystem() const { return m_eventSystem; }
+		inline EventSystem & eventSystem() const { return m_eventSystem; }
 
 	protected:
 		EventSystem & m_eventSystem;

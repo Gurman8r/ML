@@ -19,12 +19,40 @@ namespace ml
 	SharedLibrary::SharedLibrary()
 		: m_instance(NULL)
 		, m_filename()
+		, m_functions()
 	{
+	}
+
+	SharedLibrary::SharedLibrary(const String & filename)
+		: SharedLibrary()
+	{
+		loadFromFile(filename);
+	}
+
+	SharedLibrary::SharedLibrary(SharedLibrary && copy)
+		: SharedLibrary()
+	{
+		this->swap(copy);
 	}
 
 	SharedLibrary::~SharedLibrary()
 	{
 		dispose();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	SharedLibrary & SharedLibrary::operator=(SharedLibrary && copy)
+	{
+		return this->swap(copy);
+	}
+
+	SharedLibrary & SharedLibrary::swap(SharedLibrary & copy)
+	{
+		m_instance	= copy.m_instance;
+		m_filename	= copy.m_filename;
+		m_functions = copy.m_functions;
+		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -39,10 +67,12 @@ namespace ml
 		return (m_instance = ML_LOAD_LIBRARY((m_filename = filename).c_str()));
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	void * SharedLibrary::loadFunction(const String & name)
 	{
 		Map<String, void *>::const_iterator it;
-		if ((it = m_fun.find(name)) != m_fun.end())
+		if ((it = m_functions.find(name)) != m_functions.end())
 		{
 			return it->second;
 		}
@@ -54,7 +84,7 @@ namespace ml
 				Debug::logWarning("Uniform Not Found: \"{0}\"", name);
 
 			}
-			return m_fun.insert({ name, location }).first->second;
+			return m_functions.insert({ name, location }).first->second;
 		}
 	}
 

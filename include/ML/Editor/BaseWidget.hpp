@@ -27,7 +27,7 @@ namespace ml
 		virtual bool endDraw();
 
 	public:
-		inline EventSystem &	getEventSystem()const { return m_eventSystem; }
+		inline EventSystem &	eventSystem()	const { return m_eventSystem; }
 		inline CString			getTitle()		const { return m_title; }
 		inline int32_t			getFlags()		const { return m_flags; }
 		inline bool *			isOpen()		const { return m_open; }

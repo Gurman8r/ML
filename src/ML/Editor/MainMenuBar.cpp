@@ -36,25 +36,25 @@ namespace ml
 			{
 				if (ImGui::MenuItem("New", "Ctrl+N"))
 				{
-					getEventSystem().fireEvent(File_New_Event());
+					eventSystem().fireEvent(File_New_Event());
 				}
 				if (ImGui::MenuItem("Open", "Ctrl+O"))
 				{
-					getEventSystem().fireEvent(File_Open_Event());
+					eventSystem().fireEvent(File_Open_Event());
 				}
 				ImGui::Separator();
 				if (ImGui::MenuItem("Save", "Ctrl+S"))
 				{
-					getEventSystem().fireEvent(File_Save_Event(false));
+					eventSystem().fireEvent(File_Save_Event(false));
 				}
 				if (ImGui::MenuItem("Save All", "Ctrl+Shift+S", false))
 				{
-					getEventSystem().fireEvent(File_Save_Event(true));
+					eventSystem().fireEvent(File_Save_Event(true));
 				}
 				ImGui::Separator();
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{
-					getEventSystem().fireEvent(File_Close_Event());
+					eventSystem().fireEvent(File_Close_Event());
 				}
 				ImGui::EndMenu();
 			}
@@ -65,24 +65,24 @@ namespace ml
 			{
 				if (ImGui::MenuItem("Undo", "Ctrl+Z"))
 				{
-					getEventSystem().fireEvent(Edit_Undo_Event());
+					eventSystem().fireEvent(Edit_Undo_Event());
 				}
 				if (ImGui::MenuItem("Redo", "Ctrl+Y"))
 				{
-					getEventSystem().fireEvent(Edit_Redo_Event());
+					eventSystem().fireEvent(Edit_Redo_Event());
 				}
 				ImGui::Separator();
 				if (ImGui::MenuItem("Cut", "Ctrl+X"))
 				{
-					getEventSystem().fireEvent(Edit_Cut_Event());
+					eventSystem().fireEvent(Edit_Cut_Event());
 				}
 				if (ImGui::MenuItem("Copy", "Ctrl+C"))
 				{
-					getEventSystem().fireEvent(Edit_Copy_Event());
+					eventSystem().fireEvent(Edit_Copy_Event());
 				}
 				if (ImGui::MenuItem("Paste", "Ctrl+V"))
 				{
-					getEventSystem().fireEvent(Edit_Paste_Event());
+					eventSystem().fireEvent(Edit_Paste_Event());
 				}
 				ImGui::EndMenu();
 			}

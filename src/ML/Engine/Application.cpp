@@ -8,13 +8,13 @@ namespace ml
 	Application::Application(EventSystem & eventSystem)
 		: RenderWindow(eventSystem)
 	{
-		getEventSystem().addListener(EngineEvent::EV_Enter,	this);
-		getEventSystem().addListener(EngineEvent::EV_Load,	this);
-		getEventSystem().addListener(EngineEvent::EV_Start,	this);
-		getEventSystem().addListener(EngineEvent::EV_Update,this);
-		getEventSystem().addListener(EngineEvent::EV_Draw,	this);
-		getEventSystem().addListener(EngineEvent::EV_Unload,this);
-		getEventSystem().addListener(EngineEvent::EV_Exit,	this);
+		this->eventSystem().addListener(EngineEvent::EV_Enter,	this);
+		this->eventSystem().addListener(EngineEvent::EV_Load,	this);
+		this->eventSystem().addListener(EngineEvent::EV_Start,	this);
+		this->eventSystem().addListener(EngineEvent::EV_Update,	this);
+		this->eventSystem().addListener(EngineEvent::EV_Draw,	this);
+		this->eventSystem().addListener(EngineEvent::EV_Unload,	this);
+		this->eventSystem().addListener(EngineEvent::EV_Exit,	this);
 	}
 
 	Application::~Application() { }

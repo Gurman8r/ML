@@ -17,7 +17,7 @@ namespace ml
 		: NetInterface(eventSystem)
 		, m_running(false)
 	{
-		getEventSystem().addListener(NetworkEvent::EV_ServerRecievePacket, this);
+		this->eventSystem().addListener(NetworkEvent::EV_ServerRecievePacket, this);
 	}
 
 	NetServer::~NetServer()
@@ -76,7 +76,7 @@ namespace ml
 			RakNet::RakString str;
 			if (bitStream.Read(str))
 			{
-				getEventSystem().fireEvent(ServerRecievePacketEvent(str.C_String()));
+				eventSystem().fireEvent(ServerRecievePacketEvent(str.C_String()));
 			}
 			break;
 		}

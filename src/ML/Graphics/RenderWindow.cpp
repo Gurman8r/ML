@@ -11,7 +11,7 @@ namespace ml
 	RenderWindow::RenderWindow(EventSystem & eventSystem)
 		: Window(eventSystem)
 	{
-		getEventSystem().addListener(GraphicsEvent::EV_RenderError, this);
+		this->eventSystem().addListener(GraphicsEvent::EV_RenderError, this);
 	}
 
 	RenderWindow::~RenderWindow() {}
@@ -20,7 +20,7 @@ namespace ml
 
 	bool RenderWindow::setup()
 	{
-		if (Window::setup() && ML_GL.init(getEventSystem()))
+		if (Window::setup() && ML_GL.init(eventSystem()))
 		{
 			// Validate OpenGL Version
 			ML_GL.validateVersion(m_context.majorVersion, m_context.minorVersion);

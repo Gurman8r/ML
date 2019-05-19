@@ -21,6 +21,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	static Window * g_Instance = NULL;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	Window::Window(EventSystem & eventSystem)
 		: m_eventSystem	(eventSystem)
 		, m_window		(NULL)
@@ -32,9 +36,14 @@ namespace ml
 		, m_style		(Window::Default)
 		, m_position	(vec2i::Zero)
 	{
+		if (!g_Instance)
+		{
+			g_Instance = this;
+		}
+
 #if defined(ML_SYSTEM_WINDOWS)
 		// Disable CMD Window Close Button
-		ML_Console.enableMenuItem(SC_CLOSE, MF_GRAYED);
+		Console::enableMenuItem(SC_CLOSE, MF_GRAYED);
 #endif
 		getEventSystem().addListener(WindowEvent::EV_Char,			this);
 		getEventSystem().addListener(WindowEvent::EV_CursorEnter,	this);
@@ -57,8 +66,13 @@ namespace ml
 
 #if defined(ML_SYSTEM_WINDOWS)
 		// Enable CMD Window Close Button
-		ML_Console.enableMenuItem(SC_CLOSE, MF_ENABLED);
+		Console::enableMenuItem(SC_CLOSE, MF_ENABLED);
 #endif
+
+		if (!g_Instance)
+		{
+			g_Instance = NULL;
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -114,32 +128,32 @@ namespace ml
 	{
 		setCharCallback([](void * window, uint32_t c)
 		{
-			ML_EventSystem.fireEvent(CharEvent(c));
+			g_Instance->getEventSystem().fireEvent(CharEvent(c));
 		});
 
 		setCursorEnterCallback([](void * window, int32_t entered)
 		{
-			ML_EventSystem.fireEvent(CursorEnterEvent(entered));
+			g_Instance->getEventSystem().fireEvent(CursorEnterEvent(entered));
 		});
 
 		setCursorPosCallback([](void * window, double x, double y)
 		{
-			ML_EventSystem.fireEvent(CursorPosEvent(x, y));
+			g_Instance->getEventSystem().fireEvent(CursorPosEvent(x, y));
 		});
 
 		setErrorCallback([](int32_t code, CString desc)
 		{
-			ML_EventSystem.fireEvent(WindowErrorEvent(code, desc));
+			g_Instance->getEventSystem().fireEvent(WindowErrorEvent(code, desc));
 		});
 
 		setFrameSizeCallback([](void * window, int32_t w, int32_t h)
 		{
-			ML_EventSystem.fireEvent(FrameSizeEvent(w, h));
+			g_Instance->getEventSystem().fireEvent(FrameSizeEvent(w, h));
 		});
 
 		setKeyCallback([](void * window, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			ML_EventSystem.fireEvent(KeyEvent(button, scan, action,
+			g_Instance->getEventSystem().fireEvent(KeyEvent(button, scan, action,
 				(bool)(mods & ML_MOD_SHIFT),
 				(bool)(mods & ML_MOD_CTRL),
 				(bool)(mods & ML_MOD_ALT),
@@ -149,32 +163,32 @@ namespace ml
 
 		setMouseButtonCallback([](void * window, int32_t button, int32_t action, int32_t mods)
 		{
-			ML_EventSystem.fireEvent(MouseButtonEvent(button, action, mods));
+			g_Instance->getEventSystem().fireEvent(MouseButtonEvent(button, action, mods));
 		});
 		
 		setScrollCallback([](void * window, double x, double y)
 		{
-			ML_EventSystem.fireEvent(ScrollEvent(x, y));
+			g_Instance->getEventSystem().fireEvent(ScrollEvent(x, y));
 		});
 
 		setWindowCloseCallback([](void * window)
 		{
-			ML_EventSystem.fireEvent(WindowCloseEvent());
+			g_Instance->getEventSystem().fireEvent(WindowCloseEvent());
 		});
 
 		setWindowFocusCallback([](void * window, int32_t focused)
 		{
-			ML_EventSystem.fireEvent(WindowFocusEvent(focused));
+			g_Instance->getEventSystem().fireEvent(WindowFocusEvent(focused));
 		});
 		
 		setWindowPosCallback([](void * window, int32_t x, int32_t y)
 		{
-			ML_EventSystem.fireEvent(WindowPosEvent(x, y));
+			g_Instance->getEventSystem().fireEvent(WindowPosEvent(x, y));
 		});
 
 		setWindowSizeCallback([](void * window, int32_t width, int32_t height)
 		{
-			ML_EventSystem.fireEvent(WindowSizeEvent(width, height));
+			g_Instance->getEventSystem().fireEvent(WindowSizeEvent(width, height));
 		});
 
 		return true;
@@ -185,65 +199,65 @@ namespace ml
 		switch (*value)
 		{
 		case WindowEvent::EV_Char:
-			if (const auto * ev = value->as<CharEvent>())
+			if (auto ev = value->as<CharEvent>())
 			{
 				m_char = (char)ev->value;
 			}
 			break;
 		case WindowEvent::EV_CursorEnter:
-			if (const auto * ev = value->as<CursorEnterEvent>())
+			if (auto ev = value->as<CursorEnterEvent>())
 			{
 			}
 			break;
 		case WindowEvent::EV_CursorPos:
-			if (const auto * ev = value->as<CursorPosEvent>())
+			if (auto ev = value->as<CursorPosEvent>())
 			{
 			}
 			break;
 		case WindowEvent::EV_FrameSize:
-			if (const auto * ev = value->as<FrameSizeEvent>())
+			if (auto ev = value->as<FrameSizeEvent>())
 			{
 			}
 			break;
 		case WindowEvent::EV_Key:
-			if (const auto * ev = value->as<KeyEvent>())
+			if (auto ev = value->as<KeyEvent>())
 			{
 			}
 			break;
 		case WindowEvent::EV_MouseButton:
-			if (const auto * ev = value->as<MouseButtonEvent>())
+			if (auto ev = value->as<MouseButtonEvent>())
 			{
 			}
 			break;
 		case WindowEvent::EV_Scroll:
-			if (const auto * ev = value->as<ScrollEvent>())
+			if (auto ev = value->as<ScrollEvent>())
 			{
 			}
 			break;
 		case WindowEvent::EV_WindowClose:
-			if (const auto * ev = value->as<WindowCloseEvent>())
+			if (auto ev = value->as<WindowCloseEvent>())
 			{
 			}
 			break;
 		case WindowEvent::EV_WindowError:
-			if (const auto * ev = value->as<WindowErrorEvent>())
+			if (auto ev = value->as<WindowErrorEvent>())
 			{
 				Debug::logError("{0}", (*ev));
 			}
 			break;
 		case WindowEvent::EV_WindowFocus:
-			if (const auto * ev = value->as<WindowFocusEvent>())
+			if (auto ev = value->as<WindowFocusEvent>())
 			{
 			}
 			break;
 		case WindowEvent::Ev_WindowPos:
-			if (const auto * ev = value->as<WindowPosEvent>())
+			if (auto ev = value->as<WindowPosEvent>())
 			{
 				m_position = ev->position();
 			}
 			break;
 		case WindowEvent::EV_WindowSize:
-			if (const auto * ev = value->as<WindowSizeEvent>())
+			if (auto ev = value->as<WindowSizeEvent>())
 			{
 				m_screen.resolution = (vec2u)ev->size();
 			}

@@ -6,8 +6,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	TextEditor::TextEditor()
-		: BaseWidget("Text Editor")
+	TextEditor::TextEditor(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Text Editor")
 		, m_selected(-1)
 	{
 	}

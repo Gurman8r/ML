@@ -4,8 +4,6 @@
 #include <ML/Core/ISingleton.hpp>
 #include <ML/Network/NetInterface.hpp>
 
-#define ML_NetClient ml::NetClient::getInstance()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -13,12 +11,9 @@ namespace ml
 	class ML_NETWORK_API NetClient final
 		: public ITrackable
 		, public NetInterface
-		, public ISingleton<NetClient>
 	{
-		friend class ISingleton<NetClient>;
-
-	private:
-		NetClient();
+	public:
+		NetClient(EventSystem & eventSystem);
 		~NetClient();
 
 	public:

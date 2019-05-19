@@ -16,22 +16,16 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_Editor ml::Editor::getInstance()
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API Editor final
 		: public ITrackable
-		, public ISingleton<Editor>
+		, public INonCopyable
 	{
-		friend class ISingleton<Editor>;
-
-	private:
-		Editor();
+	public:
+		Editor(EventSystem & eventSystem);
 		~Editor();
 
 	public:

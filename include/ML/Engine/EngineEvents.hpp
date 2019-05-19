@@ -3,14 +3,14 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/IEvent.hpp>
-#include <ML/Core/Duration.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Engine;
-	class Preferences;
+	class Prefs;
+	class RenderWindow;
 	class Resources;
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -42,18 +42,16 @@ namespace ml
 
 	struct ML_ENGINE_API EnterEvent final : public EngineEvent
 	{
-		int32_t				argc;
-		char **				argv;
-		const Preferences & prefs;
-		Engine &			engine;
-		Resources &			resources;
+		const Prefs &	prefs;
+		Engine &		engine;
+		RenderWindow &	window;
+		Resources &		resources;
 
-		EnterEvent(int32_t argc, char ** argv, const Preferences & prefs, Engine & engine, Resources & resources)
+		EnterEvent(const Prefs & prefs, Engine & engine, RenderWindow & window, Resources & resources)
 			: EngineEvent(EV_Enter)
-			, argc(argc)
-			, argv(argv)
 			, prefs(prefs)
 			, engine(engine)
+			, window(window)
 			, resources(resources)
 		{
 		}
@@ -63,14 +61,16 @@ namespace ml
 
 	struct ML_ENGINE_API LoadEvent final : public EngineEvent
 	{
-		const Preferences & prefs;
-		Engine & engine;
-		Resources &	resources;
+		const Prefs &	prefs;
+		Engine &		engine;
+		RenderWindow &	window;
+		Resources &		resources;
 
-		LoadEvent(const Preferences & prefs, Engine & engine, Resources & resources)
+		LoadEvent(const Prefs & prefs, Engine & engine, RenderWindow & window, Resources & resources)
 			: EngineEvent(EV_Load)
 			, prefs(prefs)
 			, engine(engine)
+			, window(window)
 			, resources(resources)
 		{
 		}
@@ -80,14 +80,16 @@ namespace ml
 
 	struct ML_ENGINE_API StartEvent final : public EngineEvent
 	{
-		const Preferences & prefs;
-		Engine		& engine;
-		Resources	& resources;
+		const Prefs &	prefs;
+		Engine &		engine;
+		RenderWindow &	window;
+		Resources &		resources;
 
-		StartEvent(const Preferences & prefs, Engine & engine, Resources & resources)
+		StartEvent(const Prefs & prefs, Engine & engine, RenderWindow & window, Resources & resources)
 			: EngineEvent(EV_Start)
 			, prefs(prefs)
 			, engine(engine)
+			, window(window)
 			, resources(resources)
 		{
 		}
@@ -97,12 +99,14 @@ namespace ml
 
 	struct ML_ENGINE_API UpdateEvent final : public EngineEvent
 	{
-		Engine		& engine;
-		Resources	& resources;
+		Engine &			engine;
+		RenderWindow &		window;
+		Resources &			resources;
 
-		UpdateEvent(Engine & engine, Resources & resources)
+		UpdateEvent(Engine & engine, RenderWindow & window, Resources & resources)
 			: EngineEvent(EV_Update)
 			, engine(engine)
+			, window(window)
 			, resources(resources)
 		{
 		}
@@ -112,12 +116,14 @@ namespace ml
 
 	struct ML_ENGINE_API DrawEvent final : public EngineEvent
 	{
-		Engine		& engine;
-		Resources	& resources;
+		Engine &			engine;
+		RenderWindow &		window;
+		Resources &			resources;
 
-		DrawEvent(Engine & engine, Resources & resources)
+		DrawEvent(Engine & engine, RenderWindow & window, Resources & resources)
 			: EngineEvent(EV_Draw)
 			, engine(engine)
+			, window(window)
 			, resources(resources)
 		{
 		}
@@ -127,8 +133,8 @@ namespace ml
 
 	struct ML_ENGINE_API UnloadEvent final : public EngineEvent
 	{
-		Engine		& engine;
-		Resources	& resources;
+		Engine &	engine;
+		Resources & resources;
 
 		UnloadEvent(Engine & engine, Resources & resources)
 			: EngineEvent(EV_Unload)
@@ -142,8 +148,8 @@ namespace ml
 
 	struct ML_ENGINE_API ExitEvent final : public EngineEvent
 	{
-		Engine		& engine;
-		Resources	& resources;
+		Engine &	engine;
+		Resources & resources;
 
 		ExitEvent(Engine & engine, Resources & resources)
 			: EngineEvent(EV_Exit)

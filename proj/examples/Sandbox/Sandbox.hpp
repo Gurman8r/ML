@@ -7,6 +7,8 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Graphics/Text.hpp>
+#include <ML/Network/NetClient.hpp>
+#include <ML/Network/NetServer.hpp>
 #include <ML/Physics/PhysicsWorld.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -69,12 +71,14 @@ namespace DEMO
 
 		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 
-		struct MyData final : public ml::INonCopyable
+		class MyData final : public ml::INonCopyable
 		{
+		public:
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ml::SStream			rdstr		= ml::SStream();
 			ml::StreamBuf *		rdbuf		= NULL;
+			ml::String			manifest	= {};
 			ml::VAO				vao			= {};
 			ml::VBO				vbo			= {};
 			TextTable			text		= {};
@@ -87,17 +91,23 @@ namespace DEMO
 			float				cameraSpeed = 1.0f;
 			int32_t				effectMode	= 3;
 			ml::PhysicsWorld	physics		= {};
+			ml::NetClient		client;
+			ml::NetServer		server;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			MyData(Sandbox & self) : m_self(self) {}
+			MyData(Sandbox & self)
+				: m_self(self)
+				, client(self.getEventSystem())
+				, server(self.getEventSystem())
+			{
+			}
 
 			inline Sandbox * operator->() { return &m_self; }
 			inline Sandbox & operator *() { return  m_self; }
 
-			/* * * * * * * * * * * * * * * * * * * * */
-
 		private:
+			/* * * * * * * * * * * * * * * * * * * * */
 			Sandbox & m_self;
 
 		} sandbox;

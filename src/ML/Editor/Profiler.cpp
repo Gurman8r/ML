@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Profiler::Profiler()
-		: BaseWidget("Profiler")
+	Profiler::Profiler(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Profiler")
 	{
 	}
 
@@ -30,7 +30,7 @@ namespace ml
 
 			if (ImGui::BeginMenuBar())
 			{
-				ImGui::Text("%s (WIP)", title());
+				ImGui::Text("%s (WIP)", getTitle());
 				ImGui::EndMenuBar();
 			}
 

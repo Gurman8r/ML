@@ -15,8 +15,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Browser::Browser()
-		: BaseWidget("Browser")
+	Browser::Browser(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Browser")
 		, m_path	()
 		, m_dir		()
 		, m_type	(T_Dir)
@@ -24,10 +24,7 @@ namespace ml
 		, m_preview	()
 		, m_isDouble(false)
 	{
-		ML_EventSystem.addListener(EditorEvent::EV_File_Open, this);
-		ML_EventSystem.addListener(CoreEvent::EV_FS_ChangeDir, this);
-
-		onEvent(&FS_ChangDirEvent(ML_FS.getWorkingDir()));
+		getEventSystem().addListener(EditorEvent::EV_File_Open, this);
 	}
 
 	Browser::~Browser()
@@ -41,22 +38,9 @@ namespace ml
 		switch (*value)
 		{
 		case EditorEvent::EV_File_Open:
-			if (const auto * ev = value->as<File_Open_Event>())
+			if (auto ev = value->as<File_Open_Event>())
 			{
-				ML_EventSystem.fireEvent(OS_ExecuteEvent(
-					"open", get_selected_path()
-				));
-			}
-			break;
-
-		case CoreEvent::EV_FS_ChangeDir:
-			if (const auto * ev = value->as<FS_ChangDirEvent>())
-			{
-				m_path = ML_FS.getWorkingDir();
-				if (ML_FS.getDirContents(m_path, m_dir))
-				{
-					set_selected(T_Dir, 0);
-				}
+				OS::execute("open", get_selected_path());
 			}
 			break;
 		}
@@ -66,6 +50,15 @@ namespace ml
 	{
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{
+			const ml::String cwd = ML_FS.getWorkingDir();
+			if (((!m_path) || (m_path != cwd)) && (m_path = cwd))
+			{
+				if (ML_FS.getDirContents(m_path, m_dir))
+				{
+					set_selected(T_Dir, 0);
+				}
+			}
+
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			if (ImGui::BeginMenuBar())
@@ -106,9 +99,7 @@ namespace ml
 			{
 				if (ImGui::MenuItem("Open"))
 				{
-					ML_EventSystem.fireEvent(OS_ExecuteEvent(
-						"open",
-						get_selected_path()));
+					OS::execute("open", get_selected_path());
 				}
 				ImGui::EndMenu();
 			}

@@ -12,7 +12,7 @@ namespace ml
 		friend class Editor;
 
 	private:
-		TextEditor();
+		TextEditor(EventSystem & eventSystem);
 		~TextEditor();
 
 	public:

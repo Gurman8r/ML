@@ -9,6 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Application;
+	class EventSystem;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -17,7 +18,7 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
-		Engine();
+		Engine(EventSystem & eventSystem);
 		~Engine();
 
 	public:
@@ -43,15 +44,17 @@ namespace ml
 		}
 
 	public:
-		inline const Application *	app()		const	{ return m_app;			}
-		inline		 Application *	app()				{ return m_app;			}
-		inline const Timer &		mainTimer() const	{ return m_mainTimer;	}
-		inline const Timer &		loopTimer()	const	{ return m_loopTimer;	}
-		inline const Duration &		elapsed()	const	{ return m_elapsed;	}
-		inline const uint32_t		frameRate()	const	{ return m_frameRate;	}
+		inline const Application *	app()			const	{ return m_app;			}
+		inline		 Application *	app()					{ return m_app;			}
+		inline EventSystem &		getEventSystem()const	{ return m_eventSystem; }
+		inline const Timer &		mainTimer()		const	{ return m_mainTimer;	}
+		inline const Timer &		loopTimer()		const	{ return m_loopTimer;	}
+		inline const Duration &		elapsed()		const	{ return m_elapsed;	}
+		inline const uint32_t		frameRate()		const	{ return m_frameRate;	}
 
 	private:
 		Application *	m_app;
+		EventSystem &	m_eventSystem;
 		Timer			m_mainTimer;
 		Timer			m_loopTimer;
 		Duration		m_elapsed;

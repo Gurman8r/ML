@@ -15,8 +15,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Terminal::Terminal()
-		: BaseWidget	("Terminal")
+	Terminal::Terminal(EventSystem & eventSystem)
+		: BaseWidget	(eventSystem, "Terminal")
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()
@@ -24,9 +24,12 @@ namespace ml
 		, m_historyPos	(-1)
 		, m_autoFill	()
 	{
-		clear();
+		this->clear();
 
 		std::memset(m_inputBuf, 0, sizeof(m_inputBuf));
+
+		m_autoFill.push_back("clear");
+		m_autoFill.push_back("history");
 
 		for (auto & pair : ML_Interpreter.commands())
 		{
@@ -37,23 +40,12 @@ namespace ml
 		this->printf("# Type \'help\' for a list of commands.");
 	}
 	
-	Terminal::~Terminal()
-	{
-		clear();
-	}
+	Terminal::~Terminal() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	void Terminal::onEvent(const IEvent * value)
 	{
-		switch (*value)
-		{
-		case CoreEvent::EV_FS_ChangeDir:
-			if (const auto * ev = value->as<FS_ChangDirEvent>())
-			{
-			}
-			break;
-		}
 	}
 
 	bool Terminal::drawGui(const GuiEvent * ev, bool * p_open)
@@ -61,7 +53,7 @@ namespace ml
 		if (beginDraw(p_open))
 		{
 			// Filter
-			static ImGuiTextFilter filter;
+			static ImGuiTextFilter filter("-wrn");
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
 			filter.Draw("Filter (\"incl,-excl\")", 180);
 			ImGui::PopStyleVar();
@@ -171,7 +163,21 @@ namespace ml
 		}
 		m_history.push_back(strdup(value));
 
-		ML_EventSystem.fireEvent(CommandEvent(value));
+		if (std::strcmp(value, "clear") == 0)
+		{
+			this->clear();
+		}
+		else if (std::strcmp(value, "history") == 0)
+		{
+			for (CString e : m_history)
+			{
+				cout << e << endl;
+			}
+		}
+		else
+		{
+			getEventSystem().fireEvent(CommandEvent(value));
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

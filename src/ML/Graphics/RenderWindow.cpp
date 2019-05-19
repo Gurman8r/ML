@@ -20,7 +20,7 @@ namespace ml
 
 	bool RenderWindow::setup()
 	{
-		if (Window::setup() && ML_GL.init())
+		if (Window::setup() && ML_GL.init(getEventSystem()))
 		{
 			// Validate OpenGL Version
 			ML_GL.validateVersion(m_context.majorVersion, m_context.minorVersion);
@@ -57,14 +57,14 @@ namespace ml
 		switch (*value)
 		{
 		case GraphicsEvent::EV_RenderError:
-			if (const auto * ev = value->as<RenderErrorEvent>())
+			if (auto ev = value->as<RenderErrorEvent>())
 			{
 				ml::cout << (*ev) << ml::endl;
 			}
 			break;
 
 		case WindowEvent::EV_FrameSize:
-			if (const auto * ev = value->as<FrameSizeEvent>())
+			if (auto ev = value->as<FrameSizeEvent>())
 			{
 				this->setViewport(vec2::Zero, ev->size());
 			}

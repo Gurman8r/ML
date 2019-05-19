@@ -63,14 +63,17 @@ namespace ml
 				break;
 			}
 
-			ML_EventSystem.fireEvent(RenderErrorEvent(
-				fileName,
-				line, 
-				expr,
-				errorCode,
-				errorName,
-				errorDesc
-			));
+			if (ML_GL.m_eventSystem)
+			{
+				ML_GL.m_eventSystem->fireEvent(RenderErrorEvent(
+					fileName,
+					line,
+					expr,
+					errorCode,
+					errorName,
+					errorDesc
+				));
+			}
 		}
 	}
 
@@ -83,7 +86,7 @@ namespace ml
 		return ML_GL.m_good;
 	}
 
-	bool OpenGL::init()
+	bool OpenGL::init(EventSystem & eventSystem)
 	{
 		static bool checked = false;
 		if (!checked)
@@ -93,6 +96,8 @@ namespace ml
 			glewExperimental = true;
 
 			ML_GL.m_good = (glewInit() == GLEW_OK);
+
+			ML_GL.m_eventSystem = &eventSystem;
 		}
 		return good();
 	}

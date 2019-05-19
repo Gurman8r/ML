@@ -18,7 +18,7 @@ namespace ml
 		using InputBuffer = typename char[256];
 
 	private:
-		Terminal();
+		Terminal(EventSystem & eventSystem);
 		~Terminal();
 
 	public:

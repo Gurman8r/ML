@@ -8,8 +8,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Inspector::Inspector()
-		: BaseWidget("Inspector")
+	Inspector::Inspector(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Inspector")
 	{
 	}
 

@@ -1,21 +1,24 @@
-#ifndef _ML_ENGINE_COMMANDS_HPP_
-#define _ML_ENGINE_COMMANDS_HPP_
+#ifndef _ML_BUILTIN_HPP_
+#define _ML_BUILTIN_HPP_
 
-#include <ML/Engine/Export.hpp>
+#include <ML/Script/Export.hpp>
 #include <ML/Script/Args.hpp>
 #include <ML/Script/Var.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API EngineCommands final
+	struct ML_SCRIPT_API DefaultCommands final
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		static void install();
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		static Var cmd_cat		(Args & args); // Display File
 		static Var cmd_cd		(Args & args); // Change Directory
-		static Var cmd_config	(Args & args); // Read/Modify Settings
 		static Var cmd_cwd		(Args & args); // Print Working Directory
 		static Var cmd_exec		(Args & args); // Execute File
 		static Var cmd_exists	(Args & args); // Check Exists (File/Var)
@@ -33,9 +36,11 @@ namespace ml
 		static Var cmd_set		(Args & args); // Set Variable
 		static Var cmd_system	(Args & args); // System Call
 		static Var cmd_target	(Args & args); // Return Program Info
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_ENGINE_COMMANDS_HPP_
+#endif // !_ML_BUILTIN_HPP_

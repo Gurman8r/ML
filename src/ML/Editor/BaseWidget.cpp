@@ -5,11 +5,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	BaseWidget::BaseWidget(CString title)
-		: m_good	(false)
-		, m_title	(title)
-		, m_open	(NULL)
-		, m_flags	(ImGuiWindowFlags_None)
+	BaseWidget::BaseWidget(EventSystem & eventSystem, CString title)
+		: m_eventSystem	(eventSystem)
+		, m_good		(false)
+		, m_title		(title)
+		, m_flags		(ImGuiWindowFlags_None)
+		, m_open		(NULL)
 	{
 	}
 

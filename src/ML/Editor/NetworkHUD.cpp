@@ -6,8 +6,8 @@
 
 namespace ml
 {
-	NetworkHUD::NetworkHUD()
-		: BaseWidget("Network")
+	NetworkHUD::NetworkHUD(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Network")
 	{
 	}
 
@@ -29,7 +29,7 @@ namespace ml
 
 			if (ImGui::BeginMenuBar())
 			{
-				ImGui::Text("%s (WIP)", title());
+				ImGui::Text("%s (WIP)", getTitle());
 				ImGui::EndMenuBar();
 			}
 

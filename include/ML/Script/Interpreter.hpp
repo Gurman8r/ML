@@ -7,6 +7,7 @@
 #include <ML/Script/Parser.hpp>
 #include <ML/Script/Runtime.hpp>
 #include <ML/Script/Command.hpp>
+#include <ML/Script/ScriptEvents.hpp>
 
 #define ML_Interpreter ml::Interpreter::getInstance()
 
@@ -22,8 +23,8 @@ namespace ml
 		friend ISingleton<Interpreter>;
 
 	public:
-		using CommandMap  = HashMap<String, Command>;
-		using CommandPair = Pair<String, Command>;
+		using CommandMap  = typename HashMap<String, Command>;
+		using CommandPair = typename Pair<String, Command>;
 
 	private:
 		Interpreter();
@@ -36,8 +37,10 @@ namespace ml
 		Command * install(const Command & value);
 		Command * getCommand(const String & value);
 
-		template <typename T, typename ... A>
-		inline Var execCommand(const String & fmt, const T& arg0, const A&... args)
+		template <
+			class T,
+			class ... Args
+		> inline Var execCommand(const String & fmt, const T & arg0, Args && ... args)
 		{
 			return execCommand(fmt.format(arg0, (args)...));
 		}

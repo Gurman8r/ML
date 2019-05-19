@@ -10,16 +10,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Console::Console()
-	{
-	}
-
-	Console::~Console()
-	{
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	bool Console::enableMenuItem(const uint32_t item, const uint32_t enable)
 	{
 #ifdef ML_SYSTEM_WINDOWS

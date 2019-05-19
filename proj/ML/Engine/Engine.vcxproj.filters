@@ -51,16 +51,10 @@
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\EngineCommands.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Application.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp">
@@ -87,6 +81,9 @@
     <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Prefs.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\ECS.cpp">
@@ -98,13 +95,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\EngineCommands.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Application.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp">
@@ -121,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\LuaScript.cpp">
       <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\Prefs.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,10 +11,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	MainMenuBar::MainMenuBar()
-		: BaseWidget("Main Menu Bar")
+	MainMenuBar::MainMenuBar(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Main Menu Bar")
 	{
-		ML_OS; // initialize OS singleton
 	}
 
 	MainMenuBar::~MainMenuBar()
@@ -37,25 +36,25 @@ namespace ml
 			{
 				if (ImGui::MenuItem("New", "Ctrl+N"))
 				{
-					ML_EventSystem.fireEvent(File_New_Event());
+					getEventSystem().fireEvent(File_New_Event());
 				}
 				if (ImGui::MenuItem("Open", "Ctrl+O"))
 				{
-					ML_EventSystem.fireEvent(File_Open_Event());
+					getEventSystem().fireEvent(File_Open_Event());
 				}
 				ImGui::Separator();
 				if (ImGui::MenuItem("Save", "Ctrl+S"))
 				{
-					ML_EventSystem.fireEvent(File_Save_Event(false));
+					getEventSystem().fireEvent(File_Save_Event(false));
 				}
 				if (ImGui::MenuItem("Save All", "Ctrl+Shift+S", false))
 				{
-					ML_EventSystem.fireEvent(File_Save_Event(true));
+					getEventSystem().fireEvent(File_Save_Event(true));
 				}
 				ImGui::Separator();
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{
-					ML_EventSystem.fireEvent(File_Close_Event());
+					getEventSystem().fireEvent(File_Close_Event());
 				}
 				ImGui::EndMenu();
 			}
@@ -66,24 +65,24 @@ namespace ml
 			{
 				if (ImGui::MenuItem("Undo", "Ctrl+Z"))
 				{
-					ML_EventSystem.fireEvent(Edit_Undo_Event());
+					getEventSystem().fireEvent(Edit_Undo_Event());
 				}
 				if (ImGui::MenuItem("Redo", "Ctrl+Y"))
 				{
-					ML_EventSystem.fireEvent(Edit_Redo_Event());
+					getEventSystem().fireEvent(Edit_Redo_Event());
 				}
 				ImGui::Separator();
 				if (ImGui::MenuItem("Cut", "Ctrl+X"))
 				{
-					ML_EventSystem.fireEvent(Edit_Cut_Event());
+					getEventSystem().fireEvent(Edit_Cut_Event());
 				}
 				if (ImGui::MenuItem("Copy", "Ctrl+C"))
 				{
-					ML_EventSystem.fireEvent(Edit_Copy_Event());
+					getEventSystem().fireEvent(Edit_Copy_Event());
 				}
 				if (ImGui::MenuItem("Paste", "Ctrl+V"))
 				{
-					ML_EventSystem.fireEvent(Edit_Paste_Event());
+					getEventSystem().fireEvent(Edit_Paste_Event());
 				}
 				ImGui::EndMenu();
 			}
@@ -92,15 +91,15 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(ML_Editor.terminal.title(), "Ctrl+Alt+T", &ML_Editor.show_terminal);
-				ImGui::MenuItem(ML_Editor.browser.title(), "Ctrl+Alt+E", &ML_Editor.show_browser);
-				ImGui::MenuItem(ML_Editor.builder.title(), "Ctrl+Alt+B", &ML_Editor.show_builder);
-				ImGui::MenuItem(ML_Editor.sceneView.title(), "Ctrl+Alt+S", &ML_Editor.show_sceneView);
-				ImGui::MenuItem(ML_Editor.inspector.title(), "Ctrl+Alt+I", &ML_Editor.show_inspector);
-				ImGui::MenuItem(ML_Editor.profiler.title(), NULL, &ML_Editor.show_profiler);
-				ImGui::MenuItem(ML_Editor.textEditor.title(), NULL, &ML_Editor.show_textEditor);
-				ImGui::MenuItem(ML_Editor.resourceView.title(), NULL, &ML_Editor.show_resourceView);
-				ImGui::MenuItem(ML_Editor.networkHUD.title(), NULL, &ML_Editor.show_network);
+				ImGui::MenuItem(ev->editor.terminal.getTitle(), "Ctrl+Alt+T", &ev->editor.show_terminal);
+				ImGui::MenuItem(ev->editor.browser.getTitle(), "Ctrl+Alt+E", &ev->editor.show_browser);
+				ImGui::MenuItem(ev->editor.builder.getTitle(), "Ctrl+Alt+B", &ev->editor.show_builder);
+				ImGui::MenuItem(ev->editor.sceneView.getTitle(), "Ctrl+Alt+S", &ev->editor.show_sceneView);
+				ImGui::MenuItem(ev->editor.inspector.getTitle(), "Ctrl+Alt+I", &ev->editor.show_inspector);
+				ImGui::MenuItem(ev->editor.profiler.getTitle(), NULL, &ev->editor.show_profiler);
+				ImGui::MenuItem(ev->editor.textEditor.getTitle(), NULL, &ev->editor.show_textEditor);
+				ImGui::MenuItem(ev->editor.resourceView.getTitle(), NULL, &ev->editor.show_resourceView);
+				ImGui::MenuItem(ev->editor.networkHUD.getTitle(), NULL, &ev->editor.show_network);
 				ImGui::EndMenu();
 			}
 
@@ -110,13 +109,13 @@ namespace ml
 			{
 				if (ImGui::MenuItem("Project Page"))
 				{
-					ML_EventSystem.fireEvent(OS_ExecuteEvent("open", ML_PROJECT_URL));
+					OS::execute("open", ML_PROJECT_URL);
 				}
 				ImGui::Separator();
-				ImGui::MenuItem("ImGui Demo", "Ctrl+H", &ML_Editor.show_imgui_demo);
-				ImGui::MenuItem("ImGui Metrics", NULL, &ML_Editor.show_imgui_metrics);
-				ImGui::MenuItem("ImGui Style Editor", NULL, &ML_Editor.show_imgui_style);
-				ImGui::MenuItem("About Dear ImGui", NULL, &ML_Editor.show_imgui_about);
+				ImGui::MenuItem("ImGui Demo", "Ctrl+H", &ev->editor.show_imgui_demo);
+				ImGui::MenuItem("ImGui Metrics", NULL, &ev->editor.show_imgui_metrics);
+				ImGui::MenuItem("ImGui Style Editor", NULL, &ev->editor.show_imgui_style);
+				ImGui::MenuItem("About Dear ImGui", NULL, &ev->editor.show_imgui_about);
 				ImGui::EndMenu();
 			}
 		}

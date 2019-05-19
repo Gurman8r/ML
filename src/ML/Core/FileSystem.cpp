@@ -1,5 +1,4 @@
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
 
 #include <experimental/filesystem>
@@ -47,7 +46,6 @@ namespace ml
 #ifdef ML_SYSTEM_WINDOWS
 		if (_chdir(value.c_str()) == EXIT_SUCCESS)
 		{
-			ML_EventSystem.fireEvent(FS_ChangDirEvent(getWorkingDir()));
 			return true;
 		}
 		return false;

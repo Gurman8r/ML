@@ -51,12 +51,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		void install_core_statements();
-		void install_core_expressions();
-		void install_core_basic_types();
-		void install_core_complex_types();
-		void install_core_opers();
-		void install_core_calls();
+		void install_statements();
+		void install_expressions();
 
 	public:
 		inline bool showToks(bool value) { return m_showToks = value; }

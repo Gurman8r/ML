@@ -3,8 +3,8 @@
 
 #include <ML/Core/IEventListener.hpp>
 #include <ML/Core/INonCopyable.hpp>
-#include <ML/Window/Cursor.hpp>
 #include <ML/Window/Context.hpp>
+#include <ML/Window/Cursor.hpp>
 #include <ML/Window/Icon.hpp>
 #include <ML/Window/Screen.hpp>
 
@@ -23,18 +23,18 @@ namespace ml
 	{
 	public: // Callback Types
 		/* * * * * * * * * * * * * * * * * * * * */
-		using CharFun			= void(*)(void *, uint32_t);
-		using CursorEnterFun	= void(*)(void *, int32_t);
-		using CursorPosFun		= void(*)(void *, double, double);
-		using ErrorFun			= void(*)(int32_t, CString);
-		using FrameSizeFun		= void(*)(void *, int32_t, int32_t);
-		using KeyFun			= void(*)(void *, int32_t, int32_t, int32_t, int32_t);
-		using MouseButtonFun	= void(*)(void *, int32_t, int32_t, int32_t);
-		using ScrollFun			= void(*)(void *, double, double);
-		using CloseFun			= void(*)(void *);
-		using FocusFun			= void(*)(void *, int32_t);
-		using PositionFun		= void(*)(void *, int32_t, int32_t);
-		using SizeFun			= void(*)(void *, int32_t, int32_t);
+		using CharFun			= typename void(*)(void *, uint32_t);
+		using CursorEnterFun	= typename void(*)(void *, int32_t);
+		using CursorPosFun		= typename void(*)(void *, double, double);
+		using ErrorFun			= typename void(*)(int32_t, CString);
+		using FrameSizeFun		= typename void(*)(void *, int32_t, int32_t);
+		using KeyFun			= typename void(*)(void *, int32_t, int32_t, int32_t, int32_t);
+		using MouseButtonFun	= typename void(*)(void *, int32_t, int32_t, int32_t);
+		using ScrollFun			= typename void(*)(void *, double, double);
+		using CloseFun			= typename void(*)(void *);
+		using FocusFun			= typename void(*)(void *, int32_t);
+		using PositionFun		= typename void(*)(void *, int32_t, int32_t);
+		using SizeFun			= typename void(*)(void *, int32_t, int32_t);
 
 
 	public: // Styles

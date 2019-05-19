@@ -100,9 +100,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Builder::Builder()
-		: BaseWidget("Builder")
-		, m_shader	(ML_Resources.shaders.load(ML_TEST_SHADER))
+	Builder::Builder(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Builder")
+		, m_shader	(NULL)
 	{
 		m_files.push_back(new BuildFile("Main", ML_MAIN_EXAMPLE));
 		m_files.push_back(new BuildFile("Vertex", ML_VERT_EXAMPLE));
@@ -126,6 +126,11 @@ namespace ml
 
 	bool Builder::drawGui(const GuiEvent * ev, bool * p_open)
 	{
+		if (!m_shader)
+		{
+			m_shader = ev->resources.shaders.load(ML_TEST_SHADER);
+		}
+
 		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
 		{
 			// Menu Bar

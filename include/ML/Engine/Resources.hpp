@@ -15,8 +15,6 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Script/Script.hpp>
 
-#define ML_Resources ml::Resources::getInstance()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -25,10 +23,7 @@ namespace ml
 		: public ITrackable
 		, public IDisposable
 		, public IReadable
-		, public ISingleton<Resources>
 	{
-		friend class ISingleton<Resources>;
-
 	public:
 		Resources();
 		~Resources();

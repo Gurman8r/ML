@@ -84,19 +84,6 @@ namespace ml
 			);
 		}
 
-		//template <class Component>
-		//inline Component * add(const Component & value)
-		//{
-		//	ML_assert_is_base_of(ITrackable, Component);
-		//	return ((this->find<Component>() == this->end())
-		//		? (reinterpret_cast<Component *>(m_map.insert({
-		//				ML_typeof(Component),
-		//				new Component(value)
-		//			}).first->second))
-		//		: (NULL)
-		//	);
-		//}
-
 		template <
 			class Component,
 			class ... Args

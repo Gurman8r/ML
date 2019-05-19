@@ -11,7 +11,7 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Inspector();
+		Inspector(EventSystem & eventSystem);
 		~Inspector();
 
 	public:

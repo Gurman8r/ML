@@ -31,7 +31,7 @@ namespace ml
 		static const Bytes MaxPreviewSize;
 
 	private:
-		Browser();
+		Browser(EventSystem & eventSystem);
 		~Browser();
 
 	public:

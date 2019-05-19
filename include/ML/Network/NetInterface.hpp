@@ -26,12 +26,17 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	class EventSystem;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class ML_NETWORK_API NetInterface
 		: public IEventListener
 		, public IDisposable
+		, public INonCopyable
 	{
 	public:
-		NetInterface();
+		NetInterface(EventSystem & eventSystem);
 		virtual ~NetInterface();
 
 	public:
@@ -53,7 +58,11 @@ namespace ml
 		IpAddress	getMyAddress() const;
 		IpAddress	getAddressFromGUID(const GUID & value) const;
 
+	public:
+		inline EventSystem & getEventSystem() const { return m_eventSystem; }
+
 	protected:
+		EventSystem & m_eventSystem;
 		void * m_peer;
 	};
 

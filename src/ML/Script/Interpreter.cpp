@@ -1,6 +1,5 @@
 #include <ML/Script/Interpreter.hpp>	
 #include <ML/Script/ScriptMacros.hpp>
-#include <ML/Script/ScriptEvents.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
@@ -11,7 +10,7 @@ namespace ml
 
 	Interpreter::Interpreter()
 	{
-		ML_EventSystem.addListener(ScriptEvent::EV_Command, this);
+		//ML_EventSystem.addListener(ScriptEvent::EV_Command, this);
 	}
 
 	Interpreter::~Interpreter()
@@ -25,7 +24,7 @@ namespace ml
 		switch (*value)
 		{
 		case ScriptEvent::EV_Command:
-			if (const auto * ev = value->as<CommandEvent>())
+			if (auto ev = value->as<CommandEvent>())
 			{
 				if (execCommand(ev->cmd).isErrorType())
 				{

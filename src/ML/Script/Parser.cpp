@@ -13,8 +13,8 @@ namespace ml
 
 	Parser::Parser()
 	{
-		install_core_statements();
-		install_core_expressions();
+		install_statements();
+		install_expressions();
 	}
 
 	Parser::~Parser()
@@ -170,11 +170,10 @@ namespace ml
 	TokenList Parser::infixToPostfix(const TokenList & ifx, bool show)  const
 	{
 		TokenList post;
-		if (InfixToPostfix(ifx, post, show))
-		{
-			return post;
-		}
-		return TokenList();
+		return ((InfixToPostfix(ifx, post, show))
+			? (post)
+			: (TokenList())
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -529,7 +528,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Parser::install_core_statements()
+	void Parser::install_statements()
 	{
 		install<AST_If>(new NodeMaker<AST_If>([](const TokenList & toks)
 		{
@@ -680,15 +679,7 @@ namespace ml
 		}));
 	}
 
-	void Parser::install_core_expressions()
-	{
-		install_core_basic_types();
-		install_core_complex_types();
-		install_core_opers();
-		install_core_calls();
-	}
-
-	void Parser::install_core_basic_types()
+	void Parser::install_expressions()
 	{
 		install<AST_Bool>(new NodeMaker<AST_Bool>([](const TokenList & toks)
 		{
@@ -747,10 +738,7 @@ namespace ml
 					: (temp = NULL)
 				);
 		}));
-	}
-
-	void Parser::install_core_complex_types()
-	{
+	
 		install<AST_Array>(new NodeMaker<AST_Array>([](const TokenList & toks)
 		{
 			AST_Array * temp;
@@ -799,10 +787,7 @@ namespace ml
 			}
 			return (temp = NULL);
 		}));
-	}
-
-	void Parser::install_core_opers()
-	{
+	
 		install<AST_BinOp>(new NodeMaker<AST_BinOp>([](const TokenList & toks)
 		{
 			AST_BinOp * temp;
@@ -945,10 +930,6 @@ namespace ml
 			return (temp = NULL);
 		}));
 
-	}
-
-	void Parser::install_core_calls()
-	{
 		install<AST_Input>(new NodeMaker<AST_Input>([](const TokenList & toks)
 		{
 			AST_Input * temp;

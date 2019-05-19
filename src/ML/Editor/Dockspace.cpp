@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Dockspace::Dockspace()
-		: BaseWidget("Dockspace")
+	Dockspace::Dockspace(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Dockspace")
 		, m_border	(0.0f)
 		, m_padding	(vec2::Zero)
 		, m_rounding(0.0f)
@@ -54,15 +54,15 @@ namespace ml
 
 				uint32_t center_DR = splitNode(center, ImGuiDir_Right, 0.25f, &center_D);
 
-				dockWindow(ML_Editor.profiler.title(),		left_U);
-				dockWindow(ML_Editor.networkHUD.title(),	left_U);
-				dockWindow(ML_Editor.browser.title(),		left_U);
-				dockWindow(ML_Editor.resourceView.title(),	left_U);
-				dockWindow(ML_Editor.terminal.title(),		left_D);
-				dockWindow(ML_Editor.sceneView.title(),	center_U);
-				dockWindow(ML_Editor.textEditor.title(),	center_D);
-				dockWindow(ML_Editor.builder.title(),		center_D);
-				dockWindow(ML_Editor.inspector.title(),	center_DR);
+				dockWindow(ev->editor.profiler.getTitle(),		left_U);
+				dockWindow(ev->editor.networkHUD.getTitle(),	left_U);
+				dockWindow(ev->editor.browser.getTitle(),		left_U);
+				dockWindow(ev->editor.resourceView.getTitle(),	left_U);
+				dockWindow(ev->editor.terminal.getTitle(),		left_D);
+				dockWindow(ev->editor.sceneView.getTitle(),	center_U);
+				dockWindow(ev->editor.textEditor.getTitle(),	center_D);
+				dockWindow(ev->editor.builder.getTitle(),		center_D);
+				dockWindow(ev->editor.inspector.getTitle(),	center_DR);
 
 				endBuilder(root);
 			};

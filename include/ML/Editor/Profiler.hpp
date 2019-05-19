@@ -14,7 +14,7 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Profiler();
+		Profiler(EventSystem & eventSystem);
 		~Profiler();
 
 	public:

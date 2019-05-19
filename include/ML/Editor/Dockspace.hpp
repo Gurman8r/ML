@@ -13,7 +13,7 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Dockspace();
+		Dockspace(EventSystem & eventSystem);
 		~Dockspace();
 
 	public:

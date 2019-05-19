@@ -5,17 +5,12 @@
 #include <ML/Core/StandardLib.hpp>
 #include <ML/Core/ISingleton.hpp>
 
-#define ML_Random ml::Random::getInstance()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API Random final
-		: public ISingleton<Random>
 	{
-		friend class ISingleton<Random>;
-
 	public:
 		static void seed();
 		static void seed(const uint32_t value);

@@ -8,8 +8,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	NetInterface::NetInterface()
-		: m_peer(NULL)
+	NetInterface::NetInterface(EventSystem & eventSystem)
+		: m_eventSystem(eventSystem)
+		, m_peer(NULL)
 	{
 	}
 	

@@ -11,16 +11,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API Console final
-		: public ISingleton<Console>
+	struct ML_CORE_API Console final
 	{
-		friend class ISingleton<Console>;
-
-	private:
-		Console();
-		~Console();
-
-	public:
 		static bool enableMenuItem(const uint32_t item, const uint32_t enable);
 		static bool setTextAttribute(const uint16_t value);
 	};
@@ -120,19 +112,19 @@ namespace ml
 
 	inline std::ostream & operator<<(std::ostream & out, const FG::Color & value)
 	{
-		ML_Console.setTextAttribute((uint16_t)(value));
+		Console::setTextAttribute((uint16_t)(value));
 		return out;
 	};
 
 	inline std::ostream & operator<<(std::ostream & out, const BG::Color & value)
 	{
-		ML_Console.setTextAttribute((uint16_t)(value));
+		Console::setTextAttribute((uint16_t)(value));
 		return out;
 	};
 
 	inline std::ostream & operator<<(std::ostream & out, const FMT & value)
 	{
-		ML_Console.setTextAttribute((uint16_t)(value.fg) | (uint16_t)(value.bg));
+		Console::setTextAttribute((uint16_t)(value.fg) | (uint16_t)(value.bg));
 		return out;
 	};
 

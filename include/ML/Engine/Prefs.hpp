@@ -10,15 +10,15 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Preferences final
+	class ML_ENGINE_API Prefs final
 		: public ITrackable
 		, public IDisposable
 		, public IReadable
 		, public INonCopyable
 	{
 	public:
-		Preferences();
-		~Preferences();
+		Prefs();
+		~Prefs();
 
 	public:
 		bool dispose() override;

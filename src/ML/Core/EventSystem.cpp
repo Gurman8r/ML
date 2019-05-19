@@ -4,6 +4,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	EventSystem::EventSystem() {}
+	EventSystem::~EventSystem() {}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	void EventSystem::addListener(const int32_t & type, IEventListener * listener)
 	{
 		m_listeners.insert({ type, listener });

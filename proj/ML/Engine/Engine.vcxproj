@@ -165,7 +165,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Application.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ECS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\EngineCommands.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
@@ -173,7 +172,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Prefs.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
@@ -183,12 +182,11 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Application.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ECS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\EngineCommands.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\LuaScript.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Prefs.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp" />
   </ItemGroup>

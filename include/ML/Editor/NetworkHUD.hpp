@@ -13,7 +13,7 @@ namespace ml
 		friend class Editor;
 
 	private:
-		NetworkHUD();
+		NetworkHUD(EventSystem & eventSystem);
 		~NetworkHUD();
 
 	public:

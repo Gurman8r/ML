@@ -34,7 +34,7 @@ namespace ml
 			// Draw Gui
 			/* * * * * * * * * * * * * * * * * * * * */
 		case EditorEvent::EV_Gui: 
-			if (const auto * ev = value->as<GuiEvent>())
+			if (auto ev = value->as<GuiEvent>())
 			{
 				ImGui_ML_NewFrame();
 				ImGui::NewFrame();
@@ -49,7 +49,7 @@ namespace ml
 			// File -> Close ...
 			/* * * * * * * * * * * * * * * * * * * * */
 		case EditorEvent::EV_File_Close:
-			if (const auto * ev = value->as<File_Close_Event>())
+			if (auto ev = value->as<File_Close_Event>())
 			{
 				this->close();
 			}

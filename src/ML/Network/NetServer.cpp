@@ -13,11 +13,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	NetServer::NetServer()
-		: NetInterface()
+	NetServer::NetServer(EventSystem & eventSystem)
+		: NetInterface(eventSystem)
 		, m_running(false)
 	{
-		ML_EventSystem.addListener(NetworkEvent::EV_ServerRecievePacket, this);
+		getEventSystem().addListener(NetworkEvent::EV_ServerRecievePacket, this);
 	}
 
 	NetServer::~NetServer()
@@ -76,7 +76,7 @@ namespace ml
 			RakNet::RakString str;
 			if (bitStream.Read(str))
 			{
-				ML_EventSystem.fireEvent(ServerRecievePacketEvent(str.C_String()));
+				getEventSystem().fireEvent(ServerRecievePacketEvent(str.C_String()));
 			}
 			break;
 		}

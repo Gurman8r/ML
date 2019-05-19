@@ -14,7 +14,7 @@ namespace ml
 		friend class Editor;
 
 	private:
-		ResourceView();
+		ResourceView(EventSystem & eventSystem);
 		~ResourceView();
 
 	public:
@@ -24,21 +24,21 @@ namespace ml
 	private:
 		struct Layout;
 
-		void draw_entity_registry	(Registry<Entity>		& entities	);
-		void draw_font_registry		(Registry<Font>			& fonts		);
-		void draw_image_registry	(Registry<Image>		& images	);
-		void draw_lua_registry		(Registry<LuaScript>	& lua		);
-		void draw_material_registry	(Registry<Material>		& materials	);
-		void draw_mesh_registry		(Registry<Mesh>			& meshes	);
-		void draw_model_registry	(Registry<Model>		& models	);
-		void draw_plugin_registry	(Registry<Plugin>		& plugins	);
-		void draw_script_registry	(Registry<Script>		& scripts	);
-		void draw_shader_registry	(Registry<Shader>		& shaders	);
-		void draw_skybox_registry	(Registry<Skybox>		& skyboxes	);
-		void draw_sound_registry	(Registry<Sound>		& sounds	);
-		void draw_sprite_registry	(Registry<Sprite>		& sprites	);
-		void draw_surface_registry	(Registry<Surface>		& surfaces	);
-		void draw_texture_registry	(Registry<Texture>		& textures	);
+		void draw_entity_registry	(Resources & res, Registry<Entity>		& entities	);
+		void draw_font_registry		(Resources & res, Registry<Font>		& fonts		);
+		void draw_image_registry	(Resources & res, Registry<Image>		& images	);
+		void draw_lua_registry		(Resources & res, Registry<LuaScript>	& lua		);
+		void draw_material_registry	(Resources & res, Registry<Material>	& materials	);
+		void draw_mesh_registry		(Resources & res, Registry<Mesh>		& meshes	);
+		void draw_model_registry	(Resources & res, Registry<Model>		& models	);
+		void draw_plugin_registry	(Resources & res, Registry<Plugin>		& plugins	);
+		void draw_script_registry	(Resources & res, Registry<Script>		& scripts	);
+		void draw_shader_registry	(Resources & res, Registry<Shader>		& shaders	);
+		void draw_skybox_registry	(Resources & res, Registry<Skybox>		& skyboxes	);
+		void draw_sound_registry	(Resources & res, Registry<Sound>		& sounds	);
+		void draw_sprite_registry	(Resources & res, Registry<Sprite>		& sprites	);
+		void draw_surface_registry	(Resources & res, Registry<Surface>		& surfaces	);
+		void draw_texture_registry	(Resources & res, Registry<Texture>		& textures	);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

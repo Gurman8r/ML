@@ -132,9 +132,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorApplication.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorCommands.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\StyleLoader.hpp">
       <Filter>Header Files\Internal</Filter>
     </ClInclude>
@@ -207,9 +204,6 @@
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorApplication.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorCommands.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\BaseWidget.cpp">

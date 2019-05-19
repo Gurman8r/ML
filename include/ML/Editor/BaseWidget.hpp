@@ -7,12 +7,15 @@
 
 namespace ml
 {
+	class EventSystem;
+
 	class ML_EDITOR_API BaseWidget
 		: public ITrackable
+		, public INonCopyable
 		, public IEventListener
 	{
 	public:
-		BaseWidget(CString title);
+		BaseWidget(EventSystem & eventSystem, CString title);
 		virtual ~BaseWidget();
 
 	public:
@@ -24,9 +27,10 @@ namespace ml
 		virtual bool endDraw();
 
 	public:
-		inline CString	title() const { return m_title; }
-		inline bool *	open()	const { return m_open; }
-		inline int32_t	flags() const { return m_flags; }
+		inline EventSystem &	getEventSystem()const { return m_eventSystem; }
+		inline CString			getTitle()		const { return m_title; }
+		inline int32_t			getFlags()		const { return m_flags; }
+		inline bool *			isOpen()		const { return m_open; }
 
 		uint32_t getID() const;
 
@@ -35,10 +39,12 @@ namespace ml
 		inline bool goodCheck(const bool value) { return (m_good = value); }
 
 	protected:
+		EventSystem & m_eventSystem;
+
 		bool	m_good;
 		CString	m_title;
-		bool *	m_open;
 		int32_t m_flags;
+		bool *	m_open;
 	};
 }
 

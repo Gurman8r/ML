@@ -14,7 +14,7 @@ namespace ml
 		friend class Editor;
 
 	private:
-		SceneView();
+		SceneView(EventSystem & eventSystem);
 		~SceneView();
 
 	public:

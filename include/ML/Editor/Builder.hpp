@@ -46,7 +46,7 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Builder();
+		Builder(EventSystem & eventSystem);
 		~Builder();
 
 	public:

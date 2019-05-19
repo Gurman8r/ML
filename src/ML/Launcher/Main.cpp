@@ -5,9 +5,18 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Plugin.hpp>
-#include <ML/Engine/Preferences.hpp>
+#include <ML/Engine/Prefs.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/StateMachine.hpp>
+#include <ML/Graphics/RenderWindow.hpp>
+#include <ML/Script/DefaultCommands.hpp>
+#include <ML/Script/Interpreter.hpp>
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+# ifndef ML_CONFIG_INI
+# define ML_CONFIG_INI "../../../ML.ini"
+# endif
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -27,17 +36,31 @@
 int32_t main(int32_t argc, char ** argv)
 {
 	// Load Preferences
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	static ml::Preferences preferences;
-
-	if (!preferences.loadFromFile("../../../ML.ini"))
+	static ml::Prefs prefs;
+	if (!prefs.loadFromFile(ML_CONFIG_INI))
 	{
-		return ml::Debug::pause(EXIT_FAILURE);
+		return ml::Debug::logError("Failed Loading Settings: \'{0}\'", ML_CONFIG_INI)
+			|| ml::Debug::pause(EXIT_FAILURE);
 	}
 
+
+	// Setup Instances
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	ml::DefaultCommands::install();
+
+	static ml::EventSystem	eventSystem;
+	static ml::Engine		engine(eventSystem);
+	static ml::Editor		editor(eventSystem);
+	static ml::Resources	resources;
+
+	eventSystem.addListener(ml::ScriptEvent::EV_Command, &ML_Interpreter);
+
+
 	// Setup Control
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	enum State : int32_t
 	{
@@ -48,67 +71,67 @@ int32_t main(int32_t argc, char ** argv)
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	static ml::Engine engine;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	static ml::StateMachine<State> control =
 	{ 
 	{ State::Enter, []()
 	{	// Enter
-		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::EnterEvent(
-			__argc,
-			__argv, 
-			preferences,
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		eventSystem.fireEvent(ml::EnterEvent(
+			prefs,
 			engine,
-			ML_Resources
+			*engine.app(),
+			resources
 		));
 		return control.run(State::Load);
 	} },
 	
 	{ State::Load, []()
 	{	// Load
-		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::LoadEvent(
-			preferences,
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		eventSystem.fireEvent(ml::LoadEvent(
+			prefs,
 			engine,
-			ML_Resources
+			*engine.app(),
+			resources
 		));
 		return control.run(State::Start);
 	} },
 	
 	{ State::Start, []()
 	{	// Start
-		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::StartEvent(
-			preferences,
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		eventSystem.fireEvent(ml::StartEvent(
+			prefs,
 			engine,
-			ML_Resources
+			*engine.app(),
+			resources
 		));
 		return control.run(State::Loop);
 	} },
 	
 	{ State::Loop, []()
 	{	// Loop
-		/* * * * * * * * * * * * * * * * * * * * */
-		engine.loopFun([]()
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		engine.loopFun([&]()
 		{
 			// Update
-			ML_EventSystem.fireEvent(ml::UpdateEvent(
+			eventSystem.fireEvent(ml::UpdateEvent(
 				engine,
-				ML_Resources
+				*engine.app(),
+				resources
 			));
 			// Draw
-			ML_EventSystem.fireEvent(ml::DrawEvent(
+			eventSystem.fireEvent(ml::DrawEvent(
 				engine,
-				ML_Resources
+				*engine.app(),
+				resources
 			));
 			// Gui
-			ML_EventSystem.fireEvent(ml::GuiEvent(
+			eventSystem.fireEvent(ml::GuiEvent(
 				engine, 
-				ML_Editor,
-				ML_Resources
+				*engine.app(),
+				editor,
+				resources
 			));
 		});
 		return control.run(State::Unload);
@@ -116,29 +139,29 @@ int32_t main(int32_t argc, char ** argv)
 	
 	{ State::Unload, []()
 	{	// Unload
-		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::UnloadEvent(
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		eventSystem.fireEvent(ml::UnloadEvent(
 			engine,
-			ML_Resources
+			resources
 		));
 		return control.run(State::Exit);
 	} },
 	
 	{ State::Exit, []()
 	{	// Exit
-		/* * * * * * * * * * * * * * * * * * * * */
-		ML_EventSystem.fireEvent(ml::ExitEvent(
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		eventSystem.fireEvent(ml::ExitEvent(
 			engine,
-			ML_Resources
+			resources
 		));
 		return control.run(State::None);
 	} },
 	};
 
-	// Launch Application
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	if (ml::Application * app = engine.launchApp(new MY_PROGRAM(ML_EventSystem)))
+	// Launch Application
+	/* * * * * * * * * * * * * * * * * * * * */
+	if (ml::Application * app = engine.launchApp(new MY_PROGRAM(eventSystem)))
 	{
 		control.run(State::Enter);
 
@@ -146,10 +169,7 @@ int32_t main(int32_t argc, char ** argv)
 	}
 	else
 	{
-		return ml::Debug::pause(EXIT_FAILURE);
+		return ml::Debug::logError("Failed Launching Application")
+			|| ml::Debug::pause(EXIT_FAILURE);
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
-
-/* * * * * * * * * * * * * * * * * * * * */

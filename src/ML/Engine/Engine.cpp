@@ -6,11 +6,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Engine::Engine()
+	Engine::Engine(EventSystem & eventSystem)
 		: m_app			(NULL)
+		, m_eventSystem	(eventSystem)
 		, m_mainTimer	()
 		, m_loopTimer	()
-		, m_elapsed	(0)
+		, m_elapsed		(0)
 		, m_frameCount	(0)
 		, m_frameRate	(0)
 		, m_nextSecond	(0.0f)
@@ -30,7 +31,7 @@ namespace ml
 	{
 		return ((!isRunning()) 
 			? (m_app = value) 
-			: (Application *)(intptr_t)(Debug::logError("Failed Launching Application")) // returns NULL
+			: (NULL)
 		);
 	}
 

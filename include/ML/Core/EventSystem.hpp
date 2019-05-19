@@ -2,9 +2,7 @@
 #define _ML_EVENT_SYSTEM_HPP_
 
 #include <ML/Core/IEventListener.hpp>
-#include <ML/Core/ISingleton.hpp>
-
-#define ML_EventSystem ml::EventSystem::getInstance()
+#include <ML/Core/ITrackable.hpp>
 
 namespace ml
 {
@@ -12,25 +10,25 @@ namespace ml
 
 	class ML_CORE_API EventSystem final
 		: public ITrackable
-		, public ISingleton<EventSystem>
+		, public INonCopyable
 	{
-		friend class ISingleton<EventSystem>;
+	public:
+		EventSystem();
+		~EventSystem();
 
 	public:
-		using ListenerMap	= MultiMap<int32_t, IEventListener *>;
-		using iterator		= typename ListenerMap::iterator;
+		using multimap_type	= typename MultiMap<int32_t, IEventListener *>;
+		using iterator		= typename multimap_type::iterator;
 
 	public:
 		void addListener(const int32_t & type, IEventListener * listener);
 		void fireEvent(const IEvent & ev);
+
 		void removeListener(const int32_t & type, IEventListener * listener);
 		void removeListenerFromAllEvents(IEventListener * listener);
 
 	private:
-		EventSystem() {}
-		~EventSystem() {}
-
-		ListenerMap m_listeners;
+		multimap_type m_listeners;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

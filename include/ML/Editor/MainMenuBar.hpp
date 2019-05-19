@@ -11,7 +11,7 @@ namespace ml
 		friend class Editor;
 
 	private:
-		MainMenuBar();
+		MainMenuBar(EventSystem & eventSystem);
 		~MainMenuBar();
 
 	public:

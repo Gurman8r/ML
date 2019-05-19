@@ -16,15 +16,13 @@
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Uni.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Editor/EditorCommands.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Editor/StyleLoader.hpp>
-#include <ML/Engine/EngineCommands.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Engine/Preferences.hpp>
+#include <ML/Engine/Prefs.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
 #include <ML/Physics/PhysicsWorld.hpp>
@@ -36,6 +34,7 @@
 #include <ML/Physics/BoxCollider.hpp>
 #include <ML/Script/Interpreter.hpp>
 #include <ML/Window/WindowEvents.hpp>
+#include <ML/Graphics/RenderWindow.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -63,42 +62,42 @@ namespace DEMO
 			// Keyboard Input
 			/* * * * * * * * * * * * * * * * * * * * */
 		case ml::WindowEvent::EV_Key:
-			if (const auto * ev = value->as<ml::KeyEvent>())
+			if (auto ev = value->as<ml::KeyEvent>())
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				// Close (Escape)
 				if (ev->getKeyDown(ml::KeyCode::Escape))
 				{
-					sandbox->close();
+					this->close();
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
-
-				// Show Terminal (Ctrl+Alt+T)
-				if (ev->getKeyDown(ml::KeyCode::T) && (ev->mod_ctrl && ev->mod_alt))
-					ML_Editor.show_terminal = true;
-
-				// Show Browser (Ctrl+Alt+E)
-				if (ev->getKeyDown(ml::KeyCode::E) && (ev->mod_ctrl))
-					ML_Editor.show_browser = true;
-
-				// Show Builder (Ctrl+Alt+B)
-				if (ev->getKeyDown(ml::KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
-					ML_Editor.show_builder = true;
-
-				// Show Scene (Ctrl+Alt+S)
-				if (ev->getKeyDown(ml::KeyCode::S) && (ev->mod_ctrl && ev->mod_alt))
-					ML_Editor.show_sceneView = true;
-
-				// Show Inspector (Ctrl+Alt+I)
-				if (ev->getKeyDown(ml::KeyCode::I) && (ev->mod_ctrl && ev->mod_alt))
-					ML_Editor.show_inspector = true;
-
-				// Show ImGui Demo (Ctrl+H)
-				if (ev->getKeyDown(ml::KeyCode::H) && (ev->mod_ctrl))
-					ML_Editor.show_imgui_demo = true;
-
+				//
+				//// Show Terminal (Ctrl+Alt+T)
+				//if (ev->getKeyDown(ml::KeyCode::T) && (ev->mod_ctrl && ev->mod_alt))
+				//	ML_Editor.show_terminal = true;
+				//
+				//// Show Browser (Ctrl+Alt+E)
+				//if (ev->getKeyDown(ml::KeyCode::E) && (ev->mod_ctrl))
+				//	ML_Editor.show_browser = true;
+				//
+				//// Show Builder (Ctrl+Alt+B)
+				//if (ev->getKeyDown(ml::KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
+				//	ML_Editor.show_builder = true;
+				//
+				//// Show Scene (Ctrl+Alt+S)
+				//if (ev->getKeyDown(ml::KeyCode::S) && (ev->mod_ctrl && ev->mod_alt))
+				//	ML_Editor.show_sceneView = true;
+				//
+				//// Show Inspector (Ctrl+Alt+I)
+				//if (ev->getKeyDown(ml::KeyCode::I) && (ev->mod_ctrl && ev->mod_alt))
+				//	ML_Editor.show_inspector = true;
+				//
+				//// Show ImGui Demo (Ctrl+H)
+				//if (ev->getKeyDown(ml::KeyCode::H) && (ev->mod_ctrl))
+				//	ML_Editor.show_imgui_demo = true;
+				//
 				/* * * * * * * * * * * * * * * * * * * * */
 			}
 			break;
@@ -113,7 +112,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
 			// Seed Random
-			ML_Random.seed();
+			ml::Random::seed();
 
 			// Setup Std Out
 			if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
@@ -130,17 +129,13 @@ namespace DEMO
 			ML_Parser.showTree(ev->prefs.GetBool("Script", "flagShowTree", false));
 			ML_Parser.showItoP(ev->prefs.GetBool("Script", "flagShowItoP", false));
 
-			// Install Commands
-			ml::EngineCommands::install();
-			ml::EditorCommands::install();
-
 			// Run Boot Script
 			ml::Script scr;
 			if (scr.loadFromFile(ML_FS.getPathTo(ev->prefs.GetString(
 				"Script", "bootScript", ""
 			))))
 			{
-				if (!(scr.buildAndRun(ml::Args(ev->argc, ev->argv))))
+				if (!(scr.buildAndRun(ml::Args(__argc, __argv))))
 				{
 					ml::Debug::logError("Failed Running \'{0}\'", scr.path());
 				}
@@ -149,7 +144,7 @@ namespace DEMO
 
 		// Initialize Window
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (sandbox->create(
+		if (ev->window.create(
 			sandbox.title = ev->prefs.GetString("Window", "windowTitle", "New Window"),
 			ml::Screen
 			{ {
@@ -170,10 +165,10 @@ namespace DEMO
 			}
 		))
 		{
-			sandbox->maximize();
-			sandbox->seCursorMode(ml::Cursor::Normal);
-			sandbox->setPosition((ml::Screen::desktop().resolution - sandbox->getSize()) / 2);
-			sandbox->setViewport(ml::vec2i::Zero, sandbox->getFrameSize());
+			ev->window.maximize();
+			ev->window.seCursorMode(ml::Cursor::Normal);
+			ev->window.setPosition((ml::Screen::desktop().resolution - ev->window.getSize()) / 2);
+			ev->window.setViewport(ml::vec2i::Zero, ev->window.getFrameSize());
 		}
 		else
 		{
@@ -225,11 +220,11 @@ namespace DEMO
 		{
 			// Start Server
 			ml::Debug::log("Starting Server...");
-			if (ML_NetServer.setup())
+			if (sandbox.server.setup())
 			{
-				if (ML_NetServer.start({ ML_LOCALHOST, ML_DEFAULT_PORT }, ML_MAX_CLIENTS))
+				if (sandbox.server.start({ ML_LOCALHOST, ML_DEFAULT_PORT }, ML_MAX_CLIENTS))
 				{
-					ml::Debug::log("Server Started: {0}", ML_NetServer.getMyAddress());
+					ml::Debug::log("Server Started: {0}", sandbox.server.getMyAddress());
 				}
 			}
 		}
@@ -237,11 +232,11 @@ namespace DEMO
 		{
 			// Start Client
 			ml::Debug::log("Starting Client...");
-			if (ML_NetClient.setup())
+			if (sandbox.client.setup())
 			{
-				if (ML_NetClient.connect({ ML_LOCALHOST, ML_DEFAULT_PORT }))
+				if (sandbox.client.connect({ ML_LOCALHOST, ML_DEFAULT_PORT }))
 				{
-					ml::Debug::log("Client Connected: {0}", ML_NetClient.getMyAddress());
+					ml::Debug::log("Client Connected: {0}", sandbox.client.getMyAddress());
 				}
 			}
 		}
@@ -284,9 +279,10 @@ namespace DEMO
 
 		// Load Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev->resources.loadFromFile(ML_FS.getPathTo(
+		sandbox.manifest = ML_FS.getPathTo(
 			ev->prefs.GetString("General", "mainifest", "../../../assets/manifest.txt")
-		)))
+		);
+		if (!ev->resources.loadFromFile(sandbox.manifest))
 		{
 			ml::Debug::logError("Failed Loading Manifest");
 		}
@@ -300,7 +296,7 @@ namespace DEMO
 		{
 			const ml::Image temp = ml::Image(*icon).flipVertically();
 
-			sandbox->setIcons({ temp });
+			ev->window.setIcons({ temp });
 		}
 
 		// Setup Plugins
@@ -335,7 +331,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Sprite * spr = ev->resources.sprites.get("neutrino"))
 		{
-			spr->setPosition(ml::vec2(0.95f, 0.925f) * sandbox->getSize())
+			spr->setPosition(ml::vec2(0.95f, 0.925f) * ev->window.getSize())
 				.setScale	(0.5f)
 				.setRotation(0.0f)
 				.setOrigin	(0.5f)
@@ -775,7 +771,7 @@ namespace DEMO
 	{
 		// Update Title
 		/* * * * * * * * * * * * * * * * * * * * */
-		sandbox->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
+		ev->window.setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
 			sandbox.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
@@ -787,7 +783,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		while (!sandbox.physics.syncFun([&](const ml::PhysicsState & state)
 		{
-			for (auto & pair : ML_Resources.entities)
+			for (auto & pair : ev->resources.entities)
 			{
 				if (ml::Rigidbody * rb = pair.second->get<ml::Rigidbody>())
 				{
@@ -816,25 +812,25 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (sandbox.isServer)
 		{
-			ML_NetServer.poll();
+			sandbox.server.poll();
 		}
 		else if (sandbox.isClient)
 		{
-			ML_NetClient.poll();
+			sandbox.client.poll();
 		}
 
 		// Update Effects
 		/* * * * * * * * * * * * * * * * * * * * */
 		for (auto & pair : ev->resources.surfaces)
 		{
-			pair.second->resize(sandbox->getFrameSize());
+			pair.second->resize(ev->window.getFrameSize());
 		}
 
 		// Update Camera
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Camera * camera = sandbox.camera->get<ml::Camera>())
 		{
-			camera->updateRes(sandbox->getFrameSize());
+			camera->updateRes(ev->window.getFrameSize());
 
 			// Camera Transform
 			if (ml::Transform * transform = sandbox.camera->get<ml::Transform>())
@@ -867,7 +863,7 @@ namespace DEMO
 			sandbox.text["project_url"]
 				.setFont(ev->resources.fonts.get("minecraft"))
 				.setFontSize(56)
-				.setPosition({ 48, (float)sandbox->getFrameHeight() - 48 })
+				.setPosition({ 48, (float)ev->window.getFrameHeight() - 48 })
 				.setString(ML_PROJECT_URL);
 
 			const ml::Font *font	 = ev->resources.fonts.get("consolas");
@@ -940,7 +936,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cx/cy: {0}").format(
-					sandbox->getCursorPos())
+					ev->window.getCursorPos())
 				);
 
 			sandbox.text["window_pos"]
@@ -948,7 +944,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("wx/wy: {0}").format(
-					sandbox->getPosition())
+					ev->window.getPosition())
 				);
 
 			sandbox.text["window_size"]
@@ -956,7 +952,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("ww/wh: {0}").format(
-					sandbox->getSize())
+					ev->window.getSize())
 				);
 
 			// Ensure text update before main draw call
@@ -977,12 +973,12 @@ namespace DEMO
 			scene->bind();
 
 			// Clear Screen
-			sandbox->clear(sandbox.camera->get<ml::Camera>()->color);
+			ev->window.clear(sandbox.camera->get<ml::Camera>()->color);
 
 			// Draw Renderers
 			for (const auto & pair : ev->resources.entities)
 			{
-				sandbox->draw(pair.second->get<ml::Renderer>());
+				ev->window.draw(pair.second->get<ml::Renderer>());
 			}
 
 			// Draw 2D
@@ -1022,7 +1018,7 @@ namespace DEMO
 
 					for (const auto & pair : ev->resources.sprites)
 					{
-						sandbox->draw(pair.second, batch);
+						ev->window.draw(pair.second, batch);
 					}
 				}
 
@@ -1046,7 +1042,7 @@ namespace DEMO
 
 					for (const auto & pair : sandbox.text)
 					{
-						sandbox->draw(pair.second, batch);
+						ev->window.draw(pair.second, batch);
 					}
 				}
 
@@ -1084,7 +1080,7 @@ namespace DEMO
 			if (const ml::Surface * scene = ev->resources.surfaces.get("surface_main"))
 			{
 				scene->shader()->setUniform("Surface.mode", sandbox.effectMode);
-				sandbox->draw(*scene);
+				ev->window.draw(*scene);
 			}
 			post->unbind();
 		}

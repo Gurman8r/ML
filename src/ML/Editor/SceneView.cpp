@@ -6,8 +6,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	SceneView::SceneView()
-		: BaseWidget("Scene")
+	SceneView::SceneView(EventSystem & eventSystem)
+		: BaseWidget(eventSystem, "Scene")
 	{
 	}
 

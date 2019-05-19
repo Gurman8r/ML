@@ -167,6 +167,7 @@
     <ClInclude Include="..\..\..\include\ML\Script\AST_Expr.hpp" />
     <ClInclude Include="..\..\..\include\ML\Script\AST_Node.hpp" />
     <ClInclude Include="..\..\..\include\ML\Script\AST_Stmt.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Script\DefaultCommands.hpp" />
     <ClInclude Include="..\..\..\include\ML\Script\Command.hpp" />
     <ClInclude Include="..\..\..\include\ML\Script\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Script\Interpreter.hpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="..\..\..\src\ML\Script\AST_Expr.cpp" />
     <ClCompile Include="..\..\..\src\ML\Script\AST_Node.cpp" />
     <ClCompile Include="..\..\..\src\ML\Script\AST_Stmt.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Script\DefaultCommands.cpp" />
     <ClCompile Include="..\..\..\src\ML\Script\Command.cpp" />
     <ClCompile Include="..\..\..\src\ML\Script\Interpreter.cpp" />
     <ClCompile Include="..\..\..\src\ML\Script\Lexer.cpp" />

@@ -4,8 +4,6 @@
 #include <ML/Core/ISingleton.hpp>
 #include <ML/Network/NetInterface.hpp>
 
-#define ML_NetServer ml::NetServer::getInstance()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -13,12 +11,9 @@ namespace ml
 	class ML_NETWORK_API NetServer final
 		: public ITrackable
 		, public NetInterface
-		, public ISingleton<NetServer>
 	{
-		friend class ISingleton<NetServer>;
-
-	private:
-		NetServer();
+	public:
+		NetServer(EventSystem & eventSystem);
 		~NetServer();
 
 	public:

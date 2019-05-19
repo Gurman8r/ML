@@ -187,6 +187,11 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::MenuItem("Compile"))
 				{
+					for (auto & file : m_files)
+					{
+						file->dirty = false;
+					}
+
 					struct BuilderParser
 					{
 						inline static String parseIncludes(const List<BuildFile *> & files, const String & src)
@@ -264,8 +269,8 @@ namespace ml
 					const size_t i = (it - m_files.begin());
 
 					bool * t_open = (i > 0
-						? &file->open
-						: NULL
+						? (&file->open)
+						: (NULL)
 					);
 
 					// File Tab
@@ -283,6 +288,7 @@ namespace ml
 						))
 						{	/* * * * * * * * * * * * * * * * * * * * */
 
+							// Disallow editing Main's name
 							if (i > 0)
 							{
 								char buf[32];

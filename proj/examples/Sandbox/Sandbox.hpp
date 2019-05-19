@@ -26,6 +26,13 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+extern "C"
+{
+	ML_PLUGIN_API ml::Application * ML_Plugin_Main(ml::EventSystem * eventSystem);
+}
+
+/* * * * * * * * * * * * * * * * * * * * */
+
 namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -71,9 +78,8 @@ namespace DEMO
 
 		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 
-		class MyData final : public ml::INonCopyable
+		struct MyData final : public ml::INonCopyable
 		{
-		public:
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ml::SStream			rdstr		= ml::SStream();
@@ -97,18 +103,10 @@ namespace DEMO
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			MyData(Sandbox & self)
-				: m_self(self)
-				, client(self.getEventSystem())
+				: client(self.getEventSystem())
 				, server(self.getEventSystem())
 			{
 			}
-
-			inline Sandbox * operator->() { return &m_self; }
-			inline Sandbox & operator *() { return  m_self; }
-
-		private:
-			/* * * * * * * * * * * * * * * * * * * * */
-			Sandbox & m_self;
 
 		} sandbox;
 

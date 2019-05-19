@@ -38,6 +38,13 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+ML_PLUGIN_API ml::Application * ML_Plugin_Main(ml::EventSystem * eventSystem)
+{
+	return new DEMO::Sandbox(*eventSystem);
+}
+
+/* * * * * * * * * * * * * * * * * * * * */
+
 namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -36,7 +36,7 @@ namespace ml
 
 	bool SharedLibrary::loadFromFile(const String & filename)
 	{
-		return (m_instance = ML_LOAD_LIBRARY(filename.c_str()));
+		return (m_instance = ML_LOAD_LIBRARY((m_filename = filename).c_str()));
 	}
 
 	void * SharedLibrary::loadFunction(const String & name)

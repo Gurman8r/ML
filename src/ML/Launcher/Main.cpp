@@ -3,6 +3,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
+#include <ML/Editor/EditorApplication.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Prefs.hpp>
@@ -20,23 +21,10 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-// this must be relegated to a plugin
-
-# define MY_PROGRAM DEMO::Sandbox
-# define MY_INCLUDE "../../../proj/examples/Sandbox/Sandbox.hpp"
-# define MY_LIBRARY ML_LIB_STR("Sandbox")
-
-# if defined(ML_SYSTEM_WINDOWS)
-#	include MY_INCLUDE
-#	pragma comment(lib, MY_LIBRARY)
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 int32_t main(int32_t argc, char ** argv)
 {
 	// Load Preferences
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static ml::Prefs prefs;
 	if (!prefs.loadFromFile(ML_CONFIG_INI))
@@ -47,7 +35,7 @@ int32_t main(int32_t argc, char ** argv)
 
 
 	// Setup Instances
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	ml::DefaultCommands::install();
 
@@ -60,7 +48,7 @@ int32_t main(int32_t argc, char ** argv)
 
 
 	// Setup Control
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum State : int32_t
 	{
@@ -75,7 +63,7 @@ int32_t main(int32_t argc, char ** argv)
 	{ 
 	{ State::Enter, []()
 	{	// Enter
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::EnterEvent(
 			prefs,
 			engine,
@@ -87,7 +75,6 @@ int32_t main(int32_t argc, char ** argv)
 	
 	{ State::Load, []()
 	{	// Load
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::LoadEvent(
 			prefs,
 			engine,
@@ -99,7 +86,7 @@ int32_t main(int32_t argc, char ** argv)
 	
 	{ State::Start, []()
 	{	// Start
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::StartEvent(
 			prefs,
 			engine,
@@ -111,7 +98,7 @@ int32_t main(int32_t argc, char ** argv)
 	
 	{ State::Loop, []()
 	{	// Loop
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		engine.loopFun([&]()
 		{
 			// Update
@@ -139,7 +126,7 @@ int32_t main(int32_t argc, char ** argv)
 	
 	{ State::Unload, []()
 	{	// Unload
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::UnloadEvent(
 			engine,
 			resources
@@ -149,7 +136,7 @@ int32_t main(int32_t argc, char ** argv)
 	
 	{ State::Exit, []()
 	{	// Exit
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.fireEvent(ml::ExitEvent(
 			engine,
 			resources
@@ -160,16 +147,37 @@ int32_t main(int32_t argc, char ** argv)
 
 
 	// Launch Application
-	/* * * * * * * * * * * * * * * * * * * * */
-	if (ml::Application * app = engine.launchApp(new MY_PROGRAM(eventSystem)))
-	{
-		control.run(State::Enter);
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		return engine.freeApp(app);
+	static ml::SharedLibrary lib;
+	if (lib.loadFromFile(ML_FS.getPathTo(
+		prefs.GetString("General", "application", "") + ML_DLL_STR("")
+	)))
+	{	if (auto app = lib.callFunction<ml::Application *>(ML_str(ML_Plugin_Main), &eventSystem))
+		{
+			if (engine.launchApp(app))
+			{
+				control.run(State::Enter);
+
+				return engine.freeApp(app);
+			}
+			else
+			{
+				return ml::Debug::logError("Failed Launching Application")
+					|| ml::Debug::pause(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			return ml::Debug::logError("Failed Loading Plugin")
+				|| ml::Debug::pause(EXIT_FAILURE);
+		}
 	}
 	else
 	{
-		return ml::Debug::logError("Failed Launching Application")
+		return ml::Debug::logError("Failed Loading Library: \'{0}\'", lib.filename())
 			|| ml::Debug::pause(EXIT_FAILURE);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

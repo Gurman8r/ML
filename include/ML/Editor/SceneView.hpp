@@ -14,29 +14,29 @@ namespace ml
 		friend class Editor;
 
 	private:
-		SceneView(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		SceneView(Editor & editor, bool open);
 		~SceneView();
 
-	public:
+	protected:
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
+		bool beginDraw(int32_t flags = 0) override;
+		bool endDraw() override;
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class Fun
 		> inline bool drawFun(const GuiEvent & ev, Fun && fun)
 		{
-			if (drawGui(ev))
+			if (onGui(ev))
 			{
 				fun();
+				return endDraw();
 			}
-			return endDraw();
 		}
 
-	protected:
-		bool beginDraw(bool * p_open, int32_t flags) override;
-		bool endDraw() override;
-
-	public:
 		bool updateTexture(Texture * texture);
 	};
 

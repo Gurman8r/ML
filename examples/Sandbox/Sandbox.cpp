@@ -1117,6 +1117,7 @@ namespace DEMO
 			if (const ml::Surface * scene = ev.engine.resources().surfaces.get("surface_main"))
 			{
 				scene->shader()->setUniform("Surface.mode", sandbox.effectMode);
+
 				ev.engine.app()->draw(*scene);
 			}
 			post->unbind();
@@ -1132,17 +1133,17 @@ namespace DEMO
 			ev.editor.terminal.printss(sandbox.rdstr);
 		}
 
-		/* Main Menu	*/ ev.editor.mainMenu.drawGui(ev);
-		/* Dockspace	*/ ev.editor.dockspace.drawGui(ev);
-		/* Network		*/ ev.editor.network.drawGui(ev);
-		/* Profiler		*/ ev.editor.profiler.drawGui(ev);
-		/* Browser		*/ ev.editor.browser.drawGui(ev);
-		/* Terminal		*/ ev.editor.terminal.drawGui(ev); 
-		/* Text Editor	*/ ev.editor.textEditor.drawGui(ev); 
-		/* Project		*/ ev.editor.project.drawGui(ev); 
-		/* Builder		*/ ev.editor.builder.drawGui(ev); 
+		/*	Main Menu	*/ ev.editor.mainMenu.onGui(ev);
+		/*	Dockspace	*/ ev.editor.dockspace.onGui(ev);
+		/*	Network		*/ ev.editor.network.onGui(ev);
+		/*	Profiler	*/ ev.editor.profiler.onGui(ev);
+		/*	Browser		*/ ev.editor.browser.onGui(ev);
+		/*	Terminal	*/ ev.editor.terminal.onGui(ev);
+		/*	Text Editor	*/ ev.editor.textEditor.onGui(ev); 
+		/*	Project		*/ ev.editor.project.onGui(ev);
+		/*	Builder		*/ ev.editor.builder.onGui(ev);
 		
-		/* Scene View	*/ 
+		/*	Scene View	*/ 
 		ev.editor.sceneView.drawFun(ev, [&]()
 		{
 			if (ml::Surface * post = ev.editor.resources().surfaces.get("surface_post"))
@@ -1151,7 +1152,7 @@ namespace DEMO
 			}
 		});
 
-		/* Inspector	*/ 
+		/*	Inspector	*/ 
 		ev.editor.inspector.drawFun(ev, [&]()
 		{
 			static ml::CString surf_modes[] = {
@@ -1163,6 +1164,7 @@ namespace DEMO
 			};
 			ImGui::Combo("Surface Shader", &sandbox.effectMode, surf_modes, IM_ARRAYSIZE(surf_modes));
 			ImGui::Separator();
+
 			ImGui::Checkbox("Camera Orbit", &sandbox.cameraOrbit);
 			ImGui::DragFloat("Camera Speed", &sandbox.cameraSpeed, 0.1f, -5.f, 5.f);
 			ImGui::Separator();

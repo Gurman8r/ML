@@ -20,10 +20,11 @@ namespace ml
 
 	bool TextEditor::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(&m_open,
+		if (beginDraw(
 			ImGuiWindowFlags_MenuBar |
 			ImGuiWindowFlags_AlwaysHorizontalScrollbar |
-			ImGuiWindowFlags_AlwaysVerticalScrollbar))
+			ImGuiWindowFlags_AlwaysVerticalScrollbar
+		))
 		{
 			draw_menu();
 			draw_tabs();

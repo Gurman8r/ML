@@ -35,7 +35,7 @@ namespace ml
 
 	bool Browser::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(&m_open, ImGuiWindowFlags_MenuBar))
+		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
 			const ml::String cwd = ML_FS.getWorkingDir();
 			if (((!m_path) || (m_path != cwd)) && (m_path = cwd))

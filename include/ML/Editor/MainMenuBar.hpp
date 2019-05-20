@@ -11,14 +11,14 @@ namespace ml
 		friend class Editor;
 
 	private:
-		MainMenuBar(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		MainMenuBar(Editor & editor, bool open);
 		~MainMenuBar();
 
-	public:
-		bool drawGui(const GuiEvent & ev) override;
-
 	protected:
-		bool beginDraw(bool * p_open, int32_t flags = 0) override;
+		/* * * * * * * * * * * * * * * * * * * * */
+		bool drawGui(const GuiEvent & ev) override;
+		bool beginDraw(int32_t flags = 0) override;
 		bool endDraw() override;
 	};
 }

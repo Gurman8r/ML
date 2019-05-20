@@ -13,17 +13,18 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Dockspace(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		Dockspace(Editor & editor, bool open);
 		~Dockspace();
 
-	public:
-		bool drawGui(const GuiEvent & ev) override;
-
 	protected:
-		bool beginDraw(bool * p_open, int32_t flags = 0) override;
+		/* * * * * * * * * * * * * * * * * * * * */
+		bool drawGui(const GuiEvent & ev) override;
+		bool beginDraw(int32_t flags = 0) override;
 		bool endDraw() override;
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		uint32_t beginBuilder(int32_t flags);
 		uint32_t endBuilder(uint32_t root);
 		uint32_t dockWindow(CString name, uint32_t id);
@@ -31,6 +32,7 @@ namespace ml
 		uint32_t splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * out, uint32_t * other);
 
 	private:
+		/* * * * * * * * * * * * * * * * * * * * */
 		float	m_border;
 		vec2	m_padding;
 		float	m_rounding;

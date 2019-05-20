@@ -1,6 +1,7 @@
 #ifndef _ML_EDITOR_HPP_
 #define _ML_EDITOR_HPP_
 
+#include <ML/Core/IEventListener.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Editor/MainMenuBar.hpp>
 #include <ML/Editor/Terminal.hpp>
@@ -19,20 +20,17 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	//class Engine;
-	//class EventSystem;
-	//class Preferences;
-	//class Resources;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	class ML_EDITOR_API Editor final
 		: public ITrackable
+		, public IEventListener
 		, public INonCopyable
 	{
 	public:
 		Editor(Engine & engine);
 		~Editor();
+
+	public:
+		void onEvent(const IEvent * value) override;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

@@ -23,7 +23,7 @@ namespace ml
 
 	bool MainMenuBar::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(&m_open, 0))
+		if (beginDraw())
 		{
 			// File Menu
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -119,19 +119,20 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool MainMenuBar::beginDraw(bool * p_open, int32_t flags)
+	bool MainMenuBar::beginDraw(int32_t flags)
 	{
-		return goodCheck(
-			((!p_open) || (*p_open)) &&
-			//((p_open) && (*p_open)) &&
-			ImGui::BeginMainMenuBar()
-		);
+		//if (!isOpen()) return false;
+
+		return m_good = ImGui::BeginMainMenuBar();
 	}
 
 	bool MainMenuBar::endDraw()
 	{
+		//if (!isOpen()) return false;
+
 		ImGui::EndMainMenuBar();
-		return good();
+
+		return m_good;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

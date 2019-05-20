@@ -11,22 +11,29 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Inspector(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		Inspector(Editor & editor, bool open);
 		~Inspector();
 
-	public:
+	protected:
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class Fun
 		> inline bool drawFun(const GuiEvent & ev, Fun && fun)
 		{
-			if (drawGui(ev))
+			if (m_open)
 			{
-				fun();
+				if (drawGui(ev))
+				{
+					fun();
+				}
+				return endDraw();
 			}
-			return endDraw();
+			return false;
 		}
 	};
 }

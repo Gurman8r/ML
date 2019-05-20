@@ -13,18 +13,22 @@ namespace ml
 		friend class Editor;
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		enum : size_t { BufferSize = 256 };
 
 		using InputBuffer = typename char[256];
 
 	private:
-		Terminal(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		Terminal(Editor & editor, bool open);
 		~Terminal();
 
-	public:
+	protected:
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		void    clear();
 		void    printf(CString value, ...);		// Print Format
 		void	printl(const String & value);	// Print Line
@@ -33,9 +37,11 @@ namespace ml
 		int32_t inputCallback(void * value);
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		inline const List<char *> & history() const { return m_history; }
 
 	private:
+		/* * * * * * * * * * * * * * * * * * * * */
 		InputBuffer		m_inputBuf;
 		List<String>	m_lines;
 		bool			m_scrollBottom;

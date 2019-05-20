@@ -5,6 +5,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	EventSystem::EventSystem() {}
+
 	EventSystem::~EventSystem() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */

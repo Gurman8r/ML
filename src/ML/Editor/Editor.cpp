@@ -11,22 +11,29 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(Engine & engine)
-		: m_engine		(engine)
-		, browser		(*this)
-		, builder		(*this)
-		, dockspace		(*this)
-		, inspector		(*this)
-		, mainMenu	(*this)
+		: m_engine	(engine)
+		, browser	(*this, true)
+		, builder	(*this, true)
+		, dockspace	(*this, true)
+		, inspector	(*this, false)
+		, mainMenu	(*this, true)
 		, network	(*this, false)
-		, profiler		(*this)
-		, project	(*this)
-		, sceneView		(*this)
-		, terminal		(*this)
-		, textEditor	(*this, false)
+		, profiler	(*this, true)
+		, project	(*this, true)
+		, sceneView	(*this, true)
+		, terminal	(*this, true)
+		, textEditor(*this, false)
 	{
+		engine.eventSystem().addListener(EditorEvent::EV_Gui, this);
 	}
 
 	Editor::~Editor() {}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	void Editor::onEvent(const IEvent * value)
+	{
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

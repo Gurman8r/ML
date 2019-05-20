@@ -53,7 +53,7 @@ namespace ml
 
 	bool Terminal::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(&m_open))
+		if (beginDraw())
 		{
 			// Filter
 			static ImGuiTextFilter filter("-wrn");

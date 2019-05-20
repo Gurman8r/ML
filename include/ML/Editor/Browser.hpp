@@ -16,6 +16,7 @@ namespace ml
 		friend class Editor;
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		enum : char
 		{
 			T_Reg = ' ',
@@ -25,26 +26,29 @@ namespace ml
 		};
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		using Directory = typename FileSystem::Directory;
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		static const Bytes MaxPreviewSize;
 
 	private:
-		Browser(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		Browser(Editor & editor, bool open);
 		~Browser();
 
-	public:
+	protected:
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
 
 	private:
+		/* * * * * * * * * * * * * * * * * * * * */
 		void draw_menu();
 		void draw_directory();
 		void draw_file();
 		void draw_file_preview();
 		void draw_file_details();
-
-		/* * * * * * * * * * * * * * * * * * * * */
 
 	public:
 		void	set_selected(char type, size_t index);
@@ -81,6 +85,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		/* * * * * * * * * * * * * * * * * * * * */
 		String		m_path;		// Working Directory
 		Directory	m_dir;		// Directory Contents
 		char		m_type;		// Selected List

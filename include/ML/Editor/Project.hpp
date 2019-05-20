@@ -14,13 +14,16 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Project(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		Project(Editor & editor, bool open);
 		~Project();
 
-	public:
+	protected:
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
 
 	private:
+		/* * * * * * * * * * * * * * * * * * * * */
 		struct Layout;
 
 		void draw_entity_registry	(Resources & res, Registry<Entity>		& entities	);

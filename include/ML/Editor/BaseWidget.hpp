@@ -3,7 +3,6 @@
 
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/ITrackable.hpp>
-#include <ML/Core/IEventListener.hpp>
 
 namespace ml
 {
@@ -21,18 +20,30 @@ namespace ml
 		: public ITrackable
 		, public INonCopyable
 	{
-	public:
+	protected:
 		BaseWidget(CString title, Editor & editor, bool open);
 		virtual ~BaseWidget();
 
-		bool show = false;
-
 	public:
+		inline bool onGui(const GuiEvent & ev)
+		{
+			if (this->isOpen())
+			{
+				this->drawGui(ev);
+				return true;
+			}
+			return false;
+		}
+
+	protected:
 		virtual bool drawGui(const GuiEvent & ev) = 0;
+		virtual bool beginDraw(int32_t flags = 0);
+		virtual bool endDraw();
 
 	public:
 		uint32_t getID() const;
 
+	public:
 		Editor		& editor()		const;
 		Engine		& engine()		const;
 		EventSystem	& eventSystem() const;
@@ -46,19 +57,11 @@ namespace ml
 		inline bool *	openPtr()			{ return &m_open; }
 
 	protected:
-		virtual bool beginDraw(bool * p_open, int32_t flags = 0);
-		virtual bool endDraw();
-
-	protected:
-		inline bool	good() const { return (m_good); }
-		inline bool goodCheck(const bool value) { return (m_good = value); }
-
-	protected:
 		Editor &	m_editor;
 		bool		m_good;
+		bool		m_open;
 		CString		m_title;
 		int32_t		m_flags;
-		bool		m_open;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

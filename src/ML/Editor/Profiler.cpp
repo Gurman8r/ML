@@ -20,7 +20,7 @@ namespace ml
 
 	bool Profiler::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(&m_open, ImGuiWindowFlags_MenuBar))
+		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 

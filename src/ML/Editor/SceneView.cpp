@@ -1,6 +1,8 @@
 #include <ML/Editor/SceneView.hpp>
 #include <ML/Editor/Editor.hpp>
+#include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Core/EventSystem.hpp>
 
 namespace ml
 {
@@ -19,26 +21,24 @@ namespace ml
 	
 	bool SceneView::drawGui(const GuiEvent & ev)
 	{
-		return beginDraw(&m_open, ImGuiWindowFlags_MenuBar);
+		return beginDraw(ImGuiWindowFlags_MenuBar);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool SceneView::beginDraw(bool * p_open, int32_t flags)
+	bool SceneView::beginDraw(int32_t flags)
 	{
-		if (BaseWidget::beginDraw(&m_open, flags))
+		if (BaseWidget::beginDraw(flags))
 		{
 			ImGui::BeginChild("Viewport", { -1, -1 });
 		}
-		return good();
+		return m_good;
 	}
 
 	bool SceneView::endDraw()
 	{
-		if (good())
-		{
-			ImGui::EndChild();
-		}
+		ImGui::EndChild();
+		
 		return BaseWidget::endDraw();
 	}
 
@@ -46,7 +46,7 @@ namespace ml
 
 	bool SceneView::updateTexture(Texture * texture)
 	{
-		if (good() && (texture && (*texture)))
+		if (m_good && (texture && (*texture)))
 		{
 			// Texture Size
 			const ml::vec2 src = texture->size();

@@ -14,12 +14,16 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Profiler(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		Profiler(Editor & editor, bool open);
 		~Profiler();
 
-	public:
+	protected:
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
 
+	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		struct GraphLines
 		{
 			enum { Size = 90U };

@@ -12,20 +12,23 @@ namespace ml
 		friend class Editor;
 
 	private:
-		TextEditor(Editor & editor, bool open = true);
+		/* * * * * * * * * * * * * * * * * * * * */
+		TextEditor(Editor & editor, bool open);
 		~TextEditor();
 
-	public:
+	protected:
+		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
 
-	private:
 		void draw_menu();
 		void draw_tabs();
+
 		bool edit_document(int32_t index);
 		bool edit_document_name(char * buf, Document * doc);
 		bool edit_document_data(Document * doc);
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		inline Document * get_document(const size_t index)
 		{
 			return ((!m_files.empty())
@@ -41,6 +44,7 @@ namespace ml
 		}
 
 	private:
+		/* * * * * * * * * * * * * * * * * * * * */
 		int32_t m_selected;
 		List<Document> m_files;
 	};

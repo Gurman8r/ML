@@ -127,7 +127,7 @@ namespace ml
 			m_shader = ev.editor.resources().shaders.load(ML_TEST_SHADER);
 		}
 
-		if (beginDraw(&m_open, ImGuiWindowFlags_MenuBar))
+		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
 			// Menu Bar
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

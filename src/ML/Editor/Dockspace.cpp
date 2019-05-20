@@ -23,7 +23,7 @@ namespace ml
 
 	bool Dockspace::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(&m_open,
+		if (beginDraw(
 			ImGuiWindowFlags_NoTitleBar |
 			ImGuiWindowFlags_NoCollapse |
 			ImGuiWindowFlags_NoResize |
@@ -67,11 +67,9 @@ namespace ml
 		return endDraw();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool Dockspace::beginDraw(bool * p_open, int32_t flags)
+	bool Dockspace::beginDraw(int32_t flags)
 	{
-		if (goodCheck(ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable))
+		if (m_good = (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable))
 		{
 			// Bounds
 			const ImGuiViewport * viewport = ImGui::GetMainViewport();
@@ -86,21 +84,21 @@ namespace ml
 			ImGui::SetNextWindowBgAlpha(m_bgAlpha);
 
 			// Begi
-			if (BaseWidget::beginDraw(&m_open, flags))
+			if (BaseWidget::beginDraw(flags))
 			{
 				ImGui::PopStyleVar(3);
 			}
 		}
-		return good();
+		return m_good;
 	}
 
 	bool Dockspace::endDraw()
 	{
-		if (good())
+		if (m_good)
 		{
 			ImGui::DockSpace(
 				getID(),
-				{ m_size[0], m_size[1] }, 
+				{ m_size[0], m_size[1] },
 				ImGuiDockNodeFlags_PassthruDockspace
 			);
 		}

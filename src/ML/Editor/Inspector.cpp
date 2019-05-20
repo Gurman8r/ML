@@ -21,7 +21,7 @@ namespace ml
 
 	bool Inspector::drawGui(const GuiEvent & ev)
 	{
-		return beginDraw(&m_open, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize);
+		return beginDraw(ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

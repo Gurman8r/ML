@@ -3,13 +3,12 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
-#include <ML/Editor/EditorApplication.hpp>
+#include <ML/Engine/Application.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Resources.hpp>
+#include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Engine/StateMachine.hpp>
-#include <ML/Script/Interpreter.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -31,7 +30,7 @@ int32_t main()
 	static ml::Editor		g_Editor		= { g_Engine };
 
 	/* * * * * * * * * * * * * * * * * * * * */
-	
+
 	if (!g_Prefs.loadFromFile(ML_CONFIG_INI))
 	{
 		return ml::Debug::logError("Failed Loading Preferences: \'{0}\'", ML_CONFIG_INI)
@@ -42,60 +41,48 @@ int32_t main()
 	// Setup Flow Control
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum State : int32_t
-	{
-		NO_STATE = ML_STATE_NONE,
-		Enter, Load, Start, Loop, Unload, Exit,
-		MAX_STATE
-	};
+	enum State { Enter, Load, Start, Loop, Unload, Exit };
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	static ml::StateMachine<State> g_States =
+	static ml::StateMachine<State> g_Control =
 	{
 	{ State::Enter, []()
 	{	/* On Enter */
 		g_EventSystem.fireEvent(ml::EnterEvent(g_Engine));
-		return g_States(State::Load);
+		return g_Control(State::Load);
 	} },
-
 	{ State::Load, []()
 	{	/* On Load */
 		g_EventSystem.fireEvent(ml::LoadEvent(g_Engine));
-		return g_States(State::Start);
+		return g_Control(State::Start);
 	} },
-
 	{ State::Start, []()
 	{	/* On Start */
 		g_EventSystem.fireEvent(ml::StartEvent(g_Engine));
-		return g_States(State::Loop);
+		return g_Control(State::Loop);
 	} },
-
 	{ State::Loop, []()
 	{	g_Engine.loopFun([&]()
 		{
 			/* On Update */ 
 			g_EventSystem.fireEvent(ml::UpdateEvent(g_Engine));
-			
 			/* On Draw */
 			g_EventSystem.fireEvent(ml::DrawEvent(g_Engine));
-			
 			/* On Gui */ 
 			g_EventSystem.fireEvent(ml::GuiEvent(g_Editor));
 		});
-		return g_States(State::Unload);
+		return g_Control(State::Unload);
 	} },
-
 	{ State::Unload, []()
 	{	/* On Unload */
 		g_EventSystem.fireEvent(ml::UnloadEvent(g_Engine));
-		return g_States(State::Exit);
+		return g_Control(State::Exit);
 	} },
-
 	{ State::Exit, []()
 	{	/* On Exit */
 		g_EventSystem.fireEvent(ml::ExitEvent(g_Engine));
-		return g_States(ML_STATE_NONE);
+		return g_Control(ML_STATE_NONE);
 	} },
 	};
 
@@ -111,7 +98,7 @@ int32_t main()
 			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), &g_EventSystem)
 		))
 		{
-			g_States(State::Enter);
+			g_Control(State::Enter);
 			return g_Engine.freeApp(app);
 		}
 		else

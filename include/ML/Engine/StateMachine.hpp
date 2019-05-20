@@ -44,8 +44,9 @@ namespace ml
 		}
 
 	public:
-		template <class T>
-		inline fun_type operator[](const T & key)
+		template <
+			class T
+		> inline fun_type operator[](const T & key)
 		{
 			const_iterator it;
 			return ((key != (static_cast<key_type>(ML_STATE_NONE)))
@@ -56,8 +57,9 @@ namespace ml
 			);
 		}
 
-		template <class T>
-		inline key_type operator()(const T & key, Args ... args)
+		template <
+			class T
+		> inline key_type operator()(const T & key, Args ... args)
 		{
 			static fun_type fun;
 			return ((((fun = (*this)[static_cast<key_type>(key)])

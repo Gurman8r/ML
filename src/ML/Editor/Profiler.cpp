@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Profiler::Profiler(Editor & editor)
-		: BaseWidget("Profiler", editor)
+	Profiler::Profiler(Editor & editor, bool open)
+		: BaseWidget("Profiler", editor, open)
 	{
 	}
 
@@ -18,9 +18,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Profiler::drawGui(const GuiEvent & ev, bool * p_open)
+	bool Profiler::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
+		if (beginDraw(&m_open, ImGuiWindowFlags_MenuBar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 

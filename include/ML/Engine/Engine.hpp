@@ -11,6 +11,7 @@ namespace ml
 	class Application;
 	class EventSystem;
 	class Preferences;
+	class RenderWindow;
 	class Resources;
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -46,13 +47,14 @@ namespace ml
 		}
 
 	public:
-		EventSystem &	eventSystem()	const;
-		Preferences &	prefs()			const;
-		Resources	&	resources()		const;
+		EventSystem		& eventSystem()	const;
+		Preferences		& prefs()		const;
+		RenderWindow	& window()		const;
+		Resources		& resources()	const;
 
 	public:
-		inline const	Application *	app()			const	{ return m_application;	}
-		inline			Application *	app()					{ return m_application;	}
+		inline const	Application *	app()			const	{ return m_app;	}
+		inline			Application *	app()					{ return m_app;	}
 		inline const	Timer		&	mainTimer()		const	{ return m_mainTimer;	}
 		inline const	Timer		&	loopTimer()		const	{ return m_loopTimer;	}
 		inline const	Duration	&	elapsed()		const	{ return m_elapsed;		}
@@ -63,7 +65,7 @@ namespace ml
 		Preferences	&	m_prefs;
 		Resources	&	m_resources;
 		
-		Application *	m_application;
+		Application *	m_app;
 		Timer			m_mainTimer;
 		Timer			m_loopTimer;
 		Duration		m_elapsed;

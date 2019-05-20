@@ -16,8 +16,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Browser::Browser(Editor & editor)
-		: BaseWidget("Browser", editor)
+	Browser::Browser(Editor & editor, bool open)
+		: BaseWidget("Browser", editor, open)
 		, m_path	()
 		, m_dir		()
 		, m_type	(T_Dir)
@@ -33,9 +33,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Browser::drawGui(const GuiEvent & ev, bool * p_open)
+	bool Browser::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
+		if (beginDraw(&m_open, ImGuiWindowFlags_MenuBar))
 		{
 			const ml::String cwd = ML_FS.getWorkingDir();
 			if (((!m_path) || (m_path != cwd)) && (m_path = cwd))

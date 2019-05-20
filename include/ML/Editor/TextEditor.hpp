@@ -12,11 +12,11 @@ namespace ml
 		friend class Editor;
 
 	private:
-		TextEditor(Editor & editor);
+		TextEditor(Editor & editor, bool open = true);
 		~TextEditor();
 
 	public:
-		bool drawGui(const GuiEvent & ev, bool * p_open) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	private:
 		void draw_menu();

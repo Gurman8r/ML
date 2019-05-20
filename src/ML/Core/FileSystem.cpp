@@ -1,18 +1,14 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Debug.hpp>
 
-#include <experimental/filesystem>
-
 # ifdef ML_SYSTEM_WINDOWS
-#	include <dirent.h> // from /thirdparty/include
+#	include <dirent.h>
 #	include <direct.h>
-#	include <sys/types.h>
-#	include <sys/stat.h>
 # endif
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	FileSystem::FileSystem()
 		: m_root(getWorkingDir())
@@ -23,7 +19,7 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const String & FileSystem::getRoot() const
 	{
@@ -39,7 +35,7 @@ namespace ml
 #endif
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool FileSystem::setWorkingDir(const String & value)
 	{
@@ -63,7 +59,7 @@ namespace ml
 #endif
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool FileSystem::getDirContents(const String & dirName, List<char> & value) const
 	{
@@ -131,7 +127,7 @@ namespace ml
 		return false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool FileSystem::getFileContents(const String & filename, List<char> & value) const
 	{
@@ -157,7 +153,7 @@ namespace ml
 		return file;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool FileSystem::dirExists(const String & name) const
 	{
@@ -172,7 +168,7 @@ namespace ml
 		return (bool)(std::ifstream(filename));
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	String FileSystem::getFileType(const String & filename) const
 	{
@@ -224,5 +220,5 @@ namespace ml
 		);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -16,41 +16,24 @@ namespace ml
 		, builder		(*this)
 		, dockspace		(*this)
 		, inspector		(*this)
-		, mainMenuBar	(*this)
-		, networkHUD	(*this)
+		, mainMenu	(*this)
+		, network	(*this, false)
 		, profiler		(*this)
-		, resourceView	(*this)
+		, project	(*this)
 		, sceneView		(*this)
 		, terminal		(*this)
-		, textEditor	(*this)
+		, textEditor	(*this, false)
 	{
 	}
 
-	Editor::~Editor()
-	{
-	}
+	Editor::~Editor() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Engine & Editor::engine() const
-	{
-		return m_engine;
-	}
-
-	EventSystem & Editor::eventSystem() const
-	{
-		return engine().eventSystem();
-	}
-	
-	Preferences & Editor::prefs() const
-	{
-		return engine().prefs();
-	}
-
-	Resources & Editor::resources() const
-	{
-		return engine().resources();
-	}
+	Engine		& Editor::engine()		const { return m_engine; }
+	EventSystem & Editor::eventSystem() const { return engine().eventSystem(); }
+	Preferences & Editor::prefs()		const { return engine().prefs(); }
+	Resources	& Editor::resources()	const { return engine().resources(); }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

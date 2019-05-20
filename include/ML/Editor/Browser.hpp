@@ -31,11 +31,11 @@ namespace ml
 		static const Bytes MaxPreviewSize;
 
 	private:
-		Browser(Editor & editor);
+		Browser(Editor & editor, bool open = true);
 		~Browser();
 
 	public:
-		bool drawGui(const GuiEvent & ev, bool * p_open) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	private:
 		void draw_menu();

@@ -1,4 +1,4 @@
-#include <ML/Editor/ResourceView.hpp>
+#include <ML/Editor/Project.hpp>
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
@@ -29,7 +29,7 @@
 
 namespace ml
 {
-	struct ResourceView::Layout
+	struct Project::Layout
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -440,20 +440,20 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ResourceView::ResourceView(Editor & editor)
-		: BaseWidget("Resources", editor)
+	Project::Project(Editor & editor, bool open)
+		: BaseWidget("Project", editor, open)
 	{
 	}
 
-	ResourceView::~ResourceView()
+	Project::~Project()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool ResourceView::drawGui(const GuiEvent & ev, bool * p_open)
+	bool Project::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
+		if (beginDraw(&m_open, ImGuiWindowFlags_MenuBar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -513,7 +513,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceView::draw_entity_registry(Resources & res, Registry<Entity> & entities)
+	void Project::draw_entity_registry(Resources & res, Registry<Entity> & entities)
 	{
 		if (entities.empty()) return;
 
@@ -837,7 +837,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_font_registry(Resources & res, Registry<Font> & fonts)
+	void Project::draw_font_registry(Resources & res, Registry<Font> & fonts)
 	{
 		if (fonts.empty()) return;
 
@@ -880,7 +880,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_image_registry(Resources & res, Registry<Image> & images)
+	void Project::draw_image_registry(Resources & res, Registry<Image> & images)
 	{
 		if (images.empty()) return;
 
@@ -923,7 +923,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_lua_registry(Resources & res, Registry<LuaScript> & lua)
+	void Project::draw_lua_registry(Resources & res, Registry<LuaScript> & lua)
 	{
 		if (lua.empty()) return;
 
@@ -962,7 +962,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_material_registry(Resources & res, Registry<Material> & materials)
+	void Project::draw_material_registry(Resources & res, Registry<Material> & materials)
 	{
 		if (materials.empty()) return;
 
@@ -1039,7 +1039,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_mesh_registry(Resources & res, Registry<Mesh> & meshes)
+	void Project::draw_mesh_registry(Resources & res, Registry<Mesh> & meshes)
 	{
 		if (meshes.empty()) return;
 
@@ -1078,7 +1078,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_model_registry(Resources & res, Registry<Model> & models)
+	void Project::draw_model_registry(Resources & res, Registry<Model> & models)
 	{
 		if (models.empty()) return;
 
@@ -1117,7 +1117,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_plugin_registry(Resources & res, Registry<Plugin> & plugins)
+	void Project::draw_plugin_registry(Resources & res, Registry<Plugin> & plugins)
 	{
 		if (plugins.empty()) return;
 
@@ -1156,7 +1156,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_script_registry(Resources & res, Registry<Script> & scripts)
+	void Project::draw_script_registry(Resources & res, Registry<Script> & scripts)
 	{
 		if (scripts.empty()) return;
 
@@ -1210,7 +1210,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_shader_registry(Resources & res, Registry<Shader> & shaders)
+	void Project::draw_shader_registry(Resources & res, Registry<Shader> & shaders)
 	{
 		if (shaders.empty()) return;
 
@@ -1249,7 +1249,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_skybox_registry(Resources & res, Registry<Skybox> & skyboxes)
+	void Project::draw_skybox_registry(Resources & res, Registry<Skybox> & skyboxes)
 	{
 		if (skyboxes.empty()) return;
 
@@ -1288,7 +1288,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_sound_registry(Resources & res, Registry<Sound> & sounds)
+	void Project::draw_sound_registry(Resources & res, Registry<Sound> & sounds)
 	{
 		if (sounds.empty()) return;
 
@@ -1327,7 +1327,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_sprite_registry(Resources & res, Registry<Sprite> & sprites)
+	void Project::draw_sprite_registry(Resources & res, Registry<Sprite> & sprites)
 	{
 		if (sprites.empty()) return;
 
@@ -1423,7 +1423,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_surface_registry(Resources & res, Registry<Surface> & surfaces)
+	void Project::draw_surface_registry(Resources & res, Registry<Surface> & surfaces)
 	{
 		if (surfaces.empty()) return;
 
@@ -1462,7 +1462,7 @@ namespace ml
 		});
 	}
 
-	void ResourceView::draw_texture_registry(Resources & res, Registry<Texture> & textures)
+	void Project::draw_texture_registry(Resources & res, Registry<Texture> & textures)
 	{
 		if (textures.empty()) return;
 

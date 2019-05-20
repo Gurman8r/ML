@@ -13,11 +13,11 @@ namespace ml
 		friend class Editor;
 
 	private:
-		NetworkHUD(Editor & editor);
+		NetworkHUD(Editor & editor, bool open = true);
 		~NetworkHUD();
 
 	public:
-		bool drawGui(const GuiEvent & ev, bool * p_open) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	public:
 

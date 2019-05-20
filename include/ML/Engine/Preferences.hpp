@@ -24,7 +24,6 @@ namespace ml
 
 	public:
 		Preferences & operator=(Preferences && copy);
-		Preferences & swap(Preferences & copy);
 
 	public:
 		bool dispose() override;

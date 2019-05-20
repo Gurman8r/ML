@@ -10,8 +10,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	MainMenuBar::MainMenuBar(Editor & editor)
-		: BaseWidget("Main Menu Bar", editor)
+	MainMenuBar::MainMenuBar(Editor & editor, bool open)
+		: BaseWidget("Main Menu Bar", editor, open)
 	{
 	}
 
@@ -21,9 +21,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool MainMenuBar::drawGui(const GuiEvent & ev, bool * p_open)
+	bool MainMenuBar::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(p_open, 0))
+		if (beginDraw(&m_open, 0))
 		{
 			// File Menu
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -86,15 +86,15 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(ev.editor.terminal.getTitle(), NULL, &ev.editor.show_terminal);
-				ImGui::MenuItem(ev.editor.browser.getTitle(), NULL, &ev.editor.show_browser);
-				ImGui::MenuItem(ev.editor.builder.getTitle(), NULL, &ev.editor.show_builder);
-				ImGui::MenuItem(ev.editor.sceneView.getTitle(), NULL, &ev.editor.show_sceneView);
-				ImGui::MenuItem(ev.editor.inspector.getTitle(), NULL, &ev.editor.show_inspector);
-				ImGui::MenuItem(ev.editor.profiler.getTitle(), NULL, &ev.editor.show_profiler);
-				ImGui::MenuItem(ev.editor.textEditor.getTitle(), NULL, &ev.editor.show_textEditor);
-				ImGui::MenuItem(ev.editor.resourceView.getTitle(), NULL, &ev.editor.show_resourceView);
-				ImGui::MenuItem(ev.editor.networkHUD.getTitle(), NULL, &ev.editor.show_network);
+				ImGui::MenuItem(ev.editor.terminal.getTitle(), NULL, ev.editor.terminal.openPtr());
+				ImGui::MenuItem(ev.editor.browser.getTitle(), NULL, ev.editor.browser.openPtr());
+				ImGui::MenuItem(ev.editor.builder.getTitle(), NULL, ev.editor.builder.openPtr());
+				ImGui::MenuItem(ev.editor.sceneView.getTitle(), NULL, ev.editor.sceneView.openPtr());
+				ImGui::MenuItem(ev.editor.inspector.getTitle(), NULL, ev.editor.inspector.openPtr());
+				ImGui::MenuItem(ev.editor.profiler.getTitle(), NULL, ev.editor.profiler.openPtr());
+				ImGui::MenuItem(ev.editor.textEditor.getTitle(), NULL, ev.editor.textEditor.openPtr());
+				ImGui::MenuItem(ev.editor.project.getTitle(), NULL, ev.editor.project.openPtr());
+				ImGui::MenuItem(ev.editor.network.getTitle(), NULL, ev.editor.network.openPtr());
 				ImGui::EndMenu();
 			}
 
@@ -107,7 +107,7 @@ namespace ml
 					OS::execute("open", ML_PROJECT_URL);
 				}
 				ImGui::Separator();
-				ImGui::MenuItem("ImGui Demo", "Ctrl+H", &ev.editor.show_imgui_demo);
+				ImGui::MenuItem("ImGui Demo", NULL, &ev.editor.show_imgui_demo);
 				ImGui::MenuItem("ImGui Metrics", NULL, &ev.editor.show_imgui_metrics);
 				ImGui::MenuItem("ImGui Style Editor", NULL, &ev.editor.show_imgui_style);
 				ImGui::MenuItem("About Dear ImGui", NULL, &ev.editor.show_imgui_about);

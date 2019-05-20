@@ -3,6 +3,7 @@
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Graphics/RenderWindow.hpp>
 
 namespace ml
 {
@@ -12,7 +13,7 @@ namespace ml
 		: m_eventSystem	(eventSystem)
 		, m_prefs		(prefs)
 		, m_resources	(resources)
-		, m_application	(NULL)
+		, m_app			(NULL)
 		, m_mainTimer	()
 		, m_loopTimer	()
 		, m_elapsed		(0)
@@ -34,23 +35,23 @@ namespace ml
 	Application * Engine::launchApp(Application * value)
 	{
 		return ((!isRunning()) 
-			? (m_application = value) 
+			? (m_app = value) 
 			: (NULL)
 		);
 	}
 
 	int32_t Engine::freeApp(Application * value)
 	{
-		if (m_application && (m_application == value))
+		if (m_app && (m_app == value))
 		{
-			delete m_application;
+			delete m_app;
 		}
-		return ((m_application) ? (EXIT_FAILURE) : (EXIT_SUCCESS));
+		return ((m_app) ? (EXIT_FAILURE) : (EXIT_SUCCESS));
 	}
 
 	bool Engine::isRunning() const
 	{
-		return ((m_application) && (m_application->isOpen()));
+		return ((m_app) && (m_app->isOpen()));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -59,17 +60,17 @@ namespace ml
 	{
 		m_loopTimer.start();
 
-		if (m_application)
+		if (m_app)
 		{
-			m_application->pollEvents();
+			m_app->pollEvents();
 		}
 	}
 
 	void Engine::endFrame()
 	{
-		if (m_application)
+		if (m_app)
 		{
-			m_application->swapBuffers();
+			m_app->swapBuffers();
 		}
 
 		m_elapsed = m_loopTimer.stop().elapsed();
@@ -85,21 +86,13 @@ namespace ml
 			m_frameCounter = 0;
 		}
 	}
+	
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	EventSystem & Engine::eventSystem() const
-	{
-		return m_eventSystem;
-	}
-
-	Preferences & Engine::prefs() const
-	{
-		return m_prefs;
-	}
-
-	Resources & Engine::resources() const
-	{
-		return m_resources;
-	}
+	EventSystem		& Engine::eventSystem() const { return m_eventSystem; }
+	Preferences		& Engine::prefs()		const { return m_prefs; }
+	Resources		& Engine::resources()	const { return m_resources; }
+	RenderWindow	& Engine::window()		const { return (RenderWindow &)(*m_app); }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

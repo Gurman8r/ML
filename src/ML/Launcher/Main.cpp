@@ -21,78 +21,81 @@
 
 int32_t main()
 {
-	// Load Instances
+	// Setup Launcher
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static ml::EventSystem	eventSystem;
-	static ml::Preferences	prefs;
-	static ml::Resources	resources;
-	static ml::Engine		engine(eventSystem, prefs, resources);
-	static ml::Editor		editor(engine);
+	static ml::Preferences	g_LauncherPrefs	= {};
+	static ml::EventSystem	g_EventSystem	= {};
+	static ml::Resources	g_Resources		= {};
+	static ml::Engine		g_Engine		= { g_EventSystem, g_LauncherPrefs, g_Resources };
+	static ml::Editor		g_Editor		= { g_Engine };
 
-	if (!prefs.loadFromFile(ML_CONFIG_INI))
+	/* * * * * * * * * * * * * * * * * * * * */
+	
+	if (!g_LauncherPrefs.loadFromFile(ML_CONFIG_INI))
 	{
 		return ml::Debug::logError("Failed Loading Preferences: \'{0}\'", ML_CONFIG_INI)
 			|| ml::Debug::pause(EXIT_FAILURE);
 	}
 
 
-	// Setup Control
+	// Setup Flow Control
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum State : int32_t
 	{
-		None = ML_STATE_INVALID,
+		NO_STATE = ML_STATE_NONE,
 		Enter, Load, Start, Loop, Unload, Exit,
 		MAX_STATE
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	static ml::StateMachine<State> control =
-	{ 
+	static ml::StateMachine<State> g_States =
+	{
 	{ State::Enter, []()
-	{	// Enter
-		eventSystem.fireEvent(ml::EnterEvent(engine));
-		return control.run(State::Load);
+	{	/* On Enter */
+		g_EventSystem.fireEvent(ml::EnterEvent(g_Engine));
+		return g_States(State::Load);
 	} },
-	
+
 	{ State::Load, []()
-	{	// Load
-		eventSystem.fireEvent(ml::LoadEvent(engine));
-		return control.run(State::Start);
+	{	/* On Load */
+		g_EventSystem.fireEvent(ml::LoadEvent(g_Engine));
+		return g_States(State::Start);
 	} },
-	
+
 	{ State::Start, []()
-	{	// Start
-		eventSystem.fireEvent(ml::StartEvent(engine));
-		return control.run(State::Loop);
+	{	/* On Start */
+		g_EventSystem.fireEvent(ml::StartEvent(g_Engine));
+		return g_States(State::Loop);
 	} },
-	
+
 	{ State::Loop, []()
-	{	// Loop
-		engine.loopFun([&]()
+	{	g_Engine.loopFun([&]()
 		{
-			// Update
-			eventSystem.fireEvent(ml::UpdateEvent(engine));
-			// Draw
-			eventSystem.fireEvent(ml::DrawEvent(engine));
-			// Gui
-			eventSystem.fireEvent(ml::GuiEvent(editor));
+			/* On Update */ 
+			g_EventSystem.fireEvent(ml::UpdateEvent(g_Engine));
+			
+			/* On Draw */
+			g_EventSystem.fireEvent(ml::DrawEvent(g_Engine));
+			
+			/* On Gui */ 
+			g_EventSystem.fireEvent(ml::GuiEvent(g_Editor));
 		});
-		return control.run(State::Unload);
+		return g_States(State::Unload);
 	} },
-	
+
 	{ State::Unload, []()
-	{	// Unload
-		eventSystem.fireEvent(ml::UnloadEvent(engine));
-		return control.run(State::Exit);
+	{	/* On Unload */
+		g_EventSystem.fireEvent(ml::UnloadEvent(g_Engine));
+		return g_States(State::Exit);
 	} },
-	
+
 	{ State::Exit, []()
-	{	// Exit
-		eventSystem.fireEvent(ml::ExitEvent(engine));
-		return control.run(State::None);
+	{	/* On Exit */
+		g_EventSystem.fireEvent(ml::ExitEvent(g_Engine));
+		return g_States(ML_STATE_NONE);
 	} },
 	};
 
@@ -100,15 +103,16 @@ int32_t main()
 	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	if (auto lib = ml::SharedLibrary(
-		ML_FS.getPathTo(prefs.GetString("General", "application", "") + ML_DLL_STR(""))
-	))
-	{	if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), &eventSystem))
+	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(
+		g_LauncherPrefs.GetString("Launcher", "user_dll", "") + ML_DLL_STR("")
+	)))
+	{
+		if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), &g_EventSystem))
 		{
-			if (engine.launchApp(app))
+			if (g_Engine.launchApp(app))
 			{
-				control.run(State::Enter);
-				return engine.freeApp(app);
+				g_States(State::Enter);
+				return g_Engine.freeApp(app);
 			}
 			else
 			{
@@ -116,8 +120,11 @@ int32_t main()
 					|| ml::Debug::pause(EXIT_FAILURE);
 			}
 		}
-		return ml::Debug::logError("Failed Calling Plugin Main")
-			|| ml::Debug::pause(EXIT_FAILURE);
+		else
+		{
+			return ml::Debug::logError("Failed Calling Plugin Main")
+				|| ml::Debug::pause(EXIT_FAILURE);
+		}
 	}
 	else
 	{

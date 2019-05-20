@@ -1018,7 +1018,7 @@ static ImVec2           CalcNextScrollFromScrollTargetAndClamp(ImGuiWindow* wind
 static void             AddDrawListToDrawData(ImVector<ImDrawList*>* out_list, ImDrawList* draw_list);
 static void             AddWindowToSortBuffer(ImVector<ImGuiWindow*>* out_sorted_windows, ImGuiWindow* window);
 
-// Settings
+// Preferences
 static void*            SettingsHandlerWindow_ReadOpen(ImGuiContext*, ImGuiSettingsHandler*, const char* name);
 static void             SettingsHandlerWindow_ReadLine(ImGuiContext*, ImGuiSettingsHandler*, void* entry, const char* line);
 static void             SettingsHandlerWindow_WriteAll(ImGuiContext* imgui_ctx, ImGuiSettingsHandler* handler, ImGuiTextBuffer* buf);
@@ -1176,7 +1176,7 @@ ImGuiIO::ImGuiIO()
     // Most fields are initialized with zero
     memset(this, 0, sizeof(*this));
 
-    // Settings
+    // Preferences
     ConfigFlags = ImGuiConfigFlags_None;
     BackendFlags = ImGuiBackendFlags_None;
     DisplaySize = ImVec2(-1.0f, -1.0f);
@@ -10678,7 +10678,7 @@ void ImGui::DestroyPlatformWindows()
 // Docking: Public Functions (SetWindowDock, DockSpace)
 // Docking: Builder Functions
 // Docking: Begin/End Functions (called from Begin/End)
-// Docking: Settings
+// Docking: Preferences
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
@@ -10733,7 +10733,7 @@ struct ImGuiDockPreviewData
     ImGuiDockPreviewData() : FutureNode(0) { IsDropAllowed = IsCenterAvailable = IsSidesAvailable = IsSplitDirExplicit = false; SplitNode = NULL; SplitDir = ImGuiDir_None; SplitRatio = 0.f; }
 };
 
-// Persistent Settings data, stored contiguously in SettingsNodes (sizeof() ~32 bytes)
+// Persistent Preferences data, stored contiguously in SettingsNodes (sizeof() ~32 bytes)
 struct ImGuiDockNodeSettings
 {
     ImGuiID         ID;
@@ -10811,7 +10811,7 @@ namespace ImGui
     static ImGuiDockNode*   DockNodeTreeFindNodeByPos(ImGuiDockNode* node, ImVec2 pos);
     static ImGuiDockNode*   DockNodeTreeFindFallbackLeafNode(ImGuiDockNode* node);
 
-    // Settings
+    // Preferences
     static void             DockSettingsRenameNodeReferences(ImGuiID old_node_id, ImGuiID new_node_id);
     static void             DockSettingsRemoveNodeReferences(ImGuiID* node_ids, int node_ids_count);
     static ImGuiDockNodeSettings*   DockSettingsFindNodeSettings(ImGuiContext* ctx, ImGuiID node_id);
@@ -13582,7 +13582,7 @@ void ImGui::BeginAsDockableDragDropTarget(ImGuiWindow* window)
 }
 
 //-----------------------------------------------------------------------------
-// Docking: Settings
+// Docking: Preferences
 //-----------------------------------------------------------------------------
 
 static void ImGui::DockSettingsRenameNodeReferences(ImGuiID old_node_id, ImGuiID new_node_id)
@@ -14250,7 +14250,7 @@ void ImGui::ShowDockingDebug()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("Settings"))
+    if (ImGui::TreeNode("Preferences"))
     {
         if (ImGui::SmallButton("Refresh"))
             SaveIniSettingsToMemory();

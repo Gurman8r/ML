@@ -132,26 +132,48 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
-		// Initialize Std Out
+		// Initialize Miscellaneous
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
 		{
-			return ml::Debug::fatal("Failed Redirecting Std Output Handle");
+			// Setup Std Out
+			if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
+			{
+				return ml::Debug::fatal("Failed Redirecting Std Output Handle");
+			}
+
+			// Set Resource Path
+			sandbox.res_path = ev.engine.prefs().GetString(
+			"Engine",
+			"res_path",
+			"../../../assets/"
+			);
+
+			// Set Resource File
+			sandbox.res_data = ev.engine.prefs().GetString(
+				"Engine",
+				"res_data",
+				"manifest.txt"
+			);
+
+			// Set Resource Manifest
+			sandbox.manifest = ML_FS.getPathTo(
+				sandbox.res_path + sandbox.res_data
+			);
 		}
 
 		// Initialize Interpreter
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
 			// Set Parser Flags
-			ML_Parser.showToks(ev.engine.prefs().GetBool("Script", "flagShowToks", false));
-			ML_Parser.showTree(ev.engine.prefs().GetBool("Script", "flagShowTree", false));
-			ML_Parser.showItoP(ev.engine.prefs().GetBool("Script", "flagShowItoP", false));
+			ML_Parser.showToks(ev.engine.prefs().GetBool("Script", "showToks", false));
+			ML_Parser.showTree(ev.engine.prefs().GetBool("Script", "showTree", false));
+			ML_Parser.showItoP(ev.engine.prefs().GetBool("Script", "showItoP", false));
 
 			// Run Boot Script
 			ml::Script scr;
-			if (scr.loadFromFile(ML_FS.getPathTo(ev.engine.prefs().GetString(
-				"Script", "bootScript", ""
-			))))
+			if (scr.loadFromFile(ML_FS.getPathTo(
+				sandbox.res_path + ev.engine.prefs().GetString("Script", "bootScript", "")
+			)))
 			{
 				if (!(scr.buildAndRun(ml::Args(__argc, __argv))))
 				{
@@ -162,26 +184,20 @@ namespace DEMO
 
 		// Initialize Window
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ev.engine.app()->create(
-			sandbox.title = ev.engine.prefs().GetString("Window", "windowTitle", "New Window"),
-			ml::Screen
-			{ {
-			ev.engine.prefs().GetUint("Window", "windowWidth",	1280),
-			ev.engine.prefs().GetUint("Window", "windowHeight",	720) },
-			ev.engine.prefs().GetUint("Window", "bitsPerPixel",	32)
-			},
-			ev.engine.prefs().GetUint("Window", "windowStyle",	ml::Window::Default),
-			ml::Context
-			{
-			ev.engine.prefs().GetUint("Window", "majorVersion",	3),
-			ev.engine.prefs().GetUint("Window", "minorVersion",	3),
-			ev.engine.prefs().GetUint("Window", "profile",		ml::Context::Compat),
-			ev.engine.prefs().GetUint("Window", "depthBits",	24),
-			ev.engine.prefs().GetUint("Window", "stencilBits",	8),
-			ev.engine.prefs().GetBool("Window", "multisample",	false),
-			ev.engine.prefs().GetBool("Window", "srgbCapable",	false)
-			}
-		))
+		if (ev.engine.app()->create(sandbox.title = 
+			ev.engine.prefs().GetString	("Window", "title",			"ML"), { {
+			ev.engine.prefs().GetUint	("Window", "width",			1280),
+			ev.engine.prefs().GetUint	("Window", "height",		720) },
+			ev.engine.prefs().GetUint	("Window", "colorDepth",	32) },
+			ev.engine.prefs().GetUint	("Window", "style",			ml::Window::Default), {
+			ev.engine.prefs().GetUint	("Window", "majorVersion",	3),
+			ev.engine.prefs().GetUint	("Window", "minorVersion",	3),
+			ev.engine.prefs().GetUint	("Window", "profile",		ml::Context::Compat),
+			ev.engine.prefs().GetUint	("Window", "depthBits",		24),
+			ev.engine.prefs().GetUint	("Window", "stencilBits",	8),
+			ev.engine.prefs().GetBool	("Window", "multisample",	false),
+			ev.engine.prefs().GetBool	("Window", "srgbCapable",	false)
+		}))
 		{
 			ev.engine.app()->maximize();
 			ev.engine.app()->seCursorMode(ml::Cursor::Normal);
@@ -193,29 +209,37 @@ namespace DEMO
 			return ml::Debug::fatal("Failed Initializing Window");
 		}
 
-		// Initialize ImGui
+		// Initialize Gui
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (IMGUI_CHECKVERSION())
 		{
 			ImGui::CreateContext();
 
-			static ml::StyleLoader loader;
+			// Set ImGui Style
+			ml::StyleLoader loader;
 			if (loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
+			{ 
+				/* TODO */
+			}
+			else
 			{
-				// TODO
+				ImGui::StyleHelper::Style4();
 			}
 
-			ImGui::StyleHelper::Style4();
-
-			const ml::String	fontFile = ev.engine.prefs().GetString("ImGui", "imguiFontFile", "");
-			const float			fontSize = ev.engine.prefs().GetFloat ("ImGui", "imguiFontSize", 12.0f);
-			const ml::String	imguiINI = ev.engine.prefs().GetString("ImGui", "imguiINI", "");
-
-			if (fontFile && fontSize > 0.0f)
-			{
-				ImGui::GetIO().Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);
+			// Set ImGui Fonts
+			if (ml::String	imguiFont = ev.engine.prefs().GetString("Editor", "imguiFont", ""))
+			{	const float imguiSize = ev.engine.prefs().GetFloat ("Editor", "imguiSize", 12.0f);
+				if (imguiFont && imguiSize > 0.0f)
+				{
+					ImGui::GetIO().Fonts->AddFontFromFileTTF(imguiFont.c_str(), imguiSize);
+				}
 			}
+
+			// Set ImGui INI
+			ml::String imguiINI = ev.engine.prefs().GetString("Editor", "imguiINI", "");
+			imguiINI = imguiINI ? ML_FS.getPathTo(imguiINI) : ml::String();
 			
+			// Run ImGui Init
 			if (!ImGui_ML_Init("#version 410", this, true, imguiINI.c_str()))
 			{
 				return ml::Debug::fatal("Failed Initializing ImGui");
@@ -233,10 +257,9 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		sandbox.isServer = ev.engine.prefs().GetBool("Network", "isServer", false);
 		sandbox.isClient = ev.engine.prefs().GetBool("Network", "isClient", false);
-
+		
 		if (sandbox.isServer)
-		{
-			// Start Server
+		{	// Start Server
 			ml::Debug::log("Starting Server...");
 			if (sandbox.server.setup())
 			{
@@ -247,8 +270,7 @@ namespace DEMO
 			}
 		}
 		else if (sandbox.isClient)
-		{
-			// Start Client
+		{	// Start Client
 			ml::Debug::log("Starting Client...");
 			if (sandbox.client.setup())
 			{
@@ -297,9 +319,6 @@ namespace DEMO
 
 		// Load Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
-		sandbox.manifest = ML_FS.getPathTo(
-			ev.engine.prefs().GetString("General", "mainifest", "../../../assets/manifest.txt")
-		);
 		if (!ev.engine.resources().loadFromFile(sandbox.manifest))
 		{
 			ml::Debug::logError("Failed Loading Manifest");
@@ -1113,65 +1132,47 @@ namespace DEMO
 			ev.editor.terminal.printss(sandbox.rdstr);
 		}
 
-		// Main Menu Bar
-		if (ev.editor.show_mainMenuBar)		{ ev.editor.mainMenuBar.drawGui(ev, &ev.editor.show_mainMenuBar); }
+		/* Main Menu	*/ ev.editor.mainMenu.drawGui(ev);
+		/* Dockspace	*/ ev.editor.dockspace.drawGui(ev);
+		/* Network		*/ ev.editor.network.drawGui(ev);
+		/* Profiler		*/ ev.editor.profiler.drawGui(ev);
+		/* Browser		*/ ev.editor.browser.drawGui(ev);
+		/* Terminal		*/ ev.editor.terminal.drawGui(ev); 
+		/* Text Editor	*/ ev.editor.textEditor.drawGui(ev); 
+		/* Project		*/ ev.editor.project.drawGui(ev); 
+		/* Builder		*/ ev.editor.builder.drawGui(ev); 
 		
-		// Dockspace
-		if (ev.editor.show_dockspace)		{ ev.editor.dockspace.drawGui(ev, &ev.editor.show_dockspace); }
-		
+		/* Scene View	*/ 
+		ev.editor.sceneView.drawFun(ev, [&]()
+		{
+			if (ml::Surface * post = ev.editor.resources().surfaces.get("surface_post"))
+			{
+				ev.editor.sceneView.updateTexture(&post->texture());
+			}
+		});
+
+		/* Inspector	*/ 
+		ev.editor.inspector.drawFun(ev, [&]()
+		{
+			static ml::CString surf_modes[] = {
+				"Normal",
+				"Grayscale",
+				"Blur",
+				"Juicy",
+				"Inverted",
+			};
+			ImGui::Combo("Surface Shader", &sandbox.effectMode, surf_modes, IM_ARRAYSIZE(surf_modes));
+			ImGui::Separator();
+			ImGui::Checkbox("Camera Orbit", &sandbox.cameraOrbit);
+			ImGui::DragFloat("Camera Speed", &sandbox.cameraSpeed, 0.1f, -5.f, 5.f);
+			ImGui::Separator();
+		});
+
 		// ImGui Builtin
 		if (ev.editor.show_imgui_demo)		{ ml::ImGui_Builtin::showDemo(&ev.editor.show_imgui_demo); }
 		if (ev.editor.show_imgui_metrics)	{ ml::ImGui_Builtin::showMetrics(&ev.editor.show_imgui_metrics); }
 		if (ev.editor.show_imgui_style)		{ ml::ImGui_Builtin::showStyle(&ev.editor.show_imgui_style); }
 		if (ev.editor.show_imgui_about)		{ ml::ImGui_Builtin::showAbout(&ev.editor.show_imgui_about); }
-
-		// Widgets
-		if (ev.editor.show_network)			{ ev.editor.networkHUD.drawGui(ev, &ev.editor.show_network); }
-		if (ev.editor.show_profiler)		{ ev.editor.profiler.drawGui(ev, &ev.editor.show_profiler); }
-		if (ev.editor.show_browser)			{ ev.editor.browser.drawGui(ev, &ev.editor.show_browser); }
-		if (ev.editor.show_terminal)		{ ev.editor.terminal.drawGui(ev, &ev.editor.show_terminal); }
-		if (ev.editor.show_textEditor)		{ ev.editor.textEditor.drawGui(ev, &ev.editor.show_textEditor); }
-		if (ev.editor.show_resourceView)	{ ev.editor.resourceView.drawGui(ev, &ev.editor.show_resourceView); }
-		if (ev.editor.show_builder)			{ ev.editor.builder.drawGui(ev, &ev.editor.show_builder); }
-		
-		// Scene View
-		if (ev.editor.show_sceneView)
-		{
-			ev.editor.sceneView.drawFun(ev, &ev.editor.show_sceneView, [&]()
-			{
-				if (ml::Surface * post = ev.editor.engine().resources().surfaces.get("surface_post"))
-				{
-					ev.editor.sceneView.updateTexture(&post->texture());
-				}
-			});
-		}
-
-		// Inspector
-		if (ev.editor.show_inspector)
-		{
-			ev.editor.inspector.drawFun(ev, &ev.editor.show_inspector, [&]()
-			{
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				static ml::CString surf_modes[] = {
-					"Normal",
-					"Grayscale",
-					"Blur",
-					"Juicy",
-					"Inverted",
-				};
-				ImGui::Combo("Surface Shader", &sandbox.effectMode, surf_modes, IM_ARRAYSIZE(surf_modes));
-				ImGui::Separator();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				ImGui::Checkbox("Camera Orbit", &sandbox.cameraOrbit);
-				ImGui::DragFloat("Camera Speed", &sandbox.cameraSpeed, 0.1f, -5.f, 5.f);
-				ImGui::Separator();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-			});
-		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

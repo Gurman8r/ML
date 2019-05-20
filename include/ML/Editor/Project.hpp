@@ -1,5 +1,5 @@
-#ifndef _ML_RESOURCE_VIEW_HPP_
-#define _ML_RESOURCE_VIEW_HPP_
+#ifndef _ML_PROJECT_HPP_
+#define _ML_PROJECT_HPP_
 
 #include <ML/Editor/BaseWidget.hpp>
 #include <ML/Engine/Resources.hpp>
@@ -8,17 +8,17 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API ResourceView final
+	class ML_EDITOR_API Project final
 		: public BaseWidget
 	{
 		friend class Editor;
 
 	private:
-		ResourceView(Editor & editor);
-		~ResourceView();
+		Project(Editor & editor, bool open = true);
+		~Project();
 
 	public:
-		bool drawGui(const GuiEvent & ev, bool * p_open) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	private:
 		struct Layout;
@@ -43,4 +43,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_RESOURCE_VIEW_HPP_
+#endif // !_ML_PROJECT_HPP_

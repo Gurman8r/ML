@@ -16,8 +16,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Terminal::Terminal(Editor & editor)
-		: BaseWidget	("Terminal", editor)
+	Terminal::Terminal(Editor & editor, bool open)
+		: BaseWidget	("Terminal", editor, open)
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()
@@ -51,9 +51,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Terminal::drawGui(const GuiEvent & ev, bool * p_open)
+	bool Terminal::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(p_open))
+		if (beginDraw(&m_open))
 		{
 			// Filter
 			static ImGuiTextFilter filter("-wrn");

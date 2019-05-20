@@ -22,11 +22,13 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
-		BaseWidget(CString title, Editor & editor);
+		BaseWidget(CString title, Editor & editor, bool open);
 		virtual ~BaseWidget();
 
+		bool show = false;
+
 	public:
-		virtual bool drawGui(const GuiEvent & ev, bool * p_open) = 0;
+		virtual bool drawGui(const GuiEvent & ev) = 0;
 
 	public:
 		uint32_t getID() const;
@@ -38,9 +40,10 @@ namespace ml
 		Resources	& resources()	const;
 
 	public:
-		inline CString	getTitle()		const { return m_title; }
-		inline int32_t	getFlags()		const { return m_flags; }
-		inline bool *	isOpen()		const { return m_open; }
+		inline CString	getTitle()	const	{ return m_title; }
+		inline int32_t	getFlags()	const	{ return m_flags; }
+		inline bool		isOpen()	const	{ return m_open; }
+		inline bool *	openPtr()			{ return &m_open; }
 
 	protected:
 		virtual bool beginDraw(bool * p_open, int32_t flags = 0);
@@ -51,12 +54,11 @@ namespace ml
 		inline bool goodCheck(const bool value) { return (m_good = value); }
 
 	protected:
-		Editor & m_editor;
-
-		bool	m_good;
-		CString	m_title;
-		int32_t m_flags;
-		bool *	m_open;
+		Editor &	m_editor;
+		bool		m_good;
+		CString		m_title;
+		int32_t		m_flags;
+		bool		m_open;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -18,11 +18,11 @@ namespace ml
 		using InputBuffer = typename char[256];
 
 	private:
-		Terminal(Editor & editor);
+		Terminal(Editor & editor, bool open = true);
 		~Terminal();
 
 	public:
-		bool drawGui(const GuiEvent & ev, bool * p_open) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	public:
 		void    clear();

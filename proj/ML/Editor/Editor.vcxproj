@@ -180,7 +180,7 @@
     <ClInclude Include="..\..\..\include\ML\Editor\MainMenuBar.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\NetworkHUD.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Profiler.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\ResourceView.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\Project.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\SceneView.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\StyleLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Terminal.hpp" />
@@ -207,7 +207,7 @@
     <ClCompile Include="..\..\..\src\ML\Editor\MainMenuBar.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\NetworkHUD.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Profiler.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\ResourceView.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\Project.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\SceneView.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\StyleLoader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Terminal.cpp" />

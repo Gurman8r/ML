@@ -16,15 +16,15 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		vec2u	 resolution;
-		uint32_t bitsPerPixel;
+		uint32_t colorDepth;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		Screen();
 		Screen(const uint32_t width, const uint32_t height);
 		Screen(const vec2u & size);
-		Screen(const uint32_t width, const uint32_t height, const uint32_t bitsPerPixel);
-		Screen(const vec2u & size, const uint32_t bitsPerPixel);
+		Screen(const uint32_t width, const uint32_t height, const uint32_t colorDepth);
+		Screen(const vec2u & size, const uint32_t colorDepth);
 		Screen(const Screen & copy);
 		~Screen();
 

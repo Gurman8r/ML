@@ -32,7 +32,7 @@ namespace ml
 	SharedLibrary::SharedLibrary(SharedLibrary && copy)
 		: SharedLibrary()
 	{
-		this->swap(copy);
+		this->SharedLibrary::operator=((SharedLibrary &&)copy);
 	}
 
 	SharedLibrary::~SharedLibrary()
@@ -44,13 +44,8 @@ namespace ml
 
 	SharedLibrary & SharedLibrary::operator=(SharedLibrary && copy)
 	{
-		return this->swap(copy);
-	}
-
-	SharedLibrary & SharedLibrary::swap(SharedLibrary & copy)
-	{
-		m_instance	= copy.m_instance;
-		m_filename	= copy.m_filename;
+		m_instance = copy.m_instance;
+		m_filename = copy.m_filename;
 		m_functions = copy.m_functions;
 		return (*this);
 	}

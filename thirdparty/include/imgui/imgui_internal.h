@@ -631,7 +631,7 @@ struct ImGuiWindowSettings
 {
     char*       Name;
     ImGuiID     ID;
-    ImVec2      Pos;            // NB: Settings position are stored RELATIVE to the viewport! Whereas runtime ones are absolute positions.
+    ImVec2      Pos;            // NB: Preferences position are stored RELATIVE to the viewport! Whereas runtime ones are absolute positions.
     ImVec2      Size;
     ImVec2      ViewportPos;
     ImGuiID     ViewportId;
@@ -1090,9 +1090,9 @@ struct ImGuiContext
     // FIXME: We could provide an API to register one slot in an array held in ImGuiContext?
     ImGuiDockContext*       DockContext;
 
-    // Settings
+    // Preferences
     bool                           SettingsLoaded;
-    float                          SettingsDirtyTimer;          // Save .ini Settings to memory when time reaches zero
+    float                          SettingsDirtyTimer;          // Save .ini Preferences to memory when time reaches zero
     ImGuiTextBuffer                SettingsIniData;             // In memory .ini settings
     ImVector<ImGuiSettingsHandler> SettingsHandlers;            // List of .ini settings handlers
     ImVector<ImGuiWindowSettings>  SettingsWindows;             // ImGuiWindow .ini settings entries (parsed from the last loaded .ini file and maintained on saving)
@@ -1466,7 +1466,7 @@ enum ImGuiTabBarFlagsPrivate_
 {
     ImGuiTabBarFlags_DockNode                   = 1 << 20,  // Part of a dock node [we don't use this in the master branch but it facilitate branch syncing to keep this around]
     ImGuiTabBarFlags_IsFocused                  = 1 << 21,
-    ImGuiTabBarFlags_SaveSettings               = 1 << 22   // FIXME: Settings are handled by the docking system, this only request the tab bar to mark settings dirty when reordering tabs
+    ImGuiTabBarFlags_SaveSettings               = 1 << 22   // FIXME: Preferences are handled by the docking system, this only request the tab bar to mark settings dirty when reordering tabs
 };
 
 enum ImGuiTabItemFlagsPrivate_
@@ -1582,7 +1582,7 @@ namespace ImGui
     IMGUI_API void                  DestroyPlatformWindow(ImGuiViewportP* viewport);
     IMGUI_API void                  ShowViewportThumbnails();
 
-    // Settings
+    // Preferences
     IMGUI_API void                  MarkIniSettingsDirty();
     IMGUI_API void                  MarkIniSettingsDirty(ImGuiWindow* window);
     IMGUI_API ImGuiWindowSettings*  CreateNewWindowSettings(const char* name);

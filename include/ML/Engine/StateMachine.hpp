@@ -4,7 +4,7 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/ITrackable.hpp>
 
-#define ML_STATE_INVALID -1
+#define ML_STATE_NONE -1
 
 namespace ml
 {
@@ -17,9 +17,10 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
-		using fun_type		= typename Key(*)(Args...);
-		using map_type		= typename HashMap<Key, fun_type>;
-		using pair_type		= typename Pair<Key, fun_type>;
+		using key_type		= typename Key;
+		using fun_type		= typename key_type(*)(Args...);
+		using map_type		= typename HashMap<key_type, fun_type>;
+		using pair_type		= typename Pair<key_type, fun_type>;
 		using init_type		= typename Initializer<pair_type>;
 		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;
@@ -35,35 +36,33 @@ namespace ml
 		{
 			for (auto it = init.begin(); it != init.end(); it++)
 			{
-				if (it->second && (it->first != (static_cast<Key>(ML_STATE_INVALID))))
+				if (it->second && (it->first != (static_cast<key_type>(ML_STATE_NONE))))
 				{
 					m_states[it->first] = it->second;
 				}
 			}
 		}
 
-		~StateMachine() {}
-
 	public:
-		inline fun_type get(const Key & key) const
+		template <class T>
+		inline fun_type operator[](const T & key)
 		{
 			const_iterator it;
-			return ((key != (static_cast<Key>(ML_STATE_INVALID)))
-				? ((((it = m_states.find(key)) != m_states.end())
+			return ((key != (static_cast<key_type>(ML_STATE_NONE)))
+				? ((((it = m_states.find(static_cast<key_type>(key))) != m_states.end())
 					? (it->second)
 					: (NULL)))
 				: (NULL)
 			);
 		}
 
-		inline Key run(const Key & key, Args ... args)
+		template <class T>
+		inline key_type operator()(const T & key, Args ... args)
 		{
-			fun_type fun;
-			return ((key != static_cast<Key>(ML_STATE_INVALID))
-				? (((fun = get(key))
-					? (fun((args)...))
-					: (static_cast<Key>(ML_STATE_INVALID))))
-				: (static_cast<Key>(ML_STATE_INVALID))
+			static fun_type fun;
+			return ((((fun = (*this)[static_cast<key_type>(key)])
+				? (fun((args)...))
+				: (static_cast<key_type>(ML_STATE_NONE))))
 			);
 		}
 

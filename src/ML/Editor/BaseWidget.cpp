@@ -10,12 +10,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	BaseWidget::BaseWidget(CString title, Editor & editor)
+	BaseWidget::BaseWidget(CString title, Editor & editor, bool open)
 		: m_editor	(editor)
 		, m_title	(title)
 		, m_good	(false)
 		, m_flags	(ImGuiWindowFlags_None)
-		, m_open	(NULL)
+		, m_open	(open)
 	{
 	}
 
@@ -29,7 +29,7 @@ namespace ml
 	{
 		return goodCheck(ImGui::Begin(
 			(m_title),
-			(m_open = p_open),
+			(&m_open),
 			(m_flags = flags))
 		);
 	}

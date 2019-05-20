@@ -23,21 +23,21 @@ namespace ml
 	{
 	}
 
-	Screen::Screen(const uint32_t width, const uint32_t height, const uint32_t bitsPerPixel)
+	Screen::Screen(const uint32_t width, const uint32_t height, const uint32_t colorDepth)
 		: resolution(width, height)
-		, bitsPerPixel(bitsPerPixel)
+		, colorDepth(colorDepth)
 	{
 	}
 
-	Screen::Screen(const vec2u & resolution, uint32_t bitsPerPixel)
+	Screen::Screen(const vec2u & resolution, uint32_t colorDepth)
 		: resolution(resolution)
-		, bitsPerPixel(bitsPerPixel)
+		, colorDepth(colorDepth)
 	{
 	}
 
 	Screen::Screen(const Screen & copy)
 		: resolution(copy.resolution)
-		, bitsPerPixel(copy.bitsPerPixel)
+		, colorDepth(copy.colorDepth)
 	{
 	}
 
@@ -100,12 +100,12 @@ namespace ml
 
 	void Screen::serialize(std::ostream & out) const
 	{
-		out << resolution << " " << bitsPerPixel;
+		out << resolution << " " << colorDepth;
 	}
 
 	void Screen::deserialize(std::istream & in)
 	{
-		in >> resolution >> bitsPerPixel;
+		in >> resolution >> colorDepth;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -114,14 +114,14 @@ namespace ml
 	{
 		return 
 			(resolution == value.resolution) && 
-			(bitsPerPixel == value.bitsPerPixel);
+			(colorDepth == value.colorDepth);
 	}
 
 	bool Screen::lessThan(const Screen & value) const
 	{
 		return
 			(resolution < value.resolution) && 
-			(bitsPerPixel < value.bitsPerPixel);
+			(colorDepth < value.colorDepth);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

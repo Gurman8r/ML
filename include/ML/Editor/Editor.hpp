@@ -11,7 +11,7 @@
 #include <ML/Editor/TextEditor.hpp>
 #include <ML/Editor/SceneView.hpp>
 #include <ML/Editor/Inspector.hpp>
-#include <ML/Editor/ResourceView.hpp>
+#include <ML/Editor/Project.hpp>
 #include <ML/Editor/NetworkHUD.hpp>
 #include <ML/Editor/Profiler.hpp>
 
@@ -36,17 +36,17 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Browser			browser;
-		Builder			builder;
-		Dockspace		dockspace;
-		Inspector		inspector;
-		MainMenuBar		mainMenuBar;
-		NetworkHUD		networkHUD;
-		Profiler		profiler;
-		ResourceView	resourceView;
-		SceneView		sceneView;
-		Terminal		terminal;
-		TextEditor		textEditor;
+		Browser		browser;
+		Builder		builder;
+		MainMenuBar	mainMenu;
+		Dockspace	dockspace;
+		Inspector	inspector;
+		NetworkHUD	network;
+		Profiler	profiler;
+		Project		project;
+		SceneView	sceneView;
+		Terminal	terminal;
+		TextEditor	textEditor;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -54,18 +54,6 @@ namespace ml
 		bool show_imgui_metrics	= false;
 		bool show_imgui_style	= false;
 		bool show_imgui_about	= false;
-		/* * * * * * * * * * * * * * * * * * * * */
-		bool show_mainMenuBar	= true;
-		bool show_dockspace		= true;
-		bool show_terminal		= true;
-		bool show_browser		= true;
-		bool show_builder		= true;
-		bool show_inspector		= true;
-		bool show_sceneView		= true;
-		bool show_textEditor	= false;
-		bool show_resourceView	= true;
-		bool show_profiler		= true;
-		bool show_network		= false;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

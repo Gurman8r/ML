@@ -6,8 +6,8 @@
 
 namespace ml
 {
-	NetworkHUD::NetworkHUD(Editor & editor)
-		: BaseWidget("Network", editor)
+	NetworkHUD::NetworkHUD(Editor & editor, bool open)
+		: BaseWidget("Network", editor, open)
 	{
 	}
 
@@ -17,9 +17,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool NetworkHUD::drawGui(const GuiEvent & ev, bool * p_open)
+	bool NetworkHUD::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(p_open, ImGuiWindowFlags_MenuBar))
+		if (beginDraw(&m_open, ImGuiWindowFlags_MenuBar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 

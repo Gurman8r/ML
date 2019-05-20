@@ -6,8 +6,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	TextEditor::TextEditor(Editor & editor)
-		: BaseWidget("Text Editor", editor)
+	TextEditor::TextEditor(Editor & editor, bool open)
+		: BaseWidget("Text Editor", editor, open)
 		, m_selected(-1)
 	{
 	}
@@ -18,9 +18,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool TextEditor::drawGui(const GuiEvent & ev, bool * p_open)
+	bool TextEditor::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(p_open,
+		if (beginDraw(&m_open,
 			ImGuiWindowFlags_MenuBar |
 			ImGuiWindowFlags_AlwaysHorizontalScrollbar |
 			ImGuiWindowFlags_AlwaysVerticalScrollbar))

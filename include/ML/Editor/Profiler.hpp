@@ -14,11 +14,11 @@ namespace ml
 		friend class Editor;
 
 	private:
-		Profiler(Editor & editor);
+		Profiler(Editor & editor, bool open = true);
 		~Profiler();
 
 	public:
-		bool drawGui(const GuiEvent & ev, bool * p_open) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 		struct GraphLines
 		{

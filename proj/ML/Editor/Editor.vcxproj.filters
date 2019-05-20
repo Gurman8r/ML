@@ -93,9 +93,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Profiler.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\ResourceView.hpp">
-      <Filter>Header Files\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\SceneView.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
@@ -138,6 +135,9 @@
     <ClInclude Include="..\..\..\include\ML\Editor\BaseWidget.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\Project.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_impl_ml.cpp">
@@ -165,9 +165,6 @@
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\SceneView.cpp">
-      <Filter>Source Files\Widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\ResourceView.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Profiler.cpp">
@@ -207,6 +204,9 @@
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\BaseWidget.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\Project.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
   </ItemGroup>

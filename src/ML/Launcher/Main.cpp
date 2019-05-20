@@ -9,6 +9,8 @@
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Engine/StateMachine.hpp>
+#include <ML/Network/NetClient.hpp>
+#include <ML/Network/NetServer.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -26,7 +28,9 @@ int32_t main()
 	static ml::EventSystem	g_EventSystem	= {};
 	static ml::Preferences	g_Prefs			= {};
 	static ml::Resources	g_Resources		= {};
-	static ml::Engine		g_Engine		= { g_EventSystem, g_Prefs, g_Resources };
+	static ml::NetClient	g_Client		= { g_EventSystem };
+	static ml::NetServer	g_Server		= { g_EventSystem };
+	static ml::Engine		g_Engine		= { g_EventSystem, g_Prefs, g_Resources, g_Client, g_Server };
 	static ml::Editor		g_Editor		= { g_Engine };
 
 	/* * * * * * * * * * * * * * * * * * * * */

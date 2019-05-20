@@ -7,8 +7,6 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Graphics/Text.hpp>
-#include <ML/Network/NetClient.hpp>
-#include <ML/Network/NetServer.hpp>
 #include <ML/Physics/PhysicsWorld.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -37,22 +35,20 @@ namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum Rigidbody_ID : int32_t
-	{
-		RB_BORG,
-		RB_CUBE,
-		RB_NAVBALL,
-		RB_MOON,
-		RB_EARTH,
-		RB_GROUND,
-
-		MAX_DEMO_RIGIDBODY
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	class Sandbox final : public ml::EditorApplication
 	{
+		enum Rigidbody_ID : int32_t
+		{
+			RB_BORG,
+			RB_CUBE,
+			RB_NAVBALL,
+			RB_MOON,
+			RB_EARTH,
+			RB_GROUND,
+
+			MAX_DEMO_RIGIDBODY
+		};
+
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		Sandbox(ml::EventSystem & eventSystem);
@@ -78,10 +74,20 @@ namespace DEMO
 
 		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 
-		struct MyData final : public ml::INonCopyable
+		class MyData final : public ml::INonCopyable
 		{
+			Sandbox & m_self;
+
+		public:
 			/* * * * * * * * * * * * * * * * * * * * */
 
+			MyData(Sandbox & self) : m_self(self) {}
+
+			inline Sandbox * operator->() { return &m_self; }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			ml::PhysicsWorld	physWorld	= {};
 			ml::SStream			rdstr		= ml::SStream();
 			ml::StreamBuf *		rdbuf		= NULL;
 			ml::String			res_data	= {};
@@ -98,23 +104,8 @@ namespace DEMO
 			bool				cameraOrbit = true;
 			float				cameraSpeed = 1.0f;
 			int32_t				effectMode	= 3;
-			ml::PhysicsWorld	physics		= {};
-			ml::NetClient		client;
-			ml::NetServer		server;
 
 			/* * * * * * * * * * * * * * * * * * * * */
-
-			MyData(Sandbox & self)
-				: m_self(self)
-				, client(self.eventSystem())
-				, server(self.eventSystem())
-			{
-			}
-
-			inline Sandbox * operator->() { return &m_self; }
-
-		private:
-			Sandbox & m_self;
 
 		} sandbox;
 

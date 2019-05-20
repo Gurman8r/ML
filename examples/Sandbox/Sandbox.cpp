@@ -261,22 +261,22 @@ namespace DEMO
 		if (sandbox.isServer)
 		{	// Start Server
 			ml::Debug::log("Starting Server...");
-			if (sandbox.server.setup())
+			if (ev.engine.server().setup())
 			{
-				if (sandbox.server.start({ ML_LOCALHOST, ML_DEFAULT_PORT }, ML_MAX_CLIENTS))
+				if (ev.engine.server().start({ ML_LOCALHOST, ML_DEFAULT_PORT }, ML_MAX_CLIENTS))
 				{
-					ml::Debug::log("Server Started: {0}", sandbox.server.getMyAddress());
+					ml::Debug::log("Server Started: {0}", ev.engine.server().getMyAddress());
 				}
 			}
 		}
 		else if (sandbox.isClient)
 		{	// Start Client
 			ml::Debug::log("Starting Client...");
-			if (sandbox.client.setup())
+			if (ev.engine.client().setup())
 			{
-				if (sandbox.client.connect({ ML_LOCALHOST, ML_DEFAULT_PORT }))
+				if (ev.engine.client().connect({ ML_LOCALHOST, ML_DEFAULT_PORT }))
 				{
-					ml::Debug::log("Client Connected: {0}", sandbox.client.getMyAddress());
+					ml::Debug::log("Client Connected: {0}", ev.engine.client().getMyAddress());
 				}
 			}
 		}
@@ -456,7 +456,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 					RB_BORG, transform, collider, particle
 				));
 
@@ -502,7 +502,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 					RB_CUBE, transform, collider, particle
 				));
 
@@ -548,7 +548,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 					RB_NAVBALL, transform, collider, particle
 				));
 
@@ -594,7 +594,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 					RB_MOON, transform, collider, particle
 				));
 
@@ -647,7 +647,7 @@ namespace DEMO
 					transform->getPos(), // position
 					0.25f // mass
 				);
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 					RB_EARTH, transform, collider, particle
 				));
 
@@ -701,7 +701,7 @@ namespace DEMO
 					1.0f // mass
 				);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physics.createNewRigidbody(
+				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 					RB_GROUND, transform, collider, particle
 				));
 
@@ -731,12 +731,12 @@ namespace DEMO
 
 		// Setup Physics
 		/* * * * * * * * * * * * * * * * * * * * */
-		sandbox.physics.launchFun([&]()
+		sandbox.physWorld.launchFun([&]()
 		{
 			static ml::Engine & engine(ev.engine);
 			while (engine.isRunning())
 			{
-				sandbox.physics.updateFun([](int32_t i, ml::PhysicsState & state)
+				sandbox.physWorld.updateFun([](int32_t i, ml::PhysicsState & state)
 				{
 					using Rep = typename ml::Milliseconds;
 					using Per = typename ml::Ratio<1, 10000>;
@@ -812,13 +812,13 @@ namespace DEMO
 			sandbox.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
-			ev.engine.elapsed().delta(),
+			ev.engine.frameTime().delta(),
 			ev.engine.frameRate()
 		));
 
 		// Update Physics
 		/* * * * * * * * * * * * * * * * * * * * */
-		while (!sandbox.physics.syncFun([&](const ml::PhysicsState & state)
+		while (!sandbox.physWorld.syncFun([&](const ml::PhysicsState & state)
 		{
 			for (auto & pair : ev.engine.resources().entities)
 			{
@@ -845,18 +845,7 @@ namespace DEMO
 			}
 		}));
 
-		// Update Network
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (sandbox.isServer)
-		{
-			sandbox.server.poll();
-		}
-		else if (sandbox.isClient)
-		{
-			sandbox.client.poll();
-		}
-
-		// Update Effects
+		// Update Surfaces
 		/* * * * * * * * * * * * * * * * * * * * */
 		for (auto & pair : ev.engine.resources().surfaces)
 		{
@@ -886,7 +875,7 @@ namespace DEMO
 
 							camera->position
 								+= camera->right()
-								*	ev.engine.elapsed().delta()
+								*	ev.engine.frameTime().delta()
 								*	sandbox.cameraSpeed;
 						}
 					}
@@ -936,7 +925,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("{0} ms/frame ({1} fps)").format(
-					ev.engine.elapsed().delta(),
+					ev.engine.frameTime().delta(),
 					ev.engine.frameRate())
 				);
 
@@ -1184,7 +1173,7 @@ namespace DEMO
 		ml::Debug::log("Unloading...");
 
 		// Cleanup Physics Thread
-		sandbox.physics.dispose();
+		sandbox.physWorld.dispose();
 
 		// Cleanup Resources
 		ev.engine.resources().dispose();

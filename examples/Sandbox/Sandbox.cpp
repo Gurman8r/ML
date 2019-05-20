@@ -184,7 +184,7 @@ namespace DEMO
 
 		// Initialize Window
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ev.engine.app()->create(sandbox.title = 
+		if (sandbox->create(sandbox.title = 
 			ev.engine.prefs().GetString	("Window", "title",			"ML"), { {
 			ev.engine.prefs().GetUint	("Window", "width",			1280),
 			ev.engine.prefs().GetUint	("Window", "height",		720) },
@@ -199,10 +199,10 @@ namespace DEMO
 			ev.engine.prefs().GetBool	("Window", "srgbCapable",	false)
 		}))
 		{
-			ev.engine.app()->maximize();
-			ev.engine.app()->seCursorMode(ml::Cursor::Normal);
-			ev.engine.app()->setPosition((ml::Screen::desktop().resolution - ev.engine.app()->getSize()) / 2);
-			ev.engine.app()->setViewport(ml::vec2i::Zero, ev.engine.app()->getFrameSize());
+			sandbox->maximize();
+			sandbox->seCursorMode(ml::Cursor::Normal);
+			sandbox->setPosition((ml::Screen::desktop().resolution - sandbox->getSize()) / 2);
+			sandbox->setViewport(ml::vec2i::Zero, sandbox->getFrameSize());
 		}
 		else
 		{
@@ -333,7 +333,7 @@ namespace DEMO
 		{
 			const ml::Image temp = ml::Image(*icon).flipVertically();
 
-			ev.engine.app()->setIcons({ temp });
+			sandbox->setIcons({ temp });
 		}
 
 		// Setup Plugins
@@ -368,7 +368,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Sprite * spr = ev.engine.resources().sprites.get("neutrino"))
 		{
-			spr->setPosition(ml::vec2(0.95f, 0.925f) * ev.engine.app()->getSize())
+			spr->setPosition(ml::vec2(0.95f, 0.925f) * sandbox->getSize())
 				.setScale	(0.5f)
 				.setRotation(0.0f)
 				.setOrigin	(0.5f)
@@ -808,7 +808,7 @@ namespace DEMO
 	{
 		// Update Title
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev.engine.app()->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
+		sandbox->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
 			sandbox.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
@@ -860,14 +860,14 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		for (auto & pair : ev.engine.resources().surfaces)
 		{
-			pair.second->resize(ev.engine.app()->getFrameSize());
+			pair.second->resize(sandbox->getFrameSize());
 		}
 
 		// Update Camera
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Camera * camera = sandbox.camera->get<ml::Camera>())
 		{
-			camera->updateRes(ev.engine.app()->getFrameSize());
+			camera->updateRes(sandbox->getFrameSize());
 
 			// Camera Transform
 			if (ml::Transform * transform = sandbox.camera->get<ml::Transform>())
@@ -900,7 +900,7 @@ namespace DEMO
 			sandbox.text["project_url"]
 				.setFont(ev.engine.resources().fonts.get("minecraft"))
 				.setFontSize(56)
-				.setPosition({ 48, (float)ev.engine.app()->getFrameHeight() - 48 })
+				.setPosition({ 48, (float)sandbox->getFrameHeight() - 48 })
 				.setString(ML_PROJECT_URL);
 
 			const ml::Font *font	 = ev.engine.resources().fonts.get("consolas");
@@ -973,7 +973,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cx/cy: {0}").format(
-					ev.engine.app()->getCursorPos())
+					sandbox->getCursorPos())
 				);
 
 			sandbox.text["window_pos"]
@@ -981,7 +981,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("wx/wy: {0}").format(
-					ev.engine.app()->getPosition())
+					sandbox->getPosition())
 				);
 
 			sandbox.text["window_size"]
@@ -989,7 +989,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("ww/wh: {0}").format(
-					ev.engine.app()->getSize())
+					sandbox->getSize())
 				);
 
 			// Ensure text update before main draw call
@@ -1010,12 +1010,12 @@ namespace DEMO
 			scene->bind();
 
 			// Clear Screen
-			ev.engine.app()->clear(sandbox.camera->get<ml::Camera>()->color);
+			sandbox->clear(sandbox.camera->get<ml::Camera>()->color);
 
 			// Draw Renderers
 			for (const auto & pair : ev.engine.resources().entities)
 			{
-				ev.engine.app()->draw(pair.second->get<ml::Renderer>());
+				sandbox->draw(pair.second->get<ml::Renderer>());
 			}
 
 			// Draw 2D
@@ -1055,7 +1055,7 @@ namespace DEMO
 
 					for (const auto & pair : ev.engine.resources().sprites)
 					{
-						ev.engine.app()->draw(pair.second, batch);
+						sandbox->draw(pair.second, batch);
 					}
 				}
 
@@ -1079,7 +1079,7 @@ namespace DEMO
 
 					for (const auto & pair : sandbox.text)
 					{
-						ev.engine.app()->draw(pair.second, batch);
+						sandbox->draw(pair.second, batch);
 					}
 				}
 
@@ -1118,7 +1118,7 @@ namespace DEMO
 			{
 				scene->shader()->setUniform("Surface.mode", sandbox.effectMode);
 
-				ev.engine.app()->draw(*scene);
+				sandbox->draw(*scene);
 			}
 			post->unbind();
 		}

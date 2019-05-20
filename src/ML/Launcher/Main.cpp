@@ -24,15 +24,15 @@ int32_t main()
 	// Setup Launcher
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static ml::Preferences	g_LauncherPrefs	= {};
 	static ml::EventSystem	g_EventSystem	= {};
+	static ml::Preferences	g_Prefs			= {};
 	static ml::Resources	g_Resources		= {};
-	static ml::Engine		g_Engine		= { g_EventSystem, g_LauncherPrefs, g_Resources };
+	static ml::Engine		g_Engine		= { g_EventSystem, g_Prefs, g_Resources };
 	static ml::Editor		g_Editor		= { g_Engine };
 
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	if (!g_LauncherPrefs.loadFromFile(ML_CONFIG_INI))
+	if (!g_Prefs.loadFromFile(ML_CONFIG_INI))
 	{
 		return ml::Debug::logError("Failed Loading Preferences: \'{0}\'", ML_CONFIG_INI)
 			|| ml::Debug::pause(EXIT_FAILURE);
@@ -104,25 +104,19 @@ int32_t main()
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(
-		g_LauncherPrefs.GetString("Launcher", "user_dll", "") + ML_DLL_STR("")
+		g_Prefs.GetString("Launcher", "user_dll", "") + ML_DLL_STR("")
 	)))
 	{
-		if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), &g_EventSystem))
+		if (auto app = g_Engine.launchApp(
+			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), &g_EventSystem)
+		))
 		{
-			if (g_Engine.launchApp(app))
-			{
-				g_States(State::Enter);
-				return g_Engine.freeApp(app);
-			}
-			else
-			{
-				return ml::Debug::logError("Failed Launching Application")
-					|| ml::Debug::pause(EXIT_FAILURE);
-			}
+			g_States(State::Enter);
+			return g_Engine.freeApp(app);
 		}
 		else
 		{
-			return ml::Debug::logError("Failed Calling Plugin Main")
+			return ml::Debug::logError("Failed Launching Application")
 				|| ml::Debug::pause(EXIT_FAILURE);
 		}
 	}

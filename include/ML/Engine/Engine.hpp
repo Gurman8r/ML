@@ -53,12 +53,10 @@ namespace ml
 		Resources		& resources()	const;
 
 	public:
-		inline const	Application *	app()			const	{ return m_app;	}
-		inline			Application *	app()					{ return m_app;	}
-		inline const	Timer		&	mainTimer()		const	{ return m_mainTimer;	}
-		inline const	Timer		&	loopTimer()		const	{ return m_loopTimer;	}
-		inline const	Duration	&	elapsed()		const	{ return m_elapsed;		}
-		inline const	uint32_t		frameRate()		const	{ return m_frameRate;	}
+		inline const Timer		&	mainTimer()	const	{ return m_mainTimer;	}
+		inline const Timer		&	loopTimer()	const	{ return m_loopTimer;	}
+		inline const Duration	&	elapsed()	const	{ return m_elapsed;		}
+		inline const uint32_t		frameRate()	const	{ return m_frameRate;	}
 
 	private:
 		EventSystem &	m_eventSystem;

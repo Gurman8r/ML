@@ -105,10 +105,16 @@ namespace DEMO
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			MyData(Sandbox & self)
-				: client(self.eventSystem())
+				: m_self(self)
+				, client(self.eventSystem())
 				, server(self.eventSystem())
 			{
 			}
+
+			inline Sandbox * operator->() { return &m_self; }
+
+		private:
+			Sandbox & m_self;
 
 		} sandbox;
 

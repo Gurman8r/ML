@@ -40,14 +40,9 @@ namespace ml
 
 	struct ML_ENGINE_API EnterEvent final : public EngineEvent
 	{
-		int32_t argc;
-		char ** argv;
 		Engine & engine;
-
-		EnterEvent(int32_t argc, char ** argv, Engine & engine)
+		EnterEvent(Engine & engine)
 			: EngineEvent(EV_Enter)
-			, argc	(argc)
-			, argv	(argv)
 			, engine(engine)
 		{
 		}
@@ -58,7 +53,6 @@ namespace ml
 	struct ML_ENGINE_API LoadEvent final : public EngineEvent
 	{
 		Engine & engine;
-
 		LoadEvent(Engine & engine)
 			: EngineEvent(EV_Load)
 			, engine(engine)
@@ -71,7 +65,6 @@ namespace ml
 	struct ML_ENGINE_API StartEvent final : public EngineEvent
 	{
 		Engine & engine;
-
 		StartEvent(Engine & engine)
 			: EngineEvent(EV_Start)
 			, engine(engine)
@@ -84,7 +77,6 @@ namespace ml
 	struct ML_ENGINE_API UpdateEvent final : public EngineEvent
 	{
 		Engine & engine;
-
 		UpdateEvent(Engine & engine)
 			: EngineEvent(EV_Update)
 			, engine(engine)
@@ -97,7 +89,6 @@ namespace ml
 	struct ML_ENGINE_API DrawEvent final : public EngineEvent
 	{
 		Engine & engine;
-
 		DrawEvent(Engine & engine)
 			: EngineEvent(EV_Draw)
 			, engine(engine)
@@ -110,7 +101,6 @@ namespace ml
 	struct ML_ENGINE_API UnloadEvent final : public EngineEvent
 	{
 		Engine & engine;
-
 		UnloadEvent(Engine & engine)
 			: EngineEvent(EV_Unload)
 			, engine(engine)

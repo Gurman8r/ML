@@ -14,7 +14,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(Engine & engine)
 		: m_engine	(engine)
@@ -52,30 +52,32 @@ namespace ml
 
 	Editor::~Editor() {}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Editor::onEvent(const IEvent * value)
 	{
 		switch (*value)
 		{
-			// Gui Events
 			/* * * * * * * * * * * * * * * * * * * * */
+
 		case EditorEvent::EV_BeginGui:
-			ImGui_ML_NewFrame();
-			ImGui::NewFrame();
+			this->onBeginGui(*value->as<BeginGuiEvent>());
 			break;
+
+			/* * * * * * * * * * * * * * * * * * * * */
 
 		case EditorEvent::EV_DrawGui:
-			this->onGui(*value->as<DrawGuiEvent>()); 
+			this->onDrawGui(*value->as<DrawGuiEvent>()); 
 			break;
+
+			/* * * * * * * * * * * * * * * * * * * * */
 
 		case EditorEvent::EV_EndGui: 
-			ImGui::Render();
-			ImGui_ML_Render(ImGui::GetDrawData());
+			this->onEndGui(*value->as<EndGuiEvent>());
 			break;
 
-			// Load Event
 			/* * * * * * * * * * * * * * * * * * * * */
+
 		case EngineEvent::EV_Load:
 			if (auto ev = value->as<LoadEvent>())
 			{
@@ -84,21 +86,22 @@ namespace ml
 					// Create ImGui Context
 					ImGui::CreateContext();
 
-					// Load ImGui Style
-					ml::StyleLoader loader;
-					if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
-					{
-						ImGui::StyleHelper::Style4();
-					}
-
 					// Load ImGui Custom Fonts
 					{
-						ml::String imguiFont = ev->engine.prefs().GetString(
+						StyleLoader loader;
+						if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
+						{
+							ImGui::StyleHelper::Style4();
+						}
+
+						String imguiFont = ev->engine.prefs().GetString(
 							"Editor", "imguiFont", ""
 						);
+
 						const float imguiSize = ev->engine.prefs().GetFloat(
 							"Editor", "imguiSize", 12.0f
 						);
+
 						if (imguiFont && imguiSize > 0.0f)
 						{
 							ImGui::GetIO().Fonts->AddFontFromFileTTF(imguiFont.c_str(), imguiSize);
@@ -106,20 +109,20 @@ namespace ml
 					}
 
 					// Set ImGui INI
-					ml::String imguiINI = ev->engine.prefs().GetString("Editor", "imguiINI", "");
-					imguiINI = imguiINI ? ML_FS.getPathTo(imguiINI) : ml::String();
+					String imguiINI = ev->engine.prefs().GetString("Editor", "imguiINI", "");
+					imguiINI = imguiINI ? ML_FS.getPathTo(imguiINI) : String();
 
 					// Initialize ImGui
 					if (!ImGui_ML_Init("#version 410", &ev->engine.window(), true, imguiINI.c_str()))
 					{
-						return ml::Debug::fatal("Failed Initializing ImGui");
+						return Debug::fatal("Failed Initializing ImGui");
 					}
 				}
 			}
 			break;
 
-			// Unload Event
 			/* * * * * * * * * * * * * * * * * * * * */
+
 		case EngineEvent::EV_Unload:
 			if (auto ev = value->as<UnloadEvent>())
 			{
@@ -128,8 +131,8 @@ namespace ml
 			}
 			break;
 
-			// File->Close Event
 			/* * * * * * * * * * * * * * * * * * * * */
+
 		case EditorEvent::EV_File_Close:
 			if (auto ev = value->as<File_Close_Event>())
 			{
@@ -137,40 +140,50 @@ namespace ml
 			}
 			break;
 
-			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
+
 		case WindowEvent::EV_Key:
-			if (auto ev = value->as<ml::KeyEvent>())
+			if (auto ev = value->as<KeyEvent>())
 			{
 				// Show Terminal (Ctrl+Alt+T)
-				if (ev->getKeyDown(ml::KeyCode::T) && (ev->mod_ctrl && ev->mod_alt))
+				if (ev->getKeyDown(KeyCode::T) && (ev->mod_ctrl && ev->mod_alt))
 					terminal.isOpen() = true;
 				
 				// Show Browser (Ctrl+Alt+E)
-				if (ev->getKeyDown(ml::KeyCode::E) && (ev->mod_ctrl))
+				if (ev->getKeyDown(KeyCode::E) && (ev->mod_ctrl))
 					browser.isOpen() = true;
 				
 				// Show Builder (Ctrl+Alt+B)
-				if (ev->getKeyDown(ml::KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
+				if (ev->getKeyDown(KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
 					builder.isOpen() = true;
 				
 				// Show Scene (Ctrl+Alt+S)
-				if (ev->getKeyDown(ml::KeyCode::S) && (ev->mod_ctrl && ev->mod_alt))
+				if (ev->getKeyDown(KeyCode::S) && (ev->mod_ctrl && ev->mod_alt))
 					sceneView.isOpen() = true;
 
 				// Show Inspector (Ctrl+Alt+I)
-				if (ev->getKeyDown(ml::KeyCode::I) && (ev->mod_ctrl && ev->mod_alt))
+				if (ev->getKeyDown(KeyCode::I) && (ev->mod_ctrl && ev->mod_alt))
 					inspector.isOpen() = true;
 
 				// Show ImGui Demo (Ctrl+H)
-				if (ev->getKeyDown(ml::KeyCode::H) && (ev->mod_ctrl))
+				if (ev->getKeyDown(KeyCode::H) && (ev->mod_ctrl))
 					show_imgui_demo = true;
 			}
 			break;
+
+			/* * * * * * * * * * * * * * * * * * * * */
 		}
 	}
 
-	void Editor::onGui(const DrawGuiEvent & ev)
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void Editor::onBeginGui(const BeginGuiEvent & ev)
+	{
+		ImGui_ML_NewFrame();
+		ImGui::NewFrame();
+	}
+
+	void Editor::onDrawGui(const DrawGuiEvent & ev)
 	{
 		/*	Main Menu	*/ ev.editor.mainMenu.onGui(ev);
 		/*	Dockspace	*/ ev.editor.dockspace.onGui(ev);
@@ -190,7 +203,14 @@ namespace ml
 		if (show_imgui_about)	{ ImGui_Builtin::showAbout(&show_imgui_about); }
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	void Editor::onEndGui(const EndGuiEvent & ev)
+	{
+		ImGui::Render();
+
+		ImGui_ML_Render(ImGui::GetDrawData());
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Engine			& Editor::engine()		const { return m_engine; }
 	EventSystem		& Editor::eventSystem() const { return engine().eventSystem(); }
@@ -198,5 +218,5 @@ namespace ml
 	Resources		& Editor::resources()	const { return engine().resources(); }
 	RenderWindow	& Editor::window()		const { return engine().window(); }
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

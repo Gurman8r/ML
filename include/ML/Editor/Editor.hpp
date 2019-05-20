@@ -26,12 +26,19 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		explicit Editor(Engine & engine);
 		~Editor();
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		void onEvent(const IEvent * value) override;
-		void onGui(const DrawGuiEvent & ev);
+
+	private:
+		/* * * * * * * * * * * * * * * * * * * * */
+		void onBeginGui(const BeginGuiEvent & ev);
+		void onDrawGui(const DrawGuiEvent & ev);
+		void onEndGui(const EndGuiEvent & ev);
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

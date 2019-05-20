@@ -14,8 +14,6 @@
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
 
-#include <ML/Editor/ImGui.hpp>
-
 /* * * * * * * * * * * * * * * * * * * * */
 
 # ifndef ML_CONFIG_INI
@@ -40,7 +38,7 @@ int32_t main()
 	static ml::Editor		g_Editor		{ g_Engine };
 
 
-	// Setup Flow Control
+	// Setup Flow Controller
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum State { Enter, Load, Start, Loop, Unload };
@@ -51,7 +49,7 @@ int32_t main()
 	{
 	{ State::Enter, []()
 	{	/* Enter */
-		g_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv, g_Engine));
+		g_EventSystem.fireEvent(ml::EnterEvent(g_Engine));
 		return g_Control(State::Load);
 	} },
 	{ State::Load, []()
@@ -100,7 +98,7 @@ int32_t main()
 		if (auto app = g_Engine.launchApp(
 			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem)
 		))
-		{	// Execute Control
+		{	// Run State Machine
 			g_Control(State::Enter);
 
 			// Free Application

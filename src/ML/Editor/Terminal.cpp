@@ -40,11 +40,6 @@ namespace ml
 
 		this->printf("# Using this feature may result in crashes or system instability.");
 		this->printf("# Type \'help\' for a list of commands.");
-
-		//ML_Interpreter.install({ "", [](Args &) 
-		//{
-		//	return Var(); 
-		//} });
 	}
 	
 	Terminal::~Terminal() {}

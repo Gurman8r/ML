@@ -1022,27 +1022,30 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (const ml::Surface * post = ev.engine.resources().surfaces.get("surface_post"))
 		{
-			post->bind();
 			if (const ml::Surface * scene = ev.engine.resources().surfaces.get("surface_main"))
 			{
+				post->bind();
+
 				scene->shader()->setUniform("Surface.mode", sandbox.effectMode);
 
 				ev.engine.window().draw(*scene);
+				
+				post->unbind();
 			}
-			post->unbind();
 		}
 	}
 
 	void Sandbox::onGui(const ml::DrawGuiEvent & ev)
 	{
-		// Update Terminal Output
+		/* Terminal Output */
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (sandbox.rdbuf)
 		{
 			ev.editor.terminal.printss(sandbox.rdstr);
 		}
 
-		/*	Scene View	*/ 
+		/* Scene View */ 
+		/* * * * * * * * * * * * * * * * * * * * */
 		ev.editor.sceneView.drawFun(ev, [&]()
 		{
 			if (ml::Surface * post = ev.editor.resources().surfaces.get("surface_post"))
@@ -1051,7 +1054,8 @@ namespace DEMO
 			}
 		});
 
-		/*	Inspector	*/ 
+		/* Inspector */ 
+		/* * * * * * * * * * * * * * * * * * * * */
 		ev.editor.inspector.drawFun(ev, [&]()
 		{
 			static ml::CString surf_modes[] = {

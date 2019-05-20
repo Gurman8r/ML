@@ -64,7 +64,7 @@ namespace ml
 		template <
 			class Fun, 
 			class ... Args
-		> inline bool launchFun(Fun && fun, Args && ... args)
+		> inline bool launchFun(Fun && fun, Args & ... args)
 		{
 			return m_thread.launch(fun, (args)...);
 		}

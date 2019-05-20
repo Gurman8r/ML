@@ -9,7 +9,7 @@ namespace ml
 	EditorApplication::EditorApplication(EventSystem & eventSystem)
 		: Application(eventSystem)
 	{
-		eventSystem.addListener(EditorEvent::EV_DrawGui, this);
+		eventSystem.addListener(EditorEvent::EV_Gui, this);
 	}
 
 	EditorApplication::~EditorApplication() { }
@@ -23,8 +23,8 @@ namespace ml
 
 		switch (*value)
 		{
-		case EditorEvent::EV_DrawGui:
-			this->onDrawGui(*value->as<DrawGuiEvent>());
+		case EditorEvent::EV_Gui:
+			this->onGui(*value->as<GuiEvent>());
 			break;
 		}
 	}

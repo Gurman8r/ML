@@ -8,8 +8,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Inspector::Inspector(Editor & editor, bool open)
-		: BaseWidget("Inspector", editor, open)
+	Inspector::Inspector(bool open)
+		: BaseWidget("Inspector", open)
 	{
 	}
 
@@ -19,7 +19,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Inspector::drawGui(const DrawGuiEvent & ev)
+	bool Inspector::drawGui(const GuiEvent & ev)
 	{
 		return beginDraw(ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize);
 	}

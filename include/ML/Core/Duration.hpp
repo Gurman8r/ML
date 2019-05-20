@@ -71,9 +71,7 @@ namespace ml
 			class Per = typename Rep::period
 		> constexpr float delta() const
 		{
-			static_assert(0 < Per::den,
-				"period negative or zero"
-			);
+			static_assert(0 < Per::den, "period negative or zero");
 			return
 				static_cast<float>(std::chrono::duration_cast<Rep>(base()).count()) /
 				static_cast<float>(Per::den);

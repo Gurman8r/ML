@@ -20,12 +20,12 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Terminal(Editor & editor, bool open);
+		Terminal(bool open, EventSystem & eventSystem);
 		~Terminal();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const DrawGuiEvent & ev) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -42,6 +42,7 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
+		EventSystem &	m_eventSystem;
 		InputBuffer		m_inputBuf;
 		List<String>	m_lines;
 		bool			m_scrollBottom;

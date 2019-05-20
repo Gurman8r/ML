@@ -84,6 +84,9 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\ECS.cpp">
@@ -114,6 +117,9 @@
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>

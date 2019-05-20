@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Dockspace::Dockspace(Editor & editor, bool open)
-		: BaseWidget("Dockspace", editor, open)
+	Dockspace::Dockspace(bool open)
+		: BaseWidget("Dockspace", open)
 		, m_border	(0.0f)
 		, m_padding	(vec2::Zero)
 		, m_rounding(0.0f)
@@ -21,7 +21,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Dockspace::drawGui(const DrawGuiEvent & ev)
+	bool Dockspace::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(
 			ImGuiWindowFlags_NoTitleBar |
@@ -52,12 +52,10 @@ namespace ml
 				uint32_t right_D	= splitNode(right, ImGuiDir_Down, 0.35f, &right);
 
 				dockWindow(ev.editor.profiler.getTitle(),	left_U);
-				dockWindow(ev.editor.network.getTitle(),	left_U);
 				dockWindow(ev.editor.browser.getTitle(),	left_U);
 				dockWindow(ev.editor.project.getTitle(),	left_U);
 				dockWindow(ev.editor.terminal.getTitle(),	left_D);
 				dockWindow(ev.editor.sceneView.getTitle(),	center_U);
-				dockWindow(ev.editor.textEdit.getTitle(),	center_D);
 				dockWindow(ev.editor.builder.getTitle(),	center_D);
 				dockWindow(ev.editor.inspector.getTitle(),	center_DR);
 

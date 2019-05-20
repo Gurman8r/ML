@@ -35,12 +35,12 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Browser(Editor & editor, bool open);
+		Browser(bool open);
 		~Browser();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const DrawGuiEvent & ev) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

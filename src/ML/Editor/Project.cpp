@@ -100,7 +100,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline static int32_t EditUniform(Resources & res, const String & label, uni_base * value, bool show_constants)
+		inline static int32_t EditUniform(Resources & resources, const String & label, uni_base * value, bool show_constants)
 		{
 			int32_t flag = 0;
 
@@ -333,8 +333,8 @@ namespace ml
 				{
 					Layout::Field(value->name.c_str(), [&](CString)
 					{
-						int32_t index = res.textures.getIndexOf(u->data);
-						List<String> keys = res.textures.keys();
+						int32_t index = resources.textures.getIndexOf(u->data);
+						List<String> keys = resources.textures.keys();
 						if (ImGui::Combo(
 							String(label + "##Tex##Uni##" + value->name).c_str(),
 							&index,
@@ -342,7 +342,7 @@ namespace ml
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{
-							u->data = res.textures.getByIndex(index);
+							u->data = resources.textures.getByIndex(index);
 						}
 						toolbar_editable();
 					});
@@ -440,8 +440,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Project::Project(Editor & editor, bool open)
-		: BaseWidget("Project", editor, open)
+	Project::Project(bool open)
+		: BaseWidget("Project", open)
 	{
 	}
 
@@ -451,14 +451,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Project::drawGui(const DrawGuiEvent & ev)
+	bool Project::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			Resources & res = editor().engine().resources();
-
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			if (ImGui::BeginMenuBar())
@@ -489,21 +485,21 @@ namespace ml
 
 			Layout::Columns([&]()
 			{
-				draw_entity_registry	(res, res.entities	);
-				draw_font_registry		(res, res.fonts		);
-				draw_image_registry		(res, res.images	);
-				draw_lua_registry		(res, res.lua		);
-				draw_mesh_registry		(res, res.meshes	);
-				draw_material_registry	(res, res.materials	);
-				draw_model_registry		(res, res.models	);
-				draw_plugin_registry	(res, res.plugins	);
-				draw_script_registry	(res, res.scripts	);
-				draw_shader_registry	(res, res.shaders	);
-				draw_skybox_registry	(res, res.skyboxes	);
-				draw_sound_registry		(res, res.sounds	);
-				draw_sprite_registry	(res, res.sprites	);
-				draw_surface_registry	(res, res.surfaces	);
-				draw_texture_registry	(res, res.textures	);
+				draw_entity_registry	(ev.resources, ev.resources.entities	);
+				draw_font_registry		(ev.resources, ev.resources.fonts		);
+				draw_image_registry		(ev.resources, ev.resources.images		);
+				draw_lua_registry		(ev.resources, ev.resources.lua			);
+				draw_mesh_registry		(ev.resources, ev.resources.meshes		);
+				draw_material_registry	(ev.resources, ev.resources.materials	);
+				draw_model_registry		(ev.resources, ev.resources.models		);
+				draw_plugin_registry	(ev.resources, ev.resources.plugins		);
+				draw_script_registry	(ev.resources, ev.resources.scripts		);
+				draw_shader_registry	(ev.resources, ev.resources.shaders		);
+				draw_skybox_registry	(ev.resources, ev.resources.skyboxes	);
+				draw_sound_registry		(ev.resources, ev.resources.sounds		);
+				draw_sprite_registry	(ev.resources, ev.resources.sprites		);
+				draw_surface_registry	(ev.resources, ev.resources.surfaces	);
+				draw_texture_registry	(ev.resources, ev.resources.textures	);
 			});
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -513,7 +509,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Project::draw_entity_registry(Resources & res, Registry<Entity> & entities)
+	void Project::draw_entity_registry(Resources & resources, Registry<Entity> & entities)
 	{
 		if (entities.empty()) return;
 
@@ -685,8 +681,8 @@ namespace ml
 								// Model
 								Layout::Field("Model", [&](CString)
 								{
-									List<String> keys = res.models.keys();
-									int32_t index = res.models.getIndexOf((Model *)(renderer->drawable()));
+									List<String> keys = resources.models.keys();
+									int32_t index = resources.models.getIndexOf((Model *)(renderer->drawable()));
 									if (ImGui::Combo(
 										"##Model##Renderer",
 										&index,
@@ -694,7 +690,7 @@ namespace ml
 										static_cast<void *>(&keys),
 										(int32_t)(keys.size())))
 									{
-										if (const Model * value = res.models.getByIndex(index))
+										if (const Model * value = resources.models.getByIndex(index))
 										{
 											renderer->drawable() = value;
 										}
@@ -837,7 +833,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_font_registry(Resources & res, Registry<Font> & fonts)
+	void Project::draw_font_registry(Resources & resources, Registry<Font> & fonts)
 	{
 		if (fonts.empty()) return;
 
@@ -880,7 +876,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_image_registry(Resources & res, Registry<Image> & images)
+	void Project::draw_image_registry(Resources & resources, Registry<Image> & images)
 	{
 		if (images.empty()) return;
 
@@ -923,7 +919,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_lua_registry(Resources & res, Registry<LuaScript> & lua)
+	void Project::draw_lua_registry(Resources & resources, Registry<LuaScript> & lua)
 	{
 		if (lua.empty()) return;
 
@@ -962,7 +958,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_material_registry(Resources & res, Registry<Material> & materials)
+	void Project::draw_material_registry(Resources & resources, Registry<Material> & materials)
 	{
 		if (materials.empty()) return;
 
@@ -981,8 +977,8 @@ namespace ml
 					// Shader
 					Layout::Field("Shader", [&](CString)
 					{
-						List<String> keys = res.shaders.keys();
-						int32_t index = res.shaders.getIndexOf(mat->shader());
+						List<String> keys = resources.shaders.keys();
+						int32_t index = resources.shaders.getIndexOf(mat->shader());
 						if (ImGui::Combo(
 							"##Shader##Renderer",
 							&index,
@@ -990,7 +986,7 @@ namespace ml
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{
-							if (const Shader * value = res.shaders.getByIndex(index))
+							if (const Shader * value = resources.shaders.getByIndex(index))
 							{
 								mat->shader() = value;
 							}
@@ -1017,7 +1013,7 @@ namespace ml
 						{
 							const String label("##" + String(name) + "##Uniform##" + it->first);
 
-							const int32_t flag = Layout::EditUniform(res, label, it->second, show_constants);
+							const int32_t flag = Layout::EditUniform(resources, label, it->second, show_constants);
 
 							if (flag == 1)
 							{
@@ -1039,7 +1035,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_mesh_registry(Resources & res, Registry<Mesh> & meshes)
+	void Project::draw_mesh_registry(Resources & resources, Registry<Mesh> & meshes)
 	{
 		if (meshes.empty()) return;
 
@@ -1078,7 +1074,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_model_registry(Resources & res, Registry<Model> & models)
+	void Project::draw_model_registry(Resources & resources, Registry<Model> & models)
 	{
 		if (models.empty()) return;
 
@@ -1117,7 +1113,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_plugin_registry(Resources & res, Registry<Plugin> & plugins)
+	void Project::draw_plugin_registry(Resources & resources, Registry<Plugin> & plugins)
 	{
 		if (plugins.empty()) return;
 
@@ -1156,7 +1152,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_script_registry(Resources & res, Registry<Script> & scripts)
+	void Project::draw_script_registry(Resources & resources, Registry<Script> & scripts)
 	{
 		if (scripts.empty()) return;
 
@@ -1210,7 +1206,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_shader_registry(Resources & res, Registry<Shader> & shaders)
+	void Project::draw_shader_registry(Resources & resources, Registry<Shader> & shaders)
 	{
 		if (shaders.empty()) return;
 
@@ -1249,7 +1245,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_skybox_registry(Resources & res, Registry<Skybox> & skyboxes)
+	void Project::draw_skybox_registry(Resources & resources, Registry<Skybox> & skyboxes)
 	{
 		if (skyboxes.empty()) return;
 
@@ -1288,7 +1284,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_sound_registry(Resources & res, Registry<Sound> & sounds)
+	void Project::draw_sound_registry(Resources & resources, Registry<Sound> & sounds)
 	{
 		if (sounds.empty()) return;
 
@@ -1327,7 +1323,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_sprite_registry(Resources & res, Registry<Sprite> & sprites)
+	void Project::draw_sprite_registry(Resources & resources, Registry<Sprite> & sprites)
 	{
 		if (sprites.empty()) return;
 
@@ -1383,8 +1379,8 @@ namespace ml
 					});
 					Layout::Field("Texture", [&](CString label)
 					{
-						int32_t index = res.textures.getIndexOf(spr->texture());
-						List<String> keys = res.textures.keys();
+						int32_t index = resources.textures.getIndexOf(spr->texture());
+						List<String> keys = resources.textures.keys();
 						if (ImGui::Combo(
 							"##Tex2D##Value",
 							&index,
@@ -1392,7 +1388,7 @@ namespace ml
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{
-							if (const Texture * value = res.textures.getByIndex(index))
+							if (const Texture * value = resources.textures.getByIndex(index))
 							{
 								spr->setTexture(value);
 							}
@@ -1423,7 +1419,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_surface_registry(Resources & res, Registry<Surface> & surfaces)
+	void Project::draw_surface_registry(Resources & resources, Registry<Surface> & surfaces)
 	{
 		if (surfaces.empty()) return;
 
@@ -1462,7 +1458,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_texture_registry(Resources & res, Registry<Texture> & textures)
+	void Project::draw_texture_registry(Resources & resources, Registry<Texture> & textures)
 	{
 		if (textures.empty()) return;
 

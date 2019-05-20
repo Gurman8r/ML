@@ -7,11 +7,14 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	class Dockspace;
 	class Editor;
+	class GameTime;
+	class Resources;
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API EditorEvent : public IEvent
 	{
@@ -20,7 +23,7 @@ namespace ml
 			MIN_EDITOR_EVENT = IEvent::EV_EDITOR + 1,
 
 			EV_BeginGui,
-			EV_DrawGui,
+			EV_Gui,
 			EV_EndGui,
 
 			EV_File_New,
@@ -43,25 +46,22 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API BeginGuiEvent final : public EditorEvent
 	{
-		Editor & editor;
-
-		BeginGuiEvent(Editor & editor)
-			: EditorEvent(EV_BeginGui)
-			, editor(editor)
-		{
-		}
+		BeginGuiEvent() : EditorEvent(EV_BeginGui) {}
 	};
 
-	struct ML_EDITOR_API DrawGuiEvent final : public EditorEvent
+	struct ML_EDITOR_API GuiEvent final : public EditorEvent
 	{
+		const GameTime & time;
+		Resources & resources;
 		Editor & editor;
-
-		DrawGuiEvent(Editor & editor)
-			: EditorEvent(EV_DrawGui)
+		GuiEvent(const GameTime & time, Resources & resources, Editor & editor)
+			: EditorEvent(EV_Gui)
+			, time(time)
+			, resources(resources)
 			, editor(editor)
 		{
 		}
@@ -69,108 +69,57 @@ namespace ml
 
 	struct ML_EDITOR_API EndGuiEvent final : public EditorEvent
 	{
-		Editor & editor;
-
-		EndGuiEvent(Editor & editor)
-			: EditorEvent(EV_EndGui)
-			, editor(editor)
-		{
-		}
+		EndGuiEvent() : EditorEvent(EV_EndGui) {}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API File_New_Event final : public EditorEvent
 	{
-		File_New_Event()
-			: EditorEvent(EV_File_New)
-		{
-		}
+		File_New_Event() : EditorEvent(EV_File_New) {}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API File_Open_Event final : public EditorEvent
 	{
-		File_Open_Event()
-			: EditorEvent(EV_File_Open)
-		{
-		}
+		File_Open_Event() : EditorEvent(EV_File_Open) {}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API File_Save_Event final : public EditorEvent
 	{
-		const bool all;
-		File_Save_Event(const bool all)
-			: EditorEvent(EV_File_Save)
-			, all(all)
-		{
-		}
+		File_Save_Event() : EditorEvent(EV_File_Save) {}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API File_Close_Event final : public EditorEvent
 	{
-		File_Close_Event()
-			: EditorEvent(EV_File_Close)
-		{
-		}
+		File_Close_Event() : EditorEvent(EV_File_Close) {}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API Edit_Undo_Event final : public EditorEvent
 	{
-		Edit_Undo_Event()
-			: EditorEvent(EV_Edit_Undo)
-		{
-		}
+		Edit_Undo_Event() : EditorEvent(EV_Edit_Undo) {}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API Edit_Redo_Event final : public EditorEvent
 	{
-		Edit_Redo_Event()
-			: EditorEvent(EV_Edit_Redo)
-		{
-		}
+		Edit_Redo_Event() : EditorEvent(EV_Edit_Redo) {}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API Edit_Cut_Event final : public EditorEvent
 	{
-		Edit_Cut_Event()
-			: EditorEvent(EV_Edit_Cut)
-		{
-		}
+		Edit_Cut_Event() : EditorEvent(EV_Edit_Cut) {}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API Edit_Copy_Event final : public EditorEvent
 	{
-		Edit_Copy_Event()
-			: EditorEvent(EV_Edit_Copy)
-		{
-		}
+		Edit_Copy_Event() : EditorEvent(EV_Edit_Copy) {}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API Edit_Paste_Event final : public EditorEvent
 	{
-		Edit_Paste_Event()
-			: EditorEvent(EV_Edit_Paste)
-		{
-		}
+		Edit_Paste_Event() : EditorEvent(EV_Edit_Paste) {}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_EDITOR_EVENTS_HPP_

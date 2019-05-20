@@ -1,14 +1,14 @@
 #include <ML/Editor/Profiler.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Engine/Engine.hpp>
+#include <ML/Engine/GameTime.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Profiler::Profiler(Editor & editor, bool open)
-		: BaseWidget("Profiler", editor, open)
+	Profiler::Profiler(bool open)
+		: BaseWidget("Profiler", open)
 	{
 	}
 
@@ -18,7 +18,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Profiler::drawGui(const DrawGuiEvent & ev)
+	bool Profiler::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
@@ -32,7 +32,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			graph.update("##Framerate", (float)ev.editor.engine().frameRate(), "fps {0}");
+			graph.update("##Framerate", (float)ev.time.frameRate(), "fps {0}");
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}

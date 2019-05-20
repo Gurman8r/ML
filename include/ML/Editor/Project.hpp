@@ -15,12 +15,12 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Project(Editor & editor, bool open);
+		Project(bool open);
 		~Project();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const DrawGuiEvent & ev) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

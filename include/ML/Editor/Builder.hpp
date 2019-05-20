@@ -46,12 +46,12 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Builder(Editor & editor, bool open);
+		Builder(bool open);
 		~Builder();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const DrawGuiEvent & ev) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

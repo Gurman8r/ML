@@ -17,7 +17,7 @@ namespace ml
 
 	void Random::seed()
 	{
-		return seed((uint32_t)time(NULL));
+		return seed((uint32_t)std::time(NULL));
 	}
 
 	void Random::seed(const uint32_t value)

@@ -15,12 +15,12 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		SceneView(Editor & editor, bool open);
+		SceneView(bool open);
 		~SceneView();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const DrawGuiEvent & ev) override;
+		bool drawGui(const GuiEvent & ev) override;
 		bool beginDraw(int32_t flags = 0) override;
 		bool endDraw() override;
 
@@ -28,13 +28,17 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class Fun
-		> inline bool drawFun(const DrawGuiEvent & ev, Fun && fun)
+		> inline bool drawFun(const GuiEvent & ev, Fun && fun)
 		{
-			if (onGui(ev))
+			if (m_open)
 			{
-				fun();
+				if (drawGui(ev))
+				{
+					fun();
+				}
 				return endDraw();
 			}
+			return false;
 		}
 
 		bool updateTexture(Texture * texture);

@@ -14,12 +14,12 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Dockspace(Editor & editor, bool open);
+		Dockspace(bool open);
 		~Dockspace();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const DrawGuiEvent & ev) override;
+		bool drawGui(const GuiEvent & ev) override;
 		bool beginDraw(int32_t flags = 0) override;
 		bool endDraw() override;
 

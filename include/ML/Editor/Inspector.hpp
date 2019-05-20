@@ -12,18 +12,18 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Inspector(Editor & editor, bool open);
+		Inspector(bool open);
 		~Inspector();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const DrawGuiEvent & ev) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class Fun
-		> inline bool drawFun(const DrawGuiEvent & ev, Fun && fun)
+		> inline bool drawFun(const GuiEvent & ev, Fun && fun)
 		{
 			if (m_open)
 			{

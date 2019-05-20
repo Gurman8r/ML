@@ -16,8 +16,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Browser::Browser(Editor & editor, bool open)
-		: BaseWidget("Browser", editor, open)
+	Browser::Browser(bool open)
+		: BaseWidget("Browser", open)
 		, m_path	()
 		, m_dir		()
 		, m_type	(T_Dir)
@@ -33,7 +33,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Browser::drawGui(const DrawGuiEvent & ev)
+	bool Browser::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{

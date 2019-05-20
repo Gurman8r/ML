@@ -8,8 +8,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	SceneView::SceneView(Editor & editor, bool open)
-		: BaseWidget("Scene", editor, open)
+	SceneView::SceneView(bool open)
+		: BaseWidget("Scene", open)
 	{
 	}
 
@@ -19,7 +19,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	bool SceneView::drawGui(const DrawGuiEvent & ev)
+	bool SceneView::drawGui(const GuiEvent & ev)
 	{
 		return beginDraw(ImGuiWindowFlags_MenuBar);
 	}

@@ -15,12 +15,12 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Profiler(Editor & editor, bool open);
+		Profiler(bool open);
 		~Profiler();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const DrawGuiEvent & ev) override;
+		bool drawGui(const GuiEvent & ev) override;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

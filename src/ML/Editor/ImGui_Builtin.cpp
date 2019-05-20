@@ -15,7 +15,7 @@ namespace ml
 	
 	void ImGui_Builtin::showStyle(bool * p_open)
 	{
-		ImGui::Begin("ImGui Style Editor", p_open);
+		ImGui::Begin("Style Editor", p_open);
 		ImGui::ShowStyleEditor();
 		ImGui::End();
 	}

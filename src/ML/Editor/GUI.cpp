@@ -216,16 +216,4 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool GUI::BeginWindow(CString label, bool * p_open, int32_t flags)
-	{
-		return ImGui::Begin(label, p_open, flags);
-	}
-
-	void GUI::EndWindow()
-	{
-		return ImGui::End();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }

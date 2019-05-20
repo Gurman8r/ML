@@ -3,17 +3,14 @@
 
 #include <ML/Core/IEventListener.hpp>
 #include <ML/Engine/Engine.hpp>
-#include <ML/Editor/MainMenuBar.hpp>
 #include <ML/Editor/Terminal.hpp>
 #include <ML/Editor/Builder.hpp>
 #include <ML/Editor/Browser.hpp>
 #include <ML/Editor/ImGui_Builtin.hpp>
 #include <ML/Editor/Dockspace.hpp>
-#include <ML/Editor/TextEditor.hpp>
 #include <ML/Editor/SceneView.hpp>
 #include <ML/Editor/Inspector.hpp>
 #include <ML/Editor/Project.hpp>
-#include <ML/Editor/NetworkHUD.hpp>
 #include <ML/Editor/Profiler.hpp>
 
 namespace ml
@@ -26,52 +23,30 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Editor(Engine & engine);
+		explicit Editor(EventSystem & eventSystem);
 		~Editor();
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
 		void onEvent(const IEvent * value) override;
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-		void onBeginGui(const BeginGuiEvent & ev);
-		void onDrawGui(const DrawGuiEvent & ev);
-		void onEndGui(const EndGuiEvent & ev);
+		void onGui(const GuiEvent & ev);
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		Dockspace	dockspace;
 		Browser		browser;
 		Builder		builder;
-		MainMenuBar	mainMenu;
-		Dockspace	dockspace;
 		Inspector	inspector;
-		NetworkHUD	network;
 		Profiler	profiler;
 		Project		project;
 		SceneView	sceneView;
 		Terminal	terminal;
-		TextEditor	textEdit;
-
+		
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		bool show_imgui_demo = false;
-		bool show_imgui_metrics = false;
-		bool show_imgui_style = false;
-		bool show_imgui_about = false;
-
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		Engine			& engine()		const;
-		EventSystem		& eventSystem() const;
-		Preferences		& prefs()		const;
-		Resources		& resources()	const;
-		RenderWindow	& window()		const;
+		EventSystem	& eventSystem() const;
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-		Engine & m_engine;
+		EventSystem & m_eventSystem;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

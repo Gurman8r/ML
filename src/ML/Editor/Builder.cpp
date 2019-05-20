@@ -100,8 +100,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Builder::Builder(Editor & editor, bool open)
-		: BaseWidget("Builder", editor, open)
+	Builder::Builder(bool open)
+		: BaseWidget("Builder", open)
 		, m_shader	(NULL)
 	{
 		m_files.push_back(new BuildFile("Main", ML_MAIN_EXAMPLE));
@@ -120,11 +120,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Builder::drawGui(const DrawGuiEvent & ev)
+	bool Builder::drawGui(const GuiEvent & ev)
 	{
 		if (!m_shader)
 		{
-			m_shader = ev.editor.resources().shaders.load(ML_TEST_SHADER);
+			m_shader = ev.resources.shaders.load(ML_TEST_SHADER);
 		}
 
 		if (beginDraw(ImGuiWindowFlags_MenuBar))

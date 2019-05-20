@@ -16,8 +16,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Terminal::Terminal(Editor & editor, bool open)
-		: BaseWidget	("Terminal", editor, open)
+	Terminal::Terminal(bool open, EventSystem & eventSystem)
+		: BaseWidget	("Terminal", open)
+		, m_eventSystem	(eventSystem)
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()
@@ -46,7 +47,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Terminal::drawGui(const DrawGuiEvent & ev)
+	bool Terminal::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw())
 		{
@@ -167,7 +168,7 @@ namespace ml
 		}
 		else if (!std::strcmp(value, "exit"))
 		{
-			eventSystem().fireEvent(ExitEvent());
+			m_eventSystem.fireEvent(ExitEvent());
 		}
 		else if (!std::strcmp(value, "history"))
 		{
@@ -178,7 +179,7 @@ namespace ml
 		}
 		else
 		{
-			eventSystem().fireEvent(CommandEvent(value));
+			m_eventSystem.fireEvent(CommandEvent(value));
 		}
 	}
 

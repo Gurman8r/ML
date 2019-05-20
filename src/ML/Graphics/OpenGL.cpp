@@ -65,7 +65,7 @@ namespace ml
 
 			if (ML_GL.m_eventSystem)
 			{
-				ML_GL.m_eventSystem->fireEvent(RenderErrorEvent(
+				ML_GL.m_eventSystem->fireEvent(GraphicsErrorEvent(
 					fileName,
 					line,
 					expr,

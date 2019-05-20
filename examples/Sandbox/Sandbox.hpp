@@ -65,7 +65,7 @@ namespace DEMO
 		void onStart	(const ml::StartEvent	& ev) override;
 		void onUpdate	(const ml::UpdateEvent	& ev) override;
 		void onDraw		(const ml::DrawEvent	& ev) override;
-		void onDrawGui	(const ml::DrawGuiEvent	& ev) override;
+		void onGui		(const ml::GuiEvent		& ev) override;
 		void onShutdown	(const ml::ShutdownEvent& ev) override;
 
 	private:

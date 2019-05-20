@@ -26,7 +26,7 @@ namespace ml
 		using CommandMap  = typename HashMap<String, Command>;
 		using CommandPair = typename Pair<String, Command>;
 
-	private:
+	public:
 		Interpreter();
 		~Interpreter();
 

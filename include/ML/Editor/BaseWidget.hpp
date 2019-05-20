@@ -25,7 +25,7 @@ namespace ml
 		virtual ~BaseWidget();
 
 	public:
-		inline bool onGui(const GuiEvent & ev)
+		inline bool onGui(const DrawGuiEvent & ev)
 		{
 			if (this->isOpen())
 			{
@@ -36,7 +36,7 @@ namespace ml
 		}
 
 	protected:
-		virtual bool drawGui(const GuiEvent & ev) = 0;
+		virtual bool drawGui(const DrawGuiEvent & ev) = 0;
 		virtual bool beginDraw(int32_t flags = 0);
 		virtual bool endDraw();
 
@@ -51,10 +51,10 @@ namespace ml
 		Resources	& resources()	const;
 
 	public:
-		inline CString	getTitle()	const	{ return m_title; }
-		inline int32_t	getFlags()	const	{ return m_flags; }
-		inline bool		isOpen()	const	{ return m_open; }
-		inline bool *	openPtr()			{ return &m_open; }
+		inline CString	getTitle()	const	{ return m_title;	}
+		inline int32_t	getFlags()	const	{ return m_flags;	}
+		inline bool		isOpen()	const	{ return m_open;	}
+		inline bool &	isOpen()			{ return m_open;	}
 
 	protected:
 		Editor &	m_editor;

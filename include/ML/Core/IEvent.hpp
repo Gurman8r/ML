@@ -14,7 +14,7 @@ namespace ml
 		: public ITrackable
 		, public INonCopyable
 	{
-	public: // Enums
+	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		enum : int32_t
 		{
@@ -60,6 +60,7 @@ namespace ml
 			MAX_EVENT_ID
 		};
 
+
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		IEvent(const int32_t id)
@@ -69,8 +70,15 @@ namespace ml
 
 		virtual ~IEvent() {}
 
-	public: // Casting
+
+	public:
 		/* * * * * * * * * * * * * * * * * * * * */
+
+		inline operator int32_t() const
+		{
+			return m_eventID;
+		}
+
 		template <
 			class T
 		> inline const T * as() const
@@ -85,11 +93,7 @@ namespace ml
 			return dynamic_cast<T *>(this);
 		}
 
-	public: // Operators
-		/* * * * * * * * * * * * * * * * * * * * */
-		inline operator int32_t() const { return m_eventID; }
-
-	private: // Data
+	private:
 		/* * * * * * * * * * * * * * * * * * * * */
 		const int32_t m_eventID;
 	};

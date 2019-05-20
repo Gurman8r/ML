@@ -26,11 +26,12 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
-		Editor(Engine & engine);
+		explicit Editor(Engine & engine);
 		~Editor();
 
 	public:
 		void onEvent(const IEvent * value) override;
+		void onGui(const DrawGuiEvent & ev);
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -44,21 +45,22 @@ namespace ml
 		Project		project;
 		SceneView	sceneView;
 		Terminal	terminal;
-		TextEditor	textEditor;
+		TextEditor	textEdit;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool show_imgui_demo	= false;
-		bool show_imgui_metrics	= false;
-		bool show_imgui_style	= false;
-		bool show_imgui_about	= false;
+		bool show_imgui_demo = false;
+		bool show_imgui_metrics = false;
+		bool show_imgui_style = false;
+		bool show_imgui_about = false;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Engine		& engine()		const;
-		EventSystem	& eventSystem() const;
-		Preferences & prefs()		const;
-		Resources	& resources()	const;
+		Engine			& engine()		const;
+		EventSystem		& eventSystem() const;
+		Preferences		& prefs()		const;
+		Resources		& resources()	const;
+		RenderWindow	& window()		const;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

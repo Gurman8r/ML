@@ -19,7 +19,7 @@ namespace ml
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const GuiEvent & ev) override;
+		bool drawGui(const DrawGuiEvent & ev) override;
 		bool beginDraw(int32_t flags = 0) override;
 		bool endDraw() override;
 

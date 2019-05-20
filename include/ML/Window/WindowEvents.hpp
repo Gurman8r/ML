@@ -150,8 +150,6 @@ namespace ml
 				<< std::setw(4) << "mS:" << mod_super << " ";
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		inline bool getAction(int32_t a)	const { return (action == a); }
 		inline bool getKey(int32_t b)		const { return (button == b); }
 		inline bool getKeyDown(int32_t b)	const { return getKey(b) && getAction(ML_KEY_PRESS); }

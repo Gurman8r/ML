@@ -167,9 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Network\Export.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Network\Ftp.hpp" />
     <ClInclude Include="..\..\..\include\ML\Network\GUID.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Network\Http.hpp" />
     <ClInclude Include="..\..\..\include\ML\Network\IpAddress.hpp" />
     <ClInclude Include="..\..\..\include\ML\Network\NetClient.hpp" />
     <ClInclude Include="..\..\..\include\ML\Network\NetInterface.hpp" />
@@ -180,9 +178,7 @@
     <ClInclude Include="..\..\..\include\ML\Network\SendSettings.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Network\Ftp.cpp" />
     <ClCompile Include="..\..\..\src\ML\Network\GUID.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Network\Http.cpp" />
     <ClCompile Include="..\..\..\src\ML\Network\IpAddress.cpp" />
     <ClCompile Include="..\..\..\src\ML\Network\NetClient.cpp" />
     <ClCompile Include="..\..\..\src\ML\Network\NetInterface.cpp" />

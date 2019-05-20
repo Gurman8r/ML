@@ -51,7 +51,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Terminal::drawGui(const GuiEvent & ev)
+	bool Terminal::drawGui(const DrawGuiEvent & ev)
 	{
 		if (beginDraw())
 		{
@@ -172,7 +172,7 @@ namespace ml
 		}
 		else if (!std::strcmp(value, "exit"))
 		{
-			eventSystem().fireEvent(CloseEvent());
+			eventSystem().fireEvent(ShutdownEvent());
 		}
 		else if (!std::strcmp(value, "history"))
 		{

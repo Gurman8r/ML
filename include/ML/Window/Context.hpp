@@ -16,16 +16,16 @@ namespace ml
 		enum Profile : uint32_t
 		{
 			Any		= 0,
-			Debug   = 0x22007, // Debug	 | 139271
-			Core    = 0x32001, // Core	 | 204801
-			Compat	= 0x32002, // Compat | 204802
+			Debug   = 1,
+			Core    = 2,
+			Compat	= 3,
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * */
 		
 		uint32_t	majorVersion;
-		uint32_t	profile;
 		uint32_t	minorVersion;
+		uint32_t	profile;
 		uint32_t	depthBits;
 		uint32_t	stencilBits;
 		bool		multisample;

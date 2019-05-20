@@ -17,13 +17,13 @@ namespace ml
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const GuiEvent & ev) override;
+		bool drawGui(const DrawGuiEvent & ev) override;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class Fun
-		> inline bool drawFun(const GuiEvent & ev, Fun && fun)
+		> inline bool drawFun(const DrawGuiEvent & ev, Fun && fun)
 		{
 			if (m_open)
 			{

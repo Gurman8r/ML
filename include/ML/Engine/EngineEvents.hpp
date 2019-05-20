@@ -24,9 +24,8 @@ namespace ml
 			EV_Update,
 			EV_Draw,
 			EV_Unload,
-			EV_Exit,
 
-			EV_Close,
+			EV_Shutdown,
 
 			MAX_ENGINE_EVENT
 		};
@@ -41,10 +40,14 @@ namespace ml
 
 	struct ML_ENGINE_API EnterEvent final : public EngineEvent
 	{
+		int32_t argc;
+		char ** argv;
 		Engine & engine;
 
-		EnterEvent(Engine & engine)
+		EnterEvent(int32_t argc, char ** argv, Engine & engine)
 			: EngineEvent(EV_Enter)
+			, argc	(argc)
+			, argv	(argv)
 			, engine(engine)
 		{
 		}
@@ -115,25 +118,12 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	struct ML_ENGINE_API ExitEvent final : public EngineEvent
-	{
-		Engine & engine;
-
-		ExitEvent(Engine & engine)
-			: EngineEvent(EV_Exit)
-			, engine(engine)
-		{
-		}
-	};
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API CloseEvent final : public EngineEvent
+	struct ML_ENGINE_API ShutdownEvent final : public EngineEvent
 	{
-		CloseEvent()
-			: EngineEvent(EV_Close)
+		ShutdownEvent()
+			: EngineEvent(EV_Shutdown)
 		{
 		}
 	};

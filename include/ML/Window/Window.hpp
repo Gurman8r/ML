@@ -57,7 +57,7 @@ namespace ml
 
 	public: // C/D-tor
 		/* * * * * * * * * * * * * * * * * * * * */
-		Window(EventSystem & eventSystem);
+		explicit Window(EventSystem & eventSystem);
 		virtual ~Window();
 
 

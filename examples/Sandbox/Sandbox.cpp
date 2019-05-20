@@ -8,6 +8,12 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
 #include <ML/Core/OS.hpp>
+#include <ML/Editor/Editor.hpp>
+#include <ML/Editor/ImGui.hpp>
+#include <ML/Editor/ImGui_Style.hpp>
+#include <ML/Engine/Engine.hpp>
+#include <ML/Engine/Preferences.hpp>
+#include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Light.hpp>
@@ -19,13 +25,7 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Uni.hpp>
-#include <ML/Editor/Editor.hpp>
-#include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/ImGui_Style.hpp>
-#include <ML/Editor/StyleLoader.hpp>
-#include <ML/Engine/Engine.hpp>
-#include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/Resources.hpp>
+#include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
 #include <ML/Physics/PhysicsWorld.hpp>
@@ -54,9 +54,9 @@ namespace DEMO
 
 	Sandbox::Sandbox(ml::EventSystem & eventSystem)
 		: EditorApplication(eventSystem)
-		, sandbox(*this)
 	{
 		eventSystem.addListener(ml::ScriptEvent::EV_Command, this);
+		eventSystem.addListener(ml::WindowEvent::EV_Key, this);
 	}
 
 	Sandbox::~Sandbox() {}
@@ -70,7 +70,7 @@ namespace DEMO
 
 		switch (*value)
 		{
-			// Command
+			// Command Event
 			/* * * * * * * * * * * * * * * * * * * * */
 		case ml::ScriptEvent::EV_Command:
 			if (auto ev = value->as<ml::CommandEvent>())
@@ -83,46 +83,16 @@ namespace DEMO
 			}
 			break;
 
-			// Keyboard Input
+			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
 		case ml::WindowEvent::EV_Key:
 			if (auto ev = value->as<ml::KeyEvent>())
 			{
-				/* * * * * * * * * * * * * * * * * * * * */
-
 				// Close (Escape)
 				if (ev->getKeyDown(ml::KeyCode::Escape))
 				{
-					eventSystem().fireEvent(ml::CloseEvent());
+					eventSystem().fireEvent(ml::ShutdownEvent());
 				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-				//
-				//// Show Terminal (Ctrl+Alt+T)
-				//if (ev->getKeyDown(ml::KeyCode::T) && (ev->mod_ctrl && ev->mod_alt))
-				//	ML_Editor.show_terminal = true;
-				//
-				//// Show Browser (Ctrl+Alt+E)
-				//if (ev->getKeyDown(ml::KeyCode::E) && (ev->mod_ctrl))
-				//	ML_Editor.show_browser = true;
-				//
-				//// Show Builder (Ctrl+Alt+B)
-				//if (ev->getKeyDown(ml::KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
-				//	ML_Editor.show_builder = true;
-				//
-				//// Show Scene (Ctrl+Alt+S)
-				//if (ev->getKeyDown(ml::KeyCode::S) && (ev->mod_ctrl && ev->mod_alt))
-				//	ML_Editor.show_sceneView = true;
-				//
-				//// Show Inspector (Ctrl+Alt+I)
-				//if (ev->getKeyDown(ml::KeyCode::I) && (ev->mod_ctrl && ev->mod_alt))
-				//	ML_Editor.show_inspector = true;
-				//
-				//// Show ImGui Demo (Ctrl+H)
-				//if (ev->getKeyDown(ml::KeyCode::H) && (ev->mod_ctrl))
-				//	ML_Editor.show_imgui_demo = true;
-				//
-				/* * * * * * * * * * * * * * * * * * * * */
 			}
 			break;
 		}
@@ -132,34 +102,26 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
-		// Initialize Miscellaneous
-		/* * * * * * * * * * * * * * * * * * * * */
+		// Setup Std Out
+		if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
 		{
-			// Setup Std Out
-			if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
-			{
-				return ml::Debug::fatal("Failed Redirecting Std Output Handle");
-			}
-
-			// Set Resource Path
-			sandbox.res_path = ev.engine.prefs().GetString(
-			"Engine",
-			"res_path",
-			"../../../assets/"
-			);
-
-			// Set Resource File
-			sandbox.res_data = ev.engine.prefs().GetString(
-				"Engine",
-				"res_data",
-				"manifest.txt"
-			);
-
-			// Set Resource Manifest
-			sandbox.manifest = ML_FS.getPathTo(
-				sandbox.res_path + sandbox.res_data
-			);
+			return ml::Debug::fatal("Failed Redirecting Std Output Handle");
 		}
+
+		// Set Resource Path
+		sandbox.res_path = ev.engine.prefs().GetString(
+			"Engine", "res_path", "../../../assets/"
+		);
+
+		// Set Resource File
+		sandbox.res_data = ev.engine.prefs().GetString(
+			"Engine", "res_data", "manifest.txt"
+		);
+
+		// Set Resource Manifest
+		sandbox.manifest = ML_FS.getPathTo(
+			sandbox.res_path + sandbox.res_data
+		);
 
 		// Initialize Interpreter
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -184,14 +146,14 @@ namespace DEMO
 
 		// Initialize Window
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (sandbox->create(sandbox.title = 
-			ev.engine.prefs().GetString	("Window", "title",			"ML"), { {
+		if (ev.engine.window().create(sandbox.title = 
+			ev.engine.prefs().GetString	("Window", "title",			"My Window"), { {
 			ev.engine.prefs().GetUint	("Window", "width",			1280),
 			ev.engine.prefs().GetUint	("Window", "height",		720) },
 			ev.engine.prefs().GetUint	("Window", "colorDepth",	32) },
 			ev.engine.prefs().GetUint	("Window", "style",			ml::Window::Default), {
-			ev.engine.prefs().GetUint	("Window", "majorVersion",	3),
-			ev.engine.prefs().GetUint	("Window", "minorVersion",	3),
+			ev.engine.prefs().GetUint	("Window", "majorVer",		3),
+			ev.engine.prefs().GetUint	("Window", "minorVer",		3),
 			ev.engine.prefs().GetUint	("Window", "profile",		ml::Context::Compat),
 			ev.engine.prefs().GetUint	("Window", "depthBits",		24),
 			ev.engine.prefs().GetUint	("Window", "stencilBits",	8),
@@ -199,86 +161,44 @@ namespace DEMO
 			ev.engine.prefs().GetBool	("Window", "srgbCapable",	false)
 		}))
 		{
-			sandbox->maximize();
-			sandbox->seCursorMode(ml::Cursor::Normal);
-			sandbox->setPosition((ml::Screen::desktop().resolution - sandbox->getSize()) / 2);
-			sandbox->setViewport(ml::vec2i::Zero, sandbox->getFrameSize());
+			ev.engine.window().maximize();
+			ev.engine.window().seCursorMode(ml::Cursor::Normal);
+			ev.engine.window().setPosition((ml::Screen::desktop().resolution - ev.engine.window().getSize()) / 2);
+			ev.engine.window().setViewport(ml::vec2i::Zero, ev.engine.window().getFrameSize());
 		}
 		else
 		{
 			return ml::Debug::fatal("Failed Initializing Window");
 		}
 
-		// Initialize Gui
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (IMGUI_CHECKVERSION())
-		{
-			ImGui::CreateContext();
-
-			// Set ImGui Style
-			ml::StyleLoader loader;
-			if (loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
-			{ 
-				/* TODO */
-			}
-			else
-			{
-				ImGui::StyleHelper::Style4();
-			}
-
-			// Set ImGui Fonts
-			if (ml::String	imguiFont = ev.engine.prefs().GetString("Editor", "imguiFont", ""))
-			{	const float imguiSize = ev.engine.prefs().GetFloat ("Editor", "imguiSize", 12.0f);
-				if (imguiFont && imguiSize > 0.0f)
-				{
-					ImGui::GetIO().Fonts->AddFontFromFileTTF(imguiFont.c_str(), imguiSize);
-				}
-			}
-
-			// Set ImGui INI
-			ml::String imguiINI = ev.engine.prefs().GetString("Editor", "imguiINI", "");
-			imguiINI = imguiINI ? ML_FS.getPathTo(imguiINI) : ml::String();
-			
-			// Run ImGui Init
-			if (!ImGui_ML_Init("#version 410", this, true, imguiINI.c_str()))
-			{
-				return ml::Debug::fatal("Failed Initializing ImGui");
-			}
-		}
-
-		// Initialize Audio
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_AL.init(eventSystem()))
-		{
-			return ml::Debug::fatal("Failed Initializing OpenAL");
-		}
-
 		// Initialize Network
 		/* * * * * * * * * * * * * * * * * * * * */
-		sandbox.isServer = ev.engine.prefs().GetBool("Network", "isServer", false);
-		sandbox.isClient = ev.engine.prefs().GetBool("Network", "isClient", false);
-		
-		if (sandbox.isServer)
-		{	// Start Server
-			ml::Debug::log("Starting Server...");
+		switch (ev.engine.netMode())
+		{
+		case ml::NetServer::Mode:
 			if (ev.engine.server().setup())
 			{
 				if (ev.engine.server().start({ ML_LOCALHOST, ML_DEFAULT_PORT }, ML_MAX_CLIENTS))
 				{
-					ml::Debug::log("Server Started: {0}", ev.engine.server().getMyAddress());
+					ml::Debug::log(
+						"Server Started: {0}",
+						ev.engine.server().getMyAddress()
+					);
 				}
 			}
-		}
-		else if (sandbox.isClient)
-		{	// Start Client
-			ml::Debug::log("Starting Client...");
+			break;
+		case ml::NetClient::Mode:
 			if (ev.engine.client().setup())
 			{
 				if (ev.engine.client().connect({ ML_LOCALHOST, ML_DEFAULT_PORT }))
 				{
-					ml::Debug::log("Client Connected: {0}", ev.engine.client().getMyAddress());
+					ml::Debug::log(
+						"Client Connected: {0}",
+						ev.engine.client().getMyAddress()
+					);
 				}
 			}
+			break;
 		}
 	}
 
@@ -333,7 +253,7 @@ namespace DEMO
 		{
 			const ml::Image temp = ml::Image(*icon).flipVertically();
 
-			sandbox->setIcons({ temp });
+			ev.engine.window().setIcons({ temp });
 		}
 
 		// Setup Plugins
@@ -368,7 +288,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Sprite * spr = ev.engine.resources().sprites.get("neutrino"))
 		{
-			spr->setPosition(ml::vec2(0.95f, 0.925f) * sandbox->getSize())
+			spr->setPosition(ml::vec2(0.95f, 0.925f) * ev.engine.window().getSize())
 				.setScale	(0.5f)
 				.setRotation(0.0f)
 				.setOrigin	(0.5f)
@@ -384,13 +304,7 @@ namespace DEMO
 			{
 				sandbox.camera = ent;
 
-				ml::Camera * camera = ent->add<ml::Camera>(
-					ev.engine.prefs().GetFloat("Graphics", "fieldOfView", 45.0),
-					ev.engine.prefs().GetFloat("Graphics", "perspNear", 0.1f),
-					ev.engine.prefs().GetFloat("Graphics", "perspFar", 1000.0f),
-					ev.engine.prefs().GetFloat("Graphics", "orthoNear", -1.0f),
-					ev.engine.prefs().GetFloat("Graphics", "orthoFar", +1.0f)
-				);
+				ml::Camera * camera = ent->add<ml::Camera>();
 				camera->color = { ml::vec3 { 0.198f }, 1.0f };
 				camera->position = { 0.0f, 1.0f, 10.0f };
 				camera->forward(ml::vec3::Back);
@@ -802,19 +716,25 @@ namespace DEMO
 		});
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	void Sandbox::onUpdate(const ml::UpdateEvent & ev)
 	{
 		// Update Title
 		/* * * * * * * * * * * * * * * * * * * * */
-		sandbox->setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
+		ev.engine.window().setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
 			sandbox.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
 			ev.engine.frameTime().delta(),
 			ev.engine.frameRate()
 		));
+
+		// Update Network
+		/* * * * * * * * * * * * * * * * * * * * */
+		switch (ev.engine.netMode())
+		{
+		case ml::NetServer::Mode: ev.engine.server().poll(); break;
+		case ml::NetClient::Mode: ev.engine.client().poll(); break;
+		}
 
 		// Update Physics
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -845,18 +765,11 @@ namespace DEMO
 			}
 		}));
 
-		// Update Surfaces
-		/* * * * * * * * * * * * * * * * * * * * */
-		for (auto & pair : ev.engine.resources().surfaces)
-		{
-			pair.second->resize(sandbox->getFrameSize());
-		}
-
 		// Update Camera
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Camera * camera = sandbox.camera->get<ml::Camera>())
 		{
-			camera->updateRes(sandbox->getFrameSize());
+			camera->updateRes(ev.engine.window().getFrameSize());
 
 			// Camera Transform
 			if (ml::Transform * transform = sandbox.camera->get<ml::Transform>())
@@ -883,13 +796,20 @@ namespace DEMO
 			}
 		}
 
+		// Update Surfaces
+		/* * * * * * * * * * * * * * * * * * * * */
+		for (auto & pair : ev.engine.resources().surfaces)
+		{
+			pair.second->resize(ev.engine.window().getFrameSize());
+		}
+
 		// Update Text
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
 			sandbox.text["project_url"]
 				.setFont(ev.engine.resources().fonts.get("minecraft"))
 				.setFontSize(56)
-				.setPosition({ 48, (float)sandbox->getFrameHeight() - 48 })
+				.setPosition({ 48, (float)ev.engine.window().getFrameHeight() - 48 })
 				.setString(ML_PROJECT_URL);
 
 			const ml::Font *font	 = ev.engine.resources().fonts.get("consolas");
@@ -962,7 +882,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cx/cy: {0}").format(
-					sandbox->getCursorPos())
+					ev.engine.window().getCursorPos())
 				);
 
 			sandbox.text["window_pos"]
@@ -970,7 +890,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("wx/wy: {0}").format(
-					sandbox->getPosition())
+					ev.engine.window().getPosition())
 				);
 
 			sandbox.text["window_size"]
@@ -978,7 +898,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("ww/wh: {0}").format(
-					sandbox->getSize())
+					ev.engine.window().getSize())
 				);
 
 			// Ensure text update before main draw call
@@ -999,12 +919,12 @@ namespace DEMO
 			scene->bind();
 
 			// Clear Screen
-			sandbox->clear(sandbox.camera->get<ml::Camera>()->color);
+			ev.engine.window().clear(sandbox.camera->get<ml::Camera>()->color);
 
 			// Draw Renderers
 			for (const auto & pair : ev.engine.resources().entities)
 			{
-				sandbox->draw(pair.second->get<ml::Renderer>());
+				ev.engine.window().draw(pair.second->get<ml::Renderer>());
 			}
 
 			// Draw 2D
@@ -1044,7 +964,7 @@ namespace DEMO
 
 					for (const auto & pair : ev.engine.resources().sprites)
 					{
-						sandbox->draw(pair.second, batch);
+						ev.engine.window().draw(pair.second, batch);
 					}
 				}
 
@@ -1068,7 +988,7 @@ namespace DEMO
 
 					for (const auto & pair : sandbox.text)
 					{
-						sandbox->draw(pair.second, batch);
+						ev.engine.window().draw(pair.second, batch);
 					}
 				}
 
@@ -1093,7 +1013,7 @@ namespace DEMO
 					}
 				}
 			}
-
+			
 			// Unbind Scene
 			scene->unbind();
 		}
@@ -1107,13 +1027,13 @@ namespace DEMO
 			{
 				scene->shader()->setUniform("Surface.mode", sandbox.effectMode);
 
-				sandbox->draw(*scene);
+				ev.engine.window().draw(*scene);
 			}
 			post->unbind();
 		}
 	}
 
-	void Sandbox::onGui(const ml::GuiEvent & ev)
+	void Sandbox::onGui(const ml::DrawGuiEvent & ev)
 	{
 		// Update Terminal Output
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -1122,16 +1042,6 @@ namespace DEMO
 			ev.editor.terminal.printss(sandbox.rdstr);
 		}
 
-		/*	Main Menu	*/ ev.editor.mainMenu.onGui(ev);
-		/*	Dockspace	*/ ev.editor.dockspace.onGui(ev);
-		/*	Network		*/ ev.editor.network.onGui(ev);
-		/*	Profiler	*/ ev.editor.profiler.onGui(ev);
-		/*	Browser		*/ ev.editor.browser.onGui(ev);
-		/*	Terminal	*/ ev.editor.terminal.onGui(ev);
-		/*	Text Editor	*/ ev.editor.textEditor.onGui(ev); 
-		/*	Project		*/ ev.editor.project.onGui(ev);
-		/*	Builder		*/ ev.editor.builder.onGui(ev);
-		
 		/*	Scene View	*/ 
 		ev.editor.sceneView.drawFun(ev, [&]()
 		{
@@ -1158,30 +1068,15 @@ namespace DEMO
 			ImGui::DragFloat("Camera Speed", &sandbox.cameraSpeed, 0.1f, -5.f, 5.f);
 			ImGui::Separator();
 		});
-
-		// ImGui Builtin
-		if (ev.editor.show_imgui_demo)		{ ml::ImGui_Builtin::showDemo(&ev.editor.show_imgui_demo); }
-		if (ev.editor.show_imgui_metrics)	{ ml::ImGui_Builtin::showMetrics(&ev.editor.show_imgui_metrics); }
-		if (ev.editor.show_imgui_style)		{ ml::ImGui_Builtin::showStyle(&ev.editor.show_imgui_style); }
-		if (ev.editor.show_imgui_about)		{ ml::ImGui_Builtin::showAbout(&ev.editor.show_imgui_about); }
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Sandbox::onUnload(const ml::UnloadEvent & ev)
 	{
-		ml::Debug::log("Unloading...");
-
 		// Cleanup Physics Thread
 		sandbox.physWorld.dispose();
 
 		// Cleanup Resources
 		ev.engine.resources().dispose();
-	}
-
-	void Sandbox::onExit(const ml::ExitEvent & ev)
-	{
-		ml::Debug::log("Exiting...");
 
 		// Cleanup Std Out
 		if (sandbox.rdbuf)
@@ -1189,9 +1084,6 @@ namespace DEMO
 			ml::cout.rdbuf(sandbox.rdbuf);
 			sandbox.rdbuf = NULL;
 		}
-
-		// Shutdown ImGui
-		ImGui_ML_Shutdown();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -12,8 +12,6 @@ namespace ml
 	Interpreter::Interpreter()
 	{
 		DefaultCommands::install(*this);
-
-		//ML_EventSystem.addListener(ScriptEvent::EV_Command, this);
 	}
 
 	Interpreter::~Interpreter()

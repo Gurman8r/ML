@@ -20,7 +20,7 @@ namespace ml
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const GuiEvent & ev) override;
+		bool drawGui(const DrawGuiEvent & ev) override;
 		bool beginDraw(int32_t flags = 0) override;
 		bool endDraw() override;
 
@@ -28,7 +28,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class Fun
-		> inline bool drawFun(const GuiEvent & ev, Fun && fun)
+		> inline bool drawFun(const DrawGuiEvent & ev, Fun && fun)
 		{
 			if (onGui(ev))
 			{

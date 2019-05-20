@@ -3,12 +3,14 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/Timer.hpp>
+#include <ML/Core/IEventListener.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Application;
+	class Audio;
 	class EventSystem;
 	class NetClient;
 	class NetServer;
@@ -21,17 +23,23 @@ namespace ml
 	class ML_ENGINE_API Engine final
 		: public ITrackable
 		, public INonCopyable
+		, public IEventListener
 	{
 	public:
-		Engine(
-			EventSystem & eventSystem,
-			Preferences & prefs,
-			Resources	& resources,
-			NetClient	& client,
-			NetServer	& server
+		explicit Engine(
+			EventSystem		& eventSystem,
+			Preferences		& prefs,
+			Resources		& resources,
+			RenderWindow	& window,
+			NetClient		& client,
+			NetServer		& server,
+			Audio			& audio
 		);
 
 		~Engine();
+
+	public:
+		void onEvent(const IEvent * value) override;
 
 	public:
 		Application * launchApp(Application * app);
@@ -56,24 +64,29 @@ namespace ml
 		}
 
 	public:
-		EventSystem	& eventSystem()	const;
-		Preferences	& prefs()		const;
-		Resources	& resources()	const;
-		NetClient	& client()		const;
-		NetServer	& server()		const;
+		Audio			& audio()		const;
+		NetClient		& client()		const;
+		EventSystem		& eventSystem()	const;
+		Preferences		& prefs()		const;
+		Resources		& resources()	const;
+		NetServer		& server()		const;
+		RenderWindow	& window()		const;
 
 	public:
 		inline const Timer		&	mainTimer()	const { return m_mainTimer;	}
 		inline const Timer		&	loopTimer()	const { return m_loopTimer;	}
-		inline const uint32_t		frameRate()	const { return m_frameRate;	}
 		inline const Duration	&	frameTime()	const { return m_frameTime;	}
+		inline const uint32_t		frameRate()	const { return m_frameRate;	}
+		inline const int32_t		netMode()	const { return m_netMode;	}
 
 	private:
-		EventSystem &	m_eventSystem;
-		Preferences	&	m_prefs;
-		Resources	&	m_resources;
-		NetClient	&	m_client;
-		NetServer	&	m_server;
+		Audio			&	m_audio;
+		NetClient		&	m_client;
+		EventSystem		&	m_eventSystem;
+		Preferences		&	m_prefs;
+		Resources		&	m_resources;
+		NetServer		&	m_server;
+		RenderWindow	&	m_window;
 		
 		Application *	m_app;
 		Timer			m_mainTimer;
@@ -83,8 +96,7 @@ namespace ml
 		uint32_t		m_frameRate;
 		float			m_nextSecond;
 		float			m_prevSecond;
-		bool			m_isClient;
-		bool			m_isServer;
+		int32_t			m_netMode;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

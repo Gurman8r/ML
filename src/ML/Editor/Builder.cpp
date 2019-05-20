@@ -120,7 +120,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Builder::drawGui(const GuiEvent & ev)
+	bool Builder::drawGui(const DrawGuiEvent & ev)
 	{
 		if (!m_shader)
 		{

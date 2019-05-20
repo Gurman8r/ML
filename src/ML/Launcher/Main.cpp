@@ -1,5 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
+#include <ML/Audio/Audio.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -9,8 +10,11 @@
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Engine/StateMachine.hpp>
+#include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
+
+#include <ML/Editor/ImGui.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -22,62 +26,64 @@
 
 int32_t main()
 {
-	// Setup Launcher
+	// Setup Systems
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static ml::EventSystem	g_EventSystem	{};
 	static ml::Preferences	g_Prefs			{ ML_CONFIG_INI };
+	static ml::EventSystem	g_EventSystem	{};
 	static ml::Resources	g_Resources		{};
+	static ml::Audio		g_Audio			{ g_EventSystem };
 	static ml::NetClient	g_Client		{ g_EventSystem };
 	static ml::NetServer	g_Server		{ g_EventSystem };
-	static ml::Engine		g_Engine		{ g_EventSystem, g_Prefs, g_Resources, g_Client, g_Server };
+	static ml::RenderWindow g_Window		{ g_EventSystem };
+	static ml::Engine		g_Engine		{ g_EventSystem, g_Prefs, g_Resources, g_Window, g_Client, g_Server, g_Audio };
 	static ml::Editor		g_Editor		{ g_Engine };
 
 
 	// Setup Flow Control
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum State { Enter, Load, Start, Loop, Unload, Exit };
+	enum State { Enter, Load, Start, Loop, Unload };
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	static ml::StateMachine<State> g_Control =
 	{
 	{ State::Enter, []()
-	{	/* On Enter */
-		g_EventSystem.fireEvent(ml::EnterEvent(g_Engine));
+	{	/* Enter */
+		g_EventSystem.fireEvent(ml::EnterEvent(__argc, __argv, g_Engine));
 		return g_Control(State::Load);
 	} },
 	{ State::Load, []()
-	{	/* On Load */
+	{	/* Load */
 		g_EventSystem.fireEvent(ml::LoadEvent(g_Engine));
 		return g_Control(State::Start);
 	} },
 	{ State::Start, []()
-	{	/* On Start */
+	{	/* Start */
 		g_EventSystem.fireEvent(ml::StartEvent(g_Engine));
 		return g_Control(State::Loop);
 	} },
 	{ State::Loop, []()
 	{	g_Engine.loopFun([&]()
 		{
-			/* On Update */ 
+			/* Update */ 
 			g_EventSystem.fireEvent(ml::UpdateEvent(g_Engine));
-			/* On Draw */
+
+			/* Draw */
 			g_EventSystem.fireEvent(ml::DrawEvent(g_Engine));
-			/* On Gui */ 
-			g_EventSystem.fireEvent(ml::GuiEvent(g_Editor));
+
+			/* Gui */
+			g_EventSystem.fireEvent(ml::BeginGuiEvent(g_Editor));
+			g_EventSystem.fireEvent(ml::DrawGuiEvent(g_Editor));
+			g_EventSystem.fireEvent(ml::EndGuiEvent(g_Editor));
+			
 		});
 		return g_Control(State::Unload);
 	} },
 	{ State::Unload, []()
-	{	/* On Unload */
+	{	/* Unload */
 		g_EventSystem.fireEvent(ml::UnloadEvent(g_Engine));
-		return g_Control(State::Exit);
-	} },
-	{ State::Exit, []()
-	{	/* On Exit */
-		g_EventSystem.fireEvent(ml::ExitEvent(g_Engine));
 		return g_Control(ML_STATE_NONE);
 	} },
 	};
@@ -86,15 +92,18 @@ int32_t main()
 	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	// Load Library from File
 	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(
 		g_Prefs.GetString("Engine", "user_dll", "") + ML_DLL_STR("")
 	)))
-	{	// Load an Application instance from a DLL
+	{	// Load Application from Library
 		if (auto app = g_Engine.launchApp(
 			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem)
 		))
-		{	// Execute Flow Control
+		{	// Execute Control
 			g_Control(State::Enter);
+
+			// Free Application
 			return g_Engine.freeApp(app);
 		}
 		else

@@ -451,7 +451,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Project::drawGui(const GuiEvent & ev)
+	bool Project::drawGui(const DrawGuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{

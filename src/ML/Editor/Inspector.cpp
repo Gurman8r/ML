@@ -19,7 +19,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Inspector::drawGui(const GuiEvent & ev)
+	bool Inspector::drawGui(const DrawGuiEvent & ev)
 	{
 		return beginDraw(ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize);
 	}

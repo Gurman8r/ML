@@ -13,6 +13,9 @@
     <ClCompile Include="..\..\..\src\ML\Audio\Sound.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Audio\Audio.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Audio\Export.hpp">
@@ -34,6 +37,9 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Audio\OpenAL.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Audio\Audio.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>

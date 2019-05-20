@@ -65,29 +65,16 @@ namespace DEMO
 		void onStart	(const ml::StartEvent	& ev) override;
 		void onUpdate	(const ml::UpdateEvent	& ev) override;
 		void onDraw		(const ml::DrawEvent	& ev) override;
-		void onGui		(const ml::GuiEvent		& ev) override;
+		void onGui		(const ml::DrawGuiEvent		& ev) override;
 		void onUnload	(const ml::UnloadEvent	& ev) override;
-		void onExit		(const ml::ExitEvent	& ev) override;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 
-		class MyData final : public ml::INonCopyable
+		struct MyData final : public ml::INonCopyable
 		{
-			Sandbox & m_self;
-
-		public:
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			MyData(Sandbox & self) : m_self(self) {}
-
-			inline Sandbox * operator->() { return &m_self; }
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			ml::PhysicsWorld	physWorld	= {};
 			ml::SStream			rdstr		= ml::SStream();
 			ml::StreamBuf *		rdbuf		= NULL;
 			ml::String			res_data	= {};
@@ -97,15 +84,12 @@ namespace DEMO
 			ml::VBO				vbo			= {};
 			TextTable			text		= {};
 			ml::String			title		= {};
-			bool				isClient	= false;
-			bool				isServer	= false;
 			ml::Entity *		light		= NULL;
 			ml::Entity *		camera		= NULL;
 			bool				cameraOrbit = true;
 			float				cameraSpeed = 1.0f;
 			int32_t				effectMode	= 3;
-
-			/* * * * * * * * * * * * * * * * * * * * */
+			ml::PhysicsWorld	physWorld	= {};
 
 		} sandbox;
 

@@ -21,7 +21,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Dockspace::drawGui(const GuiEvent & ev)
+	bool Dockspace::drawGui(const DrawGuiEvent & ev)
 	{
 		if (beginDraw(
 			ImGuiWindowFlags_NoTitleBar |
@@ -57,7 +57,7 @@ namespace ml
 				dockWindow(ev.editor.project.getTitle(),	left_U);
 				dockWindow(ev.editor.terminal.getTitle(),	left_D);
 				dockWindow(ev.editor.sceneView.getTitle(),	center_U);
-				dockWindow(ev.editor.textEditor.getTitle(),	center_D);
+				dockWindow(ev.editor.textEdit.getTitle(),	center_D);
 				dockWindow(ev.editor.builder.getTitle(),	center_D);
 				dockWindow(ev.editor.inspector.getTitle(),	center_DR);
 

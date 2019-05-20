@@ -11,7 +11,7 @@
 # 	undef APIENTRY
 # endif
 
-# if defined(ML_SYSTEM_WINDOWS)
+# ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
 # endif
 
@@ -21,7 +21,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	static Window * g_Instance = NULL;
+	static EventSystem * g_EventSystem = NULL;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -36,12 +36,11 @@ namespace ml
 		, m_style		(Window::Default)
 		, m_position	(vec2i::Zero)
 	{
-		if (!g_Instance) { g_Instance = this; }
-
-#if defined(ML_SYSTEM_WINDOWS)
-		// Disable CMD Window Close Button
+#ifdef ML_SYSTEM_WINDOWS
 		Console::enableMenuItem(SC_CLOSE, MF_GRAYED);
 #endif
+		g_EventSystem = &m_eventSystem;
+
 		eventSystem.addListener(WindowEvent::EV_Char,		this);
 		eventSystem.addListener(WindowEvent::EV_CursorEnter,this);
 		eventSystem.addListener(WindowEvent::EV_CursorPos,	this);
@@ -59,14 +58,14 @@ namespace ml
 	Window::~Window() 
 	{
 		this->destroy();
+
 		this->terminate();
 
-#if defined(ML_SYSTEM_WINDOWS)
-		// Enable CMD Window Close Button
+		g_EventSystem = NULL;
+
+#ifdef ML_SYSTEM_WINDOWS
 		Console::enableMenuItem(SC_CLOSE, MF_ENABLED);
 #endif
-
-		if (g_Instance) { g_Instance = NULL; }
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -83,7 +82,14 @@ namespace ml
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, m_context.majorVersion);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, m_context.minorVersion);
 			
-			glfwWindowHint(GLFW_OPENGL_PROFILE, m_context.profile);
+			switch (m_context.profile)
+			{
+			case 0	: glfwWindowHint(GLFW_OPENGL_PROFILE, 0X00000);	break; // Any	 | 0
+			case 1	: glfwWindowHint(GLFW_OPENGL_PROFILE, 0x22007); break; // Debug	 | 139271
+			case 2	: glfwWindowHint(GLFW_OPENGL_PROFILE, 0x32001); break; // Core	 | 204801
+			case 3	: glfwWindowHint(GLFW_OPENGL_PROFILE, 0x32002); break; // Compat | 204802
+			}
+
 			glfwWindowHint(GLFW_DEPTH_BITS,		m_context.depthBits);
 			glfwWindowHint(GLFW_STENCIL_BITS,	m_context.stencilBits);
 			glfwWindowHint(GLFW_SRGB_CAPABLE,	m_context.srgbCapable);
@@ -120,34 +126,39 @@ namespace ml
 
 	bool Window::setup()
 	{
+		if (!g_EventSystem)
+		{
+			return Debug::logError("Window Setup Failed | g_EventSystem Not Initialized");
+		}
+
 		setCharCallback([](void * window, uint32_t c)
 		{
-			g_Instance->eventSystem().fireEvent(CharEvent(c));
+			g_EventSystem->fireEvent(CharEvent(c));
 		});
 
 		setCursorEnterCallback([](void * window, int32_t entered)
 		{
-			g_Instance->eventSystem().fireEvent(CursorEnterEvent(entered));
+			g_EventSystem->fireEvent(CursorEnterEvent(entered));
 		});
 
 		setCursorPosCallback([](void * window, double x, double y)
 		{
-			g_Instance->eventSystem().fireEvent(CursorPosEvent(x, y));
+			g_EventSystem->fireEvent(CursorPosEvent(x, y));
 		});
 
 		setErrorCallback([](int32_t code, CString desc)
 		{
-			g_Instance->eventSystem().fireEvent(WindowErrorEvent(code, desc));
+			g_EventSystem->fireEvent(WindowErrorEvent(code, desc));
 		});
 
 		setFrameSizeCallback([](void * window, int32_t w, int32_t h)
 		{
-			g_Instance->eventSystem().fireEvent(FrameSizeEvent(w, h));
+			g_EventSystem->fireEvent(FrameSizeEvent(w, h));
 		});
 
 		setKeyCallback([](void * window, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			g_Instance->eventSystem().fireEvent(KeyEvent(button, scan, action,
+			g_EventSystem->fireEvent(KeyEvent(button, scan, action,
 				(bool)(mods & ML_MOD_SHIFT),
 				(bool)(mods & ML_MOD_CTRL),
 				(bool)(mods & ML_MOD_ALT),
@@ -157,32 +168,32 @@ namespace ml
 
 		setMouseButtonCallback([](void * window, int32_t button, int32_t action, int32_t mods)
 		{
-			g_Instance->eventSystem().fireEvent(MouseButtonEvent(button, action, mods));
+			g_EventSystem->fireEvent(MouseButtonEvent(button, action, mods));
 		});
 		
 		setScrollCallback([](void * window, double x, double y)
 		{
-			g_Instance->eventSystem().fireEvent(ScrollEvent(x, y));
+			g_EventSystem->fireEvent(ScrollEvent(x, y));
 		});
 
 		setWindowCloseCallback([](void * window)
 		{
-			g_Instance->eventSystem().fireEvent(WindowCloseEvent());
+			g_EventSystem->fireEvent(WindowCloseEvent());
 		});
 
 		setWindowFocusCallback([](void * window, int32_t focused)
 		{
-			g_Instance->eventSystem().fireEvent(WindowFocusEvent(focused));
+			g_EventSystem->fireEvent(WindowFocusEvent(focused));
 		});
 		
 		setWindowPosCallback([](void * window, int32_t x, int32_t y)
 		{
-			g_Instance->eventSystem().fireEvent(WindowPosEvent(x, y));
+			g_EventSystem->fireEvent(WindowPosEvent(x, y));
 		});
 
 		setWindowSizeCallback([](void * window, int32_t width, int32_t height)
 		{
-			g_Instance->eventSystem().fireEvent(WindowSizeEvent(width, height));
+			g_EventSystem->fireEvent(WindowSizeEvent(width, height));
 		});
 
 		return true;

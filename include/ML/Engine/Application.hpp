@@ -2,14 +2,20 @@
 #define _ML_APPLICATION_HPP_
 
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Graphics/RenderWindow.hpp>
+#include <ML/Core/IEventListener.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Application 
-		: public RenderWindow
+	class EventSystem;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	class ML_ENGINE_API Application
+		: public ITrackable
+		, public INonCopyable
+		, public IEventListener
 	{
 	public:
 		Application(EventSystem & eventSystem);
@@ -25,7 +31,12 @@ namespace ml
 		virtual void onUpdate	(const UpdateEvent	& ev) = 0;
 		virtual void onDraw		(const DrawEvent	& ev) = 0;
 		virtual void onUnload	(const UnloadEvent	& ev) = 0;
-		virtual void onExit		(const ExitEvent	& ev) = 0;
+
+	public:
+		EventSystem & eventSystem() const;
+
+	private:
+		EventSystem & m_eventSystem;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -17,7 +17,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool NetworkHUD::drawGui(const GuiEvent & ev)
+	bool NetworkHUD::drawGui(const DrawGuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{

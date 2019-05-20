@@ -19,7 +19,9 @@ namespace ml
 		{
 			MIN_EDITOR_EVENT = IEvent::EV_EDITOR + 1,
 
-			EV_Gui,
+			EV_BeginGui,
+			EV_DrawGui,
+			EV_EndGui,
 
 			EV_File_New,
 			EV_File_Open,
@@ -43,12 +45,34 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API GuiEvent final : public EditorEvent
+	struct ML_EDITOR_API BeginGuiEvent final : public EditorEvent
 	{
 		Editor & editor;
 
-		GuiEvent(Editor & editor)
-			: EditorEvent(EV_Gui)
+		BeginGuiEvent(Editor & editor)
+			: EditorEvent(EV_BeginGui)
+			, editor(editor)
+		{
+		}
+	};
+
+	struct ML_EDITOR_API DrawGuiEvent final : public EditorEvent
+	{
+		Editor & editor;
+
+		DrawGuiEvent(Editor & editor)
+			: EditorEvent(EV_DrawGui)
+			, editor(editor)
+		{
+		}
+	};
+
+	struct ML_EDITOR_API EndGuiEvent final : public EditorEvent
+	{
+		Editor & editor;
+
+		EndGuiEvent(Editor & editor)
+			: EditorEvent(EV_EndGui)
 			, editor(editor)
 		{
 		}

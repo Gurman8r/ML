@@ -25,7 +25,7 @@ namespace ml
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const GuiEvent & ev) override;
+		bool drawGui(const DrawGuiEvent & ev) override;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

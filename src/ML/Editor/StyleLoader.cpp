@@ -83,6 +83,7 @@ namespace ml
 	bool StyleLoader::loadFromFile(const String & filename)
 	{
 		return false;
+
 		if (m_file.loadFromFile(filename))
 		{
 			m_file.ToStream() >> (*this);

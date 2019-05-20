@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\ML\Audio\Audio.cpp" />
     <ClCompile Include="..\..\..\src\ML\Audio\AudioBuffer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Audio\AudioSource.cpp" />
     <ClCompile Include="..\..\..\src\ML\Audio\OpenAL.cpp" />
@@ -26,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Audio\AL.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Audio\Audio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\AudioBuffer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\AudioEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\AudioSource.hpp" />

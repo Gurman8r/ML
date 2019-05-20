@@ -16,22 +16,19 @@ namespace ml
 		: public ITrackable
 		, public INonCopyable
 	{
-	public:
+	public: // Usings
+		/* * * * * * * * * * * * * * * * * * * * */
 		using key_type		= typename Key;
 		using fun_type		= typename key_type(*)(Args...);
 		using map_type		= typename HashMap<key_type, fun_type>;
 		using pair_type		= typename Pair<key_type, fun_type>;
 		using init_type		= typename Initializer<pair_type>;
-		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;
 
-	public:
-		StateMachine(const map_type & states)
-			: m_states(states)
-		{
-		}
 
-		StateMachine(const init_type & init)
+	public: // Constructor
+		/* * * * * * * * * * * * * * * * * * * * */
+		StateMachine(init_type && init)
 			: m_states()
 		{
 			for (auto it = init.begin(); it != init.end(); it++)
@@ -41,9 +38,11 @@ namespace ml
 					m_states[it->first] = it->second;
 				}
 			}
+
 		}
 
-	public:
+	public: // Get State
+		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class T
 		> inline fun_type operator[](const T & key)
@@ -57,6 +56,8 @@ namespace ml
 			);
 		}
 
+	public: // Run State
+		/* * * * * * * * * * * * * * * * * * * * */
 		template <
 			class T
 		> inline key_type operator()(const T & key, Args ... args)
@@ -68,7 +69,8 @@ namespace ml
 			);
 		}
 
-	private:
+	private: // Data
+		/* * * * * * * * * * * * * * * * * * * * */
 		map_type m_states;
 	};
 

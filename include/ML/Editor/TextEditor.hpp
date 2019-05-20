@@ -18,7 +18,7 @@ namespace ml
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const GuiEvent & ev) override;
+		bool drawGui(const DrawGuiEvent & ev) override;
 
 		void draw_menu();
 		void draw_tabs();

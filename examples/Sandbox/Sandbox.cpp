@@ -88,10 +88,10 @@ namespace DEMO
 		case ml::WindowEvent::EV_Key:
 			if (auto ev = value->as<ml::KeyEvent>())
 			{
-				// Close (Escape)
+				// Exit (Escape)
 				if (ev->getKeyDown(ml::KeyCode::Escape))
 				{
-					eventSystem().fireEvent(ml::ShutdownEvent());
+					eventSystem().fireEvent(ml::ExitEvent());
 				}
 			}
 			break;
@@ -1035,7 +1035,7 @@ namespace DEMO
 		}
 	}
 
-	void Sandbox::onGui(const ml::DrawGuiEvent & ev)
+	void Sandbox::onDrawGui(const ml::DrawGuiEvent & ev)
 	{
 		/* Terminal Output */
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -1074,7 +1074,7 @@ namespace DEMO
 		});
 	}
 
-	void Sandbox::onUnload(const ml::UnloadEvent & ev)
+	void Sandbox::onShutdown(const ml::ShutdownEvent & ev)
 	{
 		// Cleanup Physics Thread
 		sandbox.physWorld.dispose();

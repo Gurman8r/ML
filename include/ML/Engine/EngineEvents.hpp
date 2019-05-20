@@ -23,9 +23,9 @@ namespace ml
 			EV_Start,
 			EV_Update,
 			EV_Draw,
-			EV_Unload,
-
 			EV_Shutdown,
+
+			EV_Exit,
 
 			MAX_ENGINE_EVENT
 		};
@@ -48,8 +48,6 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	struct ML_ENGINE_API LoadEvent final : public EngineEvent
 	{
 		Engine & engine;
@@ -59,8 +57,6 @@ namespace ml
 		{
 		}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API StartEvent final : public EngineEvent
 	{
@@ -72,8 +68,6 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	struct ML_ENGINE_API UpdateEvent final : public EngineEvent
 	{
 		Engine & engine;
@@ -83,8 +77,6 @@ namespace ml
 		{
 		}
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API DrawEvent final : public EngineEvent
 	{
@@ -96,13 +88,11 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	struct ML_ENGINE_API UnloadEvent final : public EngineEvent
+	struct ML_ENGINE_API ShutdownEvent final : public EngineEvent
 	{
 		Engine & engine;
-		UnloadEvent(Engine & engine)
-			: EngineEvent(EV_Unload)
+		ShutdownEvent(Engine & engine)
+			: EngineEvent(EV_Shutdown)
 			, engine(engine)
 		{
 		}
@@ -110,10 +100,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API ShutdownEvent final : public EngineEvent
+	struct ML_ENGINE_API ExitEvent final : public EngineEvent
 	{
-		ShutdownEvent()
-			: EngineEvent(EV_Shutdown)
+		ExitEvent()
+			: EngineEvent(EV_Exit)
 		{
 		}
 	};

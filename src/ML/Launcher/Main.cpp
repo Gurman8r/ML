@@ -41,7 +41,7 @@ int32_t main()
 	// Setup Flow Controller
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum State { Enter, Load, Start, Loop, Unload };
+	enum State { Enter, Load, Start, Loop, Shutdown };
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -64,24 +64,17 @@ int32_t main()
 	} },
 	{ State::Loop, []()
 	{	g_Engine.loopFun([&]()
-		{
-			/* Update */ 
-			g_EventSystem.fireEvent(ml::UpdateEvent(g_Engine));
-
-			/* Draw */
-			g_EventSystem.fireEvent(ml::DrawEvent(g_Engine));
-
-			/* Gui */
-			g_EventSystem.fireEvent(ml::BeginGuiEvent(g_Editor));
-			g_EventSystem.fireEvent(ml::DrawGuiEvent(g_Editor));
-			g_EventSystem.fireEvent(ml::EndGuiEvent(g_Editor));
-			
+		{	/* Update	 */	g_EventSystem.fireEvent(ml::UpdateEvent(g_Engine));
+			/* Render	 */	g_EventSystem.fireEvent(ml::DrawEvent(g_Engine));
+			/* Begin GUI */	g_EventSystem.fireEvent(ml::BeginGuiEvent(g_Editor));
+			/* Draw GUI  */	g_EventSystem.fireEvent(ml::DrawGuiEvent(g_Editor));
+			/* End GUI	 */	g_EventSystem.fireEvent(ml::EndGuiEvent(g_Editor));
 		});
-		return g_Control(State::Unload);
+		return g_Control(State::Shutdown);
 	} },
-	{ State::Unload, []()
-	{	/* Unload */
-		g_EventSystem.fireEvent(ml::UnloadEvent(g_Engine));
+	{ State::Shutdown, []()
+	{	/* Shutdown */
+		g_EventSystem.fireEvent(ml::ShutdownEvent(g_Engine));
 		return g_Control(ML_STATE_NONE);
 	} },
 	};
@@ -91,11 +84,13 @@ int32_t main()
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Load Library from File
-	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(
+	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo
+	(
 		g_Prefs.GetString("Engine", "user_dll", "") + ML_DLL_STR("")
 	)))
 	{	// Load Application from Library
-		if (auto app = g_Engine.launchApp(
+		if (auto app = g_Engine.launchApp
+		(
 			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem)
 		))
 		{	// Run State Machine

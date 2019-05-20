@@ -18,12 +18,13 @@ namespace ml
 
 	void EditorApplication::onEvent(const IEvent * value)
 	{
+		// Handle base events
 		Application::onEvent(value);
 
 		switch (*value)
 		{
 		case EditorEvent::EV_DrawGui:
-			this->onGui(*value->as<DrawGuiEvent>());
+			this->onDrawGui(*value->as<DrawGuiEvent>());
 			break;
 		}
 	}

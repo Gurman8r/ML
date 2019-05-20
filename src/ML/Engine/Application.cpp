@@ -13,7 +13,7 @@ namespace ml
 		eventSystem.addListener(EngineEvent::EV_Start,	this);
 		eventSystem.addListener(EngineEvent::EV_Update,	this);
 		eventSystem.addListener(EngineEvent::EV_Draw,	this);
-		eventSystem.addListener(EngineEvent::EV_Unload,	this);
+		eventSystem.addListener(EngineEvent::EV_Shutdown,	this);
 	}
 
 	Application::~Application() { }
@@ -29,7 +29,7 @@ namespace ml
 		case EngineEvent::EV_Start:	return onStart	(*value->as<StartEvent>());
 		case EngineEvent::EV_Update:return onUpdate	(*value->as<UpdateEvent>());
 		case EngineEvent::EV_Draw:	return onDraw	(*value->as<DrawEvent>());
-		case EngineEvent::EV_Unload:return onUnload	(*value->as<UnloadEvent>());
+		case EngineEvent::EV_Shutdown:return onShutdown	(*value->as<ShutdownEvent>());
 		}
 	}
 

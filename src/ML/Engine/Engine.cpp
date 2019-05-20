@@ -46,8 +46,8 @@ namespace ml
 		eventSystem.addListener(EngineEvent::EV_Start,		this);
 		eventSystem.addListener(EngineEvent::EV_Update,		this);
 		eventSystem.addListener(EngineEvent::EV_Draw,		this);
-		eventSystem.addListener(EngineEvent::EV_Unload,		this);
 		eventSystem.addListener(EngineEvent::EV_Shutdown,	this);
+		eventSystem.addListener(EngineEvent::EV_Exit,this);
 
 		/* Start Main Timer */
 		m_mainTimer.start();
@@ -68,17 +68,17 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EngineEvent::EV_Enter	: break;
-		case EngineEvent::EV_Load	: break;
-		case EngineEvent::EV_Start	: break;
-		case EngineEvent::EV_Update	: break;
-		case EngineEvent::EV_Draw	: break;
-		case EngineEvent::EV_Unload	: break;
+		case EngineEvent::EV_Enter		: break;
+		case EngineEvent::EV_Load		: break;
+		case EngineEvent::EV_Start		: break;
+		case EngineEvent::EV_Update		: break;
+		case EngineEvent::EV_Draw		: break;
+		case EngineEvent::EV_Shutdown	: break;
 
-			// Shutdown Event
+			// Exit Request Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Shutdown:
-			if (auto ev = value->as<ShutdownEvent>())
+		case EngineEvent::EV_Exit:
+			if (auto ev = value->as<ExitEvent>())
 			{
 				if (isRunning()) { m_window.close(); }
 			}

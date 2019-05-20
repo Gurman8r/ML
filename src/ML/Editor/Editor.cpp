@@ -33,7 +33,7 @@ namespace ml
 
 		eventSystem().addListener(WindowEvent::EV_Key,			this);
 		eventSystem().addListener(EngineEvent::EV_Load,			this);
-		eventSystem().addListener(EngineEvent::EV_Unload,		this);
+		eventSystem().addListener(EngineEvent::EV_Shutdown,		this);
 		
 		eventSystem().addListener(EditorEvent::EV_BeginGui,		this);
 		eventSystem().addListener(EditorEvent::EV_DrawGui,		this);
@@ -58,26 +58,26 @@ namespace ml
 	{
 		switch (*value)
 		{
+			// Begin Gui Event
 			/* * * * * * * * * * * * * * * * * * * * */
-
 		case EditorEvent::EV_BeginGui:
-			this->onBeginGui(*value->as<BeginGuiEvent>());
+			this->onBeginGui(*value->as<BeginGuiEvent>()); 
 			break;
 
+			// Draw Gui Event
 			/* * * * * * * * * * * * * * * * * * * * */
-
-		case EditorEvent::EV_DrawGui:
+		case EditorEvent::EV_DrawGui: 
 			this->onDrawGui(*value->as<DrawGuiEvent>()); 
 			break;
 
+			// End Gui Event
 			/* * * * * * * * * * * * * * * * * * * * */
-
 		case EditorEvent::EV_EndGui: 
-			this->onEndGui(*value->as<EndGuiEvent>());
+			this->onEndGui(*value->as<EndGuiEvent>()); 
 			break;
 
+			// Load Event
 			/* * * * * * * * * * * * * * * * * * * * */
-
 		case EngineEvent::EV_Load:
 			if (auto ev = value->as<LoadEvent>())
 			{
@@ -121,27 +121,26 @@ namespace ml
 			}
 			break;
 
+			// Shutdown Event
 			/* * * * * * * * * * * * * * * * * * * * */
-
-		case EngineEvent::EV_Unload:
-			if (auto ev = value->as<UnloadEvent>())
+		case EngineEvent::EV_Shutdown:
+			if (auto ev = value->as<ShutdownEvent>())
 			{
-				// Shutdown ImGui
 				ImGui_ML_Shutdown();
 			}
 			break;
 
+			// File->Close Event
 			/* * * * * * * * * * * * * * * * * * * * */
-
 		case EditorEvent::EV_File_Close:
 			if (auto ev = value->as<File_Close_Event>())
 			{
-				eventSystem().fireEvent(ShutdownEvent());
+				eventSystem().fireEvent(ExitEvent());
 			}
 			break;
 
+			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
-
 		case WindowEvent::EV_Key:
 			if (auto ev = value->as<KeyEvent>())
 			{

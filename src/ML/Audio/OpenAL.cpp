@@ -1,21 +1,25 @@
 #include <ML/Audio/OpenAL.hpp>
 #include <ML/Core/Debug.hpp>
-# include <AL/al.h>
-# include <AL/alc.h>
+#include <ML/Core/EventSystem.hpp>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 namespace ml
 {
 	/* Initialization */
 
-	bool OpenAL::init()
+	bool OpenAL::init(EventSystem & eventSystem)
 	{
 		static bool check = false;
 		if (!check && !good())
 		{
-			check =
+			if (check =
 				openDevice() &&
 				createContext() &&
-				makeContextCurrent();
+				makeContextCurrent())
+			{
+				ML_AL.m_eventSystem = &eventSystem;
+			}
 		}
 		return check;
 	}

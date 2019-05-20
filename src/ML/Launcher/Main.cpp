@@ -25,21 +25,13 @@ int32_t main()
 	// Setup Launcher
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static ml::EventSystem	g_EventSystem	= {};
-	static ml::Preferences	g_Prefs			= {};
-	static ml::Resources	g_Resources		= {};
-	static ml::NetClient	g_Client		= { g_EventSystem };
-	static ml::NetServer	g_Server		= { g_EventSystem };
-	static ml::Engine		g_Engine		= { g_EventSystem, g_Prefs, g_Resources, g_Client, g_Server };
-	static ml::Editor		g_Editor		= { g_Engine };
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	if (!g_Prefs.loadFromFile(ML_CONFIG_INI))
-	{
-		return ml::Debug::logError("Failed Loading Preferences: \'{0}\'", ML_CONFIG_INI)
-			|| ml::Debug::pause(EXIT_FAILURE);
-	}
+	static ml::EventSystem	g_EventSystem	{};
+	static ml::Preferences	g_Prefs			{ ML_CONFIG_INI };
+	static ml::Resources	g_Resources		{};
+	static ml::NetClient	g_Client		{ g_EventSystem };
+	static ml::NetServer	g_Server		{ g_EventSystem };
+	static ml::Engine		g_Engine		{ g_EventSystem, g_Prefs, g_Resources, g_Client, g_Server };
+	static ml::Editor		g_Editor		{ g_Engine };
 
 
 	// Setup Flow Control
@@ -95,13 +87,13 @@ int32_t main()
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(
-		g_Prefs.GetString("Launcher", "user_dll", "") + ML_DLL_STR("")
+		g_Prefs.GetString("Engine", "user_dll", "") + ML_DLL_STR("")
 	)))
-	{	// Load app instance from DLL
+	{	// Load an Application instance from a DLL
 		if (auto app = g_Engine.launchApp(
 			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem)
 		))
-		{
+		{	// Execute Flow Control
 			g_Control(State::Enter);
 			return g_Engine.freeApp(app);
 		}

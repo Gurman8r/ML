@@ -248,7 +248,7 @@ namespace DEMO
 
 		// Initialize Audio
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_AL.init())
+		if (!ML_AL.init(eventSystem()))
 		{
 			return ml::Debug::fatal("Failed Initializing OpenAL");
 		}

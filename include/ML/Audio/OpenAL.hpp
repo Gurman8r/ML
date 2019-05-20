@@ -25,17 +25,22 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	class EventSystem;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class ML_AUDIO_API OpenAL final
 		: public ISingleton<OpenAL>
 	{
 		friend class ISingleton<OpenAL>;
 
-		void * m_device;
-		void * m_context;
+		EventSystem * m_eventSystem;
+		void		* m_device;
+		void		* m_context;
 
 	public:
 		/* Initialization */
-		static bool init();
+		static bool init(EventSystem & eventSystem);
 		static bool good();
 
 	public:

@@ -26,7 +26,7 @@
 
 extern "C"
 {
-	ML_PLUGIN_API ml::Application * ML_Plugin_Main(ml::EventSystem * eventSystem);
+	ML_PLUGIN_API ml::Application * ML_Plugin_Main(ml::EventSystem & eventSystem);
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

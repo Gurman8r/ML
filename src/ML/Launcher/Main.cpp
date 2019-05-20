@@ -97,9 +97,9 @@ int32_t main()
 	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(
 		g_Prefs.GetString("Launcher", "user_dll", "") + ML_DLL_STR("")
 	)))
-	{
+	{	// Load app instance from DLL
 		if (auto app = g_Engine.launchApp(
-			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), &g_EventSystem)
+			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem)
 		))
 		{
 			g_Control(State::Enter);

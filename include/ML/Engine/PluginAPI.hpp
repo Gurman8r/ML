@@ -24,7 +24,7 @@ extern "C"
 {
 	ML_PLUGIN_API void * ML_Plugin_Test(void *);
 
-	ML_PLUGIN_API ml::Application * ML_Plugin_Main(ml::EventSystem *);
+	ML_PLUGIN_API ml::Application * ML_Plugin_Main(ml::EventSystem &);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

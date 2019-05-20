@@ -37,8 +37,10 @@ namespace ml
 
 	bool SceneView::endDraw()
 	{
-		ImGui::EndChild();
-		
+		if (m_good)
+		{
+			ImGui::EndChild();
+		}
 		return BaseWidget::endDraw();
 	}
 

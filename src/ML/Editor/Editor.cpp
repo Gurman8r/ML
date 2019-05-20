@@ -269,6 +269,7 @@ namespace ml
 				ImGui::MenuItem("About Dear ImGui", "", &show_imgui_about);
 				ImGui::EndMenu();
 			}
+
 			ImGui::EndMainMenuBar();
 		}
 

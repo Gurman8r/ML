@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Audio/Audio.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -12,8 +11,6 @@
 #include <ML/Core/SharedLibrary.hpp>
 #include <ML/Engine/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
-#include <ML/Network/NetClient.hpp>
-#include <ML/Network/NetServer.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -32,9 +29,6 @@ int32_t main()
 	static ml::EventSystem	g_EventSystem	{};
 	static ml::Resources	g_Resources		{};
 	static ml::GameTime		g_Time			{};
-	static ml::Audio		g_Audio			{ g_EventSystem }; // WIP
-	static ml::NetClient	g_Client		{ g_EventSystem }; // WIP
-	static ml::NetServer	g_Server		{ g_EventSystem }; // WIP
 	static ml::RenderWindow g_Window		{ g_EventSystem };
 	static ml::Engine		g_Engine		{ g_EventSystem, g_Preferences, g_Window };
 	static ml::Editor		g_Editor		{ g_EventSystem };

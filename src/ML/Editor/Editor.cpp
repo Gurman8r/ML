@@ -61,9 +61,9 @@ namespace ml
 		case EngineEvent::EV_Enter:
 			if (auto ev = value->as<EnterEvent>())
 			{
-				assert(IMGUI_CHECKVERSION());
+				IMGUI_CHECKVERSION();
 
-				// Create ImGui ContextSettings
+				// Create ImGui Context
 				ImGui::CreateContext();
 
 				// Load ImGui Style
@@ -143,7 +143,7 @@ namespace ml
 		case EditorEvent::EV_File_Open:
 			if (auto ev = value->as<File_Open_Event>())
 			{
-				OS::execute("open", browser.get_selected_path());
+				OS::execute("open", this->browser.get_selected_path());
 			}
 			break;
 
@@ -182,11 +182,18 @@ namespace ml
 
 	void Editor::onGui(const GuiEvent & ev)
 	{
-		// Demo Toggles
+		// ImGui Demo
+		/* * * * * * * * * * * * * * * * * * * * */
 		static bool show_imgui_demo		= false;
 		static bool show_imgui_metrics	= false;
 		static bool show_imgui_style	= false;
 		static bool show_imgui_about	= false;
+
+		if (show_imgui_demo)	{ ImGui_Builtin::showDemo	(&show_imgui_demo);		}
+		if (show_imgui_metrics) { ImGui_Builtin::showMetrics(&show_imgui_metrics);	}
+		if (show_imgui_style)	{ ImGui_Builtin::showStyle	(&show_imgui_style);	}
+		if (show_imgui_about)	{ ImGui_Builtin::showAbout	(&show_imgui_about);	}
+
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -292,13 +299,6 @@ namespace ml
 
 			ImGui::EndMainMenuBar();
 		}
-
-		// ImGui Demo
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (show_imgui_demo)	{ ImGui_Builtin::showDemo	(&show_imgui_demo);		}
-		if (show_imgui_metrics) { ImGui_Builtin::showMetrics(&show_imgui_metrics);	}
-		if (show_imgui_style)	{ ImGui_Builtin::showStyle	(&show_imgui_style);	}
-		if (show_imgui_about)	{ ImGui_Builtin::showAbout	(&show_imgui_about);	}
 
 		// Dockspace
 		this->dockspace.onGui(ev);

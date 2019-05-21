@@ -187,15 +187,39 @@
     <None Include="..\..\..\assets\shaders\common\Vert.MVP.shader" />
     <None Include="..\..\..\assets\shaders\common\Vert.shader" />
     <None Include="..\..\..\assets\shaders\example.shader" />
-    <None Include="..\..\..\assets\shaders\surface.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />
     <None Include="..\..\..\assets\shaders\lighting.shader" />
     <None Include="..\..\..\assets\shaders\normal.shader" />
     <None Include="..\..\..\assets\shaders\skybox.shader" />
     <None Include="..\..\..\assets\shaders\solid.shader" />
     <None Include="..\..\..\assets\shaders\sprites.shader" />
+    <None Include="..\..\..\assets\shaders\surface.shader" />
     <None Include="..\..\..\assets\shaders\text.shader" />
     <None Include="..\..\..\ML.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\assets\data\entities.txt" />
+    <Text Include="..\..\..\assets\data\fonts.txt" />
+    <Text Include="..\..\..\assets\data\images.txt" />
+    <Text Include="..\..\..\assets\data\lua.txt" />
+    <Text Include="..\..\..\assets\data\materials.txt" />
+    <Text Include="..\..\..\assets\data\meshes.txt" />
+    <Text Include="..\..\..\assets\data\models.txt" />
+    <Text Include="..\..\..\assets\data\plugins.txt" />
+    <Text Include="..\..\..\assets\data\scripts.txt" />
+    <Text Include="..\..\..\assets\data\shaders.txt" />
+    <Text Include="..\..\..\assets\data\skyboxes.txt" />
+    <Text Include="..\..\..\assets\data\sprites.txt" />
+    <Text Include="..\..\..\assets\data\surfaces.txt" />
+    <Text Include="..\..\..\assets\data\textures.txt" />
+    <Text Include="..\..\..\assets\manifest.txt" />
+    <Text Include="..\..\..\assets\styles\style4.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\assets\fonts\clacon.ttf" />
+    <Font Include="..\..\..\assets\fonts\consolas.ttf" />
+    <Font Include="..\..\..\assets\fonts\lucida_console.ttf" />
+    <Font Include="..\..\..\assets\fonts\minecraft.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\assets\images\borg.png" />
@@ -225,30 +249,6 @@
     <Image Include="..\..\..\assets\textures\mars\mars_nm.png" />
     <Image Include="..\..\..\assets\textures\moon\moon_dm.png" />
     <Image Include="..\..\..\assets\textures\moon\moon_nm.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\assets\data\surfaces.txt" />
-    <Text Include="..\..\..\assets\data\entities.txt" />
-    <Text Include="..\..\..\assets\data\fonts.txt" />
-    <Text Include="..\..\..\assets\data\images.txt" />
-    <Text Include="..\..\..\assets\data\lua.txt" />
-    <Text Include="..\..\..\assets\data\materials.txt" />
-    <Text Include="..\..\..\assets\data\meshes.txt" />
-    <Text Include="..\..\..\assets\data\models.txt" />
-    <Text Include="..\..\..\assets\data\plugins.txt" />
-    <Text Include="..\..\..\assets\data\scripts.txt" />
-    <Text Include="..\..\..\assets\data\shaders.txt" />
-    <Text Include="..\..\..\assets\data\skyboxes.txt" />
-    <Text Include="..\..\..\assets\data\sprites.txt" />
-    <Text Include="..\..\..\assets\data\textures.txt" />
-    <Text Include="..\..\..\assets\manifest.txt" />
-    <Text Include="..\..\..\assets\styles\style4.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\..\..\assets\fonts\clacon.ttf" />
-    <Font Include="..\..\..\assets\fonts\consolas.ttf" />
-    <Font Include="..\..\..\assets\fonts\lucida_console.ttf" />
-    <Font Include="..\..\..\assets\fonts\minecraft.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

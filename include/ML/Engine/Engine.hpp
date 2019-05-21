@@ -9,15 +9,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class Audio;
 	class EventSystem;
-	class GameTime;
-	class NetClient;
-	class NetServer;
-	class PhysicsWorld;
 	class Preferences;
 	class RenderWindow;
-	class Resources;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -30,8 +24,6 @@ namespace ml
 		explicit Engine(
 			EventSystem		& eventSystem,
 			Preferences		& prefs,
-			GameTime		& time,
-			Resources		& resources,
 			RenderWindow	& window
 		);
 
@@ -40,22 +32,9 @@ namespace ml
 	public:
 		void onEvent(const IEvent * value) override;
 
-	public:
-		void beginFrame();
-		void endFrame();
-
-	public:
-		EventSystem		& eventSystem()	const;
-		Preferences		& prefs()		const;
-		Resources		& resources()	const;
-		GameTime		& time()		const;
-		RenderWindow	& window()		const;
-
 	private:
 		EventSystem		& m_eventSystem;
 		Preferences		& m_prefs;
-		Resources		& m_resources;
-		GameTime		& m_time;
 		RenderWindow	& m_window;
 	};
 

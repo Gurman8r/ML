@@ -103,12 +103,6 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
-		// Capture Cout
-		if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
-		{
-			return ml::Debug::fatal("Failed Capturing Cout");
-		}
-
 		// Run Boot Script
 		ml::Script scr;
 		if (scr.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString("Engine", "boot_scr", ""))))
@@ -579,7 +573,6 @@ namespace DEMO
 						case RB_GROUND:
 							break;
 						}
-						
 						// Apply changes
 						assert(
 							state.set<state.T_Pos>(i, pos) &&
@@ -781,7 +774,7 @@ namespace DEMO
 	{
 		// Draw Scene
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Surface * scene = ev.resources.surfaces.get("surface_main"))
+		if (const ml::Surface * scene = ev.resources.surfaces.get("sf_main_scene"))
 		{
 			// Bind Scene
 			scene->bind();
@@ -879,13 +872,10 @@ namespace DEMO
 			
 			// Unbind Scene
 			scene->unbind();
-		}
 
-		// Draw Post
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Surface * post = ev.resources.surfaces.get("surface_post"))
-		{
-			if (const ml::Surface * scene = ev.resources.surfaces.get("surface_main"))
+			// Draw Post Processing
+			/* * * * * * * * * * * * * * * * * * * * */
+			if (const ml::Surface * post = ev.resources.surfaces.get("sf_post_process"))
 			{
 				post->bind();
 				scene->shader()->setUniform("Effect.mode", sandbox.effectMode);
@@ -897,24 +887,17 @@ namespace DEMO
 
 	void Sandbox::onGui(const ml::GuiEvent & ev)
 	{
-		// Update Terminal
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (sandbox.rdbuf)
-		{
-			ev.editor.terminal.printss(sandbox.rdstr);
-		}
-
-		// Scene View
+		// Draw Scene View
 		/* * * * * * * * * * * * * * * * * * * * */
 		ev.editor.sceneView.drawFun(ev, [&]()
 		{
-			if (ml::Surface * post = ev.resources.surfaces.get("surface_post"))
+			if (ml::Surface * post = ev.resources.surfaces.get("sf_post_process"))
 			{
 				ev.editor.sceneView.updateTexture(&post->texture());
 			}
 		});
 
-		// Inspector
+		// Draw Inspector
 		/* * * * * * * * * * * * * * * * * * * * */
 		ev.editor.inspector.drawFun(ev, [&]()
 		{
@@ -938,12 +921,6 @@ namespace DEMO
 	{
 		// Cleanup Physics Thread
 		sandbox.physWorld.dispose();
-
-		// Release Cout
-		if (sandbox.rdbuf)
-		{
-			ml::cout.rdbuf(sandbox.rdbuf);
-		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

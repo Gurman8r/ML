@@ -21,11 +21,17 @@ namespace ml
 	{
 		for (auto & pair : m_map)
 		{
-			delete pair.second;
+			if (pair.second)
+			{
+				delete pair.second;
+				pair.second = NULL;
+			}
 		}
 		m_map.clear();
 		return true;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool Entity::loadFromFile(const String & filename)
 	{

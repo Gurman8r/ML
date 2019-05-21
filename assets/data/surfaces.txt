@@ -3,7 +3,7 @@
 
 <import>
 	type	=	surface
-	name	=	surface_main
+	name	=	sf_main_scene
 	model	=	default_quad
 	shader	=	surface
 	width	=	1920
@@ -12,7 +12,7 @@
 
 <import>
 	type	=	surface
-	name	=	surface_post
+	name	=	sf_post_process
 	model	=	default_quad
 	shader	=	surface
 	width	=	1920

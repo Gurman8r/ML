@@ -24,7 +24,7 @@ namespace ml
 			MIN_ENGINE_EVENT = IEvent::EV_ENGINE + 1,
 
 			EV_Enter,
-			EV_Load,
+			EV_LoadContent,
 			EV_Start,
 			EV_Update,
 			EV_Draw,
@@ -46,27 +46,21 @@ namespace ml
 	struct ML_ENGINE_API EnterEvent final : public EngineEvent
 	{
 		Preferences		& prefs;
-		Resources		& resources;
 		RenderWindow	& window;
-		EnterEvent(Preferences & prefs, Resources & resources, RenderWindow & window)
+		EnterEvent(Preferences & prefs, RenderWindow & window)
 			: EngineEvent(EV_Enter)
 			, prefs		(prefs)
-			, resources	(resources)
 			, window	(window)
 		{
 		}
 	};
 
-	struct ML_ENGINE_API LoadEvent final : public EngineEvent
+	struct ML_ENGINE_API LoadContentEvent final : public EngineEvent
 	{
-		Preferences		& prefs;
-		Resources		& resources;
-		RenderWindow	& window;
-		LoadEvent(Preferences & prefs, Resources & resources, RenderWindow & window)
-			: EngineEvent(EV_Load)
-			, prefs		(prefs)
+		Resources & resources;
+		LoadContentEvent(Resources & resources)
+			: EngineEvent(EV_LoadContent)
 			, resources	(resources)
-			, window	(window)
 		{
 		}
 	};

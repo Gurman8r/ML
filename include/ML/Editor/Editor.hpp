@@ -47,6 +47,9 @@ namespace ml
 
 	private:
 		EventSystem & m_eventSystem;
+
+		StreamBuf * m_coutBuf; // cout redirect buffer
+		SStream		m_coutStr; // cout redirect stream
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

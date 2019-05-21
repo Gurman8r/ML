@@ -20,24 +20,17 @@ namespace ml
 	Engine::Engine(
 		EventSystem		& eventSystem, 
 		Preferences		& prefs, 
-		GameTime		& time,
-		Resources		& resources,
 		RenderWindow	& window)	
 		: m_eventSystem	(eventSystem)
 		, m_prefs		(prefs)
-		, m_time		(time)
-		, m_resources	(resources)
 		, m_window		(window)
 	{
 		// Setup Events
 		/* * * * * * * * * * * * * * * * * * * * */
-		eventSystem.addListener(EngineEvent::EV_Enter,		this);
-		eventSystem.addListener(EngineEvent::EV_Load,		this);
-		eventSystem.addListener(EngineEvent::EV_Start,		this);
-		eventSystem.addListener(EngineEvent::EV_Update,		this);
-		eventSystem.addListener(EngineEvent::EV_Draw,		this);
-		eventSystem.addListener(EngineEvent::EV_Exit,	this);
-		eventSystem.addListener(EngineEvent::EV_Shutdown,		this);
+		eventSystem.addListener(EngineEvent::EV_Enter, this);
+		eventSystem.addListener(EngineEvent::EV_LoadContent, this);;
+		eventSystem.addListener(EngineEvent::EV_Exit, this);
+		eventSystem.addListener(EngineEvent::EV_Shutdown, this);
 
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -65,31 +58,6 @@ namespace ml
 		{
 			Debug::fatal("Failed Creating Window");
 		}
-
-		// Setup Network
-		/* * * * * * * * * * * * * * * * * * * * */
-		//m_netType = m_prefs.GetInt("Engine", "net_mode", 0);
-		//switch (m_netType)
-		//{
-		//case NetServer::ID:
-		//	if (m_server.setup())
-		//	{
-		//		if (m_server.start({ ML_LOCALHOST, ML_DEFAULT_PORT }, ML_MAX_CLIENTS))
-		//		{
-		//			Debug::log("Server Started: {0}", m_server.getMyAddress());
-		//		}
-		//	}
-		//	break;
-		//case NetClient::ID:
-		//	if (m_client.setup())
-		//	{
-		//		if (m_client.connect({ ML_LOCALHOST, ML_DEFAULT_PORT }))
-		//		{
-		//			Debug::log("Client Connected: {0}", m_client.getMyAddress());
-		//		}
-		//	}
-		//	break;
-		//}
 	}
 
 	Engine::~Engine() {}
@@ -108,10 +76,10 @@ namespace ml
 			}
 			break;
 
-			// Load Event
+			// Load Content Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Load: 
-			if (auto ev = value->as<LoadEvent>())
+		case EngineEvent::EV_LoadContent: 
+			if (auto ev = value->as<LoadContentEvent>())
 			{
 				// Load Default Meshes
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -149,7 +117,7 @@ namespace ml
 				// Load Resource Manifest
 				/* * * * * * * * * * * * * * * * * * * * */
 				if (!ev->resources.loadFromFile(ML_FS.getPathTo(
-					ev->prefs.GetString("Engine", "manifest", "../../../assets/manifest.txt")
+					m_prefs.GetString("Engine", "manifest", "../../../assets/manifest.txt")
 				)))
 				{
 					Debug::logError("Failed Loading Manifest");
@@ -157,31 +125,7 @@ namespace ml
 			}
 			break;
 
-			// Start Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Start:
-			if (auto ev = value->as<StartEvent>())
-			{
-			}
-			break;
-
-			// Update Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Update:
-			if (auto ev = value->as<UpdateEvent>())
-			{
-			}
-			break;
-
-			// Draw Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Draw:
-			if (auto ev = value->as<DrawEvent>())
-			{
-			}
-			break;
-		
-			// Shutdown Event
+			// Exit Event
 			/* * * * * * * * * * * * * * * * * * * * */
 		case EngineEvent::EV_Exit:
 			if (auto ev = value->as<ExitEvent>())
@@ -190,51 +134,13 @@ namespace ml
 			}
 			break;
 
-			// Exit Event
+			// Shutdown Event
 			/* * * * * * * * * * * * * * * * * * * * */
 		case EngineEvent::EV_Shutdown:
-			if (auto ev = value->as<ShutdownEvent>())
-			{
-				m_window.close();
-			}
+			m_window.close();
 			break;
 		}
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void Engine::beginFrame()
-	{
-		// Start Loop Timer
-		m_time.beginLoop();
-
-		// Update Network
-		//switch (m_netType)
-		//{
-		//case NetServer::ID: m_server.poll(); break;
-		//case NetClient::ID: m_client.poll(); break;
-		//}
-
-		// Poll Window Events
-		m_window.pollEvents();
-	}
-
-	void Engine::endFrame()
-	{
-		// Swap Buffers
-		m_window.swapBuffers();
-
-		// Stop Loop Timer
-		m_time.endLoop();
-	}
 	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	EventSystem		& Engine::eventSystem() const { return m_eventSystem; }
-	Preferences		& Engine::prefs()		const { return m_prefs; }
-	Resources		& Engine::resources()	const { return m_resources; }
-	GameTime		& Engine::time()		const { return m_time; }
-	RenderWindow	& Engine::window()		const { return m_window; }
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

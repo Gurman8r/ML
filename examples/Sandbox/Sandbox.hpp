@@ -38,6 +38,24 @@ namespace DEMO
 
 	class ML_PLUGIN_API Sandbox final : public ml::EditorApplication
 	{
+	public:
+		Sandbox(ml::EventSystem & eventSystem);
+		~Sandbox();
+
+	public:
+		void onEvent(const ml::IEvent * value) override;
+
+	private:
+		void onEnter	(const ml::EnterEvent	& ev) override;
+		void onStart	(const ml::StartEvent	& ev) override;
+		void onUpdate	(const ml::UpdateEvent	& ev) override;
+		void onDraw		(const ml::DrawEvent	& ev) override;
+		void onGui		(const ml::GuiEvent		& ev) override;
+		void onExit		(const ml::ExitEvent	& ev) override;
+
+	private:
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		enum Rigidbody_ID : int32_t
 		{
 			RB_BORG,
@@ -50,33 +68,10 @@ namespace DEMO
 			MAX_DEMO_RIGIDBODY
 		};
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		Sandbox(ml::EventSystem & eventSystem);
-		~Sandbox();
-
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		void onEvent(const ml::IEvent * value) override;
-
-	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-		void onEnter	(const ml::EnterEvent	& ev) override;
-		void onStart	(const ml::StartEvent	& ev) override;
-		void onUpdate	(const ml::UpdateEvent	& ev) override;
-		void onDraw		(const ml::DrawEvent	& ev) override;
-		void onGui		(const ml::GuiEvent		& ev) override;
-		void onExit		(const ml::ExitEvent	& ev) override;
-
-	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 
 		struct MyData final : public ml::INonCopyable
 		{
-			ml::SStream			rdstr		= ml::SStream();
-			ml::StreamBuf *		rdbuf		= NULL;
 			ml::VAO				vao			= {};
 			ml::VBO				vbo			= {};
 			TextTable			text		= {};

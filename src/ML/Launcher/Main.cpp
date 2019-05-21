@@ -36,16 +36,14 @@ int32_t main()
 	static ml::NetClient	g_Client	{ g_EventSys }; // WIP
 	static ml::NetServer	g_Server	{ g_EventSys }; // WIP
 	static ml::RenderWindow g_Window	{ g_EventSys };
-	static ml::Engine		g_Engine	{ g_EventSys, g_Prefs, g_Time, g_Resources, g_Window };
+	static ml::Engine		g_Engine	{ g_EventSys, g_Prefs, g_Window };
 	static ml::Editor		g_Editor	{ g_EventSys };
 
 
 	// Setup Control Flow
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum State { Enter, Load, Start, Loop, Exit };
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	enum State { Enter, Loop, Exit };
 
 	static ml::StateMachine<State> g_Control =
 	{
@@ -53,22 +51,13 @@ int32_t main()
 	{	/* Enter */
 		g_EventSys.fireEvent(ml::EnterEvent(
 			g_Prefs,
-			g_Resources,
 			g_Window
 		));
-		return g_Control(State::Load);
-	} },
-	{ State::Load, []()
-	{	/* Load */
-		g_EventSys.fireEvent(ml::LoadEvent(
-			g_Prefs,
-			g_Resources,
-			g_Window
+		/* Load Content */
+		g_EventSys.fireEvent(ml::LoadContentEvent(
+			g_Resources
 		));
-		return g_Control(State::Start);
-	} },
-	{ State::Start, []()
-	{	/* Start */
+		/* Start */
 		g_EventSys.fireEvent(ml::StartEvent(
 			g_Time,
 			g_Resources,
@@ -81,7 +70,8 @@ int32_t main()
 		while (g_Window.isOpen())
 		{
 			/* Begin Frame */
-			g_Engine.beginFrame();
+			g_Time.beginLoop();
+			g_Window.pollEvents();
 
 			/* Update */
 			g_EventSys.fireEvent(ml::UpdateEvent(
@@ -107,7 +97,8 @@ int32_t main()
 			g_EventSys.fireEvent(ml::EndGuiEvent());
 
 			/* End Frame */
-			g_Engine.endFrame();
+			g_Window.swapBuffers();
+			g_Time.endLoop();
 		}
 		return g_Control(State::Exit);
 	} },
@@ -117,7 +108,7 @@ int32_t main()
 			g_Resources,
 			g_Window
 		));
-		return g_Control(ML_STATE_NONE);
+		return g_Control(g_Control.NoState);
 	} },
 	};
 

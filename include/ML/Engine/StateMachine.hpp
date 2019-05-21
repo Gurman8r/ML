@@ -4,8 +4,6 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/ITrackable.hpp>
 
-#define ML_STATE_NONE -1
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -19,11 +17,14 @@ namespace ml
 	public: // Usings
 		/* * * * * * * * * * * * * * * * * * * * */
 		using key_type		= typename Key;
+		using self_type		= typename StateMachine<Key, Args...>;
 		using fun_type		= typename key_type(*)(Args...);
 		using map_type		= typename HashMap<key_type, fun_type>;
 		using pair_type		= typename Pair<key_type, fun_type>;
 		using init_type		= typename Initializer<pair_type>;
 		using const_iterator= typename map_type::const_iterator;
+
+		static constexpr key_type NoState { static_cast<key_type>(-1) };
 
 
 	public: // Constructor
@@ -33,7 +34,7 @@ namespace ml
 		{
 			for (auto it = init.begin(); it != init.end(); it++)
 			{
-				if (it->second && (it->first > (static_cast<key_type>(ML_STATE_NONE))))
+				if (it->second && (it->first > self_type::NoState))
 				{
 					m_states[it->first] = it->second;
 				}
@@ -47,7 +48,7 @@ namespace ml
 		> inline fun_type operator[](const T & key)
 		{
 			const_iterator it;
-			return ((key > (static_cast<key_type>(ML_STATE_NONE)))
+			return ((key > self_type::NoState)
 				? ((((it = m_states.find(static_cast<key_type>(key))) != m_states.end())
 					? (it->second)
 					: (NULL)))
@@ -62,9 +63,9 @@ namespace ml
 		> inline key_type operator()(const T & key, Args ... args)
 		{
 			fun_type fun;
-			return ((((fun = (*this)[static_cast<key_type>(key)])
-				? (fun((args)...))
-				: (static_cast<key_type>(ML_STATE_NONE))))
+			return ((fun = (*this)[static_cast<key_type>(key)])
+				? fun((args)...)
+				: self_type::NoState
 			);
 		}
 

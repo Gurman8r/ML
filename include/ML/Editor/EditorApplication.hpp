@@ -21,8 +21,8 @@ namespace ml
 		virtual void onStart	(const StartEvent	& ev) = 0;
 		virtual void onUpdate	(const UpdateEvent	& ev) = 0;
 		virtual void onDraw		(const DrawEvent	& ev) = 0;
-		virtual void onGui		(const GuiEvent	& ev) = 0;
-		virtual void onExit		(const ExitEvent& ev) = 0;
+		virtual void onGui		(const GuiEvent		& ev) = 0;
+		virtual void onExit		(const ExitEvent	& ev) = 0;
 	};
 }
 

@@ -88,11 +88,31 @@ namespace ml
 					// Initialize ImGui
 					if (!ImGui_ML_Init("#version 410", &ev->window, true, imguiINI.c_str()))
 					{
-						return Debug::fatal("Failed Initializing ImGui");
+						Debug::fatal("Failed Initializing ImGui");
+					}
+
+					// Capture Cout
+					if (!(m_coutBuf = cout.rdbuf(m_coutStr.rdbuf())))
+					{
+						Debug::fatal("Failed Capturing Cout");
 					}
 				}
 			}
 			break;
+
+			// Exit Event
+			/* * * * * * * * * * * * * * * * * * * * */
+		case EngineEvent::EV_Exit:
+			if (auto ev = value->as<ExitEvent>())
+			{
+				// Release Cout
+				if (m_coutBuf) { cout.rdbuf(m_coutBuf); }
+
+				// Shutdown ImGui
+				ImGui_ML_Shutdown();
+			}
+			break;
+
 
 			// Gui Events
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -108,15 +128,6 @@ namespace ml
 		case EditorEvent::EV_EndGui:
 			ImGui::Render();
 			ImGui_ML_Render(ImGui::GetDrawData());
-			break;
-
-			// Shutdown Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Exit:
-			if (auto ev = value->as<ExitEvent>())
-			{
-				ImGui_ML_Shutdown();
-			}
 			break;
 
 			// File -> Close Event
@@ -168,7 +179,6 @@ namespace ml
 		static bool show_imgui_metrics	= false;
 		static bool show_imgui_style	= false;
 		static bool show_imgui_about	= false;
-
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -275,7 +285,6 @@ namespace ml
 			ImGui::EndMainMenuBar();
 		}
 
-
 		// ImGui Demo
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (show_imgui_demo)	{ ImGui_Builtin::showDemo	(&show_imgui_demo);		}
@@ -283,14 +292,23 @@ namespace ml
 		if (show_imgui_style)	{ ImGui_Builtin::showStyle	(&show_imgui_style);	}
 		if (show_imgui_about)	{ ImGui_Builtin::showAbout	(&show_imgui_about);	}
 
-
-		// Editor Widgets
-		/* * * * * * * * * * * * * * * * * * * * */
+		// Dockspace
 		this->dockspace.onGui(ev);
-		this->profiler.onGui(ev);
-		this->browser.onGui(ev);
+
+		// Terminal
+		this->terminal.printss(m_coutStr);
 		this->terminal.onGui(ev);
+
+		// Profiler
+		this->profiler.onGui(ev);
+
+		// Browser
+		this->browser.onGui(ev);
+
+		// Project
 		this->project.onGui(ev);
+
+		// Builder
 		this->builder.onGui(ev);
 	}
 

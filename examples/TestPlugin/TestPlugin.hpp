@@ -15,6 +15,7 @@
 #	pragma comment(lib, ML_LIB_STR("Graphics")	)
 #	pragma comment(lib, ML_LIB_STR("Network")	)
 #	pragma comment(lib, ML_LIB_STR("Physics")	)
+#	pragma comment(lib, ML_LIB_STR("Script")	)
 #	pragma comment(lib, ML_LIB_STR("Window")	)
 # endif
 

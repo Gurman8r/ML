@@ -81,14 +81,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "proj\ML\Audio\Audi
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "examples\Sandbox\Sandbox.vcxproj", "{623B2268-3A80-43C7-94F6-F70184373148}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D} = {E6B44D15-0792-4593-8633-4CE6F9B5326D}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPlugin", "examples\TestPlugin\TestPlugin.vcxproj", "{460A52CB-AFC0-451A-8223-943538090422}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E6B44D15-0792-4593-8633-4CE6F9B5326D} = {E6B44D15-0792-4593-8633-4CE6F9B5326D}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{AF8F37A0-B254-4A2C-BD13-AB6C46ADF3CE}"
 EndProject

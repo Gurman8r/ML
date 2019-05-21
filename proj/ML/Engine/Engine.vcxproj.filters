@@ -78,9 +78,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\ECS.cpp">

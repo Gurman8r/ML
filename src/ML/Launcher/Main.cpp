@@ -6,7 +6,6 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Application.hpp>
 #include <ML/Engine/Engine.hpp>
-#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
@@ -118,7 +117,7 @@ int32_t main()
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// User DLL
-	ml::String user_dll = g_Preferences.GetString("Engine", "user_dll", "")
+	const ml::String user_dll = g_Preferences.GetString("Engine", "user_dll", "")
 		.replaceAll("$(Configuration)", ML_CONFIGURATION)
 		.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET);
 	
@@ -126,7 +125,7 @@ int32_t main()
 	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(user_dll)))
 	{	
 		// Load User Application
-		if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem))
+		if (auto app = lib.callFun<ml::Application *>("ML_Main", g_EventSystem))
 		{
 			// Run Controller
 			g_Control(State::Enter);

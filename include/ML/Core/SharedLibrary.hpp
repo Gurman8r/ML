@@ -26,12 +26,11 @@ namespace ml
 		~SharedLibrary();
 
 	public:
-		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool	dispose() override;
+		bool	loadFromFile(const String & filename) override;
+		void *	loadFunction(const String & name);
 
 	public:
-		void * loadFunction(const String & name);
-
 		template <class Out, class ... Args> 
 		inline Out callFun(const String & name, Args && ... args)
 		{

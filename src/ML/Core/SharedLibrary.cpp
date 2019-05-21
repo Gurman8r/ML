@@ -56,8 +56,6 @@ namespace ml
 			: false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	void * SharedLibrary::loadFunction(const String & name)
 	{
 		Map<String, void *>::const_iterator it;

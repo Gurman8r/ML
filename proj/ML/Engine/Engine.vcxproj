@@ -171,7 +171,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />

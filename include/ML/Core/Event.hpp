@@ -35,7 +35,10 @@ namespace ml
 
 		virtual int32_t getEventID() const = 0;
 
-		inline operator int32_t() const { return getEventID(); }
+		inline operator int32_t() const
+		{
+			return getEventID();
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

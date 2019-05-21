@@ -28,9 +28,9 @@ namespace ml
 			EV_Start,
 			EV_Update,
 			EV_Draw,
-			EV_Shutdown,
-
 			EV_Exit,
+
+			EV_Shutdown,
 
 			MAX_ENGINE_EVENT
 		};
@@ -73,12 +73,12 @@ namespace ml
 
 	struct ML_ENGINE_API StartEvent final : public EngineEvent
 	{
-		Engine			& engine;
+		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
-		StartEvent(Engine & engine, Resources & resources, RenderWindow & window)
+		StartEvent(const GameTime & time, Resources & resources, RenderWindow & window)
 			: EngineEvent(EV_Start)
-			, engine	(engine)
+			, time		(time)
 			, resources	(resources)
 			, window	(window)
 		{
@@ -113,12 +113,12 @@ namespace ml
 		}
 	};
 
-	struct ML_ENGINE_API ShutdownEvent final : public EngineEvent
+	struct ML_ENGINE_API ExitEvent final : public EngineEvent
 	{
 		Resources		& resources;
 		RenderWindow	& window;
-		ShutdownEvent(Resources	& resources, RenderWindow & window)
-			: EngineEvent(EV_Shutdown)
+		ExitEvent(Resources	& resources, RenderWindow & window)
+			: EngineEvent(EV_Exit)
 			, resources	(resources)
 			, window	(window)
 		{
@@ -127,9 +127,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API ExitEvent final : public EngineEvent
+	struct ML_ENGINE_API ShutdownEvent final : public EngineEvent
 	{
-		ExitEvent() : EngineEvent(EV_Exit) {}
+		ShutdownEvent() : EngineEvent(EV_Shutdown) {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

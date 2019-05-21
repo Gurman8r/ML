@@ -43,7 +43,7 @@ int32_t main()
 	// Setup Control Flow
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum State { Enter, Load, Start, Loop, Shutdown };
+	enum State { Enter, Load, Start, Loop, Exit };
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -70,7 +70,7 @@ int32_t main()
 	{ State::Start, []()
 	{	/* Start */
 		g_EventSys.fireEvent(ml::StartEvent(
-			g_Engine,
+			g_Time,
 			g_Resources,
 			g_Window
 		));
@@ -78,7 +78,7 @@ int32_t main()
 	} },
 	{ State::Loop, []()
 	{	/* Loop */
-		while (g_Engine.isRunning())
+		while (g_Window.isOpen())
 		{
 			/* Begin Frame */
 			g_Engine.beginFrame();
@@ -109,11 +109,11 @@ int32_t main()
 			/* End Frame */
 			g_Engine.endFrame();
 		}
-		return g_Control(State::Shutdown);
+		return g_Control(State::Exit);
 	} },
-	{ State::Shutdown, []()
-	{	/* Shutdown */
-		g_EventSys.fireEvent(ml::ShutdownEvent(
+	{ State::Exit, []()
+	{	/* Exit */
+		g_EventSys.fireEvent(ml::ExitEvent(
 			g_Resources,
 			g_Window
 		));
@@ -125,21 +125,21 @@ int32_t main()
 	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ml::Plugin plugin;
-
 	// Load Library from File
 	if (auto lib = ml::Plugin(ML_FS.getPathTo(
 		g_Prefs.GetString("Engine", "user_dll", "") + ML_DLL_STR("")
 	)))
 	{	// Load Application from Library
-		if (auto app = g_Engine.launchApp(
-			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSys)
-		))
-		{	// Run Control
+		if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSys))
+		{	
+			// Run Control
 			g_Control(State::Enter);
 
 			// Free Application
-			return g_Engine.freeApp(app);
+			delete app;
+
+			// Goodbye!
+			return EXIT_SUCCESS;
 		}
 		else
 		{

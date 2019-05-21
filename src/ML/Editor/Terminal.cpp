@@ -168,7 +168,7 @@ namespace ml
 		}
 		else if (!std::strcmp(value, "exit"))
 		{
-			m_eventSystem.fireEvent(ExitEvent());
+			m_eventSystem.fireEvent(ShutdownEvent());
 		}
 		else if (!std::strcmp(value, "history"))
 		{

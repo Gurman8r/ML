@@ -29,8 +29,8 @@ namespace ml
 		, terminal		(true, eventSystem)
 	{
 		eventSystem.addListener(WindowEvent::EV_Key,		this);
-		eventSystem.addListener(EngineEvent::EV_Load,		this);
-		eventSystem.addListener(EngineEvent::EV_Shutdown,	this);
+		eventSystem.addListener(EngineEvent::EV_Enter,		this);
+		eventSystem.addListener(EngineEvent::EV_Exit,		this);
 		
 		eventSystem.addListener(EditorEvent::EV_BeginGui,	this);
 		eventSystem.addListener(EditorEvent::EV_Gui,		this);
@@ -56,10 +56,10 @@ namespace ml
 	{
 		switch (*value)
 		{
-			// Load Event
+			// Enter Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Load:
-			if (auto ev = value->as<LoadEvent>())
+		case EngineEvent::EV_Enter:
+			if (auto ev = value->as<EnterEvent>())
 			{
 				if (IMGUI_CHECKVERSION())
 				{
@@ -112,8 +112,8 @@ namespace ml
 
 			// Shutdown Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Shutdown:
-			if (auto ev = value->as<ShutdownEvent>())
+		case EngineEvent::EV_Exit:
+			if (auto ev = value->as<ExitEvent>())
 			{
 				ImGui_ML_Shutdown();
 			}
@@ -124,7 +124,7 @@ namespace ml
 		case EditorEvent::EV_File_Close:
 			if (auto ev = value->as<File_Close_Event>())
 			{
-				eventSystem().fireEvent(ExitEvent());
+				eventSystem().fireEvent(ShutdownEvent());
 			}
 			break;
 

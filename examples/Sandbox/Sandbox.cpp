@@ -5,7 +5,6 @@
 #include <ML/Audio/OpenAL.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
 #include <ML/Core/OS.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -93,7 +92,7 @@ namespace DEMO
 				// Exit (Escape)
 				if (ev->getKeyDown(ml::KeyCode::Escape))
 				{
-					eventSystem().fireEvent(ml::ExitEvent());
+					eventSystem().fireEvent(ml::ShutdownEvent());
 				}
 			}
 			break;
@@ -120,77 +119,13 @@ namespace DEMO
 			}
 		}
 
-		// Create Window
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (ev.window.create(sandbox.title = 
-			ev.prefs.GetString	("Window", "title",			"Title"), { {
-			ev.prefs.GetUint	("Window", "width",			1280),
-			ev.prefs.GetUint	("Window", "height",		720) },
-			ev.prefs.GetUint	("Window", "colorDepth",	32) },
-			ev.prefs.GetUint	("Window", "style",			ml::Window::Default), {
-			ev.prefs.GetUint	("Window", "majorVersion",	3),
-			ev.prefs.GetUint	("Window", "minorVersion",	3),
-			ev.prefs.GetUint	("Window", "profile",		ml::Context::Compat),
-			ev.prefs.GetUint	("Window", "depthBits",		24),
-			ev.prefs.GetUint	("Window", "stencilBits",	8),
-			ev.prefs.GetBool	("Window", "multisample",	false),
-			ev.prefs.GetBool	("Window", "srgbCapable",	false)
-		}))
-		{
-			ev.window.maximize();
-			ev.window.seCursorMode(ml::Cursor::Normal);
-			ev.window.setPosition((ml::Screen::desktop().resolution - ev.window.getSize()) / 2);
-			ev.window.setViewport(ml::vec2i::Zero, ev.window.getFrameSize());
-		}
-		else
-		{
-			return ml::Debug::fatal("Failed Creating Window");
-		}
-	}
-
-	void Sandbox::onLoad(const ml::LoadEvent & ev)
-	{
-		// Load Default Meshes
-		/* * * * * * * * * * * * * * * * * * * * */
-		ev.resources.meshes.load("default_triangle")->loadFromMemory(
-			ml::Shapes::Triangle::Vertices,
-			ml::Shapes::Triangle::Indices
-		);
-		ev.resources.meshes.load("default_quad")->loadFromMemory(
-			ml::Shapes::Quad::Vertices,
-			ml::Shapes::Quad::Indices
-		);
-		ev.resources.meshes.load("default_cube")->loadFromMemory(
-			ml::Shapes::Cube::Vertices,
-			ml::Shapes::Cube::Indices
-		);
-		ev.resources.meshes.load("default_skybox")->loadFromMemory(
-			ml::Shapes::Sky::Vertices
+		// GL Version
+		ml::Debug::log("OpenGL version supported by this platform: {0}",
+			ML_GL.getString(ml::GL::Version)
 		);
 
-		// Load Default Models
-		/* * * * * * * * * * * * * * * * * * * * */
-		ev.resources.models.load("default_triangle")->loadFromMemory(
-			*ev.resources.meshes.get("default_triangle")
-		);
-		ev.resources.models.load("default_quad")->loadFromMemory(
-			*ev.resources.meshes.get("default_quad")
-		);
-		ev.resources.models.load("default_cube")->loadFromMemory(
-			*ev.resources.meshes.get("default_cube")
-		);
-		ev.resources.models.load("default_skybox")->loadFromMemory(
-			*ev.resources.meshes.get("default_skybox")
-		);
-
-		// Load Resource Manifest
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev.resources.loadFromFile(ML_FS.getPathTo(
-			ev.prefs.GetString("Engine", "manifest", "../../../assets/manifest.txt")
-		)))
-		{
-			ml::Debug::logError("Failed Loading Manifest");
-		}
+		// Get Title
+		sandbox.title = ev.window.getTitle();
 	}
 
 	void Sandbox::onStart(const ml::StartEvent & ev)
@@ -593,21 +528,19 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		sandbox.physWorld.launchFun([&]()
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			static ml::Engine & engine(ev.engine);
-			while (engine.isRunning())
+			const ml::GameTime & time = ev.time;
+			while (ev.window.isOpen())
 			{
 				// Time stuff
 				/* * * * * * * * * * * * * * * * * * * * */
 				using Rep = typename ml::Milliseconds;
 				using Per = typename ml::Ratio<1, 10000>;
-				const float totalT	= engine.time().total().delta();
-				const float deltaT	= engine.time().elapsed().delta<Rep, Per>();
+				const float totalT	= time.total().delta();
+				const float deltaT	= time.elapsed().delta<Rep, Per>();
 				const float sinTime = std::sinf(totalT);
 				const float cosTime = std::cosf(totalT);
 
-				// Iterate over each entry in state
+				// Iterate over each entry
 				/* * * * * * * * * * * * * * * * * * * * */
 				sandbox.physWorld.updateFun([&](int32_t i, ml::PhysicsState & state)
 				{	
@@ -657,8 +590,6 @@ namespace DEMO
 					}
 				});
 			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
 		});
 	}
 
@@ -1003,13 +934,10 @@ namespace DEMO
 		});
 	}
 
-	void Sandbox::onShutdown(const ml::ShutdownEvent & ev)
+	void Sandbox::onExit(const ml::ExitEvent & ev)
 	{
 		// Cleanup Physics Thread
 		sandbox.physWorld.dispose();
-
-		// Cleanup Resources
-		ev.resources.dispose();
 
 		// Release Cout
 		if (sandbox.rdbuf)

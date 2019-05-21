@@ -9,7 +9,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class Application;
 	class Audio;
 	class EventSystem;
 	class GameTime;
@@ -36,17 +35,12 @@ namespace ml
 			RenderWindow	& window
 		);
 
-		~Engine() {}
+		~Engine();
 
 	public:
 		void onEvent(const IEvent * value) override;
 
 	public:
-		Application * launchApp(Application * value);
-		int32_t freeApp(Application * value);
-
-	public:
-		bool isRunning() const;
 		void beginFrame();
 		void endFrame();
 
@@ -58,13 +52,11 @@ namespace ml
 		RenderWindow	& window()		const;
 
 	private:
-		Application		* m_app;
 		EventSystem		& m_eventSystem;
 		Preferences		& m_prefs;
 		Resources		& m_resources;
 		GameTime		& m_time;
 		RenderWindow	& m_window;
-		
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -56,6 +56,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	template <int32_t _ID>
 	struct IEvent : public Event
 	{
@@ -69,7 +71,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline int32_t getEventID() const { return _ID; }
+		inline int32_t getEventID() const override 
+		{ 
+			return _ID; 
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

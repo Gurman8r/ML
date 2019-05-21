@@ -201,6 +201,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OStream.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Random.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\TestRequest.cpp" />

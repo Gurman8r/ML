@@ -6,10 +6,11 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Application.hpp>
 #include <ML/Engine/Engine.hpp>
+#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Engine/Plugin.hpp>
+#include <ML/Core/SharedLibrary.hpp>
 #include <ML/Engine/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Network/NetClient.hpp>
@@ -25,7 +26,7 @@
 
 int32_t main()
 {
-	// Setup Systems
+	// Systems
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static ml::Preferences	g_Preferences	{ ML_CONFIG_INI };
@@ -40,7 +41,7 @@ int32_t main()
 	static ml::Editor		g_Editor		{ g_EventSystem };
 
 
-	// Setup Control Flow
+	// Control Flow
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum State { Enter, Loop, Exit };
@@ -108,7 +109,7 @@ int32_t main()
 			g_Resources,
 			g_Window
 		));
-		return g_Control(g_Control.NoState);
+		return g_Control.NoState;
 	} },
 	};
 
@@ -116,17 +117,21 @@ int32_t main()
 	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// Load Plugin from File
-	if (auto lib = ml::Plugin(ML_FS.getPathTo(
-		g_Preferences.GetString("Engine", "user_dll", "") + ML_DLL_STR("")
-	)))
-	{	// Load Application from Plugin
+	// User DLL
+	ml::String user_dll = g_Preferences.GetString("Engine", "user_dll", "")
+		.replaceAll("$(Configuration)", ML_CONFIGURATION)
+		.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET);
+	
+	// Load User Library
+	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(user_dll)))
+	{	
+		// Load User Application
 		if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem))
-		{	
-			// Run Control
+		{
+			// Run Controller
 			g_Control(State::Enter);
 
-			// Free Application
+			// Free User Application
 			delete app;
 
 			// Goodbye!

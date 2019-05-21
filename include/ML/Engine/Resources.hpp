@@ -15,7 +15,6 @@ namespace ml
 	class Material;
 	class Mesh;
 	class Model;
-	class Plugin;
 	class Script;
 	class Shader;
 	class Skybox;
@@ -56,7 +55,6 @@ namespace ml
 		Registry<Material>	materials;
 		Registry<Mesh>		meshes;
 		Registry<Model>		models;
-		Registry<Plugin>	plugins;
 		Registry<Script>	scripts;
 		Registry<Shader>	shaders;
 		Registry<Skybox>	skyboxes;

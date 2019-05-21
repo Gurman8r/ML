@@ -61,41 +61,40 @@ namespace ml
 		case EngineEvent::EV_Enter:
 			if (auto ev = value->as<EnterEvent>())
 			{
-				if (IMGUI_CHECKVERSION())
+				assert(IMGUI_CHECKVERSION());
+
+				// Create ImGui ContextSettings
+				ImGui::CreateContext();
+
+				// Load ImGui Style
+				StyleLoader loader;
+				if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
 				{
-					// Create ImGui ContextSettings
-					ImGui::CreateContext();
+					ImGui::StyleHelper::Style4();
 
-					// Load ImGui Style
-					StyleLoader loader;
-					if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
+					String font = ev->prefs.GetString("Editor", "imguiFont", "");
+					float  size = ev->prefs.GetFloat("Editor", "imguiSize", 12.0f);
+
+					if (font && size > 0.0f)
 					{
-						ImGui::StyleHelper::Style4();
-
-						String font = ev->prefs.GetString("Editor", "imguiFont", "");
-						float  size = ev->prefs.GetFloat("Editor", "imguiSize", 12.0f);
-
-						if (font && size > 0.0f)
-						{
-							ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
-						}
+						ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
 					}
+				}
 
-					// Set ImGui INI
-					String imguiINI = ev->prefs.GetString("Editor", "imguiINI", "");
-					imguiINI = imguiINI ? ML_FS.getPathTo(imguiINI) : String();
+				// Set ImGui INI
+				String imguiINI = ev->prefs.GetString("Editor", "imguiINI", "");
+				imguiINI = imguiINI ? ML_FS.getPathTo(imguiINI) : String();
 
-					// Initialize ImGui
-					if (!ImGui_ML_Init("#version 410", &ev->window, true, imguiINI.c_str()))
-					{
-						Debug::fatal("Failed Initializing ImGui");
-					}
+				// Initialize ImGui
+				if (!ImGui_ML_Init("#version 410", &ev->window, true, imguiINI.c_str()))
+				{
+					Debug::fatal("Failed Initializing ImGui");
+				}
 
-					// Capture Cout
-					if (!(m_coutBuf = cout.rdbuf(m_coutStr.rdbuf())))
-					{
-						Debug::fatal("Failed Capturing Cout");
-					}
+				// Capture Cout
+				if (!(m_coutBuf = cout.rdbuf(m_coutStr.rdbuf())))
+				{
+					Debug::fatal("Failed Capturing Cout");
 				}
 			}
 			break;

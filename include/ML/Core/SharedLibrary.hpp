@@ -1,7 +1,6 @@
-#ifndef _ML_PLUGIN_HPP_
-#define _ML_PLUGIN_HPP_
+#ifndef _ML_SHARED_LIBRARY_HPP_
+#define _ML_SHARED_LIBRARY_HPP_
 
-#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Core/ITrackable.hpp>
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IDisposable.hpp>
@@ -10,23 +9,21 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Plugin final
+	class ML_CORE_API SharedLibrary final
 		: public ITrackable
 		, public IDisposable
 		, public IReadable
 		, public INonCopyable
 	{
 	public:
-		using FunctionMap = typename Map<String, void *>;
+		using map_type = typename Map<String, void *>;
+		using const_iterator = typename map_type::const_iterator;
 
 	public:
-		Plugin();
-		explicit Plugin(const String & filename);
-		Plugin(Plugin && copy);
-		~Plugin();
-
-	public:
-		Plugin & operator=(Plugin && copy);
+		SharedLibrary();
+		explicit SharedLibrary(const String & filename);
+		SharedLibrary(SharedLibrary && copy);
+		~SharedLibrary();
 
 	public:
 		bool dispose() override;
@@ -46,9 +43,9 @@ namespace ml
 		}
 
 	public:
-		inline const void *			instance()	const { return m_instance;	}
-		inline const String &		filename()	const { return m_filename;	}
-		inline const FunctionMap &	functions() const { return m_functions; }
+		inline const void *		instance()	const { return m_instance;	}
+		inline const String &	filename()	const { return m_filename;	}
+		inline const map_type &	functions() const { return m_functions; }
 
 	public:
 		inline operator bool() const { return (bool)(m_instance); }
@@ -56,10 +53,10 @@ namespace ml
 	private:
 		void *		m_instance;
 		String		m_filename;
-		FunctionMap m_functions;
+		map_type	m_functions;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_PLUGIN_HPP_
+#endif // !_ML_SHARED_LIBRARY_HPP_

@@ -12,7 +12,7 @@
 #include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/GameTime.hpp>
-#include <ML/Engine/Plugin.hpp>
+#include <ML/Core/SharedLibrary.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/Camera.hpp>
@@ -103,6 +103,9 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
+		// store window title
+		sandbox.title = ev.window.getTitle();
+
 		// Run Boot Script
 		ml::Script scr;
 		if (scr.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString("Engine", "boot_scr", ""))))
@@ -117,9 +120,6 @@ namespace DEMO
 		ml::Debug::log("OpenGL version supported by this platform: {0}",
 			ML_GL.getString(ml::GL::Version)
 		);
-
-		// Get Title
-		sandbox.title = ev.window.getTitle();
 	}
 
 	void Sandbox::onStart(const ml::StartEvent & ev)
@@ -131,23 +131,6 @@ namespace DEMO
 			const ml::Image temp = ml::Image(*icon).flipVertically();
 
 			ev.window.setIcons({ temp });
-		}
-
-		// Setup Plugins
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev.resources.plugins.empty())
-		{
-			if (ml::Plugin * plugin = ev.resources.plugins.get("TestPlugin"))
-			{
-				if (auto response = plugin->callFun<void *>(ML_str(ML_Plugin_Test), "TEST"))
-				{
-					ml::Debug::log((ml::CString)(response));
-				}
-				else
-				{
-					ml::Debug::logError("Plugin Callback Failed");
-				}
-			}
 		}
 
 		// Create 2D Buffers

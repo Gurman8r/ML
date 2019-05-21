@@ -13,7 +13,7 @@
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/LuaScript.hpp>
-#include <ML/Engine/Plugin.hpp>
+#include <ML/Core/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Camera.hpp>
@@ -468,7 +468,6 @@ namespace ml
 					if (ImGui::MenuItem("Material"))	{ /**/ }
 					if (ImGui::MenuItem("Mesh"))		{ /**/ }
 					if (ImGui::MenuItem("Model"))		{ /**/ }
-					if (ImGui::MenuItem("Plugin"))		{ /**/ }
 					if (ImGui::MenuItem("Script"))		{ /**/ }
 					if (ImGui::MenuItem("Shader"))		{ /**/ }
 					if (ImGui::MenuItem("Skybox"))		{ /**/ }
@@ -492,7 +491,6 @@ namespace ml
 				draw_mesh_registry		(ev.resources, ev.resources.meshes		);
 				draw_material_registry	(ev.resources, ev.resources.materials	);
 				draw_model_registry		(ev.resources, ev.resources.models		);
-				draw_plugin_registry	(ev.resources, ev.resources.plugins		);
 				draw_script_registry	(ev.resources, ev.resources.scripts		);
 				draw_shader_registry	(ev.resources, ev.resources.shaders		);
 				draw_skybox_registry	(ev.resources, ev.resources.skyboxes	);
@@ -1089,45 +1087,6 @@ namespace ml
 						ImGui::Text("%s", name);
 					});
 					if (const String file = models.getFile(name))
-					{
-						Layout::Field("File", [&](CString)
-						{
-							const String fName = ML_FS.getFileName(file);
-							if (ImGui::Selectable(fName.c_str()))
-							{
-								OS::execute("open", ML_FS.getPathTo(file));
-							}
-						});
-						Layout::Field("Path", [&](CString)
-						{
-							const String fPath = ML_FS.getFilePath(file);
-							if (ImGui::Selectable(fPath.c_str()))
-							{
-								OS::execute("open", ML_FS.getPathTo(fPath));
-							}
-						});
-					}
-
-				}, pair.first.c_str(), pair.second);
-			}
-		});
-	}
-
-	void Project::draw_plugin_registry(Resources & resources, Registry<Plugin> & plugins)
-	{
-		if (plugins.empty()) return;
-
-		Layout::Group(plugins.name().c_str(), [&]()
-		{
-			for (auto & pair : plugins)
-			{
-				Layout::Group(pair.first.c_str(), [&](CString name, const Plugin * e)
-				{
-					Layout::Field("Name", [&](CString label)
-					{
-						ImGui::Text("%s", name);
-					});
-					if (const String file = plugins.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{

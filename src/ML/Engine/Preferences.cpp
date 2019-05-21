@@ -20,20 +20,12 @@ namespace ml
 	Preferences::Preferences(Preferences && copy)
 		: Preferences()
 	{
-		this->Preferences::operator=((Preferences &&)copy);
+		std::swap(m_ini, copy.m_ini);
 	}
 
 	Preferences::~Preferences()
 	{
 		dispose();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	Preferences & Preferences::operator=(Preferences && copy)
-	{
-		std::swap(m_ini, copy.m_ini);
-		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

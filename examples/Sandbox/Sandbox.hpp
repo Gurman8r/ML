@@ -3,9 +3,9 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Editor/EditorApplication.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Graphics/Text.hpp>
 #include <ML/Physics/PhysicsWorld.hpp>
 

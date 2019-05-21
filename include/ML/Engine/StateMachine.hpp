@@ -26,7 +26,7 @@ namespace ml
 
 		static constexpr key_type NoState { static_cast<key_type>(-1) };
 
-	public: // Constructors
+	public: // Constructor
 		/* * * * * * * * * * * * * * * * * * * * */
 		StateMachine(init_type && init)
 			: m_states()
@@ -42,27 +42,23 @@ namespace ml
 
 	public: // Get State
 		/* * * * * * * * * * * * * * * * * * * * */
-		template <
-			class T
-		> inline fun_type operator[](const T & key)
+		inline fun_type operator[](const key_type & key)
 		{
 			const_iterator it;
 			return ((key > self_type::NoState)
-				? ((((it = m_states.find(static_cast<key_type>(key))) != m_states.end())
-					? (it->second)
-					: (NULL)))
+				? (((it = m_states.find(key)) != m_states.end())
+					? it->second
+					: NULL)
 				: (NULL)
 			);
 		}
 
 	public: // Run State
 		/* * * * * * * * * * * * * * * * * * * * */
-		template <
-			class T
-		> inline key_type operator()(const T & key, Args ... args)
+		inline key_type operator()(const key_type & key, Args ... args)
 		{
 			fun_type fun;
-			return ((fun = (*this)[static_cast<key_type>(key)])
+			return ((fun = (*this)[key])
 				? fun((args)...)
 				: self_type::NoState
 			);

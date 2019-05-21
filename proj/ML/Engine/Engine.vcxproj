@@ -175,7 +175,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -188,7 +187,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

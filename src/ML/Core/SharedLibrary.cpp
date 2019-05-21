@@ -1,4 +1,4 @@
-#include <ML/Engine/Plugin.hpp>
+#include <ML/Core/SharedLibrary.hpp>
 #include <ML/Core/Debug.hpp>
 
 # ifdef ML_SYSTEM_WINDOWS
@@ -16,48 +16,40 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Plugin::Plugin()
+	SharedLibrary::SharedLibrary()
 		: m_instance(NULL)
 		, m_filename()
 		, m_functions()
 	{
 	}
 
-	Plugin::Plugin(const String & filename)
-		: Plugin()
+	SharedLibrary::SharedLibrary(const String & filename)
+		: SharedLibrary()
 	{
 		loadFromFile(filename);
 	}
 
-	Plugin::Plugin(Plugin && copy)
-		: Plugin()
+	SharedLibrary::SharedLibrary(SharedLibrary && copy)
+		: SharedLibrary()
 	{
-		this->Plugin::operator=((Plugin &&)copy);
+		std::swap(m_instance, copy.m_instance);
+		std::swap(m_filename, copy.m_filename);
+		std::swap(m_functions, copy.m_functions);
 	}
 
-	Plugin::~Plugin()
+	SharedLibrary::~SharedLibrary()
 	{
 		dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Plugin & Plugin::operator=(Plugin && copy)
-	{
-		m_instance = copy.m_instance;
-		m_filename = copy.m_filename;
-		m_functions = copy.m_functions;
-		return (*this);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool Plugin::dispose()
+	bool SharedLibrary::dispose()
 	{
 		return ML_FREE_LIBRARY(m_instance);
 	}
 
-	bool Plugin::loadFromFile(const String & filename)
+	bool SharedLibrary::loadFromFile(const String & filename)
 	{
 		return (m_filename = filename)
 			? (m_instance = ML_LOAD_LIBRARY(m_filename.c_str()))
@@ -66,7 +58,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void * Plugin::loadFunction(const String & name)
+	void * SharedLibrary::loadFunction(const String & name)
 	{
 		Map<String, void *>::const_iterator it;
 		if ((it = m_functions.find(name)) != m_functions.end())

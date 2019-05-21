@@ -4,7 +4,6 @@
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/LuaScript.hpp>
-#include <ML/Engine/Plugin.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
@@ -24,7 +23,6 @@ namespace ml
 		, materials	("Materials")
 		, meshes	("Meshes"	)
 		, models	("Models"	)
-		, plugins	("Plugins"	)
 		, scripts	("Scripts"	)
 		, shaders	("Shaders"	)
 		, skyboxes	("Skyboxes"	)
@@ -46,7 +44,7 @@ namespace ml
 	{
 		return
 			lua.clean()			+
-			surfaces.clean()		+
+			surfaces.clean()	+
 			sprites.clean()		+
 			materials.clean()	+
 			models.clean()		+
@@ -58,8 +56,7 @@ namespace ml
 			fonts.clean()		+
 			entities.clean()	+
 			sounds.clean()		+
-			scripts.clean()		+
-			plugins.clean()		;
+			scripts.clean()		;
 	}
 
 	size_t Resources::reloadAll()
@@ -78,8 +75,7 @@ namespace ml
 			surfaces.reload()	+
 			entities.clean()	+
 			sounds.reload()		+
-			scripts.reload()	+
-			plugins.reload()	;
+			scripts.reload()	;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -245,19 +241,6 @@ namespace ml
 				else
 				{
 					return models.load(name);
-				}
-			}
-			// Plugins
-			/* * * * * * * * * * * * * * * * * * * * */
-			else if (type == "plugin")
-			{
-				if (const String file = import.getStr("file"))
-				{
-					return plugins.load(name, file);
-				}
-				else
-				{
-					return plugins.load(name);
 				}
 			}
 			// Scripts

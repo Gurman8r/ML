@@ -33,7 +33,6 @@ namespace ml
 		void draw_material_registry	(Resources & res, Registry<Material>	& materials	);
 		void draw_mesh_registry		(Resources & res, Registry<Mesh>		& meshes	);
 		void draw_model_registry	(Resources & res, Registry<Model>		& models	);
-		void draw_plugin_registry	(Resources & res, Registry<Plugin>		& plugins	);
 		void draw_script_registry	(Resources & res, Registry<Script>		& scripts	);
 		void draw_shader_registry	(Resources & res, Registry<Shader>		& shaders	);
 		void draw_skybox_registry	(Resources & res, Registry<Skybox>		& skyboxes	);

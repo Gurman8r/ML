@@ -23,9 +23,6 @@ namespace ml
 		~Preferences();
 
 	public:
-		Preferences & operator=(Preferences && copy);
-
-	public:
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 

@@ -55,14 +55,14 @@ namespace ml
 
 	struct ML_EDITOR_API GuiEvent final : public EditorEvent
 	{
-		const GameTime & time;
-		Resources & resources;
-		Editor & editor;
+		const GameTime	& time;
+		Resources		& resources;
+		Editor			& editor;
 		GuiEvent(const GameTime & time, Resources & resources, Editor & editor)
 			: EditorEvent(EV_Gui)
-			, time(time)
-			, resources(resources)
-			, editor(editor)
+			, time		(time)
+			, resources	(resources)
+			, editor	(editor)
 		{
 		}
 	};

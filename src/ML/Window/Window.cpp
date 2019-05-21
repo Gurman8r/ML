@@ -21,7 +21,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	static EventSystem * g_EventSystem = NULL;
+	static EventSystem * s_EventSystem = NULL;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -39,7 +39,7 @@ namespace ml
 #ifdef ML_SYSTEM_WINDOWS
 		Console::enableMenuItem(SC_CLOSE, MF_GRAYED);
 #endif
-		g_EventSystem = &m_eventSystem;
+		s_EventSystem = &m_eventSystem;
 
 		eventSystem.addListener(WindowEvent::EV_Char,		this);
 		eventSystem.addListener(WindowEvent::EV_CursorEnter,this);
@@ -61,7 +61,7 @@ namespace ml
 
 		this->terminate();
 
-		g_EventSystem = NULL;
+		s_EventSystem = NULL;
 
 #ifdef ML_SYSTEM_WINDOWS
 		Console::enableMenuItem(SC_CLOSE, MF_ENABLED);
@@ -126,39 +126,39 @@ namespace ml
 
 	bool Window::setup()
 	{
-		if (!g_EventSystem)
+		if (!s_EventSystem)
 		{
-			return Debug::logError("Window Setup Failed | g_EventSystem Not Initialized");
+			return Debug::logError("Window Setup Failed | s_EventSystem Not Initialized");
 		}
 
 		setCharCallback([](void * window, uint32_t c)
 		{
-			g_EventSystem->fireEvent(CharEvent(c));
+			s_EventSystem->fireEvent(CharEvent(c));
 		});
 
 		setCursorEnterCallback([](void * window, int32_t entered)
 		{
-			g_EventSystem->fireEvent(CursorEnterEvent(entered));
+			s_EventSystem->fireEvent(CursorEnterEvent(entered));
 		});
 
 		setCursorPosCallback([](void * window, double x, double y)
 		{
-			g_EventSystem->fireEvent(CursorPosEvent(x, y));
+			s_EventSystem->fireEvent(CursorPosEvent(x, y));
 		});
 
 		setErrorCallback([](int32_t code, CString desc)
 		{
-			g_EventSystem->fireEvent(WindowErrorEvent(code, desc));
+			s_EventSystem->fireEvent(WindowErrorEvent(code, desc));
 		});
 
 		setFrameSizeCallback([](void * window, int32_t w, int32_t h)
 		{
-			g_EventSystem->fireEvent(FrameSizeEvent(w, h));
+			s_EventSystem->fireEvent(FrameSizeEvent(w, h));
 		});
 
 		setKeyCallback([](void * window, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			g_EventSystem->fireEvent(KeyEvent(button, scan, action,
+			s_EventSystem->fireEvent(KeyEvent(button, scan, action,
 				(bool)(mods & ML_MOD_SHIFT),
 				(bool)(mods & ML_MOD_CTRL),
 				(bool)(mods & ML_MOD_ALT),
@@ -168,32 +168,32 @@ namespace ml
 
 		setMouseButtonCallback([](void * window, int32_t button, int32_t action, int32_t mods)
 		{
-			g_EventSystem->fireEvent(MouseButtonEvent(button, action, mods));
+			s_EventSystem->fireEvent(MouseButtonEvent(button, action, mods));
 		});
 		
 		setScrollCallback([](void * window, double x, double y)
 		{
-			g_EventSystem->fireEvent(ScrollEvent(x, y));
+			s_EventSystem->fireEvent(ScrollEvent(x, y));
 		});
 
 		setWindowCloseCallback([](void * window)
 		{
-			g_EventSystem->fireEvent(WindowCloseEvent());
+			s_EventSystem->fireEvent(WindowCloseEvent());
 		});
 
 		setWindowFocusCallback([](void * window, int32_t focused)
 		{
-			g_EventSystem->fireEvent(WindowFocusEvent(focused));
+			s_EventSystem->fireEvent(WindowFocusEvent(focused));
 		});
 		
 		setWindowPosCallback([](void * window, int32_t x, int32_t y)
 		{
-			g_EventSystem->fireEvent(WindowPosEvent(x, y));
+			s_EventSystem->fireEvent(WindowPosEvent(x, y));
 		});
 
 		setWindowSizeCallback([](void * window, int32_t width, int32_t height)
 		{
-			g_EventSystem->fireEvent(WindowSizeEvent(width, height));
+			s_EventSystem->fireEvent(WindowSizeEvent(width, height));
 		});
 
 		return true;

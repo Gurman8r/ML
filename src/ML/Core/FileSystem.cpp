@@ -2,8 +2,9 @@
 #include <ML/Core/Debug.hpp>
 
 # ifdef ML_SYSTEM_WINDOWS
-#	include <dirent.h>
 #	include <direct.h>
+#	include <dirent.h>
+#	include <sys/stat.h>
 # endif
 
 namespace ml
@@ -15,9 +16,7 @@ namespace ml
 	{
 	}
 
-	FileSystem::~FileSystem()
-	{
-	}
+	FileSystem::~FileSystem() {}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

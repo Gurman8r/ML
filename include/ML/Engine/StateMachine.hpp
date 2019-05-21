@@ -62,7 +62,7 @@ namespace ml
 			class T
 		> inline key_type operator()(const T & key, Args ... args)
 		{
-			static fun_type fun;
+			fun_type fun;
 			return ((((fun = (*this)[static_cast<key_type>(key)])
 				? (fun((args)...))
 				: (static_cast<key_type>(ML_STATE_NONE))))

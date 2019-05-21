@@ -2,13 +2,13 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EventSystem::EventSystem() {}
 
 	EventSystem::~EventSystem() {}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EventSystem::addListener(const int32_t & type, IEventListener * listener)
 	{
@@ -25,6 +25,8 @@ namespace ml
 		}
 	}
 	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	void EventSystem::removeListener(const int32_t & type, IEventListener * listener)
 	{
 		Pair<iterator, iterator> found = m_listeners.equal_range(type);
@@ -62,5 +64,5 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

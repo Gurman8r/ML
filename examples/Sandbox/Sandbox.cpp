@@ -103,43 +103,23 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
-		// Setup Std Out
+		// Capture Cout
 		if (!(sandbox.rdbuf = ml::cout.rdbuf(sandbox.rdstr.rdbuf())))
 		{
-			return ml::Debug::fatal("Failed Redirecting Std Output Handle");
+			return ml::Debug::fatal("Failed Capturing Cout");
 		}
 
-		// Set Resource Path
-		sandbox.res_path = ev.prefs.GetString("Engine", "res_path", "../../../assets/");
-
-		// Set Resource File
-		sandbox.res_data = ev.prefs.GetString("Engine", "res_data", "manifest.txt");
-
-		// Set Resource Manifest
-		sandbox.manifest = ML_FS.getPathTo(sandbox.res_path + sandbox.res_data);
-
-		// Initialize Interpreter
-		/* * * * * * * * * * * * * * * * * * * * */
+		// Run Boot Script
+		ml::Script scr;
+		if (scr.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString("Engine", "boot_scr", ""))))
 		{
-			// Set Parser Flags
-			ML_Parser.showToks(ev.prefs.GetBool("Script", "showToks", false));
-			ML_Parser.showTree(ev.prefs.GetBool("Script", "showTree", false));
-			ML_Parser.showItoP(ev.prefs.GetBool("Script", "showItoP", false));
-
-			// Run Boot Script
-			ml::Script scr;
-			if (scr.loadFromFile(ML_FS.getPathTo(
-				sandbox.res_path + ev.prefs.GetString("Script", "bootScript", "")
-			)))
+			if (!(scr.buildAndRun(ml::Args(__argc, __argv))))
 			{
-				if (!(scr.buildAndRun(ml::Args(__argc, __argv))))
-				{
-					ml::Debug::logError("Failed Running \'{0}\'", scr.path());
-				}
+				ml::Debug::logError("Failed Running \'{0}\'", scr.path());
 			}
 		}
 
-		// Initialize Window
+		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(sandbox.title = 
 			ev.prefs.GetString	("Window", "title",			"Title"), { {
@@ -163,7 +143,7 @@ namespace DEMO
 		}
 		else
 		{
-			return ml::Debug::fatal("Failed Initializing Window");
+			return ml::Debug::fatal("Failed Creating Window");
 		}
 	}
 
@@ -204,7 +184,9 @@ namespace DEMO
 
 		// Load Resource Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev.resources.loadFromFile(sandbox.manifest))
+		if (!ev.resources.loadFromFile(ML_FS.getPathTo(
+			ev.prefs.GetString("Engine", "manifest", "../../../assets/manifest.txt")
+		)))
 		{
 			ml::Debug::logError("Failed Loading Manifest");
 		}
@@ -212,7 +194,7 @@ namespace DEMO
 
 	void Sandbox::onStart(const ml::StartEvent & ev)
 	{
-		// Set Icon
+		// Set Window Icon
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (const ml::Image * icon = ev.resources.images.get("icon"))
 		{
@@ -240,7 +222,7 @@ namespace DEMO
 			}
 		}
 
-		// Setup 2D Buffers
+		// Create 2D Buffers
 		/* * * * * * * * * * * * * * * * * * * * */
 		sandbox.vao.create(ml::GL::Triangles).bind();
 		sandbox.vbo.create(ml::GL::DynamicDraw).bind();
@@ -612,22 +594,25 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		sandbox.physWorld.launchFun([&]()
 		{
-			
-			static ml::Engine & engine(ev.engine);
+			/* * * * * * * * * * * * * * * * * * * * */
 
+			static ml::Engine & engine(ev.engine);
 			while (engine.isRunning())
 			{
+				// Time stuff
+				/* * * * * * * * * * * * * * * * * * * * */
+				using Rep = typename ml::Milliseconds;
+				using Per = typename ml::Ratio<1, 10000>;
+				const float totalT	= engine.time().total().delta();
+				const float deltaT	= engine.time().elapsed().delta<Rep, Per>();
+				const float sinTime = std::sinf(totalT);
+				const float cosTime = std::cosf(totalT);
+
+				// Iterate over each entry in state
+				/* * * * * * * * * * * * * * * * * * * * */
 				sandbox.physWorld.updateFun([&](int32_t i, ml::PhysicsState & state)
-				{
-					// Time things
-					using Rep = typename ml::Milliseconds;
-					using Per = typename ml::Ratio<1, 10000>;
-					const float totalT	= engine.time().totalTime().delta();
-					const float deltaT	= engine.time().frameTime().delta<Rep, Per>();
-					const float sinTime = std::sinf(totalT);
-					const float cosTime = std::cosf(totalT);
-		
-					// Get copy state
+				{	
+					// Get copy data
 					ml::vec3 pos;
 					ml::quat rot;
 					ml::mat4 mat;
@@ -636,71 +621,59 @@ namespace DEMO
 						state.get<state.T_Rot>(i, rot) &&
 						state.get<state.T_Mat>(i, mat) &&
 						state.get<state.T_Inv>(i, inv))
-					{
-						// Modify copy state
+					{	
+						// Modify copy data
 						switch (i)
 						{
 						case RB_BORG:
 							pos = { pos[0], +cosTime, pos[2] };
 							rot = ml::quat::angleAxis(totalT, ml::vec3::One);
 							break;
-		
 						case RB_CUBE:
 							pos = { pos[0], -sinTime, pos[2] };
 							rot = ml::quat::angleAxis(totalT, ml::vec3::One);
 							break;
-		
 						case RB_NAVBALL:
 							pos = { pos[0], -cosTime, pos[2] };
 							rot = ml::quat::angleAxis(totalT, ml::vec3::Forward);
 							break;
-		
 						case RB_MOON:
 							pos = { pos[0], +sinTime, pos[2] };
 							rot = ml::quat::angleAxis(totalT, ml::vec3::Up);
 							break;
-		
 						case RB_EARTH:
 							rot = ml::quat::angleAxis(totalT, ml::vec3::Up);
 							break;
-		
 						case RB_GROUND:
 							break;
 						}
-		
+						
 						// Apply changes
 						assert(
 							state.set<state.T_Pos>(i, pos) &&
 							state.set<state.T_Rot>(i, rot) &&
 							state.set<state.T_Mat>(i, mat) &&
-							state.set<state.T_Inv>(i, inv) &&
-							"\n** Something went wrong... **\n"
-							"\n** Failed applying changes to physics state! **\n"
+							state.set<state.T_Inv>(i, inv)
 						);
 					}
 				});
 			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
 		});
 	}
 
 	void Sandbox::onUpdate(const ml::UpdateEvent & ev)
 	{
-		// Update Title
+		// Update Window Title
 		/* * * * * * * * * * * * * * * * * * * * */
 		ev.window.setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
 			sandbox.title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
-			ev.time.frameTime().delta(),
+			ev.time.elapsed().delta(),
 			ev.time.frameRate()
 		));
-
-		// Update Surfaces
-		/* * * * * * * * * * * * * * * * * * * * */
-		for (auto & pair : ev.resources.surfaces)
-		{
-			pair.second->resize(ev.window.getFrameSize());
-		}
 
 		// Update Physics
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -724,12 +697,18 @@ namespace DEMO
 							.update		(ml::mat4::Identity())
 							.translate	(pos)
 							.rotate		(rot)
-							.scale		(scl)
-							;
+							.scale		(scl);
 					}
 				}
 			}
 		}));
+
+		// Update Surfaces
+		/* * * * * * * * * * * * * * * * * * * * */
+		for (auto & pair : ev.resources.surfaces)
+		{
+			pair.second->resize(ev.window.getFrameSize());
+		}
 
 		// Update Camera
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -754,7 +733,7 @@ namespace DEMO
 
 							camera->position
 								+= camera->right()
-								*	ev.time.frameTime().delta()
+								*	ev.time.elapsed().delta()
 								*	sandbox.cameraSpeed;
 						}
 					}
@@ -804,7 +783,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("{0} ms/frame ({1} fps)").format(
-					ev.time.frameTime().delta(), 
+					ev.time.elapsed().delta(), 
 					ev.time.frameRate()
 				));
 
@@ -813,7 +792,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("time: {0}").format(
-					ev.time.totalTime()
+					ev.time.total()
 				));
 
 			newLine();
@@ -823,7 +802,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("sin: {0}").format(
-					std::sinf(ev.time.totalTime().delta())
+					std::sinf(ev.time.total().delta())
 				));
 
 			sandbox.text["time_cos"]
@@ -831,7 +810,7 @@ namespace DEMO
 				.setFontSize(fontSize)
 				.setPosition(newLine())
 				.setString(ml::String("cos: {0}").format(
-					std::cosf(ev.time.totalTime().delta())
+					std::cosf(ev.time.total().delta())
 				));
 
 			newLine();
@@ -914,13 +893,11 @@ namespace DEMO
 							new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
 							new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	NULL),
 							}));
-
 					static ml::RenderBatch batch(
 						&sandbox.vao, 
 						&sandbox.vbo, 
 						material
 					);
-
 					for (const auto & pair : ev.resources.sprites)
 					{
 						ev.window.draw(pair.second, batch);
@@ -938,13 +915,11 @@ namespace DEMO
 							new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
 							new ml::uni_tex_cp	(ML_FRAG_MAIN_TEX,	NULL),
 							}));
-
 					static ml::RenderBatch batch(
 						&sandbox.vao,
 						&sandbox.vbo,
 						material
 					);
-
 					for (const auto & pair : sandbox.text)
 					{
 						ev.window.draw(pair.second, batch);
@@ -964,7 +939,6 @@ namespace DEMO
 							new ml::uni_flt("Geom.size",		0.995f),
 							new ml::uni_int("Geom.samples",		16),
 							}));
-
 					if (material && material->bind())
 					{
 						ML_GL.drawArrays(ml::GL::Points, 0, 4);
@@ -984,11 +958,8 @@ namespace DEMO
 			if (const ml::Surface * scene = ev.resources.surfaces.get("surface_main"))
 			{
 				post->bind();
-
-				scene->shader()->setUniform("Surface.mode", sandbox.effectMode);
-
+				scene->shader()->setUniform("Effect.mode", sandbox.effectMode);
 				ev.window.draw(*scene);
-				
 				post->unbind();
 			}
 		}
@@ -996,7 +967,7 @@ namespace DEMO
 
 	void Sandbox::onGui(const ml::GuiEvent & ev)
 	{
-		// Terminal Output
+		// Update Terminal
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (sandbox.rdbuf)
 		{
@@ -1041,11 +1012,10 @@ namespace DEMO
 		// Cleanup Resources
 		ev.resources.dispose();
 
-		// Cleanup Std Out
+		// Release Cout
 		if (sandbox.rdbuf)
 		{
 			ml::cout.rdbuf(sandbox.rdbuf);
-			sandbox.rdbuf = NULL;
 		}
 	}
 

@@ -15,6 +15,7 @@ namespace ml
 	class GameTime;
 	class NetClient;
 	class NetServer;
+	class PhysicsWorld;
 	class Preferences;
 	class RenderWindow;
 	class Resources;
@@ -32,46 +33,38 @@ namespace ml
 			Preferences		& prefs,
 			GameTime		& time,
 			Resources		& resources,
-			RenderWindow	& window,
-			NetClient		& client,
-			NetServer		& server,
-			Audio			& audio
+			RenderWindow	& window
 		);
 
-		~Engine();
+		~Engine() {}
 
 	public:
 		void onEvent(const IEvent * value) override;
 
 	public:
-		Application * launchApp(Application * app);
+		Application * launchApp(Application * value);
 		int32_t freeApp(Application * value);
-		bool	isRunning() const;
-		void	beginFrame();
-		void	endFrame();
 
 	public:
-		Audio			& audio()		const;
-		NetClient		& client()		const;
+		bool isRunning() const;
+		void beginFrame();
+		void endFrame();
+
+	public:
 		EventSystem		& eventSystem()	const;
 		Preferences		& prefs()		const;
 		Resources		& resources()	const;
-		NetServer		& server()		const;
-		RenderWindow	& window()		const;
 		GameTime		& time()		const;
+		RenderWindow	& window()		const;
 
 	private:
-		Audio			& m_audio;
-		NetClient		& m_client;
+		Application		* m_app;
 		EventSystem		& m_eventSystem;
 		Preferences		& m_prefs;
 		Resources		& m_resources;
-		NetServer		& m_server;
-		RenderWindow	& m_window;
 		GameTime		& m_time;
+		RenderWindow	& m_window;
 		
-		Application *	m_app;
-		int32_t			m_networkMode;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

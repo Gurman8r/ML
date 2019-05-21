@@ -13,7 +13,7 @@ namespace ml
 		, public NetInterface
 	{
 	public:
-		enum { Mode = 1 };
+		enum { ID = 1 };
 
 	public:
 		explicit NetServer(EventSystem & eventSystem);

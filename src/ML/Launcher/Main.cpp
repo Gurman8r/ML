@@ -28,16 +28,16 @@ int32_t main()
 	// Setup Systems
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static ml::Preferences	g_Prefs			{ ML_CONFIG_INI };
-	static ml::EventSystem	g_EventSystem	{};
-	static ml::Resources	g_Resources		{};
-	static ml::GameTime		g_GameTime		{};
-	static ml::Audio		g_Audio			{ g_EventSystem };
-	static ml::NetClient	g_Client		{ g_EventSystem };
-	static ml::NetServer	g_Server		{ g_EventSystem };
-	static ml::RenderWindow g_Window		{ g_EventSystem };
-	static ml::Engine		g_Engine		{ g_EventSystem, g_Prefs, g_GameTime, g_Resources, g_Window, g_Client, g_Server, g_Audio };
-	static ml::Editor		g_Editor		{ g_EventSystem };
+	static ml::Preferences	g_Prefs		{ ML_CONFIG_INI };
+	static ml::EventSystem	g_EventSys	{};
+	static ml::Resources	g_Res		{};
+	static ml::GameTime		g_Time		{};
+	static ml::Audio		g_Audio		{ g_EventSys }; // WIP
+	static ml::NetClient	g_Client	{ g_EventSys }; // WIP
+	static ml::NetServer	g_Server	{ g_EventSys }; // WIP
+	static ml::RenderWindow g_Window	{ g_EventSys };
+	static ml::Engine		g_Engine	{ g_EventSys, g_Prefs, g_Time, g_Res, g_Window };
+	static ml::Editor		g_Editor	{ g_EventSys };
 
 
 	// Setup Control Flow
@@ -51,61 +51,60 @@ int32_t main()
 	{
 	{ State::Enter, []()
 	{	/* Enter */
-		g_EventSystem.fireEvent(ml::EnterEvent(
+		g_EventSys.fireEvent(ml::EnterEvent(
 			g_Prefs,
-			g_Resources,
+			g_Res,
 			g_Window
 		));
 		return g_Control(State::Load);
 	} },
 	{ State::Load, []()
 	{	/* Load */
-		g_EventSystem.fireEvent(ml::LoadEvent(
+		g_EventSys.fireEvent(ml::LoadEvent(
 			g_Prefs,
-			g_Resources,
+			g_Res,
 			g_Window
 		));
 		return g_Control(State::Start);
 	} },
 	{ State::Start, []()
 	{	/* Start */
-		g_EventSystem.fireEvent(ml::StartEvent(
+		g_EventSys.fireEvent(ml::StartEvent(
 			g_Engine,
-			g_Resources,
+			g_Res,
 			g_Window
 		));
 		return g_Control(State::Loop);
 	} },
 	{ State::Loop, []()
-	{	while (g_Engine.isRunning())
+	{	/* Loop */
+		while (g_Engine.isRunning())
 		{
 			/* Begin Frame */
 			g_Engine.beginFrame();
-			
+
 			/* Update */
-			g_EventSystem.fireEvent(ml::UpdateEvent(
-				g_GameTime,
-				g_Resources,
+			g_EventSys.fireEvent(ml::UpdateEvent(
+				g_Time,
+				g_Res,
 				g_Window
 			));
 
 			/* Draw */
-			g_EventSystem.fireEvent(ml::DrawEvent(
-				g_GameTime,
-				g_Resources,
+			g_EventSys.fireEvent(ml::DrawEvent(
+				g_Time,
+				g_Res,
 				g_Window
 			));
 
 			/* Gui */
-			g_EventSystem.fireEvent(ml::BeginGuiEvent());
-			{
-				g_EventSystem.fireEvent(ml::GuiEvent(
-					g_GameTime,
-					g_Resources,
-					g_Editor
-				));
-			}
-			g_EventSystem.fireEvent(ml::EndGuiEvent());
+			g_EventSys.fireEvent(ml::BeginGuiEvent());
+			g_EventSys.fireEvent(ml::GuiEvent(
+				g_Time,
+				g_Res,
+				g_Editor
+			));
+			g_EventSys.fireEvent(ml::EndGuiEvent());
 
 			/* End Frame */
 			g_Engine.endFrame();
@@ -114,8 +113,8 @@ int32_t main()
 	} },
 	{ State::Shutdown, []()
 	{	/* Shutdown */
-		g_EventSystem.fireEvent(ml::ShutdownEvent(
-			g_Resources,
+		g_EventSys.fireEvent(ml::ShutdownEvent(
+			g_Res,
 			g_Window
 		));
 		return g_Control(ML_STATE_NONE);
@@ -132,9 +131,9 @@ int32_t main()
 	)))
 	{	// Load Application from Library
 		if (auto app = g_Engine.launchApp(
-			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem)
+			lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSys)
 		))
-		{	// Enter Control Flow
+		{	// Run Control
 			g_Control(State::Enter);
 
 			// Free Application

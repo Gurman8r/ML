@@ -50,9 +50,9 @@ namespace ml
 		RenderWindow	& window;
 		EnterEvent(Preferences & prefs, Resources & resources, RenderWindow & window)
 			: EngineEvent(EV_Enter)
-			, prefs(prefs)
-			, resources(resources)
-			, window(window)
+			, prefs		(prefs)
+			, resources	(resources)
+			, window	(window)
 		{
 		}
 	};
@@ -64,9 +64,9 @@ namespace ml
 		RenderWindow	& window;
 		LoadEvent(Preferences & prefs, Resources & resources, RenderWindow & window)
 			: EngineEvent(EV_Load)
-			, prefs(prefs)
-			, resources(resources)
-			, window(window)
+			, prefs		(prefs)
+			, resources	(resources)
+			, window	(window)
 		{
 		}
 	};
@@ -76,14 +76,11 @@ namespace ml
 		Engine			& engine;
 		Resources		& resources;
 		RenderWindow	& window;
-		StartEvent(
-			Engine			& engine,
-			Resources		& resources,
-			RenderWindow	& window
-		)	: EngineEvent(EV_Start)
-			, engine(engine)
-			, resources(resources)
-			, window(window)
+		StartEvent(Engine & engine, Resources & resources, RenderWindow & window)
+			: EngineEvent(EV_Start)
+			, engine	(engine)
+			, resources	(resources)
+			, window	(window)
 		{
 		}
 	};
@@ -93,14 +90,11 @@ namespace ml
 		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
-		UpdateEvent(
-			const GameTime	& time,
-			Resources		& resources,
-			RenderWindow	& window
-		)	: EngineEvent(EV_Update)
-			, time(time)
-			, resources(resources)
-			, window(window)
+		UpdateEvent(const GameTime & time, Resources & resources, RenderWindow & window)
+			: EngineEvent(EV_Update)
+			, time		(time)
+			, resources	(resources)
+			, window	(window)
 		{
 		}
 	};
@@ -110,14 +104,11 @@ namespace ml
 		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
-		DrawEvent(
-			const GameTime	& time,
-			Resources		& resources,
-			RenderWindow	& window
-		)	: EngineEvent(EV_Draw)
-			, time(time)
-			, resources(resources)
-			, window(window)
+		DrawEvent(const GameTime & time, Resources & resources, RenderWindow & window)
+			: EngineEvent(EV_Draw)
+			, time		(time)
+			, resources	(resources)
+			, window	(window)
 		{
 		}
 	};
@@ -128,8 +119,8 @@ namespace ml
 		RenderWindow	& window;
 		ShutdownEvent(Resources	& resources, RenderWindow & window)
 			: EngineEvent(EV_Shutdown)
-			, resources(resources)
-			, window(window)
+			, resources	(resources)
+			, window	(window)
 		{
 		}
 	};
@@ -138,10 +129,7 @@ namespace ml
 
 	struct ML_ENGINE_API ExitEvent final : public EngineEvent
 	{
-		ExitEvent()
-			: EngineEvent(EV_Exit)
-		{
-		}
+		ExitEvent() : EngineEvent(EV_Exit) {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -77,9 +77,6 @@ namespace DEMO
 		{
 			ml::SStream			rdstr		= ml::SStream();
 			ml::StreamBuf *		rdbuf		= NULL;
-			ml::String			res_data	= {};
-			ml::String			res_path	= {};
-			ml::String			manifest	= {};
 			ml::VAO				vao			= {};
 			ml::VBO				vbo			= {};
 			TextTable			text		= {};

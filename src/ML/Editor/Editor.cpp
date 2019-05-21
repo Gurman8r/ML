@@ -163,10 +163,12 @@ namespace ml
 
 	void Editor::onGui(const GuiEvent & ev)
 	{
+		// Demo Toggles
 		static bool show_imgui_demo		= false;
 		static bool show_imgui_metrics	= false;
 		static bool show_imgui_style	= false;
 		static bool show_imgui_about	= false;
+
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -272,6 +274,7 @@ namespace ml
 
 			ImGui::EndMainMenuBar();
 		}
+
 
 		// ImGui Demo
 		/* * * * * * * * * * * * * * * * * * * * */

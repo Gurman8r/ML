@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	NetInterface::NetInterface(EventSystem & eventSystem)
-		: m_eventSystem(eventSystem)
+		: IEventListener(eventSystem)
 		, m_peer(NULL)
 	{
 	}

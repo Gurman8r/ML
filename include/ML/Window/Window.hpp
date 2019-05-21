@@ -3,10 +3,11 @@
 
 #include <ML/Core/IEventListener.hpp>
 #include <ML/Core/INonCopyable.hpp>
-#include <ML/Window/Context.hpp>
+#include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
 #include <ML/Window/Icon.hpp>
-#include <ML/Window/Screen.hpp>
+#include <ML/Window/VideoSettings.hpp>
+#include <ML/Window/StyleSettings.hpp>
 
 namespace ml
 {
@@ -37,25 +38,7 @@ namespace ml
 		using SizeFun			= typename void(*)(void *, int32_t, int32_t);
 
 
-	public: // Styles
-		/* * * * * * * * * * * * * * * * * * * * */
-		enum Style : uint32_t
-		{
-			None		= (0 << 0),
-			Resizable	= (1 << 0),
-			Visible		= (1 << 1),
-			Decorated	= (1 << 2),
-			Focused		= (1 << 3),
-			AutoIconify	= (1 << 4),
-			Floating	= (1 << 5),
-			Maximized	= (1 << 6),
-
-			// Resizable | Visible | Decorated | Focused | AutoIconify | Maximized
-			Default	= Resizable | Decorated | Focused | AutoIconify | Maximized,
-		};
-
-
-	public: // C/D-tor
+	public: // Constructors / Destructor
 		/* * * * * * * * * * * * * * * * * * * * */
 		explicit Window(EventSystem & eventSystem);
 		virtual ~Window();
@@ -63,7 +46,12 @@ namespace ml
 
 	public: // Core
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool create(const String & title, const Screen & screen, const uint32_t style, const Context & context);
+		bool create(
+			const String & title, 
+			const VideoSettings & screen, 
+			const StyleSettings & style, 
+			const ContextSettings & context
+		);
 
 		virtual bool setup();
 
@@ -94,34 +82,34 @@ namespace ml
 
 	public: // Accessors
 		/* * * * * * * * * * * * * * * * * * * * */
-		bool		isFocused() const;
-		bool		isOpen() const;
-		int32_t		getAttrib(const int32_t value) const;
-		char		getChar() const;
-		CString		getClipboardString() const;
-		vec2		getCursorPos() const;
-		vec2i		getFrameSize() const;
-		int32_t		getKey(const int32_t value) const;
-		int32_t		getInputMode() const;
-		int32_t		getMouseButton(const int32_t button) const;
-		double		getTime() const;
+		bool			isFocused() const;
+		bool			isOpen() const;
+		int32_t			getAttrib(const int32_t value) const;
+		char			getChar() const;
+		CString			getClipboardString() const;
+		vec2			getCursorPos() const;
+		vec2i			getFrameSize() const;
+		int32_t			getKey(const int32_t value) const;
+		int32_t			getInputMode() const;
+		int32_t			getMouseButton(const int32_t button) const;
+		vec2i			getPosition() const;
+		double			getTime() const;
 
 
 	public: // Inline
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline EventSystem &	eventSystem()	const { return m_eventSystem; }
-		inline const Context &	getContext()	const { return m_context; }
-		inline const uint32_t &	getStyle()		const { return m_style; }
-		inline const vec2i &	getPosition()	const { return m_position; }
-		inline const Screen &	getScreen()		const { return m_screen; }
-		inline const vec2u &	getSize()		const { return getScreen().resolution; }
-		inline const String &	getTitle()		const { return m_title; }
-		inline const uint32_t	getWidth()		const { return getSize()[0]; }
-		inline const uint32_t	getHeight()		const { return getSize()[1]; }
-		inline const int32_t	getFrameWidth()	const { return getFrameSize()[0]; }
-		inline const int32_t	getFrameHeight()const { return getFrameSize()[1]; }
-		inline const float		getAspect()		const { return ML_ASPECT(getWidth(), getHeight()); };
-		inline const float		getFrameAspect()const { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
+		inline const ContextSettings &	getContext()const { return m_context; }
+		inline const StyleSettings &	getStyle()	const { return m_style; }
+		inline const VideoSettings &	getVideo()	const { return m_video; }
+		
+		inline const String		getTitle()			const { return m_title; }
+		inline const vec2u &	getSize()			const { return getVideo().resolution; }
+		inline const uint32_t	getWidth()			const { return getSize()[0]; }
+		inline const uint32_t	getHeight()			const { return getSize()[1]; }
+		inline const int32_t	getFrameWidth()		const { return getFrameSize()[0]; }
+		inline const int32_t	getFrameHeight()	const { return getFrameSize()[1]; }
+		inline const float		getAspect()			const { return ML_ASPECT(getWidth(), getHeight()); };
+		inline const float		getFrameAspect()	const { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
 
 
 	public: // Cursors
@@ -148,14 +136,12 @@ namespace ml
 
 	protected: // Data
 		/* * * * * * * * * * * * * * * * * * * * */
-		EventSystem &	m_eventSystem;
 		void *			m_window;
 		void *			m_monitor;
 		void *			m_share;
-		Context			m_context;
-		Screen			m_screen;
-		uint32_t		m_style;
-		vec2i			m_position;
+		ContextSettings	m_context;
+		StyleSettings	m_style;
+		VideoSettings	m_video;
 		String			m_title;
 		mutable char	m_char;
 	};

@@ -11,14 +11,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API Console final
-	{
-		static bool enableMenuItem(const uint32_t item, const uint32_t enable);
-		static bool setTextAttribute(const uint16_t value);
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	struct ML_CORE_API FG final
 	{
 		enum Color : uint16_t
@@ -101,6 +93,8 @@ namespace ml
 			: FMT(FG::DEFAULT, BG::DEFAULT)
 		{
 		}
+
+		static bool setTextAttribute(const uint16_t value);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -112,19 +106,19 @@ namespace ml
 
 	inline std::ostream & operator<<(std::ostream & out, const FG::Color & value)
 	{
-		Console::setTextAttribute((uint16_t)(value));
+		FMT::setTextAttribute((uint16_t)(value));
 		return out;
 	};
 
 	inline std::ostream & operator<<(std::ostream & out, const BG::Color & value)
 	{
-		Console::setTextAttribute((uint16_t)(value));
+		FMT::setTextAttribute((uint16_t)(value));
 		return out;
 	};
 
 	inline std::ostream & operator<<(std::ostream & out, const FMT & value)
 	{
-		Console::setTextAttribute((uint16_t)(value.fg) | (uint16_t)(value.bg));
+		FMT::setTextAttribute((uint16_t)(value.fg) | (uint16_t)(value.bg));
 		return out;
 	};
 

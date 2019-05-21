@@ -18,7 +18,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(EventSystem & eventSystem)
-		: m_eventSystem	(eventSystem)
+		: IEventListener(eventSystem)
 		, dockspace		(true)
 		, browser		(true)
 		, builder		(true)
@@ -63,7 +63,7 @@ namespace ml
 			{
 				if (IMGUI_CHECKVERSION())
 				{
-					// Create ImGui Context
+					// Create ImGui ContextSettings
 					ImGui::CreateContext();
 
 					// Load ImGui Style
@@ -311,10 +311,6 @@ namespace ml
 		// Builder
 		this->builder.onGui(ev);
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	EventSystem	& Editor::eventSystem() const { return m_eventSystem; }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

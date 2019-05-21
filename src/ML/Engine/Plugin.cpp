@@ -59,7 +59,9 @@ namespace ml
 
 	bool Plugin::loadFromFile(const String & filename)
 	{
-		return (m_instance = ML_LOAD_LIBRARY((m_filename = filename).c_str()));
+		return (m_filename = filename)
+			? (m_instance = ML_LOAD_LIBRARY(m_filename.c_str()))
+			: false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

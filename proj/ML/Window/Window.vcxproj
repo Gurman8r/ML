@@ -170,19 +170,21 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Window\Context.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Icon.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Window\Screen.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Window\VideoSettings.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Window\WindowStyle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Window\Context.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\ContextSettings.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Cursor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Icon.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\KeyCode.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Window\Screen.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\VideoSettings.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Window.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\WindowEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\MouseButton.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\StyleSettings.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

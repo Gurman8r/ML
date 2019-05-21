@@ -10,28 +10,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void DefaultCommands::install(Interpreter & interpreter)
-	{
-		interpreter.install({ "cat",	DefaultCommands::cmd_cat	});
-		interpreter.install({ "cd",		DefaultCommands::cmd_cd		});
-		interpreter.install({ "cwd",	DefaultCommands::cmd_cwd	});
-		interpreter.install({ "exec",	DefaultCommands::cmd_exec	});
-		interpreter.install({ "exists",	DefaultCommands::cmd_exists	});
-		interpreter.install({ "get",	DefaultCommands::cmd_get	});
-		interpreter.install({ "getcwd",	DefaultCommands::cmd_getcwd	});
-		interpreter.install({ "help",	DefaultCommands::cmd_help	});
-		interpreter.install({ "log",	DefaultCommands::cmd_log	});
-		interpreter.install({ "ls",		DefaultCommands::cmd_ls		});
-		interpreter.install({ "pause",	DefaultCommands::cmd_pause	});
-		interpreter.install({ "os",		DefaultCommands::cmd_os		});
-		interpreter.install({ "read",	DefaultCommands::cmd_read	});
-		interpreter.install({ "run",	DefaultCommands::cmd_run	});
-		interpreter.install({ "set",	DefaultCommands::cmd_set	});
-		interpreter.install({ "system",	DefaultCommands::cmd_system	});
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	Var DefaultCommands::cmd_cat(Args & args)
 	{
 		String buf;

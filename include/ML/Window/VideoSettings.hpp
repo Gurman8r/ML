@@ -9,9 +9,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API Screen final
+	struct ML_WINDOW_API VideoSettings final
 		: public ITrackable
-		, public IComparable<Screen>
+		, public IComparable<VideoSettings>
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -20,18 +20,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		Screen();
-		Screen(const uint32_t width, const uint32_t height);
-		Screen(const vec2u & size);
-		Screen(const uint32_t width, const uint32_t height, const uint32_t colorDepth);
-		Screen(const vec2u & size, const uint32_t colorDepth);
-		Screen(const Screen & copy);
-		~Screen();
+		VideoSettings();
+		VideoSettings(const uint32_t width, const uint32_t height, const uint32_t colorDepth);
+		VideoSettings(const vec2u & size, const uint32_t colorDepth);
+		VideoSettings(const VideoSettings & copy);
+		~VideoSettings();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		static const Screen &		desktop();
-		static const List<Screen> & resolutions();
+		static const VideoSettings & desktop();
+		static const List<VideoSettings> & resolutions();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -45,8 +43,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool equals(const Screen & value) const override;
-		bool lessThan(const Screen & value) const override;
+		bool equals(const VideoSettings & value) const override;
+		bool lessThan(const VideoSettings & value) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

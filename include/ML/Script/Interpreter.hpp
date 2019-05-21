@@ -17,7 +17,6 @@ namespace ml
 
 	class ML_SCRIPT_API Interpreter final
 		: public ITrackable
-		, public IEventListener
 		, public ISingleton<Interpreter>
 	{	
 		friend ISingleton<Interpreter>;
@@ -26,15 +25,12 @@ namespace ml
 		using CommandMap  = typename HashMap<String, Command>;
 		using CommandPair = typename Pair<String, Command>;
 
-	public:
+	private:
 		Interpreter();
 		~Interpreter();
 
 	public:
-		void onEvent(const IEvent * value) override;
-
-	public:
-		Command * install(const Command & value);
+		Command * addCommand(const Command & value);
 		Command * getCommand(const String & value);
 
 		template <
@@ -52,10 +48,10 @@ namespace ml
 		Var execTree(const TokenTree & value);
 		Var	execBlock(AST_Block * value);
 
-		inline const CommandMap & commands() const { return m_cmd; }
+		inline const CommandMap & commands() const { return m_commands; }
 
 	private:
-		CommandMap m_cmd;
+		CommandMap m_commands;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

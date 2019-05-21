@@ -21,43 +21,15 @@ namespace ml
 		EventSystem		& eventSystem, 
 		Preferences		& prefs, 
 		RenderWindow	& window)	
-		: m_eventSystem	(eventSystem)
+		: IEventListener(eventSystem)
 		, m_prefs		(prefs)
 		, m_window		(window)
 	{
 		// Setup Events
-		/* * * * * * * * * * * * * * * * * * * * */
 		eventSystem.addListener(EngineEvent::EV_Enter, this);
 		eventSystem.addListener(EngineEvent::EV_LoadContent, this);;
 		eventSystem.addListener(EngineEvent::EV_Exit, this);
 		eventSystem.addListener(EngineEvent::EV_Shutdown, this);
-
-		// Create Window
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (window.create(
-			prefs.GetString	("Window", "title",			"Title"), { {
-			prefs.GetUint	("Window", "width",			1280),
-			prefs.GetUint	("Window", "height",		720) },
-			prefs.GetUint	("Window", "colorDepth",	32) },
-			prefs.GetUint	("Window", "style",			Window::Default), {
-			prefs.GetUint	("Window", "majorVersion",	3),
-			prefs.GetUint	("Window", "minorVersion",	3),
-			prefs.GetUint	("Window", "profile",		Context::Compat),
-			prefs.GetUint	("Window", "depthBits",		24),
-			prefs.GetUint	("Window", "stencilBits",	8),
-			prefs.GetBool	("Window", "multisample",	false),
-			prefs.GetBool	("Window", "srgbCapable",	false)
-		}))
-		{
-			window.maximize();
-			window.seCursorMode(Cursor::Normal);
-			window.setPosition((Screen::desktop().resolution - window.getSize()) / 2);
-			window.setViewport(vec2i::Zero, window.getFrameSize());
-		}
-		else
-		{
-			Debug::fatal("Failed Creating Window");
-		}
 	}
 
 	Engine::~Engine() {}
@@ -69,15 +41,54 @@ namespace ml
 		switch (*value)
 		{
 			// Enter Event
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		case EngineEvent::EV_Enter:
 			if (auto ev = value->as<EnterEvent>())
 			{
+				// Create Window
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (ev->window.create(
+					ev->prefs.GetString	("Window", "title",			"Title"), { 
+					ev->prefs.GetUint	("Window", "width",			1280),
+					ev->prefs.GetUint	("Window", "height",		720),
+					ev->prefs.GetUint	("Window", "colorDepth",	32) }, {
+					ev->prefs.GetBool	("Window", "resizable",		true),
+					ev->prefs.GetBool	("Window", "visible",		false),
+					ev->prefs.GetBool	("Window", "decorated",		true),
+					ev->prefs.GetBool	("Window", "focused",		true),
+					ev->prefs.GetBool	("Window", "autoIconify",	true),
+					ev->prefs.GetBool	("Window", "floating",		false),
+					ev->prefs.GetBool	("Window", "maximized",		true) }, {
+					ev->prefs.GetUint	("Window", "majorVersion",	3),
+					ev->prefs.GetUint	("Window", "minorVersion",	3),
+					ev->prefs.GetUint	("Window", "profile",		ContextSettings::Compat),
+					ev->prefs.GetUint	("Window", "depthBits",		24),
+					ev->prefs.GetUint	("Window", "stencilBits",	8),
+					ev->prefs.GetBool	("Window", "multisample",	false),
+					ev->prefs.GetBool	("Window", "srgbCapable",	false)
+				}))
+				{
+					if (ev->window.getStyle().maximized)
+					{
+						ev->window.maximize();
+					}
+
+					ev->window.seCursorMode(Cursor::Normal);
+					
+					ev->window.setPosition((VideoSettings::desktop().resolution - ev->window.getSize()) / 2);
+					
+					ev->window.setViewport(vec2i::Zero, ev->window.getFrameSize());
+				}
+				else
+				{
+					Debug::fatal("Failed Creating Window");
+				}
 			}
 			break;
 
 			// Load Content Event
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		case EngineEvent::EV_LoadContent: 
 			if (auto ev = value->as<LoadContentEvent>())
 			{
@@ -126,7 +137,7 @@ namespace ml
 			break;
 
 			// Exit Event
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		case EngineEvent::EV_Exit:
 			if (auto ev = value->as<ExitEvent>())
 			{
@@ -135,7 +146,7 @@ namespace ml
 			break;
 
 			// Shutdown Event
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		case EngineEvent::EV_Shutdown:
 			m_window.close();
 			break;

@@ -1,4 +1,4 @@
-#include <ML/Window/Screen.hpp>
+#include <ML/Window/VideoSettings.hpp>
 
 # ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
@@ -8,48 +8,38 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Screen::Screen()
-		: Screen(vec2u::Zero, 0)
+	VideoSettings::VideoSettings()
+		: VideoSettings(vec2u::Zero, 0)
 	{
 	}
 
-	Screen::Screen(const uint32_t width, const uint32_t height)
-		: Screen(width, height, 32)
-	{
-	}
-
-	Screen::Screen(const vec2u & resolution)
-		: Screen(resolution, 32)
-	{
-	}
-
-	Screen::Screen(const uint32_t width, const uint32_t height, const uint32_t colorDepth)
+	VideoSettings::VideoSettings(const uint32_t width, const uint32_t height, const uint32_t colorDepth)
 		: resolution(width, height)
 		, colorDepth(colorDepth)
 	{
 	}
 
-	Screen::Screen(const vec2u & resolution, uint32_t colorDepth)
+	VideoSettings::VideoSettings(const vec2u & resolution, uint32_t colorDepth)
 		: resolution(resolution)
 		, colorDepth(colorDepth)
 	{
 	}
 
-	Screen::Screen(const Screen & copy)
+	VideoSettings::VideoSettings(const VideoSettings & copy)
 		: resolution(copy.resolution)
 		, colorDepth(copy.colorDepth)
 	{
 	}
 
-	Screen::~Screen()
+	VideoSettings::~VideoSettings()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const Screen & Screen::desktop()
+	const VideoSettings & VideoSettings::desktop()
 	{
-		static Screen temp;
+		static VideoSettings temp;
 		static bool checked = true;
 		if (checked)
 		{	checked = false;
@@ -57,20 +47,20 @@ namespace ml
 			DEVMODE win32Mode;
 			win32Mode.dmSize = sizeof(win32Mode);
 			EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &win32Mode);
-			temp = Screen(
+			temp = VideoSettings(
 				win32Mode.dmPelsWidth,
 				win32Mode.dmPelsHeight,
 				win32Mode.dmBitsPerPel);
 # else
-			temp = Screen();
+			temp = VideoSettings();
 # endif
 		}
 		return temp;
 	}
 
-	const List<Screen> & Screen::resolutions()
+	const List<VideoSettings> & VideoSettings::resolutions()
 	{
-		static List<Screen> temp;
+		static List<VideoSettings> temp;
 		static bool check = true;
 		if (check)
 		{	check = false;
@@ -79,7 +69,7 @@ namespace ml
 			win32Mode.dmSize = sizeof(win32Mode);
 			for (int32_t count = 0; EnumDisplaySettings(NULL, count, &win32Mode); ++count)
 			{
-				Screen mode(
+				VideoSettings mode(
 					win32Mode.dmPelsWidth,
 					win32Mode.dmPelsHeight,
 					win32Mode.dmBitsPerPel);
@@ -90,7 +80,7 @@ namespace ml
 				}
 			}
 # else
-			temp = List<Screen>();
+			temp = List<VideoSettings>();
 # endif
 		}
 		return temp;
@@ -98,26 +88,26 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Screen::serialize(std::ostream & out) const
+	void VideoSettings::serialize(std::ostream & out) const
 	{
 		out << resolution << " " << colorDepth;
 	}
 
-	void Screen::deserialize(std::istream & in)
+	void VideoSettings::deserialize(std::istream & in)
 	{
 		in >> resolution >> colorDepth;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Screen::equals(const Screen & value) const
+	bool VideoSettings::equals(const VideoSettings & value) const
 	{
 		return 
 			(resolution == value.resolution) && 
 			(colorDepth == value.colorDepth);
 	}
 
-	bool Screen::lessThan(const Screen & value) const
+	bool VideoSettings::lessThan(const VideoSettings & value) const
 	{
 		return
 			(resolution < value.resolution) && 

@@ -10,38 +10,37 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Interpreter::Interpreter()
+		: m_commands()
 	{
-		DefaultCommands::install(*this);
+		this->addCommand({ "cat",		DefaultCommands::cmd_cat	});
+		this->addCommand({ "cd",		DefaultCommands::cmd_cd		});
+		this->addCommand({ "cwd",		DefaultCommands::cmd_cwd	});
+		this->addCommand({ "exec",		DefaultCommands::cmd_exec	});
+		this->addCommand({ "exists",	DefaultCommands::cmd_exists	});
+		this->addCommand({ "get",		DefaultCommands::cmd_get	});
+		this->addCommand({ "getcwd",	DefaultCommands::cmd_getcwd	});
+		this->addCommand({ "help",		DefaultCommands::cmd_help	});
+		this->addCommand({ "log",		DefaultCommands::cmd_log	});
+		this->addCommand({ "ls",		DefaultCommands::cmd_ls		});
+		this->addCommand({ "pause",		DefaultCommands::cmd_pause	});
+		this->addCommand({ "os",		DefaultCommands::cmd_os		});
+		this->addCommand({ "read",		DefaultCommands::cmd_read	});
+		this->addCommand({ "run",		DefaultCommands::cmd_run	});
+		this->addCommand({ "set",		DefaultCommands::cmd_set	});
+		this->addCommand({ "system",	DefaultCommands::cmd_system	});
 	}
 
 	Interpreter::~Interpreter()
 	{
+		m_commands.clear();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Interpreter::onEvent(const IEvent * value)
+	Command * Interpreter::addCommand(const Command & value)
 	{
-		switch (*value)
-		{
-		case ScriptEvent::EV_Command:
-			if (auto ev = value->as<CommandEvent>())
-			{
-				if (execCommand(ev->cmd).isErrorType())
-				{
-					Debug::logError(ev->cmd);
-				}
-			}
-			break;
-		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	Command * Interpreter::install(const Command & value)
-	{
-		return ((value.name() && (m_cmd.find(value.name()) == m_cmd.end()))
-			? (&m_cmd.insert({ value.name(), value }).first->second)
+		return ((value.name() && (m_commands.find(value.name()) == m_commands.end()))
+			? (&m_commands.insert({ value.name(), value }).first->second)
 			: (NULL)
 		);
 	}
@@ -49,7 +48,7 @@ namespace ml
 	Command * Interpreter::getCommand(const String & value)
 	{
 		CommandMap::iterator it;
-		return (((it = m_cmd.find(value)) != m_cmd.begin())
+		return (((it = m_commands.find(value)) != m_commands.begin())
 			? (&it->second)
 			: (NULL)
 		);
@@ -64,7 +63,7 @@ namespace ml
 			Args args(value, " ");
 
 			CommandMap::iterator it;
-			if ((it = m_cmd.find(args.front())) != m_cmd.end())
+			if ((it = m_commands.find(args.front())) != m_commands.end())
 			{
 				return it->second(args);
 			}

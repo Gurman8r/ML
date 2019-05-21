@@ -18,7 +18,7 @@ namespace ml
 		, public IEventListener
 	{
 	public:
-		Application(EventSystem & eventSystem);
+		explicit Application(EventSystem & eventSystem);
 		virtual ~Application();
 
 	public:
@@ -30,12 +30,6 @@ namespace ml
 		virtual void onUpdate	(const UpdateEvent	& ev) = 0;
 		virtual void onDraw		(const DrawEvent	& ev) = 0;
 		virtual void onExit		(const ExitEvent	& ev) = 0;
-
-	public:
-		EventSystem & eventSystem() const;
-
-	private:
-		EventSystem & m_eventSystem;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

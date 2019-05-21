@@ -54,7 +54,7 @@ namespace ml
 		static bool		closeDevice();
 
 	public:
-		/* Context */
+		/* ContextSettings */
 		static bool		createContext();
 		static bool		makeContextCurrent();
 

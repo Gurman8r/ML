@@ -36,7 +36,7 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
-		NetInterface(EventSystem & eventSystem);
+		explicit NetInterface(EventSystem & eventSystem);
 		virtual ~NetInterface();
 
 	public:
@@ -58,11 +58,7 @@ namespace ml
 		IpAddress	getMyAddress() const;
 		IpAddress	getAddressFromGUID(const GUID & value) const;
 
-	public:
-		inline EventSystem & eventSystem() const { return m_eventSystem; }
-
 	protected:
-		EventSystem & m_eventSystem;
 		void * m_peer;
 	};
 

@@ -7,7 +7,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Audio::Audio(EventSystem & eventSystem)
-		: m_eventSystem(eventSystem)
+		: IEventListener(eventSystem)
 	{
 		ML_AL.init(eventSystem);
 	}
@@ -21,10 +21,6 @@ namespace ml
 	void Audio::onEvent(const IEvent * value)
 	{
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	EventSystem & Audio::eventSystem() const { return m_eventSystem; }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

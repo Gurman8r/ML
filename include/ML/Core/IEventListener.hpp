@@ -7,10 +7,28 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	class EventSystem;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class ML_CORE_API IEventListener
 	{
 	public:
+		explicit IEventListener(EventSystem & eventSystem)
+			: m_eventSystem(eventSystem)
+		{
+		}
+		
+		virtual ~IEventListener() {}
+
+	public:
 		virtual void onEvent(const IEvent * ev) = 0;
+
+	public:
+		inline EventSystem & eventSystem() const { return m_eventSystem; }
+
+	private:
+		EventSystem & m_eventSystem;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -17,10 +17,6 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static void install(Interpreter & interpreter);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		static Var cmd_cat		(Args & args); // Display File
 		static Var cmd_cd		(Args & args); // Change Directory
 		static Var cmd_cwd		(Args & args); // Print Working Directory

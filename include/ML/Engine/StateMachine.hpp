@@ -26,8 +26,7 @@ namespace ml
 
 		static constexpr key_type NoState { static_cast<key_type>(-1) };
 
-
-	public: // Constructor
+	public: // Constructors
 		/* * * * * * * * * * * * * * * * * * * * */
 		StateMachine(init_type && init)
 			: m_states()
@@ -36,7 +35,7 @@ namespace ml
 			{
 				if (it->second && (it->first > self_type::NoState))
 				{
-					m_states[it->first] = it->second;
+					m_states.insert({ it->first, it->second });
 				}
 			}
 		}

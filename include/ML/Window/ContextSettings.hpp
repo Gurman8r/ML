@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API Context final
+	struct ML_WINDOW_API ContextSettings final
 		: public ITrackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -33,7 +33,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		Context(
+		ContextSettings(
 			uint32_t	majorVersion	= 1,
 			uint32_t	minorVersion	= 1,
 			uint32_t	profile			= Profile::Compat,
@@ -43,7 +43,7 @@ namespace ml
 			bool		srgbCapable		= false
 		);
 
-		Context(const Context & copy);
+		ContextSettings(const ContextSettings & copy);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	};

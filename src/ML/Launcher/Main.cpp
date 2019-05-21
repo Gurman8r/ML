@@ -28,16 +28,16 @@ int32_t main()
 	// Setup Systems
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static ml::Preferences	g_Prefs		{ ML_CONFIG_INI };
-	static ml::EventSystem	g_EventSys	{};
-	static ml::Resources	g_Resources	{};
-	static ml::GameTime		g_Time		{};
-	static ml::Audio		g_Audio		{ g_EventSys }; // WIP
-	static ml::NetClient	g_Client	{ g_EventSys }; // WIP
-	static ml::NetServer	g_Server	{ g_EventSys }; // WIP
-	static ml::RenderWindow g_Window	{ g_EventSys };
-	static ml::Engine		g_Engine	{ g_EventSys, g_Prefs, g_Window };
-	static ml::Editor		g_Editor	{ g_EventSys };
+	static ml::Preferences	g_Preferences	{ ML_CONFIG_INI };
+	static ml::EventSystem	g_EventSystem	{};
+	static ml::Resources	g_Resources		{};
+	static ml::GameTime		g_Time			{};
+	static ml::Audio		g_Audio			{ g_EventSystem }; // WIP
+	static ml::NetClient	g_Client		{ g_EventSystem }; // WIP
+	static ml::NetServer	g_Server		{ g_EventSystem }; // WIP
+	static ml::RenderWindow g_Window		{ g_EventSystem };
+	static ml::Engine		g_Engine		{ g_EventSystem, g_Preferences, g_Window };
+	static ml::Editor		g_Editor		{ g_EventSystem };
 
 
 	// Setup Control Flow
@@ -49,16 +49,16 @@ int32_t main()
 	{
 	{ State::Enter, []()
 	{	/* Enter */
-		g_EventSys.fireEvent(ml::EnterEvent(
-			g_Prefs,
+		g_EventSystem.fireEvent(ml::EnterEvent(
+			g_Preferences,
 			g_Window
 		));
 		/* Load Content */
-		g_EventSys.fireEvent(ml::LoadContentEvent(
+		g_EventSystem.fireEvent(ml::LoadContentEvent(
 			g_Resources
 		));
 		/* Start */
-		g_EventSys.fireEvent(ml::StartEvent(
+		g_EventSystem.fireEvent(ml::StartEvent(
 			g_Time,
 			g_Resources,
 			g_Window
@@ -74,27 +74,27 @@ int32_t main()
 			g_Window.pollEvents();
 
 			/* Update */
-			g_EventSys.fireEvent(ml::UpdateEvent(
+			g_EventSystem.fireEvent(ml::UpdateEvent(
 				g_Time,
 				g_Resources,
 				g_Window
 			));
 
 			/* Draw */
-			g_EventSys.fireEvent(ml::DrawEvent(
+			g_EventSystem.fireEvent(ml::DrawEvent(
 				g_Time,
 				g_Resources,
 				g_Window
 			));
 
 			/* Gui */
-			g_EventSys.fireEvent(ml::BeginGuiEvent());
-			g_EventSys.fireEvent(ml::GuiEvent(
+			g_EventSystem.fireEvent(ml::BeginGuiEvent());
+			g_EventSystem.fireEvent(ml::GuiEvent(
 				g_Time,
 				g_Resources,
 				g_Editor
 			));
-			g_EventSys.fireEvent(ml::EndGuiEvent());
+			g_EventSystem.fireEvent(ml::EndGuiEvent());
 
 			/* End Frame */
 			g_Window.swapBuffers();
@@ -104,7 +104,7 @@ int32_t main()
 	} },
 	{ State::Exit, []()
 	{	/* Exit */
-		g_EventSys.fireEvent(ml::ExitEvent(
+		g_EventSystem.fireEvent(ml::ExitEvent(
 			g_Resources,
 			g_Window
 		));
@@ -116,12 +116,12 @@ int32_t main()
 	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// Load Library from File
+	// Load Plugin from File
 	if (auto lib = ml::Plugin(ML_FS.getPathTo(
-		g_Prefs.GetString("Engine", "user_dll", "") + ML_DLL_STR("")
+		g_Preferences.GetString("Engine", "user_dll", "") + ML_DLL_STR("")
 	)))
-	{	// Load Application from Library
-		if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSys))
+	{	// Load Application from Plugin
+		if (auto app = lib.callFun<ml::Application *>(ML_str(ML_Plugin_Main), g_EventSystem))
 		{	
 			// Run Control
 			g_Control(State::Enter);

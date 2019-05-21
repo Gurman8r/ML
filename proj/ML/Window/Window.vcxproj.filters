@@ -20,10 +20,13 @@
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Window\Screen.cpp">
+    <ClCompile Include="..\..\..\src\ML\Window\Context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Window\Context.cpp">
+    <ClCompile Include="..\..\..\src\ML\Window\WindowStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Window\VideoSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,10 +52,13 @@
     <ClInclude Include="..\..\..\include\ML\Window\MouseButton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Window\Screen.hpp">
+    <ClInclude Include="..\..\..\include\ML\Window\ContextSettings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Window\Context.hpp">
+    <ClInclude Include="..\..\..\include\ML\Window\StyleSettings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Window\VideoSettings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

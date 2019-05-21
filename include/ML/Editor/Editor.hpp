@@ -41,13 +41,8 @@ namespace ml
 		Project		project;
 		SceneView	sceneView;
 		Terminal	terminal;
-		
-	public:
-		EventSystem	& eventSystem() const;
 
 	private:
-		EventSystem & m_eventSystem;
-
 		StreamBuf * m_coutBuf; // cout redirect buffer
 		SStream		m_coutStr; // cout redirect stream
 	};

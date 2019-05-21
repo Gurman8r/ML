@@ -117,7 +117,7 @@ namespace ml
 	}
 
 
-	/* Context */
+	/* ContextSettings */
 	
 	bool OpenAL::createContext()
 	{

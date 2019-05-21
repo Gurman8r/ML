@@ -6,7 +6,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Application::Application(EventSystem & eventSystem)
-		: m_eventSystem(eventSystem)
+		: IEventListener(eventSystem)
 	{
 		eventSystem.addListener(EngineEvent::EV_Enter,	this);
 		eventSystem.addListener(EngineEvent::EV_Start,	this);
@@ -29,13 +29,6 @@ namespace ml
 		case EngineEvent::EV_Draw:	return onDraw	(*value->as<DrawEvent>());
 		case EngineEvent::EV_Exit:	return onExit	(*value->as<ExitEvent>());
 		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	EventSystem & Application::eventSystem() const
-	{
-		return m_eventSystem;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

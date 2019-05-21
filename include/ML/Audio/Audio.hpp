@@ -24,12 +24,6 @@ namespace ml
 
 	public:
 		void onEvent(const IEvent * value) override;
-
-	public:
-		EventSystem & eventSystem() const;
-
-	private:
-		EventSystem & m_eventSystem;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

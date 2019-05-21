@@ -33,7 +33,6 @@ namespace ml
 		void onEvent(const IEvent * value) override;
 
 	private:
-		EventSystem		& m_eventSystem;
 		Preferences		& m_prefs;
 		RenderWindow	& m_window;
 	};

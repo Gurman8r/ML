@@ -110,7 +110,7 @@ namespace ml
 	Var Interpreter::execTree(const TokenTree & value)
 	{
 		return ((!value.empty())
-			? (execBlock(ML_Parser.genFromTree(value)))
+			? (execBlock(Parser::genFromTree(value)))
 			: (Var().errorValue("Interpreter : Token Tree cannot be empty"))
 		);
 	}

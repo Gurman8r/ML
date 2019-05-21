@@ -25,14 +25,8 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{f94c649a-64db-464d-b79f-ccc4b81686b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Interpreter">
-      <UniqueIdentifier>{90cebdbd-ea3a-437e-9dbb-db015913b9f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\DS">
       <UniqueIdentifier>{da07b936-73cb-49f6-93f8-336f451382f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Interpreter">
-      <UniqueIdentifier>{ba788e00-7ce5-4554-b347-277fb349905d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{ebf14d53-58e1-4ad6-817d-98afd807e851}</UniqueIdentifier>
@@ -53,18 +47,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Script\AST_Stmt.hpp">
       <Filter>Header Files\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Script\Interpreter.hpp">
-      <Filter>Header Files\Interpreter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Script\Lexer.hpp">
-      <Filter>Header Files\Interpreter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Script\Parser.hpp">
-      <Filter>Header Files\Interpreter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Script\Runtime.hpp">
-      <Filter>Header Files\Interpreter</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Script\Script.hpp">
       <Filter>Header Files\DS</Filter>
@@ -99,6 +81,18 @@
     <ClInclude Include="..\..\..\include\ML\Script\DefaultCommands.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Script\Runtime.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Script\Interpreter.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Script\Lexer.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Script\Parser.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Script\AST_Block.cpp">
@@ -112,18 +106,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Script\AST_Stmt.cpp">
       <Filter>Source Files\AST</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Script\Runtime.cpp">
-      <Filter>Source Files\Interpreter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Script\Parser.cpp">
-      <Filter>Source Files\Interpreter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Script\Lexer.cpp">
-      <Filter>Source Files\Interpreter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Script\Interpreter.cpp">
-      <Filter>Source Files\Interpreter</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Script\Args.cpp">
       <Filter>Source Files\DS</Filter>
@@ -147,6 +129,18 @@
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Script\DefaultCommands.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Script\Runtime.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Script\Interpreter.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Script\Lexer.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Script\Parser.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>

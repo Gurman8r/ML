@@ -1,23 +1,12 @@
 #include <ML/Script/Lexer.hpp>
 #include <ML/Core/StringUtility.hpp>
-#include <ML/Script/Interpreter.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Lexer::Lexer()
-	{
-	}
-
-	Lexer::~Lexer()
-	{
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	Token Lexer::genToken(const String & value) const
+	Token Lexer::genToken(const String & value)
 	{
 		if (value.empty())
 		{
@@ -37,7 +26,7 @@ namespace ml
 		}
 	}
 
-	TokenList Lexer::genArgsArray(const Args & value) const
+	TokenList Lexer::genArgsArray(const Args & value)
 	{
 		TokenList out;
 		out.push_back('[');
@@ -65,12 +54,12 @@ namespace ml
 	}
 
 
-	TokenList Lexer::genTokenList(const String & value) const
+	TokenList Lexer::genTokenList(const String & value)
 	{
 		return genTokenList(List<char>(value.begin(), value.end()));
 	}
 
-	TokenList Lexer::genTokenList(const List<char> & value) const
+	TokenList Lexer::genTokenList(const List<char> & value)
 	{
 		TokenList out;
 
@@ -131,7 +120,7 @@ namespace ml
 		return out;
 	}
 
-	TokenTree Lexer::genTokenTree(const TokenList & value) const
+	TokenTree Lexer::genTokenTree(const TokenList & value)
 	{
 		TokenTree tree	= { TokenList() };
 		
@@ -146,23 +135,6 @@ namespace ml
 				while ((it != value.end()) && ((*it) != '\n')) { it++; }
 				break;
 
-			case '@': // Preprocessor
-			{
-				String line;
-				while ((it != value.end()) && ((*it) != '\n')) 
-				{
-					line += it->data;
-					it++; 
-				}
-				line.erase(line.begin());
-				if (ML_Interpreter.execCommand(line).isErrorType())
-				{
-					Debug::logError("Lexer : Failed executing preprocessor command \"{0}\"", 
-						line);
-				}
-			}
-			break;
-
 			case '{': // Begin Block
 				tree.back().push_back(*it);
 
@@ -174,10 +146,8 @@ namespace ml
 				break;
 
 			default: // Other
-			{
 				tree.back().push_back(*it);
-			}
-			break;
+				break;
 			}
 		}
 
@@ -186,7 +156,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Lexer::scanName(const List<char> & value, const_iterator & it, String & text) const
+	bool Lexer::scanName(const List<char> & value, const_iterator & it, String & text)
 	{
 		if (isalpha(*it) || (*it) == '_')
 		{
@@ -211,7 +181,7 @@ namespace ml
 		return false;
 	}
 
-	bool Lexer::scanNumber(const List<char> & value, const_iterator & it, String & text) const
+	bool Lexer::scanNumber(const List<char> & value, const_iterator & it, String & text)
 	{
 		if (isdigit(*it))
 		{
@@ -236,7 +206,7 @@ namespace ml
 		return false;
 	}
 
-	bool Lexer::scanString(const List<char> & value, const_iterator & it, String & text) const
+	bool Lexer::scanString(const List<char> & value, const_iterator & it, String & text)
 	{
 		if ((*it) == '\"')
 		{
@@ -259,7 +229,7 @@ namespace ml
 		return false;
 	}
 
-	bool Lexer::scanSymbol(const List<char> & value, const_iterator & it, String & text) const
+	bool Lexer::scanSymbol(const List<char> & value, const_iterator & it, String & text)
 	{
 		auto issymbol = [](const char c)
 		{

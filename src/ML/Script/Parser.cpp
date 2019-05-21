@@ -7,528 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using RuleMap = typename Parser::RuleMap;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	Parser::Parser()
-	{
-		install_statements();
-		install_expressions();
-	}
-
-	Parser::~Parser()
-	{
-		for (auto & pair : m_rules)
-		{
-			delete pair.second;
-			pair.second = NULL;
-		}
-		m_rules.clear();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool Parser::InfixToPostfix(const TokenList & ifx, TokenList & pfx, bool show)
-	{
-		// just one operand
-		if (ifx.size() == 1 && ifx.front().isOperand())
-		{
-			pfx.push_back(ifx.front());
-
-			return true;
-		}
-
-		TokenList stack = { '(' };
-
-		pfx = TokenList();
-
-		bool func = false;
-		for (auto it = ifx.cbegin(); it != ifx.cend(); it++)
-		{
-			const Token & arg = (*it);
-
-			if (arg.isOperator())
-			{
-				size_t count = 0;
-
-				while (!stack.empty() && (stack.front() <= arg))
-				{
-					pfx.push_back(stack.front());
-
-					stack.erase(stack.begin());
-
-					if (++count > 100)
-					{
-						return Debug::logError("Infix To Postfix Stack overflow");
-					}
-				}
-
-				stack.insert(stack.begin(), arg);
-			}
-			else if (arg == '(')
-			{
-				TokenList::const_iterator prev = (it - 1);
-				if (!func && ((prev >= ifx.begin()) && prev->type == 'n'))
-				{
-					pfx.push_back(arg);
-					func = true;
-				}
-				else
-				{
-					stack.insert(stack.begin(), arg);
-				}
-			}
-			else if (arg == ')')
-			{
-				size_t count = 0;
-				while (!stack.empty())
-				{
-					if (stack.front() == '(')
-					{
-						break;
-					}
-					pfx.push_back(stack.front());
-					stack.erase(stack.begin());
-					count++;
-				}
-
-				if (func)
-				{
-					func = false;
-					pfx.insert(pfx.end() - count, arg);
-				}
-
-				if (!stack.empty())
-				{
-					stack.erase(stack.begin());
-				}
-
-				if (stack.empty())
-				{
-					Debug::logError("Missing left parenthesis (1)\n");
-					return false;
-				}
-			}
-			else if (arg.isOperand())
-			{
-				pfx.push_back(arg);
-			}
-
-			if (show) cout << "P: " << pfx << ml::endl;
-		}
-
-		while (!stack.empty() && stack.front() != '(')
-		{
-			pfx.push_back(stack.front());
-			stack.erase(stack.begin());
-		}
-
-		if (show) cout << "P: " << pfx << ml::endl;
-
-		if (stack.empty())
-		{
-			return Debug::logError("Missing left parenthesis (2)\n");
-		}
-
-		stack.erase(stack.begin());
-
-		// Final Error Checking
-		size_t numOperators = 0;
-		size_t numOperands = 0;
-
-		for (size_t i = 0; i < pfx.size(); i++)
-		{
-			const Token & arg = pfx[i];
-
-			if (arg.isOperator())
-			{
-				numOperators++;
-			}
-			else
-			{
-				numOperands++;
-			}
-		}
-
-		if (numOperators == 0 && numOperands == 1)
-		{
-			return true;
-		}
-		else if (numOperands <= 1)
-		{
-			return Debug::logError("Parser : Not enough operands");
-		}
-		else if (numOperators >= numOperands)
-		{
-			return Debug::logError("Parser : Too many operators");
-		}
-
-		return true;
-	}
-
-	TokenList Parser::infixToPostfix(const TokenList & ifx, bool show)  const
-	{
-		TokenList post;
-		return ((InfixToPostfix(ifx, post, show))
-			? (post)
-			: (TokenList())
-		);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	AST_Block * Parser::genFromList(const TokenList & value) const
-	{
-		return genFromTree(ML_Lexer.genTokenTree(value));
-	}
-
-	AST_Block * Parser::genFromTree(const TokenTree & value) const
-	{
-		AST_Block * root = NULL;
-
-		if (!value.empty())
-		{
-			root = new AST_Block({});
-
-			TokenTree::const_iterator it;
-			for (it = value.begin(); it != value.end(); it++)
-			{
-				const TokenList & toks = (*it);
-
-				if (toks.front("for"))
-				{
-					if (AST_Expr * a = generate<AST_Assign>(TokenList(*it).after(2)))
-					{
-						if (AST_Expr * e = genExpression(TokenList((*++it))))
-						{
-							if (AST_Expr * s = genExpression(TokenList((*++it)).pop_back()))
-							{
-								if (root->addChild(new AST_For(a, e, s)))
-								{
-									continue;
-								}
-								delete s;
-							}
-							delete e;
-						}
-						delete a;
-					}
-					return NULL;
-				}
-				else if (AST_Node * n = genNode(root, (*it)))
-				{
-					if (n == root)
-					{
-						root = root->block();
-					}
-					else
-					{
-						root->addChild(n);
-
-						if (AST_Block * b = n->as<AST_Block>())
-						{
-							root = b;
-						}
-					}
-				}
-
-				if (m_showToks)
-				{
-					cout << toks << ml::endl;
-				}
-			}
-
-			if (m_showTree)
-			{
-				cout << (*root) << endl;
-			}
-		}
-		return root;
-	}
-
-	AST_Node * Parser::genNode(AST_Node * root, const TokenList & toks) const
-	{
-		if (root)
-		{
-			for (TokenList::const_iterator it = toks.begin(); it != toks.end(); it++)
-			{
-				switch (it->type)
-				{
-				case '{':
-					return new AST_Block({});
-
-				case '}':
-					if (root->getParent())
-					{
-						return root;
-					}
-
-				default:
-					return genStatement(toks);
-				}
-			}
-		}
-		return NULL;
-	}
-
-	AST_Stmt * Parser::genStatement(const TokenList & toks) const
-	{
-		if (toks.empty())
-		{
-			return NULL;
-		}
-		else if (AST_If			* temp = generate<AST_If>(toks))		{ return temp; }
-		else if (AST_Elif		* temp = generate<AST_Elif>(toks))		{ return temp; }
-		else if (AST_Else		* temp = generate<AST_Else>(toks))		{ return temp; }
-		else if (AST_Print		* temp = generate<AST_Print>(toks))		{ return temp; }
-		else if (AST_Return		* temp = generate<AST_Return>(toks))	{ return temp; }
-		else if (AST_While		* temp = generate<AST_While>(toks))		{ return temp; }
-		else if (AST_Delete		* temp = generate<AST_Delete>(toks))	{ return temp; }
-		else if (AST_Include	* temp = generate<AST_Include>(toks))	{ return temp; }
-		else
-		{
-			return genExpression(toks);
-		}
-	}
-	
-	AST_Expr * Parser::genExpression(const TokenList & toks) const
-	{
-		if (toks.empty())
-		{
-			return NULL;
-		}
-		else if (toks.isWrap('(', ')'))
-		{
-			return genExpression(toks.unwrapped());
-		}
-		else if (AST_Float		* temp = generate<AST_Float>(toks))		{ return temp; }
-		else if (AST_Int		* temp = generate<AST_Int>(toks))		{ return temp; }
-		else if (AST_String		* temp = generate<AST_String>(toks))	{ return temp; }
-		else if (AST_Bool		* temp = generate<AST_Bool>(toks))		{ return temp; }
-		else if (AST_Name		* temp = generate<AST_Name>(toks))		{ return temp; }
-		else if (AST_BinOp		* temp = generate<AST_BinOp>(toks))		{ return temp; }
-		else if (AST_Member		* temp = generate<AST_Member>(toks))	{ return temp; }
-		else if (AST_New		* temp = generate<AST_New>(toks))		{ return temp; }
-		else if (AST_Struct		* temp = generate<AST_Struct>(toks))	{ return temp; }
-		else if (AST_Command	* temp = generate<AST_Command>(toks))	{ return temp; }
-		else if (AST_SizeOf		* temp = generate<AST_SizeOf>(toks))	{ return temp; }
-		else if (AST_TypeID		* temp = generate<AST_TypeID>(toks))	{ return temp; }
-		else if (AST_TypeName	* temp = generate<AST_TypeName>(toks))	{ return temp; }
-		else if (AST_NodeID		* temp = generate<AST_NodeID>(toks))	{ return temp; }
-		else if (AST_System		* temp = generate<AST_System>(toks))	{ return temp; }
-		else if (AST_Input		* temp = generate<AST_Input>(toks))		{ return temp; }
-		else if (AST_Func		* temp = generate<AST_Func>(toks))		{ return temp; }
-		else if (AST_Assign		* temp = generate<AST_Assign>(toks))	{ return temp; }
-		else if (AST_Call		* temp = generate<AST_Call>(toks))		{ return temp; }
-		else if (AST_Subscr		* temp = generate<AST_Subscr>(toks))	{ return temp; }
-		else if (AST_Array		* temp = generate<AST_Array>(toks))		{ return temp; }
-		else
-		{
-			if (AST_BinOp * temp = genNestedBinOp(infixToPostfix(toks, m_showItoP)))
-			{
-				return temp;
-			}
-			else
-			{
-				return new AST_String(toks.str()); // Something Went Wrong
-			}
-		}
-	}
-	
-	AST_BinOp *	Parser::genNestedBinOp(const TokenList & toks) const
-	{
-		AST_BinOp * temp;
-
-		if (toks.empty())
-		{
-			return (temp = NULL);
-		}
-
-		std::stack<AST_Expr *> stack;
-		
-		for (TokenList::const_iterator it = toks.begin(); it != toks.end(); it++)
-		{
-			// Call
-			if (((*(it + 0)) == 'n') && 
-				((*(it + 1)) == '('))
-			{
-				TokenList params(*it);
-
-				while ((*(it++)) != ')')
-				{
-					params.push_back(*it);
-				}
-
-				if (AST_Call * c = generate<AST_Call>(params))
-				{
-					stack.push(c);
-				}
-				else
-				{
-					return (temp = NULL);
-				}
-			}
-
-			// BinOp
-			if (Operator op = Operator(it->data))
-			{
-				if (stack.size() < 2)
-				{
-					return (temp = NULL);
-				}
-
-				AST_Expr * rhs = stack.top();
-				stack.pop();
-
-				AST_Expr * lhs = stack.top();
-				stack.pop();
-
-				stack.push(new AST_BinOp(op, lhs, rhs));
-			}
-			else
-			{
-				stack.push(genExpression(*it));
-			}
-		}
-
-		if (AST_BinOp * binop = stack.top()->as<AST_BinOp>())
-		{
-			return (temp = binop);
-		}
-		else
-		{
-			return (temp = NULL);
-		}
-	}
-	
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	List<AST_Expr *> Parser::genArrayElems(const TokenList & toks) const
-	{
-		List<AST_Expr *> elems;
-
-		TokenList	temp;
-		int32_t		depth = 0;
-
-		for (TokenList::const_iterator it = toks.begin(); it != toks.end(); it++)
-		{
-			if ((*it) == '(')
-			{
-				depth++;
-
-				temp.push_back(*it);
-			}
-			else if ((*it) == ')')
-			{
-				if (--depth > 0)
-				{
-					temp.push_back(*it);
-				}
-			}
-			else if ((*it) == ',' && !depth)
-			{
-				if (!temp.empty())
-				{
-					elems.push_back(genExpression(temp));
-
-					temp.clear();
-
-					continue;
-				}
-
-				temp.push_back(*it);
-			}
-			else
-			{
-				temp.push_back(*it);
-			}
-		}
-
-		if (!temp.empty())
-		{
-			elems.push_back(genExpression(temp));
-		}
-
-		return elems;
-	}
-
-	List<AST_Expr *> Parser::genCallParams(const TokenList & toks) const
-	{
-		List<AST_Expr *> params;
-
-		if (toks.match_type_str("()"))
-		{
-			return params;
-		}
-
-		TokenList	temp;
-		int32_t		depth = 0;
-
-		for (TokenList::const_iterator it = toks.begin() + 1; it != toks.end(); it++)
-		{
-			if ((*it) == '(')
-			{
-				depth++;
-
-				temp.push_back(*it);
-			}
-			else if ((*it) == ')')
-			{
-				if (--depth > 0)
-				{
-					temp.push_back(*it);
-				}
-			}
-			else if ((*it) == ',' && !depth)
-			{
-				if (!temp.empty())
-				{
-					params.push_back(genExpression(temp));
-					temp.clear();
-					continue;
-				}
-
-				temp.push_back(*it);
-			}
-			else
-			{
-				temp.push_back(*it);
-			}
-		}
-
-		if (!temp.empty())
-		{
-			params.push_back(genExpression(temp));
-		}
-
-		return params;
-	}
-
-	List<AST_Expr *> Parser::genFuncParams(const TokenList & toks) const
-	{
-		List<AST_Expr *> params;
-
-		if (toks.isWrap('(', ')'))
-		{
-			for (TokenList::const_iterator it = toks.begin() + 1; it != toks.end() - 1; it++)
-			{
-				if ((*it).type != ',')
-				{
-					if (AST_Name * name = generate<AST_Name>(*it))
-					{
-						params.push_back(name);
-					}
-				}
-			}
-		}
-
-		return params;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Parser::install_statements()
+	Parser::Parser() : m_rules()
 	{
 		install<AST_If>(new NodeMaker<AST_If>([](const TokenList & toks)
 		{
@@ -677,10 +156,7 @@ namespace ml
 			}
 			return (temp = NULL);
 		}));
-	}
 
-	void Parser::install_expressions()
-	{
 		install<AST_Bool>(new NodeMaker<AST_Bool>([](const TokenList & toks)
 		{
 			AST_Bool * temp;
@@ -738,7 +214,7 @@ namespace ml
 					: (temp = NULL)
 				);
 		}));
-	
+
 		install<AST_Array>(new NodeMaker<AST_Array>([](const TokenList & toks)
 		{
 			AST_Array * temp;
@@ -787,7 +263,7 @@ namespace ml
 			}
 			return (temp = NULL);
 		}));
-	
+
 		install<AST_BinOp>(new NodeMaker<AST_BinOp>([](const TokenList & toks)
 		{
 			AST_BinOp * temp;
@@ -1065,6 +541,511 @@ namespace ml
 			}
 			return (temp = NULL);
 		}));
+	}
+
+	Parser::~Parser()
+	{
+		for (auto & pair : m_rules)
+		{
+			delete pair.second;
+			pair.second = NULL;
+		}
+		m_rules.clear();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	bool Parser::infixToPostfix(const TokenList & ifx, TokenList & pfx)
+	{
+		// just one operand
+		if (ifx.size() == 1 && ifx.front().isOperand())
+		{
+			pfx.push_back(ifx.front());
+
+			return true;
+		}
+
+		TokenList stack = { '(' };
+
+		pfx = TokenList();
+
+		bool func = false;
+		for (auto it = ifx.cbegin(); it != ifx.cend(); it++)
+		{
+			const Token & arg = (*it);
+
+			if (arg.isOperator())
+			{
+				size_t count = 0;
+
+				while (!stack.empty() && (stack.front() <= arg))
+				{
+					pfx.push_back(stack.front());
+
+					stack.erase(stack.begin());
+
+					if (++count > 100)
+					{
+						return Debug::logError("Infix To Postfix Stack overflow");
+					}
+				}
+
+				stack.insert(stack.begin(), arg);
+			}
+			else if (arg == '(')
+			{
+				TokenList::const_iterator prev = (it - 1);
+				if (!func && ((prev >= ifx.begin()) && prev->type == 'n'))
+				{
+					pfx.push_back(arg);
+					func = true;
+				}
+				else
+				{
+					stack.insert(stack.begin(), arg);
+				}
+			}
+			else if (arg == ')')
+			{
+				size_t count = 0;
+				while (!stack.empty())
+				{
+					if (stack.front() == '(')
+					{
+						break;
+					}
+					pfx.push_back(stack.front());
+					stack.erase(stack.begin());
+					count++;
+				}
+
+				if (func)
+				{
+					func = false;
+					pfx.insert(pfx.end() - count, arg);
+				}
+
+				if (!stack.empty())
+				{
+					stack.erase(stack.begin());
+				}
+
+				if (stack.empty())
+				{
+					Debug::logError("Missing left parenthesis (1)\n");
+					return false;
+				}
+			}
+			else if (arg.isOperand())
+			{
+				pfx.push_back(arg);
+			}
+		}
+
+		while (!stack.empty() && stack.front() != '(')
+		{
+			pfx.push_back(stack.front());
+			stack.erase(stack.begin());
+		}
+
+		if (stack.empty())
+		{
+			return Debug::logError("Missing left parenthesis (2)\n");
+		}
+
+		stack.erase(stack.begin());
+
+		// Final Error Checking
+		size_t numOperators = 0;
+		size_t numOperands = 0;
+
+		for (size_t i = 0; i < pfx.size(); i++)
+		{
+			const Token & arg = pfx[i];
+
+			if (arg.isOperator())
+			{
+				numOperators++;
+			}
+			else
+			{
+				numOperands++;
+			}
+		}
+
+		if (numOperators == 0 && numOperands == 1)
+		{
+			return true;
+		}
+		else if (numOperands <= 1)
+		{
+			return Debug::logError("Parser : Not enough operands");
+		}
+		else if (numOperators >= numOperands)
+		{
+			return Debug::logError("Parser : Too many operators");
+		}
+
+		return true;
+	}
+
+	TokenList Parser::infixToList(const TokenList & ifx)
+	{
+		TokenList post;
+		return ((infixToPostfix(ifx, post))
+			? (post)
+			: (TokenList())
+		);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	AST_Block * Parser::genFromList(const TokenList & value)
+	{
+		return genFromTree(ML_Lexer.genTokenTree(value));
+	}
+
+	AST_Block * Parser::genFromTree(const TokenTree & value)
+	{
+		AST_Block * root = NULL;
+
+		if (!value.empty())
+		{
+			root = new AST_Block({});
+
+			TokenTree::const_iterator it;
+			for (it = value.begin(); it != value.end(); it++)
+			{
+				const TokenList & toks = (*it);
+
+				if (toks.front("for"))
+				{
+					if (AST_Expr * a = ML_Parser.generate<AST_Assign>(TokenList(*it).after(2)))
+					{
+						if (AST_Expr * e = genExpression(TokenList((*++it))))
+						{
+							if (AST_Expr * s = genExpression(TokenList((*++it)).pop_back()))
+							{
+								if (root->addChild(new AST_For(a, e, s)))
+								{
+									continue;
+								}
+								delete s;
+							}
+							delete e;
+						}
+						delete a;
+					}
+					return NULL;
+				}
+				else if (AST_Node * n = genNode(root, (*it)))
+				{
+					if (n == root)
+					{
+						root = root->block();
+					}
+					else
+					{
+						root->addChild(n);
+
+						if (AST_Block * b = n->as<AST_Block>())
+						{
+							root = b;
+						}
+					}
+				}
+
+				//if (m_showToks)
+				//{
+				//	cout << toks << ml::endl;
+				//}
+			}
+
+			//if (m_showTree)
+			//{
+			//	cout << (*root) << endl;
+			//}
+		}
+		return root;
+	}
+
+	AST_Node * Parser::genNode(AST_Node * root, const TokenList & toks)
+	{
+		if (root)
+		{
+			for (TokenList::const_iterator it = toks.begin(); it != toks.end(); it++)
+			{
+				switch (it->type)
+				{
+				case '{':
+					return new AST_Block({});
+
+				case '}':
+					if (root->getParent())
+					{
+						return root;
+					}
+
+				default:
+					return genStatement(toks);
+				}
+			}
+		}
+		return NULL;
+	}
+
+	AST_Stmt * Parser::genStatement(const TokenList & toks)
+	{
+		if (toks.empty())
+		{
+			return NULL;
+		}
+		else if (AST_If			* temp = ML_Parser.generate<AST_If>(toks))		{ return temp; }
+		else if (AST_Elif		* temp = ML_Parser.generate<AST_Elif>(toks))	{ return temp; }
+		else if (AST_Else		* temp = ML_Parser.generate<AST_Else>(toks))	{ return temp; }
+		else if (AST_Print		* temp = ML_Parser.generate<AST_Print>(toks))	{ return temp; }
+		else if (AST_Return		* temp = ML_Parser.generate<AST_Return>(toks))	{ return temp; }
+		else if (AST_While		* temp = ML_Parser.generate<AST_While>(toks))	{ return temp; }
+		else if (AST_Delete		* temp = ML_Parser.generate<AST_Delete>(toks))	{ return temp; }
+		else if (AST_Include	* temp = ML_Parser.generate<AST_Include>(toks))	{ return temp; }
+		else
+		{
+			return genExpression(toks);
+		}
+	}
+	
+	AST_Expr * Parser::genExpression(const TokenList & toks)
+	{
+		if (toks.empty())
+		{
+			return NULL;
+		}
+		else if (toks.isWrap('(', ')'))
+		{
+			return genExpression(toks.unwrapped());
+		}
+		else if (AST_Float		* temp = ML_Parser.generate<AST_Float>(toks))	{ return temp; }
+		else if (AST_Int		* temp = ML_Parser.generate<AST_Int>(toks))		{ return temp; }
+		else if (AST_String		* temp = ML_Parser.generate<AST_String>(toks))	{ return temp; }
+		else if (AST_Bool		* temp = ML_Parser.generate<AST_Bool>(toks))	{ return temp; }
+		else if (AST_Name		* temp = ML_Parser.generate<AST_Name>(toks))	{ return temp; }
+		else if (AST_BinOp		* temp = ML_Parser.generate<AST_BinOp>(toks))	{ return temp; }
+		else if (AST_Member		* temp = ML_Parser.generate<AST_Member>(toks))	{ return temp; }
+		else if (AST_New		* temp = ML_Parser.generate<AST_New>(toks))		{ return temp; }
+		else if (AST_Struct		* temp = ML_Parser.generate<AST_Struct>(toks))	{ return temp; }
+		else if (AST_Command	* temp = ML_Parser.generate<AST_Command>(toks))	{ return temp; }
+		else if (AST_SizeOf		* temp = ML_Parser.generate<AST_SizeOf>(toks))	{ return temp; }
+		else if (AST_TypeID		* temp = ML_Parser.generate<AST_TypeID>(toks))	{ return temp; }
+		else if (AST_TypeName	* temp = ML_Parser.generate<AST_TypeName>(toks)){ return temp; }
+		else if (AST_NodeID		* temp = ML_Parser.generate<AST_NodeID>(toks))	{ return temp; }
+		else if (AST_System		* temp = ML_Parser.generate<AST_System>(toks))	{ return temp; }
+		else if (AST_Input		* temp = ML_Parser.generate<AST_Input>(toks))	{ return temp; }
+		else if (AST_Func		* temp = ML_Parser.generate<AST_Func>(toks))	{ return temp; }
+		else if (AST_Assign		* temp = ML_Parser.generate<AST_Assign>(toks))	{ return temp; }
+		else if (AST_Call		* temp = ML_Parser.generate<AST_Call>(toks))	{ return temp; }
+		else if (AST_Subscr		* temp = ML_Parser.generate<AST_Subscr>(toks))	{ return temp; }
+		else if (AST_Array		* temp = ML_Parser.generate<AST_Array>(toks))	{ return temp; }
+		else
+		{
+			if (AST_BinOp * temp = genNestedBinOp(infixToList(toks)))
+			{
+				return temp;
+			}
+			else
+			{
+				return new AST_String(toks.str()); // Something Went Wrong
+			}
+		}
+	}
+	
+	AST_BinOp *	Parser::genNestedBinOp(const TokenList & toks)
+	{
+		AST_BinOp * temp;
+
+		if (toks.empty())
+		{
+			return (temp = NULL);
+		}
+
+		std::stack<AST_Expr *> stack;
+		
+		for (TokenList::const_iterator it = toks.begin(); it != toks.end(); it++)
+		{
+			// Call
+			if (((*(it + 0)) == 'n') && 
+				((*(it + 1)) == '('))
+			{
+				TokenList params(*it);
+
+				while ((*(it++)) != ')')
+				{
+					params.push_back(*it);
+				}
+
+				if (AST_Call * c = ML_Parser.generate<AST_Call>(params))
+				{
+					stack.push(c);
+				}
+				else
+				{
+					return (temp = NULL);
+				}
+			}
+
+			// BinOp
+			if (Operator op = Operator(it->data))
+			{
+				if (stack.size() < 2)
+				{
+					return (temp = NULL);
+				}
+
+				AST_Expr * rhs = stack.top();
+				stack.pop();
+
+				AST_Expr * lhs = stack.top();
+				stack.pop();
+
+				stack.push(new AST_BinOp(op, lhs, rhs));
+			}
+			else
+			{
+				stack.push(genExpression(*it));
+			}
+		}
+
+		if (AST_BinOp * binop = stack.top()->as<AST_BinOp>())
+		{
+			return (temp = binop);
+		}
+		else
+		{
+			return (temp = NULL);
+		}
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	List<AST_Expr *> Parser::genArrayElems(const TokenList & toks)
+	{
+		List<AST_Expr *> elems;
+
+		TokenList	temp;
+		int32_t		depth = 0;
+
+		for (TokenList::const_iterator it = toks.begin(); it != toks.end(); it++)
+		{
+			if ((*it) == '(')
+			{
+				depth++;
+
+				temp.push_back(*it);
+			}
+			else if ((*it) == ')')
+			{
+				if (--depth > 0)
+				{
+					temp.push_back(*it);
+				}
+			}
+			else if ((*it) == ',' && !depth)
+			{
+				if (!temp.empty())
+				{
+					elems.push_back(genExpression(temp));
+
+					temp.clear();
+
+					continue;
+				}
+
+				temp.push_back(*it);
+			}
+			else
+			{
+				temp.push_back(*it);
+			}
+		}
+
+		if (!temp.empty())
+		{
+			elems.push_back(genExpression(temp));
+		}
+
+		return elems;
+	}
+
+	List<AST_Expr *> Parser::genCallParams(const TokenList & toks)
+	{
+		List<AST_Expr *> params;
+
+		if (toks.match_type_str("()"))
+		{
+			return params;
+		}
+
+		TokenList	temp;
+		int32_t		depth = 0;
+
+		for (TokenList::const_iterator it = toks.begin() + 1; it != toks.end(); it++)
+		{
+			if ((*it) == '(')
+			{
+				depth++;
+
+				temp.push_back(*it);
+			}
+			else if ((*it) == ')')
+			{
+				if (--depth > 0)
+				{
+					temp.push_back(*it);
+				}
+			}
+			else if ((*it) == ',' && !depth)
+			{
+				if (!temp.empty())
+				{
+					params.push_back(genExpression(temp));
+					temp.clear();
+					continue;
+				}
+
+				temp.push_back(*it);
+			}
+			else
+			{
+				temp.push_back(*it);
+			}
+		}
+
+		if (!temp.empty())
+		{
+			params.push_back(genExpression(temp));
+		}
+
+		return params;
+	}
+
+	List<AST_Expr *> Parser::genFuncParams(const TokenList & toks)
+	{
+		List<AST_Expr *> params;
+
+		if (toks.isWrap('(', ')'))
+		{
+			for (TokenList::const_iterator it = toks.begin() + 1; it != toks.end() - 1; it++)
+			{
+				if ((*it).type != ',')
+				{
+					if (AST_Name * name = ML_Parser.generate<AST_Name>(*it))
+					{
+						params.push_back(name);
+					}
+				}
+			}
+		}
+
+		return params;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

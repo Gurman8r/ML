@@ -62,7 +62,6 @@ namespace ml
 	{
 		Args temp { "getcwd" };
 		return cmd_getcwd(temp).print();
-		//return ML_Interpreter.execCommand("getcwd").print();
 	}
 
 	Var DefaultCommands::cmd_exec(Args & args)

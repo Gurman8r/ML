@@ -18,7 +18,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Audio::onEvent(const IEvent * value)
+	void Audio::onEvent(const Event * value)
 	{
 	}
 

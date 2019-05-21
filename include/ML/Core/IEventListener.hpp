@@ -1,12 +1,13 @@
 #ifndef _ML_I_EVENT_LISTENER_HPP_
 #define _ML_I_EVENT_LISTENER_HPP_
 
-#include <ML/Core/IEvent.hpp>
+#include <ML/Core/Export.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	struct Event;
 	class EventSystem;
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -22,7 +23,7 @@ namespace ml
 		virtual ~IEventListener() {}
 
 	public:
-		virtual void onEvent(const IEvent * ev) = 0;
+		virtual void onEvent(const Event * ev) = 0;
 
 	public:
 		inline EventSystem & eventSystem() const { return m_eventSystem; }

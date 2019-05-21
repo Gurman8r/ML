@@ -30,7 +30,7 @@ namespace ml
 		~Engine();
 
 	public:
-		void onEvent(const IEvent * value) override;
+		void onEvent(const Event * value) override;
 
 	private:
 		Preferences		& m_prefs;

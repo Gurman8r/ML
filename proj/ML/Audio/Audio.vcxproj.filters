@@ -33,9 +33,6 @@
     <ClInclude Include="..\..\..\include\ML\Audio\Sound.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Audio\AudioEvents.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Audio\OpenAL.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>

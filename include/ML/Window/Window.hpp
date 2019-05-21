@@ -55,7 +55,7 @@ namespace ml
 
 		virtual bool setup();
 
-		virtual void onEvent(const IEvent * ev) override;
+		virtual void onEvent(const Event * ev) override;
 
 
 	public: // Modifiers

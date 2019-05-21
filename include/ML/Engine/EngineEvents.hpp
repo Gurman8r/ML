@@ -2,7 +2,7 @@
 #define _ML_ENGINE_EVENTS_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/IEvent.hpp>
+#include <ML/Core/Event.hpp>
 #include <ML/Core/Timer.hpp>
 
 namespace ml
@@ -17,11 +17,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API EngineEvent : public IEvent
+	struct EngineEvent final
 	{
 		enum : int32_t
 		{
-			MIN_ENGINE_EVENT = IEvent::EV_ENGINE + 1,
+			MIN_ENGINE_EVENT = Event::EV_ENGINE + 1,
 
 			EV_Enter,
 			EV_LoadContent,
@@ -34,86 +34,75 @@ namespace ml
 
 			MAX_ENGINE_EVENT
 		};
-
-		EngineEvent(int32_t id)
-			: IEvent(id)
-		{
-		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API EnterEvent final : public EngineEvent
+	struct ML_ENGINE_API EnterEvent final : public IEvent<EngineEvent::EV_Enter>
 	{
 		Preferences		& prefs;
 		RenderWindow	& window;
 		EnterEvent(Preferences & prefs, RenderWindow & window)
-			: EngineEvent(EV_Enter)
-			, prefs		(prefs)
+			: prefs		(prefs)
 			, window	(window)
 		{
 		}
 	};
 
-	struct ML_ENGINE_API LoadContentEvent final : public EngineEvent
+	struct ML_ENGINE_API LoadContentEvent final : public IEvent<EngineEvent::EV_LoadContent>
 	{
 		Resources & resources;
 		LoadContentEvent(Resources & resources)
-			: EngineEvent(EV_LoadContent)
-			, resources	(resources)
+			: resources	(resources)
 		{
 		}
 	};
 
-	struct ML_ENGINE_API StartEvent final : public EngineEvent
+	struct ML_ENGINE_API StartEvent final : public IEvent<EngineEvent::EV_Start>
 	{
 		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
 		StartEvent(const GameTime & time, Resources & resources, RenderWindow & window)
-			: EngineEvent(EV_Start)
-			, time		(time)
+			: time		(time)
 			, resources	(resources)
 			, window	(window)
 		{
 		}
 	};
 
-	struct ML_ENGINE_API UpdateEvent final : public EngineEvent
+	struct ML_ENGINE_API UpdateEvent final : public IEvent<EngineEvent::EV_Update>
 	{
 		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
 		UpdateEvent(const GameTime & time, Resources & resources, RenderWindow & window)
-			: EngineEvent(EV_Update)
-			, time		(time)
+			: time		(time)
 			, resources	(resources)
 			, window	(window)
 		{
 		}
 	};
 
-	struct ML_ENGINE_API DrawEvent final : public EngineEvent
+	struct ML_ENGINE_API DrawEvent final : public IEvent<EngineEvent::EV_Draw>
 	{
 		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
 		DrawEvent(const GameTime & time, Resources & resources, RenderWindow & window)
-			: EngineEvent(EV_Draw)
-			, time		(time)
+			: time		(time)
 			, resources	(resources)
 			, window	(window)
 		{
 		}
 	};
 
-	struct ML_ENGINE_API ExitEvent final : public EngineEvent
+	struct ML_ENGINE_API ExitEvent final : public IEvent<EngineEvent::EV_Exit>
 	{
 		Resources		& resources;
 		RenderWindow	& window;
 		ExitEvent(Resources	& resources, RenderWindow & window)
-			: EngineEvent(EV_Exit)
-			, resources	(resources)
+			: resources	(resources)
 			, window	(window)
 		{
 		}
@@ -121,9 +110,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API ShutdownEvent final : public EngineEvent
+	struct ML_ENGINE_API ShutdownEvent final : public IEvent<EngineEvent::EV_Shutdown>
 	{
-		ShutdownEvent() : EngineEvent(EV_Shutdown) {}
+		ShutdownEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

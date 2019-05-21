@@ -49,7 +49,7 @@ namespace ml
 		uint32_t send(const IpAddress & address, const String & data, const SendSettings & settings);
 
 	public:
-		virtual void onEvent(const IEvent * ev) override = 0;
+		virtual void onEvent(const Event * ev) override = 0;
 		virtual void onPacket(const Packet & value) = 0;
 
 	public:

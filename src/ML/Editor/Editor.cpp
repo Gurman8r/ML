@@ -52,7 +52,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor::onEvent(const IEvent * value)
+	void Editor::onEvent(const Event * value)
 	{
 		switch (*value)
 		{

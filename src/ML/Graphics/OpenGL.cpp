@@ -1,7 +1,5 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/EventSystem.hpp>
-#include <ML/Graphics/GraphicsEvents.hpp>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -63,17 +61,19 @@ namespace ml
 				break;
 			}
 
-			if (ML_GL.m_eventSystem)
-			{
-				ML_GL.m_eventSystem->fireEvent(GraphicsErrorEvent(
-					fileName,
-					line,
-					expr,
-					errorCode,
-					errorName,
-					errorDesc
-				));
-			}
+			cout<< FMT()
+				<< endl
+				<< FG::Red
+				<< "An internal OpenGL call failed in " << file << "(" << line << ")"
+				<< FG::Yellow << endl << "Code: "
+				<< FG::White << endl << "\t" << errorCode
+				<< FG::Yellow << endl << "Expression: "
+				<< FG::White << endl << "\t" << expr
+				<< FG::Yellow << endl << "Description:"
+				<< FG::White << endl << "\t" << errorName
+				<< FG::White << endl << "\t" << errorDesc
+				<< FMT()
+				<< endl;
 		}
 	}
 
@@ -86,7 +86,7 @@ namespace ml
 		return ML_GL.m_good;
 	}
 
-	bool OpenGL::init(EventSystem & eventSystem)
+	bool OpenGL::init()
 	{
 		static bool checked = false;
 		if (!checked)
@@ -96,8 +96,6 @@ namespace ml
 			glewExperimental = true;
 
 			ML_GL.m_good = (glewInit() == GLEW_OK);
-
-			ML_GL.m_eventSystem = &eventSystem;
 		}
 		return good();
 	}

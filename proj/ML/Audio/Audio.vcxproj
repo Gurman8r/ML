@@ -29,7 +29,6 @@
     <ClInclude Include="..\..\..\include\ML\Audio\AL.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\Audio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\AudioBuffer.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Audio\AudioEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\AudioSource.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\OpenAL.hpp" />

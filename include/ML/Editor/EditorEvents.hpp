@@ -1,7 +1,7 @@
 #ifndef _ML_EDITOR_EVENTS_HPP_
 #define _ML_EDITOR_EVENTS_HPP_
 
-#include <ML/Core/IEvent.hpp>
+#include <ML/Core/Event.hpp>
 #include <ML/Editor/Export.hpp>
 #include <ML/Core/Duration.hpp>
 
@@ -16,11 +16,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API EditorEvent : public IEvent
+	struct EditorEvent final
 	{
 		enum : int32_t
 		{
-			MIN_EDITOR_EVENT = IEvent::EV_EDITOR + 1,
+			MIN_EDITOR_EVENT = Event::EV_EDITOR + 1,
 
 			EV_BeginGui,
 			EV_Gui,
@@ -39,84 +39,78 @@ namespace ml
 
 			MAX_EDITOR_EVENT
 		};
-
-		EditorEvent(int32_t id)
-			: IEvent(id)
-		{
-		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API BeginGuiEvent final : public EditorEvent
+	struct ML_EDITOR_API BeginGuiEvent final : public IEvent<EditorEvent::EV_BeginGui>
 	{
-		BeginGuiEvent() : EditorEvent(EV_BeginGui) {}
+		BeginGuiEvent() {}
 	};
 
-	struct ML_EDITOR_API GuiEvent final : public EditorEvent
+	struct ML_EDITOR_API GuiEvent final : public IEvent<EditorEvent::EV_Gui>
 	{
 		const GameTime	& time;
 		Resources		& resources;
 		Editor			& editor;
 		GuiEvent(const GameTime & time, Resources & resources, Editor & editor)
-			: EditorEvent(EV_Gui)
-			, time		(time)
+			: time		(time)
 			, resources	(resources)
 			, editor	(editor)
 		{
 		}
 	};
 
-	struct ML_EDITOR_API EndGuiEvent final : public EditorEvent
+	struct ML_EDITOR_API EndGuiEvent final : public IEvent<EditorEvent::EV_EndGui>
 	{
-		EndGuiEvent() : EditorEvent(EV_EndGui) {}
+		EndGuiEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API File_New_Event final : public EditorEvent
+	struct ML_EDITOR_API File_New_Event final : public IEvent<EditorEvent::EV_File_New>
 	{
-		File_New_Event() : EditorEvent(EV_File_New) {}
+		File_New_Event() {}
 	};
 
-	struct ML_EDITOR_API File_Open_Event final : public EditorEvent
+	struct ML_EDITOR_API File_Open_Event final : public IEvent<EditorEvent::EV_File_Open>
 	{
-		File_Open_Event() : EditorEvent(EV_File_Open) {}
+		File_Open_Event() {}
 	};
 
-	struct ML_EDITOR_API File_Save_Event final : public EditorEvent
+	struct ML_EDITOR_API File_Save_Event final : public IEvent<EditorEvent::EV_File_Save>
 	{
-		File_Save_Event() : EditorEvent(EV_File_Save) {}
+		File_Save_Event() {}
 	};
 
-	struct ML_EDITOR_API File_Close_Event final : public EditorEvent
+	struct ML_EDITOR_API File_Close_Event final : public IEvent<EditorEvent::EV_File_Close>
 	{
-		File_Close_Event() : EditorEvent(EV_File_Close) {}
+		File_Close_Event() {}
 	};
 
-	struct ML_EDITOR_API Edit_Undo_Event final : public EditorEvent
+	struct ML_EDITOR_API Edit_Undo_Event final : public IEvent<EditorEvent::EV_Edit_Undo>
 	{
-		Edit_Undo_Event() : EditorEvent(EV_Edit_Undo) {}
+		Edit_Undo_Event() {}
 	};
 
-	struct ML_EDITOR_API Edit_Redo_Event final : public EditorEvent
+	struct ML_EDITOR_API Edit_Redo_Event final : public IEvent<EditorEvent::EV_Edit_Redo>
 	{
-		Edit_Redo_Event() : EditorEvent(EV_Edit_Redo) {}
+		Edit_Redo_Event() {}
 	};
 
-	struct ML_EDITOR_API Edit_Cut_Event final : public EditorEvent
+	struct ML_EDITOR_API Edit_Cut_Event final : public IEvent<EditorEvent::EV_Edit_Cut>
 	{
-		Edit_Cut_Event() : EditorEvent(EV_Edit_Cut) {}
+		Edit_Cut_Event() {}
 	};
 
-	struct ML_EDITOR_API Edit_Copy_Event final : public EditorEvent
+	struct ML_EDITOR_API Edit_Copy_Event final : public IEvent<EditorEvent::EV_Edit_Copy>
 	{
-		Edit_Copy_Event() : EditorEvent(EV_Edit_Copy) {}
+		Edit_Copy_Event() {}
 	};
 
-	struct ML_EDITOR_API Edit_Paste_Event final : public EditorEvent
+	struct ML_EDITOR_API Edit_Paste_Event final : public IEvent<EditorEvent::EV_Edit_Paste>
 	{
-		Edit_Paste_Event() : EditorEvent(EV_Edit_Paste) {}
+		Edit_Paste_Event() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

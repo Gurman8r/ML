@@ -5,6 +5,7 @@
 #include <ML/Audio/OpenAL.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
 #include <ML/Core/OS.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -64,7 +65,7 @@ namespace DEMO
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	void Sandbox::onEvent(const ml::IEvent * value)
+	void Sandbox::onEvent(const ml::Event * value)
 	{
 		// Handle base events
 		ml::EditorApplication::onEvent(value);

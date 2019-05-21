@@ -27,9 +27,6 @@
     <ClInclude Include="..\..\..\include\ML\Physics\Particle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Physics\PhysicsEvents.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Physics\PhysicsState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

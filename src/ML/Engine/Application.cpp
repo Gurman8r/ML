@@ -19,7 +19,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Application::onEvent(const ml::IEvent * value)
+	void Application::onEvent(const ml::Event * value)
 	{
 		switch (*value)
 		{

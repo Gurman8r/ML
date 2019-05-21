@@ -16,7 +16,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void EditorApplication::onEvent(const IEvent * value)
+	void EditorApplication::onEvent(const Event * value)
 	{
 		// Handle base events
 		Application::onEvent(value);

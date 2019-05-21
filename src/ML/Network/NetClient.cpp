@@ -21,7 +21,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	void NetClient::onEvent(const IEvent * value)
+	void NetClient::onEvent(const Event * value)
 	{
 		switch (*value)
 		{

@@ -1,4 +1,5 @@
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/Event.hpp>
 
 namespace ml
 {
@@ -15,7 +16,7 @@ namespace ml
 		m_listeners.insert({ type, listener });
 	}
 	
-	void EventSystem::fireEvent(const IEvent & ev)
+	void EventSystem::fireEvent(const Event & ev)
 	{
 		Pair<iterator, iterator> found = m_listeners.equal_range((int32_t)(ev));
 

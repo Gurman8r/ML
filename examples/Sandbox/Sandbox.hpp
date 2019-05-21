@@ -42,7 +42,7 @@ namespace DEMO
 		~Sandbox();
 
 	public:
-		void onEvent(const ml::IEvent * value) override;
+		void onEvent(const ml::Event * value) override;
 
 	private:
 		void onEnter	(const ml::EnterEvent	& ev) override;

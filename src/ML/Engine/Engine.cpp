@@ -36,13 +36,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Engine::onEvent(const IEvent * value)
+	void Engine::onEvent(const Event * value)
 	{
 		switch (*value)
 		{
 			// Enter Event
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Enter:
+		case EnterEvent::ID:
 			if (auto ev = value->as<EnterEvent>())
 			{
 				// Create Window
@@ -89,7 +89,7 @@ namespace ml
 
 			// Load Content Event
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_LoadContent: 
+		case LoadContentEvent::ID:
 			if (auto ev = value->as<LoadContentEvent>())
 			{
 				// Load Default Meshes
@@ -138,7 +138,7 @@ namespace ml
 
 			// Exit Event
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Exit:
+		case ExitEvent::ID:
 			if (auto ev = value->as<ExitEvent>())
 			{
 				ev->resources.dispose();
@@ -147,7 +147,7 @@ namespace ml
 
 			// Shutdown Event
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Shutdown:
+		case ShutdownEvent::ID:
 			m_window.close();
 			break;
 		}

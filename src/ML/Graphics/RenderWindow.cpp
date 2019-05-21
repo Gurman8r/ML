@@ -2,7 +2,6 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Window/WindowEvents.hpp>
-#include <ML/Graphics/GraphicsEvents.hpp>
 
 namespace ml
 {
@@ -11,7 +10,6 @@ namespace ml
 	RenderWindow::RenderWindow(EventSystem & eventSystem)
 		: Window(eventSystem)
 	{
-		eventSystem.addListener(GraphicsEvent::EV_GraphicsError, this);
 	}
 
 	RenderWindow::~RenderWindow() {}
@@ -20,7 +18,7 @@ namespace ml
 
 	bool RenderWindow::setup()
 	{
-		if (Window::setup() && ML_GL.init(eventSystem()))
+		if (Window::setup() && ML_GL.init())
 		{
 			// Validate OpenGL Version
 			ML_GL.validateVersion(m_context.majorVersion, m_context.minorVersion);
@@ -50,23 +48,16 @@ namespace ml
 		return ml::Debug::logError("Failed to Initialize GLEW");
 	}
 
-	void RenderWindow::onEvent(const IEvent * value)
+	void RenderWindow::onEvent(const Event * value)
 	{
 		Window::onEvent(value);
 
 		switch (*value)
 		{
-		case GraphicsEvent::EV_GraphicsError:
-			if (auto ev = value->as<GraphicsErrorEvent>())
-			{
-				ml::cout << (*ev) << ml::endl;
-			}
-			break;
-
-		case WindowEvent::EV_FrameSize:
+		case FrameSizeEvent::ID:
 			if (auto ev = value->as<FrameSizeEvent>())
 			{
-				this->setViewport(vec2::Zero, ev->size());
+				this->setViewport(vec2::Zero, { ev->width, ev->height });
 			}
 			break;
 		}

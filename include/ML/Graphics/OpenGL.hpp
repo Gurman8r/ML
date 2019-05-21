@@ -25,17 +25,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	class EventSystem;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	class ML_GRAPHICS_API OpenGL final
 		: public ISingleton<OpenGL>
 	{
 		friend class ISingleton<OpenGL>;
 
 		bool m_good;
-		EventSystem * m_eventSystem;
 
 	public: // Errors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -45,7 +40,7 @@ namespace ml
 	public: // Initialization
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static bool		good();
-		static bool		init(EventSystem & eventSystem);
+		static bool		init();
 		static void		validateVersion(uint32_t & major, uint32_t & minor);
 
 	public: // Flags

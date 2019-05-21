@@ -213,58 +213,58 @@ namespace ml
 		return false;
 	}
 
-	void Window::onEvent(const IEvent * value)
+	void Window::onEvent(const Event * value)
 	{
 		switch (*value)
 		{
-		case WindowEvent::EV_Char:
+		case CharEvent::ID:
 			if (auto ev = value->as<CharEvent>())
 			{
 				m_char = (char)ev->value;
 			}
 			break;
-		case WindowEvent::EV_CursorEnter:
+		case CursorEnterEvent::ID:
 			if (auto ev = value->as<CursorEnterEvent>())
 			{
 			}
 			break;
-		case WindowEvent::EV_CursorPos:
+		case CursorPosEvent::ID:
 			if (auto ev = value->as<CursorPosEvent>())
 			{
 			}
 			break;
-		case WindowEvent::EV_FrameSize:
+		case FrameSizeEvent::ID:
 			if (auto ev = value->as<FrameSizeEvent>())
 			{
 			}
 			break;
-		case WindowEvent::EV_Key:
+		case KeyEvent::ID:
 			if (auto ev = value->as<KeyEvent>())
 			{
 			}
 			break;
-		case WindowEvent::EV_MouseButton:
+		case MouseButtonEvent::ID:
 			if (auto ev = value->as<MouseButtonEvent>())
 			{
 			}
 			break;
-		case WindowEvent::EV_Scroll:
+		case ScrollEvent::ID:
 			if (auto ev = value->as<ScrollEvent>())
 			{
 			}
 			break;
-		case WindowEvent::EV_WindowClose:
+		case WindowCloseEvent::ID:
 			if (auto ev = value->as<WindowCloseEvent>())
 			{
 			}
 			break;
-		case WindowEvent::EV_WindowError:
+		case WindowErrorEvent::ID:
 			if (auto ev = value->as<WindowErrorEvent>())
 			{
 				Debug::logError("{0}", (*ev));
 			}
 			break;
-		case WindowEvent::EV_WindowFocus:
+		case WindowFocusEvent::ID:
 			if (auto ev = value->as<WindowFocusEvent>())
 			{
 			}
@@ -274,10 +274,10 @@ namespace ml
 			{
 			}
 			break;
-		case WindowEvent::EV_WindowSize:
+		case WindowSizeEvent::ID:
 			if (auto ev = value->as<WindowSizeEvent>())
 			{
-				m_video.resolution = (vec2u)ev->size();
+				m_video.resolution = { (uint32_t)ev->width, (uint32_t)ev->height };
 			}
 			break;
 		}

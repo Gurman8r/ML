@@ -156,9 +156,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\GraphicsEvents.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>

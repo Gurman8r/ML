@@ -22,7 +22,7 @@ namespace ml
 		virtual ~Application();
 
 	public:
-		virtual void onEvent(const IEvent * value) override;
+		virtual void onEvent(const Event * value) override;
 
 	public:
 		virtual void onEnter	(const EnterEvent	& ev) = 0;

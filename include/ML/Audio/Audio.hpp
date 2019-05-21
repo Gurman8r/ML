@@ -23,7 +23,7 @@ namespace ml
 		~Audio();
 
 	public:
-		void onEvent(const IEvent * value) override;
+		void onEvent(const Event * value) override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

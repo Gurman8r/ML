@@ -27,7 +27,7 @@ namespace ml
 		~Editor();
 
 	public:
-		void onEvent(const IEvent * value) override;
+		void onEvent(const Event * value) override;
 
 	private:
 		void onGui(const GuiEvent & ev);

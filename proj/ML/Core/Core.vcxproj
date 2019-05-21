@@ -181,7 +181,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\IComparable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IDisposable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IEnumerable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IEvent.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IEventListener.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IHandle.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\INonCopyable.hpp" />

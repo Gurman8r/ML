@@ -138,6 +138,15 @@ namespace ml
 			}
 			break;
 
+			// File -> Open Event
+			/* * * * * * * * * * * * * * * * * * * * */
+		case EditorEvent::EV_File_Open:
+			if (auto ev = value->as<File_Open_Event>())
+			{
+				OS::execute("open", browser.get_selected_path());
+			}
+			break;
+
 			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
 		case WindowEvent::EV_Key:

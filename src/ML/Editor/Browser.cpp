@@ -78,22 +78,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Browser::draw_menu()
-	{
-		if (ImGui::BeginMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Open"))
-				{
-					OS::execute("open", get_selected_path());
-				}
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
-	}
-
 	void Browser::draw_directory()
 	{
 		ImGui::BeginChild("Directory View", { 224, 0 }, true);

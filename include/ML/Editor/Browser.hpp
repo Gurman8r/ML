@@ -44,7 +44,6 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		void draw_menu();
 		void draw_directory();
 		void draw_file();
 		void draw_file_preview();

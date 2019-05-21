@@ -66,25 +66,22 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp">
-      <Filter>Header Files\Plugins</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp">
-      <Filter>Header Files\Plugins</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp">
       <Filter>Header Files\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp">
+      <Filter>Header Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,19 +104,16 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp">
-      <Filter>Source Files\Plugins</Filter>
+    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\LuaScript.cpp">
-      <Filter>Source Files\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>

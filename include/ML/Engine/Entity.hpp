@@ -46,14 +46,14 @@ namespace ml
 		inline iterator find()
 		{
 			ML_assert_is_base_of(ITrackable, Component);
-			return (iterator)(m_map.find(ML_typeof(Component)));
+			return (iterator)(m_map.find(ML_TYPEOF(Component)));
 		}
 
 		template <class Component>
 		inline const_iterator find() const
 		{
 			ML_assert_is_base_of(ITrackable, Component);
-			return (const_iterator)(m_map.find(ML_typeof(Component)));
+			return (const_iterator)(m_map.find(ML_TYPEOF(Component)));
 		}
 
 		// Add Component
@@ -64,7 +64,7 @@ namespace ml
 			ML_assert_is_base_of(ITrackable, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({ 
-						ML_typeof(Component), 
+						ML_TYPEOF(Component), 
 						new Component() 
 					}).first->second))
 				: (NULL)
@@ -77,7 +77,7 @@ namespace ml
 			ML_assert_is_base_of(ITrackable, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({
-						ML_typeof(Component),
+						ML_TYPEOF(Component),
 						value
 					}).first->second))
 				: (NULL)

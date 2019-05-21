@@ -9,10 +9,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Script::Script()
-		: m_file	()
-		, m_toks	()
-		, m_root	(NULL)
-		, m_retv	()
+		: m_file()
+		, m_toks()
+		, m_root(NULL)
+		, m_retv()
 	{
 	}
 
@@ -25,7 +25,7 @@ namespace ml
 
 	bool Script::dispose()
 	{
-		if (m_root) 
+		if (m_root)
 		{ 
 			delete m_root;
 			m_root = NULL;

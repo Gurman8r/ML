@@ -9,7 +9,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Engine/SharedLibrary.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Network/NetClient.hpp>
@@ -125,8 +125,10 @@ int32_t main()
 	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	ml::Plugin plugin;
+
 	// Load Library from File
-	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(
+	if (auto lib = ml::Plugin(ML_FS.getPathTo(
 		g_Prefs.GetString("Engine", "user_dll", "") + ML_DLL_STR("")
 	)))
 	{	// Load Application from Library

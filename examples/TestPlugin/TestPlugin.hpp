@@ -3,7 +3,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Engine/Plugin.hpp>
+#include <ML/Engine/PluginAPI.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

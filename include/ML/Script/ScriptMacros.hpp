@@ -6,4 +6,5 @@
 #define ML_SCR_NAME_FILE "__FILE__" // script file name
 #define ML_SCR_NAME_PATH "__PATH__" // path to exe
 
+
 #endif // !_ML_SCRIPT_MACROS_HPP_

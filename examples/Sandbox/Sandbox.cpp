@@ -205,22 +205,22 @@ namespace DEMO
 
 		// Setup Plugins
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev.resources.plugins.empty())
-		{
-			if (ml::Plugin * plugin = ev.resources.plugins.get("TestPlugin"))
-			{
-				if (void * msg = plugin->lib().callFun<void *>(
-					ML_str(ML_Plugin_Test), "TEST"
-					))
-				{
-					ml::Debug::log((ml::CString)(msg));
-				}
-				else
-				{
-					ml::Debug::logError("Plugin Callback Failed");
-				}
-			}
-		}
+		//if (!ev.resources.plugins.empty())
+		//{
+		//	if (ml::Plugin * plugin = ev.resources.plugins.get("TestPlugin"))
+		//	{
+		//		if (void * msg = plugin->lib().callFun<void *>(
+		//			ML_str(ML_Plugin_Test), "TEST"
+		//			))
+		//		{
+		//			ml::Debug::log((ml::CString)(msg));
+		//		}
+		//		else
+		//		{
+		//			ml::Debug::logError("Plugin Callback Failed");
+		//		}
+		//	}
+		//}
 
 		// Create 2D Buffers
 		/* * * * * * * * * * * * * * * * * * * * */

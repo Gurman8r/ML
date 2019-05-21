@@ -5,7 +5,7 @@
 
 #include <ML/Editor/EditorApplication.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Engine/Plugin.hpp>
+#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Graphics/Text.hpp>
 #include <ML/Physics/PhysicsWorld.hpp>
 
@@ -35,7 +35,7 @@ namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class Sandbox final : public ml::EditorApplication
+	class ML_PLUGIN_API Sandbox final : public ml::EditorApplication
 	{
 		enum Rigidbody_ID : int32_t
 		{

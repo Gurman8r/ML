@@ -12,12 +12,12 @@ HELLO = nodeid();
 			printl(args[i]);
 		};
 		
-		printl("* * * * * * * * * * * * * * * * * * * * * * *");
-		printl("*                                           *");
-		printl("*   Hello, World!                           *");
-		printl("*   https://github.com/Gurman8r/CppSandbox  *");
-		printl("*                                           *");
-		printl("* * * * * * * * * * * * * * * * * * * * * * *");
+		printl("* * * * * * * * * * * * * * * * * * * *");
+		printl("*                                     *");
+		printl("*   Hello, World!                     *");
+		printl("*   https://github.com/Gurman8r/ML    *");
+		printl("*                                     *");
+		printl("* * * * * * * * * * * * * * * * * * * *");
 	};
 
 	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

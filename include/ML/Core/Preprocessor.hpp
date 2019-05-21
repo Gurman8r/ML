@@ -20,7 +20,7 @@
 
 // Type Hash
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_typeof(value) ((const std::type_info *)(&typeid(value)))->hash_code()
+#define ML_TYPEOF(value) ((const std::type_info *)(&typeid(value)))->hash_code()
 
 
 // Aspect Ratio
@@ -65,12 +65,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define ML_xstr(a) ML_str(a)
 #define ML_str(a) #a
-
-
-//	Library Strings
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_DLL_STR(name) name "_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".dll"
-#define ML_LIB_STR(name) name "_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib"
 
 
 // Generate Bit Mask Operators

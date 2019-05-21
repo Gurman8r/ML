@@ -30,13 +30,13 @@ int32_t main()
 
 	static ml::Preferences	g_Prefs		{ ML_CONFIG_INI };
 	static ml::EventSystem	g_EventSys	{};
-	static ml::Resources	g_Res		{};
+	static ml::Resources	g_Resources	{};
 	static ml::GameTime		g_Time		{};
 	static ml::Audio		g_Audio		{ g_EventSys }; // WIP
 	static ml::NetClient	g_Client	{ g_EventSys }; // WIP
 	static ml::NetServer	g_Server	{ g_EventSys }; // WIP
 	static ml::RenderWindow g_Window	{ g_EventSys };
-	static ml::Engine		g_Engine	{ g_EventSys, g_Prefs, g_Time, g_Res, g_Window };
+	static ml::Engine		g_Engine	{ g_EventSys, g_Prefs, g_Time, g_Resources, g_Window };
 	static ml::Editor		g_Editor	{ g_EventSys };
 
 
@@ -53,7 +53,7 @@ int32_t main()
 	{	/* Enter */
 		g_EventSys.fireEvent(ml::EnterEvent(
 			g_Prefs,
-			g_Res,
+			g_Resources,
 			g_Window
 		));
 		return g_Control(State::Load);
@@ -62,7 +62,7 @@ int32_t main()
 	{	/* Load */
 		g_EventSys.fireEvent(ml::LoadEvent(
 			g_Prefs,
-			g_Res,
+			g_Resources,
 			g_Window
 		));
 		return g_Control(State::Start);
@@ -71,7 +71,7 @@ int32_t main()
 	{	/* Start */
 		g_EventSys.fireEvent(ml::StartEvent(
 			g_Engine,
-			g_Res,
+			g_Resources,
 			g_Window
 		));
 		return g_Control(State::Loop);
@@ -86,14 +86,14 @@ int32_t main()
 			/* Update */
 			g_EventSys.fireEvent(ml::UpdateEvent(
 				g_Time,
-				g_Res,
+				g_Resources,
 				g_Window
 			));
 
 			/* Draw */
 			g_EventSys.fireEvent(ml::DrawEvent(
 				g_Time,
-				g_Res,
+				g_Resources,
 				g_Window
 			));
 
@@ -101,7 +101,7 @@ int32_t main()
 			g_EventSys.fireEvent(ml::BeginGuiEvent());
 			g_EventSys.fireEvent(ml::GuiEvent(
 				g_Time,
-				g_Res,
+				g_Resources,
 				g_Editor
 			));
 			g_EventSys.fireEvent(ml::EndGuiEvent());
@@ -114,7 +114,7 @@ int32_t main()
 	{ State::Shutdown, []()
 	{	/* Shutdown */
 		g_EventSys.fireEvent(ml::ShutdownEvent(
-			g_Res,
+			g_Resources,
 			g_Window
 		));
 		return g_Control(ML_STATE_NONE);

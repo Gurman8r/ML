@@ -22,7 +22,6 @@
 
 int32_t main()
 {
-	// Systems
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static ml::Preferences	g_Preferences	{ ML_CONFIG_INI };
@@ -33,8 +32,6 @@ int32_t main()
 	static ml::Engine		g_Engine		{ g_EventSystem, g_Preferences, g_Window };
 	static ml::Editor		g_Editor		{ g_EventSystem };
 
-
-	// Control Flow
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum State { Enter, Loop, Exit };
@@ -106,8 +103,6 @@ int32_t main()
 	} },
 	};
 
-
-	// Launch Application
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// User DLL
@@ -132,7 +127,7 @@ int32_t main()
 		}
 		else
 		{
-			return ml::Debug::logError("Failed Launching Application")
+			return ml::Debug::logError("Failed Loading Application")
 				|| ml::Debug::pause(EXIT_FAILURE);
 		}
 	}

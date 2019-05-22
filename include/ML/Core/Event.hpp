@@ -11,6 +11,8 @@ namespace ml
 		: public ITrackable
 		, public INonCopyable
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		enum : int32_t
 		{
 			MAX_LIBRARY_EVENTS = 64,
@@ -68,11 +70,7 @@ namespace ml
 
 		enum { ID = _ID };
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		virtual ~IEvent() {}
-
-		/* * * * * * * * * * * * * * * * * * * * */
 
 		inline int32_t getEventID() const override 
 		{ 

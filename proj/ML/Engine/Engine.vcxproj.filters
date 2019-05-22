@@ -31,12 +31,6 @@
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{52dc5b26-898d-4ca4-a8bf-e4dba70bc070}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Plugins">
-      <UniqueIdentifier>{7c443444-eb43-47f7-9520-31b34e8cde97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Plugins">
-      <UniqueIdentifier>{3daf255b-4bb8-4b11-b882-a3eb6b9a8bc5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp">

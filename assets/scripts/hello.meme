@@ -6,6 +6,7 @@ HELLO = nodeid();
 
 	main = [](args);
 	{
+		system("log", "msg", "Hello, World!");
 		system("log", "msg", "https://github.com/Gurman8r/ML");
 		
 		argc = sizeof(args);

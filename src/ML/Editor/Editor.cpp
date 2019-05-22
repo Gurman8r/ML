@@ -82,7 +82,7 @@ namespace ml
 
 				// Set ImGui INI
 				String imguiINI = ev->prefs.GetString("Editor", "imguiINI", "");
-				imguiINI = imguiINI ? ML_FS.getPathTo(imguiINI) : String();
+				if(imguiINI) imguiINI = ML_FS.getPathTo(imguiINI);
 
 				// Initialize ImGui
 				if (!ImGui_ML_Init("#version 410", &ev->window, true, imguiINI.c_str()))

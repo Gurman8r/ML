@@ -6,18 +6,14 @@ HELLO = nodeid();
 
 	main = [](args);
 	{
+		system("log", "msg", "https://github.com/Gurman8r/ML");
+		
 		argc = sizeof(args);
+		
 		for (i = 0; i < argc; i = i + 1);
 		{
-			printl(args[i]);
+			system("log", "msg", args[i]);
 		};
-		
-		printl("* * * * * * * * * * * * * * * * * * * *");
-		printl("*                                     *");
-		printl("*   Hello, World!                     *");
-		printl("*   https://github.com/Gurman8r/ML    *");
-		printl("*                                     *");
-		printl("* * * * * * * * * * * * * * * * * * * *");
 	};
 
 	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

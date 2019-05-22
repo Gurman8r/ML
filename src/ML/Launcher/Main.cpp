@@ -106,8 +106,8 @@ int32_t main()
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// Load File Names
-	static ml::List<ml::String> file_list {};
+	// Load Libraries
+	static ml::List<ml::SharedLibrary *> g_Libs {};
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
 		"Engine",
 		"plugin_list",
@@ -119,27 +119,20 @@ int32_t main()
 		{
 			if (line && (line.trim().front() != '#'))
 			{
-				file_list.push_back(ML_FS.getPathTo(line
+				g_Libs.push_back(new ml::SharedLibrary(ML_FS.getPathTo(line
 					.replaceAll("$(Configuration)", ML_CONFIGURATION)
 					.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
-				));
+				)));
 			}
 		}
 		file.close();
 	}
 
-	// Load Libraries
-	static ml::List<ml::SharedLibrary *> library_list {};
-	for (auto name : file_list)
-	{
-		library_list.push_back(new ml::SharedLibrary(name));
-	}
-
 	// Load Plugins
-	static ml::List<ml::Plugin *> plugin_list {};
-	for (auto lib : library_list)
+	static ml::List<ml::Plugin *> g_Apps {};
+	for (auto lib : g_Libs)
 	{
-		plugin_list.push_back(
+		g_Apps.push_back(
 			lib->callFun<ml::Plugin *>("ML_Plugin_Main", g_EventSystem)
 		);
 	}
@@ -148,8 +141,8 @@ int32_t main()
 	g_Control(State::Enter);
 
 	// Cleanup
-	for (auto & app : plugin_list) { if (app) { delete app; } }
-	for (auto & lib : library_list) { if (lib) { delete lib; } }
+	for (auto & app : g_Apps) { if (app) { delete app; } }
+	for (auto & lib : g_Libs) { if (lib) { delete lib; } }
 
 	// Goodbye!
 	return EXIT_SUCCESS;

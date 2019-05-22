@@ -72,14 +72,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "proj\ML\Audio\Audi
 		{528360E9-DDC7-4440-89A9-9D1FD9726AC1} = {528360E9-DDC7-4440-89A9-9D1FD9726AC1}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "examples\Sandbox\Sandbox.vcxproj", "{623B2268-3A80-43C7-94F6-F70184373148}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "plugins\Sandbox\Sandbox.vcxproj", "{623B2268-3A80-43C7-94F6-F70184373148}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E6B44D15-0792-4593-8633-4CE6F9B5326D} = {E6B44D15-0792-4593-8633-4CE6F9B5326D}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPlugin", "examples\TestPlugin\TestPlugin.vcxproj", "{D05AD58C-413C-4072-970F-908D594E8D74}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPlugin", "plugins\TestPlugin\TestPlugin.vcxproj", "{D05AD58C-413C-4072-970F-908D594E8D74}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E6B44D15-0792-4593-8633-4CE6F9B5326D} = {E6B44D15-0792-4593-8633-4CE6F9B5326D}
 	EndProjectSection

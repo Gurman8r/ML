@@ -106,8 +106,8 @@ int32_t main()
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// Load Libraries
-	static ml::List<ml::SharedLibrary *> g_Libs {};
+	// Load Plugins
+	static ml::Map<ml::SharedLibrary *, ml::Plugin *> g_Plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
 		"Engine",
 		"plugin_list",
@@ -119,30 +119,30 @@ int32_t main()
 		{
 			if (line && (line.trim().front() != '#'))
 			{
-				g_Libs.push_back(new ml::SharedLibrary(ML_FS.getPathTo(line
+				auto lib = new ml::SharedLibrary(ML_FS.getPathTo(line
 					.replaceAll("$(Configuration)", ML_CONFIGURATION)
 					.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
-				)));
+				));
+				g_Plugins.insert({ 
+					lib, 
+					lib->callFun<ml::Plugin *>("ML_Plugin_Main", g_EventSystem) 
+				});
 			}
 		}
 		file.close();
 	}
 
-	// Load Plugins
-	static ml::List<ml::Plugin *> g_Apps {};
-	for (auto lib : g_Libs)
-	{
-		g_Apps.push_back(
-			lib->callFun<ml::Plugin *>("ML_Plugin_Main", g_EventSystem)
-		);
-	}
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Run Controller
 	g_Control(State::Enter);
 
 	// Cleanup
-	for (auto & app : g_Apps) { if (app) { delete app; } }
-	for (auto & lib : g_Libs) { if (lib) { delete lib; } }
+	for (auto & pair : g_Plugins)
+	{
+		if (pair.second) { delete pair.second; }
+		if (pair.first)  { delete pair.first;  }
+	}
 
 	// Goodbye!
 	return EXIT_SUCCESS;

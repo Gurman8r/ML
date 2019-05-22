@@ -12,7 +12,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-ML_API_EXPORT ml::Application * ML_Plugin_Main(ml::EventSystem & eventSystem)
+ML_API_EXPORT ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
 	return new DEMO::TestPlugin(eventSystem);
 }
@@ -24,7 +24,7 @@ namespace DEMO
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	TestPlugin::TestPlugin(ml::EventSystem & eventSystem)
-		: EditorApplication(eventSystem)
+		: EditorPlugin(eventSystem)
 	{
 	}
 
@@ -35,7 +35,7 @@ namespace DEMO
 	void TestPlugin::onEvent(const ml::Event * value)
 	{
 		// Handle base events
-		ml::EditorApplication::onEvent(value);
+		ml::EditorPlugin::onEvent(value);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

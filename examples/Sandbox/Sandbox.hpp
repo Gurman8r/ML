@@ -3,7 +3,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Editor/EditorApplication.hpp>
+#include <ML/Editor/EditorPlugin.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Text.hpp>
 #include <ML/Engine/PhysicsWorld.hpp>
@@ -25,7 +25,7 @@
 
 extern "C"
 {
-	ML_API_EXPORT ml::Application * ML_Plugin_Main(ml::EventSystem & eventSystem);
+	ML_API_EXPORT ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -34,7 +34,7 @@ namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_API_EXPORT Sandbox final : public ml::EditorApplication
+	class ML_API_EXPORT Sandbox final : public ml::EditorPlugin
 	{
 	public:
 		Sandbox(ml::EventSystem & eventSystem);

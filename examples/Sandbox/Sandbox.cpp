@@ -42,7 +42,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-ML_API_EXPORT ml::Application * ML_Plugin_Main(ml::EventSystem & eventSystem)
+ML_API_EXPORT ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
 	return new DEMO::Sandbox(eventSystem);
 }
@@ -54,7 +54,7 @@ namespace DEMO
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Sandbox::Sandbox(ml::EventSystem & eventSystem)
-		: EditorApplication(eventSystem)
+		: EditorPlugin(eventSystem)
 	{
 		eventSystem.addListener(ml::ScriptEvent::EV_Command, this);
 		eventSystem.addListener(ml::WindowEvent::EV_Key, this);
@@ -67,7 +67,7 @@ namespace DEMO
 	void Sandbox::onEvent(const ml::Event * value)
 	{
 		// Handle base events
-		ml::EditorApplication::onEvent(value);
+		ml::EditorPlugin::onEvent(value);
 
 		switch (*value)
 		{

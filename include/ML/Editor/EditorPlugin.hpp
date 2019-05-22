@@ -1,17 +1,17 @@
-#ifndef _ML_EDITOR_APPLICATION_HPP_
-#define _ML_EDITOR_APPLICATION_HPP_
+#ifndef _ML_EDITOR_PLUGIN_HPP_
+#define _ML_EDITOR_PLUGIN_HPP_
 
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Engine/Application.hpp>
+#include <ML/Engine/Plugin.hpp>
 
 namespace ml
 {
-	class ML_EDITOR_API EditorApplication
-		: public Application
+	class ML_EDITOR_API EditorPlugin
+		: public Plugin
 	{
 	public:
-		EditorApplication(EventSystem & eventSystem);
-		virtual ~EditorApplication();
+		EditorPlugin(EventSystem & eventSystem);
+		virtual ~EditorPlugin();
 
 	public:
 		virtual void onEvent(const Event * value) override;
@@ -26,4 +26,4 @@ namespace ml
 	};
 }
 
-#endif // !_ML_EDITOR_APPLICATION_HPP_
+#endif // !_ML_EDITOR_PLUGIN_HPP_

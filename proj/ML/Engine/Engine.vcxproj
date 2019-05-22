@@ -162,7 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Engine\Application.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\BoxCollider.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Collider.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp" />
@@ -182,7 +182,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\SphereCollider.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Engine\Application.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\BoxCollider.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />

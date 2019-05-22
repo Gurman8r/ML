@@ -3,7 +3,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Editor/EditorApplication.hpp>
+#include <ML/Editor/EditorPlugin.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -22,14 +22,14 @@
 
 extern "C"
 {
-	ML_API_EXPORT ml::Application * ML_Plugin_Main(ml::EventSystem & eventSystem);
+	ML_API_EXPORT ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 namespace DEMO
 {
-	class ML_API_EXPORT TestPlugin final : public ml::EditorApplication
+	class ML_API_EXPORT TestPlugin final : public ml::EditorPlugin
 	{
 	public:
 		explicit TestPlugin(ml::EventSystem & eventSystem);

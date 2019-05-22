@@ -162,7 +162,6 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\assets\lua\placeholder.lua" />
     <None Include="..\..\..\assets\meshes\cow.mesh" />
     <None Include="..\..\..\assets\meshes\cube.mesh" />
     <None Include="..\..\..\assets\meshes\pumpkin.mesh" />
@@ -201,7 +200,6 @@
     <Text Include="..\..\..\assets\data\entities.txt" />
     <Text Include="..\..\..\assets\data\fonts.txt" />
     <Text Include="..\..\..\assets\data\images.txt" />
-    <Text Include="..\..\..\assets\data\lua.txt" />
     <Text Include="..\..\..\assets\data\materials.txt" />
     <Text Include="..\..\..\assets\data\meshes.txt" />
     <Text Include="..\..\..\assets\data\models.txt" />

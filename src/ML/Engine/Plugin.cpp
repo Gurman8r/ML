@@ -1,11 +1,11 @@
-#include <ML/Engine/Application.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Core/EventSystem.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Application::Application(EventSystem & eventSystem)
+	Plugin::Plugin(EventSystem & eventSystem)
 		: IEventListener(eventSystem)
 	{
 		eventSystem.addListener(EngineEvent::EV_Enter,	this);
@@ -15,11 +15,11 @@ namespace ml
 		eventSystem.addListener(EngineEvent::EV_Exit,	this);
 	}
 
-	Application::~Application() { }
+	Plugin::~Plugin() { }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Application::onEvent(const ml::Event * value)
+	void Plugin::onEvent(const ml::Event * value)
 	{
 		switch (*value)
 		{

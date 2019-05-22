@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorApplication.hpp>
+#include <ML/Editor/EditorPlugin.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
 
@@ -6,20 +6,20 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	EditorApplication::EditorApplication(EventSystem & eventSystem)
-		: Application(eventSystem)
+	EditorPlugin::EditorPlugin(EventSystem & eventSystem)
+		: Plugin(eventSystem)
 	{
 		eventSystem.addListener(EditorEvent::EV_Gui, this);
 	}
 
-	EditorApplication::~EditorApplication() { }
+	EditorPlugin::~EditorPlugin() { }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void EditorApplication::onEvent(const Event * value)
+	void EditorPlugin::onEvent(const Event * value)
 	{
 		// Handle base events
-		Application::onEvent(value);
+		Plugin::onEvent(value);
 
 		switch (*value)
 		{

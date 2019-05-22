@@ -1,7 +1,7 @@
 #include <ML/Engine/Engine.hpp>
 #include <ML/Audio/Audio.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Engine/Application.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/Preferences.hpp>

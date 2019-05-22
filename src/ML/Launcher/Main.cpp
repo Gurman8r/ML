@@ -3,7 +3,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
-#include <ML/Engine/Application.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Core/Preferences.hpp>
@@ -106,11 +106,11 @@ int32_t main()
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// Load Names
+	// Load File Names
 	static ml::List<ml::String> file_list {};
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
 		"Engine",
-		"app_list",
+		"plugin_list",
 		"../../../assets/data/plugins.txt"
 	))))
 	{
@@ -129,18 +129,18 @@ int32_t main()
 	}
 
 	// Load Libraries
-	static ml::List<ml::SharedLibrary *> lib_list {};
+	static ml::List<ml::SharedLibrary *> library_list {};
 	for (auto name : file_list)
 	{
-		lib_list.push_back(new ml::SharedLibrary(name));
+		library_list.push_back(new ml::SharedLibrary(name));
 	}
 
 	// Load Plugins
-	static ml::List<ml::Application *> app_list {};
-	for (auto lib : lib_list)
+	static ml::List<ml::Plugin *> plugin_list {};
+	for (auto lib : library_list)
 	{
-		app_list.push_back(
-			lib->callFun<ml::Application *>("ML_Plugin_Main", g_EventSystem)
+		plugin_list.push_back(
+			lib->callFun<ml::Plugin *>("ML_Plugin_Main", g_EventSystem)
 		);
 	}
 
@@ -148,8 +148,8 @@ int32_t main()
 	g_Control(State::Enter);
 
 	// Cleanup
-	for (auto & app : app_list) { if (app) { delete app; } }
-	for (auto & lib : lib_list) { if (lib) { delete lib; } }
+	for (auto & app : plugin_list) { if (app) { delete app; } }
+	for (auto & lib : library_list) { if (lib) { delete lib; } }
 
 	// Goodbye!
 	return EXIT_SUCCESS;

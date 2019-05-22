@@ -1,5 +1,5 @@
-#ifndef _ML_APPLICATION_HPP_
-#define _ML_APPLICATION_HPP_
+#ifndef _ML_PLUGIN_HPP_
+#define _ML_PLUGIN_HPP_
 
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/IEventListener.hpp>
@@ -12,14 +12,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Application
+	class ML_ENGINE_API Plugin
 		: public ITrackable
 		, public INonCopyable
 		, public IEventListener
 	{
 	public:
-		explicit Application(EventSystem & eventSystem);
-		virtual ~Application();
+		explicit Plugin(EventSystem & eventSystem);
+		virtual ~Plugin();
 
 	public:
 		virtual void onEvent(const Event * value) override;
@@ -35,4 +35,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_APPLICATION_HPP_
+#endif // !_ML_PLUGIN_HPP_

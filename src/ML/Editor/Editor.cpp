@@ -3,7 +3,7 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/StyleLoader.hpp>
 #include <ML/Editor/ImGui_Style.hpp>
-#include <ML/Engine/Application.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>

@@ -25,13 +25,22 @@
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{18e980bf-d3ec-4e89-9cbb-e4443f322bd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ECS">
+      <UniqueIdentifier>{fe0b23f3-fa3a-4c57-a2d3-5595a9a7230d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ECS">
+      <UniqueIdentifier>{1be3dd64-0b93-4389-8f3b-693a7fdc2ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources">
+      <UniqueIdentifier>{95074f67-d1ff-4e5a-b1e0-46f9f386952f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{d18a9d2d-1c6b-454a-b0bf-5542f511f16b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp">
-      <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Application.hpp">
       <Filter>Header Files\Utility</Filter>
@@ -43,12 +52,6 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\BoxCollider.hpp">
@@ -78,6 +81,18 @@
     <ClInclude Include="..\..\..\include\ML\Engine\SphereCollider.hpp">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\Application.cpp">
@@ -87,12 +102,6 @@
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\BoxCollider.cpp">
@@ -118,6 +127,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\SphereCollider.cpp">
       <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp">
+      <Filter>Source Files\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp">
+      <Filter>Source Files\Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,12 +1,9 @@
-#ifndef _SANDBOX_HPP_
-#define _SANDBOX_HPP_
+#ifndef _TEST_PLUGIN_HPP_
+#define _TEST_PLUGIN_HPP_
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Editor/EditorApplication.hpp>
-#include <ML/Engine/Entity.hpp>
-#include <ML/Graphics/Text.hpp>
-#include <ML/Engine/PhysicsWorld.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -32,13 +29,11 @@ extern "C"
 
 namespace DEMO
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	class ML_API_EXPORT Sandbox final : public ml::EditorApplication
+	class ML_API_EXPORT TestPlugin final : public ml::EditorApplication
 	{
 	public:
-		Sandbox(ml::EventSystem & eventSystem);
-		~Sandbox();
+		explicit TestPlugin(ml::EventSystem & eventSystem);
+		~TestPlugin();
 
 	public:
 		void onEvent(const ml::Event * value) override;
@@ -50,42 +45,9 @@ namespace DEMO
 		void onDraw		(const ml::DrawEvent	& ev) override;
 		void onGui		(const ml::GuiEvent		& ev) override;
 		void onExit		(const ml::ExitEvent	& ev) override;
-
-	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		enum Rigidbody_ID : int32_t
-		{
-			RB_BORG,
-			RB_CUBE,
-			RB_NAVBALL,
-			RB_MOON,
-			RB_EARTH,
-			RB_GROUND,
-
-			MAX_DEMO_RIGIDBODY
-		};
-
-		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
-
-		struct MyData final : public ml::INonCopyable
-		{
-			ml::VAO				vao			= {};
-			ml::VBO				vbo			= {};
-			TextTable			text		= {};
-			ml::Entity *		light		= NULL;
-			ml::Entity *		camera		= NULL;
-			bool				cameraOrbit = true;
-			float				cameraSpeed = 1.0f;
-			int32_t				effectMode	= 3;
-			ml::PhysicsWorld	physWorld	= {};
-
-		} sandbox;
-
-		/* * * * * * * * * * * * * * * * * * * * */
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_SANDBOX_HPP_
+/* * * * * * * * * * * * * * * * * * * * */
+
+#endif // !_TEST_PLUGIN_HPP_

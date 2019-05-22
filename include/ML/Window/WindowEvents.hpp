@@ -31,7 +31,7 @@ namespace ml
 	{
 		enum : int32_t
 		{
-			MIN_WINDOW_EVENT = Event::EV_WINDOW + 1,
+			MIN_WINDOW_EVENT = Event::EV_WINDOW,
 
 			EV_Char,
 			EV_CursorEnter,
@@ -55,7 +55,7 @@ namespace ml
 
 	struct ML_WINDOW_API CharEvent final : public IEvent<WindowEvent::EV_Char>
 	{
-		uint32_t value;
+		const uint32_t value;
 		CharEvent(uint32_t value)
 			: value(value)
 		{
@@ -66,7 +66,7 @@ namespace ml
 
 	struct ML_WINDOW_API CursorEnterEvent final : public IEvent<WindowEvent::EV_CursorEnter>
 	{
-		int32_t entered;
+		const int32_t entered;
 		CursorEnterEvent(int32_t entered)
 			: entered(entered)
 		{
@@ -77,23 +77,20 @@ namespace ml
 
 	struct ML_WINDOW_API CursorPosEvent final : public IEvent<WindowEvent::EV_CursorPos>
 	{
-		double x;
-		double y;
+		const double x, y;
 		CursorPosEvent(double x, double y)
 			: x(x)
 			, y(y)
 		{
 		}
-
-		inline vec2d position() const { return { x, y }; }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API KeyEvent final : public IEvent<WindowEvent::EV_Key>
 	{
-		int32_t button, scan, action;
-		bool	mod_shift, mod_ctrl, mod_alt, mod_super;
+		const int32_t button, scan, action;
+		const bool mod_shift, mod_ctrl, mod_alt, mod_super;
 		KeyEvent(
 			int32_t button, int32_t scan, int32_t action, 
 			bool mod_shift, bool mod_ctrl, bool mod_alt, bool mod_super)
@@ -106,18 +103,18 @@ namespace ml
 			, mod_super	(mod_super)
 		{
 		}
-		inline bool getAction(int32_t a)	const { return (action == a); }
-		inline bool getKey(int32_t b)		const { return (button == b); }
-		inline bool getKeyDown(int32_t b)	const { return getKey(b) && getAction(ML_KEY_PRESS); }
+		inline bool getAction	(int32_t a)	const { return (action == a); }
+		inline bool getKey		(int32_t b)	const { return (button == b); }
+		inline bool getKeyDown	(int32_t b)	const { return getKey(b) && getAction(ML_KEY_PRESS); }
 		inline bool getKeyRepeat(int32_t b) const { return getKey(b) && getAction(ML_KEY_REPEAT); }
-		inline bool getKeyUp(int32_t b)		const { return getKey(b) && getAction(ML_KEY_RELEASE); }
+		inline bool getKeyUp	(int32_t b)	const { return getKey(b) && getAction(ML_KEY_RELEASE); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API MouseButtonEvent final : public IEvent<WindowEvent::EV_MouseButton>
 	{
-		int32_t button, action, mods;
+		const int32_t button, action, mods;
 		MouseButtonEvent(int32_t button, int32_t action, int32_t mods)
 			: button(button)
 			, action(action)
@@ -130,8 +127,7 @@ namespace ml
 
 	struct ML_WINDOW_API ScrollEvent final : public IEvent<WindowEvent::EV_Scroll>
 	{
-		double x;
-		double y;
+		const double x, y;
 		ScrollEvent(double x, double y)
 			: x(x)
 			, y(y)
@@ -143,9 +139,7 @@ namespace ml
 
 	struct ML_WINDOW_API FrameSizeEvent final : public IEvent<WindowEvent::EV_FrameSize>
 	{
-		int32_t width;
-		int32_t height;
-
+		const int32_t width, height;
 		FrameSizeEvent(int32_t width, int32_t height)
 			: width(width)
 			, height(height)
@@ -164,8 +158,8 @@ namespace ml
 
 	struct ML_WINDOW_API WindowErrorEvent final : public IEvent<WindowEvent::EV_WindowError>
 	{
-		int32_t code;
-		CString desc;
+		const int32_t code;
+		const CString desc;
 		WindowErrorEvent(int32_t code, CString desc)
 			: code(code)
 			, desc(desc)
@@ -177,7 +171,7 @@ namespace ml
 
 	struct ML_WINDOW_API WindowFocusEvent final : public IEvent<WindowEvent::EV_WindowFocus>
 	{
-		int32_t focused;
+		const int32_t focused;
 		WindowFocusEvent(int32_t entered)
 			: focused(entered)
 		{
@@ -195,8 +189,7 @@ namespace ml
 
 	struct ML_WINDOW_API WindowPosEvent final : public IEvent<WindowEvent::Ev_WindowPos>
 	{
-		int32_t x;
-		int32_t y;
+		const int32_t x, y;
 		WindowPosEvent(int32_t x, int32_t y)
 			: x(x)
 			, y(y)
@@ -208,8 +201,7 @@ namespace ml
 
 	struct ML_WINDOW_API WindowSizeEvent final : public IEvent<WindowEvent::EV_WindowSize>
 	{
-		int32_t width;
-		int32_t height;
+		const int32_t width, height;
 		WindowSizeEvent(int32_t width, int32_t height)
 			: width(width)
 			, height(height)

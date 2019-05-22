@@ -27,13 +27,14 @@ namespace ml
 		, sceneView		(true)
 		, terminal		(true, eventSystem)
 	{
-		eventSystem.addListener(WindowEvent::EV_Key,		this);
 		eventSystem.addListener(EngineEvent::EV_Enter,		this);
 		eventSystem.addListener(EngineEvent::EV_Exit,		this);
 		
 		eventSystem.addListener(EditorEvent::EV_BeginGui,	this);
 		eventSystem.addListener(EditorEvent::EV_Gui,		this);
 		eventSystem.addListener(EditorEvent::EV_EndGui,		this);
+
+		eventSystem.addListener(WindowEvent::EV_Key,		this);
 
 		eventSystem.addListener(EditorEvent::EV_File_New,	this);
 		eventSystem.addListener(EditorEvent::EV_File_Open,	this);
@@ -57,7 +58,7 @@ namespace ml
 		{
 			// Enter Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Enter:
+		case EnterEvent::ID:
 			if (auto ev = value->as<EnterEvent>())
 			{
 				IMGUI_CHECKVERSION();
@@ -100,7 +101,7 @@ namespace ml
 
 			// Exit Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EngineEvent::EV_Exit:
+		case ExitEvent::ID:
 			if (auto ev = value->as<ExitEvent>())
 			{
 				// Release Cout
@@ -114,23 +115,24 @@ namespace ml
 
 			// Gui Events
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EditorEvent::EV_BeginGui:
+		case BeginGuiEvent::ID:
 			ImGui_ML_NewFrame();
 			ImGui::NewFrame();
 			break;
 
-		case EditorEvent::EV_Gui:
+		case GuiEvent::ID:
 			this->onGui(*value->as<GuiEvent>());
 			break;
 
-		case EditorEvent::EV_EndGui:
+		case EndGuiEvent::ID:
 			ImGui::Render();
 			ImGui_ML_Render(ImGui::GetDrawData());
 			break;
 
+
 			// File -> Close Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EditorEvent::EV_File_Close:
+		case File_Close_Event::ID:
 			if (auto ev = value->as<File_Close_Event>())
 			{
 				eventSystem().fireEvent(WindowKillEvent());
@@ -139,7 +141,7 @@ namespace ml
 
 			// File -> Open Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case EditorEvent::EV_File_Open:
+		case File_Open_Event::ID:
 			if (auto ev = value->as<File_Open_Event>())
 			{
 				OS::execute("open", this->browser.get_selected_path());
@@ -148,7 +150,7 @@ namespace ml
 
 			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case WindowEvent::EV_Key:
+		case KeyEvent::ID:
 			if (auto ev = value->as<KeyEvent>())
 			{
 				// Show Terminal (Ctrl+Alt+T)
@@ -300,22 +302,28 @@ namespace ml
 		}
 
 		// Dockspace
+		/* * * * * * * * * * * * * * * * * * * * */
 		this->dockspace.onGui(ev);
 
 		// Terminal
+		/* * * * * * * * * * * * * * * * * * * * */
 		this->terminal.printss(m_coutStr);
 		this->terminal.onGui(ev);
 
 		// Profiler
+		/* * * * * * * * * * * * * * * * * * * * */
 		this->profiler.onGui(ev);
 
 		// Browser
+		/* * * * * * * * * * * * * * * * * * * * */
 		this->browser.onGui(ev);
 
 		// Project
+		/* * * * * * * * * * * * * * * * * * * * */
 		this->project.onGui(ev);
 
 		// Builder
+		/* * * * * * * * * * * * * * * * * * * * */
 		this->builder.onGui(ev);
 	}
 

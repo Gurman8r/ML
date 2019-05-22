@@ -1,7 +1,7 @@
 #ifndef _ML_ENTITY_HPP_
 #define _ML_ENTITY_HPP_
 
-#include <ML/Core/Export.hpp>
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/ITrackable.hpp>
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Core/IReadable.hpp>
@@ -14,7 +14,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API Entity final
+	class ML_ENGINE_API Entity final
 		: public ITrackable
 		, public IDisposable
 		, public IReadable

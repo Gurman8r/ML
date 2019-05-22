@@ -10,7 +10,7 @@
 #include <ML/Editor/ImGui_Helper.hpp>
 #include <ML/Editor/GUI.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Core/Entity.hpp>
+#include <ML/Engine/Entity.hpp>
 #include <ML/Core/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Light.hpp>

@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{528360E9-DDC7-4440-89A9-9D1FD9726AC1}</ProjectGuid>
-    <RootNamespace>Core</RootNamespace>
+    <ProjectGuid>{D05AD58C-413C-4072-970F-908D594E8D74}</ProjectGuid>
+    <RootNamespace>TestPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -89,6 +89,24 @@
     <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -96,13 +114,11 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ML_CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,13 +128,11 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ML_CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,7 +144,6 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ML_CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -138,110 +151,13 @@
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>NotSet</SubSystem>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ML_CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Chunk.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Console.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Detection.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Dispatcher.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Export.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\File.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\FileSystem.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Function.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IComparable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IDisposable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IEnumerable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IEventListener.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IHandle.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\INonCopyable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IRequest.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\ISerializable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\ISingleton.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IStream.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Iterator.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IWritable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Lock.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\OStream.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Preferences.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\String.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\TestRequest.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Vector.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Vector2.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Vector3.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Vector4.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Worker.hpp" />
+    <ClCompile Include="TestPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Core\Console.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Dispatcher.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\File.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Maths.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Preferences.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Random.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\TestRequest.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Transform.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Worker.cpp" />
+    <ClInclude Include="TestPlugin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -42,7 +42,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-ML_API_EXPORT ml::Application * ML_Main(ml::EventSystem & eventSystem)
+ML_API_EXPORT ml::Application * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
 	return new DEMO::Sandbox(eventSystem);
 }

@@ -39,7 +39,6 @@ namespace ml
 
 	public: // Initialization
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static bool		good();
 		static bool		init();
 		static void		validateVersion(uint32_t & major, uint32_t & minor);
 

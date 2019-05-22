@@ -93,14 +93,6 @@
 </import>
 
 
-# Plugins
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<import>
-	type = manifest
-	name = ../../../assets/data/plugins.txt
-</import>
-
-
 # Entities
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>

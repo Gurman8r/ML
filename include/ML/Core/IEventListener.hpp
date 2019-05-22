@@ -26,7 +26,10 @@ namespace ml
 		virtual void onEvent(const Event * ev) = 0;
 
 	public:
-		inline EventSystem & eventSystem() const { return m_eventSystem; }
+		inline EventSystem & eventSystem() const 
+		{ 
+			return m_eventSystem; 
+		}
 
 	private:
 		EventSystem & m_eventSystem;

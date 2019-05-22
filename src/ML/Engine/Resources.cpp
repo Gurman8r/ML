@@ -2,7 +2,7 @@
 #include <ML/Core/Debug.hpp>
 
 #include <ML/Audio/Sound.hpp>
-#include <ML/Core/Entity.hpp>
+#include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>

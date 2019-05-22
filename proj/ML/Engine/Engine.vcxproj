@@ -167,6 +167,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Collider.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Force.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Application.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\BoxCollider.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Force.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp" />

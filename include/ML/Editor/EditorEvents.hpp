@@ -20,7 +20,7 @@ namespace ml
 	{
 		enum : int32_t
 		{
-			MIN_EDITOR_EVENT = Event::EV_EDITOR + 1,
+			MIN_EDITOR_EVENT = Event::EV_EDITOR,
 
 			EV_BeginGui,
 			EV_Gui,

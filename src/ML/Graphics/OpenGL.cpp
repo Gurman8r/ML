@@ -81,11 +81,6 @@ namespace ml
 	// Initialization
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool OpenGL::good()
-	{
-		return ML_GL.m_good;
-	}
-
 	bool OpenGL::init()
 	{
 		static bool checked = false;
@@ -97,12 +92,12 @@ namespace ml
 
 			ML_GL.m_good = (glewInit() == GLEW_OK);
 		}
-		return good();
+		return ML_GL.m_good;
 	}
 
 	void OpenGL::validateVersion(uint32_t & majorVersion, uint32_t & minorVersion)
 	{
-		if (good())
+		if (ML_GL.m_good)
 		{
 			majorVersion = (uint32_t)getInt(GL::MajorVersion);
 			minorVersion = (uint32_t)getInt(GL::MinorVersion);

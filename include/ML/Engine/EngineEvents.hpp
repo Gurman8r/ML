@@ -20,7 +20,7 @@ namespace ml
 	{
 		enum : int32_t
 		{
-			MIN_ENGINE_EVENT = Event::EV_ENGINE + 1,
+			MIN_ENGINE_EVENT = Event::EV_ENGINE,
 
 			EV_Enter,
 			EV_Load,

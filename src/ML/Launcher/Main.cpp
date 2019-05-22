@@ -106,37 +106,53 @@ int32_t main()
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// User DLL
-	const ml::String user_dll = g_Preferences.GetString("Engine", "user_dll", "")
-		.replaceAll("$(Configuration)", ML_CONFIGURATION)
-		.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET);
-	
-	// Load User Library
-	if (auto lib = ml::SharedLibrary(ML_FS.getPathTo(user_dll)))
-	{	
-		// Load User Application
-		if (auto app = lib.callFun<ml::Application *>("ML_Main", g_EventSystem))
-		{
-			// Run Controller
-			g_Control(State::Enter);
-
-			// Free User Application
-			delete app;
-
-			// Goodbye!
-			return EXIT_SUCCESS;
-		}
-		else
-		{
-			return ml::Debug::logError("Failed Loading Application")
-				|| ml::Debug::pause(EXIT_FAILURE);
-		}
-	}
-	else
+	// Load Names
+	static ml::List<ml::String> file_list {};
+	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
+		"Engine",
+		"app_list",
+		"../../../assets/data/plugins.txt"
+	))))
 	{
-		return ml::Debug::logError("Failed Loading Library: \'{0}\'", lib.filename())
-			|| ml::Debug::pause(EXIT_FAILURE);
+		ml::String line;
+		while (std::getline(file, line))
+		{
+			if (line && (line.trim().front() != '#'))
+			{
+				file_list.push_back(ML_FS.getPathTo(line
+					.replaceAll("$(Configuration)", ML_CONFIGURATION)
+					.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
+				));
+			}
+		}
+		file.close();
 	}
+
+	// Load Libraries
+	static ml::List<ml::SharedLibrary *> lib_list {};
+	for (auto name : file_list)
+	{
+		lib_list.push_back(new ml::SharedLibrary(name));
+	}
+
+	// Load Plugins
+	static ml::List<ml::Application *> app_list {};
+	for (auto lib : lib_list)
+	{
+		app_list.push_back(
+			lib->callFun<ml::Application *>("ML_Plugin_Main", g_EventSystem)
+		);
+	}
+
+	// Run Controller
+	g_Control(State::Enter);
+
+	// Cleanup
+	for (auto & app : app_list) { if (app) { delete app; } }
+	for (auto & lib : lib_list) { if (lib) { delete lib; } }
+
+	// Goodbye!
+	return EXIT_SUCCESS;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

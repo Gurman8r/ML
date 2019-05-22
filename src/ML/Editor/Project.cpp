@@ -9,7 +9,6 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Helper.hpp>
 #include <ML/Editor/GUI.hpp>
-#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/LuaScript.hpp>

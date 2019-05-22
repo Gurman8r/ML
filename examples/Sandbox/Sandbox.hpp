@@ -74,7 +74,6 @@ namespace DEMO
 			ml::VAO				vao			= {};
 			ml::VBO				vbo			= {};
 			TextTable			text		= {};
-			ml::String			title		= {};
 			ml::Entity *		light		= NULL;
 			ml::Entity *		camera		= NULL;
 			bool				cameraOrbit = true;

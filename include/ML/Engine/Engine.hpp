@@ -21,20 +21,11 @@ namespace ml
 		, public IEventListener
 	{
 	public:
-		explicit Engine(
-			EventSystem		& eventSystem,
-			Preferences		& prefs,
-			RenderWindow	& window
-		);
-
+		explicit Engine(EventSystem & eventSystem);
 		~Engine();
 
 	public:
 		void onEvent(const Event * value) override;
-
-	private:
-		Preferences		& m_prefs;
-		RenderWindow	& m_window;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

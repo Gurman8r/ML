@@ -4,7 +4,6 @@
 #include <ML/Editor/StyleLoader.hpp>
 #include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Engine/Application.hpp>
-#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
@@ -134,7 +133,7 @@ namespace ml
 		case EditorEvent::EV_File_Close:
 			if (auto ev = value->as<File_Close_Event>())
 			{
-				eventSystem().fireEvent(ShutdownEvent());
+				eventSystem().fireEvent(WindowKillEvent());
 			}
 			break;
 

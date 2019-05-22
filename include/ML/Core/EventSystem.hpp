@@ -25,7 +25,7 @@ namespace ml
 		~EventSystem();
 
 	public:
-		void addListener(const int32_t & type, IEventListener * listener);
+		void addListener(const int32_t type, IEventListener * listener);
 		void fireEvent(const Event & ev);
 
 	public:

@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
@@ -16,17 +12,21 @@
     <Filter Include="Header Files\ECS">
       <UniqueIdentifier>{85da8ca9-4910-4b06-9797-bcb2b2c46e0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ECS">
-      <UniqueIdentifier>{cb7e05c7-e761-44ce-90f0-761a8d1aaf82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{8cb86393-2116-48cf-8287-838cef96c00b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Utility">
-      <UniqueIdentifier>{f935b4fd-0e4b-4928-a0c0-a6528c3096a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Resources">
       <UniqueIdentifier>{3092a223-1717-440c-99cc-592b4e9fdd46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\ECS">
+      <UniqueIdentifier>{cb7e05c7-e761-44ce-90f0-761a8d1aaf82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{f935b4fd-0e4b-4928-a0c0-a6528c3096a5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{52dc5b26-898d-4ca4-a8bf-e4dba70bc070}</UniqueIdentifier>
@@ -45,9 +45,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Application.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -60,9 +57,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -72,6 +66,12 @@
     <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\ECS.cpp">
@@ -79,9 +79,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp">
       <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Application.cpp">
       <Filter>Source Files\Utility</Filter>
@@ -99,6 +96,9 @@
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\LuaScript.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>

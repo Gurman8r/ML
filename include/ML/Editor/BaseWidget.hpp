@@ -9,7 +9,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Editor;
-	class Engine;
 	class EventSystem;
 	class Preferences;
 	class Resources;

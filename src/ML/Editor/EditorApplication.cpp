@@ -23,9 +23,9 @@ namespace ml
 
 		switch (*value)
 		{
+			// Gui Event
 		case EditorEvent::EV_Gui:
-			this->onGui(*value->as<GuiEvent>());
-			break;
+			return this->onGui(*value->as<GuiEvent>());
 		}
 	}
 

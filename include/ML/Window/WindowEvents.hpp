@@ -40,9 +40,10 @@ namespace ml
 			EV_Key,
 			EV_MouseButton,
 			EV_Scroll,
-			EV_WindowError,
 			EV_WindowClose,
+			EV_WindowError,
 			EV_WindowFocus,
+			EV_WindowKill,
 			EV_WindowSize,
 			Ev_WindowPos,
 
@@ -92,7 +93,7 @@ namespace ml
 	struct ML_WINDOW_API KeyEvent final : public IEvent<WindowEvent::EV_Key>
 	{
 		int32_t button, scan, action;
-		bool mod_shift, mod_ctrl, mod_alt, mod_super;
+		bool	mod_shift, mod_ctrl, mod_alt, mod_super;
 		KeyEvent(
 			int32_t button, int32_t scan, int32_t action, 
 			bool mod_shift, bool mod_ctrl, bool mod_alt, bool mod_super)
@@ -150,24 +151,13 @@ namespace ml
 			, height(height)
 		{
 		}
-
-		inline void serialize(std::ostream & out) const override
-		{
-			out << GetTypeName() << " " << width << " " << height;
-		}
-
-		inline vec2i size() const { return { width, height }; }
-
-		inline float aspect() const { return ((width && height) ? (float)(width) / (float)(height) : FLT_MIN); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API WindowCloseEvent final : public IEvent<WindowEvent::EV_WindowClose>
 	{
-		WindowCloseEvent()
-		{
-		}
+		WindowCloseEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -196,6 +186,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	struct ML_WINDOW_API WindowKillEvent final : public IEvent<WindowEvent::EV_WindowKill>
+	{
+		WindowKillEvent() {}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_WINDOW_API WindowPosEvent final : public IEvent<WindowEvent::Ev_WindowPos>
 	{
 		int32_t x;
@@ -217,20 +214,6 @@ namespace ml
 			: width(width)
 			, height(height)
 		{
-		}
-
-		inline void serialize(std::ostream & out) const override
-		{
-			out << GetTypeName() << " " << width << " " << height;
-		}
-
-		inline vec2i size() const { return { width, height }; }
-
-		inline float aspect() const
-		{
-			return (width && height)
-				? (float)(width) / (float)(height)
-				: 0.0f;
 		}
 	};
 

@@ -6,7 +6,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Script/Interpreter.hpp>
 #include <ML/Script/ScriptEvents.hpp>
-#include <ML/Engine/EngineEvents.hpp>
+#include <ML/Window/WindowEvents.hpp>
 
 # ifndef strdup
 # define strdup _strdup
@@ -168,7 +168,7 @@ namespace ml
 		}
 		else if (!std::strcmp(value, "exit"))
 		{
-			m_eventSystem.fireEvent(ShutdownEvent());
+			m_eventSystem.fireEvent(WindowKillEvent());
 		}
 		else if (!std::strcmp(value, "history"))
 		{

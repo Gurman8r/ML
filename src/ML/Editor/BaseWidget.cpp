@@ -2,7 +2,6 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
-#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Editor/EditorEvents.hpp>

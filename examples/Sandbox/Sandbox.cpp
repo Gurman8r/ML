@@ -11,7 +11,6 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Style.hpp>
-#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Core/SharedLibrary.hpp>
 #include <ML/Engine/Preferences.hpp>
@@ -74,7 +73,7 @@ namespace DEMO
 		{
 			// Command Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case ml::ScriptEvent::EV_Command:
+		case ml::CommandEvent::ID:
 			if (auto ev = value->as<ml::CommandEvent>())
 			{
 				ml::Var v;
@@ -87,13 +86,13 @@ namespace DEMO
 
 			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
-		case ml::WindowEvent::EV_Key:
+		case ml::KeyEvent::ID:
 			if (auto ev = value->as<ml::KeyEvent>())
 			{
 				// Exit (Escape)
 				if (ev->getKeyDown(ml::KeyCode::Escape))
 				{
-					eventSystem().fireEvent(ml::ShutdownEvent());
+					eventSystem().fireEvent(ml::WindowKillEvent());
 				}
 			}
 			break;
@@ -104,19 +103,6 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
-		// store window title
-		sandbox.title = ev.window.getTitle();
-
-		// Run Boot Script
-		ml::Script scr;
-		if (scr.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString("Engine", "boot_scr", ""))))
-		{
-			if (!(scr.buildAndRun(ml::Args(__argc, __argv))))
-			{
-				ml::Debug::logError("Failed Running \'{0}\'", scr.path());
-			}
-		}
-
 		// GL Version
 		ml::Debug::log("OpenGL version supported by this platform: {0}",
 			ML_GL.getString(ml::GL::Version)
@@ -132,6 +118,16 @@ namespace DEMO
 			const ml::Image temp = ml::Image(*icon).flipVertically();
 
 			ev.window.setIcons({ temp });
+		}
+
+		// Run Boot Script
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Script * scr = ev.resources.scripts.get("hello"))
+		{
+			if (!(scr->buildAndRun(ml::Args(__argc, __argv))))
+			{
+				ml::Debug::logError("Failed Running \'{0}\'", scr->path());
+			}
 		}
 
 		// Create 2D Buffers
@@ -574,8 +570,9 @@ namespace DEMO
 	{
 		// Update Window Title
 		/* * * * * * * * * * * * * * * * * * * * */
+		static const ml::String title(ev.window.getTitle());
 		ev.window.setTitle(ml::String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
-			sandbox.title,
+			title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
 			ev.time.elapsed().delta(),

@@ -11,7 +11,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EventSystem::addListener(const int32_t & type, IEventListener * listener)
+	void EventSystem::addListener(const int32_t type, IEventListener * listener)
 	{
 		m_listeners.insert({ type, listener });
 	}

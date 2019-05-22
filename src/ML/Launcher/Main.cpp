@@ -29,7 +29,7 @@ int32_t main()
 	static ml::Resources	g_Resources		{};
 	static ml::GameTime		g_Time			{};
 	static ml::RenderWindow g_Window		{ g_EventSystem };
-	static ml::Engine		g_Engine		{ g_EventSystem, g_Preferences, g_Window };
+	static ml::Engine		g_Engine		{ g_EventSystem };
 	static ml::Editor		g_Editor		{ g_EventSystem };
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -45,7 +45,8 @@ int32_t main()
 			g_Window
 		));
 		/* Load Content */
-		g_EventSystem.fireEvent(ml::LoadContentEvent(
+		g_EventSystem.fireEvent(ml::LoadEvent(
+			g_Preferences,
 			g_Resources
 		));
 		/* Start */

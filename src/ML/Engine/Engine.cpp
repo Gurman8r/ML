@@ -17,19 +17,13 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Engine::Engine(
-		EventSystem		& eventSystem, 
-		Preferences		& prefs, 
-		RenderWindow	& window)	
+	Engine::Engine(EventSystem & eventSystem)	
 		: IEventListener(eventSystem)
-		, m_prefs		(prefs)
-		, m_window		(window)
 	{
 		// Setup Events
 		eventSystem.addListener(EngineEvent::EV_Enter, this);
-		eventSystem.addListener(EngineEvent::EV_LoadContent, this);;
+		eventSystem.addListener(EngineEvent::EV_Load, this);
 		eventSystem.addListener(EngineEvent::EV_Exit, this);
-		eventSystem.addListener(EngineEvent::EV_Shutdown, this);
 	}
 
 	Engine::~Engine() {}
@@ -89,8 +83,8 @@ namespace ml
 
 			// Load Content Event
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		case LoadContentEvent::ID:
-			if (auto ev = value->as<LoadContentEvent>())
+		case LoadEvent::ID:
+			if (auto ev = value->as<LoadEvent>())
 			{
 				// Load Default Meshes
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -128,7 +122,7 @@ namespace ml
 				// Load Resource Manifest
 				/* * * * * * * * * * * * * * * * * * * * */
 				if (!ev->resources.loadFromFile(ML_FS.getPathTo(
-					m_prefs.GetString("Engine", "manifest", "../../../assets/manifest.txt")
+					ev->prefs.GetString("Engine", "manifest", "../../../assets/manifest.txt")
 				)))
 				{
 					Debug::logError("Failed Loading Manifest");
@@ -143,12 +137,6 @@ namespace ml
 			{
 				ev->resources.dispose();
 			}
-			break;
-
-			// Shutdown Event
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		case ShutdownEvent::ID:
-			m_window.close();
 			break;
 		}
 	}

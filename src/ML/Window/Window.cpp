@@ -57,6 +57,7 @@ namespace ml
 		eventSystem.addListener(WindowEvent::EV_WindowClose,this);
 		eventSystem.addListener(WindowEvent::EV_WindowError,this);
 		eventSystem.addListener(WindowEvent::EV_WindowFocus,this);
+		eventSystem.addListener(WindowEvent::EV_WindowKill,	this);
 		eventSystem.addListener(WindowEvent::EV_WindowSize,	this);
 		eventSystem.addListener(WindowEvent::Ev_WindowPos,	this);
 	}
@@ -269,7 +270,13 @@ namespace ml
 			{
 			}
 			break;
-		case WindowEvent::Ev_WindowPos:
+		case WindowKillEvent::ID:
+			if (auto ev = value->as<WindowKillEvent>())
+			{
+				this->close();
+			}
+			break;
+		case WindowPosEvent::ID:
 			if (auto ev = value->as<WindowPosEvent>())
 			{
 			}

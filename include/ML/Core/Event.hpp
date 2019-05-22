@@ -17,6 +17,7 @@ namespace ml
 		{
 			MAX_LIBRARY_EVENTS = 64,
 
+			EV_INVALID	= -1,
 			EV_AUDIO	= (MAX_LIBRARY_EVENTS * 1),
 			EV_EDITOR	= (MAX_LIBRARY_EVENTS * 2),
 			EV_ENGINE	= (MAX_LIBRARY_EVENTS * 3),
@@ -37,7 +38,7 @@ namespace ml
 
 		virtual int32_t getEventID() const = 0;
 
-		inline operator int32_t() const
+		inline operator int32_t() const 
 		{
 			return getEventID();
 		}
@@ -72,9 +73,9 @@ namespace ml
 
 		virtual ~IEvent() {}
 
-		inline int32_t getEventID() const override 
-		{ 
-			return _ID; 
+		inline int32_t getEventID() const override
+		{
+			return _ID;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

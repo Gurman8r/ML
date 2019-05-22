@@ -9,7 +9,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class Engine;
 	class GameTime;
 	class Preferences;
 	class RenderWindow;
@@ -24,13 +23,11 @@ namespace ml
 			MIN_ENGINE_EVENT = Event::EV_ENGINE + 1,
 
 			EV_Enter,
-			EV_LoadContent,
+			EV_Load,
 			EV_Start,
 			EV_Update,
 			EV_Draw,
 			EV_Exit,
-
-			EV_Shutdown,
 
 			MAX_ENGINE_EVENT
 		};
@@ -49,11 +46,13 @@ namespace ml
 		}
 	};
 
-	struct ML_ENGINE_API LoadContentEvent final : public IEvent<EngineEvent::EV_LoadContent>
+	struct ML_ENGINE_API LoadEvent final : public IEvent<EngineEvent::EV_Load>
 	{
-		Resources & resources;
-		LoadContentEvent(Resources & resources)
-			: resources	(resources)
+		Preferences		& prefs;
+		Resources		& resources;
+		LoadEvent(Preferences & prefs, Resources & resources)
+			: prefs		(prefs)
+			, resources	(resources)
 		{
 		}
 	};
@@ -106,13 +105,6 @@ namespace ml
 			, window	(window)
 		{
 		}
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	struct ML_ENGINE_API ShutdownEvent final : public IEvent<EngineEvent::EV_Shutdown>
-	{
-		ShutdownEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

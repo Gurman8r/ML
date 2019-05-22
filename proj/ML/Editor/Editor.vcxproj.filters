@@ -31,12 +31,6 @@
     <Filter Include="Source Files\Internal">
       <UniqueIdentifier>{1e58aba0-6a4e-423b-bc3d-8f5b85c9c4c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\DS">
-      <UniqueIdentifier>{84d73dab-2095-4403-83a3-6f04dc67a486}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DS">
-      <UniqueIdentifier>{4fd898c9-ba30-438d-b0de-d799f9606853}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{8f3fe754-f14f-4d05-bb34-2c6378c8ba6f}</UniqueIdentifier>
     </Filter>
@@ -105,9 +99,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Style.hpp">
       <Filter>Header Files\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\Document.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -172,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGui_Builtin.cpp">
       <Filter>Source Files\Internal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\Document.cpp">
-      <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp">
       <Filter>Source Files\Utility</Filter>

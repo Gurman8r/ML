@@ -2,7 +2,7 @@
 #define _ML_BUILDER_HPP_
 
 #include <ML/Editor/BaseWidget.hpp>
-#include <ML/Editor/Document.hpp>
+#include <ML/Core/File.hpp>
 
 #define ML_TEST_SHADER "built_shader"
 
@@ -23,7 +23,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		struct BuildFile : public ITrackable, public INonCopyable
 		{
-			enum : size_t { MaxSize = 2048 };
+			enum : size_t 
+			{
+				MaxName = 32,
+				MaxSize = 2048 
+			};
 
 			using Source = typename char[MaxSize];
 

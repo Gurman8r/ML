@@ -165,7 +165,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Browser.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Builder.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Dockspace.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\Document.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorApplication.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp" />
@@ -194,7 +193,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\Browser.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Builder.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Dockspace.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\Document.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorApplication.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\GUI.cpp" />

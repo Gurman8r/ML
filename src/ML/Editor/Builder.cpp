@@ -292,12 +292,12 @@ namespace ml
 							// Disallow editing Main's name
 							if (i > 0)
 							{
-								char buf[32];
+								char buf[BuildFile::MaxName];
 								std::strcpy(buf, file->name.c_str());
 								if (ImGui::InputText(
 									"Name",
 									buf,
-									Document::NameSize,
+									BuildFile::MaxName,
 									ImGuiInputTextFlags_EnterReturnsTrue
 								))
 								{

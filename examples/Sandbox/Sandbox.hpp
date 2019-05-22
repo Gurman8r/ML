@@ -4,9 +4,9 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Editor/EditorApplication.hpp>
-#include <ML/Engine/Entity.hpp>
+#include <ML/Core/Entity.hpp>
 #include <ML/Graphics/Text.hpp>
-#include <ML/Physics/PhysicsWorld.hpp>
+#include <ML/Engine/PhysicsWorld.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -17,7 +17,6 @@
 #	pragma comment(lib, ML_LIB_STR("Engine")	)
 #	pragma comment(lib, ML_LIB_STR("Graphics")	)
 #	pragma comment(lib, ML_LIB_STR("Network")	)
-#	pragma comment(lib, ML_LIB_STR("Physics")	)
 #	pragma comment(lib, ML_LIB_STR("Script")	)
 #	pragma comment(lib, ML_LIB_STR("Window")	)
 # endif

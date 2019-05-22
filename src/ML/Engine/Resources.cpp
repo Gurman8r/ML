@@ -2,8 +2,7 @@
 #include <ML/Core/Debug.hpp>
 
 #include <ML/Audio/Sound.hpp>
-#include <ML/Engine/Entity.hpp>
-#include <ML/Engine/LuaScript.hpp>
+#include <ML/Core/Entity.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
@@ -19,7 +18,6 @@ namespace ml
 		: entities	("Entities"	)
 		, fonts		("Fonts"	)
 		, images	("Images"	)
-		, lua		("Lua"		)
 		, materials	("Materials")
 		, meshes	("Meshes"	)
 		, models	("Models"	)
@@ -43,7 +41,6 @@ namespace ml
 	size_t Resources::cleanupAll()
 	{
 		return
-			lua.clean()			+
 			surfaces.clean()	+
 			sprites.clean()		+
 			materials.clean()	+
@@ -62,7 +59,6 @@ namespace ml
 	size_t Resources::reloadAll()
 	{
 		return
-			lua.reload()		+
 			fonts.reload()		+
 			images.reload()		+
 			materials.reload()	+
@@ -181,19 +177,6 @@ namespace ml
 				else
 				{
 					return images.load(name);
-				}
-			}
-			// Lua
-			/* * * * * * * * * * * * * * * * * * * * */
-			else if (type == "lua")
-			{
-				if (const String file = import.getStr("file"))
-				{
-					return lua.load(name, file);
-				}
-				else
-				{
-					return lua.load(name);
 				}
 			}
 			// Material

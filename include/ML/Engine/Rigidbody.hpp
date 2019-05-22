@@ -1,7 +1,7 @@
 #ifndef _ML_RIGIDBODY_HPP_
 #define _ML_RIGIDBODY_HPP_
 
-#include <ML/Physics/Export.hpp>
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/Transform.hpp>
 
 namespace ml
@@ -13,7 +13,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PHYSICS_API Rigidbody
+	class ML_ENGINE_API Rigidbody
 		: public ITrackable
 	{
 	public:

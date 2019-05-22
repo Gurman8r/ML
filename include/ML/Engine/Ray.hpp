@@ -1,14 +1,14 @@
 #ifndef _ML_RAY_HPP_
 #define _ML_RAY_HPP_
 
-#include <ML/Physics/Export.hpp>
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/Vector3.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PHYSICS_API Ray final
+	class ML_ENGINE_API Ray final
 		: public ITrackable
 	{
 	public:

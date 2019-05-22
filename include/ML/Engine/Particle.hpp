@@ -1,7 +1,7 @@
 #ifndef _ML_PARTICLE_HPP_
 #define _ML_PARTICLE_HPP_
 
-#include <ML/Physics/Force.hpp>
+#include <ML/Engine/Force.hpp>
 
 namespace ml
 {
@@ -11,7 +11,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_PHYSICS_API Particle final
+	struct ML_ENGINE_API Particle final
 		: public ITrackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */

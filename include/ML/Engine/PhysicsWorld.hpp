@@ -1,7 +1,7 @@
 #ifndef _ML_PHYSICS_HPP_
 #define _ML_PHYSICS_HPP_
 
-#include <ML/Physics/PhysicsState.hpp>
+#include <ML/Engine/PhysicsState.hpp>
 #include <ML/Core/Timer.hpp>
 #include <ML/Core/Thread.hpp>
 
@@ -15,7 +15,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PHYSICS_API PhysicsWorld final
+	class ML_ENGINE_API PhysicsWorld final
 		: public ITrackable
 		, public IDisposable
 		, public INonCopyable

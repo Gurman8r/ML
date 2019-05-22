@@ -1,7 +1,7 @@
 #ifndef _ML_PREFERENCES_HPP_
 #define _ML_PREFERENCES_HPP_
 
-#include <ML/Engine/Export.hpp>
+#include <ML/Core/Export.hpp>
 #include <ML/Core/ITrackable.hpp>
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Core/IReadable.hpp>
@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Preferences final
+	class ML_CORE_API Preferences final
 		: public ITrackable
 		, public IDisposable
 		, public IReadable

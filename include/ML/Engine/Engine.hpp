@@ -9,12 +9,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class EventSystem;
-	class Preferences;
-	class RenderWindow;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	class ML_ENGINE_API Engine final
 		: public ITrackable
 		, public INonCopyable

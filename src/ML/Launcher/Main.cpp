@@ -6,10 +6,10 @@
 #include <ML/Engine/Application.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/GameTime.hpp>
-#include <ML/Engine/Preferences.hpp>
+#include <ML/Core/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Core/SharedLibrary.hpp>
-#include <ML/Engine/StateMachine.hpp>
+#include <ML/Core/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */

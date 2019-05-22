@@ -1,14 +1,14 @@
 #ifndef _ML_COLLIDER_HPP_
 #define _ML_COLLIDER_HPP_
 
-#include <ML/Physics/Export.hpp>
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/Transform.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PHYSICS_API Collider
+	class ML_ENGINE_API Collider
 		: public ITrackable
 	{
 	public:

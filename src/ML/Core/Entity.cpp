@@ -1,4 +1,4 @@
-#include <ML/Engine/Entity.hpp>
+#include <ML/Core/Entity.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml

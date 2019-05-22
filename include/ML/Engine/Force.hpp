@@ -1,14 +1,14 @@
 #ifndef _ML_FORCE_HPP_
 #define _ML_FORCE_HPP_
 
-#include <ML/Physics/Export.hpp>
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/Transform.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PHYSICS_API Force
+	class ML_ENGINE_API Force
 	{
 	public:
 		static const vec3 gravity(const vec3 & up, const float mass);

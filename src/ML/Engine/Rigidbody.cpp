@@ -1,7 +1,7 @@
-#include <ML/Physics/Rigidbody.hpp>
-#include <ML/Physics/PhysicsWorld.hpp>
-#include <ML/Physics/Collider.hpp>
-#include <ML/Physics/Particle.hpp>
+#include <ML/Engine/Rigidbody.hpp>
+#include <ML/Engine/PhysicsWorld.hpp>
+#include <ML/Engine/Collider.hpp>
+#include <ML/Engine/Particle.hpp>
 
 namespace ml
 {

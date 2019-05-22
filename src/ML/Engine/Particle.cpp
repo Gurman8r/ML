@@ -1,8 +1,8 @@
-#include <ML/Physics/Particle.hpp>
-#include <ML/Physics/PhysicsWorld.hpp>
-#include <ML/Physics/Rigidbody.hpp>
-#include <ML/Physics/BoxCollider.hpp>
-#include <ML/Physics/SphereCollider.hpp>
+#include <ML/Engine/Particle.hpp>
+#include <ML/Engine/PhysicsWorld.hpp>
+#include <ML/Engine/Rigidbody.hpp>
+#include <ML/Engine/BoxCollider.hpp>
+#include <ML/Engine/SphereCollider.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml

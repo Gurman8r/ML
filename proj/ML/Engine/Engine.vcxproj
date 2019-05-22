@@ -100,7 +100,7 @@
     </ClCompile>
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
@@ -116,7 +116,7 @@
     </ClCompile>
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
@@ -136,7 +136,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
@@ -156,36 +156,44 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Application.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\ECS.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\BoxCollider.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Collider.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Force.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\LuaScript.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Particle.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\PhysicsState.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\PhysicsWorld.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Ray.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Rigidbody.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\SphereCollider.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\Application.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\ECS.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\BoxCollider.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Force.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\LuaScript.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Particle.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\PhysicsState.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\PhysicsWorld.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Ray.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Rigidbody.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\SphereCollider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

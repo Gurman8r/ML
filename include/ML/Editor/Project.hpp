@@ -29,7 +29,6 @@ namespace ml
 		void draw_entity_registry	(Resources & res, Registry<Entity>		& entities	);
 		void draw_font_registry		(Resources & res, Registry<Font>		& fonts		);
 		void draw_image_registry	(Resources & res, Registry<Image>		& images	);
-		void draw_lua_registry		(Resources & res, Registry<LuaScript>	& lua		);
 		void draw_material_registry	(Resources & res, Registry<Material>	& materials	);
 		void draw_mesh_registry		(Resources & res, Registry<Mesh>		& meshes	);
 		void draw_model_registry	(Resources & res, Registry<Model>		& models	);

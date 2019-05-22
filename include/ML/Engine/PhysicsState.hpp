@@ -1,7 +1,7 @@
 #ifndef _ML_PHYSICS_STATE_HPP_
 #define _ML_PHYSICS_STATE_HPP_
 
-#include <ML/Physics/Export.hpp>
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Core/Vector3.hpp>
 #include <ML/Core/Quaternion.hpp>
@@ -14,7 +14,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PHYSICS_API PhysicsState final
+	class ML_ENGINE_API PhysicsState final
 		: public ITrackable
 		, public IDisposable
 		, public INonCopyable

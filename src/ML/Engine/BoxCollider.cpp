@@ -1,5 +1,5 @@
-#include <ML/Physics/BoxCollider.hpp>
-#include <ML/Physics/SphereCollider.hpp>
+#include <ML/Engine/BoxCollider.hpp>
+#include <ML/Engine/SphereCollider.hpp>
 
 namespace ml
 {

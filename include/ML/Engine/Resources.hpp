@@ -11,7 +11,6 @@ namespace ml
 	class Entity;
 	class Font;
 	class Image;
-	class LuaScript;
 	class Material;
 	class Mesh;
 	class Model;
@@ -51,7 +50,6 @@ namespace ml
 		Registry<Entity>	entities;
 		Registry<Font>		fonts;
 		Registry<Image>		images;
-		Registry<LuaScript>	lua;
 		Registry<Material>	materials;
 		Registry<Mesh>		meshes;
 		Registry<Model>		models;

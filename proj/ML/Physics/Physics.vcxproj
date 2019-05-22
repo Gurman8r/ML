@@ -162,26 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Physics\BoxCollider.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Physics\Collider.hpp" />
     <ClInclude Include="..\..\..\include\ML\Physics\Export.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Physics\Force.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Physics\Particle.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Physics\PhysicsWorld.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Physics\PhysicsState.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Physics\Ray.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Physics\Rigidbody.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Physics\SphereCollider.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Physics\BoxCollider.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Physics\Force.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Physics\Particle.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Physics\PhysicsWorld.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Physics\PhysicsState.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Physics\Ray.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Physics\Rigidbody.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Physics\SphereCollider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

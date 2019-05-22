@@ -172,6 +172,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Detection.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Dispatcher.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Entity.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\File.hpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OStream.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
@@ -208,6 +210,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\String.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TestRequest.hpp" />
@@ -224,6 +227,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\Console.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Dispatcher.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\Entity.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\File.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
@@ -231,6 +235,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\Preferences.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Random.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />

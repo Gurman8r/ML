@@ -1,13 +1,13 @@
 #ifndef _ML_SPHERE_COLLIDER_HPP_
 #define _ML_SPHERE_COLLIDER_HPP_
 
-#include <ML/Physics/Collider.hpp>
+#include <ML/Engine/Collider.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PHYSICS_API SphereCollider final
+	class ML_ENGINE_API SphereCollider final
 		: public Collider
 	{
 	public:

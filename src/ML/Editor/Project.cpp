@@ -10,8 +10,7 @@
 #include <ML/Editor/ImGui_Helper.hpp>
 #include <ML/Editor/GUI.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Engine/Entity.hpp>
-#include <ML/Engine/LuaScript.hpp>
+#include <ML/Core/Entity.hpp>
 #include <ML/Core/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Light.hpp>
@@ -22,8 +21,8 @@
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Skybox.hpp>
 #include <ML/Graphics/Sprite.hpp>
-#include <ML/Physics/Rigidbody.hpp>
-#include <ML/Physics/Particle.hpp>
+#include <ML/Engine/Rigidbody.hpp>
+#include <ML/Engine/Particle.hpp>
 #include <ML/Script/Script.hpp>
 
 namespace ml
@@ -486,7 +485,6 @@ namespace ml
 				draw_entity_registry	(ev.resources, ev.resources.entities	);
 				draw_font_registry		(ev.resources, ev.resources.fonts		);
 				draw_image_registry		(ev.resources, ev.resources.images		);
-				draw_lua_registry		(ev.resources, ev.resources.lua			);
 				draw_mesh_registry		(ev.resources, ev.resources.meshes		);
 				draw_material_registry	(ev.resources, ev.resources.materials	);
 				draw_model_registry		(ev.resources, ev.resources.models		);
@@ -892,45 +890,6 @@ namespace ml
 						ImGui::Text("%u x %u", e->width(), e->height());
 					});
 					if (const String file = images.getFile(name))
-					{
-						Layout::Field("File", [&](CString)
-						{
-							const String fName = ML_FS.getFileName(file);
-							if (ImGui::Selectable(fName.c_str()))
-							{
-								OS::execute("open", ML_FS.getPathTo(file));
-							}
-						});
-						Layout::Field("Path", [&](CString)
-						{
-							const String fPath = ML_FS.getFilePath(file);
-							if (ImGui::Selectable(fPath.c_str()))
-							{
-								OS::execute("open", ML_FS.getPathTo(fPath));
-							}
-						});
-					}
-
-				}, pair.first.c_str(), pair.second);
-			}
-		});
-	}
-
-	void Project::draw_lua_registry(Resources & resources, Registry<LuaScript> & lua)
-	{
-		if (lua.empty()) return;
-
-		Layout::Group(lua.name().c_str(), [&]()
-		{
-			for (auto & pair : lua)
-			{
-				Layout::Group(pair.first.c_str(), [&](CString name, const LuaScript * e)
-				{
-					Layout::Field("Name", [&](CString label)
-					{
-						ImGui::Text("%s", name);
-					});
-					if (const String file = lua.getFile(name))
 					{
 						Layout::Field("File", [&](CString)
 						{

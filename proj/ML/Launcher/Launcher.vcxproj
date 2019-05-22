@@ -99,7 +99,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -114,7 +114,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -133,7 +133,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -152,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Physics_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>

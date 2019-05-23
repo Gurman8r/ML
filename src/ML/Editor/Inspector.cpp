@@ -8,8 +8,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Inspector::Inspector(bool open)
-		: BaseWidget("Inspector", open)
+	Inspector::Inspector(EventSystem & eventSystem, bool startOpen)
+		: EditorWindow(eventSystem, "Inspector", startOpen)
 	{
 	}
 

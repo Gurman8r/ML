@@ -22,9 +22,6 @@
     <Filter Include="Resource Files\ImGui\src">
       <UniqueIdentifier>{22d4a406-fd3b-42db-b0ad-e16ef7cc5d35}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Widgets">
-      <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Internal">
       <UniqueIdentifier>{cb586e66-765d-4d5c-a64b-3a64ffae56ca}</UniqueIdentifier>
     </Filter>
@@ -37,7 +34,10 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{1c94eeaa-dd80-42c0-9400-f76905d7449c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Widgets">
+    <Filter Include="Source Files\Windows">
+      <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Windows">
       <UniqueIdentifier>{479ff0b2-aa13-4cc3-ae27-3794523dc929}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -67,22 +67,22 @@
       <Filter>Resource Files\ImGui\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Browser.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Builder.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Inspector.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Profiler.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\SceneView.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Terminal.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\GUI.hpp">
       <Filter>Header Files\Internal</Filter>
@@ -108,17 +108,17 @@
     <ClInclude Include="..\..\..\include\ML\Editor\StyleLoader.hpp">
       <Filter>Header Files\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\BaseWidget.hpp">
-      <Filter>Header Files\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Project.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Dockspace.hpp">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorPlugin.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp">
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,22 +138,22 @@
       <Filter>Resource Files\ImGui\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Browser.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Terminal.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\SceneView.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Profiler.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Inspector.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Builder.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\StyleLoader.cpp">
       <Filter>Source Files\Internal</Filter>
@@ -167,17 +167,17 @@
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\BaseWidget.cpp">
-      <Filter>Source Files\Widgets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Project.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Dockspace.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorPlugin.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp">
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

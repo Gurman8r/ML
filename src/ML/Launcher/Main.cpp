@@ -126,15 +126,15 @@ int32_t main()
 				.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
 			));
 
-			g_Plugins.insert({
+			auto plugin = g_Plugins.insert({
 				library,
 				library->callFunction<Plugin *>(ML_str(ML_Plugin_Main), g_EventSystem)
-			});
+			}).first->second;
 		}
 		file.close();
 	}
 
-	// Run Flow Controller
+	// Run Controller
 	g_ControlFlow(State::Enter);
 
 	// Cleanup Plugins

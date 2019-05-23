@@ -1,21 +1,21 @@
 #ifndef _ML_PROJECT_HPP_
 #define _ML_PROJECT_HPP_
 
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Engine/Resources.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Project final
-		: public BaseWidget
+	class ML_EDITOR_API Project final 
+		: public EditorWindow
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Project(bool open);
+		explicit Project(EventSystem & eventSystem, bool startOpen);
 		~Project();
 
 	protected:

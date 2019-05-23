@@ -16,9 +16,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Terminal::Terminal(bool open, EventSystem & eventSystem)
-		: BaseWidget	("Terminal", open)
-		, m_eventSystem	(eventSystem)
+	Terminal::Terminal(EventSystem & eventSystem, bool startOpen)
+		: EditorWindow	(eventSystem, "Terminal", startOpen)
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()
@@ -60,29 +59,56 @@ namespace ml
 
 			// Text
 			const float footer_height = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-
 			ImGui::BeginChild(
 				"ScrollingRegion",
 				{ 0, -footer_height },
 				false,
-				ImGuiWindowFlags_HorizontalScrollbar);
-
+				ImGuiWindowFlags_HorizontalScrollbar
+			);
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
-			ImVec4 col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
-			for (size_t i = 0; i < m_lines.size(); i++)
+			
+			enum Mode { LOG, WRN, ERR, SYS, MAX_MODE };
+
+			static const ImVec4 colors[MAX_MODE]
 			{
-				CString item = m_lines[i].c_str();
-				if (filter.PassFilter(item))
-				{
-					ImVec4 col = col_default_text;
-					if (std::strstr(item, "[ LOG ]")) col = ImColor(0.0f, 1.0f, 0.4f, 1.0f);
-					else if (std::strstr(item, "[ WRN ]")) col = ImColor(1.0f, 1.0f, 0.4f, 1.0f);
-					else if (std::strstr(item, "[ ERR ]")) col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
-					else if (std::strncmp(item, "# ", 2) == 0) col = ImColor(1.0f, 0.78f, 0.58f, 1.0f);
-					ImGui::PushStyleColor(ImGuiCol_Text, col);
-					ImGui::TextUnformatted(item);
-					ImGui::PopStyleColor();
-				}
+				ImColor(0.0f, 1.0f, 0.4f, 1.0f),	// LOG | green
+				ImColor(1.0f, 1.0f, 0.4f, 1.0f),	// WRN | yellow
+				ImColor(1.0f, 0.4f, 0.4f, 1.0f),	// ERR | red
+				ImColor(1.0f, 0.78f, 0.58f, 1.0f),	// SYS | orange
+			};
+
+			static const String labels[MAX_MODE]
+			{
+				String("[ LOG ]"),
+				String("[ WRN ]"),
+				String("[ ERR ]"),
+				String("# "),
+			};
+
+			auto check_label = [](const Mode mode, const String & str)
+			{
+				return 
+					(mode < Mode::MAX_MODE) &&
+					(!str.empty()) &&
+					(str.size() >= labels[mode].size()) && 
+					(str.substr(0, labels[mode].size()) == labels[mode]);
+			};
+			
+			const ImVec4 & col_default_text = ImGui::GetStyleColorVec4(ImGuiCol_Text);
+
+			for (const String & item : m_lines)
+			{
+				ImVec4 col = col_default_text;
+
+				if (!filter.PassFilter(item.c_str())) continue;
+				else if (check_label(LOG, item)) { col = colors[LOG]; }
+				else if (check_label(WRN, item)) { col = colors[WRN]; }
+				else if (check_label(ERR, item)) { col = colors[ERR]; }
+				else if (check_label(SYS, item)) { col = colors[SYS]; }
+
+				ImGui::PushStyleColor(ImGuiCol_Text, col);
+				ImGui::TextUnformatted(item.c_str());
+				ImGui::PopStyleColor();
 			}
 
 			if (m_scrollBottom)
@@ -106,15 +132,14 @@ namespace ml
 					ImGuiInputTextFlags_CallbackCompletion |
 					ImGuiInputTextFlags_CallbackHistory
 				),
-				[](auto data) { return (static_cast<Terminal *>(data->UserData))->inputCallback(data); },
+				[](auto data) { return ((Terminal *)(data->UserData))->inputCallback(data); },
 				static_cast<void *>(this))
 			)
 			{
 				auto strtrim = [](char * str)
 				{
 					char * str_end = str + std::strlen(str);
-					while (str_end > str && str_end[-1] == ' ')
-						str_end--;
+					while (str_end > str && str_end[-1] == ' ') str_end--;
 					*str_end = 0;
 					return str;
 				};
@@ -124,7 +149,7 @@ namespace ml
 				{
 					execute(s);
 				}
-				strcpy(s, "");
+				std::strcpy(s, "");
 			}
 			// Auto-focus on window apparition
 			ImGui::SetItemDefaultFocus();
@@ -168,7 +193,7 @@ namespace ml
 		}
 		else if (!std::strcmp(value, "exit"))
 		{
-			m_eventSystem.fireEvent(WindowKillEvent());
+			eventSystem().fireEvent(WindowKillEvent());
 		}
 		else if (!std::strcmp(value, "history"))
 		{
@@ -179,7 +204,7 @@ namespace ml
 		}
 		else
 		{
-			m_eventSystem.fireEvent(CommandEvent(value));
+			eventSystem().fireEvent(CommandEvent(value));
 		}
 	}
 

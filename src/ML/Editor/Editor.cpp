@@ -18,29 +18,25 @@ namespace ml
 
 	Editor::Editor(EventSystem & eventSystem)
 		: IEventListener(eventSystem)
-		, dockspace		(true)
-		, browser		(true)
-		, builder		(true)
-		, inspector		(true)
-		, profiler		(true)
-		, project		(true)
-		, sceneView		(true)
-		, terminal		(true, eventSystem)
+		, dockspace		(eventSystem, true)
+		, browser		(eventSystem, true)
+		, builder		(eventSystem, true)
+		, inspector		(eventSystem, true)
+		, profiler		(eventSystem, true)
+		, project		(eventSystem, true)
+		, sceneView		(eventSystem, true)
+		, terminal		(eventSystem, true)
 	{
 		eventSystem.addListener(EngineEvent::EV_Enter,		this);
 		eventSystem.addListener(EngineEvent::EV_Exit,		this);
-		
 		eventSystem.addListener(EditorEvent::EV_BeginGui,	this);
 		eventSystem.addListener(EditorEvent::EV_Gui,		this);
 		eventSystem.addListener(EditorEvent::EV_EndGui,		this);
-
 		eventSystem.addListener(WindowEvent::EV_Key,		this);
-
 		eventSystem.addListener(EditorEvent::EV_File_New,	this);
 		eventSystem.addListener(EditorEvent::EV_File_Open,	this);
 		eventSystem.addListener(EditorEvent::EV_File_Save,	this);
 		eventSystem.addListener(EditorEvent::EV_File_Close,	this);
-
 		eventSystem.addListener(EditorEvent::EV_Edit_Undo,	this);
 		eventSystem.addListener(EditorEvent::EV_Edit_Redo,	this);
 		eventSystem.addListener(EditorEvent::EV_Edit_Cut,	this);
@@ -61,6 +57,7 @@ namespace ml
 		case EnterEvent::ID:
 			if (auto ev = value->as<EnterEvent>())
 			{
+				// Initialize ImGui
 				IMGUI_CHECKVERSION();
 
 				// Create ImGui Context
@@ -85,7 +82,7 @@ namespace ml
 				String imguiINI = ev->prefs.GetString("Editor", "imguiINI", "");
 				if(imguiINI) imguiINI = ML_FS.getPathTo(imguiINI);
 
-				// Initialize ImGui
+				// Start ImGui
 				if (!ImGui_ML_Init("#version 410", &ev->window, true, imguiINI.c_str()))
 				{
 					Debug::fatal("Failed Initializing ImGui");

@@ -1,17 +1,16 @@
 #ifndef _ML_BROWSER_HPP_
 #define _ML_BROWSER_HPP_
 
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Bytes.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// File Browser
-	class ML_EDITOR_API Browser final
-		: public BaseWidget
+	class ML_EDITOR_API Browser final 
+		: public EditorWindow
 	{
 		friend class Editor;
 
@@ -35,7 +34,7 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Browser(bool open);
+		explicit Browser(EventSystem & eventSystem, bool startOpen);
 		~Browser();
 
 	protected:
@@ -93,6 +92,6 @@ namespace ml
 		bool		m_isDouble;	// Has Double Click
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 #endif // !_ML_BROWSER_HPP_

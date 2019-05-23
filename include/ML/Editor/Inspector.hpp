@@ -1,18 +1,20 @@
 #ifndef _ML_INSPECTOR_HPP_
 #define _ML_INSPECTOR_HPP_
 
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 
 namespace ml
 {
-	class ML_EDITOR_API Inspector final
-		: public BaseWidget
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	class ML_EDITOR_API Inspector final 
+		: public EditorWindow
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Inspector(bool open);
+		explicit Inspector(EventSystem & eventSystem, bool startOpen);
 		~Inspector();
 
 	protected:
@@ -36,6 +38,8 @@ namespace ml
 			return false;
 		}
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_INSPECTOR_HPP_

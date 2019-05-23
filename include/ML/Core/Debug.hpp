@@ -8,6 +8,10 @@
 #define ML_FAILURE	0 //  0
 #define ML_SUCCESS	1 // +1
 
+#define ML_MSG_LOG "LOG"
+#define ML_MSG_WRN "WRN"
+#define ML_MSG_ERR "ERR"
+
 namespace ml
 {
 	class ML_CORE_API Debug final

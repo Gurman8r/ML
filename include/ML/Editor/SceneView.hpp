@@ -1,21 +1,21 @@
 #ifndef _ML_SCENE_VIEW_HPP_
 #define _ML_SCENE_VIEW_HPP_
 
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Graphics/Texture.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API SceneView final
-		: public BaseWidget
+	class ML_EDITOR_API SceneView final 
+		: public EditorWindow
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		SceneView(bool open);
+		explicit SceneView(EventSystem & eventSystem, bool startOpen);
 		~SceneView();
 
 	protected:

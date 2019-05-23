@@ -1,21 +1,21 @@
 #ifndef _ML_PROFILER_HPP_
 #define _ML_PROFILER_HPP_
 
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Core/Vector2.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Profiler
-		: public BaseWidget
+	class ML_EDITOR_API Profiler 
+		: public EditorWindow
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Profiler(bool open);
+		explicit Profiler(EventSystem & eventSystem, bool startOpen);
 		~Profiler();
 
 	protected:

@@ -1,20 +1,21 @@
 #ifndef _ML_DOCKSPACE_HPP_
 #define _ML_DOCKSPACE_HPP_
 
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Core/Vector2.hpp>
 
 namespace ml
 {
-	// Docking/snapping area for windows
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class ML_EDITOR_API Dockspace final 
-		: public BaseWidget
+		: public EditorWindow
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Dockspace(bool open);
+		explicit Dockspace(EventSystem & eventSystem, bool startOpen);
 		~Dockspace();
 
 	protected:
@@ -39,6 +40,8 @@ namespace ml
 		vec2	m_size;
 		float	m_bgAlpha;
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_DOCKSPACE_HPP_

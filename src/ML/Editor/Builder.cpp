@@ -100,8 +100,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Builder::Builder(bool open)
-		: BaseWidget("Builder", open)
+	Builder::Builder(EventSystem & eventSystem, bool startOpen)
+		: EditorWindow(eventSystem, "Builder", startOpen)
 		, m_shader	(NULL)
 	{
 		m_files.push_back(new BuildFile("Main", ML_MAIN_EXAMPLE));

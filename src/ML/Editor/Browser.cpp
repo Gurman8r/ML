@@ -15,8 +15,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Browser::Browser(bool open)
-		: BaseWidget("Browser", open)
+	Browser::Browser(EventSystem & eventSystem, bool startOpen)
+		: EditorWindow(eventSystem, "Browser", startOpen)
 		, m_path	()
 		, m_dir		()
 		, m_type	(T_Dir)

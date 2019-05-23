@@ -1,4 +1,4 @@
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -10,26 +10,27 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	BaseWidget::BaseWidget(CString title, bool open)
-		: m_title	(title)
-		, m_open	(open)
-		, m_good	(false)
-		, m_flags	(ImGuiWindowFlags_None)
+	EditorWindow::EditorWindow(EventSystem & eventSystem, CString title, bool startOpen)
+		: IEventListener(eventSystem)
+		, m_title		(title)
+		, m_open		(startOpen)
+		, m_good		(false)
+		, m_flags		(ImGuiWindowFlags_None)
 	{
 	}
 
-	BaseWidget::~BaseWidget()
+	EditorWindow::~EditorWindow()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool BaseWidget::beginDraw(int32_t flags)
+	bool EditorWindow::beginDraw(int32_t flags)
 	{
 		return m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags));
 	}
 
-	bool BaseWidget::endDraw()
+	bool EditorWindow::endDraw()
 	{
 		ImGui::End();
 		return m_good;
@@ -37,7 +38,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	uint32_t BaseWidget::getID() const { return ImGui::GetID(m_title); }
+	uint32_t EditorWindow::getID() const { return ImGui::GetID(m_title); }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Dockspace::Dockspace(bool open)
-		: BaseWidget("Dockspace", open)
+	Dockspace::Dockspace(EventSystem & eventSystem, bool startOpen)
+		: EditorWindow(eventSystem, "Dockspace", startOpen)
 		, m_border	(0.0f)
 		, m_padding	(vec2::Zero)
 		, m_rounding(0.0f)
@@ -82,7 +82,7 @@ namespace ml
 			ImGui::SetNextWindowBgAlpha(m_bgAlpha);
 
 			// Begin
-			if (BaseWidget::beginDraw(flags))
+			if (EditorWindow::beginDraw(flags))
 			{
 				ImGui::PopStyleVar(3);
 			}
@@ -100,7 +100,7 @@ namespace ml
 				ImGuiDockNodeFlags_PassthruDockspace
 			);
 		}
-		return BaseWidget::endDraw();
+		return EditorWindow::endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

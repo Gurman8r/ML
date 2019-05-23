@@ -438,8 +438,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Project::Project(bool open)
-		: BaseWidget("Project", open)
+	Project::Project(EventSystem & eventSystem, bool startOpen)
+		: EditorWindow(eventSystem, "Project", startOpen)
 	{
 	}
 

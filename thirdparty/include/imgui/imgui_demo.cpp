@@ -2044,11 +2044,11 @@ static void ShowDemoWindowLayout()
         ImGui::SmallButton("TEST##2");
 
         ImGui::AlignTextToFramePadding(); // If your line starts with text, call this to align it to upcoming widgets.
-        ImGui::Text("Text aligned to BaseWidget"); ImGui::SameLine();
-        ImGui::Button("BaseWidget##1"); ImGui::SameLine();
-        ImGui::Text("BaseWidget"); ImGui::SameLine();
-        ImGui::SmallButton("BaseWidget##2"); ImGui::SameLine();
-        ImGui::Button("BaseWidget##3");
+        ImGui::Text("Text aligned to EditorWindow"); ImGui::SameLine();
+        ImGui::Button("EditorWindow##1"); ImGui::SameLine();
+        ImGui::Text("EditorWindow"); ImGui::SameLine();
+        ImGui::SmallButton("EditorWindow##2"); ImGui::SameLine();
+        ImGui::Button("EditorWindow##3");
 
         // Tree
         const float spacing = ImGui::GetStyle().ItemInnerSpacing.x;

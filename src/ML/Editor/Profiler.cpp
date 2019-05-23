@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Profiler::Profiler(bool open)
-		: BaseWidget("Profiler", open)
+	Profiler::Profiler(EventSystem & eventSystem, bool startOpen)
+		: EditorWindow(eventSystem, "Profiler", startOpen)
 	{
 	}
 

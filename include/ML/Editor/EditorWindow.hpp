@@ -1,27 +1,24 @@
-#ifndef _ML_BASE_WIDGET_HPP_
-#define _ML_BASE_WIDGET_HPP_
+#ifndef _ML_EDITOR_WINDOW_HPP_
+#define _ML_EDITOR_WINDOW_HPP_
 
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IEventListener.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Editor;
-	class EventSystem;
-	class Preferences;
-	class Resources;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	class ML_EDITOR_API BaseWidget
+	class ML_EDITOR_API EditorWindow
 		: public ITrackable
 		, public INonCopyable
+		, public IEventListener
 	{
 	protected:
-		BaseWidget(CString title, bool open);
-		virtual ~BaseWidget();
+		explicit EditorWindow(EventSystem & eventSystem, CString title, bool open);
+		virtual ~EditorWindow();
+
+		virtual void onEvent(const Event * value) override {}
 
 	public:
 		inline bool onGui(const GuiEvent & ev)
@@ -58,4 +55,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_BASE_WIDGET_HPP_
+#endif // !_ML_EDITOR_WINDOW_HPP_

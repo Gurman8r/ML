@@ -8,8 +8,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	SceneView::SceneView(bool open)
-		: BaseWidget("Scene", open)
+	SceneView::SceneView(EventSystem & eventSystem, bool startOpen)
+		: EditorWindow(eventSystem, "Scene", startOpen)
 	{
 	}
 
@@ -28,7 +28,7 @@ namespace ml
 
 	bool SceneView::beginDraw(int32_t flags)
 	{
-		if (BaseWidget::beginDraw(flags))
+		if (EditorWindow::beginDraw(flags))
 		{
 			ImGui::BeginChild("Viewport", { -1, -1 });
 		}
@@ -41,7 +41,7 @@ namespace ml
 		{
 			ImGui::EndChild();
 		}
-		return BaseWidget::endDraw();
+		return EditorWindow::endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

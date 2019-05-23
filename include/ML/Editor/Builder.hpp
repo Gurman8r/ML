@@ -1,21 +1,21 @@
 #ifndef _ML_BUILDER_HPP_
 #define _ML_BUILDER_HPP_
 
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Core/File.hpp>
 
 #define ML_TEST_SHADER "built_shader"
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Shader;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Builder final
-		: public BaseWidget
+	class ML_EDITOR_API Builder final 
+		: public EditorWindow
 	{
 		friend class Editor;
 
@@ -50,7 +50,7 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Builder(bool open);
+		explicit Builder(EventSystem & eventSystem, bool startOpen);
 		~Builder();
 
 	protected:
@@ -63,7 +63,7 @@ namespace ml
 		Shader * m_shader;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_BUILDER_HPP_

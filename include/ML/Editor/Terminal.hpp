@@ -1,14 +1,15 @@
 #ifndef _ML_TERMINAL_HPP_
 #define _ML_TERMINAL_HPP_
 
-#include <ML/Editor/BaseWidget.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
 {
-	// Command Line Interface
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class ML_EDITOR_API Terminal final
-		: public BaseWidget
+		: public EditorWindow
 	{
 		friend class Editor;
 
@@ -18,9 +19,11 @@ namespace ml
 
 		using InputBuffer = typename char[256];
 
+		using History = typename List<char *>;
+
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		Terminal(bool open, EventSystem & eventSystem);
+		explicit Terminal(EventSystem & eventSystem, bool startOpen);
 		~Terminal();
 
 	protected:
@@ -30,27 +33,27 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		void    clear();
+		void    execute(CString value);
 		void    printf(CString value, ...);		// Print Format
 		void	printl(const String & value);	// Print Line
 		void	printss(SStream & value);		// Print Stream
-		void    execute(CString value);
 		int32_t inputCallback(void * value);
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline const List<char *> & history() const { return m_history; }
+		inline const History & history() const { return m_history; }
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		EventSystem &	m_eventSystem;
 		InputBuffer		m_inputBuf;
 		List<String>	m_lines;
 		bool			m_scrollBottom;
-		List<char *>	m_history;
+		History			m_history;
 		int32_t			m_historyPos;
 		List<CString>	m_autoFill;
 	};
 
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_TERMINAL_HPP_

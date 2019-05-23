@@ -3,7 +3,6 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/StateMachine.hpp>
-#include <ML/Core/TypeID.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -129,14 +128,6 @@ static StateMachine<State> g_ControlFlow
 
 int32_t main()
 {
-	Debug::log("{0}", nameof<XString>());
-	Debug::log("{0}", nameof<int>());
-	Debug::log("{0}", nameof<float>());
-	Debug::log("{0}", nameof<Transform>());
-	Debug::log("{0}", nameof<std::string>());
-	Debug::log("{0}", nameof<String>());
-	Debug::log("{0}", nameof<int(*)(int, char**)>());
-
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

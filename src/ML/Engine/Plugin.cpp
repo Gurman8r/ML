@@ -8,11 +8,11 @@ namespace ml
 	Plugin::Plugin(EventSystem & eventSystem)
 		: IEventListener(eventSystem)
 	{
-		eventSystem.addListener(EngineEvent::EV_Enter,	this);
-		eventSystem.addListener(EngineEvent::EV_Start,	this);
-		eventSystem.addListener(EngineEvent::EV_Update,	this);
-		eventSystem.addListener(EngineEvent::EV_Draw,	this);
-		eventSystem.addListener(EngineEvent::EV_Exit,	this);
+		eventSystem.addListener(EnterEvent::ID, this);
+		eventSystem.addListener(StartEvent::ID, this);
+		eventSystem.addListener(UpdateEvent::ID, this);
+		eventSystem.addListener(DrawEvent::ID, this);
+		eventSystem.addListener(ExitEvent::ID, this);
 	}
 
 	Plugin::~Plugin() { }
@@ -23,11 +23,11 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EngineEvent::EV_Enter:	return onEnter	(*value->as<EnterEvent>());
-		case EngineEvent::EV_Start:	return onStart	(*value->as<StartEvent>());
-		case EngineEvent::EV_Update:return onUpdate	(*value->as<UpdateEvent>());
-		case EngineEvent::EV_Draw:	return onDraw	(*value->as<DrawEvent>());
-		case EngineEvent::EV_Exit:	return onExit	(*value->as<ExitEvent>());
+		case EnterEvent::ID:	return onEnter	(*value->as<EnterEvent>());
+		case StartEvent::ID:	return onStart	(*value->as<StartEvent>());
+		case UpdateEvent::ID:	return onUpdate	(*value->as<UpdateEvent>());
+		case DrawEvent::ID:		return onDraw	(*value->as<DrawEvent>());
+		case ExitEvent::ID:		return onExit	(*value->as<ExitEvent>());
 		}
 	}
 

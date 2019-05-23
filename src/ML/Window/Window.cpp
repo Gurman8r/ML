@@ -47,19 +47,19 @@ namespace ml
 #endif
 		s_EventSystem = &eventSystem;
 
-		eventSystem.addListener(WindowEvent::EV_Char,		this);
-		eventSystem.addListener(WindowEvent::EV_CursorEnter,this);
-		eventSystem.addListener(WindowEvent::EV_CursorPos,	this);
-		eventSystem.addListener(WindowEvent::EV_FrameSize,	this);
-		eventSystem.addListener(WindowEvent::EV_Key,		this);
-		eventSystem.addListener(WindowEvent::EV_MouseButton,this);
-		eventSystem.addListener(WindowEvent::EV_Scroll,		this);
-		eventSystem.addListener(WindowEvent::EV_WindowClose,this);
-		eventSystem.addListener(WindowEvent::EV_WindowError,this);
-		eventSystem.addListener(WindowEvent::EV_WindowFocus,this);
-		eventSystem.addListener(WindowEvent::EV_WindowKill,	this);
-		eventSystem.addListener(WindowEvent::EV_WindowSize,	this);
-		eventSystem.addListener(WindowEvent::Ev_WindowPos,	this);
+		eventSystem.addListener(CharEvent::ID, this);
+		eventSystem.addListener(CursorEnterEvent::ID, this);
+		eventSystem.addListener(CursorPosEvent::ID, this);
+		eventSystem.addListener(FrameSizeEvent::ID, this);
+		eventSystem.addListener(KeyEvent::ID, this);
+		eventSystem.addListener(MouseButtonEvent::ID, this);
+		eventSystem.addListener(ScrollEvent::ID, this);
+		eventSystem.addListener(WindowCloseEvent::ID, this);
+		eventSystem.addListener(WindowErrorEvent::ID, this);
+		eventSystem.addListener(WindowFocusEvent::ID, this);
+		eventSystem.addListener(WindowKillEvent::ID, this);
+		eventSystem.addListener(WindowSizeEvent::ID, this);
+		eventSystem.addListener(WindowPosEvent::ID, this);
 	}
 	
 	Window::~Window() 

@@ -172,8 +172,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\GUI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Builtin.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Helper.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Style.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Inspector.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Profiler.hpp" />
@@ -197,7 +195,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\EditorPlugin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\GUI.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\ImGui_Builtin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Inspector.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Profiler.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Project.cpp" />

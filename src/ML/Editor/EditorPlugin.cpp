@@ -9,7 +9,7 @@ namespace ml
 	EditorPlugin::EditorPlugin(EventSystem & eventSystem)
 		: Plugin(eventSystem)
 	{
-		eventSystem.addListener(EditorEvent::EV_Gui, this);
+		eventSystem.addListener(GuiEvent::ID, this);
 	}
 
 	EditorPlugin::~EditorPlugin() { }
@@ -24,7 +24,7 @@ namespace ml
 		switch (*value)
 		{
 			// Gui Event
-		case EditorEvent::EV_Gui:
+		case GuiEvent::ID:
 			return this->onGui(*value->as<GuiEvent>());
 		}
 	}

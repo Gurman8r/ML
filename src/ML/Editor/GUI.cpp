@@ -1,6 +1,5 @@
 #include <ML/Editor/GUI.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/ImGui_Helper.hpp>
 #include <ML/Graphics/Shader.hpp>
 
 namespace ml

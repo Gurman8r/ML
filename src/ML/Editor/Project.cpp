@@ -7,7 +7,6 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/ImGui_Helper.hpp>
 #include <ML/Editor/GUI.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Entity.hpp>
@@ -29,6 +28,19 @@ namespace ml
 {
 	struct Project::Layout
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		inline static bool vector_getter(void * vec, int32_t idx, CString * out_text)
+		{
+			auto & vector = (*static_cast<List<String>*>(vec));
+			if ((idx >= 0) && (idx < static_cast<int32_t>(vector.size())))
+			{
+				(*out_text) = vector.at(idx).c_str();
+				return true;
+			}
+			return false;
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <
@@ -336,7 +348,7 @@ namespace ml
 						if (ImGui::Combo(
 							String(label + "##Tex##Uni##" + value->name).c_str(),
 							&index,
-							ImGui_Helper::vector_getter,
+							Layout::vector_getter,
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{
@@ -681,7 +693,7 @@ namespace ml
 									if (ImGui::Combo(
 										"##Model##Renderer",
 										&index,
-										ImGui_Helper::vector_getter,
+										Layout::vector_getter,
 										static_cast<void *>(&keys),
 										(int32_t)(keys.size())))
 									{
@@ -938,7 +950,7 @@ namespace ml
 						if (ImGui::Combo(
 							"##Shader##Renderer",
 							&index,
-							ImGui_Helper::vector_getter,
+							Layout::vector_getter,
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{
@@ -1301,7 +1313,7 @@ namespace ml
 						if (ImGui::Combo(
 							"##Tex2D##Value",
 							&index,
-							ImGui_Helper::vector_getter,
+							Layout::vector_getter,
 							static_cast<void *>(&keys),
 							(int32_t)(keys.size())))
 						{

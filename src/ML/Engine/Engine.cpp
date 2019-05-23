@@ -21,9 +21,9 @@ namespace ml
 		: IEventListener(eventSystem)
 	{
 		// Setup Events
-		eventSystem.addListener(EngineEvent::EV_Enter, this);
-		eventSystem.addListener(EngineEvent::EV_Load, this);
-		eventSystem.addListener(EngineEvent::EV_Exit, this);
+		eventSystem.addListener(EnterEvent::ID, this);
+		eventSystem.addListener(LoadEvent::ID, this);
+		eventSystem.addListener(ExitEvent::ID, this);
 	}
 
 	Engine::~Engine() {}

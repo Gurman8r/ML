@@ -27,21 +27,21 @@ namespace ml
 		, sceneView		(eventSystem, true)
 		, terminal		(eventSystem, true)
 	{
-		eventSystem.addListener(EngineEvent::EV_Enter,		this);
-		eventSystem.addListener(EngineEvent::EV_Exit,		this);
-		eventSystem.addListener(EditorEvent::EV_BeginGui,	this);
-		eventSystem.addListener(EditorEvent::EV_Gui,		this);
-		eventSystem.addListener(EditorEvent::EV_EndGui,		this);
-		eventSystem.addListener(WindowEvent::EV_Key,		this);
-		eventSystem.addListener(EditorEvent::EV_File_New,	this);
-		eventSystem.addListener(EditorEvent::EV_File_Open,	this);
-		eventSystem.addListener(EditorEvent::EV_File_Save,	this);
-		eventSystem.addListener(EditorEvent::EV_File_Close,	this);
-		eventSystem.addListener(EditorEvent::EV_Edit_Undo,	this);
-		eventSystem.addListener(EditorEvent::EV_Edit_Redo,	this);
-		eventSystem.addListener(EditorEvent::EV_Edit_Cut,	this);
-		eventSystem.addListener(EditorEvent::EV_Edit_Copy,	this);
-		eventSystem.addListener(EditorEvent::EV_Edit_Paste,	this);
+		eventSystem.addListener(EnterEvent::ID, this);
+		eventSystem.addListener(ExitEvent::ID, this);
+		eventSystem.addListener(BeginGuiEvent::ID, this);
+		eventSystem.addListener(GuiEvent::ID, this);
+		eventSystem.addListener(EndGuiEvent::ID, this);
+		eventSystem.addListener(KeyEvent::ID, this);
+		eventSystem.addListener(File_New_Event::ID, this);
+		eventSystem.addListener(File_Open_Event::ID, this);
+		eventSystem.addListener(File_Save_Event::ID, this);
+		eventSystem.addListener(File_Close_Event::ID, this);
+		eventSystem.addListener(Edit_Undo_Event::ID, this);
+		eventSystem.addListener(Edit_Redo_Event::ID, this);
+		eventSystem.addListener(Edit_Cut_Event::ID, this);
+		eventSystem.addListener(Edit_Copy_Event::ID, this);
+		eventSystem.addListener(Edit_Paste_Event::ID, this);
 	}
 
 	Editor::~Editor() {}
@@ -187,10 +187,10 @@ namespace ml
 		static bool show_imgui_style	= false;
 		static bool show_imgui_about	= false;
 
-		if (show_imgui_demo)	{ ImGui_Builtin::showDemo	(&show_imgui_demo);		}
-		if (show_imgui_metrics) { ImGui_Builtin::showMetrics(&show_imgui_metrics);	}
-		if (show_imgui_style)	{ ImGui_Builtin::showStyle	(&show_imgui_style);	}
-		if (show_imgui_about)	{ ImGui_Builtin::showAbout	(&show_imgui_about);	}
+		if (show_imgui_demo)	{ ImGui::ShowDemoWindow(&show_imgui_demo); }
+		if (show_imgui_metrics) { ImGui::ShowMetricsWindow(&show_imgui_metrics); }
+		if (show_imgui_style)	{ ImGui::Begin("Style Editor", &show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
+		if (show_imgui_about)	{ ImGui::ShowAboutWindow(&show_imgui_about); }
 
 
 		// Main Menu Bar

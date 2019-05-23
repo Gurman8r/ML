@@ -275,11 +275,11 @@ namespace ml
 
 		inline static self_type Trim(self_type value)
 		{
-			while (value && value.front() == ' ' || value.front() == '\t')
+			while (!value.empty() && value.front() == ' ' || value.front() == '\t')
 			{
 				value.erase(value.begin());
 			}
-			while (value && value.back() == ' ' || value.back() == '\t')
+			while (!value.empty() && value.back() == ' ' || value.back() == '\t')
 			{
 				value.pop_back();
 			}

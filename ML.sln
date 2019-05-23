@@ -98,8 +98,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{6D5DDE1C
 		tools\Build_Release_x64.bat = tools\Build_Release_x64.bat
 		tools\Build_Release_x86.bat = tools\Build_Release_x86.bat
 		tools\Clean.bat = tools\Clean.bat
-		tools\Developer_Install.bat = tools\Developer_Install.bat
-		tools\Run.bat = tools\Run.bat
 	EndProjectSection
 EndProject
 Global

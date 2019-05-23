@@ -2,21 +2,23 @@
 rem Build.bat
 cls
 
-rem Visual Studio .NET 2002 (Platform Toolset = 'v70')
-rem Visual Studio .NET 2003 (Platform Toolset = 'v71')
-rem Visual Studio 2005      (Platform Toolset = 'v80')
-rem Visual Studio 2008      (Platform Toolset = 'v90')
+rem Visual Studio .NET 2002 (Platform Toolset = 'v70' )
+rem Visual Studio .NET 2003 (Platform Toolset = 'v71' )
+rem Visual Studio 2005      (Platform Toolset = 'v80' )
+rem Visual Studio 2008      (Platform Toolset = 'v90' )
 rem Visual Studio 2010      (Platform Toolset = 'v100')
 rem Visual Studio 2012      (Platform Toolset = 'v110')
 rem Visual Studio 2013      (Platform Toolset = 'v120')
 rem Visual Studio 2015      (Platform Toolset = 'v140')
 rem Visual Studio 2017      (Platform Toolset = 'v141')
 
+
 rem Set Defaults
-: setDefaults
+:setDefaults
 set DefaultConfiguration=Debug
 set DefaultPlatformTarget=x86
 set DefaultPlatformToolset=v141
+
 
 rem Initialize
 :initialize
@@ -27,7 +29,8 @@ set VCVarsPath=%MSBuildPath%VC\Auxiliary\Build\
 set VCVars32=vcvars32.bat
 set VCVars64=vcvars64.bat
 
-rem Set Solution File
+
+rem Set Solution
 :setSolutionFile
 if "%1"=="" (
 	set /P SolutionFile="Solution: "
@@ -82,8 +85,8 @@ if "%PlatformTarget%"=="x86" (
 )
 
 
-rem Run MsBuild
-:build
+rem Build Solution
+:buildSolution
 cd %MSBuildPath%
 msbuild.exe %SolutionPath% /p:Configuration=%Configuration% /p:PlatformTarget=%PlatformTarget% /p:PlatformToolset=%DefaultPlatformToolset%
 exit %ERRORLEVEL%

@@ -1,5 +1,6 @@
 #include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/FileSystem.hpp>
 
 # ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
@@ -51,7 +52,10 @@ namespace ml
 
 	bool SharedLibrary::loadFromFile(const String & filename)
 	{
-		return (m_filename = filename) && (m_instance = ML_LOAD_LIBRARY(m_filename.c_str()));
+		return 
+			(m_filename = filename) &&
+			(ML_FS.fileExists(filename)) &&
+			(m_instance = ML_LOAD_LIBRARY(m_filename.c_str()));
 	}
 
 	void * SharedLibrary::loadFunction(const String & name)
@@ -66,8 +70,10 @@ namespace ml
 			void * location;
 			if (!(location = ML_LOAD_FUNCTION(m_instance, name.c_str())))
 			{
-				Debug::logWarning("Uniform Not Found: \"{0}\"", name);
-
+				Debug::logWarning("Function, \'{0}\', not found in \'{1}\'.", 
+					name, 
+					filename()
+				);
 			}
 			return m_functions.insert({ name, location }).first->second;
 		}

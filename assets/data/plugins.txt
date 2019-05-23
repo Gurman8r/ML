@@ -1,18 +1,6 @@
 # Plugins
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-#<import>
-#	type = plugin
-#	name = Sandbox
-#	file = ./Sandbox_$(Configuration)_$(PlatformTarget).dll
-#</import>
-
-#<import>
-#	type = plugin
-#	name = TestPlugin
-#	file = ./TestPlugin_$(Configuration)_$(PlatformTarget).dll
-#</import>
-
 ./Sandbox_$(Configuration)_$(PlatformTarget).dll
 ./TestPlugin_$(Configuration)_$(PlatformTarget).dll
 

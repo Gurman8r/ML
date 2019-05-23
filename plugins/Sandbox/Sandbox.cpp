@@ -887,7 +887,7 @@ namespace DEMO
 				"Juicy",
 				"Inverted",
 			};
-			ImGui::Combo("Surface Shader", &sandbox.effectMode, surf_modes, IM_ARRAYSIZE(surf_modes));
+			ImGui::Combo("Effect Mode", &sandbox.effectMode, surf_modes, IM_ARRAYSIZE(surf_modes));
 			ImGui::Separator();
 
 			ImGui::Checkbox("Camera Orbit", &sandbox.cameraOrbit);

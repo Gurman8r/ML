@@ -121,6 +121,9 @@ int32_t main()
 		String line;
 		while (std::getline(file, line))
 		{
+			if (!line || (line.trim().front() == '#')) 
+				continue;
+			
 			auto library = new SharedLibrary(ML_FS.getPathTo(line
 				.replaceAll("$(Configuration)", ML_CONFIGURATION)
 				.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)

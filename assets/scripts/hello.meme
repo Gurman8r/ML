@@ -1,19 +1,15 @@
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
 HELLO = nodeid();
 {
 	# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 	main = [](args);
 	{
-		system("log", "msg", "Hello, World!");
-		system("log", "msg", "https://github.com/Gurman8r/ML");
-		
 		argc = sizeof(args);
 		
 		for (i = 0; i < argc; i = i + 1);
 		{
-			system("log", "msg", args[i]);
+			print("# ");
+			printl(args[i]);
 		};
 	};
 

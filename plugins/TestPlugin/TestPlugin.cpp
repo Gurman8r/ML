@@ -42,7 +42,8 @@ namespace DEMO
 
 	void TestPlugin::onEnter(const ml::EnterEvent & ev)
 	{
-		ml::Debug::log("Hello from TestPlugin!");
+		// Hello!
+		ml::Debug::log("Hello from {0}!", GetTypeName());
 	}
 
 	void TestPlugin::onStart(const ml::StartEvent & ev)

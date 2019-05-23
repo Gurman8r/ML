@@ -103,10 +103,8 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
-		// GL Version
-		ml::Debug::log("OpenGL version supported by this platform: {0}",
-			ML_GL.getString(ml::GL::Version)
-		);
+		// Hello!
+		ml::Debug::log("Hello from {0}!", GetTypeName());
 	}
 
 	void Sandbox::onStart(const ml::StartEvent & ev)

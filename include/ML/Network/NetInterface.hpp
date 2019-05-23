@@ -1,7 +1,7 @@
 #ifndef _ML_NETWORK_INTERFACE_HPP_
 #define _ML_NETWORK_INTERFACE_HPP_
 
-#include <ML/Core/IEventListener.hpp>
+#include <ML/Core/EventListener.hpp>
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Network/GUID.hpp>
 #include <ML/Network/IpAddress.hpp>
@@ -31,7 +31,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetInterface
-		: public IEventListener
+		: public EventListener
 		, public IDisposable
 		, public INonCopyable
 	{

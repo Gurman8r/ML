@@ -26,7 +26,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::Window(EventSystem & eventSystem)
-		: IEventListener(eventSystem)
+		: EventListener(eventSystem)
 		, m_window		(NULL)
 		, m_monitor		(NULL)
 		, m_share		(NULL)

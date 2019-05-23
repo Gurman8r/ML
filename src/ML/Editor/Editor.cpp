@@ -17,7 +17,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(EventSystem & eventSystem)
-		: IEventListener(eventSystem)
+		: EventListener	(eventSystem)
 		, dockspace		(eventSystem, true)
 		, browser		(eventSystem, true)
 		, builder		(eventSystem, true)
@@ -29,14 +29,18 @@ namespace ml
 	{
 		eventSystem.addListener(EnterEvent::ID, this);
 		eventSystem.addListener(ExitEvent::ID, this);
+
 		eventSystem.addListener(BeginGuiEvent::ID, this);
 		eventSystem.addListener(GuiEvent::ID, this);
 		eventSystem.addListener(EndGuiEvent::ID, this);
+
 		eventSystem.addListener(KeyEvent::ID, this);
+
 		eventSystem.addListener(File_New_Event::ID, this);
 		eventSystem.addListener(File_Open_Event::ID, this);
 		eventSystem.addListener(File_Save_Event::ID, this);
 		eventSystem.addListener(File_Close_Event::ID, this);
+
 		eventSystem.addListener(Edit_Undo_Event::ID, this);
 		eventSystem.addListener(Edit_Redo_Event::ID, this);
 		eventSystem.addListener(Edit_Cut_Event::ID, this);
@@ -52,98 +56,11 @@ namespace ml
 	{
 		switch (*value)
 		{
-			// Enter Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case EnterEvent::ID:
-			if (auto ev = value->as<EnterEvent>())
-			{
-				// Initialize ImGui
-				IMGUI_CHECKVERSION();
-
-				// Create ImGui Context
-				ImGui::CreateContext();
-
-				// Load ImGui Style
-				StyleLoader loader;
-				if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
-				{
-					ImGui::StyleHelper::Style4();
-
-					String font = ev->prefs.GetString("Editor", "imguiFont", "");
-					float  size = ev->prefs.GetFloat("Editor", "imguiSize", 12.0f);
-
-					if (font && size > 0.0f)
-					{
-						ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
-					}
-				}
-
-				// Set ImGui INI
-				String imguiINI = ev->prefs.GetString("Editor", "imguiINI", "");
-				if(imguiINI) imguiINI = ML_FS.getPathTo(imguiINI);
-
-				// Start ImGui
-				if (!ImGui_ML_Init("#version 410", &ev->window, true, imguiINI.c_str()))
-				{
-					Debug::fatal("Failed Initializing ImGui");
-				}
-
-				// Capture Cout
-				if (!(m_coutBuf = cout.rdbuf(m_coutStr.rdbuf())))
-				{
-					Debug::fatal("Failed Capturing Cout");
-				}
-			}
-			break;
-
-			// Exit Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case ExitEvent::ID:
-			if (auto ev = value->as<ExitEvent>())
-			{
-				// Release Cout
-				if (m_coutBuf) { cout.rdbuf(m_coutBuf); }
-
-				// Shutdown ImGui
-				ImGui_ML_Shutdown();
-			}
-			break;
-
-
-			// Gui Events
-			/* * * * * * * * * * * * * * * * * * * * */
-		case BeginGuiEvent::ID:
-			ImGui_ML_NewFrame();
-			ImGui::NewFrame();
-			break;
-
-		case GuiEvent::ID:
-			this->onGui(*value->as<GuiEvent>());
-			break;
-
-		case EndGuiEvent::ID:
-			ImGui::Render();
-			ImGui_ML_Render(ImGui::GetDrawData());
-			break;
-
-
-			// File -> Close Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case File_Close_Event::ID:
-			if (auto ev = value->as<File_Close_Event>())
-			{
-				eventSystem().fireEvent(WindowKillEvent());
-			}
-			break;
-
-			// File -> Open Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case File_Open_Event::ID:
-			if (auto ev = value->as<File_Open_Event>())
-			{
-				OS::execute("open", this->browser.get_selected_path());
-			}
-			break;
+		case EnterEvent::ID:	return onEnter		(*value->as<EnterEvent>());
+		case ExitEvent::ID:		return onExit		(*value->as<ExitEvent>());
+		case BeginGuiEvent::ID: return onBeginGui	(*value->as<BeginGuiEvent>());
+		case GuiEvent::ID:		return onGui		(*value->as<GuiEvent>());
+		case EndGuiEvent::ID:	return onEndGui		(*value->as<EndGuiEvent>());
 
 			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -172,12 +89,74 @@ namespace ml
 			}
 			break;
 
+			// File -> Close Event
 			/* * * * * * * * * * * * * * * * * * * * */
+		case File_Close_Event::ID:
+			if (auto ev = value->as<File_Close_Event>())
+			{
+				eventSystem().fireEvent(WindowKillEvent());
+			}
+			break;
+
+			// File -> Open Event
+			/* * * * * * * * * * * * * * * * * * * * */
+		case File_Open_Event::ID:
+			if (auto ev = value->as<File_Open_Event>())
+			{
+				OS::execute("open", this->browser.get_selected_path());
+			}
+			break;
 		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	void Editor::onEnter(const EnterEvent & ev)
+	{
+		// Initialize ImGui
+		IMGUI_CHECKVERSION();
+
+		// Create ImGui Context
+		ImGui::CreateContext();
+
+		// Load ImGui Style
+		StyleLoader loader;
+		if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
+		{
+			ImGui::StyleHelper::Style4();
+
+			String font = ev.prefs.GetString("Editor", "imguiFont", "");
+			float  size = ev.prefs.GetFloat("Editor", "imguiSize", 12.0f);
+
+			if (font && size > 0.0f)
+			{
+				ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
+			}
+		}
+
+		// Set ImGui INI
+		String imguiINI = ev.prefs.GetString("Editor", "imguiINI", "");
+		if(imguiINI) imguiINI = ML_FS.getPathTo(imguiINI);
+
+		// Start ImGui
+		if (!ImGui_ML_Init("#version 410", &ev.window, true, imguiINI.c_str()))
+		{
+			Debug::fatal("Failed Initializing ImGui");
+		}
+
+		// Capture Cout
+		if (!(m_coutBuf = cout.rdbuf(m_coutStr.rdbuf())))
+		{
+			Debug::fatal("Failed Capturing Cout");
+		}
+	}
+	
+	void Editor::onBeginGui(const BeginGuiEvent & ev)
+	{
+		ImGui_ML_NewFrame();
+		ImGui::NewFrame();
+	}
+	
 	void Editor::onGui(const GuiEvent & ev)
 	{
 		// ImGui Demo
@@ -322,6 +301,21 @@ namespace ml
 		// Builder
 		/* * * * * * * * * * * * * * * * * * * * */
 		this->builder.onGui(ev);
+	}
+	
+	void Editor::onEndGui(const EndGuiEvent & ev)
+	{
+		ImGui::Render();
+		ImGui_ML_Render(ImGui::GetDrawData());
+	}
+	
+	void Editor::onExit(const ExitEvent & ev)
+	{
+		// Release Cout
+		if (m_coutBuf) { cout.rdbuf(m_coutBuf); }
+
+		// Shutdown ImGui
+		ImGui_ML_Shutdown();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

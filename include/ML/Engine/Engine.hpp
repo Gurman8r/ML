@@ -3,16 +3,17 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/ITrackable.hpp>
-#include <ML/Core/IEventListener.hpp>
+#include <ML/Core/EventListener.hpp>
+#include <ML/Engine/EngineEvents.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Engine final
 		: public ITrackable
 		, public INonCopyable
-		, public IEventListener
+		, public EventListener
 	{
 	public:
 		explicit Engine(EventSystem & eventSystem);
@@ -20,6 +21,19 @@ namespace ml
 
 	public:
 		void onEvent(const Event * value) override;
+
+	private:
+		void onEnter		(const EnterEvent & ev);
+		void onLoad			(const LoadEvent & ev);
+		void onStart		(const StartEvent & ev);
+		void onBeginFrame	(const BeginFrameEvent & ev);
+		void onUpdate		(const UpdateEvent & ev);
+		void onBeginDraw	(const BeginDrawEvent & ev);
+		void onDraw			(const DrawEvent & ev);
+		void onEndDraw		(const EndDrawEvent & ev);
+		void onEndFrame		(const EndFrameEvent & ev);
+		void onUnload		(const UnloadEvent & ev);
+		void onExit			(const ExitEvent & ev);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

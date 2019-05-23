@@ -3,7 +3,7 @@
 
 #include <ML/Engine/PluginAPI.hpp>
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Core/IEventListener.hpp>
+#include <ML/Core/EventListener.hpp>
 
 namespace ml
 {
@@ -16,7 +16,7 @@ namespace ml
 	class ML_ENGINE_API Plugin
 		: public ITrackable
 		, public INonCopyable
-		, public IEventListener
+		, public EventListener
 	{
 	public:
 		explicit Plugin(EventSystem & eventSystem);

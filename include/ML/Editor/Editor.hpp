@@ -10,6 +10,7 @@
 #include <ML/Editor/Inspector.hpp>
 #include <ML/Editor/Project.hpp>
 #include <ML/Editor/Profiler.hpp>
+#include <ML/Engine/EngineEvents.hpp>
 
 namespace ml
 {
@@ -17,7 +18,7 @@ namespace ml
 
 	class ML_EDITOR_API Editor final
 		: public ITrackable
-		, public IEventListener
+		, public EventListener
 		, public INonCopyable
 	{
 	public:
@@ -28,7 +29,11 @@ namespace ml
 		void onEvent(const Event * value) override;
 
 	private:
-		void onGui(const GuiEvent & ev);
+		void onEnter	(const EnterEvent & ev);
+		void onBeginGui	(const BeginGuiEvent & ev);
+		void onGui		(const GuiEvent & ev);
+		void onEndGui	(const EndGuiEvent & ev);
+		void onExit		(const ExitEvent & ev);
 
 	public:
 		Dockspace	dockspace;

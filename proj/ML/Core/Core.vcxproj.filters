@@ -58,6 +58,12 @@
     <Filter Include="Source Files\Maths">
       <UniqueIdentifier>{6ba3efe4-cf47-4c0b-b78f-a7e1d548c677}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Event System">
+      <UniqueIdentifier>{209001b0-6a4e-4b39-81cf-f906afa8a39a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event System">
+      <UniqueIdentifier>{8ef4c1e8-43ad-4952-af2f-70888a3f8726}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
@@ -76,9 +82,6 @@
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\IEnumerable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IEventListener.hpp">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\IHandle.hpp">
@@ -204,15 +207,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Detection.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -225,10 +219,34 @@
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
+    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
+    <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
+      <Filter>Header Files\Event System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp">
+      <Filter>Header Files\Event System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp">
+      <Filter>Header Files\Event System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\IMetadatable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
+      <Filter>Header Files\Containters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
@@ -263,9 +281,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
@@ -283,6 +298,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Maths.cpp">
       <Filter>Source Files\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp">
+      <Filter>Source Files\Event System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp">
+      <Filter>Source Files\Event System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\Metadata.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

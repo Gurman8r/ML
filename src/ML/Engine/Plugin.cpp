@@ -6,7 +6,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Plugin::Plugin(EventSystem & eventSystem)
-		: IEventListener(eventSystem)
+		: EventListener(eventSystem)
 	{
 		eventSystem.addListener(EnterEvent::ID, this);
 		eventSystem.addListener(StartEvent::ID, this);

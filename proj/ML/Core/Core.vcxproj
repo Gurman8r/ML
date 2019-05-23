@@ -169,7 +169,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Console.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Detection.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Dispatcher.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp" />
@@ -178,12 +177,14 @@
     <ClInclude Include="..\..\..\include\ML\Core\FileSystem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Function.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IComparable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IDisposable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IEnumerable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IEventListener.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IHandle.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\IMetadatable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\INonCopyable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IRequest.hpp" />
@@ -199,6 +200,8 @@
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OStream.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
@@ -219,17 +222,21 @@
     <ClInclude Include="..\..\..\include\ML\Core\Vector3.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector4.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Worker.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Console.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Dispatcher.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\File.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Maths.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\Metadata.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Random.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />

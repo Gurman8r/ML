@@ -121,7 +121,7 @@ namespace ml
 	public:
 		inline void serialize(std::ostream & out) const override
 		{
-			out << m_values;
+			for (auto e : m_values) out << e;
 		}
 
 		bool equals(const Args & value) const override;

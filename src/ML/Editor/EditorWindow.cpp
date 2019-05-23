@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	EditorWindow::EditorWindow(EventSystem & eventSystem, CString title, bool startOpen)
-		: IEventListener(eventSystem)
+		: EventListener(eventSystem)
 		, m_title		(title)
 		, m_open		(startOpen)
 		, m_good		(false)

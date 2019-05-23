@@ -63,11 +63,13 @@ namespace ml
 
 #ifdef ML_x64
 	using size_t		= typename uint64_t;
+	using hash_t		= typename uint64_t;
 	using ptrdiff_t		= typename int64_t;
 	using intptr_t		= typename int64_t;
 	using intmax_t		= typename int64_t;
 #else
 	using size_t		= typename uint32_t;
+	using hash_t		= typename uint32_t;
 	using ptrdiff_t		= typename int32_t;
 	using intptr_t		= typename int32_t;
 	using intmax_t		= typename int32_t;

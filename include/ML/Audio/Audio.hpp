@@ -3,7 +3,7 @@
 
 #include <ML/Audio/Export.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Core/IEventListener.hpp>
+#include <ML/Core/EventListener.hpp>
 
 namespace ml
 {
@@ -16,7 +16,7 @@ namespace ml
 	class ML_AUDIO_API Audio final
 		: public ITrackable
 		, public INonCopyable
-		, public IEventListener
+		, public EventListener
 	{
 	public:
 		explicit Audio(EventSystem & eventSystem);

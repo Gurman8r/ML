@@ -2,6 +2,7 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/StateMachine.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -9,7 +10,6 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
-#include <ML/Core/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -34,22 +34,27 @@ static Editor		g_Editor		{ g_EventSystem };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-enum State { Enter, Loop, Exit };
+enum State { Startup, Loop, Shutdown };
 
-static StateMachine<State> g_ControlFlow =
+static StateMachine<State> g_ControlFlow
 {
-{ State::Enter, []()
+{ State::Startup, []()
 {	/* Enter */
+	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(EnterEvent(
 		g_Preferences,
 		g_Window
 	));
-	/* Load Content */
+
+	/* Load */
+	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(LoadEvent(
 		g_Preferences,
 		g_Resources
 	));
+
 	/* Start */
+	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(StartEvent(
 		g_Time,
 		g_Resources,
@@ -58,14 +63,17 @@ static StateMachine<State> g_ControlFlow =
 	return g_ControlFlow(State::Loop);
 } },
 { State::Loop, []()
-{	/* Loop */
-	while (g_Window.isOpen())
+{	while (g_Window.isOpen())
 	{
 		/* Begin Frame */
-		g_Time.beginLoop();
-		g_Window.pollEvents();
+		/* * * * * * * * * * * * * * * * * * * * */
+		g_EventSystem.fireEvent(BeginFrameEvent(
+			g_Time, 
+			g_Window
+		));
 
 		/* Update */
+		/* * * * * * * * * * * * * * * * * * * * */
 		g_EventSystem.fireEvent(UpdateEvent(
 			g_Time,
 			g_Resources,
@@ -73,13 +81,17 @@ static StateMachine<State> g_ControlFlow =
 		));
 
 		/* Draw */
+		/* * * * * * * * * * * * * * * * * * * * */
+		g_EventSystem.fireEvent(BeginDrawEvent());
 		g_EventSystem.fireEvent(DrawEvent(
 			g_Time,
 			g_Resources,
 			g_Window
 		));
+		g_EventSystem.fireEvent(EndDrawEvent());
 
 		/* Gui */
+		/* * * * * * * * * * * * * * * * * * * * */
 		g_EventSystem.fireEvent(BeginGuiEvent());
 		g_EventSystem.fireEvent(GuiEvent(
 			g_Time,
@@ -89,17 +101,25 @@ static StateMachine<State> g_ControlFlow =
 		g_EventSystem.fireEvent(EndGuiEvent());
 
 		/* End Frame */
-		g_Window.swapBuffers();
-		g_Time.endLoop();
+		/* * * * * * * * * * * * * * * * * * * * */
+		g_EventSystem.fireEvent(EndFrameEvent(
+			g_Time, 
+			g_Window
+		));
 	}
-	return g_ControlFlow(State::Exit);
+	return g_ControlFlow(State::Shutdown);
 } },
-{ State::Exit, []()
-{	/* Exit */
-	g_EventSystem.fireEvent(ExitEvent(
+{ State::Shutdown, []()
+{	/* Unload */
+	/* * * * * * * * * * * * * * * * * * * * */
+	g_EventSystem.fireEvent(UnloadEvent(
 		g_Resources,
 		g_Window
 	));
+
+	/* Exit */
+	/* * * * * * * * * * * * * * * * * * * * */
+	g_EventSystem.fireEvent(ExitEvent());
 	return g_ControlFlow.NoState;
 } },
 };
@@ -108,25 +128,27 @@ static StateMachine<State> g_ControlFlow =
 
 int32_t main()
 {
-	// Load Plugins
+	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
 		"Launcher",
 		"plugin_list",
 		"../../../assets/data/plugins.txt"
 	))))
-	{
+	{	
 		String line;
 		while (std::getline(file, line))
 		{
-			if (!line || (line.trim().front() == '#'))
+			if (line.empty() || (line.trim().front() == '#'))
 				continue;
 			
+			// Load Library
 			auto library = new SharedLibrary(ML_FS.getPathTo(line
 				.replaceAll("$(Configuration)", ML_CONFIGURATION)
 				.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
 			));
 
+			// Load Plugin
 			auto plugin = plugins.insert({
 				library,
 				library->callFunction<Plugin *>(ML_str(ML_Plugin_Main), g_EventSystem)
@@ -135,10 +157,10 @@ int32_t main()
 		file.close();
 	}
 
-	// Run Controller
-	g_ControlFlow(State::Enter);
+	// Run
+	g_ControlFlow(State::Startup);
 
-	// Cleanup Plugins
+	// Cleanup
 	for (auto & pair : plugins)
 	{
 		if (pair.second) { delete pair.second; }

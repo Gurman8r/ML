@@ -7,7 +7,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Audio::Audio(EventSystem & eventSystem)
-		: IEventListener(eventSystem)
+		: EventListener(eventSystem)
 	{
 		ML_AL.init(eventSystem);
 	}

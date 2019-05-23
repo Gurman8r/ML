@@ -13,14 +13,14 @@ namespace ml
 		class _Alloc = std::allocator<_Elem>
 	> class List
 		: public std::vector<_Elem, _Alloc>
-		, public ISerializable
+		//, public ISerializable
 		, public IComparable<std::vector<_Elem, _Alloc>>
 		, public IComparable<List<_Elem, _Alloc>>
 	{
-		static_assert(
-			detail::has_left_shift<std::ostream &, _Elem>::value, 
-			"List elements require \'operator<<(std::ostream&)\'"
-		);
+		//static_assert(
+		//	detail::has_left_shift<std::ostream &, _Elem>::value, 
+		//	"List elements require \'operator<<(std::ostream&)\'"
+		//);
 
 	public: // Usings
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -77,25 +77,6 @@ namespace ml
 		}
 		
 		virtual ~List() {}
-
-		
-	public: // Overrides
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline virtual void serialize(std::ostream & out) const override
-		{
-			for (auto it = this->begin(); it != this->end(); it++)
-			{
-				out << (*it) << ' ';
-			}
-		}
-		
-		inline virtual void deserialize(std::istream & in) override
-		{
-			for (size_t i = 0; in.good(); i++)
-			{
-				// TODO...
-			}
-		}
 
 
 	public: // Operators

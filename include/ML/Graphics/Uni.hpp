@@ -44,8 +44,6 @@ namespace ml
 
 		uni_base(const String & name, id_type type) : name(name), type(type) {}
 
-		virtual ~uni_base() {}
-
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		inline friend bool operator==(const uni_base & a, const uni_base & b)
@@ -88,8 +86,6 @@ namespace ml
 
 		uni_t(const String & name, value_type data) : base_type(name, ID), data(data) {}
 		
-		virtual ~uni_t() {}
-
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		inline friend bool operator==(const self_type & a, const self_type & b)

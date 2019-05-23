@@ -3,7 +3,7 @@
 
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/ITrackable.hpp>
-#include <ML/Core/IEventListener.hpp>
+#include <ML/Core/EventListener.hpp>
 
 namespace ml
 {
@@ -12,7 +12,7 @@ namespace ml
 	class ML_EDITOR_API EditorWindow
 		: public ITrackable
 		, public INonCopyable
-		, public IEventListener
+		, public EventListener
 	{
 	protected:
 		explicit EditorWindow(EventSystem & eventSystem, CString title, bool open);

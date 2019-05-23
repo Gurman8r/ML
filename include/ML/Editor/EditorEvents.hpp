@@ -88,6 +88,8 @@ namespace ml
 		File_Close_Event() {}
 	};
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_EDITOR_API Edit_Undo_Event final : public IEvent<EditorEvent::EV_Edit_Undo>
 	{
 		Edit_Undo_Event() {}

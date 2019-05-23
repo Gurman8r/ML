@@ -1,7 +1,7 @@
 #ifndef _ML_WINDOW_HPP_
 #define _ML_WINDOW_HPP_
 
-#include <ML/Core/IEventListener.hpp>
+#include <ML/Core/EventListener.hpp>
 #include <ML/Core/INonCopyable.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
@@ -20,7 +20,7 @@ namespace ml
 	class ML_WINDOW_API Window
 		: public ITrackable
 		, public INonCopyable
-		, public IEventListener
+		, public EventListener
 	{
 	public: // Callback Types
 		/* * * * * * * * * * * * * * * * * * * * */

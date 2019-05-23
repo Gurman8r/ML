@@ -1,14 +1,14 @@
 #ifndef _ML_EVENT_SYSTEM_HPP_
 #define _ML_EVENT_SYSTEM_HPP_
 
-#include <ML/Core/IEventListener.hpp>
+#include <ML/Core/EventListener.hpp>
 #include <ML/Core/ITrackable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct Event;
+	class Event;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -17,24 +17,24 @@ namespace ml
 		, public INonCopyable
 	{
 	public:
-		using multimap_type = typename MultiMap<int32_t, IEventListener *>;
-		using iterator = typename multimap_type::iterator;
+		using map_type = typename MultiMap<int32_t, EventListener *>;
+		using iterator = typename map_type::iterator;
 
 	public:
 		EventSystem();
 		~EventSystem();
 
 	public:
-		void addListener(const int32_t type, IEventListener * listener);
-		void fireEvent(const Event & ev);
+		EventListener * addListener(const int32_t type, EventListener * listener);
+		bool fireEvent(const Event & ev);
 
 	public:
-		void removeListener(const int32_t & type, IEventListener * listener);
-		void removeListenerFromAllEvents(IEventListener * listener);
+		bool removeListener(const int32_t & type, EventListener * listener);
+		bool removeListenerFromAllEvents(EventListener * listener);
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		multimap_type m_listeners;
+		map_type m_listeners;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -2,15 +2,17 @@
 #define _ML_I_EVENT_HPP_
 
 #include <ML/Core/ITrackable.hpp>
+#include <ML/Core/Preprocessor.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API Event
-		: public ITrackable
-		, public INonCopyable
+	class ML_CORE_API Event : public ITrackable, public INonCopyable
 	{
+		const int32_t m_id;
+
+	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		enum : int32_t
@@ -31,31 +33,27 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		virtual ~Event() {}
+		Event(const int32_t id) : m_id(id) {}
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		virtual int32_t getEventID() const = 0;
-
-		inline operator int32_t() const 
+		inline operator int32_t() const
 		{
-			return getEventID();
+			return m_id;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline const T * as() const
+		template <class Derived> 
+		inline const Derived * as() const
 		{
-			return dynamic_cast<const T *>(this);
+			ML_assert_is_base_of(Event, Derived);
+			return dynamic_cast<const Derived *>(this);
 		}
 
-		template <
-			class T
-		> inline T * as()
+		template <class Derived>
+		inline Derived * as()
 		{
-			return dynamic_cast<T *>(this);
+			ML_assert_is_base_of(Event, Derived);
+			return dynamic_cast<Derived *>(this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -66,18 +64,9 @@ namespace ml
 	template <int32_t _ID>
 	struct IEvent : public Event
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		enum { ID = _ID };
 
-		virtual ~IEvent() {}
-
-		inline int32_t getEventID() const override
-		{
-			return _ID;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
+		IEvent() : Event(_ID) {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

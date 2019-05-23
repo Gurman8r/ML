@@ -25,14 +25,20 @@ namespace ml
 			EV_Enter,
 			EV_Load,
 			EV_Start,
+			EV_BeginFrame,
 			EV_Update,
+			EV_BeginDraw,
 			EV_Draw,
+			EV_EndDraw,
+			EV_EndFrame,
+			EV_Unload,
 			EV_Exit,
 
 			MAX_ENGINE_EVENT
 		};
 	};
 
+	// Startup
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API EnterEvent final : public IEvent<EngineEvent::EV_Enter>
@@ -70,6 +76,22 @@ namespace ml
 		}
 	};
 
+	// Loop
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_ENGINE_API BeginFrameEvent final : public IEvent<EngineEvent::EV_BeginFrame>
+	{
+		GameTime		& time;
+		RenderWindow	& window;
+		BeginFrameEvent(GameTime & time, RenderWindow & window)
+			: time(time)
+			, window(window)
+		{
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_ENGINE_API UpdateEvent final : public IEvent<EngineEvent::EV_Update>
 	{
 		const GameTime	& time;
@@ -81,6 +103,13 @@ namespace ml
 			, window	(window)
 		{
 		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_ENGINE_API BeginDrawEvent final : public IEvent<EngineEvent::EV_BeginDraw>
+	{
+		BeginDrawEvent() {}
 	};
 
 	struct ML_ENGINE_API DrawEvent final : public IEvent<EngineEvent::EV_Draw>
@@ -96,15 +125,41 @@ namespace ml
 		}
 	};
 
-	struct ML_ENGINE_API ExitEvent final : public IEvent<EngineEvent::EV_Exit>
+	struct ML_ENGINE_API EndDrawEvent final : public IEvent<EngineEvent::EV_EndDraw>
+	{
+		EndDrawEvent() {}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_ENGINE_API EndFrameEvent final : public IEvent<EngineEvent::EV_EndFrame>
+	{
+		GameTime		& time;
+		RenderWindow	& window;
+		EndFrameEvent(GameTime & time, RenderWindow & window)
+			: time(time)
+			, window(window)
+		{
+		}
+	};
+
+	// Shutdown
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_ENGINE_API UnloadEvent final : public IEvent<EngineEvent::EV_Unload>
 	{
 		Resources		& resources;
 		RenderWindow	& window;
-		ExitEvent(Resources	& resources, RenderWindow & window)
-			: resources	(resources)
-			, window	(window)
+		UnloadEvent(Resources & resources, RenderWindow & window)
+			: resources(resources)
+			, window(window)
 		{
 		}
+	};
+
+	struct ML_ENGINE_API ExitEvent final : public IEvent<EngineEvent::EV_Exit>
+	{
+		ExitEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

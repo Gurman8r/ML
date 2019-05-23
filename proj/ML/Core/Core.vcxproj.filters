@@ -225,9 +225,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -289,9 +286,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Maths.cpp">
       <Filter>Source Files\Maths</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Preferences.cpp">
       <Filter>Source Files\Utility</Filter>

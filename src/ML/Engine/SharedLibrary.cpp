@@ -1,4 +1,4 @@
-#include <ML/Core/SharedLibrary.hpp>
+#include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Core/Debug.hpp>
 
 # ifdef ML_SYSTEM_WINDOWS
@@ -51,9 +51,7 @@ namespace ml
 
 	bool SharedLibrary::loadFromFile(const String & filename)
 	{
-		return (m_filename = filename)
-			? (m_instance = ML_LOAD_LIBRARY(m_filename.c_str()))
-			: false;
+		return (m_filename = filename) && (m_instance = ML_LOAD_LIBRARY(m_filename.c_str()));
 	}
 
 	void * SharedLibrary::loadFunction(const String & name)

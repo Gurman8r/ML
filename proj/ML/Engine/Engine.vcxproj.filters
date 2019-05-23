@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{d18a9d2d-1c6b-454a-b0bf-5542f511f16b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Plugins">
+      <UniqueIdentifier>{edda40c3-8f0e-4619-abad-eb0744c995b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Plugins">
+      <UniqueIdentifier>{a786ee5b-3469-47f2-8c8b-5f90b5122cb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp">
@@ -91,7 +97,13 @@
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp">
+      <Filter>Header Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp">
+      <Filter>Header Files\Plugins</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +147,10 @@
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp">
+      <Filter>Source Files\Plugins</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

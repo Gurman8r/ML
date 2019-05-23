@@ -1,6 +1,7 @@
 #ifndef _ML_PLUGIN_HPP_
 #define _ML_PLUGIN_HPP_
 
+#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/IEventListener.hpp>
 

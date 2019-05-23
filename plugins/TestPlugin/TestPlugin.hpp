@@ -22,14 +22,14 @@
 
 extern "C"
 {
-	ML_API_EXPORT ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
+	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 namespace DEMO
 {
-	class ML_API_EXPORT TestPlugin final : public ml::EditorPlugin
+	class ML_PLUGIN_API TestPlugin final : public ml::EditorPlugin
 	{
 	public:
 		explicit TestPlugin(ml::EventSystem & eventSystem);

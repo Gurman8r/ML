@@ -25,7 +25,7 @@
 
 extern "C"
 {
-	ML_API_EXPORT ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
+	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -34,7 +34,7 @@ namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_API_EXPORT Sandbox final : public ml::EditorPlugin
+	class ML_PLUGIN_API Sandbox final : public ml::EditorPlugin
 	{
 	public:
 		Sandbox(ml::EventSystem & eventSystem);

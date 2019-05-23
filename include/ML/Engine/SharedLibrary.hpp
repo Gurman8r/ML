@@ -1,6 +1,7 @@
 #ifndef _ML_SHARED_LIBRARY_HPP_
 #define _ML_SHARED_LIBRARY_HPP_
 
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/ITrackable.hpp>
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IDisposable.hpp>
@@ -9,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API SharedLibrary final
+	class ML_ENGINE_API SharedLibrary final
 		: public ITrackable
 		, public IDisposable
 		, public IReadable
@@ -32,7 +33,7 @@ namespace ml
 
 	public:
 		template <class Out, class ... Args> 
-		inline Out callFun(const String & name, Args && ... args)
+		inline Out callFunction(const String & name, Args && ... args)
 		{
 			using Fun = Out(*)(Args...);
 			Fun fun;

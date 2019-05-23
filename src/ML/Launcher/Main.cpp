@@ -8,7 +8,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Core/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Core/SharedLibrary.hpp>
+#include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Core/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
@@ -20,42 +20,46 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+using namespace ml;
+
+/* * * * * * * * * * * * * * * * * * * * */
+
 int32_t main()
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static ml::Preferences	g_Preferences	{ ML_CONFIG_INI };
-	static ml::EventSystem	g_EventSystem	{};
-	static ml::Resources	g_Resources		{};
-	static ml::GameTime		g_Time			{};
-	static ml::RenderWindow g_Window		{ g_EventSystem };
-	static ml::Engine		g_Engine		{ g_EventSystem };
-	static ml::Editor		g_Editor		{ g_EventSystem };
+	static Preferences	g_Preferences	{ ML_CONFIG_INI };
+	static EventSystem	g_EventSystem	{};
+	static Resources	g_Resources		{};
+	static GameTime		g_Time			{};
+	static RenderWindow g_Window		{ g_EventSystem };
+	static Engine		g_Engine		{ g_EventSystem };
+	static Editor		g_Editor		{ g_EventSystem };
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum State { Enter, Loop, Exit };
 
-	static ml::StateMachine<State> g_Control =
+	static StateMachine<State> g_ControlFlow =
 	{
 	{ State::Enter, []()
 	{	/* Enter */
-		g_EventSystem.fireEvent(ml::EnterEvent(
+		g_EventSystem.fireEvent(EnterEvent(
 			g_Preferences,
 			g_Window
 		));
 		/* Load Content */
-		g_EventSystem.fireEvent(ml::LoadEvent(
+		g_EventSystem.fireEvent(LoadEvent(
 			g_Preferences,
 			g_Resources
 		));
 		/* Start */
-		g_EventSystem.fireEvent(ml::StartEvent(
+		g_EventSystem.fireEvent(StartEvent(
 			g_Time,
 			g_Resources,
 			g_Window
 		));
-		return g_Control(State::Loop);
+		return g_ControlFlow(State::Loop);
 	} },
 	{ State::Loop, []()
 	{	/* Loop */
@@ -66,78 +70,74 @@ int32_t main()
 			g_Window.pollEvents();
 
 			/* Update */
-			g_EventSystem.fireEvent(ml::UpdateEvent(
+			g_EventSystem.fireEvent(UpdateEvent(
 				g_Time,
 				g_Resources,
 				g_Window
 			));
 
 			/* Draw */
-			g_EventSystem.fireEvent(ml::DrawEvent(
+			g_EventSystem.fireEvent(DrawEvent(
 				g_Time,
 				g_Resources,
 				g_Window
 			));
 
 			/* Gui */
-			g_EventSystem.fireEvent(ml::BeginGuiEvent());
-			g_EventSystem.fireEvent(ml::GuiEvent(
+			g_EventSystem.fireEvent(BeginGuiEvent());
+			g_EventSystem.fireEvent(GuiEvent(
 				g_Time,
 				g_Resources,
 				g_Editor
 			));
-			g_EventSystem.fireEvent(ml::EndGuiEvent());
+			g_EventSystem.fireEvent(EndGuiEvent());
 
 			/* End Frame */
 			g_Window.swapBuffers();
 			g_Time.endLoop();
 		}
-		return g_Control(State::Exit);
+		return g_ControlFlow(State::Exit);
 	} },
 	{ State::Exit, []()
 	{	/* Exit */
-		g_EventSystem.fireEvent(ml::ExitEvent(
+		g_EventSystem.fireEvent(ExitEvent(
 			g_Resources,
 			g_Window
 		));
-		return g_Control.NoState;
+		return g_ControlFlow.NoState;
 	} },
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Load Plugins
-	static ml::Map<ml::SharedLibrary *, ml::Plugin *> g_Plugins;
+	static Map<SharedLibrary *, Plugin *> g_Plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
 		"Engine",
 		"plugin_list",
 		"../../../assets/data/plugins.txt"
 	))))
 	{
-		ml::String line;
+		String line;
 		while (std::getline(file, line))
 		{
-			if (line && (line.trim().front() != '#'))
-			{
-				auto lib = new ml::SharedLibrary(ML_FS.getPathTo(line
-					.replaceAll("$(Configuration)", ML_CONFIGURATION)
-					.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
-				));
-				g_Plugins.insert({ 
-					lib, 
-					lib->callFun<ml::Plugin *>("ML_Plugin_Main", g_EventSystem) 
-				});
-			}
+			auto library = new SharedLibrary(ML_FS.getPathTo(line
+				.replaceAll("$(Configuration)", ML_CONFIGURATION)
+				.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
+			));
+
+			g_Plugins.insert({
+				library,
+				library->callFunction<Plugin *>(ML_str(ML_Plugin_Main), g_EventSystem)
+			});
 		}
 		file.close();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	// Run Flow Controller
+	g_ControlFlow(State::Enter);
 
-	// Run Controller
-	g_Control(State::Enter);
-
-	// Cleanup
+	// Cleanup Plugins
 	for (auto & pair : g_Plugins)
 	{
 		if (pair.second) { delete pair.second; }

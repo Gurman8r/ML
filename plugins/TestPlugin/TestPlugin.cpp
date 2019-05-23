@@ -12,7 +12,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-ML_API_EXPORT ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
+ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
 	return new DEMO::TestPlugin(eventSystem);
 }

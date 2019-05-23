@@ -11,7 +11,7 @@
 #include <ML/Editor/GUI.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Core/SharedLibrary.hpp>
+#include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Camera.hpp>

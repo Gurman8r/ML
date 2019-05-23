@@ -22,6 +22,10 @@
 #	define ML_CPP
 # endif
 
+# if defined(__cpp_variable_templates)
+#	define ML_VARIABLE_TEMPLATES
+# endif
+
 
 //	Configuration (Debug/Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -59,14 +63,14 @@
 #	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)	
 #		define ML_SYSTEM_FREEBSD
 #	else
-#		error This UNIX operating system does not support memes.
+#		error This unix operating system does not support memes.
 #	endif
 # else
 #	error This operating system does not support memes.
 # endif
 
 
-//	Architecture / Platform Target (x86/x64)
+//	Architecture / Platform Target
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_WIN64		)\
   || defined(WIN64		)\
@@ -84,20 +88,33 @@
 # endif
 
 
+//	Compiler
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+# if defined(_MSC_VER)
+#	define ML_CC_MS		_MSC_VER	// Microsoft Compiler
+# elif defined(__clang__)
+#	define ML_CC_CLANG	__clang__	// Clang Compiler
+# elif defined(__GNUC__)
+#	define ML_CC_GNU	__GNUC__	// GNU Compiler
+#else
+#	error This compiler does not support memes.
+# endif
+
+
 //	Export / Import
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # ifndef ML_STATIC
 #	ifdef ML_SYSTEM_WINDOWS
 #		define ML_API_EXPORT __declspec(dllexport)
 #		define ML_API_IMPORT __declspec(dllimport)
-#		ifdef _MSC_VER
+#		ifdef ML_CC_MS
 #			pragma warning(disable: 4031)
 #			pragma warning(disable: 4099)
 #			pragma warning(disable: 4251)
 #			pragma warning(disable: 4723)
 #		endif
 #	else
-#		if __GNUC__ >= 4
+#		if ML_CC_GNU >= 4
 #			define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
 #			define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
 #		else
@@ -110,11 +127,5 @@
 #	define ML_API_IMPORT
 # endif
 
-/* * * * * * * * * * * * * * * * * * * * */
-
-#define ML_DLL_STR(name) name "_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".dll"
-#define ML_LIB_STR(name) name "_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib"
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_CONFIG_HPP_

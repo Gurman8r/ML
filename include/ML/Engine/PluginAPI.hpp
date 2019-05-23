@@ -3,8 +3,10 @@
 
 #include <ML/Core/Config.hpp>
 
-#define ML_PLUGIN_API ML_API_EXPORT
+#define ML_PLUGIN_API	ML_API_EXPORT
+#define ML_Plugin_Main	ML_Plugin_Main
 
-#define ML_Plugin_Main ML_Plugin_Main
+#define ML_DLL_STR(name) name "_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".dll"
+#define ML_LIB_STR(name) name "_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib"
 
 #endif // !_ML_PLUGIN_API_HPP_

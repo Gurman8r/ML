@@ -64,6 +64,9 @@
     <Filter Include="Source Files\Event System">
       <UniqueIdentifier>{8ef4c1e8-43ad-4952-af2f-70888a3f8726}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Detail">
+      <UniqueIdentifier>{152340f3-1c16-4067-adfd-47e104ac14e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
@@ -153,9 +156,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Lock.hpp">
       <Filter>Header Files\Multicore</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Function.hpp">
-      <Filter>Header Files\Multicore</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Dispatcher.hpp">
       <Filter>Header Files\Multicore</Filter>
     </ClInclude>
@@ -210,9 +210,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Iterator.hpp">
-      <Filter>Header Files\Containters</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -243,11 +240,17 @@
     <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
       <Filter>Header Files\Containters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
+      <Filter>Header Files\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp">
+      <Filter>Header Files\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Check.hpp">
+      <Filter>Header Files\Detail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

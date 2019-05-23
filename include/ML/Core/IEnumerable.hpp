@@ -1,7 +1,9 @@
 #ifndef _ML_I_ENUMERABLE_HPP_
 #define _ML_I_ENUMERABLE_HPP_
 
-#include <ML/Core/Iterator.hpp>
+#include <ML/Core/Export.hpp>
+#include <ML/Core/StandardLib.hpp>
+#include <ML/Core/IComparable.hpp>
 
 namespace ml
 {

@@ -3,6 +3,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/StateMachine.hpp>
+#include <ML/Core/TypeID.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -123,6 +124,10 @@ static StateMachine<State> g_ControlFlow
 	return g_ControlFlow.NoState;
 } },
 };
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+constexpr XString hello { "Hello!" };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

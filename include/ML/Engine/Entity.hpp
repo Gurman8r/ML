@@ -7,12 +7,11 @@
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IWritable.hpp>
 #include <ML/Core/Preprocessor.hpp>
-
-/* * * * * * * * * * * * * * * * * * * * */
+#include <ML/Core/TypeID.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Entity final
 		: public ITrackable
@@ -24,7 +23,7 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		using value_type	= typename ITrackable *;
-		using map_type		= typename HashMap<size_t, value_type>;
+		using map_type		= typename HashMap<hash_t, value_type>;
 		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;
 
@@ -46,14 +45,14 @@ namespace ml
 		inline iterator find()
 		{
 			ML_assert_is_base_of(ITrackable, Component);
-			return (iterator)(m_map.find(ML_TYPEOF(Component)));
+			return (iterator)(m_map.find(type_id<Component>().hash()));
 		}
 
 		template <class Component>
 		inline const_iterator find() const
 		{
 			ML_assert_is_base_of(ITrackable, Component);
-			return (const_iterator)(m_map.find(ML_TYPEOF(Component)));
+			return (const_iterator)(m_map.find(type_id<Component>().hash()));
 		}
 
 		// Add Component
@@ -64,7 +63,7 @@ namespace ml
 			ML_assert_is_base_of(ITrackable, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({ 
-						ML_TYPEOF(Component), 
+						type_id<Component>().hash(), 
 						new Component() 
 					}).first->second))
 				: (NULL)
@@ -77,7 +76,7 @@ namespace ml
 			ML_assert_is_base_of(ITrackable, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({
-						ML_TYPEOF(Component),
+						type_id<Component>().hash(),
 						value
 					}).first->second))
 				: (NULL)
@@ -131,7 +130,7 @@ namespace ml
 		map_type m_map;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ENTITY_HPP_

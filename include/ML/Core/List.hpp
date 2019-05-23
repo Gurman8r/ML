@@ -2,7 +2,6 @@
 #define _ML_LIST_HPP_
 
 #include <ML/Core/ISerializable.hpp>
-#include <ML/Core/Detail.hpp>
 
 namespace ml
 {
@@ -13,15 +12,9 @@ namespace ml
 		class _Alloc = std::allocator<_Elem>
 	> class List
 		: public std::vector<_Elem, _Alloc>
-		//, public ISerializable
 		, public IComparable<std::vector<_Elem, _Alloc>>
 		, public IComparable<List<_Elem, _Alloc>>
 	{
-		//static_assert(
-		//	detail::has_left_shift<std::ostream &, _Elem>::value, 
-		//	"List elements require \'operator<<(std::ostream&)\'"
-		//);
-
 	public: // Usings
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		using value_type			= typename _Elem;

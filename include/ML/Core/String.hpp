@@ -168,9 +168,7 @@ namespace ml
 				}
 #pragma warning(pop)
 				this->_Copy_alloc(other._Getal());
-
 				auto & otherData = other._Get_data();
-
 				this->assign(otherData._Myptr(), otherData._Mysize);
 			}
 			return (*this);
@@ -182,12 +180,11 @@ namespace ml
 			if (this != _STD addressof(other))
 			{
 				this->_Tidy_deallocate();
-				
 				this->_Move_alloc(other._Getal());
-				
 				this->_Assign_rv_contents(
 					_STD move(other),
-					bool_constant<_Always_equal_after_move<_Alty>>{});
+					bool_constant<_Always_equal_after_move<_Alty>>{}
+				);
 			}
 			return (*this);
 		}
@@ -311,9 +308,8 @@ namespace std
 	> struct hash<ml::BasicString<_Elem, _Traits, _Alloc>>
 	{
 		using argument_type = ml::BasicString<_Elem, _Traits, _Alloc>;
-		using result_type	= size_t;
 
-		inline result_type operator()(const argument_type & value) const noexcept
+		inline ml::hash_t operator()(const argument_type & value) const noexcept
 		{
 			return _Hash_array_representation(value.c_str(), value.size());
 		}

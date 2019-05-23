@@ -8,7 +8,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	namespace detail
 	{
@@ -22,31 +22,31 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class XString final
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		template<size_t N>
-		constexpr XString(const char(&str)[N]) 
+		constexpr XString(const char(&str)[N])
 			: XString { &str[0], N - 1 }
 		{
 		}
 
-		constexpr XString(CString begin, size_t length) 
+		constexpr XString(CString begin, size_t length)
 			: m_str { begin }
 			, m_length { length }
 		{
 		}
 
-		constexpr XString(CString begin, CString end) :
-			XString { begin, static_cast<size_t>(end - begin) }
+		constexpr XString(CString begin, CString end)
+			: XString { begin, static_cast<size_t>(end - begin) }
 		{
 		}
 
-		constexpr XString(CString begin) :
-			XString { begin, length(begin) }
+		constexpr XString(CString begin)
+			: XString { begin, length(begin) }
 		{
 		}
 
@@ -58,7 +58,7 @@ namespace ml
 
 		constexpr size_t size() const { return length(); }
 
-		constexpr hash_t hash() const { return hash::fnv1a_hash(length(), begin()); }
+		constexpr hash_t hash() const { return hash::fnv::do_hash(length(), begin()); }
 
 		String cppstring() const { return { begin(), end() }; }
 
@@ -100,8 +100,22 @@ namespace ml
 		CString m_str;
 		size_t m_length;
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+namespace std
+{
+	template <>
+	struct hash<ml::XString>
+	{
+		inline ml::hash_t operator()(const ml::XString & value) const noexcept
+		{
+			return value.hash();
+		}
+	};
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_X_STRING_HPP_

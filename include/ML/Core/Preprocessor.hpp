@@ -18,11 +18,6 @@
 (bitvalue ? ML_bitSet(value, bit) : ML_bitClear(value, bit))
 
 
-// Type Hash
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_TYPEOF(value) ((const std::type_info *)(&typeid(value)))->hash_code()
-
-
 // Aspect Ratio
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define ML_ASPECT(w, h) (((w != 0) && (h != 0)) \
@@ -102,7 +97,6 @@ static_assert( \
 	std::is_base_of<base, derived>::value, \
 	"Type \'" ML_str(derived) "\' must derive \'" ML_xstr(base) "\'" \
 );
-
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

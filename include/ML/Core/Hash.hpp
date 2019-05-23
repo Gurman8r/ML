@@ -3,26 +3,34 @@
 
 #include <ML/Core/StandardLib.hpp>
 
+// https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/seed.hpp
+// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
+
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	namespace hash
 	{
-		// See http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
-		constexpr hash_t fnv_basis = 14695981039346656037ull;
-		constexpr hash_t fnv_prime = 1099511628211ull;
-
-		// FNV-1a 64 bit hash
-		constexpr hash_t fnv1a_hash(std::size_t n, const char *str, hash_t hash = fnv_basis)
+		struct fnv final
 		{
-			return n > 0 ? fnv1a_hash(n - 1, str + 1, (hash ^ *str) * fnv_prime) : hash;
-		}
+			static constexpr hash_t basis = 14695981039346656037ULL;
+			static constexpr hash_t prime = 1099511628211ULL;
 
-		template<std::size_t N>
-		constexpr hash_t fnv1a_hash(const char(&array)[N])
-		{
-			return fnv1a_hash(N - 1, &array[0]);
-		}
+			static constexpr hash_t do_hash(size_t n, const char * str, hash_t seed = basis)
+			{
+				return ((n > 0) ? do_hash(n - 1, str + 1, (seed ^ *str) * prime) : (seed));
+			}
+
+			template<size_t N>
+			static constexpr hash_t do_hash(const char(&array)[N])
+			{
+				return do_hash(N - 1, &array[0]);
+			}
+		};
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_HASH_HPP_

@@ -47,38 +47,42 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using int8_t		= typename signed char;			// 1 byte
-	using int16_t		= typename signed short;		// 2 bytes
-	using int32_t		= typename signed int;			// 4 bytes
-	using int64_t		= typename signed long long;	// 8 bytes
+	using int8_t	= typename signed char;			// 1 byte
+	using int16_t	= typename signed short;		// 2 bytes
+	using int32_t	= typename signed int;			// 4 bytes
+	using int64_t	= typename signed long long;	// 8 bytes
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using uint8_t		= typename unsigned char;		// 1 byte
-	using uint16_t		= typename unsigned short;		// 2 bytes
-	using uint32_t		= typename unsigned int;		// 4 bytes
-	using uint64_t		= typename unsigned long long;	// 8 bytes
+	using uint8_t	= typename unsigned char;		// 1 byte
+	using uint16_t	= typename unsigned short;		// 2 bytes
+	using uint32_t	= typename unsigned int;		// 4 bytes
+	using uint64_t	= typename unsigned long long;	// 8 bytes
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	using byte_t	= typename uint8_t;
+	using hash_t	= typename uint64_t;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 #ifdef ML_x64
-	using size_t		= typename uint64_t;
-	using hash_t		= typename uint64_t;
-	using ptrdiff_t		= typename int64_t;
-	using intptr_t		= typename int64_t;
-	using intmax_t		= typename int64_t;
+	using size_t	= typename uint64_t;
+	using ptrdiff_t	= typename int64_t;
+	using intptr_t	= typename int64_t;
+	using intmax_t	= typename int64_t;
 #else
-	using size_t		= typename uint32_t;
-	using hash_t		= typename uint32_t;
-	using ptrdiff_t		= typename int32_t;
-	using intptr_t		= typename int32_t;
-	using intmax_t		= typename int32_t;
+	using size_t	= typename uint32_t;
+	using ptrdiff_t	= typename int32_t;
+	using intptr_t	= typename int32_t;
+	using intmax_t	= typename int32_t;
 #endif
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 
 namespace ml
 {

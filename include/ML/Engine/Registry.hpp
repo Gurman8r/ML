@@ -158,7 +158,13 @@ namespace ml
 			);
 		}
 
-		inline pointer load(const String & name, const String & file)
+		inline pointer load_file(const String & name, const String & file)
+		{
+			return load_file_forward(name, file);
+		}
+
+		template <class ... Args>
+		inline pointer load_file_forward(const String & name, const String & file, Args && ... args)
 		{
 			if (name && !get(name))
 			{
@@ -166,7 +172,7 @@ namespace ml
 				{
 					if (const String path = ML_FS.getPathTo(file))
 					{
-						pointer temp = new value_type();
+						pointer temp = new value_type(std::forward<Args>(args)...);
 						if (temp->loadFromFile(path))
 						{
 							return this->insert(name, temp);

@@ -52,6 +52,8 @@ namespace ml
 
 		const int32_t getInt(const String & value, const int32_t dv = 0) const;
 
+		const bool getBool(const String & value, const bool dv = false) const;
+
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		inline iterator			begin()			{ return data.begin();  }

@@ -23,8 +23,6 @@
 	type = texture
 	name = borg
 	image = borg
-	smooth = 0
-	repeat = 1
 </import>
 
 <import>
@@ -93,6 +91,7 @@
 	type = texture
 	name = stone_dm
 	file = ../../../assets/textures/stone/stone_dm.png
+	smooth = false
 </import>
 
 <import>
@@ -124,7 +123,7 @@
 </import>
 
 
-# Stone
+# Moon
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>

@@ -90,5 +90,15 @@ namespace ml
 		return dv;
 	}
 
+	const bool ManifestItem::getBool(const String & value, const bool dv) const
+	{
+		if (const String str = getStr(value))
+		{
+			if (str == "1" || str == "true") { return true; }
+			if (str == "0" || str == "false") { return false; }
+		}
+		return dv;
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * */
 }

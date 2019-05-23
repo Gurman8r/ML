@@ -126,7 +126,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return fonts.load(name, file);
+					return fonts.load_file(name, file);
 				}
 				else
 				{
@@ -139,7 +139,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return images.load(name, file);
+					return images.load_file(name, file);
 				}
 				else
 				{
@@ -152,7 +152,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return materials.load(name, file);
+					return materials.load_file(name, file);
 				}
 				else
 				{
@@ -165,7 +165,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return meshes.load(name, file);
+					return meshes.load_file(name, file);
 				}
 				else
 				{
@@ -178,7 +178,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return models.load(name, file);
+					return models.load_file(name, file);
 				}
 				else if (const String file = item.getStr("mesh"))
 				{
@@ -199,7 +199,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return scripts.load(name, file);
+					return scripts.load_file(name, file);
 				}
 				else
 				{
@@ -212,7 +212,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return shaders.load(name, file);
+					return shaders.load_file(name, file);
 				}
 				else
 				{
@@ -237,7 +237,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return skyboxes.load(name, file);
+					return skyboxes.load_file(name, file);
 				}
 				else
 				{
@@ -250,7 +250,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return sounds.load(name, file);
+					return sounds.load_file(name, file);
 				}
 				else
 				{
@@ -300,15 +300,18 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "texture")
 			{
+				const bool smooth = item.getBool("smooth", true);
+				const bool repeat = item.getBool("repeat", false);
+
 				if (const String file = item.getStr("file"))
 				{
-					return textures.load(name, file);
+					return textures.load_file_forward(name, file, smooth, repeat);
 				}
 				else if (const String file = item.getStr("image"))
 				{
 					const Image * temp;
 					return
-						(textures.load(name)) &&
+						(textures.load_forward(name, smooth, repeat)) &&
 						(temp = images.get(file)) &&
 						(textures.get(name)->loadFromImage(*temp));
 				}

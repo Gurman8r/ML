@@ -64,6 +64,10 @@ namespace ml
 
 		String str() const { return cppstring(); }
 
+		operator String() const { return str(); }
+
+		operator CString() const { return m_str; }
+
 		constexpr CString begin() const { return m_str; }
 
 		constexpr CString end() const { return m_str + m_length; }
@@ -100,9 +104,11 @@ namespace ml
 		CString m_str;
 		size_t m_length;
 	};
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace std
 {
@@ -115,7 +121,5 @@ namespace std
 		}
 	};
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_X_STRING_HPP_

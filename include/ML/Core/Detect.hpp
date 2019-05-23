@@ -1,5 +1,7 @@
-#ifndef _ML_CHECK_HPP_
-#define _ML_CHECK_HPP_
+#ifndef _ML_DETECT_HPP_
+#define _ML_DETECT_HPP_
+
+// https://stackoverflow.com/a/39348287/2977234
 
 #include <ML/Core/StandardLib.hpp>
 
@@ -7,10 +9,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	namespace check
+	namespace detail
 	{
-		//https://stackoverflow.com/a/39348287/2977234
-
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template<class X, class Y, class Op>
@@ -81,4 +81,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_CHECK_HPP_
+#endif // !_ML_DETECT_HPP_

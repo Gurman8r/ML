@@ -1,10 +1,10 @@
 #ifndef _ML_HASH_HPP_
 #define _ML_HASH_HPP_
 
-#include <ML/Core/StandardLib.hpp>
-
 // https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/seed.hpp
 // http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
+
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {

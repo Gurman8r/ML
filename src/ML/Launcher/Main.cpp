@@ -127,12 +127,18 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-constexpr XString hello { "Hello!" };
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 int32_t main()
 {
+	Debug::log("{0}", nameof<XString>());
+	Debug::log("{0}", nameof<int>());
+	Debug::log("{0}", nameof<float>());
+	Debug::log("{0}", nameof<Transform>());
+	Debug::log("{0}", nameof<std::string>());
+	Debug::log("{0}", nameof<String>());
+	Debug::log("{0}", nameof<int(*)(int, char**)>());
+
+	return Debug::pause(0);
+
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

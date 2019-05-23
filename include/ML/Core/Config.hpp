@@ -23,7 +23,7 @@
 # endif
 
 # if defined(__cpp_variable_templates)
-#	define ML_VARIABLE_TEMPLATES
+#	define ML_HAS_VARIABLE_TEMPLATES
 # endif
 
 
@@ -91,11 +91,11 @@
 //	Compiler
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_MSC_VER)
-#	define ML_CC_MS		_MSC_VER	// Microsoft Compiler
+#	define ML_CC_MSC	_MSC_VER	// Microsoft Compiler
 # elif defined(__clang__)
 #	define ML_CC_CLANG	__clang__	// Clang Compiler
 # elif defined(__GNUC__)
-#	define ML_CC_GNU	__GNUC__	// GNU Compiler
+#	define ML_CC_GNUC	__GNUC__	// GNU Compiler
 #else
 #	error This compiler does not support memes.
 # endif
@@ -107,14 +107,14 @@
 #	ifdef ML_SYSTEM_WINDOWS
 #		define ML_API_EXPORT __declspec(dllexport)
 #		define ML_API_IMPORT __declspec(dllimport)
-#		ifdef ML_CC_MS
+#		ifdef ML_CC_MSC
 #			pragma warning(disable: 4031)
 #			pragma warning(disable: 4099)
 #			pragma warning(disable: 4251)
 #			pragma warning(disable: 4723)
 #		endif
 #	else
-#		if ML_CC_GNU >= 4
+#		if ML_CC_GNUC >= 4
 #			define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
 #			define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
 #		else

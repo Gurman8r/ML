@@ -1,14 +1,9 @@
 #ifndef _ML_TYPE_ID_HPP_
 #define _ML_TYPE_ID_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 // https://github.com/Manu343726/ctti/blob/master/include/ctti/type_id.hpp
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#include <ML/Core/Detail.hpp>
-#include <ML/Core/Preprocessor.hpp>
+#include <ML/Core/NameOf.hpp>
 
 namespace ml
 {
@@ -87,7 +82,9 @@ namespace ml
 		hash_t m_hash;
 	};
 
-	//using type_index = unnamed_type_id_t; // To mimic std::type_index when using maps
+#ifdef ML_TYPE_INDEX
+	using type_index = unnamed_type_id_t; // To mimic std::type_index when using maps
+#endif
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

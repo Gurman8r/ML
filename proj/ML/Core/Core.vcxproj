@@ -164,12 +164,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Check.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Detect.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Chunk.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Console.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Dispatcher.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp" />
@@ -184,7 +183,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IHandle.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IMetadatable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\INonCopyable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IRequest.hpp" />
@@ -199,17 +197,20 @@
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\NameFilters.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OStream.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\PrettyFunction.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\String.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TestRequest.hpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector2.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector3.hpp" />
@@ -235,8 +237,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\Maths.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Metadata.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Random.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />

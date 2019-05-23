@@ -64,7 +64,7 @@
     <Filter Include="Source Files\Event System">
       <UniqueIdentifier>{8ef4c1e8-43ad-4952-af2f-70888a3f8726}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Detail">
+    <Filter Include="Header Files\Reflection">
       <UniqueIdentifier>{152340f3-1c16-4067-adfd-47e104ac14e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -229,34 +229,34 @@
       <Filter>Header Files\Event System</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\PrettyFunction.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\NameFilters.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Detect.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
-      <Filter>Header Files\Detail</Filter>
+      <Filter>Header Files\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

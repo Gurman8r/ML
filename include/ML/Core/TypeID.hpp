@@ -104,7 +104,7 @@ namespace ml
 		return hash::fnv::do_hash(name.size(), name.begin());
 	}
 
-	inline unnamed_type_id_t id_from_name(const std::string& typeName)
+	inline unnamed_type_id_t id_from_name(const String & typeName)
 	{
 		// Inline to prevent ODR violation
 		return hash::fnv::do_hash(typeName.size(), typeName.data());

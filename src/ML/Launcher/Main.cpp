@@ -137,8 +137,6 @@ int32_t main()
 	Debug::log("{0}", nameof<String>());
 	Debug::log("{0}", nameof<int(*)(int, char**)>());
 
-	return Debug::pause(0);
-
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

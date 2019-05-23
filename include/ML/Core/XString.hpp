@@ -122,4 +122,6 @@ namespace std
 	};
 }
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 #endif // !_ML_X_STRING_HPP_

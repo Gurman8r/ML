@@ -124,7 +124,7 @@ namespace ml
 				if (!ev->resources.loadFromFile(ML_FS.getPathTo(ev->prefs.GetString(
 					"Engine",
 					"import_list",
-					"../../../assets/manifest.txt"
+					"../../../assets/data/manifest.txt"
 				))))
 				{
 					Debug::logError("Failed Loading Manifest");

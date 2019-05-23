@@ -113,7 +113,7 @@ int32_t main()
 	// Load Plugins
 	static Map<SharedLibrary *, Plugin *> g_Plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
-		"Engine",
+		"Launcher",
 		"plugin_list",
 		"../../../assets/data/plugins.txt"
 	))))
@@ -121,7 +121,7 @@ int32_t main()
 		String line;
 		while (std::getline(file, line))
 		{
-			if (!line || (line.trim().front() == '#')) 
+			if (!line || (line.trim().front() == '#'))
 				continue;
 			
 			auto library = new SharedLibrary(ML_FS.getPathTo(line

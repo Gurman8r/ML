@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp">
+    <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp">
+    <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\ML.ini">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\..\..\assets\meshes\cow.mesh">
       <Filter>Resource Files\assets\meshes</Filter>
     </None>
@@ -108,13 +105,16 @@
     <None Include="..\..\..\assets\shaders\common\Vert.shader">
       <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
+    <None Include="..\..\..\ML.ini">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
-      <UniqueIdentifier>{acaff397-b8c7-41e7-8ec6-00380fbf9c9a}</UniqueIdentifier>
+      <UniqueIdentifier>{5886e932-7c47-446b-8fcb-2ccc66c6af70}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{77d0a60a-8f47-4cf8-8116-06e094cb9689}</UniqueIdentifier>
+      <UniqueIdentifier>{01562ed4-e60f-40f0-8983-46b95d793a4a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\assets">
       <UniqueIdentifier>{3136e72b-75c4-4ab9-983c-208594feaf09}</UniqueIdentifier>
@@ -163,9 +163,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\assets\manifest.txt">
-      <Filter>Resource Files\assets</Filter>
-    </Text>
     <Text Include="..\..\..\assets\data\surfaces.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
@@ -206,6 +203,9 @@
       <Filter>Resource Files\assets\styles</Filter>
     </Text>
     <Text Include="..\..\..\assets\data\plugins.txt">
+      <Filter>Resource Files\assets\data</Filter>
+    </Text>
+    <Text Include="..\..\..\assets\data\manifest.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
   </ItemGroup>

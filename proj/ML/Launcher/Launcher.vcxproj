@@ -200,6 +200,7 @@
     <Text Include="..\..\..\assets\data\entities.txt" />
     <Text Include="..\..\..\assets\data\fonts.txt" />
     <Text Include="..\..\..\assets\data\images.txt" />
+    <Text Include="..\..\..\assets\data\manifest.txt" />
     <Text Include="..\..\..\assets\data\materials.txt" />
     <Text Include="..\..\..\assets\data\meshes.txt" />
     <Text Include="..\..\..\assets\data\models.txt" />
@@ -210,7 +211,6 @@
     <Text Include="..\..\..\assets\data\sprites.txt" />
     <Text Include="..\..\..\assets\data\surfaces.txt" />
     <Text Include="..\..\..\assets\data\textures.txt" />
-    <Text Include="..\..\..\assets\manifest.txt" />
     <Text Include="..\..\..\assets\styles\style4.txt" />
   </ItemGroup>
   <ItemGroup>

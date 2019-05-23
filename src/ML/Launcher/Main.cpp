@@ -32,6 +32,8 @@ static RenderWindow g_Window		{ g_EventSystem };
 static Engine		g_Engine		{ g_EventSystem };
 static Editor		g_Editor		{ g_EventSystem };
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 enum State { Enter, Loop, Exit };
 
 static StateMachine<State> g_ControlFlow =

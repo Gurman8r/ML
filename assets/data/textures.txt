@@ -4,43 +4,43 @@
 <import>
 	type = texture
 	name = dean
-	image = dean
+	file = ../../../assets/images/dean.png
 </import>
 
 <import>
 	type = texture
 	name = neutrino
-	image = neutrino
+	file = ../../../assets/images/neutrino.png
 </import>
 
 <import>
 	type = texture
 	name = sanic
-	image = sanic
+	file = ../../../assets/images/sanic.png
 </import>
 
 <import>
 	type = texture
 	name = borg
-	image = borg
+	file = ../../../assets/images/borg.png
 </import>
 
 <import>
 	type = texture
 	name = grass
-	image = grass
+	file = ../../../assets/images/grass.png
 </import>
 
 <import>
 	type = texture
 	name = navball
-	image = navball
+	file = ../../../assets/images/navball.png
 </import>
 
 <import>
 	type = texture
 	name = buck
-	image = buck
+	file = ../../../assets/images/buck.png
 </import>
 
 
@@ -146,13 +146,13 @@
 #	name = bg_clouds
 #	file = ../../../assets/textures/bg/bg_clouds.png
 #</import>
-
+#
 #<import>
 #	type = texture
 #	name = sky_clouds
 #	file = ../../../assets/textures/bg/sky_clouds.png
 #</import>
-
+#
 #<import>
 #	type = texture
 #	name = sky_water

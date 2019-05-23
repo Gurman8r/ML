@@ -7,46 +7,4 @@
 	file = ../../../assets/images/dean.png
 </import>
 
-<import>
-	type = image
-	name = dean
-	file = ../../../assets/images/dean.png
-</import>
-
-<import>
-	type = image
-	name = neutrino
-	file = ../../../assets/images/neutrino.png
-</import>
-
-<import>
-	type = image
-	name = sanic
-	file = ../../../assets/images/sanic.png
-</import>
-
-<import>
-	type = image
-	name = borg
-	file = ../../../assets/images/borg.png
-</import>
-
-<import>
-	type = image
-	name = grass
-	file = ../../../assets/images/grass.png
-</import>
-
-<import>
-	type = image
-	name = navball
-	file = ../../../assets/images/navball.png
-</import>
-
-<import>
-	type = image
-	name = buck
-	file = ../../../assets/images/buck.png
-</import>
-
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

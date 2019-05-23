@@ -13,7 +13,7 @@
 #include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
-#include <ML/Core/Preferences.hpp>
+#include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Font.hpp>

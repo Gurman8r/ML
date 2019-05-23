@@ -176,6 +176,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\PhysicsState.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PhysicsWorld.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Ray.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />
@@ -194,6 +195,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Particle.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\PhysicsState.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\PhysicsWorld.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Ray.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Rigidbody.cpp" />

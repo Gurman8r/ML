@@ -231,9 +231,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Preferences.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp">
@@ -286,9 +283,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Maths.cpp">
       <Filter>Source Files\Maths</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Preferences.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -106,7 +106,7 @@
       <Filter>Header Files\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +156,7 @@
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

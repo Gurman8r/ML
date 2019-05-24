@@ -89,6 +89,7 @@ namespace ml
 		{
 			out << std::left
 				<< std::setw(15)
+				//<< ctti::type_id(it->first).name() << " -> " << (it->second)
 				<< it->first->GetTypeName() << " -> " << (it->second) 
 				<< endl;
 		}

@@ -29,13 +29,11 @@ namespace ml
 
 	public: // Functions
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline TypeInfo GetTypeInfo()	const { return typeid(*this);				}
-		inline CString	GetTypeName()	const { return GetTypeInfo().name();		}
-		inline size_t	GetTypeHash()	const { return GetTypeInfo().hash_code();	}
-
-		inline SStream	ToStream()		const { SStream s; s << (*this); return s;	}
-		inline String	ToString()		const { return ToStream().str();			}
-		inline CString	ToCString()		const { return ToString().c_str();			}
+		inline String	GetTypeName()	const { return typeid(*this).name(); }
+		inline size_t	GetTypeHash()	const { return typeid(*this).hash_code(); }
+		inline SStream	ToStream()		const { SStream s; s << (*this); return s; }
+		inline String	ToString()		const { return ToStream().str(); }
+		inline CString	ToCString()		const { return ToString().c_str(); }
 
 
 	public: // Operators

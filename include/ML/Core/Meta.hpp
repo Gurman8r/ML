@@ -2,7 +2,6 @@
 #define _ML_META_HPP_
 
 // https://stackoverflow.com/a/39348287/2977234
-// https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/meta.hpp
 
 #include <ML/Core/StandardLib.hpp>
 
@@ -10,14 +9,6 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	namespace meta
-	{
-		template<typename T>
-		using void_t = typename std::conditional<sizeof(T*) >= 0, void, T>::type;
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	namespace meta

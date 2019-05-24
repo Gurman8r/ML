@@ -58,9 +58,6 @@
     <Filter Include="Source Files\Event System">
       <UniqueIdentifier>{8ef4c1e8-43ad-4952-af2f-70888a3f8726}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Reflection">
-      <UniqueIdentifier>{152340f3-1c16-4067-adfd-47e104ac14e9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
@@ -204,26 +201,11 @@
     <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp">
       <Filter>Header Files\Event System</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
-      <Filter>Header Files\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp">
-      <Filter>Header Files\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp">
-      <Filter>Header Files\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp">
-      <Filter>Header Files\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
-      <Filter>Header Files\Reflection</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
-      <Filter>Header Files\Reflection</Filter>
+    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

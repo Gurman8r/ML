@@ -36,17 +36,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Icon::serialize(std::ostream & out) const
-	{
-		out << GetTypeName() << " " << width << " " << height << " ";
-	}
-
-	void Icon::deserialize(std::istream & in)
-	{
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	bool Icon::equals(const Icon & other) const
 	{
 		return 

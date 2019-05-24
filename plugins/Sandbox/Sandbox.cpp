@@ -104,7 +104,7 @@ namespace DEMO
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
 		// Hello!
-		ml::Debug::log("Hello from {0}!", GetTypeName());
+		ml::Debug::log("Hello from {0}!", ctti::type_id(*this).name());
 	}
 
 	void Sandbox::onStart(const ml::StartEvent & ev)

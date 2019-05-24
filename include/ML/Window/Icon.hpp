@@ -29,11 +29,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		bool equals(const Icon & other) const override;
 		bool lessThan(const Icon & other) const override;
 

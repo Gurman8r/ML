@@ -63,17 +63,6 @@ namespace ml
 		return false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Material::serialize(std::ostream & out) const
-	{
-		out << GetTypeName() << "";
-	}
-
-	void Material::deserialize(std::istream & in)
-	{
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Material::bind() const

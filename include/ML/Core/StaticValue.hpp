@@ -1,7 +1,7 @@
 #ifndef _ML_STATIC_VALUE_HPP_
 #define _ML_STATIC_VALUE_HPP_
 
-// https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/pretty_function.hpp
+// https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/pretty_fun.hpp
 
 #define ML_STATIC_VALUE(x) ::ml::static_value<decltype(x), (x)>
 
@@ -12,9 +12,15 @@ namespace ml
 	template<typename T, T Value>
 	struct static_value
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		constexpr static_value() = default;
+		
 		using value_type = T;
+		
 		static constexpr value_type value = Value;
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		constexpr operator value_type() const
 		{
@@ -25,6 +31,8 @@ namespace ml
 		{
 			return Value;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		friend constexpr bool operator==(const static_value & lhs, const value_type rhs)
 		{

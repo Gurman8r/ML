@@ -111,6 +111,7 @@
 #			pragma warning(disable: 4031)
 #			pragma warning(disable: 4099)
 #			pragma warning(disable: 4251)
+#			pragma warning(disable: 4307)
 #			pragma warning(disable: 4723)
 #		endif
 #	else

@@ -102,7 +102,7 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		inline const PhysicsState &	state()		const	{ return m_state;	}
-		inline const Mutex &		mutex()		const	{ return m_mutex;	}
+		inline const std::mutex &	mutex()		const	{ return m_mutex;	}
 		inline const Thread &		thread()	const	{ return m_thread;	}
 		inline const Timer &		timer()		const	{ return m_timer;	}
 		inline const Duration &		elapsed()	const	{ return m_elapsed; }
@@ -111,7 +111,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		bool			m_updating;
 		PhysicsState	m_state;
-		Mutex			m_mutex;
+		std::mutex		m_mutex;
 		Thread			m_thread;
 		Timer			m_timer;
 		Duration		m_elapsed;

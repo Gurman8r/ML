@@ -7,7 +7,11 @@
 #include <ML/Core/ITrackable.hpp>
 #include <ML/Core/IWritable.hpp>
 #include <ML/Core/Preprocessor.hpp>
-#include <ML/Core/TypeID.hpp>
+//#include <ML/Core/TypeID.hpp>
+
+# ifndef ML_TYPEOF
+# define ML_TYPEOF(C) ((const std::type_info &)typeid(C)).hash_code()
+# endif
 
 namespace ml
 {
@@ -45,14 +49,14 @@ namespace ml
 		inline iterator find()
 		{
 			ML_assert_is_base_of(ITrackable, Component);
-			return (iterator)(m_map.find(type_id<Component>().hash()));
+			return (iterator)(m_map.find(ML_TYPEOF(Component)));
 		}
 
 		template <class Component>
 		inline const_iterator find() const
 		{
 			ML_assert_is_base_of(ITrackable, Component);
-			return (const_iterator)(m_map.find(type_id<Component>().hash()));
+			return (const_iterator)(m_map.find(ML_TYPEOF(Component)));
 		}
 
 		// Add Component
@@ -63,7 +67,7 @@ namespace ml
 			ML_assert_is_base_of(ITrackable, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({ 
-						type_id<Component>().hash(), 
+						ML_TYPEOF(Component), 
 						new Component() 
 					}).first->second))
 				: (NULL)
@@ -76,7 +80,7 @@ namespace ml
 			ML_assert_is_base_of(ITrackable, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({
-						type_id<Component>().hash(),
+						ML_TYPEOF(Component),
 						value
 					}).first->second))
 				: (NULL)

@@ -22,9 +22,6 @@
     <Filter Include="Header Files\Maths">
       <UniqueIdentifier>{22c169d6-ba85-4faf-a244-04d211f5ee71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Multicore">
-      <UniqueIdentifier>{c8bfd02f-0db9-4be9-854f-f101ef4caa09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{4cc0b5f2-b6e7-4346-8846-52961655e456}</UniqueIdentifier>
     </Filter>
@@ -45,9 +42,6 @@
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{bf83bdb7-08ac-4b33-a3cc-b8072fa8ba88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Multicore">
-      <UniqueIdentifier>{04928754-6b2c-41cc-8ba4-b55b2cc8b62c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\FS">
       <UniqueIdentifier>{474b6b81-6b6f-4090-a512-44a3c3d37879}</UniqueIdentifier>
@@ -96,9 +90,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IRequest.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\ISerializable.hpp">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
@@ -143,21 +134,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp">
       <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Worker.hpp">
-      <Filter>Header Files\Multicore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp">
-      <Filter>Header Files\Multicore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\TestRequest.hpp">
-      <Filter>Header Files\Multicore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Lock.hpp">
-      <Filter>Header Files\Multicore</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Dispatcher.hpp">
-      <Filter>Header Files\Multicore</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp">
       <Filter>Header Files\Time</Filter>
@@ -240,22 +216,13 @@
     <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp">
       <Filter>Header Files\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\PrettyFunction.hpp">
+    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
       <Filter>Header Files\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp">
-      <Filter>Header Files\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\NameFilters.hpp">
-      <Filter>Header Files\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Detect.hpp">
-      <Filter>Header Files\Reflection</Filter>
+    <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
-      <Filter>Header Files\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
       <Filter>Header Files\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
@@ -268,18 +235,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp">
       <Filter>Source Files\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Dispatcher.cpp">
-      <Filter>Source Files\Multicore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\TestRequest.cpp">
-      <Filter>Source Files\Multicore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp">
-      <Filter>Source Files\Multicore</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Worker.cpp">
-      <Filter>Source Files\Multicore</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp">
       <Filter>Source Files\Utility</Filter>
@@ -313,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp">
       <Filter>Source Files\Event System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

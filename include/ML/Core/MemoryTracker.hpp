@@ -1,8 +1,9 @@
 #ifndef _ML_MEMORY_TRACKER_HPP_
 #define _ML_MEMORY_TRACKER_HPP_
 
+#include <ML/Core/Export.hpp>
+#include <ML/Core/String.hpp>
 #include <ML/Core/ISingleton.hpp>
-#include <ML/Core/ISerializable.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -24,14 +25,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API MemoryTracker final
-		: public ISerializable
-		, public ISingleton<MemoryTracker>
+		: public ISingleton<MemoryTracker>
 	{	
 		friend ISingleton<MemoryTracker>;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		struct Record final : public ISerializable
+		struct Record final
 		{
 			void *	addr; // Address
 			size_t	indx; // Index
@@ -39,7 +39,8 @@ namespace ml
 
 			Record(void * addr, const size_t indx, const size_t size);
 			Record(const Record & copy);
-			void serialize(std::ostream & out) const override;
+
+			friend std::ostream & operator<<(std::ostream & out, const Record & value);
 		};
 
 	public:
@@ -58,8 +59,6 @@ namespace ml
 		ITrackable * newAllocation(const size_t size);
 
 		void freeAllocation(void * ptr);
-
-		void serialize(std::ostream & out) const override;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

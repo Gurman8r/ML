@@ -126,18 +126,8 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-struct Foo : public ITrackable
-{
-	Foo() {}
-	~Foo() {}
-};
-
 int32_t main()
 {
-	new Foo();
-
-	return 0;
-
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

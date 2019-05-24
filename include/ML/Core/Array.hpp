@@ -1,7 +1,8 @@
 #ifndef _ML_ARRAY_HPP_
 #define _ML_ARRAY_HPP_
 
-#include <ML/Core/ISerializable.hpp>
+#include <ML/Core/StandardLib.hpp>
+#include <ML/Core/IComparable.hpp>
 
 namespace ml
 {
@@ -12,7 +13,6 @@ namespace ml
 		size_t _Size
 	> class Array
 		: public std::array<_Elem, _Size>
-		, public ISerializable
 		, public IComparable<Array<_Elem, _Size>>
 	{
 	public:
@@ -74,30 +74,6 @@ namespace ml
 		inline operator const base_type &() const
 		{
 			return static_cast<const base_type &>(*this);
-		}
-
-	public:
-		inline virtual void serialize(std::ostream & out) const override
-		{
-			for (size_type i = 0; i < Size; i++)
-			{
-				out << (*this)[i] << " ";
-			}
-		}
-
-		inline virtual void deserialize(std::istream & in) override
-		{
-			for (size_type i = 0; i < Size; i++)
-			{
-				if (in.good())
-				{
-					in >> (*this)[i];
-				}
-				else
-				{
-					(*this)[i] = (value_type)(0);
-				}
-			}
 		}
 
 	public:

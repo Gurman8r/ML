@@ -87,13 +87,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\ISerializable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\ISingleton.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp">
@@ -206,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp">
+      <Filter>Header Files\Memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -182,7 +182,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\IHandle.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\INonCopyable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\ISerializable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\ISingleton.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IStream.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp" />

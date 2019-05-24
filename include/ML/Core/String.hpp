@@ -1,6 +1,7 @@
 #ifndef _ML_STRING_HPP_
 #define _ML_STRING_HPP_
 
+#include <ML/Core/Export.hpp>
 #include <ML/Core/StandardLib.hpp>
 #include <ML/Core/IComparable.hpp>
 

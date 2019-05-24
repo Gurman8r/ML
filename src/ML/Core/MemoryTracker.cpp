@@ -20,11 +20,12 @@ namespace ml
 	{
 	}
 
-	void MemoryTracker::Record::serialize(std::ostream & out) const
+	std::ostream & operator<<(std::ostream & out, const MemoryTracker::Record & value)
 	{
-		out << " { addr: " << addr
-			<< " | size: " << size
-			<< " | indx: " << indx
+		return out 
+			<< " { addr: " << value.addr
+			<< " | size: " << value.size
+			<< " | indx: " << value.indx
 			<< " }";
 	}
 
@@ -47,11 +48,15 @@ namespace ml
 		{
 			Debug::logError("Final allocations follow:");
 			
-			cerr << (*this);
+			for (const_iterator it = m_records.begin(); it != m_records.end(); ++it)
+			{
+				cerr << it->first->GetTypeName() << " -> " << (it->second) << endl;
+			}
+			cerr << endl;
 
 			Debug::pause(EXIT_FAILURE);
-			
-			//Debug::fatal("Memory Leaks Detected");
+
+			Debug::fatal("YOUR MEMORY IS LEAKING");
 		}
 	}
 
@@ -79,21 +84,6 @@ namespace ml
 			m_records.erase(it);
 			std::free(value);
 		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void MemoryTracker::serialize(std::ostream & out) const
-	{
-		for (const_iterator it = m_records.begin(); it != m_records.end(); ++it)
-		{
-			out << std::left
-				<< std::setw(15)
-				//<< ctti::type_id(it->first).name() << " -> " << (it->second)
-				<< it->first->GetTypeName() << " -> " << (it->second) 
-				<< endl;
-		}
-		out << endl;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

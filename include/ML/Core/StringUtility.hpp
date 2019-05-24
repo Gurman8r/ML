@@ -1,6 +1,7 @@
 #ifndef _ML_STRING_UTILITY_HPP_
 #define _ML_STRING_UTILITY_HPP_
 
+#include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml

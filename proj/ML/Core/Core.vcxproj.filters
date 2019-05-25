@@ -58,6 +58,9 @@
     <Filter Include="Source Files\Event System">
       <UniqueIdentifier>{8ef4c1e8-43ad-4952-af2f-70888a3f8726}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Constexpr">
+      <UniqueIdentifier>{37cea9eb-82ea-4e8a-a40f-ddea9a7cb0c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
@@ -201,8 +204,29 @@
     <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp">
       <Filter>Header Files\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
+      <Filter>Header Files\Constexpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
+      <Filter>Header Files\Constexpr</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Constexpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp">
+      <Filter>Header Files\Constexpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp">
+      <Filter>Header Files\Constexpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp">
+      <Filter>Header Files\Constexpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp">
+      <Filter>Header Files\Constexpr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp">
+      <Filter>Header Files\Constexpr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

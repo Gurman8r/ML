@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Collider
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

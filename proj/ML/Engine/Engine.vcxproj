@@ -184,6 +184,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Rigidbody.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SphereCollider.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />

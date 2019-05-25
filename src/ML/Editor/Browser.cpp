@@ -178,7 +178,7 @@ namespace ml
 
 			ImGui::Text("Name: %s", get_selected_name().c_str());
 			ImGui::Text("Type: %s", get_selected_type().c_str());
-			ImGui::Text("Size: %s", size.ToString().c_str());
+			ImGui::Text("Size: %s", size.str().c_str());
 			ImGui::EndTabItem();
 		}
 	}

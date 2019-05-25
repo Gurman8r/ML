@@ -140,7 +140,7 @@ namespace ml
 	{
 		static File file;
 		file.loadFromFile(filename);
-		value = file.ToString();
+		value = file.str();
 		return file;
 	}
 
@@ -148,7 +148,7 @@ namespace ml
 	{
 		static File file;
 		file.loadFromFile(filename);
-		value = file.ToStream();
+		value = file.sstr();
 		return file;
 	}
 

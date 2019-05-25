@@ -15,7 +15,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Runtime final
-		: public ITrackable
+		: public IObject
 		, public ISingleton<Runtime>
 	{
 		friend class ISingleton<Runtime>;

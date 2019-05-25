@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API Particle final
-		: public ITrackable
+		: public IObject
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 		int32_t index;

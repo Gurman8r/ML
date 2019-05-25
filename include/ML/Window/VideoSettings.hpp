@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API VideoSettings final
-		: public ITrackable
+		: public IObject
 		, public IComparable<VideoSettings>
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -39,10 +39,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		bool equals(const VideoSettings & value) const override;
 		bool lessThan(const VideoSettings & value) const override;
 

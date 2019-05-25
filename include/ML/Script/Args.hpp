@@ -3,14 +3,14 @@
 
 #include <ML/Script/Export.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Args final
-		: public ITrackable
+		: public IObject
 		, public IComparable<Args>
 	{
 	public:

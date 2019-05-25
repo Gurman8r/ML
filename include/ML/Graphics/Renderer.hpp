@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Renderer final
-		: public ITrackable
+		: public IObject
 		, public IDrawable
 	{
 	public:

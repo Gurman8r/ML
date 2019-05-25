@@ -15,7 +15,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API TokenList final
-		: public ITrackable
+		: public IObject
 		, public IComparable<TokenList>
 	{
 	public:
@@ -137,8 +137,6 @@ namespace ml
 
 	public:
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
-
 		bool equals(const TokenList & value) const override;
 		bool lessThan(const TokenList & value) const override;
 

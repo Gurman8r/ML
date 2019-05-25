@@ -60,10 +60,26 @@ namespace ml
 
 	bool File::loadFromFile(const String & filename)
 	{
-		if (auto stream = std::ifstream((m_path = filename), std::ios_base::binary))
+		if (auto in = std::ifstream((m_path = filename), std::ios_base::binary))
 		{
-			stream >> (*this);
-			stream.close();
+			if (dispose())
+			{
+				in.seekg(0, std::ios_base::end);
+
+				std::streamsize size;
+				if ((size = in.tellg()) > 0)
+				{
+					in.seekg(0, std::ios_base::beg);
+
+					m_data.resize(static_cast<size_t>(size));
+
+					in.read(&m_data[0], size);
+				}
+
+				m_data.push_back('\0');
+			}
+
+			in.close();
 			return true;
 		}
 		return !dispose();
@@ -85,26 +101,6 @@ namespace ml
 	void File::serialize(std::ostream & out) const
 	{
 		out << String(begin(), end());
-	}
-
-	void File::deserialize(std::istream & in)
-	{
-		if (dispose())
-		{
-			in.seekg(0, std::ios_base::end);
-
-			std::streamsize size;
-			if ((size = in.tellg()) > 0)
-			{
-				in.seekg(0, std::ios_base::beg);
-
-				m_data.resize(static_cast<size_t>(size));
-
-				in.read(&m_data[0], size);
-			}
-
-			m_data.push_back('\0');
-		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

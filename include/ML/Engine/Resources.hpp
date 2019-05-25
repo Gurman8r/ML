@@ -25,7 +25,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Resources final
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IReadable
 		, public INonCopyable

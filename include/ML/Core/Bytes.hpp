@@ -1,7 +1,7 @@
 #ifndef _ML_BYTES_HPP_
 #define _ML_BYTES_HPP_
 
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/Ratio.hpp>
 
 namespace ml
@@ -18,7 +18,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class Bytes final
-		: public ITrackable
+		: public IObject
 		, public IComparable<uint64_t>
 	{
 	private:
@@ -108,22 +108,16 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline void serialize(std::ostream & out) const override
+		inline String str() const
 		{
+			String temp;
 			if (m_size)
 			{
-				out << m_size;
+				temp.append(std::to_string(m_size));
 			}
-			out << m_name;
+			temp.append(m_name);
+			return temp;
 		}
-
-		inline void deserialize(std::istream & in) override
-		{
-			uint64_t temp;
-			in >> temp;
-			(*this) = Bytes(temp);
-		}
-
 		
 		inline bool equals(const uint64_t & other) const override
 		{

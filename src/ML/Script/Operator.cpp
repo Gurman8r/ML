@@ -94,9 +94,5 @@ namespace ml
 			<< FMT();
 	}
 
-	void Operator::deserialize(std::istream & in)
-	{
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * */
 }

@@ -1,14 +1,14 @@
 #ifndef _ML_I_EVENT_HPP_
 #define _ML_I_EVENT_HPP_
 
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/Preprocessor.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API Event : public ITrackable, public INonCopyable
+	class ML_CORE_API Event : public IObject, public INonCopyable
 	{
 		const int32_t m_id;
 

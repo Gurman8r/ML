@@ -2,14 +2,14 @@
 #define _ML_TIMER_HPP_
 
 #include <ML/Core/Duration.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API Timer final
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		using Clock		= typename std::chrono::high_resolution_clock;

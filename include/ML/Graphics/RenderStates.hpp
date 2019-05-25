@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API RenderStates final
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		using pair_type			= typename Pair<uint32_t, RenderVar>;

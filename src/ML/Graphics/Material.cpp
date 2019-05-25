@@ -46,7 +46,7 @@ namespace ml
 	{
 		for (auto & pair : m_uniforms)
 		{
-			ITrackable::operator delete(pair.second);
+			IObject::operator delete(pair.second);
 		}
 		m_uniforms.clear();
 		return m_uniforms.empty();
@@ -57,7 +57,6 @@ namespace ml
 		SStream ss;
 		if (ML_FS.getFileContents(filename, ss))
 		{
-			ss >> (*this);
 			return true;
 		}
 		return false;

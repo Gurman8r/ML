@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Token final
-		: public ITrackable
+		: public IObject
 		, public IComparable<Token>
 		, public IComparable<char>
 		, public IComparable<String>
@@ -94,7 +94,6 @@ namespace ml
 
 	public:
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -2,7 +2,7 @@
 #define _ML_ENGINE_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/EventListener.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 
@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Engine final
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 		, public EventListener
 	{

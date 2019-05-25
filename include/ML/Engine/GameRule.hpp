@@ -2,7 +2,7 @@
 #define _ML_GAME_RULE_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
@@ -11,7 +11,7 @@ namespace ml
 	
 	template <class T>
 	class GameRule final
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		using value_type = typename T;
@@ -47,7 +47,6 @@ namespace ml
 
 	public:
 		inline void serialize(std::ostream & out) const override {}
-		inline void deserialize(std::istream & in) override {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

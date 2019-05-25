@@ -2,7 +2,7 @@
 #define _ML_EVENT_SYSTEM_HPP_
 
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API EventSystem final
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 	{
 	public:

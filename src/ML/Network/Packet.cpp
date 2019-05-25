@@ -5,11 +5,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Packet::Packet()
-		: Packet(IpAddress(), GUID(), 0, NULL)
+		: Packet(Host(), GUID(), 0, NULL)
 	{
 	}
 
-	Packet::Packet(const IpAddress & addr, const GUID & guid, uint32_t size, uint8_t * data)
+	Packet::Packet(const Host & addr, const GUID & guid, uint32_t size, uint8_t * data)
 		: addr(addr)
 		, guid(guid)
 		, size(size)

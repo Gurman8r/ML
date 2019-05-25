@@ -1,9 +1,10 @@
 #ifndef _ML_MATRIX_HPP_
 #define _ML_MATRIX_HPP_
 
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/Maths.hpp>
+#include <ML/Core/Preprocessor.hpp>
+#include <ML/Core/GLM.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -30,14 +31,9 @@ namespace ml
 		size_t	_Cols, 
 		size_t	_Rows
 	> class Matrix
-		: public ITrackable
+		: public IObject
 		, public IComparable<Matrix<_Elem, _Cols, _Rows>>
 	{
-		static_assert(std::is_trivial<_Elem>::value, 
-			"Matricies must contain trivial values."
-		);
-
-
 	public: // Enums
 		/* * * * * * * * * * * * * * * * * * * * */
 		enum : size_t
@@ -294,20 +290,21 @@ namespace ml
 			}
 			out << endl;
 		}
-		
-		inline virtual void deserialize(std::istream & in) override
+
+		inline friend std::istream & operator>>(std::istream & in, self_type & value)
 		{
-			for (size_t i = 0; i < this->size(); i++)
+			for (size_t i = 0; i < value.size(); i++)
 			{
 				if (in.good())
 				{
-					in >> (*this)[i];
+					in >> value[i];
 				}
 				else
 				{
-					(*this)[i] = static_cast<value_type>(0);
+					value[i] = static_cast<value_type>(0);
 				}
 			}
+			return in;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

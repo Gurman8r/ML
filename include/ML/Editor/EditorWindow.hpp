@@ -2,7 +2,7 @@
 #define _ML_EDITOR_WINDOW_HPP_
 
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/EventListener.hpp>
 
 namespace ml
@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API EditorWindow
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 		, public EventListener
 	{

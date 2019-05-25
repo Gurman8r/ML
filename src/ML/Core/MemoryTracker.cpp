@@ -1,5 +1,5 @@
 #include <ML/Core/MemoryTracker.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
@@ -50,7 +50,7 @@ namespace ml
 			
 			for (const_iterator it = m_records.begin(); it != m_records.end(); ++it)
 			{
-				cerr << it->first->GetTypeName() << " -> " << (it->second) << endl;
+				cerr << typeid(*it->first).name() << " -> " << (it->second) << endl;
 			}
 			cerr << endl;
 
@@ -62,9 +62,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ITrackable * MemoryTracker::newAllocation(const size_t size)
+	IObject * MemoryTracker::newAllocation(const size_t size)
 	{
-		if (ITrackable * trackable = static_cast<ITrackable *>(std::malloc(size)))
+		if (IObject * trackable = static_cast<IObject *>(std::malloc(size)))
 		{
 			if (m_records.find(trackable) == m_records.end())
 			{
@@ -79,7 +79,7 @@ namespace ml
 	void MemoryTracker::freeAllocation(void * value)
 	{
 		iterator it;
-		if ((it = m_records.find(static_cast<ITrackable *>(value))) != m_records.end())
+		if ((it = m_records.find(static_cast<IObject *>(value))) != m_records.end())
 		{
 			m_records.erase(it);
 			std::free(value);

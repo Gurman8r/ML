@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API GameTime final
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 	{
 	public:

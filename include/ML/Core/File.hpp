@@ -1,7 +1,7 @@
 #ifndef _ML_FILE_HPP_
 #define _ML_FILE_HPP_
 
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IWritable.hpp>
@@ -10,7 +10,7 @@
 namespace ml
 {
 	class ML_CORE_API File final
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IReadable
 		, public IWritable
@@ -34,9 +34,7 @@ namespace ml
 		
 		bool loadFromFile(const String & filename) override;
 		bool saveToFile(const String & filename) const override;
-		
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
 
 	public:
 		inline File & operator=(const String & value)
@@ -44,17 +42,21 @@ namespace ml
 			return ((*this) = File(value));
 		}
 
-		inline operator		bool()				const	{ return !this->empty();	}
-		inline const char & operator[](size_t i)const	{ return m_data[i];			}
-		inline char &		operator[](size_t i)		{ return m_data[i];			}
+		inline operator		bool()				const	{ return !this->empty(); }
+		inline const char & operator[](size_t i)const	{ return m_data[i]; }
+		inline char &		operator[](size_t i)		{ return m_data[i]; }
 
 	public:
-		inline const char &			at(size_t i) const	{ return m_data[i];			}
-		inline char &				at(size_t i)		{ return m_data[i];			}
-		inline const List<char> &	data() const		{ return m_data;			}
-		inline List<char> &			data()				{ return m_data;			}
-		inline const bool			empty() const		{ return m_data.empty();	}
-		inline const String &		path() const		{ return m_path;			}
+		inline const char &			at(size_t i) const	{ return m_data[i]; }
+		inline char &				at(size_t i)		{ return m_data[i]; }
+		inline CString				c_str() const		{ return str().c_str(); }
+		inline const List<char> &	data() const		{ return m_data; }
+		inline List<char> &			data()				{ return m_data; }
+		inline const bool			empty() const		{ return m_data.empty(); }
+		inline const String &		path() const		{ return m_path; }
+		inline String				str() const			{ return String(begin(), end()); }
+		inline SStream				sstr() const		{ return SStream(str()); }
+
 
 	public:
 		inline iterator					begin()			{ return m_data.begin();	}

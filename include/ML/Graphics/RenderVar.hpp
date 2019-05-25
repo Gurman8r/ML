@@ -2,14 +2,14 @@
 #define _ML_RENDER_VAR_HPP_
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
 	class ML_GRAPHICS_API RenderVar final
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		using value_type		= typename int64_t;

@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API RectTransform final
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		RectTransform();

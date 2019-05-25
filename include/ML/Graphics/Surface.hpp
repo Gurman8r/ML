@@ -12,7 +12,7 @@ namespace ml
 
 	// Surface is Framebuffer + Renderbuffer
 	class ML_GRAPHICS_API Surface final
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IDrawable
 		, public IReadable

@@ -2,7 +2,7 @@
 #define _ML_SOUND_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IDisposable.hpp>
 
@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_AUDIO_API Sound
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IReadable
 	{

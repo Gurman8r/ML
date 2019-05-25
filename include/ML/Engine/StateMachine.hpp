@@ -1,8 +1,7 @@
 #ifndef _ML_STATE_MACHINE_HPP_
 #define _ML_STATE_MACHINE_HPP_
 
-#include <ML/Engine/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
@@ -11,7 +10,7 @@ namespace ml
 	template <
 		class Key, class ... Args
 	> class StateMachine final
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 	{
 	public: // Usings

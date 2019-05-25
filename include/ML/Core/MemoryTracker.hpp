@@ -20,7 +20,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ITrackable;
+	class IObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -45,7 +45,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		using record_map		= typename HashMap<ITrackable *, Record>;
+		using record_map		= typename HashMap<IObject *, Record>;
 		using iterator			= typename record_map::iterator;
 		using const_iterator	= typename record_map::const_iterator;
 
@@ -56,7 +56,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		ITrackable * newAllocation(const size_t size);
+		IObject * newAllocation(const size_t size);
 
 		void freeAllocation(void * ptr);
 

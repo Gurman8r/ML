@@ -2,12 +2,12 @@
 #define _ML_WINDOW_STYLE_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
 	struct ML_WINDOW_API StyleSettings
-		: public ITrackable
+		: public IObject
 	{
 		bool resizable;
 		bool visible;

@@ -2,7 +2,7 @@
 #define _ML_FRAMEBUFFER_HPP_
 
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/List.hpp>
 #include <ML/Core/IHandle.hpp>
 
@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API FrameBuffer final
-		: public ITrackable
+		: public IObject
 		, public IHandle<uint32_t>
 	{
 	public:

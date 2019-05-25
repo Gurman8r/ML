@@ -17,31 +17,27 @@ namespace ml
 		friend class ISingleton<Random>;
 
 	private:
-		Random();
-		~Random();
-
-	public:
-		static void seed();
-		static void seed(const uint32_t value);
+		Random() { std::srand((uint32_t)std::time(NULL)); }
+		~Random() {}
 
 	public:
 		template <
 			class T
-		> static inline T roll()
+		> inline T roll() const
 		{
 			return static_cast<T>(std::rand());
 		}
 
 		template <
 			class T
-		> static inline T roll(const T max)
+		> inline T roll(const T max) const
 		{ 
 			return (roll<T>() / max);
 		}
 
 		template <
 			class T
-		> static inline T roll(const T min, const T max)
+		> inline T roll(const T min, const T max) const
 		{
 			return (min + (roll<T>(max) * (max - min)));
 		}

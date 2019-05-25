@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Glyph final
-		: public ITrackable
+		: public IObject
 	{
 		enum { VertexCount = 6U };
 

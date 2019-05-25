@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetServer final
-		: public ITrackable
+		: public IObject
 		, public NetInterface
 	{
 	public:
@@ -24,7 +24,7 @@ namespace ml
 
 		void onPacket(const Packet & value) override;
 
-		bool start(const IpAddress & addr, uint32_t maxClients);
+		bool start(const Host & addr, uint32_t maxClients);
 
 	public:
 		inline bool		running()		const { return m_running; }

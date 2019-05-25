@@ -33,11 +33,6 @@ namespace ml
 		out << id;
 	}
 
-	void GUID::deserialize(std::istream & in)
-	{
-		in >> id;
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	inline bool GUID::equals(const uint64_t & value) const

@@ -15,7 +15,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API PhysicsState final
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public INonCopyable
 	{

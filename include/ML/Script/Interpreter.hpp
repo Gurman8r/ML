@@ -16,7 +16,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Interpreter final
-		: public ITrackable
+		: public IObject
 		, public ISingleton<Interpreter>
 	{	
 		friend ISingleton<Interpreter>;

@@ -2,23 +2,23 @@
 #define _ML_PACKET_HPP_
 
 #include <ML/Network/GUID.hpp>
-#include <ML/Network/IpAddress.hpp>
+#include <ML/Network/Host.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_NETWORK_API Packet final
-		: public ITrackable
+		: public IObject
 	{
-		IpAddress	addr;
+		Host	addr;
 		GUID		guid;
 		uint32_t	size;
 		uint8_t *	data;
 
 		Packet();
 
-		Packet(const IpAddress & addr, const GUID & guid, uint32_t size, uint8_t * data);
+		Packet(const Host & addr, const GUID & guid, uint32_t size, uint8_t * data);
 
 		Packet(const Packet & copy);
 

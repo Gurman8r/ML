@@ -21,7 +21,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		struct BuildFile : public ITrackable, public INonCopyable
+		struct BuildFile : public IObject, public INonCopyable
 		{
 			enum : size_t 
 			{

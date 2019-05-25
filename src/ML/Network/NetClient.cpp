@@ -66,13 +66,13 @@ namespace ml
 		}
 	}
 
-	bool NetClient::connect(const IpAddress & addr, const String & pass)
+	bool NetClient::connect(const Host & host, const String & pass)
 	{
 		if (m_peer)
 		{
 			switch (ML_PEER(m_peer)->Connect(
-				addr.ToCString(),
-				addr.port,
+				host.addr.c_str(),
+				host.port,
 				pass.c_str(),
 				(int32_t)pass.size()))
 			{

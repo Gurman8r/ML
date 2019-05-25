@@ -193,9 +193,5 @@ namespace ml
 			<< FMT();
 	}
 
-	void Token::deserialize(std::istream & in)
-	{
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * */
 }

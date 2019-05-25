@@ -4,6 +4,8 @@
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
 
+// this is awful and it must be removed.  :)
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */

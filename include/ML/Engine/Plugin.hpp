@@ -14,7 +14,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Plugin
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 		, public EventListener
 	{

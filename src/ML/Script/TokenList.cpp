@@ -498,10 +498,6 @@ namespace ml
 		}
 	}
 
-	void TokenList::deserialize(std::istream & in)
-	{
-	}
-
 	bool TokenList::equals(const TokenList & value) const
 	{
 		if (size() == value.size())

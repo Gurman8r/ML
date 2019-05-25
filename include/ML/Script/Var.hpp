@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Var final
-		: public ITrackable
+		: public IObject
 		, public IComparable<Var>
 	{
 	public:
@@ -40,8 +40,7 @@ namespace ml
 		};
 
 	public:
-		struct Ptr
-			: public ITrackable
+		struct Ptr : public IObject
 		{
 			String		name;
 			int32_t		index;
@@ -161,7 +160,6 @@ namespace ml
 		Var & print();
 
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
 
 	public: // Factory
 		static Var makeSingle(const Token & tok);

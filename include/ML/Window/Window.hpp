@@ -18,7 +18,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_WINDOW_API Window
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 		, public EventListener
 	{

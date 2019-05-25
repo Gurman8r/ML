@@ -16,7 +16,7 @@ namespace ml
 	template <
 		class _Elem
 	> class Registry final
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 	{
 		friend class Resources;
@@ -56,10 +56,6 @@ namespace ml
 					<< endl;
 			}
 			out << endl;
-		}
-
-		inline void deserialize(std::istream & in) override
-		{
 		}
 
 	public:

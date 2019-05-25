@@ -14,7 +14,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_AUDIO_API Audio final
-		: public ITrackable
+		: public IObject
 		, public INonCopyable
 		, public EventListener
 	{

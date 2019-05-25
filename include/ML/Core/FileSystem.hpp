@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API FileSystem final
-		: public ITrackable
+		: public IObject
 		, public ISingleton<FileSystem>
 	{
 		friend class ISingleton<FileSystem>;

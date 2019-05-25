@@ -2,7 +2,6 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Core/StateMachine.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -10,6 +9,7 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
+#include <ML/Engine/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -126,8 +126,14 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+struct Foo : public IObject {};
+
 int32_t main()
 {
+	new Foo();
+
+	return 0;
+
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

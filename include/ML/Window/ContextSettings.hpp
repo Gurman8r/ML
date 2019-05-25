@@ -2,14 +2,14 @@
 #define _ML_CONTEXT_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API ContextSettings final
-		: public ITrackable
+		: public IObject
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

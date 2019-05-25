@@ -93,13 +93,6 @@ namespace ml
 		out << resolution << " " << colorDepth;
 	}
 
-	void VideoSettings::deserialize(std::istream & in)
-	{
-		in >> resolution >> colorDepth;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	bool VideoSettings::equals(const VideoSettings & value) const
 	{
 		return 

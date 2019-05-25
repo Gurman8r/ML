@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Vertex final
-		: public ITrackable
+		: public IObject
 		, public IComparable<Vertex>
 	{
 	public:
@@ -67,14 +67,6 @@ namespace ml
 			}
 		}
 		
-		inline void deserialize(std::istream & in) override
-		{
-			for (size_t i = 0; i < Size; i++)
-			{
-				in >> (*this)[i];
-			}
-		}
-
 	public:
 		inline bool equals(const Vertex & other) const override
 		{

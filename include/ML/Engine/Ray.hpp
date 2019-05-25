@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Ray final
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		Ray();

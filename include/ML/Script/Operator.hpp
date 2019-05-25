@@ -2,14 +2,14 @@
 #define _ML_OPERATOR_HPP_
 
 #include <ML/Script/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Operator final
-		: public ITrackable
+		: public IObject
 		, public IComparable<Operator>
 		, public IComparable<int32_t>
 	{
@@ -64,7 +64,6 @@ namespace ml
 		bool lessThan(const int32_t & value) const override;
 
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

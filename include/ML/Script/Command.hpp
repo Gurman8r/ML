@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Command final
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		using fn_args = Args & ;

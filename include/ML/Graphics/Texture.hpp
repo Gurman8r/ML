@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Texture final
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IReadable
 		, public IHandle<uint32_t>

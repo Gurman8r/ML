@@ -111,6 +111,9 @@
     <ClInclude Include="..\..\..\include\ML\Engine\GameRule.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">

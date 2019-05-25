@@ -164,7 +164,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Chunk.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp" />
@@ -183,18 +182,14 @@
     <ClInclude Include="..\..\..\include\ML\Core\INonCopyable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\ISingleton.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IStream.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\IObject.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\IWritable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\OStream.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
@@ -202,7 +197,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\String.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
@@ -222,11 +216,8 @@
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\File.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Maths.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Random.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />

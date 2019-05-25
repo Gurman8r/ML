@@ -29,12 +29,16 @@ namespace ml
 			return (lhs >= rhs) ? lhs : rhs;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		template <typename T>
 		constexpr const T & min(const T & lhs, const T & rhs)
 		{
 			return (lhs <= rhs) ? lhs : rhs;
+		}
+
+		template <typename T>
+		constexpr const T & clamp(const T & value, const T & minVal, const T & maxVal)
+		{
+			return min(max(value, minVal), maxVal);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

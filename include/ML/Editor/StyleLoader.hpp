@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API StyleLoader final
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IReadable
 	{
@@ -23,7 +23,6 @@ namespace ml
 
 	public:
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
 
 	private:
 		File m_file;

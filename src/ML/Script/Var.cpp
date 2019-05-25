@@ -518,10 +518,6 @@ namespace ml
 		}
 	}
 
-	void Var::deserialize(std::istream & in)
-	{
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Var Var::makeSingle(const Token & tok)

@@ -45,7 +45,6 @@
 
 namespace ml
 {
-	// Usings
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	using int8_t	= typename signed char;			// 1 byte
@@ -76,8 +75,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using hash_t = typename uint64_t;
-	using time_t = typename uint64_t;
+	using hash_t	= typename uint64_t;
+	using time_t	= typename uint64_t;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
@@ -98,11 +97,9 @@ namespace ml
 
 namespace ml
 {
-	// IO
-	/* * * * * * * * * * * * * * * * * * * * */
-	static std::ostream & cout = std::cout;
-	static std::ostream & cerr = std::cerr;
-	static std::istream & cin = std::cin;
+	static std::ostream & cout  { std::cout };
+	static std::ostream & cerr  { std::cerr };
+	static std::istream & cin	{ std::cin	};
 
 	template <class Elem, class Traits>
 	inline std::basic_ostream<Elem, Traits> & endl(std::basic_ostream<Elem, Traits> & out)

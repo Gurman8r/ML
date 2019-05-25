@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Script
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IReadable
 	{

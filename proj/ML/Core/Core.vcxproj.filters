@@ -22,23 +22,8 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{4cc0b5f2-b6e7-4346-8846-52961655e456}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Memory">
-      <UniqueIdentifier>{851168d5-0bfb-4522-9678-b520f789916c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\IO">
-      <UniqueIdentifier>{bf87aa00-e7d8-48a9-b1b6-f3f033f3230a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Memory">
-      <UniqueIdentifier>{0f7d5343-3a38-4b0b-8d2e-96fd6aad5fc0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{bf83bdb7-08ac-4b33-a3cc-b8072fa8ba88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\FS">
-      <UniqueIdentifier>{474b6b81-6b6f-4090-a512-44a3c3d37879}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FS">
-      <UniqueIdentifier>{375a89dd-813d-4cab-9b74-4a47ed275958}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Maths">
       <UniqueIdentifier>{6ba3efe4-cf47-4c0b-b78f-a7e1d548c677}</UniqueIdentifier>
@@ -49,14 +34,14 @@
     <Filter Include="Source Files\Event System">
       <UniqueIdentifier>{8ef4c1e8-43ad-4952-af2f-70888a3f8726}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\FS">
+      <UniqueIdentifier>{efd616a7-d1f0-4e17-b9d1-73ba0ff5edb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FS">
+      <UniqueIdentifier>{dedba3d6-daa0-4767-888b-ffab909323a6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\CT">
       <UniqueIdentifier>{37cea9eb-82ea-4e8a-a40f-ddea9a7cb0c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\DS">
-      <UniqueIdentifier>{d4a95364-0e07-43e1-9c47-efc4403c744c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DS">
-      <UniqueIdentifier>{2c37eef2-33a2-4a16-a25b-be904d5cb9f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,9 +75,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\ISingleton.hpp">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
@@ -108,50 +90,17 @@
     <ClInclude Include="..\..\..\include\ML\Core\Vector.hpp">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Chunk.hpp">
-      <Filter>Header Files\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp">
-      <Filter>Header Files\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp">
-      <Filter>Header Files\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp">
-      <Filter>Header Files\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\File.hpp">
-      <Filter>Header Files\FS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\FileSystem.hpp">
-      <Filter>Header Files\FS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Random.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp">
       <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\OStream.hpp">
-      <Filter>Header Files\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IStream.hpp">
-      <Filter>Header Files\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp">
-      <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp">
       <Filter>Header Files\Utility</Filter>
@@ -171,15 +120,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp">
       <Filter>Header Files\Event System</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp">
-      <Filter>Header Files\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
-      <Filter>Header Files\CT</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
-      <Filter>Header Files\CT</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
       <Filter>Header Files\CT</Filter>
     </ClInclude>
@@ -195,42 +135,60 @@
     <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp">
       <Filter>Header Files\CT</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\File.hpp">
+      <Filter>Header Files\FS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\FileSystem.hpp">
+      <Filter>Header Files\FS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
+      <Filter>Header Files\CT</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp">
+      <Filter>Header Files\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\IObject.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Random.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
+      <Filter>Header Files\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\String.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\List.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp">
       <Filter>Header Files\CT</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp">
       <Filter>Header Files\CT</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp">
-      <Filter>Header Files\CT</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\List.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\String.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp">
-      <Filter>Source Files\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp">
-      <Filter>Source Files\Memory</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Random.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp">
@@ -239,16 +197,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\File.cpp">
-      <Filter>Source Files\FS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp">
-      <Filter>Source Files\FS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Transform.cpp">
-      <Filter>Source Files\Maths</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Maths.cpp">
       <Filter>Source Files\Maths</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp">
@@ -257,11 +206,20 @@
     <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp">
       <Filter>Source Files\Event System</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp">
+      <Filter>Source Files\FS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\File.cpp">
+      <Filter>Source Files\FS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp">
-      <Filter>Source Files\DS</Filter>
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp">
-      <Filter>Source Files\DS</Filter>
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

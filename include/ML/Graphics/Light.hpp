@@ -10,7 +10,7 @@ namespace ml
 	
 	// Placeholder
 	class ML_GRAPHICS_API Light final
-		: public ITrackable
+		: public IObject
 	{
 	public:
 		Light();

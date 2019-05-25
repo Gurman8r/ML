@@ -69,7 +69,7 @@ namespace ml
 			settings.receiptNumber);
 	}
 
-	uint32_t NetInterface::send(const IpAddress & addr, const String & data, const SendSettings & settings)
+	uint32_t NetInterface::send(const Host & addr, const String & data, const SendSettings & settings)
 	{
 		RakNet::BitStream bitStream;
 		bitStream.Write(data.c_str());
@@ -78,7 +78,7 @@ namespace ml
 			(PacketPriority)settings.priority,
 			(PacketReliability)settings.reliability,
 			settings.ordering,
-			RakNet::SystemAddress(addr.ToCString(), addr.port),
+			RakNet::SystemAddress(addr.addr.c_str(), addr.port),
 			settings.broadcast,
 			settings.receiptNumber);
 	}
@@ -92,26 +92,26 @@ namespace ml
 		);
 	}
 
-	GUID NetInterface::getGUIDFromAddress(const IpAddress & value) const
+	GUID NetInterface::getGUIDFromAddress(const Host & value) const
 	{
 		return GUID(
 			ML_PEER(m_peer)->GetGuidFromSystemAddress(
-				RakNet::SystemAddress(value.ToCString(), value.port)
+				RakNet::SystemAddress(value.addr.c_str(), value.port)
 			).g
 		);
 	}
 
-	IpAddress NetInterface::getMyAddress() const
+	Host NetInterface::getMyAddress() const
 	{
 		return getAddressFromGUID(getMyGUID());
 	}
 
-	IpAddress NetInterface::getAddressFromGUID(const GUID & value) const
+	Host NetInterface::getAddressFromGUID(const GUID & value) const
 	{
-		const auto addr = ML_PEER(m_peer)->GetSystemAddressFromGuid(
+		const RakNet::SystemAddress addr = ML_PEER(m_peer)->GetSystemAddressFromGuid(
 			RakNet::RakNetGUID(value)
 		);
-		return IpAddress(
+		return Host(
 			addr.ToString(),
 			addr.GetPort()
 		);

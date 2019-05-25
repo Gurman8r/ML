@@ -2,7 +2,7 @@
 #define _ML_ICON_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 #include <ML/Core/IComparable.hpp>
 
 namespace ml
@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API Icon final
-		: public ITrackable
+		: public IObject
 		, public IComparable<Icon>
 	{
 		/* * * * * * * * * * * * * * * * * * * * */

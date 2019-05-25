@@ -29,29 +29,6 @@ namespace ml
 	
 	bool Skybox::loadFromFile(const String & filename)
 	{
-		SStream file;
-		if (ML_FS.getFileContents(filename, file))
-		{
-			file >> (*this);
-			return true;
-		}
-		return false;
-	}
-	
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Skybox::serialize(std::ostream & out) const
-	{
-		out << "U: " << (m_faces[Up]	? (m_faces[Up]->ToString())		: "Nothing") << endl
-			<< "D: " << (m_faces[Down]	? (m_faces[Down]->ToString())	: "Nothing") << endl
-			<< "L: " << (m_faces[Left]	? (m_faces[Left]->ToString())	: "Nothing") << endl
-			<< "R: " << (m_faces[Right]	? (m_faces[Right]->ToString())	: "Nothing") << endl
-			<< "F: " << (m_faces[Front]	? (m_faces[Front]->ToString())	: "Nothing") << endl
-			<< "B: " << (m_faces[Back]	? (m_faces[Back]->ToString())	: "Nothing") << endl;
-	}
-	
-	void Skybox::deserialize(std::istream & in)
-	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		auto parseLine = [](
@@ -70,53 +47,66 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		String path = String();
-
-		String line;
-		while (std::getline(in, line))
+		SStream in;
+		if (ML_FS.getFileContents(filename, in))
 		{
-			uint32_t cur = MAX_FACE;
-			switch (line.front())
+			String path = String();
+
+			String line;
+			while (std::getline(in, line))
 			{
-			case '#': break;
-			case 'U': cur = Up;		break;
-			case 'D': cur = Down;	break;
-			case 'L': cur = Left;	break;
-			case 'R': cur = Right;	break;
-			case 'F': cur = Front;	break;
-			case 'B': cur = Back;	break;
-			default:
-				SStream ss;
-				if (parseLine(line, "path: ", ss))
+				uint32_t cur = MAX_FACE;
+				switch (line.front())
 				{
-					ss >> path;
-				}
-				break;
-			}
-
-			if (cur == MAX_FACE)
-				continue;
-
-			const String type(String(1, line.front()) + ": ");
-
-			SStream ss;
-			if (parseLine(line, type, ss))
-			{
-				ss >> line;
-
-				const String file = (path + line);
-
-				if (!m_faces[cur] && (m_faces[cur] = new Texture()))
-				{
-					if (!m_faces[cur]->loadFromFile(file, GL::TextureCubeMap))
+				case '#': break;
+				case 'U': cur = Up;		break;
+				case 'D': cur = Down;	break;
+				case 'L': cur = Left;	break;
+				case 'R': cur = Right;	break;
+				case 'F': cur = Front;	break;
+				case 'B': cur = Back;	break;
+				default:
+					SStream ss;
+					if (parseLine(line, "path: ", ss))
 					{
-						Debug::logError("Failed Loading Skybox Face {0}: \'{1}\'", cur, file);
-						delete m_faces[cur];
-						m_faces[cur] = NULL;
+						ss >> path;
+					}
+					break;
+				}
+
+				if (cur == MAX_FACE)
+					continue;
+
+				const String type(String(1, line.front()) + ": ");
+
+				SStream ss;
+				if (parseLine(line, type, ss))
+				{
+					ss >> line;
+
+					const String file = (path + line);
+
+					if (!m_faces[cur] && (m_faces[cur] = new Texture()))
+					{
+						if (!m_faces[cur]->loadFromFile(file, GL::TextureCubeMap))
+						{
+							Debug::logError("Failed Loading Skybox Face {0}: \'{1}\'", cur, file);
+							delete m_faces[cur];
+							m_faces[cur] = NULL;
+						}
 					}
 				}
 			}
+
+			return true;
 		}
+		return false;
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	void Skybox::serialize(std::ostream & out) const
+	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

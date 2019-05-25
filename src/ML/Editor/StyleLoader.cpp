@@ -86,7 +86,6 @@ namespace ml
 
 		if (m_file.loadFromFile(filename))
 		{
-			m_file.ToStream() >> (*this);
 		}
 		return m_file;
 	}
@@ -95,18 +94,6 @@ namespace ml
 
 	void StyleLoader::serialize(std::ostream & out) const
 	{
-	}
-
-	void StyleLoader::deserialize(std::istream & in)
-	{
-		String line;
-		while (std::getline(in, line))
-		{
-			if (line.trim().front() != '#')
-			{
-
-			}
-		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -4,7 +4,7 @@
 #include <ML/Core/EventListener.hpp>
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Network/GUID.hpp>
-#include <ML/Network/IpAddress.hpp>
+#include <ML/Network/Host.hpp>
 #include <ML/Network/Packet.hpp>
 #include <ML/Network/SendSettings.hpp>
 
@@ -46,17 +46,17 @@ namespace ml
 
 	public:
 		uint32_t send(const GUID & guid, const String & data, const SendSettings & settings);
-		uint32_t send(const IpAddress & address, const String & data, const SendSettings & settings);
+		uint32_t send(const Host & address, const String & data, const SendSettings & settings);
 
 	public:
 		virtual void onEvent(const Event * ev) override = 0;
 		virtual void onPacket(const Packet & value) = 0;
 
 	public:
-		GUID		getMyGUID() const;
-		GUID		getGUIDFromAddress(const IpAddress & value) const;
-		IpAddress	getMyAddress() const;
-		IpAddress	getAddressFromGUID(const GUID & value) const;
+		GUID	getMyGUID() const;
+		GUID	getGUIDFromAddress(const Host & value) const;
+		Host	getMyAddress() const;
+		Host	getAddressFromGUID(const GUID & value) const;
 
 	protected:
 		void * m_peer;

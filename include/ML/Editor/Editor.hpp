@@ -17,7 +17,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API Editor final
-		: public ITrackable
+		: public IObject
 		, public EventListener
 		, public INonCopyable
 	{

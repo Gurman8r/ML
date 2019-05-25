@@ -10,7 +10,7 @@ namespace ml
 
 	// WIP
 	class ML_GRAPHICS_API Skybox final
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IReadable
 	{
@@ -30,7 +30,6 @@ namespace ml
 		bool loadFromFile(const String & filename) override;
 
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
 
 		static uint32_t loadCubemap(const List<String> & faces);
 

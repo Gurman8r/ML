@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Mesh final
-		: public ITrackable
+		: public IObject
 		, public IDisposable
 		, public IReadable
 	{
@@ -27,9 +27,6 @@ namespace ml
 		bool loadFromMemory(const List<float> & vertices);
 		bool loadFromMemory(const VertexList & vertices);
 		bool loadFromMemory(const VertexList & vertices, const List<uint32_t> & indices);
-
-		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
 
 	public:
 		inline const VertexList		&	vertices	() const { return m_vertices;	}

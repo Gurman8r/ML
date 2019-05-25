@@ -14,7 +14,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Text final
-		: public ITrackable
+		: public IObject
 		, public IDrawable
 	{
 	public:

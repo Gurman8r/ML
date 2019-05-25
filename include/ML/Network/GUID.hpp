@@ -2,14 +2,14 @@
 #define _ML_GUID_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/ITrackable.hpp>
+#include <ML/Core/IObject.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_NETWORK_API GUID final
-		: public ITrackable
+		: public IObject
 		, public IComparable<uint64_t>
 		, public IComparable<GUID>
 	{
@@ -22,7 +22,6 @@ namespace ml
 		operator uint64_t() const;
 
 		void serialize(std::ostream & out) const override;
-		void deserialize(std::istream & in) override;
 
 		bool equals(const uint64_t & value) const override;
 		bool equals(const GUID & value) const override;

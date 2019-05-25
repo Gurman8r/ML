@@ -2,7 +2,7 @@
 #define _ML_I_EVENT_HPP_
 
 #include <ML/Core/IObject.hpp>
-#include <ML/Core/Preprocessor.hpp>
+#include <ML/Core/TypeInfo.hpp>
 
 namespace ml
 {

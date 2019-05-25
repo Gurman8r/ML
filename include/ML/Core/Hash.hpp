@@ -4,7 +4,6 @@
 // Sources:
 // https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/hash.hpp
 // http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
-// https://github.com/foonathan/string_id
 
 #include <ML/Core/StandardLib.hpp>
 
@@ -18,15 +17,23 @@ namespace ml
 		constexpr hash_t fnv_prime = 1099511628211ULL;
 
 		// FNV-1a 64 bit hash
-		constexpr hash_t fnv1a_hash(size_t n, const char *str, hash_t hash = fnv_basis)
+		constexpr hash_t fnv1a_hash(size_t n, const char * str, hash_t hash)
 		{
-			return n > 0 ? fnv1a_hash(n - 1, str + 1, (hash ^ *str) * fnv_prime) : hash;
+			return ((n > 0)
+				? (fnv1a_hash(n - 1, str + 1, (hash ^ *str) * fnv_prime))
+				: (hash)
+			);
+		}
+
+		constexpr hash_t fnv1a_hash(size_t n, const char * str)
+		{
+			return fnv1a_hash(n, str, fnv_basis);
 		}
 
 		template<size_t N>
-		constexpr hash_t fnv1a_hash(const char(&array)[N])
+		constexpr hash_t fnv1a_hash(const char(&value)[N])
 		{
-			return fnv1a_hash(N - 1, &array[0]);
+			return fnv1a_hash((N - 1), &value[0]);
 		}
 	}
 

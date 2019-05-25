@@ -11,10 +11,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const Bytes Browser::MaxPreviewSize(15_MB);
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	Browser::Browser(EventSystem & eventSystem, bool startOpen)
 		: EditorWindow(eventSystem, "Browser", startOpen)
 		, m_path	()

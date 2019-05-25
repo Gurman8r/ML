@@ -187,7 +187,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
@@ -204,6 +203,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector2.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector3.hpp" />

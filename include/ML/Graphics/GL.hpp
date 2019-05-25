@@ -5,13 +5,12 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Core/StandardLib.hpp>
-#include <ML/Core/Preprocessor.hpp>
 
-// Types
 /* * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
-	struct ML_GRAPHICS_API GL final
+	struct GL final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -409,26 +408,9 @@ namespace ml
 	};
 }
 
-
-// Operators
 /* * * * * * * * * * * * * * * * * * * * */
-namespace ml
-{
-	// GL::Mask
-	ML_GENERATE_MASK_OPERATORS(
-		GL::Mask, uint32_t
-	)
 
-	// GL::Attachment
-	ML_GENERATE_ITER_OPERATORS(
-		GL::Attachment, uint32_t, int32_t, GL::ColorAttachment0, GL::ColorAttachment9
-	)
-
-	// GL::TextureID
-	ML_GENERATE_ITER_OPERATORS(
-		GL::TextureID, uint32_t, int32_t, GL::Texture0, GL::Texture31
-	)
-}
+#include <ML/Graphics/GL.inl>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

@@ -3,7 +3,7 @@
 
 #include <ML/Script/Export.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/Preprocessor.hpp>
+#include <ML/Core/TypeInfo.hpp>
 #include <ML/Core/IObject.hpp>
 
 namespace ml

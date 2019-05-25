@@ -255,4 +255,9 @@
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\ML\Graphics\GL.inl">
+      <Filter>Header Files\Rendering</Filter>
+    </None>
+  </ItemGroup>
 </Project>

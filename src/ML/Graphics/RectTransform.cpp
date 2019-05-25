@@ -1,4 +1,5 @@
 #include <ML/Graphics/RectTransform.hpp>
+#include <ML/Core/Algorithm.hpp>
 
 namespace ml
 {
@@ -45,7 +46,7 @@ namespace ml
 		if (m_changed)
 		{	m_changed = false;
 
-			float angle		= ML_DEG2RAD(m_rotation);
+			float angle		= maths::to_radians(m_rotation);
 			float cosine	= std::cosf(angle);
 			float sine		= std::sinf(angle);
 			float sxc		= m_scale[0] * cosine;

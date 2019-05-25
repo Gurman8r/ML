@@ -4,7 +4,6 @@
 // Sources:
 // https://github.com/Manu343726/ctti/blob/master/include/ctti/nameof.hpp
 
-#include <ML/Core/Meta.hpp>
 #include <ML/Core/Signature.hpp>
 #include <ML/Core/StaticValue.hpp>
 
@@ -18,6 +17,14 @@ namespace ml
 		constexpr type_tag() = default;
 		using type = T;
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	namespace meta
+	{
+		template<typename T>
+		using void_t = typename std::conditional<sizeof(T*) >= 0, void, T>::type;
+	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -162,7 +169,9 @@ namespace ml
 			static constexpr XString apply()
 			{
 				return signature::value<T, Value>().pad(
-					ML_SIG_VALUE_FUNCTION_LEFT + detail::TypeNameLength<T>::value + ML_SIG_VALUE_FUNCTION_DELIM,
+					ML_SIG_VALUE_FUNCTION_LEFT 
+					+ detail::TypeNameLength<T>::value 
+					+ ML_SIG_VALUE_FUNCTION_DELIM,
 					ML_SIG_VALUE_FUNCTION_RIGHT
 				);
 			}
@@ -220,7 +229,17 @@ namespace ml
 namespace ml
 {
 	constexpr XString ml_nameof(type_tag<std::string>)	{ return "std::string"; }
-	constexpr XString ml_nameof(type_tag<String>)		{ return "ml::String";	}
+	constexpr XString ml_nameof(type_tag<ml::String>)	{ return "ml::String"; }
+	
+	constexpr XString ml_nameof(type_tag<ml::int8_t>)	{ return "ml::int8_t"; }
+	constexpr XString ml_nameof(type_tag<ml::int16_t>)	{ return "ml::int16_t"; }
+	constexpr XString ml_nameof(type_tag<ml::int32_t>)	{ return "ml::int32_t"; }
+	constexpr XString ml_nameof(type_tag<ml::int64_t>)	{ return "ml::int64_t";	}
+
+	constexpr XString ml_nameof(type_tag<ml::uint8_t>)	{ return "ml::uint8_t";	}
+	constexpr XString ml_nameof(type_tag<ml::uint16_t>)	{ return "ml::uint16_t"; }
+	constexpr XString ml_nameof(type_tag<ml::uint32_t>)	{ return "ml::uint32_t"; }
+	constexpr XString ml_nameof(type_tag<ml::uint64_t>)	{ return "ml::uint64_t"; }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

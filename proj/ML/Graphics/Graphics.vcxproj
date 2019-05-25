@@ -238,6 +238,9 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexList.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\ML\Graphics\GL.inl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -30,7 +30,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		static const Bytes MaxPreviewSize;
+		static constexpr uint64_t MaxPreviewSize { 15_MB };
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

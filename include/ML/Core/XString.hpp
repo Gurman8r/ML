@@ -4,12 +4,25 @@
 // Sources:
 // https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/cstring.hpp
 
-#include <ML/Core/Algorithm.hpp>
 #include <ML/Core/Hash.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace detail
+	{
+		template<typename Left, typename Right>
+		constexpr bool equal_range(Left lBegin, Left lEnd, Right rBegin, Right rEnd)
+		{
+			return ((lBegin != lEnd && rBegin != rEnd)
+				? ((*lBegin) == (*rBegin)) && equal_range(lBegin + 1, lEnd, rBegin + 1, rEnd)
+				: ((lBegin == lEnd) && (rBegin == rEnd))
+			);
+		}
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class XString final
@@ -36,59 +49,31 @@ namespace ml
 		{
 		}
 
-		static constexpr size_t length(CString str)
+	public:
+		static constexpr size_t length(CString value)
 		{
-			return *str ? 1 + length(str + 1) : 0;
+			return (*value) ? 1 + length(value + 1) : 0;
 		}
 
-		constexpr size_t length() const
-		{
-			return m_length;
-		}
+		constexpr size_t	length()	const { return m_length; }
+		constexpr size_t	size()		const { return length(); }
+		constexpr hash_t	hash()		const { return detail::fnv1a_hash(length(), begin()); }
+		constexpr CString	begin()		const { return m_str; }
+		constexpr CString	end()		const { return m_str + m_length; }
 
-		constexpr size_t size() const
-		{
-			return length();
-		}
+		CString c_str()		const { return begin(); }
+		String	str()		const { return { begin(), end() }; }
+		operator CString()	const { return c_str(); }
+		operator String()	const { return str(); }
 
-		constexpr hash_t hash() const
-		{
-			return detail::fnv1a_hash(length(), begin());
+		constexpr char operator[](size_t i) const 
+		{ 
+			return m_str[i]; 
 		}
-
-		String cppstring() const
-		{
-			return { begin(), end() };
-		}
-
-		String str() const
-		{
-			return cppstring();
-		}
-
-		operator String() const
-		{
-			return str();
-		}
-
-		constexpr CString begin() const
-		{
-			return m_str;
-		}
-
-		constexpr CString end() const
-		{
-			return m_str + m_length;
-		}
-
-		constexpr char operator[](size_t i) const
-		{
-			return m_str[i];
-		}
-
-		constexpr CString operator()(size_t i) const
-		{
-			return m_str + i;
+		
+		constexpr CString operator()(size_t i) const 
+		{ 
+			return (m_str + i); 
 		}
 
 		constexpr XString operator()(size_t begin, size_t end) const
@@ -98,7 +83,7 @@ namespace ml
 
 		constexpr XString pad(size_t begin_offset, size_t end_offset) const
 		{
-			return operator()(begin_offset, size() - end_offset);
+			return XString::operator()(begin_offset, size() - end_offset);
 		}
 
 		friend std::ostream & operator<<(std::ostream & os, const XString& str)
@@ -113,15 +98,15 @@ namespace ml
 
 	private:
 		CString m_str;
-		size_t m_length;
+		size_t	m_length;
 	};
 
-	constexpr bool operator==(const XString& lhs, const XString& rhs)
+	constexpr bool operator==(const XString & lhs, const XString & rhs)
 	{
 		return detail::equal_range(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	constexpr bool operator!=(const XString& lhs, const XString& rhs)
+	constexpr bool operator!=(const XString & lhs, const XString & rhs)
 	{
 		return !(lhs == rhs);
 	}

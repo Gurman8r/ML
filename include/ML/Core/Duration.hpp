@@ -7,12 +7,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using Hours			= typename std::chrono::duration<int32_t, Ratio<3600>>;
-	using Minutes		= typename std::chrono::duration<int32_t, Ratio<60>>;
-	using Seconds		= typename std::chrono::duration<int64_t>;
-	using Milliseconds	= typename std::chrono::duration<int64_t, Milli>;
-	using Microseconds	= typename std::chrono::duration<int64_t, Micro>;
-	using Nanoseconds	= typename std::chrono::duration<int64_t, Nano>;
+	using Hours			= typename std::chrono::duration<intmax_t, Ratio<3600>>;
+	using Minutes		= typename std::chrono::duration<intmax_t, Ratio<60>>;
+	using Seconds		= typename std::chrono::duration<intmax_t>;
+	using Milliseconds	= typename std::chrono::duration<intmax_t, Milli>;
+	using Microseconds	= typename std::chrono::duration<intmax_t, Micro>;
+	using Nanoseconds	= typename std::chrono::duration<intmax_t, Nano>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

@@ -6,7 +6,7 @@
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IObject.hpp>
 #include <ML/Core/IWritable.hpp>
-#include <ML/Core/Preprocessor.hpp>
+#include <ML/Core/TypeInfo.hpp>
 
 namespace ml
 {
@@ -44,14 +44,14 @@ namespace ml
 		inline iterator find()
 		{
 			ML_assert_is_base_of(IObject, Component);
-			return (iterator)(m_map.find(ML_TYPEOF(Component)));
+			return (iterator)(m_map.find(ML_TYPE_HASH(Component)));
 		}
 
 		template <class Component>
 		inline const_iterator find() const
 		{
 			ML_assert_is_base_of(IObject, Component);
-			return (const_iterator)(m_map.find(ML_TYPEOF(Component)));
+			return (const_iterator)(m_map.find(ML_TYPE_HASH(Component)));
 		}
 
 		// Add Component
@@ -62,7 +62,7 @@ namespace ml
 			ML_assert_is_base_of(IObject, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({ 
-						ML_TYPEOF(Component), 
+						ML_TYPE_HASH(Component), 
 						new Component() 
 					}).first->second))
 				: (NULL)
@@ -75,7 +75,7 @@ namespace ml
 			ML_assert_is_base_of(IObject, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({
-						ML_TYPEOF(Component),
+						ML_TYPE_HASH(Component),
 						value
 					}).first->second))
 				: (NULL)

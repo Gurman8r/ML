@@ -170,7 +170,7 @@ namespace ml
 
 		inline static self_type Lerp(const self_type & a, const self_type & b, value_type t)
 		{
-			return ML_LERP(a, b, t);
+			return (a * t + b * (static_cast<value_type>(1) - t));
 		};
 
 		inline static self_type Reflect(const self_type & direction, const self_type & normal)

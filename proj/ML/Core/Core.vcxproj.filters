@@ -198,11 +198,11 @@
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp">
       <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

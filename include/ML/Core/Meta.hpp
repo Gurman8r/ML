@@ -1,11 +1,7 @@
 #ifndef _ML_META_HPP_
 #define _ML_META_HPP_
 
-// https://stackoverflow.com/a/39348287/2977234
-
 #include <ML/Core/StandardLib.hpp>
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {

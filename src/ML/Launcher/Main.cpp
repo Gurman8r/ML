@@ -126,8 +126,11 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 int32_t main()
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
@@ -169,6 +172,8 @@ int32_t main()
 
 	// Goodbye!
 	return EXIT_SUCCESS;
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

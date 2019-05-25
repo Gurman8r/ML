@@ -1,13 +1,10 @@
 #ifndef _ML_CONFIG_HPP_
 #define _ML_CONFIG_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 // Project Info
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define ML_PROJECT_VER "1.0.0"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
-
 
 // Disable C-Runtime Warnings
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -15,17 +12,17 @@
 #	define _CRT_SECURE_NO_WARNINGS 1
 # endif
 
-
 //	C/C++
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(__cplusplus)
 #	define ML_CPP
 # endif
 
+//	Variable Templates
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(__cpp_variable_templates)
 #	define ML_HAS_VARIABLE_TEMPLATES
 # endif
-
 
 //	Configuration (Debug/Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -38,7 +35,6 @@
 #	define ML_RELEASE		1
 #	define ML_CONFIGURATION "Release"
 # endif
-
 
 //	Operating System
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -69,7 +65,6 @@
 #	error This operating system does not support memes.
 # endif
 
-
 //	Architecture / Platform Target
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_WIN64		)\
@@ -87,7 +82,6 @@
 #	define ML_PLATFORM_TARGET "x86"
 # endif
 
-
 //	Compiler
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_MSC_VER)
@@ -99,7 +93,6 @@
 #else
 #	error This compiler does not support memes.
 # endif
-
 
 //	Export / Import
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -127,6 +120,5 @@
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
 # endif
-
 
 #endif // !_ML_CONFIG_HPP_

@@ -219,7 +219,8 @@ namespace ml
 
 namespace ml
 {
-	constexpr XString ml_nameof(type_tag<String>) { return "ml::String"; }
+	constexpr XString ml_nameof(type_tag<std::string>)	{ return "std::string"; }
+	constexpr XString ml_nameof(type_tag<String>)		{ return "ml::String";	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

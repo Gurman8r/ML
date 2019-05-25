@@ -81,13 +81,20 @@ namespace ml
 			ev.prefs.GetBool	("Window", "srgbCapable",	false)
 		}))
 		{
+			ev.window.seCursorMode(Cursor::Normal);
+
+			ev.window.setViewport(vec2i::Zero, ev.window.getFrameSize());
+
 			if (ev.window.getStyle().maximized)
 			{
 				ev.window.maximize();
 			}
-			ev.window.seCursorMode(Cursor::Normal);
-			ev.window.setPosition((VideoSettings::desktop().resolution - ev.window.getSize()) / 2);
-			ev.window.setViewport(vec2i::Zero, ev.window.getFrameSize());
+			else
+			{
+				ev.window.setPosition(
+					(VideoSettings::desktop().resolution - ev.window.getSize()) / 2
+				);
+			}
 		}
 		else
 		{

@@ -46,8 +46,8 @@ namespace ml
 		Terminal	terminal;
 
 	private:
-		StreamBuf * m_coutBuf; // cout redirect buffer
-		SStream		m_coutStr; // cout redirect stream
+		std::streambuf * m_coutBuf; // cout redirect buffer
+		SStream m_coutStr; // cout redirect stream
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

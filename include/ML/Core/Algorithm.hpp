@@ -1,19 +1,46 @@
 #ifndef _ML_ALGORITHM_HPP_
 #define _ML_ALGORITHM_HPP_
 
+// Sources:
+// https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/algorithm.hpp
+
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	namespace detail
 	{
-		template<typename LhsIt, typename RhsIt>
-		constexpr bool equal_range(LhsIt lb, LhsIt le, RhsIt rb, RhsIt re)
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template<typename Left, typename Right>
+		constexpr bool equal_range(Left lBegin, Left lEnd, Right rBegin, Right rEnd)
 		{
-			return ((lb != le && rb != re)
-				? *lb == *rb && equal_range(lb + 1, le, rb + 1, re)
-				: (lb == le && rb == re)
+			return ((lBegin != lEnd && rBegin != rEnd)
+				? ((*lBegin) == (*rBegin)) && equal_range(lBegin + 1, lEnd, rBegin + 1, rEnd)
+				: ((lBegin == lEnd) && (rBegin == rEnd))
 			);
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <typename T>
+		constexpr const T & max(const T & lhs, const T & rhs)
+		{
+			return (lhs >= rhs) ? lhs : rhs;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <typename T>
+		constexpr const T & min(const T & lhs, const T & rhs)
+		{
+			return (lhs <= rhs) ? lhs : rhs;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ALGORITHM_HPP_

@@ -163,11 +163,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Chunk.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Console.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp" />
@@ -219,7 +217,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\XString.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Core\Console.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />

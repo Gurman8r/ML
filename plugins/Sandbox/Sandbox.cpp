@@ -8,6 +8,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
 #include <ML/Core/OS.hpp>
+#include <ML/Core/TypeID.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Style.hpp>
@@ -104,7 +105,7 @@ namespace DEMO
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
 		// Hello!
-		ml::Debug::log("Hello from {0}!", GetTypeName());
+		ml::Debug::log("Hello from {0}!", ml::type_id(*this).name());
 	}
 
 	void Sandbox::onStart(const ml::StartEvent & ev)

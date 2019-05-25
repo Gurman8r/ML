@@ -10,7 +10,7 @@ namespace ml
 
 	class ML_CORE_API BasicIStream
 		: public std::istream
-		, public StreamBuf
+		, public std::streambuf
 	{
 	public:
 		using base_type		= std::basic_istream<char>;

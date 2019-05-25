@@ -73,11 +73,13 @@
   || defined(__ppc64__	)\
   || defined(_x64		)\
   || defined(_M_X64		)
-#	define ML_x64
+#	define ML_x32 1
+#	define ML_x64 1
 #	define ML_ARCHITECTURE 64
 #	define ML_PLATFORM_TARGET "x64"
 # else
-#	define ML_x32
+#	define ML_x32 1
+#	define ML_x64 0
 #	define ML_ARCHITECTURE 32
 #	define ML_PLATFORM_TARGET "x86"
 # endif

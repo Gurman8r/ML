@@ -48,7 +48,7 @@ namespace ml
 	public:
 		BufferLayout();
 		BufferLayout(const List<Element> & elements);
-		BufferLayout(const Initializer<Element> & elements);
+		BufferLayout(const InitList<Element> & elements);
 		BufferLayout(const BufferLayout & copy);
 		~BufferLayout();
 

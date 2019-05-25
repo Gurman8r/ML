@@ -1,10 +1,14 @@
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/Console.hpp>
+
+# ifdef ML_SYSTEM_WINDOWS
+#	include <Windows.h>
+#	include <conio.h>
+# endif // ML_SYSTEM_WINDOWS
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	inline static const int32_t ml_Log(
 		std::ostream &	out, 
 		const int32_t	exitCode, 
@@ -20,9 +24,9 @@ namespace ml
 			<< endl;
 		return exitCode;
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -57,6 +61,15 @@ namespace ml
 		cin.get();
 #endif
 		return exitCode;
+	}
+
+	bool Debug::setTextAttrib(const uint16_t value)
+	{
+# ifdef ML_SYSTEM_WINDOWS
+		return SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
+# else 
+		return false;
+# endif
 	}
 
 	int32_t	Debug::system(CString cmd)

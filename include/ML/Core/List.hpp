@@ -23,7 +23,7 @@ namespace ml
 		using allocator_type		= typename _Alloc;
 		using self_type				= typename List<value_type, allocator_type>;
 		using base_type				= typename std::vector<value_type, allocator_type>;
-		using init_type				= typename Initializer<value_type>;
+		using init_type				= typename InitList<value_type>;
 		using difference_type		= typename base_type::difference_type;
 		using size_type				= typename base_type::size_type;
 		using iterator				= typename base_type::iterator;

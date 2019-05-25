@@ -1,7 +1,6 @@
 #ifndef _ML_SHAPES_HPP_
 #define _ML_SHAPES_HPP_
 
-#include <ML/Core/Array.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Graphics/VertexList.hpp>
 
@@ -20,7 +19,7 @@ namespace ml
 				NumUV	= (Size * 2),
 			};
 
-			using RectUVs = typename std::array<float, Size * 2>;
+			using RectUVs = typename Array<float, NumUV>;
 
 			static VertexList genQuadVerts(const FloatRect & r, const RectUVs & uv);
 

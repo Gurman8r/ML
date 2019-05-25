@@ -21,7 +21,7 @@ namespace ml
 		using fun_type		= typename key_type(*)(Args...);
 		using map_type		= typename HashMap<key_type, fun_type>;
 		using pair_type		= typename Pair<key_type, fun_type>;
-		using init_type		= typename Initializer<pair_type>;
+		using init_type		= typename InitList<pair_type>;
 		using const_iterator= typename map_type::const_iterator;
 
 		static constexpr key_type NoState { static_cast<key_type>(-1) };

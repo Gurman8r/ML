@@ -53,20 +53,20 @@ namespace ml
 
 		constexpr hash_t hash() const
 		{
-			return hash::fnv::do_hash(length(), begin());
+			return detail::fnv1a_hash(length(), begin());
 		}
 
-		ml::String cppstring() const
+		String cppstring() const
 		{
 			return { begin(), end() };
 		}
 
-		ml::String str() const
+		String str() const
 		{
 			return cppstring();
 		}
 
-		operator ml::String() const
+		operator String() const
 		{
 			return str();
 		}
@@ -101,7 +101,7 @@ namespace ml
 			return operator()(begin_offset, size() - end_offset);
 		}
 
-		friend std::ostream& operator<<(std::ostream& os, const XString& str)
+		friend std::ostream & operator<<(std::ostream & os, const XString& str)
 		{
 			for (const char c : str)
 			{
@@ -128,7 +128,5 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_X_STRING_HPP_

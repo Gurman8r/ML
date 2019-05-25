@@ -13,9 +13,18 @@ namespace ml
 
 	namespace meta
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		template<typename T>
 		using void_t = typename std::conditional<sizeof(T*) >= 0, void, T>::type;
 
+		/* * * * * * * * * * * * * * * * * * * * */
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace meta
+	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template<class X, class Y, class Op>

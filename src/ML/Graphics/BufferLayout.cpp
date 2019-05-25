@@ -101,7 +101,7 @@ namespace ml
 	{
 	}
 
-	BufferLayout::BufferLayout(const Initializer<Element> & elements)
+	BufferLayout::BufferLayout(const InitList<Element> & elements)
 		: m_elements(elements.begin(), elements.end())
 	{
 	}

@@ -26,7 +26,7 @@ namespace ml
 		Args(int32_t argc, char ** argv);
 		Args(const String & value);
 		Args(const List<String> & values);
-		Args(const Initializer<String>& values);
+		Args(const InitList<String>& values);
 		Args(const String & value, const String & delim);
 		Args(const Args & copy);
 		~Args();

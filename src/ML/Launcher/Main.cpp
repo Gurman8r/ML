@@ -126,16 +126,8 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/TypeID.hpp>
-
 int32_t main()
 {
-	Debug::log("{0}", type_id<String>().name());
-
-	return Debug::pause(0);
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

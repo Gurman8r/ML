@@ -45,6 +45,7 @@
 
 namespace ml
 {
+	// Usings
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	using int8_t	= typename signed char;			// 1 byte
@@ -61,50 +62,56 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-#ifdef ML_x64
+# if ML_x64
 	using size_t	= typename uint64_t;
-	using hash_t	= typename uint64_t;
 	using ptrdiff_t	= typename int64_t;
 	using intptr_t	= typename int64_t;
 	using intmax_t	= typename int64_t;
-#else
+# else
 	using size_t	= typename uint32_t;
-	using hash_t	= typename uint32_t;
 	using ptrdiff_t	= typename int32_t;
 	using intptr_t	= typename int32_t;
 	using intmax_t	= typename int32_t;
-#endif
+# endif
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	using hash_t = typename uint64_t;
+	using time_t = typename uint64_t;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+namespace ml
+{
+	template <class T, size_t N>using Array		= typename std::array			<T, N>;
+	template <class K, class V>	using HashMap	= typename std::unordered_map	<K, V>;
+	template <class T>			using InitList	= typename std::initializer_list<T>;
+	template <class K, class V>	using Map		= typename std::map				<K, V>;
+	template <class K, class V>	using MultiMap	= typename std::multimap		<K, V>;
+	template <class K, class V>	using Pair		= typename std::pair			<K, V>;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
 	// IO
 	/* * * * * * * * * * * * * * * * * * * * */
-	static std::ostream & cout	= std::cout;
-	static std::ostream & cerr	= std::cerr;
-	static std::istream & cin	= std::cin;
+	static std::ostream & cout = std::cout;
+	static std::ostream & cerr = std::cerr;
+	static std::istream & cin = std::cin;
 
 	template <class Elem, class Traits>
 	inline std::basic_ostream<Elem, Traits> & endl(std::basic_ostream<Elem, Traits> & out)
 	{
+		// insert newline and flush stream
 		out.put(out.widen('\n'));
 		out.flush();
 		return (out);
 	}
-
-	// Usings
-	/* * * * * * * * * * * * * * * * * * * * */
-	template <class K, class V> using HashMap		= typename std::unordered_map	<K, V>;
-	template <class T>			using Initializer	= typename std::initializer_list<T>;
-	template <class K, class V> using Map			= typename std::map				<K, V>;
-	template <class K, class V> using MultiMap		= typename std::multimap		<K, V>;
-	template <class K, class V> using Pair			= typename std::pair			<K, V>;
-								using StreamBuf		= typename std::streambuf;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

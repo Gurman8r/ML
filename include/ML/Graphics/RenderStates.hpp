@@ -12,7 +12,7 @@ namespace ml
 	{
 	public:
 		using pair_type			= typename Pair<uint32_t, RenderVar>;
-		using init_type			= typename Initializer<pair_type>;
+		using init_type			= typename InitList<pair_type>;
 		using map_type			= typename HashMap<uint32_t, RenderVar>;
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;

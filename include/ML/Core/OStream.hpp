@@ -10,7 +10,7 @@ namespace ml
 
 	class ML_CORE_API BasicOStream
 		: public std::ostream
-		, public StreamBuf
+		, public std::streambuf
 	{
 	public:
 		using base_type = std::ostream;

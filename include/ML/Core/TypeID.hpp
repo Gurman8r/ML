@@ -92,23 +92,23 @@ namespace ml
 	template<size_t N>
 	constexpr unnamed_type_id_t id_from_name(const char(&typeName)[N])
 	{
-		return hash::fnv::do_hash(typeName);
+		return detail::fnv1a_hash(typeName);
 	}
 
 	constexpr unnamed_type_id_t id_from_name(const char* typeName, size_t length)
 	{
-		return hash::fnv::do_hash(length, typeName);
+		return detail::fnv1a_hash(length, typeName);
 	}
 
 	constexpr unnamed_type_id_t id_from_name(const XString & name)
 	{
-		return hash::fnv::do_hash(name.size(), name.begin());
+		return detail::fnv1a_hash(name.size(), name.begin());
 	}
 
 	inline unnamed_type_id_t id_from_name(const String & typeName)
 	{
 		// Inline to prevent ODR violation
-		return hash::fnv::do_hash(typeName.size(), typeName.data());
+		return detail::fnv1a_hash(typeName.size(), typeName.data());
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

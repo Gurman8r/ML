@@ -1,6 +1,7 @@
 #include <ML/Script/AST_Node.hpp>
 #include <ML/Script/AST_Block.hpp>
 #include <ML/Script/AST_Expr.hpp>
+#include <ML/Core/Debug.hpp>
 
 namespace ml
 {

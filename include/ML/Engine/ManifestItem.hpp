@@ -14,7 +14,7 @@ namespace ml
 
 		using map_type			= typename HashMap<String, String>;
 		using pair_type			= typename Pair<String, String>;
-		using init_type			= typename Initializer<pair_type>;
+		using init_type			= typename InitList<pair_type>;
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;
 

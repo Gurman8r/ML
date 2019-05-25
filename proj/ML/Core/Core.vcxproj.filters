@@ -16,17 +16,11 @@
     <Filter Include="Header Files\Interfaces">
       <UniqueIdentifier>{64edec69-3d79-4d9b-a858-87175138149f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Containters">
-      <UniqueIdentifier>{d4a95364-0e07-43e1-9c47-efc4403c744c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Maths">
       <UniqueIdentifier>{22c169d6-ba85-4faf-a244-04d211f5ee71}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{4cc0b5f2-b6e7-4346-8846-52961655e456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Time">
-      <UniqueIdentifier>{1e96558e-6cc4-4eea-8c75-44ee67411d96}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Memory">
       <UniqueIdentifier>{851168d5-0bfb-4522-9678-b520f789916c}</UniqueIdentifier>
@@ -36,9 +30,6 @@
     </Filter>
     <Filter Include="Source Files\Memory">
       <UniqueIdentifier>{0f7d5343-3a38-4b0b-8d2e-96fd6aad5fc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Time">
-      <UniqueIdentifier>{2c37eef2-33a2-4a16-a25b-be904d5cb9f5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{bf83bdb7-08ac-4b33-a3cc-b8072fa8ba88}</UniqueIdentifier>
@@ -58,8 +49,14 @@
     <Filter Include="Source Files\Event System">
       <UniqueIdentifier>{8ef4c1e8-43ad-4952-af2f-70888a3f8726}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Constexpr">
+    <Filter Include="Header Files\CT">
       <UniqueIdentifier>{37cea9eb-82ea-4e8a-a40f-ddea9a7cb0c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DS">
+      <UniqueIdentifier>{d4a95364-0e07-43e1-9c47-efc4403c744c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DS">
+      <UniqueIdentifier>{2c37eef2-33a2-4a16-a25b-be904d5cb9f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,15 +90,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\ISingleton.hpp">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Array.hpp">
-      <Filter>Header Files\Containters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\String.hpp">
-      <Filter>Header Files\Containters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\List.hpp">
-      <Filter>Header Files\Containters</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
@@ -129,12 +117,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp">
-      <Filter>Header Files\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp">
-      <Filter>Header Files\Time</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Chunk.hpp">
       <Filter>Header Files\Memory</Filter>
     </ClInclude>
@@ -146,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp">
       <Filter>Header Files\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Console.hpp">
-      <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp">
       <Filter>Header Files\Utility</Filter>
@@ -180,13 +159,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
@@ -198,35 +171,53 @@
     <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp">
       <Filter>Header Files\Event System</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\ITrackable.hpp">
       <Filter>Header Files\Memory</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
-      <Filter>Header Files\Constexpr</Filter>
+      <Filter>Header Files\CT</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
-      <Filter>Header Files\Constexpr</Filter>
+      <Filter>Header Files\CT</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
-      <Filter>Header Files\Constexpr</Filter>
+      <Filter>Header Files\CT</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp">
-      <Filter>Header Files\Constexpr</Filter>
+      <Filter>Header Files\CT</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp">
-      <Filter>Header Files\Constexpr</Filter>
+      <Filter>Header Files\CT</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp">
-      <Filter>Header Files\Constexpr</Filter>
+      <Filter>Header Files\CT</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp">
-      <Filter>Header Files\Constexpr</Filter>
+      <Filter>Header Files\CT</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp">
-      <Filter>Header Files\Constexpr</Filter>
+      <Filter>Header Files\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp">
+      <Filter>Header Files\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp">
+      <Filter>Header Files\CT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\List.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\String.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
+      <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,9 +226,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp">
       <Filter>Source Files\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp">
-      <Filter>Source Files\Time</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp">
       <Filter>Source Files\Utility</Filter>
@@ -249,9 +237,6 @@
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Console.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\File.cpp">
@@ -272,8 +257,11 @@
     <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp">
       <Filter>Source Files\Event System</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp">
+      <Filter>Source Files\DS</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -131,6 +131,26 @@ static StateMachine<State> g_ControlFlow
 
 int32_t main()
 {
+	constexpr auto dd = 100;
+	constexpr auto sq = detail::sqrt<int>()(dd);
+
+	constexpr vector_2f a { 0.f, 0.f };
+	constexpr vector_2f b { 10.f, 10.f };
+	constexpr vector_2f c = maths::lerp(a, b, 0.5f);
+	constexpr float s = algorithm::sqrMagnitude(b);
+	constexpr float m = algorithm::magnitude(b);
+	constexpr vector_2f n = algorithm::normalize(b);
+	
+	Debug::log("dd: {0}", dd);
+	Debug::log("sq: {0}", sq);
+	Debug::log("a: {0}", a);
+	Debug::log("b: {0}", b);
+	Debug::log("c: {0}", c);
+	Debug::log("s: {0}", s);
+	Debug::log("m: {0}", m);
+	Debug::log("n: {0}", n);
+	return Debug::pause(0);
+
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

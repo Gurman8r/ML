@@ -7,13 +7,6 @@ namespace ml
 
 	namespace maths
 	{
-		
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	namespace maths
-	{
 		constexpr float Pi		{ 3.14159265359f };
 		constexpr float Deg2Rad { Pi / 180.f };
 		constexpr float Rad2Deg { 180.f / Pi };

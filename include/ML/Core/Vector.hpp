@@ -132,7 +132,7 @@ namespace ml
 		
 		inline value_type magnitude() const
 		{
-			return sqrt(sqrMagnitude());
+			return std::sqrt(sqrMagnitude());
 		};
 
 		inline value_type sqrMagnitude() const

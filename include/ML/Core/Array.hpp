@@ -1,8 +1,12 @@
 #ifndef _ML_ARRAY_HPP_
 #define _ML_ARRAY_HPP_
 
+// Source:
+// https://stackoverflow.com/questions/8622256/in-c11-is-sqrt-defined-as-constexpr
+
 #include <ML/Core/Algorithm.hpp>
 #include <ML/Core/Hash.hpp>
+#include <ML/Core/Maths.hpp>
 
 namespace ml
 {
@@ -33,11 +37,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		constexpr	auto cols() const	-> size_type { return Cols; }
-		constexpr	auto data()	const	-> const_pointer { return begin(); }
-		constexpr	auto hash()	const	-> hash_type { return hash::fnv1a<T>(size(), data()); }
-		constexpr	auto rows() const	-> size_type { return Rows; }
-		constexpr	auto size()	const	-> size_type { return Size; }
+		constexpr	auto cols() const	-> size_type		{ return Cols; }
+		constexpr	auto data()	const	-> const_pointer	{ return begin(); }
+		constexpr	auto hash()	const	-> hash_type		{ return hash::fnv1a<T>(size(), data()); }
+		constexpr	auto rows() const	-> size_type		{ return Rows; }
+		constexpr	auto size()	const	-> size_type		{ return Size; }
 
 		constexpr	auto begin()		-> pointer			{ return m_data; }
 		constexpr	auto begin() const	-> const_pointer	{ return m_data; }
@@ -63,18 +67,18 @@ namespace ml
 
 		inline friend std::ostream & operator<<(std::ostream & out, const self_type & rhs)
 		{
-			for (size_t i = 0; i < rhs.size(); i++)
+			for (const auto & e : rhs)
 			{
-				out << rhs[i] << " ";
+				out << e << " ";
 			}
 			return out;
 		}
 
 		inline friend std::istream & operator>>(std::istream & in, self_type & rhs)
 		{
-			for (size_t i = 0; i < rhs.size(); i++)
+			for (auto & e : rhs)
 			{
-				in >> rhs[i];
+				in >> e;
 			}
 			return in;
 		}
@@ -338,6 +342,136 @@ namespace ml
 	using vector_4f = vector_4<float>;
 	using vector_4i = vector_4<int32_t>;
 	using vector_4d = vector_4<double>;
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+}
+
+namespace ml
+{
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace detail
+	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <typename T>
+		struct sqrt_impl;
+
+		template <> struct sqrt_impl<double>
+		{
+			constexpr sqrt_impl(double x)
+				: m_value { x >= 0 && x < std::numeric_limits<double>::infinity()
+				? sqrt_impl(x, x, 0)()
+				: std::numeric_limits<double>::quiet_NaN() }
+			{
+			}
+
+			constexpr sqrt_impl(double x, double curr, double prev)
+				: m_value { curr == prev
+				? curr
+				: sqrt_impl(x, 0.5 * (curr + x / curr), curr)() }
+			{
+			}
+
+			constexpr double operator()() const { return m_value; }
+
+		private:
+			double m_value;
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <> struct sqrt_impl<size_t>
+		{
+			constexpr sqrt_impl(size_t x)
+				: m_value { sqrt_impl(1, 3, x)()
+			}
+			{
+			}
+
+			constexpr sqrt_impl(size_t x, size_t curr, size_t prev)
+				: m_value { (x <= prev)
+				? sqrt_impl(x + curr, curr + 2, prev)()
+				: ((curr >> 1) - 1)
+			}
+			{
+			}
+
+			constexpr size_t operator()() const { return m_value; }
+
+		private:
+			size_t m_value;
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <typename T>
+		struct sqrt
+		{
+			constexpr T operator()(const T & value) const
+			{
+				return sqrt_impl<T>(value)();
+			}
+		};
+
+		template <> struct sqrt<double>
+		{
+			constexpr double operator()(const double & value) const
+			{
+				return sqrt_impl<double>(value)();
+			}
+		};
+
+		template <> struct sqrt<size_t>
+		{
+			constexpr size_t operator()(const size_t & value) const
+			{
+				return sqrt_impl<size_t>(value)();
+			}
+		};
+
+		template <> struct sqrt<float>
+		{
+			constexpr double operator()(const float & value) const
+			{
+				return static_cast<float>(sqrt_impl<double>(static_cast<double>(value))());
+			}
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * */
+	}
+
+	namespace algorithm
+	{
+		template <
+			typename Value,
+			typename Coeff
+		> constexpr Value lerp(Value a, Value b, Coeff c)
+		{
+			return (a * c + b * (1 - c));
+		}
+
+		template <typename T, size_t X, size_t Y>
+		constexpr T sqrMagnitude(const matrix_t<T, X, Y> & value)
+		{
+			T out { 0 };
+			for (const auto & e : value)
+				out += e * e;
+			return out;
+		}
+
+		template <typename T, size_t X, size_t Y>
+		constexpr T magnitude(const matrix_t<T, X, Y> & value)
+		{
+			return static_cast<T>(detail::sqrt<T>()(sqrMagnitude(value)));
+		}
+
+		template <typename T, size_t X, size_t Y>
+		constexpr auto normalize(const matrix_t<T, X, Y> & value)
+		{
+			return (value / magnitude(value));
+		}
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

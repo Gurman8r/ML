@@ -52,6 +52,30 @@ namespace ml
 		};
 	}
 
+	namespace detail
+	{
+		template <typename T>
+		struct hash_impl;
+
+		struct fnv1a
+		{
+			enum : hash_t
+			{
+				Basis = 14695981039346656037ULL,
+				Prime = 1099511628211ULL
+			};
+		};
+
+		template <typename T>
+		struct hash
+		{
+			constexpr hash_t operator()(const T & value) const
+			{
+				return hash_impl<T>()(value);
+			}
+		};
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 

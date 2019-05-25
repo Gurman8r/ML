@@ -131,6 +131,59 @@ static StateMachine<State> g_ControlFlow
 
 int32_t main()
 {
+	constexpr matrix_4<int32_t> m0({
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0
+	});
+
+	constexpr matrix_4<int32_t> m1({
+		1, 1, 1, 1,
+		1, 1, 1, 1,
+		1, 1, 1, 1,
+		1, 1, 1, 1
+	});
+
+	constexpr matrix_4<int32_t> ma({
+		0x0, 0x1, 0x2, 0x3,
+		0x4, 0x5, 0x6, 0x7,
+		0x8, 0x9, 0xA, 0xB,
+		0xC, 0xD, 0xE, 0xF
+	});
+
+	constexpr matrix_4<int32_t> mb({
+		0x0, 0x1, 0x2, 0x3,
+		0x4, 0x5, 0x6, 0x7,
+		0x8, 0x9, 0xA, 0xB,
+		0xC, 0xD, 0xE, 0xF
+	});
+
+	constexpr matrix_4<int32_t> mi = matrix_4<int32_t>::identity();
+
+	constexpr matrix_4<int32_t> mc = ma + mb;
+
+	constexpr vector_t<float, 4> va({ 1, 2, 3, 4 });
+	constexpr vector_t<float, 4> vb({ });
+	constexpr vector_t<float, 4> vc({ 0 });
+	constexpr vector_t<float, 4> vd({ 1, 2, 3, 4 });
+
+	static_assert(0 == 0, "?");
+	static_assert(0 != 1, "?");
+
+	constexpr vector_2f f1 { { 1, 2 } };
+	constexpr vector_2f f2 { { 3, 4 } };
+	constexpr vector_2f f3 { f1 + f2 };
+	constexpr vector_2f f4 { vector_2f { { 10, 20 } } * 0.5f };
+	
+
+	Debug::log("{0}", mi);
+	Debug::log("{0}", f2);
+	Debug::log("{0}", f3);
+	Debug::log("{0}", f4);
+
+	return Debug::pause(0);
+
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

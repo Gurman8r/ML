@@ -126,8 +126,6 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/TypeID.hpp>
-
 int32_t main()
 {
 	// Setup

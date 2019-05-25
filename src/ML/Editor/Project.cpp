@@ -975,7 +975,7 @@ namespace ml
 							ImGui::Separator();
 						}
 
-						std::vector<Material::UniformMap::iterator> toRemove;
+						List<Material::UniformMap::iterator> toRemove;
 
 						for (auto it = mat->uniforms().begin(); it != mat->uniforms().end(); it++)
 						{

@@ -19,10 +19,4 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_SYSTEM_WINDOWS)
-#	pragma comment(lib, "glfw3.lib")
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 #endif // !_ML_WINDOW_EXPORT_HPP_

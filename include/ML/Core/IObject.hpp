@@ -16,6 +16,7 @@ namespace ml
 		virtual ~IObject() {}
 
 	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		inline virtual void serialize(std::ostream & out) const
 		{
 			out << typeid(*this).name();

@@ -403,7 +403,7 @@ namespace ml
 	{
 		const uint32_t count = (uint32_t)value.size();
 
-		std::vector<GLFWimage> temp(count);
+		List<GLFWimage> temp(count);
 
 		for (size_t i = 0; i < count; i++)
 		{

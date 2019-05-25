@@ -104,7 +104,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -118,7 +118,7 @@
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,7 +132,7 @@
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -150,7 +150,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

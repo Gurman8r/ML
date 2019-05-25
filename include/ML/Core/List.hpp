@@ -9,13 +9,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
+	// just a wrapper for std::vector<>
 	template <
 		class _Elem,
 		class _Alloc = std::allocator<_Elem>
 	> class List
 		: public std::vector<_Elem, _Alloc>
-		, public IComparable<std::vector<_Elem, _Alloc>>
-		, public IComparable<List<_Elem, _Alloc>>
 	{
 	public: // Usings
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -89,30 +88,6 @@ namespace ml
 		inline operator const base_type &() const
 		{
 			return static_cast<const base_type &>(*this);
-		}
-
-
-	public: // Comparison
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline virtual bool equals(const base_type & value) const override
-		{
-			return (value == (const base_type &)(*this));
-		}
-		
-		inline virtual bool lessThan(const base_type & value) const override
-		{
-			return (value < (const base_type &)(*this));
-		}
-
-		
-		inline virtual bool equals(const self_type & value) const override
-		{
-			return equals((const base_type &)(value));
-		}
-		
-		inline virtual bool lessThan(const self_type & value) const override
-		{
-			return lessThan((const base_type &)(value));
 		}
 	};
 

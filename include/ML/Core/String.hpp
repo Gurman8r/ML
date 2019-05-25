@@ -7,6 +7,7 @@
 
 namespace ml
 {
+	// just a wrapper for std::basic_string<>
 	template <
 		class _Elem,
 		class _Traits = std::char_traits<_Elem>,

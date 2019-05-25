@@ -259,7 +259,7 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				std::vector<BuildMap::iterator> toRemove;
+				List<BuildMap::iterator> toRemove;
 
 				/* * * * * * * * * * * * * * * * * * * * */
 

@@ -23,10 +23,4 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_SYSTEM_WINDOWS)
-#	pragma comment(lib, "OpenAL32.lib")
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 #endif // !_ML_AUDIO_EXPORT_HPP_

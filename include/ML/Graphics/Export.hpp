@@ -19,11 +19,4 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_SYSTEM_WINDOWS)
-#	pragma comment(lib, "glew32s.lib")
-#	pragma comment(lib, "opengl32.lib")
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 #endif // !_ML_WINDOW_EXPORT_HPP_

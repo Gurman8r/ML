@@ -19,11 +19,4 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_SYSTEM_WINDOWS)
-#	pragma comment(lib, "RakNet.lib")
-#	pragma comment(lib, "ws2_32.lib")
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 #endif // !_ML_NETWORK_EXPORT_HPP_

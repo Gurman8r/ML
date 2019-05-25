@@ -2,7 +2,6 @@
 #define _ML_I_EVENT_HPP_
 
 #include <ML/Core/IObject.hpp>
-#include <ML/Core/TypeInfo.hpp>
 
 namespace ml
 {
@@ -45,14 +44,12 @@ namespace ml
 		template <class Derived> 
 		inline const Derived * as() const
 		{
-			ML_assert_is_base_of(Event, Derived);
 			return dynamic_cast<const Derived *>(this);
 		}
 
 		template <class Derived>
 		inline Derived * as()
 		{
-			ML_assert_is_base_of(Event, Derived);
 			return dynamic_cast<Derived *>(this);
 		}
 

@@ -11,30 +11,45 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	namespace detail
+	using hash_t = typename uint64_t;
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace hash
 	{
-		constexpr hash_t fnv_basis = 14695981039346656037ULL;
-		constexpr hash_t fnv_prime = 1099511628211ULL;
-
-		// FNV-1a 64 bit hash
-		constexpr hash_t fnv1a_hash(size_t n, const char * str, hash_t hash)
+		template <typename T>
+		struct fnv1a final
 		{
-			return ((n > 0)
-				? (fnv1a_hash(n - 1, str + 1, (hash ^ *str) * fnv_prime))
+			enum : hash_t
+			{
+				Basis = 14695981039346656037ULL,
+				Prime = 1099511628211ULL
+			};
+
+			constexpr fnv1a(size_t size, const T * arr, hash_t hash)
+				: m_value { ((size > 0)
+				? (fnv1a(size - 1, arr + 1, (hash ^ *arr) * fnv1a::Prime))
 				: (hash)
-			);
-		}
+			) }
+			{
+			}
 
-		constexpr hash_t fnv1a_hash(size_t n, const char * str)
-		{
-			return fnv1a_hash(n, str, fnv_basis);
-		}
+			constexpr fnv1a(size_t size, const T * arr)
+				: fnv1a(size, arr, fnv1a::Basis)
+			{
+			}
 
-		template<size_t N>
-		constexpr hash_t fnv1a_hash(const char(&value)[N])
-		{
-			return fnv1a_hash((N - 1), &value[0]);
-		}
+			template <size_t N>
+			constexpr fnv1a(const T(&value)[N])
+				: fnv1a((N - 1), &value[0])
+			{
+			}
+
+			constexpr operator hash_t() const { return m_value; }
+
+		private:
+			hash_t m_value;
+		};
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

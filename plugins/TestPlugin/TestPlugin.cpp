@@ -4,7 +4,6 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Core/TypeID.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/GameTime.hpp>
@@ -44,7 +43,7 @@ namespace DEMO
 	void TestPlugin::onEnter(const ml::EnterEvent & ev)
 	{
 		// Hello!
-		ml::Debug::log("Hello from {0}!", ml::type_id(*this).name());
+		ml::Debug::log("Hello from {0}!", typeid(*this).name());
 	}
 
 	void TestPlugin::onStart(const ml::StartEvent & ev)

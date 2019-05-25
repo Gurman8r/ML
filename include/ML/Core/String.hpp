@@ -311,7 +311,7 @@ namespace std
 	{
 		using argument_type = ml::BasicString<_Elem, _Traits, _Alloc>;
 
-		inline ml::hash_t operator()(const argument_type & value) const noexcept
+		inline size_t operator()(const argument_type & value) const noexcept
 		{
 			return _Hash_array_representation(value.c_str(), value.size());
 		}

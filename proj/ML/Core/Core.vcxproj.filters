@@ -40,9 +40,6 @@
     <Filter Include="Source Files\DS">
       <UniqueIdentifier>{dedba3d6-daa0-4767-888b-ffab909323a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Detail">
-      <UniqueIdentifier>{d4d4ddb3-f54b-4897-8a32-dc7c61606a92}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
@@ -141,21 +138,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
-      <Filter>Header Files\Detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp">
-      <Filter>Header Files\Detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp">
-      <Filter>Header Files\Detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp">
-      <Filter>Header Files\Detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\TypeID.hpp">
-      <Filter>Header Files\Detail</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -168,19 +150,25 @@
     <ClInclude Include="..\..\..\include\ML\Core\File.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
-      <Filter>Header Files\Detail</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\String.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp">
-      <Filter>Header Files\Detail</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Array.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp">

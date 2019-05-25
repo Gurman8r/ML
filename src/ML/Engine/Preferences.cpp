@@ -62,16 +62,21 @@ namespace ml
 		);
 	}
 
-	float Preferences::GetFloat(const String & section, const String & name, float default_value) const
+	float Preferences::GetDouble(const String & section, const String & name, double default_value) const
 	{
-		return ((m_ini) 
-			? (float)(static_cast<INIReader *>(m_ini)->GetReal(
+		return ((m_ini)
+			? (static_cast<INIReader *>(m_ini)->GetReal(
 				section,
 				name,
 				default_value
 			))
 			: (default_value)
 		);
+	}
+
+	float Preferences::GetFloat(const String & section, const String & name, float default_value) const
+	{
+		return (float)GetDouble(section, name, (double)default_value);
 	}
 
 	int32_t Preferences::GetInt(const String & section, const String & name, int32_t default_value) const

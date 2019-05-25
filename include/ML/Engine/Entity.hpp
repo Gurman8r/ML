@@ -6,7 +6,6 @@
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IObject.hpp>
 #include <ML/Core/IWritable.hpp>
-#include <ML/Core/TypeInfo.hpp>
 
 namespace ml
 {
@@ -22,7 +21,7 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		using value_type	= typename IObject *;
-		using map_type		= typename HashMap<hash_t, value_type>;
+		using map_type		= typename HashMap<size_t, value_type>;
 		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;
 
@@ -43,15 +42,13 @@ namespace ml
 		template <class Component> 
 		inline iterator find()
 		{
-			ML_assert_is_base_of(IObject, Component);
-			return (iterator)(m_map.find(ML_TYPE_HASH(Component)));
+			return (iterator)(m_map.find(typeid(Component).hash_code()));
 		}
 
 		template <class Component>
 		inline const_iterator find() const
 		{
-			ML_assert_is_base_of(IObject, Component);
-			return (const_iterator)(m_map.find(ML_TYPE_HASH(Component)));
+			return (const_iterator)(m_map.find(typeid(Component).hash_code()));
 		}
 
 		// Add Component
@@ -59,10 +56,9 @@ namespace ml
 		template <class Component>
 		inline Component * add()
 		{
-			ML_assert_is_base_of(IObject, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({ 
-						ML_TYPE_HASH(Component), 
+						typeid(Component).hash_code(), 
 						new Component() 
 					}).first->second))
 				: (NULL)
@@ -72,10 +68,9 @@ namespace ml
 		template <class Component>
 		inline Component * add(Component * value)
 		{
-			ML_assert_is_base_of(IObject, Component);
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({
-						ML_TYPE_HASH(Component),
+						typeid(Component).hash_code(),
 						value
 					}).first->second))
 				: (NULL)
@@ -87,7 +82,6 @@ namespace ml
 			class ... Args
 		> inline Component * add(Args && ... args)
 		{
-			ML_assert_is_base_of(IObject, Component);
 			return add<Component>(new Component(std::forward<Args>(args)...));
 		}
 
@@ -96,7 +90,6 @@ namespace ml
 		template <class Component>
 		inline Component * get()
 		{
-			ML_assert_is_base_of(IObject, Component);
 			iterator it;
 			return (((it = this->find<Component>()) != this->end())
 				? (reinterpret_cast<Component *>(it->second))
@@ -107,7 +100,6 @@ namespace ml
 		template <class Component>
 		inline const Component * get() const
 		{
-			ML_assert_is_base_of(IObject, Component);
 			const_iterator it;
 			return (((it = this->find<Component>()) != this->cend())
 				? (reinterpret_cast<const Component *>(it->second))

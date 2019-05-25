@@ -20,7 +20,7 @@ namespace ml
 	{
 	private:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		time_t m_base;
+		uint64_t m_base;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -29,7 +29,7 @@ namespace ml
 		{
 		}
 
-		constexpr Duration(const time_t value) noexcept
+		constexpr Duration(const uint64_t value) noexcept
 			: m_base { value }
 		{
 		}
@@ -49,7 +49,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		constexpr operator time_t() const
+		constexpr operator uint64_t() const
 		{
 			return m_base;
 		}
@@ -72,32 +72,32 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		constexpr time_t hours() const
+		constexpr uint64_t hours() const
 		{
 			return std::chrono::duration_cast<Hours>(base()).count();
 		}
 
-		constexpr time_t minutes() const
+		constexpr uint64_t minutes() const
 		{
 			return std::chrono::duration_cast<Minutes>(base()).count();
 		}
 
-		constexpr time_t seconds() const
+		constexpr uint64_t seconds() const
 		{
 			return std::chrono::duration_cast<Seconds>(base()).count();
 		}
 
-		constexpr time_t millis() const
+		constexpr uint64_t millis() const
 		{
 			return std::chrono::duration_cast<Milliseconds>(base()).count();
 		}
 
-		constexpr time_t micros() const
+		constexpr uint64_t micros() const
 		{
 			return std::chrono::duration_cast<Microseconds>(base()).count();
 		}
 
-		constexpr time_t nanos() const
+		constexpr uint64_t nanos() const
 		{
 			return std::chrono::duration_cast<Nanoseconds>(base()).count();
 		}
@@ -126,15 +126,15 @@ namespace ml
 		template <class T>
 		constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return static_cast<time_t>(lhs) == 
-				static_cast<time_t>(static_cast<Duration>(rhs));
+			return static_cast<uint64_t>(lhs) == 
+				static_cast<uint64_t>(static_cast<Duration>(rhs));
 		}
 
 		template <class T>
 		constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return static_cast<time_t>(lhs) <
-				static_cast<time_t>(static_cast<Duration>(rhs));
+			return static_cast<uint64_t>(lhs) <
+				static_cast<uint64_t>(static_cast<Duration>(rhs));
 		}
 
 		template <class T>
@@ -166,13 +166,13 @@ namespace ml
 		template <class T>
 		constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
-			return Duration(static_cast<time_t>(lhs) + static_cast<time_t>(rhs));
+			return Duration(static_cast<uint64_t>(lhs) + static_cast<uint64_t>(rhs));
 		}
 
 		template <class T>
 		constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
-			return Duration(static_cast<time_t>(lhs) - static_cast<time_t>(rhs));
+			return Duration(static_cast<uint64_t>(lhs) - static_cast<uint64_t>(rhs));
 		}
 
 		template <class T>

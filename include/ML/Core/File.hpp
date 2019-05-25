@@ -57,7 +57,6 @@ namespace ml
 		inline String				str() const			{ return String(begin(), end()); }
 		inline SStream				sstr() const		{ return SStream(str()); }
 
-
 	public:
 		inline iterator					begin()			{ return m_data.begin();	}
 		inline iterator					end()			{ return m_data.end();		}

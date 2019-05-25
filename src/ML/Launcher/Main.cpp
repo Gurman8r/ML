@@ -126,6 +126,9 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <ML/Core/Array.hpp>
+#include <ML/Core/XString.hpp>
+
 int32_t main()
 {
 	// Setup

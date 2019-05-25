@@ -74,11 +74,6 @@ namespace ml
 # endif
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	using hash_t = typename uint64_t;
-	using time_t = typename uint64_t;
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

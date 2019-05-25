@@ -1,5 +1,5 @@
 #include <ML/Graphics/RectTransform.hpp>
-#include <ML/Core/Algorithm.hpp>
+#include <ML/Core/Maths.hpp>
 
 namespace ml
 {

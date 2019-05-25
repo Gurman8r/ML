@@ -3,7 +3,6 @@
 
 #include <ML/Script/Export.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/TypeInfo.hpp>
 #include <ML/Core/IObject.hpp>
 
 namespace ml
@@ -95,7 +94,6 @@ namespace ml
 			class Node
 		> inline const Node * as() const
 		{
-			ML_assert_is_base_of(ml::AST_Node, Node);
 			return dynamic_cast<const Node *>(this);
 		}
 		
@@ -103,7 +101,6 @@ namespace ml
 			class Node
 		> inline Node * as()
 		{
-			ML_assert_is_base_of(ml::AST_Node, Node);
 			return dynamic_cast<Node *>(this);
 		}
 
@@ -111,7 +108,6 @@ namespace ml
 			class Node
 		> Node * nextAs() const
 		{
-			ML_assert_is_base_of(ml::AST_Node, Node);
 			if (AST_Node * n = getNext())
 			{
 				return n->as<Node>();
@@ -123,7 +119,6 @@ namespace ml
 			class Node
 		> Node * prevAs() const
 		{
-			ML_assert_is_base_of(ml::AST_Node, Node);
 			if (AST_Node * p = getPrev())
 			{
 				return p->as<Node>();
@@ -135,7 +130,6 @@ namespace ml
 			class Node
 		> Node * parentAs() const
 		{
-			ML_assert_is_base_of(ml::AST_Node, Node);
 			if (AST_Node * p = getParent())
 			{
 				return p->as<Node>();
@@ -147,7 +141,6 @@ namespace ml
 			class Node
 		> Node * childAs(size_t index) const
 		{
-			ML_assert_is_base_of(ml::AST_Node, Node);
 			if (AST_Node * c = getChild(index))
 			{
 				return c->as<Node>();
@@ -159,7 +152,6 @@ namespace ml
 			class Node
 		> Node * firstAs() const
 		{
-			ML_assert_is_base_of(ml::AST_Node, Node);
 			if (!empty())
 			{
 				return (*begin())->as<Node>();
@@ -171,7 +163,6 @@ namespace ml
 			class Node
 		> Node * lastAs() const
 		{
-			ML_assert_is_base_of(ml::AST_Node, Node);
 			if (!empty())
 			{
 				return (*end() - 1)->as<Node>();

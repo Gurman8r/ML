@@ -207,9 +207,6 @@
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_impl_ml.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_widgets.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\thirdparty\include\imgui\LICENSE.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

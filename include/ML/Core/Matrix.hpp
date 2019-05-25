@@ -48,6 +48,7 @@ namespace ml
 		using value_type			= typename _Elem;
 		using array_type			= typename value_type[Size];
 		using const_value			= typename const value_type;
+
 		using pointer				= typename value_type *;
 		using reference				= typename value_type &;
 		using const_pointer			= typename const value_type *;

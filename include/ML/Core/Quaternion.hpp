@@ -1,7 +1,7 @@
 #ifndef _ML_QUAT_HPP_
 #define _ML_QUAT_HPP_
 
-#include <ML/Core/Algorithm.hpp>
+#include <ML/Core/Preprocessor.hpp>
 #include <ML/Core/Vector4.hpp>
 
 namespace ml
@@ -158,7 +158,7 @@ namespace ml
 
 		inline const_value yaw() const
 		{
-			return std::asinf(maths::clamp(
+			return std::asinf(ML_CLAMP(
 				(-2.0f * ((*this)[0] * (*this)[2] - this->real() * (*this)[1])), 
 				-1.0f, 
 				1.0f

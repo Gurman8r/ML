@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Base class for anything which might be 'new'-ed
-	// Provides automatic memory leak detection and simple serialization.
+	// Provides memory leak detection and simple serialization.
 	class ML_CORE_API IObject
 	{
 	public:

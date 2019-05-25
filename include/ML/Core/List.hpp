@@ -16,8 +16,8 @@ namespace ml
 	> class List
 		: public std::vector<_Elem, _Alloc>
 	{
-	public: // Usings
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		using value_type			= typename _Elem;
 		using allocator_type		= typename _Alloc;
 		using self_type				= typename List<value_type, allocator_type>;
@@ -31,8 +31,8 @@ namespace ml
 		using const_reverse_iterator= typename base_type::const_reverse_iterator;
 
 
-	public: // Constructors
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		List()
 			: base_type()
 		{
@@ -72,9 +72,8 @@ namespace ml
 		
 		virtual ~List() {}
 
-
-	public: // Operators
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	public:
+		/* * * * * * * * * * * * * * * * * * * * */
 		inline operator bool() const
 		{
 			return !(this->empty());
@@ -91,26 +90,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
-
-namespace std
-{
-	template <
-		class _Elem,
-		class _Alloc
-	> struct hash<ml::List<_Elem, _Alloc>>
-	{
-		using argument_type = ml::List<_Elem, _Alloc>;
-		using result_type = size_t;
-
-		inline result_type operator()(const argument_type & value) const noexcept
-		{
-			return _Hash_array_representation(value.data(), value.size());
-		}
-	};
-}
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_LIST_HPP_

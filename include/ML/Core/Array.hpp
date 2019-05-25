@@ -4,125 +4,6 @@
 #include <ML/Core/Algorithm.hpp>
 #include <ML/Core/Hash.hpp>
 
-//namespace ml
-//{
-//	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-//
-//	template <class T, size_t N>
-//	struct array_t final
-//	{
-//		/* * * * * * * * * * * * * * * * * * * * */
-//
-//		static_assert(N > 0, "size negative or zero");
-//
-//		/* * * * * * * * * * * * * * * * * * * * */
-//
-//		using value_type		= typename T;
-//		using data_type			= typename value_type[N];
-//		using self_type			= typename array_t<value_type, N>;
-//		using pointer			= typename value_type *;
-//		using reference			= typename value_type &;
-//		using const_pointer		= typename const value_type *;
-//		using const_reference	= typename const value_type &;
-//
-//		/* * * * * * * * * * * * * * * * * * * * */
-//
-//		constexpr	auto data()	const	-> const_pointer	{ return m_data; }
-//		constexpr	auto hash()	const	-> hash_t			{ return hash::fnv1a<T>(N, m_data); }
-//		constexpr	auto size()	const	-> size_t			{ return N; }
-//		inline		auto begin()		-> reference		{ return m_data; }
-//		constexpr	auto begin() const	-> const_pointer	{ return m_data; }
-//		constexpr	auto cbegin() const	-> const_reference	{ return begin(); }
-//		inline		auto end()			-> reference		{ return m_data + size(); }
-//		constexpr	auto end() const	-> const_pointer	{ return m_data + size(); }
-//		constexpr	auto cend()	const	-> const_reference	{ return end(); }
-//
-//		/* * * * * * * * * * * * * * * * * * * * */
-//
-//		constexpr const_reference operator[](size_t i) const
-//		{
-//			return m_data[i];
-//		}
-//
-//		constexpr reference operator[](size_t i)
-//		{
-//			return m_data[i];
-//		}
-//
-//		template <class Index, typename U>
-//		constexpr void set(Index i, U && value)
-//		{
-//			m_data[static_cast<size_t>(i)] = std::forward<U>(value);
-//		}
-//
-//		/* * * * * * * * * * * * * * * * * * * * */
-//
-//		inline friend std::ostream & operator<<(std::ostream & out, const self_type & rhs)
-//		{
-//			for (size_t i = 0; i < rhs.size(); i++)
-//			{
-//				out << rhs[i] << " ";
-//			}
-//			return out;
-//		}
-//
-//		inline friend std::istream & operator>>(std::istream & in, self_type & rhs)
-//		{
-//			for (size_t i = 0; i < rhs.size(); i++)
-//			{
-//				in >> rhs[i];
-//			}
-//			return in;
-//		}
-//
-//		/* * * * * * * * * * * * * * * * * * * * */
-//
-//		data_type m_data;
-//
-//		/* * * * * * * * * * * * * * * * * * * * */
-//	};
-//
-//	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-//
-//	template <class T, size_t N>
-//	constexpr bool operator==(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-//	{
-//		return algorithm::equal_range(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-//	}
-//
-//	template <class T, size_t N>
-//	constexpr bool operator!=(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-//	{
-//		return !(lhs == rhs);
-//	}
-//
-//	template <class T, size_t N>
-//	constexpr bool operator<(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-//	{
-//		return algorithm::less_range(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-//	}
-//
-//	template <class T, size_t N>
-//	constexpr bool operator<=(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-//	{
-//		return (lhs < rhs) || (lhs == rhs);
-//	}
-//
-//	template <class T, size_t N>
-//	constexpr bool operator>(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-//	{
-//		return !(lhs < rhs) && (lhs != rhs);
-//	}
-//
-//	template <class T, size_t N>
-//	constexpr bool operator>=(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-//	{
-//		return (lhs > rhs) || (lhs == rhs);
-//	}
-//
-//	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-//}
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -130,6 +11,10 @@ namespace ml
 	template <class T, size_t X, size_t Y>
 	struct matrix_t final
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		static_assert((X * Y) > 0, "size negative or zero");
+
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		enum { Cols = X, Rows = Y, Size = X * Y };
@@ -148,17 +33,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		constexpr	auto cols() const	-> size_type		{ return Cols; }
-		constexpr	auto data()	const	-> const_pointer	{ return m_data; }
-		constexpr	auto hash()	const	-> hash_type		{ return hash::fnv1a<T>(Size, m_data); }
-		constexpr	auto rows() const	-> size_type		{ return Rows; }
-		constexpr	auto size()	const	-> size_type		{ return Size; }
+		constexpr	auto cols() const	-> size_type { return Cols; }
+		constexpr	auto data()	const	-> const_pointer { return begin(); }
+		constexpr	auto hash()	const	-> hash_type { return hash::fnv1a<T>(size(), data()); }
+		constexpr	auto rows() const	-> size_type { return Rows; }
+		constexpr	auto size()	const	-> size_type { return Size; }
 
-		inline		auto begin()		-> reference		{ return m_data; }
+		constexpr	auto begin()		-> pointer			{ return m_data; }
 		constexpr	auto begin() const	-> const_pointer	{ return m_data; }
 		constexpr	auto cbegin() const	-> const_reference	{ return begin(); }
 		
-		inline		auto end()			-> reference		{ return m_data + size(); }
+		constexpr	auto end()			-> pointer			{ return m_data + size(); }
 		constexpr	auto end() const	-> const_pointer	{ return m_data + size(); }
 		constexpr	auto cend()	const	-> const_reference	{ return end(); }
 
@@ -172,12 +57,6 @@ namespace ml
 		constexpr reference operator[](size_t i)
 		{
 			return m_data[i];
-		}
-
-		template <class Index, typename U>
-		constexpr void set(Index i, U && value)
-		{
-			m_data[static_cast<size_t>(i)] = std::forward<U>(value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -414,7 +293,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <class T, size_t X, size_t Y>
-	constexpr matrix_t<T, X, Y> operator-(const matrix_t<T, X, Y> & lhs)
+	constexpr auto operator-(const matrix_t<T, X, Y> & lhs)
 	{
 		return lhs * static_cast<T>(-1);
 	}
@@ -459,7 +338,6 @@ namespace ml
 	using vector_4f = vector_4<float>;
 	using vector_4i = vector_4<int32_t>;
 	using vector_4d = vector_4<double>;
-	using vector_4u = vector_4<uint32_t>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

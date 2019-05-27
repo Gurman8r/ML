@@ -88,7 +88,8 @@ namespace ml
 			return self_type(
 				(a[1] * b[2]) - (a[2] * b[1]),
 				(a[2] * b[0]) - (a[0] * b[2]),
-				(a[0] * b[1]) - (a[1] * b[0]));
+				(a[0] * b[1]) - (a[1] * b[0])
+			);
 		}
 
 		inline self_type cross(const self_type & other) const

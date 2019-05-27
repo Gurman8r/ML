@@ -61,6 +61,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	using float32_t	= typename float;				// 4 bytes
+	using float64_t	= typename long double;			// 8 bytes
+	using float_t	= typename float32_t;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	using hash_t	= typename uint64_t;
+	using time_t	= typename uint64_t;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 # if ML_x64
 	using size_t	= typename uint64_t;
 	using ptrdiff_t	= typename int64_t;
@@ -72,12 +83,6 @@ namespace ml
 	using intptr_t	= typename int32_t;
 	using intmax_t	= typename int32_t;
 # endif
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	using float32_t		= typename float;
-	using float64_t		= typename long double;
-	using float_t		= typename float32_t;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

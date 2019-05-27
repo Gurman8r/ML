@@ -128,46 +128,36 @@ static StateMachine<State> g_ControlFlow
 
 #include <ML/Core/Meta.hpp>
 
-int32_t main()
+inline static int32_t meta_tests()
 {
-	glm::mat4 foooo;
-
 	constexpr meta::mat4f ma { 
 		meta::mat4f::identity()
 	};
 
-	constexpr meta::mat4f mb {
+	constexpr meta::mat4f mb { {
 		0,	1,	2,	3,
 		4,	5,	6,	7,
 		8,	9,	10, 11,
-		12, 13, 14, 15,
-	};
-
-	float lhs = 0.123f;
-	float rhs = 4.567f;
-	meta::alg::swap(lhs, rhs);
+		12, 13, 14, 15
+	} };
 
 	constexpr meta::vec3f v3 {};
 	constexpr meta::mat3f m3 {};
 	constexpr meta::mat4f m4 {};
-	constexpr meta::mat4f tester = meta::mat4f::copy(m4);
-	constexpr auto rbv = meta::alg::rebase(v3, m4);
-	constexpr auto rbm = meta::alg::rebase(m3, m4);
+	constexpr meta::mat4f m5 = meta::mat4f::copy(m4);
 
-	constexpr meta::vec2f va { 0.f, 0.f };
-	constexpr meta::vec2f vb { -10.f, -10.f };
-	constexpr meta::vec2f vc = meta::alg::lerp(va, vb, meta::value_t<float>::half);
+	constexpr auto rebaseV3 = meta::alg::rebase(v3, m4);
+	constexpr auto rebaseM3 = meta::alg::rebase(m3, m4);
+
+	constexpr auto va		= meta::vec2 { 0.f, 0.f };
+	constexpr auto vb		= meta::vec2 { -10.f, -10.f };
+	constexpr auto vc		= meta::alg::lerp(va, vb, meta::vec2::type::half);
+
+	constexpr auto hash1	= meta::xstring("Here").hash();
+	constexpr auto hash2	= meta::alg::hash()("Here");
 	
-	constexpr meta::vertex vert1 { { 1.2f, 3.4f, 5.6f }, { 1, 1, 1, 1 }, { 0.5f, 0.5f } };
-	constexpr meta::vertex vert2 { vert1 };
-
-	constexpr auto cube = meta::geometry::cube::contiguous;
-
-	Debug::log("{0}", vert1);
-	Debug::log("{0}", vert2);
-
-	constexpr auto eps		= meta::value_t<long double>::epsilon;
-	constexpr auto sqrmag	= meta::alg::sqr_magnitude(vb);
+	constexpr auto epsilon	= meta::value_t<long double>::epsilon;
+	constexpr auto sqr_mag	= meta::alg::sqr_magnitude(vb);
 	constexpr auto mag		= meta::alg::magnitude(vb);
 	constexpr auto norm		= meta::alg::normalize(vb);
 	constexpr auto lerp		= meta::alg::lerp(va, vb, 0.5f);
@@ -178,9 +168,18 @@ int32_t main()
 	constexpr auto pow		= meta::alg::power(1.23, 10);
 	constexpr auto fact		= meta::alg::factorial(10);
 
-
+	constexpr auto tri		= meta::geometry::triangle::contiguous;
+	constexpr auto quat		= meta::geometry::quad::contiguous;
+	constexpr auto cube		= meta::geometry::cube::contiguous;
 
 	return Debug::pause(0);
+}
+
+int32_t main()
+{
+# if ML_DEBUG
+	return meta_tests();
+# endif
 
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;

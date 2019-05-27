@@ -74,6 +74,12 @@ namespace ml
 # endif
 
 	/* * * * * * * * * * * * * * * * * * * * */
+
+	using float32_t		= typename float;
+	using float64_t		= typename long double;
+	using float_t		= typename float32_t;
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

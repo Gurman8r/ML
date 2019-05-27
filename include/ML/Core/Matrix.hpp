@@ -7,6 +7,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+#define ML_MATRIX_ITERATOR 1
 #define ML_ENIF_MAT(XCOND, YCOND) typename std::enable_if<(XCOND  &&  YCOND)>::type
 #define ML_ENIF_3x3(X, Y) ML_ENIF_MAT(X == 3, Y == 3)
 #define ML_ENIF_4x4(X, Y) ML_ENIF_MAT(X == 4, Y == 4)
@@ -336,18 +337,21 @@ namespace ml
 
 	public: // Iterators
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline iterator					begin()				{ return iterator(m_data, 0); }
-		inline iterator					end()				{ return iterator(m_data, this->size()); }
-		inline const_iterator			begin()		const	{ return const_iterator(m_data, 0); }
-		inline const_iterator			end()		const	{ return const_iterator(m_data, this->size()); }
-		inline const_iterator			cbegin()	const	{ return begin(); }
-		inline const_iterator			cend()		const	{ return end(); }
-		inline reverse_iterator			rbegin()			{ return reverse_iterator(end()); }
-		inline reverse_iterator			rend()				{ return reverse_iterator(begin()); }
-		inline const_reverse_iterator	rbegin()	const	{ return const_reverse_iterator(end()); }
-		inline const_reverse_iterator	rend()		const	{ return const_reverse_iterator(begin()); }
-		inline const_reverse_iterator	crbegin()	const	{ return rbegin(); }
-		inline const_reverse_iterator	crend()		const	{ return rend(); }
+# if ML_MATRIX_ITERATOR
+		inline iterator			begin()			{ return iterator(m_data, 0); }
+		inline const_iterator	begin() const	{ return const_iterator(m_data, 0); }
+		inline const_iterator	cbegin() const	{ return begin(); }
+		inline iterator			end()			{ return iterator(m_data, this->size()); }
+		inline const_iterator	end() const		{ return const_iterator(m_data, this->size()); }
+		inline const_iterator	cend() const	{ return end(); }
+# else
+		inline iterator			begin()			{ return std::begin(m_data); }
+		inline const_iterator	begin() const	{ return std::begin(m_data); }
+		inline const_iterator	cbegin() const	{ return begin(); }
+		inline iterator			end()			{ return std::end(m_data); }
+		inline const_iterator	end() const		{ return std::end(m_data); }
+		inline const_iterator	cend() const	{ return cend(); }
+# endif
 
 
 # ifdef GLM_VERSION

@@ -126,29 +126,38 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/Array.hpp>
+#include <ML/Core/Meta.hpp>
 #include <ML/Core/XString.hpp>
 
 int32_t main()
 {
-	constexpr auto dd = 100;
-	constexpr auto sq = detail::sqrt<int>()(dd);
+	constexpr meta::matrix_4f ma { 
+		meta::matrix_4f::identity()
+	};
 
-	constexpr vector_2f a { 0.f, 0.f };
-	constexpr vector_2f b { 10.f, 10.f };
-	constexpr vector_2f c = maths::lerp(a, b, 0.5f);
-	constexpr float s = algorithm::sqrMagnitude(b);
-	constexpr float m = algorithm::magnitude(b);
-	constexpr vector_2f n = algorithm::normalize(b);
-	
-	Debug::log("dd: {0}", dd);
-	Debug::log("sq: {0}", sq);
-	Debug::log("a: {0}", a);
-	Debug::log("b: {0}", b);
-	Debug::log("c: {0}", c);
-	Debug::log("s: {0}", s);
-	Debug::log("m: {0}", m);
-	Debug::log("n: {0}", n);
+	constexpr meta::matrix_4f mb { 
+		0,	1,	2,	3,
+		4,	5,	6,	7,
+		8,	9,	10, 11,
+		12, 13, 14, 15,
+	};
+
+	constexpr auto eps = meta::value_t<float>::epsilon;
+	constexpr auto dd = meta::value_t<float>::onehundred;
+	constexpr meta::vector_2f va { 0.f, 0.f };
+	constexpr meta::vector_2f vb { -10.f, -10.f };
+	constexpr meta::vector_2f vc = maths::lerp(va, vb, meta::value_t<float>::half);
+	constexpr auto sqrmag = meta::alg::sqr_magnitude(vb);
+	constexpr auto mag = meta::alg::magnitude(vb);
+	constexpr auto norm = meta::alg::normalize(vb);
+	constexpr auto lerp = meta::alg::lerp(va, vb, 0.5f);
+	constexpr auto sq = meta::alg::sqrt_t<float>()(1.0f);
+	constexpr auto det = meta::alg::determinant(ma);
+	constexpr auto inv = meta::alg::inverse(ma);
+	constexpr auto dot = meta::alg::dot(ma, mb);
+	constexpr auto p = meta::alg::power(1.23, 10);
+	constexpr auto f = meta::alg::factorial(10);
+
 	return Debug::pause(0);
 
 	// Setup

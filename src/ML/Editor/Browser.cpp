@@ -6,9 +6,14 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/OS.hpp>
+#include <ML/Core/Bytes.hpp>
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	static constexpr uint64_t MaxPreviewSize { 15_MB };
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Browser::Browser(EventSystem & eventSystem, bool startOpen)

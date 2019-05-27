@@ -163,7 +163,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />

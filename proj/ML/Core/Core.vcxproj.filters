@@ -168,11 +168,11 @@
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Array.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
+      <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

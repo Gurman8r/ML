@@ -17,23 +17,23 @@ namespace ml
 	{
 	public:
 		template<size_t N>
-		constexpr XString(const char(&str)[N]) 
+		constexpr XString(const char(&str)[N])
 			: XString { &str[0], (N - 1) }
 		{
 		}
 
-		constexpr XString(CString begin, size_t length) 
+		constexpr XString(CString begin, size_t length)
 			: m_str { begin }
 			, m_length { length }
 		{
 		}
 
-		constexpr XString(CString begin, CString end) 
+		constexpr XString(CString begin, CString end)
 			: XString { begin, static_cast<size_t>(end - begin) }
 		{
 		}
 
-		constexpr XString(CString begin) 
+		constexpr XString(CString begin)
 			: XString { begin, length(begin) }
 		{
 		}
@@ -46,7 +46,7 @@ namespace ml
 
 		constexpr size_t	length()	const { return m_length; }
 		constexpr size_t	size()		const { return length(); }
-		constexpr hash_t	hash()		const { return hash::fnv1a<char>(length(), begin()); }
+		constexpr hash_t	hash()		const { return meta::hash()(length(), begin()); }
 		constexpr CString	begin()		const { return m_str; }
 		constexpr CString	end()		const { return m_str + m_length; }
 
@@ -55,14 +55,14 @@ namespace ml
 		operator CString()	const { return c_str(); }
 		operator String()	const { return str(); }
 
-		constexpr char operator[](size_t i) const 
-		{ 
-			return m_str[i]; 
+		constexpr char operator[](size_t i) const
+		{
+			return m_str[i];
 		}
-		
-		constexpr CString operator()(size_t i) const 
-		{ 
-			return (m_str + i); 
+
+		constexpr CString operator()(size_t i) const
+		{
+			return (m_str + i);
 		}
 
 		constexpr XString operator()(size_t begin, size_t end) const
@@ -98,7 +98,7 @@ namespace ml
 	{
 		return !(lhs == rhs);
 	}
-	
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 

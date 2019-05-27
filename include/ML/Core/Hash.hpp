@@ -15,63 +15,34 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	namespace hash
+	namespace meta
 	{
-		template <typename T>
-		struct fnv1a final
-		{
-			enum : hash_t
-			{
-				Basis = 14695981039346656037ULL,
-				Prime = 1099511628211ULL
-			};
-
-			constexpr fnv1a(size_t size, const T * arr, hash_t hash)
-				: m_value { ((size > 0)
-				? (fnv1a(size - 1, arr + 1, (hash ^ *arr) * fnv1a::Prime))
-				: (hash)
-			) }
-			{
-			}
-
-			constexpr fnv1a(size_t size, const T * arr)
-				: fnv1a(size, arr, fnv1a::Basis)
-			{
-			}
-
-			template <size_t N>
-			constexpr fnv1a(const T(&value)[N])
-				: fnv1a((N - 1), &value[0])
-			{
-			}
-
-			constexpr operator hash_t() const { return m_value; }
-
-		private:
-			hash_t m_value;
-		};
-	}
-
-	namespace detail
-	{
-		template <typename T>
-		struct hash_impl;
-
-		struct fnv1a
-		{
-			enum : hash_t
-			{
-				Basis = 14695981039346656037ULL,
-				Prime = 1099511628211ULL
-			};
-		};
-
-		template <typename T>
 		struct hash
 		{
-			constexpr hash_t operator()(const T & value) const
+			struct fnv1a
 			{
-				return hash_impl<T>()(value);
+				static constexpr hash_t basis { 14695981039346656037ULL };
+				static constexpr hash_t prime { 1099511628211ULL };
+			};
+
+			template <class T>
+			constexpr hash_t operator()(size_t size, const T * arr, hash_t seed)
+			{
+				return ((size > 0)
+					? operator()(size - 1, arr + 1, (seed ^ *arr) * fnv1a::prime)
+					: seed);
+			}
+
+			template <class T>
+			constexpr hash_t operator()(size_t size, const T * arr)
+			{
+				return operator()(size, arr, fnv1a::basis);
+			}
+
+			template <class T, size_t N>
+			constexpr hash_t operator()(const T(&value)[N])
+			{
+				return operator()(value);
 			}
 		};
 	}

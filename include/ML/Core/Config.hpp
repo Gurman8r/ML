@@ -88,10 +88,16 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_MSC_VER)
 #	define ML_CC_MSC	_MSC_VER	// Microsoft Compiler
+#	define ML_CC_CLANG	0
+#	define ML_CC_GNUC	0
 # elif defined(__clang__)
+#	define ML_CC_MSC	0
 #	define ML_CC_CLANG	__clang__	// Clang Compiler
+#	define ML_CC_GNUC	0
 # elif defined(__GNUC__)
+#	define ML_CC_MSC
 #	define ML_CC_GNUC	__GNUC__	// GNU Compiler
+#	define ML_CC_CLANG
 #else
 #	error This compiler does not support memes.
 # endif

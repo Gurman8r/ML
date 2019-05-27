@@ -3,7 +3,6 @@
 
 #include <ML/Editor/EditorWindow.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Core/Bytes.hpp>
 
 namespace ml
 {
@@ -27,10 +26,6 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		using Directory = typename FileSystem::Directory;
-
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		static constexpr uint64_t MaxPreviewSize { 15_MB };
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */

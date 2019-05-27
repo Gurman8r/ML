@@ -85,7 +85,7 @@ namespace ml
 
 		inline static float angle(const self_type & value)
 		{
-			return atan2(value[0], value[1]);
+			return std::atan2f(value[0], value[1]);
 		};
 
 		inline static float det(const self_type & a, const self_type & b)

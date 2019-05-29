@@ -180,6 +180,18 @@ namespace ml
 		return false;
 	}
 
+	bool Mesh::loadFromMemory(const List<float>& vertices, const List<uint32_t>& indices)
+	{
+		if (!vertices.empty() && !indices.empty())
+		{
+			m_indices = indices;
+			m_vertices.clear();
+			m_contiguous = vertices;
+			return true;
+		}
+		return false;
+	}
+
 	bool Mesh::loadFromMemory(const VertexList & vertices)
 	{
 		if (!vertices.empty())

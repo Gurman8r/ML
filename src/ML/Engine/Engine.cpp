@@ -13,6 +13,8 @@
 #include <ML/Network/NetServer.hpp>
 #include <ML/Core/EventSystem.hpp>
 
+//#include <ML/Core/Meta.hpp>
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -106,6 +108,9 @@ namespace ml
 	{
 		// Load Default Meshes
 		/* * * * * * * * * * * * * * * * * * * * */
+		
+		
+#ifndef ML_META
 		ev.resources.meshes.load("default_triangle")->loadFromMemory(
 			Shapes::Triangle::Vertices,
 			Shapes::Triangle::Indices
@@ -118,6 +123,21 @@ namespace ml
 			Shapes::Cube::Vertices,
 			Shapes::Cube::Indices
 		);
+#else
+		ev.resources.meshes.load("default_triangle")->loadFromMemory(
+			meta::geometry::tri::contiguous,
+			meta::geometry::tri::indices
+		);
+		ev.resources.meshes.load("default_quad")->loadFromMemory(
+			meta::geometry::quad::contiguous,
+			meta::geometry::quad::indices
+		);
+		ev.resources.meshes.load("default_cube")->loadFromMemory(
+			meta::geometry::cube::contiguous,
+			meta::geometry::cube::indices
+		);
+#endif // !ML_META
+
 		ev.resources.meshes.load("default_skybox")->loadFromMemory(
 			Shapes::Sky::Vertices
 		);

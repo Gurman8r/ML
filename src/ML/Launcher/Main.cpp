@@ -128,6 +128,15 @@ static StateMachine<State> g_ControlFlow
 
 #include <ML/Core/Meta.hpp>
 
+template <
+	class Fun,
+	class ... Args
+> inline static void testFun(Fun && fun, Args && ... args)
+{
+
+}
+
+
 inline static int32_t meta_tests()
 {
 	constexpr meta::mat4f ma { 
@@ -135,16 +144,17 @@ inline static int32_t meta_tests()
 	};
 
 	constexpr meta::mat4f mb { {
-		0,	1,	2,	3,
-		4,	5,	6,	7,
-		8,	9,	10, 11,
-		12, 13, 14, 15
+		0.f,	1.f,	2.f,	3.f,
+		4.f,	5.f,	6.f,	7.f,
+		8.f,	9.f,	10.f,	11.f,
+		12.f,	13.f,	14.f,	15.f
 	} };
 
 	constexpr meta::vec3f v3 {};
 	constexpr meta::mat3f m3 {};
 	constexpr meta::mat4f m4 {};
-	constexpr meta::mat4f m5 = meta::mat4f::copy(m4);
+	constexpr meta::mat4f m5 = m4;
+	constexpr meta::mat4i m6 = (meta::mat4i)mb;
 
 	constexpr auto rebaseV3 = meta::alg::rebase(v3, m4);
 	constexpr auto rebaseM3 = meta::alg::rebase(m3, m4);
@@ -153,33 +163,62 @@ inline static int32_t meta_tests()
 	constexpr auto vb		= meta::vec2 { -10.f, -10.f };
 	constexpr auto vc		= meta::alg::lerp(va, vb, meta::vec2::type::half);
 
-	constexpr auto hash1	= meta::xstring("Here").hash();
-	constexpr auto hash2	= meta::alg::hash()("Here");
-	
-	constexpr auto epsilon	= meta::value_t<long double>::epsilon;
+	constexpr auto hash1	= meta::alg::hash()("Here");
+	constexpr auto hash2	= meta::c_string("Here").hash();
+	constexpr auto hash3	= meta::mat4i::identity().hash();
+
+	constexpr auto eps		= meta::value_t<long double>::epsilon;
 	constexpr auto sqr_mag	= meta::alg::sqr_magnitude(vb);
 	constexpr auto mag		= meta::alg::magnitude(vb);
 	constexpr auto norm		= meta::alg::normalize(vb);
 	constexpr auto lerp		= meta::alg::lerp(va, vb, 0.5f);
-	constexpr auto sqr		= meta::alg::sqrt_t<float>()(1.0f);
+	constexpr auto sqr		= meta::alg::sqrt<float>()(13.0f);
 	constexpr auto det		= meta::alg::determinant(ma);
 	constexpr auto inv		= meta::alg::inverse(ma);
 	constexpr auto dot		= meta::alg::dot(ma, mb);
-	constexpr auto pow		= meta::alg::power(1.23, 10);
-	constexpr auto fact		= meta::alg::factorial(10);
+	constexpr auto pow		= meta::alg::pow(1.23, 10);
+	constexpr auto fact		= meta::alg::fact(10);
 
-	constexpr auto tri		= meta::geometry::triangle::contiguous;
+	constexpr auto tri		= meta::geometry::tri::contiguous;
 	constexpr auto quat		= meta::geometry::quad::contiguous;
 	constexpr auto cube		= meta::geometry::cube::contiguous;
+
+	constexpr auto res		= meta::vec2 { 1280, 720 };
+	constexpr auto fov		= 45.f;
+	constexpr auto aspect	= (res[0] / res[1]);
+	constexpr auto zNear	= 0.1f;
+	constexpr auto zFar		= 1000.f;
+	constexpr auto ortho	= meta::mat4::ortho(0, res[0], res[1], 0);
+	constexpr auto persp	= meta::mat4::persp(fov, aspect, zNear, zFar);
+
+	cout 
+		<< std::setprecision(15)
+		<< "std::sin " << std::sinf(1.f) << endl
+		<< "alg::sin " << meta::alg::sin(1.f) << endl
+		<< endl
+		<< "std::tan " << std::tanf(1.f) << endl
+		<< "alg::tan " << meta::alg::tan(1.f) << endl
+		<< endl
+		<< "std::cos " << std::cosf(1.f) << endl
+		<< "alg::cos " << meta::alg::cos(1.f) << endl
+		<< endl 
+		<< endl
+		<< "glm::ortho\n" << (mat4)(glm::ortho(0.f, 1280.f, 720.f, 0.f))
+		<< "meta::ortho\n" << ortho << endl
+		<< endl
+		<< "glm::persp\n" << (mat4)(glm::perspective(45.f, (1280.f / 720.f), 0.1f, 1000.f))
+		<< "meta::persp\n" << persp << endl
+		<< endl
+		<< endl;
 
 	return Debug::pause(0);
 }
 
 int32_t main()
 {
-# if ML_DEBUG
+#if ML_DEBUG
 	return meta_tests();
-# endif
+#endif
 
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;

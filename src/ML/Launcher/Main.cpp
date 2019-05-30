@@ -139,15 +139,17 @@ inline static int32_t meta_tests()
 
 	constexpr meta::mat4f mb = meta::alg::transpose(ma);
 
+	constexpr meta::vec3f v3 { 1, 2, 3 };
+	constexpr meta::mat3f m3 { 1, 2, 3 , 4, 5, 6, 7, 8, 9 };
+	constexpr meta::mat4f m4 = v3;
+	constexpr meta::mat4f m5 = m3;
+
 	cout
 		<< ma << endl
-		<< mb << std::endl;
-
-	constexpr meta::vec3f v3 {};
-	constexpr meta::mat3f m3 {};
-	constexpr meta::mat4f m4 {};
-	constexpr meta::mat4f m5 = m4;
-	constexpr meta::mat4i m6 = (meta::mat4i)mb;
+		<< mb << std::endl
+		<< v3 << std::endl
+		<< m3 << std::endl
+		<< m5 << std::endl;
 
 	constexpr auto rebaseV3 = meta::alg::rebase(v3, m4);
 	constexpr auto rebaseM3 = meta::alg::rebase(m3, m4);
@@ -161,7 +163,7 @@ inline static int32_t meta_tests()
 	constexpr auto hash3	= meta::mat4i::identity().hash();
 	constexpr auto hash4	= meta::mat4f::identity().hash();
 
-	constexpr auto eps		= meta::value_t<long double>::epsilon;
+	constexpr auto eps		= meta::type_t<long double>::epsilon;
 	constexpr auto sqr_mag	= meta::alg::sqr_magnitude(vb);
 	constexpr auto mag		= meta::alg::magnitude(vb);
 	constexpr auto norm		= meta::alg::normalize(vb);

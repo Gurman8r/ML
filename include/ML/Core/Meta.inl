@@ -6,47 +6,47 @@ namespace ml
 
 	namespace meta
 	{
-		// VALUE_T OPERATORS
+		// TYPE_T OPERATORS
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			template <class> class Val, class T
-		> constexpr bool operator==(const Val<T> & lhs, const Val<T> & rhs)
+			template <class> class Tty, class T
+		> constexpr bool operator==(const Tty<T> & lhs, const Tty<T> & rhs)
 		{
 			return (lhs() == rhs());
 		}
 
 		template <
-			template <class> class Val, class T
-		> constexpr bool operator!=(const Val<T> & lhs, const Val<T> & rhs)
+			template <class> class Tty, class T
+		> constexpr bool operator!=(const Tty<T> & lhs, const Tty<T> & rhs)
 		{
 			return !(lhs == rhs);
 		}
 
 		template <
-			template <class> class Val, class T
-		> constexpr bool operator<(const Val<T> & lhs, const Val<T> & rhs)
+			template <class> class Tty, class T
+		> constexpr bool operator<(const Tty<T> & lhs, const Tty<T> & rhs)
 		{
 			return (lhs() < rhs());
 		}
 
 		template <
-			template <class> class Val, class T
-		> constexpr bool operator>(const Val<T> & lhs, const Val<T> & rhs)
+			template <class> class Tty, class T
+		> constexpr bool operator>(const Tty<T> & lhs, const Tty<T> & rhs)
 		{
 			return !(lhs < rhs);
 		}
 
 		template <
-			template <class> class Val, class T
-		> constexpr bool operator<=(const Val<T> & lhs, const Val<T> & rhs)
+			template <class> class Tty, class T
+		> constexpr bool operator<=(const Tty<T> & lhs, const Tty<T> & rhs)
 		{
 			return (lhs < rhs) || (lhs == rhs);
 		}
 
 		template <
-			template <class> class Val, class T
-		> constexpr bool operator>=(const Val<T> & lhs, const Val<T> & rhs)
+			template <class> class Tty, class T
+		> constexpr bool operator>=(const Tty<T> & lhs, const Tty<T> & rhs)
 		{
 			return (lhs > rhs) || (lhs == rhs);
 		}
@@ -334,7 +334,7 @@ namespace ml
 		> constexpr auto operator-(const M<T, N...> & lhs)
 			-> M<T, N...>
 		{
-			return (lhs * value_t<T>::minus_one);
+			return (lhs * type_t<T>::minus_one);
 		}
 
 		template <

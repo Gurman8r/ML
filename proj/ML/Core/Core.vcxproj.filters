@@ -210,4 +210,9 @@
       <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\ML\Core\Meta.inl">
+      <Filter>Header Files\DS</Filter>
+    </None>
+  </ItemGroup>
 </Project>

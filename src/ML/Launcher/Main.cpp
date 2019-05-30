@@ -128,27 +128,20 @@ static StateMachine<State> g_ControlFlow
 
 #include <ML/Core/Meta.hpp>
 
-template <
-	class Fun,
-	class ... Args
-> inline static void testFun(Fun && fun, Args && ... args)
-{
-
-}
-
-
 inline static int32_t meta_tests()
 {
-	constexpr meta::mat4f ma { 
-		meta::mat4f::identity()
-	};
-
-	constexpr meta::mat4f mb { {
+	constexpr meta::mat4f ma {
 		0.f,	1.f,	2.f,	3.f,
 		4.f,	5.f,	6.f,	7.f,
 		8.f,	9.f,	10.f,	11.f,
 		12.f,	13.f,	14.f,	15.f
-	} };
+	};
+
+	constexpr meta::mat4f mb = meta::alg::transpose(ma);
+
+	cout
+		<< ma << endl
+		<< mb << std::endl;
 
 	constexpr meta::vec3f v3 {};
 	constexpr meta::mat3f m3 {};
@@ -166,6 +159,7 @@ inline static int32_t meta_tests()
 	constexpr auto hash1	= meta::alg::hash()("Here");
 	constexpr auto hash2	= meta::c_string("Here").hash();
 	constexpr auto hash3	= meta::mat4i::identity().hash();
+	constexpr auto hash4	= meta::mat4f::identity().hash();
 
 	constexpr auto eps		= meta::value_t<long double>::epsilon;
 	constexpr auto sqr_mag	= meta::alg::sqr_magnitude(vb);
@@ -190,26 +184,6 @@ inline static int32_t meta_tests()
 	constexpr auto zFar		= 1000.f;
 	constexpr auto ortho	= meta::mat4::ortho(0, res[0], res[1], 0);
 	constexpr auto persp	= meta::mat4::persp(fov, aspect, zNear, zFar);
-
-	cout 
-		<< std::setprecision(15)
-		<< "std::sin " << std::sinf(1.f) << endl
-		<< "alg::sin " << meta::alg::sin(1.f) << endl
-		<< endl
-		<< "std::tan " << std::tanf(1.f) << endl
-		<< "alg::tan " << meta::alg::tan(1.f) << endl
-		<< endl
-		<< "std::cos " << std::cosf(1.f) << endl
-		<< "alg::cos " << meta::alg::cos(1.f) << endl
-		<< endl 
-		<< endl
-		<< "glm::ortho\n" << (mat4)(glm::ortho(0.f, 1280.f, 720.f, 0.f))
-		<< "meta::ortho\n" << ortho << endl
-		<< endl
-		<< "glm::persp\n" << (mat4)(glm::perspective(45.f, (1280.f / 720.f), 0.1f, 1000.f))
-		<< "meta::persp\n" << persp << endl
-		<< endl
-		<< endl;
 
 	return Debug::pause(0);
 }

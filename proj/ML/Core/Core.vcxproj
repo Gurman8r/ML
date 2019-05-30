@@ -220,6 +220,9 @@
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Transform.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\ML\Core\Meta.inl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

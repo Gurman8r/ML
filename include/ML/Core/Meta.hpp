@@ -10,7 +10,6 @@
 //	- https://github.com/kthohr/gcem
 //	- https://stackoverflow.com/questions/3380628/fast-arc-cos-algorithm
 
-#include <ML/Core/GLM.hpp>
 #include <ML/Core/String.hpp>
 #include <gcem/gcem.hpp>
 
@@ -29,7 +28,6 @@ namespace ml
 
 	namespace meta
 	{
-		// STRUCT VALUE_T
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <
@@ -132,58 +130,13 @@ namespace ml
 		private: const type m_value;
 		};
 
-		// OPERATORS
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			template <class> class Val, class T
-		> constexpr bool operator==(const Val<T> & lhs, const Val<T> & rhs)
-		{
-			return (lhs() == rhs());
-		}
-
-		template <
-			template <class> class Val, class T
-		> constexpr bool operator!=(const Val<T> & lhs, const Val<T> & rhs)
-		{
-			return !(lhs == rhs);
-		}
-
-		template <
-			template <class> class Val, class T
-		> constexpr bool operator<(const Val<T> & lhs, const Val<T> & rhs)
-		{
-			return (lhs() < rhs());
-		}
-
-		template <
-			template <class> class Val, class T
-		> constexpr bool operator>(const Val<T> & lhs, const Val<T> & rhs)
-		{
-			return !(lhs < rhs);
-		}
-
-		template <
-			template <class> class Val, class T
-		> constexpr bool operator<=(const Val<T> & lhs, const Val<T> & rhs)
-		{
-			return (lhs < rhs) || (lhs == rhs);
-		}
-
-		template <
-			template <class> class Val, class T
-		> constexpr bool operator>=(const Val<T> & lhs, const Val<T> & rhs)
-		{
-			return (lhs > rhs) || (lhs == rhs);
-		}
-
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-// ALG
+// ALGORITHM
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -205,32 +158,28 @@ namespace ml
 
 			template <
 				class T
-			> constexpr auto bit_read(T value, T bit)
-				-> T
+			> constexpr T bit_read(T value, T bit)
 			{
 				return ((value >> bit) & value_t<T>::one);
 			}
 
 			template <
 				class T
-			> constexpr auto bit_set(T & value, T bit)
-				-> T &
+			> constexpr T & bit_set(T & value, T bit)
 			{
 				return (value |= (value_t<T>::one << bit));
 			}
 
 			template <
 				class T
-			> constexpr auto bit_clear(T & value, T bit)
-				-> T &
+			> constexpr T & bit_clear(T & value, T bit)
 			{
 				return (value &= ~(value_t<T>::one << bit));
 			}
 
 			template <
 				class T
-			> constexpr auto bit_write(T & value, T bit, T bitValue)
-				-> T &
+			> constexpr T & bit_write(T & value, T bit, T bitValue)
 			{
 				return (bitValue ? bit_set(value, bit) : bit_clear(value, bit));
 			}
@@ -250,7 +199,10 @@ namespace ml
 				> constexpr hash_t operator()(size_t size, const T * value, hash_t seed)
 				{
 					return ((size > 0)
-						? operator()(size - 1, value + 1, (seed ^ (*value)) * fnv1a::prime)
+						? operator()(
+							size - 1, 
+							value + 1, 
+							(seed ^ static_cast<hash_t>(*value)) * fnv1a::prime)
 						: seed);
 				}
 
@@ -456,6 +408,13 @@ namespace ml
 
 			template <
 				class Tx
+			> static constexpr auto cos(const Tx & x)
+			{
+				return gcem::cos(x);
+			}
+
+			template <
+				class Tx
 			> static constexpr auto sin(const Tx & x)
 			{
 				return gcem::sin(x);
@@ -468,21 +427,7 @@ namespace ml
 				return gcem::tan(x);
 			}
 
-			template <
-				class Tx
-			> static constexpr auto cos(const Tx & x)
-			{
-				return gcem::cos(x);
-			}
-
 			/* * * * * * * * * * * * * * * * * * * * */
-
-			template <
-				class Tx
-			> static constexpr auto asin(const Tx & x)
-			{
-				return gcem::asin(x);
-			}
 
 			template <
 				class Tx
@@ -493,12 +438,33 @@ namespace ml
 
 			template <
 				class Tx
+			> static constexpr auto asin(const Tx & x)
+			{
+				return gcem::asin(x);
+			}
+
+			template <
+				class Tx
 			> static constexpr auto atan(const Tx & x)
 			{
 				return gcem::atan(x);
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
+
+			template <
+				class Tx, class Ty
+			> static constexpr auto acos2(const Tx & x, const Ty & y)
+			{
+				return gcem::acos2(x, y);
+			}
+
+			template <
+				class Tx, class Ty
+			> static constexpr auto asin2(const Tx & x, const Ty & y)
+			{
+				return gcem::asin2(x, y);
+			}
 
 			template <
 				class Tx, class Ty
@@ -533,8 +499,8 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				template <
-					class Lhs, class Rhs
-				> static constexpr bool equals(Lhs lBegin, Lhs lEnd, Rhs rBegin, Rhs rEnd)
+					class LI, class RI
+				> static constexpr bool equals(LI lBegin, LI lEnd, RI rBegin, RI rEnd)
 				{
 					return ((lBegin != lEnd && rBegin != rEnd)
 						? ((*lBegin) == (*rBegin))
@@ -554,8 +520,8 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				template <
-					class Lhs, class Rhs
-				> static constexpr bool less(Lhs lBegin, Lhs lEnd, Rhs rBegin, Rhs rEnd)
+					class LI, class RI
+				> static constexpr bool less(LI lBegin, LI lEnd, RI rBegin, RI rEnd)
 				{
 					return ((lBegin != lEnd && rBegin != rEnd)
 						? ((*lBegin) < (*rBegin))
@@ -575,8 +541,8 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				template <
-					class OutIt, class InIt
-				> static constexpr auto copy(OutIt first, OutIt last, InIt d_first)
+					class Out, class In
+				> static constexpr auto copy(Out first, Out last, In d_first)
 				{
 					while (first != last)
 					{
@@ -607,9 +573,9 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				template <
-					class OutIt, class T
-				> static constexpr auto fill(OutIt first, OutIt last, T value)
-					-> OutIt
+					class Out, class T
+				> static constexpr auto fill(Out first, Out last, T value)
+					-> Out
 				{
 					while (first != last)
 					{
@@ -814,7 +780,6 @@ namespace ml
 
 	namespace meta
 	{
-		// STRUCT C_STRING
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		struct c_string final
@@ -896,39 +861,6 @@ namespace ml
 			const size_t	m_size;
 		};
 
-		// OPERATORS
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		constexpr bool operator==(const c_string & lhs, const c_string & rhs)
-		{
-			return alg::range::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-		}
-
-		constexpr bool operator!=(const c_string & lhs, const c_string & rhs)
-		{
-			return !(lhs == rhs);
-		}
-
-		constexpr bool operator<(const c_string & lhs, const c_string & rhs)
-		{
-			return alg::range::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-		}
-
-		constexpr bool operator>(const c_string & lhs, const c_string & rhs)
-		{
-			return !(lhs > rhs);
-		}
-
-		constexpr bool operator<=(const c_string & lhs, const c_string & rhs)
-		{
-			return (lhs < rhs) || (lhs == rhs);
-		}
-
-		constexpr bool operator>=(const c_string & lhs, const c_string & rhs)
-		{
-			return (lhs > rhs) || (lhs == rhs);
-		}
-
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
@@ -942,7 +874,6 @@ namespace ml
 
 	namespace meta
 	{
-		// STRUCT ARRAY_T
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <
@@ -1036,7 +967,6 @@ namespace ml
 
 	namespace meta
 	{
-		// STRUCT MATRIX_T
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <
@@ -1114,8 +1044,9 @@ namespace ml
 				{
 					for (size_t x = 0; x < rhs.width(); x++)
 					{
-						out << rhs[y * rhs.width() + x] 
-							<< ((x < rhs.width() - 1) ? " " : "\n");
+						out << std::left << std::setw(5)
+							<< rhs[y * rhs.width() + x] 
+							<< ((x < rhs.width() - 1) ? "" : "\n");
 					}
 				}
 				return out;
@@ -1128,9 +1059,14 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+			static constexpr self_type zero()
+			{
+				return self_type { uninit };
+			}
+
 			static constexpr self_type identity()
 			{
-				self_type temp { uninit };
+				self_type temp = self_type::zero();
 				for (size_t i = 0; i < temp.size(); i++)
 				{
 					temp[i] = (((i / temp.cols()) == (i % temp.cols()))
@@ -1144,15 +1080,34 @@ namespace ml
 				const_reference l, 
 				const_reference r, 
 				const_reference b, 
-				const_reference t
-			)
-			{	static_assert((X == 4 && Y == 4), "matrix must be 4x4");
-				self_type temp { identity() };
-				temp[ 0] = type::two / (r - l);
-				temp[ 5] = type::two / (t - b);
-				temp[10] = type::one;
-				temp[12] = -(r + l) / (r - l);
-				temp[13] = -(t + b) / (t - b);
+				const_reference t)
+			{	
+				static_assert((X == 4 && Y == 4), "matrix must be 4x4");
+				self_type temp = self_type::identity();
+				temp[0 * 4 + 0] = type::two / (r - l);
+				temp[1 * 4 + 1] = type::two / (t - b);
+				temp[2 * 4 + 2] = type::one;
+				temp[3 * 4 + 0] = -(r + l) / (r - l);
+				temp[3 * 4 + 1] = -(t + b) / (t - b);
+				return temp;
+			}
+
+			static constexpr self_type ortho(
+				const_reference l,
+				const_reference r,
+				const_reference b,
+				const_reference t,
+				const_reference n,
+				const_reference f)
+			{	
+				static_assert((X == 4 && Y == 4), "matrix must be 4x4");
+				self_type temp = self_type::identity();
+				temp[0 * 4 + 0] = type::two / (r - l);
+				temp[1 * 4 + 1] = type::two / (t - b);
+				temp[3 * 4 + 0] = -(r + l) / (r - l);
+				temp[3 * 4 + 1] = -(t + b) / (t - b);
+				temp[2 * 4 + 2] = -type::two / (f - n);
+				temp[3 * 4 + 2] = -(f + n) / (f - n);
 				return temp;
 			}
 
@@ -1160,76 +1115,17 @@ namespace ml
 				const_reference fov,
 				const_reference aspect,
 				const_reference near, 
-				const_reference far
-			)
-			{	static_assert((X == 4 && Y == 4), "matrix must be 4x4");
-				self_type temp { uninit };
-				temp[ 0] = type::one / (aspect * alg::tan(fov / type::two));
-				temp[ 5] = type::one / alg::tan(fov / type::two);
-				temp[11] = type::minus_one;
-				temp[10] = -(far + near) / (far - near);
-				temp[14] = -(type::two * far * near) / (far - near);
+				const_reference far)
+			{	
+				static_assert((X == 4 && Y == 4), "matrix must be 4x4");
+				self_type temp = self_type::zero();
+				temp[0 * 4 + 0] = type::one / (aspect * alg::tan(fov / type::two));
+				temp[1 * 4 + 1] = type::one / alg::tan(fov / type::two);
+				temp[2 * 4 + 3] = type::minus_one;
+				temp[2 * 4 + 2] = -(far + near) / (far - near);
+				temp[3 * 4 + 3] = -(type::two * far * near) / (far - near);
 				return temp;
 			}
-
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-# if defined(GLM_VERSION)
-
-			ML_INLINE operator glm::tvec2<value_type, glm::defaultp>() const
-			{
-				static_assert((X == 2 && Y == 1), "unable to convert to glm::tvec2");
-				return glm::tvec2<value_type, glm::defaultp>(
-					(*this)[0], (*this)[1]
-				);
-			}
-
-			ML_INLINE operator glm::tvec3<value_type, glm::defaultp>() const
-			{
-				static_assert((X == 3 && Y == 1), "unable to convert to glm::tvec3");
-				return glm::tvec3<value_type, glm::defaultp>(
-					(*this)[0], (*this)[1], (*this)[2]
-				);
-			}
-
-			ML_INLINE operator glm::tvec4<value_type, glm::defaultp>() const
-			{
-				static_assert((X == 4 && Y == 1), "unable to convert to glm::tvec4");
-				return glm::tvec4<value_type, glm::defaultp>(
-					(*this)[0], (*this)[1], (*this)[2], (*this)[3]
-				);
-			}
-
-			ML_INLINE operator glm::tquat<value_type, glm::defaultp>() const
-			{
-				static_assert((X == 4 && Y == 1), "unable to convert to glm::tquat");
-				return glm::tquat<value_type, glm::defaultp>(
-					(*this)[0], (*this)[1], (*this)[2], (*this)[3]
-				);
-			}
-
-			ML_INLINE operator glm::tmat3x3<value_type, glm::defaultp>() const
-			{
-				static_assert((X == 3 && Y == 3), "unable to convert to glm::tmat3x3");
-				return glm::tmat3x3<value_type, glm::defaultp>(
-					(*this)[0], (*this)[1], (*this)[2],
-					(*this)[3], (*this)[4], (*this)[5],
-					(*this)[6], (*this)[7], (*this)[8]
-				);
-			}
-
-			ML_INLINE operator glm::tmat4x4<value_type, glm::defaultp>() const
-			{
-				static_assert((X == 4 && Y == 4), "unable to convert to glm::tmat4x4");
-				return glm::tmat4x4<value_type, glm::defaultp>(
-					(*this)[ 0], (*this)[ 1], (*this)[ 2], (*this)[ 3],
-					(*this)[ 4], (*this)[ 5], (*this)[ 6], (*this)[ 7],
-					(*this)[ 8], (*this)[ 9], (*this)[10], (*this)[11],
-					(*this)[12], (*this)[13], (*this)[14], (*this)[15]
-				);
-			}
-
-# endif // GLM_VERSION
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		};
@@ -1241,7 +1137,7 @@ namespace ml
 		using tmat_nxn = matrix_t<T, N, N>;
 
 		template <class T, size_t N>
-		using tvec_n = matrix_t<T, N, 1>;
+		using tmat_nx1 = matrix_t<T, N, 1>;
 
 		// MATRIX3
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -1271,7 +1167,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <class T>
-		using tvec2 = tvec_n<T, 2>;
+		using tvec2 = tmat_nx1<T, 2>;
 		using vec2b = tvec2<bool>;
 		using vec2f = tvec2<float>;
 		using vec2i = tvec2<int32_t>;
@@ -1283,7 +1179,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <class T>
-		using tvec3 = tvec_n<T, 3>;
+		using tvec3 = tmat_nx1<T, 3>;
 		using vec3b = tvec3<bool>;
 		using vec3f = tvec3<float>;
 		using vec3i = tvec3<int32_t>;
@@ -1295,7 +1191,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <class T>
-		using tvec4 = tvec_n<T, 4>;
+		using tvec4 = tmat_nx1<T, 4>;
 		using vec4b = tvec4<bool>;
 		using vec4f = tvec4<float>;
 		using vec4i = tvec4<int32_t>;
@@ -1325,253 +1221,6 @@ namespace ml
 			static constexpr vec4 aqua		{ 0.0f, 1.0f, 0.5f, 1.0f };
 			static constexpr vec4 azure		{ 0.0f, 0.5f, 1.0f, 1.0f };
 		};
-
-		// OPERATORS
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr bool operator==(const M<T, N...> & lhs, const M<T, N...> & rhs)
-		{
-			return alg::range::equals(lhs, rhs);
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr bool operator!=(const M<T, N...> & lhs, const M<T, N...> & rhs)
-		{
-			return !(lhs == rhs);
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr bool operator<(const M<T, N...> & lhs, const M<T, N...> & rhs)
-		{
-			return alg::range::less(lhs, rhs);
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr bool operator<=(const M<T, N...> & lhs, const M<T, N...> & rhs)
-		{
-			return (lhs < rhs) || (lhs == rhs);
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr bool operator>(const M<T, N...> & lhs, const M<T, N...> & rhs)
-		{
-			return !(lhs < rhs) && (lhs != rhs);
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr bool operator>=(const M<T, N...> & lhs, const M<T, N...> & rhs)
-		{
-			return (lhs > rhs) || (lhs == rhs);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator+=(M<T, N...> & lhs, const M<T, N...> & rhs)
-			-> M<T, N...> &
-		{
-			for (size_t i = 0; i < lhs.size(); i++)
-			{
-				lhs[i] = (lhs[i] + rhs[i]);
-			}
-			return lhs;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator-=(M<T, N...> & lhs, const M<T, N...> & rhs)
-			-> M<T, N...> &
-		{
-			for (size_t i = 0; i < lhs.size(); i++)
-			{
-				lhs[i] = (lhs[i] - rhs[i]);
-			}
-			return lhs;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator*=(M<T, N...> & lhs, const M<T, N...> & rhs)
-			-> M<T, N...> &
-		{
-			for (size_t i = 0; i < lhs.size(); i++)
-			{
-				lhs[i] = (lhs[i] * rhs[i]);
-			}
-			return lhs;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator/=(M<T, N...> & lhs, const M<T, N...> & rhs)
-			-> M<T, N...> &
-		{
-			for (size_t i = 0; i < lhs.size(); i++)
-			{
-				lhs[i] = (lhs[i] / rhs[i]);
-			}
-			return lhs;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator+(const M<T, N...> & lhs, const M<T, N...> & rhs)
-			-> M<T, N...>
-		{
-			M<T, N...> temp { lhs };
-			temp += rhs;
-			return temp;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator-(const M<T, N...> & lhs, const M<T, N...> & rhs)
-			-> M<T, N...>
-		{
-			M<T, N...> temp { lhs };
-			temp -= rhs;
-			return temp;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator*(const M<T, N...> & lhs, const M<T, N...> & rhs)
-			-> M<T, N...>
-		{
-			M<T, N...> temp { lhs };
-			temp *= rhs;
-			return temp;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator/(const M<T, N...> & lhs, const M<T, N...> & rhs)
-			-> M<T, N...>
-		{
-			M<T, N...> temp { lhs };
-			temp /= rhs;
-			return temp;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator+=(M<T, N...> & lhs, const T & rhs)
-			-> M<T, N...> &
-		{
-			for (auto & elem : lhs)
-			{
-				elem += rhs;
-			}
-			return lhs;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator-=(M<T, N...> & lhs, const T & rhs)
-			-> M<T, N...> &
-		{
-			for (auto & elem : lhs)
-			{
-				elem -= rhs;
-			}
-			return lhs;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator*=(M<T, N...> & lhs, const T & rhs)
-			-> M<T, N...> &
-		{
-			for (auto & elem : lhs)
-			{
-				elem *= rhs;
-			}
-			return lhs;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator/=(M<T, N...> & lhs, const T & rhs)
-			-> M<T, N...> &
-		{
-			for (auto & elem : lhs)
-			{
-				elem /= rhs;
-			}
-			return lhs;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator+(const M<T, N...> & lhs, const T & rhs)
-			-> M<T, N...>
-		{
-			M<T, N...> temp { lhs };
-			temp += rhs;
-			return temp;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator-(const M<T, N...> & lhs, const T & rhs)
-			-> M<T, N...>
-		{
-			M<T, N...> temp { lhs };
-			temp -= rhs;
-			return temp;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator*(const M<T, N...> & lhs, const T & rhs)
-			-> M<T, N...>
-		{
-			M<T, N...> temp { lhs };
-			temp *= rhs;
-			return temp;
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator/(const M<T, N...> & lhs, const T & rhs)
-			-> M<T, N...>
-		{
-			M<T, N...> temp { lhs };
-			temp /= rhs;
-			return temp;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator-(const M<T, N...> & lhs)
-			-> M<T, N...>
-		{
-			return (lhs * value_t<T>::minus_one);
-		}
-
-		template <
-			template <class, size_t ...> class M, class T, size_t ... N
-		> constexpr auto operator+(const M<T, N...> & lhs)
-			-> M<T, N...>
-		{
-			return -(-(lhs));
-		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
@@ -1620,27 +1269,27 @@ namespace ml
 			}
 
 			constexpr explicit vertex(const vec3 & pos, const vec4 & col)
-				: self_type { pos, col, { uninit } }
+				: self_type { pos, col, vec2::zero() }
 			{
 			}
 
 			constexpr explicit vertex(const vec3 & pos, const vec2 & tex)
-				: self_type { pos, { uninit }, tex }
+				: self_type { pos, color::white, tex }
 			{
 			}
 
 			constexpr explicit vertex(const vec4 & col)
-				: self_type { { uninit }, col, { uninit } }
+				: self_type { vec3::zero(), col, vec2::zero() }
 			{
 			}
 
 			constexpr explicit vertex(const vec3 & pos)
-				: self_type { pos, { uninit }, { uninit } }
+				: self_type { pos, color::white, vec2::zero() }
 			{
 			}
 
 			constexpr explicit vertex(const vec2 & tex)
-				: self_type { { uninit }, { uninit }, tex }
+				: self_type { vec3::zero(), color::white, tex }
 			{
 			}
 
@@ -1650,7 +1299,7 @@ namespace ml
 			}
 
 			constexpr vertex()
-				: self_type { { uninit }, { uninit }, { uninit } }
+				: self_type { vec3::zero(), color::white, vec2::zero() }
 			{
 			}
 
@@ -1735,9 +1384,9 @@ namespace ml
 						static constexpr size_t contiguous	{ vertices * vertex::Size };
 					};
 
-					using vertices_t	= typename array_t<vertex,		num::vertices>;
-					using indices_t		= typename array_t<uint32_t,	num::indices>;
-					using contiguous_t	= typename array_t<float,		num::contiguous>;
+					using vertices_t	= typename array_t<vertex,	 num::vertices>;
+					using indices_t		= typename array_t<uint32_t, num::indices>;
+					using contiguous_t	= typename array_t<float,	 num::contiguous>;
 
 				protected:
 					static constexpr contiguous_t Contiguous(const vertices_t & value)
@@ -1854,5 +1503,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
+
+#include <ML/Core/Meta.inl>
 
 #endif // !_ML_META_HPP_

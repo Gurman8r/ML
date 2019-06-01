@@ -303,15 +303,32 @@ namespace ml
 				const bool smooth = item.getBool("smooth", true);
 				const bool repeat = item.getBool("repeat", false);
 
+				const GL::Target target = (GL::Target)item.getEnum("target", GL::Texture2D, {
+					{ "2D", GL::Texture2D },
+					{ "3D", GL::Texture3D },
+				});
+
+				const GL::Format format = (GL::Format)item.getEnum("format", GL::RGBA, {
+					{ "red",	GL::Red		},
+					{ "green",	GL::Green	},
+					{ "blue",	GL::Blue	},
+					{ "rgb",	GL::RGB		},
+					{ "rgba",	GL::RGBA	},
+				});
+
 				if (const String file = item.getStr("file"))
 				{
-					return textures.load_file_forward(name, file, smooth, repeat);
+					return textures.load_file_forward(name, file,
+						target, format, smooth, repeat
+					);
 				}
 				else if (const String file = item.getStr("image"))
 				{
 					const Image * temp;
 					return
-						(textures.load_forward(name, smooth, repeat)) &&
+						(textures.load_forward(name, 
+							target, format, smooth, repeat
+						)) &&
 						(temp = images.get(file)) &&
 						(textures.get(name)->loadFromImage(*temp));
 				}

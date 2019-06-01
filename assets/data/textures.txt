@@ -50,37 +50,43 @@
 <import>
 	type = texture
 	name = earth_cm
-	file = ../../../assets/textures/earth/earth_cm.png
+	file = ../../../assets/textures/earth/earth_cm_2k.png
+	format = RGB
 </import>
 
 <import>
 	type = texture
 	name = earth_dm
-	file = ../../../assets/textures/earth/earth_dm.png
+	file = ../../../assets/textures/earth/earth_dm_2k.png
+	format = RGB
 </import>
 
 <import>
 	type = texture
 	name = earth_hm
-	file = ../../../assets/textures/earth/earth_hm.png
+	file = ../../../assets/textures/earth/earth_hm_2k.png
+	format = red
 </import>
 
 <import>
 	type = texture
 	name = earth_lm
-	file = ../../../assets/textures/earth/earth_lm.png
+	file = ../../../assets/textures/earth/earth_lm_2k.png
+	format = RGB
 </import>
 
 <import>
 	type = texture
 	name = earth_nm
-	file = ../../../assets/textures/earth/earth_nm.png
+	file = ../../../assets/textures/earth/earth_nm_2k.png
+	format = RGB
 </import>
 
 <import>
 	type = texture
 	name = earth_sm
-	file = ../../../assets/textures/earth/earth_sm.png
+	file = ../../../assets/textures/earth/earth_sm_2k.png
+	format = red
 </import>
 
 
@@ -113,13 +119,15 @@
 <import>
 	type = texture
 	name = mars_dm
-	file = ../../../assets/textures/mars/mars_dm.png
+	file = ../../../assets/textures/mars/mars_dm_2k.png
+	format = RGB
 </import>
 
 <import>
 	type = texture
 	name = mars_nm
-	file = ../../../assets/textures/mars/mars_nm.png
+	file = ../../../assets/textures/mars/mars_nm_2k.png
+	format = RGB
 </import>
 
 
@@ -129,30 +137,33 @@
 <import>
 	type = texture
 	name = moon_dm
-	file = ../../../assets/textures/moon/moon_dm.png
+	file = ../../../assets/textures/moon/moon_dm_2k.png
+	format = RGB
 </import>
 
 <import>
 	type = texture
 	name = moon_nm
-	file = ../../../assets/textures/moon/moon_nm.png
+	file = ../../../assets/textures/moon/moon_nm_2k.png
+	format = RGB
 </import>
 
 # Background
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 #<import>
-#	type = texture
-#	name = bg_clouds
-#	file = ../../../assets/textures/bg/bg_clouds.png
+#	type	= texture
+#	name	= bg_clouds
+#	file	= ../../../assets/textures/bg/bg_clouds.png
+#	format	= RGB
 #</import>
-#
+
 #<import>
 #	type = texture
 #	name = sky_clouds
 #	file = ../../../assets/textures/bg/sky_clouds.png
 #</import>
-#
+
 #<import>
 #	type = texture
 #	name = sky_water

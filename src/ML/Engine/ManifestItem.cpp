@@ -71,13 +71,13 @@ namespace ml
 		return false;
 	}
 
-	const String ManifestItem::getStr(const String & value, const String & dv) const
+	String ManifestItem::getStr(const String & value, const String & dv) const
 	{
 		HashMap<String, String>::const_iterator it;
 		return (((it = data.find(value)) != data.end()) ? it->second : dv);
 	}
 
-	const int32_t ManifestItem::getInt(const String & value, const int32_t dv) const
+	int32_t ManifestItem::getInt(const String & value, const int32_t dv) const
 	{
 		if (const String str = getStr(value))
 		{
@@ -90,12 +90,33 @@ namespace ml
 		return dv;
 	}
 
-	const bool ManifestItem::getBool(const String & value, const bool dv) const
+	uint32_t ManifestItem::getUint(const String & value, const uint32_t dv) const
+	{
+		return (uint32_t)getInt(value, (int32_t)dv);
+	}
+
+	bool ManifestItem::getBool(const String & value, const bool dv) const
 	{
 		if (const String str = getStr(value))
 		{
 			if (str == "1" || str == "true") { return true; }
 			if (str == "0" || str == "false") { return false; }
+		}
+		return dv;
+	}
+
+	int32_t ManifestItem::getEnum(const String & value, const int32_t dv, const Map<String, int32_t>& args) const
+	{
+		if (!args.empty())
+		{
+			if (const String str = StringUtility::ToLower(getStr(value)))
+			{
+				Map<String, int32_t>::const_iterator it;
+				if ((it = args.find(str)) != args.end())
+				{
+					return it->second;
+				}
+			}
 		}
 		return dv;
 	}

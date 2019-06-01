@@ -41,6 +41,15 @@ namespace ml
 	{
 	}
 
+	Texture::Texture(GL::Format format, bool smooth, bool repeated) : Texture(
+		ML_TEX_DEFAULT_TARGET,
+		format,
+		smooth,
+		repeated
+	)
+	{
+	}
+
 	Texture::Texture(GL::Target target, bool smooth, bool repeated) : Texture(
 		target, 
 		ML_TEX_DEFAULT_FORMAT,
@@ -147,21 +156,11 @@ namespace ml
 
 	bool Texture::loadFromFile(const String & filename)
 	{
-		return loadFromFile(filename, m_target);
-	}
-
-	bool Texture::loadFromFile(const String & filename, uint32_t target)
-	{
-		static Image image;
-		return image.loadFromFile(filename) && loadFromImage(image, target);
+		Image image;
+		return image.loadFromFile(filename) && loadFromImage(image);
 	}
 
 	bool Texture::loadFromImage(const Image & value)
-	{
-		return loadFromImage(value, m_target);
-	}
-
-	bool Texture::loadFromImage(const Image & value, uint32_t target)
 	{
 		return create(value.size()) && update(value);
 	}

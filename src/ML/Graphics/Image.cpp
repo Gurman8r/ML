@@ -4,24 +4,8 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_IMG_SOIL		0
-#define ML_IMG_STB		1
-#define ML_IMG_DEVIL	0
-
-# if ML_IMG_SOIL
-#	include <SOIL/SOIL.h>
-#	pragma comment(lib, "soil.lib")
-# elif ML_IMG_STB
-#	define STB_IMAGE_IMPLEMENTATION
-#	include <stb/stb_image.h>
-# elif ML_IMG_DEVIL
-#	include <IL/ilut.h>
-#	pragma comment(lib, "devil.lib")
-#	pragma comment(lib, "ilu.lib")
-#	pragma comment(lib, "ilut.lib")
-# else
-#	error No image loader defined.
-# endif
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -34,15 +18,6 @@ namespace ml
 		, m_pixels(Pixels())
 		, m_channels(0)
 	{
-#if ML_IMG_DEVIL
-		static bool check = true;
-		if (check)
-		{
-			check = false;
-			ilInit();
-			iluInit();
-		}
-#endif
 	}
 
 	Image::Image(uint32_t width, uint32_t height, const byte_t * pixels)
@@ -74,57 +49,26 @@ namespace ml
 	
 	bool Image::loadFromFile(const String & filename)
 	{
-# if ML_IMG_STB
 		stbi_set_flip_vertically_on_load(true);
-		if (byte_t * data = stbi_load(
+		byte_t * data = stbi_load(
 			filename.c_str(),
 			&(int32_t &)(m_size[0]),
 			&(int32_t &)(m_size[1]),
 			&m_channels,
 			NULL
-		))
+		);
+		if (data)
 		{
-			m_pixels.assign(&data[0], &data[m_size[0] * m_size[1] * 4]);
-			stbi_image_free(data);
+			m_pixels.assign(&data[0], &data[m_size[0] * m_size[1] * m_channels]);
 		}
 		else
 		{
 			m_size = vec2i::Zero;
+			m_channels = 0;
 			m_pixels.clear();
 		}
+		stbi_image_free(data);
 		return !m_pixels.empty();
-# elif ML_IMG_DEVIL
-		uint32_t imageID;
-		ilGenImages(1, &imageID);
-		ilEnable(IL_ORIGIN_SET);
-		ilOriginFunc(IL_ORIGIN_UPPER_LEFT);
-		ilBindImage(imageID);
-		if (!ilLoadImage(filename.c_str()) || !ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE))
-		{
-			const ILenum error = ilGetError();
-			return Debug::logError("IL Error: {0} - {1}",
-				error,
-				iluErrorString(error)
-			);
-		}
-		byte_t * data = ilGetData();
-		if (data)
-		{
-			ILinfo info;
-			iluGetImageInfo(&info);
-			if (info.Origin == IL_ORIGIN_UPPER_LEFT)
-			{
-				iluFlipImage();
-			}
-			m_size = { info.Width, info.Height };
-			m_channels = info.Depth;
-			m_pixels.assign(&data[0], &data[m_size[0] * m_size[1] * 4]);
-
-			ilDeleteImages(1, &imageID);
-			return true;
-		}
-		return false;
-# endif
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * */

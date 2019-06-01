@@ -48,11 +48,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		const String getStr(const String & value, const String & dv = String()) const;
+		String getStr(const String & value, const String & dv = String()) const;
 
-		const int32_t getInt(const String & value, const int32_t dv = 0) const;
+		int32_t getInt(const String & value, const int32_t dv = 0) const;
 
-		const bool getBool(const String & value, const bool dv = false) const;
+		uint32_t getUint(const String & value, const uint32_t dv = 0) const;
+
+		bool getBool(const String & value, const bool dv = false) const;
+		
+		int32_t getEnum(const String & value, const int32_t dv = 0, const Map<String, int32_t> & args = {}) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

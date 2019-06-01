@@ -21,6 +21,7 @@ namespace ml
 		Texture();
 		Texture(GL::Target target);
 		Texture(bool smooth, bool repeated);
+		Texture(GL::Format format, bool smooth, bool repeated);
 		Texture(GL::Target target, bool smooth, bool repeated);
 		Texture(GL::Target target, GL::Format format, bool smooth, bool repeated);
 		Texture(GL::Target target, GL::Format format, bool smooth, bool repeated, bool mipmapped);
@@ -34,9 +35,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
-		bool loadFromFile(const String & filename, uint32_t target);
 		bool loadFromImage(const Image & value);
-		bool loadFromImage(const Image & value, uint32_t target);
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

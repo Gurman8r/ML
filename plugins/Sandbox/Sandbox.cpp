@@ -12,7 +12,7 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Engine/GameTime.hpp>
-#include <ML/Engine/SharedLibrary.hpp>
+#include <ML/Core/SharedLibrary.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/Camera.hpp>
@@ -596,10 +596,10 @@ namespace DEMO
 						state.get<state.T_Inv>(rb->index(), inv))
 					{
 						(*rb->transform())
-							.update		(ml::mat4::Identity())
-							.translate	(pos)
-							.rotate		(rot)
-							.scale		(scl);
+							.update(ml::mat4::Identity())
+							.translate(pos)
+							.rotate(rot)
+							.scale(scl);
 					}
 				}
 			}

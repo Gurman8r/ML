@@ -1,7 +1,7 @@
 #ifndef _ML_SHARED_LIBRARY_HPP_
 #define _ML_SHARED_LIBRARY_HPP_
 
-#include <ML/Engine/Export.hpp>
+#include <ML/Core/Export.hpp>
 #include <ML/Core/IObject.hpp>
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IDisposable.hpp>
@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API SharedLibrary final
+	class ML_CORE_API SharedLibrary final
 		: public IObject
 		, public IDisposable
 		, public IReadable

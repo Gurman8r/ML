@@ -182,7 +182,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Rigidbody.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SphereCollider.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp" />
   </ItemGroup>
@@ -201,7 +200,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Ray.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Rigidbody.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SphereCollider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

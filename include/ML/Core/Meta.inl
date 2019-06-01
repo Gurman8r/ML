@@ -349,4 +349,43 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace meta
+	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t, size_t> class M, class T
+		> constexpr auto operator*=(M<T, 3, 3> & lhs, const M<T, 3, 3> & rhs)
+			-> M<T, 3, 3> &
+		{
+			for (size_t y = 0; y < 3; y++)
+			{
+				for (size_t x = 0; x < 3; x++)
+				{
+					for (size_t r = 0; r < 3; r++)
+					{
+						lhs[y * 3 + x] += lhs[y * 3 + x] * rhs[r * 3 + x];
+					}
+				}
+			}
+			return lhs;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t ...> class M, class T
+		> constexpr auto operator*(const M<T, 3, 3> & lhs, const M<T, 3, 3> & rhs)
+			-> M<T, 3, 3>
+		{
+			M<T, 3, 3> temp { lhs };
+			temp *= rhs;
+			return temp;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

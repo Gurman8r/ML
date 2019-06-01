@@ -8,36 +8,41 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		intmax_t Num,
-		intmax_t Den = 1
-	> using Ratio = typename std::ratio<Num, Den>;
+		int64_t N,
+		int64_t D = 1
+	> using Ratio = typename std::ratio<N, D>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using Atto	= typename Ratio<1, 1000000000000000000ULL>;
-	using Femto = typename Ratio<1, 1000000000000000ULL>;
-	using Pico	= typename Ratio<1, 1000000000000ULL>;
-	using Nano	= typename Ratio<1, 1000000000>;
-	using Micro = typename Ratio<1, 1000000>;
-	using Milli	= typename Ratio<1, 1000>;
-	using Centi = typename Ratio<1, 100>;
-	using Deci	= typename Ratio<1, 10>;
-	using Deca	= typename Ratio<10, 1>;
-	using Hecto = typename Ratio<100, 1>;
-	using Kilo	= typename Ratio<1000, 1>;
-	using Mega	= typename Ratio<1000000, 1>;
-	using Giga	= typename Ratio<1000000000, 1>;
-	using Tera	= typename Ratio<1000000000000ULL, 1>;
-	using Peta	= typename Ratio<1000000000000000ULL, 1>;
-	using Exa	= typename Ratio<1000000000000000000ULL, 1>;
+//#pragma warning(push)
+//#pragma warning(disable: 4309) // C4309 truncation of constant value
+
+	using Atto	= typename Ratio<1LL, 1000000000000000000LL>;
+	using Femto = typename Ratio<1LL, 1000000000000000LL>;
+	using Pico	= typename Ratio<1LL, 1000000000000LL>;
+	using Nano	= typename Ratio<1LL, 1000000000LL>;
+	using Micro = typename Ratio<1LL, 1000000LL>;
+	using Milli	= typename Ratio<1LL, 1000LL>;
+	using Centi = typename Ratio<1LL, 100LL>;
+	using Deci	= typename Ratio<1LL, 10LL>;
+	using Deca	= typename Ratio<10LL, 1LL>;
+	using Hecto = typename Ratio<100LL, 1LL>;
+	using Kilo	= typename Ratio<1000LL, 1LL>;
+	using Mega	= typename Ratio<1000000LL, 1LL>;
+	using Giga	= typename Ratio<1000000000LL, 1LL>;
+	using Tera	= typename Ratio<100000000000LL, 1LL>;
+	using Peta	= typename Ratio<1000000000000000LL, 1LL>;
+	using Exa	= typename Ratio<1000000000000000000LL, 1LL>;
+
+//#pragma warning(pop)
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		typename T, 
-		intmax_t Num,
-		intmax_t Den
-	> constexpr T ratio_cast(const T & value, const Ratio<Num, Den> & r)
+		class T, 
+		int64_t N,
+		int64_t D
+	> constexpr T ratio_cast(const T & value, const Ratio<N, D> & r)
 	{
 		return 
 			((((T)(r.num) == (T)(1)) && ((T)(r.den) == (T)(1)))

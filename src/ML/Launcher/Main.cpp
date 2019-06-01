@@ -8,7 +8,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Engine/SharedLibrary.hpp>
+#include <ML/Core/SharedLibrary.hpp>
 #include <ML/Engine/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
@@ -140,16 +140,16 @@ inline static int32_t meta_tests()
 	constexpr meta::mat4f mb = meta::alg::transpose(ma);
 
 	constexpr meta::vec3f v3 { 1, 2, 3 };
-	constexpr meta::mat3f m3 { 1, 2, 3 , 4, 5, 6, 7, 8, 9 };
+	constexpr meta::mat3f m3 { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	constexpr meta::mat4f m4 = v3;
 	constexpr meta::mat4f m5 = m3;
 
-	cout
-		<< ma << endl
-		<< mb << std::endl
-		<< v3 << std::endl
-		<< m3 << std::endl
-		<< m5 << std::endl;
+	constexpr float angle	= 90.f * meta::type_t<float>::deg2rad;
+	constexpr auto v		= meta::vec3f { 1.f, 1.f, 1.f } * (angle);
+	constexpr auto rr		= meta::alg::rotationXYZ(v);
+	constexpr auto rx		= meta::alg::rotationX(v[0]);
+	constexpr auto ry		= meta::alg::rotationY(v[1]);
+	constexpr auto rz		= meta::alg::rotationZ(v[2]);
 
 	constexpr auto rebaseV3 = meta::alg::rebase(v3, m4);
 	constexpr auto rebaseM3 = meta::alg::rebase(m3, m4);
@@ -190,12 +190,10 @@ inline static int32_t meta_tests()
 	return Debug::pause(0);
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 int32_t main()
 {
-#if ML_DEBUG
-	return meta_tests();
-#endif
-
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

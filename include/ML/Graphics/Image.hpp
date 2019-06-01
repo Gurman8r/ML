@@ -18,11 +18,11 @@ namespace ml
 		, public IReadable
 	{
 	public:
-		using Pixels = typename List<uint8_t>;
+		using Pixels = typename List<byte_t>;
 
 	public:
 		Image();
-		Image(uint32_t width, uint32_t height, const uint8_t * pixels);
+		Image(uint32_t width, uint32_t height, const byte_t * pixels);
 		Image(const Image & copy);
 		~Image();
 
@@ -32,8 +32,8 @@ namespace ml
 
 	public:
 		Image & create(uint32_t width, uint32_t height, const vec4b & color);
-		Image & create(uint32_t width, uint32_t height, const uint8_t * pixels);
-		Image & createMaskFromColor(const vec4b & color, uint8_t alpha = 0);
+		Image & create(uint32_t width, uint32_t height, const byte_t * pixels);
+		Image & createMaskFromColor(const vec4b & color, byte_t alpha = 0);
 		
 		Image & flipHorizontally();
 		Image & flipVertically();

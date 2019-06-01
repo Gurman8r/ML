@@ -35,7 +35,7 @@ namespace ml
 
 		template <
 			class T
-		> struct type_t
+		> struct type_t final
 		{
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -139,7 +139,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-// ALGORITHM
+// GENERAL ALGORITHMS
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -643,131 +643,6 @@ namespace ml
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-			template <
-				template <class, size_t ...> class A, class T, size_t ... N
-			> static constexpr auto sqr_magnitude(const A<T, N...> & value)
-				-> T
-			{
-				T temp { type_t<T>::zero };
-				for (const auto & elem : value)
-				{
-					temp += (elem * elem);
-				}
-				return temp;
-			}
-
-			template <
-				template <class, size_t ...> class A, class T, size_t ... N
-			> static constexpr auto magnitude(const A<T, N...> & value)
-				-> T
-			{
-				return type_t<T> { sqrt<T> {}(sqr_magnitude(value)) }();
-			}
-
-			template <
-				template <class, size_t ...> class A, class T, size_t ... N
-			> static constexpr auto normalize(const A<T, N...> & value)
-				-> A<T, N...>
-			{
-				return (value / magnitude(value));
-			}
-
-			template <
-				template <class, size_t ...> class A, class T, size_t ... N
-			> static constexpr auto dot(const A<T, N...> & lhs, const A<T, N...> & rhs)
-				-> T
-			{
-				T temp { type_t<T>::zero };
-				for (size_t i = 0; i < lhs.size(); i++)
-				{
-					temp += (lhs[i] * rhs[i]);
-				}
-				return temp;
-			}
-
-			template <
-				template <class, size_t ...> class A, class T, size_t ... N
-			> static constexpr auto transpose(const A<T, N...> & value)
-				-> A<T, N...>
-			{
-				A<T, N...> temp { uninit };
-				for (size_t i = 0; i < value.size(); i++)
-				{
-					temp[i] = value[
-						(i % value.cols()) * value.cols() + (i / value.cols())
-					];
-				}
-				return temp;
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-			template <
-				template <class, size_t, size_t> class M, class T
-			> static constexpr auto determinant(const M<T, 4, 4> & value)
-				-> T
-			{
-				return
-					value[0] * (value[15] * value[5] - value[7] * value[13]) -
-					value[1] * (value[15] * value[4] - value[7] * value[12]) +
-					value[3] * (value[13] * value[4] - value[5] * value[12]);
-			}
-
-			template <
-				template <class, size_t, size_t> class M, class T
-			> static constexpr auto inverse(const M<T, 4, 4> & value)
-				-> M<T, 4, 4>
-			{
-				const T det { determinant(value) };
-				return ((det != type_t<T>::zero)
-				? M<T, 4, 4>
-				{	+(value[15] * value[5] - value[7] * value[13]) / det,
-					-(value[15] * value[4] - value[7] * value[12]) / det,
-					+(value[13] * value[4] - value[5] * value[12]) / det,
-					-(value[15] * value[1] - value[3] * value[13]) / det,
-					+(value[15] * value[0] - value[3] * value[12]) / det,
-					-(value[13] * value[0] - value[1] * value[12]) / det,
-					+(value[ 7] * value[1] - value[3] * value[ 5]) / det,
-					-(value[ 7] * value[0] - value[3] * value[ 4]) / det,
-					+(value[ 5] * value[0] - value[1] * value[ 4]) / det
-				}
-				: M<T, 4, 4>::identity());
-			}
-
-			template <
-				template <class, size_t, size_t> class M, class T
-			> static constexpr auto rebase(const M<T, 3, 3> & v, const M<T, 4, 4> & m)
-				-> M<T, 3, 3>
-			{
-				return M<T, 3, 3>
-				{
-					m[0] * v[0] + m[4] * v[3] + m[ 8] * v[6],
-					m[1] * v[0] + m[5] * v[3] + m[ 9] * v[6],
-					m[2] * v[0] + m[6] * v[3] + m[10] * v[6],
-					m[0] * v[1] + m[4] * v[4] + m[ 8] * v[7],
-					m[1] * v[1] + m[5] * v[4] + m[ 9] * v[7],
-					m[2] * v[1] + m[6] * v[4] + m[10] * v[7],
-					m[0] * v[2] + m[4] * v[5] + m[ 8] * v[8],
-					m[1] * v[2] + m[5] * v[5] + m[ 9] * v[8],
-					m[2] * v[2] + m[6] * v[5] + m[10] * v[8]
-				};
-			}
-
-			template <
-				template <class, size_t, size_t> class M, class T
-			> static constexpr auto rebase(const M<T, 3, 1> & v, const M<T, 4, 4> & m)
-				-> M<T, 3, 1>
-			{
-				return M<T, 3, 1>
-				{
-					m[0] * v[0] * m[4] * v[1] * m[ 8] * v[2] * m[12],
-					m[1] * v[0] * m[5] * v[1] * m[ 9] * v[2] * m[13], 
-					m[2] * v[0] * m[6] * v[1] * m[10] * v[2] * m[14]
-				};
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -1049,9 +924,9 @@ namespace ml
 				{
 					for (size_t x = 0; x < rhs.width(); x++)
 					{
-						out << std::left << std::setw(5)
+						out //<< std::left << std::setw(10)
 							<< rhs[y * rhs.width() + x] 
-							<< ((x < rhs.width() - 1) ? "" : "\n");
+							<< ((x < rhs.width() - 1) ? " " : "\n");
 					}
 				}
 				return out;
@@ -1227,6 +1102,240 @@ namespace ml
 			static constexpr vec4 aqua		{ 0.0f, 1.0f, 0.5f, 1.0f };
 			static constexpr vec4 azure		{ 0.0f, 0.5f, 1.0f, 1.0f };
 		};
+
+		/* * * * * * * * * * * * * * * * * * * * */
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+}
+
+// MATRIX ALGORITHMS
+namespace ml
+{
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace meta
+	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		namespace alg
+		{
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+			template <
+				template <class, size_t ...> class A, class T, size_t ... N
+			> static constexpr auto sqr_magnitude(const A<T, N...> & value)
+				-> T
+			{
+				T temp { type_t<T>::zero };
+				for (const auto & elem : value)
+				{
+					temp += (elem * elem);
+				}
+				return temp;
+			}
+
+			template <
+				template <class, size_t ...> class A, class T, size_t ... N
+			> static constexpr auto magnitude(const A<T, N...> & value)
+				-> T
+			{
+				return type_t<T> { sqrt<T> {}(sqr_magnitude(value)) }();
+			}
+
+			template <
+				template <class, size_t ...> class A, class T, size_t ... N
+			> static constexpr auto normalize(const A<T, N...> & value)
+				-> A<T, N...>
+			{
+				return (value / magnitude(value));
+			}
+
+			template <
+				template <class, size_t ...> class A, class T, size_t ... N
+			> static constexpr auto dot(const A<T, N...> & lhs, const A<T, N...> & rhs)
+				-> T
+			{
+				T temp { type_t<T>::zero };
+				for (size_t i = 0; i < lhs.size(); i++)
+				{
+					temp += (lhs[i] * rhs[i]);
+				}
+				return temp;
+			}
+
+			template <
+				template <class, size_t ...> class A, class T, size_t ... N
+			> static constexpr auto transpose(const A<T, N...> & value)
+				-> A<T, N...>
+			{
+				A<T, N...> temp { uninit };
+				for (size_t i = 0; i < value.size(); i++)
+				{
+					temp[i] = value[
+						(i % value.cols()) * value.cols() + (i / value.cols())
+					];
+				}
+				return temp;
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+			template <
+				template <class, size_t, size_t> class M, class T
+			> static constexpr auto determinant(const M<T, 4, 4> & value)
+				-> T
+			{
+				return
+					value[0] * (value[15] * value[5] - value[7] * value[13]) -
+					value[1] * (value[15] * value[4] - value[7] * value[12]) +
+					value[3] * (value[13] * value[4] - value[5] * value[12]);
+			}
+
+			template <
+				template <class, size_t, size_t> class M, class T
+			> static constexpr auto inverse(const M<T, 4, 4> & value)
+				-> M<T, 4, 4>
+			{
+				const T det { determinant(value) };
+				return ((det != type_t<T>::zero)
+				? M<T, 4, 4>
+				{	+(value[15] * value[5] - value[7] * value[13]) / det,
+					-(value[15] * value[4] - value[7] * value[12]) / det,
+					+(value[13] * value[4] - value[5] * value[12]) / det,
+					-(value[15] * value[1] - value[3] * value[13]) / det,
+					+(value[15] * value[0] - value[3] * value[12]) / det,
+					-(value[13] * value[0] - value[1] * value[12]) / det,
+					+(value[ 7] * value[1] - value[3] * value[ 5]) / det,
+					-(value[ 7] * value[0] - value[3] * value[ 4]) / det,
+					+(value[ 5] * value[0] - value[1] * value[ 4]) / det
+				}
+				: M<T, 4, 4>::identity());
+			}
+
+			template <
+				template <class, size_t, size_t> class M, class T
+			> static constexpr auto rebase(const M<T, 3, 3> & v, const M<T, 4, 4> & m)
+				-> M<T, 3, 3>
+			{
+				return M<T, 3, 3>
+				{
+					m[0] * v[0] + m[4] * v[3] + m[ 8] * v[6],
+					m[1] * v[0] + m[5] * v[3] + m[ 9] * v[6],
+					m[2] * v[0] + m[6] * v[3] + m[10] * v[6],
+					m[0] * v[1] + m[4] * v[4] + m[ 8] * v[7],
+					m[1] * v[1] + m[5] * v[4] + m[ 9] * v[7],
+					m[2] * v[1] + m[6] * v[4] + m[10] * v[7],
+					m[0] * v[2] + m[4] * v[5] + m[ 8] * v[8],
+					m[1] * v[2] + m[5] * v[5] + m[ 9] * v[8],
+					m[2] * v[2] + m[6] * v[5] + m[10] * v[8]
+				};
+			}
+
+			template <
+				template <class, size_t, size_t> class M, class T
+			> static constexpr auto rebase(const M<T, 3, 1> & v, const M<T, 4, 4> & m)
+				-> M<T, 3, 1>
+			{
+				return M<T, 3, 1>
+				{
+					m[0] * v[0] * m[4] * v[1] * m[ 8] * v[2] * m[12],
+					m[1] * v[0] * m[5] * v[1] * m[ 9] * v[2] * m[13], 
+					m[2] * v[0] * m[6] * v[1] * m[10] * v[2] * m[14]
+				};
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+			template <
+				class T
+			> static constexpr auto concat(const tmat3<T> & lhs, const tmat3<T> & rhs)
+				-> tmat3<T>
+			{
+				tmat3<T> temp { uninit };
+				for (size_t y = 0; y < temp.height(); y++)
+				{
+					for (size_t x = 0; x < temp.width(); x++)
+					{
+						for (size_t r = 0; r < temp.height(); r++)
+						{
+							temp[y * temp.width() + x] += 
+								lhs[y * temp.width() + x] *
+								rhs[r * temp.width() + x];
+						}
+					}
+				}
+				return temp;
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+			template <
+				class T
+			> static constexpr auto rotationX(const T & rad)
+				-> meta::tmat3<T>
+			{
+				using type = type_t<T>;
+				meta::tmat3<T> temp
+				{
+					type::one,	type::zero,		type::zero,
+					type::zero, alg::cos(rad),	-alg::sin(rad),
+					type::zero, alg::sin(rad),	alg::cos(rad),
+				};
+				return temp;
+			}
+
+			template <
+				class T
+			> static constexpr auto rotationY(const T & rad)
+				-> meta::tmat3<T>
+			{
+				using type = type_t<T>;
+				meta::tmat3<T> temp
+				{
+					alg::cos(rad),	type::zero, alg::sin(rad),
+					type::zero,		type::one,	type::zero,
+					-alg::sin(rad), type::zero, alg::cos(rad),
+				};
+				return temp;
+			}
+
+			template <
+				class T
+			> static constexpr auto rotationZ(const T & rad)
+				-> meta::tmat3<T>
+			{
+				using type = type_t<T>;
+				meta::tmat3<T> temp
+				{
+					alg::cos(rad),	-alg::sin(rad),	type::zero,
+					alg::sin(rad),	alg::cos(rad),	type::zero,
+					type::zero,		type::zero,		type::one,
+				};
+				return temp;
+			}
+
+			template <
+				class T
+			> static constexpr auto rotationXYZ(const tvec3<T> & v)
+				-> meta::tmat3<T>
+			{
+				return rotationX(v[0]) * rotationY(v[1]) * rotationZ(v[2]);
+			}
+
+			template <
+				class T
+			> static constexpr auto rotationZYX(const tvec3<T> & v)
+				-> meta::tmat3<T>
+			{
+				return rotationZ(v[2]) * rotationY(v[1]) * rotationX(v[0]);
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}

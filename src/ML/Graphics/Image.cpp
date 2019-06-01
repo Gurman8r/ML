@@ -4,8 +4,24 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# define STB_IMAGE_IMPLEMENTATION
-# include <stb_image.h>
+#define ML_IMG_SOIL		0
+#define ML_IMG_STB		1
+#define ML_IMG_DEVIL	0
+
+# if ML_IMG_SOIL
+#	include <SOIL/SOIL.h>
+#	pragma comment(lib, "soil.lib")
+# elif ML_IMG_STB
+#	define STB_IMAGE_IMPLEMENTATION
+#	include <stb/stb_image.h>
+# elif ML_IMG_DEVIL
+#	include <IL/ilut.h>
+#	pragma comment(lib, "devil.lib")
+#	pragma comment(lib, "ilu.lib")
+#	pragma comment(lib, "ilut.lib")
+# else
+#	error No image loader defined.
+# endif
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -18,9 +34,18 @@ namespace ml
 		, m_pixels(Pixels())
 		, m_channels(0)
 	{
+#if ML_IMG_DEVIL
+		static bool check = true;
+		if (check)
+		{
+			check = false;
+			ilInit();
+			iluInit();
+		}
+#endif
 	}
 
-	Image::Image(uint32_t width, uint32_t height, const uint8_t * pixels)
+	Image::Image(uint32_t width, uint32_t height, const byte_t * pixels)
 		: m_size(width, height)
 		, m_pixels(Pixels())
 		, m_channels(0)
@@ -49,29 +74,57 @@ namespace ml
 	
 	bool Image::loadFromFile(const String & filename)
 	{
+# if ML_IMG_STB
 		stbi_set_flip_vertically_on_load(true);
-		
-		uint8_t * data = stbi_load(
+		if (byte_t * data = stbi_load(
 			filename.c_str(),
 			&(int32_t &)(m_size[0]),
 			&(int32_t &)(m_size[1]),
 			&m_channels,
 			NULL
-		);
-
-		if (data)
+		))
 		{
-			m_pixels.assign(&data[0], &data[m_size[0] * m_size[1] * m_channels]);
+			m_pixels.assign(&data[0], &data[m_size[0] * m_size[1] * 4]);
+			stbi_image_free(data);
 		}
 		else
 		{
 			m_size = vec2i::Zero;
 			m_pixels.clear();
 		}
-		
-		stbi_image_free(data);
-		
 		return !m_pixels.empty();
+# elif ML_IMG_DEVIL
+		uint32_t imageID;
+		ilGenImages(1, &imageID);
+		ilEnable(IL_ORIGIN_SET);
+		ilOriginFunc(IL_ORIGIN_UPPER_LEFT);
+		ilBindImage(imageID);
+		if (!ilLoadImage(filename.c_str()) || !ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE))
+		{
+			const ILenum error = ilGetError();
+			return Debug::logError("IL Error: {0} - {1}",
+				error,
+				iluErrorString(error)
+			);
+		}
+		byte_t * data = ilGetData();
+		if (data)
+		{
+			ILinfo info;
+			iluGetImageInfo(&info);
+			if (info.Origin == IL_ORIGIN_UPPER_LEFT)
+			{
+				iluFlipImage();
+			}
+			m_size = { info.Width, info.Height };
+			m_channels = info.Depth;
+			m_pixels.assign(&data[0], &data[m_size[0] * m_size[1] * 4]);
+
+			ilDeleteImages(1, &imageID);
+			return true;
+		}
+		return false;
+# endif
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -84,8 +137,8 @@ namespace ml
 			Pixels newPixels(width * height * 4);
 
 			// Fill it with the specified color
-			uint8_t * ptr = &newPixels[0];
-			uint8_t * end = ptr + newPixels.size();
+			byte_t * ptr = &newPixels[0];
+			byte_t * end = ptr + newPixels.size();
 			while (ptr < end)
 			{
 				*(ptr++) = color[0];
@@ -111,7 +164,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Image & Image::create(uint32_t width, uint32_t height, const uint8_t * pixels)
+	Image & Image::create(uint32_t width, uint32_t height, const byte_t * pixels)
 	{
 		if (pixels && width && height)
 		{
@@ -135,14 +188,14 @@ namespace ml
 		return (*this);
 	}
 	
-	Image & Image::createMaskFromColor(const vec4b & color, uint8_t alpha)
+	Image & Image::createMaskFromColor(const vec4b & color, byte_t alpha)
 	{
 		// Make sure that the image is not empty
 		if (!m_pixels.empty())
 		{
 			// Replace the alpha of the pixels that match the transparent color
-			uint8_t * ptr = &m_pixels[0];
-			uint8_t * end = ptr + m_pixels.size();
+			byte_t * ptr = &m_pixels[0];
+			byte_t * end = ptr + m_pixels.size();
 			while (ptr < end)
 			{
 				if ((ptr[0] == color[0]) &&
@@ -204,14 +257,14 @@ namespace ml
 
 	vec4b	Image::getPixel(uint32_t x, uint32_t y) const
 	{
-		const uint8_t * pixel = &m_pixels[(x + y * m_size[0]) * 4];
+		const byte_t * pixel = &m_pixels[(x + y * m_size[0]) * 4];
 
 		return vec4u(pixel[0], pixel[1], pixel[2], pixel[3]);
 	}
 
 	Image & Image::setPixel(uint32_t x, uint32_t y, const vec4b & color)
 	{
-		uint8_t * ptr = &m_pixels[(x + y * m_size[0]) * 4];
+		byte_t * ptr = &m_pixels[(x + y * m_size[0]) * 4];
 		*(ptr++) = color[0];
 		*(ptr++) = color[1];
 		*(ptr++) = color[2];

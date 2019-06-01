@@ -102,9 +102,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp">
       <Filter>Header Files\Plugins</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp">
-      <Filter>Header Files\Plugins</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -156,9 +153,6 @@
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp">
-      <Filter>Source Files\Plugins</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">

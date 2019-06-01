@@ -67,6 +67,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	using byte_t	= typename uint8_t;
 	using hash_t	= typename uint64_t;
 	using time_t	= typename uint64_t;
 

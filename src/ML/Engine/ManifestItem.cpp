@@ -97,10 +97,9 @@ namespace ml
 
 	bool ManifestItem::getBool(const String & value, const bool dv) const
 	{
-		if (const String str = getStr(value))
+		if (const String str = StringUtility::ToLower(getStr(value)))
 		{
-			if (str == "1" || str == "true") { return true; }
-			if (str == "0" || str == "false") { return false; }
+			return (str == "1" || str == "true");
 		}
 		return dv;
 	}

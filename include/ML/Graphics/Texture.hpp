@@ -27,7 +27,7 @@ namespace ml
 		Texture(GL::Target target, GL::Format format, bool smooth, bool repeated, bool mipmapped);
 		Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated);
 		Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped);
-		Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, int32_t border, GL::Type type);
+		Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
 		Texture(const Texture & copy);
 		~Texture();
 
@@ -83,7 +83,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		inline const GL::Target	target()		const { return m_target;		}
 		inline const int32_t	level()			const { return m_level;			}
-		inline const int32_t	border()		const { return m_border;		}
 		inline const GL::Format internalFormat()const { return m_internalFormat;}
 		inline const GL::Format colorFormat()	const { return m_colorFormat;	}
 		inline const GL::Type	type()			const { return m_type;			}
@@ -101,7 +100,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		GL::Target	m_target;			// 
 		int32_t		m_level;			// 
-		int32_t		m_border;			// 
 		GL::Format	m_internalFormat;	// 
 		GL::Format	m_colorFormat;		// 
 		GL::Type	m_type;				// 

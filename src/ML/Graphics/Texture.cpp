@@ -10,7 +10,6 @@
 #define ML_TEX_DEFAULT_MIPMAP	false
 #define ML_TEX_DEFAULT_FORMAT	GL::RGBA
 #define ML_TEX_DEFAULT_LEVEL	0
-#define ML_TEX_DEFAULT_BORDER	0
 #define ML_TEX_DEFAULT_TYPE		GL::UnsignedByte
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -99,13 +98,12 @@ namespace ml
 		repeated, 
 		mipmapped, 
 		ML_TEX_DEFAULT_LEVEL,
-		ML_TEX_DEFAULT_BORDER,
 		ML_TEX_DEFAULT_TYPE
 	)
 	{
 	}
 
-	Texture::Texture(GL::Target target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, int32_t border, GL::Type type)
+	Texture::Texture(GL::Target target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
 		: IHandle			(NULL)
 		, m_size			(vec2u::Zero)
 		, m_realSize		(vec2u::Zero)
@@ -116,7 +114,6 @@ namespace ml
 		, m_repeated		(repeated)
 		, m_mipmapped		(mipmapped)
 		, m_level			(level)
-		, m_border			(border)
 		, m_type			(type)
 	{
 	}
@@ -129,7 +126,6 @@ namespace ml
 		copy.m_repeated,
 		copy.m_mipmapped,
 		copy.m_level,
-		copy.m_border,
 		copy.m_type
 	)
 	{
@@ -229,7 +225,7 @@ namespace ml
 						m_internalFormat,
 						m_size[0],
 						m_size[1],
-						m_border,
+						0, // border: "This value must be 0."
 						m_colorFormat,
 						m_type,
 						pixels
@@ -496,7 +492,6 @@ namespace ml
 		std::swap(m_level,			other.m_level);
 		std::swap(m_size,			other.m_size);
 		std::swap(m_realSize,		other.m_realSize);
-		std::swap(m_border,			other.m_border);
 		std::swap(m_internalFormat,	other.m_internalFormat);
 		std::swap(m_colorFormat,	other.m_colorFormat);
 		std::swap(m_type,			other.m_type);

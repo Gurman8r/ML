@@ -219,6 +219,7 @@ namespace ml
 			Int,							// GL_INT
 			UnsignedInt,					// GL_UNSIGNED_INT
 			Float,							// GL_FLOAT
+			HalfFloat,						// GL_HALF_FLOAT
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

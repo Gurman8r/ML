@@ -302,10 +302,13 @@ namespace ml
 			{
 				const bool smooth = item.getBool("smooth", true);
 				const bool repeat = item.getBool("repeat", false);
+				const bool mipmap = item.getBool("mipmap", false);
+				
+				const int32_t level = item.getInt("level", 0);
 
 				const GL::Target target = (GL::Target)item.getEnum("target", GL::Texture2D, {
-					{ "2D", GL::Texture2D },
-					{ "3D", GL::Texture3D },
+					{ "tex_2d", GL::Texture2D },
+					{ "tex_3d", GL::Texture3D },
 				});
 
 				const GL::Format format = (GL::Format)item.getEnum("format", GL::RGBA, {
@@ -316,10 +319,21 @@ namespace ml
 					{ "rgba",	GL::RGBA	},
 				});
 
+				const GL::Type pix_ty = (GL::Type)item.getEnum("pix_ty", GL::UnsignedByte, {
+					{ "byte",	GL::Byte },
+					{ "ubyte",	GL::UnsignedByte },
+					{ "short",	GL::Short },
+					{ "ushort", GL::UnsignedShort },
+					{ "int",	GL::Int },
+					{ "uint",	GL::UnsignedInt },
+					{ "float",	GL::Float },
+					{ "hfloat",	GL::HalfFloat },
+				});
+
 				if (const String file = item.getStr("file"))
 				{
 					return textures.load_file_forward(name, file,
-						target, format, smooth, repeat
+						target, format, format, smooth, repeat, mipmap, level, pix_ty
 					);
 				}
 				else if (const String file = item.getStr("image"))
@@ -327,7 +341,7 @@ namespace ml
 					const Image * temp;
 					return
 						(textures.load_forward(name, 
-							target, format, smooth, repeat
+							target, format, format, smooth, repeat, mipmap, level, pix_ty
 						)) &&
 						(temp = images.get(file)) &&
 						(textures.get(name)->loadFromImage(*temp));

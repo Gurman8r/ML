@@ -1,77 +1,188 @@
 #include <ML/Graphics/RenderStates.hpp>
 #include <ML/Graphics/OpenGL.hpp>
+#include <ML/Core/Debug.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderStates::RenderStates()
-		: m_map()
+		: alpha		{ }
+		, blend		{ }
+		, culling	{ }
+		, depth		{ }
+		, texture	{ }
+		, misc		{ }
 	{
 	}
 
-	RenderStates::RenderStates(const init_type & init)
-		: m_map()
+	RenderStates::RenderStates(
+		const AlphaMode		&	alpha,
+		const BlendMode		&	blend,
+		const CullingMode	&	culling,
+		const DepthMode		&	depth,
+		const TextureMode	&	texture,
+		const MiscFlags		&	misc)
+		: alpha		{ alpha.enabled, alpha.comp, alpha.coeff }
+		, blend		{ blend.enabled, blend.srcRGB, blend.srcAlpha, blend.dstRGB, blend.dstAlpha }
+		, culling	{ culling.enabled, culling.face }
+		, depth		{ depth.enabled, depth.comp }
+		, texture	{ texture.enabled, texture.target, texture.texture }
+		, misc		{ misc.multisample, misc.framebufferSRGB }
 	{
-		for (auto it = init.begin(); it != init.end(); it++)
-		{
-			m_map.insert(*it);
-		}
 	}
 
-	RenderStates::RenderStates(const map_type & flags)
-		: m_map(flags)
-	{
-	}
-
-	RenderStates::RenderStates(const RenderStates & copy)
-		: m_map(copy.m_map)
+	RenderStates::RenderStates(const RenderStates & copy) : RenderStates(
+		copy.alpha,
+		copy.blend,
+		copy.culling,
+		copy.depth,
+		copy.texture,
+		copy.misc)
 	{
 	}
 
 	RenderStates::~RenderStates()
 	{
-		m_map.clear();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void RenderStates::apply() const
+	const RenderStates & RenderStates::apply() const
 	{
-		for (auto & pair : (*this))
-		{
-			apply(pair.first, pair.second);
-		}
+		this->alpha();
+		this->blend();
+		this->culling();
+		this->depth();
+		this->texture();
+		this->misc();
+		return (*this);
 	}
 
-	bool RenderStates::apply(const uint32_t key, const RenderVar & value) const
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const AlphaMode & AlphaMode::operator()() const
 	{
-		switch (value.type())
+		if (!this->enabled)
 		{
-		case RenderVar::Bool:
+			ML_GL.disable(GL::AlphaTest);
+		}
+		else if (ML_GL.enable(GL::AlphaTest, this->enabled))
 		{
-			switch (key)
-			{
-			case GL::AlphaTest:
-			case GL::Blend:
-			case GL::CullFace:
-			case GL::DepthTest:
-			case GL::FramebufferSRGB:
-			case GL::Multisample:
-			case GL::Texture2D:
-				return ((value.data()) ? (ML_GL.enable(key)) : (ML_GL.disable(key)));
-			}
+			ML_GL.alphaFunc(this->comp, this->coeff);
 		}
-		break;
-
-		case RenderVar::Int:
+		else
 		{
+			Debug::logWarning("Failed enabling Alpha Mode");
 		}
-		break;
-		}
-		return false;
+		return (*this);
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	const BlendMode & BlendMode::operator()() const
+	{
+		if (!this->enabled)
+		{
+			ML_GL.disable(GL::Blend);
+		}
+		else if (ML_GL.enable(GL::Blend, this->enabled))
+		{
+			ML_GL.blendFuncSeparate(
+				this->srcRGB, this->srcAlpha, 
+				this->dstRGB, this->dstAlpha
+			);
+		}
+		else
+		{
+			Debug::logWarning("Failed enabling Blend Mode");
+		}
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const CullingMode & CullingMode::operator()() const
+	{
+		if (!this->enabled)
+		{
+			ML_GL.disable(GL::CullFace);
+		}
+		else if (ML_GL.enable(GL::CullFace, this->enabled))
+		{
+			ML_GL.cullFace(this->face);
+		}
+		else
+		{
+			Debug::logWarning("Failed enabling Culling Mode");
+		}
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const DepthMode & DepthMode::operator()() const
+	{
+		if (!this->enabled)
+		{
+			ML_GL.disable(GL::DepthTest);
+		}
+		else if (ML_GL.enable(GL::DepthTest, this->enabled))
+		{
+			ML_GL.depthFunc(this->comp);
+		}
+		else
+		{
+			Debug::logWarning("Failed enabling Depth Mode");
+		}
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const TextureMode & TextureMode::operator()() const
+	{
+		if (!this->enabled)
+		{
+			ML_GL.disable(this->target);
+		}
+		else if (ML_GL.enable(this->target, this->enabled))
+		{
+			ML_GL.activeTexture(this->texture);
+		}
+		else
+		{
+			Debug::logWarning("Failed enabling Texture Mode");
+		}
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const RenderStates::MiscFlags & RenderStates::MiscFlags::operator()() const
+	{
+		// Multisample
+		if (!this->multisample)
+		{
+			ML_GL.disable(GL::Multisample);
+		}
+		else if (!ML_GL.enable(GL::Multisample, this->multisample))
+		{
+			Debug::logWarning("Failed enabling Multisample");
+		}
+
+		// Framebuffer SRGB
+		if (!this->framebufferSRGB)
+		{
+			ML_GL.disable(GL::FramebufferSRGB);
+		}
+		else if (!ML_GL.enable(GL::FramebufferSRGB, this->framebufferSRGB))
+		{
+			Debug::logWarning("Failed enabling FramebufferSRGB");
+		}
+
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

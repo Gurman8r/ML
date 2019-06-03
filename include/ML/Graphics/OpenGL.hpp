@@ -61,14 +61,14 @@ namespace ml
 	public: // Functions
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void		activeTexture(uint32_t textureID);
-		static void		alphaFunc(GL::Comparison comp, float value);
-		static void		blendFunc(GL::Factor src, GL::Factor dst);
+		static void		alphaFunc(GL::Comp comp, float value);
+		static void		blendFunc(uint32_t sFactor, uint32_t dFactor);
 		static void		blendEquation(GL::Equation equation);
 		static void		cullFace(GL::Face value);
-		static void		depthFunc(GL::Comparison value);
+		static void		depthFunc(GL::Comp value);
 		static void		depthMask(bool value);
 		static void		viewport(int32_t x, int32_t y, int32_t w, int32_t h);
-		static void		blendEquationSeparate(uint32_t lhs, uint32_t rhs);
+		static void		blendEquationSeparate(uint32_t modeRGB, uint32_t modeAlpha);
 		static void		blendFuncSeparate(uint32_t sfactorRGB, uint32_t dfactorRGB, uint32_t sfactorAlpha, uint32_t dfactorAlpha);
 		static void		polygonMode(uint32_t face, uint32_t mode);
 

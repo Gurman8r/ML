@@ -2,6 +2,7 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Window/WindowEvents.hpp>
+#include <ML/Graphics/RenderStates.hpp>
 
 namespace ml
 {
@@ -23,25 +24,17 @@ namespace ml
 			// Validate OpenGL Version
 			ML_GL.validateVersion(m_context.majorVersion, m_context.minorVersion);
 
-			// Setup OpenGL
-			ML_GL.enable(GL::AlphaTest);
-			ML_GL.enable(GL::Blend);
-			ML_GL.enable(GL::CullFace);
-			ML_GL.enable(GL::DepthTest);
-			ML_GL.enable(GL::Multisample, m_context.multisample);
-			ML_GL.enable(GL::Texture2D);
-
-			if (!ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable))
+			// Setup States
+			RenderStates states
 			{
-				ml::Debug::logWarning("Failed to enable Framebuffer SRGB");
-				m_context.srgbCapable = false;
-			}
-
-			ML_GL.cullFace(GL::Back);
-			ML_GL.depthFunc(GL::Less);
-			ML_GL.blendFunc(GL::SourceAlpha, GL::OneMinusSourceAlpha);
-			ML_GL.alphaFunc(GL::Greater, 0.01f);
-			ML_GL.activeTexture(GL::Texture0);
+				{ true, GL::Greater, 0.01f },
+				{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+				{ true, GL::Back },
+				{ true, GL::Less },
+				{ true, GL::Texture2D, GL::Texture0 },
+				{ m_context.multisample, m_context.srgbCapable }
+			};
+			states.apply();
 
 			return true;
 		}

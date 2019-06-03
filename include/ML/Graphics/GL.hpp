@@ -98,6 +98,12 @@ namespace ml
 			PolygonMode = 0x0B40,			// GL_POLYGON_MODE
 			Viewport = 0x0BA2,				// GL_VIEWPORT
 			ScissorBox = 0x0C10,			// GL_SCISSOR_BOX
+			BlendEquationRGB = 0x8009,		// GL_BLEND_EQUATION_RGB
+			BlendEquationAlpha = 0x883D,	// GL_BLEND_EQUATION_ALPHA
+			BlendDestRGB = 0x80C8,			// GL_BLEND_DST_RGB
+			BlendSourceRGB,					// GL_BLEND_SRC_RGB
+			BlendDestAlpha = 0x80CA,		// GL_BLEND_DST_ALPHA
+			BlendSourceAlpha,				// GL_BLEND_SRC_ALPHA
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -154,19 +160,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum BlendEquation : uint32_t
-		{
-			BlendEquationRGB = 0x8009,		// GL_BLEND_EQUATION_RGB
-			BlendEquationAlpha = 0x883D,	// GL_BLEND_EQUATION_ALPHA
-			BlendDestRGB = 0x80C8,			// GL_BLEND_DST_RGB
-			BlendSourceRGB,					// GL_BLEND_SRC_RGB
-			BlendDestAlpha = 0x80CA,		// GL_BLEND_DST_ALPHA
-			BlendSourceAlpha,				// GL_BLEND_SRC_ALPHA
-		};
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		enum Comparison : uint32_t
+		enum Comp : uint32_t
 		{
 			Never = 0x200,					// GL_NEVER
 			Less,							// GL_LESS
@@ -182,15 +176,15 @@ namespace ml
 
 		enum Factor : uint32_t
 		{
-			SourceColor = 0x0300,			// GL_SRC_COLOR
-			OneMinusSourceColor,			// GL_ONE_MINUS_SRC_COLOR
-			SourceAlpha,					// GL_SRC_ALPHA
-			OneMinusSourceAlpha,			// GL_ONE_MINUS_SRC_ALPHA
-			DestAlpha,						// GL_DST_ALPHA
-			OneMinusDestAlpha,				// GL_ONE_MINUS_DST_ALPHA
-			DestColor,						// GL_DST_COLOR
-			OneMinusDestColor,				// GL_ONE_MINUS_DST_COLOR
-			SourceAlphaSaturate,			// GL_SRC_ALPHA_SATURATE
+			SrcColor = 0x0300,				// GL_SRC_COLOR
+			OneMinusSrcColor,				// GL_ONE_MINUS_SRC_COLOR
+			SrcAlpha,						// GL_SRC_ALPHA
+			OneMinusSrcAlpha,				// GL_ONE_MINUS_SRC_ALPHA
+			DstAlpha,						// GL_DST_ALPHA
+			OneMinusDstAlpha,				// GL_ONE_MINUS_DST_ALPHA
+			DstColor,						// GL_DST_COLOR
+			OneMinusDstColor,				// GL_ONE_MINUS_DST_COLOR
+			SrcAlphaSaturate,				// GL_SRC_ALPHA_SATURATE
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -334,7 +328,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum TextureID : uint32_t
+		enum TexID : uint32_t
 		{
 			Texture0 = 0x84C0,				// GL_TEXTURE0
 			Texture1,						// GL_TEXTURE1

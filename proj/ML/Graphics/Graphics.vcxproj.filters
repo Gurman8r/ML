@@ -138,9 +138,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderWindow.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderVar.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderTarget.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
@@ -246,9 +243,6 @@
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderTarget.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\RenderVar.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp">

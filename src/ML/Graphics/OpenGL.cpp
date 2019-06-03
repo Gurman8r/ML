@@ -95,25 +95,25 @@ namespace ml
 		return ML_GL.m_good;
 	}
 
-	void OpenGL::validateVersion(uint32_t & majorVersion, uint32_t & minorVersion)
+	void OpenGL::validateVersion(uint32_t & major, uint32_t & minor)
 	{
 		if (ML_GL.m_good)
 		{
-			majorVersion = (uint32_t)getInt(GL::MajorVersion);
-			minorVersion = (uint32_t)getInt(GL::MinorVersion);
+			major = (uint32_t)getInt(GL::MajorVersion);
+			minor = (uint32_t)getInt(GL::MinorVersion);
 			
 			if (getError() == GL::InvalidEnum)
 			{
 				if (CString version = getString(GL::Version))
 				{
-					majorVersion = version[0] - '0';
-					minorVersion = version[2] - '0';
-					Debug::logWarning("Using OpenGL Version: {0}.{1}", majorVersion, minorVersion);
+					major = version[0] - '0';
+					minor = version[2] - '0';
+					Debug::logWarning("Using OpenGL Version: {0}.{1}", major, minor);
 				}
 				else
 				{
-					majorVersion = 1;
-					minorVersion = 1;
+					major = 1;
+					minor = 1;
 					Debug::logWarning("Can't get the version number, assuming 1.1");
 				}
 			}
@@ -246,14 +246,14 @@ namespace ml
 		glCheck(glActiveTexture(target));
 	}
 
-	void OpenGL::alphaFunc(GL::Comparison comp, float value)
+	void OpenGL::alphaFunc(GL::Comp comp, float value)
 	{
 		glCheck(glAlphaFunc(comp, value));
 	}
 
-	void OpenGL::blendFunc(GL::Factor src, GL::Factor dst)
+	void OpenGL::blendFunc(uint32_t sFactor, uint32_t dFactor)
 	{
-		glCheck(glBlendFunc(src, dst));
+		glCheck(glBlendFunc(sFactor, dFactor));
 	}
 
 	void OpenGL::blendEquation(GL::Equation equation)
@@ -266,7 +266,7 @@ namespace ml
 		glCheck(glCullFace(face));
 	}
 
-	void OpenGL::depthFunc(GL::Comparison cmp)
+	void OpenGL::depthFunc(GL::Comp cmp)
 	{
 		glCheck(glDepthFunc(cmp));
 	}
@@ -281,9 +281,9 @@ namespace ml
 		glCheck(glViewport(x, y, w, h));
 	}
 
-	void OpenGL::blendEquationSeparate(uint32_t lhs, uint32_t rhs)
+	void OpenGL::blendEquationSeparate(uint32_t modeRGB, uint32_t modeAlpha)
 	{
-		glCheck(glBlendEquationSeparate(lhs, rhs));
+		glCheck(glBlendEquationSeparate(modeRGB, modeAlpha));
 	}
 
 	void OpenGL::blendFuncSeparate(uint32_t sfactorRGB, uint32_t dfactorRGB, uint32_t sfactorAlpha, uint32_t dfactorAlpha)

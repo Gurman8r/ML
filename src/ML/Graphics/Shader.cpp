@@ -190,7 +190,7 @@ namespace ml
 
 			if (bindTextures)
 			{
-				GL::TextureID tex = GL::Texture0;
+				GL::TexID tex = GL::Texture0;
 
 				for (const auto & pair : shader->m_textures)
 				{

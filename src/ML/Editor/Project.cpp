@@ -704,49 +704,6 @@ namespace ml
 									}
 								});
 
-								// States
-								for (auto & pair : renderer->states())
-								{
-									switch (pair.first)
-									{
-									case GL::AlphaTest:
-										Layout::Field("Alpha Test", [&](CString)
-										{
-											ImGui::Checkbox("##AlphaTest##States", (bool *)(pair.second.ptr()));
-										});
-										break;
-									case GL::Blend:
-										Layout::Field("Blend", [&](CString)
-										{
-											ImGui::Checkbox("##Blend##States", (bool *)(pair.second.ptr()));
-										});
-										break;
-									case GL::CullFace:
-										Layout::Field("Cull Face", [&](CString)
-										{
-											ImGui::Checkbox("##CullFace##States", (bool *)(pair.second.ptr()));
-										});
-										break;
-									case GL::DepthTest:
-										Layout::Field("Depth Test", [&](CString)
-										{
-											ImGui::Checkbox("##DepthTest##States", (bool *)(pair.second.ptr()));
-										});
-										break;
-									case GL::Multisample:
-										Layout::Field("Multisample", [&](CString)
-										{
-											ImGui::Checkbox("##Multisample##States", (bool *)(pair.second.ptr()));
-										});
-										break;
-									case GL::Texture2D:
-										Layout::Field("Texture2D", [&](CString)
-										{
-											ImGui::Checkbox("##Texture2D##States", (bool *)(pair.second.ptr()));
-										});
-										break;
-									}
-								}
 							});
 						}
 

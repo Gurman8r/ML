@@ -15,14 +15,8 @@ namespace ml
 	{
 	public:
 		Renderer();
-
-		Renderer(
-			const IDrawable		* drawable,
-			const Material		* material,
-			const RenderStates	& states);
-
+		Renderer(const IDrawable * drawable, const Material * material);
 		Renderer(const Renderer & copy);
-
 		virtual ~Renderer();
 
 	public:

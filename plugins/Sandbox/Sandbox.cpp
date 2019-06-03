@@ -194,13 +194,7 @@ namespace DEMO
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
 					ev.resources.models.get("sphere8x6"),
-					material,
-					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
-					})
+					material
 				);
 			}
 
@@ -240,13 +234,7 @@ namespace DEMO
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
 					ev.resources.models.get("default_cube"),
-					material,
-					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
-					})
+					material
 				);
 			}
 
@@ -286,13 +274,7 @@ namespace DEMO
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
 					ev.resources.models.get("cube"),
-					material,
-					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
-					})
+					material
 				);
 			}
 
@@ -332,14 +314,8 @@ namespace DEMO
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
 					ev.resources.models.get("sphere32x24"),
-					material,
-					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
-						}
-				));
+					material
+				);
 			}
 
 			// Moon
@@ -385,14 +361,8 @@ namespace DEMO
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
 					ev.resources.models.get("sphere32x24"),
-					material,
-					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
-						}
-				));
+					material
+				);
 			}
 
 			// Earth
@@ -438,14 +408,8 @@ namespace DEMO
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
 					ev.resources.models.get("sphere32x24"),
-					material,
-					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
-					}
-				));
+					material
+				);
 			}
 
 			// Ground
@@ -485,13 +449,7 @@ namespace DEMO
 
 				ml::Renderer * renderer = ent->add<ml::Renderer>(
 					ev.resources.models.get("cube"),
-					material,
-					ml::RenderStates({
-						{ ml::GL::AlphaTest,{ ml::RenderVar::Bool, true } },
-						{ ml::GL::Blend,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::CullFace,	{ ml::RenderVar::Bool, true } },
-						{ ml::GL::DepthTest,{ ml::RenderVar::Bool, true } },
-					})
+					material
 				);
 			}
 		}
@@ -774,14 +732,14 @@ namespace DEMO
 				const ml::mat4 & ortho = sandbox.camera->get<ml::Camera>()->getOrthoMatrix();
 
 				// Render States
-				static ml::RenderStates states
-				({
-					{ ml::GL::AlphaTest,	{ ml::RenderVar::Bool, true } },
-					{ ml::GL::Blend,		{ ml::RenderVar::Bool, true } },
-					{ ml::GL::CullFace,		{ ml::RenderVar::Bool, false } },
-					{ ml::GL::DepthTest,	{ ml::RenderVar::Bool, false } },
-					{ ml::GL::Texture2D,	{ ml::RenderVar::Bool, true } },
-				});
+				static ml::RenderStates states(
+					{ true, ml::GL::Greater, 0.01f },
+					{ true },
+					{ false },
+					{ false },
+					{ true, ml::GL::Texture2D, ml::GL::Texture0 },
+					{ false, false }
+				);
 				states.apply();
 
 				// Draw Sprites

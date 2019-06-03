@@ -197,7 +197,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Renderer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderStates.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderTarget.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderVar.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderWindow.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Shader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderAPI.hpp" />
@@ -232,7 +231,6 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Renderer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderTarget.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\RenderVar.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderWindow.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\ShaderParser.cpp" />

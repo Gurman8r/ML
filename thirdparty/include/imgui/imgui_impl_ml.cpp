@@ -322,7 +322,7 @@ void ImGui_ML_Render(void * value)
 	// Setup render state: alpha-blending enabled, no face culling, no depth testing, scissor enabled, polygon fill
 	ML_GL.enable(ml::GL::Blend);
 	ML_GL.blendEquation(ml::GL::FuncAdd);
-	ML_GL.blendFunc(ml::GL::SourceAlpha, ml::GL::OneMinusSourceAlpha);
+	ML_GL.blendFunc(ml::GL::SrcAlpha, ml::GL::OneMinusSrcAlpha);
 	ML_GL.disable(ml::GL::CullFace);
 	ML_GL.disable(ml::GL::DepthTest);
 	ML_GL.enable(ml::GL::ScissorTest);

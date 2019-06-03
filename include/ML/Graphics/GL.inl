@@ -38,8 +38,8 @@ namespace ml
 		GL::Attachment, uint32_t, int32_t, GL::ColorAttachment0, GL::ColorAttachment9
 	);
 
-	// GL::TextureID
+	// GL::TexID
 	ML_GENERATE_ITER_OPERATORS(
-		GL::TextureID, uint32_t, int32_t, GL::Texture0, GL::Texture31
+		GL::TexID, uint32_t, int32_t, GL::Texture0, GL::Texture31
 	);
 }

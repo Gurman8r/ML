@@ -4,13 +4,13 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/StandardLib.hpp>
+#include <ML/Core/CString.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	struct GL final
+	namespace GL
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -29,15 +29,15 @@ namespace ml
 
 		enum Target : uint32_t
 		{
-			Texture2D		= 0x0DE1,		// GL_TEXTURE_2D
-			Texture3D		= 0x806F,		// GL_TEXTURE_3D
-			TextureCubeMap	= 0x8513,		// GL_TEXTURE_CUBE_MAP
-			ArrayBuffer		= 0x8892,		// GL_ARRAY_BUFFER
+			Texture2D = 0x0DE1,				// GL_TEXTURE_2D
+			Texture3D = 0x806F,				// GL_TEXTURE_3D
+			TextureCubeMap = 0x8513,		// GL_TEXTURE_CUBE_MAP
+			ArrayBuffer	= 0x8892,			// GL_ARRAY_BUFFER
 			ElementArrayBuffer,				// GL_ELEMENT_ARRAY_BUFFER
 			ArrayBufferBinding,				// GL_ARRAY_BUFFER_BINDING
-			Framebuffer		= 0x8D40,		// GL_FRAMEBUFFER
+			Framebuffer = 0x8D40,			// GL_FRAMEBUFFER
 			Renderbuffer,					// GL_RENDERBUFFER
-			ProgramObject	= 0x8B40,		// GL_PROGRAM_OBJECT_ARB
+			ProgramObject = 0x8B40,			// GL_PROGRAM_OBJECT_ARB
 			FramebufferRead = 0x8CA8,		// GL_READ_FRAMEBUFFER
 			FramebufferDraw = 0x8CA9,		// GL_DRAW_FRAMEBUFFER
 			ReadFramebufferBinding = 0x8CAA,// GL_READ_FRAMEBUFFER_BINDING
@@ -53,16 +53,16 @@ namespace ml
 
 		enum Usage : uint32_t
 		{
-			StreamDraw		= 0x88E0,		// GL_STREAM_DRAW
-			StaticDraw		= 0x88E4,		// GL_STATIC_DRAW
-			DynamicDraw		= 0x88E8,		// GL_DYNAMIC_DRAW
+			StreamDraw = 0x88E0,			// GL_STREAM_DRAW
+			StaticDraw = 0x88E4,			// GL_STATIC_DRAW
+			DynamicDraw	= 0x88E8,			// GL_DYNAMIC_DRAW
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Err : uint32_t
 		{
-			NoError		= 0,				// GL_NO_ERROR
+			NoError = 0,					// GL_NO_ERROR
 			InvalidEnum = 0x0500,			// GL_INVALID_ENUM
 			InvalidValue,					// GL_INVALID_VALUE
 			InvalidOperation,				// GL_INVALID_OPERATION
@@ -83,8 +83,8 @@ namespace ml
 			ShadingLanguageVersion = 0x8B8C,// GL_SHADING_LANGUAGE_VERSION			
 		};
 
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		enum IntID : uint32_t
 		{
 			MajorVersion = 0x821B,			// GL_MAJOR_VERSION
@@ -108,7 +108,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum ClipControl
+		enum ClipControl : uint32_t
 		{
 			LowerLeft = 0x8CA1,				// GL_LOWER_LEFT
 			UpperLeft,						// GL_UPPER_LEFT
@@ -152,10 +152,10 @@ namespace ml
 
 		enum Equation : uint32_t
 		{
-			Multiply	= 0x0103,			// GL_MULT
-			Add			= 0x0104,			// GL_ADD
-			Subtract	= 0x84E7,			// GL_SUBTRACT
-			FuncAdd		= 0x8006,			// GL_FUNC_ADD
+			Multiply = 0x0103,				// GL_MULT
+			Add	= 0x0104,					// GL_ADD
+			Subtract = 0x84E7,				// GL_SUBTRACT
+			FuncAdd	= 0x8006,				// GL_FUNC_ADD
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -268,14 +268,14 @@ namespace ml
 			LinearMipmapNearest,			// GL_LINEAR_MIPMAP_NEAREST
 			NearestMipmapLinear,			// GL_NEAREST_MIPMAP_LINEAR
 			LinearMipmapLinear,				// GL_LINEAR_MIPMAP_LINEAR
-			TexMagFilter		= 0x2800,	// GL_TEXTURE_MAG_FILTER
+			TexMagFilter = 0x2800,			// GL_TEXTURE_MAG_FILTER
 			TexMinFilter,					// GL_TEXTURE_MIN_FILTER
 			TexWrapS,						// GL_TEXTURE_WRAP_S
 			TexWrapT,						// GL_TEXTURE_WRAP_T
-			TexWrapR			= 0x8072,	// GL_TEXTURE_WRAP_R
-			Clamp				= 0x2900,	// GL_CLAMP
+			TexWrapR = 0x8072,				// GL_TEXTURE_WRAP_R
+			Clamp = 0x2900,					// GL_CLAMP
 			Repeat,							// GL_REPEAT
-			ClampToEdge			= 0x812F,	// GL_CLAMP_TO_EDGE
+			ClampToEdge = 0x812F,			// GL_CLAMP_TO_EDGE
 
 			CubeMap_Positive_X = 0x8515,	// GL_TEXTURE_CUBE_MAP_POSITIVE_X
 			CubeMap_Negative_X,				// GL_TEXTURE_CUBE_MAP_NEGATIVE_X
@@ -366,7 +366,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum DrawBuffers
+		enum DrawBuffer : uint32_t
 		{
 			DrawBuffer0 = 0x8CE0,			// GL_DRAW_BUFFER0
 			DrawBuffer1,					// GL_DRAW_BUFFER1
@@ -390,17 +390,17 @@ namespace ml
 
 		enum Mask : uint32_t
 		{
-			ContextCoreProfileBit	= 0x1,	// GL_CONTEXT_CORE_PROFILE_BIT
+			ContextCoreProfileBit = 0x1,	// GL_CONTEXT_CORE_PROFILE_BIT
 			ContextCompatProfileBit = 0x2,	// GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
-			ContextFlagDebugBit		= 0x2,	// GL_CONTEXT_FLAG_DEBUG_BIT
+			ContextFlagDebugBit	= 0x2,		// GL_CONTEXT_FLAG_DEBUG_BIT
 		
-			DepthBufferBit	 = 0x100,		// GL_DEPTH_BUFFER_BIT
+			DepthBufferBit = 0x100,			// GL_DEPTH_BUFFER_BIT
 			StencilBufferBit = 0x400,		// GL_STENCIL_BUFFER_BIT
-			ColorBufferBit	 = 0x4000,		// GL_COLOR_BUFFER_BIT
+			ColorBufferBit = 0x4000,		// GL_COLOR_BUFFER_BIT
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	};
+	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

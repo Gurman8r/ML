@@ -2,7 +2,7 @@
 #define _ML_STRING_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/StandardLib.hpp>
+#include <ML/Core/CString.hpp>
 #include <ML/Core/IComparable.hpp>
 
 namespace ml
@@ -331,11 +331,6 @@ namespace ml
 	using WStream		= typename WString::stream_type;
 	using U16Stream		= typename U16String::stream_type;
 	using U32Stream		= typename U32String::stream_type;
-
-	using CString		= typename const char *;
-	using CWString		= typename const wchar_t *;
-	using CU16String	= typename const char16_t *;
-	using CU32String	= typename const char32_t *;
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

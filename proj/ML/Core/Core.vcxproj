@@ -163,6 +163,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\CString.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp" />
@@ -214,6 +216,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\File.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />

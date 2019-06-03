@@ -1,10 +1,5 @@
 #include <ML/Core/Debug.hpp>
 
-# ifdef ML_SYSTEM_WINDOWS
-#	include <Windows.h>
-#	include <conio.h>
-# endif // ML_SYSTEM_WINDOWS
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
@@ -61,15 +56,6 @@ namespace ml
 		cin.get();
 #endif
 		return exitCode;
-	}
-
-	bool Debug::setTextAttrib(const uint16_t value)
-	{
-# ifdef ML_SYSTEM_WINDOWS
-		return SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
-# else 
-		return false;
-# endif
 	}
 
 	int32_t	Debug::system(CString cmd)

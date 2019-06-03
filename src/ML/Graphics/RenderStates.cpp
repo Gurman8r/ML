@@ -65,9 +65,9 @@ namespace ml
 	{
 		if (!this->enabled)
 		{
-			ML_GL.disable(GL::AlphaTest);
+			ML_GL.disable(GL::Flag::AlphaTest);
 		}
-		else if (ML_GL.enable(GL::AlphaTest, this->enabled))
+		else if (ML_GL.enable(GL::Flag::AlphaTest, this->enabled))
 		{
 			ML_GL.alphaFunc(this->comp, this->coeff);
 		}
@@ -84,9 +84,9 @@ namespace ml
 	{
 		if (!this->enabled)
 		{
-			ML_GL.disable(GL::Blend);
+			ML_GL.disable(GL::Flag::Blend);
 		}
-		else if (ML_GL.enable(GL::Blend, this->enabled))
+		else if (ML_GL.enable(GL::Flag::Blend, this->enabled))
 		{
 			ML_GL.blendFuncSeparate(
 				this->srcRGB, this->srcAlpha, 
@@ -106,9 +106,9 @@ namespace ml
 	{
 		if (!this->enabled)
 		{
-			ML_GL.disable(GL::CullFace);
+			ML_GL.disable(GL::Flag::CullFace);
 		}
-		else if (ML_GL.enable(GL::CullFace, this->enabled))
+		else if (ML_GL.enable(GL::Flag::CullFace, this->enabled))
 		{
 			ML_GL.cullFace(this->face);
 		}
@@ -125,9 +125,9 @@ namespace ml
 	{
 		if (!this->enabled)
 		{
-			ML_GL.disable(GL::DepthTest);
+			ML_GL.disable(GL::Flag::DepthTest);
 		}
-		else if (ML_GL.enable(GL::DepthTest, this->enabled))
+		else if (ML_GL.enable(GL::Flag::DepthTest, this->enabled))
 		{
 			ML_GL.depthFunc(this->comp);
 		}
@@ -164,9 +164,9 @@ namespace ml
 		// Multisample
 		if (!this->multisample)
 		{
-			ML_GL.disable(GL::Multisample);
+			ML_GL.disable(GL::Flag::Multisample);
 		}
-		else if (!ML_GL.enable(GL::Multisample, this->multisample))
+		else if (!ML_GL.enable(GL::Flag::Multisample, this->multisample))
 		{
 			Debug::logWarning("Failed enabling Multisample");
 		}
@@ -174,9 +174,9 @@ namespace ml
 		// Framebuffer SRGB
 		if (!this->framebufferSRGB)
 		{
-			ML_GL.disable(GL::FramebufferSRGB);
+			ML_GL.disable(GL::Flag::FramebufferSRGB);
 		}
-		else if (!ML_GL.enable(GL::FramebufferSRGB, this->framebufferSRGB))
+		else if (!ML_GL.enable(GL::Flag::FramebufferSRGB, this->framebufferSRGB))
 		{
 			Debug::logWarning("Failed enabling FramebufferSRGB");
 		}

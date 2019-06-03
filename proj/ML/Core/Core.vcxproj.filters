@@ -177,6 +177,12 @@
     <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\CString.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp">
@@ -213,6 +219,9 @@
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>

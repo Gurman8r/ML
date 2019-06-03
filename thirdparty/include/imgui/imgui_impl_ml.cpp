@@ -11,6 +11,10 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+using namespace ml;
+
+/* * * * * * * * * * * * * * * * * * * * */
+
 enum ClientAPI
 {
 	API_Unknown,
@@ -18,7 +22,7 @@ enum ClientAPI
 	API_Vulkan
 };
 
-static ml::Window *	g_Window = NULL;
+static Window *		g_Window = NULL;
 static ClientAPI	g_ClientApi = API_Unknown;
 static double       g_Time = 0.0;
 static bool         g_MouseJustPressed[5] = { false, false, false, false, false };
@@ -64,35 +68,35 @@ inline static void ImGui_ML_HandleInput()
 		}
 		else
 		{
-			ml::vec2 mousePos = g_Window->getCursorPos();
+			vec2 mousePos = g_Window->getCursorPos();
 			io.MousePos = ImVec2(mousePos[0], mousePos[1]);
 		}
 	}
 
 	// Mouse
-	if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || g_Window->getInputMode() == ml::Cursor::Disabled)
+	if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || g_Window->getInputMode() == Cursor::Disabled)
 		return;
 
 	ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
 	if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor)
 	{
 		// Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
-		g_Window->seCursorMode(ml::Cursor::Hidden);
+		g_Window->seCursorMode(Cursor::Hidden);
 	}
 	else
 	{
 		// Show OS mouse cursor
 		// FIXME-PLATFORM: Unfocused windows seems to fail changing the mouse cursor with ML 3.2, but 3.3 works here.
 		g_Window->setCursor(g_MouseCursors[imgui_cursor] ? g_MouseCursors[imgui_cursor] : g_MouseCursors[ImGuiMouseCursor_Arrow]);
-		g_Window->seCursorMode(ml::Cursor::Normal);
+		g_Window->seCursorMode(Cursor::Normal);
 	}
 }
 
-inline static bool ImGui_ML_CompileShader(uint32_t & obj, const ml::CString * vs, const ml::CString * fs)
+inline static bool ImGui_ML_CompileShader(uint32_t & obj, const CString * vs, const CString * fs)
 {
 	if (!ML_GL.shadersAvailable())
 	{
-		return ml::Debug::logError("ImGui: Shaders are not available on your system.");
+		return Debug::logError("ImGui: Shaders are not available on your system.");
 	}
 
 	auto dispose = [&]() 
@@ -110,7 +114,9 @@ inline static bool ImGui_ML_CompileShader(uint32_t & obj, const ml::CString * vs
 	if (dispose() && (obj = ML_GL.createProgramObject()))
 	{
 		// Compile Vertex
-		switch (ML_GL.compileShader(g_VertHandle, ml::GL::VertexShader, &ml::File(2, vs)[0]))
+		switch (ML_GL.compileShader(
+			g_VertHandle, GL::ShaderType::VertexShader, &File(2, vs)[0]
+		))
 		{
 		case ML_SUCCESS:
 			ML_GL.attachShader(obj, g_VertHandle);
@@ -121,7 +127,9 @@ inline static bool ImGui_ML_CompileShader(uint32_t & obj, const ml::CString * vs
 		}
 
 		// Compile Fragment
-		switch (ML_GL.compileShader(g_FragHandle, ml::GL::FragmentShader, &ml::File(2, fs)[0]))
+		switch (ML_GL.compileShader(
+			g_FragHandle, GL::ShaderType::FragmentShader, &File(2, fs)[0]
+		))
 		{
 		case ML_SUCCESS:
 			ML_GL.attachShader(obj, g_FragHandle);
@@ -134,9 +142,9 @@ inline static bool ImGui_ML_CompileShader(uint32_t & obj, const ml::CString * vs
 		// Link the program
 		if (!ML_GL.linkShader(obj))
 		{
-			ml::CString log = ML_GL.getProgramInfoLog(obj);
+			CString log = ML_GL.getProgramInfoLog(obj);
 			ML_GL.deleteShader(obj);
-			return ml::Debug::logError("ImGui: Failed linking shader source:\n{0}", log);
+			return Debug::logError("ImGui: Failed linking shader source:\n{0}", log);
 		}
 
 		// Refresh OpenGL
@@ -145,13 +153,13 @@ inline static bool ImGui_ML_CompileShader(uint32_t & obj, const ml::CString * vs
 	}
 	else
 	{
-		return ml::Debug::logError("ImGui: Failed compiling shader");
+		return Debug::logError("ImGui: Failed compiling shader");
 	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-bool ImGui_ML_Init(ml::CString glsl_version, ml::Window * window, bool install_callbacks, ml::CString iniName)
+bool ImGui_ML_Init(CString glsl_version, Window * window, bool install_callbacks, CString iniName)
 {
 	g_ClientApi = API_OpenGL;
 
@@ -174,48 +182,48 @@ bool ImGui_ML_Init(ml::CString glsl_version, ml::Window * window, bool install_c
 	io.IniFilename = iniName;
 
 	// Keyboard
-	io.KeyMap[ImGuiKey_Tab] = ml::KeyCode::Tab;
-	io.KeyMap[ImGuiKey_LeftArrow] = ml::KeyCode::Left;
-	io.KeyMap[ImGuiKey_RightArrow] = ml::KeyCode::Right;
-	io.KeyMap[ImGuiKey_UpArrow] = ml::KeyCode::Up;
-	io.KeyMap[ImGuiKey_DownArrow] = ml::KeyCode::Down;
-	io.KeyMap[ImGuiKey_PageUp] = ml::KeyCode::PageUp;
-	io.KeyMap[ImGuiKey_PageDown] = ml::KeyCode::PageDown;
-	io.KeyMap[ImGuiKey_Home] = ml::KeyCode::Home;
-	io.KeyMap[ImGuiKey_End] = ml::KeyCode::End;
-	io.KeyMap[ImGuiKey_Insert] = ml::KeyCode::Insert;
-	io.KeyMap[ImGuiKey_Delete] = ml::KeyCode::Delete;
-	io.KeyMap[ImGuiKey_Backspace] = ml::KeyCode::Backspace;
-	io.KeyMap[ImGuiKey_Space] = ml::KeyCode::Space;
-	io.KeyMap[ImGuiKey_Enter] = ml::KeyCode::Enter;
-	io.KeyMap[ImGuiKey_Escape] = ml::KeyCode::Escape;
-	io.KeyMap[ImGuiKey_A] = ml::KeyCode::A;
-	io.KeyMap[ImGuiKey_C] = ml::KeyCode::C;
-	io.KeyMap[ImGuiKey_V] = ml::KeyCode::V;
-	io.KeyMap[ImGuiKey_X] = ml::KeyCode::X;
-	io.KeyMap[ImGuiKey_Y] = ml::KeyCode::Y;
-	io.KeyMap[ImGuiKey_Z] = ml::KeyCode::Z;
+	io.KeyMap[ImGuiKey_Tab] = KeyCode::Tab;
+	io.KeyMap[ImGuiKey_LeftArrow] = KeyCode::Left;
+	io.KeyMap[ImGuiKey_RightArrow] = KeyCode::Right;
+	io.KeyMap[ImGuiKey_UpArrow] = KeyCode::Up;
+	io.KeyMap[ImGuiKey_DownArrow] = KeyCode::Down;
+	io.KeyMap[ImGuiKey_PageUp] = KeyCode::PageUp;
+	io.KeyMap[ImGuiKey_PageDown] = KeyCode::PageDown;
+	io.KeyMap[ImGuiKey_Home] = KeyCode::Home;
+	io.KeyMap[ImGuiKey_End] = KeyCode::End;
+	io.KeyMap[ImGuiKey_Insert] = KeyCode::Insert;
+	io.KeyMap[ImGuiKey_Delete] = KeyCode::Delete;
+	io.KeyMap[ImGuiKey_Backspace] = KeyCode::Backspace;
+	io.KeyMap[ImGuiKey_Space] = KeyCode::Space;
+	io.KeyMap[ImGuiKey_Enter] = KeyCode::Enter;
+	io.KeyMap[ImGuiKey_Escape] = KeyCode::Escape;
+	io.KeyMap[ImGuiKey_A] = KeyCode::A;
+	io.KeyMap[ImGuiKey_C] = KeyCode::C;
+	io.KeyMap[ImGuiKey_V] = KeyCode::V;
+	io.KeyMap[ImGuiKey_X] = KeyCode::X;
+	io.KeyMap[ImGuiKey_Y] = KeyCode::Y;
+	io.KeyMap[ImGuiKey_Z] = KeyCode::Z;
 
 	// Clipboard
-	io.SetClipboardTextFn = [](void * user_data, ml::CString text)
+	io.SetClipboardTextFn = [](void * user_data, CString text)
 	{
-		static_cast<ml::Window *>(user_data)->setClipboardString(text);
+		static_cast<Window *>(user_data)->setClipboardString(text);
 	};
 	io.GetClipboardTextFn = [](void * user_data)
 	{
-		return static_cast<const ml::Window *>(user_data)->getClipboardString();
+		return static_cast<const Window *>(user_data)->getClipboardString();
 	};
 	io.ClipboardUserData = g_Window;
 
 	// Cursors
-	g_MouseCursors[ImGuiMouseCursor_Arrow] = g_Window->createCursor(ml::Cursor::Arrow);
-	g_MouseCursors[ImGuiMouseCursor_TextInput] = g_Window->createCursor(ml::Cursor::IBeam);
-	g_MouseCursors[ImGuiMouseCursor_ResizeAll] = g_Window->createCursor(ml::Cursor::Arrow);   // FIXME: GLFW doesn't have this.
-	g_MouseCursors[ImGuiMouseCursor_ResizeNS] = g_Window->createCursor(ml::Cursor::VResize);
-	g_MouseCursors[ImGuiMouseCursor_ResizeEW] = g_Window->createCursor(ml::Cursor::HResize);
-	g_MouseCursors[ImGuiMouseCursor_ResizeNESW] = g_Window->createCursor(ml::Cursor::Arrow);  // FIXME: GLFW doesn't have this.
-	g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = g_Window->createCursor(ml::Cursor::Arrow);  // FIXME: GLFW doesn't have this.
-	g_MouseCursors[ImGuiMouseCursor_Hand] = g_Window->createCursor(ml::Cursor::Hand);
+	g_MouseCursors[ImGuiMouseCursor_Arrow] = g_Window->createCursor(Cursor::Arrow);
+	g_MouseCursors[ImGuiMouseCursor_TextInput] = g_Window->createCursor(Cursor::IBeam);
+	g_MouseCursors[ImGuiMouseCursor_ResizeAll] = g_Window->createCursor(Cursor::Arrow);   // FIXME: GLFW doesn't have this.
+	g_MouseCursors[ImGuiMouseCursor_ResizeNS] = g_Window->createCursor(Cursor::VResize);
+	g_MouseCursors[ImGuiMouseCursor_ResizeEW] = g_Window->createCursor(Cursor::HResize);
+	g_MouseCursors[ImGuiMouseCursor_ResizeNESW] = g_Window->createCursor(Cursor::Arrow);  // FIXME: GLFW doesn't have this.
+	g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = g_Window->createCursor(Cursor::Arrow);  // FIXME: GLFW doesn't have this.
+	g_MouseCursors[ImGuiMouseCursor_Hand] = g_Window->createCursor(Cursor::Hand);
 
 	// Callbacks
 	if (install_callbacks)
@@ -254,8 +262,8 @@ void ImGui_ML_NewFrame()
 	IM_ASSERT(io.Fonts->IsBuilt() && "Font atlas not built! It is generally built by the renderer back-end. Missing call to renderer _NewFrame() function? e.g. ImGui_ImplOpenGL3_NewFrame().");
 
 	// Setup display size (every frame to accommodate for window resizing)
-	ml::vec2 size = ml::vec2(g_Window->getSize());
-	ml::vec2 display = ml::vec2(g_Window->getFrameSize());
+	vec2 size = vec2(g_Window->getSize());
+	vec2 display = vec2(g_Window->getFrameSize());
 	io.DisplaySize = ImVec2(size[0], size[1]);
 	io.DisplayFramebufferScale = ImVec2(size[0] > 0 ? (display[0] / size[0]) : 0, size[1] > 0 ? (display[1] / size[1]) : 0);
 
@@ -283,50 +291,50 @@ void ImGui_ML_Render(void * value)
 	draw_data->ScaleClipRects(io.DisplayFramebufferScale);
 
 	// Backup GL state
-	uint32_t last_active_texture = ML_GL.getInt(ml::GL::ActiveTexture);
-	ML_GL.activeTexture(ml::GL::Texture0);
-	int32_t last_program = ML_GL.getInt(ml::GL::CurrentProgram);
-	int32_t last_texture = ML_GL.getInt(ml::GL::TextureBinding2D);
-	int32_t last_sampler = ML_GL.getInt(ml::GL::SamplerBinding);
-	int32_t last_array_buffer = ML_GL.getInt(ml::GL::ArrayBufferBinding);
-	int32_t last_vertex_array = ML_GL.getInt(ml::GL::VertexArrayBinding);
+	uint32_t last_active_texture = ML_GL.getInt(GL::ActiveTexture);
+	ML_GL.activeTexture(GL::Texture0);
+	int32_t last_program = ML_GL.getInt(GL::CurrentProgram);
+	int32_t last_texture = ML_GL.getInt(GL::TextureBinding2D);
+	int32_t last_sampler = ML_GL.getInt(GL::SamplerBinding);
+	int32_t last_array_buffer = ML_GL.getInt(GL::ArrayBufferBinding);
+	int32_t last_vertex_array = ML_GL.getInt(GL::VertexArrayBinding);
 
 	int32_t last_polygon_mode[2]; 
-	ML_GL.getIntv(ml::GL::PolygonMode, last_polygon_mode);
+	ML_GL.getIntv(GL::PolygonMode, last_polygon_mode);
 
 	int32_t last_viewport[4]; 
-	ML_GL.getIntv(ml::GL::Viewport, last_viewport);
+	ML_GL.getIntv(GL::Viewport, last_viewport);
 
 	int32_t last_scissor_box[4]; 
-	ML_GL.getIntv(ml::GL::ScissorBox, last_scissor_box);
+	ML_GL.getIntv(GL::ScissorBox, last_scissor_box);
 
-	uint32_t last_blend_src_rgb = ML_GL.getInt(ml::GL::BlendSourceRGB);
-	uint32_t last_blend_dst_rgb = ML_GL.getInt(ml::GL::BlendDestRGB);
-	uint32_t last_blend_src_alpha = ML_GL.getInt(ml::GL::BlendSourceAlpha);
-	uint32_t last_blend_dst_alpha = ML_GL.getInt(ml::GL::BlendDestAlpha);
-	uint32_t last_blend_equation_rgb = ML_GL.getInt(ml::GL::BlendEquationRGB);
-	uint32_t last_blend_equation_alpha = ML_GL.getInt(ml::GL::BlendEquationAlpha);
+	uint32_t last_blend_src_rgb = ML_GL.getInt(GL::BlendSourceRGB);
+	uint32_t last_blend_dst_rgb = ML_GL.getInt(GL::BlendDestRGB);
+	uint32_t last_blend_src_alpha = ML_GL.getInt(GL::BlendSourceAlpha);
+	uint32_t last_blend_dst_alpha = ML_GL.getInt(GL::BlendDestAlpha);
+	uint32_t last_blend_equation_rgb = ML_GL.getInt(GL::BlendEquationRGB);
+	uint32_t last_blend_equation_alpha = ML_GL.getInt(GL::BlendEquationAlpha);
 
-	bool last_enable_blend = ML_GL.isEnabled(ml::GL::Blend);
-	bool last_enable_cull_face = ML_GL.isEnabled(ml::GL::CullFace);
-	bool last_enable_depth_test = ML_GL.isEnabled(ml::GL::DepthTest);
-	bool last_enable_scissor_test = ML_GL.isEnabled(ml::GL::ScissorTest);
+	bool last_enable_blend = ML_GL.isEnabled(GL::Blend);
+	bool last_enable_cull_face = ML_GL.isEnabled(GL::CullFace);
+	bool last_enable_depth_test = ML_GL.isEnabled(GL::DepthTest);
+	bool last_enable_scissor_test = ML_GL.isEnabled(GL::ScissorTest);
 	bool clip_origin_lower_left = true;
 
-	uint32_t last_clip_origin = ML_GL.getInt(ml::GL::ClipOrigin); // Support for GL 4.5's glClipControl(ml::GL::UpperLeft)
-	if (last_clip_origin == ml::GL::UpperLeft)
+	uint32_t last_clip_origin = ML_GL.getInt(GL::ClipOrigin); // Support for GL 4.5's glClipControl(GL::UpperLeft)
+	if (last_clip_origin == GL::UpperLeft)
 	{
 		clip_origin_lower_left = false;
 	}
 
 	// Setup render state: alpha-blending enabled, no face culling, no depth testing, scissor enabled, polygon fill
-	ML_GL.enable(ml::GL::Blend);
-	ML_GL.blendEquation(ml::GL::FuncAdd);
-	ML_GL.blendFunc(ml::GL::SrcAlpha, ml::GL::OneMinusSrcAlpha);
-	ML_GL.disable(ml::GL::CullFace);
-	ML_GL.disable(ml::GL::DepthTest);
-	ML_GL.enable(ml::GL::ScissorTest);
-	ML_GL.polygonMode(ml::GL::FrontAndBack, ml::GL::Fill);
+	ML_GL.enable(GL::Blend);
+	ML_GL.blendEquation(GL::FuncAdd);
+	ML_GL.blendFunc(GL::SrcAlpha, GL::OneMinusSrcAlpha);
+	ML_GL.disable(GL::CullFace);
+	ML_GL.disable(GL::DepthTest);
+	ML_GL.enable(GL::ScissorTest);
+	ML_GL.polygonMode(GL::FrontAndBack, GL::Fill);
 
 	// Setup viewport, orthographic projection matrix
 	// Our visible imgui space lies from draw_data->DisplayPos (top left) 
@@ -358,13 +366,13 @@ void ImGui_ML_Render(void * value)
 	
 	uint32_t vao_handle = ML_GL.genVertexArrays(1);
 	ML_GL.bindVertexArray(vao_handle);
-	ML_GL.bindBuffer(ml::GL::ArrayBuffer, g_VboHandle);
+	ML_GL.bindBuffer(GL::ArrayBuffer, g_VboHandle);
 	ML_GL.enableVertexAttribArray(g_AttribLocationPosition);
 	ML_GL.enableVertexAttribArray(g_AttribLocationUV);
 	ML_GL.enableVertexAttribArray(g_AttribLocationColor);
-	ML_GL.vertexAttribPointer(g_AttribLocationPosition, 2, ml::GL::Float, false, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, pos));
-	ML_GL.vertexAttribPointer(g_AttribLocationUV, 2, ml::GL::Float, false, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, uv));
-	ML_GL.vertexAttribPointer(g_AttribLocationColor, 4, ml::GL::UnsignedByte, true, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, col));
+	ML_GL.vertexAttribPointer(g_AttribLocationPosition, 2, GL::Float, false, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, pos));
+	ML_GL.vertexAttribPointer(g_AttribLocationUV, 2, GL::Float, false, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, uv));
+	ML_GL.vertexAttribPointer(g_AttribLocationColor, 4, GL::UnsignedByte, true, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, col));
 
 	// Draw
 	ImVec2 pos = draw_data->DisplayPos;
@@ -373,19 +381,19 @@ void ImGui_ML_Render(void * value)
 		const ImDrawList * cmd_list = draw_data->CmdLists[n];
 		const ImDrawIdx * idx_buffer_offset = 0;
 
-		ML_GL.bindBuffer(ml::GL::ArrayBuffer, g_VboHandle);
+		ML_GL.bindBuffer(GL::ArrayBuffer, g_VboHandle);
 		ML_GL.bufferData(
-			ml::GL::ArrayBuffer, 
+			GL::ArrayBuffer, 
 			(int32_t)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), 
 			(const void *)cmd_list->VtxBuffer.Data, 
-			ml::GL::StreamDraw);
+			GL::StreamDraw);
 
-		ML_GL.bindBuffer(ml::GL::ElementArrayBuffer, g_ElementsHandle);
+		ML_GL.bindBuffer(GL::ElementArrayBuffer, g_ElementsHandle);
 		ML_GL.bufferData(
-			ml::GL::ElementArrayBuffer,
+			GL::ElementArrayBuffer,
 			(int32_t)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), 
 			(const void *)cmd_list->IdxBuffer.Data,
-			ml::GL::StreamDraw);
+			GL::StreamDraw);
 
 		for (int32_t cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
 		{
@@ -411,7 +419,7 @@ void ImGui_ML_Render(void * value)
 					}
 					else
 					{
-						// Support for GL 4.5's glClipControl(ml::GL::UpperLeft)
+						// Support for GL 4.5's glClipControl(GL::UpperLeft)
 						ML_GL.scissor(
 							(int32_t)clip_rect.x, 
 							(int32_t)clip_rect.y,
@@ -420,11 +428,11 @@ void ImGui_ML_Render(void * value)
 					}
 
 					// Bind texture, Draw
-					ML_GL.bindTexture(ml::GL::Texture2D, (uint32_t)(intptr_t)pcmd->TextureId);
+					ML_GL.bindTexture(GL::Texture2D, (uint32_t)(intptr_t)pcmd->TextureId);
 					ML_GL.drawElements(
-						ml::GL::Triangles,
+						GL::Triangles,
 						(int32_t)pcmd->ElemCount,
-						sizeof(ImDrawIdx) == 2 ? ml::GL::UnsignedShort : ml::GL::UnsignedInt,
+						sizeof(ImDrawIdx) == 2 ? GL::UnsignedShort : GL::UnsignedInt,
 						idx_buffer_offset);
 				}
 			}
@@ -435,20 +443,20 @@ void ImGui_ML_Render(void * value)
 
 	// Restore modified GL state
 	ML_GL.useShader(last_program);
-	ML_GL.bindTexture(ml::GL::Texture2D, last_texture);
+	ML_GL.bindTexture(GL::Texture2D, last_texture);
 	ML_GL.bindSampler(0, last_sampler);
 	ML_GL.activeTexture(last_active_texture);
 	ML_GL.bindVertexArray(last_vertex_array);
-	ML_GL.bindBuffer(ml::GL::ArrayBuffer, last_array_buffer);
+	ML_GL.bindBuffer(GL::ArrayBuffer, last_array_buffer);
 	ML_GL.blendEquationSeparate(last_blend_equation_rgb, last_blend_equation_alpha);
 	ML_GL.blendFuncSeparate(last_blend_src_rgb, last_blend_dst_rgb, last_blend_src_alpha, last_blend_dst_alpha);
 	
-	if (last_enable_blend) ML_GL.enable(ml::GL::Blend); else ML_GL.disable(ml::GL::Blend);
-	if (last_enable_cull_face) ML_GL.enable(ml::GL::CullFace); else ML_GL.disable(ml::GL::CullFace);
-	if (last_enable_depth_test) ML_GL.enable(ml::GL::DepthTest); else ML_GL.disable(ml::GL::DepthTest);
-	if (last_enable_scissor_test) ML_GL.enable(ml::GL::ScissorTest); else ML_GL.disable(ml::GL::ScissorTest);
+	if (last_enable_blend) ML_GL.enable(GL::Blend); else ML_GL.disable(GL::Blend);
+	if (last_enable_cull_face) ML_GL.enable(GL::CullFace); else ML_GL.disable(GL::CullFace);
+	if (last_enable_depth_test) ML_GL.enable(GL::DepthTest); else ML_GL.disable(GL::DepthTest);
+	if (last_enable_scissor_test) ML_GL.enable(GL::ScissorTest); else ML_GL.disable(GL::ScissorTest);
 	
-	ML_GL.polygonMode(ml::GL::FrontAndBack, (uint32_t)last_polygon_mode[0]);
+	ML_GL.polygonMode(GL::FrontAndBack, (uint32_t)last_polygon_mode[0]);
 	ML_GL.viewport(last_viewport[0], last_viewport[1], (int32_t)last_viewport[2], (int32_t)last_viewport[3]);
 	ML_GL.scissor(last_scissor_box[0], last_scissor_box[1], (int32_t)last_scissor_box[2], (int32_t)last_scissor_box[3]);
 }
@@ -464,19 +472,19 @@ bool ImGui_ML_CreateFontsTexture()
 	io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);   // Load as RGBA 32-bits (75% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
 
 	// Upload texture to graphics system
-	int32_t last_texture = ML_GL.getInt(ml::GL::TextureBinding2D);
+	int32_t last_texture = ML_GL.getInt(GL::TextureBinding2D);
 	g_FontTexture = ML_GL.genTextures(1);
-	ML_GL.bindTexture(ml::GL::Texture2D, g_FontTexture);
-	ML_GL.texParameter(ml::GL::Texture2D, ml::GL::TexMinFilter, ml::GL::Linear);
-	ML_GL.texParameter(ml::GL::Texture2D, ml::GL::TexMagFilter, ml::GL::Linear);
-	ML_GL.pixelStore(ml::GL::UnpackRowLength, 0);
-	ML_GL.texImage2D(ml::GL::Texture2D, 0, ml::GL::RGBA, width, height, 0, ml::GL::RGBA, ml::GL::UnsignedByte, pixels);
+	ML_GL.bindTexture(GL::Texture2D, g_FontTexture);
+	ML_GL.texParameter(GL::Texture2D, GL::TexMinFilter, GL::Linear);
+	ML_GL.texParameter(GL::Texture2D, GL::TexMagFilter, GL::Linear);
+	ML_GL.pixelStore(GL::UnpackRowLength, 0);
+	ML_GL.texImage2D(GL::Texture2D, 0, GL::RGBA, width, height, 0, GL::RGBA, GL::UnsignedByte, pixels);
 
 	// Store our identifier
 	io.Fonts->TexID = (ImTextureID)(intptr_t)g_FontTexture;
 
 	// Restore state
-	ML_GL.bindTexture(ml::GL::Texture2D, last_texture);
+	ML_GL.bindTexture(GL::Texture2D, last_texture);
 
 	return true;
 }
@@ -495,15 +503,15 @@ void ImGui_ML_DestroyFontsTexture()
 bool ImGui_ML_CreateDeviceObjects()
 {
 	// Backup GL state
-	int32_t last_texture = ML_GL.getInt(ml::GL::TextureBinding2D);
-	int32_t last_array_buffer = ML_GL.getInt(ml::GL::ArrayBufferBinding);
-	int32_t last_vertex_array = ML_GL.getInt(ml::GL::VertexArrayBinding);
+	int32_t last_texture = ML_GL.getInt(GL::TextureBinding2D);
+	int32_t last_array_buffer = ML_GL.getInt(GL::ArrayBufferBinding);
+	int32_t last_vertex_array = ML_GL.getInt(GL::VertexArrayBinding);
 
 	// Parse GLSL version string
 	int32_t glsl_version = 130;
 	sscanf(g_GlslVersionString, "#version %d", &glsl_version);
 
-	static const ml::CString vertex_shader_glsl_120 =
+	static const CString vertex_shader_glsl_120 =
 		"uniform mat4 ProjMtx;\n"
 		"attribute vec2 Position;\n"
 		"attribute vec2 UV;\n"
@@ -517,7 +525,7 @@ bool ImGui_ML_CreateDeviceObjects()
 		"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 		"}\n";
 
-	static const ml::CString vertex_shader_glsl_130 =
+	static const CString vertex_shader_glsl_130 =
 		"uniform mat4 ProjMtx;\n"
 		"in vec2 Position;\n"
 		"in vec2 UV;\n"
@@ -531,7 +539,7 @@ bool ImGui_ML_CreateDeviceObjects()
 		"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 		"}\n";
 
-	static const ml::CString vertex_shader_glsl_300_es =
+	static const CString vertex_shader_glsl_300_es =
 		"precision mediump float;\n"
 		"layout (location = 0) in vec2 Position;\n"
 		"layout (location = 1) in vec2 UV;\n"
@@ -546,7 +554,7 @@ bool ImGui_ML_CreateDeviceObjects()
 		"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 		"}\n";
 
-	static const ml::CString vertex_shader_glsl_410_core =
+	static const CString vertex_shader_glsl_410_core =
 		"layout (location = 0) in vec2 Position;\n"
 		"layout (location = 1) in vec2 UV;\n"
 		"layout (location = 2) in vec4 Color;\n"
@@ -560,7 +568,7 @@ bool ImGui_ML_CreateDeviceObjects()
 		"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 		"}\n";
 
-	static const ml::CString fragment_shader_glsl_120 =
+	static const CString fragment_shader_glsl_120 =
 		"#ifdef GL_ES\n"
 		"    precision mediump float;\n"
 		"#endif\n"
@@ -572,7 +580,7 @@ bool ImGui_ML_CreateDeviceObjects()
 		"    gl_FragColor = Frag_Color * texture2D(Texture, Frag_UV.st);\n"
 		"}\n";
 
-	static const ml::CString fragment_shader_glsl_130 =
+	static const CString fragment_shader_glsl_130 =
 		"uniform sampler2D Texture;\n"
 		"in vec2 Frag_UV;\n"
 		"in vec4 Frag_Color;\n"
@@ -582,7 +590,7 @@ bool ImGui_ML_CreateDeviceObjects()
 		"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
 		"}\n";
 
-	static const ml::CString fragment_shader_glsl_300_es =
+	static const CString fragment_shader_glsl_300_es =
 		"precision mediump float;\n"
 		"uniform sampler2D Texture;\n"
 		"in vec2 Frag_UV;\n"
@@ -593,7 +601,7 @@ bool ImGui_ML_CreateDeviceObjects()
 		"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
 		"}\n";
 
-	static const ml::CString fragment_shader_glsl_410_core =
+	static const CString fragment_shader_glsl_410_core =
 		"in vec2 Frag_UV;\n"
 		"in vec4 Frag_Color;\n"
 		"uniform sampler2D Texture;\n"
@@ -604,8 +612,8 @@ bool ImGui_ML_CreateDeviceObjects()
 		"}\n";
 
 	// Select shaders matching our GLSL versions
-	ml::CString vertex_shader = NULL;
-	ml::CString fragment_shader = NULL;
+	CString vertex_shader = NULL;
+	CString fragment_shader = NULL;
 	if (glsl_version < 130)
 	{
 		vertex_shader = vertex_shader_glsl_120;
@@ -628,8 +636,8 @@ bool ImGui_ML_CreateDeviceObjects()
 	}
 
 	// Create shaders
-	ml::CString vertex_shader_with_version[2] = { g_GlslVersionString, vertex_shader };
-	ml::CString fragment_shader_with_version[2] = { g_GlslVersionString, fragment_shader };
+	CString vertex_shader_with_version[2] = { g_GlslVersionString, vertex_shader };
+	CString fragment_shader_with_version[2] = { g_GlslVersionString, fragment_shader };
 
 	ImGui_ML_CompileShader(g_ShaderHandle, vertex_shader_with_version, fragment_shader_with_version);
 
@@ -646,8 +654,8 @@ bool ImGui_ML_CreateDeviceObjects()
 	ImGui_ML_CreateFontsTexture();
 
 	// Restore modified GL state
-	ML_GL.bindTexture(ml::GL::Texture2D, last_texture);
-	ML_GL.bindBuffer(ml::GL::ArrayBuffer, last_array_buffer);
+	ML_GL.bindTexture(GL::Texture2D, last_texture);
+	ML_GL.bindBuffer(GL::ArrayBuffer, last_array_buffer);
 	ML_GL.bindVertexArray(last_vertex_array);
 
 	return true;
@@ -709,7 +717,7 @@ void ImGui_ML_MouseButtonCallback(void * window, int32_t button, int32_t action,
 		g_MouseJustPressed[button] = true;
 	}
 
-	g_Window->eventSystem().fireEvent(ml::MouseButtonEvent(button, action, mods));
+	g_Window->eventSystem().fireEvent(MouseButtonEvent(button, action, mods));
 }
 
 void ImGui_ML_ScrollCallback(void * window, double xoffset, double yoffset)
@@ -720,7 +728,7 @@ void ImGui_ML_ScrollCallback(void * window, double xoffset, double yoffset)
 	
 	io.MouseWheel += (float)yoffset;
 	
-	g_Window->eventSystem().fireEvent(ml::ScrollEvent(xoffset, yoffset));
+	g_Window->eventSystem().fireEvent(ScrollEvent(xoffset, yoffset));
 }
 
 void ImGui_ML_KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
@@ -731,11 +739,11 @@ void ImGui_ML_KeyCallback(void * window, int32_t key, int32_t scancode, int32_t 
 	
 	if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
 	
-	g_Window->eventSystem().fireEvent(ml::KeyEvent(key, scancode, action,
-		io.KeyShift = io.KeysDown[ml::KeyCode::LeftShift]	|| io.KeysDown[ml::KeyCode::RightShift],
-		io.KeyCtrl	= io.KeysDown[ml::KeyCode::LeftControl] || io.KeysDown[ml::KeyCode::RightControl],
-		io.KeyAlt	= io.KeysDown[ml::KeyCode::LeftAlt]		|| io.KeysDown[ml::KeyCode::RightAlt],
-		io.KeySuper = io.KeysDown[ml::KeyCode::LeftSuper]	|| io.KeysDown[ml::KeyCode::RightSuper]
+	g_Window->eventSystem().fireEvent(KeyEvent(key, scancode, action,
+		io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
+		io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],
+		io.KeyAlt	= io.KeysDown[KeyCode::LeftAlt]		|| io.KeysDown[KeyCode::RightAlt],
+		io.KeySuper = io.KeysDown[KeyCode::LeftSuper]	|| io.KeysDown[KeyCode::RightSuper]
 	));
 }
 
@@ -748,7 +756,7 @@ void ImGui_ML_CharCallback(void * window, uint32_t value)
 		io.AddInputCharacter((uint16_t)value);
 	}
 	
-	g_Window->eventSystem().fireEvent(ml::CharEvent(value));
+	g_Window->eventSystem().fireEvent(CharEvent(value));
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

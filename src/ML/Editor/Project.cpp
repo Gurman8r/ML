@@ -685,6 +685,8 @@ namespace ml
 						{
 							Layout::Group("Renderer", [&]()
 							{
+								/* * * * * * * * * * * * * * * * * * * * */
+
 								// Model
 								Layout::Field("Model", [&](CString)
 								{
@@ -704,6 +706,193 @@ namespace ml
 									}
 								});
 
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								auto factor_combo = [](CString label, int32_t & index)
+								{
+									return ImGui::Combo(
+										label,
+										&index,
+										GL::Factor_names,
+										IM_ARRAYSIZE(GL::Factor_names)
+									);
+								};
+
+								auto comp_combo = [](CString label, int32_t & index)
+								{
+									return ImGui::Combo(
+										label,
+										&index,
+										GL::Comp_names,
+										IM_ARRAYSIZE(GL::Comp_names)
+									);
+								};
+
+								auto face_combo = [](CString label, int32_t & index)
+								{
+									return ImGui::Combo(
+										label,
+										&index,
+										GL::Face_names,
+										IM_ARRAYSIZE(GL::Face_names)
+									);
+								};
+
+								auto texture_target_combo = [](CString label, int32_t & index)
+								{
+									return ImGui::Combo(
+										label,
+										&index,
+										"Texture 2D\0"
+										"Texture 3D\0"
+										"Texture Cube Map\0"
+									);
+								};
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								RenderStates & states = renderer->states();
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								Layout::Group("Alpha", [&]()
+								{
+									Layout::Field("Enabled", [&](CString)
+									{
+										ImGui::Checkbox("##Enabled##Alpha", &states.alpha.enabled);
+									});
+									Layout::Field("Comparison", [&](CString)
+									{
+										int32_t index = GL::indexOf(states.alpha.comp);
+										if (comp_combo("##Comparison##Alpha", index))
+										{
+											GL::getEnum(index, states.alpha.comp);
+										}
+									});
+									Layout::Field("Coeff", [&](CString)
+									{
+										ImGui::DragFloat("##Coeff##Alpha", &states.alpha.coeff);
+									});
+								});
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								Layout::Group("Blend", [&]()
+								{
+									Layout::Field("Enabled", [&](CString) 
+									{
+										ImGui::Checkbox("##Enabled##Blend", &states.blend.enabled);
+									});
+
+									/* * * * * * * * * * * * * * * * * * * * */
+
+									Layout::Field("Source RGB", [&](CString)
+									{
+										int32_t index = GL::indexOf(states.blend.srcRGB);
+										if (factor_combo("##Source RGB##Blend", index))
+										{
+											GL::getEnum(index, states.blend.srcRGB);
+										}
+									});
+
+									Layout::Field("Source Alpha", [&](CString)
+									{
+										int32_t index = GL::indexOf(states.blend.srcAlpha);
+										if (factor_combo("##Source Alpha##Blend", index))
+										{
+											GL::getEnum(index, states.blend.srcAlpha);
+										}
+									});
+
+									Layout::Field("Dest RGB", [&](CString)
+									{
+										int32_t index = GL::indexOf(states.blend.dstRGB);
+										if (factor_combo("##Dest RGB##Blend", index))
+										{
+											GL::getEnum(index, states.blend.dstRGB);
+										}
+									});
+
+									Layout::Field("Dest Alpha", [&](CString)
+									{
+										int32_t index = GL::indexOf(states.blend.dstAlpha);
+										if (factor_combo("##Dest Alpha##Blend", index))
+										{
+											GL::getEnum(index, states.blend.dstAlpha);
+										}
+									});
+								});
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								Layout::Group("Culling", [&]()
+								{
+									Layout::Field("Enabled", [&](CString)
+									{
+										ImGui::Checkbox("##Enabled##Culling", &states.culling.enabled);
+									});
+
+									Layout::Field("Face", [&](CString)
+									{
+										int32_t index = GL::indexOf(states.culling.face);
+										if (face_combo("##Face##Culling", index))
+										{
+											GL::getEnum(index, states.culling.face);
+										}
+									});
+								});
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								Layout::Group("Depth", [&]()
+								{
+									Layout::Field("Enabled", [&](CString)
+									{
+										ImGui::Checkbox("##Enabled##Depth", &states.depth.enabled);
+									});
+									Layout::Field("Comparison", [&](CString)
+									{
+										int32_t index = GL::indexOf(states.depth.comp);
+										if (comp_combo("##Comparison##Depth", index))
+										{
+											GL::getEnum(index, states.depth.comp);
+										}
+									});
+								});
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								Layout::Group("Texture", [&]()
+								{
+									Layout::Field("Enabled", [&](CString)
+									{
+										ImGui::Checkbox("##Enabled##Texture", &states.texture.enabled);
+									});
+									Layout::Field("Target", [&](CString)
+									{
+										int32_t index = GL::indexOf(states.texture.target);
+										if (texture_target_combo("##Target##Texture", index))
+										{
+											GL::getEnum(index, states.texture.target);
+										}
+									});
+								});
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								Layout::Group("Misc", [&]()
+								{
+									Layout::Field("Multisample", [&](CString)
+									{
+										ImGui::Checkbox("##Multisample##Misc", &states.misc.multisample);
+									});
+									Layout::Field("Framebuffer SRGB", [&](CString)
+									{
+										ImGui::Checkbox("##Framebuffer SRGB##Misc", &states.misc.framebufferSRGB);
+									});
+								});
+
+								/* * * * * * * * * * * * * * * * * * * * */
 							});
 						}
 

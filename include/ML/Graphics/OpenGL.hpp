@@ -48,7 +48,7 @@ namespace ml
 		static bool		enable(uint32_t value, bool cond = true);
 		static bool		disable(uint32_t value, bool cond = true);
 		
-	public: // Get
+	public: // Getters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static CString	getString(uint32_t name);
 		static CString	getString(uint32_t name, uint32_t index);

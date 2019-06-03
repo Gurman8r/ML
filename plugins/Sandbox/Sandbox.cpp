@@ -628,6 +628,14 @@ namespace DEMO
 					ML_GL.getString(ml::GL::Version)
 				));
 
+			sandbox.text["gl_renderer"]
+				.setFont(font)
+				.setFontSize(fontSize)
+				.setPosition(newLine())
+				.setString(ml::String("GL Renderer: {0}").format(
+					ML_GL.getString(ml::GL::Renderer)
+				));
+
 			sandbox.text["gl_vendor"]
 				.setFont(font)
 				.setFontSize(fontSize)

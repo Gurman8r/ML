@@ -17,63 +17,49 @@ namespace ml
 	void OpenGL::checkError(CString file, uint32_t line, CString expr)
 	{
 		// Get the last error
-		if (GL::Err errorCode = getError())
+		const GL::Err code = getError();
+		if (code != GL::Err::NoError)
 		{
+			// Error Location
 			String fileName(file);
 			fileName = fileName.substr(fileName.find_last_of("\\/") + 1);
 
-			// Decode the error code
-			String errorName;
-			String errorDesc;
-			switch (errorCode)
+			// Error Description
+			String desc;
+			switch (code)
 			{
-			case GL::InvalidEnum:
-				errorName = "Invalid GL";
-				errorDesc = "An unacceptable value has been specified for an enumerated argument.";
+			case GL::Err::InvalidEnum:
+				desc = "An unacceptable value has been specified for an enumerated argument.";
 				break;
-			case GL::InvalidValue:
-				errorName = "Invalid Value";
-				errorDesc = "A numeric argument is out of range.";
+			case GL::Err::InvalidValue:
+				desc = "A numeric argument is out of range.";
 				break;
-			case GL::InvalidOperation:
-				errorName = "Invalid Operation";
-				errorDesc = "The specified operation is not allowed in the current state.";
+			case GL::Err::InvalidOperation:
+				desc = "The specified operation is not allowed in the current state.";
 				break;
-			case GL::StackOverflow:
-				errorName = "Stack Overflow";
-				errorDesc = "This command would cause a stack overflow.";
+			case GL::Err::StackOverflow:
+				desc = "This command would cause a stack overflow.";
 				break;
-			case GL::StackUnderflow:
-				errorName = "Stack Underflow";
-				errorDesc = "This command would cause a stack underflow.";
+			case GL::Err::StackUnderflow:
+				desc = "This command would cause a stack underflow.";
 				break;
-			case GL::OutOfMemory:
-				errorName = "Out Of Memory";
-				errorDesc = "There is not enough memory left to execute the command.";
+			case GL::Err::OutOfMemory:
+				desc = "There is not enough memory left to execute the command.";
 				break;
-			case GL::InvalidFramebufferOperation:
-				errorName = "Invalid Framebuffer Operation";
-				errorDesc = "The object bound to framebuffer binding is not \"framebuffer complete\".";
-				break;
-			default:
-				errorName = "Unknown error";
-				errorDesc = "No description";
+			case GL::Err::InvalidFramebufferOperation:
+				desc = "The object bound to framebuffer binding is not \"framebuffer complete\".";
 				break;
 			}
 
-			cout<< FMT()
-				<< endl
-				<< FG::Red
-				<< "An internal OpenGL call failed in " << file << "(" << line << ")"
-				<< FG::Yellow << endl << "Code: "
-				<< FG::White << endl << "\t" << errorCode
-				<< FG::Yellow << endl << "Expression: "
-				<< FG::White << endl << "\t" << expr
-				<< FG::Yellow << endl << "Description:"
-				<< FG::White << endl << "\t" << errorName
-				<< FG::White << endl << "\t" << errorDesc
-				<< FMT()
-				<< endl;
+			cout<< FMT(FG::Red)	<< endl << "An OpenGL call failed in \'" << file << "\' (" << line << ")"
+				<< FG::Yellow	<< endl << "Code: "
+				<< FG::White	<< endl << "\t" << code
+				<< FG::Yellow	<< endl << "Expression: "
+				<< FG::White	<< endl << "\t" << expr
+				<< FG::Yellow	<< endl << "Description:"
+				<< FG::White	<< endl << "\t" << GL::nameOf(code)
+				<< FG::White	<< endl << "\t" << desc
+				<< FMT()		<< endl;
 		}
 	}
 
@@ -186,7 +172,7 @@ namespace ml
 	}
 
 
-	// Get
+	// Getters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	CString OpenGL::getString(uint32_t name)
@@ -799,16 +785,6 @@ namespace ml
 
 	int32_t OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, CString source)
 	{
-		CString name;
-		switch (type)
-		{
-		case GL::FragmentShader: name = "Fragment"; break;
-		case GL::VertexShader:	 name = "Vertex";	break;
-		case GL::GeometryShader: name = "Geometry"; break;
-		default:
-			return Debug::logError("Invalid Shader Type: {0}", type);
-		}
-
 		if (source)
 		{
 			if (obj = createShaderObject(type))
@@ -825,12 +801,17 @@ namespace ml
 
 					deleteShader(obj);
 
-					return Debug::logError("Failed compiling {0} source:\n{1}", name, log);
+					return Debug::logError("Failed compiling {0} source:\n{1}", 
+						GL::nameOf(type),
+						log
+					);
 				}
 			}
 			else
 			{
-				return Debug::logError("Failed creating {0} object", name);
+				return Debug::logError("Failed creating {0} object",
+					GL::nameOf(type)
+				);
 			}
 		}
 		else

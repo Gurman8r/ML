@@ -1,4 +1,4 @@
-#include <ML/Editor/Terminal.hpp>
+#include <ML/Editor/TerminalGui.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/FileSystem.hpp>
@@ -16,8 +16,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Terminal::Terminal(EventSystem & eventSystem, bool startOpen)
-		: EditorWindow	(eventSystem, "Terminal", startOpen)
+	TerminalGui::TerminalGui(EventSystem & eventSystem)
+		: EditorGui	(eventSystem, "Terminal")
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()
@@ -42,11 +42,11 @@ namespace ml
 		this->printf("# Type \'help\' for a list of commands.");
 	}
 	
-	Terminal::~Terminal() {}
+	TerminalGui::~TerminalGui() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Terminal::drawGui(const GuiEvent & ev)
+	bool TerminalGui::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw())
 		{
@@ -132,7 +132,7 @@ namespace ml
 					ImGuiInputTextFlags_CallbackCompletion |
 					ImGuiInputTextFlags_CallbackHistory
 				),
-				[](auto data) { return ((Terminal *)(data->UserData))->inputCallback(data); },
+				[](auto data) { return ((TerminalGui *)(data->UserData))->inputCallback(data); },
 				static_cast<void *>(this))
 			)
 			{
@@ -164,13 +164,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Terminal::clear()
+	void TerminalGui::clear()
 	{
 		m_lines.clear();
 		m_scrollBottom = true;
 	}
 
-	void Terminal::execute(CString value)
+	void TerminalGui::execute(CString value)
 	{
 		this->printf("# %s\n", value);
 
@@ -210,7 +210,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Terminal::printf(CString value, ...)
+	void TerminalGui::printf(CString value, ...)
 	{
 		char buf[1024];
 		va_list args;
@@ -221,13 +221,13 @@ namespace ml
 		this->printl(buf);
 	}
 
-	void Terminal::printl(const String & value)
+	void TerminalGui::printl(const String & value)
 	{
 		m_lines.push_back(value);
 		m_scrollBottom = true;
 	}
 
-	void Terminal::printss(SStream & value)
+	void TerminalGui::printss(SStream & value)
 	{
 		if (const String & text = value.str())
 		{
@@ -243,7 +243,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	int32_t Terminal::inputCallback(void * value)
+	int32_t TerminalGui::inputCallback(void * value)
 	{
 		ImGuiInputTextCallbackData * data;
 		if (!(data = (ImGuiInputTextCallbackData *)(value))) 

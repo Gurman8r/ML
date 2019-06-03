@@ -842,15 +842,15 @@ namespace DEMO
 	{
 		// Draw Scene View
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev.editor.sceneView.drawFun(ev, [&]()
+		ev.editor.scene.drawFun(ev, [&]()
 		{
 			if (ml::Surface * post = ev.resources.surfaces.get("sf_post_process"))
 			{
-				ev.editor.sceneView.updateTexture(&post->texture());
+				ev.editor.scene.updateTexture(&post->texture());
 			}
 		});
 
-		// Draw Inspector
+		// Draw InspectorGui
 		/* * * * * * * * * * * * * * * * * * * * */
 		ev.editor.inspector.drawFun(ev, [&]()
 		{

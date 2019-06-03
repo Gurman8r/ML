@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class Dockspace;
+	class DockspaceGui;
 	class Editor;
 	class GameTime;
 	class Resources;

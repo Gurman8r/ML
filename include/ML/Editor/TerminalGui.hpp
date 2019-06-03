@@ -1,15 +1,15 @@
-#ifndef _ML_TERMINAL_HPP_
-#define _ML_TERMINAL_HPP_
+#ifndef _ML_TERMINAL_GUI_HPP_
+#define _ML_TERMINAL_GUI_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorGui.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Terminal final
-		: public EditorWindow
+	class ML_EDITOR_API TerminalGui final
+		: public EditorGui
 	{
 		friend class Editor;
 
@@ -23,8 +23,8 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Terminal(EventSystem & eventSystem, bool startOpen);
-		~Terminal();
+		explicit TerminalGui(EventSystem & eventSystem);
+		~TerminalGui();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -56,4 +56,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_TERMINAL_HPP_
+#endif // !_ML_TERMINAL_GUI_HPP_

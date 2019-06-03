@@ -2,14 +2,14 @@
 #define _ML_EDITOR_HPP_
 
 #include <ML/Graphics/RenderWindow.hpp>
-#include <ML/Editor/Terminal.hpp>
-#include <ML/Editor/Builder.hpp>
-#include <ML/Editor/Browser.hpp>
-#include <ML/Editor/Dockspace.hpp>
-#include <ML/Editor/SceneView.hpp>
-#include <ML/Editor/Inspector.hpp>
-#include <ML/Editor/Project.hpp>
-#include <ML/Editor/Profiler.hpp>
+#include <ML/Editor/TerminalGui.hpp>
+#include <ML/Editor/BuilderGui.hpp>
+#include <ML/Editor/BrowserGui.hpp>
+#include <ML/Editor/DockspaceGui.hpp>
+#include <ML/Editor/SceneGui.hpp>
+#include <ML/Editor/InspectorGui.hpp>
+#include <ML/Editor/ResourceGui.hpp>
+#include <ML/Editor/ProfilerGui.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 
 namespace ml
@@ -36,14 +36,14 @@ namespace ml
 		void onExit		(const ExitEvent & ev);
 
 	public:
-		Dockspace	dockspace;
-		Browser		browser;
-		Builder		builder;
-		Inspector	inspector;
-		Profiler	profiler;
-		Project		project;
-		SceneView	sceneView;
-		Terminal	terminal;
+		DockspaceGui	dockspace;
+		BrowserGui		browser;
+		BuilderGui		builder;
+		InspectorGui	inspector;
+		ProfilerGui		profiler;
+		ResourceGui		resources;
+		SceneGui		scene;
+		TerminalGui		terminal;
 
 	private:
 		std::streambuf * m_coutBuf; // cout redirect buffer

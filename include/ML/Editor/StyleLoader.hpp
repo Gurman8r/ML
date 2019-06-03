@@ -2,7 +2,9 @@
 #define _ML_STYLE_LOADER_HPP_
 
 #include <ML/Editor/Export.hpp>
-#include <ML/Core/File.hpp>
+#include <ML/Core/IObject.hpp>
+#include <ML/Core/IReadable.hpp>
+#include <ML/Core/List.hpp>
 
 namespace ml
 {
@@ -10,7 +12,6 @@ namespace ml
 
 	class ML_EDITOR_API StyleLoader final
 		: public IObject
-		, public IDisposable
 		, public IReadable
 	{
 	public:
@@ -18,14 +19,12 @@ namespace ml
 		~StyleLoader();
 
 	public:
-		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 
 	public:
 		void serialize(std::ostream & out) const override;
 
 	private:
-		File m_file;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

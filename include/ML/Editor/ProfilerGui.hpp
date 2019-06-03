@@ -1,22 +1,22 @@
-#ifndef _ML_PROFILER_HPP_
-#define _ML_PROFILER_HPP_
+#ifndef _ML_PROFILER_GUI_HPP_
+#define _ML_PROFILER_GUI_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorGui.hpp>
 #include <ML/Core/Vector2.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Profiler 
-		: public EditorWindow
+	class ML_EDITOR_API ProfilerGui 
+		: public EditorGui
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Profiler(EventSystem & eventSystem, bool startOpen);
-		~Profiler();
+		explicit ProfilerGui(EventSystem & eventSystem);
+		~ProfilerGui();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -45,4 +45,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_PROFILER_HPP_
+#endif // !_ML_PROFILER_GUI_HPP_

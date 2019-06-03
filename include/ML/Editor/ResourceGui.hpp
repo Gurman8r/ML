@@ -1,22 +1,22 @@
-#ifndef _ML_PROJECT_HPP_
-#define _ML_PROJECT_HPP_
+#ifndef _ML_RESOURCE_GUI_HPP_
+#define _ML_RESOURCE_GUI_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorGui.hpp>
 #include <ML/Engine/Resources.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Project final 
-		: public EditorWindow
+	class ML_EDITOR_API ResourceGui final 
+		: public EditorGui
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Project(EventSystem & eventSystem, bool startOpen);
-		~Project();
+		explicit ResourceGui(EventSystem & eventSystem);
+		~ResourceGui();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -44,4 +44,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_PROJECT_HPP_
+#endif // !_ML_RESOURCE_GUI_HPP_

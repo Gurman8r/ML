@@ -296,14 +296,7 @@ namespace ml
 		{
 			for (size_t i = 0; i < value.size(); i++)
 			{
-				if (in.good())
-				{
-					in >> value[i];
-				}
-				else
-				{
-					value[i] = static_cast<value_type>(0);
-				}
+				in >> value[i];
 			}
 			return in;
 		}

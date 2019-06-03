@@ -18,14 +18,14 @@ namespace ml
 
 	Editor::Editor(EventSystem & eventSystem)
 		: EventListener	(eventSystem)
-		, dockspace		(eventSystem, true)
-		, browser		(eventSystem, true)
-		, builder		(eventSystem, true)
-		, inspector		(eventSystem, true)
-		, profiler		(eventSystem, true)
-		, project		(eventSystem, true)
-		, sceneView		(eventSystem, true)
-		, terminal		(eventSystem, true)
+		, dockspace		(eventSystem)
+		, browser		(eventSystem)
+		, builder		(eventSystem)
+		, inspector		(eventSystem)
+		, profiler		(eventSystem)
+		, resources		(eventSystem)
+		, scene			(eventSystem)
+		, terminal		(eventSystem)
 	{
 		eventSystem.addListener(EnterEvent::ID, this);
 		eventSystem.addListener(ExitEvent::ID, this);
@@ -67,23 +67,23 @@ namespace ml
 		case KeyEvent::ID:
 			if (auto ev = value->as<KeyEvent>())
 			{
-				// Show Terminal (Ctrl+Alt+T)
+				// Show TerminalGui (Ctrl+Alt+T)
 				if (ev->getKeyDown(KeyCode::T) && (ev->mod_ctrl && ev->mod_alt))
 					this->terminal.isOpen() = true;
 
-				// Show Browser (Ctrl+Alt+E)
+				// Show BrowserGui (Ctrl+Alt+E)
 				if (ev->getKeyDown(KeyCode::E) && (ev->mod_ctrl))
 					this->browser.isOpen() = true;
 
-				// Show Builder (Ctrl+Alt+B)
+				// Show BuilderGui (Ctrl+Alt+B)
 				if (ev->getKeyDown(KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
 					this->builder.isOpen() = true;
 
 				// Show Scene (Ctrl+Alt+S)
 				if (ev->getKeyDown(KeyCode::S) && (ev->mod_ctrl && ev->mod_alt))
-					this->sceneView.isOpen() = true;
+					this->scene.isOpen() = true;
 
-				// Show Inspector (Ctrl+Alt+I)
+				// Show InspectorGui (Ctrl+Alt+I)
 				if (ev->getKeyDown(KeyCode::I) && (ev->mod_ctrl && ev->mod_alt))
 					this->inspector.isOpen() = true;
 			}
@@ -123,7 +123,7 @@ namespace ml
 		StyleLoader loader;
 		if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
 		{
-			ImGui::StyleHelper::Style4();
+			ImGui_Style::Default();
 
 			String font = ev.prefs.GetString("Editor", "imguiFont", "");
 			float  size = ev.prefs.GetFloat("Editor", "imguiSize", 12.0f);
@@ -132,6 +132,20 @@ namespace ml
 			{
 				ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
 			}
+		}
+		else if (Debug::log("LOADED IMGUI STYLE"))
+		{
+			ImGui::GetStyle().FrameBorderSize	= 1.0f;
+			ImGui::GetStyle().FramePadding		= { 4.0f, 2.0f };
+			ImGui::GetStyle().ItemSpacing		= { 8.0f, 2.0f };
+			ImGui::GetStyle().WindowBorderSize	= 1.0f;
+			ImGui::GetStyle().TabBorderSize		= 1.0f;
+			ImGui::GetStyle().WindowRounding	= 1.0f;
+			ImGui::GetStyle().ChildRounding		= 1.0f;
+			ImGui::GetStyle().FrameRounding		= 1.0f;
+			ImGui::GetStyle().ScrollbarRounding = 1.0f;
+			ImGui::GetStyle().GrabRounding		= 1.0f;
+			ImGui::GetStyle().TabRounding		= 1.0f;
 		}
 
 		// Set ImGui INI
@@ -250,10 +264,10 @@ namespace ml
 				ImGui::MenuItem(this->terminal.getTitle(),	"Ctrl+Alt+T", &this->terminal.isOpen());
 				ImGui::MenuItem(this->browser.getTitle(),	"Ctrl+Alt+E", &this->browser.isOpen());
 				ImGui::MenuItem(this->builder.getTitle(),	"Ctrl+Alt+B", &this->builder.isOpen());
-				ImGui::MenuItem(this->sceneView.getTitle(), "Ctrl+Alt+S", &this->sceneView.isOpen());
+				ImGui::MenuItem(this->scene.getTitle(), "Ctrl+Alt+S", &this->scene.isOpen());
 				ImGui::MenuItem(this->inspector.getTitle(), "Ctrl+Alt+I", &this->inspector.isOpen());
 				ImGui::MenuItem(this->profiler.getTitle(),	"", &this->profiler.isOpen());
-				ImGui::MenuItem(this->project.getTitle(),	"", &this->project.isOpen());
+				ImGui::MenuItem(this->resources.getTitle(),	"", &this->resources.isOpen());
 				ImGui::EndMenu();
 			}
 
@@ -277,28 +291,28 @@ namespace ml
 			ImGui::EndMainMenuBar();
 		}
 
-		// Dockspace
+		// DockspaceGui
 		/* * * * * * * * * * * * * * * * * * * * */
 		this->dockspace.onGui(ev);
 
-		// Terminal
+		// TerminalGui
 		/* * * * * * * * * * * * * * * * * * * * */
 		this->terminal.printss(m_coutStr);
 		this->terminal.onGui(ev);
 
-		// Profiler
+		// ProfilerGui
 		/* * * * * * * * * * * * * * * * * * * * */
 		this->profiler.onGui(ev);
 
-		// Browser
+		// BrowserGui
 		/* * * * * * * * * * * * * * * * * * * * */
 		this->browser.onGui(ev);
 
 		// Project
 		/* * * * * * * * * * * * * * * * * * * * */
-		this->project.onGui(ev);
+		this->resources.onGui(ev);
 
-		// Builder
+		// BuilderGui
 		/* * * * * * * * * * * * * * * * * * * * */
 		this->builder.onGui(ev);
 	}

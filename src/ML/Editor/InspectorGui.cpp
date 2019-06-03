@@ -1,4 +1,4 @@
-#include <ML/Editor/Inspector.hpp>
+#include <ML/Editor/InspectorGui.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/EditorEvents.hpp>
@@ -8,18 +8,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Inspector::Inspector(EventSystem & eventSystem, bool startOpen)
-		: EditorWindow(eventSystem, "Inspector", startOpen)
+	InspectorGui::InspectorGui(EventSystem & eventSystem)
+		: EditorGui(eventSystem, "Inspector")
 	{
 	}
 
-	Inspector::~Inspector()
+	InspectorGui::~InspectorGui()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Inspector::drawGui(const GuiEvent & ev)
+	bool InspectorGui::drawGui(const GuiEvent & ev)
 	{
 		return beginDraw(ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize);
 	}

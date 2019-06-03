@@ -1,4 +1,4 @@
-#include <ML/Editor/Browser.hpp>
+#include <ML/Editor/BrowserGui.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -16,8 +16,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Browser::Browser(EventSystem & eventSystem, bool startOpen)
-		: EditorWindow(eventSystem, "Browser", startOpen)
+	BrowserGui::BrowserGui(EventSystem & eventSystem)
+		: EditorGui(eventSystem, "Browser")
 		, m_path	()
 		, m_dir		()
 		, m_type	(T_Dir)
@@ -27,18 +27,18 @@ namespace ml
 	{
 	}
 
-	Browser::~Browser()
+	BrowserGui::~BrowserGui()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Browser::drawGui(const GuiEvent & ev)
+	bool BrowserGui::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
 			const ml::String cwd = ML_FS.getWorkingDir();
-			if (((!m_path) || (m_path != cwd)) && (m_path = cwd))
+			if (((!m_path && (m_path = cwd)) || (m_isDouble)))
 			{
 				if (ML_FS.getDirContents(m_path, m_dir))
 				{
@@ -78,7 +78,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Browser::draw_directory()
+	void BrowserGui::draw_directory()
 	{
 		ImGui::BeginChild("Directory View", { 224, 0 }, true);
 		{
@@ -129,7 +129,7 @@ namespace ml
 		ImGui::EndChild();
 	}
 
-	void Browser::draw_file()
+	void BrowserGui::draw_file()
 	{
 		ImGui::BeginGroup();
 		{
@@ -153,7 +153,7 @@ namespace ml
 		ImGui::EndGroup();
 	}
 
-	void Browser::draw_file_preview()
+	void BrowserGui::draw_file_preview()
 	{
 		if (ImGui::BeginTabItem("Preview"))
 		{
@@ -171,7 +171,7 @@ namespace ml
 		}
 	}
 
-	void Browser::draw_file_details()
+	void BrowserGui::draw_file_details()
 	{
 		if (ImGui::BeginTabItem("Details"))
 		{
@@ -186,7 +186,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Browser::set_selected(char type, size_t index)
+	void BrowserGui::set_selected(char type, size_t index)
 	{
 		m_type = type;
 		m_index = index;
@@ -230,18 +230,18 @@ namespace ml
 		}
 	}
 
-	String Browser::get_selected_name() const
+	String BrowserGui::get_selected_name() const
 	{
 		const String * file;
 		return ((file = get_selected()) ? (*file) : String());
 	}
 
-	String Browser::get_selected_path() const
+	String BrowserGui::get_selected_path() const
 	{
 		return pathTo(get_selected_name());
 	}
 
-	String Browser::get_selected_type() const
+	String BrowserGui::get_selected_type() const
 	{
 		switch (m_type)
 		{
@@ -252,7 +252,7 @@ namespace ml
 		}
 	}
 
-	size_t Browser::get_selected_size() const
+	size_t BrowserGui::get_selected_size() const
 	{
 		return ML_FS.getFileSize(get_selected_path());
 	}

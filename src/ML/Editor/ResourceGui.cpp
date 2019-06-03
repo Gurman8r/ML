@@ -1,5 +1,4 @@
-#include <ML/Editor/Project.hpp>
-
+#include <ML/Editor/ResourceGui.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/OS.hpp>
@@ -7,7 +6,6 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/GUI.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Core/SharedLibrary.hpp>
@@ -26,7 +24,7 @@
 
 namespace ml
 {
-	struct Project::Layout
+	struct ResourceGui::Layout
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -187,7 +185,7 @@ namespace ml
 				{
 					Layout::Field(value->name.c_str(), [&](CString)
 					{
-						GUI::EditVec2f(String(label + "##Vec2##Uni##" + value->name).c_str(), u->data, 0.1f);
+						EditorGui::Vec2Field(String(label + "##Vec2##Uni##" + value->name).c_str(), u->data, 0.1f);
 						toolbar_editable();
 					});
 					break;
@@ -200,7 +198,7 @@ namespace ml
 						Layout::Field(value->name.c_str(), [&](CString)
 						{
 							auto temp = u->data;
-							GUI::EditVec2f(String(label + "##Vec2##Uni##" + value->name).c_str(), temp, 0.1f);
+							EditorGui::Vec2Field(String(label + "##Vec2##Uni##" + value->name).c_str(), temp, 0.1f);
 						});
 						break;
 					}
@@ -213,7 +211,7 @@ namespace ml
 				{
 					Layout::Field(value->name.c_str(), [&](CString)
 					{
-						GUI::EditVec3f(String(label + "##Vec3##Uni##" + value->name).c_str(), u->data, 0.1f);
+						EditorGui::Vec3Field(String(label + "##Vec3##Uni##" + value->name).c_str(), u->data, 0.1f);
 						toolbar_editable();
 					});
 					break;
@@ -226,7 +224,7 @@ namespace ml
 						Layout::Field(value->name.c_str(), [&](CString)
 						{
 							auto temp = u->data;
-							GUI::EditVec3f(String(label + "##Vec3##Uni##" + value->name).c_str(), temp, 0.1f);
+							EditorGui::Vec3Field(String(label + "##Vec3##Uni##" + value->name).c_str(), temp, 0.1f);
 						});
 						break;
 					}
@@ -239,7 +237,7 @@ namespace ml
 				{
 					Layout::Field(value->name.c_str(), [&](CString)
 					{
-						GUI::EditVec4f(String(label + "##Vec4##Uni##" + value->name).c_str(), u->data, 0.1f);
+						EditorGui::Vec4Field(String(label + "##Vec4##Uni##" + value->name).c_str(), u->data, 0.1f);
 						toolbar_editable();
 					});
 					break;
@@ -252,7 +250,7 @@ namespace ml
 						Layout::Field(value->name.c_str(), [&](CString)
 						{
 							auto temp = u->data;
-							GUI::EditVec4f(String(label + "##Vec4##Uni##" + value->name).c_str(), temp, 0.1f);
+							EditorGui::Vec4Field(String(label + "##Vec4##Uni##" + value->name).c_str(), temp, 0.1f);
 						});
 						break;
 					}
@@ -291,7 +289,7 @@ namespace ml
 				{
 					Layout::Field(value->name.c_str(), [&](CString)
 					{
-						GUI::EditMat3f(String(label + "##Mat3##Uni##" + value->name).c_str(), u->data, 0.1f);
+						EditorGui::Mat3Field(String(label + "##Mat3##Uni##" + value->name).c_str(), u->data, 0.1f);
 						toolbar_editable();
 					});
 					break;
@@ -304,7 +302,7 @@ namespace ml
 						Layout::Field(value->name.c_str(), [&](CString)
 						{
 							auto temp = u->data;
-							GUI::EditMat3f(String(label + "##Mat3##Uni##" + value->name).c_str(), temp, 0.1f);
+							EditorGui::Mat3Field(String(label + "##Mat3##Uni##" + value->name).c_str(), temp, 0.1f);
 						});
 						break;
 					}
@@ -317,7 +315,7 @@ namespace ml
 				{
 					Layout::Field(value->name.c_str(), [&](CString)
 					{
-						GUI::EditMat4f(String(label + "##Mat4##Uni##" + value->name).c_str(), u->data, 0.1f);
+						EditorGui::Mat4Field(String(label + "##Mat4##Uni##" + value->name).c_str(), u->data, 0.1f);
 						toolbar_editable();
 					});
 					break;
@@ -330,7 +328,7 @@ namespace ml
 						Layout::Field(value->name.c_str(), [&](CString)
 						{
 							auto temp = u->data;
-							GUI::EditMat4f(String(label + "##Mat4##Uni##" + value->name).c_str(), temp, 0.1f);
+							EditorGui::Mat4Field(String(label + "##Mat4##Uni##" + value->name).c_str(), temp, 0.1f);
 						});
 						break;
 					}
@@ -379,14 +377,14 @@ namespace ml
 				static const CString typeList[] =
 				{
 					"Float",
-					"Int",
-					"Vec2",
-					"Vec3",
-					"Vec4",
-					"Col4",
-					"Mat3",
-					"Mat4",
-					"Tex",
+					"Integer",
+					"Vector 2",
+					"Vector 3",
+					"Vector 4",
+					"Color 4",
+					"Matrix 3x3",
+					"Matrix 4x4",
+					"Sampler 2D",
 				};
 				static int32_t type = 0;
 				static char name[32] = "New_Uniform\0";
@@ -450,18 +448,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Project::Project(EventSystem & eventSystem, bool startOpen)
-		: EditorWindow(eventSystem, "Project", startOpen)
+	ResourceGui::ResourceGui(EventSystem & eventSystem)
+		: EditorGui(eventSystem, "Project")
 	{
 	}
 
-	Project::~Project()
+	ResourceGui::~ResourceGui()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Project::drawGui(const GuiEvent & ev)
+	bool ResourceGui::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
@@ -516,7 +514,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Project::draw_entity_registry(Resources & resources, Registry<Entity> & entities)
+	void ResourceGui::draw_entity_registry(Resources & resources, Registry<Entity> & entities)
 	{
 		if (entities.empty()) return;
 
@@ -555,7 +553,7 @@ namespace ml
 								Layout::Field("Position", [&](CString)
 								{
 									vec3 pos = transform->getPos();
-									if (GUI::EditVec3f("##Position##Transform", pos, 0.01f))
+									if (EditorGui::Vec3Field("##Position##Transform", pos, 0.01f))
 									{
 										(*transform)
 											.translate(pos - transform->getPos())
@@ -568,7 +566,7 @@ namespace ml
 								Layout::Field("Rotation", [&](CString)
 								{
 									quat rot = transform->getRot();
-									if (GUI::EditQuat("##Rotation##Transform", rot, 0.01f))
+									if (EditorGui::QuatField("##Rotation##Transform", rot, 0.01f))
 									{
 										(*transform)
 											.translate(0.0f)
@@ -586,14 +584,14 @@ namespace ml
 									quat rot = transform->getRot();
 
 									vec3 euler = rot.eulerAngles();
-									GUI::EditVec3f("##EulerAngles##Transform", euler);
+									EditorGui::Vec3Field("##EulerAngles##Transform", euler);
 
 								});
 
 								Layout::Field("Scale", [&](CString)
 								{
 									vec3 scl = transform->getScl();
-									if (GUI::EditVec3f("##Scale##Transform", scl, 0.01f))
+									if (EditorGui::Vec3Field("##Scale##Transform", scl, 0.01f))
 									{
 										(*transform)
 											.translate(0.0f)
@@ -607,7 +605,7 @@ namespace ml
 								{
 									ImGui::NewLine();
 									mat4 mat = transform->getMat();
-									if (GUI::EditMat4f("##Matrix##Transform", mat, 0.01f))
+									if (EditorGui::Mat4Field("##Matrix##Transform", mat, 0.01f))
 									{
 										transform->update(mat);
 									}
@@ -644,7 +642,7 @@ namespace ml
 									Layout::Field("Matrix", [&](CString)
 									{
 										mat4 mat = camera->getPerspMatrix();
-										GUI::EditMat4f("##O##Matrix##Camera", mat);
+										EditorGui::Mat4Field("##O##Matrix##Camera", mat);
 									});
 								});
 								Layout::Group("Orthographic", [&]()
@@ -660,7 +658,7 @@ namespace ml
 									Layout::Field("Matrix", [&](CString)
 									{
 										mat4 mat = camera->getOrthoMatrix();
-										GUI::EditMat4f("##O##Matrix##Camera", mat);
+										EditorGui::Mat4Field("##O##Matrix##Camera", mat);
 									});
 								});
 							});
@@ -923,22 +921,22 @@ namespace ml
 									});
 									Layout::Field("Mass",					[&](CString) {	ImGui::DragFloat("##Mass##Particle##Rigidbody",							&rb->particle()->mass);});
 									Layout::Field("Mass Inv",				[&](CString) {	ImGui::DragFloat("##MassInv##Particle##Rigidbody",						&rb->particle()->massInv);});
-									Layout::Field("Position",				[&](CString) {	GUI::EditVec3f("##Position##Particle##Rigidbody",						rb->particle()->pos);});
-									Layout::Field("Velocity",				[&](CString) {	GUI::EditVec3f("##Velocity##Particle##Rigidbody",						rb->particle()->vel);});
-									Layout::Field("Acceleration",			[&](CString) {	GUI::EditVec3f("##Acceleration##Particle##Rigidbody",					rb->particle()->acc);});
-									Layout::Field("Force",					[&](CString) {	GUI::EditVec3f("##Force##Particle##Rigidbody",							rb->particle()->force);});
-									Layout::Field("Momentum",				[&](CString) {	GUI::EditVec3f("##Momentum##Particle##Rigidbody",						rb->particle()->momentum);});
-									Layout::Field("Rotation",				[&](CString) {	GUI::EditQuat ("##Rotation##Particle##Rigidbody",						rb->particle()->rotation);});
-									Layout::Field("Angular Velocity",		[&](CString) {	GUI::EditVec3f("##Angular Velocity##Particle##Rigidbody",				rb->particle()->angularVel);});
-									Layout::Field("Angular Acceleration",	[&](CString) {	GUI::EditVec3f("##Angular Acceleration##Particle##Rigidbody",			rb->particle()->angularAcc);});
-									Layout::Field("Angular Momentum",		[&](CString) {	GUI::EditVec3f("##Angular Momentum##Particle##Rigidbody",				rb->particle()->angularMomentum);});
-									Layout::Field("Torque",					[&](CString) {	GUI::EditVec3f("##Torque##Particle##Rigidbody",							rb->particle()->torque);});
-									Layout::Field("Inirtia Tensor",			[&](CString) {	GUI::EditMat3f("##Inirtia Tensor##Particle##Rigidbody",					rb->particle()->inertiaTensor);});
-									Layout::Field("IT Inverse",				[&](CString) {	GUI::EditMat3f("##Inirtia Tensor Inverse##Particle##Rigidbody",			rb->particle()->inertiaTensorInv);});
-									Layout::Field("IT World",				[&](CString) {	GUI::EditMat3f("##Inirtia Tensor World##Particle##Rigidbody",			rb->particle()->inertiaTensor_world);});
-									Layout::Field("IT World Inverse",		[&](CString) {	GUI::EditMat3f("##Inirtia Tensor World Inverse##Particle##Rigidbody",	rb->particle()->inertiaTensorInv_world);});
-									Layout::Field("Center Mass",			[&](CString) {	GUI::EditVec3f("##Center Mass##Particle##Rigidbody",					rb->particle()->centerMass);});
-									Layout::Field("Center Mass World",		[&](CString) {	GUI::EditVec3f("##Center Mass World##Particle##Rigidbody",				rb->particle()->centerMass_world);});
+									Layout::Field("Position",				[&](CString) {	EditorGui::Vec3Field("##Position##Particle##Rigidbody",						rb->particle()->pos);});
+									Layout::Field("Velocity",				[&](CString) {	EditorGui::Vec3Field("##Velocity##Particle##Rigidbody",						rb->particle()->vel);});
+									Layout::Field("Acceleration",			[&](CString) {	EditorGui::Vec3Field("##Acceleration##Particle##Rigidbody",					rb->particle()->acc);});
+									Layout::Field("Force",					[&](CString) {	EditorGui::Vec3Field("##Force##Particle##Rigidbody",							rb->particle()->force);});
+									Layout::Field("Momentum",				[&](CString) {	EditorGui::Vec3Field("##Momentum##Particle##Rigidbody",						rb->particle()->momentum);});
+									Layout::Field("Rotation",				[&](CString) {	EditorGui::QuatField ("##Rotation##Particle##Rigidbody",						rb->particle()->rotation);});
+									Layout::Field("Angular Velocity",		[&](CString) {	EditorGui::Vec3Field("##Angular Velocity##Particle##Rigidbody",				rb->particle()->angularVel);});
+									Layout::Field("Angular Acceleration",	[&](CString) {	EditorGui::Vec3Field("##Angular Acceleration##Particle##Rigidbody",			rb->particle()->angularAcc);});
+									Layout::Field("Angular Momentum",		[&](CString) {	EditorGui::Vec3Field("##Angular Momentum##Particle##Rigidbody",				rb->particle()->angularMomentum);});
+									Layout::Field("Torque",					[&](CString) {	EditorGui::Vec3Field("##Torque##Particle##Rigidbody",							rb->particle()->torque);});
+									Layout::Field("Inirtia Tensor",			[&](CString) {	EditorGui::Mat3Field("##Inirtia Tensor##Particle##Rigidbody",					rb->particle()->inertiaTensor);});
+									Layout::Field("IT Inverse",				[&](CString) {	EditorGui::Mat3Field("##Inirtia Tensor Inverse##Particle##Rigidbody",			rb->particle()->inertiaTensorInv);});
+									Layout::Field("IT World",				[&](CString) {	EditorGui::Mat3Field("##Inirtia Tensor World##Particle##Rigidbody",			rb->particle()->inertiaTensor_world);});
+									Layout::Field("IT World Inverse",		[&](CString) {	EditorGui::Mat3Field("##Inirtia Tensor World Inverse##Particle##Rigidbody",	rb->particle()->inertiaTensorInv_world);});
+									Layout::Field("Center Mass",			[&](CString) {	EditorGui::Vec3Field("##Center Mass##Particle##Rigidbody",					rb->particle()->centerMass);});
+									Layout::Field("Center Mass World",		[&](CString) {	EditorGui::Vec3Field("##Center Mass World##Particle##Rigidbody",				rb->particle()->centerMass_world);});
 
 								});
 
@@ -986,7 +984,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_font_registry(Resources & resources, Registry<Font> & fonts)
+	void ResourceGui::draw_font_registry(Resources & resources, Registry<Font> & fonts)
 	{
 		if (fonts.empty()) return;
 
@@ -1029,7 +1027,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_image_registry(Resources & resources, Registry<Image> & images)
+	void ResourceGui::draw_image_registry(Resources & resources, Registry<Image> & images)
 	{
 		if (images.empty()) return;
 
@@ -1072,7 +1070,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_material_registry(Resources & resources, Registry<Material> & materials)
+	void ResourceGui::draw_material_registry(Resources & resources, Registry<Material> & materials)
 	{
 		if (materials.empty()) return;
 
@@ -1149,7 +1147,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_mesh_registry(Resources & resources, Registry<Mesh> & meshes)
+	void ResourceGui::draw_mesh_registry(Resources & resources, Registry<Mesh> & meshes)
 	{
 		if (meshes.empty()) return;
 
@@ -1188,7 +1186,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_model_registry(Resources & resources, Registry<Model> & models)
+	void ResourceGui::draw_model_registry(Resources & resources, Registry<Model> & models)
 	{
 		if (models.empty()) return;
 
@@ -1227,7 +1225,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_script_registry(Resources & resources, Registry<Script> & scripts)
+	void ResourceGui::draw_script_registry(Resources & resources, Registry<Script> & scripts)
 	{
 		if (scripts.empty()) return;
 
@@ -1281,7 +1279,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_shader_registry(Resources & resources, Registry<Shader> & shaders)
+	void ResourceGui::draw_shader_registry(Resources & resources, Registry<Shader> & shaders)
 	{
 		if (shaders.empty()) return;
 
@@ -1320,7 +1318,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_skybox_registry(Resources & resources, Registry<Skybox> & skyboxes)
+	void ResourceGui::draw_skybox_registry(Resources & resources, Registry<Skybox> & skyboxes)
 	{
 		if (skyboxes.empty()) return;
 
@@ -1359,7 +1357,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_sound_registry(Resources & resources, Registry<Sound> & sounds)
+	void ResourceGui::draw_sound_registry(Resources & resources, Registry<Sound> & sounds)
 	{
 		if (sounds.empty()) return;
 
@@ -1398,7 +1396,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_sprite_registry(Resources & resources, Registry<Sprite> & sprites)
+	void ResourceGui::draw_sprite_registry(Resources & resources, Registry<Sprite> & sprites)
 	{
 		if (sprites.empty()) return;
 
@@ -1423,7 +1421,7 @@ namespace ml
 					Layout::Field("Origin", [&](CString label)
 					{
 						auto temp = spr->origin();
-						if (GUI::EditVec2f("##Origin##Sprite", temp))
+						if (EditorGui::Vec2Field("##Origin##Sprite", temp))
 						{
 							spr->setOrigin(temp);
 						}
@@ -1431,7 +1429,7 @@ namespace ml
 					Layout::Field("Position", [&](CString label)
 					{
 						auto temp = spr->position();
-						if (GUI::EditVec2f("##Position##Sprite", temp))
+						if (EditorGui::Vec2Field("##Position##Sprite", temp))
 						{
 							spr->setPosition(temp);
 						}
@@ -1447,7 +1445,7 @@ namespace ml
 					Layout::Field("Scale", [&](CString label)
 					{
 						auto temp = spr->scale();
-						if (GUI::EditVec2f("##Scale##Sprite", temp))
+						if (EditorGui::Vec2Field("##Scale##Sprite", temp))
 						{
 							spr->setScale(temp);
 						}
@@ -1494,7 +1492,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_surface_registry(Resources & resources, Registry<Surface> & surfaces)
+	void ResourceGui::draw_surface_registry(Resources & resources, Registry<Surface> & surfaces)
 	{
 		if (surfaces.empty()) return;
 
@@ -1533,7 +1531,7 @@ namespace ml
 		});
 	}
 
-	void Project::draw_texture_registry(Resources & resources, Registry<Texture> & textures)
+	void ResourceGui::draw_texture_registry(Resources & resources, Registry<Texture> & textures)
 	{
 		if (textures.empty()) return;
 

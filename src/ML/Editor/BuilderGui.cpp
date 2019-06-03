@@ -1,6 +1,5 @@
-#include <ML/Editor/Builder.hpp>
+#include <ML/Editor/BuilderGui.hpp>
 #include <ML/Editor/Editor.hpp>
-#include <ML/Editor/GUI.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
@@ -100,8 +99,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Builder::Builder(EventSystem & eventSystem, bool startOpen)
-		: EditorWindow(eventSystem, "Builder", startOpen)
+	BuilderGui::BuilderGui(EventSystem & eventSystem)
+		: EditorGui(eventSystem, "Builder")
 		, m_shader	(NULL)
 	{
 		m_files.push_back(new BuildFile("Main", ML_MAIN_EXAMPLE));
@@ -109,7 +108,7 @@ namespace ml
 		m_files.push_back(new BuildFile("Fragment", ML_FRAG_EXAMPLE));
 	}
 
-	Builder::~Builder()
+	BuilderGui::~BuilderGui()
 	{
 		for (auto it : m_files)
 		{
@@ -120,7 +119,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Builder::drawGui(const GuiEvent & ev)
+	bool BuilderGui::drawGui(const GuiEvent & ev)
 	{
 		if (!m_shader)
 		{

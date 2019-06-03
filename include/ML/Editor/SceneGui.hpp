@@ -1,22 +1,22 @@
-#ifndef _ML_SCENE_VIEW_HPP_
-#define _ML_SCENE_VIEW_HPP_
+#ifndef _ML_SCENE_GUI_HPP_
+#define _ML_SCENE_GUI_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorGui.hpp>
 #include <ML/Graphics/Texture.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API SceneView final 
-		: public EditorWindow
+	class ML_EDITOR_API SceneGui final 
+		: public EditorGui
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit SceneView(EventSystem & eventSystem, bool startOpen);
-		~SceneView();
+		explicit SceneGui(EventSystem & eventSystem);
+		~SceneGui();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -47,4 +47,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_SCENE_VIEW_HPP_
+#endif // !_ML_SCENE_GUI_HPP_

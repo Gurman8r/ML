@@ -1,22 +1,22 @@
-#ifndef _ML_DOCKSPACE_HPP_
-#define _ML_DOCKSPACE_HPP_
+#ifndef _ML_DOCKSPACE_GUI_HPP_
+#define _ML_DOCKSPACE_GUI_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorGui.hpp>
 #include <ML/Core/Vector2.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Dockspace final 
-		: public EditorWindow
+	class ML_EDITOR_API DockspaceGui final 
+		: public EditorGui
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Dockspace(EventSystem & eventSystem, bool startOpen);
-		~Dockspace();
+		explicit DockspaceGui(EventSystem & eventSystem);
+		~DockspaceGui();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -44,4 +44,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_DOCKSPACE_HPP_
+#endif // !_ML_DOCKSPACE_GUI_HPP_

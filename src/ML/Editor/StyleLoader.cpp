@@ -5,6 +5,33 @@
 
 namespace ml
 {
+	static const HashMap<String, int32_t> StyleTable = 
+	{
+		{ "Alpha",					ImGuiStyleVar_Alpha },
+		{ "WindowPadding",			ImGuiStyleVar_WindowPadding },
+		{ "WindowRounding",			ImGuiStyleVar_WindowRounding },
+		{ "WindowBorderSize",		ImGuiStyleVar_WindowBorderSize },
+		{ "WindowMinSize",			ImGuiStyleVar_WindowMinSize },
+		{ "WindowTitleAlign",		ImGuiStyleVar_WindowTitleAlign },
+		{ "ChildRounding",			ImGuiStyleVar_ChildRounding },
+		{ "ChildBorderSize",		ImGuiStyleVar_ChildBorderSize },
+		{ "PopupRounding",			ImGuiStyleVar_PopupRounding },
+		{ "PopupBorderSize",		ImGuiStyleVar_PopupBorderSize },
+		{ "FramePadding",			ImGuiStyleVar_FramePadding },
+		{ "FrameRounding",			ImGuiStyleVar_FrameRounding },
+		{ "FrameBorderSize",		ImGuiStyleVar_FrameBorderSize },
+		{ "ItemSpacing",			ImGuiStyleVar_ItemSpacing },
+		{ "ItemInnerSpacing",		ImGuiStyleVar_ItemInnerSpacing },
+		{ "IndentSpacing",			ImGuiStyleVar_IndentSpacing },
+		{ "ScrollbarSize",			ImGuiStyleVar_ScrollbarSize },
+		{ "ScrollbarRounding",		ImGuiStyleVar_ScrollbarRounding },
+		{ "GrabMinSize",			ImGuiStyleVar_GrabMinSize },
+		{ "GrabRounding",			ImGuiStyleVar_GrabRounding },
+		{ "TabRounding",			ImGuiStyleVar_TabRounding },
+		{ "ButtonTextAlign",		ImGuiStyleVar_ButtonTextAlign },
+		{ "SelectableTextAlign",	ImGuiStyleVar_SelectableTextAlign },
+	};
+
 	static const HashMap<String, int32_t> ColorTable = 
 	{
 		{ "Text",					ImGuiCol_Text					},
@@ -62,7 +89,7 @@ namespace ml
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	StyleLoader::StyleLoader()
 	{
@@ -70,31 +97,97 @@ namespace ml
 
 	StyleLoader::~StyleLoader()
 	{
-		dispose();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool StyleLoader::dispose()
-	{
-		return m_file.dispose();
-	}
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool StyleLoader::loadFromFile(const String & filename)
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		auto parseWrapped = [](const String & src, const char lhs, const char rhs, String & out)
+		{
+			size_t a;
+			if ((a = src.find_first_of(lhs)) != String::npos)
+			{
+				size_t b;
+				if ((b = src.find_last_of(rhs)) != String::npos)
+				{
+					if (a != b)
+					{
+						return (bool)(out = src.substr((a + 1), (b - a - 1)));
+					}
+				}
+			}
+			return (bool)(out = String());
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		if (auto file = std::ifstream(filename))
+		{
+			String line;
+			while (std::getline(file, line))
+			{
+				if (line.empty() || (line.trim().front() == '#'))
+					continue;
+
+				// Tag
+				String tag;
+				if (parseWrapped(line, '[', ']', tag))
+				{
+					//cout << "[" << tag << "] ";
+					line.erase(0, tag.size() + 2);
+					line.trim();
+
+					size_t i;
+					if ((i = line.trim().find('=')) != String::npos)
+					{
+						// Name
+						const String name = String(line.substr(0, i)).trim();
+						line = String(line.substr(i + 1, line.size() - i - 1)).trim();
+						//cout << "\'" << name << "\' ";
+						//cout << "(" << line << ") ";
+
+						// Colors
+						/* * * * * * * * * * * * * * * * * * * * */
+						if (tag == "Color")
+						{
+							HashMap<String, int32_t>::const_iterator it;
+							if ((it = ColorTable.find(name)) != ColorTable.end())
+							{
+								//cout << "\'" << name << "\' ";
+
+								// Values
+								String value;
+								if (parseWrapped(line, '{', '}', value))
+								{
+									SStream ss(value);
+									ImVec4 c;
+									ss >> c.x >> c.y >> c.z >> c.w;
+									ImGui::GetStyle().Colors[it->second] = c;
+								}
+							}
+						}
+						//cout << endl;
+					}
+
+					continue;
+				}
+			}
+			file.close();
+			return true;
+		}
 		return false;
 
-		if (m_file.loadFromFile(filename))
-		{
-		}
-		return m_file;
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void StyleLoader::serialize(std::ostream & out) const
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

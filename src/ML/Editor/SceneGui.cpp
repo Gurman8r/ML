@@ -1,4 +1,4 @@
-#include <ML/Editor/SceneView.hpp>
+#include <ML/Editor/SceneGui.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -8,45 +8,45 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	SceneView::SceneView(EventSystem & eventSystem, bool startOpen)
-		: EditorWindow(eventSystem, "Scene", startOpen)
+	SceneGui::SceneGui(EventSystem & eventSystem)
+		: EditorGui(eventSystem, "Scene")
 	{
 	}
 
-	SceneView::~SceneView()
+	SceneGui::~SceneGui()
 	{
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	bool SceneView::drawGui(const GuiEvent & ev)
+	bool SceneGui::drawGui(const GuiEvent & ev)
 	{
 		return beginDraw(ImGuiWindowFlags_MenuBar);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool SceneView::beginDraw(int32_t flags)
+	bool SceneGui::beginDraw(int32_t flags)
 	{
-		if (EditorWindow::beginDraw(flags))
+		if (EditorGui::beginDraw(flags))
 		{
 			ImGui::BeginChild("Viewport", { -1, -1 });
 		}
 		return m_good;
 	}
 
-	bool SceneView::endDraw()
+	bool SceneGui::endDraw()
 	{
 		if (m_good)
 		{
 			ImGui::EndChild();
 		}
-		return EditorWindow::endDraw();
+		return EditorGui::endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool SceneView::updateTexture(Texture * texture)
+	bool SceneGui::updateTexture(Texture * texture)
 	{
 		if (m_good && (texture && (*texture)))
 		{

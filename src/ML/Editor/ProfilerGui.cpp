@@ -1,4 +1,4 @@
-#include <ML/Editor/Profiler.hpp>
+#include <ML/Editor/ProfilerGui.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/GameTime.hpp>
@@ -7,18 +7,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Profiler::Profiler(EventSystem & eventSystem, bool startOpen)
-		: EditorWindow(eventSystem, "Profiler", startOpen)
+	ProfilerGui::ProfilerGui(EventSystem & eventSystem)
+		: EditorGui(eventSystem, "Profiler")
 	{
 	}
 
-	Profiler::~Profiler()
+	ProfilerGui::~ProfilerGui()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Profiler::drawGui(const GuiEvent & ev)
+	bool ProfilerGui::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
@@ -39,7 +39,7 @@ namespace ml
 		return endDraw();
 	}
 
-	void Profiler::GraphLines::update(CString label, const float sample, const String & fmt)
+	void ProfilerGui::GraphLines::update(CString label, const float sample, const String & fmt)
 	{
 		if (refresh == 0.0f)
 		{

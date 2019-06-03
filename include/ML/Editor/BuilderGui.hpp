@@ -1,7 +1,7 @@
-#ifndef _ML_BUILDER_HPP_
-#define _ML_BUILDER_HPP_
+#ifndef _ML_BUILDER_GUI_HPP_
+#define _ML_BUILDER_GUI_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorGui.hpp>
 #include <ML/Core/File.hpp>
 
 #define ML_TEST_SHADER "built_shader"
@@ -14,8 +14,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Builder final 
-		: public EditorWindow
+	class ML_EDITOR_API BuilderGui final 
+		: public EditorGui
 	{
 		friend class Editor;
 
@@ -50,8 +50,8 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Builder(EventSystem & eventSystem, bool startOpen);
-		~Builder();
+		explicit BuilderGui(EventSystem & eventSystem);
+		~BuilderGui();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -66,4 +66,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_BUILDER_HPP_
+#endif // !_ML_BUILDER_GUI_HPP_

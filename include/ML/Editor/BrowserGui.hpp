@@ -1,15 +1,15 @@
-#ifndef _ML_BROWSER_HPP_
-#define _ML_BROWSER_HPP_
+#ifndef _ML_BROWSER_GUI_HPP_
+#define _ML_BROWSER_GUI_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorGui.hpp>
 #include <ML/Core/FileSystem.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Browser final 
-		: public EditorWindow
+	class ML_EDITOR_API BrowserGui final 
+		: public EditorGui
 	{
 		friend class Editor;
 
@@ -29,8 +29,8 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Browser(EventSystem & eventSystem, bool startOpen);
-		~Browser();
+		explicit BrowserGui(EventSystem & eventSystem);
+		~BrowserGui();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -89,4 +89,4 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
-#endif // !_ML_BROWSER_HPP_
+#endif // !_ML_BROWSER_GUI_HPP_

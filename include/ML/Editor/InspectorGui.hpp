@@ -1,21 +1,21 @@
-#ifndef _ML_INSPECTOR_HPP_
-#define _ML_INSPECTOR_HPP_
+#ifndef _ML_INSPECTOR_GUI_HPP_
+#define _ML_INSPECTOR_GUI_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorGui.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Inspector final 
-		: public EditorWindow
+	class ML_EDITOR_API InspectorGui final 
+		: public EditorGui
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Inspector(EventSystem & eventSystem, bool startOpen);
-		~Inspector();
+		explicit InspectorGui(EventSystem & eventSystem);
+		~InspectorGui();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -42,4 +42,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_INSPECTOR_HPP_
+#endif // !_ML_INSPECTOR_GUI_HPP_

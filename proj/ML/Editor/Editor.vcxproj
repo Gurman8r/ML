@@ -172,7 +172,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Style.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\InspectorGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ProfilerGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ResourceGui.hpp" />

@@ -124,6 +124,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		static const bool log = true;
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		if (auto file = std::ifstream(filename))
 		{
 			String line;
@@ -136,9 +140,10 @@ namespace ml
 				String tag;
 				if (parseWrapped(line, '[', ']', tag))
 				{
-					//cout << "[" << tag << "] ";
 					line.erase(0, tag.size() + 2);
 					line.trim();
+
+					if (log) cout << "[" << tag << "] ";
 
 					size_t i;
 					if ((i = line.trim().find('=')) != String::npos)
@@ -146,8 +151,8 @@ namespace ml
 						// Name
 						const String name = String(line.substr(0, i)).trim();
 						line = String(line.substr(i + 1, line.size() - i - 1)).trim();
-						//cout << "\'" << name << "\' ";
-						//cout << "(" << line << ") ";
+						
+						if (log) cout << "\'" << name << "\' ";
 
 						// Colors
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -156,8 +161,6 @@ namespace ml
 							HashMap<String, int32_t>::const_iterator it;
 							if ((it = ColorTable.find(name)) != ColorTable.end())
 							{
-								//cout << "\'" << name << "\' ";
-
 								// Values
 								String value;
 								if (parseWrapped(line, '{', '}', value))
@@ -166,13 +169,16 @@ namespace ml
 									ImVec4 c;
 									ss >> c.x >> c.y >> c.z >> c.w;
 									ImGui::GetStyle().Colors[it->second] = c;
+									
+									if (log) cout
+										<< "{ "
+										<< c.x << " " << c.y << " " << c.z << " " << c.w
+										<< " }";
 								}
 							}
 						}
-						//cout << endl;
+						if (log) cout << endl;
 					}
-
-					continue;
 				}
 			}
 			file.close();

@@ -102,9 +102,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\StyleLoader.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Style.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>

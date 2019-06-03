@@ -10,7 +10,6 @@
 #include <ML/Core/OS.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Core/SharedLibrary.hpp>
 #include <ML/Engine/Preferences.hpp>

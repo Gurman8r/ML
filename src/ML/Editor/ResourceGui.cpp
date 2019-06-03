@@ -1578,6 +1578,79 @@ namespace ml
 						}
 					});
 
+					Layout::Field("Test", [&](CString)
+					{
+						const ImGuiIO & io = ImGui::GetIO();
+						ImVec2 pos = ImGui::GetCursorScreenPos();
+
+						auto scaleToFit = [](const vec2 & src, const vec2 & dst)
+						{
+							const vec2
+								hs = (dst[0] / src[0]),
+								vs = (dst[1] / src[1]);
+							return (src * (((hs) < (vs)) ? (hs) : (vs)));
+						};
+						vec2 src = tex->size();
+						vec2 dst = { 256, 256 };
+						vec2 scl = scaleToFit(src, dst);
+						float my_tex_w = scl[0]; //(float)tex->width();
+						float my_tex_h = scl[1]; //(float)tex->height();
+						ImGui::Text("%.0fx%.0f", scl[0], scl[1]);
+						
+						ImGui::Image(
+							tex->get_address(),
+							{ scl[0], scl[1] },
+							{ 0, 1 },
+							{ 1, 0 },
+							{ 255, 255, 255, 255 },
+							{ 255, 255, 255, 128 }
+						);
+
+						if (ImGui::IsItemHovered())
+						{
+							ImGui::BeginTooltip();
+
+							float region_sz = 64.0f;
+
+							float region_x = ML_CLAMP(
+								io.MousePos.x - pos.x - region_sz * 0.5f,
+								0.0f, 
+								my_tex_w - region_sz
+							);
+
+							float region_y = ML_CLAMP(
+								my_tex_h - (io.MousePos.y - pos.y - region_sz * 0.5f),
+								0.0f,
+								my_tex_h - region_sz
+							);
+							
+							ImGui::Text("Min: (%.2f, %.2f)", region_x, region_y);
+							ImGui::Text("Max: (%.2f, %.2f)", region_x + region_sz, region_y + region_sz);
+							
+							float zoom = 2.0f;
+							
+							ImVec2 uv0 = {
+								(region_x / my_tex_w),
+								((region_y + region_sz) / my_tex_h)
+							};
+
+							ImVec2 uv1 = { 
+								((region_x + region_sz) / my_tex_w), 
+								(region_y / my_tex_h)
+							};
+							
+							ImGui::Image(
+								tex->get_address(),
+								{ region_sz * zoom, region_sz * zoom }, 
+								uv0, 
+								uv1, 
+								{ 255, 255, 255, 255 }, 
+								{ 255, 255, 255, 128 }
+							);
+							ImGui::EndTooltip();
+						}
+					});
+
 					if (const String file = textures.getFile(name))
 					{
 						Layout::Field("File", [&](CString)

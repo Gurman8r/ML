@@ -2,7 +2,6 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/StyleLoader.hpp>
-#include <ML/Editor/ImGui_Style.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
@@ -123,8 +122,6 @@ namespace ml
 		StyleLoader loader;
 		if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
 		{
-			ImGui_Style::Default();
-
 			String font = ev.prefs.GetString("Editor", "imguiFont", "");
 			float  size = ev.prefs.GetFloat("Editor", "imguiSize", 12.0f);
 

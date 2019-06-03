@@ -715,7 +715,7 @@ namespace DEMO
 					ev.window.getSize()
 				));
 
-			// Ensure text update before main draw call
+			// Ensure geometry update before main draw call
 			for (auto & pair : sandbox.text)
 			{
 				pair.second.update();

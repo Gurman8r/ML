@@ -196,23 +196,6 @@ inline static int32_t meta_tests()
 
 int32_t main()
 {
-	//Image image;
-	//if (!image.loadFromFile(ML_IMAGE_PATH))
-	//{
-	//	return Debug::logError("FAILED LOADING IMAGE")
-	//		|| Debug::pause(0);
-	//}
-
-	//Texture texture;
-	//if (!texture.loadFromFile(ML_IMAGE_PATH))
-	//{
-	//	return Debug::logError("FAILED LOADING TEXTURE")
-	//		|| Debug::pause(0);
-	//}
-	//
-	//return Debug::log("OK")
-	//	&& Debug::pause(0);
-
 	// Setup
 	Map<SharedLibrary *, Plugin *> plugins;
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(

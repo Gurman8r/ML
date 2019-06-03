@@ -644,6 +644,14 @@ namespace DEMO
 					ML_GL.getString(ml::GL::Vendor)
 				));
 
+			sandbox.text["glsl_version"]
+				.setFont(font)
+				.setFontSize(fontSize)
+				.setPosition(newLine())
+				.setString(ml::String("GLSL Version: {0}").format(
+					ML_GL.getString(ml::GL::ShadingLanguageVersion)
+				));
+
 			newLine();
 
 			sandbox.text["framerate"]

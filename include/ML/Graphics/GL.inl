@@ -2,7 +2,7 @@
 #include <ML/Core/Preprocessor.hpp>
 #include <ML/Core/FMT.hpp>
 
-// GL Detail
+// Detail
 /* * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
@@ -14,12 +14,11 @@ namespace ml
 		{
 			template <
 				class T, size_t N
-			> static constexpr int32_t index_of(const T value, const T(&arr)[N])
+			> static constexpr auto index_of(const T value, const T(&arr)[N])
 			{
-				const T * it = &arr[0];
-				for (int32_t i = 0; it != (&arr[N]); i++)
+				for (int32_t i = 0; (&arr[i]) != (&arr[N]); i++)
 				{
-					if (*(it++) == value)
+					if (arr[i] == value)
 					{
 						return i;
 					}
@@ -29,7 +28,7 @@ namespace ml
 
 			template <
 				class T, size_t N
-			> static constexpr bool get_enum(const int32_t i, T & value, const T(&arr)[N])
+			> static constexpr bool value_at(const int32_t i, T & value, const T(&arr)[N])
 			{
 				if (i < (int32_t)(sizeof(arr) / sizeof(*arr)))
 				{
@@ -40,16 +39,26 @@ namespace ml
 			}
 
 			template <
-				class Out, class T, class Enum
-			> static constexpr Out cast_enum(const T & value, const Enum & maxValue)
+				class Out, class In, class Enum
+			> static constexpr auto cast_enum(const In & value, const Enum & maxValue)
 			{
 				// only works for enums with contiguous values
 				return (Out)(((uint32_t)maxValue - (uint32_t)value) + 1);
 			}
 		}
 
-		
-		// Flag
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	}
+}
+
+
+// Values / Names
+/* * * * * * * * * * * * * * * * * * * * */
+namespace ml
+{
+	namespace GL
+	{
+		// GL::Flag
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Flag Flag_values[] = {
@@ -74,7 +83,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Flag & value)
 		{
-			return detail::get_enum(i, value, Flag_values);
+			return detail::value_at(i, value, Flag_values);
 		}
 
 		static constexpr int32_t indexOf(const Flag value)
@@ -89,7 +98,7 @@ namespace ml
 		}
 
 		
-		// Target
+		// GL::Target
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Target Target_values[] = {
@@ -136,7 +145,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Target & value)
 		{
-			return detail::get_enum(i, value, Target_values);
+			return detail::value_at(i, value, Target_values);
 		}
 
 		static constexpr int32_t indexOf(const Target value)
@@ -151,7 +160,7 @@ namespace ml
 		}
 
 
-		// Usage
+		// GL::Usage
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Usage Usage_values[] = {
@@ -168,7 +177,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Usage & value)
 		{
-			return detail::get_enum(i, value, Usage_values);
+			return detail::value_at(i, value, Usage_values);
 		}
 
 		static constexpr int32_t indexOf(const Usage value)
@@ -183,7 +192,7 @@ namespace ml
 		}
 
 
-		// Err
+		// GL::Err
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Err Err_values[] = {
@@ -210,7 +219,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Err & value)
 		{
-			return detail::get_enum(i, value, Err_values);
+			return detail::value_at(i, value, Err_values);
 		}
 
 		static constexpr int32_t indexOf(const Err value)
@@ -225,23 +234,168 @@ namespace ml
 		}
 
 		
-		// StringID
+		// GL::StringID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static constexpr StringID StringID_values[] = {
+			Vendor,
+			Renderer,
+			Version,
+			Extensions,
+			ShadingLanguageVersion,
+		};
+
+		static constexpr CString StringID_names[] = {
+			"Vendor",
+			"Renderer",
+			"Version",
+			"Extensions",
+			"Shading Language Version",
+		};
+
+		static constexpr bool getEnum(const int32_t i, StringID & value)
+		{
+			return detail::value_at(i, value, StringID_values);
+		}
+
+		static constexpr int32_t indexOf(const StringID value)
+		{
+			return detail::index_of(value, StringID_values);
+		}
+
+		static constexpr CString nameOf(const StringID value)
+		{
+			const int32_t i = indexOf(value);
+			return (i >= 0) ? StringID_names[i] : "";
+		}
 		
-		// IntID
+
+		// GL::IntID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static constexpr IntID IntID_values[] = {
+			MajorVersion,
+			MinorVersion,
+			NumExtensions,
+			ContextFlags,
+			ContextProfileMask,
+			MaxTextureSize,
+			MaxCombTexImgUnits,
+			InfoLogLength,
+			PolygonMode,
+			Viewport,
+			ScissorBox,
+			BlendEquationRGB,
+			BlendEquationAlpha,
+			BlendDestRGB,
+			BlendSourceRGB,
+			BlendDestAlpha,
+			BlendSourceAlpha,
+		};
+
+		static constexpr CString IntID_names[] = {
+			"Major Version",
+			"Minor Version",
+			"Num Extensions",
+			"Context Flags",
+			"Context Profile Mask",
+			"Max Texture Size",
+			"Max Combined Texture Image Units",
+			"Info Log Length",
+			"Polygon Mode",
+			"Viewport",
+			"Scissor Box",
+			"Blend Equation RGB",
+			"Blend Equation Alpha",
+			"Blend Dest RGB",
+			"Blend Source RGB",
+			"Blend Dest Alpha",
+			"Blend Source Alpha",
+		};
+
+		static constexpr bool getEnum(const int32_t i, IntID & value)
+		{
+			return detail::value_at(i, value, IntID_values);
+		}
+
+		static constexpr int32_t indexOf(const IntID value)
+		{
+			return detail::index_of(value, IntID_values);
+		}
+
+		static constexpr CString nameOf(const IntID value)
+		{
+			const int32_t i = indexOf(value);
+			return (i >= 0) ? IntID_names[i] : "";
+		}
 		
-		// ClipControl
+
+		// GL::ClipControl
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static constexpr ClipControl ClipControl_values[] = {
+			LowerLeft,
+			UpperLeft,
+			ClipOrigin,
+		};
+
+		static constexpr CString ClipControl_names[] = {
+			"Lower Left",
+			"Upper Left",
+			"Clip Origin",
+		};
+
+		static constexpr bool getEnum(const int32_t i, ClipControl & value)
+		{
+			return detail::value_at(i, value, ClipControl_values);
+		}
+
+		static constexpr int32_t indexOf(const ClipControl value)
+		{
+			return detail::index_of(value, ClipControl_values);
+		}
+
+		static constexpr CString nameOf(const ClipControl value)
+		{
+			const int32_t i = indexOf(value);
+			return (i >= 0) ? ClipControl_names[i] : "";
+		}
 		
-		// Status
+
+		// GL::Status
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static constexpr Status Status_values[] = {
+			Status::ObjectDeleteStatus,
+			Status::ObjectCompileStatus,
+			Status::ObjectLinkStatus,
+			Status::FramebufferComplete,
+		};
+
+		static constexpr CString Status_names[] = {
+			"Object Delete Status",
+			"Object Compile Status",
+			"Object Link Status",
+			"Framebuffer Complete",
+		};
+
+		static constexpr bool getEnum(const int32_t i, Status & value)
+		{
+			return detail::value_at(i, value, Status_values);
+		}
+
+		static constexpr int32_t indexOf(const Status value)
+		{
+			return detail::index_of(value, Status_values);
+		}
+
+		static constexpr CString nameOf(const Status value)
+		{
+			const int32_t i = indexOf(value);
+			return (i >= 0) ? Status_names[i] : "";
+		}
 		
-		// ShaderType
+		// GL::ShaderType
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr ShaderType ShaderType_values[] = {
@@ -258,7 +412,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, ShaderType & value)
 		{
-			return detail::get_enum(i, value, ShaderType_values);
+			return detail::value_at(i, value, ShaderType_values);
 		}
 
 		static constexpr int32_t indexOf(const ShaderType value)
@@ -273,7 +427,7 @@ namespace ml
 		}
 
 
-		// Mode
+		// GL::Mode
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Mode Mode_values[] = {
@@ -300,7 +454,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Mode & value)
 		{
-			return detail::get_enum(i, value, Mode_values);
+			return detail::value_at(i, value, Mode_values);
 		}
 
 		static constexpr int32_t indexOf(const Mode value)
@@ -315,7 +469,7 @@ namespace ml
 		}
 
 
-		// Equation
+		// GL::Equation
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Equation Equation_values[] = {
@@ -334,7 +488,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Equation & value)
 		{
-			return detail::get_enum(i, value, Equation_values);
+			return detail::value_at(i, value, Equation_values);
 		}
 
 		static constexpr int32_t indexOf(const Equation value)
@@ -349,7 +503,7 @@ namespace ml
 		}
 
 
-		// Comp
+		// GL::Comp
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr const Comp Comp_values[] = {
@@ -392,7 +546,7 @@ namespace ml
 		}
 
 		
-		// Factor
+		// GL::Factor
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Factor Factor_values[] = {
@@ -437,7 +591,7 @@ namespace ml
 		}
 
 
-		// Face
+		// GL::Face
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr const Face Face_values[] = {
@@ -482,7 +636,7 @@ namespace ml
 		}
 
 
-		// Type
+		// GL::Type
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Type Type_values[] = {
@@ -509,7 +663,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Type & value)
 		{
-			return detail::get_enum(i, value, Type_values);
+			return detail::value_at(i, value, Type_values);
 		}
 
 		static constexpr int32_t indexOf(const Type value)
@@ -524,7 +678,7 @@ namespace ml
 		}
 
 
-		// Format
+		// GL::Format
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Format Format_values[] = {
@@ -569,7 +723,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Format & value)
 		{
-			return detail::get_enum(i, value, Format_values);
+			return detail::value_at(i, value, Format_values);
 		}
 
 		static constexpr int32_t indexOf(const Format value)
@@ -584,7 +738,7 @@ namespace ml
 		}
 
 
-		// FBO_Attachment
+		// GL::FBO_Attachment
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr FBO_Attachment FBO_Attachment_values[] = {
@@ -617,7 +771,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, FBO_Attachment & value)
 		{
-			return detail::get_enum(i, value, FBO_Attachment_values);
+			return detail::value_at(i, value, FBO_Attachment_values);
 		}
 
 		static constexpr int32_t indexOf(const FBO_Attachment value)
@@ -632,7 +786,7 @@ namespace ml
 		}
 
 
-		// TexParam
+		// GL::TexParam
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr TexParam TexParam_values[] = {
@@ -683,7 +837,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, TexParam & value)
 		{
-			return detail::get_enum(i, value, TexParam_values);
+			return detail::value_at(i, value, TexParam_values);
 		}
 
 		static constexpr int32_t indexOf(const TexParam value)
@@ -698,7 +852,7 @@ namespace ml
 		}
 
 
-		// Pack
+		// GL::Pack
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Pack Pack_values[] = {
@@ -733,7 +887,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Pack & value)
 		{
-			return detail::get_enum(i, value, Pack_values);
+			return detail::value_at(i, value, Pack_values);
 		}
 
 		static constexpr int32_t indexOf(const Pack value)
@@ -748,7 +902,7 @@ namespace ml
 		}
 
 
-		// Attachment
+		// GL::Attachment
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Attachment Attachment_values[] = {
@@ -791,7 +945,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, Attachment & value)
 		{
-			return detail::get_enum(i, value, Attachment_values);
+			return detail::value_at(i, value, Attachment_values);
 		}
 
 		static constexpr int32_t indexOf(const Attachment value)
@@ -806,7 +960,7 @@ namespace ml
 		}
 
 
-		// TexID
+		// GL::TexID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr TexID TexID_values[] = {
@@ -881,7 +1035,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, TexID & value)
 		{
-			return detail::get_enum(i, value, TexID_values);
+			return detail::value_at(i, value, TexID_values);
 		}
 
 		static constexpr int32_t indexOf(const TexID value)
@@ -896,7 +1050,7 @@ namespace ml
 		}
 
 
-		// DrawBuffer
+		// GL::DrawBuffer
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr DrawBuffer DrawBuffer_values[] = {
@@ -939,7 +1093,7 @@ namespace ml
 
 		static constexpr bool getEnum(const int32_t i, DrawBuffer & value)
 		{
-			return detail::get_enum(i, value, DrawBuffer_values);
+			return detail::value_at(i, value, DrawBuffer_values);
 		}
 
 		static constexpr int32_t indexOf(const DrawBuffer value)
@@ -954,12 +1108,48 @@ namespace ml
 		}
 
 		
-		// Mask
+		// GL::Mask
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr Mask Mask_values[] = {
+			ContextCoreProfileBit,
+			ContextCompatProfileBit,
+			ContextFlagDebugBit,
+			DepthBufferBit,
+			StencilBufferBit,
+			ColorBufferBit,
+		};
+
+		static constexpr CString Mask_names[] = {
+			"Context Core Profile Bit",
+			"Context Compat Profile Bit",
+			"Context Flag Debug Bit",
+			"Depth Buffer Bit",
+			"Stencil Buffer Bit",
+			"Color Buffer Bit",
+		};
+
+		static constexpr bool getEnum(const int32_t i, Mask & value)
+		{
+			return detail::value_at(i, value, Mask_values);
+		}
+
+		static constexpr int32_t indexOf(const Mask value)
+		{
+			return detail::index_of(value, Mask_values);
+		}
+
+		static constexpr CString nameOf(const Mask value)
+		{
+			const int32_t i = indexOf(value);
+			return (i >= 0) ? Mask_names[i] : "";
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 }
 
-// GL Operators
+// Operators
 /* * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {

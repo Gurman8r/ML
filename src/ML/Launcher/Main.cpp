@@ -192,8 +192,6 @@ inline static int32_t meta_tests()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_IMAGE_PATH "../../../assets/textures/bg/bg_clouds.png"
-
 int32_t main()
 {
 	// Setup

@@ -755,33 +755,33 @@ namespace ml
 
 								/* * * * * * * * * * * * * * * * * * * * */
 
-								Layout::Group("Alpha", [&]()
+								Layout::Group("Alpha Testing", [&]()
 								{
 									Layout::Field("Enabled", [&](CString)
 									{
-										ImGui::Checkbox("##Enabled##Alpha", &states.alpha.enabled);
+										ImGui::Checkbox("##Enabled##Alpha Testing", &states.alpha.enabled);
 									});
 									Layout::Field("Comparison", [&](CString)
 									{
 										int32_t index = GL::indexOf(states.alpha.comp);
-										if (comp_combo("##Comparison##Alpha", index))
+										if (comp_combo("##Comparison##Alpha Testing", index))
 										{
-											GL::getEnum(index, states.alpha.comp);
+											GL::valueAt(index, states.alpha.comp);
 										}
 									});
 									Layout::Field("Coeff", [&](CString)
 									{
-										ImGui::DragFloat("##Coeff##Alpha", &states.alpha.coeff);
+										ImGui::DragFloat("##Coeff##Alpha Testing", &states.alpha.coeff);
 									});
 								});
 
 								/* * * * * * * * * * * * * * * * * * * * */
 
-								Layout::Group("Blend", [&]()
+								Layout::Group("Blending", [&]()
 								{
 									Layout::Field("Enabled", [&](CString) 
 									{
-										ImGui::Checkbox("##Enabled##Blend", &states.blend.enabled);
+										ImGui::Checkbox("##Enabled##Blending", &states.blend.enabled);
 									});
 
 									/* * * * * * * * * * * * * * * * * * * * */
@@ -789,36 +789,36 @@ namespace ml
 									Layout::Field("Source RGB", [&](CString)
 									{
 										int32_t index = GL::indexOf(states.blend.srcRGB);
-										if (factor_combo("##Source RGB##Blend", index))
+										if (factor_combo("##Source RGB##Blending", index))
 										{
-											GL::getEnum(index, states.blend.srcRGB);
+											GL::valueAt(index, states.blend.srcRGB);
 										}
 									});
 
 									Layout::Field("Source Alpha", [&](CString)
 									{
 										int32_t index = GL::indexOf(states.blend.srcAlpha);
-										if (factor_combo("##Source Alpha##Blend", index))
+										if (factor_combo("##Source Alpha##Blending", index))
 										{
-											GL::getEnum(index, states.blend.srcAlpha);
+											GL::valueAt(index, states.blend.srcAlpha);
 										}
 									});
 
 									Layout::Field("Dest RGB", [&](CString)
 									{
 										int32_t index = GL::indexOf(states.blend.dstRGB);
-										if (factor_combo("##Dest RGB##Blend", index))
+										if (factor_combo("##Dest RGB##Blending", index))
 										{
-											GL::getEnum(index, states.blend.dstRGB);
+											GL::valueAt(index, states.blend.dstRGB);
 										}
 									});
 
 									Layout::Field("Dest Alpha", [&](CString)
 									{
 										int32_t index = GL::indexOf(states.blend.dstAlpha);
-										if (factor_combo("##Dest Alpha##Blend", index))
+										if (factor_combo("##Dest Alpha##Blending", index))
 										{
-											GL::getEnum(index, states.blend.dstAlpha);
+											GL::valueAt(index, states.blend.dstAlpha);
 										}
 									});
 								});
@@ -837,25 +837,25 @@ namespace ml
 										int32_t index = GL::indexOf(states.culling.face);
 										if (face_combo("##Face##Culling", index))
 										{
-											GL::getEnum(index, states.culling.face);
+											GL::valueAt(index, states.culling.face);
 										}
 									});
 								});
 
 								/* * * * * * * * * * * * * * * * * * * * */
 
-								Layout::Group("Depth", [&]()
+								Layout::Group("Depth Testing", [&]()
 								{
 									Layout::Field("Enabled", [&](CString)
 									{
-										ImGui::Checkbox("##Enabled##Depth", &states.depth.enabled);
+										ImGui::Checkbox("##Enabled##Depth Testing", &states.depth.enabled);
 									});
 									Layout::Field("Comparison", [&](CString)
 									{
 										int32_t index = GL::indexOf(states.depth.comp);
-										if (comp_combo("##Comparison##Depth", index))
+										if (comp_combo("##Comparison##Depth Testing", index))
 										{
-											GL::getEnum(index, states.depth.comp);
+											GL::valueAt(index, states.depth.comp);
 										}
 									});
 								});
@@ -873,7 +873,7 @@ namespace ml
 										int32_t index = GL::indexOf(states.texture.target);
 										if (texture_target_combo("##Target##Texture", index))
 										{
-											GL::getEnum(index, states.texture.target);
+											GL::valueAt(index, states.texture.target);
 										}
 									});
 								});

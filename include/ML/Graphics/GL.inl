@@ -37,14 +37,6 @@ namespace ml
 				}
 				return false;
 			}
-
-			template <
-				class Out, class In, class Enum
-			> static constexpr auto cast_enum(const In & value, const Enum & maxValue)
-			{
-				// only works for enums with contiguous values
-				return (Out)(((uint32_t)maxValue - (uint32_t)value) + 1);
-			}
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -81,7 +73,7 @@ namespace ml
 			"Scissor Test",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Flag & value)
+		static constexpr bool valueAt(const int32_t i, Flag & value)
 		{
 			return detail::value_at(i, value, Flag_values);
 		}
@@ -143,7 +135,7 @@ namespace ml
 			"Active Texture",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Target & value)
+		static constexpr bool valueAt(const int32_t i, Target & value)
 		{
 			return detail::value_at(i, value, Target_values);
 		}
@@ -175,7 +167,7 @@ namespace ml
 			"Dynamic Draw",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Usage & value)
+		static constexpr bool valueAt(const int32_t i, Usage & value)
 		{
 			return detail::value_at(i, value, Usage_values);
 		}
@@ -217,7 +209,7 @@ namespace ml
 			"Invalid Framebuffer Operation",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Err & value)
+		static constexpr bool valueAt(const int32_t i, Err & value)
 		{
 			return detail::value_at(i, value, Err_values);
 		}
@@ -253,7 +245,7 @@ namespace ml
 			"Shading Language Version",
 		};
 
-		static constexpr bool getEnum(const int32_t i, StringID & value)
+		static constexpr bool valueAt(const int32_t i, StringID & value)
 		{
 			return detail::value_at(i, value, StringID_values);
 		}
@@ -313,7 +305,7 @@ namespace ml
 			"Blend Source Alpha",
 		};
 
-		static constexpr bool getEnum(const int32_t i, IntID & value)
+		static constexpr bool valueAt(const int32_t i, IntID & value)
 		{
 			return detail::value_at(i, value, IntID_values);
 		}
@@ -345,7 +337,7 @@ namespace ml
 			"Clip Origin",
 		};
 
-		static constexpr bool getEnum(const int32_t i, ClipControl & value)
+		static constexpr bool valueAt(const int32_t i, ClipControl & value)
 		{
 			return detail::value_at(i, value, ClipControl_values);
 		}
@@ -379,7 +371,7 @@ namespace ml
 			"Framebuffer Complete",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Status & value)
+		static constexpr bool valueAt(const int32_t i, Status & value)
 		{
 			return detail::value_at(i, value, Status_values);
 		}
@@ -410,7 +402,7 @@ namespace ml
 			"Geometry Shader",
 		};
 
-		static constexpr bool getEnum(const int32_t i, ShaderType & value)
+		static constexpr bool valueAt(const int32_t i, ShaderType & value)
 		{
 			return detail::value_at(i, value, ShaderType_values);
 		}
@@ -452,7 +444,7 @@ namespace ml
 			"Fill",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Mode & value)
+		static constexpr bool valueAt(const int32_t i, Mode & value)
 		{
 			return detail::value_at(i, value, Mode_values);
 		}
@@ -486,7 +478,7 @@ namespace ml
 			"Func Add",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Equation & value)
+		static constexpr bool valueAt(const int32_t i, Equation & value)
 		{
 			return detail::value_at(i, value, Equation_values);
 		}
@@ -528,15 +520,14 @@ namespace ml
 			"Always",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Comp & value)
+		static constexpr bool valueAt(const int32_t i, Comp & value)
 		{
-			value = detail::cast_enum<Comp, int32_t>(i, Comp::Always);
-			return true;
+			return detail::value_at(i, value, Comp_values);
 		}
 
 		static constexpr int32_t indexOf(const Comp value)
 		{
-			return detail::cast_enum<int32_t, Comp>(value, Comp::Always);
+			return detail::index_of(value, Comp_values);
 		}
 
 		static constexpr CString nameOf(const Comp value)
@@ -573,15 +564,14 @@ namespace ml
 			"Source Alpha Saturate",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Factor & value)
+		static constexpr bool valueAt(const int32_t i, Factor & value)
 		{
-			value = detail::cast_enum<Factor, int32_t>(i, Factor::SrcAlphaSaturate);
-			return true;
+			return detail::value_at(i, value, Factor_values);
 		}
 
 		static constexpr int32_t indexOf(const Factor value)
 		{
-			return detail::cast_enum<int32_t, Factor>(value, Factor::SrcAlphaSaturate);
+			return detail::index_of(value, Factor_values);
 		}
 
 		static constexpr CString nameOf(const Factor value)
@@ -618,15 +608,14 @@ namespace ml
 			"Front & Back",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Face & value)
+		static constexpr bool valueAt(const int32_t i, Face & value)
 		{
-			value = detail::cast_enum<Face, int32_t>(i, Face::FrontAndBack);
-			return true;
+			return detail::value_at(i, value, Face_values);
 		}
 
 		static constexpr int32_t indexOf(const Face value)
 		{
-			return detail::cast_enum<int32_t, Face>(value, Face::FrontAndBack);
+			return detail::index_of(value, Face_values);
 		}
 
 		static constexpr CString nameOf(const Face value)
@@ -661,7 +650,7 @@ namespace ml
 			"Half Float",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Type & value)
+		static constexpr bool valueAt(const int32_t i, Type & value)
 		{
 			return detail::value_at(i, value, Type_values);
 		}
@@ -721,7 +710,7 @@ namespace ml
 			"Depth 24 / Stencil 8",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Format & value)
+		static constexpr bool valueAt(const int32_t i, Format & value)
 		{
 			return detail::value_at(i, value, Format_values);
 		}
@@ -769,7 +758,7 @@ namespace ml
 			"Depth Stencil Attachment",
 		};
 
-		static constexpr bool getEnum(const int32_t i, FBO_Attachment & value)
+		static constexpr bool valueAt(const int32_t i, FBO_Attachment & value)
 		{
 			return detail::value_at(i, value, FBO_Attachment_values);
 		}
@@ -835,7 +824,7 @@ namespace ml
 			"CubeMap Negative Z",
 		};
 
-		static constexpr bool getEnum(const int32_t i, TexParam & value)
+		static constexpr bool valueAt(const int32_t i, TexParam & value)
 		{
 			return detail::value_at(i, value, TexParam_values);
 		}
@@ -885,7 +874,7 @@ namespace ml
 			"Pack Alignment",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Pack & value)
+		static constexpr bool valueAt(const int32_t i, Pack & value)
 		{
 			return detail::value_at(i, value, Pack_values);
 		}
@@ -943,14 +932,14 @@ namespace ml
 			"Color Attachment 15",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Attachment & value)
+		static constexpr bool valueAt(const int32_t i, Attachment & value)
 		{
 			return detail::value_at(i, value, Attachment_values);
 		}
 
 		static constexpr int32_t indexOf(const Attachment value)
 		{
-			return detail::cast_enum<int32_t, Attachment>(value, Attachment::ColorAttachment15);
+			return detail::index_of(value, Attachment_values);
 		}
 
 		static constexpr CString nameOf(const Attachment value)
@@ -1033,14 +1022,14 @@ namespace ml
 			"Texture 31",
 		};
 
-		static constexpr bool getEnum(const int32_t i, TexID & value)
+		static constexpr bool valueAt(const int32_t i, TexID & value)
 		{
 			return detail::value_at(i, value, TexID_values);
 		}
 
 		static constexpr int32_t indexOf(const TexID value)
 		{
-			return detail::cast_enum<int32_t, TexID>(value, TexID::Texture31);
+			return detail::index_of(value, TexID_values);
 		}
 
 		static constexpr CString nameOf(const TexID value)
@@ -1091,14 +1080,14 @@ namespace ml
 			"Draw Buffer 15",
 		};
 
-		static constexpr bool getEnum(const int32_t i, DrawBuffer & value)
+		static constexpr bool valueAt(const int32_t i, DrawBuffer & value)
 		{
 			return detail::value_at(i, value, DrawBuffer_values);
 		}
 
 		static constexpr int32_t indexOf(const DrawBuffer value)
 		{
-			return detail::cast_enum<int32_t, DrawBuffer>(value, DrawBuffer::DrawBuffer15);
+			return detail::index_of(value, DrawBuffer_values);
 		}
 
 		static constexpr CString nameOf(const DrawBuffer value)
@@ -1129,7 +1118,7 @@ namespace ml
 			"Color Buffer Bit",
 		};
 
-		static constexpr bool getEnum(const int32_t i, Mask & value)
+		static constexpr bool valueAt(const int32_t i, Mask & value)
 		{
 			return detail::value_at(i, value, Mask_values);
 		}

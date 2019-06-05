@@ -37,9 +37,11 @@ namespace ml
 	{
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
-			const ml::String cwd = ML_FS.getWorkingDir();
-			if (((!m_path && (m_path = cwd)) || (m_isDouble)))
+			// Update Working Dir
+			const String cwd = ML_FS.getWorkingDir();
+			if (m_isDouble || m_path.empty() || (m_path != cwd))
 			{
+				m_path = cwd;
 				if (ML_FS.getDirContents(m_path, m_dir))
 				{
 					set_selected(T_Dir, 0);

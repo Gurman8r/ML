@@ -536,6 +536,8 @@ namespace ml
 
 	void ResourceGui::draw_test(Resources & res)
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		auto test1 = []()
 		{
 			if (!ImGui::CollapsingHeader("Multi-component Widgets"))
@@ -568,7 +570,9 @@ namespace ml
 			ImGui::SliderInt4("slider int4", vec4i, 0, 255);
 		};
 		test1();
-		
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		auto test2 = []()
 		{
 			if (!ImGui::CollapsingHeader("Child windows"))
@@ -651,6 +655,78 @@ namespace ml
 			}
 		};
 		test2();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		auto test3 = []()
+		{
+			if (!ImGui::CollapsingHeader("Lists"))
+				return;
+
+			const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD" };
+			static int item = -1;
+
+			ImGui::PushItemWidth(80);
+			ImGui::Text("Lists:");
+			static int selection[4] = { 0, 1, 2, 3 };
+			for (int i = 0; i < 4; i++)
+			{
+				if (i > 0) ImGui::SameLine();
+				ImGui::PushID(i);
+				ImGui::ListBox("", &selection[i], items, IM_ARRAYSIZE(items));
+				ImGui::PopID();
+				//if (ImGui::IsItemHovered()) ImGui::SetTooltip("ListBox %d hovered", i);
+			}
+			ImGui::PopItemWidth();
+		};
+		test3();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		auto test4 = []()
+		{
+			if (!ImGui::CollapsingHeader("Scrolling"))
+				return;
+
+			static bool track = true;
+			static int track_line = 50, scroll_to_px = 200;
+			ImGui::Checkbox("Track", &track);
+			ImGui::PushItemWidth(100);
+			ImGui::SameLine(130); track |= ImGui::DragInt("##line", &track_line, 0.25f, 0, 99, "Line = %d");
+			bool scroll_to = ImGui::Button("Scroll To Pos");
+			ImGui::SameLine(130); scroll_to |= ImGui::DragInt("##pos_y", &scroll_to_px, 1.00f, 0, 9999, "Y = %d px");
+			ImGui::PopItemWidth();
+			if (scroll_to) track = false;
+
+			for (int i = 0; i < 5; i++)
+			{
+				if (i > 0) ImGui::SameLine();
+				ImGui::BeginGroup();
+				ImGui::Text("%s", i == 0 ? "Top" : i == 1 ? "25%" : i == 2 ? "Center" : i == 3 ? "75%" : "Bottom");
+				ImGui::BeginChild(ImGui::GetID((void*)(intptr_t)i), ImVec2(ImGui::GetWindowWidth() * 0.17f, 200.0f), true);
+				if (scroll_to)
+					ImGui::SetScrollFromPosY(ImGui::GetCursorStartPos().y + scroll_to_px, i * 0.25f);
+				for (int line = 0; line < 100; line++)
+				{
+					if (track && line == track_line)
+					{
+						ImGui::TextColored(ImVec4(1, 1, 0, 1), "Line %d", line);
+						ImGui::SetScrollHereY(i * 0.25f); // 0.0f:top, 0.5f:center, 1.0f:bottom
+					}
+					else
+					{
+						ImGui::Text("Line %d", line);
+					}
+				}
+				float scroll_y = ImGui::GetScrollY(), scroll_max_y = ImGui::GetScrollMaxY();
+				ImGui::EndChild();
+				ImGui::Text("%.0f/%0.f", scroll_y, scroll_max_y);
+				ImGui::EndGroup();
+			}
+		};
+		//test4();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -218,6 +218,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\Meta.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />

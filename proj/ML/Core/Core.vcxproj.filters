@@ -224,6 +224,9 @@
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\Meta.cpp">
+      <Filter>Source Files\DS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\ML\Core\Meta.inl">

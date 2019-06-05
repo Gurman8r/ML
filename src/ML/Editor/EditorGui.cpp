@@ -8,6 +8,46 @@
 
 namespace ml
 {
+	template <
+		class	T,
+		size_t	X,
+		size_t	Y
+	> inline static bool EditMatrix(CString label, Matrix<T, X, Y> & value, float speed)
+	{
+		if (!ImGui::GetCurrentWindow()->SkipItems)
+		{
+			bool changed = false;
+			ImGui::PushID(label);
+			{
+				ImGui::BeginGroup();
+				ImGui::PushItemWidth(64);
+				for (size_t y = 0; y < value.Rows; y++)
+				{
+					for (size_t x = 0; x < value.Cols; x++)
+					{
+						const size_t i = (y * value.Cols + x);
+						const String l = String("##{0}").format(i);
+
+						if (ImGui::DragFloat(l.c_str(), &value[i], speed))
+						{
+							changed = true;
+						}
+						ImGui::SameLine();
+					}
+					ImGui::NewLine();
+				}
+				ImGui::PopItemWidth();
+				ImGui::EndGroup();
+			}
+			ImGui::PopID();
+			return changed;
+		}
+		return false;
+	}
+}
+
+namespace ml
+{
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorGui::EditorGui(EventSystem & eventSystem, CString title)
@@ -192,12 +232,12 @@ namespace ml
 
 	bool EditorGui::Mat3Field(CString label, mat3 & value, float speed)
 	{
-		return false;
+		return EditMatrix(label, value, speed);
 	}
 
 	bool EditorGui::Mat4Field(CString label, mat4 & value, float speed)
 	{
-		return false;
+		return EditMatrix(label, value, speed);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

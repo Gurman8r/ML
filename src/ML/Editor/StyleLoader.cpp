@@ -124,7 +124,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		static const bool log = true;
+		static const bool log = false;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

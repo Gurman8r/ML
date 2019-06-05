@@ -26,6 +26,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		struct Layout;
 
+		void draw_test(Resources & res);
+
 		void draw_entity_registry	(Resources & res, Registry<Entity>		& entities	);
 		void draw_font_registry		(Resources & res, Registry<Font>		& fonts		);
 		void draw_image_registry	(Resources & res, Registry<Image>		& images	);

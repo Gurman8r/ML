@@ -147,10 +147,10 @@ namespace ml
 
 		// Set ImGui INI
 		String imguiINI = ev.prefs.GetString("Editor", "imguiINI", "");
-		if(imguiINI) imguiINI = ML_FS.getPathTo(imguiINI);
+
 
 		// Start ImGui
-		if (!ImGui_ML_Init("#version 410", &ev.window, true, imguiINI.c_str()))
+		if (!ImGui_ML_Init("#version 410", &ev.window, true, NULL))
 		{
 			Debug::fatal("Failed Initializing ImGui");
 		}
@@ -261,7 +261,7 @@ namespace ml
 				ImGui::MenuItem(this->terminal.getTitle(),	"Ctrl+Alt+T", &this->terminal.isOpen());
 				ImGui::MenuItem(this->browser.getTitle(),	"Ctrl+Alt+E", &this->browser.isOpen());
 				ImGui::MenuItem(this->builder.getTitle(),	"Ctrl+Alt+B", &this->builder.isOpen());
-				ImGui::MenuItem(this->scene.getTitle(), "Ctrl+Alt+S", &this->scene.isOpen());
+				ImGui::MenuItem(this->scene.getTitle(),		"Ctrl+Alt+S", &this->scene.isOpen());
 				ImGui::MenuItem(this->inspector.getTitle(), "Ctrl+Alt+I", &this->inspector.isOpen());
 				ImGui::MenuItem(this->profiler.getTitle(),	"", &this->profiler.isOpen());
 				ImGui::MenuItem(this->resources.getTitle(),	"", &this->resources.isOpen());

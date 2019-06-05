@@ -490,26 +490,167 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			Layout::Columns([&]()
+			if (ImGui::BeginTabBar("Project Tabs"))
 			{
-				draw_entity_registry	(ev.resources, ev.resources.entities	);
-				draw_font_registry		(ev.resources, ev.resources.fonts		);
-				draw_image_registry		(ev.resources, ev.resources.images		);
-				draw_mesh_registry		(ev.resources, ev.resources.meshes		);
-				draw_material_registry	(ev.resources, ev.resources.materials	);
-				draw_model_registry		(ev.resources, ev.resources.models		);
-				draw_script_registry	(ev.resources, ev.resources.scripts		);
-				draw_shader_registry	(ev.resources, ev.resources.shaders		);
-				draw_skybox_registry	(ev.resources, ev.resources.skyboxes	);
-				draw_sound_registry		(ev.resources, ev.resources.sounds		);
-				draw_sprite_registry	(ev.resources, ev.resources.sprites		);
-				draw_surface_registry	(ev.resources, ev.resources.surfaces	);
-				draw_texture_registry	(ev.resources, ev.resources.textures	);
-			});
+				if (ImGui::BeginTabItem("Resources"))
+				{
+					Layout::Columns([&]()
+					{
+						draw_entity_registry	(ev.resources, ev.resources.entities	);
+						draw_font_registry		(ev.resources, ev.resources.fonts		);
+						draw_image_registry		(ev.resources, ev.resources.images		);
+						draw_mesh_registry		(ev.resources, ev.resources.meshes		);
+						draw_material_registry	(ev.resources, ev.resources.materials	);
+						draw_model_registry		(ev.resources, ev.resources.models		);
+						draw_script_registry	(ev.resources, ev.resources.scripts		);
+						draw_shader_registry	(ev.resources, ev.resources.shaders		);
+						draw_skybox_registry	(ev.resources, ev.resources.skyboxes	);
+						draw_sound_registry		(ev.resources, ev.resources.sounds		);
+						draw_sprite_registry	(ev.resources, ev.resources.sprites		);
+						draw_surface_registry	(ev.resources, ev.resources.surfaces	);
+						draw_texture_registry	(ev.resources, ev.resources.textures	);
+					});
+
+					ImGui::EndTabItem();
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (ImGui::BeginTabItem("Test"))
+				{
+					draw_test(ev.resources);
+					ImGui::EndTabItem();
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::EndTabBar();
+			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}
 		return endDraw();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	void ResourceGui::draw_test(Resources & res)
+	{
+		auto test1 = []()
+		{
+			if (!ImGui::CollapsingHeader("Multi-component Widgets"))
+				return;
+
+			static float vec4[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
+			static int vec4i[4] = { 1, 5, 100, 255 };
+
+			ImGui::InputFloat2("input float2", vec4);
+			ImGui::DragFloat2("drag float2", vec4, 0.01f, 0.0f, 1.0f);
+			ImGui::SliderFloat2("slider float2", vec4, 0.0f, 1.0f);
+			ImGui::InputInt2("input int2", vec4i);
+			ImGui::DragInt2("drag int2", vec4i, 1, 0, 255);
+			ImGui::SliderInt2("slider int2", vec4i, 0, 255);
+			ImGui::Spacing();
+
+			ImGui::InputFloat3("input float3", vec4);
+			ImGui::DragFloat3("drag float3", vec4, 0.01f, 0.0f, 1.0f);
+			ImGui::SliderFloat3("slider float3", vec4, 0.0f, 1.0f);
+			ImGui::InputInt3("input int3", vec4i);
+			ImGui::DragInt3("drag int3", vec4i, 1, 0, 255);
+			ImGui::SliderInt3("slider int3", vec4i, 0, 255);
+			ImGui::Spacing();
+
+			ImGui::InputFloat4("input float4", vec4);
+			ImGui::DragFloat4("drag float4", vec4, 0.01f, 0.0f, 1.0f);
+			ImGui::SliderFloat4("slider float4", vec4, 0.0f, 1.0f);
+			ImGui::InputInt4("input int4", vec4i);
+			ImGui::DragInt4("drag int4", vec4i, 1, 0, 255);
+			ImGui::SliderInt4("slider int4", vec4i, 0, 255);
+		};
+		test1();
+		
+		auto test2 = []()
+		{
+			if (!ImGui::CollapsingHeader("Child windows"))
+				return;
+
+			static bool disable_mouse_wheel = false;
+			static bool disable_menu = false;
+			ImGui::Checkbox("Disable Mouse Wheel", &disable_mouse_wheel);
+			ImGui::Checkbox("Disable Menu", &disable_menu);
+
+			static int line = 50;
+			bool goto_line = ImGui::Button("Goto");
+			ImGui::SameLine();
+			ImGui::PushItemWidth(100);
+			goto_line |= ImGui::InputInt("##Line", &line, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue);
+			ImGui::PopItemWidth();
+
+			// Child 1: no border, enable horizontal scrollbar
+			{
+				ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar | (disable_mouse_wheel ? ImGuiWindowFlags_NoScrollWithMouse : 0);
+				ImGui::BeginChild("Child1", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.5f, 260), false, window_flags);
+				for (int i = 0; i < 100; i++)
+				{
+					ImGui::Text("%04d: scrollable region", i);
+					if (goto_line && line == i)
+						ImGui::SetScrollHereY();
+				}
+				if (goto_line && line >= 100)
+					ImGui::SetScrollHereY();
+				ImGui::EndChild();
+			}
+
+			ImGui::SameLine();
+
+			// Child 2: rounded border
+			{
+				ImGuiWindowFlags window_flags = (disable_mouse_wheel ? ImGuiWindowFlags_NoScrollWithMouse : 0) | (disable_menu ? 0 : ImGuiWindowFlags_MenuBar);
+				ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+				ImGui::BeginChild("Child2", ImVec2(0, 260), true, window_flags);
+				if (!disable_menu && ImGui::BeginMenuBar())
+				{
+					if (ImGui::BeginMenu("Menu"))
+					{
+						//ShowExampleMenuFile();
+						ImGui::EndMenu();
+					}
+					ImGui::EndMenuBar();
+				}
+				ImGui::Columns(2);
+				for (int i = 0; i < 100; i++)
+				{
+					char buf[32];
+					sprintf(buf, "%03d", i);
+					ImGui::Button(buf, ImVec2(-1.0f, 0.0f));
+					ImGui::NextColumn();
+				}
+				ImGui::EndChild();
+				ImGui::PopStyleVar();
+			}
+
+			ImGui::Separator();
+
+			// Demonstrate a few extra things
+			// - Changing ImGuiCol_ChildBg (which is transparent black in default styles)
+			// - Using SetCursorPos() to position the child window (because the child window is an item from the POV of the parent window)
+			//   You can also call SetNextWindowPos() to position the child window. The parent window will effectively layout from this position.
+			// - Using ImGui::GetItemRectMin/Max() to query the "item" state (because the child window is an item from the POV of the parent window)
+			//   See "Widgets" -> "Querying Status (Active/Focused/Hovered etc.)" section for more details about this.
+			{
+				ImGui::SetCursorPosX(50);
+				ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(255, 0, 0, 100));
+				ImGui::BeginChild("blah", ImVec2(200, 100), true, ImGuiWindowFlags_None);
+				for (int n = 0; n < 50; n++)
+					ImGui::Text("Some test %d", n);
+				ImGui::EndChild();
+				ImVec2 child_rect_min = ImGui::GetItemRectMin();
+				ImVec2 child_rect_max = ImGui::GetItemRectMax();
+				ImGui::PopStyleColor();
+				ImGui::Text("Rect of child window is: (%.0f,%.0f) (%.0f,%.0f)", child_rect_min.x, child_rect_min.y, child_rect_max.x, child_rect_max.y);
+			}
+		};
+		test2();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

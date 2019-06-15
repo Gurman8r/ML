@@ -31,7 +31,7 @@ namespace ml
 		eventSystem.addListener(BeginGuiEvent::ID,		this);
 		eventSystem.addListener(GuiEvent::ID,			this);
 		eventSystem.addListener(EndGuiEvent::ID,		this);
-		eventSystem.addListener(BuildDockspaceEvent::ID,	this);
+		eventSystem.addListener(BuildDockspaceEvent::ID,this);
 		eventSystem.addListener(KeyEvent::ID,			this);
 		eventSystem.addListener(File_New_Event::ID,		this);
 		eventSystem.addListener(File_Open_Event::ID,	this);

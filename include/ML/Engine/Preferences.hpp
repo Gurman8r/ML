@@ -28,7 +28,7 @@ namespace ml
 
 	public:
 		bool		GetBool		(const String & section, const String & name, bool default_value) const;
-		float		GetDouble	(const String & section, const String & name, double default_value) const;
+		double		GetDouble	(const String & section, const String & name, double default_value) const;
 		float		GetFloat	(const String & section, const String & name, float default_value) const;
 		int32_t		GetInt		(const String & section, const String & name, int32_t default_value) const;
 		uint32_t	GetUint		(const String & section, const String & name, uint32_t default_value) const;

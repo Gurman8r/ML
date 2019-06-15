@@ -64,9 +64,9 @@ namespace DEMO
 			ml::PhysicsWorld	physWorld	= {};
 
 			bool showScene		= true;
-			bool showInspector	= true;
+			bool showInspector	= false;
 
-		} self;
+		} sandbox;
 
 	};
 

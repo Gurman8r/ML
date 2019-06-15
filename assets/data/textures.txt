@@ -12,6 +12,7 @@
 #		type	= texture
 #		name	= my_texture
 #		file	= ../path/to/my.png
+#		image	= nameOfSomeImage
 #		smooth	= true
 #		repeat	= false
 #		target	= tex_2D / tex_3D

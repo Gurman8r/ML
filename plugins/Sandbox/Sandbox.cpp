@@ -77,6 +77,8 @@ namespace DEMO
 			}
 			break;
 
+			// Main Menu Bar Event
+			/* * * * * * * * * * * * * * * * * * * * */
 		case ml::MainMenuBarEvent::ID:
 			if (auto ev = value->as<ml::MainMenuBarEvent>())
 			{
@@ -88,8 +90,8 @@ namespace DEMO
 					break;
 				case ml::MainMenuBarEvent::Window:
 					ImGui::Separator();
-					ImGui::MenuItem("Sandbox Scene", "", &self.showScene);
-					ImGui::MenuItem("Sandbox Inspector", "", &self.showInspector);
+					ImGui::MenuItem("Sandbox Scene", "", &sandbox.showScene);
+					ImGui::MenuItem("Sandbox Inspector", "", &sandbox.showInspector);
 					break;
 				case ml::MainMenuBarEvent::Help:
 					break;
@@ -124,12 +126,12 @@ namespace DEMO
 	{
 		// Buffers
 		/* * * * * * * * * * * * * * * * * * * * */
-		self.vao.create(ml::GL::Triangles).bind();
-		self.vbo.create(ml::GL::DynamicDraw).bind();
-		self.vbo.bufferData(NULL, ml::Shapes::RectQuad::Size);
+		sandbox.vao.create(ml::GL::Triangles).bind();
+		sandbox.vbo.create(ml::GL::DynamicDraw).bind();
+		sandbox.vbo.bufferData(NULL, ml::Shapes::RectQuad::Size);
 		ml::BufferLayout::Default.bind();
-		self.vbo.unbind();
-		self.vao.unbind();
+		sandbox.vbo.unbind();
+		sandbox.vao.unbind();
 
 		// Sprites
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -146,7 +148,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Entity * ent = ev.resources.entities.get("camera"))
 		{
-			self.camera = ent;
+			sandbox.camera = ent;
 
 			ml::Camera * camera = ent->add<ml::Camera>();
 			camera->color = { ml::vec3 { 0.198f }, 1.0f };
@@ -161,7 +163,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Entity * ent = ev.resources.entities.get("light"))
 		{
-			self.light = ent;
+			sandbox.light = ent;
 
 			ml::Transform * transform = ent->add<ml::Transform>(
 				ml::vec3 { 0.0f, 1.0f, 30.0f }, // position
@@ -177,8 +179,8 @@ namespace DEMO
 				"mat_light",
 				ev.resources.shaders.get("solid"),
 				ml::List<ml::uni_base *>({
-					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
-					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.proj",		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		sandbox.camera->get<ml::Transform>()->getMat()),
 					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
 					new ml::uni_col4_cr	("Frag.mainCol",	light->color),
 					}));
@@ -208,7 +210,7 @@ namespace DEMO
 				1.0f // mass
 			);
 
-			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 				RB_BORG, transform, collider, particle
 			));
 
@@ -216,8 +218,8 @@ namespace DEMO
 				"mat_borg",
 				ev.resources.shaders.get("basic"),
 				ml::List<ml::uni_base *>({
-					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
-					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.proj",		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		sandbox.camera->get<ml::Transform>()->getMat()),
 					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
 					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
 					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("borg")),
@@ -248,7 +250,7 @@ namespace DEMO
 				1.0f // mass
 			);
 
-			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 				RB_CUBE, transform, collider, particle
 			));
 
@@ -256,8 +258,8 @@ namespace DEMO
 				"mat_cube",
 				ev.resources.shaders.get("normal"),
 				ml::List<ml::uni_base *>({
-					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
-					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.proj",		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		sandbox.camera->get<ml::Transform>()->getMat()),
 					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
 					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
 					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("stone_dm")),
@@ -288,7 +290,7 @@ namespace DEMO
 				1.0f // mass
 			);
 
-			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 				RB_NAVBALL, transform, collider, particle
 			));
 
@@ -296,8 +298,8 @@ namespace DEMO
 				"mat_navball",
 				ev.resources.shaders.get("basic"),
 				ml::List<ml::uni_base *>({
-					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
-					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.proj",		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		sandbox.camera->get<ml::Transform>()->getMat()),
 					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
 					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
 					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("navball")),
@@ -328,7 +330,7 @@ namespace DEMO
 				1.0f // mass
 			);
 
-			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 				RB_MOON, transform, collider, particle
 			));
 
@@ -336,18 +338,18 @@ namespace DEMO
 				"mat_moon",
 				ev.resources.shaders.get("lighting"),
 				ml::List<ml::uni_base *> ({
-					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
-					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.proj",		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		sandbox.camera->get<ml::Transform>()->getMat()),
 					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
-					new ml::uni_vec3_cr	("Frag.cameraPos",	self.camera->get<ml::Transform>()->getPos()),
-					new ml::uni_vec3_cr	("Frag.lightPos",	self.light->get<ml::Transform>()->getPos()),
-					new ml::uni_col4_cr	("Frag.diffuse",	self.light->get<ml::Light>()->color),
+					new ml::uni_vec3_cr	("Frag.cameraPos",	sandbox.camera->get<ml::Transform>()->getPos()),
+					new ml::uni_vec3_cr	("Frag.lightPos",	sandbox.light->get<ml::Transform>()->getPos()),
+					new ml::uni_col4_cr	("Frag.diffuse",	sandbox.light->get<ml::Light>()->color),
 					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
 					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("moon_dm")),
 					new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("moon_nm")),
-					new ml::uni_flt1	("Frag.ambient",	0.01f),
-					new ml::uni_flt1	("Frag.specular",	0.1f),
-					new ml::uni_int1	("Frag.shininess",	8),
+					new ml::uni_flt		("Frag.ambient",	0.01f),
+					new ml::uni_flt		("Frag.specular",	0.1f),
+					new ml::uni_int		("Frag.shininess",	8),
 					}));
 
 			ml::Renderer * renderer = ent->add<ml::Renderer>(
@@ -375,7 +377,7 @@ namespace DEMO
 				transform->getPos(), // position
 				0.25f // mass
 			);
-			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 				RB_EARTH, transform, collider, particle
 			));
 
@@ -383,18 +385,18 @@ namespace DEMO
 				"mat_earth",
 				ev.resources.shaders.get("lighting"),
 				ml::List<ml::uni_base *> ({
-					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
-					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.proj",		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		sandbox.camera->get<ml::Transform>()->getMat()),
 					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
-					new ml::uni_vec3_cr	("Frag.cameraPos",	self.camera->get<ml::Transform>()->getPos()),
-					new ml::uni_vec3_cr	("Frag.lightPos",	self.light->get<ml::Transform>()->getPos()),
-					new ml::uni_col4_cr	("Frag.diffuse",	self.light->get<ml::Light>()->color),
+					new ml::uni_vec3_cr	("Frag.cameraPos",	sandbox.camera->get<ml::Transform>()->getPos()),
+					new ml::uni_vec3_cr	("Frag.lightPos",	sandbox.light->get<ml::Transform>()->getPos()),
+					new ml::uni_col4_cr	("Frag.diffuse",	sandbox.light->get<ml::Light>()->color),
 					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
 					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
 					new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("earth_sm")),
-					new ml::uni_flt1	("Frag.ambient",	0.01f),
-					new ml::uni_flt1	("Frag.specular",	0.1f),
-					new ml::uni_int1	("Frag.shininess",	8),
+					new ml::uni_flt		("Frag.ambient",	0.01f),
+					new ml::uni_flt		("Frag.specular",	0.1f),
+					new ml::uni_int		("Frag.shininess",	8),
 					}));
 
 			ml::Renderer * renderer = ent->add<ml::Renderer>(
@@ -423,7 +425,7 @@ namespace DEMO
 				1.0f // mass
 			);
 
-			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(sandbox.physWorld.createNewRigidbody(
 				RB_GROUND, transform, collider, particle
 			));
 
@@ -431,8 +433,8 @@ namespace DEMO
 				"mat_ground",
 				ev.resources.shaders.get("normal"),
 				ml::List<ml::uni_base *>({
-					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
-					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.proj",		sandbox.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		sandbox.camera->get<ml::Transform>()->getMat()),
 					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
 					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
 					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("stone_dm")),
@@ -446,7 +448,7 @@ namespace DEMO
 
 		// Setup Physics
 		/* * * * * * * * * * * * * * * * * * * * */
-		self.physWorld.launchFun([&]()
+		sandbox.physWorld.launchFun([&]()
 		{
 			const ml::GameTime & time = ev.time;
 			while (ev.window.isOpen())
@@ -462,7 +464,7 @@ namespace DEMO
 
 				// Iterate over each entry
 				/* * * * * * * * * * * * * * * * * * * * */
-				self.physWorld.updateFun([&](int32_t i, ml::PhysicsState & state)
+				sandbox.physWorld.updateFun([&](int32_t i, ml::PhysicsState & state)
 				{	
 					// Get copy data
 					ml::vec3 pos;
@@ -516,7 +518,7 @@ namespace DEMO
 	{
 		// Update Physics
 		/* * * * * * * * * * * * * * * * * * * * */
-		while (!self.physWorld.syncFun([&](const ml::PhysicsState & state)
+		while (!sandbox.physWorld.syncFun([&](const ml::PhysicsState & state)
 		{
 			for (auto & pair : ev.resources.entities)
 			{
@@ -549,12 +551,12 @@ namespace DEMO
 
 		// Update Camera
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ml::Camera * camera = self.camera->get<ml::Camera>())
+		if (ml::Camera * camera = sandbox.camera->get<ml::Camera>())
 		{
 			camera->updateRes(ev.window.getFrameSize());
 
 			// Camera Transform
-			if (ml::Transform * transform = self.camera->get<ml::Transform>())
+			if (ml::Transform * transform = sandbox.camera->get<ml::Transform>())
 			{
 				// Target Entity
 				if (const ml::Entity * ent = ev.resources.entities.get("earth"))
@@ -562,7 +564,7 @@ namespace DEMO
 					// Target Transform
 					if (const ml::Transform * target = ent->get<ml::Transform>())
 					{
-						if (self.cameraOrbit)
+						if (sandbox.cameraOrbit)
 						{
 							camera->forward(target->getPos() - camera->position);
 
@@ -571,7 +573,7 @@ namespace DEMO
 							camera->position
 								+= camera->right()
 								*	ev.time.elapsed().delta()
-								*	self.cameraSpeed;
+								*	sandbox.cameraSpeed;
 						}
 					}
 				}
@@ -581,7 +583,7 @@ namespace DEMO
 		// Update Text
 		/* * * * * * * * * * * * * * * * * * * * */
 		{
-			self.text["project_url"]
+			sandbox.text["project_url"]
 				.setFont(ev.resources.fonts.get("minecraft"))
 				.setFontSize(56)
 				.setPosition({ 48, (float)ev.window.getFrameHeight() - 48 })
@@ -597,7 +599,7 @@ namespace DEMO
 			size_t			lineNum	 = 0;
 			auto			newLine  = [&]() { return (linePos = (origin + (offset * (float)(lineNum++)))); };
 
-			self.text["gl_version"]
+			sandbox.text["gl_version"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -605,7 +607,7 @@ namespace DEMO
 					ML_GL.getString(ml::GL::Version)
 				));
 
-			self.text["gl_renderer"]
+			sandbox.text["gl_renderer"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -613,7 +615,7 @@ namespace DEMO
 					ML_GL.getString(ml::GL::Renderer)
 				));
 
-			self.text["gl_vendor"]
+			sandbox.text["gl_vendor"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -621,7 +623,7 @@ namespace DEMO
 					ML_GL.getString(ml::GL::Vendor)
 				));
 
-			self.text["glsl_version"]
+			sandbox.text["glsl_version"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -631,7 +633,7 @@ namespace DEMO
 
 			newLine();
 
-			self.text["framerate"]
+			sandbox.text["framerate"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -640,7 +642,7 @@ namespace DEMO
 					ev.time.frameRate()
 				));
 
-			self.text["time_total"]
+			sandbox.text["time_total"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -650,7 +652,7 @@ namespace DEMO
 
 			newLine();
 
-			self.text["time_sin"]
+			sandbox.text["time_sin"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -658,7 +660,7 @@ namespace DEMO
 					std::sinf(ev.time.total().delta())
 				));
 
-			self.text["time_cos"]
+			sandbox.text["time_cos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -668,7 +670,7 @@ namespace DEMO
 
 			newLine();
 
-			self.text["cursor_pos"]
+			sandbox.text["cursor_pos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -676,7 +678,7 @@ namespace DEMO
 					ev.window.getCursorPos()
 				));
 
-			self.text["window_pos"]
+			sandbox.text["window_pos"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -684,7 +686,7 @@ namespace DEMO
 					ev.window.getPosition()
 				));
 
-			self.text["window_size"]
+			sandbox.text["window_size"]
 				.setFont(font)
 				.setFontSize(fontSize)
 				.setPosition(newLine())
@@ -693,7 +695,7 @@ namespace DEMO
 				));
 
 			// Ensure geometry update before main draw call
-			for (auto & pair : self.text)
+			for (auto & pair : sandbox.text)
 			{
 				pair.second.update();
 			}
@@ -710,7 +712,7 @@ namespace DEMO
 			scene->bind();
 
 			// Clear Screen
-			ev.window.clear(self.camera->get<ml::Camera>()->color);
+			ev.window.clear(sandbox.camera->get<ml::Camera>()->color);
 
 			// Draw Renderers
 			for (const auto & pair : ev.resources.entities)
@@ -723,7 +725,7 @@ namespace DEMO
 			/* * * * * * * * * * * * * * * * * * * * */
 			{
 				// Ortho Matrix
-				const ml::mat4 & ortho = self.camera->get<ml::Camera>()->getOrthoMatrix();
+				const ml::mat4 & ortho = sandbox.camera->get<ml::Camera>()->getOrthoMatrix();
 
 				// Render States
 				static ml::RenderStates states(
@@ -748,8 +750,8 @@ namespace DEMO
 							new ml::uni_tex2	("Frag.mainTex",	NULL),
 							}));
 					static ml::RenderBatch batch(
-						&self.vao, 
-						&self.vbo, 
+						&sandbox.vao, 
+						&sandbox.vbo, 
 						material
 					);
 					for (const auto & pair : ev.resources.sprites)
@@ -770,11 +772,11 @@ namespace DEMO
 							new ml::uni_tex2	("Frag.mainTex",	NULL),
 							}));
 					static ml::RenderBatch batch(
-						&self.vao,
-						&self.vbo,
+						&sandbox.vao,
+						&sandbox.vbo,
 						material
 					);
-					for (const auto & pair : self.text)
+					for (const auto & pair : sandbox.text)
 					{
 						ev.window.draw(pair.second, batch);
 					}
@@ -788,10 +790,10 @@ namespace DEMO
 						shader,
 						ml::List<ml::uni_base *>({
 							new ml::uni_col4("Frag.mainCol",	{ 0.385f, 0.0f, 1.0f, 1.0f }),
-							new ml::uni_int1("Geom.mode",		-1),
-							new ml::uni_flt1("Geom.delta",		1.0f),
-							new ml::uni_flt1("Geom.size",		0.995f),
-							new ml::uni_int1("Geom.samples",	16),
+							new ml::uni_int("Geom.mode",		-1),
+							new ml::uni_flt("Geom.delta",		1.0f),
+							new ml::uni_flt("Geom.size",		0.995f),
+							new ml::uni_int("Geom.samples",	16),
 							}));
 					if (material && material->bind())
 					{
@@ -810,7 +812,7 @@ namespace DEMO
 			{
 				post->bind();
 				if (const ml::Shader * shader = scene->shader())
-					shader->setUniform("Effect.mode", self.effectMode);
+					shader->setUniform("Effect.mode", sandbox.effectMode);
 				ev.window.draw(*scene);
 				post->unbind();
 			}
@@ -823,7 +825,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EditorUtility.DrawWindow(
 			"Sandbox Scene", 
-			self.showScene, 
+			sandbox.showScene, 
 			ImGuiWindowFlags_MenuBar, 
 			[&]()
 		{
@@ -869,7 +871,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EditorUtility.DrawWindow(
 			"Sandbox Inspector", 
-			self.showInspector,
+			sandbox.showInspector,
 			ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize,
 			[&]()
 		{
@@ -883,7 +885,7 @@ namespace DEMO
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			ImGui::Combo("Effect Mode", &self.effectMode, 
+			ImGui::Combo("Effect Mode", &sandbox.effectMode, 
 				"Normal\0"
 				"Grayscale\0"
 				"Blur\0"
@@ -894,8 +896,8 @@ namespace DEMO
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		
-			ImGui::Checkbox("Camera Orbit", &self.cameraOrbit);
-			ImGui::DragFloat("Camera Speed", &self.cameraSpeed, 0.1f, -5.f, 5.f);
+			ImGui::Checkbox("Camera Orbit", &sandbox.cameraOrbit);
+			ImGui::DragFloat("Camera Speed", &sandbox.cameraSpeed, 0.1f, -5.f, 5.f);
 			ImGui::Separator();
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -905,7 +907,7 @@ namespace DEMO
 	void Sandbox::onExit(const ml::ExitEvent & ev)
 	{
 		// Cleanup Physics Thread
-		self.physWorld.dispose();
+		sandbox.physWorld.dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

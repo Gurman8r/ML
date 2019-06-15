@@ -89,8 +89,8 @@ namespace ml
 			{
 				// Flt
 				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_flt1::ID:
-				if (auto u = dynamic_cast<uni_flt1 *>(value))
+			case uni_flt::ID:
+				if (auto u = dynamic_cast<uni_flt *>(value))
 				{
 					const String name = "##" + label + "##Float##Uni" + value->name;
 					ImGui::InputFloat(name.c_str(), &u->data, 1);
@@ -99,8 +99,8 @@ namespace ml
 
 				// Int
 				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_int1::ID:
-				if (auto u = dynamic_cast<uni_int1 *>(value))
+			case uni_int::ID:
+				if (auto u = dynamic_cast<uni_int *>(value))
 				{
 					const String name = "##" + label + "##Int##Uni" + value->name;
 					ImGui::InputInt(name.c_str(), &u->data, 1);
@@ -242,8 +242,8 @@ namespace ml
 						uni_base * u = NULL;
 						switch (type)
 						{
-						case uni_base::Flt:  u = new uni_flt1(name, 0);		break;
-						case uni_base::Int:  u = new uni_int1(name, 0);		break;
+						case uni_base::Flt:  u = new uni_flt(name, 0);		break;
+						case uni_base::Int:  u = new uni_int(name, 0);		break;
 						case uni_base::Vec2: u = new uni_vec2(name, 0);		break;
 						case uni_base::Vec3: u = new uni_vec3(name, 0);		break;
 						case uni_base::Vec4: u = new uni_vec4(name, 0);		break;

@@ -72,7 +72,7 @@ namespace DEMO
 					break;
 				case ml::MainMenuBarEvent::Window:
 					ImGui::Separator();
-					ImGui::MenuItem("Noobs Scene", "", &self.showScene);
+					ImGui::MenuItem("Noobs Scene", "", &noobs.showScene);
 					break;
 				case ml::MainMenuBarEvent::Help:
 					break;
@@ -105,8 +105,8 @@ namespace DEMO
 	void Noobs::onStart(const ml::StartEvent & ev)
 	{
 		// Surfaces
-		self.surf_main = ev.resources.surfaces.get("sf_noobs_main");
-		self.surf_post = ev.resources.surfaces.get("sf_noobs_post");
+		noobs.surf_main = ev.resources.surfaces.get("sf_noobs_main");
+		noobs.surf_post = ev.resources.surfaces.get("sf_noobs_post");
 
 		// Orthographic
 		ml::Transform ortho = ml::Transform::Orthographic({
@@ -145,8 +145,8 @@ namespace DEMO
 
 		// Entity Material
 		const ml::Material * material = ev.resources.materials.load_forward(
-			"noobs_material",
-			ev.resources.shaders.get("noobs_shader"),
+			"noobs_material_0",
+			ev.resources.shaders.get("noobs_shader_0"),
 			ml::List<ml::uni_base *>({
 				new ml::uni_mat4("Vert.proj",		persp.getMat()),
 				new ml::uni_mat4("Vert.view",		camera.getMat()),
@@ -157,16 +157,16 @@ namespace DEMO
 				new ml::uni_col4("Frag.mainCol",	ml::Color::White),
 				new ml::uni_tex2("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
 				new ml::uni_tex2("Frag.specTex",	ev.resources.textures.get("earth_sm")),
-				new ml::uni_flt1("Frag.ambient",	0.01f),
-				new ml::uni_flt1("Frag.specular",	0.1f),
-				new ml::uni_int1("Frag.shininess",	8),
+				new ml::uni_flt	("Frag.ambient",	0.01f),
+				new ml::uni_flt	("Frag.specular",	0.1f),
+				new ml::uni_int	("Frag.shininess",	8),
 				}));
 
 		// Create Entity
-		if (self.ent_main = ev.resources.entities.load("noobs_entity_0"))
+		if (noobs.ent_main = ev.resources.entities.load("noobs_entity_0"))
 		{
 			// Entity Renderer
-			self.ent_main->add<ml::Renderer>(
+			noobs.ent_main->add<ml::Renderer>(
 				ev.resources.models.get("sphere32x24"),
 				material
 			);
@@ -176,20 +176,20 @@ namespace DEMO
 	void Noobs::onUpdate(const ml::UpdateEvent & ev)
 	{
 		// Update Surface Sizes
-		self.surf_main->resize(ev.window.getFrameSize());
-		self.surf_post->resize(ev.window.getFrameSize());
+		noobs.surf_main->resize(ev.window.getFrameSize());
+		noobs.surf_post->resize(ev.window.getFrameSize());
 	}
 
 	void Noobs::onDraw(const ml::DrawEvent & ev)
 	{
 		// Bind Main Surface
-		self.surf_main->bind();
+		noobs.surf_main->bind();
 
 		// Clear Screen
 		ev.window.clear(ml::Color::Gray);
 
 		// Draw Renderer
-		ev.window.draw(self.ent_main->get<ml::Renderer>());
+		ev.window.draw(noobs.ent_main->get<ml::Renderer>());
 
 		// Reset States
 		static ml::RenderStates states(
@@ -203,20 +203,20 @@ namespace DEMO
 		states.apply();
 
 		// Unbind Main Surface
-		self.surf_main->unbind();
+		noobs.surf_main->unbind();
 
 		// Bind Post Surface
-		self.surf_post->bind();
+		noobs.surf_post->bind();
 		
 		// Draw Main Surface
-		if (const ml::Shader * shader = self.surf_main->shader())
+		if (const ml::Shader * shader = noobs.surf_main->shader())
 		{
 			shader->setUniform("Effect.mode", 0);
 		}
-		ev.window.draw(*self.surf_main);
+		ev.window.draw(*noobs.surf_main);
 
 		// Unbind Post Surface
-		self.surf_post->unbind();
+		noobs.surf_post->unbind();
 	}
 
 	void Noobs::onGui(const ml::GuiEvent & ev)
@@ -225,7 +225,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_EditorUtility.DrawWindow(
 			"Noobs Scene",
-			self.showScene,
+			noobs.showScene,
 			ImGuiWindowFlags_MenuBar,
 			[&]()
 		{
@@ -239,7 +239,7 @@ namespace DEMO
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			ml::Texture * texture = &self.surf_post->texture();
+			ml::Texture * texture = &noobs.surf_post->texture();
 			if (texture && (*texture))
 			{
 				auto scaleToFit = [](const ml::vec2 & src, const ml::vec2 & dst)

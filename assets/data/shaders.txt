@@ -63,7 +63,7 @@
 
 <import>
 	type = shader
-	name = noobs_shader
+	name = noobs_shader_0
 	file = ../../../assets/shaders/noobs_shader.shader
 </import>
 

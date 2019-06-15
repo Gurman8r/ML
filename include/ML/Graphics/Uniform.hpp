@@ -42,7 +42,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		uni_base(const String & name, id_type type) : name(name), type(type) {}
+		uni_base(const String & name, id_type type) 
+			: name(name)
+			, type(type) 
+		{}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -84,7 +87,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		uni_t(const String & name, value_type data) : base_type(name, ID), data(data) {}
+		uni_t(const String & name, value_type data) 
+			: base_type(name, ID)
+			, data(data) 
+		{}
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -105,14 +111,16 @@ namespace ml
 	// Generators
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_GEN_UNIFORM(NAME, TYPE)											\
-	template <class T> struct NAME : public uni_t<T, TYPE>					\
-	{																		\
-		using value_type	= typename T;									\
-		using self_type		= typename NAME<value_type>;					\
-		using base_type		= typename uni_t<T, TYPE>;						\
-		NAME(const String & name, T data) : base_type(name, data) {}		\
-		virtual ~NAME() {}													\
+#define ML_GEN_UNIFORM(NAME, TYPE)							\
+	template <class T> struct NAME : public uni_t<T, TYPE>	\
+	{														\
+		using value_type	= typename T;					\
+		using self_type		= typename NAME<value_type>;	\
+		using base_type		= typename uni_t<T, TYPE>;		\
+		NAME(const String & name, T data)					\
+			: base_type(name, data)							\
+		{}													\
+		virtual ~NAME() {}									\
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -131,8 +139,8 @@ namespace ml
 	// Value Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt1		= typename uni_flt_t	<float	>;
-	using uni_int1		= typename uni_int_t	<int32_t>;
+	using uni_flt		= typename uni_flt_t	<float	>;
+	using uni_int		= typename uni_int_t	<int32_t>;
 	using uni_vec2		= typename uni_vec2_t	<vec2	>;
 	using uni_vec3		= typename uni_vec3_t	<vec3	>;
 	using uni_vec4		= typename uni_vec4_t	<vec4	>;
@@ -144,8 +152,8 @@ namespace ml
 	// Const Reference Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt1_cr	= typename uni_flt_t	<const float	&>;
-	using uni_int1_cr	= typename uni_int_t	<const int32_t	&>;
+	using uni_flt_cr	= typename uni_flt_t	<const float	&>;
+	using uni_int_cr	= typename uni_int_t	<const int32_t	&>;
 	using uni_vec2_cr	= typename uni_vec2_t	<const vec2		&>;
 	using uni_vec3_cr	= typename uni_vec3_t	<const vec3		&>;
 	using uni_vec4_cr	= typename uni_vec3_t	<const vec4		&>;
@@ -157,8 +165,8 @@ namespace ml
 	// Const Pointer Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt1_cp	= typename uni_flt_t	<const float	*>;
-	using uni_int1_cp	= typename uni_int_t	<const int32_t	*>;
+	using uni_flt_cp	= typename uni_flt_t	<const float	*>;
+	using uni_int_cp	= typename uni_int_t	<const int32_t	*>;
 	using uni_vec2_cp	= typename uni_vec2_t	<const vec2		*>;
 	using uni_vec3_cp	= typename uni_vec3_t	<const vec3		*>;
 	using uni_vec4_cp	= typename uni_vec3_t	<const vec4		*>;
@@ -170,7 +178,7 @@ namespace ml
 	// Type-Class Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_tex2 = typename uni_tex_t	<const Texture	*>; // <- Texture
+	using uni_tex2 = typename uni_tex_t<const Texture *>; // <- Texture
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

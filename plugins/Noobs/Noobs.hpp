@@ -44,7 +44,7 @@ namespace DEMO
 
 			bool showScene = true;
 
-		} self;
+		} noobs;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

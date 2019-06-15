@@ -77,23 +77,23 @@ namespace ml
 				{
 					// Flt
 					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_flt1::ID:
-					if (auto u = dynamic_cast<const uni_flt1 *>(pair.second))
+				case uni_flt::ID:
+					if (auto u = dynamic_cast<const uni_flt *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_flt1_cr *>(pair.second))
+					else if (auto u = dynamic_cast<const uni_flt_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_flt1_cp *>(pair.second))
+					else if (auto u = dynamic_cast<const uni_flt_cp *>(pair.second))
 						m_shader->setUniform(u->name, (*u->data));
 					break;
 
 					// Int
 					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_int1::ID:
-					if (auto u = dynamic_cast<const uni_int1 *>(pair.second))
+				case uni_int::ID:
+					if (auto u = dynamic_cast<const uni_int *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_int1_cr *>(pair.second))
+					else if (auto u = dynamic_cast<const uni_int_cr *>(pair.second))
 						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_int1_cp *>(pair.second))
+					else if (auto u = dynamic_cast<const uni_int_cp *>(pair.second))
 						m_shader->setUniform(u->name, (*u->data));
 					break;
 

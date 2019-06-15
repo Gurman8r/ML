@@ -62,11 +62,11 @@ namespace ml
 			{
 				if (it->second == listener)
 				{
+					// didn't make it the whole way through.
+					// break to prevent using invalidated iterator.
 					m_listeners.erase(it);
-
-					allTheWayThrough = false; // didn't make it the whole way through
-
-					break; // to prevent using invalidated iterator
+					allTheWayThrough = false; 
+					break;
 				}
 			}
 		}

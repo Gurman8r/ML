@@ -189,7 +189,7 @@ namespace ml
 		}
 
 		template <class ... Args>
-		inline pointer load_forward(const String & name, Args && ... args)
+		inline pointer create(const String & name, Args && ... args)
 		{
 			return ((get(name))
 				? (NULL)

@@ -37,14 +37,17 @@ namespace ml
 
 	public:
 		template <
-			class T
-		> inline T * get(const String & name = String())
+			class T, class ... Args
+		> inline T * create(const String & name, Args && ... args)
 		{
 			Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
 			Map<String, EditorGui *>::iterator it;
-			return ((it = data.find(name)) != data.end())
-				? static_cast<T *>(it->second)
-				: NULL;
+			return ((it = data.find(name)) == data.end())
+				? static_cast<T *>(
+					data.insert({
+						name, new T(std::forward<Args>(args)...)
+						}).first->second)
+				: static_cast<T *>(NULL);
 		}
 
 		template <
@@ -64,17 +67,25 @@ namespace ml
 		}
 
 		template <
-			class T, class ... Args
-		> inline T * create(const String & name, Args && ... args)
+			class T
+		> inline const T * get(const String & name = String()) const
+		{
+			const Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
+			Map<String, EditorGui *>::const_iterator it;
+			return ((it = data.find(name)) != data.end())
+				? static_cast<const T *>(it->second)
+				: static_cast<const T *>(NULL);
+		}
+
+		template <
+			class T
+		> inline T * get(const String & name = String())
 		{
 			Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
 			Map<String, EditorGui *>::iterator it;
-			return ((it = data.find(name)) == data.end())
-				? static_cast<T *>(
-					data.insert({
-						name, new T(std::forward<Args>(args)...)
-						}).first->second)
-				: NULL;
+			return ((it = data.find(name)) != data.end())
+				? static_cast<T *>(it->second)
+				: static_cast<T *>(NULL);
 		}
 
 	private:

@@ -11,8 +11,8 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_new(size) ML_MemoryTracker.newAllocation(size)
-#define ML_free(ptr) ML_MemoryTracker.freeAllocation(ptr)
+#define ML_new	ML_MemoryTracker.allocate
+#define ML_free ML_MemoryTracker.deallocate
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -20,50 +20,26 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class IObject;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	class ML_CORE_API MemoryTracker final
 		: public ISingleton<MemoryTracker>
 	{	
 		friend ISingleton<MemoryTracker>;
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		struct Record final
-		{
-			void *	addr; // Address
-			size_t	indx; // Index
-			size_t	size; // Size
-
-			Record(void * addr, const size_t indx, const size_t size);
-			Record(const Record & copy);
-
-			friend OStream & operator<<(OStream & out, const Record & value);
-		};
-
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		using record_map		= typename HashMap<IObject *, Record>;
-		using iterator			= typename record_map::iterator;
-		using const_iterator	= typename record_map::const_iterator;
+	private:
+		struct	Record;
+		using	RecordMap = typename HashMap<void *, Record *>;
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
 		MemoryTracker();
 		~MemoryTracker();
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
-		IObject * newAllocation(const size_t size);
-
-		void freeAllocation(void * ptr);
+		void *	allocate(const size_t size);
+		void	deallocate(void * ptr);
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-		record_map	m_records;
-		size_t		m_guid;
+		RecordMap	m_records;
+		size_t		m_recordIndex;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

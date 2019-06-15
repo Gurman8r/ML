@@ -119,7 +119,7 @@ namespace DEMO
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
 		// Hello!
-		ml::Debug::log("Hello from \'{0}\'!", (*this));
+		ml::Debug::log("Hello from {0}!", (*this));
 	}
 
 	void Sandbox::onStart(const ml::StartEvent & ev)
@@ -175,7 +175,7 @@ namespace DEMO
 				ml::Color::LightYellow
 			);
 
-			const ml::Material * material = ev.resources.materials.load_forward(
+			const ml::Material * material = ev.resources.materials.create(
 				"mat_light",
 				ev.resources.shaders.get("solid"),
 				ml::List<ml::uni_base *>({
@@ -214,7 +214,7 @@ namespace DEMO
 				RB_BORG, transform, collider, particle
 			));
 
-			const ml::Material * material = ev.resources.materials.load_forward(
+			const ml::Material * material = ev.resources.materials.create(
 				"mat_borg",
 				ev.resources.shaders.get("basic"),
 				ml::List<ml::uni_base *>({
@@ -254,7 +254,7 @@ namespace DEMO
 				RB_CUBE, transform, collider, particle
 			));
 
-			const ml::Material * material = ev.resources.materials.load_forward(
+			const ml::Material * material = ev.resources.materials.create(
 				"mat_cube",
 				ev.resources.shaders.get("normal"),
 				ml::List<ml::uni_base *>({
@@ -294,7 +294,7 @@ namespace DEMO
 				RB_NAVBALL, transform, collider, particle
 			));
 
-			const ml::Material * material = ev.resources.materials.load_forward(
+			const ml::Material * material = ev.resources.materials.create(
 				"mat_navball",
 				ev.resources.shaders.get("basic"),
 				ml::List<ml::uni_base *>({
@@ -334,7 +334,7 @@ namespace DEMO
 				RB_MOON, transform, collider, particle
 			));
 
-			const ml::Material * material = ev.resources.materials.load_forward(
+			const ml::Material * material = ev.resources.materials.create(
 				"mat_moon",
 				ev.resources.shaders.get("lighting"),
 				ml::List<ml::uni_base *> ({
@@ -381,7 +381,7 @@ namespace DEMO
 				RB_EARTH, transform, collider, particle
 			));
 
-			const ml::Material * material = ev.resources.materials.load_forward(
+			const ml::Material * material = ev.resources.materials.create(
 				"mat_earth",
 				ev.resources.shaders.get("lighting"),
 				ml::List<ml::uni_base *> ({
@@ -429,7 +429,7 @@ namespace DEMO
 				RB_GROUND, transform, collider, particle
 			));
 
-			const ml::Material * material = ev.resources.materials.load_forward(
+			const ml::Material * material = ev.resources.materials.create(
 				"mat_ground",
 				ev.resources.shaders.get("normal"),
 				ml::List<ml::uni_base *>({
@@ -741,7 +741,7 @@ namespace DEMO
 				// Draw Sprites
 				if (const ml::Shader * shader = ev.resources.shaders.get("sprites"))
 				{
-					static ml::Material * const material = ev.resources.materials.load_forward(
+					static ml::Material * const material = ev.resources.materials.create(
 						"mat_sprites",
 						shader,
 						ml::List<ml::uni_base *>({
@@ -763,7 +763,7 @@ namespace DEMO
 				// Draw Text
 				if (const ml::Shader * shader = ev.resources.shaders.get("text"))
 				{
-					static ml::Material * const material = ev.resources.materials.load_forward(
+					static ml::Material * const material = ev.resources.materials.create(
 						"mat_text",
 						shader,
 						ml::List<ml::uni_base *>({
@@ -785,7 +785,7 @@ namespace DEMO
 				// Draw Geometry
 				if (const ml::Shader * shader = ev.resources.shaders.get("geometry"))
 				{
-					static ml::Material * const material = ev.resources.materials.load_forward(
+					static ml::Material * const material = ev.resources.materials.create(
 						"mat_geometry", 
 						shader,
 						ml::List<ml::uni_base *>({
@@ -813,7 +813,7 @@ namespace DEMO
 				post->bind();
 				if (const ml::Shader * shader = scene->shader())
 					shader->setUniform("Effect.mode", sandbox.effectMode);
-				ev.window.draw(*scene);
+				ev.window.draw(scene);
 				post->unbind();
 			}
 		}

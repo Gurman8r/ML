@@ -61,7 +61,7 @@ namespace ml
 		if (beginDraw())
 		{
 			// Filter
-			static ImGuiTextFilter filter("-wrn");
+			static ImGuiTextFilter filter("");
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
 			filter.Draw("Filter (\"incl,-excl\")", 180);
 			ImGui::PopStyleVar();

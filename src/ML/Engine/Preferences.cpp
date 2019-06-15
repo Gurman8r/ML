@@ -65,7 +65,7 @@ namespace ml
 	float Preferences::GetDouble(const String & section, const String & name, double default_value) const
 	{
 		return ((m_ini)
-			? (static_cast<INIReader *>(m_ini)->GetReal(
+			? (float)(static_cast<INIReader *>(m_ini)->GetReal(
 				section,
 				name,
 				default_value

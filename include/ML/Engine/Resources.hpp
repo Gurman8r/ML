@@ -3,6 +3,7 @@
 
 #include <ML/Engine/Registry.hpp>
 #include <ML/Engine/ManifestItem.hpp>
+#include <ML/Engine/Content.hpp>
 
 namespace ml
 {
@@ -44,6 +45,8 @@ namespace ml
 		bool parseItem(const ManifestItem & data);
 
 	public:
+		Content content;
+
 		Registry<Entity>	entities;
 		Registry<Font>		fonts;
 		Registry<Image>		images;

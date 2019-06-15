@@ -40,6 +40,18 @@ namespace ml
 
 	size_t Resources::cleanupAll()
 	{
+		// HashMap<size_t, Map<String, T *>>
+		for (auto & tree : content.m_map)
+		{
+			// Map<String, T *>
+			for (auto & pair : tree.second)
+			{
+				delete (IObject *)pair.second;
+			}
+			tree.second.clear();
+		}
+		content.m_map.clear();
+
 		return
 			surfaces.clean()	+
 			sprites.clean()		+
@@ -340,7 +352,7 @@ namespace ml
 				{
 					const Image * temp;
 					return
-						(textures.load_forward(name, 
+						(textures.create(name, 
 							target, format, format, smooth, repeat, mipmap, level, pix_ty
 						)) &&
 						(temp = images.get(file)) &&

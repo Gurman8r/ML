@@ -42,7 +42,8 @@ namespace DEMO
 			ml::Surface * surf_post;
 			ml::Entity	* ent_main;
 
-			bool showScene = true;
+			bool showScene		= true;
+			bool showBuilder	= true;
 
 		} noobs;
 	};

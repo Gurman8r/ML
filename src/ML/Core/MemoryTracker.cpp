@@ -6,39 +6,41 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	MemoryTracker::Record::Record(void * addr, const size_t indx, const size_t size)
-		: addr	(addr)
-		, indx	(indx)
-		, size	(size)
+	struct MemoryTracker::Record
 	{
-	}
+		IObject *	object; // Value of Allocation
+		size_t		index;	// Index of Allocation
+		size_t		size;	// Size of Allocation
 
-	MemoryTracker::Record::Record(const Record & copy)
-		: addr	(copy.addr)
-		, indx	(copy.indx)
-		, size	(copy.size)
-	{
-	}
+		Record(IObject * object, const size_t index, const size_t size)
+			: object(object)
+			, index(index)
+			, size(size)
+		{
+		}
 
-	OStream & operator<<(OStream & out, const MemoryTracker::Record & value)
-	{
-		return out 
-			<< " { addr: " << value.addr
-			<< " | size: " << value.size
-			<< " | indx: " << value.indx
-			<< " }";
-	}
+		Record(const Record & copy)
+			: object(copy.object)
+			, index(copy.index)
+			, size(copy.size)
+		{
+		}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-}
+		friend OStream & operator<<(OStream & out, const MemoryTracker::Record & value)
+		{
+			return out << std::left
+				<< " { addr: " << value.object
+				<< " | size: " << std::setw(4) << value.size
+				<< " | index: " << std::setw(4) << value.index
+				<< " }";
+		}
+	};
 
-namespace ml
-{
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	MemoryTracker::MemoryTracker()
-		: m_records()
-		, m_guid(0)
+		: m_records	()
+		, m_recordIndex	(0)
 	{
 	}
 
@@ -47,10 +49,22 @@ namespace ml
 		if (Debug::log("Deleting Memory Tracker...") && (!m_records.empty()))
 		{
 			Debug::logError("Final allocations follow:");
-			
-			for (const_iterator it = m_records.begin(); it != m_records.end(); ++it)
+
+			size_t largest = 0;
+			for (auto & pair : m_records)
 			{
-				cerr << typeid(*it->first).name() << " -> " << (it->second) << endl;
+				const size_t s = String(typeid(*pair.second->object).name()).size();
+				if (s >= largest)
+				{
+					largest = s;
+				}
+			}
+			
+			for (RecordMap::const_iterator it = m_records.begin(); it != m_records.end(); ++it)
+			{
+				cerr << std::left << std::setw(largest)
+					<< typeid(*it->second->object).name() << " | " << (*it->second) 
+					<< endl;
 			}
 			cerr << endl;
 
@@ -62,27 +76,32 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	IObject * MemoryTracker::newAllocation(const size_t size)
+	void * MemoryTracker::allocate(const size_t size)
 	{
-		if (IObject * trackable = static_cast<IObject *>(std::malloc(size)))
+		if (IObject * object = static_cast<IObject *>(std::malloc(size)))
 		{
-			if (m_records.find(trackable) == m_records.end())
+			if (m_records.find(object) == m_records.end())
 			{
 				return m_records.insert({
-					trackable, Record(trackable, m_guid++, size)
-				}).first->first;
+					(void *)object, new Record(object, m_recordIndex++, size)
+				}).first->second->object;
 			}
 		}
 		return NULL;
 	}
 
-	void MemoryTracker::freeAllocation(void * value)
+	void MemoryTracker::deallocate(void * value)
 	{
-		iterator it;
-		if ((it = m_records.find(static_cast<IObject *>(value))) != m_records.end())
+		RecordMap::iterator it;
+		if ((it = m_records.find(value)) != m_records.end())
 		{
+			// free the object
+			std::free(it->second->object);
+			
+			// delete the record
+			delete it->second;
+			assert(!(it->second = NULL) && "Failed deleting MemoryTracker::Record");
 			m_records.erase(it);
-			std::free(value);
 		}
 	}
 

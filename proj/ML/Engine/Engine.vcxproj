@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\ML\Engine\Content.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\GameRule.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\BoxCollider.hpp" />

@@ -43,7 +43,7 @@ namespace DEMO
 	void TestPlugin::onEnter(const ml::EnterEvent & ev)
 	{
 		// Hello!
-		ml::Debug::log("Hello from \'{0}\'!", (*this));
+		ml::Debug::log("Hello from {0}!", (*this));
 	}
 
 	void TestPlugin::onStart(const ml::StartEvent & ev)

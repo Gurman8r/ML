@@ -73,6 +73,7 @@ namespace DEMO
 				case ml::MainMenuBarEvent::Window:
 					ImGui::Separator();
 					ImGui::MenuItem("Noobs Scene", "", &noobs.showScene);
+					ImGui::MenuItem("Noobs Builder", "", &noobs.showBuilder);
 					break;
 				case ml::MainMenuBarEvent::Help:
 					break;
@@ -89,6 +90,7 @@ namespace DEMO
 			{
 				ml::DockspaceGui & d = ev->dockspace;
 				d.dockWindow("Noobs Scene", d.getNode(d.MidUp));
+				d.dockWindow("Noobs Builder", d.getNode(d.LeftUp));
 			}
 			break;
 		}
@@ -99,21 +101,21 @@ namespace DEMO
 	void Noobs::onEnter(const ml::EnterEvent & ev)
 	{
 		// Hello!
-		ml::Debug::log("Hello from \'{0}\'!", (*this));
+		ml::Debug::log("Hello from {0}!", (*this));
 	}
 
 	void Noobs::onStart(const ml::StartEvent & ev)
 	{
-		// Surfaces
-		noobs.surf_main = ev.resources.surfaces.get("sf_noobs_main");
-		noobs.surf_post = ev.resources.surfaces.get("sf_noobs_post");
+		// Get Surfaces
+		noobs.surf_main = ev.resources.surfaces.get("noobs_surf_main");
+		noobs.surf_post = ev.resources.surfaces.get("noobs_surf_post");
 
-		// Orthographic
+		// Orthographic Projection
 		ml::Transform ortho = ml::Transform::Orthographic({
 			{ 0.f, 0.f }, { 1920.f, 1080.f }
 		});
 
-		// Perspective
+		// Perspective Projection
 		ml::Transform persp = ml::Transform::Perspective(
 			45.f, ML_ASPECT(1920.f, 1080.f), 0.001f, 1000.f
 		);
@@ -143,8 +145,26 @@ namespace DEMO
 			{ }
 		);
 
-		// Entity Material
-		const ml::Material * material = ev.resources.materials.load_forward(
+		// Create Material
+		ev.resources.materials.create(
+			"noobs_material_0",
+			ev.resources.shaders.get("noobs_shader_0"),
+			ml::List<ml::uni_base *>({
+				new ml::uni_mat4("Vert.proj",		persp.getMat()),
+				new ml::uni_mat4("Vert.view",		camera.getMat()),
+				new ml::uni_mat4("Vert.model",		model.getMat()),
+				new ml::uni_vec3("Frag.cameraPos",	camera.getPos()),
+				new ml::uni_vec3("Frag.lightPos",	light.getPos()),
+				new ml::uni_col4("Frag.diffuse",	ml::Color::LightYellow),
+				new ml::uni_col4("Frag.mainCol",	ml::Color::White),
+				new ml::uni_tex2("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
+				new ml::uni_tex2("Frag.specTex",	ev.resources.textures.get("earth_sm")),
+				new ml::uni_flt	("Frag.ambient",	0.01f),
+				new ml::uni_flt	("Frag.specular",	0.1f),
+				new ml::uni_int	("Frag.shininess",	8),
+				}));
+
+		ev.resources.content.create<ml::Material>(
 			"noobs_material_0",
 			ev.resources.shaders.get("noobs_shader_0"),
 			ml::List<ml::uni_base *>({
@@ -168,7 +188,7 @@ namespace DEMO
 			// Entity Renderer
 			noobs.ent_main->add<ml::Renderer>(
 				ev.resources.models.get("sphere32x24"),
-				material
+				ev.resources.materials.get("noobs_material_0")
 			);
 		}
 	}
@@ -213,7 +233,7 @@ namespace DEMO
 		{
 			shader->setUniform("Effect.mode", 0);
 		}
-		ev.window.draw(*noobs.surf_main);
+		ev.window.draw(noobs.surf_main);
 
 		// Unbind Post Surface
 		noobs.surf_post->unbind();
@@ -260,6 +280,28 @@ namespace DEMO
 				ImGui::Image(texture->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 				ImGui::EndChild();
 			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		});
+
+		// Noobs Builder
+		/* * * * * * * * * * * * * * * * * * * * */
+		ML_EditorUtility.DrawWindow(
+			"Noobs Builder",
+			noobs.showBuilder,
+			ImGuiWindowFlags_MenuBar,
+			[&]()
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::MenuItem("Noobs Builder");
+				ImGui::EndMenuBar();
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		});

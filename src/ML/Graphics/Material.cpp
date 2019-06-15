@@ -46,7 +46,7 @@ namespace ml
 	{
 		for (auto & pair : m_uniforms)
 		{
-			IObject::operator delete(pair.second);
+			delete (IObject *)pair.second;
 		}
 		m_uniforms.clear();
 		return m_uniforms.empty();

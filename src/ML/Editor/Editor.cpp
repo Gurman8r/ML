@@ -80,9 +80,9 @@ namespace ml
 			{
 				DockspaceGui & d = ev->dockspace;
 				d.dockWindow(get<ProfilerGui>	()->getTitle(), d.getNode(d.LeftUp));
-				d.dockWindow(get<BrowserGui>	()->getTitle(), d.getNode(d.LeftUp));
 				d.dockWindow(get<ResourceGui>	()->getTitle(), d.getNode(d.LeftUp));
 				d.dockWindow(get<BuilderGui>	()->getTitle(), d.getNode(d.LeftUp));
+				d.dockWindow(get<BrowserGui>	()->getTitle(), d.getNode(d.LeftDn));
 				d.dockWindow(get<TerminalGui>	()->getTitle(), d.getNode(d.LeftDn));
 			}
 			break;
@@ -344,17 +344,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		get<DockspaceGui>()->onGui(ev);
 
-		// TerminalGui
-		/* * * * * * * * * * * * * * * * * * * * */
-		get<TerminalGui>()->onGui(ev);
-
 		// ProfilerGui
 		/* * * * * * * * * * * * * * * * * * * * */
 		get<ProfilerGui>()->onGui(ev);
-
-		// BrowserGui
-		/* * * * * * * * * * * * * * * * * * * * */
-		get<BrowserGui>()->onGui(ev);
 
 		// Project
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -363,6 +355,14 @@ namespace ml
 		// BuilderGui
 		/* * * * * * * * * * * * * * * * * * * * */
 		get<BuilderGui>()->onGui(ev);
+
+		// BrowserGui
+		/* * * * * * * * * * * * * * * * * * * * */
+		get<BrowserGui>()->onGui(ev);
+
+		// TerminalGui
+		/* * * * * * * * * * * * * * * * * * * * */
+		get<TerminalGui>()->onGui(ev);
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)

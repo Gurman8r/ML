@@ -38,7 +38,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		void serialize(std::ostream & out) const override;
+		void serialize(OStream & out) const override;
 		bool equals(const VideoSettings & value) const override;
 		bool lessThan(const VideoSettings & value) const override;
 

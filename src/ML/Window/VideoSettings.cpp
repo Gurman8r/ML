@@ -88,7 +88,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void VideoSettings::serialize(std::ostream & out) const
+	void VideoSettings::serialize(OStream & out) const
 	{
 		out << resolution << " " << colorDepth;
 	}

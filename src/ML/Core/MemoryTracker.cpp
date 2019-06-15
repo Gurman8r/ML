@@ -20,7 +20,7 @@ namespace ml
 	{
 	}
 
-	std::ostream & operator<<(std::ostream & out, const MemoryTracker::Record & value)
+	OStream & operator<<(OStream & out, const MemoryTracker::Record & value)
 	{
 		return out 
 			<< " { addr: " << value.addr

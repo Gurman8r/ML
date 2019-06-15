@@ -44,7 +44,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool loadValues(std::istream & file, String & line);
+		bool loadValues(IStream & file, String & line);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

@@ -5,7 +5,7 @@
 namespace ml
 {
 	inline static const int32_t ml_Log(
-		std::ostream &	out, 
+		OStream &	out, 
 		const int32_t	exitCode, 
 		const FMT &		color, 
 		const String &	prefix, 
@@ -63,7 +63,7 @@ namespace ml
 		return system(cmd, cout);
 	}
 
-	int32_t Debug::system(CString cmd, std::ostream & out)
+	int32_t Debug::system(CString cmd, OStream & out)
 	{
 		std::array<char, 128> buffer;
 		std::shared_ptr<FILE> file(_popen(cmd, "r"), _pclose);

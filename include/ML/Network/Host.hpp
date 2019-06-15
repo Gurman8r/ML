@@ -22,7 +22,7 @@ namespace ml
 
 		operator bool() const;
 
-		void serialize(std::ostream & out) const override;
+		void serialize(OStream & out) const override;
 
 		bool equals(const Host & copy) const override;
 

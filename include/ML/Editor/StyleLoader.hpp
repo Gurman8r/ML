@@ -22,7 +22,7 @@ namespace ml
 		bool loadFromFile(const String & filename) override;
 
 	public:
-		void serialize(std::ostream & out) const override;
+		void serialize(OStream & out) const override;
 
 	private:
 	};

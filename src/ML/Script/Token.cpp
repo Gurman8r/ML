@@ -182,7 +182,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Token::serialize(std::ostream & out) const
+	void Token::serialize(OStream & out) const
 	{
 		out << FMT()
 			<< FG::White << "[ "

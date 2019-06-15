@@ -11,17 +11,12 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
-#include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/Uniform.hpp>
-#include <ML/Graphics/ShaderAPI.hpp>
-#include <ML/Script/Interpreter.hpp>
-#include <ML/Script/Script.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -40,8 +35,8 @@ namespace DEMO
 	Noobs::Noobs(ml::EventSystem & eventSystem)
 		: EditorPlugin(eventSystem)
 	{
-		eventSystem.addListener(ml::CommandEvent::ID, this);
 		eventSystem.addListener(ml::KeyEvent::ID, this);
+		eventSystem.addListener(ml::MainMenuBarEvent::ID, this);
 		eventSystem.addListener(ml::BuildDockspaceEvent::ID, this);
 	}
 
@@ -56,19 +51,6 @@ namespace DEMO
 
 		switch (*value)
 		{
-			// Command Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case ml::CommandEvent::ID:
-			if (auto ev = value->as<ml::CommandEvent>())
-			{
-				ml::Var v;
-				if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
-				{
-					ml::Debug::logError(v.errorValue());
-				}
-			}
-			break;
-
 			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
 		case ml::KeyEvent::ID:
@@ -77,6 +59,28 @@ namespace DEMO
 			}
 			break;
 
+			// Main Menu Bar Event
+			/* * * * * * * * * * * * * * * * * * * * */
+		case ml::MainMenuBarEvent::ID:
+			if (auto ev = value->as<ml::MainMenuBarEvent>())
+			{
+				switch (ev->menu)
+				{
+				case ml::MainMenuBarEvent::File:
+					break;
+				case ml::MainMenuBarEvent::Edit:
+					break;
+				case ml::MainMenuBarEvent::Window:
+					ImGui::Separator();
+					ImGui::MenuItem("Noobs Scene", "", &self.showScene);
+					break;
+				case ml::MainMenuBarEvent::Help:
+					break;
+				case ml::MainMenuBarEvent::None:
+					break;
+				}
+			}
+			break;
 
 			// Build Dockspace Event
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -95,14 +99,14 @@ namespace DEMO
 	void Noobs::onEnter(const ml::EnterEvent & ev)
 	{
 		// Hello!
-		ml::Debug::log("Hello from {0}!", typeid(*this).name());
+		ml::Debug::log("Hello from \'{0}\'!", (*this));
 	}
 
 	void Noobs::onStart(const ml::StartEvent & ev)
 	{
 		// Surfaces
-		self.sf.main = ev.resources.surfaces.get("sf_noobs_main");
-		self.sf.post = ev.resources.surfaces.get("sf_noobs_post");
+		self.surf_main = ev.resources.surfaces.get("sf_noobs_main");
+		self.surf_post = ev.resources.surfaces.get("sf_noobs_post");
 
 		// Orthographic
 		ml::Transform ortho = ml::Transform::Orthographic({
@@ -159,10 +163,10 @@ namespace DEMO
 				}));
 
 		// Create Entity
-		if (ml::Entity * ent = ev.resources.entities.load("noobs_entity_0"))
+		if (self.ent_main = ev.resources.entities.load("noobs_entity_0"))
 		{
 			// Entity Renderer
-			ml::Renderer * r = ent->add<ml::Renderer>(
+			self.ent_main->add<ml::Renderer>(
 				ev.resources.models.get("sphere32x24"),
 				material
 			);
@@ -172,29 +176,22 @@ namespace DEMO
 	void Noobs::onUpdate(const ml::UpdateEvent & ev)
 	{
 		// Update Surface Sizes
-		self.sf.main->resize(ev.window.getFrameSize());
-		self.sf.post->resize(ev.window.getFrameSize());
+		self.surf_main->resize(ev.window.getFrameSize());
+		self.surf_post->resize(ev.window.getFrameSize());
 	}
 
 	void Noobs::onDraw(const ml::DrawEvent & ev)
 	{
-		// Clear Screen
-		ev.window.clear(ml::Color::Gray);
-
 		// Bind Main Surface
-		self.sf.main->bind();
+		self.surf_main->bind();
 
 		// Clear Screen
 		ev.window.clear(ml::Color::Gray);
 
-		// Draw Renderers
-		for (const auto & pair : ev.resources.entities)
-		{
-			if (pair.first.find("noobs") != ml::String::npos)
-				ev.window.draw(pair.second->get<ml::Renderer>());
-		}
+		// Draw Renderer
+		ev.window.draw(self.ent_main->get<ml::Renderer>());
 
-		// Finalize States
+		// Reset States
 		static ml::RenderStates states(
 			{ true, ml::GL::Greater, 0.01f },
 			{ true },
@@ -206,30 +203,29 @@ namespace DEMO
 		states.apply();
 
 		// Unbind Main Surface
-		self.sf.main->unbind();
+		self.surf_main->unbind();
 
 		// Bind Post Surface
-		self.sf.post->bind();
+		self.surf_post->bind();
 		
 		// Draw Main Surface
-		if (const ml::Shader * shader = self.sf.main->shader())
+		if (const ml::Shader * shader = self.surf_main->shader())
 		{
 			shader->setUniform("Effect.mode", 0);
 		}
-		ev.window.draw(*self.sf.main);
+		ev.window.draw(*self.surf_main);
 
 		// Unbind Post Surface
-		self.sf.post->unbind();
+		self.surf_post->unbind();
 	}
 
 	void Noobs::onGui(const ml::GuiEvent & ev)
 	{
 		// Noobs Scene
 		/* * * * * * * * * * * * * * * * * * * * */
-		static bool showScene = true;
 		ML_EditorUtility.DrawWindow(
 			"Noobs Scene",
-			&showScene,
+			self.showScene,
 			ImGuiWindowFlags_MenuBar,
 			[&]()
 		{
@@ -237,33 +233,33 @@ namespace DEMO
 
 			if (ImGui::BeginMenuBar())
 			{
-				ImGui::Text("Noobs Scene");
+				ImGui::MenuItem("Noobs Scene");
 				ImGui::EndMenuBar();
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			ml::Texture * texture = &self.sf.post->texture();
-			if (!texture || !(*texture))
-				return;
-
-			auto scaleToFit = [](const ml::vec2 & src, const ml::vec2 & dst)
+			ml::Texture * texture = &self.surf_post->texture();
+			if (texture && (*texture))
 			{
-				const ml::vec2
-					hs = (dst[0] / src[0]),
-					vs = (dst[1] / src[1]);
-				return (src * (((hs) < (vs)) ? (hs) : (vs)));
-			};
+				auto scaleToFit = [](const ml::vec2 & src, const ml::vec2 & dst)
+				{
+					const ml::vec2
+						hs = (dst[0] / src[0]),
+						vs = (dst[1] / src[1]);
+					return (src * (((hs) < (vs)) ? (hs) : (vs)));
+				};
 
-			const ml::vec2 src = texture->size();
-			const ml::vec2 dst = ml::EditorUtility::getWindowSize();
-			const ml::vec2 scl = scaleToFit(src, dst);
-			const ml::vec2 pos = ((dst - scl) * 0.5f);
+				const ml::vec2 src = texture->size();
+				const ml::vec2 dst = ml::EditorUtility::getWindowSize();
+				const ml::vec2 scl = scaleToFit(src, dst);
+				const ml::vec2 pos = ((dst - scl) * 0.5f);
 
-			ImGui::BeginChild("Viewport", { -1, -1 });
-			ImGui::SetCursorPos({ pos[0], pos[1] });
-			ImGui::Image(texture->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
-			ImGui::EndChild();
+				ImGui::BeginChild("Viewport", { -1, -1 });
+				ImGui::SetCursorPos({ pos[0], pos[1] });
+				ImGui::Image(texture->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::EndChild();
+			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		});

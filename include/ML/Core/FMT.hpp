@@ -90,7 +90,7 @@ namespace ml
 		{
 		}
 
-		friend std::ostream & operator<<(std::ostream &, const FMT &);
+		friend OStream & operator<<(OStream &, const FMT &);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -107,17 +107,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline std::ostream & operator<<(std::ostream & out, const FG & value)
+	inline OStream & operator<<(OStream & out, const FG & value)
 	{
 		return out << FMT { value, BG::None };
 	}
 
-	inline std::ostream & operator<<(std::ostream & out, const BG & value)
+	inline OStream & operator<<(OStream & out, const BG & value)
 	{
 		return out << FMT { FG::None, value };
 	}
 
-	inline std::ostream & operator<<(std::ostream & out, const FMT & value)
+	inline OStream & operator<<(OStream & out, const FMT & value)
 	{
 		if ((value.fg != FG::None) && (value.bg != BG::None))
 		{

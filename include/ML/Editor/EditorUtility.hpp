@@ -16,24 +16,28 @@ namespace ml
 		friend class ISingleton<EditorUtility>;
 
 	public:
+		static vec2 getCursorPos();
 		static vec2 getWindowPos();
 		static vec2 getWindowSize();
 
 	public:
-		static bool BeginWindow(CString name, bool * p_open, const int32_t flags = 0);
+		static bool BeginWindow(CString name, bool & open, const int32_t flags = 0);
 		static void EndWindow();
 
 	public:
 		template <
 			class Fun, class ... Args
 		> inline static void DrawWindow(
-			CString name, bool * p_open, int32_t flags, Fun && fun, Args && ... args)
+			CString name, bool & open, int32_t flags, Fun && fun, Args && ... args)
 		{	
-			if (BeginWindow(name, p_open, flags))
+			if (open)
 			{
-				fun(std::forward<Args>(args)...);
+				if (BeginWindow(name, open, flags))
+				{
+					fun((args)...);
+				}
+				EndWindow();
 			}
-			EndWindow();
 		}
 	};
 

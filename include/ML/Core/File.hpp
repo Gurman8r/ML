@@ -34,7 +34,7 @@ namespace ml
 		
 		bool loadFromFile(const String & filename) override;
 		bool saveToFile(const String & filename) const override;
-		void serialize(std::ostream & out) const override;
+		void serialize(OStream & out) const override;
 
 	public:
 		inline File & operator=(const String & value)

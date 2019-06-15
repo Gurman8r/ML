@@ -26,6 +26,7 @@ namespace ml
 			EV_Gui,
 			EV_EndGui,
 
+			EV_MainMenuBar,
 			EV_BuildDockspace,
 
 			EV_File_New,
@@ -69,6 +70,24 @@ namespace ml
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_EDITOR_API MainMenuBarEvent final : public IEvent<EditorEvent::EV_MainMenuBar>
+	{
+		enum Menu : int32_t
+		{ 
+			None,
+			File, Edit, Window, Help,
+			MAX_MAIN_MENU_BAR_MENU
+		};
+
+		Editor & editor;
+		const Menu menu;
+		MainMenuBarEvent(Editor & editor, const Menu menu)
+			: editor(editor)
+			, menu(menu)
+		{
+		}
+	};
 
 	struct ML_EDITOR_API BuildDockspaceEvent final : public IEvent<EditorEvent::EV_BuildDockspace>
 	{

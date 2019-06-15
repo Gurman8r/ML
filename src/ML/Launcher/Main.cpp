@@ -25,9 +25,10 @@ using namespace ml;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 static Preferences	g_Preferences	{ ML_CONFIG_INI };
-static EventSystem	g_EventSystem	{};
-static Resources	g_Resources		{};
-static GameTime		g_Time			{};
+static EventSystem	g_EventSystem	{ };
+static Resources	g_Resources		{ };
+static GameTime		g_Time			{ };
+static PluginMap	g_Plugins		{ };
 static RenderWindow g_Window		{ g_EventSystem };
 static Engine		g_Engine		{ g_EventSystem };
 static Editor		g_Editor		{ g_EventSystem };
@@ -128,8 +129,7 @@ static StateMachine<State> g_ControlFlow
 
 int32_t main()
 {
-	// Setup
-	Map<SharedLibrary *, Plugin *> plugins;
+	// Load Plugins
 	if (auto file = std::ifstream(ML_FS.getPathTo(g_Preferences.GetString(
 		"Launcher",
 		"plugin_list",
@@ -149,22 +149,22 @@ int32_t main()
 			));
 
 			// Load Plugin
-			if (auto plugin = plugins.insert({
+			if (auto plugin = g_Plugins.insert({
 				library,
 				library->callFunction<Plugin *>(ML_str(ML_Plugin_Main), g_EventSystem)
 				}).first->second)
 			{
-				Debug::log("Loaded: \'{0}\'", library->filename());
+				Debug::log("Loaded Plugin: \'{0}\'", line);
 			}
 		}
 		file.close();
 	}
 
-	// Run
+	// Run Controller
 	g_ControlFlow(State::Startup);
 
-	// Cleanup
-	for (auto & pair : plugins)
+	// Cleanup Plugins
+	for (auto & pair : g_Plugins)
 	{
 		if (pair.second) { delete pair.second; }
 		if (pair.first)  { delete pair.first;  }

@@ -108,9 +108,9 @@ namespace ml
 	using IStream	= typename std::istream;
 	using StreamBuf = typename std::streambuf;
 
-	static std::ostream & cout  { std::cout };
-	static std::ostream & cerr  { std::cerr };
-	static std::istream & cin	{ std::cin	};
+	static OStream & cout  { std::cout };
+	static OStream & cerr  { std::cerr };
+	static IStream & cin	{ std::cin	};
 
 	template <class Elem, class Traits>
 	inline std::basic_ostream<Elem, Traits> & endl(std::basic_ostream<Elem, Traits> & out)

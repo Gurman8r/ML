@@ -12,6 +12,7 @@
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Script/Script.hpp>
 #include <ML/Script/ScriptEvents.hpp>
 #include <ML/Script/Interpreter.hpp>
 #include <ML/Window/WindowEvents.hpp>
@@ -47,28 +48,28 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID:		return onEnter		(*value->as<EnterEvent>());
-		case LoadEvent::ID:			return onLoad		(*value->as<LoadEvent>());
-		case StartEvent::ID:		return onStart		(*value->as<StartEvent>());
+		case EnterEvent::ID		:	return onEnter		(*value->as<EnterEvent>());
+		case LoadEvent::ID		:	return onLoad		(*value->as<LoadEvent>());
+		case StartEvent::ID		:	return onStart		(*value->as<StartEvent>());
 		case BeginFrameEvent::ID:	return onBeginFrame	(*value->as<BeginFrameEvent>());
-		case UpdateEvent::ID:		return onUpdate		(*value->as<UpdateEvent>());
-		case BeginDrawEvent::ID:	return onBeginDraw	(*value->as<BeginDrawEvent>());
-		case DrawEvent::ID:			return onDraw		(*value->as<DrawEvent>());
-		case EndDrawEvent::ID:		return onEndDraw	(*value->as<EndDrawEvent>());
-		case EndFrameEvent::ID:		return onEndFrame	(*value->as<EndFrameEvent>());
-		case UnloadEvent::ID:		return onUnload		(*value->as<UnloadEvent>());
-		case ExitEvent::ID:			return onExit		(*value->as<ExitEvent>());
+		case UpdateEvent::ID	:	return onUpdate		(*value->as<UpdateEvent>());
+		case BeginDrawEvent::ID	:	return onBeginDraw	(*value->as<BeginDrawEvent>());
+		case DrawEvent::ID		:	return onDraw		(*value->as<DrawEvent>());
+		case EndDrawEvent::ID	:	return onEndDraw	(*value->as<EndDrawEvent>());
+		case EndFrameEvent::ID	:	return onEndFrame	(*value->as<EndFrameEvent>());
+		case UnloadEvent::ID	:	return onUnload		(*value->as<UnloadEvent>());
+		case ExitEvent::ID		:	return onExit		(*value->as<ExitEvent>());
 
 			// Command Event
 			/* * * * * * * * * * * * * * * * * * * * */
 		case CommandEvent::ID:
 			if (auto ev = value->as<CommandEvent>())
 			{
-				//Var v;
-				//if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
-				//{
-				//	Debug::logError(v.errorValue());
-				//}
+				Var v;
+				if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
+				{
+					Debug::logError(v.errorValue());
+				}
 			}
 			break;
 
@@ -208,6 +209,16 @@ namespace ml
 			const Image temp = Image(*icon).flipVertically();
 
 			ev.window.setIcons({ temp });
+		}
+
+		// Run Boot Script
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Script * scr = ev.resources.scripts.get("hello"))
+		{
+			if (!(scr->buildAndRun(ml::Args(__argc, __argv))))
+			{
+				ml::Debug::logError("Failed Running \'{0}\'", scr->path());
+			}
 		}
 	}
 

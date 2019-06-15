@@ -33,7 +33,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool ManifestItem::loadValues(std::istream & file, String & line)
+	bool ManifestItem::loadValues(IStream & file, String & line)
 	{
 		if (line.empty() || (line.trim().front() == '#'))
 		{

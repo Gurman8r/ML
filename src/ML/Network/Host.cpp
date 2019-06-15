@@ -32,7 +32,7 @@ namespace ml
 		return (addr && port);
 	}
 
-	inline void Host::serialize(std::ostream & out) const
+	inline void Host::serialize(OStream & out) const
 	{
 		out << addr;
 	}

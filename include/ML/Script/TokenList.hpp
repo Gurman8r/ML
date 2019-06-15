@@ -136,7 +136,7 @@ namespace ml
 		}
 
 	public:
-		void serialize(std::ostream & out) const override;
+		void serialize(OStream & out) const override;
 		bool equals(const TokenList & value) const override;
 		bool lessThan(const TokenList & value) const override;
 

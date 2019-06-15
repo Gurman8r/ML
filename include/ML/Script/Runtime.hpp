@@ -29,7 +29,7 @@ namespace ml
 		~Runtime();
 
 	public:
-		std::ostream& display(std::ostream& out) const;
+		OStream& display(OStream& out) const;
 
 		void	clean();
 

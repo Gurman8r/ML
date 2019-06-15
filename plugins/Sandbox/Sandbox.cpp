@@ -21,7 +21,6 @@
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
-#include <ML/Graphics/ShaderAPI.hpp>
 #include <ML/Graphics/Skybox.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
@@ -36,8 +35,6 @@
 #include <ML/Engine/Rigidbody.hpp>
 #include <ML/Engine/SphereCollider.hpp>
 #include <ML/Engine/BoxCollider.hpp>
-#include <ML/Script/Interpreter.hpp>
-#include <ML/Script/Script.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -56,15 +53,15 @@ namespace DEMO
 	Sandbox::Sandbox(ml::EventSystem & eventSystem)
 		: EditorPlugin(eventSystem)
 	{
-		eventSystem.addListener(ml::CommandEvent::ID, this);
 		eventSystem.addListener(ml::KeyEvent::ID, this);
+		eventSystem.addListener(ml::MainMenuBarEvent::ID, this);
 		eventSystem.addListener(ml::BuildDockspaceEvent::ID, this);
 	}
 
 	Sandbox::~Sandbox() {}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
+
 	void Sandbox::onEvent(const ml::Event * value)
 	{
 		// Handle base events
@@ -72,19 +69,6 @@ namespace DEMO
 
 		switch (*value)
 		{
-			// Command Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case ml::CommandEvent::ID:
-			if (auto ev = value->as<ml::CommandEvent>())
-			{
-				ml::Var v;
-				if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
-				{
-					ml::Debug::logError(v.errorValue());
-				}
-			}
-			break;
-
 			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
 		case ml::KeyEvent::ID:
@@ -93,6 +77,27 @@ namespace DEMO
 			}
 			break;
 
+		case ml::MainMenuBarEvent::ID:
+			if (auto ev = value->as<ml::MainMenuBarEvent>())
+			{
+				switch (ev->menu)
+				{
+				case ml::MainMenuBarEvent::File:
+					break;
+				case ml::MainMenuBarEvent::Edit:
+					break;
+				case ml::MainMenuBarEvent::Window:
+					ImGui::Separator();
+					ImGui::MenuItem("Sandbox Scene", "", &self.showScene);
+					ImGui::MenuItem("Sandbox Inspector", "", &self.showInspector);
+					break;
+				case ml::MainMenuBarEvent::Help:
+					break;
+				case ml::MainMenuBarEvent::None:
+					break;
+				}
+			}
+			break;
 
 			// Build Dockspace Event
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -112,31 +117,12 @@ namespace DEMO
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
 		// Hello!
-		ml::Debug::log("Hello from {0}!", typeid(*this).name());
+		ml::Debug::log("Hello from \'{0}\'!", (*this));
 	}
 
 	void Sandbox::onStart(const ml::StartEvent & ev)
 	{
-		// Set Window Icon
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (const ml::Image * icon = ev.resources.images.get("icon"))
-		{
-			const ml::Image temp = ml::Image(*icon).flipVertically();
-
-			ev.window.setIcons({ temp });
-		}
-
-		// Run Boot Script
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (ml::Script * scr = ev.resources.scripts.get("hello"))
-		{
-			if (!(scr->buildAndRun(ml::Args(__argc, __argv))))
-			{
-				ml::Debug::logError("Failed Running \'{0}\'", scr->path());
-			}
-		}
-
-		// Create 2D Buffers
+		// Buffers
 		/* * * * * * * * * * * * * * * * * * * * */
 		self.vao.create(ml::GL::Triangles).bind();
 		self.vbo.create(ml::GL::DynamicDraw).bind();
@@ -145,7 +131,7 @@ namespace DEMO
 		self.vbo.unbind();
 		self.vao.unbind();
 
-		// Setup Sprites
+		// Sprites
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ml::Sprite * spr = ev.resources.sprites.get("neutrino"))
 		{
@@ -156,310 +142,306 @@ namespace DEMO
 				.setColor	(ml::Color::White);
 		}
 
-		// Setup Entities
+		// Camera
 		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Entity * ent = ev.resources.entities.get("camera"))
 		{
-			// Camera
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev.resources.entities.get("camera"))
-			{
-				self.camera = ent;
+			self.camera = ent;
 
-				ml::Camera * camera = ent->add<ml::Camera>();
-				camera->color = { ml::vec3 { 0.198f }, 1.0f };
-				camera->position = { 0.0f, 1.0f, 10.0f };
-				camera->forward(ml::vec3::Back);
+			ml::Camera * camera = ent->add<ml::Camera>();
+			camera->color = { ml::vec3 { 0.198f }, 1.0f };
+			camera->position = { 0.0f, 1.0f, 10.0f };
+			camera->forward(ml::vec3::Back);
 
-				ml::Transform * transform = ent->add<ml::Transform>();
-				transform->lookAt(camera->position, camera->forward());
-			}
+			ml::Transform * transform = ent->add<ml::Transform>();
+			transform->lookAt(camera->position, camera->forward());
+		}
 
-			// Light
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev.resources.entities.get("light"))
-			{
-				self.light = ent;
+		// Light
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Entity * ent = ev.resources.entities.get("light"))
+		{
+			self.light = ent;
 
-				ml::Transform * transform = ent->add<ml::Transform>(
-					ml::vec3 { 0.0f, 1.0f, 30.0f }, // position
-					ml::vec3 { 1.0f }, // scale
-					ml::quat { } // rotation
-				);
+			ml::Transform * transform = ent->add<ml::Transform>(
+				ml::vec3 { 0.0f, 1.0f, 30.0f }, // position
+				ml::vec3 { 1.0f }, // scale
+				ml::quat { } // rotation
+			);
 
-				ml::Light * light = ent->add<ml::Light>(
-					ml::Color::LightYellow
-				);
+			ml::Light * light = ent->add<ml::Light>(
+				ml::Color::LightYellow
+			);
 
-				const ml::Material * material = ev.resources.materials.load_forward(
-					"mat_light",
-					ev.resources.shaders.get("solid"),
-					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		self.camera->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		self.camera->get<ml::Transform>()->getMat()),
-						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_col4_cr	(ML_FRAG_MAIN_COL,	light->color),
-						}));
+			const ml::Material * material = ev.resources.materials.load_forward(
+				"mat_light",
+				ev.resources.shaders.get("solid"),
+				ml::List<ml::uni_base *>({
+					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
+					new ml::uni_col4_cr	("Frag.mainCol",	light->color),
+					}));
 
-				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev.resources.models.get("sphere8x6"),
-					material
-				);
-			}
+			ml::Renderer * renderer = ent->add<ml::Renderer>(
+				ev.resources.models.get("sphere8x6"),
+				material
+			);
+		}
 
-			// Borg
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev.resources.entities.get("borg"))
-			{
-				ml::Transform * transform = ent->add<ml::Transform>(
-					ml::vec3 { 5.0f, 0.0f, 0.0f }, // position
-					ml::vec3 { 1.0f }, // scale
-					ml::quat { } // rotation
-				);
+		// Borg
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Entity * ent = ev.resources.entities.get("borg"))
+		{
+			ml::Transform * transform = ent->add<ml::Transform>(
+				ml::vec3 { 5.0f, 0.0f, 0.0f }, // position
+				ml::vec3 { 1.0f }, // scale
+				ml::quat { } // rotation
+			);
 
-				ml::BoxCollider * collider = ent->add<ml::BoxCollider>(
-					transform->getScl() // size
-				);
+			ml::BoxCollider * collider = ent->add<ml::BoxCollider>(
+				transform->getScl() // size
+			);
 
-				ml::Particle * particle = ent->add<ml::Particle>(
-					transform->getPos(), // position
-					1.0f // mass
-				);
+			ml::Particle * particle = ent->add<ml::Particle>(
+				transform->getPos(), // position
+				1.0f // mass
+			);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
-					RB_BORG, transform, collider, particle
-				));
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+				RB_BORG, transform, collider, particle
+			));
 
-				const ml::Material * material = ev.resources.materials.load_forward(
-					"mat_borg",
-					ev.resources.shaders.get("basic"),
-					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		self.camera->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		self.camera->get<ml::Transform>()->getMat()),
-						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex2	(ML_FRAG_MAIN_TEX,	ev.resources.textures.get("borg")),
-						}));
+			const ml::Material * material = ev.resources.materials.load_forward(
+				"mat_borg",
+				ev.resources.shaders.get("basic"),
+				ml::List<ml::uni_base *>({
+					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
+					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("borg")),
+					}));
 
-				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev.resources.models.get("default_cube"),
-					material
-				);
-			}
+			ml::Renderer * renderer = ent->add<ml::Renderer>(
+				ev.resources.models.get("default_cube"),
+				material
+			);
+		}
 
-			// Cube
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev.resources.entities.get("cube"))
-			{
-				ml::Transform * transform = ent->add<ml::Transform>(
-					ml::vec3 { 0.0f, 0.0f, -5.0f }, // position
-					ml::vec3 { 0.5f }, // scale
-					ml::quat { } // rotation
-				);
+		// Cube
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Entity * ent = ev.resources.entities.get("cube"))
+		{
+			ml::Transform * transform = ent->add<ml::Transform>(
+				ml::vec3 { 0.0f, 0.0f, -5.0f }, // position
+				ml::vec3 { 0.5f }, // scale
+				ml::quat { } // rotation
+			);
 
-				ml::BoxCollider * collider = ent->add<ml::BoxCollider>(
-					transform->getScl() // size
-				);
+			ml::BoxCollider * collider = ent->add<ml::BoxCollider>(
+				transform->getScl() // size
+			);
 
-				ml::Particle * particle = ent->add<ml::Particle>(
-					transform->getPos(), // position
-					1.0f // mass
-				);
+			ml::Particle * particle = ent->add<ml::Particle>(
+				transform->getPos(), // position
+				1.0f // mass
+			);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
-					RB_CUBE, transform, collider, particle
-				));
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+				RB_CUBE, transform, collider, particle
+			));
 
-				const ml::Material * material = ev.resources.materials.load_forward(
-					"mat_cube",
-					ev.resources.shaders.get("normal"),
-					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		self.camera->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		self.camera->get<ml::Transform>()->getMat()),
-						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex2	(ML_FRAG_MAIN_TEX,	ev.resources.textures.get("stone_dm")),
-						}));
+			const ml::Material * material = ev.resources.materials.load_forward(
+				"mat_cube",
+				ev.resources.shaders.get("normal"),
+				ml::List<ml::uni_base *>({
+					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
+					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("stone_dm")),
+					}));
 
-				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev.resources.models.get("cube"),
-					material
-				);
-			}
+			ml::Renderer * renderer = ent->add<ml::Renderer>(
+				ev.resources.models.get("cube"),
+				material
+			);
+		}
 
-			// Navball
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev.resources.entities.get("navball"))
-			{
-				ml::Transform * transform = ent->add<ml::Transform>(
-					ml::vec3 { -5.0f, 0.0f, 0.0f }, // position
-					ml::vec3 { 0.5f }, // scale
-					ml::quat { } // rotation
-				);
+		// Navball
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Entity * ent = ev.resources.entities.get("navball"))
+		{
+			ml::Transform * transform = ent->add<ml::Transform>(
+				ml::vec3 { -5.0f, 0.0f, 0.0f }, // position
+				ml::vec3 { 0.5f }, // scale
+				ml::quat { } // rotation
+			);
 
-				ml::SphereCollider * collider = ent->add<ml::SphereCollider>(
-					transform->getScl()[1] // radius
-				);
+			ml::SphereCollider * collider = ent->add<ml::SphereCollider>(
+				transform->getScl()[1] // radius
+			);
 
-				ml::Particle * particle = ent->add<ml::Particle>(
-					transform->getPos(), // position
-					1.0f // mass
-				);
+			ml::Particle * particle = ent->add<ml::Particle>(
+				transform->getPos(), // position
+				1.0f // mass
+			);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
-					RB_NAVBALL, transform, collider, particle
-				));
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+				RB_NAVBALL, transform, collider, particle
+			));
 
-				const ml::Material * material = ev.resources.materials.load_forward(
-					"mat_navball",
-					ev.resources.shaders.get("basic"),
-					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		self.camera->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		self.camera->get<ml::Transform>()->getMat()),
-						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex2	(ML_FRAG_MAIN_TEX,	ev.resources.textures.get("navball")),
-						}));
+			const ml::Material * material = ev.resources.materials.load_forward(
+				"mat_navball",
+				ev.resources.shaders.get("basic"),
+				ml::List<ml::uni_base *>({
+					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
+					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("navball")),
+					}));
 
-				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev.resources.models.get("sphere32x24"),
-					material
-				);
-			}
+			ml::Renderer * renderer = ent->add<ml::Renderer>(
+				ev.resources.models.get("sphere32x24"),
+				material
+			);
+		}
 
-			// Moon
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev.resources.entities.get("moon"))
-			{
-				ml::Transform * transform = ent->add<ml::Transform>(
-					ml::vec3 { 0.0f, 0.0f, 5.0f }, // position
-					ml::vec3 { 0.5f }, // scale
-					ml::quat { } // rotation
-				);
+		// Moon
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Entity * ent = ev.resources.entities.get("moon"))
+		{
+			ml::Transform * transform = ent->add<ml::Transform>(
+				ml::vec3 { 0.0f, 0.0f, 5.0f }, // position
+				ml::vec3 { 0.5f }, // scale
+				ml::quat { } // rotation
+			);
 
-				ml::SphereCollider * collider = ent->add<ml::SphereCollider>(
-					transform->getScl()[1] // radius
-				);
+			ml::SphereCollider * collider = ent->add<ml::SphereCollider>(
+				transform->getScl()[1] // radius
+			);
 
-				ml::Particle * particle = ent->add<ml::Particle>(
-					transform->getPos(), // position
-					1.0f // mass
-				);
+			ml::Particle * particle = ent->add<ml::Particle>(
+				transform->getPos(), // position
+				1.0f // mass
+			);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
-					RB_MOON, transform, collider, particle
-				));
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+				RB_MOON, transform, collider, particle
+			));
 
-				const ml::Material * material = ev.resources.materials.load_forward(
-					"mat_moon",
-					ev.resources.shaders.get("lighting"),
-					ml::List<ml::uni_base *> ({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		self.camera->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		self.camera->get<ml::Transform>()->getMat()),
-						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_vec3_cr	("Frag.cameraPos",	self.camera->get<ml::Transform>()->getPos()),
-						new ml::uni_vec3_cr	("Frag.lightPos",	self.light->get<ml::Transform>()->getPos()),
-						new ml::uni_col4_cr	("Frag.diffuse",	self.light->get<ml::Light>()->color),
-						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex2	(ML_FRAG_MAIN_TEX,	ev.resources.textures.get("moon_dm")),
-						new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("moon_nm")),
-						new ml::uni_flt1	("Frag.ambient",	0.01f),
-						new ml::uni_flt1	("Frag.specular",	0.1f),
-						new ml::uni_int1	("Frag.shininess",	8),
-						}));
+			const ml::Material * material = ev.resources.materials.load_forward(
+				"mat_moon",
+				ev.resources.shaders.get("lighting"),
+				ml::List<ml::uni_base *> ({
+					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
+					new ml::uni_vec3_cr	("Frag.cameraPos",	self.camera->get<ml::Transform>()->getPos()),
+					new ml::uni_vec3_cr	("Frag.lightPos",	self.light->get<ml::Transform>()->getPos()),
+					new ml::uni_col4_cr	("Frag.diffuse",	self.light->get<ml::Light>()->color),
+					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("moon_dm")),
+					new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("moon_nm")),
+					new ml::uni_flt1	("Frag.ambient",	0.01f),
+					new ml::uni_flt1	("Frag.specular",	0.1f),
+					new ml::uni_int1	("Frag.shininess",	8),
+					}));
 
-				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev.resources.models.get("sphere32x24"),
-					material
-				);
-			}
+			ml::Renderer * renderer = ent->add<ml::Renderer>(
+				ev.resources.models.get("sphere32x24"),
+				material
+			);
+		}
 
-			// Earth
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev.resources.entities.get("earth"))
-			{
-				ml::Transform * transform = ent->add<ml::Transform>(
-					ml::vec3 { 0.0f }, // position
-					ml::vec3 { 1.0f }, // scale
-					ml::quat { } // rotation
-				);
+		// Earth
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Entity * ent = ev.resources.entities.get("earth"))
+		{
+			ml::Transform * transform = ent->add<ml::Transform>(
+				ml::vec3 { 0.0f }, // position
+				ml::vec3 { 1.0f }, // scale
+				ml::quat { } // rotation
+			);
 
-				ml::SphereCollider * collider = ent->add<ml::SphereCollider>(
-					transform->getScl()[0] // radius
-				);
-				collider->center_world = transform->getPos();
+			ml::SphereCollider * collider = ent->add<ml::SphereCollider>(
+				transform->getScl()[0] // radius
+			);
+			collider->center_world = transform->getPos();
 
-				ml::Particle * particle = ent->add<ml::Particle>(
-					transform->getPos(), // position
-					0.25f // mass
-				);
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
-					RB_EARTH, transform, collider, particle
-				));
+			ml::Particle * particle = ent->add<ml::Particle>(
+				transform->getPos(), // position
+				0.25f // mass
+			);
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+				RB_EARTH, transform, collider, particle
+			));
 
-				const ml::Material * material = ev.resources.materials.load_forward(
-					"mat_earth",
-					ev.resources.shaders.get("lighting"),
-					ml::List<ml::uni_base *> ({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		self.camera->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		self.camera->get<ml::Transform>()->getMat()),
-						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_vec3_cr	("Frag.cameraPos",	self.camera->get<ml::Transform>()->getPos()),
-						new ml::uni_vec3_cr	("Frag.lightPos",	self.light->get<ml::Transform>()->getPos()),
-						new ml::uni_col4_cr	("Frag.diffuse",	self.light->get<ml::Light>()->color),
-						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex2	(ML_FRAG_MAIN_TEX,	ev.resources.textures.get("earth_dm")),
-						new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("earth_sm")),
-						new ml::uni_flt1	("Frag.ambient",	0.01f),
-						new ml::uni_flt1	("Frag.specular",	0.1f),
-						new ml::uni_int1	("Frag.shininess",	8),
-						}));
+			const ml::Material * material = ev.resources.materials.load_forward(
+				"mat_earth",
+				ev.resources.shaders.get("lighting"),
+				ml::List<ml::uni_base *> ({
+					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
+					new ml::uni_vec3_cr	("Frag.cameraPos",	self.camera->get<ml::Transform>()->getPos()),
+					new ml::uni_vec3_cr	("Frag.lightPos",	self.light->get<ml::Transform>()->getPos()),
+					new ml::uni_col4_cr	("Frag.diffuse",	self.light->get<ml::Light>()->color),
+					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
+					new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("earth_sm")),
+					new ml::uni_flt1	("Frag.ambient",	0.01f),
+					new ml::uni_flt1	("Frag.specular",	0.1f),
+					new ml::uni_int1	("Frag.shininess",	8),
+					}));
 
-				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev.resources.models.get("sphere32x24"),
-					material
-				);
-			}
+			ml::Renderer * renderer = ent->add<ml::Renderer>(
+				ev.resources.models.get("sphere32x24"),
+				material
+			);
+		}
 
-			// Ground
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ml::Entity * ent = ev.resources.entities.get("ground"))
-			{
-				ml::Transform * transform = ent->add<ml::Transform>(
-					ml::vec3 { 0.0f, -2.5f, 0.0f }, // position
-					ml::vec3 { 12.5, 0.25f, 12.5 }, // scale
-					ml::quat { } // rotation
-				);
+		// Ground
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ml::Entity * ent = ev.resources.entities.get("ground"))
+		{
+			ml::Transform * transform = ent->add<ml::Transform>(
+				ml::vec3 { 0.0f, -2.5f, 0.0f }, // position
+				ml::vec3 { 12.5, 0.25f, 12.5 }, // scale
+				ml::quat { } // rotation
+			);
 
-				ml::BoxCollider * collider = ent->add<ml::BoxCollider>(
-					transform->getScl() // size
-				);
-				collider->center_world = transform->getPos();
+			ml::BoxCollider * collider = ent->add<ml::BoxCollider>(
+				transform->getScl() // size
+			);
+			collider->center_world = transform->getPos();
 
-				ml::Particle * particle = ent->add<ml::Particle>(
-					transform->getPos(), // position
-					1.0f // mass
-				);
+			ml::Particle * particle = ent->add<ml::Particle>(
+				transform->getPos(), // position
+				1.0f // mass
+			);
 
-				ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
-					RB_GROUND, transform, collider, particle
-				));
+			ml::Rigidbody * rb = ent->add<ml::Rigidbody>(self.physWorld.createNewRigidbody(
+				RB_GROUND, transform, collider, particle
+			));
 
-				const ml::Material * material = ev.resources.materials.load_forward(
-					"mat_ground",
-					ev.resources.shaders.get("normal"),
-					ml::List<ml::uni_base *>({
-						new ml::uni_mat4_cr	(ML_VERT_PROJ,		self.camera->get<ml::Camera>()->getPerspMatrix()),
-						new ml::uni_mat4_cr	(ML_VERT_VIEW,		self.camera->get<ml::Transform>()->getMat()),
-						new ml::uni_mat4_cr	(ML_VERT_MODEL,		transform->getMat()),
-						new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-						new ml::uni_tex2	(ML_FRAG_MAIN_TEX,	ev.resources.textures.get("stone_dm")),
-						}));
+			const ml::Material * material = ev.resources.materials.load_forward(
+				"mat_ground",
+				ev.resources.shaders.get("normal"),
+				ml::List<ml::uni_base *>({
+					new ml::uni_mat4_cr	("Vert.proj",		self.camera->get<ml::Camera>()->getPerspMatrix()),
+					new ml::uni_mat4_cr	("Vert.view",		self.camera->get<ml::Transform>()->getMat()),
+					new ml::uni_mat4_cr	("Vert.model",		transform->getMat()),
+					new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+					new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("stone_dm")),
+					}));
 
-				ml::Renderer * renderer = ent->add<ml::Renderer>(
-					ev.resources.models.get("cube"),
-					material
-				);
-			}
+			ml::Renderer * renderer = ent->add<ml::Renderer>(
+				ev.resources.models.get("cube"),
+				material
+			);
 		}
 
 		// Setup Physics
@@ -761,9 +743,9 @@ namespace DEMO
 						"mat_sprites",
 						shader,
 						ml::List<ml::uni_base *>({
-							new ml::uni_mat4_cr	(ML_VERT_PROJ,		ortho),
-							new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-							new ml::uni_tex2	(ML_FRAG_MAIN_TEX,	NULL),
+							new ml::uni_mat4_cr	("Vert.proj",		ortho),
+							new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+							new ml::uni_tex2	("Frag.mainTex",	NULL),
 							}));
 					static ml::RenderBatch batch(
 						&self.vao, 
@@ -783,9 +765,9 @@ namespace DEMO
 						"mat_text",
 						shader,
 						ml::List<ml::uni_base *>({
-							new ml::uni_mat4_cr	(ML_VERT_PROJ,		ortho),
-							new ml::uni_col4	(ML_FRAG_MAIN_COL,	ml::Color::White),
-							new ml::uni_tex2	(ML_FRAG_MAIN_TEX,	NULL),
+							new ml::uni_mat4_cr	("Vert.proj",		ortho),
+							new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+							new ml::uni_tex2	("Frag.mainTex",	NULL),
 							}));
 					static ml::RenderBatch batch(
 						&self.vao,
@@ -805,7 +787,7 @@ namespace DEMO
 						"mat_geometry", 
 						shader,
 						ml::List<ml::uni_base *>({
-							new ml::uni_col4(ML_FRAG_MAIN_COL,	{ 0.385f, 0.0f, 1.0f, 1.0f }),
+							new ml::uni_col4("Frag.mainCol",	{ 0.385f, 0.0f, 1.0f, 1.0f }),
 							new ml::uni_int1("Geom.mode",		-1),
 							new ml::uni_flt1("Geom.delta",		1.0f),
 							new ml::uni_flt1("Geom.size",		0.995f),
@@ -839,10 +821,9 @@ namespace DEMO
 	{
 		// Sandbox Scene
 		/* * * * * * * * * * * * * * * * * * * * */
-		static bool showScene = true;
-		ml::EditorUtility::DrawWindow(
+		ML_EditorUtility.DrawWindow(
 			"Sandbox Scene", 
-			&showScene, 
+			self.showScene, 
 			ImGuiWindowFlags_MenuBar, 
 			[&]()
 		{
@@ -850,6 +831,7 @@ namespace DEMO
 
 			if (ImGui::BeginMenuBar())
 			{
+				ImGui::MenuItem("Sandbox Scene");
 				ImGui::EndMenuBar();
 			}
 
@@ -858,27 +840,26 @@ namespace DEMO
 			if (ml::Surface * surface = ev.resources.surfaces.get("sf_sandbox_post"))
 			{
 				ml::Texture * texture = &surface->texture();
-				if (!texture || !(*texture))
-					return;
-
-				const ml::vec2 src = texture->size();
-				const ml::vec2 dst = ml::EditorUtility::getWindowSize();
-
-				auto scaleToFit = [](const ml::vec2 & src, const ml::vec2 & dst)
+				if (texture && (*texture))
 				{
-					const ml::vec2
-						hs = (dst[0] / src[0]),
-						vs = (dst[1] / src[1]);
-					return (src * (((hs) < (vs)) ? (hs) : (vs)));
-				};
+					auto scaleToFit = [](const ml::vec2 & src, const ml::vec2 & dst)
+					{
+						const ml::vec2
+							hs = (dst[0] / src[0]),
+							vs = (dst[1] / src[1]);
+						return (src * (((hs) < (vs)) ? (hs) : (vs)));
+					};
 
-				const ml::vec2 scl = scaleToFit(src, dst);
-				const ml::vec2 pos = ((dst - scl) * 0.5f);
+					const ml::vec2 src = texture->size();
+					const ml::vec2 dst = ml::EditorUtility::getWindowSize();
+					const ml::vec2 scl = scaleToFit(src, dst);
+					const ml::vec2 pos = ((dst - scl) * 0.5f);
 
-				ImGui::BeginChild("Viewport", { -1, -1 });
-				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(texture->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
-				ImGui::EndChild();
+					ImGui::BeginChild("Viewport", { -1, -1 });
+					ImGui::SetCursorPos({ pos[0], pos[1] });
+					ImGui::Image(texture->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+					ImGui::EndChild();
+				}
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -886,13 +867,20 @@ namespace DEMO
 		
 		// Sandbox Inspector
 		/* * * * * * * * * * * * * * * * * * * * */
-		static bool showInspector = true;
-		ml::EditorUtility::DrawWindow(
+		ML_EditorUtility.DrawWindow(
 			"Sandbox Inspector", 
-			&showInspector,
-			ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize, 
+			self.showInspector,
+			ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize,
 			[&]()
 		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::MenuItem("Sandbox Inspector");
+				ImGui::EndMenuBar();
+			}
+
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ImGui::Combo("Effect Mode", &self.effectMode, 

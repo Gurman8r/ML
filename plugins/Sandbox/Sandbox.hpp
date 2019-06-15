@@ -49,7 +49,6 @@ namespace DEMO
 			MAX_DEMO_RIGIDBODY
 		};
 
-
 		struct SandboxData final : public ml::INonCopyable
 		{
 			using TextTable = typename ml::HashMap<ml::String, ml::Text>;
@@ -63,6 +62,9 @@ namespace DEMO
 			float				cameraSpeed = 1.0f;
 			int32_t				effectMode	= 3;
 			ml::PhysicsWorld	physWorld	= {};
+
+			bool showScene		= true;
+			bool showInspector	= true;
 
 		} self;
 

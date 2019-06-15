@@ -6,6 +6,14 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	vec2 EditorUtility::getCursorPos()
+	{
+		return vec2 {
+			ImGui::GetCursorPosX(),
+			ImGui::GetCursorPosY()
+		};
+	}
+
 	vec2 EditorUtility::getWindowPos()
 	{
 		return vec2 {
@@ -24,9 +32,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorUtility::BeginWindow(CString name, bool * p_open, const int32_t flags)
+	bool EditorUtility::BeginWindow(CString name, bool & open, const int32_t flags)
 	{
-		return ImGui::Begin(name, p_open, flags);
+		return ImGui::Begin(name, &open, flags);
 	}
 
 	void EditorUtility::EndWindow()

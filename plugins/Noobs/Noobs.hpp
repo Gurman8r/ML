@@ -3,7 +3,6 @@
 
 #include <ML/Editor/EditorPlugin.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Graphics/Text.hpp>
 #include <ML/Graphics/Surface.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -39,12 +38,11 @@ namespace DEMO
 	private:
 		struct NoobsData : public ml::INonCopyable
 		{
-			// Surfaces
-			struct Sf
-			{
-				ml::Surface * main;
-				ml::Surface * post;
-			} sf;
+			ml::Surface * surf_main;
+			ml::Surface * surf_post;
+			ml::Entity	* ent_main;
+
+			bool showScene = true;
 
 		} self;
 	};

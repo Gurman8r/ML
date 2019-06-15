@@ -101,6 +101,14 @@ namespace ml
 				// Show BuilderGui (Ctrl+Alt+B)
 				if (ev->getKeyDown(KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
 					get<BuilderGui>()->isOpen() = true;
+
+				// Show Profiler (Ctrl+Alt+P)
+				if (ev->getKeyDown(KeyCode::P) && (ev->mod_ctrl))
+					get<ProfilerGui>()->isOpen() = true;
+
+				// Show Resource (Ctrl+Alt+R)
+				if (ev->getKeyDown(KeyCode::R) && (ev->mod_ctrl && ev->mod_alt))
+					get<ResourceGui>()->isOpen() = true;
 			}
 			break;
 
@@ -233,6 +241,12 @@ namespace ml
 				{
 					eventSystem().fireEvent(File_Close_Event());
 				}
+
+				eventSystem().fireEvent(MainMenuBarEvent(
+					(*this),
+					MainMenuBarEvent::File
+				));
+
 				ImGui::EndMenu();
 			}
 
@@ -266,6 +280,12 @@ namespace ml
 				{
 					eventSystem().fireEvent(Edit_Paste_Event());
 				}
+
+				eventSystem().fireEvent(MainMenuBarEvent(
+					(*this),
+					MainMenuBarEvent::Edit
+				));
+
 				ImGui::EndMenu();
 			}
 
@@ -276,8 +296,14 @@ namespace ml
 				ImGui::MenuItem(get<TerminalGui>()->getTitle(), "Ctrl+Alt+T", &get<TerminalGui>()->isOpen());
 				ImGui::MenuItem(get<BrowserGui>()->getTitle(), "Ctrl+Alt+E", &get<BrowserGui>()->isOpen());
 				ImGui::MenuItem(get<BuilderGui>()->getTitle(), "Ctrl+Alt+B", &get<BuilderGui>()->isOpen());
-				ImGui::MenuItem(get<ProfilerGui>()->getTitle(), "", &get<ProfilerGui>()->isOpen());
-				ImGui::MenuItem(get<ResourceGui>()->getTitle(), "", &get<ResourceGui>()->isOpen());
+				ImGui::MenuItem(get<ProfilerGui>()->getTitle(), "Ctrl+Alt+P", &get<ProfilerGui>()->isOpen());
+				ImGui::MenuItem(get<ResourceGui>()->getTitle(), "Ctrl+Alt+R", &get<ResourceGui>()->isOpen());
+
+				eventSystem().fireEvent(MainMenuBarEvent(
+					(*this),
+					MainMenuBarEvent::Window
+				));
+				
 				ImGui::EndMenu();
 			}
 
@@ -295,8 +321,19 @@ namespace ml
 				ImGui::MenuItem("ImGui Metrics", "", &show_imgui_metrics);
 				ImGui::MenuItem("Style Editor", "", &show_imgui_style);
 				ImGui::MenuItem("About Dear ImGui", "", &show_imgui_about);
+
+				eventSystem().fireEvent(MainMenuBarEvent(
+					(*this),
+					MainMenuBarEvent::Help
+				));
+
 				ImGui::EndMenu();
 			}
+
+			eventSystem().fireEvent(MainMenuBarEvent(
+				(*this),
+				MainMenuBarEvent::None
+			));
 
 			ImGui::EndMainMenuBar();
 		}

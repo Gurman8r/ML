@@ -28,7 +28,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline void GUID::serialize(std::ostream & out) const
+	inline void GUID::serialize(OStream & out) const
 	{
 		out << id;
 	}

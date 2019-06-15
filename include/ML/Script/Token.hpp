@@ -93,7 +93,7 @@ namespace ml
 		bool lessThan(const String & value) const override;
 
 	public:
-		void serialize(std::ostream & out) const override;
+		void serialize(OStream & out) const override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

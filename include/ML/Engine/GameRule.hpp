@@ -46,7 +46,7 @@ namespace ml
 		inline value_type * operator->()		{ return &m_value; }
 
 	public:
-		inline void serialize(std::ostream & out) const override {}
+		inline void serialize(OStream & out) const override {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

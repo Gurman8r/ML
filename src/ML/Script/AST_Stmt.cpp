@@ -14,7 +14,7 @@ namespace ml
 	{
 	}
 
-	std::ostream & AST_Stmt::display(std::ostream & out) const
+	OStream & AST_Stmt::display(OStream & out) const
 	{
 		return AST_Node::display(out);
 	}
@@ -43,7 +43,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	std::ostream & AST_Elif::display(std::ostream & out) const
+	OStream & AST_Elif::display(OStream & out) const
 	{
 		return out << FG::Blue << "elif" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -61,7 +61,7 @@ namespace ml
 	{
 	}
 
-	std::ostream & AST_Else::display(std::ostream & out) const
+	OStream & AST_Else::display(OStream & out) const
 	{
 		return out << FG::Blue << "else" << FMT();
 	}
@@ -85,7 +85,7 @@ namespace ml
 		addChild(stmt);
 	}
 
-	std::ostream & AST_For::display(std::ostream & out) const
+	OStream & AST_For::display(OStream & out) const
 	{
 		return out << FG::Blue << "for" << FMT() << "(" << (*assn) << "; " << (*expr) << "; " << (*stmt) << ")";
 	}
@@ -133,7 +133,7 @@ namespace ml
 		addChild(name);
 	}
 
-	std::ostream & AST_Delete::display(std::ostream & out) const
+	OStream & AST_Delete::display(OStream & out) const
 	{
 		return out << FG::Blue << "delete" << FMT() << "(" << (*name) << FMT() << ")";
 	}
@@ -157,7 +157,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	std::ostream & AST_If::display(std::ostream & out) const
+	OStream & AST_If::display(OStream & out) const
 	{
 		return out << FG::Blue << "if" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -243,7 +243,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	std::ostream & AST_Include::display(std::ostream & out) const
+	OStream & AST_Include::display(OStream & out) const
 	{
 		return out << FG::Blue << "include" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -291,7 +291,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	std::ostream & AST_Print::display(std::ostream & out) const
+	OStream & AST_Print::display(OStream & out) const
 	{
 		return out << FG::Blue << (newl ? "printl" : "print") << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -352,7 +352,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	std::ostream & AST_Return::display(std::ostream & out) const
+	OStream & AST_Return::display(OStream & out) const
 	{
 		return out << FG::Blue << "return" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -376,7 +376,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	std::ostream & AST_While::display(std::ostream & out) const
+	OStream & AST_While::display(OStream & out) const
 	{
 		return out << FG::Blue << "while" << FMT() << "(" << (*expr) << FMT() << ")";
 	}

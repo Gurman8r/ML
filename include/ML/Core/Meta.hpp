@@ -723,7 +723,7 @@ namespace ml
 				return self_type::operator()(begin_off, size() - end_off);
 			}
 
-			ML_INLINE friend std::ostream & operator<<(std::ostream & out, const self_type & value)
+			ML_INLINE friend OStream & operator<<(OStream & out, const self_type & value)
 			{
 				for (const auto & elem : value)
 				{
@@ -811,7 +811,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			ML_INLINE friend std::ostream & operator<<(std::ostream & out, const self_type & rhs)
+			ML_INLINE friend OStream & operator<<(OStream & out, const self_type & rhs)
 			{
 				for (const auto & elem : rhs)
 				{
@@ -820,7 +820,7 @@ namespace ml
 				return out;
 			}
 
-			ML_INLINE friend std::istream & operator>>(std::istream & in, self_type & rhs)
+			ML_INLINE friend IStream & operator>>(IStream & in, self_type & rhs)
 			{
 				for (auto & elem : rhs)
 				{
@@ -918,7 +918,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			ML_INLINE friend std::ostream & operator<<(std::ostream & out, const self_type & rhs)
+			ML_INLINE friend OStream & operator<<(OStream & out, const self_type & rhs)
 			{
 				for (size_t y = 0; y < rhs.height(); y++)
 				{
@@ -932,7 +932,7 @@ namespace ml
 				return out;
 			}
 
-			ML_INLINE friend std::istream & operator>>(std::istream & in, self_type & rhs)
+			ML_INLINE friend IStream & operator>>(IStream & in, self_type & rhs)
 			{
 				return in >> rhs.m_data;
 			}
@@ -1465,12 +1465,12 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			ML_INLINE friend std::ostream & operator<<(std::ostream & out, const self_type & rhs)
+			ML_INLINE friend OStream & operator<<(OStream & out, const self_type & rhs)
 			{
 				return out << rhs.m_data;
 			}
 
-			ML_INLINE friend std::istream & operator>>(std::istream & in, self_type & rhs)
+			ML_INLINE friend IStream & operator>>(IStream & in, self_type & rhs)
 			{
 				return in >> rhs.m_data;
 			}

@@ -251,7 +251,7 @@ namespace ml
 		}
 	}
 
-	bool TerminalGui::redirect(std::ostream & value)
+	bool TerminalGui::redirect(OStream & value)
 	{
 		if (m_coutBuf && (m_coutPtr == &value))
 		{

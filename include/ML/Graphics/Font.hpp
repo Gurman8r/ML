@@ -21,7 +21,7 @@ namespace ml
 		{
 			String family;
 
-			inline void serialize(std::ostream & out) const override
+			inline void serialize(OStream & out) const override
 			{
 				out << family;
 			}
@@ -39,7 +39,7 @@ namespace ml
 		const Info	& getInfo() const;
 
 	public:
-		inline void serialize(std::ostream & out) const override
+		inline void serialize(OStream & out) const override
 		{
 			out << getInfo();
 		}

@@ -37,7 +37,7 @@ namespace ml
 		void    printf(CString value, ...);		// Print Format
 		void	printl(const String & value);	// Print Line
 		void	printss(SStream & value);		// Print Stream
-		bool	redirect(std::ostream & value);
+		bool	redirect(OStream & value);
 		int32_t inputCallback(void * value);
 
 	public:

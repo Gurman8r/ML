@@ -20,7 +20,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	std::ostream & Runtime::display(std::ostream & out) const
+	OStream & Runtime::display(OStream & out) const
 	{
 		out << FG::White << "Memory:"
 			<< ml::endl;

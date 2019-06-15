@@ -191,7 +191,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void StyleLoader::serialize(std::ostream & out) const
+	void StyleLoader::serialize(OStream & out) const
 	{
 	}
 

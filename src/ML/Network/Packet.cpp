@@ -24,7 +24,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline void Packet::serialize(std::ostream & out) const
+	inline void Packet::serialize(OStream & out) const
 	{
 		out << addr << " "
 			<< guid << " "

@@ -27,7 +27,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	std::ostream & AST_Block::display(std::ostream & out) const
+	OStream & AST_Block::display(OStream & out) const
 	{
 		auto tab = [](size_t n)
 		{

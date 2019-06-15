@@ -279,7 +279,7 @@ namespace ml
 
 	public: // Overrides
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline virtual void serialize(std::ostream & out) const override
+		inline virtual void serialize(OStream & out) const override
 		{
 			for (size_t y = 0; y < this->rows(); y++)
 			{
@@ -292,7 +292,7 @@ namespace ml
 			out << endl;
 		}
 
-		inline friend std::istream & operator>>(std::istream & in, self_type & value)
+		inline friend IStream & operator>>(IStream & in, self_type & value)
 		{
 			for (size_t i = 0; i < value.size(); i++)
 			{

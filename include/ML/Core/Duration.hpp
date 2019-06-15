@@ -105,7 +105,7 @@ namespace ml
 	
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline friend std::ostream & operator<<(std::ostream & out, const Duration & value)
+		inline friend OStream & operator<<(OStream & out, const Duration & value)
 		{
 			return out
 				<< (((value.hours() % 24) / 10) % 10)

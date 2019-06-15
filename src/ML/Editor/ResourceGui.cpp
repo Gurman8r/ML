@@ -5,6 +5,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
+#include <ML/Editor/EditorUtility.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Entity.hpp>
@@ -822,7 +823,6 @@ namespace ml
 				if (ImGui::TreeNode("Preview"))
 				{
 					const ImGuiIO & io = ImGui::GetIO();
-					ImVec2 pos = ImGui::GetCursorScreenPos();
 
 					auto scaleToFit = [](const vec2 & src, const vec2 & dst)
 					{
@@ -833,6 +833,7 @@ namespace ml
 					};
 
 					vec2 src = pair.second->texture().size();
+					vec2 pos = ML_EditorUtility.getCursorPos();
 					vec2 dst = { 256, 256 };
 					vec2 scl = scaleToFit(src, dst);
 
@@ -856,13 +857,13 @@ namespace ml
 						float region_sz = 64.0f;
 
 						float region_x = ML_CLAMP(
-							io.MousePos.x - pos.x - region_sz * 0.5f,
+							io.MousePos.x - pos[0] - region_sz * 0.5f,
 							0.0f,
 							my_tex_w - region_sz
 						);
 
 						float region_y = ML_CLAMP(
-							my_tex_h - (io.MousePos.y - pos.y - region_sz * 0.5f),
+							my_tex_h - (io.MousePos.y - pos[1] - region_sz * 0.5f),
 							0.0f,
 							my_tex_h - region_sz
 						);
@@ -939,7 +940,6 @@ namespace ml
 				if (ImGui::TreeNode("Preview"))
 				{
 					const ImGuiIO & io = ImGui::GetIO();
-					ImVec2 pos = ImGui::GetCursorScreenPos();
 
 					auto scaleToFit = [](const vec2 & src, const vec2 & dst)
 					{
@@ -950,6 +950,7 @@ namespace ml
 					};
 
 					vec2 src = tex->size();
+					vec2 pos = ML_EditorUtility.getCursorPos();
 					vec2 dst = { 256, 256 };
 					vec2 scl = scaleToFit(src, dst);
 
@@ -973,13 +974,13 @@ namespace ml
 						float region_sz = 64.0f;
 
 						float region_x = ML_CLAMP(
-							io.MousePos.x - pos.x - region_sz * 0.5f,
+							io.MousePos.x - pos[0] - region_sz * 0.5f,
 							0.0f,
 							my_tex_w - region_sz
 						);
 
 						float region_y = ML_CLAMP(
-							my_tex_h - (io.MousePos.y - pos.y - region_sz * 0.5f),
+							my_tex_h - (io.MousePos.y - pos[1] - region_sz * 0.5f),
 							0.0f,
 							my_tex_h - region_sz
 						);
@@ -1010,6 +1011,7 @@ namespace ml
 						ImGui::EndTooltip();
 
 					}
+					
 					ImGui::TreePop();
 				}
 				

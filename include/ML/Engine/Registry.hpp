@@ -25,8 +25,8 @@ namespace ml
 		using value_type	= typename _Elem;
 		using pointer		= typename value_type * ;
 		using const_pointer = typename const value_type *;
-		using map_type		= typename HashMap<String, pointer>;
-		using file_map		= typename HashMap<String, String>;
+		using map_type		= typename Map<String, pointer>;
+		using file_map		= typename Map<String, String>;
 		using pair_type		= typename Pair<String, pointer>;
 		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;
@@ -47,7 +47,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline void serialize(std::ostream & out) const override
+		inline void serialize(OStream & out) const override
 		{
 			for (auto & pair : m_files)
 			{

@@ -21,7 +21,7 @@ namespace ml
 
 		operator uint64_t() const;
 
-		void serialize(std::ostream & out) const override;
+		void serialize(OStream & out) const override;
 
 		bool equals(const uint64_t & value) const override;
 		bool equals(const GUID & value) const override;

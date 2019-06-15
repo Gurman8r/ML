@@ -81,7 +81,7 @@ namespace ml
 	}
 
 
-	void Operator::serialize(std::ostream & out) const
+	void Operator::serialize(OStream & out) const
 	{
 		auto it = std::find_if(Names.begin(), Names.end(), [&](auto && pair)
 		{

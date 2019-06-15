@@ -75,7 +75,7 @@ namespace ml
 			return XString::operator()(begin_offset, size() - end_offset);
 		}
 
-		friend std::ostream & operator<<(std::ostream & out, const XString& str)
+		friend OStream & operator<<(OStream & out, const XString& str)
 		{
 			for (const char c : str)
 			{

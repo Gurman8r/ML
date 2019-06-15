@@ -40,7 +40,7 @@ namespace ml
 			Record(void * addr, const size_t indx, const size_t size);
 			Record(const Record & copy);
 
-			friend std::ostream & operator<<(std::ostream & out, const Record & value);
+			friend OStream & operator<<(OStream & out, const Record & value);
 		};
 
 	public:

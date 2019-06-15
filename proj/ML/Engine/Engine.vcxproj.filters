@@ -31,9 +31,6 @@
     <Filter Include="Source Files\ECS">
       <UniqueIdentifier>{1be3dd64-0b93-4389-8f3b-693a7fdc2ee1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Resources">
-      <UniqueIdentifier>{95074f67-d1ff-4e5a-b1e0-46f9f386952f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Resources">
       <UniqueIdentifier>{d18a9d2d-1c6b-454a-b0bf-5542f511f16b}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="Source Files\Plugins">
       <UniqueIdentifier>{a786ee5b-3469-47f2-8c8b-5f90b5122cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources">
+      <UniqueIdentifier>{95074f67-d1ff-4e5a-b1e0-46f9f386952f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

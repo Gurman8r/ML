@@ -3,7 +3,7 @@
 
 <import>
 	type	=	surface
-	name	=	sf_main_scene
+	name	=	sf_sandbox_main
 	model	=	default_quad
 	shader	=	surface
 	width	=	1920
@@ -12,7 +12,25 @@
 
 <import>
 	type	=	surface
-	name	=	sf_post_process
+	name	=	sf_sandbox_post
+	model	=	default_quad
+	shader	=	surface
+	width	=	1920
+	height	=	1080
+</import>
+
+<import>
+	type	=	surface
+	name	=	sf_noobs_main
+	model	=	default_quad
+	shader	=	surface
+	width	=	1920
+	height	=	1080
+</import>
+
+<import>
+	type	=	surface
+	name	=	sf_noobs_post
 	model	=	default_quad
 	shader	=	surface
 	width	=	1920

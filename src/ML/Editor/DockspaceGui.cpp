@@ -1,13 +1,15 @@
 #include <ML/Editor/DockspaceGui.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Core/EventSystem.hpp>
+#include <ML/Editor/EditorEvents.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	DockspaceGui::DockspaceGui(EventSystem & eventSystem)
-		: EditorGui(eventSystem, "Dockspace")
+		: EditorGui	(eventSystem, "Dockspace")
 		, m_border	(0.0f)
 		, m_padding	(vec2::Zero)
 		, m_rounding(0.0f)
@@ -34,31 +36,25 @@ namespace ml
 			ImGuiWindowFlags_NoBackground))
 		{
 			// DockspaceGui BuilderGui
-			if (uint32_t root = beginBuilder(ImGuiDockNodeFlags_None))
+			if (m_nodes[Root] = beginBuilder(ImGuiDockNodeFlags_None))
 			{
-				uint32_t left		= splitNode(root, ImGuiDir_Left, 0.30f, &root);
-				uint32_t center		= splitNode(root, ImGuiDir_Right, 0.5f, &root);
-				uint32_t right		= splitNode(center, ImGuiDir_Right, 0.20f, &center);
+				m_nodes[Left]	= splitNode(m_nodes[Root],	ImGuiDir_Left,	0.30f,	&m_nodes[Root]);
+				m_nodes[Mid]	= splitNode(m_nodes[Root],	ImGuiDir_Right, 0.5f,	&m_nodes[Root]);
+				m_nodes[Right]	= splitNode(m_nodes[Mid],	ImGuiDir_Right, 0.20f,	&m_nodes[Mid]);
+				m_nodes[LeftUp]	= splitNode(m_nodes[Left],	ImGuiDir_Up,	0.65f,	&m_nodes[Left]);
+				m_nodes[LeftDn]	= splitNode(m_nodes[Left],	ImGuiDir_Down,	0.35f,	&m_nodes[Left]);
+				m_nodes[MidUp]	= splitNode(m_nodes[Mid],	ImGuiDir_Up,	0.65f,	&m_nodes[Mid]);
+				m_nodes[MidDn]	= splitNode(m_nodes[Mid],	ImGuiDir_Down,	0.35f,	&m_nodes[Mid]);
+				m_nodes[RightUp]= splitNode(m_nodes[Right],	ImGuiDir_Up,	0.65f,	&m_nodes[Right]);
+				m_nodes[RightDn]= splitNode(m_nodes[Right],	ImGuiDir_Down,	0.35f,	&m_nodes[Right]);
 
-				uint32_t left_U		= splitNode(left, ImGuiDir_Up, 0.65f, &left);
-				uint32_t left_D		= splitNode(left, ImGuiDir_Down, 0.35f, &left);
-				
-				uint32_t center_U	= splitNode(center, ImGuiDir_Up, 0.65f, &center);
-				uint32_t center_D	= splitNode(center, ImGuiDir_Down, 0.35f, &center);
-				uint32_t center_DR	= splitNode(center, ImGuiDir_Right, 0.25f, &center_D);
-				
-				uint32_t right_U	= splitNode(right, ImGuiDir_Up, 0.65f, &right);
-				uint32_t right_D	= splitNode(right, ImGuiDir_Down, 0.35f, &right);
+				eventSystem().fireEvent(BuildDockspaceEvent(
+					ev.editor, 
+					(*this),
+					ev.resources
+				));
 
-				dockWindow(ev.editor.profiler.getTitle(),	left_U);
-				dockWindow(ev.editor.browser.getTitle(),	left_U);
-				dockWindow(ev.editor.resources.getTitle(),	left_U);
-				dockWindow(ev.editor.terminal.getTitle(),	left_D);
-				dockWindow(ev.editor.scene.getTitle(),	center_U);
-				dockWindow(ev.editor.builder.getTitle(),	center_D);
-				dockWindow(ev.editor.inspector.getTitle(),	center_DR);
-
-				endBuilder(root);
+				endBuilder(m_nodes[Root]);
 			};
 		}
 		return endDraw();

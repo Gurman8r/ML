@@ -21,6 +21,7 @@ namespace ml
 	{
 	public:
 		Model();
+		Model(const BufferLayout & layout);
 		Model(const Model & copy);
 		~Model();
 
@@ -37,6 +38,8 @@ namespace ml
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
 	private:
+		BufferLayout m_layout;
+
 		VAO	m_vao;
 		VBO	m_vbo;
 		IBO	m_ibo;

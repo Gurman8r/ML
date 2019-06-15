@@ -140,7 +140,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		inline operator bool() const
 		{
-			return !(this->empty());
+			return !this->empty();
 		}
 
 		inline operator base_type() const

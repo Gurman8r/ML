@@ -104,6 +104,10 @@ namespace ml
 
 namespace ml
 {
+	using OStream	= typename std::ostream;
+	using IStream	= typename std::istream;
+	using StreamBuf = typename std::streambuf;
+
 	static std::ostream & cout  { std::cout };
 	static std::ostream & cerr  { std::cerr };
 	static std::istream & cin	{ std::cin	};

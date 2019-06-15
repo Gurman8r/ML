@@ -128,11 +128,11 @@ namespace ml
 	ML_GEN_UNIFORM(	uni_tex_t,	uni_base::Tex	);
 
 
-	// Value Types
+	// Value Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt		= typename uni_flt_t	<float	>;
-	using uni_int		= typename uni_int_t	<int32_t>;
+	using uni_flt1		= typename uni_flt_t	<float	>;
+	using uni_int1		= typename uni_int_t	<int32_t>;
 	using uni_vec2		= typename uni_vec2_t	<vec2	>;
 	using uni_vec3		= typename uni_vec3_t	<vec3	>;
 	using uni_vec4		= typename uni_vec4_t	<vec4	>;
@@ -141,11 +141,11 @@ namespace ml
 	using uni_mat4		= typename uni_mat4_t	<mat4	>;
 
 
-	// Const Reference Types
+	// Const Reference Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt_cr	= typename uni_flt_t	<const float	&>;
-	using uni_int_cr	= typename uni_int_t	<const int32_t	&>;
+	using uni_flt1_cr	= typename uni_flt_t	<const float	&>;
+	using uni_int1_cr	= typename uni_int_t	<const int32_t	&>;
 	using uni_vec2_cr	= typename uni_vec2_t	<const vec2		&>;
 	using uni_vec3_cr	= typename uni_vec3_t	<const vec3		&>;
 	using uni_vec4_cr	= typename uni_vec3_t	<const vec4		&>;
@@ -154,18 +154,23 @@ namespace ml
 	using uni_mat4_cr	= typename uni_mat4_t	<const mat4		&>;
 
 
-	// Const Pointer Types
+	// Const Pointer Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt_cp	= typename uni_flt_t	<const float	*>;
-	using uni_int_cp	= typename uni_int_t	<const int32_t	*>;
+	using uni_flt1_cp	= typename uni_flt_t	<const float	*>;
+	using uni_int1_cp	= typename uni_int_t	<const int32_t	*>;
 	using uni_vec2_cp	= typename uni_vec2_t	<const vec2		*>;
 	using uni_vec3_cp	= typename uni_vec3_t	<const vec3		*>;
 	using uni_vec4_cp	= typename uni_vec3_t	<const vec4		*>;
 	using uni_col4_cp	= typename uni_col4_t	<const vec4		*>;
 	using uni_mat3_cp	= typename uni_mat3_t	<const mat3		*>;
 	using uni_mat4_cp	= typename uni_mat4_t	<const mat4		*>;
-	using uni_tex_cp	= typename uni_tex_t	<const Texture	*>; // <- Texture
+
+
+	// Type-Class Uniforms
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	using uni_tex2 = typename uni_tex_t	<const Texture	*>; // <- Texture
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

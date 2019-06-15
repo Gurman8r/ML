@@ -61,4 +61,10 @@
 	file = ../../../assets/shaders/example.shader
 </import>
 
+<import>
+	type = shader
+	name = noobs_shader
+	file = ../../../assets/shaders/noobs_shader.shader
+</import>
+
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

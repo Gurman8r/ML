@@ -149,10 +149,13 @@ int32_t main()
 			));
 
 			// Load Plugin
-			auto plugin = plugins.insert({
+			if (auto plugin = plugins.insert({
 				library,
 				library->callFunction<Plugin *>(ML_str(ML_Plugin_Main), g_EventSystem)
-			}).first->second;
+				}).first->second)
+			{
+				Debug::log("Loaded: \'{0}\'", library->filename());
+			}
 		}
 		file.close();
 	}

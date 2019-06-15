@@ -12,8 +12,9 @@
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
 #include <ML/Core/EventSystem.hpp>
-
-//#include <ML/Core/Meta.hpp>
+#include <ML/Script/ScriptEvents.hpp>
+#include <ML/Script/Interpreter.hpp>
+#include <ML/Window/WindowEvents.hpp>
 
 namespace ml
 {
@@ -33,6 +34,9 @@ namespace ml
 		eventSystem.addListener(EndFrameEvent::ID,		this);
 		eventSystem.addListener(UnloadEvent::ID,		this);
 		eventSystem.addListener(ExitEvent::ID,			this);
+
+		eventSystem.addListener(CommandEvent::ID, this);
+		eventSystem.addListener(KeyEvent::ID, this);
 	}
 
 	Engine::~Engine() {}
@@ -54,6 +58,32 @@ namespace ml
 		case EndFrameEvent::ID:		return onEndFrame	(*value->as<EndFrameEvent>());
 		case UnloadEvent::ID:		return onUnload		(*value->as<UnloadEvent>());
 		case ExitEvent::ID:			return onExit		(*value->as<ExitEvent>());
+
+			// Command Event
+			/* * * * * * * * * * * * * * * * * * * * */
+		case CommandEvent::ID:
+			if (auto ev = value->as<CommandEvent>())
+			{
+				//Var v;
+				//if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
+				//{
+				//	Debug::logError(v.errorValue());
+				//}
+			}
+			break;
+
+			// Key Event
+			/* * * * * * * * * * * * * * * * * * * * */
+		case KeyEvent::ID:
+			if (auto ev = value->as<KeyEvent>())
+			{
+				// Exit (Escape)
+				if (ev->getKeyDown(KeyCode::Escape))
+				{
+					eventSystem().fireEvent(WindowKillEvent());
+				}
+			}
+			break;
 		}
 	}
 
@@ -171,6 +201,14 @@ namespace ml
 
 	void Engine::onStart(const StartEvent & ev)
 	{
+		// Set Window Icon
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (const Image * icon = ev.resources.images.get("icon"))
+		{
+			const Image temp = Image(*icon).flipVertically();
+
+			ev.window.setIcons({ temp });
+		}
 	}
 
 	void Engine::onBeginFrame(const BeginFrameEvent & ev)
@@ -181,6 +219,15 @@ namespace ml
 
 	void Engine::onUpdate(const UpdateEvent & ev)
 	{
+		// Update Window Title
+		static const String title(ev.window.getTitle());
+		ev.window.setTitle(String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
+			title,
+			ML_CONFIGURATION,
+			ML_PLATFORM_TARGET,
+			ev.time.elapsed().delta(),
+			ev.time.frameRate()
+		));
 	}
 
 	void Engine::onBeginDraw(const BeginDrawEvent & ev)

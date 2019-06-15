@@ -36,7 +36,7 @@ namespace ml
 			bool	open;
 			bool	dirty;
 
-			BuildFile(const String & name, const String & text = String())
+			BuildFile(const String & name, const String & text)
 				: name(name)
 				, text()
 				, open(true)

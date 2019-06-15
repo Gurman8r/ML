@@ -1,7 +1,10 @@
-#ifndef _TEST_PLUGIN_HPP_
-#define _TEST_PLUGIN_HPP_
+#ifndef _NOOBS_HPP_
+#define _NOOBS_HPP_
 
 #include <ML/Editor/EditorPlugin.hpp>
+#include <ML/Engine/Entity.hpp>
+#include <ML/Graphics/Text.hpp>
+#include <ML/Graphics/Surface.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -16,11 +19,11 @@ namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PLUGIN_API TestPlugin final : public ml::EditorPlugin
+	class ML_PLUGIN_API Noobs final : public ml::EditorPlugin
 	{
 	public:
-		explicit TestPlugin(ml::EventSystem & eventSystem);
-		~TestPlugin();
+		explicit Noobs(ml::EventSystem & eventSystem);
+		~Noobs();
 
 	public:
 		void onEvent(const ml::Event * value) override;
@@ -32,11 +35,23 @@ namespace DEMO
 		void onDraw		(const ml::DrawEvent	& ev) override;
 		void onGui		(const ml::GuiEvent		& ev) override;
 		void onExit		(const ml::ExitEvent	& ev) override;
+
+	private:
+		struct NoobsData : public ml::INonCopyable
+		{
+			// Surfaces
+			struct Sf
+			{
+				ml::Surface * main;
+				ml::Surface * post;
+			} sf;
+
+		} self;
 	};
-	
+
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#endif // !_TEST_PLUGIN_HPP_
+#endif // !_NOOBS_HPP_

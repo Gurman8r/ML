@@ -2,7 +2,7 @@
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/Shapes.hpp>
 #include <ML/Graphics/ShaderAPI.hpp>
-#include <ML/Graphics/Uni.hpp>
+#include <ML/Graphics/Uniform.hpp>
 
 namespace ml
 {
@@ -98,7 +98,7 @@ namespace ml
 				u->data = m_color;
 			}
 
-			if (uni_tex_cp * u = batch.mat->find_uni<uni_tex_cp>(ML_FRAG_MAIN_TEX))
+			if (uni_tex2 * u = batch.mat->find_uni<uni_tex2>(ML_FRAG_MAIN_TEX))
 			{
 				u->data = m_texture;
 			}

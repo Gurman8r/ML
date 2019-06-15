@@ -10,14 +10,21 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Model::Model()
-		: m_vao		()
+		: Model(BufferLayout::Default)
+	{
+	}
+
+	Model::Model(const BufferLayout & layout)
+		: m_layout	(layout)
+		, m_vao		()
 		, m_vbo		()
 		, m_ibo		()
 	{
 	}
 
 	Model::Model(const Model & copy)
-		: m_vao		(copy.m_vao)
+		: m_layout	(copy.m_layout)
+		, m_vao		(copy.m_vao)
 		, m_vbo		(copy.m_vbo)
 		, m_ibo		(copy.m_ibo)
 	{
@@ -61,7 +68,7 @@ namespace ml
 		m_vbo.bind();
 		m_vbo.bufferData(vertices);
 		
-		ml::BufferLayout::Default.bind();
+		m_layout.bind();
 		
 		m_vbo.unbind();
 		m_vao.unbind();

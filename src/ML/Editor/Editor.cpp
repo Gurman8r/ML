@@ -16,50 +16,74 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(EventSystem & eventSystem)
-		: EventListener	(eventSystem)
-		, dockspace		(eventSystem)
-		, browser		(eventSystem)
-		, builder		(eventSystem)
-		, inspector		(eventSystem)
-		, profiler		(eventSystem)
-		, resources		(eventSystem)
-		, scene			(eventSystem)
-		, terminal		(eventSystem)
+		: EventListener(eventSystem)
+		, m_gui()
 	{
-		eventSystem.addListener(EnterEvent::ID, this);
-		eventSystem.addListener(ExitEvent::ID, this);
+		create<DockspaceGui>(String(), eventSystem);
+		create<BrowserGui>	(String(), eventSystem);
+		create<BuilderGui>	(String(), eventSystem);
+		create<ProfilerGui>	(String(), eventSystem);
+		create<ResourceGui>	(String(), eventSystem);
+		create<TerminalGui>	(String(), eventSystem);
 
-		eventSystem.addListener(BeginGuiEvent::ID, this);
-		eventSystem.addListener(GuiEvent::ID, this);
-		eventSystem.addListener(EndGuiEvent::ID, this);
-
-		eventSystem.addListener(KeyEvent::ID, this);
-
-		eventSystem.addListener(File_New_Event::ID, this);
-		eventSystem.addListener(File_Open_Event::ID, this);
-		eventSystem.addListener(File_Save_Event::ID, this);
-		eventSystem.addListener(File_Close_Event::ID, this);
-
-		eventSystem.addListener(Edit_Undo_Event::ID, this);
-		eventSystem.addListener(Edit_Redo_Event::ID, this);
-		eventSystem.addListener(Edit_Cut_Event::ID, this);
-		eventSystem.addListener(Edit_Copy_Event::ID, this);
-		eventSystem.addListener(Edit_Paste_Event::ID, this);
+		eventSystem.addListener(EnterEvent::ID,			this);
+		eventSystem.addListener(ExitEvent::ID,			this);
+		eventSystem.addListener(BeginGuiEvent::ID,		this);
+		eventSystem.addListener(GuiEvent::ID,			this);
+		eventSystem.addListener(EndGuiEvent::ID,		this);
+		eventSystem.addListener(BuildDockspaceEvent::ID,	this);
+		eventSystem.addListener(KeyEvent::ID,			this);
+		eventSystem.addListener(File_New_Event::ID,		this);
+		eventSystem.addListener(File_Open_Event::ID,	this);
+		eventSystem.addListener(File_Save_Event::ID,	this);
+		eventSystem.addListener(File_Close_Event::ID,	this);
+		eventSystem.addListener(Edit_Undo_Event::ID,	this);
+		eventSystem.addListener(Edit_Redo_Event::ID,	this);
+		eventSystem.addListener(Edit_Cut_Event::ID,		this);
+		eventSystem.addListener(Edit_Copy_Event::ID,	this);
+		eventSystem.addListener(Edit_Paste_Event::ID,	this);
 	}
 
-	Editor::~Editor() {}
+	Editor::~Editor() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool Editor::dispose()
+	{
+		for (auto & type_pair : m_gui)
+		{
+			for (auto & gui_pair : type_pair.second)
+			{
+				delete gui_pair.second;
+				gui_pair.second = NULL;
+			}
+			type_pair.second.clear();
+		}
+		m_gui.clear();
+		return m_gui.empty();
+	}
 
 	void Editor::onEvent(const Event * value)
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID:	return onEnter		(*value->as<EnterEvent>());
-		case ExitEvent::ID:		return onExit		(*value->as<ExitEvent>());
-		case BeginGuiEvent::ID: return onBeginGui	(*value->as<BeginGuiEvent>());
-		case GuiEvent::ID:		return onGui		(*value->as<GuiEvent>());
-		case EndGuiEvent::ID:	return onEndGui		(*value->as<EndGuiEvent>());
+		case EnterEvent::ID:	return onEnter(*value->as<EnterEvent>());
+		case ExitEvent::ID:		return onExit(*value->as<ExitEvent>());
+		case BeginGuiEvent::ID:	return onBeginGui(*value->as<BeginGuiEvent>());
+		case GuiEvent::ID:		return onGui(*value->as<GuiEvent>());
+		case EndGuiEvent::ID:	return onEndGui(*value->as<EndGuiEvent>());
+
+		case BuildDockspaceEvent::ID:
+			if (auto ev = value->as<BuildDockspaceEvent>())
+			{
+				DockspaceGui & d = ev->dockspace;
+				d.dockWindow(get<ProfilerGui>	()->getTitle(), d.getNode(d.LeftUp));
+				d.dockWindow(get<BrowserGui>	()->getTitle(), d.getNode(d.LeftUp));
+				d.dockWindow(get<ResourceGui>	()->getTitle(), d.getNode(d.LeftUp));
+				d.dockWindow(get<BuilderGui>	()->getTitle(), d.getNode(d.LeftUp));
+				d.dockWindow(get<TerminalGui>	()->getTitle(), d.getNode(d.LeftDn));
+			}
+			break;
 
 			// Key Event
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -68,23 +92,15 @@ namespace ml
 			{
 				// Show TerminalGui (Ctrl+Alt+T)
 				if (ev->getKeyDown(KeyCode::T) && (ev->mod_ctrl && ev->mod_alt))
-					this->terminal.isOpen() = true;
+					get<TerminalGui>()->isOpen() = true;
 
 				// Show BrowserGui (Ctrl+Alt+E)
 				if (ev->getKeyDown(KeyCode::E) && (ev->mod_ctrl))
-					this->browser.isOpen() = true;
+					get<BrowserGui>()->isOpen() = true;
 
 				// Show BuilderGui (Ctrl+Alt+B)
 				if (ev->getKeyDown(KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
-					this->builder.isOpen() = true;
-
-				// Show Scene (Ctrl+Alt+S)
-				if (ev->getKeyDown(KeyCode::S) && (ev->mod_ctrl && ev->mod_alt))
-					this->scene.isOpen() = true;
-
-				// Show InspectorGui (Ctrl+Alt+I)
-				if (ev->getKeyDown(KeyCode::I) && (ev->mod_ctrl && ev->mod_alt))
-					this->inspector.isOpen() = true;
+					get<BuilderGui>()->isOpen() = true;
 			}
 			break;
 
@@ -102,7 +118,7 @@ namespace ml
 		case File_Open_Event::ID:
 			if (auto ev = value->as<File_Open_Event>())
 			{
-				OS::execute("open", this->browser.get_selected_path());
+				OS::execute("open", get<BrowserGui>()->get_selected_path());
 			}
 			break;
 		}
@@ -120,34 +136,36 @@ namespace ml
 
 		// Load ImGui Style
 		StyleLoader loader;
-		if (!loader.loadFromFile(ML_FS.getPathTo("../../../assets/styles/style4.txt")))
+		if (loader.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString(
+			"Editor",
+			"styleConfig",
+			""
+		))))
 		{
-			String font = ev.prefs.GetString("Editor", "imguiFont", "");
-			float  size = ev.prefs.GetFloat("Editor", "imguiSize", 12.0f);
-
-			if (font && size > 0.0f)
-			{
-				ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
-			}
-		}
-		else if (Debug::log("LOADED IMGUI STYLE"))
-		{
-			ImGui::GetStyle().FrameBorderSize	= 1.0f;
-			ImGui::GetStyle().FramePadding		= { 4.0f, 2.0f };
-			ImGui::GetStyle().ItemSpacing		= { 8.0f, 2.0f };
-			ImGui::GetStyle().WindowBorderSize	= 1.0f;
-			ImGui::GetStyle().TabBorderSize		= 1.0f;
-			ImGui::GetStyle().WindowRounding	= 1.0f;
-			ImGui::GetStyle().ChildRounding		= 1.0f;
-			ImGui::GetStyle().FrameRounding		= 1.0f;
+			// should be data driven
+			ImGui::GetStyle().FrameBorderSize = 1.0f;
+			ImGui::GetStyle().FramePadding = { 4.0f, 2.0f };
+			ImGui::GetStyle().ItemSpacing = { 8.0f, 2.0f };
+			ImGui::GetStyle().WindowBorderSize = 1.0f;
+			ImGui::GetStyle().TabBorderSize = 1.0f;
+			ImGui::GetStyle().WindowRounding = 1.0f;
+			ImGui::GetStyle().ChildRounding = 1.0f;
+			ImGui::GetStyle().FrameRounding = 1.0f;
 			ImGui::GetStyle().ScrollbarRounding = 1.0f;
-			ImGui::GetStyle().GrabRounding		= 1.0f;
-			ImGui::GetStyle().TabRounding		= 1.0f;
+			ImGui::GetStyle().GrabRounding = 1.0f;
+			ImGui::GetStyle().TabRounding = 1.0f;
+		}
+
+		// Custom Font
+		String font = ev.prefs.GetString("Editor", "imguiFont", "");
+		float  size = ev.prefs.GetFloat("Editor", "imguiSize", 12.0f);
+		if (font && size > 0.0f)
+		{
+			ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
 		}
 
 		// Set ImGui INI
 		String imguiINI = ev.prefs.GetString("Editor", "imguiINI", "");
-
 
 		// Start ImGui
 		if (!ImGui_ML_Init("#version 410", &ev.window, true, NULL))
@@ -156,31 +174,28 @@ namespace ml
 		}
 
 		// Capture Cout
-		if (!(m_coutBuf = cout.rdbuf(m_coutStr.rdbuf())))
-		{
-			Debug::fatal("Failed Capturing Cout");
-		}
+		get<TerminalGui>()->redirect(cout);
 	}
-	
+
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
 	{
 		ImGui_ML_NewFrame();
 		ImGui::NewFrame();
 	}
-	
+
 	void Editor::onGui(const GuiEvent & ev)
 	{
 		// ImGui Demo
 		/* * * * * * * * * * * * * * * * * * * * */
-		static bool show_imgui_demo		= false;
-		static bool show_imgui_metrics	= false;
-		static bool show_imgui_style	= false;
-		static bool show_imgui_about	= false;
+		static bool show_imgui_demo = false;
+		static bool show_imgui_metrics = false;
+		static bool show_imgui_style = false;
+		static bool show_imgui_about = false;
 
-		if (show_imgui_demo)	{ ImGui::ShowDemoWindow(&show_imgui_demo); }
+		if (show_imgui_demo) { ImGui::ShowDemoWindow(&show_imgui_demo); }
 		if (show_imgui_metrics) { ImGui::ShowMetricsWindow(&show_imgui_metrics); }
-		if (show_imgui_style)	{ ImGui::Begin("Style Editor", &show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
-		if (show_imgui_about)	{ ImGui::ShowAboutWindow(&show_imgui_about); }
+		if (show_imgui_style) { ImGui::Begin("Style Editor", &show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
+		if (show_imgui_about) { ImGui::ShowAboutWindow(&show_imgui_about); }
 
 
 		// Main Menu Bar
@@ -258,13 +273,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(this->terminal.getTitle(),	"Ctrl+Alt+T", &this->terminal.isOpen());
-				ImGui::MenuItem(this->browser.getTitle(),	"Ctrl+Alt+E", &this->browser.isOpen());
-				ImGui::MenuItem(this->builder.getTitle(),	"Ctrl+Alt+B", &this->builder.isOpen());
-				ImGui::MenuItem(this->scene.getTitle(),		"Ctrl+Alt+S", &this->scene.isOpen());
-				ImGui::MenuItem(this->inspector.getTitle(), "Ctrl+Alt+I", &this->inspector.isOpen());
-				ImGui::MenuItem(this->profiler.getTitle(),	"", &this->profiler.isOpen());
-				ImGui::MenuItem(this->resources.getTitle(),	"", &this->resources.isOpen());
+				ImGui::MenuItem(get<TerminalGui>()->getTitle(), "Ctrl+Alt+T", &get<TerminalGui>()->isOpen());
+				ImGui::MenuItem(get<BrowserGui>()->getTitle(), "Ctrl+Alt+E", &get<BrowserGui>()->isOpen());
+				ImGui::MenuItem(get<BuilderGui>()->getTitle(), "Ctrl+Alt+B", &get<BuilderGui>()->isOpen());
+				ImGui::MenuItem(get<ProfilerGui>()->getTitle(), "", &get<ProfilerGui>()->isOpen());
+				ImGui::MenuItem(get<ResourceGui>()->getTitle(), "", &get<ResourceGui>()->isOpen());
 				ImGui::EndMenu();
 			}
 
@@ -278,9 +291,9 @@ namespace ml
 				}
 				ImGui::Separator();
 
-				ImGui::MenuItem("ImGui Demo",		"", &show_imgui_demo);
-				ImGui::MenuItem("ImGui Metrics",	"", &show_imgui_metrics);
-				ImGui::MenuItem("Style Editor",		"", &show_imgui_style);
+				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
+				ImGui::MenuItem("ImGui Metrics", "", &show_imgui_metrics);
+				ImGui::MenuItem("Style Editor", "", &show_imgui_style);
 				ImGui::MenuItem("About Dear ImGui", "", &show_imgui_about);
 				ImGui::EndMenu();
 			}
@@ -290,40 +303,39 @@ namespace ml
 
 		// DockspaceGui
 		/* * * * * * * * * * * * * * * * * * * * */
-		this->dockspace.onGui(ev);
+		get<DockspaceGui>()->onGui(ev);
 
 		// TerminalGui
 		/* * * * * * * * * * * * * * * * * * * * */
-		this->terminal.printss(m_coutStr);
-		this->terminal.onGui(ev);
+		get<TerminalGui>()->onGui(ev);
 
 		// ProfilerGui
 		/* * * * * * * * * * * * * * * * * * * * */
-		this->profiler.onGui(ev);
+		get<ProfilerGui>()->onGui(ev);
 
 		// BrowserGui
 		/* * * * * * * * * * * * * * * * * * * * */
-		this->browser.onGui(ev);
+		get<BrowserGui>()->onGui(ev);
 
 		// Project
 		/* * * * * * * * * * * * * * * * * * * * */
-		this->resources.onGui(ev);
+		get<ResourceGui>()->onGui(ev);
 
 		// BuilderGui
 		/* * * * * * * * * * * * * * * * * * * * */
-		this->builder.onGui(ev);
+		get<BuilderGui>()->onGui(ev);
 	}
-	
+
 	void Editor::onEndGui(const EndGuiEvent & ev)
 	{
 		ImGui::Render();
 		ImGui_ML_Render(ImGui::GetDrawData());
 	}
-	
+
 	void Editor::onExit(const ExitEvent & ev)
 	{
 		// Release Cout
-		if (m_coutBuf) { cout.rdbuf(m_coutBuf); }
+		get<TerminalGui>()->redirect(cout);
 
 		// Shutdown ImGui
 		ImGui_ML_Shutdown();

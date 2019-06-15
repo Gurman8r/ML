@@ -18,6 +18,9 @@ namespace ml
 
 	TerminalGui::TerminalGui(EventSystem & eventSystem)
 		: EditorGui	(eventSystem, "Terminal")
+		, m_coutBuf		(NULL)
+		, m_coutPtr		(NULL)
+		, m_coutStr		()
 		, m_inputBuf	()
 		, m_lines		()
 		, m_scrollBottom()
@@ -42,12 +45,19 @@ namespace ml
 		this->printf("# Type \'help\' for a list of commands.");
 	}
 	
-	TerminalGui::~TerminalGui() {}
+	TerminalGui::~TerminalGui()
+	{
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool TerminalGui::drawGui(const GuiEvent & ev)
 	{
+		if (m_coutBuf)
+		{
+			this->printss(m_coutStr);
+		}
+
 		if (beginDraw())
 		{
 			// Filter
@@ -238,6 +248,28 @@ namespace ml
 				this->printl(line);
 			}
 			value.str(String());
+		}
+	}
+
+	bool TerminalGui::redirect(std::ostream & value)
+	{
+		if (m_coutBuf && (m_coutPtr == &value))
+		{
+			// Release OStream
+			value.rdbuf(m_coutBuf);
+			m_coutBuf = NULL;
+			m_coutPtr = NULL;
+			return true;
+		}
+		else if (m_coutBuf = value.rdbuf(m_coutStr.rdbuf()))
+		{
+			// Capture OStream
+			m_coutPtr = &value;
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 

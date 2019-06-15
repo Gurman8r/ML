@@ -351,6 +351,7 @@ namespace ml
 					return textures.load(name);
 				}
 			}
+			return Debug::log("Failed Loading: {0} | {1}", type, name);
 		}
 		return false;
 	}

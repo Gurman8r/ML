@@ -13,6 +13,17 @@ namespace ml
 	{
 		friend class Editor;
 
+	public:
+		enum DockNode : int32_t
+		{
+			Root,
+			Left,	LeftUp,		LeftDn,
+			Mid,	MidUp,		MidDn,
+			Right,	RightUp,	RightDn,
+
+			MAX_DOCK_POS
+		};
+
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
 		explicit DockspaceGui(EventSystem & eventSystem);
@@ -32,13 +43,23 @@ namespace ml
 		uint32_t splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * other);
 		uint32_t splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * out, uint32_t * other);
 
+	public:
+		inline uint32_t getNode(const int32_t i) const 
+		{ 
+			return (((i >= DockNode::Root) && (i < DockNode::MAX_DOCK_POS))
+				? m_nodes[i]
+				: 0
+			);
+		}
+
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		float	m_border;
-		vec2	m_padding;
-		float	m_rounding;
-		vec2	m_size;
-		float	m_bgAlpha;
+		float		m_border;
+		vec2		m_padding;
+		float		m_rounding;
+		vec2		m_size;
+		float		m_bgAlpha;
+		uint32_t	m_nodes[MAX_DOCK_POS];
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -37,6 +37,7 @@ namespace ml
 		void    printf(CString value, ...);		// Print Format
 		void	printl(const String & value);	// Print Line
 		void	printss(SStream & value);		// Print Stream
+		bool	redirect(std::ostream & value);
 		int32_t inputCallback(void * value);
 
 	public:
@@ -45,6 +46,10 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
+		const OStream *	m_coutPtr; // cout redirect reference
+		StreamBuf *		m_coutBuf; // cout redirect buffer
+		SStream			m_coutStr; // cout redirect stream
+
 		InputBuffer		m_inputBuf;
 		List<String>	m_lines;
 		bool			m_scrollBottom;

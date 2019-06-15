@@ -3,7 +3,7 @@
 
 <import>
 	type = material
-	name = test
+	name = test_material
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

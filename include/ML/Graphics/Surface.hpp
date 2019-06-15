@@ -39,10 +39,11 @@ namespace ml
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
 	public:
-		inline const Model	 * model()	 const { return m_model;   }
-		inline const Shader  * shader()  const { return m_shader;  }
-		inline const Texture & texture() const { return m_texture; }
-		inline		 Texture & texture()	   { return m_texture; }
+		inline const Model	 * model()	 const	{ return m_model;   }
+		inline const Shader  * shader()  const	{ return m_shader;  }
+		inline const Shader *& shader()			{ return m_shader;  }
+		inline const Texture & texture() const	{ return m_texture; }
+		inline		 Texture & texture()		{ return m_texture; }
 
 	private:
 		const Model *	m_model;

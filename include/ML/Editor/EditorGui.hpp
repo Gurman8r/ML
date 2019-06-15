@@ -9,11 +9,17 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	class Editor;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class ML_EDITOR_API EditorGui
 		: public IObject
 		, public INonCopyable
 		, public EventListener
 	{
+		friend class Editor;
+
 	protected:
 		explicit EditorGui(EventSystem & eventSystem, CString title);
 		virtual ~EditorGui() {}

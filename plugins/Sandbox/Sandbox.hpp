@@ -1,25 +1,23 @@
 #ifndef _SANDBOX_HPP_
 #define _SANDBOX_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Editor/EditorPlugin.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Text.hpp>
 #include <ML/Engine/PhysicsWorld.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 extern "C"
 {
 	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace DEMO
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_PLUGIN_API Sandbox final : public ml::EditorPlugin
 	{
@@ -39,8 +37,6 @@ namespace DEMO
 		void onExit		(const ml::ExitEvent	& ev) override;
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		enum Rigidbody_ID : int32_t
 		{
 			RB_BORG,
@@ -53,13 +49,14 @@ namespace DEMO
 			MAX_DEMO_RIGIDBODY
 		};
 
-		using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 
-		struct MyData final : public ml::INonCopyable
+		struct SandboxData final : public ml::INonCopyable
 		{
+			using TextTable = typename ml::HashMap<ml::String, ml::Text>;
+
+			TextTable			text		= {};
 			ml::VAO				vao			= {};
 			ml::VBO				vbo			= {};
-			TextTable			text		= {};
 			ml::Entity *		light		= NULL;
 			ml::Entity *		camera		= NULL;
 			bool				cameraOrbit = true;
@@ -67,12 +64,13 @@ namespace DEMO
 			int32_t				effectMode	= 3;
 			ml::PhysicsWorld	physWorld	= {};
 
-		} sandbox;
+		} self;
 
-		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_SANDBOX_HPP_

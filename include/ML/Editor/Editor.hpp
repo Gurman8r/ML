@@ -6,8 +6,6 @@
 #include <ML/Editor/BuilderGui.hpp>
 #include <ML/Editor/BrowserGui.hpp>
 #include <ML/Editor/DockspaceGui.hpp>
-#include <ML/Editor/SceneGui.hpp>
-#include <ML/Editor/InspectorGui.hpp>
 #include <ML/Editor/ResourceGui.hpp>
 #include <ML/Editor/ProfilerGui.hpp>
 #include <ML/Engine/EngineEvents.hpp>
@@ -20,12 +18,14 @@ namespace ml
 		: public IObject
 		, public EventListener
 		, public INonCopyable
+		, public IDisposable
 	{
 	public:
 		explicit Editor(EventSystem & eventSystem);
 		~Editor();
 
 	public:
+		bool dispose() override;
 		void onEvent(const Event * value) override;
 
 	private:
@@ -36,18 +36,49 @@ namespace ml
 		void onExit		(const ExitEvent & ev);
 
 	public:
-		DockspaceGui	dockspace;
-		BrowserGui		browser;
-		BuilderGui		builder;
-		InspectorGui	inspector;
-		ProfilerGui		profiler;
-		ResourceGui		resources;
-		SceneGui		scene;
-		TerminalGui		terminal;
+		template <
+			class T
+		> inline T * get(const String & name = String())
+		{
+			Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
+			Map<String, EditorGui *>::iterator it;
+			return ((it = data.find(name)) != data.end())
+				? static_cast<T *>(it->second)
+				: NULL;
+		}
+
+		template <
+			class T
+		> inline bool erase(const String & name)
+		{
+			Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
+			Map<String, EditorGui *>::iterator it;
+			if ((it = data.find(name)) != data.end())
+			{
+				delete it->second;
+				it->second = NULL;
+				data.erase(it);
+				return true;
+			}
+			return false;
+		}
+
+		template <
+			class T, class ... Args
+		> inline T * create(const String & name, Args && ... args)
+		{
+			Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
+			Map<String, EditorGui *>::iterator it;
+			return ((it = data.find(name)) == data.end())
+				? static_cast<T *>(
+					data.insert({
+						name, new T(std::forward<Args>(args)...)
+						}).first->second)
+				: NULL;
+		}
 
 	private:
-		std::streambuf * m_coutBuf; // cout redirect buffer
-		SStream m_coutStr; // cout redirect stream
+		HashMap<size_t, Map<String, EditorGui *>> m_gui;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

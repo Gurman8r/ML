@@ -4,7 +4,7 @@
 #include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Material.hpp>
-#include <ML/Graphics/Uni.hpp>
+#include <ML/Graphics/Uniform.hpp>
 #include <ML/Core/Debug.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */

@@ -188,6 +188,7 @@
     <None Include="..\..\..\assets\shaders\example.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />
     <None Include="..\..\..\assets\shaders\lighting.shader" />
+    <None Include="..\..\..\assets\shaders\noobs_shader.shader" />
     <None Include="..\..\..\assets\shaders\normal.shader" />
     <None Include="..\..\..\assets\shaders\skybox.shader" />
     <None Include="..\..\..\assets\shaders\solid.shader" />

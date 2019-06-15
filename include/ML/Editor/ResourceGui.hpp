@@ -26,8 +26,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		struct Layout;
 
-		void draw_test(Resources & res);
-
 		void draw_entity_registry	(Resources & res, Registry<Entity>		& entities	);
 		void draw_font_registry		(Resources & res, Registry<Font>		& fonts		);
 		void draw_image_registry	(Resources & res, Registry<Image>		& images	);
@@ -36,8 +34,6 @@ namespace ml
 		void draw_model_registry	(Resources & res, Registry<Model>		& models	);
 		void draw_script_registry	(Resources & res, Registry<Script>		& scripts	);
 		void draw_shader_registry	(Resources & res, Registry<Shader>		& shaders	);
-		void draw_skybox_registry	(Resources & res, Registry<Skybox>		& skyboxes	);
-		void draw_sound_registry	(Resources & res, Registry<Sound>		& sounds	);
 		void draw_sprite_registry	(Resources & res, Registry<Sprite>		& sprites	);
 		void draw_surface_registry	(Resources & res, Registry<Surface>		& surfaces	);
 		void draw_texture_registry	(Resources & res, Registry<Texture>		& textures	);

@@ -26,6 +26,8 @@ namespace ml
 			EV_Gui,
 			EV_EndGui,
 
+			EV_BuildDockspace,
+
 			EV_File_New,
 			EV_File_Open,
 			EV_File_Save,
@@ -64,6 +66,21 @@ namespace ml
 	struct ML_EDITOR_API EndGuiEvent final : public IEvent<EditorEvent::EV_EndGui>
 	{
 		EndGuiEvent() {}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_EDITOR_API BuildDockspaceEvent final : public IEvent<EditorEvent::EV_BuildDockspace>
+	{
+		Editor			& editor;
+		DockspaceGui	& dockspace;
+		Resources		& resources;
+		BuildDockspaceEvent(Editor & editor, DockspaceGui & dockspace, Resources & resources)
+			: editor	(editor)
+			, dockspace	(dockspace)
+			, resources	(resources)
+		{
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

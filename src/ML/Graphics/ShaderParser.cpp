@@ -10,7 +10,7 @@ namespace ml
 	{
 		SStream *	dst = nullptr;
 		size_t		count = 0;
-		SStream		ss(parseIncludes(src));
+		SStream		ss(parseIncludes(src.replaceAll("\0", " ")));
 		String		line;
 
 		while (std::getline(ss, line))
@@ -68,57 +68,64 @@ namespace ml
 
 	String ShaderParser::parseIncludes(const String & src)
 	{
-		SStream		out;
-		SStream		ss(src);
-		String		line;
+		auto includeCallback = [](const String & name)
+		{
+			if (name)
+			{
+				const String path(ML_FS.getPathTo(
+					"../../../assets/shaders/" + name
+				));
+				String file;
+				if (ML_FS.getFileContents(path, file))
+				{
+					file.pop_back();
+					return file;
+				}
+			}
+			return String();
+		};
 
+		SStream	out;
+		SStream	ss(src);
+		String	line;
 		while (std::getline(ss, line))
 		{
-			if (line.find("#include") != String::npos)
+			String data;
+			if ((data = parseIncludes(line, '\'', '\'', includeCallback)) ||
+				(data = parseIncludes(line, '\"', '\"', includeCallback)) ||
+				(data = parseIncludes(line, '<', '>',	includeCallback)))
 			{
-				String name, path;
-				
-				// '...'
-				if (parseWrapped(line, '\'', '\'', name))
-				{
-					path = ML_FS.getPathTo(name);
-				}
-				// "..."
-				else if (parseWrapped(line, '\"', '\"', name))
-				{
-					path = ML_FS.getPathTo(name);
-				}
-				// <...>
-				else if (parseWrapped(line, '<', '>', name))
-				{
-					path = ML_FS.getPathTo("../../../assets/shaders/" + name);
-				}
-				else
-				{
-					Debug::logError("Shader Include Failed: \'{0}\'", name);
-					name = path = String();
-				}
-
-				if (name && path)
-				{
-					String file;
-					if (ML_FS.getFileContents(path, file))
-					{
-						file.pop_back();
-						out << parseIncludes(file);
-					}
-					else
-					{
-						Debug::logError("Failed Including Shader: {0} {1}", name, path);
-					}
-				}
+				out << parseIncludes(data);
 			}
 			else
 			{
+				if (line.find("#include") != String::npos)
+				{
+					Debug::logError("Failed Including Shader");
+				}
+
 				out << line << endl;
 			}
 		}
 		return out.str();
+	}
+
+	String ShaderParser::parseIncludes(const String & line, char lhs, char rhs, IncludeClbk callback)
+	{
+		if (line && lhs && rhs && callback)
+		{
+			SStream	out;
+			if (line.find("#include") != String::npos)
+			{
+				String name, path;
+				if (parseWrapped(line, lhs, rhs, name))
+				{
+					out << callback(name);
+				}
+			}
+			return out.str();
+		}
+		return String();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -43,9 +43,8 @@ namespace ml
 		void draw_texture_registry	(Resources & res, Registry<Texture>		& textures	);
 
 	public:
-		static bool StringCombo(CString label, int32_t & index, const List<String> & keys);
 		static void NewUniformPopup(Material * mat);
-		static bool UniformField(Resources & resources, const String & label, uni_base * value);
+		static int32_t UniformField(Resources & resources, const String & label, uni_base * value, bool drag = false);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

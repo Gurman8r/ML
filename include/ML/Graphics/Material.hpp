@@ -32,6 +32,7 @@ namespace ml
 		bool loadFromFile(const String & filename) override;
 
 	public:
+		void apply(const uni_base * value) const;
 		bool bind() const;
 		void unbind() const;
 

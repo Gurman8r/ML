@@ -45,6 +45,17 @@ namespace ml
 		}
 	}
 
+	bool EditorUtility::StringCombo(CString label, int32_t & index, const List<String>& keys)
+	{
+		return ImGui::Combo(
+			label,
+			&index,
+			vector_getter,
+			static_cast<void *>(&std::remove_cv_t<List<String> &>(keys)),
+			(int32_t)(keys.size())
+		);
+	}
+
 	bool EditorUtility::BeginWindow(CString name, bool & open, const int32_t flags)
 	{
 		return ImGui::Begin(name, &open, flags);

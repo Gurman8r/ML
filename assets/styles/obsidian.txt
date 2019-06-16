@@ -14,7 +14,7 @@
 
 [Color] Text					= { 1.00 1.00 1.00 0.95 }
 [Color] TextDisabled			= { 0.50 0.50 0.50 1.00 }
-[Color] WindowBg				= { 0.13 0.12 0.12 1.00 }
+[Color] WindowBg				= { 0.05 0.05 0.05 1.00 }
 [Color] ChildBg					= { 1.00 1.00 1.00 0.00 }
 [Color] PopupBg					= { 0.05 0.05 0.05 0.94 }
 [Color] Border					= { 0.53 0.53 0.53 0.46 }
@@ -36,7 +36,7 @@
 [Color] Button					= { 0.50 0.50 0.50 0.63 }
 [Color] ButtonHovered			= { 0.67 0.67 0.68 0.63 }
 [Color] ButtonActive			= { 0.26 0.26 0.26 0.63 }
-[Color] Header					= { 0.54 0.54 0.54 0.58 }
+[Color] Header					= { 0.25 0.25 0.25 0.58 }
 [Color] HeaderHovered			= { 0.64 0.65 0.65 0.80 }
 [Color] HeaderActive			= { 0.25 0.25 0.25 0.80 }
 [Color] Separator				= { 0.58 0.58 0.58 0.50 }

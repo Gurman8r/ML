@@ -1,4 +1,4 @@
-// Fragment
+// noobs_fs_0.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #shader fragment
@@ -15,7 +15,15 @@ in VertexData
 
 out vec4 gl_Color;
 
-struct Frag_Uniforms
+/* * * * * * * * * * * * * * * * * * * * */
+
+uniform struct Time_Uniforms
+{
+	float delta;
+	float total;
+} Time;
+
+uniform struct Frag_Uniforms
 {
 	vec3		cameraPos;
 	vec3		lightPos;
@@ -26,35 +34,36 @@ struct Frag_Uniforms
 	vec4		mainCol;
 	sampler2D	mainTex;
 	sampler2D	specTex;
-};
-
-uniform Frag_Uniforms Frag;
+} Frag;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 void main()
 {
 	// Ambient
-	vec4	ambient = (Frag.ambient * Frag.diffuse);
+	vec4	ambientOut	= (Frag.ambient * Frag.diffuse);
 
 	// Diffuse 
-	vec3	diffNml = normalize(In.Normal.xyz);
-	vec3	diffDir = normalize(Frag.lightPos - In.Position);
-	float	diffAmt = max(dot(diffNml, diffDir), 0.0);
-	vec4	diffCol = vec4(diffAmt * Frag.diffuse.rgb, 1.0);
-	vec4	diffTex = texture(Frag.mainTex, In.Texcoord);
-	vec4	diffuse = (diffCol * diffTex);
+	vec3	diffNormal	= normalize(In.Normal.xyz);
+	vec3	diffDir		= normalize(Frag.lightPos - In.Position);
+	float	diffAmount	= max(dot(diffNormal, diffDir), 0.0);
+	vec4	diffColor	= vec4(diffAmount * Frag.diffuse.rgb, 1.0);
+	vec4	diffTexture	= texture(Frag.mainTex, In.Texcoord);
+	vec4	diffuseOut	= (diffColor * diffTexture);
 
 	// Specular		 
-	vec3	specCam = normalize(Frag.cameraPos - In.Position);
-	vec3	specRfl = reflect(-diffDir, diffNml);
-	float	specAmt = pow(max(dot(specCam, specRfl), 0.0), Frag.shininess);
-	vec4	specCol = vec4(Frag.specular * specAmt * Frag.diffuse.rgb, 1.0);
-	vec4	specTex = texture(Frag.specTex, In.Texcoord);
-	vec4	specular = (specCol * specTex);
+	vec3	specCamPos	= normalize(Frag.cameraPos - In.Position);
+	vec3	specReflect	= reflect(-diffDir, diffNormal);
+	float	specAmount	= pow(max(dot(specCamPos, specReflect), 0.0), Frag.shininess);
+	vec4	specColor	= vec4(Frag.specular * specAmount * Frag.diffuse.rgb, 1.0);
+	vec4	specTexture	= texture(Frag.specTex, In.Texcoord);
+	vec4	specularOut	= (specColor * specTexture);
 
 	// Output
-	gl_Color = Frag.mainCol * (ambient + diffuse + specular);
+	gl_Color =
+		Frag.mainCol * 
+		(ambientOut + diffuseOut + specularOut) * 
+		sin(Time.total);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

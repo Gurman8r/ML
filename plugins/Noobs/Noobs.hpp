@@ -2,8 +2,19 @@
 #define _NOOBS_HPP_
 
 #include <ML/Editor/EditorPlugin.hpp>
-#include <ML/Engine/Entity.hpp>
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Core/Transform.hpp>
+#include <ML/Graphics/Color.hpp>
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+namespace ml
+{
+	class Entity;
+	class Material;
+	class Renderer;
+	class Shader;
+	class Surface;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -36,20 +47,47 @@ namespace DEMO
 		void onExit		(const ml::ExitEvent	& ev) override;
 
 	private:
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		struct NoobFile : public ml::INonCopyable
+		{
+			using List = typename ml::List<NoobFile *>;
+
+			enum { MaxName = 32, MaxData = 8192 };
+
+			ml::String	name;
+			char		data[MaxData];
+			bool		open;
+			bool		dirty;
+
+			NoobFile(const ml::String & name, const ml::String & data)
+				: name(name), data(), open(true), dirty(false)
+			{
+				std::strcpy(this->data, data.c_str());
+			}
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		struct NoobsData : public ml::INonCopyable
 		{
-			ml::Surface * surf_main;
-			ml::Surface * surf_post;
-			ml::Entity	* ent_main;
-			
-			ml::vec2i res = { 1920, 1080 };
-			bool freeAspect = true;
-			ml::vec4f clearColor = ml::Color::Gray;
-
-			bool showScene		= true;
-			bool showBuilder	= true;
+			NoobFile::List	files		= {};
+			ml::Surface	*	surf_main	= nullptr;
+			ml::Surface	*	surf_post	= nullptr;
+			ml::Material *	material	= nullptr;
+			ml::Entity *	entity		= nullptr;
+			ml::Renderer *	renderer	= nullptr;
+			float			deltaTime	= 0.f;
+			float			totalTime	= 0.f;
+			ml::vec2i		resolution	= { 1920, 1080 };
+			bool			freeAspect	= true;
+			ml::vec4f		clearColor	= ml::Color::Gray;
+			bool			showScene	= true;
+			bool			showBuilder	= true;
 
 		} noobs;
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

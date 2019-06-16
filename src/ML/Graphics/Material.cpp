@@ -64,114 +64,104 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	void Material::apply(const uni_base * value) const
+	{
+		switch (value->type)
+		{
+			// Flt
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_flt::ID:
+			if (auto * temp = impl::toFloat(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+
+			// Int
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_int::ID:
+			if (auto * temp = impl::toInt(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+
+			// Vec2
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec2::ID:
+			if (auto * temp = impl::toVec2(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+
+			// Vec3
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec3::ID:
+			if (auto * temp = impl::toVec3(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+
+			// Vec4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec4::ID:
+			if (auto * temp = impl::toVec4(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+
+			// Col4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_col4::ID:
+			if (auto * temp = impl::toCol4(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+
+			// Mat3
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_mat3::ID:
+			if (auto * temp = impl::toMat3(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+
+			// Mat4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_mat4::ID:
+			if (auto * temp = impl::toMat4(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+
+			// Tex
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_tex2::ID:
+			if (auto * temp = impl::toTex2(value))
+			{
+				m_shader->setUniform(value->name, (*temp));
+			}
+			break;
+		}
+	}
+
 	bool Material::bind() const
 	{
 		if (m_shader && (*m_shader))
 		{
 			for (const auto & pair : m_uniforms)
 			{
-				if (!pair.second || !pair.second->name)
-					continue;
-
-				switch (pair.second->type)
+				if (pair.second && pair.second->name)
 				{
-					// Flt
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_flt::ID:
-					if (auto u = dynamic_cast<const uni_flt *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_flt_cr *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_flt_cp *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
-
-					// Int
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_int::ID:
-					if (auto u = dynamic_cast<const uni_int *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_int_cr *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_int_cp *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
-
-					// Vec2
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_vec2::ID:
-					if (auto u = dynamic_cast<const uni_vec2 *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_vec2_cr *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_vec2_cp *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
-
-					// Vec3
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_vec3::ID:
-					if (auto u = dynamic_cast<const uni_vec3 *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_vec3_cr *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_vec3_cp *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
-
-					// Vec4
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_vec4::ID:
-					if (auto u = dynamic_cast<const uni_vec4 *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_vec4_cr *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_vec4_cp *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
-
-					// Col4
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_col4::ID:
-					if (auto u = dynamic_cast<const uni_col4 *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_col4_cr *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_col4_cp *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
-
-					// Mat3
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_mat3::ID:
-					if (auto u = dynamic_cast<const uni_mat3 *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_mat3_cr *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_mat3_cp *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
-
-					// Mat4
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_mat4::ID:
-					if (auto u = dynamic_cast<const uni_mat4 *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_mat4_cr *>(pair.second))
-						m_shader->setUniform(u->name, u->data);
-					else if (auto u = dynamic_cast<const uni_mat4_cp *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
-
-					// Tex
-					/* * * * * * * * * * * * * * * * * * * * */
-				case uni_tex2::ID:
-					if (auto u = dynamic_cast<const uni_tex2 *>(pair.second))
-						m_shader->setUniform(u->name, (*u->data));
-					break;
+					this->apply(pair.second);
 				}
 			}
-
 			m_shader->bind();
 			return true;
 		}

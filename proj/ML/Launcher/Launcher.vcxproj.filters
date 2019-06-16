@@ -105,14 +105,14 @@
     <None Include="..\..\..\ML.ini">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\noobs_shader.shader">
-      <Filter>Resource Files\assets\shaders</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\fs\noobs_fs_0.shader">
       <Filter>Resource Files\assets\shaders\fs</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\vs\noobs_vs_0.shader">
       <Filter>Resource Files\assets\shaders\vs</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\common\Time.shader">
+      <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

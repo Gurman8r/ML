@@ -182,13 +182,13 @@
     <None Include="..\..\..\assets\shaders\common\Frag.Draw.shader" />
     <None Include="..\..\..\assets\shaders\common\Frag.shader" />
     <None Include="..\..\..\assets\shaders\common\Geom.Curve.shader" />
+    <None Include="..\..\..\assets\shaders\common\Time.shader" />
     <None Include="..\..\..\assets\shaders\common\Vert.MVP.shader" />
     <None Include="..\..\..\assets\shaders\common\Vert.shader" />
     <None Include="..\..\..\assets\shaders\example.shader" />
     <None Include="..\..\..\assets\shaders\fs\noobs_fs_0.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />
     <None Include="..\..\..\assets\shaders\lighting.shader" />
-    <None Include="..\..\..\assets\shaders\noobs_shader.shader" />
     <None Include="..\..\..\assets\shaders\normal.shader" />
     <None Include="..\..\..\assets\shaders\skybox.shader" />
     <None Include="..\..\..\assets\shaders\solid.shader" />

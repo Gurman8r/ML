@@ -60,6 +60,22 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class Derived
+		> inline const Derived * as() const
+		{
+			return dynamic_cast<const Derived *>(this);
+		}
+
+		template <
+			class Derived
+		> inline Derived * as()
+		{
+			return dynamic_cast<Derived *>(this);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
 
@@ -179,6 +195,89 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using uni_tex2 = typename uni_tex_t<const Texture *>; // <- Texture
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace impl
+	{
+		inline static float * toFloat(const uni_base * value)
+		{
+			static float temp;
+			if (auto u = value->as<uni_flt>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_flt_cr>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_flt_cp>()) return &(temp = *u->data);
+			else return nullptr;
+		}
+
+		inline static int32_t * toInt(const uni_base * value)
+		{
+			static int32_t temp;
+			if (auto u = value->as<uni_int>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_int_cr>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_int_cp>()) return &(temp = *u->data);
+			else return nullptr;
+		}
+
+		inline static vec2 * toVec2(const uni_base * value)
+		{
+			static vec2 temp;
+			if (auto u = value->as<uni_vec2>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_vec2_cr>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_vec2_cp>()) return &(temp = *u->data);
+			else return nullptr;
+		}
+
+		inline static vec3 * toVec3(const uni_base * value)
+		{
+			static vec3 temp;
+			if (auto u = value->as<uni_vec3>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_vec3_cr>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_vec3_cp>()) return &(temp = *u->data);
+			else return nullptr;
+		}
+
+		inline static vec4 * toVec4(const uni_base * value)
+		{
+			static vec4 temp;
+			if (auto u = value->as<uni_vec4>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_vec4_cr>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_vec4_cp>()) return &(temp = *u->data);
+			else return nullptr;
+		}
+
+		inline static vec4 * toCol4(const uni_base * value)
+		{
+			static vec4 temp;
+			if (auto u = value->as<uni_col4>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_col4_cr>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_col4_cp>()) return &(temp = *u->data);
+			else return nullptr;
+		}
+
+		inline static mat3 * toMat3(const uni_base * value)
+		{
+			static mat3 temp;
+			if (auto u = value->as<uni_mat3>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_mat3_cr>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_mat3_cp>()) return &(temp = *u->data);
+			else return nullptr;
+		}
+
+		inline static mat4 * toMat4(const uni_base * value)
+		{
+			static mat4 temp;
+			if (auto u = value->as<uni_mat4>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_mat4_cr>()) return &(temp = u->data);
+			else if (auto u = value->as<uni_mat4_cp>()) return &(temp = *u->data);
+			else return nullptr;
+		}
+
+		inline static const Texture * toTex2(const uni_base * value)
+		{
+			if (auto u = value->as<uni_tex2>()) return u->data;
+			else return nullptr;
+		}
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

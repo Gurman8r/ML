@@ -4,13 +4,26 @@
 #include <ML/Core/String.hpp>
 #include <ML/Core/FMT.hpp>
 
+// Log Codes
 #define ML_WARNING -1 // -1
 #define ML_FAILURE	0 //  0
 #define ML_SUCCESS	1 // +1
 
+// Log Prefixes
 #define ML_MSG_LOG "LOG"
 #define ML_MSG_WRN "WRN"
 #define ML_MSG_ERR "ERR"
+
+// Breakpoint
+# if not ML_DEBUG
+#	define ML_BREAKPOINT
+# else
+#	if defined(ML_CC_MSC)
+#		define ML_BREAKPOINT __debugbreak()
+#	else
+#		define ML_BREAKPOINT raise(SIGTRAP)
+#	endif
+# endif
 
 namespace ml
 {

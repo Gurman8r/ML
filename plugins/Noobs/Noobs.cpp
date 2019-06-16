@@ -8,15 +8,17 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorUtility.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Engine/Entity.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
-#include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/RenderStates.hpp>
+#include <ML/Graphics/ShaderParser.hpp>
+#include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Uniform.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
@@ -114,20 +116,20 @@ namespace DEMO
 		// Orthographic Projection
 		ml::Transform ortho = ml::Transform::Orthographic({
 			{ 0.f, 0.f }, 
-			(ml::vec2f)noobs.res
+			(ml::vec2f)noobs.resolution
 		});
 
 		// Perspective Projection
 		ml::Transform persp = ml::Transform::Perspective(
 			45.f, 
-			ML_ASPECT((float)noobs.res[0], (float)noobs.res[1]),
+			ML_ASPECT((float)noobs.resolution[0], (float)noobs.resolution[1]),
 			0.001f,
 			1000.f
 		);
 
 		// Camera Transform
 		ml::Transform camera = ml::Transform(
-			{ 0.0f, 0.0f, 10.0f }, 
+			{ 0.0f, 0.0f, 5.0f }, 
 			{ 1.0f }, 
 			{ } 
 		);
@@ -151,37 +153,58 @@ namespace DEMO
 		);
 
 		// Create Material
-		ev.resources.materials.create(
+		noobs.material = ev.resources.materials.create(
 			"noobs_material_0",
 			ev.resources.shaders.get("noobs_shader_0"),
 			ml::List<ml::uni_base *>({
-				new ml::uni_mat4("Vert.proj",		persp.getMat()),
-				new ml::uni_mat4("Vert.view",		camera.getMat()),
-				new ml::uni_mat4("Vert.model",		model.getMat()),
-				new ml::uni_vec3("Frag.cameraPos",	camera.getPos()),
-				new ml::uni_vec3("Frag.lightPos",	light.getPos()),
-				new ml::uni_col4("Frag.diffuse",	ml::Color::LightYellow),
-				new ml::uni_col4("Frag.mainCol",	ml::Color::White),
-				new ml::uni_tex2("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
-				new ml::uni_tex2("Frag.specTex",	ev.resources.textures.get("earth_sm")),
-				new ml::uni_flt	("Frag.ambient",	0.01f),
-				new ml::uni_flt	("Frag.specular",	0.1f),
-				new ml::uni_int	("Frag.shininess",	8),
+				new ml::uni_flt_cr	("Time.delta",		noobs.deltaTime),
+				new ml::uni_flt_cr	("Time.total",		noobs.totalTime),
+				new ml::uni_mat4	("Vert.proj",		persp.getMat()),
+				new ml::uni_mat4	("Vert.view",		camera.getMat()),
+				new ml::uni_mat4	("Vert.model",		model.getMat()),
+				new ml::uni_vec3	("Frag.cameraPos",	camera.getPos()),
+				new ml::uni_vec3	("Frag.lightPos",	light.getPos()),
+				new ml::uni_col4	("Frag.diffuse",	ml::Color::LightYellow),
+				new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
+				new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
+				new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("earth_sm")),
+				new ml::uni_flt		("Frag.ambient",	0.01f),
+				new ml::uni_flt		("Frag.specular",	0.1f),
+				new ml::uni_int		("Frag.shininess",	8),
 				}));
 
 		// Create Entity
-		if (noobs.ent_main = ev.resources.entities.load("noobs_entity_0"))
+		if (noobs.entity = ev.resources.entities.load("noobs_entity_0"))
 		{
-			// Entity Renderer
-			noobs.ent_main->add<ml::Renderer>(
+			// Create Renderer
+			noobs.renderer = noobs.entity->add<ml::Renderer>(
 				ev.resources.models.get("sphere32x24"),
 				ev.resources.materials.get("noobs_material_0")
 			);
 		}
+
+		// Default Files
+		noobs.files.push_back(new NoobFile("Main",
+			"#shader vertex\n"
+			"#include \"Vert\"\n\n"
+			
+			"#shader fragment\n"
+			"#include \"Frag\"\n\n"
+		));
+		noobs.files.push_back(new NoobFile("Vert",
+			noobs.material->shader()->vertSrc()
+		));
+		noobs.files.push_back(new NoobFile("Frag",
+			noobs.material->shader()->fragSrc()
+		));
 	}
 
 	void Noobs::onUpdate(const ml::UpdateEvent & ev)
 	{
+		// Store Time
+		noobs.deltaTime = ev.time.elapsed().delta();
+		noobs.totalTime = ev.time.total().delta();
+
 		// Update Surface Sizes
 		if (noobs.freeAspect)
 		{
@@ -190,8 +213,8 @@ namespace DEMO
 		}
 		else
 		{
-			noobs.surf_main->resize(noobs.res);
-			noobs.surf_post->resize(noobs.res);
+			noobs.surf_main->resize(noobs.resolution);
+			noobs.surf_post->resize(noobs.resolution);
 		}
 	}
 
@@ -204,7 +227,7 @@ namespace DEMO
 			ev.window.clear(noobs.clearColor);
 
 			// Draw Renderer
-			ev.window.draw(noobs.ent_main->get<ml::Renderer>());
+			ev.window.draw(noobs.entity->get<ml::Renderer>());
 		}
 		// Unbind Main Surface
 		noobs.surf_main->unbind();
@@ -274,8 +297,8 @@ namespace DEMO
 					{
 						if (!(noobs.freeAspect = (index == 0)))
 						{
-							noobs.res = (ml::vec2i)res_values[index - 1].resolution;
-							ml::Debug::log(noobs.res.ToString());
+							noobs.resolution = (ml::vec2i)res_values[index - 1].resolution;
+							ml::Debug::log(noobs.resolution.ToString());
 						}
 						else
 						{
@@ -329,365 +352,505 @@ namespace DEMO
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			// Tabs
-			const ml::String mat_name = "noobs_material_0";
-			if (ml::Material * mat = ev.resources.materials.get(mat_name))
+			if (ImGui::BeginTabBar("Noobs Builder Tabs"))
 			{
-				if (ImGui::BeginTabBar("Noobs Builder Tabs"))
+				// Settings
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginTabItem("Settings##Noobs"))
 				{
-					// Settings
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (ImGui::BeginTabItem("Settings##Noobs"))
+
+					if (ImGui::TreeNode("Alpha Testing"))
 					{
-						// Shader
-						int32_t mat_shader = ev.resources.shaders.getIndexOf(mat->shader());
-						if (ml::ResourceGui::StringCombo(
-							"Shader##Material##Noobs",
-							mat_shader,
-							ev.resources.shaders.keys()
+						ImGui::Checkbox(
+							"##Enabled##Alpha Testing##Renderer##Noobs", 
+							&noobs.renderer->states().alpha.enabled
+						);
+
+						int32_t i = ml::GL::indexOf(noobs.renderer->states().alpha.comp);
+						if (ImGui::Combo(
+							"Comparison##Alpha Testing##Renderer##Noobs",
+							&i,
+							ml::GL::Comp_names,
+							IM_ARRAYSIZE(ml::GL::Comp_names)
 						))
 						{
-							mat->shader() = ev.resources.shaders.getByIndex(mat_shader);
+							ml::GL::valueAt(i, noobs.renderer->states().alpha.comp);
 						}
 
-						// Renderer
-						if (ml::Renderer * r = noobs.ent_main->get<ml::Renderer>())
-						{
-							ml::RenderStates & states = r->states();
+						ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &noobs.renderer->states().alpha.coeff);
 
-							/* * * * * * * * * * * * * * * * * * * * */
-
-							int32_t ent_model = ev.resources.models.getIndexOf((ml::Model *)r->drawable());
-							if (ml::ResourceGui::StringCombo(
-								"Model##Renderer##Noobs",
-								ent_model,
-								ev.resources.models.keys()
-							))
-							{
-								r->drawable() = ev.resources.models.getByIndex(ent_model);
-							}
-
-							/* * * * * * * * * * * * * * * * * * * * */
-
-							if (ImGui::TreeNode("Alpha Testing"))
-							{
-								ImGui::Checkbox(
-									"##Enabled##Alpha Testing##Renderer##Noobs", 
-									&states.alpha.enabled
-								);
-
-								int32_t index = ml::GL::indexOf(states.alpha.comp);
-								if (ImGui::Combo(
-									"Comparison##Alpha Testing##Renderer##Noobs",
-									&index,
-									ml::GL::Comp_names,
-									IM_ARRAYSIZE(ml::GL::Comp_names)
-								))
-								{
-									ml::GL::valueAt(index, states.alpha.comp);
-								}
-
-								ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &states.alpha.coeff);
-
-								ImGui::TreePop();
-							}
-
-							/* * * * * * * * * * * * * * * * * * * * */
-
-							if (ImGui::TreeNode("Blending"))
-							{
-								ImGui::Checkbox(
-									"Enabled##Blending##Renderer##Noobs", 
-									&states.blend.enabled
-								);
-
-								auto factor_combo = [](ml::CString label, int32_t & index)
-								{
-									return ImGui::Combo(
-										label,
-										&index,
-										ml::GL::Factor_names,
-										IM_ARRAYSIZE(ml::GL::Factor_names)
-									);
-								};
-
-								int32_t srcRGB = ml::GL::indexOf(states.blend.srcRGB);
-								if (factor_combo("Src RGB##Blending##Renderer##Noobs", srcRGB))
-								{
-									ml::GL::valueAt(srcRGB, states.blend.srcRGB);
-								}
-
-								int32_t srcAlpha = ml::GL::indexOf(states.blend.srcAlpha);
-								if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
-								{
-									ml::GL::valueAt(srcAlpha, states.blend.srcAlpha);
-								}
-
-								int32_t dstRGB = ml::GL::indexOf(states.blend.dstRGB);
-								if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
-								{
-									ml::GL::valueAt(dstRGB, states.blend.dstRGB);
-								}
-
-								int32_t dstAlpha = ml::GL::indexOf(states.blend.dstAlpha);
-								if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
-								{
-									ml::GL::valueAt(dstAlpha, states.blend.dstAlpha);
-								}
-
-								ImGui::TreePop();
-							}
-
-							/* * * * * * * * * * * * * * * * * * * * */
-
-							if (ImGui::TreeNode("Culling"))
-							{
-								ImGui::Checkbox(
-									"Enabled##Culling##Renderer##Noobs",
-									&states.culling.enabled
-								);
-
-								int32_t index = ml::GL::indexOf(states.culling.face);
-								if (ImGui::Combo(
-									"Face##Culling##Renderer##Noobs",
-									&index,
-									ml::GL::Face_names,
-									IM_ARRAYSIZE(ml::GL::Face_names)
-								))
-								{
-									ml::GL::valueAt(index, states.culling.face);
-								}
-
-								ImGui::TreePop();
-							}
-
-							/* * * * * * * * * * * * * * * * * * * * */
-
-							if (ImGui::TreeNode("Depth Testing"))
-							{
-								ImGui::Checkbox(
-									"Enabled##Depth Testing##Renderer##Noobs",
-									&states.depth.enabled
-								);
-
-								int32_t index = ml::GL::indexOf(states.depth.comp);
-								if (ImGui::Combo(
-									"Comparison##Depth Testing##Renderer##Noobs",
-									&index,
-									ml::GL::Comp_names,
-									IM_ARRAYSIZE(ml::GL::Comp_names)
-								))
-								{
-									ml::GL::valueAt(index, states.depth.comp);
-								}
-
-								ImGui::TreePop();
-							}
-
-							/* * * * * * * * * * * * * * * * * * * * */
-
-							if (ImGui::TreeNode("Texture"))
-							{
-								ImGui::Checkbox(
-									"Enabled##Texture##Renderer##Noobs", 
-									&states.texture.enabled
-								);
-
-								int32_t index = ml::GL::indexOf(states.texture.target);
-								if (ImGui::Combo(
-									"Target##Texture##Renderer##Noobs",
-									&index,
-									"Texture 2D\0"
-									"Texture 3D\0"
-									"Texture Cube Map\0"))
-								{
-									ml::GL::valueAt(index, states.texture.target);
-								}
-
-								ImGui::TreePop();
-							}
-
-							/* * * * * * * * * * * * * * * * * * * * */
-
-							if (ImGui::TreeNode("Misc"))
-							{
-								ImGui::Checkbox(
-									"Multisample##Misc##Renderer##Noobs",
-									&states.misc.multisample
-								);
-
-								ImGui::Checkbox(
-									"Framebuffer SRGB##Misc##Renderer##Noobs",
-									&states.misc.framebufferSRGB
-								);
-
-								ImGui::TreePop();
-							}
-
-							/* * * * * * * * * * * * * * * * * * * * */
-						}
-
-						ImGui::EndTabItem();
+						ImGui::TreePop();
 					}
 
-					// Uniforms
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
-					{
-						// New Uniform
-						ml::ResourceGui::NewUniformPopup(mat);
 
-						// Display List
-						if (!mat->uniforms().empty())
+					if (ImGui::TreeNode("Blending"))
+					{
+						ImGui::Checkbox(
+							"Enabled##Blending##Renderer##Noobs", 
+							&noobs.renderer->states().blend.enabled
+						);
+
+						auto factor_combo = [](ml::CString label, int32_t & i)
 						{
-							ImGui::Separator();
+							return ImGui::Combo(
+								label,
+								&i,
+								ml::GL::Factor_names,
+								IM_ARRAYSIZE(ml::GL::Factor_names)
+							);
+						};
+
+						int32_t srcRGB = ml::GL::indexOf(noobs.renderer->states().blend.srcRGB);
+						if (factor_combo("Src RGB##Blending##Renderer##Noobs", srcRGB))
+						{
+							ml::GL::valueAt(srcRGB, noobs.renderer->states().blend.srcRGB);
 						}
 
-						static int32_t mode = 0;
-
-						ImGui::Combo(
-							"Draw Mode", 
-							&mode, 
-							"Tree Node\0"
-							"Collapsing Header\0"
-						);
-						
-						ml::List<ml::Material::UniformMap::iterator> toRemove;
-						
-						for (auto it = mat->uniforms().begin(); it != mat->uniforms().end(); it++)
+						int32_t srcAlpha = ml::GL::indexOf(noobs.renderer->states().blend.srcAlpha);
+						if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
 						{
-							const ml::String label("##" + mat_name + "##Uni##" + it->first + "##Material##Noobs");
+							ml::GL::valueAt(srcAlpha, noobs.renderer->states().blend.srcAlpha);
+						}
+
+						int32_t dstRGB = ml::GL::indexOf(noobs.renderer->states().blend.dstRGB);
+						if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
+						{
+							ml::GL::valueAt(dstRGB, noobs.renderer->states().blend.dstRGB);
+						}
+
+						int32_t dstAlpha = ml::GL::indexOf(noobs.renderer->states().blend.dstAlpha);
+						if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
+						{
+							ml::GL::valueAt(dstAlpha, noobs.renderer->states().blend.dstAlpha);
+						}
+
+						ImGui::TreePop();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::TreeNode("Culling"))
+					{
+						ImGui::Checkbox(
+							"Enabled##Culling##Renderer##Noobs",
+							&noobs.renderer->states().culling.enabled
+						);
+
+						int32_t i = ml::GL::indexOf(noobs.renderer->states().culling.face);
+						if (ImGui::Combo(
+							"Face##Culling##Renderer##Noobs",
+							&i,
+							ml::GL::Face_names,
+							IM_ARRAYSIZE(ml::GL::Face_names)
+						))
+						{
+							ml::GL::valueAt(i, noobs.renderer->states().culling.face);
+						}
+
+						ImGui::TreePop();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::TreeNode("Depth Testing"))
+					{
+						ImGui::Checkbox(
+							"Enabled##Depth Testing##Renderer##Noobs",
+							&noobs.renderer->states().depth.enabled
+						);
+
+						int32_t i = ml::GL::indexOf(noobs.renderer->states().depth.comp);
+						if (ImGui::Combo(
+							"Comparison##Depth Testing##Renderer##Noobs",
+							&i,
+							ml::GL::Comp_names,
+							IM_ARRAYSIZE(ml::GL::Comp_names)
+						))
+						{
+							ml::GL::valueAt(i, noobs.renderer->states().depth.comp);
+						}
+
+						ImGui::TreePop();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::TreeNode("Texture"))
+					{
+						ImGui::Checkbox(
+							"Enabled##Texture##Renderer##Noobs", 
+							&noobs.renderer->states().texture.enabled
+						);
+
+						int32_t i = ml::GL::indexOf(noobs.renderer->states().texture.target);
+						if (ImGui::Combo(
+							"Target##Texture##Renderer##Noobs",
+							&i,
+							"Texture 2D\0"
+							"Texture 3D\0"
+							"Texture Cube Map\0"))
+						{
+							ml::GL::valueAt(i, noobs.renderer->states().texture.target);
+						}
+
+						ImGui::TreePop();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::TreeNode("Misc"))
+					{
+						ImGui::Checkbox(
+							"Multisample##Misc##Renderer##Noobs",
+							&noobs.renderer->states().misc.multisample
+						);
+
+						ImGui::Checkbox(
+							"Framebuffer SRGB##Misc##Renderer##Noobs",
+							&noobs.renderer->states().misc.framebufferSRGB
+						);
+
+						ImGui::TreePop();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					// Shader
+					int32_t mat_shader = ev.resources.shaders.getIndexOf(noobs.material->shader());
+					if (ML_EditorUtility.StringCombo(
+						"Shader##Material##Noobs",
+						mat_shader,
+						ev.resources.shaders.keys()
+					))
+					{
+						noobs.material->shader() = ev.resources.shaders.getByIndex(mat_shader);
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					// Model
+					int32_t ent_model = ev.resources.models.getIndexOf((ml::Model *)noobs.renderer->drawable());
+					if (ML_EditorUtility.StringCombo(
+						"Model##Renderer##Noobs",
+						ent_model,
+						ev.resources.models.keys()
+					))
+					{
+						noobs.renderer->drawable() = ev.resources.models.getByIndex(ent_model);
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::EndTabItem();
+				}
+
+				// Uniforms
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
+				{
+					// New Uniform
+					ml::ResourceGui::NewUniformPopup(noobs.material);
+
+					// Display List
+					if (!noobs.material->uniforms().empty())
+					{
+						ImGui::Separator();
+					}
+
+					static int32_t mode = 0;
+					static bool useDrag = false;
+
+					ImGui::Combo(
+						"Draw Mode", 
+						&mode, 
+						"Tree Node\0"
+						"Collapsing Header\0"
+					);
+					ImGui::SameLine();
+					ImGui::Checkbox("Use Drag", &useDrag);
+
+					ml::List<ml::Material::UniformMap::iterator> toRemove;
+					for (auto it = noobs.material->uniforms().begin(); it != noobs.material->uniforms().end(); it++)
+					{
+						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
 							
-							switch (mode)
-							{
-							case 0: { 
-								if (!ImGui::TreeNode(it->first.c_str())) continue; 
-							} break;
+						switch (mode)
+						{
+						case 0: { 
+							if (!ImGui::TreeNode(it->first.c_str())) continue; 
+						} break;
 
-							case 1: { 
-								if (!ImGui::CollapsingHeader(it->first.c_str())) continue; 
-								ImGui::PushID(label.c_str());
-							} break;
-							}
+						case 1: { 
+							if (!ImGui::CollapsingHeader(it->first.c_str())) continue; 
+							ImGui::PushID(label.c_str());
+						} break;
+						}
+
+						/* * * * * * * * * * * * * * * * * * * * */
 							
-							//ImGui::Columns(2, "uniform_columns");
-
-							ml::ResourceGui::UniformField(ev.resources, label, it->second);
-
-							//ImGui::NextColumn();
-							ImGui::SameLine();
-							if (ImGui::Button(ml::String("Rename" + label).c_str()))
-							{
-								ml::Debug::logWarning("Not Yet Implemented");
-							}
+						if (ML_SUCCESS == ml::ResourceGui::UniformField(
+							ev.resources,
+							label,
+							it->second,
+							useDrag
+						))
+						{
 							ImGui::SameLine();
 							if (ImGui::Button(ml::String("Delete" + label).c_str()))
 							{
 								toRemove.push_back(it);
 							}
+						}
 
-							//ImGui::Columns(1);
+						ImGui::Separator();
 
-							switch (mode)
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						switch (mode)
+						{
+						case 0: ImGui::TreePop(); break;
+						case 1: ImGui::PopID(); break;
+						}
+					}
+
+					for (auto it : toRemove)
+					{
+						ml::uni_base * u = it->second;
+						noobs.material->uniforms().erase(it);
+						delete u;
+					}
+
+					ImGui::EndTabItem();
+				}
+
+				// Sources
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginTabItem("Sources##Files##Shader##Noobs"))
+				{
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::Button("New##File##Builder##Noobs"))
+					{
+						ImGui::OpenPopup("New File##Popup##Builder##Noobs");
+					}
+					ImGui::SameLine();
+					if (ImGui::Button("Compile##Builder##Noobs"))
+					{
+						for (auto & file : noobs.files)
+						{
+							file->dirty = false;
+						}
+
+						struct NoobParser
+						{
+							inline static ml::String parseIncludes(
+								const NoobFile::List & files, 
+								const ml::String & src
+							)
 							{
-							case 0: ImGui::TreePop(); break;
-							case 1: ImGui::PopID(); break;
+								ml::SStream out;
+								ml::SStream ss(src);
+								ml::String	line;
+								while (std::getline(ss, line))
+								{
+									if (line.find("#include") != ml::String::npos)
+									{
+										bool found = false;
+										ml::String name;
+										if (ml::ShaderParser::parseWrapped(
+											line, '\"', '\"', name
+										))
+										{
+											for (const auto & e : files)
+											{
+												if (e->name == name)
+												{
+													out << parseIncludes(files, e->data);
+													found = true;
+													break;
+												}
+											}
+										}
+										if (!found)
+										{
+											out << line << ml::endl;
+										}
+									}
+									else
+									{
+										out << line << ml::endl;
+									}
+								}
+								return ml::String(out.str());
+							}
+						};
+
+						const ml::String source = NoobParser::parseIncludes(
+							noobs.files,
+							noobs.files.front()->data
+						);
+						ml::Shader * shader = std::remove_cv_t<ml::Shader *>(
+							noobs.material->shader()
+						);
+						if (shader && shader->loadFromMemory(source))
+						{
+							ml::Debug::log("Compiled Shader");
+						}
+						else
+						{
+							ml::Debug::logError("Failed Compiling Shader");
+						}
+					}
+					ImGui::Separator();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::BeginPopupModal(
+						"New File##Popup##Builder##Noobs",
+						nullptr,
+						ImGuiWindowFlags_AlwaysAutoResize
+					))
+					{
+						static char name[NoobFile::MaxName] = "New File";
+
+						auto closePopup = [&]()
+						{
+							std::strcpy(name, "New File");
+							ImGui::CloseCurrentPopup();
+						};
+
+						auto addNewFile = [&]()
+						{
+							if (!ml::String(name))
+							{
+								ml::Debug::logError("Name cannot be empty");
+								return;
+							}
+							for (auto file : noobs.files)
+							{
+								if (file->name == name)
+								{
+									ml::Debug::logError("File with name \'{0}\' already exists", name);
+									return;
+								}
+							}
+							noobs.files.push_back(new NoobFile(name, ml::String()));
+						};
+
+						// Input
+						ImGui::InputText(
+							"Name##Builder##Noobs", 
+							name,
+							IM_ARRAYSIZE(name),
+							ImGuiInputTextFlags_EnterReturnsTrue
+						);
+
+						// Submit / Cancel
+						if (ImGui::Button("Submit##Builder##Noobs"))
+						{
+							addNewFile();
+							closePopup();
+						}
+						ImGui::SameLine();
+						if (ImGui::Button("Cancel##Builder##Noobs"))
+						{
+							closePopup();
+						}
+
+						ImGui::EndPopup();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::BeginTabBar("Source##Tabs##Shader##Noobs"))
+					{
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ml::List<NoobFile::List::iterator> toRemove;
+
+						for (auto it = noobs.files.begin(); it != noobs.files.end(); it++)
+						{
+							const size_t i = (it - noobs.files.begin());
+
+							const ml::String label {
+								"[" + std::to_string(i) + "] " + (*it)->name
+							};
+							
+							if (ImGui::BeginTabItem(
+								label.c_str(),
+								(i > 0 ? &(*it)->open : nullptr),
+								(*it)->dirty ? ImGuiTabItemFlags_UnsavedDocument : 0
+							))
+							{	// Input Text Content Area
+								ImGui::BeginChild(
+									"InputTextContentArea",
+									{ 0, 0 },
+									true,
+									ImGuiWindowFlags_AlwaysHorizontalScrollbar
+								);
+								
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								// Disallow editing Main's name
+								if (i > 0)
+								{
+									char buf[NoobFile::MaxName];
+									std::strcpy(buf, (*it)->name.c_str());
+									if (ImGui::InputText(
+										"Name",
+										buf,
+										NoobFile::MaxName,
+										ImGuiInputTextFlags_EnterReturnsTrue
+									))
+									{
+										(*it)->name = buf;
+									}
+								}
+
+								if (ImGui::InputTextMultiline(
+									ml::String("##File" + (*it)->name + "##Text").c_str(),
+									(*it)->data,
+									NoobFile::MaxData,
+									{ -1.f, -1.f },
+									ImGuiInputTextFlags_AllowTabInput
+								))
+								{
+									(*it)->dirty = true;
+								}
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								ImGui::EndChild();
+								ImGui::EndTabItem();
+							}
+
+							if (!(*it)->open)
+							{
+								toRemove.push_back(it);
 							}
 						}
 
 						for (auto it : toRemove)
 						{
-							ml::uni_base * u = it->second;
-							mat->uniforms().erase(it);
-							delete u;
+							delete (*it);
+							noobs.files.erase(it);
 						}
 
-						ImGui::EndTabItem();
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::EndTabBar();
 					}
 
-					// Vertex Source
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (ImGui::BeginTabItem("Vertex##Shader##Noobs"))
-					{
-						if (ImGui::BeginChild(
-							"Vertex##Content##Shader",
-							{ -1.f, -1.f },
-							true,
-							ImGuiWindowFlags_AlwaysHorizontalScrollbar
-						))
-						{
-							if (mat->shader()->vertSrc())
-							{
-								ImGui::TextUnformatted(
-									&mat->shader()->vertSrc()[0],
-									&mat->shader()->vertSrc()[mat->shader()->vertSrc().size()]
-								);
-							}
-							else
-							{
-								ImGui::Text("Empty");
-							}
-						}
-						ImGui::EndChild();
-						ImGui::EndTabItem();
-					}
 
-					// Fragment Source
+					ImGui::EndTabItem();
+
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (ImGui::BeginTabItem("Fragment##Shader##Noobs"))
-					{
-						if (ImGui::BeginChild(
-							"Fragment##Content##Shader",
-							{ -1.f, -1.f },
-							true,
-							ImGuiWindowFlags_AlwaysHorizontalScrollbar
-						))
-						{
-							if (!mat->shader()->fragSrc().empty())
-							{
-								ImGui::TextUnformatted(
-									&mat->shader()->fragSrc()[0],
-									&mat->shader()->fragSrc()[mat->shader()->fragSrc().size()]
-								);
-							}
-							else
-							{
-								ImGui::Text("Empty");
-							}
-						}
-						ImGui::EndChild();
-						ImGui::EndTabItem();
-					}
-
-					// Geometry Source
-					/* * * * * * * * * * * * * * * * * * * * */
-					if (ImGui::BeginTabItem("Geometry##Shader##Noobs"))
-					{
-						if (ImGui::BeginChild(
-							"Geometry##Content##Shader",
-							{ -1.f, -1.f },
-							true,
-							ImGuiWindowFlags_AlwaysHorizontalScrollbar
-						))
-						{
-							if (!mat->shader()->geomSrc().empty())
-							{
-								ImGui::TextUnformatted(
-									&mat->shader()->geomSrc()[0],
-									&mat->shader()->geomSrc()[mat->shader()->geomSrc().size()]
-								);
-							}
-							else
-							{
-								ImGui::Text("Empty");
-							}
-						}
-						ImGui::EndChild();
-						ImGui::EndTabItem();
-					}
-
-					ImGui::EndTabBar();
 				}
+
+				ImGui::EndTabBar();
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -696,6 +859,11 @@ namespace DEMO
 
 	void Noobs::onExit(const ml::ExitEvent & ev)
 	{
+		for (auto & it : noobs.files)
+		{
+			if (it) delete it;
+		}
+		noobs.files.clear();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

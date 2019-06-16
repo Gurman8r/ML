@@ -37,7 +37,7 @@ namespace ml
 		)
 		{
 			int32_t index = reg.getIndexOf(current);
-			return (ResourceGui::StringCombo(label, index, reg.keys())
+			return (ML_EditorUtility.StringCombo(label, index, reg.keys())
 				? reg.getByIndex(index)
 				: nullptr
 			);
@@ -866,17 +866,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ResourceGui::StringCombo(CString label, int32_t & index, const List<String> & keys)
-	{
-		return ImGui::Combo(
-			label,
-			&index,
-			EditorUtility::vector_getter,
-			static_cast<void *>(&std::remove_cv_t<List<String> &>(keys)),
-			(int32_t)(keys.size())
-		);
-	}
-
 	void ResourceGui::NewUniformPopup(Material * mat)
 	{
 		if (ImGui::Button("New"))
@@ -959,99 +948,134 @@ namespace ml
 		}
 	}
 
-	bool ResourceGui::UniformField(Resources & resources, const String & label, uni_base * value)
+	int32_t ResourceGui::UniformField(Resources & resources, const String & label, uni_base * value, bool drag)
 	{
 		switch (value->type)
 		{
 			// Flt
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_flt::ID:
-			if (auto u = dynamic_cast<uni_flt *>(value))
+			if (float * temp = impl::toFloat(value))
 			{
 				const String name = "##" + label + "##Float##Uni" + value->name;
-				ImGui::InputFloat(name.c_str(), &u->data, 0.1f);
-				return true;
+				if (drag) ImGui::DragFloat(name.c_str(), temp, 0.1f);
+				else ImGui::InputFloat(name.c_str(), temp, 0.1f);
+				if (auto u = value->as<uni_flt>()) { u->data = (*temp); return 1; }
+				else return -1;
 			}
+			break;
 
 			// Int
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_int::ID:
-			if (auto u = dynamic_cast<uni_int *>(value))
+			if (int32_t * temp = impl::toInt(value))
 			{
 				const String name = "##" + label + "##Int##Uni" + value->name;
-				ImGui::InputInt(name.c_str(), &u->data, 1);
-				return true;
+				if (drag) ImGui::DragInt(name.c_str(), temp, 0.1f);
+				else ImGui::InputInt(name.c_str(), temp, 1);
+				if (auto u = value->as<uni_int>()) { u->data = (*temp); return 1; }
+				else return -1;
 			}
+			break;
 
 			// Vec2
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec2::ID:
-			if (auto u = dynamic_cast<uni_vec2 *>(value))
+			if (vec2 * temp = impl::toVec2(value))
 			{
 				const String name = "##" + label + "##Vec2##Uni" + value->name;
-				ImGui::InputFloat2(name.c_str(), &u->data[0], 1);
-				return true;
+				if (drag) ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
+				else ImGui::InputFloat2(name.c_str(), &(*temp)[0], 1);
+				if (auto u = value->as<uni_vec2>()) { u->data = (*temp); return 1; }
+				else return -1;
 			}
 
 			// Vec3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec3::ID:
-			if (auto u = dynamic_cast<uni_vec3 *>(value))
+			if (vec3 * temp = impl::toVec3(value))
 			{
 				const String name = "##" + label + "##Vec3##Uni" + value->name;
-				ImGui::InputFloat3(name.c_str(), &u->data[0], 1);
-				return true;
+				if (drag) ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
+				else ImGui::InputFloat3(name.c_str(), &(*temp)[0], 1);
+				if (auto u = value->as<uni_vec3>()) { u->data = (*temp); return 1; }
+				else return -1;
 			}
 
 			// Vec4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec4::ID:
-			if (auto u = dynamic_cast<uni_vec4 *>(value))
+			if (vec4 * temp = impl::toVec4(value))
 			{
 				const String name = "##" + label + "##Vec4##Uni" + value->name;
-				ImGui::InputFloat4(name.c_str(), &u->data[0], 1);
-				return true;
+				if (drag) ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
+				else ImGui::InputFloat4(name.c_str(), &(*temp)[0], 1);
+				if (auto u = value->as<uni_vec4>()) { u->data = (*temp); return 1; }
+				else return -1;
 			}
 
 			// Col4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_col4::ID:
-			if (auto u = dynamic_cast<uni_col4 *>(value))
+			if (vec4 * temp = impl::toCol4(value))
 			{
-				const String name = "##" + label + "##Color##Uni" + value->name;
-				ImGui::ColorEdit4(name.c_str(), &u->data[0]);
-				return true;
+				const String name = "##" + label + "##Col4##Uni" + value->name;
+				if (drag) ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
+				else ImGui::InputFloat4(name.c_str(), &(*temp)[0], 1);
+				if (auto u = value->as<uni_col4>()) { u->data = (*temp); return 1; }
+				else return -1;
 			}
 
 			// Mat3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat3::ID:
-			if (auto u = dynamic_cast<uni_mat3 *>(value))
+			if (mat3 * temp = impl::toMat3(value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value->name;
-				ImGui::InputFloat4((name + "##0").c_str(), &u->data[0], 3);
-				ImGui::InputFloat4((name + "##3").c_str(), &u->data[3], 3);
-				ImGui::InputFloat4((name + "##6").c_str(), &u->data[6], 3);
-				return true;
+				if (drag)
+				{
+					ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
+					ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 3);
+					ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 3);
+				}
+				else
+				{
+					ImGui::InputFloat4((name + "##00").c_str(), &(*temp)[0], 3);
+					ImGui::InputFloat4((name + "##03").c_str(), &(*temp)[3], 3);
+					ImGui::InputFloat4((name + "##06").c_str(), &(*temp)[6], 3);
+				}
+				if (auto u = value->as<uni_mat3>()) { u->data = (*temp); return 1; }
+				else return -1;
 			}
 
 			// Mat4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat4::ID:
-			if (auto u = dynamic_cast<uni_mat4 *>(value))
+			if (mat4 * temp = impl::toMat4(value))
 			{
-				const String name = "##" + label + "##Mat4##Uni" + value->name;
-				ImGui::InputFloat4((name + "##0").c_str(), &u->data[0],   3);
-				ImGui::InputFloat4((name + "##4").c_str(), &u->data[4],   3);
-				ImGui::InputFloat4((name + "##8").c_str(), &u->data[8],   3);
-				ImGui::InputFloat4((name + "##12").c_str(), &u->data[12], 3);
-				return true;
+				const String name = "##" + label + "##Mat3##Uni" + value->name;
+				if (drag)
+				{
+					ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
+					ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4], 3);
+					ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8], 3);
+					ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 3);
+				}
+				else
+				{
+					ImGui::InputFloat4((name + "##00").c_str(), &(*temp)[0], 3);
+					ImGui::InputFloat4((name + "##04").c_str(), &(*temp)[4], 3);
+					ImGui::InputFloat4((name + "##08").c_str(), &(*temp)[8], 3);
+					ImGui::InputFloat4((name + "##12").c_str(), &(*temp)[12], 3);
+				}
+				if (auto u = value->as<uni_mat4>()) { u->data = (*temp); return 1; }
+				else return -1;
 			}
 
 			// Tex
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_tex2::ID:
-			if (auto u = dynamic_cast<uni_tex2 *>(value))
+			if (auto u = value->as<uni_tex2>())
 			{
 				if (const Texture * tex = Layout::ResourceDropdown(
 					"##Texture##Uni",
@@ -1060,10 +1084,10 @@ namespace ml
 				{
 					u->data = tex;
 				}
-				return true;
+				return 1;
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

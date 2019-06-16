@@ -125,10 +125,10 @@ namespace ml
 		inline bool getDown	(int32_t k, const Mods & m) const { return getDown(k) && (mod == m); }
 		inline bool getUp	(int32_t k, const Mods & m)	const { return getUp(k) && (mod == m); }
 
-		inline bool isAlt	(int32_t k)	const { return getPress(k, Mods{ 0, 0, 1, 0 }); }
-		inline bool isCtrl	(int32_t k)	const { return getPress(k, Mods{ 0, 1, 0, 0 }); }
-		inline bool isShift	(int32_t k)	const { return getPress(k, Mods{ 1, 0, 0, 0 }); }
-		inline bool isSuper	(int32_t k)	const { return getPress(k, Mods{ 0, 0, 0, 1 }); }
+		inline bool isShift	(int32_t k)	const { return getPress(k, { 1, 0, 0, 0 }); }
+		inline bool isCtrl	(int32_t k)	const { return getPress(k, { 0, 1, 0, 0 }); }
+		inline bool isAlt	(int32_t k)	const { return getPress(k, { 0, 0, 1, 0 }); }
+		inline bool isSuper	(int32_t k)	const { return getPress(k, { 0, 0, 0, 1 }); }
 
 		inline bool isNew	() const { return isCtrl(KeyCode::N); }
 		inline bool isOpen	() const { return isCtrl(KeyCode::O); }

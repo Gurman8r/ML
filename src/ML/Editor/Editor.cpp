@@ -94,6 +94,23 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				// Show Terminal | Ctrl+Alt+T
+				if (ev->getPress(KeyCode::T, { 0, 1, 1, 0 })) get<TerminalGui>()->setOpen(true);
+
+				// Show Browser | Ctrl+Alt+E
+				if (ev->getPress(KeyCode::E, { 0, 1, 1, 0 })) get<BrowserGui>()->setOpen(true);
+
+				// Show Builder | Ctrl+Alt+B)
+				if (ev->getPress(KeyCode::B, { 0, 1, 1, 0 })) get<BuilderGui>()->setOpen(true);
+
+				// Show Profiler | Ctrl+Alt+P
+				if (ev->getPress(KeyCode::P, { 0, 1, 1, 0 })) get<ProfilerGui>()->setOpen(true);
+
+				// Show Resources | Ctrl+Alt+R
+				if (ev->getPress(KeyCode::R, { 0, 1, 1, 0 })) get<ResourceGui>()->setOpen(true);
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				// File -> New | Ctrl+N
 				if (ev->isNew()) eventSystem().fireEvent(File_New_Event());
 
@@ -119,23 +136,6 @@ namespace ml
 
 				// Edit -> Paste | Ctrl+V / Shift+Insert
 				if (ev->isPaste()) eventSystem().fireEvent(Edit_Paste_Event());
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				// Show TerminalGui | Ctrl+Alt+T
-				if (ev->getPress(KeyCode::T, { 1, 0, 1, 0 })) get<TerminalGui>()->setOpen(true);
-
-				// Show BrowserGui | Ctrl+Alt+E
-				if (ev->getPress(KeyCode::E, { 1, 0, 0, 0 })) get<BrowserGui>()->setOpen(true);
-
-				// Show BuilderGui | Ctrl+Alt+B)
-				if (ev->getPress(KeyCode::B, { 1, 0, 1, 0 })) get<BuilderGui>()->setOpen(true);
-
-				// Show Profiler | Ctrl+Alt+P
-				if (ev->getPress(KeyCode::P, { 1, 0, 1, 0 })) get<ProfilerGui>()->setOpen(true);
-
-				// Show Resource | Ctrl+Alt+R
-				if (ev->getPress(KeyCode::R, { 1, 0, 1, 0 })) get<ResourceGui>()->setOpen(true);
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			}

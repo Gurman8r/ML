@@ -44,6 +44,7 @@ namespace ml
 		inline const Shader *& shader()			{ return m_shader;  }
 		inline const Texture & texture() const	{ return m_texture; }
 		inline		 Texture & texture()		{ return m_texture; }
+		inline const vec2i	 & size()	 const  { return m_size;	}
 
 	private:
 		const Model *	m_model;

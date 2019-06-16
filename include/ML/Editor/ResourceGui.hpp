@@ -44,7 +44,7 @@ namespace ml
 
 	public:
 		static void NewUniformPopup(Material * mat);
-		static int32_t UniformField(Resources & resources, const String & label, uni_base * value, bool drag = false);
+		static int32_t UniformField(Resources & resources, const String & label, uni_base * value, bool drag = true);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

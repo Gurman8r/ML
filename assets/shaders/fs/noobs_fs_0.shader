@@ -19,9 +19,15 @@ out vec4 gl_Color;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+uniform struct Vert_Uniforms
+{
+	mat4		proj;
+	mat4		view;
+	mat4		model;
+} Vert;
+
 uniform struct Frag_Uniforms
 {
-	vec3		cameraPos;
 	vec3		lightPos;
 	vec4		diffuse;
 	float		ambient;
@@ -32,18 +38,30 @@ uniform struct Frag_Uniforms
 	sampler2D	specTex;
 } Frag;
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 uniform struct Time_Uniforms
 {
-	float delta;
-	float total;
+	float		delta;
+	float		total;
 } Time;
+
+uniform struct Display_Uniforms
+{
+	int			width;
+	int			height;
+	vec4		color;
+} Display;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 void main()
 {
+	// Camera
+	vec3 cameraPos = vec3(
+		Vert.view[0][3],
+		Vert.view[1][3],
+		Vert.view[2][3]
+	);
+	
 	// Ambient
 	vec4	ambientOut	= (Frag.ambient * Frag.diffuse);
 
@@ -56,9 +74,9 @@ void main()
 	vec4	diffuseOut	= (diffColor * diffTexture);
 
 	// Specular		 
-	vec3	specCamPos	= normalize(Frag.cameraPos - In.Position);
+	vec3	specCamera	= normalize(cameraPos - In.Position);
 	vec3	specReflect	= reflect(-diffDir, diffNormal);
-	float	specAmount	= pow(max(dot(specCamPos, specReflect), 0.0), Frag.shininess);
+	float	specAmount	= pow(max(dot(specCamera, specReflect), 0.0), Frag.shininess);
 	vec4	specColor	= vec4(Frag.specular * specAmount * Frag.diffuse.rgb, 1.0);
 	vec4	specTexture	= texture(Frag.specTex, In.Texcoord);
 	vec4	specularOut	= (specColor * specTexture);

@@ -157,20 +157,22 @@ namespace DEMO
 			"noobs_material_0",
 			ev.resources.shaders.get("noobs_shader_0"),
 			ml::List<ml::uni_base *>({
-				new ml::uni_flt_cr	("Time.delta",		noobs.deltaTime),
 				new ml::uni_flt_cr	("Time.total",		noobs.totalTime),
-				new ml::uni_mat4	("Vert.proj",		persp.getMat()),
+				new ml::uni_flt_cr	("Time.delta",		noobs.deltaTime),
 				new ml::uni_mat4	("Vert.view",		camera.getMat()),
+				new ml::uni_mat4	("Vert.proj",		persp.getMat()),
 				new ml::uni_mat4	("Vert.model",		model.getMat()),
-				new ml::uni_vec3	("Frag.cameraPos",	camera.getPos()),
+				new ml::uni_flt		("Frag.specular",	0.1f),
+				new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("earth_sm")),
+				new ml::uni_int		("Frag.shininess",	8),
+				new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
+				new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
 				new ml::uni_vec3	("Frag.lightPos",	light.getPos()),
 				new ml::uni_col4	("Frag.diffuse",	ml::Color::LightYellow),
-				new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
-				new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
-				new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("earth_sm")),
 				new ml::uni_flt		("Frag.ambient",	0.01f),
-				new ml::uni_flt		("Frag.specular",	0.1f),
-				new ml::uni_int		("Frag.shininess",	8),
+				new ml::uni_int_cr	("Display.width",	noobs.resolution[0]),
+				new ml::uni_int_cr	("Display.height",	noobs.resolution[1]),
+				new ml::uni_col4_cr	("Display.color",	noobs.clearColor),
 				}));
 
 		// Create Entity
@@ -206,17 +208,13 @@ namespace DEMO
 		noobs.deltaTime = ev.time.elapsed().delta();
 		noobs.totalTime = ev.time.total().delta();
 
-		// Update Surface Sizes
+		// Update Surfaces
 		if (noobs.freeAspect)
 		{
-			noobs.surf_main->resize(ev.window.getFrameSize());
-			noobs.surf_post->resize(ev.window.getFrameSize());
+			noobs.resolution = ev.window.getFrameSize();
 		}
-		else
-		{
-			noobs.surf_main->resize(noobs.resolution);
-			noobs.surf_post->resize(noobs.resolution);
-		}
+		noobs.surf_main->resize(noobs.resolution);
+		noobs.surf_post->resize(noobs.resolution);
 	}
 
 	void Noobs::onDraw(const ml::DrawEvent & ev)
@@ -296,15 +294,11 @@ namespace DEMO
 						(int32_t)res_names.size()
 					))
 					{
-						if (!(noobs.freeAspect = (index == 0)))
-						{
-							noobs.resolution = (ml::vec2i)res_values[index - 1].resolution;
-							ml::Debug::log(noobs.resolution.ToString());
-						}
-						else
-						{
-							ml::Debug::log("Free");
-						}
+						noobs.freeAspect = (index == 0);
+					}
+					if (!(noobs.freeAspect))
+					{
+						noobs.resolution = (ml::vec2i)res_values[index - 1].resolution;
 					}
 
 					// Clear Color
@@ -551,76 +545,42 @@ namespace DEMO
 				/* * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
 				{
-					// New Uniform
 					ml::ResourceGui::NewUniformPopup(noobs.material);
 
-					// Display List
-					if (!noobs.material->uniforms().empty())
-					{
-						ImGui::Separator();
-					}
+					if (!noobs.material->uniforms().empty()) ImGui::Separator();
 
-					static int32_t mode = 0;
-					static bool useDrag = false;
+					ml::List<ml::Material::UniformMap::reverse_iterator> toRemove;
 
-					ImGui::Combo(
-						"Draw Mode", 
-						&mode, 
-						"Tree Node\0"
-						"Collapsing Header\0"
-					);
-					ImGui::SameLine();
-					ImGui::Checkbox("Use Drag", &useDrag);
-
-					ml::List<ml::Material::UniformMap::iterator> toRemove;
-					for (auto it = noobs.material->uniforms().begin(); it != noobs.material->uniforms().end(); it++)
+					for (auto it = noobs.material->uniforms().rbegin();
+						it != noobs.material->uniforms().rend(); 
+						it++)
 					{
 						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
-							
-						switch (mode)
+						
+						if (ImGui::TreeNode(it->first.c_str()))
 						{
-						case 0: { 
-							if (!ImGui::TreeNode(it->first.c_str())) continue; 
-						} break;
-
-						case 1: { 
-							if (!ImGui::CollapsingHeader(it->first.c_str())) continue; 
-							ImGui::PushID(label.c_str());
-						} break;
-						}
-
-						/* * * * * * * * * * * * * * * * * * * * */
-							
-						if (ML_SUCCESS == ml::ResourceGui::UniformField(
-							ev.resources,
-							label,
-							it->second,
-							useDrag
-						))
-						{
-							ImGui::SameLine();
-							if (ImGui::Button(ml::String("Delete" + label).c_str()))
+							if (1 == ml::ResourceGui::UniformField(
+								ev.resources,
+								label,
+								it->second
+							))
 							{
-								toRemove.push_back(it);
+								ImGui::SameLine();
+								if (ImGui::Button(ml::String("Delete" + label).c_str()))
+								{
+									toRemove.push_back(it);
+								}
 							}
-						}
 
-						ImGui::NewLine();
+							ImGui::NewLine();
+							ImGui::TreePop();
+						}
 						ImGui::Separator();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						switch (mode)
-						{
-						case 0: ImGui::TreePop(); break;
-						case 1: ImGui::PopID(); break;
-						}
 					}
-
 					for (auto it : toRemove)
 					{
 						ml::uni_base * u = it->second;
-						noobs.material->uniforms().erase(it);
+						noobs.material->uniforms().erase(it.base());
 						delete u;
 					}
 

@@ -28,8 +28,6 @@ uniform struct Vert_Uniforms
 	mat4 model;
 } Vert;
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 uniform struct Time_Uniforms
 {
 	float delta;

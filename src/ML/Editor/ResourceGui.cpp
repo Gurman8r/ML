@@ -1020,8 +1020,7 @@ namespace ml
 			if (vec4 * temp = impl::toCol4(value))
 			{
 				const String name = "##" + label + "##Col4##Uni" + value->name;
-				if (drag) ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
-				else ImGui::InputFloat4(name.c_str(), &(*temp)[0], 1);
+				ImGui::ColorEdit4(name.c_str(), &(*temp)[0], 0.1f);
 				if (auto u = value->as<uni_col4>()) { u->data = (*temp); return 1; }
 				else return -1;
 			}

@@ -145,12 +145,16 @@ namespace ml
 		ImGui::CreateContext();
 
 		// Load ImGui Style
-		StyleLoader loader;
-		if (loader.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString(
+		const String styleConf = ev.prefs.GetString(
 			"Editor",
 			"styleConfig",
-			""
-		))))
+			"Classic"
+		);
+
+		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
+		else if (styleConf == "Dark") ImGui::StyleColorsDark();
+		else if (styleConf == "Light") ImGui::StyleColorsLight();
+		else if (StyleLoader loader = StyleLoader(ML_FS.getPathTo(styleConf)))
 		{
 			// should be data driven
 			ImGui::GetStyle().FrameBorderSize = 1.0f;

@@ -92,6 +92,18 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	StyleLoader::StyleLoader()
+		: m_good(false)
+	{
+	}
+
+	StyleLoader::StyleLoader(const String & filename)
+		: StyleLoader()
+	{
+		loadFromFile(filename);
+	}
+
+	StyleLoader::StyleLoader(StyleLoader && copy)
+		: m_good(copy.m_good)
 	{
 	}
 
@@ -187,12 +199,6 @@ namespace ml
 		return false;
 
 		/* * * * * * * * * * * * * * * * * * * * */
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void StyleLoader::serialize(OStream & out) const
-	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -16,15 +16,17 @@ namespace ml
 	{
 	public:
 		StyleLoader();
+		explicit StyleLoader(const String & filename);
+		StyleLoader(StyleLoader && copy);
 		~StyleLoader();
 
 	public:
 		bool loadFromFile(const String & filename) override;
 
-	public:
-		void serialize(OStream & out) const override;
+		inline operator bool() const { return m_good; }
 
 	private:
+		bool m_good;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -18,9 +18,9 @@ set WorkingDir=%cd%\
 set MSBuildPath=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\
 set VCTargetsPath=%MSBuildPath%Common7\IDE\VC\VCTargets\
 set VCVarsPath=%MSBuildPath%VC\Auxiliary\Build\
-set VCVars32=vcvars32.bat
-set VCVars64=vcvars64.bat
 
+
+rem Solution
 set Solution=%1
 if not exist "%Solution%" (
 	echo Solution Not Found "%Solution%"
@@ -44,12 +44,10 @@ set %5
 rem Environment Variables
 cd %VCVarsPath%
 if "%Target%"=="x86" (
-	echo Running %VCVars32%...
-	call %VCVars32%
+	call vcvars32.bat
 ) else (
 	if "%Target%"=="x64" (
-		echo Running %VCVars64%...
-		call %VCVars64%
+		call vcvars64.bat
 	) else (
 		echo Unknown Platform Target: %Target%
 		pause

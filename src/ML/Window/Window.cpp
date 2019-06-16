@@ -87,7 +87,7 @@ namespace ml
 	bool Window::create(const String & title, const VideoSettings & screen, const StyleSettings & style, const ContextSettings & context)
 	{
 		m_title		= title;
-		m_video	= screen;
+		m_video		= screen;
 		m_context	= context;
 		m_style		= style;
 
@@ -171,12 +171,12 @@ namespace ml
 
 			setKeyCallback([](void * window, int32_t button, int32_t scan, int32_t action, int32_t mods)
 			{
-				s_EventSystem->fireEvent(KeyEvent(button, scan, action,
+				s_EventSystem->fireEvent(KeyEvent(button, scan, action, {
 					(bool)(mods & ML_MOD_SHIFT),
 					(bool)(mods & ML_MOD_CTRL),
 					(bool)(mods & ML_MOD_ALT),
 					(bool)(mods & ML_MOD_SUPER)
-				));
+					}));
 			});
 
 			setMouseButtonCallback([](void * window, int32_t button, int32_t action, int32_t mods)

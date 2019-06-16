@@ -19,12 +19,12 @@ namespace ml
 		: EventListener(eventSystem)
 		, m_gui()
 	{
-		create<DockspaceGui>(String(), eventSystem)->isOpen() = true;
-		create<BrowserGui>	(String(), eventSystem)->isOpen() = false;
-		create<BuilderGui>	(String(), eventSystem)->isOpen() = false;
-		create<ProfilerGui>	(String(), eventSystem)->isOpen() = false;
-		create<ResourceGui>	(String(), eventSystem)->isOpen() = true;
-		create<TerminalGui>	(String(), eventSystem)->isOpen() = true;
+		create<DockspaceGui>(String(), eventSystem)->setOpen(true);
+		create<BrowserGui>	(String(), eventSystem)->setOpen(false);
+		create<BuilderGui>	(String(), eventSystem)->setOpen(false);
+		create<ProfilerGui>	(String(), eventSystem)->setOpen(false);
+		create<ResourceGui>	(String(), eventSystem)->setOpen(true);
+		create<TerminalGui>	(String(), eventSystem)->setOpen(true);
 
 		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(ExitEvent::ID,			this);
@@ -36,7 +36,7 @@ namespace ml
 		eventSystem.addListener(File_New_Event::ID,		this);
 		eventSystem.addListener(File_Open_Event::ID,	this);
 		eventSystem.addListener(File_Save_Event::ID,	this);
-		eventSystem.addListener(File_Close_Event::ID,	this);
+		eventSystem.addListener(File_Quit_Event::ID,	this);
 		eventSystem.addListener(Edit_Undo_Event::ID,	this);
 		eventSystem.addListener(Edit_Redo_Event::ID,	this);
 		eventSystem.addListener(Edit_Cut_Event::ID,		this);
@@ -73,7 +73,7 @@ namespace ml
 		case GuiEvent::ID:		return onGui(*value->as<GuiEvent>());
 		case EndGuiEvent::ID:	return onEndGui(*value->as<EndGuiEvent>());
 
-			// Build Dockspace Event
+			// Build Dockspace
 			/* * * * * * * * * * * * * * * * * * * * */
 		case BuildDockspaceEvent::ID:
 			if (auto ev = value->as<BuildDockspaceEvent>())
@@ -87,49 +87,116 @@ namespace ml
 			}
 			break;
 
-			// Key Event
+			// Key
 			/* * * * * * * * * * * * * * * * * * * * */
 		case KeyEvent::ID:
 			if (auto ev = value->as<KeyEvent>())
 			{
-				// Show TerminalGui (Ctrl+Alt+T)
-				if (ev->getKeyDown(KeyCode::T) && (ev->mod_ctrl && ev->mod_alt))
-					get<TerminalGui>()->isOpen() = true;
+				/* * * * * * * * * * * * * * * * * * * * */
 
-				// Show BrowserGui (Ctrl+Alt+E)
-				if (ev->getKeyDown(KeyCode::E) && (ev->mod_ctrl))
-					get<BrowserGui>()->isOpen() = true;
+				// File -> New | Ctrl+N
+				if (ev->isNew()) eventSystem().fireEvent(File_New_Event());
 
-				// Show BuilderGui (Ctrl+Alt+B)
-				if (ev->getKeyDown(KeyCode::B) && (ev->mod_ctrl && ev->mod_alt))
-					get<BuilderGui>()->isOpen() = true;
+				// File -> Open | Ctrl+O
+				if (ev->isOpen()) eventSystem().fireEvent(File_Open_Event());
 
-				// Show Profiler (Ctrl+Alt+P)
-				if (ev->getKeyDown(KeyCode::P) && (ev->mod_ctrl))
-					get<ProfilerGui>()->isOpen() = true;
+				// File -> Save | Ctrl+S
+				if (ev->isSave()) eventSystem().fireEvent(File_Save_Event());
 
-				// Show Resource (Ctrl+Alt+R)
-				if (ev->getKeyDown(KeyCode::R) && (ev->mod_ctrl && ev->mod_alt))
-					get<ResourceGui>()->isOpen() = true;
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				// Edit -> Undo	| Ctrl+Z
+				if (ev->isUndo()) eventSystem().fireEvent(Edit_Undo_Event());
+
+				// Edit -> Redo	| Ctrl+Y / Ctrl+Shift+Z
+				if (ev->isRedo()) eventSystem().fireEvent(Edit_Redo_Event());
+
+				// Edit -> Cut	| Ctrl+X / Shift+Insert
+				if (ev->isCut()) eventSystem().fireEvent(Edit_Cut_Event());
+
+				// Edit -> Copy | Ctrl+C / Ctrl+Insert
+				if (ev->isCopy()) eventSystem().fireEvent(Edit_Copy_Event());
+
+				// Edit -> Paste | Ctrl+V / Shift+Insert
+				if (ev->isPaste()) eventSystem().fireEvent(Edit_Paste_Event());
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				// Show TerminalGui | Ctrl+Alt+T
+				if (ev->getPress(KeyCode::T, { 1, 0, 1, 0 })) get<TerminalGui>()->setOpen(true);
+
+				// Show BrowserGui | Ctrl+Alt+E
+				if (ev->getPress(KeyCode::E, { 1, 0, 0, 0 })) get<BrowserGui>()->setOpen(true);
+
+				// Show BuilderGui | Ctrl+Alt+B)
+				if (ev->getPress(KeyCode::B, { 1, 0, 1, 0 })) get<BuilderGui>()->setOpen(true);
+
+				// Show Profiler | Ctrl+Alt+P
+				if (ev->getPress(KeyCode::P, { 1, 0, 1, 0 })) get<ProfilerGui>()->setOpen(true);
+
+				// Show Resource | Ctrl+Alt+R
+				if (ev->getPress(KeyCode::R, { 1, 0, 1, 0 })) get<ResourceGui>()->setOpen(true);
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			}
 			break;
 
-			// File -> Close Event
+
+			// File -> New
 			/* * * * * * * * * * * * * * * * * * * * */
-		case File_Close_Event::ID:
-			if (auto ev = value->as<File_Close_Event>())
-			{
-				eventSystem().fireEvent(WindowKillEvent());
-			}
+		case File_New_Event::ID:
+			if (auto ev = value->as<File_New_Event>()) {}
 			break;
 
-			// File -> Open Event
+			// File -> Open
 			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Open_Event::ID:
 			if (auto ev = value->as<File_Open_Event>())
-			{
 				OS::execute("open", get<BrowserGui>()->get_selected_path());
-			}
+			break;
+
+			// File -> Save
+			/* * * * * * * * * * * * * * * * * * * * */
+		case File_Save_Event::ID:
+			if (auto ev = value->as<File_Save_Event>()) {}
+			break;
+
+			// File -> Exit
+			/* * * * * * * * * * * * * * * * * * * * */
+		case File_Quit_Event::ID:
+			if (auto ev = value->as<File_Quit_Event>()) 
+				eventSystem().fireEvent(WindowKillEvent());
+			break;
+
+
+			// Edit -> Undo
+			/* * * * * * * * * * * * * * * * * * * * */
+		case Edit_Undo_Event::ID:
+			if (auto ev = value->as<Edit_Undo_Event>()) {}
+			break;
+
+			// Edit -> Redo
+			/* * * * * * * * * * * * * * * * * * * * */
+		case Edit_Redo_Event::ID:
+			if (auto ev = value->as<Edit_Redo_Event>()) {}
+			break;
+
+			// Edit -> Cut
+			/* * * * * * * * * * * * * * * * * * * * */
+		case Edit_Cut_Event::ID:
+			if (auto ev = value->as<Edit_Cut_Event>()) {}
+			break;
+
+			// Edit -> Copy
+			/* * * * * * * * * * * * * * * * * * * * */
+		case Edit_Copy_Event::ID:
+			if (auto ev = value->as<Edit_Copy_Event>()) {}
+			break;
+
+			// Edit -> Paste
+			/* * * * * * * * * * * * * * * * * * * * */
+		case Edit_Paste_Event::ID: 
+			if (auto ev = value->as<Edit_Paste_Event>()) {}
 			break;
 		}
 	}
@@ -230,14 +297,8 @@ namespace ml
 				{
 					eventSystem().fireEvent(File_Open_Event());
 				}
-				ImGui::Separator();
 				// File -> Save
 				if (ImGui::MenuItem("Save", "Ctrl+S"))
-				{
-					eventSystem().fireEvent(File_Save_Event());
-				}
-				// File -> Save All
-				if (ImGui::MenuItem("Save All", "Ctrl+Shift+S", false))
 				{
 					eventSystem().fireEvent(File_Save_Event());
 				}
@@ -245,7 +306,7 @@ namespace ml
 				// File -> Quit
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{
-					eventSystem().fireEvent(File_Close_Event());
+					eventSystem().fireEvent(File_Quit_Event());
 				}
 
 				eventSystem().fireEvent(MainMenuBarEvent(
@@ -299,11 +360,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(get<TerminalGui>()->getTitle(), "Ctrl+Alt+T", &get<TerminalGui>()->isOpen());
-				ImGui::MenuItem(get<BrowserGui>()->getTitle(), "Ctrl+Alt+E", &get<BrowserGui>()->isOpen());
-				ImGui::MenuItem(get<BuilderGui>()->getTitle(), "Ctrl+Alt+B", &get<BuilderGui>()->isOpen());
-				ImGui::MenuItem(get<ProfilerGui>()->getTitle(), "Ctrl+Alt+P", &get<ProfilerGui>()->isOpen());
-				ImGui::MenuItem(get<ResourceGui>()->getTitle(), "Ctrl+Alt+R", &get<ResourceGui>()->isOpen());
+				ImGui::MenuItem(get<TerminalGui>()->getTitle(), "Ctrl+Alt+T", get<TerminalGui>()->openPtr());
+				ImGui::MenuItem(get<BrowserGui> ()->getTitle(), "Ctrl+Alt+E", get<BrowserGui> ()->openPtr());
+				ImGui::MenuItem(get<BuilderGui> ()->getTitle(), "Ctrl+Alt+B", get<BuilderGui> ()->openPtr());
+				ImGui::MenuItem(get<ProfilerGui>()->getTitle(), "Ctrl+Alt+P", get<ProfilerGui>()->openPtr());
+				ImGui::MenuItem(get<ResourceGui>()->getTitle(), "Ctrl+Alt+R", get<ResourceGui>()->openPtr());
 
 				eventSystem().fireEvent(MainMenuBarEvent(
 					(*this),

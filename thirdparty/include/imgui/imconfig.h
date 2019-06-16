@@ -11,8 +11,7 @@
 // Call IMGUI_CHECKVERSION() from your .cpp files to verify that the data structures your files are using are matching the ones imgui.cpp is using.
 //-----------------------------------------------------------------------------
 
-#ifndef _IMCONFIG_H_
-#define _IMCONFIG_H_
+#pragma once
 
 #include <ML/Editor/Export.hpp>
 #define IMGUI_API ML_EDITOR_API
@@ -86,5 +85,3 @@ namespace ImGui
     void MyFunction(const char* name, const MyMatrix44& v);
 }
 */
-
-#endif // !_IMCONFIG_H_

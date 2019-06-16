@@ -79,7 +79,7 @@ namespace ml
 			if (auto ev = value->as<KeyEvent>())
 			{
 				// Exit (Escape)
-				if (ev->getKeyDown(KeyCode::Escape))
+				if (ev->getPress(KeyCode::Escape))
 				{
 					eventSystem().fireEvent(WindowKillEvent());
 				}

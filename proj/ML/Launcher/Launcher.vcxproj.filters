@@ -111,9 +111,6 @@
     <None Include="..\..\..\assets\shaders\vs\noobs_vs_0.shader">
       <Filter>Resource Files\assets\shaders\vs</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\common\Time.shader">
-      <Filter>Resource Files\assets\shaders\common</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">

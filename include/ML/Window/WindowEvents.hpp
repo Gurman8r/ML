@@ -89,36 +89,66 @@ namespace ml
 
 	struct ML_WINDOW_API KeyEvent final : public IEvent<WindowEvent::EV_Key>
 	{
-		const int32_t button, scan, action;
-		const bool mod_shift, mod_ctrl, mod_alt, mod_super;
-		KeyEvent(
-			int32_t button, int32_t scan, int32_t action, 
-			bool mod_shift, bool mod_ctrl, bool mod_alt, bool mod_super)
-			: button	(button)
-			, scan		(scan)
-			, action	(action)
-			, mod_shift	(mod_shift)
-			, mod_ctrl	(mod_ctrl)
-			, mod_alt	(mod_alt)
-			, mod_super	(mod_super)
+		const int32_t key, scan, act;
+		
+		const struct Mods
+		{ 
+			bool shift	= false;
+			bool ctrl	= false;
+			bool alt	= false;
+			bool super	= false;
+
+			inline friend bool operator==(const Mods & lhs, const Mods & rhs)
+			{
+				return
+					lhs.shift == rhs.shift &&
+					lhs.ctrl  == rhs.ctrl  &&
+					lhs.alt	  == rhs.alt   &&
+					lhs.super == rhs.super ;
+			}
+
+		} mod;
+
+		KeyEvent(int32_t key, int32_t scan, int32_t act, const Mods & mod)
+			: key	(key)
+			, scan	(scan)
+			, act	(act)
+			, mod	{ mod.shift, mod.ctrl, mod.alt, mod.super }
 		{
 		}
-		inline bool getAction	(int32_t a)	const { return (action == a); }
-		inline bool getKey		(int32_t b)	const { return (button == b); }
-		inline bool getKeyDown	(int32_t b)	const { return getKey(b) && getAction(ML_KEY_PRESS); }
-		inline bool getKeyRepeat(int32_t b) const { return getKey(b) && getAction(ML_KEY_REPEAT); }
-		inline bool getKeyUp	(int32_t b)	const { return getKey(b) && getAction(ML_KEY_RELEASE); }
+
+		inline bool getPress(int32_t k)	const { return (key == k && act == ML_KEY_PRESS); }
+		inline bool getDown	(int32_t k) const { return (key == k && act == ML_KEY_REPEAT); }
+		inline bool getUp	(int32_t k)	const { return (key == k && act == ML_KEY_RELEASE); }
+
+		inline bool getPress(int32_t k, const Mods & m)	const { return getPress(k) && (mod == m); }
+		inline bool getDown	(int32_t k, const Mods & m) const { return getDown(k) && (mod == m); }
+		inline bool getUp	(int32_t k, const Mods & m)	const { return getUp(k) && (mod == m); }
+
+		inline bool isAlt	(int32_t k)	const { return getPress(k, Mods{ 0, 0, 1, 0 }); }
+		inline bool isCtrl	(int32_t k)	const { return getPress(k, Mods{ 0, 1, 0, 0 }); }
+		inline bool isShift	(int32_t k)	const { return getPress(k, Mods{ 1, 0, 0, 0 }); }
+		inline bool isSuper	(int32_t k)	const { return getPress(k, Mods{ 0, 0, 0, 1 }); }
+
+		inline bool isNew	() const { return isCtrl(KeyCode::N); }
+		inline bool isOpen	() const { return isCtrl(KeyCode::O); }
+		inline bool isSave	() const { return isCtrl(KeyCode::S) || getPress(KeyCode::S, { 1, 1, 0, 0 }); }
+		inline bool isUndo	() const { return isCtrl(KeyCode::Z); }
+		inline bool isRedo	() const { return isCtrl(KeyCode::Y) || getPress(KeyCode::Z, { 1, 1, 0, 0 }); }
+		inline bool isCut	() const { return isCtrl(KeyCode::X) || isShift(KeyCode::Delete); }
+		inline bool isCopy	() const { return isCtrl(KeyCode::C) || isCtrl(KeyCode::Insert); }
+		inline bool isPaste	() const { return isCtrl(KeyCode::V) || isShift(KeyCode::Insert); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API MouseButtonEvent final : public IEvent<WindowEvent::EV_MouseButton>
 	{
-		const int32_t button, action, mods;
-		MouseButtonEvent(int32_t button, int32_t action, int32_t mods)
-			: button(button)
-			, action(action)
-			, mods(mods)
+		const int32_t key, act, mod;
+		MouseButtonEvent(int32_t key, int32_t act, int32_t mod)
+			: key(key)
+			, act(act)
+			, mod(mod)
 		{
 		}
 	};

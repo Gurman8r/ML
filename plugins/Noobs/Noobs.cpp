@@ -186,15 +186,16 @@ namespace DEMO
 		// Default Files
 		noobs.files.push_back(new NoobFile("Main",
 			"#shader vertex\n"
-			"#include \"Vert\"\n\n"
-			
+			"#include \"Vertex\"\n"
+			"\n"
 			"#shader fragment\n"
-			"#include \"Frag\"\n\n"
+			"#include \"Fragment\"\n"
+			"\n"
 		));
-		noobs.files.push_back(new NoobFile("Vert",
+		noobs.files.push_back(new NoobFile("Vertex",
 			noobs.material->shader()->vertSrc()
 		));
-		noobs.files.push_back(new NoobFile("Frag",
+		noobs.files.push_back(new NoobFile("Fragment",
 			noobs.material->shader()->fragSrc()
 		));
 	}

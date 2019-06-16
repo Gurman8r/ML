@@ -186,7 +186,6 @@
     <None Include="..\..\..\assets\shaders\common\Frag.Draw.shader" />
     <None Include="..\..\..\assets\shaders\common\Frag.shader" />
     <None Include="..\..\..\assets\shaders\common\Geom.Curve.shader" />
-    <None Include="..\..\..\assets\shaders\common\Time.shader" />
     <None Include="..\..\..\assets\shaders\common\Vert.MVP.shader" />
     <None Include="..\..\..\assets\shaders\common\Vert.shader" />
     <None Include="..\..\..\assets\shaders\example.shader" />

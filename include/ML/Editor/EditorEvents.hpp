@@ -32,7 +32,7 @@ namespace ml
 			EV_File_New,
 			EV_File_Open,
 			EV_File_Save,
-			EV_File_Close,
+			EV_File_Quit,
 
 			EV_Edit_Undo,
 			EV_Edit_Redo,
@@ -119,9 +119,9 @@ namespace ml
 		File_Save_Event() {}
 	};
 
-	struct ML_EDITOR_API File_Close_Event final : public IEvent<EditorEvent::EV_File_Close>
+	struct ML_EDITOR_API File_Quit_Event final : public IEvent<EditorEvent::EV_File_Quit>
 	{
-		File_Close_Event() {}
+		File_Quit_Event() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

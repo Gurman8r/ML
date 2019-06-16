@@ -734,17 +734,22 @@ void ImGui_ML_ScrollCallback(void * window, double xoffset, double yoffset)
 void ImGui_ML_KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
 {
 	ImGuiIO & io = ImGui::GetIO();
-	
+
 	if (action == ML_KEY_PRESS) { io.KeysDown[key] = true; }
-	
 	if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
+
+	// Mirror Keypad-Enter onto Enter
+	if (key == KeyCode::KP_Enter)
+	{
+		io.KeysDown[KeyCode::Enter] = io.KeysDown[key];
+	}
 	
-	g_Window->eventSystem().fireEvent(KeyEvent(key, scancode, action,
+	g_Window->eventSystem().fireEvent(KeyEvent(key, scancode, action, {
 		io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
 		io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],
 		io.KeyAlt	= io.KeysDown[KeyCode::LeftAlt]		|| io.KeysDown[KeyCode::RightAlt],
 		io.KeySuper = io.KeysDown[KeyCode::LeftSuper]	|| io.KeysDown[KeyCode::RightSuper]
-	));
+		}));
 }
 
 void ImGui_ML_CharCallback(void * window, uint32_t value)

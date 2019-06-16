@@ -19,12 +19,6 @@ out vec4 gl_Color;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-uniform struct Time_Uniforms
-{
-	float delta;
-	float total;
-} Time;
-
 uniform struct Frag_Uniforms
 {
 	vec3		cameraPos;
@@ -37,6 +31,14 @@ uniform struct Frag_Uniforms
 	sampler2D	mainTex;
 	sampler2D	specTex;
 } Frag;
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+uniform struct Time_Uniforms
+{
+	float delta;
+	float total;
+} Time;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -62,10 +64,9 @@ void main()
 	vec4	specularOut	= (specColor * specTexture);
 
 	// Output
-	gl_Color =
-		Frag.mainCol * 
-		(ambientOut + diffuseOut + specularOut) * 
-		sin(Time.total);
+	gl_Color = 
+		(Frag.mainCol * In.Normal) *
+		(ambientOut + diffuseOut + specularOut);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

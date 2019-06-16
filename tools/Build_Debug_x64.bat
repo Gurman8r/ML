@@ -1,5 +1,5 @@
 @echo off
-rem Build_Debug_x64.bat
+rem Build Debug x64
 cls
-call Build.bat ..\ML.sln Debug x64
+call Build.bat ..\ML.sln "Configuration=Debug" "Target=x64" "Toolset=v141" "ExitPause=0"
 exit %ERRORLEVEL%

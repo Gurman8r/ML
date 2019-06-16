@@ -1,5 +1,5 @@
 @echo off
-rem Build_Release_x86.bat
+rem Build Release x86
 cls
-call Build.bat ..\ML.sln Release x86
+call Build.bat ..\ML.sln "Configuration=Release" "Target=x86" "Toolset=v141" "ExitPause=0"
 exit %ERRORLEVEL%

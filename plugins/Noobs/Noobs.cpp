@@ -604,6 +604,7 @@ namespace DEMO
 							}
 						}
 
+						ImGui::NewLine();
 						ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */

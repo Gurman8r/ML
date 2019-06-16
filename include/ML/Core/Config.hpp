@@ -6,12 +6,6 @@
 #define ML_PROJECT_VER "1.0.0"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
-// Disable C-Runtime Warnings
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# ifndef _CRT_SECURE_NO_WARNINGS
-#	define _CRT_SECURE_NO_WARNINGS 1
-# endif
-
 //	C/C++
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(__cplusplus)

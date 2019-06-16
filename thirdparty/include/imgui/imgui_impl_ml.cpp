@@ -167,8 +167,8 @@ bool ImGui_ML_Init(CString glsl_version, Window * window, bool install_callbacks
 	// Note: GLSL version is NOT the same as GL version. Leave this to NULL if unsure.
 	glsl_version = (!glsl_version ? "#version 130" : glsl_version);
 	IM_ASSERT((int32_t)strlen(glsl_version) + 2 < IM_ARRAYSIZE(g_GlslVersionString));
-	strcpy(g_GlslVersionString, glsl_version);
-	strcat(g_GlslVersionString, "\n");
+	std::strcpy(g_GlslVersionString, glsl_version);
+	std::strcat(g_GlslVersionString, "\n");
 
 	g_Window = window;
 	g_Time = 0.0;

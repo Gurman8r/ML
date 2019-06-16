@@ -13,6 +13,8 @@ in VertexData
 	vec2 Texcoord;
 } In;
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 out vec4 gl_Color;
 
 /* * * * * * * * * * * * * * * * * * * * */

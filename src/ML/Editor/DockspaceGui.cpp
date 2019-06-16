@@ -92,7 +92,7 @@ namespace ml
 			ImGui::DockSpace(
 				ImGui::GetID(getTitle()),
 				{ m_size[0], m_size[1] },
-				ImGuiDockNodeFlags_PassthruDockspace
+				ImGuiDockNodeFlags_PassthruCentralNode
 			);
 		}
 		return EditorGui::endDraw();

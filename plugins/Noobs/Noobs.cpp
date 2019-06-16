@@ -788,7 +788,7 @@ namespace DEMO
 									"InputTextContentArea",
 									{ 0, 0 },
 									true,
-									ImGuiWindowFlags_AlwaysHorizontalScrollbar
+									ImGuiWindowFlags_None
 								);
 								
 								/* * * * * * * * * * * * * * * * * * * * */

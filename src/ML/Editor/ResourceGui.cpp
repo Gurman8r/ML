@@ -32,24 +32,15 @@ namespace ml
 
 		template <
 			class T
-		> inline static auto ResourceDropdown(CString label, const T * current, Registry<T> & reg)
-			-> const T *
+		> inline static const T * ResourceDropdown(
+			CString label, const T * current, Registry<T> & reg
+		)
 		{
-			List<String> keys = reg.keys();
 			int32_t index = reg.getIndexOf(current);
-			if (ImGui::Combo(
-				label,
-				&index,
-				EditorUtility::vector_getter,
-				static_cast<void *>(&keys),
-				(int32_t)(keys.size())))
-			{
-				if (const T * value = reg.getByIndex(index))
-				{
-					return value;
-				}
-			}
-			return NULL;
+			return (ResourceGui::StringCombo(label, index, reg.keys())
+				? reg.getByIndex(index)
+				: NULL
+			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -62,199 +53,6 @@ namespace ml
 				return;
 
 			fun((args)...);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline static bool UniformField(Resources & resources, const String & label, uni_base * value)
-		{
-			switch (value->type)
-			{
-				// Flt
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_flt::ID:
-				if (auto u = dynamic_cast<uni_flt *>(value))
-				{
-					const String name = "##" + label + "##Float##Uni" + value->name;
-					ImGui::InputFloat(name.c_str(), &u->data, 0.1f);
-					return true;
-				}
-
-				// Int
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_int::ID:
-				if (auto u = dynamic_cast<uni_int *>(value))
-				{
-					const String name = "##" + label + "##Int##Uni" + value->name;
-					ImGui::InputInt(name.c_str(), &u->data, 1);
-					return true;
-				}
-
-				// Vec2
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_vec2::ID:
-				if (auto u = dynamic_cast<uni_vec2 *>(value))
-				{
-					const String name = "##" + label + "##Vec2##Uni" + value->name;
-					ImGui::InputFloat2(name.c_str(), &u->data[0], 1);
-					return true;
-				}
-
-				// Vec3
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_vec3::ID:
-				if (auto u = dynamic_cast<uni_vec3 *>(value))
-				{
-					const String name = "##" + label + "##Vec3##Uni" + value->name;
-					ImGui::InputFloat3(name.c_str(), &u->data[0], 1);
-					return true;
-				}
-
-				// Vec4
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_vec4::ID:
-				if (auto u = dynamic_cast<uni_vec4 *>(value))
-				{
-					const String name = "##" + label + "##Vec4##Uni" + value->name;
-					ImGui::InputFloat4(name.c_str(), &u->data[0], 1);
-					return true;
-				}
-
-				// Col4
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_col4::ID:
-				if (auto u = dynamic_cast<uni_col4 *>(value))
-				{
-					const String name = "##" + label + "##Color##Uni" + value->name;
-					ImGui::ColorEdit4(name.c_str(), &u->data[0]);
-					return true;
-				}
-
-				// Mat3
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_mat3::ID:
-				if (auto u = dynamic_cast<uni_mat3 *>(value))
-				{
-					const String name = "##" + label + "##Mat3##Uni" + value->name;
-					ImGui::InputFloat4((name + "##0").c_str(), &u->data[0], 1);
-					ImGui::InputFloat4((name + "##3").c_str(), &u->data[3], 1);
-					ImGui::InputFloat4((name + "##6").c_str(), &u->data[6], 1);
-					return true;
-				}
-
-				// Mat4
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_mat4::ID:
-				if (auto u = dynamic_cast<uni_mat4 *>(value))
-				{
-					const String name = "##" + label + "##Mat4##Uni" + value->name;
-					ImGui::InputFloat4((name + "##0").c_str(), &u->data[0], 1);
-					ImGui::InputFloat4((name + "##4").c_str(), &u->data[4], 1);
-					ImGui::InputFloat4((name + "##8").c_str(), &u->data[8], 1);
-					ImGui::InputFloat4((name + "##12").c_str(), &u->data[12], 1);
-					return true;
-				}
-
-				// Tex
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_tex2::ID:
-				if (auto u = dynamic_cast<uni_tex2 *>(value))
-				{
-					if (const Texture * tex = Layout::ResourceDropdown(
-						"##Texture##Uni",
-						u->data,
-						resources.textures))
-					{
-						u->data = tex;
-					}
-					return true;
-				}
-			}
-			return false;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline static void NewUniformPopup(Material * mat)
-		{
-			if (ImGui::Button("New"))
-			{
-				ImGui::OpenPopup("New Uniform Editor");
-			}
-			if (ImGui::BeginPopupModal("New Uniform Editor", NULL, ImGuiWindowFlags_AlwaysAutoResize))
-			{
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-				static int32_t	type = 0;
-				static char		name[32] = "NewUniform\0";
-
-				auto closePopup = [&]()
-				{
-					type = 0;
-					std::strcpy(name, "NewUniform\0");
-					ImGui::CloseCurrentPopup();
-				};
-
-				ImGui::Combo(
-					"Type", 
-					&type,
-					"Float\0"
-					"Integer\0"
-					"Vector 2\0"
-					"Vector 3\0"
-					"Vector 4\0"
-					"Color 4\0"
-					"Matrix 3x3\0"
-					"Matrix 4x4\0"
-					"Sampler 2D\0"
-				);
-
-				ImGui::InputText(
-					"Name", 
-					name, 
-					IM_ARRAYSIZE(name), 
-					ImGuiInputTextFlags_EnterReturnsTrue
-				);
-
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::Button("Submit"))
-				{
-					if (String(name) && !mat->find_any(name))
-					{
-						uni_base * u = NULL;
-						switch (type)
-						{
-						case uni_base::Flt:  u = new uni_flt(name, 0);		break;
-						case uni_base::Int:  u = new uni_int(name, 0);		break;
-						case uni_base::Vec2: u = new uni_vec2(name, 0);		break;
-						case uni_base::Vec3: u = new uni_vec3(name, 0);		break;
-						case uni_base::Vec4: u = new uni_vec4(name, 0);		break;
-						case uni_base::Col4: u = new uni_col4(name, 0);		break;
-						case uni_base::Mat3: u = new uni_mat3(name, 0);		break;
-						case uni_base::Mat4: u = new uni_mat4(name, 0);		break;
-						case uni_base::Tex:  u = new uni_tex2(name, 0);	break;
-						}
-						if (u && (u = mat->uniforms().insert({ name, u }).first->second))
-						{
-							closePopup();
-						}
-					}
-					else
-					{
-						Debug::logError("A uniform with that name already exists!");
-					}
-				}
-				
-				ImGui::SameLine();
-				
-				if (ImGui::Button("Cancel"))
-				{
-					closePopup();
-				}
-
-				ImGui::EndPopup();
-			}
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -606,7 +404,7 @@ namespace ml
 					// New Uniform
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					Layout::NewUniformPopup(mat);
+					NewUniformPopup(mat);
 
 					// Display List
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -624,7 +422,7 @@ namespace ml
 						{
 							const String label("##" + pair.first + "##Uni##" + it->first);
 
-							Layout::UniformField(res, label, it->second);
+							UniformField(res, label, it->second);
 
 							ImGui::SameLine();
 
@@ -1003,7 +801,46 @@ namespace ml
 			{
 				Texture * tex = pair.second;
 
-				ImGui::Columns(2, "test_columns");
+				ImGui::Columns(2, "texture_data_columns");
+
+				vec2u size = tex->size();
+				ImGui::Selectable("Size:");
+				ImGui::NextColumn();
+				ImGui::Text("%u x %u", size[0], size[1]);
+				ImGui::NextColumn();
+
+				vec2u realSize = tex->realSize();
+				ImGui::Selectable("Real Size:");
+				ImGui::NextColumn();
+				ImGui::Text("%u x %u", realSize[0], realSize[1]);
+				ImGui::NextColumn();
+
+				bool smooth = tex->smooth();
+				ImGui::Selectable("Smooth:");
+				ImGui::NextColumn();
+				if (ImGui::Checkbox("##Smooth##Texture", &smooth))
+				{
+					tex->setSmooth(smooth);
+				}
+				ImGui::NextColumn();
+
+				bool repeated = tex->repeated();
+				ImGui::Selectable("Repeated:");
+				ImGui::NextColumn();
+				if (ImGui::Checkbox("##Repeated##Texture", &repeated))
+				{
+					tex->setRepeated(repeated);
+				}
+				ImGui::NextColumn();
+
+				bool mipmapped = tex->mipmapped();
+				ImGui::Selectable("Mipmapped:");
+				ImGui::NextColumn();
+				if (ImGui::Checkbox("##Mipmapped##Texture", &mipmapped))
+				{
+					tex->setMipmapped(mipmapped);
+				}
+				ImGui::NextColumn();
 
 				int32_t level = tex->level();
 				ImGui::Selectable("Level:");
@@ -1033,45 +870,6 @@ namespace ml
 				ImGui::Selectable("Pixel Type:");
 				ImGui::NextColumn();
 				ImGui::Text("%s", GL::nameOf(pixType));
-				ImGui::NextColumn();
-
-				vec2u size = tex->size();
-				ImGui::Selectable("Size:");
-				ImGui::NextColumn();
-				ImGui::Text("%u x %u", size[0], size[1]);
-				ImGui::NextColumn();
-
-				vec2u realSize = tex->realSize();
-				ImGui::Selectable("Real Size:");
-				ImGui::NextColumn();
-				ImGui::Text("%u x %u", realSize[0], realSize[1]);
-				ImGui::NextColumn();
-				
-				bool smooth = tex->smooth();
-				ImGui::Selectable("Smooth:");
-				ImGui::NextColumn();
-				if (ImGui::Checkbox("##Smooth##Texture", &smooth))
-				{
-					tex->setSmooth(smooth);
-				}
-				ImGui::NextColumn();
-
-				bool repeated = tex->repeated();
-				ImGui::Selectable("Repeated:");
-				ImGui::NextColumn();
-				if (ImGui::Checkbox("##Repeated##Texture", &repeated))
-				{
-					tex->setRepeated(repeated);
-				}
-				ImGui::NextColumn();
-
-				bool mipmapped = tex->mipmapped();
-				ImGui::Selectable("Mipmapped:");
-				ImGui::NextColumn();
-				if (ImGui::Checkbox("##Mipmapped##Texture", &mipmapped))
-				{
-					tex->setMipmapped(mipmapped);
-				}
 				ImGui::NextColumn();
 
 				ImGui::Columns(1);
@@ -1110,6 +908,208 @@ namespace ml
 			ImGui::Separator();
 		}
 		ImGui::EndGroup();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool ResourceGui::StringCombo(CString label, int32_t & index, const List<String> & keys)
+	{
+		return ImGui::Combo(
+			label,
+			&index,
+			EditorUtility::vector_getter,
+			static_cast<void *>(&std::remove_cv_t<List<String> &>(keys)),
+			(int32_t)(keys.size())
+		);
+	}
+
+	void ResourceGui::NewUniformPopup(Material * mat)
+	{
+		if (ImGui::Button("New"))
+		{
+			ImGui::OpenPopup("New Uniform Editor");
+		}
+		if (ImGui::BeginPopupModal("New Uniform Editor", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+			static int32_t	type = 0;
+			static char		name[32] = "NewUniform\0";
+
+			auto closePopup = [&]()
+			{
+				type = 0;
+				std::strcpy(name, "NewUniform\0");
+				ImGui::CloseCurrentPopup();
+			};
+
+			ImGui::Combo(
+				"Type",
+				&type,
+				"Float\0"
+				"Integer\0"
+				"Vector 2\0"
+				"Vector 3\0"
+				"Vector 4\0"
+				"Color 4\0"
+				"Matrix 3x3\0"
+				"Matrix 4x4\0"
+				"Sampler 2D\0"
+			);
+
+			ImGui::InputText(
+				"Name",
+				name,
+				IM_ARRAYSIZE(name),
+				ImGuiInputTextFlags_EnterReturnsTrue
+			);
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+			if (ImGui::Button("Submit"))
+			{
+				if (String(name) && !mat->find_any(name))
+				{
+					uni_base * u = NULL;
+					switch (type)
+					{
+					case uni_base::Flt:  u = new uni_flt(name, 0);	break;
+					case uni_base::Int:  u = new uni_int(name, 0);	break;
+					case uni_base::Vec2: u = new uni_vec2(name, 0);	break;
+					case uni_base::Vec3: u = new uni_vec3(name, 0);	break;
+					case uni_base::Vec4: u = new uni_vec4(name, 0);	break;
+					case uni_base::Col4: u = new uni_col4(name, 0);	break;
+					case uni_base::Mat3: u = new uni_mat3(name, 0);	break;
+					case uni_base::Mat4: u = new uni_mat4(name, 0);	break;
+					case uni_base::Tex:  u = new uni_tex2(name, 0);	break;
+					}
+					if (u && (u = mat->uniforms().insert({ name, u }).first->second))
+					{
+						closePopup();
+					}
+				}
+				else
+				{
+					Debug::logError("A uniform with that name already exists!");
+				}
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				closePopup();
+			}
+
+			ImGui::EndPopup();
+		}
+	}
+
+	bool ResourceGui::UniformField(Resources & resources, const String & label, uni_base * value)
+	{
+		switch (value->type)
+		{
+			// Flt
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_flt::ID:
+			if (auto u = dynamic_cast<uni_flt *>(value))
+			{
+				const String name = "##" + label + "##Float##Uni" + value->name;
+				ImGui::InputFloat(name.c_str(), &u->data, 0.1f);
+				return true;
+			}
+
+			// Int
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_int::ID:
+			if (auto u = dynamic_cast<uni_int *>(value))
+			{
+				const String name = "##" + label + "##Int##Uni" + value->name;
+				ImGui::InputInt(name.c_str(), &u->data, 1);
+				return true;
+			}
+
+			// Vec2
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec2::ID:
+			if (auto u = dynamic_cast<uni_vec2 *>(value))
+			{
+				const String name = "##" + label + "##Vec2##Uni" + value->name;
+				ImGui::InputFloat2(name.c_str(), &u->data[0], 1);
+				return true;
+			}
+
+			// Vec3
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec3::ID:
+			if (auto u = dynamic_cast<uni_vec3 *>(value))
+			{
+				const String name = "##" + label + "##Vec3##Uni" + value->name;
+				ImGui::InputFloat3(name.c_str(), &u->data[0], 1);
+				return true;
+			}
+
+			// Vec4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec4::ID:
+			if (auto u = dynamic_cast<uni_vec4 *>(value))
+			{
+				const String name = "##" + label + "##Vec4##Uni" + value->name;
+				ImGui::InputFloat4(name.c_str(), &u->data[0], 1);
+				return true;
+			}
+
+			// Col4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_col4::ID:
+			if (auto u = dynamic_cast<uni_col4 *>(value))
+			{
+				const String name = "##" + label + "##Color##Uni" + value->name;
+				ImGui::ColorEdit4(name.c_str(), &u->data[0]);
+				return true;
+			}
+
+			// Mat3
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_mat3::ID:
+			if (auto u = dynamic_cast<uni_mat3 *>(value))
+			{
+				const String name = "##" + label + "##Mat3##Uni" + value->name;
+				ImGui::InputFloat4((name + "##0").c_str(), &u->data[0], 1);
+				ImGui::InputFloat4((name + "##3").c_str(), &u->data[3], 1);
+				ImGui::InputFloat4((name + "##6").c_str(), &u->data[6], 1);
+				return true;
+			}
+
+			// Mat4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_mat4::ID:
+			if (auto u = dynamic_cast<uni_mat4 *>(value))
+			{
+				const String name = "##" + label + "##Mat4##Uni" + value->name;
+				ImGui::InputFloat4((name + "##0").c_str(), &u->data[0], 1);
+				ImGui::InputFloat4((name + "##4").c_str(), &u->data[4], 1);
+				ImGui::InputFloat4((name + "##8").c_str(), &u->data[8], 1);
+				ImGui::InputFloat4((name + "##12").c_str(), &u->data[12], 1);
+				return true;
+			}
+
+			// Tex
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_tex2::ID:
+			if (auto u = dynamic_cast<uni_tex2 *>(value))
+			{
+				if (const Texture * tex = Layout::ResourceDropdown(
+					"##Texture##Uni",
+					u->data,
+					resources.textures))
+				{
+					u->data = tex;
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

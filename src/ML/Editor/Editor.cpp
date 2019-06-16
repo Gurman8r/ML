@@ -154,7 +154,7 @@ namespace ml
 		{
 			// should be data driven
 			ImGui::GetStyle().FrameBorderSize = 1.0f;
-			ImGui::GetStyle().FramePadding = { 4.0f, 2.0f };
+			ImGui::GetStyle().FramePadding = { 4.0f, 4.0f };
 			ImGui::GetStyle().ItemSpacing = { 8.0f, 2.0f };
 			ImGui::GetStyle().WindowBorderSize = 1.0f;
 			ImGui::GetStyle().TabBorderSize = 1.0f;

@@ -241,6 +241,7 @@ namespace DEMO
 			{
 				if (ImGui::BeginMenu("Noobs Scene"))
 				{
+					// Resolution Names
 					static const auto & res_values = ml::VideoSettings::resolutions();
 					static ml::List<ml::String> res_names;
 					if (res_names.empty())
@@ -311,14 +312,188 @@ namespace DEMO
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (ImGui::BeginMenuBar())
+			const ml::String mat_name = "noobs_material_0";
+			
+			if (ml::Material * mat = ev.resources.materials.get(mat_name))
 			{
-				ImGui::MenuItem("Noobs Builder");
-				ImGui::EndMenuBar();
+				// Menu Bar
+				if (ImGui::BeginMenuBar())
+				{
+					// Settings
+					if (ImGui::BeginMenu("Settings"))
+					{
+						// Shader
+						if (ImGui::BeginMenu("Shader"))
+						{
+							int32_t mat_shader = ev.resources.shaders.getIndexOf(mat->shader());
+							if (ml::ResourceGui::StringCombo(
+								"##Shader##Material##Noobs",
+								mat_shader,
+								ev.resources.shaders.keys()
+							))
+							{
+								mat->shader() = ev.resources.shaders.getByIndex(mat_shader);
+							}
+							ImGui::EndMenu();
+						}
+
+						// Compile
+						if (ImGui::Button("Compile"))
+						{
+							ml::Debug::logWarning("Not Yet Implemented");
+						}
+
+						ImGui::EndMenu();
+					}
+
+					ImGui::EndMenuBar();
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				// Tabs
+				if (ImGui::BeginTabBar("Noobs Builder Tabs"))
+				{
+					// Uniforms
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::BeginTabItem("Uniforms"))
+					{
+						// New Uniform
+						ml::ResourceGui::NewUniformPopup(mat);
+
+						// Display List
+						if (!mat->uniforms().empty())
+						{
+							ImGui::Separator();
+						}
+						
+						ml::List<ml::Material::UniformMap::iterator> toRemove;
+						
+						for (auto it = mat->uniforms().begin(); it != mat->uniforms().end(); it++)
+						{
+							//if (!ImGui::TreeNode(it->first.c_str())) continue;
+							if (!ImGui::CollapsingHeader(it->first.c_str())) continue;
+
+							const ml::String label("##" + mat_name + "##Uni##" + it->first + "##Material##Noobs");
+
+							ImGui::PushID(label.c_str());
+
+							ImGui::Columns(2, "uniform_columns");
+
+							ml::ResourceGui::UniformField(ev.resources, label, it->second);
+
+							ImGui::NextColumn();
+
+							if (ImGui::Button(ml::String("Rename" + label).c_str()))
+							{
+								ml::Debug::logWarning("Not Yet Implemented");
+							}
+							ImGui::SameLine();
+							if (ImGui::Button(ml::String("Delete" + label).c_str()))
+							{
+								toRemove.push_back(it);
+							}
+
+							ImGui::Columns(1);
+
+							//ImGui::TreePop();
+							ImGui::PopID();
+						}
+
+						for (auto it : toRemove)
+						{
+							ml::uni_base * u = it->second;
+							mat->uniforms().erase(it);
+							delete u;
+						}
+
+						ImGui::EndTabItem();
+					}
+
+					// Vertex Source
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::BeginTabItem("Vertex##Shader##Noobs"))
+					{
+						if (ImGui::BeginChild(
+							"Vertex##Content##Shader",
+							{ -1.f, -1.f },
+							true,
+							ImGuiWindowFlags_AlwaysHorizontalScrollbar
+						))
+						{
+							if (mat->shader()->vertSrc())
+							{
+								ImGui::TextUnformatted(
+									&mat->shader()->vertSrc()[0],
+									&mat->shader()->vertSrc()[mat->shader()->vertSrc().size()]
+								);
+							}
+							else
+							{
+								ImGui::Text("Empty");
+							}
+						}
+						ImGui::EndChild();
+						ImGui::EndTabItem();
+					}
+
+					// Fragment Source
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::BeginTabItem("Fragment##Shader##Noobs"))
+					{
+						if (ImGui::BeginChild(
+							"Fragment##Content##Shader",
+							{ -1.f, -1.f },
+							true,
+							ImGuiWindowFlags_AlwaysHorizontalScrollbar
+						))
+						{
+							if (!mat->shader()->fragSrc().empty())
+							{
+								ImGui::TextUnformatted(
+									&mat->shader()->fragSrc()[0],
+									&mat->shader()->fragSrc()[mat->shader()->fragSrc().size()]
+								);
+							}
+							else
+							{
+								ImGui::Text("Empty");
+							}
+						}
+						ImGui::EndChild();
+						ImGui::EndTabItem();
+					}
+
+					// Geometry Source
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::BeginTabItem("Geometry##Shader##Noobs"))
+					{
+						if (ImGui::BeginChild(
+							"Geometry##Content##Shader",
+							{ -1.f, -1.f },
+							true,
+							ImGuiWindowFlags_AlwaysHorizontalScrollbar
+						))
+						{
+							if (!mat->shader()->geomSrc().empty())
+							{
+								ImGui::TextUnformatted(
+									&mat->shader()->geomSrc()[0],
+									&mat->shader()->geomSrc()[mat->shader()->geomSrc().size()]
+								);
+							}
+							else
+							{
+								ImGui::Text("Empty");
+							}
+						}
+						ImGui::EndChild();
+						ImGui::EndTabItem();
+					}
+
+					ImGui::EndTabBar();
+				}
 			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		});

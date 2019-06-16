@@ -1,5 +1,3 @@
-# Placeholder ImGui Style File
-
 #	WIP
 #
 #	[Style] FrameBorderSize			= 1.0

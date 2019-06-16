@@ -8,6 +8,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	struct uni_base;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class ML_EDITOR_API ResourceGui final 
 		: public EditorGui
 	{
@@ -37,6 +41,11 @@ namespace ml
 		void draw_sprite_registry	(Resources & res, Registry<Sprite>		& sprites	);
 		void draw_surface_registry	(Resources & res, Registry<Surface>		& surfaces	);
 		void draw_texture_registry	(Resources & res, Registry<Texture>		& textures	);
+
+	public:
+		static bool StringCombo(CString label, int32_t & index, const List<String> & keys);
+		static void NewUniformPopup(Material * mat);
+		static bool UniformField(Resources & resources, const String & label, uni_base * value);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

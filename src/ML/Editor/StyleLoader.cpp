@@ -194,9 +194,9 @@ namespace ml
 				}
 			}
 			file.close();
-			return true;
+			return (m_good = true);
 		}
-		return false;
+		return (m_good = false);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}

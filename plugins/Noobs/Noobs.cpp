@@ -547,9 +547,10 @@ namespace DEMO
 				{
 					ml::ResourceGui::NewUniformPopup(noobs.material);
 
-					if (!noobs.material->uniforms().empty()) ImGui::Separator();
+					if (!noobs.material->uniforms().empty()) 
+						ImGui::Separator();
 
-					ml::List<ml::Material::UniformMap::reverse_iterator> toRemove;
+					ml::List<ml::Material::UniformMap::iterator> toRemove;
 
 					for (auto it = noobs.material->uniforms().rbegin();
 						it != noobs.material->uniforms().rend(); 
@@ -568,7 +569,7 @@ namespace DEMO
 								ImGui::SameLine();
 								if (ImGui::Button(ml::String("Delete" + label).c_str()))
 								{
-									toRemove.push_back(it);
+									toRemove.push_back(std::next(it).base());
 								}
 							}
 
@@ -577,10 +578,11 @@ namespace DEMO
 						}
 						ImGui::Separator();
 					}
+
 					for (auto it : toRemove)
 					{
 						ml::uni_base * u = it->second;
-						noobs.material->uniforms().erase(it.base());
+						noobs.material->uniforms().erase(it);
 						delete u;
 					}
 

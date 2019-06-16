@@ -16,6 +16,7 @@
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
+#include <ML/Graphics/RenderStates.hpp>
 #include <ML/Graphics/Uniform.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
@@ -354,6 +355,189 @@ namespace DEMO
 				// Tabs
 				if (ImGui::BeginTabBar("Noobs Builder Tabs"))
 				{
+					// Renderer
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::BeginTabItem("Renderer"))
+					{
+						if (ml::Renderer * r = noobs.ent_main->get<ml::Renderer>())
+						{
+							ml::RenderStates & states = r->states();
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							int32_t ent_model = ev.resources.models.getIndexOf((ml::Model *)r->drawable());
+							if (ml::ResourceGui::StringCombo(
+								"Model##Renderer##Noobs",
+								ent_model,
+								ev.resources.models.keys()
+							))
+							{
+								r->drawable() = ev.resources.models.getByIndex(ent_model);
+							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							if (ImGui::TreeNode("Alpha Testing"))
+							{
+								ImGui::Checkbox(
+									"##Enabled##Alpha Testing##Renderer##Noobs", 
+									&states.alpha.enabled
+								);
+
+								int32_t index = ml::GL::indexOf(states.alpha.comp);
+								if (ImGui::Combo(
+									"Comparison##Alpha Testing##Renderer##Noobs",
+									&index,
+									ml::GL::Comp_names,
+									IM_ARRAYSIZE(ml::GL::Comp_names)
+								))
+								{
+									ml::GL::valueAt(index, states.alpha.comp);
+								}
+
+								ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &states.alpha.coeff);
+
+								ImGui::TreePop();
+							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							if (ImGui::TreeNode("Blending"))
+							{
+								ImGui::Checkbox(
+									"Enabled##Blending##Renderer##Noobs", 
+									&states.blend.enabled
+								);
+
+								auto factor_combo = [](ml::CString label, int32_t & index)
+								{
+									return ImGui::Combo(
+										label,
+										&index,
+										ml::GL::Factor_names,
+										IM_ARRAYSIZE(ml::GL::Factor_names)
+									);
+								};
+
+								int32_t srcRGB = ml::GL::indexOf(states.blend.srcRGB);
+								if (factor_combo("Src RGB##Blending##Renderer##Noobs", srcRGB))
+								{
+									ml::GL::valueAt(srcRGB, states.blend.srcRGB);
+								}
+
+								int32_t srcAlpha = ml::GL::indexOf(states.blend.srcAlpha);
+								if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
+								{
+									ml::GL::valueAt(srcAlpha, states.blend.srcAlpha);
+								}
+
+								int32_t dstRGB = ml::GL::indexOf(states.blend.dstRGB);
+								if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
+								{
+									ml::GL::valueAt(dstRGB, states.blend.dstRGB);
+								}
+
+								int32_t dstAlpha = ml::GL::indexOf(states.blend.dstAlpha);
+								if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
+								{
+									ml::GL::valueAt(dstAlpha, states.blend.dstAlpha);
+								}
+
+								ImGui::TreePop();
+							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							if (ImGui::TreeNode("Culling"))
+							{
+								ImGui::Checkbox(
+									"Enabled##Culling##Renderer##Noobs",
+									&states.culling.enabled
+								);
+
+								int32_t index = ml::GL::indexOf(states.culling.face);
+								if (ImGui::Combo(
+									"Face##Culling##Renderer##Noobs",
+									&index,
+									ml::GL::Face_names,
+									IM_ARRAYSIZE(ml::GL::Face_names)
+								))
+								{
+									ml::GL::valueAt(index, states.culling.face);
+								}
+
+								ImGui::TreePop();
+							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							if (ImGui::TreeNode("Depth Testing"))
+							{
+								ImGui::Checkbox(
+									"Enabled##Depth Testing##Renderer##Noobs",
+									&states.depth.enabled
+								);
+
+								int32_t index = ml::GL::indexOf(states.depth.comp);
+								if (ImGui::Combo(
+									"Comparison##Depth Testing##Renderer##Noobs",
+									&index,
+									ml::GL::Comp_names,
+									IM_ARRAYSIZE(ml::GL::Comp_names)
+								))
+								{
+									ml::GL::valueAt(index, states.depth.comp);
+								}
+
+								ImGui::TreePop();
+							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							if (ImGui::TreeNode("Texture"))
+							{
+								ImGui::Checkbox(
+									"Enabled##Texture##Renderer##Noobs", 
+									&states.texture.enabled
+								);
+
+								int32_t index = ml::GL::indexOf(states.texture.target);
+								if (ImGui::Combo(
+									"Target##Texture##Renderer##Noobs",
+									&index,
+									"Texture 2D\0"
+									"Texture 3D\0"
+									"Texture Cube Map\0"))
+								{
+									ml::GL::valueAt(index, states.texture.target);
+								}
+
+								ImGui::TreePop();
+							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							if (ImGui::TreeNode("Misc"))
+							{
+								ImGui::Checkbox(
+									"Multisample##Misc##Renderer##Noobs",
+									&states.misc.multisample
+								);
+
+								ImGui::Checkbox(
+									"Framebuffer SRGB##Misc##Renderer##Noobs",
+									&states.misc.framebufferSRGB
+								);
+
+								ImGui::TreePop();
+							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
+						}
+
+						ImGui::EndTabItem();
+					}
+
 					// Uniforms
 					/* * * * * * * * * * * * * * * * * * * * */
 					if (ImGui::BeginTabItem("Uniforms"))
@@ -371,12 +555,12 @@ namespace DEMO
 						
 						for (auto it = mat->uniforms().begin(); it != mat->uniforms().end(); it++)
 						{
-							//if (!ImGui::TreeNode(it->first.c_str())) continue;
-							if (!ImGui::CollapsingHeader(it->first.c_str())) continue;
+							if (!ImGui::TreeNode(it->first.c_str())) continue;
+							//if (!ImGui::CollapsingHeader(it->first.c_str())) continue;
 
 							const ml::String label("##" + mat_name + "##Uni##" + it->first + "##Material##Noobs");
 
-							ImGui::PushID(label.c_str());
+							//ImGui::PushID(label.c_str());
 
 							ImGui::Columns(2, "uniform_columns");
 
@@ -396,8 +580,8 @@ namespace DEMO
 
 							ImGui::Columns(1);
 
-							//ImGui::TreePop();
-							ImGui::PopID();
+							ImGui::TreePop();
+							//ImGui::PopID();
 						}
 
 						for (auto it : toRemove)

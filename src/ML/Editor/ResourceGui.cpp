@@ -722,9 +722,7 @@ namespace ml
 					vec2 dst = { 256, 256 };
 					vec2 scl = scaleToFit(src, dst);
 
-					float my_tex_w = scl[0]; //(float)tex->width();
-					float my_tex_h = scl[1]; //(float)tex->height();
-					ImGui::Text("%.0fx%.0f", scl[0], scl[1]);
+					ImGui::Text("%s", src.ToString().c_str());
 
 					ImGui::Image(
 						pair.second->texture().get_address(),
@@ -735,50 +733,6 @@ namespace ml
 						{ 255, 255, 255, 128 }
 					);
 
-					if (ImGui::IsItemHovered())
-					{
-						ImGui::BeginTooltip();
-
-						float region_sz = 64.0f;
-
-						float region_x = ML_CLAMP(
-							io.MousePos.x - pos[0] - region_sz * 0.5f,
-							0.0f,
-							my_tex_w - region_sz
-						);
-
-						float region_y = ML_CLAMP(
-							my_tex_h - (io.MousePos.y - pos[1] - region_sz * 0.5f),
-							0.0f,
-							my_tex_h - region_sz
-						);
-
-						ImGui::Text("Min: (%.2f, %.2f)", region_x, region_y);
-						ImGui::Text("Max: (%.2f, %.2f)", region_x + region_sz, region_y + region_sz);
-
-						float zoom = 2.0f;
-
-						ImVec2 uv0 = {
-							(region_x / my_tex_w),
-							((region_y + region_sz) / my_tex_h)
-						};
-
-						ImVec2 uv1 = {
-							((region_x + region_sz) / my_tex_w),
-							(region_y / my_tex_h)
-						};
-
-						ImGui::Image(
-							pair.second->texture().get_address(),
-							{ region_sz * zoom, region_sz * zoom },
-							uv0,
-							uv1,
-							{ 255, 255, 255, 255 },
-							{ 255, 255, 255, 128 }
-						);
-						ImGui::EndTooltip();
-
-					}
 					ImGui::TreePop();
 				}
 
@@ -1075,9 +1029,9 @@ namespace ml
 			if (auto u = dynamic_cast<uni_mat3 *>(value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value->name;
-				ImGui::InputFloat4((name + "##0").c_str(), &u->data[0], 1);
-				ImGui::InputFloat4((name + "##3").c_str(), &u->data[3], 1);
-				ImGui::InputFloat4((name + "##6").c_str(), &u->data[6], 1);
+				ImGui::InputFloat4((name + "##0").c_str(), &u->data[0], 3);
+				ImGui::InputFloat4((name + "##3").c_str(), &u->data[3], 3);
+				ImGui::InputFloat4((name + "##6").c_str(), &u->data[6], 3);
 				return true;
 			}
 
@@ -1087,10 +1041,10 @@ namespace ml
 			if (auto u = dynamic_cast<uni_mat4 *>(value))
 			{
 				const String name = "##" + label + "##Mat4##Uni" + value->name;
-				ImGui::InputFloat4((name + "##0").c_str(), &u->data[0], 1);
-				ImGui::InputFloat4((name + "##4").c_str(), &u->data[4], 1);
-				ImGui::InputFloat4((name + "##8").c_str(), &u->data[8], 1);
-				ImGui::InputFloat4((name + "##12").c_str(), &u->data[12], 1);
+				ImGui::InputFloat4((name + "##0").c_str(), &u->data[0],   3);
+				ImGui::InputFloat4((name + "##4").c_str(), &u->data[4],   3);
+				ImGui::InputFloat4((name + "##8").c_str(), &u->data[8],   3);
+				ImGui::InputFloat4((name + "##12").c_str(), &u->data[12], 3);
 				return true;
 			}
 

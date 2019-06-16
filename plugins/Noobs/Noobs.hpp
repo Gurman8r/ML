@@ -43,6 +43,7 @@ namespace DEMO
 			ml::Entity	* ent_main;
 			
 			ml::vec2i res = { 1920, 1080 };
+			bool freeAspect = true;
 			ml::vec4f clearColor = ml::Color::Gray;
 
 			bool showScene		= true;

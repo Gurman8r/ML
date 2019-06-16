@@ -91,7 +91,7 @@ namespace DEMO
 			{
 				ml::DockspaceGui & d = ev->dockspace;
 				d.dockWindow("Noobs Scene", d.getNode(d.MidUp));
-				d.dockWindow("Noobs Builder", d.getNode(d.LeftUp));
+				d.dockWindow("Noobs Builder", d.getNode(d.RightUp));
 			}
 			break;
 		}
@@ -183,21 +183,29 @@ namespace DEMO
 	void Noobs::onUpdate(const ml::UpdateEvent & ev)
 	{
 		// Update Surface Sizes
-		noobs.surf_main->resize(noobs.res);
-		noobs.surf_post->resize(noobs.res);
+		if (noobs.freeAspect)
+		{
+			noobs.surf_main->resize(ev.window.getFrameSize());
+			noobs.surf_post->resize(ev.window.getFrameSize());
+		}
+		else
+		{
+			noobs.surf_main->resize(noobs.res);
+			noobs.surf_post->resize(noobs.res);
+		}
 	}
 
 	void Noobs::onDraw(const ml::DrawEvent & ev)
 	{
 		// Bind Main Surface
 		noobs.surf_main->bind();
+		{
+			// Clear Screen
+			ev.window.clear(noobs.clearColor);
 
-		// Clear Screen
-		ev.window.clear(noobs.clearColor);
-
-		// Draw Renderer
-		ev.window.draw(noobs.ent_main->get<ml::Renderer>());
-
+			// Draw Renderer
+			ev.window.draw(noobs.ent_main->get<ml::Renderer>());
+		}
 		// Unbind Main Surface
 		noobs.surf_main->unbind();
 
@@ -214,14 +222,14 @@ namespace DEMO
 
 		// Bind Post Surface
 		noobs.surf_post->bind();
-		
-		// Draw Main Surface
-		if (const ml::Shader * shader = noobs.surf_main->shader())
 		{
-			shader->setUniform("Effect.mode", 0);
+			// Draw Main Surface
+			if (const ml::Shader * shader = noobs.surf_main->shader())
+			{
+				shader->setUniform("Effect.mode", 0);
+			}
+			ev.window.draw(noobs.surf_main);
 		}
-		ev.window.draw(noobs.surf_main);
-
 		// Unbind Post Surface
 		noobs.surf_post->unbind();
 	}
@@ -229,7 +237,7 @@ namespace DEMO
 	void Noobs::onGui(const ml::GuiEvent & ev)
 	{
 		// Noobs Scene
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		ML_EditorUtility.DrawWindow(
 			"Noobs Scene",
 			noobs.showScene,
@@ -247,6 +255,7 @@ namespace DEMO
 					static ml::List<ml::String> res_names;
 					if (res_names.empty())
 					{
+						res_names.push_back("Free");
 						for (const auto & video : res_values)
 						{
 							res_names.push_back(video.resolution.ToString());
@@ -263,8 +272,15 @@ namespace DEMO
 						(int32_t)res_names.size()
 					))
 					{
-						noobs.res = (ml::vec2i)res_values[index].resolution;
-						ml::Debug::log(noobs.res.ToString());
+						if (!(noobs.freeAspect = (index == 0)))
+						{
+							noobs.res = (ml::vec2i)res_values[index - 1].resolution;
+							ml::Debug::log(noobs.res.ToString());
+						}
+						else
+						{
+							ml::Debug::log("Free");
+						}
 					}
 
 					// Clear Color
@@ -304,61 +320,37 @@ namespace DEMO
 		});
 
 		// Noobs Builder
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		ML_EditorUtility.DrawWindow(
 			"Noobs Builder",
 			noobs.showBuilder,
-			ImGuiWindowFlags_MenuBar,
+			ImGuiWindowFlags_None,
 			[&]()
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
+			// Tabs
 			const ml::String mat_name = "noobs_material_0";
-			
 			if (ml::Material * mat = ev.resources.materials.get(mat_name))
 			{
-				// Menu Bar
-				if (ImGui::BeginMenuBar())
-				{
-					// Settings
-					if (ImGui::BeginMenu("Settings"))
-					{
-						// Shader
-						if (ImGui::BeginMenu("Shader"))
-						{
-							int32_t mat_shader = ev.resources.shaders.getIndexOf(mat->shader());
-							if (ml::ResourceGui::StringCombo(
-								"##Shader##Material##Noobs",
-								mat_shader,
-								ev.resources.shaders.keys()
-							))
-							{
-								mat->shader() = ev.resources.shaders.getByIndex(mat_shader);
-							}
-							ImGui::EndMenu();
-						}
-
-						// Compile
-						if (ImGui::Button("Compile"))
-						{
-							ml::Debug::logWarning("Not Yet Implemented");
-						}
-
-						ImGui::EndMenu();
-					}
-
-					ImGui::EndMenuBar();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				// Tabs
 				if (ImGui::BeginTabBar("Noobs Builder Tabs"))
 				{
-					// Renderer
+					// Settings
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (ImGui::BeginTabItem("Renderer"))
+					if (ImGui::BeginTabItem("Settings##Noobs"))
 					{
+						// Shader
+						int32_t mat_shader = ev.resources.shaders.getIndexOf(mat->shader());
+						if (ml::ResourceGui::StringCombo(
+							"Shader##Material##Noobs",
+							mat_shader,
+							ev.resources.shaders.keys()
+						))
+						{
+							mat->shader() = ev.resources.shaders.getByIndex(mat_shader);
+						}
+
+						// Renderer
 						if (ml::Renderer * r = noobs.ent_main->get<ml::Renderer>())
 						{
 							ml::RenderStates & states = r->states();
@@ -540,7 +532,7 @@ namespace DEMO
 
 					// Uniforms
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (ImGui::BeginTabItem("Uniforms"))
+					if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
 					{
 						// New Uniform
 						ml::ResourceGui::NewUniformPopup(mat);
@@ -550,24 +542,40 @@ namespace DEMO
 						{
 							ImGui::Separator();
 						}
+
+						static int32_t mode = 0;
+
+						ImGui::Combo(
+							"Draw Mode", 
+							&mode, 
+							"Tree Node\0"
+							"Collapsing Header\0"
+						);
 						
 						ml::List<ml::Material::UniformMap::iterator> toRemove;
 						
 						for (auto it = mat->uniforms().begin(); it != mat->uniforms().end(); it++)
 						{
-							if (!ImGui::TreeNode(it->first.c_str())) continue;
-							//if (!ImGui::CollapsingHeader(it->first.c_str())) continue;
-
 							const ml::String label("##" + mat_name + "##Uni##" + it->first + "##Material##Noobs");
+							
+							switch (mode)
+							{
+							case 0: { 
+								if (!ImGui::TreeNode(it->first.c_str())) continue; 
+							} break;
 
-							//ImGui::PushID(label.c_str());
-
-							ImGui::Columns(2, "uniform_columns");
+							case 1: { 
+								if (!ImGui::CollapsingHeader(it->first.c_str())) continue; 
+								ImGui::PushID(label.c_str());
+							} break;
+							}
+							
+							//ImGui::Columns(2, "uniform_columns");
 
 							ml::ResourceGui::UniformField(ev.resources, label, it->second);
 
-							ImGui::NextColumn();
-
+							//ImGui::NextColumn();
+							ImGui::SameLine();
 							if (ImGui::Button(ml::String("Rename" + label).c_str()))
 							{
 								ml::Debug::logWarning("Not Yet Implemented");
@@ -578,10 +586,13 @@ namespace DEMO
 								toRemove.push_back(it);
 							}
 
-							ImGui::Columns(1);
+							//ImGui::Columns(1);
 
-							ImGui::TreePop();
-							//ImGui::PopID();
+							switch (mode)
+							{
+							case 0: ImGui::TreePop(); break;
+							case 1: ImGui::PopID(); break;
+							}
 						}
 
 						for (auto it : toRemove)

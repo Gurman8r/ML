@@ -19,12 +19,12 @@ namespace ml
 		: EventListener(eventSystem)
 		, m_gui()
 	{
-		create<DockspaceGui>(String(), eventSystem);
-		create<BrowserGui>	(String(), eventSystem);
-		create<BuilderGui>	(String(), eventSystem);
-		create<ProfilerGui>	(String(), eventSystem);
-		create<ResourceGui>	(String(), eventSystem);
-		create<TerminalGui>	(String(), eventSystem);
+		create<DockspaceGui>(String(), eventSystem)->isOpen() = true;
+		create<BrowserGui>	(String(), eventSystem)->isOpen() = false;
+		create<BuilderGui>	(String(), eventSystem)->isOpen() = false;
+		create<ProfilerGui>	(String(), eventSystem)->isOpen() = false;
+		create<ResourceGui>	(String(), eventSystem)->isOpen() = true;
+		create<TerminalGui>	(String(), eventSystem)->isOpen() = true;
 
 		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(ExitEvent::ID,			this);
@@ -79,11 +79,11 @@ namespace ml
 			if (auto ev = value->as<BuildDockspaceEvent>())
 			{
 				DockspaceGui & d = ev->dockspace;
-				d.dockWindow(get<ProfilerGui>	()->getTitle(), d.getNode(d.LeftUp));
-				d.dockWindow(get<ResourceGui>	()->getTitle(), d.getNode(d.LeftUp));
-				d.dockWindow(get<BuilderGui>	()->getTitle(), d.getNode(d.LeftUp));
-				d.dockWindow(get<BrowserGui>	()->getTitle(), d.getNode(d.LeftDn));
-				d.dockWindow(get<TerminalGui>	()->getTitle(), d.getNode(d.LeftDn));
+				d.dockWindow(get<ProfilerGui>	()->getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(get<ResourceGui>	()->getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(get<BuilderGui>	()->getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(get<BrowserGui>	()->getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(get<TerminalGui>	()->getTitle(), d.getNode(d.RightDn));
 			}
 			break;
 

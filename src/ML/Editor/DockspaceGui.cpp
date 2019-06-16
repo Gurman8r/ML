@@ -38,15 +38,15 @@ namespace ml
 			// DockspaceGui BuilderGui
 			if (m_nodes[Root] = beginBuilder(ImGuiDockNodeFlags_None))
 			{
-				m_nodes[Left]	= splitNode(m_nodes[Root],	ImGuiDir_Left,	0.30f,	&m_nodes[Root]);
+				m_nodes[Left]	= splitNode(m_nodes[Root],	ImGuiDir_Left,	0.20f,	&m_nodes[Root]);
 				m_nodes[Mid]	= splitNode(m_nodes[Root],	ImGuiDir_Right, 0.5f,	&m_nodes[Root]);
-				m_nodes[Right]	= splitNode(m_nodes[Mid],	ImGuiDir_Right, 0.20f,	&m_nodes[Mid]);
-				m_nodes[LeftUp]	= splitNode(m_nodes[Left],	ImGuiDir_Up,	0.65f,	&m_nodes[Left]);
-				m_nodes[LeftDn]	= splitNode(m_nodes[Left],	ImGuiDir_Down,	0.35f,	&m_nodes[Left]);
-				m_nodes[MidUp]	= splitNode(m_nodes[Mid],	ImGuiDir_Up,	0.65f,	&m_nodes[Mid]);
-				m_nodes[MidDn]	= splitNode(m_nodes[Mid],	ImGuiDir_Down,	0.35f,	&m_nodes[Mid]);
-				m_nodes[RightUp]= splitNode(m_nodes[Right],	ImGuiDir_Up,	0.65f,	&m_nodes[Right]);
-				m_nodes[RightDn]= splitNode(m_nodes[Right],	ImGuiDir_Down,	0.35f,	&m_nodes[Right]);
+				m_nodes[Right]	= splitNode(m_nodes[Mid],	ImGuiDir_Right, 0.30f,	&m_nodes[Mid]);
+				m_nodes[LeftUp]	= splitNode(m_nodes[Left],	ImGuiDir_Up,	0.75f,	&m_nodes[Left]);
+				m_nodes[LeftDn]	= splitNode(m_nodes[Left],	ImGuiDir_Down,	0.25f,	&m_nodes[Left]);
+				m_nodes[MidUp]	= splitNode(m_nodes[Mid],	ImGuiDir_Up,	0.75f,	&m_nodes[Mid]);
+				m_nodes[MidDn]	= splitNode(m_nodes[Mid],	ImGuiDir_Down,	0.25f,	&m_nodes[Mid]);
+				m_nodes[RightUp]= splitNode(m_nodes[Right],	ImGuiDir_Up,	0.75f,	&m_nodes[Right]);
+				m_nodes[RightDn]= splitNode(m_nodes[Right],	ImGuiDir_Down,	0.25f,	&m_nodes[Right]);
 
 				eventSystem().fireEvent(BuildDockspaceEvent(
 					ev.editor, 

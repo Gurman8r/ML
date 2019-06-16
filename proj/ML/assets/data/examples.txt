@@ -1,6 +1,0 @@
-# Examples
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<import>
-	type = manifest
-	name = ../../../assets/data/examples.txt
-</import>

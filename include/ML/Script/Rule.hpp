@@ -29,7 +29,7 @@ namespace ml
 
 	public:
 		NodeMaker()
-			: m_fun(NULL)
+			: m_fun(nullptr)
 		{
 		}
 		NodeMaker(Fun fun)
@@ -40,7 +40,7 @@ namespace ml
 
 		inline Ret * run(Arg toks) const override 
 		{ 
-			return ((m_fun) ? (m_fun(toks)) : ((Ret *)NULL));
+			return ((m_fun) ? (m_fun(toks)) : ((Ret *)nullptr));
 		}
 	};
 
@@ -50,7 +50,7 @@ namespace ml
 	{
 	public:
 		Rule() 
-			: m_maker(NULL)
+			: m_maker(nullptr)
 		{
 		}
 		Rule(INodeMaker * maker)
@@ -62,13 +62,13 @@ namespace ml
 			if (m_maker)
 			{
 				delete m_maker;
-				m_maker = NULL;
+				m_maker = nullptr;
 			}
 		}
 
 		inline AST_Node * run(const TokenList & toks) const
 		{
-			return ((m_maker) ? (m_maker->run(toks)) : (NULL));
+			return ((m_maker) ? (m_maker->run(toks)) : (nullptr));
 		}
 
 		inline AST_Node * operator()(const TokenList & toks) const

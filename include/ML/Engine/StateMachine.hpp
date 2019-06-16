@@ -47,8 +47,8 @@ namespace ml
 			return ((key > self_type::NoState)
 				? (((it = m_states.find(key)) != m_states.end())
 					? it->second
-					: NULL)
-				: (NULL)
+					: nullptr)
+				: (nullptr)
 			);
 		}
 

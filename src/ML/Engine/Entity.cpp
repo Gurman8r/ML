@@ -24,7 +24,7 @@ namespace ml
 			if (pair.second)
 			{
 				delete pair.second;
-				pair.second = NULL;
+				pair.second = nullptr;
 			}
 		}
 		m_map.clear();

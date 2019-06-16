@@ -7,7 +7,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Text::Text()
-		: m_font	(NULL)
+		: m_font	(nullptr)
 		, m_fontSize(0)
 		, m_position(0)
 		, m_scale	(1)

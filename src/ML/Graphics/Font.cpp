@@ -22,8 +22,8 @@ namespace ml
 
 	Font::Font()
 		: m_pages	()
-		, m_library	(NULL)
-		, m_face	(NULL)
+		, m_library	(nullptr)
+		, m_face	(nullptr)
 	{
 	}
 

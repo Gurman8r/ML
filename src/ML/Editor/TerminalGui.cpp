@@ -18,8 +18,8 @@ namespace ml
 
 	TerminalGui::TerminalGui(EventSystem & eventSystem)
 		: EditorGui	(eventSystem, "Terminal")
-		, m_coutBuf		(NULL)
-		, m_coutPtr		(NULL)
+		, m_coutBuf		(nullptr)
+		, m_coutPtr		(nullptr)
 		, m_coutStr		()
 		, m_inputBuf	()
 		, m_lines		()
@@ -257,8 +257,8 @@ namespace ml
 		{
 			// Release OStream
 			value.rdbuf(m_coutBuf);
-			m_coutBuf = NULL;
-			m_coutPtr = NULL;
+			m_coutBuf = nullptr;
+			m_coutPtr = nullptr;
 			return true;
 		}
 		else if (m_coutBuf = value.rdbuf(m_coutStr.rdbuf()))

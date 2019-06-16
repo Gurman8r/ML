@@ -5,7 +5,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Packet::Packet()
-		: Packet(Host(), GUID(), 0, NULL)
+		: Packet(Host(), GUID(), 0, nullptr)
 	{
 	}
 

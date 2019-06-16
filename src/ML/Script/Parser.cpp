@@ -22,7 +22,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Elif>(new NodeMaker<AST_Elif>([](const TokenList & toks)
@@ -38,7 +38,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Else>(new NodeMaker<AST_Else>([](const TokenList & toks)
@@ -48,7 +48,7 @@ namespace ml
 				((toks.size(1)) &&
 				(toks.front("else")))
 				? (temp = new AST_Else())
-				: (temp = NULL);
+				: (temp = nullptr);
 		}));
 
 		install<AST_Return>(new NodeMaker<AST_Return>([](const TokenList & toks)
@@ -65,7 +65,7 @@ namespace ml
 					return (temp = new AST_Return(new AST_Int(0)));
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_While>(new NodeMaker<AST_While>([](const TokenList & toks)
@@ -81,7 +81,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Delete>(new NodeMaker<AST_Delete>([](const TokenList & toks)
@@ -101,7 +101,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Include>(new NodeMaker<AST_Include>([](const TokenList & toks)
@@ -121,7 +121,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Print>(new NodeMaker<AST_Print>([](const TokenList & toks)
@@ -154,7 +154,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Bool>(new NodeMaker<AST_Bool>([](const TokenList & toks)
@@ -165,7 +165,7 @@ namespace ml
 				(toks.front('n')) &&
 				(StringUtility::IsBool(toks.front().data))
 					? (temp = new AST_Bool(StringUtility::ToBool(toks.front().data)))
-					: (temp = NULL)
+					: (temp = nullptr)
 				);
 		}));
 
@@ -177,7 +177,7 @@ namespace ml
 				(toks.front('i')) &&
 				(StringUtility::IsInt(toks.front().data))
 					? (temp = new AST_Int(StringUtility::ToInt(toks.front().data)))
-					: (temp = NULL)
+					: (temp = nullptr)
 				);
 		}));
 
@@ -189,7 +189,7 @@ namespace ml
 				(toks.front('f')) &&
 				(StringUtility::IsDecimal(toks.front().data))
 					? (temp = new AST_Float(StringUtility::ToFloat(toks.front().data)))
-					: (temp = NULL)
+					: (temp = nullptr)
 				);
 		}));
 
@@ -200,7 +200,7 @@ namespace ml
 				(toks.size(1)) &&
 				(toks.front('n'))
 					? (temp = new AST_Name(toks.front().data))
-					: (temp = NULL)
+					: (temp = nullptr)
 				);
 		}));
 
@@ -211,7 +211,7 @@ namespace ml
 				(toks.size(1)) &&
 				(toks.front('s'))
 					? (temp = new AST_String(toks.front().data))
-					: (temp = NULL)
+					: (temp = nullptr)
 				);
 		}));
 
@@ -222,7 +222,7 @@ namespace ml
 				? ((toks.match_type_str("[]"))
 					? (temp = new AST_Array({}))
 					: (temp = new AST_Array(ML_Parser.genArrayElems(toks.unwrapped()))))
-				: (temp = NULL));
+				: (temp = nullptr));
 		}));
 
 		install<AST_Struct>(new NodeMaker<AST_Struct>([](const TokenList & toks)
@@ -235,7 +235,7 @@ namespace ml
 					ML_Parser.genCallParams(toks.after(3))
 				));
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Call>(new NodeMaker<AST_Call>([](const TokenList & toks)
@@ -248,7 +248,7 @@ namespace ml
 					ML_Parser.genCallParams(toks.after(1))
 				));
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Func>(new NodeMaker<AST_Func>([](const TokenList & toks)
@@ -261,7 +261,7 @@ namespace ml
 					ML_Parser.genFuncParams(toks.after(4))
 				));
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_BinOp>(new NodeMaker<AST_BinOp>([](const TokenList & toks)
@@ -280,7 +280,7 @@ namespace ml
 						ML_Parser.genExpression(toks.after(3))));
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Subscr>(new NodeMaker<AST_Subscr>([](const TokenList & toks)
@@ -298,7 +298,7 @@ namespace ml
 				}
 				else { delete n; }
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Member>(new NodeMaker<AST_Member>([](const TokenList & toks)
@@ -316,7 +316,7 @@ namespace ml
 				}
 				else { delete n; }
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Assign>(new NodeMaker<AST_Assign>([](const TokenList & toks)
@@ -403,7 +403,7 @@ namespace ml
 					));
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Input>(new NodeMaker<AST_Input>([](const TokenList & toks)
@@ -416,7 +416,7 @@ namespace ml
 					return (temp = new AST_Input(ML_Parser.genExpression(toks.after(1))));
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_Command>(new NodeMaker<AST_Command>([](const TokenList & toks)
@@ -436,7 +436,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_New>(new NodeMaker<AST_New>([](const TokenList & toks)
@@ -456,7 +456,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_NodeID>(new NodeMaker<AST_NodeID>([](const TokenList & toks)
@@ -476,7 +476,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_SizeOf>(new NodeMaker<AST_SizeOf>([](const TokenList & toks)
@@ -492,7 +492,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_TypeID>(new NodeMaker<AST_TypeID>([](const TokenList & toks)
@@ -508,7 +508,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_TypeName>(new NodeMaker<AST_TypeName>([](const TokenList & toks)
@@ -524,7 +524,7 @@ namespace ml
 					}
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 
 		install<AST_System>(new NodeMaker<AST_System>([](const TokenList & toks)
@@ -539,7 +539,7 @@ namespace ml
 					));
 				}
 			}
-			return (temp = NULL);
+			return (temp = nullptr);
 		}));
 	}
 
@@ -548,7 +548,7 @@ namespace ml
 		for (auto & pair : m_rules)
 		{
 			delete pair.second;
-			pair.second = NULL;
+			pair.second = nullptr;
 		}
 		m_rules.clear();
 	}
@@ -707,7 +707,7 @@ namespace ml
 
 	AST_Block * Parser::genFromTree(const TokenTree & value)
 	{
-		AST_Block * root = NULL;
+		AST_Block * root = nullptr;
 
 		if (!value.empty())
 		{
@@ -736,7 +736,7 @@ namespace ml
 						}
 						delete a;
 					}
-					return NULL;
+					return nullptr;
 				}
 				else if (AST_Node * n = genNode(root, (*it)))
 				{
@@ -791,14 +791,14 @@ namespace ml
 				}
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Stmt * Parser::genStatement(const TokenList & toks)
 	{
 		if (toks.empty())
 		{
-			return NULL;
+			return nullptr;
 		}
 		else if (AST_If			* temp = ML_Parser.generate<AST_If>(toks))		{ return temp; }
 		else if (AST_Elif		* temp = ML_Parser.generate<AST_Elif>(toks))	{ return temp; }
@@ -818,7 +818,7 @@ namespace ml
 	{
 		if (toks.empty())
 		{
-			return NULL;
+			return nullptr;
 		}
 		else if (toks.isWrap('(', ')'))
 		{
@@ -864,7 +864,7 @@ namespace ml
 
 		if (toks.empty())
 		{
-			return (temp = NULL);
+			return (temp = nullptr);
 		}
 
 		std::stack<AST_Expr *> stack;
@@ -888,7 +888,7 @@ namespace ml
 				}
 				else
 				{
-					return (temp = NULL);
+					return (temp = nullptr);
 				}
 			}
 
@@ -897,7 +897,7 @@ namespace ml
 			{
 				if (stack.size() < 2)
 				{
-					return (temp = NULL);
+					return (temp = nullptr);
 				}
 
 				AST_Expr * rhs = stack.top();
@@ -920,7 +920,7 @@ namespace ml
 		}
 		else
 		{
-			return (temp = NULL);
+			return (temp = nullptr);
 		}
 	}
 	

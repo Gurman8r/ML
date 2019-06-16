@@ -47,7 +47,7 @@ namespace ml
 			UniformMap::const_iterator it;
 			return (((it = m_uniforms.find(name)) != m_uniforms.cend())
 				? (dynamic_cast<const T *>(it->second))
-				: (NULL)
+				: (nullptr)
 			);
 		}
 
@@ -57,7 +57,7 @@ namespace ml
 			UniformMap::iterator it;
 			return (((it = m_uniforms.find(name)) != m_uniforms.end())
 				? (dynamic_cast<T *>(it->second))
-				: (NULL)
+				: (nullptr)
 			);
 		}
 

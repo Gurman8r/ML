@@ -39,7 +39,7 @@ namespace ml
 			int32_t index = reg.getIndexOf(current);
 			return (ResourceGui::StringCombo(label, index, reg.keys())
 				? reg.getByIndex(index)
-				: NULL
+				: nullptr
 			);
 		}
 
@@ -883,7 +883,7 @@ namespace ml
 		{
 			ImGui::OpenPopup("New Uniform Editor");
 		}
-		if (ImGui::BeginPopupModal("New Uniform Editor", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		if (ImGui::BeginPopupModal("New Uniform Editor", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -924,7 +924,7 @@ namespace ml
 			{
 				if (String(name) && !mat->find_any(name))
 				{
-					uni_base * u = NULL;
+					uni_base * u = nullptr;
 					switch (type)
 					{
 					case uni_base::Flt:  u = new uni_flt(name, 0);	break;

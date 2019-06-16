@@ -55,7 +55,7 @@ namespace ml
 			&(int32_t &)(m_size[0]),
 			&(int32_t &)(m_size[1]),
 			&m_channels,
-			NULL
+			0
 		);
 		if (data)
 		{

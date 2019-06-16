@@ -86,7 +86,7 @@ namespace ml
 			vbo.bind();
 			ibo.bind();
 			{
-				ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), NULL);
+				ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), nullptr);
 			}
 			ibo.unbind();
 			vbo.unbind();

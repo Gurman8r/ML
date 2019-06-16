@@ -11,7 +11,7 @@ namespace ml
 	Script::Script()
 		: m_file()
 		, m_toks()
-		, m_root(NULL)
+		, m_root(nullptr)
 		, m_retv()
 	{
 	}
@@ -28,7 +28,7 @@ namespace ml
 		if (m_root)
 		{ 
 			delete m_root;
-			m_root = NULL;
+			m_root = nullptr;
 		}
 		return (!m_root);
 	}
@@ -83,7 +83,7 @@ namespace ml
 				return true;
 			}
 		}
-		m_root = NULL;
+		m_root = nullptr;
 		return false;
 	}
 

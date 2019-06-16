@@ -5,7 +5,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Thread::Thread()
-		: m_thr(NULL)
+		: m_thr(nullptr)
 	{
 	}
 
@@ -35,7 +35,7 @@ namespace ml
 		if (alive())
 		{
 			delete m_thr;
-			m_thr = NULL;
+			m_thr = nullptr;
 		}
 		return !(m_thr);
 	}

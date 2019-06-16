@@ -746,7 +746,7 @@ namespace ml
 		{
 			if (obj = createShaderObject(type))
 			{
-				shaderSource(obj, 1, &source, NULL);
+				shaderSource(obj, 1, &source, nullptr);
 
 				if (compileShader(obj))
 				{

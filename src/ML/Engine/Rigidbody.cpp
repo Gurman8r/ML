@@ -9,9 +9,9 @@ namespace ml
 
 	Rigidbody::Rigidbody()
 		: m_index		(-1)
-		, m_transform	(NULL)
-		, m_collider	(NULL)
-		, m_particle	(NULL)
+		, m_transform	(nullptr)
+		, m_collider	(nullptr)
+		, m_particle	(nullptr)
 	{
 	}
 

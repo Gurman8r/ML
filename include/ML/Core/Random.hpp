@@ -17,7 +17,7 @@ namespace ml
 		friend class ISingleton<Random>;
 
 	private:
-		Random() { std::srand((uint32_t)std::time(NULL)); }
+		Random() { std::srand((uint32_t)std::time(nullptr)); }
 		~Random() {}
 
 	public:

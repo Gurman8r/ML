@@ -22,8 +22,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		RenderBatch()
-			: vao(NULL)
-			, vbo(NULL)
+			: vao(nullptr)
+			, vbo(nullptr)
 			, mat()
 		{
 		}

@@ -7,7 +7,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Preferences::Preferences()
-		: m_ini(NULL)
+		: m_ini(nullptr)
 	{
 	}
 
@@ -35,7 +35,7 @@ namespace ml
 		if (m_ini)
 		{
 			delete m_ini;
-			m_ini = NULL;
+			m_ini = nullptr;
 		}
 		return !(m_ini);
 	}

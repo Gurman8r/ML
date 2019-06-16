@@ -30,7 +30,7 @@ namespace ml
 			}
 			p = p->getParent();
 		}
-		return NULL;
+		return nullptr;
 	}
 
 

@@ -41,7 +41,7 @@ namespace ml
 	{
 		return ((value.name() && (m_commands.find(value.name()) == m_commands.end()))
 			? (&m_commands.insert({ value.name(), value }).first->second)
-			: (NULL)
+			: (nullptr)
 		);
 	}
 
@@ -50,7 +50,7 @@ namespace ml
 		CommandMap::iterator it;
 		return (((it = m_commands.find(value)) != m_commands.begin())
 			? (&it->second)
-			: (NULL)
+			: (nullptr)
 		);
 	}
 

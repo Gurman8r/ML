@@ -39,7 +39,7 @@ namespace ml
 			Fun fun;
 			return ((fun = reinterpret_cast<Fun>(loadFunction(name)))
 				? (static_cast<Out>(fun((args)...)))
-				: (static_cast<Out>(NULL)));
+				: (static_cast<Out>(nullptr)));
 		}
 
 	public:

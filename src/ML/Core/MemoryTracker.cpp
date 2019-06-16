@@ -87,7 +87,7 @@ namespace ml
 				}).first->second->object;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void MemoryTracker::deallocate(void * value)
@@ -100,7 +100,7 @@ namespace ml
 			
 			// delete the record
 			delete it->second;
-			assert(!(it->second = NULL) && "Failed deleting MemoryTracker::Record");
+			assert(!(it->second = nullptr) && "Failed deleting MemoryTracker::Record");
 			m_records.erase(it);
 		}
 	}

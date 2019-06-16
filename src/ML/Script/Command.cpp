@@ -6,7 +6,7 @@ namespace ml
 
 	Command::Command()
 		: m_name()
-		, m_func(NULL)
+		, m_func(nullptr)
 	{
 	}
 

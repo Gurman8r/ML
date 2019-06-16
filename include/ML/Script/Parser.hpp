@@ -57,7 +57,7 @@ namespace ml
 			{
 				return (m_rules[&typeid(T)] = new Rule(maker));
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <class T>
@@ -68,7 +68,7 @@ namespace ml
 			{
 				return (T *)it->second->run(toks);
 			}
-			return NULL;
+			return nullptr;
 		}
 
 	private:

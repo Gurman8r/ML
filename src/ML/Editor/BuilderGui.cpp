@@ -101,7 +101,7 @@ namespace ml
 
 	BuilderGui::BuilderGui(EventSystem & eventSystem)
 		: EditorGui(eventSystem, "Builder")
-		, m_shader	(NULL)
+		, m_shader	(nullptr)
 	{
 		m_files.push_back(new BuildFile("Main", ML_MAIN_EXAMPLE));
 		m_files.push_back(new BuildFile("Vertex", ML_VERT_EXAMPLE));
@@ -138,7 +138,7 @@ namespace ml
 				{
 					ImGui::OpenPopup("New File");
 				}
-				if (ImGui::BeginPopupModal("New File", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+				if (ImGui::BeginPopupModal("New File", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 				{
 					static char name[32] = "New File";
 
@@ -270,7 +270,7 @@ namespace ml
 
 					bool * t_open = (i > 0
 						? (&file->open)
-						: (NULL)
+						: (nullptr)
 					);
 
 					// File Tab

@@ -10,7 +10,7 @@ namespace ml
 
 	NetInterface::NetInterface(EventSystem & eventSystem)
 		: EventListener(eventSystem)
-		, m_peer(NULL)
+		, m_peer(nullptr)
 	{
 	}
 	
@@ -38,7 +38,7 @@ namespace ml
 	void NetInterface::poll()
 	{
 		for (void * packet = ML_PEER(m_peer)->Receive();
-			(packet != NULL);
+			(packet != nullptr);
 			(ML_PEER(m_peer)->DeallocatePacket(ML_PACKET(packet))),
 			(packet = ML_PEER(m_peer)->Receive()))
 		{

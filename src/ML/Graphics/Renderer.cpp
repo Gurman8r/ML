@@ -7,8 +7,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Renderer::Renderer()
-		: m_drawable(NULL)
-		, m_material(NULL)
+		: m_drawable(nullptr)
+		, m_material(nullptr)
 		, m_states	()
 	{
 	}

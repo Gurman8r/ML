@@ -63,7 +63,7 @@ namespace ml
 			data_map::iterator it;
 			return (((it = d.find(name)) == d.end())
 				? this->insert(name, makeT2())
-				: static_cast<T *>(NULL)
+				: static_cast<T *>(nullptr)
 			);
 		}
 
@@ -76,7 +76,7 @@ namespace ml
 			if ((it = d.find(name)) != d.end())
 			{
 				delete it->second;
-				it->second = NULL;
+				it->second = nullptr;
 				d.erase(it);
 				return true;
 			}
@@ -91,7 +91,7 @@ namespace ml
 			data_map::const_iterator it;
 			return (((it = d.find(name)) != d.end())
 				? static_cast<const T *>(it->second)
-				: static_cast<T *>(NULL)
+				: static_cast<T *>(nullptr)
 			);
 		}
 
@@ -103,7 +103,7 @@ namespace ml
 			data_map::iterator it;
 			return (((it = d.find(name)) != d.end())
 				? static_cast<T *>(it->second)
-				: static_cast<T *>(NULL)
+				: static_cast<T *>(nullptr)
 			);
 		}
 
@@ -114,7 +114,7 @@ namespace ml
 		> inline T * load(const String & name)
 		{
 			return (this->get(name)
-				? static_cast<T *>(NULL)
+				? static_cast<T *>(nullptr)
 				: this->insert(name, new T())
 			);
 		}
@@ -127,7 +127,7 @@ namespace ml
 				? this->load(name)
 				: (value && (name && !this->get(name)))
 					? this->insert(name, value)
-					: static_cast<T *>(NULL)
+					: static_cast<T *>(nullptr)
 			);
 		}
 
@@ -165,7 +165,7 @@ namespace ml
 					return this->load(name);
 				}
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <
@@ -173,7 +173,7 @@ namespace ml
 		> inline T * load_forward(const String & name, Args && ... args)
 		{
 			return (this->get(name)
-				? static_cast<T *>(NULL)
+				? static_cast<T *>(nullptr)
 				: this->insert(name, new T(std::forward<Args>(args)...))
 			);
 		}

@@ -72,7 +72,7 @@ namespace ml
 	{
 		return (((static_cast<size_t>(index) < m_rb.size()))
 			? (m_rb[static_cast<size_t>(index)])
-			: (NULL)
+			: (nullptr)
 		);
 	}
 

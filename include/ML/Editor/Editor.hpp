@@ -47,7 +47,7 @@ namespace ml
 					data.insert({
 						name, new T(std::forward<Args>(args)...)
 						}).first->second)
-				: static_cast<T *>(NULL);
+				: static_cast<T *>(nullptr);
 		}
 
 		template <
@@ -59,7 +59,7 @@ namespace ml
 			if ((it = data.find(name)) != data.end())
 			{
 				delete it->second;
-				it->second = NULL;
+				it->second = nullptr;
 				data.erase(it);
 				return true;
 			}
@@ -74,7 +74,7 @@ namespace ml
 			Map<String, EditorGui *>::const_iterator it;
 			return ((it = data.find(name)) != data.end())
 				? static_cast<const T *>(it->second)
-				: static_cast<const T *>(NULL);
+				: static_cast<const T *>(nullptr);
 		}
 
 		template <
@@ -85,7 +85,7 @@ namespace ml
 			Map<String, EditorGui *>::iterator it;
 			return ((it = data.find(name)) != data.end())
 				? static_cast<T *>(it->second)
-				: static_cast<T *>(NULL);
+				: static_cast<T *>(nullptr);
 		}
 
 	private:

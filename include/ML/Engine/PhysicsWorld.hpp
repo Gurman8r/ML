@@ -49,7 +49,7 @@ namespace ml
 				delete temp;
 				Debug::logError("Physics | Failed creating new Rigidbody");
 			}
-			return NULL;
+			return nullptr;
 		}
 		
 		Rigidbody * getLinkedRigidbody(const int32_t index) const;

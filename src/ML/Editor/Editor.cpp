@@ -55,7 +55,7 @@ namespace ml
 			for (auto & gui_pair : type_pair.second)
 			{
 				delete gui_pair.second;
-				gui_pair.second = NULL;
+				gui_pair.second = nullptr;
 			}
 			type_pair.second.clear();
 		}
@@ -178,7 +178,7 @@ namespace ml
 		String imguiINI = ev.prefs.GetString("Editor", "imguiINI", "");
 
 		// Start ImGui
-		if (!ImGui_ML_Init("#version 410", &ev.window, true, NULL))
+		if (!ImGui_ML_Init("#version 410", &ev.window, true, nullptr))
 		{
 			Debug::fatal("Failed Initializing ImGui");
 		}

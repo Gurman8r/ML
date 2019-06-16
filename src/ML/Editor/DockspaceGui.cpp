@@ -135,7 +135,7 @@ namespace ml
 
 	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * other)
 	{
-		return splitNode(id, dir, ratio, NULL, other);
+		return splitNode(id, dir, ratio, nullptr, other);
 	}
 
 	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * out, uint32_t * other)

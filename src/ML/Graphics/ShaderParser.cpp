@@ -8,7 +8,7 @@ namespace ml
 
 	bool ShaderParser::parseShader(const String & src, SStream & v, SStream & g, SStream & f)
 	{
-		SStream *	dst = NULL;
+		SStream *	dst = nullptr;
 		size_t		count = 0;
 		SStream		ss(parseIncludes(src));
 		String		line;
@@ -31,7 +31,7 @@ namespace ml
 				}
 				else
 				{
-					dst = NULL;
+					dst = nullptr;
 				}
 			}
 			else if (dst)

@@ -96,7 +96,7 @@ namespace ml
 				if (it->second)
 				{
 					delete it->second;
-					it->second = NULL;
+					it->second = nullptr;
 					count++;
 				}
 			}
@@ -154,7 +154,7 @@ namespace ml
 		inline pointer load(const String & name)
 		{
 			return ((get(name))
-				? (NULL)
+				? (nullptr)
 				: (this->insert(name, new value_type()))
 			);
 		}
@@ -165,7 +165,7 @@ namespace ml
 				? (load(name))
 				: ((value && (name && !get(name)))
 					? (this->insert(name, value))
-					: (NULL)
+					: (nullptr)
 				)
 			);
 		}
@@ -201,14 +201,14 @@ namespace ml
 					return load(name);
 				}
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <class ... Args>
 		inline pointer create(const String & name, Args && ... args)
 		{
 			return ((get(name))
-				? (NULL)
+				? (nullptr)
 				: (this->insert(name, new value_type(std::forward<Args>(args)...)))
 			);
 		}
@@ -233,8 +233,8 @@ namespace ml
 			return ((name)
 				? ((it = find(name)) != end())
 					? (it->second)
-					: (NULL)
-				: (NULL));
+					: (nullptr)
+				: (nullptr));
 		}
 
 		inline pointer get(const String & name)
@@ -243,8 +243,8 @@ namespace ml
 			return ((name)
 				? ((it = find(name)) != end())
 					? (it->second)
-					: (NULL)
-				: (NULL)
+					: (nullptr)
+				: (nullptr)
 			);
 		}
 
@@ -272,7 +272,7 @@ namespace ml
 			const_iterator it;
 			return (((it = this->getIterAt(value)) != this->end())
 				? (it->second)
-				: (NULL));
+				: (nullptr));
 		}
 
 		inline const int32_t getIndexOf(const_pointer value) const

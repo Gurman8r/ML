@@ -52,7 +52,7 @@ namespace ml
 	String FileSystem::getWorkingDir() const
 	{
 #ifdef ML_SYSTEM_WINDOWS
-		return String(_getcwd(NULL, 0));
+		return String(_getcwd(nullptr, 0));
 #else
 		return String();
 #endif

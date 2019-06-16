@@ -127,7 +127,7 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 		sandbox.vao.create(ml::GL::Triangles).bind();
 		sandbox.vbo.create(ml::GL::DynamicDraw).bind();
-		sandbox.vbo.bufferData(NULL, ml::Shapes::RectQuad::Size);
+		sandbox.vbo.bufferData(nullptr, ml::Shapes::RectQuad::Size);
 		ml::BufferLayout::Default.bind();
 		sandbox.vbo.unbind();
 		sandbox.vao.unbind();
@@ -746,7 +746,7 @@ namespace DEMO
 						ml::List<ml::uni_base *>({
 							new ml::uni_mat4_cr	("Vert.proj",		ortho),
 							new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
-							new ml::uni_tex2	("Frag.mainTex",	NULL),
+							new ml::uni_tex2	("Frag.mainTex",	nullptr),
 							}));
 					static ml::RenderBatch batch(
 						&sandbox.vao, 
@@ -768,7 +768,7 @@ namespace DEMO
 						ml::List<ml::uni_base *>({
 							new ml::uni_mat4_cr	("Vert.proj",		ortho),
 							new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
-							new ml::uni_tex2	("Frag.mainTex",	NULL),
+							new ml::uni_tex2	("Frag.mainTex",	nullptr),
 							}));
 					static ml::RenderBatch batch(
 						&sandbox.vao,

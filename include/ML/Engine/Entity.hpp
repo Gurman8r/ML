@@ -61,7 +61,7 @@ namespace ml
 						typeid(Component).hash_code(), 
 						new Component() 
 					}).first->second))
-				: (NULL)
+				: (nullptr)
 			);
 		}
 
@@ -73,7 +73,7 @@ namespace ml
 						typeid(Component).hash_code(),
 						value
 					}).first->second))
-				: (NULL)
+				: (nullptr)
 			);
 		}
 
@@ -93,7 +93,7 @@ namespace ml
 			iterator it;
 			return (((it = this->find<Component>()) != this->end())
 				? (reinterpret_cast<Component *>(it->second))
-				: (NULL)
+				: (nullptr)
 			);
 		}
 
@@ -103,7 +103,7 @@ namespace ml
 			const_iterator it;
 			return (((it = this->find<Component>()) != this->cend())
 				? (reinterpret_cast<const Component *>(it->second))
-				: (NULL)
+				: (nullptr)
 			);
 		}
 

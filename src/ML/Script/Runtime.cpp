@@ -96,7 +96,7 @@ namespace ml
 				return it->second;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	Var * Runtime::newVar(int32_t index, const String & name, const Var & value)
@@ -116,7 +116,7 @@ namespace ml
 				return v;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	Var * Runtime::setVar(int32_t index, const String & name, const Var & value)
@@ -138,7 +138,7 @@ namespace ml
 		{
 			return it->second;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	Runtime::VarMap * Runtime::values(int32_t index)
@@ -148,7 +148,7 @@ namespace ml
 		{
 			return it->second;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 

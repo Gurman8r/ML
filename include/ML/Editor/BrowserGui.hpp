@@ -62,7 +62,7 @@ namespace ml
 			Directory::const_iterator it;
 			return (((it = m_dir.find(m_type)) != m_dir.end())
 				? (&it->second)
-				: (NULL));
+				: (nullptr));
 		}
 
 		inline const String * get_selected() const
@@ -71,8 +71,8 @@ namespace ml
 			return ((list = get_list())
 				? ((m_index < list->size())
 					? &(*list).at(m_index)
-					: NULL)
-				: NULL);
+					: nullptr)
+				: nullptr);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

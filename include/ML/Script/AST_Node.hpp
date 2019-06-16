@@ -112,7 +112,7 @@ namespace ml
 			{
 				return n->as<Node>();
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <
@@ -123,7 +123,7 @@ namespace ml
 			{
 				return p->as<Node>();
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <
@@ -134,7 +134,7 @@ namespace ml
 			{
 				return p->as<Node>();
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <
@@ -145,7 +145,7 @@ namespace ml
 			{
 				return c->as<Node>();
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <
@@ -156,7 +156,7 @@ namespace ml
 			{
 				return (*begin())->as<Node>();
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <
@@ -167,7 +167,7 @@ namespace ml
 			{
 				return (*end() - 1)->as<Node>();
 			}
-			return NULL;
+			return nullptr;
 		}
 
 	private:

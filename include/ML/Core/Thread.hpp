@@ -35,7 +35,7 @@ namespace ml
 		> inline std::thread * launch(Fun && fun, Args && ... args)
 		{
 			return ((alive())
-				? (NULL)
+				? (nullptr)
 				: (m_thr = new std::thread(fun, (args)...))
 			);
 		}

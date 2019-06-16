@@ -79,7 +79,7 @@ namespace ml
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -95,7 +95,7 @@ namespace ml
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -116,7 +116,7 @@ namespace ml
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -165,7 +165,7 @@ namespace ml
 		FuncTable::iterator it;
 		return ((it = m_funcs.find(name)) != m_funcs.end())
 			? it->second
-			: NULL;
+			: nullptr;
 	}
 
 	AST_Block::FuncTable AST_Block::getFuncs() const
@@ -202,7 +202,7 @@ namespace ml
 		StructTable::iterator it;
 		return ((it = m_structs.find(name)) != m_structs.end())
 			? it->second
-			: NULL;
+			: nullptr;
 	}
 
 	AST_Block::StructTable AST_Block::getStructs() const
@@ -223,7 +223,7 @@ namespace ml
 			}
 			p = p->getParent();
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	Var	 AST_Block::evaluate() const

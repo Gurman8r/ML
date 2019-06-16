@@ -18,7 +18,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	SharedLibrary::SharedLibrary()
-		: m_instance(NULL)
+		: m_instance(nullptr)
 		, m_filename()
 		, m_functions()
 	{

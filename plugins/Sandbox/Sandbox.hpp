@@ -56,8 +56,8 @@ namespace DEMO
 			TextTable			text		= {};
 			ml::VAO				vao			= {};
 			ml::VBO				vbo			= {};
-			ml::Entity *		light		= NULL;
-			ml::Entity *		camera		= NULL;
+			ml::Entity *		light		= nullptr;
+			ml::Entity *		camera		= nullptr;
 			bool				cameraOrbit = true;
 			float				cameraSpeed = 1.0f;
 			int32_t				effectMode	= 3;

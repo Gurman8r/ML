@@ -12,14 +12,14 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	AST_Node::AST_Node()
-		: m_parent(NULL)
+		: m_parent(nullptr)
 		, m_children()
 		, m_id(++s_id)
 	{
 	}
 
 	AST_Node::AST_Node(const List<AST_Node *> & children)
-		: m_parent(NULL)
+		: m_parent(nullptr)
 		, m_children(children)
 		, m_id(++s_id)
 	{
@@ -142,7 +142,7 @@ namespace ml
 			}
 			return value;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Node * AST_Node::getChild(size_t index) const
@@ -151,7 +151,7 @@ namespace ml
 		{
 			return m_children.at(index);
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Node * AST_Node::getParent() const
@@ -166,7 +166,7 @@ namespace ml
 		{
 			return siblings[index];
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Node * AST_Node::push_front(AST_Node * value)
@@ -182,7 +182,7 @@ namespace ml
 			m_children.insert(begin() + index, value);
 			return value;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Node * AST_Node::insertChildAfter(AST_Node * pos, AST_Node * value)
@@ -197,7 +197,7 @@ namespace ml
 				return value;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Node * AST_Node::insertChildBefore(AST_Node * pos, AST_Node * value)
@@ -212,7 +212,7 @@ namespace ml
 			}
 			return value;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Node * AST_Node::getNext() const
@@ -222,7 +222,7 @@ namespace ml
 		{
 			return getSibling(i);
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Node * AST_Node::getPrev() const
@@ -232,7 +232,7 @@ namespace ml
 		{
 			return getSibling(i - 1);
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	AST_Node * AST_Node::setParent(AST_Node * value)

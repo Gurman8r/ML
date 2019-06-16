@@ -21,15 +21,15 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static EventSystem * s_EventSystem = NULL;
+	static EventSystem * s_EventSystem = nullptr;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::Window(EventSystem & eventSystem)
 		: EventListener(eventSystem)
-		, m_window		(NULL)
-		, m_monitor		(NULL)
-		, m_share		(NULL)
+		, m_window		(nullptr)
+		, m_monitor		(nullptr)
+		, m_share		(nullptr)
 		, m_title		(String())
 		, m_context		(ContextSettings())
 		, m_style		(StyleSettings())
@@ -68,7 +68,7 @@ namespace ml
 
 		this->terminate();
 
-		s_EventSystem = NULL;
+		s_EventSystem = nullptr;
 
 #ifdef ML_SYSTEM_WINDOWS
 		// Re-Enable CMD Close Button
@@ -122,8 +122,8 @@ namespace ml
 				getWidth(), 
 				getHeight(), 
 				m_title.c_str(),
-				static_cast<GLFWmonitor *>(m_monitor = NULL),
-				static_cast<GLFWwindow *>(m_share = NULL))))
+				static_cast<GLFWmonitor *>(m_monitor = nullptr),
+				static_cast<GLFWwindow *>(m_share = nullptr))))
 			{
 				makeContextCurrent();
 
@@ -573,7 +573,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWcharfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::CursorEnterFun Window::setCursorEnterCallback(CursorEnterFun callback)
@@ -582,7 +582,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window),
 			reinterpret_cast<GLFWcursorenterfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::CursorPosFun Window::setCursorPosCallback(CursorPosFun callback)
@@ -591,7 +591,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWcursorposfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::ErrorFun Window::setErrorCallback(ErrorFun callback)
@@ -599,7 +599,7 @@ namespace ml
 		return glfwSetErrorCallback(
 			reinterpret_cast<GLFWerrorfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 
 	Window::FrameSizeFun Window::setFrameSizeCallback(FrameSizeFun callback)
@@ -608,7 +608,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWframebuffersizefun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::KeyFun Window::setKeyCallback(KeyFun callback)
@@ -617,7 +617,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWkeyfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::MouseButtonFun Window::setMouseButtonCallback(MouseButtonFun callback)
@@ -626,7 +626,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWmousebuttonfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::ScrollFun Window::setScrollCallback(ScrollFun callback)
@@ -635,7 +635,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWscrollfun>(callback))
 				? (callback) 
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::CloseFun Window::setWindowCloseCallback(CloseFun callback)
@@ -644,7 +644,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWwindowclosefun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::FocusFun Window::setWindowFocusCallback(FocusFun callback)
@@ -653,7 +653,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWwindowfocusfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::PositionFun Window::setWindowPosCallback(PositionFun callback)
@@ -662,7 +662,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWwindowposfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 	
 	Window::SizeFun Window::setWindowSizeCallback(SizeFun callback)
@@ -671,7 +671,7 @@ namespace ml
 			static_cast<GLFWwindow *>(m_window), 
 			reinterpret_cast<GLFWwindowposfun>(callback))
 				? (callback)
-				: (NULL);
+				: (nullptr);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

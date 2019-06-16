@@ -10,7 +10,7 @@ namespace ml
 	}
 
 	Host::Host(const String & addr)
-		: Host(addr, NULL)
+		: Host(addr, 0)
 	{
 	}
 

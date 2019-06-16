@@ -193,7 +193,7 @@ namespace ml
 				}
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	Var AST_Call::evaluate() const
@@ -765,7 +765,7 @@ namespace ml
 				}
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 	
 	OStream & AST_Member::display(OStream & out) const

@@ -10,7 +10,7 @@ namespace ml
 
 	Sprite::Sprite()
 		: m_color(Color::White)
-		, m_texture(NULL)
+		, m_texture(nullptr)
 		, m_transform()
 	{
 	}

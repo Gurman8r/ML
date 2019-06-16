@@ -46,7 +46,7 @@ namespace ml
 # if defined(ML_SYSTEM_WINDOWS)
 			DEVMODE win32Mode;
 			win32Mode.dmSize = sizeof(win32Mode);
-			EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &win32Mode);
+			EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &win32Mode);
 			temp = VideoSettings(
 				win32Mode.dmPelsWidth,
 				win32Mode.dmPelsHeight,
@@ -67,7 +67,7 @@ namespace ml
 # if defined(ML_SYSTEM_WINDOWS)
 			DEVMODE win32Mode;
 			win32Mode.dmSize = sizeof(win32Mode);
-			for (int32_t count = 0; EnumDisplaySettings(NULL, count, &win32Mode); ++count)
+			for (int32_t count = 0; EnumDisplaySettings(nullptr, count, &win32Mode); ++count)
 			{
 				VideoSettings mode(
 					win32Mode.dmPelsWidth,

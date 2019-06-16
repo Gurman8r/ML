@@ -35,7 +35,7 @@ namespace ml
 				return v;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void Var::Ptr::serialize(OStream & out) const

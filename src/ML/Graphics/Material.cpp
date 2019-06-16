@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Material::Material()
-		: m_shader	(NULL)
+		: m_shader	(nullptr)
 		, m_uniforms()
 	{
 	}

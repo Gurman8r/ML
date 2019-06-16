@@ -311,49 +311,6 @@ namespace ml
 		glCheck(glFlush());
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void OpenGL::pushMatrix()
-	{
-		glCheck(glPushMatrix());
-	}
-
-	void OpenGL::popMatrix()
-	{
-		glCheck(glPopMatrix());
-	}
-
-	void OpenGL::loadMatrix(const float * value)
-	{
-		glCheck(glLoadMatrixf(value));
-	}
-
-	void OpenGL::begin(GL::Mode mode)
-	{
-		glCheck(glBegin(mode));
-	}
-
-	void OpenGL::end()
-	{
-		glCheck(glEnd());
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void OpenGL::vertex3f(float x, float y, float z)
-	{
-		glCheck(glVertex3f(x, y, z));
-	}
-
-	void OpenGL::color3f(float r, float g, float b)
-	{
-		glCheck(glColor3f(r, g, b));
-	}
-
-	void OpenGL::color4f(float r, float g, float b, float a)
-	{
-		glCheck(glColor4f(r, g, b, a));
-	}
 
 
 	// Buffers

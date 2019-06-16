@@ -230,11 +230,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr StringID StringID_values[] = {
-			Vendor,
-			Renderer,
-			Version,
-			Extensions,
-			ShadingLanguageVersion,
+			StringID::Vendor,
+			StringID::Renderer,
+			StringID::Version,
+			StringID::Extensions,
+			StringID::ShadingLanguageVersion,
 		};
 
 		static constexpr CString StringID_names[] = {
@@ -266,23 +266,23 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr IntID IntID_values[] = {
-			MajorVersion,
-			MinorVersion,
-			NumExtensions,
-			ContextFlags,
-			ContextProfileMask,
-			MaxTextureSize,
-			MaxCombTexImgUnits,
-			InfoLogLength,
-			PolygonMode,
-			Viewport,
-			ScissorBox,
-			BlendEquationRGB,
-			BlendEquationAlpha,
-			BlendDestRGB,
-			BlendSourceRGB,
-			BlendDestAlpha,
-			BlendSourceAlpha,
+			IntID::MajorVersion,
+			IntID::MinorVersion,
+			IntID::NumExtensions,
+			IntID::ContextFlags,
+			IntID::ContextProfileMask,
+			IntID::MaxTextureSize,
+			IntID::MaxCombTexImgUnits,
+			IntID::InfoLogLength,
+			IntID::PolygonMode,
+			IntID::Viewport,
+			IntID::ScissorBox,
+			IntID::BlendEquationRGB,
+			IntID::BlendEquationAlpha,
+			IntID::BlendDestRGB,
+			IntID::BlendSourceRGB,
+			IntID::BlendDestAlpha,
+			IntID::BlendSourceAlpha,
 		};
 
 		static constexpr CString IntID_names[] = {
@@ -326,9 +326,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr ClipControl ClipControl_values[] = {
-			LowerLeft,
-			UpperLeft,
-			ClipOrigin,
+			ClipControl::LowerLeft,
+			ClipControl::UpperLeft,
+			ClipControl::ClipOrigin,
 		};
 
 		static constexpr CString ClipControl_names[] = {
@@ -1101,12 +1101,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Mask Mask_values[] = {
-			ContextCoreProfileBit,
-			ContextCompatProfileBit,
-			ContextFlagDebugBit,
-			DepthBufferBit,
-			StencilBufferBit,
-			ColorBufferBit,
+			Mask::ContextCoreProfileBit,
+			Mask::ContextCompatProfileBit,
+			Mask::ContextFlagDebugBit,
+			Mask::DepthBufferBit,
+			Mask::StencilBufferBit,
+			Mask::ColorBufferBit,
 		};
 
 		static constexpr CString Mask_names[] = {

@@ -11,8 +11,6 @@ vec4 lerp(in vec4 a, in vec4 b, const float t)
 	return (b * t) + (a * (1.0 - t));
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 vec4 sampleBezier0(in vec4 p0, const float t)
 {
 	return p0;
@@ -30,8 +28,6 @@ vec4 sampleBezier3(in vec4 p0, in vec4 p1, in vec4 p2, in vec4 p3, const float t
 	return lerp(sampleBezier2(p0, p1, p2, t), sampleBezier2(p1, p2, p3, t), t);
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 vec4 sampleCatmullRom(in vec4 pPrev, in vec4 p0, in vec4 p1, in vec4 pNext, const float t)
 {
 	mat4 a = mat4(pPrev, p0, p1, pNext);
@@ -47,8 +43,6 @@ vec4 sampleCatmullRom(in vec4 pPrev, in vec4 p0, in vec4 p1, in vec4 pNext, cons
 
 	return a * b * c;
 }
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 vec4 sampleCubicHermite(in vec4 p0, in vec4 m0, in vec4 p1, in vec4 m1, const float t)
 {
@@ -81,8 +75,6 @@ void drawLine(in vec4 a, in vec4 b, const int samples, const float dt)
 	EndPrimitive();
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 void drawLineFull(in vec4 a, in vec4 b)
 {
 	gl_Position = a;
@@ -91,8 +83,6 @@ void drawLineFull(in vec4 a, in vec4 b)
 	EmitVertex();
 	EndPrimitive();
 }
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 void drawBezierCurve0(in vec4 a, const int samples, const float dt)
 {
@@ -146,8 +136,6 @@ void drawBezierCurve3(in vec4 a, in vec4 b, in vec4 c, in vec4 d, const int samp
 	EndPrimitive();
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 void drawCatmullRomSplineSegment(in vec4 pPrev, in vec4 a, in vec4 b, in vec4 pNext, const int samples, const float dt)
 {
 	int i = 0;
@@ -160,8 +148,6 @@ void drawCatmullRomSplineSegment(in vec4 pPrev, in vec4 a, in vec4 b, in vec4 pN
 	}
 	EndPrimitive();
 }
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 void drawCubicHermiteSplineSegment(in vec4 a, in vec4 m0, in vec4 b, in vec4 m1, const int samples, const float dt)
 {

@@ -80,16 +80,6 @@ namespace ml
 		static void		drawArrays(GL::Mode mode, int32_t first, int32_t count);
 		static void		flush();
 
-		static void		pushMatrix();
-		static void		popMatrix();
-		static void		loadMatrix(const float * value);
-		static void		begin(GL::Mode mode);
-		static void		end();
-
-		static void		vertex3f(float x, float y, float z);
-		static void		color3f(float r, float g, float b);
-		static void		color4f(float r, float g, float b, float a);
-
 	public: // Buffers
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static uint32_t genBuffers(uint32_t count);

@@ -114,9 +114,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexList.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Skybox.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -154,6 +151,9 @@
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Uniform.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\CubeMap.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>
@@ -206,9 +206,6 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Vertex.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Skybox.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
@@ -247,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp">
       <Filter>Source Files\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\CubeMap.cpp">
+      <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

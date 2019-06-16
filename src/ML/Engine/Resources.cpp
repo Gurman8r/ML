@@ -3,11 +3,11 @@
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/CubeMap.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
-#include <ML/Graphics/Skybox.hpp>
 #include <ML/Graphics/Sprite.hpp>
+#include <ML/Graphics/Surface.hpp>
 #include <ML/Script/Script.hpp>
 
 namespace ml
@@ -23,7 +23,6 @@ namespace ml
 		, models	("Models"	)
 		, scripts	("Scripts"	)
 		, shaders	("Shaders"	)
-		, skyboxes	("Skyboxes"	)
 		, sounds	("Sounds"	)
 		, sprites	("Sprites"	)
 		, surfaces	("Surfaces"	)
@@ -40,18 +39,6 @@ namespace ml
 
 	size_t Resources::cleanupAll()
 	{
-		// HashMap<size_t, Map<String, T *>>
-		for (auto & tree : content.m_map)
-		{
-			// Map<String, T *>
-			for (auto & pair : tree.second)
-			{
-				delete (IObject *)pair.second;
-			}
-			tree.second.clear();
-		}
-		content.m_map.clear();
-
 		return
 			surfaces.clean()	+
 			sprites.clean()		+
@@ -59,7 +46,6 @@ namespace ml
 			models.clean()		+
 			meshes.clean()		+
 			shaders.clean()		+
-			skyboxes.clean()	+
 			textures.clean()	+
 			images.clean()		+
 			fonts.clean()		+
@@ -77,7 +63,6 @@ namespace ml
 			meshes.reload()		+
 			models.reload()		+
 			shaders.reload()	+
-			skyboxes.reload()	+
 			sprites.reload()	+
 			textures.reload()	+
 			surfaces.reload()	+
@@ -231,29 +216,23 @@ namespace ml
 					const String vert = item.getStr("vert");
 					const String geom = item.getStr("geom");
 					const String frag = item.getStr("frag");
-					if (vert || geom || frag)
+
+					if (vert && geom && frag)
 					{
 						return
 							shaders.load(name) &&
 							shaders.get(name)->loadFromFile(vert, geom, frag);
 					}
+					else if (vert && frag)
+					{
+						return
+							shaders.load(name) &&
+							shaders.get(name)->loadFromFile(vert, frag);
+					}
 					else
 					{
 						return shaders.load(name);
 					}
-				}
-			}
-			// Skyboxes
-			/* * * * * * * * * * * * * * * * * * * * */
-			else if (type == "skybox")
-			{
-				if (const String file = item.getStr("file"))
-				{
-					return skyboxes.load_file(name, file);
-				}
-				else
-				{
-					return skyboxes.load(name);
 				}
 			}
 			// Sounds

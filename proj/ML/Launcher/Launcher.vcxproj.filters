@@ -96,9 +96,6 @@
     <None Include="..\..\..\assets\shaders\common\Geom.Curve.shader">
       <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\common\Time.shader">
-      <Filter>Resource Files\assets\shaders\common</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\common\Vert.MVP.shader">
       <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
@@ -110,6 +107,12 @@
     </None>
     <None Include="..\..\..\assets\shaders\noobs_shader.shader">
       <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\fs\noobs_fs_0.shader">
+      <Filter>Resource Files\assets\shaders\fs</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\vs\noobs_vs_0.shader">
+      <Filter>Resource Files\assets\shaders\vs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +167,12 @@
     <Filter Include="Resource Files\assets\textures\bg\sunset">
       <UniqueIdentifier>{dcd0bc86-fb15-4a27-bc63-2724ad97eef4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\shaders\fs">
+      <UniqueIdentifier>{555fac42-a59a-4a5c-9fd4-7d4f619ad609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\shaders\vs">
+      <UniqueIdentifier>{f60ea11b-0162-40eb-80ae-03f7a4ce2d03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\assets\data\surfaces.txt">
@@ -191,9 +200,6 @@
       <Filter>Resource Files\assets\data</Filter>
     </Text>
     <Text Include="..\..\..\assets\data\shaders.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\skyboxes.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
     <Text Include="..\..\..\assets\data\sprites.txt">

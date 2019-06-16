@@ -43,6 +43,27 @@ namespace ml
 		return count;
 	}
 
+	String ShaderParser::parseShader(const String & src)
+	{
+		if ((src.find("#shader") == String::npos) &&
+			(src.find("#include") == String::npos))
+			return src;
+
+		SStream ss(parseIncludes(src));
+		String	line;
+		SStream out;
+
+		while (std::getline(ss, line))
+		{
+			if (line.find("#shader") == String::npos)
+			{
+				out << line << endl;
+			}
+		}
+
+		return out.str();
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	String ShaderParser::parseIncludes(const String & src)

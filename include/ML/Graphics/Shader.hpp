@@ -88,6 +88,13 @@ namespace ml
 		mutable AttribTable		m_attribs;
 		mutable TextureTable	m_textures;
 		mutable UniformTable	m_uniforms;
+
+		mutable String m_vs, m_fs, m_gs;
+
+	public:
+		inline const String & vertSrc() const { return m_vs; }
+		inline const String & fragSrc() const { return m_fs; }
+		inline const String & geomSrc() const { return m_gs; }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -17,7 +17,6 @@
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
-#include <ML/Graphics/Skybox.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Engine/Rigidbody.hpp>
 #include <ML/Engine/Particle.hpp>
@@ -25,22 +24,6 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	namespace impl
-	{
-		inline static bool vector_getter(void * vec, int32_t idx, CString * out_text)
-		{
-			auto & vector = (*static_cast<List<String>*>(vec));
-			if ((idx >= 0) && (idx < static_cast<int32_t>(vector.size())))
-			{
-				(*out_text) = vector.at(idx).c_str();
-				return true;
-			}
-			return false;
-		}
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ResourceGui::Layout
@@ -57,7 +40,7 @@ namespace ml
 			if (ImGui::Combo(
 				label,
 				&index,
-				impl::vector_getter,
+				EditorUtility::vector_getter,
 				static_cast<void *>(&keys),
 				(int32_t)(keys.size())))
 			{
@@ -93,7 +76,7 @@ namespace ml
 				if (auto u = dynamic_cast<uni_flt *>(value))
 				{
 					const String name = "##" + label + "##Float##Uni" + value->name;
-					ImGui::InputFloat(name.c_str(), &u->data, 1);
+					ImGui::InputFloat(name.c_str(), &u->data, 0.1f);
 					return true;
 				}
 
@@ -674,88 +657,6 @@ namespace ml
 			ImGui::Separator();
 		}
 		ImGui::EndGroup();
-
-		ImGui::Separator();
-
-		ImGui::BeginGroup();
-		ImGui::PushID("Content");
-		for (auto & pair : res.content.data<Material>())
-		{
-			Material * mat = static_cast<Material *>(pair.second);
-
-			if (ImGui::TreeNode(pair.first.c_str()))
-			{
-				ImGui::PushID(pair.first.c_str());
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (const Shader * shader = Layout::ResourceDropdown(
-					"Shader##Material",
-					mat->shader(),
-					res.shaders))
-				{
-					mat->shader() = shader;
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::TreeNode("Uniforms"))
-				{
-					// New Uniform
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					Layout::NewUniformPopup(mat);
-
-					// Display List
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (!mat->uniforms().empty())
-					{
-						ImGui::Separator();
-					}
-
-					List<Material::UniformMap::iterator> toRemove;
-
-					for (auto it = mat->uniforms().begin(); it != mat->uniforms().end(); it++)
-					{
-						if (ImGui::TreeNode(it->first.c_str()))
-						{
-							const String label("##" + pair.first + "##Uni##" + it->first);
-
-							Layout::UniformField(res, label, it->second);
-
-							ImGui::SameLine();
-
-							if (ImGui::Button(String("Delete" + label).c_str()))
-							{
-								toRemove.push_back(it);
-							}
-
-							ImGui::TreePop();
-						}
-					}
-
-					for (auto it : toRemove)
-					{
-						uni_base * u = it->second;
-						mat->uniforms().erase(it);
-						delete u;
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					ImGui::TreePop();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				ImGui::PopID();
-				ImGui::TreePop();
-			}
-			ImGui::Separator();
-		}
-		ImGui::PopID();
-		ImGui::EndGroup();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -816,8 +717,112 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : shaders)
 		{
+			Shader * shader = pair.second;
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
+				// Reload
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::Button("Reload"))
+				{
+					if (shaders.reload(pair.first))
+					{
+						Debug::log("Reloaded Shader: {0}", pair.first);
+					}
+					else
+					{
+						Debug::logError("Failed Reloading Shader: {0}", pair.first);
+					}
+				}
+
+				// Source Tabs
+				if (ImGui::BeginTabBar("SourceTabs"))
+				{
+					// Vertex Source
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::BeginTabItem("Vertex##Shader"))
+					{
+						if (ImGui::BeginChild(
+							"Vertex##Content##Shader", 
+							{ -1.f, -1.f }, 
+							true, 
+							ImGuiWindowFlags_AlwaysHorizontalScrollbar
+						))
+						{
+							if (shader->vertSrc())
+							{
+								ImGui::TextUnformatted(
+									&shader->vertSrc()[0],
+									&shader->vertSrc()[shader->vertSrc().size()]
+								);
+							}
+							else
+							{
+								ImGui::Text("Empty");
+							}
+						}
+						ImGui::EndChild();
+						ImGui::EndTabItem();
+					}
+
+					// Fragment Source
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::BeginTabItem("Fragment##Shader"))
+					{
+						if (ImGui::BeginChild(
+							"Fragment##Content##Shader",
+							{ -1.f, -1.f },
+							true,
+							ImGuiWindowFlags_AlwaysHorizontalScrollbar
+						))
+						{
+							if (!shader->fragSrc().empty())
+							{
+								ImGui::TextUnformatted(
+									&shader->fragSrc()[0],
+									&shader->fragSrc()[shader->fragSrc().size()]
+								);
+							}
+							else
+							{
+								ImGui::Text("Empty");
+							}
+						}
+						ImGui::EndChild();
+						ImGui::EndTabItem();
+					}
+
+					// Geometry Source
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::BeginTabItem("Geometry##Shader"))
+					{
+						if (ImGui::BeginChild(
+							"Geometry##Content##Shader",
+							{ -1.f, -1.f },
+							true,
+							ImGuiWindowFlags_AlwaysHorizontalScrollbar
+						))
+						{
+							if (!shader->geomSrc().empty())
+							{
+								ImGui::TextUnformatted(
+									&shader->geomSrc()[0],
+									&shader->geomSrc()[shader->geomSrc().size()]
+								);
+							}
+							else
+							{
+								ImGui::Text("Empty");
+							}
+						}
+						ImGui::EndChild();
+						ImGui::EndTabItem();
+					}
+
+					ImGui::EndTabBar();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+				}
+
 				ImGui::TreePop();
 			}
 			ImGui::Separator();
@@ -998,26 +1003,78 @@ namespace ml
 			{
 				Texture * tex = pair.second;
 
-				ImGui::Text("Size: %u x %u", tex->width(), tex->height());
-				ImGui::Text("Real Size: %u x %u", tex->realWidth(), tex->realHeight());
+				ImGui::Columns(2, "test_columns");
+
+				int32_t level = tex->level();
+				ImGui::Selectable("Level:");
+				ImGui::NextColumn();
+				ImGui::Text("%i", level);
+				ImGui::NextColumn();
+
+				GL::Target target = tex->target();
+				ImGui::Selectable("Target:");
+				ImGui::NextColumn();
+				ImGui::Text("%s", GL::nameOf(target));
+				ImGui::NextColumn();
+
+				GL::Format colorFormat = tex->colorFormat();
+				ImGui::Selectable("Color Format:");
+				ImGui::NextColumn();
+				ImGui::Text("%s", GL::nameOf(colorFormat));
+				ImGui::NextColumn();
+
+				GL::Format internalFormat = tex->internalFormat();
+				ImGui::Selectable("Internal Format:");
+				ImGui::NextColumn();
+				ImGui::Text("%s", GL::nameOf(internalFormat));
+				ImGui::NextColumn();
+
+				GL::Type pixType = tex->type();
+				ImGui::Selectable("Pixel Type:");
+				ImGui::NextColumn();
+				ImGui::Text("%s", GL::nameOf(pixType));
+				ImGui::NextColumn();
+
+				vec2u size = tex->size();
+				ImGui::Selectable("Size:");
+				ImGui::NextColumn();
+				ImGui::Text("%u x %u", size[0], size[1]);
+				ImGui::NextColumn();
+
+				vec2u realSize = tex->realSize();
+				ImGui::Selectable("Real Size:");
+				ImGui::NextColumn();
+				ImGui::Text("%u x %u", realSize[0], realSize[1]);
+				ImGui::NextColumn();
 				
-				bool mipmapped = tex->mipmapped();
-				if (ImGui::Checkbox("Mipmapped##Texture", &mipmapped))
-				{
-					tex->setMipmapped(mipmapped);
-				}
-
-				bool repeated = tex->repeated();
-				if (ImGui::Checkbox("Repeated##Texture", &repeated))
-				{
-					tex->setRepeated(repeated);
-				}
-
 				bool smooth = tex->smooth();
-				if (ImGui::Checkbox("Smooth##Texture", &smooth))
+				ImGui::Selectable("Smooth:");
+				ImGui::NextColumn();
+				if (ImGui::Checkbox("##Smooth##Texture", &smooth))
 				{
 					tex->setSmooth(smooth);
 				}
+				ImGui::NextColumn();
+
+				bool repeated = tex->repeated();
+				ImGui::Selectable("Repeated:");
+				ImGui::NextColumn();
+				if (ImGui::Checkbox("##Repeated##Texture", &repeated))
+				{
+					tex->setRepeated(repeated);
+				}
+				ImGui::NextColumn();
+
+				bool mipmapped = tex->mipmapped();
+				ImGui::Selectable("Mipmapped:");
+				ImGui::NextColumn();
+				if (ImGui::Checkbox("##Mipmapped##Texture", &mipmapped))
+				{
+					tex->setMipmapped(mipmapped);
+				}
+				ImGui::NextColumn();
+
+				ImGui::Columns(1);
 
 				if (ImGui::TreeNode("Preview"))
 				{
@@ -1036,10 +1093,6 @@ namespace ml
 					vec2 dst = { 256, 256 };
 					vec2 scl = scaleToFit(src, dst);
 
-					float my_tex_w = scl[0]; //(float)tex->width();
-					float my_tex_h = scl[1]; //(float)tex->height();
-					ImGui::Text("%.0fx%.0f", scl[0], scl[1]);
-
 					ImGui::Image(
 						tex->get_address(),
 						{ scl[0], scl[1] },
@@ -1049,54 +1102,9 @@ namespace ml
 						{ 255, 255, 255, 128 }
 					);
 
-					if (ImGui::IsItemHovered())
-					{
-						ImGui::BeginTooltip();
-
-						float region_sz = 64.0f;
-
-						float region_x = ML_CLAMP(
-							io.MousePos.x - pos[0] - region_sz * 0.5f,
-							0.0f,
-							my_tex_w - region_sz
-						);
-
-						float region_y = ML_CLAMP(
-							my_tex_h - (io.MousePos.y - pos[1] - region_sz * 0.5f),
-							0.0f,
-							my_tex_h - region_sz
-						);
-
-						ImGui::Text("Min: (%.2f, %.2f)", region_x, region_y);
-						ImGui::Text("Max: (%.2f, %.2f)", region_x + region_sz, region_y + region_sz);
-
-						float zoom = 2.0f;
-
-						ImVec2 uv0 = {
-							(region_x / my_tex_w),
-							((region_y + region_sz) / my_tex_h)
-						};
-
-						ImVec2 uv1 = {
-							((region_x + region_sz) / my_tex_w),
-							(region_y / my_tex_h)
-						};
-
-						ImGui::Image(
-							tex->get_address(),
-							{ region_sz * zoom, region_sz * zoom },
-							uv0,
-							uv1,
-							{ 255, 255, 255, 255 },
-							{ 255, 255, 255, 128 }
-						);
-						ImGui::EndTooltip();
-
-					}
-					
 					ImGui::TreePop();
 				}
-				
+
 				ImGui::TreePop();
 			}
 			ImGui::Separator();

@@ -21,7 +21,6 @@
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
-#include <ML/Graphics/Skybox.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Uniform.hpp>

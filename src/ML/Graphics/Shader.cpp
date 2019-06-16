@@ -116,7 +116,7 @@ namespace ml
 		}
 
 		// Compile the shader program
-		return compile(vert.c_str(), NULL, frag.c_str());
+		return loadFromMemory(vert.str(), frag.str());
 	}
 
 	bool Shader::loadFromFile(const String & vs, const String & gs, const String & fs)
@@ -143,31 +143,40 @@ namespace ml
 		}
 
 		// Compile the shader program
-		return compile(vert.c_str(), geom.c_str(), frag.c_str());
+		return loadFromMemory(vert.str(), geom.str(), frag.str());
 	}
 
 	bool Shader::loadFromMemory(const String & source)
 	{
 		SStream vert, geom, frag;
 		return (ShaderParser::parseShader(source, vert, geom, frag)
-			? (loadFromMemory(
+			? loadFromMemory(
 				vert.str(), 
 				geom.str(), 
-				frag.str()))
-			: (Debug::logError("Failed Parsing Shader")));
+				frag.str())
+			: Debug::logError("Failed Parsing Shader"));
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & gs, const String & fs)
 	{
-		return ((gs)
-			? (compile(vs.c_str(), gs.c_str(), fs.c_str()))
-			: (loadFromMemory(vs, fs))
+		return ((!gs.empty())
+			? compile(
+				(m_vs = ShaderParser::parseShader(vs)).c_str(),
+				(m_gs = ShaderParser::parseShader(gs)).c_str(),
+				(m_fs = ShaderParser::parseShader(fs)).c_str()
+			)
+			: loadFromMemory(vs, fs)
 		);
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & fs)
 	{
-		return compile(vs.c_str(), NULL, fs.c_str());
+		m_gs = String();
+		return compile(
+			(m_vs = ShaderParser::parseShader(vs)).c_str(),
+			NULL,
+			(m_fs = ShaderParser::parseShader(fs)).c_str()
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

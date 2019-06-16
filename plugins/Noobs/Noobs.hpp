@@ -41,6 +41,9 @@ namespace DEMO
 			ml::Surface * surf_main;
 			ml::Surface * surf_post;
 			ml::Entity	* ent_main;
+			
+			ml::vec2i res = { 1920, 1080 };
+			ml::vec4f clearColor = ml::Color::Gray;
 
 			bool showScene		= true;
 			bool showBuilder	= true;

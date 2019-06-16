@@ -128,6 +128,22 @@ namespace ml
 			return count;
 		}
 
+		inline bool reload(const String & name)
+		{
+			file_map::iterator it;
+			if ((it = m_files.find(name)) != m_files.end())
+			{
+				if (const String path = ML_FS.getPathTo(it->second))
+				{
+					if (pointer temp = get(name))
+					{
+						return temp->loadFromFile(path);
+					}
+				}
+			}
+			return false;
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline pointer insert(const String & name, pointer value)

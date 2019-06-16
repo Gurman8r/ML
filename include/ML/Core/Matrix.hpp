@@ -281,15 +281,20 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		inline virtual void serialize(OStream & out) const override
 		{
-			for (size_t y = 0; y < this->rows(); y++)
+			for (const auto & e : (*this))
 			{
-				for (size_t x = 0; x < this->cols(); x++)
-				{
-					out << (*this)[y * this->cols() + x] << " ";
-				}
-				out << endl;
+				out << e << " ";
 			}
-			out << endl;
+
+			//for (size_t y = 0; y < this->rows(); y++)
+			//{
+			//	for (size_t x = 0; x < this->cols(); x++)
+			//	{
+			//		out << (*this)[y * this->cols() + x] << " ";
+			//	}
+			//	out << endl;
+			//}
+			//out << endl;
 		}
 
 		inline friend IStream & operator>>(IStream & in, self_type & value)

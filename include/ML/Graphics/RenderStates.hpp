@@ -64,10 +64,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API RenderStates final
-		: public IObject
+	struct ML_GRAPHICS_API RenderStates final : public IObject
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		struct MiscFlags final
 		{
 			bool multisample		= false;
@@ -76,7 +76,8 @@ namespace ml
 			const MiscFlags & operator()() const;
 		};
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		RenderStates();
 		explicit RenderStates(
 			const AlphaMode		&	alpha,
@@ -88,16 +89,20 @@ namespace ml
 		RenderStates(const RenderStates & copy);
 		~RenderStates();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		const RenderStates & apply() const;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		AlphaMode		alpha;
 		BlendMode		blend;
 		CullingMode		culling;
 		DepthMode		depth;
 		TextureMode		texture;
 		MiscFlags		misc;
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

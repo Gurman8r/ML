@@ -112,12 +112,16 @@ namespace DEMO
 
 		// Orthographic Projection
 		ml::Transform ortho = ml::Transform::Orthographic({
-			{ 0.f, 0.f }, { 1920.f, 1080.f }
+			{ 0.f, 0.f }, 
+			(ml::vec2f)noobs.res
 		});
 
 		// Perspective Projection
 		ml::Transform persp = ml::Transform::Perspective(
-			45.f, ML_ASPECT(1920.f, 1080.f), 0.001f, 1000.f
+			45.f, 
+			ML_ASPECT((float)noobs.res[0], (float)noobs.res[1]),
+			0.001f,
+			1000.f
 		);
 
 		// Camera Transform
@@ -164,24 +168,6 @@ namespace DEMO
 				new ml::uni_int	("Frag.shininess",	8),
 				}));
 
-		ev.resources.content.create<ml::Material>(
-			"noobs_material_0",
-			ev.resources.shaders.get("noobs_shader_0"),
-			ml::List<ml::uni_base *>({
-				new ml::uni_mat4("Vert.proj",		persp.getMat()),
-				new ml::uni_mat4("Vert.view",		camera.getMat()),
-				new ml::uni_mat4("Vert.model",		model.getMat()),
-				new ml::uni_vec3("Frag.cameraPos",	camera.getPos()),
-				new ml::uni_vec3("Frag.lightPos",	light.getPos()),
-				new ml::uni_col4("Frag.diffuse",	ml::Color::LightYellow),
-				new ml::uni_col4("Frag.mainCol",	ml::Color::White),
-				new ml::uni_tex2("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
-				new ml::uni_tex2("Frag.specTex",	ev.resources.textures.get("earth_sm")),
-				new ml::uni_flt	("Frag.ambient",	0.01f),
-				new ml::uni_flt	("Frag.specular",	0.1f),
-				new ml::uni_int	("Frag.shininess",	8),
-				}));
-
 		// Create Entity
 		if (noobs.ent_main = ev.resources.entities.load("noobs_entity_0"))
 		{
@@ -196,8 +182,8 @@ namespace DEMO
 	void Noobs::onUpdate(const ml::UpdateEvent & ev)
 	{
 		// Update Surface Sizes
-		noobs.surf_main->resize(ev.window.getFrameSize());
-		noobs.surf_post->resize(ev.window.getFrameSize());
+		noobs.surf_main->resize(noobs.res);
+		noobs.surf_post->resize(noobs.res);
 	}
 
 	void Noobs::onDraw(const ml::DrawEvent & ev)
@@ -206,10 +192,13 @@ namespace DEMO
 		noobs.surf_main->bind();
 
 		// Clear Screen
-		ev.window.clear(ml::Color::Gray);
+		ev.window.clear(noobs.clearColor);
 
 		// Draw Renderer
 		ev.window.draw(noobs.ent_main->get<ml::Renderer>());
+
+		// Unbind Main Surface
+		noobs.surf_main->unbind();
 
 		// Reset States
 		static ml::RenderStates states(
@@ -221,9 +210,6 @@ namespace DEMO
 			{ false, false }
 		);
 		states.apply();
-
-		// Unbind Main Surface
-		noobs.surf_main->unbind();
 
 		// Bind Post Surface
 		noobs.surf_post->bind();
@@ -253,7 +239,38 @@ namespace DEMO
 
 			if (ImGui::BeginMenuBar())
 			{
-				ImGui::MenuItem("Noobs Scene");
+				if (ImGui::BeginMenu("Noobs Scene"))
+				{
+					static const auto & res_values = ml::VideoSettings::resolutions();
+					static ml::List<ml::String> res_names;
+					if (res_names.empty())
+					{
+						for (const auto & video : res_values)
+						{
+							res_names.push_back(video.resolution.ToString());
+						}
+					}
+
+					// Resolution
+					static int32_t index = 0;
+					if (ImGui::Combo(
+						"Resolution##Noobs",
+						&index, 
+						ml::EditorUtility::vector_getter,
+						(void *)&res_names,
+						(int32_t)res_names.size()
+					))
+					{
+						noobs.res = (ml::vec2i)res_values[index].resolution;
+						ml::Debug::log(noobs.res.ToString());
+					}
+
+					// Clear Color
+					ImGui::ColorEdit4("Clear Color##Noobs", &noobs.clearColor[0]);
+
+					ImGui::EndMenu();
+				}
+
 				ImGui::EndMenuBar();
 			}
 

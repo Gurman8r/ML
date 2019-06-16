@@ -3,12 +3,12 @@
 
 #include <ML/Engine/Registry.hpp>
 #include <ML/Engine/ManifestItem.hpp>
-#include <ML/Engine/Content.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	class CubeMap;
 	class Entity;
 	class Font;
 	class Image;
@@ -17,7 +17,6 @@ namespace ml
 	class Model;
 	class Script;
 	class Shader;
-	class Skybox;
 	class Sound;
 	class Sprite;
 	class Surface;
@@ -45,8 +44,6 @@ namespace ml
 		bool parseItem(const ManifestItem & data);
 
 	public:
-		Content content;
-
 		Registry<Entity>	entities;
 		Registry<Font>		fonts;
 		Registry<Image>		images;
@@ -55,7 +52,6 @@ namespace ml
 		Registry<Model>		models;
 		Registry<Script>	scripts;
 		Registry<Shader>	shaders;
-		Registry<Skybox>	skyboxes;
 		Registry<Sound> 	sounds;
 		Registry<Sprite>	sprites;
 		Registry<Surface>	surfaces;

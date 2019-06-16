@@ -12,6 +12,7 @@ namespace ml
 	{
 	public:
 		static bool		parseShader(const String & src, SStream & v, SStream & g, SStream & f);
+		static String	parseShader(const String & src);
 		static String	parseIncludes(const String & src);
 		static bool		parseWrapped(const String & src, const char lhs, const char rhs, String & out);
 	};

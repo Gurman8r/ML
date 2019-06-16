@@ -177,6 +177,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\BufferLayout.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Camera.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\CubeMap.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Font.hpp" />
@@ -202,7 +203,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderParser.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Shapes.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\Skybox.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Sprite.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Text.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Texture.hpp" />
@@ -216,6 +216,7 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\CubeMap.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\FrameBuffer.cpp" />
@@ -235,7 +236,6 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\ShaderParser.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Shapes.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\Skybox.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Sprite.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Text.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Texture.cpp" />

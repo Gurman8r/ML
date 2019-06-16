@@ -21,6 +21,7 @@ namespace ml
 		static vec2 getWindowSize();
 
 	public:
+		static void HelpMarker(CString desc);
 		static bool BeginWindow(CString name, bool & open, const int32_t flags = 0);
 		static void EndWindow();
 
@@ -38,6 +39,18 @@ namespace ml
 				}
 				EndWindow();
 			}
+		}
+
+	public:
+		inline static bool vector_getter(void * vec, int32_t idx, CString * out_text)
+		{
+			auto & vector = (*static_cast<List<String>*>(vec));
+			if ((idx >= 0) && (idx < static_cast<int32_t>(vector.size())))
+			{
+				(*out_text) = vector.at(idx).c_str();
+				return true;
+			}
+			return false;
 		}
 	};
 

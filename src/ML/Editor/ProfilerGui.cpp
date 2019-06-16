@@ -20,24 +20,14 @@ namespace ml
 
 	bool ProfilerGui::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(ImGuiWindowFlags_MenuBar))
+		if (beginDraw())
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			if (ImGui::BeginMenuBar())
-			{
-				ImGui::Text("%s (WIP)", getTitle());
-				ImGui::EndMenuBar();
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
 			graph.update("##Framerate", (float)ev.time.frameRate(), "fps {0}");
-
-			/* * * * * * * * * * * * * * * * * * * * */
 		}
 		return endDraw();
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	void ProfilerGui::GraphLines::update(CString label, const float sample, const String & fmt)
 	{

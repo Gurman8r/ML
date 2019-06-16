@@ -61,10 +61,10 @@ namespace ml
 
 	bool Model::loadFromMemory(const List<float> & vertices)
 	{
-		m_vao.create(ml::GL::Triangles);
+		m_vao.create(GL::Triangles);
 		m_vao.bind();
 		
-		m_vbo.create(ml::GL::StaticDraw);
+		m_vbo.create(GL::StaticDraw);
 		m_vbo.bind();
 		m_vbo.bufferData(vertices);
 		

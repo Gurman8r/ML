@@ -26,7 +26,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		struct GraphLines
 		{
-			enum { Size = 90U };
+			enum { Size = 256U };
 
 			float	values[Size]= { 0 };
 			int32_t	offset		= 0;

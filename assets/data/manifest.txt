@@ -38,14 +38,6 @@
 </import>
 
 
-# Skyboxes
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<import>
-	type = manifest
-	name = ../../../assets/data/skyboxes.txt
-</import>
-
-
 # Meshes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>

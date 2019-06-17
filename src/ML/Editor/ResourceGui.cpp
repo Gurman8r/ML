@@ -889,11 +889,11 @@ namespace ml
 			ImGui::Combo(
 				"Type",
 				&type,
-				uni_base::GL_TypeNames,
+				uni_base::TypeNames,
 				uni_base::MAX_UNI_TYPES
 			);
 
-			ImGui::InputText(
+			bool enterPress = ImGui::InputText(
 				"Name",
 				name,
 				IM_ARRAYSIZE(name),
@@ -902,7 +902,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			if (ImGui::Button("Submit"))
+			if (enterPress || ImGui::Button("Submit"))
 			{
 				if (String(name) && !mat->find_any(name))
 				{

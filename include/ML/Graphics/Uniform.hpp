@@ -20,39 +20,17 @@ namespace ml
 
 		enum Types : int32_t
 		{
-			Flt1,	// Float
-			Int1,	// Integer
-			Vec2,	// Vector2
-			Vec3,	// Vector3
-			Vec4,	// Vector4
-			Col4,	// Color
-			Mat3,	// Matrix3x3
-			Mat4,	// Matrix4x4
-			Tex2,	// Sampler 2D
+			Flt1, Int1,
+			Vec2, Vec3, Vec4, Col4,
+			Mat3, Mat4,
+			Tex2,
 			MAX_UNI_TYPES
 		};
 
-		static constexpr CString ML_TypeNames[] = {
-			"Float",
-			"Integer",
-			"Vector 2",
-			"Vector 3",
-			"Vector 4",
-			"Color",
-			"Matrix 3x3",
-			"Matrix 4x4",
-			"Sampler 2D",
-		};
-
-		static constexpr CString GL_TypeNames[] = {
-			"float",
-			"int",
-			"vec2",
-			"vec3",
-			"vec4",
-			"vec4",
-			"mat3",
-			"mat4",
+		static constexpr CString TypeNames[] = {
+			"float", "int",
+			"vec2", "vec3", "vec4", "vec4",
+			"mat3", "mat4",
 			"sampler2D",
 		};
 
@@ -72,13 +50,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline const CString & ml_typeName() const { return ML_TypeNames[this->type]; }
-		inline const CString & gl_typeName() const { return GL_TypeNames[this->type]; }
-
-
 		inline void serialize(OStream & out) const override
 		{
-			out << ml_typeName();
+			out << TypeNames[this->type];
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

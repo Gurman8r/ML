@@ -185,21 +185,46 @@ namespace DEMO
 			);
 		}
 
-		// Default Files
+		// Create Main File
 		noobs.files.push_back(new NoobFile("Main",
-			"#shader vertex\n"
-			"#include \"Vertex\"\n"
-			"\n"
-			"#shader fragment\n"
-			"#include \"Fragment\"\n"
-			"\n"
+			""
 		));
-		noobs.files.push_back(new NoobFile("Vertex",
-			noobs.material->shader()->vertSrc()
-		));
-		noobs.files.push_back(new NoobFile("Fragment",
-			noobs.material->shader()->fragSrc()
-		));
+		// Create Vertex File
+		if (noobs.material->shader()->vertSrc())
+		{
+			noobs.files.push_back(new NoobFile("Vertex",
+				noobs.material->shader()->vertSrc()
+			));
+			std::strcat(noobs.files.front()->data,
+				"#shader vertex\n"
+				"#include \"Vertex\"\n"
+				"\n"
+			);
+		}
+		// Create Fragment File
+		if (noobs.material->shader()->fragSrc())
+		{
+			noobs.files.push_back(new NoobFile("Fragment",
+				noobs.material->shader()->fragSrc()
+			));
+			std::strcat(noobs.files.front()->data,
+				"#shader fragment\n"
+				"#include \"Fragment\"\n"
+				"\n"
+			);
+		}
+		// Create Geometry File
+		if (noobs.material->shader()->geomSrc())
+		{
+			noobs.files.push_back(new NoobFile("Geometry",
+				noobs.material->shader()->geomSrc()
+			));
+			std::strcat(noobs.files.front()->data,
+				"#shader geometry\n"
+				"#include \"Geometry\"\n"
+				"\n"
+			);
+		}
 	}
 
 	void Noobs::onUpdate(const ml::UpdateEvent & ev)
@@ -616,24 +641,29 @@ namespace DEMO
 						it != noobs.material->uniforms().rend(); 
 						it++)
 					{
+						float height = 1;
+						if (it->second->type == ml::uni_mat3::ID) { height = 3; }
+						else if (it->second->type == ml::uni_mat4::ID) { height = 4; }
+
 						// label
 						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
 
-						ImGui::PushStyleColor(ImGuiCol_Text, { 0, 1, 0, 1 });
-						if (ImGui::TreeNode(it->first.c_str()))
+						// Uniform Header
+						ImGui::PushStyleColor(ImGuiCol_Header, { 0.367f, 0.258f, 0.489f, 0.580f });
+						if (ImGui::CollapsingHeader((it->first + label).c_str()))
 						{
 							ImGui::PopStyleColor();
 
+							ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+							ImGui::BeginChild(
+								("UniformChild##" + label).c_str(),
+								{ 0, (32 * height) + (height == 1 ? 8 : -8) },
+								true, 
+								ImGuiWindowFlags_NoScrollWithMouse
+							);
+
 							/* * * * * * * * * * * * * * * * * * * * */
-
-							ImGui::SameLine(); ImGui::Text("|");
-							ImGui::PushStyleColor(ImGuiCol_Text, { 0, 1, 1, 1 });
-							ImGui::SameLine();
-							ImGui::Text(it->second->ToString().c_str());
-							ImGui::PopStyleColor();
-
-							/* * * * * * * * * * * * * * * * * * * * */
-
+							
 							//  1 | Can view and edit
 							// -1 | Can view but not edit
 							//  0 | Cannot view or edit
@@ -650,7 +680,7 @@ namespace DEMO
 									toRemove.push_back(std::next(it).base());
 								}
 								break;
-
+							
 							case -1:
 								ImGui::SameLine();
 								ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
@@ -659,8 +689,8 @@ namespace DEMO
 
 							/* * * * * * * * * * * * * * * * * * * * */
 
-							ImGui::NewLine();
-							ImGui::TreePop();
+							ImGui::EndChild();
+							ImGui::PopStyleVar();
 						}
 						else
 						{
@@ -798,7 +828,7 @@ namespace DEMO
 						};
 
 						// Input
-						ImGui::InputText(
+						bool enterPress = ImGui::InputText(
 							"Name##Builder##Noobs", 
 							name,
 							IM_ARRAYSIZE(name),
@@ -806,7 +836,7 @@ namespace DEMO
 						);
 
 						// Submit / Cancel
-						if (ImGui::Button("Submit##Builder##Noobs"))
+						if (enterPress || ImGui::Button("Submit##Builder##Noobs"))
 						{
 							addNewFile();
 							resetPopup();

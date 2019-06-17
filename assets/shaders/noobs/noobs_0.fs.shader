@@ -1,4 +1,4 @@
-// noobs_fs_0.shader
+// noobs_0.fs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #shader fragment
@@ -40,15 +40,15 @@ uniform struct Frag_Uniforms
 
 uniform struct Time_Uniforms
 {
-	float		delta;
-	float		total;
+	float     delta;
+	float     total;
 } Time;
 
 uniform struct Display_Uniforms
 {
-	int			width;
-	int			height;
-	vec4		color;
+	int       width;
+	int       height;
+	vec4      color;
 } Display;
 
 /* * * * * * * * * * * * * * * * * * * * */

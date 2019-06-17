@@ -189,16 +189,16 @@
     <None Include="..\..\..\assets\shaders\common\Vert.MVP.shader" />
     <None Include="..\..\..\assets\shaders\common\Vert.shader" />
     <None Include="..\..\..\assets\shaders\example.shader" />
-    <None Include="..\..\..\assets\shaders\fs\noobs_fs_0.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />
     <None Include="..\..\..\assets\shaders\lighting.shader" />
+    <None Include="..\..\..\assets\shaders\noobs\noobs_0.fs.shader" />
+    <None Include="..\..\..\assets\shaders\noobs\noobs_0.vs.shader" />
     <None Include="..\..\..\assets\shaders\normal.shader" />
     <None Include="..\..\..\assets\shaders\skybox.shader" />
     <None Include="..\..\..\assets\shaders\solid.shader" />
     <None Include="..\..\..\assets\shaders\sprites.shader" />
     <None Include="..\..\..\assets\shaders\surface.shader" />
     <None Include="..\..\..\assets\shaders\text.shader" />
-    <None Include="..\..\..\assets\shaders\vs\noobs_vs_0.shader" />
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>

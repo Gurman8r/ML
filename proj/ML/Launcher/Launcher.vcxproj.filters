@@ -105,11 +105,11 @@
     <None Include="..\..\..\ML.ini">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\fs\noobs_fs_0.shader">
-      <Filter>Resource Files\assets\shaders\fs</Filter>
+    <None Include="..\..\..\assets\shaders\noobs\noobs_0.fs.shader">
+      <Filter>Resource Files\assets\shaders\noobs</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\vs\noobs_vs_0.shader">
-      <Filter>Resource Files\assets\shaders\vs</Filter>
+    <None Include="..\..\..\assets\shaders\noobs\noobs_0.vs.shader">
+      <Filter>Resource Files\assets\shaders\noobs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -164,11 +164,8 @@
     <Filter Include="Resource Files\assets\textures\bg\sunset">
       <UniqueIdentifier>{dcd0bc86-fb15-4a27-bc63-2724ad97eef4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\assets\shaders\fs">
+    <Filter Include="Resource Files\assets\shaders\noobs">
       <UniqueIdentifier>{555fac42-a59a-4a5c-9fd4-7d4f619ad609}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\assets\shaders\vs">
-      <UniqueIdentifier>{f60ea11b-0162-40eb-80ae-03f7a4ce2d03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

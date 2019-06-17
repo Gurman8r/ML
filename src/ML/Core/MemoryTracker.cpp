@@ -68,9 +68,10 @@ namespace ml
 			}
 			cerr << endl;
 
+#if ML_DEBUG
 			Debug::pause(EXIT_FAILURE);
-
 			Debug::fatal("YOUR MEMORY IS LEAKING");
+#endif
 		}
 	}
 

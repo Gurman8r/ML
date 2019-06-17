@@ -32,14 +32,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void EditorUtility::HelpMarker(CString desc)
+	void EditorUtility::HelpMarker(const String & desc)
 	{
 		ImGui::TextDisabled("(?)");
 		if (ImGui::IsItemHovered())
 		{
 			ImGui::BeginTooltip();
 			ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-			ImGui::TextUnformatted(desc);
+			ImGui::TextUnformatted(desc.c_str());
 			ImGui::PopTextWrapPos();
 			ImGui::EndTooltip();
 		}

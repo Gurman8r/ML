@@ -21,7 +21,7 @@ namespace ml
 		static vec2 getWindowSize();
 
 	public:
-		static void HelpMarker(CString desc);
+		static void HelpMarker(const String & desc);
 		static bool StringCombo(CString label, int32_t & index, const List<String> & keys);
 		static bool BeginWindow(CString name, bool & open, const int32_t flags = 0);
 		static void EndWindow();

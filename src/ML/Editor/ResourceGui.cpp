@@ -350,6 +350,7 @@ namespace ml
 		{
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
+				ImGui::Text("%s", pair.second->getInfo().family.c_str());
 				ImGui::TreePop();
 			}
 			ImGui::Separator();
@@ -1020,7 +1021,7 @@ namespace ml
 			if (vec4 * temp = impl::toCol4(value))
 			{
 				const String name = "##" + label + "##Col4##Uni" + value->name;
-				ImGui::ColorEdit4(name.c_str(), &(*temp)[0], 0.1f);
+				ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
 				if (auto u = value->as<uni_col4>()) { u->data = (*temp); return 1; }
 				else return -1;
 			}

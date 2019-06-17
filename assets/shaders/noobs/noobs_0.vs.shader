@@ -1,4 +1,4 @@
-// noobs_vs_0.shader
+// noobs_0.vs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #shader vertex
@@ -59,7 +59,7 @@ void main()
 	Out.Texcoord = a_Texcoord;
 
 	mat4 rot     = ml_AngleAxis(vec3(0.0, 1.0, 0.0), Time.total);
-	mat4 mvp     = (Vert.proj * Vert.view * (Vert.model * rot));
+	mat4 mvp     = Vert.proj * Vert.view * Vert.model * rot;
 	vec4 pos     = mvp * vec4(Out.Position, 1.0);
 	vec4 off     = vec4(0.0, sin(Time.total), 0.0, 1.0);
 

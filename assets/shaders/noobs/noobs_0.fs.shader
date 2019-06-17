@@ -44,12 +44,11 @@ uniform struct Time_Uniforms
 	float     total;
 } Time;
 
-uniform struct Display_Uniforms
+uniform struct Window_Uniforms
 {
-	int       width;
-	int       height;
+	vec2      size;
 	vec4      color;
-} Display;
+} Window;
 
 /* * * * * * * * * * * * * * * * * * * * */
 

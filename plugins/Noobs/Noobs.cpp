@@ -170,9 +170,8 @@ namespace DEMO
 				new ml::uni_vec3	("Frag.lightPos",	light.getPos()),
 				new ml::uni_col4	("Frag.diffuse",	ml::Color::LightYellow),
 				new ml::uni_flt		("Frag.ambient",	0.01f),
-				new ml::uni_int_cr	("Display.width",	noobs.resolution[0]),
-				new ml::uni_int_cr	("Display.height",	noobs.resolution[1]),
-				new ml::uni_col4_cr	("Display.color",	noobs.clearColor),
+				new ml::uni_vec2_cr	("Window.size",		noobs.resolution),
+				new ml::uni_col4_cr	("Window.color",	noobs.clearColor),
 				}));
 
 		// Create Entity

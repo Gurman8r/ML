@@ -79,7 +79,7 @@ namespace DEMO
 			ml::Renderer *	renderer	= nullptr;
 			float			deltaTime	= 0.f;
 			float			totalTime	= 0.f;
-			ml::vec2i		resolution	= { 1920, 1080 };
+			ml::vec2f		resolution	= { 1920, 1080 };
 			bool			freeAspect	= true;
 			ml::vec4f		clearColor	= ml::Color::Gray;
 			bool			showScene	= true;

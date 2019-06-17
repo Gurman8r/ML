@@ -871,27 +871,26 @@ namespace ml
 	{
 		if (ImGui::Button("New"))
 		{
-			ImGui::OpenPopup("New Uniform Editor");
+			ImGui::OpenPopup("New Uniform##ResourceGui");
 		}
-		if (ImGui::BeginPopupModal("New Uniform Editor", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		if (ImGui::BeginPopupModal("New Uniform##ResourceGui", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			static int32_t	type = 0;
-			static char		name[32] = "NewUniform\0";
-
-			auto closePopup = [&]()
+			static int32_t	type		= 0;
+			static char		name[32]	= "my_uniform\0";
+			auto			resetPopup	= [&]()
 			{
 				type = 0;
-				std::strcpy(name, "NewUniform\0");
+				std::strcpy(name, "my_uniform\0");
 				ImGui::CloseCurrentPopup();
 			};
 
 			ImGui::Combo(
 				"Type",
 				&type,
-				uni_base::TypeNames,
-				IM_ARRAYSIZE(uni_base::TypeNames)
+				uni_base::GL_TypeNames,
+				uni_base::MAX_UNI_TYPES
 			);
 
 			ImGui::InputText(
@@ -922,7 +921,7 @@ namespace ml
 					}
 					if (u && (u = mat->uniforms().insert({ name, u }).first->second))
 					{
-						closePopup();
+						resetPopup();
 					}
 				}
 				else
@@ -935,7 +934,7 @@ namespace ml
 
 			if (ImGui::Button("Cancel"))
 			{
-				closePopup();
+				resetPopup();
 			}
 
 			ImGui::EndPopup();
@@ -944,6 +943,8 @@ namespace ml
 
 	int32_t ResourceGui::UniformField(Resources & resources, const String & label, uni_base * value, bool drag)
 	{
+		if (!value) { return 0; }
+
 		switch (value->type)
 		{
 			// Flt
@@ -1079,8 +1080,10 @@ namespace ml
 				}
 				return 1;
 			}
+			
+		default:
+			return 0;
 		}
-		return 0;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

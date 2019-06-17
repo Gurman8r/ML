@@ -352,17 +352,22 @@ namespace DEMO
 			if (ImGui::BeginTabBar("Noobs Builder Tabs"))
 			{
 				// Settings
-				/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Settings##Noobs"))
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					if (ImGui::TreeNode("Alpha Testing"))
 					{
-						ImGui::Checkbox(
-							"##Enabled##Alpha Testing##Renderer##Noobs", 
-							&noobs.renderer->states().alpha.enabled
+						bool & enabled = noobs.renderer->states().alpha.enabled;
+						ImGui::Checkbox((enabled
+							? "Enabled ##Alpha Testing##Renderer##Noobs"
+							: "Disabled##Alpha Testing##Renderer##Noobs"
+							),
+							&enabled
 						);
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						int32_t i = ml::GL::indexOf(noobs.renderer->states().alpha.comp);
 						if (ImGui::Combo(
@@ -374,8 +379,12 @@ namespace DEMO
 						{
 							ml::GL::valueAt(i, noobs.renderer->states().alpha.comp);
 						}
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &noobs.renderer->states().alpha.coeff);
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						ImGui::TreePop();
 					}
@@ -384,10 +393,15 @@ namespace DEMO
 
 					if (ImGui::TreeNode("Blending"))
 					{
-						ImGui::Checkbox(
-							"Enabled##Blending##Renderer##Noobs", 
-							&noobs.renderer->states().blend.enabled
+						bool & enabled = noobs.renderer->states().blend.enabled;
+						ImGui::Checkbox((enabled
+							? "Enabled ##Blending##Renderer##Noobs"
+							: "Disabled##Blending##Renderer##Noobs"
+							),
+							&enabled
 						);
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						auto factor_combo = [](ml::CString label, int32_t & i)
 						{
@@ -404,24 +418,32 @@ namespace DEMO
 						{
 							ml::GL::valueAt(srcRGB, noobs.renderer->states().blend.srcRGB);
 						}
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						int32_t srcAlpha = ml::GL::indexOf(noobs.renderer->states().blend.srcAlpha);
 						if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
 						{
 							ml::GL::valueAt(srcAlpha, noobs.renderer->states().blend.srcAlpha);
 						}
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						int32_t dstRGB = ml::GL::indexOf(noobs.renderer->states().blend.dstRGB);
 						if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
 						{
 							ml::GL::valueAt(dstRGB, noobs.renderer->states().blend.dstRGB);
 						}
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						int32_t dstAlpha = ml::GL::indexOf(noobs.renderer->states().blend.dstAlpha);
 						if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
 						{
 							ml::GL::valueAt(dstAlpha, noobs.renderer->states().blend.dstAlpha);
 						}
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						ImGui::TreePop();
 					}
@@ -430,10 +452,15 @@ namespace DEMO
 
 					if (ImGui::TreeNode("Culling"))
 					{
-						ImGui::Checkbox(
-							"Enabled##Culling##Renderer##Noobs",
-							&noobs.renderer->states().culling.enabled
+						bool & enabled = noobs.renderer->states().culling.enabled;
+						ImGui::Checkbox((enabled
+							? "Enabled ##Culling##Renderer##Noobs"
+							: "Disabled##Culling##Renderer##Noobs"
+							),
+							&enabled
 						);
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						int32_t i = ml::GL::indexOf(noobs.renderer->states().culling.face);
 						if (ImGui::Combo(
@@ -445,6 +472,8 @@ namespace DEMO
 						{
 							ml::GL::valueAt(i, noobs.renderer->states().culling.face);
 						}
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						ImGui::TreePop();
 					}
@@ -453,10 +482,15 @@ namespace DEMO
 
 					if (ImGui::TreeNode("Depth Testing"))
 					{
-						ImGui::Checkbox(
-							"Enabled##Depth Testing##Renderer##Noobs",
-							&noobs.renderer->states().depth.enabled
+						bool & enabled = noobs.renderer->states().depth.enabled;
+						ImGui::Checkbox((enabled
+							? "Enabled ##Depth Testing##Renderer##Noobs"
+							: "Disabled##Depth Testing##Renderer##Noobs"
+							),
+							&enabled
 						);
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						int32_t i = ml::GL::indexOf(noobs.renderer->states().depth.comp);
 						if (ImGui::Combo(
@@ -468,6 +502,8 @@ namespace DEMO
 						{
 							ml::GL::valueAt(i, noobs.renderer->states().depth.comp);
 						}
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						ImGui::TreePop();
 					}
@@ -476,10 +512,15 @@ namespace DEMO
 
 					if (ImGui::TreeNode("Texture"))
 					{
-						ImGui::Checkbox(
-							"Enabled##Texture##Renderer##Noobs", 
-							&noobs.renderer->states().texture.enabled
+						bool & enabled = noobs.renderer->states().texture.enabled;
+						ImGui::Checkbox((enabled
+							? "Enabled ##Texture##Renderer##Noobs"
+							: "Disabled##Texture##Renderer##Noobs"
+							),
+							&enabled
 						);
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						int32_t i = ml::GL::indexOf(noobs.renderer->states().texture.target);
 						if (ImGui::Combo(
@@ -491,6 +532,8 @@ namespace DEMO
 						{
 							ml::GL::valueAt(i, noobs.renderer->states().texture.target);
 						}
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						ImGui::TreePop();
 					}
@@ -503,14 +546,22 @@ namespace DEMO
 							"Multisample##Misc##Renderer##Noobs",
 							&noobs.renderer->states().misc.multisample
 						);
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						ImGui::Checkbox(
 							"Framebuffer SRGB##Misc##Renderer##Noobs",
 							&noobs.renderer->states().misc.framebufferSRGB
 						);
+						ImGui::SameLine();
+						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 						ImGui::TreePop();
 					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::NewLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -524,6 +575,8 @@ namespace DEMO
 					{
 						noobs.material->shader() = ev.resources.shaders.getByIndex(mat_shader);
 					}
+					ImGui::SameLine();
+					ML_EditorUtility.HelpMarker("The shader to be used.");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -537,6 +590,8 @@ namespace DEMO
 					{
 						noobs.renderer->drawable() = ev.resources.models.getByIndex(ent_model);
 					}
+					ImGui::SameLine();
+					ML_EditorUtility.HelpMarker("The model to be drawn.");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -544,7 +599,7 @@ namespace DEMO
 				}
 
 				// Uniforms
-				/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
 				{
 					// new uniform editor
@@ -563,33 +618,55 @@ namespace DEMO
 					{
 						// label
 						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
-						
-						ml::SStream name; name 
-							<< std::left
-							<< std::setw(10)
-							<< (*it->second)
-							//<< ml::uni_base::TypeNames[it->second->type]
-							<< " | "
-							<< it->first;
 
-						if (ImGui::TreeNode(name.str().c_str()))
+						ImGui::PushStyleColor(ImGuiCol_Text, { 0, 1, 0, 1 });
+						if (ImGui::TreeNode(it->first.c_str()))
 						{
-							if (1 == ml::ResourceGui::UniformField(
+							ImGui::PopStyleColor();
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							ImGui::SameLine(); ImGui::Text("|");
+							ImGui::PushStyleColor(ImGuiCol_Text, { 0, 1, 1, 1 });
+							ImGui::SameLine();
+							ImGui::Text(it->second->ToString().c_str());
+							ImGui::PopStyleColor();
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							//  1 | Can view and edit
+							// -1 | Can view but not edit
+							//  0 | Cannot view or edit
+							switch (ml::ResourceGui::UniformField(
 								ev.resources,
 								label,
 								it->second
 							))
 							{
+							case 1: 
 								ImGui::SameLine();
 								if (ImGui::Button(ml::String("Delete" + label).c_str()))
 								{
 									toRemove.push_back(std::next(it).base());
 								}
+								break;
+
+							case -1:
+								ImGui::SameLine();
+								ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
+								break;
 							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
 
 							ImGui::NewLine();
 							ImGui::TreePop();
 						}
+						else
+						{
+							ImGui::PopStyleColor();
+						}
+
 						ImGui::Separator();
 					}
 
@@ -604,7 +681,7 @@ namespace DEMO
 				}
 
 				// Sources
-				/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Sources##Files##Shader##Noobs"))
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -694,12 +771,14 @@ namespace DEMO
 					{
 						static char name[NoobFile::MaxName] = "New File";
 
-						auto closePopup = [&]()
+						// reset popup
+						auto resetPopup = [&]()
 						{
 							std::strcpy(name, "New File");
 							ImGui::CloseCurrentPopup();
 						};
 
+						// add new file
 						auto addNewFile = [&]()
 						{
 							if (!ml::String(name))
@@ -730,12 +809,12 @@ namespace DEMO
 						if (ImGui::Button("Submit##Builder##Noobs"))
 						{
 							addNewFile();
-							closePopup();
+							resetPopup();
 						}
 						ImGui::SameLine();
 						if (ImGui::Button("Cancel##Builder##Noobs"))
 						{
-							closePopup();
+							resetPopup();
 						}
 
 						ImGui::EndPopup();
@@ -762,7 +841,20 @@ namespace DEMO
 								(i > 0 ? &(*it)->open : nullptr),
 								(*it)->dirty ? ImGuiTabItemFlags_UnsavedDocument : 0
 							))
-							{	// Input Text Content Area
+							{	
+								if (i == 0)
+								{
+									ML_EditorUtility.HelpMarker(
+										"This is the \'Main\' file of your shader.\n"
+										"You can write all of your shader code here,\n"
+										"or you can create multiple files and compose them in Main.\n"
+										"\n"
+										"#shader vertex / fragment / geometry\n"
+										"#include \'...\' / \"...\" / <...> \n"
+									);
+								}
+								
+								// Input Text Content Area
 								ImGui::BeginChild(
 									"InputTextContentArea",
 									{ 0, 0 },

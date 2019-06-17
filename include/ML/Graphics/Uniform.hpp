@@ -32,7 +32,7 @@ namespace ml
 			MAX_UNI_TYPES
 		};
 
-		static constexpr CString TypeNames[] = { 
+		static constexpr CString ML_TypeNames[] = {
 			"Float",
 			"Integer",
 			"Vector 2",
@@ -42,6 +42,18 @@ namespace ml
 			"Matrix 3x3",
 			"Matrix 4x4",
 			"Sampler 2D",
+		};
+
+		static constexpr CString GL_TypeNames[] = {
+			"float",
+			"int",
+			"vec2",
+			"vec3",
+			"vec4",
+			"vec4",
+			"mat3",
+			"mat4",
+			"sampler2D",
 		};
 
 		using id_type = typename const int32_t;
@@ -60,9 +72,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		inline const CString & ml_typeName() const { return ML_TypeNames[this->type]; }
+		inline const CString & gl_typeName() const { return GL_TypeNames[this->type]; }
+
+
 		inline void serialize(OStream & out) const override
 		{
-			out << uni_base::TypeNames[this->type];
+			out << ml_typeName();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -219,26 +235,29 @@ namespace ml
 	{
 		inline static float * toFloat(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			static float temp;
-			if (auto u = value->as<uni_flt>()) return &(temp = u->data);
-			else if (auto u = value->as<uni_flt_cr>()) return &(temp = u->data);
-			else if (auto u = value->as<uni_flt_cp>()) return &(temp = *u->data);
+			if (auto u = value->as<uni_flt>())			return &(temp = u->data);
+			else if (auto u = value->as<uni_flt_cr>())	return &(temp = u->data);
+			else if (auto u = value->as<uni_flt_cp>())	return &(temp = *u->data);
 			else return nullptr;
 		}
 
 		inline static int32_t * toInt(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			static int32_t temp;
-			if (auto u = value->as<uni_int>()) return &(temp = u->data);
-			else if (auto u = value->as<uni_int_cr>()) return &(temp = u->data);
-			else if (auto u = value->as<uni_int_cp>()) return &(temp = *u->data);
+			if (auto u = value->as<uni_int>())			return &(temp = u->data);
+			else if (auto u = value->as<uni_int_cr>())	return &(temp = u->data);
+			else if (auto u = value->as<uni_int_cp>())	return &(temp = *u->data);
 			else return nullptr;
 		}
 
 		inline static vec2 * toVec2(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			static vec2 temp;
-			if (auto u = value->as<uni_vec2>()) return &(temp = u->data);
+			if (auto u = value->as<uni_vec2>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_vec2_cr>()) return &(temp = u->data);
 			else if (auto u = value->as<uni_vec2_cp>()) return &(temp = *u->data);
 			else return nullptr;
@@ -246,8 +265,9 @@ namespace ml
 
 		inline static vec3 * toVec3(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			static vec3 temp;
-			if (auto u = value->as<uni_vec3>()) return &(temp = u->data);
+			if (auto u = value->as<uni_vec3>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_vec3_cr>()) return &(temp = u->data);
 			else if (auto u = value->as<uni_vec3_cp>()) return &(temp = *u->data);
 			else return nullptr;
@@ -255,8 +275,9 @@ namespace ml
 
 		inline static vec4 * toVec4(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			static vec4 temp;
-			if (auto u = value->as<uni_vec4>()) return &(temp = u->data);
+			if (auto u = value->as<uni_vec4>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_vec4_cr>()) return &(temp = u->data);
 			else if (auto u = value->as<uni_vec4_cp>()) return &(temp = *u->data);
 			else return nullptr;
@@ -264,8 +285,9 @@ namespace ml
 
 		inline static vec4 * toCol4(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			static vec4 temp;
-			if (auto u = value->as<uni_col4>()) return &(temp = u->data);
+			if (auto u = value->as<uni_col4>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_col4_cr>()) return &(temp = u->data);
 			else if (auto u = value->as<uni_col4_cp>()) return &(temp = *u->data);
 			else return nullptr;
@@ -273,8 +295,9 @@ namespace ml
 
 		inline static mat3 * toMat3(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			static mat3 temp;
-			if (auto u = value->as<uni_mat3>()) return &(temp = u->data);
+			if (auto u = value->as<uni_mat3>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_mat3_cr>()) return &(temp = u->data);
 			else if (auto u = value->as<uni_mat3_cp>()) return &(temp = *u->data);
 			else return nullptr;
@@ -282,8 +305,9 @@ namespace ml
 
 		inline static mat4 * toMat4(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			static mat4 temp;
-			if (auto u = value->as<uni_mat4>()) return &(temp = u->data);
+			if (auto u = value->as<uni_mat4>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_mat4_cr>()) return &(temp = u->data);
 			else if (auto u = value->as<uni_mat4_cp>()) return &(temp = *u->data);
 			else return nullptr;
@@ -291,6 +315,7 @@ namespace ml
 
 		inline static const Texture * toTex2(const uni_base * value)
 		{
+			if (!value) return nullptr;
 			if (auto u = value->as<uni_tex2>()) return u->data;
 			else return nullptr;
 		}

@@ -890,15 +890,8 @@ namespace ml
 			ImGui::Combo(
 				"Type",
 				&type,
-				"Float\0"
-				"Integer\0"
-				"Vector 2\0"
-				"Vector 3\0"
-				"Vector 4\0"
-				"Color 4\0"
-				"Matrix 3x3\0"
-				"Matrix 4x4\0"
-				"Sampler 2D\0"
+				uni_base::TypeNames,
+				IM_ARRAYSIZE(uni_base::TypeNames)
 			);
 
 			ImGui::InputText(

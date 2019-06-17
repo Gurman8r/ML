@@ -20,28 +20,28 @@ namespace ml
 
 		enum Types : int32_t
 		{
-			Flt ,	// Float
-			Int ,	// Integer
+			Flt1,	// Float
+			Int1,	// Integer
 			Vec2,	// Vector2
 			Vec3,	// Vector3
 			Vec4,	// Vector4
 			Col4,	// Color
 			Mat3,	// Matrix3x3
 			Mat4,	// Matrix4x4
-			Tex2,	// Texture
+			Tex2,	// Sampler 2D
 			MAX_UNI_TYPES
 		};
 
 		static constexpr CString TypeNames[] = { 
-			"Flt",
-			"Int",
-			"Vec2",
-			"Vec3",
-			"Vec4",
-			"Col4",
-			"Mat3",
-			"Mat4",
-			"Tex2",
+			"Float",
+			"Integer",
+			"Vector 2",
+			"Vector 3",
+			"Vector 4",
+			"Color",
+			"Matrix 3x3",
+			"Matrix 4x4",
+			"Sampler 2D",
 		};
 
 		using id_type = typename const int32_t;
@@ -57,6 +57,13 @@ namespace ml
 			: name(name)
 			, type(type) 
 		{}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		inline void serialize(OStream & out) const override
+		{
+			out << uni_base::TypeNames[this->type];
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -88,7 +95,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	};
-
 
 	// Base Generic Uni
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -152,8 +158,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ML_GEN_UNIFORM(	uni_flt_t,	uni_base::Flt	);
-	ML_GEN_UNIFORM(	uni_int_t,	uni_base::Int	);
+	ML_GEN_UNIFORM(	uni_flt_t,	uni_base::Flt1	);
+	ML_GEN_UNIFORM(	uni_int_t,	uni_base::Int1	);
 	ML_GEN_UNIFORM(	uni_vec2_t,	uni_base::Vec2	);
 	ML_GEN_UNIFORM(	uni_vec3_t,	uni_base::Vec3	);
 	ML_GEN_UNIFORM(	uni_vec4_t,	uni_base::Vec4	);

@@ -566,10 +566,10 @@ namespace DEMO
 						
 						ml::SStream name; name 
 							<< std::left
-							<< "[ " 
-							<< std::setw(4)
-							<< ml::uni_base::TypeNames[it->second->type]
-							<< " ] "
+							<< std::setw(10)
+							<< (*it->second)
+							//<< ml::uni_base::TypeNames[it->second->type]
+							<< " | "
 							<< it->first;
 
 						if (ImGui::TreeNode(name.str().c_str()))

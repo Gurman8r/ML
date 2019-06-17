@@ -917,15 +917,15 @@ namespace ml
 					uni_base * u = nullptr;
 					switch (type)
 					{
-					case uni_base::Flt:  u = new uni_flt(name, 0);	break;
-					case uni_base::Int:  u = new uni_int(name, 0);	break;
-					case uni_base::Vec2: u = new uni_vec2(name, 0);	break;
-					case uni_base::Vec3: u = new uni_vec3(name, 0);	break;
-					case uni_base::Vec4: u = new uni_vec4(name, 0);	break;
-					case uni_base::Col4: u = new uni_col4(name, 0);	break;
-					case uni_base::Mat3: u = new uni_mat3(name, 0);	break;
-					case uni_base::Mat4: u = new uni_mat4(name, 0);	break;
-					case uni_base::Tex:  u = new uni_tex2(name, 0);	break;
+					case uni_flt::ID	: u = new uni_flt (name, 0);	break;
+					case uni_int::ID	: u = new uni_int (name, 0);	break;
+					case uni_vec2::ID	: u = new uni_vec2(name, 0);	break;
+					case uni_vec3::ID	: u = new uni_vec3(name, 0);	break;
+					case uni_vec4::ID	: u = new uni_vec4(name, 0);	break;
+					case uni_col4::ID	: u = new uni_col4(name, 0);	break;
+					case uni_mat3::ID	: u = new uni_mat3(name, 0);	break;
+					case uni_mat4::ID	: u = new uni_mat4(name, 0);	break;
+					case uni_tex2::ID	: u = new uni_tex2(name, 0);	break;
 					}
 					if (u && (u = mat->uniforms().insert({ name, u }).first->second))
 					{

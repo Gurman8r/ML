@@ -12,7 +12,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-
 	// Base Uni
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	struct uni_base : public IObject, public INonCopyable
@@ -21,16 +20,28 @@ namespace ml
 
 		enum Types : int32_t
 		{
-			Flt,	// Float
-			Int,	// Integer
+			Flt ,	// Float
+			Int ,	// Integer
 			Vec2,	// Vector2
 			Vec3,	// Vector3
 			Vec4,	// Vector4
 			Col4,	// Color
 			Mat3,	// Matrix3x3
 			Mat4,	// Matrix4x4
-			Tex,	// Texture
+			Tex2,	// Texture
 			MAX_UNI_TYPES
+		};
+
+		static constexpr CString TypeNames[] = { 
+			"Flt",
+			"Int",
+			"Vec2",
+			"Vec3",
+			"Vec4",
+			"Col4",
+			"Mat3",
+			"Mat4",
+			"Tex2",
 		};
 
 		using id_type = typename const int32_t;
@@ -149,7 +160,7 @@ namespace ml
 	ML_GEN_UNIFORM(	uni_col4_t,	uni_base::Col4	);
 	ML_GEN_UNIFORM(	uni_mat3_t,	uni_base::Mat3	);
 	ML_GEN_UNIFORM(	uni_mat4_t,	uni_base::Mat4	);
-	ML_GEN_UNIFORM(	uni_tex_t,	uni_base::Tex	);
+	ML_GEN_UNIFORM(	uni_tex_t,	uni_base::Tex2	);
 
 
 	// Value Uniforms

@@ -564,7 +564,15 @@ namespace DEMO
 						// label
 						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
 						
-						if (ImGui::TreeNode(it->first.c_str()))
+						ml::SStream name; name 
+							<< std::left
+							<< "[ " 
+							<< std::setw(4)
+							<< ml::uni_base::TypeNames[it->second->type]
+							<< " ] "
+							<< it->first;
+
+						if (ImGui::TreeNode(name.str().c_str()))
 						{
 							if (1 == ml::ResourceGui::UniformField(
 								ev.resources,
@@ -613,6 +621,7 @@ namespace DEMO
 							file->dirty = false;
 						}
 
+						// custom shader parser
 						struct NoobParser
 						{
 							inline static ml::String parseIncludes(
@@ -653,7 +662,7 @@ namespace DEMO
 										out << line << ml::endl;
 									}
 								}
-								return ml::String(out.str());
+								return (ml::String)out.str();
 							}
 						};
 

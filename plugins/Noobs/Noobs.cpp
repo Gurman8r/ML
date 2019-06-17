@@ -122,8 +122,8 @@ namespace DEMO
 		// Perspective Projection
 		ml::Transform persp = ml::Transform::Perspective(
 			45.f, 
-			ML_ASPECT((float)noobs.resolution[0], (float)noobs.resolution[1]),
-			0.001f,
+			((float)ev.window.getFrameWidth() / (float)ev.window.getFrameHeight()),
+			0.1f,
 			1000.f
 		);
 

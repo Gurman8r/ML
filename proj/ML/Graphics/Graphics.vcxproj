@@ -100,7 +100,7 @@
     </ClCompile>
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;glew32s.lib;opengl32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib %(AdditionalOptions)</AdditionalOptions>
       <SubSystem>NotSet</SubSystem>
@@ -119,7 +119,7 @@
     </ClCompile>
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;glew32s.lib;opengl32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib %(AdditionalOptions)</AdditionalOptions>
       <SubSystem>NotSet</SubSystem>
@@ -142,7 +142,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;glew32s.lib;opengl32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib %(AdditionalOptions)</AdditionalOptions>
       <SubSystem>NotSet</SubSystem>
@@ -165,7 +165,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;glew32s.lib;opengl32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib %(AdditionalOptions)</AdditionalOptions>
       <SubSystem>NotSet</SubSystem>

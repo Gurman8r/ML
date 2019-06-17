@@ -64,7 +64,7 @@ namespace ml
 		return (*this);
 	}
 
-	const RenderBuffer & RenderBuffer::setFramebuffer(GL::FBO_Attachment attachment) const
+	const RenderBuffer & RenderBuffer::setFramebuffer(GL::FrameAttachment attachment) const
 	{
 		ML_GL.framebufferRenderbuffer(
 			GL::Framebuffer, 

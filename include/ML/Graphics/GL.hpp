@@ -243,19 +243,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum FBO_Attachment : uint32_t
+		enum FrameAttachment : uint32_t
 		{
-			AttachmentColorEncoding= 0x8210,// GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING
-			AttachmentComponentType,		// GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE
-			AttachmentRedSize,				// GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE
-			AttachmentGreenSize,			// GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE
-			AttachmentBlueSize,				// GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE
-			AttachmentAlphaSize,			// GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE
-			AttachmentDepthSize,			// GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE
-			AttachmentStencilSize,			// GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE
+			ColorEncoding= 0x8210,			// GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING
+			ComponentType,					// GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE
+			RedSize,						// GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE
+			GreenSize,						// GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE
+			BlueSize,						// GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE
+			AlphaSize,						// GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE
+			DepthSize,						// GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE
+			StencilSize,					// GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE
 			FramebufferDefault,				// GL_FRAMEBUFFER_DEFAULT
 			FramebufferUndefined,			// GL_FRAMEBUFFER_UNDEFINED
-			DepthStencilAttachment,			// GL_DEPTH_STENCIL_ATTACHMENT
+			DepthStencil,					// GL_DEPTH_STENCIL_ATTACHMENT
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -306,7 +306,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum Attachment : uint32_t
+		enum ColorAttachment : uint32_t
 		{
 			ColorAttachment0 = 0x8CE0,		// GL_COLOR_ATTACHMENT0
 			ColorAttachment1,				// GL_COLOR_ATTACHMENT1

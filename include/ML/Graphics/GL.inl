@@ -727,48 +727,48 @@ namespace ml
 		}
 
 
-		// GL::FBO_Attachment
+		// GL::FrameAttachment
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr FBO_Attachment FBO_Attachment_values[] = {
-			FBO_Attachment::AttachmentColorEncoding,
-			FBO_Attachment::AttachmentComponentType,
-			FBO_Attachment::AttachmentRedSize,
-			FBO_Attachment::AttachmentGreenSize,
-			FBO_Attachment::AttachmentBlueSize,
-			FBO_Attachment::AttachmentAlphaSize,
-			FBO_Attachment::AttachmentDepthSize,
-			FBO_Attachment::AttachmentStencilSize,
-			FBO_Attachment::FramebufferDefault,
-			FBO_Attachment::FramebufferUndefined,
-			FBO_Attachment::DepthStencilAttachment,
+		static constexpr FrameAttachment FBO_Attachment_values[] = {
+			FrameAttachment::ColorEncoding,
+			FrameAttachment::ComponentType,
+			FrameAttachment::RedSize,
+			FrameAttachment::GreenSize,
+			FrameAttachment::BlueSize,
+			FrameAttachment::AlphaSize,
+			FrameAttachment::DepthSize,
+			FrameAttachment::StencilSize,
+			FrameAttachment::FramebufferDefault,
+			FrameAttachment::FramebufferUndefined,
+			FrameAttachment::DepthStencil,
 		};
 
 		static constexpr CString FBO_Attachment_names[] = {
-			"Attachment Color Encoding",
-			"Attachment Component Type",
-			"Attachment Red Size",
-			"Attachment Green Size",
-			"Attachment Blue Size",
-			"Attachment Alpha Size",
-			"Attachment Depth Size",
-			"Attachment Stencil Size",
+			"Color Encoding",
+			"Component Type",
+			"Red Size",
+			"Green Size",
+			"Blue Size",
+			"Alpha Size",
+			"Depth Size",
+			"Stencil Size",
 			"Framebuffer Default",
 			"Framebuffer Undefined",
-			"Depth Stencil Attachment",
+			"Depth Stencil",
 		};
 
-		static constexpr bool valueAt(const int32_t i, FBO_Attachment & value)
+		static constexpr bool valueAt(const int32_t i, FrameAttachment & value)
 		{
 			return detail::value_at(i, value, FBO_Attachment_values);
 		}
 
-		static constexpr int32_t indexOf(const FBO_Attachment value)
+		static constexpr int32_t indexOf(const FrameAttachment value)
 		{
 			return detail::index_of(value, FBO_Attachment_values);
 		}
 
-		static constexpr CString nameOf(const FBO_Attachment value)
+		static constexpr CString nameOf(const FrameAttachment value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? FBO_Attachment_names[i] : "";
@@ -894,26 +894,26 @@ namespace ml
 		// GL::Attachment
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr Attachment Attachment_values[] = {
-			Attachment::ColorAttachment0,
-			Attachment::ColorAttachment1,
-			Attachment::ColorAttachment2,
-			Attachment::ColorAttachment3,
-			Attachment::ColorAttachment4,
-			Attachment::ColorAttachment5,
-			Attachment::ColorAttachment6,
-			Attachment::ColorAttachment7,
-			Attachment::ColorAttachment8,
-			Attachment::ColorAttachment9,
-			Attachment::ColorAttachment10,
-			Attachment::ColorAttachment11,
-			Attachment::ColorAttachment12,
-			Attachment::ColorAttachment13,
-			Attachment::ColorAttachment14,
-			Attachment::ColorAttachment15,
+		static constexpr ColorAttachment ColorAttachment_values[] = {
+			ColorAttachment::ColorAttachment0,
+			ColorAttachment::ColorAttachment1,
+			ColorAttachment::ColorAttachment2,
+			ColorAttachment::ColorAttachment3,
+			ColorAttachment::ColorAttachment4,
+			ColorAttachment::ColorAttachment5,
+			ColorAttachment::ColorAttachment6,
+			ColorAttachment::ColorAttachment7,
+			ColorAttachment::ColorAttachment8,
+			ColorAttachment::ColorAttachment9,
+			ColorAttachment::ColorAttachment10,
+			ColorAttachment::ColorAttachment11,
+			ColorAttachment::ColorAttachment12,
+			ColorAttachment::ColorAttachment13,
+			ColorAttachment::ColorAttachment14,
+			ColorAttachment::ColorAttachment15,
 		};
 
-		static constexpr CString Attachment_names[] = {
+		static constexpr CString ColorAttachment_names[] = {
 			"Color Attachment 0",
 			"Color Attachment 1",
 			"Color Attachment 2",
@@ -932,20 +932,20 @@ namespace ml
 			"Color Attachment 15",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Attachment & value)
+		static constexpr bool valueAt(const int32_t i, ColorAttachment & value)
 		{
-			return detail::value_at(i, value, Attachment_values);
+			return detail::value_at(i, value, ColorAttachment_values);
 		}
 
-		static constexpr int32_t indexOf(const Attachment value)
+		static constexpr int32_t indexOf(const ColorAttachment value)
 		{
-			return detail::index_of(value, Attachment_values);
+			return detail::index_of(value, ColorAttachment_values);
 		}
 
-		static constexpr CString nameOf(const Attachment value)
+		static constexpr CString nameOf(const ColorAttachment value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Attachment_names[i] : "";
+			return (i >= 0) ? ColorAttachment_names[i] : "";
 		}
 
 
@@ -1149,8 +1149,8 @@ namespace ml
 
 	// GL::Attachment
 	ML_GENERATE_ITERATOR_OPERATORS(
-		constexpr, GL::Attachment, uint32_t,
-		GL::Attachment::ColorAttachment0, GL::Attachment::ColorAttachment9
+		constexpr, GL::ColorAttachment, uint32_t,
+		GL::ColorAttachment::ColorAttachment0, GL::ColorAttachment::ColorAttachment9
 	);
 
 	// GL::TexID

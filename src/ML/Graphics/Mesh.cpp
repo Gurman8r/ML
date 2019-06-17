@@ -2,6 +2,8 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Debug.hpp>
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -71,9 +73,9 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			List<vec3>		vp; // Positions
-			List<vec2>		vt; // Texcoords
-			List<vec3>		vn; // Normals
+			List<vec3> vp;				// Positions
+			List<vec2> vt;				// Texcoords
+			List<vec3> vn;				// Normals
 			List<List<uint32_t>> vf;	// Faces
 
 			String line;

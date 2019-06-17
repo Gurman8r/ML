@@ -27,7 +27,7 @@ namespace ml
 		const RenderBuffer & bind() const;
 		const RenderBuffer & unbind() const;
 		const RenderBuffer & bufferStorage(GL::Format internalFormat) const;
-		const RenderBuffer & setFramebuffer(GL::FBO_Attachment attachment) const;
+		const RenderBuffer & setFramebuffer(GL::FrameAttachment attachment) const;
 
 	public:
 		inline const int32_t width()  const { return m_width;  }

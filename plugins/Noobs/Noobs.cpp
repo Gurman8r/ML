@@ -270,7 +270,7 @@ namespace DEMO
 
 			if (ImGui::BeginMenuBar())
 			{
-				ML_EditorUtility.HelpMarker("Here");
+				ML_EditorUtility.HelpMarker("Some very helpful text.");
 
 				if (ImGui::BeginMenu("Noobs Scene"))
 				{
@@ -326,7 +326,7 @@ namespace DEMO
 				};
 
 				const ml::vec2 src = texture->size();
-				const ml::vec2 dst = ml::EditorUtility::getWindowSize();
+				const ml::vec2 dst = ML_EditorUtility.getWindowSize();
 				const ml::vec2 scl = scaleToFit(src, dst);
 				const ml::vec2 pos = ((dst - scl) * 0.5f);
 
@@ -547,17 +547,21 @@ namespace DEMO
 				/* * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
 				{
+					// new uniform editor
 					ml::ResourceGui::NewUniformPopup(noobs.material);
 
+					// do nothing if empty
 					if (!noobs.material->uniforms().empty()) 
 						ImGui::Separator();
 
+					// to remove
 					ml::List<ml::Material::UniformMap::iterator> toRemove;
 
 					for (auto it = noobs.material->uniforms().rbegin();
 						it != noobs.material->uniforms().rend(); 
 						it++)
 					{
+						// label
 						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
 						
 						if (ImGui::TreeNode(it->first.c_str()))
@@ -825,9 +829,9 @@ namespace DEMO
 
 	void Noobs::onExit(const ml::ExitEvent & ev)
 	{
-		for (auto & it : noobs.files)
+		for (auto & e : noobs.files)
 		{
-			if (it) delete it;
+			if (e) delete e;
 		}
 		noobs.files.clear();
 	}

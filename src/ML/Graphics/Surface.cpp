@@ -67,7 +67,7 @@ namespace ml
 					m_rbo.create(m_size[0], m_size[1]);
 					m_rbo.bind();
 					m_rbo.bufferStorage(ml::GL::Depth24_Stencil8);
-					m_rbo.setFramebuffer(ml::GL::DepthStencilAttachment);
+					m_rbo.setFramebuffer(ml::GL::DepthStencil);
 					m_rbo.unbind();
 
 					// Check Framebuffer Status

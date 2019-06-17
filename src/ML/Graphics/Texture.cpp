@@ -225,7 +225,7 @@ namespace ml
 						m_internalFormat,
 						m_size[0],
 						m_size[1],
-						0, // border: "This value must be 0."
+						0, // border: "This value must be 0" -khronos.org
 						m_colorFormat,
 						m_type,
 						pixels
@@ -412,7 +412,8 @@ namespace ml
 				{
 					Debug::logWarning(
 						"OpenGL extension texture_edge_clamp unavailable\n"
-						"Artifacts may occur along texture edges");
+						"Artifacts may occur along texture edges"
+					);
 					warned = true;
 				}
 			}

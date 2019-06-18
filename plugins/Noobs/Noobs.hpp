@@ -4,6 +4,7 @@
 #include <ML/Editor/EditorPlugin.hpp>
 #include <ML/Core/Transform.hpp>
 #include <ML/Graphics/Color.hpp>
+#include <imgui/TextEditor.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -53,17 +54,26 @@ namespace DEMO
 		{
 			using List = typename ml::List<NoobFile *>;
 
-			enum { MaxName = 32, MaxData = 8192 };
+			enum { MaxName = 32 };
 
-			ml::String	name;
-			char		data[MaxData];
-			bool		open;
-			bool		dirty;
+			ImGui::TextEditor * edit;
+			ml::String			name;
+			bool				open;
+			bool				dirty;
 
 			NoobFile(const ml::String & name, const ml::String & data)
-				: name(name), data(), open(true), dirty(false)
+				: name(name), open(true), dirty(false)
 			{
-				std::strcpy(this->data, data.c_str());
+				edit = new ImGui::TextEditor();
+				edit->SetLanguageDefinition(
+					ImGui::TextEditor::LanguageDefinition::GLSL()
+				);
+				edit->SetText(data);
+			}
+
+			~NoobFile()
+			{
+				if (edit) { delete edit; edit = nullptr; }
 			}
 		};
 

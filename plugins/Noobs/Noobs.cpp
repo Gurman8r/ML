@@ -193,7 +193,8 @@ namespace DEMO
 			noobs.files.push_back(new NoobFile("Vertex",
 				noobs.material->shader()->vertSrc()
 			));
-			std::strcat(noobs.files.front()->data,
+			noobs.files.front()->edit->SetText(
+				noobs.files.front()->edit->GetText() +
 				"#shader vertex\n"
 				"#include \"Vertex\"\n"
 				"\n"
@@ -205,7 +206,8 @@ namespace DEMO
 			noobs.files.push_back(new NoobFile("Fragment",
 				noobs.material->shader()->fragSrc()
 			));
-			std::strcat(noobs.files.front()->data,
+			noobs.files.front()->edit->SetText(
+				noobs.files.front()->edit->GetText() +
 				"#shader fragment\n"
 				"#include \"Fragment\"\n"
 				"\n"
@@ -217,7 +219,8 @@ namespace DEMO
 			noobs.files.push_back(new NoobFile("Geometry",
 				noobs.material->shader()->geomSrc()
 			));
-			std::strcat(noobs.files.front()->data,
+			noobs.files.front()->edit->SetText(
+				noobs.files.front()->edit->GetText() +
 				"#shader geometry\n"
 				"#include \"Geometry\"\n"
 				"\n"
@@ -749,7 +752,7 @@ namespace DEMO
 											{
 												if (e->name == name)
 												{
-													out << parseIncludes(files, e->data);
+													out << parseIncludes(files, e->edit->GetText());
 													found = true;
 													break;
 												}
@@ -771,7 +774,7 @@ namespace DEMO
 
 						const ml::String source = NoobParser::parseIncludes(
 							noobs.files,
-							noobs.files.front()->data
+							noobs.files.front()->edit->GetText()
 						);
 						ml::Shader * shader = std::remove_cv_t<ml::Shader *>(
 							noobs.material->shader()
@@ -906,16 +909,12 @@ namespace DEMO
 									}
 								}
 
-								if (ImGui::InputTextMultiline(
-									ml::String("##File" + (*it)->name + "##Text").c_str(),
-									(*it)->data,
-									NoobFile::MaxData,
-									{ -1.f, -1.f },
-									ImGuiInputTextFlags_AllowTabInput
-								))
-								{
+								(*it)->edit->Render(
+									ml::String("##File" + (*it)->name + "##Text").c_str()
+								);
+
+								if ((*it)->edit->IsTextChanged())
 									(*it)->dirty = true;
-								}
 
 								/* * * * * * * * * * * * * * * * * * * * */
 

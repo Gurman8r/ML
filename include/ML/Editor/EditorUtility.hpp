@@ -17,6 +17,8 @@ namespace ml
 
 	public:
 		static vec2 getCursorPos();
+		static vec2 getCursorScreenPos();
+		static vec2 getMousePos();
 		static vec2 getWindowPos();
 		static vec2 getWindowSize();
 

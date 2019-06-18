@@ -102,9 +102,9 @@ namespace ml
 			? (static_cast<INIReader *>(m_ini)->Get(
 				section, 
 				name, 
-				(std::string)default_value
+				(String)default_value
 			))
-			: ((std::string)default_value)
+			: ((String)default_value)
 		);
 	}
 

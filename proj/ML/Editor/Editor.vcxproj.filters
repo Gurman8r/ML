@@ -102,6 +102,9 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorGui.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\TextEditor.h">
+      <Filter>Resource Files\ImGui\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_impl_ml.cpp">
@@ -151,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorGui.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\thirdparty\include\imgui\TextEditor.cpp">
+      <Filter>Resource Files\ImGui\src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

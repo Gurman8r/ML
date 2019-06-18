@@ -14,6 +14,22 @@ namespace ml
 		};
 	}
 
+	vec2 EditorUtility::getCursorScreenPos()
+	{
+		return {
+			ImGui::GetCursorScreenPos().x,
+			ImGui::GetCursorScreenPos().y
+		};
+	}
+
+	vec2 EditorUtility::getMousePos()
+	{
+		return {
+			ImGui::GetMousePos().x,
+			ImGui::GetMousePos().y
+		};
+	}
+
 	vec2 EditorUtility::getWindowPos()
 	{
 		return vec2 {

@@ -38,6 +38,7 @@
 #include <typeindex>
 #include <typeinfo>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -98,6 +99,7 @@ namespace ml
 	template <class K, class V>	using Map		= typename std::map				<K, V>;
 	template <class K, class V>	using MultiMap	= typename std::multimap		<K, V>;
 	template <class K, class V>	using Pair		= typename std::pair			<K, V>;
+	template <class T>			using HashSet	= typename std::unordered_set	<T>;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

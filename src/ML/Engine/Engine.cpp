@@ -90,8 +90,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Engine::onEnter(const EnterEvent & ev)
-	{	
+	{
+		// Get Boot Script
+		/* * * * * * * * * * * * * * * * * * * * */
+		m_bootScript = ev.prefs.GetString("Engine", "boot_script", "");
+
 		// Create Window
+		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(
 			ev.prefs.GetString	("Window", "title",			"Title"), { 
 			ev.prefs.GetUint	("Window", "width",			1280),
@@ -132,9 +137,6 @@ namespace ml
 		{
 			Debug::fatal("Failed Creating Window");
 		}
-
-		// Set Boot Script
-		m_bootScript = ev.prefs.GetString("Engine", "boot_script", "");
 	}
 
 	void Engine::onLoad(const LoadEvent & ev)
@@ -207,7 +209,6 @@ namespace ml
 		if (const Image * icon = ev.resources.images.get("icon"))
 		{
 			const Image temp = Image(*icon).flipVertically();
-
 			ev.window.setIcons({ temp });
 		}
 

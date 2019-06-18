@@ -195,6 +195,7 @@ namespace DEMO
 			));
 			noobs.files.front()->edit->SetText(
 				noobs.files.front()->edit->GetText() +
+				"//Vertex Shader\n"
 				"#shader vertex\n"
 				"#include \"Vertex\"\n"
 				"\n"
@@ -210,6 +211,7 @@ namespace DEMO
 			));
 			noobs.files.front()->edit->SetText(
 				noobs.files.front()->edit->GetText() +
+				"// Fragment Shader\n"
 				"#shader fragment\n"
 				"#include \"Fragment\"\n"
 				"\n"
@@ -225,6 +227,7 @@ namespace DEMO
 			));
 			noobs.files.front()->edit->SetText(
 				noobs.files.front()->edit->GetText() +
+				"//Geometry Shader\n"
 				"#shader geometry\n"
 				"#include \"Geometry\"\n"
 				"\n"

@@ -117,8 +117,6 @@ namespace DEMO
 
 	void Sandbox::onEnter(const ml::EnterEvent & ev)
 	{
-		// Hello!
-		ml::Debug::log("Hello from {0}!", (*this));
 	}
 
 	void Sandbox::onStart(const ml::StartEvent & ev)

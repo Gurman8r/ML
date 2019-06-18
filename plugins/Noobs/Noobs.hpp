@@ -82,6 +82,7 @@ namespace DEMO
 			ml::vec2f		resolution	= { 1920, 1080 };
 			bool			freeAspect	= true;
 			ml::vec4f		clearColor	= ml::Color::Gray;
+			float			aspectRatio = 0.0f;
 			bool			showScene	= true;
 			bool			showBuilder	= true;
 

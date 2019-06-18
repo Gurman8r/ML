@@ -23,7 +23,7 @@ namespace ml
 		create<BrowserGui>	(String(), eventSystem)->setOpen(false);
 		create<BuilderGui>	(String(), eventSystem)->setOpen(false);
 		create<ProfilerGui>	(String(), eventSystem)->setOpen(false);
-		create<ResourceGui>	(String(), eventSystem)->setOpen(true);
+		create<ResourceGui>	(String(), eventSystem)->setOpen(false);
 		create<TerminalGui>	(String(), eventSystem)->setOpen(true);
 
 		eventSystem.addListener(EnterEvent::ID,			this);

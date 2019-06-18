@@ -64,7 +64,7 @@ void main()
 	// Ambient
 	vec4  ambientOut  = (Frag.ambient * Frag.diffuse);
 
-	// Diffuse 
+	// Diffuse
 	vec3  diffNormal  = normalize(In.Normal.xyz);
 	vec3  diffDir     = normalize(Frag.lightPos - In.Position);
 	float diffAmount  = max(dot(diffNormal, diffDir), 0.0);
@@ -72,7 +72,7 @@ void main()
 	vec4  diffTexture = texture(Frag.mainTex, In.Texcoord);
 	vec4  diffuseOut  = (diffColor * diffTexture);
 
-	// Specular		 
+	// Specular
 	vec3  specCamera  = normalize(cameraPos - In.Position);
 	vec3  specReflect = reflect(-diffDir, diffNormal);
 	float specAmount  = pow(max(dot(specCamera, specReflect), 0.0), Frag.shininess);

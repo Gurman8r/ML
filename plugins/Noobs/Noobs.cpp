@@ -184,13 +184,13 @@ namespace DEMO
 		}
 
 		// Create Main File
-		noobs.files.push_back(new NoobFile("Main",
-			""
-		));
+		noobs.files.push_back(new NoobFile("Main", ml::String()));
+
 		// Create Vertex File
 		if (noobs.material->shader()->vertSrc())
 		{
-			noobs.files.push_back(new NoobFile("Vertex",
+			noobs.files.push_back(new NoobFile(
+				"Vertex",
 				noobs.material->shader()->vertSrc()
 			));
 			noobs.files.front()->edit->SetText(
@@ -200,10 +200,12 @@ namespace DEMO
 				"\n"
 			);
 		}
+
 		// Create Fragment File
 		if (noobs.material->shader()->fragSrc())
 		{
-			noobs.files.push_back(new NoobFile("Fragment",
+			noobs.files.push_back(new NoobFile(
+				"Fragment",
 				noobs.material->shader()->fragSrc()
 			));
 			noobs.files.front()->edit->SetText(
@@ -213,10 +215,12 @@ namespace DEMO
 				"\n"
 			);
 		}
+
 		// Create Geometry File
 		if (noobs.material->shader()->geomSrc())
 		{
-			noobs.files.push_back(new NoobFile("Geometry",
+			noobs.files.push_back(new NoobFile(
+				"Geometry",
 				noobs.material->shader()->geomSrc()
 			));
 			noobs.files.front()->edit->SetText(

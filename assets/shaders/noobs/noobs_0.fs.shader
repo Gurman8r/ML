@@ -21,33 +21,33 @@ out vec4 gl_Color;
 
 uniform struct Vert_Uniforms
 {
-	mat4      proj;
-	mat4      view;
-	mat4      model;
+	mat4		proj;
+	mat4		view;
+	mat4		model;
 } Vert;
 
 uniform struct Frag_Uniforms
 {
-	vec3      lightPos;
-	vec4      diffuse;
-	float     ambient;
-	float     specular;
-	int       shininess;
-	vec4      mainCol;
-	sampler2D mainTex;
-	sampler2D specTex;
+	vec3		lightPos;
+	vec4		diffuse;
+	float		ambient;
+	float		specular;
+	int			shininess;
+	vec4		mainCol;
+	sampler2D	mainTex;
+	sampler2D	specTex;
 } Frag;
 
 uniform struct Time_Uniforms
 {
-	float     delta;
-	float     total;
+	float		delta;
+	float		total;
 } Time;
 
 uniform struct Window_Uniforms
 {
-	vec2      size;
-	vec4      color;
+	vec2		size;
+	vec4		color;
 } Window;
 
 /* * * * * * * * * * * * * * * * * * * * */

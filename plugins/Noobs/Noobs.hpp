@@ -65,9 +65,6 @@ namespace DEMO
 				: name(name), open(true), dirty(false)
 			{
 				edit = new ImGui::TextEditor();
-				edit->SetLanguageDefinition(
-					ImGui::TextEditor::LanguageDefinition::GLSL()
-				);
 				edit->SetText(data);
 			}
 

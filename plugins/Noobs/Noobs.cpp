@@ -388,6 +388,8 @@ namespace DEMO
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Settings##Noobs"))
 				{
+					ImGui::NewLine();
+
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					if (ImGui::TreeNode("Alpha Testing"))

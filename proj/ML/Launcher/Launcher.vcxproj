@@ -178,7 +178,6 @@
     <None Include="..\..\..\assets\scripts\files.meme" />
     <None Include="..\..\..\assets\scripts\fizzbuzz.meme" />
     <None Include="..\..\..\assets\scripts\hello.meme" />
-    <None Include="..\..\..\assets\scripts\loader.meme" />
     <None Include="..\..\..\assets\scripts\stub.meme" />
     <None Include="..\..\..\assets\scripts\test.meme" />
     <None Include="..\..\..\assets\scripts\tool.meme" />
@@ -206,7 +205,6 @@
     <Text Include="..\..\..\assets\data\fonts.txt" />
     <Text Include="..\..\..\assets\data\images.txt" />
     <Text Include="..\..\..\assets\data\manifest.txt" />
-    <Text Include="..\..\..\assets\data\materials.txt" />
     <Text Include="..\..\..\assets\data\meshes.txt" />
     <Text Include="..\..\..\assets\data\models.txt" />
     <Text Include="..\..\..\assets\data\plugins.txt" />

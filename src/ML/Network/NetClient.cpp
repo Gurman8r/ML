@@ -28,7 +28,7 @@ namespace ml
 		case NetworkEvent::EV_ClientRecievePacket:
 			if (auto ev = value->as<ClientRecievePacketEvent>())
 			{
-				Debug::log("CLIENT -> {0}", (*ev));
+				Debug::log("CLIENT -> {0}", ev->data);
 			}
 			break;
 		}

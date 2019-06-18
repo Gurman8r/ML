@@ -25,8 +25,8 @@ namespace ml
 
 	struct ML_NETWORK_API ServerRecievePacketEvent final : public IEvent<NetworkEvent::EV_ServerRecievePacket>
 	{
-		String data;
-		ServerRecievePacketEvent(const String & data)
+		CString data;
+		constexpr ServerRecievePacketEvent(CString data)
 			: data(data)
 		{
 		}
@@ -36,8 +36,8 @@ namespace ml
 
 	struct ML_NETWORK_API ClientRecievePacketEvent final : public IEvent<NetworkEvent::EV_ClientRecievePacket>
 	{
-		String data;
-		ClientRecievePacketEvent(const String & data)
+		CString data;
+		ClientRecievePacketEvent(CString data)
 			: data(data)
 		{
 		}

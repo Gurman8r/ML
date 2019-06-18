@@ -30,14 +30,6 @@
 </import>
 
 
-# Materials
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-<import>
-	type = manifest
-	name = ../../../assets/data/materials.txt
-</import>
-
-
 # Meshes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>

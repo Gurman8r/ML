@@ -76,7 +76,7 @@ namespace DEMO
 				case ml::MainMenuBarEvent::Window:
 					ImGui::Separator();
 					ImGui::MenuItem("Noobs Scene", "", &noobs.showScene);
-					ImGui::MenuItem("Noobs Builder", "", &noobs.showBuilder);
+					ImGui::MenuItem("Noobs Editor", "", &noobs.showBuilder);
 					break;
 				case ml::MainMenuBarEvent::Help:
 					break;
@@ -93,7 +93,7 @@ namespace DEMO
 			{
 				ml::DockspaceGui & d = ev->dockspace;
 				d.dockWindow("Noobs Scene", d.getNode(d.MidUp));
-				d.dockWindow("Noobs Builder", d.getNode(d.RightUp));
+				d.dockWindow("Noobs Editor", d.getNode(d.RightUp));
 			}
 			break;
 		}
@@ -157,6 +157,9 @@ namespace DEMO
 			ml::List<ml::uni_base *>({
 				new ml::uni_flt_cr	("Time.total",		noobs.totalTime),
 				new ml::uni_flt_cr	("Time.delta",		noobs.deltaTime),
+				new ml::uni_vec2_cr	("Window.size",		noobs.resolution),
+				new ml::uni_col4_cr	("Window.color",	noobs.clearColor),
+
 				new ml::uni_mat4	("Vert.view",		camera.getMat()),
 				new ml::uni_mat4	("Vert.proj",		persp.getMat()),
 				new ml::uni_mat4	("Vert.model",		model.getMat()),
@@ -168,8 +171,6 @@ namespace DEMO
 				new ml::uni_vec3	("Frag.lightPos",	light.getPos()),
 				new ml::uni_col4	("Frag.diffuse",	ml::Color::LightYellow),
 				new ml::uni_flt		("Frag.ambient",	0.01f),
-				new ml::uni_vec2_cr	("Window.size",		noobs.resolution),
-				new ml::uni_col4_cr	("Window.color",	noobs.clearColor),
 				}));
 
 		// Create Entity
@@ -361,17 +362,17 @@ namespace DEMO
 			/* * * * * * * * * * * * * * * * * * * * */
 		});
 
-		// Noobs Builder
+		// Noobs Editor
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		ML_EditorUtility.DrawWindow(
-			"Noobs Builder",
+			"Noobs Editor",
 			noobs.showBuilder,
 			ImGuiWindowFlags_None,
 			[&]()
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (ImGui::BeginTabBar("Noobs Builder Tabs"))
+			if (ImGui::BeginTabBar("Noobs Editor Tabs"))
 			{
 				// Settings
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -672,10 +673,8 @@ namespace DEMO
 							{
 							case 1: 
 								ImGui::SameLine();
-								if (ImGui::Button(ml::String("Delete" + label).c_str()))
-								{
+								if (ImGui::Button(ml::String("Remove" + label).c_str()))
 									toRemove.push_back(std::next(it).base());
-								}
 								break;
 							
 							case -1:
@@ -713,12 +712,12 @@ namespace DEMO
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::Button("New##File##Builder##Noobs"))
+					if (ImGui::Button("New##File##Editor##Noobs"))
 					{
-						ImGui::OpenPopup("New File##Popup##Builder##Noobs");
+						ImGui::OpenPopup("New File##Popup##Editor##Noobs");
 					}
 					ImGui::SameLine();
-					if (ImGui::Button("Compile##Builder##Noobs"))
+					if (ImGui::Button("Compile##Editor##Noobs"))
 					{
 						for (auto & file : noobs.files)
 						{
@@ -791,7 +790,7 @@ namespace DEMO
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					if (ImGui::BeginPopupModal(
-						"New File##Popup##Builder##Noobs",
+						"New File##Popup##Editor##Noobs",
 						nullptr,
 						ImGuiWindowFlags_AlwaysAutoResize
 					))
@@ -826,20 +825,20 @@ namespace DEMO
 
 						// Input
 						bool enterPress = ImGui::InputText(
-							"Name##Builder##Noobs", 
+							"Name##Editor##Noobs", 
 							name,
 							IM_ARRAYSIZE(name),
 							ImGuiInputTextFlags_EnterReturnsTrue
 						);
 
 						// Submit / Cancel
-						if (enterPress || ImGui::Button("Submit##Builder##Noobs"))
+						if (enterPress || ImGui::Button("Submit##Editor##Noobs"))
 						{
 							addNewFile();
 							resetPopup();
 						}
 						ImGui::SameLine();
-						if (ImGui::Button("Cancel##Builder##Noobs"))
+						if (ImGui::Button("Cancel##Editor##Noobs"))
 						{
 							resetPopup();
 						}

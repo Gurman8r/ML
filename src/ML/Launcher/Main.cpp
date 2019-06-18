@@ -24,7 +24,7 @@ using namespace ml;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-static Preferences	g_Preferences	{ ML_CONFIG_INI };
+static Prefs		g_Preferences	{ ML_CONFIG_INI };
 static EventSystem	g_EventSystem	{ };
 static Resources	g_Resources		{ };
 static GameTime		g_Time			{ };

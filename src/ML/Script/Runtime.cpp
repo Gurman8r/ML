@@ -7,9 +7,13 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	Runtime::ScopeMap * Runtime::m_values = nullptr;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	Runtime::Runtime()
-		: m_values(new ScopeMap())
 	{
+		m_values = new ScopeMap();
 		makeScope(0);
 	}
 
@@ -20,7 +24,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	OStream & Runtime::display(OStream & out) const
+	OStream & Runtime::display(OStream & out)
 	{
 		out << FG::White << "Memory:"
 			<< ml::endl;
@@ -86,7 +90,7 @@ namespace ml
 		return false;
 	}
 
-	Var * Runtime::getVar(int32_t index, const String & name) const
+	Var * Runtime::getVar(int32_t index, const String & name)
 	{
 		if (values(index))
 		{
@@ -131,15 +135,15 @@ namespace ml
 	}
 
 
-	const Runtime::VarMap * Runtime::values(int32_t index) const
-	{
-		ScopeMap::const_iterator it = m_values->find(index);
-		if (it != m_values->end())
-		{
-			return it->second;
-		}
-		return nullptr;
-	}
+	//const Runtime::VarMap * Runtime::values(int32_t index) const
+	//{
+	//	ScopeMap::const_iterator it = m_values->find(index);
+	//	if (it != m_values->end())
+	//	{
+	//		return it->second;
+	//	}
+	//	return nullptr;
+	//}
 
 	Runtime::VarMap * Runtime::values(int32_t index)
 	{

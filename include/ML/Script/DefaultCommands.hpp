@@ -7,16 +7,10 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	class Interpreter;
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_SCRIPT_API DefaultCommands final
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		static Var cmd_cat		(Args & args); // Display File
 		static Var cmd_cd		(Args & args); // Change Directory
 		static Var cmd_cwd		(Args & args); // Print Working Directory
@@ -33,11 +27,9 @@ namespace ml
 		static Var cmd_run		(Args & args); // Run Script
 		static Var cmd_set		(Args & args); // Set Variable
 		static Var cmd_system	(Args & args); // System Call
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_BUILTIN_HPP_

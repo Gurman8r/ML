@@ -34,6 +34,9 @@ namespace ml
 		void onEndFrame		(const EndFrameEvent & ev);
 		void onUnload		(const UnloadEvent & ev);
 		void onExit			(const ExitEvent & ev);
+
+	private:
+		String m_bootScript;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

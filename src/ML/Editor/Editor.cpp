@@ -152,7 +152,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Open_Event::ID:
 			if (auto ev = value->as<File_Open_Event>())
-				OS::execute("open", get<BrowserGui>()->get_selected_path());
+				ML_OS.execute("open", get<BrowserGui>()->get_selected_path());
 			break;
 
 			// File -> Save
@@ -380,7 +380,7 @@ namespace ml
 			{
 				if (ImGui::MenuItem("Project Page"))
 				{
-					OS::execute("open", ML_PROJECT_URL);
+					ML_OS.execute("open", ML_PROJECT_URL);
 				}
 				ImGui::Separator();
 

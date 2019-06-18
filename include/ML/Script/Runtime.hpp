@@ -15,8 +15,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Runtime final
-		: public IObject
-		, public ISingleton<Runtime>
+		: public ISingleton<Runtime>
 	{
 		friend class ISingleton<Runtime>;
 
@@ -29,22 +28,22 @@ namespace ml
 		~Runtime();
 
 	public:
-		OStream& display(OStream& out) const;
+		static OStream & display(OStream & out);
 
-		void	clean();
+		static void	clean();
 
-		bool	delVar(int32_t index, const String & name);
-		Var *	getVar(int32_t index, const String & name) const;
-		Var *	newVar(int32_t index, const String & name, const Var & value);
-		Var *	setVar(int32_t index, const String & name, const Var & value);
+		static bool		delVar(int32_t index, const String & name);
+		static Var *	getVar(int32_t index, const String & name);
+		static Var *	newVar(int32_t index, const String & name, const Var & value);
+		static Var *	setVar(int32_t index, const String & name, const Var & value);
 
-		const VarMap *	values(int32_t index) const;
-		VarMap *		values(int32_t index);
-		VarMap *		makeScope(int32_t index);
-		bool			clearScope(int32_t index);
+		//static const VarMap *	values(int32_t index);
+		static VarMap *	values(int32_t index);
+		static VarMap *	makeScope(int32_t index);
+		static bool		clearScope(int32_t index);
 
 	private:
-		ScopeMap * m_values;
+		static ScopeMap * m_values;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

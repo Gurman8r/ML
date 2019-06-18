@@ -7,11 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API Event : public IObject, public INonCopyable
+	struct ML_CORE_API Event //: public IObject, public INonCopyable
 	{
-		const int32_t m_id;
-
-	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		enum : int32_t
@@ -32,38 +29,38 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		Event(const int32_t id) : m_id(id) {}
+		constexpr Event(const int32_t id) : m_id(id) {}
 
-		inline operator int32_t() const
-		{
-			return m_id;
-		}
+		constexpr operator int32_t() const { return m_id; }
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <class Derived> 
 		inline const Derived * as() const
 		{
-			return dynamic_cast<const Derived *>(this);
+			return static_cast<const Derived *>(this);
 		}
 
 		template <class Derived>
 		inline Derived * as()
 		{
-			return dynamic_cast<Derived *>(this);
+			return static_cast<Derived *>(this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
+
+	private: const int32_t m_id;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <int32_t _ID>
-	struct IEvent : public Event
+	template <
+		int32_t _ID
+	> struct IEvent : public Event
 	{
-		enum { ID = _ID };
+		enum : int32_t { ID = _ID };
 
-		IEvent() : Event(_ID) {}
+		constexpr IEvent() : Event(ID) {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

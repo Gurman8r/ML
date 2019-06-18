@@ -10,17 +10,17 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Preferences final
+	class ML_ENGINE_API Prefs final
 		: public IObject
 		, public IDisposable
 		, public IReadable
 		, public INonCopyable
 	{
 	public:
-		Preferences();
-		explicit Preferences(const String & filename);
-		Preferences(Preferences && copy);
-		~Preferences();
+		Prefs();
+		explicit Prefs(const String & filename);
+		Prefs(Prefs && copy);
+		~Prefs();
 
 	public:
 		bool dispose() override;

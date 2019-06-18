@@ -56,7 +56,7 @@ namespace ml
 	struct ML_WINDOW_API CharEvent final : public IEvent<WindowEvent::EV_Char>
 	{
 		const uint32_t value;
-		CharEvent(uint32_t value)
+		constexpr CharEvent(uint32_t value)
 			: value(value)
 		{
 		}
@@ -67,7 +67,7 @@ namespace ml
 	struct ML_WINDOW_API CursorEnterEvent final : public IEvent<WindowEvent::EV_CursorEnter>
 	{
 		const int32_t entered;
-		CursorEnterEvent(int32_t entered)
+		constexpr CursorEnterEvent(int32_t entered)
 			: entered(entered)
 		{
 		}
@@ -78,7 +78,7 @@ namespace ml
 	struct ML_WINDOW_API CursorPosEvent final : public IEvent<WindowEvent::EV_CursorPos>
 	{
 		const double x, y;
-		CursorPosEvent(double x, double y)
+		constexpr CursorPosEvent(double x, double y)
 			: x(x)
 			, y(y)
 		{
@@ -109,7 +109,7 @@ namespace ml
 
 		} mod;
 
-		KeyEvent(int32_t key, int32_t scan, int32_t act, const Mods & mod)
+		constexpr KeyEvent(int32_t key, int32_t scan, int32_t act, const Mods & mod)
 			: key	(key)
 			, scan	(scan)
 			, act	(act)
@@ -117,27 +117,27 @@ namespace ml
 		{
 		}
 
-		inline bool getPress(int32_t k)	const { return (key == k && act == ML_KEY_PRESS); }
-		inline bool getDown	(int32_t k) const { return (key == k && act == ML_KEY_REPEAT); }
-		inline bool getUp	(int32_t k)	const { return (key == k && act == ML_KEY_RELEASE); }
+		constexpr bool getPress	(int32_t k)	const { return (key == k && act == ML_KEY_PRESS); }
+		constexpr bool getDown	(int32_t k) const { return (key == k && act == ML_KEY_REPEAT); }
+		constexpr bool getUp	(int32_t k)	const { return (key == k && act == ML_KEY_RELEASE); }
 
-		inline bool getPress(int32_t k, const Mods & m)	const { return getPress(k) && (mod == m); }
-		inline bool getDown	(int32_t k, const Mods & m) const { return getDown(k) && (mod == m); }
-		inline bool getUp	(int32_t k, const Mods & m)	const { return getUp(k) && (mod == m); }
+		constexpr bool getPress	(int32_t k, const Mods & m)	const { return getPress(k) && (mod == m); }
+		constexpr bool getDown	(int32_t k, const Mods & m) const { return getDown(k) && (mod == m); }
+		constexpr bool getUp	(int32_t k, const Mods & m)	const { return getUp(k) && (mod == m); }
 
-		inline bool isShift	(int32_t k)	const { return getPress(k, { 1, 0, 0, 0 }); }
-		inline bool isCtrl	(int32_t k)	const { return getPress(k, { 0, 1, 0, 0 }); }
-		inline bool isAlt	(int32_t k)	const { return getPress(k, { 0, 0, 1, 0 }); }
-		inline bool isSuper	(int32_t k)	const { return getPress(k, { 0, 0, 0, 1 }); }
+		constexpr bool isShift	(int32_t k)	const { return getPress(k, { 1, 0, 0, 0 }); }
+		constexpr bool isCtrl	(int32_t k)	const { return getPress(k, { 0, 1, 0, 0 }); }
+		constexpr bool isAlt	(int32_t k)	const { return getPress(k, { 0, 0, 1, 0 }); }
+		constexpr bool isSuper	(int32_t k)	const { return getPress(k, { 0, 0, 0, 1 }); }
 
-		inline bool isNew	() const { return isCtrl(KeyCode::N); }
-		inline bool isOpen	() const { return isCtrl(KeyCode::O); }
-		inline bool isSave	() const { return isCtrl(KeyCode::S) || getPress(KeyCode::S, { 1, 1, 0, 0 }); }
-		inline bool isUndo	() const { return isCtrl(KeyCode::Z); }
-		inline bool isRedo	() const { return isCtrl(KeyCode::Y) || getPress(KeyCode::Z, { 1, 1, 0, 0 }); }
-		inline bool isCut	() const { return isCtrl(KeyCode::X) || isShift(KeyCode::Delete); }
-		inline bool isCopy	() const { return isCtrl(KeyCode::C) || isCtrl(KeyCode::Insert); }
-		inline bool isPaste	() const { return isCtrl(KeyCode::V) || isShift(KeyCode::Insert); }
+		constexpr bool isNew	() const { return isCtrl(KeyCode::N); }
+		constexpr bool isOpen	() const { return isCtrl(KeyCode::O); }
+		constexpr bool isSave	() const { return isCtrl(KeyCode::S) || getPress(KeyCode::S, { 1, 1, 0, 0 }); }
+		constexpr bool isUndo	() const { return isCtrl(KeyCode::Z); }
+		constexpr bool isRedo	() const { return isCtrl(KeyCode::Y) || getPress(KeyCode::Z, { 1, 1, 0, 0 }); }
+		constexpr bool isCut	() const { return isCtrl(KeyCode::X) || isShift(KeyCode::Delete); }
+		constexpr bool isCopy	() const { return isCtrl(KeyCode::C) || isCtrl(KeyCode::Insert); }
+		constexpr bool isPaste	() const { return isCtrl(KeyCode::V) || isShift(KeyCode::Insert); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -145,7 +145,7 @@ namespace ml
 	struct ML_WINDOW_API MouseButtonEvent final : public IEvent<WindowEvent::EV_MouseButton>
 	{
 		const int32_t key, act, mod;
-		MouseButtonEvent(int32_t key, int32_t act, int32_t mod)
+		constexpr MouseButtonEvent(int32_t key, int32_t act, int32_t mod)
 			: key(key)
 			, act(act)
 			, mod(mod)
@@ -158,7 +158,7 @@ namespace ml
 	struct ML_WINDOW_API ScrollEvent final : public IEvent<WindowEvent::EV_Scroll>
 	{
 		const double x, y;
-		ScrollEvent(double x, double y)
+		constexpr ScrollEvent(double x, double y)
 			: x(x)
 			, y(y)
 		{
@@ -170,7 +170,7 @@ namespace ml
 	struct ML_WINDOW_API FrameSizeEvent final : public IEvent<WindowEvent::EV_FrameSize>
 	{
 		const int32_t width, height;
-		FrameSizeEvent(int32_t width, int32_t height)
+		constexpr FrameSizeEvent(int32_t width, int32_t height)
 			: width(width)
 			, height(height)
 		{
@@ -190,7 +190,7 @@ namespace ml
 	{
 		const int32_t code;
 		const CString desc;
-		WindowErrorEvent(int32_t code, CString desc)
+		constexpr WindowErrorEvent(int32_t code, CString desc)
 			: code(code)
 			, desc(desc)
 		{
@@ -202,7 +202,7 @@ namespace ml
 	struct ML_WINDOW_API WindowFocusEvent final : public IEvent<WindowEvent::EV_WindowFocus>
 	{
 		const int32_t focused;
-		WindowFocusEvent(int32_t entered)
+		constexpr WindowFocusEvent(int32_t entered)
 			: focused(entered)
 		{
 		}
@@ -212,7 +212,7 @@ namespace ml
 
 	struct ML_WINDOW_API WindowKillEvent final : public IEvent<WindowEvent::EV_WindowKill>
 	{
-		WindowKillEvent() {}
+		constexpr WindowKillEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -220,7 +220,7 @@ namespace ml
 	struct ML_WINDOW_API WindowPosEvent final : public IEvent<WindowEvent::Ev_WindowPos>
 	{
 		const int32_t x, y;
-		WindowPosEvent(int32_t x, int32_t y)
+		constexpr WindowPosEvent(int32_t x, int32_t y)
 			: x(x)
 			, y(y)
 		{
@@ -232,7 +232,7 @@ namespace ml
 	struct ML_WINDOW_API WindowSizeEvent final : public IEvent<WindowEvent::EV_WindowSize>
 	{
 		const int32_t width, height;
-		WindowSizeEvent(int32_t width, int32_t height)
+		constexpr WindowSizeEvent(int32_t width, int32_t height)
 			: width(width)
 			, height(height)
 		{

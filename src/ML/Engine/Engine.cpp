@@ -35,9 +35,8 @@ namespace ml
 		eventSystem.addListener(EndFrameEvent::ID,		this);
 		eventSystem.addListener(UnloadEvent::ID,		this);
 		eventSystem.addListener(ExitEvent::ID,			this);
-
-		eventSystem.addListener(CommandEvent::ID, this);
-		eventSystem.addListener(KeyEvent::ID, this);
+		eventSystem.addListener(CommandEvent::ID,		this);
+		eventSystem.addListener(KeyEvent::ID,			this);
 	}
 
 	Engine::~Engine() {}
@@ -133,14 +132,15 @@ namespace ml
 		{
 			Debug::fatal("Failed Creating Window");
 		}
+
+		// Set Boot Script
+		m_bootScript = ev.prefs.GetString("Engine", "boot_script", "");
 	}
 
 	void Engine::onLoad(const LoadEvent & ev)
 	{
 		// Load Default Meshes
 		/* * * * * * * * * * * * * * * * * * * * */
-		
-		
 #ifndef ML_META
 		ev.resources.meshes.load("default_triangle")->loadFromMemory(
 			Shapes::Triangle::Vertices,
@@ -213,7 +213,7 @@ namespace ml
 
 		// Run Boot Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ml::Script * scr = ev.resources.scripts.get("hello"))
+		if (ml::Script * scr = ev.resources.scripts.get(m_bootScript))
 		{
 			if (!(scr->buildAndRun(ml::Args(__argc, __argv))))
 			{

@@ -33,7 +33,7 @@ namespace ml
 		case NetworkEvent::EV_ServerRecievePacket:
 			if (auto ev = value->as<ServerRecievePacketEvent>())
 			{
-				Debug::log("SERVER -> {0}", (*ev));
+				Debug::log("SERVER -> {0}", ev->data);
 			}
 			break;
 		}

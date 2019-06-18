@@ -48,7 +48,7 @@ namespace ml
 
 	struct ML_EDITOR_API BeginGuiEvent final : public IEvent<EditorEvent::EV_BeginGui>
 	{
-		BeginGuiEvent() {}
+		constexpr BeginGuiEvent() {}
 	};
 
 	struct ML_EDITOR_API GuiEvent final : public IEvent<EditorEvent::EV_Gui>
@@ -56,7 +56,7 @@ namespace ml
 		const GameTime	& time;
 		Resources		& resources;
 		Editor			& editor;
-		GuiEvent(const GameTime & time, Resources & resources, Editor & editor)
+		constexpr GuiEvent(const GameTime & time, Resources & resources, Editor & editor)
 			: time		(time)
 			, resources	(resources)
 			, editor	(editor)
@@ -66,7 +66,7 @@ namespace ml
 
 	struct ML_EDITOR_API EndGuiEvent final : public IEvent<EditorEvent::EV_EndGui>
 	{
-		EndGuiEvent() {}
+		constexpr EndGuiEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -82,7 +82,7 @@ namespace ml
 
 		Editor & editor;
 		const Menu menu;
-		MainMenuBarEvent(Editor & editor, const Menu menu)
+		constexpr MainMenuBarEvent(Editor & editor, const Menu menu)
 			: editor(editor)
 			, menu(menu)
 		{
@@ -94,7 +94,7 @@ namespace ml
 		Editor			& editor;
 		DockspaceGui	& dockspace;
 		Resources		& resources;
-		BuildDockspaceEvent(Editor & editor, DockspaceGui & dockspace, Resources & resources)
+		constexpr BuildDockspaceEvent(Editor & editor, DockspaceGui & dockspace, Resources & resources)
 			: editor	(editor)
 			, dockspace	(dockspace)
 			, resources	(resources)
@@ -106,49 +106,49 @@ namespace ml
 
 	struct ML_EDITOR_API File_New_Event final : public IEvent<EditorEvent::EV_File_New>
 	{
-		File_New_Event() {}
+		constexpr File_New_Event() {}
 	};
 
 	struct ML_EDITOR_API File_Open_Event final : public IEvent<EditorEvent::EV_File_Open>
 	{
-		File_Open_Event() {}
+		constexpr File_Open_Event() {}
 	};
 
 	struct ML_EDITOR_API File_Save_Event final : public IEvent<EditorEvent::EV_File_Save>
 	{
-		File_Save_Event() {}
+		constexpr File_Save_Event() {}
 	};
 
 	struct ML_EDITOR_API File_Quit_Event final : public IEvent<EditorEvent::EV_File_Quit>
 	{
-		File_Quit_Event() {}
+		constexpr File_Quit_Event() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_EDITOR_API Edit_Undo_Event final : public IEvent<EditorEvent::EV_Edit_Undo>
 	{
-		Edit_Undo_Event() {}
+		constexpr Edit_Undo_Event() {}
 	};
 
 	struct ML_EDITOR_API Edit_Redo_Event final : public IEvent<EditorEvent::EV_Edit_Redo>
 	{
-		Edit_Redo_Event() {}
+		constexpr Edit_Redo_Event() {}
 	};
 
 	struct ML_EDITOR_API Edit_Cut_Event final : public IEvent<EditorEvent::EV_Edit_Cut>
 	{
-		Edit_Cut_Event() {}
+		constexpr Edit_Cut_Event() {}
 	};
 
 	struct ML_EDITOR_API Edit_Copy_Event final : public IEvent<EditorEvent::EV_Edit_Copy>
 	{
-		Edit_Copy_Event() {}
+		constexpr Edit_Copy_Event() {}
 	};
 
 	struct ML_EDITOR_API Edit_Paste_Event final : public IEvent<EditorEvent::EV_Edit_Paste>
 	{
-		Edit_Paste_Event() {}
+		constexpr Edit_Paste_Event() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

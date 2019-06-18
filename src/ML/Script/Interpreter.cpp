@@ -9,25 +9,28 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	Interpreter::CommandMap Interpreter::m_commands;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	Interpreter::Interpreter()
-		: m_commands()
 	{
-		this->addCommand({ "cat",		DefaultCommands::cmd_cat	});
-		this->addCommand({ "cd",		DefaultCommands::cmd_cd		});
-		this->addCommand({ "cwd",		DefaultCommands::cmd_cwd	});
-		this->addCommand({ "exec",		DefaultCommands::cmd_exec	});
-		this->addCommand({ "exists",	DefaultCommands::cmd_exists	});
-		this->addCommand({ "get",		DefaultCommands::cmd_get	});
-		this->addCommand({ "getcwd",	DefaultCommands::cmd_getcwd	});
-		this->addCommand({ "help",		DefaultCommands::cmd_help	});
-		this->addCommand({ "log",		DefaultCommands::cmd_log	});
-		this->addCommand({ "ls",		DefaultCommands::cmd_ls		});
-		this->addCommand({ "pause",		DefaultCommands::cmd_pause	});
-		this->addCommand({ "os",		DefaultCommands::cmd_os		});
-		this->addCommand({ "read",		DefaultCommands::cmd_read	});
-		this->addCommand({ "run",		DefaultCommands::cmd_run	});
-		this->addCommand({ "set",		DefaultCommands::cmd_set	});
-		this->addCommand({ "system",	DefaultCommands::cmd_system	});
+		addCommand({ "cat",		DefaultCommands::cmd_cat	});
+		addCommand({ "cd",		DefaultCommands::cmd_cd		});
+		addCommand({ "cwd",		DefaultCommands::cmd_cwd	});
+		addCommand({ "exec",	DefaultCommands::cmd_exec	});
+		addCommand({ "exists",	DefaultCommands::cmd_exists	});
+		addCommand({ "get",		DefaultCommands::cmd_get	});
+		addCommand({ "getcwd",	DefaultCommands::cmd_getcwd	});
+		addCommand({ "help",	DefaultCommands::cmd_help	});
+		addCommand({ "log",		DefaultCommands::cmd_log	});
+		addCommand({ "ls",		DefaultCommands::cmd_ls		});
+		addCommand({ "pause",	DefaultCommands::cmd_pause	});
+		addCommand({ "os",		DefaultCommands::cmd_os		});
+		addCommand({ "read",	DefaultCommands::cmd_read	});
+		addCommand({ "run",		DefaultCommands::cmd_run	});
+		addCommand({ "set",		DefaultCommands::cmd_set	});
+		addCommand({ "system",	DefaultCommands::cmd_system	});
 	}
 
 	Interpreter::~Interpreter()

@@ -45,9 +45,6 @@
     <None Include="..\..\..\assets\scripts\hello.meme">
       <Filter>Resource Files\assets\scripts</Filter>
     </None>
-    <None Include="..\..\..\assets\scripts\loader.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
     <None Include="..\..\..\assets\scripts\stub.meme">
       <Filter>Resource Files\assets\scripts</Filter>
     </None>
@@ -179,9 +176,6 @@
       <Filter>Resource Files\assets\data</Filter>
     </Text>
     <Text Include="..\..\..\assets\data\images.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\materials.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
     <Text Include="..\..\..\assets\data\meshes.txt">

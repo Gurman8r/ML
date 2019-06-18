@@ -54,10 +54,16 @@ namespace ml
 
 	bool Material::loadFromFile(const String & filename)
 	{
-		SStream ss;
-		if (ML_FS.getFileContents(filename, ss))
+		if (auto file = std::ifstream(filename))
 		{
-			return true;
+			String line;
+			while (std::getline(file, line))
+			{
+				if (line.empty() || line.trim().front() == '#')
+					continue;
+
+
+			}
 		}
 		return false;
 	}

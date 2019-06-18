@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Event;
+	struct Event;
 	class EventSystem;
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -19,7 +19,7 @@ namespace ml
 		virtual ~EventListener();
 
 	public:
-		virtual void onEvent(const Event * ev) = 0;
+		virtual void onEvent(const Event * value) = 0;
 
 	public:
 		EventSystem & eventSystem() const;

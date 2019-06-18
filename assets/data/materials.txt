@@ -1,9 +1,0 @@
-# Materials
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
-<import>
-	type = material
-	name = test_material
-</import>
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

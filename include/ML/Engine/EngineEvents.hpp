@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class GameTime;
-	class Preferences;
+	class Prefs;
 	class RenderWindow;
 	class Resources;
 
@@ -43,9 +43,9 @@ namespace ml
 
 	struct ML_ENGINE_API EnterEvent final : public IEvent<EngineEvent::EV_Enter>
 	{
-		Preferences		& prefs;
+		const Prefs		& prefs;
 		RenderWindow	& window;
-		EnterEvent(Preferences & prefs, RenderWindow & window)
+		constexpr EnterEvent(Prefs & prefs, RenderWindow & window)
 			: prefs		(prefs)
 			, window	(window)
 		{
@@ -54,9 +54,9 @@ namespace ml
 
 	struct ML_ENGINE_API LoadEvent final : public IEvent<EngineEvent::EV_Load>
 	{
-		Preferences		& prefs;
+		const Prefs		& prefs;
 		Resources		& resources;
-		LoadEvent(Preferences & prefs, Resources & resources)
+		constexpr LoadEvent(Prefs & prefs, Resources & resources)
 			: prefs		(prefs)
 			, resources	(resources)
 		{
@@ -68,7 +68,7 @@ namespace ml
 		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
-		StartEvent(const GameTime & time, Resources & resources, RenderWindow & window)
+		constexpr StartEvent(const GameTime & time, Resources & resources, RenderWindow & window)
 			: time		(time)
 			, resources	(resources)
 			, window	(window)
@@ -83,7 +83,7 @@ namespace ml
 	{
 		GameTime		& time;
 		RenderWindow	& window;
-		BeginFrameEvent(GameTime & time, RenderWindow & window)
+		constexpr BeginFrameEvent(GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
 		{
@@ -97,7 +97,7 @@ namespace ml
 		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
-		UpdateEvent(const GameTime & time, Resources & resources, RenderWindow & window)
+		constexpr UpdateEvent(const GameTime & time, Resources & resources, RenderWindow & window)
 			: time		(time)
 			, resources	(resources)
 			, window	(window)
@@ -109,7 +109,7 @@ namespace ml
 
 	struct ML_ENGINE_API BeginDrawEvent final : public IEvent<EngineEvent::EV_BeginDraw>
 	{
-		BeginDrawEvent() {}
+		constexpr BeginDrawEvent() {}
 	};
 
 	struct ML_ENGINE_API DrawEvent final : public IEvent<EngineEvent::EV_Draw>
@@ -117,7 +117,7 @@ namespace ml
 		const GameTime	& time;
 		Resources		& resources;
 		RenderWindow	& window;
-		DrawEvent(const GameTime & time, Resources & resources, RenderWindow & window)
+		constexpr DrawEvent(const GameTime & time, Resources & resources, RenderWindow & window)
 			: time		(time)
 			, resources	(resources)
 			, window	(window)
@@ -127,7 +127,7 @@ namespace ml
 
 	struct ML_ENGINE_API EndDrawEvent final : public IEvent<EngineEvent::EV_EndDraw>
 	{
-		EndDrawEvent() {}
+		constexpr EndDrawEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -136,7 +136,7 @@ namespace ml
 	{
 		GameTime		& time;
 		RenderWindow	& window;
-		EndFrameEvent(GameTime & time, RenderWindow & window)
+		constexpr EndFrameEvent(GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
 		{
@@ -150,7 +150,7 @@ namespace ml
 	{
 		Resources		& resources;
 		RenderWindow	& window;
-		UnloadEvent(Resources & resources, RenderWindow & window)
+		constexpr UnloadEvent(Resources & resources, RenderWindow & window)
 			: resources(resources)
 			, window(window)
 		{
@@ -159,7 +159,7 @@ namespace ml
 
 	struct ML_ENGINE_API ExitEvent final : public IEvent<EngineEvent::EV_Exit>
 	{
-		ExitEvent() {}
+		constexpr ExitEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

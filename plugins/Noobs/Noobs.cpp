@@ -195,10 +195,9 @@ namespace DEMO
 			));
 			noobs.files.front()->edit->SetText(
 				noobs.files.front()->edit->GetText() +
-				"//Vertex Shader\n"
+				"// Vertex Shader\n"
 				"#shader vertex\n"
 				"#include \"Vertex\"\n"
-				"\n"
 			);
 		}
 
@@ -214,7 +213,6 @@ namespace DEMO
 				"// Fragment Shader\n"
 				"#shader fragment\n"
 				"#include \"Fragment\"\n"
-				"\n"
 			);
 		}
 
@@ -227,10 +225,9 @@ namespace DEMO
 			));
 			noobs.files.front()->edit->SetText(
 				noobs.files.front()->edit->GetText() +
-				"//Geometry Shader\n"
+				"// Geometry Shader\n"
 				"#shader geometry\n"
 				"#include \"Geometry\"\n"
-				"\n"
 			);
 		}
 	}
@@ -324,7 +321,7 @@ namespace DEMO
 					if (ImGui::Combo(
 						"Resolution##Noobs",
 						&index, 
-						ml::EditorUtility::vector_getter,
+						ML_EditorUtility.vector_getter,
 						(void *)&res_names,
 						(int32_t)res_names.size()
 					))
@@ -739,11 +736,8 @@ namespace DEMO
 						// custom shader parser
 						struct NoobParser
 						{
-							inline static ml::String parseIncludes(
-								const NoobFile::List & files, 
-								const ml::String & src
-							)
-							{
+							inline static ml::String parseIncludes(const NoobFile::List & files, const ml::String & src)
+							{	
 								ml::SStream out;
 								ml::SStream ss(src);
 								ml::String	line;
@@ -761,7 +755,10 @@ namespace DEMO
 											{
 												if (e->name == name)
 												{
-													out << parseIncludes(files, e->edit->GetText());
+													out << parseIncludes(
+														files,
+														e->edit->GetText()
+													);
 													found = true;
 													break;
 												}
@@ -884,8 +881,9 @@ namespace DEMO
 								{
 									ML_EditorUtility.HelpMarker(
 										"This is the \'Main\' file of your shader.\n"
-										"You can write all of your shader code here,\n"
-										"or you can create multiple files and compose them in Main.\n"
+										"You can either write all of your shader\n"
+										"code here, or create multiple files and\n"
+										"link them together in Main.\n"
 										"\n"
 										"#shader vertex / fragment / geometry\n"
 										"#include \'...\' / \"...\" / <...> \n"

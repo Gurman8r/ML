@@ -758,9 +758,10 @@ namespace ml
 
 					deleteShader(obj);
 
-					return Debug::logError("Failed compiling {0} source:\n{1}", 
+					return Debug::logError(
+						"Error in {0}\n{1}", 
 						GL::nameOf(type),
-						log
+						String(log)
 					);
 				}
 			}

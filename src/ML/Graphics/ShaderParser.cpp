@@ -101,7 +101,7 @@ namespace ml
 			{
 				if (line.find("#include") != String::npos)
 				{
-					Debug::logError("Failed Including Shader");
+					Debug::logError("Include Failed: {0}", line);
 				}
 
 				out << line << endl;

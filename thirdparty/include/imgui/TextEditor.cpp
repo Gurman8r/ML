@@ -31,7 +31,7 @@ namespace ImGui
 		return first1 == last1 && first2 == last2;
 	}
 
-	static int UTF8CharLength(TextEditor::Char c)
+	static int32_t UTF8CharLength(TextEditor::Char c)
 	{
 		// https://en.wikipedia.org/wiki/UTF-8
 		// We assume that the char is a standalone character (<128) or a leading byte of an UTF-8 code sequence (non-10xxxxxx code)
@@ -48,7 +48,7 @@ namespace ImGui
 		return 1;
 	}
 
-	static inline int ImTextCharToUtf8(char* buf, int buf_size, unsigned int c)
+	static inline int32_t ImTextCharToUtf8(char* buf, int32_t buf_size, int32_t c)
 	{
 		// "Borrowed" from ImGui source
 		if (c < 0x80)
@@ -159,11 +159,11 @@ namespace ImGui
 
 		while (istart < iend || lstart < lend)
 		{
-			if (lstart >= (int)mLines.size())
+			if (lstart >= (int32_t)mLines.size())
 				break;
 
 			auto& line = mLines[lstart];
-			if (istart < (int)line.size())
+			if (istart < (int32_t)line.size())
 			{
 				result += line[istart].mChar;
 				istart++;
@@ -188,7 +188,7 @@ namespace ImGui
 	{
 		auto line = aValue.mLine;
 		auto column = aValue.mColumn;
-		if (line >= (int)mLines.size())
+		if (line >= (int32_t)mLines.size())
 		{
 			if (mLines.empty())
 			{
@@ -197,7 +197,7 @@ namespace ImGui
 			}
 			else
 			{
-				line = (int)mLines.size() - 1;
+				line = (int32_t)mLines.size() - 1;
 				column = GetLineMaxColumn(line);
 			}
 			return Coordinates(line, column);
@@ -213,15 +213,15 @@ namespace ImGui
 
 	void TextEditor::Advance(Coordinates & aCoordinates) const
 	{
-		if (aCoordinates.mLine < (int)mLines.size())
+		if (aCoordinates.mLine < (int32_t)mLines.size())
 		{
 			auto& line = mLines[aCoordinates.mLine];
 			auto cindex = GetCharacterIndex(aCoordinates);
 
-			if (cindex + 1 < (int)line.size())
+			if (cindex + 1 < (int32_t)line.size())
 			{
 				auto delta = UTF8CharLength(line[cindex].mChar);
-				cindex = std::min(cindex + delta, (int)line.size() - 1);
+				cindex = std::min(cindex + delta, (int32_t)line.size() - 1);
 			}
 			else
 			{
@@ -272,12 +272,12 @@ namespace ImGui
 		mTextChanged = true;
 	}
 
-	int TextEditor::InsertTextAt(Coordinates & /* inout */ aWhere, const char * aValue)
+	int32_t TextEditor::InsertTextAt(Coordinates & /* inout */ aWhere, const char * aValue)
 	{
 		assert(!mReadOnly);
 
-		int cindex = GetCharacterIndex(aWhere);
-		int totalLines = 0;
+		int32_t cindex = GetCharacterIndex(aWhere);
+		int32_t totalLines = 0;
 		while (*aValue != '\0')
 		{
 			assert(!mLines.empty());
@@ -289,7 +289,7 @@ namespace ImGui
 			}
 			else if (*aValue == '\n')
 			{
-				if (cindex < (int)mLines[aWhere.mLine].size())
+				if (cindex < (int32_t)mLines[aWhere.mLine].size())
 				{
 					auto& newLine = InsertLine(aWhere.mLine + 1);
 					auto& line = mLines[aWhere.mLine];
@@ -343,15 +343,15 @@ namespace ImGui
 		ImVec2 origin = ImGui::GetCursorScreenPos();
 		ImVec2 local(aPosition.x - origin.x, aPosition.y - origin.y);
 
-		int lineNo = std::max(0, (int)floor(local.y / mCharAdvance.y));
+		int32_t lineNo = std::max(0, (int32_t)floor(local.y / mCharAdvance.y));
 
-		int columnCoord = 0;
+		int32_t columnCoord = 0;
 
-		if (lineNo >= 0 && lineNo < (int)mLines.size())
+		if (lineNo >= 0 && lineNo < (int32_t)mLines.size())
 		{
 			auto& line = mLines.at(lineNo);
 
-			int columnIndex = 0;
+			int32_t columnIndex = 0;
 			float columnX = 0.0f;
 
 			while ((size_t)columnIndex < line.size())
@@ -374,7 +374,7 @@ namespace ImGui
 				{
 					char buf[7];
 					auto d = UTF8CharLength(line[columnIndex].mChar);
-					int i = 0;
+					int32_t i = 0;
 					while (i < 6 && d-- > 0)
 						buf[i++] = line[columnIndex++].mChar;
 					buf[i] = '\0';
@@ -393,13 +393,13 @@ namespace ImGui
 	TextEditor::Coordinates TextEditor::FindWordStart(const Coordinates & aFrom) const
 	{
 		Coordinates at = aFrom;
-		if (at.mLine >= (int)mLines.size())
+		if (at.mLine >= (int32_t)mLines.size())
 			return at;
 
 		auto& line = mLines[at.mLine];
 		auto cindex = GetCharacterIndex(at);
 
-		if (cindex >= (int)line.size())
+		if (cindex >= (int32_t)line.size())
 			return at;
 
 		while (cindex > 0 && isspace(line[cindex].mChar))
@@ -427,18 +427,18 @@ namespace ImGui
 	TextEditor::Coordinates TextEditor::FindWordEnd(const Coordinates & aFrom) const
 	{
 		Coordinates at = aFrom;
-		if (at.mLine >= (int)mLines.size())
+		if (at.mLine >= (int32_t)mLines.size())
 			return at;
 
 		auto& line = mLines[at.mLine];
 		auto cindex = GetCharacterIndex(at);
 
-		if (cindex >= (int)line.size())
+		if (cindex >= (int32_t)line.size())
 			return at;
 
 		bool prevspace = (bool)isspace(line[cindex].mChar);
 		auto cstart = (PaletteIndex)line[cindex].mColorIndex;
-		while (cindex < (int)line.size())
+		while (cindex < (int32_t)line.size())
 		{
 			auto c = line[cindex].mChar;
 			auto d = UTF8CharLength(c);
@@ -448,7 +448,7 @@ namespace ImGui
 			if (prevspace != !!isspace(c))
 			{
 				if (isspace(c))
-					while (cindex < (int)line.size() && isspace(line[cindex].mChar))
+					while (cindex < (int32_t)line.size() && isspace(line[cindex].mChar))
 						++cindex;
 				break;
 			}
@@ -460,14 +460,14 @@ namespace ImGui
 	TextEditor::Coordinates TextEditor::FindNextWord(const Coordinates & aFrom) const
 	{
 		Coordinates at = aFrom;
-		if (at.mLine >= (int)mLines.size())
+		if (at.mLine >= (int32_t)mLines.size())
 			return at;
 
 		// skip to the next non-word character
 		auto cindex = GetCharacterIndex(aFrom);
 		bool isword = false;
 		bool skip = false;
-		if (cindex < (int)mLines[at.mLine].size())
+		if (cindex < (int32_t)mLines[at.mLine].size())
 		{
 			auto& line = mLines[at.mLine];
 			isword = isalnum(line[cindex].mChar);
@@ -478,12 +478,12 @@ namespace ImGui
 		{
 			if (at.mLine >= mLines.size())
 			{
-				auto l = std::max(0, (int) mLines.size() - 1);
+				auto l = std::max(0, (int32_t) mLines.size() - 1);
 				return Coordinates(l, GetLineMaxColumn(l));
 			}
 
 			auto& line = mLines[at.mLine];
-			if (cindex < (int)line.size())
+			if (cindex < (int32_t)line.size())
 			{
 				isword = isalnum(line[cindex].mChar);
 
@@ -509,13 +509,13 @@ namespace ImGui
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	int TextEditor::GetCharacterIndex(const Coordinates & aCoordinates) const
+	int32_t TextEditor::GetCharacterIndex(const Coordinates & aCoordinates) const
 	{
 		if (aCoordinates.mLine >= mLines.size())
 			return -1;
 		auto& line = mLines[aCoordinates.mLine];
-		int c = 0;
-		int i = 0;
+		int32_t c = 0;
+		int32_t i = 0;
 		for (; i < line.size() && c < aCoordinates.mColumn;)
 		{
 			if (line[i].mChar == '\t')
@@ -527,14 +527,14 @@ namespace ImGui
 		return i;
 	}
 
-	int TextEditor::GetCharacterColumn(int aLine, int aIndex) const
+	int32_t TextEditor::GetCharacterColumn(int32_t aLine, int32_t aIndex) const
 	{
 		if (aLine >= mLines.size())
 			return 0;
 		auto& line = mLines[aLine];
-		int col = 0;
-		int i = 0;
-		while (i < aIndex && i < (int)line.size())
+		int32_t col = 0;
+		int32_t i = 0;
+		while (i < aIndex && i < (int32_t)line.size())
 		{
 			auto c = line[i].mChar;
 			i += UTF8CharLength(c);
@@ -546,23 +546,23 @@ namespace ImGui
 		return col;
 	}
 
-	int TextEditor::GetLineCharacterCount(int aLine) const
+	int32_t TextEditor::GetLineCharacterCount(int32_t aLine) const
 	{
 		if (aLine >= mLines.size())
 			return 0;
 		auto& line = mLines[aLine];
-		int c = 0;
+		int32_t c = 0;
 		for (unsigned i = 0; i < line.size(); c++)
 			i += UTF8CharLength(line[i].mChar);
 		return c;
 	}
 
-	int TextEditor::GetLineMaxColumn(int aLine) const
+	int32_t TextEditor::GetLineMaxColumn(int32_t aLine) const
 	{
 		if (aLine >= mLines.size())
 			return 0;
 		auto& line = mLines[aLine];
-		int col = 0;
+		int32_t col = 0;
 		for (unsigned i = 0; i < line.size(); )
 		{
 			auto c = line[i].mChar;
@@ -579,12 +579,12 @@ namespace ImGui
 
 	bool TextEditor::IsOnWordBoundary(const Coordinates & aAt) const
 	{
-		if (aAt.mLine >= (int)mLines.size() || aAt.mColumn == 0)
+		if (aAt.mLine >= (int32_t)mLines.size() || aAt.mColumn == 0)
 			return true;
 
 		auto& line = mLines[aAt.mLine];
 		auto cindex = GetCharacterIndex(aAt);
-		if (cindex >= (int)line.size())
+		if (cindex >= (int32_t)line.size())
 			return true;
 
 		if (mColorizerEnabled)
@@ -593,7 +593,7 @@ namespace ImGui
 		return isspace(line[cindex].mChar) != isspace(line[cindex - 1].mChar);
 	}
 
-	void TextEditor::RemoveLine(int aStart, int aEnd)
+	void TextEditor::RemoveLine(int32_t aStart, int32_t aEnd)
 	{
 		assert(!mReadOnly);
 		assert(aEnd >= aStart);
@@ -624,7 +624,7 @@ namespace ImGui
 		mTextChanged = true;
 	}
 
-	void TextEditor::RemoveLine(int aIndex)
+	void TextEditor::RemoveLine(int32_t aIndex)
 	{
 		assert(!mReadOnly);
 		assert(mLines.size() > 1);
@@ -654,7 +654,7 @@ namespace ImGui
 		mTextChanged = true;
 	}
 
-	TextEditor::Line& TextEditor::InsertLine(int aIndex)
+	TextEditor::Line& TextEditor::InsertLine(int32_t aIndex)
 	{
 		assert(!mReadOnly);
 
@@ -698,19 +698,19 @@ namespace ImGui
 	ImU32 TextEditor::GetGlyphColor(const Glyph & aGlyph) const
 	{
 		if (!mColorizerEnabled)
-			return mPalette[(int)PaletteIndex::Default];
+			return mPalette[(int32_t)PaletteIndex::Default];
 		if (aGlyph.mComment)
-			return mPalette[(int)PaletteIndex::Comment];
+			return mPalette[(int32_t)PaletteIndex::Comment];
 		if (aGlyph.mMultiLineComment)
-			return mPalette[(int)PaletteIndex::MultiLineComment];
-		auto const color = mPalette[(int)aGlyph.mColorIndex];
+			return mPalette[(int32_t)PaletteIndex::MultiLineComment];
+		auto const color = mPalette[(int32_t)aGlyph.mColorIndex];
 		if (aGlyph.mPreprocessor)
 		{
-			const auto ppcolor = mPalette[(int)PaletteIndex::Preprocessor];
-			const int c0 = ((ppcolor & 0xff) + (color & 0xff)) / 2;
-			const int c1 = (((ppcolor >> 8) & 0xff) + ((color >> 8) & 0xff)) / 2;
-			const int c2 = (((ppcolor >> 16) & 0xff) + ((color >> 16) & 0xff)) / 2;
-			const int c3 = (((ppcolor >> 24) & 0xff) + ((color >> 24) & 0xff)) / 2;
+			const auto ppcolor = mPalette[(int32_t)PaletteIndex::Preprocessor];
+			const int32_t c0 = ((ppcolor & 0xff) + (color & 0xff)) / 2;
+			const int32_t c1 = (((ppcolor >> 8) & 0xff) + ((color >> 8) & 0xff)) / 2;
+			const int32_t c2 = (((ppcolor >> 16) & 0xff) + ((color >> 16) & 0xff)) / 2;
+			const int32_t c3 = (((ppcolor >> 24) & 0xff) + ((color >> 24) & 0xff)) / 2;
 			return ImU32(c0 | (c1 << 8) | (c2 << 16) | (c3 << 24));
 		}
 		return color;
@@ -787,7 +787,7 @@ namespace ImGui
 
 			if (!IsReadOnly() && !io.InputQueueCharacters.empty())
 			{
-				for (int i = 0; i < io.InputQueueCharacters.Size; i++)
+				for (int32_t i = 0; i < io.InputQueueCharacters.Size; i++)
 				{
 					auto c = io.InputQueueCharacters[i];
 					if (c != 0 && (c == '\n' || c >= 32))
@@ -883,7 +883,7 @@ namespace ImGui
 		mCharAdvance = { fontSize, ImGui::GetTextLineHeightWithSpacing() * mLineSpacing };
 
 		/* Update palette with the current alpha from style */
-		for (int i = 0; i < (int)PaletteIndex::Max; ++i)
+		for (int32_t i = 0; i < (int32_t)PaletteIndex::Max; ++i)
 		{
 			auto color = ImGui::ColorConvertU32ToFloat4(mPaletteBase[i]);
 			color.w *= ImGui::GetStyle().Alpha;
@@ -906,9 +906,9 @@ namespace ImGui
 		auto scrollX = ImGui::GetScrollX();
 		auto scrollY = ImGui::GetScrollY();
 
-		auto lineNo = (int)floor(scrollY / mCharAdvance.y);
-		auto globalLineMax = (int)mLines.size();
-		auto lineMax = std::max(0, std::min((int)mLines.size() - 1, lineNo + (int)floor((scrollY + contentSize.y) / mCharAdvance.y)));
+		auto lineNo = (int32_t)floor(scrollY / mCharAdvance.y);
+		auto globalLineMax = (int32_t)mLines.size();
+		auto lineMax = std::max(0, std::min((int32_t)mLines.size() - 1, lineNo + (int32_t)floor((scrollY + contentSize.y) / mCharAdvance.y)));
 
 		// Deduce mTextStart by evaluating mLines size (global lineMax) plus two spaces as text width
 		char buf[16];
@@ -947,7 +947,7 @@ namespace ImGui
 				{
 					ImVec2 vstart(lineStartScreenPos.x + mTextStart + sstart, lineStartScreenPos.y);
 					ImVec2 vend(lineStartScreenPos.x + mTextStart + ssend, lineStartScreenPos.y + mCharAdvance.y);
-					drawList->AddRectFilled(vstart, vend, mPalette[(int)PaletteIndex::Selection]);
+					drawList->AddRectFilled(vstart, vend, mPalette[(int32_t)PaletteIndex::Selection]);
 				}
 
 				// Draw breakpoints
@@ -956,7 +956,7 @@ namespace ImGui
 				if (mBreakpoints.count(lineNo + 1) != 0)
 				{
 					ImVec2 end = { lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y };
-					drawList->AddRectFilled(start, end, mPalette[(int)PaletteIndex::Breakpoint]);
+					drawList->AddRectFilled(start, end, mPalette[(int32_t)PaletteIndex::Breakpoint]);
 				}
 
 				// Draw error markers
@@ -964,7 +964,7 @@ namespace ImGui
 				if (errorIt != mErrorMarkers.end())
 				{
 					ImVec2 end = { lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y };
-					drawList->AddRectFilled(start, end, mPalette[(int)PaletteIndex::ErrorMarker]);
+					drawList->AddRectFilled(start, end, mPalette[(int32_t)PaletteIndex::ErrorMarker]);
 
 					if (ImGui::IsMouseHoveringRect(lineStartScreenPos, end))
 					{
@@ -984,7 +984,7 @@ namespace ImGui
 				snprintf(buf, 16, "%d  ", lineNo + 1);
 
 				auto lineNoWidth = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, buf, nullptr, nullptr).x;
-				drawList->AddText({ lineStartScreenPos.x + mTextStart - lineNoWidth, lineStartScreenPos.y }, mPalette[(int)PaletteIndex::LineNumber], buf);
+				drawList->AddText({ lineStartScreenPos.x + mTextStart - lineNoWidth, lineStartScreenPos.y }, mPalette[(int32_t)PaletteIndex::LineNumber], buf);
 
 				if (mState.mCursorPosition.mLine == lineNo)
 				{
@@ -994,8 +994,8 @@ namespace ImGui
 					if (!HasSelection())
 					{
 						ImVec2 end = { start.x + contentSize.x + scrollX, start.y + mCharAdvance.y };
-						drawList->AddRectFilled(start, end, mPalette[(int)(focused ? PaletteIndex::CurrentLineFill : PaletteIndex::CurrentLineFillInactive)]);
-						drawList->AddRect(start, end, mPalette[(int)PaletteIndex::CurrentLineEdge], 1.0f);
+						drawList->AddRectFilled(start, end, mPalette[(int32_t)(focused ? PaletteIndex::CurrentLineFill : PaletteIndex::CurrentLineFillInactive)]);
+						drawList->AddRect(start, end, mPalette[(int32_t)PaletteIndex::CurrentLineEdge], 1.0f);
 					}
 
 					// Render the cursor
@@ -1009,7 +1009,7 @@ namespace ImGui
 							auto cindex = GetCharacterIndex(mState.mCursorPosition);
 							float cx = TextDistanceToLineStart(mState.mCursorPosition);
 
-							if (mOverwrite && cindex < (int)line.size())
+							if (mOverwrite && cindex < (int32_t)line.size())
 							{
 								auto c = line[cindex].mChar;
 								if (c == '\t')
@@ -1027,7 +1027,7 @@ namespace ImGui
 							}
 							ImVec2 cstart(textScreenPos.x + cx, lineStartScreenPos.y);
 							ImVec2 cend(textScreenPos.x + cx + width, lineStartScreenPos.y + mCharAdvance.y);
-							drawList->AddRectFilled(cstart, cend, mPalette[(int)PaletteIndex::Cursor]);
+							drawList->AddRectFilled(cstart, cend, mPalette[(int32_t)PaletteIndex::Cursor]);
 							if (elapsed > 800)
 								mStartTime = timeEnd;
 						}
@@ -1035,10 +1035,10 @@ namespace ImGui
 				}
 
 				// Render colorized text
-				auto prevColor = line.empty() ? mPalette[(int)PaletteIndex::Default] : GetGlyphColor(line[0]);
+				auto prevColor = line.empty() ? mPalette[(int32_t)PaletteIndex::Default] : GetGlyphColor(line[0]);
 				ImVec2 bufferOffset;
 
-				for (int i = 0; i < line.size();)
+				for (int32_t i = 0; i < line.size();)
 				{
 					auto& glyph = line[i];
 					auto color = GetGlyphColor(glyph);
@@ -1149,7 +1149,7 @@ namespace ImGui
 		mTextChanged = false;
 		mCursorPositionChanged = false;
 
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::ColorConvertU32ToFloat4(mPalette[(int)PaletteIndex::Background]));
+		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::ColorConvertU32ToFloat4(mPalette[(int32_t)PaletteIndex::Background]));
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
 		if (!mIgnoreImGuiChild)
 			ImGui::BeginChild(aTitle, aSize, aBorder, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NoMove);
@@ -1261,8 +1261,8 @@ namespace ImGui
 				//			end.mColumn = end.mLine < mLines.size() ? mLines[end.mLine].size() : 0;
 				if (end.mColumn == 0 && end.mLine > 0)
 					--end.mLine;
-				if (end.mLine >= (int)mLines.size())
-					end.mLine = mLines.empty() ? 0 : (int)mLines.size() - 1;
+				if (end.mLine >= (int32_t)mLines.size())
+					end.mLine = mLines.empty() ? 0 : (int32_t)mLines.size() - 1;
 				end.mColumn = GetLineMaxColumn(end.mLine);
 
 				//if (end.mColumn >= GetLineMaxColumn(end.mLine))
@@ -1274,7 +1274,7 @@ namespace ImGui
 
 				bool modified = false;
 
-				for (int i = start.mLine; i <= end.mLine; i++)
+				for (int32_t i = start.mLine; i <= end.mLine; i++)
 				{
 					auto& line = mLines[i];
 					if (aShift)
@@ -1288,7 +1288,7 @@ namespace ImGui
 							}
 							else
 							{
-								for (int j = 0; j < mTabSize && !line.empty() && line.front().mChar == ' '; j++)
+								for (int32_t j = 0; j < mTabSize && !line.empty() && line.front().mChar == ' '; j++)
 								{
 									line.erase(line.begin());
 									modified = true;
@@ -1363,27 +1363,27 @@ namespace ImGui
 			auto cindex = GetCharacterIndex(coord);
 			newLine.insert(newLine.end(), line.begin() + cindex, line.end());
 			line.erase(line.begin() + cindex, line.begin() + line.size());
-			SetCursorPosition(Coordinates(coord.mLine + 1, GetCharacterColumn(coord.mLine + 1, (int)whitespaceSize)));
+			SetCursorPosition(Coordinates(coord.mLine + 1, GetCharacterColumn(coord.mLine + 1, (int32_t)whitespaceSize)));
 			u.mAdded = (char)aChar;
 		}
 		else
 		{
 			char buf[7];
-			int e = ImTextCharToUtf8(buf, 7, aChar);
+			int32_t e = ImTextCharToUtf8(buf, 7, aChar);
 			if (e > 0)
 			{
 				buf[e] = '\0';
 				auto& line = mLines[coord.mLine];
 				auto cindex = GetCharacterIndex(coord);
 
-				if (mOverwrite && cindex < (int)line.size())
+				if (mOverwrite && cindex < (int32_t)line.size())
 				{
 					auto d = UTF8CharLength(line[cindex].mChar);
 
 					u.mRemovedStart = mState.mCursorPosition;
 					u.mRemovedEnd = Coordinates(coord.mLine, GetCharacterColumn(coord.mLine, cindex + d));
 
-					while (d-- > 0 && cindex < (int)line.size())
+					while (d-- > 0 && cindex < (int32_t)line.size())
 					{
 						u.mRemoved += line[cindex].mChar;
 						line.erase(line.begin() + cindex);
@@ -1483,7 +1483,7 @@ namespace ImGui
 			mCursorPositionChanged = true;
 	}
 
-	void TextEditor::SetTabSize(int aValue)
+	void TextEditor::SetTabSize(int32_t aValue)
 	{
 		mTabSize = std::max(0, std::min(32, aValue));
 	}
@@ -1500,7 +1500,7 @@ namespace ImGui
 
 		auto pos = GetActualCursorCoordinates();
 		auto start = std::min(pos, mState.mSelectionStart);
-		int totalLines = pos.mLine - start.mLine;
+		int32_t totalLines = pos.mLine - start.mLine;
 
 		totalLines += InsertTextAt(pos, aValue);
 
@@ -1525,7 +1525,7 @@ namespace ImGui
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void TextEditor::MoveUp(int aAmount, bool aSelect)
+	void TextEditor::MoveUp(int32_t aAmount, bool aSelect)
 	{
 		auto oldPos = mState.mCursorPosition;
 		mState.mCursorPosition.mLine = std::max(0, mState.mCursorPosition.mLine - aAmount);
@@ -1551,11 +1551,11 @@ namespace ImGui
 		}
 	}
 
-	void TextEditor::MoveDown(int aAmount, bool aSelect)
+	void TextEditor::MoveDown(int32_t aAmount, bool aSelect)
 	{
 		assert(mState.mCursorPosition.mColumn >= 0);
 		auto oldPos = mState.mCursorPosition;
-		mState.mCursorPosition.mLine = std::max(0, std::min((int)mLines.size() - 1, mState.mCursorPosition.mLine + aAmount));
+		mState.mCursorPosition.mLine = std::max(0, std::min((int32_t)mLines.size() - 1, mState.mCursorPosition.mLine + aAmount));
 
 		if (mState.mCursorPosition != oldPos)
 		{
@@ -1584,7 +1584,7 @@ namespace ImGui
 		return (c & 0xC0) == 0x80;
 	}
 
-	void TextEditor::MoveLeft(int aAmount, bool aSelect, bool aWordMode)
+	void TextEditor::MoveLeft(int32_t aAmount, bool aSelect, bool aWordMode)
 	{
 		if (mLines.empty())
 			return;
@@ -1601,8 +1601,8 @@ namespace ImGui
 				if (line > 0)
 				{
 					--line;
-					if ((int)mLines.size() > line)
-						cindex = (int)mLines[line].size();
+					if ((int32_t)mLines.size() > line)
+						cindex = (int32_t)mLines[line].size();
 					else
 						cindex = 0;
 				}
@@ -1612,7 +1612,7 @@ namespace ImGui
 				--cindex;
 				if (cindex > 0)
 				{
-					if ((int)mLines.size() > line)
+					if ((int32_t)mLines.size() > line)
 					{
 						while (cindex > 0 && IsUTFSequence(mLines[line][cindex].mChar))
 							--cindex;
@@ -1650,7 +1650,7 @@ namespace ImGui
 		EnsureCursorVisible();
 	}
 
-	void TextEditor::MoveRight(int aAmount, bool aSelect, bool aWordMode)
+	void TextEditor::MoveRight(int32_t aAmount, bool aSelect, bool aWordMode)
 	{
 		auto oldPos = mState.mCursorPosition;
 
@@ -1667,7 +1667,7 @@ namespace ImGui
 			{
 				if (mState.mCursorPosition.mLine < mLines.size() - 1)
 				{
-					mState.mCursorPosition.mLine = std::max(0, std::min((int)mLines.size() - 1, mState.mCursorPosition.mLine + 1));
+					mState.mCursorPosition.mLine = std::max(0, std::min((int32_t)mLines.size() - 1, mState.mCursorPosition.mLine + 1));
 					mState.mCursorPosition.mColumn = 0;
 				}
 				else
@@ -1722,7 +1722,7 @@ namespace ImGui
 	void TextEditor::TextEditor::MoveBottom(bool aSelect)
 	{
 		auto oldPos = GetCursorPosition();
-		auto newPos = Coordinates((int)mLines.size() - 1, 0);
+		auto newPos = Coordinates((int32_t)mLines.size() - 1, 0);
 		SetCursorPosition(newPos);
 		if (aSelect)
 		{
@@ -1812,7 +1812,7 @@ namespace ImGui
 
 			if (pos.mColumn == GetLineMaxColumn(pos.mLine))
 			{
-				if (pos.mLine == (int)mLines.size() - 1)
+				if (pos.mLine == (int32_t)mLines.size() - 1)
 					return;
 
 				u.mRemoved = '\n';
@@ -1831,7 +1831,7 @@ namespace ImGui
 				u.mRemoved = GetText(u.mRemovedStart, u.mRemovedEnd);
 
 				auto d = UTF8CharLength(line[cindex].mChar);
-				while (d-- > 0 && cindex < (int)line.size())
+				while (d-- > 0 && cindex < (int32_t)line.size())
 					line.erase(line.begin() + cindex);
 			}
 
@@ -1930,7 +1930,7 @@ namespace ImGui
 
 	void TextEditor::SelectAll()
 	{
-		SetSelection(Coordinates(0, 0), Coordinates((int)mLines.size(), 0));
+		SetSelection(Coordinates(0, 0), Coordinates((int32_t)mLines.size(), 0));
 	}
 
 	bool TextEditor::HasSelection() const
@@ -1984,11 +1984,16 @@ namespace ImGui
 			else
 			{
 				UndoRecord u;
-				u.mBefore = mState;
-				u.mRemoved = GetCurrentLineText();
-				
+				u.mBefore		= mState;
+				u.mRemoved		= GetCurrentLineText() + "\n";
+				u.mRemovedStart = { mState.mCursorPosition.mLine, 0 };
+				u.mRemovedEnd	= { 
+					mState.mCursorPosition.mLine,
+					GetLineMaxColumn(mState.mCursorPosition.mLine)
+				};
+
 				// Copy
-				ImGui::SetClipboardText(("\n" + u.mRemoved).c_str());
+				ImGui::SetClipboardText(u.mRemoved.c_str());
 				
 				// Delete Line
 				if (mLines.size() > 1)
@@ -2041,16 +2046,16 @@ namespace ImGui
 
 	bool TextEditor::CanRedo() const
 	{
-		return !mReadOnly && mUndoIndex < (int)mUndoBuffer.size();
+		return !mReadOnly && mUndoIndex < (int32_t)mUndoBuffer.size();
 	}
 
-	void TextEditor::Undo(int aSteps)
+	void TextEditor::Undo(int32_t aSteps)
 	{
 		while (CanUndo() && aSteps-- > 0)
 			mUndoBuffer[--mUndoIndex].Undo(this);
 	}
 
-	void TextEditor::Redo(int aSteps)
+	void TextEditor::Redo(int32_t aSteps)
 	{
 		while (CanRedo() && aSteps-- > 0)
 			mUndoBuffer[mUndoIndex++].Redo(this);
@@ -2146,7 +2151,7 @@ namespace ImGui
 
 	std::string TextEditor::GetText() const
 	{
-		return GetText(Coordinates(), Coordinates((int)mLines.size(), 0));
+		return GetText(Coordinates(), Coordinates((int32_t)mLines.size(), 0));
 	}
 
 	std::vector<std::string> TextEditor::GetTextLines() const
@@ -2187,9 +2192,9 @@ namespace ImGui
 	{
 	}
 
-	void TextEditor::Colorize(int aFromLine, int aLines)
+	void TextEditor::Colorize(int32_t aFromLine, int32_t aLines)
 	{
-		int toLine = aLines == -1 ? (int)mLines.size() : std::min((int)mLines.size(), aFromLine + aLines);
+		int32_t toLine = aLines == -1 ? (int32_t)mLines.size() : std::min((int32_t)mLines.size(), aFromLine + aLines);
 		mColorRangeMin = std::min(mColorRangeMin, aFromLine);
 		mColorRangeMax = std::max(mColorRangeMax, toLine);
 		mColorRangeMin = std::max(0, mColorRangeMin);
@@ -2197,7 +2202,7 @@ namespace ImGui
 		mCheckComments = true;
 	}
 
-	void TextEditor::ColorizeRange(int aFromLine, int aToLine)
+	void TextEditor::ColorizeRange(int32_t aFromLine, int32_t aToLine)
 	{
 		if (mLines.empty() || aFromLine >= aToLine)
 			return;
@@ -2206,8 +2211,8 @@ namespace ImGui
 		std::cmatch results;
 		std::string id;
 
-		int endLine = std::max(0, std::min((int)mLines.size(), aToLine));
-		for (int i = aFromLine; i < endLine; ++i)
+		int32_t endLine = std::max(0, std::min((int32_t)mLines.size(), aToLine));
+		for (int32_t i = aFromLine; i < endLine; ++i)
 		{
 			auto& line = mLines[i];
 
@@ -2244,7 +2249,7 @@ namespace ImGui
 				if (hasTokenizeResult == false)
 				{
 					// todo : remove
-					//printf("using regex for %.*s\n", first + 10 < last ? 10 : int(last - first), first);
+					//printf("using regex for %.*s\n", first + 10 < last ? 10 : int32_t(last - first), first);
 
 					for (auto& p : mRegexList)
 					{
@@ -2341,7 +2346,7 @@ namespace ImGui
 					if (c != mLanguageDefinition.mPreprocChar && !isspace(c))
 						firstChar = false;
 
-					if (currentIndex == (int)line.size() - 1 && line[line.size() - 1].mChar == '\\')
+					if (currentIndex == (int32_t)line.size() - 1 && line[line.size() - 1].mChar == '\\')
 						concatenate = true;
 
 					bool inComment = (commentStartLine < currentLine || (commentStartLine == currentLine && commentStartIndex <= currentIndex));
@@ -2352,10 +2357,10 @@ namespace ImGui
 
 						if (c == '\"')
 						{
-							if (currentIndex + 1 < (int)line.size() && line[currentIndex + 1].mChar == '\"')
+							if (currentIndex + 1 < (int32_t)line.size() && line[currentIndex + 1].mChar == '\"')
 							{
 								currentIndex += 1;
-								if (currentIndex < (int)line.size())
+								if (currentIndex < (int32_t)line.size())
 									line[currentIndex].mMultiLineComment = inComment;
 							}
 							else
@@ -2364,7 +2369,7 @@ namespace ImGui
 						else if (c == '\\')
 						{
 							currentIndex += 1;
-							if (currentIndex < (int)line.size())
+							if (currentIndex < (int32_t)line.size())
 								line[currentIndex].mMultiLineComment = inComment;
 						}
 					}
@@ -2404,7 +2409,7 @@ namespace ImGui
 							line[currentIndex].mComment = withinSingleLineComment;
 
 							auto& endStr = mLanguageDefinition.mCommentEnd;
-							if (currentIndex + 1 >= (int)endStr.size() &&
+							if (currentIndex + 1 >= (int32_t)endStr.size() &&
 								equals(endStr.begin(), endStr.end(), from + 1 - endStr.size(), from + 1, pred))
 							{
 								commentStartIndex = endIndex;
@@ -2414,7 +2419,7 @@ namespace ImGui
 					}
 					line[currentIndex].mPreprocessor = withinPreproc;
 					currentIndex += UTF8CharLength(c);
-					if (currentIndex >= (int)line.size())
+					if (currentIndex >= (int32_t)line.size())
 					{
 						currentIndex = 0;
 						++currentLine;
@@ -2431,14 +2436,14 @@ namespace ImGui
 
 		if (mColorRangeMin < mColorRangeMax)
 		{
-			const int increment = (mLanguageDefinition.mTokenize == nullptr) ? 10 : 10000;
-			const int to = std::min(mColorRangeMin + increment, mColorRangeMax);
+			const int32_t increment = (mLanguageDefinition.mTokenize == nullptr) ? 10 : 10000;
+			const int32_t to = std::min(mColorRangeMin + increment, mColorRangeMax);
 			ColorizeRange(mColorRangeMin, to);
 			mColorRangeMin = to;
 
 			if (mColorRangeMax == mColorRangeMin)
 			{
-				mColorRangeMin = std::numeric_limits<int>::max();
+				mColorRangeMin = std::numeric_limits<int32_t>::max();
 				mColorRangeMax = 0;
 			}
 			return;
@@ -2450,7 +2455,7 @@ namespace ImGui
 		auto& line = mLines[aFrom.mLine];
 		float distance = 0.0f;
 		float spaceSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, " ", nullptr, nullptr).x;
-		int colIndex = GetCharacterIndex(aFrom);
+		int32_t colIndex = GetCharacterIndex(aFrom);
 		for (size_t it = 0u; it < line.size() && it < colIndex; )
 		{
 			if (line[it].mChar == '\t')
@@ -2462,8 +2467,8 @@ namespace ImGui
 			{
 				auto d = UTF8CharLength(line[it].mChar);
 				char tempCString[7];
-				int i = 0;
-				for (; i < 6 && d-- > 0 && it < (int)line.size(); i++, it++)
+				int32_t i = 0;
+				for (; i < 6 && d-- > 0 && it < (int32_t)line.size(); i++, it++)
 					tempCString[i] = line[it].mChar;
 
 				tempCString[i] = '\0';
@@ -2488,11 +2493,11 @@ namespace ImGui
 		auto height = ImGui::GetWindowHeight();
 		auto width = ImGui::GetWindowWidth();
 
-		auto top = 1 + (int)ceil(scrollY / mCharAdvance.y);
-		auto bottom = (int)ceil((scrollY + height) / mCharAdvance.y);
+		auto top = 1 + (int32_t)ceil(scrollY / mCharAdvance.y);
+		auto bottom = (int32_t)ceil((scrollY + height) / mCharAdvance.y);
 
-		auto left = (int)ceil(scrollX / mCharAdvance.x);
-		auto right = (int)ceil((scrollX + width) / mCharAdvance.x);
+		auto left = (int32_t)ceil(scrollX / mCharAdvance.x);
+		auto right = (int32_t)ceil((scrollX + width) / mCharAdvance.x);
 
 		auto pos = GetActualCursorCoordinates();
 		auto len = TextDistanceToLineStart(pos);
@@ -2507,10 +2512,10 @@ namespace ImGui
 			ImGui::SetScrollX(std::max(0.0f, len + mTextStart + 4 - width));
 	}
 
-	int TextEditor::GetPageSize() const
+	int32_t TextEditor::GetPageSize() const
 	{
 		auto height = ImGui::GetWindowHeight() - 20.0f;
-		return (int)floor(height / mCharAdvance.y);
+		return (int32_t)floor(height / mCharAdvance.y);
 	}
 
 	TextEditor::UndoRecord::UndoRecord(
@@ -2800,7 +2805,7 @@ namespace ImGui
 			static const char* const cppKeywords[] = {
 				"alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept", "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char16_t", "char32_t", "class",
 				"compl", "concept", "const", "constexpr", "const_cast", "continue", "decltype", "default", "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit", "export", "extern", "false", "float",
-				"for", "friend", "goto", "if", "import", "inline", "int", "long", "module", "mutable", "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq", "private", "protected", "public",
+				"for", "friend", "goto", "if", "import", "inline", "int32_t", "long", "module", "mutable", "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq", "private", "protected", "public",
 				"register", "reinterpret_cast", "requires", "return", "short", "signed", "sizeof", "static", "static_assert", "static_cast", "struct", "switch", "synchronized", "template", "this", "thread_local",
 				"throw", "true", "try", "typedef", "typeid", "typename", "union", "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"
 			};
@@ -2869,7 +2874,7 @@ namespace ImGui
 			static const char* const keywords[] = {
 				"AppendStructuredBuffer", "asm", "asm_fragment", "BlendState", "bool", "break", "Buffer", "ByteAddressBuffer", "case", "cbuffer", "centroid", "class", "column_major", "compile", "compile_fragment",
 				"CompileShader", "const", "continue", "ComputeShader", "ConsumeStructuredBuffer", "default", "DepthStencilState", "DepthStencilView", "discard", "do", "double", "DomainShader", "dword", "else",
-				"export", "extern", "false", "float", "for", "fxgroup", "GeometryShader", "groupshared", "half", "Hullshader", "if", "in", "inline", "inout", "InputPatch", "int", "interface", "line", "lineadj",
+				"export", "extern", "false", "float", "for", "fxgroup", "GeometryShader", "groupshared", "half", "Hullshader", "if", "in", "inline", "inout", "InputPatch", "int32_t", "interface", "line", "lineadj",
 				"linear", "LineStream", "matrix", "min16float", "min10float", "min16int", "min12int", "min16uint", "namespace", "nointerpolation", "noperspective", "NULL", "out", "OutputPatch", "packoffset",
 				"pass", "pixelfragment", "PixelShader", "point", "PointStream", "precise", "RasterizerState", "RenderTargetView", "return", "register", "row_major", "RWBuffer", "RWByteAddressBuffer", "RWStructuredBuffer",
 				"RWTexture1D", "RWTexture1DArray", "RWTexture2D", "RWTexture2DArray", "RWTexture3D", "sample", "sampler", "SamplerState", "SamplerComparisonState", "shared", "snorm", "stateblock", "stateblock_state",
@@ -2946,7 +2951,7 @@ namespace ImGui
 				"if", "else",
 				"subroutine",
 				"in", "out", "inout",
-				"float", "double", "int", "void", "bool", "true", "false",
+				"float", "double", "int32_t", "void", "bool", "true", "false",
 				"invariant",
 				"discard", "return",
 				"mat2", "mat3", "mat4", "dmat2", "dmat3", "dmat4",
@@ -3041,7 +3046,7 @@ namespace ImGui
 		if (!inited)
 		{
 			static const char* const keywords[] = {
-				"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "inline", "int", "long", "register", "restrict", "return", "short",
+				"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "inline", "int32_t", "long", "register", "restrict", "return", "short",
 				"signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while", "_Alignas", "_Alignof", "_Atomic", "_Bool", "_Complex", "_Generic", "_Imaginary",
 				"_Noreturn", "_Static_assert", "_Thread_local"
 			};
@@ -3172,7 +3177,7 @@ namespace ImGui
 		{
 			static const char* const keywords[] = {
 				"and", "abstract", "auto", "bool", "break", "case", "cast", "class", "const", "continue", "default", "do", "double", "else", "enum", "false", "final", "float", "for",
-				"from", "funcdef", "function", "get", "if", "import", "in", "inout", "int", "interface", "int8", "int16", "int32", "int64", "is", "mixin", "namespace", "not",
+				"from", "funcdef", "function", "get", "if", "import", "in", "inout", "int32_t", "interface", "int8", "int16", "int32", "int64", "is", "mixin", "namespace", "not",
 				"null", "or", "out", "override", "private", "protected", "return", "set", "shared", "super", "switch", "this ", "true", "typedef", "uint", "uint8", "uint16", "uint32",
 				"uint64", "void", "while", "xor"
 			};

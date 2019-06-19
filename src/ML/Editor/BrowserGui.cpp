@@ -18,7 +18,7 @@ namespace ml
 
 	BrowserGui::BrowserGui(EventSystem & eventSystem)
 		: EditorGui(eventSystem, "Browser")
-		, m_path	()
+		, m_path	(ML_FS.getWorkingDir())
 		, m_dir		()
 		, m_type	(T_Dir)
 		, m_index	(0)

@@ -402,7 +402,7 @@ namespace DEMO
 						// custom shader parser
 						struct NoobParser
 						{
-							inline static ml::String parseIncludes(const NoobFile::List & files, const ml::String & src)
+							inline ml::String operator()(const NoobFile::List & files, const ml::String & src) const 
 							{	
 								ml::SStream out;
 								ml::SStream ss(src);
@@ -421,7 +421,7 @@ namespace DEMO
 											{
 												if (e->name == name)
 												{
-													out << parseIncludes(
+													out << (*this)(
 														files,
 														e->edit->GetText()
 													);
@@ -444,7 +444,7 @@ namespace DEMO
 							}
 						};
 
-						const ml::String source = NoobParser::parseIncludes(
+						const ml::String source = NoobParser()(
 							noobs.files,
 							noobs.files.front()->edit->GetText()
 						);

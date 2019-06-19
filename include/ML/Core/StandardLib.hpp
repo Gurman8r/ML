@@ -44,6 +44,12 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+# ifndef strdup
+# define strdup _strdup
+# endif
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -93,13 +99,13 @@ namespace ml
 
 namespace ml
 {
-	template <class T, size_t N>using Array		= typename std::array			<T, N>;
-	template <class K, class V>	using HashMap	= typename std::unordered_map	<K, V>;
-	template <class T>			using InitList	= typename std::initializer_list<T>;
-	template <class K, class V>	using Map		= typename std::map				<K, V>;
-	template <class K, class V>	using MultiMap	= typename std::multimap		<K, V>;
-	template <class K, class V>	using Pair		= typename std::pair			<K, V>;
-	template <class T>			using HashSet	= typename std::unordered_set	<T>;
+	template <class T, size_t N	>using Array	= typename std::array			<T, N>;
+	template <class K, class V	>using HashMap	= typename std::unordered_map	<K, V>;
+	template <class T			>using InitList	= typename std::initializer_list<T>;
+	template <class K, class V	>using Map		= typename std::map				<K, V>;
+	template <class K, class V	>using MultiMap	= typename std::multimap		<K, V>;
+	template <class K, class V	>using Pair		= typename std::pair			<K, V>;
+	template <class T			>using HashSet	= typename std::unordered_set	<T>;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

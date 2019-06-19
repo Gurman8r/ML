@@ -8,16 +8,12 @@
 #include <ML/Script/ScriptEvents.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-# ifndef strdup
-# define strdup _strdup
-# endif
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	TerminalGui::TerminalGui(EventSystem & eventSystem)
-		: EditorGui	(eventSystem, "Terminal")
+		: EditorGui		(eventSystem, "Terminal")
 		, m_coutBuf		(nullptr)
 		, m_coutPtr		(nullptr)
 		, m_coutStr		()
@@ -316,7 +312,11 @@ namespace ml
 			if (candidates.Size == 0)
 			{
 				// No match
-				this->printf("No match for \"%.*s\"!\n", (int32_t)(word_end - word_start), word_start);
+				this->printf(
+					"No match for \"%.*s\"!\n", 
+					(int32_t)(word_end - word_start),
+					word_start
+				);
 			}
 			else if (candidates.Size == 1)
 			{

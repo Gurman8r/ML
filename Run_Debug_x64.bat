@@ -2,7 +2,7 @@
 rem Run_Debug_x64.bat
 cls
 
-set TargetName=Launcher
+set TargetName=ML_Launcher
 set Configuration=Debug
 set PlatformTarget=x64
 

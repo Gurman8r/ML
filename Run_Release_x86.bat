@@ -2,7 +2,7 @@
 rem Run_Release_x86.bat
 cls
 
-set TargetName=Launcher
+set TargetName=ML_Launcher
 set Configuration=Release
 set PlatformTarget=x86
 

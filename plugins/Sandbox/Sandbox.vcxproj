@@ -99,7 +99,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -120,7 +120,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -145,7 +145,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -170,7 +170,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Audio_$(Configuration)_$(PlatformTarget).lib;Core_$(Configuration)_$(PlatformTarget).lib;Editor_$(Configuration)_$(PlatformTarget).lib;Engine_$(Configuration)_$(PlatformTarget).lib;Graphics_$(Configuration)_$(PlatformTarget).lib;Network_$(Configuration)_$(PlatformTarget).lib;Script_$(Configuration)_$(PlatformTarget).lib;Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>

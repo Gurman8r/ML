@@ -48,7 +48,7 @@ namespace ml
 		{ 
 			return (((i >= DockNode::Root) && (i < DockNode::MAX_DOCK_POS))
 				? m_nodes[i]
-				: 0
+				: NULL
 			);
 		}
 

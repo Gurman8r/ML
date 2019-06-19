@@ -35,7 +35,6 @@ namespace ml
 			ImGuiWindowFlags_NoDocking |
 			ImGuiWindowFlags_NoBackground))
 		{
-			// DockspaceGui BuilderGui
 			if (m_nodes[Root] = beginBuilder(ImGuiDockNodeFlags_None))
 			{
 				m_nodes[Left]	= splitNode(m_nodes[Root],	ImGuiDir_Left,	0.20f,	&m_nodes[Root]);
@@ -111,7 +110,7 @@ namespace ml
 				return root;
 			}
 		}
-		return 0;
+		return NULL;
 	}
 
 	uint32_t DockspaceGui::endBuilder(uint32_t root)
@@ -130,7 +129,7 @@ namespace ml
 			ImGui::DockBuilderDockWindow(name, id);
 			return id;
 		}
-		return 0;
+		return NULL;
 	}
 
 	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * other)

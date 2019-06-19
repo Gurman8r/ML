@@ -25,10 +25,26 @@ namespace ml
 		, m_preview	()
 		, m_isDouble(false)
 	{
+		eventSystem.addListener(File_Open_Event::ID, this);
 	}
 
 	BrowserGui::~BrowserGui()
 	{
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	void BrowserGui::onEvent(const Event * value)
+	{
+		switch (*value)
+		{
+		case File_Open_Event::ID:
+			if (auto ev = value->as<File_Open_Event>())
+			{
+				ML_OS.execute("open", get_selected_path());
+			}
+			break;
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -38,10 +54,14 @@ namespace ml
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
 			// Update Working Dir
-			const String cwd = ML_FS.getWorkingDir();
-			if (m_isDouble || m_path.empty() || (m_path != cwd))
+			const String workingDir = ML_FS.getWorkingDir();
+
+			if ((m_isDouble) ||
+				(!m_path) ||
+				(m_path != workingDir) ||
+				(m_path && m_dir.empty()))
 			{
-				m_path = cwd;
+				m_path = workingDir;
 				if (ML_FS.getDirContents(m_path, m_dir))
 				{
 					set_selected(T_Dir, 0);

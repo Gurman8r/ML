@@ -32,6 +32,10 @@ namespace ml
 		explicit BrowserGui(EventSystem & eventSystem);
 		~BrowserGui();
 
+	public:
+		/* * * * * * * * * * * * * * * * * * * * */
+		void onEvent(const Event * value) override;
+
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;

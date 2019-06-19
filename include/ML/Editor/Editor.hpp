@@ -17,14 +17,12 @@ namespace ml
 		: public IObject
 		, public EventListener
 		, public INonCopyable
-		, public IDisposable
 	{
 	public:
 		explicit Editor(EventSystem & eventSystem);
 		~Editor();
 
 	public:
-		bool dispose() override;
 		void onEvent(const Event * value) override;
 
 	private:
@@ -34,61 +32,12 @@ namespace ml
 		void onEndGui	(const EndGuiEvent & ev);
 		void onExit		(const ExitEvent & ev);
 
-	public:
-		template <
-			class T, class ... Args
-		> inline T * create(const String & name, Args && ... args)
-		{
-			Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
-			Map<String, EditorGui *>::iterator it;
-			return ((it = data.find(name)) == data.end())
-				? static_cast<T *>(
-					data.insert({
-						name, new T(std::forward<Args>(args)...)
-						}).first->second)
-				: static_cast<T *>(nullptr);
-		}
-
-		template <
-			class T
-		> inline bool erase(const String & name)
-		{
-			Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
-			Map<String, EditorGui *>::iterator it;
-			if ((it = data.find(name)) != data.end())
-			{
-				delete it->second;
-				it->second = nullptr;
-				data.erase(it);
-				return true;
-			}
-			return false;
-		}
-
-		template <
-			class T
-		> inline const T * get(const String & name = String()) const
-		{
-			const Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
-			Map<String, EditorGui *>::const_iterator it;
-			return ((it = data.find(name)) != data.end())
-				? static_cast<const T *>(it->second)
-				: static_cast<const T *>(nullptr);
-		}
-
-		template <
-			class T
-		> inline T * get(const String & name = String())
-		{
-			Map<String, EditorGui *> & data = m_gui[typeid(T).hash_code()];
-			Map<String, EditorGui *>::iterator it;
-			return ((it = data.find(name)) != data.end())
-				? static_cast<T *>(it->second)
-				: static_cast<T *>(nullptr);
-		}
-
 	private:
-		HashMap<size_t, Map<String, EditorGui *>> m_gui;
+		DockspaceGui	m_dockspace;
+		BrowserGui		m_browser;
+		ProfilerGui		m_profiler;
+		ResourceGui		m_resources;
+		TerminalGui		m_terminal;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -2874,7 +2874,7 @@ namespace ImGui
 			static const char* const keywords[] = {
 				"AppendStructuredBuffer", "asm", "asm_fragment", "BlendState", "bool", "break", "Buffer", "ByteAddressBuffer", "case", "cbuffer", "centroid", "class", "column_major", "compile", "compile_fragment",
 				"CompileShader", "const", "continue", "ComputeShader", "ConsumeStructuredBuffer", "default", "DepthStencilState", "DepthStencilView", "discard", "do", "double", "DomainShader", "dword", "else",
-				"export", "extern", "false", "float", "for", "fxgroup", "GeometryShader", "groupshared", "half", "Hullshader", "if", "in", "inline", "inout", "InputPatch", "int32_t", "interface", "line", "lineadj",
+				"export", "extern", "false", "float", "for", "fxgroup", "GeometryShader", "groupshared", "half", "Hullshader", "if", "in", "inline", "inout", "InputPatch", "int", "interface", "line", "lineadj",
 				"linear", "LineStream", "matrix", "min16float", "min10float", "min16int", "min12int", "min16uint", "namespace", "nointerpolation", "noperspective", "NULL", "out", "OutputPatch", "packoffset",
 				"pass", "pixelfragment", "PixelShader", "point", "PointStream", "precise", "RasterizerState", "RenderTargetView", "return", "register", "row_major", "RWBuffer", "RWByteAddressBuffer", "RWStructuredBuffer",
 				"RWTexture1D", "RWTexture1DArray", "RWTexture2D", "RWTexture2DArray", "RWTexture3D", "sample", "sampler", "SamplerState", "SamplerComparisonState", "shared", "snorm", "stateblock", "stateblock_state",
@@ -2951,7 +2951,7 @@ namespace ImGui
 				"if", "else",
 				"subroutine",
 				"in", "out", "inout",
-				"float", "double", "int32_t", "void", "bool", "true", "false",
+				"float", "double", "int", "void", "bool", "true", "false",
 				"invariant",
 				"discard", "return",
 				"mat2", "mat3", "mat4", "dmat2", "dmat3", "dmat4",
@@ -3046,7 +3046,7 @@ namespace ImGui
 		if (!inited)
 		{
 			static const char* const keywords[] = {
-				"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "inline", "int32_t", "long", "register", "restrict", "return", "short",
+				"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "inline", "int", "long", "register", "restrict", "return", "short",
 				"signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while", "_Alignas", "_Alignof", "_Atomic", "_Bool", "_Complex", "_Generic", "_Imaginary",
 				"_Noreturn", "_Static_assert", "_Thread_local"
 			};
@@ -3177,7 +3177,7 @@ namespace ImGui
 		{
 			static const char* const keywords[] = {
 				"and", "abstract", "auto", "bool", "break", "case", "cast", "class", "const", "continue", "default", "do", "double", "else", "enum", "false", "final", "float", "for",
-				"from", "funcdef", "function", "get", "if", "import", "in", "inout", "int32_t", "interface", "int8", "int16", "int32", "int64", "is", "mixin", "namespace", "not",
+				"from", "funcdef", "function", "get", "if", "import", "in", "inout", "int", "interface", "int8", "int16", "int32", "int64", "is", "mixin", "namespace", "not",
 				"null", "or", "out", "override", "private", "protected", "return", "set", "shared", "super", "switch", "this ", "true", "typedef", "uint", "uint8", "uint16", "uint32",
 				"uint64", "void", "while", "xor"
 			};

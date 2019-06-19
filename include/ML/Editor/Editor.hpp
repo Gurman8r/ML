@@ -4,7 +4,6 @@
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Editor/TerminalGui.hpp>
-#include <ML/Editor/BuilderGui.hpp>
 #include <ML/Editor/BrowserGui.hpp>
 #include <ML/Editor/DockspaceGui.hpp>
 #include <ML/Editor/ResourceGui.hpp>

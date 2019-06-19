@@ -104,30 +104,30 @@ namespace ImGui
 
 			inline bool operator <(const Coordinates & o) const
 			{
-				if (mLine != o.mLine)
-					return mLine < o.mLine;
-				return mColumn < o.mColumn;
+				return (mLine != o.mLine)
+					? mLine < o.mLine
+					: mColumn < o.mColumn;
 			}
 
 			inline bool operator >(const Coordinates & o) const
 			{
-				if (mLine != o.mLine)
-					return mLine > o.mLine;
-				return mColumn > o.mColumn;
+				return (mLine != o.mLine)
+					? mLine > o.mLine
+					: mColumn > o.mColumn;
 			}
 
 			inline bool operator <=(const Coordinates & o) const
 			{
-				if (mLine != o.mLine)
-					return mLine < o.mLine;
-				return mColumn <= o.mColumn;
+				return (mLine != o.mLine)
+					? mLine < o.mLine
+					: mColumn <= o.mColumn;
 			}
 
 			inline bool operator >=(const Coordinates & o) const
 			{
-				if (mLine != o.mLine)
-					return mLine > o.mLine;
-				return mColumn >= o.mColumn;
+				return (mLine != o.mLine)
+					? mLine > o.mLine
+					: mColumn >= o.mColumn;
 			}
 		};
 

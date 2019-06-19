@@ -78,9 +78,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\BrowserGui.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\BuilderGui.hpp">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\TerminalGui.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -135,9 +132,6 @@
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\BrowserGui.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\BuilderGui.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\TerminalGui.cpp">

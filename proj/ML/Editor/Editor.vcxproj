@@ -163,7 +163,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Editor\BrowserGui.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\BuilderGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\DockspaceGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorField.hpp" />
@@ -188,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Editor\BrowserGui.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\BuilderGui.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\DockspaceGui.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorPlugin.cpp" />

@@ -21,7 +21,6 @@ namespace ml
 	{
 		create<DockspaceGui>(String(), eventSystem)->setOpen(true);
 		create<BrowserGui>	(String(), eventSystem)->setOpen(false);
-		create<BuilderGui>	(String(), eventSystem)->setOpen(false);
 		create<ProfilerGui>	(String(), eventSystem)->setOpen(false);
 		create<ResourceGui>	(String(), eventSystem)->setOpen(false);
 		create<TerminalGui>	(String(), eventSystem)->setOpen(true);
@@ -81,7 +80,6 @@ namespace ml
 				DockspaceGui & d = ev->dockspace;
 				d.dockWindow(get<ProfilerGui>	()->getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(get<ResourceGui>	()->getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(get<BuilderGui>	()->getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(get<BrowserGui>	()->getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(get<TerminalGui>	()->getTitle(), d.getNode(d.RightDn));
 			}
@@ -99,9 +97,6 @@ namespace ml
 
 				// Show Browser | Ctrl+Alt+E
 				if (ev->getPress(KeyCode::E, { 0, 1, 1, 0 })) get<BrowserGui>()->setOpen(true);
-
-				// Show Builder | Ctrl+Alt+B)
-				if (ev->getPress(KeyCode::B, { 0, 1, 1, 0 })) get<BuilderGui>()->setOpen(true);
 
 				// Show Profiler | Ctrl+Alt+P
 				if (ev->getPress(KeyCode::P, { 0, 1, 1, 0 })) get<ProfilerGui>()->setOpen(true);
@@ -362,7 +357,6 @@ namespace ml
 			{
 				ImGui::MenuItem(get<TerminalGui>()->getTitle(), "Ctrl+Alt+T", get<TerminalGui>()->openPtr());
 				ImGui::MenuItem(get<BrowserGui> ()->getTitle(), "Ctrl+Alt+E", get<BrowserGui> ()->openPtr());
-				ImGui::MenuItem(get<BuilderGui> ()->getTitle(), "Ctrl+Alt+B", get<BuilderGui> ()->openPtr());
 				ImGui::MenuItem(get<ProfilerGui>()->getTitle(), "Ctrl+Alt+P", get<ProfilerGui>()->openPtr());
 				ImGui::MenuItem(get<ResourceGui>()->getTitle(), "Ctrl+Alt+R", get<ResourceGui>()->openPtr());
 
@@ -436,10 +430,6 @@ namespace ml
 		// Project
 		/* * * * * * * * * * * * * * * * * * * * */
 		get<ResourceGui>()->onGui(ev);
-
-		// BuilderGui
-		/* * * * * * * * * * * * * * * * * * * * */
-		get<BuilderGui>()->onGui(ev);
 
 		// BrowserGui
 		/* * * * * * * * * * * * * * * * * * * * */

@@ -10,6 +10,7 @@
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Core/OS.hpp>
+#include <ML/Core/FileSystem.hpp>
 
 namespace ml
 {
@@ -209,10 +210,9 @@ namespace ml
 		// Load ImGui Style
 		const String styleConf = ev.prefs.GetString(
 			"Editor",
-			"styleConfig",
+			"imguiStyle",
 			"Classic"
 		);
-
 		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
 		else if (styleConf == "Dark") ImGui::StyleColorsDark();
 		else if (styleConf == "Light") ImGui::StyleColorsLight();
@@ -240,11 +240,14 @@ namespace ml
 			ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
 		}
 
-		// Set ImGui INI
-		String imguiINI = ev.prefs.GetString("Editor", "imguiINI", "");
+		// Set Imgui Ini
+		CString imguiIni = (ev.prefs.GetBool("Editor", "imguiUseIni", false)
+			? std::strcat((char *)ML_FS.getRoot().c_str(), "/imgui.ini")
+			: nullptr
+		);
 
 		// Start ImGui
-		if (!ImGui_ML_Init("#version 410", &ev.window, true, nullptr))
+		if (!ImGui_ML_Init("#version 410", &ev.window, true, imguiIni))
 		{
 			Debug::fatal("Failed Initializing ImGui");
 		}

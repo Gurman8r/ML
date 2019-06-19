@@ -1,3 +1,4 @@
+
 //https://github.com/BalazsJako/ImGuiColorTextEdit/blob/master/TextEditor.cpp
 
 #include <algorithm>
@@ -9,7 +10,7 @@
 #include "TextEditor.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
-#include "imgui.h" // for imGui::GetCurrentWindow()
+#include <imgui/imgui.h>
 
 // TODO
 // - multiline comments vs single-line: latter is blocking start of a ML

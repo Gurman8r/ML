@@ -1,5 +1,5 @@
-
-//https://github.com/BalazsJako/ImGuiColorTextEdit/blob/master/TextEditor.cpp
+// https://github.com/BalazsJako/ImGuiColorTextEdit/blob/master/TextEditor.cpp
+// Modified - Melody Gurman - 2019 - https://github.com/Gurman8r
 
 #include <algorithm>
 #include <chrono>
@@ -19,9 +19,9 @@ namespace ImGui
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template<class InputIt1, class InputIt2, class BinaryPredicate>
-	bool equals(InputIt1 first1, InputIt1 last1,
-		InputIt2 first2, InputIt2 last2, BinaryPredicate p)
+	template <
+		class InputIt1, class InputIt2, class BinaryPredicate
+	> bool equals(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2, BinaryPredicate p)
 	{
 		for (; first1 != last1 && first2 != last2; ++first1, ++first2)
 		{
@@ -29,6 +29,61 @@ namespace ImGui
 				return false;
 		}
 		return first1 == last1 && first2 == last2;
+	}
+
+	static int UTF8CharLength(TextEditor::Char c)
+	{
+		// https://en.wikipedia.org/wiki/UTF-8
+		// We assume that the char is a standalone character (<128) or a leading byte of an UTF-8 code sequence (non-10xxxxxx code)
+		if ((c & 0xFE) == 0xFC)
+			return 6;
+		if ((c & 0xFC) == 0xF8)
+			return 5;
+		if ((c & 0xF8) == 0xF0)
+			return 4;
+		else if ((c & 0xF0) == 0xE0)
+			return 3;
+		else if ((c & 0xE0) == 0xC0)
+			return 2;
+		return 1;
+	}
+
+	static inline int ImTextCharToUtf8(char* buf, int buf_size, unsigned int c)
+	{
+		// "Borrowed" from ImGui source
+		if (c < 0x80)
+		{
+			buf[0] = (char)c;
+			return 1;
+		}
+		if (c < 0x800)
+		{
+			if (buf_size < 2) return 0;
+			buf[0] = (char)(0xc0 + (c >> 6));
+			buf[1] = (char)(0x80 + (c & 0x3f));
+			return 2;
+		}
+		if (c >= 0xdc00 && c < 0xe000)
+		{
+			return 0;
+		}
+		if (c >= 0xd800 && c < 0xdc00)
+		{
+			if (buf_size < 4) return 0;
+			buf[0] = (char)(0xf0 + (c >> 18));
+			buf[1] = (char)(0x80 + ((c >> 12) & 0x3f));
+			buf[2] = (char)(0x80 + ((c >> 6) & 0x3f));
+			buf[3] = (char)(0x80 + ((c) & 0x3f));
+			return 4;
+		}
+		//else if (c < 0x10000)
+		{
+			if (buf_size < 3) return 0;
+			buf[0] = (char)(0xe0 + (c >> 12));
+			buf[1] = (char)(0x80 + ((c >> 6) & 0x3f));
+			buf[2] = (char)(0x80 + ((c) & 0x3f));
+			return 3;
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -84,6 +139,8 @@ namespace ImGui
 	{
 		mPaletteBase = aValue;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	std::string TextEditor::GetText(const Coordinates & aStart, const Coordinates & aEnd) const
 	{
@@ -152,60 +209,7 @@ namespace ImGui
 		}
 	}
 
-	// https://en.wikipedia.org/wiki/UTF-8
-	// We assume that the char is a standalone character (<128) or a leading byte of an UTF-8 code sequence (non-10xxxxxx code)
-	static int UTF8CharLength(TextEditor::Char c)
-	{
-		if ((c & 0xFE) == 0xFC)
-			return 6;
-		if ((c & 0xFC) == 0xF8)
-			return 5;
-		if ((c & 0xF8) == 0xF0)
-			return 4;
-		else if ((c & 0xF0) == 0xE0)
-			return 3;
-		else if ((c & 0xE0) == 0xC0)
-			return 2;
-		return 1;
-	}
-
-	// "Borrowed" from ImGui source
-	static inline int ImTextCharToUtf8(char* buf, int buf_size, unsigned int c)
-	{
-		if (c < 0x80)
-		{
-			buf[0] = (char)c;
-			return 1;
-		}
-		if (c < 0x800)
-		{
-			if (buf_size < 2) return 0;
-			buf[0] = (char)(0xc0 + (c >> 6));
-			buf[1] = (char)(0x80 + (c & 0x3f));
-			return 2;
-		}
-		if (c >= 0xdc00 && c < 0xe000)
-		{
-			return 0;
-		}
-		if (c >= 0xd800 && c < 0xdc00)
-		{
-			if (buf_size < 4) return 0;
-			buf[0] = (char)(0xf0 + (c >> 18));
-			buf[1] = (char)(0x80 + ((c >> 12) & 0x3f));
-			buf[2] = (char)(0x80 + ((c >> 6) & 0x3f));
-			buf[3] = (char)(0x80 + ((c) & 0x3f));
-			return 4;
-		}
-		//else if (c < 0x10000)
-		{
-			if (buf_size < 3) return 0;
-			buf[0] = (char)(0xe0 + (c >> 12));
-			buf[1] = (char)(0x80 + ((c >> 6) & 0x3f));
-			buf[2] = (char)(0x80 + ((c) & 0x3f));
-			return 3;
-		}
-	}
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::Advance(Coordinates & aCoordinates) const
 	{
@@ -268,7 +272,7 @@ namespace ImGui
 		mTextChanged = true;
 	}
 
-	int TextEditor::InsertTextAt(Coordinates& /* inout */ aWhere, const char * aValue)
+	int TextEditor::InsertTextAt(Coordinates & /* inout */ aWhere, const char * aValue)
 	{
 		assert(!mReadOnly);
 
@@ -332,7 +336,9 @@ namespace ImGui
 		++mUndoIndex;
 	}
 
-	TextEditor::Coordinates TextEditor::ScreenPosToCoordinates(const ImVec2& aPosition) const
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	TextEditor::Coordinates TextEditor::ScreenPosToCoordinates(const ImVec2 & aPosition) const
 	{
 		ImVec2 origin = ImGui::GetCursorScreenPos();
 		ImVec2 local(aPosition.x - origin.x, aPosition.y - origin.y);
@@ -501,7 +507,9 @@ namespace ImGui
 		return at;
 	}
 
-	int TextEditor::GetCharacterIndex(const Coordinates& aCoordinates) const
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	int TextEditor::GetCharacterIndex(const Coordinates & aCoordinates) const
 	{
 		if (aCoordinates.mLine >= mLines.size())
 			return -1;
@@ -566,6 +574,8 @@ namespace ImGui
 		}
 		return col;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool TextEditor::IsOnWordBoundary(const Coordinates & aAt) const
 	{
@@ -705,6 +715,8 @@ namespace ImGui
 		}
 		return color;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::HandleKeyboardInputs()
 	{
@@ -862,11 +874,13 @@ namespace ImGui
 		}
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	void TextEditor::Render()
 	{
 		/* Compute mCharAdvance regarding to scaled font size (Ctrl + mouse wheel)*/
 		const float fontSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, "#", nullptr, nullptr).x;
-		mCharAdvance = ImVec2(fontSize, ImGui::GetTextLineHeightWithSpacing() * mLineSpacing);
+		mCharAdvance = { fontSize, ImGui::GetTextLineHeightWithSpacing() * mLineSpacing };
 
 		/* Update palette with the current alpha from style */
 		for (int i = 0; i < (int)PaletteIndex::Max; ++i)
@@ -907,8 +921,8 @@ namespace ImGui
 
 			while (lineNo <= lineMax)
 			{
-				ImVec2 lineStartScreenPos = ImVec2(cursorScreenPos.x, cursorScreenPos.y + lineNo * mCharAdvance.y);
-				ImVec2 textScreenPos = ImVec2(lineStartScreenPos.x + mTextStart, lineStartScreenPos.y);
+				ImVec2 lineStartScreenPos = { cursorScreenPos.x, cursorScreenPos.y + lineNo * mCharAdvance.y };
+				ImVec2 textScreenPos = { lineStartScreenPos.x + mTextStart, lineStartScreenPos.y };
 
 				auto& line = mLines[lineNo];
 				longest = std::max(mTextStart + TextDistanceToLineStart(Coordinates(lineNo, GetLineMaxColumn(lineNo))), longest);
@@ -937,11 +951,11 @@ namespace ImGui
 				}
 
 				// Draw breakpoints
-				auto start = ImVec2(lineStartScreenPos.x + scrollX, lineStartScreenPos.y);
+				ImVec2 start = { lineStartScreenPos.x + scrollX, lineStartScreenPos.y };
 
 				if (mBreakpoints.count(lineNo + 1) != 0)
 				{
-					auto end = ImVec2(lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y);
+					ImVec2 end = { lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y };
 					drawList->AddRectFilled(start, end, mPalette[(int)PaletteIndex::Breakpoint]);
 				}
 
@@ -949,17 +963,17 @@ namespace ImGui
 				auto errorIt = mErrorMarkers.find(lineNo + 1);
 				if (errorIt != mErrorMarkers.end())
 				{
-					auto end = ImVec2(lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y);
+					ImVec2 end = { lineStartScreenPos.x + contentSize.x + 2.0f * scrollX, lineStartScreenPos.y + mCharAdvance.y };
 					drawList->AddRectFilled(start, end, mPalette[(int)PaletteIndex::ErrorMarker]);
 
 					if (ImGui::IsMouseHoveringRect(lineStartScreenPos, end))
 					{
 						ImGui::BeginTooltip();
-						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.2f, 0.2f, 1.0f));
+						ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.2f, 0.2f, 1.0f });
 						ImGui::Text("Error at line %d:", errorIt->first);
 						ImGui::PopStyleColor();
 						ImGui::Separator();
-						ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.2f, 1.0f));
+						ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.2f, 1.0f });
 						ImGui::Text("%s", errorIt->second.c_str());
 						ImGui::PopStyleColor();
 						ImGui::EndTooltip();
@@ -970,7 +984,7 @@ namespace ImGui
 				snprintf(buf, 16, "%d  ", lineNo + 1);
 
 				auto lineNoWidth = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, buf, nullptr, nullptr).x;
-				drawList->AddText(ImVec2(lineStartScreenPos.x + mTextStart - lineNoWidth, lineStartScreenPos.y), mPalette[(int)PaletteIndex::LineNumber], buf);
+				drawList->AddText({ lineStartScreenPos.x + mTextStart - lineNoWidth, lineStartScreenPos.y }, mPalette[(int)PaletteIndex::LineNumber], buf);
 
 				if (mState.mCursorPosition.mLine == lineNo)
 				{
@@ -979,7 +993,7 @@ namespace ImGui
 					// Highlight the current line (where the cursor is)
 					if (!HasSelection())
 					{
-						auto end = ImVec2(start.x + contentSize.x + scrollX, start.y + mCharAdvance.y);
+						ImVec2 end = { start.x + contentSize.x + scrollX, start.y + mCharAdvance.y };
 						drawList->AddRectFilled(start, end, mPalette[(int)(focused ? PaletteIndex::CurrentLineFill : PaletteIndex::CurrentLineFillInactive)]);
 						drawList->AddRect(start, end, mPalette[(int)PaletteIndex::CurrentLineEdge], 1.0f);
 					}
@@ -1067,7 +1081,7 @@ namespace ImGui
 							const auto s = ImGui::GetFontSize();
 							const auto x = textScreenPos.x + bufferOffset.x + spaceSize * 0.5f;
 							const auto y = textScreenPos.y + bufferOffset.y + s * 0.5f;
-							drawList->AddCircleFilled(ImVec2(x, y), 1.5f, 0x80808080, 4);
+							drawList->AddCircleFilled({ x, y }, 1.5f, 0x80808080, 4);
 						}
 						bufferOffset.x += spaceSize;
 						i++;
@@ -1119,7 +1133,7 @@ namespace ImGui
 		}
 
 
-		ImGui::Dummy(ImVec2((longest + 2), mLines.size() * mCharAdvance.y));
+		ImGui::Dummy({ (longest + 2), mLines.size() * mCharAdvance.y });
 
 		if (mScrollToCursor)
 		{
@@ -1129,14 +1143,14 @@ namespace ImGui
 		}
 	}
 
-	void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
+	void TextEditor::Render(const char* aTitle, const ImVec2 & aSize, bool aBorder)
 	{
 		mWithinRender = true;
 		mTextChanged = false;
 		mCursorPositionChanged = false;
 
 		ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::ColorConvertU32ToFloat4(mPalette[(int)PaletteIndex::Background]));
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
 		if (!mIgnoreImGuiChild)
 			ImGui::BeginChild(aTitle, aSize, aBorder, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NoMove);
 
@@ -1163,6 +1177,8 @@ namespace ImGui
 
 		mWithinRender = false;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::SetText(const std::string & aText)
 	{
@@ -1507,6 +1523,8 @@ namespace ImGui
 		Colorize(mState.mSelectionStart.mLine, 1);
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	void TextEditor::MoveUp(int aAmount, bool aSelect)
 	{
 		auto oldPos = mState.mCursorPosition;
@@ -1766,6 +1784,8 @@ namespace ImGui
 		}
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	void TextEditor::Delete()
 	{
 		assert(!mReadOnly);
@@ -1918,6 +1938,8 @@ namespace ImGui
 		return mState.mSelectionEnd > mState.mSelectionStart;
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	void TextEditor::Copy()
 	{
 		if (HasSelection())
@@ -1959,6 +1981,24 @@ namespace ImGui
 				u.mAfter = mState;
 				AddUndo(u);
 			}
+			else
+			{
+				UndoRecord u;
+				u.mBefore = mState;
+				u.mRemoved = GetCurrentLineText();
+				
+				// Copy
+				ImGui::SetClipboardText(("\n" + u.mRemoved).c_str());
+				
+				// Delete Line
+				if (mLines.size() > 1)
+				{
+					RemoveLine(mState.mCursorPosition.mLine);
+				}
+				
+				u.mAfter = mState;
+				AddUndo(u);
+			}
 		}
 	}
 
@@ -1992,6 +2032,8 @@ namespace ImGui
 		}
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	bool TextEditor::CanUndo() const
 	{
 		return !mReadOnly && mUndoIndex > 0;
@@ -2013,6 +2055,8 @@ namespace ImGui
 		while (CanRedo() && aSteps-- > 0)
 			mUndoBuffer[mUndoIndex++].Redo(this);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const TextEditor::Palette & TextEditor::GetDarkPalette()
 	{
@@ -2098,6 +2142,7 @@ namespace ImGui
 		return p;
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	std::string TextEditor::GetText() const
 	{
@@ -2400,7 +2445,7 @@ namespace ImGui
 		}
 	}
 
-	float TextEditor::TextDistanceToLineStart(const Coordinates& aFrom) const
+	float TextEditor::TextDistanceToLineStart(const Coordinates & aFrom) const
 	{
 		auto& line = mLines[aFrom.mLine];
 		float distance = 0.0f;
@@ -2469,10 +2514,10 @@ namespace ImGui
 	}
 
 	TextEditor::UndoRecord::UndoRecord(
-		const std::string& aAdded,
+		const std::string & aAdded,
 		const TextEditor::Coordinates aAddedStart,
 		const TextEditor::Coordinates aAddedEnd,
-		const std::string& aRemoved,
+		const std::string & aRemoved,
 		const TextEditor::Coordinates aRemovedStart,
 		const TextEditor::Coordinates aRemovedEnd,
 		TextEditor::EditorState& aBefore,
@@ -2746,7 +2791,7 @@ namespace ImGui
 		return false;
 	}
 
-	const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::CPlusPlus()
+	const TextEditor::LanguageDefinition & TextEditor::LanguageDefinition::CPlusPlus()
 	{
 		static bool inited = false;
 		static LanguageDefinition langDef;
@@ -2815,7 +2860,7 @@ namespace ImGui
 		return langDef;
 	}
 
-	const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::HLSL()
+	const TextEditor::LanguageDefinition & TextEditor::LanguageDefinition::HLSL()
 	{
 		static bool inited = false;
 		static LanguageDefinition langDef;
@@ -2887,7 +2932,7 @@ namespace ImGui
 		return langDef;
 	}
 
-	const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::GLSL()
+	const TextEditor::LanguageDefinition & TextEditor::LanguageDefinition::GLSL()
 	{
 		static bool inited = false;
 		static LanguageDefinition langDef;
@@ -2989,7 +3034,7 @@ namespace ImGui
 		return langDef;
 	}
 
-	const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::C()
+	const TextEditor::LanguageDefinition & TextEditor::LanguageDefinition::C()
 	{
 		static bool inited = false;
 		static LanguageDefinition langDef;
@@ -3055,7 +3100,7 @@ namespace ImGui
 		return langDef;
 	}
 
-	const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::SQL()
+	const TextEditor::LanguageDefinition & TextEditor::LanguageDefinition::SQL()
 	{
 		static bool inited = false;
 		static LanguageDefinition langDef;
@@ -3119,7 +3164,7 @@ namespace ImGui
 		return langDef;
 	}
 
-	const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::AngelScript()
+	const TextEditor::LanguageDefinition & TextEditor::LanguageDefinition::AngelScript()
 	{
 		static bool inited = false;
 		static LanguageDefinition langDef;
@@ -3169,7 +3214,7 @@ namespace ImGui
 		return langDef;
 	}
 
-	const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Lua()
+	const TextEditor::LanguageDefinition & TextEditor::LanguageDefinition::Lua()
 	{
 		static bool inited = false;
 		static LanguageDefinition langDef;

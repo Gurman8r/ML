@@ -381,6 +381,329 @@ namespace DEMO
 
 			if (ImGui::BeginTabBar("Noobs Editor Tabs"))
 			{
+				// Sources
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginTabItem("Sources##Files##Shader##Noobs"))
+				{
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::Button("New##File##Editor##Noobs"))
+					{
+						ImGui::OpenPopup("New File##Popup##Editor##Noobs");
+					}
+					ImGui::SameLine();
+					if (ImGui::Button("Compile##Editor##Noobs"))
+					{
+						for (auto & file : noobs.files)
+						{
+							file->dirty = false;
+						}
+
+						// custom shader parser
+						struct NoobParser
+						{
+							inline static ml::String parseIncludes(const NoobFile::List & files, const ml::String & src)
+							{	
+								ml::SStream out;
+								ml::SStream ss(src);
+								ml::String	line;
+								while (std::getline(ss, line))
+								{
+									if (line.find("#include") != ml::String::npos)
+									{
+										bool found = false;
+										ml::String name;
+										if (ml::ShaderParser::parseWrapped(
+											line, '\"', '\"', name
+										))
+										{
+											for (const auto & e : files)
+											{
+												if (e->name == name)
+												{
+													out << parseIncludes(
+														files,
+														e->edit->GetText()
+													);
+													found = true;
+													break;
+												}
+											}
+										}
+										if (!found)
+										{
+											out << line << ml::endl;
+										}
+									}
+									else
+									{
+										out << line << ml::endl;
+									}
+								}
+								return (ml::String)out.str();
+							}
+						};
+
+						const ml::String source = NoobParser::parseIncludes(
+							noobs.files,
+							noobs.files.front()->edit->GetText()
+						);
+						ml::Shader * shader = std::remove_cv_t<ml::Shader *>(
+							noobs.material->shader()
+						);
+						if (shader && shader->loadFromMemory(source))
+						{
+							ml::Debug::log("Compiled Shader");
+						}
+						else
+						{
+							ml::Debug::logError("Failed Compiling Shader");
+						}
+					}
+					ImGui::Separator();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::BeginPopupModal(
+						"New File##Popup##Editor##Noobs",
+						nullptr,
+						ImGuiWindowFlags_AlwaysAutoResize
+					))
+					{
+						static char name[NoobFile::MaxName] = "New File";
+
+						// reset popup
+						auto resetPopup = [&]()
+						{
+							std::strcpy(name, "New File");
+							ImGui::CloseCurrentPopup();
+						};
+
+						// add new file
+						auto addNewFile = [&]()
+						{
+							if (!ml::String(name))
+							{
+								ml::Debug::logError("Name cannot be empty");
+								return;
+							}
+							for (auto file : noobs.files)
+							{
+								if (file->name == name)
+								{
+									ml::Debug::logError("File with name \'{0}\' already exists", name);
+									return;
+								}
+							}
+							noobs.files.push_back(new NoobFile(name, ml::String()));
+						};
+
+						// Input
+						bool enterPress = ImGui::InputText(
+							"Name##Editor##Noobs", 
+							name,
+							IM_ARRAYSIZE(name),
+							ImGuiInputTextFlags_EnterReturnsTrue
+						);
+
+						// Submit / Cancel
+						if (enterPress || ImGui::Button("Submit##Editor##Noobs"))
+						{
+							addNewFile();
+							resetPopup();
+						}
+						ImGui::SameLine();
+						if (ImGui::Button("Cancel##Editor##Noobs"))
+						{
+							resetPopup();
+						}
+
+						ImGui::EndPopup();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::BeginTabBar("Source##Tabs##Shader##Noobs"))
+					{
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ml::List<NoobFile::List::iterator> toRemove;
+
+						for (auto it = noobs.files.begin(); it != noobs.files.end(); it++)
+						{
+							const size_t i = (it - noobs.files.begin());
+
+							const ml::String label {
+								"[" + std::to_string(i) + "] " + (*it)->name
+							};
+							
+							if (ImGui::BeginTabItem(
+								label.c_str(),
+								(i > 0 ? &(*it)->open : nullptr),
+								(*it)->dirty ? ImGuiTabItemFlags_UnsavedDocument : 0
+							))
+							{	
+								if (i == 0)
+								{
+									ML_EditorUtility.HelpMarker(
+										"This is the \'Main\' file of your shader.\n"
+										"You can either write all of your shader\n"
+										"code here, or create multiple files and\n"
+										"link them together in Main.\n"
+										"\n"
+										"#shader vertex / fragment / geometry\n"
+										"#include \'...\' / \"...\" / <...> \n"
+									);
+								}
+								
+								// Input Text Content Area
+								ImGui::BeginChild(
+									"InputTextContentArea",
+									{ 0, 0 },
+									true,
+									ImGuiWindowFlags_None
+								);
+								
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								// Disallow editing Main's name
+								if (i > 0)
+								{
+									char buf[NoobFile::MaxName];
+									std::strcpy(buf, (*it)->name.c_str());
+									if (ImGui::InputText(
+										"Name",
+										buf,
+										NoobFile::MaxName,
+										ImGuiInputTextFlags_EnterReturnsTrue
+									))
+									{
+										(*it)->name = buf;
+									}
+								}
+
+								(*it)->edit->Render(
+									ml::String("##File" + (*it)->name + "##Text").c_str()
+								);
+
+								if ((*it)->edit->IsTextChanged())
+									(*it)->dirty = true;
+
+								/* * * * * * * * * * * * * * * * * * * * */
+
+								ImGui::EndChild();
+								ImGui::EndTabItem();
+							}
+
+							if (!(*it)->open)
+							{
+								toRemove.push_back(it);
+							}
+						}
+
+						for (auto it : toRemove)
+						{
+							delete (*it);
+							noobs.files.erase(it);
+						}
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::EndTabBar();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::EndTabItem();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+				}
+
+				// Uniforms
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
+				{
+					// new uniform editor
+					ml::ResourceGui::NewUniformPopup(noobs.material);
+
+					// do nothing if empty
+					if (!noobs.material->uniforms().empty()) 
+						ImGui::Separator();
+
+					// to remove
+					ml::List<ml::Material::UniformMap::iterator> toRemove;
+
+					for (auto it = noobs.material->uniforms().rbegin();
+						it != noobs.material->uniforms().rend(); 
+						it++)
+					{
+						float height = 1;
+						if (it->second->type == ml::uni_mat3::ID) { height = 3; }
+						else if (it->second->type == ml::uni_mat4::ID) { height = 4; }
+
+						// label
+						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
+
+						// Uniform Header
+						ImGui::PushStyleColor(ImGuiCol_Header, { 0.367f, 0.258f, 0.489f, 0.580f });
+						if (ImGui::CollapsingHeader((it->first + label).c_str()))
+						{
+							ImGui::PopStyleColor();
+
+							ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+							ImGui::BeginChild(
+								("UniformChild##" + label).c_str(),
+								{ 0, (32 * height) + (height == 1 ? 8 : -8) },
+								true, 
+								ImGuiWindowFlags_NoScrollWithMouse
+							);
+
+							/* * * * * * * * * * * * * * * * * * * * */
+							
+							//  1 | Can view and edit
+							// -1 | Can view but not edit
+							//  0 | Cannot view or edit
+							switch (ml::ResourceGui::UniformField(
+								ev.resources,
+								label,
+								it->second
+							))
+							{
+							case 1: 
+								ImGui::SameLine();
+								if (ImGui::Button(ml::String("Remove" + label).c_str()))
+									toRemove.push_back(std::next(it).base());
+								break;
+							
+							case -1:
+								ImGui::SameLine();
+								ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
+								break;
+							}
+
+							/* * * * * * * * * * * * * * * * * * * * */
+
+							ImGui::EndChild();
+							ImGui::PopStyleVar();
+						}
+						else
+						{
+							ImGui::PopStyleColor();
+						}
+
+						ImGui::Separator();
+					}
+
+					for (auto it : toRemove)
+					{
+						ml::uni_base * u = it->second;
+						noobs.material->uniforms().erase(it);
+						delete u;
+					}
+
+					ImGui::EndTabItem();
+				}
+
 				// Settings
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Settings##Noobs"))
@@ -628,329 +951,6 @@ namespace DEMO
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					ImGui::EndTabItem();
-				}
-
-				// Uniforms
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
-				{
-					// new uniform editor
-					ml::ResourceGui::NewUniformPopup(noobs.material);
-
-					// do nothing if empty
-					if (!noobs.material->uniforms().empty()) 
-						ImGui::Separator();
-
-					// to remove
-					ml::List<ml::Material::UniformMap::iterator> toRemove;
-
-					for (auto it = noobs.material->uniforms().rbegin();
-						it != noobs.material->uniforms().rend(); 
-						it++)
-					{
-						float height = 1;
-						if (it->second->type == ml::uni_mat3::ID) { height = 3; }
-						else if (it->second->type == ml::uni_mat4::ID) { height = 4; }
-
-						// label
-						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
-
-						// Uniform Header
-						ImGui::PushStyleColor(ImGuiCol_Header, { 0.367f, 0.258f, 0.489f, 0.580f });
-						if (ImGui::CollapsingHeader((it->first + label).c_str()))
-						{
-							ImGui::PopStyleColor();
-
-							ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-							ImGui::BeginChild(
-								("UniformChild##" + label).c_str(),
-								{ 0, (32 * height) + (height == 1 ? 8 : -8) },
-								true, 
-								ImGuiWindowFlags_NoScrollWithMouse
-							);
-
-							/* * * * * * * * * * * * * * * * * * * * */
-							
-							//  1 | Can view and edit
-							// -1 | Can view but not edit
-							//  0 | Cannot view or edit
-							switch (ml::ResourceGui::UniformField(
-								ev.resources,
-								label,
-								it->second
-							))
-							{
-							case 1: 
-								ImGui::SameLine();
-								if (ImGui::Button(ml::String("Remove" + label).c_str()))
-									toRemove.push_back(std::next(it).base());
-								break;
-							
-							case -1:
-								ImGui::SameLine();
-								ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
-								break;
-							}
-
-							/* * * * * * * * * * * * * * * * * * * * */
-
-							ImGui::EndChild();
-							ImGui::PopStyleVar();
-						}
-						else
-						{
-							ImGui::PopStyleColor();
-						}
-
-						ImGui::Separator();
-					}
-
-					for (auto it : toRemove)
-					{
-						ml::uni_base * u = it->second;
-						noobs.material->uniforms().erase(it);
-						delete u;
-					}
-
-					ImGui::EndTabItem();
-				}
-
-				// Sources
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginTabItem("Sources##Files##Shader##Noobs"))
-				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::Button("New##File##Editor##Noobs"))
-					{
-						ImGui::OpenPopup("New File##Popup##Editor##Noobs");
-					}
-					ImGui::SameLine();
-					if (ImGui::Button("Compile##Editor##Noobs"))
-					{
-						for (auto & file : noobs.files)
-						{
-							file->dirty = false;
-						}
-
-						// custom shader parser
-						struct NoobParser
-						{
-							inline static ml::String parseIncludes(const NoobFile::List & files, const ml::String & src)
-							{	
-								ml::SStream out;
-								ml::SStream ss(src);
-								ml::String	line;
-								while (std::getline(ss, line))
-								{
-									if (line.find("#include") != ml::String::npos)
-									{
-										bool found = false;
-										ml::String name;
-										if (ml::ShaderParser::parseWrapped(
-											line, '\"', '\"', name
-										))
-										{
-											for (const auto & e : files)
-											{
-												if (e->name == name)
-												{
-													out << parseIncludes(
-														files,
-														e->edit->GetText()
-													);
-													found = true;
-													break;
-												}
-											}
-										}
-										if (!found)
-										{
-											out << line << ml::endl;
-										}
-									}
-									else
-									{
-										out << line << ml::endl;
-									}
-								}
-								return (ml::String)out.str();
-							}
-						};
-
-						const ml::String source = NoobParser::parseIncludes(
-							noobs.files,
-							noobs.files.front()->edit->GetText()
-						);
-						ml::Shader * shader = std::remove_cv_t<ml::Shader *>(
-							noobs.material->shader()
-						);
-						if (shader && shader->loadFromMemory(source))
-						{
-							ml::Debug::log("Compiled Shader");
-						}
-						else
-						{
-							ml::Debug::logError("Failed Compiling Shader");
-						}
-					}
-					ImGui::Separator();
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::BeginPopupModal(
-						"New File##Popup##Editor##Noobs",
-						nullptr,
-						ImGuiWindowFlags_AlwaysAutoResize
-					))
-					{
-						static char name[NoobFile::MaxName] = "New File";
-
-						// reset popup
-						auto resetPopup = [&]()
-						{
-							std::strcpy(name, "New File");
-							ImGui::CloseCurrentPopup();
-						};
-
-						// add new file
-						auto addNewFile = [&]()
-						{
-							if (!ml::String(name))
-							{
-								ml::Debug::logError("Name cannot be empty");
-								return;
-							}
-							for (auto file : noobs.files)
-							{
-								if (file->name == name)
-								{
-									ml::Debug::logError("File with name \'{0}\' already exists", name);
-									return;
-								}
-							}
-							noobs.files.push_back(new NoobFile(name, ml::String()));
-						};
-
-						// Input
-						bool enterPress = ImGui::InputText(
-							"Name##Editor##Noobs", 
-							name,
-							IM_ARRAYSIZE(name),
-							ImGuiInputTextFlags_EnterReturnsTrue
-						);
-
-						// Submit / Cancel
-						if (enterPress || ImGui::Button("Submit##Editor##Noobs"))
-						{
-							addNewFile();
-							resetPopup();
-						}
-						ImGui::SameLine();
-						if (ImGui::Button("Cancel##Editor##Noobs"))
-						{
-							resetPopup();
-						}
-
-						ImGui::EndPopup();
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::BeginTabBar("Source##Tabs##Shader##Noobs"))
-					{
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ml::List<NoobFile::List::iterator> toRemove;
-
-						for (auto it = noobs.files.begin(); it != noobs.files.end(); it++)
-						{
-							const size_t i = (it - noobs.files.begin());
-
-							const ml::String label {
-								"[" + std::to_string(i) + "] " + (*it)->name
-							};
-							
-							if (ImGui::BeginTabItem(
-								label.c_str(),
-								(i > 0 ? &(*it)->open : nullptr),
-								(*it)->dirty ? ImGuiTabItemFlags_UnsavedDocument : 0
-							))
-							{	
-								if (i == 0)
-								{
-									ML_EditorUtility.HelpMarker(
-										"This is the \'Main\' file of your shader.\n"
-										"You can either write all of your shader\n"
-										"code here, or create multiple files and\n"
-										"link them together in Main.\n"
-										"\n"
-										"#shader vertex / fragment / geometry\n"
-										"#include \'...\' / \"...\" / <...> \n"
-									);
-								}
-								
-								// Input Text Content Area
-								ImGui::BeginChild(
-									"InputTextContentArea",
-									{ 0, 0 },
-									true,
-									ImGuiWindowFlags_None
-								);
-								
-								/* * * * * * * * * * * * * * * * * * * * */
-
-								// Disallow editing Main's name
-								if (i > 0)
-								{
-									char buf[NoobFile::MaxName];
-									std::strcpy(buf, (*it)->name.c_str());
-									if (ImGui::InputText(
-										"Name",
-										buf,
-										NoobFile::MaxName,
-										ImGuiInputTextFlags_EnterReturnsTrue
-									))
-									{
-										(*it)->name = buf;
-									}
-								}
-
-								(*it)->edit->Render(
-									ml::String("##File" + (*it)->name + "##Text").c_str()
-								);
-
-								if ((*it)->edit->IsTextChanged())
-									(*it)->dirty = true;
-
-								/* * * * * * * * * * * * * * * * * * * * */
-
-								ImGui::EndChild();
-								ImGui::EndTabItem();
-							}
-
-							if (!(*it)->open)
-							{
-								toRemove.push_back(it);
-							}
-						}
-
-						for (auto it : toRemove)
-						{
-							delete (*it);
-							noobs.files.erase(it);
-						}
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::EndTabBar();
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					ImGui::EndTabItem();
-
-					/* * * * * * * * * * * * * * * * * * * * */
 				}
 
 				ImGui::EndTabBar();

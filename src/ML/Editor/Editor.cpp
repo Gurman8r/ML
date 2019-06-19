@@ -382,6 +382,10 @@ namespace ml
 				{
 					ML_OS.execute("open", ML_PROJECT_URL);
 				}
+				if (ImGui::MenuItem("Downloads"))
+				{
+					ML_OS.execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
+				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
 					if (ImGui::MenuItem("OpenAL")) ML_OS.execute("open", "https://www.openal.org/");

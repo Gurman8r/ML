@@ -54,18 +54,18 @@ mat4 ml_AngleAxis(vec3 ax, float angle)
 
 void main()
 {
-	Out.Position	= a_Position;
-	Out.Normal		= a_Normal;
-	Out.Texcoord	= a_Texcoord;
+	Out.Position = a_Position;
+	Out.Normal   = a_Normal;
+	Out.Texcoord = a_Texcoord;
 
-	mat4 rot		= ml_AngleAxis(vec3(0.0, 1.0, 0.0), Time.total);
-	mat4 mvp		= Vert.proj * Vert.view * Vert.model * rot;
-	vec4 pos		= mvp * vec4(Out.Position, 1.0);
-	vec4 off		= vec4(0.0, sin(Time.total), 0.0, 1.0);
+	mat4 rot     = ml_AngleAxis(vec3(0.0, 1.0, 0.0), Time.total);
+	mat4 mvp     = Vert.proj * Vert.view * Vert.model * rot;
+	vec4 pos     = mvp * vec4(Out.Position, 1.0);
+	vec4 off     = vec4(0.0, sin(Time.total), 0.0, 1.0);
 
-	gl_Position		= pos + off;
-	Out.Position	= gl_Position.xyz;
-	Out.Normal		= transpose(inverse(Vert.model)) * Out.Normal;
+	gl_Position  = pos + off;
+	Out.Position = gl_Position.xyz;
+	Out.Normal   = transpose(inverse(Vert.model)) * Out.Normal;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

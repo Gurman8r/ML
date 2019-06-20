@@ -92,7 +92,7 @@ namespace DEMO
 			if (auto ev = value->as<ml::BuildDockspaceEvent>())
 			{
 				ml::DockspaceGui & d = ev->dockspace;
-				d.dockWindow("Noobs Scene", d.getNode(d.MidUp));
+				d.dockWindow("Noobs Scene", d.getNode(d.LeftUp));
 				d.dockWindow("Noobs Editor", d.getNode(d.RightUp));
 			}
 			break;

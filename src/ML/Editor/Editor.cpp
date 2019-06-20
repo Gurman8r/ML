@@ -71,7 +71,7 @@ namespace ml
 				d.dockWindow(m_browser.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_profiler.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_resources.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_terminal.getTitle(), d.getNode(d.RightDn));
+				d.dockWindow(m_terminal.getTitle(), d.getNode(d.LeftDn));
 			}
 			break;
 
@@ -230,7 +230,7 @@ namespace ml
 
 		// Set Imgui Ini
 		CString imguiIni = (ev.prefs.GetBool("Editor", "imguiUseIni", false)
-			? std::strcat((char *)ML_FS.getRoot().c_str(), "/imgui.ini")
+			? std::strcat((char *)ML_FS.getRoot().c_str(), "../../../imgui.ini")
 			: nullptr
 		);
 

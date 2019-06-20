@@ -18,7 +18,6 @@ namespace ml
 		{
 			Root,
 			Left,	LeftUp,		LeftDn,
-			Mid,	MidUp,		MidDn,
 			Right,	RightUp,	RightDn,
 
 			MAX_DOCK_POS

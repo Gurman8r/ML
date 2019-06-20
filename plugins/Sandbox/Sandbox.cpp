@@ -107,7 +107,7 @@ namespace DEMO
 			{
 				ml::DockspaceGui & d = ev->dockspace;
 				//d.dockWindow("Sandbox Inspector", d.getNode(d.Right));
-				d.dockWindow("Sandbox Scene", d.getNode(d.MidUp));
+				d.dockWindow("Sandbox Scene", d.getNode(d.LeftUp));
 			}
 			break;
 		}

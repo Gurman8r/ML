@@ -108,6 +108,9 @@
     <None Include="..\..\..\assets\shaders\noobs\noobs_0.vs.shader">
       <Filter>Resource Files\assets\shaders\noobs</Filter>
     </None>
+    <None Include="..\..\..\imgui.ini">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">

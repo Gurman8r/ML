@@ -17,7 +17,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(EventSystem & eventSystem)
-		: EventListener(eventSystem)
+		: EventListener	(eventSystem)
 		, m_dockspace	(eventSystem)
 		, m_browser		(eventSystem)
 		, m_profiler	(eventSystem)
@@ -369,6 +369,16 @@ namespace ml
 				if (ImGui::MenuItem("Downloads"))
 				{
 					ML_OS.execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
+				}
+				if (ImGui::BeginMenu("Licence"))
+				{
+					static String preview;
+					if (!preview && ML_FS.getFileContents(ML_FS.getPathTo("../../../LICENSE.txt"), preview))
+					{
+						preview.pop_back();
+					}
+					ImGui::TextUnformatted(&preview[0], &preview[preview.size()]);
+					ImGui::EndMenu();
 				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{

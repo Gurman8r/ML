@@ -33,12 +33,10 @@ rem Defaults
 set Configuration=Debug
 set Target=x86
 set Toolset=v141
-set ExitPause=1
 
 set %2
 set %3
 set %4
-set %5
 
 
 rem Environment Variables
@@ -58,16 +56,12 @@ if "%Target%"=="x86" (
 
 rem Build Solution
 cd %MSBuildPath%
-
 call msbuild.exe %WorkingDir%%Solution% ^
 	/p:Configuration=%Configuration% ^
 	/p:PlatformTarget=%Target% ^
 	/p:PlatformToolset=%Toolset%
 
+rem Exit
 cd %WorkingDir%
-
-if "%ExitPause%"=="1" (
-	pause
-)
-
+pause
 exit %ERRORLEVEL%

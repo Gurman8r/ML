@@ -92,7 +92,7 @@ uniform struct Window
 void main()
 {
 	// Position
-	mat4 pos = mat4(1.0);
+	mat4 pos = mat4(0.0);
 	pos[3][0] = 0.0; // x
 	pos[3][1] = sin(time.total); // y
 	pos[3][2] = 0.0; // z
@@ -101,7 +101,7 @@ void main()
 	mat4 rot = ml_AngleAxis(vec3(0.0, 1.0, 0.0), time.total);
 	
 	// Model Matrix
-	mat4 model = rot * pos;
+	mat4 model = pos + rot;
 
 	// View Matrix
 	mat4 view = ml_LookAt(

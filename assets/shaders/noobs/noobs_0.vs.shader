@@ -77,14 +77,14 @@ uniform struct Camera
 
 uniform struct Time
 {
-	float delta;
-	float total;
+	float	delta;
+	float	total;
 } time;
 
 uniform struct Window
 {
-	vec2 size;
-	vec4 color;
+	vec2	size;
+	vec4	color;
 } window;
 
 /* * * * * * * * * * * * * * * * * * * * */

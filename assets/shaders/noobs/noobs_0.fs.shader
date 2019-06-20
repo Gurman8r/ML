@@ -1,7 +1,6 @@
 // noobs_0.fs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#shader fragment
 #version 410 core
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -70,11 +69,11 @@ void main()
 	vec3  spec_dir = reflect(-diff_dir, diff_nml);
 	float spec_amt = pow(max(dot(spec_cam, spec_dir), 0.0), frag.shininess);
 	vec4  spec_col = vec4(frag.specular * spec_amt * frag.diffuse.rgb, 1.0);
-	vec4  spec_tex = texture(frag.tex_dm, V.Texcoord);
-	vec4  spec_out	= (spec_col * spec_tex);
+	vec4  spec_tex = texture(frag.tex_sm, V.Texcoord);
+	vec4  spec_out = (spec_col * spec_tex);
 
 	// Output
-	gl_Color = (ambi_out + diff_out + spec_out);
+	gl_Color = V.Normal * (ambi_out + diff_out + spec_out);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

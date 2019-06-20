@@ -1,4 +1,4 @@
-// noobs_1.fs.shader
+// noobs_0.fs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #shader fragment

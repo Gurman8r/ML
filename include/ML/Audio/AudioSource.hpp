@@ -2,7 +2,7 @@
 #define _ML_AUDIO_SOURCE_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/IHandle.hpp>
 
 namespace ml
@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_AUDIO_API AudioSource
-		: public IObject
+		: public INewable
 		, public IHandle<uint32_t>
 	{
 	public:

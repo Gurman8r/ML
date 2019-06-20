@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetServer final
-		: public IObject
+		: public INewable
 		, public NetInterface
 	{
 	public:

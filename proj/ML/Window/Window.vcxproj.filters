@@ -14,16 +14,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Window\Icon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Window\Context.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Window\WindowStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Window\VideoSettings.cpp">
@@ -55,10 +46,10 @@
     <ClInclude Include="..\..\..\include\ML\Window\ContextSettings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Window\StyleSettings.hpp">
+    <ClInclude Include="..\..\..\include\ML\Window\VideoSettings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Window\VideoSettings.hpp">
+    <ClInclude Include="..\..\..\include\ML\Window\WindowStyle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

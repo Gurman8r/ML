@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API VideoSettings final
-		: public IObject
+		: public INewable
 		, public IComparable<VideoSettings>
 	{
 		/* * * * * * * * * * * * * * * * * * * * */

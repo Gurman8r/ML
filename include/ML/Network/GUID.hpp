@@ -2,14 +2,14 @@
 #define _ML_GUID_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_NETWORK_API GUID final
-		: public IObject
+		: public INewable
 		, public IComparable<uint64_t>
 		, public IComparable<GUID>
 	{

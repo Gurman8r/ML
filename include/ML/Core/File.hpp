@@ -1,7 +1,7 @@
 #ifndef _ML_FILE_HPP_
 #define _ML_FILE_HPP_
 
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IWritable.hpp>
@@ -10,7 +10,7 @@
 namespace ml
 {
 	class ML_CORE_API File final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public IReadable
 		, public IWritable

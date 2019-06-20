@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Var final
-		: public IObject
+		: public INewable
 		, public IComparable<Var>
 	{
 	public:
@@ -40,7 +40,7 @@ namespace ml
 		};
 
 	public:
-		struct Ptr : public IObject
+		struct Ptr : public INewable
 		{
 			String		name;
 			int32_t		index;

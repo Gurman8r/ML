@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Shader final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public IReadable
 		, public IHandle<uint32_t>

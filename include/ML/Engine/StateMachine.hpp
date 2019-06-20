@@ -1,7 +1,7 @@
 #ifndef _ML_STATE_MACHINE_HPP_
 #define _ML_STATE_MACHINE_HPP_
 
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 
 namespace ml
 {
@@ -10,7 +10,7 @@ namespace ml
 	template <
 		class Key, class ... Args
 	> class StateMachine final
-		: public IObject
+		: public INewable
 		, public INonCopyable
 	{
 	public: // Usings

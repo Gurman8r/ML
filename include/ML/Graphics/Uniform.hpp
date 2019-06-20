@@ -14,7 +14,7 @@ namespace ml
 
 	// Base Uni
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct uni_base : public IObject, public INonCopyable
+	struct uni_base : public INewable, public INonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

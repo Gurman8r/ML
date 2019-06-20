@@ -14,7 +14,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API EditorGui
-		: public IObject
+		: public INewable
 		, public INonCopyable
 		, public EventListener
 	{

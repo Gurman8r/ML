@@ -2,14 +2,14 @@
 #define _ML_OPERATOR_HPP_
 
 #include <ML/Script/Export.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Operator final
-		: public IObject
+		: public INewable
 		, public IComparable<Operator>
 		, public IComparable<int32_t>
 	{

@@ -2,7 +2,7 @@
 #define _ML_BUFFER_LAYOUT_HPP_
 
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
@@ -10,14 +10,14 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API BufferLayout final
-		: public IObject
+		: public INewable
 	{
 	public:
 		static const BufferLayout Default;
 
 	public:
 		struct Element final
-			: public IObject
+			: public INewable
 			, public IComparable<Element>
 		{
 			/* * * * * * * * * * * * * * * * * * * * */

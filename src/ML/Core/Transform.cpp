@@ -9,6 +9,15 @@ namespace ml
 	{
 	}
 
+	Transform::Transform(const vec3 & pos)
+		: m_matrix(mat4::Identity())
+	{
+		(*this)
+			.translate(pos)
+			.rotate(0.0f, vec3::One)
+			.scale(1.0f);
+	}
+
 	Transform::Transform(const vec3 & pos, const vec3 & scl)
 		: m_matrix(mat4::Identity())
 	{

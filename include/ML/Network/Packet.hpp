@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_NETWORK_API Packet final
-		: public IObject
+		: public INewable
 	{
 		Host	addr;
 		GUID		guid;

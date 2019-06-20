@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Camera final
-		: public IObject
+		: public INewable
 	{
 	public:
 		Camera();

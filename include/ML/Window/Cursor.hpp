@@ -7,16 +7,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API Cursor
+	struct Cursor final
 	{
-		enum Mode
+		enum Mode : uint32_t
 		{
 			Normal = 0x34001,
 			Hidden,
 			Disabled,
 		};
 
-		enum Standard
+		enum Standard : uint32_t
 		{
 			Arrow = 0x36001, 
 			IBeam, 

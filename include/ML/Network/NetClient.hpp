@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetClient final
-		: public IObject
+		: public INewable
 		, public NetInterface
 	{
 	public:

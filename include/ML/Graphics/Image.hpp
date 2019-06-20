@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Image final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public IReadable
 	{
@@ -51,7 +51,7 @@ namespace ml
 
 	public:
 		inline operator bool() const { return !m_pixels.empty(); }
-		inline operator Icon() const { return Icon((int32_t)width(), (int32_t)height(), &pixels()[0]); }
+		inline operator Icon() const { return Icon { (int32_t)width(), (int32_t)height(), &pixels()[0] }; }
 
 	private:
 		vec2u	m_size;

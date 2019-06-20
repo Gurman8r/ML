@@ -11,11 +11,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API Transform final
-		: public IObject
+		: public INewable
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		Transform();
+		Transform(const vec3 & pos);
 		Transform(const vec3 & pos, const vec3 & scl);
 		Transform(const vec3 & pos, const vec3 & scl, const quat & rot);
 		Transform(const mat4 & value);

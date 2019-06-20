@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_SCRIPT_API INodeMaker : public IObject
+	class ML_SCRIPT_API INodeMaker : public INewable
 	{
 	public:
 		virtual ~INodeMaker() {}
@@ -46,7 +46,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_SCRIPT_API Rule final : public IObject
+	class ML_SCRIPT_API Rule final : public INewable
 	{
 	public:
 		Rule() 

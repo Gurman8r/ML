@@ -3,7 +3,7 @@
 
 #include <ML/Core/Duration.hpp>
 #include <ML/Core/IDisposable.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 
 #define ML_THREAD_CONDITIONS(FUN) \
 std::enable_if_t<!std::is_same_v<std::remove_cv_t<std::remove_reference_t<FUN>>, std::thread>>
@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API Thread final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public INonCopyable
 	{

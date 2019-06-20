@@ -15,7 +15,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API TokenList final
-		: public IObject
+		: public INewable
 		, public IComparable<TokenList>
 	{
 	public:

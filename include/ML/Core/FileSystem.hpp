@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API FileSystem final
-		: public IObject
+		: public INewable
 		, public ISingleton<FileSystem>
 	{
 		friend class ISingleton<FileSystem>;

@@ -2,7 +2,7 @@
 #define _ML_EDITOR_FIELD_HPP_
 
 #include <ML/Editor/Export.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 
 namespace ml
 {

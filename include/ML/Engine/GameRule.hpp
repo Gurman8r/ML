@@ -2,7 +2,7 @@
 #define _ML_GAME_RULE_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
@@ -11,7 +11,7 @@ namespace ml
 	
 	template <class T>
 	class GameRule final
-		: public IObject
+		: public INewable
 	{
 	public:
 		using value_type = typename T;

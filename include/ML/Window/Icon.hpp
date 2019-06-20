@@ -2,37 +2,37 @@
 #define _ML_ICON_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/IObject.hpp>
-#include <ML/Core/IComparable.hpp>
+#include <ML/Core/INonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API Icon final
-		: public IObject
-		, public IComparable<Icon>
+	struct Icon final : public INonNewable
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		int32_t		width;
 		int32_t		height;
 		uint8_t *	pixels;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		constexpr Icon()
+			: width(0), height(0), pixels(nullptr)
+		{
+		}
 
-		Icon();
-		Icon(const int32_t width, const int32_t height, uint8_t * pixels);
-		Icon(const int32_t width, const int32_t height, const uint8_t * pixels);
-		Icon(const Icon & copy);
-		~Icon();
+		constexpr Icon(const int32_t width, const int32_t height, uint8_t * pixels)
+			: width(width), height(height), pixels(pixels)
+		{
+		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		constexpr Icon(const int32_t width, const int32_t height, const uint8_t * pixels)
+			: Icon(width, height, (uint8_t *)pixels)
+		{
+		}
 
-		bool equals(const Icon & other) const override;
-		bool lessThan(const Icon & other) const override;
-
-		/* * * * * * * * * * * * * * * * * * * * */
+		constexpr Icon(const Icon & copy)
+			: Icon(copy.width, copy.height, copy.pixels)
+		{
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

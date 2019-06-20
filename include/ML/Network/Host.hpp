@@ -2,14 +2,14 @@
 #define _ML_HOST_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_NETWORK_API Host final
-		: public IObject
+		: public INewable
 		, public IComparable<Host>
 	{
 		String	 addr;

@@ -11,7 +11,7 @@ namespace ml
 	class Resources;
 
 	class Content final
-		: public IObject
+		: public INewable
 	{
 		friend class Resources;
 

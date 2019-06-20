@@ -16,7 +16,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API PhysicsWorld final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public INonCopyable
 	{

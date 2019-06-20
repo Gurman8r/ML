@@ -16,7 +16,7 @@ namespace ml
 	template <
 		class _Elem
 	> class Registry final
-		: public IObject
+		: public INewable
 		, public INonCopyable
 	{
 		friend class Resources;

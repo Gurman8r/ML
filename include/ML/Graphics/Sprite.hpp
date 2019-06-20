@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Sprite final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public IDrawable
 		, public IReadable

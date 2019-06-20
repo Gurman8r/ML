@@ -2,7 +2,7 @@
 #define _ML_STYLE_LOADER_HPP_
 
 #include <ML/Editor/Export.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/List.hpp>
 
@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API StyleLoader final
-		: public IObject
+		: public INewable
 		, public IReadable
 	{
 	public:

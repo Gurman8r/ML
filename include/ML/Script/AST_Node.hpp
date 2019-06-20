@@ -3,14 +3,14 @@
 
 #include <ML/Script/Export.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API AST_Node
-		: public IObject
+		: public INewable
 	{
 	public:
 		using value_type			= typename List<AST_Node *>::value_type;

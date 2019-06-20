@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Token final
-		: public IObject
+		: public INewable
 		, public IComparable<Token>
 		, public IComparable<char>
 		, public IComparable<String>

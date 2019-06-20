@@ -14,7 +14,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Text final
-		: public IObject
+		: public INewable
 		, public IDrawable
 	{
 	public:

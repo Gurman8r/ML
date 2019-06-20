@@ -157,12 +157,14 @@ namespace DEMO
 			ml::List<ml::uni_base *>({
 				new ml::uni_flt_cr	("Time.total",		noobs.totalTime),
 				new ml::uni_flt_cr	("Time.delta",		noobs.deltaTime),
+
 				new ml::uni_vec2_cr	("Window.size",		noobs.resolution),
 				new ml::uni_col4_cr	("Window.color",	noobs.clearColor),
 
 				new ml::uni_mat4	("Vert.view",		camera.getMat()),
 				new ml::uni_mat4	("Vert.proj",		persp.getMat()),
 				new ml::uni_mat4	("Vert.model",		model.getMat()),
+
 				new ml::uni_flt		("Frag.specular",	0.1f),
 				new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("earth_sm")),
 				new ml::uni_int		("Frag.shininess",	8),
@@ -193,8 +195,8 @@ namespace DEMO
 				"Vertex",
 				noobs.material->shader()->vertSrc()
 			));
-			noobs.files.front()->edit->SetText(
-				noobs.files.front()->edit->GetText() +
+			noobs.files.front()->text->SetText(
+				noobs.files.front()->text->GetText() +
 				"// Vertex Shader\n"
 				"#shader vertex\n"
 				"#include \"Vertex\"\n"
@@ -208,8 +210,8 @@ namespace DEMO
 				"Fragment",
 				noobs.material->shader()->fragSrc()
 			));
-			noobs.files.front()->edit->SetText(
-				noobs.files.front()->edit->GetText() +
+			noobs.files.front()->text->SetText(
+				noobs.files.front()->text->GetText() +
 				"// Fragment Shader\n"
 				"#shader fragment\n"
 				"#include \"Fragment\"\n"
@@ -223,8 +225,8 @@ namespace DEMO
 				"Geometry",
 				noobs.material->shader()->geomSrc()
 			));
-			noobs.files.front()->edit->SetText(
-				noobs.files.front()->edit->GetText() +
+			noobs.files.front()->text->SetText(
+				noobs.files.front()->text->GetText() +
 				"// Geometry Shader\n"
 				"#shader geometry\n"
 				"#include \"Geometry\"\n"
@@ -423,7 +425,7 @@ namespace DEMO
 												{
 													out << (*this)(
 														files,
-														e->edit->GetText()
+														e->text->GetText()
 													);
 													found = true;
 													break;
@@ -446,7 +448,7 @@ namespace DEMO
 
 						const ml::String source = NoobParser()(
 							noobs.files,
-							noobs.files.front()->edit->GetText()
+							noobs.files.front()->text->GetText()
 						);
 						ml::Shader * shader = std::remove_cv_t<ml::Shader *>(
 							noobs.material->shader()
@@ -582,11 +584,11 @@ namespace DEMO
 									}
 								}
 
-								(*it)->edit->Render(
+								(*it)->text->Render(
 									ml::String("##File" + (*it)->name + "##Text").c_str()
 								);
 
-								if ((*it)->edit->IsTextChanged())
+								if ((*it)->text->IsTextChanged())
 									(*it)->dirty = true;
 
 								/* * * * * * * * * * * * * * * * * * * * */

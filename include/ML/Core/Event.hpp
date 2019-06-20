@@ -1,13 +1,13 @@
 #ifndef _ML_I_EVENT_HPP_
 #define _ML_I_EVENT_HPP_
 
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API Event //: public IObject, public INonCopyable
+	struct ML_CORE_API Event //: public INewable, public INonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -55,10 +55,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		int32_t _ID
+		int32_t EV_ID
 	> struct IEvent : public Event
 	{
-		enum : int32_t { ID = _ID };
+		enum : int32_t { ID = EV_ID };
 
 		constexpr IEvent() : Event(ID) {}
 	};

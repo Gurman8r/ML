@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	
 	struct ML_GRAPHICS_API Color final
-		: public IObject
+		: public INewable
 	{
 		const static vec4 Clear;
 		const static vec4 White;

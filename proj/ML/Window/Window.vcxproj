@@ -168,11 +168,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Window\Context.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Window\Icon.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\VideoSettings.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Window\WindowStyle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Window\ContextSettings.hpp" />
@@ -184,7 +181,7 @@
     <ClInclude Include="..\..\..\include\ML\Window\Window.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\WindowEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\MouseButton.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Window\StyleSettings.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\WindowStyle.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

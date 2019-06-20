@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Material final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public IReadable
 	{

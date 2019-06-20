@@ -21,18 +21,14 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static EventSystem * s_EventSystem = nullptr;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	Window::Window(EventSystem & eventSystem)
-		: EventListener(eventSystem)
+		: EventListener	(eventSystem)
 		, m_window		(nullptr)
 		, m_monitor		(nullptr)
 		, m_share		(nullptr)
 		, m_title		(String())
 		, m_context		(ContextSettings())
-		, m_style		(StyleSettings())
+		, m_style		(WindowStyle())
 		, m_video		(VideoSettings())
 	{
 #ifdef ML_SYSTEM_WINDOWS
@@ -45,8 +41,6 @@ namespace ml
 			}
 		}
 #endif
-		s_EventSystem = &eventSystem;
-
 		eventSystem.addListener(CharEvent::ID, this);
 		eventSystem.addListener(CursorEnterEvent::ID, this);
 		eventSystem.addListener(CursorPosEvent::ID, this);
@@ -68,8 +62,6 @@ namespace ml
 
 		this->terminate();
 
-		s_EventSystem = nullptr;
-
 #ifdef ML_SYSTEM_WINDOWS
 		// Re-Enable CMD Close Button
 		if (HWND window = GetConsoleWindow())
@@ -84,10 +76,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Window::create(const String & title, const VideoSettings & screen, const StyleSettings & style, const ContextSettings & context)
+	bool Window::create(const String & title, const VideoSettings & video, const WindowStyle & style, const ContextSettings & context)
 	{
 		m_title		= title;
-		m_video		= screen;
+		m_video		= video;
 		m_context	= context;
 		m_style		= style;
 
@@ -101,6 +93,7 @@ namespace ml
 			glfwWindowHint(GLFW_STENCIL_BITS,	m_context.stencilBits);
 			glfwWindowHint(GLFW_SRGB_CAPABLE,	m_context.srgbCapable);
 			
+			// Profile
 			switch (m_context.profile)
 			{
 			case 1	: glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);	break;
@@ -142,36 +135,37 @@ namespace ml
 
 	bool Window::setup()
 	{
-		if (s_EventSystem)
+		static EventSystem * s_evs { &this->eventSystem() };
+		if (s_evs)
 		{
 			setCharCallback([](void * window, uint32_t c)
 			{
-				s_EventSystem->fireEvent(CharEvent(c));
+				s_evs->fireEvent(CharEvent(c));
 			});
 
 			setCursorEnterCallback([](void * window, int32_t entered)
 			{
-				s_EventSystem->fireEvent(CursorEnterEvent(entered));
+				s_evs->fireEvent(CursorEnterEvent(entered));
 			});
 
 			setCursorPosCallback([](void * window, double x, double y)
 			{
-				s_EventSystem->fireEvent(CursorPosEvent(x, y));
+				s_evs->fireEvent(CursorPosEvent(x, y));
 			});
 
 			setErrorCallback([](int32_t code, CString desc)
 			{
-				s_EventSystem->fireEvent(WindowErrorEvent(code, desc));
+				s_evs->fireEvent(WindowErrorEvent(code, desc));
 			});
 
 			setFrameSizeCallback([](void * window, int32_t w, int32_t h)
 			{
-				s_EventSystem->fireEvent(FrameSizeEvent(w, h));
+				s_evs->fireEvent(FrameSizeEvent(w, h));
 			});
 
 			setKeyCallback([](void * window, int32_t button, int32_t scan, int32_t action, int32_t mods)
 			{
-				s_EventSystem->fireEvent(KeyEvent(button, scan, action, {
+				s_evs->fireEvent(KeyEvent(button, scan, action, {
 					(bool)(mods & ML_MOD_SHIFT),
 					(bool)(mods & ML_MOD_CTRL),
 					(bool)(mods & ML_MOD_ALT),
@@ -181,32 +175,32 @@ namespace ml
 
 			setMouseButtonCallback([](void * window, int32_t button, int32_t action, int32_t mods)
 			{
-				s_EventSystem->fireEvent(MouseButtonEvent(button, action, mods));
+				s_evs->fireEvent(MouseButtonEvent(button, action, mods));
 			});
 		
 			setScrollCallback([](void * window, double x, double y)
 			{
-				s_EventSystem->fireEvent(ScrollEvent(x, y));
+				s_evs->fireEvent(ScrollEvent(x, y));
 			});
 
 			setWindowCloseCallback([](void * window)
 			{
-				s_EventSystem->fireEvent(WindowCloseEvent());
+				s_evs->fireEvent(WindowCloseEvent());
 			});
 
 			setWindowFocusCallback([](void * window, int32_t focused)
 			{
-				s_EventSystem->fireEvent(WindowFocusEvent(focused));
+				s_evs->fireEvent(WindowFocusEvent(focused));
 			});
 		
 			setWindowPosCallback([](void * window, int32_t x, int32_t y)
 			{
-				s_EventSystem->fireEvent(WindowPosEvent(x, y));
+				s_evs->fireEvent(WindowPosEvent(x, y));
 			});
 
 			setWindowSizeCallback([](void * window, int32_t width, int32_t height)
 			{
-				s_EventSystem->fireEvent(WindowSizeEvent(width, height));
+				s_evs->fireEvent(WindowSizeEvent(width, height));
 			});
 
 			return true;
@@ -410,7 +404,7 @@ namespace ml
 			temp[i] = GLFWimage {
 				value[i].width,
 				value[i].height,
-				value[i].pixels,
+				value[i].pixels
 			};
 		}
 

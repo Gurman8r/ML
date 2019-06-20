@@ -2,7 +2,7 @@
 #define _ML_SHARED_LIBRARY_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/IReadable.hpp>
 #include <ML/Core/IDisposable.hpp>
 
@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API SharedLibrary final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public IReadable
 		, public INonCopyable

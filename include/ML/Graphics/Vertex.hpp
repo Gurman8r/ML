@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Vertex final
-		: public IObject
+		: public INewable
 		, public IComparable<Vertex>
 	{
 	public:

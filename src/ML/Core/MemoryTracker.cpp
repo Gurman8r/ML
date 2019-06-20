@@ -1,5 +1,5 @@
 #include <ML/Core/MemoryTracker.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
@@ -8,11 +8,11 @@ namespace ml
 
 	struct MemoryTracker::Record
 	{
-		IObject *	object; // Value of Allocation
+		INewable *	object; // Value of Allocation
 		size_t		index;	// Index of Allocation
 		size_t		size;	// Size of Allocation
 
-		Record(IObject * object, const size_t index, const size_t size)
+		Record(INewable * object, const size_t index, const size_t size)
 			: object(object)
 			, index(index)
 			, size(size)
@@ -79,7 +79,7 @@ namespace ml
 
 	void * MemoryTracker::allocate(const size_t size)
 	{
-		if (IObject * object = static_cast<IObject *>(std::malloc(size)))
+		if (INewable * object = static_cast<INewable *>(std::malloc(size)))
 		{
 			if (m_records.find(object) == m_records.end())
 			{

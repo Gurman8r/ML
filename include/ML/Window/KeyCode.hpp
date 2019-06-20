@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	struct ML_WINDOW_API KeyCode final
+	struct KeyCode final
 	{
 		enum : int32_t
 		{

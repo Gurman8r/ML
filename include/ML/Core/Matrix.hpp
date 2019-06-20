@@ -1,7 +1,7 @@
 #ifndef _ML_MATRIX_HPP_
 #define _ML_MATRIX_HPP_
 
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/List.hpp>
 #include <ML/Core/GLM.hpp>
 
@@ -31,7 +31,7 @@ namespace ml
 		size_t	_Cols, 
 		size_t	_Rows
 	> class Matrix
-		: public IObject
+		: public INewable
 		, public IComparable<Matrix<_Elem, _Cols, _Rows>>
 	{
 	public: // Enums

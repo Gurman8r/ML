@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Font final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public IReadable
 	{
@@ -17,7 +17,7 @@ namespace ml
 		using GlyphTable = Map<uint32_t, Glyph>;
 		using PageTable  = Map<uint32_t, GlyphTable>;
 
-		struct Info final : public IObject
+		struct Info final : public INewable
 		{
 			String family;
 

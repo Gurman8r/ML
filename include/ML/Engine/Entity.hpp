@@ -4,7 +4,7 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/IDisposable.hpp>
 #include <ML/Core/IReadable.hpp>
-#include <ML/Core/IObject.hpp>
+#include <ML/Core/INewable.hpp>
 #include <ML/Core/IWritable.hpp>
 
 namespace ml
@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Entity final
-		: public IObject
+		: public INewable
 		, public IDisposable
 		, public IReadable
 		, public IWritable
@@ -20,7 +20,7 @@ namespace ml
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		using value_type	= typename IObject *;
+		using value_type	= typename INewable *;
 		using map_type		= typename HashMap<size_t, value_type>;
 		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;

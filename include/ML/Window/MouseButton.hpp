@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API MouseButton final
+	struct MouseButton final
 	{
 		enum : int32_t
 		{

@@ -1,5 +1,5 @@
-#ifndef _ML_I_OBJECT_HPP_
-#define _ML_I_OBJECT_HPP_
+#ifndef _ML_I_NEWABLE_HPP_
+#define _ML_I_NEWABLE_HPP_
 
 #include <ML/Core/MemoryTracker.hpp>
 
@@ -9,11 +9,11 @@ namespace ml
 
 	// Base class for anything which might be 'new'-ed
 	// Provides memory leak detection and simple serialization.
-	class ML_CORE_API IObject
+	class ML_CORE_API INewable
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		virtual ~IObject() {}
+		virtual ~INewable() {}
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -22,7 +22,7 @@ namespace ml
 			out << typeid(*this).name();
 		}
 
-		inline friend OStream & operator<<(OStream & out, const IObject & value)
+		inline friend OStream & operator<<(OStream & out, const INewable & value)
 		{
 			value.serialize(out);
 			return out;
@@ -46,4 +46,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_I_OBJECT_HPP_
+#endif // !_ML_I_NEWABLE_HPP_

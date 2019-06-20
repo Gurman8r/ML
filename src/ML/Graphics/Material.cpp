@@ -46,7 +46,7 @@ namespace ml
 	{
 		for (auto & pair : m_uniforms)
 		{
-			delete (IObject *)pair.second;
+			delete (INewable *)pair.second;
 		}
 		m_uniforms.clear();
 		return m_uniforms.empty();

@@ -33,19 +33,19 @@ namespace ml
 		{
 			MIN_WINDOW_EVENT = Event::EV_WINDOW,
 
-			EV_Char,
-			EV_CursorEnter,
-			EV_CursorPos,
-			EV_FrameSize,
-			EV_Key,
-			EV_MouseButton,
-			EV_Scroll,
-			EV_WindowClose,
-			EV_WindowError,
-			EV_WindowFocus,
-			EV_WindowKill,
-			EV_WindowSize,
-			Ev_WindowPos,
+			EV_Char,		// Keyboard text input
+			EV_CursorEnter,	// Cursor enter/exit window
+			EV_CursorPos,	// Cursor position changed
+			EV_FrameSize,	// Window frame size changed
+			EV_Key,			// Keyboard state changed
+			EV_MouseButton,	// Mouse button state changed
+			EV_Scroll,		// Mouse scrollwheel state changed
+			EV_WindowClose,	// Fired when window is closed
+			EV_WindowError,	// Window error callback
+			EV_WindowFocus,	// Window focused/unfocused
+			EV_WindowKill,	// Tell window to close
+			EV_WindowSize,	// Window size changed
+			Ev_WindowPos,	// Window position changed
 
 			MAX_WINDOW_EVENT
 		};

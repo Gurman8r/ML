@@ -10,7 +10,7 @@ namespace ml
 	
 	// Placeholder
 	class ML_GRAPHICS_API Light final
-		: public IObject
+		: public INewable
 	{
 	public:
 		Light();

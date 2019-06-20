@@ -24,11 +24,11 @@ namespace ml
 		, m_resources	(eventSystem)
 		, m_terminal	(eventSystem)
 	{
-		//create<DockspaceGui>(String(), eventSystem)->setOpen(true);
-		//create<BrowserGui>	(String(), eventSystem)->setOpen(false);
-		//create<ProfilerGui>	(String(), eventSystem)->setOpen(false);
-		//create<ResourceGui>	(String(), eventSystem)->setOpen(false);
-		//create<TerminalGui>	(String(), eventSystem)->setOpen(true);
+		m_dockspace.setOpen	(true);
+		m_browser.setOpen	(false);
+		m_profiler.setOpen	(false);
+		m_resources.setOpen	(false);
+		m_terminal.setOpen	(true);
 
 		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(ExitEvent::ID,			this);

@@ -1,7 +1,6 @@
 // noobs_0.vs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#shader vertex
 #version 410 core
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -10,62 +9,117 @@ layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec4 a_Normal;
 layout(location = 2) in vec2 a_Texcoord;
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 out VertexData
 {
 	vec3 Position;
 	vec4 Normal;
 	vec2 Texcoord;
-} Out;
+} V;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-uniform struct Vert_Uniforms
+mat4 ml_AngleAxis(vec3 v, float angle)
 {
-	mat4 proj;
-	mat4 view;
-	mat4 model;
-} Vert;
-
-uniform struct Time_Uniforms
-{
-	float delta;
-	float total;
-} Time;
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-mat4 ml_AngleAxis(vec3 ax, float angle)
-{
-	ax = normalize(ax);
+	v = normalize(v);
 	float s = sin(angle);
 	float c = cos(angle);
 	float o = 1.0 - c;
 	return mat4(
-		o * ax.x * ax.x + c, o * ax.x * ax.y - ax.z * s, o * ax.z * ax.x + ax.y * s, 0.0,
-		o * ax.x * ax.y + ax.z * s, o * ax.y * ax.y + c, o * ax.y * ax.z - ax.x * s, 0.0,
-		o * ax.z * ax.x - ax.y * s, o * ax.y * ax.z + ax.x * s, o * ax.z * ax.z + c, 0.0,
+		o * v.x * v.x + c, o * v.x * v.y - v.z * s, o * v.z * v.x + v.y * s, 0.0,
+		o * v.x * v.y + v.z * s, o * v.y * v.y + c, o * v.y * v.z - v.x * s, 0.0,
+		o * v.z * v.x - v.y * s, o * v.y * v.z + v.x * s, o * v.z * v.z + c, 0.0,
 		0.0, 0.0, 0.0, 1.0
 	);
 }
+
+mat4 ml_LookAt(vec3 eye, vec3 center, vec3 up)
+{
+	vec3 f = normalize(center - eye);
+	vec3 s = normalize(cross(f, up));
+	vec3 u = cross(s, f);
+	mat4 m = mat4(1.0);
+	m[0][0] = s.x;
+	m[1][0] = s.y;
+	m[2][0] = s.z;
+	m[0][1] = u.x;
+	m[1][1] = u.y;
+	m[2][1] = u.z;
+	m[0][2] = -f.x;
+	m[1][2] = -f.y;
+	m[2][2] = -f.z;
+	m[3][0] = -dot(s, eye);
+	m[3][1] = -dot(u, eye);
+	m[3][2] = dot(f, eye);
+	return m;
+}
+
+mat4 ml_Perspective(float fov, float aspect, float zNear, float zFar)
+{
+	mat4 m;
+	m[0][0] = 1.0 / (aspect * tan(fov / 2.0));
+	m[1][1] = 1.0 / tan(fov / 2.0);
+	m[2][3] = -1.0;
+	m[2][2] = -(zFar + zNear) / (zFar - zNear);
+	m[3][2] = -(2.0 * zFar * zNear) / (zFar - zNear);
+	return m;
+}
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+uniform struct Camera
+{
+	vec3	position;
+	vec3	target;
+	float	fov;
+	float	zNear;
+	float	zFar;
+} camera;
+
+uniform struct Time
+{
+	float delta;
+	float total;
+} time;
+
+uniform struct Window
+{
+	vec2 size;
+	vec4 color;
+} window;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 void main()
 {
-	Out.Position = a_Position;
-	Out.Normal   = a_Normal;
-	Out.Texcoord = a_Texcoord;
+	// Model Matrix
+	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), time.total);
 
-	mat4 rot     = ml_AngleAxis(vec3(0.0, 1.0, 0.0), Time.total);
-	mat4 mvp     = Vert.proj * Vert.view * Vert.model * rot;
-	vec4 pos     = mvp * vec4(Out.Position, 1.0);
-	vec4 off     = vec4(0.0, sin(Time.total), 0.0, 1.0);
+	// View Matrix
+	mat4 view = ml_LookAt(
+		camera.position,
+		camera.target,
+		vec3(0.0, 1.0, 0.0)
+	);
 
-	gl_Position  = pos + off;
-	Out.Position = gl_Position.xyz;
-	Out.Normal   = transpose(inverse(Vert.model)) * Out.Normal;
+	// Projection Matrix
+	mat4 proj = ml_Perspective(
+		camera.fov,
+		(window.size.x / window.size.y),
+		camera.zNear,
+		camera.zFar
+	);
+
+	// MVP
+	mat4 mvp = (proj * view * model);
+
+	V.Position = a_Position;
+	V.Normal = a_Normal;
+	V.Texcoord = a_Texcoord;
+
+	gl_Position = mvp * vec4(V.Position, 1.0);
+
+	V.Position = gl_Position.xyz;
+	V.Normal = transpose(inverse(model)) * V.Normal;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

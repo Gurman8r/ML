@@ -1981,30 +1981,30 @@ namespace ImGui
 				u.mAfter = mState;
 				AddUndo(u);
 			}
-			else
-			{
-				UndoRecord u;
-				u.mBefore		= mState;
-				u.mRemoved		= GetCurrentLineText() + "\n";
-				u.mRemovedStart = { mState.mCursorPosition.mLine, 0 };
-				u.mRemovedEnd	= { 
-					mState.mCursorPosition.mLine,
-					GetLineMaxColumn(mState.mCursorPosition.mLine)
-				};
-
-				// Copy
-				ImGui::SetClipboardText(u.mRemoved.c_str());
-				
-				// Delete Line
-				if (mLines.size() > 1)
-				{
-					RemoveLine(mState.mCursorPosition.mLine);
-				}
-				
-				u.mAfter = mState;
-				AddUndo(u);
-			}
 		}
+
+		//{
+		//	UndoRecord u;
+		//	u.mBefore		= mState;
+		//	u.mRemoved		= GetCurrentLineText() + "\n";
+		//	u.mRemovedStart = { mState.mCursorPosition.mLine, 0 };
+		//	u.mRemovedEnd	= { 
+		//		mState.mCursorPosition.mLine,
+		//		GetLineMaxColumn(mState.mCursorPosition.mLine)
+		//	};
+		//
+		//	// Copy
+		//	ImGui::SetClipboardText(u.mRemoved.c_str());
+		//	
+		//	// Delete Line
+		//	if (mLines.size() > 1)
+		//	{
+		//		RemoveLine(mState.mCursorPosition.mLine);
+		//	}
+		//	
+		//	u.mAfter = mState;
+		//	AddUndo(u);
+		//}
 	}
 
 	void TextEditor::Paste()

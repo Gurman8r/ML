@@ -198,7 +198,6 @@
     <None Include="..\..\..\assets\shaders\sprites.shader" />
     <None Include="..\..\..\assets\shaders\surface.shader" />
     <None Include="..\..\..\assets\shaders\text.shader" />
-    <None Include="..\..\..\imgui.ini" />
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-// noobs_0.fs.shader
+// noobs_1.fs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #shader fragment
@@ -11,79 +11,70 @@ in VertexData
 	vec3 Position;
 	vec4 Normal;
 	vec2 Texcoord;
-} In;
-
-/* * * * * * * * * * * * * * * * * * * * */
+} V;
 
 out vec4 gl_Color;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-uniform struct Vert_Uniforms
+uniform struct Camera
 {
-	mat4		proj;
-	mat4		view;
-	mat4		model;
-} Vert;
+	vec3	position;
+	vec3	target;
+	float	fov;
+	float	zNear;
+	float	zFar;
+} camera;
 
-uniform struct Frag_Uniforms
+uniform struct Frag
 {
-	vec3		lightPos;
-	vec4		diffuse;
-	float		ambient;
-	float		specular;
-	int			shininess;
-	vec4		mainCol;
-	sampler2D	mainTex;
-	sampler2D	specTex;
-} Frag;
+	sampler2D tex_dm;
+	sampler2D tex_sm;
 
-uniform struct Time_Uniforms
-{
-	float		delta;
-	float		total;
-} Time;
+	float	specular;
+	int		shininess;
+	vec3	position;
+	vec4	diffuse;
+	float	ambient;
+} frag;
 
-uniform struct Window_Uniforms
+uniform struct Time
 {
-	vec2		size;
-	vec4		color;
-} Window;
+	float	delta;
+	float	total;
+} time;
+
+uniform struct Window
+{
+	vec2	size;
+	vec4	color;
+} window;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 void main()
 {
-	// Camera
-	vec3 cameraPos = vec3(
-		Vert.view[0][3],
-		Vert.view[1][3],
-		Vert.view[2][3]
-	);
-	
 	// Ambient
-	vec4  ambientOut  = (Frag.ambient * Frag.diffuse);
+	vec4  ambi_out = (frag.ambient * frag.diffuse);
 
 	// Diffuse
-	vec3  diffNormal  = normalize(In.Normal.xyz);
-	vec3  diffDir     = normalize(Frag.lightPos - In.Position);
-	float diffAmount  = max(dot(diffNormal, diffDir), 0.0);
-	vec4  diffColor   = vec4(diffAmount * Frag.diffuse.rgb, 1.0);
-	vec4  diffTexture = texture(Frag.mainTex, In.Texcoord);
-	vec4  diffuseOut  = (diffColor * diffTexture);
+	vec3  diff_nml = normalize(V.Normal.xyz);
+	vec3  diff_dir = normalize(frag.position - V.Position);
+	float diff_amt = max(dot(diff_nml, diff_dir), 0.0);
+	vec4  diff_col = vec4(diff_amt * frag.diffuse.rgb, 1.0);
+	vec4  diff_tex = texture(frag.tex_dm, V.Texcoord);
+	vec4  diff_out = (diff_col * diff_tex);
 
 	// Specular
-	vec3  specCamera  = normalize(cameraPos - In.Position);
-	vec3  specReflect = reflect(-diffDir, diffNormal);
-	float specAmount  = pow(max(dot(specCamera, specReflect), 0.0), Frag.shininess);
-	vec4  specColor   = vec4(Frag.specular * specAmount * Frag.diffuse.rgb, 1.0);
-	vec4  specTexture = texture(Frag.specTex, In.Texcoord);
-	vec4  specularOut = (specColor * specTexture);
+	vec3  spec_cam = normalize(camera.position - V.Position);
+	vec3  spec_dir = reflect(-diff_dir, diff_nml);
+	float spec_amt = pow(max(dot(spec_cam, spec_dir), 0.0), frag.shininess);
+	vec4  spec_col = vec4(frag.specular * spec_amt * frag.diffuse.rgb, 1.0);
+	vec4  spec_tex = texture(frag.tex_dm, V.Texcoord);
+	vec4  spec_out	= (spec_col * spec_tex);
 
 	// Output
-	gl_Color = 
-		(Frag.mainCol * In.Normal) *
-		(ambientOut + diffuseOut + specularOut);
+	gl_Color = (ambi_out + diff_out + spec_out);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

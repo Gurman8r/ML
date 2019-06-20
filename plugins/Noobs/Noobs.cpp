@@ -111,68 +111,30 @@ namespace DEMO
 		noobs.surf_main = ev.resources.surfaces.get("noobs_surf_main");
 		noobs.surf_post = ev.resources.surfaces.get("noobs_surf_post");
 
-		// Orthographic Projection
-		ml::Transform ortho = ml::Transform::Orthographic({
-			{ 0.f, 0.f }, 
-			(ml::vec2f)noobs.resolution
-		});
-
-		// Perspective Projection
-		ml::Transform persp = ml::Transform::Perspective(
-			45.f, 
-			((float)ev.window.getFrameWidth() / (float)ev.window.getFrameHeight()),
-			0.1f,
-			1000.f
-		);
-
-		// Camera Transform
-		ml::Transform camera = ml::Transform(
-			{ 0.0f, 0.0f, 5.0f }, 
-			{ 1.0f }, 
-			{ } 
-		);
-		camera.lookAt(
-			camera.getPos(),
-			(camera.getPos() - ml::vec3::Back).normalized()
-		);
-
-		// Light Transform
-		ml::Transform light = ml::Transform(
-			{ 0.0f, 0.0f, 30.0f },
-			{ 1.0f },
-			{ }
-		);
-
-		// Model Transform
-		ml::Transform model = ml::Transform(
-			{ 0.0f }, 
-			{ 1.0f }, 
-			{ }
-		);
-
 		// Create Material
-		noobs.material = ev.resources.materials.create(
+		ev.resources.materials.create(
 			"noobs_material_0",
 			ev.resources.shaders.get("noobs_shader_0"),
 			ml::List<ml::uni_base *>({
-				new ml::uni_flt_cr	("Time.total",		noobs.totalTime),
-				new ml::uni_flt_cr	("Time.delta",		noobs.deltaTime),
+				new ml::uni_flt_cr	("time.total",		noobs.totalTime),
+				new ml::uni_flt_cr	("time.delta",		noobs.deltaTime),
 
-				new ml::uni_vec2_cr	("Window.size",		noobs.resolution),
-				new ml::uni_col4_cr	("Window.color",	noobs.clearColor),
+				new ml::uni_vec2_cr	("window.size",		noobs.resolution),
+				new ml::uni_col4_cr	("window.color",	noobs.clearColor),
 
-				new ml::uni_mat4	("Vert.view",		camera.getMat()),
-				new ml::uni_mat4	("Vert.proj",		persp.getMat()),
-				new ml::uni_mat4	("Vert.model",		model.getMat()),
-
-				new ml::uni_flt		("Frag.specular",	0.1f),
-				new ml::uni_tex2	("Frag.specTex",	ev.resources.textures.get("earth_sm")),
-				new ml::uni_int		("Frag.shininess",	8),
-				new ml::uni_tex2	("Frag.mainTex",	ev.resources.textures.get("earth_dm")),
-				new ml::uni_col4	("Frag.mainCol",	ml::Color::White),
-				new ml::uni_vec3	("Frag.lightPos",	light.getPos()),
-				new ml::uni_col4	("Frag.diffuse",	ml::Color::LightYellow),
-				new ml::uni_flt		("Frag.ambient",	0.01f),
+				new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 2.5f }),
+				new ml::uni_vec3	("camera.target",	ml::vec3::Zero),
+				new ml::uni_flt		("camera.fov",		45.0),
+				new ml::uni_flt		("camera.zNear",	0.001f),
+				new ml::uni_flt		("camera.zFar",		1000.0),
+				
+				new ml::uni_tex2	("frag.tex_dm",		ev.resources.textures.get("earth_dm")),
+				new ml::uni_tex2	("frag.tex_sm",		ev.resources.textures.get("earth_sm")),
+				new ml::uni_flt		("frag.specular",	0.1f),
+				new ml::uni_int		("frag.shininess",	8),
+				new ml::uni_vec3	("frag.position",	{ 0.0f, 0.0f, 30.0f }),
+				new ml::uni_col4	("frag.diffuse",	ml::Color::LightYellow),
+				new ml::uni_flt		("frag.ambient",	0.01f),
 				}));
 
 		// Create Entity
@@ -181,7 +143,7 @@ namespace DEMO
 			// Create Renderer
 			noobs.renderer = noobs.entity->add<ml::Renderer>(
 				ev.resources.models.get("sphere32x24"),
-				ev.resources.materials.get("noobs_material_0")
+				noobs.material = ev.resources.materials.get("noobs_material_0")
 			);
 		}
 

@@ -16,8 +16,6 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		Transform();
-		Transform(const vec3 & pos);
-		Transform(const vec3 & pos, const vec3 & scl);
 		Transform(const vec3 & pos, const vec3 & scl, const quat & rot);
 		Transform(const mat4 & value);
 		Transform(const Transform & copy);
@@ -29,6 +27,7 @@ namespace ml
 		static bool Decompose(const mat4 & value, vec3 & scl, quat & rot, vec3 & tns, vec3 & skw, vec4 & psp);
 		static mat4 Inverse(const mat4 & value);
 		static mat4 LookAt(const vec3 & eye, const vec3 & pos, const vec3 & up);
+		static mat4 LookDir(const vec3 & eye, const vec3 & dir);
 		static mat4 Orthographic(const FloatRect & area);
 		static mat4 Orthographic(const FloatRect & area, const float zNear, const float zFar);
 		static mat4 Perspective(const float fov, const float aspect, const float zNear, const float zFar);
@@ -61,6 +60,8 @@ namespace ml
 		const Transform & decompose() const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
+
+		inline operator const mat4 &() const { return getMat(); }
 
 		const mat4 &	getMat() const;		// Get Matrix
 		const mat4		getInv() const;		// Get Inverse

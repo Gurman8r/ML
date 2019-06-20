@@ -9,24 +9,6 @@ namespace ml
 	{
 	}
 
-	Transform::Transform(const vec3 & pos)
-		: m_matrix(mat4::Identity())
-	{
-		(*this)
-			.translate(pos)
-			.rotate(0.0f, vec3::One)
-			.scale(1.0f);
-	}
-
-	Transform::Transform(const vec3 & pos, const vec3 & scl)
-		: m_matrix(mat4::Identity())
-	{
-		(*this)
-			.translate(pos)
-			.rotate(0.0f, vec3::One)
-			.scale(scl);
-	}
-
 	Transform::Transform(const vec3 & pos, const vec3 & scl, const quat & rot)
 		: m_matrix(mat4::Identity())
 	{
@@ -79,6 +61,15 @@ namespace ml
 			(glm::vec3)(eye),
 			(glm::vec3)(pos),
 			(glm::vec3)(up)
+		);
+	}
+
+	mat4 Transform::LookDir(const vec3 & eye, const vec3 & dir)
+	{
+		return LookAt(
+			eye,
+			(dir - eye).normalized(),
+			vec3::Up
 		);
 	}
 

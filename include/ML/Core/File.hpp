@@ -31,45 +31,55 @@ namespace ml
 
 	public:
 		bool dispose() override;
-		
 		bool loadFromFile(const String & filename) override;
 		bool saveToFile(const String & filename) const override;
 		void serialize(OStream & out) const override;
 
 	public:
+		inline operator bool() const
+		{ 
+			return !this->empty(); 
+		}
+
 		inline File & operator=(const String & value)
 		{
 			return ((*this) = File(value));
 		}
-
-		inline operator		bool()				const	{ return !this->empty(); }
-		inline const char & operator[](size_t i)const	{ return m_data[i]; }
-		inline char &		operator[](size_t i)		{ return m_data[i]; }
-
-	public:
-		inline const char &			at(size_t i) const	{ return m_data[i]; }
-		inline char &				at(size_t i)		{ return m_data[i]; }
-		inline CString				c_str() const		{ return str().c_str(); }
-		inline const List<char> &	data() const		{ return m_data; }
-		inline List<char> &			data()				{ return m_data; }
-		inline const bool			empty() const		{ return m_data.empty(); }
-		inline const String &		path() const		{ return m_path; }
-		inline String				str() const			{ return String(begin(), end()); }
-		inline SStream				sstr() const		{ return SStream(str()); }
+		
+		inline const char & operator[](size_t i) const 
+		{ 
+			return m_data[i]; 
+		}
+		
+		inline char & operator[](size_t i) 
+		{ 
+			return m_data[i]; 
+		}
 
 	public:
-		inline iterator					begin()			{ return m_data.begin();	}
-		inline iterator					end()			{ return m_data.end();		}
-		inline const_iterator			begin()  const	{ return m_data.begin();	}
-		inline const_iterator			end()	 const	{ return m_data.end();		}
-		inline const_iterator			cbegin() const	{ return m_data.cbegin();	}
-		inline const_iterator			cend()	 const	{ return m_data.cend();		}
-		inline reverse_iterator			rbegin()		{ return m_data.rbegin();	}
-		inline reverse_iterator			rend()			{ return m_data.rend();		}
-		inline const_reverse_iterator	rbegin()  const	{ return m_data.rbegin();	}
-		inline const_reverse_iterator	rend()	  const	{ return m_data.rend();		}
-		inline const_reverse_iterator	crbegin() const	{ return m_data.crbegin();	}
-		inline const_reverse_iterator	crend()	  const	{ return m_data.crend();	}
+		inline auto at(size_t i)const	-> const char &			{ return m_data[i]; }
+		inline auto at(size_t i)		-> char &				{ return m_data[i]; }
+		inline auto c_str()		const	-> CString				{ return str().c_str(); }
+		inline auto data()		const	-> const List<char> &	{ return m_data; }
+		inline auto data()				-> List<char> &			{ return m_data; }
+		inline auto empty()		const	-> const bool			{ return m_data.empty(); }
+		inline auto path()		const	-> const String &		{ return m_path; }
+		inline auto str()		const	-> String				{ return String(begin(), end()); }
+		inline auto sstr()		const	-> SStream				{ return SStream(str()); }
+
+	public:
+		inline auto begin()			-> iterator					{ return m_data.begin(); }
+		inline auto end()			-> iterator					{ return m_data.end(); }
+		inline auto begin() const	-> const_iterator			{ return m_data.begin(); }
+		inline auto end() const		-> const_iterator			{ return m_data.end(); }
+		inline auto cbegin() const	-> const_iterator			{ return m_data.cbegin(); }
+		inline auto cend() const	-> const_iterator			{ return m_data.cend(); }
+		inline auto rbegin()		-> reverse_iterator			{ return m_data.rbegin(); }
+		inline auto rend()			-> reverse_iterator			{ return m_data.rend(); }
+		inline auto rbegin() const	-> const_reverse_iterator	{ return m_data.rbegin(); }
+		inline auto rend() const	-> const_reverse_iterator	{ return m_data.rend(); }
+		inline auto crbegin() const -> const_reverse_iterator	{ return m_data.crbegin(); }
+		inline auto crend() const	-> const_reverse_iterator	{ return m_data.crend(); }
 
 	private:
 		String		m_path;

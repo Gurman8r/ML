@@ -39,6 +39,13 @@ namespace ml
 		void HandleInput();
 
 	private:
+		template <
+			class Ev
+		> inline void fireEvent(const Ev & value)
+		{
+			if (m_Window) m_Window->eventSystem().fireEvent(value);
+		}
+
 		static void MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods);
 		static void ScrollCallback(void * window, double xoffset, double yoffset);
 		static void KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods);
@@ -62,7 +69,7 @@ namespace ml
 		ClientAPI	m_ClientApi;
 		double      m_Time;
 		bool        m_MousePressed[5];
-		void *		m_MouseCursors[Cursor::NUM_SHAPE];
+		void *		m_MouseCursors[(size_t)Cursor::Shape::NUM_SHAPE];
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

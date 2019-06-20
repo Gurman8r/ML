@@ -2,6 +2,7 @@
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/Cache.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -14,6 +15,23 @@
 # ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
 # endif
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+namespace ml
+{
+	inline static const GLFWimage & MapGLFWimage(const Image & value)
+	{
+		static HashCache<const uint8_t *, GLFWimage> cache;
+		return cache(
+			&value.pixels()[0], 
+			GLFWimage {
+				(int32_t)value.width(),
+				(int32_t)value.height(),
+				(uint8_t *)(value.pixelsPtr())
+			});
+	}
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -93,12 +111,11 @@ namespace ml
 			glfwWindowHint(GLFW_STENCIL_BITS,	m_context.stencilBits);
 			glfwWindowHint(GLFW_SRGB_CAPABLE,	m_context.srgbCapable);
 			
-			// Profile
 			switch (m_context.profile)
 			{
-			case 1	: glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);	break;
-			case 2	: glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);	break;
-			default	: glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);		break;
+			case 1	: glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); break;
+			case 2	: glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE); break;
+			default	: glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);	break;
 			}
 
 			// Style Settings
@@ -135,77 +152,75 @@ namespace ml
 
 	bool Window::setup()
 	{
-		static EventSystem * s_evs { &this->eventSystem() };
-		if (s_evs)
+		static EventSystem * evs { &this->eventSystem() };
+		if (!evs) { return false; }
+
+		setCharCallback([](void * window, uint32_t c)
 		{
-			setCharCallback([](void * window, uint32_t c)
-			{
-				s_evs->fireEvent(CharEvent(c));
-			});
+			evs->fireEvent(CharEvent(c));
+		});
 
-			setCursorEnterCallback([](void * window, int32_t entered)
-			{
-				s_evs->fireEvent(CursorEnterEvent(entered));
-			});
+		setCursorEnterCallback([](void * window, int32_t entered)
+		{
+			evs->fireEvent(CursorEnterEvent(entered));
+		});
 
-			setCursorPosCallback([](void * window, double x, double y)
-			{
-				s_evs->fireEvent(CursorPosEvent(x, y));
-			});
+		setCursorPosCallback([](void * window, double x, double y)
+		{
+			evs->fireEvent(CursorPosEvent(x, y));
+		});
 
-			setErrorCallback([](int32_t code, CString desc)
-			{
-				s_evs->fireEvent(WindowErrorEvent(code, desc));
-			});
+		setErrorCallback([](int32_t code, CString desc)
+		{
+			evs->fireEvent(WindowErrorEvent(code, desc));
+		});
 
-			setFrameSizeCallback([](void * window, int32_t w, int32_t h)
-			{
-				s_evs->fireEvent(FrameSizeEvent(w, h));
-			});
+		setFrameSizeCallback([](void * window, int32_t w, int32_t h)
+		{
+			evs->fireEvent(FrameSizeEvent(w, h));
+		});
 
-			setKeyCallback([](void * window, int32_t button, int32_t scan, int32_t action, int32_t mods)
-			{
-				s_evs->fireEvent(KeyEvent(button, scan, action, {
-					(bool)(mods & ML_MOD_SHIFT),
-					(bool)(mods & ML_MOD_CTRL),
-					(bool)(mods & ML_MOD_ALT),
-					(bool)(mods & ML_MOD_SUPER)
-					}));
-			});
+		setKeyCallback([](void * window, int32_t button, int32_t scan, int32_t action, int32_t mods)
+		{
+			evs->fireEvent(KeyEvent(button, scan, action, {
+				(bool)(mods & ML_MOD_SHIFT),
+				(bool)(mods & ML_MOD_CTRL),
+				(bool)(mods & ML_MOD_ALT),
+				(bool)(mods & ML_MOD_SUPER)
+				}));
+		});
 
-			setMouseButtonCallback([](void * window, int32_t button, int32_t action, int32_t mods)
-			{
-				s_evs->fireEvent(MouseButtonEvent(button, action, mods));
-			});
+		setMouseButtonCallback([](void * window, int32_t button, int32_t action, int32_t mods)
+		{
+			evs->fireEvent(MouseButtonEvent(button, action, mods));
+		});
 		
-			setScrollCallback([](void * window, double x, double y)
-			{
-				s_evs->fireEvent(ScrollEvent(x, y));
-			});
+		setScrollCallback([](void * window, double x, double y)
+		{
+			evs->fireEvent(ScrollEvent(x, y));
+		});
 
-			setWindowCloseCallback([](void * window)
-			{
-				s_evs->fireEvent(WindowCloseEvent());
-			});
+		setWindowCloseCallback([](void * window)
+		{
+			evs->fireEvent(WindowCloseEvent());
+		});
 
-			setWindowFocusCallback([](void * window, int32_t focused)
-			{
-				s_evs->fireEvent(WindowFocusEvent(focused));
-			});
+		setWindowFocusCallback([](void * window, int32_t focused)
+		{
+			evs->fireEvent(WindowFocusEvent(focused));
+		});
 		
-			setWindowPosCallback([](void * window, int32_t x, int32_t y)
-			{
-				s_evs->fireEvent(WindowPosEvent(x, y));
-			});
+		setWindowPosCallback([](void * window, int32_t x, int32_t y)
+		{
+			evs->fireEvent(WindowPosEvent(x, y));
+		});
 
-			setWindowSizeCallback([](void * window, int32_t width, int32_t height)
-			{
-				s_evs->fireEvent(WindowSizeEvent(width, height));
-			});
+		setWindowSizeCallback([](void * window, int32_t width, int32_t height)
+		{
+			evs->fireEvent(WindowSizeEvent(width, height));
+		});
 
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	void Window::onEvent(const Event * value)
@@ -378,7 +393,7 @@ namespace ml
 		glfwSetInputMode(
 			static_cast<GLFWwindow *>(m_window),
 			GLFW_CURSOR, 
-			value
+			static_cast<int32_t>(value)
 		);
 		return (*this);
 	}
@@ -393,24 +408,18 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setIcons(const List<Icon> & value)
+	Window & Window::setIcons(const List<Image> & value)
 	{
-		const uint32_t count = (uint32_t)value.size();
-
-		List<GLFWimage> temp(count);
-
-		for (size_t i = 0; i < count; i++)
+		List<GLFWimage> temp;
+		temp.reserve(value.size());
+		for (const auto & e : value)
 		{
-			temp[i] = GLFWimage {
-				value[i].width,
-				value[i].height,
-				value[i].pixels
-			};
+			temp.push_back(MapGLFWimage(e));
 		}
 
 		glfwSetWindowIcon(
 			static_cast<GLFWwindow *>(m_window),
-			count,
+			(uint32_t)temp.size(),
 			&temp[0]
 		);
 
@@ -458,7 +467,7 @@ namespace ml
 
 	bool	Window::isFocused() const
 	{
-		return getAttrib(GLFW_FOCUSED);
+		return getAttribute(GLFW_FOCUSED);
 	}
 
 	bool	Window::isOpen() const
@@ -468,7 +477,7 @@ namespace ml
 		);
 	}
 	
-	int32_t Window::getAttrib(const int32_t value) const
+	int32_t Window::getAttribute(const int32_t value) const
 	{
 		return glfwGetWindowAttrib(
 			static_cast<GLFWwindow *>(m_window), value
@@ -521,10 +530,10 @@ namespace ml
 
 	int32_t Window::getInputMode() const
 	{
-		return static_cast<Cursor::Mode>(glfwGetInputMode(
-			static_cast<GLFWwindow *>(m_window), 
+		return glfwGetInputMode(
+			static_cast<GLFWwindow *>(m_window),
 			GLFW_CURSOR
-		));
+		);
 	}
 
 	int32_t	Window::getMouseButton(const int32_t value) const
@@ -549,12 +558,18 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void * Window::createCursor(int32_t value) const
+	void * Window::createCustomCursor(const Image & image) const
 	{
-		return (((value > Cursor::MIN_SHAPE) && (value < Cursor::MAX_SHAPE))
-			? glfwCreateStandardCursor(value)
-			: nullptr
+		return glfwCreateCursor(
+			&MapGLFWimage(image), 
+			(int32_t)image.width(),
+			(int32_t)image.height()
 		);
+	}
+
+	void * Window::createStandardCursor(Cursor::Shape value) const
+	{
+		return glfwCreateStandardCursor(static_cast<int32_t>(value));
 	}
 
 	void Window::destroyCursor(void * value) const

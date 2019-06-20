@@ -164,7 +164,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Algorithm.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\CString.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Cache.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\INonNewable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
@@ -209,7 +212,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Vector2.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector3.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector4.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\XString.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
@@ -218,6 +220,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\File.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Meta.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />

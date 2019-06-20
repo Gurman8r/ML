@@ -25,9 +25,6 @@
     <ClInclude Include="..\..\..\include\ML\Window\Cursor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Window\Icon.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Window\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

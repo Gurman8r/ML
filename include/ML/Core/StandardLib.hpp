@@ -74,23 +74,21 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using byte_t	= typename uint8_t;
-	using hash_t	= typename uint64_t;
-	using time_t	= typename uint64_t;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 # if ML_x64
 	using size_t	= typename uint64_t;
-	using ptrdiff_t	= typename int64_t;
-	using intptr_t	= typename int64_t;
 	using intmax_t	= typename int64_t;
 # else
 	using size_t	= typename uint32_t;
-	using ptrdiff_t	= typename int32_t;
-	using intptr_t	= typename int32_t;
 	using intmax_t	= typename int32_t;
 # endif
+
+	/* * * * * * * * * * * * * * * * * * * * */
+	
+	using byte_t	= typename uint8_t;		// Byte Type
+	using hash_t	= typename size_t;		// Hash Type
+	using time_t	= typename uint64_t;	// Time Type
+	using ptrdiff_t	= typename intmax_t;	// Pointer Diff Type
+	using intptr_t	= typename intmax_t;	// Int Pointer Type
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

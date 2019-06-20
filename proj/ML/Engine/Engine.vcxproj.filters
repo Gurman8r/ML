@@ -105,9 +105,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\GameRule.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>

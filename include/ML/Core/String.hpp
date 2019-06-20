@@ -213,9 +213,9 @@ namespace ml
 		> inline static self_type Format(self_type value, const T & arg0, Args && ... args)
 		{
 			self_type::stream_type ss;
-			ss << arg0 << std::endl;
+			ss << arg0 << endl;
 
-			int32_t sink[] = { 0, ((void)(ss << args << std::endl), 0)... };
+			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; 
 			(void)sink;
 
 			for (size_type i = 0; ss.good(); i++)

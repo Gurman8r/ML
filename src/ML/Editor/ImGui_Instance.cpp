@@ -2,7 +2,7 @@
 
 #include <ML/Editor/ImGui_Instance.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Core/File.hpp>
+#include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Shader.hpp>
@@ -115,14 +115,14 @@ namespace ml
 		io.ClipboardUserData = m_Window;
 
 		// Cursors
-		m_MouseCursors[ImGuiMouseCursor_Arrow] = m_Window->createCursor(Cursor::Arrow);
-		m_MouseCursors[ImGuiMouseCursor_TextInput] = m_Window->createCursor(Cursor::TextInput);
-		m_MouseCursors[ImGuiMouseCursor_ResizeAll] = m_Window->createCursor(Cursor::Arrow);   // FIXME: GLFW doesn't have this.
-		m_MouseCursors[ImGuiMouseCursor_ResizeNS] = m_Window->createCursor(Cursor::ResizeNS);
-		m_MouseCursors[ImGuiMouseCursor_ResizeEW] = m_Window->createCursor(Cursor::ResizeEW);
-		m_MouseCursors[ImGuiMouseCursor_ResizeNESW] = m_Window->createCursor(Cursor::Arrow);  // FIXME: GLFW doesn't have this.
-		m_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = m_Window->createCursor(Cursor::Arrow);  // FIXME: GLFW doesn't have this.
-		m_MouseCursors[ImGuiMouseCursor_Hand] = m_Window->createCursor(Cursor::Hand);
+		m_MouseCursors[ImGuiMouseCursor_Arrow] = m_Window->createStandardCursor(Cursor::Shape::Arrow);
+		m_MouseCursors[ImGuiMouseCursor_TextInput] = m_Window->createStandardCursor(Cursor::Shape::TextInput);
+		m_MouseCursors[ImGuiMouseCursor_ResizeAll] = m_Window->createStandardCursor(Cursor::Shape::Arrow);   // FIXME: GLFW doesn't have this.
+		m_MouseCursors[ImGuiMouseCursor_ResizeNS] = m_Window->createStandardCursor(Cursor::Shape::ResizeNS);
+		m_MouseCursors[ImGuiMouseCursor_ResizeEW] = m_Window->createStandardCursor(Cursor::Shape::ResizeEW);
+		m_MouseCursors[ImGuiMouseCursor_ResizeNESW] = m_Window->createStandardCursor(Cursor::Shape::ResizeNESW);  // FIXME: GLFW doesn't have this.
+		m_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = m_Window->createStandardCursor(Cursor::Shape::ResizeNWSE);  // FIXME: GLFW doesn't have this.
+		m_MouseCursors[ImGuiMouseCursor_Hand] = m_Window->createStandardCursor(Cursor::Shape::Hand);
 
 		// Callbacks
 		if (install_callbacks)
@@ -645,21 +645,24 @@ namespace ml
 		}
 
 		// Mouse
-		if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || m_Window->getInputMode() == Cursor::Disabled)
+		if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || 
+			(m_Window->getInputMode() == (int32_t)Cursor::Mode::Disabled))
 			return;
 
 		ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
 		if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor)
 		{
 			// Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
-			m_Window->seCursorMode(Cursor::Hidden);
+			m_Window->seCursorMode(Cursor::Mode::Hidden);
 		}
 		else
 		{
 			// Show OS mouse cursor
 			// FIXME-PLATFORM: Unfocused windows seems to fail changing the mouse cursor with ML 3.2, but 3.3 works here.
-			m_Window->setCursor(m_MouseCursors[imgui_cursor] ? m_MouseCursors[imgui_cursor] : m_MouseCursors[ImGuiMouseCursor_Arrow]);
-			m_Window->seCursorMode(Cursor::Normal);
+			m_Window->setCursor(m_MouseCursors[imgui_cursor] 
+				? m_MouseCursors[imgui_cursor] 
+				: m_MouseCursors[ImGuiMouseCursor_Arrow]);
+			m_Window->seCursorMode(Cursor::Mode::Normal);
 		}
 	}
 
@@ -739,7 +742,7 @@ namespace ml
 			ML_ImGui_Instance.m_MousePressed[button] = true;
 		}
 
-		ML_ImGui_Instance.m_Window->eventSystem().fireEvent(MouseButtonEvent(
+		ML_ImGui_Instance.fireEvent(MouseButtonEvent(
 			button,
 			action,
 			mods
@@ -754,7 +757,7 @@ namespace ml
 	
 		io.MouseWheel += (float)yoffset;
 	
-		ML_ImGui_Instance.m_Window->eventSystem().fireEvent(ScrollEvent(
+		ML_ImGui_Instance.fireEvent(ScrollEvent(
 			xoffset,
 			yoffset
 		));
@@ -773,7 +776,7 @@ namespace ml
 			io.KeysDown[KeyCode::Enter] = io.KeysDown[key];
 		}
 	
-		ML_ImGui_Instance.m_Window->eventSystem().fireEvent(KeyEvent(key, scancode, action, {
+		ML_ImGui_Instance.fireEvent(KeyEvent(key, scancode, action, {
 			io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
 			io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],
 			io.KeyAlt	= io.KeysDown[KeyCode::LeftAlt]		|| io.KeysDown[KeyCode::RightAlt],
@@ -790,11 +793,10 @@ namespace ml
 			io.AddInputCharacter((uint16_t)value);
 		}
 	
-		ML_ImGui_Instance.m_Window->eventSystem().fireEvent(CharEvent(
+		ML_ImGui_Instance.fireEvent(CharEvent(
 			value
 		));
 	}
-
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

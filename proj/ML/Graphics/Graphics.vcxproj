@@ -185,7 +185,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Glyph.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\IDrawable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\IndexBuffer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Material.hpp" />
@@ -220,7 +219,6 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\FrameBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Material.cpp" />

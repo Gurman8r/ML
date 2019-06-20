@@ -3,6 +3,7 @@
 
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Core/Transform.hpp>
+#include <ML/Core/Cache.hpp>
 #include <ML/Graphics/Color.hpp>
 
 namespace ml
@@ -20,6 +21,11 @@ namespace ml
 		Shader();
 		Shader(const Shader & copy);
 		~Shader();
+
+	public:
+		inline const String & vertSrc() const { return m_vs; }
+		inline const String & fragSrc() const { return m_fs; }
+		inline const String & geomSrc() const { return m_gs; }
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -79,22 +85,17 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		using AttribTable	= typename Map<String, int32_t>;
-		using TextureTable	= typename Map<int32_t, const Texture *>;
-		using UniformTable	= typename Map<String, int32_t>;
+		using AttribTable	= TreeCache<String, int32_t>;
+		using TextureTable	= Map<int32_t, const Texture *>;
+		using UniformTable	= TreeCache<String, int32_t>;
 
-		struct	UniformBinder;
+		struct UniformBinder;
 
 		mutable AttribTable		m_attribs;
 		mutable TextureTable	m_textures;
 		mutable UniformTable	m_uniforms;
-
+		
 		mutable String m_vs, m_fs, m_gs;
-
-	public:
-		inline const String & vertSrc() const { return m_vs; }
-		inline const String & fragSrc() const { return m_fs; }
-		inline const String & geomSrc() const { return m_gs; }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

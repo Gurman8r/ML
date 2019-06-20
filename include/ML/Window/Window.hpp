@@ -2,11 +2,9 @@
 #define _ML_WINDOW_HPP_
 
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/INonCopyable.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/Image.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
-#include <ML/Window/Icon.hpp>
 #include <ML/Window/VideoSettings.hpp>
 #include <ML/Window/WindowStyle.hpp>
 
@@ -78,7 +76,7 @@ namespace ml
 		Window & setCursor(void * value);
 		Window & seCursorMode(const Cursor::Mode value);
 		Window & setCursorPos(const vec2i & value);
-		Window & setIcons(const List<Icon> & value);
+		Window & setIcons(const List<Image> & value);
 		Window & setPosition(const vec2i & value);
 		Window & setSize(const vec2u & value);
 		Window & setTitle(const String & value);
@@ -89,7 +87,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		bool		isFocused() const;
 		bool		isOpen() const;
-		int32_t		getAttrib(const int32_t value) const;
+		int32_t		getAttribute(const int32_t value) const;
 		char		getChar() const;
 		CString		getClipboardString() const;
 		vec2		getCursorPos() const;
@@ -118,9 +116,9 @@ namespace ml
 
 	public: // Cursors
 		/* * * * * * * * * * * * * * * * * * * * */
-		void *	createCursor(int32_t value) const;
+		void *	createCustomCursor(const Image & image) const;
+		void *	createStandardCursor(Cursor::Shape value) const;
 		void	destroyCursor(void * value) const;
-
 
 	public: // Set Callbacks
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -144,7 +142,7 @@ namespace ml
 		void *			m_monitor;
 		void *			m_share;
 		ContextSettings	m_context;
-		WindowStyle	m_style;
+		WindowStyle		m_style;
 		VideoSettings	m_video;
 		String			m_title;
 		mutable char	m_char;

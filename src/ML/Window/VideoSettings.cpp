@@ -13,7 +13,7 @@ namespace ml
 	{
 	}
 
-	VideoSettings::VideoSettings(const uint32_t width, const uint32_t height, const uint32_t colorDepth)
+	VideoSettings::VideoSettings(uint32_t width, uint32_t height, uint32_t colorDepth)
 		: resolution(width, height)
 		, colorDepth(colorDepth)
 	{
@@ -43,17 +43,18 @@ namespace ml
 		static bool checked = true;
 		if (checked)
 		{	checked = false;
-# if defined(ML_SYSTEM_WINDOWS)
+#if defined(ML_SYSTEM_WINDOWS)
 			DEVMODE win32Mode;
 			win32Mode.dmSize = sizeof(win32Mode);
 			EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &win32Mode);
 			temp = VideoSettings(
 				win32Mode.dmPelsWidth,
 				win32Mode.dmPelsHeight,
-				win32Mode.dmBitsPerPel);
-# else
+				win32Mode.dmBitsPerPel
+			);
+#else
 			temp = VideoSettings();
-# endif
+#endif
 		}
 		return temp;
 	}
@@ -64,7 +65,7 @@ namespace ml
 		static bool check = true;
 		if (check)
 		{	check = false;
-# if defined(ML_SYSTEM_WINDOWS)
+#if defined(ML_SYSTEM_WINDOWS)
 			DEVMODE win32Mode;
 			win32Mode.dmSize = sizeof(win32Mode);
 			for (int32_t count = 0; EnumDisplaySettings(nullptr, count, &win32Mode); ++count)
@@ -72,39 +73,19 @@ namespace ml
 				VideoSettings mode(
 					win32Mode.dmPelsWidth,
 					win32Mode.dmPelsHeight,
-					win32Mode.dmBitsPerPel);
+					win32Mode.dmBitsPerPel
+				);
 
 				if (std::find(temp.begin(), temp.end(), mode) == temp.end())
 				{
 					temp.push_back(mode);
 				}
 			}
-# else
+#else
 			temp = List<VideoSettings>();
-# endif
+#endif
 		}
 		return temp;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void VideoSettings::serialize(OStream & out) const
-	{
-		out << resolution << " " << colorDepth;
-	}
-
-	bool VideoSettings::equals(const VideoSettings & value) const
-	{
-		return 
-			(resolution == value.resolution) && 
-			(colorDepth == value.colorDepth);
-	}
-
-	bool VideoSettings::lessThan(const VideoSettings & value) const
-	{
-		return
-			(resolution < value.resolution) && 
-			(colorDepth < value.colorDepth);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

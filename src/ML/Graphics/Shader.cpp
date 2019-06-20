@@ -76,9 +76,9 @@ namespace ml
 
 	bool Shader::dispose()
 	{
-		m_attribs.clear();
+		m_attribs.base().clear();
 		m_textures.clear();
-		m_uniforms.clear();
+		m_uniforms.base().clear();
 
 		ML_GL.useShader(NULL);
 		if ((*this))
@@ -521,38 +521,12 @@ namespace ml
 	
 	int32_t Shader::getAttribute(const String & value) const
 	{
-		AttribTable::const_iterator it;
-		if ((it = m_attribs.find(value)) != m_attribs.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			int32_t location;
-			if ((location = ML_GL.getAttribLocation((*this), value.c_str())) == -1)
-			{
-				Debug::logWarning("Attribute Not Found: \"{0}\"", value);
-			}
-			return m_attribs.insert({ value, location }).first->second;
-		}
+		return m_attribs(value, ML_GL.getAttribLocation((*this), value.c_str()));
 	}
 	
 	int32_t Shader::getUniform(const String & value) const
 	{
-		UniformTable::const_iterator it;
-		if ((it = m_uniforms.find(value)) != m_uniforms.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			int32_t location;
-			if ((location = ML_GL.getUniformLocation((*this), value.c_str())) == -1)
-			{
-				Debug::logWarning("Uniform Not Found: \"{0}\"", value);
-			}
-			return m_uniforms.insert({ value, location }).first->second;
-		}
+		return m_uniforms(value, ML_GL.getUniformLocation((*this), value.c_str()));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

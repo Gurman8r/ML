@@ -96,9 +96,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Glyph.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Image.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Material.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -216,9 +213,6 @@
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Light.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Image.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp">

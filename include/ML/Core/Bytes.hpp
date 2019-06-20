@@ -2,7 +2,7 @@
 #define _ML_SIZEOF_HPP_
 
 #include <ML/Core/Ratio.hpp>
-#include <ML/Core/XString.hpp>
+#include <ML/Core/CString.hpp>
 
 namespace ml
 {
@@ -65,7 +65,7 @@ namespace ml
 		constexpr operator	uint64_t()	const { return m_real; }
 		constexpr uint64_t	real()		const { return m_real; }
 		constexpr uint64_t	size()		const { return m_size; }
-		constexpr XString	name()		const { return m_name; }
+		constexpr CString	name()		const { return m_name; }
 
 	public:
 		inline String str() const
@@ -82,7 +82,7 @@ namespace ml
 	private:
 		uint64_t	m_real;	// Size before ratio
 		uint64_t	m_size;	// Size after ratio
-		XString		m_name;	// Unit of display size
+		CString		m_name;	// Unit of display size
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

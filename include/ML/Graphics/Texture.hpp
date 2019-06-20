@@ -3,7 +3,7 @@
 
 #include <ML/Core/Rect.hpp>
 #include <ML/Graphics/GL.hpp>
-#include <ML/Graphics/Image.hpp>
+#include <ML/Core/Image.hpp>
 #include <ML/Core/IHandle.hpp>
 
 namespace ml

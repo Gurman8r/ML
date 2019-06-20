@@ -118,7 +118,7 @@ namespace ml
 			ev.prefs.GetBool	("Window", "srgbCapable",	false)
 		}))
 		{
-			ev.window.seCursorMode(Cursor::Normal);
+			ev.window.seCursorMode(Cursor::Mode::Normal);
 
 			ev.window.setViewport(vec2i::Zero, ev.window.getFrameSize());
 
@@ -128,6 +128,7 @@ namespace ml
 			}
 			else
 			{
+				// centered
 				ev.window.setPosition(
 					(VideoSettings::desktop().resolution - ev.window.getSize()) / 2
 				);
@@ -209,7 +210,10 @@ namespace ml
 		if (const Image * icon = ev.resources.images.get("icon"))
 		{
 			const Image temp = Image(*icon).flipVertically();
+
 			ev.window.setIcons({ temp });
+
+			ev.window.createCustomCursor(temp);
 		}
 
 		// Run Boot Script

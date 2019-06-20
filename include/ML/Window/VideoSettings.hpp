@@ -7,11 +7,10 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API VideoSettings final
 		: public INewable
-		, public IComparable<VideoSettings>
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -21,8 +20,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		VideoSettings();
-		VideoSettings(const uint32_t width, const uint32_t height, const uint32_t colorDepth);
-		VideoSettings(const vec2u & size, const uint32_t colorDepth);
+		VideoSettings(uint32_t width, uint32_t height, uint32_t colorDepth);
+		VideoSettings(const vec2u & size, uint32_t colorDepth);
 		VideoSettings(const VideoSettings & copy);
 		~VideoSettings();
 
@@ -38,12 +37,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		void serialize(OStream & out) const override;
-		bool equals(const VideoSettings & value) const override;
-		bool lessThan(const VideoSettings & value) const override;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		inline bool isValidDesktopResolution() const
 		{
 			return std::find(
@@ -56,7 +49,31 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	inline OStream & operator<<(OStream & out, const VideoSettings & value)
+	{
+		return out << value.resolution << " " << value.colorDepth;
+	}
+
+	inline IStream & operator>>(IStream & in, VideoSettings & value)
+	{
+		return in >> value.resolution >> value.colorDepth;
+	}
+
+	inline bool operator==(const VideoSettings & lhs, const VideoSettings & rhs)
+	{
+		return
+			lhs.resolution == rhs.resolution &&
+			lhs.colorDepth == rhs.colorDepth;
+	}
+
+	inline bool operator!=(const VideoSettings & lhs, const VideoSettings & rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_SCREEN_HPP_

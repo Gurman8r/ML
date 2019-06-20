@@ -1,6 +1,5 @@
-#include <ML/Graphics/Image.hpp>
+#include <ML/Core/Image.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Window/Icon.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -20,7 +19,13 @@ namespace ml
 	{
 	}
 
-	Image::Image(uint32_t width, uint32_t height, const byte_t * pixels)
+	Image::Image(const String & filename)
+		: Image()
+	{
+		loadFromFile(filename);
+	}
+
+	Image::Image(uint32_t width, uint32_t height, const uint8_t * pixels)
 		: m_size(width, height)
 		, m_pixels(Pixels())
 		, m_channels(0)
@@ -33,6 +38,14 @@ namespace ml
 		, m_pixels(copy.m_pixels)
 		, m_channels(copy.m_channels)
 	{
+	}
+
+	Image::Image(Image && copy)
+		: Image()
+	{
+		std::swap(m_size, copy.m_size);
+		std::swap(m_pixels, copy.m_pixels);
+		std::swap(m_channels, copy.m_channels);
 	}
 
 	Image::~Image()
@@ -50,12 +63,12 @@ namespace ml
 	bool Image::loadFromFile(const String & filename)
 	{
 		stbi_set_flip_vertically_on_load(true);
-		byte_t * data = stbi_load(
+		uint8_t * data = stbi_load(
 			filename.c_str(),
 			&(int32_t &)(m_size[0]),
 			&(int32_t &)(m_size[1]),
 			&m_channels,
-			0
+			NULL
 		);
 		if (data)
 		{
@@ -81,8 +94,8 @@ namespace ml
 			Pixels newPixels(width * height * 4);
 
 			// Fill it with the specified color
-			byte_t * ptr = &newPixels[0];
-			byte_t * end = ptr + newPixels.size();
+			uint8_t * ptr = &newPixels[0];
+			uint8_t * end = ptr + newPixels.size();
 			while (ptr < end)
 			{
 				*(ptr++) = color[0];
@@ -108,7 +121,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Image & Image::create(uint32_t width, uint32_t height, const byte_t * pixels)
+	Image & Image::create(uint32_t width, uint32_t height, const uint8_t * pixels)
 	{
 		if (pixels && width && height)
 		{
@@ -132,14 +145,14 @@ namespace ml
 		return (*this);
 	}
 	
-	Image & Image::createMaskFromColor(const vec4b & color, byte_t alpha)
+	Image & Image::createMaskFromColor(const vec4b & color, uint8_t alpha)
 	{
 		// Make sure that the image is not empty
 		if (!m_pixels.empty())
 		{
 			// Replace the alpha of the pixels that match the transparent color
-			byte_t * ptr = &m_pixels[0];
-			byte_t * end = ptr + m_pixels.size();
+			uint8_t * ptr = &m_pixels[0];
+			uint8_t * end = ptr + m_pixels.size();
 			while (ptr < end)
 			{
 				if ((ptr[0] == color[0]) &&
@@ -201,14 +214,14 @@ namespace ml
 
 	vec4b	Image::getPixel(uint32_t x, uint32_t y) const
 	{
-		const byte_t * pixel = &m_pixels[(x + y * m_size[0]) * 4];
+		const uint8_t * pixel = &m_pixels[(x + y * m_size[0]) * 4];
 
 		return vec4u(pixel[0], pixel[1], pixel[2], pixel[3]);
 	}
 
 	Image & Image::setPixel(uint32_t x, uint32_t y, const vec4b & color)
 	{
-		byte_t * ptr = &m_pixels[(x + y * m_size[0]) * 4];
+		uint8_t * ptr = &m_pixels[(x + y * m_size[0]) * 4];
 		*(ptr++) = color[0];
 		*(ptr++) = color[1];
 		*(ptr++) = color[2];

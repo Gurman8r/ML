@@ -44,7 +44,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool loadValues(IStream & file, String & line);
+		bool loadValues(istream & file, String & line);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

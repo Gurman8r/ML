@@ -28,7 +28,7 @@ namespace ml
 		~Runtime();
 
 	public:
-		static OStream & display(OStream & out);
+		static ostream & display(ostream & out);
 
 		static void	clean();
 

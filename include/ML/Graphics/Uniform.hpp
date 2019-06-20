@@ -50,7 +50,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline void serialize(OStream & out) const override
+		inline void serialize(ostream & out) const override
 		{
 			out << TypeNames[this->type];
 		}

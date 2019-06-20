@@ -484,7 +484,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void TokenList::serialize(OStream & out) const
+	void TokenList::serialize(ostream & out) const
 	{
 		TokenList::const_iterator it;
 		for (it = begin(); it != end(); it++)

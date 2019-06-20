@@ -51,7 +51,7 @@ namespace ml
 
 			Var * get() const;
 
-			void serialize(OStream & out) const override;
+			void serialize(ostream & out) const override;
 
 			inline Var * operator->() const { return get(); }
 			inline Var * operator*() const { return get(); }
@@ -59,7 +59,7 @@ namespace ml
 
 		static const String TypeNames[Var::MAX_VAR_TYPE];
 		
-		inline friend OStream & operator<<(OStream & out, const int32_t & rhs)
+		inline friend ostream & operator<<(ostream & out, const int32_t & rhs)
 		{
 			return out << Var::TypeNames[rhs];
 		}
@@ -159,7 +159,7 @@ namespace ml
 	public: // Serialization
 		Var & print();
 
-		void serialize(OStream & out) const override;
+		void serialize(ostream & out) const override;
 
 	public: // Factory
 		static Var makeSingle(const Token & tok);

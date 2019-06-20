@@ -98,7 +98,7 @@ namespace ml
 		return (i >= 0) ? Cursor::Mode_names[i] : "";
 	}
 
-	inline OStream & operator<<(OStream & out, const Cursor::Mode & value)
+	inline ostream & operator<<(ostream & out, const Cursor::Mode & value)
 	{
 		return out << nameOf(value);
 	}
@@ -121,7 +121,7 @@ namespace ml
 		return (i >= 0) ? Cursor::Shape_names[i] : "";
 	}
 
-	inline OStream & operator<<(OStream & out, const Cursor::Shape & value)
+	inline ostream & operator<<(ostream & out, const Cursor::Shape & value)
 	{
 		return out << nameOf(value);
 	}

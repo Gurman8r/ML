@@ -63,7 +63,7 @@ namespace ml
 		bool lessThan(const Operator & value) const override;
 		bool lessThan(const int32_t & value) const override;
 
-		void serialize(OStream & out) const override;
+		void serialize(ostream & out) const override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

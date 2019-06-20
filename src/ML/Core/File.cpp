@@ -98,7 +98,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void File::serialize(OStream & out) const
+	void File::serialize(ostream & out) const
 	{
 		out << String(begin(), end());
 	}

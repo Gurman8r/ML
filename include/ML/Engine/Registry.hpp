@@ -47,7 +47,7 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline void serialize(OStream & out) const override
+		inline void serialize(ostream & out) const override
 		{
 			for (auto & pair : m_files)
 			{

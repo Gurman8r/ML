@@ -26,7 +26,7 @@ namespace ml
 		{
 		}
 
-		friend OStream & operator<<(OStream & out, const MemoryTracker::Record & value)
+		friend ostream & operator<<(ostream & out, const MemoryTracker::Record & value)
 		{
 			return out << std::left
 				<< " { addr: " << value.object

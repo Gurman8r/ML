@@ -24,7 +24,7 @@ namespace ml
 		AST_Block(const List<AST_Node *> & body);
 		~AST_Block();
 
-		virtual OStream & display(OStream & out) const;
+		virtual ostream & display(ostream & out) const;
 
 		bool	delVar(const String & name);
 		Var *	getVar(const String & name) const;

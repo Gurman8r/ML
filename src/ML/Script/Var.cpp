@@ -38,7 +38,7 @@ namespace ml
 		return nullptr;
 	}
 
-	void Var::Ptr::serialize(OStream & out) const
+	void Var::Ptr::serialize(ostream & out) const
 	{
 		if (Var * var = get())
 		{
@@ -452,7 +452,7 @@ namespace ml
 		return (*this);
 	}
 
-	void Var::serialize(OStream & out) const
+	void Var::serialize(ostream & out) const
 	{
 		out << FMT();
 

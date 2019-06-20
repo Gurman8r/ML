@@ -119,7 +119,7 @@ namespace ml
 		}
 
 	public:
-		inline void serialize(OStream & out) const override
+		inline void serialize(ostream & out) const override
 		{
 			for (auto e : m_values) out << e;
 		}

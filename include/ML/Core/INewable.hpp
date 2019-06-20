@@ -17,12 +17,12 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline virtual void serialize(OStream & out) const
+		inline virtual void serialize(ostream & out) const
 		{
 			out << typeid(*this).name();
 		}
 
-		inline friend OStream & operator<<(OStream & out, const INewable & value)
+		inline friend ostream & operator<<(ostream & out, const INewable & value)
 		{
 			value.serialize(out);
 			return out;

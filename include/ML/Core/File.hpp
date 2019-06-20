@@ -33,7 +33,7 @@ namespace ml
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool saveToFile(const String & filename) const override;
-		void serialize(OStream & out) const override;
+		void serialize(ostream & out) const override;
 
 	public:
 		inline operator bool() const

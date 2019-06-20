@@ -22,7 +22,7 @@ namespace ml
 
 		Packet(const Packet & copy);
 
-		void serialize(OStream & out) const override;
+		void serialize(ostream & out) const override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

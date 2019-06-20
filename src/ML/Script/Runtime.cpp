@@ -24,7 +24,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	OStream & Runtime::display(OStream & out)
+	ostream & Runtime::display(ostream & out)
 	{
 		out << FG::White << "Memory:"
 			<< ml::endl;

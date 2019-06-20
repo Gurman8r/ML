@@ -59,7 +59,7 @@ namespace ml
 		}
 
 	public:
-		inline void serialize(OStream & out) const override
+		inline void serialize(ostream & out) const override
 		{
 			for (size_t i = 0; i < Vertex::Size; i++)
 			{

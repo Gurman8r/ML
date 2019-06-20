@@ -51,12 +51,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline OStream & operator<<(OStream & out, const VideoSettings & value)
+	inline ostream & operator<<(ostream & out, const VideoSettings & value)
 	{
 		return out << value.resolution << " " << value.colorDepth;
 	}
 
-	inline IStream & operator>>(IStream & in, VideoSettings & value)
+	inline istream & operator>>(istream & in, VideoSettings & value)
 	{
 		return in >> value.resolution >> value.colorDepth;
 	}

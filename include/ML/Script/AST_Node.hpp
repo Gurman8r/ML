@@ -75,12 +75,12 @@ namespace ml
 		}
 
 	public:
-		inline void serialize(OStream & out) const override
+		inline void serialize(ostream & out) const override
 		{
 			display(out);
 		}
 		
-		virtual OStream & display(OStream & out) const;
+		virtual ostream & display(ostream & out) const;
 		
 	public:
 		int32_t	getID() const;

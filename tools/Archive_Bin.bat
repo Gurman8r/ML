@@ -50,6 +50,7 @@ cd %ProgramFiles%\7-Zip
 7z a 	%OutputFile% %OutputDir%../Run_%Configuration%_%PlatformTarget%.bat
 7z a 	%OutputFile% %OutputDir%../ML.ini
 7z a 	%OutputFile% %OutputDir%../README.md
+7z a 	%OutputFile% %OutputDir%../thirdparty/tools/oalinst.exe
 7z a -r %OutputFile% %OutputDir%../assets/
 7z a -r %OutputFile% %OutputDir%../*%Configuration%_%PlatformTarget%.exe*
 7z a -r %OutputFile% %OutputDir%../*%Configuration%_%PlatformTarget%.dll*

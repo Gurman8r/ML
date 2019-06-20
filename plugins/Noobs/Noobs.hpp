@@ -56,7 +56,7 @@ namespace DEMO
 
 			enum { MaxName = 32 };
 
-			ImGui::TextEditor * text;
+			ImGui::TextEditor	text;
 			ml::String			name;
 			bool				open;
 			bool				dirty;
@@ -64,16 +64,10 @@ namespace DEMO
 			NoobFile(const ml::String & name, const ml::String & data)
 				: name(name), open(true), dirty(false)
 			{
-				text = new ImGui::TextEditor();
-				text->SetLanguageDefinition(
+				text.SetText(data);
+				text.SetLanguageDefinition(
 					ImGui::TextEditor::LanguageDefinition::GLSL()
 				);
-				text->SetText(data);
-			}
-
-			~NoobFile()
-			{
-				if (text) { delete text; text = nullptr; }
 			}
 		};
 

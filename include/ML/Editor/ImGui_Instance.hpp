@@ -62,7 +62,7 @@ namespace ml
 		ClientAPI	m_ClientApi;
 		double      m_Time;
 		bool        m_MousePressed[5];
-		void *		m_MouseCursors[Cursor::NUM_SHAPE + 2];
+		void *		m_MouseCursors[Cursor::NUM_SHAPE];
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

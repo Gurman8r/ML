@@ -38,16 +38,20 @@ namespace ml
 
 		enum Shape : int32_t
 		{
-			Arrow = 0x36001,	// The regular arrow cursor shape
-			TextInput,			// The text input I-beam cursor shape.
-			Crosshair,			// The crosshair shape.
-			Hand,				// The hand shape.
-			ResizeEW,			// The horizontal resize arrow shape.
-			ResizeNS,			// The vertical resize arrow shape.
+			Arrow = 0x36001,	// Regular arrow cursor shape
+			TextInput,			// Text input I-beam cursor shape
+			Crosshair,			// Crosshair cursor shape
+			Hand,				// Hand cursor shape
+			ResizeEW,			// Horizontal resize cursor shape
+			ResizeNS,			// Vertical resize cursor shape
+			
+			// FIXME: GLFW doesn't have these
+			ResizeNESW = Arrow,	// The bottom-left resize cursor shape
+			ResizeNWSE = Arrow,	// The bottom-right resize cursor shape
 
 			MAX_SHAPE,
 			MIN_SHAPE = Arrow - 1,
-			NUM_SHAPE = 6
+			NUM_SHAPE = 8
 		};
 
 		static constexpr CString Shape_names[NUM_SHAPE] = {
@@ -57,6 +61,8 @@ namespace ml
 			"Hand",
 			"Resize EW",
 			"Resize NS",
+			"Resize NE/SW",
+			"Resize NW/SE",
 		};
 
 		static constexpr Shape Shape_values[NUM_SHAPE] = {
@@ -66,6 +72,8 @@ namespace ml
 			Shape::Hand,
 			Shape::ResizeEW,
 			Shape::ResizeNS,
+			Shape::ResizeNESW,
+			Shape::ResizeNWSE,
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

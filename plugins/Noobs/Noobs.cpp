@@ -157,8 +157,8 @@ namespace DEMO
 				"Vertex",
 				noobs.material->shader()->vertSrc()
 			));
-			noobs.files.front()->text->SetText(
-				noobs.files.front()->text->GetText() +
+			noobs.files.front()->text.SetText(
+				noobs.files.front()->text.GetText() +
 				"// Vertex Shader\n"
 				"#shader vertex\n"
 				"#include \"Vertex\"\n"
@@ -172,8 +172,8 @@ namespace DEMO
 				"Fragment",
 				noobs.material->shader()->fragSrc()
 			));
-			noobs.files.front()->text->SetText(
-				noobs.files.front()->text->GetText() +
+			noobs.files.front()->text.SetText(
+				noobs.files.front()->text.GetText() +
 				"// Fragment Shader\n"
 				"#shader fragment\n"
 				"#include \"Fragment\"\n"
@@ -187,8 +187,8 @@ namespace DEMO
 				"Geometry",
 				noobs.material->shader()->geomSrc()
 			));
-			noobs.files.front()->text->SetText(
-				noobs.files.front()->text->GetText() +
+			noobs.files.front()->text.SetText(
+				noobs.files.front()->text.GetText() +
 				"// Geometry Shader\n"
 				"#shader geometry\n"
 				"#include \"Geometry\"\n"
@@ -387,7 +387,7 @@ namespace DEMO
 												{
 													out << (*this)(
 														files,
-														e->text->GetText()
+														e->text.GetText()
 													);
 													found = true;
 													break;
@@ -410,7 +410,7 @@ namespace DEMO
 
 						const ml::String source = NoobParser()(
 							noobs.files,
-							noobs.files.front()->text->GetText()
+							noobs.files.front()->text.GetText()
 						);
 						ml::Shader * shader = std::remove_cv_t<ml::Shader *>(
 							noobs.material->shader()
@@ -546,11 +546,11 @@ namespace DEMO
 									}
 								}
 
-								(*it)->text->Render(
+								(*it)->text.Render(
 									ml::String("##File" + (*it)->name + "##Text").c_str()
 								);
 
-								if ((*it)->text->IsTextChanged())
+								if ((*it)->text.IsTextChanged())
 									(*it)->dirty = true;
 
 								/* * * * * * * * * * * * * * * * * * * * */

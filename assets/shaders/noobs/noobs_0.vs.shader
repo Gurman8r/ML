@@ -91,8 +91,17 @@ uniform struct Window
 
 void main()
 {
+	// Position
+	mat4 pos = mat4(1.0);
+	pos[3][0] = 0.0; // x
+	pos[3][1] = sin(time.total); // y
+	pos[3][2] = 0.0; // z
+
+	// Rotation
+	mat4 rot = ml_AngleAxis(vec3(0.0, 1.0, 0.0), time.total);
+	
 	// Model Matrix
-	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), time.total);
+	mat4 model = rot * pos;
 
 	// View Matrix
 	mat4 view = ml_LookAt(
@@ -112,14 +121,11 @@ void main()
 	// MVP
 	mat4 mvp = (proj * view * model);
 
-	V.Position = a_Position;
-	V.Normal = a_Normal;
-	V.Texcoord = a_Texcoord;
-
-	gl_Position = mvp * vec4(V.Position, 1.0);
+	gl_Position = mvp * vec4(a_Position, 1.0);
 
 	V.Position = gl_Position.xyz;
-	V.Normal = transpose(inverse(model)) * V.Normal;
+	V.Normal = transpose(inverse(model)) * a_Normal;
+	V.Texcoord = a_Texcoord;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

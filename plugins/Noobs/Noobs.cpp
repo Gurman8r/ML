@@ -122,7 +122,7 @@ namespace DEMO
 				new ml::uni_vec2_cr	("window.size",		noobs.resolution),
 				new ml::uni_col4_cr	("window.color",	noobs.clearColor),
 
-				new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 2.5f }),
+				new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
 				new ml::uni_vec3	("camera.target",	ml::vec3::Zero),
 				new ml::uni_flt		("camera.fov",		45.0),
 				new ml::uni_flt		("camera.zNear",	0.001f),

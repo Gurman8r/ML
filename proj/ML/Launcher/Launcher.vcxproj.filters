@@ -196,14 +196,14 @@
     <Text Include="..\..\..\assets\data\textures.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
-    <Text Include="..\..\..\assets\styles\style4.txt">
-      <Filter>Resource Files\assets\styles</Filter>
-    </Text>
     <Text Include="..\..\..\assets\data\plugins.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
     <Text Include="..\..\..\assets\data\manifest.txt">
       <Filter>Resource Files\assets\data</Filter>
+    </Text>
+    <Text Include="..\..\..\assets\styles\obsidian.txt">
+      <Filter>Resource Files\assets\styles</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

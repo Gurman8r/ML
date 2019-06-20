@@ -213,7 +213,7 @@
     <Text Include="..\..\..\assets\data\sprites.txt" />
     <Text Include="..\..\..\assets\data\surfaces.txt" />
     <Text Include="..\..\..\assets\data\textures.txt" />
-    <Text Include="..\..\..\assets\styles\style4.txt" />
+    <Text Include="..\..\..\assets\styles\obsidian.txt" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\..\..\assets\fonts\clacon.ttf" />

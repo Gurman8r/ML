@@ -1,7 +1,6 @@
 #ifndef _ML_EDITOR_HPP_
 #define _ML_EDITOR_HPP_
 
-#include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Editor/TerminalGui.hpp>
 #include <ML/Editor/BrowserGui.hpp>

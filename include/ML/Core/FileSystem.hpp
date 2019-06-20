@@ -4,17 +4,14 @@
 #include <ML/Core/File.hpp>
 
 #define ML_FS ml::FileSystem::getInstance()
+#define ML_MAX_PATH 260
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	class ML_CORE_API FileSystem final
-		: public INewable
-		, public ISingleton<FileSystem>
+		: public ISingleton<FileSystem>
 	{
 		friend class ISingleton<FileSystem>;
 

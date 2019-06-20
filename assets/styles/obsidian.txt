@@ -1,16 +1,18 @@
-#	WIP
-#
-#	[Style] FrameBorderSize			= 1.0
-#	[Style] FramePadding			= { 4.0 2.0 }
-#	[Style] ItemSpacing				= { 8.0 2.0 }
-#	[Style] WindowBorderSize		= 1.0
-#	[Style] TabBorderSize			= 1.0
-#	[Style] WindowRounding			= 1.0
-#	[Style] ChildRounding			= 1.0
-#	[Style] FrameRounding			= 1.0
-#	[Style] ScrollbarRounding		= 1.0
-#	[Style] GrabRounding			= 1.0
-#	[Style] TabRounding				= 1.0
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+[Style] FrameBorderSize			= { 1.0 }
+[Style] FramePadding			= { 4.0 4.0 }
+[Style] ItemSpacing				= { 8.0 2.0 }
+[Style] WindowBorderSize		= { 1.0 }
+[Style] TabBorderSize			= { 1.0 }
+[Style] WindowRounding			= { 1.0 }
+[Style] ChildRounding			= { 1.0 }
+[Style] FrameRounding			= { 1.0 }
+[Style] ScrollbarRounding		= { 1.0 }
+[Style] GrabRounding			= { 1.0 }
+[Style] TabRounding				= { 1.0 }
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 [Color] Text					= { 1.00 1.00 1.00 0.95 }
 [Color] TextDisabled			= { 0.50 0.50 0.50 1.00 }
@@ -62,3 +64,5 @@
 [Color] NavWindowingHighlight	= { 1.00 1.00 1.00 0.70 }
 [Color] NavWindowingDimBg		= { 0.80 0.80 0.80 0.20 }
 [Color] ModalWindowDimBg		= { 0.80 0.80 0.80 0.35 }
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

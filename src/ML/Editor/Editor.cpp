@@ -1,7 +1,7 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Editor/ImGui_Instance.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Editor/StyleLoader.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
@@ -24,11 +24,11 @@ namespace ml
 		, m_resources	(eventSystem)
 		, m_terminal	(eventSystem)
 	{
-		m_dockspace.setOpen	(true);
-		m_browser.setOpen	(false);
-		m_profiler.setOpen	(false);
-		m_resources.setOpen	(false);
-		m_terminal.setOpen	(true);
+		m_dockspace	.setOpen(true);
+		m_browser	.setOpen(false);
+		m_profiler	.setOpen(false);
+		m_resources	.setOpen(false);
+		m_terminal	.setOpen(true);
 
 		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(ExitEvent::ID,			this);
@@ -189,53 +189,48 @@ namespace ml
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
-		// Initialize ImGui
-		IMGUI_CHECKVERSION();
+		// Initialize
+		/* * * * * * * * * * * * * * * * * * * * */
+		ML_ImGui_Instance;
 
-		// Create ImGui Context
-		ImGui::CreateContext();
-
-		// Load ImGui Style
-		const String styleConf = ev.prefs.GetString(
-			"Editor",
-			"imguiStyle",
-			"Classic"
+		// Setup Style
+		/* * * * * * * * * * * * * * * * * * * * */
+		const String styleFile = ev.prefs.GetString(
+			"Editor", "styleFile", "Classic"
 		);
-		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
-		else if (styleConf == "Dark") ImGui::StyleColorsDark();
-		else if (styleConf == "Light") ImGui::StyleColorsLight();
-		else if (StyleLoader loader = StyleLoader(ML_FS.getPathTo(styleConf)))
+		if (styleFile == "Classic")  ImGui::StyleColorsClassic();
+		else if (styleFile == "Dark") ImGui::StyleColorsDark();
+		else if (styleFile == "Light") ImGui::StyleColorsLight();
+		else if (!ML_ImGui_Instance.LoadStyle(ML_FS.getPathTo(styleFile)))
 		{
-			// should be data driven
-			ImGui::GetStyle().FrameBorderSize = 1.0f;
-			ImGui::GetStyle().FramePadding = { 4.0f, 4.0f };
-			ImGui::GetStyle().ItemSpacing = { 8.0f, 2.0f };
-			ImGui::GetStyle().WindowBorderSize = 1.0f;
-			ImGui::GetStyle().TabBorderSize = 1.0f;
-			ImGui::GetStyle().WindowRounding = 1.0f;
-			ImGui::GetStyle().ChildRounding = 1.0f;
-			ImGui::GetStyle().FrameRounding = 1.0f;
-			ImGui::GetStyle().ScrollbarRounding = 1.0f;
-			ImGui::GetStyle().GrabRounding = 1.0f;
-			ImGui::GetStyle().TabRounding = 1.0f;
+			Debug::logError("Failed loading ImGui style");
 		}
 
-		// Custom Font
-		String font = ev.prefs.GetString("Editor", "imguiFont", "");
-		float  size = ev.prefs.GetFloat("Editor", "imguiSize", 12.0f);
-		if (font && size > 0.0f)
+		// Setup Fonts
+		/* * * * * * * * * * * * * * * * * * * * */
+		String fontFile = ev.prefs.GetString("Editor", "fontFile", "");
+		if (fontFile)
 		{
-			ImGui::GetIO().Fonts->AddFontFromFileTTF(font.c_str(), size);
+			float fontSize = ev.prefs.GetFloat("Editor", "fontSize", 12.0f);
+			if (fontSize > 0.0f)
+			{
+				ImGui::GetIO().Fonts->AddFontFromFileTTF(
+					fontFile.c_str(),
+					fontSize
+				);
+			}
 		}
 
-		// Set Imgui Ini
-		CString imguiIni = (ev.prefs.GetBool("Editor", "imguiUseIni", false)
-			? std::strcat((char *)ML_FS.getRoot().c_str(), "../../../imgui.ini")
+		// Setup Ini File
+		/* * * * * * * * * * * * * * * * * * * * */
+		CString useIniFile = (ev.prefs.GetBool("Editor", "useIniFile", false)
+			? "imgui.ini"
 			: nullptr
 		);
 
-		// Start ImGui
-		if (!ImGui_ML_Init("#version 410", &ev.window, true, imguiIni))
+		// Startup
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (!ML_ImGui_Instance.Startup("#version 410", &ev.window, true, useIniFile))
 		{
 			Debug::fatal("Failed Initializing ImGui");
 		}
@@ -246,7 +241,7 @@ namespace ml
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
 	{
-		ImGui_ML_NewFrame();
+		ML_ImGui_Instance.NewFrame();
 		ImGui::NewFrame();
 	}
 
@@ -429,7 +424,7 @@ namespace ml
 	void Editor::onEndGui(const EndGuiEvent & ev)
 	{
 		ImGui::Render();
-		ImGui_ML_Render(ImGui::GetDrawData());
+		ML_ImGui_Instance.Render(ImGui::GetDrawData());
 	}
 
 	void Editor::onExit(const ExitEvent & ev)
@@ -438,7 +433,7 @@ namespace ml
 		m_terminal.redirect(cout);
 
 		// Shutdown ImGui
-		ImGui_ML_Shutdown();
+		ML_ImGui_Instance.Shutdown();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -10,15 +10,15 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API StyleLoader final
+	class ML_EDITOR_API ImGui_StyleLoader final
 		: public INewable
 		, public IReadable
 	{
 	public:
-		StyleLoader();
-		explicit StyleLoader(const String & filename);
-		StyleLoader(StyleLoader && copy);
-		~StyleLoader();
+		ImGui_StyleLoader();
+		explicit ImGui_StyleLoader(const String & filename);
+		ImGui_StyleLoader(ImGui_StyleLoader && copy);
+		~ImGui_StyleLoader();
 
 	public:
 		bool loadFromFile(const String & filename) override;

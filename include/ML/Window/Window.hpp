@@ -118,7 +118,7 @@ namespace ml
 
 	public: // Cursors
 		/* * * * * * * * * * * * * * * * * * * * */
-		void *	createCursor(uint32_t value) const;
+		void *	createCursor(int32_t value) const;
 		void	destroyCursor(void * value) const;
 
 

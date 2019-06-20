@@ -549,9 +549,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void * Window::createCursor(uint32_t value) const
+	void * Window::createCursor(int32_t value) const
 	{
-		return glfwCreateStandardCursor(value);
+		return (((value > Cursor::MIN_SHAPE) && (value < Cursor::MAX_SHAPE))
+			? glfwCreateStandardCursor(value)
+			: nullptr
+		);
 	}
 
 	void Window::destroyCursor(void * value) const

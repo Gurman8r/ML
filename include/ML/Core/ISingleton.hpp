@@ -2,6 +2,7 @@
 #define _ML_I_SINGLETON_HPP_
 
 #include <ML/Core/INonCopyable.hpp>
+#include <ML/Core/INonNewable.hpp>
 
 namespace ml
 {
@@ -10,6 +11,7 @@ namespace ml
 	template <class T>
 	class ISingleton
 		: public INonCopyable
+		, public INonNewable
 	{
 	public:
 		inline static T & getInstance()

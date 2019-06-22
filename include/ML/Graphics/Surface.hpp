@@ -11,18 +11,20 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Surface is Framebuffer + Renderbuffer
-	class ML_GRAPHICS_API Surface final
+	struct ML_GRAPHICS_API Surface final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Drawable
 		, public I_Readable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Surface();
 		Surface(const Surface & copy);
 		~Surface();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 
@@ -35,25 +37,31 @@ namespace ml
 		bool setModel(const Model * value);
 		bool setShader(const Shader * value);
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
-	public:
-		inline const Model	 * model()	 const	{ return m_model;   }
-		inline const Shader  * shader()  const	{ return m_shader;  }
-		inline const Shader *& shader()			{ return m_shader;  }
-		inline const Texture & texture() const	{ return m_texture; }
-		inline		 Texture & texture()		{ return m_texture; }
-		inline const vec2i	 & size()	 const  { return m_size;	}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto model()		const	->  const Model *	{ return m_model;   }
+		inline auto shader()	const	->  const Shader *	{ return m_shader;  }
+		inline auto shader()			->  const Shader *&	{ return m_shader;  }
+		inline auto size()		const	->  const vec2i	&	{ return m_size;	}
+		inline auto texture()	const	->  const Texture &	{ return m_texture; }
+		inline auto texture()			-> 	Texture &		{ return m_texture; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		const Model *	m_model;
 		const Shader *	m_shader;
-		Texture			m_texture;
 		vec2i			m_size;
+		Texture			m_texture;
 		uint32_t		m_attachment;
 		FBO				m_fbo;
 		RBO				m_rbo;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

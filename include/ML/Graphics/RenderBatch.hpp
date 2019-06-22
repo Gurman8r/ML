@@ -9,17 +9,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API RenderBatch final
+	struct ML_GRAPHICS_API RenderBatch final
 		: public I_Newable
 	{
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const VAO *	vao;
 		const VBO *	vbo;
 		Material *	mat;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RenderBatch()
 			: vao(nullptr)
@@ -44,7 +43,7 @@ namespace ml
 
 		~RenderBatch() {}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -207,7 +207,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Vertex.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexArray.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexBuffer.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\VertexList.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Vertices.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />
@@ -236,7 +236,6 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Vertex.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\VertexList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\ML\Graphics\GL.inl" />

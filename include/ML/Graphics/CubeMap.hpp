@@ -8,16 +8,21 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Placeholder
-	class ML_GRAPHICS_API CubeMap final
+	struct ML_GRAPHICS_API CubeMap final
 		: public I_Newable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		CubeMap();
 		CubeMap(const CubeMap & copy);
 		~CubeMap();
 
-	private:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	private:
+		// todo...
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

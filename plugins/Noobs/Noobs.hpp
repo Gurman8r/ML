@@ -12,9 +12,9 @@
 namespace ml
 {
 	class Entity;
-	class Material;
+	struct Material;
 	class Renderer;
-	class Shader;
+	struct Shader;
 	class Surface;
 }
 

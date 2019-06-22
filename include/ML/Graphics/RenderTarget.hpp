@@ -15,18 +15,18 @@ namespace ml
 	class ML_GRAPHICS_API RenderTarget
 	{
 	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		virtual ~RenderTarget() {}
 
-
-	public: // Utility
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		RenderTarget & clear();
 		RenderTarget & clear(const vec4 & color);
 		RenderTarget & setViewport(const vec2i & pos, const vec2i & size);
 
-
-	public: // Drawing
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		RenderTarget & draw(const I_Drawable * value);
 		RenderTarget & draw(const I_Drawable * value, const RenderBatch & batch);
 
@@ -37,7 +37,7 @@ namespace ml
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		RenderTarget & draw(const VertexList & vertices, const RenderBatch & batch);
+		RenderTarget & draw(const Vertices & vertices, const RenderBatch & batch);
 		RenderTarget & draw(const List<float> & vertices, const RenderBatch & batch);
 		RenderTarget & draw(const float * vertices, const size_t vertexCount, const RenderBatch & batch);
 		
@@ -46,7 +46,7 @@ namespace ml
 		RenderTarget & draw(const VAO & vao, const VBO & vbo, const IBO & ibo);
 		RenderTarget & draw(const VAO & vao, const VBO & vbo);
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

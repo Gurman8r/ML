@@ -10,16 +10,19 @@ namespace ml
 
 	template <
 		class T
-	> class I_Singleton
+	> struct I_Singleton
 		: public I_NonCopyable
 		, public I_NonNewable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline static T & getInstance()
 		{
 			static T instance;
 			return instance;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

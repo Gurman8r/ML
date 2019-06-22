@@ -107,7 +107,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Vertex & Vertex::position(const float x, const float y, const float z)
+	Vertex & Vertex::position(float x, float y, float z)
 	{
 		(*this)[0] = x;
 		(*this)[1] = y;
@@ -115,7 +115,7 @@ namespace ml
 		return (*this);
 	}
 
-	Vertex & Vertex::color(const float r, const float g, const float b, const float a)
+	Vertex & Vertex::color(float r, float g, float b, float a)
 	{
 		(*this)[3] = r;
 		(*this)[4] = g;
@@ -124,7 +124,7 @@ namespace ml
 		return (*this);
 	}
 
-	Vertex & Vertex::texcoords(const float x, const float y)
+	Vertex & Vertex::texcoords(float x, float y)
 	{
 		(*this)[7] = x;
 		(*this)[8] = y;

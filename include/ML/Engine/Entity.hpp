@@ -9,36 +9,35 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Entity final
+	struct ML_ENGINE_API Entity final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 		, public I_Writable
 		, public I_NonCopyable
 	{
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using value_type	= typename I_Newable *;
 		using map_type		= typename HashMap<size_t, value_type>;
 		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Entity();
 		~Entity();
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool saveToFile(const String & filename) const override;
 
-	public:
 		// Find Component
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		template <class Component> 
 		inline iterator find()
 		{
@@ -52,7 +51,7 @@ namespace ml
 		}
 
 		// Add Component
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		template <class Component>
 		inline Component * add()
 		{
@@ -86,7 +85,7 @@ namespace ml
 		}
 
 		// Get Component
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		template <class Component>
 		inline Component * get()
 		{
@@ -107,8 +106,8 @@ namespace ml
 			);
 		}
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		inline iterator			begin()				{ return m_map.begin();  }
 		inline const_iterator	begin()		const	{ return m_map.begin();  }
 		inline const_iterator	cbegin()	const	{ return m_map.cbegin(); }
@@ -116,12 +115,14 @@ namespace ml
 		inline const_iterator	end()		const	{ return m_map.end();	 }
 		inline const_iterator	cend()		const	{ return m_map.cend();	 }
 
-	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-		map_type m_map;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: map_type m_map;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ENTITY_HPP_

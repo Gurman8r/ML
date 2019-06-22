@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API I_NonCopyable
+	struct ML_CORE_API I_NonCopyable
 	{
 	protected:
 		I_NonCopyable() {}

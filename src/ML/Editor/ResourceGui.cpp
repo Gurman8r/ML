@@ -900,7 +900,7 @@ namespace ml
 
 			if (enterPress || ImGui::Button("Submit"))
 			{
-				if (String(name) && !mat->find_any(name))
+				if (String(name) && !mat->hasUniform(name))
 				{
 					uni_base * u = nullptr;
 					switch (type)

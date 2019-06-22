@@ -9,15 +9,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API BufferLayout final
+	struct ML_GRAPHICS_API BufferLayout final
 		: public I_Newable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static const BufferLayout Default;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		struct Element final
-			: public I_Newable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -42,12 +43,15 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		BufferLayout();
 		BufferLayout(const List<Element> & elements);
 		BufferLayout(const Initializer<Element> & elements);
 		BufferLayout(const BufferLayout & copy);
 		~BufferLayout();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void bind() const;
 
@@ -55,8 +59,12 @@ namespace ml
 		
 		inline const List<Element> & elements() const { return m_elements; }
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		List<Element> m_elements;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

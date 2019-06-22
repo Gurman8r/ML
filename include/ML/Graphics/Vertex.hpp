@@ -9,17 +9,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API Vertex final
+	struct ML_GRAPHICS_API Vertex final
 		: public I_Newable
 		, public I_Comparable<Vertex>
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		enum { Size = 9U };
 
-	public:
 		using array_type = typename float[Size];
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Vertex();
 		Vertex(const vec3 & position);
 		Vertex(const vec3 & position, const vec4 & color);
@@ -28,26 +29,36 @@ namespace ml
 		Vertex(const Vertex & copy);
 		~Vertex();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		const vec3 & position() const;
 		const vec4 & color() const;
 		const vec2 & texcoords() const;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Vertex & position(const vec3 & value);
 		Vertex & color(const vec4 & value);
 		Vertex & texcoords(const vec2 & value);
 
-	public:
-		Vertex & position(const float x, const float y, const float z);
-		Vertex & color(const float r, const float g, const float b, const float a);
-		Vertex & texcoords(const float x, const float y);
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
-		inline const float & operator[](size_t index) const	{ return m_data[index]; }
-		inline float &		 operator[](size_t index)		{ return m_data[index]; }
+		Vertex & position(float x, float y, float z);
+		Vertex & color(float r, float g, float b, float a);
+		Vertex & texcoords(float x, float y);
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline const float & operator[](size_t index) const 
+		{
+			return m_data[index]; 
+		}
+		
+		inline float & operator[](size_t index)
+		{ 
+			return m_data[index]; 
+		}
+
 		inline const float & at(const size_t index) const
 		{
 			return m_data[index];
@@ -58,17 +69,6 @@ namespace ml
 			return m_data;
 		}
 
-	public:
-		inline friend ML_SERIALIZE(ostream & out, const Vertex & value)
-		{
-			for (size_t i = 0; i < Vertex::Size; i++)
-			{
-				out << value[i] << ' ';
-			}
-			return out;
-		}
-		
-	public:
 		inline bool equals(const Vertex & other) const override
 		{
 			for (auto i = 0; i < Size; i++)
@@ -93,9 +93,24 @@ namespace ml
 			return true;
 		}
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		array_type m_data;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(ostream & out, const Vertex & value)
+	{
+		for (size_t i = 0; i < Vertex::Size; i++)
+		{
+			out << value[i] << ' ';
+		}
+		return out;
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

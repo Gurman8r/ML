@@ -65,23 +65,26 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBuffer & IndexBuffer::bufferData(const List<uint32_t> & data) const
-	{
-		return bufferData(&data[0], (uint32_t)data.size());
-	}
-
 	const IndexBuffer & IndexBuffer::bufferData(const uint32_t * data, uint32_t count) const
 	{
-		m_data = data;
-		m_count = count;
+		if (*this)
+		{
+			m_data = data;
+			m_count = count;
 
-		ML_GL.bufferData(
-			GL::ElementArrayBuffer,
-			(m_count * sizeof(uint32_t)),
-			m_data,
-			m_usage);
+			ML_GL.bufferData(
+				GL::ElementArrayBuffer,
+					(m_count * sizeof(uint32_t)),
+				m_data,
+				m_usage);
 
+		}
 		return (*this);
+	}
+
+	const IndexBuffer & IndexBuffer::bufferData(const Indices & data) const
+	{
+		return bufferData(&data[0], (uint32_t)data.size());
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

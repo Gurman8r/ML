@@ -9,23 +9,26 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API Sprite final
+	struct ML_GRAPHICS_API Sprite final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Drawable
 		, public I_Readable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Sprite();
 		Sprite(const Sprite & copy);
 		~Sprite();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromMemory(const Texture * value);
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Sprite & setColor	(const vec4 &	value);
 		Sprite & setOrigin	(const vec2 &	value);
 		Sprite & setPosition(const vec2 &	value);
@@ -33,21 +36,27 @@ namespace ml
 		Sprite & setScale	(const vec2 &	value);
 		Sprite & setTexture	(const Texture *value);
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
-	public:
-		inline const vec4 &		color()		const { return m_color;					}
-		inline const vec2 &		origin()	const { return m_transform.origin();	}
-		inline const vec2 &		position()	const { return m_transform.position();	}
-		inline const float		rotation()	const { return m_transform.rotation();	}
-		inline const vec2 &		scale()		const { return m_transform.scale();		}
-		inline const Texture *	texture()	const { return m_texture;				}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto color()		const -> const vec4 &	{ return m_color; }
+		inline auto origin()	const -> const vec2 &	{ return m_transform.origin(); }
+		inline auto position()	const -> const vec2 &	{ return m_transform.position(); }
+		inline auto rotation()	const -> float			{ return m_transform.rotation(); }
+		inline auto scale()		const -> const vec2 &	{ return m_transform.scale(); }
+		inline auto texture()	const -> const Texture *{ return m_texture; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		vec4			m_color;
 		const Texture * m_texture;
 		RectTransform	m_transform;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

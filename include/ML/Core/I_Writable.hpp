@@ -7,10 +7,13 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class I_Writable
+	struct I_Writable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		virtual bool saveToFile(const String & filename) const = 0;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

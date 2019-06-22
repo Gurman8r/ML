@@ -8,32 +8,38 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_SCRIPT_API Script
+	struct ML_SCRIPT_API Script
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Script();
 		~Script();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromMemory(const File & file);
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool	build(const Args & args);
 		bool	buildAndRun(const Args & args);
 		bool	rebuild(const Args & args);
 		bool	run();
 
-	public:
-		inline const File		& file() const { return m_file; }
-		inline const String		& path() const { return m_path; }
-		inline const AST_Block	* root() const { return m_root; }
-		inline const Var		& retv() const { return m_retv;	}
-		inline const TokenList	& toks() const { return m_toks; }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto file() const -> const File &		{ return m_file; }
+		inline auto path() const -> const String &		{ return m_path; }
+		inline auto root() const -> const AST_Block	*	{ return m_root; }
+		inline auto retv() const -> const Var &			{ return m_retv; }
+		inline auto toks() const -> const TokenList	&	{ return m_toks; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		File		m_file;
@@ -41,6 +47,8 @@ namespace ml
 		Var			m_retv;
 		AST_Block *	m_root;
 		TokenList	m_toks;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

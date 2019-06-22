@@ -99,9 +99,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Vertex.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\VertexList.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -147,6 +144,9 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Vertices.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp">
@@ -186,9 +186,6 @@
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\VertexList.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Vertex.cpp">

@@ -9,21 +9,27 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_AUDIO_API AudioBuffer
+	struct ML_AUDIO_API AudioBuffer
 		: public I_Newable
 		, public I_Handle<uint32_t>
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		AudioBuffer();
 		AudioBuffer(const AudioBuffer & copy);
 		~AudioBuffer();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		AudioBuffer & clean();
 		AudioBuffer & create(uint32_t count);
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		uint32_t m_count;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

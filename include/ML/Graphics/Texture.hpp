@@ -6,39 +6,47 @@
 #include <ML/Core/Image.hpp>
 #include <ML/Core/I_Handle.hpp>
 
+#define ML_TEX_DEFAULT_TARGET	GL::Texture2D
+#define ML_TEX_DEFAULT_SMOOTH	true
+#define ML_TEX_DEFAULT_REPEAT	false
+#define ML_TEX_DEFAULT_MIPMAP	false
+#define ML_TEX_DEFAULT_FORMAT	GL::RGBA
+#define ML_TEX_DEFAULT_LEVEL	0
+#define ML_TEX_DEFAULT_TYPE		GL::UnsignedByte
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API Texture final
+	struct ML_GRAPHICS_API Texture final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 		, public I_Handle<uint32_t>
 	{
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Texture();
-		Texture(GL::Target target);
-		Texture(bool smooth, bool repeated);
-		Texture(GL::Format format, bool smooth, bool repeated);
-		Texture(GL::Target target, bool smooth, bool repeated);
-		Texture(GL::Target target, GL::Format format, bool smooth, bool repeated);
-		Texture(GL::Target target, GL::Format format, bool smooth, bool repeated, bool mipmapped);
-		Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated);
-		Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped);
-		Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
-		Texture(const Texture & copy);
+		explicit Texture(GL::Target target);
+		explicit Texture(bool smooth, bool repeated);
+		explicit Texture(GL::Format format, bool smooth, bool repeated);
+		explicit Texture(GL::Target target, bool smooth, bool repeated);
+		explicit Texture(GL::Target target, GL::Format format, bool smooth, bool repeated);
+		explicit Texture(GL::Target target, GL::Format format, bool smooth, bool repeated, bool mipmapped);
+		explicit Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated);
+		explicit Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped);
+		explicit Texture(GL::Target target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
+		explicit Texture(const Texture & copy);
 		~Texture();
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromImage(const Image & value);
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool create(const Texture & copy);
 		bool create(const vec2u & size);
 		bool create(const Image & image, const vec2u & size);
@@ -46,8 +54,8 @@ namespace ml
 		bool create(const uint8_t * pixels, const vec2u & size);
 		bool create(const uint8_t * pixels, uint32_t w, uint32_t h);
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool update(const Texture & other);
 		bool update(const Texture & other, const UintRect & area);
 		bool update(const Texture & other, const vec2u & position, const vec2u & size);
@@ -63,41 +71,42 @@ namespace ml
 		bool update(const uint8_t * pixels, const vec2u & position, const vec2u & size);
 		bool update(const uint8_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Texture & setMipmapped(bool value);
 		Texture & setRepeated(bool value);
 		Texture & setSmooth(bool value);
 		
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Texture & swap(Texture & value);
 		Texture & operator=(const Texture & value);
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		const Image copyToImage() const;
 		static void	bind(const Texture * value);
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline const GL::Target	target()		const { return m_target;		}
-		inline const int32_t	level()			const { return m_level;			}
-		inline const GL::Format internalFormat()const { return m_internalFormat;}
-		inline const GL::Format colorFormat()	const { return m_colorFormat;	}
-		inline const GL::Type	type()			const { return m_type;			}
-		inline const vec2u &	size()			const { return m_size;			}
-		inline const vec2u &	realSize()		const { return m_realSize;		}
-		inline const bool		smooth()		const { return m_smooth;		}
-		inline const bool		repeated()		const { return m_repeated;		}
-		inline const bool		mipmapped()		const { return m_mipmapped;		}
-		inline const uint32_t	width()			const { return m_size[0];		}
-		inline const uint32_t	height()		const { return m_size[1];		}
-		inline const uint32_t	realWidth()		const { return m_realSize[0];	}
-		inline const uint32_t	realHeight()	const { return m_realSize[1];	}
+
+		inline auto target()		const -> GL::Target		{ return m_target; }
+		inline auto level()			const -> int32_t		{ return m_level; }
+		inline auto internalFormat()const -> GL::Format		{ return m_internalFormat; }
+		inline auto colorFormat()	const -> GL::Format		{ return m_colorFormat; }
+		inline auto type()			const -> GL::Type		{ return m_type; }
+		inline auto size()			const -> const vec2u &	{ return m_size; }
+		inline auto realSize()		const -> const vec2u &	{ return m_realSize; }
+		inline auto smooth()		const -> bool			{ return m_smooth; }
+		inline auto repeated()		const -> bool			{ return m_repeated; }
+		inline auto mipmapped()		const -> bool			{ return m_mipmapped; }
+		inline auto width()			const -> uint32_t		{ return m_size[0]; }
+		inline auto height()		const -> uint32_t		{ return m_size[1]; }
+		inline auto realWidth()		const -> uint32_t		{ return m_realSize[0]; }
+		inline auto realHeight()	const -> uint32_t		{ return m_realSize[1]; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		GL::Target	m_target;			// 
 		int32_t		m_level;			// 
 		GL::Format	m_internalFormat;	// 
@@ -108,6 +117,8 @@ namespace ml
 		bool		m_smooth;			// 
 		bool		m_repeated;			// 
 		bool		m_mipmapped;		// 
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

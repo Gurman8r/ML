@@ -5,28 +5,26 @@
 
 namespace ml
 {
-	/* Initialization */
+	// Initialization
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool OpenAL::init()
 	{
 		static bool check = false;
-		if (!check && !good())
+		if (!check)
 		{
 			check = true;
-			openDevice();
-			createContext();
-			makeContextCurrent();
+			ML_AL.m_good = 
+				openDevice() &&
+				createContext() &&
+				makeContextCurrent();
 		}
-		return good();
-	}
-	
-	bool OpenAL::good()
-	{
-		return (ML_AL.m_device && ML_AL.m_context);
+		return ML_AL.m_good;
 	}
 	
 
-	/* Errors */
+	// Errors
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	AL::Err OpenAL::getError()
 	{
@@ -58,7 +56,8 @@ namespace ml
 	}
 	
 
-	/* Devices */
+	/* Devices
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool OpenAL::openDevice()
 	{
@@ -81,7 +80,8 @@ namespace ml
 	}
 
 
-	/* ContextSettings */
+	/* Context
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool OpenAL::createContext()
 	{
@@ -104,7 +104,8 @@ namespace ml
 	}
 
 
-	/* Buffers */
+	/* Buffers
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	uint32_t OpenAL::genBuffers(int32_t count)
 	{
@@ -131,7 +132,8 @@ namespace ml
 	}
 
 
-	/* Set Buffer Parameters */
+	/* Set Buffer Parameters
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void OpenAL::bufferf(uint32_t id, int32_t param, float value)
 	{
@@ -164,7 +166,8 @@ namespace ml
 	}
 
 
-	/* Get Buffer Parameters */
+	/* Get Buffer Parameters
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	float OpenAL::getBufferf(uint32_t id, int32_t param)
 	{
@@ -209,7 +212,8 @@ namespace ml
 	}
 
 
-	/* Global Parameters */
+	/* Global Parameters
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void OpenAL::dopplerFactor(float value)
 	{
@@ -232,7 +236,8 @@ namespace ml
 	}
 
 
-	/* Sources */
+	/* Sources
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	uint32_t OpenAL::genSources(int32_t count)
 	{
@@ -254,7 +259,8 @@ namespace ml
 	}
 
 
-	/* Set Source Parameters */
+	/* Set Source Parameters
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void OpenAL::sourcef(uint32_t id, int32_t param, float value)
 	{
@@ -287,7 +293,8 @@ namespace ml
 	}
 
 
-	/* Get Source Parameters */
+	/* Get Source Parameters
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	float OpenAL::getSourcef(uint32_t id, int32_t param)
 	{
@@ -332,7 +339,8 @@ namespace ml
 	}
 
 
-	/* Source based playback calls */
+	/* Source Based Playback calls
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void OpenAL::sourcePlay(uint32_t id)
 	{
@@ -355,30 +363,32 @@ namespace ml
 	}
 
 
-	/* Source vector based playback calls */
+	/* Source vector based playback calls
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenAL::sourcePlay(int32_t count, const uint32_t * ids)
+	void OpenAL::sourcePlay(int32_t ns, const uint32_t * sids)
 	{
-		alCheck(alSourcePlayv(count, ids));
+		alCheck(alSourcePlayv(ns, sids));
 	}
 
-	void OpenAL::sourceStop(int32_t count, const uint32_t * ids)
+	void OpenAL::sourceStop(int32_t ns, const uint32_t * sids)
 	{
-		alCheck(alSourceStopv(count, ids));
+		alCheck(alSourceStopv(ns, sids));
 	}
 
-	void OpenAL::sourceRewind(int32_t count, const uint32_t * ids)
+	void OpenAL::sourceRewind(int32_t ns, const uint32_t * sids)
 	{
-		alCheck(alSourceRewindv(count, ids));
+		alCheck(alSourceRewindv(ns, sids));
 	}
 
-	void OpenAL::sourcePause(int32_t count, const uint32_t * ids)
+	void OpenAL::sourcePause(int32_t ns, const uint32_t * sids)
 	{
-		alCheck(alSourcePausev(count, ids));
+		alCheck(alSourcePausev(ns, sids));
 	}
 
 
-	/* Set Listener Parameters */
+	/* Set Listener Parameters
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void OpenAL::listenerf(int32_t param, float value)
 	{
@@ -411,7 +421,8 @@ namespace ml
 	}
 
 
-	/* Get Listener Parameters */
+	/* Get Listener Parameters
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	float OpenAL::getListenerf(int32_t param)
 	{
@@ -454,4 +465,6 @@ namespace ml
 		alCheck(alGetListeneriv(param, temp));
 		return temp;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

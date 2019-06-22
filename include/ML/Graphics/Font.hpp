@@ -8,12 +8,13 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API Font final
+	struct ML_GRAPHICS_API Font final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using GlyphTable = Map<uint32_t, Glyph>;
 		using PageTable  = Map<uint32_t, GlyphTable>;
 
@@ -22,18 +23,23 @@ namespace ml
 			String family;
 		};
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Font();
 		Font(const Font & copy);
 		~Font();
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const Glyph & getGlyph(uint32_t value, uint32_t size) const;
 		const Info	& getInfo() const;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		mutable PageTable m_pages;
@@ -43,6 +49,8 @@ namespace ml
 		void *	m_face;
 
 		Glyph loadGlyph(uint32_t value, uint32_t size) const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

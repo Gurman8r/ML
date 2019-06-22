@@ -4,7 +4,7 @@ namespace ml
 {
 	// Rect Quad
 	/* * * * * * * * * * * * * * * * * * * * */
-	VertexList Shapes::RectQuad::genQuadVerts(const FloatRect & r, const RectUVs & uv)
+	Vertices Shapes::RectQuad::genQuadVerts(const FloatRect & r, const RectUVs & uv)
 	{
 		return
 		{
@@ -59,7 +59,7 @@ namespace ml
 
 	// Triangle
 	/* * * * * * * * * * * * * * * * * * * * */
-	const VertexList Shapes::Triangle::Vertices({
+	const Vertices Shapes::Triangle::Vertices({
 		Vertex({  0.0f,  0.5f, 0.0f }, Color::White, { 0.5f, 1.0f }), // top right
 		Vertex({  0.5f, -0.5f, 0.0f }, Color::White, { 1.0f, 0.0f }), // bot right
 		Vertex({ -0.5f, -0.5f, 0.0f }, Color::White, { 0.0f, 0.0f }), // bot left
@@ -71,7 +71,7 @@ namespace ml
 
 	// Quad
 	/* * * * * * * * * * * * * * * * * * * * */
-	const VertexList Shapes::Quad::Vertices({
+	const Vertices Shapes::Quad::Vertices({
 		Vertex({ +1.0f, +1.0f, 0.0f }, Color::White, { 1.0f, 1.0f }),
 		Vertex({ +1.0f, -1.0f, 0.0f }, Color::White, { 1.0f, 0.0f }),
 		Vertex({ -1.0f, -1.0f, 0.0f }, Color::White, { 0.0f, 0.0f }),
@@ -85,7 +85,7 @@ namespace ml
 
 	// Cube
 	/* * * * * * * * * * * * * * * * * * * * */
-	const VertexList Shapes::Cube::Vertices({
+	const Vertices Shapes::Cube::Vertices({
 		Vertex({ +0.5f, +0.5f, -0.5f }, Color::White, { 1.0f, 1.0f }), // 0 front
 		Vertex({ +0.5f, -0.5f, -0.5f }, Color::White, { 1.0f, 0.0f }), // 1
 		Vertex({ -0.5f, -0.5f, -0.5f }, Color::White, { 0.0f, 0.0f }), // 2

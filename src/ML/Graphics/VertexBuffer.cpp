@@ -64,10 +64,18 @@ namespace ml
 	
 	const VertexBuffer & VertexBuffer::bufferData(const void * data, uint32_t size) const
 	{
-		m_data = data;
-		m_size = size;
-		m_count = size / Vertex::Size;
-		ML_GL.bufferData(GL::ArrayBuffer, (sizeof(float) * m_size), m_data, m_usage);
+		if (*this)
+		{
+			m_data = data;
+			m_size = size;
+			m_count = size / Vertex::Size;
+			ML_GL.bufferData(
+				GL::ArrayBuffer, 
+				(sizeof(float) * m_size), 
+				m_data, 
+				m_usage
+			);
+		}
 		return (*this);
 	}
 	
@@ -78,10 +86,18 @@ namespace ml
 	
 	const VertexBuffer & VertexBuffer::bufferSubData(const void * data, uint32_t size, uint32_t offset) const
 	{
-		m_data = data;
-		m_size = size;
-		m_count = size / Vertex::Size;
-		ML_GL.bufferSubData(GL::ArrayBuffer, offset, (sizeof(float) * m_size), m_data);
+		if (*this)
+		{
+			m_data = data;
+			m_size = size;
+			m_count = size / Vertex::Size;
+			ML_GL.bufferSubData(
+				GL::ArrayBuffer,
+				offset,
+					(sizeof(float) * m_size),
+				m_data
+			);
+		}
 		return (*this);
 	}
 	

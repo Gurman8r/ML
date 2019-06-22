@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/I_Drawable.hpp>
 #include <ML/Graphics/Font.hpp>
-#include <ML/Graphics/VertexList.hpp>
+#include <ML/Graphics/Vertices.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/VertexArray.hpp>
 #include <ML/Graphics/VertexBuffer.hpp>
@@ -13,16 +13,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API Text final
+	struct ML_GRAPHICS_API Text final
 		: public I_Newable
 		, public I_Drawable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Text();
 		Text(const Text & copy);
 		~Text();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Text & setPosition(const vec2 & value);
 		Text & setScale(const vec2 & value);
 		Text & setColor(const vec4 & value);
@@ -30,17 +32,21 @@ namespace ml
 		Text & setFontSize(uint32_t value);
 		Text & setString(const String & value);
 
-	public:
-		inline const Font *		getFont()		const { return m_font;		}
-		inline const uint32_t	getFontSize()	const { return m_fontSize;	}
-		inline const vec2 &		getPosition()	const { return m_position;	}
-		inline const vec2 &		getScale()		const { return m_scale;		}
-		inline const String &	getString()		const { return m_string;	}
-		inline const vec4 &		getColor()		const { return m_color;		}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
+		inline auto getFont()		const -> const Font *		{ return m_font; }
+		inline auto getFontSize()	const -> const uint32_t		{ return m_fontSize; }
+		inline auto getPosition()	const -> const vec2 &		{ return m_position; }
+		inline auto getScale()		const -> const vec2 &		{ return m_scale; }
+		inline auto getString()		const -> const String &		{ return m_string; }
+		inline auto getColor()		const -> const vec4 &		{ return m_color; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void update() const;
 		void draw(RenderTarget & target, RenderBatch batch) const override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		const Font *m_font;
@@ -53,6 +59,8 @@ namespace ml
 		mutable bool m_changed;
 		mutable List<const Texture *> m_textures;
 		mutable List<Array<float, Shapes::RectQuad::Size>> m_vertices;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

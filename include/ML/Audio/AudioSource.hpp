@@ -9,21 +9,34 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_AUDIO_API AudioSource
+	struct ML_AUDIO_API AudioSource
 		: public I_Newable
 		, public I_Handle<uint32_t>
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		AudioSource();
 		AudioSource(const AudioSource & copy);
 		~AudioSource();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		AudioSource & clean();
 		AudioSource & create(uint32_t count);
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		AudioSource & play();
+		AudioSource & stop();
+		AudioSource & rewind();
+		AudioSource & pause();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		uint32_t m_count;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

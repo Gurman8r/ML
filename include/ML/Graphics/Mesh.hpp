@@ -3,35 +3,35 @@
 
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Disposable.hpp>
-#include <ML/Graphics/VertexList.hpp>
+#include <ML/Graphics/Vertices.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API Mesh final
+	struct ML_GRAPHICS_API Mesh final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 	{
-	public:
-		using Vertices	= typename VertexList;
-		using Indices	= typename List<uint32_t>;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
 		Mesh();
 		Mesh(const Vertices & vertices);
 		Mesh(const Vertices & vertices, const Indices & indices);
 		Mesh(const Mesh & copy);
 		~Mesh();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromMemory(const List<float> & vertices);
 		bool loadFromMemory(const List<float> & vertices, const Indices & indices);
 		bool loadFromMemory(const Vertices & vertices);
 		bool loadFromMemory(const Vertices & vertices, const Indices & indices);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			template <class, size_t> class A, class T, size_t N
@@ -50,15 +50,20 @@ namespace ml
 			);
 		}
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline auto vertices() const	-> const Vertices &		{ return m_vertices;	}
 		inline auto indices	() const	-> const Indices &		{ return m_indices;		}
 		inline auto contiguous() const	-> const List<float> &	{ return m_contiguous;	}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		Vertices	m_vertices;
 		Indices		m_indices;
 		List<float>	m_contiguous;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

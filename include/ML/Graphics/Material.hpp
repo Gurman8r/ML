@@ -11,39 +11,44 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API Material final
+	struct ML_GRAPHICS_API Material final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using UniformList = typename List<uni_base *>;
 		using UniformMap = typename Map<String, uni_base *>;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Material();
 		Material(const Shader * shader);
 		Material(const Shader * shader, const UniformList & uniforms);
 		Material(const Material & copy);
 		~Material();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void apply(const uni_base * value) const;
 		bool bind() const;
 		void unbind() const;
 
-	public:
-		inline bool find_any(const String & name) const
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool hasUniform(const String & name) const
 		{
-			return (m_uniforms.find(name) != m_uniforms.end());
+			return m_uniforms.find(name) != m_uniforms.end();
 		}
 
 		template <class T>
-		inline const T * find_uni(const String & name) const
+		inline const T * getUniform(const String & name) const
 		{
 			UniformMap::const_iterator it;
 			return (((it = m_uniforms.find(name)) != m_uniforms.cend())
@@ -53,7 +58,7 @@ namespace ml
 		}
 
 		template <class T>
-		inline T * find_uni(const String & name)
+		inline T * getUniform(const String & name)
 		{
 			UniformMap::iterator it;
 			return (((it = m_uniforms.find(name)) != m_uniforms.end())
@@ -62,17 +67,20 @@ namespace ml
 			);
 		}
 
-	public:
-		inline const Shader	*		shader()	const	{ return m_shader; }
-		inline const UniformMap &	uniforms()	const	{ return m_uniforms; }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
-		inline const Shader	* &		shader()			{ return m_shader; }
-		inline UniformMap &			uniforms()			{ return m_uniforms; }
+		inline auto shader() const	-> const Shader	*		{ return m_shader; }
+		inline auto uniforms() const-> const UniformMap &	{ return m_uniforms; }
+		inline auto shader()		-> const Shader	* &		{ return m_shader; }
+		inline auto uniforms()		-> UniformMap &			{ return m_uniforms; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		const Shader *	m_shader;
 		UniformMap		m_uniforms;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

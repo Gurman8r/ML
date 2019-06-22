@@ -49,22 +49,10 @@ namespace ml
 			class T, class ... Args
 		> inline T * create(const String & name, Args && ... args)
 		{
-			auto makeT = [&]()
-			{
-				T * temp = (T *)ML_NEW(sizeof(T));
-				(*temp) = T(std::forward<Args>(args)...);
-				return temp;
-			};
-
-			auto makeT2 = [&]()
-			{
-				return new T(std::forward<Args>(args)...);
-			};
-
 			data_map & d = this->data<T>();
 			data_map::iterator it;
 			return (((it = d.find(name)) == d.end())
-				? this->insert(name, makeT2())
+				? this->insert(name, new T(std::forward<Args>(args)...))
 				: static_cast<T *>(nullptr)
 			);
 		}

@@ -8,19 +8,19 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class CubeMap;
-	class Entity;
-	class Font;
-	class Image;
-	class Material;
-	class Mesh;
-	class Model;
-	class Script;
-	class Shader;
-	class Sound;
-	class Sprite;
-	class Surface;
-	class Texture;
+	struct	CubeMap;
+	struct	Entity;
+	struct	Font;
+	struct	Image;
+	struct	Material;
+	struct	Mesh;
+	struct	Model;
+	struct	Script;
+	struct	Shader;
+	struct	Sound;
+	struct	Sprite;
+	struct	Surface;
+	struct	Texture;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

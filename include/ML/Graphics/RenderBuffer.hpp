@@ -10,32 +10,43 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API RenderBuffer final
+	struct ML_GRAPHICS_API RenderBuffer final
 		: public I_Newable
 		, public I_Handle<uint32_t>
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		RenderBuffer();
 		RenderBuffer(const RenderBuffer & copy);
 		~RenderBuffer();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		RenderBuffer & clean();
 		RenderBuffer & create(int32_t width, int32_t height);
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		const RenderBuffer & bind() const;
 		const RenderBuffer & unbind() const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		const RenderBuffer & bufferStorage(GL::Format internalFormat) const;
 		const RenderBuffer & setFramebuffer(GL::FrameAttachment attachment) const;
 
-	public:
-		inline const int32_t width()  const { return m_width;  }
-		inline const int32_t height() const { return m_height; }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto width()  const -> int32_t { return m_width; }
+		inline auto height() const -> int32_t { return m_height; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		mutable int32_t m_width;
 		mutable int32_t m_height;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

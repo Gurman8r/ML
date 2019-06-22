@@ -6,14 +6,19 @@
 
 namespace ml
 {
-	class ML_AUDIO_API AudioListener final
+	struct ML_AUDIO_API AudioListener final
 		: public I_Newable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		AudioListener();
 		~AudioListener();
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 }
 

@@ -36,33 +36,41 @@ namespace ml
 		void *	m_context;
 
 	public:
-		/* Initialization */
-		static bool init();
-		static bool good();
 
-	public:
-		/* Errors */
+		// Initialization
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		static bool init();
+
+		// Errors */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static AL::Err	getError();
 		static void		checkError(CString file, uint32_t line, CString expr);
 
-	public:
-		/* Devices */
+		// Devices
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static bool		openDevice();
 		static bool		closeDevice();
 
-	public:
-		/* ContextSettings */
+		// Context
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static bool		createContext();
 		static bool		makeContextCurrent();
 
-	public:
-		/* Buffers */
+		// Buffers
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static uint32_t	genBuffers(int32_t count);
 		static void		deleteBuffers(int32_t count, const uint32_t * buffers);
 		static bool		isBuffer(uint32_t id);
 		static void		bufferData(uint32_t id, int32_t format, const void * data, int32_t size, int32_t freq);
 		
-		/* Set Buffer parameters */
+		// Set Buffer Parameters
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static void		bufferf(uint32_t id, int32_t param, float value);
 		static void		buffer3f(uint32_t id, int32_t param, float x, float y, float z);
 		static void		bufferfv(uint32_t id, int32_t param, const float * values);
@@ -70,7 +78,9 @@ namespace ml
 		static void		buffer3i(uint32_t id, int32_t param, int32_t x, int32_t y, int32_t z);
 		static void		bufferiv(uint32_t id, int32_t param, const int32_t * values);
 
-		/* Get Buffer parameters */
+		// Get Buffer Parameters
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static float	getBufferf(uint32_t id, int32_t param);
 		static float *	getBuffer3f(uint32_t id, int32_t param);
 		static float *	getBufferfv(uint32_t id, int32_t param);
@@ -78,19 +88,24 @@ namespace ml
 		static int32_t *getBuffer3i(uint32_t id, int32_t param);
 		static int32_t *getBufferiv(uint32_t id, int32_t param);
 
-		/* Global Parameters */
+		// Global Parameters
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static void		dopplerFactor(float value);
 		static void		dopplerVelocity(float value);
 		static void		speedOfSound(float value);
 		static void		distanceModel(int32_t value);
 
-	public:
-		/* Sources */
+		// Sources
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static uint32_t	genSources(int32_t count);
 		static void		deleteSources(int32_t count, const uint32_t * sources);
 		static bool		isSource(uint32_t id);
 
-		/* Set Source parameters */
+		// Set Source Parameters
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static void		sourcef(uint32_t id, int32_t param, float value);
 		static void		source3f(uint32_t id, int32_t param, float x, float y, float z);
 		static void		sourcefv(uint32_t id, int32_t param, const float * values);
@@ -98,7 +113,9 @@ namespace ml
 		static void		source3i(uint32_t id, int32_t param, int32_t x, int32_t y, int32_t z);
 		static void		sourceiv(uint32_t id, int32_t param, const int32_t * values);
 
-		/* Get Source parameters */
+		// Get Source Parameters
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static float	getSourcef(uint32_t id, int32_t param);
 		static float *	getSource3f(uint32_t id, int32_t param);
 		static float *	getSourcefv(uint32_t id, int32_t param);
@@ -106,20 +123,25 @@ namespace ml
 		static int32_t *getSource3i(uint32_t id, int32_t param);
 		static int32_t *getSourceiv(uint32_t id, int32_t param);
 
-		/* Source based playback calls */
+		// Source Based Playback calls
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static void		sourcePlay(uint32_t id);
 		static void		sourceStop(uint32_t id);
 		static void		sourceRewind(uint32_t id);
 		static void		sourcePause(uint32_t id);
 
-		/* Source vector based playback calls */
-		static void		sourcePlay(int32_t count, const uint32_t * ids);
-		static void		sourceStop(int32_t count, const uint32_t * ids);
-		static void		sourceRewind(int32_t count, const uint32_t * ids);
-		static void		sourcePause(int32_t count, const uint32_t * ids);
+		// Source Based Playback calls
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		static void		sourcePlay(int32_t ns, const uint32_t * sids);
+		static void		sourceStop(int32_t ns, const uint32_t * sids);
+		static void		sourceRewind(int32_t ns, const uint32_t * sids);
+		static void		sourcePause(int32_t ns, const uint32_t * sids);
 
-	public:
-		/* Set Listener parameters */
+		// Set Listener Parameters
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static void		listenerf(int32_t param, float value);
 		static void		listener3f(int32_t param, float x, float y, float z);
 		static void		listenerfv(int32_t param, const float * values);
@@ -127,14 +149,15 @@ namespace ml
 		static void		listener3i(int32_t param, int32_t x, int32_t y, int32_t z);
 		static void		listeneriv(int32_t param, const int32_t * values);
 
-		/* Get Source parameters */
+		// Get Source Parameters
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static float	getListenerf(int32_t param);
 		static float *	getListener3f(int32_t param);
 		static float *	getListenerfv(int32_t param);
 		static int32_t	getListeneri(int32_t param);
 		static int32_t *getListener3i(int32_t param);
 		static int32_t *getListeneriv(int32_t param);
-		
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

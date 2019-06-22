@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Texture;
+	struct Texture;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

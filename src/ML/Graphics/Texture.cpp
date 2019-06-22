@@ -2,18 +2,6 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
-
-#define ML_TEX_DEFAULT_TARGET	GL::Texture2D
-#define ML_TEX_DEFAULT_SMOOTH	true
-#define ML_TEX_DEFAULT_REPEAT	false
-#define ML_TEX_DEFAULT_MIPMAP	false
-#define ML_TEX_DEFAULT_FORMAT	GL::RGBA
-#define ML_TEX_DEFAULT_LEVEL	0
-#define ML_TEX_DEFAULT_TYPE		GL::UnsignedByte
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

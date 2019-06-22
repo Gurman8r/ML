@@ -12,23 +12,23 @@ namespace ml
 	// Supports simple iteration of a fixed array
 	template <
 		class T, size_t N
-	> class I_Enumerable
+	> struct I_Enumerable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using value_type			= typename T;
 		using array_type			= typename T[N];
-
 		using pointer				= typename value_type *;
 		using const_pointer			= typename const value_type *;
 		using reference				= typename value_type &;
 		using const_reference		= typename const value_type &;
-
 		using iterator				= typename std::_Array_iterator<T, N>;
 		using const_iterator		= typename std::_Array_const_iterator<T, N>;
 		using reverse_iterator		= typename std::reverse_iterator<iterator>;
 		using const_reverse_iterator= typename std::reverse_iterator<const_iterator>;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		I_Enumerable(pointer data)
 			: m_data(data)
 		{
@@ -36,7 +36,8 @@ namespace ml
 
 		virtual ~I_Enumerable() {}
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline iterator					begin()				{ return iterator(m_data, 0); }
 		inline iterator					end()				{ return iterator(m_data, N); }
 		inline const_iterator			begin()		const	{ return const_iterator(m_data, 0); }
@@ -50,8 +51,12 @@ namespace ml
 		inline const_reverse_iterator	crbegin()	const	{ return rbegin(); }
 		inline const_reverse_iterator	crend()		const	{ return rend(); }
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		pointer m_data;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

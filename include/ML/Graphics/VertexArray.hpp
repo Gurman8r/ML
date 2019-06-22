@@ -10,28 +10,36 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API VertexArray final
+	struct ML_GRAPHICS_API VertexArray final
 		: public I_Newable
 		, public I_Handle<uint32_t>
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		VertexArray();
 		VertexArray(const VertexArray & copy);
 		~VertexArray();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		VertexArray & clean();
 		VertexArray & create(GL::Mode mode);
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		const VertexArray & bind() const;
 		const VertexArray & unbind() const;
 
-	public:
-		inline const GL::Mode & mode()	const { return m_mode; }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto mode() const -> const GL::Mode & { return m_mode; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		mutable GL::Mode m_mode;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

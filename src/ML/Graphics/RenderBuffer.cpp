@@ -60,17 +60,29 @@ namespace ml
 
 	const RenderBuffer & RenderBuffer::bufferStorage(GL::Format format) const
 	{
-		ML_GL.renderbufferStorage(GL::Renderbuffer, format, m_width, m_height);
+		if (*this)
+		{
+			ML_GL.renderbufferStorage(
+				GL::Renderbuffer, 
+				format, 
+				m_width, 
+				m_height
+			);
+		}
 		return (*this);
 	}
 
 	const RenderBuffer & RenderBuffer::setFramebuffer(GL::FrameAttachment attachment) const
 	{
-		ML_GL.framebufferRenderbuffer(
-			GL::Framebuffer, 
-			attachment, 
-			GL::Renderbuffer,
-			(*this));
+		if (*this)
+		{
+			ML_GL.framebufferRenderbuffer(
+				GL::Framebuffer, 
+				attachment, 
+				GL::Renderbuffer,
+				(*this)
+			);
+		}
 		return (*this);
 	}
 

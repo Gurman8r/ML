@@ -53,7 +53,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const VertexList & vertices, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const Vertices & vertices, const RenderBatch & batch)
 	{
 		return draw(vertices.contiguous(), batch);
 	}

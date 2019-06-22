@@ -4,7 +4,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	AudioSource::AudioSource()
 		: I_Handle(NULL)
@@ -23,7 +23,7 @@ namespace ml
 		clean();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	AudioSource & AudioSource::clean()
 	{
@@ -43,5 +43,43 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	AudioSource & AudioSource::play()
+	{
+		if (*this)
+		{
+			ML_AL.sourcePlay(*this);
+		}
+		return (*this);
+	}
+
+	AudioSource & AudioSource::stop()
+	{
+		if (*this)
+		{
+			ML_AL.sourceStop(*this);
+		}
+		return (*this);
+	}
+
+	AudioSource & AudioSource::rewind()
+	{
+		if (*this)
+		{
+			ML_AL.sourceRewind(*this);
+		}
+		return (*this);
+	}
+
+	AudioSource & AudioSource::pause()
+	{
+		if (*this)
+		{
+			ML_AL.sourcePause(*this);
+		}
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

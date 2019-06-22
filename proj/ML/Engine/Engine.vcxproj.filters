@@ -13,93 +13,66 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files\Utility">
-      <UniqueIdentifier>{c8887ce2-d03e-4c3e-aa7e-6682f8cc5a89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utility">
-      <UniqueIdentifier>{7c7b31bd-3645-41b1-a0ab-eba4b761a493}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ECS">
-      <UniqueIdentifier>{fe0b23f3-fa3a-4c57-a2d3-5595a9a7230d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ECS">
-      <UniqueIdentifier>{1be3dd64-0b93-4389-8f3b-693a7fdc2ee1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Resources">
-      <UniqueIdentifier>{d18a9d2d-1c6b-454a-b0bf-5542f511f16b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Plugins">
-      <UniqueIdentifier>{edda40c3-8f0e-4619-abad-eb0744c995b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Plugins">
-      <UniqueIdentifier>{a786ee5b-3469-47f2-8c8b-5f90b5122cb0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Resources">
-      <UniqueIdentifier>{95074f67-d1ff-4e5a-b1e0-46f9f386952f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp">
-      <Filter>Header Files\ECS</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp">
-      <Filter>Header Files\Resources</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp">
-      <Filter>Header Files\Resources</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp">
-      <Filter>Header Files\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp">
-      <Filter>Header Files\Plugins</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp">
-      <Filter>Header Files\Plugins</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Content.hpp">
-      <Filter>Header Files\Resources</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">
-      <Filter>Source Files\Utility</Filter>
+    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp">
-      <Filter>Source Files\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
-      <Filter>Source Files\Utility</Filter>
+    <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp">
-      <Filter>Source Files\Resources</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp">
-      <Filter>Source Files\Resources</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp">
-      <Filter>Source Files\Plugins</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

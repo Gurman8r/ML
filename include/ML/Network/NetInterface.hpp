@@ -31,10 +31,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class EventSystem;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	class ML_NETWORK_API NetInterface
 		: public EventListener
 		, public I_Disposable

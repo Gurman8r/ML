@@ -1,6 +1,6 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/ImGui_Instance.hpp>
+#include <ML/Editor/ImGui_Impl.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>
@@ -191,7 +191,7 @@ namespace ml
 	{
 		// Initialize
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_ImGui_Instance;
+		ML_ImGui_Impl;
 
 		// Setup Style
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -201,7 +201,7 @@ namespace ml
 		if (styleFile == "Classic")  ImGui::StyleColorsClassic();
 		else if (styleFile == "Dark") ImGui::StyleColorsDark();
 		else if (styleFile == "Light") ImGui::StyleColorsLight();
-		else if (!ML_ImGui_Instance.LoadStyle(ML_FS.getPathTo(styleFile)))
+		else if (!ML_ImGui_Impl.LoadStyle(ML_FS.getPathTo(styleFile)))
 		{
 			Debug::logError("Failed loading ImGui style");
 		}
@@ -230,7 +230,7 @@ namespace ml
 
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_ImGui_Instance.Startup("#version 410", &ev.window, true, useIniFile))
+		if (!ML_ImGui_Impl.Startup("#version 410", &ev.window, true, useIniFile))
 		{
 			Debug::fatal("Failed Initializing ImGui");
 		}
@@ -241,7 +241,7 @@ namespace ml
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
 	{
-		ML_ImGui_Instance.NewFrame();
+		ML_ImGui_Impl.NewFrame();
 		ImGui::NewFrame();
 	}
 
@@ -428,7 +428,7 @@ namespace ml
 	void Editor::onEndGui(const EndGuiEvent & ev)
 	{
 		ImGui::Render();
-		ML_ImGui_Instance.Render(ImGui::GetDrawData());
+		ML_ImGui_Impl.Render(ImGui::GetDrawData());
 	}
 
 	void Editor::onExit(const ExitEvent & ev)
@@ -437,7 +437,7 @@ namespace ml
 		m_terminal.redirect(cout);
 
 		// Shutdown ImGui
-		ML_ImGui_Instance.Shutdown();
+		ML_ImGui_Impl.Shutdown();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

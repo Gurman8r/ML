@@ -205,6 +205,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\String.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />

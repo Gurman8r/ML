@@ -9,7 +9,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Resources.hpp>
-#include <ML/Engine/StateMachine.hpp>
+#include <ML/Core/StateMachine.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

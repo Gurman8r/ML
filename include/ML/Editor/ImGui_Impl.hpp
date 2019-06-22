@@ -4,20 +4,20 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Window/Window.hpp>
 
-#define ML_ImGui_Instance ml::ImGui_Instance::getInstance()
+#define ML_ImGui_Impl ml::ImGui_Impl::getInstance()
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API ImGui_Instance final
-		: public I_Singleton<ImGui_Instance>
+	class ML_EDITOR_API ImGui_Impl final
+		: public I_Singleton<ImGui_Impl>
 	{
-		friend class I_Singleton<ImGui_Instance>;
+		friend class I_Singleton<ImGui_Impl>;
 
 	private:
-		ImGui_Instance();
-		~ImGui_Instance();
+		ImGui_Impl();
+		~ImGui_Impl();
 
 	public:
 		bool LoadStyle(const String & filename);

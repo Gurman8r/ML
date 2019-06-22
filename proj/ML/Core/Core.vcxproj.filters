@@ -201,6 +201,9 @@
     <ClInclude Include="..\..\..\include\ML\Core\MetaMath.hpp">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp">

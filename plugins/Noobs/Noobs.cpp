@@ -103,6 +103,7 @@ namespace DEMO
 
 	void Noobs::onEnter(const ml::EnterEvent & ev)
 	{
+		ml::Debug::log("Loaded {0}", (*this));
 	}
 
 	void Noobs::onStart(const ml::StartEvent & ev)

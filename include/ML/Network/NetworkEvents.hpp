@@ -37,7 +37,7 @@ namespace ml
 	struct ML_NETWORK_API ClientRecievePacketEvent final : public IEvent<NetworkEvent::EV_ClientRecievePacket>
 	{
 		CString data;
-		ClientRecievePacketEvent(CString data)
+		constexpr ClientRecievePacketEvent(CString data)
 			: data(data)
 		{
 		}

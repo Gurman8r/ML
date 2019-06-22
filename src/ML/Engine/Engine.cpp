@@ -196,8 +196,6 @@ namespace ml
 			const Image temp = Image(*icon).flipVertically();
 
 			ev.window.setIcons({ temp });
-
-			ev.window.createCustomCursor(temp);
 		}
 
 		// Run Boot Script

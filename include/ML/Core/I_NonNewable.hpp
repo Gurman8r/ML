@@ -5,6 +5,8 @@
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	// Base class for anything you REALLY don't want to be dynamically allocated.
 	// Use in conjunction with I_Newable to ensure there are no memory leaks.
 	// Good idea use when a class/struct has a constructor but no destructor. (e.g. constexpr)
@@ -15,6 +17,13 @@ namespace ml
 		inline void	  operator	delete	 (void * ptr)  { return;  }
 		inline void	  operator	delete[] (void * ptr)  { return;  }
 	};
+
+	inline ML_SERIALIZE(ostream & out, const I_NonNewable & value)
+	{
+		return out << typeid(value).name();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_I_NON_NEWABLE_HPP_

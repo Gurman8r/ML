@@ -23,7 +23,7 @@ namespace ml
 
 	public:
 		File();
-		File(const size_t count, const CString * data);
+		explicit File(const size_t count, const CString * data);
 		File(const String & data);
 		File(const List<char> & data);
 		File(const File & copy);

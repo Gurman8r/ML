@@ -19,20 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Audio\Audio.cpp" />
     <ClCompile Include="..\..\..\src\ML\Audio\AudioBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Audio\AudioListener.cpp" />
     <ClCompile Include="..\..\..\src\ML\Audio\AudioSource.cpp" />
     <ClCompile Include="..\..\..\src\ML\Audio\OpenAL.cpp" />
     <ClCompile Include="..\..\..\src\ML\Audio\Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Audio\AL.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Audio\Audio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\AudioBuffer.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Audio\AudioListener.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\AudioSource.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\OpenAL.hpp" />
     <ClInclude Include="..\..\..\include\ML\Audio\Sound.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\ML\Audio\AL.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

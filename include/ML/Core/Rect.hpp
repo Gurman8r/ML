@@ -70,10 +70,10 @@ namespace ml
 
 	public: // Member Functions
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline value_type left()	const { return this->get(0); }
-		inline value_type top()		const { return this->get(1); }
-		inline value_type width()	const { return this->get(2); }
-		inline value_type height()	const { return this->get(3); }
+		inline value_type left()	const { return (*this)[0]; }
+		inline value_type top()		const { return (*this)[1]; }
+		inline value_type width()	const { return (*this)[2]; }
+		inline value_type height()	const { return (*this)[3]; }
 		inline value_type bottom()	const { return (top() + height()); }
 		inline value_type right()	const { return (left() + width()); }
 		inline coord_type position()const { return { left(), top() }; }

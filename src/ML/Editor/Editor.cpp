@@ -365,12 +365,16 @@ namespace ml
 				{
 					ML_OS.execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
 				}
-				if (ImGui::BeginMenu("Licence"))
+				if (ImGui::BeginMenu("License"))
 				{
 					static String preview;
 					if (!preview && ML_FS.getFileContents(ML_FS.getPathTo("../../../LICENSE.txt"), preview))
 					{
 						preview.pop_back();
+					}
+					else
+					{
+						preview = "License not found.";
 					}
 					ImGui::TextUnformatted(&preview[0], &preview[preview.size()]);
 					ImGui::EndMenu();

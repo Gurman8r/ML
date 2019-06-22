@@ -171,7 +171,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Singleton.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\MetaMath.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
@@ -195,6 +195,8 @@
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
@@ -223,6 +225,8 @@
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\Metadata.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />

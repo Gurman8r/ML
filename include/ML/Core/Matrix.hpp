@@ -8,7 +8,6 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_MATRIX_ITERATOR 1
 #define ML_ENIF_MAT(XCOND, YCOND) typename std::enable_if<(XCOND  &&  YCOND)>::type
 #define ML_ENIF_3x3(X, Y) ML_ENIF_MAT(X == 3, Y == 3)
 #define ML_ENIF_4x4(X, Y) ML_ENIF_MAT(X == 4, Y == 4)
@@ -153,83 +152,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline const_reference get(const size_t i) const
-		{
-			return (*this)[i];
-		}
-
-		inline self_type & set(const size_t i, const_reference value)
-		{
-			((*this)[i] = value); return (*this);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			size_t X = Cols, size_t Y = Rows, typename = ML_ENIF_MAT(X > 1, Y > 1)
-		> inline const_reference get(const size_t x, const size_t y) const
-		{
-			return this->get(y * Cols + x);
-		}
-
-		template <
-			size_t X = Cols, size_t Y = Rows, typename = ML_ENIF_MAT(X > 1, Y > 1)
-		> inline self_type & set(const size_t x, const size_t y, const_reference value)
-		{
-			return this->set(y * Cols + x, value);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			size_t X = Cols, size_t Y = Rows, typename = ML_ENIF_MAT(X > 1, Y > 1)
-		> constexpr self_type & setCol(const size_t c, const Vector<value_type, Cols> & value)
-		{
-
-			return (*this)
-				.set(c, 0, value[0])
-				.set(c, 1, value[1])
-				.set(c, 2, value[2])
-				.set(c, 3, value[3]);
-		}
-
-		template <
-			size_t X = Cols, size_t Y = Rows, typename = ML_ENIF_MAT(X > 1, Y > 1)
-		> constexpr self_type & setRow(const size_t r, const Vector<value_type, Rows> & value)
-		{
-			return (*this)
-				.set(0, r, value[0])
-				.set(1, r, value[1])
-				.set(2, r, value[2])
-				.set(3, r, value[3]);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			size_t X = Cols, size_t Y = Rows, typename = ML_ENIF_MAT(X > 1, Y > 1)
-		> inline Vector<value_type, Cols> getCol(const size_t c)
-		{
-			return Vector<value_type, Rows> {
-				this->get(c, 0),
-				this->get(c, 1),
-				this->get(c, 2),
-				this->get(c, 3)
-			};
-		}
-
-		template <
-			size_t X = Cols, size_t Y = Rows, typename = ML_ENIF_MAT(X > 1, Y > 1)
-		> inline Vector<value_type, Rows> getRow(const size_t r)
-		{
-			return Vector<value_type, Rows> {
-				this->get(0, r),
-				this->get(1, r),
-				this->get(2, r),
-				this->get(3, r)
-			};
-		}
-
 
 	public: // Static Functions
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -327,21 +249,12 @@ namespace ml
 
 	public: // Iterators
 		/* * * * * * * * * * * * * * * * * * * * */
-# if ML_MATRIX_ITERATOR
 		inline iterator			begin()			{ return iterator(m_data, 0); }
 		inline const_iterator	begin() const	{ return const_iterator(m_data, 0); }
 		inline const_iterator	cbegin() const	{ return begin(); }
 		inline iterator			end()			{ return iterator(m_data, this->size()); }
 		inline const_iterator	end() const		{ return const_iterator(m_data, this->size()); }
 		inline const_iterator	cend() const	{ return end(); }
-# else
-		inline iterator			begin()			{ return std::begin(m_data); }
-		inline const_iterator	begin() const	{ return std::begin(m_data); }
-		inline const_iterator	cbegin() const	{ return begin(); }
-		inline iterator			end()			{ return std::end(m_data); }
-		inline const_iterator	end() const		{ return std::end(m_data); }
-		inline const_iterator	cend() const	{ return cend(); }
-# endif
 
 
 # ifdef GLM_VERSION
@@ -418,7 +331,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	using mat3f = Matrix<float, 3, 3>;
 	using mat4f = Matrix<float, 4, 4>;
-
 	using mat3	= typename mat3f;
 	using mat4	= typename mat4f;
 }

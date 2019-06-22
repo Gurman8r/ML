@@ -164,43 +164,26 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Content.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\BoxCollider.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Collider.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Force.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Particle.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\PhysicsState.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\PhysicsWorld.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Ray.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Rigidbody.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\SphereCollider.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\BoxCollider.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Force.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Particle.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\PhysicsState.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\PhysicsWorld.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Ray.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Rigidbody.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\SphereCollider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

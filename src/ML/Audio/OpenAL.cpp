@@ -1,6 +1,5 @@
 #include <ML/Audio/OpenAL.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/EventSystem.hpp>
 #include <AL/al.h>
 #include <AL/alc.h>
 
@@ -8,20 +7,17 @@ namespace ml
 {
 	/* Initialization */
 
-	bool OpenAL::init(EventSystem & eventSystem)
+	bool OpenAL::init()
 	{
 		static bool check = false;
 		if (!check && !good())
 		{
-			if (check =
-				openDevice() &&
-				createContext() &&
-				makeContextCurrent())
-			{
-				ML_AL.m_eventSystem = &eventSystem;
-			}
+			check = true;
+			openDevice();
+			createContext();
+			makeContextCurrent();
 		}
-		return check;
+		return good();
 	}
 	
 	bool OpenAL::good()
@@ -39,57 +35,25 @@ namespace ml
 
 	void OpenAL::checkError(CString file, uint32_t line, CString expr)
 	{
-		if (AL::Err errorCode = getError())
+		// Get the last error
+		const AL::Err code = getError();
+		if (code != AL::NoError)
 		{
-			String fileName(file);
-			fileName = fileName.substr(fileName.find_last_of("\\/") + 1);
+			// Error location
+			String file(file);
+			file = file.substr(file.find_last_of("\\/") + 1);
 
-			// Decode the error code
-			String errorName;
-			String errorDesc;
-			switch (errorCode)
-			{
-			case AL::InvalidName:
-				errorName = "Invalid Name";
-				errorDesc = "An unacceptable value has been specified for a name argument.";
-				break;
-			case AL::InvalidEnum:
-				errorName = "Invalid Enum";
-				errorDesc = "An unacceptable value has been specified for an enumerated argument.";
-				break;
-			case AL::InvalidValue:
-				errorName = "Invalid value_type";
-				errorDesc = "A numeric argument is out of range.";
-				break;
-			case AL::InvalidOperation:
-				errorName = "Invalid Operation";
-				errorDesc = "The specified operation is not allowed in the current state.";
-				break;
-			case AL::OutOfMemory:
-				errorName = "Out Of Memory";
-				errorDesc = "There is not enough memory left to execute the command.";
-				break;
-			default:
-				errorName = "Unknown error";
-				errorDesc = "No description";
-				break;
-			}
-
-			cerr
-				<< FMT()
-				<< ml::endl
-				<< FG::Red
-				<< "An internal OpenAL call failed in " << fileName << "(" << line << ")"
-				<< FG::Yellow << ml::endl << "Code: "
-				<< FG::White << ml::endl << "\t" << errorCode
-				<< FG::Yellow << ml::endl << "Expression: "
-				<< FG::White << ml::endl << "\t" << expr
-				<< FG::Yellow << ml::endl << "Description:"
-				<< FG::White << ml::endl << "\t" << errorName
-				<< FG::White << ml::endl << "\t" << errorDesc
-				<< FMT()
-				<< endl
-				<< endl;
+			// Decode the error
+			cout
+				<< FMT()		<< ml::endl << FG::Red << "An OpenAL call failed in " << file << "(" << line << ")"
+				<< FG::Yellow	<< ml::endl << "Code: "
+				<< FG::White	<< ml::endl << "\t" << code
+				<< FG::Yellow	<< ml::endl << "Expression: "
+				<< FG::White	<< ml::endl << "\t" << expr
+				<< FG::Yellow	<< ml::endl << "Description:"
+				<< FG::White	<< ml::endl << "\t" << AL::nameOf(code)
+				<< FG::White	<< ml::endl << "\t" << AL::descOf(code)
+				<< FMT()		<< endl;
 		}
 	}
 	

@@ -167,6 +167,17 @@ namespace ml
 			"Invalid Framebuffer Operation",
 		};
 
+		static constexpr CString Err_descriptions[] = {
+			"No Description",
+			"An unacceptable value has been specified for an enumerated argument.",
+			"A numeric argument is out of range.",
+			"The specified operation is not allowed in the current state.",
+			"This command would cause a stack overflow.",
+			"This command would cause a stack underflow.",
+			"There is not enough memory left to execute the command.",
+			"The object bound to framebuffer binding is not \"framebuffer complete\"."
+		};
+
 		static constexpr bool valueAt(const int32_t i, Err & value)
 		{
 			return alg::value_at(i, value, Err_values);
@@ -183,6 +194,11 @@ namespace ml
 			return (i >= 0) ? Err_names[i] : "";
 		}
 
+		static constexpr CString descOf(const Err value)
+		{
+			const int32_t i = indexOf(value);
+			return (i >= 0) ? Err_descriptions[i] : "";
+		}
 		
 		// GL::StringID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

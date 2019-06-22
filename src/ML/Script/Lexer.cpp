@@ -132,7 +132,8 @@ namespace ml
 				continue;
 
 			case '#': // Comment
-				while ((it != value.end()) && ((*it) != '\n')) { it++; }
+				while ((it != value.end()) && ((*it) != '\n')) 
+					it++;
 				break;
 
 			case '{': // Begin Block
@@ -140,9 +141,7 @@ namespace ml
 
 			case ';': // End Statement
 				if (!tree.back().empty())
-				{
 					tree.push_back(TokenList());
-				}
 				break;
 
 			default: // Other
@@ -158,12 +157,12 @@ namespace ml
 
 	bool Lexer::scanName(const List<char> & value, const_iterator & it, String & text)
 	{
-		if (isalpha(*it) || (*it) == '_')
+		if (std::isalpha(*it) || (*it) == '_')
 		{
 			String out;
 			while (it != value.end())
 			{
-				if (isalnum(*it) || (*it) == '_')
+				if (std::isalnum(*it) || (*it) == '_')
 				{
 					out += (*it);
 					it++;
@@ -183,12 +182,12 @@ namespace ml
 
 	bool Lexer::scanNumber(const List<char> & value, const_iterator & it, String & text)
 	{
-		if (isdigit(*it))
+		if (std::isdigit(*it))
 		{
 			String out;
 			while (it != value.end())
 			{
-				if (isdigit(*it) || (*it) == '.')
+				if (std::isdigit(*it) || (*it) == '.')
 				{
 					out += (*it);
 					it++;
@@ -217,7 +216,7 @@ namespace ml
 				{
 					break;
 				}
-				else if (isprint(*it))
+				else if (std::isprint(*it))
 				{
 					out += (*it);
 				}

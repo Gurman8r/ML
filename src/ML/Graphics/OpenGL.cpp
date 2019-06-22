@@ -20,45 +20,20 @@ namespace ml
 		const GL::Err code = getError();
 		if (code != GL::Err::NoError)
 		{
-			// Error Location
+			// Error location
 			String fileName(file);
 			fileName = fileName.substr(fileName.find_last_of("\\/") + 1);
 
-			// Error Description
-			String desc;
-			switch (code)
-			{
-			case GL::Err::InvalidEnum:
-				desc = "An unacceptable value has been specified for an enumerated argument.";
-				break;
-			case GL::Err::InvalidValue:
-				desc = "A numeric argument is out of range.";
-				break;
-			case GL::Err::InvalidOperation:
-				desc = "The specified operation is not allowed in the current state.";
-				break;
-			case GL::Err::StackOverflow:
-				desc = "This command would cause a stack overflow.";
-				break;
-			case GL::Err::StackUnderflow:
-				desc = "This command would cause a stack underflow.";
-				break;
-			case GL::Err::OutOfMemory:
-				desc = "There is not enough memory left to execute the command.";
-				break;
-			case GL::Err::InvalidFramebufferOperation:
-				desc = "The object bound to framebuffer binding is not \"framebuffer complete\".";
-				break;
-			}
-
-			cout<< FMT(FG::Red)	<< endl << "An OpenGL call failed in \'" << file << "\' (" << line << ")"
+			// Decode the error
+			cout
+				<< FMT(FG::Red)	<< endl << "An OpenGL call failed in \'" << file << "\' (" << line << ")"
 				<< FG::Yellow	<< endl << "Code: "
 				<< FG::White	<< endl << "\t" << code
 				<< FG::Yellow	<< endl << "Expression: "
 				<< FG::White	<< endl << "\t" << expr
 				<< FG::Yellow	<< endl << "Description:"
 				<< FG::White	<< endl << "\t" << GL::nameOf(code)
-				<< FG::White	<< endl << "\t" << desc
+				<< FG::White	<< endl << "\t" << GL::descOf(code)
 				<< FMT()		<< endl;
 		}
 	}

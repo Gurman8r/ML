@@ -127,7 +127,6 @@ static StateMachine<State> g_ControlFlow
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 int32_t main()
 {
 	// Load Plugins

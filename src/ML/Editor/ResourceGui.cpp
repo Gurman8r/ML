@@ -11,15 +11,11 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Core/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
-#include <ML/Graphics/Light.hpp>
-#include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Uniform.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
-#include <ML/Engine/Rigidbody.hpp>
-#include <ML/Engine/Particle.hpp>
 #include <ML/Script/Script.hpp>
 
 namespace ml

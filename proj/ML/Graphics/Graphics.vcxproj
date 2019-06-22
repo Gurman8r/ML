@@ -175,9 +175,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Graphics\BufferLayout.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\Camera.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\CubeMap.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Font.hpp" />
@@ -186,12 +186,10 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Glyph.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\IndexBuffer.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Material.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Model.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\OpenGL.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderBatch.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderBuffer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Renderer.hpp" />
@@ -213,19 +211,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\CubeMap.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\FrameBuffer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\IndexBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Material.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Model.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\OpenGL.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderBuffer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Renderer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp" />

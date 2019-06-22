@@ -19,12 +19,6 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{7c7b31bd-3645-41b1-a0ab-eba4b761a493}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Physics">
-      <UniqueIdentifier>{7a1ee2c9-a217-419e-b228-a638cc5832c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Physics">
-      <UniqueIdentifier>{18e980bf-d3ec-4e89-9cbb-e4443f322bd6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\ECS">
       <UniqueIdentifier>{fe0b23f3-fa3a-4c57-a2d3-5595a9a7230d}</UniqueIdentifier>
     </Filter>
@@ -56,33 +50,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp">
       <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\BoxCollider.hpp">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Collider.hpp">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Force.hpp">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Particle.hpp">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\PhysicsState.hpp">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\PhysicsWorld.hpp">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Ray.hpp">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Rigidbody.hpp">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\SphereCollider.hpp">
-      <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp">
       <Filter>Header Files\ECS</Filter>
@@ -119,44 +86,20 @@
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\BoxCollider.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Force.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Particle.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\PhysicsState.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\PhysicsWorld.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Ray.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Rigidbody.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\SphereCollider.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp">
       <Filter>Source Files\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp">
-      <Filter>Source Files\Resources</Filter>
+    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp">
       <Filter>Source Files\Plugins</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

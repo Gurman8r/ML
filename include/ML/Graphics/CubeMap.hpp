@@ -8,7 +8,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Placeholder
-	class ML_GRAPHICS_API CubeMap
+	class ML_GRAPHICS_API CubeMap final
+		: public I_Newable
 	{
 	public:
 		CubeMap();

@@ -7,7 +7,6 @@ namespace ml
 
 	Sound::Sound()
 	{
-		
 	}
 
 	Sound::~Sound()

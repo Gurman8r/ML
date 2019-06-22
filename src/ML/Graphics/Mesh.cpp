@@ -9,20 +9,16 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Mesh::Mesh()
-		: m_vertices	()
-		, m_indices		()
-		, m_contiguous	()
+		: Mesh(Vertices())
 	{
 	}
 
-	Mesh::Mesh(const VertexList & vertices)
-		: m_vertices	(vertices)
-		, m_indices		()
-		, m_contiguous	(vertices.contiguous())
+	Mesh::Mesh(const Vertices & vertices)
+		: Mesh(vertices, Indices())
 	{
 	}
 
-	Mesh::Mesh(const VertexList & vertices, const List<uint32_t> & indices)
+	Mesh::Mesh(const Vertices & vertices, const Indices & indices)
 		: m_vertices	(vertices)
 		, m_indices		(indices)
 		, m_contiguous	(vertices.contiguous())
@@ -73,10 +69,10 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			List<vec3> vp;				// Positions
-			List<vec2> vt;				// Texcoords
-			List<vec3> vn;				// Normals
-			List<List<uint32_t>> vf;	// Faces
+			List<vec3> vp;		// Positions
+			List<vec2> vt;		// Texcoords
+			List<vec3> vn;		// Normals
+			List<Indices> vf;	// Faces
 
 			String line;
 			while (std::getline(in, line))
@@ -109,7 +105,7 @@ namespace ml
 				else if (parseLine(line, "f ", ss))
 				{
 					// Face
-					vf.push_back(List<uint32_t>());
+					vf.push_back(Indices());
 
 					SStream lineStream(ss.str());
 					while (lineStream.good())
@@ -127,9 +123,9 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			List<uint32_t> vi; // Position Indices
-			List<uint32_t> ti; // Texcoord Indices
-			List<uint32_t> ni; // Normal Indices
+			Indices vi; // Position Indices
+			Indices ti; // Texcoord Indices
+			Indices ni; // Normal Indices
 
 			for (size_t i = 0, imax = vf.size(); i < imax; i++)
 			{
@@ -182,7 +178,7 @@ namespace ml
 		return false;
 	}
 
-	bool Mesh::loadFromMemory(const List<float>& vertices, const List<uint32_t>& indices)
+	bool Mesh::loadFromMemory(const List<float>& vertices, const Indices& indices)
 	{
 		if (!vertices.empty() && !indices.empty())
 		{
@@ -194,7 +190,7 @@ namespace ml
 		return false;
 	}
 
-	bool Mesh::loadFromMemory(const VertexList & vertices)
+	bool Mesh::loadFromMemory(const Vertices & vertices)
 	{
 		if (!vertices.empty())
 		{
@@ -206,7 +202,7 @@ namespace ml
 		return false;
 	}
 
-	bool Mesh::loadFromMemory(const VertexList & vertices, const List<uint32_t> & indices)
+	bool Mesh::loadFromMemory(const Vertices & vertices, const Indices & indices)
 	{
 		if (!vertices.empty() && !indices.empty())
 		{

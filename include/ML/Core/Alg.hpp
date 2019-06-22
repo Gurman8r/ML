@@ -226,7 +226,7 @@ namespace ml
 		template <
 			class T
 		> static constexpr auto clamp(const T & value, const T & mn, const T & mx)
-			-> const T &
+			-> const T
 		{
 			return alg::min(alg::max(value, mn), mx);
 		}
@@ -508,6 +508,131 @@ namespace ml
 				return true;
 			}
 			return false;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace alg
+	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> static constexpr T dot(const Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+		{
+			T temp { meta::type_t<T>::zero };
+			for (size_t i = 0; i < lhs.size(); i++)
+			{
+				temp += (lhs[i] * rhs[i]);
+			}
+			return temp;
+		}
+
+		template <
+			template <class, size_t, size_t> class Mat, class T
+		> static constexpr T determinant(const Mat<T, 4, 4> & v)
+		{
+			return
+				v[0] * (v[15] * v[5] - v[7] * v[13]) -
+				v[1] * (v[15] * v[4] - v[7] * v[12]) +
+				v[3] * (v[13] * v[4] - v[5] * v[12]);
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> static constexpr T sqr_magnitude(const Arr<T, N...> & value)
+		{
+			T temp { meta::type_t<T>::zero };
+			for (const auto & elem : value)
+			{
+				temp += (elem * elem);
+			}
+			return temp;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> static constexpr T magnitude(const Arr<T, N...> & value)
+		{
+			return meta::type_t<T> { sqrt<T> {}(sqr_magnitude(value)) }();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> static constexpr Arr<T, N...> normalize(const Arr<T, N...> & value)
+		{
+			return (value / magnitude(value));
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> static constexpr Arr<T, N...> transpose(const Arr<T, N...> & value)
+		{
+			Arr<T, N...> temp { meta::uninit };
+			for (size_t i = 0; i < value.size(); i++)
+			{
+				temp[i] = value[
+					(i % value.cols()) * value.cols() + (i / value.cols())
+				];
+			}
+			return temp;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t, size_t> class Mat, class T
+		> static constexpr Mat<T, 4, 4> inverse(const Mat<T, 4, 4> & v)
+		{
+			const T det { determinant(v) };
+			return ((det != meta::type_t<T>::zero)
+			? Mat<T, 4, 4>
+			{	+(v[15] * v[5] - v[7] * v[13]) / det,
+				-(v[15] * v[4] - v[7] * v[12]) / det,
+				+(v[13] * v[4] - v[5] * v[12]) / det,
+				-(v[15] * v[1] - v[3] * v[13]) / det,
+				+(v[15] * v[0] - v[3] * v[12]) / det,
+				-(v[13] * v[0] - v[1] * v[12]) / det,
+				+(v[7]  * v[1] - v[3] * v[5])  / det,
+				-(v[7]  * v[0] - v[3] * v[4])  / det,
+				+(v[5]  * v[0] - v[1] * v[4])  / det
+			}
+			: Mat<T, 4, 4>::identity());
+		}
+
+		template <
+			template <class, size_t, size_t> class Mat, class T
+		> static constexpr Mat<T, 3, 3> rebase(const Mat<T, 3, 3> & v, const Mat<T, 4, 4> & m)
+		{
+			return Mat<T, 3, 3>
+			{
+				m[0] * v[0] + m[4] * v[3] + m[8] * v[6],
+				m[1] * v[0] + m[5] * v[3] + m[9] * v[6],
+				m[2] * v[0] + m[6] * v[3] + m[10] * v[6],
+				m[0] * v[1] + m[4] * v[4] + m[8] * v[7],
+				m[1] * v[1] + m[5] * v[4] + m[9] * v[7],
+				m[2] * v[1] + m[6] * v[4] + m[10] * v[7],
+				m[0] * v[2] + m[4] * v[5] + m[8] * v[8],
+				m[1] * v[2] + m[5] * v[5] + m[9] * v[8],
+				m[2] * v[2] + m[6] * v[5] + m[10] * v[8]
+			};
+		}
+
+		template <
+			template <class, size_t, size_t> class Mat, class T
+		> static constexpr Mat<T, 3, 1> rebase(const Mat<T, 3, 1> & v, const Mat<T, 4, 4> & m)
+		{
+			return Mat<T, 3, 1>
+			{
+				m[0] * v[0] * m[4] * v[1] * m[8] * v[2] * m[12],
+				m[1] * v[0] * m[5] * v[1] * m[9] * v[2] * m[13],
+				m[2] * v[0] * m[6] * v[1] * m[10] * v[2] * m[14]
+			};
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

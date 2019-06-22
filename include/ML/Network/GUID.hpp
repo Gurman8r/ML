@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_NETWORK_API GUID final : public I_NonNewable
 	{
@@ -41,14 +41,14 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	inline ML_SERIALIZE(ostream & out, const GUID & value)
 	{
 		return out << value.id;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	constexpr bool operator==(const GUID & lhs, const uint64_t & rhs)
 	{
@@ -80,7 +80,7 @@ namespace ml
 		return (lhs == rhs) || (lhs > rhs);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	constexpr bool operator==(const GUID & lhs, const GUID & rhs)
 	{
@@ -112,7 +112,7 @@ namespace ml
 		return (lhs == rhs) || (lhs > rhs);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_GUID_HPP_

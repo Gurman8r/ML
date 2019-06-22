@@ -1,4 +1,4 @@
-#include <ML/Core/Meta.hpp>
+#include <ML/Core/MetaMath.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
@@ -19,13 +19,6 @@ namespace ml
 		constexpr meta::mat4f m4 = v3;
 		constexpr meta::mat4f m5 = m3;
 
-		constexpr float angle	= 90.f * meta::type_t<float>::deg2rad;
-		constexpr auto v		= meta::vec3f { 1.f, 1.f, 1.f } * (angle);
-		constexpr auto rr		= alg::rotationXYZ(v);
-		constexpr auto rx		= alg::rotationX(v[0]);
-		constexpr auto ry		= alg::rotationY(v[1]);
-		constexpr auto rz		= alg::rotationZ(v[2]);
-
 		constexpr auto rebaseV3 = alg::rebase(v3, m4);
 		constexpr auto rebaseM3 = alg::rebase(m3, m4);
 
@@ -35,7 +28,6 @@ namespace ml
 
 		constexpr auto arr1 = meta::array_t<char, 3> { 'a', 'b', 'c' };
 		constexpr auto arr2 = meta::array_t<char, 3> { 'a', 'b', 'c' };
-
 		static_assert(arr1 == arr2, "What?");
 
 		static_assert(meta::cstring("Here") == meta::cstring("Here"), "What?");

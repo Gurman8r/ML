@@ -3,6 +3,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <ML/Audio/Export.hpp>
 #include <ML/Audio/AL.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/I_Singleton.hpp>
@@ -25,22 +26,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class EventSystem;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	class ML_AUDIO_API OpenAL final
 		: public I_Singleton<OpenAL>
 	{
 		friend class I_Singleton<OpenAL>;
 
-		EventSystem * m_eventSystem;
-		void		* m_device;
-		void		* m_context;
+		bool	m_good;
+		void *	m_device;
+		void *	m_context;
 
 	public:
 		/* Initialization */
-		static bool init(EventSystem & eventSystem);
+		static bool init();
 		static bool good();
 
 	public:

@@ -25,9 +25,6 @@
     <Filter Include="Source Files\DS">
       <UniqueIdentifier>{a9fc7adb-d2d1-46cf-8b8c-80a4e333b12b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Drawable">
-      <UniqueIdentifier>{3c739934-7c53-45dd-a0ef-27e53feeae3d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{fa0c2aa1-e737-4e97-968b-8df63033906c}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="Header Files\Drawable">
       <UniqueIdentifier>{f93d9792-0b73-4629-9818-1608f123286f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Drawable">
+      <UniqueIdentifier>{3c739934-7c53-45dd-a0ef-27e53feeae3d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,19 +96,10 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Material.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Camera.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Vertex.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexList.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp">
@@ -153,6 +144,9 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp">
@@ -191,9 +185,6 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Camera.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
@@ -203,16 +194,10 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Vertex.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Material.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Light.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp">
@@ -240,6 +225,9 @@
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\CubeMap.cpp">
+      <Filter>Source Files\DS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>

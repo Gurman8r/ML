@@ -54,6 +54,7 @@ namespace ml
 		
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
+		bool readItem(ManifestItem & item, istream & file, String & line) const;
 		bool parseItem(const ManifestItem & item);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

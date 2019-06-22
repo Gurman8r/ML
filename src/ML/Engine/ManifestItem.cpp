@@ -33,44 +33,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool ManifestItem::loadValues(istream & file, String & line)
-	{
-		if (line.empty() || (line.trim().front() == '#'))
-		{
-			return false;
-		}
-
-		if (line.find("<import>") != String::npos)
-		{
-			while (std::getline(file, line))
-			{
-				line.replaceAll("$(Configuration)", ML_CONFIGURATION);
-				line.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET);
-
-				if (line.find("</import>") != String::npos)
-				{
-					return true;
-				}
-				else
-				{
-					size_t i;
-					if ((i = line.find_first_of("=")) != String::npos)
-					{
-						if (const String key = String(line.substr(0, i)).trim())
-						{
-							if (const String val = String(
-								line.substr((i + 1), (line.size() - i - 2))).trim())
-							{
-								(*this)[key] = val;
-							}
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-
 	String ManifestItem::getStr(const String & value, const String & dv) const
 	{
 		HashMap<String, String>::const_iterator it;

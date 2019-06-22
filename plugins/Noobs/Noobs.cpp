@@ -138,11 +138,10 @@ namespace DEMO
 						new ml::uni_tex2	("frag.tex_sm",		ML_Content.get<ml::Texture>("earth_sm")),
 						new ml::uni_flt		("frag.specular",	0.1f),
 						new ml::uni_int		("frag.shininess",	8),
-						new ml::uni_vec3	("frag.position",	{ 0.0f, 0.0f, 30.0f }),
+						new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
 						new ml::uni_col4	("frag.diffuse",	ml::Color::LightYellow),
 						new ml::uni_flt		("frag.ambient",	0.01f),
-						}))
-			);
+						})));
 		}
 
 		// Create Main File
@@ -238,10 +237,8 @@ namespace DEMO
 		noobs.surf_post->bind();
 		{
 			// Draw Main Surface
-			if (const ml::Shader * shader = noobs.surf_main->shader())
-			{
-				shader->setUniform("Effect.mode", 0);
-			}
+			noobs.surf_main->shader()->setUniform("Effect.mode", 0);
+			
 			ev.window.draw(noobs.surf_main);
 		}
 		// Unbind Post Surface
@@ -262,8 +259,6 @@ namespace DEMO
 
 			if (ImGui::BeginMenuBar())
 			{
-				ML_EditorUtility.HelpMarker("Some very helpful text.");
-
 				if (ImGui::BeginMenu("Noobs Scene"))
 				{
 					// Resolution Names
@@ -271,7 +266,7 @@ namespace DEMO
 					static ml::List<ml::String> res_names;
 					if (res_names.empty())
 					{
-						res_names.push_back("Free");
+						res_names.push_back("Auto");
 						for (const auto & video : res_values)
 						{
 							ml::SStream ss;

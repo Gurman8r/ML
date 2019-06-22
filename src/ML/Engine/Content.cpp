@@ -47,13 +47,51 @@ namespace ml
 			while (std::getline(file, line))
 			{
 				ManifestItem item;
-				if (item.loadValues(file, line))
+				if (readItem(item, file, line))
 				{
 					count += parseItem(item);
 				}
 			}
 		}
 		return (bool)(count);
+	}
+
+	bool Content::readItem(ManifestItem & item, istream & file, String & line) const
+	{
+		if (line.empty() || (line.trim().front() == '#'))
+		{
+			return false;
+		}
+
+		if (line.find("<import>") != String::npos)
+		{
+			while (std::getline(file, line))
+			{
+				line.replaceAll("$(Configuration)", ML_CONFIGURATION);
+				line.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET);
+
+				if (line.find("</import>") != String::npos)
+				{
+					return true;
+				}
+				else
+				{
+					size_t i;
+					if ((i = line.find_first_of("=")) != String::npos)
+					{
+						if (const String key = String(line.substr(0, i)).trim())
+						{
+							if (const String val = String(
+								line.substr((i + 1), (line.size() - i - 2))).trim())
+							{
+								item[key] = val;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	bool Content::parseItem(const ManifestItem & item)

@@ -46,10 +46,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool loadValues(istream & file, String & line);
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		String getStr(const String & value, const String & dv = String()) const;
 
 		int32_t getInt(const String & value, const int32_t dv = 0) const;

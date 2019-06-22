@@ -47,17 +47,23 @@ namespace ml
 			String line;
 			while (std::getline(file, line))
 			{
-				ManifestItem item;
-				if (readItem(item, file, line))
+				Metadata data;
+				if (readMetadata(data, file, line))
 				{
-					count += parseItem(item);
+					count += parseMetadata(data);
 				}
+
+				//ManifestItem item;
+				//if (readItem(item, file, line))
+				//{
+				//	count += parseItem(item);
+				//}
 			}
 		}
 		return (bool)(count);
 	}
 
-	bool Content::readItem(ManifestItem & item, istream & file, String & line) const
+	bool Content::readMetadata(Metadata & data, istream & file, String & line) const
 	{
 		if (line.empty() || (line.trim().front() == '#'))
 		{
@@ -85,7 +91,7 @@ namespace ml
 							if (const String val = String(
 								line.substr((i + 1), (line.size() - i - 2))).trim())
 							{
-								item[key] = val;
+								data.setData(key, val);
 							}
 						}
 					}
@@ -95,12 +101,12 @@ namespace ml
 		return false;
 	}
 
-	bool Content::parseItem(const ManifestItem & item)
+	bool Content::parseMetadata(const Metadata & data)
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		const String type = item.getStr("type");
-		const String name = item.getStr("name");
+		const String type = data.getData("type");
+		const String name = data.getData("name");
 		if (type && name)
 		{
 			// Manifests
@@ -119,7 +125,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "font")
 			{
-				if (const String file = item.getStr("file"))
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Font>(name, file);
 				}
@@ -132,7 +138,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "image")
 			{
-				if (const String file = item.getStr("file"))
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Image>(name, file);
 				}
@@ -145,7 +151,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "material")
 			{
-				if (const String file = item.getStr("file"))
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Material>(name, file);
 				}
@@ -158,7 +164,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "mesh")
 			{
-				if (const String file = item.getStr("file"))
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Mesh>(name, file);
 				}
@@ -171,11 +177,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "model")
 			{
-				if (const String file = item.getStr("file"))
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Model>(name, file);
 				}
-				else if (const String file = item.getStr("mesh"))
+				else if (const String file = data.getData("mesh"))
 				{
 					const Mesh * temp;
 					return
@@ -192,7 +198,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "script")
 			{
-				if (const String file = item.getStr("file"))
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Script>(name, file);
 				}
@@ -205,15 +211,15 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "shader")
 			{
-				if (const String file = item.getStr("file"))
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Shader>(name, file);
 				}
 				else
 				{
-					const String vert = item.getStr("vert");
-					const String geom = item.getStr("geom");
-					const String frag = item.getStr("frag");
+					const String vert = data.getData("vert");
+					const String geom = data.getData("geom");
+					const String frag = data.getData("frag");
 
 					if (vert && geom && frag)
 					{
@@ -239,7 +245,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "sound")
 			{
-				if (const String file = item.getStr("file"))
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Sound>(name, file);
 				}
@@ -252,7 +258,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "sprite")
 			{
-				if (const String file = item.getStr("texture"))
+				if (const String file = data.getData("texture"))
 				{
 					const Texture * temp;
 					return
@@ -269,10 +275,10 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "surface")
 			{
-				const String  m = item.getStr("model");
-				const String  s = item.getStr("shader");
-				const int32_t w = item.getInt("width", 1920);
-				const int32_t h = item.getInt("height", 1080);
+				const String  m = data.getData("model");
+				const String  s = data.getData("shader");
+				const int32_t w = data.getData("width", 1920);
+				const int32_t h = data.getData("height", 1080);
 				if (m && s)
 				{
 					Surface * e;
@@ -291,43 +297,44 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "texture")
 			{
-				const bool smooth = item.getBool("smooth", true);
-				const bool repeat = item.getBool("repeat", false);
-				const bool mipmap = item.getBool("mipmap", false);
-
-				const int32_t level = item.getInt("level", 0);
-
-				const GL::Target target = (GL::Target)item.getEnum("target", GL::Texture2D, {
-					{ "tex_2d", GL::Texture2D },
-					{ "tex_3d", GL::Texture3D },
+				const bool smooth = data.getData("smooth", true);
+				const bool repeat = data.getData("repeat", false);
+				const bool mipmap = data.getData("mipmap", false);
+				
+				const int32_t level = data.getData("level", 0);
+				
+				const GL::Target target = data.getData("target", GL::Texture2D, 
+					Map<String, GL::Target> {
+					{ "texture_2d",	GL::Texture2D },
+					{ "texture_3d",	GL::Texture3D },
 				});
-
-				const GL::Format format = (GL::Format)item.getEnum("format", GL::RGBA, {
-					{ "red",	GL::Red		},
-					{ "green",	GL::Green	},
-					{ "blue",	GL::Blue	},
-					{ "rgb",	GL::RGB		},
-					{ "rgba",	GL::RGBA	},
+				
+				const GL::Format format = data.getData("format", GL::RGBA, {
+					{ "red",		GL::Red		},
+					{ "green",		GL::Green	},
+					{ "blue",		GL::Blue	},
+					{ "rgb",		GL::RGB		},
+					{ "rgba",		GL::RGBA	},
 				});
-
-				const GL::Type pix_ty = (GL::Type)item.getEnum("pix_ty", GL::UnsignedByte, {
-					{ "byte",	GL::Byte },
-					{ "ubyte",	GL::UnsignedByte },
-					{ "short",	GL::Short },
-					{ "ushort", GL::UnsignedShort },
-					{ "int",	GL::Int },
-					{ "uint",	GL::UnsignedInt },
-					{ "float",	GL::Float },
-					{ "hfloat",	GL::HalfFloat },
+				
+				const GL::Type pix_ty = data.getData("pix_ty", GL::UnsignedByte, {
+					{ "byte",		GL::Byte },
+					{ "ubyte",		GL::UnsignedByte },
+					{ "short",		GL::Short },
+					{ "ushort",		GL::UnsignedShort },
+					{ "int",		GL::Int },
+					{ "uint",		GL::UnsignedInt },
+					{ "float",		GL::Float },
+					{ "half_float",	GL::HalfFloat },
 				});
-
-				if (const String file = item.getStr("file"))
+				
+				if (const String file = data.getData("file"))
 				{
 					return create_from_file<Texture>(name, file,
 						target, format, format, smooth, repeat, mipmap, level, pix_ty
 					);
 				}
-				else if (const String file = item.getStr("image"))
+				else if (const String file = data.getData("image"))
 				{
 					const Image * temp;
 					return

@@ -6,12 +6,12 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct MetadataValue final
+	struct ML_CORE_API MetadataValue final
 		: public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Type
 		{
@@ -26,7 +26,7 @@ namespace ml
 			MAX_METADATA_TYPE
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		MetadataValue();
 		explicit MetadataValue(const bool value);
@@ -38,7 +38,7 @@ namespace ml
 		MetadataValue(const MetadataValue & copy);
 		~MetadataValue();
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool	asBool	() const;
 		double	asDouble() const;
@@ -57,7 +57,7 @@ namespace ml
 			return ((*this) = MetadataValue(value));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline operator bool	() const { return asBool();		}
 		inline operator double	() const { return asDouble();	}
@@ -66,14 +66,16 @@ namespace ml
 		inline operator long	() const { return asLong();		}
 		inline operator String	() const { return asString();	}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		String	m_data;
 		Type	m_type;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	inline ML_SERIALIZE(std::ostream & out, const MetadataValue & value)
 	{
@@ -90,7 +92,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_METADATA_VALUE_HPP_

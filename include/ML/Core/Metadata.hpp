@@ -7,10 +7,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API Metadata final
+	struct ML_CORE_API Metadata final
 		: public I_Newable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using value_type		= typename MetadataValue;
 		using pointer			= typename value_type *;
 		using const_pointer		= typename const value_type *;
@@ -21,23 +22,42 @@ namespace ml
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Metadata();
 		explicit Metadata(const map_type & values);
 		Metadata(const Metadata & copy);
 		~Metadata();
 
-	public:
-		inline const_pointer getData(const String & name) const
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class T = typename String
+		> inline const_reference getData(const String & name, const T & dv = T()) const
 		{
 			const_iterator it;
-			return (((it = m_data.find(name)) != this->cend()) ? it->second : nullptr);
+			return (((it = m_data.find(name)) != this->cend())
+				? (*it->second)
+				: (*m_data.insert({ name, new value_type(dv) }).first->second)
+			);
 		}
 
-		inline pointer getData(const String & name)
+		template <
+			class T
+		> inline T getData(const String & value, const T dv, const Map<String, T> & m) const
 		{
-			iterator it;
-			return (((it = m_data.find(name)) != this->end()) ? it->second : nullptr);
+			if (!m.empty())
+			{
+				if (const String str = getData(value, String()))
+				{
+					auto it = m.find(str);
+					if (it != m.cend())
+					{
+						return it->second;
+					}
+				}
+			}
+			return dv;
 		}
 
 		inline Metadata & removeData(const String & name)
@@ -51,8 +71,9 @@ namespace ml
 			return (*this);
 		}
 
-		template <class ... Args>
-		inline MetadataValue & setData(const String & name, Args && ... args)
+		template <
+			class ... Args
+		> inline const_reference & setData(const String & name, Args && ... args)
 		{
 			iterator it;
 			if ((it = m_data.find(name)) == m_data.end())
@@ -62,7 +83,8 @@ namespace ml
 			return ((*it->second) = value_type(std::forward<Args>(args)...));
 		}
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline auto begin	()		 -> iterator		{ return m_data.begin(); }
 		inline auto begin	() const -> const_iterator	{ return m_data.begin(); }
 		inline auto cbegin	() const -> const_iterator	{ return m_data.cbegin(); }
@@ -70,8 +92,11 @@ namespace ml
 		inline auto end		() const -> const_iterator	{ return m_data.end(); }
 		inline auto cend	() const -> const_iterator	{ return m_data.cend(); }
 
-	private:
-		map_type m_data;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: mutable map_type m_data;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

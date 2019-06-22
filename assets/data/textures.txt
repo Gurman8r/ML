@@ -4,8 +4,6 @@
 #	Based on glTexImage2D function:
 #	https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
 #	
-#	See: ML/src/Engine/Resources.cpp
-#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	<import>
@@ -15,11 +13,11 @@
 #		image	= nameOfSomeImage
 #		smooth	= true
 #		repeat	= false
-#		target	= tex_2D / tex_3D
-#		format	= red / blue / green / RGB / RGBA
+#		target	= texture_2D / texture_3D
+#		format	= red / blue / green / rgb / rgba
 #		mipmap	= false
 #		level	= 0
-#		pix_ty	= byte / ubyte / short / ushort / int / uint / float / hfloat
+#		pix_ty	= byte / ubyte / short / ushort / int / uint / float / half_float
 #	</import>
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -78,14 +76,14 @@
 	type = texture
 	name = earth_cm
 	file = ../../../assets/textures/earth/earth_cm_2k.png
-	format = RGB
+	format = rgb
 </import>
 
 <import>
 	type = texture
 	name = earth_dm
 	file = ../../../assets/textures/earth/earth_dm_2k.png
-	format = RGB
+	format = rgb
 </import>
 
 <import>
@@ -99,14 +97,14 @@
 	type = texture
 	name = earth_lm
 	file = ../../../assets/textures/earth/earth_lm_2k.png
-	format = RGB
+	format = rgb
 </import>
 
 <import>
 	type = texture
 	name = earth_nm
 	file = ../../../assets/textures/earth/earth_nm_2k.png
-	format = RGB
+	format = rgb
 </import>
 
 <import>
@@ -147,14 +145,14 @@
 	type = texture
 	name = mars_dm
 	file = ../../../assets/textures/mars/mars_dm_2k.png
-	format = RGB
+	format = rgb
 </import>
 
 <import>
 	type = texture
 	name = mars_nm
 	file = ../../../assets/textures/mars/mars_nm_2k.png
-	format = RGB
+	format = rgb
 </import>
 
 
@@ -165,14 +163,14 @@
 	type = texture
 	name = moon_dm
 	file = ../../../assets/textures/moon/moon_dm_2k.png
-	format = RGB
+	format = rgb
 </import>
 
 <import>
 	type = texture
 	name = moon_nm
 	file = ../../../assets/textures/moon/moon_nm_2k.png
-	format = RGB
+	format = rgb
 </import>
 
 # Background
@@ -182,7 +180,7 @@
 #	type	= texture
 #	name	= bg_clouds
 #	file	= ../../../assets/textures/bg/bg_clouds.png
-#	format	= RGB
+#	format	= rgb
 #</import>
 
 #<import>

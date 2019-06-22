@@ -170,7 +170,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
   </ItemGroup>
@@ -181,7 +180,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

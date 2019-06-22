@@ -152,7 +152,7 @@ namespace ImGui
 		auto iend = GetCharacterIndex(aEnd);
 		size_t s = 0;
 
-		for (size_t i = lstart; i < lend; i++)
+		for (size_t i = (size_t)lstart; i < (size_t)lend; i++)
 			s += mLines[i].size();
 
 		result.reserve(s + s / 8);
@@ -354,7 +354,7 @@ namespace ImGui
 			int32_t columnIndex = 0;
 			float columnX = 0.0f;
 
-			while ((size_t)columnIndex < line.size())
+			while ((size_t)columnIndex < (int32_t)line.size())
 			{
 				float columnWidth = 0.0f;
 
@@ -476,7 +476,7 @@ namespace ImGui
 
 		while (!isword || skip)
 		{
-			if (at.mLine >= mLines.size())
+			if (at.mLine >= (int32_t)mLines.size())
 			{
 				auto l = std::max(0, (int32_t) mLines.size() - 1);
 				return Coordinates(l, GetLineMaxColumn(l));
@@ -511,12 +511,12 @@ namespace ImGui
 
 	int32_t TextEditor::GetCharacterIndex(const Coordinates & aCoordinates) const
 	{
-		if (aCoordinates.mLine >= mLines.size())
+		if (aCoordinates.mLine >= (int32_t)mLines.size())
 			return -1;
 		auto& line = mLines[aCoordinates.mLine];
 		int32_t c = 0;
 		int32_t i = 0;
-		for (; i < line.size() && c < aCoordinates.mColumn;)
+		for (; i < (int32_t)line.size() && c < aCoordinates.mColumn;)
 		{
 			if (line[i].mChar == '\t')
 				c = (c / mTabSize) * mTabSize + mTabSize;
@@ -529,7 +529,7 @@ namespace ImGui
 
 	int32_t TextEditor::GetCharacterColumn(int32_t aLine, int32_t aIndex) const
 	{
-		if (aLine >= mLines.size())
+		if (aLine >= (int32_t)mLines.size())
 			return 0;
 		auto& line = mLines[aLine];
 		int32_t col = 0;
@@ -548,22 +548,22 @@ namespace ImGui
 
 	int32_t TextEditor::GetLineCharacterCount(int32_t aLine) const
 	{
-		if (aLine >= mLines.size())
+		if (aLine >= (int32_t)mLines.size())
 			return 0;
 		auto& line = mLines[aLine];
 		int32_t c = 0;
-		for (unsigned i = 0; i < line.size(); c++)
+		for (unsigned i = 0; i < (int32_t)line.size(); c++)
 			i += UTF8CharLength(line[i].mChar);
 		return c;
 	}
 
 	int32_t TextEditor::GetLineMaxColumn(int32_t aLine) const
 	{
-		if (aLine >= mLines.size())
+		if (aLine >= (int32_t)mLines.size())
 			return 0;
 		auto& line = mLines[aLine];
 		int32_t col = 0;
-		for (unsigned i = 0; i < line.size(); )
+		for (unsigned i = 0; i < (int32_t)line.size(); )
 		{
 			auto c = line[i].mChar;
 			if (c == '\t')
@@ -1038,7 +1038,7 @@ namespace ImGui
 				auto prevColor = line.empty() ? mPalette[(int32_t)PaletteIndex::Default] : GetGlyphColor(line[0]);
 				ImVec2 bufferOffset;
 
-				for (int32_t i = 0; i < line.size();)
+				for (int32_t i = 0; i < (int32_t)line.size();)
 				{
 					auto& glyph = line[i];
 					auto color = GetGlyphColor(glyph);
@@ -1258,7 +1258,7 @@ namespace ImGui
 				if (start > end)
 					std::swap(start, end);
 				start.mColumn = 0;
-				//			end.mColumn = end.mLine < mLines.size() ? mLines[end.mLine].size() : 0;
+				//			end.mColumn = end.mLine < (int32_t)mLines.size() ? mLines[end.mLine].size() : 0;
 				if (end.mColumn == 0 && end.mLine > 0)
 					--end.mLine;
 				if (end.mLine >= (int32_t)mLines.size())
@@ -1356,7 +1356,7 @@ namespace ImGui
 			auto& newLine = mLines[coord.mLine + 1];
 
 			if (mLanguageDefinition.mAutoIndentation)
-				for (size_t it = 0; it < line.size() && isascii(line[it].mChar) && isblank(line[it].mChar); ++it)
+				for (size_t it = 0; it < (int32_t)line.size() && isascii(line[it].mChar) && isblank(line[it].mChar); ++it)
 					newLine.push_back(line[it]);
 
 			const size_t whitespaceSize = newLine.size();
@@ -1469,7 +1469,7 @@ namespace ImGui
 		case TextEditor::SelectionMode::Line:
 		{
 			const auto lineNo = mState.mSelectionEnd.mLine;
-			const auto lineSize = (size_t)lineNo < mLines.size() ? mLines[lineNo].size() : 0;
+			const auto lineSize = (size_t)lineNo < (int32_t)mLines.size() ? mLines[lineNo].size() : 0;
 			mState.mSelectionStart = Coordinates(mState.mSelectionStart.mLine, 0);
 			mState.mSelectionEnd = Coordinates(lineNo, GetLineMaxColumn(lineNo));
 			break;
@@ -1654,7 +1654,7 @@ namespace ImGui
 	{
 		auto oldPos = mState.mCursorPosition;
 
-		if (mLines.empty() || oldPos.mLine >= mLines.size())
+		if (mLines.empty() || oldPos.mLine >= (int32_t)mLines.size())
 			return;
 
 		auto cindex = GetCharacterIndex(mState.mCursorPosition);
@@ -1663,9 +1663,9 @@ namespace ImGui
 			auto lindex = mState.mCursorPosition.mLine;
 			auto& line = mLines[lindex];
 
-			if (cindex >= line.size())
+			if (cindex >= (int32_t)line.size())
 			{
-				if (mState.mCursorPosition.mLine < mLines.size() - 1)
+				if (mState.mCursorPosition.mLine < (int32_t)mLines.size() - 1)
 				{
 					mState.mCursorPosition.mLine = std::max(0, std::min((int32_t)mLines.size() - 1, mState.mCursorPosition.mLine + 1));
 					mState.mCursorPosition.mColumn = 0;
@@ -1905,7 +1905,7 @@ namespace ImGui
 				--u.mRemovedStart.mColumn;
 				--mState.mCursorPosition.mColumn;
 
-				while (cindex < line.size() && cend-- > cindex)
+				while (cindex < (int32_t)line.size() && cend-- > cindex)
 				{
 					u.mRemoved += line[cindex].mChar;
 					line.erase(line.begin() + cindex);
@@ -2166,7 +2166,7 @@ namespace ImGui
 
 			text.resize(line.size());
 
-			for (size_t i = 0; i < line.size(); ++i)
+			for (size_t i = 0; i < (int32_t)line.size(); ++i)
 				text[i] = line[i].mChar;
 
 			result.emplace_back(std::move(text));
@@ -2220,7 +2220,7 @@ namespace ImGui
 				continue;
 
 			buffer.resize(line.size());
-			for (size_t j = 0; j < line.size(); ++j)
+			for (size_t j = 0; j < (int32_t)line.size(); ++j)
 			{
 				auto& col = line[j];
 				buffer[j] = col.mChar;
@@ -2325,7 +2325,7 @@ namespace ImGui
 			auto concatenate = false;		// '\' on the very end of the line
 			auto currentLine = 0;
 			auto currentIndex = 0;
-			while (currentLine < endLine || currentIndex < endIndex)
+			while (currentLine < (int32_t)endLine || currentIndex < endIndex)
 			{
 				auto& line = mLines[currentLine];
 
@@ -2349,7 +2349,7 @@ namespace ImGui
 					if (currentIndex == (int32_t)line.size() - 1 && line[line.size() - 1].mChar == '\\')
 						concatenate = true;
 
-					bool inComment = (commentStartLine < currentLine || (commentStartLine == currentLine && commentStartIndex <= currentIndex));
+					bool inComment = ((int32_t)commentStartLine < currentLine || (commentStartLine == currentLine && (int32_t)commentStartIndex <= currentIndex));
 
 					if (withinString)
 					{
@@ -2403,7 +2403,9 @@ namespace ImGui
 								commentStartIndex = currentIndex;
 							}
 
-							inComment = inComment = (commentStartLine < currentLine || (commentStartLine == currentLine && commentStartIndex <= currentIndex));
+							inComment = inComment = 
+								((int32_t)commentStartLine < currentLine ||
+								((int32_t)commentStartLine == currentLine && commentStartIndex <= currentIndex));
 
 							line[currentIndex].mMultiLineComment = inComment;
 							line[currentIndex].mComment = withinSingleLineComment;
@@ -2456,7 +2458,7 @@ namespace ImGui
 		float distance = 0.0f;
 		float spaceSize = ImGui::GetFont()->CalcTextSizeA(ImGui::GetFontSize(), FLT_MAX, -1.0f, " ", nullptr, nullptr).x;
 		int32_t colIndex = GetCharacterIndex(aFrom);
-		for (size_t it = 0u; it < line.size() && it < colIndex; )
+		for (size_t it = 0u; it < line.size() && it < (size_t)colIndex; )
 		{
 			if (line[it].mChar == '\t')
 			{

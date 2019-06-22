@@ -144,52 +144,56 @@ namespace DEMO
 						})));
 		}
 
-		// Create Main File
-		noobs.files.push_back(new NoobFile("Main", ml::String()));
-
-		// Create Vertex File
-		if (noobs.material->shader()->vertSrc())
+		// Generate Sources
+		if (noobs.material->shader())
 		{
-			noobs.files.push_back(new NoobFile(
-				"Vertex",
-				noobs.material->shader()->vertSrc()
-			));
-			noobs.files.front()->text.SetText(
-				noobs.files.front()->text.GetText() +
-				"// Vertex Shader\n"
-				"#shader vertex\n"
-				"#include \"Vertex\"\n"
-			);
-		}
+			// Create Main File
+			noobs.files.push_back(new NoobFile("Main", ml::String()));
 
-		// Create Fragment File
-		if (noobs.material->shader()->fragSrc())
-		{
-			noobs.files.push_back(new NoobFile(
-				"Fragment",
-				noobs.material->shader()->fragSrc()
-			));
-			noobs.files.front()->text.SetText(
-				noobs.files.front()->text.GetText() +
-				"// Fragment Shader\n"
-				"#shader fragment\n"
-				"#include \"Fragment\"\n"
-			);
-		}
+			// Create Vertex File
+			if (noobs.material->shader()->vertSrc())
+			{
+				noobs.files.push_back(new NoobFile(
+					"Vertex",
+					noobs.material->shader()->vertSrc()
+				));
+				noobs.files.front()->text.SetText(
+					noobs.files.front()->text.GetText() +
+					"// Vertex Shader\n"
+					"#shader vertex\n"
+					"#include \"Vertex\"\n"
+				);
+			}
 
-		// Create Geometry File
-		if (noobs.material->shader()->geomSrc())
-		{
-			noobs.files.push_back(new NoobFile(
-				"Geometry",
-				noobs.material->shader()->geomSrc()
-			));
-			noobs.files.front()->text.SetText(
-				noobs.files.front()->text.GetText() +
-				"// Geometry Shader\n"
-				"#shader geometry\n"
-				"#include \"Geometry\"\n"
-			);
+			// Create Fragment File
+			if (noobs.material->shader()->fragSrc())
+			{
+				noobs.files.push_back(new NoobFile(
+					"Fragment",
+					noobs.material->shader()->fragSrc()
+				));
+				noobs.files.front()->text.SetText(
+					noobs.files.front()->text.GetText() +
+					"// Fragment Shader\n"
+					"#shader fragment\n"
+					"#include \"Fragment\"\n"
+				);
+			}
+
+			// Create Geometry File
+			if (noobs.material->shader()->geomSrc())
+			{
+				noobs.files.push_back(new NoobFile(
+					"Geometry",
+					noobs.material->shader()->geomSrc()
+				));
+				noobs.files.front()->text.SetText(
+					noobs.files.front()->text.GetText() +
+					"// Geometry Shader\n"
+					"#shader geometry\n"
+					"#include \"Geometry\"\n"
+				);
+			}
 		}
 	}
 

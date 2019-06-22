@@ -3,12 +3,12 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/OS.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Engine/Content.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/EditorUtility.hpp>
-#include <ML/Editor/ImGui.hpp>
-#include <ML/Engine/Resources.hpp>
 #include <ML/Engine/Entity.hpp>
+#include <ML/Editor/ImGui.hpp>
 #include <ML/Core/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Uniform.hpp>
@@ -28,16 +28,15 @@ namespace ml
 
 		template <
 			class T
-		> inline static const T * ResourceDropdown(
-			CString label, const T * current, Registry<T> & reg
-		)
+		> inline static const T * ResourceDropdown(CString label, const T * cur)
 		{
-			int32_t index = reg.getIndexOf(current);
-			return (ML_EditorUtility.StringCombo(label, index, reg.keys())
-				? reg.getByIndex(index)
+			int32_t index = ML_Content.getIndexOf<T>(cur);
+			return (ML_EditorUtility.StringCombo(label, index, ML_Content.keys<T>())
+				? ML_Content.getByIndex<T>(index)
 				: nullptr
 			);
 		}
+
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -86,52 +85,52 @@ namespace ml
 
 			Layout::Header("Entities", [&]()
 			{
-				draw_entity_registry(ev.resources, ev.resources.entities);
+				draw_entity_registry();
 			});
 
 			Layout::Header("Fonts", [&]()
 			{
-				draw_font_registry(ev.resources, ev.resources.fonts);
+				draw_font_registry();
 			});
 
 			Layout::Header("Images", [&]()
 			{
-				draw_image_registry(ev.resources, ev.resources.images);
+				draw_image_registry();
 			});
 
 			Layout::Header("Materials", [&]()
 			{
-				draw_material_registry(ev.resources, ev.resources.materials);
+				draw_material_registry();
 			});
 
 			Layout::Header("Meshes", [&]()
 			{
-				draw_mesh_registry(ev.resources, ev.resources.meshes);
+				draw_mesh_registry();
 			});
 
 			Layout::Header("Models", [&]()
 			{
-				draw_model_registry(ev.resources, ev.resources.models);
+				draw_model_registry();
 			});
 
 			Layout::Header("Shaders", [&]()
 			{
-				draw_shader_registry(ev.resources, ev.resources.shaders);
+				draw_shader_registry();
 			});
 
 			Layout::Header("Sprites", [&]()
 			{
-				draw_sprite_registry(ev.resources, ev.resources.sprites);
+				draw_sprite_registry();
 			});
 
 			Layout::Header("Surfaces", [&]()
 			{
-				draw_surface_registry(ev.resources, ev.resources.surfaces);
+				draw_surface_registry();
 			});
 
 			Layout::Header("Textures", [&]()
 			{
-				draw_texture_registry(ev.resources, ev.resources.textures);
+				draw_texture_registry();
 			});
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -141,12 +140,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_entity_registry(Resources & res, Registry<Entity> & entities)
+	void ResourceGui::draw_entity_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : entities)
+		for (auto & pair : ML_Content.data<Entity>())
 		{
-			Entity * ent = pair.second;
+			Entity * ent = reinterpret_cast<Entity *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -173,16 +172,14 @@ namespace ml
 
 						if (const Model * model = Layout::ResourceDropdown(
 							"Model##Renderer",
-							(Model *)r->drawable(),
-							res.models))
+							(Model *)r->drawable()))
 						{
 							r->drawable() = model;
 						}
 
 						if (const Material * material = Layout::ResourceDropdown(
 							"Material##Renderer",
-							r->material(),
-							res.materials))
+							r->material()))
 						{
 							r->material() = material;
 						}
@@ -339,14 +336,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_font_registry(Resources & res, Registry<Font> & fonts)
+	void ResourceGui::draw_font_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : fonts)
+		for (auto & pair : ML_Content.data<Font>())
 		{
+			Font * font = reinterpret_cast<Font *>(pair.second);
+
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
-				ImGui::Text("%s", pair.second->getInfo().family.c_str());
+				ImGui::Text("%s", font->getInfo().family.c_str());
 				ImGui::TreePop();
 			}
 			ImGui::Separator();
@@ -356,15 +355,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_image_registry(Resources & res, Registry<Image> & images)
+	void ResourceGui::draw_image_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : images)
+		for (auto & pair : ML_Content.data<Image>())
 		{
+			Image * img = reinterpret_cast<Image *>(pair.second);
+
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
-				ImGui::Text("Size: %i x %i", pair.second->width(), pair.second->height());
-				ImGui::Text("Channels: %i", pair.second->channels());
+				ImGui::Text("Size: %i x %i", img->width(), img->height());
+				ImGui::Text("Channels: %i", img->channels());
 				ImGui::TreePop();
 			}
 		}
@@ -373,12 +374,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_material_registry(Resources & res, Registry<Material> & materials)
+	void ResourceGui::draw_material_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : materials)
+		for (auto & pair : ML_Content.data<Material>())
 		{
-			Material * mat = pair.second;
+			Material * mat = reinterpret_cast<Material *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -388,8 +389,7 @@ namespace ml
 
 				if (const Shader * shader = Layout::ResourceDropdown(
 					"Shader##Material", 
-					mat->shader(), 
-					res.shaders))
+					mat->shader()))
 				{
 					mat->shader() = shader;
 				}
@@ -419,7 +419,7 @@ namespace ml
 						{
 							const String label("##" + pair.first + "##Uni##" + it->first);
 
-							UniformField(res, label, it->second);
+							UniformField(label, it->second);
 
 							ImGui::SameLine();
 
@@ -434,7 +434,7 @@ namespace ml
 
 					for (auto it : toRemove)
 					{
-						uni_base * u = it->second;
+						Uniform * u = it->second;
 						mat->uniforms().erase(it);
 						delete u;
 					}
@@ -456,16 +456,18 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_mesh_registry(Resources & res, Registry<Mesh> & meshes)
+	void ResourceGui::draw_mesh_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : meshes)
+		for (auto & pair : ML_Content.data<Mesh>())
 		{
+			Mesh * mesh = reinterpret_cast<Mesh *>(pair.second);
+
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
-				ImGui::Text("Vertices: %u", pair.second->vertices().size());
-				ImGui::Text("Indices: %u", pair.second->indices().size());
-				ImGui::Text("Contiguous: %u", pair.second->contiguous().size());
+				ImGui::Text("Vertices: %u",	mesh->vertices().size());
+				ImGui::Text("Indices: %u", mesh->indices().size());
+				ImGui::Text("Contiguous: %u", mesh->contiguous().size());
 				ImGui::TreePop();
 			}
 			ImGui::Separator();
@@ -475,27 +477,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_model_registry(Resources & res, Registry<Model> & models)
+	void ResourceGui::draw_model_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : models)
+		for (auto & pair : ML_Content.data<Model>())
 		{
-			if (ImGui::TreeNode(pair.first.c_str()))
-			{
-				ImGui::TreePop();
-			}
-			ImGui::Separator();
-		}
-		ImGui::EndGroup();
-	}
+			Model * model = reinterpret_cast<Model *>(pair.second);
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void ResourceGui::draw_script_registry(Resources & res, Registry<Script> & scripts)
-	{
-		ImGui::BeginGroup();
-		for (auto & pair : scripts)
-		{
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
 				ImGui::TreePop();
@@ -507,28 +495,31 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_shader_registry(Resources & res, Registry<Shader> & shaders)
+	void ResourceGui::draw_script_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : shaders)
+		for (auto & pair : ML_Content.data<Script>())
 		{
-			Shader * shader = pair.second;
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
-				// Reload
-				/* * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::Button("Reload"))
-				{
-					if (shaders.reload(pair.first))
-					{
-						Debug::log("Reloaded Shader: {0}", pair.first);
-					}
-					else
-					{
-						Debug::logError("Failed Reloading Shader: {0}", pair.first);
-					}
-				}
+				ImGui::TreePop();
+			}
+			ImGui::Separator();
+		}
+		ImGui::EndGroup();
+	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void ResourceGui::draw_shader_registry()
+	{
+		ImGui::BeginGroup();
+		for (auto & pair : ML_Content.data<Shader>())
+		{
+			Shader * shader = reinterpret_cast<Shader *>(pair.second);
+
+			if (ImGui::TreeNode(pair.first.c_str()))
+			{
 				// Source Tabs
 				if (ImGui::BeginTabBar("SourceTabs"))
 				{
@@ -627,52 +618,53 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_sprite_registry(Resources & res, Registry<Sprite> & sprites)
+	void ResourceGui::draw_sprite_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : sprites)
+		for (auto & pair : ML_Content.data<Sprite>())
 		{
+			Sprite * spr = reinterpret_cast<Sprite *>(pair.second);
+
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
 				ImGui::PushID(pair.first.c_str());
 
-				vec4 color = pair.second->color();
+				vec4 color = spr->color();
 				if (ImGui::ColorEdit4("Color##Sprite", &color[0]))
 				{
-					pair.second->setColor(color);
+					spr->setColor(color);
 				}
 
-				vec2 origin = pair.second->origin();
+				vec2 origin = spr->origin();
 				if (ImGui::InputFloat2("Origin##Sprite", &origin[0], 1))
 				{
-					pair.second->setOrigin(origin);
+					spr->setOrigin(origin);
 				}
 
-				vec2 position = pair.second->position();
+				vec2 position = spr->position();
 				if (ImGui::InputFloat2("Position##Sprite", &position[0], 1))
 				{
-					pair.second->setPosition(position);
+					spr->setPosition(position);
 				}
 
-				float rotation = pair.second->rotation();
+				float rotation = spr->rotation();
 				if (ImGui::InputFloat("Rotation##Sprite", &rotation, 1))
 				{
-					pair.second->setRotation(rotation);
+					spr->setRotation(rotation);
 				}
 
-				vec2 scale = pair.second->scale();
+				vec2 scale = spr->scale();
 				if (ImGui::InputFloat2("Scale##Sprite", &scale[0], 1))
 				{
-					pair.second->setScale(scale);
+					spr->setScale(scale);
 				}
 
 				if (const Texture * tex = Layout::ResourceDropdown(
 					"Texture##Sprite",
-					pair.second->texture(),
-					res.textures
+					spr->texture()
 				))
 				{
-					pair.second->setTexture(tex);
+					spr->setTexture(tex);
 				}
 
 				ImGui::PopID();
@@ -685,21 +677,22 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_surface_registry(Resources & res, Registry<Surface> & surfaces)
+	void ResourceGui::draw_surface_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : surfaces)
+		for (auto & pair : ML_Content.data<Surface>())
 		{
+			Surface * surf = reinterpret_cast<Surface *>(pair.second);
+
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
 				ImGui::PushID(pair.first.c_str());
 
 				if (const Shader * shader = Layout::ResourceDropdown(
 					"Shader##Surface",
-					pair.second->shader(),
-					res.shaders))
+					surf->shader()))
 				{
-					pair.second->shader() = shader;
+					surf->shader() = shader;
 				}
 
 				if (ImGui::TreeNode("Preview"))
@@ -714,7 +707,7 @@ namespace ml
 						return (src * (((hs) < (vs)) ? (hs) : (vs)));
 					};
 
-					vec2 src = pair.second->texture().size();
+					vec2 src = surf->texture().size();
 					vec2 pos = ML_EditorUtility.getCursorPos();
 					vec2 dst = { 256, 256 };
 					vec2 scl = scaleToFit(src, dst);
@@ -722,7 +715,7 @@ namespace ml
 					ImGui::Text("%f %f", src[0], src[1]);
 
 					ImGui::Image(
-						pair.second->texture().get_address(),
+						surf->texture().get_address(),
 						{ scl[0], scl[1] },
 						{ 0, 1 },
 						{ 1, 0 },
@@ -743,14 +736,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ResourceGui::draw_texture_registry(Resources & res, Registry<Texture> & textures)
+	void ResourceGui::draw_texture_registry()
 	{
 		ImGui::BeginGroup();
-		for (auto & pair : textures)
+		for (auto & pair : ML_Content.data<Texture>())
 		{
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
-				Texture * tex = pair.second;
+				Texture * tex = reinterpret_cast<Texture *>(pair.second);
 
 				ImGui::Columns(2, "texture_data_columns");
 
@@ -885,8 +878,8 @@ namespace ml
 			ImGui::Combo(
 				"Type",
 				&type,
-				uni_base::TypeNames,
-				uni_base::MAX_UNI_TYPES
+				Uniform::TypeNames,
+				Uniform::MAX_UNI_TYPES
 			);
 
 			bool enterPress = ImGui::InputText(
@@ -902,7 +895,7 @@ namespace ml
 			{
 				if (String(name) && !mat->hasUniform(name))
 				{
-					uni_base * u = nullptr;
+					Uniform * u = nullptr;
 					switch (type)
 					{
 					case uni_flt::ID	: u = new uni_flt (name, 0);	break;
@@ -937,7 +930,7 @@ namespace ml
 		}
 	}
 
-	int32_t ResourceGui::UniformField(Resources & resources, const String & label, uni_base * value, bool drag)
+	int32_t ResourceGui::UniformField(const String & label, Uniform * value, bool drag)
 	{
 		if (!value) { return 0; }
 
@@ -1069,8 +1062,7 @@ namespace ml
 			{
 				if (const Texture * tex = Layout::ResourceDropdown(
 					"##Texture##Uni",
-					u->data,
-					resources.textures))
+					u->data))
 				{
 					u->data = tex;
 				}

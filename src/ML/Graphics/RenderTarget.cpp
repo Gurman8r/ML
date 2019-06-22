@@ -53,22 +53,22 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const Vertices & vertices, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const Vertices & verts, const RenderBatch & batch)
 	{
-		return draw(vertices.contiguous(), batch);
+		return draw(verts.contiguous(), batch);
 	}
 
-	RenderTarget & RenderTarget::draw(const List<float> & vertices, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const List<float> & verts, const RenderBatch & batch)
 	{
-		return draw(vertices.data(), vertices.size(), batch);
+		return draw(verts.data(), verts.size(), batch);
 	}
 
-	RenderTarget & RenderTarget::draw(const float * vertices, const size_t vertexCount, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const float * verts, size_t count, const RenderBatch & batch)
 	{
 		if (batch.vbo && batch.vbo && batch.mat->bind())
 		{
 			batch.vbo->bind();
-			batch.vbo->bufferSubData(vertices, (uint32_t)(vertexCount), 0);
+			batch.vbo->bufferSubData(verts, (uint32_t)(count), 0);
 			batch.vbo->unbind();
 
 			return draw((*batch.vao), (*batch.vbo));

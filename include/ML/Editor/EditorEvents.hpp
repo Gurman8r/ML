@@ -12,7 +12,6 @@ namespace ml
 	class DockspaceGui;
 	class Editor;
 	class GameTime;
-	class Resources;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -54,12 +53,10 @@ namespace ml
 	struct ML_EDITOR_API GuiEvent final : public IEvent<EditorEvent::EV_Gui>
 	{
 		const GameTime	& time;
-		Resources		& resources;
 		Editor			& editor;
-		constexpr GuiEvent(const GameTime & time, Resources & resources, Editor & editor)
-			: time		(time)
-			, resources	(resources)
-			, editor	(editor)
+		constexpr GuiEvent(const GameTime & time, Editor & editor)
+			: time	(time)
+			, editor(editor)
 		{
 		}
 	};
@@ -84,7 +81,7 @@ namespace ml
 		const Menu menu;
 		constexpr MainMenuBarEvent(Editor & editor, const Menu menu)
 			: editor(editor)
-			, menu(menu)
+			, menu	(menu)
 		{
 		}
 	};
@@ -93,11 +90,9 @@ namespace ml
 	{
 		Editor			& editor;
 		DockspaceGui	& dockspace;
-		Resources		& resources;
-		constexpr BuildDockspaceEvent(Editor & editor, DockspaceGui & dockspace, Resources & resources)
+		constexpr BuildDockspaceEvent(Editor & editor, DockspaceGui & dockspace)
 			: editor	(editor)
 			, dockspace	(dockspace)
-			, resources	(resources)
 		{
 		}
 	};

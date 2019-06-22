@@ -47,12 +47,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGui_Impl::LoadStyle(const String & filename)
-	{
-		ImGui_StyleLoader loader;
-		return loader.loadFromFile(filename);
-	}
-
 	bool ImGui_Impl::Startup(CString glsl_version, Window * window, bool install_callbacks, CString iniName)
 	{
 		if (m_Running) return false;
@@ -361,6 +355,12 @@ namespace ml
 		ML_GL.polygonMode(GL::FrontAndBack, (uint32_t)last_polygon_mode[0]);
 		ML_GL.viewport(last_viewport[0], last_viewport[1], (int32_t)last_viewport[2], (int32_t)last_viewport[3]);
 		ML_GL.scissor(last_scissor_box[0], last_scissor_box[1], (int32_t)last_scissor_box[2], (int32_t)last_scissor_box[3]);
+	}
+
+	bool ImGui_Impl::LoadStyle(const String & filename)
+	{
+		ImGui_StyleLoader loader;
+		return loader.loadFromFile(filename);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

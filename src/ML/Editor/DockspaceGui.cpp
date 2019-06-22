@@ -46,8 +46,7 @@ namespace ml
 
 				eventSystem().fireEvent(BuildDockspaceEvent(
 					ev.editor, 
-					(*this),
-					ev.resources
+					(*this)
 				));
 
 				endBuilder(m_nodes[Root]);

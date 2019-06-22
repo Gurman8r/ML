@@ -11,7 +11,7 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/Resources.hpp>
+#include <ML/Engine/Content.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
@@ -109,42 +109,39 @@ namespace DEMO
 	void Noobs::onStart(const ml::StartEvent & ev)
 	{
 		// Get Surfaces
-		noobs.surf_main = ev.resources.surfaces.get("noobs_surf_main");
-		noobs.surf_post = ev.resources.surfaces.get("noobs_surf_post");
-
-		// Create Material
-		ev.resources.materials.create(
-			"noobs_material_0",
-			ev.resources.shaders.get("noobs_shader_0"),
-			ml::List<ml::uni_base *>({
-				new ml::uni_flt_cr	("time.total",		noobs.totalTime),
-				new ml::uni_flt_cr	("time.delta",		noobs.deltaTime),
-
-				new ml::uni_vec2_cr	("window.size",		noobs.resolution),
-				new ml::uni_col4_cr	("window.color",	noobs.clearColor),
-
-				new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
-				new ml::uni_vec3	("camera.target",	ml::vec3::Zero),
-				new ml::uni_flt		("camera.fov",		45.0),
-				new ml::uni_flt		("camera.zNear",	0.001f),
-				new ml::uni_flt		("camera.zFar",		1000.0),
-				
-				new ml::uni_tex2	("frag.tex_dm",		ev.resources.textures.get("earth_dm")),
-				new ml::uni_tex2	("frag.tex_sm",		ev.resources.textures.get("earth_sm")),
-				new ml::uni_flt		("frag.specular",	0.1f),
-				new ml::uni_int		("frag.shininess",	8),
-				new ml::uni_vec3	("frag.position",	{ 0.0f, 0.0f, 30.0f }),
-				new ml::uni_col4	("frag.diffuse",	ml::Color::LightYellow),
-				new ml::uni_flt		("frag.ambient",	0.01f),
-				}));
+		noobs.surf_main = ML_Content.get<ml::Surface>("noobs_surf_main");
+		noobs.surf_post = ML_Content.get<ml::Surface>("noobs_surf_post");
 
 		// Create Entity
-		if (noobs.entity = ev.resources.entities.load("noobs_entity_0"))
+		if (noobs.entity = ML_Content.create<ml::Entity>("noobs_entity_0"))
 		{
 			// Create Renderer
 			noobs.renderer = noobs.entity->add<ml::Renderer>(
-				ev.resources.models.get("sphere32x24"),
-				noobs.material = ev.resources.materials.get("noobs_material_0")
+				ML_Content.get<ml::Model>("sphere32x24"),
+				noobs.material = ML_Content.create<ml::Material>(
+					"noobs_material_0",
+					ML_Content.get<ml::Shader>("noobs_shader_0"),
+					ml::List<ml::Uniform *>({
+						new ml::uni_flt_ref	("time.total",		noobs.totalTime),
+						new ml::uni_flt_ref	("time.delta",		noobs.deltaTime),
+
+						new ml::uni_vec2_ref("window.size",		noobs.resolution),
+						new ml::uni_col4_ref("window.color",	noobs.clearColor),
+
+						new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
+						new ml::uni_vec3	("camera.target",	ml::vec3::Zero),
+						new ml::uni_flt		("camera.fov",		45.0),
+						new ml::uni_flt		("camera.zNear",	0.001f),
+						new ml::uni_flt		("camera.zFar",		1000.0),
+				
+						new ml::uni_tex2	("frag.tex_dm",		ML_Content.get<ml::Texture>("earth_dm")),
+						new ml::uni_tex2	("frag.tex_sm",		ML_Content.get<ml::Texture>("earth_sm")),
+						new ml::uni_flt		("frag.specular",	0.1f),
+						new ml::uni_int		("frag.shininess",	8),
+						new ml::uni_vec3	("frag.position",	{ 0.0f, 0.0f, 30.0f }),
+						new ml::uni_col4	("frag.diffuse",	ml::Color::LightYellow),
+						new ml::uni_flt		("frag.ambient",	0.01f),
+						}))
 			);
 		}
 
@@ -630,11 +627,7 @@ namespace DEMO
 							//  1 | Can view and edit
 							// -1 | Can view but not edit
 							//  0 | Cannot view or edit
-							switch (ml::ResourceGui::UniformField(
-								ev.resources,
-								label,
-								it->second
-							))
+							switch (ml::ResourceGui::UniformField(label, it->second))
 							{
 							case 1: 
 								ImGui::SameLine();
@@ -663,7 +656,7 @@ namespace DEMO
 
 					for (auto it : toRemove)
 					{
-						ml::uni_base * u = it->second;
+						ml::Uniform * u = it->second;
 						noobs.material->uniforms().erase(it);
 						delete u;
 					}
@@ -888,14 +881,14 @@ namespace DEMO
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Shader
-					int32_t mat_shader = ev.resources.shaders.getIndexOf(noobs.material->shader());
+					int32_t mat_shader = ML_Content.getIndexOf<ml::Shader>(noobs.material->shader());
 					if (ML_EditorUtility.StringCombo(
 						"Shader##Material##Noobs",
 						mat_shader,
-						ev.resources.shaders.keys()
+						ML_Content.keys<ml::Shader>()
 					))
 					{
-						noobs.material->shader() = ev.resources.shaders.getByIndex(mat_shader);
+						noobs.material->shader() = ML_Content.getByIndex<ml::Shader>(mat_shader);
 					}
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The shader to be used.");
@@ -903,14 +896,14 @@ namespace DEMO
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Model
-					int32_t ent_model = ev.resources.models.getIndexOf((ml::Model *)noobs.renderer->drawable());
+					int32_t ent_model = ML_Content.getIndexOf<ml::Model>((ml::Model *)noobs.renderer->drawable());
 					if (ML_EditorUtility.StringCombo(
 						"Model##Renderer##Noobs",
 						ent_model,
-						ev.resources.models.keys()
+						ML_Content.keys<ml::Model>()
 					))
 					{
-						noobs.renderer->drawable() = ev.resources.models.getByIndex(ent_model);
+						noobs.renderer->drawable() = ML_Content.getByIndex<ml::Model>(ent_model);
 					}
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The model to be drawn.");

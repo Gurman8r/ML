@@ -5,7 +5,6 @@
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/Resources.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Window/WindowEvents.hpp>

@@ -36,24 +36,27 @@ namespace ml
 		bool loadFromFile(const String & filename) override;
 		bool saveToFile(const String & filename) const override;
 
-		// Find Component
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		template <class Component> 
-		inline iterator find()
+
+		template <
+			class Component
+		> inline iterator find()
 		{
 			return (iterator)(m_map.find(typeid(Component).hash_code()));
 		}
 
-		template <class Component>
-		inline const_iterator find() const
+		template <
+			class Component
+		> inline const_iterator find() const
 		{
 			return (const_iterator)(m_map.find(typeid(Component).hash_code()));
 		}
 
-		// Add Component
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		template <class Component>
-		inline Component * add()
+
+		template <
+			class Component
+		> inline Component * add()
 		{
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({ 
@@ -64,8 +67,9 @@ namespace ml
 			);
 		}
 
-		template <class Component>
-		inline Component * add(Component * value)
+		template <
+			class Component
+		> inline Component * add(Component * value)
 		{
 			return ((this->find<Component>() == this->end())
 				? (reinterpret_cast<Component *>(m_map.insert({
@@ -84,10 +88,11 @@ namespace ml
 			return add<Component>(new Component(std::forward<Args>(args)...));
 		}
 
-		// Get Component
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		template <class Component>
-		inline Component * get()
+
+		template <
+			class Component
+		> inline Component * get()
 		{
 			iterator it;
 			return (((it = this->find<Component>()) != this->end())
@@ -96,8 +101,9 @@ namespace ml
 			);
 		}
 
-		template <class Component>
-		inline const Component * get() const
+		template <
+			class Component
+		> inline const Component * get() const
 		{
 			const_iterator it;
 			return (((it = this->find<Component>()) != this->cend())

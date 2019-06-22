@@ -4,7 +4,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/Resources.hpp>
+#include <ML/Engine/Content.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/Shapes.hpp>
@@ -143,41 +143,41 @@ namespace ml
 	{
 		// Load Default Meshes
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev.resources.meshes.load("default_triangle")->loadFromMemory(
+		ML_Content.create<Mesh>("default_triangle")->loadFromMemory(
 			Shapes::Triangle::Vertices,
 			Shapes::Triangle::Indices
 		);
-		ev.resources.meshes.load("default_quad")->loadFromMemory(
+		ML_Content.create<Mesh>("default_quad")->loadFromMemory(
 			Shapes::Quad::Vertices,
 			Shapes::Quad::Indices
 		);
-		ev.resources.meshes.load("default_cube")->loadFromMemory(
+		ML_Content.create<Mesh>("default_cube")->loadFromMemory(
 			Shapes::Cube::Vertices,
 			Shapes::Cube::Indices
 		);
 
-		ev.resources.meshes.load("default_skybox")->loadFromMemory(
+		ML_Content.create<Mesh>("default_skybox")->loadFromMemory(
 			Shapes::Sky::Vertices
 		);
 
 		// Load Default Models
 		/* * * * * * * * * * * * * * * * * * * * */
-		ev.resources.models.load("default_triangle")->loadFromMemory(
-			*ev.resources.meshes.get("default_triangle")
+		ML_Content.create<Model>("default_triangle")->loadFromMemory(
+			*ML_Content.get<Mesh>("default_triangle")
 		);
-		ev.resources.models.load("default_quad")->loadFromMemory(
-			*ev.resources.meshes.get("default_quad")
+		ML_Content.create<Model>("default_quad")->loadFromMemory(
+			*ML_Content.get<Mesh>("default_quad")
 		);
-		ev.resources.models.load("default_cube")->loadFromMemory(
-			*ev.resources.meshes.get("default_cube")
+		ML_Content.create<Model>("default_cube")->loadFromMemory(
+			*ML_Content.get<Mesh>("default_cube")
 		);
-		ev.resources.models.load("default_skybox")->loadFromMemory(
-			*ev.resources.meshes.get("default_skybox")
+		ML_Content.create<Model>("default_skybox")->loadFromMemory(
+			*ML_Content.get<Mesh>("default_skybox")
 		);
 
 		// Load Resource Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev.resources.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString(
+		if (!ML_Content.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString(
 			"Engine",
 			"import_list",
 			"../../../assets/data/manifest.txt"
@@ -191,7 +191,7 @@ namespace ml
 	{
 		// Set Window Icon
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const Image * icon = ev.resources.images.get("icon"))
+		if (const Image * icon = ML_Content.get<Image>("icon"))
 		{
 			const Image temp = Image(*icon).flipVertically();
 
@@ -200,7 +200,7 @@ namespace ml
 
 		// Run Boot Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ml::Script * scr = ev.resources.scripts.get(m_bootScript))
+		if (ml::Script * scr = ML_Content.get<Script>(m_bootScript))
 		{
 			if (!(scr->buildAndRun(ml::Args(__argc, __argv))))
 			{
@@ -248,7 +248,7 @@ namespace ml
 
 	void Engine::onUnload(const UnloadEvent & ev)
 	{
-		ev.resources.dispose();
+		ML_Content.dispose();
 	}
 
 	void Engine::onExit(const ExitEvent & ev)

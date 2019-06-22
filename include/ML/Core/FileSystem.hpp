@@ -13,7 +13,7 @@ namespace ml
 	class ML_CORE_API FileSystem final
 		: public I_Singleton<FileSystem>
 	{
-		friend class I_Singleton<FileSystem>;
+		friend struct I_Singleton<FileSystem>;
 
 	public:
 		using Directory = typename HashMap<char, List<String>>;

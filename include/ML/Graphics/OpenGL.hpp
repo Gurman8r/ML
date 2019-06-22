@@ -28,7 +28,7 @@ namespace ml
 	class ML_GRAPHICS_API OpenGL final
 		: public I_Singleton<OpenGL>
 	{
-		friend class I_Singleton<OpenGL>;
+		friend struct I_Singleton<OpenGL>;
 
 		bool m_good;
 

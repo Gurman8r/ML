@@ -14,7 +14,7 @@ namespace ml
 	class ML_EDITOR_API EditorUtility final
 		: public I_Singleton<EditorUtility>
 	{
-		friend class I_Singleton<EditorUtility>;
+		friend struct I_Singleton<EditorUtility>;
 
 	public:
 		static vec2 getCursorPos();

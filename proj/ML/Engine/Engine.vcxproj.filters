@@ -30,12 +30,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -65,9 +59,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\Content.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

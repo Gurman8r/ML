@@ -9,7 +9,6 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/Resources.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,7 +26,6 @@ using namespace ml;
 static Prefs		g_Preferences	{ ML_CONFIG_INI };
 static EventSystem	g_EventSystem	{ };
 static PluginMap	g_Plugins		{ };
-static Resources	g_Resources		{ };
 static GameTime		g_Time			{ };
 static RenderWindow g_Window		{ g_EventSystem };
 static Engine		g_Engine		{ g_EventSystem };
@@ -50,15 +48,13 @@ static StateMachine<State> g_ControlFlow
 	/* Load */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(LoadEvent(
-		g_Preferences,
-		g_Resources
+		g_Preferences
 	));
 
 	/* Start */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(StartEvent(
 		g_Time,
-		g_Resources,
 		g_Window
 	));
 	return g_ControlFlow(State::Loop);
@@ -77,7 +73,6 @@ static StateMachine<State> g_ControlFlow
 		/* * * * * * * * * * * * * * * * * * * * */
 		g_EventSystem.fireEvent(UpdateEvent(
 			g_Time,
-			g_Resources,
 			g_Window
 		));
 
@@ -86,7 +81,6 @@ static StateMachine<State> g_ControlFlow
 		g_EventSystem.fireEvent(BeginDrawEvent());
 		g_EventSystem.fireEvent(DrawEvent(
 			g_Time,
-			g_Resources,
 			g_Window
 		));
 		g_EventSystem.fireEvent(EndDrawEvent());
@@ -96,7 +90,6 @@ static StateMachine<State> g_ControlFlow
 		g_EventSystem.fireEvent(BeginGuiEvent());
 		g_EventSystem.fireEvent(GuiEvent(
 			g_Time,
-			g_Resources,
 			g_Editor
 		));
 		g_EventSystem.fireEvent(EndGuiEvent());
@@ -114,7 +107,6 @@ static StateMachine<State> g_ControlFlow
 {	/* Unload */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(UnloadEvent(
-		g_Resources,
 		g_Window
 	));
 

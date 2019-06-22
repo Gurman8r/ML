@@ -13,18 +13,18 @@ namespace ml
 	class ML_EDITOR_API ImGui_Impl final
 		: public I_Singleton<ImGui_Impl>
 	{
-		friend class I_Singleton<ImGui_Impl>;
+		friend struct I_Singleton<ImGui_Impl>;
 
 	private:
 		ImGui_Impl();
 		~ImGui_Impl();
 
 	public:
-		bool LoadStyle(const String & filename);
 		bool Startup(CString version, Window * window, bool install_callbacks, CString ini);
 		void Shutdown();
 		void NewFrame();
 		void Render(void * value);
+		bool LoadStyle(const String & filename);
 
 	private:
 		bool CreateFontsTexture();

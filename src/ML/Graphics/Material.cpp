@@ -70,7 +70,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Material::apply(const uni_base * value) const
+	void Material::apply(const Uniform * value) const
 	{
 		switch (value->type)
 		{

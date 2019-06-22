@@ -1,6 +1,4 @@
-#include <ML/Engine/Resources.hpp>
-#include <ML/Core/Debug.hpp>
-
+#include <ML/Engine/Content.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/CubeMap.hpp>
@@ -9,76 +7,37 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Script/Script.hpp>
+#include <ML/Engine/Content.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Resources::Resources()
-		: entities	("Entities"	)
-		, fonts		("Fonts"	)
-		, images	("Images"	)
-		, materials	("Materials")
-		, meshes	("Meshes"	)
-		, models	("Models"	)
-		, scripts	("Scripts"	)
-		, shaders	("Shaders"	)
-		, sounds	("Sounds"	)
-		, sprites	("Sprites"	)
-		, surfaces	("Surfaces"	)
-		, textures	("Textures"	)
+	bool Content::dispose()
 	{
+		if (!m_data.empty())
+		{
+			for (auto & tp : m_data)
+			{
+				if (!tp.second.empty())
+				{
+					for (auto & pair : tp.second)
+					{
+						if (pair.second)
+						{
+							delete pair.second;
+							pair.second = nullptr;
+						}
+					}
+					tp.second.clear();
+				}
+			}
+			m_data.clear();
+		}
+		return m_data.empty();
 	}
 
-	Resources::~Resources()
-	{
-		dispose();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	size_t Resources::cleanupAll()
-	{
-		return
-			surfaces.clean()	+
-			sprites.clean()		+
-			materials.clean()	+
-			models.clean()		+
-			meshes.clean()		+
-			shaders.clean()		+
-			textures.clean()	+
-			images.clean()		+
-			fonts.clean()		+
-			entities.clean()	+
-			sounds.clean()		+
-			scripts.clean()		;
-	}
-
-	size_t Resources::reloadAll()
-	{
-		return
-			fonts.reload()		+
-			images.reload()		+
-			materials.reload()	+
-			meshes.reload()		+
-			models.reload()		+
-			shaders.reload()	+
-			sprites.reload()	+
-			textures.reload()	+
-			surfaces.reload()	+
-			entities.clean()	+
-			sounds.reload()		+
-			scripts.reload()	;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool Resources::dispose()
-	{
-		return cleanupAll();
-	}
-
-	bool Resources::loadFromFile(const String & filename)
+	bool Content::loadFromFile(const String & filename)
 	{
 		size_t count = 0;
 		SStream file;
@@ -97,7 +56,7 @@ namespace ml
 		return (bool)(count);
 	}
 
-	bool Resources::parseItem(const ManifestItem & item)
+	bool Content::parseItem(const ManifestItem & item)
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -115,7 +74,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "entity")
 			{
-				return entities.load(name);
+				return create<Entity>(name);
 			}
 			// Fonts
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -123,11 +82,11 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return fonts.load_file(name, file);
+					return create_file_forward<Font>(name, file);
 				}
 				else
 				{
-					return fonts.load(name);
+					return create<Font>(name);
 				}
 			}
 			// Images
@@ -136,11 +95,11 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return images.load_file(name, file);
+					return create_file_forward<Image>(name, file);
 				}
 				else
 				{
-					return images.load(name);
+					return create<Image>(name);
 				}
 			}
 			// Material
@@ -149,11 +108,11 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return materials.load_file(name, file);
+					return create_file_forward<Material>(name, file);
 				}
 				else
 				{
-					return materials.load(name);
+					return create<Material>(name);
 				}
 			}
 			// Mesh
@@ -162,11 +121,11 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return meshes.load_file(name, file);
+					return create_file_forward<Mesh>(name, file);
 				}
 				else
 				{
-					return meshes.load(name);
+					return create<Mesh>(name);
 				}
 			}
 			// Models
@@ -175,19 +134,19 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return models.load_file(name, file);
+					return create_file_forward<Model>(name, file);
 				}
 				else if (const String file = item.getStr("mesh"))
 				{
 					const Mesh * temp;
 					return
-						(models.load(name)) &&
-						(temp = meshes.get(file)) &&
-						(models.get(name)->loadFromMemory(*temp));
+						(create<Model>(name)) &&
+						(temp = get<Mesh>(file)) &&
+						(get<Model>(name)->loadFromMemory(*temp));
 				}
 				else
 				{
-					return models.load(name);
+					return create<Model>(name);
 				}
 			}
 			// Scripts
@@ -196,11 +155,11 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return scripts.load_file(name, file);
+					return create_file_forward<Script>(name, file);
 				}
 				else
 				{
-					return scripts.load(name);
+					return create<Script>(name);
 				}
 			}
 			// Shaders
@@ -209,7 +168,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return shaders.load_file(name, file);
+					return create_file_forward<Shader>(name, file);
 				}
 				else
 				{
@@ -219,19 +178,21 @@ namespace ml
 
 					if (vert && geom && frag)
 					{
-						return
-							shaders.load(name) &&
-							shaders.get(name)->loadFromFile(vert, geom, frag);
+						if (auto temp = create<Shader>(name))
+						{
+							return temp->loadFromFile(vert, geom, frag);
+						}
 					}
 					else if (vert && frag)
 					{
-						return
-							shaders.load(name) &&
-							shaders.get(name)->loadFromFile(vert, frag);
+						if (auto temp = create<Shader>(name))
+						{
+							return temp->loadFromFile(vert, frag);
+						}
 					}
 					else
 					{
-						return shaders.load(name);
+						return create<Shader>(name);
 					}
 				}
 			}
@@ -241,11 +202,11 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return sounds.load_file(name, file);
+					return create_file_forward<Sound>(name, file);
 				}
 				else
 				{
-					return sounds.load(name);
+					return create<Sound>(name);
 				}
 			}
 			// Sprites
@@ -256,35 +217,35 @@ namespace ml
 				{
 					const Texture * temp;
 					return
-						(sprites.load(name)) &&
-						(temp = textures.get(file)) &&
-						(sprites.get(name)->loadFromMemory(temp));
+						(create<Sprite>(name)) &&
+						(temp = get<Texture>(file)) &&
+						(get<Sprite>(name)->loadFromMemory(temp));
 				}
 				else
 				{
-					return sprites.load(name);
+					return create<Sprite>(name);
 				}
 			}
 			// Surfaces
 			/* * * * * * * * * * * * * * * * * * * * */
 			else if (type == "surface")
 			{
-				const String m = item.getStr("model");
-				const String s = item.getStr("shader");
+				const String  m = item.getStr("model");
+				const String  s = item.getStr("shader");
 				const int32_t w = item.getInt("width", 1920);
 				const int32_t h = item.getInt("height", 1080);
 				if (m && s)
 				{
 					Surface * e;
 					return
-						(e = surfaces.load(name)) &&
+						(e = create<Surface>(name)) &&
 						(e->create({ w, h }, GL::ColorAttachment0)) &&
-						(e->setModel(models.get(m))) &&
-						(e->setShader(shaders.get(s)));
+						(e->setModel(get<Model>(m))) &&
+						(e->setShader(get<Shader>(s)));
 				}
 				else
 				{
-					return surfaces.load(name);
+					return create<Surface>(name);
 				}
 			}
 			// Textures
@@ -294,7 +255,7 @@ namespace ml
 				const bool smooth = item.getBool("smooth", true);
 				const bool repeat = item.getBool("repeat", false);
 				const bool mipmap = item.getBool("mipmap", false);
-				
+
 				const int32_t level = item.getInt("level", 0);
 
 				const GL::Target target = (GL::Target)item.getEnum("target", GL::Texture2D, {
@@ -323,7 +284,7 @@ namespace ml
 
 				if (const String file = item.getStr("file"))
 				{
-					return textures.load_file_forward(name, file,
+					return create_file_forward<Texture>(name, file,
 						target, format, format, smooth, repeat, mipmap, level, pix_ty
 					);
 				}
@@ -331,15 +292,15 @@ namespace ml
 				{
 					const Image * temp;
 					return
-						(textures.create(name, 
+						(create<Texture>(name,
 							target, format, format, smooth, repeat, mipmap, level, pix_ty
-						)) &&
-						(temp = images.get(file)) &&
-						(textures.get(name)->loadFromImage(*temp));
+							)) &&
+							(temp = get<Image>(file)) &&
+						(get<Texture>(name)->loadFromImage(*temp));
 				}
 				else
 				{
-					return textures.load(name);
+					return create<Texture>(name);
 				}
 			}
 			return Debug::log("Failed Loading: {0} | {1}", type, name);
@@ -347,5 +308,5 @@ namespace ml
 		return false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

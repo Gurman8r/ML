@@ -6,51 +6,100 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Core/Preprocessor.hpp>
+#include <ML/Engine/ManifestItem.hpp>
+
+#define ML_Content ml::Content::getInstance()
 
 namespace ml
 {
-	class Resources;
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Content final
-		: public I_Newable
+	struct CubeMap;
+	struct Entity;
+	struct Font;
+	struct Image;
+	struct Material;
+	struct Mesh;
+	struct Model;
+	struct Script;
+	struct Shader;
+	struct Sound;
+	struct Sprite;
+	struct Surface;
+	struct Texture;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	class ML_ENGINE_API Content final
+		: public I_Disposable
+		, public I_Readable
+		, public I_Singleton<Content>
 	{
-		friend class Resources;
+		friend struct I_Singleton<Content>;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		using file_map	= typename Map<String, String>;
-		using data_map	= typename Map<String, void *>;
-		using tree_map	= typename HashMap<size_t, data_map>;
+		using map_of_files	= typename Map<String, String>;
+		using map_of_data	= typename Map<String, I_Newable *>;
+		using map_of_maps	= typename HashMap<size_t, map_of_data>;
+
+	private:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		Content() : m_data() { }
+
+		~Content() { dispose(); }
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		Content() {}
-		~Content() {}
+		
+		bool dispose() override;
+		bool loadFromFile(const String & filename) override;
+		bool parseItem(const ManifestItem & item);
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		template <
 			class T
-		> inline data_map & data()
+		> inline auto data()
+			-> map_of_data &
 		{
-			return m_map[typeid(T).hash_code()];
+			const size_t hashCode { typeid(T).hash_code() };
+
+			map_of_maps::iterator it;
+			if ((it = m_data.find(hashCode)) != m_data.end())
+			{
+				return it->second;
+			}
+			else
+			{
+				return m_data.insert({ hashCode, map_of_data() }).first->second;
+			}
 		}
 
 		template <
 			class T
-		> inline T * insert(const String & name, T * value)
+		> inline auto data() const 
+			-> const map_of_data &
 		{
-			data_map & d = this->data<T>();
+			return m_data.at(typeid(T).hash_code());
+		}
+
+		template <
+			class T
+		> inline auto insert(const String & name, T * value)
+			-> T *
+		{
+			map_of_data & d = this->data<T>();
 			return static_cast<T *>(d.insert({ name, value }).first->second);
 		}
 		
 		template <
 			class T, class ... Args
-		> inline T * create(const String & name, Args && ... args)
+		> inline auto create(const String & name, Args && ... args)
+			-> T *
 		{
-			data_map & d = this->data<T>();
-			data_map::iterator it;
+			map_of_data & d = this->data<T>();
+			map_of_data::iterator it;
 			return (((it = d.find(name)) == d.end())
 				? this->insert(name, new T(std::forward<Args>(args)...))
 				: static_cast<T *>(nullptr)
@@ -58,11 +107,42 @@ namespace ml
 		}
 
 		template <
+			class T, class ... Args
+		> inline auto create_file_forward(const String & name, const String & file, Args && ... args) 
+			-> T *
+		{
+			if (name && !this->get<T>(name))
+			{
+				if (m_files[name] = file)
+				{
+					if (const String path = ML_FS.getPathTo(file))
+					{
+						T * temp = new T(std::forward<Args>(args)...);
+						if (temp->loadFromFile(path))
+						{
+							return this->insert<T>(name, temp);
+						}
+						else
+						{
+							delete temp;
+							Debug::logError("Failed loading {0}: \'{1}\'", name, path);
+						}
+					}
+				}
+				else
+				{
+					return this->create<T>(name);
+				}
+			}
+			return nullptr;
+		}
+
+		template <
 			class T
 		> inline bool erase(const String & name)
 		{
-			data_map & d = this->data<T>();
-			data_map::iterator it;
+			map_of_data & d = this->data<T>();
+			map_of_data::iterator it;
 			if ((it = d.find(name)) != d.end())
 			{
 				delete it->second;
@@ -75,10 +155,11 @@ namespace ml
 
 		template <
 			class T
-		> inline const T * get(const String & name) const
+		> inline auto get(const String & name) const 
+			-> const T *
 		{
-			const data_map & d = this->data<T>();
-			data_map::const_iterator it;
+			map_of_data & d = this->data<T>();
+			map_of_data::const_iterator it;
 			return (((it = d.find(name)) != d.end())
 				? static_cast<const T *>(it->second)
 				: static_cast<T *>(nullptr)
@@ -87,93 +168,91 @@ namespace ml
 
 		template <
 			class T
-		> inline T * get(const String & name)
+		> inline auto get(const String & name) 
+			-> T *
 		{
-			data_map & d = this->data<T>();
-			data_map::iterator it;
+			map_of_data & d = this->data<T>();
+			map_of_data::iterator it;
 			return (((it = d.find(name)) != d.end())
 				? static_cast<T *>(it->second)
 				: static_cast<T *>(nullptr)
 			);
 		}
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		template <
-			class T
-		> inline T * load(const String & name)
-		{
-			return (this->get(name)
-				? static_cast<T *>(nullptr)
-				: this->insert(name, new T())
-			);
-		}
 
 		template <
 			class T
-		> inline T * load(const String & name, T * value)
+		> inline auto keys() const 
+			-> List<String>
 		{
-			return (!value
-				? this->load(name)
-				: (value && (name && !this->get(name)))
-					? this->insert(name, value)
-					: static_cast<T *>(nullptr)
-			);
-		}
-
-		template <
-			class T
-		> inline T * load_file(const String & name, const String & file)
-		{
-			return this->load_file_forward(name, file);
-		}
-
-		template <
-			class T, class ... Args
-		> inline T * load_file_forward(const String & name, const String & file, Args && ... args)
-		{
-			if (name && !this->get(name))
+			List<String> temp;
+			for (const auto & pair : this->data<T>())
 			{
-				if (m_files[name] = file)
+				temp.push_back(pair.first);
+			}
+			return temp;
+		}
+
+		template <
+			class T
+		> inline auto getIterAt(const int32_t value) const 
+			-> map_of_data::const_iterator
+		{
+			if ((value >= 0) && ((size_t)value < this->data<T>().size()))
+			{
+				map_of_data::const_iterator it = this->data<T>().cbegin();
+				for (int32_t i = 0; i < value; i++)
 				{
-					if (const String path = ML_FS.getPathTo(file))
+					if ((++it) == this->data<T>().cend())
 					{
-						T temp = new T(std::forward<Args>(args)...);
-						if (temp->loadFromFile(path))
-						{
-							return this->insert(name, temp);
-						}
-						else
-						{
-							delete temp;
-							Debug::logError("Failed loading {0}: \'{1}\'", name, path);
-						}
+						return it;
 					}
 				}
-				else
-				{
-					return this->load(name);
-				}
+				return it;
 			}
-			return nullptr;
+			return this->data<T>().cend();
 		}
 
 		template <
-			class T, class ... Args
-		> inline T * load_forward(const String & name, Args && ... args)
+			class T
+		> inline auto getByIndex(const int32_t value) const 
+			-> const T *
 		{
-			return (this->get(name)
-				? static_cast<T *>(nullptr)
-				: this->insert(name, new T(std::forward<Args>(args)...))
+			map_of_data::const_iterator it;
+			return (((it = this->getIterAt<T>(value)) != this->data<T>().end())
+				? static_cast<const T *>(it->second)
+				: nullptr
 			);
+		}
+
+		template <
+			class T
+		> inline auto getIndexOf(const T * value) const 
+			-> int32_t
+		{
+			int32_t index = 0;
+			for (const auto & pair : this->data<T>())
+			{
+				if (pair.second == value)
+				{
+					return index;
+				}
+				index++;
+			}
+			return (index = (-1));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		tree_map m_map;
-		file_map m_files;
+		map_of_maps m_data;
+		map_of_files m_files;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_CONTENT_HPP_

@@ -11,11 +11,10 @@
 
 namespace ml
 {
-	class Entity;
+	struct Entity;
 	struct Material;
-	class Renderer;
-	struct Shader;
-	class Surface;
+	struct Renderer;
+	struct Surface;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

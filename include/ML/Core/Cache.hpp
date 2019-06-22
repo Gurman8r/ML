@@ -2,6 +2,7 @@
 #define _ML_CACHE_HPP_
 
 #include <ML/Core/Hash.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {

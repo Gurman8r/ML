@@ -173,6 +173,7 @@
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Impl.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ProfilerGui.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ResourceGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui_StyleLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\TerminalGui.hpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="..\..\..\src\ML\Editor\EditorUtility.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGui_Impl.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ProfilerGui.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ResourceGui.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGui_StyleLoader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\TerminalGui.cpp" />

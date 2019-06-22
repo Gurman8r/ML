@@ -13,16 +13,16 @@ namespace ml
 	{
 		virtual ~I_Newable() {}
 
+		inline friend ML_SERIALIZE(ostream & out, const I_Newable & value)
+		{
+			return out << typeid(value).name();
+		}
+
 		inline void * operator	new		 (size_t size) { return ML_NEW(size); }
 		inline void * operator	new[]	 (size_t size) { return ML_NEW(size); }
 		inline void	  operator	delete	 (void * ptr)  { return ML_FREE(ptr); }
 		inline void	  operator	delete[] (void * ptr)  { return ML_FREE(ptr); }
 	};
-
-	inline ML_SERIALIZE(ostream & out, const I_Newable & value)
-	{
-		return out << typeid(value).name();
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

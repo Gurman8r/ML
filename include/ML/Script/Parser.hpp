@@ -16,7 +16,7 @@ namespace ml
 	class ML_SCRIPT_API Parser final
 		: public I_Singleton<Parser>
 	{
-		friend class I_Singleton<Parser>;
+		friend struct I_Singleton<Parser>;
 
 	public:
 		using rule_map = HashMap<const std::type_info *, Rule *>;

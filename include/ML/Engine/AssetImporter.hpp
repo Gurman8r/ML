@@ -3,40 +3,74 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Readable.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml
 {
-	// WIP
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
+	
+	struct CubeMap;
+	struct Entity;
+	struct Font;
+	struct Image;
+	struct Material;
+	struct Mesh;
+	struct Model;
+	struct Script;
+	struct Shader;
+	struct Sound;
+	struct Sprite;
+	struct Surface;
+	struct Texture;
 
-	class ML_ENGINE_API AssetImporter
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class T
+	> struct CustomImporter
+		: public I_Newable
+		, public I_Readable
+	{
+		virtual ~CustomImporter() {}
+
+		virtual bool loadFromFile(const String & filename) override = 0;
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_ENGINE_API AssetImporter
 		: public I_Newable
 		, public I_NonCopyable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		AssetImporter();
 		~AssetImporter();
 
+		template <
+			class T
+		> inline T * load()
+		{
+			CustomImporter<T> in;
+			return nullptr;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		size_t N, class T
-	> struct CustomImporter;
-
-	template <> struct CustomImporter<1, int32_t>
+	struct MeshImporter : public CustomImporter<Mesh>
 	{
-		inline bool operator()(istream & in, int32_t & out) const
-		{
-			return false;
-		}
+		bool loadFromFile(const String & filename) override { return false; }
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ASSET_IMPORTER_HPP_

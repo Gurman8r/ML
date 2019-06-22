@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct uni_base;
+	struct Uniform;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -18,8 +18,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using UniformList = typename List<uni_base *>;
-		using UniformMap = typename Map<String, uni_base *>;
+		using UniformList = typename List<Uniform *>;
+		using UniformMap = typename Map<String, Uniform *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -36,7 +36,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void apply(const uni_base * value) const;
+		void apply(const Uniform * value) const;
 		bool bind() const;
 		void unbind() const;
 

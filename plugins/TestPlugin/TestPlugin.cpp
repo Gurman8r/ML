@@ -7,7 +7,7 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/GameTime.hpp>
-#include <ML/Engine/Resources.hpp>
+#include <ML/Engine/Content.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */

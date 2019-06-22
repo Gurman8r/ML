@@ -14,11 +14,12 @@ namespace ml
 	class ML_CORE_API Random final
 		: public I_Singleton<Random>
 	{
-		friend class I_Singleton<Random>;
+		friend struct I_Singleton<Random>;
 
-	private:
-		Random() { std::srand((uint32_t)std::time(nullptr)); }
-		~Random() {}
+		Random() 
+		{ 
+			std::srand((uint32_t)std::time(NULL)); 
+		}
 
 	public:
 		template <

@@ -9,6 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// this should be removed
 	struct ML_ENGINE_API ManifestItem final : public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */

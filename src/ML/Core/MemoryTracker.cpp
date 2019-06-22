@@ -50,24 +50,11 @@ namespace ml
 		{
 			Debug::logError("Final allocations follow:");
 
-			size_t largest = 0;
-			for (auto & pair : m_records)
+			for (const auto & pair : m_records)
 			{
-				const size_t s = String(typeid(*pair.second->object).name()).size();
-				if (s >= largest)
-				{
-					largest = s;
-				}
+				cerr << typeid(pair.second->object).name() << " | " << pair.second << endl;
 			}
 			
-			for (RecordMap::const_iterator it = m_records.begin(); it != m_records.end(); ++it)
-			{
-				cerr << std::left << std::setw(largest)
-					<< typeid(*it->second->object).name() << " | " << (*it->second) 
-					<< endl;
-			}
-			cerr << endl;
-
 #if ML_DEBUG
 			Debug::pause(EXIT_FAILURE);
 			Debug::fatal("YOUR MEMORY IS LEAKING");

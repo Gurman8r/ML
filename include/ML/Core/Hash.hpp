@@ -1,18 +1,20 @@
 #ifndef _ML_HASH_HPP_
 #define _ML_HASH_HPP_
 
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/Type.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct hash final : public I_NonNewable
+	struct hash final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr size_t fnv1a_basis { 14695981039346656037ULL };
-		static constexpr size_t fnv1a_prime { 1099511628211ULL };
+		using type = meta::type_t<size_t>;
+
+		static constexpr size_t fnv1a_basis { type(14695981039346656037ULL)() };
+		static constexpr size_t fnv1a_prime { type(1099511628211ULL)() };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

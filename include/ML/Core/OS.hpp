@@ -14,7 +14,7 @@ namespace ml
 	class ML_CORE_API OS final
 		: public I_Singleton<OS>
 	{
-		friend class I_Singleton<OS>;
+		friend struct I_Singleton<OS>;
 
 	public:
 		void * execute(const String & cmd) const;

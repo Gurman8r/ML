@@ -2,13 +2,13 @@
 #define _ML_RESOURCE_GUI_HPP_
 
 #include <ML/Editor/EditorGui.hpp>
-#include <ML/Engine/Resources.hpp>
+#include <ML/Engine/Content.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct uni_base;
+	struct Uniform;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -30,21 +30,21 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		struct Layout;
 
-		void draw_entity_registry	(Resources & res, Registry<Entity>		& entities	);
-		void draw_font_registry		(Resources & res, Registry<Font>		& fonts		);
-		void draw_image_registry	(Resources & res, Registry<Image>		& images	);
-		void draw_material_registry	(Resources & res, Registry<Material>	& materials	);
-		void draw_mesh_registry		(Resources & res, Registry<Mesh>		& meshes	);
-		void draw_model_registry	(Resources & res, Registry<Model>		& models	);
-		void draw_script_registry	(Resources & res, Registry<Script>		& scripts	);
-		void draw_shader_registry	(Resources & res, Registry<Shader>		& shaders	);
-		void draw_sprite_registry	(Resources & res, Registry<Sprite>		& sprites	);
-		void draw_surface_registry	(Resources & res, Registry<Surface>		& surfaces	);
-		void draw_texture_registry	(Resources & res, Registry<Texture>		& textures	);
+		void draw_entity_registry	();
+		void draw_font_registry		();
+		void draw_image_registry	();
+		void draw_material_registry	();
+		void draw_mesh_registry		();
+		void draw_model_registry	();
+		void draw_script_registry	();
+		void draw_shader_registry	();
+		void draw_sprite_registry	();
+		void draw_surface_registry	();
+		void draw_texture_registry	();
 
 	public:
 		static void NewUniformPopup(Material * mat);
-		static int32_t UniformField(Resources & resources, const String & label, uni_base * value, bool drag = true);
+		static int32_t UniformField(const String & label, Uniform * value, bool drag = true);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

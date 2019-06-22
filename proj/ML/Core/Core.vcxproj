@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Alg.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\CString.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Cache.hpp" />

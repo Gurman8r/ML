@@ -173,18 +173,16 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ManifestItem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\Resources.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Content.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ManifestItem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Resources.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,5 @@
 #include <ML/Engine/Content.hpp>
+#include <ML/Core/Debug.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/CubeMap.hpp>
@@ -120,7 +121,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Font>(name, file);
+					return create_from_file<Font>(name, file);
 				}
 				else
 				{
@@ -133,7 +134,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Image>(name, file);
+					return create_from_file<Image>(name, file);
 				}
 				else
 				{
@@ -146,7 +147,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Material>(name, file);
+					return create_from_file<Material>(name, file);
 				}
 				else
 				{
@@ -159,7 +160,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Mesh>(name, file);
+					return create_from_file<Mesh>(name, file);
 				}
 				else
 				{
@@ -172,7 +173,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Model>(name, file);
+					return create_from_file<Model>(name, file);
 				}
 				else if (const String file = item.getStr("mesh"))
 				{
@@ -193,7 +194,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Script>(name, file);
+					return create_from_file<Script>(name, file);
 				}
 				else
 				{
@@ -206,7 +207,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Shader>(name, file);
+					return create_from_file<Shader>(name, file);
 				}
 				else
 				{
@@ -240,7 +241,7 @@ namespace ml
 			{
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Sound>(name, file);
+					return create_from_file<Sound>(name, file);
 				}
 				else
 				{
@@ -322,7 +323,7 @@ namespace ml
 
 				if (const String file = item.getStr("file"))
 				{
-					return create_file_forward<Texture>(name, file,
+					return create_from_file<Texture>(name, file,
 						target, format, format, smooth, repeat, mipmap, level, pix_ty
 					);
 				}

@@ -1,12 +1,10 @@
 #ifndef _ML_CONTENT_HPP_
 #define _ML_CONTENT_HPP_
 
-// WORK IN PROGRESS
-
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Debug.hpp>
-#include <ML/Core/FileSystem.hpp>
 #include <ML/Engine/ManifestItem.hpp>
+#include <ML/Core/FileSystem.hpp>
+#include <ML/Core/Hash.hpp>
 
 #define ML_Content ml::Content::getInstance()
 
@@ -64,16 +62,16 @@ namespace ml
 		> inline auto data()
 			-> map_of_data &
 		{
-			const size_t hashCode { typeid(T).hash_code() };
+			const size_t id { typeid(T).hash_code() };
 
 			map_of_maps::iterator it;
-			if ((it = m_data.find(hashCode)) != m_data.end())
+			if ((it = m_data.find(id)) != m_data.end())
 			{
 				return it->second;
 			}
 			else
 			{
-				return m_data.insert({ hashCode, map_of_data() }).first->second;
+				return m_data.insert({ id, map_of_data() }).first->second;
 			}
 		}
 
@@ -109,7 +107,7 @@ namespace ml
 
 		template <
 			class T, class ... Args
-		> inline auto create_file_forward(const String & name, const String & file, Args && ... args) 
+		> inline auto create_from_file(const String & name, const String & file, Args && ... args) 
 			-> T *
 		{
 			if (name && !this->get<T>(name))

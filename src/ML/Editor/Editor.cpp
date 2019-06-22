@@ -372,10 +372,6 @@ namespace ml
 					{
 						preview.pop_back();
 					}
-					else
-					{
-						preview = "License not found.";
-					}
 					ImGui::TextUnformatted(&preview[0], &preview[preview.size()]);
 					ImGui::EndMenu();
 				}

@@ -31,13 +31,13 @@ namespace ml
 		inline const_pointer getData(const String & name) const
 		{
 			const_iterator it;
-			return (((it = m_data.find(name)) != this->cend()) ? it->second : NULL);
+			return (((it = m_data.find(name)) != this->cend()) ? it->second : nullptr);
 		}
 
 		inline pointer getData(const String & name)
 		{
 			iterator it;
-			return (((it = m_data.find(name)) != this->end()) ? it->second : NULL);
+			return (((it = m_data.find(name)) != this->end()) ? it->second : nullptr);
 		}
 
 		inline Metadata & removeData(const String & name)
@@ -63,12 +63,12 @@ namespace ml
 		}
 
 	public:
-		inline auto begin	()			-> iterator			{ return m_data.begin(); }
-		inline auto begin	() const	-> const_iterator	{ return m_data.begin(); }
-		inline auto cbegin	() const	-> const_iterator	{ return m_data.cbegin(); }
-		inline auto end		()			-> iterator			{ return m_data.end(); }
-		inline auto end		() const	-> const_iterator	{ return m_data.end(); }
-		inline auto cend	() const	-> const_iterator	{ return m_data.cend(); }
+		inline auto begin	()		 -> iterator		{ return m_data.begin(); }
+		inline auto begin	() const -> const_iterator	{ return m_data.begin(); }
+		inline auto cbegin	() const -> const_iterator	{ return m_data.cbegin(); }
+		inline auto end		()		 -> iterator		{ return m_data.end(); }
+		inline auto end		() const -> const_iterator	{ return m_data.end(); }
+		inline auto cend	() const -> const_iterator	{ return m_data.cend(); }
 
 	private:
 		map_type m_data;

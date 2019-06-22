@@ -30,15 +30,12 @@ namespace ml
 		bool CreateFontsTexture();
 		void DestroyFontsTexture();
 
-	private:
 		bool CreateDeviceObjects();
 		void DestroyDeviceObjects();
 
-	private:
 		bool CompileShader(uint32_t & obj, const CString * vs, const CString * fs);
 		void HandleInput();
 
-	private:
 		template <
 			class Ev
 		> inline void fireEvent(const Ev & value)

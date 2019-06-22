@@ -60,7 +60,7 @@ namespace ml
 	{
 		return
 			(lhs.port == rhs.port) &&
-			((meta::cstring)lhs.addr == (meta::cstring)rhs.addr);
+			((meta::c_string)lhs.addr == (meta::c_string)rhs.addr);
 	}
 
 	constexpr bool operator!=(const Host & lhs, const Host & rhs)
@@ -72,7 +72,7 @@ namespace ml
 	{
 		return
 			(lhs.port < rhs.port) &&
-			((meta::cstring)lhs.addr < (meta::cstring)rhs.addr);
+			((meta::c_string)lhs.addr < (meta::c_string)rhs.addr);
 	}
 
 	constexpr bool operator>(const Host & lhs, const Host & rhs)

@@ -377,7 +377,7 @@ namespace ml
 				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
-					if (ImGui::MenuItem("OpenAL")) ML_OS.execute("open", "https://www.openal.org/");
+					if (ImGui::MenuItem("CTTI")) ML_OS.execute("open", "https://github.com/Manu343726/ctti");
 					if (ImGui::MenuItem("FreeType")) ML_OS.execute("open", "https://www.freetype.org/");
 					if (ImGui::MenuItem("GCEM")) ML_OS.execute("open", "https://github.com/kthohr/gcem");
 					if (ImGui::MenuItem("GLEW")) ML_OS.execute("open", "http://glew.sourceforge.net/");
@@ -386,6 +386,7 @@ namespace ml
 					if (ImGui::MenuItem("ImGui")) ML_OS.execute("open", "https://github.com/ocornut/imgui");
 					if (ImGui::MenuItem("ImGuiColorTextEdit")) ML_OS.execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
 					if (ImGui::MenuItem("INIReader")) ML_OS.execute("open", "https://github.com/benhoyt/inih");
+					if (ImGui::MenuItem("OpenAL")) ML_OS.execute("open", "https://www.openal.org/");
 					if (ImGui::MenuItem("RakNet")) ML_OS.execute("open", "http://www.jenkinssoftware.com/");
 					if (ImGui::MenuItem("STB")) ML_OS.execute("open", "https://github.com/nothings/stb");
 

@@ -121,10 +121,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		using cstring	= typename basic_c_string<char>;
-		using cwstring	= typename basic_c_string<wchar_t>;
-		using c16string	= typename basic_c_string<char16_t>;
-		using c32string	= typename basic_c_string<char32_t>;
+		using c_string		= typename basic_c_string<char>;
+		using cw_string		= typename basic_c_string<wchar_t>;
+		using c16_string	= typename basic_c_string<char16_t>;
+		using c32_string	= typename basic_c_string<char32_t>;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

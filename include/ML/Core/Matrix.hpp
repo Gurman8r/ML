@@ -249,12 +249,12 @@ namespace ml
 
 	public: // Iterators
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline iterator			begin()			{ return iterator(m_data, 0); }
-		inline const_iterator	begin() const	{ return const_iterator(m_data, 0); }
-		inline const_iterator	cbegin() const	{ return begin(); }
-		inline iterator			end()			{ return iterator(m_data, this->size()); }
-		inline const_iterator	end() const		{ return const_iterator(m_data, this->size()); }
-		inline const_iterator	cend() const	{ return end(); }
+		inline auto begin()			-> iterator			{ return iterator(m_data, 0); }
+		inline auto begin() const	-> const_iterator	{ return const_iterator(m_data, 0); }
+		inline auto cbegin() const	-> const_iterator	{ return begin(); }
+		inline auto end()			-> iterator			{ return iterator(m_data, this->size()); }
+		inline auto end() const		-> const_iterator	{ return const_iterator(m_data, this->size()); }
+		inline auto cend() const	-> const_iterator	{ return end(); }
 
 
 # ifdef GLM_VERSION

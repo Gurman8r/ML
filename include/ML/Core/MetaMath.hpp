@@ -284,6 +284,213 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace meta
+	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator+=(Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			-> Arr<T, N...> &
+		{
+			for (size_t i = 0; i < lhs.size(); i++)
+			{
+				lhs[i] = (lhs[i] + rhs[i]);
+			}
+			return lhs;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator-=(Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			-> Arr<T, N...> &
+		{
+			for (size_t i = 0; i < lhs.size(); i++)
+			{
+				lhs[i] = (lhs[i] - rhs[i]);
+			}
+			return lhs;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator*=(Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			-> Arr<T, N...> &
+		{
+			for (size_t i = 0; i < lhs.size(); i++)
+			{
+				lhs[i] = (lhs[i] * rhs[i]);
+			}
+			return lhs;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator/=(Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			-> Arr<T, N...> &
+		{
+			for (size_t i = 0; i < lhs.size(); i++)
+			{
+				lhs[i] = (lhs[i] / rhs[i]);
+			}
+			return lhs;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator+(const Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			-> Arr<T, N...>
+		{
+			Arr<T, N...> temp { lhs };
+			temp += rhs;
+			return temp;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator-(const Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			-> Arr<T, N...>
+		{
+			Arr<T, N...> temp { lhs };
+			temp -= rhs;
+			return temp;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator*(const Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			-> Arr<T, N...>
+		{
+			Arr<T, N...> temp { lhs };
+			temp *= rhs;
+			return temp;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator/(const Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			-> Arr<T, N...>
+		{
+			Arr<T, N...> temp { lhs };
+			temp /= rhs;
+			return temp;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator+=(Arr<T, N...> & lhs, const T & rhs)
+			-> Arr<T, N...> &
+		{
+			for (auto & elem : lhs)
+			{
+				elem += rhs;
+			}
+			return lhs;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator-=(Arr<T, N...> & lhs, const T & rhs)
+			-> Arr<T, N...> &
+		{
+			for (auto & elem : lhs)
+			{
+				elem -= rhs;
+			}
+			return lhs;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator*=(Arr<T, N...> & lhs, const T & rhs)
+			-> Arr<T, N...> &
+		{
+			for (auto & elem : lhs)
+			{
+				elem *= rhs;
+			}
+			return lhs;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator/=(Arr<T, N...> & lhs, const T & rhs)
+			-> Arr<T, N...> &
+		{
+			for (auto & elem : lhs)
+			{
+				elem /= rhs;
+			}
+			return lhs;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator+(const Arr<T, N...> & lhs, const T & rhs)
+			-> Arr<T, N...>
+		{
+			Arr<T, N...> temp { lhs };
+			temp += rhs;
+			return temp;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator-(const Arr<T, N...> & lhs, const T & rhs)
+			-> Arr<T, N...>
+		{
+			Arr<T, N...> temp { lhs };
+			temp -= rhs;
+			return temp;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator*(const Arr<T, N...> & lhs, const T & rhs)
+			-> Arr<T, N...>
+		{
+			Arr<T, N...> temp { lhs };
+			temp *= rhs;
+			return temp;
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator/(const Arr<T, N...> & lhs, const T & rhs)
+			-> Arr<T, N...>
+		{
+			Arr<T, N...> temp { lhs };
+			temp /= rhs;
+			return temp;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator-(const Arr<T, N...> & lhs)
+			-> Arr<T, N...>
+		{
+			return (lhs * type_t<T>::minus_one);
+		}
+
+		template <
+			template <class, size_t ...> class Arr, class T, size_t ... N
+		> constexpr auto operator+(const Arr<T, N...> & lhs)
+			-> Arr<T, N...>
+		{
+			return -(-(lhs));
+		}
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 // VERTEX

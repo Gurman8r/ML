@@ -75,10 +75,10 @@ namespace ml
 			constexpr operator array_type() const { return m_data; }
 
 			template <
-				template <class, size_t, size_t> class M, class U, size_t W, size_t H
-			> constexpr operator M<U, W, H>() const
+				template <class, size_t, size_t> class Arr, class U, size_t W, size_t H
+			> constexpr operator Arr<U, W, H>() const
 			{
-				M<U, W, H> temp { uninit };
+				Arr<U, W, H> temp { uninit };
 				for (size_t i = 0; i < temp.size(); i++)
 				{
 					const size_t x = i % temp.width();

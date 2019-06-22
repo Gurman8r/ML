@@ -7,15 +7,15 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API INonCopyable
+	class ML_CORE_API I_NonCopyable
 	{
 	protected:
-		INonCopyable() {}
-		~INonCopyable() {}
+		I_NonCopyable() {}
+		~I_NonCopyable() {}
 
 	private:
-		INonCopyable(const INonCopyable &) = delete;
-		INonCopyable & operator=(const INonCopyable &) = delete;
+		I_NonCopyable(const I_NonCopyable &) = delete;
+		I_NonCopyable & operator=(const I_NonCopyable &) = delete;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

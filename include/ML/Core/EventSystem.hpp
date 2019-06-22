@@ -2,7 +2,7 @@
 #define _ML_EVENT_SYSTEM_HPP_
 
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
 
 namespace ml
 {
@@ -13,8 +13,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API EventSystem final
-		: public INewable
-		, public INonCopyable
+		: public I_Newable
+		, public I_NonCopyable
 	{
 	public:
 		using map_type = typename MultiMap<int32_t, EventListener *>;

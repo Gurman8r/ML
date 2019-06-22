@@ -21,10 +21,10 @@
 //	Configuration (Debug/Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_DEBUG)
-#	define ML_DEBUG			true
+#	define ML_DEBUG			1
 #	define ML_CONFIGURATION "Debug"
 # else
-#	define ML_DEBUG			false
+#	define ML_DEBUG			0
 #	define ML_CONFIGURATION "Release"
 # endif
 

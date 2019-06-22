@@ -2,16 +2,17 @@
 #define _ML_OPERATOR_HPP_
 
 #include <ML/Script/Export.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Operator final
-		: public INewable
-		, public IComparable<Operator>
-		, public IComparable<int32_t>
+		: public I_Newable
+		, public I_Comparable<Operator>
+		, public I_Comparable<int32_t>
 	{
 	public:
 		enum : int32_t
@@ -62,9 +63,11 @@ namespace ml
 
 		bool lessThan(const Operator & value) const override;
 		bool lessThan(const int32_t & value) const override;
-
-		void serialize(ostream & out) const override;
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	ML_SERIALIZE(ostream & out, const Operator & value);
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

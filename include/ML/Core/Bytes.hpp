@@ -2,15 +2,17 @@
 #define _ML_SIZEOF_HPP_
 
 #include <ML/Core/Ratio.hpp>
-#include <ML/Core/CString.hpp>
+#include <ML/Core/String.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Bytes final
+	struct Bytes final : public I_NonNewable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		template <
 			intmax_t Num,	// Numerator
 			intmax_t Den	// Denominator
@@ -61,13 +63,15 @@ namespace ml
 		{
 		}
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		constexpr operator	uint64_t()	const { return m_real; }
 		constexpr uint64_t	real()		const { return m_real; }
 		constexpr uint64_t	size()		const { return m_size; }
 		constexpr CString	name()		const { return m_name; }
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline String str() const
 		{
 			String temp;
@@ -78,6 +82,8 @@ namespace ml
 			temp.append(m_name);
 			return temp;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		uint64_t	m_real;	// Size before ratio

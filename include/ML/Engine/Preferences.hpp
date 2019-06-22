@@ -2,19 +2,19 @@
 #define _ML_PREFERENCES_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/INewable.hpp>
-#include <ML/Core/IDisposable.hpp>
-#include <ML/Core/IReadable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/I_Readable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Prefs final
-		: public INewable
-		, public IDisposable
-		, public IReadable
-		, public INonCopyable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
+		, public I_NonCopyable
 	{
 	public:
 		Prefs();

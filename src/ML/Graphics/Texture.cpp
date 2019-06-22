@@ -104,7 +104,7 @@ namespace ml
 	}
 
 	Texture::Texture(GL::Target target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
-		: IHandle			(NULL)
+		: I_Handle			(NULL)
 		, m_size			(vec2u::Zero)
 		, m_realSize		(vec2u::Zero)
 		, m_target			(target)

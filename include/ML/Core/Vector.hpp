@@ -12,7 +12,7 @@ namespace ml
 		size_t	_Size
 	> class Vector
 		: public Matrix<_Elem, _Size, 1>
-		, public IComparable<Vector<_Elem, _Size>>
+		, public I_Comparable<Vector<_Elem, _Size>>
 	{
 	public: // Usings
 		/* * * * * * * * * * * * * * * * * * * * */

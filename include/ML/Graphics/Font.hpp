@@ -2,29 +2,24 @@
 #define _ML_FONT_HPP_
 
 #include <ML/Graphics/Glyph.hpp>
-#include <ML/Core/IReadable.hpp>
+#include <ML/Core/I_Readable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Font final
-		: public INewable
-		, public IDisposable
-		, public IReadable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
 	{
 	public:
 		using GlyphTable = Map<uint32_t, Glyph>;
 		using PageTable  = Map<uint32_t, GlyphTable>;
 
-		struct Info final : public INewable
+		struct Info final
 		{
 			String family;
-
-			inline void serialize(ostream & out) const override
-			{
-				out << family;
-			}
 		};
 
 	public:
@@ -39,10 +34,6 @@ namespace ml
 		const Info	& getInfo() const;
 
 	public:
-		inline void serialize(ostream & out) const override
-		{
-			out << getInfo();
-		}
 
 	private:
 		mutable PageTable m_pages;
@@ -53,6 +44,18 @@ namespace ml
 
 		Glyph loadGlyph(uint32_t value, uint32_t size) const;
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(ostream & out, const Font::Info & value)
+	{
+		return out << value.family;
+	}
+
+	inline ML_SERIALIZE(ostream & out, const Font & value)
+	{
+		return out << value.getInfo();
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

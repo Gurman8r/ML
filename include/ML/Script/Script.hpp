@@ -9,9 +9,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Script
-		: public INewable
-		, public IDisposable
-		, public IReadable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
 	{
 	public:
 		Script();

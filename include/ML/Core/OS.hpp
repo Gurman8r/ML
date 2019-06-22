@@ -3,7 +3,7 @@
 
 #include <ML/Core/Export.hpp>
 #include <ML/Core/String.hpp>
-#include <ML/Core/ISingleton.hpp>
+#include <ML/Core/I_Singleton.hpp>
 
 #define ML_OS ml::OS::getInstance()
 
@@ -12,9 +12,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API OS final
-		: public ISingleton<OS>
+		: public I_Singleton<OS>
 	{
-		friend class ISingleton<OS>;
+		friend class I_Singleton<OS>;
 
 	public:
 		void * execute(const String & cmd) const;

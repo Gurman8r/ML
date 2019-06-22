@@ -1,13 +1,14 @@
 #ifndef _ML_I_EVENT_HPP_
 #define _ML_I_EVENT_HPP_
 
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/Export.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API Event //: public INewable, public INonCopyable
+	struct ML_CORE_API Event : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

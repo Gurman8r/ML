@@ -276,7 +276,9 @@ namespace DEMO
 						res_names.push_back("Free");
 						for (const auto & video : res_values)
 						{
-							res_names.push_back(video.resolution.ToString());
+							ml::SStream ss;
+							ss << video.resolution;
+							res_names.push_back(ss.str());
 						}
 					}
 

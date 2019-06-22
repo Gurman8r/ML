@@ -5,7 +5,7 @@
 
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/String.hpp>
-#include <ML/Core/ISingleton.hpp>
+#include <ML/Core/I_Singleton.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -26,9 +26,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	
 	class ML_GRAPHICS_API OpenGL final
-		: public ISingleton<OpenGL>
+		: public I_Singleton<OpenGL>
 	{
-		friend class ISingleton<OpenGL>;
+		friend class I_Singleton<OpenGL>;
 
 		bool m_good;
 

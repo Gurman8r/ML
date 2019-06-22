@@ -276,7 +276,7 @@ namespace ml
 		Var v;
 		if ((v = evaluate()).isErrorType())
 		{
-			return Debug::logError(v.textValue());
+			return Debug::logError("AST_Call : {0}", v.textValue());
 		}
 		return runNext();
 	}

@@ -632,7 +632,7 @@ namespace ml
 
 				if (stack.empty())
 				{
-					Debug::logError("Missing left parenthesis (1)\n");
+					Debug::logError("Parser : Missing left parenthesis (1)\n");
 					return false;
 				}
 			}
@@ -650,7 +650,7 @@ namespace ml
 
 		if (stack.empty())
 		{
-			return Debug::logError("Missing left parenthesis (2)\n");
+			return Debug::logError("Parser : Missing left parenthesis (2)\n");
 		}
 
 		stack.erase(stack.begin());

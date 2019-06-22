@@ -163,6 +163,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>

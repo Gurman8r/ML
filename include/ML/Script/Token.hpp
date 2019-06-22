@@ -12,10 +12,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Token final
-		: public INewable
-		, public IComparable<Token>
-		, public IComparable<char>
-		, public IComparable<String>
+		: public I_Newable
+		, public I_Comparable<Token>
+		, public I_Comparable<char>
+		, public I_Comparable<String>
 	{
 	public:
 		enum : char
@@ -93,8 +93,19 @@ namespace ml
 		bool lessThan(const String & value) const override;
 
 	public:
-		void serialize(ostream & out) const override;
+		inline SStream sstr() const
+		{
+			SStream ss;
+			ss << (*this);
+			return ss;
+		}
+		inline String	str()	const { return sstr().str(); }
+		inline CString	c_str() const { return str().c_str(); }
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	ML_SERIALIZE(ostream & out, const Token & value);
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

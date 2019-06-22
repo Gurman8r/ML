@@ -1,7 +1,7 @@
 #ifndef _ML_MODEL_HPP_
 #define _ML_MODEL_HPP_
 
-#include <ML/Graphics/IDrawable.hpp>
+#include <ML/Graphics/I_Drawable.hpp>
 #include <ML/Graphics/Mesh.hpp>
 #include <ML/Graphics/BufferLayout.hpp>
 #include <ML/Graphics/VertexArray.hpp>
@@ -14,10 +14,10 @@ namespace ml
 
 	// Model is a Drawable Mesh
 	class ML_GRAPHICS_API Model final
-		: public INewable
-		, public IDisposable
-		, public IDrawable
-		, public IReadable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Drawable
+		, public I_Readable
 	{
 	public:
 		Model();

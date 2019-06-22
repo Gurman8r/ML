@@ -90,7 +90,7 @@ namespace ml
 		{
 		}
 
-		friend ostream & operator<<(ostream &, const FMT &);
+		friend ML_SERIALIZE(ostream &, const FMT &);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -107,17 +107,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ostream & operator<<(ostream & out, const FG & value)
+	inline ML_SERIALIZE(ostream & out, const FG & value)
 	{
 		return out << FMT { value, BG::None };
 	}
 
-	inline ostream & operator<<(ostream & out, const BG & value)
+	inline ML_SERIALIZE(ostream & out, const BG & value)
 	{
 		return out << FMT { FG::None, value };
 	}
 
-	inline ostream & operator<<(ostream & out, const FMT & value)
+	inline ML_SERIALIZE(ostream & out, const FMT & value)
 	{
 		if ((value.fg != FG::None) && (value.bg != BG::None))
 		{

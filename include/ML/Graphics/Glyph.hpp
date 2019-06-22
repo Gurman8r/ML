@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Glyph final
-		: public INewable
+		: public I_Newable
 	{
 		enum { VertexCount = 6U };
 

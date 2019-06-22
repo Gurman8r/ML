@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Collider
-		: public INewable
+		: public I_Newable
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

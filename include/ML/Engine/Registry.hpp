@@ -16,13 +16,14 @@ namespace ml
 	template <
 		class _Elem
 	> class Registry final
-		: public INewable
-		, public INonCopyable
+		: public I_Newable
+		, public I_NonCopyable
 	{
 		friend class Resources;
 
 	public:
 		using value_type	= typename _Elem;
+		using self_type		= typename Registry<value_type>;
 		using pointer		= typename value_type * ;
 		using const_pointer = typename const value_type *;
 		using map_type		= typename Map<String, pointer>;
@@ -47,15 +48,15 @@ namespace ml
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline void serialize(ostream & out) const override
+		inline friend ML_SERIALIZE(ostream & out, const self_type & value)
 		{
-			for (auto & pair : m_files)
+			for (auto & pair : value.m_files)
 			{
 				out << std::left << std::setw(12)
 					<< pair.first << " \'" << pair.second << "\'"
 					<< endl;
 			}
-			out << endl;
+			return out << endl;
 		}
 
 	public:

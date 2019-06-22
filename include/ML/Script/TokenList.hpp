@@ -15,8 +15,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API TokenList final
-		: public INewable
-		, public IComparable<TokenList>
+		: public I_Newable
+		, public I_Comparable<TokenList>
 	{
 	public:
 		using iterator				= List<Token>::iterator;
@@ -136,13 +136,29 @@ namespace ml
 		}
 
 	public:
-		void serialize(ostream & out) const override;
 		bool equals(const TokenList & value) const override;
 		bool lessThan(const TokenList & value) const override;
 
 	private:
 		List<Token> m_values;
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+	
+	inline ML_SERIALIZE(ostream & out, const TokenList & value)
+	{
+		TokenList::const_iterator it;
+		for (it = value.begin(); it != value.end(); it++)
+		{
+			if ((*it) == '\n')
+			{
+				out << '\n';
+				continue;
+			}
+			out << (*it) << (it != value.end() - 1 ? ", " : "");
+		}
+		return out;
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

@@ -13,7 +13,10 @@ namespace ml
 
 	EventListener * EventSystem::addListener(const int32_t type, EventListener * listener)
 	{
-		return m_listeners.insert({ type, listener })->second;
+		return (listener
+			? m_listeners.insert({ type, listener })->second
+			: nullptr
+		);
 	}
 	
 	bool EventSystem::fireEvent(const Event & ev)

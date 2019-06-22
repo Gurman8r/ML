@@ -9,11 +9,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Var final
-		: public INewable
-		, public IComparable<Var>
+		: public I_Newable
+		, public I_Comparable<Var>
 	{
 	public:
-		enum : int32_t
+		enum VarType : int32_t
 		{
 			Error = -1,
 
@@ -40,7 +40,7 @@ namespace ml
 		};
 
 	public:
-		struct Ptr : public INewable
+		struct Ptr : public I_Newable
 		{
 			String		name;
 			int32_t		index;
@@ -51,7 +51,7 @@ namespace ml
 
 			Var * get() const;
 
-			void serialize(ostream & out) const override;
+			friend ML_SERIALIZE(ostream & out, const Var::Ptr & value);
 
 			inline Var * operator->() const { return get(); }
 			inline Var * operator*() const { return get(); }
@@ -59,7 +59,7 @@ namespace ml
 
 		static const String TypeNames[Var::MAX_VAR_TYPE];
 		
-		inline friend ostream & operator<<(ostream & out, const int32_t & rhs)
+		inline friend ML_SERIALIZE(ostream & out, const VarType & rhs)
 		{
 			return out << Var::TypeNames[rhs];
 		}
@@ -159,7 +159,7 @@ namespace ml
 	public: // Serialization
 		Var & print();
 
-		void serialize(ostream & out) const override;
+		friend ML_SERIALIZE(ostream & out, const Var & value);
 
 	public: // Factory
 		static Var makeSingle(const Token & tok);
@@ -180,7 +180,7 @@ namespace ml
 		Var &	Set(const Var & other); // =
 
 
-	public: // IComparable
+	public: // I_Comparable
 		inline bool equals(const Var & other)	const override { return Equals(other); }
 		inline bool lessThan(const Var & other)	const override { return Less(other); }
 

@@ -178,12 +178,9 @@
     <ClInclude Include="..\..\..\include\ML\Network\SendSettings.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Network\GUID.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Network\Host.cpp" />
     <ClCompile Include="..\..\..\src\ML\Network\NetClient.cpp" />
     <ClCompile Include="..\..\..\src\ML\Network\NetInterface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Network\NetServer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Network\Packet.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

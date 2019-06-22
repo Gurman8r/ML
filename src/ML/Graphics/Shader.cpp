@@ -52,7 +52,7 @@ namespace ml
 namespace ml
 {
 	Shader::Shader()
-		: IHandle(NULL)
+		: I_Handle(NULL)
 		, m_attribs()
 		, m_textures()
 		, m_uniforms()
@@ -60,7 +60,7 @@ namespace ml
 	}
 
 	Shader::Shader(const Shader & copy)
-		: IHandle(copy)
+		: I_Handle(copy)
 		, m_attribs(copy.m_attribs)
 		, m_textures(copy.m_textures)
 		, m_uniforms(copy.m_uniforms)

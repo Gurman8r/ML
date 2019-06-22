@@ -2,7 +2,7 @@
 #define _ML_CURSOR_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/Detail.hpp>
+#include <ML/Core/Alg.hpp>
 
 namespace ml
 {
@@ -84,12 +84,12 @@ namespace ml
 
 	static constexpr bool valueAt(const int32_t i, Cursor::Mode & value)
 	{
-		return detail::value_at(i, value, Cursor::Mode_values);
+		return alg::value_at(i, value, Cursor::Mode_values);
 	}
 
 	static constexpr int32_t indexOf(const Cursor::Mode & value)
 	{
-		return detail::index_of(value, Cursor::Mode_values);
+		return alg::index_of(value, Cursor::Mode_values);
 	}
 
 	static constexpr CString nameOf(const Cursor::Mode & value)
@@ -98,7 +98,7 @@ namespace ml
 		return (i >= 0) ? Cursor::Mode_names[i] : "";
 	}
 
-	inline ostream & operator<<(ostream & out, const Cursor::Mode & value)
+	inline ML_SERIALIZE(ostream & out, const Cursor::Mode & value)
 	{
 		return out << nameOf(value);
 	}
@@ -107,12 +107,12 @@ namespace ml
 
 	static constexpr bool valueAt(const int32_t i, Cursor::Shape & value)
 	{
-		return detail::value_at(i, value, Cursor::Shape_values);
+		return alg::value_at(i, value, Cursor::Shape_values);
 	}
 
 	static constexpr int32_t indexOf(const Cursor::Shape & value)
 	{
-		return detail::index_of(value, Cursor::Shape_values);
+		return alg::index_of(value, Cursor::Shape_values);
 	}
 
 	static constexpr CString nameOf(const Cursor::Shape & value)
@@ -121,7 +121,7 @@ namespace ml
 		return (i >= 0) ? Cursor::Shape_names[i] : "";
 	}
 
-	inline ostream & operator<<(ostream & out, const Cursor::Shape & value)
+	inline ML_SERIALIZE(ostream & out, const Cursor::Shape & value)
 	{
 		return out << nameOf(value);
 	}

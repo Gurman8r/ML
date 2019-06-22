@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API RectTransform final
-		: public INewable
+		: public I_Newable
 	{
 	public:
 		RectTransform();

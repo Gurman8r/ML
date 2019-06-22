@@ -49,7 +49,7 @@ namespace DEMO
 			MAX_DEMO_RIGIDBODY
 		};
 
-		struct SandboxData final : public ml::INonCopyable
+		struct SandboxData final : public ml::I_NonCopyable
 		{
 			using TextTable = typename ml::HashMap<ml::String, ml::Text>;
 

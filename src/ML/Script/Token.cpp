@@ -182,13 +182,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Token::serialize(ostream & out) const
+	ML_SERIALIZE(ostream & out, const Token & value)
 	{
-		out << FMT()
+		return out << FMT()
 			<< FG::White << "[ "
-			<< FG::Green << type
+			<< FG::Green << value.type
 			<< FG::White << " "
-			<< FG::Yellow << data
+			<< FG::Yellow << value.data
 			<< FG::White << " ]"
 			<< FMT();
 	}

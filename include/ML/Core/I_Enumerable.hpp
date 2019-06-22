@@ -3,7 +3,7 @@
 
 #include <ML/Core/Export.hpp>
 #include <ML/Core/StandardLib.hpp>
-#include <ML/Core/IComparable.hpp>
+#include <ML/Core/I_Comparable.hpp>
 
 namespace ml
 {
@@ -11,9 +11,8 @@ namespace ml
 
 	// Supports simple iteration of a fixed array
 	template <
-		class T,
-		size_t N
-	> class IEnumerable
+		class T, size_t N
+	> class I_Enumerable
 	{
 	public:
 		using value_type			= typename T;
@@ -30,12 +29,12 @@ namespace ml
 		using const_reverse_iterator= typename std::reverse_iterator<const_iterator>;
 
 	public:
-		IEnumerable(pointer data)
+		I_Enumerable(pointer data)
 			: m_data(data)
 		{
 		}
 
-		virtual ~IEnumerable() {}
+		virtual ~I_Enumerable() {}
 
 	public:
 		inline iterator					begin()				{ return iterator(m_data, 0); }

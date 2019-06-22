@@ -12,7 +12,7 @@ namespace ml
 			12.f,	13.f,	14.f,	15.f
 		};
 
-		constexpr meta::mat4f mb = meta::alg::transpose(ma);
+		constexpr meta::mat4f mb = alg::transpose(ma);
 
 		constexpr meta::vec3f v3 { 1, 2, 3 };
 		constexpr meta::mat3f m3 { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -21,34 +21,41 @@ namespace ml
 
 		constexpr float angle	= 90.f * meta::type_t<float>::deg2rad;
 		constexpr auto v		= meta::vec3f { 1.f, 1.f, 1.f } * (angle);
-		constexpr auto rr		= meta::alg::rotationXYZ(v);
-		constexpr auto rx		= meta::alg::rotationX(v[0]);
-		constexpr auto ry		= meta::alg::rotationY(v[1]);
-		constexpr auto rz		= meta::alg::rotationZ(v[2]);
+		constexpr auto rr		= alg::rotationXYZ(v);
+		constexpr auto rx		= alg::rotationX(v[0]);
+		constexpr auto ry		= alg::rotationY(v[1]);
+		constexpr auto rz		= alg::rotationZ(v[2]);
 
-		constexpr auto rebaseV3 = meta::alg::rebase(v3, m4);
-		constexpr auto rebaseM3 = meta::alg::rebase(m3, m4);
+		constexpr auto rebaseV3 = alg::rebase(v3, m4);
+		constexpr auto rebaseM3 = alg::rebase(m3, m4);
 
 		constexpr auto va		= meta::vec2 { 0.f, 0.f };
 		constexpr auto vb		= meta::vec2 { -10.f, -10.f };
-		constexpr auto vc		= meta::alg::lerp(va, vb, meta::vec2::type::half);
+		constexpr auto vc		= alg::lerp(va, vb, meta::vec2::type::half);
 
-		constexpr auto hash1	= meta::alg::hash()("Here");
-		constexpr auto hash2	= meta::c_string("Here").hash();
+		constexpr auto arr1 = meta::array_t<char, 3> { 'a', 'b', 'c' };
+		constexpr auto arr2 = meta::array_t<char, 3> { 'a', 'b', 'c' };
+
+		static_assert(arr1 == arr2, "What?");
+
+		static_assert(meta::cstring("Here") == meta::cstring("Here"), "What?");
+
+		constexpr auto hash1	= ml::hash()("Here");
+		constexpr auto hash2	= meta::cstring("Here").hash();
 		constexpr auto hash3	= meta::mat4i::identity().hash();
 		constexpr auto hash4	= meta::mat4f::identity().hash();
 
 		constexpr auto eps		= meta::type_t<long double>::epsilon;
-		constexpr auto sqr_mag	= meta::alg::sqr_magnitude(vb);
-		constexpr auto mag		= meta::alg::magnitude(vb);
-		constexpr auto norm		= meta::alg::normalize(vb);
-		constexpr auto lerp		= meta::alg::lerp(va, vb, 0.5f);
-		constexpr auto sqr		= meta::alg::sqrt<float>()(13.0f);
-		constexpr auto det		= meta::alg::determinant(ma);
-		constexpr auto inv		= meta::alg::inverse(ma);
-		constexpr auto dot		= meta::alg::dot(ma, mb);
-		constexpr auto pow		= meta::alg::pow(1.23, 10);
-		constexpr auto fact		= meta::alg::fact(10);
+		constexpr auto sqr_mag	= alg::sqr_magnitude(vb);
+		constexpr auto mag		= alg::magnitude(vb);
+		constexpr auto norm		= alg::normalize(vb);
+		constexpr auto lerp		= alg::lerp(va, vb, 0.5f);
+		constexpr auto sqr		= alg::sqrt<float>()(13.0f);
+		constexpr auto det		= alg::determinant(ma);
+		constexpr auto inv		= alg::inverse(ma);
+		constexpr auto dot		= alg::dot(ma, mb);
+		constexpr auto pow		= alg::pow(1.23, 10);
+		constexpr auto fact		= alg::fact(10);
 
 		constexpr auto tri		= meta::geometry::tri::contiguous;
 		constexpr auto quat		= meta::geometry::quad::contiguous;

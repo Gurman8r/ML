@@ -2,16 +2,16 @@
 #define _ML_AUDIO_SOURCE_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/INewable.hpp>
-#include <ML/Core/IHandle.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Handle.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_AUDIO_API AudioSource
-		: public INewable
-		, public IHandle<uint32_t>
+		: public I_Newable
+		, public I_Handle<uint32_t>
 	{
 	public:
 		AudioSource();

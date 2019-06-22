@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API VideoSettings final
-		: public INewable
+		: public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -51,12 +51,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ostream & operator<<(ostream & out, const VideoSettings & value)
+	inline ML_SERIALIZE(ostream & out, const VideoSettings & value)
 	{
 		return out << value.resolution << " " << value.colorDepth;
 	}
 
-	inline istream & operator>>(istream & in, VideoSettings & value)
+	inline ML_DESERIALIZE(istream & in, VideoSettings & value)
 	{
 		return in >> value.resolution >> value.colorDepth;
 	}

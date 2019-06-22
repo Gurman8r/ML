@@ -13,11 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\DS">
+      <UniqueIdentifier>{5048344f-da88-4adf-b95a-64576fc14146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{e1f85450-e2a3-482d-abfa-b3ca01ac366b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Network\GUID.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Network\NetClient.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -27,29 +30,29 @@
     <ClInclude Include="..\..\..\include\ML\Network\NetServer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Network\NetworkEvents.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Network\Packet.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Network\RakNet.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Network\SendSettings.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Network\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Network\GUID.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Network\Host.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Network\Packet.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Network\RakNet.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Network\NetworkEvents.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Network\SendSettings.hpp">
+      <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Network\GUID.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Network\NetClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,12 +60,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Network\NetServer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Network\Packet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Network\Host.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

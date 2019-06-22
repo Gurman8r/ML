@@ -2,13 +2,13 @@
 #define _ML_CONTEXT_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/INonNewable.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ContextSettings final : public INonNewable
+	struct ContextSettings final : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

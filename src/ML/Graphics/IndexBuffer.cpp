@@ -6,7 +6,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	IndexBuffer::IndexBuffer()
-		: IHandle	(NULL)
+		: I_Handle	(NULL)
 		, m_data	(NULL)
 		, m_count	(NULL)
 		, m_usage	(GL::StaticDraw)
@@ -15,7 +15,7 @@ namespace ml
 	}
 
 	IndexBuffer::IndexBuffer(const IndexBuffer & copy)
-		: IHandle	(copy)
+		: I_Handle	(copy)
 		, m_data	(copy.m_data)
 		, m_count	(copy.m_count)
 		, m_usage	(copy.m_usage)

@@ -4,6 +4,7 @@
 #include <ML/Editor/EditorPlugin.hpp>
 #include <ML/Core/Transform.hpp>
 #include <ML/Graphics/Color.hpp>
+#include <ML/Core/String.hpp>
 #include <imgui/TextEditor.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -50,7 +51,7 @@ namespace DEMO
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		struct NoobFile : public ml::INonCopyable
+		struct NoobFile : public ml::I_NonCopyable
 		{
 			using List = typename ml::List<NoobFile *>;
 
@@ -73,7 +74,7 @@ namespace DEMO
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		struct NoobsData : public ml::INonCopyable
+		struct NoobsData : public ml::I_NonCopyable
 		{
 			NoobFile::List	files		= {};
 			ml::Surface	*	surf_main	= nullptr;

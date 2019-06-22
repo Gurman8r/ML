@@ -2,8 +2,8 @@
 #define _ML_STYLE_LOADER_HPP_
 
 #include <ML/Editor/Export.hpp>
-#include <ML/Core/INewable.hpp>
-#include <ML/Core/IReadable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Readable.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
@@ -11,8 +11,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API ImGui_StyleLoader final
-		: public INewable
-		, public IReadable
+		: public I_Newable
+		, public I_Readable
 	{
 	public:
 		ImGui_StyleLoader();

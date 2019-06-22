@@ -112,15 +112,15 @@ namespace ml
 		}
 		else if (name == "msg")
 		{
-			return Var().intValue(Debug::log(args.pop_front().ToString()));
+			return Var().intValue(Debug::log(args.pop_front().str()));
 		}
 		else if (name == "wrn")
 		{
-			return Var().intValue(Debug::logWarning(args.pop_front().ToString()));
+			return Var().intValue(Debug::logWarning(args.pop_front().str()));
 		}
 		else if (name == "err")
 		{
-			return Var().intValue(Debug::logError(args.pop_front().ToString()));
+			return Var().intValue(Debug::logError(args.pop_front().str()));
 		}
 		else
 		{
@@ -130,7 +130,7 @@ namespace ml
 
 	Var DefaultCommands::cmd_ls(Args & args)
 	{
-		const String name = args.pop_front().empty() ? "." : args.ToString();
+		const String name = args.pop_front().empty() ? "." : args.str();
 		SStream ss;
 		if (ML_FS.getDirContents(name, ss))
 		{
@@ -243,7 +243,7 @@ namespace ml
 
 	Var DefaultCommands::cmd_system(Args & args)
 	{
-		return Var().intValue(Debug::system(args.pop_front().ToString().c_str()));
+		return Var().intValue(Debug::system(args.pop_front().str().c_str()));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

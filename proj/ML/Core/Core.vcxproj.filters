@@ -16,9 +16,6 @@
     <Filter Include="Header Files\Interfaces">
       <UniqueIdentifier>{64edec69-3d79-4d9b-a858-87175138149f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Maths">
-      <UniqueIdentifier>{22c169d6-ba85-4faf-a244-04d211f5ee71}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{4cc0b5f2-b6e7-4346-8846-52961655e456}</UniqueIdentifier>
     </Filter>
@@ -40,6 +37,9 @@
     <Filter Include="Source Files\DS">
       <UniqueIdentifier>{dedba3d6-daa0-4767-888b-ffab909323a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Maths">
+      <UniqueIdentifier>{22c169d6-ba85-4faf-a244-04d211f5ee71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
@@ -47,30 +47,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IWritable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IComparable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IDisposable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IEnumerable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IHandle.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\INonCopyable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\ISingleton.hpp">
-      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp">
       <Filter>Header Files\Maths</Filter>
@@ -103,9 +79,6 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
@@ -159,31 +132,67 @@
     <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp">
       <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\CString.hpp">
-      <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\INonNewable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\INewable.hpp">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Image.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp">
+    <ClInclude Include="..\..\..\include\ML\Core\Cache.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Cache.hpp">
+    <ClInclude Include="..\..\..\include\ML\Core\Array.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\CString.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Alg.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Comparable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Disposable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Enumerable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Handle.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Newable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_NonCopyable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Readable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Singleton.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Writable.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Type.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>
@@ -227,16 +236,8 @@
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Meta.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Image.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\include\ML\Core\Meta.inl">
-      <Filter>Header Files\DS</Filter>
-    </None>
   </ItemGroup>
 </Project>

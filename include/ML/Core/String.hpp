@@ -1,9 +1,8 @@
 #ifndef _ML_STRING_HPP_
 #define _ML_STRING_HPP_
 
-#include <ML/Core/Export.hpp>
 #include <ML/Core/CString.hpp>
-#include <ML/Core/IComparable.hpp>
+#include <ML/Core/I_Comparable.hpp>
 
 namespace ml
 {
@@ -14,7 +13,7 @@ namespace ml
 		class _Alloc  = std::allocator<_Elem>
 	> class BasicString
 		: public std::basic_string<_Elem, _Traits, _Alloc>
-		, public IComparable<std::basic_string<_Elem, _Traits, _Alloc>>
+		, public I_Comparable<std::basic_string<_Elem, _Traits, _Alloc>>
 	{
 	public: // Usings
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

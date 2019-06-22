@@ -2,7 +2,8 @@
 #define _ML_NETWORK_INTERFACE_HPP_
 
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/IDisposable.hpp>
+#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/String.hpp>
 #include <ML/Network/GUID.hpp>
 #include <ML/Network/Host.hpp>
 #include <ML/Network/Packet.hpp>
@@ -26,14 +27,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	static constexpr Host LocalHost { "127.0.0.1" };
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	class EventSystem;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetInterface
 		: public EventListener
-		, public IDisposable
-		, public INonCopyable
+		, public I_Disposable
+		, public I_NonCopyable
 	{
 	public:
 		explicit NetInterface(EventSystem & eventSystem);
@@ -46,7 +51,7 @@ namespace ml
 
 	public:
 		uint32_t send(const GUID & guid, const String & data, const SendSettings & settings);
-		uint32_t send(const Host & address, const String & data, const SendSettings & settings);
+		uint32_t send(const Host & host, const String & data, const SendSettings & settings);
 
 	public:
 		virtual void onEvent(const Event * ev) override = 0;

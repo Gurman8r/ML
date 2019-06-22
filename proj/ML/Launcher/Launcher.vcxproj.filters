@@ -7,6 +7,9 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\meshes\cow.mesh">

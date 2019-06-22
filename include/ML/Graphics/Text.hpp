@@ -1,7 +1,7 @@
 #ifndef _ML_TEXT_HPP_
 #define _ML_TEXT_HPP_
 
-#include <ML/Graphics/IDrawable.hpp>
+#include <ML/Graphics/I_Drawable.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/VertexList.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
@@ -14,8 +14,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Text final
-		: public INewable
-		, public IDrawable
+		: public I_Newable
+		, public I_Drawable
 	{
 	public:
 		Text();
@@ -33,10 +33,10 @@ namespace ml
 	public:
 		inline const Font *		getFont()		const { return m_font;		}
 		inline const uint32_t	getFontSize()	const { return m_fontSize;	}
-		inline const vec2 &	getPosition()	const { return m_position;	}
-		inline const vec2 &	getScale()		const { return m_scale;		}
+		inline const vec2 &		getPosition()	const { return m_position;	}
+		inline const vec2 &		getScale()		const { return m_scale;		}
 		inline const String &	getString()		const { return m_string;	}
-		inline const vec4 &	getColor()		const { return m_color;		}
+		inline const vec4 &		getColor()		const { return m_color;		}
 
 	public:
 		void update() const;

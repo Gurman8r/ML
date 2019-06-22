@@ -3,6 +3,7 @@
 
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/Transform.hpp>
+#include <ML/Core/String.hpp>
 
 #define ML_EditorUtility ml::EditorUtility::getInstance()
 
@@ -11,9 +12,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API EditorUtility final
-		: public ISingleton<EditorUtility>
+		: public I_Singleton<EditorUtility>
 	{
-		friend class ISingleton<EditorUtility>;
+		friend class I_Singleton<EditorUtility>;
 
 	public:
 		static vec2 getCursorPos();

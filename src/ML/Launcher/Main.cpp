@@ -26,9 +26,9 @@ using namespace ml;
 
 static Prefs		g_Preferences	{ ML_CONFIG_INI };
 static EventSystem	g_EventSystem	{ };
+static PluginMap	g_Plugins		{ };
 static Resources	g_Resources		{ };
 static GameTime		g_Time			{ };
-static PluginMap	g_Plugins		{ };
 static RenderWindow g_Window		{ g_EventSystem };
 static Engine		g_Engine		{ g_EventSystem };
 static Editor		g_Editor		{ g_EventSystem };
@@ -126,6 +126,7 @@ static StateMachine<State> g_ControlFlow
 };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 
 int32_t main()
 {

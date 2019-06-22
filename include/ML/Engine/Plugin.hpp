@@ -14,8 +14,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Plugin
-		: public INewable
-		, public INonCopyable
+		: public I_Newable
+		, public I_NonCopyable
 		, public EventListener
 	{
 	public:

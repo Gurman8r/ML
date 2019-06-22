@@ -6,12 +6,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	RenderBuffer::RenderBuffer()
-		: IHandle(NULL)
+		: I_Handle(NULL)
 	{
 	}
 
 	RenderBuffer::RenderBuffer(const RenderBuffer & copy)
-		: IHandle(copy)
+		: I_Handle(copy)
 	{
 	}
 

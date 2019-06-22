@@ -6,12 +6,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <class T>
-	class IComparable
+	class I_Comparable
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		using comp_type = typename T;
-		using self_type = typename IComparable<comp_type>;
+		using self_type = typename I_Comparable<comp_type>;
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

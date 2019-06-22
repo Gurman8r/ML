@@ -117,10 +117,10 @@ namespace ml
 			}
 			else
 			{
-				return Debug::logError("For: Assignment Failure");
+				return Debug::logError("AST_For: Assignment Failure");
 			}
 		}
-		return Debug::logError("For Failure");
+		return Debug::logError("AST_For Failure");
 	}
 
 

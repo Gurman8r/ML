@@ -9,7 +9,7 @@ namespace ml
 
 	template <
 		class T
-	> struct IHandle
+	> struct I_Handle
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -21,12 +21,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		IHandle(const_reference value)
+		I_Handle(const_reference value)
 			: m_handle(value)
 		{
 		}
 
-		virtual ~IHandle() {}
+		virtual ~I_Handle() {}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

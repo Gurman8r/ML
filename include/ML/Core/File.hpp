@@ -1,19 +1,19 @@
 #ifndef _ML_FILE_HPP_
 #define _ML_FILE_HPP_
 
-#include <ML/Core/INewable.hpp>
-#include <ML/Core/IDisposable.hpp>
-#include <ML/Core/IReadable.hpp>
-#include <ML/Core/IWritable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/I_Writable.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
 {
 	class ML_CORE_API File final
-		: public INewable
-		, public IDisposable
-		, public IReadable
-		, public IWritable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
+		, public I_Writable
 	{
 	public:
 		using iterator				= typename List<char>::iterator;
@@ -33,7 +33,6 @@ namespace ml
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool saveToFile(const String & filename) const override;
-		void serialize(ostream & out) const override;
 
 	public:
 		inline operator bool() const
@@ -85,6 +84,11 @@ namespace ml
 		String		m_path;
 		List<char>	m_data;
 	};
+
+	inline ML_SERIALIZE(ostream & out, const File & value)
+	{
+		return out << String(value.begin(), value.end());
+	}
 }
 
 #endif // !_ML_FILE_HPP_

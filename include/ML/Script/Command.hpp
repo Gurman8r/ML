@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Command final
-		: public INewable
+		: public I_Newable
 	{
 	public:
 		using fn_args = Args & ;

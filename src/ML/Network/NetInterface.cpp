@@ -69,7 +69,7 @@ namespace ml
 			settings.receiptNumber);
 	}
 
-	uint32_t NetInterface::send(const Host & addr, const String & data, const SendSettings & settings)
+	uint32_t NetInterface::send(const Host & host, const String & data, const SendSettings & settings)
 	{
 		RakNet::BitStream bitStream;
 		bitStream.Write(data.c_str());
@@ -78,7 +78,7 @@ namespace ml
 			(PacketPriority)settings.priority,
 			(PacketReliability)settings.reliability,
 			settings.ordering,
-			RakNet::SystemAddress(addr.addr.c_str(), addr.port),
+			RakNet::SystemAddress(host.addr, host.port),
 			settings.broadcast,
 			settings.receiptNumber);
 	}
@@ -96,7 +96,7 @@ namespace ml
 	{
 		return GUID(
 			ML_PEER(m_peer)->GetGuidFromSystemAddress(
-				RakNet::SystemAddress(value.addr.c_str(), value.port)
+				RakNet::SystemAddress(value.addr, value.port)
 			).g
 		);
 	}

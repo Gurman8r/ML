@@ -162,12 +162,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\ML\Core\Alg.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\CString.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Detail.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Cache.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Image.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\INonNewable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Singleton.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Meta.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
@@ -179,17 +182,16 @@
     <ClInclude Include="..\..\..\include\ML\Core\File.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\FileSystem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IComparable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IDisposable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IEnumerable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Comparable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Disposable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Enumerable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IHandle.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\INonCopyable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IReadable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\ISingleton.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\INewable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\IWritable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Handle.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_NonCopyable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Readable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Newable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Writable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
@@ -206,6 +208,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Type.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector2.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Vector3.hpp" />
@@ -220,16 +223,12 @@
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Meta.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Transform.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\include\ML\Core\Meta.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

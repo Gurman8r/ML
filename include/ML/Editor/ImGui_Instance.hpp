@@ -11,9 +11,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API ImGui_Instance final
-		: public ISingleton<ImGui_Instance>
+		: public I_Singleton<ImGui_Instance>
 	{
-		friend class ISingleton<ImGui_Instance>;
+		friend class I_Singleton<ImGui_Instance>;
 
 	private:
 		ImGui_Instance();

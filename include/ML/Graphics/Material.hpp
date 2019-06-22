@@ -12,9 +12,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Material final
-		: public INewable
-		, public IDisposable
-		, public IReadable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
 	{
 	public:
 		using UniformList = typename List<uni_base *>;

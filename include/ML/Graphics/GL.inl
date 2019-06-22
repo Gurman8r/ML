@@ -1,6 +1,6 @@
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/Preprocessor.hpp>
-#include <ML/Core/Detail.hpp>
+#include <ML/Core/Alg.hpp>
 
 // Values / Names
 /* * * * * * * * * * * * * * * * * * * * */
@@ -33,12 +33,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Flag & value)
 		{
-			return detail::value_at(i, value, Flag_values);
+			return alg::value_at(i, value, Flag_values);
 		}
 
 		static constexpr int32_t indexOf(const Flag value)
 		{
-			return detail::index_of(value, Flag_values);
+			return alg::index_of(value, Flag_values);
 		}
 
 		static constexpr CString nameOf(const Flag value)
@@ -95,12 +95,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Target & value)
 		{
-			return detail::value_at(i, value, Target_values);
+			return alg::value_at(i, value, Target_values);
 		}
 
 		static constexpr int32_t indexOf(const Target value)
 		{
-			return detail::index_of(value, Target_values);
+			return alg::index_of(value, Target_values);
 		}
 
 		static constexpr CString nameOf(const Target value)
@@ -127,12 +127,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Usage & value)
 		{
-			return detail::value_at(i, value, Usage_values);
+			return alg::value_at(i, value, Usage_values);
 		}
 
 		static constexpr int32_t indexOf(const Usage value)
 		{
-			return detail::index_of(value, Usage_values);
+			return alg::index_of(value, Usage_values);
 		}
 
 		static constexpr CString nameOf(const Usage value)
@@ -169,12 +169,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Err & value)
 		{
-			return detail::value_at(i, value, Err_values);
+			return alg::value_at(i, value, Err_values);
 		}
 
 		static constexpr int32_t indexOf(const Err value)
 		{
-			return detail::index_of(value, Err_values);
+			return alg::index_of(value, Err_values);
 		}
 
 		static constexpr CString nameOf(const Err value)
@@ -205,12 +205,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, StringID & value)
 		{
-			return detail::value_at(i, value, StringID_values);
+			return alg::value_at(i, value, StringID_values);
 		}
 
 		static constexpr int32_t indexOf(const StringID value)
 		{
-			return detail::index_of(value, StringID_values);
+			return alg::index_of(value, StringID_values);
 		}
 
 		static constexpr CString nameOf(const StringID value)
@@ -265,12 +265,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, IntID & value)
 		{
-			return detail::value_at(i, value, IntID_values);
+			return alg::value_at(i, value, IntID_values);
 		}
 
 		static constexpr int32_t indexOf(const IntID value)
 		{
-			return detail::index_of(value, IntID_values);
+			return alg::index_of(value, IntID_values);
 		}
 
 		static constexpr CString nameOf(const IntID value)
@@ -297,12 +297,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, ClipControl & value)
 		{
-			return detail::value_at(i, value, ClipControl_values);
+			return alg::value_at(i, value, ClipControl_values);
 		}
 
 		static constexpr int32_t indexOf(const ClipControl value)
 		{
-			return detail::index_of(value, ClipControl_values);
+			return alg::index_of(value, ClipControl_values);
 		}
 
 		static constexpr CString nameOf(const ClipControl value)
@@ -331,12 +331,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Status & value)
 		{
-			return detail::value_at(i, value, Status_values);
+			return alg::value_at(i, value, Status_values);
 		}
 
 		static constexpr int32_t indexOf(const Status value)
 		{
-			return detail::index_of(value, Status_values);
+			return alg::index_of(value, Status_values);
 		}
 
 		static constexpr CString nameOf(const Status value)
@@ -362,12 +362,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, ShaderType & value)
 		{
-			return detail::value_at(i, value, ShaderType_values);
+			return alg::value_at(i, value, ShaderType_values);
 		}
 
 		static constexpr int32_t indexOf(const ShaderType value)
 		{
-			return detail::index_of(value, ShaderType_values);
+			return alg::index_of(value, ShaderType_values);
 		}
 
 		static constexpr CString nameOf(const ShaderType value)
@@ -404,12 +404,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Mode & value)
 		{
-			return detail::value_at(i, value, Mode_values);
+			return alg::value_at(i, value, Mode_values);
 		}
 
 		static constexpr int32_t indexOf(const Mode value)
 		{
-			return detail::index_of(value, Mode_values);
+			return alg::index_of(value, Mode_values);
 		}
 
 		static constexpr CString nameOf(const Mode value)
@@ -438,12 +438,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Equation & value)
 		{
-			return detail::value_at(i, value, Equation_values);
+			return alg::value_at(i, value, Equation_values);
 		}
 
 		static constexpr int32_t indexOf(const Equation value)
 		{
-			return detail::index_of(value, Equation_values);
+			return alg::index_of(value, Equation_values);
 		}
 
 		static constexpr CString nameOf(const Equation value)
@@ -480,12 +480,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Comp & value)
 		{
-			return detail::value_at(i, value, Comp_values);
+			return alg::value_at(i, value, Comp_values);
 		}
 
 		static constexpr int32_t indexOf(const Comp value)
 		{
-			return detail::index_of(value, Comp_values);
+			return alg::index_of(value, Comp_values);
 		}
 
 		static constexpr CString nameOf(const Comp value)
@@ -524,12 +524,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Factor & value)
 		{
-			return detail::value_at(i, value, Factor_values);
+			return alg::value_at(i, value, Factor_values);
 		}
 
 		static constexpr int32_t indexOf(const Factor value)
 		{
-			return detail::index_of(value, Factor_values);
+			return alg::index_of(value, Factor_values);
 		}
 
 		static constexpr CString nameOf(const Factor value)
@@ -568,12 +568,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Face & value)
 		{
-			return detail::value_at(i, value, Face_values);
+			return alg::value_at(i, value, Face_values);
 		}
 
 		static constexpr int32_t indexOf(const Face value)
 		{
-			return detail::index_of(value, Face_values);
+			return alg::index_of(value, Face_values);
 		}
 
 		static constexpr CString nameOf(const Face value)
@@ -610,12 +610,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Type & value)
 		{
-			return detail::value_at(i, value, Type_values);
+			return alg::value_at(i, value, Type_values);
 		}
 
 		static constexpr int32_t indexOf(const Type value)
 		{
-			return detail::index_of(value, Type_values);
+			return alg::index_of(value, Type_values);
 		}
 
 		static constexpr CString nameOf(const Type value)
@@ -670,12 +670,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Format & value)
 		{
-			return detail::value_at(i, value, Format_values);
+			return alg::value_at(i, value, Format_values);
 		}
 
 		static constexpr int32_t indexOf(const Format value)
 		{
-			return detail::index_of(value, Format_values);
+			return alg::index_of(value, Format_values);
 		}
 
 		static constexpr CString nameOf(const Format value)
@@ -718,12 +718,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, FrameAttachment & value)
 		{
-			return detail::value_at(i, value, FBO_Attachment_values);
+			return alg::value_at(i, value, FBO_Attachment_values);
 		}
 
 		static constexpr int32_t indexOf(const FrameAttachment value)
 		{
-			return detail::index_of(value, FBO_Attachment_values);
+			return alg::index_of(value, FBO_Attachment_values);
 		}
 
 		static constexpr CString nameOf(const FrameAttachment value)
@@ -784,12 +784,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, TexParam & value)
 		{
-			return detail::value_at(i, value, TexParam_values);
+			return alg::value_at(i, value, TexParam_values);
 		}
 
 		static constexpr int32_t indexOf(const TexParam value)
 		{
-			return detail::index_of(value, TexParam_values);
+			return alg::index_of(value, TexParam_values);
 		}
 
 		static constexpr CString nameOf(const TexParam value)
@@ -834,12 +834,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Pack & value)
 		{
-			return detail::value_at(i, value, Pack_values);
+			return alg::value_at(i, value, Pack_values);
 		}
 
 		static constexpr int32_t indexOf(const Pack value)
 		{
-			return detail::index_of(value, Pack_values);
+			return alg::index_of(value, Pack_values);
 		}
 
 		static constexpr CString nameOf(const Pack value)
@@ -892,12 +892,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, ColorAttachment & value)
 		{
-			return detail::value_at(i, value, ColorAttachment_values);
+			return alg::value_at(i, value, ColorAttachment_values);
 		}
 
 		static constexpr int32_t indexOf(const ColorAttachment value)
 		{
-			return detail::index_of(value, ColorAttachment_values);
+			return alg::index_of(value, ColorAttachment_values);
 		}
 
 		static constexpr CString nameOf(const ColorAttachment value)
@@ -982,12 +982,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, TexID & value)
 		{
-			return detail::value_at(i, value, TexID_values);
+			return alg::value_at(i, value, TexID_values);
 		}
 
 		static constexpr int32_t indexOf(const TexID value)
 		{
-			return detail::index_of(value, TexID_values);
+			return alg::index_of(value, TexID_values);
 		}
 
 		static constexpr CString nameOf(const TexID value)
@@ -1040,12 +1040,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, DrawBuffer & value)
 		{
-			return detail::value_at(i, value, DrawBuffer_values);
+			return alg::value_at(i, value, DrawBuffer_values);
 		}
 
 		static constexpr int32_t indexOf(const DrawBuffer value)
 		{
-			return detail::index_of(value, DrawBuffer_values);
+			return alg::index_of(value, DrawBuffer_values);
 		}
 
 		static constexpr CString nameOf(const DrawBuffer value)
@@ -1078,12 +1078,12 @@ namespace ml
 
 		static constexpr bool valueAt(const int32_t i, Mask & value)
 		{
-			return detail::value_at(i, value, Mask_values);
+			return alg::value_at(i, value, Mask_values);
 		}
 
 		static constexpr int32_t indexOf(const Mask value)
 		{
-			return detail::index_of(value, Mask_values);
+			return alg::index_of(value, Mask_values);
 		}
 
 		static constexpr CString nameOf(const Mask value)

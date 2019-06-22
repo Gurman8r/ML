@@ -14,7 +14,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Rigidbody
-		: public INewable
+		: public I_Newable
 	{
 	public:
 		Rigidbody();

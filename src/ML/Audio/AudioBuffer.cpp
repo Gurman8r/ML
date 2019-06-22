@@ -7,12 +7,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	AudioBuffer::AudioBuffer()
-		: IHandle(NULL)
+		: I_Handle(NULL)
 		, m_count(0)
 	{
 	}
 	AudioBuffer::AudioBuffer(const AudioBuffer & copy)
-		: IHandle(copy)
+		: I_Handle(copy)
 		, m_count(copy.m_count)
 	{
 	}

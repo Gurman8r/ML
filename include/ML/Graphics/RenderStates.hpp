@@ -1,7 +1,7 @@
 #ifndef _ML_RENDER_STATES_HPP_
 #define _ML_RENDER_STATES_HPP_
 
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 
@@ -64,7 +64,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API RenderStates final : public INewable
+	struct ML_GRAPHICS_API RenderStates final : public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

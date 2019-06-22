@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API Particle final
-		: public INewable
+		: public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 		int32_t index;

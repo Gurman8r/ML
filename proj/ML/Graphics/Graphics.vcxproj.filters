@@ -48,9 +48,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\IDrawable.hpp">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Sprite.hpp">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
@@ -152,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\CubeMap.hpp">
       <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp">
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class IReadable
+	class I_Readable
 	{
 	public:
 		virtual bool loadFromFile(const String & filename) = 0;

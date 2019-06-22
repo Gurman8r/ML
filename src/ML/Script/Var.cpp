@@ -38,16 +38,17 @@ namespace ml
 		return nullptr;
 	}
 
-	void Var::Ptr::serialize(ostream & out) const
+	ML_SERIALIZE(ostream & out, const Var::Ptr & value)
 	{
-		if (Var * var = get())
+		if (Var * var = value.get())
 		{
 			out << (*var);
 		}
 		else
 		{
-			out << (FG::White | BG::Red) << name;
+			out << (FG::White | BG::Red) << value.name;
 		}
+		return out;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -452,70 +453,61 @@ namespace ml
 		return (*this);
 	}
 
-	void Var::serialize(ostream & out) const
+	ML_SERIALIZE(ostream & out, const Var & v)
 	{
 		out << FMT();
 
-		if (!isValid())
+		if (!v.isValid())
 		{
-			out << (FG::Black | BG::Red) << textValue() << FMT();
-			return;
+			return out << (FG::Black | BG::Red) << v.textValue() << FMT();
 		}
 
-		switch (getTypeID())
+		switch (v.getTypeID())
 		{
-		case Var::Bool:
-			out << (FG::Cyan | BG::Black)
-				<< (boolValue() ? "true" : "false")
-				<< FMT();
-			break;
+		case Var::Bool: return out 
+			<< (FG::Cyan | BG::Black)
+			<< (v.boolValue() ? "true" : "false")
+			<< FMT();
 
-		case Var::Float:
-			out << (FG::Yellow | BG::Black)
-				<< floatValue() << "f"
-				<< FMT();
-			break;
+		case Var::Float: return out 
+			<< (FG::Yellow | BG::Black)
+			<< v.floatValue() << "f"
+			<< FMT();
 
-		case Var::Integer:
-			out << (FG::Yellow | BG::Black)
-				<< intValue()
-				<< FMT();
-			break;
+		case Var::Integer: return out 
+			<< (FG::Yellow | BG::Black)
+			<< v.intValue()
+			<< FMT();
 
-		case Var::Pointer:
-			out << (FG::Gray | BG::Black)
-				<< pointerValue()
-				<< FMT();
-			break;
+		case Var::Pointer: return out 
+			<< (FG::Gray | BG::Black)
+			<< v.pointerValue()
+			<< FMT();
 
-		case Var::Str:
-			out << (FG::Magenta | BG::Black)
-				<< '\"' << stringValue() << '\"'
-				<< FMT();
-			break;
+		case Var::Str: return out 
+			<< (FG::Magenta | BG::Black)
+			<< '\"' << v.stringValue() << '\"'
+			<< FMT();
 
-		case Var::Func:
-			out << (FG::White | BG::DarkGray) << "[](" << FMT()
-				<< listValue()
-				<< (FG::White | BG::DarkGray) << ")" << FMT();
-			break;
+		case Var::Func: return out 
+			<< (FG::White | BG::DarkGray) << "[](" << FMT()
+			<< v.listValue()
+			<< (FG::White | BG::DarkGray) << ")" << FMT();
 
-		case Var::Arr:
-			out << (FG::Black | BG::Yellow) << "[ " << FMT() 
-				<< listValue()
-				<< (FG::Black | BG::Yellow) << "]" << FMT();
-			break;
+		case Var::Arr: return out 
+			<< (FG::Black | BG::Yellow) << "[ " << FMT()
+			<< v.listValue()
+			<< (FG::Black | BG::Yellow) << "]" << FMT();
 
-		case Var::Struct:
-			out << (FG::White | BG::DarkGray) << "$(" << FMT()
-				<< listValue()
-				<< (FG::White | BG::DarkGray) << ")" << FMT();
-			break;
+		case Var::Struct: return out 
+			<< (FG::White | BG::DarkGray) << "$(" << FMT()
+			<< v.listValue()
+			<< (FG::White | BG::DarkGray) << ")" << FMT();
 
-		case Var::Void:
-			out << (FG::Black | BG::White) << textValue();
-			break;
+		case Var::Void: return out 
+			<< (FG::Black | BG::White) << v.textValue();
 		}
+		return out;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -535,7 +527,7 @@ namespace ml
 				? Var().boolValue(StringUtility::ToBool(tok.data))
 				: Var().pointerValue(Var::Ptr(0, tok.data));
 		default:
-			return Var().errorValue(tok.ToString());
+			return Var().errorValue(tok.str());
 		}
 	}
 

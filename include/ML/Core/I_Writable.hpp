@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class IWritable
+	class I_Writable
 	{
 	public:
 		virtual bool saveToFile(const String & filename) const = 0;

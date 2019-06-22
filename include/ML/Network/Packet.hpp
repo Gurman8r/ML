@@ -8,22 +8,84 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API Packet final
-		: public INewable
+	struct ML_NETWORK_API Packet final : public I_NonNewable
 	{
-		Host	addr;
+		Host		host;
 		GUID		guid;
 		uint32_t	size;
 		uint8_t *	data;
 
-		Packet();
+		constexpr Packet(const Host & addr, const GUID & guid, uint32_t size, uint8_t * data)
+			: host(addr)
+			, guid(guid)
+			, size(size)
+			, data(data)
+		{
+		}
 
-		Packet(const Host & addr, const GUID & guid, uint32_t size, uint8_t * data);
+		constexpr Packet(const Packet & copy)
+			: Packet(copy.host, copy.guid, copy.size, copy.data)
+		{
+		}
 
-		Packet(const Packet & copy);
+		constexpr Packet()
+			: Packet(Host(), GUID(), 0, nullptr)
+		{
+		}
 
-		void serialize(ostream & out) const override;
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(ostream & out, const Packet & value)
+	{
+		return out 
+			<< value.host << " "
+			<< value.guid << " "
+			<< value.size << " "
+			<< value.data << " ";
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	constexpr bool operator==(const Packet & lhs, const Packet & rhs)
+	{
+		return
+			lhs.host == rhs.host &&
+			lhs.guid == rhs.guid &&
+			lhs.size == rhs.size &&
+			lhs.data == rhs.data;
+	}
+
+	constexpr bool operator!=(const Packet & lhs, const Packet & rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	constexpr bool operator<(const Packet & lhs, const Packet & rhs)
+	{
+		return
+			lhs.host < rhs.host &&
+			lhs.guid < rhs.guid &&
+			lhs.size < rhs.size &&
+			lhs.data < rhs.data;
+	}
+
+	constexpr bool operator>(const Packet & lhs, const Packet & rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	constexpr bool operator<=(const Packet & lhs, const Packet & rhs)
+	{
+		return (lhs == rhs) || (lhs < rhs);
+	}
+
+	constexpr bool operator>=(const Packet & lhs, const Packet & rhs)
+	{
+		return (lhs == rhs) || (lhs > rhs);
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

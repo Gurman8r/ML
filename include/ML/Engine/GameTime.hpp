@@ -9,8 +9,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API GameTime final
-		: public INewable
-		, public INonCopyable
+		: public I_Newable
+		, public I_NonCopyable
 	{
 	public:
 		GameTime();

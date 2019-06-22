@@ -1,8 +1,8 @@
 #ifndef _ML_IMAGE_HPP_
 #define _ML_IMAGE_HPP_
 
-#include <ML/Core/IReadable.hpp>
-#include <ML/Core/IDisposable.hpp>
+#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/Vector2.hpp>
 #include <ML/Core/Rect.hpp>
 
@@ -11,9 +11,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API Image final
-		: public INewable
-		, public IDisposable
-		, public IReadable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
 	{
 	public:
 		using Pixels = typename List<uint8_t>;

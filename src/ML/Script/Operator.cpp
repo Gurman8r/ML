@@ -80,15 +80,15 @@ namespace ml
 		return type < value;
 	}
 
-
-	void Operator::serialize(ostream & out) const
+	ML_SERIALIZE(ostream & out, const Operator & value)
 	{
-		auto it = std::find_if(Names.begin(), Names.end(), [&](auto && pair)
-		{
-			return (pair.second == type);
-		});
-		out << (FG::Black | BG::Cyan) 
-			<< ((it != Names.end())
+		auto it = std::find_if(
+			Operator::Names.begin(), 
+			Operator::Names.end(), 
+			[&](auto && pair) { return (pair.second == value.type); }
+		);
+		return out << (FG::Black | BG::Cyan)
+			<< ((it != Operator::Names.end())
 				? it->first
 				: String(" "))
 			<< FMT();

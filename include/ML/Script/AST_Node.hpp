@@ -3,14 +3,14 @@
 
 #include <ML/Script/Export.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API AST_Node
-		: public INewable
+		: public I_Newable
 	{
 	public:
 		using value_type			= typename List<AST_Node *>::value_type;
@@ -75,14 +75,8 @@ namespace ml
 		}
 
 	public:
-		inline void serialize(ostream & out) const override
-		{
-			display(out);
-		}
-		
 		virtual ostream & display(ostream & out) const;
 		
-	public:
 		int32_t	getID() const;
 		
 		virtual bool run();
@@ -176,6 +170,13 @@ namespace ml
 		int32_t			m_id;
 		static int32_t	s_id;
 	};
+	
+	/* * * * * * * * * * * * * * * * * * * * */
+	
+	inline ML_SERIALIZE(ostream & out, const AST_Node & value)
+	{
+		return value.display(out);
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

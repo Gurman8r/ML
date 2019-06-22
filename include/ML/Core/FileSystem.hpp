@@ -11,9 +11,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API FileSystem final
-		: public ISingleton<FileSystem>
+		: public I_Singleton<FileSystem>
 	{
-		friend class ISingleton<FileSystem>;
+		friend class I_Singleton<FileSystem>;
 
 	public:
 		using Directory = typename HashMap<char, List<String>>;

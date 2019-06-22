@@ -16,9 +16,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Interpreter final
-		: public ISingleton<Interpreter>
+		: public I_Singleton<Interpreter>
 	{	
-		friend ISingleton<Interpreter>;
+		friend I_Singleton<Interpreter>;
 
 	public:
 		using CommandMap  = typename HashMap<String, Command>;

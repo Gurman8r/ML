@@ -2,14 +2,14 @@
 #define _ML_TIMER_HPP_
 
 #include <ML/Core/Duration.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API Timer final
-		: public INewable
+		: public I_Newable
 	{
 	public:
 		using Clock		= typename std::chrono::high_resolution_clock;

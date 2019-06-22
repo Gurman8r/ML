@@ -1,8 +1,8 @@
 #ifndef _ML_MESH_HPP_
 #define _ML_MESH_HPP_
 
-#include <ML/Core/IReadable.hpp>
-#include <ML/Core/IDisposable.hpp>
+#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/I_Disposable.hpp>
 #include <ML/Graphics/VertexList.hpp>
 
 namespace ml
@@ -10,9 +10,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Mesh final
-		: public INewable
-		, public IDisposable
-		, public IReadable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
 	{
 	public:
 		Mesh();

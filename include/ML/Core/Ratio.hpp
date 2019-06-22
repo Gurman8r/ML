@@ -1,7 +1,7 @@
 #ifndef _ML_RATIO_HPP_
 #define _ML_RATIO_HPP_
 
-#include <ML/Core/StandardLib.hpp>
+#include <ML/Core/Type.hpp>
 
 namespace ml
 {
@@ -13,9 +13,6 @@ namespace ml
 	> using Ratio = typename std::ratio<N, D>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-//#pragma warning(push)
-//#pragma warning(disable: 4309) // C4309 truncation of constant value
 
 	using Atto	= typename Ratio<1LL, 1000000000000000000LL>;
 	using Femto = typename Ratio<1LL, 1000000000000000LL>;
@@ -34,8 +31,6 @@ namespace ml
 	using Peta	= typename Ratio<1000000000000000LL, 1LL>;
 	using Exa	= typename Ratio<1000000000000000000LL, 1LL>;
 
-//#pragma warning(pop)
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
@@ -44,14 +39,17 @@ namespace ml
 		int64_t D
 	> constexpr T ratio_cast(const T & value, const Ratio<N, D> & r)
 	{
+		using type = meta::type_t<T>;
+		const type num { r.num };
+		const type den { r.den };
 		return 
-			((((T)(r.num) == (T)(1)) && ((T)(r.den) == (T)(1)))
+			(((num() == type::one) && (den() == type::one))
 				? (value)
-				: ((((T)(r.num) != (T)(1)) && ((T)(r.den) == (T)(1)))
-					? (value * (T)(r.num))
-					: ((((T)(r.num) == (T)(1)) && ((T)(r.den) != (T)(1)))
-						? (value / (T)(r.den))
-						: (value * (T)(r.num) / (T)(r.den))
+				: (((num() != type::one) && (den() == type::one))
+					? (value * num())
+					: (((num() == type::one) && (den() != type::one))
+						? (value / den())
+						: (value * num() / den())
 					)
 				)
 			);

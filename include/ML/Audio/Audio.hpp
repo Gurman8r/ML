@@ -14,8 +14,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_AUDIO_API Audio final
-		: public INewable
-		, public INonCopyable
+		: public I_Newable
+		, public I_NonCopyable
 		, public EventListener
 	{
 	public:

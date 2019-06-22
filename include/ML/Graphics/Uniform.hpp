@@ -14,7 +14,7 @@ namespace ml
 
 	// Base Uni
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct uni_base : public INewable, public INonCopyable
+	struct uni_base : public I_Newable, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -50,9 +50,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline void serialize(ostream & out) const override
+		inline friend ML_SERIALIZE(ostream & out, const uni_base & value)
 		{
-			out << TypeNames[this->type];
+			return out << TypeNames[value.type];
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

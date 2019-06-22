@@ -1,15 +1,16 @@
 #ifndef _ML_STRING_UTILITY_HPP_
 #define _ML_STRING_UTILITY_HPP_
 
+#include <ML/Core/Export.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
 
-// this is awful and it must be removed.  :)
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// this whlole thing is awful and it should be removed -Melody
 	class ML_CORE_API StringUtility final
 	{
 	public:

@@ -1,7 +1,7 @@
 #ifndef _ML_RENDER_TARGET_HPP_
 #define _ML_RENDER_TARGET_HPP_
 
-#include <ML/Graphics/IDrawable.hpp>
+#include <ML/Graphics/I_Drawable.hpp>
 #include <ML/Graphics/VertexArray.hpp>
 #include <ML/Graphics/VertexBuffer.hpp>
 #include <ML/Graphics/IndexBuffer.hpp>
@@ -27,13 +27,13 @@ namespace ml
 
 	public: // Drawing
 		/* * * * * * * * * * * * * * * * * * * * */
-		RenderTarget & draw(const IDrawable * value);
-		RenderTarget & draw(const IDrawable * value, const RenderBatch & batch);
+		RenderTarget & draw(const I_Drawable * value);
+		RenderTarget & draw(const I_Drawable * value, const RenderBatch & batch);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		RenderTarget & draw(const IDrawable & value);
-		RenderTarget & draw(const IDrawable & value, const RenderBatch & batch);
+		RenderTarget & draw(const I_Drawable & value);
+		RenderTarget & draw(const I_Drawable & value, const RenderBatch & batch);
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 

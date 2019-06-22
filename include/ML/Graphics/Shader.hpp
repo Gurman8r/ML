@@ -11,10 +11,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Shader final
-		: public INewable
-		, public IDisposable
-		, public IReadable
-		, public IHandle<uint32_t>
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
+		, public I_Handle<uint32_t>
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */

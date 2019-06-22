@@ -723,7 +723,7 @@ namespace ml
 					vec2 dst = { 256, 256 };
 					vec2 scl = scaleToFit(src, dst);
 
-					ImGui::Text("%s", src.ToString().c_str());
+					ImGui::Text("%f %f", src[0], src[1]);
 
 					ImGui::Image(
 						pair.second->texture().get_address(),

@@ -21,8 +21,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_WINDOW_API Window
-		: public INewable
-		, public INonCopyable
+		: public I_Newable
+		, public I_NonCopyable
 		, public EventListener
 	{
 	public: // Callback Types

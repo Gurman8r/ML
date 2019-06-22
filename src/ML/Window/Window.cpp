@@ -271,7 +271,7 @@ namespace ml
 		case WindowErrorEvent::ID:
 			if (auto ev = value->as<WindowErrorEvent>())
 			{
-				Debug::logError("{0}", (*ev));
+				Debug::logError("GLFW : {0} : {1}", ev->code, ev->desc);
 			}
 			break;
 		case WindowFocusEvent::ID:
@@ -411,7 +411,7 @@ namespace ml
 	Window & Window::setIcons(const List<Image> & value)
 	{
 		List<GLFWimage> temp;
-		temp.reserve(value.size());
+
 		for (const auto & e : value)
 		{
 			temp.push_back(MapGLFWimage(e));

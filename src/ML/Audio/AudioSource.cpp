@@ -7,13 +7,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	AudioSource::AudioSource()
-		: IHandle(NULL)
+		: I_Handle(NULL)
 		, m_count(0)
 	{
 	}
 
 	AudioSource::AudioSource(const AudioSource & copy)
-		: IHandle(copy)
+		: I_Handle(copy)
 		, m_count(copy.m_count)
 	{
 	}

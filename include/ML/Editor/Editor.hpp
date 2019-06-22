@@ -13,9 +13,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API Editor final
-		: public INewable
+		: public I_Newable
 		, public EventListener
-		, public INonCopyable
+		, public I_NonCopyable
 	{
 	public:
 		explicit Editor(EventSystem & eventSystem);

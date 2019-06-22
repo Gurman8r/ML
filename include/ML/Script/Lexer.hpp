@@ -11,9 +11,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Lexer final
-		: public ISingleton<Lexer>
+		: public I_Singleton<Lexer>
 	{
-		friend class ISingleton<Lexer>;
+		friend class I_Singleton<Lexer>;
 
 	public:
 		using const_iterator = typename List<char>::const_iterator;

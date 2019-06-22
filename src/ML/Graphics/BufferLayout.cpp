@@ -58,30 +58,6 @@ namespace ml
 		ML_GL.enableVertexAttribArray(index);
 	}
 
-	bool BufferLayout::Element::equals(const Element & other) const
-	{
-		return
-			this->index		 == other.index &&
-			this->size		 == other.size &&
-			this->type		 == other.type &&
-			this->normalized == other.normalized &&
-			this->stride	 == other.stride &&
-			this->offset	 == other.offset &&
-			this->width		 == other.width;
-	}
-
-	bool BufferLayout::Element::lessThan(const Element & other) const
-	{
-		return
-			this->index		 < other.index ||
-			this->size		 < other.size ||
-			this->type		 < other.type ||
-			this->normalized < other.normalized ||
-			this->stride	 < other.stride ||
-			this->offset	 < other.offset ||
-			this->width		 < other.width;
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
@@ -101,7 +77,7 @@ namespace ml
 	{
 	}
 
-	BufferLayout::BufferLayout(const InitList<Element> & elements)
+	BufferLayout::BufferLayout(const Initializer<Element> & elements)
 		: m_elements(elements.begin(), elements.end())
 	{
 	}

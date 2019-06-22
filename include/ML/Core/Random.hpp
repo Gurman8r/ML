@@ -3,7 +3,7 @@
 
 #include <ML/Core/Export.hpp>
 #include <ML/Core/StandardLib.hpp>
-#include <ML/Core/ISingleton.hpp>
+#include <ML/Core/I_Singleton.hpp>
 
 #define ML_Random ml::Random::getInstance()
 
@@ -12,9 +12,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API Random final
-		: public ISingleton<Random>
+		: public I_Singleton<Random>
 	{
-		friend class ISingleton<Random>;
+		friend class I_Singleton<Random>;
 
 	private:
 		Random() { std::srand((uint32_t)std::time(nullptr)); }

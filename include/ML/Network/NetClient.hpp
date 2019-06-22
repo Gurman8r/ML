@@ -1,7 +1,8 @@
 #ifndef _ML_CLIENT_HPP_
 #define _ML_CLIENT_HPP_
 
-#include <ML/Core/ISingleton.hpp>
+#include <ML/Core/I_Singleton.hpp>
+#include <ML/Core/I_Newable.hpp>
 #include <ML/Network/NetInterface.hpp>
 
 namespace ml
@@ -9,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetClient final
-		: public INewable
+		: public I_Newable
 		, public NetInterface
 	{
 	public:
@@ -24,7 +25,7 @@ namespace ml
 		
 		void onPacket(const Packet & value) override;
 
-		bool connect(const Host & addr, const String & pass = String());
+		bool connect(const Host & host, const String & pass = String());
 
 	public:
 		inline bool connected() const { return m_connected; }

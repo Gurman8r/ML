@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Ray final
-		: public INewable
+		: public I_Newable
 	{
 	public:
 		Ray();

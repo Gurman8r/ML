@@ -13,7 +13,7 @@ namespace ml
 	{
 	}
 
-	Renderer::Renderer(const IDrawable * drawable, const Material * material)
+	Renderer::Renderer(const I_Drawable * drawable, const Material * material)
 		: m_drawable(drawable)
 		, m_material(material)
 		, m_states	(RenderStates())

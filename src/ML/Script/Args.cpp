@@ -29,7 +29,7 @@ namespace ml
 	{
 	}
 	
-	Args::Args(const InitList<String>& values)
+	Args::Args(const Initializer<String>& values)
 		: m_values(values)
 	{
 	}

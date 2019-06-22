@@ -25,10 +25,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Resources final
-		: public INewable
-		, public IDisposable
-		, public IReadable
-		, public INonCopyable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
+		, public I_NonCopyable
 	{
 	public:
 		Resources();

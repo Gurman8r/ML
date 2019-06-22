@@ -10,8 +10,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Vertex final
-		: public INewable
-		, public IComparable<Vertex>
+		: public I_Newable
+		, public I_Comparable<Vertex>
 	{
 	public:
 		enum { Size = 9U };
@@ -59,12 +59,13 @@ namespace ml
 		}
 
 	public:
-		inline void serialize(ostream & out) const override
+		inline friend ML_SERIALIZE(ostream & out, const Vertex & value)
 		{
 			for (size_t i = 0; i < Vertex::Size; i++)
 			{
-				out << (*this)[i] << ' ';
+				out << value[i] << ' ';
 			}
+			return out;
 		}
 		
 	public:

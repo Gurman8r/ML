@@ -1,7 +1,8 @@
 #ifndef _ML_MATRIX_HPP_
 #define _ML_MATRIX_HPP_
 
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Comparable.hpp>
 #include <ML/Core/List.hpp>
 #include <ML/Core/GLM.hpp>
 
@@ -31,8 +32,8 @@ namespace ml
 		size_t	_Cols, 
 		size_t	_Rows
 	> class Matrix
-		: public INewable
-		, public IComparable<Matrix<_Elem, _Cols, _Rows>>
+		: public I_Newable
+		, public I_Comparable<Matrix<_Elem, _Cols, _Rows>>
 	{
 	public: // Enums
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -56,7 +57,7 @@ namespace ml
 		using const_reference		= typename const value_type &;
 
 		using self_type				= typename Matrix<value_type, Cols, Rows>;
-		using init_type				= typename InitList<value_type>;
+		using init_type				= typename Initializer<value_type>;
 		using contiguous_type		= typename List<value_type>;
 
 		using iterator				= typename std::_Array_iterator<value_type, Size>;
@@ -279,25 +280,16 @@ namespace ml
 
 	public: // Overrides
 		/* * * * * * * * * * * * * * * * * * * * */
-		inline virtual void serialize(ostream & out) const override
+		inline friend ML_SERIALIZE(ostream & out, const self_type & value)
 		{
-			for (const auto & e : (*this))
+			for (const auto & e : value)
 			{
 				out << e << " ";
 			}
-
-			//for (size_t y = 0; y < this->rows(); y++)
-			//{
-			//	for (size_t x = 0; x < this->cols(); x++)
-			//	{
-			//		out << (*this)[y * this->cols() + x] << " ";
-			//	}
-			//	out << endl;
-			//}
-			//out << endl;
+			return out;
 		}
 
-		inline friend istream & operator>>(istream & in, self_type & value)
+		inline friend ML_DESERIALIZE(istream & in, self_type & value)
 		{
 			for (size_t i = 0; i < value.size(); i++)
 			{

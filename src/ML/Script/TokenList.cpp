@@ -484,20 +484,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void TokenList::serialize(ostream & out) const
-	{
-		TokenList::const_iterator it;
-		for (it = begin(); it != end(); it++)
-		{
-			if ((*it) == '\n')
-			{
-				out << '\n';
-				continue;
-			}
-			out << (*it) << (it != end() - 1 ? ", " : "");
-		}
-	}
-
 	bool TokenList::equals(const TokenList & value) const
 	{
 		if (size() == value.size())
@@ -529,7 +515,6 @@ namespace ml
 		}
 		return size() < value.size();
 	}
-
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

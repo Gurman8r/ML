@@ -2,34 +2,95 @@
 #define _ML_HOST_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/CString.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API Host final
-		: public INewable
-		, public IComparable<Host>
+	struct ML_NETWORK_API Host final : public I_NonNewable
 	{
-		String	 addr;
-		uint16_t port;
+		CString		addr;
+		uint16_t	port;
 
-		Host();
-		Host(const String & addr);
-		Host(const String & addr, uint16_t port);
-		Host(const Host & copy);
+		/* * * * * * * * * * * * * * * * * * * * */
 
-		operator bool() const;
+		constexpr Host(CString addr, uint16_t port)
+			: addr { addr } 
+			, port { port } 
+		{
+		}
 
-		void serialize(ostream & out) const override;
+		constexpr Host(CString addr)
+			: Host { addr, 0 }
+		{
+		}
 
-		bool equals(const Host & copy) const override;
+		constexpr Host(const Host & copy)
+			: Host { copy.addr, copy.port }
+		{
+		}
 
-		bool lessThan(const Host & copy) const override;
+		constexpr Host()
+			: Host { "", 0 }
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		constexpr operator bool() const 
+		{ 
+			return (addr && port); 
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(ostream & out, const Host & value)
+	{
+		return out << value.addr;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	constexpr bool operator==(const Host & lhs, const Host & rhs)
+	{
+		return
+			(lhs.port == rhs.port) &&
+			((meta::cstring)lhs.addr == (meta::cstring)rhs.addr);
+	}
+
+	constexpr bool operator!=(const Host & lhs, const Host & rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	constexpr bool operator<(const Host & lhs, const Host & rhs)
+	{
+		return
+			(lhs.port < rhs.port) &&
+			((meta::cstring)lhs.addr < (meta::cstring)rhs.addr);
+	}
+
+	constexpr bool operator>(const Host & lhs, const Host & rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	constexpr bool operator<=(const Host & lhs, const Host & rhs)
+	{
+		return (lhs == rhs) || (lhs < rhs);
+	}
+
+	constexpr bool operator>=(const Host & lhs, const Host & rhs)
+	{
+		return (lhs == rhs) || (lhs > rhs);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_HOST_HPP_

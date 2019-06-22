@@ -4,17 +4,17 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/Image.hpp>
-#include <ML/Core/IHandle.hpp>
+#include <ML/Core/I_Handle.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API Texture final
-		: public INewable
-		, public IDisposable
-		, public IReadable
-		, public IHandle<uint32_t>
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
+		, public I_Handle<uint32_t>
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

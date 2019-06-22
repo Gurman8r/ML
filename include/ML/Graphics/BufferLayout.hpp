@@ -2,7 +2,7 @@
 #define _ML_BUFFER_LAYOUT_HPP_
 
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
@@ -10,15 +10,14 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API BufferLayout final
-		: public INewable
+		: public I_Newable
 	{
 	public:
 		static const BufferLayout Default;
 
 	public:
 		struct Element final
-			: public INewable
-			, public IComparable<Element>
+			: public I_Newable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -39,8 +38,6 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			void use() const;
-			bool equals(const Element & other) const override;
-			bool lessThan(const Element & other) const override;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
@@ -48,7 +45,7 @@ namespace ml
 	public:
 		BufferLayout();
 		BufferLayout(const List<Element> & elements);
-		BufferLayout(const InitList<Element> & elements);
+		BufferLayout(const Initializer<Element> & elements);
 		BufferLayout(const BufferLayout & copy);
 		~BufferLayout();
 

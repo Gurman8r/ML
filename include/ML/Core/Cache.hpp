@@ -1,7 +1,7 @@
 #ifndef _ML_CACHE_HPP_
 #define _ML_CACHE_HPP_
 
-#include <ML/Core/INonNewable.hpp>
+#include <ML/Core/Hash.hpp>
 
 namespace ml
 {
@@ -12,13 +12,13 @@ namespace ml
 	// Should only be used when a failed map insert is inconsequential
 	template <
 		template <class, class> class Base, class Key, class Val
-	> struct Cache : public INonNewable
+	> struct Cache : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		using key_type			= typename Key;
 		using value_type		= typename Val;
-		using hash_type			= typename hash_t;
+		using hash_type			= typename size_t;
 
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
@@ -48,7 +48,7 @@ namespace ml
 
 		inline const_reference operator()(const key_type & key, const_reference value)
 		{
-			const hash_type id { std::hash<Key>()(key) };
+			const hash_type id { ml::hash()(key) };
 
 			if (const_pointer temp = (*this)(id))
 			{

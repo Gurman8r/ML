@@ -2,18 +2,18 @@
 #define _ML_SOUND_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/INewable.hpp>
-#include <ML/Core/IReadable.hpp>
-#include <ML/Core/IDisposable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/I_Disposable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_AUDIO_API Sound
-		: public INewable
-		, public IDisposable
-		, public IReadable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
 	{
 	public:
 		Sound();

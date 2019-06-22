@@ -184,7 +184,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\FrameBuffer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Glyph.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\IDrawable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\IndexBuffer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Material.hpp" />

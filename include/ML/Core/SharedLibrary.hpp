@@ -2,19 +2,19 @@
 #define _ML_SHARED_LIBRARY_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/INewable.hpp>
-#include <ML/Core/IReadable.hpp>
-#include <ML/Core/IDisposable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/I_Disposable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API SharedLibrary final
-		: public INewable
-		, public IDisposable
-		, public IReadable
-		, public INonCopyable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
+		, public I_NonCopyable
 	{
 	public:
 		using map_type = typename Map<String, void *>;

@@ -4,6 +4,7 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/Transform.hpp>
 #include <ML/Core/EventListener.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
@@ -14,8 +15,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API EditorGui
-		: public INewable
-		, public INonCopyable
+		: public I_Newable
+		, public I_NonCopyable
 		, public EventListener
 	{
 		friend class Editor;

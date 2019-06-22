@@ -6,12 +6,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	FrameBuffer::FrameBuffer()
-		: IHandle(NULL)
+		: I_Handle(NULL)
 	{
 	}
 
 	FrameBuffer::FrameBuffer(const FrameBuffer & copy)
-		: IHandle(copy)
+		: I_Handle(copy)
 	{
 	}
 

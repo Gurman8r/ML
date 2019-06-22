@@ -5,7 +5,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class IDisposable
+	class I_Disposable
 	{
 	public:
 		virtual bool dispose() = 0;

@@ -1,17 +1,18 @@
 #ifndef _ML_I_SINGLETON_HPP_
 #define _ML_I_SINGLETON_HPP_
 
-#include <ML/Core/INonCopyable.hpp>
-#include <ML/Core/INonNewable.hpp>
+#include <ML/Core/I_NonCopyable.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T>
-	class ISingleton
-		: public INonCopyable
-		, public INonNewable
+	template <
+		class T
+	> class I_Singleton
+		: public I_NonCopyable
+		, public I_NonNewable
 	{
 	public:
 		inline static T & getInstance()

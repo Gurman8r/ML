@@ -3,15 +3,16 @@
 
 #include <ML/Script/Export.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Args final
-		: public INewable
-		, public IComparable<Args>
+		: public I_Newable
+		, public I_Comparable<Args>
 	{
 	public:
 		using list_type				= typename List<String>;
@@ -26,7 +27,7 @@ namespace ml
 		Args(int32_t argc, char ** argv);
 		Args(const String & value);
 		Args(const List<String> & values);
-		Args(const InitList<String>& values);
+		Args(const Initializer<String>& values);
 		Args(const String & value, const String & delim);
 		Args(const Args & copy);
 		~Args();
@@ -119,13 +120,19 @@ namespace ml
 		}
 
 	public:
-		inline void serialize(ostream & out) const override
-		{
-			for (auto e : m_values) out << e;
-		}
-
 		bool equals(const Args & value) const override;
 		bool lessThan(const Args & value) const override;
+
+	public:
+		inline SStream sstr() const
+		{
+			SStream ss;
+			for (const auto & e : (*this))
+				ss << e;
+			return ss;
+		}
+		inline String	str()	const { return sstr().str(); }
+		inline CString	c_str() const { return str().c_str(); }
 
 	private:
 		List<String> m_values;

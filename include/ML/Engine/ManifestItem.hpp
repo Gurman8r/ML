@@ -2,19 +2,20 @@
 #define _ML_MANIFEST_ITEM_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API ManifestItem final : public INewable
+	struct ML_ENGINE_API ManifestItem final : public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		using map_type			= typename HashMap<String, String>;
 		using pair_type			= typename Pair<String, String>;
-		using init_type			= typename InitList<pair_type>;
+		using init_type			= typename Initializer<pair_type>;
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;
 

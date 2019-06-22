@@ -2,11 +2,11 @@
 #define _ML_WINDOW_STYLE_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/INonNewable.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
-	struct WindowStyle final : public INonNewable
+	struct WindowStyle final : public I_NonNewable
 	{
 		bool resizable;
 		bool visible;

@@ -5,7 +5,7 @@
 
 #include <ML/Audio/AL.hpp>
 #include <ML/Core/String.hpp>
-#include <ML/Core/ISingleton.hpp>
+#include <ML/Core/I_Singleton.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -30,9 +30,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_AUDIO_API OpenAL final
-		: public ISingleton<OpenAL>
+		: public I_Singleton<OpenAL>
 	{
-		friend class ISingleton<OpenAL>;
+		friend class I_Singleton<OpenAL>;
 
 		EventSystem * m_eventSystem;
 		void		* m_device;

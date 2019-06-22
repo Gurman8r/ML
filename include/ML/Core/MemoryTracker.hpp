@@ -2,8 +2,7 @@
 #define _ML_MEMORY_TRACKER_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/String.hpp>
-#include <ML/Core/ISingleton.hpp>
+#include <ML/Core/I_Singleton.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -11,8 +10,8 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_new	ML_MemoryTracker.allocate
-#define ML_free ML_MemoryTracker.deallocate
+#define ML_NEW	ML_MemoryTracker.allocate
+#define ML_FREE ML_MemoryTracker.deallocate
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -21,9 +20,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API MemoryTracker final
-		: public ISingleton<MemoryTracker>
+		: public I_Singleton<MemoryTracker>
 	{	
-		friend ISingleton<MemoryTracker>;
+		friend I_Singleton<MemoryTracker>;
 
 	private:
 		struct	Record;
@@ -34,7 +33,7 @@ namespace ml
 		~MemoryTracker();
 
 	public:
-		void *	allocate(const size_t size);
+		void *	allocate(size_t size);
 		void	deallocate(void * ptr);
 
 	private:

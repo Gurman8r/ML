@@ -2,33 +2,115 @@
 #define _ML_GUID_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API GUID final
-		: public INewable
-		, public IComparable<uint64_t>
-		, public IComparable<GUID>
+	struct ML_NETWORK_API GUID final : public I_NonNewable
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		uint64_t id;
 
-		GUID();
-		GUID(const uint64_t id);
-		GUID(const GUID & copy);
+		/* * * * * * * * * * * * * * * * * * * * */
 
-		operator uint64_t() const;
+		constexpr GUID(const uint64_t id)
+			: id { id }
+		{
+		}
 
-		void serialize(ostream & out) const override;
+		constexpr GUID(const GUID & copy)
+			: GUID { copy.id }
+		{
+		}
 
-		bool equals(const uint64_t & value) const override;
-		bool equals(const GUID & value) const override;
+		constexpr GUID()
+			: GUID { 0 }
+		{
+		}
 
-		bool lessThan(const uint64_t & value) const override;
-		bool lessThan(const GUID & value) const override;
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		constexpr operator uint64_t() const
+		{ 
+			return id; 
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(ostream & out, const GUID & value)
+	{
+		return out << value.id;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	constexpr bool operator==(const GUID & lhs, const uint64_t & rhs)
+	{
+		return lhs.id == rhs;
+	}
+
+	constexpr bool operator!=(const GUID & lhs, const uint64_t & rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	constexpr bool operator<(const GUID & lhs, const uint64_t & rhs)
+	{
+		return lhs.id < rhs;
+	}
+
+	constexpr bool operator>(const GUID & lhs, const uint64_t & rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	constexpr bool operator<=(const GUID & lhs, const uint64_t & rhs)
+	{
+		return (lhs == rhs) || (lhs < rhs);
+	}
+
+	constexpr bool operator>=(const GUID & lhs, const uint64_t & rhs)
+	{
+		return (lhs == rhs) || (lhs > rhs);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	constexpr bool operator==(const GUID & lhs, const GUID & rhs)
+	{
+		return lhs == rhs.id;
+	}
+
+	constexpr bool operator!=(const GUID & lhs, const GUID & rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	constexpr bool operator<(const GUID & lhs, const GUID & rhs)
+	{
+		return lhs < rhs.id;
+	}
+
+	constexpr bool operator>(const GUID & lhs, const GUID & rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	constexpr bool operator<=(const GUID & lhs, const GUID & rhs)
+	{
+		return (lhs == rhs) || (lhs < rhs);
+	}
+
+	constexpr bool operator>=(const GUID & lhs, const GUID & rhs)
+	{
+		return (lhs == rhs) || (lhs > rhs);
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

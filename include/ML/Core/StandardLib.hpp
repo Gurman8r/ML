@@ -78,7 +78,6 @@ namespace ml
 
 	using byte_t	= typename uint8_t;				// Byte Type
 	using float_t	= typename float32_t;			// Float Type
-	using hash_t	= typename size_t;				// Hash Type
 	using intptr_t	= typename intmax_t;			// Int Pointer Type
 	using ptrdiff_t	= typename intmax_t;			// Pointer Diff Type
 	using time_t	= typename uint64_t;			// Time Type
@@ -93,13 +92,13 @@ namespace ml
 	// Container Types
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T, size_t N	>using Array	= typename std::array			<T, N>;
-	template <class K, class V	>using HashMap	= typename std::unordered_map	<K, V>;
-	template <class T			>using InitList	= typename std::initializer_list<T>;
-	template <class K, class V	>using Map		= typename std::map				<K, V>;
-	template <class K, class V	>using MultiMap	= typename std::multimap		<K, V>;
-	template <class K, class V	>using Pair		= typename std::pair			<K, V>;
-	template <class T			>using HashSet	= typename std::unordered_set	<T>;
+	template <class T, size_t N	> using Array		= typename std::array			<T, N>;
+	template <class K, class V	> using HashMap		= typename std::unordered_map	<K, V>;
+	template <class T			> using Initializer	= typename std::initializer_list<T>;
+	template <class K, class V	> using Map			= typename std::map				<K, V>;
+	template <class K, class V	> using MultiMap	= typename std::multimap		<K, V>;
+	template <class K, class V	> using Pair		= typename std::pair			<K, V>;
+	template <class T			> using HashSet		= typename std::unordered_set	<T>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
@@ -121,11 +120,11 @@ namespace ml
 
 	using streamoff		= typename int64_t;				// Stream Offset
 	using streamsize	= typename int64_t;				// Stream Size
-	using ostream		= typename std::ostream;		// 
-	using istream		= typename std::istream;		// 
-	using ofstream		= typename std::ofstream;		// 
-	using ifstream		= typename std::ifstream;		// 
-	using streambuf		= typename std::streambuf;		// 
+	using ostream		= typename std::ostream;		// Output Stream
+	using istream		= typename std::istream;		// Input Stream
+	using ofstream		= typename std::ofstream;		// Output File Stream 
+	using ifstream		= typename std::ifstream;		// Input File Stream 
+	using streambuf		= typename std::streambuf;		// Stream Buffer
 
 	static ostream & cout	{ std::cout };
 	static ostream & cerr	{ std::cerr };
@@ -143,6 +142,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#define ML_SERIALIZE	ml::ostream & operator<<
+#define ML_DESERIALIZE	ml::istream & operator>>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

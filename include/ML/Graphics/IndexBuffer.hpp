@@ -2,17 +2,17 @@
 #define _ML_INDEX_BUFFER_HPP_
 
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/INewable.hpp>
+#include <ML/Core/I_Newable.hpp>
 #include <ML/Graphics/VertexList.hpp>
-#include <ML/Core/IHandle.hpp>
+#include <ML/Core/I_Handle.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_GRAPHICS_API IndexBuffer final
-		: public INewable
-		, public IHandle<uint32_t>
+		: public I_Newable
+		, public I_Handle<uint32_t>
 	{
 	public:
 		IndexBuffer();

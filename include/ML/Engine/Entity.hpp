@@ -2,25 +2,25 @@
 #define _ML_ENTITY_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/IDisposable.hpp>
-#include <ML/Core/IReadable.hpp>
-#include <ML/Core/INewable.hpp>
-#include <ML/Core/IWritable.hpp>
+#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Writable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Entity final
-		: public INewable
-		, public IDisposable
-		, public IReadable
-		, public IWritable
-		, public INonCopyable
+		: public I_Newable
+		, public I_Disposable
+		, public I_Readable
+		, public I_Writable
+		, public I_NonCopyable
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
-		using value_type	= typename INewable *;
+		using value_type	= typename I_Newable *;
 		using map_type		= typename HashMap<size_t, value_type>;
 		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;

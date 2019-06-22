@@ -15,9 +15,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_SCRIPT_API Runtime final
-		: public ISingleton<Runtime>
+		: public I_Singleton<Runtime>
 	{
-		friend class ISingleton<Runtime>;
+		friend class I_Singleton<Runtime>;
 
 	public:
 		using VarMap	= Map<String, Var *>;

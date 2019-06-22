@@ -16,25 +16,25 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Duration final
+	struct Duration final
 	{
-	private:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		time_t m_base;
 
-	public:
+		using type = typename meta::type_t<time_t>;
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		constexpr Duration() noexcept
-			: Duration { 0 }
+
+		constexpr Duration()
+			: Duration { type::zero }
 		{
 		}
 
-		constexpr Duration(const time_t value) noexcept
+		constexpr Duration(const time_t value)
 			: m_base { value }
 		{
 		}
 
-		constexpr Duration(const Duration & copy) noexcept
+		constexpr Duration(const Duration & copy)
 			: Duration { copy.m_base }
 		{
 		}
@@ -42,13 +42,13 @@ namespace ml
 		template <
 			class Rep,
 			class Per
-		> constexpr Duration(const std::chrono::duration<Rep, Per> & value) noexcept
+		> constexpr Duration(const std::chrono::duration<Rep, Per> & value)
 			: Duration { std::chrono::duration_cast<Nanoseconds>(value).count() }
 		{
 		}
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		constexpr operator time_t() const
 		{
 			return m_base;
@@ -64,14 +64,14 @@ namespace ml
 			class Per = typename Rep::period
 		> constexpr float delta() const
 		{
-			static_assert(0 < Per::den, "period negative or zero");
+			static_assert(type::zero < Per::den, "period negative or zero");
 			return
 				static_cast<float>(std::chrono::duration_cast<Rep>(base()).count()) /
 				static_cast<float>(Per::den);
 		}
 
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		constexpr time_t hours() const
 		{
 			return std::chrono::duration_cast<Hours>(base()).count();
@@ -102,10 +102,9 @@ namespace ml
 			return std::chrono::duration_cast<Nanoseconds>(base()).count();
 		}
 
-	
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline friend ostream & operator<<(ostream & out, const Duration & value)
+		
+		inline friend ML_SERIALIZE(ostream & out, const Duration & value)
 		{
 			return out
 				<< (((value.hours() % 24) / 10) % 10)
@@ -188,6 +187,8 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: time_t m_base;
 	};
 }
 

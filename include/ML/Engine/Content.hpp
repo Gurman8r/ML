@@ -11,7 +11,7 @@ namespace ml
 	class Resources;
 
 	class Content final
-		: public INewable
+		: public I_Newable
 	{
 		friend class Resources;
 
@@ -49,7 +49,7 @@ namespace ml
 		{
 			auto makeT = [&]()
 			{
-				T * temp = (T *)ML_new(sizeof(T));
+				T * temp = (T *)ML_NEW(sizeof(T));
 				(*temp) = T(std::forward<Args>(args)...);
 				return temp;
 			};

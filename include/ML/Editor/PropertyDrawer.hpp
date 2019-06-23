@@ -48,23 +48,23 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_PROPERTY_DRAWER_EXT(PREFIX, STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY) \
-struct PREFIX STRUCT_NAME final : public ::ml::CustomPropertyDrawer<OUTPUT> \
-##STRUCT_BODY; \
-template <> struct ::ml::PropertyDrawer<OUTPUT> \
-{ \
-	constexpr static auto tag	{ ##TAG }; \
-	static constexpr auto hash	{ ::ml::hash()(##TAG) };\
-	template < \
-		class ... Args \
-	> inline auto operator()(Args && ... args) \
-	{ \
-		return ::ml::##STRUCT_NAME()(std::forward<Args>(args)...); \
-	} \
+#define ML_GEN_PROPERTY_DRAWER_EXT(PRE, NAME, OUT, TAG, IMPL_BODY)	\
+struct PRE NAME final : public ::ml::CustomPropertyDrawer<OUT>		\
+##IMPL_BODY;														\
+template <> struct ::ml::PropertyDrawer<OUT>						\
+{																	\
+	static constexpr auto tag	{ ##TAG };							\
+	static constexpr auto hash	{ ::ml::hash()(##TAG) };			\
+	template <														\
+		class ... Args												\
+	> inline auto operator()(Args && ... args)						\
+	{																\
+		return ::ml::##NAME()(std::forward<Args>(args)...);			\
+	}																\
 };
 
-#define ML_GEN_PROPERTY_DRAWER(STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY) \
-ML_GEN_PROPERTY_DRAWER_EXT(ML_EDITOR_API, STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY)
+#define ML_GEN_PROPERTY_DRAWER(NAME, OUT, TAG, IMPL_BODY) \
+ML_GEN_PROPERTY_DRAWER_EXT(ML_EDITOR_API, NAME, OUT, TAG, IMPL_BODY)
 
 namespace ml
 {

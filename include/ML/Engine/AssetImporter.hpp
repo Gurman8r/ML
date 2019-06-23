@@ -2,10 +2,6 @@
 #define _ML_ASSET_IMPORTER_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Readable.hpp>
-#include <ML/Core/String.hpp>
-#include <ML/Core/List.hpp>
 #include <ML/Core/Metadata.hpp>
 
 namespace ml
@@ -50,23 +46,23 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_ASSET_IMPORTER_EXT(PREFIX, STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY) \
-struct PREFIX STRUCT_NAME final : public ::ml::CustomAssetImporter<OUTPUT> \
-##STRUCT_BODY; \
-template <> struct ::ml::AssetImporter<OUTPUT> \
-{ \
-	static constexpr auto tag	{ ##TAG }; \
-	static constexpr auto hash	{ ::ml::hash()(##TAG) };\
-	template < \
-		class ... Args \
-	> inline auto operator()(Args && ... args) \
-	{ \
-		return ::ml::##STRUCT_NAME()(std::forward<Args>(args)...); \
-	} \
+#define ML_GEN_ASSET_IMPORTER_EXT(PRE, NAME, OUT, TAG, IMPL_BODY)	\
+struct PRE NAME final : public ::ml::CustomAssetImporter<OUT>		\
+##IMPL_BODY;														\
+template <> struct ::ml::AssetImporter<OUT>							\
+{																	\
+	static constexpr auto tag	{ ##TAG };							\
+	static constexpr auto hash	{ ::ml::hash()(##TAG) };			\
+	template <														\
+		class ... Args												\
+	> inline auto operator()(Args && ... args)						\
+	{																\
+		return ::ml::##NAME()(std::forward<Args>(args)...);			\
+	}																\
 };
 
-#define ML_GEN_ASSET_IMPORTER(STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY) \
-ML_GEN_ASSET_IMPORTER_EXT(ML_ENGINE_API, STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY)
+#define ML_GEN_ASSET_IMPORTER(NAME, OUT, TAG, IMPL_BODY) \
+ML_GEN_ASSET_IMPORTER_EXT(ML_ENGINE_API, NAME, OUT, TAG, IMPL_BODY)
 
 namespace ml
 {
@@ -180,9 +176,6 @@ namespace ml
 	{
 		Uniform * operator()(const Metadata & md) const override;
 	});
-
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ASSET_IMPORTER_HPP_

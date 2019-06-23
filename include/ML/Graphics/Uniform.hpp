@@ -37,16 +37,14 @@ namespace ml
 			"sampler2D", "samplerCube (NYI)"
 		};
 
-		using id_type = typename const int32_t;
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		const String	name;
+		const int32_t	type;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		String	name;
-		id_type type;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		Uniform(const String & name, id_type type) 
+		Uniform(const String & name, const int32_t type)
 			: name(name)
 			, type(type) 
 		{}
@@ -101,11 +99,10 @@ namespace ml
 		using value_type	= typename _Elem;
 		using self_type		= typename uni_t<value_type, _Type>;
 		using base_type		= typename Uniform;
-		using id_type		= typename base_type::id_type;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		enum : id_type { ID = _Type };
+		enum : int32_t { ID = _Type };
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -214,7 +211,6 @@ namespace ml
 	{
 		inline static float * toFloat(const Uniform * value)
 		{
-			if (!value) return nullptr;
 			static float temp;
 			if (auto u = value->as<uni_flt>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_flt_ref>())	return &(temp = u->data);
@@ -224,7 +220,6 @@ namespace ml
 
 		inline static int32_t * toInt(const Uniform * value)
 		{
-			if (!value) return nullptr;
 			static int32_t temp;
 			if (auto u = value->as<uni_int>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_int_ref>())	return &(temp = u->data);
@@ -234,7 +229,6 @@ namespace ml
 
 		inline static vec2 * toVec2(const Uniform * value)
 		{
-			if (!value) return nullptr;
 			static vec2 temp;
 			if (auto u = value->as<uni_vec2>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_vec2_ref>()) return &(temp = u->data);
@@ -254,7 +248,6 @@ namespace ml
 
 		inline static vec4 * toVec4(const Uniform * value)
 		{
-			if (!value) return nullptr;
 			static vec4 temp;
 			if (auto u = value->as<uni_vec4>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_vec4_ref>()) return &(temp = u->data);
@@ -264,7 +257,6 @@ namespace ml
 
 		inline static vec4 * toCol4(const Uniform * value)
 		{
-			if (!value) return nullptr;
 			static vec4 temp;
 			if (auto u = value->as<uni_col4>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_col4_ref>()) return &(temp = u->data);
@@ -274,7 +266,6 @@ namespace ml
 
 		inline static mat3 * toMat3(const Uniform * value)
 		{
-			if (!value) return nullptr;
 			static mat3 temp;
 			if (auto u = value->as<uni_mat3>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_mat3_ref>()) return &(temp = u->data);
@@ -284,7 +275,6 @@ namespace ml
 
 		inline static mat4 * toMat4(const Uniform * value)
 		{
-			if (!value) return nullptr;
 			static mat4 temp;
 			if (auto u = value->as<uni_mat4>())			return &(temp = u->data);
 			else if (auto u = value->as<uni_mat4_ref>()) return &(temp = u->data);
@@ -294,9 +284,14 @@ namespace ml
 
 		inline static const Texture * toTex2(const Uniform * value)
 		{
-			if (!value) return nullptr;
 			if (auto u = value->as<uni_tex2>()) return u->data;
 			else return nullptr;
+		}
+
+		inline static const CubeMap * toCubeMap(const Uniform * value)
+		{
+			if (auto u = value->as<uni_cube>()) return u->data;
+			return nullptr;
 		}
 	}
 

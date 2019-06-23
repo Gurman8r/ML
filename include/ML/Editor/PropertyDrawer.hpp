@@ -57,7 +57,7 @@ template <> struct ::ml::PropertyDrawer<OUT>						\
 	static constexpr auto hash	{ ::ml::hash()(##TAG) };			\
 	template <														\
 		class ... Args												\
-	> inline auto operator()(Args && ... args)						\
+	> inline auto operator()(Args && ... args) const				\
 	{																\
 		return NAME()(std::forward<Args>(args)...);					\
 	}																\

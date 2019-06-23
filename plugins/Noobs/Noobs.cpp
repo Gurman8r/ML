@@ -864,30 +864,14 @@ namespace DEMO
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Shader
-					int32_t mat_shader = ML_Content.getIndexOf<ml::Shader>(noobs.material->shader());
-					if (ML_EditorUtility.StringCombo(
-						"Shader##Material##Noobs",
-						mat_shader,
-						ML_Content.keys<ml::Shader>()
-					))
-					{
-						noobs.material->shader() = ML_Content.getByIndex<ml::Shader>(mat_shader);
-					}
+					ml::ShaderPropertyDrawer()("Shader##Material##Noobs", noobs.material->shader());
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The shader to be used.");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Model
-					int32_t ent_model = ML_Content.getIndexOf<ml::Model>((ml::Model *)noobs.renderer->drawable());
-					if (ML_EditorUtility.StringCombo(
-						"Model##Renderer##Noobs",
-						ent_model,
-						ML_Content.keys<ml::Model>()
-					))
-					{
-						noobs.renderer->drawable() = ML_Content.getByIndex<ml::Model>(ent_model);
-					}
+					ml::ModelPropertyDrawer()("Model##Renderer##Noobs", (const ml::Model *)noobs.renderer->drawable());
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The model to be drawn.");
 

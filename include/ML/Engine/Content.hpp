@@ -42,12 +42,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline data_map & data()
+		inline data_map & data(size_t id)
 		{
-			const size_t id { typeid(T).hash_code() };
-			
 			type_map::iterator it;
 			if ((it = m_data.find(id)) != m_data.end())
 			{
@@ -61,10 +57,26 @@ namespace ml
 
 		template <
 			class T
+		> inline data_map & data()
+		{
+			return data(typeid(T).hash_code());
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline const data_map & data(size_t id) const
+		{
+			return m_data.at(id);
+		}
+
+		template <
+			class T
 		> inline const data_map & data() const
 		{
 			return m_data.at(typeid(T).hash_code());
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T
@@ -102,6 +114,8 @@ namespace ml
 			return false;
 		}
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		template <
 			class T
 		> inline const T * get(const String & name) const
@@ -130,8 +144,7 @@ namespace ml
 
 		template <
 			class T
-		> inline auto keys() const 
-			-> List<String>
+		> inline List<String> keys() const
 		{
 			List<String> temp;
 			for (const auto & pair : this->data<T>())
@@ -143,8 +156,7 @@ namespace ml
 
 		template <
 			class T
-		> inline auto getIterAt(const int32_t value) const 
-			-> data_map::const_iterator
+		> inline data_map::const_iterator getIterAt(const int32_t value) const
 		{
 			if ((value >= 0) && ((size_t)value < this->data<T>().size()))
 			{
@@ -163,8 +175,7 @@ namespace ml
 
 		template <
 			class T
-		> inline auto getByIndex(const int32_t value) const 
-			-> const T *
+		> inline const T * getByIndex(const int32_t value) const
 		{
 			data_map::const_iterator it;
 			return (((it = this->getIterAt<T>(value)) != this->data<T>().end())
@@ -175,8 +186,7 @@ namespace ml
 
 		template <
 			class T
-		> inline auto getIndexOf(const T * value) const 
-			-> int32_t
+		> inline int32_t getIndexOf(const T * value) const
 		{
 			int32_t index = 0;
 			for (const auto & pair : this->data<T>())

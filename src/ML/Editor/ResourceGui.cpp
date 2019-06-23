@@ -151,7 +151,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Entity>())
 		{
-			Entity * value = reinterpret_cast<Entity *>(pair.second);
+			Entity * value = static_cast<Entity *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -176,19 +176,9 @@ namespace ml
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						if (const Model * model = Layout::ResourceDropdown(
-							"Model##Renderer",
-							(Model *)r->drawable()))
-						{
-							r->drawable() = model;
-						}
-
-						if (const Material * material = Layout::ResourceDropdown(
-							"Material##Renderer",
-							r->material()))
-						{
-							r->material() = material;
-						}
+						ModelPropertyDrawer()("Model##Renderer", (const Model *)r->drawable());
+						
+						MaterialPropertyDrawer()("Material##Renderer", r->material());
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -347,7 +337,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Font>())
 		{
-			Font * font = reinterpret_cast<Font *>(pair.second);
+			Font * font = static_cast<Font *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -366,7 +356,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Image>())
 		{
-			Image * img = reinterpret_cast<Image *>(pair.second);
+			Image * img = static_cast<Image *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -385,7 +375,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Material>())
 		{
-			Material * mat = reinterpret_cast<Material *>(pair.second);
+			Material * mat = static_cast<Material *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -393,12 +383,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (const Shader * shader = Layout::ResourceDropdown(
-					"Shader##Material", 
-					mat->shader()))
-				{
-					mat->shader() = shader;
-				}
+				ShaderPropertyDrawer()("Shader##Material", mat->shader());
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -467,7 +452,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Mesh>())
 		{
-			Mesh * mesh = reinterpret_cast<Mesh *>(pair.second);
+			Mesh * mesh = static_cast<Mesh *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -488,7 +473,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Model>())
 		{
-			Model * model = reinterpret_cast<Model *>(pair.second);
+			Model * model = static_cast<Model *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -506,7 +491,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Script>())
 		{
-			Script * script = reinterpret_cast<Script *>(pair.second);
+			Script * script = static_cast<Script *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -525,7 +510,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Shader>())
 		{
-			Shader * shader = reinterpret_cast<Shader *>(pair.second);
+			Shader * shader = static_cast<Shader *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -632,7 +617,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Sprite>())
 		{
-			Sprite * spr = reinterpret_cast<Sprite *>(pair.second);
+			Sprite * spr = static_cast<Sprite *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -668,13 +653,7 @@ namespace ml
 					spr->setScale(scale);
 				}
 
-				if (const Texture * tex = Layout::ResourceDropdown(
-					"Texture##Sprite",
-					spr->texture()
-				))
-				{
-					spr->setTexture(tex);
-				}
+				TexturePropertyDrawer()("Texture##Sprite", spr->texture());
 
 				ImGui::PopID();
 				ImGui::TreePop();
@@ -691,18 +670,13 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Surface>())
 		{
-			Surface * surf = reinterpret_cast<Surface *>(pair.second);
+			Surface * surf = static_cast<Surface *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
 				ImGui::PushID(pair.first.c_str());
 
-				if (const Shader * shader = Layout::ResourceDropdown(
-					"Shader##Surface",
-					surf->shader()))
-				{
-					surf->shader() = shader;
-				}
+				ShaderPropertyDrawer()("Shader##Surface", surf->shader());
 
 				if (ImGui::TreeNode("Preview"))
 				{
@@ -752,7 +726,7 @@ namespace ml
 		{
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
-				Texture * tex = reinterpret_cast<Texture *>(pair.second);
+				Texture * tex = static_cast<Texture *>(pair.second);
 
 				ImGui::Columns(2, "texture_data_columns");
 
@@ -1069,12 +1043,7 @@ namespace ml
 		case uni_tex2::ID:
 			if (auto u = value->as<uni_tex2>())
 			{
-				if (const Texture * tex = Layout::ResourceDropdown(
-					"##Texture##Uni",
-					u->data))
-				{
-					u->data = tex;
-				}
+				TexturePropertyDrawer()("##Texture##Uni", u->data);
 				return 1;
 			}
 			

@@ -48,9 +48,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_PROPERTY_DRAWER_EXT(PRE, NAME, OUT, TAG, IMPL_BODY)	\
-struct PRE NAME final : public ::ml::CustomPropertyDrawer<OUT>		\
-##IMPL_BODY;														\
+#define ML_GEN_PROPERTY_DRAWER_EXT(PRE, NAME, POST, OUT, TAG, IMPL)	\
+struct PRE NAME POST : public ::ml::CustomPropertyDrawer<OUT>		\
+##IMPL;																\
 template <> struct ::ml::PropertyDrawer<OUT>						\
 {																	\
 	static constexpr auto tag	{ ##TAG };							\
@@ -59,12 +59,13 @@ template <> struct ::ml::PropertyDrawer<OUT>						\
 		class ... Args												\
 	> inline auto operator()(Args && ... args)						\
 	{																\
-		return ::ml::##NAME()(std::forward<Args>(args)...);			\
+		return NAME()(std::forward<Args>(args)...);					\
 	}																\
 };
 
-#define ML_GEN_PROPERTY_DRAWER(NAME, OUT, TAG, IMPL_BODY) \
-ML_GEN_PROPERTY_DRAWER_EXT(ML_EDITOR_API, NAME, OUT, TAG, IMPL_BODY)
+#define ML_GEN_PROPERTY_DRAWER(NAME, OUT, TAG, IMPL) ML_GEN_PROPERTY_DRAWER_EXT( \
+	ML_EDITOR_API, NAME, final, OUT, TAG, IMPL \
+)
 
 namespace ml
 {

@@ -43,7 +43,7 @@ namespace ml
 		
 		virtual value_type * operator()(const Metadata & md) const = 0;
 
-		constexpr auto tag() const	{ return impl_type::tag; }
+		constexpr auto tag()  const	{ return impl_type::tag;  }
 		constexpr auto hash() const { return impl_type::hash; }
 	};
 

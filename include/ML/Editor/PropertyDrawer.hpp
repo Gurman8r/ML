@@ -41,7 +41,7 @@ namespace ml
 
 		virtual bool operator()(const String & label, value_type value) const = 0;
 
-		constexpr auto tag() const	{ return impl_type::tag; }
+		constexpr auto tag()  const	{ return impl_type::tag;  }
 		constexpr auto hash() const { return impl_type::hash; }
 	};
 

@@ -375,7 +375,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Material>())
 		{
-			Material * mat = static_cast<Material *>(pair.second);
+			Material * value = static_cast<Material *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -383,7 +383,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ShaderPropertyDrawer()("Shader##Material", mat->shader());
+				ShaderPropertyDrawer()("Shader##Material", value->shader());
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -392,25 +392,25 @@ namespace ml
 					// New Uniform
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					NewUniformPopup(mat);
+					NewUniformPopup(value);
 
 					// Display List
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (!mat->uniforms().empty())
+					if (!value->uniforms().empty())
 					{
 						ImGui::Separator();
 					}
 
 					List<Map<String, Uniform *>::iterator> toRemove;
 
-					for (auto it = mat->uniforms().begin(); it != mat->uniforms().end(); it++)
+					for (auto it = value->uniforms().begin(); it != value->uniforms().end(); it++)
 					{
 						if (ImGui::TreeNode(it->first.c_str()))
 						{
 							const String label("##" + pair.first + "##Uni##" + it->first);
 
-							UniformField(label, it->second);
+							UniformPropertyDrawer()(label, it->second);
 
 							ImGui::SameLine();
 
@@ -426,7 +426,7 @@ namespace ml
 					for (auto it : toRemove)
 					{
 						Uniform * u = it->second;
-						mat->uniforms().erase(it);
+						value->uniforms().erase(it);
 						delete u;
 					}
 
@@ -911,145 +911,6 @@ namespace ml
 
 			ImGui::EndPopup();
 		}
-	}
-
-	int32_t ResourceGui::UniformField(const String & label, Uniform * value, bool drag)
-	{
-		if (!value) { return 0; }
-
-		switch (value->type)
-		{
-			// Flt
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_flt::ID:
-			if (float * temp = impl::toFloat(value))
-			{
-				const String name = "##" + label + "##Float##Uni" + value->name;
-				if (drag) ImGui::DragFloat(name.c_str(), temp, 0.1f);
-				else ImGui::InputFloat(name.c_str(), temp, 0.1f);
-				if (auto u = value->as<uni_flt>()) { u->data = (*temp); return 1; }
-				else return -1;
-			}
-			break;
-
-			// Int
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_int::ID:
-			if (int32_t * temp = impl::toInt(value))
-			{
-				const String name = "##" + label + "##Int##Uni" + value->name;
-				if (drag) ImGui::DragInt(name.c_str(), temp, 0.1f);
-				else ImGui::InputInt(name.c_str(), temp, 1);
-				if (auto u = value->as<uni_int>()) { u->data = (*temp); return 1; }
-				else return -1;
-			}
-			break;
-
-			// Vec2
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec2::ID:
-			if (vec2 * temp = impl::toVec2(value))
-			{
-				const String name = "##" + label + "##Vec2##Uni" + value->name;
-				if (drag) ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
-				else ImGui::InputFloat2(name.c_str(), &(*temp)[0], 1);
-				if (auto u = value->as<uni_vec2>()) { u->data = (*temp); return 1; }
-				else return -1;
-			}
-
-			// Vec3
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec3::ID:
-			if (vec3 * temp = impl::toVec3(value))
-			{
-				const String name = "##" + label + "##Vec3##Uni" + value->name;
-				if (drag) ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
-				else ImGui::InputFloat3(name.c_str(), &(*temp)[0], 1);
-				if (auto u = value->as<uni_vec3>()) { u->data = (*temp); return 1; }
-				else return -1;
-			}
-
-			// Vec4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec4::ID:
-			if (vec4 * temp = impl::toVec4(value))
-			{
-				const String name = "##" + label + "##Vec4##Uni" + value->name;
-				if (drag) ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
-				else ImGui::InputFloat4(name.c_str(), &(*temp)[0], 1);
-				if (auto u = value->as<uni_vec4>()) { u->data = (*temp); return 1; }
-				else return -1;
-			}
-
-			// Col4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_col4::ID:
-			if (vec4 * temp = impl::toCol4(value))
-			{
-				const String name = "##" + label + "##Col4##Uni" + value->name;
-				ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
-				if (auto u = value->as<uni_col4>()) { u->data = (*temp); return 1; }
-				else return -1;
-			}
-
-			// Mat3
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_mat3::ID:
-			if (mat3 * temp = impl::toMat3(value))
-			{
-				const String name = "##" + label + "##Mat3##Uni" + value->name;
-				if (drag)
-				{
-					ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-					ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 3);
-					ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 3);
-				}
-				else
-				{
-					ImGui::InputFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-					ImGui::InputFloat4((name + "##03").c_str(), &(*temp)[3], 3);
-					ImGui::InputFloat4((name + "##06").c_str(), &(*temp)[6], 3);
-				}
-				if (auto u = value->as<uni_mat3>()) { u->data = (*temp); return 1; }
-				else return -1;
-			}
-
-			// Mat4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_mat4::ID:
-			if (mat4 * temp = impl::toMat4(value))
-			{
-				const String name = "##" + label + "##Mat3##Uni" + value->name;
-				if (drag)
-				{
-					ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-					ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4], 3);
-					ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8], 3);
-					ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 3);
-				}
-				else
-				{
-					ImGui::InputFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-					ImGui::InputFloat4((name + "##04").c_str(), &(*temp)[4], 3);
-					ImGui::InputFloat4((name + "##08").c_str(), &(*temp)[8], 3);
-					ImGui::InputFloat4((name + "##12").c_str(), &(*temp)[12], 3);
-				}
-				if (auto u = value->as<uni_mat4>()) { u->data = (*temp); return 1; }
-				else return -1;
-			}
-
-			// Tex
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_tex2::ID:
-			if (auto u = value->as<uni_tex2>())
-			{
-				TexturePropertyDrawer()("##Texture##Uni", u->data);
-				return 1;
-			}
-			
-		}
-		
-		return 0;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

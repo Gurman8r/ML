@@ -146,121 +146,155 @@ namespace ml
 	bool UniformPropertyDrawer::operator()(const String & label, Uniform * value) const
 	{
 		if (!value) { return false; }
-		switch (value->type)
+
+		auto modifyUniformValue = [](const String & label, Uniform * value)
 		{
-			// Flt
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_flt::ID:
-			if (float * temp = impl::toFloat(value))
+			if (!value) { return false; }
+			switch (value->type)
 			{
-				const String name = "##" + label + "##Float##Uni" + value->name;
-				ImGui::DragFloat(name.c_str(), temp, 0.1f);
-				if (auto u = value->as<uni_flt>()) 
-					u->data = (*temp); 
-				return true;
-			}
-			break;
+				// Flt
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_flt::ID:
+				if (float * temp = impl::toFloat(value))
+				{
+					const String name = "##" + label + "##Float##Uni" + value->name;
+					ImGui::DragFloat(name.c_str(), temp, 0.1f);
+					if (auto u = value->as<uni_flt>())
+					{
+						u->data = (*temp); return true;
+					}
+				}
+				break;
 
-			// Int
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_int::ID:
-			if (int32_t * temp = impl::toInt(value))
-			{
-				const String name = "##" + label + "##Int##Uni" + value->name;
-				ImGui::DragInt(name.c_str(), temp, 0.1f);
-				if (auto u = value->as<uni_int>()) 
-					u->data = (*temp); 
-				return true;
-			}
-			break;
+				// Int
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_int::ID:
+				if (int32_t * temp = impl::toInt(value))
+				{
+					const String name = "##" + label + "##Int##Uni" + value->name;
+					ImGui::DragInt(name.c_str(), temp, 0.1f);
+					if (auto u = value->as<uni_int>())
+					{
+						u->data = (*temp); return true;
+					}
+				}
+				break;
 
-			// Vec2
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec2::ID:
-			if (vec2 * temp = impl::toVec2(value))
-			{
-				const String name = "##" + label + "##Vec2##Uni" + value->name;
-				ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
-				if (auto u = value->as<uni_vec2>())
-					u->data = (*temp); 
-				return true;
-			}
+				// Vec2
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_vec2::ID:
+				if (vec2 * temp = impl::toVec2(value))
+				{
+					const String name = "##" + label + "##Vec2##Uni" + value->name;
+					ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
+					if (auto u = value->as<uni_vec2>())
+					{
+						u->data = (*temp); return true;
+					}
+				}
 
-			// Vec3
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec3::ID:
-			if (vec3 * temp = impl::toVec3(value))
-			{
-				const String name = "##" + label + "##Vec3##Uni" + value->name;
-				ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
-				if (auto u = value->as<uni_vec3>())
-					u->data = (*temp);
-				return true;
-			}
+				// Vec3
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_vec3::ID:
+				if (vec3 * temp = impl::toVec3(value))
+				{
+					const String name = "##" + label + "##Vec3##Uni" + value->name;
+					ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
+					if (auto u = value->as<uni_vec3>())
+					{
+						u->data = (*temp); return true;
+					}
+				}
 
-			// Vec4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec4::ID:
-			if (vec4 * temp = impl::toVec4(value))
-			{
-				const String name = "##" + label + "##Vec4##Uni" + value->name;
-				ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
-				if (auto u = value->as<uni_vec4>())
-					u->data = (*temp); 
-				return true;
-			}
+				// Vec4
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_vec4::ID:
+				if (vec4 * temp = impl::toVec4(value))
+				{
+					const String name = "##" + label + "##Vec4##Uni" + value->name;
+					ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
+					if (auto u = value->as<uni_vec4>())
+					{
+						u->data = (*temp); return true;
+					}
+				}
 
-			// Col4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_col4::ID:
-			if (vec4 * temp = impl::toCol4(value))
-			{
-				const String name = "##" + label + "##Col4##Uni" + value->name;
-				ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
-				if (auto u = value->as<uni_col4>())
-					u->data = (*temp); 
-				return true;
-			}
+				// Col4
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_col4::ID:
+				if (vec4 * temp = impl::toCol4(value))
+				{
+					const String name = "##" + label + "##Col4##Uni" + value->name;
+					ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
+					if (auto u = value->as<uni_col4>())
+					{
+						u->data = (*temp); return true;
+					}
+				}
 
-			// Mat3
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_mat3::ID:
-			if (mat3 * temp = impl::toMat3(value))
-			{
-				const String name = "##" + label + "##Mat3##Uni" + value->name;
-				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-				ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 3);
-				ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 3);
-				if (auto u = value->as<uni_mat3>())
-					u->data = (*temp); 
-				return true;
-			}
+				// Mat3
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_mat3::ID:
+				if (mat3 * temp = impl::toMat3(value))
+				{
+					const String name = "##" + label + "##Mat3##Uni" + value->name;
+					ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
+					ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 3);
+					ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 3);
+					if (auto u = value->as<uni_mat3>())
+					{
+						u->data = (*temp); return true;
+					}
+				}
 
-			// Mat4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_mat4::ID:
-			if (mat4 * temp = impl::toMat4(value))
-			{
-				const String name = "##" + label + "##Mat3##Uni" + value->name;
-				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-				ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4], 3);
-				ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8], 3);
-				ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 3);
-				if (auto u = value->as<uni_mat4>())
-					u->data = (*temp);
-				return true;
-			}
+				// Mat4
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_mat4::ID:
+				if (mat4 * temp = impl::toMat4(value))
+				{
+					const String name = "##" + label + "##Mat3##Uni" + value->name;
+					ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
+					ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4], 3);
+					ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8], 3);
+					ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 3);
+					if (auto u = value->as<uni_mat4>())
+					{
+						u->data = (*temp); return true;
+					}
+				}
 
-			// Tex
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_tex2::ID:
-			if (auto u = value->as<uni_tex2>())
-			{
-				return TexturePropertyDrawer()("##Texture##Uni", u->data);;
+				// Tex
+				/* * * * * * * * * * * * * * * * * * * * */
+			case uni_tex2::ID:
+				if (auto u = value->as<uni_tex2>())
+				{
+					return TexturePropertyDrawer()("##Texture##Uni", u->data);;
+				}
 			}
+			return false;
+		};
+
+		float height = 1;
+		if (value->type == ml::uni_mat3::ID) { height = 3; }
+		else if (value->type == ml::uni_mat4::ID) { height = 4; }
+
+		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+		ImGui::BeginChild(
+			("UniformChild##" + label).c_str(),
+			{ 0, (32 * height) + (height == 1 ? 8 : -8) },
+			true,
+			ImGuiWindowFlags_NoScrollWithMouse
+		);
+		
+		if (!modifyUniformValue(label, value))
+		{
+			ImGui::SameLine();
+			ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
 		}
-		ImGui::SameLine();
-		ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
+
+		ImGui::EndChild();
+		ImGui::PopStyleVar();
+		
 		return false;
 	}
 

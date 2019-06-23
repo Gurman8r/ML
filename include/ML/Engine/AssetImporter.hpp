@@ -42,6 +42,9 @@ namespace ml
 		using impl_type		= typename AssetImporter<value_type>;
 		
 		virtual value_type * operator()(const Metadata & md) const = 0;
+
+		constexpr auto tag() const	{ return impl_type::tag; }
+		constexpr auto hash() const { return impl_type::hash; }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -52,7 +55,8 @@ struct PREFIX STRUCT_NAME final : public ::ml::CustomAssetImporter<OUTPUT> \
 ##STRUCT_BODY; \
 template <> struct ::ml::AssetImporter<OUTPUT> \
 { \
-	static constexpr auto tag { ##TAG }; \
+	static constexpr auto tag	{ ##TAG }; \
+	static constexpr auto hash	{ ::ml::hash()(##TAG) };\
 	template < \
 		class ... Args \
 	> inline auto operator()(Args && ... args) \

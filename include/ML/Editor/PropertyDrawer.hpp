@@ -40,6 +40,9 @@ namespace ml
 		using impl_type		= typename PropertyDrawer<value_type>;
 
 		virtual bool operator()(const String & label, value_type value) const = 0;
+
+		constexpr auto tag() const	{ return impl_type::tag; }
+		constexpr auto hash() const { return impl_type::hash; }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -50,7 +53,8 @@ struct PREFIX STRUCT_NAME final : public ::ml::CustomPropertyDrawer<OUTPUT> \
 ##STRUCT_BODY; \
 template <> struct ::ml::PropertyDrawer<OUTPUT> \
 { \
-	constexpr static auto tag { ##TAG }; \
+	constexpr static auto tag	{ ##TAG }; \
+	static constexpr auto hash	{ ::ml::hash()(##TAG) };\
 	template < \
 		class ... Args \
 	> inline auto operator()(Args && ... args) \

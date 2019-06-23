@@ -27,9 +27,8 @@ namespace ml
 	struct Texture;
 	struct Uniform;
 
-
-	// Base Importers
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	template <
 		class T
 	> struct CustomAssetImporter
@@ -38,11 +37,27 @@ namespace ml
 		virtual value_type * operator()(const Metadata & md) const = 0;
 	};
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	template <
 		class T
 	> struct AssetImporter;
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+}
 
+#define ML_GEN_ASSET_IMPORTER(TYPE, BASE) \
+template <> struct ml::AssetImporter<TYPE> \
+{ \
+	template <class ... Args> \
+	inline auto operator()(Args && ... args) \
+	{ \
+		return BASE()(std::forward<Args>(args)...); \
+	} \
+}; \
+
+namespace ml
+{
 	// CubeMap Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	struct ML_ENGINE_API CubeMapImporter final : public CustomAssetImporter<CubeMap>
@@ -51,15 +66,7 @@ namespace ml
 		CubeMap * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<CubeMap>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return CubeMapImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(CubeMap, CubeMapImporter);
 
 
 	// Entity Importer
@@ -70,15 +77,7 @@ namespace ml
 		Entity * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Entity>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return EntityImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Entity, EntityImporter);
 
 
 	// Font Importer
@@ -89,15 +88,7 @@ namespace ml
 		Font * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Font>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return FontImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Font, FontImporter);
 
 
 	// Image Importer
@@ -108,15 +99,7 @@ namespace ml
 		Image * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Image>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return ImageImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Image, ImageImporter);
 
 
 	// Material Importer
@@ -127,15 +110,7 @@ namespace ml
 		Material * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Material>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return MaterialImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Material, MaterialImporter);
 
 
 	// Mesh Importer
@@ -146,15 +121,7 @@ namespace ml
 		Mesh * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Mesh>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return MeshImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Mesh, MeshImporter);
 
 
 	// Model Importer
@@ -165,15 +132,7 @@ namespace ml
 		Model * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Model>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return ModelImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Model, ModelImporter);
 
 
 	// Script Importer
@@ -184,15 +143,7 @@ namespace ml
 		Script * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Script>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return ScriptImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Script, ScriptImporter);
 
 
 	// Shader Importer
@@ -203,15 +154,7 @@ namespace ml
 		Shader * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Shader>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return ShaderImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Shader, ShaderImporter);
 
 
 	// Sound Importer
@@ -222,15 +165,7 @@ namespace ml
 		Sound * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Sound>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return SoundImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Sound, SoundImporter);
 
 
 	// Sprite Importer
@@ -241,15 +176,7 @@ namespace ml
 		Sprite * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Sprite>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return SpriteImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Sprite, SpriteImporter);
 
 
 	// Surface Importer
@@ -260,15 +187,7 @@ namespace ml
 		Surface * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Surface>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return SurfaceImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Surface, SurfaceImporter);
 
 
 	// Texture Importer
@@ -279,15 +198,7 @@ namespace ml
 		Texture * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Texture>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return TextureImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Texture, TextureImporter);
 
 	
 	// Uniform Importer
@@ -298,15 +209,7 @@ namespace ml
 		Uniform * operator()(const Metadata & md) const override;
 	};
 
-	template <> struct AssetImporter<Uniform>
-	{
-		template <
-			class ... Args
-		> inline auto operator()(Args && ... args) const
-		{
-			return UniformImporter()(std::forward<Args>(args)...);
-		}
-	};
+	ML_GEN_ASSET_IMPORTER(Uniform, UniformImporter);
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

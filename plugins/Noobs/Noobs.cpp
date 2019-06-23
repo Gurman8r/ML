@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include "Noobs.hpp"
-
+#include <ML/Editor/PropertyDrawer.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
@@ -622,22 +622,7 @@ namespace DEMO
 
 							/* * * * * * * * * * * * * * * * * * * * */
 							
-							//  1 | Can view and edit
-							// -1 | Can view but not edit
-							//  0 | Cannot view or edit
-							switch (ml::ResourceGui::UniformField(label, it->second))
-							{
-							case 1: 
-								ImGui::SameLine();
-								if (ImGui::Button(ml::String("Remove" + label).c_str()))
-									toRemove.push_back(std::next(it).base());
-								break;
-							
-							case -1:
-								ImGui::SameLine();
-								ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
-								break;
-							}
+							ml::PropertyDrawer<ml::Uniform>()(label, it->second);
 
 							/* * * * * * * * * * * * * * * * * * * * */
 

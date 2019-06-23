@@ -39,7 +39,7 @@ namespace ml
 {
 	// CubeMap Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool CubeMapDrawer::operator()(const String & label, const CubeMap * value) const
+	bool CubeMapPropertyDrawer::operator()(const String & label, const CubeMap * value) const
 	{
 		return basic_asset_dropdown<CubeMap>(label, value);
 	}
@@ -47,7 +47,7 @@ namespace ml
 
 	// Entity Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool EntityDrawer::operator()(const String & label, const Entity * value) const
+	bool EntityPropertyDrawer::operator()(const String & label, const Entity * value) const
 	{
 		return basic_asset_dropdown<Entity>(label, value);
 	}
@@ -55,7 +55,7 @@ namespace ml
 
 	// Font Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool FontDrawer::operator()(const String & label, const Font * value) const
+	bool FontPropertyDrawer::operator()(const String & label, const Font * value) const
 	{
 		return basic_asset_dropdown<Font>(label, value);
 	}
@@ -63,7 +63,7 @@ namespace ml
 
 	// Image Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool ImageDrawer::operator()(const String & label, const Image * value) const
+	bool ImagePropertyDrawer::operator()(const String & label, const Image * value) const
 	{
 		return basic_asset_dropdown<Image>(label, value);
 	}
@@ -71,7 +71,7 @@ namespace ml
 
 	// Material Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool MaterialDrawer::operator()(const String & label, const Material * value) const
+	bool MaterialPropertyDrawer::operator()(const String & label, const Material * value) const
 	{
 		return basic_asset_dropdown<Material>(label, value);
 	}
@@ -79,7 +79,7 @@ namespace ml
 
 	// Mesh Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool MeshDrawer::operator()(const String & label, const Mesh * value) const
+	bool MeshPropertyDrawer::operator()(const String & label, const Mesh * value) const
 	{
 		return basic_asset_dropdown<Mesh>(label, value);
 	}
@@ -87,7 +87,7 @@ namespace ml
 
 	// Model Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool ModelDrawer::operator()(const String & label, const Model * value) const
+	bool ModelPropertyDrawer::operator()(const String & label, const Model * value) const
 	{
 		return basic_asset_dropdown<Model>(label, value);
 	}
@@ -95,7 +95,7 @@ namespace ml
 
 	// Script Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool ScriptDrawer::operator()(const String & label, const Script * value) const
+	bool ScriptPropertyDrawer::operator()(const String & label, const Script * value) const
 	{
 		return basic_asset_dropdown<Script>(label, value);
 	}
@@ -103,7 +103,7 @@ namespace ml
 
 	// Shader Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool ShaderDrawer::operator()(const String & label, const Shader * value) const
+	bool ShaderPropertyDrawer::operator()(const String & label, const Shader * value) const
 	{
 		return basic_asset_dropdown<Shader>(label, value);
 	}
@@ -111,7 +111,7 @@ namespace ml
 
 	// Sound Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool SoundDrawer::operator()(const String & label, const Sound * value) const
+	bool SoundPropertyDrawer::operator()(const String & label, const Sound * value) const
 	{
 		return basic_asset_dropdown<Sound>(label, value);
 	}
@@ -119,7 +119,7 @@ namespace ml
 
 	// Sprite Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool SpriteDrawer::operator()(const String & label, const Sprite * value) const
+	bool SpritePropertyDrawer::operator()(const String & label, const Sprite * value) const
 	{
 		return basic_asset_dropdown<Sprite>(label, value);
 	}
@@ -127,7 +127,7 @@ namespace ml
 	
 	// Surface Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool SurfaceDrawer::operator()(const String & label, const Surface * value) const
+	bool SurfacePropertyDrawer::operator()(const String & label, const Surface * value) const
 	{
 		return basic_asset_dropdown<Surface>(label, value);
 	}
@@ -135,7 +135,7 @@ namespace ml
 	
 	// Texture Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool TextureDrawer::operator()(const String & label, const Texture * value) const
+	bool TexturePropertyDrawer::operator()(const String & label, const Texture * value) const
 	{
 		return basic_asset_dropdown<Texture>(label, value);
 	}
@@ -143,7 +143,7 @@ namespace ml
 
 	// Uniform Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool UniformDrawer::operator()(const String & label, Uniform * value) const
+	bool UniformPropertyDrawer::operator()(const String & label, Uniform * value) const
 	{
 		if (!value) { return false; }
 		switch (value->type)
@@ -248,7 +248,7 @@ namespace ml
 		case uni_tex2::ID:
 			if (auto u = value->as<uni_tex2>())
 			{
-				return TextureDrawer()("##Texture##Uni", u->data);;
+				return TexturePropertyDrawer()("##Texture##Uni", u->data);;
 			}
 		}
 		ImGui::SameLine();

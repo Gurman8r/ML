@@ -622,7 +622,7 @@ namespace DEMO
 
 							/* * * * * * * * * * * * * * * * * * * * */
 							
-							ml::UniformDrawer()(label, it->second);
+							ml::UniformPropertyDrawer()(label, it->second);
 
 							/* * * * * * * * * * * * * * * * * * * * */
 

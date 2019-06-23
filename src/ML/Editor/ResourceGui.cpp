@@ -17,6 +17,7 @@
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Script/Script.hpp>
+#include <ML/Editor/PropertyDrawer.hpp>
 
 namespace ml
 {
@@ -150,7 +151,7 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Entity>())
 		{
-			Entity * ent = reinterpret_cast<Entity *>(pair.second);
+			Entity * value = reinterpret_cast<Entity *>(pair.second);
 
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
@@ -158,7 +159,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (Transform * t = ent->get<Transform>())
+				if (Transform * t = value->get<Transform>())
 				{
 					Layout::Header("Transform", [&]()
 					{
@@ -168,7 +169,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (Renderer * r = ent->get<Renderer>())
+				if (Renderer * r = value->get<Renderer>())
 				{
 					RenderStates & states = r->states();
 					Layout::Header("Renderer", [&]()

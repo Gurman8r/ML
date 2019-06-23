@@ -66,7 +66,7 @@ namespace ml
 {
 	// CubeMap Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(CubeMapDrawer, const CubeMap *, "cubemap",
+	ML_GEN_PROPERTY_DRAWER(CubeMapPropertyDrawer, const CubeMap *, "cubemap",
 	{
 		bool operator()(const String & label, const CubeMap * value) const override;
 	});
@@ -74,7 +74,7 @@ namespace ml
 
 	// Entity Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(EntityDrawer, const Entity *, "entity",
+	ML_GEN_PROPERTY_DRAWER(EntityPropertyDrawer, const Entity *, "entity",
 	{
 		bool operator()(const String & label, const Entity * value) const override;
 	});
@@ -82,7 +82,7 @@ namespace ml
 
 	// Font Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(FontDrawer, const Font *, "font",
+	ML_GEN_PROPERTY_DRAWER(FontPropertyDrawer, const Font *, "font",
 	{
 		bool operator()(const String & label, const Font * value) const override;
 	});
@@ -90,7 +90,7 @@ namespace ml
 
 	// Image Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(ImageDrawer, const Image *, "image",
+	ML_GEN_PROPERTY_DRAWER(ImagePropertyDrawer, const Image *, "image",
 	{
 		bool operator()(const String & label, const Image * value) const override;
 	});
@@ -98,7 +98,7 @@ namespace ml
 
 	// Material Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(MaterialDrawer, const Material *, "material",
+	ML_GEN_PROPERTY_DRAWER(MaterialPropertyDrawer, const Material *, "material",
 	{
 		bool operator()(const String & label, const Material * value) const override;
 	});
@@ -106,7 +106,7 @@ namespace ml
 
 	// Mesh Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(MeshDrawer, const Mesh *, "mesh",
+	ML_GEN_PROPERTY_DRAWER(MeshPropertyDrawer, const Mesh *, "mesh",
 	{
 		bool operator()(const String & label, const Mesh * value) const override;
 	});
@@ -114,7 +114,7 @@ namespace ml
 
 	// Model Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(ModelDrawer, const Model *, "model",
+	ML_GEN_PROPERTY_DRAWER(ModelPropertyDrawer, const Model *, "model",
 	{
 		bool operator()(const String & label, const Model * value) const override;
 	});
@@ -122,7 +122,7 @@ namespace ml
 
 	// Script Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(ScriptDrawer, const Script *, "script",
+	ML_GEN_PROPERTY_DRAWER(ScriptPropertyDrawer, const Script *, "script",
 	{
 		bool operator()(const String & label, const Script * value) const override;
 	});
@@ -130,7 +130,7 @@ namespace ml
 
 	// Shader Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(ShaderDrawer, const Shader *, "shader",
+	ML_GEN_PROPERTY_DRAWER(ShaderPropertyDrawer, const Shader *, "shader",
 	{
 		bool operator()(const String & label, const Shader * value) const override;
 	});
@@ -138,7 +138,7 @@ namespace ml
 
 	// Sound Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(SoundDrawer, const Sound *, "sound",
+	ML_GEN_PROPERTY_DRAWER(SoundPropertyDrawer, const Sound *, "sound",
 	{
 		bool operator()(const String & label, const Sound * value) const override;
 	});
@@ -146,7 +146,7 @@ namespace ml
 
 	// Sprite Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(SpriteDrawer, const Sprite *, "sprite",
+	ML_GEN_PROPERTY_DRAWER(SpritePropertyDrawer, const Sprite *, "sprite",
 	{
 		bool operator()(const String & label, const Sprite * value) const override;
 	});
@@ -154,7 +154,7 @@ namespace ml
 
 	// Surface Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(SurfaceDrawer, const Surface *, "surface",
+	ML_GEN_PROPERTY_DRAWER(SurfacePropertyDrawer, const Surface *, "surface",
 	{
 		bool operator()(const String & label, const Surface * value) const override;
 	});
@@ -162,7 +162,7 @@ namespace ml
 
 	// Texture Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(TextureDrawer, const Texture *, "cubemap",
+	ML_GEN_PROPERTY_DRAWER(TexturePropertyDrawer, const Texture *, "cubemap",
 	{
 		bool operator()(const String & label, const Texture * value) const override;
 	});
@@ -170,7 +170,7 @@ namespace ml
 
 	// Uniform Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(UniformDrawer, Uniform *, "uniform",
+	ML_GEN_PROPERTY_DRAWER(UniformPropertyDrawer, Uniform *, "uniform",
 	{
 		bool operator()(const String & label, Uniform * value) const override;
 	});

@@ -411,7 +411,7 @@ namespace ml
 						ImGui::Separator();
 					}
 
-					List<Material::UniformMap::iterator> toRemove;
+					List<Map<String, Uniform *>::iterator> toRemove;
 
 					for (auto it = mat->uniforms().begin(); it != mat->uniforms().end(); it++)
 					{

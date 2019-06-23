@@ -101,36 +101,6 @@ namespace ml
 		}
 
 		template <
-			class T, class ... Args
-		> inline T * create_from_file(const String & name, const String & file, Args && ... args)
-		{
-			if (name && !this->get<T>(name))
-			{
-				if (m_files[name] = file)
-				{
-					if (const String path = ML_FS.getPathTo(file))
-					{
-						T * temp = new T(std::forward<Args>(args)...);
-						if (temp->loadFromFile(path))
-						{
-							return this->insert<T>(name, temp);
-						}
-						else
-						{
-							delete temp;
-							Debug::logError("Failed loading {0}: \'{1}\'", name, path);
-						}
-					}
-				}
-				else
-				{
-					return this->create<T>(name);
-				}
-			}
-			return nullptr;
-		}
-
-		template <
 			class T
 		> inline bool erase(const String & name)
 		{

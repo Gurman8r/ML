@@ -250,7 +250,7 @@ namespace ml
 		{
 			if (!s.empty() && !f.empty())
 			{
-				for (size_t i = 0; (i = s.find(f, i)) != String::npos;)
+				for (size_t i = 0; (i = s.find(f, i)) != self_type::npos;)
 				{
 					s.replace(i, f.size(), r);
 					i += r.size();

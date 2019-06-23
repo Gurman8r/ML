@@ -10,12 +10,17 @@ namespace ml
 	// Placeholder
 	struct ML_GRAPHICS_API CubeMap final
 		: public I_Newable
+		, public I_Readable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		CubeMap();
 		CubeMap(const CubeMap & copy);
 		~CubeMap();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		bool loadFromFile(const String & filename) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

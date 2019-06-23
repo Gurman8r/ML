@@ -594,7 +594,7 @@ namespace DEMO
 						ImGui::Separator();
 
 					// to remove
-					ml::List<ml::Material::UniformMap::iterator> toRemove;
+					ml::List<ml::Map<ml::String, ml::Uniform *>::iterator> toRemove;
 
 					for (auto it = noobs.material->uniforms().rbegin();
 						it != noobs.material->uniforms().rend(); 

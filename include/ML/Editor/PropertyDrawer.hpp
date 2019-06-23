@@ -180,10 +180,6 @@ namespace ml
 	{
 		bool operator()(const String & label, Uniform * value) const override;
 	});
-
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
-
 
 #endif // !_ML_PROPERTY_DRAWER_HPP_

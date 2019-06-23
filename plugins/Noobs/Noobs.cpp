@@ -586,7 +586,7 @@ namespace DEMO
 				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
 				{
 					// new uniform editor
-					ml::ResourceGui::NewUniformPopup(noobs.material);
+					//ml::ResourceGui::NewUniformPopup(noobs.material);
 
 					// do nothing if empty
 					if (!noobs.material->uniforms().empty()) 
@@ -612,22 +612,11 @@ namespace DEMO
 						{
 							ImGui::PopStyleColor();
 
-							ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-							ImGui::BeginChild(
-								("UniformChild##" + label).c_str(),
-								{ 0, (32 * height) + (height == 1 ? 8 : -8) },
-								true, 
-								ImGuiWindowFlags_NoScrollWithMouse
-							);
-
 							/* * * * * * * * * * * * * * * * * * * * */
 							
 							ml::UniformPropertyDrawer()(label, it->second);
 
 							/* * * * * * * * * * * * * * * * * * * * */
-
-							ImGui::EndChild();
-							ImGui::PopStyleVar();
 						}
 						else
 						{

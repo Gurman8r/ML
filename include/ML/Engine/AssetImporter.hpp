@@ -31,172 +31,152 @@ namespace ml
 
 	template <
 		class T
+	> struct AssetImporter;
+
+	template <
+		class T
 	> struct CustomAssetImporter
 	{
-		using	value_type = typename T;
+		using value_type	= typename T;
+		using self_type		= typename CustomAssetImporter<value_type>;
+		using impl_type		= typename AssetImporter<value_type>;
+		
 		virtual value_type * operator()(const Metadata & md) const = 0;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		class T
-	> struct AssetImporter;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_ASSET_IMPORTER(OUTPUT, CUSTOM) \
-template <> struct AssetImporter<OUTPUT> \
+#define ML_GEN_ASSET_IMPORTER_EXT(PREFIX, STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY) \
+struct PREFIX STRUCT_NAME final : public ::ml::CustomAssetImporter<OUTPUT> \
+##STRUCT_BODY; \
+template <> struct ::ml::AssetImporter<OUTPUT> \
 { \
-	static constexpr auto tag { CUSTOM::tag }; \
-	template <class ... Args> \
-	inline auto operator()(Args && ... args) \
+	static constexpr auto tag { ##TAG }; \
+	template < \
+		class ... Args \
+	> inline auto operator()(Args && ... args) \
 	{ \
-		return CUSTOM()(std::forward<Args>(args)...); \
+		return ::ml::##CUSTOM()(std::forward<Args>(args)...); \
 	} \
 };
+
+#define ML_GEN_ASSET_IMPORTER(STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY) \
+ML_GEN_ASSET_IMPORTER_EXT(ML_ENGINE_API, STRUCT_NAME, OUTPUT, TAG, STRUCT_BODY)
 
 namespace ml
 {
 	// CubeMap Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API CubeMapImporter final : public CustomAssetImporter<CubeMap>
+	ML_GEN_ASSET_IMPORTER(CubeMapImporter, CubeMap, "cubemap",
 	{
-		static constexpr CString tag { "cubemap" };
 		CubeMap * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(CubeMap, CubeMapImporter);
+	});
 
 
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API EntityImporter final : public CustomAssetImporter<Entity>
+	ML_GEN_ASSET_IMPORTER(EntityImporter, Entity, "entity",
 	{
-		static constexpr CString tag { "entity" };
 		Entity * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Entity, EntityImporter);
+	});
 
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API FontImporter final : public CustomAssetImporter<Font>
+	ML_GEN_ASSET_IMPORTER(FontImporter, Font, "font",
 	{
-		static constexpr CString tag { "font" };
 		Font * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Font, FontImporter);
+	});
 
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API ImageImporter final : public CustomAssetImporter<Image>
+	ML_GEN_ASSET_IMPORTER(ImageImporter, Image, "image",
 	{
-		static constexpr CString tag { "image" };
 		Image * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Image, ImageImporter);
+	});
 
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API MaterialImporter final : public CustomAssetImporter<Material>
+	ML_GEN_ASSET_IMPORTER(MaterialImporter, Material, "material",
 	{
-		static constexpr CString tag { "material" };
 		Material * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Material, MaterialImporter);
+	});
 
 
 	// Mesh Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API MeshImporter final : public CustomAssetImporter<Mesh>
+	ML_GEN_ASSET_IMPORTER(MeshImporter, Mesh, "mesh",
 	{
-		static constexpr CString tag { "mesh" };
 		Mesh * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Mesh, MeshImporter);
+	});
 
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API ModelImporter final : public CustomAssetImporter<Model>
+	ML_GEN_ASSET_IMPORTER(ModelImporter, Model, "model",
 	{
-		static constexpr CString tag { "model" };
 		Model * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Model, ModelImporter);
+	});
 
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API ScriptImporter final : public CustomAssetImporter<Script>
+	ML_GEN_ASSET_IMPORTER(ScriptImporter, Script, "script",
 	{
-		static constexpr CString tag { "script" };
 		Script * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Script, ScriptImporter);
+	});
 
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API ShaderImporter final : public CustomAssetImporter<Shader>
+	ML_GEN_ASSET_IMPORTER(ShaderImporter, Shader, "shader",
 	{
-		static constexpr CString tag { "shader" };
 		Shader * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Shader, ShaderImporter);
+	});
 
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API SoundImporter final : public CustomAssetImporter<Sound>
+	ML_GEN_ASSET_IMPORTER(SoundImporter, Sound, "sound",
 	{
-		static constexpr CString tag { "sound" };
 		Sound * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Sound, SoundImporter);
+	});
 
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API SpriteImporter final : public CustomAssetImporter<Sprite>
+	ML_GEN_ASSET_IMPORTER(SpriteImporter, Sprite, "sprite",
 	{
-		static constexpr CString tag { "sprite" };
 		Sprite * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Sprite, SpriteImporter);
+	});
 
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API SurfaceImporter final : public CustomAssetImporter<Surface>
+	ML_GEN_ASSET_IMPORTER(SurfaceImporter, Surface, "surface",
 	{
-		static constexpr CString tag { "surface" };
 		Surface * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Surface, SurfaceImporter);
+	});
 
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API TextureImporter final : public CustomAssetImporter<Texture>
+	ML_GEN_ASSET_IMPORTER(TextureImporter, Texture, "texture",
 	{
-		static constexpr CString tag { "texture" };
 		Texture * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Texture, TextureImporter);
+	});
 
 	
 	// Uniform Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct ML_ENGINE_API UniformImporter final : public CustomAssetImporter<Uniform>
+	ML_GEN_ASSET_IMPORTER(UniformImporter, Uniform, "uniform",
 	{
-		static constexpr CString tag { "uniform" };
 		Uniform * operator()(const Metadata & md) const override;
-	};
-	ML_GEN_ASSET_IMPORTER(Uniform, UniformImporter);
+	});
+
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

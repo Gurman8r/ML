@@ -155,10 +155,8 @@ namespace ml
 			{
 				const String name = "##" + label + "##Float##Uni" + value->name;
 				ImGui::DragFloat(name.c_str(), temp, 0.1f);
-				if (auto u = value->as<uni_flt>())
-				{
+				if (auto u = value->as<uni_flt>()) 
 					u->data = (*temp); return true;
-				}
 			}
 			break;
 
@@ -169,10 +167,8 @@ namespace ml
 			{
 				const String name = "##" + label + "##Int##Uni" + value->name;
 				ImGui::DragInt(name.c_str(), temp, 0.1f);
-				if (auto u = value->as<uni_int>())
-				{
+				if (auto u = value->as<uni_int>()) 
 					u->data = (*temp); return true;
-				}
 			}
 			break;
 
@@ -184,9 +180,7 @@ namespace ml
 				const String name = "##" + label + "##Vec2##Uni" + value->name;
 				ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
 				if (auto u = value->as<uni_vec2>())
-				{
 					u->data = (*temp); return true;
-				}
 			}
 
 			// Vec3
@@ -197,9 +191,7 @@ namespace ml
 				const String name = "##" + label + "##Vec3##Uni" + value->name;
 				ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
 				if (auto u = value->as<uni_vec3>())
-				{
 					u->data = (*temp); return true;
-				}
 			}
 
 			// Vec4
@@ -210,9 +202,7 @@ namespace ml
 				const String name = "##" + label + "##Vec4##Uni" + value->name;
 				ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
 				if (auto u = value->as<uni_vec4>())
-				{
 					u->data = (*temp); return true;
-				}
 			}
 
 			// Col4
@@ -223,9 +213,7 @@ namespace ml
 				const String name = "##" + label + "##Col4##Uni" + value->name;
 				ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
 				if (auto u = value->as<uni_col4>())
-				{
 					u->data = (*temp); return true;
-				}
 			}
 
 			// Mat3
@@ -238,9 +226,7 @@ namespace ml
 				ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 3);
 				ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 3);
 				if (auto u = value->as<uni_mat3>())
-				{
 					u->data = (*temp); return true;
-				}
 			}
 
 			// Mat4
@@ -254,9 +240,7 @@ namespace ml
 				ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8], 3);
 				ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 3);
 				if (auto u = value->as<uni_mat4>())
-				{
 					u->data = (*temp); return true;
-				}
 			}
 
 			// Tex
@@ -264,7 +248,7 @@ namespace ml
 		case uni_tex2::ID:
 			if (auto u = value->as<uni_tex2>())
 			{
-				return PropertyDrawer<const Texture *>()("##Texture##Uni", u->data);
+				return TextureDrawer()("##Texture##Uni", u->data);;
 			}
 		}
 		ImGui::SameLine();

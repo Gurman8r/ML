@@ -118,6 +118,11 @@ namespace ml
 				draw_shader_registry();
 			});
 
+			Layout::Header("Scripts", [&]()
+			{
+				draw_script_registry();
+			});
+
 			Layout::Header("Sprites", [&]()
 			{
 				draw_sprite_registry();
@@ -500,8 +505,11 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<Script>())
 		{
+			Script * script = reinterpret_cast<Script *>(pair.second);
+
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
+				ImGui::Text("%s", pair.first.c_str());
 				ImGui::TreePop();
 			}
 			ImGui::Separator();

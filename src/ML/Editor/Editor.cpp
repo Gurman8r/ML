@@ -376,7 +376,6 @@ namespace ml
 				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
-					if (ImGui::MenuItem("CTTI")) ML_OS.execute("open", "https://github.com/Manu343726/ctti");
 					if (ImGui::MenuItem("FreeType")) ML_OS.execute("open", "https://www.freetype.org/");
 					if (ImGui::MenuItem("GCEM")) ML_OS.execute("open", "https://github.com/kthohr/gcem");
 					if (ImGui::MenuItem("GLEW")) ML_OS.execute("open", "http://glew.sourceforge.net/");

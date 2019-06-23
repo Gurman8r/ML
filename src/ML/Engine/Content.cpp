@@ -100,28 +100,27 @@ namespace ml
 
 	bool Content::parseMetadata(const Metadata & md)
 	{
-		if (md.getData("type").asString() == "manifest")
+		switch (hash()(md.getData("type").asString()))
 		{
-			return loadFromFile(md.getData("name"));
+			case hash()("manifest")				: return loadFromFile(md.getData("file"));
+			case AssetImporter<	CubeMap	>::ID	: return AssetImporter<	CubeMap	>()(md);
+			case AssetImporter<	Entity	>::ID	: return AssetImporter<	Entity	>()(md);
+			case AssetImporter<	Font	>::ID	: return AssetImporter<	Font	>()(md);
+			case AssetImporter<	Image	>::ID	: return AssetImporter<	Image	>()(md);
+			case AssetImporter<	Material>::ID	: return AssetImporter<	Material>()(md);
+			case AssetImporter<	Mesh	>::ID	: return AssetImporter<	Mesh	>()(md);
+			case AssetImporter<	Model	>::ID	: return AssetImporter<	Model	>()(md);
+			case AssetImporter<	Script	>::ID	: return AssetImporter<	Script	>()(md);
+			case AssetImporter<	Shader	>::ID	: return AssetImporter<	Shader	>()(md);
+			case AssetImporter<	Sound	>::ID	: return AssetImporter<	Sound	>()(md);
+			case AssetImporter<	Sprite	>::ID	: return AssetImporter<	Sprite	>()(md);
+			case AssetImporter<	Surface	>::ID	: return AssetImporter<	Surface	>()(md);
+			case AssetImporter<	Texture	>::ID	: return AssetImporter<	Texture	>()(md);
+			case AssetImporter<	Uniform	>::ID	: return AssetImporter<	Uniform	>()(md);
+			default:
+				return false;
 		}
-		else if (auto temp = AssetImporter<	CubeMap	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Entity	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Font	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Image	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Material>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Mesh	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Model	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Script	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Shader	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Sound	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Sprite	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Surface	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Texture	>()(md)) { return temp; }
-		else if (auto temp = AssetImporter<	Uniform	>()(md)) { return temp; }
-		else
-		{
-			return false;
-		}
+
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -42,16 +42,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline data_map & data(size_t id)
+		inline data_map & data(size_t ID)
 		{
 			type_map::iterator it;
-			if ((it = m_data.find(id)) != m_data.end())
+			if ((it = m_data.find(ID)) != m_data.end())
 			{
 				return it->second;
 			}
 			else
 			{
-				return m_data.insert({ id, data_map() }).first->second;
+				return m_data.insert({ ID, data_map() }).first->second;
 			}
 		}
 
@@ -64,9 +64,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const data_map & data(size_t id) const
+		inline const data_map & data(size_t ID) const
 		{
-			return m_data.at(id);
+			return m_data.at(ID);
 		}
 
 		template <

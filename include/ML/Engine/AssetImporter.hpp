@@ -35,12 +35,12 @@ namespace ml
 	{
 		using value_type	= typename T;
 		using self_type		= typename CustomAssetImporter<value_type>;
-		using impl_type		= typename AssetImporter<value_type>;
+		using wrapper_type	= typename AssetImporter<value_type>;
 		
 		virtual value_type * operator()(const Metadata & md) const = 0;
 
-		constexpr auto tag()  const	{ return impl_type::tag;  }
-		constexpr auto hash() const { return impl_type::hash; }
+		static constexpr auto getHash() -> size_t	{ return wrapper_type::ID;	}
+		static constexpr auto getTag()	-> CString	{ return wrapper_type::tag;	}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -51,8 +51,9 @@ struct PRE NAME POST : public ::ml::CustomAssetImporter<OUT>		\
 ##IMPL;																\
 template <> struct ::ml::AssetImporter<OUT>							\
 {																	\
-	static constexpr auto tag	{ ##TAG };							\
-	static constexpr auto hash	{ ::ml::hash()(##TAG) };			\
+	using type = typename OUT;										\
+	enum : size_t { ID = ::ml::hash()(##TAG) };						\
+	static constexpr auto tag { ##TAG };							\
 	template <														\
 		class ... Args												\
 	> inline auto operator()(Args && ... args) const				\

@@ -2,7 +2,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/fonts.txt
+	file = ../../../assets/data/fonts.txt
 </import>
 
 
@@ -10,7 +10,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/images.txt
+	file = ../../../assets/data/images.txt
 </import>
 
 
@@ -18,7 +18,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/shaders.txt
+	file = ../../../assets/data/shaders.txt
 </import>
 
 
@@ -26,7 +26,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/textures.txt
+	file = ../../../assets/data/textures.txt
 </import>
 
 
@@ -34,7 +34,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/meshes.txt
+	file = ../../../assets/data/meshes.txt
 </import>
 
 
@@ -42,7 +42,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/models.txt
+	file = ../../../assets/data/models.txt
 </import>
 
 
@@ -50,7 +50,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/sprites.txt
+	file = ../../../assets/data/sprites.txt
 </import>
 
 
@@ -58,7 +58,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/surfaces.txt
+	file = ../../../assets/data/surfaces.txt
 </import>
 
 
@@ -66,7 +66,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/scripts.txt
+	file = ../../../assets/data/scripts.txt
 </import>
 
 
@@ -74,5 +74,5 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
-	name = ../../../assets/data/entities.txt
+	file = ../../../assets/data/entities.txt
 </import>

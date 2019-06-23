@@ -37,12 +37,12 @@ namespace ml
 	{
 		using value_type	= typename T;
 		using self_type		= typename CustomPropertyDrawer<value_type>;
-		using impl_type		= typename PropertyDrawer<value_type>;
+		using wrapper_type	= typename PropertyDrawer<value_type>;
 
 		virtual bool operator()(const String & label, value_type value) const = 0;
 
-		constexpr auto tag()  const	{ return impl_type::tag;  }
-		constexpr auto hash() const { return impl_type::hash; }
+		static constexpr auto getHash() -> size_t	{ return wrapper_type::ID;	}
+		static constexpr auto getTag()	-> CString	{ return wrapper_type::tag; }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -53,8 +53,9 @@ struct PRE NAME POST : public ::ml::CustomPropertyDrawer<OUT>		\
 ##IMPL;																\
 template <> struct ::ml::PropertyDrawer<OUT>						\
 {																	\
-	static constexpr auto tag	{ ##TAG };							\
-	static constexpr auto hash	{ ::ml::hash()(##TAG) };			\
+	using type = typename OUT;										\
+	enum : size_t { ID = ::ml::hash()(##TAG) };						\
+	static constexpr auto tag { ##TAG };							\
 	template <														\
 		class ... Args												\
 	> inline auto operator()(Args && ... args) const				\

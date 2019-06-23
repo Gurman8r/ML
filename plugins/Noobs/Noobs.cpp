@@ -12,11 +12,13 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Content.hpp>
+#include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/RenderStates.hpp>
+#include <ML/Graphics/Shader.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Uniform.hpp>
@@ -113,42 +115,39 @@ namespace DEMO
 		noobs.surf_post = ML_Content.get<ml::Surface>("noobs_surf_post");
 
 		// Create Entity
-		if (noobs.entity = ML_Content.create<ml::Entity>("noobs_entity_0"))
-		{
-			// Create Renderer
-			noobs.renderer = noobs.entity->add<ml::Renderer>(
-				ML_Content.get<ml::Model>("sphere32x24"),
-				noobs.material = ML_Content.create<ml::Material>(
-					"noobs_material_0",
-					ML_Content.get<ml::Shader>("noobs_shader_0"),
-					ml::List<ml::Uniform *>({
-						new ml::uni_flt_ref	("time.total",		noobs.totalTime),
-						new ml::uni_flt_ref	("time.delta",		noobs.deltaTime),
-
-						new ml::uni_vec2_ref("window.size",		noobs.resolution),
-						new ml::uni_col4_ref("window.color",	noobs.clearColor),
-
-						new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
-						new ml::uni_vec3	("camera.target",	ml::vec3::Zero),
-						new ml::uni_flt		("camera.fov",		45.0),
-						new ml::uni_flt		("camera.zNear",	0.001f),
-						new ml::uni_flt		("camera.zFar",		1000.0),
-				
-						new ml::uni_tex2	("frag.tex_dm",		ML_Content.get<ml::Texture>("earth_dm")),
-						new ml::uni_tex2	("frag.tex_sm",		ML_Content.get<ml::Texture>("earth_sm")),
-						new ml::uni_flt		("frag.specular",	0.1f),
-						new ml::uni_int		("frag.shininess",	8),
-						new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
-						new ml::uni_col4	("frag.diffuse",	ml::Color::LightYellow),
-						new ml::uni_flt		("frag.ambient",	0.01f),
-						})));
-		}
+		noobs.entity = ML_Content.create<ml::Entity>("noobs_entity_0");
+		noobs.renderer = noobs.entity->add<ml::Renderer>(
+			ML_Content.get<ml::Model>("sphere32x24"),
+			noobs.material = ML_Content.create<ml::Material>(
+				"noobs_material_0",
+				ML_Content.get<ml::Shader>("noobs_shader_0"),
+				ml::List<ml::Uniform *>({
+					new ml::uni_flt_ref	("time.total",		noobs.totalTime),
+					new ml::uni_flt_ref	("time.delta",		noobs.deltaTime),
+					new ml::uni_vec2_ref("window.size",		noobs.resolution),
+					new ml::uni_col4_ref("window.color",	noobs.clearColor),
+					new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
+					new ml::uni_vec3	("camera.target",	ml::vec3::Zero),
+					new ml::uni_flt		("camera.fov",		45.0),
+					new ml::uni_flt		("camera.zNear",	0.001f),
+					new ml::uni_flt		("camera.zFar",		1000.0),
+					new ml::uni_tex2	("frag.tex_dm",		ML_Content.get<ml::Texture>("earth_dm")),
+					new ml::uni_tex2	("frag.tex_sm",		ML_Content.get<ml::Texture>("earth_sm")),
+					new ml::uni_flt		("frag.specular",	0.1f),
+					new ml::uni_int		("frag.shininess",	8),
+					new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
+					new ml::uni_col4	("frag.diffuse",	ml::Color::LightYellow),
+					new ml::uni_flt		("frag.ambient",	0.01f),
+					})));
 
 		// Generate Sources
 		if (noobs.material->shader())
 		{
 			// Create Main File
-			noobs.files.push_back(new NoobFile("Main", ml::String()));
+			noobs.files.push_back(new NoobFile(
+				"Main", 
+				ml::String()
+			));
 
 			// Create Vertex File
 			if (noobs.material->shader()->vertSrc())

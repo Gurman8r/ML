@@ -11,7 +11,7 @@
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
+
 	struct CubeMap;
 	struct Entity;
 	struct Font;
@@ -26,6 +26,7 @@ namespace ml
 	struct Surface;
 	struct Texture;
 	struct Uniform;
+
 
 	// Base Importers
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -1,5 +1,6 @@
 #include <ML/Engine/Engine.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/FileSystem.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/EngineEvents.hpp>

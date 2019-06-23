@@ -25,9 +25,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -36,7 +36,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -55,9 +55,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -66,7 +66,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -85,9 +85,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -96,7 +96,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -115,9 +115,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -126,7 +126,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -145,9 +145,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -156,7 +156,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -175,9 +175,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -186,7 +186,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -205,9 +205,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -218,16 +218,17 @@ namespace ml
 					{
 						if (const Mesh * mesh = ML_Content.get<Mesh>(file))
 						{
+							auto temp = new value_type();
 							if (temp->loadFromMemory(*mesh))
 							{
 								return ML_Content.insert(name, temp);
 							}
+							delete temp;
 						}
-						delete temp;
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -246,9 +247,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -257,7 +258,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -331,9 +332,9 @@ namespace ml
 			{
 				if (!ML_Content.get<value_type>(name))
 				{
-					auto temp = new value_type();
 					if (const String file = md.getData("file"))
 					{
+						auto temp = new value_type();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -342,7 +343,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -398,9 +399,9 @@ namespace ml
 					const String  s = md.getData("shader");
 					const int32_t w = md.getData("width", 1920);
 					const int32_t h = md.getData("height", 1080);
-					auto temp = new value_type();
 					if (m && s)
 					{
+						auto temp = new value_type();
 						if (temp->create({ w, h }, GL::ColorAttachment0) &&
 							temp->setModel(ML_Content.get<Model>(m)) &&
 							temp->setShader(ML_Content.get<Shader>(s)))
@@ -411,7 +412,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, temp);
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -502,7 +503,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert<Texture>(name, new Texture());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}

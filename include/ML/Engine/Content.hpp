@@ -2,29 +2,15 @@
 #define _ML_CONTENT_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/FileSystem.hpp>
+#include <ML/Core/List.hpp>
 #include <ML/Core/Metadata.hpp>
+#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/I_Readable.hpp>
 
 #define ML_Content ml::Content::getInstance()
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	struct CubeMap;
-	struct Entity;
-	struct Font;
-	struct Image;
-	struct Material;
-	struct Mesh;
-	struct Model;
-	struct Script;
-	struct Shader;
-	struct Sound;
-	struct Sprite;
-	struct Surface;
-	struct Texture;
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Content final

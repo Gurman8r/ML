@@ -8,6 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	struct Material;
 	struct Uniform;
 
 	/* * * * * * * * * * * * * * * * * * * * */

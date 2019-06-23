@@ -1,5 +1,7 @@
 #include <ML/Engine/Content.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/FileSystem.hpp>
+#include <ML/Engine/AssetImporter.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/CubeMap.hpp>
@@ -8,7 +10,6 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Script/Script.hpp>
-#include <ML/Engine/AssetImporter.hpp>
 
 namespace ml
 {

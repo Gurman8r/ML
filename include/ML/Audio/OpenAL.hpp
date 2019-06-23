@@ -42,6 +42,8 @@ namespace ml
 		
 		static bool init();
 
+		static void test();
+
 		// Errors */
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

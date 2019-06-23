@@ -21,6 +21,17 @@ namespace ml
 		}
 		return ML_AL.m_good;
 	}
+
+	void OpenAL::test()
+	{
+		ALCdevice *device;
+
+		device = alcOpenDevice(NULL);
+		if (!device)
+		{
+			// handle errors
+		}
+	}
 	
 
 	// Errors

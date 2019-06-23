@@ -46,15 +46,16 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_ASSET_IMPORTER(TYPE, BASE) \
-template <> struct ml::AssetImporter<TYPE> \
+#define ML_GEN_ASSET_IMPORTER(OUTPUT, CUSTOM) \
+template <> struct AssetImporter<OUTPUT> \
 { \
+	static constexpr auto tag { CUSTOM::tag }; \
 	template <class ... Args> \
 	inline auto operator()(Args && ... args) \
 	{ \
-		return BASE()(std::forward<Args>(args)...); \
+		return CUSTOM()(std::forward<Args>(args)...); \
 	} \
-}; \
+};
 
 namespace ml
 {
@@ -65,7 +66,6 @@ namespace ml
 		static constexpr CString tag { "cubemap" };
 		CubeMap * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(CubeMap, CubeMapImporter);
 
 
@@ -76,7 +76,6 @@ namespace ml
 		static constexpr CString tag { "entity" };
 		Entity * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Entity, EntityImporter);
 
 
@@ -87,7 +86,6 @@ namespace ml
 		static constexpr CString tag { "font" };
 		Font * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Font, FontImporter);
 
 
@@ -98,7 +96,6 @@ namespace ml
 		static constexpr CString tag { "image" };
 		Image * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Image, ImageImporter);
 
 
@@ -109,7 +106,6 @@ namespace ml
 		static constexpr CString tag { "material" };
 		Material * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Material, MaterialImporter);
 
 
@@ -120,7 +116,6 @@ namespace ml
 		static constexpr CString tag { "mesh" };
 		Mesh * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Mesh, MeshImporter);
 
 
@@ -131,7 +126,6 @@ namespace ml
 		static constexpr CString tag { "model" };
 		Model * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Model, ModelImporter);
 
 
@@ -142,7 +136,6 @@ namespace ml
 		static constexpr CString tag { "script" };
 		Script * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Script, ScriptImporter);
 
 
@@ -153,7 +146,6 @@ namespace ml
 		static constexpr CString tag { "shader" };
 		Shader * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Shader, ShaderImporter);
 
 
@@ -164,7 +156,6 @@ namespace ml
 		static constexpr CString tag { "sound" };
 		Sound * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Sound, SoundImporter);
 
 
@@ -175,7 +166,6 @@ namespace ml
 		static constexpr CString tag { "sprite" };
 		Sprite * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Sprite, SpriteImporter);
 
 
@@ -186,7 +176,6 @@ namespace ml
 		static constexpr CString tag { "surface" };
 		Surface * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Surface, SurfaceImporter);
 
 
@@ -197,7 +186,6 @@ namespace ml
 		static constexpr CString tag { "texture" };
 		Texture * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Texture, TextureImporter);
 
 	
@@ -208,7 +196,6 @@ namespace ml
 		static constexpr CString tag { "uniform" };
 		Uniform * operator()(const Metadata & md) const override;
 	};
-
 	ML_GEN_ASSET_IMPORTER(Uniform, UniformImporter);
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

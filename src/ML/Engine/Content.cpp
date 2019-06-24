@@ -103,20 +103,20 @@ namespace ml
 		switch (hash()(md.getData("type").asString()))
 		{
 			case hash()("manifest")				: return loadFromFile(md.getData("file"));
-			case AssetImporter<	CubeMap	>::ID	: return AssetImporter<	CubeMap	>()(md);
-			case AssetImporter<	Entity	>::ID	: return AssetImporter<	Entity	>()(md);
-			case AssetImporter<	Font	>::ID	: return AssetImporter<	Font	>()(md);
-			case AssetImporter<	Image	>::ID	: return AssetImporter<	Image	>()(md);
-			case AssetImporter<	Material>::ID	: return AssetImporter<	Material>()(md);
-			case AssetImporter<	Mesh	>::ID	: return AssetImporter<	Mesh	>()(md);
-			case AssetImporter<	Model	>::ID	: return AssetImporter<	Model	>()(md);
-			case AssetImporter<	Script	>::ID	: return AssetImporter<	Script	>()(md);
-			case AssetImporter<	Shader	>::ID	: return AssetImporter<	Shader	>()(md);
-			case AssetImporter<	Sound	>::ID	: return AssetImporter<	Sound	>()(md);
-			case AssetImporter<	Sprite	>::ID	: return AssetImporter<	Sprite	>()(md);
-			case AssetImporter<	Surface	>::ID	: return AssetImporter<	Surface	>()(md);
-			case AssetImporter<	Texture	>::ID	: return AssetImporter<	Texture	>()(md);
-			case AssetImporter<	Uniform	>::ID	: return AssetImporter<	Uniform	>()(md);
+			case AssetImporter<	CubeMap	>::id	: return AssetImporter<	CubeMap	>()(md);
+			case AssetImporter<	Entity	>::id	: return AssetImporter<	Entity	>()(md);
+			case AssetImporter<	Font	>::id	: return AssetImporter<	Font	>()(md);
+			case AssetImporter<	Image	>::id	: return AssetImporter<	Image	>()(md);
+			case AssetImporter<	Material>::id	: return AssetImporter<	Material>()(md);
+			case AssetImporter<	Mesh	>::id	: return AssetImporter<	Mesh	>()(md);
+			case AssetImporter<	Model	>::id	: return AssetImporter<	Model	>()(md);
+			case AssetImporter<	Script	>::id	: return AssetImporter<	Script	>()(md);
+			case AssetImporter<	Shader	>::id	: return AssetImporter<	Shader	>()(md);
+			case AssetImporter<	Sound	>::id	: return AssetImporter<	Sound	>()(md);
+			case AssetImporter<	Sprite	>::id	: return AssetImporter<	Sprite	>()(md);
+			case AssetImporter<	Surface	>::id	: return AssetImporter<	Surface	>()(md);
+			case AssetImporter<	Texture	>::id	: return AssetImporter<	Texture	>()(md);
+			case AssetImporter<	Uniform	>::id	: return AssetImporter<	Uniform	>()(md);
 			default:
 				return false;
 		}

@@ -43,7 +43,7 @@ namespace ml
 		using self_type			= typename CustomPropertyDrawer<value_type>;
 		using wrapper_type		= typename PropertyDrawer<value_type>;
 
-		static constexpr auto getHash() -> size_t	{ return wrapper_type::ID;	}
+		static constexpr auto getHash() -> size_t	{ return wrapper_type::id;	}
 		static constexpr auto getTag()	-> CString	{ return wrapper_type::tag; }
 	};
 
@@ -56,13 +56,13 @@ struct PREFIX NAME final : public ::ml::CustomPropertyDrawer<OUT>	\
 template <> struct ::ml::PropertyDrawer<OUT>						\
 {																	\
 	using type = typename OUT;										\
-	enum : size_t { ID = ::ml::hash()(##TAG) };						\
-	static constexpr auto tag { ##TAG };							\
+	static constexpr auto id	{ ::ml::hash()(##TAG) };			\
+	static constexpr auto tag	{ ##TAG };							\
 	template <														\
 		class ... Args												\
 	> inline auto operator()(Args && ... args) const				\
 	{																\
-		return NAME()(std::forward<Args>(args)...);					\
+		return NAME()(::std::forward<Args>(args)...);				\
 	}																\
 };
 

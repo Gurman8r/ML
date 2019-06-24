@@ -26,23 +26,23 @@ namespace ml
 	template <
 		class T 
 	> inline static void draw_content(const String & label)
-		{
-			if (!ImGui::CollapsingHeader(label.c_str()))
-				return;
+	{
+		if (!ImGui::CollapsingHeader(label.c_str()))
+			return;
 
-			ImGui::BeginGroup();
-			for (auto & pair : ML_Content.data<T>())
+		ImGui::BeginGroup();
+		for (auto & pair : ML_Content.data<T>())
+		{
+			if (!pair.second) continue;
+			if (ImGui::TreeNode(pair.first.c_str()))
 			{
-				if (!pair.second) continue;
-				if (ImGui::TreeNode(pair.first.c_str()))
-				{
-					PropertyDrawer<T>()(pair.first, (T &)(*pair.second));
-					ImGui::TreePop();
-				}
-				ImGui::Separator();
+				PropertyDrawer<T>()(pair.first, (T &)(*pair.second));
+				ImGui::TreePop();
 			}
-			ImGui::EndGroup();
+			ImGui::Separator();
 		}
+		ImGui::EndGroup();
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

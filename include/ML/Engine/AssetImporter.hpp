@@ -46,8 +46,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_ASSET_IMPORTER_EXT(PRE, NAME, POST, OUT, TAG, IMPL)	\
-struct PRE NAME POST : public ::ml::CustomAssetImporter<OUT>		\
+#define ML_GEN_ASSET_IMPORTER_EXT(PREFIX, NAME, OUT, TAG, IMPL)		\
+struct PREFIX NAME final : public ::ml::CustomAssetImporter<OUT>	\
 ##IMPL;																\
 template <> struct ::ml::AssetImporter<OUT>							\
 {																	\
@@ -63,7 +63,7 @@ template <> struct ::ml::AssetImporter<OUT>							\
 };
 
 #define ML_GEN_ASSET_IMPORTER(NAME, OUT, TAG, IMPL) ML_GEN_ASSET_IMPORTER_EXT( \
-	ML_ENGINE_API, NAME, final, OUT, TAG, IMPL \
+	ML_ENGINE_API, NAME, OUT, TAG, IMPL \
 )
 
 namespace ml

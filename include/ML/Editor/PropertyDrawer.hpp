@@ -50,8 +50,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_PROPERTY_DRAWER_EXT(PRE, NAME, POST, OUT, TAG, IMPL)	\
-struct PRE NAME POST : public ::ml::CustomPropertyDrawer<OUT>		\
+#define ML_GEN_PROPERTY_DRAWER_EXT(PREFIX, NAME, OUT, TAG, IMPL)	\
+struct PREFIX NAME final : public ::ml::CustomPropertyDrawer<OUT>	\
 ##IMPL;																\
 template <> struct ::ml::PropertyDrawer<OUT>						\
 {																	\
@@ -67,7 +67,7 @@ template <> struct ::ml::PropertyDrawer<OUT>						\
 };
 
 #define ML_GEN_PROPERTY_DRAWER(NAME, OUT, TAG, IMPL) ML_GEN_PROPERTY_DRAWER_EXT( \
-	ML_EDITOR_API, NAME, final, OUT, TAG, IMPL \
+	ML_EDITOR_API, NAME, OUT, TAG, IMPL \
 )
 
 namespace ml

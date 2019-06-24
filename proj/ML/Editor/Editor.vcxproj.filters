@@ -106,7 +106,7 @@
       <Filter>Header Files\Internal</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,7 +159,7 @@
       <Filter>Source Files\Internal</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

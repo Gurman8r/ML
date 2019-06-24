@@ -623,7 +623,7 @@ namespace DEMO
 
 							if (it->second)
 							{
-								ml::UniformPropertyDrawer()(label, (*it->second));
+								ml::UniformPropertyDrawer()(label, (ml::Uniform &)(*it->second));
 							}
 						}
 						else
@@ -861,14 +861,22 @@ namespace DEMO
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Shader
-					ml::ShaderPropertyDrawer()("Shader##Material##Noobs", noobs.material->shader());
+					const ml::Shader * shader = noobs.material->shader();
+					if (ml::ShaderPropertyDrawer()("Shader##Material##Noobs", shader))
+					{
+						noobs.material->shader() = shader;
+					}
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The shader to be used.");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Model
-					ml::ModelPropertyDrawer()("Model##Renderer##Noobs", (const ml::Model *)noobs.renderer->drawable());
+					const ml::Model * model = (const ml::Model *)noobs.renderer->drawable();
+					if (ml::ModelPropertyDrawer()("Model##Renderer##Noobs", model))
+					{
+						noobs.renderer->drawable() = model;
+					}
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The model to be drawn.");
 

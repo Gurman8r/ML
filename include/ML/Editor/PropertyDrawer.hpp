@@ -36,9 +36,9 @@ namespace ml
 	> struct CustomPropertyDrawer
 	{
 		using value_type		= typename T;
-		using pointer			= typename value_type *;
+		using pointer			= typename value_type *&;
 		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
+		using const_pointer		= typename const value_type *&;
 		using const_reference	= typename const value_type &;
 		using self_type			= typename CustomPropertyDrawer<value_type>;
 		using wrapper_type		= typename PropertyDrawer<value_type>;
@@ -208,7 +208,7 @@ namespace ml
 	{
 		bool operator()(const String & label, const_pointer value) const;
 		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, pointer & value) const;
+		bool operator()(const String & label, pointer value) const;
 		bool operator()(const String & label, reference value) const;
 	});
 }

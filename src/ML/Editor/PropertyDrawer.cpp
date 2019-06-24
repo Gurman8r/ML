@@ -39,7 +39,7 @@ namespace ml
 
 	template <
 		class T
-	> inline static bool basic_asset_dropdown(const String & label, const T * value)
+	> inline static bool basic_asset_dropdown(const String & label, const T *& value)
 	{
 		int32_t index = ML_Content.getIndexOf<T>(value);
 		if (ML_EditorUtility.StringCombo(
@@ -48,8 +48,7 @@ namespace ml
 			ML_Content.keys<T>()
 		))
 		{
-			value = ML_Content.getByIndex<T>(index);
-			return true;
+			return (value = ML_Content.getByIndex<T>(index));
 		}
 		return false;
 	}
@@ -110,9 +109,17 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ModelPropertyDrawer()("Model##Renderer", (const Model *)r->drawable());
+				const Model * model = (const Model *)r->drawable();
+				if (ModelPropertyDrawer()("Model##Renderer", model))
+				{
+					r->drawable() = model;
+				}
 
-				MaterialPropertyDrawer()("Material##Renderer", r->material());
+				const Material * material = r->material();
+				if (MaterialPropertyDrawer()("Material##Renderer", material))
+				{
+					r->material() = material;
+				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -319,7 +326,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		ShaderPropertyDrawer()("Shader##Material", value.shader());
+		const Shader * shader = value.shader();
+		if (ShaderPropertyDrawer()("Shader##Material", shader))
+		{
+			value.shader() = shader;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -600,7 +611,8 @@ namespace ml
 		vec2 scale = value.scale();
 		if (ImGui::InputFloat2("Scale##Sprite", &scale[0], 1)) {}
 
-		TexturePropertyDrawer()("Texture##Sprite", value.texture());
+		const Texture * tex = value.texture();
+		TexturePropertyDrawer()("Texture##Sprite", tex);
 
 		ImGui::PopID();
 
@@ -648,7 +660,11 @@ namespace ml
 			changed = true;
 		}
 
-		TexturePropertyDrawer()("Texture##Sprite", value.texture());
+		auto tex = value.texture();
+		if (TexturePropertyDrawer()("Texture##Sprite", tex))
+		{
+			value.setTexture(tex);
+		}
 
 		ImGui::PopID();
 
@@ -667,7 +683,8 @@ namespace ml
 	{
 		ImGui::PushID(label.c_str());
 
-		ShaderPropertyDrawer()("Shader##Surface", value.shader());
+		const Shader * shader = value.shader();
+		ShaderPropertyDrawer()("Shader##Surface", shader);
 
 		if (ImGui::TreeNode("Preview"))
 		{
@@ -842,7 +859,7 @@ namespace ml
 		return false;
 	}
 
-	bool UniformPropertyDrawer::operator()(const String & label, pointer & value) const
+	bool UniformPropertyDrawer::operator()(const String & label, pointer value) const
 	{
 		if (ImGui::Button(("New##" + label).c_str()))
 		{
@@ -1039,7 +1056,11 @@ namespace ml
 			case uni_tex2::ID:
 				if (auto u = value.as<uni_tex2>())
 				{
-					TexturePropertyDrawer()("##Texture##Uni", u->data);
+					const Texture * temp = u->data;
+					if (TexturePropertyDrawer()("##Texture##Uni", temp))
+					{
+						u->data = temp;
+					}
 					return true;
 				}
 			}

@@ -30,7 +30,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline void * get_address()
+		inline void * get_handle() const
 		{ 
 			return (void *)(intptr_t)(m_handle);
 		}
@@ -58,7 +58,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-	private: value_type m_handle;
+	private: mutable value_type m_handle;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -324,7 +324,7 @@ namespace DEMO
 
 				ImGui::BeginChild("Viewport", { -1, -1 });
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(texture->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::Image(texture->get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 				ImGui::EndChild();
 			}
 
@@ -586,7 +586,16 @@ namespace DEMO
 				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
 				{
 					// new uniform editor
-					//ml::ResourceGui::NewUniformPopup(noobs.material);
+					ml::Uniform * u = nullptr;
+					if (ml::UniformPropertyDrawer()("##NewUniform##Material##Noobs", u))
+					{
+						if (noobs.material->hasUniform(u->name) ||
+							!noobs.material->uniforms().insert({ u->name, u }).first->second)
+						{
+							delete u;
+							ml::Debug::logError("A uniform with that name already exists");
+						}
+					}
 
 					// do nothing if empty
 					if (!noobs.material->uniforms().empty()) 
@@ -599,24 +608,23 @@ namespace DEMO
 						it != noobs.material->uniforms().rend(); 
 						it++)
 					{
-						float height = 1;
-						if (it->second->type == ml::uni_mat3::ID) { height = 3; }
-						else if (it->second->type == ml::uni_mat4::ID) { height = 4; }
-
 						// label
 						const ml::String label("##Uni##" + it->first + "##Material##Noobs");
 
 						// Uniform Header
-						ImGui::PushStyleColor(ImGuiCol_Header, { 0.367f, 0.258f, 0.489f, 0.580f });
+						ImGui::PushStyleColor(
+							ImGuiCol_Header, 
+							{ 0.367f, 0.258f, 0.489f, 0.580f }
+						);
+						
 						if (ImGui::CollapsingHeader((it->first + label).c_str()))
 						{
 							ImGui::PopStyleColor();
 
-							/* * * * * * * * * * * * * * * * * * * * */
-							
-							ml::UniformPropertyDrawer()(label, it->second);
-
-							/* * * * * * * * * * * * * * * * * * * * */
+							if (it->second)
+							{
+								ml::UniformPropertyDrawer()(label, (*it->second));
+							}
 						}
 						else
 						{

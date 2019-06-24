@@ -875,7 +875,7 @@ namespace ml
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
-			auto resetPopup	= [&]()
+			auto ResetPopup = []()
 			{
 				type = 0;
 				std::strcpy(name, "my_uniform\0");
@@ -899,7 +899,7 @@ namespace ml
 
 				if (value)
 				{
-					resetPopup();
+					ResetPopup();
 				}
 			}
 
@@ -907,7 +907,7 @@ namespace ml
 
 			if (ImGui::Button("Cancel"))
 			{
-				resetPopup();
+				ResetPopup();
 			}
 
 			ImGui::EndPopup();

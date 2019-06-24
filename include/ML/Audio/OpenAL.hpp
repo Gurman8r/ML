@@ -14,10 +14,10 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if ML_DEBUG
-#	define alCheck(expr) do { expr; ML_AL.checkError(__FILE__, __LINE__, #expr); } while (false)
-# else
+# if not ML_DEBUG
 #	define alCheck(expr) (expr)
+# else
+#	define alCheck(expr) do { expr; ML_AL.checkError(__FILE__, __LINE__, #expr); } while (false)
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * */

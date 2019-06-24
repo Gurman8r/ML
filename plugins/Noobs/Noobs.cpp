@@ -200,14 +200,15 @@ namespace DEMO
 	{
 		// Store Time
 		noobs.deltaTime = ev.time.elapsed().delta();
+		
 		noobs.totalTime = ev.time.total().delta();
 
 		// Update Surfaces
-		if (noobs.freeAspect)
-		{
+		if (noobs.freeAspect) 
 			noobs.resolution = ev.window.getFrameSize();
-		}
+
 		noobs.surf_main->resize(noobs.resolution);
+		
 		noobs.surf_post->resize(noobs.resolution);
 	}
 

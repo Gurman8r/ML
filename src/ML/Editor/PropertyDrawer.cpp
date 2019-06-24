@@ -20,23 +20,6 @@
 
 namespace ml
 {
-	struct Layout
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class Fun, class ... Args
-		> inline static void Header(CString label, Fun && fun, Args && ... args)
-		{
-			if (!ImGui::CollapsingHeader(label))
-				return;
-
-			fun((args)...);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	};
-
 	template <
 		class T
 	> inline static bool basic_asset_dropdown(const String & label, const T *& value)
@@ -94,10 +77,10 @@ namespace ml
 
 		if (Transform * t = value.get<Transform>())
 		{
-			Layout::Header("Transform", [&]()
+			if (ImGui::CollapsingHeader("Transform"))
 			{
 				ImGui::Text("OK");
-			});
+			}
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -105,7 +88,7 @@ namespace ml
 		if (Renderer * r = value.get<Renderer>())
 		{
 			RenderStates & states = r->states();
-			Layout::Header("Renderer", [&]()
+			if (ImGui::CollapsingHeader("Renderer"))
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -258,7 +241,7 @@ namespace ml
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
-			});
+			}
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

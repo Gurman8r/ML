@@ -55,12 +55,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(ostream & out, const Font::Info & value)
+	inline ML_SERIALIZE(Ostream & out, const Font::Info & value)
 	{
 		return out << value.family;
 	}
 
-	inline ML_SERIALIZE(ostream & out, const Font & value)
+	inline ML_SERIALIZE(Ostream & out, const Font & value)
 	{
 		return out << value.getInfo();
 	}

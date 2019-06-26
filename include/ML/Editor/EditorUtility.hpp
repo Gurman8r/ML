@@ -7,7 +7,7 @@
 #include <ML/Core/List.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
-#define ML_EditorUtility ::ml::EditorUtility::getInstance()
+#define ML_EditorUtility _ML EditorUtility::getInstance()
 
 namespace ml
 {
@@ -27,15 +27,15 @@ namespace ml
 
 	public:
 		static void HelpMarker(const String & desc);
-		static bool StringCombo(CString label, int32_t & index, const List<String> & keys);
-		static bool BeginWindow(CString name, bool & open, const int32_t flags = 0);
+		static bool StringCombo(C_String label, int32_t & index, const List<String> & keys);
+		static bool BeginWindow(C_String name, bool & open, const int32_t flags = 0);
 		static void EndWindow();
 
 	public:
 		template <
 			class Fun, class ... Args
 		> inline static void DrawWindow(
-			CString name, bool & open, int32_t flags, Fun && fun, Args && ... args)
+			C_String name, bool & open, int32_t flags, Fun && fun, Args && ... args)
 		{	
 			if (open)
 			{
@@ -48,7 +48,7 @@ namespace ml
 		}
 
 	public:
-		inline static bool vector_getter(void * vec, int32_t idx, CString * out_text)
+		inline static bool vector_getter(void * vec, int32_t idx, C_String * out_text)
 		{
 			auto & vector = (*static_cast<List<String>*>(vec));
 			if ((idx >= 0) && (idx < static_cast<int32_t>(vector.size())))

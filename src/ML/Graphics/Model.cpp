@@ -59,7 +59,7 @@ namespace ml
 		return loadFromMemory(vertices.contiguous());
 	}
 
-	bool Model::loadFromMemory(const List<float> & vertices)
+	bool Model::loadFromMemory(const List<float_t> & vertices)
 	{
 		m_vao.create(GL::Triangles);
 		m_vao.bind();
@@ -81,7 +81,7 @@ namespace ml
 		return loadFromMemory(vertices.contiguous(), indices);
 	}
 
-	bool Model::loadFromMemory(const List<float> & vertices, const Indices & indices)
+	bool Model::loadFromMemory(const List<float_t> & vertices, const Indices & indices)
 	{
 		m_vao.create(GL::Triangles);
 		m_vao.bind();

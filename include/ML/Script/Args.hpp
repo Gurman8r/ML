@@ -59,17 +59,17 @@ namespace ml
 		Arguments & erase(const_iterator it, size_t count = 1);
 		Arguments & erase(const_iterator first, const_iterator last);
 		Arguments & insert(size_t index, char value);
-		Arguments & insert(size_t index, CString value);
+		Arguments & insert(size_t index, C_String value);
 		Arguments & insert(size_t index, const String & value);
 		Arguments & pop_back();
 		Arguments & pop_front();
 		Arguments & push_back(char value);
-		Arguments & push_back(CString value);
+		Arguments & push_back(C_String value);
 		Arguments & push_back(const String & value);
 		Arguments & push_back(const List<String> & value);
 		Arguments & push_back(const Arguments & value);
 		Arguments & push_front(char value);
-		Arguments & push_front(CString value);
+		Arguments & push_front(C_String value);
 		Arguments & push_front(const String & value);
 		Arguments & push_front(const List<String> & value);
 		Arguments & push_front(const Arguments & value);
@@ -132,7 +132,7 @@ namespace ml
 			return ss;
 		}
 		inline String	str()	const { return sstr().str(); }
-		inline CString	c_str() const { return str().c_str(); }
+		inline C_String	c_str() const { return str().c_str(); }
 
 	private:
 		List<String> m_values;

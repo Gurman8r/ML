@@ -67,7 +67,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ML_SERIALIZE(ostream & out, const Operator & value);
+	ML_SERIALIZE(Ostream & out, const Operator & value);
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

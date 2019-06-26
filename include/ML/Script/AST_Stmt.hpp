@@ -46,7 +46,7 @@ namespace ml
 		AST_Stmt(int32_t stmt);
 		virtual ~AST_Stmt() {}
 
-		virtual ostream & display(ostream & out) const;
+		virtual Ostream & display(Ostream & out) const;
 
 		AST_Block *	block() const;
 		virtual bool run() = 0;
@@ -61,7 +61,7 @@ namespace ml
 		AST_Elif(AST_Expr * expr);
 		~AST_Elif() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 
@@ -72,7 +72,7 @@ namespace ml
 		AST_Else();
 		~AST_Else() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 
@@ -87,7 +87,7 @@ namespace ml
 		AST_For(AST_Expr * assn, AST_Expr * expr, AST_Expr * stmt);
 		~AST_For() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 
@@ -100,7 +100,7 @@ namespace ml
 		AST_Delete(AST_Name * name);
 		~AST_Delete() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 
@@ -113,7 +113,7 @@ namespace ml
 		AST_If(AST_Expr * expr);
 		~AST_If() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 
@@ -126,7 +126,7 @@ namespace ml
 		AST_Include(AST_Expr * expr);
 		~AST_Include() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 
@@ -140,7 +140,7 @@ namespace ml
 		AST_Print(AST_Expr * expr, bool newl);
 		~AST_Print() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 
@@ -153,7 +153,7 @@ namespace ml
 		AST_Return(AST_Expr * expr);
 		~AST_Return() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 
@@ -166,7 +166,7 @@ namespace ml
 		AST_While(AST_Expr * expr);
 		~AST_While() {}
 
-		ostream & display(ostream & out) const override;
+		Ostream & display(Ostream & out) const override;
 		bool run() override;
 	};
 }

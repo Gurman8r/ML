@@ -47,7 +47,7 @@ namespace ml
 		constexpr auto data()	const	-> const_pointer	{ return m_data.data(); }
 		constexpr auto end()			-> iterator			{ return m_data.end(); }
 		constexpr auto end()	const	-> const_iterator	{ return m_data.end(); }
-		constexpr auto hash()	const	-> size_t			{ return m_data.hash(); }
+		constexpr auto hash()	const	-> hash_t			{ return m_data.hash(); }
 		constexpr auto height()	const	-> size_t			{ return this->rows(); }
 		constexpr auto rows()	const	-> size_t			{ return self_type::Rows; }
 		constexpr auto size()	const	-> size_t			{ return m_data.size(); }
@@ -65,7 +65,7 @@ namespace ml
 			template <class, size_t, size_t> class M, class U, size_t W, size_t H
 		> constexpr operator M<U, W, H>() const
 		{
-			M<U, W, H> temp { meta::uninit };
+			M<U, W, H> temp { uninit };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				const size_t x = i % temp.width();
@@ -82,12 +82,12 @@ namespace ml
 
 		static constexpr self_type zero()
 		{
-			return self_type { meta::uninit };
+			return self_type { uninit };
 		}
 
 		static constexpr self_type one()
 		{
-			self_type temp { meta::uninit };
+			self_type temp { uninit };
 			for (auto & elem : temp)
 			{
 				elem = type::one;
@@ -161,7 +161,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		// Non-Newable
+		// I_NonNewable (no inheritance because aggregate initializer)
 		private:
 			inline void * operator	new		 (size_t size) { return nullptr; }
 			inline void * operator	new[]	 (size_t size) { return nullptr; }
@@ -189,10 +189,10 @@ namespace ml
 	template <class T>
 	using tmat3 = tmat_nxn<T, 3>;
 	using mat3b = tmat3<uint8_t>;
-	using mat3f = tmat3<float>;
 	using mat3i = tmat3<int32_t>;
-	using mat3d = tmat3<double>;
 	using mat3u = tmat3<uint32_t>;
+	using mat3f = tmat3<float_t>;
+	using mat3d = tmat3<float64_t>;
 	using mat3	= mat3f;
 
 	// MATRIX4
@@ -200,10 +200,10 @@ namespace ml
 	template <class T>
 	using tmat4 = tmat_nxn<T, 4>;
 	using mat4b = tmat4<uint8_t>;
-	using mat4f = tmat4<float>;
 	using mat4i = tmat4<int32_t>;
-	using mat4d = tmat4<double>;
 	using mat4u = tmat4<uint32_t>;
+	using mat4f = tmat4<float_t>;
+	using mat4d = tmat4<float64_t>;
 	using mat4	= mat4f;
 
 	// VECTOR2
@@ -211,10 +211,10 @@ namespace ml
 	template <class T>
 	using tvec2 = tmat_nx1<T, 2>;
 	using vec2b = tvec2<uint8_t>;
-	using vec2f = tvec2<float>;
 	using vec2i = tvec2<int32_t>;
-	using vec2d = tvec2<double>;
 	using vec2u = tvec2<uint32_t>;
+	using vec2f = tvec2<float_t>;
+	using vec2d = tvec2<float64_t>;
 	using vec2	= vec2f;
 
 	// VECTOR3
@@ -222,10 +222,10 @@ namespace ml
 	template <class T>
 	using tvec3 = tmat_nx1<T, 3>;
 	using vec3b = tvec3<uint8_t>;
-	using vec3f = tvec3<float>;
 	using vec3i = tvec3<int32_t>;
-	using vec3d = tvec3<double>;
 	using vec3u = tvec3<uint32_t>;
+	using vec3f = tvec3<float_t>;
+	using vec3d = tvec3<float64_t>;
 	using vec3	= vec3f;
 
 	// VECTOR4
@@ -233,10 +233,10 @@ namespace ml
 	template <class T>
 	using tvec4 = tmat_nx1<T, 4>;
 	using vec4b = tvec4<uint8_t>;
-	using vec4f = tvec4<float>;
 	using vec4i = tvec4<int32_t>;
-	using vec4d = tvec4<double>;
 	using vec4u = tvec4<uint32_t>;
+	using vec4f = tvec4<float_t>;
+	using vec4d = tvec4<float64_t>;
 	using vec4	= vec4f;
 }
 
@@ -246,7 +246,7 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> inline ML_SERIALIZE(ostream & out, const Matrix<T, X, Y> & value)
+	> inline ML_SERIALIZE(Ostream & out, const Matrix<T, X, Y> & value)
 	{
 		for (const auto & elem : value)
 		{
@@ -257,7 +257,7 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> inline ML_DESERIALIZE(istream & in, Matrix<T, X, Y> & value)
+	> inline ML_DESERIALIZE(Istream & in, Matrix<T, X, Y> & value)
 	{
 		for (auto & elem : value)
 		{

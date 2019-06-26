@@ -14,7 +14,7 @@ namespace ml
 
 	Image::Image()
 		: m_size	({ 0, 0 })
-		, m_pixels	(Pixels())
+		, m_pixels	()
 		, m_channels(0)
 	{
 	}
@@ -27,7 +27,7 @@ namespace ml
 
 	Image::Image(uint32_t width, uint32_t height, const uint8_t * pixels)
 		: m_size	({ width, height })
-		, m_pixels	(Pixels())
+		, m_pixels	()
 		, m_channels(0)
 	{
 		create(width, height, pixels);

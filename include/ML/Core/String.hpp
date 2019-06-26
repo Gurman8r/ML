@@ -1,7 +1,7 @@
 #ifndef _ML_STRING_HPP_
 #define _ML_STRING_HPP_
 
-#include <ML/Core/CString.hpp>
+#include <ML/Core/C_String.hpp>
 #include <ML/Core/I_Comparable.hpp>
 
 namespace ml
@@ -304,13 +304,13 @@ namespace std
 {
 	template <
 		class Elem, class Traits, class Alloc
-	> struct hash<ml::BasicString<Elem, Traits, Alloc>>
+	> struct hash<_ML BasicString<Elem, Traits, Alloc>>
 	{
-		using argument_type = ml::BasicString<Elem, Traits, Alloc>;
+		using argument_type = _ML BasicString<Elem, Traits, Alloc>;
 
-		inline size_t operator()(const argument_type & value) const noexcept
+		inline _ML hash_t operator()(const argument_type & value) const noexcept
 		{
-			return ml::Hash()(value.size(), value.data());
+			return _ML Hash()(value.size(), value.data());
 		}
 	};
 }
@@ -320,14 +320,14 @@ namespace std
 namespace ml
 {
 	using String		= BasicString<char>;
-	using WString		= BasicString<wchar_t>;
-	using U16String		= BasicString<char16_t>;
-	using U32String		= BasicString<char32_t>;
+	using W_String		= BasicString<wchar_t>;
+	using U16_String	= BasicString<char16_t>;
+	using U32_String	= BasicString<char32_t>;
 	
 	using SStream		= typename String::stream_type;
-	using WStream		= typename WString::stream_type;
-	using U16Stream		= typename U16String::stream_type;
-	using U32Stream		= typename U32String::stream_type;
+	using W_SStream		= typename W_String::stream_type;
+	using U16_SStream	= typename U16_String::stream_type;
+	using U32_SStream	= typename U32_String::stream_type;
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

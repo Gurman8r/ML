@@ -260,12 +260,12 @@ namespace ml
 		return std::stoi(src);
 	}
 	
-	double	StringUtility::ToDecimal(const String & src)
+	float64_t	StringUtility::ToDecimal(const String & src)
 	{
 		return std::stod(src);
 	}
 	
-	float	StringUtility::ToFloat(const String & src)
+	float_t	StringUtility::ToFloat(const String & src)
 	{
 		return std::stof(src);
 	}
@@ -294,7 +294,7 @@ namespace ml
 		return (value = 0);
 	}
 	
-	bool	StringUtility::MakeDouble(const String & src, double & value)
+	bool	StringUtility::MakeDouble(const String & src, float64_t & value)
 	{
 		if (IsDecimal(src))
 		{
@@ -304,7 +304,7 @@ namespace ml
 		return (value = 0);
 	}
 	
-	bool	StringUtility::MakeFloat(const String & src, float & value)
+	bool	StringUtility::MakeFloat(const String & src, float_t & value)
 	{
 		if (IsDecimal(src))
 		{

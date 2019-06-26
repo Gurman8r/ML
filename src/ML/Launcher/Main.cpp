@@ -122,11 +122,11 @@ static StateMachine<State> g_ControlFlow
 int32_t main()
 {
 	// Load Plugins
-	if (auto file = ifstream(ML_FS.getPathTo(g_Preferences.GetString(
+	if (Ifstream file { ML_FS.getPathTo(g_Preferences.GetString(
 		"Launcher",
 		"plugin_list",
 		"../../../assets/data/plugins.txt"
-	))))
+	)) })
 	{	
 		String line;
 		while (std::getline(file, line))

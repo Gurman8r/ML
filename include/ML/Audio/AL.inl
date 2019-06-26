@@ -17,7 +17,7 @@ namespace ml
 			Err::OutOfMemory
 		};
 
-		static constexpr CString Err_names[] = {
+		static constexpr C_String Err_names[] = {
 			"No Error",
 			"Invalid Name",
 			"Invalid Enum",
@@ -26,7 +26,7 @@ namespace ml
 			"Out Of Memory"
 		};
 
-		static constexpr CString Err_descriptions[] = {
+		static constexpr C_String Err_descriptions[] = {
 			"No description"
 			"An unacceptable value has been specified for a name argument.",
 			"An unacceptable value has been specified for an enumerated argument.",
@@ -45,13 +45,13 @@ namespace ml
 			return alg::index_of(value, Err_values);
 		}
 
-		static constexpr CString nameOf(const Err value)
+		static constexpr C_String nameOf(const Err value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Err_names[i] : "";
 		}
 
-		static constexpr CString descOf(const Err value)
+		static constexpr C_String descOf(const Err value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Err_descriptions[i] : "";

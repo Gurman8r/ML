@@ -80,7 +80,7 @@ namespace ml
 		return type < value;
 	}
 
-	ML_SERIALIZE(ostream & out, const Operator & value)
+	ML_SERIALIZE(Ostream & out, const Operator & value)
 	{
 		auto it = std::find_if(
 			Operator::Names.begin(), 

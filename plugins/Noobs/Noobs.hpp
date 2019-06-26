@@ -83,12 +83,12 @@ namespace DEMO
 			ml::Material *	material	= nullptr;
 			ml::Entity *	entity		= nullptr;
 			ml::Renderer *	renderer	= nullptr;
-			float			deltaTime	= 0.f;
-			float			totalTime	= 0.f;
+			float_t			deltaTime	= 0.f;
+			float_t			totalTime	= 0.f;
 			ml::vec2f		resolution	= { 1920, 1080 };
 			bool			freeAspect	= true;
 			ml::vec4f		clearColor	= ml::Color::black;
-			float			aspectRatio = 0.0f;
+			float_t			aspectRatio = 0.0f;
 			bool			showScene	= true;
 			bool			showBuilder	= true;
 

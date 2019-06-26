@@ -15,7 +15,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RectTransform();
-		RectTransform(const vec2 & position, const vec2 & scale, const float rotation, const vec2 & origin);
+		RectTransform(const vec2 & position, const vec2 & scale, const float_t rotation, const vec2 & origin);
 		RectTransform(const RectTransform & copy);
 		~RectTransform();
 
@@ -27,14 +27,14 @@ namespace ml
 
 		RectTransform & setOrigin	(const vec2 &	value);
 		RectTransform & setPosition	(const vec2 &	value);
-		RectTransform & setRotation	(const float	value);
+		RectTransform & setRotation	(const float_t	value);
 		RectTransform & setScale	(const vec2 &	value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto origin()	const -> const vec2 &	{ return m_origin; }
 		inline auto position()	const -> const vec2 &	{ return m_position; }
-		inline auto rotation()	const -> const float &	{ return m_rotation; }
+		inline auto rotation()	const -> const float_t &	{ return m_rotation; }
 		inline auto scale()		const -> const vec2 &	{ return m_scale; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -50,7 +50,7 @@ namespace ml
 	private:
 		vec2	m_origin;
 		vec2	m_position;
-		float	m_rotation;
+		float_t	m_rotation;
 		vec2	m_scale;
 
 		mutable mat4 m_matrix;

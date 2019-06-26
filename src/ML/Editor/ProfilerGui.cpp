@@ -22,18 +22,18 @@ namespace ml
 	{
 		if (beginDraw())
 		{
-			graph.update("##Framerate", (float)ev.time.frameRate(), "fps {0}");
+			graph.update("##Framerate", (float_t)ev.time.frameRate(), "fps {0}");
 		}
 		return endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void ProfilerGui::GraphLines::update(CString label, const float sample, const String & fmt)
+	void ProfilerGui::GraphLines::update(C_String label, const float_t sample, const String & fmt)
 	{
 		if (refresh == 0.0f)
 		{
-			refresh = (float)ImGui::GetTime();
+			refresh = (float_t)ImGui::GetTime();
 		}
 
 		while (refresh < ImGui::GetTime())

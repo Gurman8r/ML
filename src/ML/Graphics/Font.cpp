@@ -155,10 +155,10 @@ namespace ml
 		}
 
 		glyph.bounds = {
-			(float)face->glyph->bitmap_left,
-			(float)face->glyph->bitmap_top,
-			(float)face->glyph->bitmap.width,
-			(float)face->glyph->bitmap.rows
+			(float_t)face->glyph->bitmap_left,
+			(float_t)face->glyph->bitmap_top,
+			(float_t)face->glyph->bitmap.width,
+			(float_t)face->glyph->bitmap.rows
 		};
 
 		glyph.advance = (uint32_t)face->glyph->advance.x;

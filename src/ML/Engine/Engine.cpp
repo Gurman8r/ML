@@ -201,11 +201,11 @@ namespace ml
 
 		// Run Boot Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ml::Script * scr = ML_Content.get<Script>(m_bootScript))
+		if (Script * scr = ML_Content.get<Script>(m_bootScript))
 		{
 			if (!(scr->buildAndRun(Arguments(__argc, __argv))))
 			{
-				ml::Debug::logError("Failed Running \'{0}\'", scr->path());
+				Debug::logError("Failed Running \'{0}\'", scr->path());
 			}
 		}
 	}

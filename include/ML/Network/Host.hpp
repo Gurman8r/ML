@@ -3,7 +3,7 @@
 
 #include <ML/Network/Export.hpp>
 #include <ML/Core/I_NonNewable.hpp>
-#include <ML/Core/CString.hpp>
+#include <ML/Core/C_String.hpp>
 
 namespace ml
 {
@@ -11,18 +11,18 @@ namespace ml
 
 	struct ML_NETWORK_API Host final : public I_NonNewable
 	{
-		CString		addr;
-		uint6_t	port;
+		C_String		addr;
+		uint16_t	port;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Host(CString addr, uint6_t port)
+		constexpr Host(C_String addr, uint16_t port)
 			: addr { addr } 
 			, port { port } 
 		{
 		}
 
-		constexpr Host(CString addr)
+		constexpr Host(C_String addr)
 			: Host { addr, 0 }
 		{
 		}
@@ -49,7 +49,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(ostream & out, const Host & value)
+	inline ML_SERIALIZE(Ostream & out, const Host & value)
 	{
 		return out << value.addr;
 	}
@@ -60,7 +60,7 @@ namespace ml
 	{
 		return
 			(lhs.port == rhs.port) &&
-			((ct_string)lhs.addr == (ct_string)rhs.addr);
+			((X_String)lhs.addr == (X_String)rhs.addr);
 	}
 
 	constexpr bool operator!=(const Host & lhs, const Host & rhs)
@@ -72,7 +72,7 @@ namespace ml
 	{
 		return
 			(lhs.port < rhs.port) &&
-			((ct_string)lhs.addr < (ct_string)rhs.addr);
+			((X_String)lhs.addr < (X_String)rhs.addr);
 	}
 
 	constexpr bool operator>(const Host & lhs, const Host & rhs)

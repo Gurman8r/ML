@@ -165,12 +165,12 @@ namespace ml
 			evs->fireEvent(CursorEnterEvent(entered));
 		});
 
-		setCursorPosCallback([](void * window, double x, double y)
+		setCursorPosCallback([](void * window, float64_t x, float64_t y)
 		{
 			evs->fireEvent(CursorPosEvent(x, y));
 		});
 
-		setErrorCallback([](int32_t code, CString desc)
+		setErrorCallback([](int32_t code, C_String desc)
 		{
 			evs->fireEvent(WindowErrorEvent(code, desc));
 		});
@@ -195,7 +195,7 @@ namespace ml
 			evs->fireEvent(MouseButtonEvent(button, action, mods));
 		});
 		
-		setScrollCallback([](void * window, double x, double y)
+		setScrollCallback([](void * window, float64_t x, float64_t y)
 		{
 			evs->fireEvent(ScrollEvent(x, y));
 		});
@@ -491,7 +491,7 @@ namespace ml
 		return temp;
 	}
 
-	CString Window::getClipboardString() const
+	C_String Window::getClipboardString() const
 	{
 		return (glfwGetClipboardString(
 			static_cast<GLFWwindow *>(m_window)
@@ -551,7 +551,7 @@ namespace ml
 		return temp;
 	}
 
-	double	Window::getTime() const
+	float64_t	Window::getTime() const
 	{
 		return glfwGetTime();
 	}

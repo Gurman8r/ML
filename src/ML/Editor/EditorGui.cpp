@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorGui::EditorGui(EventSystem & eventSystem, CString title)
+	EditorGui::EditorGui(EventSystem & eventSystem, C_String title)
 		: EventListener	(eventSystem)
 		, m_title		(title)
 		, m_open		(true)

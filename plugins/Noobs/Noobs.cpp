@@ -262,8 +262,8 @@ namespace DEMO
 			// Ortho
 			static ml::mat4 orthographic;
 			orthographic = ml::mat4::ortho(
-				0.0f, (float)ev.window.getWidth(),
-				(float)ev.window.getHeight(), 0.0f
+				0.0f, (float_t)ev.window.getWidth(),
+				(float_t)ev.window.getHeight(), 0.0f
 			);
 
 			static ml::RenderBatch batch(
@@ -677,7 +677,7 @@ namespace DEMO
 
 							if (it->second)
 							{
-								float height = 1;
+								float_t height = 1;
 								if (it->second->type == ml::uni_mat3::ID) { height = 3; }
 								else if (it->second->type == ml::uni_mat4::ID) { height = 4; }
 
@@ -776,7 +776,7 @@ namespace DEMO
 						ImGui::SameLine();
 						ML_EditorUtility.HelpMarker("Some very helpful text.");
 
-						auto factor_combo = [](ml::CString label, int32_t & i)
+						auto factor_combo = [](ml::C_String label, int32_t & i)
 						{
 							return ImGui::Combo(
 								label,

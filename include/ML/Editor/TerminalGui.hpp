@@ -33,11 +33,11 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		void    clear();
-		void    execute(CString value);
-		void    printf(CString value, ...);		// Print Format
+		void    execute(C_String value);
+		void    printf(C_String value, ...);		// Print Format
 		void	printl(const String & value);	// Print Line
 		void	printss(SStream & value);		// Print Stream
-		bool	redirect(ostream & value);
+		bool	redirect(Ostream & value);
 		int32_t inputCallback(void * value);
 
 	public:
@@ -46,8 +46,8 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		const ostream *	m_coutPtr; // cout redirect reference
-		streambuf *		m_coutBuf; // cout redirect buffer
+		const Ostream *	m_coutPtr; // cout redirect reference
+		StreamBuf *		m_coutBuf; // cout redirect buffer
 		SStream			m_coutStr; // cout redirect stream
 
 		InputBuffer		m_inputBuf;
@@ -55,7 +55,7 @@ namespace ml
 		bool			m_scrollBottom;
 		History			m_history;
 		int32_t			m_historyPos;
-		List<CString>	m_autoFill;
+		List<C_String>	m_autoFill;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

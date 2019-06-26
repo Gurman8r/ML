@@ -73,7 +73,7 @@ namespace ml
 		);
 	}
 
-	const bool & Timer::paused() const
+	const bool Timer::paused() const
 	{
 		return m_paused;
 	}

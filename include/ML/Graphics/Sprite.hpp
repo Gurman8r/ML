@@ -30,7 +30,7 @@ namespace ml
 		Sprite & setColor	(const vec4 &	value);
 		Sprite & setOrigin	(const vec2 &	value);
 		Sprite & setPosition(const vec2 &	value);
-		Sprite & setRotation(const float	value);
+		Sprite & setRotation(const float_t	value);
 		Sprite & setScale	(const vec2 &	value);
 		Sprite & setTexture	(const Texture *value);
 
@@ -43,7 +43,7 @@ namespace ml
 		inline auto color()		const -> const vec4 &	{ return m_color; }
 		inline auto origin()	const -> const vec2 &	{ return m_transform.origin(); }
 		inline auto position()	const -> const vec2 &	{ return m_transform.position(); }
-		inline auto rotation()	const -> float		{ return m_transform.rotation(); }
+		inline auto rotation()	const -> float_t		{ return m_transform.rotation(); }
 		inline auto scale()		const -> const vec2 &	{ return m_transform.scale(); }
 		inline auto texture()	const -> const Texture *{ return m_texture; }
 

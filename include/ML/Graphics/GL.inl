@@ -20,7 +20,7 @@ namespace ml
 			Flag::ScissorTest,
 		};
 
-		static constexpr CString Flag_names[] = {
+		static constexpr C_String Flag_names[] = {
 			"Cull Face",
 			"Depth Test",
 			"Alpha Test",
@@ -40,7 +40,7 @@ namespace ml
 			return alg::index_of(value, Flag_values);
 		}
 
-		static constexpr CString nameOf(const Flag value)
+		static constexpr C_String nameOf(const Flag value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Flag_names[i] : "";
@@ -71,7 +71,7 @@ namespace ml
 			Target::ActiveTexture,
 		};
 
-		static constexpr CString Target_names[] = {
+		static constexpr C_String Target_names[] = {
 			"Texture 2D",
 			"Texture 3D",
 			"Texture Cube Map",
@@ -102,7 +102,7 @@ namespace ml
 			return alg::index_of(value, Target_values);
 		}
 
-		static constexpr CString nameOf(const Target value)
+		static constexpr C_String nameOf(const Target value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Target_names[i] : "";
@@ -118,7 +118,7 @@ namespace ml
 			Usage::DynamicDraw,
 		};
 
-		static constexpr CString Usage_names[] = {
+		static constexpr C_String Usage_names[] = {
 			"Stream Draw",
 			"Static Draw",
 			"Dynamic Draw",
@@ -134,7 +134,7 @@ namespace ml
 			return alg::index_of(value, Usage_values);
 		}
 
-		static constexpr CString nameOf(const Usage value)
+		static constexpr C_String nameOf(const Usage value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Usage_names[i] : "";
@@ -155,7 +155,7 @@ namespace ml
 			Err::InvalidFramebufferOperation,
 		};
 
-		static constexpr CString Err_names[] = {
+		static constexpr C_String Err_names[] = {
 			"No Error",
 			"Invalid Enum",
 			"Invalid Value",
@@ -166,7 +166,7 @@ namespace ml
 			"Invalid Framebuffer Operation",
 		};
 
-		static constexpr CString Err_descriptions[] = {
+		static constexpr C_String Err_descriptions[] = {
 			"No Description",
 			"An unacceptable value has been specified for an enumerated argument.",
 			"A numeric argument is out of range.",
@@ -187,13 +187,13 @@ namespace ml
 			return alg::index_of(value, Err_values);
 		}
 
-		static constexpr CString nameOf(const Err value)
+		static constexpr C_String nameOf(const Err value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Err_names[i] : "";
 		}
 
-		static constexpr CString descOf(const Err value)
+		static constexpr C_String descOf(const Err value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Err_descriptions[i] : "";
@@ -210,7 +210,7 @@ namespace ml
 			StringID::ShadingLanguageVersion,
 		};
 
-		static constexpr CString StringID_names[] = {
+		static constexpr C_String StringID_names[] = {
 			"Vendor",
 			"Renderer",
 			"Version",
@@ -228,7 +228,7 @@ namespace ml
 			return alg::index_of(value, StringID_values);
 		}
 
-		static constexpr CString nameOf(const StringID value)
+		static constexpr C_String nameOf(const StringID value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? StringID_names[i] : "";
@@ -258,7 +258,7 @@ namespace ml
 			IntID::BlendSourceAlpha,
 		};
 
-		static constexpr CString IntID_names[] = {
+		static constexpr C_String IntID_names[] = {
 			"Major Version",
 			"Minor Version",
 			"Num Extensions",
@@ -288,7 +288,7 @@ namespace ml
 			return alg::index_of(value, IntID_values);
 		}
 
-		static constexpr CString nameOf(const IntID value)
+		static constexpr C_String nameOf(const IntID value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? IntID_names[i] : "";
@@ -304,7 +304,7 @@ namespace ml
 			ClipControl::ClipOrigin,
 		};
 
-		static constexpr CString ClipControl_names[] = {
+		static constexpr C_String ClipControl_names[] = {
 			"Lower Left",
 			"Upper Left",
 			"Clip Origin",
@@ -320,7 +320,7 @@ namespace ml
 			return alg::index_of(value, ClipControl_values);
 		}
 
-		static constexpr CString nameOf(const ClipControl value)
+		static constexpr C_String nameOf(const ClipControl value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? ClipControl_names[i] : "";
@@ -337,7 +337,7 @@ namespace ml
 			Status::FramebufferComplete,
 		};
 
-		static constexpr CString Status_names[] = {
+		static constexpr C_String Status_names[] = {
 			"Object Delete Status",
 			"Object Compile Status",
 			"Object Link Status",
@@ -354,7 +354,7 @@ namespace ml
 			return alg::index_of(value, Status_values);
 		}
 
-		static constexpr CString nameOf(const Status value)
+		static constexpr C_String nameOf(const Status value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Status_names[i] : "";
@@ -369,7 +369,7 @@ namespace ml
 			ShaderType::GeometryShader,
 		};
 
-		static constexpr CString ShaderType_names[] = {
+		static constexpr C_String ShaderType_names[] = {
 			"Fragment Shader",
 			"Vertex Shader",
 			"Geometry Shader",
@@ -385,7 +385,7 @@ namespace ml
 			return alg::index_of(value, ShaderType_values);
 		}
 
-		static constexpr CString nameOf(const ShaderType value)
+		static constexpr C_String nameOf(const ShaderType value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? ShaderType_names[i] : "";
@@ -406,7 +406,7 @@ namespace ml
 			Mode::Fill,
 		};
 
-		static constexpr CString Mode_names[] = {
+		static constexpr C_String Mode_names[] = {
 			"Points",
 			"Lines",
 			"Line Loop",
@@ -427,7 +427,7 @@ namespace ml
 			return alg::index_of(value, Mode_values);
 		}
 
-		static constexpr CString nameOf(const Mode value)
+		static constexpr C_String nameOf(const Mode value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Mode_names[i] : "";
@@ -444,7 +444,7 @@ namespace ml
 			Equation::FuncAdd,
 		};
 
-		static constexpr CString Equation_names[] = {
+		static constexpr C_String Equation_names[] = {
 			"Multiply",
 			"Add",
 			"Subtract",
@@ -461,7 +461,7 @@ namespace ml
 			return alg::index_of(value, Equation_values);
 		}
 
-		static constexpr CString nameOf(const Equation value)
+		static constexpr C_String nameOf(const Equation value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Equation_names[i] : "";
@@ -482,7 +482,7 @@ namespace ml
 			Comp::Always,
 		};
 
-		static constexpr CString Comp_names[] = {
+		static constexpr C_String Comp_names[] = {
 			"Never",
 			"Less",
 			"Equal",
@@ -503,7 +503,7 @@ namespace ml
 			return alg::index_of(value, Comp_values);
 		}
 
-		static constexpr CString nameOf(const Comp value)
+		static constexpr C_String nameOf(const Comp value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Comp_names[i] : "";
@@ -525,7 +525,7 @@ namespace ml
 			Factor::SrcAlphaSaturate,
 		};
 
-		static constexpr CString Factor_names[] = {
+		static constexpr C_String Factor_names[] = {
 			"Source Color",
 			"One Minus Source Color",
 			"Source Alpha",
@@ -547,7 +547,7 @@ namespace ml
 			return alg::index_of(value, Factor_values);
 		}
 
-		static constexpr CString nameOf(const Factor value)
+		static constexpr C_String nameOf(const Factor value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Factor_names[i] : "";
@@ -569,7 +569,7 @@ namespace ml
 			Face::FrontAndBack,
 		};
 
-		static constexpr CString Face_names[] = {
+		static constexpr C_String Face_names[] = {
 			"Front / Left",
 			"Front / Right",
 			"Back / Left",
@@ -591,7 +591,7 @@ namespace ml
 			return alg::index_of(value, Face_values);
 		}
 
-		static constexpr CString nameOf(const Face value)
+		static constexpr C_String nameOf(const Face value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Face_names[i] : "";
@@ -612,7 +612,7 @@ namespace ml
 			Type::HalfFloat,
 		};
 
-		static constexpr CString Type_names[] = {
+		static constexpr C_String Type_names[] = {
 			"Byte",
 			"Unsigned Byte",
 			"Short",
@@ -633,7 +633,7 @@ namespace ml
 			return alg::index_of(value, Type_values);
 		}
 
-		static constexpr CString nameOf(const Type value)
+		static constexpr C_String nameOf(const Type value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Type_names[i] : "";
@@ -663,7 +663,7 @@ namespace ml
 			Format::Depth24_Stencil8,
 		};
 
-		static constexpr CString Format_names[] = {
+		static constexpr C_String Format_names[] = {
 			"Red",
 			"Green",
 			"Blue",
@@ -693,7 +693,7 @@ namespace ml
 			return alg::index_of(value, Format_values);
 		}
 
-		static constexpr CString nameOf(const Format value)
+		static constexpr C_String nameOf(const Format value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Format_names[i] : "";
@@ -717,7 +717,7 @@ namespace ml
 			FrameAttachment::DepthStencil,
 		};
 
-		static constexpr CString FBO_Attachment_names[] = {
+		static constexpr C_String FBO_Attachment_names[] = {
 			"Color Encoding",
 			"Component Type",
 			"Red Size",
@@ -741,7 +741,7 @@ namespace ml
 			return alg::index_of(value, FBO_Attachment_values);
 		}
 
-		static constexpr CString nameOf(const FrameAttachment value)
+		static constexpr C_String nameOf(const FrameAttachment value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? FBO_Attachment_names[i] : "";
@@ -774,7 +774,7 @@ namespace ml
 			TexParam::CubeMap_Negative_Z,
 		};
 
-		static constexpr CString TexParam_names[] = {
+		static constexpr C_String TexParam_names[] = {
 			"Nearest",
 			"Linear",
 			"Nearest Mipmap Nearest",
@@ -807,7 +807,7 @@ namespace ml
 			return alg::index_of(value, TexParam_values);
 		}
 
-		static constexpr CString nameOf(const TexParam value)
+		static constexpr C_String nameOf(const TexParam value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? TexParam_names[i] : "";
@@ -832,7 +832,7 @@ namespace ml
 			Pack::PackAlignment,
 		};
 
-		static constexpr CString Pack_names[] = {
+		static constexpr C_String Pack_names[] = {
 			"Unpack Swap Bytes",
 			"Unpack Lsb First",
 			"Unpack Row Length",
@@ -857,7 +857,7 @@ namespace ml
 			return alg::index_of(value, Pack_values);
 		}
 
-		static constexpr CString nameOf(const Pack value)
+		static constexpr C_String nameOf(const Pack value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Pack_names[i] : "";
@@ -886,7 +886,7 @@ namespace ml
 			ColorAttachment::ColorAttachment15,
 		};
 
-		static constexpr CString ColorAttachment_names[] = {
+		static constexpr C_String ColorAttachment_names[] = {
 			"Color Attachment 0",
 			"Color Attachment 1",
 			"Color Attachment 2",
@@ -915,7 +915,7 @@ namespace ml
 			return alg::index_of(value, ColorAttachment_values);
 		}
 
-		static constexpr CString nameOf(const ColorAttachment value)
+		static constexpr C_String nameOf(const ColorAttachment value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? ColorAttachment_names[i] : "";
@@ -960,7 +960,7 @@ namespace ml
 			TexID::Texture31,
 		};
 
-		static constexpr CString TexID_names[] = {
+		static constexpr C_String TexID_names[] = {
 			"Texture 0",
 			"Texture 1",
 			"Texture 2",
@@ -1005,7 +1005,7 @@ namespace ml
 			return alg::index_of(value, TexID_values);
 		}
 
-		static constexpr CString nameOf(const TexID value)
+		static constexpr C_String nameOf(const TexID value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? TexID_names[i] : "";
@@ -1034,7 +1034,7 @@ namespace ml
 			DrawBuffer::DrawBuffer15,
 		};
 
-		static constexpr CString DrawBuffer_names[] = {
+		static constexpr C_String DrawBuffer_names[] = {
 			"Draw Buffer 0",
 			"Draw Buffer 1",
 			"Draw Buffer 2",
@@ -1063,7 +1063,7 @@ namespace ml
 			return alg::index_of(value, DrawBuffer_values);
 		}
 
-		static constexpr CString nameOf(const DrawBuffer value)
+		static constexpr C_String nameOf(const DrawBuffer value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? DrawBuffer_names[i] : "";
@@ -1082,7 +1082,7 @@ namespace ml
 			Mask::ColorBufferBit,
 		};
 
-		static constexpr CString Mask_names[] = {
+		static constexpr C_String Mask_names[] = {
 			"Context Core Profile Bit",
 			"Context Compat Profile Bit",
 			"Context Flag Debug Bit",
@@ -1101,7 +1101,7 @@ namespace ml
 			return alg::index_of(value, Mask_values);
 		}
 
-		static constexpr CString nameOf(const Mask value)
+		static constexpr C_String nameOf(const Mask value)
 		{
 			const int32_t i = indexOf(value);
 			return (i >= 0) ? Mask_names[i] : "";

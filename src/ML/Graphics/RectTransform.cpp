@@ -14,7 +14,7 @@ namespace ml
 	{
 	}
 
-	RectTransform::RectTransform(const vec2 & position, const vec2 & scale, const float rotation, const vec2 & origin)
+	RectTransform::RectTransform(const vec2 & position, const vec2 & scale, const float_t rotation, const vec2 & origin)
 		: m_changed	(true)
 		, m_matrix	()
 		, m_position(position)
@@ -45,19 +45,19 @@ namespace ml
 		if (m_changed)
 		{	m_changed = false;
 
-			float angle		= type_t<float>::deg2rad * m_rotation;
-			float cosine	= std::cosf(angle);
-			float sine		= std::sinf(angle);
-			float sxc		= m_scale[0] * cosine;
-			float syc		= m_scale[1] * cosine;
-			float sxs		= m_scale[0] * sine;
-			float sys		= m_scale[1] * sine;
-			float tx		= -m_origin[0] * sxc - m_origin[1] * sys + m_position[0];
-			float ty		=  m_origin[0] * sxs - m_origin[1] * syc + m_position[1];
+			float_t angle		= type_t<float_t>::deg2rad * m_rotation;
+			float_t cosine	= std::cosf(angle);
+			float_t sine		= std::sinf(angle);
+			float_t sxc		= m_scale[0] * cosine;
+			float_t syc		= m_scale[1] * cosine;
+			float_t sxs		= m_scale[0] * sine;
+			float_t sys		= m_scale[1] * sine;
+			float_t tx		= -m_origin[0] * sxc - m_origin[1] * sys + m_position[0];
+			float_t ty		=  m_origin[0] * sxs - m_origin[1] * syc + m_position[1];
 
-			float m00 =  sxc; float m01 = sys; float m02 = tx;
-			float m03 = -sxs; float m04 = syc; float m05 = ty;
-			float m10 =  0.f; float m11 = 0.f; float m12 = 0.f;
+			float_t m00 =  sxc; float_t m01 = sys; float_t m02 = tx;
+			float_t m03 = -sxs; float_t m04 = syc; float_t m05 = ty;
+			float_t m10 =  0.f; float_t m11 = 0.f; float_t m12 = 0.f;
 
 			m_matrix = {
 				m00, m01, 0.f, m02,
@@ -90,7 +90,7 @@ namespace ml
 		return (*this);
 	}
 
-	RectTransform & RectTransform::setRotation(const float value)
+	RectTransform & RectTransform::setRotation(const float_t value)
 	{
 		if (m_rotation != value)
 		{

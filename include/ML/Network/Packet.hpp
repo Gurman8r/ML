@@ -38,7 +38,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(ostream & out, const Packet & value)
+	inline ML_SERIALIZE(Ostream & out, const Packet & value)
 	{
 		return out 
 			<< value.host << " "

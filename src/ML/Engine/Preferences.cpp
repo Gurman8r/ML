@@ -62,7 +62,7 @@ namespace ml
 		);
 	}
 
-	double Prefs::GetDouble(const String & section, const String & name, double default_value) const
+	float64_t Prefs::GetDouble(const String & section, const String & name, float64_t default_value) const
 	{
 		return ((m_ini)
 			? (static_cast<INIReader *>(m_ini)->GetReal(
@@ -74,9 +74,9 @@ namespace ml
 		);
 	}
 
-	float Prefs::GetFloat(const String & section, const String & name, float default_value) const
+	float_t Prefs::GetFloat(const String & section, const String & name, float_t default_value) const
 	{
-		return (float)GetDouble(section, name, (double)default_value);
+		return (float_t)GetDouble(section, name, (float64_t)default_value);
 	}
 
 	int32_t Prefs::GetInt(const String & section, const String & name, int32_t default_value) const

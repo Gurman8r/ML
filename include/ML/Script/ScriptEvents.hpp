@@ -24,8 +24,8 @@ namespace ml
 
 	struct ML_SCRIPT_API CommandEvent final : public I_Event<ScriptEvent::EV_Command>
 	{
-		CString cmd;
-		constexpr CommandEvent(CString cmd)
+		C_String cmd;
+		constexpr CommandEvent(C_String cmd)
 			: cmd(cmd)
 		{
 		}

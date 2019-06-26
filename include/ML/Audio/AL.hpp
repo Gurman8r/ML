@@ -1,7 +1,7 @@
 #ifndef _ML_AL_HPP_
 #define _ML_AL_HPP_
 
-#include <ML/Core/CString.hpp>
+#include <ML/Core/C_String.hpp>
 
 namespace ml
 {
@@ -41,7 +41,7 @@ namespace ml
 			Stereo16					// AL_FORMAT_STEREO16
 		};
 
-		static constexpr Format to_format(uint6_t channels, uint6_t samples)
+		static constexpr Format to_format(uint16_t channels, uint16_t samples)
 		{
 			switch (samples)
 			{

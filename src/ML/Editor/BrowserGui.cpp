@@ -41,7 +41,7 @@ namespace ml
 		case File_Open_Event::ID:
 			if (auto ev = value->as<File_Open_Event>())
 			{
-				ML_OS.execute("open", get_selected_path());
+				OS::execute("open", get_selected_path());
 			}
 			break;
 		}

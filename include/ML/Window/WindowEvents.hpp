@@ -77,8 +77,8 @@ namespace ml
 
 	struct ML_WINDOW_API CursorPosEvent final : public I_Event<WindowEvent::EV_CursorPos>
 	{
-		const double x, y;
-		constexpr CursorPosEvent(double x, double y)
+		const float64_t x, y;
+		constexpr CursorPosEvent(float64_t x, float64_t y)
 			: x(x)
 			, y(y)
 		{
@@ -157,8 +157,8 @@ namespace ml
 
 	struct ML_WINDOW_API ScrollEvent final : public I_Event<WindowEvent::EV_Scroll>
 	{
-		const double x, y;
-		constexpr ScrollEvent(double x, double y)
+		const float64_t x, y;
+		constexpr ScrollEvent(float64_t x, float64_t y)
 			: x(x)
 			, y(y)
 		{
@@ -189,8 +189,8 @@ namespace ml
 	struct ML_WINDOW_API WindowErrorEvent final : public I_Event<WindowEvent::EV_WindowError>
 	{
 		const int32_t code;
-		const CString desc;
-		constexpr WindowErrorEvent(int32_t code, CString desc)
+		const C_String desc;
+		constexpr WindowErrorEvent(int32_t code, C_String desc)
 			: code(code)
 			, desc(desc)
 		{

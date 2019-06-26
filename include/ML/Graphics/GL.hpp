@@ -4,7 +4,7 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/CString.hpp>
+#include <ML/Core/C_String.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

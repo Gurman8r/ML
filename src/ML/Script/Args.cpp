@@ -213,7 +213,7 @@ namespace ml
 		return insert(index, String(1, value));
 	}
   		   
-	Arguments & Arguments::insert(size_t index, CString value)
+	Arguments & Arguments::insert(size_t index, C_String value)
 	{
 		return insert(index, String(value));
 	}
@@ -249,7 +249,7 @@ namespace ml
 		return push_back(String(1, value));
 	}
   		   
-	Arguments & Arguments::push_back(CString value)
+	Arguments & Arguments::push_back(C_String value)
 	{
 		return push_back(String(value));
 	}
@@ -279,7 +279,7 @@ namespace ml
 		return push_front(String(1, value));
 	}
   		   
-	Arguments & Arguments::push_front(CString value)
+	Arguments & Arguments::push_front(C_String value)
 	{
 		return push_front(String(value));
 	}

@@ -246,7 +246,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool Shader::setUniform(const String & name, const float value) const
+	bool Shader::setUniform(const String & name, const float_t value) const
 	{
 		UniformBinder u(this, name);
 		if (u)
@@ -377,7 +377,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool Shader::setUniformArray(const String & name, const int32_t count, const float * value) const
+	bool Shader::setUniformArray(const String & name, const int32_t count, const float_t * value) const
 	{
 		UniformBinder u(this, name);
 		if (u)
@@ -439,7 +439,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Shader::setUniformList(const String & name, const List<float> & value) const
+	bool Shader::setUniformList(const String & name, const List<float_t> & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
@@ -471,7 +471,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Shader::compile(CString vs, CString gs, CString fs)
+	bool Shader::compile(C_String vs, C_String gs, C_String fs)
 	{
 		if (!ML_GL.shadersAvailable())
 		{
@@ -528,7 +528,7 @@ namespace ml
 			// Link the program
 			if (!ML_GL.linkShader(*this))
 			{
-				CString log = ML_GL.getProgramInfoLog(*this);
+				C_String log = ML_GL.getProgramInfoLog(*this);
 				ML_GL.deleteShader(*this);
 				return Debug::logError("Failed linking shader source:\n{0}", log);
 			}

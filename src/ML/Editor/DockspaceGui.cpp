@@ -118,7 +118,7 @@ namespace ml
 		return root;
 	}
 
-	uint32_t DockspaceGui::dockWindow(CString name, uint32_t id)
+	uint32_t DockspaceGui::dockWindow(C_String name, uint32_t id)
 	{
 		if (name && id)
 		{
@@ -128,12 +128,12 @@ namespace ml
 		return NULL;
 	}
 
-	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * other)
+	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * other)
 	{
 		return splitNode(id, dir, ratio, nullptr, other);
 	}
 
-	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * out, uint32_t * other)
+	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * out, uint32_t * other)
 	{
 		return ImGui::DockBuilderSplitNode(id, dir, ratio, out, other);
 	}

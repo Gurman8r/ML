@@ -166,7 +166,7 @@ namespace ml
 		return false;
 	}
 
-	bool Mesh::loadFromMemory(const List<float> & vertices)
+	bool Mesh::loadFromMemory(const List<float_t> & vertices)
 	{
 		if (!vertices.empty())
 		{
@@ -178,7 +178,7 @@ namespace ml
 		return false;
 	}
 
-	bool Mesh::loadFromMemory(const List<float>& vertices, const Indices& indices)
+	bool Mesh::loadFromMemory(const List<float_t>& vertices, const Indices& indices)
 	{
 		if (!vertices.empty() && !indices.empty())
 		{

@@ -12,7 +12,7 @@ namespace ml
 	{
 	}
 
-	File::File(const size_t count, const CString * data)
+	File::File(const size_t count, const C_String * data)
 		: m_data()
 		, m_path()
 	{
@@ -60,7 +60,7 @@ namespace ml
 
 	bool File::loadFromFile(const String & filename)
 	{
-		if (auto in = std::ifstream((m_path = filename), std::ios_base::binary))
+		if (Ifstream in { (m_path = filename), std::ios_base::binary })
 		{
 			if (dispose())
 			{
@@ -87,7 +87,7 @@ namespace ml
 
 	bool File::saveToFile(const String & filename) const
 	{
-		if (auto stream = std::ofstream(filename, std::ios_base::binary))
+		if (Ofstream stream { filename, std::ios_base::binary })
 		{
 			stream << (*this);
 			stream.close();

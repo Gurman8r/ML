@@ -27,14 +27,14 @@ namespace ml
 		{
 			enum { Size = 256U };
 
-			float	values[Size]= { 0 };
+			float_t	values[Size]= { 0 };
 			int32_t	offset		= 0;
-			float	refresh		= 0.0f;
-			float	min			= 1.f;
-			float	max			= 128.f;
+			float_t	refresh		= 0.0f;
+			float_t	min			= 1.f;
+			float_t	max			= 128.f;
 			vec2	size		= { 0, 80 };
 
-			void update(CString label, const float sample, const String & fmt = "{0}");
+			void update(C_String label, const float_t sample, const String & fmt = "{0}");
 		};
 
 	private:

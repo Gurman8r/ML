@@ -60,7 +60,7 @@ namespace ml
 		return (bool)(count);
 	}
 
-	bool Content::readMetadata(Metadata & data, istream & file, String & line) const
+	bool Content::readMetadata(Metadata & data, Istream & file, String & line) const
 	{
 		if (line.empty() || (line.trim().front() == '#'))
 		{

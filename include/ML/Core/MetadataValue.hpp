@@ -30,8 +30,8 @@ namespace ml
 
 		MetadataValue();
 		explicit MetadataValue(const bool value);
-		explicit MetadataValue(const double value);
-		explicit MetadataValue(const float value);
+		explicit MetadataValue(const float64_t value);
+		explicit MetadataValue(const float_t value);
 		explicit MetadataValue(const int32_t value);
 		explicit MetadataValue(const long value);
 		explicit MetadataValue(const String & value);
@@ -41,8 +41,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool	asBool	() const;
-		double	asDouble() const;
-		float	asFloat	() const;
+		float64_t	asDouble() const;
+		float_t	asFloat	() const;
 		int32_t	asInt	() const;
 		long	asLong	() const;
 		String	asString() const;
@@ -60,8 +60,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline operator bool	() const { return asBool();		}
-		inline operator double	() const { return asDouble();	}
-		inline operator float	() const { return asFloat();	}
+		inline operator float64_t	() const { return asDouble();	}
+		inline operator float_t	() const { return asFloat();	}
 		inline operator int32_t	() const { return asInt();		}
 		inline operator long	() const { return asLong();		}
 		inline operator String	() const { return asString();	}
@@ -77,7 +77,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const MetadataValue & value)
+	inline ML_SERIALIZE(Ostream & out, const MetadataValue & value)
 	{
 		switch (value.getType())
 		{

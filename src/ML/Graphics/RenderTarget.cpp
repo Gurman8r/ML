@@ -58,12 +58,12 @@ namespace ml
 		return draw(verts.contiguous(), batch);
 	}
 
-	RenderTarget & RenderTarget::draw(const List<float> & verts, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const List<float_t> & verts, const RenderBatch & batch)
 	{
 		return draw(verts.data(), verts.size(), batch);
 	}
 
-	RenderTarget & RenderTarget::draw(const float * verts, size_t count, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const RenderBatch & batch)
 	{
 		if (batch.vbo && batch.vbo && batch.mat->bind())
 		{

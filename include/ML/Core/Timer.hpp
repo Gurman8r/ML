@@ -31,7 +31,7 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
 		const Duration & elapsed() const;
-		const bool & paused() const;
+		const bool paused() const;
 
 	private:
 		bool		m_paused;

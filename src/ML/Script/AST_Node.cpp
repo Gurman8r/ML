@@ -244,7 +244,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ostream & AST_Node::display(ostream & out) const
+	Ostream & AST_Node::display(Ostream & out) const
 	{
 		for (AST_Node * n : (*this))
 		{

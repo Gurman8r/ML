@@ -68,7 +68,7 @@ namespace ml
 		constexpr operator	uint64_t()	const { return m_real; }
 		constexpr uint64_t	real()		const { return m_real; }
 		constexpr uint64_t	size()		const { return m_size; }
-		constexpr CString	name()		const { return m_name; }
+		constexpr C_String	name()		const { return m_name; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -88,7 +88,7 @@ namespace ml
 	private:
 		uint64_t	m_real;	// Size before ratio
 		uint64_t	m_size;	// Size after ratio
-		CString		m_name;	// Unit of display size
+		C_String	m_name;	// Unit of display size
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

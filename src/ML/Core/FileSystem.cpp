@@ -27,7 +27,11 @@ namespace ml
 
 	const String FileSystem::getPathTo(const String & value) const
 	{
-		return (m_root + ML_PATH_SEPARATOR + value);
+#ifdef ML_SYSTEM_WINDOWS
+		return (m_root + "\\" + value);
+#else
+		return (m_root + "/" + value);
+#endif
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -156,7 +160,7 @@ namespace ml
 
 	bool FileSystem::fileExists(const String & filename) const
 	{
-		return (bool)(std::ifstream(filename));
+		return (bool)(Ifstream(filename));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -203,9 +207,9 @@ namespace ml
 
 	size_t FileSystem::getFileSize(const String & filename) const
 	{
-		std::ifstream stream;
+		Ifstream stream;
 		return (
-			(stream = std::ifstream(filename, std::ifstream::ate | std::ifstream::binary))
+			(stream = Ifstream(filename, Ifstream::ate | Ifstream::binary))
 				? ((size_t)(stream.tellg()))
 				: ((size_t)(0))
 		);

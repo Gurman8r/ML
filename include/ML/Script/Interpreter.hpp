@@ -9,7 +9,7 @@
 #include <ML/Script/Command.hpp>
 #include <ML/Script/ScriptEvents.hpp>
 
-#define ML_Interpreter ::ml::Interpreter::getInstance()
+#define ML_Interpreter _ML Interpreter::getInstance()
 
 namespace ml
 {

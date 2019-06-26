@@ -26,7 +26,7 @@ namespace ml
 		{
 		}
 
-		friend ML_SERIALIZE(ostream & out, const MemoryTracker::Record & value)
+		friend ML_SERIALIZE(Ostream & out, const MemoryTracker::Record & value)
 		{
 			return out << std::left
 				<< " { addr: " << value.object

@@ -23,7 +23,7 @@ namespace ml
 
 	public:
 		File();
-		explicit File(const size_t count, const CString * data);
+		explicit File(const size_t count, const C_String * data);
 		File(const String & data);
 		File(const List<char> & data);
 		File(const File & copy);
@@ -58,7 +58,7 @@ namespace ml
 	public:
 		inline auto at(size_t i)const	-> const char &			{ return m_data[i]; }
 		inline auto at(size_t i)		-> char &				{ return m_data[i]; }
-		inline auto c_str()		const	-> CString				{ return str().c_str(); }
+		inline auto c_str()		const	-> C_String				{ return str().c_str(); }
 		inline auto data()		const	-> const List<char> &	{ return m_data; }
 		inline auto data()				-> List<char> &			{ return m_data; }
 		inline auto empty()		const	-> const bool			{ return m_data.empty(); }
@@ -85,7 +85,7 @@ namespace ml
 		List<char>	m_data;
 	};
 
-	inline ML_SERIALIZE(ostream & out, const File & value)
+	inline ML_SERIALIZE(Ostream & out, const File & value)
 	{
 		return out << String(value.begin(), value.end());
 	}

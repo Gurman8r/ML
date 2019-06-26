@@ -7,10 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	namespace meta
-	{
-		enum { uninit };
-	}
+	enum { uninit };
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

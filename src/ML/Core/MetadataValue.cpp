@@ -17,13 +17,13 @@ namespace ml
 	{
 	}
 
-	MetadataValue::MetadataValue(const double value)
+	MetadataValue::MetadataValue(const float64_t value)
 		: m_type(META_Double)
 		, m_data(std::to_string(value))
 	{
 	}
 
-	MetadataValue::MetadataValue(const float value)
+	MetadataValue::MetadataValue(const float_t value)
 		: m_type(META_Float)
 		, m_data(std::to_string(value))
 	{
@@ -67,7 +67,7 @@ namespace ml
 			(StringUtility::ToLower(m_data) == "true");
 	}
 
-	double MetadataValue::asDouble() const
+	float64_t MetadataValue::asDouble() const
 	{
 		try
 		{
@@ -79,7 +79,7 @@ namespace ml
 		}
 	}
 
-	float MetadataValue::asFloat() const
+	float_t MetadataValue::asFloat() const
 	{
 		try
 		{

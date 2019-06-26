@@ -92,7 +92,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using FloatRect = Rect<float>;
+	using FloatRect = Rect<float_t>;
 	using IntRect	= Rect<int32_t>;
 	using UintRect	= Rect<uint32_t>;
 

@@ -75,7 +75,7 @@ namespace ml
 		}
 
 	public:
-		virtual ostream & display(ostream & out) const;
+		virtual Ostream & display(Ostream & out) const;
 		
 		int32_t	getID() const;
 		
@@ -173,7 +173,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	inline ML_SERIALIZE(ostream & out, const AST_Node & value)
+	inline ML_SERIALIZE(Ostream & out, const AST_Node & value)
 	{
 		return value.display(out);
 	}

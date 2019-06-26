@@ -62,12 +62,12 @@ namespace ml
 		template <
 			class Rep = typename Milliseconds,
 			class Per = typename Rep::period
-		> constexpr float delta() const
+		> constexpr float_t delta() const
 		{
 			static_assert(type::zero < Per::den, "period negative or zero");
 			return
-				static_cast<float>(std::chrono::duration_cast<Rep>(base()).count()) /
-				static_cast<float>(Per::den);
+				static_cast<float_t>(std::chrono::duration_cast<Rep>(base()).count()) /
+				static_cast<float_t>(Per::den);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -104,7 +104,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline friend ML_SERIALIZE(ostream & out, const Duration & value)
+		inline friend ML_SERIALIZE(Ostream & out, const Duration & value)
 		{
 			return out
 				<< (((value.hours() % 24) / 10) % 10)

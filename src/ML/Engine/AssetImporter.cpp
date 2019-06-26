@@ -458,7 +458,7 @@ namespace ml
 						{ "ushort",		GL::UnsignedShort },
 						{ "int",		GL::Int },
 						{ "uint",		GL::UnsignedInt },
-						{ "float",		GL::Float },
+						{ "float_t",		GL::Float },
 						{ "half_float",	GL::HalfFloat },
 					});
 

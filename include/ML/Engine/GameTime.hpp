@@ -31,8 +31,8 @@ namespace ml
 		Duration	m_elapsed;
 		uint32_t	m_frameRate;
 		uint32_t	m_frameCount;
-		float		m_nextSecond;
-		float		m_prevSecond;
+		float_t		m_nextSecond;
+		float_t		m_prevSecond;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -6,11 +6,11 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct Cursor final
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum class Mode : int32_t
 		{
@@ -23,7 +23,7 @@ namespace ml
 			NUM_MODE = 3
 		};
 
-		static constexpr CString Mode_names[(size_t)Mode::NUM_MODE] = {
+		static constexpr C_String Mode_names[(size_t)Mode::NUM_MODE] = {
 			"Normal",
 			"Hidden",
 			"Disabled",
@@ -35,7 +35,7 @@ namespace ml
 			Mode::Disabled
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum class Shape : int32_t
 		{
@@ -55,7 +55,7 @@ namespace ml
 			NUM_SHAPE = 8
 		};
 
-		static constexpr CString Shape_names[(size_t)Shape::NUM_SHAPE] = {
+		static constexpr C_String Shape_names[(size_t)Shape::NUM_SHAPE] = {
 			"Arrow",
 			"Text Input",
 			"Cross Hair",
@@ -77,10 +77,10 @@ namespace ml
 			Shape::ResizeNWSE,
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	static constexpr bool valueAt(const int32_t i, Cursor::Mode & value)
 	{
@@ -92,18 +92,18 @@ namespace ml
 		return alg::index_of(value, Cursor::Mode_values);
 	}
 
-	static constexpr CString nameOf(const Cursor::Mode & value)
+	static constexpr C_String nameOf(const Cursor::Mode & value)
 	{
 		const int32_t i = indexOf(value);
 		return (i >= 0) ? Cursor::Mode_names[i] : "";
 	}
 
-	inline ML_SERIALIZE(ostream & out, const Cursor::Mode & value)
+	inline ML_SERIALIZE(Ostream & out, const Cursor::Mode & value)
 	{
 		return out << nameOf(value);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	static constexpr bool valueAt(const int32_t i, Cursor::Shape & value)
 	{
@@ -115,18 +115,18 @@ namespace ml
 		return alg::index_of(value, Cursor::Shape_values);
 	}
 
-	static constexpr CString nameOf(const Cursor::Shape & value)
+	static constexpr C_String nameOf(const Cursor::Shape & value)
 	{
 		const int32_t i = indexOf(value);
 		return (i >= 0) ? Cursor::Shape_names[i] : "";
 	}
 
-	inline ML_SERIALIZE(ostream & out, const Cursor::Shape & value)
+	inline ML_SERIALIZE(Ostream & out, const Cursor::Shape & value)
 	{
 		return out << nameOf(value);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_CURSOR_HPP_

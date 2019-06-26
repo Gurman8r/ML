@@ -68,9 +68,9 @@ namespace ml
 		bool	match_type_list(size_t index, const List<char> & pattern) const;
 		bool	match_type_list(const const_iterator & it, const List<char> & pattern) const;
 		
-		bool	match_data(const List<CString> & data) const;
-		bool	match_data(size_t index, const List<CString> & data) const;
-		bool	match_data(const const_iterator & it, const List<CString> & data) const;
+		bool	match_data(const List<C_String> & data) const;
+		bool	match_data(size_t index, const List<C_String> & data) const;
+		bool	match_data(const const_iterator & it, const List<C_String> & data) const;
 
 	public:
 		TokenList	after(size_t index) const;
@@ -145,7 +145,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	inline ML_SERIALIZE(ostream & out, const TokenList & value)
+	inline ML_SERIALIZE(Ostream & out, const TokenList & value)
 	{
 		TokenList::const_iterator it;
 		for (it = value.begin(); it != value.end(); it++)

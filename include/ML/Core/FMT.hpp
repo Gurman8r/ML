@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum class FG : uint6_t
+	enum class FG : uint16_t
 	{
 		Black,
 		DarkBlue	= (1 << 0),
@@ -27,12 +27,12 @@ namespace ml
 		Yellow		= Gray | DarkRed | DarkGreen,
 		White		= Gray | DarkRed | DarkGreen | DarkBlue,
 
-		None = static_cast<uint6_t>(-1)
+		None = static_cast<uint16_t>(-1)
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum class BG : uint6_t
+	enum class BG : uint16_t
 	{
 		Black,
 		DarkBlue	= (1 << 4),
@@ -51,22 +51,19 @@ namespace ml
 		Yellow		= DarkGray | DarkRed | DarkGreen,
 		White		= DarkGray | DarkRed | DarkGreen | DarkBlue,
 		
-		None = static_cast<uint6_t>(-1)
+		None = static_cast<uint16_t>(-1)
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API FMT final
+	struct ML_CORE_API FMT final
 	{
-		static bool setTextAttrib(const uint6_t value);
-
-	public:
 		FG fg;
 		BG bg;
 
 		constexpr FMT(const FG fg, const BG bg)
-			: fg(fg)
-			, bg(bg)
+			: fg { fg }
+			, bg { bg }
 		{
 		}
 
@@ -90,7 +87,7 @@ namespace ml
 		{
 		}
 
-		friend ML_SERIALIZE(ostream &, const FMT &);
+		Ostream & operator()(Ostream & out) const;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -107,31 +104,19 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(ostream & out, const FG & value)
+	inline ML_SERIALIZE(Ostream & out, const FMT & value)
+	{
+		return value(out);
+	}
+
+	inline ML_SERIALIZE(Ostream & out, const FG & value)
 	{
 		return out << FMT { value, BG::None };
 	}
 
-	inline ML_SERIALIZE(ostream & out, const BG & value)
+	inline ML_SERIALIZE(Ostream & out, const BG & value)
 	{
 		return out << FMT { FG::None, value };
-	}
-
-	inline ML_SERIALIZE(ostream & out, const FMT & value)
-	{
-		if ((value.fg != FG::None) && (value.bg != BG::None))
-		{
-			FMT::setTextAttrib((uint6_t)value.fg | (uint6_t)value.bg);
-		}
-		else if (value.fg != FG::None)
-		{
-			FMT::setTextAttrib((uint6_t)value.fg);
-		}
-		else if (value.bg != BG::None)
-		{
-			FMT::setTextAttrib((uint6_t)value.bg);
-		}
-		return out;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

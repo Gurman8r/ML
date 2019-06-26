@@ -66,7 +66,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const List<float> & contiguous() const
+		const List<float_t> & contiguous() const
 		{
 			if (const size_type imax = ((*this).size() * Vertex::Size))
 			{
@@ -86,7 +86,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: mutable List<float> m_contiguous;
+	private: mutable List<float_t> m_contiguous;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

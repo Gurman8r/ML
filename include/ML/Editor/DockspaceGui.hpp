@@ -37,9 +37,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		uint32_t beginBuilder(int32_t flags);
 		uint32_t endBuilder(uint32_t root);
-		uint32_t dockWindow(CString name, uint32_t id);
-		uint32_t splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * other);
-		uint32_t splitNode(uint32_t id, int32_t dir, float ratio, uint32_t * out, uint32_t * other);
+		uint32_t dockWindow(C_String name, uint32_t id);
+		uint32_t splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * other);
+		uint32_t splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * out, uint32_t * other);
 
 	public:
 		inline uint32_t getNode(const int32_t i) const 
@@ -52,11 +52,11 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		float		m_border;
+		float_t		m_border;
 		vec2		m_padding;
-		float		m_rounding;
+		float_t		m_rounding;
 		vec2		m_size;
-		float		m_bgAlpha;
+		float_t		m_bgAlpha;
 		uint32_t	m_nodes[MAX_DOCK_POS];
 	};
 

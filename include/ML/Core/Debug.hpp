@@ -36,8 +36,8 @@ namespace ml
 		static void		exit(int32_t exitCode);
 		static void		fatal(const String & message);
 		static int32_t	pause(int32_t exitCode);
-		static int32_t	system(CString cmd);
-		static int32_t	system(CString cmd, ostream & out);
+		static int32_t	system(C_String cmd);
+		static int32_t	system(C_String cmd, Ostream & out);
 
 	public:
 		static int32_t logWarning(const String & message); // - 1 true

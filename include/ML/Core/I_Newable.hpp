@@ -13,7 +13,7 @@ namespace ml
 	{
 		virtual ~I_Newable() {}
 
-		inline friend ML_SERIALIZE(ostream & out, const I_Newable & value)
+		inline friend ML_SERIALIZE(Ostream & out, const I_Newable & value)
 		{
 			return out << typeid(value).name();
 		}

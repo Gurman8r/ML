@@ -31,10 +31,10 @@ namespace ml
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromMemory(const Mesh & mesh);
-		bool loadFromMemory(const List<float> & vertices);
+		bool loadFromMemory(const List<float_t> & vertices);
 		bool loadFromMemory(const Vertices & vertices);
 		bool loadFromMemory(const Vertices & vertices, const Indices & indices);
-		bool loadFromMemory(const List<float> & vertices, const Indices & indices);
+		bool loadFromMemory(const List<float_t> & vertices, const Indices & indices);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -12,10 +12,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using CString		= typename const char *;
-	using CWString		= typename const wchar_t *;
-	using CU16String	= typename const char16_t *;
-	using CU32String	= typename const char32_t *;
+	using C_String		= typename const char *;
+	using CW_String		= typename const wchar_t *;
+	using CU16_String	= typename const char16_t *;
+	using CU32_String	= typename const char32_t *;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -32,14 +32,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Compile-Time String
-	struct ct_string //final
+	struct X_String final
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename char;
-		using self_type			= typename ct_string;
-		using hash_type			= typename size_t;
-		using size_type			= typename size_t;
+		using self_type			= typename X_String;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
@@ -50,23 +48,23 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			size_type N
-		> constexpr ct_string(const value_type(& value)[N])
+			size_t N
+		> constexpr X_String(const value_type(& value)[N])
 			: self_type { &value[0], (N - 1) }
 		{
 		}
 
-		constexpr ct_string(const_pointer begin, const_pointer end)
-			: self_type { begin, type_t<size_type>{ end - begin }() }
+		constexpr X_String(const_pointer begin, const_pointer end)
+			: self_type { begin, type_t<size_t>{ end - begin }() }
 		{
 		}
 
-		constexpr ct_string(const_pointer value)
+		constexpr X_String(const_pointer value)
 			: self_type { value, alg::strlen(value) }
 		{
 		}
 
-		constexpr ct_string(const_pointer value, size_type size)
+		constexpr X_String(const_pointer value, size_t size)
 			: m_data { value }
 			, m_size { size }
 		{
@@ -80,7 +78,7 @@ namespace ml
 		constexpr auto c_str()	const -> const_pointer	{ return begin(); }
 		constexpr auto data()	const -> const_pointer	{ return m_data; }
 		constexpr auto end()	const -> const_iterator	{ return begin() + size(); }
-		constexpr auto hash()	const -> size_t			{ return Hash()(size(), begin()); }
+		constexpr auto hash()	const -> hash_t			{ return Hash()(size(), begin()); }
 		constexpr auto size()	const -> size_t			{ return m_size; }
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -90,22 +88,22 @@ namespace ml
 			return this->c_str(); 
 		}
 
-		constexpr const_reference operator[](size_type i) const
+		constexpr const_reference operator[](size_t i) const
 		{ 
 			return this->data()[i];
 		}
 			
-		constexpr const_pointer operator()(size_type i) const 
+		constexpr const_pointer operator()(size_t i) const 
 		{ 
 			return (this->data() + i);
 		}
 
-		constexpr self_type operator()(size_type begin, size_type end) const
+		constexpr self_type operator()(size_t begin, size_t end) const
 		{
 			return self_type { this->data() + begin, this->data() + end };
 		}
 
-		constexpr self_type pad(size_type begin_off, size_type end_off) const
+		constexpr self_type pad(size_t begin_off, size_t end_off) const
 		{
 			return (*this)(begin_off, this->size() - end_off);
 		}
@@ -114,12 +112,12 @@ namespace ml
 
 	private:
 		const_pointer	m_data;
-		size_type		m_size;
+		size_t		m_size;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(ostream & out, const ct_string & value)
+	inline ML_SERIALIZE(Ostream & out, const X_String & value)
 	{
 		for (const auto & elem : value)
 		{
@@ -130,32 +128,32 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	constexpr bool operator==(const ct_string & lhs, const ct_string & rhs)
+	constexpr bool operator==(const X_String & lhs, const X_String & rhs)
 	{
 		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	constexpr bool operator!=(const ct_string & lhs, const ct_string & rhs)
+	constexpr bool operator!=(const X_String & lhs, const X_String & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
-	constexpr bool operator<(const ct_string & lhs, const ct_string & rhs)
+	constexpr bool operator<(const X_String & lhs, const X_String & rhs)
 	{
 		return alg::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	constexpr bool operator>(const ct_string & lhs, const ct_string & rhs)
+	constexpr bool operator>(const X_String & lhs, const X_String & rhs)
 	{
 		return !(lhs > rhs);
 	}
 
-	constexpr bool operator<=(const ct_string & lhs, const ct_string & rhs)
+	constexpr bool operator<=(const X_String & lhs, const X_String & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
-	constexpr bool operator>=(const ct_string & lhs, const ct_string & rhs)
+	constexpr bool operator>=(const X_String & lhs, const X_String & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}

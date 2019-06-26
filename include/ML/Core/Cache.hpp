@@ -11,22 +11,21 @@ namespace ml
 	// Tool for quickly mapping values
 	// Inserts value into map if not exists then returns const ref to value
 	// Should only be used when a failed map insert is inconsequential
+	// NOT TO BE USED IN PLACE OF Map/HashMap
 	template <
-		template <class, class> class Base, class Key, class Val
+		template <class, class> class Base, 
+		class Key, class Val
 	> struct Cache : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		using key_type			= typename Key;
 		using value_type		= typename Val;
-		using hash_type			= typename size_t;
-
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
-
-		using base_type			= typename Base<hash_type, value_type>;
+		using base_type			= typename Base<hash_t, value_type>;
 		using iterator			= typename base_type::iterator;
 		using const_iterator	= typename base_type::const_iterator;
 
@@ -38,7 +37,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline const_pointer operator()(const hash_type id)
+		inline const_pointer operator()(const hash_t id)
 		{
 			const_iterator it;
 			return (((it = this->base().find(id)) != this->base().end())
@@ -49,7 +48,7 @@ namespace ml
 
 		inline const_reference operator()(const key_type & key, const_reference value)
 		{
-			const hash_type id { Hash()(key) };
+			const hash_t id { Hash()(key) };
 
 			if (const_pointer temp = (*this)(id))
 			{
@@ -74,7 +73,7 @@ namespace ml
 
 	template <
 		class Key, class Val
-	> using TreeCache = Cache<Map, Key, Val>; // cache using BST
+	> using TreeCache = Cache<Map, Key, Val>; // cache using b-tree
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

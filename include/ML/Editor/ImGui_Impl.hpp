@@ -4,7 +4,7 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Window/Window.hpp>
 
-#define ML_ImGui_Impl ::ml::ImGui_Impl::getInstance()
+#define ML_ImGui_Impl _ML ImGui_Impl::getInstance()
 
 namespace ml
 {
@@ -20,7 +20,7 @@ namespace ml
 		~ImGui_Impl();
 
 	public:
-		bool Startup(CString version, Window * window, bool install_callbacks, CString ini);
+		bool Startup(C_String version, Window * window, bool install_callbacks, C_String ini);
 		void Shutdown();
 		void NewFrame();
 		void Render(void * value);
@@ -33,7 +33,7 @@ namespace ml
 		bool CreateDeviceObjects();
 		void DestroyDeviceObjects();
 
-		bool CompileShader(uint32_t & obj, const CString * vs, const CString * fs);
+		bool CompileShader(uint32_t & obj, const C_String * vs, const C_String * fs);
 		void HandleInput();
 
 		template <
@@ -44,7 +44,7 @@ namespace ml
 		}
 
 		static void MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods);
-		static void ScrollCallback(void * window, double xoffset, double yoffset);
+		static void ScrollCallback(void * window, float64_t xoffset, float64_t yoffset);
 		static void KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods);
 		static void CharCallback(void * window, uint32_t c);
 
@@ -64,7 +64,7 @@ namespace ml
 
 		Window *	m_Window;
 		ClientAPI	m_ClientApi;
-		double      m_Time;
+		float64_t      m_Time;
 		bool        m_MousePressed[5];
 		void *		m_MouseCursors[(size_t)Cursor::Shape::NUM_SHAPE];
 

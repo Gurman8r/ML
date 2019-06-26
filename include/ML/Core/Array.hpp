@@ -47,7 +47,7 @@ namespace ml
 		constexpr auto data()	const	-> const_pointer	{ return m_data; }
 		constexpr auto end()			-> iterator			{ return data() + size(); }
 		constexpr auto end()	const	-> const_iterator	{ return data() + size(); }
-		constexpr auto hash()	const	-> size_t			{ return Hash()(size(), data()); }
+		constexpr auto hash()	const	-> hash_t			{ return Hash()(size(), data()); }
 		constexpr auto size()	const	-> size_t			{ return Size; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -60,16 +60,14 @@ namespace ml
 
 		static constexpr auto fill(const_reference value)
 		{
-			self_type temp { meta::uninit };
+			self_type temp { uninit };
 			alg::fill(temp, value);
 			return temp;
 		}
 
-		
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		// Non-Newable
+		// I_NonNewable (no inheritance because aggregate initializer)
 		private:
 			inline void * operator	new		 (size_t size) { return nullptr; }
 			inline void * operator	new[]	 (size_t size) { return nullptr; }
@@ -83,7 +81,7 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> inline ML_SERIALIZE(ostream & out, const Array<T, N> & value)
+	> inline ML_SERIALIZE(Ostream & out, const Array<T, N> & value)
 	{
 		for (const auto & elem : value)
 		{
@@ -94,7 +92,7 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> inline ML_DESERIALIZE(istream & in, Array<T, N> & value)
+	> inline ML_DESERIALIZE(Istream & in, Array<T, N> & value)
 	{
 		for (auto & elem : value)
 		{

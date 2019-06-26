@@ -6,12 +6,25 @@
 
 namespace ml
 {
-	bool FMT::setTextAttrib(const uint6_t value)
+	Ostream & FMT::operator()(Ostream & out) const
 	{
+		const uint16_t value = 
+			(((this->fg != FG::None) && (this->bg != BG::None))
+				? ((uint16_t)this->fg | (uint16_t)this->bg)
+				: ((this->fg != FG::None)
+					? ((uint16_t)this->fg)
+					: ((this->bg != BG::None)
+						? ((uint16_t)this->bg)
+						: ((uint16_t)FG::Normal | (uint16_t)BG::Black)
+						)
+					)
+				);
+
 #ifdef ML_SYSTEM_WINDOWS
-		return SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
 #else 
-		return false;
+
 #endif
+		return out;
 	}
 }

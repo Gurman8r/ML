@@ -7,7 +7,7 @@
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Readable.hpp>
 
-#define ML_Content ::ml::Content::getInstance()
+#define ML_Content _ML Content::getInstance()
 
 namespace ml
 {
@@ -37,7 +37,7 @@ namespace ml
 		
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
-		bool readMetadata(Metadata & data, istream & file, String & line) const;
+		bool readMetadata(Metadata & data, Istream & file, String & line) const;
 		bool parseMetadata(const Metadata & data);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

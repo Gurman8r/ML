@@ -154,9 +154,9 @@ namespace ml
 		switch (args.pop_front().size())
 		{
 		case 0: return Var().errorValue("");
-		case 1: return Var().boolValue(ML_OS.execute(args[0]));
-		case 2: return Var().boolValue(ML_OS.execute(args[0], args[1]));
-		case 3: return Var().boolValue(ML_OS.execute(args[0], args[1], args[2]));
+		case 1: return Var().boolValue(OS::execute(args[0]));
+		case 2: return Var().boolValue(OS::execute(args[0], args[1]));
+		case 3: return Var().boolValue(OS::execute(args[0], args[1], args[2]));
 		default: return Var().errorValue("");
 		}
 	}

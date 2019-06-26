@@ -100,12 +100,12 @@ namespace ml
 			return ss;
 		}
 		inline String	str()	const { return sstr().str(); }
-		inline CString	c_str() const { return str().c_str(); }
+		inline C_String	c_str() const { return str().c_str(); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ML_SERIALIZE(ostream & out, const Token & value);
+	ML_SERIALIZE(Ostream & out, const Token & value);
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

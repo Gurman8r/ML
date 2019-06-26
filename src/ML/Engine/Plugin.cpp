@@ -19,7 +19,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Plugin::onEvent(const ml::Event * value)
+	void Plugin::onEvent(const Event * value)
 	{
 		switch (*value)
 		{

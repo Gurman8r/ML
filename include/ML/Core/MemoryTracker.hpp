@@ -6,7 +6,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_MemoryTracker	::ml::MemoryTracker::getInstance()
+#define ML_MemoryTracker	_ML MemoryTracker::getInstance()
 #define ML_allocate			ML_MemoryTracker.allocate
 #define ML_deallocate		ML_MemoryTracker.deallocate
 

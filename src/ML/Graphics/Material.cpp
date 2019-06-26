@@ -54,7 +54,7 @@ namespace ml
 
 	bool Material::loadFromFile(const String & filename)
 	{
-		if (auto file = std::ifstream(filename))
+		if (auto file = Ifstream(filename))
 		{
 			String line;
 			while (std::getline(file, line))

@@ -52,7 +52,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniform(const String & name, const float value) const;
+		bool setUniform(const String & name, const float_t value) const;
 		bool setUniform(const String & name, const int32_t value) const;
 		bool setUniform(const String & name, const vec2 & value) const;
 		bool setUniform(const String & name, const vec3 & value) const;
@@ -66,7 +66,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniformArray(const String & name, const int32_t count, const float * value) const;
+		bool setUniformArray(const String & name, const int32_t count, const float_t * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const vec2 * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const vec3 * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const vec4 * value) const;
@@ -75,7 +75,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniformList(const String & name, const List<float> & value) const;
+		bool setUniformList(const String & name, const List<float_t> & value) const;
 		bool setUniformList(const String & name, const List<vec2> & value) const;
 		bool setUniformList(const String & name, const List<vec3> & value) const;
 		bool setUniformList(const String & name, const List<vec4> & value) const;
@@ -84,7 +84,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	private:
-		bool	compile(CString vs, CString gs, CString fs);
+		bool	compile(C_String vs, C_String gs, C_String fs);
 		int32_t	getAttribute(const String & value) const;
 		int32_t	getUniform(const String & value) const;
 

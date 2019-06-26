@@ -31,19 +31,20 @@ namespace ml
 		constexpr auto arr2 = Array<char, 3> { 'a', 'b', 'c' };
 		static_assert(arr1 == arr2, "What?");
 
-		static_assert(ct_string("Here") == ct_string("Here"), "What?");
+		static_assert(X_String("Here") == X_String("Here"), "What?");
 
 		constexpr auto hash1	= Hash()("Here");
-		constexpr auto hash2	= ct_string("Here").hash();
+		constexpr auto hash2	= X_String("Here").hash();
 		constexpr auto hash3	= mat4i::identity().hash();
 		constexpr auto hash4	= mat4f::identity().hash();
 
-		constexpr auto eps		= type_t<long double>::epsilon;
+		constexpr auto eps1		= type_t<float64_t>::epsilon;
+		constexpr auto eps2		= type_t<float80_t>::epsilon;
 		constexpr auto sqr_mag	= alg::sqr_magnitude(vb);
 		constexpr auto mag		= alg::magnitude(vb);
 		constexpr auto norm		= alg::normalize(vb);
 		constexpr auto lerp		= alg::lerp(va, vb, 0.5f);
-		constexpr auto sqr		= alg::sqrt<float>()(13.0f);
+		constexpr auto sqr		= alg::sqrt<float_t>()(13.0f);
 		constexpr auto det		= alg::determinant(ma);
 		constexpr auto inv		= alg::inverse(ma);
 		constexpr auto dot		= alg::dot(ma, mb);

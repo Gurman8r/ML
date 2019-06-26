@@ -31,7 +31,7 @@ namespace ml
 			MAX_UNI_TYPES
 		};
 
-		static constexpr CString TypeNames[] = {
+		static constexpr C_String TypeNames[] = {
 			"float", "int",
 			"vec2", "vec3", "vec4", "vec4",
 			"mat3", "mat4",
@@ -52,7 +52,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(ostream & out, const Uniform & value)
+		inline friend ML_SERIALIZE(Ostream & out, const Uniform & value)
 		{
 			return out << TypeNames[value.type];
 		}
@@ -164,7 +164,7 @@ namespace ml
 	// Value Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt		= typename uni_flt_t	<float	>;
+	using uni_flt		= typename uni_flt_t	<float_t>;
 	using uni_int		= typename uni_int_t	<int32_t>;
 	using uni_vec2		= typename uni_vec2_t	<vec2	>;
 	using uni_vec3		= typename uni_vec3_t	<vec3	>;
@@ -177,7 +177,7 @@ namespace ml
 	// Const Reference Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt_ref	= typename uni_flt_t	<const float	&>;
+	using uni_flt_ref	= typename uni_flt_t	<const float_t	&>;
 	using uni_int_ref	= typename uni_int_t	<const int32_t	&>;
 	using uni_vec2_ref	= typename uni_vec2_t	<const vec2		&>;
 	using uni_vec3_ref	= typename uni_vec3_t	<const vec3		&>;
@@ -190,7 +190,7 @@ namespace ml
 	// Const Pointer Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt_ptr	= typename uni_flt_t	<const float	*>;
+	using uni_flt_ptr	= typename uni_flt_t	<const float_t	*>;
 	using uni_int_ptr	= typename uni_int_t	<const int32_t	*>;
 	using uni_vec2_ptr	= typename uni_vec2_t	<const vec2		*>;
 	using uni_vec3_ptr	= typename uni_vec3_t	<const vec3		*>;
@@ -210,9 +210,9 @@ namespace ml
 
 	namespace impl
 	{
-		inline static float * toFloat(const Uniform * value)
+		inline static float_t * toFloat(const Uniform * value)
 		{
-			static float temp;
+			static float_t temp;
 			if (!value) return nullptr;
 			else if (auto u = value->as<uni_flt>())		return &(temp = u->data);
 			else if (auto u = value->as<uni_flt_ref>())	return &(temp = u->data);

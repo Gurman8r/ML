@@ -27,7 +27,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ostream & AST_Block::display(ostream & out) const
+	Ostream & AST_Block::display(Ostream & out) const
 	{
 		auto tab = [](size_t n)
 		{
@@ -41,7 +41,7 @@ namespace ml
 		for (AST_Node* n : (*this))
 		{
 			out << tab(n->getDepth()) << (*n) 
-				<< ml::endl << FMT();
+				<< endl << FMT();
 		}
 
 		out << tab(getDepth()) << "}";

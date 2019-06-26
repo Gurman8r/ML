@@ -85,18 +85,18 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			template <> struct sqrt<double>
+			template <> struct sqrt<float64_t>
 			{
-				using type = typename type_t<double>;
+				using type = typename type_t<float64_t>;
 
-				constexpr double operator()(double value, double curr, double prev) const
+				constexpr float64_t operator()(float64_t value, float64_t curr, float64_t prev) const
 				{
 					return ((curr == prev)
 					? curr
 					: sqrt {}(value, type::half * (curr + value / curr), curr));
 				}
 					
-				constexpr double operator()(double value) const
+				constexpr float64_t operator()(float64_t value) const
 				{
 					return ((value >= type::zero && value < type::infinity)
 					? sqrt {}(value, value, type::zero)
@@ -130,11 +130,11 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			template <> struct sqrt<float>
+			template <> struct sqrt<float_t>
 			{
-				constexpr float operator()(float value) const
+				constexpr float_t operator()(float_t value) const
 				{
-					return sqrt<float, double>{}(value);
+					return sqrt<float_t, float64_t>{}(value);
 				}
 			};
 
@@ -426,7 +426,7 @@ namespace ml
 		> static constexpr auto copy(const A<T, N...> & value)
 			-> A<T, N...>
 		{
-			A<T, N...> temp { meta::uninit };
+			A<T, N...> temp { uninit };
 			alg::copy(temp, value);
 			return temp;
 		}
@@ -467,7 +467,7 @@ namespace ml
 		> static constexpr auto fill(const T & value)
 			-> A<T, N...>
 		{
-			A<T, N...> temp { meta::uninit };
+			A<T, N...> temp { uninit };
 			alg::fill(temp, value);
 			return temp;
 		}
@@ -577,7 +577,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr A<T, N...> transpose(const A<T, N...> & value)
 		{
-			A<T, N...> temp { meta::uninit };
+			A<T, N...> temp { uninit };
 			for (size_t i = 0; i < value.size(); i++)
 			{
 				temp[i] = value[

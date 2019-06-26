@@ -11,7 +11,7 @@
 namespace ml
 {
 	inline static const int32_t ml_Log(
-		ostream &	out, 
+		Ostream &	out, 
 		const int32_t	exitCode, 
 		const FMT &		color, 
 		const String &	prefix, 
@@ -64,12 +64,12 @@ namespace ml
 		return exitCode;
 	}
 
-	int32_t	Debug::system(CString cmd)
+	int32_t	Debug::system(C_String cmd)
 	{
 		return system(cmd, cout);
 	}
 
-	int32_t Debug::system(CString cmd, ostream & out)
+	int32_t Debug::system(C_String cmd, Ostream & out)
 	{
 		std::array<char, 128> buffer;
 		std::shared_ptr<FILE> file(_popen(cmd, "r"), _pclose);

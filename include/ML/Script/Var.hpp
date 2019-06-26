@@ -51,7 +51,7 @@ namespace ml
 
 			Var * get() const;
 
-			friend ML_SERIALIZE(ostream & out, const Var::Ptr & value);
+			friend ML_SERIALIZE(Ostream & out, const Var::Ptr & value);
 
 			inline Var * operator->() const { return get(); }
 			inline Var * operator*() const { return get(); }
@@ -59,7 +59,7 @@ namespace ml
 
 		static const String TypeNames[Var::MAX_VAR_TYPE];
 		
-		inline friend ML_SERIALIZE(ostream & out, const VarType & rhs)
+		inline friend ML_SERIALIZE(Ostream & out, const VarType & rhs)
 		{
 			return out << Var::TypeNames[rhs];
 		}
@@ -116,7 +116,7 @@ namespace ml
 	public: // Data Functions
 		bool		boolValue() const;
 		TokenList	dataValue() const;
-		float		floatValue() const;
+		float_t		floatValue() const;
 		Var			elemValue(size_t i) const;
 		String		errorValue() const;
 		int32_t		intValue() const;
@@ -134,7 +134,7 @@ namespace ml
 		Var & dataValue(const TokenList & value);
 		Var & elemValue(size_t index, const Token & value);
 		Var & errorValue(const String & value);
-		Var & floatValue(const float & value);
+		Var & floatValue(const float_t & value);
 		Var & funcValue(const TokenList & value);
 		Var & intValue(const int32_t & value);
 		Var & nullValue();
@@ -161,7 +161,7 @@ namespace ml
 	public: // Serialization
 		Var & print();
 
-		friend ML_SERIALIZE(ostream & out, const Var & value);
+		friend ML_SERIALIZE(Ostream & out, const Var & value);
 
 	public: // Factory
 		static Var makeSingle(const Token & tok);
@@ -206,12 +206,12 @@ namespace ml
 
 		Var & operator=(const Var & rhs);
 		Var & operator=(bool value);
-		Var & operator=(float value);
-		Var & operator=(double value);
+		Var & operator=(float_t value);
+		Var & operator=(float64_t value);
 		Var & operator=(int32_t value);
 		Var & operator=(const Ptr & value);
 		Var & operator=(const String & value);
-		Var & operator=(CString value);
+		Var & operator=(C_String value);
 		Var & operator=(char value);
 
 	private:

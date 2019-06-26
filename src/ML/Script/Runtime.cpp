@@ -24,10 +24,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ostream & Runtime::display(ostream & out)
+	Ostream & Runtime::display(Ostream & out)
 	{
 		out << FG::White << "Memory:"
-			<< ml::endl;
+			<< endl;
 
 		ScopeMap::const_iterator scope;
 		for (scope = m_values->begin(); scope != m_values->end(); scope++)
@@ -35,7 +35,7 @@ namespace ml
 			const int32_t& index = scope->first;
 
 			out << FG::Yellow << "\tScope [" << index << "]"
-				<< ml::endl;
+				<< endl;
 
 			if (const VarMap* varMap = scope->second)
 			{
@@ -44,7 +44,7 @@ namespace ml
 				{
 					out << "\t\t"
 						<< FG::White << vp->first << " = " << *vp->second
-						<< ml::endl;
+						<< endl;
 				}
 			}
 		}

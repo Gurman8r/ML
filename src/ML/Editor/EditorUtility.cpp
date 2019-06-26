@@ -61,7 +61,7 @@ namespace ml
 		}
 	}
 
-	bool EditorUtility::StringCombo(CString label, int32_t & index, const List<String>& keys)
+	bool EditorUtility::StringCombo(C_String label, int32_t & index, const List<String>& keys)
 	{
 		return ImGui::Combo(
 			label,
@@ -72,7 +72,7 @@ namespace ml
 		);
 	}
 
-	bool EditorUtility::BeginWindow(CString name, bool & open, const int32_t flags)
+	bool EditorUtility::BeginWindow(C_String name, bool & open, const int32_t flags)
 	{
 		return ImGui::Begin(name, &open, flags);
 	}

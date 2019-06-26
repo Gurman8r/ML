@@ -2,12 +2,13 @@
 #define _ML_VERTEX_HPP_
 
 #include <ML/Graphics/Color.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Vertex final
+	struct Vertex final : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -15,7 +16,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type		= typename float;
+		using value_type		= typename float_t;
 		using self_type			= typename Vertex;
 		using array_type		= typename Array<value_type, Size>;
 		using pointer			= typename array_type::pointer;
@@ -120,24 +121,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(ostream & out, const self_type & rhs)
+		inline friend ML_SERIALIZE(Ostream & out, const self_type & rhs)
 		{
 			return out << rhs.m_data;
 		}
 
-		inline friend ML_DESERIALIZE(istream & in, self_type & rhs)
+		inline friend ML_DESERIALIZE(Istream & in, self_type & rhs)
 		{
 			return in >> rhs.m_data;
 		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		// Non-Newable
-		private:
-			inline void * operator	new		 (size_t size) { return nullptr; }
-			inline void * operator	new[]	 (size_t size) { return nullptr; }
-			inline void	  operator	delete	 (void * ptr)  { return;  }
-			inline void	  operator	delete[] (void * ptr)  { return;  }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

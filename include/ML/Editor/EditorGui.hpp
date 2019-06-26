@@ -23,7 +23,7 @@ namespace ml
 		friend class Editor;
 
 	protected:
-		explicit EditorGui(EventSystem & eventSystem, CString title);
+		explicit EditorGui(EventSystem & eventSystem, C_String title);
 		virtual ~EditorGui() {}
 
 	protected:
@@ -45,7 +45,7 @@ namespace ml
 		virtual bool endDraw();
 
 	public:
-		inline CString	getTitle()	const	{ return m_title;		}
+		inline C_String	getTitle()	const	{ return m_title;		}
 		inline int32_t	getFlags()	const	{ return m_flags;		}
 		inline bool		isOpen	()	const	{ return m_open;		}
 		inline bool *	openPtr	()			{ return &m_open;		}
@@ -54,7 +54,7 @@ namespace ml
 	protected:
 		bool		m_good;
 		bool		m_open;
-		CString		m_title;
+		C_String	m_title;
 		int32_t		m_flags;
 	};
 

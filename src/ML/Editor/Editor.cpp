@@ -210,7 +210,7 @@ namespace ml
 		String fontFile = ev.prefs.GetString("Editor", "fontFile", "");
 		if (fontFile)
 		{
-			float fontSize = ev.prefs.GetFloat("Editor", "fontSize", 12.0f);
+			float_t fontSize = ev.prefs.GetFloat("Editor", "fontSize", 12.0f);
 			if (fontSize > 0.0f)
 			{
 				ImGui::GetIO().Fonts->AddFontFromFileTTF(
@@ -222,7 +222,7 @@ namespace ml
 
 		// Setup Ini File
 		/* * * * * * * * * * * * * * * * * * * * */
-		CString useIniFile = (ev.prefs.GetBool("Editor", "useIniFile", false)
+		C_String useIniFile = (ev.prefs.GetBool("Editor", "useIniFile", false)
 			? "imgui.ini"
 			: nullptr
 		);
@@ -358,11 +358,11 @@ namespace ml
 			{
 				if (ImGui::MenuItem("Project Page"))
 				{
-					ML_OS.execute("open", ML_PROJECT_URL);
+					OS::execute("open", ML_PROJECT_URL);
 				}
 				if (ImGui::MenuItem("Downloads"))
 				{
-					ML_OS.execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
+					OS::execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
 				}
 				if (ImGui::BeginMenu("License"))
 				{
@@ -376,18 +376,18 @@ namespace ml
 				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
-					if (ImGui::MenuItem("CTTI")) ML_OS.execute("open", "https://github.com/Manu343726/ctti");
-					if (ImGui::MenuItem("FreeType")) ML_OS.execute("open", "https://www.freetype.org/");
-					if (ImGui::MenuItem("GCEM")) ML_OS.execute("open", "https://github.com/kthohr/gcem");
-					if (ImGui::MenuItem("GLEW")) ML_OS.execute("open", "http://glew.sourceforge.net/");
-					if (ImGui::MenuItem("GLFW")) ML_OS.execute("open", "https://www.glfw.org/");
-					if (ImGui::MenuItem("GLM")) ML_OS.execute("open", "https://glm.g-truc.net/0.9.9/index.html");
-					if (ImGui::MenuItem("ImGui")) ML_OS.execute("open", "https://github.com/ocornut/imgui");
-					if (ImGui::MenuItem("ImGuiColorTextEdit")) ML_OS.execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
-					if (ImGui::MenuItem("INIReader")) ML_OS.execute("open", "https://github.com/benhoyt/inih");
-					if (ImGui::MenuItem("OpenAL")) ML_OS.execute("open", "https://www.openal.org/");
-					if (ImGui::MenuItem("RakNet")) ML_OS.execute("open", "http://www.jenkinssoftware.com/");
-					if (ImGui::MenuItem("STB")) ML_OS.execute("open", "https://github.com/nothings/stb");
+					if (ImGui::MenuItem("CTTI")) OS::execute("open", "https://github.com/Manu343726/ctti");
+					if (ImGui::MenuItem("FreeType")) OS::execute("open", "https://www.freetype.org/");
+					if (ImGui::MenuItem("GCEM")) OS::execute("open", "https://github.com/kthohr/gcem");
+					if (ImGui::MenuItem("GLEW")) OS::execute("open", "http://glew.sourceforge.net/");
+					if (ImGui::MenuItem("GLFW")) OS::execute("open", "https://www.glfw.org/");
+					if (ImGui::MenuItem("GLM")) OS::execute("open", "https://glm.g-truc.net/0.9.9/index.html");
+					if (ImGui::MenuItem("ImGui")) OS::execute("open", "https://github.com/ocornut/imgui");
+					if (ImGui::MenuItem("ImGuiColorTextEdit")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
+					if (ImGui::MenuItem("INIReader")) OS::execute("open", "https://github.com/benhoyt/inih");
+					if (ImGui::MenuItem("OpenAL")) OS::execute("open", "https://www.openal.org/");
+					if (ImGui::MenuItem("RakNet")) OS::execute("open", "http://www.jenkinssoftware.com/");
+					if (ImGui::MenuItem("STB")) OS::execute("open", "https://github.com/nothings/stb");
 
 					ImGui::EndMenu();
 				}

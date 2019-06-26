@@ -12,7 +12,7 @@ namespace ml
 	{
 	}
 
-	ostream & AST_Expr::display(ostream & out) const
+	Ostream & AST_Expr::display(Ostream & out) const
 	{
 		return AST_Stmt::display(out);
 	}
@@ -43,7 +43,7 @@ namespace ml
 			addChild(v);
 	}
 
-	ostream & AST_Array::display(ostream & out) const
+	Ostream & AST_Array::display(Ostream & out) const
 	{
 		out << (FG::Black | BG::Yellow) << "[" << FMT() << " ";
 
@@ -88,7 +88,7 @@ namespace ml
 		addChild(rhs);
 	}
 
-	ostream & AST_Assign::display(ostream & out) const
+	Ostream & AST_Assign::display(Ostream & out) const
 	{
 		return out << (*lhs) << " " << op << " " << (*rhs);
 	}
@@ -142,7 +142,7 @@ namespace ml
 	{
 	}
 
-	ostream & AST_Bool::display(ostream & out) const
+	Ostream & AST_Bool::display(Ostream & out) const
 	{
 		out << Var().boolValue(value);
 		return out;
@@ -166,7 +166,7 @@ namespace ml
 			addChild(p);
 	}
 
-	ostream & AST_Call::display(ostream & out) const
+	Ostream & AST_Call::display(Ostream & out) const
 	{
 		out << (FG::Green | BG::Black)
 			<< name->value << "("
@@ -284,13 +284,13 @@ namespace ml
 
 	// Float
 	/* * * * * * * * * * * * * * * * * * * * */
-	AST_Float::AST_Float(float value)
+	AST_Float::AST_Float(float_t value)
 		: AST_Expr(EX_Float)
 		, value(value)
 	{
 	}
 
-	ostream & AST_Float::display(ostream & out) const
+	Ostream & AST_Float::display(Ostream & out) const
 	{
 		out << Var().floatValue(value);
 		return out;
@@ -313,7 +313,7 @@ namespace ml
 			addChild(p);
 	}
 
-	ostream & AST_Func::display(ostream & out) const
+	Ostream & AST_Func::display(Ostream & out) const
 	{
 		out << (FG::White | BG::DarkGray) << name << FMT() << " = [](";
 		List<AST_Expr *>::const_iterator it;
@@ -349,7 +349,7 @@ namespace ml
 		addChild(prompt);
 	}
 
-	ostream & AST_Input::display(ostream & out) const
+	Ostream & AST_Input::display(Ostream & out) const
 	{
 		return out << FG::Cyan << "input" << FMT() << "(" << ")";
 	}
@@ -374,7 +374,7 @@ namespace ml
 	{
 	}
 
-	ostream & AST_Int::display(ostream & out) const
+	Ostream & AST_Int::display(Ostream & out) const
 	{
 		out << Var().intValue(value);
 		return out;
@@ -394,7 +394,7 @@ namespace ml
 	{
 	}
 
-	ostream & AST_Name::display(ostream & out) const
+	Ostream & AST_Name::display(Ostream & out) const
 	{
 		if (AST_Block * b = block())
 		{
@@ -444,7 +444,7 @@ namespace ml
 		addChild(rhs);
 	}
 
-	ostream & AST_BinOp::display(ostream & out) const
+	Ostream & AST_BinOp::display(Ostream & out) const
 	{
 		out << "(" << * lhs << " " << op << " " << * rhs << ")";
 		return out;
@@ -487,7 +487,7 @@ namespace ml
 	{
 	}
 
-	ostream & AST_String::display(ostream & out) const
+	Ostream & AST_String::display(Ostream & out) const
 	{
 		return out << Var().stringValue(value);
 	}
@@ -513,7 +513,7 @@ namespace ml
 		return nextAs<AST_Block>();
 	}
 
-	ostream & AST_Struct::display(ostream & out) const
+	Ostream & AST_Struct::display(Ostream & out) const
 	{
 		out << (FG::White | BG::DarkBlue)
 			<< name << FMT() << " = $(";
@@ -562,7 +562,7 @@ namespace ml
 		addChild(index);
 	}
 
-	ostream & AST_Subscr::display(ostream & out) const
+	Ostream & AST_Subscr::display(Ostream & out) const
 	{
 		return out << "" << name->value << "[" << * index << "]";
 	}
@@ -598,7 +598,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	ostream & AST_Command::display(ostream & out) const
+	Ostream & AST_Command::display(Ostream & out) const
 	{
 		return out << FG::Cyan << "command" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -627,7 +627,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	ostream & AST_SizeOf::display(ostream & out) const
+	Ostream & AST_SizeOf::display(Ostream & out) const
 	{
 		return out << FG::Cyan << "sizeof" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -647,7 +647,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	ostream & AST_TypeID::display(ostream & out) const
+	Ostream & AST_TypeID::display(Ostream & out) const
 	{
 		return out << FG::Cyan << "typeid" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -667,7 +667,7 @@ namespace ml
 		addChild(expr);
 	}
 
-	ostream & AST_TypeName::display(ostream & out) const
+	Ostream & AST_TypeName::display(Ostream & out) const
 	{
 		return out << FG::Cyan << "typename" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -687,7 +687,7 @@ namespace ml
 		addChild(expr);
 	}
 	
-	ostream & AST_NodeID::display(ostream & out) const
+	Ostream & AST_NodeID::display(Ostream & out) const
 	{
 		return out << FG::Cyan << "nodeid" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -707,7 +707,7 @@ namespace ml
 		addChild(expr);
 	}
 	
-	ostream & AST_New::display(ostream & out) const
+	Ostream & AST_New::display(Ostream & out) const
 	{
 		return out << FG::Cyan << "new" << FMT() << "(" << (*expr) << FMT() << ")";
 	}
@@ -768,7 +768,7 @@ namespace ml
 		return nullptr;
 	}
 	
-	ostream & AST_Member::display(ostream & out) const
+	Ostream & AST_Member::display(Ostream & out) const
 	{
 		return out << (*name) << FG::Cyan << "." << FMT() << (*expr) << FMT();
 	}
@@ -811,7 +811,7 @@ namespace ml
 			addChild(a);
 	}
 
-	ostream & AST_System::display(ostream & out) const
+	Ostream & AST_System::display(Ostream & out) const
 	{
 		out << FG::Cyan << "system" << FMT() << "(";
 		for (auto it = args.begin(); it != args.end(); it++)

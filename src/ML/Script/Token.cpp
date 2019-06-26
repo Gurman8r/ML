@@ -182,7 +182,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	ML_SERIALIZE(ostream & out, const Token & value)
+	ML_SERIALIZE(Ostream & out, const Token & value)
 	{
 		return out << FMT()
 			<< FG::White << "[ "

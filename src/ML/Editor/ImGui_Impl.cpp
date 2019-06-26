@@ -47,7 +47,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGui_Impl::Startup(CString glsl_version, Window * window, bool install_callbacks, CString iniName)
+	bool ImGui_Impl::Startup(C_String glsl_version, Window * window, bool install_callbacks, C_String iniName)
 	{
 		if (m_Running) return false;
 		else m_Running = true;
@@ -98,7 +98,7 @@ namespace ml
 		io.KeyMap[ImGuiKey_Z]			= KeyCode::Z;
 
 		// Clipboard
-		io.SetClipboardTextFn = [](void * user_data, CString text)
+		io.SetClipboardTextFn = [](void * user_data, C_String text)
 		{
 			static_cast<Window *>(user_data)->setClipboardString(text);
 		};
@@ -164,8 +164,8 @@ namespace ml
 		io.DisplayFramebufferScale = ImVec2(size[0] > 0 ? (display[0] / size[0]) : 0, size[1] > 0 ? (display[1] / size[1]) : 0);
 
 		// Setup time step
-		double current_time = m_Window->getTime();
-		io.DeltaTime = m_Time > 0.0 ? (float)(current_time - m_Time) : (float)(1.0f / 60.0f);
+		float64_t current_time = m_Window->getTime();
+		io.DeltaTime = m_Time > 0.0 ? (float_t)(current_time - m_Time) : (float_t)(1.0f / 60.0f);
 		m_Time = current_time;
 
 		this->HandleInput();
@@ -237,16 +237,16 @@ namespace ml
 		// to draw_data->DisplayPos+data_data->DisplaySize (bottom right). 
 		// DisplayMin is typically (0,0) for single viewport apps.
 		ML_GL.viewport(0, 0, (int32_t)fb_width, (int32_t)fb_height);
-		float L = draw_data->DisplayPos.x;
-		float R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
-		float T = draw_data->DisplayPos.y;
-		float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
+		float_t L = draw_data->DisplayPos.x;
+		float_t R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
+		float_t T = draw_data->DisplayPos.y;
+		float_t B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
 
-		const float m00 = 2.0f / (R - L);
-		const float m05 = 2.0f / (T - B);
-		const float m12 = (R + L) / (L - R);
-		const float m13 = (T + B) / (B - T);
-		const float ortho_projection[4][4] =
+		const float_t m00 = 2.0f / (R - L);
+		const float_t m05 = 2.0f / (T - B);
+		const float_t m12 = (R + L) / (L - R);
+		const float_t m13 = (T + B) / (B - T);
+		const float_t ortho_projection[4][4] =
 		{
 			{	m00,	0.0f,	0.0f,	0.0f },
 			{	0.0f,	m05,	0.0f,	0.0f },
@@ -415,7 +415,7 @@ namespace ml
 		int32_t glsl_version = 130;
 		sscanf(m_GlslVersion, "#version %d", &glsl_version);
 
-		static const CString vertex_shader_glsl_120 =
+		static const C_String vertex_shader_glsl_120 =
 			"uniform mat4 ProjMtx;\n"
 			"attribute vec2 Position;\n"
 			"attribute vec2 UV;\n"
@@ -429,7 +429,7 @@ namespace ml
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
-		static const CString vertex_shader_glsl_130 =
+		static const C_String vertex_shader_glsl_130 =
 			"uniform mat4 ProjMtx;\n"
 			"in vec2 Position;\n"
 			"in vec2 UV;\n"
@@ -443,8 +443,8 @@ namespace ml
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
-		static const CString vertex_shader_glsl_300_es =
-			"precision mediump float;\n"
+		static const C_String vertex_shader_glsl_300_es =
+			"precision mediump float_t;\n"
 			"layout (location = 0) in vec2 Position;\n"
 			"layout (location = 1) in vec2 UV;\n"
 			"layout (location = 2) in vec4 Color;\n"
@@ -458,7 +458,7 @@ namespace ml
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
-		static const CString vertex_shader_glsl_410_core =
+		static const C_String vertex_shader_glsl_410_core =
 			"layout (location = 0) in vec2 Position;\n"
 			"layout (location = 1) in vec2 UV;\n"
 			"layout (location = 2) in vec4 Color;\n"
@@ -472,9 +472,9 @@ namespace ml
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
-		static const CString fragment_shader_glsl_120 =
+		static const C_String fragment_shader_glsl_120 =
 			"#ifdef GL_ES\n"
-			"    precision mediump float;\n"
+			"    precision mediump float_t;\n"
 			"#endif\n"
 			"uniform sampler2D Texture;\n"
 			"varying vec2 Fram_UV;\n"
@@ -484,7 +484,7 @@ namespace ml
 			"    gl_FragColor = Fram_Color * texture2D(Texture, Fram_UV.st);\n"
 			"}\n";
 
-		static const CString fragment_shader_glsl_130 =
+		static const C_String fragment_shader_glsl_130 =
 			"uniform sampler2D Texture;\n"
 			"in vec2 Fram_UV;\n"
 			"in vec4 Fram_Color;\n"
@@ -494,8 +494,8 @@ namespace ml
 			"    Out_Color = Fram_Color * texture(Texture, Fram_UV.st);\n"
 			"}\n";
 
-		static const CString fragment_shader_glsl_300_es =
-			"precision mediump float;\n"
+		static const C_String fragment_shader_glsl_300_es =
+			"precision mediump float_t;\n"
 			"uniform sampler2D Texture;\n"
 			"in vec2 Fram_UV;\n"
 			"in vec4 Fram_Color;\n"
@@ -505,7 +505,7 @@ namespace ml
 			"    Out_Color = Fram_Color * texture(Texture, Fram_UV.st);\n"
 			"}\n";
 
-		static const CString fragment_shader_glsl_410_core =
+		static const C_String fragment_shader_glsl_410_core =
 			"in vec2 Fram_UV;\n"
 			"in vec4 Fram_Color;\n"
 			"uniform sampler2D Texture;\n"
@@ -516,8 +516,8 @@ namespace ml
 			"}\n";
 
 		// Select shaders matching our GLSL versions
-		CString vertex_shader = NULL;
-		CString fragment_shader = NULL;
+		C_String vertex_shader = NULL;
+		C_String fragment_shader = NULL;
 		if (glsl_version < 130)
 		{
 			vertex_shader = vertex_shader_glsl_120;
@@ -540,8 +540,8 @@ namespace ml
 		}
 
 		// Create shaders
-		CString vertex_shader_with_version[2] = { m_GlslVersion, vertex_shader };
-		CString fragment_shader_with_version[2] = { m_GlslVersion, fragment_shader };
+		C_String vertex_shader_with_version[2] = { m_GlslVersion, vertex_shader };
+		C_String fragment_shader_with_version[2] = { m_GlslVersion, fragment_shader };
 		
 		this->CompileShader(
 			m_ShaderHandle,
@@ -666,7 +666,7 @@ namespace ml
 		}
 	}
 
-	bool ImGui_Impl::CompileShader(uint32_t & obj, const CString * vs, const CString * fs)
+	bool ImGui_Impl::CompileShader(uint32_t & obj, const C_String * vs, const C_String * fs)
 	{
 		if (!ML_GL.shadersAvailable())
 		{
@@ -716,7 +716,7 @@ namespace ml
 			// Link the program
 			if (!ML_GL.linkShader(obj))
 			{
-				CString log = ML_GL.getProgramInfoLog(obj);
+				C_String log = ML_GL.getProgramInfoLog(obj);
 				ML_GL.deleteShader(obj);
 				return Debug::logError("ImGui: Failed linking shader source:\n{0}", log);
 			}
@@ -749,13 +749,13 @@ namespace ml
 		));
 	}
 
-	void ImGui_Impl::ScrollCallback(void * window, double xoffset, double yoffset)
+	void ImGui_Impl::ScrollCallback(void * window, float64_t xoffset, float64_t yoffset)
 	{
 		ImGuiIO & io = ImGui::GetIO();
 	
-		io.MouseWheelH += (float)xoffset;
+		io.MouseWheelH += (float_t)xoffset;
 	
-		io.MouseWheel += (float)yoffset;
+		io.MouseWheel += (float_t)yoffset;
 	
 		ML_ImGui_Impl.fireEvent(ScrollEvent(
 			xoffset,
@@ -790,7 +790,7 @@ namespace ml
 
 		if ((value > 0) && (value < 0x10000))
 		{
-			io.AddInputCharacter((uint6_t)value);
+			io.AddInputCharacter((uint16_t)value);
 		}
 	
 		ML_ImGui_Impl.fireEvent(CharEvent(

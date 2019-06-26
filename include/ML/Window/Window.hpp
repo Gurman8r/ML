@@ -9,7 +9,7 @@
 #include <ML/Window/WindowStyle.hpp>
 
 #define ML_ASPECT(w, h) ((h != 0) \
-	? (static_cast<float>(w) / static_cast<float>(h)) \
+	? (static_cast<float_t>(w) / static_cast<float_t>(h)) \
 	: (0.0f))
 
 namespace ml
@@ -29,12 +29,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		using CharFun			= typename void(*)(void *, uint32_t);
 		using CursorEnterFun	= typename void(*)(void *, int32_t);
-		using CursorPosFun		= typename void(*)(void *, double, double);
-		using ErrorFun			= typename void(*)(int32_t, CString);
+		using CursorPosFun		= typename void(*)(void *, float64_t, float64_t);
+		using ErrorFun			= typename void(*)(int32_t, C_String);
 		using FrameSizeFun		= typename void(*)(void *, int32_t, int32_t);
 		using KeyFun			= typename void(*)(void *, int32_t, int32_t, int32_t, int32_t);
 		using MouseButtonFun	= typename void(*)(void *, int32_t, int32_t, int32_t);
-		using ScrollFun			= typename void(*)(void *, double, double);
+		using ScrollFun			= typename void(*)(void *, float64_t, float64_t);
 		using CloseFun			= typename void(*)(void *);
 		using FocusFun			= typename void(*)(void *, int32_t);
 		using PositionFun		= typename void(*)(void *, int32_t, int32_t);
@@ -89,14 +89,14 @@ namespace ml
 		bool		isOpen() const;
 		int32_t		getAttribute(const int32_t value) const;
 		char		getChar() const;
-		CString		getClipboardString() const;
+		C_String	getClipboardString() const;
 		vec2		getCursorPos() const;
 		vec2i		getFrameSize() const;
 		int32_t		getKey(const int32_t value) const;
 		int32_t		getInputMode() const;
 		int32_t		getMouseButton(const int32_t button) const;
 		vec2i		getPosition() const;
-		double		getTime() const;
+		float64_t	getTime() const;
 
 
 	public: // Inline
@@ -110,8 +110,8 @@ namespace ml
 		inline auto getHeight()		const -> const uint32_t { return getSize()[1]; }
 		inline auto getFrameWidth()	const -> const int32_t { return getFrameSize()[0]; }
 		inline auto getFrameHeight()const -> const int32_t { return getFrameSize()[1]; }
-		inline auto getAspect()		const -> const float { return ML_ASPECT(getWidth(), getHeight()); };
-		inline auto getFrameAspect()const -> const float { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
+		inline auto getAspect()		const -> const float_t { return ML_ASPECT(getWidth(), getHeight()); };
+		inline auto getFrameAspect()const -> const float_t { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
 
 
 	public: // Cursors

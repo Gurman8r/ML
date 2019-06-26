@@ -9,9 +9,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	const BufferLayout BufferLayout::Default({
-		{ 0, 3, ml::GL::Float, false, ml::Vertex::Size, 0, sizeof(float) },
-		{ 1, 4, ml::GL::Float, false, ml::Vertex::Size, 3, sizeof(float) },
-		{ 2, 2, ml::GL::Float, false, ml::Vertex::Size, 7, sizeof(float) },
+		{ 0, 3, GL::Float, false, Vertex::Size, 0, sizeof(float_t) },
+		{ 1, 4, GL::Float, false, Vertex::Size, 3, sizeof(float_t) },
+		{ 2, 2, GL::Float, false, Vertex::Size, 7, sizeof(float_t) },
 	});
 
 	/* * * * * * * * * * * * * * * * * * * * */

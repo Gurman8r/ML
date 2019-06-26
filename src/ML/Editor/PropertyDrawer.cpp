@@ -122,7 +122,7 @@ namespace ml
 				{
 					ImGui::Checkbox("Enabled##Blending", &states.blend.enabled);
 
-					auto factor_combo = [](CString label, int32_t & index)
+					auto factor_combo = [](C_String label, int32_t & index)
 					{
 						return ImGui::Combo(
 							label,
@@ -347,7 +347,7 @@ namespace ml
 
 					if (it->second)
 					{
-						float height = 1;
+						float_t height = 1;
 						if (it->second->type == uni_mat3::ID) { height = 3; }
 						else if (it->second->type == uni_mat4::ID) { height = 4; }
 
@@ -607,7 +607,7 @@ namespace ml
 		vec2 position = value.position();
 		if (ImGui::InputFloat2("Position##Sprite", &position[0], 1)) {}
 
-		float rotation = value.rotation();
+		float_t rotation = value.rotation();
 		if (ImGui::InputFloat("Rotation##Sprite", &rotation, 1)) {}
 
 		vec2 scale = value.scale();
@@ -648,7 +648,7 @@ namespace ml
 			changed = true;
 		}
 
-		float rotation = value.rotation();
+		float_t rotation = value.rotation();
 		if (ImGui::InputFloat("Rotation##Sprite", &rotation, 1))
 		{
 			value.setRotation(rotation);
@@ -943,7 +943,7 @@ namespace ml
 			// Flt
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_flt::ID:
-			if (float * temp = impl::toFloat(&value))
+			if (float_t * temp = impl::toFloat(&value))
 			{
 				const String name = "##" + label + "##Float##Uni" + value.name;
 				ImGui::DragFloat(name.c_str(), temp, 0.1f);

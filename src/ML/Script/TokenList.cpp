@@ -207,12 +207,12 @@ namespace ml
 	}
 	
 
-	bool	TokenList::match_data(const List<CString> & data) const
+	bool	TokenList::match_data(const List<C_String> & data) const
 	{
 		return match_data(begin(), data);
 	}
 
-	bool	TokenList::match_data(size_t index, const List<CString> & data) const
+	bool	TokenList::match_data(size_t index, const List<C_String> & data) const
 	{
 		if (!empty() && !data.empty())
 		{
@@ -234,7 +234,7 @@ namespace ml
 		return false;
 	}
 	
-	bool	TokenList::match_data(const const_iterator & it, const List<CString> & data) const
+	bool	TokenList::match_data(const const_iterator & it, const List<C_String> & data) const
 	{
 		return match_data((it - begin()), data);
 	}

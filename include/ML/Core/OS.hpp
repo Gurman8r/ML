@@ -3,25 +3,18 @@
 
 #include <ML/Core/Export.hpp>
 #include <ML/Core/String.hpp>
-#include <ML/Core/I_Singleton.hpp>
-
-#define ML_OS ::ml::OS::getInstance()
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API OS final
-		: public I_Singleton<OS>
+	struct ML_CORE_API OS final
 	{
-		friend struct I_Singleton<OS>;
-
-	public:
-		void * execute(const String & cmd) const;
-		void * execute(const String & cmd, const String & file) const;
-		void * execute(const String & cmd, const String & file, const String & args) const;
-		void * execute(const String & cmd, const String & file, const String & args, const String & path) const;
-		void * execute(const String & cmd, const String & file, const String & args, const String & path, const int32_t flags) const;
+		static void * execute(const String & cmd);
+		static void * execute(const String & cmd, const String & file);
+		static void * execute(const String & cmd, const String & file, const String & args);
+		static void * execute(const String & cmd, const String & file, const String & args, const String & path);
+		static void * execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

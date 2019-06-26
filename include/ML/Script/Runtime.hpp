@@ -6,7 +6,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_Runtime ::ml::Runtime::getInstance()
+#define ML_Runtime _ML Runtime::getInstance()
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -28,7 +28,7 @@ namespace ml
 		~Runtime();
 
 	public:
-		static ostream & display(ostream & out);
+		static Ostream & display(Ostream & out);
 
 		static void	clean();
 

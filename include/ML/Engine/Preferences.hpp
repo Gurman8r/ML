@@ -28,8 +28,8 @@ namespace ml
 
 	public:
 		bool		GetBool		(const String & section, const String & name, bool default_value) const;
-		double		GetDouble	(const String & section, const String & name, double default_value) const;
-		float		GetFloat	(const String & section, const String & name, float default_value) const;
+		float64_t		GetDouble	(const String & section, const String & name, float64_t default_value) const;
+		float_t		GetFloat	(const String & section, const String & name, float_t default_value) const;
 		int32_t		GetInt		(const String & section, const String & name, int32_t default_value) const;
 		uint32_t	GetUint		(const String & section, const String & name, uint32_t default_value) const;
 		String		GetString	(const String & section, const String & name, const String & default_value) const;

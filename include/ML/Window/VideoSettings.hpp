@@ -50,14 +50,14 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(ostream & out, const VideoSettings & value)
+	inline ML_SERIALIZE(Ostream & out, const VideoSettings & value)
 	{
 		return out << value.resolution << " " << value.colorDepth;
 	}
 
-	inline ML_DESERIALIZE(istream & in, VideoSettings & value)
+	inline ML_DESERIALIZE(Istream & in, VideoSettings & value)
 	{
 		return in >> value.resolution >> value.colorDepth;
 	}

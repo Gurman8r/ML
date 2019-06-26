@@ -60,7 +60,7 @@ namespace ml
 		return (*this);
 	}
 
-	Sprite & Sprite::setRotation(const float value)
+	Sprite & Sprite::setRotation(const float_t value)
 	{
 		m_transform.setRotation(value);
 		return (*this);

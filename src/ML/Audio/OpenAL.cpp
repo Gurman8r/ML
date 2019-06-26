@@ -42,7 +42,7 @@ namespace ml
 		return static_cast<AL::Err>(alGetError());
 	}
 
-	void OpenAL::checkError(CString file, uint32_t line, CString expr)
+	void OpenAL::checkError(C_String file, uint32_t line, C_String expr)
 	{
 		// Get the last error
 		const AL::Err code = getError();
@@ -146,17 +146,17 @@ namespace ml
 	/* Set Buffer Parameters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenAL::bufferf(uint32_t id, int32_t param, float value)
+	void OpenAL::bufferf(uint32_t id, int32_t param, float_t value)
 	{
 		alCheck(alBufferf(id, param, value));
 	}
 
-	void OpenAL::buffer3f(uint32_t id, int32_t param, float x, float y, float z)
+	void OpenAL::buffer3f(uint32_t id, int32_t param, float_t x, float_t y, float_t z)
 	{
 		alCheck(alBuffer3f(id, param, x, y, z));
 	}
 
-	void OpenAL::bufferfv(uint32_t id, int32_t param, const float * values)
+	void OpenAL::bufferfv(uint32_t id, int32_t param, const float_t * values)
 	{
 		alCheck(alBufferfv(id, param, values));
 	}
@@ -180,23 +180,23 @@ namespace ml
 	/* Get Buffer Parameters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	float OpenAL::getBufferf(uint32_t id, int32_t param)
+	float_t OpenAL::getBufferf(uint32_t id, int32_t param)
 	{
-		static float temp;
+		static float_t temp;
 		alCheck(alGetBufferf(id, param, &temp));
 		return temp;
 	}
 
-	float * OpenAL::getBuffer3f(uint32_t id, int32_t param)
+	float_t * OpenAL::getBuffer3f(uint32_t id, int32_t param)
 	{
-		static float temp[3];
+		static float_t temp[3];
 		alCheck(alGetBuffer3f(id, param, &temp[0], &temp[1], &temp[2]));
 		return temp;
 	}
 
-	float * OpenAL::getBufferfv(uint32_t id, int32_t param)
+	float_t * OpenAL::getBufferfv(uint32_t id, int32_t param)
 	{
-		static float * temp;
+		static float_t * temp;
 		alCheck(alGetBufferfv(id, param, temp));
 		return temp;
 	}
@@ -226,17 +226,17 @@ namespace ml
 	/* Global Parameters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenAL::dopplerFactor(float value)
+	void OpenAL::dopplerFactor(float_t value)
 	{
 		alCheck(alDopplerFactor(value));
 	}
 
-	void OpenAL::dopplerVelocity(float value)
+	void OpenAL::dopplerVelocity(float_t value)
 	{
 		alCheck(alDopplerVelocity(value));
 	}
 
-	void OpenAL::speedOfSound(float value)
+	void OpenAL::speedOfSound(float_t value)
 	{
 		alCheck(alSpeedOfSound(value));
 	}
@@ -273,17 +273,17 @@ namespace ml
 	/* Set Source Parameters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenAL::sourcef(uint32_t id, int32_t param, float value)
+	void OpenAL::sourcef(uint32_t id, int32_t param, float_t value)
 	{
 		alCheck(alSourcef(id, param, value));
 	}
 
-	void OpenAL::source3f(uint32_t id, int32_t param, float x, float y, float z)
+	void OpenAL::source3f(uint32_t id, int32_t param, float_t x, float_t y, float_t z)
 	{
 		alCheck(alSource3f(id, param, x, y, z));
 	}
 
-	void OpenAL::sourcefv(uint32_t id, int32_t param, const float * values)
+	void OpenAL::sourcefv(uint32_t id, int32_t param, const float_t * values)
 	{
 		alCheck(alSourcefv(id, param, values));
 	}
@@ -307,23 +307,23 @@ namespace ml
 	/* Get Source Parameters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	float OpenAL::getSourcef(uint32_t id, int32_t param)
+	float_t OpenAL::getSourcef(uint32_t id, int32_t param)
 	{
-		static float temp;
+		static float_t temp;
 		alCheck(alGetSourcef(id, param, &temp));
 		return temp;
 	}
 
-	float * OpenAL::getSource3f(uint32_t id, int32_t param)
+	float_t * OpenAL::getSource3f(uint32_t id, int32_t param)
 	{
-		static float temp[3];
+		static float_t temp[3];
 		alCheck(alGetSource3f(id, param, &temp[0], &temp[1], &temp[2]));
 		return temp;
 	}
 
-	float * OpenAL::getSourcefv(uint32_t id, int32_t param)
+	float_t * OpenAL::getSourcefv(uint32_t id, int32_t param)
 	{
-		static float * temp;
+		static float_t * temp;
 		alCheck(alGetSourcefv(id, param, temp));
 		return temp;
 	}
@@ -401,17 +401,17 @@ namespace ml
 	/* Set Listener Parameters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenAL::listenerf(int32_t param, float value)
+	void OpenAL::listenerf(int32_t param, float_t value)
 	{
 		alCheck(alListenerf(param, value));
 	}
 
-	void OpenAL::listener3f(int32_t param, float x, float y, float z)
+	void OpenAL::listener3f(int32_t param, float_t x, float_t y, float_t z)
 	{
 		alCheck(alListener3f(param, x, y, z));
 	}
 
-	void OpenAL::listenerfv(int32_t param, const float * values)
+	void OpenAL::listenerfv(int32_t param, const float_t * values)
 	{
 		alCheck(alListenerfv(param, values));
 	}
@@ -435,23 +435,23 @@ namespace ml
 	/* Get Listener Parameters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	float OpenAL::getListenerf(int32_t param)
+	float_t OpenAL::getListenerf(int32_t param)
 	{
-		static float temp;
+		static float_t temp;
 		alCheck(alGetListenerf(param, &temp));
 		return temp;
 	}
 
-	float * OpenAL::getListener3f(int32_t param)
+	float_t * OpenAL::getListener3f(int32_t param)
 	{
-		static float temp[3];
+		static float_t temp[3];
 		alCheck(alGetListener3f(param, &temp[0], &temp[1], &temp[2]));
 		return temp;
 	}
 
-	float * OpenAL::getListenerfv(int32_t param)
+	float_t * OpenAL::getListenerfv(int32_t param)
 	{
-		static float * temp;
+		static float_t * temp;
 		alCheck(alGetListenerfv(param, temp));
 		return temp;
 	}

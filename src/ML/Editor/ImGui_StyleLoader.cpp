@@ -93,7 +93,7 @@ namespace ml
 
 	inline static auto readFloat(const String & line)
 	{
-		float out = 0.0f;
+		float_t out = 0.0f;
 		String temp;
 		if (parseWrapped(line, '{', '}', temp))
 		{
@@ -158,11 +158,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		static const bool log = false;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		if (auto file = std::ifstream(filename))
+		if (Ifstream file { filename })
 		{
 			String line;
 			while (std::getline(file, line))
@@ -177,20 +173,16 @@ namespace ml
 					line.erase(0, tag.size() + 2);
 					line.trim();
 
-					if (log) cout << "[" << tag << "] ";
-
 					size_t i;
 					if ((i = line.trim().find('=')) != String::npos)
 					{
 						// Name
 						const String name = String(line.substr(0, i)).trim();
 						line = String(line.substr(i + 1, line.size() - i - 1)).trim();
-						
-						if (log) cout << "\'" << name << "\' ";
 
 						// Colors
 						/* * * * * * * * * * * * * * * * * * * * */
-						if (tag == "Color")
+						if (tag == "ImGuiCol")
 						{
 							HashMap<String, int32_t>::const_iterator it;
 							if ((it = ColorTable.find(name)) != ColorTable.end())
@@ -198,7 +190,7 @@ namespace ml
 								ImGui::GetStyle().Colors[it->second] = readVec4(line);
 							}
 						}
-						else if (tag == "Style")
+						else if (tag == "ImGuiStyle")
 						{
 							ImGuiStyle & s = ImGui::GetStyle();
 							/**/ if (name == "Alpha") { s.Alpha = readFloat(line); }
@@ -234,7 +226,6 @@ namespace ml
 							else if (name == "AntiAliasedFill") { s.AntiAliasedFill = readBool(line); }
 							else if (name == "CurveTessellationTol") { s.CurveTessellationTol = readFloat(line); }
 						}
-						if (log) cout << endl;
 					}
 				}
 			}

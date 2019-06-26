@@ -37,20 +37,20 @@ namespace ml
 		using self_type		= typename CustomAssetImporter<value_type>;
 		using wrapper_type	= typename AssetImporter<value_type>;
 
-		static constexpr auto getHash() -> size_t	{ return wrapper_type::id;	}
-		static constexpr auto getTag()	-> CString	{ return wrapper_type::tag;	}
+		static constexpr auto getHash() -> hash_t	{ return wrapper_type::id;	}
+		static constexpr auto getTag()	-> C_String	{ return wrapper_type::tag;	}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #define ML_GEN_ASSET_IMPORTER_EXT(PREFIX, NAME, OUT, TAG, IMPL)		\
-struct PREFIX NAME final : public ::ml::CustomAssetImporter<OUT>	\
+struct PREFIX NAME final : public _ML CustomAssetImporter<OUT>	\
 ##IMPL;																\
-template <> struct ::ml::AssetImporter<OUT>							\
+template <> struct _ML AssetImporter<OUT>							\
 {																	\
 	using type = typename OUT;										\
-	static constexpr auto id	{ ::ml::Hash()(##TAG) };			\
+	static constexpr auto id	{ _ML Hash()(##TAG) };			\
 	static constexpr auto tag	{ ##TAG };							\
 	template <														\
 		class ... Args												\

@@ -40,13 +40,13 @@ namespace ml
 	public: // Conversions
 		static bool		ToBool(const String & src);
 		static int32_t	ToInt(const String & src);
-		static double	ToDecimal(const String & src);
-		static float	ToFloat(const String & src);
+		static float64_t	ToDecimal(const String & src);
+		static float_t	ToFloat(const String & src);
 
 		static bool		MakeBool(const String & src, bool& value);
 		static bool		MakeInt(const String & src, int32_t& value);
-		static bool		MakeDouble(const String & src, double& value);
-		static bool		MakeFloat(const String & src, float& value);
+		static bool		MakeDouble(const String & src, float64_t& value);
+		static bool		MakeFloat(const String & src, float_t& value);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

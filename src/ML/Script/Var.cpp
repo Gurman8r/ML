@@ -38,7 +38,7 @@ namespace ml
 		return nullptr;
 	}
 
-	ML_SERIALIZE(ostream & out, const Var::Ptr & value)
+	ML_SERIALIZE(Ostream & out, const Var::Ptr & value)
 	{
 		if (Var * var = value.get())
 		{
@@ -62,7 +62,7 @@ namespace ml
 	{
 		"void",
 		"bool",
-		"float",
+		"float_t",
 		"int",
 		"pointer",
 		"string",
@@ -250,7 +250,7 @@ namespace ml
 		return m_data;
 	}
 
-	float		Var::floatValue() const
+	float_t		Var::floatValue() const
 	{
 		return isValid() ? StringUtility::ToFloat(textValue()) : 0;
 	}
@@ -405,7 +405,7 @@ namespace ml
 		//return voidValue().dataValue(Token(Token::Error, value));
 	}
 		  
-	Var & Var::floatValue(const float & value)
+	Var & Var::floatValue(const float_t & value)
 	{
 		return setType(Var::Float).dataValue({ Token::Float, std::to_string(value) });
 	}
@@ -453,7 +453,7 @@ namespace ml
 		return (*this);
 	}
 
-	ML_SERIALIZE(ostream & out, const Var & v)
+	ML_SERIALIZE(Ostream & out, const Var & v)
 	{
 		out << FMT();
 
@@ -661,7 +661,7 @@ namespace ml
 			switch (other.getTypeID())
 			{
 			case Var::Float: return floatValue(floatValue() + other.floatValue());
-			case Var::Integer: return floatValue(floatValue() + (float)other.intValue());
+			case Var::Integer: return floatValue(floatValue() + (float_t)other.intValue());
 			default:
 				if (other.isFloatType())
 					return floatValue(floatValue() + other.floatValue());
@@ -722,7 +722,7 @@ namespace ml
 			switch (other.getTypeID())
 			{
 			case Var::Float: return floatValue(floatValue() / other.floatValue());
-			case Var::Integer: return floatValue(floatValue() / (float)other.intValue());
+			case Var::Integer: return floatValue(floatValue() / (float_t)other.intValue());
 			default:
 				if (other.isFloatType())
 					return floatValue(floatValue() / other.floatValue());
@@ -832,7 +832,7 @@ namespace ml
 			switch (other.getTypeID())
 			{
 			case Var::Float: return floatValue(floatValue() * other.floatValue());
-			case Var::Integer: return floatValue(floatValue() * (float)other.intValue());
+			case Var::Integer: return floatValue(floatValue() * (float_t)other.intValue());
 			default:
 				if (other.isFloatType())
 					return floatValue(floatValue() * other.floatValue());
@@ -887,7 +887,7 @@ namespace ml
 			switch (other.getTypeID())
 			{
 			case Var::Float: return floatValue(powf(floatValue(), other.floatValue()));
-			case Var::Integer: return floatValue(powf(floatValue(), (float)other.intValue()));
+			case Var::Integer: return floatValue(powf(floatValue(), (float_t)other.intValue()));
 			default:
 				if (other.isFloatType())
 					return floatValue(powf(floatValue(), other.floatValue()));
@@ -942,7 +942,7 @@ namespace ml
 			switch (other.getTypeID())
 			{
 			case Var::Float: return floatValue(floatValue() - other.floatValue());
-			case Var::Integer: return floatValue(floatValue() - (float)other.intValue());
+			case Var::Integer: return floatValue(floatValue() - (float_t)other.intValue());
 			default:
 				if (other.isFloatType())
 					return floatValue(floatValue() - other.floatValue());
@@ -1008,12 +1008,12 @@ namespace ml
 
 	Var & Var::operator=(const Var & other)		{ return Set(other); }
 	Var & Var::operator=(bool value)			{ return boolValue(value); }
-	Var & Var::operator=(float value)			{ return floatValue(value); }
-	Var & Var::operator=(double value)			{ return floatValue((float)value); }
+	Var & Var::operator=(float_t value)			{ return floatValue(value); }
+	Var & Var::operator=(float64_t value)			{ return floatValue((float_t)value); }
 	Var & Var::operator=(int32_t value)			{ return intValue(value); }
 	Var & Var::operator=(const Ptr & value)		{ return pointerValue(value); }
 	Var & Var::operator=(const String & value)	{ return stringValue(value); }
-	Var & Var::operator=(CString value)			{ return stringValue(value); }
+	Var & Var::operator=(C_String value)			{ return stringValue(value); }
 	Var & Var::operator=(char value)			{ return stringValue(String(1, value)); }
 	
 	/* * * * * * * * * * * * * * * * * * * * */

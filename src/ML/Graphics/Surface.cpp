@@ -65,14 +65,14 @@ namespace ml
 					// Setup Renderbuffer
 					m_rbo.create(m_size[0], m_size[1]);
 					m_rbo.bind();
-					m_rbo.bufferStorage(ml::GL::Depth24_Stencil8);
-					m_rbo.setFramebuffer(ml::GL::DepthStencil);
+					m_rbo.bufferStorage(GL::Depth24_Stencil8);
+					m_rbo.setFramebuffer(GL::DepthStencil);
 					m_rbo.unbind();
 
 					// Check Framebuffer Status
-					if (!ML_GL.checkFramebufferStatus(ml::GL::Framebuffer))
+					if (!ML_GL.checkFramebufferStatus(GL::Framebuffer))
 					{
-						return ml::Debug::logError("Framebuffer is not complete");
+						return Debug::logError("Framebuffer is not complete");
 					}
 
 					// Setup Texture

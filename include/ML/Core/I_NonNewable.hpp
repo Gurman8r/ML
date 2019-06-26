@@ -12,7 +12,7 @@ namespace ml
 	// Good idea use when a class/struct has a constructor but no destructor. (e.g. constexpr)
 	struct I_NonNewable
 	{
-		inline friend ML_SERIALIZE(ostream & out, const I_NonNewable & value)
+		inline friend ML_SERIALIZE(Ostream & out, const I_NonNewable & value)
 		{
 			return out << typeid(value).name();
 		}

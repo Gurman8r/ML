@@ -64,7 +64,7 @@ namespace ml
 			ImGui::Separator();
 
 			// Text
-			const float footer_height = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
+			const float_t footer_height = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
 			ImGui::BeginChild(
 				"ScrollingRegion",
 				{ 0, -footer_height },
@@ -176,7 +176,7 @@ namespace ml
 		m_scrollBottom = true;
 	}
 
-	void TerminalGui::execute(CString value)
+	void TerminalGui::execute(C_String value)
 	{
 		this->printf("# %s\n", value);
 
@@ -203,7 +203,7 @@ namespace ml
 		}
 		else if (!std::strcmp(value, "history"))
 		{
-			for (CString e : m_history)
+			for (C_String e : m_history)
 			{
 				cout << e << endl;
 			}
@@ -216,7 +216,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void TerminalGui::printf(CString value, ...)
+	void TerminalGui::printf(C_String value, ...)
 	{
 		char buf[1024];
 		va_list args;
@@ -247,11 +247,11 @@ namespace ml
 		}
 	}
 
-	bool TerminalGui::redirect(ostream & value)
+	bool TerminalGui::redirect(Ostream & value)
 	{
 		if (m_coutBuf && (m_coutPtr == &value))
 		{
-			// Release ostream
+			// Release Ostream
 			value.rdbuf(m_coutBuf);
 			m_coutBuf = nullptr;
 			m_coutPtr = nullptr;
@@ -259,7 +259,7 @@ namespace ml
 		}
 		else if (m_coutBuf = value.rdbuf(m_coutStr.rdbuf()))
 		{
-			// Capture ostream
+			// Capture Ostream
 			m_coutPtr = &value;
 			return true;
 		}
@@ -287,8 +287,8 @@ namespace ml
 			// Example of TEXT COMPLETION
 
 			// Locate beginning of current word
-			CString word_end = data->Buf + data->CursorPos;
-			CString word_start = word_end;
+			C_String word_end = data->Buf + data->CursorPos;
+			C_String word_start = word_end;
 			while (word_start > data->Buf)
 			{
 				const char c = word_start[-1];
@@ -300,7 +300,7 @@ namespace ml
 			}
 
 			// Build a list of candidates
-			ImVector<CString> candidates;
+			ImVector<C_String> candidates;
 			for (int32_t i = 0; i < (int32_t)m_autoFill.size(); i++)
 			{
 				if (std::strncmp(m_autoFill[i], word_start, (int32_t)(word_end - word_start)) == 0)
@@ -398,7 +398,7 @@ namespace ml
 			// A better implementation would preserve the data on the current input line along with cursor position.
 			if (prev_history_pos != m_historyPos)
 			{
-				CString history_str = (m_historyPos >= 0) ? m_history[m_historyPos] : "";
+				C_String history_str = (m_historyPos >= 0) ? m_history[m_historyPos] : "";
 				data->DeleteChars(0, data->BufTextLen);
 				data->InsertChars(0, history_str);
 			}

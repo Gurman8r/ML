@@ -9,10 +9,10 @@ namespace ml
 	Text::Text()
 		: m_font	(nullptr)
 		, m_fontSize(0)
-		, m_position(0)
-		, m_scale	(1)
+		, m_position({ 0.f, 0.f })
+		, m_scale	({ 1.f, 1.f })
 		, m_string	(String())
-		, m_color	(Color::White)
+		, m_color	(color::white)
 
 	{
 	}
@@ -111,7 +111,7 @@ namespace ml
 					glyph.size() * m_scale
 				);
 
-				m_vertices[i] = Shapes::RectQuad::genGlyphQuad(rect);
+				m_vertices[i] = geo::rect_quad::glyphQuad(rect);
 				m_textures[i] = (&glyph.texture);
 				
 				switch (m_string[i])
@@ -146,7 +146,7 @@ namespace ml
 					u->data = m_textures[i];
 				}
 
-				target.draw(m_vertices[i].data(), Shapes::RectQuad::Size, batch);
+				target.draw(m_vertices[i].data(), geo::rect_quad::contiguous_t::Size, batch);
 			}
 		}
 	}

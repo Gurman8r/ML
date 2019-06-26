@@ -19,9 +19,6 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{bf83bdb7-08ac-4b33-a3cc-b8072fa8ba88}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Maths">
-      <UniqueIdentifier>{6ba3efe4-cf47-4c0b-b78f-a7e1d548c677}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Event System">
       <UniqueIdentifier>{209001b0-6a4e-4b39-81cf-f906afa8a39a}</UniqueIdentifier>
     </Filter>
@@ -34,9 +31,6 @@
     <Filter Include="Source Files\DS">
       <UniqueIdentifier>{dedba3d6-daa0-4767-888b-ffab909323a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Maths">
-      <UniqueIdentifier>{22c169d6-ba85-4faf-a244-04d211f5ee71}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Interfaces">
       <UniqueIdentifier>{64edec69-3d79-4d9b-a858-87175138149f}</UniqueIdentifier>
     </Filter>
@@ -48,32 +42,8 @@
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Vector4.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Vector3.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Vector2.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Vector.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp">
       <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp">
-      <Filter>Header Files\Maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp">
       <Filter>Header Files\Utility</Filter>
@@ -90,17 +60,11 @@
     <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp">
       <Filter>Header Files\Event System</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp">
       <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp">
-      <Filter>Header Files\Maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp">
       <Filter>Header Files\DS</Filter>
@@ -128,9 +92,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp">
       <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp">
-      <Filter>Header Files\Maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp">
       <Filter>Header Files\Utility</Filter>
@@ -198,13 +159,19 @@
     <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\MetaMath.hpp">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
@@ -217,9 +184,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp">
       <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Transform.cpp">
-      <Filter>Source Files\Maths</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp">
       <Filter>Source Files\Event System</Filter>

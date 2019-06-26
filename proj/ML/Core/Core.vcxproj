@@ -172,8 +172,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Singleton.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MetaMath.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Maths.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
@@ -199,8 +197,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Preprocessor.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />
@@ -211,12 +207,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Transform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Type.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Vector.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Vector2.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Vector3.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Vector4.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
@@ -234,7 +225,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

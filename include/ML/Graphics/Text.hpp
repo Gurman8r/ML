@@ -7,7 +7,7 @@
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/VertexArray.hpp>
 #include <ML/Graphics/VertexBuffer.hpp>
-#include <ML/Graphics/Shapes.hpp>
+#include <ML/Graphics/Geometry.hpp>
 
 namespace ml
 {
@@ -58,7 +58,7 @@ namespace ml
 
 		mutable bool m_changed;
 		mutable List<const Texture *> m_textures;
-		mutable List<Array<float, Shapes::RectQuad::Size>> m_vertices;
+		mutable List<geo::rect_quad::contiguous_t> m_vertices;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -8,7 +8,7 @@
 #include <ML/Engine/Content.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
-#include <ML/Graphics/Shapes.hpp>
+#include <ML/Graphics/Geometry.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -120,7 +120,7 @@ namespace ml
 		{
 			ev.window.seCursorMode(Cursor::Mode::Normal);
 
-			ev.window.setViewport(vec2i::Zero, ev.window.getFrameSize());
+			ev.window.setViewport(vec2i { 0, 0 }, ev.window.getFrameSize());
 
 			if (ev.window.getStyle().maximized)
 			{
@@ -130,7 +130,7 @@ namespace ml
 			{
 				// centered
 				ev.window.setPosition(
-					(VideoSettings::desktop().resolution - ev.window.getSize()) / 2
+					(vec2i)(VideoSettings::desktop().resolution - ev.window.getSize()) / 2
 				);
 			}
 		}
@@ -145,20 +145,20 @@ namespace ml
 		// Load Default Meshes
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Content.create<Mesh>("default_triangle")->loadFromMemory(
-			Shapes::Triangle::Vertices,
-			Shapes::Triangle::Indices
+			geo::tri::contiguous,
+			geo::tri::indices
 		);
 		ML_Content.create<Mesh>("default_quad")->loadFromMemory(
-			Shapes::Quad::Vertices,
-			Shapes::Quad::Indices
+			geo::quad::contiguous,
+			geo::quad::indices
 		);
 		ML_Content.create<Mesh>("default_cube")->loadFromMemory(
-			Shapes::Cube::Vertices,
-			Shapes::Cube::Indices
+			geo::cube::contiguous,
+			geo::cube::indices
 		);
 
 		ML_Content.create<Mesh>("default_skybox")->loadFromMemory(
-			Shapes::Sky::Vertices
+			geo::sky::contiguous
 		);
 
 		// Load Default Models

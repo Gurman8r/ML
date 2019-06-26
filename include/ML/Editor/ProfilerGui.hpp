@@ -2,7 +2,6 @@
 #define _ML_PROFILER_GUI_HPP_
 
 #include <ML/Editor/EditorGui.hpp>
-#include <ML/Core/Vector2.hpp>
 
 namespace ml
 {

@@ -4,6 +4,10 @@
 #include <ML/Core/Type.hpp>
 #include <gcem/gcem.hpp>
 
+#define ML_MIN(l, r) ((l <= r) ? l : r)
+#define ML_MAX(l, r) ((l >= r) ? l : r)
+#define ML_CLAMP(Val, Min, Max) (ML_MIN(ML_MAX(Val, Min), Max))
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -17,21 +21,21 @@ namespace ml
 			class T
 		> constexpr T bit_read(T value, T bit)
 		{
-			return ((value >> bit) & meta::type_t<T>::one);
+			return ((value >> bit) & type_t<T>::one);
 		}
 
 		template <
 			class T
 		> constexpr T & bit_set(T & value, T bit)
 		{
-			return (value |= (meta::type_t<T>::one << bit));
+			return (value |= (type_t<T>::one << bit));
 		}
 
 		template <
 			class T
 		> constexpr T & bit_clear(T & value, T bit)
 		{
-			return (value &= ~(meta::type_t<T>::one << bit));
+			return (value &= ~(type_t<T>::one << bit));
 		}
 
 		template <
@@ -63,7 +67,7 @@ namespace ml
 
 			template <> struct sqrt<size_t>
 			{
-				using type = typename meta::type_t<size_t>;
+				using type = typename type_t<size_t>;
 
 				constexpr size_t operator()(size_t value) const
 				{
@@ -83,7 +87,7 @@ namespace ml
 
 			template <> struct sqrt<double>
 			{
-				using type = typename meta::type_t<double>;
+				using type = typename type_t<double>;
 
 				constexpr double operator()(double value, double curr, double prev) const
 				{
@@ -110,7 +114,7 @@ namespace ml
 					class U
 				> constexpr To operator()(const U & value) const
 				{
-					return meta::type_t<To>{ sqrt<From>{}(meta::type_t<From>{ value }()) }();
+					return type_t<To>{ sqrt<From>{}(type_t<From>{ value }()) }();
 				}
 			};
 
@@ -141,7 +145,7 @@ namespace ml
 			class T
 		> struct sqrt : impl::sqrt<T>
 		{
-			using type = typename meta::type_t<T>;
+			using type = typename type_t<T>;
 			constexpr auto operator()(T value) const
 			{
 				return alg::impl::sqrt<T>{}(value);
@@ -163,11 +167,11 @@ namespace ml
 		> static constexpr auto sign(const T & value)
 			-> T
 		{
-			return ((value == meta::type_t<T>::zero)
-				? meta::type_t<T>::zero
-				: ((value < meta::type_t<T>::zero)
-					? meta::type_t<T>::minus_one
-					: meta::type_t<T>::one));
+			return ((value == type_t<T>::zero)
+				? type_t<T>::zero
+				: ((value < type_t<T>::zero)
+					? type_t<T>::minus_one
+					: type_t<T>::one));
 		}
 
 		template <
@@ -175,8 +179,8 @@ namespace ml
 		> static constexpr auto abs(const T & value)
 			-> T
 		{
-			return ((sign(value) < meta::type_t<T>::zero)
-				? (value * meta::type_t<T>::minus_one)
+			return ((sign(value) < type_t<T>::zero)
+				? (value * type_t<T>::minus_one)
 				: value);
 		}
 
@@ -186,15 +190,15 @@ namespace ml
 			-> T
 		{
 
-			return ((exp < meta::type_t<E>::zero)
-				? ((base == meta::type_t<T>::zero)
-					? meta::type_t<T>::nan
-					: meta::type_t<T>::one / (base * alg::pow(base, (-exp) - meta::type_t<E>::one)))
-				: ((exp == meta::type_t<E>::zero)
-					? meta::type_t<T>::one
-					: ((exp == meta::type_t<E>::one)
+			return ((exp < type_t<E>::zero)
+				? ((base == type_t<T>::zero)
+					? type_t<T>::nan
+					: type_t<T>::one / (base * alg::pow(base, (-exp) - type_t<E>::one)))
+				: ((exp == type_t<E>::zero)
+					? type_t<T>::one
+					: ((exp == type_t<E>::one)
 						? base
-						: base * alg::pow(base, exp - meta::type_t<E>::one))));
+						: base * alg::pow(base, exp - type_t<E>::one))));
 		}
 
 		template <
@@ -202,9 +206,9 @@ namespace ml
 		> static constexpr auto fact(const T & value)
 			-> T
 		{
-			return ((value > meta::type_t<T>::one)
-				? value * alg::fact(value - meta::type_t<T>::one)
-				: meta::type_t<T>::one);
+			return ((value > type_t<T>::one)
+				? value * alg::fact(value - type_t<T>::one)
+				: type_t<T>::one);
 		}
 			
 		template <
@@ -246,7 +250,7 @@ namespace ml
 			class T, class C
 		> static constexpr T lerp(const T & a, const T & b, const C & coeff)
 		{
-			return (a * coeff + b * (meta::type_t<C>::one - coeff));
+			return (a * coeff + b * (type_t<C>::one - coeff));
 		}
 
 		template <
@@ -523,7 +527,7 @@ namespace ml
 			template <class, size_t ...> class Arr, class T, size_t ... N
 		> static constexpr T dot(const Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
 		{
-			T temp { meta::type_t<T>::zero };
+			T temp { type_t<T>::zero };
 			for (size_t i = 0; i < lhs.size(); i++)
 			{
 				temp += (lhs[i] * rhs[i]);
@@ -545,7 +549,7 @@ namespace ml
 			template <class, size_t ...> class Arr, class T, size_t ... N
 		> static constexpr T sqr_magnitude(const Arr<T, N...> & value)
 		{
-			T temp { meta::type_t<T>::zero };
+			T temp { type_t<T>::zero };
 			for (const auto & elem : value)
 			{
 				temp += (elem * elem);
@@ -557,7 +561,7 @@ namespace ml
 			template <class, size_t ...> class Arr, class T, size_t ... N
 		> static constexpr T magnitude(const Arr<T, N...> & value)
 		{
-			return meta::type_t<T> { sqrt<T> {}(sqr_magnitude(value)) }();
+			return type_t<T> { sqrt<T> {}(sqr_magnitude(value)) }();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -590,7 +594,7 @@ namespace ml
 		> static constexpr Mat<T, 4, 4> inverse(const Mat<T, 4, 4> & v)
 		{
 			const T det { determinant(v) };
-			return ((det != meta::type_t<T>::zero)
+			return ((det != type_t<T>::zero)
 			? Mat<T, 4, 4>
 			{	+(v[15] * v[5] - v[7] * v[13]) / det,
 				-(v[15] * v[4] - v[7] * v[12]) / det,

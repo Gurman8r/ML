@@ -2,9 +2,10 @@
 #define _NOOBS_HPP_
 
 #include <ML/Editor/EditorPlugin.hpp>
-#include <ML/Core/Transform.hpp>
 #include <ML/Graphics/Color.hpp>
+#include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
+#include <ML/Core/List.hpp>
 #include <imgui/TextEditor.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -85,7 +86,7 @@ namespace DEMO
 			float			totalTime	= 0.f;
 			ml::vec2f		resolution	= { 1920, 1080 };
 			bool			freeAspect	= true;
-			ml::vec4f		clearColor	= ml::Color::Black;
+			ml::vec4f		clearColor	= ml::color::black;
 			float			aspectRatio = 0.0f;
 			bool			showScene	= true;
 			bool			showBuilder	= true;

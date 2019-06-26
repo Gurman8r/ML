@@ -11,9 +11,9 @@ namespace ml
 	DockspaceGui::DockspaceGui(EventSystem & eventSystem)
 		: EditorGui	(eventSystem, "Dockspace")
 		, m_border	(0.0f)
-		, m_padding	(vec2::Zero)
+		, m_padding	(vec2 { 0.f, 0.f })
 		, m_rounding(0.0f)
-		, m_size	(vec2::Zero)
+		, m_size	(vec2 { 0.f, 0.f })
 		, m_bgAlpha	(1.0f)
 	{
 	}

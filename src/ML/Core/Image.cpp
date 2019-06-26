@@ -13,8 +13,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Image::Image()
-		: m_size(vec2u::Zero)
-		, m_pixels(Pixels())
+		: m_size	({ 0, 0 })
+		, m_pixels	(Pixels())
 		, m_channels(0)
 	{
 	}
@@ -26,8 +26,8 @@ namespace ml
 	}
 
 	Image::Image(uint32_t width, uint32_t height, const uint8_t * pixels)
-		: m_size(width, height)
-		, m_pixels(Pixels())
+		: m_size	({ width, height })
+		, m_pixels	(Pixels())
 		, m_channels(0)
 	{
 		create(width, height, pixels);
@@ -76,7 +76,7 @@ namespace ml
 		}
 		else
 		{
-			m_size = vec2i::Zero;
+			m_size = { 0, 0 };
 			m_channels = 0;
 			m_pixels.clear();
 		}
@@ -116,7 +116,7 @@ namespace ml
 			Pixels().swap(m_pixels);
 
 			// Assign the new size
-			m_size = 0;
+			m_size = { 0, 0 };
 		}
 		return (*this);
 	}
@@ -140,7 +140,7 @@ namespace ml
 			Pixels().swap(m_pixels);
 
 			// Assign the new size
-			m_size = 0;
+			m_size = { 0, 0 };
 		}
 		return (*this);
 	}
@@ -216,7 +216,7 @@ namespace ml
 	{
 		const uint8_t * pixel = &m_pixels[(x + y * m_size[0]) * 4];
 
-		return vec4u(pixel[0], pixel[1], pixel[2], pixel[3]);
+		return vec4b { pixel[0], pixel[1], pixel[2], pixel[3] };
 	}
 
 	Image & Image::setPixel(uint32_t x, uint32_t y, const vec4b & color)

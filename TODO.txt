@@ -1,6 +1,6 @@
 # List of things to get done:
 
-- constexpr math library (Core/MetaMath.hpp)
+- constexpr math library (Core/Math.hpp)
 - material deserialization
 - template property drawers
 - template asset importers

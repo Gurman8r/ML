@@ -42,19 +42,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline bool				good() const				{ return  m_handle; }
-		inline pointer			get_pointer()				{ return &m_handle; }
-		inline reference		get_reference()				{ return  m_handle; }
-		inline const_pointer	get_const_pointer() const	{ return &m_handle; }
-		inline const_reference	get_const_reference() const	{ return  m_handle; }
+		inline auto good() const				-> bool { return  m_handle; }
+		inline auto get_pointer()				-> pointer { return &m_handle; }
+		inline auto get_reference()				-> reference { return  m_handle; }
+		inline auto get_const_pointer() const	-> const_pointer { return &m_handle; }
+		inline auto get_const_reference() const	-> const_reference { return  m_handle; }
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool			() const			{ return good();				}
-		inline operator pointer			()					{ return get_pointer();			}
-		inline operator reference		()					{ return get_reference();		}
-		inline operator const_pointer	() const			{ return get_const_pointer();	}
-		inline operator const_reference	() const			{ return get_const_reference(); }
+		inline operator bool() const			{ return good(); }
+		inline operator pointer()				{ return get_pointer(); }
+		inline operator reference()				{ return get_reference(); }
+		inline operator const_pointer() const	{ return get_const_pointer(); }
+		inline operator const_reference() const	{ return get_const_reference(); }
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

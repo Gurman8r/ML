@@ -9,12 +9,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	VideoSettings::VideoSettings()
-		: VideoSettings(vec2u::Zero, 0)
+		: VideoSettings({ 0, 0 }, 0)
 	{
 	}
 
 	VideoSettings::VideoSettings(uint32_t width, uint32_t height, uint32_t colorDepth)
-		: resolution(width, height)
+		: resolution({ width, height })
 		, colorDepth(colorDepth)
 	{
 	}

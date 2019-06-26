@@ -2,7 +2,7 @@
 #define _ML_SHADER_HPP_
 
 #include <ML/Graphics/Texture.hpp>
-#include <ML/Core/Transform.hpp>
+#include <ML/Core/Rect.hpp>
 #include <ML/Core/Cache.hpp>
 #include <ML/Graphics/Color.hpp>
 
@@ -59,7 +59,6 @@ namespace ml
 		bool setUniform(const String & name, const mat3 & value) const;
 		bool setUniform(const String & name, const mat4 & value) const;
 		bool setUniform(const String & name, const Texture & value) const;
-		bool setUniform(const String & name, const Transform & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

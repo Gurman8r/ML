@@ -3,8 +3,9 @@
 
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/Vector2.hpp>
+#include <ML/Core/I_Newable.hpp>
 #include <ML/Core/Rect.hpp>
+#include <ML/Core/List.hpp>
 
 namespace ml
 {
@@ -53,7 +54,7 @@ namespace ml
 		inline auto channels()	const -> int32_t			{ return m_channels; }
 		inline auto width()		const -> const uint32_t		{ return m_size[0]; }
 		inline auto height()	const -> const uint32_t		{ return m_size[1]; }
-		inline auto bounds()	const -> const UintRect		{ return { vec2u::Zero, size() }; }
+		inline auto bounds()	const -> const UintRect		{ return UintRect { vec2u { 0, 0 }, size() }; }
 
 		inline operator bool() const { return !m_pixels.empty(); }
 

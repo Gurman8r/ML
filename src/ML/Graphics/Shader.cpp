@@ -51,6 +51,35 @@ namespace ml
 
 namespace ml
 {
+	template <
+		template <class, size_t, size_t> class M,
+		class T, size_t X, size_t Y
+	> inline static List<T> makeContiguous(const M<T, X, Y> * value, const size_t length)
+	{
+		List<T> temp;
+		if (value)
+		{
+			if (const size_t imax = (length * (X * Y)))
+			{
+				if (temp.size() != imax)
+				{
+					temp.resize(imax);
+				}
+				for (size_t i = 0; i < imax; i++)
+				{
+					temp[i] = value[i / (X * Y)][i % (X * Y)];
+				}
+			}
+			else if (!temp.empty())
+			{
+				temp.clear();
+			}
+		}
+		return temp;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	Shader::Shader()
 		: I_Handle(NULL)
 		, m_attribs()
@@ -72,7 +101,7 @@ namespace ml
 		dispose();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::dispose()
 	{
@@ -179,7 +208,7 @@ namespace ml
 		);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Shader::bind(bool bindTextures) const
 	{
@@ -215,7 +244,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool Shader::setUniform(const String & name, const float value) const
 	{
@@ -346,12 +375,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniform(const String & name, const Transform & value) const
-	{
-		return setUniform(name, value.getMat());
-	}
-	
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool Shader::setUniformArray(const String & name, const int32_t count, const float * value) const
 	{
@@ -368,7 +392,7 @@ namespace ml
 		UniformBinder u(this, name);
 		if (u)
 		{
-			ML_GL.uniform2fv(u.location, count, &vec2::Contiguous(value, (size_t)count)[0]);
+			ML_GL.uniform2fv(u.location, count, &makeContiguous(value, (size_t)count)[0]);
 		}
 		return u;
 	}
@@ -378,7 +402,7 @@ namespace ml
 		UniformBinder u(this, name);
 		if (u)
 		{
-			ML_GL.uniform3fv(u.location, count, &vec3::Contiguous(value, (size_t)count)[0]);
+			ML_GL.uniform3fv(u.location, count, &makeContiguous(value, (size_t)count)[0]);
 		}
 		return u;
 	}
@@ -388,7 +412,7 @@ namespace ml
 		UniformBinder u(this, name);
 		if (u)
 		{
-			ML_GL.uniform4fv(u.location, count, &vec4::Contiguous(value, (size_t)count)[0]);
+			ML_GL.uniform4fv(u.location, count, &makeContiguous(value, (size_t)count)[0]);
 		}
 		return u;
 	}
@@ -398,7 +422,7 @@ namespace ml
 		UniformBinder u(this, name);
 		if (u)
 		{
-			ML_GL.uniformMatrix3fv(u.location, count, false, &mat3::Contiguous(value, (size_t)count)[0]);
+			ML_GL.uniformMatrix3fv(u.location, count, false, &makeContiguous(value, (size_t)count)[0]);
 		}
 		return u;
 	}
@@ -408,12 +432,12 @@ namespace ml
 		UniformBinder u(this, name);
 		if (u)
 		{
-			ML_GL.uniformMatrix4fv(u.location, count, false, &mat4::Contiguous(value, (size_t)count)[0]);
+			ML_GL.uniformMatrix4fv(u.location, count, false, &makeContiguous(value, (size_t)count)[0]);
 		}
 		return u;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::setUniformList(const String & name, const List<float> & value) const
 	{
@@ -445,7 +469,7 @@ namespace ml
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::compile(CString vs, CString gs, CString fs)
 	{
@@ -529,5 +553,5 @@ namespace ml
 		return m_uniforms(value, ML_GL.getUniformLocation((*this), value.c_str()));
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -2,8 +2,9 @@
 #define _ML_SCREEN_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/Vector2.hpp>
+#include <ML/Core/Matrix.hpp>
 #include <ML/Core/List.hpp>
+#include <ML/Core/I_Newable.hpp>
 
 namespace ml
 {

@@ -3,6 +3,7 @@
 
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/I_Newable.hpp>
 #include <ML/Graphics/Vertices.hpp>
 
 namespace ml

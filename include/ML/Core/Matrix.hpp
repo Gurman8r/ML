@@ -1,338 +1,499 @@
 #ifndef _ML_MATRIX_HPP_
 #define _ML_MATRIX_HPP_
 
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Comparable.hpp>
-#include <ML/Core/List.hpp>
-#include <ML/Core/GLM.hpp>
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-#define ML_ENIF_MAT(XCOND, YCOND) typename std::enable_if<(XCOND  &&  YCOND)>::type
-#define ML_ENIF_3x3(X, Y) ML_ENIF_MAT(X == 3, Y == 3)
-#define ML_ENIF_4x4(X, Y) ML_ENIF_MAT(X == 4, Y == 4)
+#include <ML/Core/Array.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	// Declarations
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class E, size_t N>	class Vector;
-	template <class E>				class Vector2;
-	template <class E>				class Vector3;
-	template <class E>				class Vector4;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-	
 	template <
-		class	_Elem, 
-		size_t	_Cols, 
-		size_t	_Rows
-	> class Matrix
-		: public I_Newable
-		, public I_Comparable<Matrix<_Elem, _Cols, _Rows>>
+		class T, size_t X, size_t Y
+	> struct matrix_t
 	{
-	public: // Enums
-		/* * * * * * * * * * * * * * * * * * * * */
-		enum : size_t
-		{
-			Cols = _Cols,
-			Rows = _Rows,
-			Size = (Cols * Rows)
-		};
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static_assert(0 < (X * Y), "matrix_t : size negative or zero");
 
-	public: // Usings
-		/* * * * * * * * * * * * * * * * * * * * */
-		using value_type			= typename _Elem;
-		using array_type			= typename value_type[Size];
-		using const_value			= typename const value_type;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using pointer				= typename value_type *;
-		using reference				= typename value_type &;
-		using const_pointer			= typename const value_type *;
-		using const_reference		= typename const value_type &;
+		enum : size_t { Cols = X, Rows = Y, Size = Cols * Rows };
 
-		using self_type				= typename Matrix<value_type, Cols, Rows>;
-		using init_type				= typename Initializer<value_type>;
-		using contiguous_type		= typename List<value_type>;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using iterator				= typename std::_Array_iterator<value_type, Size>;
-		using const_iterator		= typename std::_Array_const_iterator<value_type, Size>;
-		using reverse_iterator		= typename std::reverse_iterator<iterator>;
-		using const_reverse_iterator= typename std::reverse_iterator<const_iterator>;
+		using value_type		= typename T;
+		using self_type			= typename matrix_t<value_type, Cols, Rows>;
+		using base_type			= typename array_t<value_type, Size>;
+		using type				= typename base_type::type;
+		using pointer			= typename base_type::pointer;
+		using reference			= typename base_type::reference;
+		using const_pointer		= typename base_type::const_pointer;
+		using const_reference	= typename base_type::const_reference;
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: // Data
-		/* * * * * * * * * * * * * * * * * * * * */
-		array_type m_data;
+		base_type m_data; // aggregate initializer
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public: // Constructors
-		/* * * * * * * * * * * * * * * * * * * * */
-		Matrix()
-			: m_data()
-		{
-			std::fill(this->begin(), this->end(), static_cast<value_type>(0));
-		}
+		constexpr auto begin()			-> pointer			{ return m_data.begin(); }
+		constexpr auto begin()	const	-> const_pointer	{ return m_data.begin(); }
+		constexpr auto cbegin() const	-> const_pointer	{ return m_data.cbegin(); }
+		constexpr auto cend()	const	-> const_pointer	{ return m_data.cend(); }
+		constexpr auto cols()	const	-> size_t			{ return self_type::Cols; }
+		constexpr auto data()			-> pointer			{ return m_data.data(); }
+		constexpr auto data()	const	-> const_pointer	{ return m_data.data(); }
+		constexpr auto end()			-> pointer			{ return m_data.end(); }
+		constexpr auto end()	const	-> const_pointer	{ return m_data.end(); }
+		constexpr auto hash()	const	-> size_t			{ return m_data.hash(); }
+		constexpr auto height()	const	-> size_t			{ return this->rows(); }
+		constexpr auto rows()	const	-> size_t			{ return self_type::Rows; }
+		constexpr auto size()	const	-> size_t			{ return m_data.size(); }
+		constexpr auto width()	const	-> size_t			{ return this->cols(); }
 
-		Matrix(const_reference value)
-			: m_data()
-		{
-			std::fill(this->begin(), this->end(), value);
-		}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Matrix(const init_type & value)
-			: m_data()
-		{
-			assert((value.size() == this->size()) && "Matrix initializer size mismatch");
-			std::copy(value.begin(), value.end(), this->begin());
-		}
+		constexpr const_reference operator[](size_t i) const { return m_data[i]; }
 
-		Matrix(const self_type & value)
-			: m_data()
-		{
-			std::copy(value.begin(), value.end(), this->begin());
-		}
+		constexpr reference operator[](size_t i) { return m_data[i]; }
+
+		constexpr operator base_type() const { return m_data; }
 
 		template <
-			class	T,
-			size_t	X,
-			size_t	Y
-		> Matrix(const Matrix<T, X, Y> & value, const_reference def = static_cast<value_type>(0))
-			: m_data()
+			template <class, size_t, size_t> class M, class U, size_t W, size_t H
+		> constexpr operator M<U, W, H>() const
 		{
-			for (size_t i = 0; i < this->size(); i++)
+			M<U, W, H> temp { meta::uninit };
+			for (size_t i = 0; i < temp.size(); i++)
 			{
-				(*this)[i] = ((i < value.size())
-					? (static_cast<value_type>(value[i]))
-					: (def)
+				const size_t x = i % temp.width();
+				const size_t y = i / temp.width();
+				temp[i] = ((y < height() && x < width())
+					? type_t<U>{ (*this)[y * width() + x] }()
+					: type_t<U>::zero
 				);
 			}
+			return temp;
 		}
 
-		virtual ~Matrix() {}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-	public: // Operators
-		/* * * * * * * * * * * * * * * * * * * * */
-		inline const_reference operator[](const size_t index) const
+		static constexpr self_type zero()
 		{
-			assert((index < this->size()) && "Matrix subscript out of range!");
-			return m_data[index];
+			return self_type { meta::uninit };
 		}
 
-		inline reference operator[](const size_t index)
+		static constexpr self_type identity()
 		{
-			assert((index < this->size()) && "Matrix subscript out of range!");
-			return m_data[index];
-		}
-
-		inline self_type & operator=(const_reference value)
-		{
-			return ((*this) = self_type(value));
-		}
-
-
-	public: // Member Functions
-		/* * * * * * * * * * * * * * * * * * * * */
-		inline size_t			cols()	const	{ return Cols;				}
-		inline size_t			rows()	const	{ return Rows;				}
-		inline size_t			size()	const	{ return Size;				}
-
-		inline reference		back()			{ return (*this)[Size - 1];	}
-		inline pointer			data()			{ return &(*this)[0];		}
-		inline reference		front()			{ return (*this)[0];		}
-
-		inline const_reference	back()	const	{ return (*this)[Size - 1];	}
-		inline const_pointer	data()	const	{ return &(*this)[0];		}
-		inline const_reference	front()	const	{ return (*this)[0];		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-
-	public: // Static Functions
-		/* * * * * * * * * * * * * * * * * * * * */
-		inline static const contiguous_type & Contiguous(const self_type * value, const size_t length)
-		{
-			static contiguous_type temp;
-			if (value)
+			self_type temp { self_type::zero() };
+			for (size_t i = 0; i < temp.size(); i++)
 			{
-				if (const size_t imax = (length * Size))
-				{
-					if (temp.size() != imax)
-					{
-						temp.resize(imax);
-					}
-					for (size_t i = 0; i < imax; i++)
-					{
-						temp[i] = value[i / Size][i % Size];
-					}
-				}
-				else if (!temp.empty())
-				{
-					temp.clear();
-				}
+				temp[i] = (((i / temp.width()) == (i % temp.width()))
+					? type::one
+					: type::zero
+				);
 			}
 			return temp;
 		}
 
-		inline static const self_type & Identity()
+		static constexpr self_type ortho(
+			const_reference l,
+			const_reference r,
+			const_reference b,
+			const_reference t)
 		{
-			static self_type temp;
-			static bool check = true;
-			if (check)
-			{	check = false;
-				for (size_t y = 0; y < Rows; y++)
-				{
-					for (size_t x = 0; x < Cols; x++)
-					{
-						temp[y * Cols + x] = ((x == y)
-							? static_cast<value_type>(1)
-							: static_cast<value_type>(0)
-						);
-					}
-				}
-			}
+			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
+			self_type temp { self_type::identity() };
+			temp[0 * 4 + 0] = type::two / (r - l);
+			temp[1 * 4 + 1] = type::two / (t - b);
+			temp[2 * 4 + 2] = type::one;
+			temp[3 * 4 + 0] = -(r + l) / (r - l);
+			temp[3 * 4 + 1] = -(t + b) / (t - b);
 			return temp;
 		}
 
-
-	public: // Overrides
-		/* * * * * * * * * * * * * * * * * * * * */
-		inline friend ML_SERIALIZE(ostream & out, const self_type & value)
+		static constexpr self_type ortho(
+			const_reference l,
+			const_reference r,
+			const_reference b,
+			const_reference t,
+			const_reference n,
+			const_reference f)
 		{
-			for (const auto & e : value)
-			{
-				out << e << " ";
-			}
-			return out;
+			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
+			self_type temp { self_type::identity() };
+			temp[0 * 4 + 0] = type::two / (r - l);
+			temp[1 * 4 + 1] = type::two / (t - b);
+			temp[3 * 4 + 0] = -(r + l) / (r - l);
+			temp[3 * 4 + 1] = -(t + b) / (t - b);
+			temp[2 * 4 + 2] = -type::two / (f - n);
+			temp[3 * 4 + 2] = -(f + n) / (f - n);
+			return temp;
 		}
 
-		inline friend ML_DESERIALIZE(istream & in, self_type & value)
+		static constexpr self_type persp(
+			const_reference fov,
+			const_reference aspect,
+			const_reference near,
+			const_reference far)
 		{
-			for (size_t i = 0; i < value.size(); i++)
-			{
-				in >> value[i];
-			}
-			return in;
+			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
+			self_type temp { self_type::zero() };
+			temp[0 * 4 + 0] = type::one / (aspect * alg::tan(fov / type::two));
+			temp[1 * 4 + 1] = type::one / alg::tan(fov / type::two);
+			temp[2 * 4 + 3] = type::minus_one;
+			temp[2 * 4 + 2] = -(far + near) / (far - near);
+			temp[3 * 4 + 3] = -(type::two * far * near) / (far - near);
+			return temp;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		inline bool equals(const self_type & value) const override
-		{
-			for (size_t i = 0; i < this->size(); i++)
-			{
-				if ((*this)[i] != value[i])
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
-		inline bool lessThan(const self_type & value) const override
-		{
-			for (size_t i = 0; i < this->size(); i++)
-			{
-				if ((*this)[i] >= value[i])
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		
-
-	public: // Iterators
-		/* * * * * * * * * * * * * * * * * * * * */
-		inline auto begin()			-> iterator			{ return iterator(m_data, 0); }
-		inline auto begin() const	-> const_iterator	{ return const_iterator(m_data, 0); }
-		inline auto cbegin() const	-> const_iterator	{ return begin(); }
-		inline auto end()			-> iterator			{ return iterator(m_data, this->size()); }
-		inline auto end() const		-> const_iterator	{ return const_iterator(m_data, this->size()); }
-		inline auto cend() const	-> const_iterator	{ return end(); }
-
-
-# ifdef GLM_VERSION
-	public: // GLM
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		// From glm::mat3
-		template <
-			size_t X = Cols,
-			size_t Y = Rows
-		> Matrix(const glm::tmat3x3<value_type, glm::defaultp> & value, ML_ENIF_3x3(X, Y) * = 0)
-			: m_data()
-		{
-			if (const_pointer temp = glm::value_ptr(value))
-			{
-				std::copy(&temp[0], &temp[this->size()], this->begin());
-			}
-		}
-
-		// To glm::mat3
-		template <
-			size_t X = Cols,
-			size_t Y = Rows
-		> inline operator glm::tmat3x3<value_type, glm::defaultp>() const
-		{
-			static_assert((X == 3 && Y == 3),
-				"Size mismatch, unable to convert matrix to glm::mat3"
-			);
-			return glm::tmat3x3<value_type, glm::defaultp>(
-				(*this)[0], (*this)[1], (*this)[2],
-				(*this)[3], (*this)[4], (*this)[5],
-				(*this)[6], (*this)[7], (*this)[8] 
-			);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		// From glm::mat4
-		template <
-			size_t X = Cols,
-			size_t Y = Rows
-		> Matrix(const glm::tmat4x4<value_type, glm::defaultp> & value, ML_ENIF_4x4(X, Y) * = 0)
-			: m_data()
-		{
-			if (const_pointer temp = glm::value_ptr(value))
-			{
-				std::copy(&temp[0], &temp[this->size()], this->begin());
-			}
-		}
-
-		// To glm::mat4
-		template <
-			size_t X = Cols,
-			size_t Y = Rows
-		> inline operator glm::tmat4x4<value_type, glm::defaultp>() const
-		{
-			static_assert((X == 4 && Y == 4),
-				"Size mismatch, unable to convert matrix to glm::mat4"
-			);
-			return glm::tmat4x4<value_type, glm::defaultp>(
-				(*this)[ 0], (*this)[ 1], (*this)[ 2], (*this)[ 3],
-				(*this)[ 4], (*this)[ 5], (*this)[ 6], (*this)[ 7],
-				(*this)[ 8], (*this)[ 9], (*this)[10], (*this)[11],
-				(*this)[12], (*this)[13], (*this)[14], (*this)[15]
-			);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# endif
-
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	// Types
 	/* * * * * * * * * * * * * * * * * * * * */
-	using mat3f = Matrix<float, 3, 3>;
-	using mat4f = Matrix<float, 4, 4>;
-	using mat3	= typename mat3f;
-	using mat4	= typename mat4f;
+}
+
+namespace ml
+{
+	// MATRIX NxN
+	/* * * * * * * * * * * * * * * * * * * * */
+	template <class T, size_t N>
+	using tmat_nxn = matrix_t<T, N, N>;
+
+	template <class T, size_t N>
+	using tmat_nx1 = matrix_t<T, N, 1>;
+
+	// MATRIX3
+	/* * * * * * * * * * * * * * * * * * * * */
+	template <class T>
+	using tmat3 = tmat_nxn<T, 3>;
+	using mat3b = tmat3<uint8_t>;
+	using mat3f = tmat3<float>;
+	using mat3i = tmat3<int32_t>;
+	using mat3d = tmat3<double>;
+	using mat3u = tmat3<uint32_t>;
+	using mat3	= mat3f;
+
+	// MATRIX4
+	/* * * * * * * * * * * * * * * * * * * * */
+	template <class T>
+	using tmat4 = tmat_nxn<T, 4>;
+	using mat4b = tmat4<uint8_t>;
+	using mat4f = tmat4<float>;
+	using mat4i = tmat4<int32_t>;
+	using mat4d = tmat4<double>;
+	using mat4u = tmat4<uint32_t>;
+	using mat4	= mat4f;
+
+	// VECTOR2
+	/* * * * * * * * * * * * * * * * * * * * */
+	template <class T>
+	using tvec2 = tmat_nx1<T, 2>;
+	using vec2b = tvec2<uint8_t>;
+	using vec2f = tvec2<float>;
+	using vec2i = tvec2<int32_t>;
+	using vec2d = tvec2<double>;
+	using vec2u = tvec2<uint32_t>;
+	using vec2	= vec2f;
+
+	// VECTOR3
+	/* * * * * * * * * * * * * * * * * * * * */
+	template <class T>
+	using tvec3 = tmat_nx1<T, 3>;
+	using vec3b = tvec3<uint8_t>;
+	using vec3f = tvec3<float>;
+	using vec3i = tvec3<int32_t>;
+	using vec3d = tvec3<double>;
+	using vec3u = tvec3<uint32_t>;
+	using vec3	= vec3f;
+
+	// VECTOR4
+	/* * * * * * * * * * * * * * * * * * * * */
+	template <class T>
+	using tvec4 = tmat_nx1<T, 4>;
+	using vec4b = tvec4<uint8_t>;
+	using vec4f = tvec4<float>;
+	using vec4i = tvec4<int32_t>;
+	using vec4d = tvec4<double>;
+	using vec4u = tvec4<uint32_t>;
+	using vec4	= vec4f;
+}
+
+namespace ml
+{
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class T, size_t X, size_t Y
+	> inline ML_SERIALIZE(ostream & out, const matrix_t<T, X, Y> & value)
+	{
+		for (const auto & elem : value)
+		{
+			out << elem << ' ';
+		}
+		return out;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> inline ML_DESERIALIZE(istream & in, matrix_t<T, X, Y> & value)
+	{
+		for (auto & elem : value)
+		{
+			in >> elem;
+		}
+		return in;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr bool operator==(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	{
+		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr bool operator!=(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr bool operator<(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	{
+		return alg::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr bool operator<=(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	{
+		return (lhs < rhs) || (lhs == rhs);
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr bool operator>(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	{
+		return !(lhs < rhs) && (lhs != rhs);
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr bool operator>=(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	{
+		return (lhs > rhs) || (lhs == rhs);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator+=(matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+		-> matrix_t<T, X, Y> &
+	{
+		for (size_t i = 0; i < lhs.size(); i++)
+		{
+			lhs[i] = (lhs[i] + rhs[i]);
+		}
+		return lhs;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator-=(matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+		-> matrix_t<T, X, Y> &
+	{
+		for (size_t i = 0; i < lhs.size(); i++)
+		{
+			lhs[i] = (lhs[i] - rhs[i]);
+		}
+		return lhs;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator*=(matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+		-> matrix_t<T, X, Y> &
+	{
+		for (size_t i = 0; i < lhs.size(); i++)
+		{
+			lhs[i] = (lhs[i] * rhs[i]);
+		}
+		return lhs;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator/=(matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+		-> matrix_t<T, X, Y> &
+	{
+		for (size_t i = 0; i < lhs.size(); i++)
+		{
+			lhs[i] = (lhs[i] / rhs[i]);
+		}
+		return lhs;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator+(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+		-> matrix_t<T, X, Y>
+	{
+		matrix_t<T, X, Y> temp { lhs };
+		temp += rhs;
+		return temp;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator-(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+		-> matrix_t<T, X, Y>
+	{
+		matrix_t<T, X, Y> temp { lhs };
+		temp -= rhs;
+		return temp;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator*(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+		-> matrix_t<T, X, Y>
+	{
+		matrix_t<T, X, Y> temp { lhs };
+		temp *= rhs;
+		return temp;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator/(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+		-> matrix_t<T, X, Y>
+	{
+		matrix_t<T, X, Y> temp { lhs };
+		temp /= rhs;
+		return temp;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator+=(matrix_t<T, X, Y> & lhs, const T & rhs)
+		-> matrix_t<T, X, Y> &
+	{
+		for (auto & elem : lhs)
+		{
+			elem += rhs;
+		}
+		return lhs;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator-=(matrix_t<T, X, Y> & lhs, const T & rhs)
+		-> matrix_t<T, X, Y> &
+	{
+		for (auto & elem : lhs)
+		{
+			elem -= rhs;
+		}
+		return lhs;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator*=(matrix_t<T, X, Y> & lhs, const T & rhs)
+		-> matrix_t<T, X, Y> &
+	{
+		for (auto & elem : lhs)
+		{
+			elem *= rhs;
+		}
+		return lhs;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator/=(matrix_t<T, X, Y> & lhs, const T & rhs)
+		-> matrix_t<T, X, Y> &
+	{
+		for (auto & elem : lhs)
+		{
+			elem /= rhs;
+		}
+		return lhs;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator+(const matrix_t<T, X, Y> & lhs, const T & rhs)
+		-> matrix_t<T, X, Y>
+	{
+		matrix_t<T, X, Y> temp { lhs };
+		temp += rhs;
+		return temp;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator-(const matrix_t<T, X, Y> & lhs, const T & rhs)
+		-> matrix_t<T, X, Y>
+	{
+		matrix_t<T, X, Y> temp { lhs };
+		temp -= rhs;
+		return temp;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator*(const matrix_t<T, X, Y> & lhs, const T & rhs)
+		-> matrix_t<T, X, Y>
+	{
+		matrix_t<T, X, Y> temp { lhs };
+		temp *= rhs;
+		return temp;
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator/(const matrix_t<T, X, Y> & lhs, const T & rhs)
+		-> matrix_t<T, X, Y>
+	{
+		matrix_t<T, X, Y> temp { lhs };
+		temp /= rhs;
+		return temp;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator-(const matrix_t<T, X, Y> & lhs)
+		-> matrix_t<T, X, Y>
+	{
+		return (lhs * type_t<T>::minus_one);
+	}
+
+	template <
+		class T, size_t X, size_t Y
+	> constexpr auto operator+(const matrix_t<T, X, Y> & lhs)
+		-> matrix_t<T, X, Y>
+	{
+		return -(-(lhs));
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

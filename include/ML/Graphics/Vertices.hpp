@@ -2,6 +2,7 @@
 #define _ML_LISTS_HPP_
 
 #include <ML/Graphics/Vertex.hpp>
+#include <ML/Core/List.hpp>
 
 namespace ml
 {

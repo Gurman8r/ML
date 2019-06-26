@@ -11,7 +11,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type = meta::type_t<size_t>;
+		using type = type_t<size_t>;
 
 		static constexpr size_t fnv1a_basis { type(14695981039346656037ULL)() };
 		static constexpr size_t fnv1a_prime { type(1099511628211ULL)() };

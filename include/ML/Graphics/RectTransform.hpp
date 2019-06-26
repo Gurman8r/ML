@@ -2,7 +2,8 @@
 #define _ML_RECT_TRANSFORM_HPP_
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/Transform.hpp>
+#include <ML/Core/Matrix.hpp>
+#include <ML/Core/I_Newable.hpp>
 
 namespace ml
 {
@@ -47,10 +48,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		vec2 m_origin;
-		vec2 m_position;
-		float m_rotation;
-		vec2 m_scale;
+		vec2	m_origin;
+		vec2	m_position;
+		float	m_rotation;
+		vec2	m_scale;
 
 		mutable mat4	m_matrix;
 		mutable bool	m_changed;

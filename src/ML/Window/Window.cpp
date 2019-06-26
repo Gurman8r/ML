@@ -546,9 +546,9 @@ namespace ml
 
 	vec2i	Window::getPosition() const
 	{
-		int32_t x, y;
-		glfwGetWindowPos(static_cast<GLFWwindow *>(m_window), &x, &y);
-		return vec2i(x, y);
+		vec2i temp;
+		glfwGetWindowPos(static_cast<GLFWwindow *>(m_window), &temp[0], &temp[1]);
+		return temp;
 	}
 
 	double	Window::getTime() const

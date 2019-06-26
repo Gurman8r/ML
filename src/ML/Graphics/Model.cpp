@@ -1,6 +1,6 @@
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
-#include <ML/Graphics/Shapes.hpp>
+#include <ML/Graphics/Geometry.hpp>
 
 #define ML_DEFAULT_CUBE "DEFAULT_CUBE"
 #define ML_DEFAULT_QUAD "DEFAULT_QUAD"
@@ -94,7 +94,7 @@ namespace ml
 		m_ibo.bind();
 		m_ibo.bufferData(indices);
 		
-		BufferLayout::Default.bind();
+		m_layout.bind();
 		
 		m_ibo.unbind();
 		m_vbo.unbind();

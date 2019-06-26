@@ -2,8 +2,10 @@
 #define _ML_EDITOR_UTILITY_HPP_
 
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Core/Transform.hpp>
+#include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
+#include <ML/Core/List.hpp>
+#include <ML/Core/I_Singleton.hpp>
 
 #define ML_EditorUtility ml::EditorUtility::getInstance()
 
@@ -39,7 +41,7 @@ namespace ml
 			{
 				if (BeginWindow(name, open, flags))
 				{
-					fun((args)...);
+					fun(std::forward<Args>(args)...);
 				}
 				EndWindow();
 			}

@@ -92,7 +92,6 @@ namespace ml
 	// Container Types
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T, size_t N	> using Array		= typename std::array			<T, N>;
 	template <class K, class V	> using HashMap		= typename std::unordered_map	<K, V>;
 	template <class T			> using Initializer	= typename std::initializer_list<T>;
 	template <class K, class V	> using Map			= typename std::map				<K, V>;

@@ -66,7 +66,8 @@ namespace ml
 		if (FT_Init_FreeType(&library) != EXIT_SUCCESS)
 		{
 			return Debug::logError("Failed to load font \"{0}\" (failed to open FreeType)", 
-				filename);
+				filename
+			);
 		}
 		m_library = library;
 
@@ -75,7 +76,8 @@ namespace ml
 		if (FT_New_Face(static_cast<FT_Library>(m_library), filename.c_str(), 0, &face) != EXIT_SUCCESS)
 		{
 			return Debug::logError("Failed to load font \"{0}\" (failed to create the font face)",
-				filename);
+				filename
+			);
 		}
 
 		// Load the stroker that will be used to outline the fonts
@@ -84,7 +86,8 @@ namespace ml
 		{
 			FT_Done_Face(face);
 			return Debug::logError("Failed to load font \"{0}\" (failed to create the stroker)", 
-				filename);
+				filename
+			);
 		}
 
 		// Select the unicode character map
@@ -93,7 +96,8 @@ namespace ml
 			FT_Stroker_Done(stroker);
 			FT_Done_Face(face);
 			return Debug::logError("Failed to load font \"{0}\" (failed to set the Unicode character set)", 
-				filename);
+				filename
+			);
 		}
 
 		// Store the loaded fonts in our ugly void * :)

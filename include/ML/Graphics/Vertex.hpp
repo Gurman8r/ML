@@ -2,115 +2,138 @@
 #define _ML_VERTEX_HPP_
 
 #include <ML/Graphics/Color.hpp>
-#include <ML/Core/Vector2.hpp>
-#include <ML/Core/Vector3.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Vertex final
-		: public I_Newable
-		, public I_Comparable<Vertex>
+	struct Vertex final
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum { Size = 9U };
+		enum { Size = vec3::Size + vec4::Size + vec2::Size };
 
-		using array_type = typename float[Size];
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		using value_type		= typename float;
+		using self_type			= typename Vertex;
+		using array_type		= typename array_t<value_type, Size>;
+		using pointer			= typename array_type::pointer;
+		using reference			= typename array_type::reference;
+		using const_pointer		= typename array_type::const_pointer;
+		using const_reference	= typename array_type::const_reference;
 
-		Vertex();
-		Vertex(const vec3 & position);
-		Vertex(const vec3 & position, const vec4 & color);
-		Vertex(const vec3 & position, const vec2 & texcoords);
-		Vertex(const vec3 & position, const vec4 & color, const vec2 & texcoords);
-		Vertex(const Vertex & copy);
-		~Vertex();
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		const vec3 & position() const;
-		const vec4 & color() const;
-		const vec2 & texcoords() const;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		Vertex & position(const vec3 & value);
-		Vertex & color(const vec4 & value);
-		Vertex & texcoords(const vec2 & value);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		Vertex & position(float x, float y, float z);
-		Vertex & color(float r, float g, float b, float a);
-		Vertex & texcoords(float x, float y);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline const float & operator[](size_t index) const 
+		constexpr explicit Vertex(const array_type & value)
+			: m_data { value }
 		{
-			return m_data[index]; 
-		}
-		
-		inline float & operator[](size_t index)
-		{ 
-			return m_data[index]; 
 		}
 
-		inline const float & at(const size_t index) const
+		constexpr explicit Vertex(const vec3 & pos, const vec4 & col, const vec2 & tex)
+			: self_type { {
+			pos[0], pos[1], pos[2],
+			col[0], col[1], col[2], col[3],
+			tex[0], tex[1] } }
 		{
-			return m_data[index];
 		}
 
-		inline const float * ptr() const
+		constexpr explicit Vertex(const vec3 & pos, const vec4 & col)
+			: self_type { pos, col, vec2::zero() }
 		{
-			return m_data;
 		}
 
-		inline bool equals(const Vertex & other) const override
+		constexpr explicit Vertex(const vec3 & pos, const vec2 & tex)
+			: self_type { pos, color::white, tex }
 		{
-			for (auto i = 0; i < Size; i++)
-			{
-				if (at(i) != other.at(i))
-				{
-					return false;
-				}
-			}
-			return true;
 		}
 
-		inline bool lessThan(const Vertex & other) const override
+		constexpr explicit Vertex(const vec4 & col)
+			: self_type { vec3::zero(), col, vec2::zero() }
 		{
-			for (auto i = 0; i < Size; i++)
-			{
-				if (at(i) >= other.at(i))
-				{
-					return false;
-				}
-			}
-			return true;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		constexpr explicit Vertex(const vec3 & pos)
+			: self_type { pos, color::white, vec2::zero() }
+		{
+		}
 
-	private:
-		array_type m_data;
+		constexpr explicit Vertex(const vec2 & tex)
+			: self_type { vec3::zero(), color::white, tex }
+		{
+		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		constexpr Vertex(const Vertex & copy)
+			: self_type { copy.pos(), copy.col(), copy.tex() }
+		{
+		}
+
+		constexpr Vertex()
+			: self_type { vec3::zero(), color::white, vec2::zero() }
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr auto begin()			-> pointer			{ return m_data.begin(); }
+		constexpr auto begin()	const	-> const_pointer	{ return m_data.begin(); }
+		constexpr auto cbegin() const	-> const_pointer	{ return m_data.cbegin(); }
+		constexpr auto cend()	const	-> const_pointer	{ return m_data.cend(); }
+		constexpr auto data()			-> pointer			{ return m_data.data(); }
+		constexpr auto data()	const	-> const_pointer	{ return m_data.data(); }
+		constexpr auto end()			-> pointer			{ return m_data.end(); }
+		constexpr auto end()	const	-> const_pointer	{ return m_data.end(); }
+		constexpr auto size()	const	-> size_t			{ return m_data.size(); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr const_reference operator[](size_t i) const { return m_data[i]; }
+
+		constexpr reference operator[](size_t i) { return m_data[i]; }
+
+		constexpr operator array_type() const { return m_data; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr auto get(size_t i) const
+			-> const_reference
+		{
+			return (*this)[i];
+		}
+
+		constexpr auto pos() const -> vec3 { return { get(0), get(1), get(2) }; }
+		constexpr auto col() const -> vec4 { return { get(3), get(4), get(5), get(6) }; }
+		constexpr auto tex() const -> vec2 { return { get(7), get(8) }; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr auto set(size_t i, const_reference value)
+			-> self_type &
+		{
+			(*this)[i] = value;
+			return (*this);
+		}
+
+		constexpr auto pos(const vec3 & v) -> self_type & { return set(0, v[0]).set(1, v[1]).set(2, v[2]); }
+		constexpr auto col(const vec4 & v) -> self_type & { return set(3, v[0]).set(4, v[1]).set(5, v[2]).set(6, v[3]); }
+		constexpr auto tex(const vec2 & v) -> self_type & { return set(7, v[0]).set(8, v[1]); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline friend ML_SERIALIZE(ostream & out, const self_type & rhs)
+		{
+			return out << rhs.m_data;
+		}
+
+		inline friend ML_DESERIALIZE(istream & in, self_type & rhs)
+		{
+			return in >> rhs.m_data;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: array_type m_data;
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	inline ML_SERIALIZE(ostream & out, const Vertex & value)
-	{
-		for (size_t i = 0; i < Vertex::Size; i++)
-		{
-			out << value[i] << ' ';
-		}
-		return out;
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

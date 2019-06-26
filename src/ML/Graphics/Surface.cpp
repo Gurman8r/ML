@@ -14,7 +14,7 @@ namespace ml
 		, m_model		(nullptr)
 		, m_shader		(nullptr)
 		, m_texture		()
-		, m_size		(0)
+		, m_size		({ 0, 0 })
 		, m_attachment	(GL::ColorAttachment0)
 	{
 	}
@@ -58,7 +58,7 @@ namespace ml
 	{
 		if (!m_fbo && !m_rbo)
 		{
-			if (((m_size = size) != vec2i::Zero) && (m_attachment = attachment))
+			if (((m_size = size) != vec2i { 0, 0 }) && (m_attachment = attachment))
 			{
 				// Setup Framebuffer
 				m_fbo.create().bind();
@@ -97,7 +97,7 @@ namespace ml
 	bool Surface::resize(const vec2i & size)
 	{
 		return 
-			(size != vec2i::Zero) &&
+			(size != vec2i { 0, 0 }) &&
 			(m_size != size) &&
 			(dispose()) &&
 			(create(size, m_attachment));

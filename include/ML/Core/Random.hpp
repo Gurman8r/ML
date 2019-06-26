@@ -18,7 +18,7 @@ namespace ml
 
 		Random() 
 		{ 
-			std::srand((uint32_t)std::time(NULL)); 
+			std::srand((uint32_t)std::time(nullptr)); 
 		}
 
 	public:

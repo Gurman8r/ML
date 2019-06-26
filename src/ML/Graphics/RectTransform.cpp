@@ -1,5 +1,4 @@
 #include <ML/Graphics/RectTransform.hpp>
-#include <ML/Core/Maths.hpp>
 
 namespace ml
 {
@@ -8,10 +7,10 @@ namespace ml
 	RectTransform::RectTransform()
 		: m_changed	(true)
 		, m_matrix	()
-		, m_position(0.0f)
-		, m_scale	(1.0f)
+		, m_position({ 0.0f, 0.0f })
+		, m_scale	({ 1.0f, 1.0f })
 		, m_rotation(0.0f)
-		, m_origin	(0.5f)
+		, m_origin	({ 0.5f, 0.5f })
 	{
 	}
 
@@ -46,7 +45,7 @@ namespace ml
 		if (m_changed)
 		{	m_changed = false;
 
-			float angle		= maths::to_radians(m_rotation);
+			float angle		= type_t<float>::deg2rad * m_rotation;
 			float cosine	= std::cosf(angle);
 			float sine		= std::sinf(angle);
 			float sxc		= m_scale[0] * cosine;

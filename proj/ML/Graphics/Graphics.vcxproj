@@ -199,7 +199,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Shader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderParser.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\Shapes.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Geometry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Sprite.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Text.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Texture.hpp" />
@@ -211,7 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\CubeMap.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
@@ -229,11 +228,9 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderWindow.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\ShaderParser.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\Shapes.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Sprite.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Text.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Texture.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\Vertex.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp" />
   </ItemGroup>

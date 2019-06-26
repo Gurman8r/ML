@@ -102,9 +102,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Shapes.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderParser.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -147,6 +144,9 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Vertices.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Geometry.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp">
@@ -185,12 +185,6 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Color.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Vertex.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
@@ -199,9 +193,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp">
       <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Shapes.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\ShaderParser.cpp">
       <Filter>Source Files\Utility</Filter>

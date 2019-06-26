@@ -127,7 +127,7 @@ namespace DEMO
 					new ml::uni_vec2_ref("window.size",		noobs.resolution),
 					new ml::uni_col4_ref("window.color",	noobs.clearColor),
 					new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
-					new ml::uni_vec3	("camera.target",	ml::vec3::Zero),
+					new ml::uni_vec3	("camera.target",	{ 0.0f, 0.0f, 0.0f }),
 					new ml::uni_flt		("camera.fov",		45.0),
 					new ml::uni_flt		("camera.zNear",	0.001f),
 					new ml::uni_flt		("camera.zFar",		1000.0),
@@ -136,7 +136,7 @@ namespace DEMO
 					new ml::uni_flt		("frag.specular",	0.1f),
 					new ml::uni_int		("frag.shininess",	8),
 					new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
-					new ml::uni_col4	("frag.diffuse",	ml::Color::LightYellow),
+					new ml::uni_col4	("frag.diffuse",	ml::color::lightYellow),
 					new ml::uni_flt		("frag.ambient",	0.01f),
 					})));
 
@@ -313,8 +313,8 @@ namespace DEMO
 				auto scaleToFit = [](const ml::vec2 & src, const ml::vec2 & dst)
 				{
 					const ml::vec2
-						hs = (dst[0] / src[0]),
-						vs = (dst[1] / src[1]);
+						hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
+						vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
 					return (src * (((hs) < (vs)) ? (hs) : (vs)));
 				};
 
@@ -624,7 +624,14 @@ namespace DEMO
 
 							if (it->second)
 							{
-								ml::UniformPropertyDrawer()(label, (ml::Uniform &)(*it->second));
+								ml::UniformPropertyDrawer()(
+									label, (ml::Uniform &)(*it->second));
+
+								ImGui::SameLine();
+								if (ImGui::Button(("Remove##" + label).c_str()))
+								{
+									toRemove.push_back(it.base());
+								}
 							}
 						}
 						else

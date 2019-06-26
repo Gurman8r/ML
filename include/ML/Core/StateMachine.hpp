@@ -58,7 +58,7 @@ namespace ml
 		{
 			fun_type fun;
 			return ((fun = (*this)[key])
-				? fun((args)...)
+				? fun(std::forward<Args>(args)...)
 				: self_type::NoState
 			);
 		}

@@ -2,7 +2,8 @@
 #define _ML_UNI_HPP_
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/Transform.hpp>
+#include <ML/Core/Rect.hpp>
+#include <ML/Core/I_Newable.hpp>
 
 namespace ml
 {

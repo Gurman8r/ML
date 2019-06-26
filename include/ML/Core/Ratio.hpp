@@ -39,7 +39,7 @@ namespace ml
 		int64_t D
 	> constexpr T ratio_cast(const T & value, const Ratio<N, D> & r)
 	{
-		using type = meta::type_t<T>;
+		using type = type_t<T>;
 		const type num { r.num };
 		const type den { r.den };
 		return 

@@ -6,6 +6,11 @@
 #define ML_PROJECT_VER "1.0.0"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
+// Stringify
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+#define ML_xstr(l) ML_str(l)
+#define ML_str(l) #l
+
 //	C/C++
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(__cplusplus)

@@ -93,8 +93,8 @@ namespace ml
 
 	Texture::Texture(GL::Target target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
 		: I_Handle			(NULL)
-		, m_size			(vec2u::Zero)
-		, m_realSize		(vec2u::Zero)
+		, m_size			(vec2u { 0, 0 })
+		, m_realSize		(vec2u { 0, 0 })
 		, m_target			(target)
 		, m_internalFormat	(internalFormat)
 		, m_colorFormat		(colFormat)
@@ -201,7 +201,7 @@ namespace ml
 					return Debug::logError(
 						"Failed creating texture, size is too large {0} max is {1}",
 						m_realSize, 
-						vec2u(maxSize)
+						vec2u { maxSize , maxSize }
 					);
 				}
 
@@ -236,7 +236,7 @@ namespace ml
 		}
 		else
 		{
-			return Debug::logError("Failed creating texture, invalid size: {0}", vec2u(w, h));
+			return Debug::logError("Failed creating texture, invalid size: {0}", vec2u { w, h });
 		}
 	}
 
@@ -288,7 +288,7 @@ namespace ml
 
 	bool Texture::update(const uint8_t * pixels)
 	{
-		return update(pixels, width(), height());
+		return update(pixels, UintRect { width(), height() });
 	}
 
 	bool Texture::update(const uint8_t * pixels, const UintRect & area)
@@ -338,7 +338,7 @@ namespace ml
 		}
 		else
 		{
-			return Debug::logError("Failed updating texture, invalid size: {0}", vec2u(w, h));
+			return Debug::logError("Failed updating texture, invalid size: {0}", vec2u { w, h });
 		}
 	}
 	

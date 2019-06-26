@@ -50,7 +50,7 @@ namespace ml
 		case FrameSizeEvent::ID:
 			if (auto ev = value->as<FrameSizeEvent>())
 			{
-				this->setViewport(vec2::Zero, { ev->width, ev->height });
+				this->setViewport(vec2 { 0.f, 0.f }, { ev->width, ev->height });
 			}
 			break;
 		}

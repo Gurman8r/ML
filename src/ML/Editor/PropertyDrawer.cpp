@@ -15,7 +15,7 @@
 #include <ML/Graphics/Uniform.hpp>
 #include <ML/Script/Script.hpp>
 
-#include <ML/Core/Transform.hpp>
+#include <ML/Core/Rect.hpp>
 #include <ML/Graphics/Renderer.hpp>
 
 namespace ml
@@ -72,16 +72,6 @@ namespace ml
 	bool EntityPropertyDrawer::operator()(const String & label, reference value) const
 	{
 		ImGui::PushID(label.c_str());
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		if (Transform * t = value.get<Transform>())
-		{
-			if (ImGui::CollapsingHeader("Transform"))
-			{
-				ImGui::Text("OK");
-			}
-		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -343,10 +333,19 @@ namespace ml
 
 			List<Map<String, Uniform *>::iterator> toRemove;
 
-			for (auto it = value.uniforms().begin(); it != value.uniforms().end(); it++)
+			for (auto it = value.uniforms().begin(); 
+				it != value.uniforms().end(); 
+				it++)
 			{
-				if (ImGui::TreeNode(it->first.c_str()))
+				ImGui::PushStyleColor(
+					ImGuiCol_Header,
+					{ 0.367f, 0.258f, 0.489f, 0.580f }
+				);
+
+				if (ImGui::CollapsingHeader((it->first + label).c_str()))
 				{
+					ImGui::PopStyleColor();
+
 					const String label("##" + label + "##Uni##" + it->first);
 
 					if (it->second)
@@ -676,8 +675,8 @@ namespace ml
 			auto scaleToFit = [](const vec2 & src, const vec2 & dst)
 			{
 				const vec2
-					hs = (dst[0] / src[0]),
-					vs = (dst[1] / src[1]);
+					hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
+					vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
 				return (src * (((hs) < (vs)) ? (hs) : (vs)));
 			};
 
@@ -804,8 +803,8 @@ namespace ml
 			auto scaleToFit = [](const vec2 & src, const vec2 & dst)
 			{
 				const vec2
-					hs = (dst[0] / src[0]),
-					vs = (dst[1] / src[1]);
+					hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
+					vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
 				return (src * (((hs) < (vs)) ? (hs) : (vs)));
 			};
 
@@ -886,15 +885,15 @@ namespace ml
 			{
 				switch (type)
 				{
-				case uni_flt::ID:	value = new uni_flt (name, 0);	break;
-				case uni_int::ID:	value = new uni_int (name, 0);	break;
-				case uni_vec2::ID:	value = new uni_vec2(name, 0);	break;
-				case uni_vec3::ID:	value = new uni_vec3(name, 0);	break;
-				case uni_vec4::ID:	value = new uni_vec4(name, 0);	break;
-				case uni_col4::ID:	value = new uni_col4(name, 0);	break;
-				case uni_mat3::ID:	value = new uni_mat3(name, 0);	break;
-				case uni_mat4::ID:	value = new uni_mat4(name, 0);	break;
-				case uni_tex2::ID:	value = new uni_tex2(name, 0);	break;
+				case uni_flt::ID:	value = new uni_flt (name, { 0 });	break;
+				case uni_int::ID:	value = new uni_int (name, { 0 });	break;
+				case uni_vec2::ID:	value = new uni_vec2(name, { 0 });	break;
+				case uni_vec3::ID:	value = new uni_vec3(name, { 0 });	break;
+				case uni_vec4::ID:	value = new uni_vec4(name, { 0 });	break;
+				case uni_col4::ID:	value = new uni_col4(name, { 0 });	break;
+				case uni_mat3::ID:	value = new uni_mat3(name, { 0 });	break;
+				case uni_mat4::ID:	value = new uni_mat4(name, { 0 });	break;
+				case uni_tex2::ID:	value = new uni_tex2(name, { 0 });	break;
 				}
 
 				if (value)
@@ -1058,7 +1057,7 @@ namespace ml
 		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 		ImGui::BeginChild(
 			("UniformChild##" + label).c_str(),
-			{ 0, (32 * height) + (height == 1 ? 8 : -8) },
+			{ -1, (32 * height) + (height == 1 ? 8 : -8) },
 			true,
 			ImGuiWindowFlags_NoScrollWithMouse
 		);

@@ -2,36 +2,35 @@
 #define _ML_COLOR_HPP_
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/Vector4.hpp>
+#include <ML/Core/Matrix.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	struct ML_GRAPHICS_API Color final
+	struct color final
 	{
-		const static vec4 Clear;
-		const static vec4 White;
-		const static vec4 Black;
-		const static vec4 Gray;
+		static constexpr vec4 clear			{ 0.0f, 0.0f, 0.0f, 0.0f };
+		static constexpr vec4 white			{ 1.0f, 1.0f, 1.0f, 1.0f };
+		static constexpr vec4 black			{ 0.0f, 0.0f, 0.0f, 1.0f };
+		static constexpr vec4 gray			{ 0.2f, 0.2f, 0.2f, 1.0f };
 
-		const static vec4 Red;
-		const static vec4 Blue;
-		const static vec4 Green;
-		
-		const static vec4 Cyan;
-		const static vec4 Yellow;
-		const static vec4 LightYellow;
-		const static vec4 Magenta;
+		static constexpr vec4 red			{ 1.0f, 0.0f, 0.0f, 1.0f };
+		static constexpr vec4 green			{ 0.0f, 1.0f, 0.0f, 1.0f };
+		static constexpr vec4 blue			{ 0.0f, 0.0f, 1.0f, 1.0f };
 
-		const static vec4 Violet;
-		const static vec4 Lime;
+		static constexpr vec4 cyan			{ 0.0f, 1.0f, 1.0f, 1.0f };
+		static constexpr vec4 yellow		{ 1.0f, 1.0f, 0.0f, 1.0f };
+		static constexpr vec4 lightYellow	{ 1.0f, 1.0f, 0.75f, 1.0f };
+		static constexpr vec4 magenta		{ 1.0f, 0.0f, 1.0f, 1.0f };
 
-		const static vec4 Orange;
-		const static vec4 Fuchsia;
+		static constexpr vec4 violet		{ 0.5f, 0.0f, 1.0f, 1.0f };
+		static constexpr vec4 lime			{ 0.5f, 1.0f, 0.0f, 1.0f };
+		static constexpr vec4 orange		{ 1.0f, 0.5f, 0.0f, 1.0f };
 
-		const static vec4 Aqua;
-		const static vec4 Azure;
+		static constexpr vec4 fuchsia		{ 1.0f, 0.0f, 0.5f, 1.0f };
+		static constexpr vec4 aqua			{ 0.0f, 1.0f, 0.5f, 1.0f };
+		static constexpr vec4 azure			{ 0.0f, 0.5f, 1.0f, 1.0f };
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

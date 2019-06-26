@@ -27,11 +27,7 @@ namespace ml
 
 	const String FileSystem::getPathTo(const String & value) const
 	{
-#ifdef ML_SYSTEM_WINDOWS
-		return (m_root + "\\" + value);
-#else
-		return (m_root + "/" + value);
-#endif
+		return (m_root + ML_PATH_SEPARATOR + value);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -39,11 +35,7 @@ namespace ml
 	bool FileSystem::setWorkingDir(const String & value)
 	{
 #ifdef ML_SYSTEM_WINDOWS
-		if (_chdir(value.c_str()) == EXIT_SUCCESS)
-		{
-			return true;
-		}
-		return false;
+		return (_chdir(value.c_str()) == EXIT_SUCCESS);
 #else
 		return false;
 #endif

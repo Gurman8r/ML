@@ -1,6 +1,6 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
-#include <ML/Graphics/Shapes.hpp>
+#include <ML/Graphics/Geometry.hpp>
 #include <ML/Graphics/ShaderAPI.hpp>
 #include <ML/Graphics/Uniform.hpp>
 
@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Sprite::Sprite()
-		: m_color(Color::White)
+		: m_color(color::white)
 		, m_texture(nullptr)
 		, m_transform()
 	{
@@ -103,12 +103,12 @@ namespace ml
 				u->data = m_texture;
 			}
 
-			const ml::vec2 size = (scale() * m_texture->size());
-			const ml::vec2 dest = (position() - (size * origin()));
+			const vec2 size = scale() * (vec2)m_texture->size();
+			const vec2 dest = position() - (size * origin());
 
 			target.draw(
-				ml::Shapes::RectQuad::genSpriteQuad({ dest, size }).data(),
-				ml::Shapes::RectQuad::Size,
+				ml::geo::rect_quad::spriteQuad({ dest, size }).data(),
+				ml::geo::rect_quad::contiguous_t::Size,
 				batch);
 		}
 	}

@@ -6,6 +6,12 @@
 #define ML_FS ml::FileSystem::getInstance()
 #define ML_MAX_PATH 260
 
+#ifdef ML_SYSTEM_WINDOWS
+#	define ML_PATH_SEPARATOR "\\"
+#else
+#	define ML_PATH_SEPARATOR '/'
+#endif
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

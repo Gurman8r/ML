@@ -1,7 +1,7 @@
 #ifndef _ML_GLYPH_HPP_
 #define _ML_GLYPH_HPP_
 
-#include <ML/Graphics/Shapes.hpp>
+#include <ML/Graphics/Geometry.hpp>
 #include <ML/Graphics/Texture.hpp>
 
 namespace ml
@@ -19,7 +19,7 @@ namespace ml
 
 		Glyph()
 			: texture(GL::Texture2D, GL::RGBA, GL::Red, true, true)
-			, bounds (0.0f)
+			, bounds ({ 0.0f, 0.0f, 0.0f, 0.0f })
 			, advance(0)
 		{
 		}

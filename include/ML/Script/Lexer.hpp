@@ -4,7 +4,7 @@
 #include <ML/Script/TokenList.hpp>
 #include <ML/Script/Args.hpp>
 
-#define ML_Lexer ml::Lexer::getInstance()
+#define ML_Lexer ::ml::Lexer::getInstance()
 
 namespace ml
 {

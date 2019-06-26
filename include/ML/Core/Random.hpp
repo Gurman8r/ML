@@ -5,7 +5,7 @@
 #include <ML/Core/StandardLib.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
-#define ML_Random ml::Random::getInstance()
+#define ML_Random ::ml::Random::getInstance()
 
 namespace ml
 {

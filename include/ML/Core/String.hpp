@@ -8,18 +8,18 @@ namespace ml
 {
 	// just a wrapper for std::basic_string<>
 	template <
-		class _Elem,
-		class _Traits = std::char_traits<_Elem>,
-		class _Alloc  = std::allocator<_Elem>
+		class Elem,
+		class Traits = std::char_traits<Elem>,
+		class Alloc  = std::allocator<Elem>
 	> class BasicString
-		: public std::basic_string<_Elem, _Traits, _Alloc>
-		, public I_Comparable<std::basic_string<_Elem, _Traits, _Alloc>>
+		: public std::basic_string<Elem, Traits, Alloc>
+		, public I_Comparable<std::basic_string<Elem, Traits, Alloc>>
 	{
 	public: // Usings
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		using value_type			= typename _Elem;
-		using traits_type			= typename _Traits;
-		using allocator_type		= typename _Alloc;
+		using value_type			= typename Elem;
+		using traits_type			= typename Traits;
+		using allocator_type		= typename Alloc;
 		using self_type				= typename BasicString<value_type, traits_type, allocator_type>;
 		using base_type				= typename std::basic_string<value_type, traits_type, allocator_type>;
 		using stream_type			= typename std::basic_stringstream<value_type, traits_type, allocator_type>;
@@ -303,16 +303,14 @@ namespace ml
 namespace std
 {
 	template <
-		class _Elem,
-		class _Traits,
-		class _Alloc
-	> struct hash<ml::BasicString<_Elem, _Traits, _Alloc>>
+		class Elem, class Traits, class Alloc
+	> struct hash<ml::BasicString<Elem, Traits, Alloc>>
 	{
-		using argument_type = ml::BasicString<_Elem, _Traits, _Alloc>;
+		using argument_type = ml::BasicString<Elem, Traits, Alloc>;
 
 		inline size_t operator()(const argument_type & value) const noexcept
 		{
-			return _Hash_array_representation(value.c_str(), value.size());
+			return ml::Hash()(value.size(), value.data());
 		}
 	};
 }

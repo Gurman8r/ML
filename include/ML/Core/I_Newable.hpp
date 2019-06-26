@@ -18,10 +18,10 @@ namespace ml
 			return out << typeid(value).name();
 		}
 
-		inline void * operator	new		 (size_t size) { return ML_NEW(size); }
-		inline void * operator	new[]	 (size_t size) { return ML_NEW(size); }
-		inline void	  operator	delete	 (void * ptr)  { return ML_FREE(ptr); }
-		inline void	  operator	delete[] (void * ptr)  { return ML_FREE(ptr); }
+		inline void * operator	new		 (size_t size) { return ML_allocate(size); }
+		inline void * operator	new[]	 (size_t size) { return ML_allocate(size); }
+		inline void	  operator	delete	 (void * ptr)  { return ML_deallocate(ptr); }
+		inline void	  operator	delete[] (void * ptr)  { return ML_deallocate(ptr); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

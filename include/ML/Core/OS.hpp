@@ -5,7 +5,7 @@
 #include <ML/Core/String.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
-#define ML_OS ml::OS::getInstance()
+#define ML_OS ::ml::OS::getInstance()
 
 namespace ml
 {

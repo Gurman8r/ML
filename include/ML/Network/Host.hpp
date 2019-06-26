@@ -12,11 +12,11 @@ namespace ml
 	struct ML_NETWORK_API Host final : public I_NonNewable
 	{
 		CString		addr;
-		uint16_t	port;
+		uint6_t	port;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Host(CString addr, uint16_t port)
+		constexpr Host(CString addr, uint6_t port)
 			: addr { addr } 
 			, port { port } 
 		{
@@ -60,7 +60,7 @@ namespace ml
 	{
 		return
 			(lhs.port == rhs.port) &&
-			((meta::c_string)lhs.addr == (meta::c_string)rhs.addr);
+			((ct_string)lhs.addr == (ct_string)rhs.addr);
 	}
 
 	constexpr bool operator!=(const Host & lhs, const Host & rhs)
@@ -72,7 +72,7 @@ namespace ml
 	{
 		return
 			(lhs.port < rhs.port) &&
-			((meta::c_string)lhs.addr < (meta::c_string)rhs.addr);
+			((ct_string)lhs.addr < (ct_string)rhs.addr);
 	}
 
 	constexpr bool operator>(const Host & lhs, const Host & rhs)

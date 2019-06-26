@@ -31,10 +31,10 @@ namespace ml
 		constexpr auto arr2 = Array<char, 3> { 'a', 'b', 'c' };
 		static_assert(arr1 == arr2, "What?");
 
-		static_assert(meta::c_string("Here") == meta::c_string("Here"), "What?");
+		static_assert(ct_string("Here") == ct_string("Here"), "What?");
 
 		constexpr auto hash1	= Hash()("Here");
-		constexpr auto hash2	= meta::c_string("Here").hash();
+		constexpr auto hash2	= ct_string("Here").hash();
 		constexpr auto hash3	= mat4i::identity().hash();
 		constexpr auto hash4	= mat4f::identity().hash();
 

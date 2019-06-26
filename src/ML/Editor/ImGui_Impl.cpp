@@ -790,7 +790,7 @@ namespace ml
 
 		if ((value > 0) && (value < 0x10000))
 		{
-			io.AddInputCharacter((uint16_t)value);
+			io.AddInputCharacter((uint6_t)value);
 		}
 	
 		ML_ImGui_Impl.fireEvent(CharEvent(

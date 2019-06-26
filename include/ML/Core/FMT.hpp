@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum class FG : uint16_t
+	enum class FG : uint6_t
 	{
 		Black,
 		DarkBlue	= (1 << 0),
@@ -27,12 +27,12 @@ namespace ml
 		Yellow		= Gray | DarkRed | DarkGreen,
 		White		= Gray | DarkRed | DarkGreen | DarkBlue,
 
-		None = static_cast<uint16_t>(-1)
+		None = static_cast<uint6_t>(-1)
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum class BG : uint16_t
+	enum class BG : uint6_t
 	{
 		Black,
 		DarkBlue	= (1 << 4),
@@ -51,14 +51,14 @@ namespace ml
 		Yellow		= DarkGray | DarkRed | DarkGreen,
 		White		= DarkGray | DarkRed | DarkGreen | DarkBlue,
 		
-		None = static_cast<uint16_t>(-1)
+		None = static_cast<uint6_t>(-1)
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_CORE_API FMT final
 	{
-		static bool setTextAttrib(const uint16_t value);
+		static bool setTextAttrib(const uint6_t value);
 
 	public:
 		FG fg;
@@ -121,15 +121,15 @@ namespace ml
 	{
 		if ((value.fg != FG::None) && (value.bg != BG::None))
 		{
-			FMT::setTextAttrib((uint16_t)value.fg | (uint16_t)value.bg);
+			FMT::setTextAttrib((uint6_t)value.fg | (uint6_t)value.bg);
 		}
 		else if (value.fg != FG::None)
 		{
-			FMT::setTextAttrib((uint16_t)value.fg);
+			FMT::setTextAttrib((uint6_t)value.fg);
 		}
 		else if (value.bg != BG::None)
 		{
-			FMT::setTextAttrib((uint16_t)value.bg);
+			FMT::setTextAttrib((uint6_t)value.bg);
 		}
 		return out;
 	}

@@ -6,12 +6,9 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_MemoryTracker ml::MemoryTracker::getInstance()
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-#define ML_NEW	ML_MemoryTracker.allocate
-#define ML_FREE ML_MemoryTracker.deallocate
+#define ML_MemoryTracker	::ml::MemoryTracker::getInstance()
+#define ML_allocate			ML_MemoryTracker.allocate
+#define ML_deallocate		ML_MemoryTracker.deallocate
 
 /* * * * * * * * * * * * * * * * * * * * */
 

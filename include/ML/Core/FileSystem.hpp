@@ -3,7 +3,7 @@
 
 #include <ML/Core/File.hpp>
 
-#define ML_FS ml::FileSystem::getInstance()
+#define ML_FS ::ml::FileSystem::getInstance()
 #define ML_MAX_PATH 260
 
 #ifdef ML_SYSTEM_WINDOWS

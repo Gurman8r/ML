@@ -60,7 +60,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			template <
-				class ... Args
+				class ... Ts
 			> struct sqrt;
 
 			/* * * * * * * * * * * * * * * * * * * * */

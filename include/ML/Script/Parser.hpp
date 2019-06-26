@@ -5,7 +5,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_Parser ml::Parser::getInstance()
+#define ML_Parser ::ml::Parser::getInstance()
 
 /* * * * * * * * * * * * * * * * * * * * */
 

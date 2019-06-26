@@ -43,7 +43,7 @@ namespace ml
 		inline auto color()		const -> const vec4 &	{ return m_color; }
 		inline auto origin()	const -> const vec2 &	{ return m_transform.origin(); }
 		inline auto position()	const -> const vec2 &	{ return m_transform.position(); }
-		inline auto rotation()	const -> float			{ return m_transform.rotation(); }
+		inline auto rotation()	const -> float		{ return m_transform.rotation(); }
 		inline auto scale()		const -> const vec2 &	{ return m_transform.scale(); }
 		inline auto texture()	const -> const Texture *{ return m_texture; }
 

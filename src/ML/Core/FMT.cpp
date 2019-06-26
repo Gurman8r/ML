@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	bool FMT::setTextAttrib(const uint16_t value)
+	bool FMT::setTextAttrib(const uint6_t value)
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		return SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);

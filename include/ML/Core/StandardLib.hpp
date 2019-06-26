@@ -56,30 +56,35 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	using int8_t	= typename signed char;			// 1 byte
-	using int16_t	= typename signed short;		// 2 bytes
+	using int6_t	= typename signed short;		// 2 bytes
 	using int32_t	= typename signed int;			// 4 bytes
 	using int64_t	= typename signed long long;	// 8 bytes
 
 	using uint8_t	= typename unsigned char;		// 1 byte
-	using uint16_t	= typename unsigned short;		// 2 bytes
+	using uint6_t	= typename unsigned short;		// 2 bytes
 	using uint32_t	= typename unsigned int;		// 4 bytes
 	using uint64_t	= typename unsigned long long;	// 8 bytes
 
 	using float32_t	= typename float;				// 4 bytes
 	using float64_t	= typename long double;			// 8 bytes
 
+	/* * * * * * * * * * * * * * * * * * * * */
+
 # if ML_x64
-	using size_t	= typename uint64_t;			// Size Type (64-Bit)
-	using intmax_t	= typename int64_t;				// Int Max Type (64-Bit)
+	using size_t	= typename uint64_t;			// Unsigned Max	(64-Bit)
+	using intmax_t	= typename int64_t;				// Signed Max	(64-Bit)
+	using fltmax_t	= typename float64_t;			// Float Max	(64-Bit)
 # else
-	using size_t	= typename uint32_t;			// Size Type (32-Bit)
-	using intmax_t	= typename int32_t;				// Int Max Type (32-Bit)
+	using size_t	= typename uint32_t;			// Unsigned Max	(32-Bit)
+	using intmax_t	= typename int32_t;				// Signed Max	(32-Bit)
+	using fltmax_t	= typename float32_t;			// Float Max	(32-Bit)
 # endif
 
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	using byte_t	= typename uint8_t;				// Byte Type
-	using float_t	= typename float32_t;			// Float Type
 	using intptr_t	= typename intmax_t;			// Int Pointer Type
-	using ptrdiff_t	= typename intmax_t;			// Pointer Diff Type
+	using ptrdiff_t	= typename intmax_t;			// Pointer Difference Type
 	using time_t	= typename uint64_t;			// Time Type
 
 	/* * * * * * * * * * * * * * * * * * * * */

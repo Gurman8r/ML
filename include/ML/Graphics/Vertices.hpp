@@ -12,8 +12,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Vertices final
-		: public List<Vertex>
+	struct Vertices final : public List<Vertex>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -66,7 +65,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const List<float_t> & contiguous() const
+		inline const List<float_t> & contiguous() const
 		{
 			if (const size_type imax = ((*this).size() * Vertex::Size))
 			{

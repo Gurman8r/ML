@@ -60,26 +60,26 @@ namespace ml
 
 	bool File::loadFromFile(const String & filename)
 	{
-		if (Ifstream in { (m_path = filename), std::ios_base::binary })
+		if (auto file = Ifstream((m_path = filename), std::ios_base::binary))
 		{
 			if (dispose())
 			{
-				in.seekg(0, std::ios_base::end);
+				file.seekg(0, std::ios_base::end);
 
-				std::streamsize size;
-				if ((size = in.tellg()) > 0)
+				streamsize size;
+				if ((size = file.tellg()) > 0)
 				{
-					in.seekg(0, std::ios_base::beg);
+					file.seekg(0, std::ios_base::beg);
 
 					m_data.resize(static_cast<size_t>(size));
 
-					in.read(&m_data[0], size);
+					file.read(&m_data[0], size);
 				}
 
 				m_data.push_back('\0');
 			}
 
-			in.close();
+			file.close();
 			return true;
 		}
 		return !dispose();

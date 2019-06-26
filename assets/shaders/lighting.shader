@@ -21,8 +21,8 @@ struct Frag_Uniforms
 	vec3		cameraPos;
 	vec3		lightPos;
 	vec4		diffuse;
-	float_t		ambient;
-	float_t		specular;
+	float		ambient;
+	float		specular;
 	int			shininess;
 	vec4		mainCol;
 	sampler2D	mainTex;
@@ -39,7 +39,7 @@ void main()
 	// Diffuse 
 	vec3	diffNml = normalize(In.Normal.xyz);
 	vec3	diffDir = normalize(Frag.lightPos - In.Position);
-	float_t	diffAmt = max(dot(diffNml, diffDir), 0.0);
+	float	diffAmt = max(dot(diffNml, diffDir), 0.0);
 	vec4	diffCol = vec4(diffAmt * Frag.diffuse.rgb, 1.0);
 	vec4	diffTex = texture(Frag.mainTex, In.Texcoord);
 	vec4	diffuse = (diffCol * diffTex);
@@ -47,7 +47,7 @@ void main()
 	// Specular		 
 	vec3	specCam = normalize(Frag.cameraPos - In.Position);
 	vec3	specRfl = reflect(-diffDir, diffNml);
-	float_t	specAmt = pow(max(dot(specCam, specRfl), 0.0), Frag.shininess);
+	float	specAmt = pow(max(dot(specCam, specRfl), 0.0), Frag.shininess);
 	vec4	specCol = vec4(Frag.specular * specAmt * Frag.diffuse.rgb, 1.0);
 	vec4	specTex = texture(Frag.specTex, In.Texcoord);
 	vec4	specular= (specCol * specTex);

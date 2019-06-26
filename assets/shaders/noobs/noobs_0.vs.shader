@@ -18,12 +18,12 @@ out VertexData
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-mat4 ml_AngleAxis(vec3 v, float_t angle)
+mat4 ml_AngleAxis(vec3 v, float angle)
 {
 	v = normalize(v);
-	float_t s = sin(angle);
-	float_t c = cos(angle);
-	float_t o = 1.0 - c;
+	float s = sin(angle);
+	float c = cos(angle);
+	float o = 1.0 - c;
 	return mat4(
 		o * v.x * v.x + c, o * v.x * v.y - v.z * s, o * v.z * v.x + v.y * s, 0.0,
 		o * v.x * v.y + v.z * s, o * v.y * v.y + c, o * v.y * v.z - v.x * s, 0.0,
@@ -53,7 +53,7 @@ mat4 ml_LookAt(vec3 eye, vec3 center, vec3 up)
 	return m;
 }
 
-mat4 ml_Perspective(float_t fov, float_t aspect, float_t zNear, float_t zFar)
+mat4 ml_Perspective(float fov, float aspect, float zNear, float zFar)
 {
 	mat4 m;
 	m[0][0] = 1.0 / (aspect * tan(fov / 2.0));
@@ -70,15 +70,15 @@ uniform struct Camera
 {
 	vec3	position;
 	vec3	target;
-	float_t	fov;
-	float_t	zNear;
-	float_t	zFar;
+	float	fov;
+	float	zNear;
+	float	zFar;
 } camera;
 
 uniform struct Time
 {
-	float_t	delta;
-	float_t	total;
+	float	delta;
+	float	total;
 } time;
 
 uniform struct Window

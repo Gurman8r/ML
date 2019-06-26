@@ -42,18 +42,18 @@ layout(line_strip, max_vertices = SAMPLES_MAX) out;
 struct Geom_Uniforms
 {
 	int		mode;
-	float_t	delta;
-	float_t	size;
+	float	delta;
+	float	size;
 	int		samples;
 };
 uniform Geom_Uniforms Geom;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-void stub(in int samples, in float_t dt)
+void stub(in int samples, in float dt)
 {
 	// test points
-	float_t size = Geom.size;
+	float size = Geom.size;
 	vec4 testP0 = vec4(-size, +size, 0.0, 1.0);
 	vec4 testP1 = vec4(+size, +size, 0.0, 1.0);
 	vec4 testP2 = vec4(+size, -size, 0.0, 1.0);
@@ -108,7 +108,7 @@ void stub(in int samples, in float_t dt)
 
 void main()
 {
-	stub(Geom.samples, (Geom.delta / float_t(Geom.samples)));
+	stub(Geom.samples, (Geom.delta / float(Geom.samples)));
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

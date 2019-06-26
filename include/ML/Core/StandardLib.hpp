@@ -52,7 +52,6 @@
 
 namespace ml
 {
-	// Integral Types
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using int8_t	= typename signed char;			// 1 byte
@@ -69,25 +68,24 @@ namespace ml
 	using float64_t = typename double;				// 8 bytes
 	using float80_t = typename long double;			// 10 bytes (only in some compilers)
 
-	// Architecture Dependant
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if ML_x64
-	using intmax_t	= typename int64_t;				// Max Signed	(64-Bit)
-	using size_t	= typename uint64_t;			// Max Unsigned	(64-Bit)
-# else
+#if not ML_x64
 	using intmax_t	= typename int32_t;				// Max Signed	(32-Bit)
-	using size_t	= typename uint32_t;			// Max Unsigned	(32-Bit)
-# endif
+	using uintmax_t = typename uint32_t;			// Max Unsigned	(32-Bit)
+#else
+	using intmax_t	= typename int64_t;				// Max Signed	(64-Bit)
+	using uintmax_t	= typename uint64_t;			// Max Unsigned	(64-Bit)
+#endif
 
-	// Alias Types
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using byte_t	= typename uint8_t;				// Byte Type
 	using float_t	= typename float32_t;			// Float Type
-	using hash_t	= typename size_t;				// Hash Type
+	using hash_t	= typename uintmax_t;			// Hash Type
 	using intptr_t	= typename intmax_t;			// Int Pointer Type
 	using ptrdiff_t	= typename intmax_t;			// Pointer Difference Type
+	using size_t	= typename uintmax_t;			// Size Type
 	using time_t	= typename uint64_t;			// Time Type
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -97,7 +95,6 @@ namespace ml
 
 namespace ml
 {
-	// Containers
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <class K, class V> using HashMap	= typename std::unordered_map	<K, V>;
@@ -106,7 +103,6 @@ namespace ml
 	template <class K, class V> using Pair		= typename std::pair			<K, V>;
 	template <class T>			using HashSet	= typename std::unordered_set	<T>;
 
-	// IOS
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Basic Ostream
@@ -114,7 +110,7 @@ namespace ml
 		class Elem, class Traits
 	> using BasicOstream = typename std::basic_ostream<Elem, Traits>;
 
-	// Basic Istream
+	// Basic IstreamS
 	template <
 		class Elem, class Traits
 	> using BasicIstream = typename std::basic_istream<Elem, Traits>;

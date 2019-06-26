@@ -134,8 +134,8 @@ namespace DEMO
 		}
 
 		// Get Surfaces
-		noobs.surf_main = ML_Content.get<ml::Surface>("noobs_surf_main");
-		noobs.surf_post = ML_Content.get<ml::Surface>("noobs_surf_post");
+		assert(noobs.surf_main = ML_Content.get<ml::Surface>("noobs_surf_main"));
+		assert(noobs.surf_post = ML_Content.get<ml::Surface>("noobs_surf_post"));
 
 		// Create Entity
 		noobs.entity = ML_Content.create<ml::Entity>("noobs_entity_0");
@@ -223,15 +223,12 @@ namespace DEMO
 	{
 		// Store Time
 		noobs.deltaTime = ev.time.elapsed().delta();
-		
 		noobs.totalTime = ev.time.total().delta();
 
 		// Update Surfaces
-		if (noobs.freeAspect) 
+		if (noobs.freeAspect)
 			noobs.resolution = ev.window.getFrameSize();
-
 		noobs.surf_main->resize(noobs.resolution);
-		
 		noobs.surf_post->resize(noobs.resolution);
 	}
 

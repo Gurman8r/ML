@@ -10,23 +10,28 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API ImGui_StyleLoader final
+	struct ML_EDITOR_API ImGui_StyleLoader final
 		: public I_Newable
 		, public I_Readable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		ImGui_StyleLoader();
 		explicit ImGui_StyleLoader(const String & filename);
 		ImGui_StyleLoader(ImGui_StyleLoader && copy);
 		~ImGui_StyleLoader();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool loadFromFile(const String & filename) override;
 
 		inline operator bool() const { return m_good; }
 
-	private:
-		bool m_good;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: bool m_good;
+		
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

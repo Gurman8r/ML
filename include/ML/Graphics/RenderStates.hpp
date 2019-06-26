@@ -2,7 +2,6 @@
 #define _ML_RENDER_STATES_HPP_
 
 #include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_NonNewable.hpp>
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 
@@ -11,7 +10,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API AlphaMode final 
-		: public I_NonNewable
 	{
 		bool		enabled		= true;
 		GL::Comp	comp		= GL::Greater;
@@ -23,7 +21,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API BlendMode final 
-		: public I_NonNewable
 	{
 		bool		enabled		= true;
 		GL::Factor	srcRGB		= GL::SrcAlpha;
@@ -37,7 +34,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API CullingMode final
-		: public I_NonNewable
 	{
 		bool		enabled		= true;
 		GL::Face	face		= GL::Back;
@@ -48,7 +44,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API DepthMode final 
-		: public I_NonNewable
 	{
 		bool		enabled		= true;
 		GL::Comp	comp		= GL::Less;
@@ -59,7 +54,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API TextureMode final 
-		: public I_NonNewable
 	{
 		bool		enabled		= true;
 		GL::Target	target		= GL::Texture2D;

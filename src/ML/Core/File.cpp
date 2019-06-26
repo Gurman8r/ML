@@ -60,7 +60,7 @@ namespace ml
 
 	bool File::loadFromFile(const String & filename)
 	{
-		if (auto file = Ifstream((m_path = filename), std::ios_base::binary))
+		if (Ifstream file { (m_path = filename), std::ios_base::binary })
 		{
 			if (dispose())
 			{
@@ -78,7 +78,6 @@ namespace ml
 
 				m_data.push_back('\0');
 			}
-
 			file.close();
 			return true;
 		}
@@ -87,10 +86,10 @@ namespace ml
 
 	bool File::saveToFile(const String & filename) const
 	{
-		if (Ofstream stream { filename, std::ios_base::binary })
+		if (Ofstream file { filename, std::ios_base::binary })
 		{
-			stream << (*this);
-			stream.close();
+			file << (*this);
+			file.close();
 			return true;
 		}
 		return false;

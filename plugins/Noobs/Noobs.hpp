@@ -6,6 +6,7 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
+#include <ML/Graphics/RenderBatch.hpp>
 #include <imgui/TextEditor.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -90,6 +91,9 @@ namespace DEMO
 			float			aspectRatio = 0.0f;
 			bool			showScene	= true;
 			bool			showBuilder	= true;
+
+			ml::VAO vao;
+			ml::VBO vbo;
 
 		} noobs;
 

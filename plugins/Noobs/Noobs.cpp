@@ -22,7 +22,11 @@
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Uniform.hpp>
+#include <ML/Graphics/Geometry.hpp>
+#include <ML/Graphics/Sprite.hpp>
 #include <ML/Window/WindowEvents.hpp>
+
+#include <ML/Core/GLM.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -110,6 +114,25 @@ namespace DEMO
 
 	void Noobs::onStart(const ml::StartEvent & ev)
 	{
+		// Setup 2D
+		noobs.vao.create(ml::GL::Triangles).bind();
+		noobs.vbo.create(ml::GL::DynamicDraw).bind();
+		noobs.vbo.bufferData(nullptr, ml::geo::rect_quad::contiguous_t::Size);
+		ml::BufferLayout::Default.bind();
+		noobs.vbo.unbind();
+		noobs.vao.unbind();
+
+		// Example Sprite
+		if (ml::Sprite * spr = ML_Content.get<ml::Sprite>("neutrino"))
+		{
+			spr->setPosition(ml::vec2 { 0.95f, 0.925f } * (ml::vec2)ev.window.getSize())
+				.setScale	({ 0.5f, 0.5f })
+				.setRotation(0.0f)
+				.setOrigin	({ 0.5f, 0.5f })
+				.setColor	(ml::color::white)
+				.setTexture	(ML_Content.get<ml::Texture>("neutrino"));
+		}
+
 		// Get Surfaces
 		noobs.surf_main = ML_Content.get<ml::Surface>("noobs_surf_main");
 		noobs.surf_post = ML_Content.get<ml::Surface>("noobs_surf_post");
@@ -214,6 +237,8 @@ namespace DEMO
 
 	void Noobs::onDraw(const ml::DrawEvent & ev)
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		// Bind Main Surface
 		noobs.surf_main->bind();
 		{
@@ -222,20 +247,46 @@ namespace DEMO
 
 			// Draw Renderer
 			ev.window.draw(noobs.entity->get<ml::Renderer>());
+
+			// Reset States
+			static ml::RenderStates states(
+				{ true, ml::GL::Greater, 0.01f },
+				{ true },
+				{ false },
+				{ false },
+				{ true, ml::GL::Texture2D, ml::GL::Texture0 },
+				{ false, false }
+			);
+			states.apply();
+
+			// Ortho
+			static ml::mat4 orthographic;
+			orthographic = ml::mat4::ortho(
+				0.0f, (float)ev.window.getWidth(),
+				(float)ev.window.getHeight(), 0.0f
+			);
+
+			static ml::RenderBatch batch(
+				&noobs.vao,
+				&noobs.vbo,
+				ML_Content.create<ml::Material>(
+					"mat_sprites",
+					ML_Content.get<ml::Shader>("sprites"),
+					ml::List<ml::Uniform *>({
+						new ml::uni_mat4_ref("Vert.proj",		orthographic),
+						new ml::uni_col4	("Frag.mainCol",	ml::color::white),
+						new ml::uni_tex2	("Frag.mainTex",	nullptr),
+						}))
+			);
+			for (const auto & pair : ML_Content.data<ml::Sprite>())
+			{
+				ev.window.draw((ml::Sprite *)pair.second, batch);
+			}
 		}
 		// Unbind Main Surface
 		noobs.surf_main->unbind();
 
-		// Reset States
-		static ml::RenderStates states(
-			{ true, ml::GL::Greater, 0.01f },
-			{ true },
-			{ false },
-			{ false },
-			{ true, ml::GL::Texture2D, ml::GL::Texture0 },
-			{ false, false }
-		);
-		states.apply();
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Bind Post Surface
 		noobs.surf_post->bind();
@@ -247,6 +298,8 @@ namespace DEMO
 		}
 		// Unbind Post Surface
 		noobs.surf_post->unbind();
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	void Noobs::onGui(const ml::GuiEvent & ev)

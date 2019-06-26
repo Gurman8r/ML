@@ -107,8 +107,8 @@ namespace ml
 			const vec2 dest = position() - (size * origin());
 
 			target.draw(
-				ml::geo::rect_quad::spriteQuad({ dest, size }).data(),
-				ml::geo::rect_quad::contiguous_t::Size,
+				geo::rect_quad::spriteQuad({ dest, size }).data(),
+				geo::rect_quad::contiguous_t::Size,
 				batch);
 		}
 	}

@@ -99,18 +99,18 @@ namespace ml
 		}
 
 		static constexpr self_type ortho(
-			const_reference l,
-			const_reference r,
-			const_reference b,
-			const_reference t)
+			const_reference left,
+			const_reference right,
+			const_reference bottom,
+			const_reference top)
 		{
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = type::two / (r - l);
-			temp[1 * 4 + 1] = type::two / (t - b);
-			temp[2 * 4 + 2] = type::one;
-			temp[3 * 4 + 0] = -(r + l) / (r - l);
-			temp[3 * 4 + 1] = -(t + b) / (t - b);
+			temp[0 * 4 + 0] = type::two / (right - left);
+			temp[1 * 4 + 1] = type::two / (top - bottom);
+			temp[2 * 4 + 2] = type::minus_one;
+			temp[3 * 4 + 0] = -(right + left) / (right - left);
+			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
 			return temp;
 		}
 

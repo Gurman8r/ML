@@ -63,7 +63,7 @@ namespace ml
 	{
 		if (!value.empty())
 		{
-			Args args(value, " ");
+			Arguments args(value, " ");
 
 			CommandMap::iterator it;
 			if ((it = m_commands.find(args.front())) != m_commands.end())

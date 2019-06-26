@@ -22,7 +22,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_SCRIPT_API CommandEvent final : public IEvent<ScriptEvent::EV_Command>
+	struct ML_SCRIPT_API CommandEvent final : public I_Event<ScriptEvent::EV_Command>
 	{
 		CString cmd;
 		constexpr CommandEvent(CString cmd)

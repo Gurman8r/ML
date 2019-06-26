@@ -233,7 +233,7 @@ namespace ml
 			class ... Args
 		> inline self_type & format(const T & arg0, Args && ... args)
 		{
-			return ((*this) = Format((*this), arg0, (args)...));
+			return ((*this) = Format((*this), arg0, std::forward<Args>(args)...));
 		}
 
 		template <
@@ -241,7 +241,7 @@ namespace ml
 			class ... Args
 		> inline const self_type format(const T & arg0, Args && ... args) const
 		{
-			return self_type(*this).format(arg0, (args)...);
+			return self_type(*this).format(arg0, std::forward<Args>(args)...);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

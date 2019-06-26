@@ -8,19 +8,21 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class _Elem
-	> struct Rect final : public tvec4<_Elem>
+		class T
+	> struct Rect final : public tvec4<T>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using value_type			= typename _Elem;
-		using self_type				= typename Rect<value_type>;
-		using base_type				= typename tvec4<value_type>;
-		using coord_type			= typename tvec2<value_type>;
-		using pointer				= typename base_type::pointer;
-		using reference				= typename base_type::reference;
-		using const_pointer			= typename base_type::const_pointer;
-		using const_reference		= typename base_type::const_reference;
+		using value_type		= typename T;
+		using self_type			= typename Rect<value_type>;
+		using base_type			= typename tvec4<value_type>;
+		using coord_type		= typename tvec2<value_type>;
+		using pointer			= typename base_type::pointer;
+		using reference			= typename base_type::reference;
+		using const_pointer		= typename base_type::const_pointer;
+		using const_reference	= typename base_type::const_reference;
+		using iterator			= typename base_type::iterator;
+		using const_iterator	= typename base_type::const_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

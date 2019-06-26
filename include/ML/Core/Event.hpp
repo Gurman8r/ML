@@ -58,11 +58,11 @@ namespace ml
 
 	template <
 		int32_t EV_ID
-	> struct IEvent : public Event
+	> struct I_Event : public Event
 	{
 		enum : int32_t { ID = EV_ID };
 
-		constexpr IEvent() : Event(ID) {}
+		constexpr I_Event() : Event(ID) {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

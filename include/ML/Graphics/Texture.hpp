@@ -6,6 +6,7 @@
 #include <ML/Core/Image.hpp>
 #include <ML/Core/I_Handle.hpp>
 
+// Default texture parameters
 #define ML_TEX_DEFAULT_TARGET	GL::Texture2D
 #define ML_TEX_DEFAULT_SMOOTH	true
 #define ML_TEX_DEFAULT_REPEAT	false

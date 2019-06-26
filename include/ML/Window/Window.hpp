@@ -14,7 +14,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	class EventSystem;
 
@@ -26,7 +26,7 @@ namespace ml
 		, public EventListener
 	{
 	public: // Callback Types
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		using CharFun			= typename void(*)(void *, uint32_t);
 		using CursorEnterFun	= typename void(*)(void *, int32_t);
 		using CursorPosFun		= typename void(*)(void *, double, double);
@@ -42,13 +42,13 @@ namespace ml
 
 
 	public: // Constructors / Destructor
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		explicit Window(EventSystem & eventSystem);
 		virtual ~Window();
 
 
 	public: // Core
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		bool create(
 			const String & title, 
 			const VideoSettings & video, 
@@ -62,7 +62,7 @@ namespace ml
 
 
 	public: // Modifiers
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		Window & close();
 		Window & destroy();
 		Window & iconify();
@@ -84,7 +84,7 @@ namespace ml
 
 
 	public: // Accessors
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		bool		isFocused() const;
 		bool		isOpen() const;
 		int32_t		getAttribute(const int32_t value) const;
@@ -100,7 +100,7 @@ namespace ml
 
 
 	public: // Inline
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		inline auto getContext()	const -> const ContextSettings & { return m_context; }
 		inline auto getStyle()		const -> const WindowStyle & { return m_style; }
 		inline auto getVideo()		const -> const VideoSettings & { return m_video; }
@@ -115,13 +115,13 @@ namespace ml
 
 
 	public: // Cursors
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		void *	createCustomCursor(const Image & image) const;
 		void *	createStandardCursor(Cursor::Shape value) const;
 		void	destroyCursor(void * value) const;
 
 	public: // Set Callbacks
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		CharFun			setCharCallback			(CharFun		callback);
 		CursorEnterFun	setCursorEnterCallback	(CursorEnterFun callback);
 		CursorPosFun	setCursorPosCallback	(CursorPosFun	callback);
@@ -137,7 +137,7 @@ namespace ml
 
 
 	protected: // Data
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		void *			m_window;
 		void *			m_monitor;
 		void *			m_share;
@@ -148,6 +148,6 @@ namespace ml
 		mutable char	m_char;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 #endif // !_ML_WINDOW_HPP_

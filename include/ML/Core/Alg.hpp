@@ -413,20 +413,20 @@ namespace ml
 		}
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr auto copy(Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
-			-> Arr<T, N...> &
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr auto copy(A<T, N...> & lhs, const A<T, N...> & rhs)
+			-> A<T, N...> &
 		{
 			alg::copy(alg::begin(lhs), alg::end(lhs), alg::begin(rhs));
 			return lhs;
 		}
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr auto copy(const Arr<T, N...> & value)
-			-> Arr<T, N...>
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr auto copy(const A<T, N...> & value)
+			-> A<T, N...>
 		{
-			Arr<T, N...> temp { meta::uninit };
+			A<T, N...> temp { meta::uninit };
 			alg::copy(temp, value);
 			return temp;
 		}
@@ -454,20 +454,20 @@ namespace ml
 		}
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr auto fill(Arr<T, N...> & arr, const T & value)
-			-> Arr<T, N...> &
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr auto fill(A<T, N...> & arr, const T & value)
+			-> A<T, N...> &
 		{
 			alg::fill(alg::begin(arr), alg::end(arr), value);
 			return arr;
 		}
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
+			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr auto fill(const T & value)
-			-> Arr<T, N...>
+			-> A<T, N...>
 		{
-			Arr<T, N...> temp { meta::uninit };
+			A<T, N...> temp { meta::uninit };
 			alg::fill(temp, value);
 			return temp;
 		}
@@ -475,8 +475,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr void swap(Arr<T, N...> & lhs, Arr<T, N...> & rhs)
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr void swap(A<T, N...> & lhs, A<T, N...> & rhs)
 		{
 			for (size_t i = 0; i < N; i++)
 			{
@@ -524,8 +524,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr T dot(const Arr<T, N...> & lhs, const Arr<T, N...> & rhs)
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr T dot(const A<T, N...> & lhs, const A<T, N...> & rhs)
 		{
 			T temp { type_t<T>::zero };
 			for (size_t i = 0; i < lhs.size(); i++)
@@ -536,8 +536,8 @@ namespace ml
 		}
 
 		template <
-			template <class, size_t, size_t> class Mat, class T
-		> static constexpr T determinant(const Mat<T, 4, 4> & v)
+			template <class, size_t, size_t> class M, class T
+		> static constexpr T determinant(const M<T, 4, 4> & v)
 		{
 			return
 				v[0] * (v[15] * v[5] - v[7] * v[13]) -
@@ -546,8 +546,8 @@ namespace ml
 		}
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr T sqr_magnitude(const Arr<T, N...> & value)
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr T sqr_magnitude(const A<T, N...> & value)
 		{
 			T temp { type_t<T>::zero };
 			for (const auto & elem : value)
@@ -558,8 +558,8 @@ namespace ml
 		}
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr T magnitude(const Arr<T, N...> & value)
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr T magnitude(const A<T, N...> & value)
 		{
 			return type_t<T> { sqrt<T> {}(sqr_magnitude(value)) }();
 		}
@@ -567,17 +567,17 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr Arr<T, N...> normalize(const Arr<T, N...> & value)
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr A<T, N...> normalize(const A<T, N...> & value)
 		{
 			return (value / magnitude(value));
 		}
 
 		template <
-			template <class, size_t ...> class Arr, class T, size_t ... N
-		> static constexpr Arr<T, N...> transpose(const Arr<T, N...> & value)
+			template <class, size_t ...> class A, class T, size_t ... N
+		> static constexpr A<T, N...> transpose(const A<T, N...> & value)
 		{
-			Arr<T, N...> temp { meta::uninit };
+			A<T, N...> temp { meta::uninit };
 			for (size_t i = 0; i < value.size(); i++)
 			{
 				temp[i] = value[
@@ -590,12 +590,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			template <class, size_t, size_t> class Mat, class T
-		> static constexpr Mat<T, 4, 4> inverse(const Mat<T, 4, 4> & v)
+			template <class, size_t, size_t> class M, class T
+		> static constexpr M<T, 4, 4> inverse(const M<T, 4, 4> & v)
 		{
 			const T det { determinant(v) };
 			return ((det != type_t<T>::zero)
-			? Mat<T, 4, 4>
+			? M<T, 4, 4>
 			{	+(v[15] * v[5] - v[7] * v[13]) / det,
 				-(v[15] * v[4] - v[7] * v[12]) / det,
 				+(v[13] * v[4] - v[5] * v[12]) / det,
@@ -606,14 +606,14 @@ namespace ml
 				-(v[7]  * v[0] - v[3] * v[4])  / det,
 				+(v[5]  * v[0] - v[1] * v[4])  / det
 			}
-			: Mat<T, 4, 4>::identity());
+			: M<T, 4, 4>::identity());
 		}
 
 		template <
-			template <class, size_t, size_t> class Mat, class T
-		> static constexpr Mat<T, 3, 3> rebase(const Mat<T, 3, 3> & v, const Mat<T, 4, 4> & m)
+			template <class, size_t, size_t> class M, class T
+		> static constexpr M<T, 3, 3> rebase(const M<T, 3, 3> & v, const M<T, 4, 4> & m)
 		{
-			return Mat<T, 3, 3>
+			return M<T, 3, 3>
 			{
 				m[0] * v[0] + m[4] * v[3] + m[8] * v[6],
 				m[1] * v[0] + m[5] * v[3] + m[9] * v[6],
@@ -628,10 +628,10 @@ namespace ml
 		}
 
 		template <
-			template <class, size_t, size_t> class Mat, class T
-		> static constexpr Mat<T, 3, 1> rebase(const Mat<T, 3, 1> & v, const Mat<T, 4, 4> & m)
+			template <class, size_t, size_t> class M, class T
+		> static constexpr M<T, 3, 1> rebase(const M<T, 3, 1> & v, const M<T, 4, 4> & m)
 		{
-			return Mat<T, 3, 1>
+			return M<T, 3, 1>
 			{
 				m[0] * v[0] * m[4] * v[1] * m[8] * v[2] * m[12],
 				m[1] * v[0] * m[5] * v[1] * m[9] * v[2] * m[13],

@@ -11,16 +11,15 @@ namespace ml
 	template <
 		class _Elem,
 		class _Alloc = std::allocator<_Elem>
-	> class List
-		: public std::vector<_Elem, _Alloc>
+	> struct List : public std::vector<_Elem, _Alloc>
 	{
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using value_type			= typename _Elem;
 		using allocator_type		= typename _Alloc;
 		using self_type				= typename List<value_type, allocator_type>;
 		using base_type				= typename std::vector<value_type, allocator_type>;
-		using init_type				= typename Initializer<value_type>;
+		using init_type				= typename std::initializer_list<value_type>;
 		using difference_type		= typename base_type::difference_type;
 		using size_type				= typename base_type::size_type;
 		using iterator				= typename base_type::iterator;
@@ -28,9 +27,8 @@ namespace ml
 		using reverse_iterator		= typename base_type::reverse_iterator;
 		using const_reverse_iterator= typename base_type::const_reverse_iterator;
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
 		List()
 			: base_type()
 		{
@@ -70,8 +68,8 @@ namespace ml
 		
 		virtual ~List() {}
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline operator bool() const
 		{
 			return !(this->empty());
@@ -86,6 +84,8 @@ namespace ml
 		{
 			return static_cast<const base_type &>(*this);
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

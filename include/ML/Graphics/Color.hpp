@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	struct color final
+	struct Color final
 	{
 		static constexpr vec4 clear			{ 0.0f, 0.0f, 0.0f, 0.0f };
 		static constexpr vec4 white			{ 1.0f, 1.0f, 1.0f, 1.0f };

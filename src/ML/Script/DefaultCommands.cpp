@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Var DefaultCommands::cmd_cat(Args & args)
+	Var DefaultCommands::cmd_cat(Arguments & args)
 	{
 		String buf;
 		if (ML_FS.getFileContents(args.pop(), buf))
@@ -22,7 +22,7 @@ namespace ml
 		return Var().boolValue(false);
 	}
 
-	Var DefaultCommands::cmd_cd(Args & args)
+	Var DefaultCommands::cmd_cd(Arguments & args)
 	{
 		const String path = args.pop();
 		if (path == "/")
@@ -36,13 +36,13 @@ namespace ml
 		}
 	}
 
-	Var DefaultCommands::cmd_cwd(Args & args)
+	Var DefaultCommands::cmd_cwd(Arguments & args)
 	{
-		Args temp { "getcwd" };
+		Arguments temp { "getcwd" };
 		return cmd_getcwd(temp).print();
 	}
 
-	Var DefaultCommands::cmd_exec(Args & args)
+	Var DefaultCommands::cmd_exec(Arguments & args)
 	{
 		if (const String name = args.pop())
 		{
@@ -51,7 +51,7 @@ namespace ml
 		return Var().errorValue("");
 	}
 
-	Var DefaultCommands::cmd_exists(Args & args)
+	Var DefaultCommands::cmd_exists(Arguments & args)
 	{
 		const String str = args.pop();
 
@@ -73,7 +73,7 @@ namespace ml
 		}
 	}
 
-	Var DefaultCommands::cmd_get(Args & args)
+	Var DefaultCommands::cmd_get(Arguments & args)
 	{
 		const String scope = args.pop();
 
@@ -88,12 +88,12 @@ namespace ml
 		return Var().voidValue();
 	}
 
-	Var DefaultCommands::cmd_getcwd(Args & args)
+	Var DefaultCommands::cmd_getcwd(Arguments & args)
 	{
 		return Var().stringValue(ML_FS.getWorkingDir());
 	}
 
-	Var DefaultCommands::cmd_help(Args & args)
+	Var DefaultCommands::cmd_help(Arguments & args)
 	{
 		SStream ss;
 		for (auto & pair : ML_Interpreter.commands())
@@ -103,7 +103,7 @@ namespace ml
 		return Var().boolValue(true);
 	}
 
-	Var DefaultCommands::cmd_log(Args & args)
+	Var DefaultCommands::cmd_log(Arguments & args)
 	{
 		const String name = args.pop();
 		if (name.empty())
@@ -128,7 +128,7 @@ namespace ml
 		}
 	}
 
-	Var DefaultCommands::cmd_ls(Args & args)
+	Var DefaultCommands::cmd_ls(Arguments & args)
 	{
 		const String name = args.pop_front().empty() ? "." : args.str();
 		SStream ss;
@@ -144,12 +144,12 @@ namespace ml
 		return Var().boolValue(false);
 	}
 
-	Var DefaultCommands::cmd_pause(Args & args)
+	Var DefaultCommands::cmd_pause(Arguments & args)
 	{
 		return Var().intValue(Debug::pause(EXIT_SUCCESS));
 	}
 
-	Var DefaultCommands::cmd_os(Args & args)
+	Var DefaultCommands::cmd_os(Arguments & args)
 	{
 		switch (args.pop_front().size())
 		{
@@ -161,7 +161,7 @@ namespace ml
 		}
 	}
 
-	Var DefaultCommands::cmd_read(Args & args)
+	Var DefaultCommands::cmd_read(Arguments & args)
 	{
 		const String name = args.pop();
 		if (ML_FS.fileExists(name))
@@ -183,7 +183,7 @@ namespace ml
 		return Var().boolValue(false);
 	}
 
-	Var DefaultCommands::cmd_run(Args & args)
+	Var DefaultCommands::cmd_run(Arguments & args)
 	{
 		bool flag_rebuild = args.find_and_erase("-r");
 		
@@ -213,7 +213,7 @@ namespace ml
 		return Var().errorValue("No script specified");
 	}
 
-	Var DefaultCommands::cmd_set(Args & args)
+	Var DefaultCommands::cmd_set(Arguments & args)
 	{
 		int32_t index;
 		if (StringUtility::MakeInt(args.pop(), index) && !args.empty())
@@ -241,7 +241,7 @@ namespace ml
 		return Var().errorValue("");
 	}
 
-	Var DefaultCommands::cmd_system(Args & args)
+	Var DefaultCommands::cmd_system(Arguments & args)
 	{
 		return Var().intValue(Debug::system(args.pop_front().str().c_str()));
 	}

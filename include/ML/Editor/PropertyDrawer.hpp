@@ -56,7 +56,7 @@ struct PREFIX NAME final : public ::ml::CustomPropertyDrawer<OUT>	\
 template <> struct ::ml::PropertyDrawer<OUT>						\
 {																	\
 	using type = typename OUT;										\
-	static constexpr auto id	{ ::ml::hash()(##TAG) };			\
+	static constexpr auto id	{ ::ml::Hash()(##TAG) };			\
 	static constexpr auto tag	{ ##TAG };							\
 	template <														\
 		class ... Args												\

@@ -29,6 +29,8 @@ namespace ml
 		using reference			= typename base_type::reference;
 		using const_pointer		= typename base_type::const_pointer;
 		using const_reference	= typename base_type::const_reference;
+		using iterator			= typename base_type::iterator;
+		using const_iterator	= typename base_type::const_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -36,15 +38,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto begin()			-> pointer			{ return m_data.begin(); }
-		constexpr auto begin()	const	-> const_pointer	{ return m_data.begin(); }
-		constexpr auto cbegin() const	-> const_pointer	{ return m_data.cbegin(); }
-		constexpr auto cend()	const	-> const_pointer	{ return m_data.cend(); }
+		constexpr auto begin()			-> iterator			{ return m_data.begin(); }
+		constexpr auto begin()	const	-> const_iterator	{ return m_data.begin(); }
+		constexpr auto cbegin() const	-> const_iterator	{ return m_data.cbegin(); }
+		constexpr auto cend()	const	-> const_iterator	{ return m_data.cend(); }
 		constexpr auto cols()	const	-> size_t			{ return self_type::Cols; }
 		constexpr auto data()			-> pointer			{ return m_data.data(); }
 		constexpr auto data()	const	-> const_pointer	{ return m_data.data(); }
-		constexpr auto end()			-> pointer			{ return m_data.end(); }
-		constexpr auto end()	const	-> const_pointer	{ return m_data.end(); }
+		constexpr auto end()			-> iterator			{ return m_data.end(); }
+		constexpr auto end()	const	-> const_iterator	{ return m_data.end(); }
 		constexpr auto hash()	const	-> size_t			{ return m_data.hash(); }
 		constexpr auto height()	const	-> size_t			{ return this->rows(); }
 		constexpr auto rows()	const	-> size_t			{ return self_type::Rows; }
@@ -83,6 +85,16 @@ namespace ml
 			return self_type { meta::uninit };
 		}
 
+		static constexpr self_type one()
+		{
+			self_type temp { meta::uninit };
+			for (auto & elem : temp)
+			{
+				elem = type::one;
+			}
+			return temp;
+		}
+
 		static constexpr self_type identity()
 		{
 			self_type temp { self_type::zero() };
@@ -113,21 +125,21 @@ namespace ml
 		}
 
 		static constexpr self_type ortho(
-			const_reference l,
-			const_reference r,
-			const_reference b,
-			const_reference t,
-			const_reference n,
-			const_reference f)
+			const_reference left,
+			const_reference right,
+			const_reference bottom,
+			const_reference top,
+			const_reference near,
+			const_reference far)
 		{
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = type::two / (r - l);
-			temp[1 * 4 + 1] = type::two / (t - b);
-			temp[3 * 4 + 0] = -(r + l) / (r - l);
-			temp[3 * 4 + 1] = -(t + b) / (t - b);
-			temp[2 * 4 + 2] = -type::two / (f - n);
-			temp[3 * 4 + 2] = -(f + n) / (f - n);
+			temp[0 * 4 + 0] = type::two / (right - left);
+			temp[1 * 4 + 1] = type::two / (top - bottom);
+			temp[3 * 4 + 0] = -(right + left) / (right - left);
+			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
+			temp[2 * 4 + 2] = -type::two / (far - near);
+			temp[3 * 4 + 2] = -(far + near) / (far - near);
 			return temp;
 		}
 
@@ -146,6 +158,15 @@ namespace ml
 			temp[3 * 4 + 3] = -(type::two * far * near) / (far - near);
 			return temp;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		// Non-Newable
+		private:
+			inline void * operator	new		 (size_t size) { return nullptr; }
+			inline void * operator	new[]	 (size_t size) { return nullptr; }
+			inline void	  operator	delete	 (void * ptr)  { return;  }
+			inline void	  operator	delete[] (void * ptr)  { return;  }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

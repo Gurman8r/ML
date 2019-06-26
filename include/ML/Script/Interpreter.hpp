@@ -34,10 +34,10 @@ namespace ml
 
 		template <
 			class T,
-			class ... Args
-		> inline static Var execCommand(const String & fmt, const T & arg0, Args && ... args)
+			class ... Arguments
+		> inline static Var execCommand(const String & fmt, const T & arg0, Arguments && ... args)
 		{
-			return execCommand(fmt.format(arg0, (args)...));
+			return execCommand(fmt.format(arg0, std::forward<Arguments>(args)...));
 		}
 
 		static Var	execCommand(const String & value);

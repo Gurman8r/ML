@@ -10,9 +10,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_SCRIPT_API Args final
+	class ML_SCRIPT_API Arguments final
 		: public I_Newable
-		, public I_Comparable<Args>
+		, public I_Comparable<Arguments>
 	{
 	public:
 		using list_type				= typename List<String>;
@@ -23,14 +23,14 @@ namespace ml
 		using difference_type		= typename list_type::difference_type;
 
 	public:
-		Args();
-		Args(int32_t argc, char ** argv);
-		Args(const String & value);
-		Args(const List<String> & values);
-		Args(const Initializer<String>& values);
-		Args(const String & value, const String & delim);
-		Args(const Args & copy);
-		~Args();
+		Arguments();
+		Arguments(int32_t argc, char ** argv);
+		Arguments(const String & value);
+		Arguments(const List<String> & values);
+		Arguments(const std::initializer_list<String>& values);
+		Arguments(const String & value, const String & delim);
+		Arguments(const Arguments & copy);
+		~Arguments();
 
 		String pop();
 
@@ -49,34 +49,34 @@ namespace ml
 		bool	inRange(const_iterator it) const;
 
 	public:
-		Args & assign(const List<String> & value);
-		Args & clear();
-		Args & copy(const Args & other);
-		Args & copy(const Args & other, size_t index);
-		Args & copy(const Args & other, size_t index, size_t count);
-		Args & copy(const_iterator first, const_iterator last);
-		Args & erase(size_t index, size_t count = 1);
-		Args & erase(const_iterator it, size_t count = 1);
-		Args & erase(const_iterator first, const_iterator last);
-		Args & insert(size_t index, char value);
-		Args & insert(size_t index, CString value);
-		Args & insert(size_t index, const String & value);
-		Args & pop_back();
-		Args & pop_front();
-		Args & push_back(char value);
-		Args & push_back(CString value);
-		Args & push_back(const String & value);
-		Args & push_back(const List<String> & value);
-		Args & push_back(const Args & value);
-		Args & push_front(char value);
-		Args & push_front(CString value);
-		Args & push_front(const String & value);
-		Args & push_front(const List<String> & value);
-		Args & push_front(const Args & value);
-		Args & remove(const String & value);
-		Args & removeAll(const String & value);
-		Args & resize(size_t size);
-		Args & reverse();
+		Arguments & assign(const List<String> & value);
+		Arguments & clear();
+		Arguments & copy(const Arguments & other);
+		Arguments & copy(const Arguments & other, size_t index);
+		Arguments & copy(const Arguments & other, size_t index, size_t count);
+		Arguments & copy(const_iterator first, const_iterator last);
+		Arguments & erase(size_t index, size_t count = 1);
+		Arguments & erase(const_iterator it, size_t count = 1);
+		Arguments & erase(const_iterator first, const_iterator last);
+		Arguments & insert(size_t index, char value);
+		Arguments & insert(size_t index, CString value);
+		Arguments & insert(size_t index, const String & value);
+		Arguments & pop_back();
+		Arguments & pop_front();
+		Arguments & push_back(char value);
+		Arguments & push_back(CString value);
+		Arguments & push_back(const String & value);
+		Arguments & push_back(const List<String> & value);
+		Arguments & push_back(const Arguments & value);
+		Arguments & push_front(char value);
+		Arguments & push_front(CString value);
+		Arguments & push_front(const String & value);
+		Arguments & push_front(const List<String> & value);
+		Arguments & push_front(const Arguments & value);
+		Arguments & remove(const String & value);
+		Arguments & removeAll(const String & value);
+		Arguments & resize(size_t size);
+		Arguments & reverse();
 
 	public:
 		const_iterator	find(const String & value, size_t begin = 0) const;
@@ -109,19 +109,19 @@ namespace ml
 			return String();
 		};
 		
-		inline Args & operator=(const Args & copy)
+		inline Arguments & operator=(const Arguments & copy)
 		{
 			return (*this).copy(copy);
 		}
 		
-		inline Args & operator=(const List<String> & value)
+		inline Arguments & operator=(const List<String> & value)
 		{
-			return (*this) = Args(value);
+			return (*this) = Arguments(value);
 		}
 
 	public:
-		bool equals(const Args & value) const override;
-		bool lessThan(const Args & value) const override;
+		bool equals(const Arguments & value) const override;
+		bool lessThan(const Arguments & value) const override;
 
 	public:
 		inline SStream sstr() const

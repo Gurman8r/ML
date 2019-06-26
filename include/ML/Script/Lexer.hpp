@@ -24,7 +24,7 @@ namespace ml
 
 	public:
 		static Token		genToken(const String & value);
-		static TokenList	genArgsArray(const Args & value);
+		static TokenList	genArgsArray(const Arguments & value);
 		static TokenList	genTokenList(const String & value);
 		static TokenList	genTokenList(const List<char> & value);
 		static TokenTree	genTokenTree(const TokenList & value);

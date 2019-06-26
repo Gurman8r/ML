@@ -44,7 +44,7 @@ namespace ml
 		}
 
 		constexpr explicit Vertex(const vec3 & pos, const vec2 & tex)
-			: self_type { pos, color::white, tex }
+			: self_type { pos, Color::white, tex }
 		{
 		}
 
@@ -54,12 +54,12 @@ namespace ml
 		}
 
 		constexpr explicit Vertex(const vec3 & pos)
-			: self_type { pos, color::white, vec2::zero() }
+			: self_type { pos, Color::white, vec2::zero() }
 		{
 		}
 
 		constexpr explicit Vertex(const vec2 & tex)
-			: self_type { vec3::zero(), color::white, tex }
+			: self_type { vec3::zero(), Color::white, tex }
 		{
 		}
 
@@ -69,7 +69,7 @@ namespace ml
 		}
 
 		constexpr Vertex()
-			: self_type { vec3::zero(), color::white, vec2::zero() }
+			: self_type { vec3::zero(), Color::white, vec2::zero() }
 		{
 		}
 
@@ -129,6 +129,15 @@ namespace ml
 		{
 			return in >> rhs.m_data;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		// Non-Newable
+		private:
+			inline void * operator	new		 (size_t size) { return nullptr; }
+			inline void * operator	new[]	 (size_t size) { return nullptr; }
+			inline void	  operator	delete	 (void * ptr)  { return;  }
+			inline void	  operator	delete[] (void * ptr)  { return;  }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -26,7 +26,7 @@ namespace ml
 		}
 	}
 
-	TokenList Lexer::genArgsArray(const Args & value)
+	TokenList Lexer::genArgsArray(const Arguments & value)
 	{
 		TokenList out;
 		out.push_back('[');

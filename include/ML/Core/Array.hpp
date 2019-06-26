@@ -39,15 +39,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto begin()			-> pointer			{ return data(); }
-		constexpr auto begin()	const	-> const_pointer	{ return data(); }
-		constexpr auto cbegin() const	-> const_pointer	{ return begin(); }
-		constexpr auto cend()	const	-> const_pointer	{ return end(); }
+		constexpr auto begin()			-> iterator			{ return data(); }
+		constexpr auto begin()	const	-> const_iterator	{ return data(); }
+		constexpr auto cbegin() const	-> const_iterator	{ return begin(); }
+		constexpr auto cend()	const	-> const_iterator	{ return end(); }
 		constexpr auto data()			-> pointer			{ return m_data; }
 		constexpr auto data()	const	-> const_pointer	{ return m_data; }
-		constexpr auto end()			-> pointer			{ return data() + size(); }
-		constexpr auto end()	const	-> const_pointer	{ return data() + size(); }
-		constexpr auto hash()	const	-> size_t			{ return ml::hash()(size(), data()); }
+		constexpr auto end()			-> iterator			{ return data() + size(); }
+		constexpr auto end()	const	-> const_iterator	{ return data() + size(); }
+		constexpr auto hash()	const	-> size_t			{ return Hash()(size(), data()); }
 		constexpr auto size()	const	-> size_t			{ return Size; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -64,6 +64,17 @@ namespace ml
 			alg::fill(temp, value);
 			return temp;
 		}
+
+		
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		// Non-Newable
+		private:
+			inline void * operator	new		 (size_t size) { return nullptr; }
+			inline void * operator	new[]	 (size_t size) { return nullptr; }
+			inline void	  operator	delete	 (void * ptr)  { return;  }
+			inline void	  operator	delete[] (void * ptr)  { return;  }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

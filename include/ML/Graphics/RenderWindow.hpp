@@ -16,7 +16,6 @@ namespace ml
 		explicit RenderWindow(EventSystem & eventSystem);
 		virtual ~RenderWindow();
 
-	public:
 		bool setup() override;
 
 		virtual void onEvent(const Event * ev) override;

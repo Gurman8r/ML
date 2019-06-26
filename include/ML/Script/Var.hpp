@@ -143,16 +143,18 @@ namespace ml
 		Var & structValue(const TokenList & value);
 		Var & voidValue();
 		
-		template <class T, typename ... A>
-		inline Var & errorValue(const String & fmt, const T & arg0, const A &... args)
+		template <
+			class T, typename ... Args
+		> inline Var & errorValue(const String & fmt, const T & arg0, Args && ... args)
 		{
-			return errorValue(String::Format(fmt, arg0, (args)...));
+			return errorValue(String::Format(fmt, arg0, std::forward<Args>(args)...));
 		};
 
-		template <class T, typename ... A>
-		inline Var & stringValue(const String & fmt, const T & arg0, const A &... args)
+		template <
+			class T, typename ... Args
+		> inline Var & stringValue(const String & fmt, const T & arg0, Args && ... args)
 		{
-			return stringValue(String::Format(fmt, arg0, (args)...));
+			return stringValue(String::Format(fmt, arg0, std::forward<Arguments>(args)...));
 		};
 
 

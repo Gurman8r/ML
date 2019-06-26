@@ -11,7 +11,7 @@ namespace ml
 		, m_position({ 0.f, 0.f })
 		, m_scale	({ 1.f, 1.f })
 		, m_string	(String())
-		, m_color	(color::white)
+		, m_color	(Color::white)
 
 	{
 	}

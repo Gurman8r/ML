@@ -32,10 +32,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto origin() const		-> const vec2 &		{ return m_origin; }
-		inline auto position() const	-> const vec2 &		{ return m_position; }
-		inline auto rotation() const	-> const float &	{ return m_rotation; }
-		inline auto scale()	const		-> const vec2 &		{ return m_scale; }
+		inline auto origin()	const -> const vec2 &	{ return m_origin; }
+		inline auto position()	const -> const vec2 &	{ return m_position; }
+		inline auto rotation()	const -> const float &	{ return m_rotation; }
+		inline auto scale()		const -> const vec2 &	{ return m_scale; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -53,8 +53,8 @@ namespace ml
 		float	m_rotation;
 		vec2	m_scale;
 
-		mutable mat4	m_matrix;
-		mutable bool	m_changed;
+		mutable mat4 m_matrix;
+		mutable bool m_changed;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

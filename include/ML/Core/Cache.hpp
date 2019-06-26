@@ -49,7 +49,7 @@ namespace ml
 
 		inline const_reference operator()(const key_type & key, const_reference value)
 		{
-			const hash_type id { ml::hash()(key) };
+			const hash_type id { Hash()(key) };
 
 			if (const_pointer temp = (*this)(id))
 			{

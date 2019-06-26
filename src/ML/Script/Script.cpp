@@ -49,7 +49,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Script::build(const Args & args)
+	bool Script::build(const Arguments & args)
 	{
 		if (m_file)
 		{
@@ -87,12 +87,12 @@ namespace ml
 		return false;
 	}
 
-	bool Script::buildAndRun(const Args & args)
+	bool Script::buildAndRun(const Arguments & args)
 	{
 		return build(args) && run();
 	}
 
-	bool Script::rebuild(const Args & args)
+	bool Script::rebuild(const Arguments & args)
 	{
 		return loadFromFile(m_path) && build(args);
 	}

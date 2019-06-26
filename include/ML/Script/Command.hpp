@@ -11,7 +11,7 @@ namespace ml
 		: public I_Newable
 	{
 	public:
-		using fn_args = Args & ;
+		using fn_args = Arguments & ;
 		using fn_type = Var(*)(fn_args);
 
 	public:

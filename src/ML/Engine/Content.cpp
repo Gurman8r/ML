@@ -100,9 +100,9 @@ namespace ml
 
 	bool Content::parseMetadata(const Metadata & md)
 	{
-		switch (hash()(md.getData("type").asString()))
+		switch (Hash()(md.getData("type").asString()))
 		{
-			case hash()("manifest")				: return loadFromFile(md.getData("file"));
+			case Hash()("manifest")				: return loadFromFile(md.getData("file"));
 			case AssetImporter<	CubeMap	>::id	: return AssetImporter<	CubeMap	>()(md);
 			case AssetImporter<	Entity	>::id	: return AssetImporter<	Entity	>()(md);
 			case AssetImporter<	Font	>::id	: return AssetImporter<	Font	>()(md);

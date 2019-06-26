@@ -21,7 +21,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API FileSystemEvent final : public IEvent<CoreEvents::EV_FileSystem>
+	struct ML_CORE_API FileSystemEvent final : public I_Event<CoreEvents::EV_FileSystem>
 	{
 		constexpr FileSystemEvent()
 		{

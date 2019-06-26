@@ -53,9 +53,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto vertices() const	-> const Vertices &		{ return m_vertices;	}
-		inline auto indices	() const	-> const Indices &		{ return m_indices;		}
-		inline auto contiguous() const	-> const List<float> &	{ return m_contiguous;	}
+		inline auto vertices	() const -> const Vertices &	{ return m_vertices;	}
+		inline auto indices		() const -> const Indices &		{ return m_indices;		}
+		inline auto contiguous	() const -> const List<float> &	{ return m_contiguous;	}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Sprite::Sprite()
-		: m_color(color::white)
+		: m_color(Color::white)
 		, m_texture(nullptr)
 		, m_transform()
 	{
@@ -21,17 +21,9 @@ namespace ml
 	{
 	}
 
-	Sprite::~Sprite()
-	{
-		dispose();
-	}
+	Sprite::~Sprite() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool Sprite::dispose()
-	{
-		return true;
-	}
 
 	bool Sprite::loadFromFile(const String & filename)
 	{

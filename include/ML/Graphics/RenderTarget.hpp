@@ -12,9 +12,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API RenderTarget
+	struct ML_GRAPHICS_API RenderTarget
 	{
-	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		virtual ~RenderTarget() {}

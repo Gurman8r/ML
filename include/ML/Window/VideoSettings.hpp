@@ -8,17 +8,17 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API VideoSettings final
 		: public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		vec2u	 resolution;
 		uint32_t colorDepth;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		VideoSettings();
 		VideoSettings(uint32_t width, uint32_t height, uint32_t colorDepth);
@@ -26,17 +26,17 @@ namespace ml
 		VideoSettings(const VideoSettings & copy);
 		~VideoSettings();
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static const VideoSettings & desktop();
 		static const List<VideoSettings> & resolutions();
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline const uint32_t & width()  const { return resolution[0]; }
 		inline const uint32_t & height() const { return resolution[1]; }
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool isValidDesktopResolution() const
 		{
@@ -47,7 +47,7 @@ namespace ml
 			) != resolutions().end();
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -74,7 +74,7 @@ namespace ml
 		return !(lhs == rhs);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_SCREEN_HPP_

@@ -129,7 +129,7 @@ namespace DEMO
 				.setScale	({ 0.5f, 0.5f })
 				.setRotation(0.0f)
 				.setOrigin	({ 0.5f, 0.5f })
-				.setColor	(ml::color::white)
+				.setColor	(ml::Color::white)
 				.setTexture	(ML_Content.get<ml::Texture>("neutrino"));
 		}
 
@@ -159,7 +159,7 @@ namespace DEMO
 					new ml::uni_flt		("frag.specular",	0.1f),
 					new ml::uni_int		("frag.shininess",	8),
 					new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
-					new ml::uni_col4	("frag.diffuse",	ml::color::lightYellow),
+					new ml::uni_col4	("frag.diffuse",	ml::Color::lightYellow),
 					new ml::uni_flt		("frag.ambient",	0.01f),
 					})));
 
@@ -274,7 +274,7 @@ namespace DEMO
 					ML_Content.get<ml::Shader>("sprites"),
 					ml::List<ml::Uniform *>({
 						new ml::uni_mat4_ref("Vert.proj",		orthographic),
-						new ml::uni_col4	("Frag.mainCol",	ml::color::white),
+						new ml::uni_col4	("Frag.mainCol",	ml::Color::white),
 						new ml::uni_tex2	("Frag.mainTex",	nullptr),
 						}))
 			);

@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class RenderTarget;
+	struct RenderTarget;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

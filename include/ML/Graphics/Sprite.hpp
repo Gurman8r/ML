@@ -11,7 +11,6 @@ namespace ml
 
 	struct ML_GRAPHICS_API Sprite final
 		: public I_Newable
-		, public I_Disposable
 		, public I_Drawable
 		, public I_Readable
 	{
@@ -23,7 +22,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromMemory(const Texture * value);
 

@@ -104,9 +104,9 @@ namespace ml
 		{
 			static constexpr vertices_t vertices
 			{
-				Vertex { {  0.0f,  0.5f, 0.0f }, color::white, { 0.5f, 1.0f } },
-				Vertex { {  0.5f, -0.5f, 0.0f }, color::white, { 1.0f, 0.0f } },
-				Vertex { { -0.5f, -0.5f, 0.0f }, color::white, { 0.0f, 0.0f } },
+				Vertex { {  0.0f,  0.5f, 0.0f }, Color::white, { 0.5f, 1.0f } },
+				Vertex { {  0.5f, -0.5f, 0.0f }, Color::white, { 1.0f, 0.0f } },
+				Vertex { { -0.5f, -0.5f, 0.0f }, Color::white, { 0.0f, 0.0f } },
 			};
 			static constexpr indices_t indices
 			{
@@ -124,10 +124,10 @@ namespace ml
 		{
 			static constexpr vertices_t vertices
 			{
-				Vertex { { +1.0f, +1.0f, 0.0f }, color::white, { 1.0f, 1.0f } },
-				Vertex { { +1.0f, -1.0f, 0.0f }, color::white, { 1.0f, 0.0f } },
-				Vertex { { -1.0f, -1.0f, 0.0f }, color::white, { 0.0f, 0.0f } },
-				Vertex { { -1.0f, +1.0f, 0.0f }, color::white, { 0.0f, 1.0f } },
+				Vertex { { +1.0f, +1.0f, 0.0f }, Color::white, { 1.0f, 1.0f } },
+				Vertex { { +1.0f, -1.0f, 0.0f }, Color::white, { 1.0f, 0.0f } },
+				Vertex { { -1.0f, -1.0f, 0.0f }, Color::white, { 0.0f, 0.0f } },
+				Vertex { { -1.0f, +1.0f, 0.0f }, Color::white, { 0.0f, 1.0f } },
 			};
 			static constexpr indices_t indices
 			{
@@ -146,30 +146,30 @@ namespace ml
 		{
 			static constexpr vertices_t vertices
 			{
-				Vertex { { +0.5f, +0.5f, -0.5f }, color::white, { 1.0f, 1.0f } },
-				Vertex { { +0.5f, -0.5f, -0.5f }, color::white, { 1.0f, 0.0f } },
-				Vertex { { -0.5f, -0.5f, -0.5f }, color::white, { 0.0f, 0.0f } },
-				Vertex { { -0.5f, +0.5f, -0.5f }, color::white, { 0.0f, 1.0f } },
-				Vertex { { +0.5f, +0.5f, +0.5f }, color::white, { 1.0f, 1.0f } },
-				Vertex { { +0.5f, -0.5f, +0.5f }, color::white, { 1.0f, 0.0f } },
-				Vertex { { -0.5f, -0.5f, +0.5f }, color::white, { 0.0f, 0.0f } },
-				Vertex { { -0.5f, +0.5f, +0.5f }, color::white, { 0.0f, 1.0f } },
-				Vertex { { +0.5f, +0.5f, +0.5f }, color::white, { 1.0f, 1.0f } },
-				Vertex { { +0.5f, -0.5f, +0.5f }, color::white, { 1.0f, 0.0f } },
-				Vertex { { +0.5f, -0.5f, -0.5f }, color::white, { 0.0f, 0.0f } },
-				Vertex { { +0.5f, +0.5f, -0.5f }, color::white, { 0.0f, 1.0f } },
-				Vertex { { -0.5f, +0.5f, +0.5f }, color::white, { 1.0f, 1.0f } },
-				Vertex { { -0.5f, -0.5f, +0.5f }, color::white, { 1.0f, 0.0f } },
-				Vertex { { -0.5f, -0.5f, -0.5f }, color::white, { 0.0f, 0.0f } },
-				Vertex { { -0.5f, +0.5f, -0.5f }, color::white, { 0.0f, 1.0f } },
-				Vertex { { -0.5f, +0.5f, +0.5f }, color::white, { 1.0f, 1.0f } },
-				Vertex { { +0.5f, +0.5f, +0.5f }, color::white, { 1.0f, 0.0f } },
-				Vertex { { +0.5f, +0.5f, -0.5f }, color::white, { 0.0f, 0.0f } },
-				Vertex { { -0.5f, +0.5f, -0.5f }, color::white, { 0.0f, 1.0f } },
-				Vertex { { -0.5f, -0.5f, +0.5f }, color::white, { 1.0f, 1.0f } },
-				Vertex { { +0.5f, -0.5f, +0.5f }, color::white, { 1.0f, 0.0f } },
-				Vertex { { +0.5f, -0.5f, -0.5f }, color::white, { 0.0f, 0.0f } },
-				Vertex { { -0.5f, -0.5f, -0.5f }, color::white, { 0.0f, 1.0f } },
+				Vertex { { +0.5f, +0.5f, -0.5f }, Color::white, { 1.0f, 1.0f } },
+				Vertex { { +0.5f, -0.5f, -0.5f }, Color::white, { 1.0f, 0.0f } },
+				Vertex { { -0.5f, -0.5f, -0.5f }, Color::white, { 0.0f, 0.0f } },
+				Vertex { { -0.5f, +0.5f, -0.5f }, Color::white, { 0.0f, 1.0f } },
+				Vertex { { +0.5f, +0.5f, +0.5f }, Color::white, { 1.0f, 1.0f } },
+				Vertex { { +0.5f, -0.5f, +0.5f }, Color::white, { 1.0f, 0.0f } },
+				Vertex { { -0.5f, -0.5f, +0.5f }, Color::white, { 0.0f, 0.0f } },
+				Vertex { { -0.5f, +0.5f, +0.5f }, Color::white, { 0.0f, 1.0f } },
+				Vertex { { +0.5f, +0.5f, +0.5f }, Color::white, { 1.0f, 1.0f } },
+				Vertex { { +0.5f, -0.5f, +0.5f }, Color::white, { 1.0f, 0.0f } },
+				Vertex { { +0.5f, -0.5f, -0.5f }, Color::white, { 0.0f, 0.0f } },
+				Vertex { { +0.5f, +0.5f, -0.5f }, Color::white, { 0.0f, 1.0f } },
+				Vertex { { -0.5f, +0.5f, +0.5f }, Color::white, { 1.0f, 1.0f } },
+				Vertex { { -0.5f, -0.5f, +0.5f }, Color::white, { 1.0f, 0.0f } },
+				Vertex { { -0.5f, -0.5f, -0.5f }, Color::white, { 0.0f, 0.0f } },
+				Vertex { { -0.5f, +0.5f, -0.5f }, Color::white, { 0.0f, 1.0f } },
+				Vertex { { -0.5f, +0.5f, +0.5f }, Color::white, { 1.0f, 1.0f } },
+				Vertex { { +0.5f, +0.5f, +0.5f }, Color::white, { 1.0f, 0.0f } },
+				Vertex { { +0.5f, +0.5f, -0.5f }, Color::white, { 0.0f, 0.0f } },
+				Vertex { { -0.5f, +0.5f, -0.5f }, Color::white, { 0.0f, 1.0f } },
+				Vertex { { -0.5f, -0.5f, +0.5f }, Color::white, { 1.0f, 1.0f } },
+				Vertex { { +0.5f, -0.5f, +0.5f }, Color::white, { 1.0f, 0.0f } },
+				Vertex { { +0.5f, -0.5f, -0.5f }, Color::white, { 0.0f, 0.0f } },
+				Vertex { { -0.5f, -0.5f, -0.5f }, Color::white, { 0.0f, 1.0f } },
 			};
 			static constexpr indices_t indices
 			{

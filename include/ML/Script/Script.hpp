@@ -26,9 +26,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool	build(const Args & args);
-		bool	buildAndRun(const Args & args);
-		bool	rebuild(const Args & args);
+		bool	build(const Arguments & args);
+		bool	buildAndRun(const Arguments & args);
+		bool	rebuild(const Arguments & args);
 		bool	run();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

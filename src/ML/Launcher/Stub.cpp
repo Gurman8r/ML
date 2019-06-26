@@ -4,7 +4,7 @@
 
 namespace ml
 {
-	inline static int32_t meta_tests()
+	inline static int32_t stub()
 	{
 		constexpr mat4f ma {
 			0.f,	1.f,	2.f,	3.f,
@@ -33,7 +33,7 @@ namespace ml
 
 		static_assert(meta::c_string("Here") == meta::c_string("Here"), "What?");
 
-		constexpr auto hash1	= ml::hash()("Here");
+		constexpr auto hash1	= Hash()("Here");
 		constexpr auto hash2	= meta::c_string("Here").hash();
 		constexpr auto hash3	= mat4i::identity().hash();
 		constexpr auto hash4	= mat4f::identity().hash();

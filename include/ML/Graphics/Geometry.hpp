@@ -122,11 +122,6 @@ namespace ml
 
 		struct quad final : public impl::static_mesh<4, 6>
 		{
-			enum
-			{
-				Size = num::contiguous
-			};
-
 			static constexpr vertices_t vertices
 			{
 				Vertex { { +1.0f, +1.0f, 0.0f }, color::white, { 1.0f, 1.0f } },

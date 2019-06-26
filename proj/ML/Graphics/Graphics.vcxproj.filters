@@ -105,9 +105,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderParser.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\ShaderAPI.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderWindow.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>

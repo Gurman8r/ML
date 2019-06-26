@@ -1,7 +1,6 @@
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
-#include <ML/Graphics/ShaderAPI.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml

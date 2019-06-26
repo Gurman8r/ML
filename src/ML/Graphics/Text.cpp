@@ -1,5 +1,4 @@
 #include <ML/Graphics/Text.hpp>
-#include <ML/Graphics/ShaderAPI.hpp>
 #include <ML/Graphics/Uniform.hpp>
 
 namespace ml

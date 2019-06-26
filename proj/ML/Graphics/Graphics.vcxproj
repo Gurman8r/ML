@@ -197,7 +197,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderTarget.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderWindow.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Shader.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\ShaderAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderParser.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Geometry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Sprite.hpp" />

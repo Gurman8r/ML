@@ -6,6 +6,10 @@
 #include <ML/Core/Cache.hpp>
 #include <ML/Graphics/Color.hpp>
 
+// Uniforms names used internally
+#define ML_FRAG_MAIN_COL "Frag.mainCol"
+#define ML_FRAG_MAIN_TEX "Frag.mainTex"
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */

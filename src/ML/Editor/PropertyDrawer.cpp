@@ -295,7 +295,7 @@ namespace ml
 
 	bool MaterialPropertyDrawer::operator()(const String & label, reference value) const
 	{
-		ImGui::PushID(label.c_str());
+		ImGui::PushID(label);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -307,61 +307,81 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (ImGui::TreeNode("Uniforms"))
+		if (ImGui::TreeNode(("Uniforms##" + label).c_str()))
 		{
-			// New Uniform
-			/* * * * * * * * * * * * * * * * * * * * */
-
+			// new uniform editor
 			Uniform * u = nullptr;
-			if (UniformPropertyDrawer()(label, u))
+			if (UniformPropertyDrawer()(("##NewUniform##Material" + label).c_str(), u))
 			{
-				if (!value.uniforms().insert({ u->name, u }).first->second)
+				if (value.hasUniform(u->name) ||
+					!value.uniforms().insert({ u->name, u }).first->second)
 				{
 					delete u;
 					Debug::logError("A uniform with that name already exists");
 				}
 			}
 
-
-			// Display List
-			/* * * * * * * * * * * * * * * * * * * * */
-
+			// do nothing if empty
 			if (!value.uniforms().empty())
-			{
 				ImGui::Separator();
-			}
 
+			// to remove
 			List<Map<String, Uniform *>::iterator> toRemove;
 
-			for (auto it = value.uniforms().begin(); 
-				it != value.uniforms().end(); 
+			for (auto it = value.uniforms().rbegin();
+				it != value.uniforms().rend();
 				it++)
 			{
+				// name
+				const String name("##Uni##" + it->first + "##Material##" + label);
+
+				// Uniform Header
 				ImGui::PushStyleColor(
 					ImGuiCol_Header,
 					{ 0.367f, 0.258f, 0.489f, 0.580f }
 				);
 
-				if (ImGui::CollapsingHeader((it->first + label).c_str()))
+				if (ImGui::TreeNode((it->first + name).c_str()))
 				{
 					ImGui::PopStyleColor();
 
-					const String label("##" + label + "##Uni##" + it->first);
-
 					if (it->second)
 					{
-						UniformPropertyDrawer()(label, (*it->second));
+						float height = 1;
+						if (it->second->type == uni_mat3::ID) { height = 3; }
+						else if (it->second->type == uni_mat4::ID) { height = 4; }
+
+						ImGui::PushID(name.c_str());
+						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+						ImGui::BeginChild(
+							("UniformChild##" + name).c_str(),
+							{ -1, (32 * height) + (height == 1 ? 8 : -8) },
+							true,
+							ImGuiWindowFlags_NoScrollWithMouse
+						);
+
+						if (UniformPropertyDrawer()(name, (Uniform &)(*it->second)))
+						{
+							ImGui::SameLine();
+							if (ImGui::Button(("Remove##" + name).c_str()))
+							{
+								toRemove.push_back(std::next(it).base());
+							}
+						}
+
+						ImGui::EndChild();
+						ImGui::PopStyleVar();
+						ImGui::PopID();
 					}
-
-					ImGui::SameLine();
-
-					if (ImGui::Button(String("Delete" + label).c_str()))
-					{
-						toRemove.push_back(it);
-					}
-
+					
 					ImGui::TreePop();
 				}
+				else
+				{
+					ImGui::PopStyleColor();
+				}
+
+				ImGui::Separator();
 			}
 
 			for (auto it : toRemove)
@@ -380,7 +400,7 @@ namespace ml
 
 		ImGui::PopID();
 
-		return (*this)(label, (const_reference)value);
+		return false;
 	}
 
 
@@ -918,160 +938,150 @@ namespace ml
 
 	bool UniformPropertyDrawer::operator()(const String & label, reference value) const
 	{
-		auto modifyUniformValue = [](const String & label, reference value)
+		switch (value.type)
 		{
-			switch (value.type)
+			// Flt
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_flt::ID:
+			if (float * temp = impl::toFloat(&value))
 			{
-				// Flt
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_flt::ID:
-				if (float * temp = impl::toFloat(&value))
+				const String name = "##" + label + "##Float##Uni" + value.name;
+				ImGui::DragFloat(name.c_str(), temp, 0.1f);
+				if (auto u = value.as<uni_flt>())
 				{
-					const String name = "##" + label + "##Float##Uni" + value.name;
-					ImGui::DragFloat(name.c_str(), temp, 0.1f);
-					if (auto u = value.as<uni_flt>())
-					{
-						u->data = (*temp); return true;
-					}
-				}
-				break;
-
-				// Int
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_int::ID:
-				if (int32_t * temp = impl::toInt(&value))
-				{
-					const String name = "##" + label + "##Int##Uni" + value.name;
-					ImGui::DragInt(name.c_str(), temp, 0.1f);
-					if (auto u = value.as<uni_int>())
-					{
-						u->data = (*temp); return true;
-					}
-				}
-				break;
-
-				// Vec2
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_vec2::ID:
-				if (vec2 * temp = impl::toVec2(&value))
-				{
-					const String name = "##" + label + "##Vec2##Uni" + value.name;
-					ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
-					if (auto u = value.as<uni_vec2>())
-					{
-						u->data = (*temp); return true;
-					}
-				}
-
-				// Vec3
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_vec3::ID:
-				if (vec3 * temp = impl::toVec3(&value))
-				{
-					const String name = "##" + label + "##Vec3##Uni" + value.name;
-					ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
-					if (auto u = value.as<uni_vec3>())
-					{
-						u->data = (*temp); return true;
-					}
-				}
-
-				// Vec4
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_vec4::ID:
-				if (vec4 * temp = impl::toVec4(&value))
-				{
-					const String name = "##" + label + "##Vec4##Uni" + value.name;
-					ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
-					if (auto u = value.as<uni_vec4>())
-					{
-						u->data = (*temp); return true;
-					}
-				}
-
-				// Col4
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_col4::ID:
-				if (vec4 * temp = impl::toCol4(&value))
-				{
-					const String name = "##" + label + "##Col4##Uni" + value.name;
-					ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
-					if (auto u = value.as<uni_col4>())
-					{
-						u->data = (*temp); return true;
-					}
-				}
-
-				// Mat3
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_mat3::ID:
-				if (mat3 * temp = impl::toMat3(&value))
-				{
-					const String name = "##" + label + "##Mat3##Uni" + value.name;
-					ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-					ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 3);
-					ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 3);
-					if (auto u = value.as<uni_mat3>())
-					{
-						u->data = (*temp); return true;
-					}
-				}
-
-				// Mat4
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_mat4::ID:
-				if (mat4 * temp = impl::toMat4(&value))
-				{
-					const String name = "##" + label + "##Mat3##Uni" + value.name;
-					ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-					ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4], 3);
-					ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8], 3);
-					ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 3);
-					if (auto u = value.as<uni_mat4>())
-					{
-						u->data = (*temp); return true;
-					}
-				}
-
-				// Tex
-				/* * * * * * * * * * * * * * * * * * * * */
-			case uni_tex2::ID:
-				if (auto u = value.as<uni_tex2>())
-				{
-					const Texture * temp = u->data;
-					if (TexturePropertyDrawer()("##Texture##Uni", temp))
-					{
-						u->data = temp;
-					}
+					u->data = (*temp); 
 					return true;
 				}
 			}
-			return false;
-		};
+			break;
 
-		float height = 1;
-		if (value.type == ml::uni_mat3::ID) { height = 3; }
-		else if (value.type == ml::uni_mat4::ID) { height = 4; }
+			// Int
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_int::ID:
+			if (int32_t * temp = impl::toInt(&value))
+			{
+				const String name = "##" + label + "##Int##Uni" + value.name;
+				ImGui::DragInt(name.c_str(), temp, 0.1f);
+				if (auto u = value.as<uni_int>())
+				{
+					u->data = (*temp);
+					return true;
+				}
+			}
+			break;
 
-		ImGui::PushID(label.c_str());
-		ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-		ImGui::BeginChild(
-			("UniformChild##" + label).c_str(),
-			{ -1, (32 * height) + (height == 1 ? 8 : -8) },
-			true,
-			ImGuiWindowFlags_NoScrollWithMouse
-		);
-		
-		if (!modifyUniformValue(label, value))
-		{
-			ImGui::SameLine();
-			ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
+			// Vec2
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec2::ID:
+			if (vec2 * temp = impl::toVec2(&value))
+			{
+				const String name = "##" + label + "##Vec2##Uni" + value.name;
+				ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
+				if (auto u = value.as<uni_vec2>())
+				{
+					u->data = (*temp); 
+					return true;
+				}
+			}
+			break;
+
+			// Vec3
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec3::ID:
+			if (vec3 * temp = impl::toVec3(&value))
+			{
+				const String name = "##" + label + "##Vec3##Uni" + value.name;
+				ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
+				if (auto u = value.as<uni_vec3>())
+				{
+					u->data = (*temp);
+					return true;
+				}
+			}
+			break;
+
+			// Vec4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_vec4::ID:
+			if (vec4 * temp = impl::toVec4(&value))
+			{
+				const String name = "##" + label + "##Vec4##Uni" + value.name;
+				ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
+				if (auto u = value.as<uni_vec4>())
+				{
+					u->data = (*temp); 
+					return true;
+				}
+			}
+
+			// Col4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_col4::ID:
+			if (vec4 * temp = impl::toCol4(&value))
+			{
+				const String name = "##" + label + "##Col4##Uni" + value.name;
+				ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
+				if (auto u = value.as<uni_col4>())
+				{
+					u->data = (*temp); 
+					return true;
+				}
+			}
+			break;
+
+			// Mat3
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_mat3::ID:
+			if (mat3 * temp = impl::toMat3(&value))
+			{
+				const String name = "##" + label + "##Mat3##Uni" + value.name;
+				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
+				ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 3);
+				ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 3);
+				if (auto u = value.as<uni_mat3>())
+				{
+					u->data = (*temp); 
+					return true;
+				}
+			}
+			break;
+
+			// Mat4
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_mat4::ID:
+			if (mat4 * temp = impl::toMat4(&value))
+			{
+				const String name = "##" + label + "##Mat3##Uni" + value.name;
+				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
+				ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4], 3);
+				ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8], 3);
+				ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 3);
+				if (auto u = value.as<uni_mat4>())
+				{
+					u->data = (*temp); 
+					return true;
+				}
+			}
+			break;
+
+			// Tex
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_tex2::ID:
+			if (auto u = value.as<uni_tex2>())
+			{
+				const String name = "##" + label + "##Texture##Uni" + value.name;
+				const Texture * temp = u->data;
+				if (TexturePropertyDrawer()(name, temp))
+				{
+					u->data = temp;
+				}
+				return true;
+			}
+			break;
 		}
-
-		ImGui::EndChild();
-		ImGui::PopStyleVar();
-		ImGui::PopID();
 		
+		ImGui::SameLine();
+		ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
 		return false;
 	}
 }

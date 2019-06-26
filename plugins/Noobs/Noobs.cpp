@@ -677,14 +677,31 @@ namespace DEMO
 
 							if (it->second)
 							{
-								ml::UniformPropertyDrawer()(
-									label, (ml::Uniform &)(*it->second));
+								float height = 1;
+								if (it->second->type == ml::uni_mat3::ID) { height = 3; }
+								else if (it->second->type == ml::uni_mat4::ID) { height = 4; }
 
-								ImGui::SameLine();
-								if (ImGui::Button(("Remove##" + label).c_str()))
+								ImGui::PushID(label.c_str());
+								ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+								ImGui::BeginChild(
+									("UniformChild##" + label).c_str(),
+									{ -1, (32 * height) + (height == 1 ? 8 : -8) },
+									true,
+									ImGuiWindowFlags_NoScrollWithMouse
+								);
+
+								if (ml::UniformPropertyDrawer()(label, (ml::Uniform &)(*it->second)))
 								{
-									toRemove.push_back(it.base());
+									ImGui::SameLine();
+									if (ImGui::Button(("Remove##" + label).c_str()))
+									{
+										toRemove.push_back(std::next(it).base());
+									}
 								}
+
+								ImGui::EndChild();
+								ImGui::PopStyleVar();
+								ImGui::PopID();
 							}
 						}
 						else

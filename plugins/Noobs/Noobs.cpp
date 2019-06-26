@@ -125,7 +125,7 @@ namespace DEMO
 		// Example Sprite
 		if (ml::Sprite * spr = ML_Content.get<ml::Sprite>("neutrino"))
 		{
-			spr->setPosition(ml::vec2 { 0.95f, 0.925f } * (ml::vec2)ev.window.getSize())
+			spr->setPosition(ml::vec2 { 0.925f, 0.925f } * (ml::vec2)ev.window.getSize())
 				.setScale	({ 0.5f, 0.5f })
 				.setRotation(0.0f)
 				.setOrigin	({ 0.5f, 0.5f })

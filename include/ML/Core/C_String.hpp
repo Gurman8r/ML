@@ -112,7 +112,7 @@ namespace ml
 
 	private:
 		const_pointer	m_data;
-		size_t		m_size;
+		size_t			m_size;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

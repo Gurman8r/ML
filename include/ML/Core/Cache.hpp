@@ -15,7 +15,7 @@ namespace ml
 	template <
 		template <class, class> class Base, 
 		class Key, class Val
-	> struct Cache : public I_NonNewable
+	> struct Cache final : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

@@ -23,7 +23,7 @@ namespace ml
 		constexpr auto rebaseV3 = alg::rebase(v3, m4);
 		constexpr auto rebaseM3 = alg::rebase(m3, m4);
 
-		constexpr auto va		= vec2 { 0.f, 0.f };
+		constexpr auto va		= vec2 { 0.f, 0.f }; 
 		constexpr auto vb		= vec2 { -10.f, -10.f };
 		constexpr auto vc		= alg::lerp(va, vb, vec2::type::half);
 

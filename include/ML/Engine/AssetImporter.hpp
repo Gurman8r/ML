@@ -45,12 +45,12 @@ namespace ml
 }
 
 #define ML_GEN_ASSET_IMPORTER_EXT(PREFIX, NAME, OUT, TAG, IMPL)		\
-struct PREFIX NAME final : public ::ml::CustomAssetImporter<OUT>		\
+struct PREFIX NAME final : public ::ml::CustomAssetImporter<OUT>	\
 ##IMPL;																\
 template <> struct ::ml::AssetImporter<OUT>							\
 {																	\
 	using type = typename OUT;										\
-	static constexpr auto id	{ ::ml::Hash()(##TAG) };				\
+	static constexpr auto id	{ ::ml::Hash()(##TAG) };			\
 	static constexpr auto tag	{ ##TAG };							\
 	template <														\
 		class ... Args												\

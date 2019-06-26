@@ -51,12 +51,12 @@ namespace ml
 }
 
 #define ML_GEN_PROPERTY_DRAWER_EXT(PREFIX, NAME, OUT, TAG, IMPL)	\
-struct PREFIX NAME final : public ::ml::CustomPropertyDrawer<OUT>		\
+struct PREFIX NAME final : public ::ml::CustomPropertyDrawer<OUT>	\
 ##IMPL;																\
-template <> struct ::ml::PropertyDrawer<OUT>							\
+template <> struct ::ml::PropertyDrawer<OUT>						\
 {																	\
 	using type = typename OUT;										\
-	static constexpr auto id	{ ::ml::Hash()(##TAG) };				\
+	static constexpr auto id	{ ::ml::Hash()(##TAG) };			\
 	static constexpr auto tag	{ ##TAG };							\
 	template <														\
 		class ... Args												\

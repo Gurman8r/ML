@@ -4,7 +4,7 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Window/Window.hpp>
 
-#define ML_ImGui_Impl _ML ImGui_Impl::getInstance()
+#define ML_ImGui_Impl ::ml::ImGui_Impl::getInstance()
 
 namespace ml
 {
@@ -64,7 +64,7 @@ namespace ml
 
 		Window *	m_Window;
 		ClientAPI	m_ClientApi;
-		float64_t      m_Time;
+		float64_t   m_Time;
 		bool        m_MousePressed[5];
 		void *		m_MouseCursors[(size_t)Cursor::Shape::NUM_SHAPE];
 

@@ -3,12 +3,10 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Window/Export.hpp>
+#include <ML/Core/Event.hpp>
+#include <ML/Core/C_String.hpp>
 #include <ML/Window/KeyCode.hpp>
 #include <ML/Window/MouseButton.hpp>
-#include <ML/Core/Event.hpp>
-#include <ML/Core/Debug.hpp>
-#include <ML/Core/Matrix.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -53,7 +51,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API CharEvent final : public I_Event<WindowEvent::EV_Char>
+	struct CharEvent final : public I_Event<WindowEvent::EV_Char>
 	{
 		const uint32_t value;
 		constexpr CharEvent(uint32_t value)
@@ -64,7 +62,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API CursorEnterEvent final : public I_Event<WindowEvent::EV_CursorEnter>
+	struct CursorEnterEvent final : public I_Event<WindowEvent::EV_CursorEnter>
 	{
 		const int32_t entered;
 		constexpr CursorEnterEvent(int32_t entered)
@@ -75,7 +73,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API CursorPosEvent final : public I_Event<WindowEvent::EV_CursorPos>
+	struct CursorPosEvent final : public I_Event<WindowEvent::EV_CursorPos>
 	{
 		const float64_t x, y;
 		constexpr CursorPosEvent(float64_t x, float64_t y)
@@ -87,7 +85,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API KeyEvent final : public I_Event<WindowEvent::EV_Key>
+	struct KeyEvent final : public I_Event<WindowEvent::EV_Key>
 	{
 		const int32_t key, scan, act;
 		
@@ -142,7 +140,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API MouseButtonEvent final : public I_Event<WindowEvent::EV_MouseButton>
+	struct MouseButtonEvent final : public I_Event<WindowEvent::EV_MouseButton>
 	{
 		const int32_t key, act, mod;
 		constexpr MouseButtonEvent(int32_t key, int32_t act, int32_t mod)
@@ -155,7 +153,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API ScrollEvent final : public I_Event<WindowEvent::EV_Scroll>
+	struct ScrollEvent final : public I_Event<WindowEvent::EV_Scroll>
 	{
 		const float64_t x, y;
 		constexpr ScrollEvent(float64_t x, float64_t y)
@@ -167,7 +165,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API FrameSizeEvent final : public I_Event<WindowEvent::EV_FrameSize>
+	struct FrameSizeEvent final : public I_Event<WindowEvent::EV_FrameSize>
 	{
 		const int32_t width, height;
 		constexpr FrameSizeEvent(int32_t width, int32_t height)
@@ -179,14 +177,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API WindowCloseEvent final : public I_Event<WindowEvent::EV_WindowClose>
+	struct WindowCloseEvent final : public I_Event<WindowEvent::EV_WindowClose>
 	{
 		WindowCloseEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API WindowErrorEvent final : public I_Event<WindowEvent::EV_WindowError>
+	struct WindowErrorEvent final : public I_Event<WindowEvent::EV_WindowError>
 	{
 		const int32_t code;
 		const C_String desc;
@@ -199,7 +197,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API WindowFocusEvent final : public I_Event<WindowEvent::EV_WindowFocus>
+	struct WindowFocusEvent final : public I_Event<WindowEvent::EV_WindowFocus>
 	{
 		const int32_t focused;
 		constexpr WindowFocusEvent(int32_t entered)
@@ -210,14 +208,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API WindowKillEvent final : public I_Event<WindowEvent::EV_WindowKill>
+	struct WindowKillEvent final : public I_Event<WindowEvent::EV_WindowKill>
 	{
 		constexpr WindowKillEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API WindowPosEvent final : public I_Event<WindowEvent::Ev_WindowPos>
+	struct WindowPosEvent final : public I_Event<WindowEvent::Ev_WindowPos>
 	{
 		const int32_t x, y;
 		constexpr WindowPosEvent(int32_t x, int32_t y)
@@ -229,7 +227,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API WindowSizeEvent final : public I_Event<WindowEvent::EV_WindowSize>
+	struct WindowSizeEvent final : public I_Event<WindowEvent::EV_WindowSize>
 	{
 		const int32_t width, height;
 		constexpr WindowSizeEvent(int32_t width, int32_t height)

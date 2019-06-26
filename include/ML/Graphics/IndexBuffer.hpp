@@ -1,6 +1,7 @@
 #ifndef _ML_INDEX_BUFFER_HPP_
 #define _ML_INDEX_BUFFER_HPP_
 
+#include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Graphics/Vertices.hpp>
 #include <ML/Core/I_Newable.hpp>

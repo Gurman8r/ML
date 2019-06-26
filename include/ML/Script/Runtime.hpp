@@ -6,7 +6,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_Runtime _ML Runtime::getInstance()
+#define ML_Runtime ::ml::Runtime::getInstance()
 
 /* * * * * * * * * * * * * * * * * * * * */
 

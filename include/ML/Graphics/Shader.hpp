@@ -2,7 +2,6 @@
 #define _ML_SHADER_HPP_
 
 #include <ML/Graphics/Texture.hpp>
-#include <ML/Core/Rect.hpp>
 #include <ML/Core/Cache.hpp>
 #include <ML/Graphics/Color.hpp>
 

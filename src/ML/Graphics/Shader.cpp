@@ -51,6 +51,8 @@ namespace ml
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	template <
 		template <class, size_t, size_t> class M,
 		class T, size_t X, size_t Y
@@ -545,11 +547,13 @@ namespace ml
 	
 	int32_t Shader::getAttribute(const String & value) const
 	{
+		// Cache()
 		return m_attribs(value, ML_GL.getAttribLocation((*this), value.c_str()));
 	}
 	
 	int32_t Shader::getUniform(const String & value) const
 	{
+		// Cache()
 		return m_uniforms(value, ML_GL.getUniformLocation((*this), value.c_str()));
 	}
 

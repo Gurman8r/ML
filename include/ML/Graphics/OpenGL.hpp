@@ -3,13 +3,14 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_GL _ML OpenGL::getInstance()
+#define ML_GL ::ml::OpenGL::getInstance()
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -177,6 +178,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

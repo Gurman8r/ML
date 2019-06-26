@@ -2,12 +2,13 @@
 
 #include <ML/Editor/ImGui_Impl.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Editor/ImGui_StyleLoader.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/Debug.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Shader.hpp>
 #include <ML/Window/WindowEvents.hpp>
-#include <ML/Editor/ImGui_StyleLoader.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

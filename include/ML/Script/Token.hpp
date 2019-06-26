@@ -1,7 +1,7 @@
 #ifndef _ML_TOKEN_HPP_
 #define _ML_TOKEN_HPP_
 
-#include <ML/Script/Args.hpp>
+#include <ML/Script/Arguments.hpp>
 
 namespace ml
 {

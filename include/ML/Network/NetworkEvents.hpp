@@ -1,7 +1,6 @@
 #ifndef _ML_NETWORK_EVENTS_HPP_
 #define _ML_NETWORK_EVENTS_HPP_
 
-#include <ML/Network/Export.hpp>
 #include <ML/Core/Event.hpp>
 
 namespace ml
@@ -23,7 +22,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API ServerRecievePacketEvent final : public I_Event<NetworkEvent::EV_ServerRecievePacket>
+	struct ServerRecievePacketEvent final : public I_Event<NetworkEvent::EV_ServerRecievePacket>
 	{
 		C_String data;
 		constexpr ServerRecievePacketEvent(C_String data)
@@ -34,7 +33,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API ClientRecievePacketEvent final : public I_Event<NetworkEvent::EV_ClientRecievePacket>
+	struct ClientRecievePacketEvent final : public I_Event<NetworkEvent::EV_ClientRecievePacket>
 	{
 		C_String data;
 		constexpr ClientRecievePacketEvent(C_String data)

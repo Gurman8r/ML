@@ -1,24 +1,6 @@
 # Surfaces
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-#<import>
-#	type	=	surface
-#	name	=	sf_sandbox_main
-#	model	=	default_quad
-#	shader	=	surface
-#	width	=	1920
-#	height	=	1080
-#</import>
-#
-#<import>
-#	type	=	surface
-#	name	=	sf_sandbox_post
-#	model	=	default_quad
-#	shader	=	surface
-#	width	=	1920
-#	height	=	1080
-#</import>
-
 <import>
 	type	=	surface
 	name	=	noobs_surf_main

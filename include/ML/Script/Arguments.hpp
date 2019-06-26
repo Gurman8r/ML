@@ -1,5 +1,5 @@
-#ifndef _ML_ARGS_HPP_
-#define _ML_ARGS_HPP_
+#ifndef _ML_ARGUMENTS_HPP_
+#define _ML_ARGUMENTS_HPP_
 
 #include <ML/Script/Export.hpp>
 #include <ML/Core/List.hpp>
@@ -141,4 +141,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_ARGS_HPP_
+#endif // !_ML_ARGUMENTS_HPP_

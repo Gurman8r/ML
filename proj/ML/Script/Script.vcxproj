@@ -162,7 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Script\Args.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Script\Arguments.hpp" />
     <ClInclude Include="..\..\..\include\ML\Script\AST_Block.hpp" />
     <ClInclude Include="..\..\..\include\ML\Script\AST_Expr.hpp" />
     <ClInclude Include="..\..\..\include\ML\Script\AST_Node.hpp" />
@@ -184,7 +184,7 @@
     <ClInclude Include="..\..\..\include\ML\Script\Var.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Script\Args.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Script\Arguments.cpp" />
     <ClCompile Include="..\..\..\src\ML\Script\AST_Block.cpp" />
     <ClCompile Include="..\..\..\src\ML\Script\AST_Expr.cpp" />
     <ClCompile Include="..\..\..\src\ML\Script\AST_Node.cpp" />

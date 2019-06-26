@@ -1,6 +1,7 @@
 #ifndef _ML_EDITOR_PLUGIN_HPP_
 #define _ML_EDITOR_PLUGIN_HPP_
 
+#include <ML/Editor/Export.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/Plugin.hpp>
 

@@ -7,7 +7,7 @@
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Readable.hpp>
 
-#define ML_Content _ML Content::getInstance()
+#define ML_Content ::ml::Content::getInstance()
 
 namespace ml
 {

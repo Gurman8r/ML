@@ -1,6 +1,8 @@
 #ifndef _ML_PLUGIN_API_HPP_
 #define _ML_PLUGIN_API_HPP_
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include <ML/Core/StandardLib.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -17,9 +19,9 @@
 
 namespace ml
 {
-	class SharedLibrary;
-	class Plugin;
-	using PluginMap = typename Map<SharedLibrary *, Plugin *>;
+	struct	SharedLibrary;
+	struct	Plugin;
+	using	PluginMap = typename Map<SharedLibrary *, Plugin *>;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

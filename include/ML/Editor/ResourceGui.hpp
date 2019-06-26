@@ -8,11 +8,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Material;
-	struct Uniform;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	class ML_EDITOR_API ResourceGui final 
 		: public EditorGui
 	{

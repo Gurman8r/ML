@@ -38,7 +38,7 @@ namespace ml
 
 			return true;
 		}
-		return ml::Debug::logError("Failed to Initialize GLEW");
+		return Debug::logError("Failed to Initialize GLEW");
 	}
 
 	void RenderWindow::onEvent(const Event * value)
@@ -50,7 +50,7 @@ namespace ml
 		case FrameSizeEvent::ID:
 			if (auto ev = value->as<FrameSizeEvent>())
 			{
-				this->setViewport(vec2 { 0.f, 0.f }, { ev->width, ev->height });
+				this->setViewport({ 0, 0 }, { ev->width, ev->height });
 			}
 			break;
 		}

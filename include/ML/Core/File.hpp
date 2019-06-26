@@ -9,19 +9,23 @@
 
 namespace ml
 {
-	class ML_CORE_API File final
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_CORE_API File final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 		, public I_Writable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using iterator				= typename List<char>::iterator;
 		using const_iterator		= typename List<char>::const_iterator;
 		using reverse_iterator		= typename List<char>::reverse_iterator;
 		using const_reverse_iterator= typename List<char>::const_reverse_iterator;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		File();
 		explicit File(const size_t count, const C_String * data);
 		File(const String & data);
@@ -29,12 +33,14 @@ namespace ml
 		File(const File & copy);
 		~File();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool saveToFile(const String & filename) const override;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline operator bool() const
 		{ 
 			return !this->empty(); 
@@ -55,7 +61,8 @@ namespace ml
 			return m_data[i]; 
 		}
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline auto at(size_t i)const	-> const char &			{ return m_data[i]; }
 		inline auto at(size_t i)		-> char &				{ return m_data[i]; }
 		inline auto c_str()		const	-> C_String				{ return str().c_str(); }
@@ -66,7 +73,8 @@ namespace ml
 		inline auto str()		const	-> String				{ return String(begin(), end()); }
 		inline auto sstr()		const	-> SStream				{ return SStream(str()); }
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline auto begin()			-> iterator					{ return m_data.begin(); }
 		inline auto end()			-> iterator					{ return m_data.end(); }
 		inline auto begin() const	-> const_iterator			{ return m_data.begin(); }
@@ -80,15 +88,23 @@ namespace ml
 		inline auto crbegin() const -> const_reverse_iterator	{ return m_data.crbegin(); }
 		inline auto crend() const	-> const_reverse_iterator	{ return m_data.crend(); }
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		String		m_path;
 		List<char>	m_data;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	inline ML_SERIALIZE(Ostream & out, const File & value)
 	{
 		return out << String(value.begin(), value.end());
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_FILE_HPP_

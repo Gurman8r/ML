@@ -2,7 +2,6 @@
 #define _ML_SCRIPT_EVENTS_HPP_
 
 #include <ML/Core/Event.hpp>
-#include <ML/Script/Export.hpp>
 
 namespace ml
 {
@@ -22,7 +21,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_SCRIPT_API CommandEvent final : public I_Event<ScriptEvent::EV_Command>
+	struct CommandEvent final : public I_Event<ScriptEvent::EV_Command>
 	{
 		C_String cmd;
 		constexpr CommandEvent(C_String cmd)

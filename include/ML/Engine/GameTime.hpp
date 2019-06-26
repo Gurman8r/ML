@@ -6,24 +6,29 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API GameTime final
+	struct ML_ENGINE_API GameTime final
 		: public I_Newable
 		, public I_NonCopyable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		GameTime();
 		~GameTime();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		GameTime & beginLoop();
 		GameTime & endLoop();
 
-	public:
-		inline const Duration & elapsed()	const { return m_elapsed;	}
-		inline const uint32_t	frameRate()	const { return m_frameRate; }
-		inline const Duration & total()		const { return m_mainTimer.elapsed(); }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto elapsed()	const -> const Duration &	{ return m_elapsed; }
+		inline auto frameRate()	const -> const uint32_t		{ return m_frameRate; }
+		inline auto total()		const -> const Duration &	{ return m_mainTimer.elapsed(); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		Timer		m_mainTimer;
@@ -33,6 +38,8 @@ namespace ml
 		uint32_t	m_frameCount;
 		float_t		m_nextSecond;
 		float_t		m_prevSecond;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -2,7 +2,7 @@
 #define _ML_BUILTIN_HPP_
 
 #include <ML/Script/Export.hpp>
-#include <ML/Script/Args.hpp>
+#include <ML/Script/Arguments.hpp>
 #include <ML/Script/Var.hpp>
 
 namespace ml

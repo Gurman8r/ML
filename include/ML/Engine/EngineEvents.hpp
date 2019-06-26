@@ -1,17 +1,15 @@
 #ifndef _ML_ENGINE_EVENTS_HPP_
 #define _ML_ENGINE_EVENTS_HPP_
 
-#include <ML/Engine/Export.hpp>
 #include <ML/Core/Event.hpp>
-#include <ML/Core/Timer.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class GameTime;
-	class Prefs;
-	class RenderWindow;
+	struct GameTime;
+	struct Prefs;
+	struct RenderWindow;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -40,7 +38,7 @@ namespace ml
 	// Startup
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API EnterEvent final : public I_Event<EngineEvent::EV_Enter>
+	struct EnterEvent final : public I_Event<EngineEvent::EV_Enter>
 	{
 		const Prefs		& prefs;
 		RenderWindow	& window;
@@ -51,7 +49,7 @@ namespace ml
 		}
 	};
 
-	struct ML_ENGINE_API LoadEvent final : public I_Event<EngineEvent::EV_Load>
+	struct LoadEvent final : public I_Event<EngineEvent::EV_Load>
 	{
 		const Prefs		& prefs;
 		constexpr LoadEvent(Prefs & prefs)
@@ -60,7 +58,7 @@ namespace ml
 		}
 	};
 
-	struct ML_ENGINE_API StartEvent final : public I_Event<EngineEvent::EV_Start>
+	struct StartEvent final : public I_Event<EngineEvent::EV_Start>
 	{
 		const GameTime	& time;
 		RenderWindow	& window;
@@ -74,7 +72,7 @@ namespace ml
 	// Loop
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API BeginFrameEvent final : public I_Event<EngineEvent::EV_BeginFrame>
+	struct BeginFrameEvent final : public I_Event<EngineEvent::EV_BeginFrame>
 	{
 		GameTime		& time;
 		RenderWindow	& window;
@@ -85,9 +83,9 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API UpdateEvent final : public I_Event<EngineEvent::EV_Update>
+	struct UpdateEvent final : public I_Event<EngineEvent::EV_Update>
 	{
 		const GameTime	& time;
 		RenderWindow	& window;
@@ -98,14 +96,14 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API BeginDrawEvent final : public I_Event<EngineEvent::EV_BeginDraw>
+	struct BeginDrawEvent final : public I_Event<EngineEvent::EV_BeginDraw>
 	{
 		constexpr BeginDrawEvent() {}
 	};
 
-	struct ML_ENGINE_API DrawEvent final : public I_Event<EngineEvent::EV_Draw>
+	struct DrawEvent final : public I_Event<EngineEvent::EV_Draw>
 	{
 		const GameTime	& time;
 		RenderWindow	& window;
@@ -116,14 +114,14 @@ namespace ml
 		}
 	};
 
-	struct ML_ENGINE_API EndDrawEvent final : public I_Event<EngineEvent::EV_EndDraw>
+	struct EndDrawEvent final : public I_Event<EngineEvent::EV_EndDraw>
 	{
 		constexpr EndDrawEvent() {}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API EndFrameEvent final : public I_Event<EngineEvent::EV_EndFrame>
+	struct EndFrameEvent final : public I_Event<EngineEvent::EV_EndFrame>
 	{
 		GameTime		& time;
 		RenderWindow	& window;
@@ -137,7 +135,7 @@ namespace ml
 	// Shutdown
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API UnloadEvent final : public I_Event<EngineEvent::EV_Unload>
+	struct UnloadEvent final : public I_Event<EngineEvent::EV_Unload>
 	{
 		RenderWindow	& window;
 		constexpr UnloadEvent(RenderWindow & window)
@@ -146,7 +144,7 @@ namespace ml
 		}
 	};
 
-	struct ML_ENGINE_API ExitEvent final : public I_Event<EngineEvent::EV_Exit>
+	struct ExitEvent final : public I_Event<EngineEvent::EV_Exit>
 	{
 		constexpr ExitEvent() {}
 	};

@@ -1,6 +1,7 @@
 #ifndef _ML_EDITOR_WINDOW_HPP_
 #define _ML_EDITOR_WINDOW_HPP_
 
+#include <ML/Editor/Export.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/Rect.hpp>

@@ -1,13 +1,14 @@
 #ifndef _ML_EDITOR_UTILITY_HPP_
 #define _ML_EDITOR_UTILITY_HPP_
 
+#include <ML/Editor/Export.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
-#define ML_EditorUtility _ML EditorUtility::getInstance()
+#define ML_EditorUtility ::ml::EditorUtility::getInstance()
 
 namespace ml
 {

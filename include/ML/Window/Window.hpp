@@ -16,10 +16,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class EventSystem;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	class ML_WINDOW_API Window
 		: public I_Newable
 		, public I_NonCopyable

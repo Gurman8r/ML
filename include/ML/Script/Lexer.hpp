@@ -2,9 +2,9 @@
 #define _ML_LEXER_HPP_
 
 #include <ML/Script/TokenList.hpp>
-#include <ML/Script/Args.hpp>
+#include <ML/Script/Arguments.hpp>
 
-#define ML_Lexer _ML Lexer::getInstance()
+#define ML_Lexer ::ml::Lexer::getInstance()
 
 namespace ml
 {

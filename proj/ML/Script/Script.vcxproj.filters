@@ -75,9 +75,6 @@
     <ClInclude Include="..\..\..\include\ML\Script\TokenList.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Script\Args.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Script\DefaultCommands.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -93,6 +90,9 @@
     <ClInclude Include="..\..\..\include\ML\Script\Parser.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Script\Arguments.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Script\AST_Block.cpp">
@@ -106,9 +106,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Script\AST_Stmt.cpp">
       <Filter>Source Files\AST</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Script\Args.cpp">
-      <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Script\Command.cpp">
       <Filter>Source Files\DS</Filter>
@@ -142,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Script\Parser.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Script\Arguments.cpp">
+      <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

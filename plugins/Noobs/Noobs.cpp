@@ -134,8 +134,8 @@ namespace DEMO
 		}
 
 		// Get Surfaces
-		assert(noobs.surf_main = ML_Content.get<ml::Surface>("noobs_surf_main"));
-		assert(noobs.surf_post = ML_Content.get<ml::Surface>("noobs_surf_post"));
+		noobs.surf_main = ML_Content.get<ml::Surface>("noobs_surf_main");
+		noobs.surf_post = ML_Content.get<ml::Surface>("noobs_surf_post");
 
 		// Create Entity
 		noobs.entity = ML_Content.create<ml::Entity>("noobs_entity_0");

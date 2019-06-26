@@ -23,11 +23,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<CubeMap>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new CubeMap();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -36,7 +36,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new CubeMap());
 					}
 				}
 			}
@@ -53,11 +53,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Entity>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Entity();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -66,7 +66,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Entity());
 					}
 				}
 			}
@@ -83,11 +83,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Font>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Font();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -96,7 +96,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Font());
 					}
 				}
 			}
@@ -113,11 +113,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Image>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Image();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -126,7 +126,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Image());
 					}
 				}
 			}
@@ -143,11 +143,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Material>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Material();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -173,11 +173,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Mesh>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Mesh();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -186,7 +186,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Mesh());
 					}
 				}
 			}
@@ -203,11 +203,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Model>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Model();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -218,7 +218,7 @@ namespace ml
 					{
 						if (const Mesh * mesh = ML_Content.get<Mesh>(file))
 						{
-							auto temp = new value_type();
+							auto temp = new Model();
 							if (temp->loadFromMemory(*mesh))
 							{
 								return ML_Content.insert(name, temp);
@@ -228,7 +228,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Model());
 					}
 				}
 			}
@@ -245,7 +245,7 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Script>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
@@ -275,11 +275,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Shader>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Shader();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -294,7 +294,7 @@ namespace ml
 
 						if (vert && geom && frag)
 						{
-							auto temp = new value_type();
+							auto temp = new Shader();
 							if (temp->loadFromFile(vert, geom, frag))
 							{
 								return ML_Content.insert(name, temp);
@@ -303,7 +303,7 @@ namespace ml
 						}
 						else if (vert && frag)
 						{
-							auto temp = new value_type();
+							auto temp = new Shader();
 							if (temp->loadFromFile(vert, frag))
 							{
 								return ML_Content.insert(name, temp);
@@ -312,7 +312,7 @@ namespace ml
 						}
 						else
 						{
-							return ML_Content.insert(name, new value_type());
+							return ML_Content.insert(name, new Shader());
 						}
 					}
 				}
@@ -330,11 +330,11 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Sound>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Sound();
 						if (temp->loadFromFile(ML_FS.getPathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -343,7 +343,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Sound());
 					}
 				}
 			}
@@ -360,13 +360,13 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Sprite>(name))
 				{
 					if (const String file = md.getData("file"))
 					{
 						if (const Texture * tex = ML_Content.get<Texture>(file))
 						{
-							auto temp = new value_type();
+							auto temp = new Sprite();
 							if (temp->loadFromMemory(tex))
 							{
 								return ML_Content.insert(name, temp);
@@ -376,7 +376,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Sprite());
 					}
 				}
 			}
@@ -393,15 +393,15 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Surface>(name))
 				{
 					const String  m = md.getData("model");
 					const String  s = md.getData("shader");
 					const int32_t w = md.getData("width", 1920);
 					const int32_t h = md.getData("height", 1080);
-					if (m && s)
+					if (m && s && w && h)
 					{
-						auto temp = new value_type();
+						auto temp = new Surface();
 						if (temp->create({ w, h }, GL::ColorAttachment0) &&
 							temp->setModel(ML_Content.get<Model>(m)) &&
 							temp->setShader(ML_Content.get<Shader>(s)))
@@ -412,7 +412,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Surface());
 					}
 				}
 			}
@@ -429,7 +429,7 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Texture>(name))
 				{
 					const bool smooth = md.getData("smooth", true);
 					const bool repeat = md.getData("repeat", false);
@@ -464,7 +464,7 @@ namespace ml
 
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type(
+						auto temp = new Texture(
 							target, 
 							format,
 							format,
@@ -484,7 +484,7 @@ namespace ml
 					{
 						if (const Image * img = ML_Content.get<Image>(file))
 						{
-							auto temp = new value_type(
+							auto temp = new Texture(
 								target, 
 								format,
 								format,
@@ -520,7 +520,7 @@ namespace ml
 		{
 			if (const String name = md.getData("name"))
 			{
-				if (!ML_Content.get<value_type>(name))
+				if (!ML_Content.get<Uniform>(name))
 				{
 				}
 			}

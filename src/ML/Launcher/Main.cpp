@@ -33,7 +33,7 @@ static Editor		g_Editor		{ g_EventSystem };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-enum State { Startup, Loop, Shutdown };
+enum State : int32_t { Startup, Loop, Shutdown };
 
 static StateMachine<State> g_ControlFlow
 {

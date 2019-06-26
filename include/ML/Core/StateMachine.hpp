@@ -9,12 +9,12 @@ namespace ml
 
 	template <
 		class Key, class ... Args
-	> class StateMachine final
+	> struct StateMachine final
 		: public I_Newable
 		, public I_NonCopyable
 	{
-	public: // Usings
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using key_type		= typename Key;
 		using self_type		= typename StateMachine<Key, Args...>;
 		using fun_type		= typename key_type(*)(Args...);
@@ -23,10 +23,12 @@ namespace ml
 		using init_type		= typename std::initializer_list<pair_type>;
 		using const_iterator= typename map_type::const_iterator;
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static constexpr key_type NoState { static_cast<key_type>(-1) };
 
-	public: // Constructor
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		StateMachine(init_type && init)
 			: m_states()
 		{
@@ -39,8 +41,8 @@ namespace ml
 			}
 		}
 
-	public: // Get State
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline fun_type operator[](const key_type & key)
 		{
 			const_iterator it;
@@ -52,8 +54,8 @@ namespace ml
 			);
 		}
 
-	public: // Run State
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline key_type operator()(const key_type & key, Args ... args)
 		{
 			fun_type fun;
@@ -63,9 +65,11 @@ namespace ml
 			);
 		}
 
-	private: // Data
-		/* * * * * * * * * * * * * * * * * * * * */
-		map_type m_states;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: map_type m_states;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

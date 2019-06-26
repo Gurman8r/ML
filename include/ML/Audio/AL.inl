@@ -1,4 +1,5 @@
 #include <ML/Audio/AL.hpp>
+#include <ML/Core/C_String.hpp>
 
 namespace ml
 {

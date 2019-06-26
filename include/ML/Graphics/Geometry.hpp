@@ -19,8 +19,8 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			using contiguous_t	= typename array_t<float, Vertex::Size * 6>;
-			using texcoord_t	= typename array_t<float, (contiguous_t::Size * 2)>;
+			using contiguous_t	= typename Array<float, Vertex::Size * 6>;
+			using texcoord_t	= typename Array<float, (contiguous_t::Size * 2)>;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -81,9 +81,9 @@ namespace ml
 					static constexpr size_t contiguous	{ vertices * Vertex::Size };
 				};
 
-				using vertices_t	= typename array_t<Vertex, num::vertices>;
-				using indices_t		= typename array_t<uint32_t, num::indices>;
-				using contiguous_t	= typename array_t<float, num::contiguous>;
+				using vertices_t	= typename Array<Vertex, num::vertices>;
+				using indices_t		= typename Array<uint32_t, num::indices>;
+				using contiguous_t	= typename Array<float, num::contiguous>;
 
 			protected:
 				static constexpr contiguous_t Contiguous(const vertices_t & value)
@@ -201,7 +201,7 @@ namespace ml
 
 		struct sky final
 		{
-			static constexpr array_t<float, 108> contiguous
+			static constexpr Array<float, 108> contiguous
 			{
 				-1.0f,  1.0f, -1.0f,
 				-1.0f, -1.0f, -1.0f,

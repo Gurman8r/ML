@@ -3,19 +3,17 @@
 
 #include <ML/Core/Array.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T, size_t X, size_t Y
-	> struct matrix_t
+	> struct Matrix
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static_assert(0 < (X * Y), "matrix_t : size negative or zero");
+		static_assert(0 < (X * Y), "Matrix : size negative or zero");
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,8 +22,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename T;
-		using self_type			= typename matrix_t<value_type, Cols, Rows>;
-		using base_type			= typename array_t<value_type, Size>;
+		using self_type			= typename Matrix<value_type, Cols, Rows>;
+		using base_type			= typename Array<value_type, Size>;
 		using type				= typename base_type::type;
 		using pointer			= typename base_type::pointer;
 		using reference			= typename base_type::reference;
@@ -160,10 +158,10 @@ namespace ml
 	// MATRIX NxN
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T, size_t N>
-	using tmat_nxn = matrix_t<T, N, N>;
+	using tmat_nxn = Matrix<T, N, N>;
 
 	template <class T, size_t N>
-	using tmat_nx1 = matrix_t<T, N, 1>;
+	using tmat_nx1 = Matrix<T, N, 1>;
 
 	// MATRIX3
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -227,7 +225,7 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> inline ML_SERIALIZE(ostream & out, const matrix_t<T, X, Y> & value)
+	> inline ML_SERIALIZE(ostream & out, const Matrix<T, X, Y> & value)
 	{
 		for (const auto & elem : value)
 		{
@@ -238,7 +236,7 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> inline ML_DESERIALIZE(istream & in, matrix_t<T, X, Y> & value)
+	> inline ML_DESERIALIZE(istream & in, Matrix<T, X, Y> & value)
 	{
 		for (auto & elem : value)
 		{
@@ -251,42 +249,42 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr bool operator==(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	> constexpr bool operator==(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
 		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr bool operator!=(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	> constexpr bool operator!=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr bool operator<(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	> constexpr bool operator<(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
 		return alg::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr bool operator<=(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	> constexpr bool operator<=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr bool operator>(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	> constexpr bool operator>(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
 		return !(lhs < rhs) && (lhs != rhs);
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr bool operator>=(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
+	> constexpr bool operator>=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}
@@ -295,8 +293,8 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator+=(matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
-		-> matrix_t<T, X, Y> &
+	> constexpr auto operator+=(Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		-> Matrix<T, X, Y> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -307,8 +305,8 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator-=(matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
-		-> matrix_t<T, X, Y> &
+	> constexpr auto operator-=(Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		-> Matrix<T, X, Y> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -319,8 +317,8 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator*=(matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
-		-> matrix_t<T, X, Y> &
+	> constexpr auto operator*=(Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		-> Matrix<T, X, Y> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -331,8 +329,8 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator/=(matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
-		-> matrix_t<T, X, Y> &
+	> constexpr auto operator/=(Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		-> Matrix<T, X, Y> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -345,40 +343,40 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator+(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator+(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		-> Matrix<T, X, Y>
 	{
-		matrix_t<T, X, Y> temp { lhs };
+		Matrix<T, X, Y> temp { lhs };
 		temp += rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator-(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator-(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		-> Matrix<T, X, Y>
 	{
-		matrix_t<T, X, Y> temp { lhs };
+		Matrix<T, X, Y> temp { lhs };
 		temp -= rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator*(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator*(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		-> Matrix<T, X, Y>
 	{
-		matrix_t<T, X, Y> temp { lhs };
+		Matrix<T, X, Y> temp { lhs };
 		temp *= rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator/(const matrix_t<T, X, Y> & lhs, const matrix_t<T, X, Y> & rhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator/(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		-> Matrix<T, X, Y>
 	{
-		matrix_t<T, X, Y> temp { lhs };
+		Matrix<T, X, Y> temp { lhs };
 		temp /= rhs;
 		return temp;
 	}
@@ -387,8 +385,8 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator+=(matrix_t<T, X, Y> & lhs, const T & rhs)
-		-> matrix_t<T, X, Y> &
+	> constexpr auto operator+=(Matrix<T, X, Y> & lhs, const T & rhs)
+		-> Matrix<T, X, Y> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -399,8 +397,8 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator-=(matrix_t<T, X, Y> & lhs, const T & rhs)
-		-> matrix_t<T, X, Y> &
+	> constexpr auto operator-=(Matrix<T, X, Y> & lhs, const T & rhs)
+		-> Matrix<T, X, Y> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -411,8 +409,8 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator*=(matrix_t<T, X, Y> & lhs, const T & rhs)
-		-> matrix_t<T, X, Y> &
+	> constexpr auto operator*=(Matrix<T, X, Y> & lhs, const T & rhs)
+		-> Matrix<T, X, Y> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -423,8 +421,8 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator/=(matrix_t<T, X, Y> & lhs, const T & rhs)
-		-> matrix_t<T, X, Y> &
+	> constexpr auto operator/=(Matrix<T, X, Y> & lhs, const T & rhs)
+		-> Matrix<T, X, Y> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -437,40 +435,40 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator+(const matrix_t<T, X, Y> & lhs, const T & rhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator+(const Matrix<T, X, Y> & lhs, const T & rhs)
+		-> Matrix<T, X, Y>
 	{
-		matrix_t<T, X, Y> temp { lhs };
+		Matrix<T, X, Y> temp { lhs };
 		temp += rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator-(const matrix_t<T, X, Y> & lhs, const T & rhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator-(const Matrix<T, X, Y> & lhs, const T & rhs)
+		-> Matrix<T, X, Y>
 	{
-		matrix_t<T, X, Y> temp { lhs };
+		Matrix<T, X, Y> temp { lhs };
 		temp -= rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator*(const matrix_t<T, X, Y> & lhs, const T & rhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator*(const Matrix<T, X, Y> & lhs, const T & rhs)
+		-> Matrix<T, X, Y>
 	{
-		matrix_t<T, X, Y> temp { lhs };
+		Matrix<T, X, Y> temp { lhs };
 		temp *= rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator/(const matrix_t<T, X, Y> & lhs, const T & rhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator/(const Matrix<T, X, Y> & lhs, const T & rhs)
+		-> Matrix<T, X, Y>
 	{
-		matrix_t<T, X, Y> temp { lhs };
+		Matrix<T, X, Y> temp { lhs };
 		temp /= rhs;
 		return temp;
 	}
@@ -479,16 +477,16 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator-(const matrix_t<T, X, Y> & lhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator-(const Matrix<T, X, Y> & lhs)
+		-> Matrix<T, X, Y>
 	{
 		return (lhs * type_t<T>::minus_one);
 	}
 
 	template <
 		class T, size_t X, size_t Y
-	> constexpr auto operator+(const matrix_t<T, X, Y> & lhs)
-		-> matrix_t<T, X, Y>
+	> constexpr auto operator+(const Matrix<T, X, Y> & lhs)
+		-> Matrix<T, X, Y>
 	{
 		return -(-(lhs));
 	}

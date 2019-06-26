@@ -17,7 +17,7 @@ namespace ml
 
 		using value_type		= typename float;
 		using self_type			= typename Vertex;
-		using array_type		= typename array_t<value_type, Size>;
+		using array_type		= typename Array<value_type, Size>;
 		using pointer			= typename array_type::pointer;
 		using reference			= typename array_type::reference;
 		using const_pointer		= typename array_type::const_pointer;

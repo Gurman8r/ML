@@ -27,8 +27,8 @@ namespace ml
 		constexpr auto vb		= vec2 { -10.f, -10.f };
 		constexpr auto vc		= alg::lerp(va, vb, vec2::type::half);
 
-		constexpr auto arr1 = array_t<char, 3> { 'a', 'b', 'c' };
-		constexpr auto arr2 = array_t<char, 3> { 'a', 'b', 'c' };
+		constexpr auto arr1 = Array<char, 3> { 'a', 'b', 'c' };
+		constexpr auto arr2 = Array<char, 3> { 'a', 'b', 'c' };
 		static_assert(arr1 == arr2, "What?");
 
 		static_assert(meta::c_string("Here") == meta::c_string("Here"), "What?");

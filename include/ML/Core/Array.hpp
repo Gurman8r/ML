@@ -10,11 +10,11 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> struct array_t
+	> struct Array
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static_assert(0 < N, "array_t : size negative or zero");
+		static_assert(0 < N, "Array : size negative or zero");
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +25,7 @@ namespace ml
 		using value_type		= typename T;
 		using type				= typename type_t<value_type>;
 		using data_type			= typename value_type[Size];
-		using self_type			= typename array_t<value_type, Size>;
+		using self_type			= typename Array<value_type, Size>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
@@ -52,15 +52,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr const_reference operator[](size_t i) const 
-		{ 
-			return m_data[i]; 
-		}
+		constexpr const_reference operator[](size_t i) const { return m_data[i]; }
 
-		constexpr reference operator[](size_t i)
-		{ 
-			return m_data[i]; 
-		}
+		constexpr reference operator[](size_t i) { return m_data[i]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -78,7 +72,7 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> inline ML_SERIALIZE(ostream & out, const array_t<T, N> & value)
+	> inline ML_SERIALIZE(ostream & out, const Array<T, N> & value)
 	{
 		for (const auto & elem : value)
 		{
@@ -89,7 +83,7 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> inline ML_DESERIALIZE(istream & in, array_t<T, N> & value)
+	> inline ML_DESERIALIZE(istream & in, Array<T, N> & value)
 	{
 		for (auto & elem : value)
 		{
@@ -102,42 +96,42 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr bool operator==(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
+	> constexpr bool operator==(const Array<T, N> & lhs, const Array<T, N> & rhs)
 	{
 		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <
 		class T, size_t N
-	> constexpr bool operator!=(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
+	> constexpr bool operator!=(const Array<T, N> & lhs, const Array<T, N> & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <
 		class T, size_t N
-	> constexpr bool operator<(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
+	> constexpr bool operator<(const Array<T, N> & lhs, const Array<T, N> & rhs)
 	{
 		return alg::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <
 		class T, size_t N
-	> constexpr bool operator<=(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
+	> constexpr bool operator<=(const Array<T, N> & lhs, const Array<T, N> & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
 	template <
 		class T, size_t N
-	> constexpr bool operator>(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
+	> constexpr bool operator>(const Array<T, N> & lhs, const Array<T, N> & rhs)
 	{
 		return !(lhs < rhs) && (lhs != rhs);
 	}
 
 	template <
 		class T, size_t N
-	> constexpr bool operator>=(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
+	> constexpr bool operator>=(const Array<T, N> & lhs, const Array<T, N> & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}
@@ -146,8 +140,8 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator+=(array_t<T, N> & lhs, const array_t<T, N> & rhs)
-		-> array_t<T, N> &
+	> constexpr auto operator+=(Array<T, N> & lhs, const Array<T, N> & rhs)
+		-> Array<T, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -158,8 +152,8 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator-=(array_t<T, N> & lhs, const array_t<T, N> & rhs)
-		-> array_t<T, N> &
+	> constexpr auto operator-=(Array<T, N> & lhs, const Array<T, N> & rhs)
+		-> Array<T, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -170,8 +164,8 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator*=(array_t<T, N> & lhs, const array_t<T, N> & rhs)
-		-> array_t<T, N> &
+	> constexpr auto operator*=(Array<T, N> & lhs, const Array<T, N> & rhs)
+		-> Array<T, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -182,8 +176,8 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator/=(array_t<T, N> & lhs, const array_t<T, N> & rhs)
-		-> array_t<T, N> &
+	> constexpr auto operator/=(Array<T, N> & lhs, const Array<T, N> & rhs)
+		-> Array<T, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -196,40 +190,40 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator+(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-		-> array_t<T, N>
+	> constexpr auto operator+(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		-> Array<T, N>
 	{
-		array_t<T, N> temp { lhs };
+		Array<T, N> temp { lhs };
 		temp += rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t N
-	> constexpr auto operator-(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-		-> array_t<T, N>
+	> constexpr auto operator-(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		-> Array<T, N>
 	{
-		array_t<T, N> temp { lhs };
+		Array<T, N> temp { lhs };
 		temp -= rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t N
-	> constexpr auto operator*(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-		-> array_t<T, N>
+	> constexpr auto operator*(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		-> Array<T, N>
 	{
-		array_t<T, N> temp { lhs };
+		Array<T, N> temp { lhs };
 		temp *= rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t N
-	> constexpr auto operator/(const array_t<T, N> & lhs, const array_t<T, N> & rhs)
-		-> array_t<T, N>
+	> constexpr auto operator/(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		-> Array<T, N>
 	{
-		array_t<T, N> temp { lhs };
+		Array<T, N> temp { lhs };
 		temp /= rhs;
 		return temp;
 	}
@@ -238,8 +232,8 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator+=(array_t<T, N> & lhs, const T & rhs)
-		-> array_t<T, N> &
+	> constexpr auto operator+=(Array<T, N> & lhs, const T & rhs)
+		-> Array<T, N> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -250,8 +244,8 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator-=(array_t<T, N> & lhs, const T & rhs)
-		-> array_t<T, N> &
+	> constexpr auto operator-=(Array<T, N> & lhs, const T & rhs)
+		-> Array<T, N> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -262,8 +256,8 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator*=(array_t<T, N> & lhs, const T & rhs)
-		-> array_t<T, N> &
+	> constexpr auto operator*=(Array<T, N> & lhs, const T & rhs)
+		-> Array<T, N> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -274,8 +268,8 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator/=(array_t<T, N> & lhs, const T & rhs)
-		-> array_t<T, N> &
+	> constexpr auto operator/=(Array<T, N> & lhs, const T & rhs)
+		-> Array<T, N> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -288,40 +282,40 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator+(const array_t<T, N> & lhs, const T & rhs)
-		-> array_t<T, N>
+	> constexpr auto operator+(const Array<T, N> & lhs, const T & rhs)
+		-> Array<T, N>
 	{
-		array_t<T, N> temp { lhs };
+		Array<T, N> temp { lhs };
 		temp += rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t N
-	> constexpr auto operator-(const array_t<T, N> & lhs, const T & rhs)
-		-> array_t<T, N>
+	> constexpr auto operator-(const Array<T, N> & lhs, const T & rhs)
+		-> Array<T, N>
 	{
-		array_t<T, N> temp { lhs };
+		Array<T, N> temp { lhs };
 		temp -= rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t N
-	> constexpr auto operator*(const array_t<T, N> & lhs, const T & rhs)
-		-> array_t<T, N>
+	> constexpr auto operator*(const Array<T, N> & lhs, const T & rhs)
+		-> Array<T, N>
 	{
-		array_t<T, N> temp { lhs };
+		Array<T, N> temp { lhs };
 		temp *= rhs;
 		return temp;
 	}
 
 	template <
 		class T, size_t N
-	> constexpr auto operator/(const array_t<T, N> & lhs, const T & rhs)
-		-> array_t<T, N>
+	> constexpr auto operator/(const Array<T, N> & lhs, const T & rhs)
+		-> Array<T, N>
 	{
-		array_t<T, N> temp { lhs };
+		Array<T, N> temp { lhs };
 		temp /= rhs;
 		return temp;
 	}
@@ -330,16 +324,16 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> constexpr auto operator-(const array_t<T, N> & lhs)
-		-> array_t<T, N>
+	> constexpr auto operator-(const Array<T, N> & lhs)
+		-> Array<T, N>
 	{
 		return (lhs * type_t<T>::minus_one);
 	}
 
 	template <
 		class T, size_t N
-	> constexpr auto operator+(const array_t<T, N> & lhs)
-		-> array_t<T, N>
+	> constexpr auto operator+(const Array<T, N> & lhs)
+		-> Array<T, N>
 	{
 		return -(-(lhs));
 	}

@@ -1,6 +1,14 @@
-# List of things to get done:
+# List of things to get done
+# * * * * * * * * * * * * * * * * * * * * * * * #
 
-- constexpr math library (Core/Math.hpp)
-- material deserialization
-- template property drawers
-- template asset importers
+[ ] = In Progress
+[X] = Done
+
+# * * * * * * * * * * * * * * * * * * * * * * * #
+
+[X] constexpr math library (Core/Math.hpp)
+[ ] material deserialization
+[X] template property drawers
+[X] template asset importers
+
+# * * * * * * * * * * * * * * * * * * * * * * * #

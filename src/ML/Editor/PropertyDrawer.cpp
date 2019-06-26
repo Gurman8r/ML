@@ -295,7 +295,7 @@ namespace ml
 
 	bool MaterialPropertyDrawer::operator()(const String & label, reference value) const
 	{
-		ImGui::PushID(label);
+		ImGui::PushID(label.c_str());
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

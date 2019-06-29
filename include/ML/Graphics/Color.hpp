@@ -21,7 +21,6 @@ namespace ml
 
 		static constexpr vec4 cyan			{ 0.0f, 1.0f, 1.0f, 1.0f };
 		static constexpr vec4 yellow		{ 1.0f, 1.0f, 0.0f, 1.0f };
-		static constexpr vec4 lightYellow	{ 1.0f, 1.0f, 0.75f, 1.0f };
 		static constexpr vec4 magenta		{ 1.0f, 0.0f, 1.0f, 1.0f };
 
 		static constexpr vec4 violet		{ 0.5f, 0.0f, 1.0f, 1.0f };

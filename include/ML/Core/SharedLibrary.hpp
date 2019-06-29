@@ -18,8 +18,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using map_type = typename Map<String, void *>;
-		using const_iterator = typename map_type::const_iterator;
+		using map_type			= typename Map<String, void *>;
+		using const_iterator	= typename map_type::const_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -36,8 +36,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class Out, class ... Args> 
-		inline Out callFunction(const String & name, Args && ... args)
+		template <
+			class Out, class ... Args
+		> inline Out callFunction(const String & name, Args && ... args)
 		{
 			using Fun = Out(*)(Args...);
 			Fun fun;

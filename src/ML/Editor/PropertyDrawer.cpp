@@ -18,11 +18,13 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Graphics/Renderer.hpp>
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	template <
 		class T
-	> inline static bool basic_asset_dropdown(const String & label, const T *& value)
+	> inline static bool asset_dropdown(const String & label, const T *& value)
 	{
 		int32_t index = ML_Content.getIndexOf<T>(value);
 		if (ML_EditorUtility.StringCombo(
@@ -37,13 +39,15 @@ namespace ml
 	}
 }
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	// CubeMap Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool CubeMapPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<CubeMap>(label, value);
+		return asset_dropdown<CubeMap>(label, value);
 	}
 
 	bool CubeMapPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -61,7 +65,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool EntityPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Entity>(label, value);
+		return asset_dropdown<Entity>(label, value);
 	}
 
 	bool EntityPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -245,7 +249,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool FontPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Font>(label, value);
+		return asset_dropdown<Font>(label, value);
 	}
 
 	bool FontPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -264,7 +268,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool ImagePropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Image>(label, value);
+		return asset_dropdown<Image>(label, value);
 	}
 
 	bool ImagePropertyDrawer::operator()(const String & label, const_reference value) const
@@ -284,7 +288,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool MaterialPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Material>(label, value);
+		return asset_dropdown<Material>(label, value);
 	}
 
 	bool MaterialPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -408,7 +412,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool MeshPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Mesh>(label, value);
+		return asset_dropdown<Mesh>(label, value);
 	}
 
 	bool MeshPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -429,7 +433,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool ModelPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Model>(label, value);
+		return asset_dropdown<Model>(label, value);
 	}
 
 	bool ModelPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -448,7 +452,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool ScriptPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Script>(label, value);
+		return asset_dropdown<Script>(label, value);
 	}
 
 	bool ScriptPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -467,7 +471,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool ShaderPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Shader>(label, value);
+		return asset_dropdown<Shader>(label, value);
 	}
 	
 	bool ShaderPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -573,7 +577,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool SoundPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Sound>(label, value);
+		return asset_dropdown<Sound>(label, value);
 	}
 
 	bool SoundPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -591,7 +595,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool SpritePropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Sprite>(label, value);
+		return asset_dropdown<Sprite>(label, value);
 	}
 
 	bool SpritePropertyDrawer::operator()(const String & label, const_reference value) const
@@ -678,7 +682,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool SurfacePropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Surface>(label, value);
+		return asset_dropdown<Surface>(label, value);
 	}
 
 	bool SurfacePropertyDrawer::operator()(const String & label, const_reference value) const
@@ -733,7 +737,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool TexturePropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return basic_asset_dropdown<Texture>(label, value);
+		return asset_dropdown<Texture>(label, value);
 	}
 
 	bool TexturePropertyDrawer::operator()(const String & label, const_reference value) const
@@ -743,95 +747,125 @@ namespace ml
 
 	bool TexturePropertyDrawer::operator()(const String & label, reference value) const
 	{
-		ImGui::Columns(2, "texture_data_columns");
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		//ImGui::Columns(2, "texture_data_columns");
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		vec2u size = value.size();
-		ImGui::Selectable("Size:");
-		ImGui::NextColumn();
-		ImGui::Text("%u x %u", size[0], size[1]);
-		ImGui::NextColumn();
+		ImGui::Text("Size: %u x %u", size[0], size[1]);
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		vec2u realSize = value.realSize();
-		ImGui::Selectable("Real Size:");
-		ImGui::NextColumn();
-		ImGui::Text("%u x %u", realSize[0], realSize[1]);
-		ImGui::NextColumn();
+		ImGui::Text("Real Size: %u x %u", realSize[0], realSize[1]);
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		bool smooth = value.smooth();
-		ImGui::Selectable("Smooth:");
-		ImGui::NextColumn();
-		if (ImGui::Checkbox("##Smooth##Texture", &smooth))
+		if (ImGui::Checkbox(("Smooth##" + label).c_str(), &smooth))
 		{
 			value.setSmooth(smooth);
 		}
-		ImGui::NextColumn();
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		bool repeated = value.repeated();
-		ImGui::Selectable("Repeated:");
-		ImGui::NextColumn();
-		if (ImGui::Checkbox("##Repeated##Texture", &repeated))
+		if (ImGui::Checkbox(("Repeated##" + label).c_str(), &repeated))
 		{
 			value.setRepeated(repeated);
 		}
-		ImGui::NextColumn();
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		bool mipmapped = value.mipmapped();
-		ImGui::Selectable("Mipmapped:");
-		ImGui::NextColumn();
-		if (ImGui::Checkbox("##Mipmapped##Texture", &mipmapped))
+		if (ImGui::Checkbox(("Mipmapped##" + label).c_str(), &mipmapped))
 		{
 			value.setMipmapped(mipmapped);
 		}
-		ImGui::NextColumn();
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		int32_t level = value.level();
-		ImGui::Selectable("Level:");
-		ImGui::NextColumn();
-		ImGui::Text("%i", level);
-		ImGui::NextColumn();
+		if (ImGui::InputInt(("Level##" + label).c_str(), &level))
+		{
+			value.setLevel(level);
+		}
 
-		GL::Target target = value.target();
-		ImGui::Selectable("Target:");
-		ImGui::NextColumn();
-		ImGui::Text("%s", GL::nameOf(target));
-		ImGui::NextColumn();
+		/* * * * * * * * * * * * * * * * * * * * */
 
-		GL::Format colorFormat = value.colorFormat();
-		ImGui::Selectable("Color Format:");
-		ImGui::NextColumn();
-		ImGui::Text("%s", GL::nameOf(colorFormat));
-		ImGui::NextColumn();
+		int32_t target = GL::indexOf(value.target());
+		if (ImGui::Combo(
+			("Target##" + label).c_str(),
+			&(target), 
+			GL::Target_names, 
+			3 //IM_ARRAYSIZE(GL::Target_names)
+		))
+		{
+			GL::Target temp;
+			if (GL::valueAt(target, temp))
+				value.setTarget(temp);
+		}
 
-		GL::Format internalFormat = value.internalFormat();
-		ImGui::Selectable("Internal Format:");
-		ImGui::NextColumn();
-		ImGui::Text("%s", GL::nameOf(internalFormat));
-		ImGui::NextColumn();
+		/* * * * * * * * * * * * * * * * * * * * */
 
-		GL::Type pixType = value.type();
-		ImGui::Selectable("Pixel Type:");
-		ImGui::NextColumn();
-		ImGui::Text("%s", GL::nameOf(pixType));
-		ImGui::NextColumn();
+		int32_t colorFormat = GL::indexOf(value.colorFormat());
+		if (ImGui::Combo(
+			("Color Format##" + label).c_str(),
+			&(colorFormat),
+			GL::Format_names,
+			IM_ARRAYSIZE(GL::Format_names)
+		))
+		{
+			GL::Format temp;
+			if (GL::valueAt(colorFormat, temp))
+				value.setColorFormat(temp);
+		}
 
-		ImGui::Columns(1);
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		int32_t internalFormat = GL::indexOf(value.internalFormat());
+		if (ImGui::Combo(
+			("Internal Format##" + label).c_str(),
+			&(internalFormat),
+			GL::Format_names,
+			IM_ARRAYSIZE(GL::Format_names)
+		))
+		{
+			GL::Format temp;
+			if (GL::valueAt(internalFormat, temp))
+				value.setInternalFormat(temp);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		int32_t pixelType = GL::indexOf(value.type());
+		if (ImGui::Combo(
+			("Pixel Type##" + label).c_str(),
+			&(pixelType),
+			GL::Type_names,
+			IM_ARRAYSIZE(GL::Type_names)
+		))
+		{
+			GL::Type temp;
+			if (GL::valueAt(pixelType, temp))
+				value.setType(temp);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		if (ImGui::TreeNode("Preview"))
 		{
-			const ImGuiIO & io = ImGui::GetIO();
-
-			auto scaleToFit = [](const vec2 & src, const vec2 & dst)
+			const vec2 scl = ([](const vec2 & src, const vec2 & dst)
 			{
 				const vec2
 					hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
 					vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
 				return (src * (((hs) < (vs)) ? (hs) : (vs)));
-			};
-
-			vec2 src = value.size();
-			vec2 pos = ML_EditorUtility.getCursorPos();
-			vec2 dst = { 256, 256 };
-			vec2 scl = scaleToFit(src, dst);
+			})(
+				value.size(), { 256, 256 }
+			);
 
 			ImGui::Image(
 				value.get_handle(),
@@ -844,6 +878,8 @@ namespace ml
 
 			ImGui::TreePop();
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		return false;
 	}

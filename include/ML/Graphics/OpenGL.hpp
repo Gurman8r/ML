@@ -111,7 +111,7 @@ namespace ml
 		static void	bindTexture(uint32_t target, uint32_t id);
 		static void	texImage2D(uint32_t target, int32_t level, GL::Format internalFormat, int32_t width, int32_t height, int32_t border, GL::Format format, GL::Type type, const void * pixels);
 		static void	texSubImage2D(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t width, int32_t height, GL::Format format, GL::Type type, const void * pixels);
-		static void	texParameter(uint32_t target, uint32_t name, GL::TexParam param);
+		static void	texParameter(uint32_t target, uint32_t name, uint32_t param);
 		static void	getTexImage(uint32_t target, int32_t level, GL::Format format, GL::Type type, void * pixels);
 		static void	generateMipmap(uint32_t target);
 		static void	pixelStore(uint32_t name, int32_t param);

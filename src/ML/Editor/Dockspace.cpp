@@ -1,4 +1,4 @@
-#include <ML/Editor/DockspaceGui.hpp>
+#include <ML/Editor/Dockspace.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	DockspaceGui::DockspaceGui(EventSystem & eventSystem)
+	Dockspace::Dockspace(EventSystem & eventSystem)
 		: EditorGui	(eventSystem, "Dockspace")
 		, m_border	(0.0f)
 		, m_padding	(vec2 { 0.f, 0.f })
@@ -18,11 +18,11 @@ namespace ml
 	{
 	}
 
-	DockspaceGui::~DockspaceGui() {}
+	Dockspace::~Dockspace() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool DockspaceGui::drawGui(const GuiEvent & ev)
+	bool Dockspace::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(
 			ImGuiWindowFlags_NoTitleBar |
@@ -55,7 +55,7 @@ namespace ml
 		return endDraw();
 	}
 
-	bool DockspaceGui::beginDraw(int32_t flags)
+	bool Dockspace::beginDraw(int32_t flags)
 	{
 		if (m_good = (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable))
 		{
@@ -80,7 +80,7 @@ namespace ml
 		return m_good;
 	}
 
-	bool DockspaceGui::endDraw()
+	bool Dockspace::endDraw()
 	{
 		if (m_good)
 		{
@@ -95,7 +95,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	uint32_t DockspaceGui::beginBuilder(int32_t flags)
+	uint32_t Dockspace::beginBuilder(int32_t flags)
 	{
 		if (uint32_t root = ImGui::GetID(getTitle()))
 		{
@@ -109,7 +109,7 @@ namespace ml
 		return NULL;
 	}
 
-	uint32_t DockspaceGui::endBuilder(uint32_t root)
+	uint32_t Dockspace::endBuilder(uint32_t root)
 	{
 		if (root)
 		{
@@ -118,7 +118,7 @@ namespace ml
 		return root;
 	}
 
-	uint32_t DockspaceGui::dockWindow(C_String name, uint32_t id)
+	uint32_t Dockspace::dockWindow(C_String name, uint32_t id)
 	{
 		if (name && id)
 		{
@@ -128,12 +128,12 @@ namespace ml
 		return NULL;
 	}
 
-	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * other)
+	uint32_t Dockspace::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * other)
 	{
 		return splitNode(id, dir, ratio, nullptr, other);
 	}
 
-	uint32_t DockspaceGui::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * out, uint32_t * other)
+	uint32_t Dockspace::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * out, uint32_t * other)
 	{
 		return ImGui::DockBuilderSplitNode(id, dir, ratio, out, other);
 	}

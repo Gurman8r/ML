@@ -78,6 +78,11 @@ namespace ml
 		Texture & setMipmapped(bool value);
 		Texture & setRepeated(bool value);
 		Texture & setSmooth(bool value);
+		Texture & setTarget(GL::Target value);
+		Texture & setLevel(int32_t value);
+		Texture & setInternalFormat(GL::Format value);
+		Texture & setColorFormat(GL::Format value);
+		Texture & setType(GL::Type value);
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

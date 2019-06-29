@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API TerminalGui final
+	class ML_EDITOR_API Terminal final
 		: public EditorGui
 	{
 		friend class Editor;
@@ -23,8 +23,8 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit TerminalGui(EventSystem & eventSystem);
-		~TerminalGui();
+		explicit Terminal(EventSystem & eventSystem);
+		~Terminal();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -34,9 +34,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		void    clear();
 		void    execute(C_String value);
-		void    printf(C_String value, ...);		// Print Format
+		void    printf(C_String value, ...);	// Print Format
 		void	printl(const String & value);	// Print Line
-		void	printss(SStream & value);		// Print Stream
+		void	printss(SStream & value);		// Print SStream
 		bool	redirect(Ostream & value);
 		int32_t inputCallback(void * value);
 
@@ -56,6 +56,7 @@ namespace ml
 		History			m_history;
 		int32_t			m_historyPos;
 		List<C_String>	m_autoFill;
+		bool			m_paused;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

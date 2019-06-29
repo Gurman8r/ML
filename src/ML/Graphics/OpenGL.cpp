@@ -474,7 +474,7 @@ namespace ml
 		glCheck(glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels));
 	}
 
-	void OpenGL::texParameter(uint32_t target, uint32_t name, GL::TexParam param)
+	void OpenGL::texParameter(uint32_t target, uint32_t name, uint32_t param)
 	{
 		glCheck(glTexParameteri(target, name, param));
 	}

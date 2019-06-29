@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API BrowserGui final 
+	class ML_EDITOR_API Browser final 
 		: public EditorGui
 	{
 		friend class Editor;
@@ -29,8 +29,8 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit BrowserGui(EventSystem & eventSystem);
-		~BrowserGui();
+		explicit Browser(EventSystem & eventSystem);
+		~Browser();
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -93,4 +93,5 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
+
 #endif // !_ML_BROWSER_GUI_HPP_

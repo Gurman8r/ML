@@ -129,8 +129,8 @@ namespace ml
 
 	bool Texture::dispose()
 	{
-		Texture::bind(NULL);
-		if ((*this))
+		Texture::bind(nullptr);
+		if (*this)
 		{
 			ML_GL.deleteTextures(1, (*this));
 			get_reference() = NULL;
@@ -219,7 +219,7 @@ namespace ml
 						pixels
 					);
 				}
-				Texture::bind(NULL);
+				Texture::bind(nullptr);
 
 				ML_GL.flush();
 
@@ -321,7 +321,7 @@ namespace ml
 						pixels
 					);
 				}
-				Texture::bind(NULL);
+				Texture::bind(nullptr);
 
 				ML_GL.flush();
 
@@ -346,7 +346,7 @@ namespace ml
 
 	Texture & Texture::setMipmapped(bool value)
 	{
-		if ((*this))
+		if (*this)
 		{
 			if ((m_mipmapped = value) && !ML_GL.framebuffersAvailable())
 			{
@@ -361,28 +361,24 @@ namespace ml
 			}
 
 			Texture::bind(this);
-			{
-				ML_GL.generateMipmap(m_target);
 
-				ML_GL.texParameter(
-					m_target,
-					GL::TexMinFilter,
-					(((m_smooth)
-						? (GL::LinearMipmapLinear)
-						: (GL::NearestMipmapNearest))
-					)
-				);
+			ML_GL.generateMipmap(m_target);
 
-				ML_GL.texParameter(
-					m_target,
-					GL::TexMagFilter,
-					(((m_smooth)
-						? (GL::LinearMipmapLinear)
-						: (GL::NearestMipmapNearest))
-					)
-				);
-			}
-			Texture::bind(NULL);
+			ML_GL.texParameter(
+				m_target,
+				GL::TexMinFilter,
+				(((m_smooth)
+					? (GL::LinearMipmapLinear)
+					: (GL::NearestMipmapNearest))));
+
+			ML_GL.texParameter(
+				m_target,
+				GL::TexMagFilter,
+				(((m_smooth)
+					? (GL::LinearMipmapLinear)
+					: (GL::NearestMipmapNearest))));
+			
+			Texture::bind(nullptr);
 
 			ML_GL.flush();
 		}
@@ -391,7 +387,7 @@ namespace ml
 
 	Texture & Texture::setRepeated(bool value)
 	{
-		if ((*this))
+		if (*this)
 		{
 			if (((m_repeated) = value) && !(ML_GL.edgeClampAvailable()))
 			{
@@ -407,32 +403,26 @@ namespace ml
 			}
 
 			Texture::bind(this);
-			{
-				ML_GL.texParameter(
-					m_target,
-					GL::TexWrapS,
-					((m_repeated)
-						? (GL::Repeat)
-						: ((ML_GL.edgeClampAvailable())
-							? (GL::ClampToEdge)
-							: (GL::Clamp)
-						)
-					)
-				);
+			
+			ML_GL.texParameter(
+				m_target,
+				GL::TexWrapS,
+				((m_repeated)
+					? (GL::Repeat)
+					: ((ML_GL.edgeClampAvailable())
+						? (GL::ClampToEdge)
+						: (GL::Clamp))));
 
-				ML_GL.texParameter(
-					m_target,
-					GL::TexWrapT,
-					((m_repeated)
-						? (GL::Repeat)
-						: ((ML_GL.edgeClampAvailable())
-							? (GL::ClampToEdge)
-							: (GL::Clamp)
-						)
-					)
-				);
-			}
-			Texture::bind(NULL);
+			ML_GL.texParameter(
+				m_target,
+				GL::TexWrapT,
+				((m_repeated)
+					? (GL::Repeat)
+					: ((ML_GL.edgeClampAvailable())
+						? (GL::ClampToEdge)
+						: (GL::Clamp))));
+			
+			Texture::bind(nullptr);
 
 			ML_GL.flush();
 		}
@@ -441,32 +431,85 @@ namespace ml
 
 	Texture & Texture::setSmooth(bool value)
 	{
-		if ((*this))
+		if (*this)
 		{
 			m_smooth = value;
 
 			Texture::bind(this);
-			{
-				ML_GL.texParameter(
-					m_target,
-					GL::TexMinFilter,
-					((m_smooth)
-						? (GL::Linear)
-						: (GL::Nearest)
-					)
-				);
 
-				ML_GL.texParameter(
-					m_target,
-					GL::TexMagFilter,
-					((m_smooth)
-						? GL::Linear
-						: (GL::Nearest)
-					)
-				);
-			}
-			Texture::bind(NULL);
+			ML_GL.texParameter(
+				m_target,
+				GL::TexMinFilter,
+				((m_smooth)
+					? (GL::Linear)
+					: (GL::Nearest)));
 
+			ML_GL.texParameter(
+				m_target,
+				GL::TexMagFilter,
+				((m_smooth)
+					? GL::Linear
+					: (GL::Nearest)));
+
+			Texture::bind(nullptr);
+
+			ML_GL.flush();
+		}
+		return (*this);
+	}
+
+	Texture & Texture::setTarget(GL::Target value)
+	{
+		if (*this)
+		{
+			Texture::bind(this);
+			Texture::bind(nullptr);
+			ML_GL.flush();
+		}
+		return (*this);
+	}
+
+	Texture & Texture::setLevel(int32_t value)
+	{
+		if (*this)
+		{
+			Texture::bind(this);
+			//ML_GL.texParameter(m_target, GL::BaseLevel, value);
+			//ML_GL.texParameter(m_target, GL::MaxLevel, value);
+			Texture::bind(nullptr);
+			ML_GL.flush();
+		}
+		return (*this);
+	}
+
+	Texture & Texture::setInternalFormat(GL::Format value)
+	{
+		if (*this)
+		{
+			Texture::bind(this);
+			Texture::bind(nullptr);
+			ML_GL.flush();
+		}
+		return (*this);
+	}
+
+	Texture & Texture::setColorFormat(GL::Format value)
+	{
+		if (*this)
+		{
+			Texture::bind(this);
+			Texture::bind(nullptr);
+			ML_GL.flush();
+		}
+		return (*this);
+	}
+
+	Texture & Texture::setType(GL::Type value)
+	{
+		if (*this)
+		{
+			Texture::bind(this);
+			Texture::bind(nullptr);
 			ML_GL.flush();
 		}
 		return (*this);
@@ -501,7 +544,7 @@ namespace ml
 
 	const Image Texture::copyToImage() const
 	{
-		if ((*this))
+		if (*this)
 		{
 			Image::Pixels pixels(width() * height() * 4);
 
@@ -517,7 +560,7 @@ namespace ml
 					&pixels[0]
 				);
 
-				Texture::bind(NULL);
+				Texture::bind(nullptr);
 			}
 
 			return Image().create(width(), height(), &pixels[0]);

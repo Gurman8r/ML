@@ -29,7 +29,6 @@ namespace ml
 	private:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		Content() : m_data() { }
-
 		~Content() { dispose(); }
 
 	public:

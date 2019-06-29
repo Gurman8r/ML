@@ -275,6 +275,10 @@ namespace ml
 			Clamp = 0x2900,					// GL_CLAMP
 			Repeat,							// GL_REPEAT
 			ClampToEdge = 0x812F,			// GL_CLAMP_TO_EDGE
+			MinLOD,							// GL_TEXTURE_MIN_LOD
+			MaxLOD,							// GL_TEXTURE_MAX_LOD
+			BaseLevel,						// GL_TEXTURE_BASE_LEVEL
+			MaxLevel,						// GL_TEXTURE_MAX_LEVEL
 
 			CubeMap_Positive_X = 0x8515,	// GL_TEXTURE_CUBE_MAP_POSITIVE_X
 			CubeMap_Negative_X,				// GL_TEXTURE_CUBE_MAP_NEGATIVE_X

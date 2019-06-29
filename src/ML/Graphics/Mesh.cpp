@@ -150,11 +150,11 @@ namespace ml
 
 			for (size_t i = 0, imax = m_vertices.size(); i < imax; i++)
 			{
-				const vec3 p = vp[vi[i]];
-				const vec4 n = vec4 { vn[vi[i]][0], vn[vi[i]][1], vn[vi[i]][2], 1.0f };
-				const vec2 t = vt[ti[i]];
-
-				m_vertices[i] = Vertex(p, n, t);
+				m_vertices[i] = Vertex(
+					vp[vi[i]],
+					{ vn[vi[i]][0], vn[vi[i]][1], vn[vi[i]][2], 1.0f },
+					vt[ti[i]]
+				);
 			}
 
 			m_contiguous = m_vertices.contiguous();

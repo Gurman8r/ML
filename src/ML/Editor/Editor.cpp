@@ -19,12 +19,14 @@ namespace ml
 	Editor::Editor(EventSystem & eventSystem)
 		: EventListener	(eventSystem)
 		, m_dockspace	(eventSystem)
+		, m_explorer	(eventSystem)
 		, m_browser		(eventSystem)
 		, m_profiler	(eventSystem)
 		, m_resources	(eventSystem)
 		, m_terminal	(eventSystem)
 	{
 		m_dockspace	.setOpen(true);
+		m_explorer	.setOpen(true);
 		m_browser	.setOpen(false);
 		m_profiler	.setOpen(false);
 		m_resources	.setOpen(false);
@@ -67,7 +69,7 @@ namespace ml
 		case BuildDockspaceEvent::ID:
 			if (auto ev = value->as<BuildDockspaceEvent>())
 			{
-				DockspaceGui & d = ev->dockspace;
+				Dockspace & d = ev->dockspace;
 				d.dockWindow(m_browser.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_profiler.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_resources.getTitle(), d.getNode(d.RightUp));
@@ -415,6 +417,7 @@ namespace ml
 		}
 
 		/* Dockspace */ m_dockspace.onGui(ev);
+		/* Explorer */	m_explorer.onGui(ev);
 		/* Profiler */	m_profiler.onGui(ev);
 		/* Resources */ m_resources.onGui(ev);
 		/* Browser */	m_browser.onGui(ev);

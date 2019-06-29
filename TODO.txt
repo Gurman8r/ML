@@ -3,6 +3,7 @@
 
 [ ] = In Progress
 [X] = Done
+[?] = Under Consideration
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
@@ -10,5 +11,7 @@
 [ ] material deserialization
 [X] template property drawers
 [X] template asset importers
+[?] automatically/recursively load assets
+[ ] importer GUI
 
 # * * * * * * * * * * * * * * * * * * * * * * * #

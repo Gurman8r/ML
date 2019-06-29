@@ -1,4 +1,4 @@
-#include <ML/Editor/TerminalGui.hpp>
+#include <ML/Editor/Terminal.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/FileSystem.hpp>
@@ -12,7 +12,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	TerminalGui::TerminalGui(EventSystem & eventSystem)
+	Terminal::Terminal(EventSystem & eventSystem)
 		: EditorGui		(eventSystem, "Terminal")
 		, m_coutBuf		(nullptr)
 		, m_coutPtr		(nullptr)
@@ -23,6 +23,7 @@ namespace ml
 		, m_history		()
 		, m_historyPos	(-1)
 		, m_autoFill	()
+		, m_paused		(false)
 	{
 		this->clear();
 
@@ -41,26 +42,30 @@ namespace ml
 		this->printf("# Type \'help\' for a list of commands.");
 	}
 	
-	TerminalGui::~TerminalGui()
+	Terminal::~Terminal()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool TerminalGui::drawGui(const GuiEvent & ev)
+	bool Terminal::drawGui(const GuiEvent & ev)
 	{
 		if (m_coutBuf)
 		{
 			this->printss(m_coutStr);
 		}
 
-		if (beginDraw())
+		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
 			// Filter
 			static ImGuiTextFilter filter("-wrn");
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
 			filter.Draw("Filter (\"incl,-excl\")", 180);
 			ImGui::PopStyleVar();
+
+			// Paused
+			ImGui::SameLine();
+			ImGui::Checkbox("Paused", &m_paused);
 			ImGui::Separator();
 
 			// Text
@@ -71,16 +76,16 @@ namespace ml
 				false,
 				ImGuiWindowFlags_HorizontalScrollbar
 			);
-			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1));
+			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 4, 1 });
 			
 			enum Mode { LOG, WRN, ERR, SYS, MAX_MODE };
 
 			static const ImVec4 colors[MAX_MODE]
 			{
-				ImColor(0.0f, 1.0f, 0.4f, 1.0f),	// LOG | green
-				ImColor(1.0f, 1.0f, 0.4f, 1.0f),	// WRN | yellow
-				ImColor(1.0f, 0.4f, 0.4f, 1.0f),	// ERR | red
-				ImColor(1.0f, 0.78f, 0.58f, 1.0f),	// SYS | orange
+				{ 0.0f, 1.0f,  0.4f,  1.0f },	// LOG | green
+				{ 1.0f, 1.0f,  0.4f,  1.0f },	// WRN | yellow
+				{ 1.0f, 0.4f,  0.4f,  1.0f },	// ERR | red
+				{ 1.0f, 0.78f, 0.58f, 1.0f },	// SYS | orange
 			};
 
 			static const String labels[MAX_MODE]
@@ -138,7 +143,7 @@ namespace ml
 					ImGuiInputTextFlags_CallbackCompletion |
 					ImGuiInputTextFlags_CallbackHistory
 				),
-				[](auto data) { return ((TerminalGui *)(data->UserData))->inputCallback(data); },
+				[](auto data) { return ((Terminal *)(data->UserData))->inputCallback(data); },
 				static_cast<void *>(this))
 			)
 			{
@@ -170,13 +175,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void TerminalGui::clear()
+	void Terminal::clear()
 	{
 		m_lines.clear();
 		m_scrollBottom = true;
 	}
 
-	void TerminalGui::execute(C_String value)
+	void Terminal::execute(C_String value)
 	{
 		this->printf("# %s\n", value);
 
@@ -216,7 +221,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void TerminalGui::printf(C_String value, ...)
+	void Terminal::printf(C_String value, ...)
 	{
 		char buf[1024];
 		va_list args;
@@ -227,13 +232,14 @@ namespace ml
 		this->printl(buf);
 	}
 
-	void TerminalGui::printl(const String & value)
+	void Terminal::printl(const String & value)
 	{
+		if (m_paused) return;
 		m_lines.push_back(value);
 		m_scrollBottom = true;
 	}
 
-	void TerminalGui::printss(SStream & value)
+	void Terminal::printss(SStream & value)
 	{
 		if (const String & text = value.str())
 		{
@@ -247,7 +253,7 @@ namespace ml
 		}
 	}
 
-	bool TerminalGui::redirect(Ostream & value)
+	bool Terminal::redirect(Ostream & value)
 	{
 		if (m_coutBuf && (m_coutPtr == &value))
 		{
@@ -271,7 +277,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	int32_t TerminalGui::inputCallback(void * value)
+	int32_t Terminal::inputCallback(void * value)
 	{
 		ImGuiInputTextCallbackData * data;
 		if (!(data = (ImGuiInputTextCallbackData *)(value))) 

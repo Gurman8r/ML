@@ -92,9 +92,6 @@ namespace DEMO
 			bool			showScene	= true;
 			bool			showBuilder	= true;
 
-			ml::VAO vao;
-			ml::VBO vbo;
-
 		} noobs;
 
 		/* * * * * * * * * * * * * * * * * * * * */

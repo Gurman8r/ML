@@ -7,15 +7,15 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API ProfilerGui 
+	class ML_EDITOR_API Profiler
 		: public EditorGui
 	{
 		friend class Editor;
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit ProfilerGui(EventSystem & eventSystem);
-		~ProfilerGui();
+		explicit Profiler(EventSystem & eventSystem);
+		~Profiler();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */

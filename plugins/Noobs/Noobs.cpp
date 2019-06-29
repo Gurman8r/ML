@@ -97,7 +97,7 @@ namespace DEMO
 		case ml::BuildDockspaceEvent::ID:
 			if (auto ev = value->as<ml::BuildDockspaceEvent>())
 			{
-				ml::DockspaceGui & d = ev->dockspace;
+				ml::Dockspace & d = ev->dockspace;
 				d.dockWindow("Noobs Scene", d.getNode(d.LeftUp));
 				d.dockWindow("Noobs Editor", d.getNode(d.RightUp));
 			}
@@ -114,25 +114,6 @@ namespace DEMO
 
 	void Noobs::onStart(const ml::StartEvent & ev)
 	{
-		// Setup 2D
-		noobs.vao.create(ml::GL::Triangles).bind();
-		noobs.vbo.create(ml::GL::DynamicDraw).bind();
-		noobs.vbo.bufferData(nullptr, ml::geo::rect_quad::contiguous_t::Size);
-		ml::BufferLayout::Default.bind();
-		noobs.vbo.unbind();
-		noobs.vao.unbind();
-
-		// Example Sprite
-		if (ml::Sprite * spr = ML_Content.get<ml::Sprite>("neutrino"))
-		{
-			spr->setPosition(ml::vec2 { 0.925f, 0.925f } * (ml::vec2)ev.window.getSize())
-				.setScale	({ 0.5f, 0.5f })
-				.setRotation(0.0f)
-				.setOrigin	({ 0.5f, 0.5f })
-				.setColor	(ml::Color::white)
-				.setTexture	(ML_Content.get<ml::Texture>("neutrino"));
-		}
-
 		// Get Surfaces
 		noobs.surf_main = ML_Content.get<ml::Surface>("noobs_surf_main");
 		noobs.surf_post = ML_Content.get<ml::Surface>("noobs_surf_post");
@@ -145,22 +126,22 @@ namespace DEMO
 				"noobs_material_0",
 				ML_Content.get<ml::Shader>("noobs_shader_0"),
 				ml::List<ml::Uniform *>({
-					new ml::uni_flt_ref	("time.total",		noobs.totalTime),
-					new ml::uni_flt_ref	("time.delta",		noobs.deltaTime),
-					new ml::uni_vec2_ref("window.size",		noobs.resolution),
-					new ml::uni_col4_ref("window.color",	noobs.clearColor),
+					new ml::uni_flt		("camera.fov",		45.0f),
 					new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
 					new ml::uni_vec3	("camera.target",	{ 0.0f, 0.0f, 0.0f }),
-					new ml::uni_flt		("camera.fov",		45.0),
 					new ml::uni_flt		("camera.zNear",	0.001f),
 					new ml::uni_flt		("camera.zFar",		1000.0),
-					new ml::uni_tex2	("frag.tex_dm",		ML_Content.get<ml::Texture>("earth_dm")),
-					new ml::uni_tex2	("frag.tex_sm",		ML_Content.get<ml::Texture>("earth_sm")),
-					new ml::uni_flt		("frag.specular",	0.1f),
-					new ml::uni_int		("frag.shininess",	8),
-					new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
-					new ml::uni_col4	("frag.diffuse",	ml::Color::lightYellow),
 					new ml::uni_flt		("frag.ambient",	0.01f),
+					new ml::uni_col4	("frag.diffuse",	{ 1.0f, 1.0f, 0.75f, 1.0f }),
+					new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
+					new ml::uni_int		("frag.shininess",	8),
+					new ml::uni_flt		("frag.specular",	0.1f),
+					new ml::uni_tex2	("tex.dm",			ML_Content.get<ml::Texture>("earth_dm")),
+					new ml::uni_tex2	("tex.sm",			ML_Content.get<ml::Texture>("earth_sm")),
+					new ml::uni_flt_ref	("time.delta",		noobs.deltaTime),
+					new ml::uni_flt_ref	("time.total",		noobs.totalTime),
+					new ml::uni_vec2_ref("window.size",		noobs.resolution),
+					new ml::uni_col4_ref("window.color",	noobs.clearColor),
 					})));
 
 		// Generate Sources
@@ -244,44 +225,22 @@ namespace DEMO
 
 			// Draw Renderer
 			ev.window.draw(noobs.entity->get<ml::Renderer>());
-
-			// Reset States
-			static ml::RenderStates states(
-				{ true, ml::GL::Greater, 0.01f },
-				{ true },
-				{ false },
-				{ false },
-				{ true, ml::GL::Texture2D, ml::GL::Texture0 },
-				{ false, false }
-			);
-			states.apply();
-
-			// Ortho
-			static ml::mat4 orthographic;
-			orthographic = ml::mat4::ortho(
-				0.0f, (float_t)ev.window.getWidth(),
-				(float_t)ev.window.getHeight(), 0.0f
-			);
-
-			static ml::RenderBatch batch(
-				&noobs.vao,
-				&noobs.vbo,
-				ML_Content.create<ml::Material>(
-					"mat_sprites",
-					ML_Content.get<ml::Shader>("sprites"),
-					ml::List<ml::Uniform *>({
-						new ml::uni_mat4_ref("Vert.proj",		orthographic),
-						new ml::uni_col4	("Frag.mainCol",	ml::Color::white),
-						new ml::uni_tex2	("Frag.mainTex",	nullptr),
-						}))
-			);
-			for (const auto & pair : ML_Content.data<ml::Sprite>())
-			{
-				ev.window.draw((ml::Sprite *)pair.second, batch);
-			}
 		}
 		// Unbind Main Surface
 		noobs.surf_main->unbind();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+			// Reset States
+		static ml::RenderStates states(
+			{ true, ml::GL::Greater, 0.01f },
+			{ true },
+			{ false },
+			{ false },
+			{ true, ml::GL::Texture2D, ml::GL::Texture0 },
+			{ false, false }
+		);
+		states.apply();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

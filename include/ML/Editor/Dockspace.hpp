@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API DockspaceGui final 
+	class ML_EDITOR_API Dockspace final 
 		: public EditorGui
 	{
 		friend class Editor;
@@ -24,8 +24,8 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
-		explicit DockspaceGui(EventSystem & eventSystem);
-		~DockspaceGui();
+		explicit Dockspace(EventSystem & eventSystem);
+		~Dockspace();
 
 	protected:
 		/* * * * * * * * * * * * * * * * * * * * */

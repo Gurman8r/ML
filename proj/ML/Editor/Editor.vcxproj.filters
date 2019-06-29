@@ -54,18 +54,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\ResourceGui.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\ProfilerGui.hpp">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\BrowserGui.hpp">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\TerminalGui.hpp">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\DockspaceGui.hpp">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\thirdparty\include\imgui\TextEditor.h">
       <Filter>Resource Files\ImGui\include</Filter>
     </ClInclude>
@@ -96,6 +84,21 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\Explorer.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\Dockspace.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\Profiler.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\Browser.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\Terminal.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_widgets.cpp">
@@ -111,18 +114,6 @@
       <Filter>Resource Files\ImGui\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ResourceGui.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\ProfilerGui.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\BrowserGui.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\TerminalGui.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\DockspaceGui.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\TextEditor.cpp">
@@ -148,6 +139,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGui_StyleLoader.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\Explorer.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\Dockspace.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\Profiler.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\Browser.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\Terminal.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

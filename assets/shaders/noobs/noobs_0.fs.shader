@@ -27,8 +27,8 @@ uniform struct Camera
 
 uniform struct Tex
 {
-	sampler2D dm;
-	sampler2D sm;
+	sampler2D diff_map;
+	sampler2D spec_map;
 } tex;
 
 uniform struct Frag
@@ -64,7 +64,7 @@ void main()
 	vec3  diff_dir = normalize(frag.lightPos - V.Position);
 	float diff_amt = max(dot(diff_nml, diff_dir), 0.0);
 	vec4  diff_col = vec4(diff_amt * frag.diffuse.rgb, 1.0);
-	vec4  diff_tex = texture(tex.dm, V.Texcoord);
+	vec4  diff_tex = texture(tex.diff_map, V.Texcoord);
 	vec4  diff_out = (diff_col * diff_tex);
 
 	// Specular
@@ -72,7 +72,7 @@ void main()
 	vec3  spec_dir = reflect(-diff_dir, diff_nml);
 	float spec_amt = pow(max(dot(spec_nml, spec_dir), 0.0), frag.shininess);
 	vec4  spec_col = vec4(frag.specular * spec_amt * frag.diffuse.rgb, 1.0);
-	vec4  spec_tex = texture(tex.sm, V.Texcoord);
+	vec4  spec_tex = texture(tex.spec_map, V.Texcoord);
 	vec4  spec_out = (spec_col * spec_tex);
 
 	// Output

@@ -46,6 +46,14 @@
 </import>
 
 
+# Materials
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+<import>
+	type = manifest
+	file = ../../../assets/data/materials.txt
+</import>
+
+
 # Sprites
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>

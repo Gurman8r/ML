@@ -167,6 +167,7 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\assets\materials\test0.mat" />
     <None Include="..\..\..\assets\meshes\cow.mesh" />
     <None Include="..\..\..\assets\meshes\cube.mesh" />
     <None Include="..\..\..\assets\meshes\pumpkin.mesh" />
@@ -205,15 +206,16 @@
     <Text Include="..\..\..\assets\data\entities.txt" />
     <Text Include="..\..\..\assets\data\fonts.txt" />
     <Text Include="..\..\..\assets\data\images.txt" />
-    <Text Include="..\..\..\assets\data\manifest.txt" />
+    <Text Include="..\..\..\assets\data\materials.txt" />
     <Text Include="..\..\..\assets\data\meshes.txt" />
     <Text Include="..\..\..\assets\data\models.txt" />
-    <Text Include="..\..\..\assets\data\plugins.txt" />
     <Text Include="..\..\..\assets\data\scripts.txt" />
     <Text Include="..\..\..\assets\data\shaders.txt" />
     <Text Include="..\..\..\assets\data\sprites.txt" />
     <Text Include="..\..\..\assets\data\surfaces.txt" />
     <Text Include="..\..\..\assets\data\textures.txt" />
+    <Text Include="..\..\..\assets\manifest.txt" />
+    <Text Include="..\..\..\assets\plugins.txt" />
     <Text Include="..\..\..\assets\styles\obsidian.txt" />
   </ItemGroup>
   <ItemGroup>

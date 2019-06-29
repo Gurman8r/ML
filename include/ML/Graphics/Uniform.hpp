@@ -33,7 +33,7 @@ namespace ml
 
 		static constexpr C_String TypeNames[] = {
 			"float", "int",
-			"vec2", "vec3", "vec4", "vec4",
+			"vec2", "vec3", "vec4", "col4",
 			"mat3", "mat4",
 			"sampler2D", "samplerCube (NYI)"
 		};

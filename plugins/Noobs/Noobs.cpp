@@ -129,15 +129,15 @@ namespace DEMO
 					new ml::uni_flt		("camera.fov",		45.0f),
 					new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
 					new ml::uni_vec3	("camera.target",	{ 0.0f, 0.0f, 0.0f }),
-					new ml::uni_flt		("camera.zNear",	0.001f),
 					new ml::uni_flt		("camera.zFar",		1000.0),
+					new ml::uni_flt		("camera.zNear",	0.001f),
 					new ml::uni_flt		("frag.ambient",	0.01f),
 					new ml::uni_col4	("frag.diffuse",	{ 1.0f, 1.0f, 0.75f, 1.0f }),
 					new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
 					new ml::uni_int		("frag.shininess",	8),
 					new ml::uni_flt		("frag.specular",	0.1f),
-					new ml::uni_tex2	("tex.dm",			ML_Content.get<ml::Texture>("earth_dm")),
-					new ml::uni_tex2	("tex.sm",			ML_Content.get<ml::Texture>("earth_sm")),
+					new ml::uni_tex2	("tex.diff_map",	ML_Content.get<ml::Texture>("earth_dm")),
+					new ml::uni_tex2	("tex.spec_map",	ML_Content.get<ml::Texture>("earth_sm")),
 					new ml::uni_flt_ref	("time.delta",		noobs.deltaTime),
 					new ml::uni_flt_ref	("time.total",		noobs.totalTime),
 					new ml::uni_vec2_ref("window.size",		noobs.resolution),
@@ -266,8 +266,9 @@ namespace DEMO
 			"Noobs Scene",
 			noobs.showScene,
 			ImGuiWindowFlags_MenuBar,
-			[&]()
+			([&]()
 		{
+
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			if (ImGui::BeginMenuBar())
@@ -292,7 +293,7 @@ namespace DEMO
 					static int32_t index = 0;
 					if (ImGui::Combo(
 						"Resolution##Noobs",
-						&index, 
+						&index,
 						ML_EditorUtility.vector_getter,
 						(void *)&res_names,
 						(int32_t)res_names.size()
@@ -339,7 +340,7 @@ namespace DEMO
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
-		});
+		}));
 
 		// Noobs Editor
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -347,7 +348,7 @@ namespace DEMO
 			"Noobs Editor",
 			noobs.showBuilder,
 			ImGuiWindowFlags_None,
-			[&]()
+			([&]()
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -374,8 +375,8 @@ namespace DEMO
 						// custom shader parser
 						struct NoobParser
 						{
-							inline ml::String operator()(const NoobFile::List & files, const ml::String & src) const 
-							{	
+							inline ml::String operator()(const NoobFile::List & files, const ml::String & src) const
+							{
 								ml::SStream out;
 								ml::SStream ss(src);
 								ml::String	line;
@@ -472,7 +473,7 @@ namespace DEMO
 
 						// Input
 						bool enterPress = ImGui::InputText(
-							"Name##Editor##Noobs", 
+							"Name##Editor##Noobs",
 							name,
 							IM_ARRAYSIZE(name),
 							ImGuiInputTextFlags_EnterReturnsTrue
@@ -508,13 +509,13 @@ namespace DEMO
 							const ml::String label {
 								"[" + std::to_string(i) + "] " + (*it)->name
 							};
-							
+
 							if (ImGui::BeginTabItem(
 								label.c_str(),
 								(i > 0 ? &(*it)->open : nullptr),
 								(*it)->dirty ? ImGuiTabItemFlags_UnsavedDocument : 0
 							))
-							{	
+							{
 								if (i == 0)
 								{
 									ML_EditorUtility.HelpMarker(
@@ -527,7 +528,7 @@ namespace DEMO
 										"#include \'...\' / \"...\" / <...> \n"
 									);
 								}
-								
+
 								// Input Text Content Area
 								ImGui::BeginChild(
 									"InputTextContentArea",
@@ -535,7 +536,7 @@ namespace DEMO
 									true,
 									ImGuiWindowFlags_None
 								);
-								
+
 								/* * * * * * * * * * * * * * * * * * * * */
 
 								// Disallow editing Main's name
@@ -608,14 +609,14 @@ namespace DEMO
 					}
 
 					// do nothing if empty
-					if (!noobs.material->uniforms().empty()) 
+					if (!noobs.material->uniforms().empty())
 						ImGui::Separator();
 
 					// to remove
 					ml::List<ml::Map<ml::String, ml::Uniform *>::iterator> toRemove;
 
 					for (auto it = noobs.material->uniforms().rbegin();
-						it != noobs.material->uniforms().rend(); 
+						it != noobs.material->uniforms().rend();
 						it++)
 					{
 						// label
@@ -623,10 +624,10 @@ namespace DEMO
 
 						// Uniform Header
 						ImGui::PushStyleColor(
-							ImGuiCol_Header, 
+							ImGuiCol_Header,
 							{ 0.367f, 0.258f, 0.489f, 0.580f }
 						);
-						
+
 						if (ImGui::CollapsingHeader((it->first + label).c_str()))
 						{
 							ImGui::PopStyleColor();
@@ -923,7 +924,7 @@ namespace DEMO
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
-		});
+		}));
 	}
 
 	void Noobs::onExit(const ml::ExitEvent & ev)

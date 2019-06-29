@@ -1,0 +1,11 @@
+# Materials
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<import>
+	type = material
+	name = test_material_0
+	shader = noobs_shader_0
+	file = ../../../assets/materials/test0.mat
+</import>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

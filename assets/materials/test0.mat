@@ -1,0 +1,19 @@
+uniform float		camera.fov		{ 45.0 }
+uniform vec3		camera.position { 0.0, 0.0, 5.0 }
+uniform vec3		camera.target	{ 0.0, 0.0, 0.0 }
+uniform float		camera.zNear	{ 0.001 }
+uniform float		camera.zFar		{ 1000.0 }
+
+uniform sampler2D	tex.diff_map	{ earth_dm }
+uniform sampler2D	tex.spec_map	{ earth_sm } 
+
+uniform float		frag.ambient	{ 0.01 }
+uniform col4		frag.diffuse	{ 1.0, 1.0, 0.75, 1.0 }
+uniform vec2		frag.lightPos	{ 0.0, 0.0, 30.0 }
+uniform int			frag.shininess	{ 8 }
+uniform float		frag.specular	{ 0.1 }
+
+# uniform float		time.delta		{ %DELTA_TIME% }
+# uniform float		time.total		{ %TOTAL_TIME% }
+# uniform vec2		window.size		{ %WINDOW_SIZE% }
+# uniform vec4		window.color	{ %CLEAR_COLOR% }

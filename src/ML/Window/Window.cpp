@@ -315,7 +315,7 @@ namespace ml
 	{
 		if (m_window) (glfwSetWindowShouldClose(
 			static_cast<GLFWwindow *>(m_window),
-			GLFW_TRUE
+			true
 		));
 		return (*this);
 	}

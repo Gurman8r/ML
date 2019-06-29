@@ -144,7 +144,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			m_indices.clear();
+			m_indices.clear(); // not using
 
 			m_vertices.resize(vi.size());
 

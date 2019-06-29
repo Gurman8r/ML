@@ -26,7 +26,7 @@ namespace ml
 		, m_terminal	(eventSystem)
 	{
 		m_dockspace	.setOpen(true);
-		m_explorer	.setOpen(true);
+		m_explorer	.setOpen(false);
 		m_browser	.setOpen(false);
 		m_profiler	.setOpen(false);
 		m_resources	.setOpen(false);

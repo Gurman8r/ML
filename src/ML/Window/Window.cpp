@@ -113,8 +113,8 @@ namespace ml
 			
 			switch (m_context.profile)
 			{
-			case ContextSettings::Debug:
-				glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_DEBUG_CONTEXT);
+			case ContextSettings::Any:
+				glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
 				break;
 			case ContextSettings::Core:
 				glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 
@@ -122,9 +122,9 @@ namespace ml
 			case ContextSettings::Compat: 
 				glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE); 
 				break;
-			case ContextSettings::Any:
-			default: 
-				glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
+			default:
+			case ContextSettings::Debug:
+				glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_DEBUG_CONTEXT);
 				break;
 			}
 

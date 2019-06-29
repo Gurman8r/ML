@@ -15,9 +15,9 @@ namespace ml
 		enum Profile : uint32_t
 		{
 			Any		= 0,
-			Debug   = 1,
-			Core    = 2,
-			Compat	= 3,
+			Core    = 1,
+			Compat	= 2,
+			Debug   = 3,
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * */

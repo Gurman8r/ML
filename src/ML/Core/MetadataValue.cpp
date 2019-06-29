@@ -35,12 +35,6 @@ namespace ml
 	{
 	}
 
-	MetadataValue::MetadataValue(const long value)
-		: m_type(META_Long)
-		, m_data(std::to_string(value))
-	{
-	}
-
 	MetadataValue::MetadataValue(const String & value)
 		: m_type(META_String)
 		, m_data(value)
@@ -96,18 +90,6 @@ namespace ml
 		try
 		{
 			return std::stoi(m_data);
-		}
-		catch (std::invalid_argument &)
-		{
-			return 0;
-		}
-	}
-
-	long MetadataValue::asLong() const
-	{
-		try
-		{
-			return std::stol(m_data);
 		}
 		catch (std::invalid_argument &)
 		{

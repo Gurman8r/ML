@@ -17,7 +17,7 @@
 #		format	= red / blue / green / rgb / rgba
 #		mipmap	= false
 #		level	= 0
-#		pix_ty	= byte / ubyte / short / ushort / int / uint / float_t / half_float
+#		pix_ty	= byte / ubyte / short / ushort / int / uint / float / half_float
 #	</import>
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

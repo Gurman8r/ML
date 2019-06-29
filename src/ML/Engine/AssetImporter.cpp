@@ -619,7 +619,7 @@ namespace ml
 						{ "ushort",		GL::UnsignedShort },
 						{ "int",		GL::Int },
 						{ "uint",		GL::UnsignedInt },
-						{ "float_t",		GL::Float },
+						{ "float",		GL::Float },
 						{ "half_float",	GL::HalfFloat },
 					});
 

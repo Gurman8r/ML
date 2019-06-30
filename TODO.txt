@@ -9,11 +9,12 @@
 
 [X] constexpr math structures
 [ ] reimplement old math algs
-[ ] material deserialization
+[X] material deserialization
 [X] template property drawers
 [X] template asset importers
 [?] automatically/recursively load assets
 [?] importer GUI
 [?] async asset loading (threaded w/ progress bar)
+[ ] TEXTURE CUBE MAPS
 
 # * * * * * * * * * * * * * * * * * * * * * * * #

@@ -179,7 +179,7 @@ namespace ml
 		> static constexpr auto abs(const T & value)
 			-> T
 		{
-			return ((sign(value) < type_t<T>::zero)
+			return ((alg::sign(value) < type_t<T>::zero)
 				? (value * type_t<T>::minus_one)
 				: value);
 		}
@@ -189,7 +189,6 @@ namespace ml
 		> static constexpr auto pow(const T & base, const E & exp)
 			-> T
 		{
-
 			return ((exp < type_t<E>::zero)
 				? ((base == type_t<T>::zero)
 					? type_t<T>::nan

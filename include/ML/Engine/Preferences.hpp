@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API Prefs final
+	struct ML_ENGINE_API Preferences final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
@@ -18,10 +18,10 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Prefs();
-		explicit Prefs(const String & filename);
-		Prefs(Prefs && copy);
-		~Prefs();
+		Preferences();
+		explicit Preferences(const String & filename);
+		Preferences(Preferences && copy);
+		~Preferences();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

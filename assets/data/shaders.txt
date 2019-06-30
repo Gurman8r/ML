@@ -1,4 +1,19 @@
-# Shaders
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	Shader Importer
+#	See ShaderAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	<import>
+#		type = shader
+#		name = name_of_my_shader
+#		file = ../path/to/my/aggregate.shader
+#		vert = ../path/to/my/vertex.shader
+#		frag = ../path/to/my/fragment.shader
+#		geom = ../path/to/my/geometry.shader
+#	</import>
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>

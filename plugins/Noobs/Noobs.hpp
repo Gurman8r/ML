@@ -75,22 +75,22 @@ namespace DEMO
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		struct NoobsData : public ml::I_NonCopyable
+		struct NoobsData final : public ml::I_NonCopyable
 		{
-			NoobFile::List	files		= {};
+			// Content
 			ml::Surface	*	surf_main	= nullptr;
 			ml::Surface	*	surf_post	= nullptr;
 			ml::Material *	material	= nullptr;
 			ml::Entity *	entity		= nullptr;
 			ml::Renderer *	renderer	= nullptr;
-			float_t			deltaTime	= 0.f;
-			float_t			totalTime	= 0.f;
-			ml::vec2f		resolution	= { 1920, 1080 };
-			bool			freeAspect	= true;
-			ml::vec4f		clearColor	= ml::Color::black;
-			float_t			aspectRatio = 0.0f;
-			bool			showScene	= true;
+
+			// GUI Settings
 			bool			showBuilder	= true;
+			bool			showScene	= true;
+			bool			freeAspect	= true;
+			NoobFile::List	file_list	= {};
+			ml::vec4f		clearColor	= ml::Color::black;
+			ml::vec2		resolution	= { 1920, 1080 };
 
 		} noobs;
 

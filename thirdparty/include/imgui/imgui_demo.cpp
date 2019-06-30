@@ -405,7 +405,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
 
         if (ImGui::TreeNode("Backend Flags"))
         {
-            HelpMarker("Those flags are set by the back-ends (imgui_impl_xxx files) to specify their capabilities.");
+            HelpMarker("Those flags are set by the back-ends (imgui_impl_xxx file_list) to specify their capabilities.");
             ImGuiBackendFlags backend_flags = io.BackendFlags; // Make a local copy to avoid modifying actual back-end flags.
             ImGui::CheckboxFlags("io.BackendFlags: HasGamepad", (unsigned int *)&backend_flags, ImGuiBackendFlags_HasGamepad);
             ImGui::CheckboxFlags("io.BackendFlags: HasMouseCursors", (unsigned int *)&backend_flags, ImGuiBackendFlags_HasMouseCursors);
@@ -2472,7 +2472,7 @@ static void ShowDemoWindowPopups()
 
         if (ImGui::BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
         {
-            ImGui::Text("All those beautiful files will be deleted.\nThis operation cannot be undone!\n\n");
+            ImGui::Text("All those beautiful file_list will be deleted.\nThis operation cannot be undone!\n\n");
             ImGui::Separator();
 
             //static int dummy_i = 0;

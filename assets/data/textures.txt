@@ -1,23 +1,22 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	Texture Importer
-#	Based on glTexImage2D function:
-#	https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glTexImage2D.xhtml
+#	See TextureAssetImporter (AssetImporter.hpp/cpp) for more information.
 #	
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	<import>
 #		type	= texture
-#		name	= my_texture
+#		name	= name_of_my_texture
 #		file	= ../path/to/my.png
-#		image	= nameOfSomeImage
+#		image	= name_of_some_image
 #		smooth	= true
 #		repeat	= false
 #		target	= texture_2D / texture_3D
 #		format	= red / blue / green / rgb / rgba
 #		mipmap	= false
 #		level	= 0
-#		pix_ty	= byte / ubyte / short / ushort / int / uint / float / half_float
+#		pixtype	= byte / ubyte / short / ushort / int / uint / float / half_float
 #	</import>
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

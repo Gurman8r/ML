@@ -23,10 +23,10 @@ using namespace ml;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-static Prefs		g_Preferences	{ ML_CONFIG_INI };
-static EventSystem	g_EventSystem	{ };
+static Preferences 	g_Preferences	{ ML_CONFIG_INI };
 static PluginMap	g_Plugins		{ };
 static GameTime		g_Time			{ };
+static EventSystem	g_EventSystem	{ };
 static RenderWindow g_Window		{ g_EventSystem };
 static Engine		g_Engine		{ g_EventSystem };
 static Editor		g_Editor		{ g_EventSystem };

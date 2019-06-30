@@ -120,35 +120,18 @@ namespace DEMO
 
 		// Create Entity
 		noobs.entity = ML_Content.create<ml::Entity>("noobs_entity_0");
+
+		// Attach Renderer
 		noobs.renderer = noobs.entity->add<ml::Renderer>(
 			ML_Content.get<ml::Model>("sphere32x24"),
-			noobs.material = ML_Content.create<ml::Material>(
-				"noobs_material_0",
-				ML_Content.get<ml::Shader>("noobs_shader_0"),
-				ml::List<ml::Uniform *>({
-					new ml::uni_flt		("camera.fov",		45.0f),
-					new ml::uni_vec3	("camera.position", { 0.0f, 0.0f, 5.0f }),
-					new ml::uni_vec3	("camera.target",	{ 0.0f, 0.0f, 0.0f }),
-					new ml::uni_flt		("camera.zFar",		1000.0),
-					new ml::uni_flt		("camera.zNear",	0.001f),
-					new ml::uni_flt		("frag.ambient",	0.01f),
-					new ml::uni_col4	("frag.diffuse",	{ 1.0f, 1.0f, 0.75f, 1.0f }),
-					new ml::uni_vec3	("frag.lightPos",	{ 0.0f, 0.0f, 30.0f }),
-					new ml::uni_int		("frag.shininess",	8),
-					new ml::uni_flt		("frag.specular",	0.1f),
-					new ml::uni_tex2	("tex.diff_map",	ML_Content.get<ml::Texture>("earth_dm")),
-					new ml::uni_tex2	("tex.spec_map",	ML_Content.get<ml::Texture>("earth_sm")),
-					new ml::uni_flt_ref	("time.delta",		noobs.deltaTime),
-					new ml::uni_flt_ref	("time.total",		noobs.totalTime),
-					new ml::uni_vec2_ref("window.size",		noobs.resolution),
-					new ml::uni_col4_ref("window.color",	noobs.clearColor),
-					})));
+			noobs.material = ML_Content.get<ml::Material>("noobs_material_0")
+		);
 
-		// Generate Sources
-		if (noobs.material->shader())
+		// Generate Source Editors
+		if (noobs.material && noobs.material->shader())
 		{
 			// Create Main File
-			noobs.files.push_back(new NoobFile(
+			noobs.file_list.push_back(new NoobFile(
 				"Main", 
 				ml::String()
 			));
@@ -156,12 +139,12 @@ namespace DEMO
 			// Create Vertex File
 			if (noobs.material->shader()->vertSrc())
 			{
-				noobs.files.push_back(new NoobFile(
+				noobs.file_list.push_back(new NoobFile(
 					"Vertex",
 					noobs.material->shader()->vertSrc()
 				));
-				noobs.files.front()->text.SetText(
-					noobs.files.front()->text.GetText() +
+				noobs.file_list.front()->text.SetText(
+					noobs.file_list.front()->text.GetText() +
 					"// Vertex Shader\n"
 					"#shader vertex\n"
 					"#include \"Vertex\"\n"
@@ -171,12 +154,12 @@ namespace DEMO
 			// Create Fragment File
 			if (noobs.material->shader()->fragSrc())
 			{
-				noobs.files.push_back(new NoobFile(
+				noobs.file_list.push_back(new NoobFile(
 					"Fragment",
 					noobs.material->shader()->fragSrc()
 				));
-				noobs.files.front()->text.SetText(
-					noobs.files.front()->text.GetText() +
+				noobs.file_list.front()->text.SetText(
+					noobs.file_list.front()->text.GetText() +
 					"// Fragment Shader\n"
 					"#shader fragment\n"
 					"#include \"Fragment\"\n"
@@ -186,12 +169,12 @@ namespace DEMO
 			// Create Geometry File
 			if (noobs.material->shader()->geomSrc())
 			{
-				noobs.files.push_back(new NoobFile(
+				noobs.file_list.push_back(new NoobFile(
 					"Geometry",
 					noobs.material->shader()->geomSrc()
 				));
-				noobs.files.front()->text.SetText(
-					noobs.files.front()->text.GetText() +
+				noobs.file_list.front()->text.SetText(
+					noobs.file_list.front()->text.GetText() +
 					"// Geometry Shader\n"
 					"#shader geometry\n"
 					"#include \"Geometry\"\n"
@@ -202,10 +185,6 @@ namespace DEMO
 
 	void Noobs::onUpdate(const ml::UpdateEvent & ev)
 	{
-		// Store Time
-		noobs.deltaTime = ev.time.elapsed().delta();
-		noobs.totalTime = ev.time.total().delta();
-
 		// Update Surfaces
 		if (noobs.freeAspect)
 			noobs.resolution = ev.window.getFrameSize();
@@ -367,7 +346,7 @@ namespace DEMO
 					ImGui::SameLine();
 					if (ImGui::Button("Compile##Editor##Noobs"))
 					{
-						for (auto & file : noobs.files)
+						for (auto & file : noobs.file_list)
 						{
 							file->dirty = false;
 						}
@@ -375,7 +354,7 @@ namespace DEMO
 						// custom shader parser
 						struct NoobParser
 						{
-							inline ml::String operator()(const NoobFile::List & files, const ml::String & src) const
+							inline ml::String operator()(const NoobFile::List & file_list, const ml::String & src) const
 							{
 								ml::SStream out;
 								ml::SStream ss(src);
@@ -390,12 +369,12 @@ namespace DEMO
 											line, '\"', '\"', name
 										))
 										{
-											for (const auto & e : files)
+											for (const auto & e : file_list)
 											{
 												if (e->name == name)
 												{
 													out << (*this)(
-														files,
+														file_list,
 														e->text.GetText()
 													);
 													found = true;
@@ -418,8 +397,8 @@ namespace DEMO
 						};
 
 						const ml::String source = NoobParser()(
-							noobs.files,
-							noobs.files.front()->text.GetText()
+							noobs.file_list,
+							noobs.file_list.front()->text.GetText()
 						);
 						ml::Shader * shader = std::remove_cv_t<ml::Shader *>(
 							noobs.material->shader()
@@ -460,7 +439,7 @@ namespace DEMO
 								ml::Debug::logError("Name cannot be empty");
 								return;
 							}
-							for (auto file : noobs.files)
+							for (auto file : noobs.file_list)
 							{
 								if (file->name == name)
 								{
@@ -468,7 +447,7 @@ namespace DEMO
 									return;
 								}
 							}
-							noobs.files.push_back(new NoobFile(name, ml::String()));
+							noobs.file_list.push_back(new NoobFile(name, ml::String()));
 						};
 
 						// Input
@@ -502,9 +481,9 @@ namespace DEMO
 
 						ml::List<NoobFile::List::iterator> toRemove;
 
-						for (auto it = noobs.files.begin(); it != noobs.files.end(); it++)
+						for (auto it = noobs.file_list.begin(); it != noobs.file_list.end(); it++)
 						{
-							const size_t i = (it - noobs.files.begin());
+							const size_t i = (it - noobs.file_list.begin());
 
 							const ml::String label {
 								"[" + std::to_string(i) + "] " + (*it)->name
@@ -521,7 +500,7 @@ namespace DEMO
 									ML_EditorUtility.HelpMarker(
 										"This is the \'Main\' file of your shader.\n"
 										"You can either write all of your shader\n"
-										"code here, or create multiple files and\n"
+										"code here, or create multiple file_list and\n"
 										"link them together in Main.\n"
 										"\n"
 										"#shader vertex / fragment / geometry\n"
@@ -577,7 +556,7 @@ namespace DEMO
 						for (auto it : toRemove)
 						{
 							delete (*it);
-							noobs.files.erase(it);
+							noobs.file_list.erase(it);
 						}
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -929,11 +908,11 @@ namespace DEMO
 
 	void Noobs::onExit(const ml::ExitEvent & ev)
 	{
-		for (auto & e : noobs.files)
+		for (auto & e : noobs.file_list)
 		{
 			if (e) delete e;
 		}
-		noobs.files.clear();
+		noobs.file_list.clear();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

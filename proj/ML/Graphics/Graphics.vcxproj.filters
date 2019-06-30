@@ -126,9 +126,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Uniform.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\CubeMap.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -143,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Geometry.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Uniforms.hpp">
+      <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

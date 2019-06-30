@@ -304,13 +304,13 @@ namespace std
 {
 	template <
 		class Elem, class Traits, class Alloc
-	> struct hash<::ml::BasicString<Elem, Traits, Alloc>>
+	> struct hash<_ML BasicString<Elem, Traits, Alloc>>
 	{
-		using argument_type = ::ml::BasicString<Elem, Traits, Alloc>;
+		using argument_type = _ML BasicString<Elem, Traits, Alloc>;
 
-		inline ::ml::hash_t operator()(const argument_type & value) const noexcept
+		inline _ML hash_t operator()(const argument_type & value) const noexcept
 		{
-			return ::ml::Hash()(value.size(), value.data());
+			return _ML Hash()(value.size(), value.data());
 		}
 	};
 }

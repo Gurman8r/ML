@@ -158,17 +158,40 @@ namespace ml
 			{
 				if (!ML_Content.get<Material>(name))
 				{
-					// Shader
+					// Material Shader
+					/* * * * * * * * * * * * * * * * * * * * */
 					const Shader * shader = ML_Content.get<Shader>(md.getData("shader"));
 					
-					// Uniforms
+					// Material Uniform List
+					/* * * * * * * * * * * * * * * * * * * * */
 					List<Uniform *> uniforms;
 
-					// Read File
+					// Load Default Uniforms
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (Ifstream file { ML_FS.getPathTo(md.getData("file")) })
+					if (md.getData("defaults", false))
 					{
-						// (following should be in UniformAssetImporter)
+						if (auto u = Uniform::duplicate<uni_vec2_ref>(
+							ML_Content.get<Uniform>("%CURSOR_POS%")
+							)) uniforms.push_back(u);
+						if (auto u = Uniform::duplicate<uni_int_ref>(
+							ML_Content.get<Uniform>("%FRAME_COUNT%")
+							)) uniforms.push_back(u);
+						if (auto u = Uniform::duplicate<uni_flt_ref>(
+							ML_Content.get<Uniform>("%DELTA_TIME%")
+							)) uniforms.push_back(u);
+						if (auto u = Uniform::duplicate<uni_vec2_ref>(
+							ML_Content.get<Uniform>("%RESOLUTION%")
+							)) uniforms.push_back(u);
+						if (auto u = Uniform::duplicate<uni_flt_ref>(
+							ML_Content.get<Uniform>("%TOTAL_TIME%")
+							)) uniforms.push_back(u);
+					}
+
+					// Load User Uniforms from File
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (Ifstream file { ML_FS.getPathTo(md.getData("user_list")) })
+					{
+						// (following should probably be in UniformAssetImporter)
 						
 						String line;
 						while (std::getline(file, line))
@@ -204,7 +227,7 @@ namespace ml
 							{
 								// Uniform Type
 								/* * * * * * * * * * * * * * * * * * * * */
-								int32_t value_type = ([](C_String type)
+								const int32_t value_type = ([](C_String type)
 								{
 									if (!type) return -1;
 									for (size_t i = 0; i < Uniform::MAX_UNI_TYPES; i++)
@@ -239,86 +262,77 @@ namespace ml
 
 								// Generate Uniform
 								/* * * * * * * * * * * * * * * * * * * * */
-								if ((value_type != -1) && value_name && (String)value_data.str())
+								if (Uniform * u = ([](int32_t type, const String & name, SStream & ss)
 								{
-									if (Uniform * u = ([](int32_t type, const String & name, SStream & ss)
+									Uniform * out = nullptr;
+									if (type == -1 || !name || !(String)ss.str()) 
+										return out;
+									switch (type)
 									{
-										Uniform * out = nullptr;
-										switch (type)
-										{
-										case Uniform::Int1:
-										{
-											int32_t temp; ss >> temp;
-											return out = new uni_int(name, temp);
-										}
-										case Uniform::Flt1:
-										{
-											float_t temp; ss >> temp;
-											return out = new uni_flt(name, temp);
-										}
-										case Uniform::Vec2:
-										{
-											vec2 temp; ss >> temp;
-											return out = new uni_vec2(name, temp);
-										}
-										case Uniform::Vec3:
-										{
-											vec3 temp; ss >> temp;
-											return out = new uni_vec3(name, temp);
-										}
-										case Uniform::Vec4:
-										{
-											vec4 temp; ss >> temp;
-											return out = new uni_vec4(name, temp);
-										}
-										case Uniform::Col4:
-										{
-											vec4 temp; ss >> temp;
-											return out = new uni_col4(name, temp);
-										}
-										case Uniform::Mat3:
-										{
-											mat3 temp; ss >> temp;
-											return out = new uni_mat3(name, temp);
-										}
-										case Uniform::Mat4:
-										{
-											mat4 temp; ss >> temp;
-											return out = new uni_mat4(name, temp);
-										}
-										case Uniform::Tex2:
-										{
-											return out = new uni_tex2(name, 
-												ML_Content.get<Texture>(String(ss.str()).trim())
-											);
-										}
-										case Uniform::Cube:
-										{
-											return out = new uni_cube(name, 
-												ML_Content.get<CubeMap>(String(ss.str()).trim())
-											);
-										}
-										default: return out;
-										}
-									})(value_type, value_name, value_data))
+									case Uniform::Int1:
 									{
-										uniforms.push_back(u);
+										int32_t temp; ss >> temp;
+										return out = new uni_int(name, temp);
 									}
+									case Uniform::Flt1:
+									{
+										float_t temp; ss >> temp;
+										return out = new uni_flt(name, temp);
+									}
+									case Uniform::Vec2:
+									{
+										vec2 temp; ss >> temp;
+										return out = new uni_vec2(name, temp);
+									}
+									case Uniform::Vec3:
+									{
+										vec3 temp; ss >> temp;
+										return out = new uni_vec3(name, temp);
+									}
+									case Uniform::Vec4:
+									{
+										vec4 temp; ss >> temp;
+										return out = new uni_vec4(name, temp);
+									}
+									case Uniform::Col4:
+									{
+										vec4 temp; ss >> temp;
+										return out = new uni_col4(name, temp);
+									}
+									case Uniform::Mat3:
+									{
+										mat3 temp; ss >> temp;
+										return out = new uni_mat3(name, temp);
+									}
+									case Uniform::Mat4:
+									{
+										mat4 temp; ss >> temp;
+										return out = new uni_mat4(name, temp);
+									}
+									case Uniform::Tex2:
+									{
+										return out = new uni_tex2(name, 
+											ML_Content.get<Texture>(String(ss.str()).trim())
+										);
+									}
+									case Uniform::Cube:
+									{
+										return out = new uni_cube(name, 
+											ML_Content.get<CubeMap>(String(ss.str()).trim())
+										);
+									}
+									default: return out;
+									}
+								})(value_type, value_name, value_data))
+								{
+									uniforms.push_back(u);
 								}
 							}
 						}
 						file.close();
-
-						return ML_Content.insert(name, new Material(shader, uniforms));
 					}
-					else if (shader)
-					{
-						return ML_Content.insert(name, new Material(shader));
-					}
-					else
-					{
-						return ML_Content.insert(name, new Material());
-					}
+					
+					return ML_Content.insert(name, new Material(shader, uniforms));
 				}
 			}
 		}
@@ -523,7 +537,7 @@ namespace ml
 			{
 				if (!ML_Content.get<Sprite>(name))
 				{
-					if (const String file = md.getData("file"))
+					if (const String file = md.getData("texture"))
 					{
 						if (const Texture * tex = ML_Content.get<Texture>(file))
 						{
@@ -598,21 +612,20 @@ namespace ml
 				
 					const int32_t level = md.getData("level", 0);
 				
-					const GL::Target target = md.getData("target", GL::Texture2D, 
-						Map<String, GL::Target> {
+					const GL::Target target = md.getData("target", GL::Texture2D, {
 						{ "texture_2d",	GL::Texture2D },
 						{ "texture_3d",	GL::Texture3D },
 					});
 				
 					const GL::Format format = md.getData("format", GL::RGBA, {
-						{ "red",		GL::Red		},
-						{ "green",		GL::Green	},
-						{ "blue",		GL::Blue	},
-						{ "rgb",		GL::RGB		},
-						{ "rgba",		GL::RGBA	},
+						{ "red",		GL::Red	},
+						{ "green",		GL::Green },
+						{ "blue",		GL::Blue },
+						{ "rgb",		GL::RGB	},
+						{ "rgba",		GL::RGBA },
 					});
 				
-					const GL::Type pix_ty = md.getData("pix_ty", GL::UnsignedByte, {
+					const GL::Type pix_ty = md.getData("pixtype", GL::UnsignedByte, {
 						{ "byte",		GL::Byte },
 						{ "ubyte",		GL::UnsignedByte },
 						{ "short",		GL::Short },

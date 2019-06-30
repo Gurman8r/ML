@@ -5,12 +5,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EventSystem::EventSystem() {}
-
-	EventSystem::~EventSystem() {}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	EventListener * EventSystem::addListener(const int32_t type, EventListener * listener)
 	{
 		return (listener

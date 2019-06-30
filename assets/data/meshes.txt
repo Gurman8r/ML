@@ -1,4 +1,16 @@
-# Meshes
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	Mesh Importer
+#	See MeshAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	<import>
+#		type = mesh
+#		name = name_of_my_mesh
+#		file = ../path/to/my/wavefront.obj
+#	</import>
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>

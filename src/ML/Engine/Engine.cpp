@@ -1,6 +1,7 @@
 #include <ML/Engine/Engine.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
+#include <ML/Core/EventSystem.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/EngineEvents.hpp>
@@ -9,9 +10,9 @@
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/Geometry.hpp>
+#include <ML/Graphics/Uniform.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
-#include <ML/Core/EventSystem.hpp>
 #include <ML/Script/Script.hpp>
 #include <ML/Script/ScriptEvents.hpp>
 #include <ML/Script/Interpreter.hpp>
@@ -176,6 +177,24 @@ namespace ml
 			*ML_Content.get<Mesh>("default_skybox")
 		);
 
+		// Load Default Uniforms
+		/* * * * * * * * * * * * * * * * * * * * */
+		ML_Content.insert<Uniform>(
+			"%CURSOR_POS%", new uni_vec2_ref("sys.cursorPos", this->cursorPos())
+		);
+		ML_Content.insert<Uniform>(
+			"%DELTA_TIME%", new uni_flt_ref	("sys.deltaTime", this->deltaTime())
+		);
+		ML_Content.insert<Uniform>(
+			"%FRAME_COUNT%", new uni_int_ref("sys.frameCount", this->frameCount())
+		);
+		ML_Content.insert<Uniform>(
+			"%RESOLUTION%", new uni_vec2_ref("sys.resolution", this->resolution())
+		);
+		ML_Content.insert<Uniform>(
+			"%TOTAL_TIME%", new uni_flt_ref	("sys.totalTime", this->totalTime())
+		);
+
 		// Load Resource Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (!ML_Content.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString(
@@ -218,6 +237,13 @@ namespace ml
 
 	void Engine::onUpdate(const UpdateEvent & ev)
 	{
+		// Update Uniforms
+		m_cursorPos = (vec2)ev.window.getCursorPos();
+		m_deltaTime = ev.time.elapsed().delta<Milliseconds>();
+		m_frameCount++;
+		m_totalTime = ev.time.total().delta<Milliseconds>();
+		m_resolution = (vec2)ev.window.getSize();
+
 		// Update Window Title
 		static const String title(ev.window.getTitle());
 		ev.window.setTitle(String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(

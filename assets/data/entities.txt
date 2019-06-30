@@ -1,4 +1,15 @@
-# Entities
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	Entity Importer (WIP)
+#	See EntityAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	<import>
+#		type = entity
+#		name = name_of_my_entity
+#	</import>
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>

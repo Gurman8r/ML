@@ -52,6 +52,20 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		template <
+			class T, class U
+		> inline static T * duplicate(const U * value)
+		{
+			return ((value)
+				? new T(
+					static_cast<const T *>(value)->name,
+					static_cast<const T *>(value)->data)
+				: (T *)nullptr
+			);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		inline friend ML_SERIALIZE(Ostream & out, const Uniform & value)
 		{
 			return out << TypeNames[value.type];

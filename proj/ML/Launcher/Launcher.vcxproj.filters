@@ -111,7 +111,7 @@
     <None Include="..\..\..\assets\shaders\noobs\noobs_0.vs.shader">
       <Filter>Resource Files\assets\shaders\noobs</Filter>
     </None>
-    <None Include="..\..\..\assets\materials\test0.mat">
+    <None Include="..\..\..\assets\materials\noobs_material_0.mat">
       <Filter>Resource Files\assets\materials</Filter>
     </None>
   </ItemGroup>

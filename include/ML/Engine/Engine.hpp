@@ -6,6 +6,7 @@
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/EventListener.hpp>
 #include <ML/Core/String.hpp>
+#include <ML/Core/Matrix.hpp>
 
 namespace ml
 {
@@ -36,8 +37,22 @@ namespace ml
 		void onUnload		(const UnloadEvent & ev);
 		void onExit			(const ExitEvent & ev);
 
+	public:
+		inline auto cursorPos()		const -> const vec2 &		{ return m_cursorPos; }
+		inline auto deltaTime()		const -> const float_t &	{ return m_deltaTime; }
+		inline auto frameCount()	const -> const int32_t &	{ return m_frameCount; }
+		inline auto resolution()	const -> const vec2 &		{ return m_resolution; }
+		inline auto totalTime()		const -> const float_t &	{ return m_totalTime; }
+
 	private:
-		String m_bootScript;
+		String	m_bootScript;
+
+		vec2	m_cursorPos		= {};
+		float_t	m_deltaTime		= 0;
+		int32_t m_frameCount	= 0;
+		vec2	m_resolution	= {};
+		float_t	m_totalTime		= 0;
+
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

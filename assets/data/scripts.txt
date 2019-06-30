@@ -1,4 +1,16 @@
-# Scripts
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	Script Importer
+#	See ScriptAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	<import>
+#		type = script
+#		name = name_of_my_script
+#		file = ../path/to/my/script.meme
+#	</import>
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>

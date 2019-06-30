@@ -1,11 +1,26 @@
-# Materials
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	Material Importer
+#	See MaterialAssetImporter (AssetImporter.hpp/cpp) for more information.
+# 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#	
+#	<import>
+#		type		= material
+#		name		= name_of_my_material
+#		shader		= name_of_some_shader
+#		defaults	= true / false (load default uniforms)
+#		user_list	= ../path/to/my/uniform/list
+#	</import>
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>
-	type	= material
-	name	= test_material_0
-	shader	= noobs_shader_0
-	file	= ../../../assets/materials/test0.mat
+	type		= material
+	name		= noobs_material_0
+	shader		= noobs_shader_0
+	defaults	= true
+	user_list	= ../../../assets/materials/noobs_material_0.mat
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

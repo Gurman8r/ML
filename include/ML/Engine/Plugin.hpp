@@ -11,7 +11,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class EventSystem;
+	struct EventSystem;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

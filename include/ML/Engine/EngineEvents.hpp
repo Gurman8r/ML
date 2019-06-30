@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct GameTime;
-	struct Prefs;
+	struct Preferences;
 	struct RenderWindow;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -40,9 +40,9 @@ namespace ml
 
 	struct EnterEvent final : public I_Event<EngineEvent::EV_Enter>
 	{
-		const Prefs		& prefs;
-		RenderWindow	& window;
-		constexpr EnterEvent(Prefs & prefs, RenderWindow & window)
+		const Preferences & prefs;
+		RenderWindow & window;
+		constexpr EnterEvent(Preferences & prefs, RenderWindow & window)
 			: prefs	(prefs)
 			, window(window)
 		{
@@ -51,8 +51,8 @@ namespace ml
 
 	struct LoadEvent final : public I_Event<EngineEvent::EV_Load>
 	{
-		const Prefs		& prefs;
-		constexpr LoadEvent(Prefs & prefs)
+		const Preferences & prefs;
+		constexpr LoadEvent(Preferences & prefs)
 			: prefs	(prefs)
 		{
 		}
@@ -60,8 +60,8 @@ namespace ml
 
 	struct StartEvent final : public I_Event<EngineEvent::EV_Start>
 	{
-		const GameTime	& time;
-		RenderWindow	& window;
+		const GameTime & time;
+		RenderWindow & window;
 		constexpr StartEvent(const GameTime & time, RenderWindow & window)
 			: time	(time)
 			, window(window)
@@ -74,8 +74,8 @@ namespace ml
 
 	struct BeginFrameEvent final : public I_Event<EngineEvent::EV_BeginFrame>
 	{
-		GameTime		& time;
-		RenderWindow	& window;
+		GameTime & time;
+		RenderWindow & window;
 		constexpr BeginFrameEvent(GameTime & time, RenderWindow & window)
 			: time	(time)
 			, window(window)
@@ -87,8 +87,8 @@ namespace ml
 
 	struct UpdateEvent final : public I_Event<EngineEvent::EV_Update>
 	{
-		const GameTime	& time;
-		RenderWindow	& window;
+		const GameTime & time;
+		RenderWindow & window;
 		constexpr UpdateEvent(const GameTime & time, RenderWindow & window)
 			: time	(time)
 			, window(window)
@@ -105,8 +105,8 @@ namespace ml
 
 	struct DrawEvent final : public I_Event<EngineEvent::EV_Draw>
 	{
-		const GameTime	& time;
-		RenderWindow	& window;
+		const GameTime & time;
+		RenderWindow & window;
 		constexpr DrawEvent(const GameTime & time, RenderWindow & window)
 			: time	(time)
 			, window(window)
@@ -123,8 +123,8 @@ namespace ml
 
 	struct EndFrameEvent final : public I_Event<EngineEvent::EV_EndFrame>
 	{
-		GameTime		& time;
-		RenderWindow	& window;
+		GameTime & time;
+		RenderWindow & window;
 		constexpr EndFrameEvent(GameTime & time, RenderWindow & window)
 			: time	(time)
 			, window(window)
@@ -137,7 +137,7 @@ namespace ml
 
 	struct UnloadEvent final : public I_Event<EngineEvent::EV_Unload>
 	{
-		RenderWindow	& window;
+		RenderWindow & window;
 		constexpr UnloadEvent(RenderWindow & window)
 			: window(window)
 		{

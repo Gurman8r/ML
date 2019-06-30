@@ -1,4 +1,16 @@
-# Images
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	Image Importer
+#	See ImageAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	<import>
+#		type = image
+#		name = name_of_my_image
+#		file = ../path/to/my/image.png
+#	</import>
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>

@@ -1,4 +1,17 @@
-# Models
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	Model Importer
+#	See ModelAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	<import>
+#		type = model
+#		name = name_of_my_model
+#		mesh = name_of_some_mesh
+#		file = ../path/to/my/wavefront.obj
+#	</import>
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>

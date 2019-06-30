@@ -68,24 +68,21 @@ mat4 ml_Perspective(float fov, float aspect, float zNear, float zFar)
 
 uniform struct Camera
 {
-	vec3	position;
-	vec3	target;
-	float	fov;
-	float	zNear;
-	float	zFar;
+	vec3		position;	// Position of camera
+	vec3		target;		// Where is the camera looking?
+	float		fov;		// Field of View
+	float		zNear;		// Near Clipping Distance
+	float		zFar;		// Far Clipping Distance
 } camera;
 
-uniform struct Time
+uniform struct System
 {
-	float	delta;
-	float	total;
-} time;
-
-uniform struct Window
-{
-	vec2	size;
-	vec4	color;
-} window;
+	vec2		cursorPos;	// Position of Cursor
+	float		deltaTime;	// Elapsed Frame Time
+	int			frameCount;	// Current Frame Index
+	vec2		resolution;	// Size of Main Window
+	float		totalTime;	// Total Time Elapsed (seconds)
+} sys;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -94,11 +91,11 @@ void main()
 	// Position
 	mat4 pos = mat4(0.0);
 	pos[3][0] = 0.0; // x
-	pos[3][1] = sin(time.total); // y
+	pos[3][1] = sin(sys.totalTime); // y
 	pos[3][2] = 0.0; // z
 
 	// Rotation
-	mat4 rot = ml_AngleAxis(vec3(0.0, 1.0, 0.0), time.total);
+	mat4 rot = ml_AngleAxis(vec3(0.0, 1.0, 0.0), sys.totalTime);
 	
 	// Model Matrix
 	mat4 model = pos + rot;
@@ -113,7 +110,7 @@ void main()
 	// Projection Matrix
 	mat4 proj = ml_Perspective(
 		camera.fov,
-		(window.size.x / window.size.y),
+		(sys.resolution.x / sys.resolution.y),
 		camera.zNear,
 		camera.zFar
 	);
@@ -121,11 +118,11 @@ void main()
 	// MVP
 	mat4 mvp = (proj * view * model);
 
+	// Output
 	gl_Position = mvp * vec4(a_Position, 1.0);
-
-	V.Position = gl_Position.xyz;
-	V.Normal = transpose(inverse(model)) * a_Normal;
-	V.Texcoord = a_Texcoord;
+	V.Position	= gl_Position.xyz;
+	V.Normal	= transpose(inverse(model)) * a_Normal;
+	V.Texcoord	= a_Texcoord;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

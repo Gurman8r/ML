@@ -8,7 +8,7 @@
 #include <ML/Core/List.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
-#define ML_EditorUtility ::ml::EditorUtility::getInstance()
+#define ML_EditorUtility _ML EditorUtility::getInstance()
 
 namespace ml
 {

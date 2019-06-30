@@ -7,7 +7,7 @@
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Readable.hpp>
 
-#define ML_Content ::ml::Content::getInstance()
+#define ML_Content _ML Content::getInstance()
 
 namespace ml
 {
@@ -28,7 +28,7 @@ namespace ml
 
 	private:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		Content() : m_data() { }
+		Content() : m_data() {}
 		~Content() { dispose(); }
 
 	public:

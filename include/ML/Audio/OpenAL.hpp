@@ -10,7 +10,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_AL ::ml::OpenAL::getInstance()
+#define ML_AL _ML OpenAL::getInstance()
 
 /* * * * * * * * * * * * * * * * * * * * */
 

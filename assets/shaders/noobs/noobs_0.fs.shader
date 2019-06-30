@@ -18,39 +18,32 @@ out vec4 gl_Color;
 
 uniform struct Camera
 {
-	vec3	position;
-	vec3	target;
-	float	fov;
-	float	zNear;
-	float	zFar;
+	vec3		position;	// Position of camera
+	vec3		target;		// Where is the camera looking?
+	float		fov;		// Field of View
+	float		zNear;		// Near Clipping Distance
+	float		zFar;		// Far Clipping Distance
 } camera;
 
-uniform struct Tex
+uniform struct System
 {
-	sampler2D diff_map;
-	sampler2D spec_map;
-} tex;
+	vec2		cursorPos;	// Position of Cursor
+	float		deltaTime;	// Elapsed Frame Time
+	int			frameCount;	// Current Frame Index
+	vec2		resolution;	// Size of Main Window
+	float		totalTime;	// Total Time Elapsed (seconds)
+} sys;
 
 uniform struct Frag
 {
-	float	specular;
-	int		shininess;
-	vec3	lightPos;
-	vec4	diffuse;
-	float	ambient;
+	vec3		lightPos;	// Position of Light
+	sampler2D	diff_map;	// Diffuse Map
+	sampler2D	spec_map;	// Specular Map
+	float		specular;	// Specular
+	int			shininess;	// Shininess
+	vec4		diffuse;	// Diffuse
+	float		ambient;	// Ambient
 } frag;
-
-uniform struct Time
-{
-	float	delta;
-	float	total;
-} time;
-
-uniform struct Window
-{
-	vec2	size;
-	vec4	color;
-} window;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -64,7 +57,7 @@ void main()
 	vec3  diff_dir = normalize(frag.lightPos - V.Position);
 	float diff_amt = max(dot(diff_nml, diff_dir), 0.0);
 	vec4  diff_col = vec4(diff_amt * frag.diffuse.rgb, 1.0);
-	vec4  diff_tex = texture(tex.diff_map, V.Texcoord);
+	vec4  diff_tex = texture(frag.diff_map, V.Texcoord);
 	vec4  diff_out = (diff_col * diff_tex);
 
 	// Specular
@@ -72,7 +65,7 @@ void main()
 	vec3  spec_dir = reflect(-diff_dir, diff_nml);
 	float spec_amt = pow(max(dot(spec_nml, spec_dir), 0.0), frag.shininess);
 	vec4  spec_col = vec4(frag.specular * spec_amt * frag.diffuse.rgb, 1.0);
-	vec4  spec_tex = texture(tex.spec_map, V.Texcoord);
+	vec4  spec_tex = texture(frag.spec_map, V.Texcoord);
 	vec4  spec_out = (spec_col * spec_tex);
 
 	// Output

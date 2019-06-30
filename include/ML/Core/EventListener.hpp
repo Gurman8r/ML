@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct Event;
-	class EventSystem;
+	struct EventSystem;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

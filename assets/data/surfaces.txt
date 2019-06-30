@@ -1,22 +1,37 @@
-# Surfaces
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	Surface Importer
+#	See SurfaceAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	<import>
+#		type	= surface
+#		name	= name_of_my_surface
+#		model	= name_of_some_model
+#		shader	= name_of_some_shader
+#		width	= horizontal size in pixels
+#		height	= vertical size in pixels
+#	</import>
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>
-	type	=	surface
-	name	=	noobs_surf_main
-	model	=	default_quad
-	shader	=	surface
-	width	=	1920
-	height	=	1080
+	type	= surface
+	name	= noobs_surf_main
+	model	= default_quad
+	shader	= surface
+	width	= 1920
+	height	= 1080
 </import>
 
 <import>
-	type	=	surface
-	name	=	noobs_surf_post
-	model	=	default_quad
-	shader	=	surface
-	width	=	1920
-	height	=	1080
+	type	= surface
+	name	= noobs_surf_post
+	model	= default_quad
+	shader	= surface
+	width	= 1920
+	height	= 1080
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

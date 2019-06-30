@@ -80,11 +80,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr self_type zero()
-		{
-			return self_type { uninit };
-		}
-
 		static constexpr self_type one()
 		{
 			self_type temp { uninit };
@@ -97,7 +92,7 @@ namespace ml
 
 		static constexpr self_type identity()
 		{
-			self_type temp { self_type::zero() };
+			self_type temp { uninit };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				temp[i] = (((i / temp.width()) == (i % temp.width()))
@@ -150,7 +145,7 @@ namespace ml
 			const_reference far)
 		{
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
-			self_type temp { self_type::zero() };
+			self_type temp { uninit };
 			temp[0 * 4 + 0] = type::one / (aspect * alg::tan(fov / type::two));
 			temp[1 * 4 + 1] = type::one / alg::tan(fov / type::two);
 			temp[2 * 4 + 3] = type::minus_one;

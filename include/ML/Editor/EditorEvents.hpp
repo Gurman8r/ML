@@ -50,8 +50,8 @@ namespace ml
 
 	struct GuiEvent final : public I_Event<EditorEvent::EV_Gui>
 	{
-		const GameTime	& time;
-		Editor			& editor;
+		const GameTime & time;
+		Editor & editor;
 		constexpr GuiEvent(const GameTime & time, Editor & editor)
 			: time	(time)
 			, editor(editor)
@@ -86,8 +86,8 @@ namespace ml
 
 	struct BuildDockspaceEvent final : public I_Event<EditorEvent::EV_BuildDockspace>
 	{
-		Editor			& editor;
-		Dockspace	& dockspace;
+		Editor & editor;
+		Dockspace & dockspace;
 		constexpr BuildDockspaceEvent(Editor & editor, Dockspace & dockspace)
 			: editor	(editor)
 			, dockspace	(dockspace)

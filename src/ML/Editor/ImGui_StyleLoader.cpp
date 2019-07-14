@@ -62,7 +62,7 @@ namespace ml
 
 namespace ml
 {
-	inline static bool parseWrapped(const String & src, const char lhs, const char rhs, String & out)
+	static inline bool parseWrapped(const String & src, const char lhs, const char rhs, String & out)
 	{
 		size_t a;
 		if ((a = src.find_first_of(lhs)) != String::npos)
@@ -79,7 +79,7 @@ namespace ml
 		return (bool)(out = String());
 	}
 
-	inline static auto readBool(const String & line)
+	static inline auto readBool(const String & line)
 	{
 		bool out = false;
 		String temp;
@@ -91,7 +91,7 @@ namespace ml
 		return out;
 	}
 
-	inline static auto readFloat(const String & line)
+	static inline auto readFloat(const String & line)
 	{
 		float_t out = 0.0f;
 		String temp;
@@ -103,7 +103,7 @@ namespace ml
 		return out;
 	}
 
-	inline static auto readVec2(const String & line)
+	static inline auto readVec2(const String & line)
 	{
 		ImVec2 out { };
 		String temp;
@@ -115,7 +115,7 @@ namespace ml
 		return out;
 	}
 
-	inline static auto readVec4(const String & line)
+	static inline auto readVec4(const String & line)
 	{
 		ImVec4 out { };
 		String temp;

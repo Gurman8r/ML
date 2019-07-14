@@ -35,7 +35,7 @@ namespace ml
 		template <
 			class T,
 			class ... Arguments
-		> inline static Var execCommand(const String & fmt, const T & arg0, Arguments && ... args)
+		> static inline Var execCommand(const String & fmt, const T & arg0, Arguments && ... args)
 		{
 			return execCommand(fmt.format(arg0, std::forward<Arguments>(args)...));
 		}
@@ -47,7 +47,7 @@ namespace ml
 		static Var	execTree(const TokenTree & value);
 		static Var	execBlock(AST_Block * value);
 
-		inline static const CommandMap & commands() { return m_commands; }
+		static inline const CommandMap & commands() { return m_commands; }
 
 	private:
 		static CommandMap m_commands;

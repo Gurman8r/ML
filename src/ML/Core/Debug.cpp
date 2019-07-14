@@ -10,7 +10,7 @@
 
 namespace ml
 {
-	inline static const int32_t ml_Log(
+	static inline const int32_t ml_Log(
 		Ostream &		out, 
 		int32_t			exitCode, 
 		const FMT &		color, 

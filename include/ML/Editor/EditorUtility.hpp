@@ -35,7 +35,7 @@ namespace ml
 	public:
 		template <
 			class Fun, class ... Args
-		> inline static void DrawWindow(
+		> static inline void DrawWindow(
 			C_String name, bool & open, int32_t flags, Fun && fun, Args && ... args)
 		{	
 			if (open)
@@ -49,7 +49,7 @@ namespace ml
 		}
 
 	public:
-		inline static bool vector_getter(void * vec, int32_t idx, C_String * out_text)
+		static inline bool vector_getter(void * vec, int32_t idx, C_String * out_text)
 		{
 			auto & vector = (*static_cast<List<String>*>(vec));
 			if ((idx >= 0) && (idx < static_cast<int32_t>(vector.size())))

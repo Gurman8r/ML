@@ -209,7 +209,7 @@ namespace ml
 		template <
 			class T,
 			class ... Args
-		> inline static self_type Format(self_type value, const T & arg0, Args && ... args)
+		> static inline self_type Format(self_type value, const T & arg0, Args && ... args)
 		{
 			self_type::stream_type ss;
 			ss << arg0 << endl;
@@ -246,7 +246,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline static self_type ReplaceAll(self_type s, const self_type & f, const self_type & r)
+		static inline self_type ReplaceAll(self_type s, const self_type & f, const self_type & r)
 		{
 			if (!s.empty() && !f.empty())
 			{
@@ -271,7 +271,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline static self_type Trim(self_type value)
+		static inline self_type Trim(self_type value)
 		{
 			while (!value.empty() && value.front() == ' ' || value.front() == '\t')
 			{

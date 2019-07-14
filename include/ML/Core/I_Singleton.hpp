@@ -16,7 +16,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline static T & getInstance()
+		static inline T & getInstance()
 		{
 			static T instance;
 			return instance;

@@ -56,7 +56,7 @@ namespace ml
 	template <
 		template <class, size_t, size_t> class M,
 		class T, size_t X, size_t Y
-	> inline static List<T> makeContiguous(const M<T, X, Y> * value, const size_t length)
+	> static inline List<T> makeContiguous(const M<T, X, Y> * value, const size_t length)
 	{
 		List<T> temp;
 		if (value)

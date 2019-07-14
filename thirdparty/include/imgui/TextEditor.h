@@ -86,7 +86,7 @@ namespace ImGui
 				assert(aLine >= 0);
 				assert(aColumn >= 0);
 			}
-			inline static Coordinates Invalid() { static Coordinates invalid(-1, -1); return invalid; }
+			static inline Coordinates Invalid() { static Coordinates invalid(-1, -1); return invalid; }
 
 			inline bool operator ==(const Coordinates & o) const
 			{

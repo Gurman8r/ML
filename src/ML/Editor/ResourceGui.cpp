@@ -25,7 +25,7 @@ namespace ml
 
 	template <
 		class T 
-	> inline static void draw_content(const String & label)
+	> static inline void draw_content(const String & label)
 	{
 		if (!ImGui::CollapsingHeader(label.c_str()))
 			return;

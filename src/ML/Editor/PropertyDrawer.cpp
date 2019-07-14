@@ -24,7 +24,7 @@ namespace ml
 {
 	template <
 		class T
-	> inline static bool asset_dropdown(const String & label, const T *& value)
+	> static inline bool asset_dropdown(const String & label, const T *& value)
 	{
 		int32_t index = ML_Content.getIndexOf<T>(value);
 		if (ML_EditorUtility.StringCombo(

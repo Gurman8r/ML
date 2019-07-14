@@ -48,7 +48,7 @@ namespace ml
 		template <
 			class T,
 			class ... Args
-		> inline static int32_t logWarning(const String & fmt, const T & arg0, Args && ... args)
+		> static inline int32_t logWarning(const String & fmt, const T & arg0, Args && ... args)
 		{
 			return Debug::logWarning(fmt.format(arg0, std::forward<Args>(args)...));
 		}
@@ -56,7 +56,7 @@ namespace ml
 		template <
 			class T,
 			class ... Args
-		> inline static int32_t logError(const String & fmt, const T & arg0, Args && ... args)
+		> static inline int32_t logError(const String & fmt, const T & arg0, Args && ... args)
 		{
 			return Debug::logError(fmt.format(arg0, std::forward<Args>(args)...));
 		}
@@ -64,7 +64,7 @@ namespace ml
 		template <
 			class T, 
 			class ... Args
-		> inline static int32_t log(const String & fmt, const T & arg0, Args && ... args)
+		> static inline int32_t log(const String & fmt, const T & arg0, Args && ... args)
 		{
 			return Debug::log(fmt.format(arg0, std::forward<Args>(args)...));
 		}

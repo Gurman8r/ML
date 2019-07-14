@@ -4,7 +4,7 @@
 
 namespace ml
 {
-	inline static int32_t stub()
+	static inline int32_t stub()
 	{
 		constexpr mat4f ma {
 			0.f,	1.f,	2.f,	3.f,

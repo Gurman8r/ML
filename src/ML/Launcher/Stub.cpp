@@ -7,17 +7,17 @@ namespace ml
 {
 	static inline void stub()
 	{
-		constexpr quat		q1			{ 1.0f, 2.0f, 3.0f, 4.0f };
-		constexpr vec3		q_complex	= q1.complex();
-		constexpr float_t	q_real		= q1.real();
-		constexpr vec3		q_axis		= q1.axis();
-		constexpr quat		q_ax		= quat::angleAxis(q_real, vec3 { q_complex });
-		constexpr float_t	q_pitch		= q_ax.pitch();
-		constexpr float_t	q_roll		= q_ax.roll();
-		constexpr float_t	q_yaw		= q_ax.yaw();
-		constexpr vec3		q_euler		= q_ax.eulerAngles();
-		constexpr mat3		q_toMat3	= q_ax.toMat3();
-		constexpr mat4		q_toMat4	= q_ax.toMat4();
+		constexpr quat		q			{ 1.0f, 2.0f, 3.0f, 4.0f };
+		constexpr vec3		q_complex	= q.complex();
+		constexpr float_t	q_real		= q.real();
+		constexpr vec3		q_axis		= q.axis();
+		constexpr quat		q_angAxis	= quat::angleAxis(q_real, q_complex);
+		constexpr float_t	q_pitch		= q.pitch();
+		constexpr float_t	q_roll		= q.roll();
+		constexpr float_t	q_yaw		= q.yaw();
+		constexpr vec3		q_euler		= q.eulerAngles();
+		constexpr mat3		q_toMat3	= q.toMat3();
+		constexpr mat4		q_toMat4	= q.toMat4();
 
 		constexpr mat4f ma {
 			0.f,	1.f,	2.f,	3.f,

@@ -202,7 +202,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Sprite.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Text.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Texture.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\Uniforms.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Uniform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Vertex.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexArray.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexBuffer.hpp" />

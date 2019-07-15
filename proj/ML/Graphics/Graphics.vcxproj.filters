@@ -141,7 +141,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Geometry.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Uniforms.hpp">
+    <ClInclude Include="..\..\..\include\ML\Graphics\Uniform.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,6 +16,8 @@
   ##   See the License for the specific language governing permissions and
   ##   limitations under the License.
   ##
+  ##	Modified - Melody Gurman - 7/2019 - Added return cast to atan_series_order
+  ##
   ################################################################################*/
 
 /*
@@ -50,7 +52,7 @@ T
 atan_series_order(const T x, const T x_pow, const uint_t order, const uint_t max_order)
 noexcept
 {
-    return( order == 1 ? \
+    return (T)( order == 1 ? \
                 GCEM_HALF_PI - T(1)/x + atan_series_order(x*x,pow(x,3),order+1,max_order) :
             // NOTE: x changes to x*x for order > 1
             order < max_order ? \

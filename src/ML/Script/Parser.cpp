@@ -163,8 +163,8 @@ namespace ml
 			return (
 				(toks.size(1)) &&
 				(toks.front('n')) &&
-				(StringUtility::IsBool(toks.front().data))
-					? (temp = new AST_Bool(StringUtility::ToBool(toks.front().data)))
+				(alg::is_bool(toks.front().data))
+					? (temp = new AST_Bool(alg::to_bool(toks.front().data)))
 					: (temp = nullptr)
 				);
 		}));
@@ -175,8 +175,8 @@ namespace ml
 			return (
 				(toks.size(1)) &&
 				(toks.front('i')) &&
-				(StringUtility::IsInt(toks.front().data))
-					? (temp = new AST_Int(StringUtility::ToInt(toks.front().data)))
+				(alg::is_int(toks.front().data))
+					? (temp = new AST_Int(alg::to_int(toks.front().data)))
 					: (temp = nullptr)
 				);
 		}));
@@ -187,8 +187,8 @@ namespace ml
 			return (
 				(toks.size(1)) &&
 				(toks.front('f')) &&
-				(StringUtility::IsDecimal(toks.front().data))
-					? (temp = new AST_Float(StringUtility::ToFloat(toks.front().data)))
+				(alg::is_decimal(toks.front().data))
+					? (temp = new AST_Float(alg::to_float(toks.front().data)))
 					: (temp = nullptr)
 				);
 		}));

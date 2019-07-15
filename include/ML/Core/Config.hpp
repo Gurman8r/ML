@@ -88,11 +88,17 @@
 //	Compiler
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_MSC_VER)
-#	define ML_CC_MSC	_MSC_VER	// Microsoft Compiler
+//	Microsoft Compiler
+#	define ML_CC_NAME	"Microsoft"
+#	define ML_CC_MSC	_MSC_VER
 # elif defined(__clang__)
-#	define ML_CC_CLANG	__clang__	// Clang Compiler
+//	Clang Compiler
+#	define ML_CC_NAME	"Clang"
+#	define ML_CC_CLANG	__clang_
 # elif defined(__GNUC__)
-#	define ML_CC_GNUC	__GNUC__	// GNU Compiler
+//	GNU Compiler
+#	define ML_CC_NAME	"GNU"
+#	define ML_CC_GNUC	__GNUC__
 #else
 #	error This compiler does not support memes.
 # endif
@@ -104,11 +110,11 @@
 #		define ML_API_EXPORT __declspec(dllexport)
 #		define ML_API_IMPORT __declspec(dllimport)
 #		ifdef ML_CC_MSC
-#			pragma warning(disable: 4031)
-#			pragma warning(disable: 4099)
-#			pragma warning(disable: 4251)
-#			pragma warning(disable: 4307)
-#			pragma warning(disable: 4723)
+#			pragma warning(disable: 4031) // second formal parameter list longer than the first list
+#			pragma warning(disable: 4099) // PDB was not found
+#			pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
+#			pragma warning(disable: 4307) // integral constant overflow
+#			pragma warning(disable: 4723) // potential divide by zero
 #		endif
 #	else
 #		if ML_CC_GNUC >= 4

@@ -22,7 +22,7 @@ namespace ml
 		using allocator_type		= typename Alloc;
 		using self_type				= typename BasicString<value_type, traits_type, allocator_type>;
 		using base_type				= typename std::basic_string<value_type, traits_type, allocator_type>;
-		using stream_type			= typename std::basic_stringstream<value_type, traits_type, allocator_type>;
+		using sstream_type			= typename std::basic_stringstream<value_type, traits_type, allocator_type>;
 		using reference				= typename base_type::reference;
 		using pointer				= typename base_type::pointer;
 		using const_reference		= typename base_type::const_reference;
@@ -147,6 +147,11 @@ namespace ml
 			return static_cast<base_type>(*this);
 		}
 
+		inline operator base_type &() const
+		{
+			return static_cast<base_type &>(*this);
+		}
+
 		inline operator const base_type &() const
 		{
 			return static_cast<const base_type &>(*this);
@@ -206,26 +211,20 @@ namespace ml
 
 	public: // Custom
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		void pop_front()
+		{
+			if (!this->empty()) { this->erase(this->begin()); }
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		template <
 			class T,
 			class ... Args
 		> static inline self_type Format(self_type value, const T & arg0, Args && ... args)
 		{
-			self_type::stream_type ss;
-			ss << arg0 << endl;
-
-			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; 
-			(void)sink;
-
-			for (size_type i = 0; ss.good(); i++)
-			{
-				self_type arg;
-				if (std::getline(ss, arg))
-				{
-					value.replaceAll(("{" + std::to_string(i) + "}"), arg);
-				}
-			}
-			return value;
+			return value.format(arg0, std::forward<Args>(args)...);
 		}
 
 		template <
@@ -233,7 +232,22 @@ namespace ml
 			class ... Args
 		> inline self_type & format(const T & arg0, Args && ... args)
 		{
-			return ((*this) = Format((*this), arg0, std::forward<Args>(args)...));
+			self_type::sstream_type ss;
+			ss << arg0 << endl;
+
+			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... };
+			(void)sink;
+
+			for (size_type i = 0; ss.good(); i++)
+			{
+				self_type arg;
+				if (std::getline(ss, arg))
+				{
+					// Replace all "{i}" with "args[i]"
+					this->replaceAll(("{" + std::to_string(i) + "}"), arg);
+				}
+			}
+			return (*this);
 		}
 
 		template <
@@ -248,20 +262,20 @@ namespace ml
 
 		static inline self_type ReplaceAll(self_type s, const self_type & f, const self_type & r)
 		{
-			if (!s.empty() && !f.empty())
-			{
-				for (size_t i = 0; (i = s.find(f, i)) != self_type::npos;)
-				{
-					s.replace(i, f.size(), r);
-					i += r.size();
-				}
-			}
-			return s;
+			return s.replaceAll(f, r);
 		}
 
-		inline self_type & replaceAll(const self_type & f, const self_type & r)
+		inline self_type & replaceAll(const self_type & value, const self_type & repl)
 		{
-			return ((*this) = ReplaceAll((*this), f, r));
+			if (!(*this).empty() && !value.empty())
+			{
+				for (size_t i = 0; (i = (*this).find(value, i)) != self_type::npos;)
+				{
+					(*this).replace(i, value.size(), repl);
+					i += repl.size();
+				}
+			}
+			return (*this);
 		}
 
 		inline const self_type replaceAll(const self_type & f, const self_type & r) const
@@ -273,20 +287,21 @@ namespace ml
 
 		static inline self_type Trim(self_type value)
 		{
-			while (!value.empty() && value.front() == ' ' || value.front() == '\t')
-			{
-				value.erase(value.begin());
-			}
-			while (!value.empty() && value.back() == ' ' || value.back() == '\t')
-			{
-				value.pop_back();
-			}
-			return value;
+			return value.trim();
 		}
 
 		inline self_type & trim()
 		{
-			return ((*this) = Trim(*this));
+			auto is_whitespace = [&](value_type e)
+			{
+				return !this->empty() && (
+					(e == static_cast<value_type>(' ')) ||
+					(e == static_cast<value_type>('\t'))
+				);
+			};
+			while (is_whitespace(this->front())) this->pop_front();
+			while (is_whitespace(this->back()))  this->pop_back();
+			return (*this);
 		}
 
 		inline const self_type trim() const
@@ -324,10 +339,10 @@ namespace ml
 	using U16_String	= BasicString<char16_t>;
 	using U32_String	= BasicString<char32_t>;
 	
-	using SStream		= typename String::stream_type;
-	using W_SStream		= typename W_String::stream_type;
-	using U16_SStream	= typename U16_String::stream_type;
-	using U32_SStream	= typename U32_String::stream_type;
+	using SStream		= typename String::sstream_type;
+	using W_SStream		= typename W_String::sstream_type;
+	using U16_SStream	= typename U16_String::sstream_type;
+	using U32_SStream	= typename U32_String::sstream_type;
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

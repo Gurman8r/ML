@@ -55,46 +55,22 @@ namespace ml
 
 	bool MetadataValue::asBool() const
 	{
-		return
-			(m_data) &&
-			(m_data == "1") ||
-			(StringUtility::ToLower(m_data) == "true");
+		return alg::to_bool(m_data);
 	}
 
 	float64_t MetadataValue::asDouble() const
 	{
-		try
-		{
-			return std::stoi(m_data);
-		}
-		catch (std::invalid_argument &)
-		{
-			return 0.0;
-		}
+		return alg::to_double(m_data);
 	}
 
-	float_t MetadataValue::asFloat() const
+	float32_t MetadataValue::asFloat() const
 	{
-		try
-		{
-			return std::stof(m_data);
-		}
-		catch (std::invalid_argument &)
-		{
-			return 0.0f;
-		}
+		return alg::to_float(m_data);
 	}
 
 	int32_t MetadataValue::asInt() const
 	{
-		try
-		{
-			return std::stoi(m_data);
-		}
-		catch (std::invalid_argument &)
-		{
-			return 0;
-		}
+		return alg::to_int(m_data);
 	}
 
 	String MetadataValue::asString() const

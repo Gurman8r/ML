@@ -28,7 +28,7 @@ namespace ml
 	
 	Var * Var::Ptr::get() const
 	{
-		if (StringUtility::IsName(name))
+		if (alg::is_name(name))
 		{
 			if (Var * v = ML_Runtime.getVar(index, name))
 			{
@@ -150,7 +150,7 @@ namespace ml
 		 
 	bool Var::isBoolType() const
 	{
-		return isNameType() && StringUtility::IsBool(textValue());
+		return isNameType() && alg::is_bool(textValue());
 	}
 		 
 	bool Var::isComplexType() const
@@ -170,7 +170,7 @@ namespace ml
 		 
 	bool Var::isFloatType() const
 	{
-		return tokensValue().front(Token::Float) && StringUtility::IsDecimal(textValue());
+		return tokensValue().front(Token::Float) && alg::is_decimal(textValue());
 	}
 		 
 	bool Var::isFuncType() const
@@ -180,12 +180,12 @@ namespace ml
 		 
 	bool Var::isIntType() const
 	{
-		return tokensValue().front(Token::Int) && StringUtility::IsInt(textValue());
+		return tokensValue().front(Token::Int) && alg::is_int(textValue());
 	}
 		 
 	bool Var::isNameType() const
 	{
-		return m_data.front(Token::Name) && StringUtility::IsName(textValue());
+		return m_data.front(Token::Name) && alg::is_name(textValue());
 	}
 		 
 	bool Var::isNullValue() const
@@ -220,11 +220,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool		Var::boolValue() const
+	bool Var::boolValue() const
 	{
 		if (isBoolType())
 		{
-			return StringUtility::ToBool(textValue());
+			return alg::to_bool(textValue());
 		}
 		else if (isIntType())
 		{
@@ -245,17 +245,17 @@ namespace ml
 		return (!isEmptyValue() && !isErrorType() && !isVoidType());
 	}
 
-	TokenList	Var::dataValue() const
+	TokenList Var::dataValue() const
 	{
 		return m_data;
 	}
 
-	float_t		Var::floatValue() const
+	float_t Var::floatValue() const
 	{
-		return isValid() ? StringUtility::ToFloat(textValue()) : 0;
+		return isValid() ? alg::to_float(textValue()) : 0;
 	}
 
-	Var			Var::elemValue(size_t i) const
+	Var Var::elemValue(size_t i) const
 	{
 		if (!isEmptyValue())
 		{
@@ -288,17 +288,17 @@ namespace ml
 		return Var().errorValue("Var::Arr : Cannot access element on empty data");
 	}
 
-	String		Var::errorValue() const
+	String Var::errorValue() const
 	{
 		return isErrorType() ? (textValue()) : String();
 	}
 
-	int32_t		Var::intValue() const
+	int32_t	Var::intValue() const
 	{
-		return isValid() ? StringUtility::ToInt(textValue()) : 0;
+		return isValid() ? alg::to_int(textValue()) : 0;
 	}
 
-	List<Var>	Var::listValue() const
+	List<Var> Var::listValue() const
 	{
 		List<Var> out;
 		if (!isEmptyValue())
@@ -314,12 +314,12 @@ namespace ml
 		return out;
 	}
 
-	Var::Ptr	Var::pointerValue() const
+	Var::Ptr Var::pointerValue() const
 	{
 		return Ptr(m_scope, (textValue()));
 	}
 
-	int32_t		Var::sizeOfValue() const
+	int32_t Var::sizeOfValue() const
 	{
 		if (isArrayType())
 		{
@@ -336,17 +336,17 @@ namespace ml
 		return 0;
 	}
 	
-	String		Var::stringValue() const
+	String Var::stringValue() const
 	{
 		return isValid() ? (textValue()) : String();
 	}
 
-	String		Var::textValue() const
+	String Var::textValue() const
 	{
 		return dataValue().str();
 	}
 
-	TokenList	Var::tokensValue() const
+	TokenList Var::tokensValue() const
 	{
 		if (compareType(Var::Func))
 		{
@@ -523,8 +523,8 @@ namespace ml
 		case Token::Float:
 			return Var().floatValue(std::stof(tok.data));
 		case Token::Name:
-			return StringUtility::IsBool(tok.data)
-				? Var().boolValue(StringUtility::ToBool(tok.data))
+			return alg::is_bool(tok.data)
+				? Var().boolValue(alg::to_bool(tok.data))
 				: Var().pointerValue(Var::Ptr(0, tok.data));
 		default:
 			return Var().errorValue(tok.str());

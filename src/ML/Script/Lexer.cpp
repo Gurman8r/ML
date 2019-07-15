@@ -12,11 +12,11 @@ namespace ml
 		{
 			return { Token::Empty, value };
 		}
-		else if (StringUtility::IsInt(value))
+		else if (alg::is_int(value))
 		{
 			return { Token::Int, value };
 		}
-		else if (StringUtility::IsDecimal(value))
+		else if (alg::is_decimal(value))
 		{
 			return { Token::Float, value };
 		}
@@ -87,12 +87,12 @@ namespace ml
 			else if (scanNumber(value, it, text))
 			{
 				// Integer
-				if (StringUtility::IsInt(text))
+				if (alg::is_int(text))
 				{
 					out.push_back({ Token::Int, text });
 				}
 				// Float
-				else if (StringUtility::IsDecimal(text))
+				else if (alg::is_decimal(text))
 				{
 					out.push_back({ Token::Float, text });
 				}
@@ -122,7 +122,7 @@ namespace ml
 
 	TokenTree Lexer::genTokenTree(const TokenList & value)
 	{
-		TokenTree tree	= { TokenList() };
+		TokenTree tree = { TokenList() };
 		
 		for (TokenList::const_iterator it = value.begin(); it != value.end(); it++)
 		{
@@ -233,12 +233,11 @@ namespace ml
 		auto issymbol = [](const char c)
 		{
 			return
-				(c >= '!'  && c <= '/') ||
-				(c >= ':'  && c <= '@') ||
-				(c >= '['  && c <= '`') ||
-				(c >= '{'  && c <= '~');
+				((c >= '!') && (c <= '/')) ||
+				((c >= ':') && (c <= '@')) ||
+				((c >= '[') && (c <= '`')) ||
+				((c >= '{') && (c <= '~'));
 		};
-
 		if (issymbol(*it))
 		{
 			text = String(1, (*it));

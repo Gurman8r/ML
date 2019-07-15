@@ -222,7 +222,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />
   </ItemGroup>

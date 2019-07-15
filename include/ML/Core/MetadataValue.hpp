@@ -40,7 +40,7 @@ namespace ml
 
 		bool		asBool	() const;
 		float64_t	asDouble() const;
-		float_t		asFloat	() const;
+		float32_t	asFloat	() const;
 		int32_t		asInt	() const;
 		String		asString() const;
 

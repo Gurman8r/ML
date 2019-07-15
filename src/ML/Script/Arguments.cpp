@@ -35,7 +35,8 @@ namespace ml
 	}
 	
 	Arguments::Arguments(const String & value, const String & delim)
-		: m_values(StringUtility::Split(value, delim))
+		//: m_values(StringUtility::Split(value, delim))
+		: m_values(alg::tokenize(value, delim))
 	{
 	}
 	

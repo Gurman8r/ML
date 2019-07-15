@@ -55,11 +55,11 @@ namespace ml
 	{
 		const String str = args.pop();
 
-		if (StringUtility::IsInt(str) && !args.empty())
+		if (alg::is_int(str) && !args.empty())
 		{
 			return Var().boolValue(
 				ML_Runtime.getVar(
-					StringUtility::ToInt(str),
+					alg::to_int(str),
 					args.pop())
 			);
 		}
@@ -77,10 +77,9 @@ namespace ml
 	{
 		const String scope = args.pop();
 
-		if (StringUtility::IsInt(scope) && !args.empty())
+		if (alg::is_int(scope) && !args.empty())
 		{
-			if (Var * v = ML_Runtime.getVar(
-				StringUtility::ToInt(scope), args.pop()))
+			if (Var * v = ML_Runtime.getVar(alg::to_int(scope), args.pop()))
 			{
 				return (*v);
 			}
@@ -216,11 +215,11 @@ namespace ml
 	Var DefaultCommands::cmd_set(Arguments & args)
 	{
 		int32_t index;
-		if (StringUtility::MakeInt(args.pop(), index) && !args.empty())
+		if (alg::parse_int(args.pop(), index) && !args.empty())
 		{
 			if (const String name = args.pop())
 			{
-				if (StringUtility::IsName(name) && !args.empty())
+				if (alg::is_name(name) && !args.empty())
 				{
 					const Token value = ML_Lexer.genToken(args.pop());
 

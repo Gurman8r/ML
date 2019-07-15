@@ -176,9 +176,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Core\StringUtility.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>

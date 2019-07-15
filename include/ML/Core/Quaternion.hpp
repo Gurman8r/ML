@@ -89,39 +89,35 @@ namespace ml
 
 		constexpr complex_type eulerAngles() const
 		{
-			return complex_type {
-				pitch(),
-				roll(),
-				yaw()
-			};
+			return complex_type { pitch(), roll(), yaw() };
 		}
 
 		constexpr value_type pitch() const
 		{
-			return type { alg::atan2<value_type>(
+			return alg::atan2<value_type>(
 				(type::two * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
 				(this->real() * this->real() - (*this)[0] *
 					(*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
-			) }();
+			);
 		}
 
 		constexpr value_type roll() const
 		{
-			return type { alg::atan2<value_type>(
+			return alg::atan2<value_type>(
 				(type::two * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
 				(this->real() * this->real() + (*this)[0] * (*this)[0] -
 					(*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
-			) }();
+			);
 		}
 
 		constexpr value_type yaw() const
 		{
-			return type { alg::asin<value_type>(alg::clamp(
+			return alg::asin<value_type>(alg::clamp(
 				(type::two *
 					((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
 				type::minus_one,
 				type::one
-			)) }();
+			));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -157,7 +153,7 @@ namespace ml
 
 		static constexpr self_type angleAxis(const_reference angle, const complex_type & axis)
 		{
-			const value_type half_angle { (angle * type::half) };
+			const value_type half_angle { angle * type::half };
 			const value_type temp { alg::sin(half_angle) };
 			return self_type {
 				axis[0] * temp,
@@ -165,6 +161,13 @@ namespace ml
 				axis[2] * temp,
 				alg::cos(half_angle)
 			};
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		constexpr operator base_type() const
+		{
+			return base_type { (*this)[0], (*this)[1], (*this)[2], (*this)[3] };
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -80,7 +80,7 @@ namespace ml
 			{
 				it = m_data.insert({ name, new value_type() }).first;
 			}
-			return ((*it->second) = value_type(std::forward<Args>(args)...));
+			return ((*it->second) = value_type { std::forward<Args>(args)... });
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

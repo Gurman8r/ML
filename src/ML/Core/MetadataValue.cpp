@@ -1,9 +1,8 @@
 #include <ML/Core/MetadataValue.hpp>
-#include <ML/Core/StringUtility.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	MetadataValue::MetadataValue()
 		: m_type(META_None)
@@ -51,32 +50,5 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool MetadataValue::asBool() const
-	{
-		return alg::to_bool(m_data);
-	}
-
-	float64_t MetadataValue::asDouble() const
-	{
-		return alg::to_double(m_data);
-	}
-
-	float32_t MetadataValue::asFloat() const
-	{
-		return alg::to_float(m_data);
-	}
-
-	int32_t MetadataValue::asInt() const
-	{
-		return alg::to_int(m_data);
-	}
-
-	String MetadataValue::asString() const
-	{
-		return m_data;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

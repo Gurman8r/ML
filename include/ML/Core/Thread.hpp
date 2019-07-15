@@ -12,22 +12,25 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API Thread final
+	struct ML_CORE_API Thread final
 		: public I_Newable
 		, public I_Disposable
 		, public I_NonCopyable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Thread();
 		~Thread();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool alive() const;
 		bool joinable() const;
 		bool dispose() override;
 		void sleep(const Duration & value);
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		template <
 			class Fun, 
 			class ... Args, 
@@ -40,8 +43,11 @@ namespace ml
 			);
 		}
 
-	private:
-		std::thread * m_thr;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: std::thread * m_thr;
+		
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

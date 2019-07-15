@@ -8,30 +8,33 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API Timer final
+	struct ML_CORE_API Timer final
 		: public I_Newable
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using Clock		= typename std::chrono::high_resolution_clock;
 		using TimePoint = typename Clock::time_point;
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Timer();
 		Timer(const Timer & copy);
 		~Timer();
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Timer & pause(bool paused);
 		Timer & reset();
 		Timer & start();
 		Timer & stop();
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		const Duration & elapsed() const;
 		const bool paused() const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		bool		m_paused;
@@ -40,6 +43,8 @@ namespace ml
 		TimePoint	m_next;
 
 		mutable Duration m_elapsed;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

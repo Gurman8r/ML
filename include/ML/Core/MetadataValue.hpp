@@ -2,18 +2,17 @@
 #define _ML_METADATA_VALUE_HPP_
 
 #include <ML/Core/I_Newable.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Core/StringUtility.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API MetadataValue final
-		: public I_Newable
+	struct ML_CORE_API MetadataValue final : public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum Type
+		enum Type : int32_t
 		{
 			META_None = -1,
 			META_Bool,
@@ -25,7 +24,7 @@ namespace ml
 			MAX_METADATA_TYPE
 		};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		MetadataValue();
 		explicit MetadataValue(const bool value);
@@ -38,14 +37,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool		asBool	() const;
-		float64_t	asDouble() const;
-		float32_t	asFloat	() const;
-		int32_t		asInt	() const;
-		String		asString() const;
+		inline auto getData()	const -> const String & { return m_data; }
+		inline auto getType()	const -> const Type &   { return m_type; }
 
-		inline auto getData() const -> const String & { return m_data; }
-		inline auto getType() const -> const Type & { return m_type; }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		inline auto asBool	()	const ->  bool		{ return alg::to_bool(getData()); }
+		inline auto asDouble()	const ->  float64_t	{ return alg::to_double(getData()); }
+		inline auto asFloat	()	const ->  float32_t	{ return alg::to_float(getData()); }
+		inline auto asInt	()	const ->  int32_t	{ return alg::to_int(getData()); }
+		inline auto asString()	const ->  String	{ return getData(); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T
@@ -58,7 +61,7 @@ namespace ml
 
 		inline operator bool		() const { return asBool();		}
 		inline operator float64_t	() const { return asDouble();	}
-		inline operator float_t		() const { return asFloat();	}
+		inline operator float32_t	() const { return asFloat();	}
 		inline operator int32_t		() const { return asInt();		}
 		inline operator String		() const { return asString();	}
 

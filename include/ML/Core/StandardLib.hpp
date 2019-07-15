@@ -127,8 +127,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_SERIALIZE	::ml::Ostream & operator<<
-#define ML_DESERIALIZE	::ml::Istream & operator>>
+#define ML_SERIALIZE	_ML Ostream & operator<<
+#define ML_DESERIALIZE	_ML Istream & operator>>
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -40,8 +40,15 @@ namespace ml
 			: base_type({ left, top, width, height })
 		{
 		}
-		
+
 		constexpr Rect(const self_type & copy)
+			: base_type(copy)
+		{
+		}
+
+		template <
+			class U
+		> constexpr Rect(const tvec4<U> & copy)
 			: base_type(copy)
 		{
 		}

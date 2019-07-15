@@ -197,6 +197,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />

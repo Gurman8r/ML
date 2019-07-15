@@ -1,4 +1,5 @@
 #include <ML/Core/Matrix.hpp>
+#include <ML/Core/Quaternion.hpp>
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Core/Debug.hpp>
 
@@ -6,6 +7,18 @@ namespace ml
 {
 	static inline int32_t stub()
 	{
+		constexpr quat		q1		{ 1, 2, 3, 4 };
+		constexpr vec3		complex = q1.complex();
+		constexpr float_t	real	= q1.real();
+		constexpr vec3		axis	= q1.axis();
+		constexpr quat		ax		= quat::angleAxis(real, vec3 { complex });
+		constexpr float_t	pitch	= ax.pitch();
+		constexpr float_t	roll	= ax.roll();
+		constexpr float_t	yaw		= ax.yaw();
+		constexpr vec3		euler	= ax.eulerAngles();
+		constexpr mat3		qToMat3 = ax.toMat3();
+		constexpr mat4		qToMat4 = ax.toMat4();
+
 		constexpr mat4f ma {
 			0.f,	1.f,	2.f,	3.f,
 			4.f,	5.f,	6.f,	7.f,

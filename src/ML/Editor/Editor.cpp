@@ -225,14 +225,14 @@ namespace ml
 
 		// Setup Ini File
 		/* * * * * * * * * * * * * * * * * * * * */
-		C_String useIniFile = (ev.prefs.GetBool("Editor", "useIniFile", false)
+		C_String imguiIni = (ev.prefs.GetBool("Editor", "useImguiIni", false)
 			? "imgui.ini"
 			: nullptr
 		);
 
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_ImGui_Impl.Startup("#version 410", &ev.window, true, useIniFile))
+		if (!ML_ImGui_Impl.Startup("#version 410", &ev.window, true, imguiIni))
 		{
 			Debug::fatal("Failed Initializing ImGui");
 		}

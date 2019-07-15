@@ -125,7 +125,7 @@ int32_t main()
 	if (Ifstream file { ML_FS.getPathTo(g_Preferences.GetString(
 		"Launcher",
 		"plugin_list",
-		"../../../assets/data/plugins.txt"
+		"../../../assets/plugins.txt"
 	)) })
 	{	
 		String line;

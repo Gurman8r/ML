@@ -5,19 +5,19 @@
 
 namespace ml
 {
-	static inline int32_t stub()
+	static inline void stub()
 	{
-		constexpr quat		q1		{ 1, 2, 3, 4 };
-		constexpr vec3		complex = q1.complex();
-		constexpr float_t	real	= q1.real();
-		constexpr vec3		axis	= q1.axis();
-		constexpr quat		ax		= quat::angleAxis(real, vec3 { complex });
-		constexpr float_t	pitch	= ax.pitch();
-		constexpr float_t	roll	= ax.roll();
-		constexpr float_t	yaw		= ax.yaw();
-		constexpr vec3		euler	= ax.eulerAngles();
-		constexpr mat3		qToMat3 = ax.toMat3();
-		constexpr mat4		qToMat4 = ax.toMat4();
+		constexpr quat		q1			{ 1.0f, 2.0f, 3.0f, 4.0f };
+		constexpr vec3		q_complex	= q1.complex();
+		constexpr float_t	q_real		= q1.real();
+		constexpr vec3		q_axis		= q1.axis();
+		constexpr quat		q_ax		= quat::angleAxis(q_real, vec3 { q_complex });
+		constexpr float_t	q_pitch		= q_ax.pitch();
+		constexpr float_t	q_roll		= q_ax.roll();
+		constexpr float_t	q_yaw		= q_ax.yaw();
+		constexpr vec3		q_euler		= q_ax.eulerAngles();
+		constexpr mat3		q_toMat3	= q_ax.toMat3();
+		constexpr mat4		q_toMat4	= q_ax.toMat4();
 
 		constexpr mat4f ma {
 			0.f,	1.f,	2.f,	3.f,
@@ -65,7 +65,7 @@ namespace ml
 		constexpr auto fact		= alg::fact(10);
 
 		constexpr auto tri		= geo::tri::contiguous;
-		constexpr auto quat		= geo::quad::contiguous;
+		constexpr auto quad		= geo::quad::contiguous;
 		constexpr auto cube		= geo::cube::contiguous;
 
 		constexpr auto res		= vec2 { 1280, 720 };
@@ -75,7 +75,5 @@ namespace ml
 		constexpr auto zFar		= 1000.f;
 		constexpr auto ortho	= mat4::ortho(0, res[0], res[1], 0);
 		constexpr auto persp	= mat4::persp(fov, aspect, zNear, zFar);
-
-		return Debug::pause(0);
 	}
 }

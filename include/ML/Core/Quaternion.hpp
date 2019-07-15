@@ -2,6 +2,7 @@
 #define _ML_QUATERNION_HPP_
 
 #include <ML/Core/Matrix.hpp>
+#include <ML/Core/Trig.hpp>
 
 namespace ml
 {
@@ -14,10 +15,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename T;
-		using type				= typename type_t<value_type>;
 		using self_type			= typename Quaternion<value_type>;
 		using base_type			= typename tvec4<value_type>;
 		using complex_type		= typename tvec3<value_type>;
+		using type				= typename base_type::type;
 		using pointer			= typename base_type::pointer;
 		using reference			= typename base_type::reference;
 		using const_pointer		= typename base_type::const_pointer;
@@ -80,7 +81,7 @@ namespace ml
 			}
 			else
 			{
-				return this->complex() * (type::one / alg::sqrt()(temp));
+				return this->complex() * (type::one / alg::sqrt<value_type>()(temp));
 			}
 		}
 
@@ -97,30 +98,30 @@ namespace ml
 
 		constexpr value_type pitch() const
 		{
-			return type(alg::atan2(
-				(2.0f * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
+			return type { alg::atan2<value_type>(
+				(type::two * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
 				(this->real() * this->real() - (*this)[0] *
 					(*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
-			))();
+			) }();
 		}
 
 		constexpr value_type roll() const
 		{
-			return type(alg::atan2(
-				(2.0f * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
+			return type { alg::atan2<value_type>(
+				(type::two * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
 				(this->real() * this->real() + (*this)[0] * (*this)[0] -
 					(*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
-			))();
+			) }();
 		}
 
 		constexpr value_type yaw() const
 		{
-			return type(alg::asin(alg::clamp(
-				(type::two * 
+			return type { alg::asin<value_type>(alg::clamp(
+				(type::two *
 					((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
 				type::minus_one,
 				type::one
-			)))();
+			)) }();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -128,25 +129,16 @@ namespace ml
 		constexpr tmat3<value_type> toMat3() const
 		{
 			// not sure if this is correct
-			const value_type xx = ((*this)[0] * (*this)[0]);
-			const value_type xy = ((*this)[0] * (*this)[1]);
-			const value_type xz = ((*this)[0] * (*this)[2]);
-			const value_type xw = ((*this)[0] * (*this)[3]);
-			const value_type yy = ((*this)[1] * (*this)[1]);
-			const value_type yz = ((*this)[1] * (*this)[2]);
-			const value_type yw = ((*this)[1] * (*this)[3]);
-			const value_type zz = ((*this)[2] * (*this)[2]);
-			const value_type zw = ((*this)[2] * (*this)[3]);
 			return tmat3<value_type> {
-				(type::one - type::two * yy - type::two * zz);
-				(type::two * xy - type::two * zw);
-				(type::two * xz + type::two * yw);
-				(type::two * xy + type::two * zw);
-				(type::one - type::two * xx - type::two * zz);
-				(type::two * yz - type::two * xw);
-				(type::two * xz - type::two * yw);
-				(type::two * yz + type::two * xw);
-				(type::one - type::two * xx - type::two * yy);
+				(type::one - type::two * ((*this)[1] * (*this)[1]) - type::two * ((*this)[2] * (*this)[2])),
+				(type::two * ((*this)[0] * (*this)[1]) - type::two * ((*this)[2] * (*this)[3])),
+				(type::two * ((*this)[0] * (*this)[2]) + type::two * ((*this)[1] * (*this)[3])),
+				(type::two * ((*this)[0] * (*this)[1]) + type::two * ((*this)[2] * (*this)[3])),
+				(type::one - type::two * ((*this)[0] * (*this)[0]) - type::two * ((*this)[2] * (*this)[2])),
+				(type::two * ((*this)[1] * (*this)[2]) - type::two * ((*this)[0] * (*this)[3])),
+				(type::two * ((*this)[0] * (*this)[2]) - type::two * ((*this)[1] * (*this)[3])),
+				(type::two * ((*this)[1] * (*this)[2]) + type::two * ((*this)[0] * (*this)[3])),
+				(type::one - type::two * ((*this)[0] * (*this)[0]) - type::two * ((*this)[1] * (*this)[1]))
 			};
 		}
 

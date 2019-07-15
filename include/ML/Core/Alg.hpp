@@ -2,7 +2,6 @@
 #define _ML_ALG_HPP_
 
 #include <ML/Core/Type.hpp>
-#include <gcem/gcem.hpp>
 
 #define ML_MIN(l, r) ((l <= r) ? l : r)
 #define ML_MAX(l, r) ((l >= r) ? l : r)
@@ -260,83 +259,6 @@ namespace ml
 			const T & b0, const T & b1)
 		{
 			return (b0 + (value - a0) * (b1 - b0) / (a1 - a0));
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	// Trigonometry
-	namespace alg
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class Tx
-		> static constexpr auto cos(const Tx & x)
-		{
-			return gcem::cos(x);
-		}
-
-		template <
-			class Tx
-		> static constexpr auto sin(const Tx & x)
-		{
-			return gcem::sin(x);
-		}
-
-		template <
-			class Tx
-		> static constexpr auto tan(const Tx x)
-		{
-			return gcem::tan(x);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class Tx
-		> static constexpr auto acos(const Tx & x)
-		{
-			return gcem::acos(x);
-		}
-
-		template <
-			class Tx
-		> static constexpr auto asin(const Tx & x)
-		{
-			return gcem::asin(x);
-		}
-
-		template <
-			class Tx
-		> static constexpr auto atan(const Tx & x)
-		{
-			return gcem::atan(x);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class Tx, class Ty
-		> static constexpr auto acos2(const Tx & x, const Ty & y)
-		{
-			return gcem::acos2(x, y);
-		}
-
-		template <
-			class Tx, class Ty
-		> static constexpr auto asin2(const Tx & x, const Ty & y)
-		{
-			return gcem::asin2(x, y);
-		}
-
-		template <
-			class Tx, class Ty
-		> static constexpr auto atan2(const Tx & x, const Ty & y)
-		{
-			return gcem::atan2(x, y);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

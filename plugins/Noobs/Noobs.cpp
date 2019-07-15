@@ -211,14 +211,14 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * */
 
 			// Reset States
-		static ml::RenderStates states(
+		static ml::RenderStates states {
 			{ true, ml::GL::Greater, 0.01f },
 			{ true },
 			{ false },
 			{ false },
 			{ true, ml::GL::Texture2D, ml::GL::Texture0 },
 			{ false, false }
-		);
+		};
 		states.apply();
 
 		/* * * * * * * * * * * * * * * * * * * * */

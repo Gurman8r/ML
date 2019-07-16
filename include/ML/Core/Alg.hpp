@@ -561,6 +561,62 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			template <class, size_t, size_t> class M,
+			class T
+		> static constexpr T cross(const M<T, 2, 1> & a, const M<T, 2, 1> & b)
+		{
+			return (a[0] * b[1]) - (a[1] * b[0]);
+		}
+
+		template <
+			template <class, size_t, size_t> class M,
+			class T
+		> static constexpr M<T, 3, 1> cross(const M<T, 3, 1> & a, const M<T, 3, 1> & b)
+		{
+			return M<T, 3, 1> {
+				(a[1] * b[2]) - (a[2] * b[1]),
+				(a[2] * b[0]) - (a[0] * b[2]),
+				(a[0] * b[1]) - (a[1] * b[0])
+			};
+		}
+
+		// this needs to be made constexpr, normalize functions causing problems?
+		template <
+			template <class, size_t, size_t> class M,
+			class T
+		> static inline M<T, 4, 4> lookAt(
+			const M<T, 3, 1> & eye, 
+			const M<T, 3, 1> & center,
+			const M<T, 3, 1> & up
+		)
+		{
+			const M<T, 3, 1> f = alg::normalize(center - eye);
+			const M<T, 3, 1> s = alg::normalize(alg::cross(f, up));
+			const M<T, 3, 1> u = alg::cross(s, f);
+			
+			M<T, 4, 4> m { uninit };
+			m[ 0] =  s[0];
+			m[ 1] =  u[0];
+			m[ 2] = -f[0];
+			m[ 3] =  type_t<T>::one;
+			m[ 4] =  s[1];
+			m[ 5] =  u[1];
+			m[ 6] = -f[1];
+			m[ 7] =  type_t<T>::one;
+			m[ 8] =  s[2];
+			m[ 9] =  u[2];
+			m[10] = -f[2];
+			m[11] =  type_t<T>::one;
+			m[12] = -alg::dot(s, eye);
+			m[13] = -alg::dot(u, eye);
+			m[14] =  alg::dot(f, eye); 
+			m[15] =  type_t<T>::one;
+			return m;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

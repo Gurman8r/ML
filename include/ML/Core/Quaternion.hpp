@@ -33,13 +33,8 @@ namespace ml
 		{
 		}
 
-		constexpr Quaternion(const_reference width, const_reference height)
-			: base_type({ 0, 0, width, height })
-		{
-		}
-
-		constexpr Quaternion(const_reference left, const_reference top, const_reference width, const_reference height)
-			: base_type({ left, top, width, height })
+		constexpr Quaternion(const_reference x, const_reference y, const_reference z, const_reference w)
+			: base_type({ x, y, z, w })
 		{
 		}
 

@@ -63,6 +63,7 @@ namespace ml
 		constexpr auto dot		= alg::dot(ma, mb);
 		constexpr auto pow		= alg::pow(1.23, 10);
 		constexpr auto fact		= alg::fact(10);
+		constexpr auto cross	= alg::cross(vec3 { 1, 2, 3 }, vec3 { 4, 5, 6 });
 
 		constexpr auto tri		= geo::tri::contiguous;
 		constexpr auto quad		= geo::quad::contiguous;

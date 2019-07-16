@@ -80,6 +80,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static constexpr self_type zero()
+		{
+			return { uninit };
+		}
+
 		static constexpr self_type one()
 		{
 			self_type temp { uninit };
@@ -179,7 +184,18 @@ namespace ml
 	template <class T, size_t N>
 	using tmat_nx1 = Matrix<T, N, 1>;
 
-	// MATRIX3
+	// MATRIX 2x2
+	/* * * * * * * * * * * * * * * * * * * * */
+	template <class T>
+	using tmat2 = tmat_nxn<T, 2>;
+	using mat2b = tmat2<uint8_t>;
+	using mat2i = tmat2<int32_t>;
+	using mat2u = tmat2<uint32_t>;
+	using mat2f = tmat2<float_t>;
+	using mat2d = tmat2<float64_t>;
+	using mat2 = mat2f;
+
+	// MATRIX 3x3
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tmat3 = tmat_nxn<T, 3>;
@@ -190,7 +206,7 @@ namespace ml
 	using mat3d = tmat3<float64_t>;
 	using mat3	= mat3f;
 
-	// MATRIX4
+	// MATRIX 4x4
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tmat4 = tmat_nxn<T, 4>;
@@ -201,7 +217,7 @@ namespace ml
 	using mat4d = tmat4<float64_t>;
 	using mat4	= mat4f;
 
-	// VECTOR2
+	// VECTOR 2
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec2 = tmat_nx1<T, 2>;
@@ -212,7 +228,7 @@ namespace ml
 	using vec2d = tvec2<float64_t>;
 	using vec2	= vec2f;
 
-	// VECTOR3
+	// VECTOR 3
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec3 = tmat_nx1<T, 3>;
@@ -223,7 +239,7 @@ namespace ml
 	using vec3d = tvec3<float64_t>;
 	using vec3	= vec3f;
 
-	// VECTOR4
+	// VECTOR 4
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec4 = tmat_nx1<T, 4>;

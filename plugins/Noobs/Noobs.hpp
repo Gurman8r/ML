@@ -102,7 +102,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct LoadTester 
+		struct LoadTester final
 			: public I_Disposable
 			, public I_NonCopyable
 		{
@@ -123,6 +123,11 @@ namespace ml
 			~LoadTester() { dispose(); }
 
 			/* * * * * * * * * * * * * * * * * * * * */
+
+			inline bool isAvailable() const
+			{
+				return !isWorking() && !thr.alive();
+			}
 
 			inline bool isWorking() const 
 			{ 
@@ -153,6 +158,12 @@ namespace ml
 				numSuccess += (int32_t)(success);
 				numFailure += (int32_t)(!success);
 				numAttempt++;
+				return (*this);
+			}
+
+			inline LoadTester & init(int32_t maxValue)
+			{
+				reset().maxElement = maxValue;
 				return (*this);
 			}
 

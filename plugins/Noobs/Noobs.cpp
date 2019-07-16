@@ -914,11 +914,11 @@ namespace ml
 			// Trigger Loader
 			if (loader.trigger.consume())
 			{
-				// Not already loading
-				if (!loader.isWorking() && !loader.thr.alive())
+				// Not already running
+				if (loader.isAvailable())
 				{
 					// Open Popup
-					ImGui::OpenPopup("Progress##Popup##Noobs");
+					ImGui::OpenPopup("Loader##Popup##Noobs");
 
 					// Launch Thread
 					loader.thr.launch([&]()
@@ -926,20 +926,20 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						Debug::log("Loading...");
-
-						loader.reset().maxElement = 100;
-
-						while (loader.isWorking())
+						loader.init(100);
+						for (size_t i = 0; loader.isWorking(); i++)
 						{
+							// Dummy Load
 							auto dummy_load = [&](const String & filename)
 							{ 
-								loader.thr.sleep(50_ms); 
+								String::Format("\'{0}\'", filename);
+								loader.thr.sleep(50_ms);
 								return true;
 							};
 							
+							// Increment Counters
 							loader.attempt(dummy_load("Example.txt"));
 						}
-
 						Debug::log("Done loading.");
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -947,13 +947,13 @@ namespace ml
 				}
 				else
 				{
-					Debug::logError("Already loading...");
+					Debug::logError("Loading in progress...");
 				}
 			}
 
 			// Draw Loader
 			if (ImGui::BeginPopupModal(
-				"Progress##Popup##Noobs", 
+				"Loader##Popup##Noobs", 
 				nullptr, 
 				ImGuiWindowFlags_AlwaysAutoResize
 			))
@@ -964,7 +964,7 @@ namespace ml
 						loader.numAttempt, 
 						loader.maxElement
 					);
-					ImGui::Text("Testing Parallel Loading");
+					ImGui::Text("Test Parallel Loader");
 					ImGui::ProgressBar(loader.progress(), { 0.0f, 0.0f }, str.c_str());
 				}
 				else if (loader.isDone())

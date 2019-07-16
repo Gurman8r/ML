@@ -161,9 +161,15 @@ namespace ml
 				return (*this);
 			}
 
-			inline LoadTester & init(int32_t maxValue)
+			template <
+				class Fun = typename void(*)()
+			> inline LoadTester & launch(size_t maxValue, Fun && fun)
 			{
-				reset().maxElement = maxValue;
+				if (isAvailable())
+				{
+					reset().maxElement = (int32_t)maxValue;
+					thr.launch(fun);
+				}
 				return (*this);
 			}
 

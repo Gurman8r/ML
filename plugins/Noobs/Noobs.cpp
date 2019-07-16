@@ -908,7 +908,7 @@ namespace ml
 		}));
 
 
-		// Progress Popup
+		// Loader Popup
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		{
 			// Trigger Loader
@@ -921,20 +921,19 @@ namespace ml
 					ImGui::OpenPopup("Loader##Popup##Noobs");
 
 					// Launch Thread
-					loader.thr.launch([&]()
+					loader.launch(100, [&]() 
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						Debug::log("Loading...");
-						loader.init(100);
 						for (size_t i = 0; loader.isWorking(); i++)
 						{
 							// Dummy Load
 							auto dummy_load = [&](const String & filename)
 							{ 
-								String::Format("\'{0}\'", filename);
+								bool success = true;
 								loader.thr.sleep(50_ms);
-								return true;
+								return success;
 							};
 							
 							// Increment Counters

@@ -6,8 +6,7 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/Thread.hpp>
-#include <ML/Core/Trigger.hpp>
+#include <ML/Core/Worker.hpp>
 #include <ML/Graphics/RenderBatch.hpp>
 #include <imgui/TextEditor.h>
 
@@ -102,89 +101,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct LoadTester final
-			: public I_Disposable
-			, public I_NonCopyable
-		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			Thread	thr		{};
-			Trigger trigger	{};
-			
-			int32_t numAttempt { 0 };
-			int32_t numSuccess { 0 };
-			int32_t numFailure { 0 };
-			int32_t maxElement { 0 };
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			LoadTester() {}
-
-			~LoadTester() { dispose(); }
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			inline bool isAvailable() const
-			{
-				return !isWorking() && !thr.alive();
-			}
-
-			inline bool isWorking() const 
-			{ 
-				return (maxElement > 0) && (numAttempt < maxElement);
-			}
-			
-			inline bool isDone() const
-			{ 
-				return !isWorking() && (numAttempt > 0);
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			inline bool dispose() override
-			{
-				return reset().thr.dispose();
-			}
-
-			inline float_t progress() const
-			{
-				return ((isWorking()) ? (float_t)numAttempt / (float_t)maxElement : 0.0f);
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			inline LoadTester & attempt(bool success)
-			{
-				numSuccess += (int32_t)(success);
-				numFailure += (int32_t)(!success);
-				numAttempt++;
-				return (*this);
-			}
-
-			template <
-				class Fun = typename void(*)()
-			> inline LoadTester & launch(size_t maxValue, Fun && fun)
-			{
-				if (isAvailable())
-				{
-					reset().maxElement = (int32_t)maxValue;
-					thr.launch(fun);
-				}
-				return (*this);
-			}
-
-			inline LoadTester & reset()
-			{
-				numAttempt = 0;
-				numSuccess = 0;
-				numFailure = 0;
-				maxElement = 0;
-				return (*this);
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-		} loader;
+		// Test Worker
+		Worker worker;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

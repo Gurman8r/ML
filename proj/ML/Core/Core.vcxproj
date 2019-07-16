@@ -210,6 +210,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Trig.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Trigger.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Type.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Worker.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />

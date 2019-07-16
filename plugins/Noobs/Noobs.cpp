@@ -63,7 +63,7 @@ namespace ml
 			{
 				if (ev->getPress(KeyCode::L, { 1, 1, 1, 0 }))
 				{
-					loader.trigger.ready();
+					worker.trigger.arm();
 				}
 			}
 			break;
@@ -908,41 +908,47 @@ namespace ml
 		}));
 
 
-		// Loader Popup
+		// Worker Popup
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		{
-			// Trigger Loader
-			if (loader.trigger.consume())
+			// Trigger Worker
+			if (worker.trigger.consume())
 			{
 				// Not already running
-				if (loader.isAvailable())
+				if (worker.isAvailable())
 				{
 					// Open Popup
-					ImGui::OpenPopup("Loader##Popup##Noobs");
+					ImGui::OpenPopup("Worker##Popup##Noobs");
 
 					// Launch Thread
-					loader.launch(100, [&]() 
+					if (worker.launch(100, [&]()
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						Debug::log("Loading...");
-						for (size_t i = 0; loader.isWorking(); i++)
+						for (size_t i = 0; worker.isWorking(); i++)
 						{
 							// Dummy Load
 							auto dummy_load = [&](const String & filename)
-							{ 
-								bool success = true;
-								loader.thr.sleep(50_ms);
-								return success;
+							{
+								bool good = true;
+								worker.sleep(50_ms);
+								return good;
 							};
-							
-							// Increment Counters
-							loader.attempt(dummy_load("Example.txt"));
+
+							// Do the thing, record the result.
+							worker.note(dummy_load("Example.txt"));
 						}
 						Debug::log("Done loading.");
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					});
+					}))
+					{
+						Debug::log("Loading...");
+					}
+					else
+					{
+						Debug::logError("Failed loading?");
+					}
 				}
 				else
 				{
@@ -950,35 +956,35 @@ namespace ml
 				}
 			}
 
-			// Draw Loader
+			// Draw Worker
 			if (ImGui::BeginPopupModal(
-				"Loader##Popup##Noobs", 
+				"Worker##Popup##Noobs", 
 				nullptr, 
 				ImGuiWindowFlags_AlwaysAutoResize
 			))
 			{
-				if (loader.isWorking())
+				if (worker.isWorking())
 				{
 					auto str = String("Loading {0}/{1}").format(
-						loader.numAttempt, 
-						loader.maxElement
+						worker.attempts(), 
+						worker.count()
 					);
-					ImGui::Text("Test Parallel Loader");
-					ImGui::ProgressBar(loader.progress(), { 0.0f, 0.0f }, str.c_str());
+					ImGui::Text("Test Parallel Worker");
+					ImGui::ProgressBar(worker.progress(), { 0.0f, 0.0f }, str.c_str());
 				}
-				else if (loader.isDone())
+				else if (worker.isDone())
 				{
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::EndPopup();
 			}
 
-			// Dispose Loader
-			if (loader.isDone())
+			// Dispose Worker
+			if (worker.isDone())
 			{
-				if (loader.dispose())
+				if (worker.dispose())
 				{
-					Debug::log("Loader disposed.");
+					Debug::log("Worker disposed.");
 				}
 				else
 				{ 
@@ -990,13 +996,13 @@ namespace ml
 
 	void Noobs::onExit(const ExitEvent & ev)
 	{
-		// Cleanup Files
+		// Dispose Files
 		for (auto & e : noobs.files)
 			if (e) delete e;
 		noobs.files.clear();
 
-		// Cleanup Load Thread
-		loader.thr.dispose();
+		// Dispose Worker
+		worker.dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

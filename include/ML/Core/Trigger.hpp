@@ -21,10 +21,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool consume()		{ return peek() && reset(); }
+		inline bool arm()			{ return (m_value = true); }
+		inline bool consume()		{ return peek() && disarm(); }
+		inline bool disarm()		{ return !(m_value = false); }
 		inline bool peek() const	{ return m_value; }
-		inline bool ready()			{ return (m_value = true); }
-		inline bool reset()			{ return !(m_value = false); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

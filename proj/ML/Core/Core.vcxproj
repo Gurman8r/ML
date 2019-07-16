@@ -201,7 +201,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\String.hpp" />
@@ -224,8 +223,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\Metadata.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

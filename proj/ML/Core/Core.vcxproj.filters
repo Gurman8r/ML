@@ -150,9 +150,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\SharedLibrary.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -206,9 +203,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Thread.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
@@ -222,9 +216,6 @@
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\SharedLibrary.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>

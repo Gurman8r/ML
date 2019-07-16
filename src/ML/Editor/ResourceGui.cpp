@@ -9,7 +9,7 @@
 #include <ML/Editor/EditorUtility.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Core/SharedLibrary.hpp>
+#include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Uniform.hpp>
 #include <ML/Graphics/Surface.hpp>

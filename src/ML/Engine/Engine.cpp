@@ -197,7 +197,7 @@ namespace ml
 
 		// Load Resource Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_Content.loadFromFile(ML_FS.getPathTo(ev.prefs.GetString(
+		if (!ML_Content.loadFromFile(ML_FS.pathTo(ev.prefs.GetString(
 			"Engine",
 			"import_list",
 			"../../../assets/data/manifest.txt"

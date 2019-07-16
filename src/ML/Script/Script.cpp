@@ -77,7 +77,7 @@ namespace ml
 				m_root->push_front(new AST_Assign(
 					Operator::OP_SET,
 					new AST_Name(ML_SCR_NAME_PATH),
-					new AST_String(ML_FS.getPathTo("")))
+					new AST_String(ML_FS.pathTo("")))
 				);
 
 				return true;

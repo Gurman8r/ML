@@ -1,7 +1,8 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Debug.hpp>
 
-# ifdef ML_SYSTEM_WINDOWS
+
+# if defined(ML_SYSTEM_WINDOWS)
 #	include <direct.h>
 #	include <dirent.h>
 #	include <sys/stat.h>
@@ -11,47 +12,19 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	FileSystem::FileSystem()
-		: m_root(getWorkingDir())
+	bool FileSystem::setPath(const String & value)
 	{
-	}
-
-	FileSystem::~FileSystem() {}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	const String & FileSystem::getRoot() const
-	{
-		return m_root;
-	}
-
-	const String FileSystem::getPathTo(const String & value) const
-	{
-#ifdef ML_SYSTEM_WINDOWS
-		return (m_root + "\\" + value);
-#else
-		return (m_root + "/" + value);
-#endif
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	bool FileSystem::setWorkingDir(const String & value)
-	{
-#ifdef ML_SYSTEM_WINDOWS
-		return (_chdir(value.c_str()) == EXIT_SUCCESS);
-#else
+		if (dirExists(value))
+		{
+			std::experimental::filesystem::current_path(value);
+			return true;
+		}
 		return false;
-#endif
 	}
 
-	String FileSystem::getWorkingDir() const
+	String FileSystem::getPath() const
 	{
-#ifdef ML_SYSTEM_WINDOWS
-		return String(_getcwd(nullptr, 0));
-#else
-		return String();
-#endif
+		return std::experimental::filesystem::current_path().string();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

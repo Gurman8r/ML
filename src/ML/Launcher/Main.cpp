@@ -2,7 +2,7 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Core/SharedLibrary.hpp>
+#include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Core/StateMachine.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -123,7 +123,7 @@ int32_t main()
 {
 	static_assert(std::is_integral<int32_t>::value, "type must be integral");
 	// Load Plugins
-	if (Ifstream file { ML_FS.getPathTo(g_Preferences.GetString(
+	if (Ifstream file { ML_FS.pathTo(g_Preferences.GetString(
 		"Launcher",
 		"plugin_list",
 		"../../../assets/plugins.txt"
@@ -136,7 +136,7 @@ int32_t main()
 				continue;
 			
 			// Load Library
-			auto library = new SharedLibrary(ML_FS.getPathTo(line
+			auto library = new SharedLibrary(ML_FS.pathTo(line
 				.replaceAll("$(Configuration)", ML_CONFIGURATION)
 				.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
 			));

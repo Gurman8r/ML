@@ -26,8 +26,6 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-#include <ML/Core/GLM.hpp>
-
 /* * * * * * * * * * * * * * * * * * * * */
 
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
@@ -63,9 +61,9 @@ namespace ml
 		case KeyEvent::ID:
 			if (auto ev = value->as<KeyEvent>())
 			{
-				if (ev->getUp(KeyCode::Space))
+				if (ev->getPress(KeyCode::L, { 1, 1, 1, 0 }))
 				{
-					noobs.loadTrigger.ready();
+					loader.trigger.ready();
 				}
 			}
 			break;
@@ -913,42 +911,44 @@ namespace ml
 		// Progress Popup
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		{
-			// Create Popup
-			if (noobs.loadTrigger.consume())
+			// Trigger Popup
+			if (loader.trigger.consume())
 			{
-				if (!noobs.isLoading && !noobs.loadThr.alive())
+				if (!loader.isLoading && !loader.thr.alive())
 				{
+					// Open Popup
 					ImGui::OpenPopup("Progress##Popup##Noobs");
 
 					// Launch Thread
-					noobs.loadThr.launch([&]()
+					loader.thr.launch([&]()
 					{
-						static const float_t speed { 0.5f };
+						/* * * * * * * * * * * * * * * * * * * * */
 
-						Debug::log("Begin Loading");
-						noobs.loadProg = 0.0f;
-						while (noobs.isLoading = (noobs.loadProg < 1.0f))
+						Debug::log("Begin Loader");
+
+						loader.numLoaded = 0;
+						loader.maxObjects = 100;
+						while (loader.isLoading = (loader.numLoaded < loader.maxObjects))
 						{
-							auto test_load_something = [](const String & filename)
-							{
-								// Do the thing...
+							auto dummy_load = [&](const String & filename)
+							{ 
+								loader.thr.sleep(50_ms); 
 								return true;
 							};
+							
+							if (!dummy_load("Example.txt")) { /* error */ }
 
-							if (test_load_something(ML_FS.getFilePath(
-								"../Example.txt"
-							)))
-							{
-								noobs.loadProg += ev.time.elapsed().delta() * speed;
-							}
-
-							noobs.loadThr.sleep(ev.time.elapsed());
+							loader.numLoaded++;
 						}
+
+						Debug::log("End Loader");
+
+						/* * * * * * * * * * * * * * * * * * * * */
 					});
 				}
 				else
 				{
-					Debug::logError("Already loading...");
+					Debug::logError("Loader already running");
 				}
 			}
 
@@ -959,28 +959,36 @@ namespace ml
 				ImGuiWindowFlags_AlwaysAutoResize
 			))
 			{
-				if (noobs.isLoading)
+				if (loader.isLoading)
 				{
-					ImGui::Text("Testing Threaded Progress Bar");
-					ImGui::ProgressBar(noobs.loadProg, { 0.0f, 0.0f });
+					ImGui::Text("Testing Parallel Loading");
+					
+					const float progress = ((loader.numLoaded > 0 && loader.maxObjects > 0)
+						? (float_t)loader.numLoaded / (float_t)loader.maxObjects
+						: 0.0f
+					);
+					
+					char buf[32];
+					std::sprintf(buf, "%d/%d", loader.numLoaded, loader.maxObjects);
+					
+					ImGui::ProgressBar(progress, { 0.0f, 0.0f }, buf);
 				}
-				else if (noobs.loadProg > 0.0f)
+				else if (loader.numLoaded > 0)
 				{
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::EndPopup();
 			}
 
-			// Dispose Popup
-			if (!noobs.isLoading && (noobs.loadProg > 0.0f))
+			// Dispose Loader
+			if (!loader.isLoading && loader.numLoaded > 0)
 			{
-				noobs.loadProg = 0.0f;
-				if (noobs.loadThr.dispose())
-				{
-					Debug::log("Done loading");
-				}
+				loader.numLoaded = 0;
+				loader.maxObjects = 0;
+				if (!loader.thr.dispose()) { /* error */ }
+				Debug::log("Dispose Loader");
 			}
-		}
+		};
 	}
 
 	void Noobs::onExit(const ExitEvent & ev)
@@ -991,7 +999,7 @@ namespace ml
 		noobs.files.clear();
 
 		// Cleanup Load Thread
-		noobs.loadThr.dispose();
+		loader.thr.dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -29,7 +29,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new CubeMap();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -59,7 +59,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new Entity();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -89,7 +89,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new Font();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -119,7 +119,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new Image();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -189,7 +189,7 @@ namespace ml
 
 					// Load User Uniforms from File
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (Ifstream file { ML_FS.getPathTo(md.getData("user_list")) })
+					if (Ifstream file { ML_FS.pathTo(md.getData("user_list")) })
 					{
 						// (following should probably be in UniformAssetImporter)
 						
@@ -353,7 +353,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new Mesh();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -383,7 +383,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new Model();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -425,7 +425,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new value_type();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -455,7 +455,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new Shader();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -510,7 +510,7 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new Sound();
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -648,7 +648,7 @@ namespace ml
 							level, 
 							pix_ty
 						);
-						if (temp->loadFromFile(ML_FS.getPathTo(file)))
+						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert<Texture>(name, temp);
 						}

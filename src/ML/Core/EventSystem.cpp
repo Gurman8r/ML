@@ -7,7 +7,7 @@ namespace ml
 
 	EventListener * EventSystem::addListener(const int32_t type, EventListener * listener)
 	{
-		return (listener
+		return ((listener)
 			? m_listeners.insert({ type, listener })->second
 			: nullptr
 		);
@@ -50,7 +50,6 @@ namespace ml
 	bool EventSystem::removeListenerFromAllEvents(EventListener * listener)
 	{
 		bool allTheWayThrough = false;
-
 		while (!allTheWayThrough)
 		{
 			allTheWayThrough = true;

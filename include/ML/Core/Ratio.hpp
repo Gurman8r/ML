@@ -8,8 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		int64_t N,
-		int64_t D = 1
+		int64_t N, int64_t D = 1
 	> using Ratio = typename std::ratio<N, D>;
 
 	/* * * * * * * * * * * * * * * * * * * * */

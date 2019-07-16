@@ -1,7 +1,7 @@
 #ifndef _ML_SHARED_LIBRARY_HPP_
 #define _ML_SHARED_LIBRARY_HPP_
 
-#include <ML/Core/Export.hpp>
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Disposable.hpp>
@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API SharedLibrary final
+	struct ML_ENGINE_API SharedLibrary final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable

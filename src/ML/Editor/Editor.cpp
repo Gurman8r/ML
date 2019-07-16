@@ -203,7 +203,7 @@ namespace ml
 		if (styleFile == "Classic")  ImGui::StyleColorsClassic();
 		else if (styleFile == "Dark") ImGui::StyleColorsDark();
 		else if (styleFile == "Light") ImGui::StyleColorsLight();
-		else if (!ML_ImGui_Impl.LoadStyle(ML_FS.getPathTo(styleFile)))
+		else if (!ML_ImGui_Impl.LoadStyle(ML_FS.pathTo(styleFile)))
 		{
 			Debug::logError("Failed loading ImGui style");
 		}
@@ -370,7 +370,7 @@ namespace ml
 				if (ImGui::BeginMenu("License"))
 				{
 					static String preview;
-					if (!preview && ML_FS.getFileContents(ML_FS.getPathTo("../../../LICENSE.txt"), preview))
+					if (!preview && ML_FS.getFileContents(ML_FS.pathTo("../../../LICENSE.txt"), preview))
 					{
 						preview.pop_back();
 					}

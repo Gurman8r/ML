@@ -72,7 +72,7 @@ namespace ml
 		{
 			if (name)
 			{
-				const String path(ML_FS.getPathTo(
+				const String path(ML_FS.pathTo(
 					"../../../assets/shaders/" + name
 				));
 				String file;

@@ -98,14 +98,18 @@ namespace ml
 			vec4		clearColor	{ Color::black };
 			vec2		resolution	{ 1920, 1080 };
 
-			// Progress Bar
-			bool		showProgGui { true };
-			Trigger		loadTrigger {};
-			Thread		loadThr		{};
-			float_t		loadProg	{ 0.0f };
-			bool		isLoading	{ false };
-
 		} noobs;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		struct LoadTester : public I_NonCopyable
+		{
+			Trigger trigger		{};
+			Thread	thr			{};
+			bool	isLoading	{ false };
+			int32_t numLoaded	{ 0 };
+			int32_t maxObjects	{ 0 };
+		} loader;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

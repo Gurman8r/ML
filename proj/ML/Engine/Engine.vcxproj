@@ -173,6 +173,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

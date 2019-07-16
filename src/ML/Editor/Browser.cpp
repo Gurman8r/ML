@@ -18,7 +18,7 @@ namespace ml
 
 	Browser::Browser(EventSystem & eventSystem)
 		: EditorGui	(eventSystem, "Browser")
-		, m_path	(ML_FS.getWorkingDir())
+		, m_path	(ML_FS.getPath())
 		, m_dir		()
 		, m_type	(T_Dir)
 		, m_index	(0)
@@ -54,7 +54,7 @@ namespace ml
 		if (beginDraw(ImGuiWindowFlags_MenuBar))
 		{
 			// Update Working Dir
-			const String workingDir = ML_FS.getWorkingDir();
+			const String workingDir = ML_FS.getPath();
 
 			if ((m_isDouble) ||
 				(!m_path) ||
@@ -90,7 +90,7 @@ namespace ml
 				switch (m_type)
 				{
 				case T_Dir: 
-					ML_FS.setWorkingDir(get_selected_name()); 
+					ML_FS.setPath(get_selected_name()); 
 					break;
 				}
 			}

@@ -9,7 +9,7 @@ namespace ml
 
 	Explorer::Explorer(EventSystem & eventSystem)
 		: EditorGui	(eventSystem, "Explorer")
-		, m_path	(ML_FS.getWorkingDir())
+		, m_path	(ML_FS.getPath())
 	{
 	}
 

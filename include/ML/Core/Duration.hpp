@@ -4,24 +4,24 @@
 #include <ML/Core/Ratio.hpp>
 #include <ML/Core/I_NonNewable.hpp>
 
-#define ML_CHRONO_CAST ::std::chrono::duration_cast
-#define ML_CHRONO_TYPE ::std::chrono::duration
+#define ML_TIME_BASE		::std::chrono::duration
+#define ML_TIME_CAST(T, V)	::std::chrono::duration_cast<T>(V).count()
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using Nanoseconds	= typename ML_CHRONO_TYPE<time_t, Nano>;
-	using Microseconds	= typename ML_CHRONO_TYPE<time_t, Micro>;
-	using Milliseconds	= typename ML_CHRONO_TYPE<time_t, Milli>;
-	using Seconds		= typename ML_CHRONO_TYPE<time_t>;
-	using Kiloseconds	= typename ML_CHRONO_TYPE<time_t, Kilo>;
-	using Minutes		= typename ML_CHRONO_TYPE<time_t, Ratio<60>>;		// secs  * 60
-	using Hours			= typename ML_CHRONO_TYPE<time_t, Ratio<3600>>;		// mins  * 60
-	using Days			= typename ML_CHRONO_TYPE<time_t, Ratio<86400>>;	// hours * 24
-	using Weeks			= typename ML_CHRONO_TYPE<time_t, Ratio<604800>>;	// days  * 7
-	using Months		= typename ML_CHRONO_TYPE<time_t, Ratio<2419200>>;	// weeks * 4
-	using Years			= typename ML_CHRONO_TYPE<time_t, Ratio<31536000>>;	// days  * 365
+	using Nanoseconds	= typename ML_TIME_BASE<time_t, Nano>;				// 1	: 1000000000
+	using Microseconds	= typename ML_TIME_BASE<time_t, Micro>;				// 1	: 1000000
+	using Milliseconds	= typename ML_TIME_BASE<time_t, Milli>;				// 1	: 1000
+	using Seconds		= typename ML_TIME_BASE<time_t>;					// 1	: 1
+	using Kiloseconds	= typename ML_TIME_BASE<time_t, Kilo>;				// 1000 : 1
+	using Minutes		= typename ML_TIME_BASE<time_t, Ratio<60>>;			// s	* 60
+	using Hours			= typename ML_TIME_BASE<time_t, Ratio<3600>>;		// m	* 60
+	using Days			= typename ML_TIME_BASE<time_t, Ratio<86400>>;		// hr	* 24
+	using Weeks			= typename ML_TIME_BASE<time_t, Ratio<604800>>;		// d	* 7
+	using Months		= typename ML_TIME_BASE<time_t, Ratio<2419200>>;	// wk	* 4
+	using Years			= typename ML_TIME_BASE<time_t, Ratio<31536000>>;	// d	* 365
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -50,21 +50,21 @@ namespace ml
 
 		template <
 			class Rep, class Per
-		> constexpr Duration(const ML_CHRONO_TYPE<Rep, Per> & value)
-			: Duration { ML_CHRONO_CAST<Nanoseconds>(value).count() }
+		> constexpr Duration(const ML_TIME_BASE<Rep, Per> & value)
+			: Duration { ML_TIME_CAST(Nanoseconds, value) }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr operator time_t() const
-		{
-			return m_base;
+		constexpr operator time_t() const 
+		{ 
+			return m_base; 
 		}
-
-		constexpr Nanoseconds base() const
-		{
-			return static_cast<Nanoseconds>(m_base);
+		
+		constexpr Nanoseconds base() const 
+		{ 
+			return static_cast<Nanoseconds>(m_base); 
 		}
 
 		template <
@@ -74,67 +74,24 @@ namespace ml
 		{
 			static_assert(type::zero < Per::den, "period negative or zero");
 			return (
-				static_cast<float_t>(ML_CHRONO_CAST<Rep>(base()).count()) /
+				static_cast<float_t>(ML_TIME_CAST(Rep, base())) /
 				static_cast<float_t>(Per::den)
 			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr time_t nanos() const
-		{
-			return ML_CHRONO_CAST<Nanoseconds>(base()).count();
-		}
-
-		constexpr time_t micros() const
-		{
-			return ML_CHRONO_CAST<Microseconds>(base()).count();
-		}
-
-		constexpr time_t millis() const
-		{
-			return ML_CHRONO_CAST<Milliseconds>(base()).count();
-		}
-
-		constexpr time_t kilos() const
-		{
-			return ML_CHRONO_CAST<Kiloseconds>(base()).count();
-		}
-
-		constexpr time_t seconds() const
-		{
-			return ML_CHRONO_CAST<Seconds>(base()).count();
-		}
-
-		constexpr time_t minutes() const
-		{
-			return ML_CHRONO_CAST<Minutes>(base()).count();
-		}
-
-		constexpr time_t hours() const
-		{
-			return ML_CHRONO_CAST<Hours>(base()).count();
-		}
-		
-		constexpr time_t days() const
-		{
-			return ML_CHRONO_CAST<Days>(base()).count();
-		}
-
-		constexpr time_t weeks() const
-		{
-			return ML_CHRONO_CAST<Weeks>(base()).count();
-		}
-
-		constexpr time_t months() const
-		{
-			return ML_CHRONO_CAST<Months>(base()).count();
-		}
-
-		constexpr time_t years() const
-		{
-			return ML_CHRONO_CAST<Years>(base()).count();
-		}
+		constexpr time_t nanos	() const { return ML_TIME_CAST(Nanoseconds, base()); }
+		constexpr time_t micros	() const { return ML_TIME_CAST(Microseconds, base()); }
+		constexpr time_t millis	() const { return ML_TIME_CAST(Milliseconds, base()); }
+		constexpr time_t kilosec() const { return ML_TIME_CAST(Kiloseconds, base()); }
+		constexpr time_t seconds() const { return ML_TIME_CAST(Seconds, base()); }
+		constexpr time_t minutes() const { return ML_TIME_CAST(Minutes, base()); }
+		constexpr time_t hours	() const { return ML_TIME_CAST(Hours, base()); }
+		constexpr time_t days	() const { return ML_TIME_CAST(Days, base()); }
+		constexpr time_t weeks	() const { return ML_TIME_CAST(Weeks, base()); }
+		constexpr time_t months	() const { return ML_TIME_CAST(Months, base()); }
+		constexpr time_t years	() const { return ML_TIME_CAST(Years, base()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -142,14 +99,14 @@ namespace ml
 			class T
 		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return type(lhs) == type(Duration(rhs));
+			return (type(lhs) == type(Duration(rhs)));
 		}
 
 		template <
 			class T
 		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return type(lhs) < type(Duration(rhs));
+			return (type(lhs) < type(Duration(rhs)));
 		}
 
 		template <

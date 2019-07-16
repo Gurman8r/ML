@@ -253,7 +253,7 @@ namespace ml
 		const String & filename = expr->evaluate().stringValue();
 
 		static File file;
-		if (file.loadFromFile(ML_FS.getPathTo(filename)))
+		if (file.loadFromFile(ML_FS.pathTo(filename)))
 		{
 			if (AST_Block * root = ML_Parser.genFromList(ML_Lexer.genTokenList(file.data())))
 			{

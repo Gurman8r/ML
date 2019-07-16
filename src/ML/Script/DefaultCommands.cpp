@@ -27,12 +27,12 @@ namespace ml
 		const String path = args.pop();
 		if (path == "/")
 		{
-			return Var().boolValue(ML_FS.setWorkingDir(
-				ML_FS.getPathTo("")));
+			return Var().boolValue(ML_FS.setPath(
+				ML_FS.pathTo("")));
 		}
 		else
 		{
-			return Var().boolValue(ML_FS.setWorkingDir(path));
+			return Var().boolValue(ML_FS.setPath(path));
 		}
 	}
 
@@ -89,7 +89,7 @@ namespace ml
 
 	Var DefaultCommands::cmd_getcwd(Arguments & args)
 	{
-		return Var().stringValue(ML_FS.getWorkingDir());
+		return Var().stringValue(ML_FS.getPath());
 	}
 
 	Var DefaultCommands::cmd_help(Arguments & args)

@@ -10,12 +10,13 @@
 
 namespace ml
 {
-	static inline const int32_t ml_Log(
+	static inline const int32_t log_fun(
 		Ostream &		out, 
 		int32_t			exitCode, 
 		const FMT &		color, 
 		const String &	prefix, 
-		const String &	message)
+		const String &	message
+	)
 	{
 		out << FMT()
 			<< FG::White << "[ "
@@ -49,7 +50,7 @@ namespace ml
 
 	void Debug::fatal(const String & message)
 	{
-		ml_Log(cerr, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
+		log_fun(cerr, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
 
 		return std::abort();
 	}
@@ -91,17 +92,17 @@ namespace ml
 
 	int32_t Debug::logWarning(const String & message)
 	{
-		return ml_Log(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
+		return log_fun(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
 	}
 
 	int32_t Debug::logError(const String & message)
 	{
-		return ml_Log(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
+		return log_fun(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
 	}
 	
 	int32_t Debug::log(const String & message)
 	{
-		return ml_Log(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
+		return log_fun(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

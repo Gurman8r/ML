@@ -267,11 +267,11 @@ namespace ml
 
 		inline self_type & replaceAll(const self_type & value, const self_type & repl)
 		{
-			if (!(*this).empty() && !value.empty())
+			if (!this->empty() && !value.empty())
 			{
-				for (size_t i = 0; (i = (*this).find(value, i)) != self_type::npos;)
+				for (size_t i = 0; (i = this->find(value, i)) != self_type::npos;)
 				{
-					(*this).replace(i, value.size(), repl);
+					this->replace(i, value.size(), repl);
 					i += repl.size();
 				}
 			}

@@ -911,10 +911,11 @@ namespace ml
 		// Progress Popup
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		{
-			// Trigger Popup
+			// Trigger Loader
 			if (loader.trigger.consume())
 			{
-				if (!loader.isLoading && !loader.thr.alive())
+				// Not already loading
+				if (!loader.isWorking() && !loader.thr.alive())
 				{
 					// Open Popup
 					ImGui::OpenPopup("Progress##Popup##Noobs");
@@ -924,11 +925,11 @@ namespace ml
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						Debug::log("Begin Loader");
+						Debug::log("Loading...");
 
-						loader.numLoaded = 0;
-						loader.maxObjects = 100;
-						while (loader.isLoading = (loader.numLoaded < loader.maxObjects))
+						loader.reset().maxElement = 100;
+
+						while (loader.isWorking())
 						{
 							auto dummy_load = [&](const String & filename)
 							{ 
@@ -936,44 +937,37 @@ namespace ml
 								return true;
 							};
 							
-							if (!dummy_load("Example.txt")) { /* error */ }
-
-							loader.numLoaded++;
+							loader.attempt(dummy_load("Example.txt"));
 						}
 
-						Debug::log("End Loader");
+						Debug::log("Done loading.");
 
 						/* * * * * * * * * * * * * * * * * * * * */
 					});
 				}
 				else
 				{
-					Debug::logError("Loader already running");
+					Debug::logError("Already loading...");
 				}
 			}
 
-			// Draw Popup
+			// Draw Loader
 			if (ImGui::BeginPopupModal(
 				"Progress##Popup##Noobs", 
 				nullptr, 
 				ImGuiWindowFlags_AlwaysAutoResize
 			))
 			{
-				if (loader.isLoading)
+				if (loader.isWorking())
 				{
-					ImGui::Text("Testing Parallel Loading");
-					
-					const float progress = ((loader.numLoaded > 0 && loader.maxObjects > 0)
-						? (float_t)loader.numLoaded / (float_t)loader.maxObjects
-						: 0.0f
+					auto str = String("Loading {0}/{1}").format(
+						loader.numAttempt, 
+						loader.maxElement
 					);
-					
-					char buf[32];
-					std::sprintf(buf, "%d/%d", loader.numLoaded, loader.maxObjects);
-					
-					ImGui::ProgressBar(progress, { 0.0f, 0.0f }, buf);
+					ImGui::Text("Testing Parallel Loading");
+					ImGui::ProgressBar(loader.progress(), { 0.0f, 0.0f }, str.c_str());
 				}
-				else if (loader.numLoaded > 0)
+				else if (loader.isDone())
 				{
 					ImGui::CloseCurrentPopup();
 				}
@@ -981,12 +975,16 @@ namespace ml
 			}
 
 			// Dispose Loader
-			if (!loader.isLoading && loader.numLoaded > 0)
+			if (loader.isDone())
 			{
-				loader.numLoaded = 0;
-				loader.maxObjects = 0;
-				if (!loader.thr.dispose()) { /* error */ }
-				Debug::log("Dispose Loader");
+				if (loader.dispose())
+				{
+					Debug::log("Loader disposed.");
+				}
+				else
+				{ 
+					Debug::logError("Failed disposing loader?");
+				}
 			}
 		};
 	}

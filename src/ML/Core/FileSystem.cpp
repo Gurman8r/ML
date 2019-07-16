@@ -1,12 +1,8 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Debug.hpp>
 
-
-# if defined(ML_SYSTEM_WINDOWS)
-#	include <direct.h>
-#	include <dirent.h>
-#	include <sys/stat.h>
-# endif
+#include <dirent.h>
+#include <sys/stat.h>
 
 namespace ml
 {

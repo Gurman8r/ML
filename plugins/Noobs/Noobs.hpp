@@ -102,13 +102,71 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct LoadTester : public I_NonCopyable
+		struct LoadTester 
+			: public I_Disposable
+			, public I_NonCopyable
 		{
-			Trigger trigger		{};
-			Thread	thr			{};
-			bool	isLoading	{ false };
-			int32_t numLoaded	{ 0 };
-			int32_t maxObjects	{ 0 };
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			Thread	thr		{};
+			Trigger trigger	{};
+			
+			int32_t numAttempt { 0 };
+			int32_t numSuccess { 0 };
+			int32_t numFailure { 0 };
+			int32_t maxElement { 0 };
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			LoadTester() {}
+
+			~LoadTester() { dispose(); }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			inline bool isWorking() const 
+			{ 
+				return (maxElement > 0) && (numAttempt < maxElement);
+			}
+			
+			inline bool isDone() const
+			{ 
+				return !isWorking() && (numAttempt > 0);
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			inline bool dispose() override
+			{
+				return reset().thr.dispose();
+			}
+
+			inline float_t progress() const
+			{
+				return ((isWorking()) ? (float_t)numAttempt / (float_t)maxElement : 0.0f);
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			inline LoadTester & attempt(bool success)
+			{
+				numSuccess += (int32_t)(success);
+				numFailure += (int32_t)(!success);
+				numAttempt++;
+				return (*this);
+			}
+
+			inline LoadTester & reset()
+			{
+				numAttempt = 0;
+				numSuccess = 0;
+				numFailure = 0;
+				maxElement = 0;
+				return (*this);
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
 		} loader;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

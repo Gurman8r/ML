@@ -253,7 +253,7 @@ namespace ml
 		template <
 			class T,
 			class ... Args
-		> inline const self_type format(const T & arg0, Args && ... args) const
+		> inline self_type format(const T & arg0, Args && ... args) const
 		{
 			return self_type(*this).format(arg0, std::forward<Args>(args)...);
 		}
@@ -278,7 +278,7 @@ namespace ml
 			return (*this);
 		}
 
-		inline const self_type replaceAll(const self_type & f, const self_type & r) const
+		inline self_type replaceAll(const self_type & f, const self_type & r) const
 		{
 			return self_type(*this).replaceAll(f, r);
 		}
@@ -304,7 +304,7 @@ namespace ml
 			return (*this);
 		}
 
-		inline const self_type trim() const
+		inline self_type trim() const
 		{
 			return self_type(*this).trim();
 		}

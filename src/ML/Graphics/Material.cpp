@@ -68,6 +68,7 @@ namespace ml
 
 	void Material::apply(const Uniform * value) const
 	{
+		if (!value) return;
 		switch (value->type)
 		{
 			// Flt

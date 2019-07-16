@@ -71,7 +71,7 @@ namespace ml
 				const size_t x = i % temp.width();
 				const size_t y = i / temp.width();
 				temp[i] = ((y < height() && x < width())
-					? type_t<U>{ (*this)[y * width() + x] }()
+					? type_t<U>{ (*this)[y * width() + x] }
 					: type_t<U>::zero
 				);
 			}

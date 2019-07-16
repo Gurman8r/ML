@@ -14,30 +14,36 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorUtility final
+	struct ML_EDITOR_API EditorUtility final
 		: public I_Singleton<EditorUtility>
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		friend struct I_Singleton<EditorUtility>;
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static vec2 getCursorPos();
 		static vec2 getCursorScreenPos();
 		static vec2 getMousePos();
 		static vec2 getWindowPos();
 		static vec2 getWindowSize();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static void HelpMarker(const String & desc);
 		static bool StringCombo(C_String label, int32_t & index, const List<String> & keys);
-		static bool BeginWindow(C_String name, bool & open, const int32_t flags = 0);
+		
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static bool BeginWindow(C_String name, bool & open, int32_t flags = 0);
 		static void EndWindow();
 
-	public:
 		template <
 			class Fun, class ... Args
 		> static inline void DrawWindow(
 			C_String name, bool & open, int32_t flags, Fun && fun, Args && ... args)
-		{	
+		{
 			if (open)
 			{
 				if (BeginWindow(name, open, flags))
@@ -48,7 +54,8 @@ namespace ml
 			}
 		}
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static inline bool vector_getter(void * vec, int32_t idx, C_String * out_text)
 		{
 			auto & vector = (*static_cast<List<String>*>(vec));
@@ -59,6 +66,8 @@ namespace ml
 			}
 			return false;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

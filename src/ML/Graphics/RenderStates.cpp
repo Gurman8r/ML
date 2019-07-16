@@ -22,7 +22,7 @@ namespace ml
 		const CullingMode	&	culling,
 		const DepthMode		&	depth,
 		const TextureMode	&	texture,
-		const MiscFlags		&	misc)
+		const MiscStates			&	misc)
 		: alpha		{ alpha.enabled, alpha.comp, alpha.coeff }
 		, blend		{ blend.enabled, blend.srcRGB, blend.srcAlpha, blend.dstRGB, blend.dstAlpha }
 		, culling	{ culling.enabled, culling.face }
@@ -159,7 +159,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const RenderStates::MiscFlags & RenderStates::MiscFlags::operator()() const
+	const MiscStates & MiscStates::operator()() const
 	{
 		// Multisample
 		if (!this->multisample)

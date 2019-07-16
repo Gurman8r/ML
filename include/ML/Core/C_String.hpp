@@ -55,7 +55,7 @@ namespace ml
 		}
 
 		constexpr X_String(const_pointer begin, const_pointer end)
-			: self_type { begin, type_t<size_t>{ end - begin }() }
+			: self_type { begin, type_t<size_t>{ end - begin } }
 		{
 		}
 

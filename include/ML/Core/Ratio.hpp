@@ -43,13 +43,13 @@ namespace ml
 		const type num { r.num };
 		const type den { r.den };
 		return 
-			(((num() == type::one) && (den() == type::one))
+			(((num == type::one) && (den == type::one))
 				? (value)
-				: (((num() != type::one) && (den() == type::one))
-					? (value * num())
-					: (((num() == type::one) && (den() != type::one))
-						? (value / den())
-						: (value * num() / den())
+				: (((num != type::one) && (den == type::one))
+					? (value * num)
+					: (((num == type::one) && (den != type::one))
+						? (value / den)
+						: (value * num / den)
 					)
 				)
 			);

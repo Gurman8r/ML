@@ -4,7 +4,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorPlugin::EditorPlugin(EventSystem & eventSystem)
 		: Plugin(eventSystem)
@@ -12,9 +12,7 @@ namespace ml
 		eventSystem.addListener(GuiEvent::ID, this);
 	}
 
-	EditorPlugin::~EditorPlugin() { }
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorPlugin::onEvent(const Event * value)
 	{
@@ -29,5 +27,5 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

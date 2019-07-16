@@ -6,18 +6,10 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
+#include <ML/Core/Thread.hpp>
+#include <ML/Core/Trigger.hpp>
 #include <ML/Graphics/RenderBatch.hpp>
 #include <imgui/TextEditor.h>
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
-	struct Entity;
-	struct Material;
-	struct Renderer;
-	struct Surface;
-}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -28,42 +20,52 @@ extern "C"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace DEMO
+namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PLUGIN_API Noobs final : public ml::EditorPlugin
+	struct Entity;
+	struct Material;
+	struct Model;
+	struct Renderer;
+	struct Surface;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_PLUGIN_API Noobs final : public EditorPlugin
 	{
-	public:
-		explicit Noobs(ml::EventSystem & eventSystem);
-		~Noobs();
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		explicit Noobs(EventSystem & eventSystem);
+		
+		~Noobs() {}
 
-	public:
-		void onEvent(const ml::Event * value) override;
+		void onEvent(const Event * value) override;
 
-	private:
-		void onEnter	(const ml::EnterEvent	& ev) override;
-		void onStart	(const ml::StartEvent	& ev) override;
-		void onUpdate	(const ml::UpdateEvent	& ev) override;
-		void onDraw		(const ml::DrawEvent	& ev) override;
-		void onGui		(const ml::GuiEvent		& ev) override;
-		void onExit		(const ml::ExitEvent	& ev) override;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
+		void onEnter	(const EnterEvent	& ev) override;
+		void onStart	(const StartEvent	& ev) override;
+		void onUpdate	(const UpdateEvent	& ev) override;
+		void onDraw		(const DrawEvent	& ev) override;
+		void onGui		(const GuiEvent		& ev) override;
+		void onExit		(const ExitEvent	& ev) override;
 
-		struct NoobFile : public ml::I_NonCopyable
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		struct NoobsFile : public I_NonCopyable
 		{
-			using List = typename ml::List<NoobFile *>;
+			using TextEdit = typename ImGui::TextEditor;
 
 			enum { MaxName = 32 };
 
-			ImGui::TextEditor	text;
-			ml::String			name;
-			bool				open;
-			bool				dirty;
+			TextEdit	text;
+			String		name;
+			bool		open;
+			bool		dirty;
 
-			NoobFile(const ml::String & name, const ml::String & data)
+			NoobsFile(const String & name, const String & data)
 				: name(name), open(true), dirty(false)
 			{
 				text.SetText(data);
@@ -73,28 +75,39 @@ namespace DEMO
 			}
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct NoobsData final : public ml::I_NonCopyable
+		using FileList = typename List<NoobsFile *>; // list of 'NoobsFile's
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		struct NoobsData final : public I_NonCopyable
 		{
 			// Content
-			ml::Surface	*	surf_main	= nullptr;
-			ml::Surface	*	surf_post	= nullptr;
-			ml::Material *	material	= nullptr;
-			ml::Entity *	entity		= nullptr;
-			ml::Renderer *	renderer	= nullptr;
+			Surface	*	surf_main	{ nullptr };
+			Surface	*	surf_post	{ nullptr };
+			Material *	material	{ nullptr };
+			Entity *	entity		{ nullptr };
+			Renderer *	renderer	{ nullptr };
 
 			// GUI Settings
-			bool			showBuilder	= true;
-			bool			showScene	= true;
-			bool			freeAspect	= true;
-			NoobFile::List	file_list	= {};
-			ml::vec4f		clearColor	= ml::Color::black;
-			ml::vec2		resolution	= { 1920, 1080 };
+			bool		showBuilder	{ true };
+			bool		showScene	{ true };
+			bool		freeAspect	{ true };
+			FileList	files		{};
+			vec4		clearColor	{ Color::black };
+			vec2		resolution	{ 1920, 1080 };
+
+			// Progress Bar
+			bool		showProgGui { true };
+			Trigger		loadTrigger {};
+			Thread		loadThr		{};
+			float_t		loadProg	{ 0.0f };
+			bool		isLoading	{ false };
 
 		} noobs;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

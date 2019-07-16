@@ -113,7 +113,7 @@ namespace ml
 					class U
 				> constexpr To operator()(const U & value) const
 				{
-					return type_t<To>{ sqrt<From>{}(type_t<From>{ value }()) }();
+					return type_t<To>(sqrt<From>()(type_t<From>(value)));
 				}
 			};
 
@@ -482,7 +482,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T magnitude(const A<T, N...> & value)
 		{
-			return type_t<T> { sqrt<T> {}(sqr_magnitude(value)) }();
+			return type_t<T> { sqrt<T> {}(sqr_magnitude(value)) };
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

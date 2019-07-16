@@ -3,7 +3,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Plugin::Plugin(EventSystem & eventSystem)
 		: EventListener(eventSystem)
@@ -15,9 +15,7 @@ namespace ml
 		eventSystem.addListener(ExitEvent::ID, this);
 	}
 
-	Plugin::~Plugin() { }
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Plugin::onEvent(const Event * value)
 	{
@@ -31,5 +29,5 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -121,6 +121,7 @@ static StateMachine<State> g_ControlFlow
 
 int32_t main()
 {
+	static_assert(std::is_integral<int32_t>::value, "type must be integral");
 	// Load Plugins
 	if (Ifstream file { ML_FS.getPathTo(g_Preferences.GetString(
 		"Launcher",

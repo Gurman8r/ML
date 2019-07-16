@@ -4,7 +4,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	vec2 EditorUtility::getCursorPos()
 	{
@@ -46,7 +46,7 @@ namespace ml
 		};
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorUtility::HelpMarker(const String & desc)
 	{
@@ -72,7 +72,9 @@ namespace ml
 		);
 	}
 
-	bool EditorUtility::BeginWindow(C_String name, bool & open, const int32_t flags)
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool EditorUtility::BeginWindow(C_String name, bool & open, int32_t flags)
 	{
 		return ImGui::Begin(name, &open, flags);
 	}
@@ -82,5 +84,5 @@ namespace ml
 		return ImGui::End();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -16,14 +16,17 @@ namespace DEMO
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_PLUGIN_API TestPlugin final : public ml::EditorPlugin
+	struct ML_PLUGIN_API TestPlugin final : public ml::EditorPlugin
 	{
-	public:
-		explicit TestPlugin(ml::EventSystem & eventSystem);
-		~TestPlugin();
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
+		explicit TestPlugin(ml::EventSystem & eventSystem);
+		
+		~TestPlugin() {}
+
 		void onEvent(const ml::Event * value) override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		void onEnter	(const ml::EnterEvent	& ev) override;
@@ -32,6 +35,8 @@ namespace DEMO
 		void onDraw		(const ml::DrawEvent	& ev) override;
 		void onGui		(const ml::GuiEvent		& ev) override;
 		void onExit		(const ml::ExitEvent	& ev) override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 	
 	/* * * * * * * * * * * * * * * * * * * * */

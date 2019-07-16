@@ -64,19 +64,19 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	struct ML_GRAPHICS_API MiscStates final
+	{
+		bool multisample		= false;
+		bool framebufferSRGB	= false;
+
+		const MiscStates & operator()() const;
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_GRAPHICS_API RenderStates final 
 		: public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		struct MiscFlags final
-		{
-			bool multisample		= false;
-			bool framebufferSRGB	= false;
-
-			const MiscFlags & operator()() const;
-		};
-
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		RenderStates();
@@ -86,7 +86,7 @@ namespace ml
 			const CullingMode	&	culling,
 			const DepthMode		&	depth,
 			const TextureMode	&	texture,
-			const MiscFlags		&	misc);
+			const MiscStates			&	misc);
 		RenderStates(const RenderStates & copy);
 		~RenderStates();
 
@@ -96,12 +96,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		AlphaMode		alpha;
-		BlendMode		blend;
-		CullingMode		culling;
-		DepthMode		depth;
-		TextureMode		texture;
-		MiscFlags		misc;
+		AlphaMode	alpha;
+		BlendMode	blend;
+		CullingMode	culling;
+		DepthMode	depth;
+		TextureMode	texture;
+		MiscStates		misc;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	};

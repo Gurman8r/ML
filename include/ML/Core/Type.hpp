@@ -1,5 +1,5 @@
-#ifndef _ML_TYPE_TAG_HPP_
-#define _ML_TYPE_TAG_HPP_
+#ifndef _ML_TYPE_HPP_
+#define _ML_TYPE_HPP_
 
 #include <ML/Core/StandardLib.hpp>
 
@@ -7,10 +7,14 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	enum { uninit };
+	enum : size_t 
+	{ 
+		uninit // Used to initialize empty arrays.
+	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// Basically a wrapper around static_cast<> with some built in constants.
 	template <
 		class T
 	> struct type_t final
@@ -23,7 +27,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct cast_v final
+		// Shorthand for static_cast<>
+		struct cast_t final
 		{
 			template <
 				class U
@@ -33,7 +38,10 @@ namespace ml
 			}
 		};
 
-		struct epsilon_v final
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		// Used to calculate (T) epsilon
+		struct epsilon_t final
 		{
 			constexpr value_type operator()(value_type seed) const
 			{
@@ -41,7 +49,7 @@ namespace ml
 				while ((one + seed) != one)
 				{
 					temp = seed;
-					seed /= two;
+					seed = seed / two;
 				}
 				return temp;
 			}
@@ -49,64 +57,69 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr value_type	minus_one		{ cast_v()( -1) };
-		static constexpr value_type	zero			{ cast_v()(  0) };
-		static constexpr value_type	one				{ cast_v()(  1) };
-		static constexpr value_type	two				{ cast_v()(  2) };
-		static constexpr value_type	three			{ cast_v()(  3) };
-		static constexpr value_type	four			{ cast_v()(  4) };
-		static constexpr value_type	five			{ cast_v()(  5) };
-		static constexpr value_type	six				{ cast_v()(  6) };
-		static constexpr value_type	seven			{ cast_v()(  7) };
-		static constexpr value_type	eight			{ cast_v()(  8) };
-		static constexpr value_type	nine			{ cast_v()(  9) };
-		static constexpr value_type	ten				{ cast_v()( 10) };
-		static constexpr value_type	fourty_five		{ cast_v()( 45) };
-		static constexpr value_type	sixty			{ cast_v()( 60) };
-		static constexpr value_type	ninety			{ cast_v()( 90) };
-		static constexpr value_type	one_hundred		{ cast_v()(100) };
-		static constexpr value_type	one_eighty		{ cast_v()(180) };
-		static constexpr value_type	three_sixty		{ cast_v()(360) };
+		static constexpr auto minus_one			{ cast_t()( -1) };
+		static constexpr auto zero				{ cast_t()(  0) };
+		static constexpr auto one				{ cast_t()(  1) };
+		static constexpr auto two				{ cast_t()(  2) };
+		static constexpr auto three				{ cast_t()(  3) };
+		static constexpr auto four				{ cast_t()(  4) };
+		static constexpr auto five				{ cast_t()(  5) };
+		static constexpr auto six				{ cast_t()(  6) };
+		static constexpr auto seven				{ cast_t()(  7) };
+		static constexpr auto eight				{ cast_t()(  8) };
+		static constexpr auto nine				{ cast_t()(  9) };
+		static constexpr auto ten				{ cast_t()( 10) };
+		static constexpr auto fourty_five		{ cast_t()( 45) };
+		static constexpr auto sixty				{ cast_t()( 60) };
+		static constexpr auto ninety			{ cast_t()( 90) };
+		static constexpr auto one_hundred		{ cast_t()(100) };
+		static constexpr auto one_eighty		{ cast_t()(180) };
+		static constexpr auto three_sixty		{ cast_t()(360) };
 
-		static constexpr value_type	half			{ one / two };
-		static constexpr value_type	third			{ one / three };
-		static constexpr value_type	quarter			{ one / four };
-		static constexpr value_type	fifth			{ one / five };
-		static constexpr value_type	sixth			{ one / six };
-		static constexpr value_type	seventh			{ one / seven };
-		static constexpr value_type	eighth			{ one / eight };
-		static constexpr value_type	ninth			{ one / nine };
-		static constexpr value_type	tenth			{ one / ten };
-		static constexpr value_type	two_thirds		{ two / three };
-		static constexpr value_type	three_quarters	{ three / four };
+		static constexpr auto half				{ one / two };
+		static constexpr auto third				{ one / three };
+		static constexpr auto quarter			{ one / four };
+		static constexpr auto fifth				{ one / five };
+		static constexpr auto sixth				{ one / six };
+		static constexpr auto seventh			{ one / seven };
+		static constexpr auto eighth			{ one / eight };
+		static constexpr auto ninth				{ one / nine };
+		static constexpr auto tenth				{ one / ten };
+		static constexpr auto two_thirds		{ two / three };
+		static constexpr auto three_quarters	{ three / four };
 
-		static constexpr value_type	infinity		{ limits_type::infinity() };
-		static constexpr value_type	nan				{ limits_type::quiet_NaN() };
-		static constexpr value_type	min				{ limits_type::min() };
-		static constexpr value_type	max				{ limits_type::max() };
-		static constexpr value_type	epsilon			{ epsilon_v()(half) };
-		static constexpr value_type	half_epsilon	{ epsilon * half };
+		static constexpr auto infinity			{ limits_type::infinity() };
+		static constexpr auto nan				{ limits_type::quiet_NaN() };
+		static constexpr auto min				{ limits_type::min() };
+		static constexpr auto max				{ limits_type::max() };
+		static constexpr auto epsilon			{ epsilon_t()(half) };
+		static constexpr auto half_epsilon		{ epsilon * half };
 
-		static constexpr value_type	pi				{ cast_v()(3.14159265358979323846264338327L) };
-		static constexpr value_type	two_pi			{ pi * two };
-		static constexpr value_type	half_pi			{ pi * half };
-		static constexpr value_type	quarter_pi		{ pi * quarter };
-		static constexpr value_type	third_pi		{ pi * third };
-		static constexpr value_type	deg2rad			{ pi / one_eighty };
-		static constexpr value_type	rad2deg			{ one_eighty / pi };
+		static constexpr auto pi				{ cast_t()(3.14159265358979323846264338327L) };
+		static constexpr auto two_pi			{ pi * two };
+		static constexpr auto half_pi			{ pi * half };
+		static constexpr auto quarter_pi		{ pi * quarter };
+		static constexpr auto third_pi			{ pi * third };
+		static constexpr auto deg2rad			{ pi / one_eighty };
+		static constexpr auto rad2deg			{ one_eighty / pi };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class U
 		> constexpr explicit type_t(const U & value)
-			: m_value { cast_v()(value) }
+			: m_value { cast_t()(value) }
 		{
 		}
-			
+
 		constexpr value_type operator()() const
 		{
 			return m_value;
+		}
+
+		constexpr operator value_type() const
+		{
+			return (*this)();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -163,4 +176,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_TYPE_TAG_HPP_
+#endif // !_ML_TYPE_HPP_

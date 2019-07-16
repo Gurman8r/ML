@@ -209,6 +209,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Trig.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Trigger.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Type.hpp" />
   </ItemGroup>
   <ItemGroup>

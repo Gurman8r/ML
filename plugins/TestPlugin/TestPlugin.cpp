@@ -28,8 +28,6 @@ namespace DEMO
 	{
 	}
 
-	TestPlugin::~TestPlugin() {}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TestPlugin::onEvent(const ml::Event * value)

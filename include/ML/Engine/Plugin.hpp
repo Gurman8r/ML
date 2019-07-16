@@ -23,9 +23,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit Plugin(EventSystem & eventSystem);
-		virtual ~Plugin();
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		virtual ~Plugin() {}
 
 		virtual void onEvent(const Event * value) override;
 

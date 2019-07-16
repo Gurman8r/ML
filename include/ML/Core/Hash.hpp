@@ -11,10 +11,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type = type_t<hash_t>;
-
-		static constexpr hash_t fnv1a_basis { type(14695981039346656037ULL)() };
-		static constexpr hash_t fnv1a_prime { type(1099511628211ULL)() };
+		static constexpr hash_t fnv1a_basis { type_t<hash_t>(14695981039346656037ULL) };
+		static constexpr hash_t fnv1a_prime { type_t<hash_t>(1099511628211ULL) };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,7 +22,7 @@ namespace ml
 		{
 			return ((size > 0)
 				? (*this)(
-					(size - 1), (arr + 1), (seed ^ type{ *arr }()) * fnv1a_prime)
+					(size - 1), (arr + 1), (seed ^ type_t<hash_t>(*arr)) * fnv1a_prime)
 				: seed
 			);
 		}

@@ -6,6 +6,7 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
+#include <ML/Core/Trigger.hpp>
 #include <ML/Core/Worker.hpp>
 #include <ML/Graphics/RenderBatch.hpp>
 #include <imgui/TextEditor.h>
@@ -101,8 +102,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		// Test Worker
-		Worker worker;
+		Trigger trigger;
+		Worker	worker;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

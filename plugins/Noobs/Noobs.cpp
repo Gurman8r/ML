@@ -63,7 +63,7 @@ namespace ml
 			{
 				if (ev->getPress(KeyCode::L, { 1, 1, 1, 0 }))
 				{
-					worker.trigger.arm();
+					trigger.arm();
 				}
 			}
 			break;
@@ -912,7 +912,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		{
 			// Trigger Worker
-			if (worker.trigger.consume())
+			if (trigger.consume())
 			{
 				// Not already running
 				if (worker.isAvailable())
@@ -935,8 +935,10 @@ namespace ml
 								return good;
 							};
 
-							// Do the thing, record the result.
-							worker.note(dummy_load("Example.txt"));
+							// Do the thing, record the result, increment the counter.
+							worker.process(
+								dummy_load, String("Example{0}.txt").format(i)
+							);
 						}
 						Debug::log("Done loading.");
 
@@ -967,7 +969,7 @@ namespace ml
 				{
 					auto str = String("Loading {0}/{1}").format(
 						worker.attempts(), 
-						worker.count()
+						worker.incomplete()
 					);
 					ImGui::Text("Test Parallel Worker");
 					ImGui::ProgressBar(worker.progress(), { 0.0f, 0.0f }, str.c_str());

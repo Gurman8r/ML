@@ -15,6 +15,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Worker() {}
+
 		~Worker() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -32,8 +33,8 @@ namespace ml
 		{
 			bool result = fun(std::forward<Args>(args)...);
 			m_succeeded += (size_t)(result);
-			m_failed += (size_t)(!result);
-			m_attempts++;
+			m_failed	+= (size_t)(!result);
+			m_attempts	++;
 			return (*this);
 		}
 
@@ -43,7 +44,7 @@ namespace ml
 			{
 				m_attempts	= 0;
 				m_failed	= 0;
-				m_incomplete	= 0;
+				m_incomplete= 0;
 				m_succeeded = 0;
 			}
 			return (*this);
@@ -74,6 +75,10 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		inline bool isAvailable()	const { return !m_thread.alive() && !isWorking(); }
+		inline bool isDone()		const { return !isWorking() && (attempts() > 0); }
+		inline bool isWorking()		const { return (incomplete() > 0) && (attempts() < incomplete()); }
 
 		inline size_t attempts()	const { return m_attempts; }
 		inline size_t failed()		const { return m_failed; }
@@ -84,10 +89,6 @@ namespace ml
 		{
 			return ((isWorking()) ? (float_t)attempts() / (float_t)incomplete() : 0.0f);
 		}
-		
-		inline bool isAvailable()	const { return !m_thread.alive() && !isWorking(); }
-		inline bool isDone()		const { return !isWorking() && (attempts() > 0); }
-		inline bool isWorking()		const { return (incomplete() > 0) && (attempts() < incomplete()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

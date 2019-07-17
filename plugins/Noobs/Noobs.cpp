@@ -63,7 +63,7 @@ namespace ml
 			{
 				if (ev->getPress(KeyCode::L, { 1, 1, 1, 0 }))
 				{
-					trigger.arm();
+					noobs.trigger.arm();
 				}
 			}
 			break;
@@ -908,35 +908,35 @@ namespace ml
 		}));
 
 
-		// Worker Popup
+		// Worker Popup Modal
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		if (true)
 		{
 			// Trigger Worker
-			if (trigger.consume())
+			if (noobs.trigger.consume())
 			{
 				// Not already running
-				if (worker.isAvailable())
+				if (noobs.worker.isAvailable())
 				{
 					// Open Popup
 					ImGui::OpenPopup("Worker##Popup##Noobs");
 
 					// Launch Thread
-					if (worker.launch(100, [&]()
+					if (noobs.worker.launch(100, [&]()
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						for (size_t i = 0; worker.isWorking(); i++)
+						for (size_t i = 0; noobs.worker.isWorking(); i++)
 						{
 							// Dummy Load
 							auto dummy_load = [&](const String & filename)
 							{
-								bool good = true;
-								worker.sleep(50_ms);
-								return good;
+								noobs.worker.sleep(50_ms);
+								return true;
 							};
 
 							// Do the thing, record the result, increment the counter.
-							worker.process(
+							noobs.worker.process(
 								dummy_load, String("Example{0}.txt").format(i)
 							);
 						}
@@ -954,7 +954,7 @@ namespace ml
 				}
 				else
 				{
-					Debug::logError("Loading in progress...");
+					Debug::logError("Loading already in progress.");
 				}
 			}
 
@@ -965,16 +965,16 @@ namespace ml
 				ImGuiWindowFlags_AlwaysAutoResize
 			))
 			{
-				if (worker.isWorking())
+				if (noobs.worker.isWorking())
 				{
 					auto str = String("Loading {0}/{1}").format(
-						worker.attempts(), 
-						worker.incomplete()
+						noobs.worker.attempts(), 
+						noobs.worker.incomplete()
 					);
 					ImGui::Text("Test Parallel Worker");
-					ImGui::ProgressBar(worker.progress(), { 0.0f, 0.0f }, str.c_str());
+					ImGui::ProgressBar(noobs.worker.progress(), { 0.0f, 0.0f }, str.c_str());
 				}
-				else if (worker.isDone())
+				else if (noobs.worker.isDone())
 				{
 					ImGui::CloseCurrentPopup();
 				}
@@ -982,15 +982,15 @@ namespace ml
 			}
 
 			// Dispose Worker
-			if (worker.isDone())
+			if (noobs.worker.isDone())
 			{
-				if (worker.dispose())
+				if (noobs.worker.dispose())
 				{
 					Debug::log("Worker disposed.");
 				}
 				else
 				{ 
-					Debug::logError("Failed disposing worker?");
+					Debug::logError("Failed disposing noobs.worker?");
 				}
 			}
 		};
@@ -1002,9 +1002,6 @@ namespace ml
 		for (auto & e : noobs.files)
 			if (e) delete e;
 		noobs.files.clear();
-
-		// Dispose Worker
-		worker.dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

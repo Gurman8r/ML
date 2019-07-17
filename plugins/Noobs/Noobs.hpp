@@ -98,12 +98,12 @@ namespace ml
 			vec4		clearColor	{ Color::black };
 			vec2		resolution	{ 1920, 1080 };
 
+			// Loading
+			Trigger		trigger		{};
+			Worker		worker		{};
+
 		} noobs;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		Trigger trigger;
-		Worker	worker;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -11,6 +11,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// Stores path to and contents of a file in a List<char>
 	struct ML_CORE_API File final
 		: public I_Newable
 		, public I_Disposable

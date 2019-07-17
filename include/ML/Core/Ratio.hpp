@@ -5,13 +5,11 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		int64_t N, int64_t D = 1
-	> using Ratio = typename std::ratio<N, D>;
-
-	/* * * * * * * * * * * * * * * * * * * * */
+		int64_t Num, int64_t Den = 1
+	> using Ratio = typename std::ratio<Num, Den>;
 
 	using Atto	= typename Ratio<1LL, 1000000000000000000LL>;
 	using Femto = typename Ratio<1LL, 1000000000000000LL>;
@@ -30,31 +28,29 @@ namespace ml
 	using Peta	= typename Ratio<1000000000000000LL, 1LL>;
 	using Exa	= typename Ratio<1000000000000000000LL, 1LL>;
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		class T, 
-		int64_t N,
-		int64_t D
-	> constexpr T ratio_cast(const T & value, const Ratio<N, D> & r)
+	namespace alg
 	{
-		using type = type_t<T>;
-		const type num { r.num };
-		const type den { r.den };
-		return 
-			(((num == type::one) && (den == type::one))
+		template <
+			class Out, int64_t Num, int64_t Den
+		> static constexpr Out ratio_cast(Out value, const Ratio<Num, Den> & r)
+		{
+			using OT = type_t<Out>;
+			const Out num { OT(r.num) };
+			const Out den { OT(r.den) };
+			return (((num == OT::one) && (den == OT::one))
 				? (value)
-				: (((num != type::one) && (den == type::one))
+				: (((num != OT::one) && (den == OT::one))
 					? (value * num)
-					: (((num == type::one) && (den != type::one))
+					: (((num == OT::one) && (den != OT::one))
 						? (value / den)
 						: (value * num / den)
-					)
-				)
-			);
+						)));
+		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_RATIO_HPP_

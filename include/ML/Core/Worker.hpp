@@ -14,8 +14,17 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Worker() {}
+		struct State final
+		{
+			size_t attempts	{ 0 };	// Total attempts
+			size_t failures	{ 0 };	// Failed attempts
+			size_t successes{ 0 };	// Successful attempts
+			size_t total	{ 0 };	// Total number of jobs
+		};
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		Worker() {}
 		~Worker() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -25,34 +34,45 @@ namespace ml
 			return reset().m_thread.dispose();
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		template <
+			class Fun, class ... Args
+		> inline bool launch(size_t numJobs, Fun && fun, Args && ... args)
+		{
+			if (available())
+			{
+				reset().m_state.total = numJobs;
+				m_thread.launch(fun, std::forward<Args>(args)...);
+				return true;
+			}
+			return false;
+		}
 
 		template <
 			class Fun, class ... Args
 		> inline Worker & process(Fun && fun, Args && ... args)
 		{
-			bool result = fun(std::forward<Args>(args)...);
-			m_succeeded += (size_t)(result);
-			m_failed	+= (size_t)(!result);
-			m_attempts	++;
+			const bool result = fun(std::forward<Args>(args)...);
+			m_state.successes += (size_t)(result);
+			m_state.failures+= (size_t)(!result);
+			m_state.attempts++;
 			return (*this);
 		}
 
 		inline Worker & reset()
 		{
-			if (!isWorking())
+			if (!working())
 			{
-				m_attempts	= 0;
-				m_failed	= 0;
-				m_incomplete= 0;
-				m_succeeded = 0;
+				m_state.attempts	= 0;
+				m_state.failures	= 0;
+				m_state.successes = 0;
+				m_state.total		= 0;
 			}
 			return (*this);
 		}
 
 		inline Worker & sleep(const Duration & value)
 		{
-			if (isWorking())
+			if (working())
 			{
 				m_thread.sleep(value);
 			}
@@ -60,44 +80,22 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class Fun, class ... Args
-		> inline bool launch(size_t numJobs, Fun && fun, Args && ... args)
-		{
-			if (isAvailable())
-			{
-				reset().m_incomplete = numJobs;
-				m_thread.launch(fun, std::forward<Args>(args)...);
-				return true;
-			}
-			return false;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline bool isAvailable()	const { return !m_thread.alive() && !isWorking(); }
-		inline bool isDone()		const { return !isWorking() && (attempts() > 0); }
-		inline bool isWorking()		const { return (incomplete() > 0) && (attempts() < incomplete()); }
-
-		inline size_t attempts()	const { return m_attempts; }
-		inline size_t failed()		const { return m_failed; }
-		inline size_t incomplete()	const { return m_incomplete; }
-		inline size_t succeeded()	const { return m_succeeded; }
-		
-		inline float_t progress() const
-		{
-			return ((isWorking()) ? (float_t)attempts() / (float_t)incomplete() : 0.0f);
-		}
+		inline auto attempts()	const -> size_t			{ return m_state.attempts; }
+		inline auto available()	const -> bool			{ return !m_thread.alive() && !working(); }
+		inline auto done()		const -> bool			{ return !working() && (attempts() > 0); }
+		inline auto failures()	const -> size_t			{ return m_state.failures; }
+		inline auto progress()	const -> float_t		{ return alg::delta_cast<float_t>(attempts(), total()); }
+		inline auto state()		const -> const State &	{ return m_state; }
+		inline auto successes()	const -> size_t			{ return m_state.successes; }
+		inline auto total()		const -> size_t			{ return m_state.total; }
+		inline auto working()	const -> bool			{ return (total() > 0) && (attempts() < total()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		Thread m_thread		{};
-		size_t m_attempts	{ 0 };	// Total attempts
-		size_t m_failed		{ 0 };	// Failed attempts
-		size_t m_incomplete	{ 0 };	// Total number of jobs
-		size_t m_succeeded	{ 0 };	// Successful attempts
+		State	m_state;
+		Thread	m_thread;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

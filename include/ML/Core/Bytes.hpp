@@ -17,7 +17,7 @@ namespace ml
 			intmax_t Num,	// Numerator
 			intmax_t Den	// Denominator
 		> constexpr Bytes(uint64_t value, const Ratio<Num, Den> & r)
-			: Bytes(ratio_cast(value, r))
+			: Bytes(alg::ratio_cast(value, r))
 		{
 		}
 
@@ -33,18 +33,18 @@ namespace ml
 			, m_size(((value == 0)
 				? 0
 				: ((value < Kilo::num)
-					? ratio_cast(value, Ratio<1, 1>())
+					? alg::ratio_cast(value, Ratio<1, 1>())
 					: ((value < Mega::num)
-						? ratio_cast(value, Milli())
+						? alg::ratio_cast(value, Milli())
 						: ((value < Giga::num)
-							? ratio_cast(value, Micro())
+							? alg::ratio_cast(value, Micro())
 							: ((value < Tera::num)
-								? ratio_cast(value, Nano())
+								? alg::ratio_cast(value, Nano())
 								: ((value < Peta::num)
-									? ratio_cast(value, Pico())
+									? alg::ratio_cast(value, Pico())
 									: ((value < Exa::num)
-										? ratio_cast(value, Femto())
-										: ratio_cast(value, Atto())))))))))
+										? alg::ratio_cast(value, Femto())
+										: alg::ratio_cast(value, Atto())))))))))
 			, m_name(((value == 0)
 				? "-"
 				: ((value < Kilo::num)
@@ -93,12 +93,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	constexpr uint64_t operator "" _kB(uint64_t value) { return ratio_cast(value, Kilo()); }
-	constexpr uint64_t operator "" _MB(uint64_t value) { return ratio_cast(value, Mega()); }
-	constexpr uint64_t operator "" _GB(uint64_t value) { return ratio_cast(value, Giga()); }
-	constexpr uint64_t operator "" _TB(uint64_t value) { return ratio_cast(value, Tera()); }
-	constexpr uint64_t operator "" _PB(uint64_t value) { return ratio_cast(value, Peta()); }
-	constexpr uint64_t operator "" _EB(uint64_t value) { return ratio_cast(value, Exa()); }
+	constexpr uint64_t operator "" _KB(uint64_t value) { return alg::ratio_cast(value, Kilo()); }
+	constexpr uint64_t operator "" _MB(uint64_t value) { return alg::ratio_cast(value, Mega()); }
+	constexpr uint64_t operator "" _GB(uint64_t value) { return alg::ratio_cast(value, Giga()); }
+	constexpr uint64_t operator "" _TB(uint64_t value) { return alg::ratio_cast(value, Tera()); }
+	constexpr uint64_t operator "" _PB(uint64_t value) { return alg::ratio_cast(value, Peta()); }
+	constexpr uint64_t operator "" _EB(uint64_t value) { return alg::ratio_cast(value, Exa()); }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

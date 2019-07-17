@@ -916,7 +916,7 @@ namespace ml
 			if (noobs.trigger.consume())
 			{
 				// Not already running
-				if (noobs.worker.isAvailable())
+				if (noobs.worker.available())
 				{
 					// Open Popup
 					ImGui::OpenPopup("Worker##Popup##Noobs");
@@ -926,7 +926,7 @@ namespace ml
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						for (size_t i = 0; noobs.worker.isWorking(); i++)
+						for (size_t i = 0; noobs.worker.working(); i++)
 						{
 							// Dummy Load
 							auto dummy_load = [&](const String & filename)
@@ -965,16 +965,16 @@ namespace ml
 				ImGuiWindowFlags_AlwaysAutoResize
 			))
 			{
-				if (noobs.worker.isWorking())
+				if (noobs.worker.working())
 				{
 					auto str = String("Loading {0}/{1}").format(
 						noobs.worker.attempts(), 
-						noobs.worker.incomplete()
+						noobs.worker.total()
 					);
 					ImGui::Text("Test Parallel Worker");
 					ImGui::ProgressBar(noobs.worker.progress(), { 0.0f, 0.0f }, str.c_str());
 				}
-				else if (noobs.worker.isDone())
+				else if (noobs.worker.done())
 				{
 					ImGui::CloseCurrentPopup();
 				}
@@ -982,7 +982,7 @@ namespace ml
 			}
 
 			// Dispose Worker
-			if (noobs.worker.isDone())
+			if (noobs.worker.done())
 			{
 				if (noobs.worker.dispose())
 				{

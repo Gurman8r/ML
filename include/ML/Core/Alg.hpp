@@ -169,7 +169,7 @@ namespace ml
 			return ((value == type_t<T>::zero)
 				? type_t<T>::zero
 				: ((value < type_t<T>::zero)
-					? type_t<T>::minus_one
+					? type_t<T>::negative
 					: type_t<T>::one));
 		}
 
@@ -179,7 +179,7 @@ namespace ml
 			-> T
 		{
 			return ((alg::sign(value) < type_t<T>::zero)
-				? (value * type_t<T>::minus_one)
+				? (value * type_t<T>::negative)
 				: value);
 		}
 

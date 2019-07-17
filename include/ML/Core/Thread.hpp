@@ -17,15 +17,9 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Thread()
-			: m_thr(nullptr)
-		{
-		}
+		Thread() : m_thr(nullptr) {}
 
-		~Thread()
-		{
-			dispose();
-		}
+		~Thread() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

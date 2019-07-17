@@ -33,11 +33,11 @@ static Editor		g_Editor		{ g_EventSystem };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-enum State : int32_t { Startup, Loop, Shutdown };
+enum : int32_t { Startup, Loop, Shutdown };
 
-static StateMachine<State> g_ControlFlow
+static StateMachine<int32_t> g_ControlFlow
 {
-{ State::Startup, []()
+{ Startup, []()
 {	/* Enter */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(EnterEvent(
@@ -57,9 +57,9 @@ static StateMachine<State> g_ControlFlow
 		g_Time,
 		g_Window
 	));
-	return g_ControlFlow(State::Loop);
+	return g_ControlFlow(Loop);
 } },
-{ State::Loop, []()
+{ Loop, []()
 {	while (g_Window.isOpen())
 	{
 		/* Begin Frame */
@@ -101,9 +101,9 @@ static StateMachine<State> g_ControlFlow
 			g_Window
 		));
 	}
-	return g_ControlFlow(State::Shutdown);
+	return g_ControlFlow(Shutdown);
 } },
-{ State::Shutdown, []()
+{ Shutdown, []()
 {	/* Unload */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(UnloadEvent(
@@ -154,7 +154,7 @@ int32_t main()
 	}
 
 	// Run Controller
-	g_ControlFlow(State::Startup);
+	g_ControlFlow(Startup);
 
 	// Cleanup Plugins
 	for (auto & pair : g_Plugins)

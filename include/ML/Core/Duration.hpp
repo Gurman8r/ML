@@ -25,58 +25,83 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	namespace alg
+	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class Out, class Num, class Den = typename Num
+		> static constexpr Out delta_cast(const Num numerator, const Den denominator)
+		{
+			using OT = type_t<Out>;
+			const Out num { OT(numerator) };
+			const Out den { OT(denominator) };
+			return (((den > OT::zero) && (num < den)) ? (num / den) : OT::zero);
+		}
+
+		template <
+			class Out, class Rep, class Per = typename Rep::period
+		> static constexpr Out delta_cast(const time_t value)
+		{
+			static_assert(type_t<time_t>::zero < Per::den, "period negative or zero");
+			using OT = type_t<Out>;
+			return OT(ML_TIME_CAST(Rep, (Nanoseconds)(value))) / OT(Per::den);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct Duration final : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type = typename type_t<time_t>;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		constexpr Duration()
-			: Duration { type::zero }
+			: m_count { type_t<time_t>::zero }
 		{
 		}
 
 		constexpr Duration(const time_t value)
-			: m_base { value }
+			: m_count { value }
 		{
 		}
 
 		constexpr Duration(const Duration & copy)
-			: Duration { copy.m_base }
+			: m_count { copy.m_count }
 		{
 		}
 
 		template <
 			class Rep, class Per
 		> constexpr Duration(const ML_TIME_BASE<Rep, Per> & value)
-			: Duration { ML_TIME_CAST(Nanoseconds, value) }
+			: m_count { ML_TIME_CAST(Nanoseconds, value) }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		constexpr operator time_t() const 
-		{ 
-			return m_base; 
-		}
 		
 		constexpr Nanoseconds base() const 
 		{ 
-			return static_cast<Nanoseconds>(m_base); 
+			return static_cast<Nanoseconds>(m_count);
+		}
+
+		constexpr operator time_t() const
+		{
+			return m_count; 
 		}
 
 		template <
+			class Out = typename float_t,
 			class Rep = typename Milliseconds,
 			class Per = typename Rep::period
-		> constexpr float_t delta() const
+		> constexpr Out delta() const
 		{
-			static_assert(type::zero < Per::den, "period negative or zero");
-			return (
-				static_cast<float_t>(ML_TIME_CAST(Rep, base())) /
-				static_cast<float_t>(Per::den)
-			);
+			return alg::delta_cast<Out, Rep, Per>(m_count);
+			//using OT = type_t<Out>;
+			//using TT = type_t<time_t>;
+			//static_assert(TT::zero < Per::den, "period negative or zero");
+			//return OT(ML_TIME_CAST(Rep, base())) / OT(Per::den);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -99,14 +124,14 @@ namespace ml
 			class T
 		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return (type(lhs) == type(Duration(rhs)));
+			return (type_t<time_t>(lhs) == type_t<time_t>(Duration(rhs)));
 		}
 
 		template <
 			class T
 		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return (type(lhs) < type(Duration(rhs)));
+			return (type_t<time_t>(lhs) < type_t<time_t>(Duration(rhs)));
 		}
 
 		template <
@@ -143,14 +168,14 @@ namespace ml
 			class T
 		> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
-			return Duration(type(lhs) + type(rhs));
+			return Duration(type_t<time_t>(lhs) + type_t<time_t>(rhs));
 		}
 
 		template <
 			class T
 		> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
-			return Duration(type(lhs) - type(rhs));
+			return Duration(type_t<time_t>(lhs) - type_t<time_t>(rhs));
 		}
 
 		template <
@@ -169,7 +194,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: time_t m_base;
+	private: time_t m_count; // nanoseconds
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

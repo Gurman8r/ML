@@ -22,7 +22,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual void onEnter	(const EnterEvent	& ev) = 0;
 		virtual void onStart	(const StartEvent	& ev) = 0;
 		virtual void onUpdate	(const UpdateEvent	& ev) = 0;
 		virtual void onDraw		(const DrawEvent	& ev) = 0;

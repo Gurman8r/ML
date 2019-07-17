@@ -63,9 +63,17 @@ namespace ml
 			filter.Draw("Filter (\"incl,-excl\")", 180);
 			ImGui::PopStyleVar();
 
-			// Paused
+			// Clear Button
 			ImGui::SameLine();
-			ImGui::Checkbox("Paused", &m_paused);
+			if (ImGui::Button("Clear##Terminal"))
+			{
+				this->clear();
+			}
+
+			// Toggle Pause
+			ImGui::SameLine();
+			ImGui::Checkbox("Paused##Terminal", &m_paused);
+
 			ImGui::Separator();
 
 			// Text

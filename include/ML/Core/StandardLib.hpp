@@ -87,8 +87,7 @@ namespace ml
 	using int_t		= typename int32_t;				// Basic Signed Int Type
 	using intptr_t	= typename intmax_t;			// Int Pointer Type
 	using ptrdiff_t	= typename intmax_t;			// Pointer Difference Type
-	using size_t	= typename uintmax_t;			// Size Type
-	using time_t	= typename uint64_t;			// Time Type
+	using size_t	= typename uintmax_t;			// Size Types
 	using uint_t	= typename uint32_t;			// Basic Unsigned Int Type
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

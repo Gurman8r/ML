@@ -29,7 +29,6 @@ namespace DEMO
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		void onEnter	(const ml::EnterEvent	& ev) override;
 		void onStart	(const ml::StartEvent	& ev) override;
 		void onUpdate	(const ml::UpdateEvent	& ev) override;
 		void onDraw		(const ml::DrawEvent	& ev) override;

@@ -107,11 +107,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Noobs::onEnter(const EnterEvent & ev)
-	{
-		Debug::log("Loaded {0}", (*this));
-	}
-
 	void Noobs::onStart(const StartEvent & ev)
 	{
 		// Get Surfaces

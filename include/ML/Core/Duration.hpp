@@ -4,24 +4,22 @@
 #include <ML/Core/Ratio.hpp>
 #include <ML/Core/I_NonNewable.hpp>
 
-#define ML_TIME_BASE		::std::chrono::duration
-#define ML_TIME_CAST(T, V)	::std::chrono::duration_cast<T>(V).count()
+#define ML_duration_cast(RATIO, VALUE) (_STD chrono::duration_cast<RATIO>(VALUE).count())
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using Nanoseconds	= typename ML_TIME_BASE<time_t, Nano>;				// 1	: 1000000000
-	using Microseconds	= typename ML_TIME_BASE<time_t, Micro>;				// 1	: 1000000
-	using Milliseconds	= typename ML_TIME_BASE<time_t, Milli>;				// 1	: 1000
-	using Seconds		= typename ML_TIME_BASE<time_t>;					// 1	: 1
-	using Kiloseconds	= typename ML_TIME_BASE<time_t, Kilo>;				// 1000 : 1
-	using Minutes		= typename ML_TIME_BASE<time_t, Ratio<60>>;			// sec	* 60
-	using Hours			= typename ML_TIME_BASE<time_t, Ratio<3600>>;		// min	* 60
-	using Days			= typename ML_TIME_BASE<time_t, Ratio<86400>>;		// hrs	* 24
-	using Weeks			= typename ML_TIME_BASE<time_t, Ratio<604800>>;		// days	* 7
-	using Months		= typename ML_TIME_BASE<time_t, Ratio<2419200>>;	// week	* 4
-	using Years			= typename ML_TIME_BASE<time_t, Ratio<31536000>>;	// days	* 365
+	using Nanoseconds	= typename std::chrono::duration<uint64_t,  Nano>;
+	using Microseconds	= typename std::chrono::duration<uint64_t,  Micro>;
+	using Milliseconds	= typename std::chrono::duration<uint64_t,  Milli>;
+	using Seconds		= typename std::chrono::duration<uint64_t,  Ratio<1>>;		   	
+	using Minutes		= typename std::chrono::duration<uint64_t,  Ratio<60>>;	   	
+	using Hours			= typename std::chrono::duration<uint64_t,  Ratio<3600>>;	   	
+	using Days			= typename std::chrono::duration<uint64_t,  Ratio<86400>>;	   
+	using Weeks			= typename std::chrono::duration<uint64_t,  Ratio<604800>>;   
+	using Months		= typename std::chrono::duration<uint64_t,  Ratio<2419200>>;  
+	using Years			= typename std::chrono::duration<uint64_t,  Ratio<31536000>>; 
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -33,19 +31,19 @@ namespace ml
 			class T, class Num, class Den = typename Num
 		> static constexpr T delta_cast(const Num numerator, const Den denominator)
 		{
-			const T num { type_t<T>(numerator) };
-			const T den { type_t<T>(denominator) };
-			return (((den > type_t<T>::zero) && (num < den)) ? (num / den) : type_t<T>::zero);
+			using TT = type_t<T>;
+			const T num { TT(numerator) };
+			const T den { TT(denominator) };
+			return (((den > TT::zero) && (num < den)) ? (num / den) : TT::zero);
 		}
 
 		template <
 			class T, class Rep, class Per = typename Rep::period
-		> static constexpr T delta_cast(const time_t value)
+		> static constexpr T delta_cast(const uint64_t value)
 		{
-			static_assert(type_t<time_t>::zero < Per::den, "period negative or zero");
-			return 
-				type_t<T>(ML_TIME_CAST(Rep, (Nanoseconds)(value))) /
-				type_t<T>(Per::den);
+			static_assert(0 < Per::den, "period negative or zero");
+			using TT = type_t<T>;
+			return TT(ML_duration_cast(Rep, (Nanoseconds)(value))) / TT(Per::den);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -58,11 +56,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr Duration()
-			: m_count { type_t<time_t>::zero }
+			: m_count { type_t<uint64_t>::zero }
 		{
 		}
 
-		constexpr Duration(const time_t value)
+		constexpr Duration(const uint64_t value)
 			: m_count { value }
 		{
 		}
@@ -74,8 +72,8 @@ namespace ml
 
 		template <
 			class Rep, class Per
-		> constexpr Duration(const ML_TIME_BASE<Rep, Per> & value)
-			: m_count { ML_TIME_CAST(Nanoseconds, value) }
+		> constexpr Duration(const std::chrono::duration<Rep, Per> & value)
+			: m_count { ML_duration_cast(Nanoseconds, value) }
 		{
 		}
 
@@ -86,7 +84,7 @@ namespace ml
 			return static_cast<Nanoseconds>(m_count);
 		}
 
-		constexpr operator time_t() const
+		constexpr operator uint64_t() const
 		{
 			return m_count; 
 		}
@@ -101,17 +99,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr time_t nanos	() const { return ML_TIME_CAST(Nanoseconds, base()); }
-		constexpr time_t micros	() const { return ML_TIME_CAST(Microseconds, base()); }
-		constexpr time_t millis	() const { return ML_TIME_CAST(Milliseconds, base()); }
-		constexpr time_t kilosec() const { return ML_TIME_CAST(Kiloseconds, base()); }
-		constexpr time_t seconds() const { return ML_TIME_CAST(Seconds, base()); }
-		constexpr time_t minutes() const { return ML_TIME_CAST(Minutes, base()); }
-		constexpr time_t hours	() const { return ML_TIME_CAST(Hours, base()); }
-		constexpr time_t days	() const { return ML_TIME_CAST(Days, base()); }
-		constexpr time_t weeks	() const { return ML_TIME_CAST(Weeks, base()); }
-		constexpr time_t months	() const { return ML_TIME_CAST(Months, base()); }
-		constexpr time_t years	() const { return ML_TIME_CAST(Years, base()); }
+		constexpr uint64_t nanos	() const { return ML_duration_cast(Nanoseconds, base()); }
+		constexpr uint64_t micros	() const { return ML_duration_cast(Microseconds, base()); }
+		constexpr uint64_t millis	() const { return ML_duration_cast(Milliseconds, base()); }
+		constexpr uint64_t seconds	() const { return ML_duration_cast(Seconds, base()); }
+		constexpr uint64_t minutes	() const { return ML_duration_cast(Minutes, base()); }
+		constexpr uint64_t hours	() const { return ML_duration_cast(Hours, base()); }
+		constexpr uint64_t days		() const { return ML_duration_cast(Days, base()); }
+		constexpr uint64_t weeks	() const { return ML_duration_cast(Weeks, base()); }
+		constexpr uint64_t months	() const { return ML_duration_cast(Months, base()); }
+		constexpr uint64_t years	() const { return ML_duration_cast(Years, base()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -119,14 +116,14 @@ namespace ml
 			class T
 		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return (type_t<time_t>(lhs) == type_t<time_t>(Duration(rhs)));
+			return (type_t<uint64_t>(lhs) == type_t<uint64_t>(Duration(rhs)));
 		}
 
 		template <
 			class T
 		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return (type_t<time_t>(lhs) < type_t<time_t>(Duration(rhs)));
+			return (type_t<uint64_t>(lhs) < type_t<uint64_t>(Duration(rhs)));
 		}
 
 		template <
@@ -163,14 +160,14 @@ namespace ml
 			class T
 		> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
-			return Duration(type_t<time_t>(lhs) + type_t<time_t>(rhs));
+			return Duration(type_t<uint64_t>(lhs) + type_t<uint64_t>(rhs));
 		}
 
 		template <
 			class T
 		> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
-			return Duration(type_t<time_t>(lhs) - type_t<time_t>(rhs));
+			return Duration(type_t<uint64_t>(lhs) - type_t<uint64_t>(rhs));
 		}
 
 		template <
@@ -189,7 +186,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: time_t m_count; // nanoseconds
+	private: uint64_t m_count; // nanoseconds
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -214,17 +211,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	constexpr Duration operator "" _ns	(time_t value) { return Nanoseconds	(value); }
-	constexpr Duration operator "" _us	(time_t value) { return Microseconds(value); }
-	constexpr Duration operator "" _ms	(time_t value) { return Milliseconds(value); }
-	constexpr Duration operator "" _ks	(time_t value) { return Kiloseconds	(value); }
-	constexpr Duration operator "" _s	(time_t value) { return Seconds		(value); }
-	constexpr Duration operator "" _min	(time_t value) { return Minutes		(value); }
-	constexpr Duration operator "" _hr	(time_t value) { return Hours		(value); }
-	constexpr Duration operator "" _d	(time_t value) { return Days		(value); }
-	constexpr Duration operator "" _wk	(time_t value) { return Weeks		(value); }
-	constexpr Duration operator "" _mo	(time_t value) { return Months		(value); }
-	constexpr Duration operator "" _yr	(time_t value) { return Years		(value); }
+	constexpr Duration operator "" _ns	(uint64_t value) { return Nanoseconds	{ value }; }
+	constexpr Duration operator "" _us	(uint64_t value) { return Microseconds	{ value }; }
+	constexpr Duration operator "" _ms	(uint64_t value) { return Milliseconds	{ value }; }
+	constexpr Duration operator "" _s	(uint64_t value) { return Seconds		{ value }; }
+	constexpr Duration operator "" _min	(uint64_t value) { return Minutes		{ value }; }
+	constexpr Duration operator "" _hr	(uint64_t value) { return Hours			{ value }; }
+	constexpr Duration operator "" _d	(uint64_t value) { return Days			{ value }; }
+	constexpr Duration operator "" _wk	(uint64_t value) { return Weeks			{ value }; }
+	constexpr Duration operator "" _mo	(uint64_t value) { return Months		{ value }; }
+	constexpr Duration operator "" _yr	(uint64_t value) { return Years			{ value }; }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

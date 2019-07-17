@@ -2,7 +2,6 @@
 #include <ML/Core/Debug.hpp>
 
 #include <dirent.h>
-#include <sys/stat.h>
 
 namespace ml
 {

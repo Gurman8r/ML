@@ -21,9 +21,8 @@ namespace ml
 
 		switch (*value)
 		{
-			// Gui Event
-		case GuiEvent::ID:
-			return this->onGui(*value->as<GuiEvent>());
+		// Gui Event
+		case GuiEvent::ID: return this->onGui(*value->as<GuiEvent>());
 		}
 	}
 

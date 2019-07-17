@@ -45,7 +45,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		void onEnter	(const EnterEvent	& ev) override;
 		void onStart	(const StartEvent	& ev) override;
 		void onUpdate	(const UpdateEvent	& ev) override;
 		void onDraw		(const DrawEvent	& ev) override;

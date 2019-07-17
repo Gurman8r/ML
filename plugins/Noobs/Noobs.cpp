@@ -990,7 +990,7 @@ namespace ml
 				}
 				else
 				{ 
-					Debug::logError("Failed disposing loader?");
+					Debug::logError("Failed disposing worker?");
 				}
 			}
 		};

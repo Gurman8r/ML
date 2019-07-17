@@ -86,7 +86,7 @@ namespace ml
 			const CullingMode	&	culling,
 			const DepthMode		&	depth,
 			const TextureMode	&	texture,
-			const MiscStates			&	misc);
+			const MiscStates	&	misc);
 		RenderStates(const RenderStates & copy);
 		~RenderStates();
 
@@ -101,7 +101,7 @@ namespace ml
 		CullingMode	culling;
 		DepthMode	depth;
 		TextureMode	texture;
-		MiscStates		misc;
+		MiscStates	misc;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	};

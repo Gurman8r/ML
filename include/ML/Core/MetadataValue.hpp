@@ -8,11 +8,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API MetadataValue final : public I_Newable
+	struct MetadataValue final : public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum Type : int32_t
+		enum TypeID : int32_t
 		{
 			META_None = -1,
 			META_Bool,
@@ -26,27 +26,51 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		MetadataValue();
-		explicit MetadataValue(const bool value);
-		explicit MetadataValue(const float64_t value);
-		explicit MetadataValue(const float_t value);
-		explicit MetadataValue(const int32_t value);
-		explicit MetadataValue(const String & value);
-		MetadataValue(const MetadataValue & copy);
-		~MetadataValue();
+		MetadataValue()
+			: m_type(META_None)
+			, m_data(String())
+		{
+		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		explicit MetadataValue(const bool value)
+			: m_type(META_Bool)
+			, m_data(std::to_string(value))
+		{
+		}
 
-		inline auto getData()	const -> const String & { return m_data; }
-		inline auto getType()	const -> const Type &   { return m_type; }
+		explicit MetadataValue(const float64_t value)
+			: m_type(META_Double)
+			, m_data(std::to_string(value))
+		{
+		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
-		inline auto asBool	()	const ->  bool		{ return alg::to_bool(getData()); }
-		inline auto asDouble()	const ->  float64_t	{ return alg::to_double(getData()); }
-		inline auto asFloat	()	const ->  float32_t	{ return alg::to_float(getData()); }
-		inline auto asInt	()	const ->  int32_t	{ return alg::to_int(getData()); }
-		inline auto asString()	const ->  String	{ return getData(); }
+		explicit MetadataValue(const float32_t value)
+			: m_type(META_Float)
+			, m_data(std::to_string(value))
+		{
+		}
+
+		explicit MetadataValue(const int32_t value)
+			: m_type(META_Int)
+			, m_data(std::to_string(value))
+		{
+		}
+
+		explicit MetadataValue(const String & value)
+			: m_type(META_String)
+			, m_data(value)
+		{
+		}
+
+		MetadataValue(const MetadataValue & copy)
+			: m_type(copy.m_type)
+			, m_data(copy.m_data)
+		{
+		}
+
+		~MetadataValue()
+		{
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -56,6 +80,16 @@ namespace ml
 		{
 			return ((*this) = MetadataValue(value));
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto asBool	()	const -> bool			{ return alg::to_bool(getData()); }
+		inline auto asDouble()	const -> float64_t		{ return alg::to_double(getData()); }
+		inline auto asFloat	()	const -> float32_t		{ return alg::to_float(getData()); }
+		inline auto asInt	()	const -> int32_t		{ return alg::to_int(getData()); }
+		inline auto asString()	const -> String			{ return getData(); }
+		inline auto getData	()	const -> const String & { return m_data; }
+		inline auto getType	()	const -> TypeID			{ return m_type; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -69,7 +103,7 @@ namespace ml
 
 	private:
 		String	m_data;
-		Type	m_type;
+		TypeID	m_type;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

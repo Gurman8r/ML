@@ -1,21 +1,23 @@
 #ifndef _ML_METADATA_HPP_
 #define _ML_METADATA_HPP_
 
+#include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/MetadataValue.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API Metadata final
+	struct Metadata final 
 		: public I_Newable
+		, public I_Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename MetadataValue;
 		using pointer			= typename value_type *;
-		using const_pointer		= typename const value_type *;
 		using reference			= typename value_type &;
+		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
 		using map_type			= typename Map<String, pointer>;
 		using pair_type			= typename map_type::value_type;
@@ -24,10 +26,35 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Metadata();
-		explicit Metadata(const map_type & values);
-		Metadata(const Metadata & copy);
-		~Metadata();
+		Metadata() = default;
+
+		explicit Metadata(const map_type & values)
+			: m_data(values)
+		{
+		}
+
+		Metadata(const Metadata & copy)
+			: Metadata(copy.m_data)
+		{
+		}
+
+		~Metadata()
+		{
+			dispose();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool dispose() override
+		{
+			for (pair_type & pair : m_data)
+			{
+				delete pair.second;
+				pair.second = nullptr;
+			}
+			m_data.clear();
+			return m_data.empty();
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

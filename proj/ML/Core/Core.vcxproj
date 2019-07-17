@@ -216,15 +216,11 @@
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\File.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Metadata.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

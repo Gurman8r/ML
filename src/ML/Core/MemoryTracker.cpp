@@ -52,7 +52,10 @@ namespace ml
 
 			for (const auto & pair : m_records)
 			{
-				cerr << typeid(pair.second->object).name() << " | " << pair.second << endl;
+				cerr
+					<< (*pair.second->object)
+					//<< typeid(pair.second->object).name() 
+					<< " | " << pair.second << endl;
 			}
 			
 #if ML_DEBUG

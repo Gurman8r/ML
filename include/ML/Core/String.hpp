@@ -135,12 +135,8 @@ namespace ml
 		virtual ~BasicString() noexcept {}
 
 
-	public: // Operators
+	public: // Conversion Operators
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline operator bool() const
-		{
-			return !this->empty();
-		}
 
 		inline operator base_type() const
 		{
@@ -158,7 +154,7 @@ namespace ml
 		}
 
 
-	public: // Assignment
+	public: // Assignment Operators
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		inline self_type & operator=(const self_type & other)
 		{
@@ -196,7 +192,7 @@ namespace ml
 		}
 
 
-	public: // Comparison
+	public: // Comparison Operators
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		inline bool equals(const base_type & value) const override
 		{
@@ -211,6 +207,11 @@ namespace ml
 
 	public: // Custom
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline operator bool() const
+		{
+			return !this->empty();
+		}
 
 		void pop_front()
 		{

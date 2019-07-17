@@ -33,14 +33,16 @@ static Editor		g_Editor		{ g_EventSystem };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-enum : int32_t { Startup, Loop, Shutdown };
+enum class State { Exit = -1, Startup, MainLoop, Shutdown };
 
-static StateMachine<int32_t> g_ControlFlow
+static StateMachine<State> g_ControlFlow
 {
-{ Startup, []()
-{	/* Enter */
+{ State::Startup, []()
+{	
+	/* Enter */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(EnterEvent(
+		g_Time,
 		g_Preferences,
 		g_Window
 	));
@@ -48,6 +50,7 @@ static StateMachine<int32_t> g_ControlFlow
 	/* Load */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(LoadEvent(
+		g_Time,
 		g_Preferences
 	));
 
@@ -57,10 +60,11 @@ static StateMachine<int32_t> g_ControlFlow
 		g_Time,
 		g_Window
 	));
-	return g_ControlFlow(Loop);
+	return g_ControlFlow(State::MainLoop);
 } },
-{ Loop, []()
-{	while (g_Window.isOpen())
+{ State::MainLoop, []()
+{	
+	while (g_Window.isOpen())
 	{
 		/* Begin Frame */
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -78,21 +82,31 @@ static StateMachine<int32_t> g_ControlFlow
 
 		/* Draw */
 		/* * * * * * * * * * * * * * * * * * * * */
-		g_EventSystem.fireEvent(BeginDrawEvent());
+		g_EventSystem.fireEvent(BeginDrawEvent(
+			g_Time,
+			g_Window
+		));
 		g_EventSystem.fireEvent(DrawEvent(
 			g_Time,
 			g_Window
 		));
-		g_EventSystem.fireEvent(EndDrawEvent());
+		g_EventSystem.fireEvent(EndDrawEvent(
+			g_Time,
+			g_Window
+		));
 
 		/* Gui */
 		/* * * * * * * * * * * * * * * * * * * * */
-		g_EventSystem.fireEvent(BeginGuiEvent());
+		g_EventSystem.fireEvent(BeginGuiEvent(
+			g_Time
+		));
 		g_EventSystem.fireEvent(GuiEvent(
 			g_Time,
 			g_Editor
 		));
-		g_EventSystem.fireEvent(EndGuiEvent());
+		g_EventSystem.fireEvent(EndGuiEvent(
+			g_Time
+		));
 
 		/* End Frame */
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -101,19 +115,23 @@ static StateMachine<int32_t> g_ControlFlow
 			g_Window
 		));
 	}
-	return g_ControlFlow(Shutdown);
+	return g_ControlFlow(State::Shutdown);
 } },
-{ Shutdown, []()
-{	/* Unload */
+{ State::Shutdown, []()
+{	
+	/* Unload */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(UnloadEvent(
+		g_Time,
 		g_Window
 	));
 
 	/* Exit */
 	/* * * * * * * * * * * * * * * * * * * * */
-	g_EventSystem.fireEvent(ExitEvent());
-	return g_ControlFlow.NoState;
+	g_EventSystem.fireEvent(ExitEvent(
+		g_Time
+	));
+	return g_ControlFlow(State::Exit);
 } },
 };
 
@@ -121,7 +139,6 @@ static StateMachine<int32_t> g_ControlFlow
 
 int32_t main()
 {
-	static_assert(std::is_integral<int32_t>::value, "type must be integral");
 	// Load Plugins
 	if (Ifstream file { ML_FS.pathTo(g_Preferences.GetString(
 		"Launcher",
@@ -154,7 +171,7 @@ int32_t main()
 	}
 
 	// Run Controller
-	g_ControlFlow(Startup);
+	g_ControlFlow(State::Startup);
 
 	// Cleanup Plugins
 	for (auto & pair : g_Plugins)

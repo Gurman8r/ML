@@ -963,8 +963,8 @@ namespace ml
 				if (noobs.worker.working())
 				{
 					auto str = String("Loading {0}/{1}").format(
-						noobs.worker.attempts(), 
-						noobs.worker.total()
+						noobs.worker.current(), 
+						noobs.worker.maximum()
 					);
 					ImGui::Text("Test Parallel Worker");
 					ImGui::ProgressBar(noobs.worker.progress(), { 0.0f, 0.0f }, str.c_str());

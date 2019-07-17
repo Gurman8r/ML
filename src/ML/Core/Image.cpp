@@ -48,9 +48,7 @@ namespace ml
 		std::swap(m_channels, copy.m_channels);
 	}
 
-	Image::~Image()
-	{
-	}
+	Image::~Image() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

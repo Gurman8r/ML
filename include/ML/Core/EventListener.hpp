@@ -12,20 +12,25 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API EventListener
+	struct ML_CORE_API EventListener
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		explicit EventListener(EventSystem & eventSystem);
+		
 		virtual ~EventListener();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		virtual void onEvent(const Event * value) = 0;
 
-	public:
 		EventSystem & eventSystem() const;
 
-	private:
-		EventSystem & m_eventSystem;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: EventSystem & m_eventSystem;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

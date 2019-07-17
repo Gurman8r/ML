@@ -13,26 +13,20 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Utility">
-      <UniqueIdentifier>{4cc0b5f2-b6e7-4346-8846-52961655e456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utility">
-      <UniqueIdentifier>{bf83bdb7-08ac-4b33-a3cc-b8072fa8ba88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Event System">
-      <UniqueIdentifier>{209001b0-6a4e-4b39-81cf-f906afa8a39a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Event System">
-      <UniqueIdentifier>{8ef4c1e8-43ad-4952-af2f-70888a3f8726}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\DS">
       <UniqueIdentifier>{37cea9eb-82ea-4e8a-a40f-ddea9a7cb0c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\DS">
-      <UniqueIdentifier>{dedba3d6-daa0-4767-888b-ffab909323a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Interfaces">
       <UniqueIdentifier>{64edec69-3d79-4d9b-a858-87175138149f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{4cc0b5f2-b6e7-4346-8846-52961655e456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DS">
+      <UniqueIdentifier>{20e74748-a8af-4fb8-9054-e62d04ea39f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{df4d87b1-4e98-474f-890e-b6053714747f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,15 +44,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp">
       <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
-      <Filter>Header Files\Event System</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp">
-      <Filter>Header Files\Event System</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp">
-      <Filter>Header Files\Event System</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp">
       <Filter>Header Files\Utility</Filter>
@@ -90,9 +75,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Image.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -103,9 +85,6 @@
       <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Alg.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\I_Comparable.hpp">
@@ -159,9 +138,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\C_String.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -180,45 +156,51 @@
     <ClInclude Include="..\..\..\include\ML\Core\Worker.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\ML\Core\Image.cpp">
+      <Filter>Source Files\DS</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp">
-      <Filter>Source Files\Event System</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp">
-      <Filter>Source Files\Event System</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\File.cpp">
-      <Filter>Source Files\DS</Filter>
+    <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp">
+    <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Timer.cpp">
-      <Filter>Source Files\DS</Filter>
+    <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Image.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Metadata.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\MetadataValue.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,10 +16,10 @@ namespace ml
 
 		struct State final
 		{
-			size_t attempts	{ 0 };	// Total attempts
+			size_t current	{ 0 };	// Working index
 			size_t failures	{ 0 };	// Failed attempts
 			size_t successes{ 0 };	// Successful attempts
-			size_t total	{ 0 };	// Total number of jobs
+			size_t maximum	{ 0 };	// Number of things to do
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -40,7 +40,7 @@ namespace ml
 		{
 			if (available())
 			{
-				reset().m_state.total = numJobs;
+				reset().m_state.maximum = numJobs;
 				m_thread.launch(fun, std::forward<Args>(args)...);
 				return true;
 			}
@@ -53,8 +53,8 @@ namespace ml
 		{
 			const bool result = fun(std::forward<Args>(args)...);
 			m_state.successes += (size_t)(result);
-			m_state.failures+= (size_t)(!result);
-			m_state.attempts++;
+			m_state.failures += (size_t)(!result);
+			m_state.current++;
 			return (*this);
 		}
 
@@ -62,10 +62,10 @@ namespace ml
 		{
 			if (!working())
 			{
-				m_state.attempts	= 0;
+				m_state.current		= 0;
 				m_state.failures	= 0;
-				m_state.successes = 0;
-				m_state.total		= 0;
+				m_state.successes	= 0;
+				m_state.maximum		= 0;
 			}
 			return (*this);
 		}
@@ -81,15 +81,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline auto attempts()	const -> size_t			{ return m_state.attempts; }
 		inline auto available()	const -> bool			{ return !m_thread.alive() && !working(); }
-		inline auto done()		const -> bool			{ return !working() && (attempts() > 0); }
+		inline auto done()		const -> bool			{ return !working() && (current() > 0); }
+		inline auto current()	const -> size_t			{ return m_state.current; }
 		inline auto failures()	const -> size_t			{ return m_state.failures; }
-		inline auto progress()	const -> float_t		{ return alg::delta_cast<float_t>(attempts(), total()); }
+		inline auto maximum()	const -> size_t			{ return m_state.maximum; }
+		inline auto progress()	const -> float_t		{ return alg::delta_cast<float_t>(current(), maximum()); }
 		inline auto state()		const -> const State &	{ return m_state; }
 		inline auto successes()	const -> size_t			{ return m_state.successes; }
-		inline auto total()		const -> size_t			{ return m_state.total; }
-		inline auto working()	const -> bool			{ return (total() > 0) && (attempts() < total()); }
+		inline auto working()	const -> bool			{ return (maximum() > 0) && (current() < maximum()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

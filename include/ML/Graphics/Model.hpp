@@ -15,7 +15,6 @@ namespace ml
 	// Model is a Drawable Mesh
 	struct ML_GRAPHICS_API Model final
 		: public I_Newable
-		, public I_Disposable
 		, public I_Drawable
 		, public I_Readable
 	{
@@ -28,7 +27,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromMemory(const Mesh & mesh);
 		bool loadFromMemory(const List<float_t> & vertices);

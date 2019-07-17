@@ -11,8 +11,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr hash_t fnv1a_basis { type_t<hash_t>(14695981039346656037ULL) };
-		static constexpr hash_t fnv1a_prime { type_t<hash_t>(1099511628211ULL) };
+		static constexpr hash_t basis { type_t<hash_t>(14695981039346656037ULL) };
+		static constexpr hash_t prime { type_t<hash_t>(1099511628211ULL) };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -22,7 +22,7 @@ namespace ml
 		{
 			return ((size > 0)
 				? (*this)(
-					(size - 1), (arr + 1), (seed ^ type_t<hash_t>(*arr)) * fnv1a_prime)
+					(size - 1), (arr + 1), (seed ^ type_t<hash_t>(*arr)) * prime)
 				: seed
 			);
 		}
@@ -31,7 +31,7 @@ namespace ml
 			class T
 		> constexpr hash_t operator()(hash_t size, const T * arr)
 		{
-			return (*this)(size, arr, fnv1a_basis);
+			return (*this)(size, arr, basis);
 		}
 
 		template <

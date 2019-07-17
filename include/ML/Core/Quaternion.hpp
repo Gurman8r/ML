@@ -107,7 +107,7 @@ namespace ml
 
 		constexpr value_type yaw() const
 		{
-			return alg::asin<value_type>(ML_CLAMP(
+			return alg::asin<value_type>(alg::clamp(
 				(type::two *
 					((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
 				type::minus_one,
@@ -121,15 +121,15 @@ namespace ml
 		{
 			// not sure if this is correct
 			return tmat3<value_type> {
-				(type::one - type::two * ((*this)[1] * (*this)[1]) - type::two * ((*this)[2] * (*this)[2])),
-				(type::two * ((*this)[0] * (*this)[1]) - type::two * ((*this)[2] * (*this)[3])),
-				(type::two * ((*this)[0] * (*this)[2]) + type::two * ((*this)[1] * (*this)[3])),
-				(type::two * ((*this)[0] * (*this)[1]) + type::two * ((*this)[2] * (*this)[3])),
-				(type::one - type::two * ((*this)[0] * (*this)[0]) - type::two * ((*this)[2] * (*this)[2])),
-				(type::two * ((*this)[1] * (*this)[2]) - type::two * ((*this)[0] * (*this)[3])),
-				(type::two * ((*this)[0] * (*this)[2]) - type::two * ((*this)[1] * (*this)[3])),
-				(type::two * ((*this)[1] * (*this)[2]) + type::two * ((*this)[0] * (*this)[3])),
-				(type::one - type::two * ((*this)[0] * (*this)[0]) - type::two * ((*this)[1] * (*this)[1]))
+				(type::one - type::two	 * ((*this)[1] * (*this)[1]) - type::two   * ((*this)[2] * (*this)[2])),
+				(type::two * ((*this)[0] * (*this)[1]) - type::two   * ((*this)[2] * (*this)[3])),
+				(type::two * ((*this)[0] * (*this)[2]) + type::two   * ((*this)[1] * (*this)[3])),
+				(type::two * ((*this)[0] * (*this)[1]) + type::two   * ((*this)[2] * (*this)[3])),
+				(type::one - type::two   * ((*this)[0] * (*this)[0]) - type::two   * ((*this)[2] * (*this)[2])),
+				(type::two * ((*this)[1] * (*this)[2]) - type::two   * ((*this)[0] * (*this)[3])),
+				(type::two * ((*this)[0] * (*this)[2]) - type::two   * ((*this)[1] * (*this)[3])),
+				(type::two * ((*this)[1] * (*this)[2]) + type::two   * ((*this)[0] * (*this)[3])),
+				(type::one - type::two   * ((*this)[0] * (*this)[0]) - type::two   * ((*this)[1] * (*this)[1]))
 			};
 		}
 

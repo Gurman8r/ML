@@ -21,7 +21,8 @@ namespace ml
 			
 			constexpr cast_t() = delete;
 
-			template <class U> constexpr explicit cast_t(const U & value) 
+			template <class U>
+			constexpr explicit cast_t(const U & value) 
 				: m_value { static_cast<value_type>(value) }
 			{
 			}
@@ -33,6 +34,8 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 		private: const value_type m_value;
+
+			/* * * * * * * * * * * * * * * * * * * * */
 		};
 	}
 
@@ -42,13 +45,14 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type	 = typename T;
+		using type	 = typename std::decay<T>::type;
 		using cast	 = typename detail::cast_t<type>;
 		using limits = typename std::numeric_limits<type>;
 		
 		constexpr type_t() = delete;
 
-		template <class U> constexpr explicit type_t(const U & value)
+		template <class U> 
+		constexpr explicit type_t(const U & value)
 			: m_value { cast(value) }
 		{
 		}
@@ -108,6 +112,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: const type m_value;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

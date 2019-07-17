@@ -40,10 +40,12 @@ namespace ml
 
 	struct EnterEvent final : public I_Event<EngineEvent::EV_Enter>
 	{
+		const GameTime & time;
 		const Preferences & prefs;
 		RenderWindow & window;
-		constexpr EnterEvent(Preferences & prefs, RenderWindow & window)
-			: prefs	(prefs)
+		constexpr EnterEvent(const GameTime & time, Preferences & prefs, RenderWindow & window)
+			: time	(time)
+			, prefs	(prefs)
 			, window(window)
 		{
 		}
@@ -51,9 +53,11 @@ namespace ml
 
 	struct LoadEvent final : public I_Event<EngineEvent::EV_Load>
 	{
+		const GameTime & time;
 		const Preferences & prefs;
-		constexpr LoadEvent(Preferences & prefs)
-			: prefs	(prefs)
+		constexpr LoadEvent(const GameTime & time, Preferences & prefs)
+			: time	(time)
+			, prefs	(prefs)
 		{
 		}
 	};
@@ -100,7 +104,13 @@ namespace ml
 
 	struct BeginDrawEvent final : public I_Event<EngineEvent::EV_BeginDraw>
 	{
-		constexpr BeginDrawEvent() {}
+		const GameTime & time;
+		RenderWindow & window;
+		constexpr BeginDrawEvent(const GameTime & time, RenderWindow & window)
+			: time(time)
+			, window(window)
+		{
+		}
 	};
 
 	struct DrawEvent final : public I_Event<EngineEvent::EV_Draw>
@@ -116,7 +126,13 @@ namespace ml
 
 	struct EndDrawEvent final : public I_Event<EngineEvent::EV_EndDraw>
 	{
-		constexpr EndDrawEvent() {}
+		const GameTime & time;
+		RenderWindow & window;
+		constexpr EndDrawEvent(const GameTime & time, RenderWindow & window)
+			: time(time)
+			, window(window)
+		{
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -137,16 +153,22 @@ namespace ml
 
 	struct UnloadEvent final : public I_Event<EngineEvent::EV_Unload>
 	{
+		const GameTime & time;
 		RenderWindow & window;
-		constexpr UnloadEvent(RenderWindow & window)
-			: window(window)
+		constexpr UnloadEvent(const GameTime & time, RenderWindow & window)
+			: time (time)
+			, window(window)
 		{
 		}
 	};
 
 	struct ExitEvent final : public I_Event<EngineEvent::EV_Exit>
 	{
-		constexpr ExitEvent() {}
+		const GameTime & time;
+		constexpr ExitEvent(const GameTime & time) 
+			: time (time)
+		{
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

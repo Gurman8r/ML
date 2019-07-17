@@ -8,8 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API Timer final
-		: public I_Newable
+	struct Timer final : public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -18,21 +17,71 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Timer();
-		Timer(const Timer & copy);
-		~Timer();
+		Timer()
+			: m_paused	(true)
+			, m_clock	()
+			, m_prev	()
+			, m_next	()
+			, m_elapsed	()
+		{
+		}
+
+		Timer(const Timer & copy)
+			: m_paused	(copy.m_paused)
+			, m_clock	(copy.m_clock)
+			, m_prev	(copy.m_prev)
+			, m_next	(copy.m_next)
+			, m_elapsed	(copy.m_elapsed)
+		{
+		}
+
+		~Timer() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Timer & pause(bool paused);
-		Timer & reset();
-		Timer & start();
-		Timer & stop();
+		inline bool paused() const { return m_paused; }
+
+		inline auto elapsed() const -> const Duration &
+		{
+			return (m_paused ? m_elapsed : (m_elapsed = (m_clock.now() - m_prev)));
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const Duration & elapsed() const;
-		const bool paused() const;
+		inline Timer & pause(bool paused)
+		{
+			if (paused && !m_paused)
+			{
+				m_paused = true;
+				m_next = m_clock.now();
+				m_elapsed = (m_next - m_prev);
+			}
+			else if (!paused && m_paused)
+			{
+				m_paused = false;
+				m_prev = m_clock.now();
+			}
+			return (*this);
+		}
+
+		inline Timer & reset()
+		{
+			return stop().start();
+		}
+
+		inline Timer & start()
+		{
+			m_prev = m_next = m_clock.now();
+			m_elapsed = Duration();
+			return pause(false);
+		}
+
+		inline Timer & stop()
+		{
+			m_next = m_clock.now();
+			m_elapsed = (m_next - m_prev);
+			return (*this);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

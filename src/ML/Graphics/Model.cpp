@@ -36,11 +36,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Model::dispose()
-	{
-		return false;
-	}
-
 	bool Model::loadFromFile(const String & filename)
 	{
 		Mesh mesh;

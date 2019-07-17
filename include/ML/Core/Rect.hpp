@@ -66,27 +66,27 @@ namespace ml
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		constexpr value_type left()		const { return (*this)[0]; }
-		constexpr value_type top()		const { return (*this)[1]; }
-		constexpr value_type width()	const { return (*this)[2]; }
-		constexpr value_type height()	const { return (*this)[3]; }
-		constexpr value_type bottom()	const { return (top() + height()); }
-		constexpr value_type right()	const { return (left() + width()); }
-		constexpr coord_type position()	const { return { left(), top() }; }
-		constexpr coord_type size()		const { return { width(), height() }; }
-		constexpr coord_type center()	const { return (position() + (size() / type::two)); }
+		constexpr auto left()		const -> value_type { return (*this)[0]; }
+		constexpr auto top()		const -> value_type { return (*this)[1]; }
+		constexpr auto width()		const -> value_type { return (*this)[2]; }
+		constexpr auto height()		const -> value_type { return (*this)[3]; }
+		constexpr auto bottom()		const -> value_type { return (top() + height()); }
+		constexpr auto right()		const -> value_type { return (left() + width()); }
+		constexpr auto position()	const -> coord_type { return { left(), top() }; }
+		constexpr auto size()		const -> coord_type { return { width(), height() }; }
+		constexpr auto center()		const -> coord_type { return (position() + (size() / type::two)); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr self_type & left		(const_reference value)		{ return set(0, value); }
-		constexpr self_type & top		(const_reference value)		{ return set(1, value); }
-		constexpr self_type & width		(const_reference value)		{ return set(2, value); }
-		constexpr self_type & height	(const_reference value)		{ return set(3, value); }
-		constexpr self_type & bottom	(const_reference value)		{ return height(value - top()); }
-		constexpr self_type & right		(const_reference value)		{ return width(value - left()); }
-		constexpr self_type & position	(const coord_type & value)	{ return left(value[0]).top(value[1]); }
-		constexpr self_type & size		(const coord_type & value)	{ return width(value[0]).height(value[1]); }
-		constexpr self_type & center	(const coord_type & value)	{ return position(value - (size() / type::two)); }
+		constexpr auto left		(const_reference value)		-> self_type & { return set(0, value); }
+		constexpr auto top		(const_reference value)		-> self_type & { return set(1, value); }
+		constexpr auto width	(const_reference value)		-> self_type & { return set(2, value); }
+		constexpr auto height	(const_reference value)		-> self_type & { return set(3, value); }
+		constexpr auto bottom	(const_reference value)		-> self_type & { return height(value - top()); }
+		constexpr auto right	(const_reference value)		-> self_type & { return width(value - left()); }
+		constexpr auto position	(const coord_type & value)	-> self_type & { return left(value[0]).top(value[1]); }
+		constexpr auto size		(const coord_type & value)	-> self_type & { return width(value[0]).height(value[1]); }
+		constexpr auto center	(const coord_type & value)	-> self_type & { return position(value - (size() / type::two)); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

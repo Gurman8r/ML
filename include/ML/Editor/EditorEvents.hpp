@@ -45,7 +45,11 @@ namespace ml
 
 	struct BeginGuiEvent final : public I_Event<EditorEvent::EV_BeginGui>
 	{
-		constexpr BeginGuiEvent() {}
+		const GameTime & time;
+		constexpr BeginGuiEvent(const GameTime & time)
+			: time(time)
+		{
+		}
 	};
 
 	struct GuiEvent final : public I_Event<EditorEvent::EV_Gui>
@@ -61,7 +65,11 @@ namespace ml
 
 	struct EndGuiEvent final : public I_Event<EditorEvent::EV_EndGui>
 	{
-		constexpr EndGuiEvent() {}
+		const GameTime & time;
+		constexpr EndGuiEvent(const GameTime & time) 
+			: time(time)
+		{
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

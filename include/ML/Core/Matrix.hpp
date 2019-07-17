@@ -3,6 +3,8 @@
 
 #include <ML/Core/Array.hpp>
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -161,18 +163,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		// I_NonNewable (no inheritance because aggregate initializer)
+#ifdef ML_NO_NEW_ARRAYS
 		private:
 			inline void * operator	new		 (size_t size) { return nullptr; }
 			inline void * operator	new[]	 (size_t size) { return nullptr; }
 			inline void	  operator	delete	 (void * ptr)  { return;  }
 			inline void	  operator	delete[] (void * ptr)  { return;  }
+#endif // !ML_NO_NEW_ARRAYS
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -191,9 +196,9 @@ namespace ml
 	using mat2b = tmat2<uint8_t>;
 	using mat2i = tmat2<int32_t>;
 	using mat2u = tmat2<uint32_t>;
-	using mat2f = tmat2<float_t>;
+	using mat2f = tmat2<float32_t>;
 	using mat2d = tmat2<float64_t>;
-	using mat2 = mat2f;
+	using mat2  = mat2f;
 
 	// MATRIX 3x3
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -202,7 +207,7 @@ namespace ml
 	using mat3b = tmat3<uint8_t>;
 	using mat3i = tmat3<int32_t>;
 	using mat3u = tmat3<uint32_t>;
-	using mat3f = tmat3<float_t>;
+	using mat3f = tmat3<float32_t>;
 	using mat3d = tmat3<float64_t>;
 	using mat3	= mat3f;
 
@@ -213,7 +218,7 @@ namespace ml
 	using mat4b = tmat4<uint8_t>;
 	using mat4i = tmat4<int32_t>;
 	using mat4u = tmat4<uint32_t>;
-	using mat4f = tmat4<float_t>;
+	using mat4f = tmat4<float32_t>;
 	using mat4d = tmat4<float64_t>;
 	using mat4	= mat4f;
 
@@ -224,7 +229,7 @@ namespace ml
 	using vec2b = tvec2<uint8_t>;
 	using vec2i = tvec2<int32_t>;
 	using vec2u = tvec2<uint32_t>;
-	using vec2f = tvec2<float_t>;
+	using vec2f = tvec2<float32_t>;
 	using vec2d = tvec2<float64_t>;
 	using vec2	= vec2f;
 
@@ -235,7 +240,7 @@ namespace ml
 	using vec3b = tvec3<uint8_t>;
 	using vec3i = tvec3<int32_t>;
 	using vec3u = tvec3<uint32_t>;
-	using vec3f = tvec3<float_t>;
+	using vec3f = tvec3<float32_t>;
 	using vec3d = tvec3<float64_t>;
 	using vec3	= vec3f;
 
@@ -246,10 +251,12 @@ namespace ml
 	using vec4b = tvec4<uint8_t>;
 	using vec4i = tvec4<int32_t>;
 	using vec4u = tvec4<uint32_t>;
-	using vec4f = tvec4<float_t>;
+	using vec4f = tvec4<float32_t>;
 	using vec4d = tvec4<float64_t>;
 	using vec4	= vec4f;
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -526,6 +533,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_MATRIX_HPP_

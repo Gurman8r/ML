@@ -11,32 +11,28 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	namespace impl
+	namespace detail
 	{
 		template <class T> struct cast_t final
 		{
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * */
 
-			template <
-				class U
-			> constexpr explicit cast_t(const U & value)
-				: m_value { static_cast<T>(value) }
+			using value_type = typename T;
+			
+			constexpr cast_t() = delete;
+
+			template <class U> constexpr explicit cast_t(const U & value) 
+				: m_value { static_cast<value_type>(value) }
 			{
 			}
 
-			constexpr T operator()() const
-			{
-				return m_value;
-			}
+			constexpr value_type operator()() const { return m_value; }
 
-			constexpr operator T() const
-			{
-				return (*this)();
-			}
+			constexpr operator value_type() const { return (*this)(); }
 
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * */
 
-		private: const T m_value;
+		private: const value_type m_value;
 		};
 	}
 
@@ -46,13 +42,24 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type		= typename T;
-		using cast		= typename impl::cast_t<type>;
-		using limits	= typename std::numeric_limits<type>;
+		using type	 = typename T;
+		using cast	 = typename detail::cast_t<type>;
+		using limits = typename std::numeric_limits<type>;
+		
+		constexpr type_t() = delete;
+
+		template <class U> constexpr explicit type_t(const U & value)
+			: m_value { cast(value) }
+		{
+		}
+
+		constexpr type operator()() const { return m_value; }
+
+		constexpr operator type() const { return (*this)(); }
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr type negative		{ cast( -1) };
+		static constexpr type minus_one		{ cast( -1) };
 		static constexpr type zero			{ cast(  0) };
 		static constexpr type one			{ cast(  1) };
 		static constexpr type two			{ cast(  2) };
@@ -98,25 +105,6 @@ namespace ml
 		static constexpr type deg2rad		{ pi / one_eighty };
 		static constexpr type rad2deg		{ one_eighty / pi };
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class U
-		> constexpr explicit type_t(const U & value)
-			: m_value { cast(value) }
-		{
-		}
-
-		constexpr type operator()() const
-		{
-			return m_value;
-		}
-
-		constexpr operator type() const
-		{
-			return (*this)();
-		}
-		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: const type m_value;

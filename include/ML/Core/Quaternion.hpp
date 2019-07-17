@@ -110,7 +110,7 @@ namespace ml
 			return alg::asin<value_type>(ML_CLAMP(
 				(type::two *
 					((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
-				type::negative,
+				type::minus_one,
 				type::one
 			));
 		}

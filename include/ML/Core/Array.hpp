@@ -336,7 +336,7 @@ namespace ml
 	> constexpr auto operator-(const Array<T, N> & lhs)
 		-> Array<T, N>
 	{
-		return (lhs * type_t<T>::negative);
+		return (lhs * type_t<T>::minus_one);
 	}
 
 	template <

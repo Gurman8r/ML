@@ -16,12 +16,12 @@ namespace ml
 	using Milliseconds	= typename ML_TIME_BASE<time_t, Milli>;				// 1	: 1000
 	using Seconds		= typename ML_TIME_BASE<time_t>;					// 1	: 1
 	using Kiloseconds	= typename ML_TIME_BASE<time_t, Kilo>;				// 1000 : 1
-	using Minutes		= typename ML_TIME_BASE<time_t, Ratio<60>>;			// s	* 60
-	using Hours			= typename ML_TIME_BASE<time_t, Ratio<3600>>;		// m	* 60
-	using Days			= typename ML_TIME_BASE<time_t, Ratio<86400>>;		// hr	* 24
-	using Weeks			= typename ML_TIME_BASE<time_t, Ratio<604800>>;		// d	* 7
-	using Months		= typename ML_TIME_BASE<time_t, Ratio<2419200>>;	// wk	* 4
-	using Years			= typename ML_TIME_BASE<time_t, Ratio<31536000>>;	// d	* 365
+	using Minutes		= typename ML_TIME_BASE<time_t, Ratio<60>>;			// sec	* 60
+	using Hours			= typename ML_TIME_BASE<time_t, Ratio<3600>>;		// min	* 60
+	using Days			= typename ML_TIME_BASE<time_t, Ratio<86400>>;		// hrs	* 24
+	using Weeks			= typename ML_TIME_BASE<time_t, Ratio<604800>>;		// days	* 7
+	using Months		= typename ML_TIME_BASE<time_t, Ratio<2419200>>;	// week	* 4
+	using Years			= typename ML_TIME_BASE<time_t, Ratio<31536000>>;	// days	* 365
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -30,22 +30,22 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			class Out, class Num, class Den = typename Num
-		> static constexpr Out delta_cast(const Num numerator, const Den denominator)
+			class T, class Num, class Den = typename Num
+		> static constexpr T delta_cast(const Num numerator, const Den denominator)
 		{
-			using OT = type_t<Out>;
-			const Out num { OT(numerator) };
-			const Out den { OT(denominator) };
-			return (((den > OT::zero) && (num < den)) ? (num / den) : OT::zero);
+			const T num { type_t<T>(numerator) };
+			const T den { type_t<T>(denominator) };
+			return (((den > type_t<T>::zero) && (num < den)) ? (num / den) : type_t<T>::zero);
 		}
 
 		template <
-			class Out, class Rep, class Per = typename Rep::period
-		> static constexpr Out delta_cast(const time_t value)
+			class T, class Rep, class Per = typename Rep::period
+		> static constexpr T delta_cast(const time_t value)
 		{
 			static_assert(type_t<time_t>::zero < Per::den, "period negative or zero");
-			using OT = type_t<Out>;
-			return OT(ML_TIME_CAST(Rep, (Nanoseconds)(value))) / OT(Per::den);
+			return 
+				type_t<T>(ML_TIME_CAST(Rep, (Nanoseconds)(value))) /
+				type_t<T>(Per::den);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -92,16 +92,11 @@ namespace ml
 		}
 
 		template <
-			class Out = typename float_t,
 			class Rep = typename Milliseconds,
 			class Per = typename Rep::period
-		> constexpr Out delta() const
+		> constexpr float_t delta() const
 		{
-			return alg::delta_cast<Out, Rep, Per>(m_count);
-			//using OT = type_t<Out>;
-			//using TT = type_t<time_t>;
-			//static_assert(TT::zero < Per::den, "period negative or zero");
-			//return OT(ML_TIME_CAST(Rep, base())) / OT(Per::den);
+			return alg::delta_cast<float_t, Rep, Per>(m_count);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

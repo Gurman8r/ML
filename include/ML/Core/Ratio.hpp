@@ -33,17 +33,16 @@ namespace ml
 	namespace alg
 	{
 		template <
-			class Out, int64_t Num, int64_t Den
-		> static constexpr Out ratio_cast(Out value, const Ratio<Num, Den> & r)
+			class T, int64_t Num, int64_t Den
+		> static constexpr T ratio_cast(T value, const Ratio<Num, Den> & r)
 		{
-			using OT = type_t<Out>;
-			const Out num { OT(r.num) };
-			const Out den { OT(r.den) };
-			return (((num == OT::one) && (den == OT::one))
+			const T num { type_t<T>(r.num) };
+			const T den { type_t<T>(r.den) };
+			return (((num == type_t<T>::one) && (den == type_t<T>::one))
 				? (value)
-				: (((num != OT::one) && (den == OT::one))
+				: (((num != type_t<T>::one) && (den == type_t<T>::one))
 					? (value * num)
-					: (((num == OT::one) && (den != OT::one))
+					: (((num == type_t<T>::one) && (den != type_t<T>::one))
 						? (value / den)
 						: (value * num / den)
 						)));

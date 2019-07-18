@@ -8,34 +8,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	enum { uninit }; // Used for zero initialization
-	
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	namespace impl
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		// Used to store static_cast in a reusable type.
-		template <
-			class T
-		> struct cast_static final
-		{
-			cast_static() = default;
-
-			template <
-				class U
-			> constexpr T operator()(const U & value) const noexcept
-			{
-				return static_cast<T>(value);
-			}
-		};
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Combines impl::cast_static with numerical constants.
+	// Combines static_cast with numerical constants.
 	template <
 		class T
 	> struct static_value final
@@ -43,7 +19,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using type				= typename std::decay<T>::type;
-		using cast				= typename impl::cast_static<type>;
 		using limits			= typename std::numeric_limits<type>;
 		using pointer			= typename type *;
 		using reference			= typename type &;
@@ -57,7 +32,7 @@ namespace ml
 		template <
 			class U
 		> constexpr explicit static_value(const U & value) noexcept
-			: m_value { cast()(value) }
+			: m_value { cast(value) }
 		{
 		}
 
@@ -65,27 +40,34 @@ namespace ml
 		{
 			return m_value;
 		}
+
+		template <
+			class U
+		> static constexpr type cast(const U & value) noexcept
+		{
+			return static_cast<type>(value);
+		}
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr type minus_one		{ cast()( -1) };
-		static constexpr type zero			{ cast()(  0) };
-		static constexpr type one			{ cast()(  1) };
-		static constexpr type two			{ cast()(  2) };
-		static constexpr type three			{ cast()(  3) };
-		static constexpr type four			{ cast()(  4) };
-		static constexpr type five			{ cast()(  5) };
-		static constexpr type six			{ cast()(  6) };
-		static constexpr type seven			{ cast()(  7) };
-		static constexpr type eight			{ cast()(  8) };
-		static constexpr type nine			{ cast()(  9) };
-		static constexpr type ten			{ cast()( 10) };
-		static constexpr type fourty_five	{ cast()( 45) };
-		static constexpr type sixty			{ cast()( 60) };
-		static constexpr type ninety		{ cast()( 90) };
-		static constexpr type one_hundred	{ cast()(100) };
-		static constexpr type one_eighty	{ cast()(180) };
-		static constexpr type three_sixty	{ cast()(360) };
+		static constexpr type minus_one		{ cast( -1) };
+		static constexpr type zero			{ cast(  0) };
+		static constexpr type one			{ cast(  1) };
+		static constexpr type two			{ cast(  2) };
+		static constexpr type three			{ cast(  3) };
+		static constexpr type four			{ cast(  4) };
+		static constexpr type five			{ cast(  5) };
+		static constexpr type six			{ cast(  6) };
+		static constexpr type seven			{ cast(  7) };
+		static constexpr type eight			{ cast(  8) };
+		static constexpr type nine			{ cast(  9) };
+		static constexpr type ten			{ cast( 10) };
+		static constexpr type fourty_five	{ cast( 45) };
+		static constexpr type sixty			{ cast( 60) };
+		static constexpr type ninety		{ cast( 90) };
+		static constexpr type one_hundred	{ cast(100) };
+		static constexpr type one_eighty	{ cast(180) };
+		static constexpr type three_sixty	{ cast(360) };
 
 		static constexpr type half			{ one / two };
 		static constexpr type third			{ one / three };
@@ -106,7 +88,7 @@ namespace ml
 		static constexpr type epsilon		{ limits::epsilon() };
 		static constexpr type half_epsilon	{ epsilon * half };
 
-		static constexpr type pi			{ cast()(3.14159265358979323846264338327L) };
+		static constexpr type pi			{ cast(3.14159265358979323846264338327L) };
 		static constexpr type two_pi		{ pi * two };
 		static constexpr type half_pi		{ pi * half };
 		static constexpr type quarter_pi	{ pi * quarter };
@@ -165,7 +147,7 @@ namespace ml
 		return (lhs > rhs) || (lhs == rhs);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_STATIC_VALUE_HPP_

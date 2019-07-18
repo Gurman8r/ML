@@ -6,6 +6,8 @@
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	Ostream & FMT::operator()(Ostream & out) const
 	{
 #ifdef ML_SYSTEM_WINDOWS
@@ -24,4 +26,6 @@ namespace ml
 #endif
 		return out;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

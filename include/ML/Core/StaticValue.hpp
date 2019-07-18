@@ -1,5 +1,5 @@
-#ifndef _ML_TYPE_HPP_
-#define _ML_TYPE_HPP_
+#ifndef _ML_CAST_HPP_
+#define _ML_CAST_HPP_
 
 #include <ML/Core/StandardLib.hpp>
 
@@ -7,59 +7,56 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	enum { uninit };
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	namespace detail
+	namespace impl
 	{
-		template <class T> struct cast_t final
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		// Used to store a static_cast within a reusable type.
+		template <
+			class T
+		> struct cast_static
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
+			constexpr cast_static() = delete;
 
-			using value_type = typename T;
-			
-			constexpr cast_t() = delete;
-
-			template <class U>
-			constexpr explicit cast_t(const U & value) 
-				: m_value { static_cast<value_type>(value) }
+			template <
+				class U
+			> constexpr explicit cast_static(const U & value) noexcept
+				: m_value { static_cast<T>(value) }
 			{
 			}
 
-			constexpr value_type operator()() const { return m_value; }
+			constexpr operator T() const noexcept
+			{ 
+				return m_value;
+			}
 
-			constexpr operator value_type() const { return (*this)(); }
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-		private: const value_type m_value;
-
-			/* * * * * * * * * * * * * * * * * * * * */
+		private: const T m_value;
 		};
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct type_t final
+	// Combines impl::cast_static<T> with default numerical constants.
+	template <
+		class T
+	> struct static_value final : public impl::cast_static<T>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type	 = typename std::decay<T>::type;
-		using cast	 = typename detail::cast_t<type>;
-		using limits = typename std::numeric_limits<type>;
-		
-		constexpr type_t() = delete;
+		using cast		= typename impl::cast_static<T>;
+		using limits	= typename std::numeric_limits<T>;
+		using type		= typename std::decay<T>::type;
 
-		template <class U> 
-		constexpr explicit type_t(const U & value)
-			: m_value { cast(value) }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class U
+		> constexpr explicit static_value(const U & value) noexcept
+			: cast { value }
 		{
 		}
-
-		constexpr type operator()() const { return m_value; }
-
-		constexpr operator type() const { return (*this)(); }
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -82,17 +79,17 @@ namespace ml
 		static constexpr type one_eighty	{ cast(180) };
 		static constexpr type three_sixty	{ cast(360) };
 
-		static constexpr type half			{ one	/ two	};
+		static constexpr type half			{ one	/ two };
 		static constexpr type third			{ one	/ three };
-		static constexpr type quarter		{ one	/ four	};
-		static constexpr type fifth			{ one	/ five	};
-		static constexpr type sixth			{ one	/ six	};
+		static constexpr type quarter		{ one	/ four };
+		static constexpr type fifth			{ one	/ five };
+		static constexpr type sixth			{ one	/ six };
 		static constexpr type seventh		{ one	/ seven };
 		static constexpr type eighth		{ one	/ eight };
-		static constexpr type ninth			{ one	/ nine	};
-		static constexpr type tenth			{ one	/ ten	};
+		static constexpr type ninth			{ one	/ nine };
+		static constexpr type tenth			{ one	/ ten };
 		static constexpr type two_thirds	{ two	/ three };
-		static constexpr type three_fourths	{ three / four	};
+		static constexpr type three_fourths	{ three / four };
 
 		static constexpr type infinity		{ limits::infinity() };
 		static constexpr type nan			{ limits::quiet_NaN() };
@@ -110,52 +107,48 @@ namespace ml
 		static constexpr type rad2deg		{ one_eighty / pi };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private: const type m_value;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T
-	> constexpr bool operator==(const type_t<T> & lhs, const type_t<T> & rhs)
+	> constexpr bool operator==(const static_value<T> & lhs, const static_value<T> & rhs)
 	{
-		return (lhs() == rhs());
+		return ((T)lhs == (T)rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator!=(const type_t<T> & lhs, const type_t<T> & rhs)
+	> constexpr bool operator!=(const static_value<T> & lhs, const static_value<T> & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator<(const type_t<T> & lhs, const type_t<T> & rhs)
+	> constexpr bool operator<(const static_value<T> & lhs, const static_value<T> & rhs)
 	{
-		return (lhs() < rhs());
+		return ((T)lhs < (T)rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator>(const type_t<T> & lhs, const type_t<T> & rhs)
+	> constexpr bool operator>(const static_value<T> & lhs, const static_value<T> & rhs)
 	{
 		return !(lhs < rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator<=(const type_t<T> & lhs, const type_t<T> & rhs)
+	> constexpr bool operator<=(const static_value<T> & lhs, const static_value<T> & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator>=(const type_t<T> & lhs, const type_t<T> & rhs)
+	> constexpr bool operator>=(const static_value<T> & lhs, const static_value<T> & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}
@@ -163,4 +156,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_TYPE_HPP_
+#endif // !_ML_CAST_HPP_

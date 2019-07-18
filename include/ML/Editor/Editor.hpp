@@ -34,8 +34,8 @@ namespace ml
 
 	private:
 		Explorer		m_explorer;
-		Dockspace	m_dockspace;
-		Browser		m_browser;
+		Dockspace		m_dockspace;
+		Browser			m_browser;
 		Profiler		m_profiler;
 		ResourceGui		m_resources;
 		Terminal		m_terminal;

@@ -31,7 +31,7 @@ namespace ml
 			class T, class Num, class Den = typename Num
 		> static constexpr T delta_cast(const Num numerator, const Den denominator)
 		{
-			using TT = type_t<T>;
+			using TT = static_value<T>;
 			const T num { TT(numerator) };
 			const T den { TT(denominator) };
 			return (((den > TT::zero) && (num < den)) ? (num / den) : TT::zero);
@@ -42,7 +42,7 @@ namespace ml
 		> static constexpr T delta_cast(const uint64_t value)
 		{
 			static_assert(0 < Per::den, "period negative or zero");
-			using TT = type_t<T>;
+			using TT = static_value<T>;
 			return TT(ML_duration_cast(Rep, (Nanoseconds)(value))) / TT(Per::den);
 		}
 
@@ -56,7 +56,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr Duration()
-			: m_count { type_t<uint64_t>::zero }
+			: m_count { static_value<uint64_t>::zero }
 		{
 		}
 
@@ -116,14 +116,14 @@ namespace ml
 			class T
 		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return (type_t<uint64_t>(lhs) == type_t<uint64_t>(Duration(rhs)));
+			return (static_value<uint64_t>(lhs) == static_value<uint64_t>(Duration(rhs)));
 		}
 
 		template <
 			class T
 		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return (type_t<uint64_t>(lhs) < type_t<uint64_t>(Duration(rhs)));
+			return (static_value<uint64_t>(lhs) < static_value<uint64_t>(Duration(rhs)));
 		}
 
 		template <
@@ -160,14 +160,14 @@ namespace ml
 			class T
 		> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
-			return Duration(type_t<uint64_t>(lhs) + type_t<uint64_t>(rhs));
+			return Duration(static_value<uint64_t>(lhs) + static_value<uint64_t>(rhs));
 		}
 
 		template <
 			class T
 		> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
-			return Duration(type_t<uint64_t>(lhs) - type_t<uint64_t>(rhs));
+			return Duration(static_value<uint64_t>(lhs) - static_value<uint64_t>(rhs));
 		}
 
 		template <

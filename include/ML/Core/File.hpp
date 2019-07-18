@@ -84,7 +84,7 @@ namespace ml
 				{
 					file.seekg(0, std::ios_base::end);
 
-					streamsize size;
+					std::streamsize size;
 					if ((size = file.tellg()) > 0)
 					{
 						file.seekg(0, std::ios_base::beg);

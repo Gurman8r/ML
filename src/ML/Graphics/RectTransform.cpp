@@ -45,7 +45,7 @@ namespace ml
 		if (m_changed)
 		{	m_changed = false;
 
-			float_t angle	= type_t<float_t>::deg2rad * m_rotation;
+			float_t angle	= static_value<float_t>::deg2rad * m_rotation;
 			float_t cosine	= std::cosf(angle);
 			float_t sine	= std::sinf(angle);
 			float_t sxc		= m_scale[0] * cosine;

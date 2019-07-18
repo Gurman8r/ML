@@ -8,7 +8,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T, size_t N
@@ -25,7 +25,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename T;
-		using type				= typename type_t<value_type>;
+		using cast_type			= typename static_value<value_type>;
 		using data_type			= typename value_type[Size];
 		using self_type			= typename Array<value_type, Size>;
 		using pointer			= typename value_type *;
@@ -339,7 +339,7 @@ namespace ml
 	> constexpr auto operator-(const Array<T, N> & lhs)
 		-> Array<T, N>
 	{
-		return (lhs * type_t<T>::minus_one);
+		return (lhs * static_value<T>::minus_one);
 	}
 
 	template <

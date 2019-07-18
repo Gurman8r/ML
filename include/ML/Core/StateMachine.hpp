@@ -15,8 +15,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using key_type		= typename Key;
 		using self_type		= typename StateMachine<Key, Args...>;
+		using key_type		= typename Key;
 		using fun_type		= typename key_type(*)(Args...);
 		using map_type		= typename HashMap<key_type, fun_type>;
 		using pair_type		= typename Pair<key_type, fun_type>;

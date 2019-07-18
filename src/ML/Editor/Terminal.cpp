@@ -55,7 +55,7 @@ namespace ml
 			this->printss(m_coutStr);
 		}
 
-		if (beginDraw(ImGuiWindowFlags_MenuBar))
+		if (beginDraw(ImGuiWindowFlags_None))
 		{
 			// Filter
 			static ImGuiTextFilter filter("-wrn");

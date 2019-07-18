@@ -1,7 +1,7 @@
 #ifndef _ML_TRIG_HPP_
 #define _ML_TRIG_HPP_
 
-#include <ML/Core/Type.hpp>
+#include <ML/Core/StaticValue.hpp>
 #include <gcem/gcem.hpp>
 
 namespace ml
@@ -63,21 +63,21 @@ namespace ml
 			class T, class Tx, class Ty
 		> static constexpr T acos2(const Tx & x, const Ty & y)
 		{
-			return type_t<T> { gcem::acos2<Tx, Ty>(x, y) };
+			return static_value<T> { gcem::acos2<Tx, Ty>(x, y) };
 		}
 
 		template <
 			class T, class Tx, class Ty
 		> static constexpr T asin2(const Tx & x, const Ty & y)
 		{
-			return type_t<T> { gcem::asin2<Tx, Ty>(x, y) };
+			return static_value<T> { gcem::asin2<Tx, Ty>(x, y) };
 		}
 
 		template <
 			class T, class Tx, class Ty
 		> static constexpr T atan2(const Tx & x, const Ty & y)
 		{
-			return type_t<T>{ gcem::atan2<Tx, Ty>(x, y) };
+			return static_value<T>{ gcem::atan2<Tx, Ty>(x, y) };
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

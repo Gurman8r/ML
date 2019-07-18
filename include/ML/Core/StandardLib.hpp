@@ -67,7 +67,7 @@ namespace ml
 
 	using float32_t = typename float;				// 4 bytes
 	using float64_t = typename double;				// 8 bytes
-	using float80_t = typename long double;			// 10 bytes (only in some compilers)
+	using float80_t = typename long double;			// 8 or 10 bytes (compiler dependant)
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -86,7 +86,7 @@ namespace ml
 	using hash_t	= typename uintmax_t;			// Hash Type
 	using intptr_t	= typename intmax_t;			// Int Pointer Type
 	using ptrdiff_t	= typename intmax_t;			// Pointer Difference Type
-	using size_t	= typename uintmax_t;			// Size Types
+	using size_t	= typename uintmax_t;			// Size Type
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
@@ -98,10 +98,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <class K, class V> using HashMap	= typename std::unordered_map	<K, V>;
+	template <class T>			using HashSet	= typename std::unordered_set	<T>;
 	template <class K, class V> using Map		= typename std::map				<K, V>;
 	template <class K, class V> using MultiMap	= typename std::multimap		<K, V>;
 	template <class K, class V> using Pair		= typename std::pair			<K, V>;
-	template <class T>			using HashSet	= typename std::unordered_set	<T>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -110,15 +110,13 @@ namespace ml
 		class Elem, class Traits
 	> using BasicOstream = typename std::basic_ostream<Elem, Traits>;
 
-	// Basic IstreamS
+	// Basic Istream
 	template <
 		class Elem, class Traits
 	> using BasicIstream = typename std::basic_istream<Elem, Traits>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using streamoff		= typename int64_t;				// Stream Offset
-	using streamsize	= typename int64_t;				// Stream Size
 	using Ostream		= typename std::ostream;		// Output Stream
 	using Istream		= typename std::istream;		// Input Stream
 	using Ofstream		= typename std::ofstream;		// Output File Stream 

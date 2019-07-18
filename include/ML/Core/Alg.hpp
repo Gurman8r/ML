@@ -1,7 +1,7 @@
 #ifndef _ML_ALG_HPP_
 #define _ML_ALG_HPP_
 
-#include <ML/Core/Type.hpp>
+#include <ML/Core/StaticValue.hpp>
 
 #define ML_MIN(l, r) ((l <= r) ? l : r)
 #define ML_MAX(l, r) ((l >= r) ? l : r)
@@ -9,6 +9,10 @@
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	enum { uninit }; // Used for zero initialization
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Bit Math
@@ -20,28 +24,31 @@ namespace ml
 			class T
 		> constexpr T bit_read(T value, T bit)
 		{
-			return ((value >> bit) & type_t<T>::one);
+			return ((value >> bit) & static_value<T>::one);
 		}
 
 		template <
 			class T
 		> constexpr T & bit_set(T & value, T bit)
 		{
-			return (value |= (type_t<T>::one << bit));
+			return (value |= (static_value<T>::one << bit));
 		}
 
 		template <
 			class T
 		> constexpr T & bit_clear(T & value, T bit)
 		{
-			return (value &= ~(type_t<T>::one << bit));
+			return (value &= ~(static_value<T>::one << bit));
 		}
 
 		template <
 			class T
 		> constexpr T & bit_write(T & value, T bit, T bitValue)
 		{
-			return (bitValue ? bit_set(value, bit) : bit_clear(value, bit));
+			return ((bitValue)
+				? alg::bit_set(value, bit) 
+				: alg::bit_clear(value, bit)
+			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -56,96 +63,97 @@ namespace ml
 
 		namespace impl
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			template <
 				class ... Ts
 			> struct sqrt;
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			template <> struct sqrt<size_t>
+			template <> struct sqrt<uintmax_t>
 			{
-				using type = typename type_t<size_t>;
+				using cast = typename static_value<uintmax_t>;
 
-				constexpr size_t operator()(size_t value) const
+				constexpr uintmax_t operator()(uintmax_t value) const
 				{
-					return sqrt {}(type::one, type::three, value);
+					return sqrt {}(cast::one, cast::three, value);
 				}
 
-				constexpr size_t operator()(size_t value, size_t curr, size_t prev) const
+				constexpr uintmax_t operator()(uintmax_t value, uintmax_t curr, uintmax_t prev) const
 				{
 					return ((value <= prev)
-						? sqrt {}(value + curr, curr + type::two, prev)
-						: ((curr >> type::one) - type::one)
+						? sqrt {}(value + curr, curr + cast::two, prev)
+						: ((curr >> cast::one) - cast::one)
 					);
 				}
 			};
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			template <> struct sqrt<float64_t>
 			{
-				using type = typename type_t<float64_t>;
+				using cast = typename static_value<float64_t>;
 
 				constexpr float64_t operator()(float64_t value, float64_t curr, float64_t prev) const
 				{
 					return ((curr == prev)
-					? curr
-					: sqrt {}(value, type::half * (curr + value / curr), curr));
+						? curr
+						: sqrt {}(value, cast::half * (curr + value / curr), curr)
+					);
 				}
 					
 				constexpr float64_t operator()(float64_t value) const
 				{
-					return ((value >= type::zero && value < type::infinity)
-					? sqrt {}(value, value, type::zero)
-					: type::nan);
+					return ((value >= cast::zero && value < cast::infinity)
+						? sqrt {}(value, value, cast::zero)
+						: cast::nan
+					);
 				}
 			};
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			template <
 				class To, class From
-			> struct sqrt<To, From> : sqrt<From>
+			> struct sqrt<To, From> : public sqrt<From>
 			{
 				template <
 					class U
 				> constexpr To operator()(const U & value) const
 				{
-					return type_t<To>(sqrt<From>()(type_t<From>(value)));
+					return static_value<To>(sqrt<From>{}(static_value<From>(value)));
 				}
 			};
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			template <> struct sqrt<intmax_t>
 			{
 				constexpr intmax_t operator()(intmax_t value) const
 				{
-					return sqrt<intmax_t, size_t>{}(value);
+					return sqrt<intmax_t, uintmax_t>{}(value);
 				}
 			};
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			template <> struct sqrt<float_t>
+			template <> struct sqrt<float32_t>
 			{
-				constexpr float_t operator()(float_t value) const
+				constexpr float32_t operator()(float32_t value) const
 				{
-					return sqrt<float_t, float64_t>{}(value);
+					return sqrt<float32_t, float64_t>{}(value);
 				}
 			};
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		}
 
 		template <
 			class T
-		> struct sqrt : impl::sqrt<T>
+		> struct sqrt : public alg::impl::sqrt<T>
 		{
-			using type = typename type_t<T>;
-			constexpr auto operator()(T value) const
+			constexpr T operator()(T value) const
 			{
 				return alg::impl::sqrt<T>{}(value);
 			}
@@ -166,11 +174,12 @@ namespace ml
 		> static constexpr auto sign(const T & value)
 			-> T
 		{
-			return ((value == type_t<T>::zero)
-				? type_t<T>::zero
-				: ((value < type_t<T>::zero)
-					? type_t<T>::minus_one
-					: type_t<T>::one));
+			return ((value == static_value<T>::zero)
+				? static_value<T>::zero
+				: ((value < static_value<T>::zero)
+					? static_value<T>::minus_one
+					: static_value<T>::one
+			));
 		}
 
 		template <
@@ -178,25 +187,29 @@ namespace ml
 		> static constexpr auto abs(const T & value)
 			-> T
 		{
-			return ((alg::sign(value) < type_t<T>::zero)
-				? (value * type_t<T>::minus_one)
-				: value);
+			return ((alg::sign(value) < static_value<T>::zero)
+				? (value * static_value<T>::minus_one)
+				: value
+			);
 		}
 
 		template <
-			class T, class E
-		> static constexpr auto pow(const T & base, const E & exp)
-			-> T
+			class B, class E
+		> static constexpr auto pow(const B & base, const E & exp)
+			-> B
 		{
-			return ((exp < type_t<E>::zero)
-				? ((base == type_t<T>::zero)
-					? type_t<T>::nan
-					: type_t<T>::one / (base * alg::pow(base, (-exp) - type_t<E>::one)))
-				: ((exp == type_t<E>::zero)
-					? type_t<T>::one
-					: ((exp == type_t<E>::one)
+			using TB = static_value<B>;
+			using TE = static_value<E>;
+			return ((exp < TE::zero)
+				? ((base == TB::zero)
+					? TB::nan
+					: TB::one / (base * alg::pow(base, (-exp) - TE::one)))
+				: ((exp == TE::zero)
+					? TB::one
+					: ((exp == TE::one)
 						? base
-						: base * alg::pow(base, exp - type_t<E>::one))));
+						: base * alg::pow(base, exp - TE::one)
+						)));
 		}
 
 		template <
@@ -204,9 +217,10 @@ namespace ml
 		> static constexpr auto fact(const T & value)
 			-> T
 		{
-			return ((value > type_t<T>::one)
-				? value * alg::fact(value - type_t<T>::one)
-				: type_t<T>::one);
+			return ((value > static_value<T>::one)
+				? value * alg::fact(value - static_value<T>::one)
+				: static_value<T>::one
+			);
 		}
 			
 		template <
@@ -248,7 +262,7 @@ namespace ml
 			class T, class C
 		> static constexpr T lerp(const T & a, const T & b, const C & coeff)
 		{
-			return (a * coeff + b * (type_t<C>::one - coeff));
+			return (a * coeff + b * (static_value<C>::one - coeff));
 		}
 
 		template <
@@ -396,18 +410,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			template <class, size_t ...> class A, class T, size_t ... N
-		> static constexpr void swap(A<T, N...> & lhs, A<T, N...> & rhs)
-		{
-			for (size_t i = 0; i < N; i++)
-			{
-				alg::swap(lhs[i], rhs[i]);
-			}
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
 			class T, size_t N
 		> static constexpr int32_t index_of(const T value, const T(&arr)[N])
 		{
@@ -420,8 +422,6 @@ namespace ml
 			}
 			return -1;
 		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T, size_t N
@@ -440,6 +440,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	// Matrices
 	namespace alg
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -448,7 +449,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T dot(const A<T, N...> & lhs, const A<T, N...> & rhs)
 		{
-			T temp { type_t<T>::zero };
+			T temp { uninit };
 			for (size_t i = 0; i < lhs.size(); i++)
 			{
 				temp += (lhs[i] * rhs[i]);
@@ -470,7 +471,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T sqr_magnitude(const A<T, N...> & value)
 		{
-			T temp { type_t<T>::zero };
+			T temp { static_value<T>::zero };
 			for (const auto & elem : value)
 			{
 				temp += (elem * elem);
@@ -482,7 +483,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T magnitude(const A<T, N...> & value)
 		{
-			return type_t<T> { sqrt<T> {}(sqr_magnitude(value)) };
+			return static_value<T> { sqrt<T> {}(alg::sqr_magnitude(value)) };
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -491,7 +492,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr A<T, N...> normalize(const A<T, N...> & value)
 		{
-			return (value / magnitude(value));
+			return (value / alg::magnitude(value));
 		}
 
 		template <
@@ -514,8 +515,8 @@ namespace ml
 			template <class, size_t, size_t> class M, class T
 		> static constexpr M<T, 4, 4> inverse(const M<T, 4, 4> & v)
 		{
-			const T det { determinant(v) };
-			return ((det != type_t<T>::zero)
+			const T det { alg::determinant(v) };
+			return ((det != static_value<T>::zero)
 			? M<T, 4, 4>
 			{	+(v[15] * v[5] - v[7] * v[13]) / det,
 				-(v[15] * v[4] - v[7] * v[12]) / det,
@@ -536,14 +537,14 @@ namespace ml
 		{
 			return M<T, 3, 3>
 			{
-				m[0] * v[0] + m[4] * v[3] + m[8] * v[6],
-				m[1] * v[0] + m[5] * v[3] + m[9] * v[6],
+				m[0] * v[0] + m[4] * v[3] + m[ 8] * v[6],
+				m[1] * v[0] + m[5] * v[3] + m[ 9] * v[6],
 				m[2] * v[0] + m[6] * v[3] + m[10] * v[6],
-				m[0] * v[1] + m[4] * v[4] + m[8] * v[7],
-				m[1] * v[1] + m[5] * v[4] + m[9] * v[7],
+				m[0] * v[1] + m[4] * v[4] + m[ 8] * v[7],
+				m[1] * v[1] + m[5] * v[4] + m[ 9] * v[7],
 				m[2] * v[1] + m[6] * v[4] + m[10] * v[7],
-				m[0] * v[2] + m[4] * v[5] + m[8] * v[8],
-				m[1] * v[2] + m[5] * v[5] + m[9] * v[8],
+				m[0] * v[2] + m[4] * v[5] + m[ 8] * v[8],
+				m[1] * v[2] + m[5] * v[5] + m[ 9] * v[8],
 				m[2] * v[2] + m[6] * v[5] + m[10] * v[8]
 			};
 		}
@@ -554,8 +555,8 @@ namespace ml
 		{
 			return M<T, 3, 1>
 			{
-				m[0] * v[0] * m[4] * v[1] * m[8] * v[2] * m[12],
-				m[1] * v[0] * m[5] * v[1] * m[9] * v[2] * m[13],
+				m[0] * v[0] * m[4] * v[1] * m[ 8] * v[2] * m[12],
+				m[1] * v[0] * m[5] * v[1] * m[ 9] * v[2] * m[13],
 				m[2] * v[0] * m[6] * v[1] * m[10] * v[2] * m[14]
 			};
 		}
@@ -592,28 +593,16 @@ namespace ml
 			const M<T, 3, 1> & up
 		)
 		{
+			using cast = static_value<T>;
 			const M<T, 3, 1> f = alg::normalize(center - eye);
 			const M<T, 3, 1> s = alg::normalize(alg::cross(f, up));
 			const M<T, 3, 1> u = alg::cross(s, f);
-			
-			M<T, 4, 4> m { uninit };
-			m[ 0] =  s[0];
-			m[ 1] =  u[0];
-			m[ 2] = -f[0];
-			m[ 3] =  type_t<T>::one;
-			m[ 4] =  s[1];
-			m[ 5] =  u[1];
-			m[ 6] = -f[1];
-			m[ 7] =  type_t<T>::one;
-			m[ 8] =  s[2];
-			m[ 9] =  u[2];
-			m[10] = -f[2];
-			m[11] =  type_t<T>::one;
-			m[12] = -alg::dot(s, eye);
-			m[13] = -alg::dot(u, eye);
-			m[14] =  alg::dot(f, eye); 
-			m[15] =  type_t<T>::one;
-			return m;
+			return M<T, 4, 4> { 
+				s[0], u[0], -f[0], cast::one, 
+				s[1], u[1], -f[1], cast::one, 
+				s[2], u[2], -f[2], cast::one, 
+				-alg::dot(s, eye), -alg::dot(u, eye), alg::dot(f, eye), cast::one
+			};
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

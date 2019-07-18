@@ -209,11 +209,10 @@
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Trig.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Trigger.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Type.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Worker.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />

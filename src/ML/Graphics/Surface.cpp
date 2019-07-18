@@ -70,20 +70,18 @@ namespace ml
 					m_rbo.unbind();
 
 					// Check Framebuffer Status
-					if (!ML_GL.checkFramebufferStatus(GL::Framebuffer))
+					if (ML_GL.checkFramebufferStatus(GL::Framebuffer))
 					{
-						return Debug::logError("Framebuffer is not complete");
+						// Create Texture
+						m_texture.dispose();
+						m_texture.create(size);
+						m_fbo.setTexture(
+							(m_attachment),
+							(*m_texture),
+							(m_texture.target()),
+							(m_texture.level())
+						);
 					}
-
-					// Setup Texture
-					m_texture.dispose();
-					m_texture.create(size);
-					m_fbo.setTexture(
-						(m_attachment),
-						(*m_texture),
-						(m_texture.target()),
-						(m_texture.level())
-					);
 				}
 				m_fbo.unbind();
 

@@ -42,8 +42,8 @@ static StateMachine<State> g_ControlFlow
 	/* Enter */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(EnterEvent(
-		g_Time,
-		g_Preferences,
+		g_Time, 
+		g_Preferences, 
 		g_Window
 	));
 
@@ -57,9 +57,10 @@ static StateMachine<State> g_ControlFlow
 	/* Start */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(StartEvent(
-		g_Time,
+		g_Time, 
 		g_Window
 	));
+
 	return g_ControlFlow(State::MainLoop);
 } },
 { State::MainLoop, []()
@@ -69,21 +70,21 @@ static StateMachine<State> g_ControlFlow
 		/* Begin Frame */
 		/* * * * * * * * * * * * * * * * * * * * */
 		g_EventSystem.fireEvent(BeginFrameEvent(
-			g_Time, 
+			g_Time,
 			g_Window
 		));
 
 		/* Update */
 		/* * * * * * * * * * * * * * * * * * * * */
 		g_EventSystem.fireEvent(UpdateEvent(
-			g_Time,
+			g_Time, 
 			g_Window
 		));
 
 		/* Draw */
 		/* * * * * * * * * * * * * * * * * * * * */
 		g_EventSystem.fireEvent(BeginDrawEvent(
-			g_Time,
+			g_Time, 
 			g_Window
 		));
 		g_EventSystem.fireEvent(DrawEvent(
@@ -91,21 +92,23 @@ static StateMachine<State> g_ControlFlow
 			g_Window
 		));
 		g_EventSystem.fireEvent(EndDrawEvent(
-			g_Time,
+			g_Time, 
 			g_Window
 		));
 
 		/* Gui */
 		/* * * * * * * * * * * * * * * * * * * * */
 		g_EventSystem.fireEvent(BeginGuiEvent(
-			g_Time
+			g_Time, 
+			g_Editor
 		));
 		g_EventSystem.fireEvent(GuiEvent(
-			g_Time,
+			g_Time, 
 			g_Editor
 		));
 		g_EventSystem.fireEvent(EndGuiEvent(
-			g_Time
+			g_Time,
+			g_Editor
 		));
 
 		/* End Frame */
@@ -122,7 +125,7 @@ static StateMachine<State> g_ControlFlow
 	/* Unload */
 	/* * * * * * * * * * * * * * * * * * * * */
 	g_EventSystem.fireEvent(UnloadEvent(
-		g_Time,
+		g_Time, 
 		g_Window
 	));
 
@@ -131,6 +134,7 @@ static StateMachine<State> g_ControlFlow
 	g_EventSystem.fireEvent(ExitEvent(
 		g_Time
 	));
+
 	return g_ControlFlow(State::Exit);
 } },
 };

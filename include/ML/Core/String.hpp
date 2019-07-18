@@ -293,11 +293,11 @@ namespace ml
 
 		inline self_type & trim()
 		{
-			auto is_whitespace = [&](value_type e)
+			auto is_whitespace = [&](const_reference c)
 			{
 				return !this->empty() && (
-					(e == static_cast<value_type>(' ')) ||
-					(e == static_cast<value_type>('\t'))
+					(c == static_cast<value_type>(' ')) ||
+					(c == static_cast<value_type>('\t'))
 				);
 			};
 			while (is_whitespace(this->front())) this->pop_front();

@@ -36,14 +36,14 @@ namespace ml
 			class T, int64_t Num, int64_t Den
 		> static constexpr T ratio_cast(T value, const Ratio<Num, Den> & r)
 		{
-			using TT = static_value<T>;
-			const T num { TT(r.num) };
-			const T den { TT(r.den) };
-			return (((num == TT::one) && (den == TT::one))
+			using cast = static_value<T>;
+			const T num { cast(r.num) };
+			const T den { cast(r.den) };
+			return (((num == cast::one) && (den == cast::one))
 				? (value)
-				: (((num != TT::one) && (den == TT::one))
+				: (((num != cast::one) && (den == cast::one))
 					? (value * num)
-					: (((num == TT::one) && (den != TT::one))
+					: (((num == cast::one) && (den != cast::one))
 						? (value / den)
 						: (value * num / den)
 						)));

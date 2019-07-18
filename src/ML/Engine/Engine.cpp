@@ -239,9 +239,9 @@ namespace ml
 	{
 		// Update Uniforms
 		m_cursorPos = (vec2)ev.window.getCursorPos();
-		m_deltaTime = ev.time.elapsed().delta<Milliseconds>();
+		m_deltaTime = ev.time.elapsed().delta<Millisec>();
 		m_frameCount++;
-		m_totalTime = ev.time.total().delta<Milliseconds>();
+		m_totalTime = ev.time.total().delta<Millisec>();
 		m_resolution = (vec2)ev.window.getSize();
 
 		// Update Window Title

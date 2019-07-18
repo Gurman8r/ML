@@ -11,10 +11,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum { uninit }; // Used for zero initialization
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	// Bit Math
 	namespace alg
 	{
@@ -276,6 +272,18 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class T, class Num, class Den = typename Num
+		> static constexpr T delta_cast(const Num numerator, const Den denominator)
+		{
+			using cast = static_value<T>;
+			const T num { cast(numerator) };
+			const T den { cast(denominator) };
+			return (((den > cast::zero) && (num < den)) ? (num / den) : cast::zero);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

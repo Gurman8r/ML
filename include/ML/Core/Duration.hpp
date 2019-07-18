@@ -10,44 +10,29 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using Nanoseconds	= typename std::chrono::duration<uint64_t,  Nano>;
-	using Microseconds	= typename std::chrono::duration<uint64_t,  Micro>;
-	using Milliseconds	= typename std::chrono::duration<uint64_t,  Milli>;
-	using Seconds		= typename std::chrono::duration<uint64_t,  Ratio<1>>;		   	
-	using Minutes		= typename std::chrono::duration<uint64_t,  Ratio<60>>;	   	
-	using Hours			= typename std::chrono::duration<uint64_t,  Ratio<3600>>;	   	
-	using Days			= typename std::chrono::duration<uint64_t,  Ratio<86400>>;	   
-	using Weeks			= typename std::chrono::duration<uint64_t,  Ratio<604800>>;   
-	using Months		= typename std::chrono::duration<uint64_t,  Ratio<2419200>>;  
-	using Years			= typename std::chrono::duration<uint64_t,  Ratio<31536000>>; 
+	namespace detail
+	{
+		using Seconds	= Ratio< 1 >;
+		using Minutes	= Ratio< Seconds::num	* 60>;
+		using Hours		= Ratio< Minutes::num	* 60>;
+		using Days		= Ratio< Hours::num		* 24>;
+		using Weeks		= Ratio< Days::num		* 7>;
+		using Months	= Ratio< Weeks::num		* 4>; // FIXME: 28
+		using Years		= Ratio< Days::num		* 365>;
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	namespace alg
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class T, class Num, class Den = typename Num
-		> static constexpr T delta_cast(const Num numerator, const Den denominator)
-		{
-			using TT = static_value<T>;
-			const T num { TT(numerator) };
-			const T den { TT(denominator) };
-			return (((den > TT::zero) && (num < den)) ? (num / den) : TT::zero);
-		}
-
-		template <
-			class T, class Rep, class Per = typename Rep::period
-		> static constexpr T delta_cast(const uint64_t value)
-		{
-			static_assert(0 < Per::den, "period negative or zero");
-			using TT = static_value<T>;
-			return TT(ML_duration_cast(Rep, (Nanoseconds)(value))) / TT(Per::den);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	}
+	using Nanosec	= typename std::chrono::duration<uint64_t,  Nano>;
+	using Microsec	= typename std::chrono::duration<uint64_t,  Micro>;
+	using Millisec	= typename std::chrono::duration<uint64_t,  Milli>;
+	using Seconds	= typename std::chrono::duration<uint64_t,  detail::Seconds>;		   	
+	using Minutes	= typename std::chrono::duration<uint64_t,  detail::Minutes>;	   	
+	using Hours		= typename std::chrono::duration<uint64_t,  detail::Hours>;	   	
+	using Days		= typename std::chrono::duration<uint64_t,  detail::Days>;	   
+	using Weeks		= typename std::chrono::duration<uint64_t,  detail::Weeks>;   
+	using Months	= typename std::chrono::duration<uint64_t,  detail::Months>;
+	using Years		= typename std::chrono::duration<uint64_t,  detail::Years>; 
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -55,60 +40,65 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		using type = typename uint64_t;
+		using unit = typename Nanosec;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		constexpr Duration()
-			: m_count { static_value<uint64_t>::zero }
+			: m_base { uninit }
 		{
 		}
 
-		constexpr Duration(const uint64_t value)
-			: m_count { value }
+		constexpr Duration(const type value)
+			: m_base { value }
 		{
 		}
 
 		constexpr Duration(const Duration & copy)
-			: m_count { copy.m_count }
+			: m_base { copy.m_base }
 		{
 		}
 
 		template <
-			class Rep, class Per
+			class Rep, class Per = typename Rep::period
 		> constexpr Duration(const std::chrono::duration<Rep, Per> & value)
-			: m_count { ML_duration_cast(Nanoseconds, value) }
+			: m_base { ML_duration_cast(unit, value) }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		constexpr Nanoseconds base() const 
+		constexpr operator type() const
 		{ 
-			return static_cast<Nanoseconds>(m_count);
-		}
-
-		constexpr operator uint64_t() const
-		{
-			return m_count; 
-		}
-
-		template <
-			class Rep = typename Milliseconds,
-			class Per = typename Rep::period
-		> constexpr float_t delta() const
-		{
-			return alg::delta_cast<float_t, Rep, Per>(m_count);
+			return m_base; 
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr uint64_t nanos	() const { return ML_duration_cast(Nanoseconds, base()); }
-		constexpr uint64_t micros	() const { return ML_duration_cast(Microseconds, base()); }
-		constexpr uint64_t millis	() const { return ML_duration_cast(Milliseconds, base()); }
-		constexpr uint64_t seconds	() const { return ML_duration_cast(Seconds, base()); }
-		constexpr uint64_t minutes	() const { return ML_duration_cast(Minutes, base()); }
-		constexpr uint64_t hours	() const { return ML_duration_cast(Hours, base()); }
-		constexpr uint64_t days		() const { return ML_duration_cast(Days, base()); }
-		constexpr uint64_t weeks	() const { return ML_duration_cast(Weeks, base()); }
-		constexpr uint64_t months	() const { return ML_duration_cast(Months, base()); }
-		constexpr uint64_t years	() const { return ML_duration_cast(Years, base()); }
+		constexpr unit base		() const { return static_cast<Nanosec>(m_base); }
+		constexpr type nanos	() const { return ML_duration_cast(Nanosec,	base()); }
+		constexpr type micros	() const { return ML_duration_cast(Microsec,base()); }
+		constexpr type millis	() const { return ML_duration_cast(Millisec,base()); }
+		constexpr type seconds	() const { return ML_duration_cast(Seconds, base()); }
+		constexpr type minutes	() const { return ML_duration_cast(Minutes, base()); }
+		constexpr type hours	() const { return ML_duration_cast(Hours,	base()); }
+		constexpr type days		() const { return ML_duration_cast(Days,	base()); }
+		constexpr type weeks	() const { return ML_duration_cast(Weeks,	base()); }
+		constexpr type months	() const { return ML_duration_cast(Months,	base()); }
+		constexpr type years	() const { return ML_duration_cast(Years,	base()); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		template <
+			class Rep = typename Millisec,
+			class Per = typename Rep::period
+		> constexpr float_t delta() const
+		{
+			static_assert(0 < Per::den, "period negative or zero");
+			using cast = static_value<float_t>;
+			return cast(ML_duration_cast(Rep, base())) / cast(Per::den);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -116,14 +106,14 @@ namespace ml
 			class T
 		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return (static_value<uint64_t>(lhs) == static_value<uint64_t>(Duration(rhs)));
+			return ((type)(lhs) == (type)(Duration(rhs)));
 		}
 
 		template <
 			class T
 		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return (static_value<uint64_t>(lhs) < static_value<uint64_t>(Duration(rhs)));
+			return ((type)(lhs) < (type)(Duration(rhs)));
 		}
 
 		template <
@@ -160,14 +150,14 @@ namespace ml
 			class T
 		> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
-			return Duration(static_value<uint64_t>(lhs) + static_value<uint64_t>(rhs));
+			return Duration((type)(lhs) + (type)(rhs));
 		}
 
 		template <
 			class T
 		> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
-			return Duration(static_value<uint64_t>(lhs) - static_value<uint64_t>(rhs));
+			return Duration((type)(lhs) - (type)(rhs));
 		}
 
 		template <
@@ -186,7 +176,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: uint64_t m_count; // nanoseconds
+	private: type m_base; // nanoseconds
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -195,32 +185,29 @@ namespace ml
 
 	inline ML_SERIALIZE(Ostream & out, const Duration & value)
 	{
+		const auto hr	= value.hours();
+		const auto m	= value.minutes();
+		const auto s	= value.seconds();
+		const auto ms	= value.millis();
 		return out
-			<< (((value.hours() % 24) / 10) % 10)
-			<< ((value.hours() % 24) % 10)
-			<< ':'
-			<< (((value.minutes() % 60) / 10) % 10)
-			<< ((value.minutes() % 60) % 10)
-			<< ':'
-			<< (((value.seconds() % 60) / 10) % 10)
-			<< ((value.seconds() % 60) % 10)
-			<< ':'
-			<< ((value.millis() % 1000) / 100)
-			<< ((value.millis() % 100) / 10);
+			<< (((hr % 24) / 10) % 10)	<< ((hr % 24) % 10) << ':'
+			<< (((m % 60) / 10) % 10)	<< ((m % 60) % 10)	<< ':'
+			<< (((s % 60) / 10) % 10)	<< ((s % 60) % 10)	<< ':'
+			<< ((ms % 1000) / 100)		<< ((ms % 100) / 10);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	constexpr Duration operator "" _ns	(uint64_t value) { return Nanoseconds	{ value }; }
-	constexpr Duration operator "" _us	(uint64_t value) { return Microseconds	{ value }; }
-	constexpr Duration operator "" _ms	(uint64_t value) { return Milliseconds	{ value }; }
-	constexpr Duration operator "" _s	(uint64_t value) { return Seconds		{ value }; }
-	constexpr Duration operator "" _min	(uint64_t value) { return Minutes		{ value }; }
-	constexpr Duration operator "" _hr	(uint64_t value) { return Hours			{ value }; }
-	constexpr Duration operator "" _d	(uint64_t value) { return Days			{ value }; }
-	constexpr Duration operator "" _wk	(uint64_t value) { return Weeks			{ value }; }
-	constexpr Duration operator "" _mo	(uint64_t value) { return Months		{ value }; }
-	constexpr Duration operator "" _yr	(uint64_t value) { return Years			{ value }; }
+	constexpr Duration operator "" _ns	(uint64_t value) { return Nanosec	{ value }; }
+	constexpr Duration operator "" _us	(uint64_t value) { return Microsec	{ value }; }
+	constexpr Duration operator "" _ms	(uint64_t value) { return Millisec	{ value }; }
+	constexpr Duration operator "" _s	(uint64_t value) { return Seconds	{ value }; }
+	constexpr Duration operator "" _m	(uint64_t value) { return Minutes	{ value }; }
+	constexpr Duration operator "" _hr	(uint64_t value) { return Hours		{ value }; }
+	constexpr Duration operator "" _d	(uint64_t value) { return Days		{ value }; }
+	constexpr Duration operator "" _wk	(uint64_t value) { return Weeks		{ value }; }
+	constexpr Duration operator "" _mo	(uint64_t value) { return Months	{ value }; }
+	constexpr Duration operator "" _yr	(uint64_t value) { return Years		{ value }; }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

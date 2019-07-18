@@ -46,16 +46,13 @@ namespace ml
 
 	MemoryTracker::~MemoryTracker() 
 	{
-		if (Debug::log("Deleting Memory Tracker...") && (!m_records.empty()))
+		if (!m_records.empty())
 		{
 			Debug::logError("Final allocations follow:");
 
 			for (const auto & pair : m_records)
 			{
-				cerr
-					<< (*pair.second->object)
-					//<< typeid(pair.second->object).name() 
-					<< " | " << pair.second << endl;
+				cerr << (*pair.second->object) << " | " << pair.second << endl;
 			}
 			
 #if ML_DEBUG

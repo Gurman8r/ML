@@ -1,7 +1,7 @@
 #ifndef _ML_HASH_HPP_
 #define _ML_HASH_HPP_
 
-#include <ML/Core/StaticValue.hpp>
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {
@@ -11,8 +11,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr hash_t basis { static_value<hash_t>(14695981039346656037ULL) };
-		static constexpr hash_t prime { static_value<hash_t>(1099511628211ULL) };
+		static constexpr hash_t basis { static_cast<hash_t>(14695981039346656037ULL) };
+		static constexpr hash_t prime { static_cast<hash_t>(1099511628211ULL) };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -22,7 +22,7 @@ namespace ml
 		{
 			return ((size > 0)
 				? (*this)(
-					(size - 1), (arr + 1), (seed ^ static_value<hash_t>(*arr)) * prime)
+					(size - 1), (arr + 1), (seed ^ static_cast<hash_t>(*arr)) * prime)
 				: seed
 			);
 		}

@@ -60,9 +60,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorGui.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -99,6 +96,9 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Terminal.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_widgets.cpp">
@@ -120,9 +120,6 @@
       <Filter>Resource Files\ImGui\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorGui.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorUtility.cpp">
@@ -154,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Terminal.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

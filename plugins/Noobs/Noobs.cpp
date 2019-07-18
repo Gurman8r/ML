@@ -917,9 +917,11 @@ namespace ml
 					ImGui::OpenPopup("Worker##Popup##Noobs");
 
 					// Launch Thread
-					if (noobs.worker.launch(100, [&]()
+					noobs.worker.launch(100, [&]()
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
+
+						Debug::log("Loading...");
 
 						for (size_t i = 0; noobs.worker.working(); i++)
 						{
@@ -932,20 +934,14 @@ namespace ml
 
 							// Do the thing, record the result, increment the counter.
 							noobs.worker.process(
-								dummy_load, String("Example{0}.txt").format(i)
+								dummy_load, String("Example_{0}.txt").format(i)
 							);
 						}
+
 						Debug::log("Done loading.");
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					}))
-					{
-						Debug::log("Loading...");
-					}
-					else
-					{
-						Debug::logError("Failed loading?");
-					}
+					});
 				}
 				else
 				{

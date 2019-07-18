@@ -89,13 +89,6 @@ namespace ml
 		constexpr auto center	(const coord_type & value)	-> self_type & { return position(value - (size() / cast_type::two)); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
-		constexpr operator base_type() const
-		{
-			return base_type { (*this)[0], (*this)[1], (*this)[2], (*this)[3] };
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

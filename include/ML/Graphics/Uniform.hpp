@@ -1,5 +1,5 @@
-#ifndef _ML_UNI_HPP_
-#define _ML_UNI_HPP_
+#ifndef _ML_UNIFORM_HPP_
+#define _ML_UNIFORM_HPP_
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Core/Rect.hpp>
@@ -105,19 +105,18 @@ namespace ml
 	// Generic Uniform
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <
-		class	_Elem,
-		int32_t _Type
+		class T, int32_t I
 	> struct uni_t : public Uniform
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		using value_type	= typename _Elem;
-		using self_type		= typename uni_t<value_type, _Type>;
+		using value_type	= typename T;
+		using self_type		= typename uni_t<value_type, I>;
 		using base_type		= typename Uniform;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		enum : int32_t { ID = _Type };
+		enum : int32_t { ID = I };
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -322,4 +321,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_UNI_HPP_
+#endif // !_ML_UNIFORM_HPP_

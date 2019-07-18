@@ -38,11 +38,11 @@ namespace ml
 		void onExit			(const ExitEvent & ev);
 
 	public:
-		inline auto cursorPos()		const -> const vec2 &		{ return m_cursorPos; }
-		inline auto deltaTime()		const -> const float_t &	{ return m_deltaTime; }
-		inline auto frameCount()	const -> const int32_t &	{ return m_frameCount; }
-		inline auto resolution()	const -> const vec2 &		{ return m_resolution; }
-		inline auto totalTime()		const -> const float_t &	{ return m_totalTime; }
+		inline auto cursorPos	() const -> const vec2 &	{ return m_cursorPos; }
+		inline auto deltaTime	() const -> const float_t &	{ return m_deltaTime; }
+		inline auto frameCount	() const -> const int32_t &	{ return m_frameCount; }
+		inline auto resolution	() const -> const vec2 &	{ return m_resolution; }
+		inline auto totalTime	() const -> const float_t &	{ return m_totalTime; }
 
 	private:
 		String	m_bootScript;

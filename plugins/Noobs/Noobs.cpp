@@ -981,7 +981,7 @@ namespace ml
 				}
 				else
 				{ 
-					Debug::logError("Failed disposing noobs.worker?");
+					Debug::logError("Failed disposing worker?");
 				}
 			}
 		};

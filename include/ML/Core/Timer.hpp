@@ -39,24 +39,30 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool paused() const { return m_paused; }
-
-		inline auto elapsed() const -> const Duration &
+		inline bool paused() const
 		{
-			return (m_paused ? m_elapsed : (m_elapsed = (m_clock.now() - m_prev)));
+			return m_paused;
+		}
+
+		inline const Duration & elapsed() const
+		{
+			return (m_paused 
+				? (m_elapsed)
+				: (m_elapsed = (m_clock.now() - m_prev))
+			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Timer & pause(bool paused)
+		inline Timer & pause(bool value)
 		{
-			if (paused && !m_paused)
+			if (value && !m_paused)
 			{
 				m_paused = true;
 				m_next = m_clock.now();
 				m_elapsed = (m_next - m_prev);
 			}
-			else if (!paused && m_paused)
+			else if (!value && m_paused)
 			{
 				m_paused = false;
 				m_prev = m_clock.now();

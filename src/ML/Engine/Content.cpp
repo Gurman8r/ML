@@ -17,25 +17,21 @@ namespace ml
 
 	bool Content::dispose()
 	{
-		if (!m_data.empty())
+		// Delete Type Maps
+		for (auto & tp : m_data)
 		{
-			for (auto & tp : m_data)
+			// Delete Object Containers
+			for (auto & obj : tp.second)
 			{
-				if (!tp.second.empty())
+				if (obj.second)
 				{
-					for (auto & pair : tp.second)
-					{
-						if (pair.second)
-						{
-							delete pair.second;
-							pair.second = nullptr;
-						}
-					}
-					tp.second.clear();
+					delete obj.second;
+					obj.second = nullptr;
 				}
 			}
-			m_data.clear();
+			tp.second.clear();
 		}
+		m_data.clear();
 		return m_data.empty();
 	}
 
@@ -117,10 +113,8 @@ namespace ml
 			case AssetImporter<	Surface	>::id	: return AssetImporter<	Surface	>()(md);
 			case AssetImporter<	Texture	>::id	: return AssetImporter<	Texture	>()(md);
 			case AssetImporter<	Uniform	>::id	: return AssetImporter<	Uniform	>()(md);
-			default:
-				return false;
 		}
-
+		return false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

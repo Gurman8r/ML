@@ -30,7 +30,7 @@ namespace ml
 		if (ML_EditorUtility.StringCombo(
 			label.c_str(),
 			index,
-			ML_Content.keys<T>()
+			ML_Content.getKeys<T>()
 		))
 		{
 			return (value = ML_Content.getByIndex<T>(index));

@@ -51,6 +51,9 @@
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\AssetContainer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">

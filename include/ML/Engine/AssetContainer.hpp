@@ -2,6 +2,7 @@
 #define _ML_ASSET_CONTAINER_HPP_
 
 #include <ML/Core/I_Newable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
@@ -22,8 +23,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		int32_t flags	{ 0 };
-		pointer object	{ nullptr };
+		String	name;
+		pointer obj;
+		int32_t flags;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -31,34 +33,37 @@ namespace ml
 
 		template <
 			class T
-		> explicit AssetContainer(int32_t flags, T * object)
-			: flags  { flags }
-			, object { static_cast<pointer>(object) }
+		> explicit AssetContainer(const String & name, T * obj, int32_t flags = 0)
+			: name	{ name }
+			, obj	{ static_cast<pointer>(obj) }
+			, flags { flags }
 		{
-		}
+			static_assert(
+				std::is_base_of<I_Newable, T>::value,
+				"Asset containers must contain I_Newable objects."
+			);
 
-		template <
-			class T
-		> explicit AssetContainer(T * object)
-			: AssetContainer { 0, object }
-		{
+			static_assert(
+				!std::is_base_of<AssetContainer, T>::value, 
+				"Cannot contstruct nested AssetContainers."
+			);
 		}
 
 		~AssetContainer()
 		{ 
-			if (object)
+			if (obj)
 			{
-				delete object;
-				object = nullptr;
+				delete obj;
+				obj = nullptr;
 			}
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline pointer			operator->()		{ return object; }
-		inline pointer			operator *()		{ return object; }
-		inline const_pointer	operator->() const	{ return object; }
-		inline const_pointer	operator *() const	{ return object; }
+		inline pointer			operator->()		{ return obj; }
+		inline pointer			operator *()		{ return obj; }
+		inline const_pointer	operator->() const	{ return obj; }
+		inline const_pointer	operator *() const	{ return obj; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

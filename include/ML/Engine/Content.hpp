@@ -75,8 +75,8 @@ namespace ml
 		{
 			object_map & d = this->data<T>();
 			return static_cast<T *>(d.insert({ 
-				name, new AssetContainer { value }
-				}).first->second->object
+				name, new AssetContainer { name, value, 0 }
+				}).first->second->obj
 			);
 		}
 		
@@ -117,7 +117,7 @@ namespace ml
 			object_map & d = this->data<T>();
 			object_map::const_iterator it;
 			return (((it = d.find(value)) != d.end())
-				? static_cast<const T *>(it->second->object)
+				? static_cast<const T *>(it->second->obj)
 				: static_cast<T *>(nullptr)
 			);
 		}
@@ -129,7 +129,7 @@ namespace ml
 			object_map & d = this->data<T>();
 			object_map::iterator it;
 			return (((it = d.find(value)) != d.end())
-				? static_cast<T *>(it->second->object)
+				? static_cast<T *>(it->second->obj)
 				: static_cast<T *>(nullptr)
 			);
 		}
@@ -173,7 +173,7 @@ namespace ml
 		{
 			object_map::const_iterator it;
 			return (((it = this->getIterAt<T>(value)) != this->data<T>().end())
-				? static_cast<const T *>(it->second->object)
+				? static_cast<const T *>(it->second->obj)
 				: nullptr
 			);
 		}
@@ -185,7 +185,7 @@ namespace ml
 			int32_t index = 0;
 			for (const auto & pair : this->data<T>())
 			{
-				if (pair.second->object == value)
+				if (pair.second->obj == value)
 				{
 					return index;
 				}

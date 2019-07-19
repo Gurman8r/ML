@@ -36,7 +36,7 @@ namespace ml
 			if (!pair.second) continue;
 			if (ImGui::TreeNode(pair.first.c_str()))
 			{
-				PropertyDrawer<T>()(pair.first, (T &)(*(pair.second->object)));
+				PropertyDrawer<T>()(pair.first, (T &)(*(pair.second->obj)));
 				ImGui::TreePop();
 			}
 			ImGui::Separator();

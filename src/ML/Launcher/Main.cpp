@@ -68,9 +68,7 @@ int32_t main()
 {
 	// Load Plugins
 	if (Ifstream file { ML_FS.pathTo(g_Preferences.GetString(
-		"Launcher",
-		"plugin_list",
-		"../../../assets/plugins.txt"
+		"Launcher", "plugin_list", String()
 	)) })
 	{	
 		String line;

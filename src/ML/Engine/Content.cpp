@@ -36,34 +36,30 @@ namespace ml
 
 	bool Content::loadFromFile(const String & filename)
 	{
-		if (!filename) return false;
-
-		size_t errors = 0;
+		List<Metadata *> list;
 		SStream file;
 		if (ML_FS.getFileContents(filename, file))
 		{
 			String line;
 			while (std::getline(file, line))
 			{
-				Metadata temp;
-				if (readMetadata(temp, file, line))
+				if (Metadata * data = readMetadata(file, line))
 				{
-					errors += !parseMetadata(temp);
+					list.push_back(data);
 				}
 			}
 		}
-		return (errors == 0);
+		return parseMetadataList(list);
 	}
 
-	bool Content::readMetadata(Metadata & data, Istream & file, String & line) const
+	Metadata * Content::readMetadata(Istream & file, String & line) const
 	{
-		if (line.empty() || (line.trim().front() == '#'))
+		Metadata * temp = nullptr;
+		if ((line) &&
+			(line.trim().front() != '#') &&
+			(line.find("<import>") != String::npos))
 		{
-			return false;
-		}
-
-		if (line.find("<import>") != String::npos)
-		{
+			temp = new Metadata();
 			while (std::getline(file, line))
 			{
 				line.replaceAll("$(Configuration)", ML_CONFIGURATION);
@@ -71,7 +67,7 @@ namespace ml
 
 				if (line.find("</import>") != String::npos)
 				{
-					return true;
+					return temp;
 				}
 				else
 				{
@@ -83,14 +79,15 @@ namespace ml
 							if (const String val = String(
 								line.substr((i + 1), (line.size() - i - 2))).trim())
 							{
-								data.setData(key, val);
+								temp->setData(key, val);
 							}
 						}
 					}
 				}
 			}
 		}
-		return false;
+		if (temp) { delete temp; }
+		return (temp = nullptr);
 	}
 
 	bool Content::parseMetadata(const Metadata & md)
@@ -114,6 +111,30 @@ namespace ml
 			case AssetImporter<	Uniform	>::id	: return AssetImporter<	Uniform	>()(md);
 		}
 		return false;
+	}
+
+	size_t Content::parseMetadataList(List<Metadata*>& data)
+	{
+		size_t good = 0;
+
+		for (size_t i = 0; i < data.size(); i++)
+		{
+			if (data[i])
+			{
+				good += parseMetadata(*data[i]);
+			}
+		}
+
+		for (size_t i = 0; i < data.size(); i++)
+		{
+			if (data[i])
+			{ 
+				delete data[i]; 
+			}
+		}
+
+		data.clear();
+		return good;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

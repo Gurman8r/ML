@@ -31,8 +31,9 @@ namespace ml
 		
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
-		bool readMetadata(Metadata & data, Istream & file, String & line) const;
+		auto readMetadata(Istream & file, String & line) const -> Metadata *;
 		bool parseMetadata(const Metadata & data);
+		auto parseMetadataList(List<Metadata *> & value) -> size_t;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

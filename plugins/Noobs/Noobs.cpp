@@ -117,7 +117,7 @@ namespace ml
 		noobs.model		= Asset<Model>("sphere32x24");
 
 		// Create Entity
-		if (auto ent = ML_Content.create<Entity>(noobs.entity.name))
+		if (auto ent = ML_Content.create<Entity>("noobs_entity_0"))
 		{
 			// Attach Renderer
 			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material);

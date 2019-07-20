@@ -172,7 +172,7 @@ namespace ml
 			int32_t index = 0;
 			for (const auto & pair : this->data<T>())
 			{
-				if (pair.second->obj == value)
+				if (pair.second == value)
 				{
 					return index;
 				}

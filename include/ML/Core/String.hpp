@@ -11,7 +11,7 @@ namespace ml
 		class Elem,
 		class Traits = typename CharTraits<Elem>,
 		class Alloc  = typename Allocator<Elem>
-	> struct BasicString final : public std::basic_string<Elem, Traits, Alloc>
+	> struct BasicString : public std::basic_string<Elem, Traits, Alloc>
 	{
 		// Types
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -137,7 +137,7 @@ namespace ml
 		{
 		}
 		
-		~BasicString() noexcept {}
+		virtual ~BasicString() noexcept {}
 
 		// Assignment
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

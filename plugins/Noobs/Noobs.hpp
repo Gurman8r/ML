@@ -84,11 +84,11 @@ namespace ml
 		struct NoobsData final : public I_NonCopyable
 		{
 			// Content
-			Asset<Surface>	surf_main	{ };
-			Asset<Surface>	surf_post	{ };
-			Asset<Material> material	{ };
-			Asset<Model>	model		{ };
-			Asset<Entity>	entity		{ };
+			Asset<Surface>	surf_main	{ "noobs_surf_main"	};
+			Asset<Surface>	surf_post	{ "noobs_surf_post"	};
+			Asset<Material> material	{ "noobs_material_0" };
+			Asset<Model>	model		{ "sphere32x24"	};
+			Asset<Entity>	entity		{ "noobs_entity_0" };
 			Renderer *		renderer	{ nullptr };
 
 			// GUI Settings

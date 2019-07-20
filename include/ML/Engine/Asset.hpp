@@ -28,18 +28,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Asset()
-			: name(String())
-			, data(nullptr)
-		{
-		}
-
-		explicit Asset(const String & name)
-			: name(name)
-			, data(nullptr)
-		{
-		}
-
 		template <
 			class U
 		> explicit Asset(const String & name, U * data)
@@ -54,9 +42,21 @@ namespace ml
 			);
 		}
 
+		Asset(const String & name)
+			: name(name)
+			, data(nullptr)
+		{
+		}
+
 		Asset(const self_type & copy)
 			: name(copy.name)
 			, data(copy.data)
+		{
+		}
+
+		Asset()
+			: name(String())
+			, data(nullptr)
 		{
 		}
 
@@ -72,7 +72,7 @@ namespace ml
 					this->name, std::forward<Args>(args)...
 				);
 			}
-			return this->get();
+			return this->data;
 		}
 
 		inline pointer get() 
@@ -81,7 +81,7 @@ namespace ml
 			{
 				this->data = ML_Content.get<value_type>(this->name);
 			}
-			return static_cast<pointer>(this->data);
+			return this->data;
 		}
 
 		inline const_pointer get() const 
@@ -90,7 +90,7 @@ namespace ml
 			{
 				this->data = ML_Content.get<value_type>(this->name);
 			}
-			return static_cast<const_pointer>(this->data);
+			return this->data;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

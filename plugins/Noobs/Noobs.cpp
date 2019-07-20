@@ -109,13 +109,6 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		// Get Content
-		noobs.surf_main = Asset<Surface>	{ "noobs_surf_main"	};
-		noobs.surf_post = Asset<Surface>	{ "noobs_surf_post"	};
-		noobs.material	= Asset<Material>	{ "noobs_material_0" };
-		noobs.model		= Asset<Model>		{ "sphere32x24"	};
-		noobs.entity	= Asset<Entity>		{ "noobs_entity_0" };
-
 		// Create Entity
 		if (Entity * ent = noobs.entity.create())
 		{

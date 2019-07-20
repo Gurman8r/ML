@@ -62,6 +62,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		template <
+			class ... Args
+		> inline pointer create(Args && ... args)
+		{
+			if (!this->data && this->name)
+			{
+				this->data = ML_Content.create<value_type>(
+					this->name, std::forward<Args>(args)...
+				);
+			}
+			return this->get();
+		}
+
 		inline pointer get() 
 		{ 
 			if (!this->data && this->name)

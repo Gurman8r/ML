@@ -19,14 +19,12 @@ namespace ml
 	Editor::Editor(EventSystem & eventSystem)
 		: EventListener	(eventSystem)
 		, m_dockspace	(eventSystem)
-		, m_explorer	(eventSystem)
 		, m_browser		(eventSystem)
 		, m_profiler	(eventSystem)
 		, m_resources	(eventSystem)
 		, m_terminal	(eventSystem)
 	{
 		m_dockspace	.setOpen(true);
-		m_explorer	.setOpen(false);
 		m_browser	.setOpen(false);
 		m_profiler	.setOpen(false);
 		m_resources	.setOpen(false);
@@ -49,8 +47,6 @@ namespace ml
 		eventSystem.addListener(Edit_Copy_Event::ID,	this);
 		eventSystem.addListener(Edit_Paste_Event::ID,	this);
 	}
-
-	Editor::~Editor() { }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -191,8 +187,6 @@ namespace ml
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
-		// Initialize
-		/* * * * * * * * * * * * * * * * * * * * */
 		ML_ImGui_Impl;
 
 		// Setup Style
@@ -217,24 +211,22 @@ namespace ml
 			if (fontSize > 0.0f)
 			{
 				ImGui::GetIO().Fonts->AddFontFromFileTTF(
-					fontFile.c_str(),
-					fontSize
+					fontFile.c_str(), fontSize
 				);
 			}
 		}
 
 		// Setup Ini File
 		/* * * * * * * * * * * * * * * * * * * * */
-		C_String imguiIni = (ev.prefs.GetBool("Editor", "useImguiIni", false)
+		C_String imguiIni = ev.prefs.GetBool("Editor", "useImguiIni", false)
 			? "imgui.ini"
-			: nullptr
-		);
+			: nullptr;
 
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (!ML_ImGui_Impl.Startup("#version 410", &ev.window, true, imguiIni))
 		{
-			Debug::fatal("Failed Initializing ImGui");
+			return Debug::fatal("Failed starting ImGui instance");
 		}
 
 		// Capture Cout
@@ -417,7 +409,6 @@ namespace ml
 		}
 
 		/* Dockspace */ m_dockspace.onGui(ev);
-		/* Explorer */	m_explorer.onGui(ev);
 		/* Profiler */	m_profiler.onGui(ev);
 		/* Resources */ m_resources.onGui(ev);
 		/* Browser */	m_browser.onGui(ev);

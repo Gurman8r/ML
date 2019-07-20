@@ -109,10 +109,9 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		// Create Entity
+		// Create Entity & Attach Renderer
 		if (Entity * ent = noobs.entity.create())
 		{
-			// Attach Renderer
 			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material);
 		}
 

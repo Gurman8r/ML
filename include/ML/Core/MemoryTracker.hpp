@@ -35,7 +35,7 @@ namespace ml
 
 	private:
 		RecordMap	m_records;
-		size_t		m_recordIndex;
+		size_t		m_index;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -13,7 +13,7 @@ namespace ml
 	class ML_SCRIPT_API Lexer final
 		: public I_Singleton<Lexer>
 	{
-		friend struct I_Singleton<Lexer>;
+		friend class I_Singleton<Lexer>;
 
 	public:
 		using const_iterator = typename List<char>::const_iterator;

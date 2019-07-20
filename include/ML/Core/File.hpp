@@ -14,8 +14,8 @@ namespace ml
 	// Stores the contents of a text file
 	template <
 		class Elem,
-		class Traits	= std::char_traits<Elem>,
-		class Alloc		= std::allocator<Elem>
+		class Traits	= CharTraits<Elem>,
+		class Alloc		= Allocator<Elem>
 	> struct BasicFile final
 		: public I_Newable
 		, public I_Disposable

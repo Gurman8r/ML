@@ -26,15 +26,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	class ML_GRAPHICS_API OpenGL final
-		: public I_Singleton<OpenGL>
+	struct ML_GRAPHICS_API OpenGL final : public I_Singleton<OpenGL>
 	{
-		friend struct I_Singleton<OpenGL>;
-
-		bool m_good;
-
-	public:
-
 		// Errors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	getError() -> GL::Err;
@@ -174,6 +167,13 @@ namespace ml
 		static void	uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
 		static void	uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
 		static void	uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private:
+		friend class I_Singleton<OpenGL>;
+		OpenGL() = default;
+		bool m_good;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

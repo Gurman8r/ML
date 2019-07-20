@@ -10,7 +10,7 @@ namespace ml
 	// just a wrapper for std::vector<>
 	template <
 		class _Elem,
-		class _Alloc = std::allocator<_Elem>
+		class _Alloc = Allocator<_Elem>
 	> struct List : public std::vector<_Elem, _Alloc>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

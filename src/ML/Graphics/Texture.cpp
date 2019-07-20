@@ -120,10 +120,7 @@ namespace ml
 		create(copy);
 	}
 
-	Texture::~Texture()
-	{
-		dispose();
-	}
+	Texture::~Texture() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

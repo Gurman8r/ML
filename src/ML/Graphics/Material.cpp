@@ -73,7 +73,7 @@ namespace ml
 		{
 			// Flt
 			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_flt::ID:
+		case uni_flt1::ID:
 			if (auto * temp = impl::toFloat(value))
 			{
 				m_shader->setUniform(value->name, (*temp));
@@ -82,7 +82,7 @@ namespace ml
 
 			// Int
 			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_int::ID:
+		case uni_int1::ID:
 			if (auto * temp = impl::toInt(value))
 			{
 				m_shader->setUniform(value->name, (*temp));

@@ -8,11 +8,11 @@
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
 [ ] texture cube maps
-[ ] reimplement old math algs
+[ ] reimplement old math
 	[ ] quaternion
 [ ] async asset loading (threaded w/ progress bar)
 [ ] cameras
-	[ ] first person camera
+	[?] first person camera
 [X] constexpr math structures
 [X] material deserialization
 [X] template property drawers

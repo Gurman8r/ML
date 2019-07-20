@@ -36,31 +36,37 @@ namespace ml
 
 	bool Content::loadFromFile(const String & filename)
 	{
+		// Open File
 		SStream file;
 		if (ML_FS.getFileContents(filename, file))
 		{
-			if (List<Metadata *> data = readLists(file))
+			List<Metadata *> list;
+
+			// Read MetaData
+			String line;
+			while (std::getline(file, line))
 			{
-				return parseLists(data);
+				if (Metadata * data = this->readMetadata(file, line))
+				{
+					list.push_back(data);
+				}
 			}
+
+			// Generate Objects
+			for (size_t i = 0; i < list.size(); i++)
+			{
+				if (list[i]) { this->parseMetadata(*list[i]); }
+			}
+
+			// Cleanup Lists
+			for (size_t i = 0; i < list.size(); i++)
+			{
+				if (list[i]) { delete list[i]; }
+			}
+
+			return true;
 		}
 		return false;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	List<Metadata *> Content::readLists(Istream & file) const
-	{
-		List<Metadata *> list;
-		String line;
-		while (std::getline(file, line))
-		{
-			if (Metadata * data = readMetadata(file, line))
-			{
-				list.push_back(data);
-			}
-		}
-		return list;
 	}
 
 	Metadata * Content::readMetadata(Istream & file, String & line) const
@@ -76,22 +82,22 @@ namespace ml
 				line.replaceAll("$(Configuration)", ML_CONFIGURATION);
 				line.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET);
 
-				if (line.find("</import>") != String::npos)
+				size_t i;
+				if ((i = line.find("</import>")) != String::npos)
 				{
-					return temp;
+					return temp; // Done
 				}
-				else
+				else if ((i = line.find_first_of("=")) != String::npos)
 				{
-					size_t i;
-					if ((i = line.find_first_of("=")) != String::npos)
+					// Key
+					if (const String key = String { line.substr(0, i) }.trim())
 					{
-						if (const String key = String(line.substr(0, i)).trim())
+						// Value
+						if (const String val = String {
+							line.substr((i + 1), (line.size() - i - 2))
+						}.trim())
 						{
-							if (const String val = String(
-								line.substr((i + 1), (line.size() - i - 2))).trim())
-							{
-								temp->setData(key, val);
-							}
+							temp->setData(key, val);
 						}
 					}
 				}
@@ -99,26 +105,6 @@ namespace ml
 		}
 		if (temp) { delete temp; }
 		return (temp = nullptr);
-	}
-
-	size_t Content::parseLists(const List<Metadata*>& data)
-	{
-		size_t good = 0;
-		for (size_t i = 0; i < data.size(); i++)
-		{
-			if (data[i])
-			{
-				good += parseMetadata(*data[i]);
-			}
-		}
-		for (size_t i = 0; i < data.size(); i++)
-		{
-			if (data[i])
-			{ 
-				delete data[i]; 
-			}
-		}
-		return good;
 	}
 
 	bool Content::parseMetadata(const Metadata & md)
@@ -141,7 +127,10 @@ namespace ml
 			case AssetImporter<	Texture	>::id	: return AssetImporter<	Texture	>()(md);
 			case AssetImporter<	Uniform	>::id	: return AssetImporter<	Uniform	>()(md);
 		}
-		return false;
+		return Debug::logError("Failed Loading: \'{0}\' | \'{1}\'",
+			md.getData("type").asString(),
+			md.getData("name").asString()
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

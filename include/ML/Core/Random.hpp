@@ -13,7 +13,7 @@ namespace ml
 	class ML_CORE_API Random final
 		: public I_Singleton<Random>
 	{
-		friend struct I_Singleton<Random>;
+		friend class I_Singleton<Random>;
 
 		Random() 
 		{ 

@@ -8,8 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Base class for anything you REALLY don't want to be dynamically allocated.
-	// Use in conjunction with I_Newable to ensure there are no memory leaks.
-	// Good idea use when a class/struct has a constructor but no destructor. (e.g. constexpr)
+	// Use in conjunction with I_Newable to help ensure memory safety.
 	struct I_NonNewable
 	{
 		inline friend ML_SERIALIZE(Ostream & out, const I_NonNewable & value)

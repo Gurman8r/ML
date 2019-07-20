@@ -1,6 +1,6 @@
 #include <ML/Engine/AssetImporter.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/Asset.hpp>
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
@@ -37,7 +37,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new CubeMap());
 					}
 				}
 			}
@@ -67,7 +67,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Entity());
 					}
 				}
 			}
@@ -97,7 +97,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Font());
 					}
 				}
 			}
@@ -127,7 +127,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Image());
 					}
 				}
 			}
@@ -167,19 +167,23 @@ namespace ml
 					if (md.getData("defaults", false))
 					{
 						if (auto u = Uniform::duplicate<uni_vec2_ref>(
-							ML_Content.get<Uniform>("%CURSOR_POS%")
+							ML_Content.get<uni_vec2_ref>("%CURSOR_POS%")
 							)) uniforms.push_back(u);
-						if (auto u = Uniform::duplicate<uni_int_ref>(
-							ML_Content.get<Uniform>("%FRAME_COUNT%")
+
+						if (auto u = Uniform::duplicate<uni_int1_ref>(
+							ML_Content.get<uni_int1_ref>("%FRAME_COUNT%")
 							)) uniforms.push_back(u);
-						if (auto u = Uniform::duplicate<uni_flt_ref>(
-							ML_Content.get<Uniform>("%DELTA_TIME%")
+
+						if (auto u = Uniform::duplicate<uni_flt1_ref>(
+							ML_Content.get<uni_flt1_ref>("%DELTA_TIME%")
 							)) uniforms.push_back(u);
+
 						if (auto u = Uniform::duplicate<uni_vec2_ref>(
-							ML_Content.get<Uniform>("%RESOLUTION%")
+							ML_Content.get<uni_vec2_ref>("%RESOLUTION%")
 							)) uniforms.push_back(u);
-						if (auto u = Uniform::duplicate<uni_flt_ref>(
-							ML_Content.get<Uniform>("%TOTAL_TIME%")
+
+						if (auto u = Uniform::duplicate<uni_flt1_ref>(
+							ML_Content.get<uni_flt1_ref>("%TOTAL_TIME%")
 							)) uniforms.push_back(u);
 					}
 
@@ -187,7 +191,7 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 					if (Ifstream file { ML_FS.pathTo(md.getData("uniforms")) })
 					{
-						// (following should probably be in UniformAssetImporter)
+						// following should probably be in UniformAssetImporter
 						
 						String line;
 						while (std::getline(file, line))
@@ -223,7 +227,7 @@ namespace ml
 							{
 								// Uniform Type
 								/* * * * * * * * * * * * * * * * * * * * */
-								const int32_t value_type = ([](C_String type)
+								const int32_t u_type = ([](C_String type)
 								{
 									if (!type) return -1;
 									for (size_t i = 0; i < Uniform::MAX_UNI_TYPES; i++)
@@ -234,11 +238,11 @@ namespace ml
 								
 								// Uniform Name
 								/* * * * * * * * * * * * * * * * * * * * */
-								const String value_name = pop_front(tokens);
+								const String u_name = pop_front(tokens);
 
 								// Uniform Data
 								/* * * * * * * * * * * * * * * * * * * * */
-								SStream value_data = ([](List<String> & data)
+								SStream u_data = ([](List<String> & data)
 								{
 									SStream out;
 									if ((data.size() > 2) &&
@@ -268,12 +272,12 @@ namespace ml
 									case Uniform::Int1:
 									{
 										int32_t temp; ss >> temp;
-										return out = new uni_int(name, temp);
+										return out = new uni_int1(name, temp);
 									}
 									case Uniform::Flt1:
 									{
 										float_t temp; ss >> temp;
-										return out = new uni_flt(name, temp);
+										return out = new uni_flt1(name, temp);
 									}
 									case Uniform::Vec2:
 									{
@@ -319,7 +323,7 @@ namespace ml
 									}
 									default: return out;
 									}
-								})(value_type, value_name, value_data))
+								})(u_type, u_name, u_data))
 								{
 									uniforms.push_back(u);
 								}
@@ -327,10 +331,12 @@ namespace ml
 						}
 						file.close();
 					}
-					
+
 					return ML_Content.insert(
-						name, new Material(ML_Content.get<Shader>(md.getData("shader")), uniforms)
-					);
+						name, new Material {
+							ML_Content.get<Shader>(md.getData("shader")),
+							uniforms
+						});
 				}
 			}
 		}
@@ -359,7 +365,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Mesh());
 					}
 				}
 			}
@@ -401,7 +407,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Model());
 					}
 				}
 			}
@@ -431,7 +437,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Script());
 					}
 				}
 			}
@@ -485,7 +491,7 @@ namespace ml
 						}
 						else
 						{
-							return ML_Content.insert(name, new value_type());
+							return ML_Content.insert(name, new Shader());
 						}
 					}
 				}
@@ -516,7 +522,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Sound());
 					}
 				}
 			}
@@ -549,7 +555,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Sprite());
 					}
 				}
 			}
@@ -585,7 +591,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Surface());
 					}
 				}
 			}
@@ -675,7 +681,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new value_type());
+						return ML_Content.insert(name, new Texture());
 					}
 				}
 			}
@@ -688,16 +694,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Uniform * UniformAssetImporter::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
-		{
-			if (const String name = md.getData("name"))
-			{
-				if (!ML_Content.get<Uniform>(name))
-				{
-					return ML_Content.insert(name, new value_type());
-				}
-			}
-		}
 		return nullptr;
 	}
 }

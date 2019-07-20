@@ -168,7 +168,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorPlugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorUtility.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\Explorer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
@@ -193,7 +192,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\EditorPlugin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorGui.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorUtility.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\Explorer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGui_Impl.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\Profiler.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp" />

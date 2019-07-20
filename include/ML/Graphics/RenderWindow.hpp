@@ -8,17 +8,21 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_GRAPHICS_API RenderWindow
+	struct ML_GRAPHICS_API RenderWindow
 		: public Window
 		, public RenderTarget
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		explicit RenderWindow(EventSystem & eventSystem);
+		
 		virtual ~RenderWindow();
 
 		bool setup() override;
 
 		virtual void onEvent(const Event * ev) override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

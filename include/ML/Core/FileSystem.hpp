@@ -78,7 +78,7 @@ namespace ml
 
 		String m_root;
 
-		friend struct I_Singleton<FileSystem>;
+		friend class I_Singleton<FileSystem>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -25,9 +25,9 @@ namespace ml
 
 	protected:
 		explicit EditorGui(EventSystem & eventSystem, C_String title);
+
 		virtual ~EditorGui() {}
 
-	protected:
 		virtual void onEvent(const Event * value) override {}
 		
 		inline bool onGui(const GuiEvent & ev)

@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_EDITOR_API Browser final 
 		: public EditorGui
@@ -14,7 +14,7 @@ namespace ml
 		friend class Editor;
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		enum : char
 		{
 			T_Reg = ' ',
@@ -24,24 +24,24 @@ namespace ml
 		};
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		using Directory = typename FileSystem::Directory;
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		explicit Browser(EventSystem & eventSystem);
 		~Browser();
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		void onEvent(const Event * value) override;
 
 	protected:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
 
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		void draw_directory();
 		void draw_file();
 		void draw_file_preview();
@@ -54,7 +54,7 @@ namespace ml
 		String	get_selected_type() const;
 		size_t	get_selected_size() const;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline String pathTo(const String & value) const 
 		{ 
@@ -79,19 +79,20 @@ namespace ml
 				: nullptr);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
 	private:
-		/* * * * * * * * * * * * * * * * * * * * */
 		String		m_path;		// Working Directory
 		Directory	m_dir;		// Directory Contents
 		char		m_type;		// Selected List
 		size_t		m_index;	// Selected File
 		String		m_preview;	// File Contents
 		bool		m_isDouble;	// Has Double Click
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_BROWSER_GUI_HPP_

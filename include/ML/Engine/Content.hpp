@@ -29,14 +29,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
-		
-		auto readLists(Istream & file) const -> List<Metadata *>;
-		auto readMetadata(Istream & file, String & line) const -> Metadata *;
-		
-		auto parseLists(const List<Metadata *> & value) -> size_t;
-		bool parseMetadata(const Metadata & data);
+		bool		dispose() override;
+		bool		loadFromFile(const String & filename) override;
+		Metadata *	readMetadata(Istream & file, String & line) const;
+		bool		parseMetadata(const Metadata & data);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -184,7 +180,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct I_Singleton<Content>;
+		friend class I_Singleton<Content>;
 
 		Content() : m_data() {}
 		~Content() { dispose(); }

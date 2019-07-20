@@ -6,7 +6,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/Asset.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/Geometry.hpp>
@@ -39,8 +39,6 @@ namespace ml
 		eventSystem.addListener(CommandEvent::ID,		this);
 		eventSystem.addListener(KeyEvent::ID,			this);
 	}
-
-	Engine::~Engine() {}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -157,7 +155,6 @@ namespace ml
 			geo::cube::contiguous,
 			geo::cube::indices
 		);
-
 		ML_Content.create<Mesh>("default_skybox")->loadFromMemory(
 			geo::sky::contiguous
 		);
@@ -179,21 +176,11 @@ namespace ml
 
 		// Load Default Uniforms
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Content.insert<Uniform>(
-			"%CURSOR_POS%", new uni_vec2_ref("sys.cursorPos", this->cursorPos())
-		);
-		ML_Content.insert<Uniform>(
-			"%DELTA_TIME%", new uni_flt_ref	("sys.deltaTime", this->deltaTime())
-		);
-		ML_Content.insert<Uniform>(
-			"%FRAME_COUNT%", new uni_int_ref("sys.frameCount", this->frameCount())
-		);
-		ML_Content.insert<Uniform>(
-			"%RESOLUTION%", new uni_vec2_ref("sys.resolution", this->resolution())
-		);
-		ML_Content.insert<Uniform>(
-			"%TOTAL_TIME%", new uni_flt_ref	("sys.totalTime", this->totalTime())
-		);
+		ML_Content.create<uni_vec2_ref>("%CURSOR_POS%",  "sys.cursorPos",  this->cursorPos());
+		ML_Content.create<uni_flt1_ref>("%DELTA_TIME%",  "sys.deltaTime",  this->deltaTime());
+		ML_Content.create<uni_int1_ref>("%FRAME_COUNT%", "sys.frameCount", this->frameCount());
+		ML_Content.create<uni_vec2_ref>("%RESOLUTION%",  "sys.resolution", this->resolution());
+		ML_Content.create<uni_flt1_ref>("%TOTAL_TIME%",  "sys.totalTime",  this->totalTime());
 
 		// Load Resource Manifest
 		/* * * * * * * * * * * * * * * * * * * * */

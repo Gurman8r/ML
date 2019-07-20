@@ -12,59 +12,38 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum TypeID : int32_t
-		{
-			META_None = -1,
-			META_Bool,
-			META_Double,
-			META_Float,
-			META_Int,
-			META_String,
-
-			MAX_METADATA_TYPE
-		};
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		MetadataValue()
-			: m_type(META_None)
-			, m_data(String())
+			: m_data(String())
 		{
 		}
 
 		explicit MetadataValue(const bool value)
-			: m_type(META_Bool)
-			, m_data(std::to_string(value))
+			: m_data(std::to_string(value))
 		{
 		}
 
 		explicit MetadataValue(const float64_t value)
-			: m_type(META_Double)
-			, m_data(std::to_string(value))
+			: m_data(std::to_string(value))
 		{
 		}
 
 		explicit MetadataValue(const float32_t value)
-			: m_type(META_Float)
-			, m_data(std::to_string(value))
+			: m_data(std::to_string(value))
 		{
 		}
 
 		explicit MetadataValue(const int32_t value)
-			: m_type(META_Int)
-			, m_data(std::to_string(value))
+			: m_data(std::to_string(value))
 		{
 		}
 
 		explicit MetadataValue(const String & value)
-			: m_type(META_String)
-			, m_data(value)
+			: m_data(value)
 		{
 		}
 
 		MetadataValue(const MetadataValue & copy)
-			: m_type(copy.m_type)
-			, m_data(copy.m_data)
+			: m_data(copy.m_data)
 		{
 		}
 
@@ -89,7 +68,6 @@ namespace ml
 		inline auto asInt	()	const -> int32_t		{ return alg::to_int(getData()); }
 		inline auto asString()	const -> String			{ return getData(); }
 		inline auto getData	()	const -> const String & { return m_data; }
-		inline auto getType	()	const -> TypeID			{ return m_type; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -101,9 +79,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
-		String	m_data;
-		TypeID	m_type;
+	private: String m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -112,16 +88,7 @@ namespace ml
 
 	inline ML_SERIALIZE(Ostream & out, const MetadataValue & value)
 	{
-		switch (value.getType())
-		{
-		case MetadataValue::META_Bool	: return out << value.asBool();
-		case MetadataValue::META_Double	: return out << value.asDouble();
-		case MetadataValue::META_Float	: return out << value.asFloat();
-		case MetadataValue::META_Int	: return out << value.asInt();
-		case MetadataValue::META_String	: return out << value.asString();
-		default: 
-			return out;
-		}
+		return out << value.getData();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

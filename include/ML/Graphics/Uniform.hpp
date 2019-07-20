@@ -5,6 +5,7 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/I_Newable.hpp>
 
+// Base Uniform
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -14,13 +15,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Base Uniform
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Uniform 
+	struct Uniform
 		: public I_Newable
 		, public I_NonCopyable
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Types : int32_t
 		{
@@ -39,12 +38,14 @@ namespace ml
 			"sampler2D", "samplerCube (NYI)"
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const String	name;
 		const int32_t	type;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		Uniform() = delete;
 
 		Uniform(const String & name, const int32_t type)
 			: name(name)
@@ -52,12 +53,9 @@ namespace ml
 		{
 		}
 
-		Uniform()
-			: Uniform(String(), -1)
-		{
-		}
+		virtual ~Uniform() {}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T, class U
@@ -71,16 +69,28 @@ namespace ml
 			);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const
+		template <class T> inline T * as()
 		{
-			return (type > Types::INVALID_UNI) && (type < Types::MAX_UNI_TYPES);
+			return dynamic_cast<T *>(this);
 		}
+
+		template <class T> inline const T * as() const
+		{
+			return dynamic_cast<const T *>(this);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline friend ML_SERIALIZE(Ostream & out, const Uniform & value)
 		{
 			return out << TypeNames[value.type];
+		}
+
+		inline operator bool() const
+		{
+			return (type > Types::INVALID_UNI) && (type < Types::MAX_UNI_TYPES);
 		}
 
 		inline friend bool operator==(const Uniform & a, const Uniform & b)
@@ -93,141 +103,111 @@ namespace ml
 			return ((a.type < b.type) || (a.name < b.name));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class Derived
-		> inline const Derived * as() const
-		{
-			return dynamic_cast<const Derived *>(this);
-		}
-
-		template <
-			class Derived
-		> inline Derived * as()
-		{
-			return dynamic_cast<Derived *>(this);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-	};
-
-	// Generic Uniform
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	template <
-		class T, int32_t I
-	> struct uni_t : public Uniform
-	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		using value_type	= typename T;
-		using self_type		= typename uni_t<value_type, I>;
-		using base_type		= typename Uniform;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		enum : int32_t { ID = I };
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		value_type data;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		uni_t(const String & name, value_type data) 
-			: base_type(name, ID)
-			, data(data) 
-		{}
-		
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		inline friend bool operator==(const self_type & a, const self_type & b)
-		{
-			return ((a.name == b.name) && (a.data == b.data));
-		}
-
-		inline friend bool operator<(const self_type & a, const self_type & b)
-		{
-			return ((a.name < b.name) || (a.data < b.data));
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-	};
-
-
-	// Generators
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#define ML_GEN_UNIFORM(NAME, TYPE)							\
-	template <class T> struct NAME : public uni_t<T, TYPE>	\
-	{														\
-		using value_type	= typename T;					\
-		using self_type		= typename NAME<value_type>;	\
-		using base_type		= typename uni_t<T, TYPE>;		\
-		NAME(const String & name, T data)					\
-			: base_type(name, data)							\
-		{}													\
-		virtual ~NAME() {}									\
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
+}
 
-	ML_GEN_UNIFORM(	uni_flt_t,	Uniform::Flt1	);
-	ML_GEN_UNIFORM(	uni_int_t,	Uniform::Int1	);
-	ML_GEN_UNIFORM(	uni_vec2_t,	Uniform::Vec2	);
-	ML_GEN_UNIFORM(	uni_vec3_t,	Uniform::Vec3	);
-	ML_GEN_UNIFORM(	uni_vec4_t,	Uniform::Vec4	);
-	ML_GEN_UNIFORM(	uni_col4_t,	Uniform::Col4	);
-	ML_GEN_UNIFORM(	uni_mat3_t,	Uniform::Mat3	);
-	ML_GEN_UNIFORM(	uni_mat4_t,	Uniform::Mat4	);
-	ML_GEN_UNIFORM(	uni_tex2_t,	Uniform::Tex2	);
-	ML_GEN_UNIFORM( uni_cube_t,	Uniform::Cube	);
+// Template Uniform
+namespace ml
+{
+	/* * * * * * * * * * * * * * * * * * * * */
+	
+	template <
+		class Elem, int32_t TypeID
+	> struct uni_t : public Uniform
+	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		using value_type	= typename Elem;
+		using self_type		= typename uni_t<value_type, TypeID>;
+		using base_type		= typename Uniform;
 
-	// Value Uniforms
+		enum : int32_t { ID = TypeID };
+
+		value_type data;
+
+		uni_t(const String & name, value_type data)
+			: base_type(name, ID)
+			, data(data)
+		{
+		}
+
+		virtual ~uni_t() {}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+}
+
+// Generated Uniforms
+namespace ml
+{
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_flt		= typename uni_flt_t	<float_t>;
-	using uni_int		= typename uni_int_t	<int32_t>;
-	using uni_vec2		= typename uni_vec2_t	<vec2	>;
-	using uni_vec3		= typename uni_vec3_t	<vec3	>;
-	using uni_vec4		= typename uni_vec4_t	<vec4	>;
-	using uni_col4		= typename uni_col4_t	<vec4	>;
-	using uni_mat3		= typename uni_mat3_t	<mat3	>;
-	using uni_mat4		= typename uni_mat4_t	<mat4	>;
+#define ML_GEN_UNIFORM(NAME, TYPE)								\
+	template <class T> struct NAME : public _ML uni_t<T, TYPE>	\
+	{															\
+		using value_type	= typename T;						\
+		using self_type		= typename NAME<value_type>;		\
+		using base_type		= typename _ML uni_t<T, TYPE>;		\
+		NAME(const _ML String & name, T data)					\
+			: base_type(name, data)								\
+		{														\
+		}														\
+		virtual ~NAME() {}										\
+	};
 
+	ML_GEN_UNIFORM(uni_flt1_t, Uniform::Flt1);
+	ML_GEN_UNIFORM(uni_int1_t, Uniform::Int1);
+	ML_GEN_UNIFORM(uni_vec2_t, Uniform::Vec2);
+	ML_GEN_UNIFORM(uni_vec3_t, Uniform::Vec3);
+	ML_GEN_UNIFORM(uni_vec4_t, Uniform::Vec4);
+	ML_GEN_UNIFORM(uni_col4_t, Uniform::Col4);
+	ML_GEN_UNIFORM(uni_mat3_t, Uniform::Mat3);
+	ML_GEN_UNIFORM(uni_mat4_t, Uniform::Mat4);
+	ML_GEN_UNIFORM(uni_tex2_t, Uniform::Tex2);
+	ML_GEN_UNIFORM(uni_cube_t, Uniform::Cube);
 
-	// Const Reference Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	using uni_flt1		= typename uni_flt1_t<float_t>;
+	using uni_int1		= typename uni_int1_t<int32_t>;
+	using uni_vec2		= typename uni_vec2_t<vec2>;
+	using uni_vec3		= typename uni_vec3_t<vec3>;
+	using uni_vec4		= typename uni_vec4_t<vec4>;
+	using uni_col4		= typename uni_col4_t<vec4>;
+	using uni_mat3		= typename uni_mat3_t<mat3>;
+	using uni_mat4		= typename uni_mat4_t<mat4>;
 
-	using uni_flt_ref	= typename uni_flt_t	<const float_t	&>;
-	using uni_int_ref	= typename uni_int_t	<const int32_t	&>;
-	using uni_vec2_ref	= typename uni_vec2_t	<const vec2		&>;
-	using uni_vec3_ref	= typename uni_vec3_t	<const vec3		&>;
-	using uni_vec4_ref	= typename uni_vec3_t	<const vec4		&>;
-	using uni_col4_ref	= typename uni_col4_t	<const vec4		&>;
-	using uni_mat3_ref	= typename uni_mat3_t	<const mat3		&>;
-	using uni_mat4_ref	= typename uni_mat4_t	<const mat4		&>;
-
-
-	// Const Pointer Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	using uni_flt1_ref	= typename uni_flt1_t<const float_t	&>;
+	using uni_int1_ref	= typename uni_int1_t<const int32_t	&>;
+	using uni_vec2_ref	= typename uni_vec2_t<const vec2 &>;
+	using uni_vec3_ref	= typename uni_vec3_t<const vec3 &>;
+	using uni_vec4_ref	= typename uni_vec3_t<const vec4 &>;
+	using uni_col4_ref	= typename uni_col4_t<const vec4 &>;
+	using uni_mat3_ref	= typename uni_mat3_t<const mat3 &>;
+	using uni_mat4_ref	= typename uni_mat4_t<const mat4 &>;
 
-	using uni_flt_ptr	= typename uni_flt_t	<const float_t	*>;
-	using uni_int_ptr	= typename uni_int_t	<const int32_t	*>;
-	using uni_vec2_ptr	= typename uni_vec2_t	<const vec2		*>;
-	using uni_vec3_ptr	= typename uni_vec3_t	<const vec3		*>;
-	using uni_vec4_ptr	= typename uni_vec3_t	<const vec4		*>;
-	using uni_col4_ptr	= typename uni_col4_t	<const vec4		*>;
-	using uni_mat3_ptr	= typename uni_mat3_t	<const mat3		*>;
-	using uni_mat4_ptr	= typename uni_mat4_t	<const mat4		*>;
-
-
-	// Type-Class Uniforms
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	using uni_flt1_ptr	= typename uni_flt1_t<const float_t	*>;
+	using uni_int1_ptr	= typename uni_int1_t<const int32_t	*>;
+	using uni_vec2_ptr	= typename uni_vec2_t<const vec2 *>;
+	using uni_vec3_ptr	= typename uni_vec3_t<const vec3 *>;
+	using uni_vec4_ptr	= typename uni_vec3_t<const vec4 *>;
+	using uni_col4_ptr	= typename uni_col4_t<const vec4 *>;
+	using uni_mat3_ptr	= typename uni_mat3_t<const mat3 *>;
+	using uni_mat4_ptr	= typename uni_mat4_t<const mat4 *>;
 
-	using uni_cube		= typename uni_cube_t	<const CubeMap	*>; // <- CubeMap (NYI)
-	using uni_tex2		= typename uni_tex2_t	<const Texture	*>; // <- Texture
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	using uni_cube		= typename uni_cube_t<const CubeMap	*>; // <- CubeMap (NYI)
+	using uni_tex2		= typename uni_tex2_t<const Texture	*>; // <- Texture
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -236,95 +216,95 @@ namespace ml
 		static inline float_t * toFloat(const Uniform * value)
 		{
 			static float_t temp;
-			if (!value || value->type != uni_flt::ID)	return nullptr;
-			else if (auto u = value->as<uni_flt>())		return &(temp =  u->data);
-			else if (auto u = value->as<uni_flt_ref>())	return &(temp =  u->data);
-			else if (auto u = value->as<uni_flt_ptr>())	return &(temp = *u->data);
-			else return nullptr;
+			if (!value || (value->type != uni_flt1::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_flt1>())		{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_flt1_ref>())	{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_flt1_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
 		}
 
 		static inline int32_t * toInt(const Uniform * value)
 		{
 			static int32_t temp;
-			if (!value || value->type != uni_int::ID)	return nullptr;
-			else if (auto u = value->as<uni_int>())		return &(temp =  u->data);
-			else if (auto u = value->as<uni_int_ref>())	return &(temp =  u->data);
-			else if (auto u = value->as<uni_int_ptr>())	return &(temp = *u->data);
-			else return nullptr;
+			if (!value || (value->type != uni_int1::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_int1>())		{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_int1_ref>())	{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_int1_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
 		}
 
 		static inline vec2 * toVec2(const Uniform * value)
 		{
 			static vec2 temp;
-			if (!value || value->type != uni_vec2::ID)	 return nullptr;
-			else if (auto u = value->as<uni_vec2>())	 return &(temp =  u->data);
-			else if (auto u = value->as<uni_vec2_ref>()) return &(temp =  u->data);
-			else if (auto u = value->as<uni_vec2_ptr>()) return &(temp = *u->data);
-			else return nullptr;
+			if (!value || value->type != uni_vec2::ID)		{ return nullptr; }
+			else if (auto u = value->as<uni_vec2>())		{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_vec2_ref>())	{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_vec2_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
 		}
 
 		static inline vec3 * toVec3(const Uniform * value)
 		{
 			static vec3 temp;
-			if (!value || value->type != uni_vec3::ID)	 return nullptr;
-			else if (auto u = value->as<uni_vec3>())	 return &(temp = u->data);
-			else if (auto u = value->as<uni_vec3_ref>()) return &(temp = u->data);
-			else if (auto u = value->as<uni_vec3_ptr>()) return &(temp = *u->data);
-			else return nullptr;
+			if (!value || (value->type != uni_vec3::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_vec3>())		{ return &(temp = u->data); }
+			else if (auto u = value->as<uni_vec3_ref>())	{ return &(temp = u->data); }
+			else if (auto u = value->as<uni_vec3_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
 		}
 
 		static inline vec4 * toVec4(const Uniform * value)
 		{
 			static vec4 temp;
-			if (!value || value->type != uni_vec4::ID)	 return nullptr;
-			else if (auto u = value->as<uni_vec4>())	 return &(temp =  u->data);
-			else if (auto u = value->as<uni_vec4_ref>()) return &(temp =  u->data);
-			else if (auto u = value->as<uni_vec4_ptr>()) return &(temp = *u->data);
-			else return nullptr;
+			if (!value || (value->type != uni_vec4::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_vec4>())		{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_vec4_ref>())	{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_vec4_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
 		}
 
 		static inline vec4 * toCol4(const Uniform * value)
 		{
 			static vec4 temp;
-			if (!value || value->type != uni_col4::ID)	 return nullptr;
-			else if (auto u = value->as<uni_col4>())	 return &(temp =  u->data);
-			else if (auto u = value->as<uni_col4_ref>()) return &(temp =  u->data);
-			else if (auto u = value->as<uni_col4_ptr>()) return &(temp = *u->data);
-			else return nullptr;
+			if (!value || (value->type != uni_col4::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_col4>())		{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_col4_ref>())	{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_col4_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
 		}
 
 		static inline mat3 * toMat3(const Uniform * value)
 		{
 			static mat3 temp;
-			if (!value || value->type != uni_mat3::ID)	 return nullptr;
-			else if (auto u = value->as<uni_mat3>())	 return &(temp =  u->data);
-			else if (auto u = value->as<uni_mat3_ref>()) return &(temp =  u->data);
-			else if (auto u = value->as<uni_mat3_ptr>()) return &(temp = *u->data);
-			else return nullptr;
+			if (!value || (value->type != uni_mat3::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_mat3>())		{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_mat3_ref>())	{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_mat3_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
 		}
 
 		static inline mat4 * toMat4(const Uniform * value)
 		{
 			static mat4 temp;
-			if (!value || value->type != uni_mat4::ID)	 return nullptr;
-			else if (auto u = value->as<uni_mat4>())	 return &(temp =  u->data);
-			else if (auto u = value->as<uni_mat4_ref>()) return &(temp =  u->data);
-			else if (auto u = value->as<uni_mat4_ptr>()) return &(temp = *u->data);
-			else return nullptr;
+			if (!value || (value->type != uni_mat4::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_mat4>())		{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_mat4_ref>())	{ return &(temp =  u->data); }
+			else if (auto u = value->as<uni_mat4_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
 		}
 
 		static inline const Texture * toTex2(const Uniform * value)
 		{
-			if (!value || value->type != uni_tex2::ID)	 return nullptr;
-			else if (auto u = value->as<uni_tex2>())	 return u->data;
-			else return nullptr;
+			if (!value || (value->type != uni_tex2::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_tex2>())		{ return u->data; }
+			else { return nullptr; }
 		}
 
 		static inline const CubeMap * toCube(const Uniform * value)
 		{
-			if (!value || value->type != uni_cube::ID)	 return nullptr;
-			else if (auto u = value->as<uni_cube>())	 return u->data;
-			return nullptr;
+			if (!value || (value->type != uni_cube::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_cube>())		{ return u->data; }
+			{ return nullptr; }
 		}
 	}
 

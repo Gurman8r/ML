@@ -14,7 +14,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		EditorPlugin(EventSystem & eventSystem);
+		explicit EditorPlugin(EventSystem & eventSystem);
 		
 		virtual ~EditorPlugin() {}
 

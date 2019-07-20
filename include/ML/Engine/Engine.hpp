@@ -19,7 +19,8 @@ namespace ml
 	{
 	public:
 		explicit Engine(EventSystem & eventSystem);
-		~Engine();
+		
+		~Engine() {}
 
 	public:
 		void onEvent(const Event * value) override;

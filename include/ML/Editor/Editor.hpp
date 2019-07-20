@@ -2,7 +2,6 @@
 #define _ML_EDITOR_HPP_
 
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Editor/Explorer.hpp>
 #include <ML/Editor/Terminal.hpp>
 #include <ML/Editor/Browser.hpp>
 #include <ML/Editor/Dockspace.hpp>
@@ -15,14 +14,14 @@ namespace ml
 
 	class ML_EDITOR_API Editor final
 		: public I_Newable
-		, public EventListener
 		, public I_NonCopyable
+		, public EventListener
 	{
 	public:
 		explicit Editor(EventSystem & eventSystem);
-		~Editor();
+		
+		~Editor() {}
 
-	public:
 		void onEvent(const Event * value) override;
 
 	private:
@@ -33,12 +32,11 @@ namespace ml
 		void onExit		(const ExitEvent & ev);
 
 	private:
-		Explorer		m_explorer;
-		Dockspace		m_dockspace;
-		Browser			m_browser;
-		Profiler		m_profiler;
-		ResourceGui		m_resources;
-		Terminal		m_terminal;
+		Dockspace	m_dockspace;
+		Browser		m_browser;
+		Profiler	m_profiler;
+		ResourceGui	m_resources;
+		Terminal	m_terminal;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

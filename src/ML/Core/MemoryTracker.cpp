@@ -14,8 +14,8 @@ namespace ml
 
 		Record(I_Newable * object, const size_t index, const size_t size)
 			: object(object)
-			, index(index)
-			, size(size)
+			, index	(index)
+			, size	(size)
 		{
 		}
 
@@ -40,7 +40,7 @@ namespace ml
 
 	MemoryTracker::MemoryTracker()
 		: m_records	()
-		, m_recordIndex	(0)
+		, m_index	(0)
 	{
 	}
 
@@ -48,7 +48,7 @@ namespace ml
 	{
 		if (!m_records.empty())
 		{
-			Debug::logError("Final allocations follow:");
+			Debug::logError("Memory leaks detected:");
 
 			for (const auto & pair : m_records)
 			{
@@ -57,7 +57,6 @@ namespace ml
 			
 #if ML_DEBUG
 			Debug::pause(EXIT_FAILURE);
-			Debug::fatal("YOUR MEMORY IS LEAKING");
 #endif
 		}
 	}
@@ -66,12 +65,12 @@ namespace ml
 
 	void * MemoryTracker::allocate(size_t size)
 	{
-		if (I_Newable * object = static_cast<I_Newable *>(std::malloc(size)))
+		if (auto value = static_cast<I_Newable *>(std::malloc(size)))
 		{
-			if (m_records.find(object) == m_records.end())
+			if (m_records.find(value) == m_records.end())
 			{
 				return m_records.insert({
-					(void *)object, new Record(object, m_recordIndex++, size)
+					(void *)value, new Record(value, m_index++, size)
 				}).first->second->object;
 			}
 		}
@@ -88,7 +87,7 @@ namespace ml
 			
 			// delete the record
 			delete it->second;
-			assert(!(it->second = nullptr) && "Failed deleting MemoryTracker::Record");
+			it->second = nullptr;
 			m_records.erase(it);
 		}
 	}

@@ -77,7 +77,6 @@ namespace ml
 	Window::~Window() 
 	{
 		this->destroy();
-
 		this->terminate();
 
 #ifdef ML_SYSTEM_WINDOWS
@@ -141,9 +140,10 @@ namespace ml
 			if (m_window = static_cast<GLFWwindow *>(glfwCreateWindow(
 				getWidth(), 
 				getHeight(), 
-				m_title.c_str(),
+				getTitle().c_str(),
 				static_cast<GLFWmonitor *>(m_monitor = nullptr),
-				static_cast<GLFWwindow *>(m_share = nullptr))))
+				static_cast<GLFWwindow *>(m_share = nullptr)))
+			)
 			{
 				makeContextCurrent();
 

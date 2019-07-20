@@ -52,12 +52,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_PROPERTY_DRAWER_EXT(PREFIX, NAME, OUT, TAG, IMPL)	\
-struct PREFIX NAME final : public _ML CustomPropertyDrawer<OUT>		\
+#define ML_GEN_PROPERTY_DRAWER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
+struct PREFIX NAME final : public _ML CustomPropertyDrawer<ELEM>	\
 ##IMPL;																\
-template <> struct _ML PropertyDrawer<OUT>							\
+template <> struct _ML PropertyDrawer<ELEM>							\
 {																	\
-	using type = typename OUT;										\
+	using type = typename ELEM;										\
 	static constexpr auto id	{ _ML Hash()(##TAG) };				\
 	static constexpr auto tag	{ ##TAG };							\
 	template <														\
@@ -68,9 +68,8 @@ template <> struct _ML PropertyDrawer<OUT>							\
 	}																\
 };
 
-#define ML_GEN_PROPERTY_DRAWER(NAME, OUT, TAG, IMPL) ML_GEN_PROPERTY_DRAWER_EXT( \
-	ML_EDITOR_API, NAME, OUT, TAG, IMPL \
-)
+#define ML_GEN_PROPERTY_DRAWER(NAME, ELEM, TAG, IMPL) \
+	ML_GEN_PROPERTY_DRAWER_EXT(ML_EDITOR_API, NAME, ELEM, TAG, IMPL)
 
 namespace ml
 {

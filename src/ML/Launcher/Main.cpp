@@ -13,17 +13,11 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# ifndef ML_CONFIG_INI
-# define ML_CONFIG_INI "../../../ML.ini"
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 using namespace ml;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-static Preferences 	g_Preferences	{ ML_CONFIG_INI };
+static Preferences 	g_Preferences	{ "../../../ML.ini" };
 static PluginMap	g_Plugins		{ };
 static GameTime		g_Time			{ };
 static EventSystem	g_EventSystem	{ };
@@ -35,107 +29,36 @@ static Editor		g_Editor		{ g_EventSystem };
 
 enum class State { Exit = -1, Startup, MainLoop, Shutdown };
 
-static StateMachine<State> g_ControlFlow
+static StateMachine<State> g_Flow
 {
 { State::Startup, []()
 {	
-	/* Enter */
-	/* * * * * * * * * * * * * * * * * * * * */
-	g_EventSystem.fireEvent(EnterEvent(
-		g_Time, 
-		g_Preferences, 
-		g_Window
-	));
-
-	/* Load */
-	/* * * * * * * * * * * * * * * * * * * * */
-	g_EventSystem.fireEvent(LoadEvent(
-		g_Time,
-		g_Preferences
-	));
-
-	/* Start */
-	/* * * * * * * * * * * * * * * * * * * * */
-	g_EventSystem.fireEvent(StartEvent(
-		g_Time, 
-		g_Window
-	));
-
-	return g_ControlFlow(State::MainLoop);
+	g_EventSystem.fireEvent(EnterEvent	{ g_Time, g_Preferences, g_Window });
+	g_EventSystem.fireEvent(LoadEvent	{ g_Time, g_Preferences });
+	g_EventSystem.fireEvent(StartEvent	{ g_Time, g_Window });
+	return g_Flow(State::MainLoop);
 } },
 { State::MainLoop, []()
 {	
 	while (g_Window.isOpen())
 	{
-		/* Begin Frame */
-		/* * * * * * * * * * * * * * * * * * * * */
-		g_EventSystem.fireEvent(BeginFrameEvent(
-			g_Time,
-			g_Window
-		));
-
-		/* Update */
-		/* * * * * * * * * * * * * * * * * * * * */
-		g_EventSystem.fireEvent(UpdateEvent(
-			g_Time, 
-			g_Window
-		));
-
-		/* Draw */
-		/* * * * * * * * * * * * * * * * * * * * */
-		g_EventSystem.fireEvent(BeginDrawEvent(
-			g_Time, 
-			g_Window
-		));
-		g_EventSystem.fireEvent(DrawEvent(
-			g_Time,
-			g_Window
-		));
-		g_EventSystem.fireEvent(EndDrawEvent(
-			g_Time, 
-			g_Window
-		));
-
-		/* Gui */
-		/* * * * * * * * * * * * * * * * * * * * */
-		g_EventSystem.fireEvent(BeginGuiEvent(
-			g_Time, 
-			g_Editor
-		));
-		g_EventSystem.fireEvent(GuiEvent(
-			g_Time, 
-			g_Editor
-		));
-		g_EventSystem.fireEvent(EndGuiEvent(
-			g_Time,
-			g_Editor
-		));
-
-		/* End Frame */
-		/* * * * * * * * * * * * * * * * * * * * */
-		g_EventSystem.fireEvent(EndFrameEvent(
-			g_Time, 
-			g_Window
-		));
+		g_EventSystem.fireEvent(BeginFrameEvent	{ g_Time, g_Window });
+		g_EventSystem.fireEvent(UpdateEvent		{ g_Time, g_Window });
+		g_EventSystem.fireEvent(BeginDrawEvent	{ g_Time, g_Window });
+		g_EventSystem.fireEvent(DrawEvent		{ g_Time, g_Window });
+		g_EventSystem.fireEvent(EndDrawEvent	{ g_Time, g_Window });
+		g_EventSystem.fireEvent(BeginGuiEvent	{ g_Time, g_Editor });
+		g_EventSystem.fireEvent(GuiEvent		{ g_Time, g_Editor });
+		g_EventSystem.fireEvent(EndGuiEvent		{ g_Time, g_Editor });
+		g_EventSystem.fireEvent(EndFrameEvent	{ g_Time, g_Window });
 	}
-	return g_ControlFlow(State::Shutdown);
+	return g_Flow(State::Shutdown);
 } },
 { State::Shutdown, []()
 {	
-	/* Unload */
-	/* * * * * * * * * * * * * * * * * * * * */
-	g_EventSystem.fireEvent(UnloadEvent(
-		g_Time, 
-		g_Window
-	));
-
-	/* Exit */
-	/* * * * * * * * * * * * * * * * * * * * */
-	g_EventSystem.fireEvent(ExitEvent(
-		g_Time
-	));
-
-	return g_ControlFlow(State::Exit);
+	g_EventSystem.fireEvent(UnloadEvent { g_Time, g_Window });
+	g_EventSystem.fireEvent(ExitEvent	{ g_Time });
+	return g_Flow(State::Exit);
 } },
 };
 
@@ -175,7 +98,7 @@ int32_t main()
 	}
 
 	// Run Controller
-	g_ControlFlow(State::Startup);
+	g_Flow(State::Startup);
 
 	// Cleanup Plugins
 	for (auto & pair : g_Plugins)

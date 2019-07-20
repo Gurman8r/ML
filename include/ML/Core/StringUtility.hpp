@@ -95,13 +95,10 @@ namespace ml
 
 		static inline bool is_bool(const String & value)
 		{
+			if (value.size() == 1) 
+				return value.front() == '0' || value.front() == '1';
 			const String temp { to_lower(value) };
-			return (
-				(temp == "true") || 
-				(temp == "false") ||
-				(temp == "1") || 
-				(temp == "0")
-			);
+			return (temp == "true") || (temp == "false");
 		}
 
 		static inline bool is_int(const String & value)
@@ -130,13 +127,10 @@ namespace ml
 
 		static inline bool is_decimal(const String & value)
 		{
-			if (!value.empty())
-			{
-				String::pointer endptr = nullptr;
-				std::strtod(value.c_str(), &endptr);
-				return ((*endptr) == '\0' && (endptr != value));
-			}
-			return false;
+			if (!value) { return false; }
+			String::pointer endptr = nullptr;
+			std::strtod(value.c_str(), &endptr);
+			return ((*endptr) == '\0' && (endptr != value));
 		}
 
 		static inline bool is_name(const String & value)
@@ -163,7 +157,7 @@ namespace ml
 
 		static inline bool to_bool(const String & value, bool dv = false)
 		{
-			return (value == "1" || to_lower(value) == "true") ? true : dv;
+			return (value && (value == "1" || to_lower(value) == "true")) ? true : dv;
 		}
 
 		static inline int32_t to_int(const String & value, int32_t dv = 0)

@@ -284,7 +284,6 @@ namespace ml
 				}
 
 				eventSystem().fireEvent(MainMenuBarEvent(
-					(*this),
 					MainMenuBarEvent::File
 				));
 
@@ -323,7 +322,6 @@ namespace ml
 				}
 
 				eventSystem().fireEvent(MainMenuBarEvent(
-					(*this),
 					MainMenuBarEvent::Edit
 				));
 
@@ -340,7 +338,6 @@ namespace ml
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr()	);
 
 				eventSystem().fireEvent(MainMenuBarEvent(
-					(*this),
 					MainMenuBarEvent::Window
 				));
 				
@@ -393,7 +390,6 @@ namespace ml
 				ImGui::MenuItem("About Dear ImGui", "", &show_imgui_about);
 
 				eventSystem().fireEvent(MainMenuBarEvent(
-					(*this),
 					MainMenuBarEvent::Help
 				));
 
@@ -401,7 +397,6 @@ namespace ml
 			}
 
 			eventSystem().fireEvent(MainMenuBarEvent(
-				(*this),
 				MainMenuBarEvent::None
 			));
 

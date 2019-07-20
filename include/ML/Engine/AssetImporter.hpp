@@ -2,7 +2,7 @@
 #define _ML_ASSET_IMPORTER_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Metadata.hpp>
+#include <ML/Core/MetaData.hpp>
 
 namespace ml
 {
@@ -71,7 +71,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(CubeMapAssetImporter, CubeMap, "cubemap",
 	{
-		CubeMap * operator()(const Metadata & md) const;
+		CubeMap * operator()(const MetaData & md) const;
 	});
 
 
@@ -79,7 +79,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(EntityAssetImporter, Entity, "entity",
 	{
-		Entity * operator()(const Metadata & md) const;
+		Entity * operator()(const MetaData & md) const;
 	});
 
 
@@ -87,7 +87,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(FontAssetImporter, Font, "font",
 	{
-		Font * operator()(const Metadata & md) const;
+		Font * operator()(const MetaData & md) const;
 	});
 
 
@@ -95,7 +95,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(ImageAssetImporter, Image, "image",
 	{
-		Image * operator()(const Metadata & md) const;
+		Image * operator()(const MetaData & md) const;
 	});
 
 
@@ -103,7 +103,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(MaterialAssetImporter, Material, "material",
 	{
-		Material * operator()(const Metadata & md) const;
+		Material * operator()(const MetaData & md) const;
 	});
 
 
@@ -111,7 +111,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(MeshAssetImporter, Mesh, "mesh",
 	{
-		Mesh * operator()(const Metadata & md) const;
+		Mesh * operator()(const MetaData & md) const;
 	});
 
 
@@ -119,7 +119,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(ModelAssetImporter, Model, "model",
 	{
-		Model * operator()(const Metadata & md) const;
+		Model * operator()(const MetaData & md) const;
 	});
 
 
@@ -127,7 +127,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(ScriptAssetImporter, Script, "script",
 	{
-		Script * operator()(const Metadata & md) const;
+		Script * operator()(const MetaData & md) const;
 	});
 
 
@@ -135,7 +135,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(ShaderAssetImporter, Shader, "shader",
 	{
-		Shader * operator()(const Metadata & md) const;
+		Shader * operator()(const MetaData & md) const;
 	});
 
 
@@ -143,7 +143,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(SoundAssetImporter, Sound, "sound",
 	{
-		Sound * operator()(const Metadata & md) const;
+		Sound * operator()(const MetaData & md) const;
 	});
 
 
@@ -151,7 +151,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(SpriteAssetImporter, Sprite, "sprite",
 	{
-		Sprite * operator()(const Metadata & md) const;
+		Sprite * operator()(const MetaData & md) const;
 	});
 
 
@@ -159,7 +159,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(SurfaceAssetImporter, Surface, "surface",
 	{
-		Surface * operator()(const Metadata & md) const;
+		Surface * operator()(const MetaData & md) const;
 	});
 
 
@@ -167,7 +167,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(TextureAssetImporter, Texture, "texture",
 	{
-		Texture * operator()(const Metadata & md) const;
+		Texture * operator()(const MetaData & md) const;
 	});
 
 
@@ -175,7 +175,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(UniformAssetImporter, Uniform, "uniform",
 	{
-		Uniform * operator()(const Metadata & md) const;
+		Uniform * operator()(const MetaData & md) const;
 	});
 }
 

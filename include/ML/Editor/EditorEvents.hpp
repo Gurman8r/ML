@@ -9,7 +9,7 @@ namespace ml
 
 	struct	GameTime;
 	class	Dockspace;
-	class	Editor;
+	class	RenderWindow;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -46,10 +46,10 @@ namespace ml
 	struct BeginGuiEvent final : public I_Event<EditorEvent::EV_BeginGui>
 	{
 		const GameTime & time;
-		Editor & editor;
-		constexpr BeginGuiEvent(const GameTime & time, Editor & editor)
+		RenderWindow & window;
+		constexpr BeginGuiEvent(const GameTime & time, RenderWindow & window)
 			: time	(time)
-			, editor(editor)
+			, window(window)
 		{
 		}
 	};
@@ -57,10 +57,10 @@ namespace ml
 	struct GuiEvent final : public I_Event<EditorEvent::EV_Gui>
 	{
 		const GameTime & time;
-		Editor & editor;
-		constexpr GuiEvent(const GameTime & time, Editor & editor)
+		RenderWindow & window;
+		constexpr GuiEvent(const GameTime & time, RenderWindow & window)
 			: time	(time)
-			, editor(editor)
+			, window(window)
 		{
 		}
 	};
@@ -68,10 +68,10 @@ namespace ml
 	struct EndGuiEvent final : public I_Event<EditorEvent::EV_EndGui>
 	{
 		const GameTime & time;
-		Editor & editor;
-		constexpr EndGuiEvent(const GameTime & time, Editor & editor)
+		RenderWindow & window;
+		constexpr EndGuiEvent(const GameTime & time, RenderWindow & window)
 			: time	(time)
-			, editor(editor)
+			, window(window)
 		{
 		}
 	};
@@ -87,22 +87,18 @@ namespace ml
 			MAX_MAIN_MENU_BAR_MENU
 		};
 
-		Editor & editor;
 		const Menu menu;
-		constexpr MainMenuBarEvent(Editor & editor, const Menu menu)
-			: editor(editor)
-			, menu	(menu)
+		constexpr MainMenuBarEvent(const Menu menu)
+			: menu(menu)
 		{
 		}
 	};
 
 	struct BuildDockspaceEvent final : public I_Event<EditorEvent::EV_BuildDockspace>
 	{
-		Editor & editor;
 		Dockspace & dockspace;
-		constexpr BuildDockspaceEvent(Editor & editor, Dockspace & dockspace)
-			: editor	(editor)
-			, dockspace	(dockspace)
+		constexpr BuildDockspaceEvent(Dockspace & dockspace)
+			: dockspace(dockspace)
 		{
 		}
 	};

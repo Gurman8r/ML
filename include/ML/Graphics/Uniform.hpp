@@ -45,8 +45,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Uniform() = delete;
-
 		Uniform(const String & name, const int32_t type)
 			: name(name)
 			, type(type) 

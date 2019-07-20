@@ -40,13 +40,13 @@ namespace ml
 		SStream file;
 		if (ML_FS.getFileContents(filename, file))
 		{
-			List<Metadata *> list;
+			List<MetaData *> list;
 
 			// Read MetaData
 			String line;
 			while (std::getline(file, line))
 			{
-				if (Metadata * data = this->readMetadata(file, line))
+				if (MetaData * data = this->readMetadata(file, line))
 				{
 					list.push_back(data);
 				}
@@ -69,14 +69,14 @@ namespace ml
 		return false;
 	}
 
-	Metadata * Content::readMetadata(Istream & file, String & line) const
+	MetaData * Content::readMetadata(Istream & file, String & line) const
 	{
-		Metadata * temp = nullptr;
+		MetaData * temp = nullptr;
 		if ((line) &&
 			(line.trim().front() != '#') &&
 			(line.find("<import>") != String::npos))
 		{
-			temp = new Metadata();
+			temp = new MetaData();
 			while (std::getline(file, line))
 			{
 				line.replaceAll("$(Configuration)", ML_CONFIGURATION);
@@ -107,7 +107,7 @@ namespace ml
 		return (temp = nullptr);
 	}
 
-	bool Content::parseMetadata(const Metadata & md)
+	bool Content::parseMetadata(const MetaData & md)
 	{
 		switch (Hash()(md.getData("type").asString()))
 		{

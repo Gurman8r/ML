@@ -4,7 +4,7 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/Metadata.hpp>
+#include <ML/Core/MetaData.hpp>
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Readable.hpp>
@@ -31,8 +31,8 @@ namespace ml
 		
 		bool		dispose() override;
 		bool		loadFromFile(const String & filename) override;
-		Metadata *	readMetadata(Istream & file, String & line) const;
-		bool		parseMetadata(const Metadata & data);
+		MetaData *	readMetadata(Istream & file, String & line) const;
+		bool		parseMetadata(const MetaData & data);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

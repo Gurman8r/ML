@@ -47,9 +47,9 @@ static StateMachine<State> g_Flow
 		g_EventSystem.fireEvent(BeginDrawEvent	{ g_Time, g_Window });
 		g_EventSystem.fireEvent(DrawEvent		{ g_Time, g_Window });
 		g_EventSystem.fireEvent(EndDrawEvent	{ g_Time, g_Window });
-		g_EventSystem.fireEvent(BeginGuiEvent	{ g_Time, g_Editor });
-		g_EventSystem.fireEvent(GuiEvent		{ g_Time, g_Editor });
-		g_EventSystem.fireEvent(EndGuiEvent		{ g_Time, g_Editor });
+		g_EventSystem.fireEvent(BeginGuiEvent	{ g_Time, g_Window });
+		g_EventSystem.fireEvent(GuiEvent		{ g_Time, g_Window });
+		g_EventSystem.fireEvent(EndGuiEvent		{ g_Time, g_Window });
 		g_EventSystem.fireEvent(EndFrameEvent	{ g_Time, g_Window });
 	}
 	return g_Flow(State::Shutdown);

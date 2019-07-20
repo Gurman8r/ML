@@ -190,10 +190,7 @@ namespace ml
 			ev.window.clear(noobs.clearColor);
 
 			// Draw Renderer
-			if (noobs.entity)
-			{
-				ev.window.draw(noobs.entity->get<Renderer>());
-			}
+			if (noobs.entity) { ev.window.draw(noobs.renderer); }
 			
 			// Unbind Main Surface
 			noobs.surf_main->unbind();

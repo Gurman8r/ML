@@ -117,12 +117,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\I_Writable.hpp">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -173,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\MetaValue.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\MetaData.hpp">
+      <Filter>Header Files\DS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

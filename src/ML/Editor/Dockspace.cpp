@@ -33,7 +33,8 @@ namespace ml
 			ImGuiWindowFlags_NoNavFocus |
 			ImGuiWindowFlags_MenuBar |
 			ImGuiWindowFlags_NoDocking |
-			ImGuiWindowFlags_NoBackground))
+			ImGuiWindowFlags_NoBackground
+		))
 		{
 			if (m_nodes[Root] = beginBuilder(ImGuiDockNodeFlags_None))
 			{
@@ -45,7 +46,6 @@ namespace ml
 				m_nodes[RightDn]= splitNode(m_nodes[Right],	ImGuiDir_Down,	0.25f,	&m_nodes[Right]);
 
 				eventSystem().fireEvent(BuildDockspaceEvent(
-					ev.editor, 
 					(*this)
 				));
 

@@ -28,20 +28,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class U
-		> explicit Asset(const String & name, U * data)
-			: name(name)
-			, data(static_cast<pointer>(data))
-		{
-			static_assert(std::is_base_of<I_Newable, U>::value,
-				"Asset containers must contain I_Newable objects."
-			);
-			static_assert(!std::is_base_of<Asset, U>::value, 
-				"Asset containers cannot contain other asset containers."
-			);
-		}
-
 		Asset(const String & name)
 			: name(name)
 			, data(nullptr)

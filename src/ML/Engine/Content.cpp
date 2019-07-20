@@ -38,21 +38,21 @@ namespace ml
 	{
 		if (!filename) return false;
 
-		size_t count = 0;
+		size_t errors = 0;
 		SStream file;
 		if (ML_FS.getFileContents(filename, file))
 		{
 			String line;
 			while (std::getline(file, line))
 			{
-				Metadata data;
-				if (readMetadata(data, file, line))
+				Metadata temp;
+				if (readMetadata(temp, file, line))
 				{
-					count += parseMetadata(data);
+					errors += !parseMetadata(temp);
 				}
 			}
 		}
-		return (bool)(count);
+		return (errors == 0);
 	}
 
 	bool Content::readMetadata(Metadata & data, Istream & file, String & line) const

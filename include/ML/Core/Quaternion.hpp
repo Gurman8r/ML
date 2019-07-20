@@ -2,7 +2,6 @@
 #define _ML_QUATERNION_HPP_
 
 #include <ML/Core/Matrix.hpp>
-#include <ML/Core/Trig.hpp>
 
 namespace ml
 {

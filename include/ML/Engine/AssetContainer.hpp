@@ -7,6 +7,10 @@
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
+
+	enum class AssetFlags { None };
+
+	/* * * * * * * * * * * * * * * * * * * * */
 	
 	// Used to store a single I_Newable within Content
 	struct AssetContainer final
@@ -23,9 +27,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		String	name;
-		pointer obj;
-		int32_t flags;
+		String		name;
+		pointer		obj;
+		AssetFlags	flags;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -33,7 +37,7 @@ namespace ml
 
 		template <
 			class T
-		> explicit AssetContainer(const String & name, T * obj, int32_t flags = 0)
+		> explicit AssetContainer(const String & name, T * obj, AssetFlags flags)
 			: name	{ name }
 			, obj	{ static_cast<pointer>(obj) }
 			, flags { flags }
@@ -64,6 +68,16 @@ namespace ml
 		inline pointer			operator *()		{ return obj; }
 		inline const_pointer	operator->() const	{ return obj; }
 		inline const_pointer	operator *() const	{ return obj; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class T
+		> inline const T * as() const { return static_cast<const T *>(obj); }
+
+		template <
+			class T
+		> inline T * as() { return static_cast<T *>(obj); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

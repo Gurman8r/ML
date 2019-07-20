@@ -11,8 +11,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Stores contents and location of a file
-	struct ML_CORE_API File final
+	// Stores the contents of a text file
+	template <
+		class Elem,
+		class Traits	= std::char_traits<Elem>,
+		class Alloc		= std::allocator<Elem>
+	> struct BasicFile final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
@@ -20,55 +24,51 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type		= typename char;
-		using data_type			= typename List<value_type>;
-		using iterator			= typename data_type::iterator;
-		using const_iterator	= typename data_type::const_iterator;
+		using value_type		= typename Elem;
+		using traits_type		= typename Traits;
+		using allocator_type	= typename Alloc;
+		using self_type			= typename BasicFile<value_type, traits_type, allocator_type>;
+		using string_type		= typename BasicString<value_type, traits_type, allocator_type>;
+		using sstream_type		= typename string_type::sstream_type;
+		using ifstream_type		= typename std::basic_ifstream<value_type, traits_type>;
+		using ofstream_type		= typename std::basic_ofstream<value_type, traits_type>;
+		using list_type			= typename List<value_type>;
+		using iterator			= typename list_type::iterator;
+		using const_iterator	= typename list_type::const_iterator;
+		using pointer			= typename list_type::pointer;
+		using reference			= typename list_type::reference;
+		using const_pointer		= typename list_type::const_pointer;
+		using const_reference	= typename list_type::const_reference;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		File()
+		BasicFile() 
 			: m_data()
 			, m_path()
 		{
 		}
 
-		explicit File(const size_t count, const C_String * data)
-			: m_data()
-			, m_path()
-		{
-			for (size_t i = 0; i < count; i++)
-			{
-				String line(data[i]);
-
-				line = String::ReplaceAll(line, "\0", "");
-
-				m_data.insert(end(), line.begin(), line.end());
-			}
-			m_data.push_back('\0');
-		}
-
-		File(const String & data)
+		BasicFile(const string_type & data)
 			: m_data(data.begin(), data.end())
-			, m_path()
+			, m_path() 
 		{
 		}
 
-		File(const data_type & data)
+		BasicFile(const list_type & data) 
 			: m_data(data)
-			, m_path()
+			, m_path() 
 		{
 		}
 
-		File(const File & copy)
+		BasicFile(const self_type & copy)
 			: m_data(copy.m_data)
 			, m_path(copy.m_path)
 		{
 		}
 
-		~File() { dispose(); }
+		~BasicFile() { dispose(); }
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool dispose() override
 		{
@@ -78,22 +78,18 @@ namespace ml
 
 		inline bool loadFromFile(const String & filename) override
 		{
-			if (Ifstream file { (m_path = filename), std::ios_base::binary })
+			if (ifstream_type file { (m_path = filename), std::ios_base::binary })
 			{
 				if (dispose())
 				{
 					file.seekg(0, std::ios_base::end);
-
 					std::streamsize size;
 					if ((size = file.tellg()) > 0)
 					{
 						file.seekg(0, std::ios_base::beg);
-
 						m_data.resize(static_cast<size_t>(size));
-
 						file.read(&m_data[0], size);
 					}
-
 					m_data.push_back('\0');
 				}
 				file.close();
@@ -104,7 +100,7 @@ namespace ml
 
 		inline bool saveToFile(const String & filename) const override
 		{
-			if (Ofstream file { filename, std::ios_base::binary })
+			if (ofstream_type file { filename, std::ios_base::binary })
 			{
 				file << (*this);
 				file.close();
@@ -120,56 +116,60 @@ namespace ml
 			return !this->empty(); 
 		}
 
-		inline File & operator=(const String & value)
+		inline self_type & operator=(const string_type & value)
 		{
-			return ((*this) = File(value));
+			return ((*this) = self_type(value));
 		}
 		
-		inline const value_type & operator[](size_t i) const 
+		inline const_reference operator[](size_t i) const 
 		{ 
 			return m_data[i]; 
 		}
 		
-		inline value_type & operator[](size_t i) 
+		inline reference operator[](size_t i) 
 		{ 
 			return m_data[i]; 
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto at(size_t i) const	-> const value_type &	{ return m_data[i]; }
+		inline auto at(size_t i) const	-> const_reference		{ return m_data[i]; }
 		inline auto at(size_t i)		-> value_type &			{ return m_data[i]; }
-		inline auto c_str()	const		-> C_String				{ return str().c_str(); }
-		inline auto data() const		-> const data_type &	{ return m_data; }
-		inline auto data()				-> data_type &			{ return m_data; }
-		inline auto empty() const		-> const bool			{ return m_data.empty(); }
+		inline auto c_str()	const		-> const_pointer		{ return str().c_str(); }
+		inline auto data() const		-> const list_type &	{ return m_data; }
+		inline auto data()				-> list_type &			{ return m_data; }
+		inline auto empty() const		-> bool					{ return m_data.empty(); }
 		inline auto path() const		-> const String &		{ return m_path; }
-		inline auto str() const			-> String				{ return String(begin(), end()); }
-		inline auto sstr() const		-> SStream				{ return SStream(str()); }
+		inline auto str() const			-> string_type			{ return string_type(begin(), end()); }
+		inline auto sstr() const		-> sstream_type			{ return sstream_type(str()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto begin()			-> iterator					{ return m_data.begin(); }
-		inline auto end()			-> iterator					{ return m_data.end(); }
-		inline auto begin() const	-> const_iterator			{ return m_data.begin(); }
-		inline auto end() const		-> const_iterator			{ return m_data.end(); }
-		inline auto cbegin() const	-> const_iterator			{ return m_data.cbegin(); }
-		inline auto cend() const	-> const_iterator			{ return m_data.cend(); }
+		inline auto begin()				-> iterator				{ return m_data.begin(); }
+		inline auto end()				-> iterator				{ return m_data.end(); }
+		inline auto begin() const		-> const_iterator		{ return m_data.begin(); }
+		inline auto end() const			-> const_iterator		{ return m_data.end(); }
+		inline auto cbegin() const		-> const_iterator		{ return m_data.cbegin(); }
+		inline auto cend() const		-> const_iterator		{ return m_data.cend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		String		m_path;
-		data_type	m_data;
+		list_type	m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	using File = typename BasicFile<char>;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	inline ML_SERIALIZE(Ostream & out, const File & value)
 	{
-		return out << String(value.begin(), value.end());
+		return out << value.str();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

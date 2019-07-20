@@ -1,6 +1,7 @@
 #ifndef _ML_FPS_CAMERA_HPP_
 #define _ML_FPS_CAMERA_HPP_
 
+#include <ML/Engine/Export.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/Quaternion.hpp>
 #include <ML/Core/I_Newable.hpp>
@@ -10,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP - UNTESTED
-	struct Camera final
+	struct ML_ENGINE_API Camera final
 		: public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

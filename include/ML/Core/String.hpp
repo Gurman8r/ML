@@ -23,10 +23,10 @@ namespace ml
 		using self_type				= typename BasicString<value_type, traits_type, allocator_type>;
 		using base_type				= typename std::basic_string<value_type, traits_type, allocator_type>;
 		using sstream_type			= typename std::basic_stringstream<value_type, traits_type, allocator_type>;
-		using reference				= typename base_type::reference;
 		using pointer				= typename base_type::pointer;
-		using const_reference		= typename base_type::const_reference;
+		using reference				= typename base_type::reference;
 		using const_pointer			= typename base_type::const_pointer;
+		using const_reference		= typename base_type::const_reference;
 		using size_type				= typename base_type::size_type;
 		using difference_type		= typename base_type::difference_type;
 		using iterator				= typename base_type::iterator;

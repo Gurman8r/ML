@@ -2,6 +2,7 @@
 #define _ML_ALG_HPP_
 
 #include <ML/Core/StaticValue.hpp>
+#include <gcem/gcem.hpp>
 
 #define ML_MIN(l, r) ((l <= r) ? l : r)
 #define ML_MAX(l, r) ((l >= r) ? l : r)
@@ -9,6 +10,83 @@
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	// Trigonometry
+	namespace alg
+	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class T
+		> static constexpr T cos(const T & value)
+		{
+			return gcem::cos<T>(value);
+		}
+
+		template <
+			class T
+		> static constexpr T sin(const T & value)
+		{
+			return gcem::sin<T>(value);
+		}
+
+		template <
+			class T
+		> static constexpr T tan(const T value)
+		{
+			return gcem::tan<T>(value);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class T
+		> static constexpr T acos(const T & value)
+		{
+			return gcem::acos<T>(value);
+		}
+
+		template <
+			class T
+		> static constexpr T asin(const T & value)
+		{
+			return gcem::asin<T>(value);
+		}
+
+		template <
+			class T
+		> static constexpr auto atan(const T & value)
+		{
+			return gcem::atan<T>(value);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class T, class Tx, class Ty
+		> static constexpr T acos2(const Tx & x, const Ty & y)
+		{
+			return static_value<T> { gcem::acos2<Tx, Ty>(x, y) };
+		}
+
+		template <
+			class T, class Tx, class Ty
+		> static constexpr T asin2(const Tx & x, const Ty & y)
+		{
+			return static_value<T> { gcem::asin2<Tx, Ty>(x, y) };
+		}
+
+		template <
+			class T, class Tx, class Ty
+		> static constexpr T atan2(const Tx & x, const Ty & y)
+		{
+			return static_value<T>{ gcem::atan2<Tx, Ty>(x, y) };
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Bit Math
@@ -525,18 +603,19 @@ namespace ml
 		{
 			const T det { alg::determinant(v) };
 			return ((det != static_value<T>::zero)
-			? M<T, 4, 4>
-			{	+(v[15] * v[5] - v[7] * v[13]) / det,
-				-(v[15] * v[4] - v[7] * v[12]) / det,
-				+(v[13] * v[4] - v[5] * v[12]) / det,
-				-(v[15] * v[1] - v[3] * v[13]) / det,
-				+(v[15] * v[0] - v[3] * v[12]) / det,
-				-(v[13] * v[0] - v[1] * v[12]) / det,
-				+(v[7]  * v[1] - v[3] * v[5])  / det,
-				-(v[7]  * v[0] - v[3] * v[4])  / det,
-				+(v[5]  * v[0] - v[1] * v[4])  / det
-			}
-			: M<T, 4, 4>::identity());
+				? M<T, 4, 4> {	
+					+(v[15] * v[5] - v[7] * v[13]) / det,
+					-(v[15] * v[4] - v[7] * v[12]) / det,
+					+(v[13] * v[4] - v[5] * v[12]) / det,
+					-(v[15] * v[1] - v[3] * v[13]) / det,
+					+(v[15] * v[0] - v[3] * v[12]) / det,
+					-(v[13] * v[0] - v[1] * v[12]) / det,
+					+(v[ 7] * v[1] - v[3] * v[ 5]) / det,
+					-(v[ 7] * v[0] - v[3] * v[ 4]) / det,
+					+(v[ 5] * v[0] - v[1] * v[ 4]) / det
+				}
+				: M<T, 4, 4>::identity()
+			);
 		}
 
 		template <

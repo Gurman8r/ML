@@ -57,9 +57,7 @@ namespace ml
 
 		enum ClientAPI
 		{
-			API_Unknown,
-			API_OpenGL,
-			API_Vulkan
+			API_Unknown, API_OpenGL, API_Vulkan
 		};
 
 		Window *	m_Window;

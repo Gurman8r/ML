@@ -17,19 +17,18 @@ namespace ml
 
 	bool Content::dispose()
 	{
-		// Delete Type Maps
-		for (auto & tp : m_data)
+		for (auto & asset_types : m_data)
 		{
-			// Delete Object Containers
-			for (auto & obj : tp.second)
+			for (auto & asset_data : asset_types.second)
 			{
-				if (obj.second)
+				if (asset_data.second)
 				{
-					delete obj.second;
-					obj.second = nullptr;
+					// Delete the asset container
+					delete asset_data.second;
+					asset_data.second = nullptr;
 				}
 			}
-			tp.second.clear();
+			asset_types.second.clear();
 		}
 		m_data.clear();
 		return m_data.empty();

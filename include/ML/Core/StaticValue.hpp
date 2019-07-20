@@ -11,7 +11,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Combines static_cast with numerical constants.
+	// Functions as a reusable static_cast with builtin numerical constants.
 	template <
 		class T
 	> struct static_value final

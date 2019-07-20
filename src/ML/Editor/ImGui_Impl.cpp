@@ -3,18 +3,14 @@
 #include <ML/Editor/ImGui_Impl.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGui_StyleLoader.hpp>
-#include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Shader.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	ImGui_Impl::ImGui_Impl()
@@ -364,7 +360,7 @@ namespace ml
 		return loader.loadFromFile(filename);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ImGui_Impl::CreateFontsTexture()
 	{
@@ -403,7 +399,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ImGui_Impl::CreateDeviceObjects()
 	{
@@ -615,7 +611,7 @@ namespace ml
 		this->DestroyFontsTexture();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void ImGui_Impl::HandleInput()
 	{
@@ -674,7 +670,22 @@ namespace ml
 			return Debug::logError("ImGui: Shaders are not available on your system.");
 		}
 
-		auto dispose = [&]() 
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		auto combine = [](const size_t count, const C_String * data)
+		{
+			List<char> out;
+			for (size_t i = 0; i < count; i++)
+			{
+				String line(data[i]);
+				line = String::ReplaceAll(line, "\0", "");
+				out.insert(out.end(), line.begin(), line.end());
+			}
+			out.push_back('\0');
+			return out;
+		};
+
+		auto dispose = [&]()
 		{
 			ML_GL.useShader(NULL);
 			if (obj)
@@ -685,12 +696,14 @@ namespace ml
 			return (!obj);
 		};
 
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		// Create Program
 		if (dispose() && (obj = ML_GL.createProgramObject()))
 		{
 			// Compile Vertex
 			switch (ML_GL.compileShader(
-				m_VertHandle, GL::ShaderType::VertexShader, &File(2, vs)[0]
+				m_VertHandle, GL::ShaderType::VertexShader, &combine(2, vs)[0]
 			))
 			{
 			case ML_SUCCESS:
@@ -703,7 +716,7 @@ namespace ml
 
 			// Compile Fragment
 			switch (ML_GL.compileShader(
-				m_FragHandle, GL::ShaderType::FragmentShader, &File(2, fs)[0]
+				m_FragHandle, GL::ShaderType::FragmentShader, &combine(2, fs)[0]
 			))
 			{
 			case ML_SUCCESS:
@@ -730,9 +743,11 @@ namespace ml
 		{
 			return Debug::logError("ImGui: Failed compiling shader");
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void ImGui_Impl::MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods)
 	{
@@ -743,11 +758,7 @@ namespace ml
 			ML_ImGui_Impl.m_MousePressed[button] = true;
 		}
 
-		ML_ImGui_Impl.fireEvent(MouseButtonEvent(
-			button,
-			action,
-			mods
-		));
+		ML_ImGui_Impl.fireEvent(MouseButtonEvent(button, action, mods));
 	}
 
 	void ImGui_Impl::ScrollCallback(void * window, float64_t xoffset, float64_t yoffset)
@@ -758,10 +769,7 @@ namespace ml
 	
 		io.MouseWheel += (float_t)yoffset;
 	
-		ML_ImGui_Impl.fireEvent(ScrollEvent(
-			xoffset,
-			yoffset
-		));
+		ML_ImGui_Impl.fireEvent(ScrollEvent(xoffset, yoffset));
 	}
 
 	void ImGui_Impl::KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
@@ -794,12 +802,8 @@ namespace ml
 			io.AddInputCharacter((uint16_t)value);
 		}
 	
-		ML_ImGui_Impl.fireEvent(CharEvent(
-			value
-		));
+		ML_ImGui_Impl.fireEvent(CharEvent(value));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
-
-/* * * * * * * * * * * * * * * * * * * * */

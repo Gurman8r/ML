@@ -26,7 +26,7 @@ namespace ml
 		using value_type		= typename T;
 		using self_type			= typename Matrix<value_type, Cols, Rows>;
 		using base_type			= typename Array<value_type, Size>;
-		using cast_type			= typename base_type::cast_type;
+		using cast_type			= typename static_value<value_type>;
 		using pointer			= typename base_type::pointer;
 		using reference			= typename base_type::reference;
 		using const_pointer		= typename base_type::const_pointer;

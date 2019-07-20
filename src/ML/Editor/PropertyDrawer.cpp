@@ -749,10 +749,6 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		//ImGui::Columns(2, "texture_data_columns");
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		vec2u size = value.size();
 		ImGui::Text("Size: %u x %u", size[0], size[1]);
 
@@ -889,7 +885,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool UniformPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return false;
+		return asset_dropdown<Uniform>(label, value);
 	}
 
 	bool UniformPropertyDrawer::operator()(const String & label, const_reference value) const

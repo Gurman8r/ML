@@ -12,6 +12,8 @@ namespace ml
 
 	namespace detail
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using Seconds	= Ratio< 1 >;
 		using Minutes	= Ratio< Seconds::num	* 60>;
 		using Hours		= Ratio< Minutes::num	* 60>;
@@ -19,6 +21,8 @@ namespace ml
 		using Weeks		= Ratio< Days::num		* 7>;
 		using Months	= Ratio< Weeks::num		* 4>; // FIXME: 28
 		using Years		= Ratio< Days::num		* 365>;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -36,12 +40,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// Unit of time stored in nanoseconds
 	struct Duration final : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type = typename uint64_t;
-		using unit = typename Nanosec;
+		using value_type = typename uint64_t;
+		using unit_type  = typename Nanosec;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -50,7 +55,7 @@ namespace ml
 		{
 		}
 
-		constexpr Duration(const type value)
+		constexpr Duration(const value_type value)
 			: m_base { value }
 		{
 		}
@@ -63,30 +68,34 @@ namespace ml
 		template <
 			class Rep, class Per = typename Rep::period
 		> constexpr Duration(const std::chrono::duration<Rep, Per> & value)
-			: m_base { ML_duration_cast(unit, value) }
+			: m_base { ML_duration_cast(unit_type, value) }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		constexpr operator type() const
+		constexpr operator value_type() const
 		{ 
 			return m_base; 
 		}
 
+		constexpr unit_type base() const
+		{
+			return static_cast<Nanosec>((value_type)(*this));
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr unit base		() const { return static_cast<Nanosec>(m_base); }
-		constexpr type nanos	() const { return ML_duration_cast(Nanosec,	base()); }
-		constexpr type micros	() const { return ML_duration_cast(Microsec,base()); }
-		constexpr type millis	() const { return ML_duration_cast(Millisec,base()); }
-		constexpr type seconds	() const { return ML_duration_cast(Seconds, base()); }
-		constexpr type minutes	() const { return ML_duration_cast(Minutes, base()); }
-		constexpr type hours	() const { return ML_duration_cast(Hours,	base()); }
-		constexpr type days		() const { return ML_duration_cast(Days,	base()); }
-		constexpr type weeks	() const { return ML_duration_cast(Weeks,	base()); }
-		constexpr type months	() const { return ML_duration_cast(Months,	base()); }
-		constexpr type years	() const { return ML_duration_cast(Years,	base()); }
+		constexpr value_type nanos	() const { return ML_duration_cast(Nanosec,	base()); }
+		constexpr value_type micros	() const { return ML_duration_cast(Microsec,base()); }
+		constexpr value_type millis	() const { return ML_duration_cast(Millisec,base()); }
+		constexpr value_type seconds() const { return ML_duration_cast(Seconds, base()); }
+		constexpr value_type minutes() const { return ML_duration_cast(Minutes, base()); }
+		constexpr value_type hours	() const { return ML_duration_cast(Hours,	base()); }
+		constexpr value_type days	() const { return ML_duration_cast(Days,	base()); }
+		constexpr value_type weeks	() const { return ML_duration_cast(Weeks,	base()); }
+		constexpr value_type months	() const { return ML_duration_cast(Months,	base()); }
+		constexpr value_type years	() const { return ML_duration_cast(Years,	base()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -106,14 +115,14 @@ namespace ml
 			class T
 		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return ((type)(lhs) == (type)(Duration(rhs)));
+			return ((value_type)(lhs) == (value_type)(Duration(rhs)));
 		}
 
 		template <
 			class T
 		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return ((type)(lhs) < (type)(Duration(rhs)));
+			return ((value_type)(lhs) < (value_type)(Duration(rhs)));
 		}
 
 		template <
@@ -150,14 +159,14 @@ namespace ml
 			class T
 		> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
-			return Duration((type)(lhs) + (type)(rhs));
+			return Duration((value_type)(lhs) + (value_type)(rhs));
 		}
 
 		template <
 			class T
 		> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
-			return Duration((type)(lhs) - (type)(rhs));
+			return Duration((value_type)(lhs) - (value_type)(rhs));
 		}
 
 		template <
@@ -176,7 +185,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: type m_base; // nanoseconds
+	private: value_type m_base; // nanoseconds
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

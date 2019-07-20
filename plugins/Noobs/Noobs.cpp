@@ -181,28 +181,34 @@ namespace ml
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
-		// Update Surfaces
-		if (noobs.freeAspect)
-			noobs.resolution = ev.window.getFrameSize();
-		noobs.surf_main->resize(noobs.resolution);
-		noobs.surf_post->resize(noobs.resolution);
+		// Update Resolutions
+		if (noobs.freeAspect)	{ noobs.resolution = ev.window.getFrameSize(); }
+		if (noobs.surf_main)	{ noobs.surf_main->resize(noobs.resolution); }
+		if (noobs.surf_post)	{ noobs.surf_post->resize(noobs.resolution); }
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Bind Main Surface
-		noobs.surf_main->bind();
+		// Main Scene
+		if (noobs.surf_main)
 		{
+			// Bind Main Surface
+			noobs.surf_main->bind();
+			
 			// Clear Screen
 			ev.window.clear(noobs.clearColor);
 
 			// Draw Renderer
-			ev.window.draw(noobs.entity->get<Renderer>());
+			if (noobs.entity)
+			{
+				ev.window.draw(noobs.entity->get<Renderer>());
+			}
+			
+			// Unbind Main Surface
+			noobs.surf_main->unbind();
 		}
-		// Unbind Main Surface
-		noobs.surf_main->unbind();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -219,16 +225,22 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Bind Post Surface
-		noobs.surf_post->bind();
+		// Post Processing
+		if (noobs.surf_post)
 		{
-			// Draw Main Surface
-			noobs.surf_main->shader()->setUniform("Effect.mode", 0);
+			// Bind Post Surface
+			noobs.surf_post->bind();
+
+			// Render Scene to Texture
+			if (noobs.surf_main)
+			{
+				noobs.surf_main->shader()->setUniform("Effect.mode", 0);
+				ev.window.draw(noobs.surf_main);
+			}
 			
-			ev.window.draw(noobs.surf_main);
+			// Unbind Post Surface
+			noobs.surf_post->unbind();
 		}
-		// Unbind Post Surface
-		noobs.surf_post->unbind();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
@@ -292,8 +304,10 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			Texture * texture = &noobs.surf_post->texture();
-			if (texture && (*texture))
+			Texture * texture { nullptr };
+			if ((noobs.surf_post) &&
+				(texture = &noobs.surf_post->texture()) && 
+				(*texture))
 			{
 				auto scaleToFit = [](const vec2 & src, const vec2 & dst)
 				{
@@ -590,7 +604,6 @@ namespace ml
 
 					// to remove
 					List<Map<String, Uniform *>::iterator> toRemove;
-
 					for (auto it = noobs.material->uniforms().rbegin();
 						it != noobs.material->uniforms().rend();
 						it++)

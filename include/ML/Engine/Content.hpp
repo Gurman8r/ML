@@ -14,6 +14,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// Monolithic bank of shared resources.
+	// Anything can be stored in Content as long as it derrives I_Newable.
+	// Layout = HashMap<Type, Map<Name, Value>>
 	struct ML_ENGINE_API Content final
 		: public I_Disposable
 		, public I_Readable
@@ -33,22 +36,30 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline object_map & data(size_t value)
+		inline object_map & data(size_t index)
 		{
 			typeid_map::iterator it;
-			if ((it = m_data.find(value)) != m_data.end())
+			if ((it = m_data.find(index)) != m_data.end())
 			{
 				return it->second;
 			}
 			else
 			{
-				return m_data.insert({ value, object_map() }).first->second;
+				return m_data.insert({ index, object_map() }).first->second;
 			}
 		}
 
-		inline const object_map & data(size_t value) const
+		inline const object_map & data(size_t index) const
 		{
-			return m_data.at(value);
+			typeid_map::const_iterator it;
+			if ((it = m_data.find(index)) != m_data.cend())
+			{
+				return it->second;
+			}
+			else
+			{
+				return m_data.insert({ index, object_map() }).first->second;
+			}
 		}
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -57,14 +68,16 @@ namespace ml
 			class T
 		> inline object_map & data()
 		{
-			return data(typeid(T).hash_code());
+			static object_map & temp { data(typeid(T).hash_code()) };
+			return temp;
 		}
 
 		template <
 			class T
 		> inline const object_map & data() const
 		{
-			return m_data.at(typeid(T).hash_code());
+			static const object_map & temp { data(typeid(T).hash_code()) };
+			return temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -73,22 +86,19 @@ namespace ml
 			class T
 		> inline T * insert(const String & name, T * value)
 		{
-			object_map & d = this->data<T>();
-			return static_cast<T *>(d.insert({ 
-				name, new AssetContainer { name, value, 0 }
-				}).first->second->obj
-			);
+			return this->data<T>().insert({
+				name, new AssetContainer { name, value, AssetFlags::None }
+			}).first->second->as<T>();
 		}
 		
 		template <
 			class T, class ... Args
 		> inline T * create(const String & name, Args && ... args)
 		{
-			object_map & d = this->data<T>();
 			object_map::iterator it;
-			return (((it = d.find(name)) == d.end())
+			return (((it = this->data<T>().find(name)) == this->data<T>().end())
 				? this->insert(name, new T(std::forward<Args>(args)...))
-				: static_cast<T *>(nullptr)
+				: nullptr
 			);
 		}
 
@@ -96,13 +106,12 @@ namespace ml
 			class T
 		> inline bool erase(const String & value)
 		{
-			object_map & d = this->data<T>();
 			object_map::iterator it;
-			if ((it = d.find(value)) != d.end())
+			if ((it = this->data<T>().find(value)) != this->data<T>().end())
 			{
 				delete it->second;
 				it->second = nullptr;
-				d.erase(it);
+				this->data<T>().erase(it);
 				return true;
 			}
 			return false;
@@ -114,11 +123,10 @@ namespace ml
 			class T
 		> inline const T * get(const String & value) const
 		{
-			object_map & d = this->data<T>();
 			object_map::const_iterator it;
-			return (((it = d.find(value)) != d.end())
-				? static_cast<const T *>(it->second->obj)
-				: static_cast<T *>(nullptr)
+			return (((it = this->data<T>().find(value)) != this->data<T>().end())
+				? it->second->as<T>()
+				: nullptr
 			);
 		}
 
@@ -126,11 +134,10 @@ namespace ml
 			class T
 		> inline T * get(const String & value)
 		{
-			object_map & d = this->data<T>();
 			object_map::iterator it;
-			return (((it = d.find(value)) != d.end())
-				? static_cast<T *>(it->second->obj)
-				: static_cast<T *>(nullptr)
+			return (((it = this->data<T>().find(value)) != this->data<T>().end())
+				? it->second->as<T>()
+				: nullptr
 			);
 		}
 
@@ -173,7 +180,7 @@ namespace ml
 		{
 			object_map::const_iterator it;
 			return (((it = this->getIterAt<T>(value)) != this->data<T>().end())
-				? static_cast<const T *>(it->second->obj)
+				? it->second->as<T>()
 				: nullptr
 			);
 		}
@@ -202,7 +209,7 @@ namespace ml
 		Content() : m_data() {}
 		~Content() { dispose(); }
 
-		typeid_map m_data;
+		mutable typeid_map m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

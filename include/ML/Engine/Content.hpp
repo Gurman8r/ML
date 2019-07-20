@@ -97,7 +97,7 @@ namespace ml
 		{
 			object_map::iterator it;
 			return (((it = this->data<T>().find(name)) == this->data<T>().end())
-				? this->insert(name, new T { std::forward<Args>(args)...) }
+				? this->insert(name, new T { std::forward<Args>(args)... })
 				: nullptr
 			);
 		}

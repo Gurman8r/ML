@@ -10,7 +10,7 @@
 #		name		= name_of_my_material
 #		shader		= name_of_some_shader
 #		defaults	= true / false (load default uniforms)
-#		user_list	= ../path/to/my/uniform/list
+#		uniforms	= ../path/to/my/uniform/list
 #	</import>
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -20,7 +20,7 @@
 	name		= noobs_material_0
 	shader		= noobs_shader_0
 	defaults	= true
-	user_list	= ../../../assets/materials/noobs_material_0.mat
+	uniforms	= ../../../assets/materials/noobs_material_0.mat
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

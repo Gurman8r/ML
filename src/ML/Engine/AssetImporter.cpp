@@ -37,7 +37,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new CubeMap());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -67,7 +67,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Entity());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -97,7 +97,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Font());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -127,7 +127,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Image());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -158,11 +158,7 @@ namespace ml
 			{
 				if (!ML_Content.get<Material>(name))
 				{
-					// Material Shader
-					/* * * * * * * * * * * * * * * * * * * * */
-					const Shader * shader = ML_Content.get<Shader>(md.getData("shader"));
-					
-					// Material Uniform List
+					// Uniform List
 					/* * * * * * * * * * * * * * * * * * * * */
 					List<Uniform *> uniforms;
 
@@ -189,7 +185,7 @@ namespace ml
 
 					// Load User Uniforms from File
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (Ifstream file { ML_FS.pathTo(md.getData("user_list")) })
+					if (Ifstream file { ML_FS.pathTo(md.getData("uniforms")) })
 					{
 						// (following should probably be in UniformAssetImporter)
 						
@@ -332,7 +328,9 @@ namespace ml
 						file.close();
 					}
 					
-					return ML_Content.insert(name, new Material(shader, uniforms));
+					return ML_Content.insert(
+						name, new Material(ML_Content.get<Shader>(md.getData("shader")), uniforms)
+					);
 				}
 			}
 		}
@@ -361,7 +359,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Mesh());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -403,7 +401,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Model());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -424,7 +422,7 @@ namespace ml
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new value_type();
+						auto temp = new Script();
 						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
 							return ML_Content.insert(name, temp);
@@ -487,7 +485,7 @@ namespace ml
 						}
 						else
 						{
-							return ML_Content.insert(name, new Shader());
+							return ML_Content.insert(name, new value_type());
 						}
 					}
 				}
@@ -518,7 +516,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Sound());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -551,7 +549,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Sprite());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -587,7 +585,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Surface());
+						return ML_Content.insert(name, new value_type());
 					}
 				}
 			}
@@ -696,6 +694,7 @@ namespace ml
 			{
 				if (!ML_Content.get<Uniform>(name))
 				{
+					return ML_Content.insert(name, new value_type());
 				}
 			}
 		}

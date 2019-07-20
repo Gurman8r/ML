@@ -127,10 +127,7 @@ namespace ml
 		if (noobs.material && noobs.material->shader())
 		{
 			// Create Main File
-			noobs.files.push_back(new NoobsFile(
-				"Main", 
-				String()
-			));
+			noobs.files.push_back(new NoobsFile("Main", String()));
 
 			// Create Vertex File
 			if (noobs.material->shader()->vertSrc())

@@ -24,6 +24,7 @@ namespace ml
 
 		enum Types : int32_t
 		{
+			INVALID_UNI = -1,
 			Flt1, Int1,
 			Vec2, Vec3, Vec4, Col4,
 			Mat3, Mat4,
@@ -48,30 +49,39 @@ namespace ml
 		Uniform(const String & name, const int32_t type)
 			: name(name)
 			, type(type) 
-		{}
+		{
+		}
+
+		Uniform()
+			: Uniform(String(), -1)
+		{
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T, class U
-		> inline static T * duplicate(const U * value)
+		> static inline T * duplicate(const U * value)
 		{
-			return ((value)
-				? new T(
+			return ((value && (*value))
+				? new T { 
 					static_cast<const T *>(value)->name,
-					static_cast<const T *>(value)->data)
-				: (T *)nullptr
+					static_cast<const T *>(value)->data }
+				: static_cast<T *>(nullptr)
 			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		inline operator bool() const
+		{
+			return (type > Types::INVALID_UNI) && (type < Types::MAX_UNI_TYPES);
+		}
+
 		inline friend ML_SERIALIZE(Ostream & out, const Uniform & value)
 		{
 			return out << TypeNames[value.type];
 		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
 
 		inline friend bool operator==(const Uniform & a, const Uniform & b)
 		{
@@ -223,7 +233,7 @@ namespace ml
 
 	namespace impl
 	{
-		inline static float_t * toFloat(const Uniform * value)
+		static inline float_t * toFloat(const Uniform * value)
 		{
 			static float_t temp;
 			if (!value || value->type != uni_flt::ID)	return nullptr;
@@ -233,7 +243,7 @@ namespace ml
 			else return nullptr;
 		}
 
-		inline static int32_t * toInt(const Uniform * value)
+		static inline int32_t * toInt(const Uniform * value)
 		{
 			static int32_t temp;
 			if (!value || value->type != uni_int::ID)	return nullptr;
@@ -243,7 +253,7 @@ namespace ml
 			else return nullptr;
 		}
 
-		inline static vec2 * toVec2(const Uniform * value)
+		static inline vec2 * toVec2(const Uniform * value)
 		{
 			static vec2 temp;
 			if (!value || value->type != uni_vec2::ID)	 return nullptr;
@@ -253,7 +263,7 @@ namespace ml
 			else return nullptr;
 		}
 
-		inline static vec3 * toVec3(const Uniform * value)
+		static inline vec3 * toVec3(const Uniform * value)
 		{
 			static vec3 temp;
 			if (!value || value->type != uni_vec3::ID)	 return nullptr;
@@ -263,7 +273,7 @@ namespace ml
 			else return nullptr;
 		}
 
-		inline static vec4 * toVec4(const Uniform * value)
+		static inline vec4 * toVec4(const Uniform * value)
 		{
 			static vec4 temp;
 			if (!value || value->type != uni_vec4::ID)	 return nullptr;
@@ -273,7 +283,7 @@ namespace ml
 			else return nullptr;
 		}
 
-		inline static vec4 * toCol4(const Uniform * value)
+		static inline vec4 * toCol4(const Uniform * value)
 		{
 			static vec4 temp;
 			if (!value || value->type != uni_col4::ID)	 return nullptr;
@@ -283,7 +293,7 @@ namespace ml
 			else return nullptr;
 		}
 
-		inline static mat3 * toMat3(const Uniform * value)
+		static inline mat3 * toMat3(const Uniform * value)
 		{
 			static mat3 temp;
 			if (!value || value->type != uni_mat3::ID)	 return nullptr;
@@ -293,7 +303,7 @@ namespace ml
 			else return nullptr;
 		}
 
-		inline static mat4 * toMat4(const Uniform * value)
+		static inline mat4 * toMat4(const Uniform * value)
 		{
 			static mat4 temp;
 			if (!value || value->type != uni_mat4::ID)	 return nullptr;
@@ -303,14 +313,14 @@ namespace ml
 			else return nullptr;
 		}
 
-		inline static const Texture * toTex2(const Uniform * value)
+		static inline const Texture * toTex2(const Uniform * value)
 		{
 			if (!value || value->type != uni_tex2::ID)	 return nullptr;
 			else if (auto u = value->as<uni_tex2>())	 return u->data;
 			else return nullptr;
 		}
 
-		inline static const CubeMap * toCube(const Uniform * value)
+		static inline const CubeMap * toCube(const Uniform * value)
 		{
 			if (!value || value->type != uni_cube::ID)	 return nullptr;
 			else if (auto u = value->as<uni_cube>())	 return u->data;

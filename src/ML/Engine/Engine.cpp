@@ -198,9 +198,7 @@ namespace ml
 		// Load Resource Manifest
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (!ML_Content.loadFromFile(ML_FS.pathTo(ev.prefs.GetString(
-			"Engine",
-			"import_list",
-			"../../../assets/data/manifest.txt"
+			"Engine", "import_list", String()
 		))))
 		{
 			Debug::logError("Failed Loading Manifest");

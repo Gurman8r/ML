@@ -2,7 +2,7 @@
 #define _ML_CONTENT_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Engine/AssetContainer.hpp>
+#include <ML/Engine/Asset.hpp>
 #include <ML/Core/List.hpp>
 #include <ML/Core/Metadata.hpp>
 #include <ML/Core/I_Disposable.hpp>
@@ -16,7 +16,6 @@ namespace ml
 
 	// Monolithic bank of shared resources.
 	// Anything can be stored in Content as long as it derrives I_Newable.
-	// Layout = HashMap<Type, Map<Name, Value>>
 	struct ML_ENGINE_API Content final
 		: public I_Disposable
 		, public I_Readable
@@ -24,43 +23,38 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using object_map = typename Map<String, AssetContainer *>;
+		using object_map = typename Map<String, AssetBase *>;
 		using typeid_map = typename HashMap<size_t, object_map>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
+		
+		auto readLists(Istream & file) const -> List<Metadata *>;
 		auto readMetadata(Istream & file, String & line) const -> Metadata *;
+		
+		auto parseLists(const List<Metadata *> & value) -> size_t;
 		bool parseMetadata(const Metadata & data);
-		auto parseMetadataList(List<Metadata *> & value) -> size_t;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline object_map & data(size_t index)
+		inline object_map & at(size_t index)
 		{
 			typeid_map::iterator it;
-			if ((it = m_data.find(index)) != m_data.end())
-			{
-				return it->second;
-			}
-			else
-			{
-				return m_data.insert({ index, object_map() }).first->second;
-			}
+			return (((it = m_data.find(index)) != m_data.end())
+				? it->second
+				: m_data.insert({ index, object_map() }).first->second
+			);
 		}
 
-		inline const object_map & data(size_t index) const
+		inline const object_map & at(size_t index) const
 		{
 			typeid_map::const_iterator it;
-			if ((it = m_data.find(index)) != m_data.cend())
-			{
-				return it->second;
-			}
-			else
-			{
-				return m_data.insert({ index, object_map() }).first->second;
-			}
+			return (((it = m_data.find(index)) != m_data.cend())
+				? it->second
+				: m_data.insert({ index, object_map() }).first->second
+			);
 		}
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -69,7 +63,7 @@ namespace ml
 			class T
 		> inline object_map & data()
 		{
-			static object_map & temp { data(typeid(T).hash_code()) };
+			static object_map & temp { this->at(typeid(T).hash_code()) };
 			return temp;
 		}
 
@@ -77,7 +71,7 @@ namespace ml
 			class T
 		> inline const object_map & data() const
 		{
-			static const object_map & temp { data(typeid(T).hash_code()) };
+			static const object_map & temp { this->at(typeid(T).hash_code()) };
 			return temp;
 		}
 
@@ -85,19 +79,33 @@ namespace ml
 
 		template <
 			class T
-		> inline T * insert(const String & name, T * value)
+		> inline Asset<T> * find(const String & name)
 		{
-			return this->data<T>().insert({
-				name, new AssetContainer { name, value, AssetFlags::None }
-			}).first->second->as<T>();
+			static object_map::iterator it;
+			return (((it = this->data<T>().find(name)) != this->data<T>().end())
+				? Asset<T>::cast(it->second)
+				: nullptr
+			);
 		}
+
+		template <
+			class T
+		> inline const Asset<T> * find(const String & name) const
+		{
+			static object_map::const_iterator it;
+			return (((it = this->data<T>().find(name)) != this->data<T>().end())
+				? Asset<T>::cast(it->second)
+				: nullptr
+			);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
 			class T, class ... Args
 		> inline T * create(const String & name, Args && ... args)
 		{
-			object_map::iterator it;
-			return (((it = this->data<T>().find(name)) == this->data<T>().end())
+			return ((!this->find<T>(name))
 				? this->insert(name, new T { std::forward<Args>(args)... })
 				: nullptr
 			);
@@ -105,41 +113,29 @@ namespace ml
 
 		template <
 			class T
-		> inline bool erase(const String & value)
+		> inline T * insert(const String & name, T * value)
 		{
-			object_map::iterator it;
-			if ((it = this->data<T>().find(value)) != this->data<T>().end())
-			{
-				delete it->second;
-				it->second = nullptr;
-				this->data<T>().erase(it);
-				return true;
-			}
-			return false;
+			return Asset<T>::cast(this->data<T>().insert({
+				name, new Asset<T> { value, AssetBase::None }
+			}).first->second)->get();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T
-		> inline const T * get(const String & value) const
+		> inline T * get(const String & name)
 		{
-			object_map::const_iterator it;
-			return (((it = this->data<T>().find(value)) != this->data<T>().end())
-				? it->second->as<T>()
-				: nullptr
-			);
+			static Asset<T> * temp;
+			return ((temp = this->find<T>(name)) ? temp->get() : nullptr);
 		}
 
 		template <
 			class T
-		> inline T * get(const String & value)
+		> inline const T * get(const String & name) const
 		{
-			object_map::iterator it;
-			return (((it = this->data<T>().find(value)) != this->data<T>().end())
-				? it->second->as<T>()
-				: nullptr
-			);
+			static const Asset<T> * temp;
+			return ((temp = this->find<T>(name)) ? temp->get() : nullptr);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -158,12 +154,12 @@ namespace ml
 
 		template <
 			class T
-		> inline object_map::const_iterator getIterAt(int32_t value) const
+		> inline object_map::const_iterator getIterAt(int32_t index) const
 		{
-			if ((value >= 0) && ((size_t)value < this->data<T>().size()))
+			if ((index >= 0) && ((size_t)index < this->data<T>().size()))
 			{
 				object_map::const_iterator it = this->data<T>().cbegin();
-				for (int32_t i = 0; i < value; i++)
+				for (int32_t i = 0; i < index; i++)
 				{
 					if ((++it) == this->data<T>().cend())
 					{
@@ -177,10 +173,10 @@ namespace ml
 
 		template <
 			class T
-		> inline const T * getByIndex(int32_t value) const
+		> inline const T * getByIndex(int32_t index) const
 		{
 			object_map::const_iterator it;
-			return (((it = this->getIterAt<T>(value)) != this->data<T>().end())
+			return (((it = this->getIterAt<T>(index)) != this->data<T>().end())
 				? it->second->as<T>()
 				: nullptr
 			);

@@ -36,20 +36,31 @@ namespace ml
 
 	bool Content::loadFromFile(const String & filename)
 	{
-		List<Metadata *> list;
 		SStream file;
 		if (ML_FS.getFileContents(filename, file))
 		{
-			String line;
-			while (std::getline(file, line))
+			if (List<Metadata *> data = readLists(file))
 			{
-				if (Metadata * data = readMetadata(file, line))
-				{
-					list.push_back(data);
-				}
+				return parseLists(data);
 			}
 		}
-		return parseMetadataList(list);
+		return false;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	List<Metadata *> Content::readLists(Istream & file) const
+	{
+		List<Metadata *> list;
+		String line;
+		while (std::getline(file, line))
+		{
+			if (Metadata * data = readMetadata(file, line))
+			{
+				list.push_back(data);
+			}
+		}
+		return list;
 	}
 
 	Metadata * Content::readMetadata(Istream & file, String & line) const
@@ -90,6 +101,26 @@ namespace ml
 		return (temp = nullptr);
 	}
 
+	size_t Content::parseLists(const List<Metadata*>& data)
+	{
+		size_t good = 0;
+		for (size_t i = 0; i < data.size(); i++)
+		{
+			if (data[i])
+			{
+				good += parseMetadata(*data[i]);
+			}
+		}
+		for (size_t i = 0; i < data.size(); i++)
+		{
+			if (data[i])
+			{ 
+				delete data[i]; 
+			}
+		}
+		return good;
+	}
+
 	bool Content::parseMetadata(const Metadata & md)
 	{
 		switch (Hash()(md.getData("type").asString()))
@@ -111,30 +142,6 @@ namespace ml
 			case AssetImporter<	Uniform	>::id	: return AssetImporter<	Uniform	>()(md);
 		}
 		return false;
-	}
-
-	size_t Content::parseMetadataList(List<Metadata*>& data)
-	{
-		size_t good = 0;
-
-		for (size_t i = 0; i < data.size(); i++)
-		{
-			if (data[i])
-			{
-				good += parseMetadata(*data[i]);
-			}
-		}
-
-		for (size_t i = 0; i < data.size(); i++)
-		{
-			if (data[i])
-			{ 
-				delete data[i]; 
-			}
-		}
-
-		data.clear();
-		return good;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

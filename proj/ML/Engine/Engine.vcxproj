@@ -162,7 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Engine\AssetContainer.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Asset.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\AssetImporter.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Content.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Camera.hpp" />

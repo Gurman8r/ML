@@ -9,6 +9,7 @@
 #include <ML/Core/Trigger.hpp>
 #include <ML/Core/Worker.hpp>
 #include <ML/Graphics/RenderBatch.hpp>
+#include <ML/Engine/Content.hpp>
 #include <imgui/TextEditor.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

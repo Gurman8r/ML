@@ -31,22 +31,24 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Event(const int32_t id) : m_id(id) {}
-
-		constexpr operator int32_t() const { return m_id; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class Derived> 
-		inline const Derived * as() const
+		constexpr Event(const int32_t id) 
+			: m_id(id) 
 		{
-			return static_cast<const Derived *>(this);
 		}
 
-		template <class Derived>
-		inline Derived * as()
+		constexpr operator int32_t() const 
+		{ 
+			return m_id; 
+		}
+
+		template <class T> inline T * as()
 		{
-			return static_cast<Derived *>(this);
+			return static_cast<T *>(this);
+		}
+
+		template <class T> inline const T * as() const
+		{
+			return static_cast<const T *>(this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

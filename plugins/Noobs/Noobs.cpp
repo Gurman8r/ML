@@ -593,8 +593,8 @@ namespace ml
 
 					// to remove
 					List<Map<String, Uniform *>::iterator> toRemove;
-					for (auto it = noobs.material->uniforms().rbegin();
-						it != noobs.material->uniforms().rend();
+					for (auto it = noobs.material->uniforms().begin();
+						it != noobs.material->uniforms().end();
 						it++)
 					{
 						// label
@@ -630,7 +630,7 @@ namespace ml
 									ImGui::SameLine();
 									if (ImGui::Button(("Remove##" + label).c_str()))
 									{
-										toRemove.push_back(std::next(it).base());
+										toRemove.push_back(it);
 									}
 								}
 

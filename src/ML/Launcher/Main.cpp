@@ -87,7 +87,7 @@ int32_t main()
 			if (auto plugin = g_Plugins.insert({
 				library,
 				library->callFunction<Plugin *>(ML_str(ML_Plugin_Main), g_EventSystem)
-				}).first->second)
+			}).first->second)
 			{
 				Debug::log("Loaded Plugin: \'{0}\'", line);
 			}

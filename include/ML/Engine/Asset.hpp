@@ -1,139 +1,99 @@
 #ifndef _ML_ASSET_HPP_
 #define _ML_ASSET_HPP_
 
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Engine/Content.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 	
-	// Used to store a single I_Newable within Content
-	struct AssetBase 
-		: public I_Newable
-		, public I_NonCopyable
+	// Wrapper around a pointer to something in Content
+	template <
+		class T
+	> struct Asset final : public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type		= typename I_Newable;
-		using self_type			= typename AssetBase;
+		using value_type		= typename T;
+		using self_type			= typename Asset<value_type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
 
-		enum Flags { None };
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		String name;
+		mutable pointer	data;
 
-		pointer	obj;
-		Flags	flags;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		Asset()
+			: name(String())
+			, data(nullptr)
+		{
+		}
 
-		AssetBase() = delete;
+		explicit Asset(const String & name)
+			: name(name)
+			, data(nullptr)
+		{
+		}
 
 		template <
-			class T
-		> explicit AssetBase(T * obj, Flags flags)
-			: obj	{ static_cast<pointer>(obj) }
-			, flags { flags }
+			class U
+		> explicit Asset(const String & name, U * data)
+			: name(name)
+			, data(static_cast<pointer>(data))
 		{
-			static_assert(std::is_base_of<I_Newable, T>::value,
+			static_assert(std::is_base_of<I_Newable, U>::value,
 				"Asset containers must contain I_Newable objects."
 			);
-			static_assert(!std::is_base_of<AssetBase, T>::value, 
+			static_assert(!std::is_base_of<Asset, U>::value, 
 				"Asset containers cannot contain other asset containers."
 			);
 		}
 
-		virtual ~AssetBase()
+		Asset(const self_type & copy)
+			: name(copy.name)
+			, data(copy.data)
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline pointer get() 
 		{ 
-			if (*this)
+			if (!this->data && this->name)
 			{
-				delete this->obj;
-				this->obj = nullptr;
+				this->data = ML_Content.get<value_type>(this->name);
 			}
+			return static_cast<pointer>(this->data);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
-		
-		inline operator bool() const 
+		inline const_pointer get() const 
 		{
-			return (this->obj);
+			if (!this->data && this->name)
+			{
+				this->data = ML_Content.get<value_type>(this->name);
+			}
+			return static_cast<const_pointer>(this->data);
 		}
 
-		template <class T> inline T * as()
-		{
-			return static_cast<T *>(this->obj);
-		}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline const T * as() const
-		{
-			return static_cast<const T *>(this->obj);
-		}
+		inline operator			bool()			const	{ return this->get(); }
+		inline operator			pointer()				{ return this->get(); }
+		inline operator			const_pointer() const	{ return this->get(); }
+		inline pointer			operator->()			{ return this->get(); }
+		inline const_pointer	operator->()	const	{ return this->get(); }
+		inline reference		operator*()				{ return (*this->get()); }
+		inline const_reference	operator*()		const	{ return (*this->get()); }
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	// Associates an AssetBase with a type
-	template <
-		class T
-	> struct Asset final : public AssetBase
-	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		using value_type		= typename T;
-		using self_type			= typename Asset<value_type>;
-		using base_type			= typename AssetBase;
-		using pointer			= typename value_type *;
-		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
-		using const_reference	= typename const value_type &;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class U
-		> explicit Asset(U * obj, Flags flags)
-			: base_type { obj, flags }
-		{
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		inline pointer		 get()				{ return this->as<value_type>(); }
-		inline const_pointer get()	const		{ return this->as<value_type>(); }
-		inline pointer		 operator->()		{ return this->get(); }
-		inline pointer		 operator *()		{ return this->get(); }
-		inline const_pointer operator->() const	{ return this->get(); }
-		inline const_pointer operator *() const	{ return this->get(); }
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class U
-		> static inline self_type * cast(U * value)
-		{
-			return reinterpret_cast<self_type *>(value);
-		}
-
-		template <
-			class U
-		> static inline const self_type * cast(const U * value)
-		{
-			return reinterpret_cast<const self_type *>(value);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ASSET_HPP_

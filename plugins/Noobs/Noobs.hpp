@@ -9,7 +9,7 @@
 #include <ML/Core/Trigger.hpp>
 #include <ML/Core/Worker.hpp>
 #include <ML/Graphics/RenderBatch.hpp>
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/Asset.hpp>
 #include <imgui/TextEditor.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -84,11 +84,12 @@ namespace ml
 		struct NoobsData final : public I_NonCopyable
 		{
 			// Content
-			Surface	*	surf_main	{ nullptr };
-			Surface	*	surf_post	{ nullptr };
-			Material *	material	{ nullptr };
-			Entity *	entity		{ nullptr };
-			Renderer *	renderer	{ nullptr };
+			Asset<Surface>	surf_main;
+			Asset<Surface>	surf_post;
+			Asset<Material> material;
+			Asset<Model>	model;
+			Asset<Entity>	entity;
+			Renderer *		renderer { nullptr };
 
 			// GUI Settings
 			bool		showBuilder	{ true };

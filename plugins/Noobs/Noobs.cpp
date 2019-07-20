@@ -109,18 +109,18 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		// Get Surfaces
-		noobs.surf_main = ML_Content.get<Surface>("noobs_surf_main");
-		noobs.surf_post = ML_Content.get<Surface>("noobs_surf_post");
+		// Get Content
+		noobs.surf_main = Asset<Surface>("noobs_surf_main");
+		noobs.surf_post = Asset<Surface>("noobs_surf_post");
+		noobs.material	= Asset<Material>("noobs_material_0");
+		noobs.entity	= Asset<Entity>("noobs_entity_0");
+		noobs.model		= Asset<Model>("sphere32x24");
 
 		// Create Entity
-		if (noobs.entity = ML_Content.create<Entity>("noobs_entity_0"))
+		if (auto ent = ML_Content.create<Entity>(noobs.entity.name))
 		{
 			// Attach Renderer
-			noobs.renderer = noobs.entity->add<Renderer>(
-				ML_Content.get<Model>("sphere32x24"),
-				noobs.material = ML_Content.get<Material>("noobs_material_0")
-			);
+			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material);
 		}
 
 		// Generate Source Editors

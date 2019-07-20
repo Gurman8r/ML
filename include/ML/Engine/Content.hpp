@@ -2,10 +2,11 @@
 #define _ML_CONTENT_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Engine/Asset.hpp>
+#include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
 #include <ML/Core/Metadata.hpp>
 #include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Readable.hpp>
 
 #define ML_Content _ML Content::getInstance()
@@ -23,7 +24,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using object_map = typename Map<String, AssetBase *>;
+		using object_map = typename Map<String, I_Newable *>;
 		using typeid_map = typename HashMap<size_t, object_map>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -76,36 +77,12 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class T
-		> inline Asset<T> * find(const String & name)
-		{
-			static object_map::iterator it;
-			return (((it = this->data<T>().find(name)) != this->data<T>().end())
-				? Asset<T>::cast(it->second)
-				: nullptr
-			);
-		}
-
-		template <
-			class T
-		> inline const Asset<T> * find(const String & name) const
-		{
-			static object_map::const_iterator it;
-			return (((it = this->data<T>().find(name)) != this->data<T>().end())
-				? Asset<T>::cast(it->second)
-				: nullptr
-			);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
 			class T, class ... Args
 		> inline T * create(const String & name, Args && ... args)
 		{
-			return ((!this->find<T>(name))
+			return ((!this->get<T>(name))
 				? this->insert(name, new T { std::forward<Args>(args)... })
 				: nullptr
 			);
@@ -115,9 +92,9 @@ namespace ml
 			class T
 		> inline T * insert(const String & name, T * value)
 		{
-			return Asset<T>::cast(this->data<T>().insert({
-				name, new Asset<T> { value, AssetBase::None }
-			}).first->second)->get();
+			return static_cast<T *>(this->data<T>().insert({
+				name, value
+			}).first->second);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -126,16 +103,22 @@ namespace ml
 			class T
 		> inline T * get(const String & name)
 		{
-			static Asset<T> * temp;
-			return ((temp = this->find<T>(name)) ? temp->get() : nullptr);
+			static object_map::iterator it;
+			return (((it = this->data<T>().find(name)) != this->data<T>().end())
+				? static_cast<T *>(it->second)
+				: nullptr
+			);
 		}
 
 		template <
 			class T
 		> inline const T * get(const String & name) const
 		{
-			static const Asset<T> * temp;
-			return ((temp = this->find<T>(name)) ? temp->get() : nullptr);
+			static object_map::const_iterator it;
+			return (((it = this->data<T>().find(name)) != this->data<T>().end())
+				? static_cast<const T *>(it->second)
+				: nullptr
+			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -177,7 +160,7 @@ namespace ml
 		{
 			object_map::const_iterator it;
 			return (((it = this->getIterAt<T>(index)) != this->data<T>().end())
-				? it->second->as<T>()
+				? static_cast<const T *>(it->second)
 				: nullptr
 			);
 		}

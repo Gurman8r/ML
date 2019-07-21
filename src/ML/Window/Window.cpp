@@ -162,8 +162,8 @@ namespace ml
 
 	bool Window::setup()
 	{
-		static EventSystem * evSys { &this->eventSystem() };
-		if (!evSys) { return false; }
+		static EventSystem * evSys = nullptr;
+		if (!evSys) { evSys = &this->eventSystem(); }
 
 		setCharCallback([](void * window, uint32_t c)
 		{
@@ -182,6 +182,9 @@ namespace ml
 
 		setErrorCallback([](int32_t code, C_String desc)
 		{
+#if ML_DEBUG
+			cerr << "GLFW Error " << code << ": \'" << desc << "\'" << endl;
+#endif
 			evSys->fireEvent(WindowErrorEvent(code, desc));
 		});
 
@@ -244,61 +247,40 @@ namespace ml
 			}
 			break;
 		case CursorEnterEvent::ID:
-			if (auto ev = value->as<CursorEnterEvent>())
-			{
-			}
+			if (auto ev = value->as<CursorEnterEvent>()) {}
 			break;
 		case CursorPosEvent::ID:
-			if (auto ev = value->as<CursorPosEvent>())
-			{
-			}
+			if (auto ev = value->as<CursorPosEvent>()) {}
 			break;
 		case FrameSizeEvent::ID:
-			if (auto ev = value->as<FrameSizeEvent>())
-			{
-			}
+			if (auto ev = value->as<FrameSizeEvent>()) {}
 			break;
 		case KeyEvent::ID:
-			if (auto ev = value->as<KeyEvent>())
-			{
-			}
+			if (auto ev = value->as<KeyEvent>()) {}
 			break;
 		case MouseButtonEvent::ID:
-			if (auto ev = value->as<MouseButtonEvent>())
-			{
-			}
+			if (auto ev = value->as<MouseButtonEvent>()) {}
 			break;
 		case ScrollEvent::ID:
-			if (auto ev = value->as<ScrollEvent>())
-			{
-			}
+			if (auto ev = value->as<ScrollEvent>()) {}
 			break;
 		case WindowCloseEvent::ID:
-			if (auto ev = value->as<WindowCloseEvent>())
-			{
-			}
+			if (auto ev = value->as<WindowCloseEvent>()) {}
 			break;
 		case WindowErrorEvent::ID:
 			if (auto ev = value->as<WindowErrorEvent>())
 			{
-				Debug::logError("GLFW : {0} : {1}", ev->code, ev->desc);
+				Debug::logError("GLFW Error {0}: \'{1}\'", ev->code, ev->desc);
 			}
 			break;
 		case WindowFocusEvent::ID:
-			if (auto ev = value->as<WindowFocusEvent>())
-			{
-			}
+			if (auto ev = value->as<WindowFocusEvent>()) {}
 			break;
 		case WindowKillEvent::ID:
-			if (auto ev = value->as<WindowKillEvent>())
-			{
-				this->close();
-			}
+			if (auto ev = value->as<WindowKillEvent>()) {}
 			break;
 		case WindowPosEvent::ID:
-			if (auto ev = value->as<WindowPosEvent>())
-			{
-			}
+			if (auto ev = value->as<WindowPosEvent>()) {}
 			break;
 		case WindowSizeEvent::ID:
 			if (auto ev = value->as<WindowSizeEvent>())

@@ -10,8 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API ImGui_Impl final
-		: public I_Singleton<ImGui_Impl>
+	class ML_EDITOR_API ImGui_Impl final : public I_Singleton<ImGui_Impl>
 	{
 		friend struct I_Singleton<ImGui_Impl>;
 
@@ -21,7 +20,7 @@ namespace ml
 
 	public:
 		bool Startup(C_String version, Window * window, bool install_callbacks, C_String ini);
-		void Shutdown();
+		bool Shutdown();
 		void NewFrame();
 		void Render(void * value);
 		bool LoadStyle(const String & filename);
@@ -56,6 +55,7 @@ namespace ml
 			API_Unknown, API_OpenGL, API_Vulkan
 		};
 
+		bool		g_Running;
 		Window *	g_Window;
 		ClientAPI	g_ClientApi;
 		float64_t   g_Time;

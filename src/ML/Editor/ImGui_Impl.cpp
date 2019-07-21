@@ -14,7 +14,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	ImGui_Impl::ImGui_Impl()
-		: g_Window			{ nullptr }
+		: g_Running			{ false }
+		, g_Window			{ nullptr }
 		, g_ClientApi		{ API_Unknown }
 		, g_Time			{ 0.0 }
 		, g_MousePressed	{ false, false, false, false, false }
@@ -33,6 +34,7 @@ namespace ml
 		, g_ElementsHandle	{ NULL }
 	{
 		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
 	}
 
 	ImGui_Impl::~ImGui_Impl()
@@ -44,7 +46,8 @@ namespace ml
 
 	bool ImGui_Impl::Startup(C_String glsl_version, Window * window, bool install_callbacks, C_String iniName)
 	{
-		ImGui::CreateContext();
+		if (!g_Running) g_Running = true;
+		else return false;
 
 		g_ClientApi = API_OpenGL;
 
@@ -126,8 +129,11 @@ namespace ml
 		return true;
 	}
 
-	void ImGui_Impl::Shutdown()
+	bool ImGui_Impl::Shutdown()
 	{
+		if (g_Running) g_Running = false;
+		else return false;
+
 		this->DestroyDeviceObjects();
 
 		for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor_COUNT; cursor_n++)
@@ -136,6 +142,8 @@ namespace ml
 			g_MouseCursors[cursor_n] = NULL;
 		}
 		g_ClientApi = API_Unknown;
+
+		return true;
 	}
 
 	void ImGui_Impl::NewFrame()

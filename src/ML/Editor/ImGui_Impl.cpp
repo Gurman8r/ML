@@ -14,27 +14,25 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	ImGui_Impl::ImGui_Impl()
-		: m_Running			{ false }
-		, m_Window			{ nullptr }
-		, m_ClientApi		{ API_Unknown }
-		, m_Time			{ 0.0 }
-		, m_MousePressed	{ false, false, false, false, false }
-		, m_MouseCursors	{ 0 }
-		, m_GlslVersion		{ "" }
-		, m_FontTexture		{ NULL }
-		, m_ShaderHandle	{ NULL }
-		, m_VertHandle		{ NULL }
-		, m_FragHandle		{ NULL }
-		, m_AttribTex		{ NULL }
-		, m_AttribProjMtx	{ NULL }
-		, m_AttribPosition	{ NULL }
-		, m_AttribUV		{ NULL }
-		, m_AttribColor		{ NULL }
-		, m_VboHandle		{ NULL }
-		, m_ElementsHandle	{ NULL }
+		: g_Window			{ nullptr }
+		, g_ClientApi		{ API_Unknown }
+		, g_Time			{ 0.0 }
+		, g_MousePressed	{ false, false, false, false, false }
+		, g_MouseCursors	{ 0 }
+		, g_GlslVersion		{ "" }
+		, g_FontTexture		{ NULL }
+		, g_ShaderHandle	{ NULL }
+		, g_VertHandle		{ NULL }
+		, g_FragHandle		{ NULL }
+		, g_AttribTex		{ NULL }
+		, g_AttribProjMtx	{ NULL }
+		, g_AttribPosition	{ NULL }
+		, g_AttribUV		{ NULL }
+		, g_AttribColor		{ NULL }
+		, g_VboHandle		{ NULL }
+		, g_ElementsHandle	{ NULL }
 	{
 		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
 	}
 
 	ImGui_Impl::~ImGui_Impl()
@@ -46,22 +44,19 @@ namespace ml
 
 	bool ImGui_Impl::Startup(C_String glsl_version, Window * window, bool install_callbacks, C_String iniName)
 	{
-		if (m_Running) return false;
-		else m_Running = true;
+		ImGui::CreateContext();
 
-		IMGUI_CHECKVERSION();
-
-		m_ClientApi = API_OpenGL;
+		g_ClientApi = API_OpenGL;
 
 		// Store GLSL version string so we can refer to it later in case we recreate shaders.
 		// Note: GLSL version is NOT the same as GL version. Leave this to NULL if unsure.
 		glsl_version = (!glsl_version ? "#version 130" : glsl_version);
-		IM_ASSERT((int32_t)strlen(glsl_version) + 2 < IM_ARRAYSIZE(m_GlslVersion));
-		std::strcpy(m_GlslVersion, glsl_version);
-		std::strcat(m_GlslVersion, "\n");
+		IM_ASSERT((int32_t)strlen(glsl_version) + 2 < IM_ARRAYSIZE(g_GlslVersion));
+		std::strcpy(g_GlslVersion, glsl_version);
+		std::strcat(g_GlslVersion, "\n");
 
-		m_Window = window;
-		m_Time = 0.0;
+		g_Window = window;
+		g_Time = 0.0;
 
 		// Setup Flags
 		ImGuiIO & io = ImGui::GetIO();
@@ -103,17 +98,17 @@ namespace ml
 		{
 			return static_cast<const Window *>(user_data)->getClipboardString();
 		};
-		io.ClipboardUserData = m_Window;
+		io.ClipboardUserData = g_Window;
 
 		// Cursors
-		m_MouseCursors[ImGuiMouseCursor_Arrow] = m_Window->createStandardCursor(Cursor::Shape::Arrow);
-		m_MouseCursors[ImGuiMouseCursor_TextInput] = m_Window->createStandardCursor(Cursor::Shape::TextInput);
-		m_MouseCursors[ImGuiMouseCursor_ResizeAll] = m_Window->createStandardCursor(Cursor::Shape::Arrow);   // FIXME: GLFW doesn't have this.
-		m_MouseCursors[ImGuiMouseCursor_ResizeNS] = m_Window->createStandardCursor(Cursor::Shape::ResizeNS);
-		m_MouseCursors[ImGuiMouseCursor_ResizeEW] = m_Window->createStandardCursor(Cursor::Shape::ResizeEW);
-		m_MouseCursors[ImGuiMouseCursor_ResizeNESW] = m_Window->createStandardCursor(Cursor::Shape::ResizeNESW);  // FIXME: GLFW doesn't have this.
-		m_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = m_Window->createStandardCursor(Cursor::Shape::ResizeNWSE);  // FIXME: GLFW doesn't have this.
-		m_MouseCursors[ImGuiMouseCursor_Hand] = m_Window->createStandardCursor(Cursor::Shape::Hand);
+		g_MouseCursors[ImGuiMouseCursor_Arrow] = g_Window->createStandardCursor(Cursor::Shape::Arrow);
+		g_MouseCursors[ImGuiMouseCursor_TextInput] = g_Window->createStandardCursor(Cursor::Shape::TextInput);
+		g_MouseCursors[ImGuiMouseCursor_ResizeAll] = g_Window->createStandardCursor(Cursor::Shape::Arrow);   // FIXME: GLFW doesn't have this.
+		g_MouseCursors[ImGuiMouseCursor_ResizeNS] = g_Window->createStandardCursor(Cursor::Shape::ResizeNS);
+		g_MouseCursors[ImGuiMouseCursor_ResizeEW] = g_Window->createStandardCursor(Cursor::Shape::ResizeEW);
+		g_MouseCursors[ImGuiMouseCursor_ResizeNESW] = g_Window->createStandardCursor(Cursor::Shape::ResizeNESW);  // FIXME: GLFW doesn't have this.
+		g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = g_Window->createStandardCursor(Cursor::Shape::ResizeNWSE);  // FIXME: GLFW doesn't have this.
+		g_MouseCursors[ImGuiMouseCursor_Hand] = g_Window->createStandardCursor(Cursor::Shape::Hand);
 
 		// Callbacks
 		if (install_callbacks)
@@ -133,37 +128,34 @@ namespace ml
 
 	void ImGui_Impl::Shutdown()
 	{
-		if (m_Running) m_Running = false;
-		else return;
-
 		this->DestroyDeviceObjects();
 
 		for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor_COUNT; cursor_n++)
 		{
-			m_Window->destroyCursor(m_MouseCursors[cursor_n]);
-			m_MouseCursors[cursor_n] = NULL;
+			g_Window->destroyCursor(g_MouseCursors[cursor_n]);
+			g_MouseCursors[cursor_n] = NULL;
 		}
-		m_ClientApi = API_Unknown;
+		g_ClientApi = API_Unknown;
 	}
 
 	void ImGui_Impl::NewFrame()
 	{
-		if (!m_FontTexture)
+		if (!g_FontTexture)
 			this->CreateDeviceObjects();
 
 		ImGuiIO & io = ImGui::GetIO();
 		IM_ASSERT(io.Fonts->IsBuilt() && "Font atlas not built! It is generally built by the renderer back-end. Missing call to renderer _NewFrame() function? e.g. ImGui_ImplOpenGL3_NewFrame().");
 
 		// Setup display size (every frame to accommodate for window resizing)
-		vec2 size = vec2(m_Window->getSize());
-		vec2 display = vec2(m_Window->getFrameSize());
+		vec2 size = vec2(g_Window->getSize());
+		vec2 display = vec2(g_Window->getFrameSize());
 		io.DisplaySize = ImVec2(size[0], size[1]);
 		io.DisplayFramebufferScale = ImVec2(size[0] > 0 ? (display[0] / size[0]) : 0, size[1] > 0 ? (display[1] / size[1]) : 0);
 
 		// Setup time step
-		float64_t current_time = m_Window->getTime();
-		io.DeltaTime = m_Time > 0.0 ? (float_t)(current_time - m_Time) : (float_t)(1.0f / 60.0f);
-		m_Time = current_time;
+		float64_t current_time = g_Window->getTime();
+		io.DeltaTime = g_Time > 0.0 ? (float_t)(current_time - g_Time) : (float_t)(1.0f / 60.0f);
+		g_Time = current_time;
 
 		this->HandleInput();
 	}
@@ -250,22 +242,22 @@ namespace ml
 			{	0.0f,	0.0f,	-1.0f,	0.0f },
 			{	m12,	m13,	0.0f,   1.0f },
 		};
-		ML_GL.useShader(m_ShaderHandle);
-		ML_GL.uniform1i(m_AttribTex, 0);
-		ML_GL.uniformMatrix4fv(m_AttribProjMtx, 1, false, &ortho_projection[0][0]);
+		ML_GL.useShader(g_ShaderHandle);
+		ML_GL.uniform1i(g_AttribTex, 0);
+		ML_GL.uniformMatrix4fv(g_AttribProjMtx, 1, false, &ortho_projection[0][0]);
 		ML_GL.bindSampler(0, 0); // We use combined texture/sampler state. Applications using GL 3.3 may set that otherwise.
 		// Recreate the VAO every time
 		// (This is to easily allow multiple GL contexts. VAO are not shared among GL contexts, and we don't track creation/deletion of windows so we don't have an obvious key to use to cache them.)
 	
 		uint32_t vao_handle = ML_GL.genVertexArrays(1);
 		ML_GL.bindVertexArray(vao_handle);
-		ML_GL.bindBuffer(GL::ArrayBuffer, m_VboHandle);
-		ML_GL.enableVertexAttribArray(m_AttribPosition);
-		ML_GL.enableVertexAttribArray(m_AttribUV);
-		ML_GL.enableVertexAttribArray(m_AttribColor);
-		ML_GL.vertexAttribPointer(m_AttribPosition, 2, GL::Float, false, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, pos));
-		ML_GL.vertexAttribPointer(m_AttribUV, 2, GL::Float, false, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, uv));
-		ML_GL.vertexAttribPointer(m_AttribColor, 4, GL::UnsignedByte, true, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, col));
+		ML_GL.bindBuffer(GL::ArrayBuffer, g_VboHandle);
+		ML_GL.enableVertexAttribArray(g_AttribPosition);
+		ML_GL.enableVertexAttribArray(g_AttribUV);
+		ML_GL.enableVertexAttribArray(g_AttribColor);
+		ML_GL.vertexAttribPointer(g_AttribPosition, 2, GL::Float, false, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, pos));
+		ML_GL.vertexAttribPointer(g_AttribUV, 2, GL::Float, false, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, uv));
+		ML_GL.vertexAttribPointer(g_AttribColor, 4, GL::UnsignedByte, true, sizeof(ImDrawVert), (void *)IM_OFFSETOF(ImDrawVert, col));
 
 		// Draw
 		ImVec2 pos = draw_data->DisplayPos;
@@ -274,14 +266,14 @@ namespace ml
 			const ImDrawList * cmd_list = draw_data->CmdLists[n];
 			const ImDrawIdx * idx_buffer_offset = 0;
 
-			ML_GL.bindBuffer(GL::ArrayBuffer, m_VboHandle);
+			ML_GL.bindBuffer(GL::ArrayBuffer, g_VboHandle);
 			ML_GL.bufferData(
 				GL::ArrayBuffer, 
 				(int32_t)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), 
 				(const void *)cmd_list->VtxBuffer.Data, 
 				GL::StreamDraw);
 
-			ML_GL.bindBuffer(GL::ElementArrayBuffer, m_ElementsHandle);
+			ML_GL.bindBuffer(GL::ElementArrayBuffer, g_ElementsHandle);
 			ML_GL.bufferData(
 				GL::ElementArrayBuffer,
 				(int32_t)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), 
@@ -372,15 +364,15 @@ namespace ml
 
 		// Upload texture to graphics system
 		int32_t last_texture = ML_GL.getInt(GL::TextureBinding2D);
-		m_FontTexture = ML_GL.genTextures(1);
-		ML_GL.bindTexture(GL::Texture2D, m_FontTexture);
+		g_FontTexture = ML_GL.genTextures(1);
+		ML_GL.bindTexture(GL::Texture2D, g_FontTexture);
 		ML_GL.texParameter(GL::Texture2D, GL::TexMinFilter, GL::Linear);
 		ML_GL.texParameter(GL::Texture2D, GL::TexMagFilter, GL::Linear);
 		ML_GL.pixelStore(GL::UnpackRowLength, 0);
 		ML_GL.texImage2D(GL::Texture2D, 0, GL::RGBA, width, height, 0, GL::RGBA, GL::UnsignedByte, pixels);
 
 		// Store our identifier
-		io.Fonts->TexID = (ImTextureID)(intptr_t)m_FontTexture;
+		io.Fonts->TexID = (ImTextureID)(intptr_t)g_FontTexture;
 
 		// Restore state
 		ML_GL.bindTexture(GL::Texture2D, last_texture);
@@ -390,12 +382,12 @@ namespace ml
 
 	void ImGui_Impl::DestroyFontsTexture()
 	{
-		if (m_FontTexture)
+		if (g_FontTexture)
 		{
 			ImGuiIO & io = ImGui::GetIO();
-			ML_GL.deleteTextures(1, &m_FontTexture);
+			ML_GL.deleteTextures(1, &g_FontTexture);
 			io.Fonts->TexID = 0;
-			m_FontTexture = 0;
+			g_FontTexture = 0;
 		}
 	}
 
@@ -410,19 +402,19 @@ namespace ml
 
 		// Parse GLSL version string
 		int32_t glsl_version = 130;
-		sscanf(m_GlslVersion, "#version %d", &glsl_version);
+		sscanf(g_GlslVersion, "#version %d", &glsl_version);
 
 		static const C_String vertex_shader_glsl_120 =
 			"uniform mat4 ProjMtx;\n"
 			"attribute vec2 Position;\n"
 			"attribute vec2 UV;\n"
 			"attribute vec4 Color;\n"
-			"varying vec2 Fram_UV;\n"
-			"varying vec4 Fram_Color;\n"
+			"varying vec2 Frag_UV;\n"
+			"varying vec4 Frag_Color;\n"
 			"void main()\n"
 			"{\n"
-			"    Fram_UV = UV;\n"
-			"    Fram_Color = Color;\n"
+			"    Frag_UV = UV;\n"
+			"    Frag_Color = Color;\n"
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
@@ -431,12 +423,12 @@ namespace ml
 			"in vec2 Position;\n"
 			"in vec2 UV;\n"
 			"in vec4 Color;\n"
-			"out vec2 Fram_UV;\n"
-			"out vec4 Fram_Color;\n"
+			"out vec2 Frag_UV;\n"
+			"out vec4 Frag_Color;\n"
 			"void main()\n"
 			"{\n"
-			"    Fram_UV = UV;\n"
-			"    Fram_Color = Color;\n"
+			"    Frag_UV = UV;\n"
+			"    Frag_Color = Color;\n"
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
@@ -446,12 +438,12 @@ namespace ml
 			"layout (location = 1) in vec2 UV;\n"
 			"layout (location = 2) in vec4 Color;\n"
 			"uniform mat4 ProjMtx;\n"
-			"out vec2 Fram_UV;\n"
-			"out vec4 Fram_Color;\n"
+			"out vec2 Frag_UV;\n"
+			"out vec4 Frag_Color;\n"
 			"void main()\n"
 			"{\n"
-			"    Fram_UV = UV;\n"
-			"    Fram_Color = Color;\n"
+			"    Frag_UV = UV;\n"
+			"    Frag_Color = Color;\n"
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
@@ -460,12 +452,12 @@ namespace ml
 			"layout (location = 1) in vec2 UV;\n"
 			"layout (location = 2) in vec4 Color;\n"
 			"uniform mat4 ProjMtx;\n"
-			"out vec2 Fram_UV;\n"
-			"out vec4 Fram_Color;\n"
+			"out vec2 Frag_UV;\n"
+			"out vec4 Frag_Color;\n"
 			"void main()\n"
 			"{\n"
-			"    Fram_UV = UV;\n"
-			"    Fram_Color = Color;\n"
+			"    Frag_UV = UV;\n"
+			"    Frag_Color = Color;\n"
 			"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
 			"}\n";
 
@@ -474,42 +466,42 @@ namespace ml
 			"    precision mediump float_t;\n"
 			"#endif\n"
 			"uniform sampler2D Texture;\n"
-			"varying vec2 Fram_UV;\n"
-			"varying vec4 Fram_Color;\n"
+			"varying vec2 Frag_UV;\n"
+			"varying vec4 Frag_Color;\n"
 			"void main()\n"
 			"{\n"
-			"    gl_FragColor = Fram_Color * texture2D(Texture, Fram_UV.st);\n"
+			"    gl_FragColor = Frag_Color * texture2D(Texture, Frag_UV.st);\n"
 			"}\n";
 
 		static const C_String fragment_shader_glsl_130 =
 			"uniform sampler2D Texture;\n"
-			"in vec2 Fram_UV;\n"
-			"in vec4 Fram_Color;\n"
+			"in vec2 Frag_UV;\n"
+			"in vec4 Frag_Color;\n"
 			"out vec4 Out_Color;\n"
 			"void main()\n"
 			"{\n"
-			"    Out_Color = Fram_Color * texture(Texture, Fram_UV.st);\n"
+			"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
 			"}\n";
 
 		static const C_String fragment_shader_glsl_300_es =
 			"precision mediump float_t;\n"
 			"uniform sampler2D Texture;\n"
-			"in vec2 Fram_UV;\n"
-			"in vec4 Fram_Color;\n"
+			"in vec2 Frag_UV;\n"
+			"in vec4 Frag_Color;\n"
 			"layout (location = 0) out vec4 Out_Color;\n"
 			"void main()\n"
 			"{\n"
-			"    Out_Color = Fram_Color * texture(Texture, Fram_UV.st);\n"
+			"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
 			"}\n";
 
 		static const C_String fragment_shader_glsl_410_core =
-			"in vec2 Fram_UV;\n"
-			"in vec4 Fram_Color;\n"
+			"in vec2 Frag_UV;\n"
+			"in vec4 Frag_Color;\n"
 			"uniform sampler2D Texture;\n"
 			"layout (location = 0) out vec4 Out_Color;\n"
 			"void main()\n"
 			"{\n"
-			"    Out_Color = Fram_Color * texture(Texture, Fram_UV.st);\n"
+			"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
 			"}\n";
 
 		// Select shaders matching our GLSL versions
@@ -537,24 +529,24 @@ namespace ml
 		}
 
 		// Create shaders
-		C_String vertex_shader_with_version[2] = { m_GlslVersion, vertex_shader };
-		C_String fragment_shader_with_version[2] = { m_GlslVersion, fragment_shader };
+		C_String vertex_shader_with_version[2] = { g_GlslVersion, vertex_shader };
+		C_String fragment_shader_with_version[2] = { g_GlslVersion, fragment_shader };
 		
 		this->CompileShader(
-			m_ShaderHandle,
+			g_ShaderHandle,
 			vertex_shader_with_version,
 			fragment_shader_with_version
 		);
 
-		m_AttribTex		= ML_GL.getUniformLocation(m_ShaderHandle, "Texture");
-		m_AttribProjMtx = ML_GL.getUniformLocation(m_ShaderHandle, "ProjMtx");
-		m_AttribPosition= ML_GL.getAttribLocation(m_ShaderHandle, "Position");
-		m_AttribUV		= ML_GL.getAttribLocation(m_ShaderHandle, "UV");
-		m_AttribColor	= ML_GL.getAttribLocation(m_ShaderHandle, "Color");
+		g_AttribTex		= ML_GL.getUniformLocation(g_ShaderHandle, "Texture");
+		g_AttribProjMtx = ML_GL.getUniformLocation(g_ShaderHandle, "ProjMtx");
+		g_AttribPosition= ML_GL.getAttribLocation(g_ShaderHandle, "Position");
+		g_AttribUV		= ML_GL.getAttribLocation(g_ShaderHandle, "UV");
+		g_AttribColor	= ML_GL.getAttribLocation(g_ShaderHandle, "Color");
 
 		// Create buffers
-		m_VboHandle = ML_GL.genBuffers(1);
-		m_ElementsHandle = ML_GL.genBuffers(1);
+		g_VboHandle = ML_GL.genBuffers(1);
+		g_ElementsHandle = ML_GL.genBuffers(1);
 
 		this->CreateFontsTexture();
 
@@ -568,45 +560,45 @@ namespace ml
 
 	void ImGui_Impl::DestroyDeviceObjects()
 	{
-		if (m_VboHandle)
+		if (g_VboHandle)
 		{
-			ML_GL.deleteBuffers(1, &m_VboHandle);
+			ML_GL.deleteBuffers(1, &g_VboHandle);
 		}
-		m_VboHandle = NULL;
+		g_VboHandle = NULL;
 
-		if (m_ElementsHandle)
+		if (g_ElementsHandle)
 		{
-			ML_GL.deleteBuffers(1, &m_ElementsHandle);
+			ML_GL.deleteBuffers(1, &g_ElementsHandle);
 		}
-		m_ElementsHandle = NULL;
+		g_ElementsHandle = NULL;
 
-		if (m_ShaderHandle && m_VertHandle)
+		if (g_ShaderHandle && g_VertHandle)
 		{
-			ML_GL.detachShader(m_ShaderHandle, m_VertHandle);
-		}
-
-		if (m_VertHandle)
-		{
-			ML_GL.deleteShader(m_VertHandle);
-		}
-		m_VertHandle = NULL;
-
-		if (m_ShaderHandle && m_FragHandle)
-		{
-			ML_GL.detachShader(m_ShaderHandle, m_FragHandle);
+			ML_GL.detachShader(g_ShaderHandle, g_VertHandle);
 		}
 
-		if (m_FragHandle)
+		if (g_VertHandle)
 		{
-			ML_GL.deleteShader(m_FragHandle);
+			ML_GL.deleteShader(g_VertHandle);
 		}
-		m_FragHandle = NULL;
+		g_VertHandle = NULL;
 
-		if (m_ShaderHandle)
+		if (g_ShaderHandle && g_FragHandle)
 		{
-			ML_GL.deleteShader(m_ShaderHandle);
+			ML_GL.detachShader(g_ShaderHandle, g_FragHandle);
 		}
-		m_ShaderHandle = NULL;
+
+		if (g_FragHandle)
+		{
+			ML_GL.deleteShader(g_FragHandle);
+		}
+		g_FragHandle = NULL;
+
+		if (g_ShaderHandle)
+		{
+			ML_GL.deleteShader(g_ShaderHandle);
+		}
+		g_ShaderHandle = NULL;
 
 		this->DestroyFontsTexture();
 	}
@@ -620,46 +612,46 @@ namespace ml
 		for (int32_t i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++)
 		{
 			// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
-			io.MouseDown[i] = m_MousePressed[i] || m_Window->getMouseButton(i) != 0;
-			m_MousePressed[i] = false;
+			io.MouseDown[i] = g_MousePressed[i] || g_Window->getMouseButton(i) != 0;
+			g_MousePressed[i] = false;
 		}
 
 		// Update mouse position
 		const ImVec2 mouse_pos_backup = io.MousePos;
 		io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
 
-		if (m_Window->isFocused())
+		if (g_Window->isFocused())
 		{
 			if (io.WantSetMousePos)
 			{
-				m_Window->setCursorPos({ (int32_t)mouse_pos_backup.x, (int32_t)mouse_pos_backup.y });
+				g_Window->setCursorPos({ (int32_t)mouse_pos_backup.x, (int32_t)mouse_pos_backup.y });
 			}
 			else
 			{
-				vec2 mousePos = m_Window->getCursorPos();
+				vec2 mousePos = g_Window->getCursorPos();
 				io.MousePos = ImVec2(mousePos[0], mousePos[1]);
 			}
 		}
 
 		// Mouse
 		if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || 
-			(m_Window->getInputMode() == (int32_t)Cursor::Mode::Disabled))
+			(g_Window->getInputMode() == (int32_t)Cursor::Mode::Disabled))
 			return;
 
 		ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
 		if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor)
 		{
 			// Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
-			m_Window->seCursorMode(Cursor::Mode::Hidden);
+			g_Window->seCursorMode(Cursor::Mode::Hidden);
 		}
 		else
 		{
 			// Show OS mouse cursor
 			// FIXME-PLATFORM: Unfocused windows seems to fail changing the mouse cursor with ML 3.2, but 3.3 works here.
-			m_Window->setCursor(m_MouseCursors[imgui_cursor] 
-				? m_MouseCursors[imgui_cursor] 
-				: m_MouseCursors[ImGuiMouseCursor_Arrow]);
-			m_Window->seCursorMode(Cursor::Mode::Normal);
+			g_Window->setCursor(g_MouseCursors[imgui_cursor] 
+				? g_MouseCursors[imgui_cursor] 
+				: g_MouseCursors[ImGuiMouseCursor_Arrow]);
+			g_Window->seCursorMode(Cursor::Mode::Normal);
 		}
 	}
 
@@ -703,11 +695,11 @@ namespace ml
 		{
 			// Compile Vertex
 			switch (ML_GL.compileShader(
-				m_VertHandle, GL::ShaderType::VertexShader, &combine(2, vs)[0]
+				g_VertHandle, GL::ShaderType::VertexShader, &combine(2, vs)[0]
 			))
 			{
 			case ML_SUCCESS:
-				ML_GL.attachShader(obj, m_VertHandle);
+				ML_GL.attachShader(obj, g_VertHandle);
 				break;
 			case ML_FAILURE:
 				ML_GL.deleteShader(obj);
@@ -716,11 +708,11 @@ namespace ml
 
 			// Compile Fragment
 			switch (ML_GL.compileShader(
-				m_FragHandle, GL::ShaderType::FragmentShader, &combine(2, fs)[0]
+				g_FragHandle, GL::ShaderType::FragmentShader, &combine(2, fs)[0]
 			))
 			{
 			case ML_SUCCESS:
-				ML_GL.attachShader(obj, m_FragHandle);
+				ML_GL.attachShader(obj, g_FragHandle);
 				break;
 			case ML_FAILURE:
 				ML_GL.deleteShader(obj);
@@ -751,57 +743,40 @@ namespace ml
 
 	void ImGui_Impl::MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods)
 	{
-		if ((action == ML_KEY_PRESS) && 
-			(button >= 0) && 
-			(button < IM_ARRAYSIZE(m_MousePressed)))
-		{
-			ML_ImGui_Impl.m_MousePressed[button] = true;
-		}
-
+		if ((action == ML_KEY_PRESS) &&
+			(button >= 0) &&
+			(button < IM_ARRAYSIZE(g_MousePressed)))
+			ML_ImGui_Impl.g_MousePressed[button] = true;
 		ML_ImGui_Impl.fireEvent(MouseButtonEvent(button, action, mods));
 	}
 
 	void ImGui_Impl::ScrollCallback(void * window, float64_t xoffset, float64_t yoffset)
 	{
 		ImGuiIO & io = ImGui::GetIO();
-	
 		io.MouseWheelH += (float_t)xoffset;
-	
 		io.MouseWheel += (float_t)yoffset;
-	
 		ML_ImGui_Impl.fireEvent(ScrollEvent(xoffset, yoffset));
 	}
 
 	void ImGui_Impl::KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
 	{
 		ImGuiIO & io = ImGui::GetIO();
-
 		if (action == ML_KEY_PRESS) { io.KeysDown[key] = true; }
 		if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
-
-		// Mirror Keypad-Enter onto Enter
-		if (key == KeyCode::KP_Enter)
+		if (key == KeyCode::KP_Enter) { io.KeysDown[KeyCode::Enter] = io.KeysDown[key]; }
+		ML_ImGui_Impl.fireEvent(KeyEvent(key, scancode, action, 
 		{
-			io.KeysDown[KeyCode::Enter] = io.KeysDown[key];
-		}
-	
-		ML_ImGui_Impl.fireEvent(KeyEvent(key, scancode, action, {
 			io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
 			io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],
 			io.KeyAlt	= io.KeysDown[KeyCode::LeftAlt]		|| io.KeysDown[KeyCode::RightAlt],
 			io.KeySuper = io.KeysDown[KeyCode::LeftSuper]	|| io.KeysDown[KeyCode::RightSuper]
-			}));
+		}));
 	}
 
 	void ImGui_Impl::CharCallback(void * window, uint32_t value)
 	{
 		ImGuiIO & io = ImGui::GetIO();
-
-		if ((value > 0) && (value < 0x10000))
-		{
-			io.AddInputCharacter((uint16_t)value);
-		}
-	
+		if ((value > 0) && (value < 0x10000)) { io.AddInputCharacter((uint16_t)value); }
 		ML_ImGui_Impl.fireEvent(CharEvent(value));
 	}
 

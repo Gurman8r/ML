@@ -40,7 +40,7 @@ namespace ml
 			class Ev
 		> inline void fireEvent(const Ev & value)
 		{
-			if (m_Window) m_Window->eventSystem().fireEvent(value);
+			if (g_Window) g_Window->eventSystem().fireEvent(value);
 		}
 
 		static void MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods);
@@ -51,35 +51,31 @@ namespace ml
 	private:
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool m_Running;
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		enum ClientAPI
 		{
 			API_Unknown, API_OpenGL, API_Vulkan
 		};
 
-		Window *	m_Window;
-		ClientAPI	m_ClientApi;
-		float64_t   m_Time;
-		bool        m_MousePressed[5];
-		void *		m_MouseCursors[(size_t)Cursor::Shape::NUM_SHAPE];
+		Window *	g_Window;
+		ClientAPI	g_ClientApi;
+		float64_t   g_Time;
+		bool        g_MousePressed[5];
+		void *		g_MouseCursors[(size_t)Cursor::Shape::NUM_SHAPE];
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		char        m_GlslVersion[32];
-		uint32_t    m_FontTexture;
-		uint32_t    m_ShaderHandle;
-		uint32_t	m_VertHandle;
-		uint32_t	m_FragHandle;
-		int32_t     m_AttribTex;
-		int32_t		m_AttribProjMtx;
-		int32_t     m_AttribPosition;
-		int32_t		m_AttribUV;
-		int32_t		m_AttribColor;
-		uint32_t	m_VboHandle;
-		uint32_t	m_ElementsHandle;
+		char        g_GlslVersion[32];
+		uint32_t    g_FontTexture;
+		uint32_t    g_ShaderHandle;
+		uint32_t	g_VertHandle;
+		uint32_t	g_FragHandle;
+		int32_t     g_AttribTex;
+		int32_t		g_AttribProjMtx;
+		int32_t     g_AttribPosition;
+		int32_t		g_AttribUV;
+		int32_t		g_AttribColor;
+		uint32_t	g_VboHandle;
+		uint32_t	g_ElementsHandle;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

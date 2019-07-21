@@ -109,7 +109,7 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		// Create Entity & Attach Renderer
+		// Create Entity and Attach Renderer
 		if (Entity * ent = noobs.entity.create())
 		{
 			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material);
@@ -220,7 +220,7 @@ namespace ml
 			// Render Scene to Texture
 			if (noobs.surf_main)
 			{
-				noobs.surf_main->shader()->setUniform("Effect.mode", 0);
+				noobs.surf_main->shader()->setUniform("Effect.mode", noobs.effectMode);
 				ev.window.draw(noobs.surf_main);
 			}
 			
@@ -281,6 +281,8 @@ namespace ml
 
 					// Clear Color
 					ImGui::ColorEdit4("Clear Color##Noobs", &noobs.clearColor[0]);
+
+					ImGui::InputInt("Effect Mode##Noobs", &noobs.effectMode);
 
 					ImGui::EndMenu();
 				}

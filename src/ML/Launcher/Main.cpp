@@ -74,7 +74,7 @@ int32_t main()
 		String line;
 		while (std::getline(file, line))
 		{
-			if (line.empty() || (line.trim().front() == '#'))
+			if (!line || (line.trim().front() == '#'))
 				continue;
 			
 			// Load Library

@@ -60,9 +60,6 @@
     <None Include="..\..\..\assets\shaders\basic.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\example.shader">
-      <Filter>Resource Files\assets\shaders</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\surface.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
@@ -87,16 +84,7 @@
     <None Include="..\..\..\assets\shaders\text.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\common\Frag.Draw.shader">
-      <Filter>Resource Files\assets\shaders\common</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\common\Frag.shader">
-      <Filter>Resource Files\assets\shaders\common</Filter>
-    </None>
-    <None Include="..\..\..\assets\shaders\common\Geom.Curve.shader">
-      <Filter>Resource Files\assets\shaders\common</Filter>
-    </None>
-    <None Include="..\..\..\assets\shaders\common\Vert.MVP.shader">
       <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\common\Vert.shader">
@@ -113,6 +101,12 @@
     </None>
     <None Include="..\..\..\assets\materials\noobs_material_0.mat">
       <Filter>Resource Files\assets\materials</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader">
+      <Filter>Resource Files\assets\shaders\common</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\common\Curve.Sample.shader">
+      <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

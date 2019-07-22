@@ -90,9 +90,9 @@ namespace ml
 
 	void Engine::onEnter(const EnterEvent & ev)
 	{
-		// Get Boot Script
+		// Get Boot Script Name
 		/* * * * * * * * * * * * * * * * * * * * */
-		m_bootScript = ev.prefs.GetString("Engine", "boot_script", "");
+		m_script.name = ev.prefs.GetString("Engine", "boot_script", "");
 
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -196,20 +196,20 @@ namespace ml
 	{
 		// Set Window Icon
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const Image * icon = ML_Content.get<Image>("icon"))
+		if (m_icon)
 		{
-			const Image temp = Image(*icon).flipVertically();
+			const Image temp = Image(*m_icon).flipVertically();
 
 			ev.window.setIcons({ temp });
 		}
 
 		// Run Boot Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (Script * scr = ML_Content.get<Script>(m_bootScript))
+		if (m_script)
 		{
-			if (!(scr->buildAndRun(Arguments(__argc, __argv))))
+			if (!(m_script->buildAndRun(Arguments(__argc, __argv))))
 			{
-				Debug::logError("Failed Running \'{0}\'", scr->path());
+				Debug::logError("Failed Running \'{0}\'", m_script->path());
 			}
 		}
 	}

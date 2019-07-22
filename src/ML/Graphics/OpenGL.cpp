@@ -28,12 +28,12 @@ namespace ml
 			cout
 				<< FMT(FG::Red)	<< endl << "An OpenGL call failed in \'" << file << "\' (" << line << ")"
 				<< FG::Yellow	<< endl << "Code: "
-				<< FG::White	<< endl << "\t" << code
+				<< FG::White	<< endl << "\t" << (uint32_t)code
 				<< FG::Yellow	<< endl << "Expression: "
 				<< FG::White	<< endl << "\t" << expr
 				<< FG::Yellow	<< endl << "Description:"
-				<< FG::White	<< endl << "\t" << GL::nameOf(code)
-				<< FG::White	<< endl << "\t" << GL::descOf(code)
+				<< FG::White	<< endl << "\t" << code
+				<< FG::White	<< endl << "\t" << code
 				<< FMT()		<< endl;
 		}
 	}
@@ -705,7 +705,7 @@ namespace ml
 
 	void OpenGL::shaderSource(uint32_t obj, int32_t count, C_String const * src, const int32_t * length)
 	{
-		glCheck(glShaderSource(obj, count, src, length));
+		glCheck(glShaderSource(obj, count, &src[0], length));
 	}
 
 	int32_t OpenGL::compileShader(uint32_t obj)
@@ -715,13 +715,13 @@ namespace ml
 		return getProgramParameter(obj, GL::ObjectCompileStatus);
 	}
 
-	int32_t OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, C_String source)
+	int32_t OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source)
 	{
-		if (source)
+		if (source && (*source))
 		{
 			if (obj = createShaderObject(type))
 			{
-				shaderSource(obj, 1, &source, nullptr);
+				shaderSource(obj, count, source, nullptr);
 
 				if (compileShader(obj))
 				{
@@ -730,21 +730,13 @@ namespace ml
 				else
 				{
 					C_String log = getProgramInfoLog(obj);
-
 					deleteShader(obj);
-
-					return Debug::logError(
-						"Error in {0}\n{1}", 
-						GL::nameOf(type),
-						String(log)
-					);
+					return Debug::logError("Error in {0}\n{1}", type, String(log));
 				}
 			}
 			else
 			{
-				return Debug::logError("Failed creating {0} object",
-					GL::nameOf(type)
-				);
+				return Debug::logError("Failed creating {0} object", type);
 			}
 		}
 		else

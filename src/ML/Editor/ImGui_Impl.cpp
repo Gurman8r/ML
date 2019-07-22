@@ -702,29 +702,17 @@ namespace ml
 		if (dispose() && (obj = ML_GL.createProgramObject()))
 		{
 			// Compile Vertex
-			switch (ML_GL.compileShader(
-				g_VertHandle, GL::ShaderType::VertexShader, &combine(2, vs)[0]
-			))
+			switch (ML_GL.compileShader(g_VertHandle, GL::VertexShader, 2, vs))
 			{
-			case ML_SUCCESS:
-				ML_GL.attachShader(obj, g_VertHandle);
-				break;
-			case ML_FAILURE:
-				ML_GL.deleteShader(obj);
-				return false;
+			case ML_SUCCESS: ML_GL.attachShader(obj, g_VertHandle); break;
+			case ML_FAILURE: ML_GL.deleteShader(obj); return false;
 			}
 
 			// Compile Fragment
-			switch (ML_GL.compileShader(
-				g_FragHandle, GL::ShaderType::FragmentShader, &combine(2, fs)[0]
-			))
+			switch (ML_GL.compileShader(g_FragHandle, GL::FragmentShader, 2, fs))
 			{
-			case ML_SUCCESS:
-				ML_GL.attachShader(obj, g_FragHandle);
-				break;
-			case ML_FAILURE:
-				ML_GL.deleteShader(obj);
-				return false;
+			case ML_SUCCESS: ML_GL.attachShader(obj, g_FragHandle); break;
+			case ML_FAILURE: ML_GL.deleteShader(obj); return false;
 			}
 
 			// Link the program

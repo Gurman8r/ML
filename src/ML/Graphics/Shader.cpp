@@ -490,7 +490,7 @@ namespace ml
 		{
 			// Compile Vertex
 			uint32_t vert = NULL;
-			switch (ML_GL.compileShader(vert, GL::ShaderType::VertexShader, vs))
+			switch (ML_GL.compileShader(vert, GL::VertexShader, 1, &vs))
 			{
 			case ML_SUCCESS:
 				ML_GL.attachShader((*this), vert);
@@ -503,7 +503,7 @@ namespace ml
 
 			// Compile Geometry
 			uint32_t geom = NULL;
-			switch (ML_GL.compileShader(geom, GL::ShaderType::GeometryShader, gs))
+			switch (ML_GL.compileShader(geom, GL::GeometryShader, 1, &gs))
 			{
 			case ML_SUCCESS:
 				ML_GL.attachShader((*this), geom);
@@ -516,7 +516,7 @@ namespace ml
 
 			// Compile Fragment
 			uint32_t frag = NULL;
-			switch (ML_GL.compileShader(frag, GL::ShaderType::FragmentShader, fs))
+			switch (ML_GL.compileShader(frag, GL::FragmentShader, 1, &fs))
 			{
 			case ML_SUCCESS:
 				ML_GL.attachShader((*this), frag);

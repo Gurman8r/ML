@@ -1,15 +1,18 @@
 #ifndef _ML_ENGINE_HPP_
 #define _ML_ENGINE_HPP_
 
-#include <ML/Engine/Export.hpp>
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Engine/Asset.hpp>
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/String.hpp>
 #include <ML/Core/Matrix.hpp>
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct Image;
+	struct Script;
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_ENGINE_API Engine final
@@ -22,7 +25,6 @@ namespace ml
 		
 		~Engine() {}
 
-	public:
 		void onEvent(const Event * value) override;
 
 	private:
@@ -46,7 +48,8 @@ namespace ml
 		inline auto totalTime	() const -> const float_t &	{ return m_totalTime; }
 
 	private:
-		String	m_bootScript;
+		Asset<Image>	m_icon		{ "icon" };
+		Asset<Script>	m_script	{};
 
 		vec2	m_cursorPos		= {};
 		float_t	m_deltaTime		= 0;

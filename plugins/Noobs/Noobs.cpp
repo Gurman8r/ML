@@ -220,7 +220,7 @@ namespace ml
 			// Render Scene to Texture
 			if (noobs.surf_main)
 			{
-				noobs.surf_main->shader()->setUniform("Effect.mode", noobs.effectMode);
+				noobs.surf_main->shader()->setUniform("u_effectMode", noobs.effectMode);
 				ev.window.draw(noobs.surf_main);
 			}
 			

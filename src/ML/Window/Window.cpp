@@ -163,19 +163,19 @@ namespace ml
 	bool Window::setup()
 	{
 		static EventSystem * evSys = nullptr;
-		if (!evSys) { evSys = &this->eventSystem(); }
+		evSys = &this->eventSystem();
 
-		setCharCallback([](void * window, uint32_t c)
+		setCharCallback([](void *, uint32_t c)
 		{
 			evSys->fireEvent(CharEvent(c));
 		});
 
-		setCursorEnterCallback([](void * window, int32_t entered)
+		setCursorEnterCallback([](void *, int32_t entered)
 		{
 			evSys->fireEvent(CursorEnterEvent(entered));
 		});
 
-		setCursorPosCallback([](void * window, float64_t x, float64_t y)
+		setCursorPosCallback([](void *, float64_t x, float64_t y)
 		{
 			evSys->fireEvent(CursorPosEvent(x, y));
 		});
@@ -188,12 +188,12 @@ namespace ml
 			evSys->fireEvent(WindowErrorEvent(code, desc));
 		});
 
-		setFrameSizeCallback([](void * window, int32_t w, int32_t h)
+		setFrameSizeCallback([](void *, int32_t w, int32_t h)
 		{
 			evSys->fireEvent(FrameSizeEvent(w, h));
 		});
 
-		setKeyCallback([](void * window, int32_t button, int32_t scan, int32_t action, int32_t mods)
+		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
 			evSys->fireEvent(KeyEvent(button, scan, action, {
 				(bool)(mods & ML_MOD_SHIFT),
@@ -203,32 +203,32 @@ namespace ml
 				}));
 		});
 
-		setMouseButtonCallback([](void * window, int32_t button, int32_t action, int32_t mods)
+		setMouseButtonCallback([](void *, int32_t button, int32_t action, int32_t mods)
 		{
 			evSys->fireEvent(MouseButtonEvent(button, action, mods));
 		});
 		
-		setScrollCallback([](void * window, float64_t x, float64_t y)
+		setScrollCallback([](void *, float64_t x, float64_t y)
 		{
 			evSys->fireEvent(ScrollEvent(x, y));
 		});
 
-		setWindowCloseCallback([](void * window)
+		setWindowCloseCallback([](void *)
 		{
 			evSys->fireEvent(WindowCloseEvent());
 		});
 
-		setWindowFocusCallback([](void * window, int32_t focused)
+		setWindowFocusCallback([](void *, int32_t focused)
 		{
 			evSys->fireEvent(WindowFocusEvent(focused));
 		});
 		
-		setWindowPosCallback([](void * window, int32_t x, int32_t y)
+		setWindowPosCallback([](void *, int32_t x, int32_t y)
 		{
 			evSys->fireEvent(WindowPosEvent(x, y));
 		});
 
-		setWindowSizeCallback([](void * window, int32_t width, int32_t height)
+		setWindowSizeCallback([](void *, int32_t width, int32_t height)
 		{
 			evSys->fireEvent(WindowSizeEvent(width, height));
 		});

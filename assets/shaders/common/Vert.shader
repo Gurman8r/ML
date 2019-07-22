@@ -1,4 +1,4 @@
-// Vert.shader
+// u_shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #shader vertex
@@ -18,14 +18,5 @@ out VertexData
 	vec4 Normal;
 	vec2 Texcoord;
 } Out;
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-void ml_Update_Vertex()
-{
-	Out.Position = a_Position;
-	Out.Normal = a_Normal;
-	Out.Texcoord = a_Texcoord;
-}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

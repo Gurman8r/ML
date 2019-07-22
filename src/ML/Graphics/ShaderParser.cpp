@@ -72,11 +72,8 @@ namespace ml
 		{
 			if (name)
 			{
-				const String path(ML_FS.pathTo(
-					"../../../assets/shaders/" + name
-				));
 				String file;
-				if (ML_FS.getFileContents(path, file))
+				if (ML_FS.getFileContents(ML_FS.pathTo(name), file))
 				{
 					file.pop_back();
 					return file;

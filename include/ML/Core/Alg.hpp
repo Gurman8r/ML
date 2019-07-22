@@ -4,9 +4,9 @@
 #include <ML/Core/StaticValue.hpp>
 #include <gcem/gcem.hpp>
 
-#define ML_MIN(l, r) ((l <= r) ? l : r)
-#define ML_MAX(l, r) ((l >= r) ? l : r)
-#define ML_CLAMP(Val, Min, Max) (ML_MIN(ML_MAX(Val, Min), Max))
+#define ML_MIN(x, y) ((x <= y) ? x : y)
+#define ML_MAX(x, y) ((x >= y) ? x : y)
+#define ML_CLAMP(VAL, MIN, MAX) (ML_MIN(ML_MAX(VAL, MIN), MAX))
 
 namespace ml
 {

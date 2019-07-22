@@ -32,14 +32,14 @@ enum class State { Exit = -1, Startup, MainLoop, Shutdown };
 static StateMachine<State> g_Flow
 {
 { State::Startup, []()
-{	
+{
 	g_EventSystem.fireEvent(EnterEvent	{ g_Time, g_Preferences, g_Window });
 	g_EventSystem.fireEvent(LoadEvent	{ g_Time, g_Preferences });
 	g_EventSystem.fireEvent(StartEvent	{ g_Time, g_Window });
 	return g_Flow(State::MainLoop);
 } },
 { State::MainLoop, []()
-{	
+{
 	while (g_Window.isOpen())
 	{
 		g_EventSystem.fireEvent(BeginFrameEvent	{ g_Time, g_Window });
@@ -55,7 +55,7 @@ static StateMachine<State> g_Flow
 	return g_Flow(State::Shutdown);
 } },
 { State::Shutdown, []()
-{	
+{
 	g_EventSystem.fireEvent(UnloadEvent { g_Time, g_Window });
 	g_EventSystem.fireEvent(ExitEvent	{ g_Time });
 	return g_Flow(State::Exit);
@@ -107,8 +107,6 @@ int32_t main()
 
 	// Goodbye!
 	return EXIT_SUCCESS;
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

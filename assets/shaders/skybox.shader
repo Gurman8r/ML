@@ -1,31 +1,30 @@
 // skybox.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <common/Vert.MVP.shader>
-#shader vertex
+#include "../../../assets/shaders/common/Vert.shader"
+
+uniform mat4 u_proj;
+uniform mat4 u_view;
+uniform mat4 u_model;
 
 void main()
 {
-	ml_Update_Vertex();
-
-	gl_Position = (Vert.proj * Vert.view) * vec4(Out.Position, 1.0);
+	Out.Position	= a_Position;
+	Out.Normal		= a_Normal;
+	Out.Texcoord	= a_Texcoord;
+	gl_Position		= (u_proj * u_view) * vec4(Out.Position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <common/Frag.Draw.shader>
-#shader fragment
+#include "../../../assets/shaders/common/Frag.shader"
 
-//struct Frag_Uniforms
-//{
-//	samplerCube	mainTex;
-//	vec4 mainCol;
-//};
-//uniform Frag_Uniforms Frag;
+uniform vec4 u_mainColor;
+uniform sampler2D u_mainTexture;
 
 void main()
 {
-	gl_Color = Frag.mainCol * texture(Frag.mainTex, In.Texcoord);
+	gl_Color = u_mainColor * texture(u_mainTexture, In.Texcoord);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

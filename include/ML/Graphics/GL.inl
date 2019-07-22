@@ -2,7 +2,7 @@
 #include <ML/Core/C_String.hpp>
 
 // Values / Names
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
 	namespace GL
@@ -1116,60 +1116,74 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 // Generate Bit Mask Operators
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_GENERATE_BITMASK_OPERATORS(Pref, Type, Base) \
-Pref Type operator&(const Type l, const Type r) { return (Type)((Base)l & (Base)r); } \
-Pref Type operator|(const Type l, const Type r) { return (Type)((Base)l | (Base)r); } \
-Pref Type & operator &=(Type & l, const Type r) { return (l = (l & r)); } \
-Pref Type & operator |=(Type & l, const Type r) { return (l = (l | r)); }
+#define ML_GENERATE_BITMASK_OPERATORS(PRE, TYPE, BASE) \
+PRE TYPE operator&(const TYPE l, const TYPE r) { return (TYPE)((BASE)l & (BASE)r); } \
+PRE TYPE operator|(const TYPE l, const TYPE r) { return (TYPE)((BASE)l | (BASE)r); } \
+PRE TYPE & operator &=(TYPE & l, const TYPE r) { return (l = (l & r)); } \
+PRE TYPE & operator |=(TYPE & l, const TYPE r) { return (l = (l | r)); }
 
 
 // Generate Iterator Operators
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_GENERATE_ITERATOR_OPERATORS(Pref, Type, Base, Min, Max) \
-template <class T> Pref Type operator+(const Type l, T r) \
+#define ML_GENERATE_ITERATOR_OPERATORS(PRE, TYPE, BASE, MIN, MAX) \
+template <class T> PRE TYPE operator+(const TYPE x, T y) \
 { \
-	return (Type)(ML_CLAMP(((Base)l + (Base)r), Min, Max)); \
+	return (TYPE)(ML_CLAMP(((BASE)x + (BASE)y), MIN, MAX)); \
 } \
-template <class T> Pref Type operator-(const Type l, T r) \
-{ \
-	return (l + (-r)); \
-} \
-template <class T> Pref Type & operator+=(Type & l, T r) \
-{ \
-	return (l = (l + r)); \
-} \
-template <class T> Pref Type & operator-=(Type & l, T r) \
-{ \
-	return (l = (l - r)); \
-} \
-Pref Type operator++(Type & value) { return (value += 1); } \
-Pref Type operator--(Type & value) { return (value -= 1); } \
-\
-Pref Type operator++(Type & value, int)	{ Type temp = value; value += 1; return temp; } \
-Pref Type operator--(Type & value, int)	{ Type temp = value; value -= 1; return temp; }
+template <class T> PRE TYPE   operator -(TYPE x,   T y)	{ return (x + (-y)); } \
+template <class T> PRE TYPE & operator+=(TYPE & x, T y) { return (x = (x + y)); } \
+template <class T> PRE TYPE & operator-=(TYPE & x, T y) { return (x = (x - y)); } \
+PRE TYPE operator++(TYPE & x)							{ return (x += 1); } \
+PRE TYPE operator--(TYPE & x)							{ return (x -= 1); } \
+PRE TYPE operator++(TYPE & x, int32_t)					{ TYPE y = x; x += 1; return y; } \
+PRE TYPE operator--(TYPE & x, int32_t)					{ TYPE y = x; x -= 1; return y; }
 
 // Operators
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
 	// GL::Mask
-	ML_GENERATE_BITMASK_OPERATORS(
-		constexpr, GL::Mask, uint32_t
-	);
+	ML_GENERATE_BITMASK_OPERATORS(constexpr, GL::Mask, uint32_t);
 
 	// GL::Attachment
-	ML_GENERATE_ITERATOR_OPERATORS(
-		constexpr, GL::ColorAttachment, uint32_t,
-		GL::ColorAttachment::ColorAttachment0, GL::ColorAttachment::ColorAttachment9
+	ML_GENERATE_ITERATOR_OPERATORS(constexpr, GL::ColorAttachment, uint32_t,
+		GL::ColorAttachment::ColorAttachment0, 
+		GL::ColorAttachment::ColorAttachment9
 	);
 
 	// GL::TexID
-	ML_GENERATE_ITERATOR_OPERATORS(
-		constexpr, GL::TexID, uint32_t, 
-		GL::TexID::Texture0, GL::TexID::Texture31
+	ML_GENERATE_ITERATOR_OPERATORS(constexpr, GL::TexID, uint32_t, 
+		GL::TexID::Texture0, 
+		GL::TexID::Texture31
 	);
+
+	inline ML_SERIALIZE(Ostream & out, const GL::Flag & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Target & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Usage & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Err & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::StringID & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::IntID & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::ClipControl & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Status & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::ShaderType & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Mode & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Equation & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Comp & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Factor & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Face & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Type & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Format & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::FrameAttachment & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::TexParam & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Pack & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::ColorAttachment & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::TexID & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::DrawBuffer & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Mask & value) { return out << GL::nameOf(value); }
 }

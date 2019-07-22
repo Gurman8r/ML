@@ -72,12 +72,6 @@
 
 <import>
 	type = shader
-	name = example
-	file = ../../../assets/shaders/example.shader
-</import>
-
-<import>
-	type = shader
 	name = noobs_shader_0
 	vert = ../../../assets/shaders/noobs/noobs_0.vs.shader
 	frag = ../../../assets/shaders/noobs/noobs_0.fs.shader

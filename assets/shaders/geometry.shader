@@ -1,32 +1,38 @@
 // geometry.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <common/Vert.MVP.shader>
-#shader vertex
+#include "../../../assets/shaders/common/Vert.shader"
+
+uniform mat4 u_proj;
+uniform mat4 u_view;
+uniform mat4 u_model;
 
 void main()
 {
-	gl_Position = ml_MVP_Position();
+	Out.Position	= a_Position;
+	Out.Normal		= a_Normal;
+	Out.Texcoord	= a_Texcoord;
+	gl_Position		= (u_proj * u_view * u_model) * vec4(Out.Position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <common/Frag.Draw.shader>
-#shader fragment
+#include "../../../assets/shaders/common/Frag.shader"
+
+uniform vec4 u_mainColor;
+uniform sampler2D u_mainTexture;
 
 void main()
 {
-	gl_Color = Frag.mainCol;
+	gl_Color = u_mainColor;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <common/Geom.Curve.shader>
-#shader geometry
+#include "../../../assets/shaders/common/Curve.Draw.shader"
 
 #define SAMPLES_PER_SEGMENT 16
 #define SAMPLES_MAX 128
-
 #define CURVE_MODE_LINES 0
 #define CURVE_MODE_BEZIER 1
 #define CURVE_MODE_CATMULLROM 2
@@ -39,21 +45,17 @@ layout(line_strip, max_vertices = SAMPLES_MAX) out;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-struct Geom_Uniforms
-{
-	int		mode;
-	float	delta;
-	float	size;
-	int		samples;
-};
-uniform Geom_Uniforms Geom;
+uniform int		u_mode;
+uniform float	u_delta;
+uniform float	u_size;
+uniform int		u_samples;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 void stub(in int samples, in float dt)
 {
 	// test points
-	float size = Geom.size;
+	float size = u_size;
 	vec4 testP0 = vec4(-size, +size, 0.0, 1.0);
 	vec4 testP1 = vec4(+size, +size, 0.0, 1.0);
 	vec4 testP2 = vec4(+size, -size, 0.0, 1.0);
@@ -61,7 +63,7 @@ void stub(in int samples, in float dt)
 
 	vec4 p0, p1, p2, p3, pPrev, pNext, m0, m1;
 
-	switch (Geom.mode)
+	switch (u_mode)
 	{
 	case CURVE_MODE_LINES:
 		// multiple segments
@@ -108,7 +110,7 @@ void stub(in int samples, in float dt)
 
 void main()
 {
-	stub(Geom.samples, (Geom.delta / float(Geom.samples)));
+	stub(u_samples, (u_delta / float(u_samples)));
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

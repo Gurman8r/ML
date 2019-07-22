@@ -115,11 +115,8 @@ void main()
 		camera.zFar
 	);
 
-	// MVP
-	mat4 mvp = (proj * view * model);
-
 	// Output
-	gl_Position = mvp * vec4(a_Position, 1.0);
+	gl_Position = (proj * view * model) * vec4(a_Position, 1.0);
 	V.Position	= gl_Position.xyz;
 	V.Normal	= transpose(inverse(model)) * a_Normal;
 	V.Texcoord	= a_Texcoord;

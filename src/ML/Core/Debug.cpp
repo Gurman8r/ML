@@ -46,7 +46,7 @@ namespace ml
 			Array<char, 128> buffer;
 			while (!std::feof(file.get()))
 			{
-				if (fgets(buffer.data(), 128, file.get()) != nullptr)
+				if (std::fgets(buffer.data(), 128, file.get()) != nullptr)
 				{
 					out << String(buffer.data());
 				}

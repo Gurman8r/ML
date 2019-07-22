@@ -16,14 +16,13 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API MemoryTracker final
-		: public I_Singleton<MemoryTracker>
+	class ML_CORE_API MemoryTracker final : public I_Singleton<MemoryTracker>
 	{	
 		friend I_Singleton<MemoryTracker>;
 
 	private:
-		struct	Record;
-		using	RecordMap = typename HashMap<void *, Record *>;
+		struct Record;
+		using  RecordMap = typename HashMap<void *, Record *>;
 
 	private:
 		MemoryTracker();

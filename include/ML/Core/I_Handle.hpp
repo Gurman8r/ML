@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// Handle represents a device/hardware object.
+	// Handle represents a device object.
 	template <
 		class T
 	> struct I_Handle

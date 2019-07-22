@@ -9,9 +9,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Tool for quickly mapping values
-	// Inserts value into map if not exists then returns const ref to value
-	// Should only be used when a failed map insert is inconsequential
-	// NOT TO BE USED IN PLACE OF Map/HashMap for general use
+	// Inserts value into map if not exists then returns const reference to value
+	// Meant to be used for insertion and retrieval, NOT traversal.
 	template <
 		template <class, class> class Base, 
 		class Key, class Val

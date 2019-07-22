@@ -2,7 +2,6 @@
 #define _ML_STRING_HPP_
 
 #include <ML/Core/C_String.hpp>
-#include <ML/Core/I_Comparable.hpp>
 
 namespace ml
 {

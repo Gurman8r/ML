@@ -150,9 +150,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\FMT.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\MetaData.hpp">
       <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\FMT.cpp">
       <Filter>Source Files\DS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

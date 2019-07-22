@@ -212,6 +212,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Worker.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />

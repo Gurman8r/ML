@@ -551,9 +551,9 @@ namespace ml
 
 				ML_GL.getTexImage(
 					m_target,
-					0,
+					m_level,
 					m_internalFormat,
-					GL::UnsignedByte,
+					m_type,
 					&pixels[0]
 				);
 
@@ -568,8 +568,8 @@ namespace ml
 	void Texture::bind(const Texture * value)
 	{
 		return ((value)
-			? (ML_GL.bindTexture(value->target(), (*value)))
-			: (ML_GL.bindTexture(GL::Texture2D, NULL))
+			? ML_GL.bindTexture(value->target(), (*value))
+			: ML_GL.bindTexture(GL::Texture2D, NULL)
 		);
 	}
 

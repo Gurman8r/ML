@@ -85,7 +85,7 @@ namespace ml
 			class ... Args
 		> inline Component * add(Args && ... args)
 		{
-			return add<Component>(new Component(std::forward<Args>(args)...));
+			return this->add<Component>(new Component(std::forward<Args>(args)...));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

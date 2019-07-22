@@ -3,8 +3,9 @@
 
 #include <ML/Script/Export.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/I_Newable.hpp>
 #include <ML/Core/String.hpp>
+#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_Comparable.hpp>
 
 namespace ml
 {
@@ -27,7 +28,7 @@ namespace ml
 		Arguments(int32_t argc, char ** argv);
 		Arguments(const String & value);
 		Arguments(const List<String> & values);
-		Arguments(const std::initializer_list<String>& values);
+		Arguments(const Initializer<String>& values);
 		Arguments(const String & value, const String & delim);
 		Arguments(const Arguments & copy);
 		~Arguments();

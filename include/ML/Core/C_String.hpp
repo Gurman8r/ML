@@ -3,8 +3,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/Alg.hpp>
-#include <ML/Core/Hash.hpp>
+#include <ML/Core/Array.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

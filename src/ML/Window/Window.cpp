@@ -406,9 +406,7 @@ namespace ml
 	Window & Window::setIcons(const List<Image> & value)
 	{
 		List<GLFWimage> temp;
-
 		temp.reserve(value.size());
-
 		for (const auto & e : value)
 		{
 			temp.push_back(MapGLFWimage(e));

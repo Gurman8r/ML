@@ -65,7 +65,7 @@ namespace ml
 		{
 			return it->second;
 		}
-		else
+		else if (m_instance)
 		{
 			void * location;
 			if (!(location = ML_LOAD_FUNCTION(m_instance, name.c_str())))

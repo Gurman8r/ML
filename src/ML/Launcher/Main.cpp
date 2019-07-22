@@ -29,14 +29,14 @@ static Editor		g_Editor		{ g_EventSystem };
 
 enum class State { Exit = -1, Startup, MainLoop, Shutdown };
 
-static StateMachine<State> g_Flow
+static StateMachine<State> g_ProgramStates
 {
 { State::Startup, []()
 {
 	g_EventSystem.fireEvent(EnterEvent	{ g_Time, g_Preferences, g_Window });
 	g_EventSystem.fireEvent(LoadEvent	{ g_Time, g_Preferences });
 	g_EventSystem.fireEvent(StartEvent	{ g_Time, g_Window });
-	return g_Flow(State::MainLoop);
+	return g_ProgramStates(State::MainLoop);
 } },
 { State::MainLoop, []()
 {
@@ -52,13 +52,13 @@ static StateMachine<State> g_Flow
 		g_EventSystem.fireEvent(EndGuiEvent		{ g_Time, g_Window });
 		g_EventSystem.fireEvent(EndFrameEvent	{ g_Time, g_Window });
 	}
-	return g_Flow(State::Shutdown);
+	return g_ProgramStates(State::Shutdown);
 } },
 { State::Shutdown, []()
 {
 	g_EventSystem.fireEvent(UnloadEvent { g_Time, g_Window });
 	g_EventSystem.fireEvent(ExitEvent	{ g_Time });
-	return g_Flow(State::Exit);
+	return g_ProgramStates(State::Exit);
 } },
 };
 
@@ -95,8 +95,8 @@ int32_t main()
 		file.close();
 	}
 
-	// Run Controller
-	g_Flow(State::Startup);
+	// Run State Controller
+	g_ProgramStates(State::Startup);
 
 	// Cleanup Plugins
 	for (auto & pair : g_Plugins)

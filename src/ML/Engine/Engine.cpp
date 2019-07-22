@@ -199,7 +199,6 @@ namespace ml
 		if (m_icon)
 		{
 			const Image temp = Image(*m_icon).flipVertically();
-
 			ev.window.setIcons({ temp });
 		}
 

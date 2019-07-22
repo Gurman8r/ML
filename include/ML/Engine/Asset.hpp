@@ -7,7 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	// Wrapper around a pointer to something in Content
+	// Wrapper around a pointer to something that lives in Content
+	// Automatically retrieves the value from Content and acts like a pointer to T
 	template <
 		class T
 	> struct Asset final : public I_Newable
@@ -28,6 +29,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		Asset()
+			: name(String())
+			, data(nullptr)
+		{
+		}
+
 		Asset(const String & name)
 			: name(name)
 			, data(nullptr)
@@ -37,12 +44,6 @@ namespace ml
 		Asset(const self_type & copy)
 			: name(copy.name)
 			, data(copy.data)
-		{
-		}
-
-		Asset()
-			: name(String())
-			, data(nullptr)
 		{
 		}
 
@@ -88,8 +89,8 @@ namespace ml
 		inline operator			const_pointer() const	{ return this->get(); }
 		inline pointer			operator->()			{ return this->get(); }
 		inline const_pointer	operator->()	const	{ return this->get(); }
-		inline reference		operator*()				{ return (*this->get()); }
-		inline const_reference	operator*()		const	{ return (*this->get()); }
+		inline reference		operator *()			{ return (*this->get()); }
+		inline const_reference	operator *()	const	{ return (*this->get()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

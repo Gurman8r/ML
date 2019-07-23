@@ -6,17 +6,13 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	PluginLoader::PluginLoader()
-		: m_config	()
-		, m_filename()
-		, m_libs	()
+	PluginLoader::PluginLoader(EventSystem * eventSystem)
+		: m_eventSystem	(eventSystem)
+		, m_path		()
+		, m_files		()
+		, m_libraries	()
+		, m_plugins		()
 	{
-	}
-
-	PluginLoader::PluginLoader(const String & filename)
-		: PluginLoader()
-	{
-		this->loadFromFile(filename);
 	}
 
 	PluginLoader::~PluginLoader()
@@ -29,11 +25,11 @@ namespace ml
 	bool PluginLoader::dispose()
 	{
 		for (auto & plugin : m_plugins) delete plugin;
-		for (auto & library : m_libs) delete library;
+		for (auto & library : m_libraries) delete library;
 		m_plugins.clear();
-		m_libs.clear();
-		m_config.clear();
-		return m_config.empty() && m_plugins.empty() && m_libs.empty();
+		m_libraries.clear();
+		m_files.clear();
+		return m_files.empty() && m_plugins.empty() && m_libraries.empty();
 	}
 	
 	bool PluginLoader::loadFromFile(const String & filename)
@@ -48,47 +44,55 @@ namespace ml
 					continue;
 
 				// Load Config
-				m_config.push_back(ML_FS.pathTo(line
+				m_files.push_back(ML_FS.pathTo(line
 					.replaceAll("$(Configuration)", ML_CONFIGURATION)
 					.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
 				));
 			}
 			file.close();
-			return !m_config.empty();
+			return !m_files.empty();
 		}
 		return false;
 	}
 
-	PluginLoader & PluginLoader::initLibraries()
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	size_t PluginLoader::loadLibraries()
 	{
-		// Load Libraries
-		if (!m_config.empty() && m_libs.empty())
+		if (!m_files.empty() && m_libraries.empty())
 		{
-			for (size_t i = 0; i < m_config.size(); i++)
+			m_libraries.reserve(m_files.size());
+			for (size_t i = 0; i < m_files.size(); i++)
 			{
-				m_libs.push_back(new SharedLibrary(m_config[i]));
+				// Load Library
+				m_libraries.push_back(new SharedLibrary(m_files[i]));
 			}
 		}
-		return (*this);
+		return m_libraries.size();
 	}
 
-	PluginLoader & PluginLoader::initPlugins(EventSystem * eventSystem)
+	size_t PluginLoader::loadPlugins()
 	{
-		// Load Plugins
-		if (eventSystem && !m_config.empty() && !m_libs.empty())
+		if (m_eventSystem && !m_files.empty() && !m_libraries.empty() && m_plugins.empty())
 		{
-			for (size_t i = 0; i < m_libs.size(); i++)
+			m_plugins.reserve(m_libraries.size());
+			for (size_t i = 0; i < m_libraries.size(); i++)
 			{
-				if (auto plugin = m_libs[i]->callFunction<Plugin *>(
-					ML_str(ML_Plugin_Main), (*eventSystem)
-					))
+				// Load Plugin
+				if (Plugin * plugin = m_libraries[i]->callFunction<Plugin *>(
+					ML_str(ML_Plugin_Main), (*m_eventSystem)
+				))
 				{
-					Debug::log("Loaded Plugin: \'{0}\'", m_config[i]);
+					Debug::log("Loaded Plugin: \'{0}\'", m_files[i]);
 					m_plugins.push_back(plugin);
+				}
+				else
+				{
+					Debug::logError("Failed Loading Plugin: \'{0}\'", m_files[i]);
 				}
 			}
 		}
-		return (*this);
+		return m_plugins.size();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -33,9 +33,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Content.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

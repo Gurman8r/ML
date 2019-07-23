@@ -19,10 +19,10 @@ using namespace ml;
 static Preferences 	g_Preferences	{ "../../../ML.ini" };
 static GameTime		g_Time			{ };
 static EventSystem	g_EventSystem	{ };
-static PluginLoader g_Plugins		{ };
-static RenderWindow g_Window		{ g_EventSystem };
-static Engine		g_Engine		{ g_EventSystem };
-static Editor		g_Editor		{ g_EventSystem };
+static RenderWindow g_Window		{  g_EventSystem  };
+static Engine		g_Engine		{  g_EventSystem  };
+static Editor		g_Editor		{  g_EventSystem  };
+static PluginLoader g_Plugins		{ &g_EventSystem  };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -65,13 +65,13 @@ static StateMachine<State> g_ProgramStates
 
 int32_t main()
 {
-	// Load Plugins
+	// Load Plugin List
 	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Preferences.GetString(
 		"Launcher", "plugin_list", String()
 	))))
 	{
-		g_Plugins.initLibraries();
-		g_Plugins.initPlugins(&g_EventSystem);
+		g_Plugins.loadLibraries();	// Load Libraries
+		g_Plugins.loadPlugins();	// Load Plugins
 	}
 
 	// Run Controller

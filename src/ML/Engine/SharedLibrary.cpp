@@ -27,7 +27,7 @@ namespace ml
 	SharedLibrary::SharedLibrary(const String & filename)
 		: SharedLibrary()
 	{
-		loadFromFile(filename);
+		this->loadFromFile(filename);
 	}
 
 	SharedLibrary::SharedLibrary(SharedLibrary && copy)

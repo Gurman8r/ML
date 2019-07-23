@@ -2,10 +2,12 @@
 #define _ML_PLUGIN_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/EventListener.hpp>
 #include <ML/Core/I_Newable.hpp>
+
+#define ML_PLUGIN_API	ML_API_EXPORT
+#define ML_Plugin_Main	ML_Plugin_Main
 
 namespace ml
 {

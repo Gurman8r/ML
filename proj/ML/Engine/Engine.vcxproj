@@ -172,7 +172,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />

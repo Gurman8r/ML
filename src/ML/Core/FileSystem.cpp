@@ -1,6 +1,5 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Debug.hpp>
-
 #include <dirent.h>
 
 namespace ml

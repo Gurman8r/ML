@@ -1,13 +1,15 @@
 #ifndef _ML_PLUGIN_LOADER_HPP_
 #define _ML_PLUGIN_LOADER_HPP_
 
-#include <ML/Engine/PluginAPI.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Core/List.hpp>
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	// Used to stage/defer loading of plugins into an event system
 	struct ML_ENGINE_API PluginLoader final
 		: public I_Newable
 		, public I_Disposable
@@ -16,8 +18,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		PluginLoader();
-		explicit PluginLoader(const String & filename);
+		explicit PluginLoader(EventSystem * eventSystem);
 		~PluginLoader();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,26 +28,31 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		PluginLoader & initLibraries();
-		PluginLoader & initPlugins(EventSystem * eventSystem);
+		size_t loadLibraries();
+		size_t loadPlugins();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto filename()	const -> const String &	{ return m_filename; }
-		inline auto config()	const -> const List<String> & { return m_config; }
-		inline auto libs()		const -> const List<SharedLibrary *> & { return m_libs; }
-		inline auto plugins()	const -> const List<Plugin *> & { return m_plugins; }
+		inline operator bool() const { return m_eventSystem; }
+
+		inline auto path()		const -> const String &					{ return m_path; }
+		inline auto files()		const -> const List<String> &			{ return m_files; }
+		inline auto libraries()	const -> const List<SharedLibrary *> &	{ return m_libraries; }
+		inline auto plugins()	const -> const List<Plugin *> &			{ return m_plugins; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		String					m_filename;
-		List<String>			m_config;
-		List<SharedLibrary *>	m_libs;
+		EventSystem *			m_eventSystem;
+		String					m_path;
+		List<String>			m_files;
+		List<SharedLibrary *>	m_libraries;
 		List<Plugin *>			m_plugins;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_PLUGIN_LOADER_HPP_

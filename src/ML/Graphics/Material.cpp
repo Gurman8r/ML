@@ -71,85 +71,67 @@ namespace ml
 		if (!value) return;
 		switch (value->type)
 		{
-			// Flt
+			// Flt1
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_flt1::ID:
-			if (auto * temp = impl::toFloat(value))
-			{
+			if (float_t * temp = impl::toFloat(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 
-			// Int
+			// Int1
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_int1::ID:
-			if (auto * temp = impl::toInt(value))
-			{
+			if (int32_t * temp = impl::toInt(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 
 			// Vec2
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec2::ID:
-			if (auto * temp = impl::toVec2(value))
-			{
+			if (vec2 * temp = impl::toVec2(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 
 			// Vec3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec3::ID:
-			if (auto * temp = impl::toVec3(value))
-			{
+			if (vec3 * temp = impl::toVec3(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 
 			// Vec4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec4::ID:
-			if (auto * temp = impl::toVec4(value))
-			{
+			if (vec4 * temp = impl::toVec4(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 
 			// Col4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_col4::ID:
-			if (auto * temp = impl::toCol4(value))
-			{
+			if (vec4 * temp = impl::toCol4(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 
 			// Mat3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat3::ID:
-			if (auto * temp = impl::toMat3(value))
-			{
+			if (mat3 * temp = impl::toMat3(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 
 			// Mat4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat4::ID:
-			if (auto * temp = impl::toMat4(value))
-			{
+			if (mat4 * temp = impl::toMat4(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 
 			// Tex
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_tex2::ID:
-			if (auto * temp = impl::toTex2(value))
-			{
+			if (const Texture * temp = impl::toTex2(value))
 				m_shader->setUniform(value->name, (*temp));
-			}
 			break;
 		}
 	}

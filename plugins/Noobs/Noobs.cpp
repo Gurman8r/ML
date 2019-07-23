@@ -61,6 +61,13 @@ namespace ml
 		case KeyEvent::ID:
 			if (auto ev = value->as<KeyEvent>())
 			{
+				// Exit (Escape)
+				if (ev->getPress(KeyCode::Escape))
+				{
+					eventSystem().fireEvent(WindowKillEvent());
+				}
+
+				// Load Test
 				if (ev->getPress(KeyCode::L, { 1, 1, 1, 0 }))
 				{
 					noobs.trigger.arm();

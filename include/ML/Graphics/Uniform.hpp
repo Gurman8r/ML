@@ -149,6 +149,7 @@ namespace ml
 	template <class T> struct NAME : public _ML uni_t<T, TYPE>	\
 	{															\
 		using value_type	= typename T;						\
+		using type			= typename std::decay<T>::type;		\
 		using self_type		= typename NAME<value_type>;		\
 		using base_type		= typename _ML uni_t<T, TYPE>;		\
 		NAME(const _ML String & name, T data)					\

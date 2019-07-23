@@ -1122,7 +1122,7 @@ namespace ml
 
 // Generate Bit Mask Operators
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_GENERATE_BITMASK_OPERATORS(PRE, TYPE, BASE) \
+#define ML_GEN_BITMASK_OPERATORS(PRE, TYPE, BASE) \
 PRE TYPE operator&(const TYPE l, const TYPE r) { return (TYPE)((BASE)l & (BASE)r); } \
 PRE TYPE operator|(const TYPE l, const TYPE r) { return (TYPE)((BASE)l | (BASE)r); } \
 PRE TYPE & operator &=(TYPE & l, const TYPE r) { return (l = (l & r)); } \
@@ -1131,7 +1131,7 @@ PRE TYPE & operator |=(TYPE & l, const TYPE r) { return (l = (l | r)); }
 
 // Generate Iterator Operators
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_GENERATE_ITERATOR_OPERATORS(PRE, TYPE, BASE, MIN, MAX) \
+#define ML_GEN_ITERATOR_OPERATORS(PRE, TYPE, BASE, MIN, MAX) \
 template <class T> PRE TYPE operator+(const TYPE x, T y) \
 { \
 	return (TYPE)(ML_CLAMP(((BASE)x + (BASE)y), MIN, MAX)); \
@@ -1149,16 +1149,16 @@ PRE TYPE operator--(TYPE & x, int32_t)					{ TYPE y = x; x -= 1; return y; }
 namespace ml
 {
 	// GL::Mask
-	ML_GENERATE_BITMASK_OPERATORS(constexpr, GL::Mask, uint32_t);
+	ML_GEN_BITMASK_OPERATORS(constexpr, GL::Mask, uint32_t);
 
 	// GL::Attachment
-	ML_GENERATE_ITERATOR_OPERATORS(constexpr, GL::ColorAttachment, uint32_t,
+	ML_GEN_ITERATOR_OPERATORS(constexpr, GL::ColorAttachment, uint32_t,
 		GL::ColorAttachment::ColorAttachment0, 
 		GL::ColorAttachment::ColorAttachment9
 	);
 
 	// GL::TexID
-	ML_GENERATE_ITERATOR_OPERATORS(constexpr, GL::TexID, uint32_t, 
+	ML_GEN_ITERATOR_OPERATORS(constexpr, GL::TexID, uint32_t, 
 		GL::TexID::Texture0, 
 		GL::TexID::Texture31
 	);

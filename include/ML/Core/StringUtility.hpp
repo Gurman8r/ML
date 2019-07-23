@@ -103,14 +103,17 @@ namespace ml
 
 		static inline bool is_int(const String & value)
 		{
-			try { std::stoi(value); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool is_uint(const String & value)
-		{
-			try { std::stoul(value); return true; }
-			catch (std::invalid_argument &) { return false; }
+			if (!value) return false; 
+			String::const_iterator it = value.cbegin();
+			if ((*it) == '-')
+			{ 
+				it++; 
+			}
+			while (it != value.cend() && std::isdigit(*it))
+			{
+				++it;
+			}
+			return (it == value.cend());
 		}
 
 		static inline bool is_float(const String & value)
@@ -130,7 +133,7 @@ namespace ml
 			if (!value) { return false; }
 			String::pointer endptr = nullptr;
 			std::strtod(value.c_str(), &endptr);
-			return ((*endptr) == '\0' && (endptr != value));
+			return !(*endptr != '\0' || endptr == value);
 		}
 
 		static inline bool is_name(const String & value)

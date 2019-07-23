@@ -4,8 +4,6 @@
 #include <ML/Core/Alg.hpp>
 #include <ML/Core/Hash.hpp>
 
-#define ML_NO_NEW_ARRAYS // prevent new-ing arrays because they're destructorless
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -65,16 +63,6 @@ namespace ml
 			alg::fill(temp, value);
 			return temp;
 		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#ifdef ML_NO_NEW_ARRAYS
-		private:
-			inline void * operator	new		 (size_t size) { return nullptr; }
-			inline void * operator	new[]	 (size_t size) { return nullptr; }
-			inline void	  operator	delete	 (void * ptr)  { return;  }
-			inline void	  operator	delete[] (void * ptr)  { return;  }
-#endif // ML_NO_NEW_ARRAYS
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

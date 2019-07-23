@@ -2,12 +2,11 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Core/StateMachine.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/GameTime.hpp>
-#include <ML/Engine/Plugin.hpp>
+#include <ML/Engine/PluginLoader.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
@@ -18,9 +17,9 @@ using namespace ml;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 static Preferences 	g_Preferences	{ "../../../ML.ini" };
-static PluginMap	g_Plugins		{ };
 static GameTime		g_Time			{ };
 static EventSystem	g_EventSystem	{ };
+static PluginLoader g_Plugins		{ };
 static RenderWindow g_Window		{ g_EventSystem };
 static Engine		g_Engine		{ g_EventSystem };
 static Editor		g_Editor		{ g_EventSystem };
@@ -67,43 +66,19 @@ static StateMachine<State> g_ProgramStates
 int32_t main()
 {
 	// Load Plugins
-	if (Ifstream file { ML_FS.pathTo(g_Preferences.GetString(
+	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Preferences.GetString(
 		"Launcher", "plugin_list", String()
-	)) })
-	{	
-		String line;
-		while (std::getline(file, line))
-		{
-			if (!line || (line.trim().front() == '#'))
-				continue;
-			
-			// Load Library
-			auto library = new SharedLibrary(ML_FS.pathTo(line
-				.replaceAll("$(Configuration)", ML_CONFIGURATION)
-				.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
-			));
-
-			// Load Plugin
-			if (auto plugin = g_Plugins.insert({
-				library,
-				library->callFunction<Plugin *>(ML_str(ML_Plugin_Main), g_EventSystem)
-			}).first->second)
-			{
-				Debug::log("Loaded Plugin: \'{0}\'", line);
-			}
-		}
-		file.close();
+	))))
+	{
+		g_Plugins.initLibraries();
+		g_Plugins.initPlugins(&g_EventSystem);
 	}
 
-	// Run State Controller
+	// Run Controller
 	g_ProgramStates(State::Startup);
 
 	// Cleanup Plugins
-	for (auto & pair : g_Plugins)
-	{
-		if (pair.second) { delete pair.second; }
-		if (pair.first)  { delete pair.first;  }
-	}
+	g_Plugins.dispose();
 
 	// Goodbye!
 	return EXIT_SUCCESS;

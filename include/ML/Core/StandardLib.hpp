@@ -115,12 +115,12 @@ namespace ml
 	ML_GEN_STD_TYPE_XY	(BasicIstream,		basic_istream);		// Basic Output Stream
 	ML_GEN_STD_TYPE_XY	(BasicOstream,		basic_ostream);		// Basic Input Stream
 	ML_GEN_STD_TYPE_X	(CharTraits,		char_traits);		// Character Traits
-	ML_GEN_STD_TYPE_XY	(HashMap,			unordered_map);		// Hash Map
-	ML_GEN_STD_TYPE_X	(HashSet,			unordered_set);		// Hash Set
+	ML_GEN_STD_TYPE_XY	(HashMap,			unordered_map);		// Unordered Map
+	ML_GEN_STD_TYPE_X	(HashSet,			unordered_set);		// Unordered Set
 	ML_GEN_STD_TYPE		(Ifstream,			ifstream);			// Input File Stream 
 	ML_GEN_STD_TYPE_X	(Initializer,		initializer_list);	// Initializer List
 	ML_GEN_STD_TYPE		(Istream,			istream);			// Input Stream
-	ML_GEN_STD_TYPE_XY	(Map,				map);				// Map
+	ML_GEN_STD_TYPE_XY	(Map,				map);				// Map (BST)
 	ML_GEN_STD_TYPE_XY	(MultiMap,			multimap);			// Multimap
 	ML_GEN_STD_TYPE		(Ofstream,			ofstream);			// Output File Stream 
 	ML_GEN_STD_TYPE		(Ostream,			ostream);			// Output Stream
@@ -153,8 +153,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_SERIALIZE	_ML Ostream & operator<< // Ostream Insertion Operator
-#define ML_DESERIALIZE	_ML Istream & operator>> // IStream Extraction Operator
+#define ML_SERIALIZE	_ML Ostream & operator<< // Stream Insertion Operator
+#define ML_DESERIALIZE	_ML Istream & operator>> // Stream Extraction Operator
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

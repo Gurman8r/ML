@@ -37,7 +37,6 @@ namespace ml
 		eventSystem.addListener(UnloadEvent::ID,		this);
 		eventSystem.addListener(ExitEvent::ID,			this);
 		eventSystem.addListener(CommandEvent::ID,		this);
-		eventSystem.addListener(KeyEvent::ID,			this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -67,19 +66,6 @@ namespace ml
 				if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
 				{
 					Debug::logError(v.errorValue());
-				}
-			}
-			break;
-
-			// Key Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case KeyEvent::ID:
-			if (auto ev = value->as<KeyEvent>())
-			{
-				// Exit (Escape)
-				if (ev->getPress(KeyCode::Escape))
-				{
-					eventSystem().fireEvent(WindowKillEvent());
 				}
 			}
 			break;

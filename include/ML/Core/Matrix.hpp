@@ -160,13 +160,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifdef ML_NO_NEW_ARRAYS
+		// prevent because they're destructorless
 		private:
 			inline void * operator	new		 (size_t size) { return nullptr; }
 			inline void * operator	new[]	 (size_t size) { return nullptr; }
 			inline void	  operator	delete	 (void * ptr)  { return;  }
 			inline void	  operator	delete[] (void * ptr)  { return;  }
-#endif // !ML_NO_NEW_ARRAYS
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

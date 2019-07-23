@@ -47,7 +47,7 @@ namespace ml
 }
 
 #define ML_GEN_ASSET_IMPORTER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
-struct PREFIX NAME final : public _ML CustomAssetImporter<ELEM>		\
+PREFIX NAME final : public _ML CustomAssetImporter<ELEM>			\
 ##IMPL;																\
 template <> struct _ML AssetImporter<ELEM>							\
 {																	\
@@ -63,7 +63,7 @@ template <> struct _ML AssetImporter<ELEM>							\
 };
 
 #define ML_GEN_ASSET_IMPORTER(NAME, ELEM, TAG, IMPL) \
-	ML_GEN_ASSET_IMPORTER_EXT(ML_ENGINE_API, NAME, ELEM, TAG, IMPL)
+	ML_GEN_ASSET_IMPORTER_EXT(struct ML_ENGINE_API, NAME, ELEM, TAG, IMPL)
 
 namespace ml
 {

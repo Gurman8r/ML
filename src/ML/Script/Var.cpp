@@ -62,7 +62,7 @@ namespace ml
 	{
 		"void",
 		"bool",
-		"float_t",
+		"float",
 		"int",
 		"pointer",
 		"string",

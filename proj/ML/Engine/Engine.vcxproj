@@ -173,6 +173,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginAPI.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\PluginLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
   </ItemGroup>
@@ -184,6 +185,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\PluginLoader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp" />
   </ItemGroup>

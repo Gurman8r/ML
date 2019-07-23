@@ -851,29 +851,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (ImGui::TreeNode("Preview"))
+		const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
 		{
-			const vec2 scl = ([](const vec2 & src, const vec2 & dst)
-			{
-				const vec2
-					hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
-					vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
-				return (src * (((hs) < (vs)) ? (hs) : (vs)));
-			})(
-				value.size(), { 256, 256 }
-			);
+			const vec2
+				hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
+				vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
+			return (src * (((hs) < (vs)) ? (hs) : (vs)));
+		
+		})(value.size(), { 256, 256 });
 
-			ImGui::Image(
-				value.get_handle(),
-				{ scl[0], scl[1] },
-				{ 0, 1 },
-				{ 1, 0 },
-				{ 255, 255, 255, 255 },
-				{ 255, 255, 255, 128 }
-			);
-
-			ImGui::TreePop();
-		}
+		ImGui::Image(
+			value.get_handle(),
+			{ previewSize[0], previewSize[1] },
+			{ 0, 1 },
+			{ 1, 0 },
+			{ 255, 255, 255, 255 },
+			{ 255, 255, 255, 128 }
+		);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

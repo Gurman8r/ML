@@ -58,10 +58,7 @@ namespace ml
 		template <
 			class Fun, class ... Args,
 			class = std::enable_if_t<
-				!std::is_same_v<
-					std::remove_cv_t<std::remove_reference_t<Fun>>,
-					std::thread
-				>
+				!std::is_same_v<std::remove_cv_t<std::remove_reference_t<Fun>>, std::thread>
 			>
 		> inline std::thread * launch(Fun && fun, Args && ... args)
 		{

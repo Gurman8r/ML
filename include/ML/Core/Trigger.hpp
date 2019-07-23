@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// A 'consumable' bool which can be used to do something once.
+	// A consumable bool which can be used to do something once.
 	// If armed, consume will return true and reset the value.
 	struct Trigger final : public I_Newable
 	{

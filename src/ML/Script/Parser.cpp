@@ -755,16 +755,10 @@ namespace ml
 					}
 				}
 
-				//if (m_showToks)
-				//{
-				//	cout << toks << endl;
-				//}
+				// cout << toks << endl;
 			}
 
-			//if (m_showTree)
-			//{
-			//	cout << (*root) << endl;
-			//}
+			// cout << (*root) << endl;
 		}
 		return root;
 	}

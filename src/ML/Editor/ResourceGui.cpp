@@ -11,7 +11,7 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
 #include <ML/Graphics/Renderer.hpp>
-#include <ML/Graphics/Uniform.hpp>
+#include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>

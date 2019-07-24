@@ -1,5 +1,4 @@
 #include <ML/Graphics/Material.hpp>
-#include <ML/Graphics/Uniform.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
@@ -22,34 +21,21 @@ namespace ml
 	{
 	}
 
-	Material::Material(const Shader * shader, const UniformList & uniforms)
+	Material::Material(const Shader * shader, const List<Uniform *> & uniforms)
 		: m_shader	(shader)
-		, m_uniforms()
-	{
-		for (auto & e : uniforms)
-		{
-			m_uniforms[e->name] = e;
-		}
-	}
-
-	Material::Material(const Material & copy)
-		: m_shader	(copy.m_shader)
-		, m_uniforms(copy.m_uniforms)
+		, m_uniforms(uniforms)
 	{
 	}
 
-	Material::~Material()
-	{
-		dispose();
-	}
+	Material::~Material() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Material::dispose()
 	{
-		for (auto & pair : m_uniforms)
+		for (auto & elem : m_uniforms)
 		{
-			delete (I_Newable *)pair.second;
+			delete elem;
 		}
 		m_uniforms.clear();
 		return m_uniforms.empty();
@@ -74,63 +60,63 @@ namespace ml
 			// Flt1
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_flt1::ID:
-			if (float_t * temp = impl::toFloat(value))
+			if (float_t * temp = detail::toFloat(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
 			// Int1
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_int1::ID:
-			if (int32_t * temp = impl::toInt(value))
+			if (int32_t * temp = detail::toInt(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
 			// Vec2
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec2::ID:
-			if (vec2 * temp = impl::toVec2(value))
+			if (vec2 * temp = detail::toVec2(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
 			// Vec3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec3::ID:
-			if (vec3 * temp = impl::toVec3(value))
+			if (vec3 * temp = detail::toVec3(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
 			// Vec4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec4::ID:
-			if (vec4 * temp = impl::toVec4(value))
+			if (vec4 * temp = detail::toVec4(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
 			// Col4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_col4::ID:
-			if (vec4 * temp = impl::toCol4(value))
+			if (vec4 * temp = detail::toCol4(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
 			// Mat3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat3::ID:
-			if (mat3 * temp = impl::toMat3(value))
+			if (mat3 * temp = detail::toMat3(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
 			// Mat4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat4::ID:
-			if (mat4 * temp = impl::toMat4(value))
+			if (mat4 * temp = detail::toMat4(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
 			// Tex
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_tex2::ID:
-			if (const Texture * temp = impl::toTex2(value))
+			if (const Texture * temp = detail::toTex2(value))
 				m_shader->setUniform(value->name, (*temp));
 			break;
 		}
@@ -140,11 +126,11 @@ namespace ml
 	{
 		if (m_shader && (*m_shader))
 		{
-			for (const auto & pair : m_uniforms)
+			for (const auto & u : m_uniforms)
 			{
-				if (pair.second && pair.second->name)
+				if (u && u->name)
 				{
-					this->apply(pair.second);
+					this->apply(u);
 				}
 			}
 			m_shader->bind();

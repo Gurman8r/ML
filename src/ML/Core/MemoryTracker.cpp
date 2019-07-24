@@ -29,10 +29,10 @@ namespace ml
 		friend ML_SERIALIZE(Ostream & out, const MemoryTracker::Record & value)
 		{
 			return out << std::left
-				<< " { addr: " << value.object
-				<< " | size: " << std::setw(4) << value.size
-				<< " | index: " << std::setw(4) << value.index
-				<< " }";
+				<< (*value.object)
+				<< " addr: "  << value.object
+				<< " | size: "  << value.size
+				<< " | indx: "  << value.index;
 		}
 	};
 
@@ -52,7 +52,7 @@ namespace ml
 
 			for (const auto & pair : m_records)
 			{
-				cerr << (*pair.second->object) << " | " << pair.second << endl;
+				cerr << (*pair.second) << endl;
 			}
 			
 #if ML_DEBUG

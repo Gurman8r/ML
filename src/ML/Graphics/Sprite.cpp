@@ -1,7 +1,7 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/Geometry.hpp>
-#include <ML/Graphics/Uniform.hpp>
+#include <ML/Graphics/Material.hpp>
 
 namespace ml
 {

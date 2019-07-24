@@ -8,10 +8,6 @@
 #include <ML/Window/VideoSettings.hpp>
 #include <ML/Window/WindowStyle.hpp>
 
-#define ML_ASPECT(w, h) ((h != 0) \
-	? (static_cast<float_t>(w) / static_cast<float_t>(h)) \
-	: (0.0f))
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */

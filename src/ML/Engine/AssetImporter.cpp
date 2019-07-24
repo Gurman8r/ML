@@ -6,10 +6,10 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/CubeMap.hpp>
 #include <ML/Graphics/Font.hpp>
+#include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
-#include <ML/Graphics/Uniform.hpp>
 #include <ML/Script/Script.hpp>
 #include <ML/Core/Debug.hpp>
 

@@ -5,8 +5,14 @@
 #include <gcem/gcem.hpp>
 
 #define ML_MIN(x, y) ((x <= y) ? x : y)
+
 #define ML_MAX(x, y) ((x >= y) ? x : y)
+
 #define ML_CLAMP(VAL, MIN, MAX) (ML_MIN(ML_MAX(VAL, MIN), MAX))
+
+#define ML_ASPECT(w, h) ((h != 0) \
+	? (static_cast<float_t>(w) / static_cast<float_t>(h)) \
+	: (0.0f))
 
 namespace ml
 {

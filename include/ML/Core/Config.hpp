@@ -18,22 +18,16 @@
 //	C/C++
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(__cplusplus)
-#	define ML_CPP
-# endif
-
-//	Variable Templates
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if defined(__cpp_variable_templates)
-#	define ML_HAS_VARIABLE_TEMPLATES
+#	define ML_CPLUSPLUS __cplusplus
 # endif
 
 //	Configuration (Debug/Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_DEBUG)
-#	define ML_DEBUG			1
+#	define ML_DEBUG			true
 #	define ML_CONFIGURATION "Debug"
 # else
-#	define ML_DEBUG			0
+#	define ML_DEBUG			false
 #	define ML_CONFIGURATION "Release"
 # endif
 

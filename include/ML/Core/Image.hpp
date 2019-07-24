@@ -48,13 +48,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto size()		const -> const vec2u &		{ return m_size; }
-		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }
-		inline auto pixelsPtr() const -> const uint8_t *	{ return &pixels()[0]; }
-		inline auto channels()	const -> int32_t			{ return m_channels; }
-		inline auto width()		const -> const uint32_t		{ return m_size[0]; }
-		inline auto height()	const -> const uint32_t		{ return m_size[1]; }
+		inline auto data()		const -> const uint8_t *	{ return &pixels()[0]; }
 		inline auto bounds()	const -> const UintRect		{ return UintRect { vec2u { 0, 0 }, size() }; }
+		inline auto channels()	const -> int32_t			{ return m_channels; }
+		inline auto height()	const -> uint32_t			{ return m_size[1]; }
+		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }
+		inline auto size()		const -> const vec2u &		{ return m_size; }
+		inline auto width()		const -> uint32_t			{ return m_size[0]; }
 
 		inline operator bool() const { return !m_pixels.empty(); }
 

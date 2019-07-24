@@ -33,8 +33,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const { return m_eventSystem; }
-
 		inline auto path()		const -> const String &					{ return m_path; }
 		inline auto files()		const -> const List<String> &			{ return m_files; }
 		inline auto libraries()	const -> const List<SharedLibrary *> &	{ return m_libraries; }

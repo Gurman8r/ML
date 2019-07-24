@@ -23,13 +23,10 @@ namespace ml
 	static inline const GLFWimage & MapGLFWimage(const Image & value)
 	{
 		static HashCache<const uint8_t *, GLFWimage> cache;
-		return cache(
-			&value.pixels()[0], 
-			GLFWimage {
-				(int32_t)value.width(),
-				(int32_t)value.height(),
-				(uint8_t *)(value.pixelsPtr())
-			});
+		return cache(value.data(),
+		{
+			(int32_t)value.width(), (int32_t)value.height(), (uint8_t *)value.data()
+		});
 	}
 }
 

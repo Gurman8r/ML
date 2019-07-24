@@ -1,15 +1,6 @@
 #include <ML/Engine/Content.hpp>
+#include <ML/Engine/ContentLoader.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/FileSystem.hpp>
-#include <ML/Engine/AssetImporter.hpp>
-#include <ML/Audio/Sound.hpp>
-#include <ML/Engine/Entity.hpp>
-#include <ML/Graphics/CubeMap.hpp>
-#include <ML/Graphics/Font.hpp>
-#include <ML/Graphics/Model.hpp>
-#include <ML/Graphics/Sprite.hpp>
-#include <ML/Graphics/Surface.hpp>
-#include <ML/Script/Script.hpp>
 
 namespace ml
 {
@@ -36,101 +27,7 @@ namespace ml
 
 	bool Content::loadFromFile(const String & filename)
 	{
-		// Open File
-		SStream file;
-		if (ML_FS.getFileContents(filename, file))
-		{
-			List<MetaData *> list;
-
-			// Read MetaData
-			String line;
-			while (std::getline(file, line))
-			{
-				if (MetaData * data = this->readMetadata(file, line))
-				{
-					list.push_back(data);
-				}
-			}
-
-			// Generate Objects
-			for (size_t i = 0; i < list.size(); i++)
-			{
-				if (list[i]) { this->parseMetadata(*list[i]); }
-			}
-
-			// Cleanup Lists
-			for (size_t i = 0; i < list.size(); i++)
-			{
-				if (list[i]) { delete list[i]; }
-			}
-
-			return true;
-		}
-		return false;
-	}
-
-	MetaData * Content::readMetadata(Istream & file, String & line) const
-	{
-		MetaData * temp = nullptr;
-		if ((line) &&
-			(line.trim().front() != '#') &&
-			(line.find("<import>") != String::npos))
-		{
-			temp = new MetaData();
-			while (std::getline(file, line))
-			{
-				line.replaceAll("$(Configuration)", ML_CONFIGURATION);
-				line.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET);
-
-				size_t i;
-				if ((i = line.find("</import>")) != String::npos)
-				{
-					return temp; // Done
-				}
-				else if ((i = line.find_first_of("=")) != String::npos)
-				{
-					// Key
-					if (const String key = String { line.substr(0, i) }.trim())
-					{
-						// Value
-						if (const String val = String {
-							line.substr((i + 1), (line.size() - i - 2))
-						}.trim())
-						{
-							temp->setData(key, val);
-						}
-					}
-				}
-			}
-		}
-		if (temp) { delete temp; }
-		return (temp = nullptr);
-	}
-
-	bool Content::parseMetadata(const MetaData & md)
-	{
-		switch (Hash()(md.getData("type").asString()))
-		{
-			case Hash()("manifest")				: return loadFromFile(md.getData("file"));
-			case AssetImporter<	CubeMap	>::id	: return AssetImporter<	CubeMap	>()(md);
-			case AssetImporter<	Entity	>::id	: return AssetImporter<	Entity	>()(md);
-			case AssetImporter<	Font	>::id	: return AssetImporter<	Font	>()(md);
-			case AssetImporter<	Image	>::id	: return AssetImporter<	Image	>()(md);
-			case AssetImporter<	Material>::id	: return AssetImporter<	Material>()(md);
-			case AssetImporter<	Mesh	>::id	: return AssetImporter<	Mesh	>()(md);
-			case AssetImporter<	Model	>::id	: return AssetImporter<	Model	>()(md);
-			case AssetImporter<	Script	>::id	: return AssetImporter<	Script	>()(md);
-			case AssetImporter<	Shader	>::id	: return AssetImporter<	Shader	>()(md);
-			case AssetImporter<	Sound	>::id	: return AssetImporter<	Sound	>()(md);
-			case AssetImporter<	Sprite	>::id	: return AssetImporter<	Sprite	>()(md);
-			case AssetImporter<	Surface	>::id	: return AssetImporter<	Surface	>()(md);
-			case AssetImporter<	Texture	>::id	: return AssetImporter<	Texture	>()(md);
-			case AssetImporter<	Uniform	>::id	: return AssetImporter<	Uniform	>()(md);
-		}
-		return Debug::logError("Failed Loading: \'{0}\' | \'{1}\'",
-			md.getData("type").asString(),
-			md.getData("name").asString()
-		);
+		return ContentLoader().loadFromFile(filename);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

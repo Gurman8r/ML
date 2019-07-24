@@ -21,7 +21,6 @@
 #include <ML/Graphics/Shader.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Surface.hpp>
-#include <ML/Graphics/Uniform.hpp>
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Window/WindowEvents.hpp>
@@ -579,8 +578,7 @@ namespace ml
 					Uniform * u = nullptr;
 					if (UniformPropertyDrawer()("##NewUniform##Material##Noobs", u))
 					{
-						if (noobs.material->hasUniform(u->name) ||
-							!noobs.material->uniforms().insert({ u->name, u }).first->second)
+						if (!noobs.material->addUniform(u))
 						{
 							delete u;
 							Debug::logError("A uniform with that name already exists");
@@ -592,13 +590,13 @@ namespace ml
 						ImGui::Separator();
 
 					// to remove
-					List<Map<String, Uniform *>::iterator> toRemove;
+					List<List<Uniform *>::iterator> toRemove;
 					for (auto it = noobs.material->uniforms().begin();
 						it != noobs.material->uniforms().end();
 						it++)
 					{
 						// label
-						const String label("##Uni##" + it->first + "##Material##Noobs");
+						const String label("##Uni##" + (*it)->name + "##Material##Noobs");
 
 						// Uniform Header
 						ImGui::PushStyleColor(
@@ -606,15 +604,15 @@ namespace ml
 							{ 0.367f, 0.258f, 0.489f, 0.580f }
 						);
 
-						if (ImGui::CollapsingHeader((it->first + label).c_str()))
+						if (ImGui::CollapsingHeader(((*it)->name + label).c_str()))
 						{
 							ImGui::PopStyleColor();
 
-							if (it->second)
+							if (*it)
 							{
 								float_t height = 1;
-								if (it->second->type == uni_mat3::ID) { height = 3; }
-								else if (it->second->type == uni_mat4::ID) { height = 4; }
+								if ((*it)->type == uni_mat3::ID) { height = 3; }
+								else if ((*it)->type == uni_mat4::ID) { height = 4; }
 
 								ImGui::PushID(label.c_str());
 								ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -625,7 +623,7 @@ namespace ml
 									ImGuiWindowFlags_NoScrollWithMouse
 								);
 
-								if (UniformPropertyDrawer()(label, (Uniform &)(*it->second)))
+								if (UniformPropertyDrawer()(label, (Uniform &)(*(*it))))
 								{
 									ImGui::SameLine();
 									if (ImGui::Button(("Remove##" + label).c_str()))
@@ -647,11 +645,10 @@ namespace ml
 						ImGui::Separator();
 					}
 
-					for (auto it : toRemove)
+					for (auto & it : toRemove)
 					{
-						Uniform * u = it->second;
+						if (*it) delete (*it);
 						noobs.material->uniforms().erase(it);
-						delete u;
 					}
 
 					ImGui::EndTabItem();

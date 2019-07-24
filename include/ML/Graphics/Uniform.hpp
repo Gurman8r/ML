@@ -2,7 +2,7 @@
 #define _ML_UNIFORM_HPP_
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/Rect.hpp>
+#include <ML/Core/Matrix.hpp>
 #include <ML/Core/I_Newable.hpp>
 
 // Base Uniform
@@ -45,7 +45,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Uniform(const String & name, const int32_t type)
+		explicit Uniform(const String & name, const int32_t type)
 			: name(name)
 			, type(type) 
 		{
@@ -126,7 +126,7 @@ namespace ml
 
 		value_type data;
 
-		uni_t(const String & name, value_type data)
+		explicit uni_t(const String & name, value_type data)
 			: base_type(name, ID)
 			, data(data)
 		{
@@ -149,10 +149,10 @@ namespace ml
 	template <class T> struct NAME : public _ML uni_t<T, TYPE>	\
 	{															\
 		using value_type	= typename T;						\
-		using type			= typename std::decay<T>::type;		\
+		using type			= typename _STD decay<T>::type;		\
 		using self_type		= typename NAME<value_type>;		\
 		using base_type		= typename _ML uni_t<T, TYPE>;		\
-		NAME(const _ML String & name, T data)					\
+		explicit NAME(const _ML String & name, T data)			\
 			: base_type(name, data)								\
 		{														\
 		}														\
@@ -210,7 +210,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	namespace impl
+	namespace detail
 	{
 		static inline float_t * toFloat(const Uniform * value)
 		{

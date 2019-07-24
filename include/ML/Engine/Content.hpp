@@ -3,8 +3,6 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/MetaData.hpp>
-#include <ML/Core/List.hpp>
-#include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Readable.hpp>
 
 #define ML_Content _ML Content::getInstance()
@@ -14,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Monolithic bank of shared resources.
-	// Anything can be stored in Content as long as it derrives I_Newable.
+	// Anything can be stored in Content as long as it derives I_Newable.
 	struct ML_ENGINE_API Content final
 		: public I_Disposable
 		, public I_Readable
@@ -27,10 +25,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		bool		dispose() override;
-		bool		loadFromFile(const String & filename) override;
-		MetaData *	readMetadata(Istream & file, String & line) const;
-		bool		parseMetadata(const MetaData & data);
+		bool dispose() override;
+		bool loadFromFile(const String & filename) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

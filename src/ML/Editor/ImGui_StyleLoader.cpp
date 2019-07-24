@@ -62,7 +62,7 @@ namespace ml
 
 namespace ml
 {
-	static inline bool parseWrapped(const String & src, const char lhs, const char rhs, String & out)
+	static inline bool readValue(const String & src, const char lhs, const char rhs, String & out)
 	{
 		size_t a;
 		if ((a = src.find_first_of(lhs)) != String::npos)
@@ -72,7 +72,10 @@ namespace ml
 			{
 				if (a != b)
 				{
-					return (bool)(out = src.substr((a + 1), (b - a - 1)));
+					return (bool)(out = String(src
+						.substr((a + 1), (b - a - 1)))
+						.replaceAll(",", "")
+					);
 				}
 			}
 		}
@@ -83,7 +86,7 @@ namespace ml
 	{
 		bool out = false;
 		String temp;
-		if (parseWrapped(line, '{', '}', temp))
+		if (readValue(line, '{', '}', temp))
 		{
 			SStream ss(temp);
 			ss >> out;
@@ -95,7 +98,7 @@ namespace ml
 	{
 		float_t out = 0.0f;
 		String temp;
-		if (parseWrapped(line, '{', '}', temp))
+		if (readValue(line, '{', '}', temp))
 		{
 			SStream ss(temp);
 			ss >> out;
@@ -107,7 +110,7 @@ namespace ml
 	{
 		ImVec2 out { };
 		String temp;
-		if (parseWrapped(line, '{', '}', temp))
+		if (readValue(line, '{', '}', temp))
 		{
 			SStream ss(temp);
 			ss >> out.x >> out.y;
@@ -119,7 +122,7 @@ namespace ml
 	{
 		ImVec4 out { };
 		String temp;
-		if (parseWrapped(line, '{', '}', temp))
+		if (readValue(line, '{', '}', temp))
 		{
 			SStream ss(temp);
 			ss >> out.x >> out.y >> out.z >> out.w;
@@ -168,7 +171,7 @@ namespace ml
 
 				// Tag
 				String tag;
-				if (parseWrapped(line, '[', ']', tag))
+				if (readValue(line, '[', ']', tag))
 				{
 					line.erase(0, tag.size() + 2);
 					line.trim();

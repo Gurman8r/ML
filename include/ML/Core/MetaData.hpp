@@ -27,7 +27,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		MetaData() = default;
+		MetaData() 
+			: m_data()
+		{
+		}
 
 		explicit MetaData(const map_type & values)
 			: m_data(values)
@@ -35,7 +38,7 @@ namespace ml
 		}
 
 		MetaData(const MetaData & copy)
-			: MetaData(copy.m_data)
+			: m_data(copy.m_data)
 		{
 		}
 
@@ -48,7 +51,6 @@ namespace ml
 			for (pair_type & pair : m_data)
 			{
 				delete pair.second;
-				pair.second = nullptr;
 			}
 			m_data.clear();
 			return m_data.empty();

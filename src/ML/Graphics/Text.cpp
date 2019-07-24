@@ -1,5 +1,5 @@
 #include <ML/Graphics/Text.hpp>
-#include <ML/Graphics/Uniform.hpp>
+#include <ML/Graphics/Material.hpp>
 
 namespace ml
 {

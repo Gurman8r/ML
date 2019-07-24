@@ -58,7 +58,7 @@ namespace ml
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
 			// Filter
-			static ImGuiTextFilter filter("-wrn");
+			static ImGuiTextFilter filter("-" ML_MSG_WRN);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
 			filter.Draw("Filter (\"incl,-excl\")", 180);
 			ImGui::PopStyleVar();
@@ -98,9 +98,9 @@ namespace ml
 
 			static const String labels[MAX_MODE]
 			{
-				String("[ LOG ]"),
-				String("[ WRN ]"),
-				String("[ ERR ]"),
+				String("[ " ML_MSG_LOG " ]"),
+				String("[ " ML_MSG_WRN " ]"),
+				String("[ " ML_MSG_ERR " ]"),
 				String("# "),
 			};
 

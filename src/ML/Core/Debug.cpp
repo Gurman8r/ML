@@ -1,7 +1,23 @@
 #include <ML/Core/Debug.hpp>
 
+#ifdef ML_SYSTEM_WINDOWS
+#include <Windows.h>
+#endif
+
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	Ostream & FMT::operator()(Ostream & out) const
+	{
+#ifdef ML_SYSTEM_WINDOWS
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (*(*this)));
+#else 
+		// Do the thing
+#endif
+		return out;
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Debug::exit(int32_t exitCode)

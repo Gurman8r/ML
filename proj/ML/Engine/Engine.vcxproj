@@ -166,6 +166,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\AssetImporter.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Content.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Camera.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\ContentLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Content.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\ContentLoader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />

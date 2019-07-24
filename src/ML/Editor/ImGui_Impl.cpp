@@ -672,20 +672,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		auto combine = [](const size_t count, const C_String * data)
-		{
-			List<char> out;
-			for (size_t i = 0; i < count; i++)
-			{
-				String line(data[i]);
-				line = String::ReplaceAll(line, "\0", "");
-				out.insert(out.end(), line.begin(), line.end());
-			}
-			out.push_back('\0');
-			return out;
-		};
-
-		auto dispose = [&]()
+		auto disposeShader = [&]()
 		{
 			ML_GL.useShader(NULL);
 			if (obj)
@@ -699,7 +686,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Create Program
-		if (dispose() && (obj = ML_GL.createProgramObject()))
+		if (disposeShader() && (obj = ML_GL.createProgramObject()))
 		{
 			// Compile Vertex
 			switch (ML_GL.compileShader(g_VertHandle, GL::VertexShader, 2, vs))

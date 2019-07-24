@@ -1,5 +1,4 @@
 #include <ML/Editor/PropertyDrawer.hpp>
-#include <ML/Graphics/Uniform.hpp>
 #include <ML/Engine/Content.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/EditorUtility.hpp>
@@ -9,10 +8,10 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/CubeMap.hpp>
 #include <ML/Graphics/Font.hpp>
+#include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
-#include <ML/Graphics/Uniform.hpp>
 #include <ML/Script/Script.hpp>
 
 #include <ML/Core/Rect.hpp>
@@ -317,8 +316,7 @@ namespace ml
 			Uniform * u = nullptr;
 			if (UniformPropertyDrawer()(("##NewUniform##Material" + label).c_str(), u))
 			{
-				if (value.hasUniform(u->name) ||
-					!value.uniforms().insert({ u->name, u }).first->second)
+				if (!value.addUniform(u))
 				{
 					delete u;
 					Debug::logError("A uniform with that name already exists");
@@ -330,14 +328,14 @@ namespace ml
 				ImGui::Separator();
 
 			// to remove
-			List<Map<String, Uniform *>::iterator> toRemove;
+			List<List<Uniform *>::iterator> toRemove;
 
 			for (auto it = value.uniforms().begin();
 				it != value.uniforms().end();
 				it++)
 			{
 				// name
-				const String name("##Uni##" + it->first + "##Material##" + label);
+				const String name("##Uni##" + (*it)->name + "##Material##" + label);
 
 				// Uniform Header
 				ImGui::PushStyleColor(
@@ -345,15 +343,15 @@ namespace ml
 					{ 0.367f, 0.258f, 0.489f, 0.580f }
 				);
 
-				if (ImGui::TreeNode((it->first + name).c_str()))
+				if (ImGui::TreeNode(((*it)->name + name).c_str()))
 				{
 					ImGui::PopStyleColor();
 
-					if (it->second)
+					if ((*it))
 					{
 						float_t height = 1;
-						if (it->second->type == uni_mat3::ID) { height = 3; }
-						else if (it->second->type == uni_mat4::ID) { height = 4; }
+						if ((*it)->type == uni_mat3::ID) { height = 3; }
+						else if ((*it)->type == uni_mat4::ID) { height = 4; }
 
 						ImGui::PushID(name.c_str());
 						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -364,7 +362,7 @@ namespace ml
 							ImGuiWindowFlags_NoScrollWithMouse
 						);
 
-						if (UniformPropertyDrawer()(name, (Uniform &)(*it->second)))
+						if (UniformPropertyDrawer()(name, (Uniform &)(*(*it))))
 						{
 							ImGui::SameLine();
 							if (ImGui::Button(("Remove##" + name).c_str()))
@@ -388,11 +386,10 @@ namespace ml
 				ImGui::Separator();
 			}
 
-			for (auto it : toRemove)
+			for (auto & it : toRemove)
 			{
-				Uniform * u = it->second;
+				if (*it) delete (*it);
 				value.uniforms().erase(it);
-				delete u;
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -970,7 +967,7 @@ namespace ml
 			// Flt1
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_flt1::ID:
-			if (float_t * temp = impl::toFloat(&value))
+			if (float_t * temp = detail::toFloat(&value))
 			{
 				const String name = "##" + label + "##Float##Uni" + value.name;
 				ImGui::DragFloat(name.c_str(), temp, 0.1f);
@@ -985,7 +982,7 @@ namespace ml
 			// Int1
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_int1::ID:
-			if (int32_t * temp = impl::toInt(&value))
+			if (int32_t * temp = detail::toInt(&value))
 			{
 				const String name = "##" + label + "##Int##Uni" + value.name;
 				ImGui::DragInt(name.c_str(), temp, 0.1f);
@@ -1000,7 +997,7 @@ namespace ml
 			// Vec2
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec2::ID:
-			if (vec2 * temp = impl::toVec2(&value))
+			if (vec2 * temp = detail::toVec2(&value))
 			{
 				const String name = "##" + label + "##Vec2##Uni" + value.name;
 				ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
@@ -1015,7 +1012,7 @@ namespace ml
 			// Vec3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec3::ID:
-			if (vec3 * temp = impl::toVec3(&value))
+			if (vec3 * temp = detail::toVec3(&value))
 			{
 				const String name = "##" + label + "##Vec3##Uni" + value.name;
 				ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
@@ -1030,7 +1027,7 @@ namespace ml
 			// Vec4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec4::ID:
-			if (vec4 * temp = impl::toVec4(&value))
+			if (vec4 * temp = detail::toVec4(&value))
 			{
 				const String name = "##" + label + "##Vec4##Uni" + value.name;
 				ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
@@ -1045,7 +1042,7 @@ namespace ml
 			// Col4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_col4::ID:
-			if (vec4 * temp = impl::toCol4(&value))
+			if (vec4 * temp = detail::toCol4(&value))
 			{
 				const String name = "##" + label + "##Col4##Uni" + value.name;
 				ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
@@ -1060,7 +1057,7 @@ namespace ml
 			// Mat3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat3::ID:
-			if (mat3 * temp = impl::toMat3(&value))
+			if (mat3 * temp = detail::toMat3(&value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
 				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
@@ -1077,7 +1074,7 @@ namespace ml
 			// Mat4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat4::ID:
-			if (mat4 * temp = impl::toMat4(&value))
+			if (mat4 * temp = detail::toMat4(&value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
 				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);

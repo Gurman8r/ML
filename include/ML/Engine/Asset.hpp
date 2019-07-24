@@ -35,7 +35,7 @@ namespace ml
 		{
 		}
 
-		Asset(const String & name)
+		explicit Asset(const String & name)
 			: name(name)
 			, data(nullptr)
 		{

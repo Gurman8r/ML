@@ -7,9 +7,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	class	Editor;
 	struct	GameTime;
 	class	Dockspace;
-	class	RenderWindow;
+	struct	RenderWindow;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -47,9 +48,11 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		constexpr BeginGuiEvent(const GameTime & time, RenderWindow & window)
+		Editor & editor;
+		constexpr BeginGuiEvent(const GameTime & time, RenderWindow & window, Editor & editor)
 			: time	(time)
 			, window(window)
+			, editor(editor)
 		{
 		}
 	};
@@ -58,9 +61,11 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		constexpr GuiEvent(const GameTime & time, RenderWindow & window)
-			: time	(time)
+		Editor & editor;
+		constexpr GuiEvent(const GameTime & time, RenderWindow & window, Editor & editor)
+			: time(time)
 			, window(window)
+			, editor(editor)
 		{
 		}
 	};
@@ -69,9 +74,11 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		constexpr EndGuiEvent(const GameTime & time, RenderWindow & window)
-			: time	(time)
+		Editor & editor;
+		constexpr EndGuiEvent(const GameTime & time, RenderWindow & window, Editor & editor)
+			: time(time)
 			, window(window)
+			, editor(editor)
 		{
 		}
 	};

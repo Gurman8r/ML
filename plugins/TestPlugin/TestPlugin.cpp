@@ -40,7 +40,7 @@ namespace DEMO
 
 	void TestPlugin::onStart(const ml::StartEvent & ev)
 	{
-		ml::Debug::log("Loaded {0}", (*this));
+		ml::Debug::log("Hello from \'{0}\'", (*this));
 	}
 
 	void TestPlugin::onUpdate(const ml::UpdateEvent	& ev)

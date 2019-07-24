@@ -48,6 +48,7 @@ namespace ml
 		inline auto totalTime	() const -> const float_t &	{ return m_totalTime; }
 
 	private:
+
 		Asset<Image>	m_icon		{ "icon" };
 		Asset<Script>	m_script	{};
 

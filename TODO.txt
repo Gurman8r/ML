@@ -8,16 +8,18 @@
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
 [ ] texture cube maps
+[ ] better mesh loading
 [ ] reimplement old math
 	[ ] quaternion
 [ ] async asset loading (threaded w/ progress bar)
 [ ] cameras
-	[?] first person camera
+
+[?] automatic/recursive asset loading
+[?] custom asset importer gui
+
 [X] constexpr math structures
 [X] material deserialization
 [X] template property drawers
 [X] template asset importers
-[?] automatic/recursive asset loading
-[?] custom asset importer gui
 
 # * * * * * * * * * * * * * * * * * * * * * * * #

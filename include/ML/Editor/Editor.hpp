@@ -31,6 +31,13 @@ namespace ml
 		void onEndGui	(const EndGuiEvent & ev);
 		void onExit		(const ExitEvent & ev);
 
+	public:
+		inline auto dockspace() -> Dockspace &		{ return m_dockspace; }
+		inline auto browser()	-> Browser &		{ return m_browser; }
+		inline auto profiler()	-> Profiler &		{ return m_profiler; }
+		inline auto resources() -> ResourceGui &	{ return m_resources; }
+		inline auto terminal()	-> Terminal &		{ return m_terminal; }
+
 	private:
 		Dockspace	m_dockspace;
 		Browser		m_browser;

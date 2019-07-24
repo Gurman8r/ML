@@ -19,10 +19,10 @@ using namespace ml;
 static Preferences 	g_Preferences	{ "../../../ML.ini" };
 static GameTime		g_Time			{ };
 static EventSystem	g_EventSystem	{ };
-static RenderWindow g_Window		{  g_EventSystem  };
-static Engine		g_Engine		{  g_EventSystem  };
-static Editor		g_Editor		{  g_EventSystem  };
-static PluginLoader g_Plugins		{ &g_EventSystem  };
+static RenderWindow g_Window		{ g_EventSystem };
+static Engine		g_Engine		{ g_EventSystem };
+static Editor		g_Editor		{ g_EventSystem };
+static PluginLoader g_Plugins		{ g_EventSystem };
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -33,7 +33,7 @@ static StateMachine<State> g_ProgramStates
 { State::Startup, []()
 {
 	g_EventSystem.fireEvent(EnterEvent	{ g_Time, g_Preferences, g_Window });
-	g_EventSystem.fireEvent(LoadEvent	{ g_Time, g_Preferences });
+	g_EventSystem.fireEvent(LoadEvent	{ g_Time, g_Preferences, g_Window });
 	g_EventSystem.fireEvent(StartEvent	{ g_Time, g_Window });
 	return g_ProgramStates(State::MainLoop);
 } },
@@ -41,21 +41,21 @@ static StateMachine<State> g_ProgramStates
 {
 	while (g_Window.isOpen())
 	{
-		g_EventSystem.fireEvent(BeginFrameEvent	{ g_Time, g_Window });
-		g_EventSystem.fireEvent(UpdateEvent		{ g_Time, g_Window });
-		g_EventSystem.fireEvent(BeginDrawEvent	{ g_Time, g_Window });
-		g_EventSystem.fireEvent(DrawEvent		{ g_Time, g_Window });
-		g_EventSystem.fireEvent(EndDrawEvent	{ g_Time, g_Window });
-		g_EventSystem.fireEvent(BeginGuiEvent	{ g_Time, g_Window });
-		g_EventSystem.fireEvent(GuiEvent		{ g_Time, g_Window });
-		g_EventSystem.fireEvent(EndGuiEvent		{ g_Time, g_Window });
-		g_EventSystem.fireEvent(EndFrameEvent	{ g_Time, g_Window });
+		g_EventSystem.fireEvent(BeginFrameEvent	{ g_Time, g_Window, g_Engine });
+		g_EventSystem.fireEvent(UpdateEvent		{ g_Time, g_Window, g_Engine });
+		g_EventSystem.fireEvent(BeginDrawEvent	{ g_Time, g_Window, g_Engine });
+		g_EventSystem.fireEvent(DrawEvent		{ g_Time, g_Window, g_Engine });
+		g_EventSystem.fireEvent(EndDrawEvent	{ g_Time, g_Window, g_Engine });
+		g_EventSystem.fireEvent(BeginGuiEvent	{ g_Time, g_Window, g_Editor });
+		g_EventSystem.fireEvent(GuiEvent		{ g_Time, g_Window, g_Editor });
+		g_EventSystem.fireEvent(EndGuiEvent		{ g_Time, g_Window, g_Editor });
+		g_EventSystem.fireEvent(EndFrameEvent	{ g_Time, g_Window, g_Engine });
 	}
 	return g_ProgramStates(State::Shutdown);
 } },
 { State::Shutdown, []()
 {
-	g_EventSystem.fireEvent(UnloadEvent { g_Time, g_Window });
+	g_EventSystem.fireEvent(UnloadEvent { g_Time, g_Window, g_Engine });
 	g_EventSystem.fireEvent(ExitEvent	{ g_Time });
 	return g_ProgramStates(State::Exit);
 } },
@@ -67,7 +67,7 @@ int32_t main()
 {
 	// Load Plugin List
 	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Preferences.GetString(
-		"Launcher", "plugin_list", String()
+		"Launcher", "plugin_list", ""
 	))))
 	{
 		g_Plugins.loadLibraries();	// Load Libraries

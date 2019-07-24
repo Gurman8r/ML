@@ -25,7 +25,6 @@ namespace ml
 		, m_preview	()
 		, m_isDouble(false)
 	{
-		eventSystem.addListener(File_Open_Event::ID, this);
 	}
 
 	Browser::~Browser()
@@ -36,15 +35,6 @@ namespace ml
 
 	void Browser::onEvent(const Event * value)
 	{
-		switch (*value)
-		{
-		case File_Open_Event::ID:
-			if (auto ev = value->as<File_Open_Event>())
-			{
-				OS::execute("open", get_selected_path());
-			}
-			break;
-		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

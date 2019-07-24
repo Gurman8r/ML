@@ -16,7 +16,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ContentLoader::ContentLoader() : m_list() {}
+	ContentLoader::ContentLoader() : m_lists() {}
 
 	ContentLoader::~ContentLoader() { dispose(); }
 
@@ -24,20 +24,30 @@ namespace ml
 
 	bool ContentLoader::dispose()
 	{
-		for (auto & data : m_list) { delete data; }
-		m_list.clear();
-		return m_list.empty();
+		for (auto & data : m_lists) { delete data; }
+		m_lists.clear();
+		return m_lists.empty();
 	}
 
 	bool ContentLoader::loadFromFile(const String & filename)
 	{
-		if (this->dispose() && readFile(filename, m_list))
+		return this->dispose() && readFile(filename, m_lists);
+	}
+
+	bool ContentLoader::loadElement(size_t index)
+	{
+		return (index < m_lists.size()) && parseMetadata(*m_lists[index]);
+	}
+
+	bool ContentLoader::loadAll(bool clearLists)
+	{
+		if (!m_lists.empty())
 		{
-			for (const MetaData * data : m_list)
+			for (size_t i = 0; i < m_lists.size(); i++)
 			{
-				if (!parseMetadata(*data)) { /* error */ }
+				if (!loadElement(i)) { /* error */ }
 			}
-			return this->dispose();
+			return !clearLists || this->dispose();
 		}
 		return false;
 	}
@@ -126,7 +136,6 @@ namespace ml
 			case AssetImporter<Sprite	>::id: return AssetImporter<Sprite	>()(data);
 			case AssetImporter<Surface	>::id: return AssetImporter<Surface	>()(data);
 			case AssetImporter<Texture	>::id: return AssetImporter<Texture	>()(data);
-			case AssetImporter<Uniform	>::id: return AssetImporter<Uniform	>()(data);
 		
 			default:
 				return Debug::logError("Failed Loading: [{0}] | \'{1}\'",

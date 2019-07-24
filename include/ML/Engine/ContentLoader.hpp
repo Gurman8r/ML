@@ -24,6 +24,8 @@ namespace ml
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
+		bool loadElement(size_t index);
+		bool loadAll(bool clearLists);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -34,7 +36,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: List<MetaData *> m_list;
+		inline auto lists() const -> const List<MetaData *> & { return m_lists; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: List<MetaData *> m_lists;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

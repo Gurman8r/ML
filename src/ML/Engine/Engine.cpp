@@ -2,11 +2,14 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/Worker.hpp>
 #include <ML/Engine/Asset.hpp>
+#include <ML/Engine/ContentLoader.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
+#include <ML/Engine/PluginLoader.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
@@ -65,7 +68,7 @@ namespace ml
 				Var v;
 				if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
 				{
-					Debug::logError(v.errorValue());
+					cout << v.errorValue() << endl;
 				}
 			}
 			break;
@@ -77,7 +80,6 @@ namespace ml
 	void Engine::onEnter(const EnterEvent & ev)
 	{
 		// Get Boot Script Name
-		/* * * * * * * * * * * * * * * * * * * * */
 		m_script.name = ev.prefs.GetString("Engine", "boot_script", "");
 
 		// Create Window
@@ -168,11 +170,30 @@ namespace ml
 		ML_Content.create<uni_vec2_ref>("%RESOLUTION%",  "sys.resolution", this->resolution());
 		ML_Content.create<uni_flt1_ref>("%TOTAL_TIME%",  "sys.totalTime",  this->totalTime());
 
-		// Load Resource Manifest
+		// Load Content
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_Content.loadFromFile(ML_FS.pathTo(ev.prefs.GetString(
+		static ContentLoader loader;
+		if (loader.loadFromFile(ML_FS.pathTo(ev.prefs.GetString(
 			"Engine", "import_list", String()
 		))))
+		{
+			loader.loadAll(true);
+			return;
+
+			// not working because there's only one opengl context
+			static Worker worker;
+			worker.launch(loader.lists().size(), [&]()
+			{
+				for (size_t i = 0; worker.working(); i++)
+				{
+					worker.process([&]() { return loader.loadElement(i); });
+				}
+				loader.dispose();
+				worker.finalize();
+				eventSystem().fireEvent(StartEvent(ev.time, ev.window));
+			});
+		}
+		else
 		{
 			Debug::logError("Failed Loading Manifest");
 		}
@@ -181,7 +202,6 @@ namespace ml
 	void Engine::onStart(const StartEvent & ev)
 	{
 		// Set Window Icon
-		/* * * * * * * * * * * * * * * * * * * * */
 		if (m_icon)
 		{
 			const Image temp = Image(*m_icon).flipVertically();
@@ -189,7 +209,6 @@ namespace ml
 		}
 
 		// Run Boot Script
-		/* * * * * * * * * * * * * * * * * * * * */
 		if (m_script)
 		{
 			if (!(m_script->buildAndRun(Arguments(__argc, __argv))))
@@ -239,6 +258,7 @@ namespace ml
 
 	void Engine::onEndFrame(const EndFrameEvent & ev)
 	{
+		ev.window.makeContextCurrent();
 		ev.window.swapBuffers();
 		ev.time.endLoop();
 	}

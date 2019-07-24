@@ -24,7 +24,7 @@ namespace ml
 
 	bool Dockspace::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(
+		if (Dockspace::beginDraw(
 			ImGuiWindowFlags_NoTitleBar |
 			ImGuiWindowFlags_NoCollapse |
 			ImGuiWindowFlags_NoResize |
@@ -52,7 +52,7 @@ namespace ml
 				endBuilder(m_nodes[Root]);
 			};
 		}
-		return endDraw();
+		return Dockspace::endDraw();
 	}
 
 	bool Dockspace::beginDraw(int32_t flags)

@@ -688,12 +688,4 @@ namespace ml
 		}
 		return nullptr;
 	}
-
-
-	// Uniform Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Uniform * UniformAssetImporter::operator()(const MetaData & md) const
-	{
-		return nullptr;
-	}
 }

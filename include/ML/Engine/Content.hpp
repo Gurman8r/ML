@@ -3,7 +3,6 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/MetaData.hpp>
-#include <ML/Core/I_Readable.hpp>
 
 #define ML_Content _ML Content::getInstance()
 
@@ -15,7 +14,6 @@ namespace ml
 	// Anything can be stored in Content as long as it derives I_Newable.
 	struct ML_ENGINE_API Content final
 		: public I_Disposable
-		, public I_Readable
 		, public I_Singleton<Content>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -26,27 +24,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline object_map & at(size_t index)
-		{
-			typeid_map::iterator it;
-			return (((it = m_data.find(index)) != m_data.end())
-				? it->second
-				: m_data.insert({ index, object_map() }).first->second
-			);
-		}
-
-		inline const object_map & at(size_t index) const
-		{
-			typeid_map::const_iterator it;
-			return (((it = m_data.find(index)) != m_data.cend())
-				? it->second
-				: m_data.insert({ index, object_map() }).first->second
-			);
-		}
+		
+		object_map & at(size_t index);
+		
+		const object_map & at(size_t index) const;
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -87,13 +68,26 @@ namespace ml
 			}).first->second);
 		}
 
+		template <
+			class T
+		> inline bool erase(const String & name)
+		{
+			static Map<String, I_Newable *>::iterator it;
+			if ((it = this->data<T>().find(name)) != this->data<T>().end())
+			{
+				this->data<T>().erase(it);
+				return true;
+			}
+			return false;
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T
 		> inline T * get(const String & name)
 		{
-			static object_map::iterator it;
+			static Map<String, I_Newable *>::iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<T *>(it->second)
 				: nullptr
@@ -104,7 +98,7 @@ namespace ml
 			class T
 		> inline const T * get(const String & name) const
 		{
-			static object_map::const_iterator it;
+			static Map<String, I_Newable *>::const_iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
@@ -127,11 +121,11 @@ namespace ml
 
 		template <
 			class T
-		> inline object_map::const_iterator getIterAt(int32_t index) const
+		> inline object_map::const_iterator getIterator(int32_t index) const
 		{
 			if ((index >= 0) && ((size_t)index < this->data<T>().size()))
 			{
-				object_map::const_iterator it = this->data<T>().cbegin();
+				Map<String, I_Newable *>::const_iterator it = this->data<T>().cbegin();
 				for (int32_t i = 0; i < index; i++)
 				{
 					if ((++it) == this->data<T>().cend())
@@ -148,8 +142,8 @@ namespace ml
 			class T
 		> inline const T * getByIndex(int32_t index) const
 		{
-			object_map::const_iterator it;
-			return (((it = this->getIterAt<T>(index)) != this->data<T>().end())
+			Map<String, I_Newable *>::const_iterator it;
+			return (((it = this->getIterator<T>(index)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
 			);

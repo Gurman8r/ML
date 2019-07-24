@@ -12,7 +12,7 @@ namespace ml
 	EditorGui::EditorGui(EventSystem & eventSystem, C_String title)
 		: EventListener	(eventSystem)
 		, m_title		(title)
-		, m_open		(true)
+		, m_open		(false)
 		, m_good		(false)
 		, m_flags		(ImGuiWindowFlags_None)
 	{

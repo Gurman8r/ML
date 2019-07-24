@@ -46,6 +46,7 @@ namespace ml
 
 	MemoryTracker::~MemoryTracker() 
 	{
+#if ML_DEBUG
 		if (!m_records.empty())
 		{
 			Debug::logError("Memory leaks detected:");
@@ -54,11 +55,10 @@ namespace ml
 			{
 				cerr << (*pair.second) << endl;
 			}
-			
-#if ML_DEBUG
+
 			Debug::pause(EXIT_FAILURE);
-#endif
 		}
+#endif
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -24,11 +24,7 @@ namespace ml
 		, m_resources	(eventSystem)
 		, m_terminal	(eventSystem)
 	{
-		m_dockspace	.setOpen(true);
-		m_browser	.setOpen(false);
-		m_profiler	.setOpen(false);
-		m_resources	.setOpen(false);
-		m_terminal	.setOpen(true);
+		m_dockspace.setOpen(true);
 
 		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(ExitEvent::ID,			this);
@@ -134,7 +130,10 @@ namespace ml
 			// File -> Open
 			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Open_Event::ID:
-			if (auto ev = value->as<File_Open_Event>()) {}
+			if (auto ev = value->as<File_Open_Event>())
+			{
+				if (m_browser.isOpen()) OS::execute("open", m_browser.get_selected_path());
+			}
 			break;
 
 			// File -> Save
@@ -403,16 +402,17 @@ namespace ml
 			ImGui::EndMainMenuBar();
 		}
 
-		/* Dockspace */ m_dockspace.onGui(ev);
-		/* Profiler */	m_profiler.onGui(ev);
-		/* Resources */ m_resources.onGui(ev);
-		/* Browser */	m_browser.onGui(ev);
-		/* Terminal */	m_terminal.onGui(ev);
+		/* Dockspace */ if (m_dockspace.isOpen())	m_dockspace.drawGui(ev);
+		/* Profiler */	if (m_profiler.isOpen())	m_profiler.drawGui(ev);
+		/* Resources */ if (m_resources.isOpen())	m_resources.drawGui(ev);
+		/* Browser */	if (m_browser.isOpen())		m_browser.drawGui(ev);
+		/* Terminal */	if (m_terminal.isOpen())	m_terminal.drawGui(ev);
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)
 	{
 		ImGui::Render();
+		ev.window.makeContextCurrent();
 		ML_ImGui_Impl.Render(ImGui::GetDrawData());
 	}
 

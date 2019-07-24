@@ -15,6 +15,8 @@ namespace ml
 
 		Trigger() : m_value(false) {}
 
+		explicit Trigger(bool value) : m_value(value) {}
+
 		Trigger(const Trigger & copy) : m_value(copy.m_value) {}
 
 		~Trigger() {}

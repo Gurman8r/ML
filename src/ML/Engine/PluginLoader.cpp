@@ -6,7 +6,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	PluginLoader::PluginLoader(EventSystem * eventSystem)
+	PluginLoader::PluginLoader(EventSystem & eventSystem)
 		: m_eventSystem	(eventSystem)
 		, m_path		()
 		, m_files		()
@@ -73,14 +73,14 @@ namespace ml
 
 	size_t PluginLoader::loadPlugins()
 	{
-		if (m_eventSystem && !m_files.empty() && !m_libraries.empty() && m_plugins.empty())
+		if (!m_files.empty() && !m_libraries.empty() && m_plugins.empty())
 		{
 			m_plugins.reserve(m_libraries.size());
 			for (size_t i = 0; i < m_libraries.size(); i++)
 			{
 				// Load Plugin
 				if (Plugin * plugin = m_libraries[i]->callFunction<Plugin *>(
-					ML_str(ML_Plugin_Main), (*m_eventSystem)
+					ML_str(ML_Plugin_Main), m_eventSystem
 				))
 				{
 					Debug::log("Loaded Plugin: \'{0}\'", m_files[i]);

@@ -50,7 +50,7 @@ namespace ml
 		{
 			for (pair_type & pair : m_data)
 			{
-				delete pair.second;
+				if (pair.second) delete pair.second;
 			}
 			m_data.clear();
 			return m_data.empty();

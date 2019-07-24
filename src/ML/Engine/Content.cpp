@@ -1,5 +1,4 @@
 #include <ML/Engine/Content.hpp>
-#include <ML/Engine/ContentLoader.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
@@ -14,7 +13,7 @@ namespace ml
 			{
 				if (asset_data.second)
 				{
-					// Delete the asset container
+					// Delete the asset
 					delete asset_data.second;
 					asset_data.second = nullptr;
 				}
@@ -25,9 +24,22 @@ namespace ml
 		return m_data.empty();
 	}
 
-	bool Content::loadFromFile(const String & filename)
+	Content::object_map & Content::at(size_t index)
 	{
-		return ContentLoader().loadFromFile(filename);
+		typeid_map::iterator it;
+		return (((it = m_data.find(index)) != m_data.end())
+			? it->second
+			: m_data.insert({ index, object_map() }).first->second
+		);
+	}
+
+	const Content::object_map & Content::at(size_t index) const
+	{
+		typeid_map::const_iterator it;
+		return (((it = m_data.find(index)) != m_data.cend())
+			? it->second
+			: m_data.insert({ index, object_map() }).first->second
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

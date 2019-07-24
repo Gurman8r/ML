@@ -169,14 +169,6 @@ namespace ml
 	{
 		Texture * operator()(const MetaData & md) const;
 	});
-
-
-	// Uniform Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(UniformAssetImporter, Uniform, "uniform",
-	{
-		Uniform * operator()(const MetaData & md) const;
-	});
 }
 
 #endif // !_ML_ASSET_IMPORTER_HPP_

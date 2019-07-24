@@ -55,8 +55,6 @@ namespace ml
 
 		switch (*value)
 		{
-			// Key Event
-			/* * * * * * * * * * * * * * * * * * * * */
 		case KeyEvent::ID:
 			if (auto ev = value->as<KeyEvent>())
 			{
@@ -68,32 +66,20 @@ namespace ml
 			}
 			break;
 
-			// Main Menu Bar Event
-			/* * * * * * * * * * * * * * * * * * * * */
 		case MainMenuBarEvent::ID:
 			if (auto ev = value->as<MainMenuBarEvent>())
 			{
 				switch (ev->menu)
 				{
-				case MainMenuBarEvent::File:
-					break;
-				case MainMenuBarEvent::Edit:
-					break;
 				case MainMenuBarEvent::Window:
 					ImGui::Separator();
 					ImGui::MenuItem("Noobs Scene", "", &noobs.showScene);
 					ImGui::MenuItem("Noobs Editor", "", &noobs.showBuilder);
 					break;
-				case MainMenuBarEvent::Help:
-					break;
-				case MainMenuBarEvent::None:
-					break;
 				}
 			}
 			break;
 
-			// Build Dockspace Event
-			/* * * * * * * * * * * * * * * * * * * * */
 		case BuildDockspaceEvent::ID:
 			if (auto ev = value->as<BuildDockspaceEvent>())
 			{
@@ -218,9 +204,11 @@ namespace ml
 			noobs.surf_post->bind();
 
 			// Render Scene to Texture
-			if (noobs.surf_main)
+			if (noobs.surf_main && noobs.surf_main->shader())
 			{
+
 				noobs.surf_main->shader()->setUniform("u_effectMode", noobs.effectMode);
+				
 				ev.window.draw(noobs.surf_main);
 			}
 			
@@ -233,6 +221,10 @@ namespace ml
 
 	void Noobs::onGui(const GuiEvent & ev)
 	{
+		static Trigger showTerminal { true };
+		if (showTerminal.consume())
+			ev.editor.terminal().setOpen(true);
+
 		// Noobs Scene
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		ML_EditorUtility.DrawWindow(
@@ -924,17 +916,13 @@ namespace ml
 
 						for (size_t i = 0; noobs.worker.working(); i++)
 						{
-							// Dummy Load
-							auto dummy_load = [&](const String & filename)
+							// Do the thing, record the result, increment the counter.
+							noobs.worker.process([&]()
 							{
+								// Dummy Load
 								noobs.worker.sleep(50_ms);
 								return true;
-							};
-
-							// Do the thing, record the result, increment the counter.
-							noobs.worker.process(
-								dummy_load, String("Example_{0}.txt").format(i)
-							);
+							});
 						}
 
 						Debug::log("Done loading.");

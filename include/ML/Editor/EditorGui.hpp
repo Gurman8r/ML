@@ -5,8 +5,8 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/Rect.hpp>
-#include <ML/Core/EventListener.hpp>
 #include <ML/Core/String.hpp>
+#include <ML/Core/EventListener.hpp>
 
 namespace ml
 {
@@ -16,6 +16,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// An Editor Gui is a window that is part of Editor itself
 	class ML_EDITOR_API EditorGui
 		: public I_Newable
 		, public I_NonCopyable
@@ -30,16 +31,6 @@ namespace ml
 
 		virtual void onEvent(const Event * value) override {}
 		
-		inline bool onGui(const GuiEvent & ev)
-		{
-			if (this->isOpen())
-			{
-				this->drawGui(ev);
-				return true;
-			}
-			return false;
-		}
-
 	protected:
 		virtual bool drawGui(const GuiEvent & ev) = 0;
 		virtual bool beginDraw(int32_t flags = 0);

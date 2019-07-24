@@ -27,7 +27,7 @@ namespace ml
 			Flt1, Int1,
 			Vec2, Vec3, Vec4, Col4,
 			Mat3, Mat4,
-			Tex2, Cube,
+			Tex2, Tex3, Cube,
 			MAX_UNI_TYPES
 		};
 
@@ -35,7 +35,7 @@ namespace ml
 			"float", "int",
 			"vec2", "vec3", "vec4", "col4",
 			"mat3", "mat4",
-			"sampler2D", "samplerCube (NYI)"
+			"sampler2D", "sampler3D", "samplerCube"
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -168,6 +168,7 @@ namespace ml
 	ML_GEN_UNIFORM(uni_mat3_t, Uniform::Mat3);
 	ML_GEN_UNIFORM(uni_mat4_t, Uniform::Mat4);
 	ML_GEN_UNIFORM(uni_tex2_t, Uniform::Tex2);
+	ML_GEN_UNIFORM(uni_tex3_t, Uniform::Tex3);
 	ML_GEN_UNIFORM(uni_cube_t, Uniform::Cube);
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -205,7 +206,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	using uni_tex2		= typename uni_tex2_t<const Texture	*>; // <- Texture
+	using uni_tex2		= typename uni_tex2_t<const Texture	*>; // <- Texture 2D
+	using uni_tex3		= typename uni_tex3_t<const Texture	*>; // <- Texture 3D (NYI)
 	using uni_cube		= typename uni_cube_t<const Texture	*>; // <- Texture Cube Map (NYI)
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -296,6 +298,13 @@ namespace ml
 		{
 			if (!value || (value->type != uni_tex2::ID))	{ return nullptr; }
 			else if (auto u = value->as<uni_tex2>())		{ return u->data; }
+			else { return nullptr; }
+		}
+
+		static inline const Texture * toTex3(const Uniform * value)
+		{
+			if (!value || (value->type != uni_tex3::ID)) { return nullptr; }
+			else if (auto u = value->as<uni_tex3>()) { return u->data; }
 			else { return nullptr; }
 		}
 

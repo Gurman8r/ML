@@ -8,7 +8,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct CubeMap;
 	struct Entity;
 	struct Font;
 	struct Image;
@@ -67,14 +66,6 @@ template <> struct _ML AssetImporter<ELEM>							\
 
 namespace ml
 {
-	// CubeMap Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(CubeMapAssetImporter, CubeMap, "cubemap",
-	{
-		CubeMap * operator()(const MetaData & md) const;
-	});
-
-
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_ASSET_IMPORTER(EntityAssetImporter, Entity, "entity",

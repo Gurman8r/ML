@@ -10,7 +10,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct CubeMap;
 	struct Entity;
 	struct Font;
 	struct Image;
@@ -73,16 +72,6 @@ template <> struct _ML PropertyDrawer<ELEM>							\
 
 namespace ml
 {
-	// CubeMap Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(CubeMapPropertyDrawer, CubeMap, "cubemap",
-	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
-	});
-
-
 	// Entity Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(EntityPropertyDrawer, Entity, "entity",

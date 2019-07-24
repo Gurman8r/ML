@@ -4,7 +4,6 @@
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Graphics/CubeMap.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
@@ -16,36 +15,6 @@
 
 namespace ml
 {
-	// CubeMap Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	CubeMap * CubeMapAssetImporter::operator()(const MetaData & md) const
-	{
-		if (md.getData("type").asString() == this->getTag())
-		{
-			if (const String name = md.getData("name"))
-			{
-				if (!ML_Content.get<CubeMap>(name))
-				{
-					if (const String file = md.getData("file"))
-					{
-						auto temp = new CubeMap();
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
-					}
-					else
-					{
-						return ML_Content.insert(name, new CubeMap());
-					}
-				}
-			}
-		}
-		return nullptr;
-	}
-
-
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Entity * EntityAssetImporter::operator()(const MetaData & md) const
@@ -313,12 +282,6 @@ namespace ml
 									{
 										return out = new uni_tex2(name, 
 											ML_Content.get<Texture>(String(ss.str()).trim())
-										);
-									}
-									case Uniform::Cube:
-									{
-										return out = new uni_cube(name, 
-											ML_Content.get<CubeMap>(String(ss.str()).trim())
 										);
 									}
 									default: return out;
@@ -617,27 +580,28 @@ namespace ml
 					const int32_t level = md.getData("level", 0);
 				
 					const GL::Target target = md.getData("target", GL::Texture2D, {
-						{ "texture_2d",	GL::Texture2D },
-						{ "texture_3d",	GL::Texture3D },
+						{ "texture_2d",		GL::Texture2D },
+						{ "texture_3d",		GL::Texture3D },
+						{ "texture_cube",	GL::TextureCubeMap },
 					});
 				
 					const GL::Format format = md.getData("format", GL::RGBA, {
-						{ "red",		GL::Red	},
-						{ "green",		GL::Green },
-						{ "blue",		GL::Blue },
-						{ "rgb",		GL::RGB	},
-						{ "rgba",		GL::RGBA },
+						{ "red",			GL::Red	},
+						{ "green",			GL::Green },
+						{ "blue",			GL::Blue },
+						{ "rgb",			GL::RGB	},
+						{ "rgba",			GL::RGBA },
 					});
 				
-					const GL::Type pix_ty = md.getData("pixtype", GL::UnsignedByte, {
-						{ "byte",		GL::Byte },
-						{ "ubyte",		GL::UnsignedByte },
-						{ "short",		GL::Short },
-						{ "ushort",		GL::UnsignedShort },
-						{ "int",		GL::Int },
-						{ "uint",		GL::UnsignedInt },
-						{ "float",		GL::Float },
-						{ "half_float",	GL::HalfFloat },
+					const GL::Type pix_ty = md.getData("pixfmt", GL::UnsignedByte, {
+						{ "byte",			GL::Byte },
+						{ "ubyte",			GL::UnsignedByte },
+						{ "short",			GL::Short },
+						{ "ushort",			GL::UnsignedShort },
+						{ "int",			GL::Int },
+						{ "uint",			GL::UnsignedInt },
+						{ "float",			GL::Float },
+						{ "half_float",		GL::HalfFloat },
 					});
 
 					if (const String file = md.getData("file"))

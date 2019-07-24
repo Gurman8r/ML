@@ -126,9 +126,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\CubeMap.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
@@ -208,9 +205,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp">
       <Filter>Source Files\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\CubeMap.cpp">
-      <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp">
       <Filter>Source Files\DS</Filter>

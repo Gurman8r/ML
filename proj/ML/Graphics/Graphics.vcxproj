@@ -176,7 +176,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Graphics\BufferLayout.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\CubeMap.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />
@@ -210,7 +209,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\CubeMap.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />

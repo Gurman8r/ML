@@ -5,7 +5,6 @@
 #include <ML/Engine/AssetImporter.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Graphics/CubeMap.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
@@ -123,7 +122,6 @@ namespace ml
 		{
 			case Hash()("manifest") : return true;
 
-			case AssetImporter<CubeMap	>::id: return AssetImporter<CubeMap	>()(data);
 			case AssetImporter<Entity	>::id: return AssetImporter<Entity	>()(data);
 			case AssetImporter<Font		>::id: return AssetImporter<Font	>()(data);
 			case AssetImporter<Image	>::id: return AssetImporter<Image	>()(data);

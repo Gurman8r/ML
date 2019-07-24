@@ -12,11 +12,11 @@
 #		image	= name_of_some_image
 #		smooth	= true
 #		repeat	= false
-#		target	= texture_2D / texture_3D
+#		target	= texture_2D / texture_3D / texture_cube
 #		format	= red / blue / green / rgb / rgba
 #		mipmap	= false
 #		level	= 0
-#		pixtype	= byte / ubyte / short / ushort / int / uint / float / half_float
+#		pixfmt	= byte / ubyte / short / ushort / int / uint / float / half_float
 #	</import>
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

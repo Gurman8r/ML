@@ -6,7 +6,6 @@
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Graphics/CubeMap.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
@@ -42,24 +41,6 @@ namespace ml
 
 namespace ml
 {
-	// CubeMap Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool CubeMapPropertyDrawer::operator()(const String & label, const_pointer & value) const
-	{
-		return asset_dropdown<CubeMap>(label, value);
-	}
-
-	bool CubeMapPropertyDrawer::operator()(const String & label, const_reference value) const
-	{
-		return false;
-	}
-
-	bool CubeMapPropertyDrawer::operator()(const String & label, reference value) const
-	{
-		return false;
-	}
-
-
 	// Entity Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool EntityPropertyDrawer::operator()(const String & label, const_pointer & value) const
@@ -1097,21 +1078,6 @@ namespace ml
 				const String name = "##" + label + "##Texture##Uni" + value.name;
 				const Texture * temp = u->data;
 				if (TexturePropertyDrawer()(name, temp))
-				{
-					u->data = temp;
-				}
-				return true;
-			}
-			break;
-
-			// Cube
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_cube::ID:
-			if (auto u = value.as<uni_cube>())
-			{
-				const String name = "##" + label + "##CubeMap##Uni" + value.name;
-				const CubeMap * temp = u->data;
-				if (CubeMapPropertyDrawer()(name, temp))
 				{
 					u->data = temp;
 				}

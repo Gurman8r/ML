@@ -205,8 +205,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	using uni_cube		= typename uni_cube_t<const CubeMap	*>; // <- CubeMap (NYI)
 	using uni_tex2		= typename uni_tex2_t<const Texture	*>; // <- Texture
+	using uni_cube		= typename uni_cube_t<const Texture	*>; // <- Texture Cube Map (NYI)
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -299,7 +299,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline const CubeMap * toCube(const Uniform * value)
+		static inline const Texture * toCube(const Uniform * value)
 		{
 			if (!value || (value->type != uni_cube::ID))	{ return nullptr; }
 			else if (auto u = value->as<uni_cube>())		{ return u->data; }

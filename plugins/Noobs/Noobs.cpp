@@ -101,57 +101,7 @@ namespace ml
 			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material);
 		}
 
-		// Generate Source Editors
-		if (noobs.material && noobs.material->shader())
-		{
-			// Create Main File
-			noobs.files.push_back(new NoobsFile("Main", String()));
-
-			// Create Vertex File
-			if (noobs.material->shader()->vertSrc())
-			{
-				noobs.files.push_back(new NoobsFile(
-					"Vertex",
-					noobs.material->shader()->vertSrc()
-				));
-				noobs.files.front()->text.SetText(
-					noobs.files.front()->text.GetText() +
-					"// Vertex Shader\n"
-					"#shader vertex\n"
-					"#include \"Vertex\"\n"
-				);
-			}
-
-			// Create Fragment File
-			if (noobs.material->shader()->fragSrc())
-			{
-				noobs.files.push_back(new NoobsFile(
-					"Fragment",
-					noobs.material->shader()->fragSrc()
-				));
-				noobs.files.front()->text.SetText(
-					noobs.files.front()->text.GetText() +
-					"// Fragment Shader\n"
-					"#shader fragment\n"
-					"#include \"Fragment\"\n"
-				);
-			}
-
-			// Create Geometry File
-			if (noobs.material->shader()->geomSrc())
-			{
-				noobs.files.push_back(new NoobsFile(
-					"Geometry",
-					noobs.material->shader()->geomSrc()
-				));
-				noobs.files.front()->text.SetText(
-					noobs.files.front()->text.GetText() +
-					"// Geometry Shader\n"
-					"#shader geometry\n"
-					"#include \"Geometry\"\n"
-				);
-			}
-		}
+		generateFiles();
 	}
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
@@ -206,7 +156,6 @@ namespace ml
 			// Render Scene to Texture
 			if (noobs.surf_main && noobs.surf_main->shader())
 			{
-
 				noobs.surf_main->shader()->setUniform("u_effectMode", noobs.effectMode);
 				
 				ev.window.draw(noobs.surf_main);
@@ -335,7 +284,9 @@ namespace ml
 						ImGui::OpenPopup("New File##Popup##Editor##Noobs");
 					}
 					ImGui::SameLine();
-					if (ImGui::Button("Compile##Editor##Noobs"))
+					bool rebuild = ImGui::Button("Rebuild##Editor##Noobs");
+					ImGui::SameLine();
+					if (rebuild || ImGui::Button("Compile##Editor##Noobs"))
 					{
 						for (auto & file : noobs.files)
 						{
@@ -397,6 +348,11 @@ namespace ml
 						if (shader && shader->loadFromMemory(source))
 						{
 							Debug::log("Compiled Shader");
+							if (rebuild)
+							{
+								disposeFiles();
+								generateFiles();
+							}
 						}
 						else
 						{
@@ -1036,6 +992,68 @@ namespace ml
 	}
 
 	void Noobs::onExit(const ExitEvent & ev)
+	{
+		disposeFiles();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void Noobs::generateFiles()
+	{
+		// Generate Source Editors
+		if (noobs.material && noobs.material->shader())
+		{
+			// Create Main File
+			noobs.files.push_back(new NoobsFile("Main", String()));
+
+			// Create Vertex File
+			if (noobs.material->shader()->vertSrc())
+			{
+				noobs.files.push_back(new NoobsFile(
+					"Vertex",
+					noobs.material->shader()->vertSrc()
+				));
+				noobs.files.front()->text.SetText(
+					noobs.files.front()->text.GetText() +
+					"// Vertex Shader\n"
+					"#shader vertex\n"
+					"#include \"Vertex\"\n"
+				);
+			}
+
+			// Create Fragment File
+			if (noobs.material->shader()->fragSrc())
+			{
+				noobs.files.push_back(new NoobsFile(
+					"Fragment",
+					noobs.material->shader()->fragSrc()
+				));
+				noobs.files.front()->text.SetText(
+					noobs.files.front()->text.GetText() +
+					"// Fragment Shader\n"
+					"#shader fragment\n"
+					"#include \"Fragment\"\n"
+				);
+			}
+
+			// Create Geometry File
+			if (noobs.material->shader()->geomSrc())
+			{
+				noobs.files.push_back(new NoobsFile(
+					"Geometry",
+					noobs.material->shader()->geomSrc()
+				));
+				noobs.files.front()->text.SetText(
+					noobs.files.front()->text.GetText() +
+					"// Geometry Shader\n"
+					"#shader geometry\n"
+					"#include \"Geometry\"\n"
+				);
+			}
+		}
+	}
+
+	void Noobs::disposeFiles()
 	{
 		// Dispose Files
 		for (auto & e : noobs.files)

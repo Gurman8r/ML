@@ -54,6 +54,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		void generateFiles();
+		void disposeFiles();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		struct NoobsFile : public I_NonCopyable
 		{
 			using TextEdit = typename ImGui::TextEditor;
@@ -96,7 +101,7 @@ namespace ml
 			bool		showScene	{ true };
 			bool		freeAspect	{ true };
 			FileList	files		{};
-			int32_t		effectMode	{ 0 };
+			int32_t		effectMode	{ 3 };
 			vec4		clearColor	{ Color::black };
 			vec2		resolution	{ 1920, 1080 };
 

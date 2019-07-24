@@ -111,25 +111,29 @@ namespace ml
 	{
 		switch (Hash()(data.getData("type").asString()))
 		{
-		case AssetImporter<CubeMap	>::id: return AssetImporter<CubeMap	>()(data);
-		case AssetImporter<Entity	>::id: return AssetImporter<Entity	>()(data);
-		case AssetImporter<Font		>::id: return AssetImporter<Font	>()(data);
-		case AssetImporter<Image	>::id: return AssetImporter<Image	>()(data);
-		case AssetImporter<Material	>::id: return AssetImporter<Material>()(data);
-		case AssetImporter<Mesh		>::id: return AssetImporter<Mesh	>()(data);
-		case AssetImporter<Model	>::id: return AssetImporter<Model	>()(data);
-		case AssetImporter<Script	>::id: return AssetImporter<Script	>()(data);
-		case AssetImporter<Shader	>::id: return AssetImporter<Shader	>()(data);
-		case AssetImporter<Sound	>::id: return AssetImporter<Sound	>()(data);
-		case AssetImporter<Sprite	>::id: return AssetImporter<Sprite	>()(data);
-		case AssetImporter<Surface	>::id: return AssetImporter<Surface	>()(data);
-		case AssetImporter<Texture	>::id: return AssetImporter<Texture	>()(data);
-		case AssetImporter<Uniform	>::id: return AssetImporter<Uniform	>()(data);
+			case Hash()("manifest") : return true;
+
+			case AssetImporter<CubeMap	>::id: return AssetImporter<CubeMap	>()(data);
+			case AssetImporter<Entity	>::id: return AssetImporter<Entity	>()(data);
+			case AssetImporter<Font		>::id: return AssetImporter<Font	>()(data);
+			case AssetImporter<Image	>::id: return AssetImporter<Image	>()(data);
+			case AssetImporter<Material	>::id: return AssetImporter<Material>()(data);
+			case AssetImporter<Mesh		>::id: return AssetImporter<Mesh	>()(data);
+			case AssetImporter<Model	>::id: return AssetImporter<Model	>()(data);
+			case AssetImporter<Script	>::id: return AssetImporter<Script	>()(data);
+			case AssetImporter<Shader	>::id: return AssetImporter<Shader	>()(data);
+			case AssetImporter<Sound	>::id: return AssetImporter<Sound	>()(data);
+			case AssetImporter<Sprite	>::id: return AssetImporter<Sprite	>()(data);
+			case AssetImporter<Surface	>::id: return AssetImporter<Surface	>()(data);
+			case AssetImporter<Texture	>::id: return AssetImporter<Texture	>()(data);
+			case AssetImporter<Uniform	>::id: return AssetImporter<Uniform	>()(data);
+		
+			default:
+				return Debug::logError("Failed Loading: [{0}] | \'{1}\'",
+					data.getData("type").asString(),
+					data.getData("name").asString()
+				);
 		}
-		return Debug::logError("Failed Loading: [{0}] | \'{1}\'",
-			data.getData("type").asString(),
-			data.getData("name").asString()
-		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

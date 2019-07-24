@@ -174,24 +174,25 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		static ContentLoader loader;
 		if (loader.loadFromFile(ML_FS.pathTo(ev.prefs.GetString(
-			"Engine", "import_list", String()
+			"Engine", "asset_lists", String()
 		))))
 		{
 			loader.loadAll(true);
 			return;
 
+			// FIXME:
 			// not working because there's only one opengl context
-			static Worker worker;
-			worker.launch(loader.lists().size(), [&]()
-			{
-				for (size_t i = 0; worker.working(); i++)
-				{
-					worker.process([&]() { return loader.loadElement(i); });
-				}
-				loader.dispose();
-				worker.finalize();
-				eventSystem().fireEvent(StartEvent(ev.time, ev.window));
-			});
+			//static Worker worker;
+			//worker.launch(loader.lists().size(), [&]()
+			//{
+			//	for (size_t i = 0; worker.working(); i++)
+			//	{
+			//		worker.process([&]() { return loader.loadElement(i); });
+			//	}
+			//	loader.dispose();
+			//	worker.finalize();
+			//	eventSystem().fireEvent(StartEvent(ev.time, ev.window));
+			//});
 		}
 		else
 		{

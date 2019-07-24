@@ -205,10 +205,10 @@
     <Text Include="..\..\..\assets\data\materials.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
-    <Text Include="..\..\..\assets\manifest.txt">
+    <Text Include="..\..\..\assets\plugins.txt">
       <Filter>Resource Files\assets</Filter>
     </Text>
-    <Text Include="..\..\..\assets\plugins.txt">
+    <Text Include="..\..\..\assets\assets.txt">
       <Filter>Resource Files\assets</Filter>
     </Text>
   </ItemGroup>

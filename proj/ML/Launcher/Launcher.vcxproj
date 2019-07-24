@@ -212,7 +212,7 @@
     <Text Include="..\..\..\assets\data\sprites.txt" />
     <Text Include="..\..\..\assets\data\surfaces.txt" />
     <Text Include="..\..\..\assets\data\textures.txt" />
-    <Text Include="..\..\..\assets\manifest.txt" />
+    <Text Include="..\..\..\assets\assets.txt" />
     <Text Include="..\..\..\assets\plugins.txt" />
     <Text Include="..\..\..\assets\styles\obsidian.txt" />
   </ItemGroup>

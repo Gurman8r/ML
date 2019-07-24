@@ -1016,7 +1016,7 @@ namespace ml
 				));
 				noobs.files.front()->text.SetText(
 					noobs.files.front()->text.GetText() +
-					"// Vertex Shader\n"
+					//"// Vertex Shader\n"
 					"#shader vertex\n"
 					"#include \"Vertex\"\n"
 				);
@@ -1031,7 +1031,7 @@ namespace ml
 				));
 				noobs.files.front()->text.SetText(
 					noobs.files.front()->text.GetText() +
-					"// Fragment Shader\n"
+					//"// Fragment Shader\n"
 					"#shader fragment\n"
 					"#include \"Fragment\"\n"
 				);
@@ -1046,7 +1046,7 @@ namespace ml
 				));
 				noobs.files.front()->text.SetText(
 					noobs.files.front()->text.GetText() +
-					"// Geometry Shader\n"
+					//"// Geometry Shader\n"
 					"#shader geometry\n"
 					"#include \"Geometry\"\n"
 				);

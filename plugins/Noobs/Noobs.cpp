@@ -583,8 +583,8 @@ namespace ml
 
 					// to remove
 					List<List<Uniform *>::iterator> toRemove;
-					for (auto it = noobs.material->uniforms().begin();
-						it != noobs.material->uniforms().end();
+					for (auto it = noobs.material->uniforms().rbegin();
+						it != noobs.material->uniforms().rend();
 						it++)
 					{
 						// label
@@ -602,9 +602,11 @@ namespace ml
 
 							if (*it)
 							{
-								float_t height = 1;
-								if ((*it)->type == uni_mat3::ID) { height = 3; }
-								else if ((*it)->type == uni_mat4::ID) { height = 4; }
+								float_t height = (((*it)->type == uni_mat3::ID)
+									? 3.f
+									: (((*it)->type == uni_mat4::ID)
+										? 4.f
+										: 1.f));
 
 								ImGui::PushID(label.c_str());
 								ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -620,7 +622,7 @@ namespace ml
 									ImGui::SameLine();
 									if (ImGui::Button(("Remove##" + label).c_str()))
 									{
-										toRemove.push_back(it);
+										toRemove.push_back(std::next(it.base()));
 									}
 								}
 
@@ -664,7 +666,9 @@ namespace ml
 							&enabled
 						);
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specify the alpha test function"
+						);
 
 						int32_t i = GL::indexOf(noobs.renderer->states().alpha.comp);
 						if (ImGui::Combo(
@@ -677,11 +681,17 @@ namespace ml
 							GL::valueAt(i, noobs.renderer->states().alpha.comp);
 						}
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specifies the alpha comparison function.\n"
+						);
 
 						ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &noobs.renderer->states().alpha.coeff);
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specifies the reference value that incoming alpha values are compared to.\n"
+							"This value is clamped to the range 0 1 , where 0 represents the lowest possible alpha value and 1 the highest possible value.\n"
+							"The initial reference value is 0."
+						);
 
 						ImGui::TreePop();
 					}
@@ -698,7 +708,9 @@ namespace ml
 							&enabled
 						);
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specify pixel arithmetic for RGB and alpha components separately"
+						);
 
 						auto factor_combo = [](C_String label, int32_t & i)
 						{
@@ -716,7 +728,9 @@ namespace ml
 							GL::valueAt(srcRGB, noobs.renderer->states().blend.srcRGB);
 						}
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specifies how the red, green, and blue blending factors are computed."
+						);
 
 						int32_t srcAlpha = GL::indexOf(noobs.renderer->states().blend.srcAlpha);
 						if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
@@ -724,7 +738,9 @@ namespace ml
 							GL::valueAt(srcAlpha, noobs.renderer->states().blend.srcAlpha);
 						}
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specified how the alpha source blending factor is computed."
+						);
 
 						int32_t dstRGB = GL::indexOf(noobs.renderer->states().blend.dstRGB);
 						if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
@@ -732,7 +748,9 @@ namespace ml
 							GL::valueAt(dstRGB, noobs.renderer->states().blend.dstRGB);
 						}
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specifies how the red, green, and blue destination blending factors are computed."
+						);
 
 						int32_t dstAlpha = GL::indexOf(noobs.renderer->states().blend.dstAlpha);
 						if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
@@ -740,7 +758,9 @@ namespace ml
 							GL::valueAt(dstAlpha, noobs.renderer->states().blend.dstAlpha);
 						}
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specified how the alpha destination blending factor is computed."
+						);
 
 						ImGui::TreePop();
 					}
@@ -757,7 +777,9 @@ namespace ml
 							&enabled
 						);
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specify which face facets can be culled"
+						);
 
 						int32_t i = GL::indexOf(noobs.renderer->states().culling.face);
 						if (ImGui::Combo(
@@ -770,7 +792,9 @@ namespace ml
 							GL::valueAt(i, noobs.renderer->states().culling.face);
 						}
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specifies whether front- or back-facing facets are candidates for culling."
+						);
 
 						ImGui::TreePop();
 					}
@@ -787,7 +811,9 @@ namespace ml
 							&enabled
 						);
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"Specify the value used for depth buffer comparisons"
+						);
 
 						int32_t i = GL::indexOf(noobs.renderer->states().depth.comp);
 						if (ImGui::Combo(
@@ -800,7 +826,31 @@ namespace ml
 							GL::valueAt(i, noobs.renderer->states().depth.comp);
 						}
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"GL_NEVER\n"
+							"Never passes.\n"
+							"\n"
+							"GL_LESS\n"
+							"Passes if the incoming depth value is less than the stored depth value.\n"
+							"\n"
+							"GL_EQUAL\n"
+							"Passes if the incoming depth value is equal to the stored depth value.\n"
+							"\n"
+							"GL_LEQUAL\n"
+							"Passes if the incoming depth value is less than or equal to the stored depth value.\n"
+							"\n"
+							"GL_GREATER\n"
+							"Passes if the incoming depth value is greater than the stored depth value.\n"
+							"\n"
+							"GL_NOTEQUAL\n"
+							"Passes if the incoming depth value is not equal to the stored depth value.\n"
+							"\n"
+							"GL_GEQUAL\n"
+							"Passes if the incoming depth value is greater than or equal to the stored depth value.\n"
+							"\n"
+							"GL_ALWAYS\n"
+							"Always passes.\n"
+						);
 
 						ImGui::TreePop();
 					}
@@ -817,7 +867,7 @@ namespace ml
 							&enabled
 						);
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker("Select active texture target");
 
 						int32_t i = GL::indexOf(noobs.renderer->states().texture.target);
 						if (ImGui::Combo(
@@ -830,28 +880,39 @@ namespace ml
 							GL::valueAt(i, noobs.renderer->states().texture.target);
 						}
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"GL_TEXTURE_2D\n"
+							"If enabled and no fragment shader is active, two - dimensional texturing is performed(unless three - dimensional or cube - mapped texturing is also enabled).\n"
+							"\n"
+							"GL_TEXTURE_3D\n"
+							"If enabled and no fragment shader is active, three - dimensional texturing is performed(unless cube - mapped texturing is also enabled).\n"
+							"\n"
+							"GL_TEXTURE_CUBE_MAP\n"
+							"If enabled and no fragment shader is active, cube - mapped texturing is performed.\n"
+						);
 
 						ImGui::TreePop();
 					}
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::TreeNode("MiscStates"))
+					if (ImGui::TreeNode("Misc"))
 					{
 						ImGui::Checkbox(
 							"Multisample##MiscStates##Renderer##Noobs",
 							&noobs.renderer->states().misc.multisample
 						);
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker("If enabled, use multiple fragment samples in computing the final color of a pixel.");
 
 						ImGui::Checkbox(
 							"Framebuffer SRGB##MiscStates##Renderer##Noobs",
 							&noobs.renderer->states().misc.framebufferSRGB
 						);
 						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Some very helpful text.");
+						ML_EditorUtility.HelpMarker(
+							"When GL_FRAMEBUFFER_SRGB is enabled, all writes to an image with an sRGB image format will assume that the input colors are in a linear colorspace."
+						);
 
 						ImGui::TreePop();
 					}

@@ -238,8 +238,8 @@
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_back.png" />
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_bottom.png" />
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_front.png" />
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_left.png" />
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_right.png" />
+    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_left.png" />
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_top.png" />
     <Image Include="..\..\..\assets\textures\earth\earth_cm.png" />
     <Image Include="..\..\..\assets\textures\earth\earth_dm.png" />

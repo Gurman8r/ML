@@ -324,12 +324,19 @@ namespace ml
 											{
 												if (e->name == name)
 												{
-													out << (*this)(
-														file_list,
-														e->text.GetText()
-													);
+													out << (*this)(file_list, e->text.GetText());
 													found = true;
 													break;
+												}
+											}
+											if (!found)
+											{
+												if (auto shader = ML_Content.get<Shader>(name))
+												{
+													if (shader->vertSrc()) out << "#shader vertex" << endl << shader->vertSrc() << endl;
+													if (shader->fragSrc()) out << "#shader fragment" << endl << shader->fragSrc() << endl;
+													if (shader->geomSrc()) out << "#shader geometry" << endl << shader->geomSrc() << endl;
+													found = true;
 												}
 											}
 										}

@@ -1,6 +1,6 @@
 # Camera
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-uniform float		camera.fov		{ -45.0 }
+uniform float		camera.fov		{ 45.0 }
 uniform vec3		camera.position { 0.0, 0.0, 0.001 }
 uniform vec3		camera.target	{ 0.0, 0.0, 0.0 }
 uniform float		camera.zNear	{ 0.001 }
@@ -9,4 +9,4 @@ uniform float		camera.zFar		{ 1000.0 }
 # Fragment
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 uniform col4		u_mainColor		{ 1.0, 1.0, 1.0, 1.0 }
-uniform samplerCube	u_mainTexture	{ skybox } 
+uniform samplerCube	u_mainTexture	{ starfield } 

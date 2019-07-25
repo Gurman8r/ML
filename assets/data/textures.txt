@@ -214,50 +214,54 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>
-	type = image
-	name = sunset_right
-	file = ../../../assets/textures/bg/sunset/sunset_right.png
+	type 	= image
+	flipV	= false
+	name 	= sunset_right
+	file 	= ../../../assets/textures/bg/sunset/sunset_right.png
+</import>	
+	
+<import>	
+	type 	= image
+	flipV	= false
+	name 	= sunset_left
+	file 	= ../../../assets/textures/bg/sunset/sunset_left.png
+</import>	
+	
+<import>	
+	type 	= image
+	flipV	= false
+	name 	= sunset_top
+	file 	= ../../../assets/textures/bg/sunset/sunset_top.png
+</import>	
+	
+<import>	
+	type 	= image
+	flipV	= false
+	name 	= sunset_bottom
+	file 	= ../../../assets/textures/bg/sunset/sunset_bottom.png
+</import>	
+	
+<import>	
+	type 	= image
+	flipV	= false
+	name 	= sunset_front
+	file 	= ../../../assets/textures/bg/sunset/sunset_front.png
 </import>
 
 <import>
-	type = image
-	name = sunset_left
-	file = ../../../assets/textures/bg/sunset/sunset_left.png
-</import>
-
-<import>
-	type = image
-	name = sunset_top
-	file = ../../../assets/textures/bg/sunset/sunset_top.png
-</import>
-
-<import>
-	type = image
-	name = sunset_bottom
-	file = ../../../assets/textures/bg/sunset/sunset_bottom.png
-</import>
-
-<import>
-	type = image
-	name = sunset_front
-	file = ../../../assets/textures/bg/sunset/sunset_front.png
-</import>
-
-<import>
-	type = image
-	name = sunset_back
-	file = ../../../assets/textures/bg/sunset/sunset_back.png
+	type 	= image
+	flipV	= false
+	name 	= sunset_back
+	file 	= ../../../assets/textures/bg/sunset/sunset_back.png
 </import>
 
 <import>
 	type	= texture
 	name	= sunset
-	
 	target	= texture_cube
 	smooth	= false
 	repeat	= true
 	format	= RGBA
-
 	source	= images
 	right	= sunset_right
 	left	= sunset_left
@@ -269,13 +273,11 @@
 
 <import>
 	type	= texture
-	name	= skybox
-	
+	name	= starfield
 	target	= texture_cube
 	smooth	= false
 	repeat	= true
 	format	= RGB
-
 	source	= images
 	right	= star
 	left	= star

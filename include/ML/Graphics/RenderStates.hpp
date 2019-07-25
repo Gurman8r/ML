@@ -53,17 +53,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API TextureMode final 
-	{
-		bool		enabled		= true;
-		GL::Target	target		= GL::Texture2D;
-		GL::TexID	texture		= GL::Texture0;
-
-		const TextureMode & operator()() const;
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	struct ML_GRAPHICS_API MiscStates final
 	{
 		bool multisample		= false;
@@ -85,7 +74,6 @@ namespace ml
 			const BlendMode		&	blend,
 			const CullingMode	&	culling,
 			const DepthMode		&	depth,
-			const TextureMode	&	texture,
 			const MiscStates	&	misc);
 		RenderStates(const RenderStates & copy);
 		~RenderStates();
@@ -100,7 +88,6 @@ namespace ml
 		BlendMode	blend;
 		CullingMode	culling;
 		DepthMode	depth;
-		TextureMode	texture;
 		MiscStates	misc;
 
 		/* * * * * * * * * * * * * * * * * * * * */

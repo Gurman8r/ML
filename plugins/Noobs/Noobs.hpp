@@ -95,8 +95,8 @@ namespace ml
 			Asset<Model>	model			{ "sphere32x24"	};
 			Asset<Entity>	entity			{ "noobs_entity_0" };
 			Renderer *		renderer		{ nullptr };
-			Asset<Texture>	sky_texture		{ "skybox" };
-			Asset<Model>	sky_model		{ "skybox" };
+			
+			Asset<Model>	sky_model		{ "default_skybox" };
 			Asset<Material> sky_material	{ "skybox" };
 
 			// GUI Settings
@@ -104,7 +104,7 @@ namespace ml
 			bool		showScene	{ true };
 			bool		freeAspect	{ true };
 			FileList	files		{};
-			int32_t		effectMode	{ 0 };
+			int32_t		effectMode	{ 3 };
 			vec4		clearColor	{ Color::black };
 			vec2		resolution	{ 1920, 1080 };
 

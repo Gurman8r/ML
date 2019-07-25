@@ -241,6 +241,11 @@ namespace ml
 										return out;
 									switch (type)
 									{
+									case Uniform::Bool:
+									{
+										bool temp; ss >> temp;
+										return out = new uni_bool(name, temp);
+									}
 									case Uniform::Int1:
 									{
 										int32_t temp; ss >> temp;

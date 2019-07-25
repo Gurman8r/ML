@@ -24,7 +24,7 @@ namespace ml
 		enum Types : int32_t
 		{
 			INVALID_UNI = -1,
-			Flt1, Int1,
+			Bool, Flt1, Int1,
 			Vec2, Vec3, Vec4, Col4,
 			Mat3, Mat4,
 			Tex2, Tex3, Cube,
@@ -32,7 +32,7 @@ namespace ml
 		};
 
 		static constexpr C_String TypeNames[] = {
-			"float", "int",
+			"bool", "float", "int",
 			"vec2", "vec3", "vec4", "col4",
 			"mat3", "mat4",
 			"sampler2D", "sampler3D", "samplerCube"
@@ -159,6 +159,7 @@ namespace ml
 		virtual ~NAME() {}										\
 	};
 
+	ML_GEN_UNIFORM(uni_bool_t, Uniform::Bool);
 	ML_GEN_UNIFORM(uni_flt1_t, Uniform::Flt1);
 	ML_GEN_UNIFORM(uni_int1_t, Uniform::Int1);
 	ML_GEN_UNIFORM(uni_vec2_t, Uniform::Vec2);
@@ -173,6 +174,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
+	using uni_bool		= typename uni_bool_t<bool>;
 	using uni_flt1		= typename uni_flt1_t<float_t>;
 	using uni_int1		= typename uni_int1_t<int32_t>;
 	using uni_vec2		= typename uni_vec2_t<vec2>;
@@ -184,6 +186,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
+	using uni_bool_ref	= typename uni_bool_t<const bool &>;
 	using uni_flt1_ref	= typename uni_flt1_t<const float_t	&>;
 	using uni_int1_ref	= typename uni_int1_t<const int32_t	&>;
 	using uni_vec2_ref	= typename uni_vec2_t<const vec2 &>;
@@ -195,6 +198,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
+	using uni_bool_ptr	= typename uni_bool_t<const bool *>;
 	using uni_flt1_ptr	= typename uni_flt1_t<const float_t	*>;
 	using uni_int1_ptr	= typename uni_int1_t<const int32_t	*>;
 	using uni_vec2_ptr	= typename uni_vec2_t<const vec2 *>;
@@ -214,6 +218,16 @@ namespace ml
 
 	namespace detail
 	{
+		static inline bool * toBool(const Uniform * value)
+		{
+			static bool temp;
+			if (!value || (value->type != uni_bool::ID)) { return nullptr; }
+			else if (auto u = value->as<uni_bool>()) { return &(temp = u->data); }
+			else if (auto u = value->as<uni_bool_ref>()) { return &(temp = u->data); }
+			else if (auto u = value->as<uni_bool_ptr>()) { return &(temp = *u->data); }
+			else { return nullptr; }
+		}
+
 		static inline float_t * toFloat(const Uniform * value)
 		{
 			static float_t temp;

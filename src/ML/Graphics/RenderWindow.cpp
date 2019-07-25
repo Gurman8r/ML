@@ -31,7 +31,6 @@ namespace ml
 				{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
 				{ true, GL::Back },
 				{ true, GL::Less },
-				{ true, GL::Texture2D, GL::Texture0 },
 				{ m_context.multisample, m_context.srgbCapable }
 			};
 			states.apply();

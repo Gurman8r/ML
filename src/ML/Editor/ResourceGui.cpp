@@ -33,10 +33,12 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<T>())
 		{
-			if (!pair.second) continue;
-			if (ImGui::TreeNode(pair.first.c_str()))
+			if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<T>::tag).c_str()))
 			{
-				PropertyDrawer<T>()(pair.first, (T &)(*(pair.second)));
+				if (pair.second)
+				{
+					PropertyDrawer<T>()(pair.first, (T &)(*(pair.second)));
+				}
 				ImGui::TreePop();
 			}
 			ImGui::Separator();

@@ -125,16 +125,12 @@ namespace ml
 			// Clear Screen
 			ev.window.clear(noobs.clearColor);
 
-			// Skybox
-			if (noobs.sky_material &&
-				noobs.sky_material->shader() &&
-				noobs.sky_texture &&
-				noobs.sky_model
-			)
+			// Draw Skybox
+			if (noobs.sky_material)
 			{
-				ML_GL.depthMask(false);
 				noobs.sky_material->bind();
-				noobs.sky_model->draw(ev.window, {});
+				ML_GL.depthMask(false);
+				ev.window.draw(noobs.sky_model);
 				ML_GL.depthMask(true);
 			}
 
@@ -153,7 +149,6 @@ namespace ml
 			BlendMode	{ true	},
 			CullingMode	{ false },
 			DepthMode	{ false },
-			TextureMode	{ true, GL::Texture2D, GL::Texture0 },
 			MiscStates	{ false, false }
 		};
 		states.apply();
@@ -184,7 +179,7 @@ namespace ml
 	void Noobs::onGui(const GuiEvent & ev)
 	{
 		static Trigger showTerminal { true };
-		if (showTerminal.consume())
+		if (showTerminal) 
 			ev.editor.terminal().setOpen(true);
 
 		// Noobs Scene
@@ -262,7 +257,7 @@ namespace ml
 
 				const vec2 src = texture->size();
 				const vec2 dst = ML_EditorUtility.getWindowSize();
-				const vec2 scl = scaleToFit(src, dst);
+				const vec2 scl = scaleToFit(src, dst * vec2 { 1.0f, 0.75f });
 				const vec2 pos = ((dst - scl) * 0.5f);
 
 				ImGui::BeginChild("Viewport", { -1, -1 });
@@ -361,7 +356,6 @@ namespace ml
 						);
 						if (shader && shader->loadFromMemory(source))
 						{
-							Debug::log("Compiled Shader");
 							if (rebuild)
 							{
 								disposeFiles();
@@ -821,45 +815,6 @@ namespace ml
 							"\n"
 							"GL_ALWAYS\n"
 							"Always passes.\n"
-						);
-
-						ImGui::TreePop();
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::TreeNode("Texture"))
-					{
-						bool & enabled = noobs.renderer->states().texture.enabled;
-						ImGui::Checkbox((enabled
-							? "Enabled ##Texture##Renderer##Noobs"
-							: "Disabled##Texture##Renderer##Noobs"
-							),
-							&enabled
-						);
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("Select active texture target");
-
-						int32_t i = GL::indexOf(noobs.renderer->states().texture.target);
-						if (ImGui::Combo(
-							"Target##Texture##Renderer##Noobs",
-							&i,
-							"Texture 2D\0"
-							"Texture 3D\0"
-							"Texture Cube Map\0"))
-						{
-							GL::valueAt(i, noobs.renderer->states().texture.target);
-						}
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"GL_TEXTURE_2D\n"
-							"If enabled and no fragment shader is active, two - dimensional texturing is performed(unless three - dimensional or cube - mapped texturing is also enabled).\n"
-							"\n"
-							"GL_TEXTURE_3D\n"
-							"If enabled and no fragment shader is active, three - dimensional texturing is performed(unless cube - mapped texturing is also enabled).\n"
-							"\n"
-							"GL_TEXTURE_CUBE_MAP\n"
-							"If enabled and no fragment shader is active, cube - mapped texturing is performed.\n"
 						);
 
 						ImGui::TreePop();

@@ -89,6 +89,9 @@ uniform struct System
 
 void main()
 {
+	// Model Matrix
+	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), -sys.totalTime * 0.1);
+
 	// View Matrix
 	mat4 view = ml_LookAt(
 		camera.position,
@@ -104,10 +107,12 @@ void main()
 		camera.zFar
 	);
 
+	// Output
 	V.Position	= a_Position;
 	V.Normal	= a_Normal;
 	V.Texcoord	= a_Texcoord;
-	gl_Position	= (proj * view) * vec4(a_Position, 1.0);
+	gl_Position = (proj * view * model) * vec4(a_Position, 1.0);
+	//gl_Position	= (proj * view) * vec4(a_Position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -11,7 +11,6 @@ namespace ml
 		, blend		{ }
 		, culling	{ }
 		, depth		{ }
-		, texture	{ }
 		, misc		{ }
 	{
 	}
@@ -21,13 +20,11 @@ namespace ml
 		const BlendMode		&	blend,
 		const CullingMode	&	culling,
 		const DepthMode		&	depth,
-		const TextureMode	&	texture,
-		const MiscStates			&	misc)
+		const MiscStates	&	misc)
 		: alpha		{ alpha.enabled, alpha.comp, alpha.coeff }
 		, blend		{ blend.enabled, blend.srcRGB, blend.srcAlpha, blend.dstRGB, blend.dstAlpha }
 		, culling	{ culling.enabled, culling.face }
 		, depth		{ depth.enabled, depth.comp }
-		, texture	{ texture.enabled, texture.target, texture.texture }
 		, misc		{ misc.multisample, misc.framebufferSRGB }
 	{
 	}
@@ -37,7 +34,6 @@ namespace ml
 		copy.blend,
 		copy.culling,
 		copy.depth,
-		copy.texture,
 		copy.misc)
 	{
 	}
@@ -54,7 +50,6 @@ namespace ml
 		this->blend();
 		this->culling();
 		this->depth();
-		//this->texture();
 		this->misc();
 		return (*this);
 	}
@@ -134,25 +129,6 @@ namespace ml
 		else
 		{
 			Debug::logWarning("Failed enabling Depth Mode");
-		}
-		return (*this);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	const TextureMode & TextureMode::operator()() const
-	{
-		if (!this->enabled)
-		{
-			ML_GL.disable(this->target);
-		}
-		else if (ML_GL.enable(this->target, this->enabled))
-		{
-			ML_GL.activeTexture(this->texture);
-		}
-		else
-		{
-			Debug::logWarning("Failed enabling Texture Mode");
 		}
 		return (*this);
 	}

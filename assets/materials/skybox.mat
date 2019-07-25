@@ -1,7 +1,7 @@
 # Camera
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 uniform float		camera.fov		{ -45.0 }
-uniform vec3		camera.position { 0.0, 0.0, 0.01 }
+uniform vec3		camera.position { 0.0, 0.0, 0.001 }
 uniform vec3		camera.target	{ 0.0, 0.0, 0.0 }
 uniform float		camera.zNear	{ 0.001 }
 uniform float		camera.zFar		{ 1000.0 }

@@ -185,26 +185,6 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (ImGui::TreeNode("Texture"))
-				{
-					ImGui::Checkbox("Enabled##Texture", &states.texture.enabled);
-
-					int32_t index = GL::indexOf(states.texture.target);
-					if (ImGui::Combo(
-						"Target##Texture",
-						&index,
-						"Texture 2D\0"
-						"Texture 3D\0"
-						"Texture Cube Map\0"))
-					{
-						GL::valueAt(index, states.texture.target);
-					}
-
-					ImGui::TreePop();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
 				if (ImGui::TreeNode("Misc"))
 				{
 					ImGui::Checkbox("Multisample##Misc", &states.misc.multisample);
@@ -458,7 +438,6 @@ namespace ml
 		if (ImGui::BeginTabBar("SourceTabs"))
 		{
 			auto draw_source_tab = [](
-				TextEditor & editor, 
 				const String & name, 
 				const String & type, 
 				const String & source)
@@ -466,23 +445,17 @@ namespace ml
 				if (!source) return;
 				if (ImGui::BeginTabItem((type + "##Shader##" + name).c_str()))
 				{
+					TextEditor editor;
 					editor.SetLanguageDefinition(ImGui::TextEditor::LanguageDefinition::GLSL());
 					editor.SetText(source);
+					editor.Render((type + "##Shader##" + name + "##Editor").c_str());
 					ImGui::EndTabItem();
 				}
 			};
 
-			static TextEditor vert, frag, geom;
-			static bool once = true;
-			if (once || (once = false))
-			{
-				vert.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
-				frag.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
-				geom.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
-			}
-			draw_source_tab(vert, label, "Vertex", value.vertSrc());
-			draw_source_tab(frag, label, "Fragment", value.fragSrc());
-			draw_source_tab(geom, label, "Geometry", value.geomSrc());
+			draw_source_tab(label, "Vertex", value.vertSrc());
+			draw_source_tab(label, "Fragment", value.fragSrc());
+			draw_source_tab(label, "Geometry", value.geomSrc());
 
 			ImGui::EndTabBar();
 
@@ -611,48 +584,45 @@ namespace ml
 
 	bool SurfacePropertyDrawer::operator()(const String & label, const_reference value) const
 	{
-		ImGui::PushID(label.c_str());
-
-		const Shader * shader = value.shader();
-		ShaderPropertyDrawer()("Shader##Surface", shader);
-
-		if (ImGui::TreeNode("Preview"))
+		const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
 		{
-			const ImGuiIO & io = ImGui::GetIO();
+			const vec2
+				hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
+				vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
+			return (src * (((hs) < (vs)) ? (hs) : (vs)));
 
-			auto scaleToFit = [](const vec2 & src, const vec2 & dst)
-			{
-				const vec2
-					hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
-					vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
-				return (src * (((hs) < (vs)) ? (hs) : (vs)));
-			};
+		})(value.size(), { 256, 256 }); // <- target size
 
-			vec2 src = value.texture().size();
-			vec2 pos = ML_EditorUtility.getCursorPos();
-			vec2 dst = { 256, 256 };
-			vec2 scl = scaleToFit(src, dst);
-
-			ImGui::Text("%f %f", src[0], src[1]);
-
-			ImGui::Image(
-				value.texture().get_handle(),
-				{ scl[0], scl[1] },
-				{ 0, 1 },
-				{ 1, 0 },
-				{ 255, 255, 255, 255 },
-				{ 255, 255, 255, 128 }
-			);
-
-			ImGui::TreePop();
-		}
-
-		ImGui::PopID();
+		ImGui::Image(
+			value.texture().get_handle(),
+			{ previewSize[0], previewSize[1] },
+			{ 0, 1 },
+			{ 1, 0 },
+			{ 255, 255, 255, 255 },
+			{ 255, 255, 255, 128 }
+		);
 		return false;
 	}
 
 	bool SurfacePropertyDrawer::operator()(const String & label, reference value) const
 	{
+		const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
+		{
+			const vec2
+				hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
+				vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
+			return (src * (((hs) < (vs)) ? (hs) : (vs)));
+
+		})(value.size(), { 256, 256 }); // <- target size
+
+		ImGui::Image(
+			value.texture().get_handle(),
+			{ previewSize[0], previewSize[1] },
+			{ 0, 1 },
+			{ 1, 0 },
+			{ 255, 255, 255, 255 },
+			{ 255, 255, 255, 128 }
+		);
 		return false;
 	}
 
@@ -671,6 +641,8 @@ namespace ml
 
 	bool TexturePropertyDrawer::operator()(const String & label, reference value) const
 	{
+		bool changed = false;
+
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		const uint32_t handle = value;
@@ -691,7 +663,7 @@ namespace ml
 		bool smooth = value.smooth();
 		if (ImGui::Checkbox(("Smooth##" + label).c_str(), &smooth))
 		{
-			value.setSmooth(smooth);
+			value.setSmooth(smooth); changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -699,7 +671,8 @@ namespace ml
 		bool repeated = value.repeated();
 		if (ImGui::Checkbox(("Repeated##" + label).c_str(), &repeated))
 		{
-			value.setRepeated(repeated);
+			value.setRepeated(repeated); 
+			changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -708,6 +681,7 @@ namespace ml
 		if (ImGui::Checkbox(("Mipmapped##" + label).c_str(), &mipmapped))
 		{
 			value.setMipmapped(mipmapped);
+			changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -715,7 +689,8 @@ namespace ml
 		int32_t level = value.level();
 		if (ImGui::InputInt(("Level##" + label).c_str(), &level))
 		{
-			value.setLevel(level);
+			value.setLevel(level); 
+			changed = true;
 		}
 		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
@@ -732,6 +707,7 @@ namespace ml
 			GL::Target temp;
 			if (GL::valueAt(target, temp))
 				value.setTarget(temp);
+			changed = true;
 		}
 		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
@@ -748,6 +724,7 @@ namespace ml
 			GL::Format temp;
 			if (GL::valueAt(colorFormat, temp))
 				value.setColorFormat(temp);
+			changed = true;
 		}
 		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
@@ -764,6 +741,7 @@ namespace ml
 			GL::Format temp;
 			if (GL::valueAt(internalFormat, temp))
 				value.setInternalFormat(temp);
+			changed = true;
 		}
 		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
@@ -780,6 +758,7 @@ namespace ml
 			GL::Type temp;
 			if (GL::valueAt(pixelType, temp))
 				value.setType(temp);
+			changed = true;
 		}
 		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
@@ -805,16 +784,10 @@ namespace ml
 				{ 255, 255, 255, 128 }
 			);
 		}
-		else
-		{
-			ML_EditorUtility.HelpMarker(
-				(String)"No preview available for " + GL::nameOf(value.target()) + "s."
-			);
-		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		return false;
+		return changed;
 	}
 
 
@@ -874,6 +847,7 @@ namespace ml
 			{
 				switch (type)
 				{
+				case uni_bool::ID: value = new uni_bool(name, { 0 }); break;
 				case uni_flt1::ID: value = new uni_flt1(name, { 0 }); break;
 				case uni_int1::ID: value = new uni_int1(name, { 0 }); break;
 				case uni_vec2::ID: value = new uni_vec2(name, { 0 }); break;
@@ -910,6 +884,21 @@ namespace ml
 	{
 		switch (value.type)
 		{
+			// Bool
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_bool::ID:
+			if (bool * temp = detail::toBool(&value))
+			{
+				const String name = "##" + label + "##Bool##Uni" + value.name;
+				ImGui::Checkbox(name.c_str(), temp);
+				if (auto u = value.as<uni_bool>())
+				{
+					u->data = (*temp);
+					return true;
+				}
+			}
+			break;
+
 			// Flt1
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_flt1::ID:

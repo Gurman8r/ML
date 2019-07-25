@@ -257,8 +257,8 @@ namespace ml
 
 				const vec2 src = texture->size();
 				const vec2 dst = ML_EditorUtility.getWindowSize();
-				const vec2 scl = scaleToFit(src, dst * vec2 { 1.0f, 0.75f });
-				const vec2 pos = ((dst - scl) * 0.5f);
+				const vec2 scl = scaleToFit(src, dst * vec2 { 1.0f, 0.8f });
+				const vec2 pos = ((dst - scl) * 0.5f) * vec2 { 1.0f, 0.75f };
 
 				ImGui::BeginChild("Viewport", { -1, -1 });
 				ImGui::SetCursorPos({ pos[0], pos[1] });

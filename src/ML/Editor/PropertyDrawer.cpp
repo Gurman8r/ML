@@ -435,6 +435,7 @@ namespace ml
 	bool ShaderPropertyDrawer::operator()(const String & label, const_reference value) const
 	{
 		using TextEditor = ImGui::TextEditor;
+
 		if (ImGui::BeginTabBar("SourceTabs"))
 		{
 			auto draw_source_tab = [](
@@ -445,10 +446,7 @@ namespace ml
 				if (!source) return;
 				if (ImGui::BeginTabItem((type + "##Shader##" + name).c_str()))
 				{
-					TextEditor editor;
-					editor.SetLanguageDefinition(ImGui::TextEditor::LanguageDefinition::GLSL());
-					editor.SetText(source);
-					editor.Render((type + "##Shader##" + name + "##Editor").c_str());
+					ImGui::TextUnformatted(&source[0], &source[source.size() - 1]);
 					ImGui::EndTabItem();
 				}
 			};

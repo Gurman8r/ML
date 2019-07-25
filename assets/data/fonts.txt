@@ -1,7 +1,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	Font Importer
-#	See FontAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	See FontAssetImporter (ML/Engine/AssetImporter.hpp/cpp) for more information.
 #	
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #

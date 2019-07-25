@@ -1,7 +1,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	Sprite Importer (WIP)
-#	See SpriteAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	See SpriteAssetImporter (ML/Engine/AssetImporter.hpp/cpp) for more information.
 #	
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #

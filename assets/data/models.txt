@@ -1,7 +1,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	Model Importer
-#	See ModelAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	See ModelAssetImporter (ML/Engine/AssetImporter.hpp/cpp) for more information.
 #	
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #

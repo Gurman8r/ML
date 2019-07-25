@@ -1,7 +1,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	Surface Importer
-#	See SurfaceAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	See SurfaceAssetImporter (ML/Engine/AssetImporter.hpp/cpp) for more information.
 #	
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #

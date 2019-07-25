@@ -88,7 +88,10 @@ namespace ml
 					if (const String file = md.getData("file"))
 					{
 						auto temp = new Image();
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
+
+						bool flipV = md.getData("flipV", true);
+
+						if (temp->loadFromFile(ML_FS.pathTo(file), flipV))
 						{
 							return ML_Content.insert(name, temp);
 						}
@@ -573,18 +576,26 @@ namespace ml
 			{
 				if (!ML_Content.get<Texture>(name))
 				{
+					// Smooth
 					const bool smooth = md.getData("smooth", true);
+
+					// Repeat
 					const bool repeat = md.getData("repeat", false);
+
+					// Mipmap
 					const bool mipmap = md.getData("mipmap", false);
-				
+
+					// Level
 					const int32_t level = md.getData("level", 0);
 				
+					// Target
 					const GL::Target target = md.getData("target", GL::Texture2D, {
 						{ "texture_2d",		GL::Texture2D },
 						{ "texture_3d",		GL::Texture3D },
 						{ "texture_cube",	GL::TextureCubeMap },
 					});
 				
+					// Internal / Color Format
 					const GL::Format format = md.getData("format", GL::RGBA, {
 						{ "red",			GL::Red	},
 						{ "green",			GL::Green },
@@ -593,7 +604,8 @@ namespace ml
 						{ "rgba",			GL::RGBA },
 					});
 				
-					const GL::Type pix_ty = md.getData("pixfmt", GL::UnsignedByte, {
+					// Pixel Format
+					const GL::Type pixfmt = md.getData("pixfmt", GL::UnsignedByte, {
 						{ "byte",			GL::Byte },
 						{ "ubyte",			GL::UnsignedByte },
 						{ "short",			GL::Short },
@@ -604,49 +616,89 @@ namespace ml
 						{ "half_float",		GL::HalfFloat },
 					});
 
-					if (const String file = md.getData("file"))
+					if (target == GL::Texture2D)
 					{
-						auto temp = new Texture(
-							target, 
-							format,
-							format,
-							smooth,
-							repeat,
-							mipmap,
-							level, 
-							pix_ty
-						);
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
+						if (const String file = md.getData("file"))
 						{
-							return ML_Content.insert<Texture>(name, temp);
+							auto temp = new Texture {
+								target, format, format, smooth, repeat, mipmap, level, pixfmt
+							};
+							if (temp->loadFromFile(ML_FS.pathTo(file)))
+							{
+								return ML_Content.insert<Texture>(name, temp);
+							}
+							delete temp;
 						}
-						delete temp;
-					}
-					else if (const String file = md.getData("image"))
-					{
-						if (const Image * img = ML_Content.get<Image>(file))
+						else if (const String file = md.getData("image"))
 						{
-							auto temp = new Texture(
-								target, 
-								format,
-								format,
-								smooth,
-								repeat,
-								mipmap,
-								level, 
-								pix_ty
-							);
-							if (temp->loadFromImage(*img))
+							if (const Image * img = ML_Content.get<Image>(file))
+							{
+								auto temp = new Texture {
+								target, format, format, smooth, repeat, mipmap, level, pixfmt
+								};
+								if (temp->loadFromImage(*img))
+								{
+									return ML_Content.insert(name, temp);
+								}
+								delete temp;
+							}
+						}
+					}
+					else if (target == GL::Texture3D)
+					{
+					}
+					else if (target == GL::TextureCubeMap)
+					{
+						const String source = md.getData("source").asString();
+
+						const Array<String, 6> names =
+						{
+							md.getData("right"),
+							md.getData("left"),
+							md.getData("top"),
+							md.getData("bottom"),
+							md.getData("front"),
+							md.getData("back"),
+						};
+
+						if (source == "images")
+						{
+							auto temp = new Texture {
+								target, format, format, smooth, repeat, mipmap, level, pixfmt
+							};
+							if (temp->loadFromFaces({
+								ML_Content.get<Image>(names[0]),
+								ML_Content.get<Image>(names[1]),
+								ML_Content.get<Image>(names[2]),
+								ML_Content.get<Image>(names[3]),
+								ML_Content.get<Image>(names[4]),
+								ML_Content.get<Image>(names[5]),
+							}))
+							{
+								return ML_Content.insert(name, temp);
+							}
+							delete temp;
+						}
+						else if (source == "files")
+						{
+							auto temp = new Texture {
+								target, format, format, smooth, repeat, mipmap, level, pixfmt
+							};
+							if (temp->loadFromFaces({
+								&Image(names[0]),
+								&Image(names[1]),
+								&Image(names[2]),
+								&Image(names[3]),
+								&Image(names[4]),
+								&Image(names[5]),
+							}))
 							{
 								return ML_Content.insert(name, temp);
 							}
 							delete temp;
 						}
 					}
-					else
-					{
-						return ML_Content.insert(name, new Texture());
-					}
+					return ML_Content.insert(name, new Texture());
 				}
 			}
 		}

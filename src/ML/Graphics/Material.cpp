@@ -120,6 +120,13 @@ namespace ml
 				m_shader->setUniform(value->name, (*temp));
 			break;
 
+			// Tex3
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_tex3::ID:
+			if (const Texture * temp = detail::toTex3(value))
+				m_shader->setUniform(value->name, (*temp));
+			break;
+
 			// Cube
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_cube::ID:

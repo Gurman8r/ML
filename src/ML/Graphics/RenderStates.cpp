@@ -54,7 +54,7 @@ namespace ml
 		this->blend();
 		this->culling();
 		this->depth();
-		this->texture();
+		//this->texture();
 		this->misc();
 		return (*this);
 	}

@@ -1,5 +1,19 @@
-# Fonts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#	
+#	Root Asset List
+#	
+#	See ML/Engine/ContentLoader.hpp/cpp for more information.
+#	
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#
+#	<import>
+#		type = manifest
+#		file = ../path/to/other/lists.txt
+#	</import>
+#
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+# Fonts
 <import>
 	type = manifest
 	file = ../../../assets/data/fonts.txt
@@ -7,7 +21,6 @@
 
 
 # Images
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/images.txt
@@ -15,7 +28,6 @@
 
 
 # Shaders
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/shaders.txt
@@ -23,7 +35,6 @@
 
 
 # Textures
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/textures.txt
@@ -31,7 +42,6 @@
 
 
 # Meshes
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/meshes.txt
@@ -39,7 +49,6 @@
 
 
 # Models
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/models.txt
@@ -47,7 +56,6 @@
 
 
 # Materials
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/materials.txt
@@ -55,7 +63,6 @@
 
 
 # Sprites
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/sprites.txt
@@ -63,7 +70,6 @@
 
 
 # Surfaces
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/surfaces.txt
@@ -71,7 +77,6 @@
 
 
 # Scripts
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/scripts.txt
@@ -79,7 +84,6 @@
 
 
 # Entities
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 <import>
 	type = manifest
 	file = ../../../assets/data/entities.txt

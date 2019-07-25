@@ -9,10 +9,10 @@ uniform mat4 u_model;
 
 void main()
 {
-	Out.Position	= a_Position;
-	Out.Normal		= a_Normal;
-	Out.Texcoord	= a_Texcoord;
-	gl_Position		= u_proj * vec4(Out.Position, 1.0);
+	V.Position	= a_Position;
+	V.Normal		= a_Normal;
+	V.Texcoord	= a_Texcoord;
+	gl_Position		= u_proj * vec4(V.Position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -24,7 +24,7 @@ uniform sampler2D u_mainTexture;
 
 void main()
 {
-	gl_Color = u_mainColor * texture(u_mainTexture, In.Texcoord);
+	gl_Color = u_mainColor * texture(u_mainTexture, V.Texcoord);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -1,7 +1,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	Image Importer
-#	See ImageAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	See ImageAssetImporter (ML/Engine/AssetImporter.hpp/cpp) for more information.
 #	
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
@@ -17,6 +17,12 @@
 	type = image
 	name = icon
 	file = ../../../assets/images/dean.png
+</import>
+
+<import>
+	type = image
+	name = star
+	file = ../../../assets/images/star.jpg
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

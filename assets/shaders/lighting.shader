@@ -9,12 +9,12 @@ uniform mat4 u_model;
 
 void main()
 {
-	Out.Position	= a_Position;
-	Out.Normal		= a_Normal;
-	Out.Texcoord	= a_Texcoord;
-	gl_Position		= (u_proj * u_view * u_model) * vec4(Out.Position, 1.0);
-	Out.Position	= gl_Position.xyz;
-	Out.Normal		= transpose(inverse(u_model)) * Out.Normal;
+	V.Position	= a_Position;
+	V.Normal		= a_Normal;
+	V.Texcoord	= a_Texcoord;
+	gl_Position		= (u_proj * u_view * u_model) * vec4(V.Position, 1.0);
+	V.Position	= gl_Position.xyz;
+	V.Normal		= transpose(inverse(u_model)) * V.Normal;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -37,19 +37,19 @@ void main()
 	vec4	ambient = (u_ambient * u_diffuse);
 
 	// Diffuse 
-	vec3	diffNml = normalize(In.Normal.xyz);
-	vec3	diffDir = normalize(u_lightPos - In.Position);
+	vec3	diffNml = normalize(V.Normal.xyz);
+	vec3	diffDir = normalize(u_lightPos - V.Position);
 	float	diffAmt = max(dot(diffNml, diffDir), 0.0);
 	vec4	diffCol = vec4(diffAmt * u_diffuse.rgb, 1.0);
-	vec4	diffTex = texture(u_mainTexture, In.Texcoord);
+	vec4	diffTex = texture(u_mainTexture, V.Texcoord);
 	vec4	diffuse = (diffCol * diffTex);
 
 	// Specular		 
-	vec3	specCam = normalize(u_cameraPos - In.Position);
+	vec3	specCam = normalize(u_cameraPos - V.Position);
 	vec3	specRfl = reflect(-diffDir, diffNml);
 	float	specAmt = pow(max(dot(specCam, specRfl), 0.0), u_shininess);
 	vec4	specCol = vec4(u_specular * specAmt * u_diffuse.rgb, 1.0);
-	vec4	specTex = texture(u_specTex, In.Texcoord);
+	vec4	specTex = texture(u_specTex, V.Texcoord);
 	vec4	specular= (specCol * specTex);
 
 	// Output

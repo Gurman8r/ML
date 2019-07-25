@@ -145,6 +145,64 @@ namespace ml
 	{
 		return create(value.size()) && update(value);
 	}
+
+	bool Texture::loadFromFaces(const Array<const Image *, 6> & faces)
+	{
+		// Validate Target
+		if (m_target != GL::TextureCubeMap)
+			return Debug::logError("Load from faces only available for {0}s.",
+				GL::TextureCubeMap
+			);
+
+		// Validate Images
+		for (size_t i = 0; i < faces.size(); i++)
+		{
+			if (!faces[i])
+			{
+				return Debug::logError("Face not found: {0}", i);
+			}
+			else if (faces[i]->pixels().empty())
+			{
+				return Debug::logError("Face is empty: {0}", i);
+			}
+			else if (i == 0)
+			{
+				m_size = m_realSize = { faces[i]->size() };
+			}
+			else if (faces[i]->size() != m_size)
+			{
+				Debug::logWarning("Face size mismatch: {0} | {1}", 
+					m_size, faces[i]->size()
+				);
+			}
+		}
+
+		// Create Texture
+		if (dispose() && set_handle(ML_GL.genTextures(1)))
+		{
+			Texture::bind(this);
+			for (size_t i = 0; i < faces.size(); i++)
+			{
+				ML_GL.texImage2D(
+					GL::CubeMap_Positive_X + (uint32_t)i,
+					m_level,
+					m_internalFormat,
+					faces[i]->size()[0],
+					faces[i]->size()[1],
+					0,
+					m_colorFormat,
+					m_type,
+					faces[i]->data()
+				);
+			}
+			Texture::bind(nullptr);
+			ML_GL.flush();
+			setRepeated(m_repeated);
+			setSmooth(m_smooth);
+			return true;
+		}
+		return false;
+	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
@@ -366,14 +424,16 @@ namespace ml
 				GL::TexMinFilter,
 				(((m_smooth)
 					? (GL::LinearMipmapLinear)
-					: (GL::NearestMipmapNearest))));
+					: (GL::NearestMipmapNearest)
+					)));
 
 			ML_GL.texParameter(
 				m_target,
 				GL::TexMagFilter,
 				(((m_smooth)
 					? (GL::LinearMipmapLinear)
-					: (GL::NearestMipmapNearest))));
+					: (GL::NearestMipmapNearest)
+					)));
 			
 			Texture::bind(nullptr);
 
@@ -408,7 +468,8 @@ namespace ml
 					? (GL::Repeat)
 					: ((ML_GL.edgeClampAvailable())
 						? (GL::ClampToEdge)
-						: (GL::Clamp))));
+						: (GL::Clamp)
+						)));
 
 			ML_GL.texParameter(
 				m_target,
@@ -417,7 +478,8 @@ namespace ml
 					? (GL::Repeat)
 					: ((ML_GL.edgeClampAvailable())
 						? (GL::ClampToEdge)
-						: (GL::Clamp))));
+						: (GL::Clamp)
+						)));
 			
 			Texture::bind(nullptr);
 
@@ -439,14 +501,16 @@ namespace ml
 				GL::TexMinFilter,
 				((m_smooth)
 					? (GL::Linear)
-					: (GL::Nearest)));
+					: (GL::Nearest)
+					));
 
 			ML_GL.texParameter(
 				m_target,
 				GL::TexMagFilter,
 				((m_smooth)
 					? GL::Linear
-					: (GL::Nearest)));
+					: (GL::Nearest)
+					));
 
 			Texture::bind(nullptr);
 

@@ -24,6 +24,7 @@ namespace ml
 
 		Image();
 		explicit Image(const String & filename);
+		explicit Image(const String & filename, bool flipVertically);
 		Image(uint32_t width, uint32_t height, const uint8_t * pixels);
 		Image(const Image & copy);
 		Image(Image && copy);
@@ -32,7 +33,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;		
+		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename, bool flipVertically);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

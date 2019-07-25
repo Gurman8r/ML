@@ -125,6 +125,19 @@ namespace ml
 			// Clear Screen
 			ev.window.clear(noobs.clearColor);
 
+			// Skybox
+			if (noobs.sky_material &&
+				noobs.sky_material->shader() &&
+				noobs.sky_texture &&
+				noobs.sky_model
+			)
+			{
+				ML_GL.depthMask(false);
+				noobs.sky_material->bind();
+				noobs.sky_model->draw(ev.window, {});
+				ML_GL.depthMask(true);
+			}
+
 			// Draw Renderer
 			if (noobs.entity) { ev.window.draw(noobs.renderer); }
 			
@@ -187,7 +200,7 @@ namespace ml
 
 			if (ImGui::BeginMenuBar())
 			{
-				if (ImGui::BeginMenu("Noobs Scene"))
+				if (ImGui::BeginMenu("Settings"))
 				{
 					// Resolution Names
 					static const auto & res_values = VideoSettings::resolutions();
@@ -223,6 +236,7 @@ namespace ml
 					// Clear Color
 					ImGui::ColorEdit4("Clear Color##Noobs", &noobs.clearColor[0]);
 
+					// Effect Mode
 					ImGui::InputInt("Effect Mode##Noobs", &noobs.effectMode);
 
 					ImGui::EndMenu();

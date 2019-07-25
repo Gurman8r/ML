@@ -9,7 +9,7 @@ in VertexData
 	vec3 Position;
 	vec4 Normal;
 	vec2 Texcoord;
-} In;
+} V;
 
 out vec4 gl_Color;
 

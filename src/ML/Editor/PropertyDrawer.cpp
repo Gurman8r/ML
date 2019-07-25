@@ -727,6 +727,11 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		const uint32_t handle = value;
+		ImGui::Text("Handle: %u", handle);
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		vec2u size = value.size();
 		ImGui::Text("Size: %u x %u", size[0], size[1]);
 
@@ -766,6 +771,7 @@ namespace ml
 		{
 			value.setLevel(level);
 		}
+		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -781,6 +787,7 @@ namespace ml
 			if (GL::valueAt(target, temp))
 				value.setTarget(temp);
 		}
+		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -796,6 +803,7 @@ namespace ml
 			if (GL::valueAt(colorFormat, temp))
 				value.setColorFormat(temp);
 		}
+		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -811,6 +819,7 @@ namespace ml
 			if (GL::valueAt(internalFormat, temp))
 				value.setInternalFormat(temp);
 		}
+		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -826,26 +835,36 @@ namespace ml
 			if (GL::valueAt(pixelType, temp))
 				value.setType(temp);
 		}
+		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
+		if (value.target() == GL::Texture2D)
 		{
-			const vec2
-				hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
-				vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
-			return (src * (((hs) < (vs)) ? (hs) : (vs)));
-		
-		})(value.size(), { 256, 256 });
+			const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
+			{
+				const vec2
+					hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
+					vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
+				return (src * (((hs) < (vs)) ? (hs) : (vs)));
 
-		ImGui::Image(
-			value.get_handle(),
-			{ previewSize[0], previewSize[1] },
-			{ 0, 1 },
-			{ 1, 0 },
-			{ 255, 255, 255, 255 },
-			{ 255, 255, 255, 128 }
-		);
+			})(value.size(), { 256, 256 }); // <- target size
+
+			ImGui::Image(
+				value.get_handle(),
+				{ previewSize[0], previewSize[1] },
+				{ 0, 1 },
+				{ 1, 0 },
+				{ 255, 255, 255, 255 },
+				{ 255, 255, 255, 128 }
+			);
+		}
+		else
+		{
+			ML_EditorUtility.HelpMarker(
+				(String)"No preview available for " + GL::nameOf(value.target()) + "s."
+			);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -951,7 +970,7 @@ namespace ml
 			if (float_t * temp = detail::toFloat(&value))
 			{
 				const String name = "##" + label + "##Float##Uni" + value.name;
-				ImGui::DragFloat(name.c_str(), temp, 0.1f);
+				ImGui::DragFloat(name.c_str(), temp, 0.0001f);
 				if (auto u = value.as<uni_flt1>())
 				{
 					u->data = (*temp); 
@@ -966,7 +985,7 @@ namespace ml
 			if (int32_t * temp = detail::toInt(&value))
 			{
 				const String name = "##" + label + "##Int##Uni" + value.name;
-				ImGui::DragInt(name.c_str(), temp, 0.1f);
+				ImGui::DragInt(name.c_str(), temp, 0.0001f);
 				if (auto u = value.as<uni_int1>())
 				{
 					u->data = (*temp);
@@ -981,7 +1000,7 @@ namespace ml
 			if (vec2 * temp = detail::toVec2(&value))
 			{
 				const String name = "##" + label + "##Vec2##Uni" + value.name;
-				ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.1f);
+				ImGui::DragFloat2(name.c_str(), &(*temp)[0], 0.0001f);
 				if (auto u = value.as<uni_vec2>())
 				{
 					u->data = (*temp); 
@@ -996,7 +1015,7 @@ namespace ml
 			if (vec3 * temp = detail::toVec3(&value))
 			{
 				const String name = "##" + label + "##Vec3##Uni" + value.name;
-				ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.1f);
+				ImGui::DragFloat3(name.c_str(), &(*temp)[0], 0.0001f);
 				if (auto u = value.as<uni_vec3>())
 				{
 					u->data = (*temp);
@@ -1011,7 +1030,7 @@ namespace ml
 			if (vec4 * temp = detail::toVec4(&value))
 			{
 				const String name = "##" + label + "##Vec4##Uni" + value.name;
-				ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.1f);
+				ImGui::DragFloat4(name.c_str(), &(*temp)[0], 0.0001f);
 				if (auto u = value.as<uni_vec4>())
 				{
 					u->data = (*temp); 
@@ -1041,9 +1060,9 @@ namespace ml
 			if (mat3 * temp = detail::toMat3(&value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
-				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-				ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 3);
-				ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 3);
+				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 0.0001f);
+				ImGui::DragFloat4((name + "##03").c_str(), &(*temp)[3], 0.0001f);
+				ImGui::DragFloat4((name + "##06").c_str(), &(*temp)[6], 0.0001f);
 				if (auto u = value.as<uni_mat3>())
 				{
 					u->data = (*temp); 
@@ -1058,10 +1077,10 @@ namespace ml
 			if (mat4 * temp = detail::toMat4(&value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
-				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], 3);
-				ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4], 3);
-				ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8], 3);
-				ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 3);
+				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0],  0.0001f);
+				ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4],  0.0001f);
+				ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8],  0.0001f);
+				ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], 0.0001f);
 				if (auto u = value.as<uni_mat4>())
 				{
 					u->data = (*temp); 
@@ -1075,12 +1094,33 @@ namespace ml
 		case uni_tex2::ID:
 			if (auto u = value.as<uni_tex2>())
 			{
-				const String name = "##" + label + "##Texture##Uni" + value.name;
+				const String name = "##" + label + "##Texture2D##Uni" + value.name;
 				const Texture * temp = u->data;
-				if (TexturePropertyDrawer()(name, temp))
-				{
-					u->data = temp;
-				}
+				if (TexturePropertyDrawer()(name, temp)) { u->data = temp; }
+				return true;
+			}
+			break;
+
+			// Tex3
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_tex3::ID:
+			if (auto u = value.as<uni_tex3>())
+			{
+				const String name = "##" + label + "##Texture3D##Uni" + value.name;
+				const Texture * temp = u->data;
+				if (TexturePropertyDrawer()(name, temp)) { u->data = temp; }
+				return true;
+			}
+			break;
+
+			// Cube
+			/* * * * * * * * * * * * * * * * * * * * */
+		case uni_cube::ID:
+			if (auto u = value.as<uni_cube>())
+			{
+				const String name = "##" + label + "##TextureCubeMap##Uni" + value.name;
+				const Texture * temp = u->data;
+				if (TexturePropertyDrawer()(name, temp)) { u->data = temp; }
 				return true;
 			}
 			break;

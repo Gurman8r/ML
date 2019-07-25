@@ -1,7 +1,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	Material Importer
-#	See MaterialAssetImporter (AssetImporter.hpp/cpp) for more information.
+#	See MaterialAssetImporter (ML/Engine/AssetImporter.hpp/cpp) for more information.
 # 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #	
@@ -14,6 +14,14 @@
 #	</import>
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<import>
+	type		= material
+	name		= skybox
+	shader		= skybox
+	defaults	= true
+	uniforms	= ../../../assets/materials/skybox.mat
+</import>
 
 <import>
 	type		= material

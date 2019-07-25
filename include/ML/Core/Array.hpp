@@ -38,6 +38,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		constexpr auto back()			-> reference		{ return (*end()); }
+		constexpr auto back()	const	-> const_reference	{ return (*cend()); }
 		constexpr auto begin()			-> iterator			{ return data(); }
 		constexpr auto begin()	const	-> const_iterator	{ return data(); }
 		constexpr auto cbegin() const	-> const_iterator	{ return begin(); }
@@ -46,6 +48,8 @@ namespace ml
 		constexpr auto data()	const	-> const_pointer	{ return m_data; }
 		constexpr auto end()			-> iterator			{ return data() + size(); }
 		constexpr auto end()	const	-> const_iterator	{ return data() + size(); }
+		constexpr auto front()			-> reference		{ return (*begin()); }
+		constexpr auto front()	const	-> const_reference	{ return (*cbegin()); }
 		constexpr auto hash()	const	-> hash_t			{ return Hash()(size(), data()); }
 		constexpr auto size()	const	-> size_t			{ return Size; }
 

@@ -108,6 +108,9 @@
     <None Include="..\..\..\assets\shaders\common\Curve.Sample.shader">
       <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
+    <None Include="..\..\..\assets\materials\skybox.mat">
+      <Filter>Resource Files\assets\materials</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -205,11 +208,11 @@
     <Text Include="..\..\..\assets\data\materials.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
-    <Text Include="..\..\..\assets\plugins.txt">
-      <Filter>Resource Files\assets</Filter>
+    <Text Include="..\..\..\assets\data\assets.txt">
+      <Filter>Resource Files\assets\data</Filter>
     </Text>
-    <Text Include="..\..\..\assets\assets.txt">
-      <Filter>Resource Files\assets</Filter>
+    <Text Include="..\..\..\assets\data\plugins.txt">
+      <Filter>Resource Files\assets\data</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +296,6 @@
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_back.png">
       <Filter>Resource Files\assets\textures\bg\sunset</Filter>
     </Image>
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_down.png">
-      <Filter>Resource Files\assets\textures\bg\sunset</Filter>
-    </Image>
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_front.png">
       <Filter>Resource Files\assets\textures\bg\sunset</Filter>
     </Image>
@@ -305,8 +305,14 @@
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_right.png">
       <Filter>Resource Files\assets\textures\bg\sunset</Filter>
     </Image>
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_up.png">
+    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_bottom.png">
       <Filter>Resource Files\assets\textures\bg\sunset</Filter>
+    </Image>
+    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_top.png">
+      <Filter>Resource Files\assets\textures\bg\sunset</Filter>
+    </Image>
+    <Image Include="..\..\..\assets\images\star.jpg">
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
   </ItemGroup>
 </Project>

@@ -40,6 +40,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		constexpr auto back()			-> reference		{ return m_data.back(); }
+		constexpr auto back()	const	-> const_reference	{ return m_data.back(); }
 		constexpr auto begin()			-> iterator			{ return m_data.begin(); }
 		constexpr auto begin()	const	-> const_iterator	{ return m_data.begin(); }
 		constexpr auto cbegin() const	-> const_iterator	{ return m_data.cbegin(); }
@@ -49,6 +51,8 @@ namespace ml
 		constexpr auto data()	const	-> const_pointer	{ return m_data.data(); }
 		constexpr auto end()			-> iterator			{ return m_data.end(); }
 		constexpr auto end()	const	-> const_iterator	{ return m_data.end(); }
+		constexpr auto front()			-> reference		{ return m_data.front(); }
+		constexpr auto front()	const	-> const_reference	{ return m_data.front(); }
 		constexpr auto hash()	const	-> hash_t			{ return m_data.hash(); }
 		constexpr auto height()	const	-> size_t			{ return this->rows(); }
 		constexpr auto rows()	const	-> size_t			{ return self_type::Rows; }
@@ -527,6 +531,35 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+namespace ml
+{
+	namespace alg
+	{
+		static inline mat4 look_at(const vec3 & eye, const vec3 & center, const vec3 & up)
+		{
+			vec3 f = alg::normalize(center - eye);
+			vec3 s = alg::normalize(alg::cross(f, up));
+			vec3 u = alg::cross(s, f);
+			mat4 m = mat4::one();
+			m[0 * 4 + 0] = s[0];
+			m[1 * 4 + 0] = s[1];
+			m[2 * 4 + 0] = s[2];
+			m[0 * 4 + 1] = u[0];
+			m[1 * 4 + 1] = u[1];
+			m[2 * 4 + 1] = u[2];
+			m[0 * 4 + 2] = -f[0];
+			m[1 * 4 + 2] = -f[1];
+			m[2 * 4 + 2] = -f[2];
+			m[3 * 4 + 0] = -alg::dot(s, eye);
+			m[3 * 4 + 1] = -alg::dot(u, eye);
+			m[3 * 4 + 2] = alg::dot(f, eye);
+			return m;
+		}
+	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

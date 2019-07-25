@@ -46,6 +46,7 @@ namespace ml
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromImage(const Image & value);
+		bool loadFromFaces(const Array<const Image *, 6> & faces);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -78,6 +79,8 @@ namespace ml
 		Texture & setMipmapped(bool value);
 		Texture & setRepeated(bool value);
 		Texture & setSmooth(bool value);
+
+		// NYI
 		Texture & setTarget(GL::Target value);
 		Texture & setLevel(int32_t value);
 		Texture & setInternalFormat(GL::Format value);

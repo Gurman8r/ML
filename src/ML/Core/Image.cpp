@@ -22,7 +22,13 @@ namespace ml
 	Image::Image(const String & filename)
 		: Image()
 	{
-		loadFromFile(filename);
+		this->loadFromFile(filename);
+	}
+
+	Image::Image(const String & filename, bool flipVertically)
+		: Image()
+	{
+		this->loadFromFile(filename, flipVertically);
 	}
 
 	Image::Image(uint32_t width, uint32_t height, const uint8_t * pixels)
@@ -30,7 +36,7 @@ namespace ml
 		, m_pixels	()
 		, m_channels(0)
 	{
-		create(width, height, pixels);
+		this->create(width, height, pixels);
 	}
 
 	Image::Image(const Image & copy)
@@ -60,7 +66,12 @@ namespace ml
 	
 	bool Image::loadFromFile(const String & filename)
 	{
-		stbi_set_flip_vertically_on_load(true);
+		return loadFromFile(filename, true);
+	}
+
+	bool Image::loadFromFile(const String & filename, bool flipVertically)
+	{
+		stbi_set_flip_vertically_on_load(flipVertically);
 		uint8_t * data = stbi_load(
 			filename.c_str(),
 			&(int32_t &)(m_size[0]),

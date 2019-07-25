@@ -28,6 +28,11 @@ namespace ml
 		inline bool disarm()		{ return !(m_value = false); }
 		inline bool peek() const	{ return m_value; }
 
+		inline operator bool()
+		{
+			return consume();
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: bool m_value;

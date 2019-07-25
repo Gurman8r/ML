@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\materials\noobs_material_0.mat" />
+    <None Include="..\..\..\assets\materials\skybox.mat" />
     <None Include="..\..\..\assets\meshes\cow.mesh" />
     <None Include="..\..\..\assets\meshes\cube.mesh" />
     <None Include="..\..\..\assets\meshes\pumpkin.mesh" />
@@ -201,19 +202,19 @@
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\..\..\assets\data\assets.txt" />
     <Text Include="..\..\..\assets\data\entities.txt" />
     <Text Include="..\..\..\assets\data\fonts.txt" />
     <Text Include="..\..\..\assets\data\images.txt" />
     <Text Include="..\..\..\assets\data\materials.txt" />
     <Text Include="..\..\..\assets\data\meshes.txt" />
     <Text Include="..\..\..\assets\data\models.txt" />
+    <Text Include="..\..\..\assets\data\plugins.txt" />
     <Text Include="..\..\..\assets\data\scripts.txt" />
     <Text Include="..\..\..\assets\data\shaders.txt" />
     <Text Include="..\..\..\assets\data\sprites.txt" />
     <Text Include="..\..\..\assets\data\surfaces.txt" />
     <Text Include="..\..\..\assets\data\textures.txt" />
-    <Text Include="..\..\..\assets\assets.txt" />
-    <Text Include="..\..\..\assets\plugins.txt" />
     <Text Include="..\..\..\assets\styles\obsidian.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -230,16 +231,17 @@
     <Image Include="..\..\..\assets\images\navball.png" />
     <Image Include="..\..\..\assets\images\neutrino.png" />
     <Image Include="..\..\..\assets\images\Sanic.png" />
+    <Image Include="..\..\..\assets\images\star.jpg" />
     <Image Include="..\..\..\assets\images\test_sky.png" />
     <Image Include="..\..\..\assets\textures\bg\bg_clouds.png" />
     <Image Include="..\..\..\assets\textures\bg\sky_clouds.png" />
     <Image Include="..\..\..\assets\textures\bg\sky_water.png" />
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_back.png" />
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_down.png" />
+    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_bottom.png" />
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_front.png" />
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_left.png" />
     <Image Include="..\..\..\assets\textures\bg\sunset\sunset_right.png" />
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_up.png" />
+    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_top.png" />
     <Image Include="..\..\..\assets\textures\earth\earth_cm.png" />
     <Image Include="..\..\..\assets\textures\earth\earth_dm.png" />
     <Image Include="..\..\..\assets\textures\earth\earth_hm.png" />

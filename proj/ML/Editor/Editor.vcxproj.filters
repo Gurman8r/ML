@@ -22,10 +22,10 @@
     <Filter Include="Resource Files\ImGui\src">
       <UniqueIdentifier>{22d4a406-fd3b-42db-b0ad-e16ef7cc5d35}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GUI">
+    <Filter Include="Header Files\Editor GUI">
       <UniqueIdentifier>{479ff0b2-aa13-4cc3-ae27-3794523dc929}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GUI">
+    <Filter Include="Source Files\Editor GUI">
       <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -52,13 +52,13 @@
       <Filter>Resource Files\ImGui\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\ResourceGui.hpp">
-      <Filter>Header Files\GUI</Filter>
+      <Filter>Header Files\Editor GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\thirdparty\include\imgui\TextEditor.h">
       <Filter>Resource Files\ImGui\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorGui.hpp">
-      <Filter>Header Files\GUI</Filter>
+      <Filter>Header Files\Editor GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp">
       <Filter>Header Files</Filter>
@@ -79,16 +79,16 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Dockspace.hpp">
-      <Filter>Header Files\GUI</Filter>
+      <Filter>Header Files\Editor GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Profiler.hpp">
-      <Filter>Header Files\GUI</Filter>
+      <Filter>Header Files\Editor GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Browser.hpp">
-      <Filter>Header Files\GUI</Filter>
+      <Filter>Header Files\Editor GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Terminal.hpp">
-      <Filter>Header Files\GUI</Filter>
+      <Filter>Header Files\Editor GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp">
       <Filter>Header Files</Filter>
@@ -111,13 +111,13 @@
       <Filter>Resource Files\ImGui\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ResourceGui.cpp">
-      <Filter>Source Files\GUI</Filter>
+      <Filter>Source Files\Editor GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\TextEditor.cpp">
       <Filter>Resource Files\ImGui\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorGui.cpp">
-      <Filter>Source Files\GUI</Filter>
+      <Filter>Source Files\Editor GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorUtility.cpp">
       <Filter>Source Files</Filter>
@@ -132,16 +132,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Dockspace.cpp">
-      <Filter>Source Files\GUI</Filter>
+      <Filter>Source Files\Editor GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Profiler.cpp">
-      <Filter>Source Files\GUI</Filter>
+      <Filter>Source Files\Editor GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Browser.cpp">
-      <Filter>Source Files\GUI</Filter>
+      <Filter>Source Files\Editor GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Terminal.cpp">
-      <Filter>Source Files\GUI</Filter>
+      <Filter>Source Files\Editor GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">
       <Filter>Source Files</Filter>

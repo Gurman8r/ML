@@ -146,6 +146,9 @@ namespace ml
 		ML_Content.create<Mesh>("default_skybox")->loadFromMemory(
 			geo::sky::contiguous
 		);
+		ML_Content.create<Mesh>("skybox")->loadFromMemory(
+			geo::sky::contiguous
+		);
 
 		// Load Default Models
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -160,6 +163,9 @@ namespace ml
 		);
 		ML_Content.create<Model>("default_skybox")->loadFromMemory(
 			*ML_Content.get<Mesh>("default_skybox")
+		);
+		ML_Content.create<Model>("skybox")->loadFromMemory(
+			*ML_Content.get<Mesh>("skybox")
 		);
 
 		// Load Default Uniforms

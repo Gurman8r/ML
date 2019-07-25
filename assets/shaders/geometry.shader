@@ -9,10 +9,10 @@ uniform mat4 u_model;
 
 void main()
 {
-	Out.Position	= a_Position;
-	Out.Normal		= a_Normal;
-	Out.Texcoord	= a_Texcoord;
-	gl_Position		= (u_proj * u_view * u_model) * vec4(Out.Position, 1.0);
+	V.Position	= a_Position;
+	V.Normal		= a_Normal;
+	V.Texcoord	= a_Texcoord;
+	gl_Position		= (u_proj * u_view * u_model) * vec4(V.Position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

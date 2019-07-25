@@ -85,7 +85,6 @@ namespace ml
 				using indices_t		= typename Array<uint32_t, num::indices>;
 				using contiguous_t	= typename Array<float_t, num::contiguous>;
 
-			protected:
 				static constexpr contiguous_t Contiguous(const vertices_t & value)
 				{
 					contiguous_t temp { uninit };
@@ -112,10 +111,7 @@ namespace ml
 			{
 				0, 1, 2
 			};
-			static constexpr contiguous_t contiguous
-			{
-				static_mesh::Contiguous(vertices)
-			};
+			static constexpr contiguous_t contiguous { Contiguous(vertices) };
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -134,10 +130,7 @@ namespace ml
 				0, 1, 3,
 				1, 2, 3
 			};
-			static constexpr contiguous_t contiguous
-			{
-				static_mesh::Contiguous(vertices)
-			};
+			static constexpr contiguous_t contiguous { Contiguous(vertices) };
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -186,17 +179,55 @@ namespace ml
 				22, 21, 20,
 				20, 23, 22
 			};
-			static constexpr contiguous_t contiguous
-			{
-				static_mesh::Contiguous(vertices)
-			};
+			static constexpr contiguous_t contiguous { Contiguous(vertices) };
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct sky final
+		struct sky final : public impl::static_mesh<36, 0>
 		{
-			static constexpr Array<float_t, 108> contiguous
+			static constexpr vertices_t vertices
+			{
+				Vertex { { -1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f,  1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f,  1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f, -1.0f }, Color::white, vec2 { uninit } },
+				Vertex { { -1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+				Vertex { {  1.0f, -1.0f,  1.0f }, Color::white, vec2 { uninit } },
+			};
+			static constexpr contiguous_t contiguous { Contiguous(vertices) };
+
+			static constexpr Array<float_t, 108> test 
 			{
 				-1.0f,  1.0f, -1.0f,
 				-1.0f, -1.0f, -1.0f,
@@ -204,41 +235,36 @@ namespace ml
 				 1.0f, -1.0f, -1.0f,
 				 1.0f,  1.0f, -1.0f,
 				-1.0f,  1.0f, -1.0f,
-
 				-1.0f, -1.0f,  1.0f,
 				-1.0f, -1.0f, -1.0f,
 				-1.0f,  1.0f, -1.0f,
 				-1.0f,  1.0f, -1.0f,
 				-1.0f,  1.0f,  1.0f,
 				-1.0f, -1.0f,  1.0f,
-
 				 1.0f, -1.0f, -1.0f,
 				 1.0f, -1.0f,  1.0f,
 				 1.0f,  1.0f,  1.0f,
 				 1.0f,  1.0f,  1.0f,
 				 1.0f,  1.0f, -1.0f,
 				 1.0f, -1.0f, -1.0f,
-
 				-1.0f, -1.0f,  1.0f,
 				-1.0f,  1.0f,  1.0f,
 				 1.0f,  1.0f,  1.0f,
 				 1.0f,  1.0f,  1.0f,
 				 1.0f, -1.0f,  1.0f,
 				-1.0f, -1.0f,  1.0f,
-
 				-1.0f,  1.0f, -1.0f,
 				 1.0f,  1.0f, -1.0f,
 				 1.0f,  1.0f,  1.0f,
 				 1.0f,  1.0f,  1.0f,
 				-1.0f,  1.0f,  1.0f,
 				-1.0f,  1.0f, -1.0f,
-
 				-1.0f, -1.0f, -1.0f,
 				-1.0f, -1.0f,  1.0f,
 				 1.0f, -1.0f, -1.0f,
 				 1.0f, -1.0f, -1.0f,
 				-1.0f, -1.0f,  1.0f,
-				 1.0f, -1.0f,  1.0f
+				 1.0f, -1.0f,  1.0f,
 			};
 		};
 

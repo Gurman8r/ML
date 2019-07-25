@@ -283,7 +283,19 @@ namespace ml
 									}
 									case Uniform::Tex2:
 									{
-										return out = new uni_tex2(name, 
+										return out = new uni_tex2(name,
+											ML_Content.get<Texture>(String(ss.str()).trim())
+										);
+									}
+									case Uniform::Tex3:
+									{
+										return out = new uni_tex3(name,
+											ML_Content.get<Texture>(String(ss.str()).trim())
+										);
+									}
+									case Uniform::Cube:
+									{
+										return out = new uni_cube(name,
 											ML_Content.get<Texture>(String(ss.str()).trim())
 										);
 									}

@@ -203,7 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\assets\data\assets.txt" />
-    <Text Include="..\..\..\assets\data\entities.txt" />
     <Text Include="..\..\..\assets\data\fonts.txt" />
     <Text Include="..\..\..\assets\data\images.txt" />
     <Text Include="..\..\..\assets\data\materials.txt" />

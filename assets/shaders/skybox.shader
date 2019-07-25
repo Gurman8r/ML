@@ -85,6 +85,8 @@ uniform struct System
 	float		totalTime;	// Total Time Elapsed (seconds)
 } sys;
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 void main()
 {
 	// View Matrix

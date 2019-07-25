@@ -81,10 +81,3 @@
 	type = manifest
 	file = ../../../assets/data/scripts.txt
 </import>
-
-
-# Entities
-<import>
-	type = manifest
-	file = ../../../assets/data/entities.txt
-</import>

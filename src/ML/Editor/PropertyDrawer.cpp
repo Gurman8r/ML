@@ -454,89 +454,35 @@ namespace ml
 	
 	bool ShaderPropertyDrawer::operator()(const String & label, const_reference value) const
 	{
-		// Source Tabs
+		using TextEditor = ImGui::TextEditor;
 		if (ImGui::BeginTabBar("SourceTabs"))
 		{
-			// Vertex Source
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginTabItem("Vertex##Shader"))
+			auto draw_source_tab = [](
+				TextEditor & editor, 
+				const String & name, 
+				const String & type, 
+				const String & source)
 			{
-				if (ImGui::BeginChild(
-					"Vertex##Content##Shader",
-					{ -1.f, -1.f },
-					true,
-					ImGuiWindowFlags_AlwaysHorizontalScrollbar
-				))
+				if (!source) return;
+				if (ImGui::BeginTabItem((type + "##Shader##" + name).c_str()))
 				{
-					if (value.vertSrc())
-					{
-						ImGui::TextUnformatted(
-							&value.vertSrc()[0],
-							&value.vertSrc()[value.vertSrc().size()]
-						);
-					}
-					else
-					{
-						ImGui::Text("Empty");
-					}
+					editor.SetLanguageDefinition(ImGui::TextEditor::LanguageDefinition::GLSL());
+					editor.SetText(source);
+					ImGui::EndTabItem();
 				}
-				ImGui::EndChild();
-				ImGui::EndTabItem();
-			}
+			};
 
-			// Fragment Source
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginTabItem("Fragment##Shader"))
+			static TextEditor vert, frag, geom;
+			static bool once = true;
+			if (once || (once = false))
 			{
-				if (ImGui::BeginChild(
-					"Fragment##Content##Shader",
-					{ -1.f, -1.f },
-					true,
-					ImGuiWindowFlags_AlwaysHorizontalScrollbar
-				))
-				{
-					if (!value.fragSrc().empty())
-					{
-						ImGui::TextUnformatted(
-							&value.fragSrc()[0],
-							&value.fragSrc()[value.fragSrc().size()]
-						);
-					}
-					else
-					{
-						ImGui::Text("Empty");
-					}
-				}
-				ImGui::EndChild();
-				ImGui::EndTabItem();
+				vert.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
+				frag.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
+				geom.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
 			}
-
-			// Geometry Source
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginTabItem("Geometry##Shader"))
-			{
-				if (ImGui::BeginChild(
-					"Geometry##Content##Shader",
-					{ -1.f, -1.f },
-					true,
-					ImGuiWindowFlags_AlwaysHorizontalScrollbar
-				))
-				{
-					if (!value.geomSrc().empty())
-					{
-						ImGui::TextUnformatted(
-							&value.geomSrc()[0],
-							&value.geomSrc()[value.geomSrc().size()]
-						);
-					}
-					else
-					{
-						ImGui::Text("Empty");
-					}
-				}
-				ImGui::EndChild();
-				ImGui::EndTabItem();
-			}
+			draw_source_tab(vert, label, "Vertex", value.vertSrc());
+			draw_source_tab(frag, label, "Fragment", value.fragSrc());
+			draw_source_tab(geom, label, "Geometry", value.geomSrc());
 
 			ImGui::EndTabBar();
 
@@ -547,7 +493,7 @@ namespace ml
 
 	bool ShaderPropertyDrawer::operator()(const String & label, reference value) const
 	{
-		return (*this)(label, (const_reference)value);
+		return (*this)(label, (const Shader &)value);
 	}
 
 

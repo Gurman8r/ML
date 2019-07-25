@@ -175,9 +175,6 @@
     <Text Include="..\..\..\assets\data\surfaces.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>
-    <Text Include="..\..\..\assets\data\entities.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
     <Text Include="..\..\..\assets\data\fonts.txt">
       <Filter>Resource Files\assets\data</Filter>
     </Text>

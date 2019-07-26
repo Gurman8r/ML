@@ -26,7 +26,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Font();
-		Font(const Font & copy);
+		explicit Font(const Font & copy);
 		~Font();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -35,9 +35,12 @@ namespace ml
 		bool loadFromFile(const String & filename) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		inline const Info & getInfo() const { return m_info; };
 
-		const Glyph & getGlyph(uint32_t value, uint32_t size) const;
-		const Info	& getInfo() const;
+		const Glyph & getGlyph(uint32_t c, uint32_t characterSize) const;
+		
+		Glyph loadGlyph(uint32_t c, uint32_t characterSize) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -47,8 +50,6 @@ namespace ml
 		Info	m_info;
 		void *	m_library;
 		void *	m_face;
-
-		Glyph loadGlyph(uint32_t value, uint32_t size) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

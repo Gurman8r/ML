@@ -167,7 +167,7 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\assets\materials\noobs_material_0.mat" />
+    <None Include="..\..\..\assets\materials\noobs.mat" />
     <None Include="..\..\..\assets\materials\skybox.mat" />
     <None Include="..\..\..\assets\meshes\cow.mesh" />
     <None Include="..\..\..\assets\meshes\cube.mesh" />
@@ -191,8 +191,8 @@
     <None Include="..\..\..\assets\shaders\common\Vert.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />
     <None Include="..\..\..\assets\shaders\lighting.shader" />
-    <None Include="..\..\..\assets\shaders\noobs\noobs_0.fs.shader" />
-    <None Include="..\..\..\assets\shaders\noobs\noobs_0.vs.shader" />
+    <None Include="..\..\..\assets\shaders\noobs\noobs.fs.shader" />
+    <None Include="..\..\..\assets\shaders\noobs\noobs.vs.shader" />
     <None Include="..\..\..\assets\shaders\normal.shader" />
     <None Include="..\..\..\assets\shaders\skybox.shader" />
     <None Include="..\..\..\assets\shaders\solid.shader" />

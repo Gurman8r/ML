@@ -2,7 +2,6 @@
 #define _ML_SHADER_HPP_
 
 #include <ML/Graphics/Texture.hpp>
-#include <ML/Core/Cache.hpp>
 #include <ML/Graphics/Color.hpp>
 
 // Uniforms names used internally
@@ -27,12 +26,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const String & vertSrc() const { return m_vs; }
-		inline const String & fragSrc() const { return m_fs; }
-		inline const String & geomSrc() const { return m_gs; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromFile(const String & vs, const String & fs);
@@ -43,11 +36,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void bind(bool bindTextures = true) const;
+		const Shader & bind(bool bindTextures = true) const;
 		
-		void unbind() const;
+		const Shader & unbind() const;
 
 		static void bind(const Shader * shader, bool bindTextures = true);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline const String & vertSrc() const { return m_source.vs; }
+		inline const String & fragSrc() const { return m_source.fs; }
+		inline const String & geomSrc() const { return m_source.gs; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -89,14 +88,19 @@ namespace ml
 
 		struct UniformBinder;
 
-		using AttribTable	= TreeCache<String, int32_t>;
+		using AttribTable	= Map<String, int32_t>;
 		using TextureTable	= Map<int32_t, const Texture *>;
-		using UniformTable	= TreeCache<String, int32_t>;
+		using UniformTable	= Map<String, int32_t>;
 
 		mutable AttribTable		m_attribs;
 		mutable TextureTable	m_textures;
 		mutable UniformTable	m_uniforms;
-		mutable String			m_vs, m_fs, m_gs;
+
+		mutable struct Source
+		{
+			String vs, fs, gs;
+
+		} m_source;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

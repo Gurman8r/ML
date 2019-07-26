@@ -1,41 +1,45 @@
 #ifndef _ML_OPENGL_HPP_
 #define _ML_OPENGL_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define ML_GL _ML OpenGL::getInstance()
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if ML_DEBUG
-#	define glCheck(expr) do { expr; ML_GL.checkError(__FILE__, __LINE__, #expr); } while (false)
+#	define glCheck(EXPR) \
+	do { EXPR; ML_GL.checkError(cout, __FILE__, __LINE__, #EXPR); } while (false)
 #else
-#	define glCheck(expr) (expr)
+#	define glCheck(EXPR) (EXPR)
 # endif
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	struct ML_GRAPHICS_API OpenGL final : public I_Singleton<OpenGL>
+	class ML_GRAPHICS_API OpenGL final : public I_Singleton<OpenGL>
 	{
+		friend class I_Singleton<OpenGL>;
+		OpenGL() = default;
+	
+	public:
 		// Errors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	getError() -> GL::Err;
-		static void	checkError(C_String file, uint32_t line, C_String expr);
+		static auto	checkError(C_String file, uint32_t line, C_String expr) -> Ostream &;
+		static auto	checkError(Ostream & out, C_String file, uint32_t line, C_String expr) -> Ostream &;
 
 		// Initialization
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static bool	init();
+		static bool	init(bool reinit = false);
 		static void	validateVersion(uint32_t & major, uint32_t & minor);
 
 		// Flags
@@ -56,7 +60,7 @@ namespace ml
 
 		// Functions
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void	activeTexture(uint32_t textureID);
+		static void	activeTexture(uint32_t value);
 		static void	alphaFunc(GL::Comp comp, float_t value);
 		static void	blendFunc(uint32_t sFactor, uint32_t dFactor);
 		static void	blendEquation(GL::Equation equation);
@@ -70,7 +74,7 @@ namespace ml
 
 		// Drawing
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void clear(GL::Mask mask);
+		static void clear(uint32_t mask);
 		static void clearColor(float_t r, float_t g, float_t b, float_t a);
 		static void drawElements(GL::Mode mode, int32_t count, GL::Type type, const void * indices);
 		static void drawArrays(GL::Mode mode, int32_t first, int32_t count);
@@ -167,13 +171,6 @@ namespace ml
 		static void	uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
 		static void	uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
 		static void	uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private:
-		friend class I_Singleton<OpenGL>;
-		OpenGL() = default;
-		bool m_good;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

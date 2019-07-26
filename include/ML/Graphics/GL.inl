@@ -43,17 +43,45 @@ namespace ml
 		static constexpr C_String nameOf(const Flag value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Flag_names[i] : "";
+			return (i >= 0) ? Flag_names[i] : nullptr;
 		}
 
+
+		// GL::Sampler
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr Sampler Sampler_values[] = {
+			Sampler::Texture2D,
+			Sampler::Texture3D,
+			Sampler::TextureCubeMap,
+		};
+
+		static constexpr C_String Sampler_names[] = {
+			"Texture 2D",
+			"Texture 3D",
+			"Texture Cube Map",
+		};
+
+		static constexpr bool valueAt(const int32_t i, Sampler & value)
+		{
+			return alg::value_at(i, value, Sampler_values);
+		}
+
+		static constexpr int32_t indexOf(const Sampler value)
+		{
+			return alg::index_of(value, Sampler_values);
+		}
+
+		static constexpr C_String nameOf(const Sampler value)
+		{
+			const int32_t i = indexOf(value);
+			return (i >= 0) ? Sampler_names[i] : nullptr;
+		}
 		
 		// GL::Target
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Target Target_values[] = {
-			Target::Texture2D,
-			Target::Texture3D,
-			Target::TextureCubeMap,
 			Target::ArrayBuffer,
 			Target::ElementArrayBuffer,
 			Target::ArrayBufferBinding,
@@ -72,9 +100,6 @@ namespace ml
 		};
 
 		static constexpr C_String Target_names[] = {
-			"Texture 2D",
-			"Texture 3D",
-			"Texture Cube Map",
 			"Array Buffer",
 			"Element Array Buffer",
 			"Array Buffer Binding",
@@ -105,7 +130,7 @@ namespace ml
 		static constexpr C_String nameOf(const Target value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Target_names[i] : "";
+			return (i >= 0) ? Target_names[i] : nullptr;
 		}
 
 
@@ -137,7 +162,7 @@ namespace ml
 		static constexpr C_String nameOf(const Usage value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Usage_names[i] : "";
+			return (i >= 0) ? Usage_names[i] : nullptr;
 		}
 
 
@@ -190,13 +215,13 @@ namespace ml
 		static constexpr C_String nameOf(const Err value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Err_names[i] : "";
+			return (i >= 0) ? Err_names[i] : nullptr;
 		}
 
 		static constexpr C_String descOf(const Err value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Err_descriptions[i] : "";
+			return (i >= 0) ? Err_descriptions[i] : nullptr;
 		}
 		
 		// GL::StringID
@@ -231,7 +256,7 @@ namespace ml
 		static constexpr C_String nameOf(const StringID value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? StringID_names[i] : "";
+			return (i >= 0) ? StringID_names[i] : nullptr;
 		}
 		
 
@@ -291,7 +316,7 @@ namespace ml
 		static constexpr C_String nameOf(const IntID value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? IntID_names[i] : "";
+			return (i >= 0) ? IntID_names[i] : nullptr;
 		}
 		
 
@@ -323,7 +348,7 @@ namespace ml
 		static constexpr C_String nameOf(const ClipControl value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? ClipControl_names[i] : "";
+			return (i >= 0) ? ClipControl_names[i] : nullptr;
 		}
 		
 
@@ -357,7 +382,7 @@ namespace ml
 		static constexpr C_String nameOf(const Status value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Status_names[i] : "";
+			return (i >= 0) ? Status_names[i] : nullptr;
 		}
 		
 		// GL::ShaderType
@@ -388,7 +413,7 @@ namespace ml
 		static constexpr C_String nameOf(const ShaderType value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? ShaderType_names[i] : "";
+			return (i >= 0) ? ShaderType_names[i] : nullptr;
 		}
 
 
@@ -430,7 +455,7 @@ namespace ml
 		static constexpr C_String nameOf(const Mode value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Mode_names[i] : "";
+			return (i >= 0) ? Mode_names[i] : nullptr;
 		}
 
 
@@ -464,7 +489,7 @@ namespace ml
 		static constexpr C_String nameOf(const Equation value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Equation_names[i] : "";
+			return (i >= 0) ? Equation_names[i] : nullptr;
 		}
 
 
@@ -506,7 +531,7 @@ namespace ml
 		static constexpr C_String nameOf(const Comp value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Comp_names[i] : "";
+			return (i >= 0) ? Comp_names[i] : nullptr;
 		}
 
 		
@@ -550,7 +575,7 @@ namespace ml
 		static constexpr C_String nameOf(const Factor value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Factor_names[i] : "";
+			return (i >= 0) ? Factor_names[i] : nullptr;
 		}
 
 
@@ -594,7 +619,7 @@ namespace ml
 		static constexpr C_String nameOf(const Face value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Face_names[i] : "";
+			return (i >= 0) ? Face_names[i] : nullptr;
 		}
 
 
@@ -636,7 +661,7 @@ namespace ml
 		static constexpr C_String nameOf(const Type value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Type_names[i] : "";
+			return (i >= 0) ? Type_names[i] : nullptr;
 		}
 
 
@@ -696,7 +721,7 @@ namespace ml
 		static constexpr C_String nameOf(const Format value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Format_names[i] : "";
+			return (i >= 0) ? Format_names[i] : nullptr;
 		}
 
 
@@ -744,7 +769,7 @@ namespace ml
 		static constexpr C_String nameOf(const FrameAttachment value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? FBO_Attachment_names[i] : "";
+			return (i >= 0) ? FBO_Attachment_names[i] : nullptr;
 		}
 
 
@@ -817,7 +842,7 @@ namespace ml
 		static constexpr C_String nameOf(const TexParam value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? TexParam_names[i] : "";
+			return (i >= 0) ? TexParam_names[i] : nullptr;
 		}
 
 
@@ -867,7 +892,7 @@ namespace ml
 		static constexpr C_String nameOf(const Pack value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Pack_names[i] : "";
+			return (i >= 0) ? Pack_names[i] : nullptr;
 		}
 
 
@@ -925,7 +950,7 @@ namespace ml
 		static constexpr C_String nameOf(const ColorAttachment value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? ColorAttachment_names[i] : "";
+			return (i >= 0) ? ColorAttachment_names[i] : nullptr;
 		}
 
 
@@ -1015,7 +1040,7 @@ namespace ml
 		static constexpr C_String nameOf(const TexID value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? TexID_names[i] : "";
+			return (i >= 0) ? TexID_names[i] : nullptr;
 		}
 
 
@@ -1073,7 +1098,7 @@ namespace ml
 		static constexpr C_String nameOf(const DrawBuffer value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? DrawBuffer_names[i] : "";
+			return (i >= 0) ? DrawBuffer_names[i] : nullptr;
 		}
 
 		
@@ -1111,7 +1136,7 @@ namespace ml
 		static constexpr C_String nameOf(const Mask value)
 		{
 			const int32_t i = indexOf(value);
-			return (i >= 0) ? Mask_names[i] : "";
+			return (i >= 0) ? Mask_names[i] : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1120,50 +1145,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-// Generate Bit Mask Operators
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_GEN_BITMASK_OPERATORS(PRE, TYPE, BASE) \
-PRE TYPE operator&(const TYPE l, const TYPE r) { return (TYPE)((BASE)l & (BASE)r); } \
-PRE TYPE operator|(const TYPE l, const TYPE r) { return (TYPE)((BASE)l | (BASE)r); } \
-PRE TYPE & operator &=(TYPE & l, const TYPE r) { return (l = (l & r)); } \
-PRE TYPE & operator |=(TYPE & l, const TYPE r) { return (l = (l | r)); }
-
-
-// Generate Iterator Operators
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_GEN_ITERATOR_OPERATORS(PRE, TYPE, BASE, MIN, MAX) \
-template <class T> PRE TYPE operator+(const TYPE x, T y) \
-{ \
-	return (TYPE)(ML_CLAMP(((BASE)x + (BASE)y), MIN, MAX)); \
-} \
-template <class T> PRE TYPE   operator -(TYPE x,   T y)	{ return (x + (-y)); } \
-template <class T> PRE TYPE & operator+=(TYPE & x, T y) { return (x = (x + y)); } \
-template <class T> PRE TYPE & operator-=(TYPE & x, T y) { return (x = (x - y)); } \
-PRE TYPE operator++(TYPE & x)							{ return (x += 1); } \
-PRE TYPE operator--(TYPE & x)							{ return (x -= 1); } \
-PRE TYPE operator++(TYPE & x, int32_t)					{ TYPE y = x; x += 1; return y; } \
-PRE TYPE operator--(TYPE & x, int32_t)					{ TYPE y = x; x -= 1; return y; }
-
 // Operators
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
-	// GL::Mask
-	ML_GEN_BITMASK_OPERATORS(constexpr, GL::Mask, uint32_t);
-
-	// GL::Attachment
-	ML_GEN_ITERATOR_OPERATORS(constexpr, GL::ColorAttachment, uint32_t,
-		GL::ColorAttachment::ColorAttachment0, 
-		GL::ColorAttachment::ColorAttachment9
-	);
-
-	// GL::TexID
-	ML_GEN_ITERATOR_OPERATORS(constexpr, GL::TexID, uint32_t, 
-		GL::TexID::Texture0, 
-		GL::TexID::Texture31
-	);
-
 	inline ML_SERIALIZE(Ostream & out, const GL::Flag & value) { return out << GL::nameOf(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Sampler & value) { return out << GL::nameOf(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::Target & value) { return out << GL::nameOf(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::Usage & value) { return out << GL::nameOf(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::Err & value) { return out << GL::nameOf(value); }

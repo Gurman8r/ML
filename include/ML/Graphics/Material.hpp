@@ -16,6 +16,11 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		using iterator			= typename List<Uniform *>::iterator;
+		using const_iterator	= typename List<Uniform *>::const_iterator;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Material();
 		Material(const Shader * shader);
 		Material(const Shader * shader, const List<Uniform *> & uniforms);
@@ -25,52 +30,45 @@ namespace ml
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename, const Map<String, Texture *> * textures);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void apply(const Uniform * value) const;
-		bool bind() const;
-		void unbind() const;
+		bool apply(const Uniform * value) const;
+
+		const Material & bind(bool bindTextures = true) const;
+		
+		const Material & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Uniform * findUniform(const String & name)
+		template <
+			class T = typename Uniform
+		> inline T * get(const String & name)
 		{
-			auto it = std::find_if(m_uniforms.begin(), m_uniforms.end(), [&](auto && u)
+			iterator it = std::find_if(begin(), end(), [&](auto && u)
 			{
 				return u && (u->name == name);
 			});
-			return (it != m_uniforms.end()) ? (*it) : nullptr;
+			return (it != end()) ? dynamic_cast<T *>(*it) : nullptr;
 		}
 
-		inline const Uniform * findUniform(const String & name) const
+		template <
+			class T = typename Uniform
+		> inline const T * get(const String & name) const
 		{
-			auto it = std::find_if(m_uniforms.cbegin(), m_uniforms.cend(), [&](auto && u)
+			const_iterator it = std::find_if(cbegin(), cend(), [&](auto && u)
 			{
 				return u && (u->name == name);
 			});
-			return (it != m_uniforms.cend()) ? (*it) : nullptr;
+			return (it != cend()) ? dynamic_cast<const T *>(*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T>
-		inline T * getUniform(const String & name)
+		inline Uniform * add(Uniform * value)
 		{
-			return dynamic_cast<T *>(this->findUniform(name));
-		}
-
-		template <class T>
-		inline const T * getUniform(const String & name) const
-		{
-			return dynamic_cast<const T *>(this->findUniform(name));
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline Uniform * addUniform(Uniform * value)
-		{
-			if (value && value->name && !this->findUniform(value->name))
+			if (value && value->name && (std::find(begin(), end(), value) == end()))
 			{
 				m_uniforms.push_back(value);
 				return value;
@@ -78,12 +76,36 @@ namespace ml
 			return nullptr;
 		}
 
+		inline bool erase(const String & name)
+		{
+			iterator it = std::find_if(begin(), end(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			});
+			if (it != end())
+			{
+				if (*it) delete (*it);
+				m_uniforms.erase(it);
+				return true;
+			}
+			return false;
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto shader() const	-> const Shader	*			{ return m_shader; }
-		inline auto uniforms() const-> const List<Uniform *> &	{ return m_uniforms; }
-		inline auto shader()		-> const Shader	* &			{ return m_shader; }
-		inline auto uniforms()		-> List<Uniform *> &		{ return m_uniforms; }
+		inline auto shader()			-> const Shader	* &			{ return m_shader; }
+		inline auto shader()	const	-> const Shader	*			{ return m_shader; }
+		inline auto uniforms()			-> List<Uniform *> &		{ return m_uniforms; }
+		inline auto uniforms()	const	-> const List<Uniform *> &	{ return m_uniforms; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto begin()			-> iterator			{ return m_uniforms.begin(); }
+		inline auto begin() const	-> const_iterator	{ return m_uniforms.begin(); }
+		inline auto cbegin() const	-> const_iterator	{ return m_uniforms.cbegin(); }
+		inline auto end()			-> iterator			{ return m_uniforms.end(); }
+		inline auto end() const		-> const_iterator	{ return m_uniforms.end(); }
+		inline auto cend() const	-> const_iterator	{ return m_uniforms.cend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

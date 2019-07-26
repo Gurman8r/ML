@@ -14,104 +14,103 @@ namespace ml
 		return static_cast<GL::Err>(glGetError());
 	}
 
-	void OpenGL::checkError(C_String file, uint32_t line, C_String expr)
+	Ostream & OpenGL::checkError(C_String file, uint32_t line, C_String expr)
+	{
+		return checkError(cout, file, line, expr);
+	}
+
+	Ostream & OpenGL::checkError(Ostream & out, C_String file, uint32_t line, C_String expr)
 	{
 		// Get the last error
 		const GL::Err code = getError();
 		if (code != GL::Err::NoError)
 		{
 			// Error location
-			String fileName(file);
+			String fileName { file };
 			fileName = fileName.substr(fileName.find_last_of("\\/") + 1);
 
 			// Decode the error
-			cout
-				<< FMT(FG::Red)	<< endl << "An OpenGL call failed in \'" << file << "\' (" << line << ")"
-				<< FG::Yellow	<< endl << "Code: "
-				<< FG::White	<< endl << "\t" << (uint32_t)code
-				<< FG::Yellow	<< endl << "Expression: "
-				<< FG::White	<< endl << "\t" << expr
-				<< FG::Yellow	<< endl << "Description:"
-				<< FG::White	<< endl << "\t" << code
-				<< FG::White	<< endl << "\t" << code
+			out << FG::Red		<< "\nAn OpenGL call failed in \'" << file << "\' (" << line << ")"
+				<< FG::Yellow	<< "\nCode: "
+				<< FG::White	<< "\n\t" << (uint32_t)code
+				<< FG::Yellow	<< "\nExpression: "
+				<< FG::White	<< "\n\t" << expr
+				<< FG::Yellow	<< "\nDescription:"
+				<< FG::White	<< "\n\t" << GL::nameOf(code)
+				<< FG::White	<< "\n\t" << GL::descOf(code)
 				<< FMT()		<< endl;
 		}
+		return out;
 	}
 
 
 	// Initialization
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool OpenGL::init()
+	bool OpenGL::init(bool reinit)
 	{
 		static bool checked = false;
-		if (!checked)
+		static bool good = false;
+		if (!checked || reinit)
 		{
 			checked = true;
 
 			glewExperimental = true;
 
-			ML_GL.m_good = (glewInit() == GLEW_OK);
+			good = (glewInit() == GLEW_OK);
 		}
-		return ML_GL.m_good;
+		return good;
 	}
 
 	void OpenGL::validateVersion(uint32_t & major, uint32_t & minor)
 	{
-		if (ML_GL.m_good)
+		major = (uint32_t)getInt(GL::MajorVersion);
+		minor = (uint32_t)getInt(GL::MinorVersion);
+
+		if (getError() == GL::InvalidEnum)
 		{
-			major = (uint32_t)getInt(GL::MajorVersion);
-			minor = (uint32_t)getInt(GL::MinorVersion);
-			
-			if (getError() == GL::InvalidEnum)
+			if (C_String version = getString(GL::Version))
 			{
-				if (C_String version = getString(GL::Version))
-				{
-					major = version[0] - '0';
-					minor = version[2] - '0';
-					Debug::logWarning("Using OpenGL Version: {0}.{1}", major, minor);
-				}
-				else
-				{
-					major = 1;
-					minor = 1;
-					Debug::logWarning("Can't get the version number, assuming 1.1");
-				}
+				major = version[0] - '0';
+				minor = version[2] - '0';
+				Debug::logWarning("Using OpenGL Version: {0}.{1}", major, minor);
 			}
-
-			if (!framebuffersAvailable())
+			else
 			{
-				static bool warned = false;
-				if (!warned)
-				{
-					Debug::logWarning("Framebuffers Unavailable");
-					warned = true;
-				}
-			}
-
-			if (!edgeClampAvailable())
-			{
-				static bool warned = false;
-				if (!warned)
-				{
-					Debug::logWarning("Texture Edge Clamp Unavailable");
-					warned = true;
-				}
-			}
-
-			if (!textureSrgbAvailable())
-			{
-				static bool warned = false;
-				if (!warned)
-				{
-					Debug::logWarning("Texture sRGB Unavailable");
-					warned = true;
-				}
+				major = 1;
+				minor = 1;
+				Debug::logWarning("Can't get the version number, assuming 1.1");
 			}
 		}
-		else
+
+		if (!framebuffersAvailable())
 		{
-			Debug::logError("OpenGL has not been initialized.");
+			static bool warned = false;
+			if (!warned)
+			{
+				Debug::logWarning("Framebuffers Unavailable");
+				warned = true;
+			}
+		}
+
+		if (!edgeClampAvailable())
+		{
+			static bool warned = false;
+			if (!warned)
+			{
+				Debug::logWarning("Texture Edge Clamp Unavailable");
+				warned = true;
+			}
+		}
+
+		if (!textureSrgbAvailable())
+		{
+			static bool warned = false;
+			if (!warned)
+			{
+				Debug::logWarning("Texture sRGB Unavailable");
+				warned = true;
+			}
 		}
 	}
 
@@ -202,9 +201,9 @@ namespace ml
 	// Functions
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenGL::activeTexture(uint32_t target)
+	void OpenGL::activeTexture(uint32_t value)
 	{
-		glCheck(glActiveTexture(target));
+		glCheck(glActiveTexture(value));
 	}
 
 	void OpenGL::alphaFunc(GL::Comp comp, float_t value)
@@ -261,7 +260,7 @@ namespace ml
 	// Drawing
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenGL::clear(GL::Mask mask)
+	void OpenGL::clear(uint32_t mask)
 	{
 		glCheck(glClear(mask));
 	}
@@ -294,7 +293,7 @@ namespace ml
 	uint32_t OpenGL::genBuffers(uint32_t count)
 	{
 		static uint32_t temp;
-		glCheck(glGenBuffers(1, &temp));
+		glCheck(glGenBuffers(count, &temp));
 		return temp;
 	}
 

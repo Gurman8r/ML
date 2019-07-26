@@ -211,8 +211,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	using uni_tex2		= typename uni_tex2_t<const Texture	*>; // <- Texture 2D
-	using uni_tex3		= typename uni_tex3_t<const Texture	*>; // <- Texture 3D (NYI)
-	using uni_cube		= typename uni_cube_t<const Texture	*>; // <- Texture Cube Map (NYI)
+	using uni_tex3		= typename uni_tex3_t<const Texture	*>; // <- Texture 3D
+	using uni_cube		= typename uni_cube_t<const Texture	*>; // <- Texture Cube Map
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

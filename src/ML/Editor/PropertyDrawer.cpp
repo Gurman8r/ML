@@ -277,7 +277,7 @@ namespace ml
 			Uniform * u = nullptr;
 			if (UniformPropertyDrawer()(("##NewUniform##Material" + label).c_str(), u))
 			{
-				if (!value.addUniform(u))
+				if (!value.add(u))
 				{
 					delete u;
 					Debug::logError("A uniform with that name already exists");
@@ -696,15 +696,15 @@ namespace ml
 
 		int32_t target = GL::indexOf(value.target());
 		if (ImGui::Combo(
-			("Target##" + label).c_str(),
+			("Sampler##" + label).c_str(),
 			&(target), 
-			GL::Target_names, 
-			3 //IM_ARRAYSIZE(GL::Target_names)
+			GL::Sampler_names, 
+			IM_ARRAYSIZE(GL::Sampler_names)
 		))
 		{
-			GL::Target temp;
+			GL::Sampler temp;
 			if (GL::valueAt(target, temp))
-				value.setTarget(temp);
+				value.setSampler(temp);
 			changed = true;
 		}
 		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");

@@ -166,9 +166,9 @@
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\C_String.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Cache.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Image.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Input.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Singleton.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
@@ -193,8 +193,8 @@
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MetaData.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MetaValue.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />

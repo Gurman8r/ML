@@ -17,7 +17,7 @@ namespace ml
 {
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Entity * EntityAssetImporter::operator()(const MetaData & md) const
+	Entity * EntityAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -47,7 +47,7 @@ namespace ml
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Font * FontAssetImporter::operator()(const MetaData & md) const
+	Font * FontAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -77,7 +77,7 @@ namespace ml
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Image * ImageAssetImporter::operator()(const MetaData & md) const
+	Image * ImageAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -110,216 +110,50 @@ namespace ml
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Material * MaterialAssetImporter::operator()(const MetaData & md) const
+	Material * MaterialAssetImporter::operator()(const Metadata & md) const
 	{
-		// Erase and return 'begin'
-		/* * * * * * * * * * * * * * * * * * * * */
-		auto pop_front = [](List<String> & toks)
-		{
-			if (toks.empty()) return String();
-			String temp = toks.front();
-			toks.erase(toks.begin());
-			return temp;
-		};
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		if (md.getData("type").asString() == this->getTag())
 		{
 			if (const String name = md.getData("name"))
 			{
 				if (!ML_Content.get<Material>(name))
 				{
-					// Uniform List
-					/* * * * * * * * * * * * * * * * * * * * */
-					List<Uniform *> uniforms;
+					// New Material
+					auto temp = new Material { 
+						ML_Content.get<Shader>(md.getData("shader")) // Shader
+					};
 
-					// Load Default Uniforms
-					/* * * * * * * * * * * * * * * * * * * * */
+					// Default Uniforms
 					if (md.getData("defaults", false))
 					{
-						if (auto u = Uniform::duplicate<uni_vec2_ref>(
+						temp->add(Uniform::duplicate<uni_vec2_ref>(
 							ML_Content.get<uni_vec2_ref>("%CURSOR_POS%")
-							)) uniforms.push_back(u);
-
-						if (auto u = Uniform::duplicate<uni_int1_ref>(
+							));
+						temp->add(Uniform::duplicate<uni_int1_ref>(
 							ML_Content.get<uni_int1_ref>("%FRAME_COUNT%")
-							)) uniforms.push_back(u);
-
-						if (auto u = Uniform::duplicate<uni_flt1_ref>(
+							));
+						temp->add(Uniform::duplicate<uni_flt1_ref>(
 							ML_Content.get<uni_flt1_ref>("%DELTA_TIME%")
-							)) uniforms.push_back(u);
-
-						if (auto u = Uniform::duplicate<uni_vec2_ref>(
+							));
+						temp->add(Uniform::duplicate<uni_vec2_ref>(
 							ML_Content.get<uni_vec2_ref>("%RESOLUTION%")
-							)) uniforms.push_back(u);
-
-						if (auto u = Uniform::duplicate<uni_flt1_ref>(
+							));
+						temp->add(Uniform::duplicate<uni_flt1_ref>(
 							ML_Content.get<uni_flt1_ref>("%TOTAL_TIME%")
-							)) uniforms.push_back(u);
+							));
 					}
 
-					// Load User Uniforms from File
-					/* * * * * * * * * * * * * * * * * * * * */
-					if (Ifstream file { ML_FS.pathTo(md.getData("uniforms")) })
+					// Load Uniforms
+					if (!temp->loadFromFile(
+						md.getData("uniforms").asString(),
+						reinterpret_cast<const Map<String, Texture *> *>(
+							&ML_Content.data<Texture>())
+					))
 					{
-						// following should probably be in UniformAssetImporter
-						
-						String line;
-						while (std::getline(file, line))
-						{
-							// Skip if empty or comment
-							/* * * * * * * * * * * * * * * * * * * * */
-							if (line.empty() || line.trim().front() == '#')
-								continue;
-
-							// Parse tokens from line
-							/* * * * * * * * * * * * * * * * * * * * */
-							List<String> tokens = ([](String line)
-							{
-								List<String> toks;
-								if (!line) return toks;
-								line.trim()
-									.replaceAll("\t", " ")
-									.replaceAll(",", "");
-								size_t idx = 0;
-								while ((idx = line.find(" ")) != String::npos)
-								{
-									String temp = line.substr(0, idx);
-									if (temp) toks.push_back(temp);
-									line.erase(0, idx + 1);
-								}
-								if (line) toks.push_back(line);
-								return toks;
-							})(line);
-
-							// Parse uniform from tokens
-							/* * * * * * * * * * * * * * * * * * * * */
-							if (tokens && (pop_front(tokens) == "uniform"))
-							{
-								// Uniform Type
-								/* * * * * * * * * * * * * * * * * * * * */
-								const int32_t u_type = ([](C_String type)
-								{
-									if (!type) return -1;
-									for (size_t i = 0; i < Uniform::MAX_UNI_TYPES; i++)
-										if (std::strcmp(type, Uniform::TypeNames[i]) == 0)
-											return (int32_t)i;
-									return -1;
-								})(pop_front(tokens).c_str());
-								
-								// Uniform Name
-								/* * * * * * * * * * * * * * * * * * * * */
-								const String u_name = pop_front(tokens);
-
-								// Uniform Data
-								/* * * * * * * * * * * * * * * * * * * * */
-								SStream u_data = ([](List<String> & data)
-								{
-									SStream out;
-									if ((data.size() > 2) &&
-										(data.front() == "{") &&
-										(data.back() == "}"))
-									{
-										data.erase(data.begin());
-										String temp;
-										while (data && ((temp = data.front()) != "}"))
-										{
-											out << temp << ' ';
-											data.erase(data.begin());
-										}
-									}
-									return out;
-								})(tokens);
-
-								// Generate Uniform
-								/* * * * * * * * * * * * * * * * * * * * */
-								if (Uniform * u = ([](int32_t type, const String & name, SStream & ss)
-								{
-									Uniform * out = nullptr;
-									if (type == -1 || !name || !(String)ss.str()) 
-										return out;
-									switch (type)
-									{
-									case Uniform::Bool:
-									{
-										bool temp; ss >> temp;
-										return out = new uni_bool(name, temp);
-									}
-									case Uniform::Int1:
-									{
-										int32_t temp; ss >> temp;
-										return out = new uni_int1(name, temp);
-									}
-									case Uniform::Flt1:
-									{
-										float_t temp; ss >> temp;
-										return out = new uni_flt1(name, temp);
-									}
-									case Uniform::Vec2:
-									{
-										vec2 temp; ss >> temp;
-										return out = new uni_vec2(name, temp);
-									}
-									case Uniform::Vec3:
-									{
-										vec3 temp; ss >> temp;
-										return out = new uni_vec3(name, temp);
-									}
-									case Uniform::Vec4:
-									{
-										vec4 temp; ss >> temp;
-										return out = new uni_vec4(name, temp);
-									}
-									case Uniform::Col4:
-									{
-										vec4 temp; ss >> temp;
-										return out = new uni_col4(name, temp);
-									}
-									case Uniform::Mat3:
-									{
-										mat3 temp; ss >> temp;
-										return out = new uni_mat3(name, temp);
-									}
-									case Uniform::Mat4:
-									{
-										mat4 temp; ss >> temp;
-										return out = new uni_mat4(name, temp);
-									}
-									case Uniform::Tex2:
-									{
-										return out = new uni_tex2(name,
-											ML_Content.get<Texture>(String(ss.str()).trim())
-										);
-									}
-									case Uniform::Tex3:
-									{
-										return out = new uni_tex3(name,
-											ML_Content.get<Texture>(String(ss.str()).trim())
-										);
-									}
-									case Uniform::Cube:
-									{
-										return out = new uni_cube(name,
-											ML_Content.get<Texture>(String(ss.str()).trim())
-										);
-									}
-									default: return out;
-									}
-								})(u_type, u_name, u_data))
-								{
-									uniforms.push_back(u);
-								}
-							}
-						}
-						file.close();
+						/* error */
 					}
 
-					return ML_Content.insert(
-						name, new Material {
-							ML_Content.get<Shader>(md.getData("shader")),
-							uniforms
-						});
+					return ML_Content.insert<Material>(name, temp);
 				}
 			}
 		}
@@ -329,7 +163,7 @@ namespace ml
 
 	// Mesh Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Mesh * MeshAssetImporter::operator()(const MetaData & md) const
+	Mesh * MeshAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -359,7 +193,7 @@ namespace ml
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Model * ModelAssetImporter::operator()(const MetaData & md) const
+	Model * ModelAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -401,7 +235,7 @@ namespace ml
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Script * ScriptAssetImporter::operator()(const MetaData & md) const
+	Script * ScriptAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -431,7 +265,7 @@ namespace ml
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Shader * ShaderAssetImporter::operator()(const MetaData & md) const
+	Shader * ShaderAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -486,7 +320,7 @@ namespace ml
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Sound * SoundAssetImporter::operator()(const MetaData & md) const
+	Sound * SoundAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -516,7 +350,7 @@ namespace ml
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Sprite * SpriteAssetImporter::operator()(const MetaData & md) const
+	Sprite * SpriteAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -549,7 +383,7 @@ namespace ml
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Surface * SurfaceAssetImporter::operator()(const MetaData & md) const
+	Surface * SurfaceAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -585,7 +419,7 @@ namespace ml
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Texture * TextureAssetImporter::operator()(const MetaData & md) const
+	Texture * TextureAssetImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -606,7 +440,7 @@ namespace ml
 					const int32_t level = md.getData("level", 0);
 				
 					// Target
-					const GL::Target target = md.getData("target", GL::Texture2D, {
+					const GL::Sampler target = md.getData("target", GL::Texture2D, {
 						{ "texture_2d",		GL::Texture2D },
 						{ "texture_3d",		GL::Texture3D },
 						{ "texture_cube",	GL::TextureCubeMap },
@@ -633,7 +467,10 @@ namespace ml
 						{ "half_float",		GL::HalfFloat },
 					});
 
-					if (target == GL::Texture2D)
+					switch (target)
+					{
+					/* * * * * * * * * * * * * * * * * * * * */
+					case GL::Texture2D:
 					{
 						if (const String file = md.getData("file"))
 						{
@@ -661,10 +498,14 @@ namespace ml
 							}
 						}
 					}
-					else if (target == GL::Texture3D)
+					break;
+					/* * * * * * * * * * * * * * * * * * * * */
+					case GL::Texture3D:
 					{
 					}
-					else if (target == GL::TextureCubeMap)
+					break;
+					/* * * * * * * * * * * * * * * * * * * * */
+					case GL::TextureCubeMap:
 					{
 						const String source = md.getData("source").asString();
 
@@ -690,7 +531,7 @@ namespace ml
 								ML_Content.get<Image>(names[3]),
 								ML_Content.get<Image>(names[4]),
 								ML_Content.get<Image>(names[5]),
-							}))
+								}))
 							{
 								return ML_Content.insert(name, temp);
 							}
@@ -708,13 +549,17 @@ namespace ml
 								&Image(names[3]),
 								&Image(names[4]),
 								&Image(names[5]),
-							}))
+								}))
 							{
 								return ML_Content.insert(name, temp);
 							}
 							delete temp;
 						}
 					}
+					break;
+					/* * * * * * * * * * * * * * * * * * * * */
+					}
+
 					return ML_Content.insert(name, new Texture());
 				}
 			}

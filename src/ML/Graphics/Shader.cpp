@@ -107,9 +107,9 @@ namespace ml
 
 	bool Shader::dispose()
 	{
-		m_attribs.base().clear();
+		m_attribs.clear();
 		m_textures.clear();
-		m_uniforms.base().clear();
+		m_uniforms.clear();
 
 		ML_GL.useShader(NULL);
 		if ((*this))
@@ -181,45 +181,43 @@ namespace ml
 	{
 		SStream vert, geom, frag;
 		return (ShaderParser::parseShader(source, vert, geom, frag)
-			? loadFromMemory(
-				vert.str(), 
-				geom.str(), 
-				frag.str())
-			: Debug::logError("Failed Parsing Shader"));
+			? loadFromMemory(vert.str(), geom.str(), frag.str())
+			: Debug::logError("Failed Parsing Shader")
+		);
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & gs, const String & fs)
 	{
-		return ((!gs.empty())
-			? compile(
-				(m_vs = ShaderParser::parseShader(vs)).c_str(),
-				(m_gs = ShaderParser::parseShader(gs)).c_str(),
-				(m_fs = ShaderParser::parseShader(fs)).c_str()
-			)
-			: loadFromMemory(vs, fs)
-		);
+		if (gs)
+		{
+			m_source.vs = ShaderParser::parseShader(vs);
+			m_source.gs = ShaderParser::parseShader(gs);
+			m_source.fs = ShaderParser::parseShader(fs);
+			return compile(m_source.vs.c_str(), m_source.gs.c_str(), m_source.fs.c_str());
+		}
+		return loadFromMemory(vs, fs);
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & fs)
 	{
-		m_gs = String();
-		return compile(
-			(m_vs = ShaderParser::parseShader(vs)).c_str(),
-			NULL,
-			(m_fs = ShaderParser::parseShader(fs)).c_str()
-		);
+		m_source.vs	= ShaderParser::parseShader(vs);
+		m_source.gs	= String();
+		m_source.fs	= ShaderParser::parseShader(fs);
+		return compile(m_source.vs.c_str(), nullptr, m_source.fs.c_str());
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Shader::bind(bool bindTextures) const
+	const Shader & Shader::bind(bool bindTextures) const
 	{
 		bind(this, bindTextures);
+		return (*this);
 	}
 
-	void Shader::unbind() const
+	const Shader & Shader::unbind() const
 	{
-		bind(NULL, false);
+		bind(nullptr, false);
+		return (*this);
 	}
 
 	void Shader::bind(const Shader * shader, bool bindTextures)
@@ -230,12 +228,10 @@ namespace ml
 
 			if (bindTextures)
 			{
-				GL::TexID tex = GL::Texture0;
-
+				uint32_t i = 0;
 				for (const auto & pair : shader->m_textures)
 				{
-					ML_GL.activeTexture(tex++);
-
+					ML_GL.activeTexture(GL::Texture0 + (i++));
 					Texture::bind(pair.second);
 				}
 			}
@@ -545,16 +541,40 @@ namespace ml
 		}
 	}
 	
-	int32_t Shader::getAttribute(const String & value) const
+	int32_t Shader::getAttribute(const String & name) const
 	{
-		// Cache()
-		return m_attribs(value, ML_GL.getAttribLocation((*this), value.c_str()));
+		Map<String, int32_t>::iterator it;
+		if ((it = m_attribs.find(name)) != m_attribs.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			int32_t value;
+			if ((value = ML_GL.getAttribLocation((*this), name.c_str())) == -1)
+			{
+				/* attribute not found */
+			}
+			return m_attribs.insert({ name, value }).first->second;
+		}
 	}
 	
-	int32_t Shader::getUniform(const String & value) const
+	int32_t Shader::getUniform(const String & name) const
 	{
-		// Cache()
-		return m_uniforms(value, ML_GL.getUniformLocation((*this), value.c_str()));
+		Map<String, int32_t>::iterator it;
+		if ((it = m_uniforms.find(name)) != m_uniforms.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			int32_t value;
+			if ((value = ML_GL.getUniformLocation((*this), name.c_str())) == -1)
+			{
+				/* uniform not found */
+			}
+			return m_uniforms.insert({ name, value }).first->second;
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

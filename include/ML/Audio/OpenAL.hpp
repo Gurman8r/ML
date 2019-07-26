@@ -45,7 +45,8 @@ namespace ml
 		// Errors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	getError() -> AL::Err;
-		static void	checkError(C_String file, uint32_t line, C_String expr);
+		static auto	checkError(C_String file, uint32_t line, C_String expr) -> Ostream &;
+		static auto	checkError(Ostream & out, C_String file, uint32_t line, C_String expr) -> Ostream &;
 
 		// Devices
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -164,11 +164,11 @@ namespace ml
 
 		// Load Default Uniforms
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Content.create<uni_vec2_ref>("%CURSOR_POS%",  "sys.cursorPos",  this->cursorPos());
-		ML_Content.create<uni_flt1_ref>("%DELTA_TIME%",  "sys.deltaTime",  this->deltaTime());
-		ML_Content.create<uni_int1_ref>("%FRAME_COUNT%", "sys.frameCount", this->frameCount());
-		ML_Content.create<uni_vec2_ref>("%RESOLUTION%",  "sys.resolution", this->resolution());
-		ML_Content.create<uni_flt1_ref>("%TOTAL_TIME%",  "sys.totalTime",  this->totalTime());
+		ML_Content.create<uni_vec2_ref>("%CURSOR_POS%",  "u_cursorPos",  this->cursorPos());
+		ML_Content.create<uni_flt1_ref>("%DELTA_TIME%",  "u_deltaTime",  this->deltaTime());
+		ML_Content.create<uni_int1_ref>("%FRAME_COUNT%", "u_frameCount", this->frameCount());
+		ML_Content.create<uni_vec2_ref>("%RESOLUTION%",  "u_resolution", this->resolution());
+		ML_Content.create<uni_flt1_ref>("%TOTAL_TIME%",  "u_totalTime",  this->totalTime());
 
 		// Load Content
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -177,22 +177,23 @@ namespace ml
 			"Engine", "asset_lists", String()
 		))))
 		{
+#if 1
 			loader.loadAll(true);
-			return;
-
+#else
 			// FIXME:
 			// not working because there's only one opengl context
-			//static Worker worker;
-			//worker.launch(loader.lists().size(), [&]()
-			//{
-			//	for (size_t i = 0; worker.working(); i++)
-			//	{
-			//		worker.process([&]() { return loader.loadElement(i); });
-			//	}
-			//	loader.dispose();
-			//	worker.finalize();
-			//	eventSystem().fireEvent(StartEvent(ev.time, ev.window));
-			//});
+			static Worker worker;
+			worker.launch(loader.lists().size(), [&]()
+			{
+				for (size_t i = 0; worker.working(); i++)
+				{
+					worker.process([&]() { return loader.loadElement(i); });
+				}
+				loader.dispose();
+				worker.finalize();
+				eventSystem().fireEvent(StartEvent(ev.time, ev.window));
+			});
+#endif
 		}
 		else
 		{

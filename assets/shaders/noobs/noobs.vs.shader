@@ -1,4 +1,4 @@
-// noobs_0.vs.shader
+// noobs.vs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #version 410 core
@@ -75,14 +75,11 @@ uniform struct Camera
 	float		zFar;		// Far Clipping Distance
 } camera;
 
-uniform struct System
-{
-	vec2		cursorPos;	// Position of Cursor
-	float		deltaTime;	// Elapsed Frame Time
-	int			frameCount;	// Current Frame Index
-	vec2		resolution;	// Size of Main Window
-	float		totalTime;	// Total Time Elapsed (seconds)
-} sys;
+uniform vec2	u_cursorPos;	// Position of Cursor
+uniform float	u_deltaTime;	// Elapsed Frame Time
+uniform int		u_frameCount;	// Current Frame Index
+uniform vec2	u_resolution;	// Size of Main Window
+uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -91,11 +88,11 @@ void main()
 	// Position
 	mat4 pos = mat4(0.0);
 	pos[3][0] = 0.0; // x
-	pos[3][1] = sin(sys.totalTime); // y
+	pos[3][1] = sin(u_totalTime); // y
 	pos[3][2] = 0.0; // z
 
 	// Rotation
-	mat4 rot = ml_AngleAxis(vec3(0.0, 1.0, 0.0), sys.totalTime);
+	mat4 rot = ml_AngleAxis(vec3(0.0, 1.0, 0.0), u_totalTime);
 	
 	// Model Matrix
 	mat4 model = pos + rot;
@@ -110,7 +107,7 @@ void main()
 	// Projection Matrix
 	mat4 proj = ml_Perspective(
 		camera.fov,
-		(sys.resolution.x / sys.resolution.y),
+		(u_resolution.x / u_resolution.y),
 		camera.zNear,
 		camera.zFar
 	);

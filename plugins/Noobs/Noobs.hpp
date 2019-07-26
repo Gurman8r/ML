@@ -91,13 +91,13 @@ namespace ml
 			// Content
 			Asset<Surface>	surf_main		{ "noobs_surf_main"	};
 			Asset<Surface>	surf_post		{ "noobs_surf_post"	};
-			Asset<Material> material		{ "noobs_material_0" };
+			Asset<Model>	sky_model		{ "default_skybox" };
+			Asset<Material> sky_material	{ "skybox" };
+			Asset<Material> material		{ "noobs" };
 			Asset<Model>	model			{ "sphere32x24"	};
 			Asset<Entity>	entity			{ "noobs_entity_0" };
 			Renderer *		renderer		{ nullptr };
 			
-			Asset<Model>	sky_model		{ "default_skybox" };
-			Asset<Material> sky_material	{ "skybox" };
 
 			// GUI Settings
 			bool		showBuilder	{ true };

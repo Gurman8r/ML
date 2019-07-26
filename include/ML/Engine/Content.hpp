@@ -2,7 +2,7 @@
 #define _ML_CONTENT_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/MetaData.hpp>
+#include <ML/Core/Metadata.hpp>
 
 #define ML_Content _ML Content::getInstance()
 

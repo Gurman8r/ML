@@ -26,11 +26,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum Target : uint32_t
+		enum Sampler : uint32_t
 		{
 			Texture2D = 0x0DE1,				// GL_TEXTURE_2D
 			Texture3D = 0x806F,				// GL_TEXTURE_3D
 			TextureCubeMap = 0x8513,		// GL_TEXTURE_CUBE_MAP
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		enum Target : uint32_t
+		{
 			ArrayBuffer	= 0x8892,			// GL_ARRAY_BUFFER
 			ElementArrayBuffer,				// GL_ELEMENT_ARRAY_BUFFER
 			ArrayBufferBinding,				// GL_ARRAY_BUFFER_BINDING

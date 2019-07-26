@@ -2,7 +2,6 @@
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/Cache.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -22,11 +21,16 @@ namespace ml
 {
 	static inline const GLFWimage & MapGLFWimage(const Image & value)
 	{
-		static HashCache<const uint8_t *, GLFWimage> cache;
-		return cache(value.data(),
+		static HashMap<const uint8_t *, GLFWimage> cache;
+		auto it = cache.find(value.data());
+		if (it != cache.end())
 		{
-			(int32_t)value.width(), (int32_t)value.height(), (uint8_t *)value.data()
-		});
+			return it->second;
+		}
+		return cache.insert({ 
+			value.data(), 
+			{ (int32_t)value.width(), (int32_t)value.height(), (uint8_t *)value.data()} 
+		}).first->second;
 	}
 }
 

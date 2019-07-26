@@ -42,28 +42,33 @@ namespace ml
 		return static_cast<AL::Err>(alGetError());
 	}
 
-	void OpenAL::checkError(C_String file, uint32_t line, C_String expr)
+	Ostream & OpenAL::checkError(C_String file, uint32_t line, C_String expr)
+	{
+		return checkError(cout, file, line, expr);
+	}
+
+	Ostream & OpenAL::checkError(Ostream & out, C_String file, uint32_t line, C_String expr)
 	{
 		// Get the last error
 		const AL::Err code = getError();
 		if (code != AL::NoError)
 		{
 			// Error location
-			String file(file);
-			file = file.substr(file.find_last_of("\\/") + 1);
+			String fileName { file };
+			fileName = fileName.substr(fileName.find_last_of("\\/") + 1);
 
 			// Decode the error
-			cout
-				<< FMT()		<< ml::endl << FG::Red << "An OpenAL call failed in " << file << "(" << line << ")"
-				<< FG::Yellow	<< ml::endl << "Code: "
-				<< FG::White	<< ml::endl << "\t" << code
-				<< FG::Yellow	<< ml::endl << "Expression: "
-				<< FG::White	<< ml::endl << "\t" << expr
-				<< FG::Yellow	<< ml::endl << "Description:"
-				<< FG::White	<< ml::endl << "\t" << AL::nameOf(code)
-				<< FG::White	<< ml::endl << "\t" << AL::descOf(code)
+			out << FG::Red		<< "\nAn OpenGL call failed in \'" << file << "\' (" << line << ")"
+				<< FG::Yellow	<< "\nCode: "
+				<< FG::White	<< "\n\t" << (uint32_t)code
+				<< FG::Yellow	<< "\nExpression: "
+				<< FG::White	<< "\n\t" << expr
+				<< FG::Yellow	<< "\nDescription:"
+				<< FG::White	<< "\n\t" << AL::nameOf(code)
+				<< FG::White	<< "\n\t" << AL::descOf(code)
 				<< FMT()		<< endl;
 		}
+		return out;
 	}
 	
 

@@ -69,15 +69,14 @@ namespace ml
 	{
 		if (*this)
 		{
-			m_data = data;
+			m_data	= data;
 			m_count = count;
-
 			ML_GL.bufferData(
 				GL::ElementArrayBuffer,
-					(m_count * sizeof(uint32_t)),
+				(m_count * sizeof(uint32_t)),
 				m_data,
-				m_usage);
-
+				m_usage
+			);
 		}
 		return (*this);
 	}

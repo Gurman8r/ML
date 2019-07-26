@@ -66,8 +66,8 @@ namespace ml
 	{
 		if (*this)
 		{
-			m_data = data;
-			m_size = size;
+			m_data	= data;
+			m_size	= size;
 			m_count = size / Vertex::Size;
 			ML_GL.bufferData(
 				GL::ArrayBuffer, 
@@ -88,13 +88,13 @@ namespace ml
 	{
 		if (*this)
 		{
-			m_data = data;
-			m_size = size;
+			m_data	= data;
+			m_size	= size;
 			m_count = size / Vertex::Size;
 			ML_GL.bufferSubData(
 				GL::ArrayBuffer,
 				offset,
-					(sizeof(float_t) * m_size),
+				(sizeof(float_t) * m_size),
 				m_data
 			);
 		}

@@ -65,8 +65,13 @@ namespace ml
 
 	RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const RenderBatch & batch)
 	{
-		if (batch.vbo && batch.vbo && batch.mat->bind())
+		if (batch.vbo && batch.vbo)
 		{
+			if (batch.mat && (batch.mat->shader() && (*batch.mat->shader())))
+			{
+				batch.mat->bind();
+			}
+
 			batch.vbo->bind();
 			batch.vbo->bufferSubData(verts, (uint32_t)(count), 0);
 			batch.vbo->unbind();

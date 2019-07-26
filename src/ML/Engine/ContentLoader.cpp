@@ -53,18 +53,18 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ContentLoader::readFile(const String & filename, List<MetaData *>& list)
+	bool ContentLoader::readFile(const String & filename, List<Metadata *>& list)
 	{
 		SStream file;
 		String	line;
 		return ML_FS.getFileContents(filename, file) && readLists(list, file, line);
 	}
 
-	bool ContentLoader::readLists(List<MetaData *>& list, Istream & file, String & line)
+	bool ContentLoader::readLists(List<Metadata *>& list, Istream & file, String & line)
 	{
 		while (std::getline(file, line))
 		{
-			MetaData * data = nullptr;
+			Metadata * data = nullptr;
 			if (readMetadata(data, file, line))
 			{
 				// Load Manifest
@@ -78,14 +78,14 @@ namespace ml
 		return !list.empty();
 	}
 
-	bool ContentLoader::readMetadata(MetaData *& data, Istream & file, String & line)
+	bool ContentLoader::readMetadata(Metadata *& data, Istream & file, String & line)
 	{
 		if ((!data) &&
 			(line) &&
 			(line.trim().front() != '#') &&
 			(line.find("<import>") != String::npos))
 		{
-			data = new MetaData();
+			data = new Metadata();
 			while (std::getline(file, line))
 			{
 				line.replaceAll("$(Configuration)", ML_CONFIGURATION);
@@ -116,7 +116,7 @@ namespace ml
 		return (data = nullptr);
 	}
 
-	bool ContentLoader::parseMetadata(const MetaData & data)
+	bool ContentLoader::parseMetadata(const Metadata & data)
 	{
 		switch (Hash()(data.getData("type").asString()))
 		{

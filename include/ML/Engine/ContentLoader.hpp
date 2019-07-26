@@ -2,7 +2,7 @@
 #define _ML_CONTENT_LOADER_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/MetaData.hpp>
+#include <ML/Core/Metadata.hpp>
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Disposable.hpp>
 
@@ -29,18 +29,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		static bool readFile(const String & filename, List<MetaData *> & list);
-		static bool readLists(List<MetaData *> & list, Istream & file, String & line);
-		static bool readMetadata(MetaData *& data, Istream & file, String & line);
-		static bool parseMetadata(const MetaData & data);
+		static bool readFile(const String & filename, List<Metadata *> & list);
+		static bool readLists(List<Metadata *> & list, Istream & file, String & line);
+		static bool readMetadata(Metadata *& data, Istream & file, String & line);
+		static bool parseMetadata(const Metadata & data);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto lists() const -> const List<MetaData *> & { return m_lists; }
+		inline auto lists() const -> const List<Metadata *> & { return m_lists; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: List<MetaData *> m_lists;
+	private: List<Metadata *> m_lists;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -2,6 +2,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
+#include <ML/Core/Input.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -43,122 +44,232 @@ namespace ml
 
 	bool Material::loadFromFile(const String & filename)
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		return false;
-
-		/* * * * * * * * * * * * * * * * * * * * */
+		return loadFromFile(filename, nullptr);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void Material::apply(const Uniform * value) const
+	bool Material::loadFromFile(const String & filename, const Map<String, Texture *> * textures)
 	{
-		if (!value) return;
-		switch (value->type)
+		// Load uniforms from file
+		if (Ifstream file { filename })
 		{
-			// Flt1
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_flt1::ID:
-			if (float_t * temp = detail::toFloat(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Int1
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_int1::ID:
-			if (int32_t * temp = detail::toInt(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Vec2
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec2::ID:
-			if (vec2 * temp = detail::toVec2(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Vec3
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec3::ID:
-			if (vec3 * temp = detail::toVec3(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Vec4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_vec4::ID:
-			if (vec4 * temp = detail::toVec4(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Col4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_col4::ID:
-			if (vec4 * temp = detail::toCol4(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Mat3
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_mat3::ID:
-			if (mat3 * temp = detail::toMat3(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Mat4
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_mat4::ID:
-			if (mat4 * temp = detail::toMat4(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Tex2
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_tex2::ID:
-			if (const Texture * temp = detail::toTex2(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Tex3
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_tex3::ID:
-			if (const Texture * temp = detail::toTex3(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-
-			// Cube
-			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_cube::ID:
-			if (const Texture * temp = detail::toCube(value))
-				m_shader->setUniform(value->name, (*temp));
-			break;
-		}
-	}
-
-	bool Material::bind() const
-	{
-		if (m_shader && (*m_shader))
-		{
-			for (const auto & u : m_uniforms)
+			auto pop_front = [](List<String> & toks)
 			{
-				if (u && u->name)
+				// Erase begin and return front
+				if (toks.empty()) return String();
+				String temp = toks.front();
+				toks.erase(toks.begin());
+				return temp;
+			};
+
+			String line;
+			while (std::getline(file, line))
+			{
+				// Skip if empty or comment
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (line.empty() || line.trim().front() == '#')
+					continue;
+
+				// Parse tokens from line
+				/* * * * * * * * * * * * * * * * * * * * */
+				List<String> tokens = ([](String line)
 				{
-					this->apply(u);
+					List<String> toks;
+					if (!line) return toks;
+					line.trim()
+						.replaceAll("\t", " ")
+						.replaceAll(",", "");
+					size_t idx = 0;
+					while ((idx = line.find(" ")) != String::npos)
+					{
+						String temp = line.substr(0, idx);
+						if (temp) toks.push_back(temp);
+						line.erase(0, idx + 1);
+					}
+					if (line) toks.push_back(line);
+					return toks;
+				})(line);
+
+				// Parse uniform from tokens
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (tokens && (pop_front(tokens) == "uniform"))
+				{
+					// Uniform Type
+					/* * * * * * * * * * * * * * * * * * * * */
+					const int32_t u_type = ([](C_String type)
+					{
+						if (!type) return -1;
+						for (size_t i = 0; i < Uniform::MAX_UNI_TYPES; i++)
+							if (std::strcmp(type, Uniform::TypeNames[i]) == 0)
+								return (int32_t)i;
+						return -1;
+					})(pop_front(tokens).c_str());
+
+					// Uniform Name
+					/* * * * * * * * * * * * * * * * * * * * */
+					const String u_name = pop_front(tokens);
+
+					// Uniform Data
+					/* * * * * * * * * * * * * * * * * * * * */
+					SStream u_data = ([](List<String> & toks)
+					{
+						SStream out;
+						if ((toks.size() > 2 && toks.front() == "{" && toks.back() == "}"))
+						{
+							toks.erase(toks.begin());
+							String temp;
+							while (toks && ((temp = toks.front()) != "}"))
+							{
+								out << temp << ' ';
+								toks.erase(toks.begin());
+							}
+						}
+						return out;
+					})(tokens);
+
+					// Generate Uniform
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (Uniform * u = ([](int32_t type, const String & name, SStream & ss, const auto * t)
+					{
+						Uniform * u;
+						if ((type == -1) || name.empty() || ss.str().empty())
+						{
+							return u = nullptr;
+						}
+						switch (type)
+						{
+						case uni_bool::ID: return u = new uni_bool(name, input<bool>()(ss));
+						case uni_int1::ID: return u = new uni_int1(name, input<int32_t>()(ss));
+						case uni_flt1::ID: return u = new uni_flt1(name, input<float_t>()(ss));
+						case uni_vec2::ID: return u = new uni_vec2(name, input<vec2>()(ss));
+						case uni_vec3::ID: return u = new uni_vec3(name, input<vec3>()(ss));
+						case uni_vec4::ID: return u = new uni_vec4(name, input<vec4>()(ss));
+						case uni_col4::ID: return u = new uni_col4(name, input<vec4>()(ss));
+						case uni_mat3::ID: return u = new uni_mat3(name, input<mat3>()(ss));
+						case uni_mat4::ID: return u = new uni_mat4(name, input<mat4>()(ss));
+						case uni_tex2::ID:
+						{
+							Map<String, Texture *>::const_iterator it;
+							return (t && ((it = t->find(String(ss.str()).trim())) != t->end()))
+								? u = new uni_tex2(name, it->second)
+								: u = new uni_tex2(name, nullptr);
+						}
+						case uni_tex3::ID:
+						{
+							Map<String, Texture *>::const_iterator it;
+							return (t && ((it = t->find(String(ss.str()).trim())) != t->end()))
+								? u = new uni_tex3(name, it->second)
+								: u = new uni_tex3(name, nullptr);
+						}
+						case uni_cube::ID:
+						{
+							Map<String, Texture *>::const_iterator it;
+							return (t && ((it = t->find(String(ss.str()).trim())) != t->end()))
+								? u = new uni_cube(name, it->second)
+								: u = new uni_cube(name, nullptr);
+						}
+						}
+						return u = nullptr;
+					})(u_type, u_name, u_data, textures))
+					{
+						m_uniforms.push_back(u);
+					}
 				}
 			}
-			m_shader->bind();
+			
+			file.close();
 			return true;
 		}
 		return false;
 	}
 
-	void Material::unbind() const
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool Material::apply(const Uniform * value) const
+	{
+		if (!value || !value->name) 
+		{ 
+			return false; 
+		}
+		switch (value->type)
+		{
+			// Flt1
+		case uni_flt1::ID:
+			if (auto temp = detail::toFloat(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Int1
+		case uni_int1::ID:
+			if (auto temp = detail::toInt(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Vec2
+		case uni_vec2::ID:
+			if (auto temp = detail::toVec2(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Vec3
+		case uni_vec3::ID:
+			if (auto temp = detail::toVec3(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Vec4
+		case uni_vec4::ID:
+			if (auto temp = detail::toVec4(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Col4
+		case uni_col4::ID:
+			if (auto temp = detail::toCol4(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Mat3
+		case uni_mat3::ID:
+			if (auto temp = detail::toMat3(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Mat4
+		case uni_mat4::ID:
+			if (auto temp = detail::toMat4(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Tex2
+		case uni_tex2::ID:
+			if (auto temp = detail::toTex2(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Tex3
+		case uni_tex3::ID:
+			if (auto temp = detail::toTex3(value))
+				return m_shader->setUniform(value->name, (*temp));
+
+			// Cube
+		case uni_cube::ID:
+			if (auto temp = detail::toCube(value))
+				return m_shader->setUniform(value->name, (*temp));
+		}
+		return false;
+	}
+
+	const Material & Material::bind(bool bindTextures) const
+	{
+		if (m_shader && (*m_shader))
+		{
+			for (const Uniform * u : (*this))
+			{
+				if (u && u->name) { this->apply(u); }
+			}
+			m_shader->bind(bindTextures);
+		}
+		return (*this);
+	}
+
+	const Material & Material::unbind() const
 	{
 		if (m_shader && (*m_shader))
 		{
 			m_shader->unbind();
 		}
+		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

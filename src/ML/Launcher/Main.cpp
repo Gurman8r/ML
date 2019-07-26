@@ -63,8 +63,24 @@ static StateMachine<State> g_ProgramStates
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <ML/Engine/Lua.hpp>
+
+int32_t test_lua()
+{
+	Metadata md;
+
+	lua_State * L = luaL_newstate();
+	lua_close(L);
+	
+	return EXIT_SUCCESS;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 int32_t main()
 {
+	//return test_lua();
+
 	// Load Plugin List
 	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Preferences.GetString(
 		"Launcher", "plugin_list", ""

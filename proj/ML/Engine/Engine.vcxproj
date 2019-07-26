@@ -167,6 +167,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Content.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Camera.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ContentLoader.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Lua.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Plugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp" />

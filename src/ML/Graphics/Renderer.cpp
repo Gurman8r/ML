@@ -39,8 +39,10 @@ namespace ml
 		{
 			m_states.apply();
 
-			if (m_material->bind())
+			if (m_material->shader() && (*m_material->shader()))
 			{
+				m_material->bind();
+
 				target.draw(m_drawable);
 
 				m_material->unbind();

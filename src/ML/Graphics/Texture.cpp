@@ -12,7 +12,7 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Target target) : Texture(
+	Texture::Texture(GL::Sampler target) : Texture(
 		target, 
 		ML_TEX_DEFAULT_SMOOTH,
 		ML_TEX_DEFAULT_REPEAT
@@ -37,7 +37,7 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Target target, bool smooth, bool repeated) : Texture(
+	Texture::Texture(GL::Sampler target, bool smooth, bool repeated) : Texture(
 		target, 
 		ML_TEX_DEFAULT_FORMAT,
 		smooth, 
@@ -46,7 +46,7 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Target target, GL::Format format, bool smooth, bool repeated) : Texture(
+	Texture::Texture(GL::Sampler target, GL::Format format, bool smooth, bool repeated) : Texture(
 		target, 
 		format, 
 		smooth, 
@@ -56,7 +56,7 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Target target, GL::Format format, bool smooth, bool repeated, bool mipmapped) : Texture(
+	Texture::Texture(GL::Sampler target, GL::Format format, bool smooth, bool repeated, bool mipmapped) : Texture(
 		target, 
 		format, // internal format
 		format, // color format
@@ -67,7 +67,7 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Target target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated) : Texture(
+	Texture::Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated) : Texture(
 		target, 
 		internalFormat, 
 		colFormat, 
@@ -78,7 +78,7 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Target target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped) : Texture(
+	Texture::Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped) : Texture(
 		target, 
 		internalFormat, 
 		colFormat, 
@@ -91,11 +91,11 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Target target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
+	Texture::Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
 		: I_Handle			(NULL)
 		, m_size			(vec2u { 0, 0 })
 		, m_realSize		(vec2u { 0, 0 })
-		, m_target			(target)
+		, m_sampler			(target)
 		, m_internalFormat	(internalFormat)
 		, m_colorFormat		(colFormat)
 		, m_smooth			(smooth)
@@ -107,7 +107,7 @@ namespace ml
 	}
 
 	Texture::Texture(const Texture & copy) : Texture(
-		copy.m_target,
+		copy.m_sampler,
 		copy.m_internalFormat,
 		copy.m_colorFormat,
 		copy.m_smooth,
@@ -120,13 +120,13 @@ namespace ml
 		create(copy);
 	}
 
-	Texture::~Texture() { dispose(); }
+	Texture::~Texture() { this->dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Texture::dispose()
 	{
-		Texture::bind(nullptr);
+		this->unbind();
 		if (*this)
 		{
 			ML_GL.deleteTextures(1, (*this));
@@ -149,7 +149,7 @@ namespace ml
 	bool Texture::loadFromFaces(const Array<const Image *, 6> & faces)
 	{
 		// Validate Target
-		if (m_target != GL::TextureCubeMap)
+		if (m_sampler != GL::TextureCubeMap)
 			return Debug::logError("Load from faces only available for {0}s.",
 				GL::TextureCubeMap
 			);
@@ -178,9 +178,9 @@ namespace ml
 		}
 
 		// Create Texture
-		if (dispose() && set_handle(ML_GL.genTextures(1)))
+		if (this->dispose() && set_handle(ML_GL.genTextures(1)))
 		{
-			Texture::bind(this);
+			this->bind();
 			for (size_t i = 0; i < faces.size(); i++)
 			{
 				ML_GL.texImage2D(
@@ -195,10 +195,10 @@ namespace ml
 					faces[i]->data()
 				);
 			}
-			Texture::bind(nullptr);
+			this->unbind();
 			ML_GL.flush();
-			setRepeated(m_repeated);
-			setSmooth(m_smooth);
+			this->setRepeated(m_repeated);
+			this->setSmooth(m_smooth);
 			return true;
 		}
 		return false;
@@ -209,39 +209,38 @@ namespace ml
 	bool Texture::create(const Texture & other)
 	{
 		return ((other)
-			? ((create(other.size()))
-				? (update(other))
-				: (Debug::logError("Failed to copy texture, failed to create new texture"))
-			)
-			: (false)
+			? (this->create(other.size())
+				? this->update(other)
+				: Debug::logError("Failed to copy texture, failed to create new texture")) 
+			: false
 		);
 	}
 
 	bool Texture::create(const vec2u & size)
 	{
-		return create(NULL, size);
+		return this->create(nullptr, size);
 	}
 
 	bool Texture::create(const Image & image, const vec2u & size)
 	{
-		return create(&image.pixels()[0], size);
+		return this->create(image.data(), size);
 	}
 
 	bool Texture::create(const Image & image, uint32_t w, uint32_t h)
 	{
-		return create(&image.pixels()[0], w, h);
+		return this->create(image.data(), w, h);
 	}
 
 	bool Texture::create(const uint8_t * pixels, const vec2u & size)
 	{
-		return create(pixels, size[0], size[1]);
+		return this->create(pixels, size[0], size[1]);
 	}
 
 	bool Texture::create(const uint8_t * pixels, uint32_t w, uint32_t h)
 	{
 		if (w && h)
 		{
-			if (dispose() && set_handle(ML_GL.genTextures(1)))
+			if (this->dispose() && set_handle(ML_GL.genTextures(1)))
 			{
 				m_size = { w, h };
 				m_realSize =
@@ -260,10 +259,10 @@ namespace ml
 					);
 				}
 
-				Texture::bind(this);
+				this->bind();
 				{
 					ML_GL.texImage2D(
-						m_target,
+						m_sampler,
 						m_level,
 						m_internalFormat,
 						m_size[0],
@@ -274,7 +273,7 @@ namespace ml
 						pixels
 					);
 				}
-				Texture::bind(nullptr);
+				this->unbind();
 
 				ML_GL.flush();
 
@@ -299,61 +298,61 @@ namespace ml
 	
 	bool Texture::update(const Texture & other)
 	{
-		return update(other.copyToImage());
+		return this->update(other.copyToImage());
 	}
 
 	bool Texture::update(const Texture & other, const UintRect & area)
 	{
-		return update(other.copyToImage(), area);
+		return this->update(other.copyToImage(), area);
 	}
 
 	bool Texture::update(const Texture & other, const vec2u & position, const vec2u & size)
 	{
-		return update(other.copyToImage(), position, size);
+		return this->update(other.copyToImage(), position, size);
 	}
 
 	bool Texture::update(const Texture & other, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
-		return update(other.copyToImage(), x, y, w, h);
+		return this->update(other.copyToImage(), x, y, w, h);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool Texture::update(const Image & image)
 	{
-		return update(&image.pixels()[0], image.bounds());
+		return this->update(image.data(), image.bounds());
 	}
 
 	bool Texture::update(const Image & image, const UintRect & area)
 	{
-		return update(&image.pixels()[0], area.position(), area.size());
+		return this->update(image.data(), area.position(), area.size());
 	}
 
 	bool Texture::update(const Image & image, const vec2u & position, const vec2u & size)
 	{
-		return update(&image.pixels()[0], position[0], position[1], size[0], size[1]);
+		return this->update(image.data(), position[0], position[1], size[0], size[1]);
 	}
 
 	bool Texture::update(const Image & image, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
-		return update(&image.pixels()[0], x, y, w, h);
+		return this->update(image.data(), x, y, w, h);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool Texture::update(const uint8_t * pixels)
 	{
-		return update(pixels, UintRect { width(), height() });
+		return this->update(pixels, UintRect { width(), height() });
 	}
 
 	bool Texture::update(const uint8_t * pixels, const UintRect & area)
 	{
-		return update(pixels, area.position(), area.size());
+		return this->update(pixels, area.position(), area.size());
 	}
 
 	bool Texture::update(const uint8_t * pixels, const vec2u & position, const vec2u & size)
 	{
-		return update(pixels, position[0], position[1], size[0], size[1]);
+		return this->update(pixels, position[0], position[1], size[0], size[1]);
 	}
 
 	bool Texture::update(const uint8_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
@@ -362,10 +361,10 @@ namespace ml
 		{
 			if ((*this) && (pixels))
 			{
-				Texture::bind(this);
+				this->bind();
 				{
 					ML_GL.texSubImage2D(
-						m_target,
+						m_sampler,
 						m_level,
 						x,
 						y,
@@ -376,7 +375,7 @@ namespace ml
 						pixels
 					);
 				}
-				Texture::bind(nullptr);
+				this->unbind();
 
 				ML_GL.flush();
 
@@ -415,27 +414,27 @@ namespace ml
 				return setSmooth(m_smooth);
 			}
 
-			Texture::bind(this);
+			this->bind();
 
-			ML_GL.generateMipmap(m_target);
+			ML_GL.generateMipmap(m_sampler);
 
 			ML_GL.texParameter(
-				m_target,
+				m_sampler,
 				GL::TexMinFilter,
 				(((m_smooth)
-					? (GL::LinearMipmapLinear)
-					: (GL::NearestMipmapNearest)
+					? GL::LinearMipmapLinear
+					: GL::NearestMipmapNearest
 					)));
 
 			ML_GL.texParameter(
-				m_target,
+				m_sampler,
 				GL::TexMagFilter,
 				(((m_smooth)
-					? (GL::LinearMipmapLinear)
-					: (GL::NearestMipmapNearest)
+					? GL::LinearMipmapLinear
+					: GL::NearestMipmapNearest
 					)));
 			
-			Texture::bind(nullptr);
+			this->unbind();
 
 			ML_GL.flush();
 		}
@@ -459,29 +458,29 @@ namespace ml
 				}
 			}
 
-			Texture::bind(this);
+			this->bind();
 			
 			ML_GL.texParameter(
-				m_target,
+				m_sampler,
 				GL::TexWrapS,
 				((m_repeated)
-					? (GL::Repeat)
+					? GL::Repeat
 					: ((ML_GL.edgeClampAvailable())
-						? (GL::ClampToEdge)
-						: (GL::Clamp)
+						? GL::ClampToEdge
+						: GL::Clamp
 						)));
 
 			ML_GL.texParameter(
-				m_target,
+				m_sampler,
 				GL::TexWrapT,
 				((m_repeated)
-					? (GL::Repeat)
+					? GL::Repeat
 					: ((ML_GL.edgeClampAvailable())
-						? (GL::ClampToEdge)
-						: (GL::Clamp)
+						? GL::ClampToEdge
+						: GL::Clamp
 						)));
 			
-			Texture::bind(nullptr);
+			this->unbind();
 
 			ML_GL.flush();
 		}
@@ -494,37 +493,37 @@ namespace ml
 		{
 			m_smooth = value;
 
-			Texture::bind(this);
+			this->bind();
 
 			ML_GL.texParameter(
-				m_target,
+				m_sampler,
 				GL::TexMinFilter,
 				((m_smooth)
-					? (GL::Linear)
-					: (GL::Nearest)
+					? GL::Linear
+					: GL::Nearest
 					));
 
 			ML_GL.texParameter(
-				m_target,
+				m_sampler,
 				GL::TexMagFilter,
 				((m_smooth)
 					? GL::Linear
-					: (GL::Nearest)
+					: GL::Nearest
 					));
 
-			Texture::bind(nullptr);
+			this->unbind();
 
 			ML_GL.flush();
 		}
 		return (*this);
 	}
 
-	Texture & Texture::setTarget(GL::Target value)
+	Texture & Texture::setSampler(GL::Sampler value)
 	{
 		if (*this)
 		{
-			Texture::bind(this);
-			Texture::bind(nullptr);
+			this->bind();
+			this->unbind();
 			ML_GL.flush();
 		}
 		return (*this);
@@ -534,10 +533,10 @@ namespace ml
 	{
 		if (*this)
 		{
-			Texture::bind(this);
-			//ML_GL.texParameter(m_target, GL::BaseLevel, value);
-			//ML_GL.texParameter(m_target, GL::MaxLevel, value);
-			Texture::bind(nullptr);
+			this->bind();
+			//ML_GL.texParameter(m_sampler, GL::BaseLevel, value);
+			//ML_GL.texParameter(m_sampler, GL::MaxLevel, value);
+			this->unbind();
 			ML_GL.flush();
 		}
 		return (*this);
@@ -547,8 +546,8 @@ namespace ml
 	{
 		if (*this)
 		{
-			Texture::bind(this);
-			Texture::bind(nullptr);
+			this->bind();
+			this->unbind();
 			ML_GL.flush();
 		}
 		return (*this);
@@ -558,8 +557,8 @@ namespace ml
 	{
 		if (*this)
 		{
-			Texture::bind(this);
-			Texture::bind(nullptr);
+			this->bind();
+			this->unbind();
 			ML_GL.flush();
 		}
 		return (*this);
@@ -569,8 +568,8 @@ namespace ml
 	{
 		if (*this)
 		{
-			Texture::bind(this);
-			Texture::bind(nullptr);
+			this->bind();
+			this->unbind();
 			ML_GL.flush();
 		}
 		return (*this);
@@ -581,7 +580,7 @@ namespace ml
 	Texture & Texture::swap(Texture & other)
 	{
 		std::swap(get_reference(),	other.get_reference());
-		std::swap(m_target,			other.m_target);
+		std::swap(m_sampler,			other.m_sampler);
 		std::swap(m_level,			other.m_level);
 		std::swap(m_size,			other.m_size);
 		std::swap(m_realSize,		other.m_realSize);
@@ -605,28 +604,39 @@ namespace ml
 
 	const Image Texture::copyToImage() const
 	{
+		Image image;
 		if (*this)
 		{
 			Image::Pixels pixels(width() * height() * 4);
 
 			if ((m_size == m_realSize))
 			{
-				Texture::bind(this);
-
+				this->bind();
 				ML_GL.getTexImage(
-					m_target,
+					m_sampler,
 					m_level,
 					m_internalFormat,
 					m_type,
 					&pixels[0]
 				);
-
-				Texture::bind(nullptr);
+				this->unbind();
 			}
 
-			return Image().create(width(), height(), &pixels[0]);
+			return image.create(width(), height(), &pixels[0]);
 		}
-		return Image();
+		return image;
+	}
+
+	const Texture & Texture::bind() const
+	{
+		bind(this);
+		return (*this);
+	}
+
+	const Texture & Texture::unbind() const
+	{
+		bind(nullptr);
+		return (*this);
 	}
 
 	void Texture::bind(const Texture * value)

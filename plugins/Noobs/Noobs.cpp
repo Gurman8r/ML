@@ -541,7 +541,7 @@ namespace ml
 					Uniform * u = nullptr;
 					if (UniformPropertyDrawer()("##NewUniform##Material##Noobs", u))
 					{
-						if (!noobs.material->addUniform(u))
+						if (!noobs.material->add(u))
 						{
 							delete u;
 							Debug::logError("A uniform with that name already exists");

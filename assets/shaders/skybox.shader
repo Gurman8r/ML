@@ -76,21 +76,18 @@ uniform struct Camera
 	float		zFar;		// Far Clipping Distance
 } camera;
 
-uniform struct System
-{
-	vec2		cursorPos;	// Position of Cursor
-	float		deltaTime;	// Elapsed Frame Time
-	int			frameCount;	// Current Frame Index
-	vec2		resolution;	// Size of Main Window
-	float		totalTime;	// Total Time Elapsed (seconds)
-} sys;
+uniform vec2	u_cursorPos;	// Position of Cursor
+uniform float	u_deltaTime;	// Elapsed Frame Time
+uniform int		u_frameCount;	// Current Frame Index
+uniform vec2	u_resolution;	// Size of Main Window
+uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 void main()
 {
 	// Model Matrix
-	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), -sys.totalTime * 0.1);
+	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), -u_totalTime * 0.1);
 
 	// View Matrix
 	mat4 view = ml_LookAt(
@@ -102,7 +99,7 @@ void main()
 	// Projection Matrix
 	mat4 proj = ml_Perspective(
 		camera.fov,
-		(sys.resolution.x / sys.resolution.y),
+		(u_resolution.x / u_resolution.y),
 		camera.zNear,
 		camera.zFar
 	);

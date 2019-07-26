@@ -33,7 +33,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const FrameBuffer & setTexture(uint32_t attchment, uint32_t value, GL::Target target, int32_t level) const;
+		const FrameBuffer & setTexture(uint32_t attchment, uint32_t value, uint32_t target, int32_t level) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

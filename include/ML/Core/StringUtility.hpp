@@ -49,6 +49,16 @@ namespace ml
 			return true;
 		}
 
+		static inline bool is_graph(const String & value)
+		{
+			if (value.empty()) return false;
+			std::locale loc;
+			for (const auto & elem : value)
+				if (!std::isgraph(elem, loc))
+					return false;
+			return true;
+		}
+
 		static inline bool is_print(const String & value)
 		{
 			for (const auto & elem : value)

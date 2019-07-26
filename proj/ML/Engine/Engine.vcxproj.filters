@@ -75,6 +75,9 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ContentLoader.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Lua.hpp">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp">

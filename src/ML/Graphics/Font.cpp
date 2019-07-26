@@ -65,7 +65,8 @@ namespace ml
 		FT_Library library;
 		if (FT_Init_FreeType(&library) != EXIT_SUCCESS)
 		{
-			return Debug::logError("Failed to load font \"{0}\" (failed to open FreeType)", 
+			return Debug::logError(
+				"Failed loading font \"{0}\" (failed to open FreeType)", 
 				filename
 			);
 		}
@@ -75,7 +76,8 @@ namespace ml
 		FT_Face face;
 		if (FT_New_Face(static_cast<FT_Library>(m_library), filename.c_str(), 0, &face) != EXIT_SUCCESS)
 		{
-			return Debug::logError("Failed to load font \"{0}\" (failed to create the font face)",
+			return Debug::logError(
+				"Failed loading font \"{0}\" (failed to create the font face)",
 				filename
 			);
 		}
@@ -85,7 +87,8 @@ namespace ml
 		if (FT_Stroker_New(static_cast<FT_Library>(m_library), &stroker) != EXIT_SUCCESS)
 		{
 			FT_Done_Face(face);
-			return Debug::logError("Failed to load font \"{0}\" (failed to create the stroker)", 
+			return Debug::logError(
+				"Failed loading font \"{0}\" (failed to create the stroker)", 
 				filename
 			);
 		}
@@ -95,7 +98,8 @@ namespace ml
 		{
 			FT_Stroker_Done(stroker);
 			FT_Done_Face(face);
-			return Debug::logError("Failed to load font \"{0}\" (failed to set the Unicode character set)", 
+			return Debug::logError(
+				"Failed loading font \"{0}\" (failed to set the Unicode character set)", 
 				filename
 			);
 		}
@@ -111,27 +115,22 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const Glyph & Font::getGlyph(uint32_t value, uint32_t size) const
+	const Glyph & Font::getGlyph(uint32_t c, uint32_t characterSize) const
 	{
-		GlyphTable & table = m_pages[size];
+		GlyphTable & table = m_pages[characterSize];
 
 		GlyphTable::const_iterator it;
-		if ((it = table.find(value)) != table.end())
+		if ((it = table.find(c)) != table.end())
 		{
 			return it->second;
 		}
 		else
 		{
-			return table.insert({ value, loadGlyph(value, size) }).first->second;
+			return table.insert({ c, loadGlyph(c, characterSize) }).first->second;
 		}
 	}
 
-	const Font::Info & Font::getInfo() const
-	{
-		return m_info;
-	}
-
-	Glyph Font::loadGlyph(uint32_t value, uint32_t size) const
+	Glyph Font::loadGlyph(uint32_t c, uint32_t characterSize) const
 	{
 		Glyph glyph;
 
@@ -141,16 +140,16 @@ namespace ml
 			return glyph;
 		}
 
-		// Set size to load glyphs as
-		FT_Set_Pixel_Sizes(face, 0, size);
+		// Set size loading glyphs as
+		FT_Set_Pixel_Sizes(face, 0, characterSize);
 
 		// Disable byte-alignment restriction
 		ML_GL.pixelStore(GL::UnpackAlignment, 1);
 
 		// Load character glyph 
-		if (FT_Load_Char(face, value, FT_LOAD_RENDER) != EXIT_SUCCESS)
+		if (FT_Load_Char(face, c, FT_LOAD_RENDER) != EXIT_SUCCESS)
 		{
-			Debug::logWarning("Failed to load Glyph \'{0}\'", (char)value);
+			Debug::logWarning("Failed loading Glyph \'{0}\'", (char)c);
 			return glyph;
 		}
 
@@ -164,11 +163,11 @@ namespace ml
 		glyph.advance = (uint32_t)face->glyph->advance.x;
 
 		// Only load a texture for characters requiring a graphic
-		if ((value != ' ') && isgraph(value))
+		if ((c != ' ') && std::isgraph(c))
 		{
 			if (!glyph.texture.create(face->glyph->bitmap.buffer, (vec2u)glyph.size()))
 			{
-				Debug::logWarning("Failed Loading Glyph Texture: \'{0}\'", (char)value);
+				Debug::logWarning("Failed Loading Glyph Texture: \'{0}\'", (char)c);
 			}
 		}
 

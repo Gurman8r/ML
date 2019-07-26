@@ -1,8 +1,0 @@
-# Sunset Skybox
-path: ../../../assets/
-U: /textures/bg/sunset/sunset_up.png
-D: /textures/bg/sunset/sunset_down.png
-L: /textures/bg/sunset/sunset_left.png
-R: /textures/bg/sunset/sunset_right.png
-F: /textures/bg/sunset/sunset_front.png
-B: /textures/bg/sunset/sunset_back.png

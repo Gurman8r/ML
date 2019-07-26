@@ -210,49 +210,48 @@
 #</import>
 
 
-# Skybox (WIP)
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>
 	type 	= image
 	flipV	= false
 	name 	= sunset_right
-	file 	= ../../../assets/textures/bg/sunset/sunset_right.png
+	file 	= ../../../assets/skyboxes/sunset/sunset_right.png
 </import>	
 	
 <import>	
 	type 	= image
 	flipV	= false
 	name 	= sunset_left
-	file 	= ../../../assets/textures/bg/sunset/sunset_left.png
+	file 	= ../../../assets/skyboxes/sunset/sunset_left.png
 </import>	
 	
 <import>	
 	type 	= image
 	flipV	= false
 	name 	= sunset_top
-	file 	= ../../../assets/textures/bg/sunset/sunset_top.png
+	file 	= ../../../assets/skyboxes/sunset/sunset_top.png
 </import>	
 	
 <import>	
 	type 	= image
 	flipV	= false
 	name 	= sunset_bottom
-	file 	= ../../../assets/textures/bg/sunset/sunset_bottom.png
+	file 	= ../../../assets/skyboxes/sunset/sunset_bottom.png
 </import>	
 	
 <import>	
 	type 	= image
 	flipV	= false
 	name 	= sunset_front
-	file 	= ../../../assets/textures/bg/sunset/sunset_front.png
+	file 	= ../../../assets/skyboxes/sunset/sunset_front.png
 </import>
 
 <import>
 	type 	= image
 	flipV	= false
 	name 	= sunset_back
-	file 	= ../../../assets/textures/bg/sunset/sunset_back.png
+	file 	= ../../../assets/skyboxes/sunset/sunset_back.png
 </import>
 
 <import>
@@ -271,6 +270,14 @@
 	back	= sunset_back
 </import>
 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<import>
+	type = image
+	name = star
+	file = ../../../assets/skyboxes/star.jpg
+</import>
+
 <import>
 	type	= texture
 	name	= starfield
@@ -285,6 +292,24 @@
 	bottom	= star
 	front	= star
 	back	= star
+</import>
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+<import>
+	type	= texture
+	name	= space
+	target	= texture_cube
+	smooth	= false
+	repeat	= true
+	format	= RGB
+	source	= files
+	front	= ../../../assets/skyboxes/space/1.png
+	left	= ../../../assets/skyboxes/space/2.png
+	back	= ../../../assets/skyboxes/space/3.png
+	right	= ../../../assets/skyboxes/space/4.png
+	top		= ../../../assets/skyboxes/space/5.png
+	bottom	= ../../../assets/skyboxes/space/6.png
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

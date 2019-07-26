@@ -161,14 +161,20 @@
     <Filter Include="Resource Files\assets\textures\bg">
       <UniqueIdentifier>{53ec33e9-d7e1-4841-a236-b1b1332f8b4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\assets\textures\bg\sunset">
-      <UniqueIdentifier>{dcd0bc86-fb15-4a27-bc63-2724ad97eef4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\assets\shaders\noobs">
       <UniqueIdentifier>{555fac42-a59a-4a5c-9fd4-7d4f619ad609}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\assets\materials">
       <UniqueIdentifier>{75c6a844-e16f-40ba-b612-ecc0cc0cc7c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\skyboxes">
+      <UniqueIdentifier>{5b4b4dbb-aa4e-433c-a3f9-28a7444d462f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\skyboxes\sunset">
+      <UniqueIdentifier>{b7272497-0d78-4b29-b6bd-f6309a6ad293}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\skyboxes\space">
+      <UniqueIdentifier>{a3d9232f-9166-4a82-a4c1-97f7099e171a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -290,26 +296,44 @@
     <Image Include="..\..\..\assets\textures\bg\sky_water.png">
       <Filter>Resource Files\assets\textures\bg</Filter>
     </Image>
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_back.png">
-      <Filter>Resource Files\assets\textures\bg\sunset</Filter>
+    <Image Include="..\..\..\assets\skyboxes\star.jpg">
+      <Filter>Resource Files\assets\skyboxes</Filter>
     </Image>
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_front.png">
-      <Filter>Resource Files\assets\textures\bg\sunset</Filter>
+    <Image Include="..\..\..\assets\skyboxes\space\1.png">
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_bottom.png">
-      <Filter>Resource Files\assets\textures\bg\sunset</Filter>
+    <Image Include="..\..\..\assets\skyboxes\space\2.png">
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_top.png">
-      <Filter>Resource Files\assets\textures\bg\sunset</Filter>
+    <Image Include="..\..\..\assets\skyboxes\space\3.png">
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
-    <Image Include="..\..\..\assets\images\star.jpg">
-      <Filter>Resource Files\assets\images</Filter>
+    <Image Include="..\..\..\assets\skyboxes\space\4.png">
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_left.png">
-      <Filter>Resource Files\assets\textures\bg\sunset</Filter>
+    <Image Include="..\..\..\assets\skyboxes\space\5.png">
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
-    <Image Include="..\..\..\assets\textures\bg\sunset\sunset_right.png">
-      <Filter>Resource Files\assets\textures\bg\sunset</Filter>
+    <Image Include="..\..\..\assets\skyboxes\space\6.png">
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
+    </Image>
+    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_back.png">
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
+    </Image>
+    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_bottom.png">
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
+    </Image>
+    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_front.png">
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
+    </Image>
+    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_left.png">
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
+    </Image>
+    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_right.png">
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
+    </Image>
+    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_top.png">
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
   </ItemGroup>
 </Project>

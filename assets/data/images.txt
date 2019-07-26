@@ -19,10 +19,4 @@
 	file = ../../../assets/images/dean.png
 </import>
 
-<import>
-	type = image
-	name = star
-	file = ../../../assets/images/star.jpg
-</import>
-
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

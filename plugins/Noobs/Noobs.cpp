@@ -178,19 +178,106 @@ namespace ml
 
 	void Noobs::onGui(const GuiEvent & ev)
 	{
-		static Trigger showTerminal { true };
-		if (showTerminal) 
-			ev.editor.terminal().setOpen(true);
+		//static bool once = true;
+		//if (once && !(once = false))
+		//	ev.editor.terminal().setOpen(true);
+		
+		this->draw_scene_gui(ev);
 
+		this->draw_editor_gui(ev);
+
+		// Test Worker Popup
+		if (true)
+		{
+			// Trigger Worker
+			if (noobs.trigger.consume())
+			{
+				// Not already running
+				if (noobs.worker.available())
+				{
+					// Open Popup
+					ImGui::OpenPopup("Worker##Popup##Noobs");
+
+					// Launch Thread
+					noobs.worker.launch(100, [&]()
+					{
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						Debug::log("Loading...");
+
+						for (size_t i = 0; noobs.worker.working(); i++)
+						{
+							// Do the thing, record the result, increment the counter.
+							noobs.worker.process([&]()
+							{
+								// Dummy Load
+								noobs.worker.sleep(50_ms);
+								return true;
+							});
+						}
+
+						Debug::log("Done loading.");
+
+						/* * * * * * * * * * * * * * * * * * * * */
+					});
+				}
+				else
+				{
+					Debug::logError("Loading already in progress.");
+				}
+			}
+
+			// Draw Worker
+			if (ImGui::BeginPopupModal(
+				"Worker##Popup##Noobs", 
+				nullptr, 
+				ImGuiWindowFlags_AlwaysAutoResize
+			))
+			{
+				if (noobs.worker.working())
+				{
+					auto str = String("Loading {0}/{1}").format(
+						noobs.worker.current(), 
+						noobs.worker.maximum()
+					);
+					ImGui::Text("Test Parallel Worker");
+					ImGui::ProgressBar(noobs.worker.progress(), { 0.0f, 0.0f }, str.c_str());
+				}
+				else if (noobs.worker.done())
+				{
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
+
+			// Dispose Worker
+			if (noobs.worker.done())
+			{
+				if (noobs.worker.dispose())
+				{
+					Debug::log("Worker disposed.");
+				}
+				else
+				{ 
+					Debug::logError("Failed disposing worker?");
+				}
+			}
+		};
+	}
+
+	void Noobs::onExit(const ExitEvent & ev)
+	{
+		disposeFiles();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void Noobs::draw_scene_gui(const GuiEvent & ev)
+	{
 		// Noobs Scene
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		ML_EditorUtility.DrawWindow(
-			"Noobs Scene",
-			noobs.showScene,
-			ImGuiWindowFlags_MenuBar,
-			([&]()
+		ML_EditorUtility.DrawWindow("Noobs Scene", noobs.showScene, ImGuiWindowFlags_MenuBar, ([&]()
 		{
-
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			if (ImGui::BeginMenuBar())
@@ -244,7 +331,7 @@ namespace ml
 
 			Texture * texture { nullptr };
 			if ((noobs.surf_post) &&
-				(texture = &noobs.surf_post->texture()) && 
+				(texture = &noobs.surf_post->texture()) &&
 				(*texture))
 			{
 				auto scaleToFit = [](const vec2 & src, const vec2 & dst)
@@ -268,15 +355,13 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}));
+	}
 
-
+	void Noobs::draw_editor_gui(const GuiEvent & ev)
+	{
 		// Noobs Editor
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		ML_EditorUtility.DrawWindow(
-			"Noobs Editor",
-			noobs.showBuilder,
-			ImGuiWindowFlags_None,
-			([&]()
+		ML_EditorUtility.DrawWindow("Noobs Editor", noobs.showBuilder, ImGuiWindowFlags_None, ([&]()
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -293,9 +378,7 @@ namespace ml
 						ImGui::OpenPopup("New File##Popup##Editor##Noobs");
 					}
 					ImGui::SameLine();
-					bool rebuild = ImGui::Button("Rebuild##Editor##Noobs");
-					ImGui::SameLine();
-					if (rebuild || ImGui::Button("Compile##Editor##Noobs"))
+					if (ImGui::Button("Compile##Editor##Noobs"))
 					{
 						for (auto & file : noobs.files)
 						{
@@ -303,73 +386,14 @@ namespace ml
 						}
 
 						// custom shader parser
-						struct NoobParser
-						{
-							inline String operator()(const FileList & file_list, const String & src) const
-							{
-								SStream out;
-								SStream ss(src);
-								String	line;
-								while (std::getline(ss, line))
-								{
-									if (line.find("#include") != String::npos)
-									{
-										bool found = false;
-										String name;
-										if (ShaderParser::parseWrapped(
-											line, '\"', '\"', name
-										))
-										{
-											for (const auto & e : file_list)
-											{
-												if (e->name == name)
-												{
-													out << (*this)(file_list, e->text.GetText());
-													found = true;
-													break;
-												}
-											}
-											if (!found)
-											{
-												if (auto shader = ML_Content.get<Shader>(name))
-												{
-													if (shader->vertSrc()) out << "#shader vertex" << endl << shader->vertSrc() << endl;
-													if (shader->fragSrc()) out << "#shader fragment" << endl << shader->fragSrc() << endl;
-													if (shader->geomSrc()) out << "#shader geometry" << endl << shader->geomSrc() << endl;
-													found = true;
-												}
-											}
-										}
-										if (!found)
-										{
-											out << line << endl;
-										}
-									}
-									else
-									{
-										out << line << endl;
-									}
-								}
-								return (String)out.str();
-							}
-						};
-
-						const String source = NoobParser()(
+						const String source = this->parseFiles(
 							noobs.files,
 							noobs.files.front()->text.GetText()
 						);
 						Shader * shader = std::remove_cv_t<Shader *>(
 							noobs.material->shader()
 						);
-						if (shader && shader->loadFromMemory(source))
-						{
-							if (rebuild)
-							{
-								disposeFiles();
-								generateFiles();
-							}
-						}
-						else
+						if (!shader || !shader->loadFromMemory(source))
 						{
 							Debug::logError("Failed Compiling Shader");
 						}
@@ -441,7 +465,7 @@ namespace ml
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						List<FileList::iterator> toRemove;
+						FileList::iterator toRemove = noobs.files.end();
 
 						for (auto it = noobs.files.begin(); it != noobs.files.end(); it++)
 						{
@@ -511,14 +535,14 @@ namespace ml
 
 							if (!(*it)->open)
 							{
-								toRemove.push_back(it);
+								toRemove = it;
 							}
 						}
 
-						for (auto it : toRemove)
+						if (toRemove != noobs.files.cend())
 						{
-							delete (*it);
-							noobs.files.erase(it);
+							delete (*toRemove);
+							noobs.files.erase(toRemove);
 						}
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -552,69 +576,76 @@ namespace ml
 					if (!noobs.material->uniforms().empty())
 						ImGui::Separator();
 
-					// to remove
-					List<List<Uniform *>::iterator> toRemove;
-					for (auto it = noobs.material->uniforms().begin();
-						it != noobs.material->uniforms().end();
-						it++)
+					ImGui::Columns(3, "uniform columns");
+					ImGui::Text("Name"); ImGui::NextColumn();
+					ImGui::Text("Type"); ImGui::NextColumn();
+					ImGui::Text("Value"); ImGui::NextColumn();
+					ImGui::Separator();
+					ImGui::Columns(1);
+
+					auto toRemove = noobs.material->cend();
+					for (auto it = noobs.material->cbegin(); it != noobs.material->cend(); it++)
 					{
-						// label
-						const String label("##Uni##" + (*it)->name + "##Material##Noobs");
+						Uniform * u { *it };
+						if (!*it) continue;
+						bool modifiable = detail::isEdit(u);
+						const String label("##Uni##" + u->name + "##Material##Noobs");
+						ImGui::Columns(3, "uniform columns");
 
-						// Uniform Header
-						ImGui::PushStyleColor(
-							ImGuiCol_Header,
-							{ 0.367f, 0.258f, 0.489f, 0.580f }
-						);
-
-						if (ImGui::CollapsingHeader(((*it)->name + label).c_str()))
+						// Name
+						if (modifiable)
 						{
-							ImGui::PopStyleColor();
-
-							if (*it)
+							static char name[32] = "";
+							std::strcpy(name, u->name.c_str());
+							if (ImGui::InputText(
+								("##Uniform##Name##Editor##Noobs##" + u->name).c_str(),
+								name, IM_ARRAYSIZE(name),
+								ImGuiInputTextFlags_EnterReturnsTrue
+							))
 							{
-								float_t height = (((*it)->type == uni_mat3::ID)
-									? 3.f
-									: (((*it)->type == uni_mat4::ID)
-										? 4.f
-										: 1.f));
-
-								ImGui::PushID(label.c_str());
-								ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-								ImGui::BeginChild(
-									("UniformChild##" + label).c_str(),
-									{ -1, (32 * height) + (height == 1 ? 8 : -8) },
-									true,
-									ImGuiWindowFlags_NoScrollWithMouse
-								);
-
-								if (UniformPropertyDrawer()(label, (Uniform &)(*(*it))))
+								if (!noobs.material->get(name))
 								{
-									ImGui::SameLine();
-									if (ImGui::Button(("Remove##" + label).c_str()))
-									{
-										//toRemove.push_back(std::next(it.base()));
-										toRemove.push_back(it);
-									}
+									u->name = name;
 								}
-
-								ImGui::EndChild();
-								ImGui::PopStyleVar();
-								ImGui::PopID();
 							}
 						}
 						else
 						{
-							ImGui::PopStyleColor();
+							ImGui::Text("%s", u->name.c_str());
 						}
+						ImGui::NextColumn();
+						
+						// Type
+						ImGui::Text("%s", detail::nameOf((Uniform::Types)u->type)); 
+						ImGui::NextColumn();
 
+						// Value
+						ImGui::PushID((u->name + label).c_str());
+						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+						if (UniformPropertyDrawer()(label, (Uniform &)(*u)))
+						{
+							ImGui::SameLine();
+							if (ImGui::Button(("X##" + label).c_str()))
+							{
+								toRemove = it;
+							}
+							if (ImGui::IsItemHovered())
+							{
+								ImGui::BeginTooltip();
+								ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+								ImGui::TextUnformatted("Delete this uniform");
+								ImGui::PopTextWrapPos();
+								ImGui::EndTooltip();
+							}
+						}
+						ImGui::PopStyleVar();
+						ImGui::PopID();
+						ImGui::Columns(1);
 						ImGui::Separator();
 					}
-
-					for (auto & it : toRemove)
+					if (toRemove != noobs.material->cend())
 					{
-						if (*it) delete (*it);
-						noobs.material->uniforms().erase(it);
+						noobs.material->uniforms().erase(toRemove);
 					}
 
 					ImGui::EndTabItem();
@@ -861,6 +892,8 @@ namespace ml
 					if (ShaderPropertyDrawer()("Shader##Material##Noobs", shader))
 					{
 						noobs.material->shader() = shader;
+						disposeFiles();
+						generateFiles();
 					}
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The shader to be used.");
@@ -886,94 +919,57 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}));
-
-
-		// Worker Popup Modal
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		if (true)
-		{
-			// Trigger Worker
-			if (noobs.trigger.consume())
-			{
-				// Not already running
-				if (noobs.worker.available())
-				{
-					// Open Popup
-					ImGui::OpenPopup("Worker##Popup##Noobs");
-
-					// Launch Thread
-					noobs.worker.launch(100, [&]()
-					{
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						Debug::log("Loading...");
-
-						for (size_t i = 0; noobs.worker.working(); i++)
-						{
-							// Do the thing, record the result, increment the counter.
-							noobs.worker.process([&]()
-							{
-								// Dummy Load
-								noobs.worker.sleep(50_ms);
-								return true;
-							});
-						}
-
-						Debug::log("Done loading.");
-
-						/* * * * * * * * * * * * * * * * * * * * */
-					});
-				}
-				else
-				{
-					Debug::logError("Loading already in progress.");
-				}
-			}
-
-			// Draw Worker
-			if (ImGui::BeginPopupModal(
-				"Worker##Popup##Noobs", 
-				nullptr, 
-				ImGuiWindowFlags_AlwaysAutoResize
-			))
-			{
-				if (noobs.worker.working())
-				{
-					auto str = String("Loading {0}/{1}").format(
-						noobs.worker.current(), 
-						noobs.worker.maximum()
-					);
-					ImGui::Text("Test Parallel Worker");
-					ImGui::ProgressBar(noobs.worker.progress(), { 0.0f, 0.0f }, str.c_str());
-				}
-				else if (noobs.worker.done())
-				{
-					ImGui::CloseCurrentPopup();
-				}
-				ImGui::EndPopup();
-			}
-
-			// Dispose Worker
-			if (noobs.worker.done())
-			{
-				if (noobs.worker.dispose())
-				{
-					Debug::log("Worker disposed.");
-				}
-				else
-				{ 
-					Debug::logError("Failed disposing worker?");
-				}
-			}
-		};
-	}
-
-	void Noobs::onExit(const ExitEvent & ev)
-	{
-		disposeFiles();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	String Noobs::parseFiles(const FileList & file_list, const String & src) const
+	{
+		SStream out;
+		SStream ss(src);
+		String	line;
+		while (std::getline(ss, line))
+		{
+			if (line.find("#include") != String::npos)
+			{
+				bool found = false;
+				String name;
+				if (ShaderParser::parseWrapped(
+					line, '\"', '\"', name
+				))
+				{
+					for (const auto & e : file_list)
+					{
+						if (e->name == name)
+						{
+							out << this->parseFiles(file_list, e->text.GetText());
+							found = true;
+							break;
+						}
+					}
+					if (!found)
+					{
+						if (auto shader = ML_Content.get<Shader>(name))
+						{
+							if (shader->vertSrc()) out << "#shader vertex" << endl << shader->vertSrc() << endl;
+							if (shader->fragSrc()) out << "#shader fragment" << endl << shader->fragSrc() << endl;
+							if (shader->geomSrc()) out << "#shader geometry" << endl << shader->geomSrc() << endl;
+							found = true;
+						}
+					}
+				}
+				if (!found)
+				{
+					out << line << endl;
+				}
+			}
+			else
+			{
+				out << line << endl;
+			}
+		}
+		return (String)out.str();
+	}
 
 	void Noobs::generateFiles()
 	{

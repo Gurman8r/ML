@@ -27,21 +27,21 @@ namespace ml
 			Bool, Flt1, Int1,
 			Vec2, Vec3, Vec4, Col4,
 			Mat3, Mat4,
-			Tex2, Tex3, Cube,
+			Sampler,
 			MAX_UNI_TYPES
 		};
 
 		static constexpr C_String TypeNames[] = {
 			"bool", "float", "int",
-			"vec2", "vec3", "vec4", "col4",
+			"vec2", "vec3", "vec4", "color",
 			"mat3", "mat4",
-			"sampler2D", "sampler3D", "samplerCube"
+			"sampler",
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const String	name;
-		const int32_t	type;
+		String name;
+		const int32_t type;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -103,6 +103,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	namespace detail
+	{
+		constexpr C_String nameOf(Uniform::Types value)
+		{
+			return Uniform::TypeNames[value];
+		}
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
@@ -168,9 +178,7 @@ namespace ml
 	ML_GEN_UNIFORM(uni_col4_t, Uniform::Col4);
 	ML_GEN_UNIFORM(uni_mat3_t, Uniform::Mat3);
 	ML_GEN_UNIFORM(uni_mat4_t, Uniform::Mat4);
-	ML_GEN_UNIFORM(uni_tex2_t, Uniform::Tex2);
-	ML_GEN_UNIFORM(uni_tex3_t, Uniform::Tex3);
-	ML_GEN_UNIFORM(uni_cube_t, Uniform::Cube);
+	ML_GEN_UNIFORM(uni_sampler_t, Uniform::Sampler);
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
@@ -210,14 +218,27 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	using uni_tex2		= typename uni_tex2_t<const Texture	*>; // <- Texture 2D
-	using uni_tex3		= typename uni_tex3_t<const Texture	*>; // <- Texture 3D
-	using uni_cube		= typename uni_cube_t<const Texture	*>; // <- Texture Cube Map
+	using uni_sampler	= typename uni_sampler_t<const Texture	*>; // <- All Texture Types
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	namespace detail
 	{
+		static inline bool isEdit(const Uniform * value)
+		{
+			return 
+				value->as<uni_bool>() ||
+				value->as<uni_flt1>() ||
+				value->as<uni_int1>() ||
+				value->as<uni_vec2>() ||
+				value->as<uni_vec3>() ||
+				value->as<uni_vec4>() ||
+				value->as<uni_col4>() ||
+				value->as<uni_mat3>() ||
+				value->as<uni_mat4>() ||
+				value->as<uni_sampler>();
+		}
+
 		static inline bool * toBool(const Uniform * value)
 		{
 			static bool temp;
@@ -310,23 +331,9 @@ namespace ml
 
 		static inline const Texture * toTex2(const Uniform * value)
 		{
-			if (!value || (value->type != uni_tex2::ID))	{ return nullptr; }
-			else if (auto u = value->as<uni_tex2>())		{ return u->data; }
+			if (!value || (value->type != uni_sampler::ID))	{ return nullptr; }
+			else if (auto u = value->as<uni_sampler>())		{ return u->data; }
 			else { return nullptr; }
-		}
-
-		static inline const Texture * toTex3(const Uniform * value)
-		{
-			if (!value || (value->type != uni_tex3::ID)) { return nullptr; }
-			else if (auto u = value->as<uni_tex3>()) { return u->data; }
-			else { return nullptr; }
-		}
-
-		static inline const Texture * toCube(const Uniform * value)
-		{
-			if (!value || (value->type != uni_cube::ID))	{ return nullptr; }
-			else if (auto u = value->as<uni_cube>())		{ return u->data; }
-			{ return nullptr; }
 		}
 	}
 

@@ -146,26 +146,12 @@ namespace ml
 						case uni_col4::ID: return u = new uni_col4(name, input<vec4>()(ss));
 						case uni_mat3::ID: return u = new uni_mat3(name, input<mat3>()(ss));
 						case uni_mat4::ID: return u = new uni_mat4(name, input<mat4>()(ss));
-						case uni_tex2::ID:
+						case uni_sampler::ID:
 						{
 							Map<String, Texture *>::const_iterator it;
 							return (t && ((it = t->find(String(ss.str()).trim())) != t->end()))
-								? u = new uni_tex2(name, it->second)
-								: u = new uni_tex2(name, nullptr);
-						}
-						case uni_tex3::ID:
-						{
-							Map<String, Texture *>::const_iterator it;
-							return (t && ((it = t->find(String(ss.str()).trim())) != t->end()))
-								? u = new uni_tex3(name, it->second)
-								: u = new uni_tex3(name, nullptr);
-						}
-						case uni_cube::ID:
-						{
-							Map<String, Texture *>::const_iterator it;
-							return (t && ((it = t->find(String(ss.str()).trim())) != t->end()))
-								? u = new uni_cube(name, it->second)
-								: u = new uni_cube(name, nullptr);
+								? u = new uni_sampler(name, it->second)
+								: u = new uni_sampler(name, nullptr);
 						}
 						}
 						return u = nullptr;
@@ -232,19 +218,9 @@ namespace ml
 			if (auto temp = detail::toMat4(value))
 				return m_shader->setUniform(value->name, (*temp));
 
-			// Tex2
-		case uni_tex2::ID:
+			// Texture
+		case uni_sampler::ID:
 			if (auto temp = detail::toTex2(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Tex3
-		case uni_tex3::ID:
-			if (auto temp = detail::toTex3(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Cube
-		case uni_cube::ID:
-			if (auto temp = detail::toCube(value))
 				return m_shader->setUniform(value->name, (*temp));
 		}
 		return false;

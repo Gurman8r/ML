@@ -8,11 +8,11 @@ uniform float		camera.zFar		{ 1000.0 }
 
 # Fragment
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-uniform bool		u_test			{ 1 }
-uniform sampler2D	u_spec_tex		{ earth_sm } 
-uniform sampler2D	u_diff_tex		{ earth_dm }
+uniform sampler		u_texture0		{ earth_dm }
+uniform sampler		u_texture1		{ earth_sm } 
+uniform color		u_color			{ 1.0, 1.0, 1.0, 1.0 }
 uniform vec3		u_lightPos		{ 0.0, 0.0, 30.0 }
-uniform float		u_ambient		{ 0.01 }
-uniform col4		u_diffuse		{ 1.0, 1.0, 0.75, 1.0 }
-uniform int			u_shininess		{ 8 }
-uniform float		u_specular		{ 0.1 }
+uniform color		u_ambient		{ 0.01, 0.01, 0.01, 1.0 }
+uniform color		u_diffuse		{ 1.0, 1.0, 0.75, 1.0 }
+uniform color		u_specular		{ 0.1, 0.1, 0.1, 1.0 }
+uniform float		u_shininess		{ 8.0 }

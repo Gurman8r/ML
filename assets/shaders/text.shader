@@ -3,28 +3,43 @@
 
 #include "../../../assets/shaders/common/Vert.shader"
 
-uniform mat4 u_proj;
-uniform mat4 u_view;
-uniform mat4 u_model;
+mat4 ml_Ortho(float left, float right, float bottom, float top)
+{
+	mat4 temp = mat4(1.0);
+	temp[0][0] = 2.0 / (right - left);
+	temp[1][1] = 2.0 / (top - bottom);
+	temp[2][2] = -1;
+	temp[3][0] = -(right + left) / (right - left);
+	temp[3][1] = -(top + bottom) / (top - bottom);
+	return temp;
+}
+
+uniform vec2 u_resolution;
 
 void main()
 {
-	V.Position	= a_Position;
-	V.Normal		= a_Normal;
-	V.Texcoord	= a_Texcoord;
-	gl_Position		= u_proj * vec4(V.Position, 1.0);
+	V.Position = a_Position;
+	V.Normal = a_Normal;
+	V.Texcoord = a_Texcoord;
+
+	mat4 proj = ml_Ortho(
+		0.0, u_resolution.x,
+		0.0, u_resolution.y
+	);
+
+	gl_Position = proj * vec4(V.Position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "../../../assets/shaders/common/Frag.shader"
 
-uniform vec4 u_mainColor;
-uniform sampler2D u_mainTexture;
+uniform	vec4		u_color;
+uniform sampler2D	u_texture0;
 
 void main()
 {
-	gl_Color = u_mainColor * vec4(1, 1, 1, texture(u_mainTexture, V.Texcoord).r);
+	gl_Color = u_color * vec4(1, 1, 1, texture(u_texture0, V.Texcoord).r);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

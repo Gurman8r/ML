@@ -68,7 +68,10 @@ namespace ml
 
 		inline Uniform * add(Uniform * value)
 		{
-			if (value && value->name && (std::find(begin(), end(), value) == end()))
+			if (value && 
+				value->name && 
+				!get(value->name) &&
+				(std::find(begin(), end(), value) == end()))
 			{
 				m_uniforms.push_back(value);
 				return value;

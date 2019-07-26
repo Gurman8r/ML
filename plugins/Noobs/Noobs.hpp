@@ -54,11 +54,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void generateFiles();
-		void disposeFiles();
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		struct NoobsFile : public I_NonCopyable
 		{
 			using TextEdit = typename ImGui::TextEditor;
@@ -80,9 +75,18 @@ namespace ml
 			}
 		};
 
+		using FileList = typename List<NoobsFile *>; // list of 'NoobsFile's
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using FileList = typename List<NoobsFile *>; // list of 'NoobsFile's
+		void draw_scene_gui(const GuiEvent & ev);
+		void draw_editor_gui(const GuiEvent & ev);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		String parseFiles(const FileList & file_list, const String & src) const;
+		void generateFiles();
+		void disposeFiles();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

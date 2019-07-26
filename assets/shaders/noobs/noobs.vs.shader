@@ -85,31 +85,17 @@ uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 
 void main()
 {
-	// Position
-	mat4 pos = mat4(0.0);
-	pos[3][0] = 0.0; // x
-	pos[3][1] = sin(u_totalTime); // y
-	pos[3][2] = 0.0; // z
-
-	// Rotation
-	mat4 rot = ml_AngleAxis(vec3(0.0, 1.0, 0.0), u_totalTime);
-	
 	// Model Matrix
-	mat4 model = pos + rot;
+	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), u_totalTime * 0.75);
 
 	// View Matrix
 	mat4 view = ml_LookAt(
-		camera.position,
-		camera.target,
-		vec3(0.0, 1.0, 0.0)
+		camera.position, camera.target, vec3(0.0, 1.0, 0.0)
 	);
 
 	// Projection Matrix
 	mat4 proj = ml_Perspective(
-		camera.fov,
-		(u_resolution.x / u_resolution.y),
-		camera.zNear,
-		camera.zFar
+		camera.fov, (u_resolution.x / u_resolution.y), camera.zNear, camera.zFar
 	);
 
 	// Output

@@ -66,9 +66,6 @@
     <None Include="..\..\..\assets\shaders\geometry.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\lighting.shader">
-      <Filter>Resource Files\assets\shaders</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\normal.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>

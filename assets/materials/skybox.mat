@@ -8,5 +8,5 @@ uniform float		camera.zFar		{ 1000.0 }
 
 # Fragment
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-uniform col4		u_mainColor		{ 1.0, 1.0, 1.0, 1.0 }
-uniform samplerCube	u_mainTexture	{ starfield } 
+uniform color		u_color		{ 1.0, 1.0, 1.0, 1.0 }
+uniform sampler		u_texture0	{ space } 

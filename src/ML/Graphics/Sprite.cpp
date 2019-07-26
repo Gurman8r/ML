@@ -89,7 +89,7 @@ namespace ml
 				u->data = m_color;
 			}
 
-			if (uni_tex2 * u = batch.mat->get<uni_tex2>(ML_FRAG_MAIN_TEX))
+			if (uni_sampler * u = batch.mat->get<uni_sampler>(ML_FRAG_MAIN_TEX))
 			{
 				u->data = m_texture;
 			}

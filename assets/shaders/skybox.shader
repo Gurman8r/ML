@@ -87,7 +87,7 @@ uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 void main()
 {
 	// Model Matrix
-	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), -u_totalTime * 0.1);
+	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), -u_totalTime * 0.01);
 
 	// View Matrix
 	mat4 view = ml_LookAt(
@@ -128,12 +128,12 @@ in VertexData
 
 out vec4 gl_Color;
 
-uniform vec4		u_mainColor;
-uniform samplerCube u_mainTexture;
+uniform vec4		u_color;
+uniform samplerCube u_texture0;
 
 void main()
 {
-	gl_Color = u_mainColor * texture(u_mainTexture, V.Position);
+	gl_Color = u_color * texture(u_texture0, V.Position);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

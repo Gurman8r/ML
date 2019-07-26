@@ -54,12 +54,6 @@
 
 <import>
 	type = shader
-	name = lighting
-	file = ../../../assets/shaders/lighting.shader
-</import>
-
-<import>
-	type = shader
 	name = solid
 	file = ../../../assets/shaders/solid.shader
 </import>

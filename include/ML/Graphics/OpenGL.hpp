@@ -12,6 +12,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+// Check for errors after every OpenGL call
 # if ML_DEBUG
 #	define glCheck(EXPR) \
 	do { EXPR; ML_GL.checkError(cout, __FILE__, __LINE__, #EXPR); } while (false)

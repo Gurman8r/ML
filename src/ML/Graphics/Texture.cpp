@@ -12,8 +12,8 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Sampler target) : Texture(
-		target, 
+	Texture::Texture(GL::Sampler sampler) : Texture(
+		sampler, 
 		ML_TEX_DEFAULT_SMOOTH,
 		ML_TEX_DEFAULT_REPEAT
 	) 
@@ -37,8 +37,8 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Sampler target, bool smooth, bool repeated) : Texture(
-		target, 
+	Texture::Texture(GL::Sampler sampler, bool smooth, bool repeated) : Texture(
+		sampler, 
 		ML_TEX_DEFAULT_FORMAT,
 		smooth, 
 		repeated
@@ -46,8 +46,8 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Sampler target, GL::Format format, bool smooth, bool repeated) : Texture(
-		target, 
+	Texture::Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated) : Texture(
+		sampler, 
 		format, 
 		smooth, 
 		repeated, 
@@ -56,8 +56,8 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Sampler target, GL::Format format, bool smooth, bool repeated, bool mipmapped) : Texture(
-		target, 
+	Texture::Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated, bool mipmapped) : Texture(
+		sampler, 
 		format, // internal format
 		format, // color format
 		smooth, 
@@ -67,8 +67,8 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated) : Texture(
-		target, 
+	Texture::Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated) : Texture(
+		sampler, 
 		internalFormat, 
 		colFormat, 
 		smooth, 
@@ -78,8 +78,8 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped) : Texture(
-		target, 
+	Texture::Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped) : Texture(
+		sampler, 
 		internalFormat, 
 		colFormat, 
 		smooth, 
@@ -91,11 +91,11 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
+	Texture::Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
 		: I_Handle			(NULL)
 		, m_size			(vec2u { 0, 0 })
 		, m_realSize		(vec2u { 0, 0 })
-		, m_sampler			(target)
+		, m_sampler			(sampler)
 		, m_internalFormat	(internalFormat)
 		, m_colorFormat		(colFormat)
 		, m_smooth			(smooth)
@@ -642,7 +642,7 @@ namespace ml
 	void Texture::bind(const Texture * value)
 	{
 		return ((value)
-			? ML_GL.bindTexture(value->target(), (*value))
+			? ML_GL.bindTexture(value->sampler(), (*value))
 			: ML_GL.bindTexture(GL::Texture2D, NULL)
 		);
 	}

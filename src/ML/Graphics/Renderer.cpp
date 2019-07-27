@@ -9,27 +9,25 @@ namespace ml
 	Renderer::Renderer()
 		: m_drawable(nullptr)
 		, m_material(nullptr)
-		, m_states	()
+		, m_states()
 	{
 	}
 
 	Renderer::Renderer(const I_Drawable * drawable, const Material * material)
 		: m_drawable(drawable)
 		, m_material(material)
-		, m_states	(RenderStates())
+		, m_states()
 	{
 	}
 
-	Renderer::Renderer(const Renderer & copy)
-		: m_drawable(copy.m_drawable)
-		, m_material(copy.m_material)
-		, m_states	(copy.m_states)
+	Renderer::Renderer(const I_Drawable * drawable, const Material * material, const RenderStates & states)
+		: m_drawable(drawable)
+		, m_material(material)
+		, m_states(states)
 	{
 	}
 
-	Renderer::~Renderer()
-	{
-	}
+	Renderer::~Renderer() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

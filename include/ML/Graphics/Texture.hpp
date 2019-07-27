@@ -29,15 +29,15 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Texture();
-		explicit Texture(GL::Sampler target);
+		explicit Texture(GL::Sampler sampler);
 		explicit Texture(bool smooth, bool repeated);
 		explicit Texture(GL::Format format, bool smooth, bool repeated);
-		explicit Texture(GL::Sampler target, bool smooth, bool repeated);
-		explicit Texture(GL::Sampler target, GL::Format format, bool smooth, bool repeated);
-		explicit Texture(GL::Sampler target, GL::Format format, bool smooth, bool repeated, bool mipmapped);
-		explicit Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated);
-		explicit Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped);
-		explicit Texture(GL::Sampler target, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
+		explicit Texture(GL::Sampler sampler, bool smooth, bool repeated);
+		explicit Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated);
+		explicit Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated, bool mipmapped);
+		explicit Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated);
+		explicit Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped);
+		explicit Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
 		explicit Texture(const Texture & copy);
 		~Texture();
 
@@ -104,7 +104,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto target()		const -> GL::Sampler	{ return m_sampler; }
+		inline auto sampler()		const -> GL::Sampler	{ return m_sampler; }
 		inline auto level()			const -> int32_t		{ return m_level; }
 		inline auto internalFormat()const -> GL::Format		{ return m_internalFormat; }
 		inline auto colorFormat()	const -> GL::Format		{ return m_colorFormat; }
@@ -122,16 +122,16 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		GL::Sampler	m_sampler;			// 
-		int32_t		m_level;			// 
-		GL::Format	m_internalFormat;	// 
-		GL::Format	m_colorFormat;		// 
-		GL::Type	m_type;				// 
-		vec2u		m_size;				// 
-		vec2u		m_realSize;			// 
-		bool		m_smooth;			// 
-		bool		m_repeated;			// 
-		bool		m_mipmapped;		// 
+		GL::Sampler	m_sampler;			// Sampler Type
+		int32_t		m_level;			// Texture Level
+		GL::Format	m_internalFormat;	// Internal Format
+		GL::Format	m_colorFormat;		// Color Format
+		GL::Type	m_type;				// Storage Type
+		vec2u		m_size;				// Texture Size
+		vec2u		m_realSize;			// Real Texture Size
+		bool		m_smooth;			// Is Smooth
+		bool		m_repeated;			// Is Repeated
+		bool		m_mipmapped;		// Is Mipmapped
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -18,7 +18,7 @@
 
 <import>
 	type	= surface
-	name	= noobs_surf_main
+	name	= surf_main
 	model	= default_quad
 	shader	= surface
 	width	= 1920
@@ -27,7 +27,7 @@
 
 <import>
 	type	= surface
-	name	= noobs_surf_post
+	name	= surf_post
 	model	= default_quad
 	shader	= surface
 	width	= 1920

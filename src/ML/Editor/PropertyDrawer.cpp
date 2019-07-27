@@ -82,84 +82,90 @@ namespace ml
 
 				if (ImGui::TreeNode("Alpha Testing"))
 				{
-					ImGui::Checkbox("##Enabled##Alpha Testing", &states.alpha.enabled);
-
-					int32_t index = GL::indexOf(states.alpha.comp);
-					if (ImGui::Combo(
-						"Comparison##Alpha Testing",
-						&index,
-						GL::Comp_names,
-						IM_ARRAYSIZE(GL::Comp_names)
-					))
+					if (AlphaTest * alphaTest = states.get<AlphaTest>())
 					{
-						GL::valueAt(index, states.alpha.comp);
-					}
+						ImGui::Checkbox("##Enabled##Alpha Testing", &alphaTest->enabled);
 
-					ImGui::DragFloat("Coeff##Alpha Testing", &states.alpha.coeff);
-
-					ImGui::TreePop();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::TreeNode("Blending"))
-				{
-					ImGui::Checkbox("Enabled##Blending", &states.blend.enabled);
-
-					auto factor_combo = [](C_String label, int32_t & index)
-					{
-						return ImGui::Combo(
-							label,
+						int32_t index = GL::indexOf(alphaTest->comp);
+						if (ImGui::Combo(
+							"Comparison##Alpha Testing",
 							&index,
-							GL::Factor_names,
-							IM_ARRAYSIZE(GL::Factor_names)
-						);
-					};
+							GL::Comp_names,
+							IM_ARRAYSIZE(GL::Comp_names)
+						))
+						{
+							GL::valueAt(index, alphaTest->comp);
+						}
 
-					int32_t srcRGB = GL::indexOf(states.blend.srcRGB);
-					if (factor_combo("Src RGB##Blending", srcRGB))
-					{
-						GL::valueAt(srcRGB, states.blend.srcRGB);
+						ImGui::DragFloat("Coeff##Alpha Testing", &alphaTest->coeff);
 					}
-
-					int32_t srcAlpha = GL::indexOf(states.blend.srcAlpha);
-					if (factor_combo("Src Alpha##Blending", srcAlpha))
-					{
-						GL::valueAt(srcAlpha, states.blend.srcAlpha);
-					}
-
-					int32_t dstRGB = GL::indexOf(states.blend.dstRGB);
-					if (factor_combo("Dst RGB##Blending", dstRGB))
-					{
-						GL::valueAt(dstRGB, states.blend.dstRGB);
-					}
-
-					int32_t dstAlpha = GL::indexOf(states.blend.dstAlpha);
-					if (factor_combo("Dst Alpha##Blending", dstAlpha))
-					{
-						GL::valueAt(dstAlpha, states.blend.dstAlpha);
-					}
-
 					ImGui::TreePop();
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (ImGui::TreeNode("Culling"))
+				if (ImGui::TreeNode("Blend Function"))
 				{
-					ImGui::Checkbox("Enabled##Culling", &states.culling.enabled);
-
-					int32_t index = GL::indexOf(states.culling.face);
-					if (ImGui::Combo(
-						"Face##Culling",
-						&index,
-						GL::Face_names,
-						IM_ARRAYSIZE(GL::Face_names)
-					))
+					if (BlendFunc * blendFunc = states.get<BlendFunc>())
 					{
-						GL::valueAt(index, states.culling.face);
-					}
+						ImGui::Checkbox("Enabled##Blending", &blendFunc->enabled);
 
+						auto factor_combo = [](C_String label, int32_t & index)
+						{
+							return ImGui::Combo(
+								label,
+								&index,
+								GL::Factor_names,
+								IM_ARRAYSIZE(GL::Factor_names)
+							);
+						};
+
+						int32_t srcRGB = GL::indexOf(blendFunc->srcRGB);
+						if (factor_combo("Src RGB##Blending", srcRGB))
+						{
+							GL::valueAt(srcRGB, blendFunc->srcRGB);
+						}
+
+						int32_t srcAlpha = GL::indexOf(blendFunc->srcAlpha);
+						if (factor_combo("Src Alpha##Blending", srcAlpha))
+						{
+							GL::valueAt(srcAlpha, blendFunc->srcAlpha);
+						}
+
+						int32_t dstRGB = GL::indexOf(blendFunc->dstRGB);
+						if (factor_combo("Dst RGB##Blending", dstRGB))
+						{
+							GL::valueAt(dstRGB, blendFunc->dstRGB);
+						}
+
+						int32_t dstAlpha = GL::indexOf(blendFunc->dstAlpha);
+						if (factor_combo("Dst Alpha##Blending", dstAlpha))
+						{
+							GL::valueAt(dstAlpha, blendFunc->dstAlpha);
+						}
+					}
+					ImGui::TreePop();
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (ImGui::TreeNode("Cull Face"))
+				{
+					if (CullFace * cullFace = states.get<CullFace>())
+					{
+						ImGui::Checkbox("Enabled##Culling", &cullFace->enabled);
+
+						int32_t index = GL::indexOf(cullFace->face);
+						if (ImGui::Combo(
+							"Face##Culling",
+							&index,
+							GL::Face_names,
+							IM_ARRAYSIZE(GL::Face_names)
+						))
+						{
+							GL::valueAt(index, cullFace->face);
+						}
+					}
 					ImGui::TreePop();
 				}
 
@@ -167,30 +173,21 @@ namespace ml
 
 				if (ImGui::TreeNode("Depth Testing"))
 				{
-					ImGui::Checkbox("Enabled##Depth Testing", &states.depth.enabled);
-
-					int32_t index = GL::indexOf(states.depth.comp);
-					if (ImGui::Combo(
-						"Comparison##Depth Testing",
-						&index,
-						GL::Comp_names,
-						IM_ARRAYSIZE(GL::Comp_names)
-					))
+					if (DepthTest * depthTest = states.get<DepthTest>())
 					{
-						GL::valueAt(index, states.depth.comp);
+						ImGui::Checkbox("Enabled##Depth Testing", &depthTest->enabled);
+
+						int32_t index = GL::indexOf(depthTest->comp);
+						if (ImGui::Combo(
+							"Comparison##Depth Testing",
+							&index,
+							GL::Comp_names,
+							IM_ARRAYSIZE(GL::Comp_names)
+						))
+						{
+							GL::valueAt(index, depthTest->comp);
+						}
 					}
-
-					ImGui::TreePop();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::TreeNode("Misc"))
-				{
-					ImGui::Checkbox("Multisample##Misc", &states.misc.multisample);
-
-					ImGui::Checkbox("Framebuffer SRGB##Misc", &states.misc.framebufferSRGB);
-
 					ImGui::TreePop();
 				}
 
@@ -694,7 +691,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t target = GL::indexOf(value.target());
+		int32_t target = GL::indexOf(value.sampler());
 		if (ImGui::Combo(
 			("Sampler##" + label).c_str(),
 			&(target), 
@@ -762,7 +759,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (value.target() == GL::Texture2D)
+		if (value.sampler() == GL::Texture2D)
 		{
 			const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
 			{

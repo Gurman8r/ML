@@ -133,14 +133,14 @@ namespace ml
 		{
 			update();
 
-			if (uni_col4 * u = batch.mat->get<uni_col4>(ML_FRAG_MAIN_COL))
+			if (uni_col4 * u = batch.mat->get<uni_col4>(ML_UNI_MAIN_COL))
 			{
 				u->data = m_color;
 			}
 
 			for (size_t i = 0, imax = m_string.size(); i < imax; i++)
 			{
-				if (uni_sampler * u = batch.mat->get<uni_sampler>(ML_FRAG_MAIN_TEX))
+				if (uni_sampler * u = batch.mat->get<uni_sampler>(ML_UNI_MAIN_TEX))
 				{
 					u->data = m_textures[i];
 				}

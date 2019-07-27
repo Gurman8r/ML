@@ -56,6 +56,13 @@ namespace ml
 			constexpr auto cross	= alg::cross(vec3 { 1, 2, 3 }, vec3 { 4, 5, 6 });
 		}
 
+		// Color Tests
+		{
+			constexpr Color red		{ 1.0f, 0.0f, 0.0f, 1.0f };
+			constexpr Color green	{ Color::green };
+			constexpr vec4f blue	= Color { 0.0f, 0.0f, 1.0f, 1.0f };
+		}
+
 		// Quaternion Tests
 		{
 			constexpr quat		q			{ 1.0f, 2.0f, 3.0f, 4.0f };

@@ -10,12 +10,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Surface is Framebuffer + Renderbuffer
+	// Surface is used to render objects to a 2D Texture
 	struct ML_GRAPHICS_API Surface final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Drawable
-		, public I_Readable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -26,13 +25,14 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool create(const vec2i & size, uint32_t attachment);
-		bool resize(const vec2i & size);
+		bool update(const vec2i & size);
 
-		void bind() const;
-		void unbind() const;
+		const Surface & bind() const;
+		const Surface & unbind() const;
 
 		bool setModel(const Model * value);
 		bool setShader(const Shader * value);

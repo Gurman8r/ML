@@ -29,7 +29,7 @@ namespace ml
 	{
 	}
 	
-	Arguments::Arguments(const Initializer<String>& values)
+	Arguments::Arguments(const std::initializer_list<String>& values)
 		: m_values(values)
 	{
 	}

@@ -5,8 +5,8 @@
 #include <ML/Graphics/Color.hpp>
 
 // Uniforms names used internally
-#define ML_FRAG_MAIN_COL "u_color"
-#define ML_FRAG_MAIN_TEX "u_texture0"
+#define ML_UNI_MAIN_COL "u_color"
+#define ML_UNI_MAIN_TEX "u_texture0"
 
 namespace ml
 {

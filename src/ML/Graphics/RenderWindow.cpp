@@ -25,15 +25,16 @@ namespace ml
 			ML_GL.validateVersion(m_context.majorVersion, m_context.minorVersion);
 
 			// Setup States
-			RenderStates states
-			{
-				{ true, GL::Greater, 0.01f },
-				{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-				{ true, GL::Back },
-				{ true, GL::Less },
-				{ m_context.multisample, m_context.srgbCapable }
-			};
+			static RenderStates states { {
+				new AlphaTest	{ true, GL::Greater, 0.01f },
+				new BlendFunc	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+				new CullFace	{ true, GL::Back },
+				new DepthTest	{ true, GL::Less }
+			} };
 			states.apply();
+
+			ML_GL.enable(GL::Multisample, m_context.multisample);
+			ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable);
 
 			return true;
 		}

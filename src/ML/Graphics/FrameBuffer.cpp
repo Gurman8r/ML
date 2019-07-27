@@ -57,14 +57,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const FrameBuffer & FrameBuffer::setTexture(uint32_t attchment, uint32_t value, uint32_t target, int32_t level) const
+	const FrameBuffer & FrameBuffer::setTexture(uint32_t attchment, uint32_t value, uint32_t sampler, int32_t level) const
 	{
 		if (*this)
 		{
 			ML_GL.framebufferTexture2D(
 				GL::Framebuffer,
 				attchment,
-				target,
+				sampler,
 				value, 
 				level
 			);

@@ -39,41 +39,41 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			class Component
+			class T
 		> inline iterator find()
 		{
-			return (iterator)(m_map.find(typeid(Component).hash_code()));
+			return (iterator)(m_map.find(typeid(T).hash_code()));
 		}
 
 		template <
-			class Component
+			class T
 		> inline const_iterator find() const
 		{
-			return (const_iterator)(m_map.find(typeid(Component).hash_code()));
+			return (const_iterator)(m_map.find(typeid(T).hash_code()));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			class Component
-		> inline Component * add()
+			class T
+		> inline T * add()
 		{
-			return ((this->find<Component>() == this->end())
-				? (reinterpret_cast<Component *>(m_map.insert({ 
-						typeid(Component).hash_code(), 
-						new Component() 
+			return ((this->find<T>() == this->end())
+				? (reinterpret_cast<T *>(m_map.insert({ 
+						typeid(T).hash_code(), 
+						new T() 
 					}).first->second))
 				: (nullptr)
 			);
 		}
 
 		template <
-			class Component
-		> inline Component * add(Component * value)
+			class T
+		> inline T * add(T * value)
 		{
-			return ((this->find<Component>() == this->end())
-				? (reinterpret_cast<Component *>(m_map.insert({
-						typeid(Component).hash_code(),
+			return ((this->find<T>() == this->end())
+				? (reinterpret_cast<T *>(m_map.insert({
+						typeid(T).hash_code(),
 						value
 					}).first->second))
 				: (nullptr)
@@ -81,33 +81,32 @@ namespace ml
 		}
 
 		template <
-			class Component,
-			class ... Args
-		> inline Component * add(Args && ... args)
+			class T, class ... Args
+		> inline T * add(Args && ... args)
 		{
-			return this->add<Component>(new Component(std::forward<Args>(args)...));
+			return this->add<T>(new T { std::forward<Args>(args)... });
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			class Component
-		> inline Component * get()
+			class T
+		> inline T * get()
 		{
 			iterator it;
-			return (((it = this->find<Component>()) != this->end())
-				? (reinterpret_cast<Component *>(it->second))
+			return (((it = this->find<T>()) != this->end())
+				? (reinterpret_cast<T *>(it->second))
 				: (nullptr)
 			);
 		}
 
 		template <
-			class Component
-		> inline const Component * get() const
+			class T
+		> inline const T * get() const
 		{
 			const_iterator it;
-			return (((it = this->find<Component>()) != this->cend())
-				? (reinterpret_cast<const Component *>(it->second))
+			return (((it = this->find<T>()) != this->cend())
+				? (reinterpret_cast<const T *>(it->second))
 				: (nullptr)
 			);
 		}

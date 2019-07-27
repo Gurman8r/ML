@@ -8,6 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// Material is a shader associated with a collection of uniforms
 	struct ML_GRAPHICS_API Material final
 		: public I_Newable
 		, public I_Disposable

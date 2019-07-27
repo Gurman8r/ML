@@ -9,6 +9,7 @@
 
 namespace ml
 {
+	// OpenGL Enums
 	namespace GL
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

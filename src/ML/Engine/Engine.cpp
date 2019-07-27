@@ -164,11 +164,11 @@ namespace ml
 
 		// Load Default Uniforms
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Content.create<uni_vec2_ptr>("%CURSOR_POS%",  "u_cursorPos",  &this->cursorPos());
-		ML_Content.create<uni_flt1_ptr>("%DELTA_TIME%",  "u_deltaTime",  &this->deltaTime());
-		ML_Content.create<uni_int1_ptr>("%FRAME_COUNT%", "u_frameCount", &this->frameCount());
-		ML_Content.create<uni_vec2_ptr>("%VIEWPORT%",  "u_viewport", &this->resolution());
-		ML_Content.create<uni_flt1_ptr>("%TOTAL_TIME%",  "u_totalTime",  &this->totalTime());
+		ML_Content.create<uni_vec2_ptr>("CURSOR_POS",	"u_cursorPos",  &this->cursorPos());
+		ML_Content.create<uni_flt1_ptr>("DELTA_TIME",	"u_deltaTime",  &this->deltaTime());
+		ML_Content.create<uni_int1_ptr>("FRAME_COUNT",	"u_frameCount", &this->frameCount());
+		ML_Content.create<uni_vec2_ptr>("VIEWPORT",		"u_viewport",	&this->resolution());
+		ML_Content.create<uni_flt1_ptr>("TOTAL_TIME",	"u_totalTime",  &this->totalTime());
 
 		// Load Content
 		/* * * * * * * * * * * * * * * * * * * * */

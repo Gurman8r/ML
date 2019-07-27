@@ -118,7 +118,6 @@ namespace ml
 	ML_GEN_STD_TYPE_XY	(HashMap,			unordered_map);		// Unordered Map
 	ML_GEN_STD_TYPE_X	(HashSet,			unordered_set);		// Unordered Set
 	ML_GEN_STD_TYPE		(Ifstream,			ifstream);			// Input File Stream 
-	ML_GEN_STD_TYPE_X	(Initializer,		initializer_list);	// Initializer List
 	ML_GEN_STD_TYPE		(Istream,			istream);			// Input Stream
 	ML_GEN_STD_TYPE_XY	(Map,				map);				// Map (BST)
 	ML_GEN_STD_TYPE_XY	(MultiMap,			multimap);			// Multimap

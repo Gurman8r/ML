@@ -95,17 +95,28 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		if (auto u = noobs.material->get<uni_vec2_ptr>("u_viewport"))
+		// Modify Default Uniforms
+		if (noobs.material)
 		{
-			u->data = &noobs.viewport;
+			if (auto u = noobs.material->get<uni_vec2_ptr>("u_viewport"))
+			{
+				u->data = &noobs.viewport;
+			}
 		}
 
-		// Create Entity and Attach Renderer
+		// Create Entity
 		if (Entity * ent = noobs.entity.create())
 		{
-			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material);
+			// Attach Renderer
+			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material, RenderStates { {
+				new AlphaTest	{ true, GL::Greater, 0.01f },
+				new BlendFunc	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+				new CullFace	{ true, GL::Back },
+				new DepthTest	{ true, GL::Less }
+			} });
 		}
 
+		// Setup Editor
 		generateFiles();
 	}
 
@@ -113,8 +124,8 @@ namespace ml
 	{
 		// Update Resolutions
 		if (noobs.freeAspect)	{ noobs.viewport = ev.window.getFrameSize(); }
-		if (noobs.surf_main)	{ noobs.surf_main->resize(noobs.viewport); }
-		if (noobs.surf_post)	{ noobs.surf_post->resize(noobs.viewport); }
+		if (noobs.surf_main)	{ noobs.surf_main->update(noobs.viewport); }
+		if (noobs.surf_post)	{ noobs.surf_post->update(noobs.viewport); }
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)
@@ -133,17 +144,17 @@ namespace ml
 			// Clear Screen
 			ev.window.clear(noobs.clearColor);
 
-			// Draw Skybox
-			if (noobs.sky_material)
+			if (skybox.material)
 			{
-				noobs.sky_material->bind();
-				ML_GL.depthMask(false);
-				ev.window.draw(noobs.sky_model);
-				ML_GL.depthMask(true);
+				DepthMask { false }();
+				skybox.material->bind();
+				ev.window.draw(skybox.model);
+				skybox.material->unbind();
+				DepthMask { true }();
 			}
 
 			// Draw Renderer
-			if (noobs.entity) { ev.window.draw(noobs.renderer); }
+			ev.window.draw(noobs.renderer);
 			
 			// Unbind Main Surface
 			noobs.surf_main->unbind();
@@ -152,14 +163,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Reset States
-		static RenderStates states {
-			AlphaMode	{ true, GL::Greater, 0.01f },
-			BlendMode	{ true	},
-			CullingMode	{ false },
-			DepthMode	{ false },
-			MiscStates	{ false, false }
-		};
-		states.apply();
+		AlphaTest	{ true, GL::Greater, 0.01f }();
+		BlendFunc	{ true	}();
+		CullFace	{ false }();
+		DepthTest	{ false }();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -670,225 +677,212 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::TreeNode("Alpha Testing"))
+					if (ImGui::TreeNode("Alpha Test"))
 					{
-						bool & enabled = noobs.renderer->states().alpha.enabled;
-						ImGui::Checkbox((enabled
-							? "Enabled ##Alpha Testing##Renderer##Noobs"
-							: "Disabled##Alpha Testing##Renderer##Noobs"
-							),
-							&enabled
-						);
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specify the alpha test function"
-						);
-
-						int32_t i = GL::indexOf(noobs.renderer->states().alpha.comp);
-						if (ImGui::Combo(
-							"Comparison##Alpha Testing##Renderer##Noobs",
-							&i,
-							GL::Comp_names,
-							IM_ARRAYSIZE(GL::Comp_names)
-						))
+						if (AlphaTest * alphaTest = noobs.renderer->states().get<AlphaTest>())
 						{
-							GL::valueAt(i, noobs.renderer->states().alpha.comp);
-						}
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specifies the alpha comparison function.\n"
-						);
-
-						ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &noobs.renderer->states().alpha.coeff);
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specifies the reference value that incoming alpha values are compared to.\n"
-							"This value is clamped to the range 0 1 , where 0 represents the lowest possible alpha value and 1 the highest possible value.\n"
-							"The initial reference value is 0."
-						);
-
-						ImGui::TreePop();
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::TreeNode("Blending"))
-					{
-						bool & enabled = noobs.renderer->states().blend.enabled;
-						ImGui::Checkbox((enabled
-							? "Enabled ##Blending##Renderer##Noobs"
-							: "Disabled##Blending##Renderer##Noobs"
-							),
-							&enabled
-						);
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specify pixel arithmetic for RGB and alpha components separately"
-						);
-
-						auto factor_combo = [](C_String label, int32_t & i)
-						{
-							return ImGui::Combo(
-								label,
-								&i,
-								GL::Factor_names,
-								IM_ARRAYSIZE(GL::Factor_names)
+							bool & enabled = alphaTest->enabled;
+							ImGui::Checkbox((enabled
+								? "Enabled ##Alpha Testing##Renderer##Noobs"
+								: "Disabled##Alpha Testing##Renderer##Noobs"
+								),
+								&enabled
 							);
-						};
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specify the alpha test function"
+							);
 
-						int32_t srcRGB = GL::indexOf(noobs.renderer->states().blend.srcRGB);
-						if (factor_combo("Src RGB##Blending##Renderer##Noobs", srcRGB))
-						{
-							GL::valueAt(srcRGB, noobs.renderer->states().blend.srcRGB);
-						}
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specifies how the red, green, and blue blending factors are computed."
-						);
+							int32_t i = GL::indexOf(alphaTest->comp);
+							if (ImGui::Combo(
+								"Comparison##Alpha Testing##Renderer##Noobs",
+								&i,
+								GL::Comp_names,
+								IM_ARRAYSIZE(GL::Comp_names)
+							))
+							{
+								GL::valueAt(i, alphaTest->comp);
+							}
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specifies the alpha comparison function.\n"
+							);
 
-						int32_t srcAlpha = GL::indexOf(noobs.renderer->states().blend.srcAlpha);
-						if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
-						{
-							GL::valueAt(srcAlpha, noobs.renderer->states().blend.srcAlpha);
+							ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &alphaTest->coeff);
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specifies the reference value that incoming alpha values are compared to.\n"
+								"This value is clamped to the range 0 1 , where 0 represents the lowest possible alpha value and 1 the highest possible value.\n"
+								"The initial reference value is 0."
+							);
 						}
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specified how the alpha source blending factor is computed."
-						);
-
-						int32_t dstRGB = GL::indexOf(noobs.renderer->states().blend.dstRGB);
-						if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
-						{
-							GL::valueAt(dstRGB, noobs.renderer->states().blend.dstRGB);
-						}
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specifies how the red, green, and blue destination blending factors are computed."
-						);
-
-						int32_t dstAlpha = GL::indexOf(noobs.renderer->states().blend.dstAlpha);
-						if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
-						{
-							GL::valueAt(dstAlpha, noobs.renderer->states().blend.dstAlpha);
-						}
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specified how the alpha destination blending factor is computed."
-						);
 
 						ImGui::TreePop();
 					}
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::TreeNode("Culling"))
+					if (ImGui::TreeNode("Blend Func"))
 					{
-						bool & enabled = noobs.renderer->states().culling.enabled;
-						ImGui::Checkbox((enabled
-							? "Enabled ##Culling##Renderer##Noobs"
-							: "Disabled##Culling##Renderer##Noobs"
-							),
-							&enabled
-						);
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specify which face facets can be culled"
-						);
-
-						int32_t i = GL::indexOf(noobs.renderer->states().culling.face);
-						if (ImGui::Combo(
-							"Face##Culling##Renderer##Noobs",
-							&i,
-							GL::Face_names,
-							IM_ARRAYSIZE(GL::Face_names)
-						))
+						if (BlendFunc * blendFunc = noobs.renderer->states().get<BlendFunc>())
 						{
-							GL::valueAt(i, noobs.renderer->states().culling.face);
+							bool & enabled = blendFunc->enabled;
+							ImGui::Checkbox((enabled
+								? "Enabled ##Blending##Renderer##Noobs"
+								: "Disabled##Blending##Renderer##Noobs"
+								),
+								&enabled
+							);
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specify pixel arithmetic for RGB and alpha components separately"
+							);
+
+							auto factor_combo = [](C_String label, int32_t & i)
+							{
+								return ImGui::Combo(
+									label,
+									&i,
+									GL::Factor_names,
+									IM_ARRAYSIZE(GL::Factor_names)
+								);
+							};
+
+							int32_t srcRGB = GL::indexOf(blendFunc->srcRGB);
+							if (factor_combo("Src RGB##Blending##Renderer##Noobs", srcRGB))
+							{
+								GL::valueAt(srcRGB, blendFunc->srcRGB);
+							}
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specifies how the red, green, and blue blending factors are computed."
+							);
+
+							int32_t srcAlpha = GL::indexOf(blendFunc->srcAlpha);
+							if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
+							{
+								GL::valueAt(srcAlpha, blendFunc->srcAlpha);
+							}
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specified how the alpha source blending factor is computed."
+							);
+
+							int32_t dstRGB = GL::indexOf(blendFunc->dstRGB);
+							if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
+							{
+								GL::valueAt(dstRGB, blendFunc->dstRGB);
+							}
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specifies how the red, green, and blue destination blending factors are computed."
+							);
+
+							int32_t dstAlpha = GL::indexOf(blendFunc->dstAlpha);
+							if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
+							{
+								GL::valueAt(dstAlpha, blendFunc->dstAlpha);
+							}
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specified how the alpha destination blending factor is computed."
+							);
 						}
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specifies whether front- or back-facing facets are candidates for culling."
-						);
 
 						ImGui::TreePop();
 					}
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::TreeNode("Depth Testing"))
+					if (ImGui::TreeNode("Cull Face"))
 					{
-						bool & enabled = noobs.renderer->states().depth.enabled;
-						ImGui::Checkbox((enabled
-							? "Enabled ##Depth Testing##Renderer##Noobs"
-							: "Disabled##Depth Testing##Renderer##Noobs"
-							),
-							&enabled
-						);
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"Specify the value used for depth buffer comparisons"
-						);
-
-						int32_t i = GL::indexOf(noobs.renderer->states().depth.comp);
-						if (ImGui::Combo(
-							"Comparison##Depth Testing##Renderer##Noobs",
-							&i,
-							GL::Comp_names,
-							IM_ARRAYSIZE(GL::Comp_names)
-						))
+						if (CullFace * cullFace = noobs.renderer->states().get<CullFace>())
 						{
-							GL::valueAt(i, noobs.renderer->states().depth.comp);
-						}
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"GL_NEVER\n"
-							"Never passes.\n"
-							"\n"
-							"GL_LESS\n"
-							"Passes if the incoming depth value is less than the stored depth value.\n"
-							"\n"
-							"GL_EQUAL\n"
-							"Passes if the incoming depth value is equal to the stored depth value.\n"
-							"\n"
-							"GL_LEQUAL\n"
-							"Passes if the incoming depth value is less than or equal to the stored depth value.\n"
-							"\n"
-							"GL_GREATER\n"
-							"Passes if the incoming depth value is greater than the stored depth value.\n"
-							"\n"
-							"GL_NOTEQUAL\n"
-							"Passes if the incoming depth value is not equal to the stored depth value.\n"
-							"\n"
-							"GL_GEQUAL\n"
-							"Passes if the incoming depth value is greater than or equal to the stored depth value.\n"
-							"\n"
-							"GL_ALWAYS\n"
-							"Always passes.\n"
-						);
+							bool & enabled = cullFace->enabled;
+							ImGui::Checkbox((enabled
+								? "Enabled ##Culling##Renderer##Noobs"
+								: "Disabled##Culling##Renderer##Noobs"
+								),
+								&enabled
+							);
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specify which face facets can be culled"
+							);
 
+							int32_t i = GL::indexOf(cullFace->face);
+							if (ImGui::Combo(
+								"Face##Culling##Renderer##Noobs",
+								&i,
+								GL::Face_names,
+								IM_ARRAYSIZE(GL::Face_names)
+							))
+							{
+								GL::valueAt(i, cullFace->face);
+							}
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specifies whether front- or back-facing facets are candidates for culling."
+							);
+						}
 						ImGui::TreePop();
 					}
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::TreeNode("Misc"))
+					if (ImGui::TreeNode("Depth Test"))
 					{
-						ImGui::Checkbox(
-							"Multisample##MiscStates##Renderer##Noobs",
-							&noobs.renderer->states().misc.multisample
-						);
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker("If enabled, use multiple fragment samples in computing the final color of a pixel.");
+						if (DepthTest * depthTest = noobs.renderer->states().get<DepthTest>())
+						{
+							bool & enabled = depthTest->enabled;
+							ImGui::Checkbox((enabled
+								? "Enabled ##Depth Testing##Renderer##Noobs"
+								: "Disabled##Depth Testing##Renderer##Noobs"
+								),
+								&enabled
+							);
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"Specify the value used for depth buffer comparisons"
+							);
 
-						ImGui::Checkbox(
-							"Framebuffer SRGB##MiscStates##Renderer##Noobs",
-							&noobs.renderer->states().misc.framebufferSRGB
-						);
-						ImGui::SameLine();
-						ML_EditorUtility.HelpMarker(
-							"When GL_FRAMEBUFFER_SRGB is enabled, all writes to an image with an sRGB image format will assume that the input colors are in a linear colorspace."
-						);
-
+							int32_t i = GL::indexOf(depthTest->comp);
+							if (ImGui::Combo(
+								"Comparison##Depth Testing##Renderer##Noobs",
+								&i,
+								GL::Comp_names,
+								IM_ARRAYSIZE(GL::Comp_names)
+							))
+							{
+								GL::valueAt(i, depthTest->comp);
+							}
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(
+								"GL_NEVER\n"
+								"Never passes.\n"
+								"\n"
+								"GL_LESS\n"
+								"Passes if the incoming depth value is less than the stored depth value.\n"
+								"\n"
+								"GL_EQUAL\n"
+								"Passes if the incoming depth value is equal to the stored depth value.\n"
+								"\n"
+								"GL_LEQUAL\n"
+								"Passes if the incoming depth value is less than or equal to the stored depth value.\n"
+								"\n"
+								"GL_GREATER\n"
+								"Passes if the incoming depth value is greater than the stored depth value.\n"
+								"\n"
+								"GL_NOTEQUAL\n"
+								"Passes if the incoming depth value is not equal to the stored depth value.\n"
+								"\n"
+								"GL_GEQUAL\n"
+								"Passes if the incoming depth value is greater than or equal to the stored depth value.\n"
+								"\n"
+								"GL_ALWAYS\n"
+								"Always passes.\n"
+							);
+						}
 						ImGui::TreePop();
 					}
 

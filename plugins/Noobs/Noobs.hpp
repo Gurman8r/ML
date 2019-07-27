@@ -90,16 +90,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		struct Skybox
+		{
+			Asset<Model>	model		{ "default_skybox" };
+			Asset<Material> material	{ "skybox" };
+			//Asset<Entity>	entity		{ "skybox" };
+			//Renderer *		renderer	{ nullptr };
+		} skybox;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		struct NoobsData final : public I_NonCopyable
 		{
 			// Content
-			Asset<Surface>	surf_main		{ "noobs_surf_main"	};
-			Asset<Surface>	surf_post		{ "noobs_surf_post"	};
-			Asset<Model>	sky_model		{ "default_skybox" };
-			Asset<Material> sky_material	{ "skybox" };
+			Asset<Surface>	surf_main		{ "surf_main" };
+			Asset<Surface>	surf_post		{ "surf_post" };
+
 			Asset<Material> material		{ "noobs" };
 			Asset<Model>	model			{ "sphere32x24"	};
-			Asset<Entity>	entity			{ "noobs_entity_0" };
+			Asset<Entity>	entity			{ "noobs" };
 			Renderer *		renderer		{ nullptr };
 			
 

@@ -32,15 +32,15 @@ namespace ml
 	{
 	}
 
-	Mesh::~Mesh()
-	{
-		dispose();
-	}
+	Mesh::~Mesh() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 	
 	bool Mesh::dispose()
 	{
+		m_vertices.clear();
+		m_indices.clear();
+		m_contiguous.clear();
 		return true;
 	}
 	

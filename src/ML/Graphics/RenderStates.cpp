@@ -7,156 +7,132 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderStates::RenderStates()
-		: alpha		{ }
-		, blend		{ }
-		, culling	{ }
-		, depth		{ }
-		, misc		{ }
+		: m_map()
 	{
 	}
 
-	RenderStates::RenderStates(
-		const AlphaMode		&	alpha,
-		const BlendMode		&	blend,
-		const CullingMode	&	culling,
-		const DepthMode		&	depth,
-		const MiscStates	&	misc)
-		: alpha		{ alpha.enabled, alpha.comp, alpha.coeff }
-		, blend		{ blend.enabled, blend.srcRGB, blend.srcAlpha, blend.dstRGB, blend.dstAlpha }
-		, culling	{ culling.enabled, culling.face }
-		, depth		{ depth.enabled, depth.comp }
-		, misc		{ misc.multisample, misc.framebufferSRGB }
+	RenderStates::RenderStates(List<mapped_type> && data)
+		: RenderStates()
 	{
+		for (auto & elem : data)
+		{
+			if (elem && (this->find(elem->get_id()) == this->end()))
+			{
+				m_map[elem->get_id()] = std::move(elem);
+			}
+		}
 	}
 
-	RenderStates::RenderStates(const RenderStates & copy) : RenderStates(
-		copy.alpha,
-		copy.blend,
-		copy.culling,
-		copy.depth,
-		copy.misc)
+	RenderStates::RenderStates(const RenderStates & copy)
+		: RenderStates()
 	{
+		for (const auto & pair : copy)
+		{
+			if (const RenderSetting * elem { pair.second })
+			{
+				if (this->find(elem->get_id()) == this->end())
+				{
+					m_map[elem->get_id()] = elem->clone();
+				}
+			}
+		}
 	}
 
-	RenderStates::~RenderStates()
-	{
-	}
+	RenderStates::~RenderStates() { this->dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const RenderStates & RenderStates::apply() const
-	{
-		this->alpha();
-		this->blend();
-		this->culling();
-		this->depth();
-		this->misc();
-		return (*this);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	const AlphaMode & AlphaMode::operator()() const
+	const AlphaTest & AlphaTest::operator()() const
 	{
 		if (!this->enabled)
 		{
-			ML_GL.disable(GL::Flag::AlphaTest);
+			ML_GL.disable(GL::AlphaTest);
 		}
-		else if (ML_GL.enable(GL::Flag::AlphaTest, this->enabled))
+		else if (ML_GL.enable(GL::AlphaTest, this->enabled))
 		{
 			ML_GL.alphaFunc(this->comp, this->coeff);
 		}
-		else
-		{
-			Debug::logWarning("Failed enabling Alpha Mode");
-		}
 		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const BlendMode & BlendMode::operator()() const
+	const BlendFunc & BlendFunc::operator()() const
 	{
 		if (!this->enabled)
 		{
-			ML_GL.disable(GL::Flag::Blend);
+			ML_GL.disable(GL::Blend);
 		}
-		else if (ML_GL.enable(GL::Flag::Blend, this->enabled))
+		else if (ML_GL.enable(GL::Blend, this->enabled))
 		{
 			ML_GL.blendFuncSeparate(
-				this->srcRGB, this->srcAlpha, 
+				this->srcRGB, this->srcAlpha,
 				this->dstRGB, this->dstAlpha
 			);
 		}
-		else
-		{
-			Debug::logWarning("Failed enabling Blend Mode");
-		}
 		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const CullingMode & CullingMode::operator()() const
+	const CullFace & CullFace::operator()() const
 	{
 		if (!this->enabled)
 		{
-			ML_GL.disable(GL::Flag::CullFace);
+			ML_GL.disable(GL::CullFace);
 		}
-		else if (ML_GL.enable(GL::Flag::CullFace, this->enabled))
+		else if (ML_GL.enable(GL::CullFace, this->enabled))
 		{
 			ML_GL.cullFace(this->face);
 		}
-		else
-		{
-			Debug::logWarning("Failed enabling Culling Mode");
-		}
 		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const DepthMode & DepthMode::operator()() const
+	const DepthMask & DepthMask::operator()() const
+	{
+		ML_GL.depthMask(this->enabled);
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const DepthTest & DepthTest::operator()() const
 	{
 		if (!this->enabled)
 		{
-			ML_GL.disable(GL::Flag::DepthTest);
+			ML_GL.disable(GL::DepthTest);
 		}
-		else if (ML_GL.enable(GL::Flag::DepthTest, this->enabled))
+		else if (ML_GL.enable(GL::DepthTest, this->enabled))
 		{
 			ML_GL.depthFunc(this->comp);
-		}
-		else
-		{
-			Debug::logWarning("Failed enabling Depth Mode");
 		}
 		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const MiscStates & MiscStates::operator()() const
+	const PolygonMode & PolygonMode::operator()() const
 	{
-		// Multisample
-		if (!this->multisample)
+		if (this->enabled)
 		{
-			ML_GL.disable(GL::Flag::Multisample);
+			ML_GL.polygonMode(this->face, this->mode);
 		}
-		else if (!ML_GL.enable(GL::Flag::Multisample, this->multisample))
-		{
-			Debug::logWarning("Failed enabling Multisample");
-		}
+		return (*this);
+	}
 
-		// Framebuffer SRGB
-		if (!this->framebufferSRGB)
-		{
-			ML_GL.disable(GL::Flag::FramebufferSRGB);
-		}
-		else if (!ML_GL.enable(GL::Flag::FramebufferSRGB, this->framebufferSRGB))
-		{
-			Debug::logWarning("Failed enabling FramebufferSRGB");
-		}
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	const ScissorTest & ScissorTest::operator()() const
+	{
+		if (!this->enabled)
+		{
+			ML_GL.disable(GL::ScissorTest);
+		}
+		else if (ML_GL.enable(GL::ScissorTest, this->enabled))
+		{
+		}
 		return (*this);
 	}
 

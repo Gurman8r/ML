@@ -127,19 +127,19 @@ namespace ml
 					if (md.getData("defaults", false))
 					{
 						temp->add(Uniform::duplicate<uni_vec2_ptr>(
-							ML_Content.get<uni_vec2_ptr>("%CURSOR_POS%")
+							ML_Content.get<uni_vec2_ptr>("CURSOR_POS")
 							));
 						temp->add(Uniform::duplicate<uni_int1_ptr>(
-							ML_Content.get<uni_int1_ptr>("%FRAME_COUNT%")
+							ML_Content.get<uni_int1_ptr>("FRAME_COUNT")
 							));
 						temp->add(Uniform::duplicate<uni_flt1_ptr>(
-							ML_Content.get<uni_flt1_ptr>("%DELTA_TIME%")
+							ML_Content.get<uni_flt1_ptr>("DELTA_TIME")
 							));
 						temp->add(Uniform::duplicate<uni_vec2_ptr>(
-							ML_Content.get<uni_vec2_ptr>("%VIEWPORT%")
+							ML_Content.get<uni_vec2_ptr>("VIEWPORT")
 							));
 						temp->add(Uniform::duplicate<uni_flt1_ptr>(
-							ML_Content.get<uni_flt1_ptr>("%TOTAL_TIME%")
+							ML_Content.get<uni_flt1_ptr>("TOTAL_TIME")
 							));
 					}
 
@@ -440,7 +440,7 @@ namespace ml
 					const int32_t level = md.getData("level", 0);
 				
 					// Target
-					const GL::Sampler target = md.getData("target", GL::Texture2D, {
+					const GL::Sampler sampler = md.getData("target", GL::Texture2D, {
 						{ "texture_2d",		GL::Texture2D },
 						{ "texture_3d",		GL::Texture3D },
 						{ "texture_cube",	GL::TextureCubeMap },
@@ -467,7 +467,7 @@ namespace ml
 						{ "half_float",		GL::HalfFloat },
 					});
 
-					switch (target)
+					switch (sampler)
 					{
 					/* * * * * * * * * * * * * * * * * * * * */
 					case GL::Texture2D:
@@ -475,7 +475,7 @@ namespace ml
 						if (const String file = md.getData("file"))
 						{
 							auto temp = new Texture {
-								target, format, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, format, smooth, repeat, mipmap, level, pixfmt
 							};
 							if (temp->loadFromFile(ML_FS.pathTo(file)))
 							{
@@ -488,7 +488,7 @@ namespace ml
 							if (const Image * img = ML_Content.get<Image>(file))
 							{
 								auto temp = new Texture {
-								target, format, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, format, smooth, repeat, mipmap, level, pixfmt
 								};
 								if (temp->loadFromImage(*img))
 								{
@@ -522,7 +522,7 @@ namespace ml
 						if (source == "images")
 						{
 							auto temp = new Texture {
-								target, format, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, format, smooth, repeat, mipmap, level, pixfmt
 							};
 							if (temp->loadFromFaces({
 								ML_Content.get<Image>(names[0]),
@@ -540,7 +540,7 @@ namespace ml
 						else if (source == "files")
 						{
 							auto temp = new Texture {
-								target, format, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, format, smooth, repeat, mipmap, level, pixfmt
 							};
 							if (temp->loadFromFaces({
 								&Image(names[0]),

@@ -176,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Graphics\BufferLayout.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Map.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />

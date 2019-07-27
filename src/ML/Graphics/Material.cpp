@@ -230,9 +230,12 @@ namespace ml
 	{
 		if (m_shader && (*m_shader))
 		{
-			for (const Uniform * u : (*this))
+			for (auto it = this->cbegin(); it != this->cend(); it++)
 			{
-				if (u && u->name) { this->apply(u); }
+				if (!this->apply((*it)))
+				{
+					/* error */
+				}
 			}
 			m_shader->bind(bindTextures);
 		}

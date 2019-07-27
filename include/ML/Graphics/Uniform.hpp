@@ -81,14 +81,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(Ostream & out, const Uniform & value)
-		{
-			return out << TypeNames[value.type];
-		}
-
 		inline operator bool() const
 		{
 			return (type > Types::INVALID_UNI) && (type < Types::MAX_UNI_TYPES);
+		}
+
+		inline friend ML_SERIALIZE(Ostream & out, const Uniform & value)
+		{
+			return out << TypeNames[value.type];
 		}
 
 		inline friend bool operator==(const Uniform & a, const Uniform & b)
@@ -169,56 +169,56 @@ namespace ml
 		virtual ~NAME() {}										\
 	};
 
-	ML_GEN_UNIFORM(uni_bool_t, Uniform::Bool);
-	ML_GEN_UNIFORM(uni_flt1_t, Uniform::Flt1);
-	ML_GEN_UNIFORM(uni_int1_t, Uniform::Int1);
-	ML_GEN_UNIFORM(uni_vec2_t, Uniform::Vec2);
-	ML_GEN_UNIFORM(uni_vec3_t, Uniform::Vec3);
-	ML_GEN_UNIFORM(uni_vec4_t, Uniform::Vec4);
-	ML_GEN_UNIFORM(uni_col4_t, Uniform::Col4);
-	ML_GEN_UNIFORM(uni_mat3_t, Uniform::Mat3);
-	ML_GEN_UNIFORM(uni_mat4_t, Uniform::Mat4);
-	ML_GEN_UNIFORM(uni_sampler_t, Uniform::Sampler);
+	ML_GEN_UNIFORM(uni_bool_base,		Uniform::Bool);
+	ML_GEN_UNIFORM(uni_flt1_base,		Uniform::Flt1);
+	ML_GEN_UNIFORM(uni_int1_base,		Uniform::Int1);
+	ML_GEN_UNIFORM(uni_vec2_base,		Uniform::Vec2);
+	ML_GEN_UNIFORM(uni_vec3_base,		Uniform::Vec3);
+	ML_GEN_UNIFORM(uni_vec4_base,		Uniform::Vec4);
+	ML_GEN_UNIFORM(uni_col4_base,		Uniform::Col4);
+	ML_GEN_UNIFORM(uni_mat3_base,		Uniform::Mat3);
+	ML_GEN_UNIFORM(uni_mat4_base,		Uniform::Mat4);
+	ML_GEN_UNIFORM(uni_sampler_base,	Uniform::Sampler);
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	using uni_bool		= typename uni_bool_t<bool>;
-	using uni_flt1		= typename uni_flt1_t<float_t>;
-	using uni_int1		= typename uni_int1_t<int32_t>;
-	using uni_vec2		= typename uni_vec2_t<vec2>;
-	using uni_vec3		= typename uni_vec3_t<vec3>;
-	using uni_vec4		= typename uni_vec4_t<vec4>;
-	using uni_col4		= typename uni_col4_t<vec4>;
-	using uni_mat3		= typename uni_mat3_t<mat3>;
-	using uni_mat4		= typename uni_mat4_t<mat4>;
+	using uni_bool		= typename uni_bool_base<bool	>;
+	using uni_flt1		= typename uni_flt1_base<float_t>;
+	using uni_int1		= typename uni_int1_base<int32_t>;
+	using uni_vec2		= typename uni_vec2_base<vec2	>;
+	using uni_vec3		= typename uni_vec3_base<vec3	>;
+	using uni_vec4		= typename uni_vec4_base<vec4	>;
+	using uni_col4		= typename uni_col4_base<vec4	>;
+	using uni_mat3		= typename uni_mat3_base<mat3	>;
+	using uni_mat4		= typename uni_mat4_base<mat4	>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	using uni_bool_ref	= typename uni_bool_t<const bool &>;
-	using uni_flt1_ref	= typename uni_flt1_t<const float_t	&>;
-	using uni_int1_ref	= typename uni_int1_t<const int32_t	&>;
-	using uni_vec2_ref	= typename uni_vec2_t<const vec2 &>;
-	using uni_vec3_ref	= typename uni_vec3_t<const vec3 &>;
-	using uni_vec4_ref	= typename uni_vec3_t<const vec4 &>;
-	using uni_col4_ref	= typename uni_col4_t<const vec4 &>;
-	using uni_mat3_ref	= typename uni_mat3_t<const mat3 &>;
-	using uni_mat4_ref	= typename uni_mat4_t<const mat4 &>;
+	using uni_bool_ref	= typename uni_bool_base<const bool		&>;
+	using uni_flt1_ref	= typename uni_flt1_base<const float_t	&>;
+	using uni_int1_ref	= typename uni_int1_base<const int32_t	&>;
+	using uni_vec2_ref	= typename uni_vec2_base<const vec2		&>;
+	using uni_vec3_ref	= typename uni_vec3_base<const vec3		&>;
+	using uni_vec4_ref	= typename uni_vec3_base<const vec4		&>;
+	using uni_col4_ref	= typename uni_col4_base<const vec4		&>;
+	using uni_mat3_ref	= typename uni_mat3_base<const mat3		&>;
+	using uni_mat4_ref	= typename uni_mat4_base<const mat4		&>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	using uni_bool_ptr	= typename uni_bool_t<const bool *>;
-	using uni_flt1_ptr	= typename uni_flt1_t<const float_t	*>;
-	using uni_int1_ptr	= typename uni_int1_t<const int32_t	*>;
-	using uni_vec2_ptr	= typename uni_vec2_t<const vec2 *>;
-	using uni_vec3_ptr	= typename uni_vec3_t<const vec3 *>;
-	using uni_vec4_ptr	= typename uni_vec3_t<const vec4 *>;
-	using uni_col4_ptr	= typename uni_col4_t<const vec4 *>;
-	using uni_mat3_ptr	= typename uni_mat3_t<const mat3 *>;
-	using uni_mat4_ptr	= typename uni_mat4_t<const mat4 *>;
+	using uni_bool_ptr	= typename uni_bool_base<const bool		*>;
+	using uni_flt1_ptr	= typename uni_flt1_base<const float_t	*>;
+	using uni_int1_ptr	= typename uni_int1_base<const int32_t	*>;
+	using uni_vec2_ptr	= typename uni_vec2_base<const vec2		*>;
+	using uni_vec3_ptr	= typename uni_vec3_base<const vec3		*>;
+	using uni_vec4_ptr	= typename uni_vec3_base<const vec4		*>;
+	using uni_col4_ptr	= typename uni_col4_base<const vec4		*>;
+	using uni_mat3_ptr	= typename uni_mat3_base<const mat3		*>;
+	using uni_mat4_ptr	= typename uni_mat4_base<const mat4		*>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	using uni_sampler	= typename uni_sampler_t<const Texture	*>; // <- All Texture Types
+	using uni_sampler	= typename uni_sampler_base<const Texture *>; // <- All Samplers
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -84,12 +84,12 @@ namespace ml
 	{
 		if (m_texture)
 		{
-			if (uni_col4 * u = batch.mat->get<uni_col4>(ML_FRAG_MAIN_COL))
+			if (uni_col4 * u = batch.mat->get<uni_col4>(ML_UNI_MAIN_COL))
 			{
 				u->data = m_color;
 			}
 
-			if (uni_sampler * u = batch.mat->get<uni_sampler>(ML_FRAG_MAIN_TEX))
+			if (uni_sampler * u = batch.mat->get<uni_sampler>(ML_UNI_MAIN_TEX))
 			{
 				u->data = m_texture;
 			}

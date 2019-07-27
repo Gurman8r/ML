@@ -38,17 +38,9 @@ namespace ml
 
 	bool Surface::dispose()
 	{
-		if (m_fbo && m_rbo)
-		{
-			m_fbo.clean();
-			m_rbo.clean();
-		}
+		if (m_fbo) { m_fbo.clean(); }
+		if (m_rbo) { m_rbo.clean(); }
 		return (!m_fbo && !m_rbo);
-	}
-
-	bool Surface::loadFromFile(const String & filename)
-	{
-		return true;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -63,11 +55,12 @@ namespace ml
 				m_fbo.create().bind();
 				{
 					// Setup Renderbuffer
-					m_rbo.create(m_size[0], m_size[1]);
-					m_rbo.bind();
-					m_rbo.bufferStorage(GL::Depth24_Stencil8);
-					m_rbo.setFramebuffer(GL::DepthStencil);
-					m_rbo.unbind();
+					m_rbo
+						.create(m_size[0], m_size[1])
+						.bind()
+						.bufferStorage(GL::Depth24_Stencil8)
+						.setFramebuffer(GL::DepthStencil)
+						.unbind();
 
 					// Check Framebuffer Status
 					if (ML_GL.checkFramebufferStatus(GL::Framebuffer))
@@ -76,10 +69,10 @@ namespace ml
 						m_texture.dispose();
 						m_texture.create(size);
 						m_fbo.setTexture(
-							(m_attachment),
+							m_attachment,
 							(*m_texture),
-							(m_texture.target()),
-							(m_texture.level())
+							m_texture.sampler(),
+							m_texture.level()
 						);
 					}
 				}
@@ -91,7 +84,7 @@ namespace ml
 		return false;
 	}
 
-	bool Surface::resize(const vec2i & size)
+	bool Surface::update(const vec2i & size)
 	{
 		return 
 			(size != vec2i { 0, 0 }) &&
@@ -102,14 +95,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Surface::bind() const
+	const Surface & Surface::bind() const
 	{
 		m_fbo.bind();
+		return (*this);
 	}
 	
-	void Surface::unbind() const
+	const Surface & Surface::unbind() const
 	{
 		m_fbo.unbind();
+		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -130,7 +125,7 @@ namespace ml
 	{
 		if (m_model && m_shader && m_texture)
 		{
-			m_shader->setUniform(ML_FRAG_MAIN_TEX, m_texture);
+			m_shader->setUniform(ML_UNI_MAIN_TEX, m_texture);
 
 			m_shader->bind();
 

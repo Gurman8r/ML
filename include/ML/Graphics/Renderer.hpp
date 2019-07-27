@@ -12,22 +12,23 @@ namespace ml
 	struct ML_GRAPHICS_API Renderer final
 		: public I_Newable
 		, public I_Drawable
+		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Renderer();
 		Renderer(const I_Drawable * drawable, const Material * material);
-		Renderer(const Renderer & copy);
+		Renderer(const I_Drawable * drawable, const Material * material, const RenderStates & states);
 		~Renderer();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto drawable()	const	-> const I_Drawable *	{ return m_drawable; }
 		inline auto drawable()			-> const I_Drawable *&	{ return m_drawable; }
-		inline auto material()	const	-> const Material *		{ return m_material; }
+		inline auto drawable() const	-> const I_Drawable *	{ return m_drawable; }
 		inline auto material()			-> const Material *&	{ return m_material; }
-		inline auto states()	const	-> const RenderStates & { return m_states; }
+		inline auto material() const	-> const Material *		{ return m_material; }
 		inline auto states()			-> RenderStates	&		{ return m_states; }
+		inline auto states() const		-> const RenderStates & { return m_states; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

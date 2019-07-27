@@ -1,7 +1,7 @@
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/C_String.hpp>
 
-// Values / Names
+// OpenGL Enum Details
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
@@ -1145,7 +1145,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-// Operators
+// OpenGL Enum Operators
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {

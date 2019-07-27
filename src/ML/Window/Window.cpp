@@ -278,7 +278,10 @@ namespace ml
 			if (auto ev = value->as<WindowFocusEvent>()) {}
 			break;
 		case WindowKillEvent::ID:
-			if (auto ev = value->as<WindowKillEvent>()) {}
+			if (auto ev = value->as<WindowKillEvent>()) 
+			{
+				this->close();
+			}
 			break;
 		case WindowPosEvent::ID:
 			if (auto ev = value->as<WindowPosEvent>()) {}

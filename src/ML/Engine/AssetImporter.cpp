@@ -126,27 +126,26 @@ namespace ml
 					// Default Uniforms
 					if (md.getData("defaults", false))
 					{
-						temp->add(Uniform::duplicate<uni_vec2_ptr>(
-							ML_Content.get<uni_vec2_ptr>("CURSOR_POS")
-							));
-						temp->add(Uniform::duplicate<uni_int1_ptr>(
-							ML_Content.get<uni_int1_ptr>("FRAME_COUNT")
-							));
-						temp->add(Uniform::duplicate<uni_flt1_ptr>(
-							ML_Content.get<uni_flt1_ptr>("DELTA_TIME")
-							));
-						temp->add(Uniform::duplicate<uni_vec2_ptr>(
-							ML_Content.get<uni_vec2_ptr>("VIEWPORT")
-							));
-						temp->add(Uniform::duplicate<uni_flt1_ptr>(
-							ML_Content.get<uni_flt1_ptr>("TOTAL_TIME")
-							));
+						if (auto u = ML_Content.get<uni_vec2_ptr>("CURSOR_POS"))
+							temp->add(u->clone());
+
+						if (auto u = ML_Content.get<uni_float_ptr>("DELTA_TIME"))
+							temp->add(u->clone());
+
+						if (auto u = ML_Content.get<uni_int_ptr>("FRAME_COUNT"))
+							temp->add(u->clone());
+
+						if (auto u = ML_Content.get<uni_float_ptr>("TOTAL_TIME"))
+							temp->add(u->clone());
+
+						if (auto u = ML_Content.get<uni_vec2_ptr>("VIEWPORT"))
+							temp->add(u->clone());
 					}
 
 					// Load Uniforms
 					if (!temp->loadFromFile(
 						md.getData("uniforms").asString(),
-						reinterpret_cast<const Map<String, Texture *> *>(
+						reinterpret_cast<const Tree<String, Texture *> *>(
 							&ML_Content.data<Texture>())
 					))
 					{

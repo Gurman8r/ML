@@ -119,7 +119,7 @@ namespace ml
 	ML_GEN_STD_TYPE_X	(HashSet,			unordered_set);		// Unordered Set
 	ML_GEN_STD_TYPE		(Ifstream,			ifstream);			// Input File Stream 
 	ML_GEN_STD_TYPE		(Istream,			istream);			// Input Stream
-	ML_GEN_STD_TYPE_XY	(Map,				map);				// Map (BST)
+	ML_GEN_STD_TYPE_XY	(Tree,				map);				// Map (BST)
 	ML_GEN_STD_TYPE_XY	(MultiMap,			multimap);			// Multimap
 	ML_GEN_STD_TYPE		(Ofstream,			ofstream);			// Output File Stream 
 	ML_GEN_STD_TYPE		(Ostream,			ostream);			// Output Stream

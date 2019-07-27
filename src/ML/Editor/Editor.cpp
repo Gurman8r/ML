@@ -282,9 +282,7 @@ namespace ml
 					eventSystem().fireEvent(File_Quit_Event());
 				}
 
-				eventSystem().fireEvent(MainMenuBarEvent(
-					MainMenuBarEvent::File
-				));
+				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::File));
 
 				ImGui::EndMenu();
 			}
@@ -320,9 +318,7 @@ namespace ml
 					eventSystem().fireEvent(Edit_Paste_Event());
 				}
 
-				eventSystem().fireEvent(MainMenuBarEvent(
-					MainMenuBarEvent::Edit
-				));
+				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Edit));
 
 				ImGui::EndMenu();
 			}
@@ -336,9 +332,7 @@ namespace ml
 				ImGui::MenuItem(m_resources.getTitle(), "Ctrl+Alt+R", m_resources.openPtr()	);
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr()	);
 
-				eventSystem().fireEvent(MainMenuBarEvent(
-					MainMenuBarEvent::Window
-				));
+				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Window));
 				
 				ImGui::EndMenu();
 			}
@@ -388,16 +382,13 @@ namespace ml
 				ImGui::MenuItem("Style Editor", "", &show_imgui_style);
 				ImGui::MenuItem("About Dear ImGui", "", &show_imgui_about);
 
-				eventSystem().fireEvent(MainMenuBarEvent(
-					MainMenuBarEvent::Help
-				));
+				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Help));
 
 				ImGui::EndMenu();
 			}
 
-			eventSystem().fireEvent(MainMenuBarEvent(
-				MainMenuBarEvent::None
-			));
+			// User Menu Bars
+			eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::User));
 
 			ImGui::EndMainMenuBar();
 		}

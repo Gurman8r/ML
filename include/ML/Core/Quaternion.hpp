@@ -116,7 +116,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr tmat3<value_type> toMat3() const
+		constexpr tmat3<value_type> as_mat3() const
 		{
 			// not sure if this is correct
 			return tmat3<value_type> {
@@ -132,9 +132,9 @@ namespace ml
 			};
 		}
 
-		constexpr tmat4<value_type> toMat4() const
+		constexpr tmat4<value_type> as_mat4() const
 		{
-			const tmat3<value_type> temp = toMat3();
+			const tmat3<value_type> temp = as_mat3();
 			return tmat4<value_type> {
 				temp[0],	temp[1],	temp[2],	cast_type::zero,
 				temp[3],	temp[4],	temp[5],	cast_type::zero,

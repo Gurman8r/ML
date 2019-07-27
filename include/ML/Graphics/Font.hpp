@@ -15,8 +15,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using GlyphTable = Map<uint32_t, Glyph>;
-		using PageTable  = Map<uint32_t, GlyphTable>;
+		using GlyphTable = Tree<uint32_t, Glyph>;
+		using PageTable  = Tree<uint32_t, GlyphTable>;
 
 		struct Info final
 		{

@@ -108,12 +108,13 @@ namespace ml
 		if (Entity * ent = noobs.entity.create())
 		{
 			// Attach Renderer
-			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material, RenderStates { {
-				new AlphaTest	{ true, GL::Greater, 0.01f },
-				new BlendFunc	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-				new CullFace	{ true, GL::Back },
-				new DepthTest	{ true, GL::Less }
-			} });
+			noobs.renderer = ent->add<Renderer>(noobs.model, noobs.material,
+				RenderStates { {
+					new AlphaTest	{ true, GL::Greater, 0.01f },
+					new BlendFunc	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+					new CullFace	{ true, GL::Back },
+					new DepthTest	{ true, GL::Less }
+				} });
 		}
 
 		// Setup Editor
@@ -580,7 +581,7 @@ namespace ml
 				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
 				{
 					// new uniform editor
-					Uniform * u = nullptr;
+					Uni * u = nullptr;
 					if (UniformPropertyDrawer()("##NewUniform##Material##Noobs", u))
 					{
 						if (!noobs.material->add(u))
@@ -604,9 +605,9 @@ namespace ml
 					auto toRemove = noobs.material->cend();
 					for (auto it = noobs.material->cbegin(); it != noobs.material->cend(); it++)
 					{
-						Uniform * u { *it };
+						Uni * u { *it };
 						if (!*it) continue;
-						bool modifiable = detail::isEdit(u);
+						bool modifiable = detail::is_modifiable(u);
 						const String label("##Uni##" + u->name + "##Material##Noobs");
 						ImGui::Columns(3, "uniform columns");
 
@@ -634,13 +635,13 @@ namespace ml
 						ImGui::NextColumn();
 						
 						// Type
-						ImGui::Text("%s", detail::nameOf((Uniform::Types)u->type)); 
+						ImGui::Text("%s", detail::nameOf((Uni::Type)u->id)); 
 						ImGui::NextColumn();
 
 						// Value
 						ImGui::PushID((u->name + label).c_str());
 						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-						if (UniformPropertyDrawer()(label, (Uniform &)(*u)))
+						if (UniformPropertyDrawer()(label, (Uni &)(*u)))
 						{
 							ImGui::SameLine();
 							if (ImGui::Button(("X##" + label).c_str()))

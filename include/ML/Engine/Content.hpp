@@ -18,7 +18,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using object_map = typename Map<String, I_Newable *>;
+		using object_map = typename Tree<String, I_Newable *>;
 		using typeid_map = typename HashMap<size_t, object_map>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -72,7 +72,7 @@ namespace ml
 			class T
 		> inline bool erase(const String & name)
 		{
-			static Map<String, I_Newable *>::iterator it;
+			static Tree<String, I_Newable *>::iterator it;
 			if ((it = this->data<T>().find(name)) != this->data<T>().end())
 			{
 				this->data<T>().erase(it);
@@ -87,7 +87,7 @@ namespace ml
 			class T
 		> inline T * get(const String & name)
 		{
-			static Map<String, I_Newable *>::iterator it;
+			static Tree<String, I_Newable *>::iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<T *>(it->second)
 				: nullptr
@@ -98,7 +98,7 @@ namespace ml
 			class T
 		> inline const T * get(const String & name) const
 		{
-			static Map<String, I_Newable *>::const_iterator it;
+			static Tree<String, I_Newable *>::const_iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
@@ -125,7 +125,7 @@ namespace ml
 		{
 			if ((index >= 0) && ((size_t)index < this->data<T>().size()))
 			{
-				Map<String, I_Newable *>::const_iterator it = this->data<T>().cbegin();
+				Tree<String, I_Newable *>::const_iterator it = this->data<T>().cbegin();
 				for (int32_t i = 0; i < index; i++)
 				{
 					if ((++it) == this->data<T>().cend())
@@ -142,7 +142,7 @@ namespace ml
 			class T
 		> inline const T * getByIndex(int32_t index) const
 		{
-			Map<String, I_Newable *>::const_iterator it;
+			Tree<String, I_Newable *>::const_iterator it;
 			return (((it = this->getIterator<T>(index)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr

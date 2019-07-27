@@ -20,7 +20,7 @@ namespace ml
 		friend class I_Singleton<Runtime>;
 
 	public:
-		using VarMap	= Map<String, Var *>;
+		using VarMap	= Tree<String, Var *>;
 		using ScopeMap	= HashMap<int32_t, VarMap*>;
 
 	private:

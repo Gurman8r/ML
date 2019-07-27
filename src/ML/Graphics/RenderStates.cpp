@@ -6,10 +6,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderStates::RenderStates()
-		: m_map()
-	{
-	}
+	RenderStates::RenderStates() : m_map() {}
 
 	RenderStates::RenderStates(List<mapped_type> && data)
 		: RenderStates()
@@ -28,12 +25,9 @@ namespace ml
 	{
 		for (const auto & pair : copy)
 		{
-			if (const RenderSetting * elem { pair.second })
+			if (pair.second && (this->find(pair.second->get_id()) == this->end()))
 			{
-				if (this->find(elem->get_id()) == this->end())
-				{
-					m_map[elem->get_id()] = elem->clone();
-				}
+				m_map[pair.second->get_id()] = pair.second->clone();
 			}
 		}
 	}

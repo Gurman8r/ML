@@ -35,9 +35,9 @@ namespace ml
 		float_t coeff;
 
 		explicit AlphaTest(bool enabled, GL::Comp comp, float_t coeff)
-			: enabled	{ enabled }
-			, comp		{ comp }
-			, coeff		{ coeff }
+			: enabled(enabled)
+			, comp(comp)
+			, coeff(coeff)
 		{
 		}
 
@@ -58,7 +58,7 @@ namespace ml
 
 		inline AlphaTest * clone() const override
 		{
-			return new AlphaTest(enabled, comp, coeff);
+			return new AlphaTest { enabled, comp, coeff };
 		}
 
 		const AlphaTest & operator()() const override;
@@ -75,11 +75,11 @@ namespace ml
 		GL::Factor dstAlpha;
 
 		explicit BlendFunc(bool enabled, GL::Factor srcRGB, GL::Factor srcAlpha, GL::Factor dstRGB, GL::Factor dstAlpha)
-			: enabled	{ enabled }
-			, srcRGB	{ srcRGB }
-			, srcAlpha	{ srcAlpha }
-			, dstRGB	{ dstRGB }
-			, dstAlpha	{ dstAlpha }
+			: enabled(enabled)
+			, srcRGB	(srcRGB)
+			, srcAlpha	(srcAlpha)
+			, dstRGB	(dstRGB)
+			, dstAlpha	(dstAlpha)
 		{
 		}
 
@@ -105,7 +105,7 @@ namespace ml
 
 		inline BlendFunc * clone() const override
 		{
-			return new BlendFunc(enabled, srcRGB, srcAlpha, dstRGB, dstAlpha);
+			return new BlendFunc { enabled, srcRGB, srcAlpha, dstRGB, dstAlpha };
 		}
 
 		const BlendFunc & operator()() const override;
@@ -119,8 +119,8 @@ namespace ml
 		GL::Face face;
 
 		explicit CullFace(bool enabled, GL::Face face)
-			: enabled	{ enabled }
-			, face		{ face }
+			: enabled(enabled)
+			, face(face)
 		{
 		}
 
@@ -141,7 +141,7 @@ namespace ml
 
 		inline CullFace * clone() const override
 		{
-			return new CullFace(enabled, face);
+			return new CullFace { enabled, face };
 		}
 
 		const CullFace & operator()() const override;
@@ -154,7 +154,7 @@ namespace ml
 		bool enabled;
 
 		explicit DepthMask(bool enabled)
-			: enabled	{ enabled }
+			: enabled(enabled)
 		{
 		}
 
@@ -170,7 +170,7 @@ namespace ml
 
 		inline DepthMask * clone() const override
 		{
-			return new DepthMask(enabled);
+			return new DepthMask { enabled };
 		}
 
 		const DepthMask & operator()() const override;
@@ -184,8 +184,8 @@ namespace ml
 		GL::Comp comp;
 
 		explicit DepthTest(bool enabled, GL::Comp comp)
-			: enabled	{ enabled }
-			, comp		{ comp }
+			: enabled(enabled)
+			, comp(comp)
 		{
 		}
 
@@ -206,7 +206,7 @@ namespace ml
 
 		inline DepthTest * clone() const override
 		{
-			return new DepthTest(enabled, comp);
+			return new DepthTest { enabled, comp };
 		}
 
 		const DepthTest & operator()() const override;
@@ -216,14 +216,14 @@ namespace ml
 
 	struct ML_GRAPHICS_API PolygonMode final : public RenderSetting
 	{
-		bool	 enabled;
+		bool enabled;
 		GL::Face face;
 		GL::Mode mode;
 
 		explicit PolygonMode(bool enabled, GL::Face face, GL::Mode mode)
-			: enabled	{ enabled }
-			, face		{ face }
-			, mode		{ mode }
+			: enabled(enabled)
+			, face(face)
+			, mode(mode)
 		{
 		}
 
@@ -244,7 +244,7 @@ namespace ml
 
 		inline PolygonMode * clone() const override
 		{
-			return new PolygonMode(enabled, face, mode);
+			return new PolygonMode { enabled, face, mode };
 		}
 
 		const PolygonMode & operator()() const override;
@@ -257,7 +257,7 @@ namespace ml
 		bool enabled;
 
 		explicit ScissorTest(bool enabled)
-			: enabled	{ enabled }
+			: enabled(enabled)
 		{
 		}
 
@@ -273,7 +273,7 @@ namespace ml
 
 		inline ScissorTest * clone() const override
 		{
-			return new ScissorTest(enabled);
+			return new ScissorTest { enabled };
 		}
 
 		const ScissorTest & operator()() const override;
@@ -290,10 +290,6 @@ namespace ml
 		using base_type			= typename HashMap<size_t, RenderSetting *>;
 		using key_type			= typename base_type::key_type;
 		using mapped_type		= typename base_type::mapped_type;
-		using pointer			= typename base_type::pointer;
-		using reference			= typename base_type::reference;
-		using const_pointer		= typename base_type::const_pointer;
-		using const_reference	= typename base_type::const_reference;
 		using iterator			= typename base_type::iterator;
 		using const_iterator	= typename base_type::const_iterator;
 
@@ -330,14 +326,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline iterator find(key_type value) 
+		inline iterator find(key_type key)
 		{ 
-			return m_map.find(value); 
+			return m_map.find(key);
 		}
 
-		inline const_iterator find(key_type value) const 
+		inline const_iterator find(key_type key) const
 		{ 
-			return m_map.find(value); 
+			return m_map.find(key);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -368,13 +364,10 @@ namespace ml
 		> inline T * insert(mapped_type value)
 		{
 			iterator it;
-			if (value && ((it = this->find<T>()) == this->end()))
-			{
-				return reinterpret_cast<T *>(this->insert(
-					value->get_id(), value
-				)->second);
-			}
-			return nullptr;
+			return ((value && ((it = this->find<T>()) == this->end()))
+				? reinterpret_cast<T *>(this->insert(value->get_id(), value)->second)
+				: nullptr
+			);
 		}
 
 		template <
@@ -423,6 +416,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: base_type m_map;
+	
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -133,7 +133,7 @@ namespace ml
 		{
 			update();
 
-			if (uni_col4 * u = batch.mat->get<uni_col4>(ML_UNI_MAIN_COL))
+			if (uni_color * u = batch.mat->get<uni_color>(ML_UNI_MAIN_COL))
 			{
 				u->data = m_color;
 			}

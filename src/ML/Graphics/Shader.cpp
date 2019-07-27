@@ -543,7 +543,7 @@ namespace ml
 	
 	int32_t Shader::getAttribute(const String & name) const
 	{
-		Map<String, int32_t>::iterator it;
+		Tree<String, int32_t>::iterator it;
 		if ((it = m_attribs.find(name)) != m_attribs.end())
 		{
 			return it->second;
@@ -561,7 +561,7 @@ namespace ml
 	
 	int32_t Shader::getUniform(const String & name) const
 	{
-		Map<String, int32_t>::iterator it;
+		Tree<String, int32_t>::iterator it;
 		if ((it = m_uniforms.find(name)) != m_uniforms.end())
 		{
 			return it->second;

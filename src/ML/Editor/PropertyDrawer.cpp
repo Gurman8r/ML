@@ -271,7 +271,7 @@ namespace ml
 		if (ImGui::TreeNode(("Uniforms##" + label).c_str()))
 		{
 			// new uniform editor
-			Uniform * u = nullptr;
+			Uni * u = nullptr;
 			if (UniformPropertyDrawer()(("##NewUniform##Material" + label).c_str(), u))
 			{
 				if (!value.add(u))
@@ -286,7 +286,7 @@ namespace ml
 				ImGui::Separator();
 
 			// to remove
-			List<List<Uniform *>::iterator> toRemove;
+			List<List<Uni *>::iterator> toRemove;
 
 			for (auto it = value.uniforms().begin();
 				it != value.uniforms().end();
@@ -308,8 +308,8 @@ namespace ml
 					if ((*it))
 					{
 						float_t height = 1;
-						if ((*it)->type == uni_mat3::ID) { height = 3; }
-						else if ((*it)->type == uni_mat4::ID) { height = 4; }
+						if ((*it)->id == uni_mat3::ID) { height = 3; }
+						else if ((*it)->id == uni_mat4::ID) { height = 4; }
 
 						ImGui::PushID(name.c_str());
 						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
@@ -320,7 +320,7 @@ namespace ml
 							ImGuiWindowFlags_NoScrollWithMouse
 						);
 
-						if (UniformPropertyDrawer()(name, (Uniform &)(*(*it))))
+						if (UniformPropertyDrawer()(name, (Uni &)(*(*it))))
 						{
 							ImGui::SameLine();
 							if (ImGui::Button(("Remove##" + name).c_str()))
@@ -790,7 +790,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool UniformPropertyDrawer::operator()(const String & label, const_pointer & value) const
 	{
-		return asset_dropdown<Uniform>(label, value);
+		return asset_dropdown<Uni>(label, value);
 	}
 
 	bool UniformPropertyDrawer::operator()(const String & label, const_reference value) const
@@ -818,8 +818,8 @@ namespace ml
 			ImGui::Combo(
 				"Type",
 				&type,
-				Uniform::TypeNames,
-				Uniform::MAX_UNI_TYPES
+				Uni::Type_names,
+				Uni::MAX_UNI_TYPES
 			);
 
 			// Name Input
@@ -843,12 +843,12 @@ namespace ml
 				switch (type)
 				{
 				case uni_bool::ID: value = new uni_bool(name, { 0 }); break;
-				case uni_flt1::ID: value = new uni_flt1(name, { 0 }); break;
-				case uni_int1::ID: value = new uni_int1(name, { 0 }); break;
+				case uni_float::ID: value = new uni_float(name, { 0 }); break;
+				case uni_int::ID: value = new uni_int(name, { 0 }); break;
 				case uni_vec2::ID: value = new uni_vec2(name, { 0 }); break;
 				case uni_vec3::ID: value = new uni_vec3(name, { 0 }); break;
 				case uni_vec4::ID: value = new uni_vec4(name, { 0 }); break;
-				case uni_col4::ID: value = new uni_col4(name, { 0 }); break;
+				case uni_color::ID: value = new uni_color(name, { 0 }); break;
 				case uni_mat3::ID: value = new uni_mat3(name, { 0 }); break;
 				case uni_mat4::ID: value = new uni_mat4(name, { 0 }); break;
 				case uni_sampler::ID: value = new uni_sampler(name, { 0 }); break;
@@ -877,12 +877,12 @@ namespace ml
 	bool UniformPropertyDrawer::operator()(const String & label, reference value) const
 	{
 		constexpr float speed = 0.001f;
-		switch (value.type)
+		switch (value.id)
 		{
 			// Bool
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_bool::ID:
-			if (bool * temp = detail::toBool(&value))
+			if (bool * temp = detail::as_bool(&value))
 			{
 				const String name = "##" + label + "##Bool##Uni" + value.name;
 				ImGui::Checkbox(name.c_str(), temp);
@@ -896,12 +896,12 @@ namespace ml
 
 			// Flt1
 			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_flt1::ID:
-			if (float_t * temp = detail::toFloat(&value))
+		case uni_float::ID:
+			if (float_t * temp = detail::as_float(&value))
 			{
 				const String name = "##" + label + "##Float##Uni" + value.name;
 				ImGui::DragFloat(name.c_str(), temp, speed);
-				if (auto u = value.as<uni_flt1>())
+				if (auto u = value.as<uni_float>())
 				{
 					u->data = (*temp); 
 					return true;
@@ -911,12 +911,12 @@ namespace ml
 
 			// Int1
 			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_int1::ID:
-			if (int32_t * temp = detail::toInt(&value))
+		case uni_int::ID:
+			if (int32_t * temp = detail::as_int(&value))
 			{
 				const String name = "##" + label + "##Int##Uni" + value.name;
 				ImGui::DragInt(name.c_str(), temp, speed);
-				if (auto u = value.as<uni_int1>())
+				if (auto u = value.as<uni_int>())
 				{
 					u->data = (*temp);
 					return true;
@@ -927,7 +927,7 @@ namespace ml
 			// Vec2
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec2::ID:
-			if (vec2 * temp = detail::toVec2(&value))
+			if (vec2 * temp = detail::as_vec2(&value))
 			{
 				const String name = "##" + label + "##Vec2##Uni" + value.name;
 				ImGui::DragFloat2(name.c_str(), &(*temp)[0], speed);
@@ -942,7 +942,7 @@ namespace ml
 			// Vec3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec3::ID:
-			if (vec3 * temp = detail::toVec3(&value))
+			if (vec3 * temp = detail::as_vec3(&value))
 			{
 				const String name = "##" + label + "##Vec3##Uni" + value.name;
 				ImGui::DragFloat3(name.c_str(), &(*temp)[0], speed);
@@ -957,7 +957,7 @@ namespace ml
 			// Vec4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_vec4::ID:
-			if (vec4 * temp = detail::toVec4(&value))
+			if (vec4 * temp = detail::as_vec4(&value))
 			{
 				const String name = "##" + label + "##Vec4##Uni" + value.name;
 				ImGui::DragFloat4(name.c_str(), &(*temp)[0], speed);
@@ -971,12 +971,12 @@ namespace ml
 
 			// Col4
 			/* * * * * * * * * * * * * * * * * * * * */
-		case uni_col4::ID:
-			if (vec4 * temp = detail::toCol4(&value))
+		case uni_color::ID:
+			if (vec4 * temp = detail::as_color(&value))
 			{
 				const String name = "##" + label + "##Col4##Uni" + value.name;
 				ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
-				if (auto u = value.as<uni_col4>())
+				if (auto u = value.as<uni_color>())
 				{
 					u->data = (*temp); 
 					return true;
@@ -987,7 +987,7 @@ namespace ml
 			// Mat3
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat3::ID:
-			if (mat3 * temp = detail::toMat3(&value))
+			if (mat3 * temp = detail::as_mat3(&value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
 				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0], speed);
@@ -1004,7 +1004,7 @@ namespace ml
 			// Mat4
 			/* * * * * * * * * * * * * * * * * * * * */
 		case uni_mat4::ID:
-			if (mat4 * temp = detail::toMat4(&value))
+			if (mat4 * temp = detail::as_mat4(&value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
 				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0],  speed);

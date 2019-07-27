@@ -77,10 +77,10 @@ int32_t test_lua()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
+
 int32_t main()
 {
-	//return test_lua();
-
 	// Load Plugin List
 	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Preferences.GetString(
 		"Launcher", "plugin_list", ""

@@ -74,8 +74,8 @@ namespace ml
 			constexpr float_t	q_roll		= q.roll();
 			constexpr float_t	q_yaw		= q.yaw();
 			constexpr vec3		q_euler		= q.eulerAngles();
-			constexpr mat3		q_toMat3	= q.toMat3();
-			constexpr mat4		q_toMat4	= q.toMat4();
+			constexpr mat3		q_toMat3	= q.as_mat3();
+			constexpr mat4		q_toMat4	= q.as_mat4();
 		}
 
 		// Geometry Tests

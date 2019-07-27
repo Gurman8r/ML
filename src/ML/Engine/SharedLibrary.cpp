@@ -60,7 +60,7 @@ namespace ml
 
 	void * SharedLibrary::loadFunction(const String & name)
 	{
-		Map<String, void *>::const_iterator it;
+		Tree<String, void *>::const_iterator it;
 		if ((it = m_functions.find(name)) != m_functions.end())
 		{
 			return it->second;

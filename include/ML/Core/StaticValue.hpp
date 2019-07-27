@@ -11,6 +11,22 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	namespace detail
+	{
+		template <class T> struct decay final
+		{
+			template <class U> using remove_const_t = std::remove_const_t<U>;
+			template <class U> using remove_pointer_t = std::remove_pointer_t<U>;
+			template <class U> using remove_reference_t = std::remove_reference_t<U>;
+
+			using type = typename remove_const_t<remove_reference_t<remove_pointer_t<T>>>;
+		};
+
+		template <class T> using decay_t = typename decay<T>::type;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	// Functions as a reusable static_cast with builtin numerical constants.
 	template <
 		class T
@@ -18,7 +34,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type				= typename std::decay<T>::type;
+		using type				= typename detail::decay_t<T>;
 		using limits			= typename std::numeric_limits<type>;
 		using pointer			= typename type *;
 		using reference			= typename type &;

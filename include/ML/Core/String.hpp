@@ -12,8 +12,8 @@ namespace ml
 		class Alloc  = typename Allocator<Elem>
 	> struct BasicString : public std::basic_string<Elem, Traits, Alloc>
 	{
-		// Types
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		using value_type			= typename Elem;
 		using traits_type			= typename Traits;
 		using allocator_type		= typename Alloc;
@@ -33,8 +33,8 @@ namespace ml
 		using alty_type				= typename base_type::_Alty;
 		using alty_traits_type		= typename base_type::_Alty_traits;
 
-		// Contstructors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		BasicString()
 			: base_type()
 		{
@@ -72,16 +72,6 @@ namespace ml
 		
 		BasicString(const base_type & value, const size_type off, const size_type count, const allocator_type & alloc = allocator_type())
 			: base_type(value, off, count, alloc)
-		{
-		}
-
-		BasicString(self_type && value) noexcept
-			: base_type(value)
-		{
-		}
-
-		BasicString(const self_type & value)
-			: base_type(value)
 		{
 		}
 		
@@ -138,45 +128,8 @@ namespace ml
 		
 		virtual ~BasicString() noexcept {}
 
-		// Assignment
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		inline self_type & operator=(const self_type & other)
-		{
-			using namespace std;
-			if (this != _STD addressof(other))
-			{
-#pragma warning(push)
-#pragma warning(disable: 4127)
-				if (alty_traits_type::propagate_on_container_copy_assignment::value
-					&& this->_Getal() != other._Getal())
-				{
-					this->_Tidy_deallocate();
-				}
-#pragma warning(pop)
-				this->_Copy_alloc(other._Getal());
-				auto & otherData = other._Get_data();
-				this->assign(otherData._Myptr(), otherData._Mysize);
-			}
-			return (*this);
-		}
-
-		inline self_type & operator=(self_type && other) noexcept
-		{
-			using namespace std;
-			if (this != _STD addressof(other))
-			{
-				this->_Tidy_deallocate();
-				this->_Move_alloc(other._Getal());
-				this->_Assign_rv_contents(
-					_STD move(other),
-					bool_constant<_Always_equal_after_move<alty_type>>{}
-				);
-			}
-			return (*this);
-		}
-
-		// Conversion
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		inline operator bool() const
 		{
 			return !this->empty();
@@ -192,8 +145,8 @@ namespace ml
 			return static_cast<const base_type &>(*this);
 		}
 
-		// Format
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		template <
 			class T,
 			class ... Args
@@ -215,11 +168,11 @@ namespace ml
 
 			for (size_type i = 0; ss.good(); i++)
 			{
-				self_type arg;
-				if (std::getline(ss, arg))
+				self_type line;
+				if (std::getline(ss, line))
 				{
 					// Replace all "{i}" with "args[i]"
-					this->replaceAll(("{" + std::to_string(i) + "}"), arg);
+					this->replaceAll(("{" + std::to_string(i) + "}"), line);
 				}
 			}
 			return (*this);
@@ -233,8 +186,8 @@ namespace ml
 			return self_type(*this).format(arg0, std::forward<Args>(args)...);
 		}
 
-		// Replace All
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static inline self_type ReplaceAll(self_type s, const self_type & f, const self_type & r)
 		{
 			return s.replaceAll(f, r);
@@ -258,8 +211,8 @@ namespace ml
 			return self_type(*this).replaceAll(f, r);
 		}
 
-		// Trim
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static inline self_type Trim(self_type value)
 		{
 			return value.trim();

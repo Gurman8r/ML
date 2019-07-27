@@ -20,7 +20,7 @@ namespace ml
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
-		using map_type			= typename Map<String, pointer>;
+		using map_type			= typename Tree<String, pointer>;
 		using pair_type			= typename map_type::value_type;
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;
@@ -71,7 +71,7 @@ namespace ml
 
 		template <
 			class T
-		> inline T getData(const String & value, const T dv, const Map<String, T> & m) const
+		> inline T getData(const String & value, const T dv, const Tree<String, T> & m) const
 		{
 			if (!m.empty())
 			{

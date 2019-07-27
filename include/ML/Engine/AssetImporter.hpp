@@ -20,7 +20,7 @@ namespace ml
 	struct Sprite;
 	struct Surface;
 	struct Texture;
-	struct Uniform;
+	struct Uni;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

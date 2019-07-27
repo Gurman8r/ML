@@ -77,6 +77,7 @@ namespace ml
 			}
 			return m_functions.insert({ name, location }).first->second;
 		}
+		return nullptr;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

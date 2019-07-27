@@ -819,7 +819,7 @@ namespace ml
 				"Type",
 				&type,
 				Uni::Type_names,
-				Uni::MAX_UNI_TYPES
+				IM_ARRAYSIZE(Uni::Type_names)
 			);
 
 			// Name Input

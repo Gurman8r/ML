@@ -164,11 +164,12 @@ namespace ml
 
 		// Load Default Uniforms
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Content.create<uni_vec2_ptr>	("CURSOR_POS",	"u_cursorPos",  &this->cursorPos());
-		ML_Content.create<uni_float_ptr>("DELTA_TIME",	"u_deltaTime",  &this->deltaTime());
-		ML_Content.create<uni_int_ptr>	("FRAME_COUNT",	"u_frameCount", &this->frameCount());
-		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &this->totalTime());
-		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&this->resolution());
+		ML_Content.create<uni_vec2_ptr>	("CURSOR_POS",	"u_cursorPos",  &m_cursorPos);
+		ML_Content.create<uni_float_ptr>("DELTA_TIME",	"u_deltaTime",  &m_deltaTime);
+		ML_Content.create<uni_int_ptr>	("FRAME_COUNT",	"u_frameCount", &m_frameCount);
+		ML_Content.create<uni_float_ptr>("FRAME_RATE", "u_frameRate",	&m_frameRate);
+		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &m_totalTime);
+		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&m_viewport);
 
 		// Load Content
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -232,8 +233,9 @@ namespace ml
 		m_cursorPos = (vec2)ev.window.getCursorPos();
 		m_deltaTime = ev.time.elapsed().delta<Millisec>();
 		m_frameCount++;
+		m_frameRate = (float_t)ev.time.frameRate();
+		m_viewport = (vec2)ev.window.getSize();
 		m_totalTime = ev.time.total().delta<Millisec>();
-		m_resolution = (vec2)ev.window.getSize();
 
 		// Update Window Title
 		static const String title(ev.window.getTitle());

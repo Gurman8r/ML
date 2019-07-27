@@ -607,12 +607,11 @@ namespace ml
 					{
 						Uni * u { *it };
 						if (!*it) continue;
-						bool modifiable = detail::is_modifiable(u);
 						const String label("##Uni##" + u->name + "##Material##Noobs");
 						ImGui::Columns(3, "uniform columns");
 
 						// Name
-						if (modifiable)
+						if (u->isValue())
 						{
 							static char name[32] = "";
 							std::strcpy(name, u->name.c_str());

@@ -98,7 +98,7 @@ namespace ml
 					const int32_t u_type = ([](C_String type)
 					{
 						if (!type) return -1;
-						for (size_t i = 0; i < Uni::MAX_UNI_TYPES; i++)
+						for (size_t i = 0; i < ML_ARRAYSIZE(Uni::Type_names); i++)
 							if (std::strcmp(type, Uni::Type_names[i]) == 0)
 								return (int32_t)i;
 						return -1;

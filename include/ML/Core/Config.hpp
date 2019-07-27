@@ -6,14 +6,12 @@
 #define ML_PROJECT_VER "1.0.0"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
-// Namespace
+// General
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define _ML ::ml::
-
-// Stringify
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define ML_xstr(l) ML_str(l)
 #define ML_str(l) #l
+#define ML_ARRAYSIZE(ARR) (sizeof(ARR) / sizeof(*ARR))
 
 //	C/C++
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

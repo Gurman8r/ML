@@ -135,6 +135,9 @@ namespace ml
 						if (auto u = ML_Content.get<uni_int_ptr>("FRAME_COUNT"))
 							temp->add(u->clone());
 
+						if (auto u = ML_Content.get<uni_float_ptr>("FRAME_RATE"))
+							temp->add(u->clone());
+
 						if (auto u = ML_Content.get<uni_float_ptr>("TOTAL_TIME"))
 							temp->add(u->clone());
 

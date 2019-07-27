@@ -40,22 +40,16 @@ namespace ml
 		void onUnload		(const UnloadEvent & ev);
 		void onExit			(const ExitEvent & ev);
 
-	public:
-		inline auto cursorPos	() const -> const vec2 &	{ return m_cursorPos; }
-		inline auto deltaTime	() const -> const float_t &	{ return m_deltaTime; }
-		inline auto frameCount	() const -> const int32_t &	{ return m_frameCount; }
-		inline auto resolution	() const -> const vec2 &	{ return m_resolution; }
-		inline auto totalTime	() const -> const float_t &	{ return m_totalTime; }
-
 	private:
 		Asset<Image>	m_icon		{ "icon" };
 		Asset<Script>	m_script	{};
 
-		vec2	m_cursorPos		= {};
-		float_t	m_deltaTime		= 0;
-		int32_t m_frameCount	= 0;
-		vec2	m_resolution	= {};
-		float_t	m_totalTime		= 0;
+		vec2	m_cursorPos		{ 0 };
+		float_t	m_deltaTime		{ 0 };
+		int32_t m_frameCount	{ 0 };
+		float_t m_frameRate		{ 0 };
+		vec2	m_viewport		{ 0 };
+		float_t	m_totalTime		{ 0 };
 
 	};
 

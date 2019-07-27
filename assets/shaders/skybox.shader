@@ -79,7 +79,7 @@ uniform struct Camera
 uniform vec2	u_cursorPos;	// Position of Cursor
 uniform float	u_deltaTime;	// Elapsed Frame Time
 uniform int		u_frameCount;	// Current Frame Index
-uniform vec2	u_resolution;	// Size of Main Window
+uniform vec2	u_viewport;	// Size of Main Window
 uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -99,7 +99,7 @@ void main()
 	// Projection Matrix
 	mat4 proj = ml_Perspective(
 		camera.fov,
-		(u_resolution.x / u_resolution.y),
+		(u_viewport.x / u_viewport.y),
 		camera.zNear,
 		camera.zFar
 	);

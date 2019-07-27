@@ -126,20 +126,20 @@ namespace ml
 					// Default Uniforms
 					if (md.getData("defaults", false))
 					{
-						temp->add(Uniform::duplicate<uni_vec2_ref>(
-							ML_Content.get<uni_vec2_ref>("%CURSOR_POS%")
+						temp->add(Uniform::duplicate<uni_vec2_ptr>(
+							ML_Content.get<uni_vec2_ptr>("%CURSOR_POS%")
 							));
-						temp->add(Uniform::duplicate<uni_int1_ref>(
-							ML_Content.get<uni_int1_ref>("%FRAME_COUNT%")
+						temp->add(Uniform::duplicate<uni_int1_ptr>(
+							ML_Content.get<uni_int1_ptr>("%FRAME_COUNT%")
 							));
-						temp->add(Uniform::duplicate<uni_flt1_ref>(
-							ML_Content.get<uni_flt1_ref>("%DELTA_TIME%")
+						temp->add(Uniform::duplicate<uni_flt1_ptr>(
+							ML_Content.get<uni_flt1_ptr>("%DELTA_TIME%")
 							));
-						temp->add(Uniform::duplicate<uni_vec2_ref>(
-							ML_Content.get<uni_vec2_ref>("%RESOLUTION%")
+						temp->add(Uniform::duplicate<uni_vec2_ptr>(
+							ML_Content.get<uni_vec2_ptr>("%VIEWPORT%")
 							));
-						temp->add(Uniform::duplicate<uni_flt1_ref>(
-							ML_Content.get<uni_flt1_ref>("%TOTAL_TIME%")
+						temp->add(Uniform::duplicate<uni_flt1_ptr>(
+							ML_Content.get<uni_flt1_ptr>("%TOTAL_TIME%")
 							));
 					}
 

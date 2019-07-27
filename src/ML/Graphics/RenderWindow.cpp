@@ -43,16 +43,6 @@ namespace ml
 	void RenderWindow::onEvent(const Event * value)
 	{
 		Window::onEvent(value);
-
-		switch (*value)
-		{
-		case FrameSizeEvent::ID:
-			if (auto ev = value->as<FrameSizeEvent>())
-			{
-				this->setViewport({ 0, 0 }, { ev->width, ev->height });
-			}
-			break;
-		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

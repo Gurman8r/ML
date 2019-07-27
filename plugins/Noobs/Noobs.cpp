@@ -95,6 +95,11 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
+		if (auto u = noobs.material->get<uni_vec2_ptr>("u_viewport"))
+		{
+			u->data = &noobs.viewport;
+		}
+
 		// Create Entity and Attach Renderer
 		if (Entity * ent = noobs.entity.create())
 		{
@@ -107,9 +112,9 @@ namespace ml
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
 		// Update Resolutions
-		if (noobs.freeAspect)	{ noobs.resolution = ev.window.getFrameSize(); }
-		if (noobs.surf_main)	{ noobs.surf_main->resize(noobs.resolution); }
-		if (noobs.surf_post)	{ noobs.surf_post->resize(noobs.resolution); }
+		if (noobs.freeAspect)	{ noobs.viewport = ev.window.getFrameSize(); }
+		if (noobs.surf_main)	{ noobs.surf_main->resize(noobs.viewport); }
+		if (noobs.surf_post)	{ noobs.surf_post->resize(noobs.viewport); }
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)
@@ -121,6 +126,9 @@ namespace ml
 		{
 			// Bind Main Surface
 			noobs.surf_main->bind();
+
+			// Viewport
+			ev.window.setViewport({ 0, 0 }, noobs.viewport);
 			
 			// Clear Screen
 			ev.window.clear(noobs.clearColor);
@@ -160,6 +168,9 @@ namespace ml
 		{
 			// Bind Post Surface
 			noobs.surf_post->bind();
+
+			// Viewport
+			ev.window.setViewport({ 0, 0 }, noobs.viewport);
 
 			// Render Scene to Texture
 			if (noobs.surf_main && noobs.surf_main->shader())
@@ -301,7 +312,7 @@ namespace ml
 					// Resolution
 					static int32_t index = 0;
 					if (ImGui::Combo(
-						"Resolution##Noobs",
+						"Viewport##Noobs",
 						&index,
 						ML_EditorUtility.vector_getter,
 						(void *)&res_names,
@@ -312,7 +323,7 @@ namespace ml
 					}
 					if (!(noobs.freeAspect))
 					{
-						noobs.resolution = (vec2i)res_values[index - 1].resolution;
+						noobs.viewport = (vec2i)res_values[index - 1].resolution;
 					}
 
 					// Clear Color

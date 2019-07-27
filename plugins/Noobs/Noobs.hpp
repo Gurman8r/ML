@@ -110,7 +110,7 @@ namespace ml
 			FileList	files		{};
 			int32_t		effectMode	{ 3 };
 			vec4		clearColor	{ Color::black };
-			vec2		resolution	{ 1920, 1080 };
+			vec2		viewport	{ 1920, 1080 };
 
 			// Loading
 			Trigger		trigger		{};

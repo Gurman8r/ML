@@ -14,7 +14,7 @@ mat4 ml_Ortho(float left, float right, float bottom, float top)
 	return temp;
 }
 
-uniform vec2 u_resolution;
+uniform vec2 u_viewport;
 
 void main()
 {
@@ -23,8 +23,8 @@ void main()
 	V.Texcoord = a_Texcoord;
 
 	mat4 proj = ml_Ortho(
-		0.0, u_resolution.x,
-		0.0, u_resolution.y
+		0.0, u_viewport.x,
+		0.0, u_viewport.y
 	);
 
 	gl_Position = proj * vec4(V.Position, 1.0);

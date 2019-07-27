@@ -168,7 +168,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Window\VideoSettings.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Window\VideoMode.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +176,7 @@
     <ClInclude Include="..\..\..\include\ML\Window\Cursor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\KeyCode.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Window\VideoSettings.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Window\VideoMode.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\Window.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\WindowEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Window\MouseButton.hpp" />

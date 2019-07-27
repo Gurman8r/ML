@@ -36,6 +36,35 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	bool RenderStates::dispose()
+	{
+		if (!m_map.empty())
+		{
+			for (auto & pair : m_map)
+			{
+				if (pair.second) { delete pair.second; }
+			}
+			m_map.clear();
+		}
+		return m_map.empty();
+	}
+
+	const RenderStates & RenderStates::apply() const
+	{
+		for (const auto & pair : (*this))
+		{
+			if (pair.second) { (*pair.second)(); }
+		}
+		return (*this);
+	}
+
+	const RenderStates & RenderStates::revert() const
+	{
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	const AlphaTest & AlphaTest::operator()() const
 	{
 		if (!this->enabled)

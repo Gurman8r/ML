@@ -1,5 +1,5 @@
-#ifndef _ML_SCREEN_HPP_
-#define _ML_SCREEN_HPP_
+#ifndef _ML_VIDEO_MODE_HPP_
+#define _ML_VIDEO_MODE_HPP_
 
 #include <ML/Window/Export.hpp>
 #include <ML/Core/Matrix.hpp>
@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API VideoSettings final
+	struct ML_WINDOW_API VideoMode final
 		: public I_Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -20,16 +20,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		VideoSettings();
-		VideoSettings(uint32_t width, uint32_t height, uint32_t colorDepth);
-		VideoSettings(const vec2u & size, uint32_t colorDepth);
-		VideoSettings(const VideoSettings & copy);
-		~VideoSettings();
+		VideoMode();
+		VideoMode(uint32_t width, uint32_t height, uint32_t colorDepth);
+		VideoMode(const vec2u & size, uint32_t colorDepth);
+		VideoMode(const VideoMode & copy);
+		~VideoMode();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static const VideoSettings & desktop();
-		static const List<VideoSettings> & resolutions();
+		static const VideoMode & get_desktop();
+		static const List<VideoMode> & get_modes();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -41,10 +41,10 @@ namespace ml
 		inline bool isValidDesktopResolution() const
 		{
 			return std::find(
-				resolutions().begin(),
-				resolutions().end(), 
+				get_modes().begin(),
+				get_modes().end(), 
 				(*this)
-			) != resolutions().end();
+			) != get_modes().end();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -52,24 +52,24 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const VideoSettings & value)
+	inline ML_SERIALIZE(Ostream & out, const VideoMode & value)
 	{
 		return out << value.resolution << " " << value.colorDepth;
 	}
 
-	inline ML_DESERIALIZE(Istream & in, VideoSettings & value)
+	inline ML_DESERIALIZE(Istream & in, VideoMode & value)
 	{
 		return in >> value.resolution >> value.colorDepth;
 	}
 
-	inline bool operator==(const VideoSettings & lhs, const VideoSettings & rhs)
+	inline bool operator==(const VideoMode & lhs, const VideoMode & rhs)
 	{
 		return
 			lhs.resolution == rhs.resolution &&
 			lhs.colorDepth == rhs.colorDepth;
 	}
 
-	inline bool operator!=(const VideoSettings & lhs, const VideoSettings & rhs)
+	inline bool operator!=(const VideoMode & lhs, const VideoMode & rhs)
 	{
 		return !(lhs == rhs);
 	}
@@ -77,4 +77,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_SCREEN_HPP_
+#endif // !_ML_VIDEO_MODE_HPP_

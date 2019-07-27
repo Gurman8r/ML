@@ -53,7 +53,6 @@
 
 namespace ml
 {
-	// Numeric Types
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using int8_t	= typename signed char;			// 1 byte
@@ -68,7 +67,7 @@ namespace ml
 
 	using float32_t = typename float;				// 4 bytes
 	using float64_t = typename double;				// 8 bytes
-	using float80_t = typename long double;			// 8 or 10 bytes (CC dependant)
+	using float80_t = typename long double;			// 8 or 10 bytes (Compiler dependant)
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -90,70 +89,40 @@ namespace ml
 	using size_t	= typename uintmax_t;			// Size Type
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-}
+	
+	using		Ifstream		= typename std::ifstream;
+	using		Istream			= typename std::istream;
+	using		Ofstream		= typename std::ofstream;
+	using		Ostream			= typename std::ostream;
+	using		StreamBuf		= typename std::streambuf;
+	ML_USING_X	Allocator		= typename std::allocator<X>;
+	ML_USING_X	CharTraits		= typename std::char_traits<X>;
+	ML_USING_XY HashSet			= typename std::unordered_set<X, Y>;
+	ML_USING_XY BasicIstream	= typename std::basic_istream<X, Y>;
+	ML_USING_XY BasicOstream	= typename std::basic_ostream<X, Y>;
+	ML_USING_XY HashMap			= typename std::unordered_map<X, Y>;
+	ML_USING_XY MultiMap		= typename std::multimap<X, Y>;
+	ML_USING_XY Pair			= typename std::pair<X, Y>;
+	ML_USING_XY Tree			= typename std::map<X, Y>;
 
-namespace ml
-{
-	// Standard Types
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#define ML_GEN_STD_TYPE(NAME, BASE) \
-	using NAME = typename _STD BASE;
-
-#define ML_GEN_STD_TYPE_X(NAME, BASE) \
-	template <class X> using NAME = typename _STD BASE<X>
-
-#define ML_GEN_STD_TYPE_XY(NAME, BASE) \
-	template <class X, class Y> using NAME = typename _STD BASE<X, Y>
-
-#define ML_GEN_STD_TYPE_XYZ(NAME, BASE) \
-	template <class X, class Y, class Z> using NAME = typename _STD BASE<X, Y, Z>
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	ML_GEN_STD_TYPE_X	(Allocator,			allocator);			// Allocator
-	ML_GEN_STD_TYPE_XY	(BasicIstream,		basic_istream);		// Basic Output Stream
-	ML_GEN_STD_TYPE_XY	(BasicOstream,		basic_ostream);		// Basic Input Stream
-	ML_GEN_STD_TYPE_X	(CharTraits,		char_traits);		// Character Traits
-	ML_GEN_STD_TYPE_XY	(HashMap,			unordered_map);		// Unordered Map
-	ML_GEN_STD_TYPE_X	(HashSet,			unordered_set);		// Unordered Set
-	ML_GEN_STD_TYPE		(Ifstream,			ifstream);			// Input File Stream 
-	ML_GEN_STD_TYPE		(Istream,			istream);			// Input Stream
-	ML_GEN_STD_TYPE_XY	(Tree,				map);				// Map (BST)
-	ML_GEN_STD_TYPE_XY	(MultiMap,			multimap);			// Multimap
-	ML_GEN_STD_TYPE		(Ofstream,			ofstream);			// Output File Stream 
-	ML_GEN_STD_TYPE		(Ostream,			ostream);			// Output Stream
-	ML_GEN_STD_TYPE_XY	(Pair,				pair);				// Pair
-	ML_GEN_STD_TYPE		(StreamBuf,			streambuf);			// Stream Buffer
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-}
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
-	// IO
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static Ostream & cout { _STD cout }; // Standard Output Handle
 	static Ostream & cerr { _STD cerr }; // Standard Error Handle
 	static Istream & cin  { _STD cin  }; // Standard Input Handle
-	
+
+#define ML_SERIALIZE	_ML Ostream & operator<< // Stream Insertion Operator
+#define ML_DESERIALIZE	_ML Istream & operator>> // Stream Extraction Operator
+
 	template <
-		class Elem, class Traits = typename CharTraits<Elem>
-	> inline BasicOstream<Elem, Traits> & endl(BasicOstream<Elem, Traits> & out)
+		class Ch, class Traits = typename CharTraits<Ch>
+	> inline BasicOstream<Ch, Traits> & endl(BasicOstream<Ch, Traits> & out)
 	{
 		// insert newline and flush stream
 		out.put(out.widen('\n'));
 		out.flush();
 		return out;
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#define ML_SERIALIZE	_ML Ostream & operator<< // Stream Insertion Operator
-#define ML_DESERIALIZE	_ML Istream & operator>> // Stream Extraction Operator
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

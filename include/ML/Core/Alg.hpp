@@ -4,15 +4,27 @@
 #include <ML/Core/StaticValue.hpp>
 #include <gcem/gcem.hpp>
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #define ML_MIN(x, y) ((x <= y) ? x : y)
 
 #define ML_MAX(x, y) ((x >= y) ? x : y)
 
 #define ML_CLAMP(VAL, MIN, MAX) (ML_MIN(ML_MAX(VAL, MIN), MAX))
 
-#define ML_ASPECT(w, h) ((h != 0) \
-	? (static_cast<float_t>(w) / static_cast<float_t>(h)) \
-	: (0.0f))
+#define ML_ASPECT(w, h) ((h != 0) ? ((float_t)w / (float_t)(h)) : (0.0f))
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#define bitRead(value, bit) ((value >> bit) & 1)
+
+#define bitSet(value, bit) (value |= (1 << bit))
+
+#define bitClear(value, bit) (value &= ~(1 << bit))
+
+#define bitWrite(value, bit, bitValue) ((bitValue) ? bitSet(value, bit) : bitClear(value, bit)
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -88,47 +100,6 @@ namespace ml
 		> static constexpr T atan2(const Tx & x, const Ty & y)
 		{
 			return static_value<T>{ gcem::atan2<Tx, Ty>(x, y) };
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	// Bit Math
-	namespace alg
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class T
-		> constexpr T bit_read(T value, T bit)
-		{
-			return ((value >> bit) & static_value<T>::one);
-		}
-
-		template <
-			class T
-		> constexpr T & bit_set(T & value, T bit)
-		{
-			return (value |= (static_value<T>::one << bit));
-		}
-
-		template <
-			class T
-		> constexpr T & bit_clear(T & value, T bit)
-		{
-			return (value &= ~(static_value<T>::one << bit));
-		}
-
-		template <
-			class T
-		> constexpr T & bit_write(T & value, T bit, T bitValue)
-		{
-			return ((bitValue)
-				? alg::bit_set(value, bit) 
-				: alg::bit_clear(value, bit)
-			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -576,6 +547,17 @@ namespace ml
 		> static constexpr T magnitude(const A<T, N...> & value)
 		{
 			return static_value<T> { sqrt<T> {}(alg::sqr_magnitude(value)) };
+		}
+
+		template <
+			template <class, size_t, size_t> class M,
+			class T
+		> static constexpr M<T, 2, 1> scale_to_fit(const M<T, 2, 1> & l, const M<T, 2, 1> & r)
+		{
+			const M<T, 2, 1>
+				h = { (r[0] / l[0]), (r[0] / l[0]) },
+				v = { (r[1] / l[1]), (r[1] / l[1]) };
+			return (l * (((h) < (v)) ? (h) : (v)));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

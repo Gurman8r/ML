@@ -3,24 +3,41 @@
 
 // Project Info
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #define ML_PROJECT_VER "1.0.0"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
-// General
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define _ML ::ml::
-#define ML_xstr(l) ML_str(l)
-#define ML_str(l) #l
-#define ML_ARRAYSIZE(ARR) (sizeof(ARR) / sizeof(*ARR))
 
 //	C/C++
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 # if defined(__cplusplus)
 #	define ML_CPLUSPLUS __cplusplus
+# else
+#	error This system does not support C++
 # endif
+
+
+// General
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#define		_ML					::ml::
+#define		_ML_BEGIN			namespace ml {
+#define		_ML_END				}
+
+#define		ML_xstr(l)			ML_str(l)
+#define		ML_str(l)			#l
+#define		ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
+
+#define		ML_TEMPLATE(...)	template<##__VA_ARGS__>
+#define		ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
+#define		ML_USING_X			ML_USING_VA(class X)
+#define		ML_USING_XY			ML_USING_VA(class X, class Y)
+
 
 //	Configuration (Debug/Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 # if defined(_DEBUG)
 #	define ML_DEBUG			true
 #	define ML_CONFIGURATION "Debug"
@@ -29,8 +46,10 @@
 #	define ML_CONFIGURATION "Release"
 # endif
 
+
 //	Operating System
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 # if defined(_WIN32		) \
   || defined(_WIN64		) \
   || defined(WIN32		) \
@@ -58,8 +77,10 @@
 #	error This operating system does not support memes.
 # endif
 
+
 //	Architecture / Platform Target
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 # if defined(_WIN64		)\
   || defined(WIN64		)\
   || defined(__x86_64__	)\
@@ -77,8 +98,10 @@
 #	define ML_PLATFORM_TARGET "x86"
 # endif
 
+
 //	Compiler
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 # if defined(_MSC_VER)
 //	Microsoft Compiler
 #	define ML_CC_NAME	"Microsoft"
@@ -95,8 +118,10 @@
 #	error This compiler does not support memes.
 # endif
 
+
 //	Export / Import
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 # ifndef ML_STATIC
 #	ifdef ML_SYSTEM_WINDOWS
 #		define ML_API_EXPORT __declspec(dllexport)
@@ -121,11 +146,6 @@
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
 # endif
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#define ML_DLL_STR(name) name "_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".dll"
-#define ML_LIB_STR(name) name "_" ML_CONFIGURATION "_" ML_PLATFORM_TARGET ".lib"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

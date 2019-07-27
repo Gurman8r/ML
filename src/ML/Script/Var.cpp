@@ -697,9 +697,9 @@ namespace ml
 			}
 		}
 
-		return errorValue(String::Format(
-			"Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'",
-			getTypeID(), (*this), "+", other.getTypeID(), other));
+		return errorValue(String("Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'").format(
+			getTypeID(), (*this), "+", other.getTypeID(), other
+		));
 	}
 		  
 	Var & Var::Div(const Var & other)
@@ -752,9 +752,9 @@ namespace ml
 			}
 		}
 
-		return errorValue(String::Format(
-			"Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'",
-			getTypeID(), (*this), "/", other.getTypeID(), other));
+		return errorValue(String("Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'").format(
+			getTypeID(), (*this), "/", other.getTypeID(), other
+		));
 	}
 		  
 	Var & Var::Mod(const Var & other)
@@ -807,9 +807,9 @@ namespace ml
 			}
 		}
 
-		return errorValue(String::Format(
-			"Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'",
-			getTypeID(), (*this), "%", other.getTypeID(), other));
+		return errorValue(String("Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'").format(
+			getTypeID(), (*this), "%", other.getTypeID(), other
+		));
 	}
 		  
 	Var & Var::Mul(const Var & other)
@@ -862,9 +862,9 @@ namespace ml
 			}
 		}
 
-		return errorValue(String::Format(
-			"Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'",
-			getTypeID(), (*this), "*", other.getTypeID(), other));
+		return errorValue(String("Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'").format(
+			getTypeID(), (*this), "*", other.getTypeID(), other
+		));
 	}
 		  
 	Var & Var::Pow(const Var & other)
@@ -917,9 +917,9 @@ namespace ml
 			}
 		}
 
-		return errorValue(String::Format(
-			"Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'",
-			getTypeID(), (*this), "^", other.getTypeID(), other));
+		return errorValue(String("Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'").format(
+			getTypeID(), (*this), "^", other.getTypeID(), other
+		));
 	}
 		  
 	Var & Var::Sub(const Var & other)
@@ -972,9 +972,9 @@ namespace ml
 			}
 		}
 
-		return errorValue(String::Format(
-			"Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'",
-			getTypeID(), (*this), "-", other.getTypeID(), other));
+		return errorValue(String("Invalid Operation: {0} \'{1}\' {2} {3} \'{4}\'").format(
+			getTypeID(), (*this), "-", other.getTypeID(), other
+		));
 	}
 		  
 	Var & Var::Set(const Var & other)

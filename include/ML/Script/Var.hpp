@@ -147,14 +147,14 @@ namespace ml
 			class T, typename ... Args
 		> inline Var & errorValue(const String & fmt, const T & arg0, Args && ... args)
 		{
-			return errorValue(String::Format(fmt, arg0, std::forward<Args>(args)...));
+			return errorValue(fmt.format(arg0, std::forward<Args>(args)...));
 		};
 
 		template <
 			class T, typename ... Args
 		> inline Var & stringValue(const String & fmt, const T & arg0, Args && ... args)
 		{
-			return stringValue(String::Format(fmt, arg0, std::forward<Arguments>(args)...));
+			return stringValue(fmt.format(arg0, std::forward<Arguments>(args)...));
 		};
 
 

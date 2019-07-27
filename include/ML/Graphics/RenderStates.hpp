@@ -302,27 +302,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool dispose() override
-		{
-			if (!m_map.empty())
-			{
-				for (auto & pair : m_map)
-				{
-					if (pair.second) { delete pair.second; }
-				}
-				m_map.clear();
-			}
-			return m_map.empty();
-		}
-
-		inline const RenderStates & apply() const
-		{
-			for (const auto & pair : (*this))
-			{
-				if (pair.second) { (*pair.second)(); }
-			}
-			return (*this);
-		}
+		bool dispose() override;
+		const RenderStates & apply() const;
+		const RenderStates & revert() const; // WIP
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

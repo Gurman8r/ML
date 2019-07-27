@@ -5,16 +5,27 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Surface::Surface()
-		: m_fbo			()
-		, m_rbo			()
-		, m_model		(nullptr)
-		, m_shader		(nullptr)
-		, m_texture		()
-		, m_size		({ 0, 0 })
-		, m_attachment	(GL::ColorAttachment0)
+		: m_shader		{ nullptr }
+		, m_model		{ nullptr }
+		, m_texture		{}
+		, m_size		{ 0, 0 }
+		, m_attachment	{ GL::ColorAttachment0 }
+		, m_fbo			{}
+		, m_rbo			{}
+	{
+	}
+
+	Surface::Surface(const Model * model, const Shader * shader)
+		: m_shader		{ shader }
+		, m_model		{ model }
+		, m_texture		{}
+		, m_size		{ 0, 0 }
+		, m_attachment	{ GL::ColorAttachment0 }
+		, m_fbo			{}
+		, m_rbo			{}
 	{
 	}
 
@@ -34,7 +45,7 @@ namespace ml
 		dispose();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Surface::dispose()
 	{
@@ -43,7 +54,7 @@ namespace ml
 		return (!m_fbo && !m_rbo);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Surface::create(const vec2i & size, uint32_t attachment)
 	{
@@ -52,7 +63,7 @@ namespace ml
 			if (((m_size = size) != vec2i { 0, 0 }) && (m_attachment = attachment))
 			{
 				// Setup Framebuffer
-				m_fbo.create().bind();
+				if (m_fbo.create().bind())
 				{
 					// Setup Renderbuffer
 					m_rbo
@@ -75,8 +86,10 @@ namespace ml
 							m_texture.level()
 						);
 					}
+					
+					// Unbind
+					m_fbo.unbind();
 				}
-				m_fbo.unbind();
 
 				return (m_fbo && m_rbo);
 			}
@@ -93,7 +106,7 @@ namespace ml
 			(create(size, m_attachment));
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const Surface & Surface::bind() const
 	{
@@ -107,33 +120,18 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool Surface::setModel(const Model * value)
-	{
-		return (m_model = value);
-	}
-
-	bool Surface::setShader(const Shader * value)
-	{
-		return (m_shader = value);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Surface::draw(RenderTarget & target, RenderBatch batch) const
 	{
-		if (m_model && m_shader && m_texture)
+		if (*this)
 		{
 			m_shader->setUniform(ML_UNI_MAIN_TEX, m_texture);
-
 			m_shader->bind();
-
 			target.draw(m_model);
-
 			m_shader->unbind();
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

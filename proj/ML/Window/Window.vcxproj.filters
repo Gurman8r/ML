@@ -17,7 +17,7 @@
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Window\VideoSettings.cpp">
+    <ClCompile Include="..\..\..\src\ML\Window\VideoMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -43,10 +43,10 @@
     <ClInclude Include="..\..\..\include\ML\Window\ContextSettings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Window\VideoSettings.hpp">
+    <ClInclude Include="..\..\..\include\ML\Window\WindowStyle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Window\WindowStyle.hpp">
+    <ClInclude Include="..\..\..\include\ML\Window\VideoMode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -148,30 +148,18 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
-			class T,
-			class ... Args
-		> static inline self_type Format(self_type value, const T & arg0, Args && ... args)
+			class Arg0, class ... Args
+		> inline self_type & format(const Arg0 & arg0, Args && ... args)
 		{
-			return value.format(arg0, std::forward<Args>(args)...);
-		}
+			sstream_type stream; stream << arg0 << endl;
 
-		template <
-			class T,
-			class ... Args
-		> inline self_type & format(const T & arg0, Args && ... args)
-		{
-			self_type::sstream_type ss;
-			ss << arg0 << endl;
+			int32_t sink[] = { 0, ((void)(stream << args << endl), 0)... }; (void)sink;
 
-			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... };
-			(void)sink;
-
-			for (size_type i = 0; ss.good(); i++)
+			for (size_type i = 0; stream.good(); i++)
 			{
 				self_type line;
-				if (std::getline(ss, line))
+				if (std::getline(stream, line))
 				{
-					// Replace all "{i}" with "args[i]"
 					this->replaceAll(("{" + std::to_string(i) + "}"), line);
 				}
 			}
@@ -179,28 +167,22 @@ namespace ml
 		}
 
 		template <
-			class T,
-			class ... Args
-		> inline self_type format(const T & arg0, Args && ... args) const
+			class Arg0, class ... Args
+		> inline self_type format(const Arg0 & arg0, Args && ... args) const
 		{
 			return self_type(*this).format(arg0, std::forward<Args>(args)...);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		static inline self_type ReplaceAll(self_type s, const self_type & f, const self_type & r)
+		inline self_type & replaceAll(const self_type & to_replace, const self_type & value)
 		{
-			return s.replaceAll(f, r);
-		}
-
-		inline self_type & replaceAll(const self_type & value, const self_type & repl)
-		{
-			if (!this->empty() && !value.empty())
+			if (!this->empty() && !to_replace.empty())
 			{
-				for (size_t i = 0; (i = this->find(value, i)) != self_type::npos;)
+				for (size_t i = 0; (i = this->find(to_replace, i)) != self_type::npos;)
 				{
-					this->replace(i, value.size(), repl);
-					i += repl.size();
+					this->replace(i, to_replace.size(), value);
+					i += value.size();
 				}
 			}
 			return (*this);
@@ -213,16 +195,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		static inline self_type Trim(self_type value)
-		{
-			return value.trim();
-		}
-
 		inline self_type & trim()
 		{
 			auto is_whitespace = [&](const_reference c)
 			{
-				return !this->empty() && ((c == ' ' ) || (c == '\t'));
+				return !this->empty() && ((c == ' ') || (c == '\t'));
 			};
 			while (is_whitespace(this->front())) this->erase(this->begin());
 			while (is_whitespace(this->back()))  this->pop_back();

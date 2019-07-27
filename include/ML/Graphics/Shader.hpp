@@ -12,6 +12,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	struct Uni;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_GRAPHICS_API Shader final
 		: public I_Newable
 		, public I_Disposable
@@ -47,6 +51,10 @@ namespace ml
 		inline const String & vertSrc() const { return m_source.vs; }
 		inline const String & fragSrc() const { return m_source.fs; }
 		inline const String & geomSrc() const { return m_source.gs; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		bool setUniform(const Uni * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -393,25 +393,19 @@ namespace ml
 			{
 				if (!ML_Content.get<Surface>(name))
 				{
-					const String  m = md.getData("model");
-					const String  s = md.getData("shader");
-					const int32_t w = md.getData("width", 1920);
-					const int32_t h = md.getData("height", 1080);
-					if (m && s && w && h)
+					auto temp = new Surface {
+						ML_Content.get<Model>(md.getData("model")),
+						ML_Content.get<Shader>(md.getData("shader"))
+					};
+					if (!temp->create({
+						md.getData("width", 1920),
+						md.getData("height", 1080)
+						}, GL::ColorAttachment0
+					))
 					{
-						auto temp = new Surface();
-						if (temp->create({ w, h }, GL::ColorAttachment0) &&
-							temp->setModel(ML_Content.get<Model>(m)) &&
-							temp->setShader(ML_Content.get<Shader>(s)))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
+						/* error */
 					}
-					else
-					{
-						return ML_Content.insert(name, new Surface());
-					}
+					return ML_Content.insert(name, temp);
 				}
 			}
 		}

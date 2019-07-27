@@ -2,24 +2,14 @@
 #define _NOOBS_HPP_
 
 #include <ML/Editor/EditorPlugin.hpp>
-#include <ML/Graphics/Color.hpp>
-#include <ML/Core/Rect.hpp>
-#include <ML/Core/String.hpp>
-#include <ML/Core/List.hpp>
-#include <ML/Core/Trigger.hpp>
-#include <ML/Core/Worker.hpp>
-#include <ML/Graphics/RenderBatch.hpp>
+#include <ML/Graphics/Material.hpp>
 #include <ML/Engine/Asset.hpp>
 #include <imgui/TextEditor.h>
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 extern "C"
 {
 	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -54,85 +44,98 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct NoobsFile : public I_NonCopyable
+		// Surfaces
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		enum Surf_
 		{
-			using TextEdit = typename ImGui::TextEditor;
+			Surf_Main, Surf_Post,
 
-			enum { MaxName = 32 };
-
-			TextEdit	text;
-			String		name;
-			bool		open;
-			bool		dirty;
-
-			NoobsFile(const String & name, const String & data)
-				: name(name), open(true), dirty(false)
-			{
-				text.SetText(data);
-				text.SetLanguageDefinition(
-					ImGui::TextEditor::LanguageDefinition::GLSL()
-				);
-			}
+			MAX_DEMO_SURFACE
+		};
+		Array<Asset<Surface>, MAX_DEMO_SURFACE> surf
+		{
+			Asset<Surface> { "surf_scene_main" },
+			Asset<Surface> { "surf_scene_post" },
 		};
 
-		using FileList = typename List<NoobsFile *>; // list of 'NoobsFile's
-
+		// Demo Skybox
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		void draw_scene_gui(const GuiEvent & ev);
-		void draw_editor_gui(const GuiEvent & ev);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		String parseFiles(const FileList & file_list, const String & src) const;
-		void generateFiles();
-		void disposeFiles();
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		struct Skybox
+		struct DemoSkybox
 		{
 			Asset<Model>	model		{ "default_skybox" };
 			Asset<Material> material	{ "skybox" };
-			//Asset<Entity>	entity		{ "skybox" };
-			//Renderer *		renderer	{ nullptr };
+
+			inline operator bool() const 
+			{ 
+				return model && material; 
+			}
+
 		} skybox;
 
+		// Demo Scene
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		struct NoobsData final : public I_NonCopyable
+		struct DemoScene
 		{
-			// Content
-			Asset<Surface>	surf_main		{ "surf_main" };
-			Asset<Surface>	surf_post		{ "surf_post" };
-
-			Asset<Material> material		{ "noobs" };
-			Asset<Model>	model			{ "sphere32x24"	};
-			Asset<Entity>	entity			{ "noobs" };
-			Renderer *		renderer		{ nullptr };
-			
-
-			// GUI Settings
-			bool		showBuilder	{ true };
-			bool		showScene	{ true };
-			bool		freeAspect	{ true };
-			FileList	files		{};
-			int32_t		effectMode	{ 3 };
+			bool		is_open		{ true };
+			bool		autoView	{ true };
 			vec4		clearColor	{ Color::black };
 			vec2		viewport	{ 1920, 1080 };
+			uni_int		effectMode	{ "u_effectMode", 3 };
+			uni_mat3	kernel		{ "u_kernel", mat3 {} };
 
-			// Loading
-			Trigger		trigger		{};
-			Worker		worker		{};
+			void Render(C_String title, const Surface * surf);
 
-		} noobs;
+		} scene;
+
+		// Demo Editor
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct DemoEditor
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			struct SourceFile : public I_NonCopyable
+			{
+				using TextEdit = typename ImGui::TextEditor;
+
+				enum { MaxName = 32 };
+
+				TextEdit	text;
+				String		name;
+				bool		open;
+				bool		dirty;
+
+				SourceFile(const String & name, const String & data)
+					: name(name), open(true), dirty(false)
+				{
+					text.SetText(data);
+					text.SetLanguageDefinition(TextEdit::LanguageDefinition::GLSL());
+				}
+			};
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			using FileList = typename List<SourceFile *>;
+
+			bool			is_open		{ true };
+			Asset<Material> material	{ "noobs" };
+			Asset<Model>	model		{ "sphere32x24"	};
+			Asset<Entity>	entity		{ "noobs" };
+			Renderer *		renderer	{ nullptr };
+			FileList		files		{};
+
+			void Render(C_String title);
+
+			String	parseFiles(const FileList & file_list, const String & src) const;
+			void	generateFiles();
+			void	disposeFiles();
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} editor;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_NOOBS_HPP_

@@ -48,7 +48,7 @@ namespace ml
 		, m_title		(String())
 		, m_context		(ContextSettings())
 		, m_style		(WindowStyle())
-		, m_video		(VideoSettings())
+		, m_video		(VideoMode())
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		// Disable CMD Close Button
@@ -94,7 +94,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Window::create(const String & title, const VideoSettings & video, const WindowStyle & style, const ContextSettings & context)
+	bool Window::create(const String & title, const VideoMode & video, const WindowStyle & style, const ContextSettings & context)
 	{
 		m_title		= title;
 		m_video		= video;

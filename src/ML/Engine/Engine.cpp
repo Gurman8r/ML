@@ -117,7 +117,7 @@ namespace ml
 			{
 				// centered
 				ev.window.setPosition(
-					(vec2i)(VideoSettings::desktop().resolution - ev.window.getSize()) / 2
+					(vec2i)(VideoMode::get_desktop().resolution - ev.window.getSize()) / 2
 				);
 			}
 		}

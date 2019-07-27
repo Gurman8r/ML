@@ -170,69 +170,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Material::apply(const Uni * value) const
-	{
-		if (!value || !value->name) 
-		{ 
-			return false; 
-		}
-		switch (value->id)
-		{
-			// Flt1
-		case uni_float::ID:
-			if (auto temp = detail::as_float(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Int1
-		case uni_int::ID:
-			if (auto temp = detail::as_int(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Vec2
-		case uni_vec2::ID:
-			if (auto temp = detail::as_vec2(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Vec3
-		case uni_vec3::ID:
-			if (auto temp = detail::as_vec3(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Vec4
-		case uni_vec4::ID:
-			if (auto temp = detail::as_vec4(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Col4
-		case uni_color::ID:
-			if (auto temp = detail::as_color(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Mat3
-		case uni_mat3::ID:
-			if (auto temp = detail::as_mat3(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Mat4
-		case uni_mat4::ID:
-			if (auto temp = detail::as_mat4(value))
-				return m_shader->setUniform(value->name, (*temp));
-
-			// Texture
-		case uni_sampler::ID:
-			if (auto temp = detail::as_sampler(value))
-				return m_shader->setUniform(value->name, (*temp));
-		}
-		return false;
-	}
-
 	const Material & Material::bind(bool bindTextures) const
 	{
 		if (m_shader && (*m_shader))
 		{
 			for (auto it = this->cbegin(); it != this->cend(); it++)
 			{
-				if (!this->apply((*it)))
+				if (!m_shader->setUniform(*it))
 				{
 					/* error */
 				}

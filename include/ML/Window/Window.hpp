@@ -5,7 +5,7 @@
 #include <ML/Core/Image.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
-#include <ML/Window/VideoSettings.hpp>
+#include <ML/Window/VideoMode.hpp>
 #include <ML/Window/WindowStyle.hpp>
 
 namespace ml
@@ -43,7 +43,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		bool create(
 			const String & title, 
-			const VideoSettings & video, 
+			const VideoMode & video, 
 			const WindowStyle & style,
 			const ContextSettings & context
 		);
@@ -95,7 +95,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		inline auto getContext()	const -> const ContextSettings & { return m_context; }
 		inline auto getStyle()		const -> const WindowStyle & { return m_style; }
-		inline auto getVideo()		const -> const VideoSettings & { return m_video; }
+		inline auto getVideo()		const -> const VideoMode & { return m_video; }
 		inline auto getTitle()		const -> const String { return m_title; }
 		inline auto getSize()		const -> const vec2u & { return getVideo().resolution; }
 		inline auto getWidth()		const -> const uint32_t { return getSize()[0]; }
@@ -135,7 +135,7 @@ namespace ml
 		void *			m_share;
 		ContextSettings	m_context;
 		WindowStyle		m_style;
-		VideoSettings	m_video;
+		VideoMode	m_video;
 		String			m_title;
 		mutable char	m_char;
 	};

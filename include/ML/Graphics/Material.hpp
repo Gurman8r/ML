@@ -35,10 +35,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool apply(const Uni * value) const;
-
 		const Material & bind(bool bindTextures = true) const;
-		
 		const Material & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -97,8 +94,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto shader()			-> const Shader	* &			{ return m_shader; }
-		inline auto shader()	const	-> const Shader	*			{ return m_shader; }
+		inline auto shader()			-> const Shader	* &		{ return m_shader; }
+		inline auto shader()	const	-> const Shader	*		{ return m_shader; }
 		inline auto uniforms()			-> List<Uni *> &		{ return m_uniforms; }
 		inline auto uniforms()	const	-> const List<Uni *> &	{ return m_uniforms; }
 

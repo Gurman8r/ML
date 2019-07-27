@@ -18,20 +18,16 @@
 
 <import>
 	type	= surface
-	name	= surf_main
+	name	= surf_scene_main
 	model	= default_quad
 	shader	= surface
-	width	= 1920
-	height	= 1080
 </import>
 
 <import>
 	type	= surface
-	name	= surf_post
+	name	= surf_scene_post
 	model	= default_quad
 	shader	= surface
-	width	= 1920
-	height	= 1080
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

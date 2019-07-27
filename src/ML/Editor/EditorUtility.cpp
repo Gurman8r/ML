@@ -73,16 +73,4 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	bool EditorUtility::BeginWindow(C_String name, bool & open, int32_t flags)
-	{
-		return ImGui::Begin(name, &open, flags);
-	}
-
-	void EditorUtility::EndWindow()
-	{
-		return ImGui::End();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

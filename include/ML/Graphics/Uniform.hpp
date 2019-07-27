@@ -63,6 +63,7 @@ namespace ml
 		virtual bool isReference() const = 0;
 		virtual bool isConstPointer() const = 0;
 		virtual bool isConstReference() const = 0;
+		virtual bool isModifiable() const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -99,27 +100,32 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Generic Uniform
-	template <class T, uint32_t ID> struct uni_t final : public Uni
+	template <
+		class T, uint32_t ID, uint32_t Flags
+	> struct uni_t final : public Uni
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using type				= typename T;
-		using self_type			= typename uni_t<type, ID>;
+		using self_type			= typename uni_t<type, ID, Flags>;
 		using value_type		= typename detail::decay_t<type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
 
+		template <class U>
+		static constexpr bool is_same				{ std::is_same_v<type, U> };
 		static constexpr bool is_pointer			{ std::is_pointer_v<type> };
 		static constexpr bool is_reference			{ std::is_reference_v<type> };
 		static constexpr bool is_value				{ !is_pointer && !is_reference };
-		static constexpr bool is_const_pointer		{ std::is_same_v<type, const_pointer> };
-		static constexpr bool is_const_reference	{ std::is_same_v<type, const_reference> };
+		static constexpr bool is_const_pointer		{ is_same<const_pointer> };
+		static constexpr bool is_const_reference	{ is_same<const_reference> };
+		static constexpr bool is_modifiable			{ is_value || bitRead(Flags, 0) };
 
 		static_assert(
 			is_value || is_const_pointer || is_const_reference,
-			"an unacceptable uniform value type has been specified"
+			"an unacceptable value type has been specified for uniform"
 		);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -143,22 +149,23 @@ namespace ml
 		inline bool isReference()		const override { return this->is_reference; }
 		inline bool isConstPointer()	const override { return this->is_const_pointer; }
 		inline bool isConstReference()	const override { return this->is_const_reference; }
+		inline bool isModifiable()		const override { return this->is_modifiable; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> using uni_bool_t		= uni_t<T, Uni::U_Bool>;
-	template <class T> using uni_float_t	= uni_t<T, Uni::U_Float>;
-	template <class T> using uni_int_t		= uni_t<T, Uni::U_Int>;
-	template <class T> using uni_vec2_t		= uni_t<T, Uni::U_Vec2>;
-	template <class T> using uni_vec3_t		= uni_t<T, Uni::U_Vec3>;
-	template <class T> using uni_vec4_t		= uni_t<T, Uni::U_Vec4>;
-	template <class T> using uni_color_t	= uni_t<T, Uni::U_Color>;
-	template <class T> using uni_mat3_t		= uni_t<T, Uni::U_Mat3>;
-	template <class T> using uni_mat4_t		= uni_t<T, Uni::U_Mat4>;
-	template <class T> using uni_sampler_t	= uni_t<T, Uni::U_Sampler>;
+	template <class T> using uni_bool_t		= uni_t<T, Uni::U_Bool,		0b0>;
+	template <class T> using uni_float_t	= uni_t<T, Uni::U_Float,	0b0>;
+	template <class T> using uni_int_t		= uni_t<T, Uni::U_Int,		0b0>;
+	template <class T> using uni_vec2_t		= uni_t<T, Uni::U_Vec2,		0b0>;
+	template <class T> using uni_vec3_t		= uni_t<T, Uni::U_Vec3,		0b0>;
+	template <class T> using uni_vec4_t		= uni_t<T, Uni::U_Vec4,		0b0>;
+	template <class T> using uni_color_t	= uni_t<T, Uni::U_Color,	0b0>;
+	template <class T> using uni_mat3_t		= uni_t<T, Uni::U_Mat3,		0b0>;
+	template <class T> using uni_mat4_t		= uni_t<T, Uni::U_Mat4,		0b0>;
+	template <class T> using uni_sampler_t	= uni_t<T, Uni::U_Sampler,	0b1>;
 
 	using uni_bool		= typename uni_bool_t	<bool>;
 	using uni_float		= typename uni_float_t	<float_t>;

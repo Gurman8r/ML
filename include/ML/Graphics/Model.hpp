@@ -40,6 +40,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline auto vao() const -> const VAO & { return m_vao; }
+		inline auto vbo() const -> const VBO & { return m_vbo; }
+		inline auto ibo() const -> const IBO & { return m_ibo; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		BufferLayout m_layout;
 		VAO	m_vao;

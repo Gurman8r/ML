@@ -3,6 +3,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
+#include <ML/Graphics/Uniform.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -244,6 +245,53 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
+	bool Shader::setUniform(const Uni * value) const
+	{
+		if (!value || !value->name) return false;
+		switch (value->id)
+		{
+		case uni_float::ID:
+			if (auto temp = detail::as_float(value))
+				return this->setUniform(value->name, (*temp));
+
+		case uni_int::ID:
+			if (auto temp = detail::as_int(value))
+				return this->setUniform(value->name, (*temp));
+
+		case uni_vec2::ID:
+			if (auto temp = detail::as_vec2(value))
+				return this->setUniform(value->name, (*temp));
+
+		case uni_vec3::ID:
+			if (auto temp = detail::as_vec3(value))
+				return this->setUniform(value->name, (*temp));
+
+		case uni_vec4::ID:
+			if (auto temp = detail::as_vec4(value))
+				return this->setUniform(value->name, (*temp));
+
+		case uni_color::ID:
+			if (auto temp = detail::as_color(value))
+				return this->setUniform(value->name, (*temp));
+
+		case uni_mat3::ID:
+			if (auto temp = detail::as_mat3(value))
+				return this->setUniform(value->name, (*temp));
+
+		case uni_mat4::ID:
+			if (auto temp = detail::as_mat4(value))
+				return this->setUniform(value->name, (*temp));
+
+		case uni_sampler::ID:
+			if (auto temp = detail::as_sampler(value))
+				return this->setUniform(value->name, (*temp));
+		
+		default: return false;
+		}
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	bool Shader::setUniform(const String & name, const float_t value) const
 	{
 		UniformBinder u(this, name);

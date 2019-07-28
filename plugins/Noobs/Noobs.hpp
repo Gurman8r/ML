@@ -46,13 +46,13 @@ namespace ml
 
 		// Surfaces
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		enum Surf_
+		enum
 		{
 			Surf_Main, Surf_Post,
 
-			MAX_DEMO_SURFACE
+			MAX_SURFACE
 		};
-		Array<Asset<Surface>, MAX_DEMO_SURFACE> surf
+		Array<Asset<Surface>, MAX_SURFACE> surf
 		{
 			Asset<Surface> { "surf_scene_main" },
 			Asset<Surface> { "surf_scene_post" },

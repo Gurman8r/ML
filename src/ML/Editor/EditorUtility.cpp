@@ -33,8 +33,8 @@ namespace ml
 	vec2 EditorUtility::getWindowPos()
 	{
 		return vec2 {
-			ImGui::GetWindowSize().x,
-			ImGui::GetWindowSize().y
+			ImGui::GetWindowPos().x,
+			ImGui::GetWindowPos().y
 		};
 	}
 

@@ -28,7 +28,7 @@ uniform struct Camera
 uniform vec2		u_cursorPos;	// Position of Cursor
 uniform float		u_deltaTime;	// Elapsed Frame Time
 uniform int			u_frameCount;	// Current Frame Vdex
-uniform vec2		u_viewport;	// Size of Main Window
+uniform vec2		u_viewport;		// Size of Main Window
 uniform float		u_totalTime;	// Total Time Elapsed (seconds)
 
 uniform vec4		u_color;		// Main Color

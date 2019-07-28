@@ -172,7 +172,8 @@ namespace ml
 			ev.window.setViewport({ 0, 0 }, scene.viewport); // Viewport
 
 			if (surf[Surf_Main]) // Apply effects to other surfaces
-			{	surf[Surf_Main]->setUniform(&scene.effectMode);
+			{	
+				surf[Surf_Main]->setUniform(&scene.effectMode);
 				surf[Surf_Main]->setUniform(&scene.kernel);
 				ev.window.draw(surf[Surf_Main]);
 			}

@@ -144,7 +144,7 @@ namespace ml
 		{	
 			ev.window.setViewport({ 0, 0 }, scene.viewport); // Viewport
 			
-			ev.window.clear(scene.clearColor); // Clear
+			ev.window.clear(scene.clearColor); // Clear Sceeen
 			
 			if (skybox) // Draw skybox
 			{
@@ -171,9 +171,8 @@ namespace ml
 		{	
 			ev.window.setViewport({ 0, 0 }, scene.viewport); // Viewport
 
-			if (surf[Surf_Main]) // Apply effects to other surface
-			{
-				surf[Surf_Main]->setUniform(&scene.effectMode);
+			if (surf[Surf_Main]) // Apply effects to other surfaces
+			{	surf[Surf_Main]->setUniform(&scene.effectMode);
 				surf[Surf_Main]->setUniform(&scene.kernel);
 				ev.window.draw(surf[Surf_Main]);
 			}
@@ -203,9 +202,12 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
+			ImGui::PushID("Noobs");
+			ImGui::PushID("Demo Scene");
+
 			if (ImGui::BeginMenuBar())
 			{
-				if (ImGui::BeginMenu("Settings##Noobs##DemoScene"))
+				if (ImGui::BeginMenu("Settings"))
 				{
 					// Get Video Settings
 					static const List<VideoMode> & video_modes { VideoMode::get_modes() };
@@ -214,18 +216,15 @@ namespace ml
 						static List<String> temp;
 						temp.push_back("Auto");
 						for (const auto & video : VideoMode::get_modes())
-							temp.push_back(String("{0}").format(video));
+							temp.push_back(String("{0}").format(video.resolution));
 						return temp;
 					}();
 
 					// Viewport
 					static int32_t index = 0;
-					if (ImGui::Combo(
-						"Viewport##Noobs##DemoScene",
-						&index, 
-						ML_EditorUtility.vector_getter,
-						(void *)&video_names, 
-						(int32_t)video_names.size()
+					if (ImGui::Combo("Viewport",
+						&index, ML_EditorUtility.vector_getter,
+						(void *)&video_names, (int32_t)video_names.size()
 					))
 					{
 						this->autoView = (index == 0);
@@ -236,13 +235,15 @@ namespace ml
 					}
 
 					// Clear Color
-					ImGui::ColorEdit4("Clear Color##Noobs", &this->clearColor[0]);
+					ImGui::ColorEdit4("Clear Color", &this->clearColor[0]);
 
 					// Effect Mode
-					UniformPropertyDrawer()("Effect Mode##Noobs", (Uni &)this->effectMode);
+					UniformPropertyDrawer()("Effect Mode", (Uni &)this->effectMode);
+					ImGui::SameLine(); ImGui::Text("Effect Mode");
 
 					// Kernel
-					UniformPropertyDrawer()("Kernel##Noobs", (Uni &)this->kernel);
+					UniformPropertyDrawer()("Kernel", (Uni &)this->kernel);
+					ImGui::SameLine(); ImGui::Text("Kernel");
 
 					ImGui::EndMenu();
 				}
@@ -264,14 +265,26 @@ namespace ml
 					"Viewport", { 0, 0 }, true, ImGuiWindowFlags_NoScrollWithMouse
 				);
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(surf->get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::Image(
+					surf->get_handle(), 
+					{ scl[0], scl[1] }, 
+					{ 0, 1 }, 
+					{ 1, 0 }
+				);
 				ImGui::EndChild();
 			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			ImGui::PopID();
+			ImGui::PopID();
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}
 		ImGui::End();
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Noobs::DemoEditor::Render(C_String title)
 	{
@@ -818,8 +831,6 @@ namespace ml
 		}
 		ImGui::End();
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	String Noobs::DemoEditor::parseFiles(const FileList & file_list, const String & src) const
 	{

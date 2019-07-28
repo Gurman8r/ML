@@ -24,7 +24,7 @@ uniform mat3		u_kernel;
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define MODE_NORMAL			0
+#define MODE_DEFAULT		0
 #define MODE_GRAYSCALE		1
 #define MODE_BLUR			2
 #define MODE_JUICY			3
@@ -81,7 +81,7 @@ void main()
 			-1, -1, -1,
 			-1, +9, -1,
 			-1, -1, -1
-			));
+		));
 		break;
 
 	case MODE_BLUR:
@@ -89,7 +89,7 @@ void main()
 			1.0 / 16, 2.0 / 16, 1.0 / 16,
 			2.0 / 16, 4.0 / 16, 2.0 / 16,
 			1.0 / 16, 2.0 / 16, 1.0 / 16
-			));
+		));
 		break;
 
 	case MODE_INVERTED:
@@ -100,7 +100,7 @@ void main()
 		gl_Color = drawKernel(u_kernel);
 		break;
 
-	case MODE_NORMAL:
+	case MODE_DEFAULT:
 	default:
 		gl_Color = texture(u_texture0, V.Texcoord);
 		break;

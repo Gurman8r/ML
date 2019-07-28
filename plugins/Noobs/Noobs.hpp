@@ -81,7 +81,7 @@ namespace ml
 			vec4		clearColor	{ Color::black };
 			vec2		viewport	{ 1920, 1080 };
 			uni_int		effectMode	{ "u_effectMode", 3 };
-			uni_mat3	kernel		{ "u_kernel", mat3 {} };
+			uni_mat3	kernel		{ "u_kernel", { 0, 0, 0, 0, 1, 0, 0, 0, 0 } };
 
 			void Render(C_String title, const Surface * surf);
 
@@ -91,8 +91,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoEditor
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
 			struct SourceFile : public I_NonCopyable
 			{
 				using TextEdit = typename ImGui::TextEditor;
@@ -112,8 +110,6 @@ namespace ml
 				}
 			};
 
-			/* * * * * * * * * * * * * * * * * * * * */
-
 			using FileList = typename List<SourceFile *>;
 
 			bool			is_open		{ true };
@@ -129,7 +125,6 @@ namespace ml
 			void	generateFiles();
 			void	disposeFiles();
 
-			/* * * * * * * * * * * * * * * * * * * * */
 		} editor;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

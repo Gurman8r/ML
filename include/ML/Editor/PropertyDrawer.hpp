@@ -76,9 +76,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(EntityPropertyDrawer, Entity, "entity",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -86,9 +86,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(FontPropertyDrawer, Font, "font",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -96,9 +96,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(ImagePropertyDrawer, Image, "image",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -106,9 +106,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(MaterialPropertyDrawer, Material, "material",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -116,9 +116,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(MeshPropertyDrawer, Mesh, "mesh",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -126,9 +126,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(ModelPropertyDrawer, Model, "model",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -136,9 +136,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(ScriptPropertyDrawer, Script, "script",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -146,9 +146,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(ShaderPropertyDrawer, Shader, "shader",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -156,9 +156,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(SoundPropertyDrawer, Sound, "sound",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -166,9 +166,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(SpritePropertyDrawer, Sprite, "sprite",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -176,9 +176,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(SurfacePropertyDrawer, Surface, "surface",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -186,9 +186,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(TexturePropertyDrawer, Texture, "cubemap",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 
 
@@ -196,10 +196,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(UniformPropertyDrawer, Uni, "uniform",
 	{
-		bool operator()(const String & label, const_pointer & value) const;
-		bool operator()(const String & label, const_reference value) const;
-		bool operator()(const String & label, pointer & value) const;
-		bool operator()(const String & label, reference value) const;
+		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	});
 }
 

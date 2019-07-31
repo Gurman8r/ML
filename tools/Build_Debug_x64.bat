@@ -1,5 +1,9 @@
 @echo off
 rem Build Debug x64
 cls
-call Build.bat ..\ML.sln "Configuration=Debug" "Target=x64" "Toolset=v141"
+call Build32.bat ^
+ "%cd%\..\ML.sln" ^
+ "/p:Configuration=Debug" ^
+ "/p:PlatformTarget=x64" ^
+ "/p:PlatformToolset=v141"
 exit %ERRORLEVEL%

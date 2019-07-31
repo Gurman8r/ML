@@ -9,10 +9,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorGui::EditorGui(Editor & editor, C_String title)
+	EditorGui::EditorGui(Editor & editor, C_String title, bool open)
 		: m_editor	{ editor }
 		, m_title	{ title }
-		, m_open	{ false }
+		, m_open	{ open }
 		, m_good	{ false }
 		, m_flags	{ ImGuiWindowFlags_None }
 	{

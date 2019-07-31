@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	EditorDockspace::EditorDockspace(Editor & editor)
-		: EditorGui		{ editor, "Dockspace" }
+		: EditorGui		{ editor, "Dockspace", true }
 		, m_border		{ 0.0f }
 		, m_padding		{ 0.f, 0.f }
 		, m_rounding	{ 0.0f }
@@ -68,7 +68,7 @@ namespace ml
 				m_nodes[LeftDn]	= splitNode(m_nodes[Left],	ImGuiDir_Down,	0.25f,	&m_nodes[Left]);
 				m_nodes[RightDn]= splitNode(m_nodes[Right],	ImGuiDir_Down,	0.25f,	&m_nodes[Right]);
 
-				editor().eventSystem().fireEvent(BuildDockspaceEvent(
+				editor().eventSystem().fireEvent(DockspaceEvent(
 					(*this)
 				));
 

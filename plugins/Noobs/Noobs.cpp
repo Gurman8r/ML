@@ -12,13 +12,11 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/Content.hpp>
-#include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/RenderStates.hpp>
-#include <ML/Graphics/Shader.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Geometry.hpp>
@@ -47,7 +45,7 @@ namespace ml
 	{
 		eventSystem.addListener(KeyEvent::ID, this);
 		eventSystem.addListener(MainMenuBarEvent::ID, this);
-		eventSystem.addListener(BuildDockspaceEvent::ID, this);
+		eventSystem.addListener(DockspaceEvent::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -79,8 +77,8 @@ namespace ml
 			}
 			break;
 
-		case BuildDockspaceEvent::ID:
-			if (auto ev = value->as<BuildDockspaceEvent>())
+		case DockspaceEvent::ID:
+			if (auto ev = value->as<DockspaceEvent>())
 			{
 				EditorDockspace & d = ev->dockspace;
 				d.dockWindow("Scene##Noobs##DemoScene", d.getNode(d.LeftUp));

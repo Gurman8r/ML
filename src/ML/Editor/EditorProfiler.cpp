@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	EditorProfiler::EditorProfiler(Editor & editor)
-		: EditorGui { editor, "Profiler" }
+		: EditorGui { editor, "Profiler", false }
 	{
 	}
 

@@ -25,14 +25,12 @@ namespace ml
 		, m_profiler	{ *this }
 		, m_terminal	{ *this }
 	{
-		m_dockspace.setOpen(true);
-
 		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(ExitEvent::ID,			this);
 		eventSystem.addListener(BeginGuiEvent::ID,		this);
 		eventSystem.addListener(GuiEvent::ID,			this);
 		eventSystem.addListener(EndGuiEvent::ID,		this);
-		eventSystem.addListener(BuildDockspaceEvent::ID,this);
+		eventSystem.addListener(DockspaceEvent::ID,		this);
 		eventSystem.addListener(KeyEvent::ID,			this);
 		eventSystem.addListener(File_New_Event::ID,		this);
 		eventSystem.addListener(File_Open_Event::ID,	this);
@@ -59,10 +57,10 @@ namespace ml
 
 			// Build Dockspace
 			/* * * * * * * * * * * * * * * * * * * * */
-		case BuildDockspaceEvent::ID:
-			if (auto ev = value->as<BuildDockspaceEvent>())
+		case DockspaceEvent::ID:
+			if (auto ev = value->as<DockspaceEvent>())
 			{
-				EditorDockspace & d = ev->dockspace;
+				EditorDockspace & d { ev->dockspace };
 				d.dockWindow(m_browser	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightUp));

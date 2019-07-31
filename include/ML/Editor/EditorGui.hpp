@@ -22,7 +22,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		explicit EditorGui(Editor & editor, C_String title);
+		explicit EditorGui(Editor & editor, C_String title, bool open);
 
 		virtual ~EditorGui() {}
 

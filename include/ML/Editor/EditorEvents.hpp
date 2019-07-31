@@ -25,7 +25,7 @@ namespace ml
 			EV_EndGui,
 
 			EV_MainMenuBar,
-			EV_BuildDockspace,
+			EV_Dockspace,
 
 			EV_File_New,
 			EV_File_Open,
@@ -101,10 +101,10 @@ namespace ml
 		}
 	};
 
-	struct BuildDockspaceEvent final : public I_Event<EditorEvent::EV_BuildDockspace>
+	struct DockspaceEvent final : public I_Event<EditorEvent::EV_Dockspace>
 	{
 		EditorDockspace & dockspace;
-		constexpr BuildDockspaceEvent(EditorDockspace & dockspace)
+		constexpr DockspaceEvent(EditorDockspace & dockspace)
 			: dockspace(dockspace)
 		{
 		}

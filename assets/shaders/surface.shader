@@ -1,6 +1,4 @@
-// framebuffer.shader
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader vertex
 #include "../../../assets/shaders/common/Vert.shader"
 
 void main()
@@ -12,7 +10,7 @@ void main()
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader fragment
 #include "../../../assets/shaders/common/Frag.shader"
 
 /* * * * * * * * * * * * * * * * * * * * */

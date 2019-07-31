@@ -1,6 +1,4 @@
-// geometry.shader
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader vertex
 #include "../../../assets/shaders/common/Vert.shader"
 
 mat4 ml_Ortho(float left, float right, float bottom, float top)
@@ -31,7 +29,7 @@ void main()
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader fragment
 #include "../../../assets/shaders/common/Frag.shader"
 
 uniform	vec4 u_color;
@@ -42,7 +40,7 @@ void main()
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader geometry
 #include "../../../assets/shaders/common/Curve.Draw.shader"
 
 #define SAMPLES_PER_SEGMENT 16
@@ -52,19 +50,13 @@ void main()
 #define CURVE_MODE_CATMULLROM 2
 #define CURVE_MODE_HERMITE 3
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 layout(points) in;
 layout(line_strip, max_vertices = SAMPLES_MAX) out;
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 uniform int		u_mode;
 uniform float	u_delta;
 uniform float	u_size;
 uniform int		u_samples;
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 void stub(in int samples, in float dt)
 {

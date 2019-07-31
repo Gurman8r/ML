@@ -1,7 +1,6 @@
-// Curve.Draw.shader
+#shader geometry
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#shader geometry
 #version 410 core
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

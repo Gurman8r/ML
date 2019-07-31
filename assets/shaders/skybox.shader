@@ -1,10 +1,7 @@
 #shader vertex
-// VERTEX SHADER
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #version 410 core
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec4 a_Normal;
@@ -17,7 +14,7 @@ out VertexData
 	vec2 Texcoord;
 } V;
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 mat4 ml_AngleAxis(vec3 v, float angle)
 {
@@ -114,7 +111,6 @@ void main()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #shader fragment
-// FRAGMENT SHADER
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #version 410 core
@@ -127,6 +123,8 @@ in VertexData
 } V;
 
 out vec4 gl_Color;
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 uniform vec4		u_color;
 uniform samplerCube u_texture0;

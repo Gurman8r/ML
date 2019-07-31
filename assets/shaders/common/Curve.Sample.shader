@@ -1,6 +1,3 @@
-// Curve.Sample.shader
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 vec4 lerp(in vec4 a, in vec4 b, const float t)
 {
 	return (b * t) + (a * (1.0 - t));
@@ -57,5 +54,3 @@ vec4 sampleCubicHermite(in vec4 p0, in vec4 m0, in vec4 p1, in vec4 m1, const fl
 
 	return a * b * c;
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

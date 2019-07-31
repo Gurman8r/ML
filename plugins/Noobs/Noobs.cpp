@@ -335,6 +335,7 @@ namespace ml
 					{
 						this->compile_sources();
 					}
+					ImGui::Separator();
 
 					// Toggle Demo Files (start at one to always show config)
 					for (size_t i = 1; i < m_files.size(); i++)
@@ -387,6 +388,7 @@ namespace ml
 							Debug::logError("A uniform with that name already exists");
 						}
 					}
+					ImGui::Separator();
 
 					// Header Columns
 					ImGui::Columns(3, "##Uni##Columns");

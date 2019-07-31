@@ -1,9 +1,5 @@
-// normal.shader
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader vertex
 #include "../../../assets/shaders/common/Vert.shader"
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 mat4 ml_AngleAxis(vec3 v, float angle)
 {
@@ -93,7 +89,7 @@ void main()
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader fragment
 #include "../../../assets/shaders/common/Frag.shader"
 
 uniform vec4		u_color;

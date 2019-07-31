@@ -1,7 +1,6 @@
-// Frag.shader
+#shader fragment
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#shader fragment
 #version 410 core
 
 in VertexData

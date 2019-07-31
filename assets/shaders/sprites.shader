@@ -1,6 +1,5 @@
-// sprites.shader
+#shader vertex
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #include "../../../assets/shaders/common/Vert.shader"
 
 mat4 ml_Ortho(float left, float right, float bottom, float top)
@@ -31,7 +30,7 @@ void main()
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader fragment
 #include "../../../assets/shaders/common/Frag.shader"
 
 uniform vec4		u_color;

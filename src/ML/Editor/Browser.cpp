@@ -41,7 +41,7 @@ namespace ml
 
 	bool Browser::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw(ImGuiWindowFlags_MenuBar))
+		if (beginDraw())
 		{
 			// Update Working Dir
 			const String workingDir = ML_FS.getPath();
@@ -56,14 +56,6 @@ namespace ml
 				{
 					set_selected(T_Dir, 0);
 				}
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			if (ImGui::BeginMenuBar())
-			{
-				ImGui::Text("%s", m_path.c_str());
-				ImGui::EndMenuBar();
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */

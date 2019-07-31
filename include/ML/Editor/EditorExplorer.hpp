@@ -1,5 +1,5 @@
-#ifndef _ML_BROWSER_GUI_HPP_
-#define _ML_BROWSER_GUI_HPP_
+#ifndef _ML_EDITOR_EXPLORER_HPP_
+#define _ML_EDITOR_EXPLORER_HPP_
 
 #include <ML/Editor/EditorGui.hpp>
 #include <ML/Core/FileSystem.hpp>
@@ -8,13 +8,24 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Browser final 
-		: public EditorGui
+	class ML_EDITOR_API EditorExplorer final : public EditorGui
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		friend class Editor;
 
-	public:
+		explicit EditorExplorer(Editor & editor);
+
+		bool drawGui(const GuiEvent & ev) override;
+		
+		void draw_directory();
+		void draw_file();
+		void draw_file_preview();
+		void draw_file_details();
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	public:
 		enum : char
 		{
 			T_Reg = ' ',
@@ -23,42 +34,17 @@ namespace ml
 			T_Unk = '*',
 		};
 
-	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		using Directory = typename FileSystem::Directory;
 
-	private:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		explicit Browser(EventSystem & eventSystem);
-		~Browser();
-
-	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		void onEvent(const Event * value) override;
-
-	protected:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		bool drawGui(const GuiEvent & ev) override;
-
-	private:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		void draw_directory();
-		void draw_file();
-		void draw_file_preview();
-		void draw_file_details();
-
-	public:
 		void	set_selected(char type, size_t index);
 		String	get_selected_name() const;
 		String	get_selected_path() const;
 		String	get_selected_type() const;
 		size_t	get_selected_size() const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		inline String pathTo(const String & value) const 
 		{ 
-			return (m_path + "\\" + value);
+			return (m_path + ML_PATH_DELIM + value);
 		}
 
 		inline const List<String> * get_list() const
@@ -80,7 +66,7 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
+
 	private:
 		String		m_path;		// Working Directory
 		Directory	m_dir;		// Directory Contents
@@ -95,4 +81,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_BROWSER_GUI_HPP_
+#endif // !_ML_EDITOR_EXPLORER_HPP_

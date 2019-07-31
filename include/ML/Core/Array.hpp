@@ -23,7 +23,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename T;
-		using data_type			= typename value_type[Size];
+		using base_type			= typename value_type[Size];
 		using self_type			= typename Array<value_type, Size>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
@@ -34,39 +34,31 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		data_type m_data; // aggregate initializer
+		base_type m_data; // aggregate initializer
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto back()			-> reference		{ return (*end()); }
-		constexpr auto back()	const	-> const_reference	{ return (*cend()); }
-		constexpr auto begin()			-> iterator			{ return data(); }
-		constexpr auto begin()	const	-> const_iterator	{ return data(); }
-		constexpr auto cbegin() const	-> const_iterator	{ return begin(); }
-		constexpr auto cend()	const	-> const_iterator	{ return end(); }
-		constexpr auto data()			-> pointer			{ return m_data; }
-		constexpr auto data()	const	-> const_pointer	{ return m_data; }
-		constexpr auto end()			-> iterator			{ return data() + size(); }
-		constexpr auto end()	const	-> const_iterator	{ return data() + size(); }
-		constexpr auto front()			-> reference		{ return (*begin()); }
-		constexpr auto front()	const	-> const_reference	{ return (*cbegin()); }
-		constexpr auto hash()	const	-> hash_t			{ return Hash()(size(), data()); }
-		constexpr auto size()	const	-> size_t			{ return Size; }
+		constexpr auto at(size_t i)			-> reference		{ return m_data[i]; }
+		constexpr auto at(size_t i) const	-> const_reference	{ return m_data[i]; }
+		constexpr auto back()				-> reference		{ return (*end()); }
+		constexpr auto back()		const	-> const_reference	{ return (*cend()); }
+		constexpr auto begin()				-> iterator			{ return data(); }
+		constexpr auto begin()		const	-> const_iterator	{ return data(); }
+		constexpr auto cbegin()		const	-> const_iterator	{ return begin(); }
+		constexpr auto cend()		const	-> const_iterator	{ return end(); }
+		constexpr auto data()				-> pointer			{ return m_data; }
+		constexpr auto data()		const	-> const_pointer	{ return m_data; }
+		constexpr auto end()				-> iterator			{ return data() + size(); }
+		constexpr auto end()		const	-> const_iterator	{ return data() + size(); }
+		constexpr auto front()				-> reference		{ return (*begin()); }
+		constexpr auto front()		const	-> const_reference	{ return (*cbegin()); }
+		constexpr auto hash()		const	-> hash_t			{ return Hash(size(), data()); }
+		constexpr auto size()		const	-> size_t			{ return self_type::Size; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr const_reference operator[](size_t i) const { return m_data[i]; }
-
-		constexpr reference operator[](size_t i) { return m_data[i]; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static constexpr auto fill(const_reference value)
-		{
-			self_type temp { uninit };
-			alg::fill(temp, value);
-			return temp;
-		}
+		constexpr reference			operator[](size_t i)		{ return at(i); }
+		constexpr const_reference	operator[](size_t i) const	{ return at(i); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

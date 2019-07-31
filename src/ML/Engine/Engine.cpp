@@ -85,24 +85,24 @@ namespace ml
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(
-			ev.prefs.GetString	("Window", "title",			"Title"), { 
+			ev.prefs.GetString	("Window", "title",			"MemeLib"), { 
 			ev.prefs.GetUint	("Window", "width",			1280),
 			ev.prefs.GetUint	("Window", "height",		720),
-			ev.prefs.GetUint	("Window", "colorDepth",	32) }, {
+			ev.prefs.GetUint	("Window", "color_depth",	32) }, {
 			ev.prefs.GetBool	("Window", "resizable",		true),
 			ev.prefs.GetBool	("Window", "visible",		false),
 			ev.prefs.GetBool	("Window", "decorated",		true),
 			ev.prefs.GetBool	("Window", "focused",		true),
-			ev.prefs.GetBool	("Window", "autoIconify",	true),
+			ev.prefs.GetBool	("Window", "auto_iconify",	true),
 			ev.prefs.GetBool	("Window", "floating",		false),
 			ev.prefs.GetBool	("Window", "maximized",		true) }, {
-			ev.prefs.GetUint	("Window", "majorVersion",	3),
-			ev.prefs.GetUint	("Window", "minorVersion",	3),
+			ev.prefs.GetUint	("Window", "major_version",	3),
+			ev.prefs.GetUint	("Window", "minor_version",	3),
 			ev.prefs.GetUint	("Window", "profile",		ContextSettings::Compat),
 			ev.prefs.GetUint	("Window", "depthBits",		24),
-			ev.prefs.GetUint	("Window", "stencilBits",	8),
+			ev.prefs.GetUint	("Window", "stencil_bits",	8),
 			ev.prefs.GetBool	("Window", "multisample",	false),
-			ev.prefs.GetBool	("Window", "srgbCapable",	false)
+			ev.prefs.GetBool	("Window", "srgb_capable",	false)
 		}))
 		{
 			ev.window.seCursorMode(Cursor::Mode::Normal);

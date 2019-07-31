@@ -11,8 +11,19 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr hash_t basis { static_cast<hash_t>(14695981039346656037ULL) };
-		static constexpr hash_t prime { static_cast<hash_t>(1099511628211ULL) };
+		static constexpr auto basis { static_cast<hash_t>(14695981039346656037ULL) };
+		static constexpr auto prime { static_cast<hash_t>(1099511628211ULL) };
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class ... Args
+		> constexpr Hash(Args && ... args)
+			: m_value { (*this)(std::forward<Args>(args)...) }
+		{
+		}
+
+		constexpr Hash() : m_value { uninit } {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -21,8 +32,7 @@ namespace ml
 		> constexpr hash_t operator()(hash_t size, const T * arr, hash_t seed)
 		{
 			return ((size > 0)
-				? (*this)(
-					(size - 1), (arr + 1), (seed ^ static_cast<hash_t>(*arr)) * prime)
+				? (*this)((size - 1), (arr + 1), (seed ^ static_cast<hash_t>(*arr)) * prime)
 				: seed
 			);
 		}
@@ -47,6 +57,20 @@ namespace ml
 		{
 			return std::hash<T>()(value);
 		}
+
+		constexpr const hash_t & operator()() const
+		{
+			return m_value;
+		}
+
+		constexpr operator const hash_t &() const
+		{
+			return (*this)();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: const hash_t m_value;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -1,4 +1,4 @@
-#include <ML/Editor/Browser.hpp>
+#include <ML/Editor/EditorExplorer.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -10,38 +10,28 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static constexpr uint64_t MaxPreviewSize { 15_MB };
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Browser::Browser(EventSystem & eventSystem)
-		: EditorGui	(eventSystem, "Browser")
-		, m_path	(ML_FS.getPath())
-		, m_dir		()
-		, m_type	(T_Dir)
-		, m_index	(0)
-		, m_preview	()
-		, m_isDouble(false)
+	EditorExplorer::EditorExplorer(Editor & editor)
+		: EditorGui		{ editor, "Explorer" }
+		, m_path		{ ML_FS.getPath() }
+		, m_dir			{ }
+		, m_type		{ T_Dir }
+		, m_index		{ 0 }
+		, m_preview		{  }
+		, m_isDouble	{ false }
 	{
 	}
 
-	Browser::~Browser()
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool EditorExplorer::drawGui(const GuiEvent & ev)
 	{
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void Browser::onEvent(const Event * value)
-	{
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool Browser::drawGui(const GuiEvent & ev)
-	{
-		if (beginDraw())
+		if (beginDraw(0))
 		{
 			// Update Working Dir
 			const String workingDir = ML_FS.getPath();
@@ -58,7 +48,7 @@ namespace ml
 				}
 			}
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			draw_directory();
 
@@ -80,9 +70,9 @@ namespace ml
 		return endDraw();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Browser::draw_directory()
+	void EditorExplorer::draw_directory()
 	{
 		ImGui::BeginChild("Directory View", { 224, 0 }, true);
 		{
@@ -133,7 +123,7 @@ namespace ml
 		ImGui::EndChild();
 	}
 
-	void Browser::draw_file()
+	void EditorExplorer::draw_file()
 	{
 		ImGui::BeginGroup();
 		{
@@ -157,7 +147,7 @@ namespace ml
 		ImGui::EndGroup();
 	}
 
-	void Browser::draw_file_preview()
+	void EditorExplorer::draw_file_preview()
 	{
 		if (ImGui::BeginTabItem("Preview"))
 		{
@@ -175,7 +165,7 @@ namespace ml
 		}
 	}
 
-	void Browser::draw_file_details()
+	void EditorExplorer::draw_file_details()
 	{
 		if (ImGui::BeginTabItem("Details"))
 		{
@@ -188,9 +178,9 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Browser::set_selected(char type, size_t index)
+	void EditorExplorer::set_selected(char type, size_t index)
 	{
 		m_type = type;
 		m_index = index;
@@ -234,18 +224,18 @@ namespace ml
 		}
 	}
 
-	String Browser::get_selected_name() const
+	String EditorExplorer::get_selected_name() const
 	{
 		const String * file;
 		return ((file = get_selected()) ? (*file) : String());
 	}
 
-	String Browser::get_selected_path() const
+	String EditorExplorer::get_selected_path() const
 	{
 		return pathTo(get_selected_name());
 	}
 
-	String Browser::get_selected_type() const
+	String EditorExplorer::get_selected_type() const
 	{
 		switch (m_type)
 		{
@@ -256,10 +246,10 @@ namespace ml
 		}
 	}
 
-	size_t Browser::get_selected_size() const
+	size_t EditorExplorer::get_selected_size() const
 	{
 		return ML_FS.getFileSize(get_selected_path());
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -51,7 +51,7 @@ PREFIX NAME final : public _ML CustomAssetImporter<ELEM>			\
 template <> struct _ML AssetImporter<ELEM>							\
 {																	\
 	using type = typename ELEM;										\
-	static constexpr auto id	{ _ML Hash()(##TAG) };				\
+	static constexpr auto id	{ _ML Hash(##TAG) };				\
 	static constexpr auto tag	{ ##TAG };							\
 	template <														\
 		class ... Args												\

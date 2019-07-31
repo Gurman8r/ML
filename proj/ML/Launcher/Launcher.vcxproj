@@ -167,6 +167,7 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\assets\lua\test.lua" />
     <None Include="..\..\..\assets\materials\demo.mat" />
     <None Include="..\..\..\assets\materials\skybox.mat" />
     <None Include="..\..\..\assets\meshes\cow.mesh" />

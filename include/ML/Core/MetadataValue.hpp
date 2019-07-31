@@ -14,42 +14,42 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		MetadataValue()
-			: m_data(String())
+			: m_data {}
 		{
 		}
 
 		explicit MetadataValue(bool value)
-			: m_data(std::to_string(value))
+			: m_data { std::to_string(value) }
 		{
 		}
 
 		explicit MetadataValue(float64_t value)
-			: m_data(std::to_string(value))
+			: m_data { std::to_string(value) }
 		{
 		}
 
 		explicit MetadataValue(float32_t value)
-			: m_data(std::to_string(value))
+			: m_data { std::to_string(value) }
 		{
 		}
 
 		explicit MetadataValue(int32_t value)
-			: m_data(std::to_string(value))
+			: m_data { std::to_string(value) }
 		{
 		}
 
 		explicit MetadataValue(uint32_t value)
-			: m_data(std::to_string(value))
+			: m_data { std::to_string(value) }
 		{
 		}
 
 		explicit MetadataValue(const String & value)
-			: m_data(value)
+			: m_data { value }
 		{
 		}
 
 		MetadataValue(const MetadataValue & copy)
-			: m_data(copy.m_data)
+			: m_data { copy.m_data }
 		{
 		}
 
@@ -66,13 +66,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto asBool()	const -> bool			{ return alg::to_bool	(m_data); }
-		inline auto asDouble()	const -> float64_t		{ return alg::to_double	(m_data); }
-		inline auto asFloat()	const -> float32_t		{ return alg::to_float	(m_data); }
-		inline auto asInt()		const -> int32_t		{ return alg::to_int	(m_data); }
-		inline auto asUint()	const -> uint32_t		{ return alg::to_uint	(m_data); }
-		inline auto asString()	const -> String			{ return m_data; }
-		inline auto getData()	const -> const String & { return m_data; }
+		inline const String & getData() const { return m_data; }
+
+		inline auto asBool()	const -> bool			{ return alg::to_bool(asString()); }
+		inline auto asDouble()	const -> float64_t		{ return alg::to_double(asString()); }
+		inline auto asFloat()	const -> float32_t		{ return alg::to_float(asString()); }
+		inline auto asInt()		const -> int32_t		{ return alg::to_int(asString()); }
+		inline auto asString()	const -> String			{ return getData(); }
+		inline auto asUint()	const -> uint32_t		{ return alg::to_uint(asString()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -80,6 +81,7 @@ namespace ml
 		inline operator float64_t	() const { return asDouble();	}
 		inline operator float32_t	() const { return asFloat();	}
 		inline operator int32_t		() const { return asInt();		}
+		inline operator uint32_t	() const { return asUint();		}
 		inline operator String		() const { return asString();	}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

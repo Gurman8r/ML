@@ -1,4 +1,4 @@
-#include <ML/Editor/Terminal.hpp>
+#include <ML/Editor/EditorTerminal.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/FileSystem.hpp>
@@ -12,22 +12,20 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Terminal::Terminal(EventSystem & eventSystem)
-		: EditorGui		(eventSystem, "Terminal")
-		, m_coutBuf		(nullptr)
-		, m_coutPtr		(nullptr)
-		, m_coutStr		()
-		, m_inputBuf	()
-		, m_lines		()
-		, m_scrollBottom()
-		, m_history		()
-		, m_historyPos	(-1)
-		, m_autoFill	()
-		, m_paused		(false)
+	EditorTerminal::EditorTerminal(Editor & editor)
+		: EditorGui		{ editor, "Terminal" }
+		, m_coutBuf		{ nullptr }
+		, m_coutPtr		{ nullptr }
+		, m_coutStr		{}
+		, m_inputBuf	{ uninit }
+		, m_lines		{}
+		, m_scrollToBot	{}
+		, m_history		{}
+		, m_historyPos	{ -1 }
+		, m_autoFill	{}
+		, m_paused		{ false }
 	{
 		this->clear();
-
-		std::memset(m_inputBuf, 0, sizeof(m_inputBuf));
 
 		m_autoFill.push_back("clear");
 		m_autoFill.push_back("exit");
@@ -42,13 +40,9 @@ namespace ml
 		this->printf("# Type \'help\' for a list of commands.");
 	}
 	
-	Terminal::~Terminal()
-	{
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Terminal::drawGui(const GuiEvent & ev)
+	bool EditorTerminal::drawGui(const GuiEvent & ev)
 	{
 		if (m_coutBuf)
 		{
@@ -130,12 +124,12 @@ namespace ml
 				ImGui::PopStyleColor();
 			}
 
-			if (m_scrollBottom)
+			if (m_scrollToBot)
 			{
 				ImGui::SetScrollHereY(1.0f);
 			}
 
-			m_scrollBottom = false;
+			m_scrollToBot = false;
 			ImGui::PopStyleVar();
 			ImGui::EndChild();
 			ImGui::Separator();
@@ -144,14 +138,14 @@ namespace ml
 			bool reclaim_focus;
 			if (reclaim_focus = ImGui::InputText(
 				"Input", 
-				m_inputBuf,
-				IM_ARRAYSIZE(m_inputBuf),
+				m_inputBuf.data(),
+				m_inputBuf.size(),
 				(
 					ImGuiInputTextFlags_EnterReturnsTrue |
 					ImGuiInputTextFlags_CallbackCompletion |
 					ImGuiInputTextFlags_CallbackHistory
 				),
-				[](auto data) { return ((Terminal *)(data->UserData))->inputCallback(data); },
+				[](auto data) { return ((EditorTerminal *)(data->UserData))->inputCallback(data); },
 				static_cast<void *>(this))
 			)
 			{
@@ -163,7 +157,7 @@ namespace ml
 					return str;
 				};
 
-				char * s = strtrim(m_inputBuf);
+				char * s = strtrim(m_inputBuf.data());
 				if (s[0])
 				{
 					execute(s);
@@ -183,13 +177,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Terminal::clear()
+	void EditorTerminal::clear()
 	{
 		m_lines.clear();
-		m_scrollBottom = true;
+		m_scrollToBot = true;
 	}
 
-	void Terminal::execute(C_String value)
+	void EditorTerminal::execute(C_String value)
 	{
 		this->printf("# %s\n", value);
 
@@ -212,7 +206,7 @@ namespace ml
 		}
 		else if (!std::strcmp(value, "exit"))
 		{
-			eventSystem().fireEvent(WindowKillEvent());
+			editor().eventSystem().fireEvent(WindowKillEvent());
 		}
 		else if (!std::strcmp(value, "history"))
 		{
@@ -223,13 +217,13 @@ namespace ml
 		}
 		else
 		{
-			eventSystem().fireEvent(CommandEvent(value));
+			editor().eventSystem().fireEvent(CommandEvent(value));
 		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Terminal::printf(C_String value, ...)
+	void EditorTerminal::printf(C_String value, ...)
 	{
 		char buf[1024];
 		va_list args;
@@ -240,14 +234,14 @@ namespace ml
 		this->printl(buf);
 	}
 
-	void Terminal::printl(const String & value)
+	void EditorTerminal::printl(const String & value)
 	{
 		if (m_paused) return;
 		m_lines.push_back(value);
-		m_scrollBottom = true;
+		m_scrollToBot = true;
 	}
 
-	void Terminal::printss(SStream & value)
+	void EditorTerminal::printss(SStream & value)
 	{
 		if (const String & text = value.str())
 		{
@@ -261,7 +255,7 @@ namespace ml
 		}
 	}
 
-	bool Terminal::redirect(Ostream & value)
+	bool EditorTerminal::redirect(Ostream & value)
 	{
 		if (m_coutBuf && (m_coutPtr == &value))
 		{
@@ -285,7 +279,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	int32_t Terminal::inputCallback(void * value)
+	int32_t EditorTerminal::inputCallback(void * value)
 	{
 		ImGuiInputTextCallbackData * data;
 		if (!(data = (ImGuiInputTextCallbackData *)(value))) 

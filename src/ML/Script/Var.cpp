@@ -356,7 +356,10 @@ namespace ml
 		{
 			if (Var * var = (*pointerValue()))
 			{
-				return var->tokensValue();
+				if (var != this)
+				{
+					return var->tokensValue();
+				}
 			}
 		}
 		return dataValue();

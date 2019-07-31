@@ -17,12 +17,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(EventSystem & eventSystem)
-		: EventListener	(eventSystem)
-		, m_dockspace	(eventSystem)
-		, m_browser		(eventSystem)
-		, m_profiler	(eventSystem)
-		, m_resources	(eventSystem)
-		, m_terminal	(eventSystem)
+		: EventListener	{ eventSystem }
+		, m_browser		{ *this }
+		, m_content		{ *this }
+		, m_dockspace	{ *this }
+		, m_importer	{ *this }
+		, m_profiler	{ *this }
+		, m_terminal	{ *this }
 	{
 		m_dockspace.setOpen(true);
 
@@ -61,11 +62,12 @@ namespace ml
 		case BuildDockspaceEvent::ID:
 			if (auto ev = value->as<BuildDockspaceEvent>())
 			{
-				Dockspace & d = ev->dockspace;
-				d.dockWindow(m_browser.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_profiler.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_resources.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_terminal.getTitle(), d.getNode(d.LeftDn));
+				EditorDockspace & d = ev->dockspace;
+				d.dockWindow(m_browser	.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_importer	.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_terminal	.getTitle(), d.getNode(d.LeftDn));
 			}
 			break;
 
@@ -79,14 +81,17 @@ namespace ml
 				// Show Terminal | Ctrl+Alt+T
 				if (ev->getPress(KeyCode::T, { 0, 1, 1, 0 })) m_terminal.setOpen(true);
 
-				// Show Browser | Ctrl+Alt+E
+				// Show Explorer | Ctrl+Alt+E
 				if (ev->getPress(KeyCode::E, { 0, 1, 1, 0 })) m_browser.setOpen(true);
+
+				// Show Importer | Ctrl+Alt+I
+				if (ev->getPress(KeyCode::I, { 0, 1, 1, 0 })) m_importer.setOpen(true);
 
 				// Show Profiler | Ctrl+Alt+P
 				if (ev->getPress(KeyCode::P, { 0, 1, 1, 0 })) m_profiler.setOpen(true);
 
-				// Show Resources | Ctrl+Alt+R
-				if (ev->getPress(KeyCode::R, { 0, 1, 1, 0 })) m_resources.setOpen(true);
+				// Show Resources | Ctrl+Alt+C
+				if (ev->getPress(KeyCode::C, { 0, 1, 1, 0 })) m_content.setOpen(true);
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -234,9 +239,10 @@ namespace ml
 		m_terminal.redirect(cout);
 
 		// Configure Builtin Windows
-		m_browser	.setOpen(ev.prefs.GetBool("Editor", "show_browser", false));
+		m_browser	.setOpen(ev.prefs.GetBool("Editor", "show_explorer", false));
+		m_content	.setOpen(ev.prefs.GetBool("Editor", "show_content", false));
+		m_importer	.setOpen(ev.prefs.GetBool("Editor", "show_importer", false));
 		m_profiler	.setOpen(ev.prefs.GetBool("Editor", "show_profiler", false));
-		m_resources	.setOpen(ev.prefs.GetBool("Editor", "show_resources", false));
 		m_terminal	.setOpen(ev.prefs.GetBool("Editor", "show_terminal", false));
 	}
 
@@ -335,10 +341,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(m_browser.getTitle(),	"Ctrl+Alt+E", m_browser.openPtr()	);
-				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr()	);
-				ImGui::MenuItem(m_resources.getTitle(), "Ctrl+Alt+R", m_resources.openPtr()	);
-				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr()	);
+				ImGui::MenuItem(m_content .getTitle(), "Ctrl+Alt+C", m_content.openPtr());
+				ImGui::MenuItem(m_browser .getTitle(), "Ctrl+Alt+E", m_browser.openPtr());
+				ImGui::MenuItem(m_importer.getTitle(), "Ctrl+Alt+I", m_importer.openPtr());
+				ImGui::MenuItem(m_profiler.getTitle(), "Ctrl+Alt+P", m_profiler.openPtr());
+				ImGui::MenuItem(m_terminal.getTitle(), "Ctrl+Alt+T", m_terminal.openPtr());
 
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Window));
 				
@@ -402,9 +409,10 @@ namespace ml
 		}
 
 		/* Dockspace */ if (m_dockspace.isOpen())	m_dockspace.drawGui(ev);
+		/* Explorer */	if (m_browser.isOpen())		m_browser.drawGui(ev);
+		/* Importer */	if (m_importer.isOpen())	m_importer.drawGui(ev);
 		/* Profiler */	if (m_profiler.isOpen())	m_profiler.drawGui(ev);
-		/* Resources */ if (m_resources.isOpen())	m_resources.drawGui(ev);
-		/* Browser */	if (m_browser.isOpen())		m_browser.drawGui(ev);
+		/* Resources */ if (m_content.isOpen())	m_content.drawGui(ev);
 		/* Terminal */	if (m_terminal.isOpen())	m_terminal.drawGui(ev);
 	}
 

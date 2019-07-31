@@ -108,6 +108,9 @@
     <None Include="..\..\..\assets\shaders\demo.vs.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
+    <None Include="..\..\..\assets\lua\test.lua">
+      <Filter>Resource Files\assets\lua</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -169,6 +172,9 @@
     </Filter>
     <Filter Include="Resource Files\assets\skyboxes\space">
       <UniqueIdentifier>{a3d9232f-9166-4a82-a4c1-97f7099e171a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\lua">
+      <UniqueIdentifier>{b419edec-6fe7-4b99-8c32-ce7df0cadc7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

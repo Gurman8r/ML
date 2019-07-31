@@ -77,7 +77,7 @@ namespace ml
 		constexpr auto c_str()	const -> const_pointer	{ return begin(); }
 		constexpr auto data()	const -> const_pointer	{ return m_data; }
 		constexpr auto end()	const -> const_iterator	{ return begin() + size(); }
-		constexpr auto hash()	const -> hash_t			{ return Hash()(size(), begin()); }
+		constexpr auto hash()	const -> hash_t			{ return Hash(size(), begin()); }
 		constexpr auto size()	const -> size_t			{ return m_size; }
 
 		/* * * * * * * * * * * * * * * * * * * * */

@@ -1,12 +1,14 @@
 #ifndef _ML_EDITOR_HPP_
 #define _ML_EDITOR_HPP_
 
+#include <ML/Core/EventListener.hpp>
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Editor/Terminal.hpp>
-#include <ML/Editor/Browser.hpp>
-#include <ML/Editor/Dockspace.hpp>
-#include <ML/Editor/ResourceGui.hpp>
-#include <ML/Editor/Profiler.hpp>
+#include <ML/Editor/EditorTerminal.hpp>
+#include <ML/Editor/EditorExplorer.hpp>
+#include <ML/Editor/EditorImporter.hpp>
+#include <ML/Editor/EditorDockspace.hpp>
+#include <ML/Editor/EditorContent.hpp>
+#include <ML/Editor/EditorProfiler.hpp>
 
 namespace ml
 {
@@ -32,18 +34,20 @@ namespace ml
 		void onExit		(const ExitEvent & ev);
 
 	public:
-		inline auto dockspace() -> Dockspace &		{ return m_dockspace; }
-		inline auto browser()	-> Browser &		{ return m_browser; }
-		inline auto profiler()	-> Profiler &		{ return m_profiler; }
-		inline auto resources() -> ResourceGui &	{ return m_resources; }
-		inline auto terminal()	-> Terminal &		{ return m_terminal; }
+		inline auto content()	-> EditorContent	&	{ return m_content; }
+		inline auto browser()	-> EditorExplorer	&	{ return m_browser; }
+		inline auto dockspace() -> EditorDockspace	&	{ return m_dockspace; }
+		inline auto importer()	-> EditorImporter	&	{ return m_importer; }
+		inline auto profiler()	-> EditorProfiler	&	{ return m_profiler; }
+		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
 
 	private:
-		Dockspace	m_dockspace;
-		Browser		m_browser;
-		Profiler	m_profiler;
-		ResourceGui	m_resources;
-		Terminal	m_terminal;
+		EditorExplorer	m_browser;
+		EditorContent	m_content;
+		EditorDockspace	m_dockspace;
+		EditorImporter	m_importer;
+		EditorProfiler	m_profiler;
+		EditorTerminal	m_terminal;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -342,7 +342,8 @@ namespace ml
 			type,
 			normalized,
 			stride,
-			pointer));
+			pointer
+		));
 	}
 
 	void OpenGL::vertexAttribPointer(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, uint32_t offset, uint32_t width)
@@ -356,7 +357,8 @@ namespace ml
 			normalized,
 			(stride * width),
 			// this causes a warning in x64
-			reinterpret_cast<const uint32_t *>(offset * width));
+			reinterpret_cast<const uint32_t *>(offset * width)
+		);
 #pragma warning(pop)
 	}
 

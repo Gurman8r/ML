@@ -9,7 +9,7 @@ namespace ml
 
 	class	Editor;
 	struct	GameTime;
-	class	Dockspace;
+	class	EditorDockspace;
 	struct	RenderWindow;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -103,8 +103,8 @@ namespace ml
 
 	struct BuildDockspaceEvent final : public I_Event<EditorEvent::EV_BuildDockspace>
 	{
-		Dockspace & dockspace;
-		constexpr BuildDockspaceEvent(Dockspace & dockspace)
+		EditorDockspace & dockspace;
+		constexpr BuildDockspaceEvent(EditorDockspace & dockspace)
 			: dockspace(dockspace)
 		{
 		}

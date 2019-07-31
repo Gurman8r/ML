@@ -17,8 +17,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		ImGui_StyleLoader();
+		
 		explicit ImGui_StyleLoader(const String & filename);
+		
 		ImGui_StyleLoader(ImGui_StyleLoader && copy);
+		
 		~ImGui_StyleLoader();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

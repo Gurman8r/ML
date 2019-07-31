@@ -9,8 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API EditorPlugin
-		: public Plugin
+	struct ML_EDITOR_API EditorPlugin : public Plugin
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

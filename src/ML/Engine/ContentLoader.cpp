@@ -118,9 +118,9 @@ namespace ml
 
 	bool ContentLoader::parseMetadata(const Metadata & data)
 	{
-		switch (Hash()(data.getData("type").asString()))
+		switch (Hash(data.getData("type").asString()))
 		{
-			case Hash()("manifest") : return true;
+			case Hash("manifest") : return true;
 
 			case AssetImporter<Entity	>::id: return AssetImporter<Entity	>()(data);
 			case AssetImporter<Font		>::id: return AssetImporter<Font	>()(data);

@@ -40,32 +40,40 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto back()			-> reference		{ return m_data.back(); }
-		constexpr auto back()	const	-> const_reference	{ return m_data.back(); }
-		constexpr auto begin()			-> iterator			{ return m_data.begin(); }
-		constexpr auto begin()	const	-> const_iterator	{ return m_data.begin(); }
-		constexpr auto cbegin() const	-> const_iterator	{ return m_data.cbegin(); }
-		constexpr auto cend()	const	-> const_iterator	{ return m_data.cend(); }
-		constexpr auto cols()	const	-> size_t			{ return self_type::Cols; }
-		constexpr auto data()			-> pointer			{ return m_data.data(); }
-		constexpr auto data()	const	-> const_pointer	{ return m_data.data(); }
-		constexpr auto end()			-> iterator			{ return m_data.end(); }
-		constexpr auto end()	const	-> const_iterator	{ return m_data.end(); }
-		constexpr auto front()			-> reference		{ return m_data.front(); }
-		constexpr auto front()	const	-> const_reference	{ return m_data.front(); }
-		constexpr auto hash()	const	-> hash_t			{ return m_data.hash(); }
-		constexpr auto height()	const	-> size_t			{ return this->rows(); }
-		constexpr auto rows()	const	-> size_t			{ return self_type::Rows; }
-		constexpr auto size()	const	-> size_t			{ return m_data.size(); }
-		constexpr auto width()	const	-> size_t			{ return this->cols(); }
+		constexpr auto at(size_t i)			-> reference		{ return m_data.at(i); }
+		constexpr auto at(size_t i) const	-> const_reference	{ return m_data.at(i); }
+		constexpr auto back()				-> reference		{ return m_data.back(); }
+		constexpr auto back()		const	-> const_reference	{ return m_data.back(); }
+		constexpr auto begin()				-> iterator			{ return m_data.begin(); }
+		constexpr auto begin()		const	-> const_iterator	{ return m_data.begin(); }
+		constexpr auto cbegin()		const	-> const_iterator	{ return m_data.cbegin(); }
+		constexpr auto cend()		const	-> const_iterator	{ return m_data.cend(); }
+		constexpr auto cols()		const	-> size_t			{ return self_type::Cols; }
+		constexpr auto data()				-> pointer			{ return m_data.data(); }
+		constexpr auto data()		const	-> const_pointer	{ return m_data.data(); }
+		constexpr auto end()				-> iterator			{ return m_data.end(); }
+		constexpr auto end()		const	-> const_iterator	{ return m_data.end(); }
+		constexpr auto front()				-> reference		{ return m_data.front(); }
+		constexpr auto front()		const	-> const_reference	{ return m_data.front(); }
+		constexpr auto hash()		const	-> hash_t			{ return m_data.hash(); }
+		constexpr auto height()		const	-> size_t			{ return rows(); }
+		constexpr auto rows()		const	-> size_t			{ return self_type::Rows; }
+		constexpr auto size()		const	-> size_t			{ return m_data.size(); }
+		constexpr auto width()		const	-> size_t			{ return cols(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr const_reference operator[](size_t i) const { return m_data[i]; }
-
 		constexpr reference operator[](size_t i) { return m_data[i]; }
 
-		constexpr operator base_type() const { return m_data; }
+		constexpr const_reference operator[](size_t i) const { return m_data[i]; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr operator base_type &() { return m_data; }
+
+		constexpr operator const base_type &() const { return m_data; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			template <class, size_t, size_t> class M, class U, size_t W, size_t H
@@ -74,12 +82,13 @@ namespace ml
 			M<U, W, H> temp { uninit };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
-				const size_t x = i % temp.width();
-				const size_t y = i / temp.width();
-				temp[i] = ((y < height() && x < width())
-					? static_value<U>{ (*this)[y * width() + x] }
-					: static_value<U>::zero
-				);
+				const size_t x { i % temp.width() };
+				const size_t y { i / temp.width() };
+				const size_t w { this->width() };
+				const size_t h { this->height() };
+
+				using UU = static_value<U>;
+				temp[i] = ((y < h && x < w) ? UU { (*this)[y * w + x] } : UU::zero);
 			}
 			return temp;
 		}

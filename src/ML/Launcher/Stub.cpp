@@ -36,10 +36,10 @@ namespace ml
 
 			static_assert(X_String("Here") == X_String("Here"), "What?");
 
-			constexpr auto hash1	= Hash()("Here");
-			constexpr auto hash2	= X_String("Here").hash();
-			constexpr auto hash3	= mat4i::identity().hash();
-			constexpr auto hash4	= mat4f::identity().hash();
+			constexpr hash_t hash1	= Hash("Here");
+			constexpr hash_t hash2	= X_String("Here").hash();
+			constexpr hash_t hash3	= mat4i::identity().hash();
+			constexpr hash_t hash4	= mat4f::identity().hash();
 
 			constexpr auto eps1		= static_value<float64_t>::epsilon;
 			constexpr auto eps2		= static_value<float80_t>::epsilon;

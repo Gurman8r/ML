@@ -82,7 +82,7 @@ namespace ml
 		case BuildDockspaceEvent::ID:
 			if (auto ev = value->as<BuildDockspaceEvent>())
 			{
-				Dockspace & d = ev->dockspace;
+				EditorDockspace & d = ev->dockspace;
 				d.dockWindow("Scene##Noobs##DemoScene", d.getNode(d.LeftUp));
 				d.dockWindow("Editor##Noobs##DemoEditor", d.getNode(d.RightUp));
 			}
@@ -804,8 +804,7 @@ namespace ml
 			{
 				for (DemoFile *& f : m_files)
 				{
-					if (!f) continue;
-					f->dirty = false;
+					if (f) { f->dirty = false; }
 				}
 
 				return s->loadFromMemory(

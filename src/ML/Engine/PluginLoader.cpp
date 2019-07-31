@@ -43,11 +43,15 @@ namespace ml
 				if (!line || (line.trim().front() == '#'))
 					continue;
 
-				// Load Config
-				m_files.push_back(ML_FS.pathTo(line
+				const String file_path { ML_FS.pathTo(line
 					.replaceAll("$(Configuration)", ML_CONFIGURATION)
 					.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
-				));
+				) };
+
+				if (std::find(m_files.begin(), m_files.end(), file_path) == m_files.end())
+				{
+					m_files.push_back(line);
+				}
 			}
 			file.close();
 			return !m_files.empty();

@@ -1,5 +1,5 @@
-#ifndef _ML_PROFILER_GUI_HPP_
-#define _ML_PROFILER_GUI_HPP_
+#ifndef _ML_EDITOR_PROFILER_HPP_
+#define _ML_EDITOR_PROFILER_HPP_
 
 #include <ML/Editor/EditorGui.hpp>
 
@@ -7,22 +7,19 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Profiler
-		: public EditorGui
+	class ML_EDITOR_API EditorProfiler final : public EditorGui
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		friend class Editor;
 
-	private:
-		/* * * * * * * * * * * * * * * * * * * * */
-		explicit Profiler(EventSystem & eventSystem);
-		~Profiler();
+		explicit EditorProfiler(Editor & editor);
 
-	protected:
-		/* * * * * * * * * * * * * * * * * * * * */
 		bool drawGui(const GuiEvent & ev) override;
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	public:
-		/* * * * * * * * * * * * * * * * * * * * */
 		struct GraphLines
 		{
 			enum { Size = 256U };
@@ -37,11 +34,15 @@ namespace ml
 			void update(C_String label, const float_t sample, const String & fmt = "{0}");
 		};
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		GraphLines graph;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_PROFILER_GUI_HPP_
+#endif // !_ML_EDITOR_PROFILER_HPP_

@@ -1,4 +1,4 @@
-#include <ML/Editor/Profiler.hpp>
+#include <ML/Editor/EditorProfiler.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/GameTime.hpp>
@@ -7,20 +7,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Profiler::Profiler(EventSystem & eventSystem)
-		: EditorGui(eventSystem, "Profiler")
-	{
-	}
-
-	Profiler::~Profiler()
+	EditorProfiler::EditorProfiler(Editor & editor)
+		: EditorGui { editor, "Profiler" }
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Profiler::drawGui(const GuiEvent & ev)
+	bool EditorProfiler::drawGui(const GuiEvent & ev)
 	{
-		if (beginDraw())
+		if (beginDraw(0))
 		{
 			graph.update("##Framerate", (float_t)ev.time.frameRate(), "fps {0}");
 		}
@@ -29,7 +25,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Profiler::GraphLines::update(C_String label, const float_t sample, const String & fmt)
+	void EditorProfiler::GraphLines::update(C_String label, const float_t sample, const String & fmt)
 	{
 		if (refresh == 0.0f)
 		{

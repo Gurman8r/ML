@@ -6,9 +6,10 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 #
 #	<import>
-#		type = image
-#		name = name_of_my_image
-#		file = ../path/to/my/image.png
+#		type	= image
+#		name	= name_of_my_image
+#		flipV	= true / false (flip vertically on load)
+#		file	= ../path/to/my/image.png
 #	</import>
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

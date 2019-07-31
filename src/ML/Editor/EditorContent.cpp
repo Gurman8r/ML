@@ -1,4 +1,4 @@
-#include <ML/Editor/ResourceGui.hpp>
+#include <ML/Editor/EditorContent.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/OS.hpp>
@@ -48,16 +48,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ResourceGui::ResourceGui(EventSystem & eventSystem)
-		: EditorGui(eventSystem, "Resources")
+	EditorContent::EditorContent(Editor & editor)
+		: EditorGui { editor, "Content" }
 	{
 	}
 
-	ResourceGui::~ResourceGui() {}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ResourceGui::drawGui(const GuiEvent & ev)
+	bool EditorContent::drawGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{

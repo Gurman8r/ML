@@ -14,8 +14,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API EditorUtility final
-		: public I_Singleton<EditorUtility>
+	struct ML_EDITOR_API EditorUtility final : public I_Singleton<EditorUtility>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

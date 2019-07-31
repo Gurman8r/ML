@@ -9,12 +9,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorGui::EditorGui(EventSystem & eventSystem, C_String title)
-		: EventListener	(eventSystem)
-		, m_title		(title)
-		, m_open		(false)
-		, m_good		(false)
-		, m_flags		(ImGuiWindowFlags_None)
+	EditorGui::EditorGui(Editor & editor, C_String title)
+		: m_editor	{ editor }
+		, m_title	{ title }
+		, m_open	{ false }
+		, m_good	{ false }
+		, m_flags	{ ImGuiWindowFlags_None }
 	{
 	}
 

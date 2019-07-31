@@ -110,10 +110,10 @@ namespace ml
 			// Create Editor Renderer
 			m_editor.renderer() = e->add<Renderer>(m_editor.model(), m_editor.material(),
 				RenderStates { {
-					new AlphaTestState	{ true, GL::Greater, 0.01f },
-					new BlendFuncState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-					new CullFaceState	{ true, GL::Back },
-					new DepthTestState	{ true, GL::Less }
+					new AlphaState	{ true, GL::Greater, 0.01f },
+					new BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+					new CullState	{ true, GL::Back },
+					new DepthState	{ true, GL::Less, true }
 				} });
 		}
 
@@ -135,17 +135,6 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Setup Default States
-		static RenderStates states 
-		{ {
-			new AlphaTestState	{ true, GL::Greater, 0.01f },
-			new BlendFuncState	{ true	},
-			new CullFaceState	{ false },
-			new DepthTestState	{ false },
-		} };
-		
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		// Render to Main Surface
 		m_pipeline.render_to(Surf_Main, [&]()
 		{
@@ -158,11 +147,11 @@ namespace ml
 			// Draw Skybox
 			if (m_skybox.material && m_skybox.model)
 			{
-				DepthMaskState { false }();
+				ML_GL.depthMask(false);
 				m_skybox.material->bind();
 				ev.window.draw(m_skybox.model);
 				m_skybox.material->unbind();
-				DepthMaskState { true }();
+				ML_GL.depthMask(true);
 			}
 
 			// Draw Renderer
@@ -172,6 +161,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Apply Default States
+		static RenderStates states
+		{ {
+			new AlphaState	{ true, GL::Greater, 0.01f },
+			new BlendState	{ true	},
+			new CullState	{ false },
+			new DepthState	{ false },
+		} };
 		states.apply();
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -483,21 +479,41 @@ namespace ml
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (!m_renderer)
-					{
-						ImGui::Text("No renderer found?");
-						ImGui::EndTabItem();
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-					
 					ImGui::NewLine();
 
-					if (ImGui::TreeNode("Alpha Test"))
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					const Shader * s = this->shader();
+					if (ShaderPropertyDrawer()("Shader##Material##Noobs", s))
 					{
-						if (AlphaTestState * alphaTest = m_renderer->states().get<AlphaTestState>())
+						this->shader() = s;
+						reset_sources();
+						generate_sources();
+					}
+					ImGui::SameLine();
+					ML_EditorUtility.HelpMarker("The shader targeted by this editor.");
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					const Model * m = (const Model *)m_renderer->drawable();
+					if (ModelPropertyDrawer()("Model##Renderer##Noobs", m))
+					{
+						m_renderer->drawable() = m;
+					}
+					ImGui::SameLine();
+					ML_EditorUtility.HelpMarker("The model to be drawn.");
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::NewLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (AlphaState * alpha = m_renderer->states().get<AlphaState>())
+					{
+						if (ImGui::CollapsingHeader("Alpha"))
 						{
-							bool & enabled = alphaTest->enabled;
+							bool & enabled = alpha->enabled;
 							ImGui::Checkbox((enabled
 								? "Enabled ##Alpha Testing##Renderer##Noobs"
 								: "Disabled##Alpha Testing##Renderer##Noobs"
@@ -505,11 +521,14 @@ namespace ml
 								&enabled
 							);
 							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specify the alpha test function"
+							ML_EditorUtility.HelpMarker(enabled
+								? ("glEnable(GL_ALPHA_TEST)")
+								: ("glDisable(GL_ALPHA_TEST)")
 							);
 
-							int32_t i = GL::indexOf(alphaTest->comp);
+							ML_EditorUtility.HelpMarker("glAlphaFunc");
+
+							int32_t i = GL::indexOf(alpha->comp);
 							if (ImGui::Combo(
 								"Comparison##Alpha Testing##Renderer##Noobs",
 								&i,
@@ -517,32 +536,29 @@ namespace ml
 								ML_ARRAYSIZE(GL::Comp_names)
 							))
 							{
-								GL::valueAt(i, alphaTest->comp);
+								GL::valueAt(i, alpha->comp);
 							}
 							ImGui::SameLine();
 							ML_EditorUtility.HelpMarker(
 								"Specifies the alpha comparison function.\n"
 							);
 
-							ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &alphaTest->coeff);
+							ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &alpha->coeff);
 							ImGui::SameLine();
 							ML_EditorUtility.HelpMarker(
 								"Specifies the reference value that incoming alpha values are compared to.\n"
 								"This value is clamped to the range 0 1 , where 0 represents the lowest possible alpha value and 1 the highest possible value.\n"
-								"The initial reference value is 0."
 							);
 						}
-
-						ImGui::TreePop();
 					}
-
+					
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::TreeNode("Blend Func"))
+					if (BlendState * blend = m_renderer->states().get<BlendState>())
 					{
-						if (BlendFuncState * blendFunc = m_renderer->states().get<BlendFuncState>())
+						if (ImGui::CollapsingHeader("Blend"))
 						{
-							bool & enabled = blendFunc->enabled;
+							bool & enabled = blend->enabled;
 							ImGui::Checkbox((enabled
 								? "Enabled ##Blending##Renderer##Noobs"
 								: "Disabled##Blending##Renderer##Noobs"
@@ -550,8 +566,9 @@ namespace ml
 								&enabled
 							);
 							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specify pixel arithmetic for RGB and alpha components separately"
+							ML_EditorUtility.HelpMarker(enabled
+								? ("glEnable(GL_BLEND)")
+								: ("glDisable(GL_BLEND)")
 							);
 
 							auto factor_combo = [](C_String label, int32_t & i)
@@ -564,55 +581,55 @@ namespace ml
 								);
 							};
 
-							int32_t srcRGB = GL::indexOf(blendFunc->srcRGB);
+							ML_EditorUtility.HelpMarker("glBlendFuncSeparate");
+
+							int32_t srcRGB = GL::indexOf(blend->srcRGB);
 							if (factor_combo("Src RGB##Blending##Renderer##Noobs", srcRGB))
 							{
-								GL::valueAt(srcRGB, blendFunc->srcRGB);
+								GL::valueAt(srcRGB, blend->srcRGB);
 							}
 							ImGui::SameLine();
 							ML_EditorUtility.HelpMarker(
 								"Specifies how the red, green, and blue blending factors are computed."
 							);
 
-							int32_t srcAlpha = GL::indexOf(blendFunc->srcAlpha);
+							int32_t srcAlpha = GL::indexOf(blend->srcAlpha);
 							if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
 							{
-								GL::valueAt(srcAlpha, blendFunc->srcAlpha);
+								GL::valueAt(srcAlpha, blend->srcAlpha);
 							}
 							ImGui::SameLine();
 							ML_EditorUtility.HelpMarker(
 								"Specified how the alpha source blending factor is computed."
 							);
 
-							int32_t dstRGB = GL::indexOf(blendFunc->dstRGB);
+							int32_t dstRGB = GL::indexOf(blend->dstRGB);
 							if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
 							{
-								GL::valueAt(dstRGB, blendFunc->dstRGB);
+								GL::valueAt(dstRGB, blend->dstRGB);
 							}
 							ImGui::SameLine();
 							ML_EditorUtility.HelpMarker(
 								"Specifies how the red, green, and blue destination blending factors are computed."
 							);
 
-							int32_t dstAlpha = GL::indexOf(blendFunc->dstAlpha);
+							int32_t dstAlpha = GL::indexOf(blend->dstAlpha);
 							if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
 							{
-								GL::valueAt(dstAlpha, blendFunc->dstAlpha);
+								GL::valueAt(dstAlpha, blend->dstAlpha);
 							}
 							ImGui::SameLine();
 							ML_EditorUtility.HelpMarker(
 								"Specified how the alpha destination blending factor is computed."
 							);
 						}
-
-						ImGui::TreePop();
 					}
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::TreeNode("Cull Face"))
+					if (CullState * cullFace = m_renderer->states().get<CullState>())
 					{
-						if (CullFaceState * cullFace = m_renderer->states().get<CullFaceState>())
+						if (ImGui::CollapsingHeader("Cull Face"))
 						{
 							bool & enabled = cullFace->enabled;
 							ImGui::Checkbox((enabled
@@ -622,9 +639,12 @@ namespace ml
 								&enabled
 							);
 							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specify which face facets can be culled"
+							ML_EditorUtility.HelpMarker(enabled
+								? ("glEnable(GL_CULL_FACE)")
+								: ("glDisable(GL_CULL_FACE)")
 							);
+
+							ML_EditorUtility.HelpMarker("glCullFace");
 
 							int32_t i = GL::indexOf(cullFace->face);
 							if (ImGui::Combo(
@@ -641,16 +661,15 @@ namespace ml
 								"Specifies whether front- or back-facing facets are candidates for culling."
 							);
 						}
-						ImGui::TreePop();
 					}
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::TreeNode("Depth Test"))
+					if (DepthState * depth = m_renderer->states().get<DepthState>())
 					{
-						if (DepthTestState * depthTest = m_renderer->states().get<DepthTestState>())
+						if (ImGui::CollapsingHeader("Depth"))
 						{
-							bool & enabled = depthTest->enabled;
+							bool & enabled = depth->enabled;
 							ImGui::Checkbox((enabled
 								? "Enabled ##Depth Testing##Renderer##Noobs"
 								: "Disabled##Depth Testing##Renderer##Noobs"
@@ -658,11 +677,14 @@ namespace ml
 								&enabled
 							);
 							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specify the value used for depth buffer comparisons"
+							ML_EditorUtility.HelpMarker(enabled
+								? ("glEnable(GL_DEPTH_TEST)")
+								: ("glDisable(GL_DEPTH_TEST)")
 							);
 
-							int32_t i = GL::indexOf(depthTest->comp);
+							ML_EditorUtility.HelpMarker("glDepthFunc");
+
+							int32_t i = GL::indexOf(depth->comp);
 							if (ImGui::Combo(
 								"Comparison##Depth Testing##Renderer##Noobs",
 								&i,
@@ -670,7 +692,7 @@ namespace ml
 								ML_ARRAYSIZE(GL::Comp_names)
 							))
 							{
-								GL::valueAt(i, depthTest->comp);
+								GL::valueAt(i, depth->comp);
 							}
 							ImGui::SameLine();
 							ML_EditorUtility.HelpMarker(
@@ -699,36 +721,8 @@ namespace ml
 								"Always passes.\n"
 							);
 						}
-						ImGui::TreePop();
 					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					ImGui::NewLine();
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					// Shader
-					const Shader * s = this->shader();
-					if (ShaderPropertyDrawer()("Shader##Material##Noobs", s))
-					{
-						this->shader() = s;
-						reset_sources();
-						generate_sources();
-					}
-					ImGui::SameLine();
-					ML_EditorUtility.HelpMarker("The shader to be used.");
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					// Model
-					const Model * m = (const Model *)m_renderer->drawable();
-					if (ModelPropertyDrawer()("Model##Renderer##Noobs", m))
-					{
-						m_renderer->drawable() = m;
-					}
-					ImGui::SameLine();
-					ML_EditorUtility.HelpMarker("The model to be drawn.");
+					
 
 					/* * * * * * * * * * * * * * * * * * * * */
 

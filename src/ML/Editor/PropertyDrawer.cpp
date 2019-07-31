@@ -82,7 +82,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Alpha Testing"))
 				{
-					if (AlphaTestState * alphaTest = states.get<AlphaTestState>())
+					if (AlphaState * alphaTest = states.get<AlphaState>())
 					{
 						ImGui::Checkbox("##Enabled##Alpha Testing", &alphaTest->enabled);
 
@@ -106,7 +106,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Blend Function"))
 				{
-					if (BlendFuncState * blendFunc = states.get<BlendFuncState>())
+					if (BlendState * blendFunc = states.get<BlendState>())
 					{
 						ImGui::Checkbox("Enabled##Blending", &blendFunc->enabled);
 
@@ -151,7 +151,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Cull Face"))
 				{
-					if (CullFaceState * cullFace = states.get<CullFaceState>())
+					if (CullState * cullFace = states.get<CullState>())
 					{
 						ImGui::Checkbox("Enabled##Culling", &cullFace->enabled);
 
@@ -173,7 +173,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Depth Testing"))
 				{
-					if (DepthTestState * depthTest = states.get<DepthTestState>())
+					if (DepthState * depthTest = states.get<DepthState>())
 					{
 						ImGui::Checkbox("Enabled##Depth Testing", &depthTest->enabled);
 

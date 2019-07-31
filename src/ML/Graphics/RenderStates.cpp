@@ -65,7 +65,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const AlphaTestState & AlphaTestState::operator()() const
+	const AlphaState & AlphaState::operator()() const
 	{
 		if (!this->enabled)
 		{
@@ -80,7 +80,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const BlendFuncState & BlendFuncState::operator()() const
+	const BlendState & BlendState::operator()() const
 	{
 		if (!this->enabled)
 		{
@@ -98,7 +98,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const CullFaceState & CullFaceState::operator()() const
+	const CullState & CullState::operator()() const
 	{
 		if (!this->enabled)
 		{
@@ -113,15 +113,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const DepthMaskState & DepthMaskState::operator()() const
-	{
-		ML_GL.depthMask(this->enabled);
-		return (*this);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	const DepthTestState & DepthTestState::operator()() const
+	const DepthState & DepthState::operator()() const
 	{
 		if (!this->enabled)
 		{
@@ -130,6 +122,8 @@ namespace ml
 		else if (ML_GL.enable(GL::DepthTest, this->enabled))
 		{
 			ML_GL.depthFunc(this->comp);
+
+			ML_GL.depthMask(this->mask);
 		}
 		return (*this);
 	}

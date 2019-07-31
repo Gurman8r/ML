@@ -28,45 +28,45 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API AlphaTestState final : public RenderSetting
+	struct ML_GRAPHICS_API AlphaState final : public RenderSetting
 	{
 		bool enabled;
 		GL::Comp comp;
 		float_t coeff;
 
-		explicit AlphaTestState(bool enabled, GL::Comp comp, float_t coeff)
+		explicit AlphaState(bool enabled, GL::Comp comp, float_t coeff)
 			: enabled(enabled)
 			, comp(comp)
 			, coeff(coeff)
 		{
 		}
 
-		AlphaTestState(const AlphaTestState & copy) 
-			: AlphaTestState(copy.enabled, copy.comp, copy.coeff)
+		AlphaState(const AlphaState & copy) 
+			: AlphaState(copy.enabled, copy.comp, copy.coeff)
 		{
 		}
 
-		AlphaTestState(bool enabled) 
-			: AlphaTestState(enabled, GL::Greater, 0.01f)
+		AlphaState(bool enabled) 
+			: AlphaState(enabled, GL::Greater, 0.01f)
 		{
 		}
 
-		AlphaTestState() 
-			: AlphaTestState(true)
+		AlphaState() 
+			: AlphaState(true)
 		{
 		}
 
-		inline AlphaTestState * clone() const override
+		inline AlphaState * clone() const override
 		{
-			return new AlphaTestState { enabled, comp, coeff };
+			return new AlphaState { enabled, comp, coeff };
 		}
 
-		const AlphaTestState & operator()() const override;
+		const AlphaState & operator()() const override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API BlendFuncState final : public RenderSetting
+	struct ML_GRAPHICS_API BlendState final : public RenderSetting
 	{
 		bool enabled;
 		GL::Factor srcRGB;
@@ -74,7 +74,7 @@ namespace ml
 		GL::Factor dstRGB;
 		GL::Factor dstAlpha;
 
-		explicit BlendFuncState(bool enabled, GL::Factor srcRGB, GL::Factor srcAlpha, GL::Factor dstRGB, GL::Factor dstAlpha)
+		explicit BlendState(bool enabled, GL::Factor srcRGB, GL::Factor srcAlpha, GL::Factor dstRGB, GL::Factor dstAlpha)
 			: enabled(enabled)
 			, srcRGB	(srcRGB)
 			, srcAlpha	(srcAlpha)
@@ -83,133 +83,106 @@ namespace ml
 		{
 		}
 
-		BlendFuncState(const BlendFuncState & copy)
-			: BlendFuncState(copy.enabled, copy.srcRGB, copy.srcAlpha, copy.dstRGB, copy.dstAlpha)
+		BlendState(const BlendState & copy)
+			: BlendState(copy.enabled, copy.srcRGB, copy.srcAlpha, copy.dstRGB, copy.dstAlpha)
 		{
 		}
 
-		BlendFuncState(bool enabled, GL::Factor rgb, GL::Factor alpha)
-			: BlendFuncState(enabled, rgb, alpha, rgb, alpha)
+		BlendState(bool enabled, GL::Factor rgb, GL::Factor alpha)
+			: BlendState(enabled, rgb, alpha, rgb, alpha)
 		{
 		}
 
-		BlendFuncState(bool enabled) 
-			: BlendFuncState(enabled, GL::SrcAlpha, GL::OneMinusSrcAlpha)
+		BlendState(bool enabled) 
+			: BlendState(enabled, GL::SrcAlpha, GL::OneMinusSrcAlpha)
 		{
 		}
 
-		BlendFuncState()
-			: BlendFuncState(true)
+		BlendState()
+			: BlendState(true)
 		{
 		}
 
-		inline BlendFuncState * clone() const override
+		inline BlendState * clone() const override
 		{
-			return new BlendFuncState { enabled, srcRGB, srcAlpha, dstRGB, dstAlpha };
+			return new BlendState { enabled, srcRGB, srcAlpha, dstRGB, dstAlpha };
 		}
 
-		const BlendFuncState & operator()() const override;
+		const BlendState & operator()() const override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API CullFaceState final : public RenderSetting
+	struct ML_GRAPHICS_API CullState final : public RenderSetting
 	{
 		bool enabled;
 		GL::Face face;
 
-		explicit CullFaceState(bool enabled, GL::Face face)
+		explicit CullState(bool enabled, GL::Face face)
 			: enabled(enabled)
 			, face(face)
 		{
 		}
 
-		CullFaceState(const CullFaceState & copy) 
-			: CullFaceState(copy.enabled, copy.face)
+		CullState(const CullState & copy) 
+			: CullState(copy.enabled, copy.face)
 		{
 		}
 
-		CullFaceState(bool enabled) 
-			: CullFaceState(enabled, GL::Back)
+		CullState(bool enabled) 
+			: CullState(enabled, GL::Back)
 		{
 		}
 
-		CullFaceState()
-			: CullFaceState(true)
+		CullState()
+			: CullState(true)
 		{
 		}
 
-		inline CullFaceState * clone() const override
+		inline CullState * clone() const override
 		{
-			return new CullFaceState { enabled, face };
+			return new CullState { enabled, face };
 		}
 
-		const CullFaceState & operator()() const override;
+		const CullState & operator()() const override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API DepthMaskState final : public RenderSetting
-	{
-		bool enabled;
-
-		explicit DepthMaskState(bool enabled)
-			: enabled(enabled)
-		{
-		}
-
-		DepthMaskState(const DepthMaskState & copy) 
-			: DepthMaskState(copy.enabled)
-		{
-		}
-
-		DepthMaskState()
-			: DepthMaskState(true)
-		{
-		}
-
-		inline DepthMaskState * clone() const override
-		{
-			return new DepthMaskState { enabled };
-		}
-
-		const DepthMaskState & operator()() const override;
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	struct ML_GRAPHICS_API DepthTestState final : public RenderSetting
+	struct ML_GRAPHICS_API DepthState final : public RenderSetting
 	{
 		bool enabled;
 		GL::Comp comp;
+		bool mask;
 
-		explicit DepthTestState(bool enabled, GL::Comp comp)
+		explicit DepthState(bool enabled, GL::Comp comp, bool mask)
 			: enabled(enabled)
 			, comp(comp)
+			, mask(mask)
 		{
 		}
 
-		DepthTestState(const DepthTestState & copy) 
-			: DepthTestState(copy.enabled)
+		DepthState(const DepthState & copy) 
+			: DepthState(copy.enabled)
 		{
 		}
 
-		DepthTestState(bool enabled) 
-			: DepthTestState(enabled, GL::Less)
+		DepthState(bool enabled) 
+			: DepthState(enabled, GL::Less, true)
 		{
 		}
 
-		DepthTestState()
-			: DepthTestState(true)
+		DepthState()
+			: DepthState(true)
 		{
 		}
 
-		inline DepthTestState * clone() const override
+		inline DepthState * clone() const override
 		{
-			return new DepthTestState { enabled, comp };
+			return new DepthState { enabled, comp, mask };
 		}
 
-		const DepthTestState & operator()() const override;
+		const DepthState & operator()() const override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

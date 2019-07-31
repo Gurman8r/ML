@@ -26,10 +26,10 @@ namespace ml
 
 			// Setup States
 			static RenderStates states { {
-				new AlphaTestState	{ true, GL::Greater, 0.01f },
-				new BlendFuncState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-				new CullFaceState	{ true, GL::Back },
-				new DepthTestState	{ true, GL::Less }
+				new AlphaState	{ true, GL::Greater, 0.01f },
+				new BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+				new CullState	{ true, GL::Back },
+				new DepthState	{ true, GL::Less, true }
 			} };
 			states.apply();
 
@@ -38,7 +38,7 @@ namespace ml
 
 			return true;
 		}
-		return Debug::logError("Failed to Initialize GLEW");
+		return Debug::logError("Failed Initializing GLEW");
 	}
 
 	void RenderWindow::onEvent(const Event * value)

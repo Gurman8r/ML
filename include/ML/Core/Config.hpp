@@ -131,6 +131,7 @@
 #			pragma warning(disable: 4099) // PDB was not found
 #			pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
 #			pragma warning(disable: 4307) // integral constant overflow
+#			pragma warning(disable: 4309) // truncation of constant value
 #			pragma warning(disable: 4723) // potential divide by zero
 #		endif
 #	else

@@ -5,7 +5,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EventListener * EventSystem::addListener(const int32_t type, EventListener * listener)
+	I_EventListener * EventSystem::addListener(const int32_t type, I_EventListener * listener)
 	{
 		return ((listener)
 			? m_listeners.insert({ type, listener })->second
@@ -15,13 +15,13 @@ namespace ml
 	
 	bool EventSystem::fireEvent(const Event & ev)
 	{
-		if (ev > Event::EV_INVALID)
+		if (*ev > Event::EV_INVALID)
 		{
-			Pair<iterator, iterator> found = m_listeners.equal_range((int32_t)(ev));
+			Pair<iterator, iterator> found = m_listeners.equal_range(*ev);
 
 			for (iterator it = found.first; it != found.second; ++it)
 			{
-				it->second->onEvent(&ev);
+				it->second->onEvent(ev);
 			}
 
 			return true;
@@ -31,7 +31,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EventSystem::removeListener(const int32_t & type, EventListener * listener)
+	bool EventSystem::removeListener(const int32_t & type, I_EventListener * listener)
 	{
 		Pair<iterator, iterator> found = m_listeners.equal_range(type);
 
@@ -47,7 +47,7 @@ namespace ml
 		return false;
 	}
 	
-	bool EventSystem::removeListenerFromAllEvents(EventListener * listener)
+	bool EventSystem::removeListenerFromAllEvents(I_EventListener * listener)
 	{
 		bool allTheWayThrough = false;
 		while (!allTheWayThrough)

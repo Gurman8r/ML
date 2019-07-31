@@ -14,15 +14,15 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorPlugin::onEvent(const Event * value)
+	void EditorPlugin::onEvent(const Event & value)
 	{
 		// Handle base events
 		Plugin::onEvent(value);
 
 		switch (*value)
 		{
-		// Gui Event
-		case GuiEvent::ID: return this->onGui(*value->as<GuiEvent>());
+		case GuiEvent::ID: 
+			if (auto ev = value.as<GuiEvent>()) return this->onGui(*ev);
 		}
 	}
 

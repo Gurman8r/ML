@@ -26,12 +26,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void NetServer::onEvent(const Event * value)
+	void NetServer::onEvent(const Event & value)
 	{
 		switch (*value)
 		{
 		case NetworkEvent::EV_ServerRecievePacket:
-			if (auto ev = value->as<ServerRecievePacketEvent>())
+			if (auto ev = value.as<ServerRecievePacketEvent>())
 			{
 				Debug::log("SERVER -> {0}", ev->data);
 			}

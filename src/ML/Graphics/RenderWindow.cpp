@@ -41,7 +41,7 @@ namespace ml
 		return Debug::logError("Failed Initializing GLEW");
 	}
 
-	void RenderWindow::onEvent(const Event * value)
+	void RenderWindow::onEvent(const Event & value)
 	{
 		Window::onEvent(value);
 	}

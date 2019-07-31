@@ -3,7 +3,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/Event.hpp>
+#include <ML/Core/I_Event.hpp>
 #include <ML/Core/C_String.hpp>
 #include <ML/Window/KeyCode.hpp>
 #include <ML/Window/MouseButton.hpp>
@@ -96,7 +96,7 @@ namespace ml
 			bool alt	= false;
 			bool super	= false;
 
-			inline friend bool operator==(const Mods & lhs, const Mods & rhs)
+			constexpr friend bool operator==(const Mods & lhs, const Mods & rhs)
 			{
 				return
 					lhs.shift == rhs.shift &&

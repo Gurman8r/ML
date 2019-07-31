@@ -169,6 +169,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Input.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_Event.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Singleton.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
@@ -184,7 +185,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\I_Disposable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Enumerable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\I_EventListener.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Handle.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_NonCopyable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Readable.hpp" />
@@ -212,7 +213,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\Image.cpp" />

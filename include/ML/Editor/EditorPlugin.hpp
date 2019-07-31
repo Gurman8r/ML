@@ -17,7 +17,7 @@ namespace ml
 		
 		virtual ~EditorPlugin() {}
 
-		virtual void onEvent(const Event * value) override;
+		virtual void onEvent(const Event & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

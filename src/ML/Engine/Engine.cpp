@@ -26,7 +26,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Engine::Engine(EventSystem & eventSystem)	
-		: EventListener(eventSystem)
+		: I_EventListener(eventSystem)
 	{
 		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(LoadEvent::ID,			this);
@@ -44,26 +44,45 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Engine::onEvent(const Event * value)
+	void Engine::onEvent(const Event & value)
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID		:	return onEnter		(*value->as<EnterEvent>());
-		case LoadEvent::ID		:	return onLoad		(*value->as<LoadEvent>());
-		case StartEvent::ID		:	return onStart		(*value->as<StartEvent>());
-		case BeginFrameEvent::ID:	return onBeginFrame	(*value->as<BeginFrameEvent>());
-		case UpdateEvent::ID	:	return onUpdate		(*value->as<UpdateEvent>());
-		case BeginDrawEvent::ID	:	return onBeginDraw	(*value->as<BeginDrawEvent>());
-		case DrawEvent::ID		:	return onDraw		(*value->as<DrawEvent>());
-		case EndDrawEvent::ID	:	return onEndDraw	(*value->as<EndDrawEvent>());
-		case EndFrameEvent::ID	:	return onEndFrame	(*value->as<EndFrameEvent>());
-		case UnloadEvent::ID	:	return onUnload		(*value->as<UnloadEvent>());
-		case ExitEvent::ID		:	return onExit		(*value->as<ExitEvent>());
+		case EnterEvent::ID:
+			if (auto ev = value.as<EnterEvent>()) return onEnter(*ev);
+		
+		case LoadEvent::ID:
+			if (auto ev = value.as<LoadEvent>()) return onLoad(*ev);
+		
+		case StartEvent::ID:
+			if (auto ev = value.as<StartEvent>()) return onStart(*ev);
+		
+		case BeginFrameEvent::ID:
+			if (auto ev = value.as<BeginFrameEvent>()) return onBeginFrame(*ev);
+		
+		case UpdateEvent::ID:
+			if (auto ev = value.as<UpdateEvent>()) return onUpdate(*ev);
+		
+		case BeginDrawEvent::ID:
+			if (auto ev = value.as<BeginDrawEvent>()) return onBeginDraw(*ev);
+		
+		case DrawEvent::ID:
+			if (auto ev = value.as<DrawEvent>()) return onDraw(*ev);
+		
+		case EndDrawEvent::ID:
+			if (auto ev = value.as<EndDrawEvent>()) return onEndDraw(*ev);
+		
+		case EndFrameEvent::ID:
+			if (auto ev = value.as<EndFrameEvent>()) return onEndFrame(*ev);
+		
+		case UnloadEvent::ID:
+			if (auto ev = value.as<UnloadEvent>()) return onUnload(*ev);
 
-			// Command Event
-			/* * * * * * * * * * * * * * * * * * * * */
+		case ExitEvent::ID:
+			if (auto ev = value.as<ExitEvent>()) return onExit(*ev);
+
 		case CommandEvent::ID:
-			if (auto ev = value->as<CommandEvent>())
+			if (auto ev = value.as<CommandEvent>())
 			{
 				Var v;
 				if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())

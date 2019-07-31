@@ -21,7 +21,7 @@ namespace ml
 		~NetClient();
 
 	public:
-		void onEvent(const Event * value) override;
+		void onEvent(const Event & value) override;
 		
 		void onPacket(const Packet & value) override;
 

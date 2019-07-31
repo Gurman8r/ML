@@ -50,7 +50,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Noobs::onEvent(const Event * value)
+	void Noobs::onEvent(const Event & value)
 	{
 		// Handle base events
 		EditorPlugin::onEvent(value);
@@ -58,13 +58,13 @@ namespace ml
 		switch (*value)
 		{
 		case KeyEvent::ID:
-			if (auto ev = value->as<KeyEvent>())
+			if (auto ev = value.as<KeyEvent>())
 			{
 			}
 			break;
 
 		case MainMenuBarEvent::ID:
-			if (auto ev = value->as<MainMenuBarEvent>())
+			if (auto ev = value.as<MainMenuBarEvent>())
 			{
 				switch (ev->menu)
 				{
@@ -78,7 +78,7 @@ namespace ml
 			break;
 
 		case DockspaceEvent::ID:
-			if (auto ev = value->as<DockspaceEvent>())
+			if (auto ev = value.as<DockspaceEvent>())
 			{
 				EditorDockspace & d = ev->dockspace;
 				d.dockWindow("Scene##Noobs##DemoScene", d.getNode(d.LeftUp));

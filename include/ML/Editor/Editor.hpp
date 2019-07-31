@@ -1,7 +1,7 @@
 #ifndef _ML_EDITOR_HPP_
 #define _ML_EDITOR_HPP_
 
-#include <ML/Core/EventListener.hpp>
+#include <ML/Core/I_EventListener.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Editor/EditorTerminal.hpp>
 #include <ML/Editor/EditorExplorer.hpp>
@@ -17,14 +17,14 @@ namespace ml
 	class ML_EDITOR_API Editor final
 		: public I_Newable
 		, public I_NonCopyable
-		, public EventListener
+		, public I_EventListener
 	{
 	public:
 		explicit Editor(EventSystem & eventSystem);
 		
 		~Editor() {}
 
-		void onEvent(const Event * value) override;
+		void onEvent(const Event & value) override;
 
 	private:
 		void onEnter	(const EnterEvent & ev);

@@ -19,7 +19,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit PluginLoader(EventSystem & eventSystem);
-		~PluginLoader();
+		
+		~PluginLoader() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -41,7 +42,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		EventSystem &			m_eventSystem;
+		EventSystem &		m_eventSystem;
 		String					m_path;
 		List<String>			m_files;
 		List<SharedLibrary *>	m_libraries;

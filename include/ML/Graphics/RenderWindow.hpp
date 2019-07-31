@@ -20,7 +20,7 @@ namespace ml
 
 		bool setup() override;
 
-		virtual void onEvent(const Event * ev) override;
+		virtual void onEvent(const Event & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

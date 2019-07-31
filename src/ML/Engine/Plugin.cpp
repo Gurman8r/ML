@@ -6,7 +6,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Plugin::Plugin(EventSystem & eventSystem)
-		: EventListener { eventSystem }
+		: I_EventListener { eventSystem }
 	{
 		eventSystem.addListener(StartEvent::ID, this);
 		eventSystem.addListener(UpdateEvent::ID, this);
@@ -16,14 +16,21 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Plugin::onEvent(const Event * value)
+	void Plugin::onEvent(const Event & value)
 	{
 		switch (*value)
 		{
-		case StartEvent::ID:	return onStart	(*value->as<StartEvent>());
-		case UpdateEvent::ID:	return onUpdate	(*value->as<UpdateEvent>());
-		case DrawEvent::ID:		return onDraw	(*value->as<DrawEvent>());
-		case ExitEvent::ID:		return onExit	(*value->as<ExitEvent>());
+		case StartEvent::ID:
+			if (auto ev = value.as<StartEvent>()) return onStart(*ev);
+
+		case UpdateEvent::ID:
+			if (auto ev = value.as<UpdateEvent>()) return onUpdate(*ev);
+
+		case DrawEvent::ID:
+			if (auto ev = value.as<DrawEvent>()) return onDraw(*ev);
+
+		case ExitEvent::ID:
+			if (auto ev = value.as<ExitEvent>()) return onExit(*ev);
 		}
 	}
 

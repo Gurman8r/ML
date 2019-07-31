@@ -1,7 +1,7 @@
 #ifndef _ML_NETWORK_INTERFACE_HPP_
 #define _ML_NETWORK_INTERFACE_HPP_
 
-#include <ML/Core/EventListener.hpp>
+#include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Network/GUID.hpp>
@@ -32,7 +32,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetInterface
-		: public EventListener
+		: public I_EventListener
 		, public I_Disposable
 		, public I_NonCopyable
 	{
@@ -50,7 +50,7 @@ namespace ml
 		uint32_t send(const Host & host, const String & data, const SendSettings & settings);
 
 	public:
-		virtual void onEvent(const Event * ev) override = 0;
+		virtual void onEvent(const Event & value) override = 0;
 		virtual void onPacket(const Packet & value) = 0;
 
 	public:

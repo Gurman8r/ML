@@ -1,5 +1,5 @@
-#ifndef _ML_I_EVENT_HPP_
-#define _ML_I_EVENT_HPP_
+#ifndef _ML_EVENT_HPP_
+#define _ML_EVENT_HPP_
 
 #include <ML/Core/Export.hpp>
 #include <ML/Core/I_NonNewable.hpp>
@@ -29,16 +29,14 @@ namespace ml
 			MAX_EVENT_ID
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		constexpr Event(const int32_t id) 
 			: m_id(id) 
 		{
 		}
 
-		constexpr operator int32_t() const 
+		constexpr const int32_t & operator*() const
 		{ 
-			return m_id; 
+			return m_id;
 		}
 
 		template <class T> inline T * as()
@@ -59,21 +57,6 @@ namespace ml
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		int32_t EV_ID
-	> struct I_Event : public Event
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		enum : int32_t { ID = EV_ID };
-
-		constexpr I_Event() : Event(ID) {}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_I_EVENT_HPP_
+#endif // !_ML_EVENT_HPP_

@@ -1,7 +1,7 @@
 #ifndef _ML_EVENT_SYSTEM_HPP_
 #define _ML_EVENT_SYSTEM_HPP_
 
-#include <ML/Core/EventListener.hpp>
+#include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/I_Newable.hpp>
 
 namespace ml
@@ -18,7 +18,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using map_type = typename MultiMap<int32_t, EventListener *>;
+		using map_type = typename MultiMap<int32_t, I_EventListener *>;
 		using iterator = typename map_type::iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -28,13 +28,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		EventListener * addListener(const int32_t type, EventListener * listener);
+		I_EventListener * addListener(const int32_t type, I_EventListener * listener);
 		bool fireEvent(const Event & ev);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool removeListener(const int32_t & type, EventListener * listener);
-		bool removeListenerFromAllEvents(EventListener * listener);
+		bool removeListener(const int32_t & type, I_EventListener * listener);
+		bool removeListenerFromAllEvents(I_EventListener * listener);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

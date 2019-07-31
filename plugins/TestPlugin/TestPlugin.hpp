@@ -3,44 +3,38 @@
 
 #include <ML/Editor/EditorPlugin.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 extern "C"
 {
 	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace DEMO
+namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_PLUGIN_API TestPlugin final : public ml::EditorPlugin
+	struct ML_PLUGIN_API TestPlugin final : public EditorPlugin
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit TestPlugin(ml::EventSystem & eventSystem);
+		explicit TestPlugin(EventSystem & eventSystem);
 		
 		~TestPlugin() {}
 
-		void onEvent(const ml::Event * value) override;
+		void onEvent(const Event & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		void onStart	(const ml::StartEvent	& ev) override;
-		void onUpdate	(const ml::UpdateEvent	& ev) override;
-		void onDraw		(const ml::DrawEvent	& ev) override;
-		void onGui		(const ml::GuiEvent		& ev) override;
-		void onExit		(const ml::ExitEvent	& ev) override;
+		void onStart	(const StartEvent	& ev) override;
+		void onUpdate	(const UpdateEvent	& ev) override;
+		void onDraw		(const DrawEvent	& ev) override;
+		void onGui		(const GuiEvent		& ev) override;
+		void onExit		(const ExitEvent	& ev) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_TEST_PLUGIN_HPP_

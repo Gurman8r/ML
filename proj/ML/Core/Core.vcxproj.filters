@@ -144,15 +144,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -171,6 +162,18 @@
     <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_EventListener.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\I_Event.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Event.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Image.cpp">
@@ -185,13 +188,10 @@
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp">
+    <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>

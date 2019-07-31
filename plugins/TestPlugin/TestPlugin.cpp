@@ -14,48 +14,48 @@
 
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
-	return new DEMO::TestPlugin(eventSystem);
+	return new ml::TestPlugin { eventSystem };
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-namespace DEMO
+namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	TestPlugin::TestPlugin(ml::EventSystem & eventSystem)
-		: EditorPlugin(eventSystem)
+	TestPlugin::TestPlugin(EventSystem & eventSystem)
+		: EditorPlugin { eventSystem }
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void TestPlugin::onEvent(const ml::Event * value)
+	void TestPlugin::onEvent(const Event & value)
 	{
 		// Handle base events
-		ml::EditorPlugin::onEvent(value);
+		EditorPlugin::onEvent(value);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void TestPlugin::onStart(const ml::StartEvent & ev)
+	void TestPlugin::onStart(const StartEvent & ev)
 	{
-		ml::Debug::log("Hello from \'{0}\'", (*this));
+		Debug::log("Hello from \'{0}\'", (*this));
 	}
 
-	void TestPlugin::onUpdate(const ml::UpdateEvent	& ev)
-	{
-	}
-
-	void TestPlugin::onDraw(const ml::DrawEvent	& ev)
+	void TestPlugin::onUpdate(const UpdateEvent	& ev)
 	{
 	}
 
-	void TestPlugin::onGui(const ml::GuiEvent & ev)
+	void TestPlugin::onDraw(const DrawEvent	& ev)
 	{
 	}
 
-	void TestPlugin::onExit(const ml::ExitEvent	& ev)
+	void TestPlugin::onGui(const GuiEvent & ev)
+	{
+	}
+
+	void TestPlugin::onExit(const ExitEvent	& ev)
 	{
 	}
 

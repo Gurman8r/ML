@@ -15,11 +15,6 @@ namespace ml
 	{
 	}
 
-	PluginLoader::~PluginLoader()
-	{
-		dispose();
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool PluginLoader::dispose()

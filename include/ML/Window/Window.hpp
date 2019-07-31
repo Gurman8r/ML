@@ -1,7 +1,7 @@
 #ifndef _ML_WINDOW_HPP_
 #define _ML_WINDOW_HPP_
 
-#include <ML/Core/EventListener.hpp>
+#include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/Image.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
@@ -15,7 +15,7 @@ namespace ml
 	class ML_WINDOW_API Window
 		: public I_Newable
 		, public I_NonCopyable
-		, public EventListener
+		, public I_EventListener
 	{
 	public: // Callback Types
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -50,7 +50,7 @@ namespace ml
 
 		virtual bool setup();
 
-		virtual void onEvent(const Event * ev) override;
+		virtual void onEvent(const Event & value) override;
 
 
 	public: // Modifiers

@@ -17,7 +17,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(EventSystem & eventSystem)
-		: EventListener	{ eventSystem }
+		: I_EventListener	{ eventSystem }
 		, m_browser		{ *this }
 		, m_content		{ *this }
 		, m_dockspace	{ *this }
@@ -45,20 +45,29 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor::onEvent(const Event * value)
+	void Editor::onEvent(const Event & value)
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID:	return onEnter(*value->as<EnterEvent>());
-		case ExitEvent::ID:		return onExit(*value->as<ExitEvent>());
-		case BeginGuiEvent::ID:	return onBeginGui(*value->as<BeginGuiEvent>());
-		case GuiEvent::ID:		return onGui(*value->as<GuiEvent>());
-		case EndGuiEvent::ID:	return onEndGui(*value->as<EndGuiEvent>());
+		case EnterEvent::ID:
+			if (auto ev = value.as<EnterEvent>()) return onEnter(*ev);
 
-			// Build Dockspace
+		case ExitEvent::ID:
+			if (auto ev = value.as<ExitEvent>()) return onExit(*ev);
+
+		case BeginGuiEvent::ID:	
+			if (auto ev = value.as<BeginGuiEvent>()) return onBeginGui(*ev);
+
+		case GuiEvent::ID:
+			if (auto ev = value.as<GuiEvent>()) return onGui(*ev);
+
+		case EndGuiEvent::ID:
+			if (auto ev = value.as<EndGuiEvent>()) return onEndGui(*ev);
+
+			// Dockspace
 			/* * * * * * * * * * * * * * * * * * * * */
 		case DockspaceEvent::ID:
-			if (auto ev = value->as<DockspaceEvent>())
+			if (auto ev = value.as<DockspaceEvent>())
 			{
 				EditorDockspace & d { ev->dockspace };
 				d.dockWindow(m_browser	.getTitle(), d.getNode(d.RightUp));
@@ -72,7 +81,7 @@ namespace ml
 			// Key
 			/* * * * * * * * * * * * * * * * * * * * */
 		case KeyEvent::ID:
-			if (auto ev = value->as<KeyEvent>())
+			if (auto ev = value.as<KeyEvent>())
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -127,13 +136,13 @@ namespace ml
 			// File -> New
 			/* * * * * * * * * * * * * * * * * * * * */
 		case File_New_Event::ID:
-			if (auto ev = value->as<File_New_Event>()) {}
+			if (auto ev = value.as<File_New_Event>()) {}
 			break;
 
 			// File -> Open
 			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Open_Event::ID:
-			if (auto ev = value->as<File_Open_Event>())
+			if (auto ev = value.as<File_Open_Event>())
 			{
 				if (m_browser.isOpen()) OS::execute("open", m_browser.get_selected_path());
 			}
@@ -142,13 +151,13 @@ namespace ml
 			// File -> Save
 			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Save_Event::ID:
-			if (auto ev = value->as<File_Save_Event>()) {}
+			if (auto ev = value.as<File_Save_Event>()) {}
 			break;
 
 			// File -> Exit
 			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Quit_Event::ID:
-			if (auto ev = value->as<File_Quit_Event>()) 
+			if (auto ev = value.as<File_Quit_Event>()) 
 				eventSystem().fireEvent(WindowKillEvent());
 			break;
 
@@ -156,31 +165,31 @@ namespace ml
 			// Edit -> Undo
 			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Undo_Event::ID:
-			if (auto ev = value->as<Edit_Undo_Event>()) {}
+			if (auto ev = value.as<Edit_Undo_Event>()) {}
 			break;
 
 			// Edit -> Redo
 			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Redo_Event::ID:
-			if (auto ev = value->as<Edit_Redo_Event>()) {}
+			if (auto ev = value.as<Edit_Redo_Event>()) {}
 			break;
 
 			// Edit -> Cut
 			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Cut_Event::ID:
-			if (auto ev = value->as<Edit_Cut_Event>()) {}
+			if (auto ev = value.as<Edit_Cut_Event>()) {}
 			break;
 
 			// Edit -> Copy
 			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Copy_Event::ID:
-			if (auto ev = value->as<Edit_Copy_Event>()) {}
+			if (auto ev = value.as<Edit_Copy_Event>()) {}
 			break;
 
 			// Edit -> Paste
 			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Paste_Event::ID: 
-			if (auto ev = value->as<Edit_Paste_Event>()) {}
+			if (auto ev = value.as<Edit_Paste_Event>()) {}
 			break;
 		}
 	}

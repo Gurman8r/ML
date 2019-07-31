@@ -21,12 +21,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	void NetClient::onEvent(const Event * value)
+	void NetClient::onEvent(const Event & value)
 	{
 		switch (*value)
 		{
 		case NetworkEvent::EV_ClientRecievePacket:
-			if (auto ev = value->as<ClientRecievePacketEvent>())
+			if (auto ev = value.as<ClientRecievePacketEvent>())
 			{
 				Debug::log("CLIENT -> {0}", ev->data);
 			}

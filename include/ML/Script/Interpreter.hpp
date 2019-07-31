@@ -1,7 +1,7 @@
 #ifndef _ML_INTERPRETER_HPP_
 #define _ML_INTERPRETER_HPP_
 
-#include <ML/Core/EventListener.hpp>
+#include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Script/Lexer.hpp>
 #include <ML/Script/Parser.hpp>

@@ -31,7 +31,7 @@ namespace ml
 		
 		~Noobs() {}
 
-		void onEvent(const Event * value) override;
+		void onEvent(const Event & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -49,14 +49,10 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			Asset<Model>	model;
-			Asset<Material> material;
+			Asset<Model>	model		{ "default_skybox" };
+			Asset<Material> material	{ "skybox" };
 
-			DemoSkybox()
-				: model		{ "default_skybox" }
-				, material	{ "skybox" }
-			{
-			}
+			DemoSkybox() = default;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} m_skybox;
@@ -86,9 +82,9 @@ namespace ml
 				class Fun, class ... Args
 			> inline void render_to(size_t i, Fun && fun, Args && ... args)
 			{
-				if (auto & elem { (*this)[i] })
+				if (Surface * surf { (*this)[i] })
 				{
-					elem->render_to(fun, std::forward<Args>(args)...);
+					surf->render_to(fun, std::forward<Args>(args)...);
 				}
 			}
 

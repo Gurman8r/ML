@@ -3,7 +3,7 @@
 
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Asset.hpp>
-#include <ML/Core/EventListener.hpp>
+#include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/Matrix.hpp>
 
 namespace ml
@@ -18,14 +18,14 @@ namespace ml
 	class ML_ENGINE_API Engine final
 		: public I_Newable
 		, public I_NonCopyable
-		, public EventListener
+		, public I_EventListener
 	{
 	public:
 		explicit Engine(EventSystem & eventSystem);
 		
 		~Engine() {}
 
-		void onEvent(const Event * value) override;
+		void onEvent(const Event & value) override;
 
 	private:
 		void onEnter		(const EnterEvent & ev);

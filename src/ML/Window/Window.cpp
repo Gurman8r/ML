@@ -41,7 +41,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::Window(EventSystem & eventSystem)
-		: EventListener	(eventSystem)
+		: I_EventListener	(eventSystem)
 		, m_window		(nullptr)
 		, m_monitor		(nullptr)
 		, m_share		(nullptr)
@@ -237,57 +237,57 @@ namespace ml
 		return true;
 	}
 
-	void Window::onEvent(const Event * value)
+	void Window::onEvent(const Event & value)
 	{
 		switch (*value)
 		{
 		case CharEvent::ID:
-			if (auto ev = value->as<CharEvent>())
+			if (auto ev = value.as<CharEvent>())
 			{
 				m_char = (char)ev->value;
 			}
 			break;
 		case CursorEnterEvent::ID:
-			if (auto ev = value->as<CursorEnterEvent>()) {}
+			if (auto ev = value.as<CursorEnterEvent>()) {}
 			break;
 		case CursorPosEvent::ID:
-			if (auto ev = value->as<CursorPosEvent>()) {}
+			if (auto ev = value.as<CursorPosEvent>()) {}
 			break;
 		case FrameSizeEvent::ID:
-			if (auto ev = value->as<FrameSizeEvent>()) {}
+			if (auto ev = value.as<FrameSizeEvent>()) {}
 			break;
 		case KeyEvent::ID:
-			if (auto ev = value->as<KeyEvent>()) {}
+			if (auto ev = value.as<KeyEvent>()) {}
 			break;
 		case MouseButtonEvent::ID:
-			if (auto ev = value->as<MouseButtonEvent>()) {}
+			if (auto ev = value.as<MouseButtonEvent>()) {}
 			break;
 		case ScrollEvent::ID:
-			if (auto ev = value->as<ScrollEvent>()) {}
+			if (auto ev = value.as<ScrollEvent>()) {}
 			break;
 		case WindowCloseEvent::ID:
-			if (auto ev = value->as<WindowCloseEvent>()) {}
+			if (auto ev = value.as<WindowCloseEvent>()) {}
 			break;
 		case WindowErrorEvent::ID:
-			if (auto ev = value->as<WindowErrorEvent>())
+			if (auto ev = value.as<WindowErrorEvent>())
 			{
 				Debug::logError("GLFW Error {0}: \'{1}\'", ev->code, ev->desc);
 			}
 			break;
 		case WindowFocusEvent::ID:
-			if (auto ev = value->as<WindowFocusEvent>()) {}
+			if (auto ev = value.as<WindowFocusEvent>()) {}
 			break;
 		case WindowKillEvent::ID:
-			if (auto ev = value->as<WindowKillEvent>()) 
+			if (auto ev = value.as<WindowKillEvent>()) 
 			{
 				this->close();
 			}
 			break;
 		case WindowPosEvent::ID:
-			if (auto ev = value->as<WindowPosEvent>()) {}
+			if (auto ev = value.as<WindowPosEvent>()) {}
 			break;
 		case WindowSizeEvent::ID:
-			if (auto ev = value->as<WindowSizeEvent>())
+			if (auto ev = value.as<WindowSizeEvent>())
 			{
 				m_video.resolution = { (uint32_t)ev->width, (uint32_t)ev->height };
 			}

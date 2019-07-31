@@ -24,20 +24,20 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T 
+		class T, class TT = detail::decay_t<T>
 	> static inline void draw_content(const String & label)
 	{
 		if (!ImGui::CollapsingHeader(label.c_str()))
 			return;
 
 		ImGui::BeginGroup();
-		for (auto & pair : ML_Content.data<T>())
+		for (auto & pair : ML_Content.data<TT>())
 		{
-			if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<T>::tag).c_str()))
+			if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<TT>::tag).c_str()))
 			{
 				if (pair.second)
 				{
-					PropertyDrawer<T>()(pair.first, (T &)(*(pair.second)));
+					PropertyDrawer<TT>()(pair.first, (T)*pair.second);
 				}
 				ImGui::TreePop();
 			}
@@ -53,9 +53,7 @@ namespace ml
 	{
 	}
 
-	ResourceGui::~ResourceGui()
-	{
-	}
+	ResourceGui::~ResourceGui() {}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -63,17 +61,17 @@ namespace ml
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			draw_content<Entity>	("Entities");
-			draw_content<Font>		("Fonts");
-			draw_content<Image>		("Images");
-			draw_content<Material>	("Materials");
-			draw_content<Mesh>		("Meshes");
-			draw_content<Model>		("Models");
-			draw_content<Shader>	("Shaders");
-			draw_content<Script>	("Scripts");
-			draw_content<Sprite>	("Sprites");
-			draw_content<Surface>	("Surfaces");
-			draw_content<Texture>	("Textures");
+			draw_content<Entity		&>("Entities");
+			draw_content<Font		&>("Fonts");
+			draw_content<Image		&>("Images");
+			draw_content<Material	&>("Materials");
+			draw_content<Mesh		&>("Meshes");
+			draw_content<Model		&>("Models");
+			draw_content<Shader		&>("Shaders");
+			draw_content<Script		&>("Scripts");
+			draw_content<Sprite		&>("Sprites");
+			draw_content<Surface	&>("Surfaces");
+			draw_content<Texture	&>("Textures");
 		}
 		return endDraw();
 	}

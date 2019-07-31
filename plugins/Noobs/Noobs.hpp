@@ -42,90 +42,225 @@ namespace ml
 		void onGui		(const GuiEvent		& ev) override;
 		void onExit		(const ExitEvent	& ev) override;
 
+
+		// DEMO SKYBOX
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		// Surfaces
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		enum
+		struct DemoSkybox final : public I_Newable, public I_NonCopyable
 		{
-			Surf_Main, Surf_Post,
+			/* * * * * * * * * * * * * * * * * * * * */
 
-			MAX_SURFACE
-		};
-		Array<Asset<Surface>, MAX_SURFACE> surf
-		{
-			Asset<Surface> { "surf_scene_main" },
-			Asset<Surface> { "surf_scene_post" },
-		};
+			Asset<Model>	model;
+			Asset<Material> material;
 
-		// Demo Skybox
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoSkybox
-		{
-			Asset<Model>	model		{ "default_skybox" };
-			Asset<Material> material	{ "skybox" };
-
-			inline operator bool() const 
-			{ 
-				return model && material; 
+			DemoSkybox()
+				: model		{ "default_skybox" }
+				, material	{ "skybox" }
+			{
 			}
 
-		} skybox;
+			/* * * * * * * * * * * * * * * * * * * * */
+		} m_skybox;
 
-		// Demo Scene
+
+		// DEMO PIPELINE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoScene
+		enum : size_t
 		{
-			bool		is_open		{ true };
-			bool		autoView	{ true };
-			vec4		clearColor	{ Color::black };
-			vec2		viewport	{ 1920, 1080 };
-			uni_int		effectMode	{ "u_effectMode", 3 };
-			uni_mat3	kernel		{ "u_kernel", { 0, 0, 0, 0, 1, 0, 0, 0, 0 } };
-
-			void Render(C_String title, const Surface * surf);
-
-		} scene;
-
-		// Demo Editor
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoEditor
+			Surf_Main, Surf_Post,
+			MAX_DEMO_SURFACE
+		};
+		struct DemoPipeline final : public I_NonCopyable, public Array<
+			Asset<Surface>, MAX_DEMO_SURFACE
+		>
 		{
-			struct SourceFile : public I_NonCopyable
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			DemoPipeline() : Array {
+				Asset<Surface> { "surf_scene_main" },
+				Asset<Surface> { "surf_scene_post" },
+			}
 			{
-				using TextEdit = typename ImGui::TextEditor;
+			}
 
-				enum { MaxName = 32 };
-
-				TextEdit	text;
-				String		name;
-				bool		open;
-				bool		dirty;
-
-				SourceFile(const String & name, const String & data)
-					: name(name), open(true), dirty(false)
+			template <
+				class Fun, class ... Args
+			> inline void render_to(size_t i, Fun && fun, Args && ... args)
+			{
+				if (auto & elem { (*this)[i] })
 				{
-					text.SetText(data);
-					text.SetLanguageDefinition(TextEdit::LanguageDefinition::GLSL());
+					elem->render_to(fun, std::forward<Args>(args)...);
 				}
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} m_pipeline;
+
+
+		// DEMO SCENE
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct DemoScene final : public I_Newable, public I_NonCopyable
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			DemoScene() 
+				: m_open		{ true }
+				, m_autoView	{ true }
+				, m_clearColor	{ Color::black }
+				, m_viewport	{ 1920, 1080 }
+				, m_effectMode	{ "u_effectMode", 3 }
+				, m_kernel		{ "u_kernel", { 0, 0, 0, 0, 1, 0, 0, 0, 0 } }
+			{
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			void render(const GuiEvent & ev, C_String title, const Surface * surf);
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			inline auto is_open()		-> bool &		{ return m_open; }
+			inline auto autoView()		-> bool	&		{ return m_autoView; }
+			inline auto clearColor()	-> vec4	&		{ return m_clearColor; }
+			inline auto viewport()		-> vec2	&		{ return m_viewport; }
+			inline auto effectMode()	-> uni_int	&	{ return m_effectMode; }
+			inline auto kernel()		-> uni_mat3	&	{ return m_kernel; }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+		private:
+			bool		m_open;
+			bool		m_autoView;
+			vec4		m_clearColor;
+			vec2		m_viewport;
+			uni_int		m_effectMode;
+			uni_mat3	m_kernel;
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} m_scene;
+
+
+		// DEMO FILE
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct DemoFile final : public I_Newable, public I_NonCopyable
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			enum Type : size_t
+			{
+				Conf, Vert, Frag, Geom, 
+				MAX_DEMO_FILE_TYPE
 			};
 
-			using FileList = typename List<SourceFile *>;
+			static constexpr C_String Names[MAX_DEMO_FILE_TYPE] = {
+				"Config",
+				"Vertex",
+				"Fragment",
+				"Geometry",
+			};
 
-			bool			is_open		{ true };
-			Asset<Material> material	{ "noobs" };
-			Asset<Model>	model		{ "sphere32x24"	};
-			Asset<Entity>	entity		{ "noobs" };
-			Renderer *		renderer	{ nullptr };
-			FileList		files		{};
+			static constexpr C_String Tags[MAX_DEMO_FILE_TYPE] = {
+				"",
+				"#shader vertex",
+				"#shader fragment",
+				"#shader geometry",
+			};
 
-			void Render(C_String title);
+			static constexpr C_String Incl[MAX_DEMO_FILE_TYPE] = {
+				"",
+				"#include \"Vertex\"",
+				"#include \"Fragment\"",
+				"#include \"Geometry\"",
+			};
 
-			String	parseFiles(const FileList & file_list, const String & src) const;
-			void	generateFiles();
-			void	disposeFiles();
+			/* * * * * * * * * * * * * * * * * * * * */
 
-		} editor;
+			using TextEditor = ImGui::TextEditor;
+
+			const Type	type;
+			TextEditor	text;
+			String		name;
+			bool		open;
+			bool		dirty;
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			DemoFile(Type type, const String & name, const String & data)
+				: type	{ type }
+				, text	{ data, TextEditor::LanguageDefinition::GLSL() }
+				, name	{ name }
+				, open	{ false }
+				, dirty { false }
+			{
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			void render(const GuiEvent & ev);
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		};
+
+
+		// DEMO EDITOR
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct DemoEditor final : public I_Newable, public I_NonCopyable
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			using File_List = typename Array<DemoFile *, DemoFile::MAX_DEMO_FILE_TYPE>;
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			DemoEditor() 
+				: m_open	{ true }
+				, m_material{ "demo_material" }
+				, m_entity	{ "demo_entity" }
+				, m_model	{ "sphere32x24" }
+				, m_renderer{ nullptr }
+				, m_files	{ nullptr }
+			{
+			}
+
+			~DemoEditor() 
+			{ 
+				for (size_t i = 0; i < m_files.size(); i++)
+				{
+					if (m_files[i])
+					{
+						delete m_files[i];
+					}
+				}
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			void	render(const GuiEvent & ev, C_String title);
+			void	generate_sources();
+			bool	compile_sources();
+			void	reset_sources();
+			String	parse_sources(const String & source) const;
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			inline auto is_open()	-> bool &				{ return m_open; }
+			inline auto material()	-> Asset<Material> &	{ return m_material; }
+			inline auto model()		-> Asset<Model> &		{ return m_model; }
+			inline auto shader()	-> const Shader *&		{ return m_material->shader(); }
+			inline auto entity()	-> Asset<Entity> &		{ return m_entity; }
+			inline auto renderer()	-> Renderer *&			{ return m_renderer; }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+		private:
+			bool			m_open;
+			Asset<Material> m_material;
+			Asset<Model>	m_model;
+			Asset<Entity>	m_entity;
+			Renderer *		m_renderer;
+			File_List		m_files;
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} m_editor;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

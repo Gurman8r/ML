@@ -124,7 +124,7 @@ namespace ml
 					};
 
 					// Default Uniforms
-					if (md.getData("defaults", false))
+					if (md.getData("defaults", true))
 					{
 						if (auto u = ML_Content.get<uni_vec2_ptr>("CURSOR_POS"))
 							temp->add(u->clone());
@@ -146,10 +146,10 @@ namespace ml
 					}
 
 					// Load Uniforms
+					using TexTree = Tree<String, Texture *>;
 					if (!temp->loadFromFile(
-						md.getData("uniforms").asString(),
-						reinterpret_cast<const Tree<String, Texture *> *>(
-							&ML_Content.data<Texture>())
+						md.getData("file").asString(),
+						reinterpret_cast<const TexTree *>(&ML_Content.data<Texture>())
 					))
 					{
 						/* error */

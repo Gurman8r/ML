@@ -26,10 +26,10 @@ namespace ml
 
 			// Setup States
 			static RenderStates states { {
-				new AlphaTest	{ true, GL::Greater, 0.01f },
-				new BlendFunc	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-				new CullFace	{ true, GL::Back },
-				new DepthTest	{ true, GL::Less }
+				new AlphaTestState	{ true, GL::Greater, 0.01f },
+				new BlendFuncState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+				new CullFaceState	{ true, GL::Back },
+				new DepthTestState	{ true, GL::Less }
 			} };
 			states.apply();
 

@@ -15,7 +15,6 @@ namespace ml
 				{
 					// Delete the asset
 					delete asset_data.second;
-					asset_data.second = nullptr;
 				}
 			}
 			asset_types.second.clear();
@@ -29,7 +28,7 @@ namespace ml
 		typeid_map::iterator it;
 		return (((it = m_data.find(index)) != m_data.end())
 			? it->second
-			: m_data.insert({ index, object_map() }).first->second
+			: m_data.insert({ index, {} }).first->second
 		);
 	}
 
@@ -38,7 +37,7 @@ namespace ml
 		typeid_map::const_iterator it;
 		return (((it = m_data.find(index)) != m_data.cend())
 			? it->second
-			: m_data.insert({ index, object_map() }).first->second
+			: m_data.insert({ index, {} }).first->second
 		);
 	}
 

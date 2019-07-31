@@ -22,7 +22,7 @@ namespace ml
 	{
 	}
 
-	Material::Material(const Shader * shader, const List<Uni *> & uniforms)
+	Material::Material(const Shader * shader, const base_type & uniforms)
 		: m_shader	(shader)
 		, m_uniforms(uniforms)
 	{

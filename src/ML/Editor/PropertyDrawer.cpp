@@ -24,14 +24,14 @@ namespace ml
 		class T
 	> static inline bool asset_dropdown(const String & label, const T *& value)
 	{
-		int32_t index = ML_Content.getIndexOf<T>(value);
+		int32_t index = ML_Content.get_index_of<T>(value);
 		if (ML_EditorUtility.StringCombo(
 			label.c_str(),
 			index,
-			ML_Content.getKeys<T>()
+			ML_Content.get_keys<T>()
 		))
 		{
-			return (value = ML_Content.getByIndex<T>(index));
+			return (value = ML_Content.find_by_index<T>(index));
 		}
 		return false;
 	}
@@ -82,7 +82,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Alpha Testing"))
 				{
-					if (AlphaTest * alphaTest = states.get<AlphaTest>())
+					if (AlphaTestState * alphaTest = states.get<AlphaTestState>())
 					{
 						ImGui::Checkbox("##Enabled##Alpha Testing", &alphaTest->enabled);
 
@@ -106,7 +106,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Blend Function"))
 				{
-					if (BlendFunc * blendFunc = states.get<BlendFunc>())
+					if (BlendFuncState * blendFunc = states.get<BlendFuncState>())
 					{
 						ImGui::Checkbox("Enabled##Blending", &blendFunc->enabled);
 
@@ -151,7 +151,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Cull Face"))
 				{
-					if (CullFace * cullFace = states.get<CullFace>())
+					if (CullFaceState * cullFace = states.get<CullFaceState>())
 					{
 						ImGui::Checkbox("Enabled##Culling", &cullFace->enabled);
 
@@ -173,7 +173,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Depth Testing"))
 				{
-					if (DepthTest * depthTest = states.get<DepthTest>())
+					if (DepthTestState * depthTest = states.get<DepthTestState>())
 					{
 						ImGui::Checkbox("Enabled##Depth Testing", &depthTest->enabled);
 
@@ -448,9 +448,9 @@ namespace ml
 				}
 			};
 
-			draw_source_tab(label, "Vertex", value.vertSrc());
-			draw_source_tab(label, "Fragment", value.fragSrc());
-			draw_source_tab(label, "Geometry", value.geomSrc());
+			draw_source_tab(label, "Vertex", value.sources().vs);
+			draw_source_tab(label, "Fragment", value.sources().fs);
+			draw_source_tab(label, "Geometry", value.sources().gs);
 
 			ImGui::EndTabBar();
 

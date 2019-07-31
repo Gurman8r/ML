@@ -10,6 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// just a wrapper for INIReader
 	struct ML_ENGINE_API Preferences final
 		: public I_Newable
 		, public I_Disposable

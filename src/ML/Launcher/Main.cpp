@@ -69,7 +69,14 @@ int32_t test_lua()
 {
 	Metadata md;
 
+	const String src {
+		"\n"
+	};
+
 	lua_State * L = luaL_newstate();
+	if (luaL_dostring(L, src.c_str()) == LUA_OK)
+	{
+	}
 	lua_close(L);
 	
 	return EXIT_SUCCESS;

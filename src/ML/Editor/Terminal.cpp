@@ -204,7 +204,7 @@ namespace ml
 				break;
 			}
 		}
-		m_history.push_back(strdup(value));
+		m_history.push_back(_strdup(value));
 
 		if (!std::strcmp(value, "clear"))
 		{

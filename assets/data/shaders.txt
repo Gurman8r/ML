@@ -66,9 +66,9 @@
 
 <import>
 	type = shader
-	name = noobs
-	vert = ../../../assets/shaders/noobs/noobs.vs.shader
-	frag = ../../../assets/shaders/noobs/noobs.fs.shader
+	name = demo_shader
+	vert = ../../../assets/shaders/demo.vs.shader
+	frag = ../../../assets/shaders/demo.fs.shader
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

@@ -186,12 +186,13 @@ namespace ml
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
+		// Initialize Implementation Instance
 		ML_ImGui_Impl;
 
 		// Setup Style
 		/* * * * * * * * * * * * * * * * * * * * */
 		const String styleFile = ev.prefs.GetString(
-			"Editor", "styleFile", "Classic"
+			"Editor", "style_file", "Classic"
 		);
 		if (styleFile == "Classic")  ImGui::StyleColorsClassic();
 		else if (styleFile == "Dark") ImGui::StyleColorsDark();
@@ -203,10 +204,10 @@ namespace ml
 
 		// Setup Fonts
 		/* * * * * * * * * * * * * * * * * * * * */
-		String fontFile = ev.prefs.GetString("Editor", "fontFile", "");
+		String fontFile = ev.prefs.GetString("Editor", "font_file", "");
 		if (fontFile)
 		{
-			float_t fontSize = ev.prefs.GetFloat("Editor", "fontSize", 12.0f);
+			float_t fontSize = ev.prefs.GetFloat("Editor", "font_size", 12.0f);
 			if (fontSize > 0.0f)
 			{
 				ImGui::GetIO().Fonts->AddFontFromFileTTF(
@@ -215,21 +216,28 @@ namespace ml
 			}
 		}
 
-		// Setup Ini File
+		// Setup ImGui Ini File
 		/* * * * * * * * * * * * * * * * * * * * */
-		C_String imguiIni = ev.prefs.GetBool("Editor", "useImguiIni", false)
+		C_String imgui_ini { ev.prefs.GetBool("Editor", "use_imgui_ini", false)
 			? "imgui.ini"
-			: nullptr;
+			: nullptr
+		};
 
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_ImGui_Impl.Startup("#version 410", &ev.window, true, imguiIni))
+		if (!ML_ImGui_Impl.Startup("#version 410", &ev.window, true, imgui_ini))
 		{
 			return Debug::fatal("Failed starting ImGui instance");
 		}
 
 		// Capture Cout
 		m_terminal.redirect(cout);
+
+		// Configure Builtin Windows
+		m_browser	.setOpen(ev.prefs.GetBool("Editor", "show_browser", false));
+		m_profiler	.setOpen(ev.prefs.GetBool("Editor", "show_profiler", false));
+		m_resources	.setOpen(ev.prefs.GetBool("Editor", "show_resources", false));
+		m_terminal	.setOpen(ev.prefs.GetBool("Editor", "show_terminal", false));
 	}
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)

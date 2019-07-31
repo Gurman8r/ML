@@ -65,7 +65,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const AlphaTest & AlphaTest::operator()() const
+	const AlphaTestState & AlphaTestState::operator()() const
 	{
 		if (!this->enabled)
 		{
@@ -80,7 +80,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const BlendFunc & BlendFunc::operator()() const
+	const BlendFuncState & BlendFuncState::operator()() const
 	{
 		if (!this->enabled)
 		{
@@ -98,7 +98,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const CullFace & CullFace::operator()() const
+	const CullFaceState & CullFaceState::operator()() const
 	{
 		if (!this->enabled)
 		{
@@ -113,7 +113,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const DepthMask & DepthMask::operator()() const
+	const DepthMaskState & DepthMaskState::operator()() const
 	{
 		ML_GL.depthMask(this->enabled);
 		return (*this);
@@ -121,7 +121,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const DepthTest & DepthTest::operator()() const
+	const DepthTestState & DepthTestState::operator()() const
 	{
 		if (!this->enabled)
 		{
@@ -136,7 +136,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const PolygonMode & PolygonMode::operator()() const
+	const PolygonModeState & PolygonModeState::operator()() const
 	{
 		if (this->enabled)
 		{
@@ -147,7 +147,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const ScissorTest & ScissorTest::operator()() const
+	const ScissorTestState & ScissorTestState::operator()() const
 	{
 		if (!this->enabled)
 		{

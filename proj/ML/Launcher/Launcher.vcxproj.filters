@@ -99,14 +99,14 @@
     <None Include="..\..\..\assets\materials\skybox.mat">
       <Filter>Resource Files\assets\materials</Filter>
     </None>
-    <None Include="..\..\..\assets\materials\noobs.mat">
+    <None Include="..\..\..\assets\materials\demo.mat">
       <Filter>Resource Files\assets\materials</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\noobs\noobs.fs.shader">
-      <Filter>Resource Files\assets\shaders\noobs</Filter>
+    <None Include="..\..\..\assets\shaders\demo.fs.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\noobs\noobs.vs.shader">
-      <Filter>Resource Files\assets\shaders\noobs</Filter>
+    <None Include="..\..\..\assets\shaders\demo.vs.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -157,9 +157,6 @@
     </Filter>
     <Filter Include="Resource Files\assets\textures\bg">
       <UniqueIdentifier>{53ec33e9-d7e1-4841-a236-b1b1332f8b4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\assets\shaders\noobs">
-      <UniqueIdentifier>{555fac42-a59a-4a5c-9fd4-7d4f619ad609}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\assets\materials">
       <UniqueIdentifier>{75c6a844-e16f-40ba-b612-ecc0cc0cc7c4}</UniqueIdentifier>

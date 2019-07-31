@@ -9,26 +9,26 @@
 #		type		= material
 #		name		= name_of_my_material
 #		shader		= name_of_some_shader
-#		defaults	= true / false (load default uniforms)
-#		uniforms	= ../path/to/my/uniform/list
+#		defs		= true / false (load default uniforms)
+#		file		= ../path/to/my/uniforms.mat
 #	</import>
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>
-	type		= material
-	name		= skybox
-	shader		= skybox
-	defaults	= true
-	uniforms	= ../../../assets/materials/skybox.mat
+	type	= material
+	name	= skybox
+	shader	= skybox
+	defs	= true
+	file	= ../../../assets/materials/skybox.mat
 </import>
 
 <import>
-	type		= material
-	name		= noobs
-	shader		= noobs
-	defaults	= true
-	uniforms	= ../../../assets/materials/noobs.mat
+	type	= material
+	name	= demo_material
+	shader	= demo_shader
+	defs	= true
+	file	= ../../../assets/materials/demo.mat
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

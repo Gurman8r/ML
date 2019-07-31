@@ -17,25 +17,49 @@ namespace ml
 		, public I_Singleton<Content>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
-		using object_map = typename Tree<String, I_Newable *>;
-		using typeid_map = typename HashMap<size_t, object_map>;
+
+		using object_map = Tree<String, I_Newable *>;	// Map of String to Object
+		using typeid_map = HashMap<size_t, object_map>;	// Map of TypeID to ObjectMap
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
+
 		bool dispose() override;
 		
 		object_map & at(size_t index);
 		
 		const object_map & at(size_t index) const;
-		
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline List<size_t> & get_codes() const
+		{ 
+			static List<size_t> codes;
+			return codes;
+		}
+
+		template <
+			class T
+		> inline size_t get_hash() const
+		{
+			static List<size_t> & cached { this->get_codes() };
+			const size_t code { typeid(T).hash_code() };
+			if (std::find(cached.cbegin(), cached.cend(), code) == cached.cend())
+			{
+				cached.push_back(code);
+			}
+			return code;
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T
 		> inline object_map & data()
 		{
-			static object_map & temp { this->at(typeid(T).hash_code()) };
+			static object_map & temp
+			{ 
+				this->at(this->get_hash<T>()) 
+			};
 			return temp;
 		}
 
@@ -43,12 +67,15 @@ namespace ml
 			class T
 		> inline const object_map & data() const
 		{
-			static const object_map & temp { this->at(typeid(T).hash_code()) };
+			static const object_map & temp 
+			{ 
+				this->at(this->get_hash<T>())
+			};
 			return temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
+
 		template <
 			class T, class ... Args
 		> inline T * create(const String & name, Args && ... args)
@@ -72,7 +99,7 @@ namespace ml
 			class T
 		> inline bool erase(const String & name)
 		{
-			static Tree<String, I_Newable *>::iterator it;
+			static object_map::iterator it;
 			if ((it = this->data<T>().find(name)) != this->data<T>().end())
 			{
 				this->data<T>().erase(it);
@@ -87,7 +114,7 @@ namespace ml
 			class T
 		> inline T * get(const String & name)
 		{
-			static Tree<String, I_Newable *>::iterator it;
+			static object_map::iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<T *>(it->second)
 				: nullptr
@@ -98,7 +125,7 @@ namespace ml
 			class T
 		> inline const T * get(const String & name) const
 		{
-			static Tree<String, I_Newable *>::const_iterator it;
+			static object_map::const_iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
@@ -109,9 +136,10 @@ namespace ml
 
 		template <
 			class T
-		> inline List<String> getKeys() const
+		> inline List<String> get_keys() const
 		{
 			List<String> temp;
+			temp.reserve(this->data<T>().size());
 			for (const auto & pair : this->data<T>())
 			{
 				temp.push_back(pair.first);
@@ -121,17 +149,14 @@ namespace ml
 
 		template <
 			class T
-		> inline object_map::const_iterator getIterator(int32_t index) const
+		> inline object_map::const_iterator get_iter_at_index(int32_t index) const
 		{
 			if ((index >= 0) && ((size_t)index < this->data<T>().size()))
 			{
-				Tree<String, I_Newable *>::const_iterator it = this->data<T>().cbegin();
+				auto it = this->data<T>().cbegin();
 				for (int32_t i = 0; i < index; i++)
 				{
-					if ((++it) == this->data<T>().cend())
-					{
-						return it;
-					}
+					if ((++it) == this->data<T>().cend()) { break; }
 				}
 				return it;
 			}
@@ -140,10 +165,10 @@ namespace ml
 
 		template <
 			class T
-		> inline const T * getByIndex(int32_t index) const
+		> inline const T * find_by_index(int32_t index) const
 		{
-			Tree<String, I_Newable *>::const_iterator it;
-			return (((it = this->getIterator<T>(index)) != this->data<T>().end())
+			object_map::const_iterator it;
+			return (((it = this->get_iter_at_index<T>(index)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
 			);
@@ -151,7 +176,7 @@ namespace ml
 
 		template <
 			class T
-		> inline int32_t getIndexOf(const T * value) const
+		> inline int32_t get_index_of(const T * value) const
 		{
 			int32_t index = 0;
 			for (const auto & pair : this->data<T>())
@@ -168,12 +193,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend class I_Singleton<Content>;
+		friend struct I_Singleton<Content>;
 
 		Content() : m_data() {}
 		~Content() { dispose(); }
 
-		mutable typeid_map m_data;
+		mutable typeid_map m_data;	// The Data
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -17,14 +17,17 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using iterator			= typename List<Uni *>::iterator;
-		using const_iterator	= typename List<Uni *>::const_iterator;
+		using base_type					= typename List<Uni *>;
+		using iterator					= typename base_type::iterator;
+		using const_iterator			= typename base_type::const_iterator;
+		using reverse_iterator			= typename base_type::reverse_iterator;
+		using const_reverse_iterator	= typename base_type::const_reverse_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Material();
 		Material(const Shader * shader);
-		Material(const Shader * shader, const List<Uni *> & uniforms);
+		Material(const Shader * shader, const base_type & uniforms);
 		~Material();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -77,13 +80,20 @@ namespace ml
 			return nullptr;
 		}
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool erase(Uni * value)
+		{
+			return (value && value->name) && this->erase(value->name);
+		}
+
 		inline bool erase(const String & name)
 		{
-			iterator it = std::find_if(begin(), end(), [&](auto && u)
+			iterator it = std::find_if(this->begin(), this->end(), [&](auto && u)
 			{
 				return u && (u->name == name);
 			});
-			if (it != end())
+			if (it != this->end())
 			{
 				if (*it) delete (*it);
 				m_uniforms.erase(it);
@@ -96,8 +106,8 @@ namespace ml
 
 		inline auto shader()			-> const Shader	* &		{ return m_shader; }
 		inline auto shader()	const	-> const Shader	*		{ return m_shader; }
-		inline auto uniforms()			-> List<Uni *> &		{ return m_uniforms; }
-		inline auto uniforms()	const	-> const List<Uni *> &	{ return m_uniforms; }
+		inline auto uniforms()			-> base_type &		{ return m_uniforms; }
+		inline auto uniforms()	const	-> const base_type &	{ return m_uniforms; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -112,7 +122,7 @@ namespace ml
 
 	private:
 		const Shader *	m_shader;
-		List<Uni *> m_uniforms;
+		base_type m_uniforms;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

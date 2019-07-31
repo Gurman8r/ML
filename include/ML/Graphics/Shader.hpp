@@ -48,15 +48,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const String & vertSrc() const { return m_source.vs; }
-		inline const String & fragSrc() const { return m_source.fs; }
-		inline const String & geomSrc() const { return m_source.gs; }
+		struct Source final { String vs, fs, gs; };
+
+		inline auto sources() const	-> const Source & { return m_sources; }
+		inline auto vertSrc() const -> const String & { return m_sources.vs; }
+		inline auto fragSrc() const -> const String & { return m_sources.fs; }
+		inline auto geomSrc() const -> const String & { return m_sources.gs; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniform(const Uni * value) const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniform(const String & name, const float_t value) const;
 		bool setUniform(const String & name, const int32_t value) const;
@@ -70,7 +73,7 @@ namespace ml
 		bool setUniform(const String & name, const mat4 & value) const;
 		bool setUniform(const String & name, const Texture & value) const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniformArray(const String & name, const int32_t count, const float_t * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const vec2 * value) const;
@@ -79,7 +82,7 @@ namespace ml
 		bool setUniformArray(const String & name, const int32_t count, const mat3 * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const mat4 * value) const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniformList(const String & name, const List<float_t> & value) const;
 		bool setUniformList(const String & name, const List<vec2> & value) const;
@@ -100,15 +103,10 @@ namespace ml
 		using TextureTable	= Tree<int32_t, const Texture *>;
 		using UniformTable	= Tree<String, int32_t>;
 
-		mutable AttribTable		m_attribs;
-		mutable TextureTable	m_textures;
-		mutable UniformTable	m_uniforms;
-
-		mutable struct Source
-		{
-			String vs, fs, gs;
-
-		} m_source;
+		mutable AttribTable		m_attribs;	// Attribute Cache
+		mutable TextureTable	m_textures; // Texture Cache
+		mutable UniformTable	m_uniforms; // Uniform Cache
+		mutable Source			m_sources;	// Sources Cache
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

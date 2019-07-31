@@ -29,7 +29,7 @@
 
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
-	return new ml::Noobs(eventSystem);
+	return new ml::Noobs { eventSystem };
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -39,7 +39,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Noobs::Noobs(EventSystem & eventSystem)
-		: EditorPlugin(eventSystem)
+		: EditorPlugin	{ eventSystem }
+		, m_pipeline	{}
+		, m_editor		{}
+		, m_scene		{}
+		, m_skybox		{}
 	{
 		eventSystem.addListener(KeyEvent::ID, this);
 		eventSystem.addListener(MainMenuBarEvent::ID, this);
@@ -68,8 +72,8 @@ namespace ml
 				{
 				case MainMenuBarEvent::Window:
 					ImGui::Separator();
-					ImGui::MenuItem("Scene##Enable##Noobs##DemoScene", "", &scene.is_open);
-					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &editor.is_open);
+					ImGui::MenuItem("Scene##Enable##Noobs##DemoScene", "", &m_scene.is_open());
+					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.is_open());
 					break;
 				}
 			}
@@ -91,120 +95,129 @@ namespace ml
 	void Noobs::onStart(const StartEvent & ev)
 	{
 		// Modify Default Uniforms
-		if (editor.material)
+		if (Material * m = m_editor.material())
 		{
-			if (auto u = editor.material->get<uni_vec2_ptr>("u_viewport"))
+			// Viewport
+			if (auto u = m->get<uni_vec2_ptr>("u_viewport"))
 			{
-				u->data = &scene.viewport;
+				u->data = &m_scene.viewport();
 			}
 		}
 
-		// Create Entity
-		if (Entity * ent = editor.entity.create())
+		// Create Editor Entity
+		if (Entity * e = m_editor.entity().create())
 		{
-			// Attach Renderer
-			editor.renderer = ent->add<Renderer>(editor.model, editor.material,
+			// Create Editor Renderer
+			m_editor.renderer() = e->add<Renderer>(m_editor.model(), m_editor.material(),
 				RenderStates { {
-					new AlphaTest	{ true, GL::Greater, 0.01f },
-					new BlendFunc	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-					new CullFace	{ true, GL::Back },
-					new DepthTest	{ true, GL::Less }
+					new AlphaTestState	{ true, GL::Greater, 0.01f },
+					new BlendFuncState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+					new CullFaceState	{ true, GL::Back },
+					new DepthTestState	{ true, GL::Less }
 				} });
 		}
 
 		// Setup Editor
-		editor.generateFiles();
+		m_editor.generate_sources();
 	}
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
-		// Update Resolutions
-		if (scene.autoView)	{ scene.viewport = ev.window.getFrameSize(); }
-		if (surf[Surf_Main]) { surf[Surf_Main]->update(scene.viewport); }
-		if (surf[Surf_Post]) { surf[Surf_Post]->update(scene.viewport); }
+		// Update Viewports
+		if (m_scene.autoView()) { m_scene.viewport() = ev.window.getFrameSize(); }
+		
+		if (auto & surf { m_pipeline[Surf_Main] }) { surf->update(m_scene.viewport()); }
+
+		if (auto & surf { m_pipeline[Surf_Post] }) { surf->update(m_scene.viewport()); }
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Default States
+		// Setup Default States
 		static RenderStates states 
 		{ {
-			new AlphaTest	{ true, GL::Greater, 0.01f },
-			new BlendFunc	{ true	},
-			new CullFace	{ false },
-			new DepthTest	{ false },
+			new AlphaTestState	{ true, GL::Greater, 0.01f },
+			new BlendFuncState	{ true	},
+			new CullFaceState	{ false },
+			new DepthTestState	{ false },
 		} };
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Render Main Scene
-		if (surf[Surf_Main] && surf[Surf_Main]->bind())
-		{	
-			ev.window.setViewport({ 0, 0 }, scene.viewport); // Viewport
-			
-			ev.window.clear(scene.clearColor); // Clear Sceeen
-			
-			if (skybox) // Draw skybox
+		// Render to Main Surface
+		m_pipeline.render_to(Surf_Main, [&]()
+		{
+			// Set Viewport
+			ev.window.setViewport({ 0, 0 }, m_scene.viewport());
+
+			// Clear Sceen
+			ev.window.clear(m_scene.clearColor());
+
+			// Draw Skybox
+			if (m_skybox.material && m_skybox.model)
 			{
-				DepthMask { false }();
-				skybox.material->bind();
-				ev.window.draw(skybox.model);
-				skybox.material->unbind();
-				DepthMask { true }();
+				DepthMaskState { false }();
+				m_skybox.material->bind();
+				ev.window.draw(m_skybox.model);
+				m_skybox.material->unbind();
+				DepthMaskState { true }();
 			}
-			
-			ev.window.draw(editor.renderer); // Draw editor renderer
-			
-			surf[Surf_Main]->unbind(); // Unbind
-		}
+
+			// Draw Renderer
+			ev.window.draw(m_editor.renderer());
+		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		states.apply(); // Reset States
+		// Apply Default States
+		states.apply();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Render Post Processing
-		if (surf[Surf_Post] && surf[Surf_Post]->bind())
-		{	
-			ev.window.setViewport({ 0, 0 }, scene.viewport); // Viewport
+		// Render to Post Surface
+		m_pipeline.render_to(Surf_Post, [&]()
+		{
+			// Set Viewport
+			ev.window.setViewport({ 0, 0 }, m_scene.viewport());
 
-			if (surf[Surf_Main]) // Apply effects to other surfaces
-			{	
-				surf[Surf_Main]->setUniform(&scene.effectMode);
-				surf[Surf_Main]->setUniform(&scene.kernel);
-				ev.window.draw(surf[Surf_Main]);
+			// Apply Effects to Main
+			if (Surface * surf { m_pipeline[Surf_Main] })
+			{
+				surf->setUniform(&m_scene.effectMode());
+				surf->setUniform(&m_scene.kernel());
+				ev.window.draw(surf);
 			}
-			surf[Surf_Post]->unbind(); // Unbind
-		}
+		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	void Noobs::onGui(const GuiEvent & ev)
 	{
-		scene.Render("Scene##Noobs##DemoScene", surf[Surf_Post]);
-		editor.Render("Editor##Noobs##DemoEditor");
+		// Render Scene
+		m_scene.render(ev, "Scene##Noobs##DemoScene", m_pipeline[Surf_Post]);
+		
+		// Render Editor
+		m_editor.render(ev, "Editor##Noobs##DemoEditor");
 	}
 
 	void Noobs::onExit(const ExitEvent & ev)
 	{
-		editor.disposeFiles();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Noobs::DemoScene::Render(C_String title, const Surface * surf)
+	// DEMO SCENE
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	void Noobs::DemoScene::render(const GuiEvent & ev, C_String title, const Surface * surf)
 	{
-		if (!is_open) return;
-		if (ImGui::Begin(title, &is_open, ImGuiWindowFlags_MenuBar))
+		if (!m_open) return;
+		ImGui::PushID("Noobs");
+		ImGui::PushID("Demo Scene");
+		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_MenuBar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
-
-			ImGui::PushID("Noobs");
-			ImGui::PushID("Demo Scene");
 
 			if (ImGui::BeginMenuBar())
 			{
@@ -214,41 +227,43 @@ namespace ml
 					static const List<VideoMode> & video_modes { VideoMode::get_modes() };
 					static const List<String> & video_names = [&]
 					{
-						static List<String> temp;
-						temp.push_back("Auto");
-						for (const auto & video : VideoMode::get_modes())
+						static List<String> temp { "Auto" };
+						for (const VideoMode & video : video_modes)
+						{
 							temp.push_back(String("{0}").format(video.resolution));
+						}
 						return temp;
 					}();
 
 					// Viewport
 					static int32_t index = 0;
 					if (ImGui::Combo("Viewport",
-						&index, ML_EditorUtility.vector_getter,
-						(void *)&video_names, (int32_t)video_names.size()
+						&index, 
+						ML_EditorUtility.vector_getter,
+						(void *)&video_names,
+						(int32_t)video_names.size()
 					))
 					{
-						this->autoView = (index == 0);
+						m_autoView = (index == 0);
 					}
-					if (!(autoView))
+					if (!m_autoView)
 					{
-						this->viewport = (vec2i)VideoMode::get_modes()[index - 1].resolution;
+						m_viewport = (vec2i)VideoMode::get_modes()[index - 1].resolution;
 					}
 
 					// Clear Color
-					ImGui::ColorEdit4("Clear Color", &this->clearColor[0]);
+					ImGui::ColorEdit4("Clear Color", &m_clearColor[0]);
 
 					// Effect Mode
-					UniformPropertyDrawer()("Effect Mode", (Uni &)this->effectMode);
+					UniformPropertyDrawer()("Effect Mode", (Uni &)m_effectMode);
 					ImGui::SameLine(); ImGui::Text("Effect Mode");
 
 					// Kernel
-					UniformPropertyDrawer()("Kernel", (Uni &)this->kernel);
+					UniformPropertyDrawer()("Kernel", (Uni &)m_kernel);
 					ImGui::SameLine(); ImGui::Text("Kernel");
 
 					ImGui::EndMenu();
 				}
-
 				ImGui::EndMenuBar();
 			}
 
@@ -276,284 +291,169 @@ namespace ml
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
-
-			ImGui::PopID();
-			ImGui::PopID();
-
-			/* * * * * * * * * * * * * * * * * * * * */
 		}
 		ImGui::End();
+		ImGui::PopID();
+		ImGui::PopID();
 	}
 
+
+	// DEMO FILE
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void Noobs::DemoEditor::Render(C_String title)
+	void Noobs::DemoFile::render(const GuiEvent & ev)
 	{
-		if (!is_open) return;
-		if (ImGui::Begin(title, &is_open, ImGuiWindowFlags_None))
+		ImGui::BeginChild("DemoFile##ContentArea", { 0, 0 }, true);
+		
+		this->text.Render(("##DemoFile##" + this->name + "##TextEditor").c_str());
+
+		if (this->text.IsTextChanged())
+		{ 
+			this->dirty = true; 
+		}
+
+		ImGui::EndChild();
+	}
+
+
+	// DEMO EDITOR
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	void Noobs::DemoEditor::render(const GuiEvent & ev, C_String title)
+	{
+		if (!m_open) return;
+		ImGui::PushID("Noobs");
+		ImGui::PushID("Demo Editor");
+		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_None))
 		{
-			if (ImGui::BeginTabBar("Noobs Editor Tabs"))
+			if (ImGui::BeginTabBar("DemoEditor##TabBar##Main"))
 			{
-				// Sources
+				// Sources Tab
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginTabItem("Sources##Files##Shader##Noobs"))
+				if (ImGui::BeginTabItem("Sources"))
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::Button("New##File##Editor##Noobs"))
+					// Compile
+					if (ImGui::Button("Compile"))
 					{
-						ImGui::OpenPopup("New File##Popup##Editor##Noobs");
-					}
-					ImGui::SameLine();
-					if (ImGui::Button("Compile##Editor##Noobs"))
-					{
-						for (auto & file : files)
-						{
-							file->dirty = false;
-						}
-
-						// custom shader parser
-						const String source = parseFiles(
-							files,
-							files.front()->text.GetText()
-						);
-						Shader * shader = std::remove_cv_t<Shader *>(
-							material->shader()
-						);
-						if (!shader || !shader->loadFromMemory(source))
-						{
-							Debug::logError("Failed Compiling Shader");
-						}
-					}
-					ImGui::Separator();
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::BeginPopupModal(
-						"New File##Popup##Editor##Noobs",
-						nullptr,
-						ImGuiWindowFlags_AlwaysAutoResize
-					))
-					{
-						static char name[SourceFile::MaxName] = "New File";
-
-						// reset popup
-						auto resetPopup = [&]()
-						{
-							std::strcpy(name, "New File");
-							ImGui::CloseCurrentPopup();
-						};
-
-						// add new file
-						auto addNewFile = [&]()
-						{
-							if (!String(name))
-							{
-								Debug::logError("Name cannot be empty");
-								return;
-							}
-							for (auto file : files)
-							{
-								if (file->name == name)
-								{
-									Debug::logError("File with name \'{0}\' already exists", name);
-									return;
-								}
-							}
-							files.push_back(new SourceFile(name, String()));
-						};
-
-						// Input
-						bool enterPress = ImGui::InputText(
-							"Name##Editor##Noobs",
-							name,
-							IM_ARRAYSIZE(name),
-							ImGuiInputTextFlags_EnterReturnsTrue
-						);
-
-						// Submit / Cancel
-						if (enterPress || ImGui::Button("Submit##Editor##Noobs"))
-						{
-							addNewFile();
-							resetPopup();
-						}
-						ImGui::SameLine();
-						if (ImGui::Button("Cancel##Editor##Noobs"))
-						{
-							resetPopup();
-						}
-
-						ImGui::EndPopup();
+						this->compile_sources();
 					}
 
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::BeginTabBar("Source##Tabs##Shader##Noobs"))
+					// Toggle Demo Files (start at one to always show config)
+					for (size_t i = 1; i < m_files.size(); i++)
 					{
-						/* * * * * * * * * * * * * * * * * * * * */
+						if (!m_files[i]) { continue; }
+						if (i > 1) { ImGui::SameLine(); }
+						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
+					}
 
-						FileList::iterator toRemove = files.end();
-
-						for (auto it = files.begin(); it != files.end(); it++)
+					// Demo File Tab Bar
+					if (ImGui::BeginTabBar("Demo File Tab Bar"))
+					{
+						for (size_t i = 0; i < m_files.size(); i++)
 						{
-							const size_t i = (it - files.begin());
-
-							const String label {
-								"[" + std::to_string(i) + "] " + (*it)->name
-							};
-
-							if (ImGui::BeginTabItem(
-								label.c_str(),
-								(i > 0 ? &(*it)->open : nullptr),
-								(*it)->dirty ? ImGuiTabItemFlags_UnsavedDocument : 0
-							))
+							DemoFile *& file { m_files[i] };
+							if (file && file->open)
 							{
-								if (i == 0)
+								// Demo File Tab
+								if (ImGui::BeginTabItem(
+									file->name.c_str(),
+									nullptr,
+									(file->dirty
+										? ImGuiTabItemFlags_UnsavedDocument
+										: ImGuiTabItemFlags_None)
+								))
 								{
-									ML_EditorUtility.HelpMarker(
-										"This is the \'Main\' file of your shader.\n"
-										"You can either write all of your shader\n"
-										"code here, or create multiple files and\n"
-										"link them together in Main.\n"
-										"\n"
-										"#shader vertex / fragment / geometry\n"
-										"#include \'...\' / \"...\" / <...> \n"
-									);
+									file->render(ev); // Render Demo File
+
+									ImGui::EndTabItem();
 								}
-
-								// Input Text Content Area
-								ImGui::BeginChild(
-									"InputTextContentArea",
-									{ 0, 0 },
-									true,
-									ImGuiWindowFlags_None
-								);
-
-								/* * * * * * * * * * * * * * * * * * * * */
-
-								// Disallow editing Main's name
-								if (i > 0)
-								{
-									char buf[SourceFile::MaxName];
-									std::strcpy(buf, (*it)->name.c_str());
-									if (ImGui::InputText(
-										"Name",
-										buf,
-										SourceFile::MaxName,
-										ImGuiInputTextFlags_EnterReturnsTrue
-									))
-									{
-										(*it)->name = buf;
-									}
-								}
-
-								(*it)->text.Render(
-									String("##File" + (*it)->name + "##Text").c_str()
-								);
-
-								if ((*it)->text.IsTextChanged())
-									(*it)->dirty = true;
-
-								/* * * * * * * * * * * * * * * * * * * * */
-
-								ImGui::EndChild();
-								ImGui::EndTabItem();
-							}
-
-							if (!(*it)->open)
-							{
-								toRemove = it;
 							}
 						}
-
-						if (toRemove != files.cend())
-						{
-							delete (*toRemove);
-							files.erase(toRemove);
-						}
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
 						ImGui::EndTabBar();
 					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
 					ImGui::EndTabItem();
-
-					/* * * * * * * * * * * * * * * * * * * * */
 				}
 
-				// Uniforms
+				// Uniforms Tab
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginTabItem("Uniforms##Material##Noobs"))
+				if (ImGui::BeginTabItem("Uniforms"))
 				{
-					// new uniform editor
-					Uni * u = nullptr;
-					if (UniformPropertyDrawer()("##NewUniform##Material##Noobs", u))
+					// New Uniform Popup
+					Uni * to_add { nullptr };
+					if (UniformPropertyDrawer()("##New##Uni", (Uni *&)to_add))
 					{
-						if (!material->add(u))
+						// Already Exists
+						if (!m_material->add(to_add))
 						{
-							delete u;
+							delete to_add;
 							Debug::logError("A uniform with that name already exists");
 						}
 					}
 
-					// do nothing if empty
-					if (!material->uniforms().empty())
-						ImGui::Separator();
-
-					ImGui::Columns(3, "uniform columns");
+					// Header Columns
+					ImGui::Columns(3, "##Uni##Columns");
 					ImGui::Text("Name"); ImGui::NextColumn();
 					ImGui::Text("Type"); ImGui::NextColumn();
 					ImGui::Text("Value"); ImGui::NextColumn();
 					ImGui::Separator();
 					ImGui::Columns(1);
 
-					auto toRemove = material->cend();
-					for (auto it = material->cbegin(); it != material->cend(); it++)
+					// Uniform List
+					/* * * * * * * * * * * * * * * * * * * * */
+					Uni * to_remove { nullptr };
+					
+					for (Uni *& uni : (*m_material))
 					{
-						Uni * u { *it };
-						if (!*it) continue;
-						const String label("##Uni##" + u->name + "##Material##Noobs");
-						ImGui::Columns(3, "uniform columns");
+						if (!uni) continue;
+						ImGui::Columns(3, "##Uni##Columns");
+						const String label { "##Uni##" + uni->name };
 
-						// Name
-						if (u->isModifiable())
+						// Uniform Name
+						/* * * * * * * * * * * * * * * * * * * * */
+						if (uni->isModifiable())
 						{
 							static char name[32] = "";
-							std::strcpy(name, u->name.c_str());
+							std::strcpy(name, uni->name.c_str());
 							if (ImGui::InputText(
-								("##Uniform##Name##Editor##Noobs##" + u->name).c_str(),
-								name, IM_ARRAYSIZE(name),
-								ImGuiInputTextFlags_EnterReturnsTrue
+								(label + "##Name").c_str(),
+								name,
+								ML_ARRAYSIZE(name),
+								ImGuiInputTextFlags_EnterReturnsTrue |
+								(uni->isModifiable()
+									? ImGuiInputTextFlags_None
+									: ImGuiInputTextFlags_ReadOnly)
 							))
 							{
-								if (!material->get(name))
+								if (!m_material->get(name))
 								{
-									u->name = name;
+									uni->name = name;
+								}
+								else
+								{
+									Debug::logError("A uniform with that name already exists");
 								}
 							}
 						}
 						else
 						{
-							ImGui::Text("%s", u->name.c_str());
+							ImGui::Text(uni->name.c_str());
 						}
 						ImGui::NextColumn();
 						
-						// Type
-						ImGui::Text("%s", detail::nameOf((Uni::Type)u->id)); 
+						// Uniform Type
+						/* * * * * * * * * * * * * * * * * * * * */
+						ImGui::Text("%s", detail::nameOf((Uni::Type)uni->id)); 
 						ImGui::NextColumn();
 
-						// Value
-						ImGui::PushID((u->name + label).c_str());
+						// Uniform Value
+						/* * * * * * * * * * * * * * * * * * * * */
+						ImGui::PushID(label.c_str());
 						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-						if (UniformPropertyDrawer()(label, (Uni &)(*u)))
+						if (UniformPropertyDrawer()(label, (Uni &)(*uni)))
 						{
+							// Remove Uniform
 							ImGui::SameLine();
-							if (ImGui::Button(("X##" + label).c_str()))
+							if (ImGui::Button(("X##" + label).c_str())) 
 							{
-								toRemove = it;
+								to_remove = uni;
 							}
 							if (ImGui::IsItemHovered())
 							{
@@ -569,25 +469,31 @@ namespace ml
 						ImGui::Columns(1);
 						ImGui::Separator();
 					}
-					if (toRemove != material->cend())
-					{
-						material->uniforms().erase(toRemove);
-					}
+					
+					if (to_remove) { m_material->erase(to_remove); }
 
 					ImGui::EndTabItem();
 				}
 
-				// Settings
+				// Settings Tab
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginTabItem("Settings##Noobs"))
+				if (ImGui::BeginTabItem("Settings"))
 				{
-					ImGui::NewLine();
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (!m_renderer)
+					{
+						ImGui::Text("No renderer found?");
+						ImGui::EndTabItem();
+					}
 
 					/* * * * * * * * * * * * * * * * * * * * */
+					
+					ImGui::NewLine();
 
 					if (ImGui::TreeNode("Alpha Test"))
 					{
-						if (AlphaTest * alphaTest = renderer->states().get<AlphaTest>())
+						if (AlphaTestState * alphaTest = m_renderer->states().get<AlphaTestState>())
 						{
 							bool & enabled = alphaTest->enabled;
 							ImGui::Checkbox((enabled
@@ -606,7 +512,7 @@ namespace ml
 								"Comparison##Alpha Testing##Renderer##Noobs",
 								&i,
 								GL::Comp_names,
-								IM_ARRAYSIZE(GL::Comp_names)
+								ML_ARRAYSIZE(GL::Comp_names)
 							))
 							{
 								GL::valueAt(i, alphaTest->comp);
@@ -632,7 +538,7 @@ namespace ml
 
 					if (ImGui::TreeNode("Blend Func"))
 					{
-						if (BlendFunc * blendFunc = renderer->states().get<BlendFunc>())
+						if (BlendFuncState * blendFunc = m_renderer->states().get<BlendFuncState>())
 						{
 							bool & enabled = blendFunc->enabled;
 							ImGui::Checkbox((enabled
@@ -652,7 +558,7 @@ namespace ml
 									label,
 									&i,
 									GL::Factor_names,
-									IM_ARRAYSIZE(GL::Factor_names)
+									ML_ARRAYSIZE(GL::Factor_names)
 								);
 							};
 
@@ -704,7 +610,7 @@ namespace ml
 
 					if (ImGui::TreeNode("Cull Face"))
 					{
-						if (CullFace * cullFace = renderer->states().get<CullFace>())
+						if (CullFaceState * cullFace = m_renderer->states().get<CullFaceState>())
 						{
 							bool & enabled = cullFace->enabled;
 							ImGui::Checkbox((enabled
@@ -723,7 +629,7 @@ namespace ml
 								"Face##Culling##Renderer##Noobs",
 								&i,
 								GL::Face_names,
-								IM_ARRAYSIZE(GL::Face_names)
+								ML_ARRAYSIZE(GL::Face_names)
 							))
 							{
 								GL::valueAt(i, cullFace->face);
@@ -740,7 +646,7 @@ namespace ml
 
 					if (ImGui::TreeNode("Depth Test"))
 					{
-						if (DepthTest * depthTest = renderer->states().get<DepthTest>())
+						if (DepthTestState * depthTest = m_renderer->states().get<DepthTestState>())
 						{
 							bool & enabled = depthTest->enabled;
 							ImGui::Checkbox((enabled
@@ -759,7 +665,7 @@ namespace ml
 								"Comparison##Depth Testing##Renderer##Noobs",
 								&i,
 								GL::Comp_names,
-								IM_ARRAYSIZE(GL::Comp_names)
+								ML_ARRAYSIZE(GL::Comp_names)
 							))
 							{
 								GL::valueAt(i, depthTest->comp);
@@ -801,12 +707,12 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Shader
-					const Shader * shader = material->shader();
-					if (ShaderPropertyDrawer()("Shader##Material##Noobs", shader))
+					const Shader * s = this->shader();
+					if (ShaderPropertyDrawer()("Shader##Material##Noobs", s))
 					{
-						material->shader() = shader;
-						disposeFiles();
-						generateFiles();
+						this->shader() = s;
+						reset_sources();
+						generate_sources();
 					}
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The shader to be used.");
@@ -814,10 +720,10 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Model
-					const Model * model = (const Model *)renderer->drawable();
-					if (ModelPropertyDrawer()("Model##Renderer##Noobs", model))
+					const Model * m = (const Model *)m_renderer->drawable();
+					if (ModelPropertyDrawer()("Model##Renderer##Noobs", m))
 					{
-						renderer->drawable() = model;
+						m_renderer->drawable() = m;
 					}
 					ImGui::SameLine();
 					ML_EditorUtility.HelpMarker("The model to be drawn.");
@@ -831,47 +737,139 @@ namespace ml
 			}
 		}
 		ImGui::End();
+		ImGui::PopID();
+		ImGui::PopID();
 	}
 
-	String Noobs::DemoEditor::parseFiles(const FileList & file_list, const String & src) const
+	void Noobs::DemoEditor::generate_sources()
+	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		auto setup_file = [&](DemoFile::Type type, const String & src)
+		{
+			if (this->material() && this->shader())
+			{
+				if (!m_files[type])
+				{
+					m_files[type] = new DemoFile(type, DemoFile::Names[type], src);
+				}
+				else
+				{
+					m_files[type]->text.SetText(src);
+				}
+
+				if ((type != DemoFile::Conf) && src)
+				{
+					m_files[DemoFile::Conf]->text.SetText(([&]()
+					{
+						SStream ss; ss
+							<< m_files[DemoFile::Conf]->text.GetText()
+							<< DemoFile::Tags[type] << endl
+							<< DemoFile::Incl[type] << endl;
+						return ss.str();
+					})());
+				}
+
+				return m_files[type];
+			}
+			return (DemoFile *)nullptr;
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		if (auto conf = setup_file(DemoFile::Conf, String()))
+		{
+			conf->open = true;
+		}
+
+		if (auto vert = setup_file(DemoFile::Vert, this->shader()->sources().vs))
+		{
+			vert->open = this->shader()->sources().vs;
+		}
+
+		if (auto frag = setup_file(DemoFile::Frag, this->shader()->sources().fs))
+		{
+			frag->open = this->shader()->sources().fs;
+		}
+
+		if (auto geom = setup_file(DemoFile::Geom, this->shader()->sources().gs))
+		{
+			geom->open = this->shader()->sources().gs;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+	}
+
+	bool Noobs::DemoEditor::compile_sources()
+	{
+		if (m_material && shader())
+		{
+			if (Shader * s = std::remove_cv_t<Shader *>(this->shader()))
+			{
+				for (DemoFile *& f : m_files)
+				{
+					if (!f) continue;
+					f->dirty = false;
+				}
+
+				return s->loadFromMemory(
+					this->parse_sources(m_files[DemoFile::Conf]->text.GetText())
+				);
+			}
+		}
+		return false;
+	}
+
+	void Noobs::DemoEditor::reset_sources()
+	{
+		for (DemoFile *& f : m_files)
+		{
+			if (!f) continue;
+			f->open = false;
+			f->text.SetText(String());
+		}
+	}
+
+	String Noobs::DemoEditor::parse_sources(const String & source) const
 	{
 		SStream out;
-		SStream ss(src);
+		SStream sstr { source };
 		String	line;
-		while (std::getline(ss, line))
+		while (std::getline(sstr, line))
 		{
 			if (line.find("#include") != String::npos)
 			{
-				bool found = false;
-				String name;
-				if (ShaderParser::parseWrapped(
-					line, '\"', '\"', name
-				))
+				bool found { false };
+				String name {};
+				if (ShaderParser::parseWrapped(line, '\"', '\"', name))
 				{
-					for (const auto & e : file_list)
+					// Search File List
+					for (const DemoFile * elem : m_files)
 					{
-						if (e->name == name)
+						if (elem && (elem->name == name) && (elem->open))
 						{
-							out << parseFiles(file_list, e->text.GetText());
+							out << this->parse_sources(elem->text.GetText());
 							found = true;
 							break;
 						}
 					}
-					if (!found)
+
+					// Search Content
+					const Shader * shader { nullptr };
+					if (!found && (found = (shader = ML_Content.get<Shader>(name))))
 					{
-						if (auto shader = ML_Content.get<Shader>(name))
-						{
-							if (shader->vertSrc()) out << "#shader vertex" << endl << shader->vertSrc() << endl;
-							if (shader->fragSrc()) out << "#shader fragment" << endl << shader->fragSrc() << endl;
-							if (shader->geomSrc()) out << "#shader geometry" << endl << shader->geomSrc() << endl;
-							found = true;
-						}
+						if (const auto & src = shader->sources().vs)
+							out << DemoFile::Tags[DemoFile::Vert] << endl << src << endl;
+						
+						if (const auto & src = shader->sources().fs)
+							out << DemoFile::Tags[DemoFile::Frag] << endl << src << endl;
+						
+						if (const auto & src = shader->sources().gs)
+							out << DemoFile::Tags[DemoFile::Geom] << endl << src << endl;
 					}
 				}
-				if (!found)
-				{
-					out << line << endl;
-				}
+
+				if (!found) { out << line << endl; }
 			}
 			else
 			{
@@ -879,69 +877,6 @@ namespace ml
 			}
 		}
 		return (String)out.str();
-	}
-
-	void Noobs::DemoEditor::generateFiles()
-	{
-		// Generate Source Editors
-		if (material && material->shader())
-		{
-			// Create Main File
-			files.push_back(new SourceFile("Main", String()));
-
-			// Create Vertex File
-			if (material->shader()->vertSrc())
-			{
-				files.push_back(new SourceFile(
-					"Vertex",
-					material->shader()->vertSrc()
-				));
-				files.front()->text.SetText(
-					files.front()->text.GetText() +
-					//"// Vertex Shader\n"
-					"#shader vertex\n"
-					"#include \"Vertex\"\n"
-				);
-			}
-
-			// Create Fragment File
-			if (material->shader()->fragSrc())
-			{
-				files.push_back(new SourceFile(
-					"Fragment",
-					material->shader()->fragSrc()
-				));
-				files.front()->text.SetText(
-					files.front()->text.GetText() +
-					//"// Fragment Shader\n"
-					"#shader fragment\n"
-					"#include \"Fragment\"\n"
-				);
-			}
-
-			// Create Geometry File
-			if (material->shader()->geomSrc())
-			{
-				files.push_back(new SourceFile(
-					"Geometry",
-					material->shader()->geomSrc()
-				));
-				files.front()->text.SetText(
-					files.front()->text.GetText() +
-					//"// Geometry Shader\n"
-					"#shader geometry\n"
-					"#include \"Geometry\"\n"
-				);
-			}
-		}
-	}
-
-	void Noobs::DemoEditor::disposeFiles()
-	{
-		// Dispose Files
-		for (auto & e : files)
-			if (e) delete e;
-		files.clear();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

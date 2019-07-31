@@ -54,6 +54,21 @@ namespace ml
 			return shader() && shader()->setUniform(std::forward<Args>(args)...);
 		}
 
+		template <
+			class Fun, class ... Args
+		> inline Surface & render_to(Fun && fun, Args && ... args)
+		{
+			if (*this)
+			{
+				this->bind();
+
+				fun(std::forward<Args>(args)...);
+				
+				this->unbind();
+			}
+			return (*this);
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto model()				-> const Model *&	{ return m_model; }

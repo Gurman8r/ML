@@ -29,7 +29,7 @@ namespace ml
 	class ML_AUDIO_API OpenAL final
 		: public I_Singleton<OpenAL>
 	{
-		friend class I_Singleton<OpenAL>;
+		friend struct I_Singleton<OpenAL>;
 
 		bool	m_good;
 		void *	m_device;

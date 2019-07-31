@@ -16,9 +16,9 @@ namespace ml
 		int32_t		location;
 
 		UniformBinder(const Shader * value, const String & name)
-			: cached	(NULL)
-			, program	(*value)
-			, location	(-1)
+			: cached(NULL)
+			, program(*value)
+			, location(-1)
 		{
 			if (program)
 			{
@@ -41,9 +41,9 @@ namespace ml
 			}
 		}
 
-		inline operator bool() const 
+		inline operator bool() const
 		{
-			return (location != -1); 
+			return (location != -1);
 		}
 	};
 }
@@ -191,20 +191,20 @@ namespace ml
 	{
 		if (gs)
 		{
-			m_source.vs = ShaderParser::parseShader(vs);
-			m_source.gs = ShaderParser::parseShader(gs);
-			m_source.fs = ShaderParser::parseShader(fs);
-			return compile(m_source.vs.c_str(), m_source.gs.c_str(), m_source.fs.c_str());
+			m_sources.vs = ShaderParser::parseShader(vs);
+			m_sources.gs = ShaderParser::parseShader(gs);
+			m_sources.fs = ShaderParser::parseShader(fs);
+			return compile(m_sources.vs.c_str(), m_sources.gs.c_str(), m_sources.fs.c_str());
 		}
 		return loadFromMemory(vs, fs);
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & fs)
 	{
-		m_source.vs	= ShaderParser::parseShader(vs);
-		m_source.gs	= String();
-		m_source.fs	= ShaderParser::parseShader(fs);
-		return compile(m_source.vs.c_str(), nullptr, m_source.fs.c_str());
+		m_sources.vs = ShaderParser::parseShader(vs);
+		m_sources.gs = String();
+		m_sources.fs = ShaderParser::parseShader(fs);
+		return compile(m_sources.vs.c_str(), nullptr, m_sources.fs.c_str());
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -244,7 +244,7 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
+
 	bool Shader::setUniform(const Uni * value) const
 	{
 		if (!value || !value->name) return false;
@@ -285,7 +285,7 @@ namespace ml
 		case uni_sampler::ID:
 			if (auto temp = detail::as_sampler(value))
 				return this->setUniform(value->name, (*temp));
-		
+
 		default: return false;
 		}
 	}
@@ -301,7 +301,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const int32_t value) const
 	{
 		UniformBinder u(this, name);
@@ -311,7 +311,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const vec2 & value) const
 	{
 		UniformBinder u(this, name);
@@ -321,7 +321,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const vec3 & value) const
 	{
 		UniformBinder u(this, name);
@@ -331,7 +331,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const vec4 & value) const
 	{
 		UniformBinder u(this, name);
@@ -341,7 +341,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const vec2i & value) const
 	{
 		UniformBinder u(this, name);
@@ -351,7 +351,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const vec3i & value) const
 	{
 		UniformBinder u(this, name);
@@ -361,7 +361,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const vec4i & value) const
 	{
 		UniformBinder u(this, name);
@@ -371,7 +371,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const mat3 & value) const
 	{
 		UniformBinder u(this, name);
@@ -381,7 +381,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const mat4 & value) const
 	{
 		UniformBinder u(this, name);
@@ -391,38 +391,38 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniform(const String & name, const Texture & value) const
 	{
 		UniformBinder u(this, name);
 		if (u)
 		{
-			TextureTable::iterator it;
-			if ((it = m_textures.find(u.location)) == m_textures.end())
+			static const size_t max_tex_units
 			{
-				static const size_t maxTexUnits = (size_t)(ML_GL.getMaxTextureUnits());
+				static_cast<size_t>(ML_GL.getMaxTextureUnits())
+			};
 
-				if ((m_textures.size() + 1) >= maxTexUnits)
-				{
-					return Debug::logError("All available texture units are used: {0}", 
-						maxTexUnits
-					);
-				}
-				else
-				{
-					m_textures[u.location] = &value;
-				}
+			TextureTable::iterator it;
+			if ((it = m_textures.find(u.location)) != m_textures.end())
+			{
+				it->second = &value;
+			}
+			else if ((m_textures.size() + 1) < max_tex_units)
+			{
+				m_textures.insert({ u.location, &value });
 			}
 			else
 			{
-				it->second = &value;
+				return Debug::logError("All available texture units are used: {0}", 
+					max_tex_units
+				);
 			}
 		}
 		return u;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
+
 	bool Shader::setUniformArray(const String & name, const int32_t count, const float_t * value) const
 	{
 		UniformBinder u(this, name);
@@ -432,7 +432,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniformArray(const String & name, const int32_t count, const vec2 * value) const
 	{
 		UniformBinder u(this, name);
@@ -442,7 +442,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniformArray(const String & name, const int32_t count, const vec3 * value) const
 	{
 		UniformBinder u(this, name);
@@ -452,7 +452,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniformArray(const String & name, const int32_t count, const vec4 * value) const
 	{
 		UniformBinder u(this, name);
@@ -462,7 +462,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniformArray(const String & name, const int32_t count, const mat3 * value) const
 	{
 		UniformBinder u(this, name);
@@ -472,7 +472,7 @@ namespace ml
 		}
 		return u;
 	}
-	
+
 	bool Shader::setUniformArray(const String & name, const int32_t count, const mat4 * value) const
 	{
 		UniformBinder u(this, name);
@@ -489,27 +489,27 @@ namespace ml
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
-	
+
 	bool Shader::setUniformList(const String & name, const List<vec2> & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
-	
+
 	bool Shader::setUniformList(const String & name, const List<vec3> & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
-	
+
 	bool Shader::setUniformList(const String & name, const List<vec4> & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
-	
+
 	bool Shader::setUniformList(const String & name, const List<mat3> & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
-	
+
 	bool Shader::setUniformList(const String & name, const List<mat4> & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
@@ -588,7 +588,7 @@ namespace ml
 			return Debug::logError("Failed compiling shader");
 		}
 	}
-	
+
 	int32_t Shader::getAttribute(const String & name) const
 	{
 		Tree<String, int32_t>::iterator it;
@@ -606,7 +606,7 @@ namespace ml
 			return m_attribs.insert({ name, value }).first->second;
 		}
 	}
-	
+
 	int32_t Shader::getUniform(const String & name) const
 	{
 		Tree<String, int32_t>::iterator it;

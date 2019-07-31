@@ -45,12 +45,6 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# ifndef strdup
-# define strdup _strdup // strdup is deprecated
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -107,9 +101,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static Ostream & cout { _STD cout }; // Standard Output Handle
-	static Ostream & cerr { _STD cerr }; // Standard Error Handle
-	static Istream & cin  { _STD cin  }; // Standard Input Handle
+	static Ostream & cout { _STD cout }; // Output Handle
+	static Ostream & cerr { _STD cerr }; // Error Handle
+	static Istream & cin  { _STD cin  }; // Input Handle
 
 #define ML_SERIALIZE	_ML Ostream & operator<< // Stream Insertion Operator
 #define ML_DESERIALIZE	_ML Istream & operator>> // Stream Extraction Operator

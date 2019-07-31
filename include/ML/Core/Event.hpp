@@ -15,8 +15,8 @@ namespace ml
 		enum : int32_t
 		{
 			MAX_LIBRARY_EVENTS = 64,
-
-			EV_INVALID	= -1,
+			
+			EV_INVALID	= (-1),
 			EV_AUDIO	= (MAX_LIBRARY_EVENTS * 1),
 			EV_CORE		= (MAX_LIBRARY_EVENTS * 2),
 			EV_EDITOR	= (MAX_LIBRARY_EVENTS * 3),
@@ -25,8 +25,7 @@ namespace ml
 			EV_NETWORK	= (MAX_LIBRARY_EVENTS * 6),
 			EV_SCRIPT	= (MAX_LIBRARY_EVENTS * 7),
 			EV_WINDOW	= (MAX_LIBRARY_EVENTS * 8),
-
-			MAX_EVENT_ID
+			EV_CUSTOM	= (MAX_LIBRARY_EVENTS * 9),
 		};
 
 		constexpr Event(const int32_t id) 

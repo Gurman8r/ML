@@ -34,6 +34,10 @@ namespace ml
 
 			MAX_ENGINE_EVENT
 		};
+
+		static_assert(MAX_ENGINE_EVENT < (MIN_ENGINE_EVENT + Event::MAX_LIBRARY_EVENTS),
+			"too many library event types specified in " __FILE__
+		);
 	};
 
 	// Startup

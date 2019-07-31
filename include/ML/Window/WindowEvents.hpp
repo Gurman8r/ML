@@ -47,6 +47,10 @@ namespace ml
 
 			MAX_WINDOW_EVENT
 		};
+
+		static_assert(MAX_WINDOW_EVENT < (MIN_WINDOW_EVENT + Event::MAX_LIBRARY_EVENTS),
+			"too many library event types specified in " __FILE__
+		);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -89,7 +93,7 @@ namespace ml
 	{
 		const int32_t key, scan, act;
 		
-		const struct Mods
+		const struct Mods final
 		{ 
 			bool shift	= false;
 			bool ctrl	= false;

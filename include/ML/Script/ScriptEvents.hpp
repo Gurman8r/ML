@@ -17,6 +17,10 @@ namespace ml
 
 			MAX_SCRIPT_EVENT
 		};
+
+		static_assert(MAX_SCRIPT_EVENT < (MIN_SCRIPT_EVENT + Event::MAX_LIBRARY_EVENTS),
+			"too many library event types specified in " __FILE__
+		);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

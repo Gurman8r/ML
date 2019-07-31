@@ -40,6 +40,10 @@ namespace ml
 
 			MAX_EDITOR_EVENT
 		};
+
+		static_assert(MAX_EDITOR_EVENT < (MIN_EDITOR_EVENT + Event::MAX_LIBRARY_EVENTS),
+			"too many library event types specified in " __FILE__
+		);
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

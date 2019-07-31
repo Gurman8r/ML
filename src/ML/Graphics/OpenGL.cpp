@@ -22,8 +22,7 @@ namespace ml
 	Ostream & OpenGL::checkError(Ostream & out, C_String file, uint32_t line, C_String expr)
 	{
 		// Get the last error
-		const GL::Err code = getError();
-		if (code != GL::Err::NoError)
+		if (const GL::Err code = getError())
 		{
 			// Error location
 			String fileName { file };

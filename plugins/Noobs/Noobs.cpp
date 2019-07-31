@@ -249,11 +249,11 @@ namespace ml
 					ImGui::ColorEdit4("Clear Color", &m_clearColor[0]);
 
 					// Effect Mode
-					UniformPropertyDrawer()("Effect Mode", (Uni &)m_effectMode);
+					UniformPropertyDrawer()("##Effect Mode", (Uni &)m_effectMode);
 					ImGui::SameLine(); ImGui::Text("Effect Mode");
 
 					// Kernel
-					UniformPropertyDrawer()("Kernel", (Uni &)m_kernel);
+					UniformPropertyDrawer()("##Kernel", (Uni &)m_kernel);
 					ImGui::SameLine(); ImGui::Text("Kernel");
 
 					ImGui::EndMenu();
@@ -669,8 +669,8 @@ namespace ml
 						{
 							bool & enabled = depth->enabled;
 							ImGui::Checkbox((enabled
-								? "Enabled ##Depth Testing##Renderer##Noobs"
-								: "Disabled##Depth Testing##Renderer##Noobs"
+								? "Enabled ##DepthTest##Renderer##Noobs"
+								: "Disabled##DepthTest##Renderer##Noobs"
 								),
 								&enabled
 							);
@@ -678,6 +678,14 @@ namespace ml
 							ML_EditorUtility.HelpMarker(enabled
 								? ("glEnable(GL_DEPTH_TEST)")
 								: ("glDisable(GL_DEPTH_TEST)")
+							);
+
+							bool & mask = depth->mask;
+							ImGui::Checkbox("Mask##Depth##Renderer##Noobs", &mask);
+							ImGui::SameLine();
+							ML_EditorUtility.HelpMarker(mask
+								? ("glDepthMask(true)")
+								: ("glDepthMask(false)")
 							);
 
 							ML_EditorUtility.HelpMarker("glDepthFunc");

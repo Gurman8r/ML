@@ -129,29 +129,4 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	const PolygonModeState & PolygonModeState::operator()() const
-	{
-		if (this->enabled)
-		{
-			ML_GL.polygonMode(this->face, this->mode);
-		}
-		return (*this);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	const ScissorTestState & ScissorTestState::operator()() const
-	{
-		if (!this->enabled)
-		{
-			ML_GL.disable(GL::ScissorTest);
-		}
-		else if (ML_GL.enable(GL::ScissorTest, this->enabled))
-		{
-		}
-		return (*this);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

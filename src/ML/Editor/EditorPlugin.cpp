@@ -7,7 +7,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorPlugin::EditorPlugin(EventSystem & eventSystem)
-		: Plugin(eventSystem)
+		: Plugin { eventSystem }
 	{
 		eventSystem.addListener(GuiEvent::ID, this);
 	}

@@ -91,10 +91,10 @@ namespace ml
 	using		StreamBuf		= typename std::streambuf;
 	ML_USING_X	Allocator		= typename std::allocator<X>;
 	ML_USING_X	CharTraits		= typename std::char_traits<X>;
-	ML_USING_XY HashSet			= typename std::unordered_set<X, Y>;
 	ML_USING_XY BasicIstream	= typename std::basic_istream<X, Y>;
 	ML_USING_XY BasicOstream	= typename std::basic_ostream<X, Y>;
 	ML_USING_XY HashMap			= typename std::unordered_map<X, Y>;
+	ML_USING_XY HashSet			= typename std::unordered_set<X, Y>;
 	ML_USING_XY MultiMap		= typename std::multimap<X, Y>;
 	ML_USING_XY Pair			= typename std::pair<X, Y>;
 	ML_USING_XY Tree			= typename std::map<X, Y>;

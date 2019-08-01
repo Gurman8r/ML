@@ -86,7 +86,7 @@ uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 void main()
 {
 	// Model Matrix
-	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), u_totalTime * 0.75);
+	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), u_totalTime * 0.33);
 
 	// View Matrix
 	mat4 view = ml_LookAt(

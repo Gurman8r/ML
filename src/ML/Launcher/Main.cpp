@@ -63,44 +63,6 @@ static StateMachine<State> g_ProgramStates
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Engine/Lua.hpp>
-
-int32_t test_lua()
-{
-	lua_State * L = luaL_newstate();
-	luaL_openlibs(L);
-	if (luaL_dofile(L, ML_FS.pathTo("../../../assets/lua/test.lua").c_str()) == LUA_OK)
-	{
-		lua_getglobal(L, "md");
-		if (lua_istable(L, -1))
-		{
-			Metadata md; // std::map<std::string, std::string>
-
-			lua_pushstring(L, "type");
-			lua_gettable(L, -2);
-			md.setData("type", (String)lua_tostring(L, -1));
-
-			lua_pushstring(L, "name");
-			lua_gettable(L, -3);
-			md.setData("name", (String)lua_tostring(L, -1));
-
-			lua_pushstring(L, "file");
-			lua_gettable(L, -4);
-			md.setData("file", (String)lua_tostring(L, -1));
-
-			cout << md << endl;
-		}
-	}
-	else
-	{
-		Debug::logError(lua_tostring(L, -1));
-	}
-	lua_close(L);
-	return Debug::pause(EXIT_SUCCESS);
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 int32_t main()
 {
 	// Load Plugin List

@@ -4,6 +4,12 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+/* * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -11,6 +17,7 @@ namespace ml
 	Mesh::Mesh()
 		: Mesh(Vertices())
 	{
+		static Assimp::Importer ml_assimp_test;
 	}
 
 	Mesh::Mesh(const Vertices & vertices)

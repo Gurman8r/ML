@@ -50,11 +50,15 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			draw_directory();
+			ImGui::Columns(2, "Directory Columns", true);
 
-			ImGui::SameLine();
+			draw_directory(); 
+			
+			ImGui::NextColumn();
 
 			draw_file();
+
+			ImGui::Columns(1);
 
 			// Handle Double Clicks
 			if (m_isDouble || (m_isDouble = false))
@@ -74,7 +78,7 @@ namespace ml
 
 	void EditorExplorer::draw_directory()
 	{
-		ImGui::BeginChild("Directory View", { 224, 0 }, true);
+		ImGui::BeginChild("Directory View", { 0, 0 });
 		{
 			m_isDouble = false;
 
@@ -125,26 +129,22 @@ namespace ml
 
 	void EditorExplorer::draw_file()
 	{
-		ImGui::BeginGroup();
+		// Information
+		ImGui::BeginChild("Tabs", { 0, 0 });
 		{
-			// Information
-			ImGui::BeginChild("Tabs");
+			// Tabs
+			if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None))
 			{
-				// Tabs
-				if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None))
-				{
-					// Preview
-					draw_file_preview();
+				// Preview
+				draw_file_preview();
 
-					// Details
-					draw_file_details();
+				// Details
+				draw_file_details();
 
-					ImGui::EndTabBar();
-				}
+				ImGui::EndTabBar();
 			}
-			ImGui::EndChild();
 		}
-		ImGui::EndGroup();
+		ImGui::EndChild();
 	}
 
 	void EditorExplorer::draw_file_preview()

@@ -104,7 +104,7 @@ namespace ml
 				, m_clearColor	{ Color::black }
 				, m_viewport	{ 1920, 1080 }
 				, m_effectMode	{ "u_effectMode", 3 }
-				, m_kernel		{ "u_kernel", { 0, 0, 0, 0, 1, 0, 0, 0, 0 } }
+				, m_kernel		{ "u_kernel", { 0, 0, 0, 0, 9, 0, 0, 0, 0 } }
 			{
 			}
 

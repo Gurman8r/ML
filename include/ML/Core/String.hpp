@@ -151,14 +151,14 @@ namespace ml
 			class Arg0, class ... Args
 		> inline self_type & format(const Arg0 & arg0, Args && ... args)
 		{
-			sstream_type stream; stream << arg0 << endl;
+			sstream_type ss; ss << arg0 << endl;
 
-			int32_t sink[] = { 0, ((void)(stream << args << endl), 0)... }; (void)sink;
+			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; (void)sink;
 
-			for (size_type i = 0; stream.good(); i++)
+			for (size_type i = 0; ss.good(); i++)
 			{
 				self_type line;
-				if (std::getline(stream, line))
+				if (std::getline(ss, line))
 				{
 					this->replaceAll(("{" + std::to_string(i) + "}"), line);
 				}

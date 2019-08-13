@@ -41,13 +41,13 @@ namespace ml
 		};
 
 		static constexpr C_String Flag_descriptions[] = {
-			"If enabled, cull polygons based on their winding in window coordinates.",
-			"If enabled, do depth comparisons and update the depth buffer.",
-			"If enabled, do alpha testing.",
-			"If enabled, blend the computed fragment color values with the values in the color buffers.",
-			"If enabled, use multiple fragment samples in computing the final color of a pixel.",
-			"If enabled, and the value of the framebuffer attachment corresponding to the destination buffer is sRGB.",
-			"If enabled, discard fragments that are outside the scissor rectangle.",
+			"If enabled, cull polygons based on their winding in window coordinates",
+			"If enabled, do depth comparisons and update the depth buffer",
+			"If enabled, do alpha testing",
+			"If enabled, blend the computed fragment color values with the values in the color buffers",
+			"If enabled, use multiple fragment samples in computing the final color of a pixel",
+			"If enabled, and the value of the framebuffer attachment corresponding to the destination buffer is sRGB",
+			"If enabled, discard fragments that are outside the scissor rectangle",
 		};
 
 		static constexpr bool value_at(int32_t i, Flag & value)
@@ -98,9 +98,9 @@ namespace ml
 		};
 
 		static constexpr C_String Sampler_descriptions[] = {
-			"GL_TEXTURE_2D",
-			"GL_TEXTURE_3D",
-			"GL_TEXTURE_CUBE_MAP",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Sampler & value)
@@ -187,21 +187,21 @@ namespace ml
 		};
 
 		static constexpr C_String Target_descriptions[] = {
-			"GL_ARRAY_BUFFER",
-			"GL_ELEMENT_ARRAY_BUFFER",
-			"GL_ARRAY_BUFFER_BINDING",
-			"GL_FRAMEBUFFER",
-			"GL_RENDERBUFFER",
-			"GL_PROGRAM_OBJECT_ARB",
-			"GL_READ_FRAMEBUFFER",
-			"GL_DRAW_FRAMEBUFFER",
-			"GL_READ_FRAMEBUFFER_BINDING",
-			"GL_DRAW_FRAMEBUFFER_BINDING",
-			"GL_CURRENT_PROGRAM",
-			"GL_VERTEX_ARRAY_BINDING",
-			"GL_TEXTURE_BINDING_2D",
-			"GL_SAMPLER_BINDING",
-			"GL_ACTIVE_TEXTURE",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Target & value)
@@ -320,14 +320,14 @@ namespace ml
 		};
 
 		static constexpr C_String Err_descriptions[] = {
-			"No Description",
+			"No Error Description",
 			"An unacceptable value has been specified for an enumerated argument",
 			"A numeric argument is out of range",
 			"The specified operation is not allowed in the current state",
 			"This command would cause a stack overflow",
 			"This command would cause a stack underflow",
 			"There is not enough memory left to execute the command",
-			"The object bound to framebuffer binding is not \"framebuffer complete\"."
+			"The object bound to framebuffer binding is not \'framebuffer complete\'"
 		};
 
 		static constexpr bool value_at(int32_t i, Err & value)
@@ -384,11 +384,11 @@ namespace ml
 		};
 
 		static constexpr C_String StringID_descriptions[] = {
-			"GL_VENDOR",
-			"GL_RENDERER",
-			"GL_VERSION",
-			"GL_EXTENSIONS",
-			"GL_SHADING_LANGUAGE_VERSION",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, StringID & value)
@@ -481,23 +481,23 @@ namespace ml
 		};
 
 		static constexpr C_String IntID_descriptions[] = {
-			"GL_MAJOR_VERSION",
-			"GL_MINOR_VERSION",
-			"GL_NUM_EXTENSIONS",
-			"GL_CONTEXT_FLAGS",
-			"GL_CONTEXT_PROFILE_MASK",
-			"GL_MAX_TEXTURE_SIZE",
-			"GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS",
-			"GL_INFO_LOG_LENGTH",
-			"GL_POLYGON_MODE",
-			"GL_VIEWPORT",
-			"GL_SCISSOR_BOX",
-			"GL_BLEND_EQUATION_RGB",
-			"GL_BLEND_EQUATION_ALPHA",
-			"GL_BLEND_DST_RGB",
-			"GL_BLEND_SRC_RGB",
-			"GL_BLEND_DST_ALPHA",
-			"GL_BLEND_SRC_ALPHA",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, IntID & value)
@@ -548,9 +548,9 @@ namespace ml
 		};
 
 		static constexpr C_String Clip_descriptions[] = {
-			"GL_LOWER_LEFT",
-			"GL_UPPER_LEFT",
-			"GL_CLIP_ORIGIN",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Clip & value)
@@ -604,10 +604,10 @@ namespace ml
 		};
 
 		static constexpr C_String Status_descriptions[] = {
-			"GL_OBJECT_DELETE_STATUS_ARB",
-			"GL_OBJECT_COMPILE_STATUS_ARB",
-			"GL_OBJECT_LINK_STATUS_ARB",
-			"GL_FRAMEBUFFER_COMPLETE",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Status & value)
@@ -658,9 +658,9 @@ namespace ml
 		};
 
 		static constexpr C_String ShaderType_descriptions[] = {
-			"GL_FRAGMENT_SHADER",
-			"GL_VERTEX_SHADER",
-			"GL_GEOMETRY_SHADER",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, ShaderType & value)
@@ -726,14 +726,14 @@ namespace ml
 		};
 
 		static constexpr C_String Mode_descriptions[] = {
-			"GL_POINTS",
-			"GL_LINES",
-			"GL_LINE_LOOP",
-			"GL_LINE_STRIP",
-			"GL_TRIANGLES",
-			"GL_TRIANGLE_STRIP",
-			"GL_TRIANGLE_FAN",
-			"GL_FILL",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Mode & value)
@@ -787,10 +787,10 @@ namespace ml
 		};
 
 		static constexpr C_String Equation_descriptions[] = {
-			"GL_MULT",
-			"GL_ADD",
-			"GL_SUBTRACT",
-			"GL_FUNC_ADD",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Equation & value)
@@ -932,15 +932,15 @@ namespace ml
 		};
 
 		static constexpr C_String Factor_descriptions[] = {
-			"GL_SRC_COLOR",
-			"GL_ONE_MINUS_SRC_COLOR",
-			"GL_SRC_ALPHA",
-			"GL_ONE_MINUS_SRC_ALPHA",
-			"GL_DST_ALPHA",
-			"GL_ONE_MINUS_DST_ALPHA",
-			"GL_DST_COLOR",
-			"GL_ONE_MINUS_DST_COLOR",
-			"GL_SRC_ALPHA_SATURATE",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Factor & value)
@@ -1009,15 +1009,15 @@ namespace ml
 		};
 
 		static constexpr C_String Face_descriptions[] = {
-			"GL_FRONT_LEFT",
-			"GL_FRONT_RIGHT",
-			"GL_BACK_LEFT",
-			"GL_BACK_RIGHT",
-			"GL_FRONT",
-			"GL_BACK",
-			"GL_LEFT",
-			"GL_RIGHT",
-			"GL_FRONT_AND_BACK",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Face & value)
@@ -1083,14 +1083,14 @@ namespace ml
 		};
 
 		static constexpr C_String Type_descriptions[] = {
-			"GL_BYTE",
-			"GL_UNSIGNED_BYTE",
-			"GL_SHORT",
-			"GL_UNSIGNED_SHORT",
-			"GL_INT",
-			"GL_UNSIGNED_INT",
-			"GL_FLOAT",
-			"GL_HALF_FLOAT",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Type & value)
@@ -1183,23 +1183,23 @@ namespace ml
 		};
 
 		static constexpr C_String Format_descriptions[] = {
-			"GL_RED",
-			"GL_GREEN",
-			"GL_BLUE",
-			"GL_ALPHA",
-			"GL_RGB",
-			"GL_RGBA",
-			"GL_LUMINANCE",
-			"GL_LUMINANCE_ALPHA",
-			"GL_SRGB",
-			"GL_SRGB8",
-			"GL_SRGB_ALPHA",
-			"GL_SRGB8_ALPHA8",
-			"GL_SLUMINANCE_ALPHA",
-			"GL_SLUMINANCE8_ALPHA8",
-			"GL_SLUMINANCE",
-			"GL_SLUMINANCE8",
-			"GL_DEPTH24_STENCIL8",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Format & value)
@@ -1274,17 +1274,17 @@ namespace ml
 		};
 
 		static constexpr C_String FrameAttachment_descriptions[] = {
-			"GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING",
-			"GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE",
-			"GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE",
-			"GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE",
-			"GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE",
-			"GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE",
-			"GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE",
-			"GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE",
-			"GL_FRAMEBUFFER_DEFAULT",
-			"GL_FRAMEBUFFER_UNDEFINED",
-			"GL_DEPTH_STENCIL_ATTACHMENT",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, FrameAttachment & value)
@@ -1397,30 +1397,30 @@ namespace ml
 		};
 
 		static constexpr C_String TexParam_descriptions[] = {
-			"GL_NEAREST",
-			"GL_LINEAR",
-			"GL_NEAREST_MIPMAP_NEAREST",
-			"GL_LINEAR_MIPMAP_NEAREST",
-			"GL_NEAREST_MIPMAP_LINEAR",
-			"GL_LINEAR_MIPMAP_LINEAR",
-			"GL_TEXTURE_MAG_FILTER",
-			"GL_TEXTURE_MIN_FILTER",
-			"GL_TEXTURE_WRAP_S",
-			"GL_TEXTURE_WRAP_T",
-			"GL_TEXTURE_WRAP_R",
-			"GL_CLAMP",
-			"GL_REPEAT",
-			"GL_CLAMP_TO_EDGE",
-			"GL_TEXTURE_MIN_LOD",
-			"GL_TEXTURE_MAX_LOD",
-			"GL_TEXTURE_BASE_LEVEL",
-			"GL_TEXTURE_MAX_LEVEL",
-			"GL_TEXTURE_CUBE_MAP_POSITIVE_X",
-			"GL_TEXTURE_CUBE_MAP_NEGATIVE_X",
-			"GL_TEXTURE_CUBE_MAP_POSITIVE_Y",
-			"GL_TEXTURE_CUBE_MAP_NEGATIVE_Y",
-			"GL_TEXTURE_CUBE_MAP_POSITIVE_Z",
-			"GL_TEXTURE_CUBE_MAP_NEGATIVE_Z",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, TexParam & value)
@@ -1498,18 +1498,18 @@ namespace ml
 		};
 
 		static constexpr C_String Pack_descriptions[] = {
-			"GL_UNPACK_SWAP_BYTES",
-			"GL_UNPACK_LSB_FIRST",
-			"GL_UNPACK_ROW_LENGTH",
-			"GL_UNPACK_SKIP_ROWS",
-			"GL_UNPACK_SKIP_PIXELS",
-			"GL_UNPACK_ALIGNMENT",
-			"GL_PACK_SWAP_BYTES",
-			"GL_PACK_LSB_FIRST",
-			"GL_PACK_ROW_LENGTH",
-			"GL_PACK_SKIP_ROWS",
-			"GL_PACK_SKIP_PIXELS",
-			"GL_PACK_ALIGNMENT",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Pack & value)
@@ -1599,22 +1599,22 @@ namespace ml
 		};
 
 		static constexpr C_String ColorAttachment_descriptions[] = {
-			"GL_COLOR_ATTACHMENT0",
-			"GL_COLOR_ATTACHMENT1",
-			"GL_COLOR_ATTACHMENT2",
-			"GL_COLOR_ATTACHMENT3",
-			"GL_COLOR_ATTACHMENT4",
-			"GL_COLOR_ATTACHMENT5",
-			"GL_COLOR_ATTACHMENT6",
-			"GL_COLOR_ATTACHMENT7",
-			"GL_COLOR_ATTACHMENT8",
-			"GL_COLOR_ATTACHMENT9",
-			"GL_COLOR_ATTACHMENT10",
-			"GL_COLOR_ATTACHMENT11",
-			"GL_COLOR_ATTACHMENT12",
-			"GL_COLOR_ATTACHMENT13",
-			"GL_COLOR_ATTACHMENT14",
-			"GL_COLOR_ATTACHMENT15",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, ColorAttachment & value)
@@ -1752,38 +1752,38 @@ namespace ml
 		};
 
 		static constexpr C_String TexID_descriptions[] = {
-			"GL_TEXTURE0",
-			"GL_TEXTURE1",
-			"GL_TEXTURE2",
-			"GL_TEXTURE3",
-			"GL_TEXTURE4",
-			"GL_TEXTURE5",
-			"GL_TEXTURE6",
-			"GL_TEXTURE7",
-			"GL_TEXTURE8",
-			"GL_TEXTURE9",
-			"GL_TEXTURE10",
-			"GL_TEXTURE11",
-			"GL_TEXTURE12",
-			"GL_TEXTURE13",
-			"GL_TEXTURE14",
-			"GL_TEXTURE15",
-			"GL_TEXTURE16",
-			"GL_TEXTURE17",
-			"GL_TEXTURE18",
-			"GL_TEXTURE19",
-			"GL_TEXTURE20",
-			"GL_TEXTURE21",
-			"GL_TEXTURE22",
-			"GL_TEXTURE23",
-			"GL_TEXTURE24",
-			"GL_TEXTURE25",
-			"GL_TEXTURE26",
-			"GL_TEXTURE27",
-			"GL_TEXTURE28",
-			"GL_TEXTURE29",
-			"GL_TEXTURE30",
-			"GL_TEXTURE31",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, TexID & value)
@@ -1873,22 +1873,22 @@ namespace ml
 		};
 
 		static constexpr C_String DrawBuffer_descriptions[] = {
-			"GL_DRAW_BUFFER0",
-			"GL_DRAW_BUFFER1",
-			"GL_DRAW_BUFFER2",
-			"GL_DRAW_BUFFER3",
-			"GL_DRAW_BUFFER4",
-			"GL_DRAW_BUFFER5",
-			"GL_DRAW_BUFFER6",
-			"GL_DRAW_BUFFER7",
-			"GL_DRAW_BUFFER8",
-			"GL_DRAW_BUFFER9",
-			"GL_DRAW_BUFFER10",
-			"GL_DRAW_BUFFER11",
-			"GL_DRAW_BUFFER12",
-			"GL_DRAW_BUFFER13",
-			"GL_DRAW_BUFFER14",
-			"GL_DRAW_BUFFER15",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, DrawBuffer & value)
@@ -1948,12 +1948,12 @@ namespace ml
 		};
 
 		static constexpr C_String Mask_descriptions[] = {
-			"GL_CONTEXT_CORE_PROFILE_BIT",
-			"GL_CONTEXT_COMPATIBILITY_PROFILE_BIT",
-			"GL_CONTEXT_FLAG_DEBUG_BIT",
-			"GL_DEPTH_BUFFER_BIT",
-			"GL_STENCIL_BUFFER_BIT",
-			"GL_COLOR_BUFFER_BIT",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
+			"No Description",
 		};
 
 		static constexpr bool value_at(int32_t i, Mask & value)

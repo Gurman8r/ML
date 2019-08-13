@@ -414,9 +414,9 @@ namespace ml
 					
 					// Header Columns
 					ImGui::Columns(3, "##Uni##Columns");
-					ImGui::Text("Name"); ImGui::NextColumn();
-					ImGui::Text("Type"); ImGui::NextColumn();
-					ImGui::Text("Value"); ImGui::NextColumn();
+					ImGui::Selectable("Name"); ImGui::NextColumn();
+					ImGui::Selectable("Type"); ImGui::NextColumn();
+					ImGui::Selectable("Value"); ImGui::NextColumn();
 					ImGui::Separator();
 					ImGui::Columns(1);
 
@@ -508,13 +508,13 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Settings"))
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					ImGui::PushID("##Settings");
 					ImGui::BeginChild("##Settings##Content", { 0, 0 }, true);
 					ImGui::NewLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					const Shader * s = this->shader();
 					if (ShaderPropertyDrawer()("Shader##Material##Noobs", s))
@@ -525,7 +525,7 @@ namespace ml
 					}
 					ImGuiExt::Tooltip("Specifies the shader to be edited");
 
-					/* * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					const Model * m = (const Model *)m_renderer->drawable();
 					if (ModelPropertyDrawer()("Model##Renderer##Noobs", m))
@@ -534,7 +534,22 @@ namespace ml
 					}
 					ImGuiExt::Tooltip("Specifies model to be drawn");
 
-					/* * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+					enum Setting_
+					{
+						Setting_Disabled,
+						Setting_Enum,
+						Setting_Bool,
+						Setting_Number,
+					};
+
+					static const ImVec4 Setting_Colors[] = {
+						ImVec4 { 0.84f, 0.63f, 0.63f, 1.00f },	// Disabled
+						ImVec4 { 0.72f, 0.84f, 0.63f, 1.00f },	// Enum
+						ImVec4 { 0.20f, 0.33f, 1.00f, 1.00f },	// Bool
+						ImVec4 { 0.20f, 1.00f, 0.33f, 1.00f },	// Number
+					};
 
 					AlphaState	* alpha_state	{ m_renderer->states().get<AlphaState>() };
 					BlendState	* blend_state	{ m_renderer->states().get<BlendState>() };
@@ -551,19 +566,27 @@ namespace ml
 
 						ImGui::PushID("##AlphaState");
 						ImGui::NewLine();
+						ImGui::PushItemWidth(150);
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						ImGui::Checkbox(alpha->enabled
-							? "glEnable(GL_ALPHA_TEST)" : "glDisable(GL_ALPHA_TEST)",
+							? "glEnable" : "glDisable",
 							&alpha->enabled
 						);
-						ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+						ImGui::PushStyleColor(ImGuiCol_Text, alpha->enabled
+							? Setting_Colors[Setting_Enum]
+							: Setting_Colors[Setting_Disabled]
+						);
+						ImGui::Text(GL::raw_name_of(GL::AlphaTest));
+						ImGui::PopStyleColor();
+						ImGui::SameLine(); ImGui::Text(")");
+						ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						ImGui::PushItemWidth(150);
 						if (ImGui::Button("glAlphaFunc"))
 						{
 							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glAlphaFunc.xml");
@@ -574,29 +597,35 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t predicate = GL::index_of(alpha->predicate);
+						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names))
 						{
 							alpha->predicate = GL::value_at<GL::Predicate>(predicate);
 						}
+						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
-							"\'predicate\'\n\n"
-							"Current: {0}\n\n"
-							"{1}"
+							"Param: \'predicate\'\n\n"
+							"Value: {0} (0x{1})\n\n"
+							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(alpha->predicate),
+							alg::to_hex<uint32_t>(alpha->predicate),
 							GL::desc_of(alpha->predicate)
 						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
+						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Number]);
 						ImGui::DragFloat("##Coefficient", &alpha->coeff);
+						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
-							"\'coefficient\'\n\n"
-							"Current: {0}\n\n"
-							"Specifies the reference value that incoming alpha values are compared to."
+							"Param: \'coefficient\'\n\n"
+							"Value: {0}\n\n"
+							"Brief: {1}\n"
 						).format(
-							alpha->coeff
+							alpha->coeff,
+							"Specifies the reference value that incoming alpha values are compared to"
 						));
 						ImGui::SameLine(); ImGui::Text(")");
 
@@ -617,97 +646,111 @@ namespace ml
 
 						ImGui::PushID("##BlendState");
 						ImGui::NewLine();
+						ImGui::PushItemWidth(150);
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						ImGui::Checkbox(blend->enabled
-							? "glEnable(GL_BLEND)" : "glDisable(GL_BLEND)",
+							? "glEnable" : "glDisable",
 							&blend->enabled
 						);
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+						ImGui::PushStyleColor(ImGuiCol_Text, blend->enabled
+							? Setting_Colors[Setting_Enum]
+							: Setting_Colors[Setting_Disabled]
+						);
+						ImGui::Text(GL::raw_name_of(GL::Blend));
+						ImGui::PopStyleColor();
+						ImGui::SameLine(); ImGui::Text(")");
 						ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						ImGui::PushItemWidth(150);
 						if (ImGui::Button("glBlendFuncSeparate"))
 						{
 							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
 						}
-						ImGuiExt::Tooltip(
-							"Specify pixel arithmetic for RGB and alpha components separately"
-						);
+						ImGuiExt::Tooltip("Specify pixel arithmetic for RGB and alpha components separately");
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t srcRGB = GL::index_of(blend->srcRGB);
+						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##SrcRGB", &srcRGB, GL::Factor_raw_names))
 						{
 							blend->srcRGB = GL::value_at<GL::Factor>(srcRGB);
 						}
+						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
-							"\'srcRGB\'\n\n"
-							"Current: {0}\n\n"
-							"Specifies how the red, green, and blue blending factors are computed\n\n"
-							"{1}"
+							"Param: \'srcRGB\'\n\n"
+							"Value: {0} (0x{1})\n\n"
+							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(blend->srcRGB),
-							GL::desc_of(blend->srcRGB)
+							alg::to_hex<uint32_t>(blend->srcRGB),
+							"Specifies how the red, green, and blue blending factors are computed"
 						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t dstRGB = GL::index_of(blend->dstRGB);
+						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##DstRGB", &dstRGB, GL::Factor_raw_names))
 						{
 							blend->dstRGB = GL::value_at<GL::Factor>(dstRGB);
 						}
+						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
-							"\'dstRGB\'\n\n"
-							"Current: {0}\n\n"
-							"Specifies how the red, green, and blue destination blending factors are computed\n\n"
-							"{1}"
+							"Param: \'dstRGB\'\n\n"
+							"Value: {0} (0x{1})\n\n"
+							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(blend->dstRGB),
-							GL::desc_of(blend->dstRGB)
+							alg::to_hex<uint32_t>(blend->dstRGB),
+							"Specifies how the red, green, and blue destination blending factors are computed"
 						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t srcAlpha = GL::index_of(blend->srcAlpha);
+						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##SrcAlpha", &srcAlpha, GL::Factor_raw_names))
 						{
 							blend->srcAlpha = GL::value_at<GL::Factor>(srcAlpha);
 						}
+						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
-							"\'srcAlpha\'\n\n"
-							"Current: {0}\n\n"
-							"Specifies how the alpha source blending factor is computed\n\n"
-							"{1}"
+							"Param: \'srcAlpha\'\n\n"
+							"Value: {0} (0x{1})\n\n"
+							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(blend->srcAlpha),
-							GL::desc_of(blend->srcAlpha)
+							alg::to_hex<uint32_t>(blend->srcAlpha),
+							"Specifies how the alpha source blending factor is computed"
 						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t dstAlpha = GL::index_of(blend->dstAlpha);
+						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##DstAlpha", &dstAlpha, GL::Factor_raw_names))
 						{
 							blend->dstAlpha = GL::value_at<GL::Factor>(dstAlpha);
 						}
+						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
-							"\'dstAlpha\'\n\n"
-							"Current: {0}\n\n"
-							"Specifies how the alpha destination blending factor is computed\n\n"
-							"{1}"
+							"Param: \'dstAlpha\'\n\n"
+							"Value: {0} (0x{1})\n\n"
+							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(blend->dstAlpha),
-							GL::desc_of(blend->dstAlpha)
+							alg::to_hex<uint32_t>(blend->dstAlpha),
+							"Specifies how the alpha destination blending factor is computed"
 						));
 						ImGui::SameLine(); ImGui::Text(")");
 
@@ -728,19 +771,27 @@ namespace ml
 
 						ImGui::PushID("##CullState");
 						ImGui::NewLine();
+						ImGui::PushItemWidth(150);
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						ImGui::Checkbox(cull->enabled
-							? "glEnable(GL_CULL_FACE)" : "glDisable(GL_CULL_FACE)",
+							? "glEnable" : "glDisable",
 							&cull->enabled
 						);
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+						ImGui::PushStyleColor(ImGuiCol_Text, cull->enabled
+							? Setting_Colors[Setting_Enum]
+							: Setting_Colors[Setting_Disabled]
+						);
+						ImGui::Text(GL::raw_name_of(GL::CullFace));
+						ImGui::PopStyleColor();
+						ImGui::SameLine(); ImGui::Text(")");
 						ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						ImGui::PushItemWidth(150);
 						if (ImGui::Button("glCullFace"))
 						{
 							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
@@ -751,16 +802,19 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t face = GL::index_of(cull->face);
+						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##Face", &face, GL::Face_raw_names))
 						{
 							cull->face = GL::value_at<GL::Face>(face);
 						}
+						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
-							"\'face\'\n\n"
-							"Current: {0}\n\n"
-							"{1}"
+							"Param: \'face\'\n\n"
+							"Value: {0} (0x{1})\n\n"
+							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(cull->face),
+							alg::to_hex<uint32_t>(cull->face),
 							GL::desc_of(cull->face)
 						));
 						ImGui::SameLine(); ImGui::Text(")");
@@ -776,34 +830,48 @@ namespace ml
 
 					// Depth State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 					if (depth_state) ([](DepthState * depth)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						ImGui::PushID("##DepthState");
 						ImGui::NewLine();
+						ImGui::PushItemWidth(150);
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						ImGui::Checkbox(depth->enabled
-							? "glEnable(GL_DEPTH_TEST)" : "glDisable(GL_DEPTH_TEST)",
+							? "glEnable" : "glDisable",
 							&depth->enabled
+						); 
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+						ImGui::PushStyleColor(ImGuiCol_Text, depth->enabled
+							? Setting_Colors[Setting_Enum]
+							: Setting_Colors[Setting_Disabled]
 						);
-						ImGuiExt::Tooltip(GL::desc_of(GL::DepthTest));
-						ImGui::NewLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::Checkbox(depth->mask
-							? "glDepthMask(true)" : "glDepthMask(false)",
-							&depth->mask
-						);
+						ImGui::Text(GL::raw_name_of(GL::DepthTest));
+						ImGui::PopStyleColor();
+						ImGui::SameLine(); ImGui::Text(")");
 						ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						ImGui::PushItemWidth(150);
+						ImGui::Checkbox("glDepthMask", &depth->mask); 
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+						ImGui::PushStyleColor(ImGuiCol_Text, depth->mask 
+							? Setting_Colors[Setting_Bool]
+							: Setting_Colors[Setting_Disabled]
+						);
+						ImGui::Text(depth->mask ? "true" : "false");
+						ImGui::PopStyleColor();
+						ImGui::SameLine(); ImGui::Text(")");
+						ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
 						if (ImGui::Button("glDepthFunc"))
 						{
 							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
@@ -814,16 +882,19 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t predicate = GL::index_of(depth->predicate);
+						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names))
 						{
 							depth->predicate = GL::value_at<GL::Predicate>(predicate);
 						}
+						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
-							"\'predicate\'\n\n"
-							"Current: {0}\n\n"
-							"{1}"
+							"Param: \'predicate\'\n\n"
+							"Value: {0} (0x{1})\n\n"
+							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(depth->predicate),
+							alg::to_hex<uint32_t>(depth->predicate),
 							GL::desc_of(depth->predicate)
 						));
 						ImGui::SameLine(); ImGui::Text(")");
@@ -837,13 +908,13 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(depth_state);
 
-					/* * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					ImGui::EndChild();
 					ImGui::PopID(); 
 					ImGui::EndTabItem();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				}
 
 				ImGui::EndTabBar();

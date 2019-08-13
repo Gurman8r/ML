@@ -234,6 +234,30 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class T> static inline String to_bin(T value)
+		{
+			SStream ss;
+			for (size_t i = 0; i < (sizeof(T) * 8); i++) 
+				ss << bitRead(value, i);
+			return ss.str();
+		}
+
+		template <class T> static inline String to_hex(T value)
+		{
+			SStream ss;
+			ss << std::hex << value;
+			return ss.str();
+		}
+
+		template <class T> static inline String to_oct(T value)
+		{
+			SStream ss;
+			ss << std::oct << value;
+			return ss.str();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -41,7 +41,7 @@ namespace ml
 
 		size_t	count(const String & value) const;
 		size_t	count(const_iterator first, const_iterator last, const String & value) const;
-		size_t	indexOf(const String & value) const;
+		size_t	index_of(const String & value) const;
 		size_t	size() const;
 
 		bool	contains(const String & value) const;

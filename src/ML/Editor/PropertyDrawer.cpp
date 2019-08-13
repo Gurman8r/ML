@@ -1,7 +1,7 @@
 #include <ML/Editor/PropertyDrawer.hpp>
 #include <ML/Engine/Content.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/EditorUtility.hpp>
+#include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Core/Debug.hpp>
 
 #include <ML/Audio/Sound.hpp>
@@ -25,15 +25,11 @@ namespace ml
 	> static inline bool asset_dropdown(const String & label, const T *& value)
 	{
 		int32_t index = ML_Content.get_index_of<T>(value);
-		if (ML_EditorUtility.StringCombo(
-			label.c_str(),
-			index,
-			ML_Content.get_keys<T>()
-		))
-		{
-			return (value = ML_Content.find_by_index<T>(index));
-		}
-		return false;
+
+		return (ImGuiExt::Combo(label.c_str(), &index, ML_Content.get_keys<T>())
+			? (value = ML_Content.find_by_index<T>(index))
+			: false
+		);
 	}
 }
 
@@ -86,15 +82,15 @@ namespace ml
 					{
 						ImGui::Checkbox("##Enabled##Alpha Testing", &alphaTest->enabled);
 
-						int32_t index = GL::indexOf(alphaTest->comp);
+						int32_t index = GL::index_of(alphaTest->predicate);
 						if (ImGui::Combo(
 							"Comparison##Alpha Testing",
 							&index,
-							GL::Comp_names,
-							IM_ARRAYSIZE(GL::Comp_names)
+							GL::Predicate_names,
+							IM_ARRAYSIZE(GL::Predicate_names)
 						))
 						{
-							GL::valueAt(index, alphaTest->comp);
+							GL::value_at(index, alphaTest->predicate);
 						}
 
 						ImGui::DragFloat("Coeff##Alpha Testing", &alphaTest->coeff);
@@ -120,28 +116,28 @@ namespace ml
 							);
 						};
 
-						int32_t srcRGB = GL::indexOf(blendFunc->srcRGB);
+						int32_t srcRGB = GL::index_of(blendFunc->srcRGB);
 						if (factor_combo("Src RGB##Blending", srcRGB))
 						{
-							GL::valueAt(srcRGB, blendFunc->srcRGB);
+							GL::value_at(srcRGB, blendFunc->srcRGB);
 						}
 
-						int32_t srcAlpha = GL::indexOf(blendFunc->srcAlpha);
+						int32_t srcAlpha = GL::index_of(blendFunc->srcAlpha);
 						if (factor_combo("Src Alpha##Blending", srcAlpha))
 						{
-							GL::valueAt(srcAlpha, blendFunc->srcAlpha);
+							GL::value_at(srcAlpha, blendFunc->srcAlpha);
 						}
 
-						int32_t dstRGB = GL::indexOf(blendFunc->dstRGB);
+						int32_t dstRGB = GL::index_of(blendFunc->dstRGB);
 						if (factor_combo("Dst RGB##Blending", dstRGB))
 						{
-							GL::valueAt(dstRGB, blendFunc->dstRGB);
+							GL::value_at(dstRGB, blendFunc->dstRGB);
 						}
 
-						int32_t dstAlpha = GL::indexOf(blendFunc->dstAlpha);
+						int32_t dstAlpha = GL::index_of(blendFunc->dstAlpha);
 						if (factor_combo("Dst Alpha##Blending", dstAlpha))
 						{
-							GL::valueAt(dstAlpha, blendFunc->dstAlpha);
+							GL::value_at(dstAlpha, blendFunc->dstAlpha);
 						}
 					}
 					ImGui::TreePop();
@@ -155,7 +151,7 @@ namespace ml
 					{
 						ImGui::Checkbox("Enabled##Culling", &cullFace->enabled);
 
-						int32_t index = GL::indexOf(cullFace->face);
+						int32_t index = GL::index_of(cullFace->face);
 						if (ImGui::Combo(
 							"Face##Culling",
 							&index,
@@ -163,7 +159,7 @@ namespace ml
 							IM_ARRAYSIZE(GL::Face_names)
 						))
 						{
-							GL::valueAt(index, cullFace->face);
+							GL::value_at(index, cullFace->face);
 						}
 					}
 					ImGui::TreePop();
@@ -177,15 +173,15 @@ namespace ml
 					{
 						ImGui::Checkbox("Enabled##Depth Testing", &depthTest->enabled);
 
-						int32_t index = GL::indexOf(depthTest->comp);
+						int32_t index = GL::index_of(depthTest->predicate);
 						if (ImGui::Combo(
 							"Comparison##Depth Testing",
 							&index,
-							GL::Comp_names,
-							IM_ARRAYSIZE(GL::Comp_names)
+							GL::Predicate_names,
+							IM_ARRAYSIZE(GL::Predicate_names)
 						))
 						{
-							GL::valueAt(index, depthTest->comp);
+							GL::value_at(index, depthTest->predicate);
 						}
 					}
 					ImGui::TreePop();
@@ -687,11 +683,11 @@ namespace ml
 			value.setLevel(level); 
 			changed = true;
 		}
-		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t target = GL::indexOf(value.sampler());
+		int32_t target = GL::index_of(value.sampler());
 		if (ImGui::Combo(
 			("Sampler##" + label).c_str(),
 			&(target), 
@@ -700,15 +696,15 @@ namespace ml
 		))
 		{
 			GL::Sampler temp;
-			if (GL::valueAt(target, temp))
+			if (GL::value_at(target, temp))
 				value.setSampler(temp);
 			changed = true;
 		}
-		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t colorFormat = GL::indexOf(value.colorFormat());
+		int32_t colorFormat = GL::index_of(value.colorFormat());
 		if (ImGui::Combo(
 			("Color Format##" + label).c_str(),
 			&(colorFormat),
@@ -717,15 +713,15 @@ namespace ml
 		))
 		{
 			GL::Format temp;
-			if (GL::valueAt(colorFormat, temp))
+			if (GL::value_at(colorFormat, temp))
 				value.setColorFormat(temp);
 			changed = true;
 		}
-		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t internalFormat = GL::indexOf(value.internalFormat());
+		int32_t internalFormat = GL::index_of(value.internalFormat());
 		if (ImGui::Combo(
 			("Internal Format##" + label).c_str(),
 			&(internalFormat),
@@ -734,15 +730,15 @@ namespace ml
 		))
 		{
 			GL::Format temp;
-			if (GL::valueAt(internalFormat, temp))
+			if (GL::value_at(internalFormat, temp))
 				value.setInternalFormat(temp);
 			changed = true;
 		}
-		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t pixelType = GL::indexOf(value.type());
+		int32_t pixelType = GL::index_of(value.type());
 		if (ImGui::Combo(
 			("Pixel Type##" + label).c_str(),
 			&(pixelType),
@@ -751,11 +747,11 @@ namespace ml
 		))
 		{
 			GL::Type temp;
-			if (GL::valueAt(pixelType, temp))
+			if (GL::value_at(pixelType, temp))
 				value.setType(temp);
 			changed = true;
 		}
-		ImGui::SameLine(); ML_EditorUtility.HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1020,7 +1016,7 @@ namespace ml
 		}
 		
 		ImGui::SameLine();
-		ML_EditorUtility.HelpMarker("This uniform cannot be modified.");
+		ImGuiExt::HelpMarker("This uniform cannot be modified.");
 		return false;
 	}
 }

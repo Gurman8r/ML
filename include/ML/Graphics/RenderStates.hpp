@@ -31,18 +31,18 @@ namespace ml
 	struct ML_GRAPHICS_API AlphaState final : public RenderSetting
 	{
 		bool enabled;
-		GL::Comp comp;
+		GL::Predicate predicate;
 		float_t coeff;
 
-		explicit AlphaState(bool enabled, GL::Comp comp, float_t coeff)
+		explicit AlphaState(bool enabled, GL::Predicate predicate, float_t coeff)
 			: enabled(enabled)
-			, comp(comp)
+			, predicate(predicate)
 			, coeff(coeff)
 		{
 		}
 
 		AlphaState(const AlphaState & copy) 
-			: AlphaState(copy.enabled, copy.comp, copy.coeff)
+			: AlphaState(copy.enabled, copy.predicate, copy.coeff)
 		{
 		}
 
@@ -58,7 +58,7 @@ namespace ml
 
 		inline AlphaState * clone() const override
 		{
-			return new AlphaState { enabled, comp, coeff };
+			return new AlphaState { enabled, predicate, coeff };
 		}
 
 		const AlphaState & operator()() const override;
@@ -152,12 +152,12 @@ namespace ml
 	struct ML_GRAPHICS_API DepthState final : public RenderSetting
 	{
 		bool enabled;
-		GL::Comp comp;
+		GL::Predicate predicate;
 		bool mask;
 
-		explicit DepthState(bool enabled, GL::Comp comp, bool mask)
+		explicit DepthState(bool enabled, GL::Predicate predicate, bool mask)
 			: enabled(enabled)
-			, comp(comp)
+			, predicate(predicate)
 			, mask(mask)
 		{
 		}
@@ -179,7 +179,7 @@ namespace ml
 
 		inline DepthState * clone() const override
 		{
-			return new DepthState { enabled, comp, mask };
+			return new DepthState { enabled, predicate, mask };
 		}
 
 		const DepthState & operator()() const override;

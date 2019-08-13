@@ -73,7 +73,7 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::AlphaTest, this->enabled))
 		{
-			ML_GL.alphaFunc(this->comp, this->coeff);
+			ML_GL.alphaFunc(this->predicate, this->coeff);
 		}
 		return (*this);
 	}
@@ -121,7 +121,7 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::DepthTest, this->enabled))
 		{
-			ML_GL.depthFunc(this->comp);
+			ML_GL.depthFunc(this->predicate);
 
 			ML_GL.depthMask(this->mask);
 		}

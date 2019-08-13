@@ -4,7 +4,8 @@
 #include <ML/Core/StandardLib.hpp>
 
 // OpenGL Enums
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	namespace GL
@@ -111,7 +112,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum ClipControl : uint32_t
+		enum Clip : uint32_t
 		{
 			LowerLeft = 0x8CA1,				// GL_LOWER_LEFT
 			UpperLeft,						// GL_UPPER_LEFT
@@ -163,7 +164,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum Comp : uint32_t
+		enum Predicate : uint32_t
 		{
 			Never = 0x200,					// GL_NEVER
 			Less,							// GL_LESS
@@ -410,10 +411,10 @@ namespace ml
 	}
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Graphics/GL.inl>
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_GL_HPP_

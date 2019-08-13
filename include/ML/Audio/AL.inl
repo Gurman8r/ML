@@ -36,25 +36,25 @@ namespace ml
 			"There is not enough memory left to execute the command.",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Err & value)
+		static constexpr bool value_at(int32_t i, Err & value)
 		{
 			return alg::value_at(i, value, Err_values);
 		}
 
-		static constexpr int32_t indexOf(const Err value)
+		static constexpr int32_t index_of(const Err value)
 		{
 			return alg::index_of(value, Err_values);
 		}
 
-		static constexpr C_String nameOf(const Err value)
+		static constexpr C_String name_of(const Err value)
 		{
-			const int32_t i = indexOf(value);
+			const int32_t i = index_of(value);
 			return (i >= 0) ? Err_names[i] : "";
 		}
 
-		static constexpr C_String descOf(const Err value)
+		static constexpr C_String desc_of(const Err value)
 		{
-			const int32_t i = indexOf(value);
+			const int32_t i = index_of(value);
 			return (i >= 0) ? Err_descriptions[i] : "";
 		}
 

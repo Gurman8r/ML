@@ -26,24 +26,53 @@ namespace ml
 			"Alpha Test",
 			"Blend",
 			"Multisample",
-			"Framebuffer SRGB",
+			"Framebuffer sRGB",
 			"Scissor Test",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Flag & value)
+		static constexpr C_String Flag_raw_names[] = {
+			"GL_CULL_FACE",
+			"GL_DEPTH_TEST",
+			"GL_ALPHA_TEST",
+			"GL_BLEND",
+			"GL_MULTISAMPLE",
+			"GL_FRAMEBUFFER_SRGB",
+			"GL_SCISSOR_TEST",
+		};
+
+		static constexpr C_String Flag_descriptions[] = {
+			"If enabled, cull polygons based on their winding in window coordinates.",
+			"If enabled, do depth comparisons and update the depth buffer.",
+			"If enabled, do alpha testing.",
+			"If enabled, blend the computed fragment color values with the values in the color buffers.",
+			"If enabled, use multiple fragment samples in computing the final color of a pixel.",
+			"If enabled, and the value of the framebuffer attachment corresponding to the destination buffer is sRGB.",
+			"If enabled, discard fragments that are outside the scissor rectangle.",
+		};
+
+		static constexpr bool value_at(int32_t i, Flag & value)
 		{
 			return alg::value_at(i, value, Flag_values);
 		}
 
-		static constexpr int32_t indexOf(const Flag value)
+		static constexpr int32_t index_of(Flag value)
 		{
 			return alg::index_of(value, Flag_values);
 		}
 
-		static constexpr C_String nameOf(const Flag value)
+		static constexpr C_String name_of(Flag value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Flag_names[i] : nullptr;
+			return alg::at_index(index_of(value), Flag_names);
+		}
+
+		static constexpr C_String raw_name_of(Flag value)
+		{
+			return alg::at_index(index_of(value), Flag_raw_names);
+		}
+
+		static constexpr C_String desc_of(Flag value)
+		{
+			return alg::at_index(index_of(value), Flag_descriptions);
 		}
 
 
@@ -62,22 +91,44 @@ namespace ml
 			"Texture Cube Map",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Sampler & value)
+		static constexpr C_String Sampler_raw_names[] = {
+			"GL_TEXTURE_2D",
+			"GL_TEXTURE_3D",
+			"GL_TEXTURE_CUBE_MAP",
+		};
+
+		static constexpr C_String Sampler_descriptions[] = {
+			"GL_TEXTURE_2D",
+			"GL_TEXTURE_3D",
+			"GL_TEXTURE_CUBE_MAP",
+		};
+
+		static constexpr bool value_at(int32_t i, Sampler & value)
 		{
 			return alg::value_at(i, value, Sampler_values);
 		}
 
-		static constexpr int32_t indexOf(const Sampler value)
+		static constexpr int32_t index_of(Sampler value)
 		{
 			return alg::index_of(value, Sampler_values);
 		}
 
-		static constexpr C_String nameOf(const Sampler value)
+		static constexpr C_String name_of(Sampler value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Sampler_names[i] : nullptr;
+			return alg::at_index(index_of(value), Sampler_names);
 		}
-		
+
+		static constexpr C_String raw_name_of(Sampler value)
+		{
+			return alg::at_index(index_of(value), Sampler_raw_names);
+		}
+
+		static constexpr C_String desc_of(Sampler value)
+		{
+			return alg::at_index(index_of(value), Sampler_descriptions);
+		}
+
+
 		// GL::Target
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -117,20 +168,65 @@ namespace ml
 			"Active Texture",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Target & value)
+		static constexpr C_String Target_raw_names[] = {
+			"GL_ARRAY_BUFFER",
+			"GL_ELEMENT_ARRAY_BUFFER",
+			"GL_ARRAY_BUFFER_BINDING",
+			"GL_FRAMEBUFFER",
+			"GL_RENDERBUFFER",
+			"GL_PROGRAM_OBJECT_ARB",
+			"GL_READ_FRAMEBUFFER",
+			"GL_DRAW_FRAMEBUFFER",
+			"GL_READ_FRAMEBUFFER_BINDING",
+			"GL_DRAW_FRAMEBUFFER_BINDING",
+			"GL_CURRENT_PROGRAM",
+			"GL_VERTEX_ARRAY_BINDING",
+			"GL_TEXTURE_BINDING_2D",
+			"GL_SAMPLER_BINDING",
+			"GL_ACTIVE_TEXTURE",
+		};
+
+		static constexpr C_String Target_descriptions[] = {
+			"GL_ARRAY_BUFFER",
+			"GL_ELEMENT_ARRAY_BUFFER",
+			"GL_ARRAY_BUFFER_BINDING",
+			"GL_FRAMEBUFFER",
+			"GL_RENDERBUFFER",
+			"GL_PROGRAM_OBJECT_ARB",
+			"GL_READ_FRAMEBUFFER",
+			"GL_DRAW_FRAMEBUFFER",
+			"GL_READ_FRAMEBUFFER_BINDING",
+			"GL_DRAW_FRAMEBUFFER_BINDING",
+			"GL_CURRENT_PROGRAM",
+			"GL_VERTEX_ARRAY_BINDING",
+			"GL_TEXTURE_BINDING_2D",
+			"GL_SAMPLER_BINDING",
+			"GL_ACTIVE_TEXTURE",
+		};
+
+		static constexpr bool value_at(int32_t i, Target & value)
 		{
 			return alg::value_at(i, value, Target_values);
 		}
 
-		static constexpr int32_t indexOf(const Target value)
+		static constexpr int32_t index_of(Target value)
 		{
 			return alg::index_of(value, Target_values);
 		}
 
-		static constexpr C_String nameOf(const Target value)
+		static constexpr C_String name_of(Target value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Target_names[i] : nullptr;
+			return alg::at_index(index_of(value), Target_names);
+		}
+
+		static constexpr C_String raw_name_of(Target value)
+		{
+			return alg::at_index(index_of(value), Target_raw_names);
+		}
+
+		static constexpr C_String desc_of(Target value)
+		{
+			return alg::at_index(index_of(value), Target_descriptions);
 		}
 
 
@@ -149,20 +245,41 @@ namespace ml
 			"Dynamic Draw",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Usage & value)
+		static constexpr C_String Usage_raw_names[] = {
+			"GL_STREAM_DRAW",
+			"GL_STATIC_DRAW",
+			"GL_DYNAMIC_DRAW",
+		};
+
+		static constexpr C_String Usage_descriptions[] = {
+			"The data will be modified once and used at most a few times",
+			"The data will be modified once and used many times",
+			"The data will be modified repeatedly and used many times",
+		};
+
+		static constexpr bool value_at(int32_t i, Usage & value)
 		{
 			return alg::value_at(i, value, Usage_values);
 		}
 
-		static constexpr int32_t indexOf(const Usage value)
+		static constexpr int32_t index_of(Usage value)
 		{
 			return alg::index_of(value, Usage_values);
 		}
 
-		static constexpr C_String nameOf(const Usage value)
+		static constexpr C_String name_of(Usage value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Usage_names[i] : nullptr;
+			return alg::at_index(index_of(value), Usage_names);
+		}
+
+		static constexpr C_String raw_name_of(Usage value)
+		{
+			return alg::at_index(index_of(value), Usage_raw_names);
+		}
+
+		static constexpr C_String desc_of(Usage value)
+		{
+			return alg::at_index(index_of(value), Usage_descriptions);
 		}
 
 
@@ -191,39 +308,54 @@ namespace ml
 			"Invalid Framebuffer Operation",
 		};
 
+		static constexpr C_String Err_raw_names[] = {
+			"GL_NO_ERROR",
+			"GL_INVALID_ENUM",
+			"GL_INVALID_VALUE",
+			"GL_INVALID_OPERATION",
+			"GL_STACK_OVERFLOW",
+			"GL_STACK_UNDERFLOW",
+			"GL_OUT_OF_MEMORY",
+			"GL_INVALID_FRAMEBUFFER_OPERATION",
+		};
+
 		static constexpr C_String Err_descriptions[] = {
 			"No Description",
-			"An unacceptable value has been specified for an enumerated argument.",
-			"A numeric argument is out of range.",
-			"The specified operation is not allowed in the current state.",
-			"This command would cause a stack overflow.",
-			"This command would cause a stack underflow.",
-			"There is not enough memory left to execute the command.",
+			"An unacceptable value has been specified for an enumerated argument",
+			"A numeric argument is out of range",
+			"The specified operation is not allowed in the current state",
+			"This command would cause a stack overflow",
+			"This command would cause a stack underflow",
+			"There is not enough memory left to execute the command",
 			"The object bound to framebuffer binding is not \"framebuffer complete\"."
 		};
 
-		static constexpr bool valueAt(const int32_t i, Err & value)
+		static constexpr bool value_at(int32_t i, Err & value)
 		{
 			return alg::value_at(i, value, Err_values);
 		}
 
-		static constexpr int32_t indexOf(const Err value)
+		static constexpr int32_t index_of(Err value)
 		{
 			return alg::index_of(value, Err_values);
 		}
 
-		static constexpr C_String nameOf(const Err value)
+		static constexpr C_String name_of(Err value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Err_names[i] : nullptr;
+			return alg::at_index(index_of(value), Err_names);
 		}
 
-		static constexpr C_String descOf(const Err value)
+		static constexpr C_String raw_name_of(Err value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Err_descriptions[i] : nullptr;
+			return alg::at_index(index_of(value), Err_raw_names);
 		}
-		
+
+		static constexpr C_String desc_of(Err value)
+		{
+			return alg::at_index(index_of(value), Err_descriptions);
+		}
+
+
 		// GL::StringID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -243,22 +375,47 @@ namespace ml
 			"Shading Language Version",
 		};
 
-		static constexpr bool valueAt(const int32_t i, StringID & value)
+		static constexpr C_String StringID_raw_names[] = {
+			"GL_VENDOR",
+			"GL_RENDERER",
+			"GL_VERSION",
+			"GL_EXTENSIONS",
+			"GL_SHADING_LANGUAGE_VERSION",
+		};
+
+		static constexpr C_String StringID_descriptions[] = {
+			"GL_VENDOR",
+			"GL_RENDERER",
+			"GL_VERSION",
+			"GL_EXTENSIONS",
+			"GL_SHADING_LANGUAGE_VERSION",
+		};
+
+		static constexpr bool value_at(int32_t i, StringID & value)
 		{
 			return alg::value_at(i, value, StringID_values);
 		}
 
-		static constexpr int32_t indexOf(const StringID value)
+		static constexpr int32_t index_of(StringID value)
 		{
 			return alg::index_of(value, StringID_values);
 		}
 
-		static constexpr C_String nameOf(const StringID value)
+		static constexpr C_String name_of(StringID value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? StringID_names[i] : nullptr;
+			return alg::at_index(index_of(value), StringID_names);
 		}
-		
+
+		static constexpr C_String raw_name_of(StringID value)
+		{
+			return alg::at_index(index_of(value), StringID_raw_names);
+		}
+
+		static constexpr C_String desc_of(StringID value)
+		{
+			return alg::at_index(index_of(value), StringID_descriptions);
+		}
+
 
 		// GL::IntID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -303,54 +460,124 @@ namespace ml
 			"Blend Source Alpha",
 		};
 
-		static constexpr bool valueAt(const int32_t i, IntID & value)
+		static constexpr C_String IntID_raw_names[] = {
+			"GL_MAJOR_VERSION",
+			"GL_MINOR_VERSION",
+			"GL_NUM_EXTENSIONS",
+			"GL_CONTEXT_FLAGS",
+			"GL_CONTEXT_PROFILE_MASK",
+			"GL_MAX_TEXTURE_SIZE",
+			"GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS",
+			"GL_INFO_LOG_LENGTH",
+			"GL_POLYGON_MODE",
+			"GL_VIEWPORT",
+			"GL_SCISSOR_BOX",
+			"GL_BLEND_EQUATION_RGB",
+			"GL_BLEND_EQUATION_ALPHA",
+			"GL_BLEND_DST_RGB",
+			"GL_BLEND_SRC_RGB",
+			"GL_BLEND_DST_ALPHA",
+			"GL_BLEND_SRC_ALPHA",
+		};
+
+		static constexpr C_String IntID_descriptions[] = {
+			"GL_MAJOR_VERSION",
+			"GL_MINOR_VERSION",
+			"GL_NUM_EXTENSIONS",
+			"GL_CONTEXT_FLAGS",
+			"GL_CONTEXT_PROFILE_MASK",
+			"GL_MAX_TEXTURE_SIZE",
+			"GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS",
+			"GL_INFO_LOG_LENGTH",
+			"GL_POLYGON_MODE",
+			"GL_VIEWPORT",
+			"GL_SCISSOR_BOX",
+			"GL_BLEND_EQUATION_RGB",
+			"GL_BLEND_EQUATION_ALPHA",
+			"GL_BLEND_DST_RGB",
+			"GL_BLEND_SRC_RGB",
+			"GL_BLEND_DST_ALPHA",
+			"GL_BLEND_SRC_ALPHA",
+		};
+
+		static constexpr bool value_at(int32_t i, IntID & value)
 		{
 			return alg::value_at(i, value, IntID_values);
 		}
 
-		static constexpr int32_t indexOf(const IntID value)
+		static constexpr int32_t index_of(IntID value)
 		{
 			return alg::index_of(value, IntID_values);
 		}
 
-		static constexpr C_String nameOf(const IntID value)
+		static constexpr C_String name_of(IntID value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? IntID_names[i] : nullptr;
+			return alg::at_index(index_of(value), IntID_names);
 		}
-		
 
-		// GL::ClipControl
+		static constexpr C_String raw_name_of(IntID value)
+		{
+			return alg::at_index(index_of(value), IntID_raw_names);
+		}
+
+		static constexpr C_String desc_of(IntID value)
+		{
+			return alg::at_index(index_of(value), IntID_descriptions);
+		}
+
+
+		// GL::Clip
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr ClipControl ClipControl_values[] = {
-			ClipControl::LowerLeft,
-			ClipControl::UpperLeft,
-			ClipControl::ClipOrigin,
+		static constexpr Clip Clip_values[] = {
+			Clip::LowerLeft,
+			Clip::UpperLeft,
+			Clip::ClipOrigin,
 		};
 
-		static constexpr C_String ClipControl_names[] = {
+		static constexpr C_String Clip_names[] = {
 			"Lower Left",
 			"Upper Left",
 			"Clip Origin",
 		};
 
-		static constexpr bool valueAt(const int32_t i, ClipControl & value)
+		static constexpr C_String Clip_raw_names[] = {
+			"GL_LOWER_LEFT",
+			"GL_UPPER_LEFT",
+			"GL_CLIP_ORIGIN",
+		};
+
+		static constexpr C_String Clip_descriptions[] = {
+			"GL_LOWER_LEFT",
+			"GL_UPPER_LEFT",
+			"GL_CLIP_ORIGIN",
+		};
+
+		static constexpr bool value_at(int32_t i, Clip & value)
 		{
-			return alg::value_at(i, value, ClipControl_values);
+			return alg::value_at(i, value, Clip_values);
 		}
 
-		static constexpr int32_t indexOf(const ClipControl value)
+		static constexpr int32_t index_of(Clip value)
 		{
-			return alg::index_of(value, ClipControl_values);
+			return alg::index_of(value, Clip_values);
 		}
 
-		static constexpr C_String nameOf(const ClipControl value)
+		static constexpr C_String name_of(Clip value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? ClipControl_names[i] : nullptr;
+			return alg::at_index(index_of(value), Clip_names);
 		}
-		
+
+		static constexpr C_String raw_name_of(Clip value)
+		{
+			return alg::at_index(index_of(value), Clip_raw_names);
+		}
+
+		static constexpr C_String desc_of(Clip value)
+		{
+			return alg::at_index(index_of(value), Clip_descriptions);
+		}
+
 
 		// GL::Status
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -369,22 +596,46 @@ namespace ml
 			"Framebuffer Complete",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Status & value)
+		static constexpr C_String Status_raw_names[] = {
+			"GL_OBJECT_DELETE_STATUS_ARB",
+			"GL_OBJECT_COMPILE_STATUS_ARB",
+			"GL_OBJECT_LINK_STATUS_ARB",
+			"GL_FRAMEBUFFER_COMPLETE",
+		};
+
+		static constexpr C_String Status_descriptions[] = {
+			"GL_OBJECT_DELETE_STATUS_ARB",
+			"GL_OBJECT_COMPILE_STATUS_ARB",
+			"GL_OBJECT_LINK_STATUS_ARB",
+			"GL_FRAMEBUFFER_COMPLETE",
+		};
+
+		static constexpr bool value_at(int32_t i, Status & value)
 		{
 			return alg::value_at(i, value, Status_values);
 		}
 
-		static constexpr int32_t indexOf(const Status value)
+		static constexpr int32_t index_of(Status value)
 		{
 			return alg::index_of(value, Status_values);
 		}
 
-		static constexpr C_String nameOf(const Status value)
+		static constexpr C_String name_of(Status value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Status_names[i] : nullptr;
+			return alg::at_index(index_of(value), Status_names);
 		}
-		
+
+		static constexpr C_String raw_name_of(Status value)
+		{
+			return alg::at_index(index_of(value), Status_raw_names);
+		}
+
+		static constexpr C_String desc_of(Status value)
+		{
+			return alg::at_index(index_of(value), Status_descriptions);
+		}
+
+
 		// GL::ShaderType
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -400,20 +651,41 @@ namespace ml
 			"Geometry Shader",
 		};
 
-		static constexpr bool valueAt(const int32_t i, ShaderType & value)
+		static constexpr C_String ShaderType_raw_names[] = {
+			"GL_FRAGMENT_SHADER",
+			"GL_VERTEX_SHADER",
+			"GL_GEOMETRY_SHADER",
+		};
+
+		static constexpr C_String ShaderType_descriptions[] = {
+			"GL_FRAGMENT_SHADER",
+			"GL_VERTEX_SHADER",
+			"GL_GEOMETRY_SHADER",
+		};
+
+		static constexpr bool value_at(int32_t i, ShaderType & value)
 		{
 			return alg::value_at(i, value, ShaderType_values);
 		}
 
-		static constexpr int32_t indexOf(const ShaderType value)
+		static constexpr int32_t index_of(ShaderType value)
 		{
 			return alg::index_of(value, ShaderType_values);
 		}
 
-		static constexpr C_String nameOf(const ShaderType value)
+		static constexpr C_String name_of(ShaderType value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? ShaderType_names[i] : nullptr;
+			return alg::at_index(index_of(value), ShaderType_names);
+		}
+
+		static constexpr C_String raw_name_of(ShaderType value)
+		{
+			return alg::at_index(index_of(value), ShaderType_raw_names);
+		}
+
+		static constexpr C_String desc_of(ShaderType value)
+		{
+			return alg::at_index(index_of(value), ShaderType_descriptions);
 		}
 
 
@@ -442,20 +714,51 @@ namespace ml
 			"Fill",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Mode & value)
+		static constexpr C_String Mode_raw_names[] = {
+			"GL_POINTS",
+			"GL_LINES",
+			"GL_LINE_LOOP",
+			"GL_LINE_STRIP",
+			"GL_TRIANGLES",
+			"GL_TRIANGLE_STRIP",
+			"GL_TRIANGLE_FAN",
+			"GL_FILL",
+		};
+
+		static constexpr C_String Mode_descriptions[] = {
+			"GL_POINTS",
+			"GL_LINES",
+			"GL_LINE_LOOP",
+			"GL_LINE_STRIP",
+			"GL_TRIANGLES",
+			"GL_TRIANGLE_STRIP",
+			"GL_TRIANGLE_FAN",
+			"GL_FILL",
+		};
+
+		static constexpr bool value_at(int32_t i, Mode & value)
 		{
 			return alg::value_at(i, value, Mode_values);
 		}
 
-		static constexpr int32_t indexOf(const Mode value)
+		static constexpr int32_t index_of(Mode value)
 		{
 			return alg::index_of(value, Mode_values);
 		}
 
-		static constexpr C_String nameOf(const Mode value)
+		static constexpr C_String name_of(Mode value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Mode_names[i] : nullptr;
+			return alg::at_index(index_of(value), Mode_names);
+		}
+
+		static constexpr C_String raw_name_of(Mode value)
+		{
+			return alg::at_index(index_of(value), Mode_raw_names);
+		}
+
+		static constexpr C_String desc_of(Mode value)
+		{
+			return alg::at_index(index_of(value), Mode_descriptions);
 		}
 
 
@@ -476,65 +779,119 @@ namespace ml
 			"Func Add",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Equation & value)
+		static constexpr C_String Equation_raw_names[] = {
+			"GL_MULT",
+			"GL_ADD",
+			"GL_SUBTRACT",
+			"GL_FUNC_ADD",
+		};
+
+		static constexpr C_String Equation_descriptions[] = {
+			"GL_MULT",
+			"GL_ADD",
+			"GL_SUBTRACT",
+			"GL_FUNC_ADD",
+		};
+
+		static constexpr bool value_at(int32_t i, Equation & value)
 		{
 			return alg::value_at(i, value, Equation_values);
 		}
 
-		static constexpr int32_t indexOf(const Equation value)
+		static constexpr int32_t index_of(Equation value)
 		{
 			return alg::index_of(value, Equation_values);
 		}
 
-		static constexpr C_String nameOf(const Equation value)
+		static constexpr C_String name_of(Equation value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Equation_names[i] : nullptr;
+			return alg::at_index(index_of(value), Equation_names);
+		}
+
+		static constexpr C_String raw_name_of(Equation value)
+		{
+			return alg::at_index(index_of(value), Equation_raw_names);
+		}
+
+		static constexpr C_String desc_of(Equation value)
+		{
+			return alg::at_index(index_of(value), Equation_descriptions);
 		}
 
 
-		// GL::Comp
+		// GL::Predicate
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr const Comp Comp_values[] = {
-			Comp::Never,
-			Comp::Less,
-			Comp::Equal,
-			Comp::LEqual,
-			Comp::Greater,
-			Comp::NotEqual,
-			Comp::GEqual,
-			Comp::Always,
+		static constexpr const Predicate Predicate_values[] = {
+			Predicate::Never,
+			Predicate::Less,
+			Predicate::Equal,
+			Predicate::LEqual,
+			Predicate::Greater,
+			Predicate::NotEqual,
+			Predicate::GEqual,
+			Predicate::Always,
 		};
 
-		static constexpr C_String Comp_names[] = {
+		static constexpr C_String Predicate_names[] = {
 			"Never",
 			"Less",
 			"Equal",
-			"Less or Equal",
+			"Less / Equal",
 			"Greater",
 			"Not Equal",
-			"Greater or Equal",
+			"Greater / Equal",
 			"Always",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Comp & value)
+		static constexpr C_String Predicate_raw_names[] = {
+			"GL_NEVER",
+			"GL_LESS",
+			"GL_EQUAL",
+			"GL_LEQUAL",
+			"GL_GREATER",
+			"GL_NOTEQUAL",
+			"GL_GEQUAL",
+			"GL_ALWAYS",
+		};
+
+		static constexpr C_String Predicate_descriptions[] = {
+			"Never passes",
+			"Passes if the incoming value is less than the stored value",
+			"Passes if the incoming value is equal to the stored value",
+			"Passes if the incoming value is less than or equal to the stored value",
+			"Passes if the incoming value is greater than the stored value",
+			"Passes if the incoming value is not equal to the stored value",
+			"Passes if the incoming value is greater than or equal to the stored value",
+			"Always passes",
+		};
+
+		static constexpr bool value_at(int32_t i, Predicate & value)
 		{
-			return alg::value_at(i, value, Comp_values);
+			return alg::value_at(i, value, Predicate_values);
 		}
 
-		static constexpr int32_t indexOf(const Comp value)
+		static constexpr int32_t index_of(Predicate value)
 		{
-			return alg::index_of(value, Comp_values);
+			return alg::index_of(value, Predicate_values);
 		}
 
-		static constexpr C_String nameOf(const Comp value)
+		static constexpr C_String name_of(Predicate value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Comp_names[i] : nullptr;
+			return alg::at_index(index_of(value), Predicate_names);
 		}
 
-		
+		static constexpr C_String raw_name_of(Predicate value)
+		{
+			return alg::at_index(index_of(value), Predicate_raw_names);
+		}
+
+		static constexpr C_String desc_of(Predicate value)
+		{
+			return alg::at_index(index_of(value), Predicate_descriptions);
+		}
+
+
 		// GL::Factor
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -562,20 +919,53 @@ namespace ml
 			"Source Alpha Saturate",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Factor & value)
+		static constexpr C_String Factor_raw_names[] = {
+			"GL_SRC_COLOR",
+			"GL_ONE_MINUS_SRC_COLOR",
+			"GL_SRC_ALPHA",
+			"GL_ONE_MINUS_SRC_ALPHA",
+			"GL_DST_ALPHA",
+			"GL_ONE_MINUS_DST_ALPHA",
+			"GL_DST_COLOR",
+			"GL_ONE_MINUS_DST_COLOR",
+			"GL_SRC_ALPHA_SATURATE",
+		};
+
+		static constexpr C_String Factor_descriptions[] = {
+			"GL_SRC_COLOR",
+			"GL_ONE_MINUS_SRC_COLOR",
+			"GL_SRC_ALPHA",
+			"GL_ONE_MINUS_SRC_ALPHA",
+			"GL_DST_ALPHA",
+			"GL_ONE_MINUS_DST_ALPHA",
+			"GL_DST_COLOR",
+			"GL_ONE_MINUS_DST_COLOR",
+			"GL_SRC_ALPHA_SATURATE",
+		};
+
+		static constexpr bool value_at(int32_t i, Factor & value)
 		{
 			return alg::value_at(i, value, Factor_values);
 		}
 
-		static constexpr int32_t indexOf(const Factor value)
+		static constexpr int32_t index_of(Factor value)
 		{
 			return alg::index_of(value, Factor_values);
 		}
 
-		static constexpr C_String nameOf(const Factor value)
+		static constexpr C_String name_of(Factor value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Factor_names[i] : nullptr;
+			return alg::at_index(index_of(value), Factor_names);
+		}
+
+		static constexpr C_String raw_name_of(Factor value)
+		{
+			return alg::at_index(index_of(value), Factor_raw_names);
+		}
+
+		static constexpr C_String desc_of(Factor value)
+		{
+			return alg::at_index(index_of(value), Factor_descriptions);
 		}
 
 
@@ -606,20 +996,53 @@ namespace ml
 			"Front & Back",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Face & value)
+		static constexpr C_String Face_raw_names[] = {
+			"GL_FRONT_LEFT",
+			"GL_FRONT_RIGHT",
+			"GL_BACK_LEFT",
+			"GL_BACK_RIGHT",
+			"GL_FRONT",
+			"GL_BACK",
+			"GL_LEFT",
+			"GL_RIGHT",
+			"GL_FRONT_AND_BACK",
+		};
+
+		static constexpr C_String Face_descriptions[] = {
+			"GL_FRONT_LEFT",
+			"GL_FRONT_RIGHT",
+			"GL_BACK_LEFT",
+			"GL_BACK_RIGHT",
+			"GL_FRONT",
+			"GL_BACK",
+			"GL_LEFT",
+			"GL_RIGHT",
+			"GL_FRONT_AND_BACK",
+		};
+
+		static constexpr bool value_at(int32_t i, Face & value)
 		{
 			return alg::value_at(i, value, Face_values);
 		}
 
-		static constexpr int32_t indexOf(const Face value)
+		static constexpr int32_t index_of(Face value)
 		{
 			return alg::index_of(value, Face_values);
 		}
 
-		static constexpr C_String nameOf(const Face value)
+		static constexpr C_String name_of(Face value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Face_names[i] : nullptr;
+			return alg::at_index(index_of(value), Face_names);
+		}
+
+		static constexpr C_String raw_name_of(Face value)
+		{
+			return alg::at_index(index_of(value), Face_raw_names);
+		}
+
+		static constexpr C_String desc_of(Face value)
+		{
+			return alg::at_index(index_of(value), Face_descriptions);
 		}
 
 
@@ -648,20 +1071,51 @@ namespace ml
 			"Half Float",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Type & value)
+		static constexpr C_String Type_raw_names[] = {
+			"GL_BYTE",
+			"GL_UNSIGNED_BYTE",
+			"GL_SHORT",
+			"GL_UNSIGNED_SHORT",
+			"GL_INT",
+			"GL_UNSIGNED_INT",
+			"GL_FLOAT",
+			"GL_HALF_FLOAT",
+		};
+
+		static constexpr C_String Type_descriptions[] = {
+			"GL_BYTE",
+			"GL_UNSIGNED_BYTE",
+			"GL_SHORT",
+			"GL_UNSIGNED_SHORT",
+			"GL_INT",
+			"GL_UNSIGNED_INT",
+			"GL_FLOAT",
+			"GL_HALF_FLOAT",
+		};
+
+		static constexpr bool value_at(int32_t i, Type & value)
 		{
 			return alg::value_at(i, value, Type_values);
 		}
 
-		static constexpr int32_t indexOf(const Type value)
+		static constexpr int32_t index_of(Type value)
 		{
 			return alg::index_of(value, Type_values);
 		}
 
-		static constexpr C_String nameOf(const Type value)
+		static constexpr C_String name_of(Type value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Type_names[i] : nullptr;
+			return alg::at_index(index_of(value), Type_names);
+		}
+
+		static constexpr C_String raw_name_of(Type value)
+		{
+			return alg::at_index(index_of(value), Type_raw_names);
+		}
+
+		static constexpr C_String desc_of(Type value)
+		{
+			return alg::at_index(index_of(value), Type_descriptions);
 		}
 
 
@@ -708,27 +1162,76 @@ namespace ml
 			"Depth 24 / Stencil 8",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Format & value)
+		static constexpr C_String Format_raw_names[] = {
+			"GL_RED",
+			"GL_GREEN",
+			"GL_BLUE",
+			"GL_ALPHA",
+			"GL_RGB",
+			"GL_RGBA",
+			"GL_LUMINANCE",
+			"GL_LUMINANCE_ALPHA",
+			"GL_SRGB",
+			"GL_SRGB8",
+			"GL_SRGB_ALPHA",
+			"GL_SRGB8_ALPHA8",
+			"GL_SLUMINANCE_ALPHA",
+			"GL_SLUMINANCE8_ALPHA8",
+			"GL_SLUMINANCE",
+			"GL_SLUMINANCE8",
+			"GL_DEPTH24_STENCIL8",
+		};
+
+		static constexpr C_String Format_descriptions[] = {
+			"GL_RED",
+			"GL_GREEN",
+			"GL_BLUE",
+			"GL_ALPHA",
+			"GL_RGB",
+			"GL_RGBA",
+			"GL_LUMINANCE",
+			"GL_LUMINANCE_ALPHA",
+			"GL_SRGB",
+			"GL_SRGB8",
+			"GL_SRGB_ALPHA",
+			"GL_SRGB8_ALPHA8",
+			"GL_SLUMINANCE_ALPHA",
+			"GL_SLUMINANCE8_ALPHA8",
+			"GL_SLUMINANCE",
+			"GL_SLUMINANCE8",
+			"GL_DEPTH24_STENCIL8",
+		};
+
+		static constexpr bool value_at(int32_t i, Format & value)
 		{
 			return alg::value_at(i, value, Format_values);
 		}
 
-		static constexpr int32_t indexOf(const Format value)
+		static constexpr int32_t index_of(Format value)
 		{
 			return alg::index_of(value, Format_values);
 		}
 
-		static constexpr C_String nameOf(const Format value)
+		static constexpr C_String name_of(Format value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Format_names[i] : nullptr;
+			return alg::at_index(index_of(value), Format_names);
+		}
+
+		static constexpr C_String raw_name_of(Format value)
+		{
+			return alg::at_index(index_of(value), Format_raw_names);
+		}
+
+		static constexpr C_String desc_of(Format value)
+		{
+			return alg::at_index(index_of(value), Format_descriptions);
 		}
 
 
 		// GL::FrameAttachment
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr FrameAttachment FBO_Attachment_values[] = {
+		static constexpr FrameAttachment FrameAttachment_values[] = {
 			FrameAttachment::ColorEncoding,
 			FrameAttachment::ComponentType,
 			FrameAttachment::RedSize,
@@ -742,7 +1245,7 @@ namespace ml
 			FrameAttachment::DepthStencil,
 		};
 
-		static constexpr C_String FBO_Attachment_names[] = {
+		static constexpr C_String FrameAttachment_names[] = {
 			"Color Encoding",
 			"Component Type",
 			"Red Size",
@@ -756,20 +1259,57 @@ namespace ml
 			"Depth Stencil",
 		};
 
-		static constexpr bool valueAt(const int32_t i, FrameAttachment & value)
+		static constexpr C_String FrameAttachment_raw_names[] = {
+			"GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING",
+			"GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE",
+			"GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE",
+			"GL_FRAMEBUFFER_DEFAULT",
+			"GL_FRAMEBUFFER_UNDEFINED",
+			"GL_DEPTH_STENCIL_ATTACHMENT",
+		};
+
+		static constexpr C_String FrameAttachment_descriptions[] = {
+			"GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING",
+			"GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE",
+			"GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE",
+			"GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE",
+			"GL_FRAMEBUFFER_DEFAULT",
+			"GL_FRAMEBUFFER_UNDEFINED",
+			"GL_DEPTH_STENCIL_ATTACHMENT",
+		};
+
+		static constexpr bool value_at(int32_t i, FrameAttachment & value)
 		{
-			return alg::value_at(i, value, FBO_Attachment_values);
+			return alg::value_at(i, value, FrameAttachment_values);
 		}
 
-		static constexpr int32_t indexOf(const FrameAttachment value)
+		static constexpr int32_t index_of(FrameAttachment value)
 		{
-			return alg::index_of(value, FBO_Attachment_values);
+			return alg::index_of(value, FrameAttachment_values);
 		}
 
-		static constexpr C_String nameOf(const FrameAttachment value)
+		static constexpr C_String name_of(FrameAttachment value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? FBO_Attachment_names[i] : nullptr;
+			return alg::at_index(index_of(value), FrameAttachment_names);
+		}
+
+		static constexpr C_String raw_name_of(FrameAttachment value)
+		{
+			return alg::at_index(index_of(value), FrameAttachment_raw_names);
+		}
+
+		static constexpr C_String desc_of(FrameAttachment value)
+		{
+			return alg::at_index(index_of(value), FrameAttachment_descriptions);
 		}
 
 
@@ -829,20 +1369,83 @@ namespace ml
 			"CubeMap Negative Z",
 		};
 
-		static constexpr bool valueAt(const int32_t i, TexParam & value)
+		static constexpr C_String TexParam_raw_names[] = {
+			"GL_NEAREST",
+			"GL_LINEAR",
+			"GL_NEAREST_MIPMAP_NEAREST",
+			"GL_LINEAR_MIPMAP_NEAREST",
+			"GL_NEAREST_MIPMAP_LINEAR",
+			"GL_LINEAR_MIPMAP_LINEAR",
+			"GL_TEXTURE_MAG_FILTER",
+			"GL_TEXTURE_MIN_FILTER",
+			"GL_TEXTURE_WRAP_S",
+			"GL_TEXTURE_WRAP_T",
+			"GL_TEXTURE_WRAP_R",
+			"GL_CLAMP",
+			"GL_REPEAT",
+			"GL_CLAMP_TO_EDGE",
+			"GL_TEXTURE_MIN_LOD",
+			"GL_TEXTURE_MAX_LOD",
+			"GL_TEXTURE_BASE_LEVEL",
+			"GL_TEXTURE_MAX_LEVEL",
+			"GL_TEXTURE_CUBE_MAP_POSITIVE_X",
+			"GL_TEXTURE_CUBE_MAP_NEGATIVE_X",
+			"GL_TEXTURE_CUBE_MAP_POSITIVE_Y",
+			"GL_TEXTURE_CUBE_MAP_NEGATIVE_Y",
+			"GL_TEXTURE_CUBE_MAP_POSITIVE_Z",
+			"GL_TEXTURE_CUBE_MAP_NEGATIVE_Z",
+		};
+
+		static constexpr C_String TexParam_descriptions[] = {
+			"GL_NEAREST",
+			"GL_LINEAR",
+			"GL_NEAREST_MIPMAP_NEAREST",
+			"GL_LINEAR_MIPMAP_NEAREST",
+			"GL_NEAREST_MIPMAP_LINEAR",
+			"GL_LINEAR_MIPMAP_LINEAR",
+			"GL_TEXTURE_MAG_FILTER",
+			"GL_TEXTURE_MIN_FILTER",
+			"GL_TEXTURE_WRAP_S",
+			"GL_TEXTURE_WRAP_T",
+			"GL_TEXTURE_WRAP_R",
+			"GL_CLAMP",
+			"GL_REPEAT",
+			"GL_CLAMP_TO_EDGE",
+			"GL_TEXTURE_MIN_LOD",
+			"GL_TEXTURE_MAX_LOD",
+			"GL_TEXTURE_BASE_LEVEL",
+			"GL_TEXTURE_MAX_LEVEL",
+			"GL_TEXTURE_CUBE_MAP_POSITIVE_X",
+			"GL_TEXTURE_CUBE_MAP_NEGATIVE_X",
+			"GL_TEXTURE_CUBE_MAP_POSITIVE_Y",
+			"GL_TEXTURE_CUBE_MAP_NEGATIVE_Y",
+			"GL_TEXTURE_CUBE_MAP_POSITIVE_Z",
+			"GL_TEXTURE_CUBE_MAP_NEGATIVE_Z",
+		};
+
+		static constexpr bool value_at(int32_t i, TexParam & value)
 		{
 			return alg::value_at(i, value, TexParam_values);
 		}
 
-		static constexpr int32_t indexOf(const TexParam value)
+		static constexpr int32_t index_of(TexParam value)
 		{
 			return alg::index_of(value, TexParam_values);
 		}
 
-		static constexpr C_String nameOf(const TexParam value)
+		static constexpr C_String name_of(TexParam value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? TexParam_names[i] : nullptr;
+			return alg::at_index(index_of(value), TexParam_names);
+		}
+
+		static constexpr C_String raw_name_of(TexParam value)
+		{
+			return alg::at_index(index_of(value), TexParam_raw_names);
+		}
+
+		static constexpr C_String desc_of(TexParam value)
+		{
+			return alg::at_index(index_of(value), TexParam_descriptions);
 		}
 
 
@@ -879,21 +1482,60 @@ namespace ml
 			"Pack Alignment",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Pack & value)
+		static constexpr C_String Pack_raw_names[] = {
+			"GL_UNPACK_SWAP_BYTES",
+			"GL_UNPACK_LSB_FIRST",
+			"GL_UNPACK_ROW_LENGTH",
+			"GL_UNPACK_SKIP_ROWS",
+			"GL_UNPACK_SKIP_PIXELS",
+			"GL_UNPACK_ALIGNMENT",
+			"GL_PACK_SWAP_BYTES",
+			"GL_PACK_LSB_FIRST",
+			"GL_PACK_ROW_LENGTH",
+			"GL_PACK_SKIP_ROWS",
+			"GL_PACK_SKIP_PIXELS",
+			"GL_PACK_ALIGNMENT",
+		};
+
+		static constexpr C_String Pack_descriptions[] = {
+			"GL_UNPACK_SWAP_BYTES",
+			"GL_UNPACK_LSB_FIRST",
+			"GL_UNPACK_ROW_LENGTH",
+			"GL_UNPACK_SKIP_ROWS",
+			"GL_UNPACK_SKIP_PIXELS",
+			"GL_UNPACK_ALIGNMENT",
+			"GL_PACK_SWAP_BYTES",
+			"GL_PACK_LSB_FIRST",
+			"GL_PACK_ROW_LENGTH",
+			"GL_PACK_SKIP_ROWS",
+			"GL_PACK_SKIP_PIXELS",
+			"GL_PACK_ALIGNMENT",
+		};
+
+		static constexpr bool value_at(int32_t i, Pack & value)
 		{
 			return alg::value_at(i, value, Pack_values);
 		}
 
-		static constexpr int32_t indexOf(const Pack value)
+		static constexpr int32_t index_of(Pack value)
 		{
 			return alg::index_of(value, Pack_values);
 		}
 
-		static constexpr C_String nameOf(const Pack value)
+		static constexpr C_String name_of(Pack value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Pack_names[i] : nullptr;
+			return alg::at_index(index_of(value), Pack_names);
 		}
+
+		static constexpr C_String raw_name_of(Pack value)
+		{
+			return alg::at_index(index_of(value), Pack_raw_names);
+		}
+
+		static constexpr C_String desc_of(Pack value)
+		{
+			return alg::at_index(index_of(value), Pack_descriptions);
+		}	
 
 
 		// GL::Attachment
@@ -937,20 +1579,67 @@ namespace ml
 			"Color Attachment 15",
 		};
 
-		static constexpr bool valueAt(const int32_t i, ColorAttachment & value)
+		static constexpr C_String ColorAttachment_raw_names[] = {
+			"GL_COLOR_ATTACHMENT0",
+			"GL_COLOR_ATTACHMENT1",
+			"GL_COLOR_ATTACHMENT2",
+			"GL_COLOR_ATTACHMENT3",
+			"GL_COLOR_ATTACHMENT4",
+			"GL_COLOR_ATTACHMENT5",
+			"GL_COLOR_ATTACHMENT6",
+			"GL_COLOR_ATTACHMENT7",
+			"GL_COLOR_ATTACHMENT8",
+			"GL_COLOR_ATTACHMENT9",
+			"GL_COLOR_ATTACHMENT10",
+			"GL_COLOR_ATTACHMENT11",
+			"GL_COLOR_ATTACHMENT12",
+			"GL_COLOR_ATTACHMENT13",
+			"GL_COLOR_ATTACHMENT14",
+			"GL_COLOR_ATTACHMENT15",
+		};
+
+		static constexpr C_String ColorAttachment_descriptions[] = {
+			"GL_COLOR_ATTACHMENT0",
+			"GL_COLOR_ATTACHMENT1",
+			"GL_COLOR_ATTACHMENT2",
+			"GL_COLOR_ATTACHMENT3",
+			"GL_COLOR_ATTACHMENT4",
+			"GL_COLOR_ATTACHMENT5",
+			"GL_COLOR_ATTACHMENT6",
+			"GL_COLOR_ATTACHMENT7",
+			"GL_COLOR_ATTACHMENT8",
+			"GL_COLOR_ATTACHMENT9",
+			"GL_COLOR_ATTACHMENT10",
+			"GL_COLOR_ATTACHMENT11",
+			"GL_COLOR_ATTACHMENT12",
+			"GL_COLOR_ATTACHMENT13",
+			"GL_COLOR_ATTACHMENT14",
+			"GL_COLOR_ATTACHMENT15",
+		};
+
+		static constexpr bool value_at(int32_t i, ColorAttachment & value)
 		{
 			return alg::value_at(i, value, ColorAttachment_values);
 		}
 
-		static constexpr int32_t indexOf(const ColorAttachment value)
+		static constexpr int32_t index_of(ColorAttachment value)
 		{
 			return alg::index_of(value, ColorAttachment_values);
 		}
 
-		static constexpr C_String nameOf(const ColorAttachment value)
+		static constexpr C_String name_of(ColorAttachment value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? ColorAttachment_names[i] : nullptr;
+			return alg::at_index(index_of(value), ColorAttachment_names);
+		}
+
+		static constexpr C_String raw_name_of(ColorAttachment value)
+		{
+			return alg::at_index(index_of(value), ColorAttachment_raw_names);
+		}
+
+		static constexpr C_String desc_of(ColorAttachment value)
+		{
+			return alg::at_index(index_of(value), ColorAttachment_descriptions);
 		}
 
 
@@ -1027,20 +1716,99 @@ namespace ml
 			"Texture 31",
 		};
 
-		static constexpr bool valueAt(const int32_t i, TexID & value)
+		static constexpr C_String TexID_raw_names[] = {
+			"GL_TEXTURE0",
+			"GL_TEXTURE1",
+			"GL_TEXTURE2",
+			"GL_TEXTURE3",
+			"GL_TEXTURE4",
+			"GL_TEXTURE5",
+			"GL_TEXTURE6",
+			"GL_TEXTURE7",
+			"GL_TEXTURE8",
+			"GL_TEXTURE9",
+			"GL_TEXTURE10",
+			"GL_TEXTURE11",
+			"GL_TEXTURE12",
+			"GL_TEXTURE13",
+			"GL_TEXTURE14",
+			"GL_TEXTURE15",
+			"GL_TEXTURE16",
+			"GL_TEXTURE17",
+			"GL_TEXTURE18",
+			"GL_TEXTURE19",
+			"GL_TEXTURE20",
+			"GL_TEXTURE21",
+			"GL_TEXTURE22",
+			"GL_TEXTURE23",
+			"GL_TEXTURE24",
+			"GL_TEXTURE25",
+			"GL_TEXTURE26",
+			"GL_TEXTURE27",
+			"GL_TEXTURE28",
+			"GL_TEXTURE29",
+			"GL_TEXTURE30",
+			"GL_TEXTURE31",
+		};
+
+		static constexpr C_String TexID_descriptions[] = {
+			"GL_TEXTURE0",
+			"GL_TEXTURE1",
+			"GL_TEXTURE2",
+			"GL_TEXTURE3",
+			"GL_TEXTURE4",
+			"GL_TEXTURE5",
+			"GL_TEXTURE6",
+			"GL_TEXTURE7",
+			"GL_TEXTURE8",
+			"GL_TEXTURE9",
+			"GL_TEXTURE10",
+			"GL_TEXTURE11",
+			"GL_TEXTURE12",
+			"GL_TEXTURE13",
+			"GL_TEXTURE14",
+			"GL_TEXTURE15",
+			"GL_TEXTURE16",
+			"GL_TEXTURE17",
+			"GL_TEXTURE18",
+			"GL_TEXTURE19",
+			"GL_TEXTURE20",
+			"GL_TEXTURE21",
+			"GL_TEXTURE22",
+			"GL_TEXTURE23",
+			"GL_TEXTURE24",
+			"GL_TEXTURE25",
+			"GL_TEXTURE26",
+			"GL_TEXTURE27",
+			"GL_TEXTURE28",
+			"GL_TEXTURE29",
+			"GL_TEXTURE30",
+			"GL_TEXTURE31",
+		};
+
+		static constexpr bool value_at(int32_t i, TexID & value)
 		{
 			return alg::value_at(i, value, TexID_values);
 		}
 
-		static constexpr int32_t indexOf(const TexID value)
+		static constexpr int32_t index_of(TexID value)
 		{
 			return alg::index_of(value, TexID_values);
 		}
 
-		static constexpr C_String nameOf(const TexID value)
+		static constexpr C_String name_of(TexID value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? TexID_names[i] : nullptr;
+			return alg::at_index(index_of(value), TexID_names);
+		}
+
+		static constexpr C_String raw_name_of(TexID value)
+		{
+			return alg::at_index(index_of(value), TexID_raw_names);
+		}
+
+		static constexpr C_String desc_of(TexID value)
+		{
+			return alg::at_index(index_of(value), TexID_descriptions);
 		}
 
 
@@ -1085,23 +1853,70 @@ namespace ml
 			"Draw Buffer 15",
 		};
 
-		static constexpr bool valueAt(const int32_t i, DrawBuffer & value)
+		static constexpr C_String DrawBuffer_raw_names[] = {
+			"GL_DRAW_BUFFER0",
+			"GL_DRAW_BUFFER1",
+			"GL_DRAW_BUFFER2",
+			"GL_DRAW_BUFFER3",
+			"GL_DRAW_BUFFER4",
+			"GL_DRAW_BUFFER5",
+			"GL_DRAW_BUFFER6",
+			"GL_DRAW_BUFFER7",
+			"GL_DRAW_BUFFER8",
+			"GL_DRAW_BUFFER9",
+			"GL_DRAW_BUFFER10",
+			"GL_DRAW_BUFFER11",
+			"GL_DRAW_BUFFER12",
+			"GL_DRAW_BUFFER13",
+			"GL_DRAW_BUFFER14",
+			"GL_DRAW_BUFFER15",
+		};
+
+		static constexpr C_String DrawBuffer_descriptions[] = {
+			"GL_DRAW_BUFFER0",
+			"GL_DRAW_BUFFER1",
+			"GL_DRAW_BUFFER2",
+			"GL_DRAW_BUFFER3",
+			"GL_DRAW_BUFFER4",
+			"GL_DRAW_BUFFER5",
+			"GL_DRAW_BUFFER6",
+			"GL_DRAW_BUFFER7",
+			"GL_DRAW_BUFFER8",
+			"GL_DRAW_BUFFER9",
+			"GL_DRAW_BUFFER10",
+			"GL_DRAW_BUFFER11",
+			"GL_DRAW_BUFFER12",
+			"GL_DRAW_BUFFER13",
+			"GL_DRAW_BUFFER14",
+			"GL_DRAW_BUFFER15",
+		};
+
+		static constexpr bool value_at(int32_t i, DrawBuffer & value)
 		{
 			return alg::value_at(i, value, DrawBuffer_values);
 		}
 
-		static constexpr int32_t indexOf(const DrawBuffer value)
+		static constexpr int32_t index_of(DrawBuffer value)
 		{
 			return alg::index_of(value, DrawBuffer_values);
 		}
 
-		static constexpr C_String nameOf(const DrawBuffer value)
+		static constexpr C_String name_of(DrawBuffer value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? DrawBuffer_names[i] : nullptr;
+			return alg::at_index(index_of(value), DrawBuffer_names);
 		}
 
-		
+		static constexpr C_String raw_name_of(DrawBuffer value)
+		{
+			return alg::at_index(index_of(value), DrawBuffer_raw_names);
+		}
+
+		static constexpr C_String desc_of(DrawBuffer value)
+		{
+			return alg::at_index(index_of(value), DrawBuffer_descriptions);
+		}
+
+
 		// GL::Mask
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -1123,20 +1938,47 @@ namespace ml
 			"Color Buffer Bit",
 		};
 
-		static constexpr bool valueAt(const int32_t i, Mask & value)
+		static constexpr C_String Mask_raw_names[] = {
+			"GL_CONTEXT_CORE_PROFILE_BIT",
+			"GL_CONTEXT_COMPATIBILITY_PROFILE_BIT",
+			"GL_CONTEXT_FLAG_DEBUG_BIT",
+			"GL_DEPTH_BUFFER_BIT",
+			"GL_STENCIL_BUFFER_BIT",
+			"GL_COLOR_BUFFER_BIT",
+		};
+
+		static constexpr C_String Mask_descriptions[] = {
+			"GL_CONTEXT_CORE_PROFILE_BIT",
+			"GL_CONTEXT_COMPATIBILITY_PROFILE_BIT",
+			"GL_CONTEXT_FLAG_DEBUG_BIT",
+			"GL_DEPTH_BUFFER_BIT",
+			"GL_STENCIL_BUFFER_BIT",
+			"GL_COLOR_BUFFER_BIT",
+		};
+
+		static constexpr bool value_at(int32_t i, Mask & value)
 		{
 			return alg::value_at(i, value, Mask_values);
 		}
 
-		static constexpr int32_t indexOf(const Mask value)
+		static constexpr int32_t index_of(Mask value)
 		{
 			return alg::index_of(value, Mask_values);
 		}
 
-		static constexpr C_String nameOf(const Mask value)
+		static constexpr C_String name_of(Mask value)
 		{
-			const int32_t i = indexOf(value);
-			return (i >= 0) ? Mask_names[i] : nullptr;
+			return alg::at_index(index_of(value), Mask_names);
+		}
+
+		static constexpr C_String raw_name_of(Mask value)
+		{
+			return alg::at_index(index_of(value), Mask_raw_names);
+		}
+
+		static constexpr C_String desc_of(Mask value)
+		{
+			return alg::at_index(index_of(value), Mask_descriptions);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1145,32 +1987,61 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-// OpenGL Enum Operators
+// OpenGL Enum Functions
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
-	inline ML_SERIALIZE(Ostream & out, const GL::Flag & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Sampler & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Target & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Usage & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Err & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::StringID & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::IntID & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::ClipControl & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Status & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::ShaderType & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Mode & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Equation & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Comp & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Factor & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Face & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Type & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Format & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::FrameAttachment & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::TexParam & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Pack & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::ColorAttachment & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::TexID & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::DrawBuffer & value) { return out << GL::nameOf(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Mask & value) { return out << GL::nameOf(value); }
+	namespace GL
+	{
+		template <class T> static constexpr T value_at(int32_t index, T dv = (T)0)
+		{
+			_ML GL::value_at(index, dv);
+			return dv;
+		}
+
+		template <class T> static constexpr int32_t index_of(T value)
+		{
+			return _ML GL::index_of(value);
+		}
+
+		template <class T> static constexpr C_String name_of(T value)
+		{
+			return _ML GL::name_of(value);
+		}
+
+		template <class T> static constexpr C_String raw_name_of(T value)
+		{
+			return _ML GL::raw_name_of(value);
+		}
+
+		template <class T> static constexpr C_String desc_of(T value)
+		{
+			return _ML GL::desc_of(value);
+		}
+	}
+
+	inline ML_SERIALIZE(Ostream & out, const GL::Flag & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Sampler & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Target & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Usage & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Err & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::StringID & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::IntID & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Clip & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Status & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::ShaderType & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Mode & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Equation & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Predicate & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Factor & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Face & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Type & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Format & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::FrameAttachment & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::TexParam & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Pack & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::ColorAttachment & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::TexID & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::DrawBuffer & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::Mask & value) { return out << GL::name_of(value); }
 }

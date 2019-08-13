@@ -167,7 +167,7 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorPlugin.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorUtility.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\ImGuiExt.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
@@ -196,7 +196,7 @@
     <ClCompile Include="..\..\..\src\ML\Editor\EditorPlugin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorProfiler.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorTerminal.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorUtility.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGui_Impl.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGui_StyleLoader.cpp" />

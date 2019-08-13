@@ -1,7 +1,7 @@
 #shader vertex
 #include "../../../assets/shaders/common/Vert.shader"
 
-mat4 ml_Ortho(float left, float right, float bottom, float top)
+mat4 orthographic(float left, float right, float bottom, float top)
 {
 	mat4 temp = mat4(1.0);
 	temp[0][0] = 2.0 / (right - left);
@@ -20,7 +20,7 @@ void main()
 	V.Normal = a_Normal;
 	V.Texcoord = a_Texcoord;
 
-	mat4 proj = ml_Ortho(
+	mat4 proj = orthographic(
 		0.0, u_viewport.x,
 		0.0, u_viewport.y
 	);

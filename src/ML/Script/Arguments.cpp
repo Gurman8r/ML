@@ -105,7 +105,7 @@ namespace ml
 		return ret;
 	}
 	
-	size_t Arguments::indexOf(const String & value) const
+	size_t Arguments::index_of(const String & value) const
 	{
 		auto it = find(value);
 

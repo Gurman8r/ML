@@ -6,32 +6,27 @@
 #include <ML/Core/String.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * */
+
+// In debug mode, perform a test on every OpenGL call
+// The do loop is needed so that glCheck can be used as a single statement in branches
+// Source: https://github.com/SFML/SFML/blob/master/src/SFML/Graphics/GLCheck.hpp
+# if ML_DEBUG
+#	define glCheck(EX) do { EX; ML_GL.checkError(cout, __FILE__, __LINE__, #EX); } while (0)
+# else
+#	define glCheck(EX) (EX)
+# endif
+
+/* * * * * * * * * * * * * * * * * * * * */
 
 #define ML_GL _ML OpenGL::getInstance()
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-// Check for errors after every OpenGL call
-# if ML_DEBUG
-#	define glCheck(EXPR) \
-	do { EXPR; ML_GL.checkError(cout, __FILE__, __LINE__, #EXPR); } while (false)
-#else
-#	define glCheck(EXPR) (EXPR)
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
-	
-	class ML_GRAPHICS_API OpenGL final : public I_Singleton<OpenGL>
+	struct ML_GRAPHICS_API OpenGL final : public I_Singleton<OpenGL>
 	{
-		friend struct I_Singleton<OpenGL>;
-		OpenGL() = default;
-	
-	public:
 		// Errors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	getError() -> GL::Err;
@@ -62,11 +57,11 @@ namespace ml
 		// Functions
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void	activeTexture(uint32_t value);
-		static void	alphaFunc(GL::Comp comp, float_t value);
+		static void	alphaFunc(GL::Predicate predicate, float_t value);
 		static void	blendFunc(uint32_t sFactor, uint32_t dFactor);
 		static void	blendEquation(GL::Equation equation);
 		static void	cullFace(GL::Face value);
-		static void	depthFunc(GL::Comp value);
+		static void	depthFunc(GL::Predicate value);
 		static void	depthMask(bool value);
 		static void	viewport(int32_t x, int32_t y, int32_t w, int32_t h);
 		static void	blendEquationSeparate(uint32_t modeRGB, uint32_t modeAlpha);
@@ -174,11 +169,9 @@ namespace ml
 		static void	uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: friend struct I_Singleton<OpenGL>;
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_OPENGL_HPP_

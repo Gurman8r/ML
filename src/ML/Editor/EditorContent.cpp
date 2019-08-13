@@ -6,7 +6,7 @@
 #include <ML/Engine/Content.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Editor/EditorUtility.hpp>
+#include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/SharedLibrary.hpp>

@@ -306,42 +306,42 @@ namespace ml
 		class T, size_t X, size_t Y
 	> constexpr bool operator==(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
-		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return (lhs.m_data == rhs.m_data);
 	}
 
 	template <
 		class T, size_t X, size_t Y
 	> constexpr bool operator!=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
-		return !(lhs == rhs);
+		return (lhs.m_data != rhs.m_data);
 	}
 
 	template <
 		class T, size_t X, size_t Y
 	> constexpr bool operator<(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
-		return alg::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return (lhs.m_data < rhs.m_data);
 	}
 
 	template <
 		class T, size_t X, size_t Y
 	> constexpr bool operator<=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
-		return (lhs < rhs) || (lhs == rhs);
+		return (lhs.m_data <= rhs.m_data);
 	}
 
 	template <
 		class T, size_t X, size_t Y
 	> constexpr bool operator>(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
-		return !(lhs < rhs) && (lhs != rhs);
+		return (lhs.m_data > rhs.m_data);
 	}
 
 	template <
 		class T, size_t X, size_t Y
 	> constexpr bool operator>=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
 	{
-		return (lhs > rhs) || (lhs == rhs);
+		return (lhs.m_data >= rhs.m_data);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

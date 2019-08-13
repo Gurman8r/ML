@@ -56,7 +56,6 @@ namespace ml
 		case EndGuiEvent::ID	: if (auto ev = value.as<EndGuiEvent>())	return onEndGui(*ev);
 
 			// Dockspace
-			/* * * * * * * * * * * * * * * * * * * * */
 		case DockspaceEvent::ID:
 			if (auto ev = value.as<DockspaceEvent>())
 			{
@@ -70,7 +69,6 @@ namespace ml
 			break;
 
 			// Key
-			/* * * * * * * * * * * * * * * * * * * * */
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>())
 			{
@@ -125,28 +123,27 @@ namespace ml
 
 
 			// File -> New
-			/* * * * * * * * * * * * * * * * * * * * */
 		case File_New_Event::ID:
 			if (auto ev = value.as<File_New_Event>()) {}
 			break;
 
 			// File -> Open
-			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Open_Event::ID:
 			if (auto ev = value.as<File_Open_Event>())
 			{
-				if (m_browser.isOpen()) OS::execute("open", m_browser.get_selected_path());
+				if (m_browser.isOpen())
+				{
+					OS::execute("open", m_browser.get_selected_path());
+				}
 			}
 			break;
 
 			// File -> Save
-			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Save_Event::ID:
 			if (auto ev = value.as<File_Save_Event>()) {}
 			break;
 
 			// File -> Exit
-			/* * * * * * * * * * * * * * * * * * * * */
 		case File_Quit_Event::ID:
 			if (auto ev = value.as<File_Quit_Event>()) 
 				eventSystem().fireEvent(WindowKillEvent());
@@ -154,31 +151,26 @@ namespace ml
 
 
 			// Edit -> Undo
-			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Undo_Event::ID:
 			if (auto ev = value.as<Edit_Undo_Event>()) {}
 			break;
 
 			// Edit -> Redo
-			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Redo_Event::ID:
 			if (auto ev = value.as<Edit_Redo_Event>()) {}
 			break;
 
 			// Edit -> Cut
-			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Cut_Event::ID:
 			if (auto ev = value.as<Edit_Cut_Event>()) {}
 			break;
 
 			// Edit -> Copy
-			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Copy_Event::ID:
 			if (auto ev = value.as<Edit_Copy_Event>()) {}
 			break;
 
 			// Edit -> Paste
-			/* * * * * * * * * * * * * * * * * * * * */
 		case Edit_Paste_Event::ID: 
 			if (auto ev = value.as<Edit_Paste_Event>()) {}
 			break;

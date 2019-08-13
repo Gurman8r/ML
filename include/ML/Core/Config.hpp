@@ -12,7 +12,7 @@
 # if defined(__cplusplus)
 #	define ML_CPLUSPLUS __cplusplus
 # else
-#	error This system does not support C++
+#	define ML_CPLUSPLUS 0
 # endif
 
 

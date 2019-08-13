@@ -5,8 +5,9 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
+#include <ML/Core/OS.hpp>
 #include <ML/Editor/Editor.hpp>
-#include <ML/Editor/EditorUtility.hpp>
+#include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/GameTime.hpp>
@@ -239,12 +240,7 @@ namespace ml
 
 					// Viewport
 					static int32_t index = 0;
-					if (ImGui::Combo("Viewport",
-						&index, 
-						ML_EditorUtility.vector_getter,
-						(void *)&mode_names,
-						(int32_t)mode_names.size()
-					))
+					if (ImGuiExt::Combo("Viewport", &index, mode_names))
 					{
 						m_autoView = (index == 0);
 					}
@@ -274,7 +270,7 @@ namespace ml
 			if (surf && (*surf))
 			{
 				const vec2 src = surf->size();
-				const vec2 dst = ML_EditorUtility.getWindowSize();
+				const vec2 dst = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
 				const vec2 off = { 1.0f, 0.8f };
 				const vec2 scl = alg::scale_to_fit(src, dst * off);
 				const vec2 pos = ((dst - scl) * 0.5f) * off;
@@ -316,7 +312,7 @@ namespace ml
 		ImGui::EndChild();
 	}
 
-
+	
 	// DEMO EDITOR
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void Noobs::DemoEditor::render(const GuiEvent & ev, C_String title)
@@ -444,7 +440,7 @@ namespace ml
 						
 						// Uniform Type
 						/* * * * * * * * * * * * * * * * * * * * */
-						ImGui::Text("%s", detail::nameOf((Uni::Type)uni->id)); 
+						ImGui::Text("%s", detail::name_of((Uni::Type)uni->id)); 
 						ImGui::NextColumn();
 
 						// Uniform Value
@@ -497,7 +493,7 @@ namespace ml
 						generate_sources();
 					}
 					ImGui::SameLine();
-					ML_EditorUtility.HelpMarker("The shader targeted by this editor.");
+					ImGuiExt::HelpMarker("The shader targeted by this editor");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -507,236 +503,256 @@ namespace ml
 						m_renderer->drawable() = m;
 					}
 					ImGui::SameLine();
-					ML_EditorUtility.HelpMarker("The model to be drawn.");
+					ImGuiExt::HelpMarker("The model to be drawn");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::NewLine();
+					ImGui::PushID("##Renderer##Noobs");
+					ImGui::NewLine(); ImGui::Separator();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+					// Get States
+					AlphaState	* alpha = m_renderer->states().get<AlphaState>();
+					BlendState	* blend = m_renderer->states().get<BlendState>();
+					CullState	* cull	= m_renderer->states().get<CullState>();
+					DepthState	* depth = m_renderer->states().get<DepthState>();
 
-					if (AlphaState * alpha = m_renderer->states().get<AlphaState>())
+					// Alpha State
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					if (alpha) ([](AlphaState *& alpha)
 					{
-						if (ImGui::CollapsingHeader("Alpha"))
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PushID("##AlphaState");
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::Checkbox(alpha->enabled
+							? "glEnable(GL_ALPHA_TEST)" : "glDisable(GL_ALPHA_TEST)",
+							&alpha->enabled
+						);
+						ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PushItemWidth(150);
+						if (ImGui::Button("glAlphaFunc"))
 						{
-							bool & enabled = alpha->enabled;
-							ImGui::Checkbox((enabled
-								? "Enabled ##Alpha Testing##Renderer##Noobs"
-								: "Disabled##Alpha Testing##Renderer##Noobs"
-								),
-								&enabled
-							);
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(enabled
-								? ("glEnable(GL_ALPHA_TEST)")
-								: ("glDisable(GL_ALPHA_TEST)")
-							);
-
-							ML_EditorUtility.HelpMarker("glAlphaFunc");
-
-							int32_t i = GL::indexOf(alpha->comp);
-							if (ImGui::Combo(
-								"Comparison##Alpha Testing##Renderer##Noobs",
-								&i,
-								GL::Comp_names,
-								ML_ARRAYSIZE(GL::Comp_names)
-							))
-							{
-								GL::valueAt(i, alpha->comp);
-							}
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specifies the alpha comparison function.\n"
-							);
-
-							ImGui::DragFloat("Coeff##Alpha Testing##Renderer##Noobs", &alpha->coeff);
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specifies the reference value that incoming alpha values are compared to.\n"
-								"This value is clamped to the range 0 1 , where 0 represents the lowest possible alpha value and 1 the highest possible value.\n"
-							);
+							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glAlphaFunc.xml");
 						}
-					}
-					
-					/* * * * * * * * * * * * * * * * * * * * */
+						ImGuiExt::Tooltip("Specify the alpha test function");
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
-					if (BlendState * blend = m_renderer->states().get<BlendState>())
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						int32_t predicate = GL::index_of(alpha->predicate);
+						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names))
+						{
+							alpha->predicate = GL::value_at<GL::Predicate>(predicate);
+						}
+						ImGuiExt::Tooltip(GL::desc_of(alpha->predicate));
+						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::DragFloat("##Coefficient", &alpha->coeff);
+						ImGuiExt::Tooltip(
+							"Specifies the reference value that incoming alpha values are compared to.\n"
+							"This value is clamped to the range 0 to 1"
+						);
+						ImGui::SameLine(); ImGui::Text(")");
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PopItemWidth();
+						ImGui::PopID();
+						ImGui::NewLine(); ImGui::Separator();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+					})(alpha);
+
+					// Blend State
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					if (blend) ([](BlendState * blend)
 					{
-						if (ImGui::CollapsingHeader("Blend"))
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PushID("##BlendState");
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::Checkbox(blend->enabled
+							? "glEnable(GL_BLEND)" : "glDisable(GL_BLEND)",
+							&blend->enabled
+						);
+						ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PushItemWidth(150);
+						if (ImGui::Button("glBlendFuncSeparate"))
 						{
-							bool & enabled = blend->enabled;
-							ImGui::Checkbox((enabled
-								? "Enabled ##Blending##Renderer##Noobs"
-								: "Disabled##Blending##Renderer##Noobs"
-								),
-								&enabled
-							);
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(enabled
-								? ("glEnable(GL_BLEND)")
-								: ("glDisable(GL_BLEND)")
-							);
-
-							auto factor_combo = [](C_String label, int32_t & i)
-							{
-								return ImGui::Combo(
-									label,
-									&i,
-									GL::Factor_names,
-									ML_ARRAYSIZE(GL::Factor_names)
-								);
-							};
-
-							ML_EditorUtility.HelpMarker("glBlendFuncSeparate");
-
-							int32_t srcRGB = GL::indexOf(blend->srcRGB);
-							if (factor_combo("Src RGB##Blending##Renderer##Noobs", srcRGB))
-							{
-								GL::valueAt(srcRGB, blend->srcRGB);
-							}
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specifies how the red, green, and blue blending factors are computed."
-							);
-
-							int32_t srcAlpha = GL::indexOf(blend->srcAlpha);
-							if (factor_combo("Src Alpha##Blending##Renderer##Noobs", srcAlpha))
-							{
-								GL::valueAt(srcAlpha, blend->srcAlpha);
-							}
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specified how the alpha source blending factor is computed."
-							);
-
-							int32_t dstRGB = GL::indexOf(blend->dstRGB);
-							if (factor_combo("Dst RGB##Blending##Renderer##Noobs", dstRGB))
-							{
-								GL::valueAt(dstRGB, blend->dstRGB);
-							}
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specifies how the red, green, and blue destination blending factors are computed."
-							);
-
-							int32_t dstAlpha = GL::indexOf(blend->dstAlpha);
-							if (factor_combo("Dst Alpha##Blending##Renderer##Noobs", dstAlpha))
-							{
-								GL::valueAt(dstAlpha, blend->dstAlpha);
-							}
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specified how the alpha destination blending factor is computed."
-							);
+							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
 						}
-					}
+						ImGuiExt::Tooltip("Specify pixel arithmetic for RGB and alpha components separately");
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+						/* * * * * * * * * * * * * * * * * * * * */
 
-					if (CullState * cullFace = m_renderer->states().get<CullState>())
+						int32_t srcRGB = GL::index_of(blend->srcRGB);
+						if (ImGuiExt::Combo("##SrcRGB", &srcRGB, GL::Factor_raw_names))
+						{
+							blend->srcRGB = GL::value_at<GL::Factor>(srcRGB);
+						}
+						ImGuiExt::Tooltip("srcRGB\nSpecifies how the red, green, and blue blending factors are computed");
+						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						int32_t dstRGB = GL::index_of(blend->dstRGB);
+						if (ImGuiExt::Combo("##DstRGB", &dstRGB, GL::Factor_raw_names))
+						{
+							blend->dstRGB = GL::value_at<GL::Factor>(dstRGB);
+						}
+						ImGuiExt::Tooltip("dstRGB\nSpecifies how the red, green, and blue destination blending factors are computed");
+						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						int32_t srcAlpha = GL::index_of(blend->srcAlpha);
+						if (ImGuiExt::Combo("##SrcAlpha", &srcAlpha, GL::Factor_raw_names))
+						{
+							blend->srcAlpha = GL::value_at<GL::Factor>(srcAlpha);
+						}
+						ImGuiExt::Tooltip("srcAlpha\nSpecifies how the alpha source blending factor is computed");
+						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						int32_t dstAlpha = GL::index_of(blend->dstAlpha);
+						if (ImGuiExt::Combo("##DstAlpha", &dstAlpha, GL::Factor_raw_names))
+						{
+							blend->dstAlpha = GL::value_at<GL::Factor>(dstAlpha);
+						}
+						ImGuiExt::Tooltip("dstAlpha\nSpecifies how the alpha destination blending factor is computed");
+						ImGui::SameLine(); ImGui::Text(")");
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PopItemWidth();
+						ImGui::PopID();
+						ImGui::NewLine(); ImGui::Separator();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+					})(blend);
+
+					// Cull State
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					if (cull) ([](CullState * cull)
 					{
-						if (ImGui::CollapsingHeader("Cull Face"))
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PushID("##CullState");
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::Checkbox(cull->enabled
+							? "glEnable(GL_CULL_FACE)" : "glDisable(GL_CULL_FACE)",
+							&cull->enabled
+						);
+						ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PushItemWidth(150);
+						if (ImGui::Button("glCullFace"))
 						{
-							bool & enabled = cullFace->enabled;
-							ImGui::Checkbox((enabled
-								? "Enabled ##Culling##Renderer##Noobs"
-								: "Disabled##Culling##Renderer##Noobs"
-								),
-								&enabled
-							);
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(enabled
-								? ("glEnable(GL_CULL_FACE)")
-								: ("glDisable(GL_CULL_FACE)")
-							);
-
-							ML_EditorUtility.HelpMarker("glCullFace");
-
-							int32_t i = GL::indexOf(cullFace->face);
-							if (ImGui::Combo(
-								"Face##Culling##Renderer##Noobs",
-								&i,
-								GL::Face_names,
-								ML_ARRAYSIZE(GL::Face_names)
-							))
-							{
-								GL::valueAt(i, cullFace->face);
-							}
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"Specifies whether front- or back-facing facets are candidates for culling."
-							);
+							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
 						}
-					}
+						ImGuiExt::Tooltip("Specify which faces can be culled");
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+						/* * * * * * * * * * * * * * * * * * * * */
 
-					if (DepthState * depth = m_renderer->states().get<DepthState>())
+						int32_t face = GL::index_of(cull->face);
+						if (ImGuiExt::Combo("##Face", &face, GL::Face_raw_names))
+						{
+							cull->face = GL::value_at<GL::Face>(face);
+						}
+						ImGuiExt::Tooltip(GL::desc_of(cull->face));
+						ImGui::SameLine(); ImGui::Text(")");
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PopItemWidth();
+						ImGui::PopID();
+						ImGui::NewLine(); ImGui::Separator();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+					})(cull);
+
+					// Depth State
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					if (depth) ([](DepthState * depth)
 					{
-						if (ImGui::CollapsingHeader("Depth"))
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PushID("##DepthState");
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::Checkbox(depth->enabled
+							? "glEnable(GL_DEPTH_TEST)" : "glDisable(GL_DEPTH_TEST)",
+							&depth->enabled
+						);
+						ImGuiExt::Tooltip(GL::desc_of(GL::DepthTest));
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::Checkbox(depth->mask
+							? "glDepthMask(true)" : "glDepthMask(false)",
+							&depth->mask
+						);
+						ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
+						ImGui::NewLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PushItemWidth(150);
+						if (ImGui::Button("glDepthFunc"))
 						{
-							bool & enabled = depth->enabled;
-							ImGui::Checkbox((enabled
-								? "Enabled ##DepthTest##Renderer##Noobs"
-								: "Disabled##DepthTest##Renderer##Noobs"
-								),
-								&enabled
-							);
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(enabled
-								? ("glEnable(GL_DEPTH_TEST)")
-								: ("glDisable(GL_DEPTH_TEST)")
-							);
-
-							bool & mask = depth->mask;
-							ImGui::Checkbox("Mask##Depth##Renderer##Noobs", &mask);
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(mask
-								? ("glDepthMask(true)")
-								: ("glDepthMask(false)")
-							);
-
-							ML_EditorUtility.HelpMarker("glDepthFunc");
-
-							int32_t i = GL::indexOf(depth->comp);
-							if (ImGui::Combo(
-								"Comparison##Depth Testing##Renderer##Noobs",
-								&i,
-								GL::Comp_names,
-								ML_ARRAYSIZE(GL::Comp_names)
-							))
-							{
-								GL::valueAt(i, depth->comp);
-							}
-							ImGui::SameLine();
-							ML_EditorUtility.HelpMarker(
-								"GL_NEVER\n"
-								"Never passes.\n"
-								"\n"
-								"GL_LESS\n"
-								"Passes if the incoming depth value is less than the stored depth value.\n"
-								"\n"
-								"GL_EQUAL\n"
-								"Passes if the incoming depth value is equal to the stored depth value.\n"
-								"\n"
-								"GL_LEQUAL\n"
-								"Passes if the incoming depth value is less than or equal to the stored depth value.\n"
-								"\n"
-								"GL_GREATER\n"
-								"Passes if the incoming depth value is greater than the stored depth value.\n"
-								"\n"
-								"GL_NOTEQUAL\n"
-								"Passes if the incoming depth value is not equal to the stored depth value.\n"
-								"\n"
-								"GL_GEQUAL\n"
-								"Passes if the incoming depth value is greater than or equal to the stored depth value.\n"
-								"\n"
-								"GL_ALWAYS\n"
-								"Always passes.\n"
-							);
+							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
 						}
-					}
-					
+						ImGuiExt::Tooltip("Specify the value used for depth buffer comparisons");
+						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						int32_t predicate = GL::index_of(depth->predicate);
+						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names))
+						{
+							depth->predicate = GL::value_at<GL::Predicate>(predicate);
+						}
+						ImGuiExt::Tooltip(GL::desc_of(depth->predicate));
+						ImGui::SameLine(); ImGui::Text(")");
+
+						/* * * * * * * * * * * * * * * * * * * * */
+
+						ImGui::PopItemWidth();
+						ImGui::PopID();
+						ImGui::NewLine(); ImGui::Separator();
+
+						/* * * * * * * * * * * * * * * * * * * * */
+					})(depth);
+
+					ImGui::PopID();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -761,7 +777,7 @@ namespace ml
 			{
 				if (!m_files[type])
 				{
-					m_files[type] = new DemoFile(type, DemoFile::Names[type], src);
+					m_files[type] = new DemoFile(type, src);
 				}
 				else
 				{

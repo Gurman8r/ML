@@ -35,8 +35,8 @@ namespace ml
 				<< FG::Yellow	<< "\nExpression: "
 				<< FG::White	<< "\n\t" << expr
 				<< FG::Yellow	<< "\nDescription:"
-				<< FG::White	<< "\n\t" << GL::nameOf(code)
-				<< FG::White	<< "\n\t" << GL::descOf(code)
+				<< FG::White	<< "\n\t" << GL::name_of(code)
+				<< FG::White	<< "\n\t" << GL::desc_of(code)
 				<< FMT()		<< endl;
 		}
 		return out;
@@ -205,9 +205,9 @@ namespace ml
 		glCheck(glActiveTexture(value));
 	}
 
-	void OpenGL::alphaFunc(GL::Comp comp, float_t value)
+	void OpenGL::alphaFunc(GL::Predicate predicate, float_t value)
 	{
-		glCheck(glAlphaFunc(comp, value));
+		glCheck(glAlphaFunc(predicate, value));
 	}
 
 	void OpenGL::blendFunc(uint32_t sFactor, uint32_t dFactor)
@@ -225,7 +225,7 @@ namespace ml
 		glCheck(glCullFace(face));
 	}
 
-	void OpenGL::depthFunc(GL::Comp cmp)
+	void OpenGL::depthFunc(GL::Predicate cmp)
 	{
 		glCheck(glDepthFunc(cmp));
 	}

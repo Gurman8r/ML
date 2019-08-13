@@ -180,10 +180,10 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			DemoFile(Type type, const String & name, const String & data)
+			DemoFile(Type type, const String & data)
 				: type	{ type }
 				, text	{ data, TextEditor::LanguageDefinition::GLSL() }
-				, name	{ name }
+				, name	{ Names[type] }
 				, open	{ false }
 				, dirty { false }
 			{

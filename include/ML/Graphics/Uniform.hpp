@@ -208,19 +208,19 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr bool valueAt(const int32_t i, Uni::Type & value)
+		static constexpr bool value_at(int32_t i, Uni::Type & value)
 		{
 			return alg::value_at(i, value, Uni::Type_values);
 		}
 
-		static constexpr int32_t indexOf(const Uni::Type value)
+		static constexpr int32_t index_of(const Uni::Type value)
 		{
 			return alg::index_of(value, Uni::Type_values);
 		}
 
-		static constexpr C_String nameOf(const Uni::Type value)
+		static constexpr C_String name_of(const Uni::Type value)
 		{
-			const int32_t i = indexOf(value);
+			const int32_t i = index_of(value);
 			return (i >= 0) ? Uni::Type_names[i] : nullptr;
 		}
 

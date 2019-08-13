@@ -6,15 +6,11 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	template <
 		class T
-	> struct I_Singleton
-		: public I_NonCopyable
-		, public I_NonNewable
+	> struct I_Singleton : public I_NonCopyable, public I_NonNewable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		static inline T & getInstance()
 		{
@@ -22,10 +18,8 @@ namespace ml
 			return instance;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_I_SINGLETON_HPP_

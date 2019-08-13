@@ -71,7 +71,7 @@ namespace ml
 	{
 		for (const auto & elem : value)
 		{
-			out << elem << ' ';
+			out << elem << " ";
 		}
 		return out;
 	}
@@ -82,7 +82,7 @@ namespace ml
 	{
 		for (auto & elem : value)
 		{
-			in >> elem;
+			if (in.good()) in >> elem;
 		}
 		return in;
 	}

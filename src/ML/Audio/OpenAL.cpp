@@ -64,8 +64,8 @@ namespace ml
 				<< FG::Yellow	<< "\nExpression: "
 				<< FG::White	<< "\n\t" << expr
 				<< FG::Yellow	<< "\nDescription:"
-				<< FG::White	<< "\n\t" << AL::nameOf(code)
-				<< FG::White	<< "\n\t" << AL::descOf(code)
+				<< FG::White	<< "\n\t" << AL::name_of(code)
+				<< FG::White	<< "\n\t" << AL::desc_of(code)
 				<< FMT()		<< endl;
 		}
 		return out;

@@ -3,7 +3,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-mat4 ml_AngleAxis(vec3 v, float angle)
+mat4 angle_axis(vec3 v, float angle)
 {
 	v = normalize(v);
 	float s = sin(angle);
@@ -17,7 +17,7 @@ mat4 ml_AngleAxis(vec3 v, float angle)
 	);
 }
 
-mat4 ml_LookAt(vec3 eye, vec3 center, vec3 up)
+mat4 look_at(vec3 eye, vec3 center, vec3 up)
 {
 	vec3 f = normalize(center - eye);
 	vec3 s = normalize(cross(f, up));
@@ -38,7 +38,7 @@ mat4 ml_LookAt(vec3 eye, vec3 center, vec3 up)
 	return m;
 }
 
-mat4 ml_Perspective(float fov, float aspect, float zNear, float zFar)
+mat4 perspective(float fov, float aspect, float zNear, float zFar)
 {
 	mat4 m;
 	m[0][0] = 1.0 / (aspect * tan(fov / 2.0));
@@ -53,17 +53,17 @@ mat4 ml_Perspective(float fov, float aspect, float zNear, float zFar)
 
 uniform struct Camera
 {
-	vec3		position;	// Position of camera
+	vec3		pos;		// Position of camera
 	vec3		target;		// Where is the camera looking?
 	float		fov;		// Field of View
 	float		zNear;		// Near Clipping Distance
 	float		zFar;		// Far Clipping Distance
-} camera;
+} u_camera;
 
 uniform vec2	u_cursorPos;	// Position of Cursor
 uniform float	u_deltaTime;	// Elapsed Frame Time
 uniform int		u_frameCount;	// Current Frame Index
-uniform vec2	u_viewport;	// Size of Main Window
+uniform vec2	u_viewport;		// Size of Main Window
 uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -75,16 +75,16 @@ void main()
 	V.Texcoord	= a_Texcoord;
 
 	// Model Matrix
-	mat4 model = ml_AngleAxis(vec3(0.0, 1.0, 0.0), u_totalTime);
+	mat4 model = angle_axis(vec3(0.0, 1.0, 0.0), u_totalTime);
 
 	// View Matrix
-	mat4 view = ml_LookAt(
-		camera.position, camera.target, vec3(0.0, 1.0, 0.0)
+	mat4 view = look_at(
+		u_camera.pos, u_camera.target, vec3(0.0, 1.0, 0.0)
 	);
 
 	// Projection Matrix
-	mat4 proj = ml_Perspective(
-		camera.fov, (u_viewport.x / u_viewport.y), camera.zNear, camera.zFar
+	mat4 proj = perspective(
+		u_camera.fov, (u_viewport.x / u_viewport.y), u_camera.zNear, u_camera.zFar
 	);
 
 	gl_Position	= (proj * view * model) * vec4(V.Position, 1.0);

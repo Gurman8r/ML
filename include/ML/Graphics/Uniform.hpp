@@ -101,12 +101,12 @@ namespace ml
 	// Generic Uniform Integererface
 	template <
 		class T, uint32_t ID, uint32_t Flags
-	> struct I_Uniform final : public Uni
+	> struct I_Uni final : public Uni
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using type				= typename T;
-		using self_type			= typename I_Uniform<type, ID, Flags>;
+		using self_type			= typename I_Uni<type, ID, Flags>;
 		using value_type		= typename detail::decay_t<type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
@@ -136,7 +136,7 @@ namespace ml
 
 		type data;
 
-		explicit I_Uniform(const String & name, type data)
+		explicit I_Uni(const String & name, type data)
 			: Uni { name, ID }, data { data }
 		{
 		}
@@ -158,16 +158,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> using uni_bool_t		= I_Uniform<T, Uni::Boolean,	0>;
-	template <class T> using uni_float_t	= I_Uniform<T, Uni::Float,		0>;
-	template <class T> using uni_int_t		= I_Uniform<T, Uni::Integer,	0>;
-	template <class T> using uni_vec2_t		= I_Uniform<T, Uni::Vector2,	0>;
-	template <class T> using uni_vec3_t		= I_Uniform<T, Uni::Vector3,	0>;
-	template <class T> using uni_vec4_t		= I_Uniform<T, Uni::Vector4,	0>;
-	template <class T> using uni_color_t	= I_Uniform<T, Uni::Color,		0>;
-	template <class T> using uni_mat3_t		= I_Uniform<T, Uni::Matrix3,	0>;
-	template <class T> using uni_mat4_t		= I_Uniform<T, Uni::Matrix4,	0>;
-	template <class T> using uni_sampler_t	= I_Uniform<T, Uni::Sampler,	1>;
+	template <class T> using uni_bool_t		= I_Uni<T, Uni::Boolean,	0>;
+	template <class T> using uni_float_t	= I_Uni<T, Uni::Float,		0>;
+	template <class T> using uni_int_t		= I_Uni<T, Uni::Integer,	0>;
+	template <class T> using uni_vec2_t		= I_Uni<T, Uni::Vector2,	0>;
+	template <class T> using uni_vec3_t		= I_Uni<T, Uni::Vector3,	0>;
+	template <class T> using uni_vec4_t		= I_Uni<T, Uni::Vector4,	0>;
+	template <class T> using uni_color_t	= I_Uni<T, Uni::Color,		0>;
+	template <class T> using uni_mat3_t		= I_Uni<T, Uni::Matrix3,	0>;
+	template <class T> using uni_mat4_t		= I_Uni<T, Uni::Matrix4,	0>;
+	template <class T> using uni_sampler_t	= I_Uni<T, Uni::Sampler,	1>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

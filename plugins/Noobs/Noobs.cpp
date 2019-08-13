@@ -558,6 +558,7 @@ namespace ml
 
 					ImGui::NewLine(); ImGui::Separator();
 
+
 					// Alpha State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 					if (alpha_state) ([](AlphaState *& alpha)
@@ -637,6 +638,7 @@ namespace ml
 
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(alpha_state);
+
 
 					// Blend State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -763,6 +765,7 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(blend_state);
 
+
 					// Cull State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 					if (cull_state) ([](CullState * cull)
@@ -828,9 +831,9 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(cull_state);
 
+
 					// Depth State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 					if (depth_state) ([](DepthState * depth)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */

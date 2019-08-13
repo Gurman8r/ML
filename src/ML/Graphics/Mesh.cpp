@@ -12,7 +12,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Mesh::Mesh()
 		: Mesh(Vertices())
@@ -21,11 +21,11 @@ namespace ml
 	}
 
 	Mesh::Mesh(const Vertices & vertices)
-		: Mesh(vertices, Indices())
+		: Mesh(vertices, List<uint32_t>())
 	{
 	}
 
-	Mesh::Mesh(const Vertices & vertices, const Indices & indices)
+	Mesh::Mesh(const Vertices & vertices, const List<uint32_t> & indices)
 		: m_vertices	(vertices)
 		, m_indices		(indices)
 		, m_contiguous	(vertices.contiguous())
@@ -39,9 +39,7 @@ namespace ml
 	{
 	}
 
-	Mesh::~Mesh() { dispose(); }
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool Mesh::dispose()
 	{
@@ -53,7 +51,7 @@ namespace ml
 	
 	bool Mesh::loadFromFile(const String & filename)
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		auto parseLine = [](
 			const String & line,
@@ -69,17 +67,17 @@ namespace ml
 			return false;
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		SStream in;
 		if (ML_FS.getFileContents(filename, in))
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			List<vec3> vp;		// Positions
 			List<vec2> vt;		// Texcoords
 			List<vec3> vn;		// Normals
-			List<Indices> vf;	// Faces
+			List<List<uint32_t>> vf;	// Faces
 
 			String line;
 			while (std::getline(in, line))
@@ -112,7 +110,7 @@ namespace ml
 				else if (parseLine(line, "f ", ss))
 				{
 					// Face
-					vf.push_back(Indices());
+					vf.push_back(List<uint32_t>());
 
 					SStream lineStream(ss.str());
 					while (lineStream.good())
@@ -128,11 +126,11 @@ namespace ml
 				}
 			}
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			Indices vi; // Position Indices
-			Indices ti; // Texcoord Indices
-			Indices ni; // Normal Indices
+			List<uint32_t> vi; // Position List<uint32_t>
+			List<uint32_t> ti; // Texcoord List<uint32_t>
+			List<uint32_t> ni; // Normal List<uint32_t>
 
 			for (size_t i = 0, imax = vf.size(); i < imax; i++)
 			{
@@ -149,7 +147,7 @@ namespace ml
 				ti.push_back(vf[i][7] - 1);
 			}
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			m_indices.clear(); // not using
 
@@ -166,7 +164,7 @@ namespace ml
 
 			m_contiguous = m_vertices.contiguous();
 
-			/* * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			return true;
 		}
@@ -185,7 +183,7 @@ namespace ml
 		return false;
 	}
 
-	bool Mesh::loadFromMemory(const List<float_t>& vertices, const Indices& indices)
+	bool Mesh::loadFromMemory(const List<float_t>& vertices, const List<uint32_t>& indices)
 	{
 		if (!vertices.empty() && !indices.empty())
 		{
@@ -209,7 +207,7 @@ namespace ml
 		return false;
 	}
 
-	bool Mesh::loadFromMemory(const Vertices & vertices, const Indices & indices)
+	bool Mesh::loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices)
 	{
 		if (!vertices.empty() && !indices.empty())
 		{
@@ -221,5 +219,5 @@ namespace ml
 		return false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

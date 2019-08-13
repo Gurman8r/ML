@@ -52,7 +52,7 @@ namespace ml
 }
 
 #define ML_GEN_PROPERTY_DRAWER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
-PREFIX NAME final : public _ML CustomPropertyDrawer<ELEM>			\
+struct PREFIX NAME final : public _ML CustomPropertyDrawer<ELEM>	\
 ##IMPL;																\
 template <> struct _ML PropertyDrawer<ELEM>							\
 {																	\
@@ -68,7 +68,7 @@ template <> struct _ML PropertyDrawer<ELEM>							\
 };
 
 #define ML_GEN_PROPERTY_DRAWER(NAME, ELEM, TAG, IMPL) \
-	ML_GEN_PROPERTY_DRAWER_EXT(struct ML_EDITOR_API, NAME, ELEM, TAG, IMPL)
+	ML_GEN_PROPERTY_DRAWER_EXT(ML_EDITOR_API, NAME, ELEM, TAG, IMPL)
 
 namespace ml
 {

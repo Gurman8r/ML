@@ -37,7 +37,7 @@ namespace ml
 		return ShellExecuteA(GetDesktopWindow(), cmd.c_str(), file.c_str(), args.c_str(), path.c_str(), flags);
 #else
 		return nullptr;
-#endif // ML_SYSTEM_WINDOWS
+#endif
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

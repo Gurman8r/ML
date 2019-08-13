@@ -15,9 +15,10 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 <import>
-	type = image
-	name = icon
-	file = ../../../assets/images/dean.png
+	type	= image
+	name	= icon
+	flipV	= false
+	file	= ../../../assets/images/dean.png
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

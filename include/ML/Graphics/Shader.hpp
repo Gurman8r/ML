@@ -51,9 +51,9 @@ namespace ml
 		struct Source final { String vs, fs, gs; };
 
 		inline auto sources() const	-> const Source & { return m_sources; }
-		inline auto vertSrc() const -> const String & { return m_sources.vs; }
-		inline auto fragSrc() const -> const String & { return m_sources.fs; }
-		inline auto geomSrc() const -> const String & { return m_sources.gs; }
+		inline auto vertSrc() const -> const String & { return sources().vs; }
+		inline auto fragSrc() const -> const String & { return sources().fs; }
+		inline auto geomSrc() const -> const String & { return sources().gs; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

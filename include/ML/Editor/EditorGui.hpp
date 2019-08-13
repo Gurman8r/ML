@@ -27,18 +27,19 @@ namespace ml
 		virtual ~EditorGui() {}
 
 		virtual bool beginDraw(int32_t flags);
-		virtual bool drawGui(const GuiEvent & ev) = 0;
+		virtual bool onGui(const GuiEvent & ev) = 0;
 		virtual bool endDraw();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline auto editor	()	const -> Editor &	{ return m_editor; }
-		inline auto getTitle()	const -> C_String	{ return m_title; }
-		inline auto getFlags()	const -> int32_t	{ return m_flags; }
-		inline auto isOpen	()	const -> bool		{ return m_open; }
-		inline auto openPtr	()		  -> bool *		{ return &m_open; }
-		inline auto setOpen	(bool v)  -> bool		{ return m_open = v; }
+		inline auto editor()		const	-> Editor &	{ return m_editor; }
+		inline auto getTitle()		const	-> C_String	{ return m_title; }
+		inline auto getFlags()		const	-> int32_t	{ return m_flags; }
+		inline auto isOpen()		const	-> bool		{ return m_open; }
+		inline auto openPtr()				-> bool *	{ return &m_open; }
+		inline auto setOpen(bool v)			-> bool		{ return m_open = v; }
+		inline auto toggleOpen()			-> bool		{ return setOpen(!isOpen()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -7,7 +7,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Model::Model()
 		: Model(BufferLayout::Default)
@@ -34,7 +34,7 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Model::loadFromFile(const String & filename)
 	{
@@ -56,49 +56,57 @@ namespace ml
 
 	bool Model::loadFromMemory(const List<float_t> & vertices)
 	{
-		m_vao.create(GL::Triangles);
-		m_vao.bind();
+		m_vao
+			.create(GL::Triangles)
+			.bind();
 		
-		m_vbo.create(GL::StaticDraw);
-		m_vbo.bind();
-		m_vbo.bufferData(vertices);
+		m_vbo
+			.create(GL::StaticDraw)
+			.bind()
+			.bufferData(vertices);
 		
 		m_layout.bind();
 		
 		m_vbo.unbind();
+		
 		m_vao.unbind();
 		
 		return (m_vao && m_vbo);
 	}
 
-	bool Model::loadFromMemory(const Vertices & vertices, const Indices & indices)
+	bool Model::loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices)
 	{
 		return loadFromMemory(vertices.contiguous(), indices);
 	}
 
-	bool Model::loadFromMemory(const List<float_t> & vertices, const Indices & indices)
+	bool Model::loadFromMemory(const List<float_t> & vertices, const List<uint32_t> & indices)
 	{
-		m_vao.create(GL::Triangles);
-		m_vao.bind();
+		m_vao
+			.create(GL::Triangles)
+			.bind();
 		
-		m_vbo.create(GL::StaticDraw);
-		m_vbo.bind();
-		m_vbo.bufferData(vertices);
+		m_vbo
+			.create(GL::StaticDraw)
+			.bind()
+			.bufferData(vertices);
 		
-		m_ibo.create(GL::StaticDraw, GL::UnsignedInt);
-		m_ibo.bind();
-		m_ibo.bufferData(indices);
+		m_ibo
+			.create(GL::StaticDraw, GL::UnsignedInt)
+			.bind()
+			.bufferData(indices);
 		
 		m_layout.bind();
 		
 		m_ibo.unbind();
+		
 		m_vbo.unbind();
+		
 		m_vao.unbind();
 		
 		return (m_vao && m_vbo && m_ibo);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Model::draw(RenderTarget & target, RenderBatch batch) const
 	{
@@ -115,5 +123,5 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

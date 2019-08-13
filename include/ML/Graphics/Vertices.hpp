@@ -8,15 +8,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using Indices = typename List<uint32_t>;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	struct Vertices final : public List<Vertex>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using self_type			= typename Vertices;
+		using value_type		= typename Vertex;
 		using base_type			= typename List<value_type>;
 		using size_type			= typename base_type::size_type;
 		using allocator_type	= typename base_type::allocator_type;
@@ -30,34 +27,34 @@ namespace ml
 		}
 
 		explicit Vertices(const allocator_type & alloc)
-			: base_type(alloc)
+			: base_type { alloc }
 		{
 		}
 
 		explicit Vertices(const size_type count, const allocator_type & alloc)
-			: base_type(count, alloc)
+			: base_type { count, alloc }
 		{
 		}
 
 		Vertices(const base_type & value)
-			: base_type(value)
+			: base_type { value }
 		{
 		}
 
 		Vertices(const init_type & value)
-			: base_type(value)
+			: base_type { value }
 		{
 		}
 
 		Vertices(const self_type & value)
-			: base_type(value)
+			: base_type { value }
 		{
 		}
 
 		template <
 			class Iter
 		> Vertices(Iter begin, Iter end)
-			: base_type(begin, end)
+			: base_type { begin, end }
 		{
 		}
 		

@@ -13,7 +13,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorImporter::drawGui(const GuiEvent & ev)
+	bool EditorImporter::onGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{

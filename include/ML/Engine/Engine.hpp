@@ -11,7 +11,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct Image;
-	struct Script;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -41,15 +40,13 @@ namespace ml
 		void onExit			(const ExitEvent & ev);
 
 	private:
-		Asset<Image>	m_icon		{ "icon" };
-		Asset<Script>	m_script	{};
-
-		vec2	m_cursorPos		{ 0 };
-		float_t	m_deltaTime		{ 0 };
-		int32_t m_frameCount	{ 0 };
-		float_t m_frameRate		{ 0 };
-		vec2	m_viewport		{ 0 };
-		float_t	m_totalTime		{ 0 };
+		Asset<Image>	m_icon			{ "icon" };
+		vec2			m_cursorPos		{ uninit };
+		float_t			m_deltaTime		{ uninit };
+		int32_t			m_frameCount	{ uninit };
+		float_t			m_frameRate		{ uninit };
+		vec2			m_viewport		{ uninit };
+		float_t			m_totalTime		{ uninit };
 
 	};
 

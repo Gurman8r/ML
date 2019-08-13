@@ -2,48 +2,47 @@
 
 # ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
-# endif // ML_SYSTEM_WINDOWS
+# endif
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	VideoMode::VideoMode()
-		: VideoMode({ 0, 0 }, 0)
+		: resolution	{ 0, 0 }
+		, bitsPerPixel	{ 0 }
 	{
 	}
 
-	VideoMode::VideoMode(uint32_t width, uint32_t height, uint32_t colorDepth)
-		: resolution({ width, height })
-		, colorDepth(colorDepth)
+	VideoMode::VideoMode(uint32_t width, uint32_t height, uint32_t bitsPerPixel)
+		: resolution	{ width, height }
+		, bitsPerPixel	{ bitsPerPixel }
 	{
 	}
 
-	VideoMode::VideoMode(const vec2u & resolution, uint32_t colorDepth)
-		: resolution(resolution)
-		, colorDepth(colorDepth)
+	VideoMode::VideoMode(const vec2u & resolution, uint32_t bitsPerPixel)
+		: resolution	{ resolution }
+		, bitsPerPixel	{ bitsPerPixel }
 	{
 	}
 
 	VideoMode::VideoMode(const VideoMode & copy)
-		: resolution(copy.resolution)
-		, colorDepth(copy.colorDepth)
+		: resolution	{ copy.resolution }
+		, bitsPerPixel	{ copy.bitsPerPixel }
 	{
 	}
 
-	VideoMode::~VideoMode()
-	{
-	}
+	VideoMode::~VideoMode() {}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const VideoMode & VideoMode::get_desktop()
+	const VideoMode & VideoMode::get_desktop_mode()
 	{
-		static VideoMode temp;
-		static bool checked = true;
-		if (checked)
-		{	checked = false;
-#if defined(ML_SYSTEM_WINDOWS)
+		static VideoMode temp {};
+		static bool check = false;
+		if (!check && (check = true))
+		{
+#ifdef ML_SYSTEM_WINDOWS
 			DEVMODE winMode;
 			winMode.dmSize = sizeof(winMode);
 			EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &winMode);
@@ -53,19 +52,19 @@ namespace ml
 				winMode.dmBitsPerPel 
 			};
 #else
-			temp = VideoMode {};
+			// do the thing
 #endif
 		}
 		return temp;
 	}
 
-	const List<VideoMode> & VideoMode::get_modes()
+	const List<VideoMode> & VideoMode::get_fullscreen_modes()
 	{
-		static List<VideoMode> temp;
-		static bool check = true;
-		if (check)
-		{	check = false;
-#if defined(ML_SYSTEM_WINDOWS)
+		static List<VideoMode> temp {};
+		static bool check = false;
+		if (!check && (check = true))
+		{
+#ifdef ML_SYSTEM_WINDOWS
 			DEVMODE winMode;
 			winMode.dmSize = sizeof(winMode);
 			for (int32_t count = 0; EnumDisplaySettings(nullptr, count, &winMode); ++count)
@@ -82,11 +81,11 @@ namespace ml
 				}
 			}
 #else
-			temp = List<VideoMode>{};
+			// do the thing
 #endif
 		}
 		return temp;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

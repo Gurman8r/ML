@@ -10,14 +10,14 @@ namespace ml
 	Sprite::Sprite()
 		: m_color(Color::white)
 		, m_texture(nullptr)
-		, m_transform()
+		, m_tf()
 	{
 	}
 
 	Sprite::Sprite(const Sprite & copy)
 		: m_color(copy.m_color)
 		, m_texture(copy.m_texture)
-		, m_transform(copy.m_transform)
+		, m_tf(copy.m_tf)
 	{
 	}
 
@@ -50,25 +50,25 @@ namespace ml
 	
 	Sprite & Sprite::setOrigin(const vec2 & value)
 	{
-		m_transform.setOrigin(value);
+		m_tf.setOrigin(value);
 		return (*this);
 	}
 
 	Sprite & Sprite::setPosition(const vec2 & value)
 	{
-		m_transform.setPosition(value);
+		m_tf.setPosition(value);
 		return (*this);
 	}
 
 	Sprite & Sprite::setRotation(const float_t value)
 	{
-		m_transform.setRotation(value);
+		m_tf.setRotation(value);
 		return (*this);
 	}
 
 	Sprite & Sprite::setScale(const vec2 & value)
 	{
-		m_transform.setScale(value);
+		m_tf.setScale(value);
 		return (*this);
 	}
 
@@ -82,7 +82,7 @@ namespace ml
 
 	void Sprite::draw(RenderTarget & target, RenderBatch batch) const
 	{
-		if (m_texture)
+		if (m_texture && batch.mat)
 		{
 			if (uni_color * u = batch.mat->get<uni_color>(ML_UNI_MAIN_COL))
 			{
@@ -94,13 +94,14 @@ namespace ml
 				u->data = m_texture;
 			}
 
-			const vec2 size = scale() * (vec2)m_texture->size();
-			const vec2 dest = position() - (size * origin());
+			const vec2 scl = scale() * (vec2)m_texture->size();
+			const vec2 pos = position() - (scl * origin());
 
 			target.draw(
-				geo::rect_quad::spriteQuad({ dest, size }).data(),
+				geo::rect_quad::spriteQuad({ pos, scl }).data(),
 				geo::rect_quad::contiguous_t::Size,
-				batch);
+				batch
+			);
 		}
 	}
 

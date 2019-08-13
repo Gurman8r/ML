@@ -45,7 +45,7 @@ namespace ml
 		return m_good;
 	}
 
-	bool EditorDockspace::drawGui(const GuiEvent & ev)
+	bool EditorDockspace::onGui(const GuiEvent & ev)
 	{
 		if (this->beginDraw(
 			ImGuiWindowFlags_NoTitleBar |

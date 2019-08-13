@@ -18,29 +18,29 @@ namespace ml
 
 	Editor::Editor(EventSystem & eventSystem)
 		: I_EventListener	{ eventSystem }
-		, m_browser		{ *this }
-		, m_content		{ *this }
-		, m_dockspace	{ *this }
-		, m_importer	{ *this }
-		, m_profiler	{ *this }
-		, m_terminal	{ *this }
+		, m_browser			{ *this }
+		, m_content			{ *this }
+		, m_dockspace		{ *this }
+		, m_importer		{ *this }
+		, m_profiler		{ *this }
+		, m_terminal		{ *this }
 	{
-		eventSystem.addListener(EnterEvent::ID,			this);
-		eventSystem.addListener(ExitEvent::ID,			this);
-		eventSystem.addListener(BeginGuiEvent::ID,		this);
-		eventSystem.addListener(GuiEvent::ID,			this);
-		eventSystem.addListener(EndGuiEvent::ID,		this);
-		eventSystem.addListener(DockspaceEvent::ID,		this);
-		eventSystem.addListener(KeyEvent::ID,			this);
-		eventSystem.addListener(File_New_Event::ID,		this);
-		eventSystem.addListener(File_Open_Event::ID,	this);
-		eventSystem.addListener(File_Save_Event::ID,	this);
-		eventSystem.addListener(File_Quit_Event::ID,	this);
-		eventSystem.addListener(Edit_Undo_Event::ID,	this);
-		eventSystem.addListener(Edit_Redo_Event::ID,	this);
-		eventSystem.addListener(Edit_Cut_Event::ID,		this);
-		eventSystem.addListener(Edit_Copy_Event::ID,	this);
-		eventSystem.addListener(Edit_Paste_Event::ID,	this);
+		eventSystem.addListener(EnterEvent		::ID, this);
+		eventSystem.addListener(ExitEvent		::ID, this);
+		eventSystem.addListener(BeginGuiEvent	::ID, this);
+		eventSystem.addListener(GuiEvent		::ID, this);
+		eventSystem.addListener(EndGuiEvent		::ID, this);
+		eventSystem.addListener(DockspaceEvent	::ID, this);
+		eventSystem.addListener(KeyEvent		::ID, this);
+		eventSystem.addListener(File_New_Event	::ID, this);
+		eventSystem.addListener(File_Open_Event	::ID, this);
+		eventSystem.addListener(File_Save_Event	::ID, this);
+		eventSystem.addListener(File_Quit_Event	::ID, this);
+		eventSystem.addListener(Edit_Undo_Event	::ID, this);
+		eventSystem.addListener(Edit_Redo_Event	::ID, this);
+		eventSystem.addListener(Edit_Cut_Event	::ID, this);
+		eventSystem.addListener(Edit_Copy_Event	::ID, this);
+		eventSystem.addListener(Edit_Paste_Event::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -49,20 +49,11 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID:
-			if (auto ev = value.as<EnterEvent>()) return onEnter(*ev);
-
-		case ExitEvent::ID:
-			if (auto ev = value.as<ExitEvent>()) return onExit(*ev);
-
-		case BeginGuiEvent::ID:	
-			if (auto ev = value.as<BeginGuiEvent>()) return onBeginGui(*ev);
-
-		case GuiEvent::ID:
-			if (auto ev = value.as<GuiEvent>()) return onGui(*ev);
-
-		case EndGuiEvent::ID:
-			if (auto ev = value.as<EndGuiEvent>()) return onEndGui(*ev);
+		case EnterEvent::ID		: if (auto ev = value.as<EnterEvent>())		return onEnter(*ev);
+		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
+		case BeginGuiEvent::ID	: if (auto ev = value.as<BeginGuiEvent>())	return onBeginGui(*ev);
+		case GuiEvent::ID		: if (auto ev = value.as<GuiEvent>())		return onGui(*ev);
+		case EndGuiEvent::ID	: if (auto ev = value.as<EndGuiEvent>())	return onEndGui(*ev);
 
 			// Dockspace
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -85,47 +76,47 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				// Show Terminal | Ctrl+Alt+T
-				if (ev->getPress(KeyCode::T, { 0, 1, 1, 0 })) m_terminal.setOpen(true);
+				// Show Terminal | Ctrl + Alt + T
+				if (ev->getPress(KeyCode::T, { 0, 1, 1, 0 })) m_terminal.toggleOpen();
 
-				// Show Explorer | Ctrl+Alt+E
-				if (ev->getPress(KeyCode::E, { 0, 1, 1, 0 })) m_browser.setOpen(true);
+				// Show Explorer | Ctrl + Alt + E
+				if (ev->getPress(KeyCode::E, { 0, 1, 1, 0 })) m_browser.toggleOpen();
 
-				// Show Importer | Ctrl+Alt+I
-				if (ev->getPress(KeyCode::I, { 0, 1, 1, 0 })) m_importer.setOpen(true);
+				// Show Importer | Ctrl + Alt + I
+				if (ev->getPress(KeyCode::I, { 0, 1, 1, 0 })) m_importer.toggleOpen();
 
-				// Show Profiler | Ctrl+Alt+P
-				if (ev->getPress(KeyCode::P, { 0, 1, 1, 0 })) m_profiler.setOpen(true);
+				// Show Profiler | Ctrl + Alt + P
+				if (ev->getPress(KeyCode::P, { 0, 1, 1, 0 })) m_profiler.toggleOpen();
 
-				// Show Resources | Ctrl+Alt+C
-				if (ev->getPress(KeyCode::C, { 0, 1, 1, 0 })) m_content.setOpen(true);
+				// Show Resources | Ctrl + Alt + C
+				if (ev->getPress(KeyCode::C, { 0, 1, 1, 0 })) m_content.toggleOpen();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				// File -> New | Ctrl+N
+				// File -> New | Ctrl + N
 				if (ev->isNew()) eventSystem().fireEvent(File_New_Event());
 
-				// File -> Open | Ctrl+O
+				// File -> Open | Ctrl + O
 				if (ev->isOpen()) eventSystem().fireEvent(File_Open_Event());
 
-				// File -> Save | Ctrl+S
+				// File -> Save | Ctrl + S
 				if (ev->isSave()) eventSystem().fireEvent(File_Save_Event());
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				// Edit -> Undo	| Ctrl+Z
+				// Edit -> Undo	| Ctrl + Z
 				if (ev->isUndo()) eventSystem().fireEvent(Edit_Undo_Event());
 
-				// Edit -> Redo	| Ctrl+Y / Ctrl+Shift+Z
+				// Edit -> Redo	| Ctrl + Y / Ctrl + Shift + Z
 				if (ev->isRedo()) eventSystem().fireEvent(Edit_Redo_Event());
 
-				// Edit -> Cut	| Ctrl+X / Shift+Insert
+				// Edit -> Cut	| Ctrl + X / Shift + Insert
 				if (ev->isCut()) eventSystem().fireEvent(Edit_Cut_Event());
 
-				// Edit -> Copy | Ctrl+C / Ctrl+Insert
+				// Edit -> Copy | Ctrl + C / Ctrl + Insert
 				if (ev->isCopy()) eventSystem().fireEvent(Edit_Copy_Event());
 
-				// Edit -> Paste | Ctrl+V / Shift+Insert
+				// Edit -> Paste | Ctrl + V / Shift + Insert
 				if (ev->isPaste()) eventSystem().fireEvent(Edit_Paste_Event());
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -198,6 +189,8 @@ namespace ml
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
+		m_redirect_cout = ev.prefs.GetBool("Editor", "redirect_cout", false);
+
 		// Initialize Implementation Instance
 		ML_ImGui_Impl;
 
@@ -243,7 +236,7 @@ namespace ml
 		}
 
 		// Capture Cout
-		m_terminal.redirect(cout);
+		if (m_redirect_cout) m_terminal.redirect(cout);
 
 		// Configure Builtin Windows
 		m_browser	.setOpen(ev.prefs.GetBool("Editor", "show_explorer", false));
@@ -415,12 +408,12 @@ namespace ml
 			ImGui::EndMainMenuBar();
 		}
 
-		/* Dockspace */ if (m_dockspace.isOpen())	m_dockspace.drawGui(ev);
-		/* Explorer */	if (m_browser.isOpen())		m_browser.drawGui(ev);
-		/* Importer */	if (m_importer.isOpen())	m_importer.drawGui(ev);
-		/* Profiler */	if (m_profiler.isOpen())	m_profiler.drawGui(ev);
-		/* Resources */ if (m_content.isOpen())	m_content.drawGui(ev);
-		/* Terminal */	if (m_terminal.isOpen())	m_terminal.drawGui(ev);
+		/* Dockspace */ if (m_dockspace.isOpen())	m_dockspace	.onGui(ev);
+		/* Explorer */	if (m_browser.isOpen())		m_browser	.onGui(ev);
+		/* Importer */	if (m_importer.isOpen())	m_importer	.onGui(ev);
+		/* Profiler */	if (m_profiler.isOpen())	m_profiler	.onGui(ev);
+		/* Resources */ if (m_content.isOpen())		m_content	.onGui(ev);
+		/* Terminal */	if (m_terminal.isOpen())	m_terminal	.onGui(ev);
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)
@@ -433,7 +426,7 @@ namespace ml
 	void Editor::onExit(const ExitEvent & ev)
 	{
 		// Release Cout
-		m_terminal.redirect(cout);
+		if (m_redirect_cout) m_terminal.redirect(cout);
 
 		// Shutdown ImGui
 		ML_ImGui_Impl.Shutdown();

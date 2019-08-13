@@ -1,28 +1,28 @@
-#include <ML/Graphics/RenderBuffer.hpp>
+#include <ML/Graphics/RenderBufferObject.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	RenderBuffer::RenderBuffer()
+	RenderBufferObject::RenderBufferObject()
 		: I_Handle(NULL)
 	{
 	}
 
-	RenderBuffer::RenderBuffer(const RenderBuffer & copy)
+	RenderBufferObject::RenderBufferObject(const RenderBufferObject & copy)
 		: I_Handle(copy)
 	{
 	}
 
-	RenderBuffer::~RenderBuffer()
+	RenderBufferObject::~RenderBufferObject()
 	{
 		clean();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	RenderBuffer & RenderBuffer::clean()
+	RenderBufferObject & RenderBufferObject::clean()
 	{
 		if ((*this))
 		{
@@ -32,7 +32,7 @@ namespace ml
 		return (*this);
 	}
 	
-	RenderBuffer & RenderBuffer::create(int32_t width, int32_t height)
+	RenderBufferObject & RenderBufferObject::create(int32_t width, int32_t height)
 	{
 		if (set_handle(ML_GL.genRenderbuffers(1)))
 		{
@@ -44,13 +44,13 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	const RenderBuffer & RenderBuffer::bind() const
+	const RenderBufferObject & RenderBufferObject::bind() const
 	{
 		ML_GL.bindRenderbuffer(GL::Renderbuffer, (*this));
 		return (*this);
 	}
 	
-	const RenderBuffer & RenderBuffer::unbind() const
+	const RenderBufferObject & RenderBufferObject::unbind() const
 	{
 		ML_GL.bindRenderbuffer(GL::Renderbuffer, NULL);
 		return (*this);
@@ -58,7 +58,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const RenderBuffer & RenderBuffer::bufferStorage(GL::Format format) const
+	const RenderBufferObject & RenderBufferObject::bufferStorage(GL::Format format) const
 	{
 		if (*this)
 		{
@@ -72,7 +72,7 @@ namespace ml
 		return (*this);
 	}
 
-	const RenderBuffer & RenderBuffer::setFramebuffer(GL::FrameAttachment attachment) const
+	const RenderBufferObject & RenderBufferObject::setFramebuffer(GL::FrameAttachment attachment) const
 	{
 		if (*this)
 		{

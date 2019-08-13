@@ -19,18 +19,18 @@ namespace ml
 
 		Mesh();
 		Mesh(const Vertices & vertices);
-		Mesh(const Vertices & vertices, const Indices & indices);
+		Mesh(const Vertices & vertices, const List<uint32_t> & indices);
 		Mesh(const Mesh & copy);
-		~Mesh();
+		~Mesh() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromMemory(const List<float_t> & vertices);
-		bool loadFromMemory(const List<float_t> & vertices, const Indices & indices);
+		bool loadFromMemory(const List<float_t> & vertices, const List<uint32_t> & indices);
 		bool loadFromMemory(const Vertices & vertices);
-		bool loadFromMemory(const Vertices & vertices, const Indices & indices);
+		bool loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -38,7 +38,7 @@ namespace ml
 			template <class, size_t> class A, class T, size_t N
 		> inline bool loadFromMemory(const A<T, N> & vertices)
 		{
-			return loadFromMemory(List<float_t>(vertices.begin(), vertices.end()));
+			return loadFromMemory(List<float_t> { vertices.begin(), vertices.end() });
 		}
 
 		template <
@@ -46,22 +46,22 @@ namespace ml
 		> inline bool loadFromMemory(const A<float_t, V> & vertices, const A<uint32_t, I> & indices)
 		{
 			return loadFromMemory(
-				List<float_t>(vertices.begin(), vertices.end()),
-				Indices(indices.begin(), indices.end())
+				List<float_t> { vertices.begin(), vertices.end() },
+				List<uint32_t> { indices.begin(), indices.end() }
 			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto vertices	() const -> const Vertices		& { return m_vertices; }
-		inline auto indices		() const -> const Indices		& { return m_indices; }
-		inline auto contiguous	() const -> const List<float_t> & { return m_contiguous; }
+		inline auto vertices	() const -> const Vertices &		{ return m_vertices; }
+		inline auto indices		() const -> const List<uint32_t> &	{ return m_indices; }
+		inline auto contiguous	() const -> const List<float_t> &	{ return m_contiguous; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		Vertices		m_vertices;
-		Indices			m_indices;
+		List<uint32_t>	m_indices;
 		List<float_t>	m_contiguous;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -95,25 +95,29 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static constexpr self_type zero()
+		{
+			return self_type { uninit };
+		}
+
 		static constexpr self_type one()
 		{
+			using TT = cast_type;
 			self_type temp { uninit };
-			for (auto & elem : temp)
+			for (auto & elem : temp) 
 			{
-				elem = cast_type::one;
+				elem = TT::one; 
 			}
 			return temp;
 		}
 
 		static constexpr self_type identity()
 		{
+			using TT = cast_type;
 			self_type temp { uninit };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
-				temp[i] = (((i / temp.width()) == (i % temp.width()))
-					? cast_type::one
-					: cast_type::zero
-				);
+				temp[i] = (((i / temp.width()) == (i % temp.width())) ? TT::one : TT::zero);
 			}
 			return temp;
 		}
@@ -126,11 +130,12 @@ namespace ml
 			const_reference bottom,
 			const_reference top)
 		{
+			using TT = cast_type;
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = cast_type::two / (right - left);
-			temp[1 * 4 + 1] = cast_type::two / (top - bottom);
-			temp[2 * 4 + 2] = cast_type::minus_one;
+			temp[0 * 4 + 0] = TT::two / (right - left);
+			temp[1 * 4 + 1] = TT::two / (top - bottom);
+			temp[2 * 4 + 2] = TT::minus_one;
 			temp[3 * 4 + 0] = -(right + left) / (right - left);
 			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
 			return temp;
@@ -144,13 +149,14 @@ namespace ml
 			const_reference near,
 			const_reference far)
 		{
+			using TT = cast_type;
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = cast_type::two / (right - left);
-			temp[1 * 4 + 1] = cast_type::two / (top - bottom);
+			temp[0 * 4 + 0] = TT::two / (right - left);
+			temp[1 * 4 + 1] = TT::two / (top - bottom);
 			temp[3 * 4 + 0] = -(right + left) / (right - left);
 			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
-			temp[2 * 4 + 2] = -cast_type::two / (far - near);
+			temp[2 * 4 + 2] = -TT::two / (far - near);
 			temp[3 * 4 + 2] = -(far + near) / (far - near);
 			return temp;
 		}
@@ -161,24 +167,25 @@ namespace ml
 			const_reference near,
 			const_reference far)
 		{
+			using TT = cast_type;
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { uninit };
-			temp[0 * 4 + 0] = cast_type::one / (aspect * alg::tan(fov / cast_type::two));
-			temp[1 * 4 + 1] = cast_type::one / alg::tan(fov / cast_type::two);
-			temp[2 * 4 + 3] = cast_type::minus_one;
+			temp[0 * 4 + 0] = TT::one / (aspect * alg::tan(fov / TT::two));
+			temp[1 * 4 + 1] = TT::one / alg::tan(fov / TT::two);
+			temp[2 * 4 + 3] = TT::minus_one;
 			temp[2 * 4 + 2] = -(far + near) / (far - near);
-			temp[3 * 4 + 3] = -(cast_type::two * far * near) / (far - near);
+			temp[3 * 4 + 3] = -(TT::two * far * near) / (far - near);
 			return temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		// prevent because they're destructorless
+		// preventing dynamic allocation because matrices lack C/D-tors
 		private:
-			inline void * operator	new		 (size_t size) { return nullptr; }
-			inline void * operator	new[]	 (size_t size) { return nullptr; }
-			inline void	  operator	delete	 (void * ptr)  { return;  }
-			inline void	  operator	delete[] (void * ptr)  { return;  }
+			inline void * operator	new		 (size_t)	{ return nullptr; }
+			inline void * operator	new[]	 (size_t)	{ return nullptr; }
+			inline void	  operator	delete	 (void *)	{ return;  }
+			inline void	  operator	delete[] (void *)	{ return;  }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -277,7 +284,7 @@ namespace ml
 	{
 		for (const auto & elem : value)
 		{
-			out << elem << ' ';
+			out << elem << " ";
 		}
 		return out;
 	}
@@ -288,7 +295,7 @@ namespace ml
 	{
 		for (auto & elem : value)
 		{
-			in >> elem;
+			if (in.good()) { in >> elem; }
 		}
 		return in;
 	}

@@ -84,25 +84,23 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	ML_USING_X	Allocator		= typename std::allocator<X>;
-	ML_USING_X	CharTraits		= typename std::char_traits<X>;
-	ML_USING_XY HashMap			= typename std::unordered_map<X, Y>;
-	ML_USING_XY HashSet			= typename std::unordered_set<X, Y>;
-	ML_USING_XY MultiMap		= typename std::multimap<X, Y>;
-	ML_USING_XY Pair			= typename std::pair<X, Y>;
-	ML_USING_XY Tree			= typename std::map<X, Y>;
-	
-	ML_USING_XY BasicIstream	= typename std::basic_istream<X, Y>;
-	ML_USING_XY BasicOstream	= typename std::basic_ostream<X, Y>;
-	ML_USING_XY BasicIfstream	= typename std::basic_ifstream<X, Y>;
-	ML_USING_XY BasicOfstream	= typename std::basic_ofstream<X, Y>;
-	ML_USING_XY BasicStreamBuf	= typename std::basic_streambuf<X, Y>;
-	
-	using		Ofstream		= typename BasicOfstream<char, CharTraits<char>>;
-	using		Ifstream		= typename BasicIfstream<char, CharTraits<char>>;
-	using		Ostream			= typename BasicOstream<char, CharTraits<char>>;
-	using		Istream			= typename BasicIstream<char, CharTraits<char>>;
-	using		StreamBuf		= typename BasicStreamBuf<char, CharTraits<char>>;
+	ML_USING_X	Allocator		= typename _STD allocator		<X>;
+	ML_USING_X	CharTraits		= typename _STD char_traits		<X>;
+	ML_USING_XY HashMap			= typename _STD unordered_map	<X, Y>;
+	ML_USING_XY HashSet			= typename _STD unordered_set	<X, Y>;
+	ML_USING_XY MultiMap		= typename _STD multimap		<X, Y>;
+	ML_USING_XY Pair			= typename _STD pair			<X, Y>;
+	ML_USING_XY Tree			= typename _STD map				<X, Y>;
+	ML_USING_XY BasicIstream	= typename _STD basic_istream	<X, Y>;
+	ML_USING_XY BasicOstream	= typename _STD basic_ostream	<X, Y>;
+	ML_USING_XY BasicIfstream	= typename _STD basic_ifstream	<X, Y>;
+	ML_USING_XY BasicOfstream	= typename _STD basic_ofstream	<X, Y>;
+	ML_USING_XY BasicStreamBuf	= typename _STD basic_streambuf	<X, Y>;
+	using		Ofstream		= typename BasicOfstream		<char, CharTraits<char>>;
+	using		Ifstream		= typename BasicIfstream		<char, CharTraits<char>>;
+	using		Ostream			= typename BasicOstream			<char, CharTraits<char>>;
+	using		Istream			= typename BasicIstream			<char, CharTraits<char>>;
+	using		StreamBuf		= typename BasicStreamBuf		<char, CharTraits<char>>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

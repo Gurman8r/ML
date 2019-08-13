@@ -1,11 +1,11 @@
-#include <ML/Graphics/IndexBuffer.hpp>
+#include <ML/Graphics/IndexBufferObject.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	IndexBuffer::IndexBuffer()
+	IndexBufferObject::IndexBufferObject()
 		: I_Handle	(NULL)
 		, m_data	(NULL)
 		, m_count	(NULL)
@@ -14,7 +14,7 @@ namespace ml
 	{
 	}
 
-	IndexBuffer::IndexBuffer(const IndexBuffer & copy)
+	IndexBufferObject::IndexBufferObject(const IndexBufferObject & copy)
 		: I_Handle	(copy)
 		, m_data	(copy.m_data)
 		, m_count	(copy.m_count)
@@ -23,14 +23,14 @@ namespace ml
 	{
 	}
 
-	IndexBuffer::~IndexBuffer()
+	IndexBufferObject::~IndexBufferObject()
 	{
 		clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	IndexBuffer & IndexBuffer::clean()
+	IndexBufferObject & IndexBufferObject::clean()
 	{
 		if ((*this))
 		{
@@ -39,7 +39,7 @@ namespace ml
 		return (*this);
 	}
 
-	IndexBuffer & IndexBuffer::create(GL::Usage usage, GL::Type type)
+	IndexBufferObject & IndexBufferObject::create(GL::Usage usage, GL::Type type)
 	{
 		if (set_handle(ML_GL.genBuffers(1)))
 		{
@@ -51,13 +51,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBuffer & IndexBuffer::bind() const
+	const IndexBufferObject & IndexBufferObject::bind() const
 	{
 		ML_GL.bindBuffer(GL::ElementArrayBuffer, (*this));
 		return (*this);
 	}
 
-	const IndexBuffer & IndexBuffer::unbind() const
+	const IndexBufferObject & IndexBufferObject::unbind() const
 	{
 		ML_GL.bindBuffer(GL::ElementArrayBuffer, NULL);
 		return (*this);
@@ -65,7 +65,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBuffer & IndexBuffer::bufferData(const uint32_t * data, uint32_t count) const
+	const IndexBufferObject & IndexBufferObject::bufferData(const uint32_t * data, uint32_t count) const
 	{
 		if (*this)
 		{
@@ -81,7 +81,7 @@ namespace ml
 		return (*this);
 	}
 
-	const IndexBuffer & IndexBuffer::bufferData(const Indices & data) const
+	const IndexBufferObject & IndexBufferObject::bufferData(const List<uint32_t> & data) const
 	{
 		return bufferData(&data[0], (uint32_t)data.size());
 	}

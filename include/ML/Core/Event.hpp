@@ -14,7 +14,7 @@ namespace ml
 
 		enum : int32_t
 		{
-			MAX_LIBRARY_EVENTS = 64,
+			MAX_LIBRARY_EVENTS = 64, // The number of events reserved for each library
 			
 			EV_INVALID	= (-1),
 			EV_AUDIO	= (MAX_LIBRARY_EVENTS * 1),

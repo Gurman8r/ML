@@ -4,9 +4,9 @@
 #include <ML/Graphics/I_Drawable.hpp>
 #include <ML/Graphics/Mesh.hpp>
 #include <ML/Graphics/BufferLayout.hpp>
-#include <ML/Graphics/VertexArray.hpp>
-#include <ML/Graphics/VertexBuffer.hpp>
-#include <ML/Graphics/IndexBuffer.hpp>
+#include <ML/Graphics/VertexArrayObject.hpp>
+#include <ML/Graphics/VertexBufferObject.hpp>
+#include <ML/Graphics/IndexBufferObject.hpp>
 
 namespace ml
 {
@@ -31,8 +31,8 @@ namespace ml
 		bool loadFromMemory(const Mesh & mesh);
 		bool loadFromMemory(const List<float_t> & vertices);
 		bool loadFromMemory(const Vertices & vertices);
-		bool loadFromMemory(const Vertices & vertices, const Indices & indices);
-		bool loadFromMemory(const List<float_t> & vertices, const Indices & indices);
+		bool loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices);
+		bool loadFromMemory(const List<float_t> & vertices, const List<uint32_t> & indices);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

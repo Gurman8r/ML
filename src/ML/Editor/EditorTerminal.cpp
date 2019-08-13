@@ -42,7 +42,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorTerminal::drawGui(const GuiEvent & ev)
+	bool EditorTerminal::onGui(const GuiEvent & ev)
 	{
 		if (m_coutBuf)
 		{

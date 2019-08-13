@@ -5,8 +5,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-in VertexData
-{
+in Vertex {
 	vec3 Position;
 	vec4 Normal;
 	vec2 Texcoord;

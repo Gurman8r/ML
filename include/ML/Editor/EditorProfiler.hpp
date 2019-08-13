@@ -15,7 +15,7 @@ namespace ml
 
 		explicit EditorProfiler(Editor & editor);
 
-		bool drawGui(const GuiEvent & ev) override;
+		bool onGui(const GuiEvent & ev) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

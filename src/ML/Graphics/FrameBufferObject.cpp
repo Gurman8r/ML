@@ -1,28 +1,28 @@
-#include <ML/Graphics/FrameBuffer.hpp>
+#include <ML/Graphics/FrameBufferObject.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	FrameBuffer::FrameBuffer()
+	FrameBufferObject::FrameBufferObject()
 		: I_Handle(NULL)
 	{
 	}
 
-	FrameBuffer::FrameBuffer(const FrameBuffer & copy)
+	FrameBufferObject::FrameBufferObject(const FrameBufferObject & copy)
 		: I_Handle(copy)
 	{
 	}
 
-	FrameBuffer::~FrameBuffer()
+	FrameBufferObject::~FrameBufferObject()
 	{
 		clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	FrameBuffer & FrameBuffer::clean()
+	FrameBufferObject & FrameBufferObject::clean()
 	{
 		if ((*this))
 		{
@@ -32,7 +32,7 @@ namespace ml
 		return (*this);
 	}
 
-	FrameBuffer & FrameBuffer::create()
+	FrameBufferObject & FrameBufferObject::create()
 	{
 		if (set_handle(ML_GL.genFramebuffers(1)))
 		{
@@ -43,13 +43,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	const FrameBuffer & FrameBuffer::bind() const
+	const FrameBufferObject & FrameBufferObject::bind() const
 	{
 		ML_GL.bindFramebuffer(GL::Framebuffer, (*this));
 		return (*this);
 	}
 
-	const FrameBuffer & FrameBuffer::unbind() const
+	const FrameBufferObject & FrameBufferObject::unbind() const
 	{
 		ML_GL.bindFramebuffer(GL::Framebuffer, NULL);
 		return (*this);
@@ -57,7 +57,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const FrameBuffer & FrameBuffer::setTexture(uint32_t attchment, uint32_t value, uint32_t sampler, int32_t level) const
+	const FrameBufferObject & FrameBufferObject::setTexture(uint32_t attchment, uint32_t value, uint32_t sampler, int32_t level) const
 	{
 		if (*this)
 		{

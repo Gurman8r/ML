@@ -17,7 +17,7 @@ namespace ml
 
 		bool beginDraw(int32_t flags) override;
 		
-		bool drawGui(const GuiEvent & ev) override;
+		bool onGui(const GuiEvent & ev) override;
 		
 		bool endDraw() override;
 

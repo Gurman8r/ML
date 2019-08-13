@@ -14,7 +14,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorProfiler::drawGui(const GuiEvent & ev)
+	bool EditorProfiler::onGui(const GuiEvent & ev)
 	{
 		if (beginDraw(0))
 		{

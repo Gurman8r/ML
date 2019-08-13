@@ -40,19 +40,20 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto color()		const -> const vec4 &	{ return m_color; }
-		inline auto origin()	const -> const vec2 &	{ return m_transform.origin(); }
-		inline auto position()	const -> const vec2 &	{ return m_transform.position(); }
-		inline auto rotation()	const -> float_t		{ return m_transform.rotation(); }
-		inline auto scale()		const -> const vec2 &	{ return m_transform.scale(); }
-		inline auto texture()	const -> const Texture *{ return m_texture; }
+		inline auto color()		const -> const vec4 &			{ return m_color; }
+		inline auto origin()	const -> const vec2 &			{ return m_tf.origin(); }
+		inline auto position()	const -> const vec2 &			{ return m_tf.position(); }
+		inline auto rotation()	const -> float_t				{ return m_tf.rotation(); }
+		inline auto scale()		const -> const vec2 &			{ return m_tf.scale(); }
+		inline auto texture()	const -> const Texture *		{ return m_texture; }
+		inline auto transform()	const -> const RectTransform &	{ return m_tf; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		vec4			m_color;
 		const Texture * m_texture;
-		RectTransform	m_transform;
+		RectTransform	m_tf;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

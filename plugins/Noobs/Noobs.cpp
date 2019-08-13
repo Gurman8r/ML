@@ -217,14 +217,22 @@ namespace ml
 			{
 				if (ImGui::BeginMenu("Settings"))
 				{
-					// Get Video Settings
-					static const List<VideoMode> & video_modes { VideoMode::get_modes() };
-					static const List<String> & video_names = [&]
+					// Get Video Modes
+					static const List<VideoMode> & mode_values
 					{
-						static List<String> temp { "Auto" };
-						for (const VideoMode & video : video_modes)
+						VideoMode::get_fullscreen_modes() 
+					};
+
+					// Get Video Names
+					static const List<String> & mode_names = [&]
+					{
+						static List<String> temp
 						{
-							temp.push_back(String("{0}").format(video.resolution));
+							"Auto" 
+						};
+						for (const VideoMode & elem : mode_values)
+						{
+							temp.push_back(String("{0}").format(elem.resolution));
 						}
 						return temp;
 					}();
@@ -234,15 +242,15 @@ namespace ml
 					if (ImGui::Combo("Viewport",
 						&index, 
 						ML_EditorUtility.vector_getter,
-						(void *)&video_names,
-						(int32_t)video_names.size()
+						(void *)&mode_names,
+						(int32_t)mode_names.size()
 					))
 					{
 						m_autoView = (index == 0);
 					}
 					if (!m_autoView)
 					{
-						m_viewport = (vec2i)VideoMode::get_modes()[index - 1].resolution;
+						m_viewport = (vec2i)mode_values[index - 1].resolution;
 					}
 
 					// Clear Color

@@ -9,8 +9,7 @@ namespace ml
 	
 	// just a wrapper for std::vector<>
 	template <
-		class Elem,
-		class Alloc = typename Allocator<Elem>
+		class Elem, class Alloc = typename Allocator<Elem>
 	> struct List : public std::vector<Elem, Alloc>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

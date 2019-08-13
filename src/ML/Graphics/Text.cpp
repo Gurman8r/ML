@@ -105,10 +105,10 @@ namespace ml
 			{
 				const Glyph & glyph = m_font->getGlyph(m_string[i], m_fontSize);
 				
-				const FloatRect rect(
+				const FloatRect rect {
 					glyph.offset() + pos * m_scale,
 					glyph.size() * m_scale
-				);
+				};
 
 				m_vertices[i] = geo::rect_quad::glyphQuad(rect);
 				m_textures[i] = (&glyph.texture);
@@ -129,7 +129,7 @@ namespace ml
 	
 	void Text::draw(RenderTarget & target, RenderBatch batch) const
 	{
-		if (m_font)
+		if (m_font && batch.mat)
 		{
 			update();
 
@@ -145,7 +145,11 @@ namespace ml
 					u->data = m_textures[i];
 				}
 
-				target.draw(m_vertices[i].data(), geo::rect_quad::contiguous_t::Size, batch);
+				target.draw(
+					m_vertices[i].data(),
+					geo::rect_quad::contiguous_t::Size, 
+					batch
+				);
 			}
 		}
 	}

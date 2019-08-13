@@ -1,15 +1,12 @@
 #ifndef _ML_GL_HPP_
 #define _ML_GL_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Core/StandardLib.hpp>
 
+// OpenGL Enums
 /* * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
-	// OpenGL Enums
 	namespace GL
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

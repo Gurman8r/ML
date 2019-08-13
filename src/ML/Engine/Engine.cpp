@@ -39,7 +39,7 @@ namespace ml
 		eventSystem.addListener(EndFrameEvent::ID,		this);
 		eventSystem.addListener(UnloadEvent::ID,		this);
 		eventSystem.addListener(ExitEvent::ID,			this);
-		eventSystem.addListener(CommandEvent::ID,		this);
+		//eventSystem.addListener(CommandEvent::ID,		this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -48,49 +48,28 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID:
-			if (auto ev = value.as<EnterEvent>()) return onEnter(*ev);
-		
-		case LoadEvent::ID:
-			if (auto ev = value.as<LoadEvent>()) return onLoad(*ev);
-		
-		case StartEvent::ID:
-			if (auto ev = value.as<StartEvent>()) return onStart(*ev);
-		
-		case BeginFrameEvent::ID:
-			if (auto ev = value.as<BeginFrameEvent>()) return onBeginFrame(*ev);
-		
-		case UpdateEvent::ID:
-			if (auto ev = value.as<UpdateEvent>()) return onUpdate(*ev);
-		
-		case BeginDrawEvent::ID:
-			if (auto ev = value.as<BeginDrawEvent>()) return onBeginDraw(*ev);
-		
-		case DrawEvent::ID:
-			if (auto ev = value.as<DrawEvent>()) return onDraw(*ev);
-		
-		case EndDrawEvent::ID:
-			if (auto ev = value.as<EndDrawEvent>()) return onEndDraw(*ev);
-		
-		case EndFrameEvent::ID:
-			if (auto ev = value.as<EndFrameEvent>()) return onEndFrame(*ev);
-		
-		case UnloadEvent::ID:
-			if (auto ev = value.as<UnloadEvent>()) return onUnload(*ev);
+		case EnterEvent::ID		: if (auto ev = value.as<EnterEvent>())		return onEnter(*ev);
+		case LoadEvent::ID		: if (auto ev = value.as<LoadEvent>())		return onLoad(*ev);
+		case StartEvent::ID		: if (auto ev = value.as<StartEvent>())		return onStart(*ev);
+		case BeginFrameEvent::ID: if (auto ev = value.as<BeginFrameEvent>())return onBeginFrame(*ev);
+		case UpdateEvent::ID	: if (auto ev = value.as<UpdateEvent>())	return onUpdate(*ev);
+		case BeginDrawEvent::ID	: if (auto ev = value.as<BeginDrawEvent>())	return onBeginDraw(*ev);
+		case DrawEvent::ID		: if (auto ev = value.as<DrawEvent>())		return onDraw(*ev);
+		case EndDrawEvent::ID	: if (auto ev = value.as<EndDrawEvent>())	return onEndDraw(*ev);
+		case EndFrameEvent::ID	: if (auto ev = value.as<EndFrameEvent>())	return onEndFrame(*ev);
+		case UnloadEvent::ID	: if (auto ev = value.as<UnloadEvent>())	return onUnload(*ev);
+		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
 
-		case ExitEvent::ID:
-			if (auto ev = value.as<ExitEvent>()) return onExit(*ev);
-
-		case CommandEvent::ID:
-			if (auto ev = value.as<CommandEvent>())
-			{
-				Var v;
-				if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
-				{
-					cout << v.errorValue() << endl;
-				}
-			}
-			break;
+		//case CommandEvent::ID:
+		//	if (auto ev = value.as<CommandEvent>())
+		//	{
+		//		Var v;
+		//		if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
+		//		{
+		//			cout << v.errorValue() << endl;
+		//		}
+		//	}
+		//	break;
 		}
 	}
 
@@ -98,9 +77,6 @@ namespace ml
 
 	void Engine::onEnter(const EnterEvent & ev)
 	{
-		// Get Boot Script Name
-		m_script.name = ev.prefs.GetString("Engine", "boot_script", "");
-
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(
@@ -136,7 +112,7 @@ namespace ml
 			{
 				// centered
 				ev.window.setPosition(
-					(vec2i)(VideoMode::get_desktop().resolution - ev.window.getSize()) / 2
+					(vec2i)(VideoMode::get_desktop_mode().resolution - ev.window.getSize()) / 2
 				);
 			}
 		}
@@ -166,6 +142,7 @@ namespace ml
 			geo::sky::contiguous
 		);
 
+
 		// Load Default Models
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Content.create<Model>("default_triangle")->loadFromMemory(
@@ -181,6 +158,7 @@ namespace ml
 			*ML_Content.get<Mesh>("default_skybox")
 		);
 
+
 		// Load Default Uniforms
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Content.create<uni_vec2_ptr>	("CURSOR_POS",	"u_cursorPos",  &m_cursorPos);
@@ -190,30 +168,14 @@ namespace ml
 		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &m_totalTime);
 		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&m_viewport);
 
-		// Load Content
+		// Load Asset Lists
 		/* * * * * * * * * * * * * * * * * * * * */
 		static ContentLoader loader;
 		if (loader.loadFromFile(ML_FS.pathTo(ev.prefs.GetString(
-			"Engine", "asset_lists", String()
+			"Engine", "asset_lists", ""
 		))))
 		{
-#if 1
 			loader.loadAll(true);
-#else
-			// FIXME:
-			// not working because there's only one opengl context
-			static Worker worker;
-			worker.launch(loader.lists().size(), [&]()
-			{
-				for (size_t i = 0; worker.working(); i++)
-				{
-					worker.process([&]() { return loader.loadElement(i); });
-				}
-				loader.dispose();
-				worker.finalize();
-				eventSystem().fireEvent(StartEvent(ev.time, ev.window));
-			});
-#endif
 		}
 		else
 		{
@@ -224,20 +186,7 @@ namespace ml
 	void Engine::onStart(const StartEvent & ev)
 	{
 		// Set Window Icon
-		if (m_icon)
-		{
-			const Image temp = Image(*m_icon).flipVertically();
-			ev.window.setIcons({ temp });
-		}
-
-		// Run Boot Script
-		if (m_script)
-		{
-			if (!(m_script->buildAndRun(Arguments(__argc, __argv))))
-			{
-				Debug::logError("Failed Running \'{0}\'", m_script->path());
-			}
-		}
+		if (m_icon) { ev.window.setIcons({ (*m_icon) }); }
 	}
 
 	void Engine::onBeginFrame(const BeginFrameEvent & ev)
@@ -248,13 +197,13 @@ namespace ml
 
 	void Engine::onUpdate(const UpdateEvent & ev)
 	{
-		// Update Uniforms
-		m_cursorPos = (vec2)ev.window.getCursorPos();
-		m_deltaTime = ev.time.elapsed().delta<Millisec>();
-		m_frameCount++;
-		m_frameRate = (float_t)ev.time.frameRate();
-		m_viewport = (vec2)ev.window.getSize();
-		m_totalTime = ev.time.total().delta<Millisec>();
+		// Update Default Uniforms
+		m_cursorPos		= (vec2)ev.window.getCursorPos();
+		m_deltaTime		= ev.time.elapsed().delta<Millisec>();
+		m_frameCount	= m_frameCount + 1;
+		m_frameRate		= (float_t)ev.time.frameRate();
+		m_viewport		= (vec2)ev.window.getSize();
+		m_totalTime		= ev.time.total().delta<Millisec>();
 
 		// Update Window Title
 		static const String title(ev.window.getTitle());

@@ -1,4 +1,4 @@
-#include <ML/Graphics/VertexArray.hpp>
+#include <ML/Graphics/VertexArrayObject.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 
@@ -6,24 +6,24 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	VertexArray::VertexArray()
+	VertexArrayObject::VertexArrayObject()
 		: I_Handle(NULL)
 	{
 	}
 
-	VertexArray::VertexArray(const VertexArray & copy)
+	VertexArrayObject::VertexArrayObject(const VertexArrayObject & copy)
 		: I_Handle(copy)
 	{
 	}
 
-	VertexArray::~VertexArray()
+	VertexArrayObject::~VertexArrayObject()
 	{
 		clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	VertexArray & VertexArray::clean()
+	VertexArrayObject & VertexArrayObject::clean()
 	{
 		if ((*this))
 		{
@@ -32,7 +32,7 @@ namespace ml
 		return (*this);
 	}
 
-	VertexArray & VertexArray::create(GL::Mode mode)
+	VertexArrayObject & VertexArrayObject::create(GL::Mode mode)
 	{
 		if (set_handle(ML_GL.genVertexArrays(1)))
 		{
@@ -43,13 +43,13 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const VertexArray & VertexArray::bind() const
+	const VertexArrayObject & VertexArrayObject::bind() const
 	{
 		ML_GL.bindVertexArray((*this));
 		return (*this);
 	}
 
-	const VertexArray & VertexArray::unbind() const
+	const VertexArrayObject & VertexArrayObject::unbind() const
 	{
 		ML_GL.bindVertexArray(NULL);
 		return (*this);

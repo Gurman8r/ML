@@ -1,5 +1,5 @@
-#ifndef _ML_VERTEX_ARRAY_HPP_
-#define _ML_VERTEX_ARRAY_HPP_
+#ifndef _ML_FRAMEBUFFER_HPP_
+#define _ML_FRAMEBUFFER_HPP_
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
@@ -11,43 +11,38 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API VertexArray final
+	struct ML_GRAPHICS_API FrameBufferObject final
 		: public I_Newable
 		, public I_Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		VertexArray();
-		VertexArray(const VertexArray & copy);
-		~VertexArray();
+		FrameBufferObject();
+		FrameBufferObject(const FrameBufferObject & copy);
+		~FrameBufferObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		VertexArray & clean();
-		VertexArray & create(GL::Mode mode);
+		FrameBufferObject & clean();
+		FrameBufferObject & create();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VertexArray & bind() const;
-		const VertexArray & unbind() const;
+		const FrameBufferObject & bind() const;
+		const FrameBufferObject & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto mode() const -> const GL::Mode & { return m_mode; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private:
-		mutable GL::Mode m_mode;
+		const FrameBufferObject & setTexture(uint32_t attchment, uint32_t value, uint32_t sampler, int32_t level) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using VAO = typename VertexArray;
+	using FBO = typename FrameBufferObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_VERTEX_ARRAY_HPP_
+#endif // !_ML_FRAMEBUFFER_HPP_

@@ -42,6 +42,8 @@ namespace ml
 		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
 
 	private:
+		bool m_redirect_cout { false };
+
 		EditorExplorer	m_browser;
 		EditorContent	m_content;
 		EditorDockspace	m_dockspace;

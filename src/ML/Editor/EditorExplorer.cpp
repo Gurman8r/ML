@@ -29,7 +29,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorExplorer::drawGui(const GuiEvent & ev)
+	bool EditorExplorer::onGui(const GuiEvent & ev)
 	{
 		if (beginDraw(0))
 		{

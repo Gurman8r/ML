@@ -170,13 +170,6 @@
     <None Include="..\..\..\assets\lua\test.lua" />
     <None Include="..\..\..\assets\materials\demo.mat" />
     <None Include="..\..\..\assets\materials\skybox.mat" />
-    <None Include="..\..\..\assets\meshes\cow.mesh" />
-    <None Include="..\..\..\assets\meshes\cube.mesh" />
-    <None Include="..\..\..\assets\meshes\pumpkin.mesh" />
-    <None Include="..\..\..\assets\meshes\sphere32x24.mesh" />
-    <None Include="..\..\..\assets\meshes\sphere8x6.mesh" />
-    <None Include="..\..\..\assets\meshes\teapot.mesh" />
-    <None Include="..\..\..\assets\meshes\teddy.mesh" />
     <None Include="..\..\..\assets\scripts\core.meme" />
     <None Include="..\..\..\assets\scripts\fib.meme" />
     <None Include="..\..\..\assets\scripts\files.meme" />

@@ -32,27 +32,32 @@ namespace ml
 		bool loadFromMemory(const Vertices & vertices);
 		bool loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices);
 
+		static Mesh * loadFromAssimp(const String & filename);
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			template <class, size_t> class A, class T, size_t N
-		> inline bool loadFromMemory(const A<T, N> & vertices)
+		> inline bool loadFromMemory(const A<T, N> & v)
 		{
-			return loadFromMemory(List<float_t> { vertices.begin(), vertices.end() });
+			return loadFromMemory(List<float_t> { v.begin(), v.end() });
 		}
 
 		template <
 			template <class, size_t> class A, size_t V, size_t I
-		> inline bool loadFromMemory(const A<float_t, V> & vertices, const A<uint32_t, I> & indices)
+		> inline bool loadFromMemory(const A<float_t, V> & v, const A<uint32_t, I> & i)
 		{
 			return loadFromMemory(
-				List<float_t> { vertices.begin(), vertices.end() },
-				List<uint32_t> { indices.begin(), indices.end() }
+				List<float_t>	{ v.begin(), v.end() },
+				List<uint32_t>	{ i.begin(), i.end() }
 			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
+		inline auto filename	() const -> const String &			{ return m_filename; }
+		inline auto directory	() const -> const String &			{ return m_directory; }
 		inline auto vertices	() const -> const Vertices &		{ return m_vertices; }
 		inline auto indices		() const -> const List<uint32_t> &	{ return m_indices; }
 		inline auto contiguous	() const -> const List<float_t> &	{ return m_contiguous; }
@@ -60,6 +65,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		String			m_filename;
+		String			m_directory;
 		Vertices		m_vertices;
 		List<uint32_t>	m_indices;
 		List<float_t>	m_contiguous;

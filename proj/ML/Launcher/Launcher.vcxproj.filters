@@ -12,27 +12,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\assets\meshes\cow.mesh">
-      <Filter>Resource Files\assets\meshes</Filter>
-    </None>
-    <None Include="..\..\..\assets\meshes\cube.mesh">
-      <Filter>Resource Files\assets\meshes</Filter>
-    </None>
-    <None Include="..\..\..\assets\meshes\pumpkin.mesh">
-      <Filter>Resource Files\assets\meshes</Filter>
-    </None>
-    <None Include="..\..\..\assets\meshes\sphere32x24.mesh">
-      <Filter>Resource Files\assets\meshes</Filter>
-    </None>
-    <None Include="..\..\..\assets\meshes\sphere8x6.mesh">
-      <Filter>Resource Files\assets\meshes</Filter>
-    </None>
-    <None Include="..\..\..\assets\meshes\teapot.mesh">
-      <Filter>Resource Files\assets\meshes</Filter>
-    </None>
-    <None Include="..\..\..\assets\meshes\teddy.mesh">
-      <Filter>Resource Files\assets\meshes</Filter>
-    </None>
     <None Include="..\..\..\assets\scripts\core.meme">
       <Filter>Resource Files\assets\scripts</Filter>
     </None>
@@ -130,9 +109,6 @@
     </Filter>
     <Filter Include="Resource Files\assets\images">
       <UniqueIdentifier>{27f89d2c-efda-4518-af86-9c5b809f028f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\assets\meshes">
-      <UniqueIdentifier>{7e832e95-f840-4849-8cc7-2383ff11525f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\assets\scripts">
       <UniqueIdentifier>{a615895c-e69e-465e-89bb-91857050f37b}</UniqueIdentifier>

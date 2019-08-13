@@ -12,17 +12,17 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static constexpr uint64_t MaxPreviewSize { 15_MB };
+	static constexpr Bytes MaxPreviewSize { 15_MB };
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorExplorer::EditorExplorer(Editor & editor)
 		: EditorGui		{ editor, "Explorer", false }
 		, m_path		{ ML_FS.getPath() }
-		, m_dir			{ }
+		, m_dir			{}
 		, m_type		{ T_Dir }
 		, m_index		{ 0 }
-		, m_preview		{  }
+		, m_preview		{}
 		, m_isDouble	{ false }
 	{
 	}
@@ -202,11 +202,10 @@ namespace ml
 			}
 			else
 			{
-				m_preview = String(
-					"File size of {0} exceeds preview limit of {1}."
-				).format(
+				m_preview = String("File size of {0} exceeds preview limit of {1}.").format(
 					Bytes(get_selected_size()), 
-					MaxPreviewSize);
+					MaxPreviewSize
+				);
 			}
 		}
 		break;

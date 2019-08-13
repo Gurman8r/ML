@@ -136,11 +136,9 @@ namespace ml
 	{
 		size_t i;
 		return (
-			(
 			((i = filename.find_last_of('.')) != String::npos) ||
 			((i = filename.find_last_of('/')) != String::npos) ||
 			((i = filename.find_last_of('\\')) != String::npos)
-			)
 			? (String(filename.substr(i + 1, filename.size() - i - 1)))
 			: (String())
 		);
@@ -150,10 +148,8 @@ namespace ml
 	{
 		size_t i;
 		return (
-			(
 			((i = filename.find_last_of('/')) != String::npos) ||
 			((i = filename.find_last_of('\\')) != String::npos)
-			)
 			? (String(filename.substr(i + 1, filename.size() - i - 1)))
 			: (filename)
 		);
@@ -163,10 +159,8 @@ namespace ml
 	{
 		size_t i;
 		return (
-			(
 			((i = filename.find_last_of('/')) != String::npos) ||
 			((i = filename.find_last_of('\\')) != String::npos)
-			)
 			? (String(filename.substr(0, i)))
 			: (filename)
 		);

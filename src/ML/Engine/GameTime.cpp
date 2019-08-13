@@ -5,13 +5,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	GameTime::GameTime()
-		: m_mainTimer	()
-		, m_loopTimer	()
-		, m_elapsed		()
-		, m_frameCount	()
-		, m_frameRate	()
-		, m_nextSecond	()
-		, m_prevSecond	()
+		: m_mainTimer	{}
+		, m_loopTimer	{}
+		, m_elapsed		{}
+		, m_frameCount	{}
+		, m_frameRate	{}
+		, m_nextSecond	{}
+		, m_prevSecond	{}
 	{
 		m_mainTimer.start();
 	}

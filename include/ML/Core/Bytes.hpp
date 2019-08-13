@@ -70,17 +70,9 @@ namespace ml
 		constexpr uint64_t	size()		const { return m_size; }
 		constexpr C_String	name()		const { return m_name; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		inline String str() const
 		{
-			String temp;
-			if (m_size)
-			{
-				temp.append(std::to_string(m_size));
-			}
-			temp.append(m_name);
-			return temp;
+			return m_size ? ((String)std::to_string(m_size) + m_name) : m_name;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -92,6 +84,11 @@ namespace ml
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(Ostream & out, const Bytes & value)
+	{
+		return out << value.str();
+	}
 
 	constexpr uint64_t operator "" _KB(uint64_t value) { return alg::ratio_cast(value, Kilo()); }
 	constexpr uint64_t operator "" _MB(uint64_t value) { return alg::ratio_cast(value, Mega()); }

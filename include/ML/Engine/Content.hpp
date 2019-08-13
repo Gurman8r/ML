@@ -41,11 +41,15 @@ namespace ml
 			class T
 		> inline size_t get_hash() const
 		{
-			static List<size_t> & cached { this->get_codes() };
-			const size_t code { typeid(T).hash_code() };
-			if (std::find(cached.cbegin(), cached.cend(), code) == cached.cend())
+			static List<size_t> & cache {
+				this->get_codes() 
+			};
+			const size_t code {
+				typeid(T).hash_code() 
+			};
+			if (std::find(cache.cbegin(), cache.cend(), code) == cache.cend())
 			{
-				cached.push_back(code);
+				cache.push_back(code);
 			}
 			return code;
 		}

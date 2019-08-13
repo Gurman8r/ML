@@ -36,6 +36,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		template <
+			template <class, size_t> class A, class T, size_t N
+		> inline bool loadFromMemory(const A<T, N> & v)
+		{
+			return loadFromMemory(List<float_t> { v.begin(), v.end() });
+		}
+
+		template <
+			template <class, size_t> class A, size_t V, size_t I
+		> inline bool loadFromMemory(const A<float_t, V> & v, const A<uint32_t, I> & i)
+		{
+			return loadFromMemory(
+				List<float_t>	{ v.begin(), v.end() },
+				List<uint32_t>	{ i.begin(), i.end() }
+			);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

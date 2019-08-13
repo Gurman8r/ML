@@ -63,10 +63,36 @@ static StateMachine<State> g_ProgramStates
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <ML/Graphics/Mesh.hpp>
+
+int32_t test_assimp()
+{
+	if (Mesh * mesh { Mesh::loadFromAssimp(ML_FS.pathTo(
+		"../../../assets/meshes/cow.obj"
+	)) })
+	{
+		Debug::log("Filename:\t{0}",	mesh->filename());
+		Debug::log("Directory:\t{0}",	mesh->directory());
+		Debug::log("Vertices:\t{0}",	mesh->vertices().size());
+		Debug::log("Indices:\t{0}",		mesh->indices().size());
+		Debug::log("Contiguous:\t{0}",	mesh->contiguous().size());
+
+		delete mesh;
+	}
+	else
+	{
+		Debug::logError("Failed loading mesh");
+	}
+
+	return Debug::pause(EXIT_SUCCESS);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 int32_t main()
 {
 	// Load Plugin List
-	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Preferences.GetString(
+	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Preferences.get_string(
 		"Launcher", "plugin_list", ""
 	))))
 	{

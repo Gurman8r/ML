@@ -2,22 +2,91 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Debug.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <assimp/Importer.hpp>
-#include <assimp/scene.h>
+#include <assimp/cimport.h>
 #include <assimp/postprocess.h>
+#include <assimp/material.h>
+#include <assimp/scene.h>
 
-/* * * * * * * * * * * * * * * * * * * * */
+namespace ml
+{
+	struct TempMesh
+	{
+		List<vec3> vertices;
+	};
+
+	static inline aiMesh * processMesh(aiMesh * mesh, const aiScene * scene)
+	{
+		for (uint32_t i = 0; i < mesh->mNumVertices; i++)
+		{
+			mesh->mVertices[i];
+		}
+
+		for (uint32_t i = 0; i < mesh->mNumFaces; i++)
+		{
+			mesh->mFaces[i];
+		}
+
+		return nullptr;
+	}
+
+	static inline void processNode(List<aiMesh *> & meshes, aiNode * node, const aiScene * scene)
+	{
+		// process all of the node's meshes and then do the same for each of its children
+		if (node && scene)
+		{
+			for (uint32_t i = 0; i < node->mNumMeshes; i++)
+			{
+				meshes.push_back(processMesh(
+					scene->mMeshes[node->mMeshes[i]], 
+					scene
+				));
+			}
+
+			for (uint32_t i = 0; i < node->mNumChildren; i++)
+			{
+				processNode(
+					meshes,
+					node->mChildren[i],
+					scene
+				);
+			}
+		}
+	}
+
+	Mesh * Mesh::loadFromAssimp(const String & filename)
+	{
+		if (const aiScene * scene = aiImportFile(
+			filename.c_str(),
+			aiProcess_Triangulate | aiProcess_FlipUVs
+		))
+		{
+			if (!(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) && scene->mRootNode)
+			{
+				List<aiMesh *> meshes;
+				processNode(meshes, scene->mRootNode, scene);
+
+				Mesh * m { new Mesh() };
+				m->m_filename = ML_FS.getFileName(filename);
+				m->m_directory = ML_FS.getFilePath(filename);
+				return m;
+			}
+		}
+		return nullptr;
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Mesh::Mesh()
-		: Mesh(Vertices())
+		: Mesh(Vertices {})
 	{
-		static Assimp::Importer ml_assimp_test;
 	}
 
 	Mesh::Mesh(const Vertices & vertices)
@@ -26,14 +95,18 @@ namespace ml
 	}
 
 	Mesh::Mesh(const Vertices & vertices, const List<uint32_t> & indices)
-		: m_vertices	(vertices)
+		: m_filename	()
+		, m_directory	()
+		, m_vertices	(vertices)
 		, m_indices		(indices)
 		, m_contiguous	(vertices.contiguous())
 	{
 	}
 
 	Mesh::Mesh(const Mesh & copy)
-		: m_vertices	(copy.m_vertices)
+		: m_filename	(copy.m_filename)
+		, m_directory	(copy.m_directory)
+		, m_vertices	(copy.m_vertices)
 		, m_indices		(copy.m_indices)
 		, m_contiguous	(copy.m_contiguous)
 	{
@@ -43,6 +116,8 @@ namespace ml
 	
 	bool Mesh::dispose()
 	{
+		m_filename.clear();
+		m_directory.clear();
 		m_vertices.clear();
 		m_indices.clear();
 		m_contiguous.clear();
@@ -74,10 +149,10 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			List<vec3> vp;		// Positions
-			List<vec2> vt;		// Texcoords
-			List<vec3> vn;		// Normals
-			List<List<uint32_t>> vf;	// Faces
+			List<vec3> vp; // Positions
+			List<vec2> vt; // Texcoords
+			List<vec3> vn; // Normals
+			List<List<uint32_t>> vf; // Faces
 
 			String line;
 			while (std::getline(in, line))

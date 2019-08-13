@@ -217,7 +217,7 @@ namespace ml
 
 	bool FontPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		return false;
+		return (*this)(label, (const_reference)value, flags);
 	}
 
 
@@ -237,7 +237,7 @@ namespace ml
 
 	bool ImagePropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		return (*this)(label, (const_reference)value);
+		return (*this)(label, (const_reference)value, flags);
 	}
 
 
@@ -380,7 +380,7 @@ namespace ml
 
 	bool MeshPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		return (*this)(label, (const_reference)value);
+		return (*this)(label, (const_reference)value, flags);
 	}
 
 
@@ -399,7 +399,7 @@ namespace ml
 
 	bool ModelPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		return (*this)(label, (const_reference)value);
+		return (*this)(label, (const_reference)value, flags);
 	}
 
 
@@ -418,7 +418,7 @@ namespace ml
 
 	bool ScriptPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		return (*this)(label, (const_reference)value);
+		return (*this)(label, (const_reference)value, flags);
 	}
 
 
@@ -840,19 +840,23 @@ namespace ml
 
 			if ((ImGui::Button("Submit") || enterPress) && (name && !value))
 			{
-				switch (type)
+				value = ([&]()
 				{
-				case uni_bool::ID: value = new uni_bool(name, { 0 }); break;
-				case uni_float::ID: value = new uni_float(name, { 0 }); break;
-				case uni_int::ID: value = new uni_int(name, { 0 }); break;
-				case uni_vec2::ID: value = new uni_vec2(name, { 0 }); break;
-				case uni_vec3::ID: value = new uni_vec3(name, { 0 }); break;
-				case uni_vec4::ID: value = new uni_vec4(name, { 0 }); break;
-				case uni_color::ID: value = new uni_color(name, { 0 }); break;
-				case uni_mat3::ID: value = new uni_mat3(name, { 0 }); break;
-				case uni_mat4::ID: value = new uni_mat4(name, { 0 }); break;
-				case uni_sampler::ID: value = new uni_sampler(name, { 0 }); break;
-				}
+					switch (type)
+					{
+					case uni_bool	::ID: return (Uni *)new uni_bool	{ name, { NULL } };
+					case uni_float	::ID: return (Uni *)new uni_float	{ name, { NULL } };
+					case uni_int	::ID: return (Uni *)new uni_int		{ name, { NULL } };
+					case uni_vec2	::ID: return (Uni *)new uni_vec2	{ name, { NULL } };
+					case uni_vec3	::ID: return (Uni *)new uni_vec3	{ name, { NULL } };
+					case uni_vec4	::ID: return (Uni *)new uni_vec4	{ name, { NULL } };
+					case uni_color	::ID: return (Uni *)new uni_color	{ name, { NULL } };
+					case uni_mat3	::ID: return (Uni *)new uni_mat3	{ name, { NULL } };
+					case uni_mat4	::ID: return (Uni *)new uni_mat4	{ name, { NULL } };
+					case uni_sampler::ID: return (Uni *)new uni_sampler	{ name, { NULL } };
+					}
+					return (Uni *)nullptr;
+				})();
 
 				if (value)
 				{

@@ -16,19 +16,19 @@
 <import>
 	type = mesh
 	name = cube
-	file = ../../../assets/meshes/cube.mesh
+	file = ../../../assets/meshes/cube.obj
 </import>
 
 <import>
 	type = mesh
 	name = sphere8x6
-	file = ../../../assets/meshes/sphere8x6.mesh
+	file = ../../../assets/meshes/sphere8x6.obj
 </import>
 
 <import>
 	type = mesh
 	name = sphere32x24
-	file = ../../../assets/meshes/sphere32x24.mesh
+	file = ../../../assets/meshes/sphere32x24.obj
 </import>
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

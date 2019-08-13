@@ -9,7 +9,7 @@
 
 [ ] better mesh loading
 [ ] reimplement old math
-	[ ] quaternion
+[ ] Rework Mesh/Model/Renderer to reflect Assimp
 [ ] cameras
 
 [?] async asset loading (threaded w/ progress bar)

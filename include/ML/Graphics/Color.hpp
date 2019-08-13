@@ -80,8 +80,8 @@ namespace ml
 			class U
 		> constexpr operator tvec4<U>() const
 		{
-			using UT = static_value<U>;
-			return { UT(r()), UT(g()), UT(b()), UT(a()) };
+			using TT = static_value<U>;
+			return { TT(r()), TT(g()), TT(b()), TT(a()) };
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

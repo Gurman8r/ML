@@ -81,9 +81,9 @@ namespace ml
 					static constexpr size_t contiguous	{ vertices * Vertex::Size };
 				};
 
-				using vertices_t	= typename Array<Vertex, num::vertices>;
-				using indices_t		= typename Array<uint32_t, num::indices>;
-				using contiguous_t	= typename Array<float_t, num::contiguous>;
+				using vertices_t	= typename Array<Vertex,	num::vertices>;
+				using indices_t		= typename Array<uint32_t,	num::indices>;
+				using contiguous_t	= typename Array<float_t,	num::contiguous>;
 
 				static constexpr contiguous_t Contiguous(const vertices_t & value)
 				{

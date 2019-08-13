@@ -112,9 +112,9 @@ namespace ml
 		} mods;
 
 		constexpr KeyEvent(int32_t key, int32_t scan, int32_t act, const Mods & mods)
-			: key	(key)
-			, scan	(scan)
-			, act	(act)
+			: key	{ key }
+			, scan	{ scan }
+			, act	{ act }
 			, mods	{ mods.shift, mods.ctrl, mods.alt, mods.super }
 		{
 		}

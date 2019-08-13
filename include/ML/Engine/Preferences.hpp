@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// just a wrapper for INIReader
+	// just a wrapper for INIReader.h
 	struct ML_ENGINE_API Preferences final
 		: public I_Newable
 		, public I_Disposable
@@ -22,7 +22,7 @@ namespace ml
 		Preferences();
 		explicit Preferences(const String & filename);
 		Preferences(Preferences && copy);
-		~Preferences();
+		~Preferences() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -31,12 +31,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool		GetBool		(const String & section, const String & name, bool default_value) const;
-		float64_t	GetDouble	(const String & section, const String & name, float64_t default_value) const;
-		float_t		GetFloat	(const String & section, const String & name, float_t default_value) const;
-		int32_t		GetInt		(const String & section, const String & name, int32_t default_value) const;
-		uint32_t	GetUint		(const String & section, const String & name, uint32_t default_value) const;
-		String		GetString	(const String & section, const String & name, const String & default_value) const;
+		bool		get_bool	(const String & section, const String & name, bool dv) const;
+		float64_t	get_double	(const String & section, const String & name, float64_t dv) const;
+		float_t		get_float	(const String & section, const String & name, float_t dv) const;
+		int32_t		get_int		(const String & section, const String & name, int32_t dv) const;
+		uint32_t	get_uint	(const String & section, const String & name, uint32_t dv) const;
+		String		get_string	(const String & section, const String & name, const String & dv) const;
 	
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

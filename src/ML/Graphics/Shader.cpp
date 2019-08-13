@@ -247,54 +247,46 @@ namespace ml
 
 	bool Shader::setUniform(const Uni * value) const
 	{
-		if (!value || !value->name) return false;
-		switch (value->id)
+		if (value && value->name)
 		{
-		case uni_float::ID:
-			if (auto temp = detail::as_float(value))
+			switch (value->id)
+			{
+			case uni_float::ID: if (auto temp = detail::as_float(value))
 				return this->setUniform(value->name, (*temp));
 
-		case uni_int::ID:
-			if (auto temp = detail::as_int(value))
+			case uni_int::ID: if (auto temp = detail::as_int(value))
 				return this->setUniform(value->name, (*temp));
 
-		case uni_vec2::ID:
-			if (auto temp = detail::as_vec2(value))
+			case uni_vec2::ID: if (auto temp = detail::as_vec2(value))
 				return this->setUniform(value->name, (*temp));
 
-		case uni_vec3::ID:
-			if (auto temp = detail::as_vec3(value))
+			case uni_vec3::ID: if (auto temp = detail::as_vec3(value))
 				return this->setUniform(value->name, (*temp));
 
-		case uni_vec4::ID:
-			if (auto temp = detail::as_vec4(value))
+			case uni_vec4::ID: if (auto temp = detail::as_vec4(value))
 				return this->setUniform(value->name, (*temp));
 
-		case uni_color::ID:
-			if (auto temp = detail::as_color(value))
+			case uni_color::ID: if (auto temp = detail::as_color(value))
 				return this->setUniform(value->name, (*temp));
 
-		case uni_mat3::ID:
-			if (auto temp = detail::as_mat3(value))
+			case uni_mat3::ID: if (auto temp = detail::as_mat3(value))
 				return this->setUniform(value->name, (*temp));
 
-		case uni_mat4::ID:
-			if (auto temp = detail::as_mat4(value))
+			case uni_mat4::ID: if (auto temp = detail::as_mat4(value))
 				return this->setUniform(value->name, (*temp));
 
-		case uni_sampler::ID:
-			if (auto temp = detail::as_sampler(value))
+			case uni_sampler::ID: if (auto temp = detail::as_sampler(value))
 				return this->setUniform(value->name, (*temp));
-
-		default: return false;
+			}
 		}
+		return false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::setUniform(const String & name, const float_t value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform1f(u.location, value);
@@ -304,7 +296,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const int32_t value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform1i(u.location, value);
@@ -314,7 +306,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const vec2 & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform2f(u.location, value[0], value[1]);
@@ -324,7 +316,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const vec3 & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform3f(u.location, value[0], value[1], value[2]);
@@ -334,7 +326,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const vec4 & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform4f(u.location, value[0], value[1], value[2], value[3]);
@@ -344,7 +336,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const vec2i & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform2i(u.location, value[0], value[1]);
@@ -354,7 +346,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const vec3i & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform3i(u.location, value[0], value[1], value[2]);
@@ -364,7 +356,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const vec4i & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform4i(u.location, value[0], value[1], value[2], value[3]);
@@ -374,7 +366,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const mat3 & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniformMatrix3fv(u.location, 1, false, value.data());
@@ -384,7 +376,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const mat4 & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniformMatrix4fv(u.location, 1, false, value.data());
@@ -394,7 +386,7 @@ namespace ml
 
 	bool Shader::setUniform(const String & name, const Texture & value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			static const size_t max_tex_units
@@ -425,7 +417,7 @@ namespace ml
 
 	bool Shader::setUniformArray(const String & name, const int32_t count, const float_t * value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform1fv(u.location, count, value);
@@ -435,7 +427,7 @@ namespace ml
 
 	bool Shader::setUniformArray(const String & name, const int32_t count, const vec2 * value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform2fv(u.location, count, &makeContiguous(value, (size_t)count)[0]);
@@ -445,7 +437,7 @@ namespace ml
 
 	bool Shader::setUniformArray(const String & name, const int32_t count, const vec3 * value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform3fv(u.location, count, &makeContiguous(value, (size_t)count)[0]);
@@ -455,7 +447,7 @@ namespace ml
 
 	bool Shader::setUniformArray(const String & name, const int32_t count, const vec4 * value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniform4fv(u.location, count, &makeContiguous(value, (size_t)count)[0]);
@@ -465,7 +457,7 @@ namespace ml
 
 	bool Shader::setUniformArray(const String & name, const int32_t count, const mat3 * value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniformMatrix3fv(u.location, count, false, &makeContiguous(value, (size_t)count)[0]);
@@ -475,7 +467,7 @@ namespace ml
 
 	bool Shader::setUniformArray(const String & name, const int32_t count, const mat4 * value) const
 	{
-		UniformBinder u(this, name);
+		UniformBinder u { this, name };
 		if (u)
 		{
 			ML_GL.uniformMatrix4fv(u.location, count, false, &makeContiguous(value, (size_t)count)[0]);

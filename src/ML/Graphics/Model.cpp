@@ -56,19 +56,12 @@ namespace ml
 
 	bool Model::loadFromMemory(const List<float_t> & vertices)
 	{
-		m_vao
-			.create(GL::Triangles)
-			.bind();
-		
-		m_vbo
-			.create(GL::StaticDraw)
-			.bind()
-			.bufferData(vertices);
+		m_vao.create(GL::Triangles).bind();
+		m_vbo.create(GL::StaticDraw).bind().bufferData(vertices);
 		
 		m_layout.bind();
 		
 		m_vbo.unbind();
-		
 		m_vao.unbind();
 		
 		return (m_vao && m_vbo);
@@ -81,26 +74,14 @@ namespace ml
 
 	bool Model::loadFromMemory(const List<float_t> & vertices, const List<uint32_t> & indices)
 	{
-		m_vao
-			.create(GL::Triangles)
-			.bind();
-		
-		m_vbo
-			.create(GL::StaticDraw)
-			.bind()
-			.bufferData(vertices);
-		
-		m_ibo
-			.create(GL::StaticDraw, GL::UnsignedInt)
-			.bind()
-			.bufferData(indices);
+		m_vao.create(GL::Triangles).bind();
+		m_vbo.create(GL::StaticDraw).bind().bufferData(vertices);
+		m_ibo.create(GL::StaticDraw, GL::UnsignedInt).bind().bufferData(indices);
 		
 		m_layout.bind();
 		
 		m_ibo.unbind();
-		
 		m_vbo.unbind();
-		
 		m_vao.unbind();
 		
 		return (m_vao && m_vbo && m_ibo);

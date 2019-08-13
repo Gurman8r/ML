@@ -47,7 +47,8 @@ namespace ml
 			fmt.format(sample).c_str(),
 			min,
 			max,
-			{ size[0], size[1] });
+			{ size[0], size[1] }
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

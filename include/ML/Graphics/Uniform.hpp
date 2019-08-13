@@ -9,7 +9,7 @@ struct ml::Texture;
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Base Uniform
 	struct Uni : public I_Newable, public I_NonCopyable
@@ -18,17 +18,17 @@ namespace ml
 
 		enum Type : uint32_t
 		{
-			U_Bool, U_Float, U_Int,
-			U_Vec2, U_Vec3, U_Vec4, U_Color,
-			U_Mat3, U_Mat4,
-			U_Sampler
+			Boolean, Float, Integer,
+			Vector2, Vector3, Vector4, Color,
+			Matrix3, Matrix4,
+			Sampler
 		};
 
 		static constexpr Type Type_values[] = {
-			U_Bool, U_Float, U_Int,
-			U_Vec2, U_Vec3, U_Vec4, U_Color,
-			U_Mat3, U_Mat4,
-			U_Sampler
+			Boolean, Float, Integer,
+			Vector2, Vector3, Vector4, Color,
+			Matrix3, Matrix4,
+			Sampler
 		};
 
 		static constexpr C_String Type_names[] = {
@@ -56,13 +56,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual Uni *	clone() const = 0;
-		virtual bool	isValue() const = 0;
-		virtual bool	isPointer() const = 0;
-		virtual bool	isReference() const = 0;
-		virtual bool	isConstPointer() const = 0;
-		virtual bool	isConstReference() const = 0;
-		virtual bool	isModifiable() const = 0;
+		virtual Uni *	clone()				const = 0;
+		virtual bool	isValue()			const = 0;
+		virtual bool	isPointer()			const = 0;
+		virtual bool	isReference()		const = 0;
+		virtual bool	isConstPointer()	const = 0;
+		virtual bool	isConstReference()	const = 0;
+		virtual bool	isModifiable()		const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -96,17 +96,17 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// Generic Uniform Interface
+	// Generic Uniform Integererface
 	template <
 		class T, uint32_t ID, uint32_t Flags
-	> struct I_Uni final : public Uni
+	> struct I_Uniform final : public Uni
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using type				= typename T;
-		using self_type			= typename I_Uni<type, ID, Flags>;
+		using self_type			= typename I_Uniform<type, ID, Flags>;
 		using value_type		= typename detail::decay_t<type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
@@ -136,7 +136,7 @@ namespace ml
 
 		type data;
 
-		explicit I_Uni(const String & name, type data)
+		explicit I_Uniform(const String & name, type data)
 			: Uni { name, ID }, data { data }
 		{
 		}
@@ -156,18 +156,20 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> using uni_bool_t		= I_Uni<T, Uni::U_Bool,		0>;
-	template <class T> using uni_float_t	= I_Uni<T, Uni::U_Float,	0>;
-	template <class T> using uni_int_t		= I_Uni<T, Uni::U_Int,		0>;
-	template <class T> using uni_vec2_t		= I_Uni<T, Uni::U_Vec2,		0>;
-	template <class T> using uni_vec3_t		= I_Uni<T, Uni::U_Vec3,		0>;
-	template <class T> using uni_vec4_t		= I_Uni<T, Uni::U_Vec4,		0>;
-	template <class T> using uni_color_t	= I_Uni<T, Uni::U_Color,	0>;
-	template <class T> using uni_mat3_t		= I_Uni<T, Uni::U_Mat3,		0>;
-	template <class T> using uni_mat4_t		= I_Uni<T, Uni::U_Mat4,		0>;
-	template <class T> using uni_sampler_t	= I_Uni<T, Uni::U_Sampler,	1>;
+	template <class T> using uni_bool_t		= I_Uniform<T, Uni::Boolean,	0>;
+	template <class T> using uni_float_t	= I_Uniform<T, Uni::Float,		0>;
+	template <class T> using uni_int_t		= I_Uniform<T, Uni::Integer,	0>;
+	template <class T> using uni_vec2_t		= I_Uniform<T, Uni::Vector2,	0>;
+	template <class T> using uni_vec3_t		= I_Uniform<T, Uni::Vector3,	0>;
+	template <class T> using uni_vec4_t		= I_Uniform<T, Uni::Vector4,	0>;
+	template <class T> using uni_color_t	= I_Uniform<T, Uni::Color,		0>;
+	template <class T> using uni_mat3_t		= I_Uniform<T, Uni::Matrix3,	0>;
+	template <class T> using uni_mat4_t		= I_Uniform<T, Uni::Matrix4,	0>;
+	template <class T> using uni_sampler_t	= I_Uniform<T, Uni::Sampler,	1>;
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using uni_bool		= typename uni_bool_t	<bool>;
 	using uni_float		= typename uni_float_t	<float_t>;
@@ -200,7 +202,7 @@ namespace ml
 	using uni_mat3_ptr	= typename uni_mat3_t	<const mat3 *>;
 	using uni_mat4_ptr	= typename uni_mat4_t	<const mat4 *>;
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	namespace detail
 	{
@@ -324,7 +326,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_UNIFORM_HPP_

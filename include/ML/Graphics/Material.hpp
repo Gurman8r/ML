@@ -46,22 +46,22 @@ namespace ml
 			class T = typename Uni
 		> inline T * get(const String & name)
 		{
-			iterator it = std::find_if(begin(), end(), [&](auto && u)
+			iterator it = std::find_if(this->begin(), this->end(), [&](auto && u)
 			{
 				return u && (u->name == name);
 			});
-			return (it != end()) ? dynamic_cast<T *>(*it) : nullptr;
+			return (it != this->end()) ? dynamic_cast<T *>(*it) : nullptr;
 		}
 
 		template <
 			class T = typename Uni
 		> inline const T * get(const String & name) const
 		{
-			const_iterator it = std::find_if(cbegin(), cend(), [&](auto && u)
+			const_iterator it = std::find_if(this->cbegin(), this->cend(), [&](auto && u)
 			{
 				return u && (u->name == name);
 			});
-			return (it != cend()) ? dynamic_cast<const T *>(*it) : nullptr;
+			return (it != this->cend()) ? dynamic_cast<const T *>(*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -70,8 +70,8 @@ namespace ml
 		{
 			if (value && 
 				value->name && 
-				!get(value->name) &&
-				(std::find(begin(), end(), value) == end()))
+				!this->get(value->name) &&
+				(std::find(this->begin(), this->end(), value) == this->end()))
 			{
 				m_uni.push_back(value);
 				return value;

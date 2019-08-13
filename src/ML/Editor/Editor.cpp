@@ -189,14 +189,14 @@ namespace ml
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
-		m_redirect_cout = ev.prefs.GetBool("Editor", "redirect_cout", false);
+		m_redirect_cout = ev.prefs.get_bool("Editor", "redirect_cout", false);
 
 		// Initialize Implementation Instance
 		ML_ImGui_Impl;
 
 		// Setup Style
 		/* * * * * * * * * * * * * * * * * * * * */
-		const String styleFile = ev.prefs.GetString(
+		const String styleFile = ev.prefs.get_string(
 			"Editor", "style_file", "Classic"
 		);
 		if (styleFile == "Classic")  ImGui::StyleColorsClassic();
@@ -209,10 +209,10 @@ namespace ml
 
 		// Setup Fonts
 		/* * * * * * * * * * * * * * * * * * * * */
-		String fontFile = ev.prefs.GetString("Editor", "font_file", "");
+		String fontFile = ev.prefs.get_string("Editor", "font_file", "");
 		if (fontFile)
 		{
-			float_t fontSize = ev.prefs.GetFloat("Editor", "font_size", 12.0f);
+			float_t fontSize = ev.prefs.get_float("Editor", "font_size", 12.0f);
 			if (fontSize > 0.0f)
 			{
 				ImGui::GetIO().Fonts->AddFontFromFileTTF(
@@ -223,7 +223,7 @@ namespace ml
 
 		// Setup ImGui Ini File
 		/* * * * * * * * * * * * * * * * * * * * */
-		C_String imgui_ini { ev.prefs.GetBool("Editor", "use_imgui_ini", false)
+		C_String imgui_ini { ev.prefs.get_bool("Editor", "use_imgui_ini", false)
 			? "imgui.ini"
 			: nullptr
 		};
@@ -239,11 +239,11 @@ namespace ml
 		if (m_redirect_cout) m_terminal.redirect(cout);
 
 		// Configure Builtin Windows
-		m_browser	.setOpen(ev.prefs.GetBool("Editor", "show_explorer", false));
-		m_content	.setOpen(ev.prefs.GetBool("Editor", "show_content", false));
-		m_importer	.setOpen(ev.prefs.GetBool("Editor", "show_importer", false));
-		m_profiler	.setOpen(ev.prefs.GetBool("Editor", "show_profiler", false));
-		m_terminal	.setOpen(ev.prefs.GetBool("Editor", "show_terminal", false));
+		m_browser	.setOpen(ev.prefs.get_bool("Editor", "show_explorer", false));
+		m_content	.setOpen(ev.prefs.get_bool("Editor", "show_content", false));
+		m_importer	.setOpen(ev.prefs.get_bool("Editor", "show_importer", false));
+		m_profiler	.setOpen(ev.prefs.get_bool("Editor", "show_profiler", false));
+		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal", false));
 	}
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
@@ -408,12 +408,12 @@ namespace ml
 			ImGui::EndMainMenuBar();
 		}
 
-		/* Dockspace */ if (m_dockspace.isOpen())	m_dockspace	.onGui(ev);
-		/* Explorer */	if (m_browser.isOpen())		m_browser	.onGui(ev);
-		/* Importer */	if (m_importer.isOpen())	m_importer	.onGui(ev);
-		/* Profiler */	if (m_profiler.isOpen())	m_profiler	.onGui(ev);
-		/* Resources */ if (m_content.isOpen())		m_content	.onGui(ev);
-		/* Terminal */	if (m_terminal.isOpen())	m_terminal	.onGui(ev);
+		/* Dockspace */ if (m_dockspace	.isOpen()) m_dockspace	.onGui(ev);
+		/* Explorer */	if (m_browser	.isOpen()) m_browser	.onGui(ev);
+		/* Importer */	if (m_importer	.isOpen()) m_importer	.onGui(ev);
+		/* Profiler */	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
+		/* Resources */ if (m_content	.isOpen()) m_content	.onGui(ev);
+		/* Terminal */	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)

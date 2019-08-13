@@ -18,19 +18,19 @@
 
 //	General
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define		_ML					::ml::
-#define		_ML_BEGIN			namespace ml {
-#define		_ML_END				}
-
-#define		ML_xstr(l)			ML_str(l)
-#define		ML_str(l)			#l
-#define		ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
-
-#define		ML_TEMPLATE(...)	template<##__VA_ARGS__>
-#define		ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
-#define		ML_USING_X			ML_USING_VA(class X)
-#define		ML_USING_XY			ML_USING_VA(class X, class Y)
-#define		ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
+# define _ML				::ml::
+# define _ML_BEGIN			namespace ml {
+# define _ML_END			}
+		 
+# define ML_xstr(l)			ML_str(l)
+# define ML_str(l)			#l
+# define ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
+		 
+# define ML_TEMPLATE(...)	template<##__VA_ARGS__>
+# define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
+# define ML_USING_X			ML_USING_VA(class X)
+# define ML_USING_XY		ML_USING_VA(class X, class Y)
+# define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
 
 //	Configuration (Debug / Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

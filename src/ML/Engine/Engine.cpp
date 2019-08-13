@@ -26,20 +26,20 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Engine::Engine(EventSystem & eventSystem)	
-		: I_EventListener(eventSystem)
+		: I_EventListener { eventSystem }
 	{
-		eventSystem.addListener(EnterEvent::ID,			this);
-		eventSystem.addListener(LoadEvent::ID,			this);
-		eventSystem.addListener(StartEvent::ID,			this);
-		eventSystem.addListener(BeginFrameEvent::ID,	this);
-		eventSystem.addListener(UpdateEvent::ID,		this);
-		eventSystem.addListener(BeginDrawEvent::ID,		this);
-		eventSystem.addListener(DrawEvent::ID,			this);
-		eventSystem.addListener(EndDrawEvent::ID,		this);
-		eventSystem.addListener(EndFrameEvent::ID,		this);
-		eventSystem.addListener(UnloadEvent::ID,		this);
-		eventSystem.addListener(ExitEvent::ID,			this);
-		//eventSystem.addListener(CommandEvent::ID,		this);
+		eventSystem.addListener(EnterEvent		::ID, this);
+		eventSystem.addListener(LoadEvent		::ID, this);
+		eventSystem.addListener(StartEvent		::ID, this);
+		eventSystem.addListener(BeginFrameEvent	::ID, this);
+		eventSystem.addListener(UpdateEvent		::ID, this);
+		eventSystem.addListener(BeginDrawEvent	::ID, this);
+		eventSystem.addListener(DrawEvent		::ID, this);
+		eventSystem.addListener(EndDrawEvent	::ID, this);
+		eventSystem.addListener(EndFrameEvent	::ID, this);
+		eventSystem.addListener(UnloadEvent		::ID, this);
+		eventSystem.addListener(ExitEvent		::ID, this);
+		eventSystem.addListener(CommandEvent	::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -60,16 +60,13 @@ namespace ml
 		case UnloadEvent::ID	: if (auto ev = value.as<UnloadEvent>())	return onUnload(*ev);
 		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
 
-		//case CommandEvent::ID:
-		//	if (auto ev = value.as<CommandEvent>())
-		//	{
-		//		Var v;
-		//		if ((v = ML_Interpreter.execCommand(ev->cmd)).isErrorType())
-		//		{
-		//			cout << v.errorValue() << endl;
-		//		}
-		//	}
-		//	break;
+		case CommandEvent::ID:
+			if (auto ev = value.as<CommandEvent>())
+			{
+				Var v { ML_Interpreter.execCommand(ev->cmd) };
+				if (v.isErrorType()) { cout << v.errorValue() << endl; }
+			}
+			break;
 		}
 	}
 
@@ -80,24 +77,24 @@ namespace ml
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(
-			ev.prefs.GetString	("Window", "title",			"MemeLib"), { 
-			ev.prefs.GetUint	("Window", "width",			1280),
-			ev.prefs.GetUint	("Window", "height",		720),
-			ev.prefs.GetUint	("Window", "color_depth",	32) }, {
-			ev.prefs.GetBool	("Window", "resizable",		true),
-			ev.prefs.GetBool	("Window", "visible",		false),
-			ev.prefs.GetBool	("Window", "decorated",		true),
-			ev.prefs.GetBool	("Window", "focused",		true),
-			ev.prefs.GetBool	("Window", "auto_iconify",	true),
-			ev.prefs.GetBool	("Window", "floating",		false),
-			ev.prefs.GetBool	("Window", "maximized",		true) }, {
-			ev.prefs.GetUint	("Window", "major_version",	3),
-			ev.prefs.GetUint	("Window", "minor_version",	3),
-			ev.prefs.GetUint	("Window", "profile",		ContextSettings::Compat),
-			ev.prefs.GetUint	("Window", "depthBits",		24),
-			ev.prefs.GetUint	("Window", "stencil_bits",	8),
-			ev.prefs.GetBool	("Window", "multisample",	false),
-			ev.prefs.GetBool	("Window", "srgb_capable",	false)
+			ev.prefs.get_string	("Window", "original_title",				"MemeLib"), { 
+			ev.prefs.get_uint	("Window", "width",				1280),
+			ev.prefs.get_uint	("Window", "height",			720),
+			ev.prefs.get_uint	("Window", "color_depth",		32) }, {
+			ev.prefs.get_bool	("Window", "resizable",			true),
+			ev.prefs.get_bool	("Window", "visible",			false),
+			ev.prefs.get_bool	("Window", "decorated",			true),
+			ev.prefs.get_bool	("Window", "focused",			true),
+			ev.prefs.get_bool	("Window", "auto_iconify",		true),
+			ev.prefs.get_bool	("Window", "floating",			false),
+			ev.prefs.get_bool	("Window", "maximized",			true) }, {
+			ev.prefs.get_uint	("Window", "major_version",		3),
+			ev.prefs.get_uint	("Window", "minor_version",		3),
+			ev.prefs.get_uint	("Window", "context_profile",	ContextSettings::Compat),
+			ev.prefs.get_uint	("Window", "depth_bits",		24),
+			ev.prefs.get_uint	("Window", "stencil_bits",		8),
+			ev.prefs.get_bool	("Window", "multisample",		false),
+			ev.prefs.get_bool	("Window", "srgb_capable",		false)
 		}))
 		{
 			ev.window.seCursorMode(Cursor::Mode::Normal);
@@ -124,38 +121,22 @@ namespace ml
 
 	void Engine::onLoad(const LoadEvent & ev)
 	{
-		// Load Default Meshes
-		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Content.create<Mesh>("default_triangle")->loadFromMemory(
-			geo::tri::contiguous,
-			geo::tri::indices
-		);
-		ML_Content.create<Mesh>("default_quad")->loadFromMemory(
-			geo::quad::contiguous,
-			geo::quad::indices
-		);
-		ML_Content.create<Mesh>("default_cube")->loadFromMemory(
-			geo::cube::contiguous,
-			geo::cube::indices
-		);
-		ML_Content.create<Mesh>("default_skybox")->loadFromMemory(
-			geo::sky::contiguous
-		);
-
-
 		// Load Default Models
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Content.create<Model>("default_triangle")->loadFromMemory(
-			*ML_Content.get<Mesh>("default_triangle")
+			geo::tri::contiguous,
+			geo::tri::indices
 		);
 		ML_Content.create<Model>("default_quad")->loadFromMemory(
-			*ML_Content.get<Mesh>("default_quad")
+			geo::quad::contiguous,
+			geo::quad::indices
 		);
 		ML_Content.create<Model>("default_cube")->loadFromMemory(
-			*ML_Content.get<Mesh>("default_cube")
+			geo::cube::contiguous,
+			geo::cube::indices
 		);
 		ML_Content.create<Model>("default_skybox")->loadFromMemory(
-			*ML_Content.get<Mesh>("default_skybox")
+			geo::sky::contiguous
 		);
 
 
@@ -164,14 +145,14 @@ namespace ml
 		ML_Content.create<uni_vec2_ptr>	("CURSOR_POS",	"u_cursorPos",  &m_cursorPos);
 		ML_Content.create<uni_float_ptr>("DELTA_TIME",	"u_deltaTime",  &m_deltaTime);
 		ML_Content.create<uni_int_ptr>	("FRAME_COUNT",	"u_frameCount", &m_frameCount);
-		ML_Content.create<uni_float_ptr>("FRAME_RATE", "u_frameRate",	&m_frameRate);
+		ML_Content.create<uni_float_ptr>("FRAME_RATE",	"u_frameRate",	&m_frameRate);
 		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &m_totalTime);
 		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&m_viewport);
 
 		// Load Asset Lists
 		/* * * * * * * * * * * * * * * * * * * * */
 		static ContentLoader loader;
-		if (loader.loadFromFile(ML_FS.pathTo(ev.prefs.GetString(
+		if (loader.loadFromFile(ML_FS.pathTo(ev.prefs.get_string(
 			"Engine", "asset_lists", ""
 		))))
 		{
@@ -206,9 +187,9 @@ namespace ml
 		m_totalTime		= ev.time.total().delta<Millisec>();
 
 		// Update Window Title
-		static const String title(ev.window.getTitle());
+		static const String original_title { ev.window.getTitle() };
 		ev.window.setTitle(String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
-			title,
+			original_title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
 			ev.time.elapsed().delta(),

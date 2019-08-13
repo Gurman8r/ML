@@ -318,8 +318,7 @@ namespace ml
 	void Noobs::DemoEditor::render(const GuiEvent & ev, C_String title)
 	{
 		if (!m_open) return;
-		ImGui::PushID("Noobs");
-		ImGui::PushID("Demo Editor");
+		ImGui::PushID("##DemoEditor##Noobs");
 		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_None))
 		{
 			if (ImGui::BeginTabBar("DemoEditor##TabBar##Main"))
@@ -328,6 +327,13 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Sources"))
 				{
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PushID("##Sources");
+					ImGui::BeginChild("##Sources##Content", { 0, 0 }, true);
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
 					// Compile
 					if (ImGui::Button("Compile"))
 					{
@@ -342,6 +348,8 @@ namespace ml
 						if (i > 1) { ImGui::SameLine(); }
 						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
 					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Demo File Tab Bar
 					if (ImGui::BeginTabBar("Demo File Tab Bar"))
@@ -368,13 +376,27 @@ namespace ml
 						}
 						ImGui::EndTabBar();
 					}
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::EndChild();
+					ImGui::PopID();
 					ImGui::EndTabItem();
+
+					/* * * * * * * * * * * * * * * * * * * * */
 				}
 
 				// Uniforms Tab
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Uniforms"))
 				{
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PushID("##Uniforms");
+					ImGui::BeginChild("##Uniforms##Content", { 0, 0 }, true);
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
 					// New Uniform Popup
 					Uni * to_add { nullptr };
 					if (UniformPropertyDrawer()("##New##Uni", (Uni *&)to_add))
@@ -388,6 +410,8 @@ namespace ml
 					}
 					ImGui::Separator();
 
+					/* * * * * * * * * * * * * * * * * * * * */
+					
 					// Header Columns
 					ImGui::Columns(3, "##Uni##Columns");
 					ImGui::Text("Name"); ImGui::NextColumn();
@@ -396,10 +420,10 @@ namespace ml
 					ImGui::Separator();
 					ImGui::Columns(1);
 
-					// Uniform List
 					/* * * * * * * * * * * * * * * * * * * * */
-					Uni * to_remove { nullptr };
 					
+					// Uniform List
+					Uni * to_remove { nullptr };
 					for (Uni *& uni : (*m_material))
 					{
 						if (!uni) continue;
@@ -469,10 +493,15 @@ namespace ml
 						ImGui::Columns(1);
 						ImGui::Separator();
 					}
-					
 					if (to_remove) { m_material->erase(to_remove); }
 
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::EndChild();
+					ImGui::PopID();
 					ImGui::EndTabItem();
+
+					/* * * * * * * * * * * * * * * * * * * * */
 				}
 
 				// Settings Tab
@@ -481,6 +510,8 @@ namespace ml
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
 
+					ImGui::PushID("##Settings");
+					ImGui::BeginChild("##Settings##Content", { 0, 0 }, true);
 					ImGui::NewLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -489,36 +520,32 @@ namespace ml
 					if (ShaderPropertyDrawer()("Shader##Material##Noobs", s))
 					{
 						this->shader() = s;
-						reset_sources();
-						generate_sources();
+						this->reset_sources();
+						this->generate_sources();
 					}
-					ImGui::SameLine();
-					ImGuiExt::HelpMarker("The shader targeted by this editor");
+					ImGuiExt::Tooltip("Specifies the shader to be edited");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					const Model * m = (const Model *)m_renderer->drawable();
 					if (ModelPropertyDrawer()("Model##Renderer##Noobs", m))
 					{
-						m_renderer->drawable() = m;
+						this->renderer()->drawable() = m;
 					}
-					ImGui::SameLine();
-					ImGuiExt::HelpMarker("The model to be drawn");
+					ImGuiExt::Tooltip("Specifies model to be drawn");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID("##Renderer##Noobs");
-					ImGui::NewLine(); ImGui::Separator();
+					AlphaState	* alpha_state	{ m_renderer->states().get<AlphaState>() };
+					BlendState	* blend_state	{ m_renderer->states().get<BlendState>() };
+					CullState	* cull_state	{ m_renderer->states().get<CullState>()	 };
+					DepthState	* depth_state	{ m_renderer->states().get<DepthState>() };
 
-					// Get States
-					AlphaState	* alpha = m_renderer->states().get<AlphaState>();
-					BlendState	* blend = m_renderer->states().get<BlendState>();
-					CullState	* cull	= m_renderer->states().get<CullState>();
-					DepthState	* depth = m_renderer->states().get<DepthState>();
+					ImGui::NewLine(); ImGui::Separator();
 
 					// Alpha State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					if (alpha) ([](AlphaState *& alpha)
+					if (alpha_state) ([](AlphaState *& alpha)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -551,16 +578,26 @@ namespace ml
 						{
 							alpha->predicate = GL::value_at<GL::Predicate>(predicate);
 						}
-						ImGuiExt::Tooltip(GL::desc_of(alpha->predicate));
+						ImGuiExt::Tooltip(String(
+							"\'predicate\'\n\n"
+							"Current: {0}\n\n"
+							"{1}"
+						).format(
+							GL::raw_name_of(alpha->predicate),
+							GL::desc_of(alpha->predicate)
+						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						ImGui::DragFloat("##Coefficient", &alpha->coeff);
-						ImGuiExt::Tooltip(
-							"Specifies the reference value that incoming alpha values are compared to.\n"
-							"This value is clamped to the range 0 to 1"
-						);
+						ImGuiExt::Tooltip(String(
+							"\'coefficient\'\n\n"
+							"Current: {0}\n\n"
+							"Specifies the reference value that incoming alpha values are compared to."
+						).format(
+							alpha->coeff
+						));
 						ImGui::SameLine(); ImGui::Text(")");
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -570,11 +607,11 @@ namespace ml
 						ImGui::NewLine(); ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					})(alpha);
+					})(alpha_state);
 
 					// Blend State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					if (blend) ([](BlendState * blend)
+					if (blend_state) ([](BlendState * blend)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -597,7 +634,9 @@ namespace ml
 						{
 							OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
 						}
-						ImGuiExt::Tooltip("Specify pixel arithmetic for RGB and alpha components separately");
+						ImGuiExt::Tooltip(
+							"Specify pixel arithmetic for RGB and alpha components separately"
+						);
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -607,7 +646,15 @@ namespace ml
 						{
 							blend->srcRGB = GL::value_at<GL::Factor>(srcRGB);
 						}
-						ImGuiExt::Tooltip("srcRGB\nSpecifies how the red, green, and blue blending factors are computed");
+						ImGuiExt::Tooltip(String(
+							"\'srcRGB\'\n\n"
+							"Current: {0}\n\n"
+							"Specifies how the red, green, and blue blending factors are computed\n\n"
+							"{1}"
+						).format(
+							GL::raw_name_of(blend->srcRGB),
+							GL::desc_of(blend->srcRGB)
+						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -617,7 +664,15 @@ namespace ml
 						{
 							blend->dstRGB = GL::value_at<GL::Factor>(dstRGB);
 						}
-						ImGuiExt::Tooltip("dstRGB\nSpecifies how the red, green, and blue destination blending factors are computed");
+						ImGuiExt::Tooltip(String(
+							"\'dstRGB\'\n\n"
+							"Current: {0}\n\n"
+							"Specifies how the red, green, and blue destination blending factors are computed\n\n"
+							"{1}"
+						).format(
+							GL::raw_name_of(blend->dstRGB),
+							GL::desc_of(blend->dstRGB)
+						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -627,7 +682,15 @@ namespace ml
 						{
 							blend->srcAlpha = GL::value_at<GL::Factor>(srcAlpha);
 						}
-						ImGuiExt::Tooltip("srcAlpha\nSpecifies how the alpha source blending factor is computed");
+						ImGuiExt::Tooltip(String(
+							"\'srcAlpha\'\n\n"
+							"Current: {0}\n\n"
+							"Specifies how the alpha source blending factor is computed\n\n"
+							"{1}"
+						).format(
+							GL::raw_name_of(blend->srcAlpha),
+							GL::desc_of(blend->srcAlpha)
+						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -637,7 +700,15 @@ namespace ml
 						{
 							blend->dstAlpha = GL::value_at<GL::Factor>(dstAlpha);
 						}
-						ImGuiExt::Tooltip("dstAlpha\nSpecifies how the alpha destination blending factor is computed");
+						ImGuiExt::Tooltip(String(
+							"\'dstAlpha\'\n\n"
+							"Current: {0}\n\n"
+							"Specifies how the alpha destination blending factor is computed\n\n"
+							"{1}"
+						).format(
+							GL::raw_name_of(blend->dstAlpha),
+							GL::desc_of(blend->dstAlpha)
+						));
 						ImGui::SameLine(); ImGui::Text(")");
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -647,11 +718,11 @@ namespace ml
 						ImGui::NewLine(); ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					})(blend);
+					})(blend_state);
 
 					// Cull State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					if (cull) ([](CullState * cull)
+					if (cull_state) ([](CullState * cull)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -684,7 +755,14 @@ namespace ml
 						{
 							cull->face = GL::value_at<GL::Face>(face);
 						}
-						ImGuiExt::Tooltip(GL::desc_of(cull->face));
+						ImGuiExt::Tooltip(String(
+							"\'face\'\n\n"
+							"Current: {0}\n\n"
+							"{1}"
+						).format(
+							GL::raw_name_of(cull->face),
+							GL::desc_of(cull->face)
+						));
 						ImGui::SameLine(); ImGui::Text(")");
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -694,11 +772,11 @@ namespace ml
 						ImGui::NewLine(); ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					})(cull);
+					})(cull_state);
 
 					// Depth State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					if (depth) ([](DepthState * depth)
+					if (depth_state) ([](DepthState * depth)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -740,7 +818,14 @@ namespace ml
 						{
 							depth->predicate = GL::value_at<GL::Predicate>(predicate);
 						}
-						ImGuiExt::Tooltip(GL::desc_of(depth->predicate));
+						ImGuiExt::Tooltip(String(
+							"\'predicate\'\n\n"
+							"Current: {0}\n\n"
+							"{1}"
+						).format(
+							GL::raw_name_of(depth->predicate),
+							GL::desc_of(depth->predicate)
+						));
 						ImGui::SameLine(); ImGui::Text(")");
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -750,20 +835,21 @@ namespace ml
 						ImGui::NewLine(); ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					})(depth);
-
-					ImGui::PopID();
+					})(depth_state);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
+					ImGui::EndChild();
+					ImGui::PopID(); 
 					ImGui::EndTabItem();
+
+					/* * * * * * * * * * * * * * * * * * * * */
 				}
 
 				ImGui::EndTabBar();
 			}
 		}
 		ImGui::End();
-		ImGui::PopID();
 		ImGui::PopID();
 	}
 

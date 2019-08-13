@@ -27,21 +27,21 @@ namespace ml
 		class T
 	> inline glm::tvec2<T, glm::defaultp> to_glm(const tvec2<T> & v)
 	{
-		return  { v[0], v[1] };
+		return { v[0], v[1] };
 	}
 
 	template <
 		class T
 	> inline glm::tvec3<T, glm::defaultp> to_glm(const tvec3<T> & v)
 	{
-		return  { v[0], v[1], v[2] };
+		return { v[0], v[1], v[2] };
 	}
 
 	template <
 		class T
 	> inline glm::tvec4<T, glm::defaultp> to_glm(const tvec4<T> & v)
 	{
-		return  { v[0], v[1], v[2], v[3] };
+		return { v[0], v[1], v[2], v[3] };
 	}
 
 	template <

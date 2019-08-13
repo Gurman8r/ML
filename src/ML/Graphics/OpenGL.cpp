@@ -723,26 +723,21 @@ namespace ml
 			{
 				shaderSource(obj, count, source, nullptr);
 
-				if (compileShader(obj))
-				{
-					return ML_SUCCESS; // +1
-				}
-				else
+				if (!compileShader(obj))
 				{
 					C_String log = getProgramInfoLog(obj);
 					deleteShader(obj);
-					return Debug::logError("Error in {0}\n{1}", type, String(log));
+					cout << log << endl;
+					return Debug::logError("Failed compiling {0} source", type);
 				}
+				return ML_SUCCESS; // +1 (true)
 			}
 			else
 			{
 				return Debug::logError("Failed creating {0} object", type);
 			}
 		}
-		else
-		{
-			return ML_WARNING; // -1
-		}
+		return ML_WARNING; // -1 (true)
 	}
 
 	int32_t OpenGL::linkShader(uint32_t obj)

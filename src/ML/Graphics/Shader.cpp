@@ -568,7 +568,8 @@ namespace ml
 			{
 				C_String log = ML_GL.getProgramInfoLog(*this);
 				ML_GL.deleteShader(*this);
-				return Debug::logError("Failed linking shader source:\n{0}", log);
+				cout << log << endl;
+				return Debug::logError("Failed linking shader");
 			}
 
 			// Refresh OpenGL

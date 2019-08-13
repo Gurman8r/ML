@@ -575,6 +575,7 @@ namespace ml
 							? "glEnable" : "glDisable",
 							&alpha->enabled
 						);
+						ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, alpha->enabled
 							? Setting_Colors[Setting_Enum]
@@ -583,7 +584,6 @@ namespace ml
 						ImGui::Text(GL::raw_name_of(GL::AlphaTest));
 						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
-						ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -656,6 +656,7 @@ namespace ml
 							? "glEnable" : "glDisable",
 							&blend->enabled
 						);
+						ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, blend->enabled
 							? Setting_Colors[Setting_Enum]
@@ -664,7 +665,6 @@ namespace ml
 						ImGui::Text(GL::raw_name_of(GL::Blend));
 						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
-						ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -782,6 +782,7 @@ namespace ml
 							? "glEnable" : "glDisable",
 							&cull->enabled
 						);
+						ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, cull->enabled
 							? Setting_Colors[Setting_Enum]
@@ -790,7 +791,6 @@ namespace ml
 						ImGui::Text(GL::raw_name_of(GL::CullFace));
 						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
-						ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -848,6 +848,7 @@ namespace ml
 							? "glEnable" : "glDisable",
 							&depth->enabled
 						); 
+						ImGuiExt::Tooltip("If enabled, do depth comparisons and update the depth buffer.");
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, depth->enabled
 							? Setting_Colors[Setting_Enum]
@@ -856,12 +857,12 @@ namespace ml
 						ImGui::Text(GL::raw_name_of(GL::DepthTest));
 						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
-						ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						ImGui::Checkbox("glDepthMask", &depth->mask); 
+						ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, depth->mask 
 							? Setting_Colors[Setting_Bool]
@@ -870,7 +871,6 @@ namespace ml
 						ImGui::Text(depth->mask ? "true" : "false");
 						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
-						ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
 						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */

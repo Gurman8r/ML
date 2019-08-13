@@ -145,10 +145,11 @@ namespace ml
 
 			// File -> Exit
 		case File_Quit_Event::ID:
-			if (auto ev = value.as<File_Quit_Event>()) 
+			if (auto ev = value.as<File_Quit_Event>())
+			{
 				eventSystem().fireEvent(WindowKillEvent());
+			}
 			break;
-
 
 			// Edit -> Undo
 		case Edit_Undo_Event::ID:

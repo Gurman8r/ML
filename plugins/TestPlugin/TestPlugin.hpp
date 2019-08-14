@@ -1,7 +1,7 @@
 #ifndef _TEST_PLUGIN_HPP_
 #define _TEST_PLUGIN_HPP_
 
-#include <ML/Editor/EditorPlugin.hpp>
+#include <ML/Engine/Plugin.hpp>
 
 extern "C"
 {
@@ -12,7 +12,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_PLUGIN_API TestPlugin final : public EditorPlugin
+	struct ML_PLUGIN_API TestPlugin final : public Plugin
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -21,15 +21,6 @@ namespace ml
 		~TestPlugin() {}
 
 		void onEvent(const Event & value) override;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private:
-		void onStart	(const StartEvent	& ev) override;
-		void onUpdate	(const UpdateEvent	& ev) override;
-		void onDraw		(const DrawEvent	& ev) override;
-		void onGui		(const GuiEvent		& ev) override;
-		void onExit		(const ExitEvent	& ev) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

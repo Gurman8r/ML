@@ -89,25 +89,6 @@ int32_t test_assimp()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace ml
-{
-	template <class T> static inline String to_string(const T value)
-	{
-		return std::to_string(value);
-	}
-
-	template <class T> static inline String to_string(const T & value)
-	{
-		try { return std::to_string(value); }
-		catch (std::invalid_argument&)
-		{
-			SStream ss; 
-			ss << value;
-			return ss.str();
-		}
-	}
-}
-
 int32_t main()
 {
 	// Load Plugin List

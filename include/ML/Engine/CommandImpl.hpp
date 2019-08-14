@@ -14,6 +14,7 @@ namespace ml
 
 		CommandImpl();
 		CommandImpl(const String & name);
+		CommandImpl(const String & name, CommandExecutor * executor);
 		CommandImpl(const String & name, const String & desc, const String & usage);
 		CommandImpl(const String & name, const String & desc, const String & usage, CommandExecutor * executor);
 		CommandImpl(const CommandImpl & copy);
@@ -33,8 +34,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
-		CommandExecutor * m_executor;
+	private: CommandExecutor * m_executor;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

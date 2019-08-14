@@ -1,7 +1,7 @@
 #ifndef _COMMAND_SUITE_HPP_
 #define _COMMAND_SUITE_HPP_
 
-#include <ML/Editor/EditorPlugin.hpp>
+#include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/CommandImpl.hpp>
 
 extern "C"
@@ -13,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_PLUGIN_API CommandSuite final : public EditorPlugin
+	struct ML_PLUGIN_API CommandSuite final : public Plugin
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -25,7 +25,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: List<CommandImpl *> m_commands;
+	private: 
+		void setup_commands();
+
+		List<CommandImpl *> m_commands;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

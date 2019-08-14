@@ -26,16 +26,9 @@ namespace ml
 
 		explicit Plugin(EventSystem & eventSystem);
 		
-		virtual ~Plugin() {}
+		virtual ~Plugin();
 
-		virtual void onEvent(const Event & value) override;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		virtual void onStart	(const StartEvent	& ev) {};
-		virtual void onUpdate	(const UpdateEvent	& ev) {};
-		virtual void onDraw		(const DrawEvent	& ev) {};
-		virtual void onExit		(const ExitEvent	& ev) {};
+		virtual void onEvent(const Event & value) override = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

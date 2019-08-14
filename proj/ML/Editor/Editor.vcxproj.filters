@@ -66,9 +66,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorPlugin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -123,9 +120,6 @@
       <Filter>Resource Files\ImGui\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorPlugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">

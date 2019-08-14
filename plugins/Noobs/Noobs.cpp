@@ -24,40 +24,44 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
 	return new ml::Noobs { eventSystem };
 }
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Noobs::Noobs(EventSystem & eventSystem)
-		: EditorPlugin	{ eventSystem }
+		: Plugin		{ eventSystem }
 		, m_pipeline	{}
 		, m_editor		{}
 		, m_scene		{}
 		, m_skybox		{}
 	{
-		eventSystem.addListener(KeyEvent::ID, this);
-		eventSystem.addListener(MainMenuBarEvent::ID, this);
-		eventSystem.addListener(DockspaceEvent::ID, this);
+		eventSystem.addListener(StartEvent::ID,			this);
+		eventSystem.addListener(UpdateEvent::ID,		this);
+		eventSystem.addListener(DrawEvent::ID,			this);
+		eventSystem.addListener(GuiEvent::ID,			this);
+		eventSystem.addListener(ExitEvent::ID,			this);
+		eventSystem.addListener(KeyEvent::ID,			this);
+		eventSystem.addListener(MainMenuBarEvent::ID,	this);
+		eventSystem.addListener(DockspaceEvent::ID,		this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Noobs::onEvent(const Event & value)
 	{
-		// Handle base events
-		EditorPlugin::onEvent(value);
-
 		switch (*value)
 		{
+		case StartEvent::ID	: if (auto ev = value.as<StartEvent>()) return onStart(*ev);
+		case UpdateEvent::ID: if (auto ev = value.as<UpdateEvent>()) return onUpdate(*ev);
+		case DrawEvent::ID	: if (auto ev = value.as<DrawEvent>()) return onDraw(*ev);
+		case GuiEvent::ID	: if (auto ev = value.as<GuiEvent>()) return onGui(*ev);
+		case ExitEvent::ID	: if (auto ev = value.as<ExitEvent>()) return onExit(*ev);
+
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>())
 			{

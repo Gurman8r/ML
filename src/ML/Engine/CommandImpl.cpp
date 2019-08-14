@@ -17,6 +17,12 @@ namespace ml
 	{
 	}
 
+	CommandImpl::CommandImpl(const String & name, CommandExecutor * executor)
+		: CommandDescriptor(name)
+		, m_executor(executor)
+	{
+	}
+
 	CommandImpl::CommandImpl(const String & name, const String & desc, const String & usage)
 		: CommandDescriptor(name, desc, usage)
 		, m_executor(nullptr)
@@ -37,7 +43,7 @@ namespace ml
 
 	CommandImpl::~CommandImpl()
 	{
-		if (m_executor) delete m_executor;
+		if (m_executor) { delete m_executor; }
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

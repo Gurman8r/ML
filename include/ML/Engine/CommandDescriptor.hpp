@@ -12,7 +12,6 @@ namespace ml
 
 	struct CommandRegistry;
 
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API CommandDescriptor : public I_Newable
@@ -42,15 +41,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getDesc()		const -> const String & { return m_desc; }
-		inline auto getName()		const -> const String & { return m_name; }
-		inline auto getUsage()		const -> const String & { return m_usage; }
-		inline bool isRegistered()	const					{ return m_isRegistered; }
+		inline auto getDescription()	const -> const String & { return m_description; }
+		inline auto getName()			const -> const String & { return m_name; }
+		inline auto getUsage()			const -> const String & { return m_usage; }
+		inline auto isRegistered()		const -> const bool &	{ return m_isRegistered; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: 
-		String	m_desc;
+		String	m_description;
 		String	m_name;
 		String	m_usage;
 		bool	m_isRegistered;
@@ -63,7 +62,7 @@ namespace ml
 	inline ML_SERIALIZE(Ostream & out, const CommandDescriptor & value)
 	{
 		return out
-			<< value.getDesc() << " "
+			<< value.getDescription() << " "
 			<< value.getName() << " "
 			<< value.getUsage() << " ";
 	}

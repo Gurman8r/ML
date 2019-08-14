@@ -303,14 +303,9 @@ namespace ml
 			for (size_t i = 0; i < reg.commands().size(); i++)
 			{
 				C_String cmd_name = reg.commands()[i]->getName().c_str();
-
 				if (std::strncmp(cmd_name, word_start, (int32_t)(word_end - word_start)) == 0)
 				{
 					candidates.push_back(cmd_name);
-				}
-				else if (std::strncmp(m_autoFill[i], word_start, (int32_t)(word_end - word_start)) == 0)
-				{
-					candidates.push_back(m_autoFill[i]);
 				}
 			}
 

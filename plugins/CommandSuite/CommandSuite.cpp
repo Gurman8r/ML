@@ -322,23 +322,23 @@ namespace ml
 					{
 						PyRun_SimpleString(
 							"import sys\n"
-							"class Redirector:\n"
+							"class CatchOutErr:\n"
 							"	def __init__(self):\n"
 							"		self.value = ''\n"
 							"	def write(self, txt):\n"
 							"		self.value += txt\n"
-							"redir = Redirector()\n"
-							"sys.stdout = redir\n"
-							"sys.stderr = redir\n"
+							"catcher = CatchOutErr()\n"
+							"sys.stdout = catcher\n"
+							"sys.stderr = catcher\n"
 						);
 					
 						PyRun_SimpleString(code.c_str());
 					
-						if (PyObject * redir = PyObject_GetAttrString(pyMain, "redir"))
+						if (PyObject * catcher = PyObject_GetAttrString(pyMain, "catcher"))
 						{
 							PyErr_Print(); 
 
-							if (PyObject * output = PyObject_GetAttrString(redir, "value"))
+							if (PyObject * output = PyObject_GetAttrString(catcher, "value"))
 							{
 								if (PyUnicode_Check(output))
 								{

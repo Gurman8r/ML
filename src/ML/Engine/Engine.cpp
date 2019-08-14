@@ -67,6 +67,10 @@ namespace ml
 					{
 						cmd->execute(args);
 					}
+					else
+					{
+						Debug::logError("Unknown Command: \'{0}\'", args.front());
+					}
 				}
 			}
 			break;

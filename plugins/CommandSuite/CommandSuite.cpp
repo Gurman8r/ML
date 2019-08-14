@@ -198,18 +198,35 @@ namespace ml
 			"lua [STR]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				if (const String str = ([&]()
+				if (const String code = ([&]()
 				{
-					if (args.size() == 1) { return String {}; }
+					if (args.size() == 1) return String();
 					SStream ss;
 					for (size_t i = 1; i < args.size(); i++)
 						ss << args[i] << " ";
 					return (String)ss.str();
 				})())
 				{
+					auto my_print = [](lua_State * L)
+					{
+						for (int32_t i = 1, imax = lua_gettop(L); i <= imax; ++i)
+						{
+							cout << lua_tostring(L, i);
+						}
+						return 0;
+					};
+
+					static const struct luaL_Reg printLib[] = {
+						{ "print", my_print },
+						{ nullptr, nullptr }
+					};
+
 					lua_State * L = luaL_newstate();
 					luaL_openlibs(L);
-					if (luaL_dostring(L, str.c_str()) != LUA_OK)
+					lua_getglobal(L, "_G");
+					luaL_setfuncs(L, printLib, 0);
+					lua_pop(L, 1);
+					if (luaL_dostring(L, code.c_str()) != LUA_OK)
 					{
 						cout << "Lua Error: " << String(lua_tostring(L, -1)) << endl;
 					}
@@ -303,9 +320,23 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl {
+			"print",
+			"Print some text",
+			"print [STR]...",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				for (size_t i = 1; i < args.size(); i++)
+					cout << args[i] << (i < args.size() - 1 ? " " : "");
+				return true;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl {
 			"py",
 			"Execute python code",
-			"py [ARGS]...",
+			"py [CODE]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				if (const String code = ([&]() 
@@ -322,34 +353,38 @@ namespace ml
 					{
 						PyRun_SimpleString(
 							"import sys\n"
-							"class CatchOutErr:\n"
+							"class ml_RedirOutput:\n"
 							"	def __init__(self):\n"
-							"		self.value = ''\n"
-							"	def write(self, txt):\n"
-							"		self.value += txt\n"
-							"catcher = CatchOutErr()\n"
-							"sys.stdout = catcher\n"
-							"sys.stderr = catcher\n"
+							"		self.text = ''\n"
+							"	def write(self, value):\n"
+							"		self.text += value\n"
+							"ml_redir = ml_RedirOutput()\n"
+							"sys.stdout = ml_redir\n"
+							"sys.stderr = ml_redir\n"
 						);
-					
+
 						PyRun_SimpleString(code.c_str());
 					
-						if (PyObject * catcher = PyObject_GetAttrString(pyMain, "catcher"))
+						if (PyObject * redir { PyObject_GetAttrString(pyMain, "ml_redir") })
 						{
 							PyErr_Print(); 
 
-							if (PyObject * output = PyObject_GetAttrString(catcher, "value"))
+							if (PyObject * text { PyObject_GetAttrString(redir, "text") })
 							{
-								if (PyUnicode_Check(output))
+								if (PyUnicode_Check(text))
 								{
-									if (PyObject * str { PyUnicode_AsEncodedString(
-										output, "UTF-8", "strict"
+									if (PyObject * bytes { PyUnicode_AsEncodedString(
+										text, "UTF-8", "strict"
 									) })
 									{
-										cout << PyBytes_AS_STRING(str);
+										cout << PyBytes_AS_STRING(bytes);
+
+										Py_DECREF(bytes);
 									}
 								}
+								Py_DECREF(text);
 							}
+							Py_DECREF(redir);
 						}
 					}
 					Py_Finalize();

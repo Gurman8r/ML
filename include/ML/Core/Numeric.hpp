@@ -15,7 +15,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> struct base final
+		template <class T> struct decay final
 		{
 			ML_USING_X remove_const_t = std::remove_const_t<X>;
 			ML_USING_X remove_pointer_t = std::remove_pointer_t<X>;
@@ -24,7 +24,7 @@ namespace ml
 			using type = typename remove_const_t<remove_reference_t<remove_pointer_t<T>>>;
 		};
 
-		template <class T> using base_t = typename base<T>::type;
+		template <class T> using decay_t = typename decay<T>::type;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
@@ -35,7 +35,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type				= typename detail::base_t<T>;
+		using type				= typename detail::decay_t<T>;
 		using limits			= typename std::numeric_limits<type>;
 		using pointer			= typename type *;
 		using reference			= typename type &;

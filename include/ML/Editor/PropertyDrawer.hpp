@@ -36,7 +36,7 @@ namespace ml
 		class T
 	> struct CustomPropertyDrawer
 	{
-		using value_type		= typename detail::base_t<T>;
+		using value_type		= typename detail::decay_t<T>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;

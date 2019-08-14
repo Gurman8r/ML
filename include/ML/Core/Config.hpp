@@ -12,7 +12,7 @@
 # if defined(__cplusplus)
 #	define ML_CPLUSPLUS __cplusplus
 # else
-#	define ML_CPLUSPLUS 0
+#	error This system does not support C++
 # endif
 
 
@@ -31,6 +31,7 @@
 # define ML_USING_X			ML_USING_VA(class X)
 # define ML_USING_XY		ML_USING_VA(class X, class Y)
 # define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
+
 
 //	Configuration (Debug / Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -83,12 +84,12 @@
 #	define ML_x32 true
 #	define ML_x64 true
 #	define ML_ARCHITECTURE 64
-#	define ML_PLATFORM_TARGET "x64"
+#	define ML_PLATFORM_TARGET "64-bit"
 # else
 #	define ML_x32 true
 #	define ML_x64 false
 #	define ML_ARCHITECTURE 32
-#	define ML_PLATFORM_TARGET "x86"
+#	define ML_PLATFORM_TARGET "32-bit"
 # endif
 
 

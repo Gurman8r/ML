@@ -103,7 +103,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto shader()			-> const Shader	* &		{ return m_shader; }
+		inline auto shader()			-> const Shader	*&		{ return m_shader; }
 		inline auto shader()	const	-> const Shader	*		{ return m_shader; }
 		inline auto uniforms()			-> List<Uni *> &		{ return m_uni; }
 		inline auto uniforms()	const	-> const List<Uni *> &	{ return m_uni; }

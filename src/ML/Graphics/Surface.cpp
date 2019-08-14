@@ -127,8 +127,11 @@ namespace ml
 		if (*this)
 		{
 			m_shader->setUniform(ML_UNI_MAIN_TEX, m_texture);
+			
 			m_shader->bind();
+			
 			target.draw(m_model);
+			
 			m_shader->unbind();
 		}
 	}

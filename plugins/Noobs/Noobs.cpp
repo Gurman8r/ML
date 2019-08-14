@@ -120,7 +120,7 @@ namespace ml
 				} });
 		}
 
-		// Setup Editor
+		// Setup Source Editors
 		m_editor.generate_sources();
 	}
 

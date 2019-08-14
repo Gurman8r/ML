@@ -113,9 +113,9 @@ namespace ml
 		m_uniforms.clear();
 
 		ML_GL.useShader(NULL);
-		if ((*this))
+		if (*this)
 		{
-			ML_GL.deleteShader((*this));
+			ML_GL.deleteShader(*this);
 			get_reference() = NULL;
 		}
 		return !(*this);
@@ -533,7 +533,7 @@ namespace ml
 				ML_GL.deleteShader(vert);
 				break;
 			case ML_FAILURE:
-				ML_GL.deleteShader((*this));
+				ML_GL.deleteShader(*this);
 				return false;
 			}
 
@@ -546,7 +546,7 @@ namespace ml
 				ML_GL.deleteShader(geom);
 				break;
 			case ML_FAILURE:
-				ML_GL.deleteShader((*this));
+				ML_GL.deleteShader(*this);
 				return false;
 			}
 
@@ -559,7 +559,7 @@ namespace ml
 				ML_GL.deleteShader(frag);
 				break;
 			case ML_FAILURE:
-				ML_GL.deleteShader((*this));
+				ML_GL.deleteShader(*this);
 				return false;
 			}
 

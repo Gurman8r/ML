@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Surface is used to render objects to a 2D Texture
+	// Surface is used to render to a Texture
 	struct ML_GRAPHICS_API Surface final
 		: public I_Newable
 		, public I_Disposable
@@ -32,6 +32,8 @@ namespace ml
 		
 		const Surface & bind() const;
 		const Surface & unbind() const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 

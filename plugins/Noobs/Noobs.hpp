@@ -62,7 +62,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		enum : size_t
 		{
-			Surf_Main, Surf_Post,
+			Surf_Main, 
+			Surf_Post,
 			MAX_DEMO_SURFACE
 		};
 		struct DemoPipeline final : public I_NonCopyable, public Array<

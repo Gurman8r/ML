@@ -92,6 +92,7 @@ namespace ml
 		bool setUniformList(const String & name, const List<mat4> & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		bool	compile(C_String vs, C_String gs, C_String fs);
 		int32_t	getAttribute(const String & value) const;

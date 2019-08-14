@@ -46,7 +46,7 @@ namespace ml
 		inline const value_type find_by_name(const String & name) const
 		{
 			const_iterator it = this->find(name);
-			return it != this->end() ? (*it) : nullptr;
+			return it != this->cend() ? (*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

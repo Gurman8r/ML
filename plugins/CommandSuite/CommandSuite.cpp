@@ -75,7 +75,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl {
 			"cat",
 			"Display the contents of a file",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				if (args.size() == 2)
@@ -96,7 +96,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"cd",
 			"Set the current working directory",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				const String path = ([&]()
@@ -117,7 +117,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl {
 			"clear",
 			"Clear the terminal screen",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				// See EditorTerminal.cpp
@@ -130,7 +130,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"cwd",
 			"Display the current working directory",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				cout << ML_FS.getPath() << endl;
@@ -143,7 +143,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"exit",
 			"Close the application",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				evSys->fireEvent(WindowKillEvent());
@@ -156,7 +156,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"help",
 			"Display information about commands.",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				switch (args.size())
@@ -184,7 +184,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"history",
 			"Display or manipulate history list",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				// See EditorTerminal.cpp
@@ -197,7 +197,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"ls",
 			"List directory contents",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				const String path = ([&]()
@@ -229,7 +229,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"open",
 			"Open a file or URL",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				SStream ss;
@@ -244,7 +244,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"os",
 			"Execute shell commands",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				switch (args.size())
@@ -264,7 +264,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"pause",
 			"Pause the console subsystem",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				Debug::pause(0);
@@ -277,7 +277,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { 
 			"ping",
 			"Used for testing the command system",
-			"Usage: ",
+			"usage",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				cout << "pong!" << endl;

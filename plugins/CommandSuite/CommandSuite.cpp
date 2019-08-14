@@ -184,6 +184,35 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		m_commands.push_back(new CommandImpl { "open",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				SStream ss;
+				for (size_t i = 1; i < args.size(); i++)
+					ss << args[i] << (i < args.size() - 1 ? " " : "");
+				return (bool)OS::execute("open", ss.str());
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "os",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				switch (args.size())
+				{
+				case 2: return (bool)OS::execute(args[1]);
+				case 3: return (bool)OS::execute(args[1], args[2]);
+				case 4: return (bool)OS::execute(args[1], args[2], args[3]);
+				case 5: return (bool)OS::execute(args[1], args[2], args[3], args[4]);
+				case 6: return (bool)OS::execute(args[1], args[2], args[3], args[4], alg::to_int(args[5]));
+				}
+				return false;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		m_commands.push_back(new CommandImpl { "pause",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
@@ -199,35 +228,6 @@ namespace ml
 			{
 				Debug::log("pong!");
 				return true;
-			})
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m_commands.push_back(new CommandImpl { "open",
-			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
-			{
-				SStream ss;
-				for (size_t i = 1; i < args.size(); i++)
-					ss << args[i] << (i < args.size() - 1 ? " " : "");
-				return (bool)OS::execute("open", ss.str());
-			})
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m_commands.push_back(new CommandImpl { "shell",
-			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
-			{
-				switch (args.size())
-				{
-				case 2: return (bool)OS::execute(args[1]);
-				case 3: return (bool)OS::execute(args[1], args[2]);
-				case 4: return (bool)OS::execute(args[1], args[2], args[3]);
-				case 5: return (bool)OS::execute(args[1], args[2], args[3], args[4]);
-				case 6: return (bool)OS::execute(args[1], args[2], args[3], args[4], alg::to_int(args[5]));
-				}
-				return false;
 			})
 		});
 

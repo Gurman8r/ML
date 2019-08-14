@@ -99,9 +99,7 @@ namespace ml
 					if (args.size() == 1) return String { "/" };
 					SStream ss;
 					for (size_t i = 1; i < args.size(); i++)
-					{
 						ss << args[i];
-					}
 					return (String)ss.str();
 				})();
 				return path && ML_FS.setPath(path);
@@ -190,7 +188,7 @@ namespace ml
 			{
 				if (const String str = ([&]()
 				{
-					if (args.size() == 1) { return String(); }
+					if (args.size() == 1) { return String {}; }
 					SStream ss;
 					for (size_t i = 1; i < args.size(); i++)
 						ss << args[i] << " ";

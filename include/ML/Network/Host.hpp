@@ -11,7 +11,7 @@ namespace ml
 
 	struct ML_NETWORK_API Host final : public I_NonNewable
 	{
-		C_String		addr;
+		C_String	addr;
 		uint16_t	port;
 
 		/* * * * * * * * * * * * * * * * * * * * */

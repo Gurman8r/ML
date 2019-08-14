@@ -370,6 +370,7 @@ namespace ml
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
 					if (ImGui::MenuItem("Assimp")) OS::execute("open", "https://github.com/assimp/assimp");
+					if (ImGui::MenuItem("CPython")) OS::execute("open", "https://github.com/python/cpython");
 					if (ImGui::MenuItem("FreeType")) OS::execute("open", "https://www.freetype.org/");
 					if (ImGui::MenuItem("GCEM")) OS::execute("open", "https://github.com/kthohr/gcem");
 					if (ImGui::MenuItem("GLEW")) OS::execute("open", "http://glew.sourceforge.net/");
@@ -379,6 +380,7 @@ namespace ml
 					if (ImGui::MenuItem("ImGuiColorTextEdit")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
 					if (ImGui::MenuItem("INIReader")) OS::execute("open", "https://github.com/benhoyt/inih");
 					if (ImGui::MenuItem("OpenAL")) OS::execute("open", "https://www.openal.org/");
+					if (ImGui::MenuItem("Pybind11")) OS::execute("open", "https://github.com/pybind/pybind11");
 					if (ImGui::MenuItem("RakNet")) OS::execute("open", "http://www.jenkinssoftware.com/");
 					if (ImGui::MenuItem("STB")) OS::execute("open", "https://github.com/nothings/stb");
 

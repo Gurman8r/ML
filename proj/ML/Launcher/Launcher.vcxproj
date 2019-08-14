@@ -161,7 +161,8 @@
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\vcruntime140.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

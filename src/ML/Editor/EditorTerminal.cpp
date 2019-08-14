@@ -30,7 +30,6 @@ namespace ml
 		m_autoFill.push_back("clear");
 		m_autoFill.push_back("history");
 
-		this->printf("# Using this feature may result in crashes or system instability.");
 		this->printf("# Type \'help\' for a list of commands.");
 	}
 	

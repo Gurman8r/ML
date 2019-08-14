@@ -7,6 +7,8 @@
 #include <ML/Engine/Asset.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Lua.hpp>
+#include <ML/Engine/Python.hpp>
+#include <ML/Engine/Preferences.hpp>
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
@@ -35,7 +37,12 @@ namespace ml
 		case EnterEvent::ID: 
 			if (auto ev = value.as<EnterEvent>()) 
 			{ 
+				Py_SetPythonHome(alg::widen(ev->prefs.get_string(
+					"Engine", "python_home", ""
+				)).c_str());
+
 				initialize_commands();
+
 				for (auto *& cmd : m_commands) 
 				{ 
 					cmd->install(ML_CommandRegistry);
@@ -49,6 +56,7 @@ namespace ml
 				for (auto *& cmd : m_commands)
 				{
 					cmd->uninstall(ML_CommandRegistry);
+
 					delete cmd;
 				}
 				m_commands.clear();
@@ -285,6 +293,32 @@ namespace ml
 			{
 				Debug::pause(0);
 				return true;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl {
+			"py",
+			"Execute a python string",
+			"py [ARGS]...",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				if (const String temp = ([&]() 
+				{ 
+					if (args.size() == 1) return String();
+					SStream ss;
+					for (size_t i = 1; i < args.size(); i++)
+						ss << args[i];
+					return (String)ss.str();
+				})())
+				{
+					Py_Initialize();
+					PyRun_SimpleString(temp.c_str());
+					Py_Finalize();
+					return true;
+				}
+				return false;
 			})
 		});
 

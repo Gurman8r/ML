@@ -236,15 +236,15 @@ namespace std
 
 namespace ml
 {
-	using String		= BasicString<char>;
-	using W_String		= BasicString<wchar_t>;
-	using U16_String	= BasicString<char16_t>;
-	using U32_String	= BasicString<char32_t>;
+	using String	= BasicString<char>;
+	using WString	= BasicString<wchar_t>;
+	using String16	= BasicString<char16_t>;
+	using String32	= BasicString<char32_t>;
 	
-	using SStream		= typename String::sstream_type;
-	using W_SStream		= typename W_String::sstream_type;
-	using U16_SStream	= typename U16_String::sstream_type;
-	using U32_SStream	= typename U32_String::sstream_type;
+	using SStream	= typename String::sstream_type;
+	using WSStream	= typename WString::sstream_type;
+	using SStream16 = typename String16::sstream_type;
+	using SStream32 = typename String32::sstream_type;
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

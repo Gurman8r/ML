@@ -104,6 +104,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -120,6 +123,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -140,6 +146,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -160,6 +169,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Asset.hpp" />
@@ -180,6 +192,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\CommandImpl.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Python.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Script.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
   </ItemGroup>

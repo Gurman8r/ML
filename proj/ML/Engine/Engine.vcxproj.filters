@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Commands">
       <UniqueIdentifier>{e247befe-88cb-4991-ac49-6cf034621d7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scripting">
+      <UniqueIdentifier>{be60088e-8ee7-474d-83ff-3603ed1e0c8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scripting">
+      <UniqueIdentifier>{c9775141-5e5d-4ec3-903c-ab025b0ab207}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp">
@@ -81,9 +87,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ContentLoader.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Lua.hpp">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\CommandExecutor.hpp">
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
@@ -97,7 +100,13 @@
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Script.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Lua.hpp">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Python.hpp">
+      <Filter>Header Files\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +156,7 @@
       <Filter>Source Files\Commands</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\Scripting</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,10 +11,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using C_String		= typename const char *;
-	using CW_String		= typename const wchar_t *;
-	using CU16_String	= typename const char16_t *;
-	using CU32_String	= typename const char32_t *;
+	using C_String	 = typename const char *;
+	using C_WString	 = typename const wchar_t *;
+	using C_String16 = typename const char16_t *;
+	using C_String32 = typename const char32_t *;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

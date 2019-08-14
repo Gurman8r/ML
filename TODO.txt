@@ -2,25 +2,24 @@
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
 [ ] = In Progress
-[X] = Complete
+[x] = Complete
 [?] = Under Consideration
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ ] better mesh loading
+[ ] Rework Mesh/Model/Renderer to utilize Assimp
 [ ] reimplement old math
-[ ] Rework Mesh/Model/Renderer to reflect Assimp
 [ ] cameras
 
 [?] async asset loading (threaded w/ progress bar)
 [?] automatic/recursive asset loading
 [?] custom asset importer gui
 
-[X] texture cube maps (6-sided)
-[X] constexpr math structures
-[X] material deserialization
-[X] template property drawers
-[X] template asset importers
-[X] rework command system
+[x] texture cube maps (6-sided)
+[x] constexpr math structures
+[x] material deserialization
+[x] template property drawers
+[x] template asset importers
+[x] rework command system
 
 # * * * * * * * * * * * * * * * * * * * * * * * #

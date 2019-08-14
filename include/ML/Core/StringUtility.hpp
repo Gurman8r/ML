@@ -29,6 +29,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static inline String narrow(const WString & value)
+		{
+			return std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>>().to_bytes(value);
+		}
+
+		static inline WString widen(const String & value)
+		{
+			return std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>>().from_bytes(value);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static inline bool is_alpha(const String & value)
 		{
 			if (value.empty()) return false;

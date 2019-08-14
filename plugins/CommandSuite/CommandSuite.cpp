@@ -1,11 +1,11 @@
-
 #include "CommandSuite.hpp"
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Core/StringUtility.hpp>
 #include <ML/Core/OS.hpp>
-#include <ML/Engine/EngineEvents.hpp>
+#include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
+#include <ML/Engine/Asset.hpp>
+#include <ML/Engine/EngineEvents.hpp>
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
@@ -94,10 +94,16 @@ namespace ml
 		m_commands.push_back(new CommandImpl { "cd",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				SStream ss;
-				for (size_t i = 1; i < args.size(); i++)
-					ss << args[i];
-				return !ss.str().empty() && ML_FS.setPath(ss.str());
+				const String path = ([&]()
+				{
+					if (args.size() == 1)
+						return String { "/" };
+					SStream ss;
+					for (size_t i = 1; i < args.size(); i++)
+						ss << args[i];
+					return (String)ss.str();
+				})();
+				return path && ML_FS.setPath(path);
 			})
 		});
 
@@ -136,9 +142,21 @@ namespace ml
 		m_commands.push_back(new CommandImpl { "help",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				for (const auto & cmd : ML_CommandRegistry)
+				switch (args.size())
 				{
-					cout << cmd->getName() << endl;
+				case 1:
+					for (const auto & cmd : ML_CommandRegistry)
+					{
+						cout << cmd->getName() << endl;
+					}
+					break;
+
+				case 2:
+					if (auto cmd = ML_CommandRegistry.find_by_name(args[1]))
+					{
+						cout << (*cmd) << endl;
+					}
+					break;
 				}
 				return true;
 			})
@@ -161,10 +179,11 @@ namespace ml
 			{
 				const String path = ([&]()
 				{
-					if (args.size() == 1) return String { "." };
+					if (args.size() == 1) 
+						return String { "." };
 					SStream ss;
 					for (size_t i = 1; i < args.size(); i++)
-						ss << args[i] << "";
+						ss << args[i];
 					return (String)ss.str();
 				})();
 				
@@ -226,7 +245,7 @@ namespace ml
 		m_commands.push_back(new CommandImpl { "ping",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				Debug::log("pong!");
+				cout << "pong!" << endl;
 				return true;
 			})
 		});

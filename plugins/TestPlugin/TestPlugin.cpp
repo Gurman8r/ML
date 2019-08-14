@@ -34,7 +34,7 @@ namespace ml
 		case StartEvent::ID:
 			if (auto ev = value.as<StartEvent>())
 			{
-				Debug::log("Hello from \'{0}\'", (*this));
+				Debug::log("Hello from TestPlugin!");
 			}
 			break;
 		}

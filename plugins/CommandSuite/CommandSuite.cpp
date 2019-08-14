@@ -168,13 +168,13 @@ namespace ml
 				{
 				case 1:	for (const auto & cmd : ML_CommandRegistry)
 					cout << cmd->getName() << endl;
-					break;
+					return true;
 
 				case 2: if (auto cmd = ML_CommandRegistry.find_by_name(args[1]))
 					cout << (*cmd) << endl;
-					break;
+					return true;
 				}
-				return true;
+				return false;
 			})
 		});
 
@@ -273,7 +273,7 @@ namespace ml
 
 		m_commands.push_back(new CommandImpl { 
 			"open",
-			"Open a file or URL",
+			"Open a file or link",
 			"open [URL]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{

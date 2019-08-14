@@ -12,6 +12,10 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
+#include <stdlib.h>
+#include <stdio.h>
+
+
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
 	return new ml::CommandSuite { eventSystem };

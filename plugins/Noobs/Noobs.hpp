@@ -28,9 +28,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		explicit Noobs(EventSystem & eventSystem);
-		
 		~Noobs() {}
-
 		void onEvent(const Event & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -41,7 +39,6 @@ namespace ml
 		void onDraw		(const DrawEvent	& ev) override;
 		void onGui		(const GuiEvent		& ev) override;
 		void onExit		(const ExitEvent	& ev) override;
-
 
 		// DEMO SKYBOX
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

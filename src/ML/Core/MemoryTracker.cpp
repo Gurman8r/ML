@@ -77,7 +77,7 @@ namespace ml
 		return nullptr;
 	}
 
-	void MemoryTracker::deallocate(void * value)
+	void MemoryTracker::deallocate(void *& value)
 	{
 		RecordMap::iterator it;
 		if ((it = m_records.find(value)) != m_records.end())

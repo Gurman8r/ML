@@ -11,6 +11,7 @@
 [ ] reimplement old math
 [ ] Rework Mesh/Model/Renderer to reflect Assimp
 [ ] cameras
+[ ] rework command system
 
 [?] async asset loading (threaded w/ progress bar)
 [?] automatic/recursive asset loading

@@ -30,7 +30,7 @@ namespace ml
 
 	public:
 		void *	allocate(size_t size);
-		void	deallocate(void * ptr);
+		void	deallocate(void *& ptr);
 
 	private:
 		RecordMap	m_records;

@@ -13,52 +13,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <> struct input<String>
-	{
-		using value_type = typename String;
-
-		inline String operator()(Ostream & out, Istream & in, const String & msg) const
-		{
-			if (msg) { out << msg << endl << endl; }
-			String temp;
-			std::getline(in, temp);
-			if (temp.trim() && msg) { out << endl; }
-			return temp;
-		}
-
-		inline String operator()(Istream & in, const String & msg) const
-		{
-			return (*this)(cout, in, msg);
-		}
-
-		inline String operator()(const String & msg) const
-		{
-			return (*this)(cout, cin, msg);
-		}
-
-		inline String operator()(Istream & in) const
-		{
-			return (*this)(cout, in, String());
-		}
-
-		inline String operator()() const
-		{
-			return (*this)(cout, cin, String());
-		}
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		class T
-	> struct input<T>
+	template <class T> struct input<T>
 	{
 		using value_type = typename T;
 
 		inline value_type operator()(Istream & in) const
 		{
-			value_type temp;
-			in >> temp;
+			value_type temp {};
+			if (in.good()) { in >> temp; }
 			return temp;
 		}
 

@@ -32,10 +32,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual void onStart	(const StartEvent	& ev) = 0;
-		virtual void onUpdate	(const UpdateEvent	& ev) = 0;
-		virtual void onDraw		(const DrawEvent	& ev) = 0;
-		virtual void onExit		(const ExitEvent	& ev) = 0;
+		virtual void onStart	(const StartEvent	& ev) {};
+		virtual void onUpdate	(const UpdateEvent	& ev) {};
+		virtual void onDraw		(const DrawEvent	& ev) {};
+		virtual void onExit		(const ExitEvent	& ev) {};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

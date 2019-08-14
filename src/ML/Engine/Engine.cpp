@@ -2,8 +2,10 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Worker.hpp>
 #include <ML/Engine/Asset.hpp>
+#include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/ContentLoader.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Plugin.hpp>
@@ -63,6 +65,15 @@ namespace ml
 		case CommandEvent::ID:
 			if (auto ev = value.as<CommandEvent>())
 			{
+				if (auto args = alg::tokenize(ev->cmd, " "))
+				{
+					if (auto cmd = ML_CommandRegistry.find_by_name(args.front()))
+					{
+						cmd->execute(args);
+						break;
+					}
+				}
+
 				Var v { ML_Interpreter.execCommand(ev->cmd) };
 				if (v.isErrorType()) { cout << v.errorValue() << endl; }
 			}
@@ -77,7 +88,7 @@ namespace ml
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(
-			ev.prefs.get_string	("Window", "original_title",				"MemeLib"), { 
+			ev.prefs.get_string	("Window", "window_title",		"MemeLib"), { 
 			ev.prefs.get_uint	("Window", "width",				1280),
 			ev.prefs.get_uint	("Window", "height",			720),
 			ev.prefs.get_uint	("Window", "color_depth",		32) }, {

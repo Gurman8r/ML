@@ -304,21 +304,54 @@ namespace ml
 
 		m_commands.push_back(new CommandImpl {
 			"py",
-			"Execute a python string",
+			"Execute python code",
 			"py [ARGS]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				if (const String temp = ([&]() 
+				if (const String code = ([&]() 
 				{ 
 					if (args.size() == 1) return String();
 					SStream ss;
 					for (size_t i = 1; i < args.size(); i++)
-						ss << args[i];
+						ss << args[i] << " ";
 					return (String)ss.str();
 				})())
 				{
 					Py_Initialize();
-					PyRun_SimpleString(temp.c_str());
+					if (PyObject * pyMain = PyImport_AddModule("__main__"))
+					{
+						PyRun_SimpleString(
+							"import sys\n"
+							"class Redirector:\n"
+							"	def __init__(self):\n"
+							"		self.value = ''\n"
+							"	def write(self, txt):\n"
+							"		self.value += txt\n"
+							"redir = Redirector()\n"
+							"sys.stdout = redir\n"
+							"sys.stderr = redir\n"
+						);
+					
+						PyRun_SimpleString(code.c_str());
+					
+						if (PyObject * redir = PyObject_GetAttrString(pyMain, "redir"))
+						{
+							PyErr_Print(); 
+
+							if (PyObject * output = PyObject_GetAttrString(redir, "value"))
+							{
+								if (PyUnicode_Check(output))
+								{
+									if (PyObject * str { PyUnicode_AsEncodedString(
+										output, "UTF-8", "strict"
+									) })
+									{
+										cout << PyBytes_AS_STRING(str);
+									}
+								}
+							}
+						}
+					}
 					Py_Finalize();
 					return true;
 				}

@@ -66,6 +66,9 @@
     <None Include="..\..\..\assets\lua\test.lua">
       <Filter>Resource Files\assets\lua</Filter>
     </None>
+    <None Include="..\..\..\assets\python\test.py">
+      <Filter>Resource Files\assets\python</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
@@ -124,6 +127,9 @@
     </Filter>
     <Filter Include="Resource Files\assets\lua">
       <UniqueIdentifier>{b419edec-6fe7-4b99-8c32-ce7df0cadc7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\python">
+      <UniqueIdentifier>{02842d6a-f1c2-4790-9c02-b6e3d089686c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

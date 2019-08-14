@@ -57,7 +57,7 @@ namespace ml
 
 	int32_t Debug::system(C_String cmd, Ostream & out)
 	{
-		if (auto file = std::shared_ptr<std::FILE>(_popen(cmd, "r"), _pclose))
+		if (auto file = std::shared_ptr<std::FILE>(popen(cmd, "r"), pclose))
 		{
 			Array<char, 128> buffer;
 			while (!std::feof(file.get()))

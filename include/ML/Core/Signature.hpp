@@ -28,4 +28,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_PRETTY_FUNCTION_HPP_
+#endif // !_ML_SIGNATURE_HPP_

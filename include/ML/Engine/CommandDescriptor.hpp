@@ -62,9 +62,8 @@ namespace ml
 	inline ML_SERIALIZE(Ostream & out, const CommandDescriptor & value)
 	{
 		return out
-			<< value.getName() << endl
-			<< value.getDesc() << endl
-			<< value.getUsage();
+			<< value.getName() << ": " << value.getUsage() << endl
+			<< value.getDesc() << endl;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

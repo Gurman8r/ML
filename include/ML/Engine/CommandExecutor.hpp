@@ -29,10 +29,7 @@ namespace ml
 	{
 		using fun_type = typename bool(*)(const CommandDescriptor &, const List<String> &);
 
-		template <class Fun> FunctionExecutor(Fun && fun)
-			: m_fun(fun)
-		{
-		}
+		FunctionExecutor(fun_type && fun) : m_fun(fun) {}
 
 		bool onCommand(const CommandDescriptor & cmd, const List<String> & args) const override;
 

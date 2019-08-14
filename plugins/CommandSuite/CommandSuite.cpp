@@ -6,6 +6,7 @@
 #include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/Asset.hpp>
 #include <ML/Engine/EngineEvents.hpp>
+#include <ML/Engine/Lua.hpp>
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
@@ -31,13 +32,10 @@ namespace ml
 	{
 		switch (*value)
 		{
-			// Enter
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		case EnterEvent::ID: 
 			if (auto ev = value.as<EnterEvent>()) 
 			{ 
-				setup_commands();
-
+				initialize_commands();
 				for (auto *& cmd : m_commands) 
 				{ 
 					cmd->install(ML_CommandRegistry);
@@ -45,15 +43,12 @@ namespace ml
 			}
 			break;
 
-			// Exit
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		case ExitEvent::ID: 
 			if (auto ev = value.as<ExitEvent>()) 
 			{ 
 				for (auto *& cmd : m_commands)
 				{
 					cmd->uninstall(ML_CommandRegistry);
-
 					delete cmd;
 				}
 				m_commands.clear();
@@ -64,18 +59,18 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void CommandSuite::setup_commands()
+	void CommandSuite::initialize_commands()
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		static EventSystem * evSys { &eventSystem() };
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl {
 			"cat",
 			"Display the contents of a file",
-			"",
+			"cat [FILE]",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				if (args.size() == 2)
@@ -91,46 +86,46 @@ namespace ml
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
 			"cd",
 			"Set the current working directory",
-			"",
+			"cd [DIR]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				const String path = ([&]()
 				{
-					if (args.size() == 1)
-						return String { "/" };
+					if (args.size() == 1) return String { "/" };
 					SStream ss;
 					for (size_t i = 1; i < args.size(); i++)
+					{
 						ss << args[i];
+					}
 					return (String)ss.str();
 				})();
 				return path && ML_FS.setPath(path);
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl {
 			"clear",
 			"Clear the terminal screen",
-			"",
+			"clear",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				// See EditorTerminal.cpp
-				return true;
+				return true; // See EditorTerminal.cpp
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
 			"cwd",
 			"Display the current working directory",
-			"",
+			"cwd",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				cout << ML_FS.getPath() << endl;
@@ -138,12 +133,12 @@ namespace ml
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
 			"exit",
 			"Close the application",
-			"",
+			"exit",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				evSys->fireEvent(WindowKillEvent());
@@ -151,85 +146,108 @@ namespace ml
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
 			"help",
 			"Display information about commands.",
-			"",
+			"help [CMD]",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				switch (args.size())
 				{
-				case 1:
-					for (const auto & cmd : ML_CommandRegistry)
-					{
-						cout << cmd->getName() << endl;
-					}
+				case 1:	for (const auto & cmd : ML_CommandRegistry)
+					cout << cmd->getName() << endl;
 					break;
 
-				case 2:
-					if (auto cmd = ML_CommandRegistry.find_by_name(args[1]))
-					{
-						cout << (*cmd) << endl;
-					}
+				case 2: if (auto cmd = ML_CommandRegistry.find_by_name(args[1]))
+					cout << (*cmd) << endl;
 					break;
 				}
 				return true;
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
 			"history",
 			"Display or manipulate history list",
-			"",
+			"history",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				// See EditorTerminal.cpp
-				return true;
+				return true; // See EditorTerminal.cpp
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
-		m_commands.push_back(new CommandImpl { 
-			"ls",
-			"List directory contents",
-			"",
+		m_commands.push_back(new CommandImpl {
+			"lua",
+			"Execute lua string",
+			"lua [STR]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				const String path = ([&]()
+				if (const String str = ([&]()
 				{
-					if (args.size() == 1) 
-						return String { "." };
+					if (args.size() == 1) { return String(); }
 					SStream ss;
 					for (size_t i = 1; i < args.size(); i++)
-						ss << args[i];
+						ss << args[i] << " ";
 					return (String)ss.str();
-				})();
-				
-				SStream dir;
-				if (ML_FS.getDirContents(path, dir))
+				})())
 				{
-					String line;
-					while (std::getline(dir, line))
+					lua_State * L = luaL_newstate();
+					luaL_openlibs(L);
+					if (luaL_dostring(L, str.c_str()) != LUA_OK)
 					{
-						cout << line << endl;
+						cout << "Lua Error: " << String(lua_tostring(L, -1)) << endl;
 					}
+					lua_close(L);
 					return true;
 				}
 				return false;
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { 
+			"ls",
+			"List directory contents",
+			"ls [DIR]...",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				if (const String path = ([&]()
+				{
+					if (args.size() == 1) return String { "." };
+					SStream ss;
+					for (size_t i = 1; i < args.size(); i++)
+						ss << args[i];
+					return (String)ss.str();
+				})())
+				{
+					SStream dir;
+					if (ML_FS.getDirContents(path, dir))
+					{
+						String line;
+						while (std::getline(dir, line))
+						{
+							cout << line << endl;
+						}
+						return true;
+					}
+				}
+				return false;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
 			"open",
 			"Open a file or URL",
-			"",
+			"open [URL]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				SStream ss;
@@ -239,12 +257,12 @@ namespace ml
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
 			"os",
 			"Execute shell commands",
-			"",
+			"os [CMD] [FILE] [ARGS] [PATH] [FLAGS]",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				switch (args.size())
@@ -259,12 +277,12 @@ namespace ml
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
 			"pause",
 			"Pause the console subsystem",
-			"",
+			"pause",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				Debug::pause(0);
@@ -272,20 +290,7 @@ namespace ml
 			})
 		});
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		m_commands.push_back(new CommandImpl { 
-			"ping",
-			"Used for testing the command system",
-			"",
-			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
-			{
-				cout << "pong!" << endl;
-				return true;
-			})
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

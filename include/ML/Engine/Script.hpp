@@ -1,5 +1,5 @@
-#ifndef _ML_ENGINE_SCRIPT_HPP_
-#define _ML_ENGINE_SCRIPT_HPP_
+#ifndef _ML_SCRIPT_HPP_
+#define _ML_SCRIPT_HPP_
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/I_Newable.hpp>
@@ -27,4 +27,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_ENGINE_SCRIPT_HPP_
+#endif // !_ML_SCRIPT_HPP_

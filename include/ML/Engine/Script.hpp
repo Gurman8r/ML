@@ -36,13 +36,11 @@ namespace ml
 		}
 
 		inline auto filename()	const -> const String & { return m_filename; }
-		inline auto params()	const -> const String & { return m_params; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		String m_filename;
-		String m_params;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -64,7 +64,7 @@ namespace ml
 		return out
 			<< value.getName() << endl
 			<< value.getDesc() << endl
-			<< value.getUsage() << endl;
+			<< value.getUsage();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

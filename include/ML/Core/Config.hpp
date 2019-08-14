@@ -84,12 +84,12 @@
 #	define ML_x32 true
 #	define ML_x64 true
 #	define ML_ARCHITECTURE 64
-#	define ML_PLATFORM_TARGET "64-bit"
+#	define ML_PLATFORM_TARGET "x64"
 # else
 #	define ML_x32 true
 #	define ML_x64 false
 #	define ML_ARCHITECTURE 32
-#	define ML_PLATFORM_TARGET "32-bit"
+#	define ML_PLATFORM_TARGET "x86"
 # endif
 
 

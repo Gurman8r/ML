@@ -109,9 +109,9 @@
 #  endif
 #endif
 
-#include <Python.h>
-#include <frameobject.h>
-#include <pythread.h>
+#include <python/Python.h>
+#include <python/frameobject.h>
+#include <python/pythread.h>
 
 #if defined(isalnum)
 #  undef isalnum

@@ -2,10 +2,36 @@
 #include <ML/Core/Quaternion.hpp>
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/FileSystem.hpp>
+#include <ML/Graphics/Mesh.hpp>
 
 namespace ml
 {
-	static void stub()
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	static void test_assimp()
+	{
+		if (Mesh * mesh { Mesh::loadFromAssimp(ML_FS.pathTo(
+			"../../../assets/meshes/cow.obj"
+		)) })
+		{
+			Debug::log("Filename:\t{0}", mesh->filename());
+			Debug::log("Directory:\t{0}", mesh->directory());
+			Debug::log("Vertices:\t{0}", mesh->vertices().size());
+			Debug::log("Indices:\t{0}", mesh->indices().size());
+			Debug::log("Contiguous:\t{0}", mesh->contiguous().size());
+
+			delete mesh;
+		}
+		else
+		{
+			Debug::logError("Failed loading mesh");
+		}
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	static void test_math()
 	{
 		// Matrix Tests
 		{
@@ -96,4 +122,6 @@ namespace ml
 			constexpr auto persp	= mat4::persp(fov, aspect, zNear, zFar);
 		}
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

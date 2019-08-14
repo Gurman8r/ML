@@ -272,23 +272,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl { 
-			"open",
-			"Open a file or link",
-			"open [URL]...",
-			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
-			{
-				SStream ss;
-				for (size_t i = 1; i < args.size(); i++)
-					ss << args[i] << (i < args.size() - 1 ? " " : "");
-				return (bool)OS::execute("open", ss.str());
-			})
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m_commands.push_back(new CommandImpl { 
 			"os",
-			"Execute shell commands",
+			"Execute operating system commands",
 			"os [CMD] [FILE] [ARGS] [PATH] [FLAGS]",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
@@ -313,20 +298,6 @@ namespace ml
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
 				Debug::pause(0);
-				return true;
-			})
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m_commands.push_back(new CommandImpl {
-			"print",
-			"Print some text",
-			"print [STR]...",
-			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
-			{
-				for (size_t i = 1; i < args.size(); i++)
-					cout << args[i] << (i < args.size() - 1 ? " " : "");
 				return true;
 			})
 		});

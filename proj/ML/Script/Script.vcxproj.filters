@@ -75,9 +75,6 @@
     <ClInclude Include="..\..\..\include\ML\Script\TokenList.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Script\DefaultCommands.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Script\Runtime.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -124,9 +121,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Script\Var.cpp">
       <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Script\DefaultCommands.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Script\Runtime.cpp">
       <Filter>Source Files\Utility</Filter>

@@ -41,10 +41,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getDescription()	const -> const String & { return m_description; }
-		inline auto getName()			const -> const String & { return m_name; }
-		inline auto getUsage()			const -> const String & { return m_usage; }
-		inline auto isRegistered()		const -> const bool &	{ return m_isRegistered; }
+		inline auto getDesc()		const -> const String & { return m_description; }
+		inline auto getName()		const -> const String & { return m_name; }
+		inline auto getUsage()		const -> const String & { return m_usage; }
+		inline auto isRegistered()	const -> const bool &	{ return m_isRegistered; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -62,15 +62,15 @@ namespace ml
 	inline ML_SERIALIZE(Ostream & out, const CommandDescriptor & value)
 	{
 		return out
-			<< value.getDescription() << " "
 			<< value.getName() << " "
+			<< value.getDesc() << " "
 			<< value.getUsage() << " ";
 	}
 
 	inline ML_DESERIALIZE(Istream & in, CommandDescriptor & value)
 	{
-		value.setDesc(input<String>()(in));
 		value.setName(input<String>()(in));
+		value.setDesc(input<String>()(in));
 		value.setUsage(input<String>()(in));
 		return in;
 	}

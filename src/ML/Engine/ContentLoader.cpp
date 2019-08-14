@@ -9,7 +9,7 @@
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
-#include <ML/Script/Script.hpp>
+#include <ML/Engine/Script.hpp>
 
 namespace ml
 {

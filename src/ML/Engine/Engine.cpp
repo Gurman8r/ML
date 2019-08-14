@@ -18,9 +18,6 @@
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Network/NetClient.hpp>
 #include <ML/Network/NetServer.hpp>
-#include <ML/Script/Script.hpp>
-#include <ML/Script/ScriptEvents.hpp>
-#include <ML/Script/Interpreter.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
 namespace ml
@@ -70,12 +67,8 @@ namespace ml
 					if (auto cmd = ML_CommandRegistry.find_by_name(args.front()))
 					{
 						cmd->execute(args);
-						break;
 					}
 				}
-
-				Var v { ML_Interpreter.execCommand(ev->cmd) };
-				if (v.isErrorType()) { cout << v.errorValue() << endl; }
 			}
 			break;
 		}

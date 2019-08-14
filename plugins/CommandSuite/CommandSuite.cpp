@@ -1,8 +1,13 @@
+
 #include "CommandSuite.hpp"
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp>
+#include <ML/Core/StringUtility.hpp>
+#include <ML/Core/OS.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
+#include <ML/Window/Window.hpp>
+#include <ML/Window/WindowEvents.hpp>
 
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
@@ -17,7 +22,6 @@ namespace ml
 		: Plugin { eventSystem }
 	{
 		eventSystem.addListener(EnterEvent::ID, this);
-		eventSystem.addListener(StartEvent::ID, this);
 		eventSystem.addListener(ExitEvent::ID,	this);
 	}
 
@@ -27,7 +31,7 @@ namespace ml
 	{
 		switch (*value)
 		{
-			// Enter Event
+			// Enter
 			/* * * * * * * * * * * * * * * * * * * * */
 		case EnterEvent::ID: 
 			if (auto ev = value.as<EnterEvent>()) 
@@ -36,36 +40,21 @@ namespace ml
 
 				for (auto *& cmd : m_commands) 
 				{ 
-					if (cmd)
-					{
-						cmd->install(ML_CommandRegistry);
-					}
+					cmd->install(ML_CommandRegistry);
 				}
 			}
 			break;
 
-			// Start Event
-			/* * * * * * * * * * * * * * * * * * * * */
-		case StartEvent::ID:
-			if (auto ev = value.as<StartEvent>())
-			{
-				Debug::log("Hello from \'{0}\'", (*this));
-			}
-			break;
-
-			// Exit Event
+			// Exit
 			/* * * * * * * * * * * * * * * * * * * * */
 		case ExitEvent::ID: 
 			if (auto ev = value.as<ExitEvent>()) 
 			{ 
 				for (auto *& cmd : m_commands)
 				{
-					if (cmd)
-					{
-						cmd->uninstall(ML_CommandRegistry);
+					cmd->uninstall(ML_CommandRegistry);
 
-						delete cmd;
-					}
+					delete cmd;
 				}
 				m_commands.clear();
 			}
@@ -79,6 +68,132 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		static EventSystem * evSys { nullptr };
+		if (!evSys) evSys = &eventSystem();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "cat",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				if (args.size() == 2)
+				{
+					String temp;
+					if (ML_FS.getFileContents(args[1], temp))
+					{
+						cout << temp << endl;
+						return true;
+					}
+				}
+				return false;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "cd",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				SStream ss;
+				for (size_t i = 1; i < args.size(); i++)
+					ss << args[i];
+				return !ss.str().empty() && ML_FS.setPath(ss.str());
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "clear",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				// See EditorTerminal.cpp
+				return true;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "cwd",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				cout << ML_FS.getPath() << endl;
+				return true;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "exit",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				evSys->fireEvent(WindowKillEvent());
+				return true;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "help",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				for (const auto & cmd : ML_CommandRegistry)
+				{
+					cout << cmd->getName() << endl;
+				}
+				return true;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "history",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				// See EditorTerminal.cpp
+				return true;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "ls",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				const String path = ([&]()
+				{
+					if (args.size() == 1) return String { "." };
+					SStream ss;
+					for (size_t i = 1; i < args.size(); i++)
+						ss << args[i] << "";
+					return (String)ss.str();
+				})();
+				
+				SStream dir;
+				if (ML_FS.getDirContents(path, dir))
+				{
+					String line;
+					while (std::getline(dir, line))
+					{
+						cout << line << endl;
+					}
+					return true;
+				}
+				return false;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "pause",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				Debug::pause(0);
+				return true;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		m_commands.push_back(new CommandImpl { "ping",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
@@ -89,15 +204,28 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m_commands.push_back(new CommandImpl { "concat",
+		m_commands.push_back(new CommandImpl { "open",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				if (args.size() != 2) return false;
-				String temp;
-				if (ML_FS.getFileContents(args[1], temp))
+				SStream ss;
+				for (size_t i = 1; i < args.size(); i++)
+					ss << args[i] << (i < args.size() - 1 ? " " : "");
+				return (bool)OS::execute("open", ss.str());
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { "shell",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				switch (args.size())
 				{
-					cout << temp << endl;
-					return true;
+				case 2: return (bool)OS::execute(args[1]);
+				case 3: return (bool)OS::execute(args[1], args[2]);
+				case 4: return (bool)OS::execute(args[1], args[2], args[3]);
+				case 5: return (bool)OS::execute(args[1], args[2], args[3], args[4]);
+				case 6: return (bool)OS::execute(args[1], args[2], args[3], args[4], alg::to_int(args[5]));
 				}
 				return false;
 			})

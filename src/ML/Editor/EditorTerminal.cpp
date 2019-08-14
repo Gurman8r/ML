@@ -1,11 +1,11 @@
 #include <ML/Editor/EditorTerminal.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Engine/CommandRegistry.hpp>
+#include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Script/Interpreter.hpp>
-#include <ML/Script/ScriptEvents.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
 namespace ml
@@ -28,13 +28,7 @@ namespace ml
 		this->clear();
 
 		m_autoFill.push_back("clear");
-		m_autoFill.push_back("exit");
 		m_autoFill.push_back("history");
-
-		for (auto & pair : ML_Interpreter.commands())
-		{
-			m_autoFill.push_back(pair.first.c_str());
-		}
 
 		this->printf("# Using this feature may result in crashes or system instability.");
 		this->printf("# Type \'help\' for a list of commands.");
@@ -204,10 +198,6 @@ namespace ml
 		{
 			this->clear();
 		}
-		else if (!std::strcmp(value, "exit"))
-		{
-			editor().eventSystem().fireEvent(WindowKillEvent());
-		}
 		else if (!std::strcmp(value, "history"))
 		{
 			for (C_String e : m_history)
@@ -309,9 +299,16 @@ namespace ml
 
 			// Build a list of candidates
 			ImVector<C_String> candidates;
-			for (int32_t i = 0; i < (int32_t)m_autoFill.size(); i++)
+			static CommandRegistry & reg { ML_CommandRegistry };
+			for (size_t i = 0; i < reg.commands().size(); i++)
 			{
-				if (std::strncmp(m_autoFill[i], word_start, (int32_t)(word_end - word_start)) == 0)
+				C_String cmd_name = reg.commands()[i]->getName().c_str();
+
+				if (std::strncmp(cmd_name, word_start, (int32_t)(word_end - word_start)) == 0)
+				{
+					candidates.push_back(cmd_name);
+				}
+				else if (std::strncmp(m_autoFill[i], word_start, (int32_t)(word_end - word_start)) == 0)
 				{
 					candidates.push_back(m_autoFill[i]);
 				}

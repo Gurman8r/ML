@@ -100,7 +100,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -116,7 +116,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -136,7 +136,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -156,7 +156,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Editor_$(Configuration)_$(PlatformTarget).lib;ML_Engine_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -170,14 +170,6 @@
     <None Include="..\..\..\assets\lua\test.lua" />
     <None Include="..\..\..\assets\materials\demo.mat" />
     <None Include="..\..\..\assets\materials\skybox.mat" />
-    <None Include="..\..\..\assets\scripts\core.meme" />
-    <None Include="..\..\..\assets\scripts\fib.meme" />
-    <None Include="..\..\..\assets\scripts\files.meme" />
-    <None Include="..\..\..\assets\scripts\fizzbuzz.meme" />
-    <None Include="..\..\..\assets\scripts\hello.meme" />
-    <None Include="..\..\..\assets\scripts\stub.meme" />
-    <None Include="..\..\..\assets\scripts\test.meme" />
-    <None Include="..\..\..\assets\scripts\tool.meme" />
     <None Include="..\..\..\assets\shaders\basic.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader" />
     <None Include="..\..\..\assets\shaders\common\Frag.shader" />

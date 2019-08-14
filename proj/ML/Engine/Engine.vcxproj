@@ -100,7 +100,7 @@
     </ClCompile>
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
@@ -116,7 +116,7 @@
     </ClCompile>
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
@@ -136,7 +136,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
@@ -156,7 +156,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Script_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Audio_$(Configuration)_$(PlatformTarget).lib;ML_Core_$(Configuration)_$(PlatformTarget).lib;ML_Graphics_$(Configuration)_$(PlatformTarget).lib;ML_Network_$(Configuration)_$(PlatformTarget).lib;ML_Window_$(Configuration)_$(PlatformTarget).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
     </Link>
@@ -180,6 +180,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\CommandImpl.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\PluginLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Script.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
   </ItemGroup>
   <ItemGroup>

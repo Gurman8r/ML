@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\..\include\ML\Engine\CommandImpl.hpp">
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Script.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp">

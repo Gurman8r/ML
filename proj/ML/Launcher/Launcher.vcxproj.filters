@@ -12,30 +12,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\assets\scripts\core.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
-    <None Include="..\..\..\assets\scripts\fib.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
-    <None Include="..\..\..\assets\scripts\files.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
-    <None Include="..\..\..\assets\scripts\fizzbuzz.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
-    <None Include="..\..\..\assets\scripts\hello.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
-    <None Include="..\..\..\assets\scripts\stub.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
-    <None Include="..\..\..\assets\scripts\test.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
-    <None Include="..\..\..\assets\scripts\tool.meme">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\basic.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
@@ -109,9 +85,6 @@
     </Filter>
     <Filter Include="Resource Files\assets\images">
       <UniqueIdentifier>{27f89d2c-efda-4518-af86-9c5b809f028f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\assets\scripts">
-      <UniqueIdentifier>{a615895c-e69e-465e-89bb-91857050f37b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\assets\shaders">
       <UniqueIdentifier>{dd46ca66-fe85-4e70-9589-8be07fb9e9f0}</UniqueIdentifier>

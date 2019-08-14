@@ -2,6 +2,7 @@
 #define _ML_ENGINE_EVENTS_HPP_
 
 #include <ML/Core/I_Event.hpp>
+#include <ML/Core/C_String.hpp>
 
 namespace ml
 {
@@ -31,6 +32,8 @@ namespace ml
 			EV_EndFrame,
 			EV_Unload,
 			EV_Exit,
+
+			EV_Command,
 
 			MAX_ENGINE_EVENT
 		};
@@ -188,6 +191,19 @@ namespace ml
 		const GameTime & time;
 		constexpr ExitEvent(const GameTime & time)
 			: time(time)
+		{
+		}
+	};
+
+
+	// Utility
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct CommandEvent final : public I_Event<EngineEvent::EV_Command>
+	{
+		C_String cmd;
+		constexpr CommandEvent(C_String cmd)
+			: cmd(cmd)
 		{
 		}
 	};

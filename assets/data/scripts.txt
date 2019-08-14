@@ -13,46 +13,6 @@
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-<import>
-	type = script
-	name = hello
-	file = ../../../assets/scripts/hello.meme
-</import>
-
-<import>
-	type = script
-	name = fib
-	file = ../../../assets/scripts/fib.meme
-</import>
-
-<import>
-	type = script
-	name = files
-	file = ../../../assets/scripts/files.meme
-</import>
-
-<import>
-	type = script
-	name = test
-	file = ../../../assets/scripts/test.meme
-</import>
-
-<import>
-	type = script
-	name = stub
-	file = ../../../assets/scripts/stub.meme
-</import>
-
-<import>
-	type = script
-	name = tool
-	file = ../../../assets/scripts/tool.meme
-</import>
-
-<import>
-	type = script
-	name = fizzbuzz
-	file = ../../../assets/scripts/fizzbuzz.meme
-</import>
+# TODO
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

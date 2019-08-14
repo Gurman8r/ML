@@ -16,7 +16,7 @@
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
-#include <ML/Script/Script.hpp>
+#include <ML/Engine/Script.hpp>
 #include <ML/Editor/PropertyDrawer.hpp>
 
 namespace ml

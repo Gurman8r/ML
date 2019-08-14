@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Monolithic bank of shared resources.
+	// Global bank of shared resources.
 	// Anything can be stored in Content as long as it derives I_Newable.
 	struct ML_ENGINE_API Content final
 		: public I_Disposable
@@ -41,12 +41,8 @@ namespace ml
 			class T
 		> inline size_t get_hash() const
 		{
-			static List<size_t> & cache {
-				this->get_codes() 
-			};
-			const size_t code {
-				typeid(T).hash_code() 
-			};
+			static List<size_t> & cache { this->get_codes() };
+			const size_t code { typeid(T).hash_code() };
 			if (std::find(cache.cbegin(), cache.cend(), code) == cache.cend())
 			{
 				cache.push_back(code);

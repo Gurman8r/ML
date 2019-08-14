@@ -51,7 +51,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto data()		const -> const uint8_t *	{ return &pixels()[0]; }
-		inline auto bounds()	const -> const UintRect		{ return UintRect { vec2u { 0, 0 }, size() }; }
+		inline auto bounds()	const -> const UintRect		{ return UintRect { { 0, 0 }, size() }; }
 		inline auto channels()	const -> int32_t			{ return m_channels; }
 		inline auto height()	const -> uint32_t			{ return m_size[1]; }
 		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }

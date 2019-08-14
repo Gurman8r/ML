@@ -1,7 +1,7 @@
 #ifndef _ML_RATIO_HPP_
 #define _ML_RATIO_HPP_
 
-#include <ML/Core/StaticValue.hpp>
+#include <ML/Core/Numeric.hpp>
 
 namespace ml
 {
@@ -36,14 +36,14 @@ namespace ml
 			class T, int64_t Num, int64_t Den
 		> static constexpr T ratio_cast(T value, const Ratio<Num, Den> & r)
 		{
-			using cast = static_value<T>;
-			const T num { cast(r.num) };
-			const T den { cast(r.den) };
-			return (((num == cast::one) && (den == cast::one))
+			using TT = numeric<T>;
+			const T num { TT(r.num) };
+			const T den { TT(r.den) };
+			return (((num == TT::one) && (den == TT::one))
 				? (value)
-				: (((num != cast::one) && (den == cast::one))
+				: (((num != TT::one) && (den == TT::one))
 					? (value * num)
-					: (((num == cast::one) && (den != cast::one))
+					: (((num == TT::one) && (den != TT::one))
 						? (value / den)
 						: (value * num / den)
 						)));

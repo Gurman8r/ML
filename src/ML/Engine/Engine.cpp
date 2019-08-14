@@ -3,7 +3,6 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
-#include <ML/Core/Worker.hpp>
 #include <ML/Engine/Asset.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/ContentLoader.hpp>

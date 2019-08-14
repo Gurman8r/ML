@@ -39,7 +39,6 @@ namespace ml
 		using self_type			= typename Color;
 		using base_type			= typename tvec4<value_type>;
 		using complex_type		= typename tvec3<value_type>;
-		using cast_type			= typename base_type::cast_type;
 		using pointer			= typename base_type::pointer;
 		using reference			= typename base_type::reference;
 		using const_pointer		= typename base_type::const_pointer;
@@ -80,7 +79,7 @@ namespace ml
 			class U
 		> constexpr operator tvec4<U>() const
 		{
-			using TT = static_value<U>;
+			using TT = numeric<U>;
 			return { TT(r()), TT(g()), TT(b()), TT(a()) };
 		}
 

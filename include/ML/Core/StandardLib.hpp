@@ -75,7 +75,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using boolean_t	= typename bool;				// Bool Type
 	using byte_t	= typename uint8_t;				// Byte Type
 	using float_t	= typename float32_t;			// Float Type
 	using hash_t	= typename uintmax_t;			// Hash Type
@@ -97,11 +96,11 @@ namespace ml
 	ML_USING_XY BasicIfstream	= typename _STD basic_ifstream	<X, Y>;
 	ML_USING_XY BasicOfstream	= typename _STD basic_ofstream	<X, Y>;
 	ML_USING_XY BasicStreamBuf	= typename _STD basic_streambuf	<X, Y>;
-	using		Ofstream		= typename _ML BasicOfstream	<char, _ML CharTraits<char>>;
-	using		Ifstream		= typename _ML BasicIfstream	<char, _ML CharTraits<char>>;
-	using		Ostream			= typename _ML BasicOstream		<char, _ML CharTraits<char>>;
-	using		Istream			= typename _ML BasicIstream		<char, _ML CharTraits<char>>;
-	using		StreamBuf		= typename _ML BasicStreamBuf	<char, _ML CharTraits<char>>;
+	using		Ofstream		= typename	_ML	BasicOfstream	<char, CharTraits<char>>;
+	using		Ifstream		= typename	_ML	BasicIfstream	<char, CharTraits<char>>;
+	using		Ostream			= typename	_ML	BasicOstream	<char, CharTraits<char>>;
+	using		Istream			= typename	_ML	BasicIstream	<char, CharTraits<char>>;
+	using		StreamBuf		= typename	_ML	BasicStreamBuf	<char, CharTraits<char>>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

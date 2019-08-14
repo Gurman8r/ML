@@ -13,28 +13,29 @@ namespace ml
 
 	namespace detail
 	{
-		template <class T> struct decay final
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class T> struct base final
 		{
-			template <class U> using remove_const_t = std::remove_const_t<U>;
-			template <class U> using remove_pointer_t = std::remove_pointer_t<U>;
-			template <class U> using remove_reference_t = std::remove_reference_t<U>;
+			ML_USING_X remove_const_t = std::remove_const_t<X>;
+			ML_USING_X remove_pointer_t = std::remove_pointer_t<X>;
+			ML_USING_X remove_reference_t = std::remove_reference_t<X>;
 
 			using type = typename remove_const_t<remove_reference_t<remove_pointer_t<T>>>;
 		};
 
-		template <class T> using decay_t = typename decay<T>::type;
+		template <class T> using base_t = typename base<T>::type;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Functions as a reusable static_cast with builtin numerical constants.
-	template <
-		class T
-	> struct static_value final
+	template <class T> struct numeric final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type				= typename detail::decay_t<T>;
+		using type				= typename detail::base_t<T>;
 		using limits			= typename std::numeric_limits<type>;
 		using pointer			= typename type *;
 		using reference			= typename type &;
@@ -43,11 +44,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static_value() = delete;
+		numeric() = delete;
 
 		template <
 			class U
-		> constexpr explicit static_value(const U & value) noexcept
+		> constexpr explicit numeric(const U & value) noexcept
 			: m_value { cast(value) }
 		{
 		}
@@ -123,42 +124,42 @@ namespace ml
 
 	template <
 		class T
-	> constexpr bool operator==(const static_value<T> & lhs, const static_value<T> & rhs)
+	> constexpr bool operator==(const numeric<T> & lhs, const numeric<T> & rhs)
 	{
 		return ((T)lhs == (T)rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator!=(const static_value<T> & lhs, const static_value<T> & rhs)
+	> constexpr bool operator!=(const numeric<T> & lhs, const numeric<T> & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator<(const static_value<T> & lhs, const static_value<T> & rhs)
+	> constexpr bool operator<(const numeric<T> & lhs, const numeric<T> & rhs)
 	{
 		return ((T)lhs < (T)rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator>(const static_value<T> & lhs, const static_value<T> & rhs)
+	> constexpr bool operator>(const numeric<T> & lhs, const numeric<T> & rhs)
 	{
 		return !(lhs < rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator<=(const static_value<T> & lhs, const static_value<T> & rhs)
+	> constexpr bool operator<=(const numeric<T> & lhs, const numeric<T> & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator>=(const static_value<T> & lhs, const static_value<T> & rhs)
+	> constexpr bool operator>=(const numeric<T> & lhs, const numeric<T> & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}

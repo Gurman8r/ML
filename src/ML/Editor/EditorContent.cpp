@@ -24,7 +24,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T, class TT = detail::decay_t<T>
+		class T, class TT = detail::base_t<T>
 	> static inline void draw_content(const String & label)
 	{
 		if (!ImGui::CollapsingHeader(label.c_str()))

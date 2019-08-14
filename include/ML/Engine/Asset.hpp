@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	
 	// Wrapper around a pointer to something that lives in Content
-	// Automatically retrieves the value from Content and acts like a pointer to T
+	// Automatically retrieves the value from Content and acts like a pointer to it
 	template <
 		class T
 	> struct Asset final : public I_Newable

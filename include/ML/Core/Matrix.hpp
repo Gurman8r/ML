@@ -26,7 +26,6 @@ namespace ml
 		using value_type		= typename T;
 		using self_type			= typename Matrix<value_type, Cols, Rows>;
 		using base_type			= typename Array<value_type, Size>;
-		using cast_type			= typename static_value<value_type>;
 		using pointer			= typename base_type::pointer;
 		using reference			= typename base_type::reference;
 		using const_pointer		= typename base_type::const_pointer;
@@ -87,7 +86,7 @@ namespace ml
 				const size_t w { this->width() };
 				const size_t h { this->height() };
 
-				using UU = static_value<U>;
+				using UU = numeric<U>;
 				temp[i] = ((y < h && x < w) ? UU { (*this)[y * w + x] } : UU::zero);
 			}
 			return temp;
@@ -102,22 +101,23 @@ namespace ml
 
 		static constexpr self_type one()
 		{
-			using TT = cast_type;
 			self_type temp { uninit };
 			for (auto & elem : temp) 
 			{
-				elem = TT::one; 
+				elem = numeric<T>::one; 
 			}
 			return temp;
 		}
 
 		static constexpr self_type identity()
 		{
-			using TT = cast_type;
 			self_type temp { uninit };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
-				temp[i] = (((i / temp.width()) == (i % temp.width())) ? TT::one : TT::zero);
+				temp[i] = (((i / temp.width()) == (i % temp.width())) 
+					? numeric<T>::one 
+					: numeric<T>::zero
+				);
 			}
 			return temp;
 		}
@@ -130,12 +130,11 @@ namespace ml
 			const_reference bottom,
 			const_reference top)
 		{
-			using TT = cast_type;
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = TT::two / (right - left);
-			temp[1 * 4 + 1] = TT::two / (top - bottom);
-			temp[2 * 4 + 2] = TT::minus_one;
+			temp[0 * 4 + 0] = numeric<T>::two / (right - left);
+			temp[1 * 4 + 1] = numeric<T>::two / (top - bottom);
+			temp[2 * 4 + 2] = numeric<T>::minus_one;
 			temp[3 * 4 + 0] = -(right + left) / (right - left);
 			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
 			return temp;
@@ -149,14 +148,13 @@ namespace ml
 			const_reference near,
 			const_reference far)
 		{
-			using TT = cast_type;
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = TT::two / (right - left);
-			temp[1 * 4 + 1] = TT::two / (top - bottom);
+			temp[0 * 4 + 0] = numeric<T>::two / (right - left);
+			temp[1 * 4 + 1] = numeric<T>::two / (top - bottom);
 			temp[3 * 4 + 0] = -(right + left) / (right - left);
 			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
-			temp[2 * 4 + 2] = -TT::two / (far - near);
+			temp[2 * 4 + 2] = -numeric<T>::two / (far - near);
 			temp[3 * 4 + 2] = -(far + near) / (far - near);
 			return temp;
 		}
@@ -167,14 +165,13 @@ namespace ml
 			const_reference near,
 			const_reference far)
 		{
-			using TT = cast_type;
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { uninit };
-			temp[0 * 4 + 0] = TT::one / (aspect * alg::tan(fov / TT::two));
-			temp[1 * 4 + 1] = TT::one / alg::tan(fov / TT::two);
-			temp[2 * 4 + 3] = TT::minus_one;
+			temp[0 * 4 + 0] = numeric<T>::one / (aspect * alg::tan(fov / numeric<T>::two));
+			temp[1 * 4 + 1] = numeric<T>::one / alg::tan(fov / numeric<T>::two);
+			temp[2 * 4 + 3] = numeric<T>::minus_one;
 			temp[2 * 4 + 2] = -(far + near) / (far - near);
-			temp[3 * 4 + 3] = -(TT::two * far * near) / (far - near);
+			temp[3 * 4 + 3] = -(numeric<T>::two * far * near) / (far - near);
 			return temp;
 		}
 
@@ -535,7 +532,7 @@ namespace ml
 	> constexpr auto operator-(const Matrix<T, X, Y> & lhs)
 		-> Matrix<T, X, Y>
 	{
-		return (lhs * static_value<T>::minus_one);
+		return (lhs * numeric<T>::minus_one);
 	}
 
 	template <

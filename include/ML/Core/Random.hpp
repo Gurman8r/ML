@@ -10,15 +10,15 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API Random final
-		: public I_Singleton<Random>
+	class Random final : public I_Singleton<Random>
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		friend struct I_Singleton<Random>;
 
-		Random() 
-		{ 
-			std::srand((uint32_t)std::time(nullptr)); 
-		}
+		Random() { std::srand((uint32_t)std::time(nullptr)); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
 		template <
@@ -41,6 +41,8 @@ namespace ml
 		{
 			return (min + (roll<T>(max) * (max - min)));
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

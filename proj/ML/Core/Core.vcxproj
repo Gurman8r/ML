@@ -181,9 +181,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\File.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\FileSystem.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Comparable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Disposable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Enumerable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_EventListener.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Handle.hpp" />
@@ -197,6 +195,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp" />
@@ -207,10 +206,9 @@
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Trigger.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\StaticValue.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Numeric.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Worker.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />

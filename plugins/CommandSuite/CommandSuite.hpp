@@ -21,7 +21,7 @@ namespace ml
 
 		~CommandSuite() {}
 
-		virtual void onEvent(const Event & value) override;
+		void onEvent(const Event & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

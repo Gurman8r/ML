@@ -107,7 +107,7 @@ namespace ml
 
 		using type				= typename T;
 		using self_type			= typename I_Uni<type, ID, Flags>;
-		using value_type		= typename detail::decay_t<type>;
+		using value_type		= typename detail::base_t<type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;

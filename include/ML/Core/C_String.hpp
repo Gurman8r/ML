@@ -30,7 +30,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// Compile-Time String
+	// Constexpr String
 	struct X_String final
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -54,7 +54,7 @@ namespace ml
 		}
 
 		constexpr X_String(const_pointer begin, const_pointer end)
-			: self_type { begin, static_value<size_t>{ end - begin } }
+			: self_type { begin, numeric<size_t>{ end - begin } }
 		{
 		}
 
@@ -110,8 +110,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const_pointer	m_data;
-		size_t			m_size;
+		const_pointer m_data;
+		size_t m_size;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -34,7 +34,7 @@ namespace ml
 		class T
 	> struct CustomAssetImporter
 	{
-		using value_type	= typename std::decay<T>::type;
+		using value_type	= typename detail::base_t<T>;
 		using self_type		= typename CustomAssetImporter<value_type>;
 		using wrapper_type	= typename AssetImporter<value_type>;
 

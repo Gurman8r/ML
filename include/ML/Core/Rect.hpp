@@ -17,7 +17,6 @@ namespace ml
 		using self_type			= typename Rect<value_type>;
 		using base_type			= typename tvec4<value_type>;
 		using coord_type		= typename tvec2<value_type>;
-		using cast_type			= typename base_type::cast_type;
 		using pointer			= typename base_type::pointer;
 		using reference			= typename base_type::reference;
 		using const_pointer		= typename base_type::const_pointer;
@@ -74,7 +73,7 @@ namespace ml
 		constexpr auto right()		const -> value_type { return (left() + width()); }
 		constexpr auto position()	const -> coord_type { return { left(), top() }; }
 		constexpr auto size()		const -> coord_type { return { width(), height() }; }
-		constexpr auto center()		const -> coord_type { return (position() + (size() / cast_type::two)); }
+		constexpr auto center()		const -> coord_type { return (position() + (size() / (T)2)); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -86,7 +85,7 @@ namespace ml
 		constexpr auto right	(const_reference value)		-> self_type & { return width(value - left()); }
 		constexpr auto position	(const coord_type & value)	-> self_type & { return left(value[0]).top(value[1]); }
 		constexpr auto size		(const coord_type & value)	-> self_type & { return width(value[0]).height(value[1]); }
-		constexpr auto center	(const coord_type & value)	-> self_type & { return position(value - (size() / cast_type::two)); }
+		constexpr auto center	(const coord_type & value)	-> self_type & { return position(value - (size() / (T)2)); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -4,9 +4,27 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Graphics/Mesh.hpp>
+#include <ML/Core/TypeInfo.hpp>
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	static void test_type_info()
+	{
+		constexpr auto i_info = type_id<int32_t>();
+		constexpr auto i_name = i_info.raw_name();
+		constexpr auto i_hash = i_info.hash_code();
+		
+		constexpr auto f_info = type_id(1.0f);
+		constexpr auto f_name = f_info.raw_name();
+		constexpr auto f_hash = f_info.hash_code();
+
+		constexpr auto s_info = type_id<C_String>();
+		constexpr auto s_name = s_info.raw_name();
+		constexpr auto s_hash = s_info.hash_code();
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static void test_assimp()
@@ -54,7 +72,7 @@ namespace ml
 
 			constexpr auto va		= vec2 { 0.f, 0.f }; 
 			constexpr auto vb		= vec2 { -10.f, -10.f };
-			constexpr auto vc		= alg::lerp(va, vb, vec2::cast_type::half);
+			constexpr auto vc		= alg::lerp(va, vb, 0.5f);
 
 			constexpr auto arr1 = Array<char, 3> { 'a', 'b', 'c' };
 			constexpr auto arr2 = Array<char, 3> { 'a', 'b', 'c' };
@@ -67,8 +85,8 @@ namespace ml
 			constexpr hash_t hash3	= mat4i::identity().hash();
 			constexpr hash_t hash4	= mat4f::identity().hash();
 
-			constexpr auto eps1		= static_value<float64_t>::epsilon;
-			constexpr auto eps2		= static_value<float80_t>::epsilon;
+			constexpr auto eps1		= numeric<float64_t>::epsilon;
+			constexpr auto eps2		= numeric<float80_t>::epsilon;
 			constexpr auto sqr_mag	= alg::sqr_magnitude(vb);
 			constexpr auto mag		= alg::magnitude(vb);
 			constexpr auto norm		= alg::normalize(vb);

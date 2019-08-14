@@ -2,6 +2,7 @@
 #define _ML_SCRIPT_HPP_
 
 #include <ML/Engine/Export.hpp>
+#include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Readable.hpp>
 
@@ -9,19 +10,41 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Placeholder, moved here from old scripting lib.
-	struct ML_ENGINE_API Script
-		: public I_Newable
+	// Currently empty, leftover from old scripting lib.
+	struct ML_ENGINE_API Script final
+		: public I_Disposable
+		, public I_Newable
 		, public I_Readable
 	{
-		Script() {}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual ~Script() {}
+		Script();
+		explicit Script(const String & filename);
+		Script(Script && copy);
+		~Script() { dispose(); }
 
-		inline bool loadFromFile(const String & filename) override
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		bool dispose() override;
+		bool loadFromFile(const String & filename) override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline operator bool() const 
 		{ 
-			return false; 
+			return m_filename; 
 		}
+
+		inline auto filename()	const -> const String & { return m_filename; }
+		inline auto params()	const -> const String & { return m_params; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private:
+		String m_filename;
+		String m_params;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -16,7 +16,7 @@ using namespace ml;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-static Preferences 	g_Preferences	{ "../../../ML.ini" };
+static Preferences 	g_Prefs			{ "../../../ML.ini" };
 static GameTime		g_Time			{ };
 static EventSystem	g_EventSystem	{ };
 static RenderWindow g_Window		{ g_EventSystem };
@@ -32,8 +32,8 @@ static StateMachine<State> g_ProgramStates
 {
 { State::Startup, []()
 {
-	g_EventSystem.fireEvent(EnterEvent	{ g_Time, g_Preferences, g_Window });
-	g_EventSystem.fireEvent(LoadEvent	{ g_Time, g_Preferences, g_Window });
+	g_EventSystem.fireEvent(EnterEvent	{ g_Time, g_Prefs, g_Window });
+	g_EventSystem.fireEvent(LoadEvent	{ g_Time, g_Prefs, g_Window });
 	g_EventSystem.fireEvent(StartEvent	{ g_Time, g_Window });
 	return g_ProgramStates(State::MainLoop);
 } },
@@ -66,7 +66,7 @@ static StateMachine<State> g_ProgramStates
 int32_t main()
 {
 	// Load Plugin List
-	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Preferences.get_string(
+	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Prefs.get_string(
 		"Launcher", "plugin_list", ""
 	))))
 	{

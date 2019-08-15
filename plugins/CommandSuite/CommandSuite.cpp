@@ -12,10 +12,6 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-#include <stdlib.h>
-#include <stdio.h>
-
-
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
 	return new ml::CommandSuite { eventSystem };
@@ -41,9 +37,9 @@ namespace ml
 		case EnterEvent::ID: 
 			if (auto ev = value.as<EnterEvent>()) 
 			{ 
-				Py_SetPythonHome(alg::widen(ev->prefs.get_string(
+				Py_SetPythonHome(alg::widen(ML_FS.pathTo(ev->prefs.get_string(
 					"Engine", "python_home", ""
-				)).c_str());
+				))).c_str());
 
 				initialize_commands();
 

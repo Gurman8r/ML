@@ -1,1 +1,1 @@
-print("Hello from Lua Script!")
+print("Hello from Lua!")

@@ -65,6 +65,12 @@ static StateMachine<State> g_ProgramStates
 
 int32_t main()
 {
+	// Show Args
+	for (size_t i = 0; i < __argc; i++)
+	{
+		cout << __argv[i] << endl;
+	}
+
 	// Load Plugin List
 	if (g_Plugins.loadFromFile(ML_FS.pathTo(g_Prefs.get_string(
 		"Launcher", "plugin_list", ""

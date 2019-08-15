@@ -105,8 +105,7 @@
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)
-xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python_d.exe  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,8 +124,7 @@ xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python_
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)
-xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python_d.exe  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -149,8 +147,7 @@ xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python_
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)
-xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python.exe  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -173,8 +170,7 @@ xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python.
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)
-xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python.exe  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

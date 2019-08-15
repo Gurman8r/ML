@@ -307,7 +307,7 @@ namespace ml
 	{
 		ImGui::BeginChild("DemoFile##ContentArea", { 0, 0 }, true);
 		
-		this->text.Render(("##DemoFile##" + this->name + "##TextEditor").c_str());
+		this->text.Render(("##DemoFile##" + this->name + "##ImGuiColorTextEdit").c_str());
 
 		if (this->text.IsTextChanged())
 		{ 
@@ -445,10 +445,7 @@ namespace ml
 								(label + "##Name").c_str(),
 								name,
 								ML_ARRAYSIZE(name),
-								ImGuiInputTextFlags_EnterReturnsTrue |
-								(uni->isModifiable()
-									? ImGuiInputTextFlags_None
-									: ImGuiInputTextFlags_ReadOnly)
+								ImGuiInputTextFlags_EnterReturnsTrue
 							))
 							{
 								if (!m_material->get(name))

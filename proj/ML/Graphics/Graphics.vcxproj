@@ -71,22 +71,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -108,7 +108,7 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp_$(Configuration)_$(PlatformTarget).dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\assimp_$(Configuration)_$(PlatformTarget).dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,7 +130,7 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp_$(Configuration)_$(PlatformTarget).dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\assimp_$(Configuration)_$(PlatformTarget).dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,7 +156,7 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp_$(Configuration)_$(PlatformTarget).dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\assimp_$(Configuration)_$(PlatformTarget).dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -182,7 +182,7 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp_$(Configuration)_$(PlatformTarget).dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\assimp_$(Configuration)_$(PlatformTarget).dll  $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

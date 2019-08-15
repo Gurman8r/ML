@@ -1,3 +1,4 @@
+/obj
 /tmp
 /lib
 /bin
@@ -8,3 +9,4 @@ imgui.ini
 desktop.ini
 *.log
 *.lastbuildstateslm
+/assets/python/Lib/__pycache__

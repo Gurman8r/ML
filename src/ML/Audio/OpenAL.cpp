@@ -24,12 +24,10 @@ namespace ml
 
 	void OpenAL::test()
 	{
-		ALCdevice *device;
-
-		device = alcOpenDevice(NULL);
-		if (!device)
+		ALCdevice * device { nullptr };
+		if (!(device = alcOpenDevice(NULL)))
 		{
-			// handle errors
+			/* error */
 		}
 	}
 	

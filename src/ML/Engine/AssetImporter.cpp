@@ -124,7 +124,7 @@ namespace ml
 					};
 
 					// Default Uniforms
-					if (md.getData("defaults", true))
+					if (md.getData("defs", true))
 					{
 						if (auto u = ML_Content.get<uni_vec2_ptr>("CURSOR_POS"))
 							temp->add(u->clone());

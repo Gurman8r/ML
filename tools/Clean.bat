@@ -20,7 +20,7 @@ if exist "%LibDir%" (
 )
 
 rem Clean Intermediate Directory
-set IntDir=%WorkingDir%..\tmp
+set IntDir=%WorkingDir%..\obj
 if exist "%IntDir%" (
 	rd /s /q %IntDir%
 	echo Cleaned "%IntDir%"

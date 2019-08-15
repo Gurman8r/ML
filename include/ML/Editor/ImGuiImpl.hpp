@@ -4,19 +4,19 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Window/Window.hpp>
 
-#define ML_ImGui_Impl _ML ImGui_Impl::getInstance()
+#define ML_ImGuiImpl _ML ImGuiImpl::getInstance()
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API ImGui_Impl final : public I_Singleton<ImGui_Impl>
+	class ML_EDITOR_API ImGuiImpl final : public I_Singleton<ImGuiImpl>
 	{
-		friend struct I_Singleton<ImGui_Impl>;
+		friend struct I_Singleton<ImGuiImpl>;
 
 	private:
-		ImGui_Impl();
-		~ImGui_Impl();
+		ImGuiImpl();
+		~ImGuiImpl();
 
 	public:
 		bool Startup(C_String version, Window * window, bool install_callbacks, C_String ini);

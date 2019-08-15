@@ -1,8 +1,8 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Editor/ImGui_Impl.hpp>
+#include <ML/Editor/ImGuiImpl.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/ImGui_StyleLoader.hpp>
+#include <ML/Editor/ImGuiStyleLoader.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Graphics/OpenGL.hpp>
@@ -13,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	ImGui_Impl::ImGui_Impl()
+	ImGuiImpl::ImGuiImpl()
 		: g_Running			{ false }
 		, g_Window			{ nullptr }
 		, g_ClientApi		{ API_Unknown }
@@ -37,14 +37,14 @@ namespace ml
 		ImGui::CreateContext();
 	}
 
-	ImGui_Impl::~ImGui_Impl()
+	ImGuiImpl::~ImGuiImpl()
 	{
 		this->Shutdown();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGui_Impl::Startup(C_String glsl_version, Window * window, bool install_callbacks, C_String iniName)
+	bool ImGuiImpl::Startup(C_String glsl_version, Window * window, bool install_callbacks, C_String iniName)
 	{
 		if (!g_Running) g_Running = true;
 		else return false;
@@ -129,7 +129,7 @@ namespace ml
 		return true;
 	}
 
-	bool ImGui_Impl::Shutdown()
+	bool ImGuiImpl::Shutdown()
 	{
 		if (g_Running) g_Running = false;
 		else return false;
@@ -146,7 +146,7 @@ namespace ml
 		return true;
 	}
 
-	void ImGui_Impl::NewFrame()
+	void ImGuiImpl::NewFrame()
 	{
 		if (!g_FontTexture)
 			this->CreateDeviceObjects();
@@ -168,7 +168,7 @@ namespace ml
 		this->HandleInput();
 	}
 
-	void ImGui_Impl::Render(void * value)
+	void ImGuiImpl::Render(void * value)
 	{
 		ImDrawData * draw_data = static_cast<ImDrawData *>(value);
 
@@ -354,15 +354,15 @@ namespace ml
 		ML_GL.scissor(last_scissor_box[0], last_scissor_box[1], (int32_t)last_scissor_box[2], (int32_t)last_scissor_box[3]);
 	}
 
-	bool ImGui_Impl::LoadStyle(const String & filename)
+	bool ImGuiImpl::LoadStyle(const String & filename)
 	{
-		ImGui_StyleLoader loader;
+		ImGuiStyleLoader loader;
 		return loader.loadFromFile(filename);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGui_Impl::CreateFontsTexture()
+	bool ImGuiImpl::CreateFontsTexture()
 	{
 		// Build texture atlas
 		ImGuiIO & io = ImGui::GetIO();
@@ -388,7 +388,7 @@ namespace ml
 		return true;
 	}
 
-	void ImGui_Impl::DestroyFontsTexture()
+	void ImGuiImpl::DestroyFontsTexture()
 	{
 		if (g_FontTexture)
 		{
@@ -401,7 +401,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGui_Impl::CreateDeviceObjects()
+	bool ImGuiImpl::CreateDeviceObjects()
 	{
 		// Backup GL state
 		int32_t last_texture = ML_GL.getInt(GL::TextureBinding2D);
@@ -566,7 +566,7 @@ namespace ml
 		return true;
 	}
 
-	void ImGui_Impl::DestroyDeviceObjects()
+	void ImGuiImpl::DestroyDeviceObjects()
 	{
 		if (g_VboHandle)
 		{
@@ -613,7 +613,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ImGui_Impl::HandleInput()
+	void ImGuiImpl::HandleInput()
 	{
 		// Update buttons
 		ImGuiIO & io = ImGui::GetIO();
@@ -663,7 +663,7 @@ namespace ml
 		}
 	}
 
-	bool ImGui_Impl::CompileShader(uint32_t & obj, const C_String * vs, const C_String * fs)
+	bool ImGuiImpl::CompileShader(uint32_t & obj, const C_String * vs, const C_String * fs)
 	{
 		if (!ML_GL.shadersAvailable())
 		{
@@ -724,30 +724,30 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void ImGui_Impl::MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods)
+	void ImGuiImpl::MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods)
 	{
 		if ((action == ML_KEY_PRESS) &&
 			(button >= 0) &&
 			(button < IM_ARRAYSIZE(g_MousePressed)))
-			ML_ImGui_Impl.g_MousePressed[button] = true;
-		ML_ImGui_Impl.fireEvent(MouseButtonEvent(button, action, mods));
+			ML_ImGuiImpl.g_MousePressed[button] = true;
+		ML_ImGuiImpl.fireEvent(MouseButtonEvent(button, action, mods));
 	}
 
-	void ImGui_Impl::ScrollCallback(void * window, float64_t xoffset, float64_t yoffset)
+	void ImGuiImpl::ScrollCallback(void * window, float64_t xoffset, float64_t yoffset)
 	{
 		ImGuiIO & io = ImGui::GetIO();
 		io.MouseWheelH += (float_t)xoffset;
 		io.MouseWheel += (float_t)yoffset;
-		ML_ImGui_Impl.fireEvent(ScrollEvent(xoffset, yoffset));
+		ML_ImGuiImpl.fireEvent(ScrollEvent(xoffset, yoffset));
 	}
 
-	void ImGui_Impl::KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
+	void ImGuiImpl::KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
 	{
 		ImGuiIO & io = ImGui::GetIO();
 		if (action == ML_KEY_PRESS) { io.KeysDown[key] = true; }
 		if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
 		if (key == KeyCode::KP_Enter) { io.KeysDown[KeyCode::Enter] = io.KeysDown[key]; }
-		ML_ImGui_Impl.fireEvent(KeyEvent(key, scancode, action, 
+		ML_ImGuiImpl.fireEvent(KeyEvent(key, scancode, action, 
 		{
 			io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
 			io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],
@@ -756,11 +756,11 @@ namespace ml
 		}));
 	}
 
-	void ImGui_Impl::CharCallback(void * window, uint32_t value)
+	void ImGuiImpl::CharCallback(void * window, uint32_t value)
 	{
 		ImGuiIO & io = ImGui::GetIO();
 		if ((value > 0) && (value < 0x10000)) { io.AddInputCharacter((uint16_t)value); }
-		ML_ImGui_Impl.fireEvent(CharEvent(value));
+		ML_ImGuiImpl.fireEvent(CharEvent(value));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

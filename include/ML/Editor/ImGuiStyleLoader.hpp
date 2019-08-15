@@ -10,19 +10,19 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API ImGui_StyleLoader final
+	struct ML_EDITOR_API ImGuiStyleLoader final
 		: public I_Newable
 		, public I_Readable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ImGui_StyleLoader();
+		ImGuiStyleLoader();
 		
-		explicit ImGui_StyleLoader(const String & filename);
+		explicit ImGuiStyleLoader(const String & filename);
 		
-		ImGui_StyleLoader(ImGui_StyleLoader && copy);
+		ImGuiStyleLoader(ImGuiStyleLoader && copy);
 		
-		~ImGui_StyleLoader();
+		~ImGuiStyleLoader();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

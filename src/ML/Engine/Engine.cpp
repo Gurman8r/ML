@@ -4,8 +4,8 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/Asset.hpp>
-#include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/ContentLoader.hpp>
+#include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>

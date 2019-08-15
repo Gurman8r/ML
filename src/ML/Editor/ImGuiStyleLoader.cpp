@@ -1,4 +1,4 @@
-#include <ML/Editor/ImGui_StyleLoader.hpp>
+#include <ML/Editor/ImGuiStyleLoader.hpp>
 #include <ML/Core/File.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -135,29 +135,29 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ImGui_StyleLoader::ImGui_StyleLoader()
+	ImGuiStyleLoader::ImGuiStyleLoader()
 		: m_good(false)
 	{
 	}
 
-	ImGui_StyleLoader::ImGui_StyleLoader(const String & filename)
-		: ImGui_StyleLoader()
+	ImGuiStyleLoader::ImGuiStyleLoader(const String & filename)
+		: ImGuiStyleLoader()
 	{
 		loadFromFile(filename);
 	}
 
-	ImGui_StyleLoader::ImGui_StyleLoader(ImGui_StyleLoader && copy)
+	ImGuiStyleLoader::ImGuiStyleLoader(ImGuiStyleLoader && copy)
 		: m_good(copy.m_good)
 	{
 	}
 
-	ImGui_StyleLoader::~ImGui_StyleLoader()
+	ImGuiStyleLoader::~ImGuiStyleLoader()
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGui_StyleLoader::loadFromFile(const String & filename)
+	bool ImGuiStyleLoader::loadFromFile(const String & filename)
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

@@ -174,13 +174,14 @@ namespace ml
 	{
 		if (m_shader && (*m_shader))
 		{
-			for (auto it = this->cbegin(); it != this->cend(); it++)
+			for (const auto & elem : (*this))
 			{
-				if (!m_shader->setUniform(*it))
+				if (!m_shader->setUniform(elem))
 				{
 					/* error */
 				}
 			}
+
 			m_shader->bind(bindTextures);
 		}
 		return (*this);

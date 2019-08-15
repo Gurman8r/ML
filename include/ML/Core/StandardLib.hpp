@@ -46,9 +46,12 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define popen	_popen
-#define pclose	_pclose
-#define strdup	_strdup
+# ifdef ML_SYSTEM_WINDOWS
+#	define popen	_popen
+#	define pclose	_pclose
+#	define strdup	_strdup
+#	define snprintf	_snprintf
+# endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -131,6 +134,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_STANDARD_LIB_HPP_

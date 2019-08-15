@@ -49,7 +49,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorContent::EditorContent(Editor & editor)
-		: EditorGui { editor, "Content", false }
+		: EditorWindow { editor, "Content", false }
 	{
 	}
 

@@ -90,22 +90,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,7 +124,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ML_Core_$(Configuration)_$(PlatformTarget).lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Core_$(Configuration)_$(PlatformTarget).lib;flac.lib;ogg.lib;OpenAL32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -143,7 +143,7 @@
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ML_Core_$(Configuration)_$(PlatformTarget).lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Core_$(Configuration)_$(PlatformTarget).lib;flac.lib;ogg.lib;OpenAL32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -162,7 +162,7 @@
     <Link>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ML_Core_$(Configuration)_$(PlatformTarget).lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Core_$(Configuration)_$(PlatformTarget).lib;flac.lib;ogg.lib;OpenAL32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -185,7 +185,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ML_Core_$(Configuration)_$(PlatformTarget).lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ML_Core_$(Configuration)_$(PlatformTarget).lib;flac.lib;ogg.lib;OpenAL32.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>

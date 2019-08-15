@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorGui.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorGui::EditorGui(Editor & editor, C_String title, bool open)
+	EditorWindow::EditorWindow(Editor & editor, C_String title, bool open)
 		: m_editor	{ editor }
 		, m_title	{ title }
 		, m_open	{ open }
@@ -20,12 +20,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorGui::beginDraw(int32_t flags)
+	bool EditorWindow::beginDraw(int32_t flags)
 	{
 		return m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags));
 	}
 
-	bool EditorGui::endDraw()
+	bool EditorWindow::endDraw()
 	{
 		ImGui::End();
 		return m_good;

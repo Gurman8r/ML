@@ -71,22 +71,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -168,41 +168,41 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiExt.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorGui.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_Impl.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\ImGuiImpl.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorImporter.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorProfiler.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorContent.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\ImGui_StyleLoader.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\ImGuiStyleLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorTerminal.hpp" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imconfig.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imgui.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imgui_internal.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imstb_truetype.h" />
-    <ClInclude Include="..\..\..\thirdparty\include\imgui\TextEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorContent.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorDockspace.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorExplorer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorGui.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorImporter.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorProfiler.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorTerminal.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\ImGui_Impl.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\ImGuiImpl.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\ImGui_StyleLoader.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\ImGuiStyleLoader.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="..\..\..\thirdparty\include\imgui\TextEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

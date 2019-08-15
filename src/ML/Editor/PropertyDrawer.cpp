@@ -427,8 +427,6 @@ namespace ml
 	
 	bool ShaderPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
 	{
-		using TextEditor = ImGui::TextEditor;
-
 		if (ImGui::BeginTabBar("SourceTabs"))
 		{
 			auto draw_source_tab = [](

@@ -30,9 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
@@ -159,9 +156,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -170,6 +164,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

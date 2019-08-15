@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_TERMINAL_HPP_
 #define _ML_EDITOR_TERMINAL_HPP_
 
-#include <ML/Editor/EditorGui.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorTerminal final : public EditorGui
+	class ML_EDITOR_API EditorTerminal final : public EditorWindow
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

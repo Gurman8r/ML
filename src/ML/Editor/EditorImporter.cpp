@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorImporter::EditorImporter(Editor & editor)
-		: EditorGui { editor, "Importer", false }
+		: EditorWindow { editor, "Importer", false }
 	{
 	}
 

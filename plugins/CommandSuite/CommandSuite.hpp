@@ -27,6 +27,7 @@ namespace ml
 
 	private: 
 		void initialize_commands();
+		
 		List<CommandImpl *> m_commands;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

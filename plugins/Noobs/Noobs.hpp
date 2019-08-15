@@ -5,7 +5,8 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Engine/Asset.hpp>
-#include <imgui/TextEditor.h>
+
+#include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
 
 extern "C"
 {

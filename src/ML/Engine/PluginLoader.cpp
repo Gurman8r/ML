@@ -94,5 +94,37 @@ namespace ml
 		return m_plugins.size();
 	}
 
+	bool PluginLoader::loadOneShot(const String & filename)
+	{
+		if (!filename || (filename.trim().front() == '#'))
+			return false;
+
+		// Load File
+		const String file_path { ML_FS.pathTo(filename
+			.replaceAll("$(Configuration)", ML_CONFIGURATION)
+			.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET)
+		) };
+		if (std::find(m_files.begin(), m_files.end(), file_path) == m_files.end())
+		{
+			m_files.push_back(file_path);
+		}
+
+		// Load Library
+		m_libraries.push_back(new SharedLibrary(m_files.back()));
+
+		// Load Plugin
+		if (Plugin * plugin = m_libraries.back()->callFunction<Plugin *>(
+			ML_str(ML_Plugin_Main), m_eventSystem
+			))
+		{
+			m_plugins.push_back(plugin);
+		}
+		else
+		{
+			return Debug::logError("Failed Loading Plugin: \'{0}\'", m_files.back());
+		}
+		return true;
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

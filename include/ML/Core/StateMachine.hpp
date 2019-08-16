@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class Key
+		class Key, class ... Args
 	> struct StateMachine final
 		: public I_Newable
 		, public I_NonCopyable
@@ -17,7 +17,7 @@ namespace ml
 
 		using key_type		= typename Key;
 		using self_type		= typename StateMachine<key_type>;
-		using fun_type		= typename key_type(*)(void);
+		using fun_type		= typename key_type(*)(Args&&...);
 		using map_type		= typename HashMap<key_type, fun_type>;
 		using pair_type		= typename Pair<key_type, fun_type>;
 		using init_type		= typename std::initializer_list<pair_type>;
@@ -56,11 +56,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline key_type operator()(const key_type & key)
+		template <class ... Args>
+		inline key_type operator()(const key_type & key, Args && ... args)
 		{
 			fun_type fun;
 			return ((fun = (*this)[key])
-				? fun()
+				? fun(std::forward<Args>(args)...)
 				: self_type::NoState
 			);
 		}

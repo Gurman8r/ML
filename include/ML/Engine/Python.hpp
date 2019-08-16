@@ -3,7 +3,8 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/Config.hpp>
+#include <ML/Engine/Export.hpp>
+#include <ML/Core/String.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -21,6 +22,18 @@
 #include <python/Python.h>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+namespace ml
+{
+	struct ML_ENGINE_API Py
+	{
+		static PyObject * Run_SimpleString(const String & value);
+
+		static PyObject * Run_SimpleFile(const String & filename);
+	};
+}
 
 /* * * * * * * * * * * * * * * * * * * * */
 

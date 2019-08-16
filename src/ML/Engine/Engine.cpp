@@ -90,14 +90,10 @@ namespace ml
 		{
 			Py_SetPythonHome(alg::widen(ML_FS.pathTo(python_home)).c_str());
 		}
-		if (const String boot_file { ML_FS.getFileContents(ev.prefs.get_string(
-			"Engine", "boot_script", ""
-		)) })
-		{
-			Py_Initialize();
-			PyRun_SimpleString(boot_file.c_str());
-			Py_Finalize();
-		}
+
+		// Boot Script
+		/* * * * * * * * * * * * * * * * * * * * */
+		Py::Run_SimpleFile(ev.prefs.get_string("Engine", "boot_script", ""));
 
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -174,16 +170,9 @@ namespace ml
 		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &m_totalTime);
 		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&m_viewport);
 
-		// Load Assets
+		// Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const String boot_file { ML_FS.getFileContents(ev.prefs.get_string(
-			"Engine", "load_script", ""
-		)) })
-		{
-			Py_Initialize();
-			PyRun_SimpleString(boot_file.c_str());
-			Py_Finalize();
-		}
+		Py::Run_SimpleFile(ev.prefs.get_string("Engine", "load_script", ""));
 
 		// Set Window Icon
 		if (m_icon) { ev.window.setIcons({ (*m_icon) }); }

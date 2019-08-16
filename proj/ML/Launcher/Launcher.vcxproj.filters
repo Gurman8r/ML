@@ -10,6 +10,9 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\shaders\basic.shader">
@@ -116,9 +119,6 @@
     <Filter Include="Resource Files\assets\textures\bg">
       <UniqueIdentifier>{53ec33e9-d7e1-4841-a236-b1b1332f8b4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\assets\materials">
-      <UniqueIdentifier>{75c6a844-e16f-40ba-b612-ecc0cc0cc7c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\assets\skyboxes">
       <UniqueIdentifier>{5b4b4dbb-aa4e-433c-a3f9-28a7444d462f}</UniqueIdentifier>
     </Filter>
@@ -134,13 +134,16 @@
     <Filter Include="Resource Files\assets\python">
       <UniqueIdentifier>{02842d6a-f1c2-4790-9c02-b6e3d089686c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{38481286-8f26-4c5c-b4c7-be1cf12c597d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\materials">
+      <UniqueIdentifier>{75c6a844-e16f-40ba-b612-ecc0cc0cc7c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\assets\styles\obsidian.txt">
       <Filter>Resource Files\assets\styles</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\plugins.txt">
-      <Filter>Resource Files\assets</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -260,5 +263,10 @@
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_top.png">
       <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\ML\Launcher\Launcher.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

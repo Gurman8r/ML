@@ -178,6 +178,7 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
@@ -206,7 +207,6 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\assets\plugins.txt" />
     <Text Include="..\..\..\assets\styles\obsidian.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +250,9 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
     <Image Include="..\..\..\assets\textures\mars\mars_nm.png" />
     <Image Include="..\..\..\assets\textures\moon\moon_dm.png" />
     <Image Include="..\..\..\assets\textures\moon\moon_nm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\ML\Launcher\Launcher.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

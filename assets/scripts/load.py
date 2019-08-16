@@ -1,10 +1,10 @@
-import memelib as ml
+from memelib import content as content
 
 PATH = "../../../assets"
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-ml.content.load({ 
+content.load({ 
     "type": "image",
     "name": "icon",
     "file": PATH + "/images/dean.png",
@@ -14,7 +14,7 @@ ml.content.load({
 
 # Fonts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-ml.content.load([
+content.load([
     { "type": "font", "name": "clacon",         "file": PATH + "/fonts/clacon.ttf" },
     { "type": "font", "name": "consolas",       "file": PATH + "/fonts/consolas.ttf" },
     { "type": "font", "name": "lconsole",       "file": PATH + "/fonts/lucida_console.ttf" },
@@ -24,7 +24,7 @@ ml.content.load([
 
 # Shaders
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-ml.content.load([
+content.load([
     { "type": "shader", "name": "basic",        "file": PATH + "/shaders/basic.shader" },
     { "type": "shader", "name": "normal",       "file": PATH + "/shaders/normal.shader" },
     { "type": "shader", "name": "surface",      "file": PATH + "/shaders/surface.shader" },
@@ -44,7 +44,7 @@ ml.content.load([
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-ml.content.load([
+content.load([
     { "type": "texture", "name": "dean",        "file": PATH + "/images/dean.png" },
     { "type": "texture", "name": "neutrino",    "file": PATH + "/images/neutrino.png" },
     { "type": "texture", "name": "sanic",       "file": PATH + "/images/sanic.png" },
@@ -70,7 +70,7 @@ ml.content.load([
 
 # Skyboxes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-ml.content.load([
+content.load([
     { "type": "image", "name": "star",          "file": PATH + "/skyboxes/star.jpg" },
     { "type": "image", "name": "sunset_right",  "file": PATH + "/skyboxes/sunset/sunset_right.png", "flip_v": "False" },
     { "type": "image", "name": "sunset_left",   "file": PATH + "/skyboxes/sunset/sunset_left.png", "flip_v": "False" },
@@ -80,7 +80,7 @@ ml.content.load([
     { "type": "image", "name": "sunset_back",   "file": PATH + "/skyboxes/sunset/sunset_back.png", "flip_v": "False" },
     ])
 
-ml.content.load({
+content.load({
     "type":     "texture",
     "name":     "starfield",
     "sampler":  "texture_cube",
@@ -96,7 +96,7 @@ ml.content.load({
     "bottom":   "star"
     })
 
-ml.content.load({
+content.load({
     "type":     "texture",
     "name":     "space",
     "sampler":  "texture_cube",
@@ -112,7 +112,7 @@ ml.content.load({
     "bottom":   PATH + "/skyboxes/space/6.png"
     })
 
-ml.content.load({
+content.load({
     "type":     "texture",
     "name":     "sunset",
     "sampler":  "texture_cube",
@@ -131,7 +131,7 @@ ml.content.load({
 
 # Models
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-ml.content.load([
+content.load([
     { "type": "model", "name": "cube",          "file": PATH + "/meshes/cube.obj" },
     { "type": "model", "name": "sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "model", "name": "sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
@@ -140,7 +140,7 @@ ml.content.load([
 
 # Surfaces
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-ml.content.load([
+content.load([
     { "type": "surface", "name": "surf_scene_main", "model": "default_quad", "shader": "surface" },
     { "type": "surface", "name": "surf_scene_post", "model": "default_quad", "shader": "surface" },
     ])
@@ -148,7 +148,7 @@ ml.content.load([
 
 # Materials
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-ml.content.load([
+content.load([
     {
     "type":     "material",
     "name":     "skybox",

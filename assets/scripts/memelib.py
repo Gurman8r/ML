@@ -62,7 +62,12 @@ window = ML_Window()
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 import memelib_plugins
 class ML_Plugins:
-    def load(self, filename):   return memelib_plugins.load(str(filename))
+    def load(self, value):
+        if isinstance(value, str):
+            memelib_plugins.load(value)
+        elif isinstance(value, list):
+            for file in value:
+                self.load(file)
 plugins = ML_Plugins()
 
 

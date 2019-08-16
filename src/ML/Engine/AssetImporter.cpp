@@ -89,7 +89,7 @@ namespace ml
 					{
 						auto temp = new Image();
 
-						bool flipV = md.getData("flip_vertically", true);
+						bool flipV = md.getData("flip_v", true);
 
 						if (temp->loadFromFile(ML_FS.pathTo(file), flipV))
 						{
@@ -436,7 +436,7 @@ namespace ml
 					const int32_t level = md.getData("level", 0);
 				
 					// Target
-					const GL::Sampler sampler = md.getData("target", GL::Texture2D, {
+					const GL::Sampler sampler = md.getData("sampler", GL::Texture2D, {
 						{ "texture_2d",		GL::Texture2D },
 						{ "texture_3d",		GL::Texture3D },
 						{ "texture_cube",	GL::TextureCubeMap },

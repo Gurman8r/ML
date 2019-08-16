@@ -10,7 +10,7 @@ ml.content.load({
     "type": "image",
     "name": "icon",
     "file": PATH + "/images/dean.png",
-    "flip_vertically": "False"
+    "flip_v": "False"
     })
 
 
@@ -74,18 +74,18 @@ ml.content.load([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 ml.content.load([
     { "type": "image", "name": "star",          "file": PATH + "/skyboxes/star.jpg" },
-    { "type": "image", "name": "sunset_right",  "file": PATH + "/skyboxes/sunset/sunset_right.png", "flip_vertically": "False" },
-    { "type": "image", "name": "sunset_left",   "file": PATH + "/skyboxes/sunset/sunset_left.png", "flip_vertically": "False" },
-    { "type": "image", "name": "sunset_top",    "file": PATH + "/skyboxes/sunset/sunset_top.png", "flip_vertically": "False" },
-    { "type": "image", "name": "sunset_bottom", "file": PATH + "/skyboxes/sunset/sunset_bottom.png", "flip_vertically": "False" },
-    { "type": "image", "name": "sunset_front",  "file": PATH + "/skyboxes/sunset/sunset_front.png", "flip_vertically": "False" },
-    { "type": "image", "name": "sunset_back",   "file": PATH + "/skyboxes/sunset/sunset_back.png", "flip_vertically": "False" },
+    { "type": "image", "name": "sunset_right",  "file": PATH + "/skyboxes/sunset/sunset_right.png", "flip_v": "False" },
+    { "type": "image", "name": "sunset_left",   "file": PATH + "/skyboxes/sunset/sunset_left.png", "flip_v": "False" },
+    { "type": "image", "name": "sunset_top",    "file": PATH + "/skyboxes/sunset/sunset_top.png", "flip_v": "False" },
+    { "type": "image", "name": "sunset_bottom", "file": PATH + "/skyboxes/sunset/sunset_bottom.png", "flip_v": "False" },
+    { "type": "image", "name": "sunset_front",  "file": PATH + "/skyboxes/sunset/sunset_front.png", "flip_v": "False" },
+    { "type": "image", "name": "sunset_back",   "file": PATH + "/skyboxes/sunset/sunset_back.png", "flip_v": "False" },
     ])
 
 ml.content.load({
     "type":     "texture",
     "name":     "starfield",
-    "target":   "texture_cube",
+    "sampler":  "texture_cube",
     "smooth":   "False",
     "repeat":   "True",
     "format":   "RGB",
@@ -101,7 +101,7 @@ ml.content.load({
 ml.content.load({
     "type":     "texture",
     "name":     "space",
-    "target":   "texture_cube",
+    "sampler":  "texture_cube",
     "smooth":   "False",
     "repeat":   "True",
     "format":   "RGB",
@@ -117,7 +117,7 @@ ml.content.load({
 ml.content.load({
     "type":     "texture",
     "name":     "sunset",
-    "target":   "texture_cube",
+    "sampler":  "texture_cube",
     "smooth":   "False",
     "repeat":   "True",
     "format":   "RGBA",

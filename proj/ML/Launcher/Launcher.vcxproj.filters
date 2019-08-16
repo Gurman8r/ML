@@ -66,7 +66,13 @@
     <None Include="..\..\..\assets\lua\test.lua">
       <Filter>Resource Files\assets\lua</Filter>
     </None>
-    <None Include="..\..\..\assets\python\test.py">
+    <None Include="..\..\..\assets\python\boot.py">
+      <Filter>Resource Files\assets\python</Filter>
+    </None>
+    <None Include="..\..\..\assets\python\memelib.py">
+      <Filter>Resource Files\assets\python</Filter>
+    </None>
+    <None Include="..\..\..\assets\python\load.py">
       <Filter>Resource Files\assets\python</Filter>
     </None>
   </ItemGroup>
@@ -79,9 +85,6 @@
     </Filter>
     <Filter Include="Resource Files\assets">
       <UniqueIdentifier>{3136e72b-75c4-4ab9-983c-208594feaf09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\assets\data">
-      <UniqueIdentifier>{8b031d6e-0f6b-4512-a917-fce623c1c72c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\assets\fonts">
       <UniqueIdentifier>{08c50186-1555-4945-92c8-2a4033b5383d}</UniqueIdentifier>
@@ -133,44 +136,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\assets\data\surfaces.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\fonts.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\images.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\meshes.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\models.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\scripts.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\shaders.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\sprites.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\textures.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
     <Text Include="..\..\..\assets\styles\obsidian.txt">
       <Filter>Resource Files\assets\styles</Filter>
     </Text>
-    <Text Include="..\..\..\assets\data\materials.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\assets.txt">
-      <Filter>Resource Files\assets\data</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\data\plugins.txt">
-      <Filter>Resource Files\assets\data</Filter>
+    <Text Include="..\..\..\assets\plugins.txt">
+      <Filter>Resource Files\assets</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

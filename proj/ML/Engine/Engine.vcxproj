@@ -215,6 +215,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\CommandImpl.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\PluginLoader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\Python.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp" />
   </ItemGroup>

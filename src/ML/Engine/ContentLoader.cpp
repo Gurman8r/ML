@@ -136,7 +136,7 @@ namespace ml
 			case AssetImporter<Texture	>::id: return AssetImporter<Texture	>()(data);
 		
 			default:
-				return Debug::logError("Failed Loading: [{0}] | \'{1}\'",
+				return Debug::logError("Failed Loading {0}:  \'{1}\'",
 					data.getData("type").asString(),
 					data.getData("name").asString()
 				);

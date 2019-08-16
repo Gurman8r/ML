@@ -107,6 +107,13 @@ namespace ml
 		return file;
 	}
 
+	String FileSystem::getFileContents(const String & filename) const
+	{
+		String temp;
+		getFileContents(filename, temp);
+		return temp;
+	}
+
 	bool FileSystem::getFileContents(const String & filename, SStream & value) const
 	{
 		static File file;

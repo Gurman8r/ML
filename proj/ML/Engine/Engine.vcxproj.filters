@@ -158,5 +158,8 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\Python.cpp">
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

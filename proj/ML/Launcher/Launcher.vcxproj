@@ -186,7 +186,9 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
     <None Include="..\..\..\assets\lua\test.lua" />
     <None Include="..\..\..\assets\materials\demo.mat" />
     <None Include="..\..\..\assets\materials\skybox.mat" />
-    <None Include="..\..\..\assets\python\test.py" />
+    <None Include="..\..\..\assets\python\boot.py" />
+    <None Include="..\..\..\assets\python\load.py" />
+    <None Include="..\..\..\assets\python\memelib.py" />
     <None Include="..\..\..\assets\shaders\basic.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader" />
     <None Include="..\..\..\assets\shaders\common\Frag.shader" />
@@ -204,18 +206,7 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\assets\data\assets.txt" />
-    <Text Include="..\..\..\assets\data\fonts.txt" />
-    <Text Include="..\..\..\assets\data\images.txt" />
-    <Text Include="..\..\..\assets\data\materials.txt" />
-    <Text Include="..\..\..\assets\data\meshes.txt" />
-    <Text Include="..\..\..\assets\data\models.txt" />
-    <Text Include="..\..\..\assets\data\plugins.txt" />
-    <Text Include="..\..\..\assets\data\scripts.txt" />
-    <Text Include="..\..\..\assets\data\shaders.txt" />
-    <Text Include="..\..\..\assets\data\sprites.txt" />
-    <Text Include="..\..\..\assets\data\surfaces.txt" />
-    <Text Include="..\..\..\assets\data\textures.txt" />
+    <Text Include="..\..\..\assets\plugins.txt" />
     <Text Include="..\..\..\assets\styles\obsidian.txt" />
   </ItemGroup>
   <ItemGroup>

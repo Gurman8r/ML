@@ -320,19 +320,19 @@ namespace ml
 					{
 						PyRun_SimpleString(
 							"import sys\n"
-							"class ml_RedirOutput:\n"
+							"class ml_OutputCatcher:\n"
 							"	def __init__(self):\n"
 							"		self.text = ''\n"
 							"	def write(self, value):\n"
 							"		self.text += value\n"
-							"ml_redir = ml_RedirOutput()\n"
-							"sys.stdout = ml_redir\n"
-							"sys.stderr = ml_redir\n"
+							"ml_out = ml_OutputCatcher()\n"
+							"sys.stdout = ml_out\n"
+							"sys.stderr = ml_out\n"
 						);
 
 						PyRun_SimpleString(code.c_str());
 					
-						if (PyObject * redir { PyObject_GetAttrString(pyMain, "ml_redir") })
+						if (PyObject * redir { PyObject_GetAttrString(pyMain, "ml_out") })
 						{
 							PyErr_Print(); 
 

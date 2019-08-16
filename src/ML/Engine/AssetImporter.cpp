@@ -89,7 +89,7 @@ namespace ml
 					{
 						auto temp = new Image();
 
-						bool flipV = md.getData("flipV", true);
+						bool flipV = md.getData("flip_vertically", true);
 
 						if (temp->loadFromFile(ML_FS.pathTo(file), flipV))
 						{

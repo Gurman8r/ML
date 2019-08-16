@@ -52,6 +52,7 @@ namespace ml
 
 		bool	getFileContents(const String & filename, List<char> & value) const;
 		bool	getFileContents(const String & filename, String & value) const;
+		String	getFileContents(const String & filename) const;
 		bool	getFileContents(const String & filename, SStream & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

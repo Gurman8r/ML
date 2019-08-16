@@ -3,7 +3,8 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/Config.hpp>
+#include <ML/Engine/Export.hpp>
+#include <ML/Core/C_String.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -19,7 +20,8 @@
 /* * * * * * * * * * * * * * * * * * * * */
 
 #include <python/Python.h>
-#include <pybind11/pybind11.h>
+#include <pybind11/embed.h>
+#include <pybind11/stl.h>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

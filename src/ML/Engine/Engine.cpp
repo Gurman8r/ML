@@ -11,6 +11,7 @@
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/PluginLoader.hpp>
+#include <ML/Engine/Python.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
@@ -81,6 +82,23 @@ namespace ml
 
 	void Engine::onEnter(const EnterEvent & ev)
 	{
+		// Setup Python
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (const String python_home { ev.prefs.get_string(
+			"Engine", "python_home", ""
+		) })
+		{
+			Py_SetPythonHome(alg::widen(ML_FS.pathTo(python_home)).c_str());
+		}
+		if (const String boot_file { ML_FS.getFileContents(ev.prefs.get_string(
+			"Engine", "boot_script", ""
+		)) })
+		{
+			Py_Initialize();
+			PyRun_SimpleString(boot_file.c_str());
+			Py_Finalize();
+		}
+
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(
@@ -156,25 +174,23 @@ namespace ml
 		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &m_totalTime);
 		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&m_viewport);
 
-		// Load Asset Lists
+		// Load Assets
 		/* * * * * * * * * * * * * * * * * * * * */
-		static ContentLoader loader;
-		if (loader.loadFromFile(ML_FS.pathTo(ev.prefs.get_string(
-			"Engine", "asset_lists", ""
-		))))
+		if (const String boot_file { ML_FS.getFileContents(ev.prefs.get_string(
+			"Engine", "load_script", ""
+		)) })
 		{
-			loader.loadAll(true);
+			Py_Initialize();
+			PyRun_SimpleString(boot_file.c_str());
+			Py_Finalize();
 		}
-		else
-		{
-			Debug::logError("Failed Loading Manifest");
-		}
+
+		// Set Window Icon
+		if (m_icon) { ev.window.setIcons({ (*m_icon) }); }
 	}
 
 	void Engine::onStart(const StartEvent & ev)
 	{
-		// Set Window Icon
-		if (m_icon) { ev.window.setIcons({ (*m_icon) }); }
 	}
 
 	void Engine::onBeginFrame(const BeginFrameEvent & ev)

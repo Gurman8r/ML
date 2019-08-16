@@ -96,6 +96,7 @@ namespace ml
 	
 	ML_USING_X	Allocator		= typename _STD allocator		<X>;
 	ML_USING_X	CharTraits		= typename _STD char_traits		<X>;
+	ML_USING_X	Initializer		= typename _STD initializer_list<X>;
 	ML_USING_XY HashMap			= typename _STD unordered_map	<X, Y>;
 	ML_USING_XY HashSet			= typename _STD unordered_set	<X, Y>;
 	ML_USING_XY MultiMap		= typename _STD multimap		<X, Y>;

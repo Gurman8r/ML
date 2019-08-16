@@ -1,8 +1,0 @@
-# Plugins
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
-TestPlugin_$(Configuration)_$(PlatformTarget).dll
-Noobs_$(Configuration)_$(PlatformTarget).dll
-CommandSuite_$(Configuration)_$(PlatformTarget).dll
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

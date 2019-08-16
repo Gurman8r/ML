@@ -28,11 +28,11 @@ xcopy /y %ExtDir%\bin\assimp_%Configuration%_%PlatformTarget%.dll %OutDir%
 
 rem Python
 if "%Configuration%"=="Debug" (
-	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python_d.exe %OutDir%
 	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python39_d.dll %OutDir%
+	rem xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python_d.exe %OutDir%
 ) else (
-	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python.exe %OutDir%
 	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python39.dll %OutDir%
+	rem xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python.exe %OutDir%
 )
 
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

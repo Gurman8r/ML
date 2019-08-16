@@ -20,9 +20,9 @@ class ML_IO:
     def pause(self):
         return memelib_io.pause()
     def print(self, value): 
-        return memelib_io.print(value)
+        return memelib_io.print(str(value))
     def printl(self, value): 
-        return memelib_io.printl(value)
+        return memelib_io.printl(str(value))
 io = ML_IO()
 
 

@@ -37,10 +37,6 @@ namespace ml
 		case EnterEvent::ID: 
 			if (auto ev = value.as<EnterEvent>()) 
 			{ 
-				Py_SetPythonHome(alg::widen(ML_FS.pathTo(ev->prefs.get_string(
-					"Engine", "python_home", ""
-				))).c_str());
-
 				initialize_commands();
 
 				for (auto *& cmd : m_commands) 

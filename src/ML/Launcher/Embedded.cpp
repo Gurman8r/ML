@@ -10,8 +10,9 @@ namespace ml
 {
 	// Types
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	using str_t = std::string;
-	using args_t = std::vector<str_t>;
+	using str_t		= typename std::string;
+	using args_t	= typename std::vector<str_t>;
+	using table_t	= typename Tree<str_t, str_t>;
 
 
 	// Config
@@ -58,7 +59,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_content, m)
 	{
-		m.def("load", [](const Tree<str_t, str_t> & data)
+		m.def("load", [](const table_t & data)
 		{
 			Metadata md;
 			for (const auto & pair : data) 

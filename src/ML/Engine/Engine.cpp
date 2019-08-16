@@ -93,12 +93,12 @@ namespace ml
 
 		// Boot Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		Py::Run_SimpleFile(ev.prefs.get_string("Engine", "boot_script", ""));
+		Py::Run_SandboxedFile(ev.prefs.get_string("Engine", "boot_script", ""));
 
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(
-			ev.prefs.get_string	("Window", "window_title",		"MemeLib"), { 
+			ev.prefs.get_string	("Window", "title",				"MemeLib"), { 
 			ev.prefs.get_uint	("Window", "width",				1280),
 			ev.prefs.get_uint	("Window", "height",			720),
 			ev.prefs.get_uint	("Window", "color_depth",		32) }, {
@@ -172,7 +172,7 @@ namespace ml
 
 		// Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		Py::Run_SimpleFile(ev.prefs.get_string("Engine", "load_script", ""));
+		Py::Run_SandboxedFile(ev.prefs.get_string("Engine", "load_script", ""));
 
 		// Set Window Icon
 		if (m_icon) { ev.window.setIcons({ (*m_icon) }); }

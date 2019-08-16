@@ -11,7 +11,7 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
-#define ML_Launcher ::ml::Launcher::getInstance()
+#define ML_Launcher _ML Launcher::getInstance()
 
 namespace ml
 {

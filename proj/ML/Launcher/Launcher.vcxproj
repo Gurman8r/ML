@@ -180,16 +180,17 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Launcher\PyModules.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\assets\lua\test.lua" />
     <None Include="..\..\..\assets\materials\demo.mat" />
     <None Include="..\..\..\assets\materials\skybox.mat" />
-    <None Include="..\..\..\assets\python\boot.py" />
-    <None Include="..\..\..\assets\python\load.py" />
-    <None Include="..\..\..\assets\python\memelib.py" />
+    <None Include="..\..\..\assets\scripts\boot.py" />
+    <None Include="..\..\..\assets\scripts\load.py" />
+    <None Include="..\..\..\assets\scripts\memelib.py" />
+    <None Include="..\..\..\assets\scripts\test.lua" />
     <None Include="..\..\..\assets\shaders\basic.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader" />
     <None Include="..\..\..\assets\shaders\common\Frag.shader" />

@@ -3,7 +3,7 @@
 
 namespace ml
 {
-	PyObject * Py::Run_SimpleString(const String & value)
+	PyObject * Py::Run_SandboxedString(const String & value)
 	{
 		Py_Initialize();
 		PyRun_SimpleString(value.c_str());
@@ -11,11 +11,11 @@ namespace ml
 		return nullptr;
 	}
 
-	PyObject * Py::Run_SimpleFile(const String & filename)
+	PyObject * Py::Run_SandboxedFile(const String & filename)
 	{
 		if (const String file { ML_FS.getFileContents(filename) })
 		{
-			return Run_SimpleString(file.c_str());
+			return Run_SandboxedString(file.c_str());
 		}
 		return nullptr;
 	}

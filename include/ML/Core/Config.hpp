@@ -3,7 +3,7 @@
 
 //	Project Info
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_PROJECT_VER "v.pre.alpha"
+#define ML_PROJECT_VER "pre_alpha"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
 

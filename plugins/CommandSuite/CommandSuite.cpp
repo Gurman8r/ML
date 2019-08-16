@@ -306,15 +306,60 @@ namespace ml
 			"py [CODE]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				const String code = ([&]()
+				if (const String code = ([&]()
 				{
 					if (args.size() == 1) return String();
 					SStream ss;
 					for (size_t i = 1; i < args.size(); i++)
 						ss << args[i] << " ";
 					return (String)ss.str();
-				})();
-				return (bool)Py::Run_SandboxedString("import memelib as ml\n" + code);
+				})())
+				{
+					Py_Initialize();
+					if (PyObject * pyMain = PyImport_AddModule("__main__"))
+					{
+						PyRun_SimpleString(
+							"import sys\n"
+							"class ml_OutputCatcher:\n"
+							"	def __init__(self):\n"
+							"		self.text = ''\n"
+							"	def write(self, value):\n"
+							"		self.text += value\n"
+							"ml_out = ml_OutputCatcher()\n"
+							"sys.stdout = ml_out\n"
+							"sys.stderr = ml_out\n"
+						);
+
+						PyRun_SimpleString("import memelib as ml\n");
+
+						PyRun_SimpleString(code.c_str());
+
+						if (PyObject * redir { PyObject_GetAttrString(pyMain, "ml_out") })
+						{
+							PyErr_Print();
+
+							if (PyObject * text { PyObject_GetAttrString(redir, "text") })
+							{
+								if (PyUnicode_Check(text))
+								{
+									if (PyObject * bytes { PyUnicode_AsEncodedString(
+										text, "UTF-8", "strict"
+									) })
+									{
+										cout << PyBytes_AS_STRING(bytes);
+
+										Py_DECREF(bytes);
+									}
+								}
+								Py_DECREF(text);
+							}
+							Py_DECREF(redir);
+						}
+					}
+					Py_Finalize();
+					return true;
+				}
+				return false;
 			})
 		});
 

@@ -370,19 +370,23 @@ namespace ml
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
 					if (ImGui::MenuItem("Assimp")) OS::execute("open", "https://github.com/assimp/assimp");
-					if (ImGui::MenuItem("CPython")) OS::execute("open", "https://github.com/python/cpython");
+					if (ImGui::MenuItem("cpython")) OS::execute("open", "https://github.com/python/cpython");
+					if (ImGui::MenuItem("FLAC")) OS::execute("open", "");
 					if (ImGui::MenuItem("FreeType")) OS::execute("open", "https://www.freetype.org/");
 					if (ImGui::MenuItem("GCEM")) OS::execute("open", "https://github.com/kthohr/gcem");
 					if (ImGui::MenuItem("GLEW")) OS::execute("open", "http://glew.sourceforge.net/");
 					if (ImGui::MenuItem("GLFW")) OS::execute("open", "https://www.glfw.org/");
 					if (ImGui::MenuItem("GLM")) OS::execute("open", "https://glm.g-truc.net/0.9.9/index.html");
 					if (ImGui::MenuItem("ImGui")) OS::execute("open", "https://github.com/ocornut/imgui");
+					if (ImGui::MenuItem("Lua")) OS::execute("open", "");
+					if (ImGui::MenuItem("ogg")) OS::execute("open", "");
 					if (ImGui::MenuItem("ImGuiColorTextEdit")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
 					if (ImGui::MenuItem("INIReader")) OS::execute("open", "https://github.com/benhoyt/inih");
 					if (ImGui::MenuItem("OpenAL")) OS::execute("open", "https://www.openal.org/");
-					if (ImGui::MenuItem("Pybind11")) OS::execute("open", "https://github.com/pybind/pybind11");
+					if (ImGui::MenuItem("pybind11")) OS::execute("open", "https://github.com/pybind/pybind11");
 					if (ImGui::MenuItem("RakNet")) OS::execute("open", "http://www.jenkinssoftware.com/");
-					if (ImGui::MenuItem("STB")) OS::execute("open", "https://github.com/nothings/stb");
+					if (ImGui::MenuItem("stb")) OS::execute("open", "https://github.com/nothings/stb");
+					if (ImGui::MenuItem("vorbis")) OS::execute("open", "");
 
 
 					ImGui::EndMenu();

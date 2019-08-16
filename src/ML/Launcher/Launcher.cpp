@@ -49,6 +49,3 @@ namespace ml
 		return EXIT_SUCCESS;
 	}
 }
-
-// Scripting
-/* * * * * * * * * * * * * * * * * * * * */

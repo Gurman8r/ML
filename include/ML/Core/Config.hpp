@@ -99,14 +99,17 @@
 //	Microsoft Compiler
 #	define ML_CC_NAME	"Microsoft"
 #	define ML_CC_MSC	_MSC_VER
+#	define ML_CC_VER	ML_CC_MSC
 # elif defined(__clang__)
 //	Clang Compiler
 #	define ML_CC_NAME	"Clang"
 #	define ML_CC_CLANG	__clang_
+#	define ML_CC_VER	ML_CC_CLANG
 # elif defined(__GNUC__)
 //	GNU Compiler
 #	define ML_CC_NAME	"GNU"
 #	define ML_CC_GNUC	__GNUC__
+#	define ML_CC_VER	ML_CC_GNUC
 #else
 #	error This compiler does not support memes.
 # endif

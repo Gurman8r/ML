@@ -1,3 +1,8 @@
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
 import memelib as ml
-if (__name__ == "__main__"): 
-    ml.io.printl("Hello from Python!")
+
+if (__name__ == "__main__"):
+    ml.io.printl("Hello from ML Python!")
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

@@ -205,6 +205,8 @@
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Numeric.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Token.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\TokenLexer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp" />
   </ItemGroup>
@@ -215,6 +217,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\TokenLexer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -60,7 +60,7 @@ namespace ml
 	{
 		return
 			(lhs.port == rhs.port) &&
-			((X_String)lhs.addr == (X_String)rhs.addr);
+			((CX_String)lhs.addr == (CX_String)rhs.addr);
 	}
 
 	constexpr bool operator!=(const Host & lhs, const Host & rhs)
@@ -72,7 +72,7 @@ namespace ml
 	{
 		return
 			(lhs.port < rhs.port) &&
-			((X_String)lhs.addr < (X_String)rhs.addr);
+			((CX_String)lhs.addr < (CX_String)rhs.addr);
 	}
 
 	constexpr bool operator>(const Host & lhs, const Host & rhs)

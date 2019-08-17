@@ -1,5 +1,5 @@
 @echo off
-rem Clean.bat
+rem Clean_All.bat
 cls
 
 set CurDir=%cd%\

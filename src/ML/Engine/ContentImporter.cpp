@@ -1,4 +1,4 @@
-#include <ML/Engine/AssetImporter.hpp>
+#include <ML/Engine/ContentImporter.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Engine/Asset.hpp>
 
@@ -17,7 +17,7 @@ namespace ml
 {
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Entity * EntityAssetImporter::operator()(const Metadata & md) const
+	Entity * EntityImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -47,7 +47,7 @@ namespace ml
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Font * FontAssetImporter::operator()(const Metadata & md) const
+	Font * FontImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -77,7 +77,7 @@ namespace ml
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Image * ImageAssetImporter::operator()(const Metadata & md) const
+	Image * ImageImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -110,7 +110,7 @@ namespace ml
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Material * MaterialAssetImporter::operator()(const Metadata & md) const
+	Material * MaterialImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -165,7 +165,7 @@ namespace ml
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Model * ModelAssetImporter::operator()(const Metadata & md) const
+	Model * ModelImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -207,7 +207,7 @@ namespace ml
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Script * ScriptAssetImporter::operator()(const Metadata & md) const
+	Script * ScriptImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -237,7 +237,7 @@ namespace ml
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Shader * ShaderAssetImporter::operator()(const Metadata & md) const
+	Shader * ShaderImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -292,7 +292,7 @@ namespace ml
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Sound * SoundAssetImporter::operator()(const Metadata & md) const
+	Sound * SoundImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -322,7 +322,7 @@ namespace ml
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Sprite * SpriteAssetImporter::operator()(const Metadata & md) const
+	Sprite * SpriteImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -355,7 +355,7 @@ namespace ml
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Surface * SurfaceAssetImporter::operator()(const Metadata & md) const
+	Surface * SurfaceImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{
@@ -385,7 +385,7 @@ namespace ml
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Texture * TextureAssetImporter::operator()(const Metadata & md) const
+	Texture * TextureImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
 		{

@@ -1,5 +1,8 @@
 #include <ML/Engine/Script.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/FileSystem.hpp>
+#include <ML/Engine/Lua.hpp>
+#include <ML/Engine/Python.hpp>
 
 namespace ml
 {
@@ -31,6 +34,10 @@ namespace ml
 
 	bool Script::loadFromFile(const String & filename)
 	{
+		if (String text { ML_FS.getFileContents(filename) })
+		{
+
+		}
 		return false;
 	}
 

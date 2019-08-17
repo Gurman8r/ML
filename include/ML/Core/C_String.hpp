@@ -31,12 +31,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Constexpr String
-	struct X_String final
+	struct CX_String final
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename char;
-		using self_type			= typename X_String;
+		using self_type			= typename CX_String;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
@@ -48,22 +48,22 @@ namespace ml
 
 		template <
 			size_t N
-		> constexpr X_String(const value_type(& value)[N])
+		> constexpr CX_String(const value_type(& value)[N])
 			: self_type { &value[0], (N - 1) }
 		{
 		}
 
-		constexpr X_String(const_pointer begin, const_pointer end)
+		constexpr CX_String(const_pointer begin, const_pointer end)
 			: self_type { begin, numeric<size_t>{ end - begin } }
 		{
 		}
 
-		constexpr X_String(const_pointer value)
+		constexpr CX_String(const_pointer value)
 			: self_type { value, alg::strlen(value) }
 		{
 		}
 
-		constexpr X_String(const_pointer value, size_t size)
+		constexpr CX_String(const_pointer value, size_t size)
 			: m_data { value }
 			, m_size { size }
 		{
@@ -116,7 +116,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const X_String & value)
+	inline ML_SERIALIZE(Ostream & out, const CX_String & value)
 	{
 		for (const auto & elem : value)
 		{
@@ -127,32 +127,32 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	constexpr bool operator==(const X_String & lhs, const X_String & rhs)
+	constexpr bool operator==(const CX_String & lhs, const CX_String & rhs)
 	{
 		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	constexpr bool operator!=(const X_String & lhs, const X_String & rhs)
+	constexpr bool operator!=(const CX_String & lhs, const CX_String & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
-	constexpr bool operator<(const X_String & lhs, const X_String & rhs)
+	constexpr bool operator<(const CX_String & lhs, const CX_String & rhs)
 	{
 		return alg::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	constexpr bool operator>(const X_String & lhs, const X_String & rhs)
+	constexpr bool operator>(const CX_String & lhs, const CX_String & rhs)
 	{
 		return !(lhs > rhs);
 	}
 
-	constexpr bool operator<=(const X_String & lhs, const X_String & rhs)
+	constexpr bool operator<=(const CX_String & lhs, const CX_String & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
-	constexpr bool operator>=(const X_String & lhs, const X_String & rhs)
+	constexpr bool operator>=(const CX_String & lhs, const CX_String & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}

@@ -10,12 +10,15 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Currently empty, leftover from old scripting lib.
 	struct ML_ENGINE_API Script final
 		: public I_Disposable
 		, public I_Newable
 		, public I_Readable
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		enum class Language { Lua, Python };
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Script();
@@ -29,11 +32,6 @@ namespace ml
 		bool loadFromFile(const String & filename) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline operator bool() const 
-		{ 
-			return m_filename; 
-		}
 
 		inline auto filename()	const -> const String & { return m_filename; }
 

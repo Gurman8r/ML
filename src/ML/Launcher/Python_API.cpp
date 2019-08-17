@@ -4,7 +4,7 @@
 #include <ML/Core/Input.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Engine/Asset.hpp>
-#include <ML/Engine/MetadataLoader.hpp>
+#include <ML/Engine/MetadataParser.hpp>
 
 namespace py = pybind11;
 
@@ -96,7 +96,7 @@ namespace ml
 			{
 				md.setData(pair.first, pair.second);
 			}
-			return (bool)MetadataLoader::parseMetadata(md);
+			return (bool)MetadataParser::parseMetadata(md);
 		});
 	}
 

@@ -13,13 +13,13 @@ namespace ml
 
 		struct type_info final
 		{
-			constexpr type_info(const X_String & name) : m_name { name } {}
+			constexpr type_info(const CX_String & name) : m_name { name } {}
 
 			constexpr auto hash_code() const -> hash_t { return m_name.hash(); }
 
-			constexpr auto raw_name() const -> const X_String & { return m_name; }
+			constexpr auto raw_name() const -> const CX_String & { return m_name; }
 
-		private: const X_String m_name;
+		private: const CX_String m_name;
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * */

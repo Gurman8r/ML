@@ -79,7 +79,6 @@ class ML_Window:
     def set_pos(self, x, y):    return memelib_window.set_pos(int(x), int(y))
     def set_size(self, w, h):   return memelib_window.set_size(int(w), int(h))
     def set_title(self, s):     return memelib_window.set_title(str(s))
-
 window = ML_Window()
 
 

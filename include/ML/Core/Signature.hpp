@@ -15,12 +15,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> static constexpr X_String signature_of()
+	template <class T> static constexpr CX_String signature_of()
 	{
 		return { ML_SIGNATURE };
 	}
 
-	template <class T> static constexpr X_String signature_of(T)
+	template <class T> static constexpr CX_String signature_of(T)
 	{
 		return signature_of<T>();
 	}

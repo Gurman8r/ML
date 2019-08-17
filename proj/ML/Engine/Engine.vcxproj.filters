@@ -51,9 +51,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Asset.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\AssetImporter.hpp">
-      <Filter>Header Files\Content</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp">
       <Filter>Header Files\Plugins</Filter>
     </ClInclude>
@@ -105,23 +102,26 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ContentDatabase.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\ObjectPool.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\ContentImporter.hpp">
+      <Filter>Header Files\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\ScriptableObject.hpp">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Metadata.hpp">
+      <Filter>Header Files\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\MetadataParser.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\MetadataValue.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\ObjectPool.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\MetadataLoader.hpp">
-      <Filter>Header Files\Content</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp">
-      <Filter>Source Files\Content</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
@@ -161,13 +161,16 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Python.cpp">
-      <Filter>Source Files\Scripting</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\ContentDatabase.cpp">
       <Filter>Source Files\Content</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\MetadataLoader.cpp">
+    <ClCompile Include="..\..\..\src\ML\Engine\ContentImporter.cpp">
+      <Filter>Source Files\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\ScriptableObject.cpp">
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\MetadataParser.cpp">
       <Filter>Source Files\Content</Filter>
     </ClCompile>
   </ItemGroup>

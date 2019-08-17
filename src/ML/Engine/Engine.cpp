@@ -4,7 +4,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/Asset.hpp>
-#include <ML/Engine/MetadataLoader.hpp>
+#include <ML/Engine/MetadataParser.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Plugin.hpp>

@@ -1,7 +1,7 @@
 @echo off
 rem Build Debug x86
 cls
-call Build32.bat ^
+call Build_32.bat ^
  "%cd%\..\..\ML.sln" ^
  "/p:Configuration=Debug" ^
  "/p:PlatformTarget=x86" ^

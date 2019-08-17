@@ -78,10 +78,10 @@ namespace ml
 			constexpr auto arr2 = Array<char, 3> { 'a', 'b', 'c' };
 			static_assert(arr1 == arr2, "What?");
 
-			static_assert(X_String("Here") == X_String("Here"), "What?");
+			static_assert(CX_String("Here") == CX_String("Here"), "What?");
 
 			constexpr hash_t hash1	= Hash("Here");
-			constexpr hash_t hash2	= X_String("Here").hash();
+			constexpr hash_t hash2	= CX_String("Here").hash();
 			constexpr hash_t hash3	= mat4i::identity().hash();
 			constexpr hash_t hash4	= mat4f::identity().hash();
 

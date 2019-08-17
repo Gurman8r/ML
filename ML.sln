@@ -86,15 +86,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{410B2DFC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PC_Build", "PC_Build", "{92265E5B-A47C-476E-AA06-F1A2A12F847B}"
 	ProjectSection(SolutionItems) = preProject
-		tools\PC_Build\Build32.bat = tools\PC_Build\Build32.bat
-		tools\PC_Build\Build64.bat = tools\PC_Build\Build64.bat
+		tools\PC_Build\Build_32.bat = tools\PC_Build\Build_32.bat
+		tools\PC_Build\Build_64.bat = tools\PC_Build\Build_64.bat
 		tools\PC_Build\Build_All.bat = tools\PC_Build\Build_All.bat
 		tools\PC_Build\Build_Debug_x64.bat = tools\PC_Build\Build_Debug_x64.bat
 		tools\PC_Build\Build_Debug_x86.bat = tools\PC_Build\Build_Debug_x86.bat
 		tools\PC_Build\Build_Release_x64.bat = tools\PC_Build\Build_Release_x64.bat
 		tools\PC_Build\Build_Release_x86.bat = tools\PC_Build\Build_Release_x86.bat
-		tools\PC_Build\Clean.bat = tools\PC_Build\Clean.bat
-		tools\PC_Build\PostBuild.bat = tools\PC_Build\PostBuild.bat
+		tools\PC_Build\Clean_All.bat = tools\PC_Build\Clean_All.bat
+		tools\PC_Build\Post_Build.bat = tools\PC_Build\Post_Build.bat
 	EndProjectSection
 EndProject
 Global

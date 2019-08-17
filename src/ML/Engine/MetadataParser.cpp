@@ -1,8 +1,8 @@
-#include <ML/Engine/MetadataLoader.hpp>
+#include <ML/Engine/MetadataParser.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Engine/ContentDatabase.hpp>
-#include <ML/Engine/AssetImporter.hpp>
+#include <ML/Engine/ContentImporter.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Font.hpp>
@@ -15,35 +15,35 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	MetadataLoader::MetadataLoader() : m_lists() {}
+	MetadataParser::MetadataParser() : m_lists() {}
 
-	MetadataLoader::MetadataLoader(const List<Metadata *> & data)
+	MetadataParser::MetadataParser(const List<Metadata *> & data)
 		: m_lists(data)
 	{
 	}
 
-	MetadataLoader::~MetadataLoader() { dispose(); }
+	MetadataParser::~MetadataParser() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool MetadataLoader::dispose()
+	bool MetadataParser::dispose()
 	{
 		for (auto & data : m_lists) { delete data; }
 		m_lists.clear();
 		return m_lists.empty();
 	}
 
-	bool MetadataLoader::loadFromFile(const String & filename)
+	bool MetadataParser::loadFromFile(const String & filename)
 	{
 		return this->dispose() && readFile(filename, m_lists);
 	}
 
-	bool MetadataLoader::loadElement(size_t index)
+	bool MetadataParser::loadElement(size_t index)
 	{
 		return (index < m_lists.size()) && parseMetadata(*m_lists[index]);
 	}
 
-	bool MetadataLoader::loadAll(bool clearLists)
+	bool MetadataParser::loadAll(bool clearLists)
 	{
 		if (!m_lists.empty())
 		{
@@ -58,7 +58,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const List<Metadata *> & MetadataLoader::loadLists(List<Metadata *> & data, const List<Tree<String, String>>& value)
+	const List<Metadata *> & MetadataParser::loadLists(List<Metadata *> & data, const List<Tree<String, String>>& value)
 	{
 		for (const auto & elem : value)
 		{
@@ -74,14 +74,14 @@ namespace ml
 		return data;
 	}
 
-	bool MetadataLoader::readFile(const String & filename, List<Metadata *>& list)
+	bool MetadataParser::readFile(const String & filename, List<Metadata *>& list)
 	{
 		SStream file;
 		String	line;
 		return ML_FS.getFileContents(filename, file) && readLists(list, file, line);
 	}
 
-	bool MetadataLoader::readLists(List<Metadata *>& list, Istream & file, String & line)
+	bool MetadataParser::readLists(List<Metadata *>& list, Istream & file, String & line)
 	{
 		while (std::getline(file, line))
 		{
@@ -99,7 +99,7 @@ namespace ml
 		return !list.empty();
 	}
 
-	bool MetadataLoader::readMetadata(Metadata *& data, Istream & file, String & line)
+	bool MetadataParser::readMetadata(Metadata *& data, Istream & file, String & line)
 	{
 		if ((!data) &&
 			(line) &&
@@ -137,23 +137,23 @@ namespace ml
 		return (data = nullptr);
 	}
 
-	bool MetadataLoader::parseMetadata(const Metadata & data)
+	bool MetadataParser::parseMetadata(const Metadata & data)
 	{
 		switch (Hash(data.getData("type").asString()))
 		{
 			case Hash("manifest") : return true;
 
-			case AssetImporter<Entity	>::id: return AssetImporter<Entity	>()(data);
-			case AssetImporter<Font		>::id: return AssetImporter<Font	>()(data);
-			case AssetImporter<Image	>::id: return AssetImporter<Image	>()(data);
-			case AssetImporter<Material	>::id: return AssetImporter<Material>()(data);
-			case AssetImporter<Model	>::id: return AssetImporter<Model	>()(data);
-			case AssetImporter<Script	>::id: return AssetImporter<Script	>()(data);
-			case AssetImporter<Shader	>::id: return AssetImporter<Shader	>()(data);
-			case AssetImporter<Sound	>::id: return AssetImporter<Sound	>()(data);
-			case AssetImporter<Sprite	>::id: return AssetImporter<Sprite	>()(data);
-			case AssetImporter<Surface	>::id: return AssetImporter<Surface	>()(data);
-			case AssetImporter<Texture	>::id: return AssetImporter<Texture	>()(data);
+			case ContentImporter<Entity	>::id: return ContentImporter<Entity	>()(data);
+			case ContentImporter<Font		>::id: return ContentImporter<Font	>()(data);
+			case ContentImporter<Image	>::id: return ContentImporter<Image	>()(data);
+			case ContentImporter<Material	>::id: return ContentImporter<Material>()(data);
+			case ContentImporter<Model	>::id: return ContentImporter<Model	>()(data);
+			case ContentImporter<Script	>::id: return ContentImporter<Script	>()(data);
+			case ContentImporter<Shader	>::id: return ContentImporter<Shader	>()(data);
+			case ContentImporter<Sound	>::id: return ContentImporter<Sound	>()(data);
+			case ContentImporter<Sprite	>::id: return ContentImporter<Sprite	>()(data);
+			case ContentImporter<Surface	>::id: return ContentImporter<Surface	>()(data);
+			case ContentImporter<Texture	>::id: return ContentImporter<Texture	>()(data);
 		
 			default:
 				return Debug::logError("Failed Loading {0}:  \'{1}\'",

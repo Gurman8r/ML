@@ -179,13 +179,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Asset.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\AssetImporter.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\ContentImporter.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandDescriptor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandExecutor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandRegistry.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ContentDatabase.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Camera.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\MetadataLoader.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\MetadataParser.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Lua.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Metadata.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\MetadataValue.hpp" />
@@ -201,16 +201,17 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Python.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Script.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\ScriptableObject.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\ContentImporter.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandDescriptor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandExecutor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandRegistry.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ContentDatabase.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Camera.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\MetadataLoader.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\MetadataParser.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
@@ -218,8 +219,8 @@
     <ClCompile Include="..\..\..\src\ML\Engine\CommandImpl.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\PluginLoader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Python.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\ScriptableObject.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

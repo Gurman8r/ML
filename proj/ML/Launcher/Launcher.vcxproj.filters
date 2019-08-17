@@ -13,7 +13,7 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Launcher\PyModules.cpp">
+    <ClCompile Include="..\..\..\src\ML\Launcher\Python_API.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

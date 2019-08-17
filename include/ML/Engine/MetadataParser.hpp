@@ -1,5 +1,5 @@
-#ifndef _ML_METADATA_LOADER_HPP_
-#define _ML_METADATA_LOADER_HPP_
+#ifndef _ML_METADATA_PARSER_HPP_
+#define _ML_METADATA_PARSER_HPP_
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/Metadata.hpp>
@@ -10,16 +10,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API MetadataLoader final
+	struct ML_ENGINE_API MetadataParser final
 		: public I_Readable
 		, public I_Disposable
 		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		MetadataLoader();
-		explicit MetadataLoader(const List<Metadata *> & data);
-		~MetadataLoader();
+		MetadataParser();
+		explicit MetadataParser(const List<Metadata *> & data);
+		~MetadataParser();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -50,4 +50,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_METADATA_LOADER_HPP_
+#endif // !_ML_METADATA_PARSER_HPP_

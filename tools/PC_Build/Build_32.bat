@@ -1,5 +1,5 @@
 @echo off
-rem Build32.bat
+rem Build_32.bat
 cls
 
 rem Visual Studio .NET 2002 (Toolset = 'v70' )

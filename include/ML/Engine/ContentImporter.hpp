@@ -1,5 +1,5 @@
-#ifndef _ML_ASSET_IMPORTER_HPP_
-#define _ML_ASSET_IMPORTER_HPP_
+#ifndef _ML_CONTENT_IMPORTER_HPP_
+#define _ML_CONTENT_IMPORTER_HPP_
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/Metadata.hpp>
@@ -25,17 +25,17 @@ namespace ml
 
 	template <
 		class T
-	> struct AssetImporter;
+	> struct ContentImporter;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T
-	> struct CustomAssetImporter
+	> struct CustomContentImporter
 	{
 		using value_type	= typename detail::decay_t<T>;
-		using self_type		= typename CustomAssetImporter<value_type>;
-		using wrapper_type	= typename AssetImporter<value_type>;
+		using self_type		= typename CustomContentImporter<value_type>;
+		using wrapper_type	= typename ContentImporter<value_type>;
 
 		static constexpr auto getHash() -> hash_t	{ return wrapper_type::id;	}
 		static constexpr auto getTag()	-> C_String	{ return wrapper_type::tag;	}
@@ -44,10 +44,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_ASSET_IMPORTER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
-struct PREFIX NAME final : public _ML CustomAssetImporter<ELEM>		\
+#define ML_GEN_CONTENT_IMPORTER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
+struct PREFIX NAME final : public _ML CustomContentImporter<ELEM>	\
 ##IMPL;																\
-template <> struct _ML AssetImporter<ELEM>							\
+template <> struct _ML ContentImporter<ELEM>						\
 {																	\
 	using type = typename ELEM;										\
 	static constexpr auto id	{ _ML Hash(##TAG) };				\
@@ -60,14 +60,14 @@ template <> struct _ML AssetImporter<ELEM>							\
 	}																\
 };
 
-#define ML_GEN_ASSET_IMPORTER(NAME, ELEM, TAG, IMPL) \
-	ML_GEN_ASSET_IMPORTER_EXT(ML_ENGINE_API, NAME, ELEM, TAG, IMPL)
+#define ML_GEN_CONTENT_IMPORTER(NAME, ELEM, TAG, IMPL) \
+	ML_GEN_CONTENT_IMPORTER_EXT(ML_ENGINE_API, NAME, ELEM, TAG, IMPL)
 
 namespace ml
 {
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(EntityAssetImporter, Entity, "entity",
+	ML_GEN_CONTENT_IMPORTER(EntityImporter, Entity, "entity",
 	{
 		Entity * operator()(const Metadata & md) const;
 	});
@@ -75,7 +75,7 @@ namespace ml
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(FontAssetImporter, Font, "font",
+	ML_GEN_CONTENT_IMPORTER(FontImporter, Font, "font",
 	{
 		Font * operator()(const Metadata & md) const;
 	});
@@ -83,7 +83,7 @@ namespace ml
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(ImageAssetImporter, Image, "image",
+	ML_GEN_CONTENT_IMPORTER(ImageImporter, Image, "image",
 	{
 		Image * operator()(const Metadata & md) const;
 	});
@@ -91,7 +91,7 @@ namespace ml
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(MaterialAssetImporter, Material, "material",
+	ML_GEN_CONTENT_IMPORTER(MaterialImporter, Material, "material",
 	{
 		Material * operator()(const Metadata & md) const;
 	});
@@ -99,7 +99,7 @@ namespace ml
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(ModelAssetImporter, Model, "model",
+	ML_GEN_CONTENT_IMPORTER(ModelImporter, Model, "model",
 	{
 		Model * operator()(const Metadata & md) const;
 	});
@@ -107,7 +107,7 @@ namespace ml
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(ScriptAssetImporter, Script, "script",
+	ML_GEN_CONTENT_IMPORTER(ScriptImporter, Script, "script",
 	{
 		Script * operator()(const Metadata & md) const;
 	});
@@ -115,7 +115,7 @@ namespace ml
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(ShaderAssetImporter, Shader, "shader",
+	ML_GEN_CONTENT_IMPORTER(ShaderImporter, Shader, "shader",
 	{
 		Shader * operator()(const Metadata & md) const;
 	});
@@ -123,7 +123,7 @@ namespace ml
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(SoundAssetImporter, Sound, "sound",
+	ML_GEN_CONTENT_IMPORTER(SoundImporter, Sound, "sound",
 	{
 		Sound * operator()(const Metadata & md) const;
 	});
@@ -131,7 +131,7 @@ namespace ml
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(SpriteAssetImporter, Sprite, "sprite",
+	ML_GEN_CONTENT_IMPORTER(SpriteImporter, Sprite, "sprite",
 	{
 		Sprite * operator()(const Metadata & md) const;
 	});
@@ -139,7 +139,7 @@ namespace ml
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(SurfaceAssetImporter, Surface, "surface",
+	ML_GEN_CONTENT_IMPORTER(SurfaceImporter, Surface, "surface",
 	{
 		Surface * operator()(const Metadata & md) const;
 	});
@@ -147,10 +147,10 @@ namespace ml
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(TextureAssetImporter, Texture, "texture",
+	ML_GEN_CONTENT_IMPORTER(TextureImporter, Texture, "texture",
 	{
 		Texture * operator()(const Metadata & md) const;
 	});
 }
 
-#endif // !_ML_ASSET_IMPORTER_HPP_
+#endif // !_ML_CONTENT_IMPORTER_HPP_

@@ -2,21 +2,13 @@
 
 namespace ml
 {
-	Launcher::Launcher()
-		: prefs			{ "../../../ML.ini" }
-		, time			{ }
-		, eventSystem	{ }
-		, window		{ eventSystem }
-		, engine		{ eventSystem }
-		, editor		{ eventSystem }
-		, plugins		{ eventSystem }
-	{
-	}
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	int32_t Launcher::run()
+	int32_t Launcher::operator()(int32_t argc, char ** argv)
 	{
-		if (m_running) return EXIT_FAILURE;
-		else m_running = true;
+		// Hello!
+		if (running) return EXIT_FAILURE;
+		running = true;
 
 		// Startup
 		eventSystem.fireEvent(EnterEvent	{ time, prefs, window });
@@ -45,7 +37,9 @@ namespace ml
 		plugins.dispose();
 
 		// Goodbye!
-		m_running = false;
+		running = false;
 		return EXIT_SUCCESS;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

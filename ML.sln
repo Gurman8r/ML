@@ -82,26 +82,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommandSuite", "plugins\Com
 		{E6B44D15-0792-4593-8633-4CE6F9B5326D} = {E6B44D15-0792-4593-8633-4CE6F9B5326D}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{0F3CB225-CBE3-4FF4-BD5C-41787C43B4FE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{410B2DFC-71E9-458D-88EE-50930C4F5775}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PC_Build", "PC_Build", "{92265E5B-A47C-476E-AA06-F1A2A12F847B}"
 	ProjectSection(SolutionItems) = preProject
-		tools\Archive_Bin.bat = tools\Archive_Bin.bat
-		tools\Archive_Bin_Debug_x64.bat = tools\Archive_Bin_Debug_x64.bat
-		tools\Archive_Bin_Debug_x86.bat = tools\Archive_Bin_Debug_x86.bat
-		tools\Archive_Bin_Release_x64.bat = tools\Archive_Bin_Release_x64.bat
-		tools\Archive_Bin_Release_x86.bat = tools\Archive_Bin_Release_x86.bat
-		tools\Build32.bat = tools\Build32.bat
-		tools\Build64.bat = tools\Build64.bat
-		tools\Build_All.bat = tools\Build_All.bat
-		tools\Build_Debug_x64.bat = tools\Build_Debug_x64.bat
-		tools\Build_Debug_x86.bat = tools\Build_Debug_x86.bat
-		tools\Build_Release_x64.bat = tools\Build_Release_x64.bat
-		tools\Build_Release_x86.bat = tools\Build_Release_x86.bat
-		tools\Clean.bat = tools\Clean.bat
-		tools\PostBuild.bat = tools\PostBuild.bat
-		Run_Debug_x64.bat = Run_Debug_x64.bat
-		Run_Debug_x86.bat = Run_Debug_x86.bat
-		Run_Release_x64.bat = Run_Release_x64.bat
-		Run_Release_x86.bat = Run_Release_x86.bat
+		tools\PC_Build\Build32.bat = tools\PC_Build\Build32.bat
+		tools\PC_Build\Build64.bat = tools\PC_Build\Build64.bat
+		tools\PC_Build\Build_All.bat = tools\PC_Build\Build_All.bat
+		tools\PC_Build\Build_Debug_x64.bat = tools\PC_Build\Build_Debug_x64.bat
+		tools\PC_Build\Build_Debug_x86.bat = tools\PC_Build\Build_Debug_x86.bat
+		tools\PC_Build\Build_Release_x64.bat = tools\PC_Build\Build_Release_x64.bat
+		tools\PC_Build\Build_Release_x86.bat = tools\PC_Build\Build_Release_x86.bat
+		tools\PC_Build\Clean.bat = tools\PC_Build\Clean.bat
+		tools\PC_Build\PostBuild.bat = tools\PC_Build\PostBuild.bat
 	EndProjectSection
 EndProject
 Global
@@ -215,6 +208,7 @@ Global
 		{D05AD58C-413C-4072-970F-908D594E8D74} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
 		{8EEC0911-6CCC-49DC-9FC0-F4D92308F884} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
 		{6A168705-BC27-4A58-B05E-68A67F7808EE} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
+		{92265E5B-A47C-476E-AA06-F1A2A12F847B} = {410B2DFC-71E9-458D-88EE-50930C4F5775}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D3845FD-50CB-410F-95BC-888FC73F4340}

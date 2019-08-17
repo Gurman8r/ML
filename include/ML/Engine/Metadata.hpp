@@ -2,13 +2,13 @@
 #define _ML_METADATA_HPP_
 
 #include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/MetadataValue.hpp>
+#include <ML/Engine/MetadataValue.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// A collection of MetaValues
+	// A collection of MetadataValues
 	struct Metadata final 
 		: public I_Newable
 		, public I_Disposable

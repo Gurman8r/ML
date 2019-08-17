@@ -166,9 +166,10 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorDockspace.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorManual.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiExt.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorForm.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiImpl.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorImporter.hpp" />
@@ -190,8 +191,9 @@
     <ClCompile Include="..\..\..\src\ML\Editor\EditorContent.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorDockspace.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorExplorer.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorForm.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorImporter.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorManual.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorProfiler.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorTerminal.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp" />

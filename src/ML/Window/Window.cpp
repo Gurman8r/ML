@@ -387,7 +387,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Window & Window::seCursorMode(const Cursor::Mode value)
+	Window & Window::setCursorMode(const Cursor::Mode value)
 	{
 		if (m_window) (glfwSetInputMode(
 			static_cast<GLFWwindow *>(m_window),

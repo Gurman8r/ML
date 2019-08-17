@@ -17,7 +17,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorExplorer::EditorExplorer(Editor & editor)
-		: EditorWindow		{ editor, "Explorer", false }
+		: EditorForm		{ editor, "Explorer", false }
 		, m_path		{ ML_FS.getPath() }
 		, m_dir			{}
 		, m_type		{ T_Dir }

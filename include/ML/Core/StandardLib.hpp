@@ -75,7 +75,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#if not ML_x64
+#if ML_ARCHITECTURE == 32
 	using intmax_t	= typename int32_t;				// Max Signed	(32-Bit)
 	using uintmax_t = typename uint32_t;			// Max Unsigned	(32-Bit)
 #else

@@ -19,7 +19,7 @@ namespace ml
 		~ImGuiImpl();
 
 	public:
-		bool Startup(C_String version, Window * window, bool install_callbacks, C_String ini);
+		bool Startup(C_String version, Window * window, bool install_callbacks);
 		bool Shutdown();
 		void NewFrame();
 		void Render(void * value);
@@ -55,7 +55,6 @@ namespace ml
 			API_Unknown, API_OpenGL, API_Vulkan
 		};
 
-		bool		g_Running;
 		Window *	g_Window;
 		ClientAPI	g_ClientApi;
 		float64_t   g_Time;

@@ -96,7 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;ML_CONFIG_INI="../../../ML.ini";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -105,7 +105,7 @@
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)tools
+      <Command>cd $(SolutionDir)tools\PC_Build
 call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -116,7 +116,7 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;ML_CONFIG_INI="../../../ML.ini";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\;$(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\;$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\;$(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -125,7 +125,7 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)tools
+      <Command>cd $(SolutionDir)tools\PC_Build
 call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -138,7 +138,7 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;ML_CONFIG_INI="../../../ML.ini";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -149,7 +149,7 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)tools
+      <Command>cd $(SolutionDir)tools\PC_Build
 call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -162,7 +162,7 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)thirdparty\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;ML_CONFIG_INI="../../../ML.ini";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -173,14 +173,14 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)tools
+      <Command>cd $(SolutionDir)tools\PC_Build
 call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTarget)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Launcher\Embedded.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Launcher\PyModules.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>
@@ -190,7 +190,6 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
     <None Include="..\..\..\assets\scripts\boot.py" />
     <None Include="..\..\..\assets\scripts\load.py" />
     <None Include="..\..\..\assets\scripts\memelib.py" />
-    <None Include="..\..\..\assets\scripts\test.lua" />
     <None Include="..\..\..\assets\shaders\basic.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader" />
     <None Include="..\..\..\assets\shaders\common\Frag.shader" />
@@ -208,6 +207,7 @@ call .\PostBuild.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTar
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\..\..\assets\manual\index.txt" />
     <Text Include="..\..\..\assets\styles\obsidian.txt" />
   </ItemGroup>
   <ItemGroup>

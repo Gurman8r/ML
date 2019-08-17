@@ -12,7 +12,7 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/ContentDatabase.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
@@ -215,13 +215,7 @@ namespace ml
 		if (!m_open) return;
 		ImGui::PushID("Noobs");
 		ImGui::PushID("Demo Scene");
-		if (ImGui::Begin(
-			title,
-			(ev.editor.show_menubar() ? &m_open : nullptr),
-			ImGuiWindowFlags_MenuBar | (ev.editor.show_menubar()
-				? ImGuiWindowFlags_None
-				: ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)
-		))
+		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_None))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -330,13 +324,7 @@ namespace ml
 	{
 		if (!m_open) return;
 		ImGui::PushID("##DemoEditor##Noobs");
-		if (ImGui::Begin(
-			title,
-			(ev.editor.show_menubar() ? &m_open : nullptr),
-			(ev.editor.show_menubar()
-				? ImGuiWindowFlags_None
-				: ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)
-		))
+		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_None))
 		{
 			if (ImGui::BeginTabBar("DemoEditor##TabBar##Main"))
 			{

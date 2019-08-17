@@ -4,7 +4,7 @@
 
 ml::int32_t main()
 {
-	return ML_Launcher.run();
+	return ML_Launcher(__argc, __argv);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

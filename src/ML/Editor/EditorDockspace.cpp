@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	EditorDockspace::EditorDockspace(Editor & editor)
-		: EditorWindow		{ editor, "Dockspace", true }
+		: EditorForm		{ editor, "Dockspace", true }
 		, m_border			{ 0.0f }
 		, m_padding			{ 0.f, 0.f }
 		, m_rounding		{ 0.0f }
@@ -37,7 +37,7 @@ namespace ml
 			ImGui::SetNextWindowBgAlpha(m_bgAlpha);
 
 			// Begin
-			if (EditorWindow::beginDraw(flags))
+			if (EditorForm::beginDraw(flags))
 			{
 				ImGui::PopStyleVar(3);
 			}
@@ -86,7 +86,7 @@ namespace ml
 				ImGuiDockNodeFlags_PassthruCentralNode
 			);
 		}
-		return EditorWindow::endDraw();
+		return EditorForm::endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

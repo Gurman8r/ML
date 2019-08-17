@@ -17,12 +17,6 @@ namespace ml
 		loadFromFile(filename);
 	}
 
-	Preferences::Preferences(Preferences && copy)
-		: Preferences()
-	{
-		std::swap(m_ini, copy.m_ini);
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool Preferences::dispose()
@@ -43,7 +37,27 @@ namespace ml
 		);
 	}
 
+	bool Preferences::saveToFile(const String & filename) const
+	{
+		if (Ofstream file { filename })
+		{
+			file.close();
+		}
+		return false;
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * */
+
+	bool Preferences::set(const String & section, const String & name, const String & value)
+	{
+		if (m_ini)
+		{
+			static_cast<INIReader *>(m_ini)->Set(section, name, value);
+
+			return get_string(section, name, "") == value;
+		}
+		return false;
+	}
 
 	bool Preferences::get_bool(const String & section, const String & name, bool dv) const
 	{

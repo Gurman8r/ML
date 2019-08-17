@@ -7,7 +7,7 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/GameTime.hpp>
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/ContentDatabase.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)

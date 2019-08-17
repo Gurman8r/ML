@@ -135,12 +135,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Input.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\EventSystem.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>

@@ -1,5 +1,4 @@
-// Modified - Melody Gurman - 2019
-//	-- just some formatting
+// Modified - Melody Gurman - github.com/Gurman8r
 
 
 // Read an INI file into easy-to-access name/value pairs.
@@ -332,6 +331,8 @@ public:
 	// Return the list of sections found in ini file
 	std::set<std::string> Sections();
 
+	int Set(std::string section, std::string name, std::string value);
+
 	// Get a string value from INI file, returning default_value if not found.
 	std::string Get(std::string section, std::string name, std::string default_value);
 
@@ -382,6 +383,14 @@ inline int INIReader::ParseError() const
 inline std::set<string> INIReader::Sections()
 {
 	return _sections;
+}
+
+inline int INIReader::Set(std::string section, std::string name, std::string value)
+{
+	std::string key = MakeKey(section, name);
+	this->_values[key] = value;
+	this->_sections.insert(section);
+	return 1;
 }
 
 inline string INIReader::Get(string section, string name, string default_value)

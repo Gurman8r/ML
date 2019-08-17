@@ -2,8 +2,8 @@
 rem Build Release x64
 cls
 call Build64.bat ^
- "%cd%\..\ML.sln" ^
+ "%cd%\..\..\ML.sln" ^
  "/p:Configuration=Release" ^
  "/p:PlatformTarget=x64" ^
  "/p:PlatformToolset=v141"
-exit %ERRORLEVEL%
+exit /B %ERRORLEVEL%

@@ -28,4 +28,4 @@ call msbuild.exe %*
 rem Exit
 cd %cur_path%
 pause
-exit %ERRORLEVEL%
+exit /B %ERRORLEVEL%

@@ -1,5 +1,6 @@
-#ifndef _ML_EDITOR_WINDOW_HPP_
-#define _ML_EDITOR_WINDOW_HPP_
+
+#ifndef _ML_EDITOR_FORM_HPP_
+#define _ML_EDITOR_FORM_HPP_
 
 #include <ML/Editor/Export.hpp>
 #include <ML/Editor/EditorEvents.hpp>
@@ -12,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorWindow : public I_NonCopyable
+	class ML_EDITOR_API EditorForm : public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -21,9 +22,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		explicit EditorWindow(Editor & editor, C_String title, bool open);
+		explicit EditorForm(Editor & editor, C_String title, bool open);
 
-		virtual ~EditorWindow() {}
+		virtual ~EditorForm() {}
 
 		virtual bool beginDraw(int32_t flags);
 		virtual bool onGui(const GuiEvent & ev) = 0;
@@ -55,4 +56,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_EDITOR_WINDOW_HPP_
+#endif // !_ML_EDITOR_FORM_HPP_

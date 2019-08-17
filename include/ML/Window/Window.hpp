@@ -66,7 +66,7 @@ namespace ml
 		Window & swapInterval(const int32_t value);
 		Window & setClipboardString(const String & value);
 		Window & setCursor(void * value);
-		Window & seCursorMode(const Cursor::Mode value);
+		Window & setCursorMode(const Cursor::Mode value);
 		Window & setCursorPos(const vec2i & value);
 		Window & setIcons(const List<Image> & value);
 		Window & setPosition(const vec2i & value);

@@ -1,10 +1,10 @@
-#ifndef _ML_CONTENT_HPP_
-#define _ML_CONTENT_HPP_
+#ifndef _ML_CONTENT_DATABASE_HPP_
+#define _ML_CONTENT_DATABASE_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Metadata.hpp>
+#include <ML/Engine/Metadata.hpp>
 
-#define ML_Content _ML Content::getInstance()
+#define ML_Content _ML ContentDatabase::getInstance()
 
 namespace ml
 {
@@ -12,9 +12,9 @@ namespace ml
 
 	// Global bank of shared resources.
 	// Anything can be stored in Content as long as it derives I_Newable.
-	struct ML_ENGINE_API Content final
+	struct ML_ENGINE_API ContentDatabase final
 		: public I_Disposable
-		, public I_Singleton<Content>
+		, public I_Singleton<ContentDatabase>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -193,10 +193,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct I_Singleton<Content>;
+		friend struct I_Singleton<ContentDatabase>;
 
-		Content() : m_data() {}
-		~Content() { dispose(); }
+		ContentDatabase() : m_data() {}
+		~ContentDatabase() { dispose(); }
 
 		mutable typeid_map m_data;	// The Data
 
@@ -206,4 +206,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_CONTENT_HPP_
+#endif // !_ML_CONTENT_DATABASE_HPP_

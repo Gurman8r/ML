@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorImporter::EditorImporter(Editor & editor)
-		: EditorWindow { editor, "Importer", false }
+		: EditorForm { editor, "Importer", false }
 	{
 	}
 

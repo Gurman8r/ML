@@ -1,3 +1,5 @@
+@echo off
+
 rem PARAMETERS
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -16,7 +18,6 @@ set LibDir=%SolutionDir%lib
 set BinDir=%SolutionDir%bin
 set OutDir=%SolutionDir%bin\%Configuration%\%PlatformTarget%
 
-
 rem COPY BINARIES
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -32,10 +33,10 @@ xcopy /y %ExtDir%\bin\%Configuration%\pdcurses.dll %OutDir%
 rem Python
 if "%Configuration%"=="Debug" (
 	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python39_d.dll %OutDir%
-	rem xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python_d.exe %OutDir%
+	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python_d.exe %OutDir%
 ) else (
 	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python39.dll %OutDir%
-	rem xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python.exe %OutDir%
+	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python.exe %OutDir%
 )
 
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

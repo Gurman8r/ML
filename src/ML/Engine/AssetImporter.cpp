@@ -163,36 +163,6 @@ namespace ml
 	}
 
 
-	// Mesh Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Mesh * MeshAssetImporter::operator()(const Metadata & md) const
-	{
-		if (md.getData("type").asString() == this->getTag())
-		{
-			if (const String name = md.getData("name"))
-			{
-				if (!ML_Content.get<Mesh>(name))
-				{
-					if (const String file = md.getData("file"))
-					{
-						auto temp = new Mesh();
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
-					}
-					else
-					{
-						return ML_Content.insert(name, new Mesh());
-					}
-				}
-			}
-		}
-		return nullptr;
-	}
-
-
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Model * ModelAssetImporter::operator()(const Metadata & md) const

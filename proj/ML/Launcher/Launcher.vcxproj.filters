@@ -13,71 +13,70 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Launcher\Embedded.cpp">
+    <ClCompile Include="..\..\..\src\ML\Launcher\PyModules.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\shaders\basic.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\surface.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\geometry.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\normal.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\skybox.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\solid.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\sprites.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\text.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\common\Frag.shader">
-      <Filter>Assets\shaders\common</Filter>
+      <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\common\Vert.shader">
-      <Filter>Assets\shaders\common</Filter>
+      <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader">
-      <Filter>Assets\shaders\common</Filter>
+      <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\common\Curve.Sample.shader">
-      <Filter>Assets\shaders\common</Filter>
+      <Filter>Resource Files\assets\shaders\common</Filter>
     </None>
     <None Include="..\..\..\assets\materials\skybox.mat">
-      <Filter>Assets\materials</Filter>
+      <Filter>Resource Files\assets\materials</Filter>
     </None>
     <None Include="..\..\..\assets\materials\demo.mat">
-      <Filter>Assets\materials</Filter>
+      <Filter>Resource Files\assets\materials</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\demo.fs.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\demo.vs.shader">
-      <Filter>Assets\shaders</Filter>
+      <Filter>Resource Files\assets\shaders</Filter>
     </None>
-    <None Include="..\..\..\ML.ini" />
     <None Include="..\..\..\assets\scripts\boot.py">
-      <Filter>Assets\scripts</Filter>
+      <Filter>Resource Files\assets\scripts</Filter>
     </None>
     <None Include="..\..\..\assets\scripts\load.py">
-      <Filter>Assets\scripts</Filter>
+      <Filter>Resource Files\assets\scripts</Filter>
     </None>
     <None Include="..\..\..\assets\scripts\memelib.py">
-      <Filter>Assets\scripts</Filter>
+      <Filter>Resource Files\assets\scripts</Filter>
     </None>
-    <None Include="..\..\..\assets\scripts\test.lua">
-      <Filter>Assets\scripts</Filter>
+    <None Include="..\..\..\ML.ini">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -87,176 +86,185 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{38481286-8f26-4c5c-b4c7-be1cf12c597d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets">
+    <Filter Include="Resource Files">
       <UniqueIdentifier>{3136e72b-75c4-4ab9-983c-208594feaf09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\fonts">
+    <Filter Include="Resource Files\assets">
+      <UniqueIdentifier>{942ac58c-85dd-402e-b898-e83f9868e198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\fonts">
       <UniqueIdentifier>{08c50186-1555-4945-92c8-2a4033b5383d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\images">
+    <Filter Include="Resource Files\assets\images">
       <UniqueIdentifier>{27f89d2c-efda-4518-af86-9c5b809f028f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\shaders">
-      <UniqueIdentifier>{dd46ca66-fe85-4e70-9589-8be07fb9e9f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\shaders\common">
-      <UniqueIdentifier>{7fb8a7ea-a2fe-46e9-9382-00ea74086aa5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\styles">
-      <UniqueIdentifier>{810dfbf3-7a55-4be6-8aae-7256df0d273b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\textures">
-      <UniqueIdentifier>{7ff689d3-58ca-4196-b213-8faa0b95d520}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\textures\earth">
-      <UniqueIdentifier>{c88a720c-3a9a-4067-8a1b-2481b52a3dc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\textures\moon">
-      <UniqueIdentifier>{94d17615-5116-4237-9542-1b180b54a4fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\textures\mars">
-      <UniqueIdentifier>{21e730a9-96b0-4e88-aa05-89697a07d8ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\textures\bg">
-      <UniqueIdentifier>{53ec33e9-d7e1-4841-a236-b1b1332f8b4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\skyboxes">
-      <UniqueIdentifier>{5b4b4dbb-aa4e-433c-a3f9-28a7444d462f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\skyboxes\sunset">
-      <UniqueIdentifier>{b7272497-0d78-4b29-b6bd-f6309a6ad293}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\skyboxes\space">
-      <UniqueIdentifier>{a3d9232f-9166-4a82-a4c1-97f7099e171a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\materials">
+    <Filter Include="Resource Files\assets\materials">
       <UniqueIdentifier>{75c6a844-e16f-40ba-b612-ecc0cc0cc7c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\scripts">
+    <Filter Include="Resource Files\assets\scripts">
       <UniqueIdentifier>{2cda22af-d636-4114-8cc1-c481bf4c2655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\shaders">
+      <UniqueIdentifier>{dd46ca66-fe85-4e70-9589-8be07fb9e9f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\shaders\common">
+      <UniqueIdentifier>{7fb8a7ea-a2fe-46e9-9382-00ea74086aa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\skyboxes">
+      <UniqueIdentifier>{5b4b4dbb-aa4e-433c-a3f9-28a7444d462f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\skyboxes\sunset">
+      <UniqueIdentifier>{b7272497-0d78-4b29-b6bd-f6309a6ad293}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\skyboxes\space">
+      <UniqueIdentifier>{a3d9232f-9166-4a82-a4c1-97f7099e171a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\styles">
+      <UniqueIdentifier>{810dfbf3-7a55-4be6-8aae-7256df0d273b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures">
+      <UniqueIdentifier>{7ff689d3-58ca-4196-b213-8faa0b95d520}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\earth">
+      <UniqueIdentifier>{c88a720c-3a9a-4067-8a1b-2481b52a3dc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\moon">
+      <UniqueIdentifier>{94d17615-5116-4237-9542-1b180b54a4fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\mars">
+      <UniqueIdentifier>{21e730a9-96b0-4e88-aa05-89697a07d8ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\textures\bg">
+      <UniqueIdentifier>{53ec33e9-d7e1-4841-a236-b1b1332f8b4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\manual">
+      <UniqueIdentifier>{2fda3616-5333-4d9f-9474-3270283c5b5b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\assets\styles\obsidian.txt">
-      <Filter>Assets\styles</Filter>
+      <Filter>Resource Files\assets\styles</Filter>
+    </Text>
+    <Text Include="..\..\..\assets\manual\index.txt">
+      <Filter>Resource Files\assets\manual</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\..\..\assets\fonts\clacon.ttf">
-      <Filter>Assets\fonts</Filter>
+      <Filter>Resource Files\assets\fonts</Filter>
     </Font>
     <Font Include="..\..\..\assets\fonts\consolas.ttf">
-      <Filter>Assets\fonts</Filter>
+      <Filter>Resource Files\assets\fonts</Filter>
     </Font>
     <Font Include="..\..\..\assets\fonts\lucida_console.ttf">
-      <Filter>Assets\fonts</Filter>
+      <Filter>Resource Files\assets\fonts</Filter>
     </Font>
     <Font Include="..\..\..\assets\fonts\minecraft.ttf">
-      <Filter>Assets\fonts</Filter>
+      <Filter>Resource Files\assets\fonts</Filter>
     </Font>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\assets\images\borg.png">
-      <Filter>Assets\images</Filter>
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
     <Image Include="..\..\..\assets\images\buck.png">
-      <Filter>Assets\images</Filter>
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
     <Image Include="..\..\..\assets\images\dean.png">
-      <Filter>Assets\images</Filter>
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
     <Image Include="..\..\..\assets\images\grass.png">
-      <Filter>Assets\images</Filter>
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
     <Image Include="..\..\..\assets\images\navball.png">
-      <Filter>Assets\images</Filter>
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
     <Image Include="..\..\..\assets\images\neutrino.png">
-      <Filter>Assets\images</Filter>
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
     <Image Include="..\..\..\assets\images\Sanic.png">
-      <Filter>Assets\images</Filter>
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
     <Image Include="..\..\..\assets\images\test_sky.png">
-      <Filter>Assets\images</Filter>
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\earth\earth_cm.png">
-      <Filter>Assets\textures\earth</Filter>
+      <Filter>Resource Files\assets\textures\earth</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\earth\earth_dm.png">
-      <Filter>Assets\textures\earth</Filter>
+      <Filter>Resource Files\assets\textures\earth</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\earth\earth_hm.png">
-      <Filter>Assets\textures\earth</Filter>
+      <Filter>Resource Files\assets\textures\earth</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\earth\earth_lm.png">
-      <Filter>Assets\textures\earth</Filter>
+      <Filter>Resource Files\assets\textures\earth</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\earth\earth_nm.png">
-      <Filter>Assets\textures\earth</Filter>
+      <Filter>Resource Files\assets\textures\earth</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\earth\earth_sm.png">
-      <Filter>Assets\textures\earth</Filter>
+      <Filter>Resource Files\assets\textures\earth</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\moon\moon_dm.png">
-      <Filter>Assets\textures\moon</Filter>
+      <Filter>Resource Files\assets\textures\moon</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\moon\moon_nm.png">
-      <Filter>Assets\textures\moon</Filter>
+      <Filter>Resource Files\assets\textures\moon</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\mars\mars_dm.png">
-      <Filter>Assets\textures\mars</Filter>
+      <Filter>Resource Files\assets\textures\mars</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\mars\mars_nm.png">
-      <Filter>Assets\textures\mars</Filter>
+      <Filter>Resource Files\assets\textures\mars</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\bg\bg_clouds.png">
-      <Filter>Assets\textures\bg</Filter>
+      <Filter>Resource Files\assets\textures\bg</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\bg\sky_clouds.png">
-      <Filter>Assets\textures\bg</Filter>
+      <Filter>Resource Files\assets\textures\bg</Filter>
     </Image>
     <Image Include="..\..\..\assets\textures\bg\sky_water.png">
-      <Filter>Assets\textures\bg</Filter>
+      <Filter>Resource Files\assets\textures\bg</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\star.jpg">
-      <Filter>Assets\skyboxes</Filter>
+      <Filter>Resource Files\assets\skyboxes</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\space\1.png">
-      <Filter>Assets\skyboxes\space</Filter>
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\space\2.png">
-      <Filter>Assets\skyboxes\space</Filter>
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\space\3.png">
-      <Filter>Assets\skyboxes\space</Filter>
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\space\4.png">
-      <Filter>Assets\skyboxes\space</Filter>
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\space\5.png">
-      <Filter>Assets\skyboxes\space</Filter>
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\space\6.png">
-      <Filter>Assets\skyboxes\space</Filter>
+      <Filter>Resource Files\assets\skyboxes\space</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_back.png">
-      <Filter>Assets\skyboxes\sunset</Filter>
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_bottom.png">
-      <Filter>Assets\skyboxes\sunset</Filter>
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_front.png">
-      <Filter>Assets\skyboxes\sunset</Filter>
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_left.png">
-      <Filter>Assets\skyboxes\sunset</Filter>
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_right.png">
-      <Filter>Assets\skyboxes\sunset</Filter>
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_top.png">
-      <Filter>Assets\skyboxes\sunset</Filter>
+      <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

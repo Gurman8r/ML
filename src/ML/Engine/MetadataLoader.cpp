@@ -1,7 +1,7 @@
-#include <ML/Engine/ContentLoader.hpp>
+#include <ML/Engine/MetadataLoader.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/ContentDatabase.hpp>
 #include <ML/Engine/AssetImporter.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
@@ -15,35 +15,35 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ContentLoader::ContentLoader() : m_lists() {}
+	MetadataLoader::MetadataLoader() : m_lists() {}
 
-	ContentLoader::ContentLoader(const List<Metadata *> & data)
+	MetadataLoader::MetadataLoader(const List<Metadata *> & data)
 		: m_lists(data)
 	{
 	}
 
-	ContentLoader::~ContentLoader() { dispose(); }
+	MetadataLoader::~MetadataLoader() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ContentLoader::dispose()
+	bool MetadataLoader::dispose()
 	{
 		for (auto & data : m_lists) { delete data; }
 		m_lists.clear();
 		return m_lists.empty();
 	}
 
-	bool ContentLoader::loadFromFile(const String & filename)
+	bool MetadataLoader::loadFromFile(const String & filename)
 	{
 		return this->dispose() && readFile(filename, m_lists);
 	}
 
-	bool ContentLoader::loadElement(size_t index)
+	bool MetadataLoader::loadElement(size_t index)
 	{
 		return (index < m_lists.size()) && parseMetadata(*m_lists[index]);
 	}
 
-	bool ContentLoader::loadAll(bool clearLists)
+	bool MetadataLoader::loadAll(bool clearLists)
 	{
 		if (!m_lists.empty())
 		{
@@ -58,7 +58,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const List<Metadata *> & ContentLoader::loadLists(List<Metadata *> & data, const List<Tree<String, String>>& value)
+	const List<Metadata *> & MetadataLoader::loadLists(List<Metadata *> & data, const List<Tree<String, String>>& value)
 	{
 		for (const auto & elem : value)
 		{
@@ -74,14 +74,14 @@ namespace ml
 		return data;
 	}
 
-	bool ContentLoader::readFile(const String & filename, List<Metadata *>& list)
+	bool MetadataLoader::readFile(const String & filename, List<Metadata *>& list)
 	{
 		SStream file;
 		String	line;
 		return ML_FS.getFileContents(filename, file) && readLists(list, file, line);
 	}
 
-	bool ContentLoader::readLists(List<Metadata *>& list, Istream & file, String & line)
+	bool MetadataLoader::readLists(List<Metadata *>& list, Istream & file, String & line)
 	{
 		while (std::getline(file, line))
 		{
@@ -99,7 +99,7 @@ namespace ml
 		return !list.empty();
 	}
 
-	bool ContentLoader::readMetadata(Metadata *& data, Istream & file, String & line)
+	bool MetadataLoader::readMetadata(Metadata *& data, Istream & file, String & line)
 	{
 		if ((!data) &&
 			(line) &&
@@ -137,7 +137,7 @@ namespace ml
 		return (data = nullptr);
 	}
 
-	bool ContentLoader::parseMetadata(const Metadata & data)
+	bool MetadataLoader::parseMetadata(const Metadata & data)
 	{
 		switch (Hash(data.getData("type").asString()))
 		{
@@ -147,7 +147,6 @@ namespace ml
 			case AssetImporter<Font		>::id: return AssetImporter<Font	>()(data);
 			case AssetImporter<Image	>::id: return AssetImporter<Image	>()(data);
 			case AssetImporter<Material	>::id: return AssetImporter<Material>()(data);
-			case AssetImporter<Mesh		>::id: return AssetImporter<Mesh	>()(data);
 			case AssetImporter<Model	>::id: return AssetImporter<Model	>()(data);
 			case AssetImporter<Script	>::id: return AssetImporter<Script	>()(data);
 			case AssetImporter<Shader	>::id: return AssetImporter<Shader	>()(data);

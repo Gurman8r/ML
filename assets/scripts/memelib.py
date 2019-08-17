@@ -14,17 +14,73 @@ class ML_Config:
 config = ML_Config()
 
 
+# Prefrences
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+import memelib_prefs
+class ML_Prefs:
+    def load(self, filename):
+        """Load settings from INI file """
+        return memelib_prefs.load(filename)
+
+    def save(self, filename):
+        """ Save settings to INI file """
+        return memelib_prefs.save(filename)
+    
+    def set(self, section, name, value):
+        """ Overwrite a value in preferences """
+        return memelib_prefs.set(str(section), str(name), str(value))
+
+    def get(self, section, name, value): 
+        """ Retreive a value from preferences """
+        return memelib_prefs.get(str(section), str(name), str(value))
+prefs = ML_Prefs()
+
+
 # IO
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 import memelib_io
 class ML_IO:
+    def clear(self):                return memelib_io.clear()
     def command(self, cmd):         return memelib_io.command(cmd)
     def pause(self):                return memelib_io.pause()
     def print(self, value):         return memelib_io.print(str(value))
     def printl(self, value):        return memelib_io.printl(str(value))
     def format(self, fmt, args):    return memelib_io.format(str(fmt), list(args))
     def printf(self, fmt, args):    return self.print(self.format(fmt, list(args)))
+    def system(self, command):      return memelib_io.system(str(command))
 io = ML_IO()
+
+
+# Window
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+import memelib_window
+class ML_Window:
+    def close(self):            return memelib_window.close()
+    def destroy(self):          return memelib_window.destroy()
+    def iconify(self):          return memelib_window.iconify()
+    def maximize(self):         return memelib_window.maximize()
+    def poll_events(self):      return memelib_window.poll_events()
+    def restore(self):          return memelib_window.restore()
+    def swap_buffers(self):     return memelib_window.swap_buffers()
+    def terminate(self):        return memelib_window.terminate()
+    def get_key(self, k):       return memelib_window.get_key(int(k))
+    def get_title(self):        return memelib_window.get_title()
+    def get_w(self):            return memelib_window.get_w()
+    def get_h(self):            return memelib_window.get_h()
+    def get_x(self):            return memelib_window.get_x()
+    def get_y(self):            return memelib_window.get_y()
+    def get_cx(self):           return memelib_window.get_cx()
+    def get_cy(self):           return memelib_window.get_cy()
+    def is_open(self):          return memelib_window.is_open()
+    def is_focused(self):       return memelib_window.is_focused()
+    def set_clipboard(self, s): return memelib_window.set_clipboard(str(s))
+    def set_cursor(self, c):    return memelib_window.set_cursor(int(c))
+    def set_interval(self, x):  return memelib_window.swap_interval(int(x))
+    def set_pos(self, x, y):    return memelib_window.set_pos(int(x), int(y))
+    def set_size(self, w, h):   return memelib_window.set_size(int(w), int(h))
+    def set_title(self, s):     return memelib_window.set_title(str(s))
+
+window = ML_Window()
 
 
 # Content
@@ -38,23 +94,6 @@ class ML_Content:
             for elem in data:
                 self.load(elem)
 content = ML_Content()
-
-
-# Window
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-import memelib_window
-class ML_Window:
-    def is_open(self):          return memelib_window.is_open()
-    def is_focused(self):       return memelib_window.is_focused()
-    def get_key(self, vk):      return memelib_window.get_key(int(vk))
-    def get_title(self):        return memelib_window.get_title()
-    def get_w(self):            return memelib_window.get_width()
-    def get_h(self):            return memelib_window.get_height()
-    def get_x(self):            return memelib_window.get_x()
-    def get_y(self):            return memelib_window.get_y()
-    def get_cx(self):           return memelib_window.get_cursor_x()
-    def get_cy(self):           return memelib_window.get_cursor_y()
-window = ML_Window()
 
 
 # Plugins

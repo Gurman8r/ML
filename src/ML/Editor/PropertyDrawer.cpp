@@ -1,5 +1,5 @@
 #include <ML/Editor/PropertyDrawer.hpp>
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/ContentDatabase.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Core/Debug.hpp>
@@ -356,27 +356,6 @@ namespace ml
 		ImGui::PopID();
 
 		return false;
-	}
-
-
-	// Mesh Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool MeshPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
-	{
-		return asset_dropdown<Mesh>(label, value);
-	}
-
-	bool MeshPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		ImGui::Text("Vertices: %u", value.vertices().size());
-		ImGui::Text("Indices: %u", value.indices().size());
-		ImGui::Text("Contiguous: %u", value.contiguous().size());
-		return false;
-	}
-
-	bool MeshPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
-	{
-		return (*this)(label, (const_reference)value, flags);
 	}
 
 

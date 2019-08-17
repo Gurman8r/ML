@@ -79,7 +79,7 @@ namespace ml
 			{
 				// Load Plugin
 				if (Plugin * plugin = m_libraries[i]->callFunction<Plugin *>(
-					ML_str(ML_Plugin_Main), m_eventSystem
+					ML_TOSTRING(ML_Plugin_Main), m_eventSystem
 				))
 				{
 					Debug::log("Loaded Plugin: \'{0}\'", m_files[i]);
@@ -114,7 +114,7 @@ namespace ml
 
 		// Load Plugin
 		if (Plugin * plugin = m_libraries.back()->callFunction<Plugin *>(
-			ML_str(ML_Plugin_Main), m_eventSystem
+			ML_TOSTRING(ML_Plugin_Main), m_eventSystem
 			))
 		{
 			m_plugins.push_back(plugin);

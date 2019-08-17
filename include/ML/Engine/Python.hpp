@@ -29,9 +29,8 @@ namespace ml
 {
 	struct ML_ENGINE_API Py
 	{
-		static PyObject * Run_SandboxedString(const String & value);
-
-		static PyObject * Run_SandboxedFile(const String & filename);
+		static int32_t Run_SandboxedString(const String & value);
+		static int32_t Run_SandboxedFile(const String & filename);
 	};
 }
 

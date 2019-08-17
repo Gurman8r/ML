@@ -3,7 +3,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/OS.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/ContentDatabase.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
@@ -49,7 +49,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorContent::EditorContent(Editor & editor)
-		: EditorWindow { editor, "Content", false }
+		: EditorForm { editor, "ContentDatabase", false }
 	{
 	}
 
@@ -63,7 +63,6 @@ namespace ml
 			draw_content<Font		&>("Fonts");
 			draw_content<Image		&>("Images");
 			draw_content<Material	&>("Materials");
-			draw_content<Mesh		&>("Meshes");
 			draw_content<Model		&>("Models");
 			draw_content<Shader		&>("Shaders");
 			draw_content<Script		&>("Scripts");

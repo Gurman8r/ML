@@ -31,9 +31,6 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{3e2668f7-2a2d-493a-b9a9-7c7aebe6dfbd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Commands">
-      <UniqueIdentifier>{57f77f12-a021-4485-a643-d95630252a26}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Commands">
       <UniqueIdentifier>{e247befe-88cb-4991-ac49-6cf034621d7e}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="Source Files\Scripting">
       <UniqueIdentifier>{c9775141-5e5d-4ec3-903c-ab025b0ab207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Commands">
+      <UniqueIdentifier>{57f77f12-a021-4485-a643-d95630252a26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,9 +52,6 @@
       <Filter>Header Files\Content</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\AssetImporter.hpp">
-      <Filter>Header Files\Content</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Content.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp">
@@ -84,9 +81,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\ContentLoader.hpp">
-      <Filter>Header Files\Content</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\CommandExecutor.hpp">
       <Filter>Header Files\Commands</Filter>
     </ClInclude>
@@ -108,12 +102,24 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Python.hpp">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\ContentDatabase.hpp">
+      <Filter>Header Files\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Metadata.hpp">
+      <Filter>Header Files\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\MetadataValue.hpp">
+      <Filter>Header Files\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\ObjectPool.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\MetadataLoader.hpp">
+      <Filter>Header Files\Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\AssetImporter.cpp">
-      <Filter>Source Files\Content</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Content.cpp">
       <Filter>Source Files\Content</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp">
@@ -140,9 +146,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\ContentLoader.cpp">
-      <Filter>Source Files\Content</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\CommandExecutor.cpp">
       <Filter>Source Files\Commands</Filter>
     </ClCompile>
@@ -160,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Python.cpp">
       <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\ContentDatabase.cpp">
+      <Filter>Source Files\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\MetadataLoader.cpp">
+      <Filter>Source Files\Content</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

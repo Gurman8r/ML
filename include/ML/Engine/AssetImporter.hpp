@@ -2,7 +2,7 @@
 #define _ML_ASSET_IMPORTER_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Metadata.hpp>
+#include <ML/Engine/Metadata.hpp>
 
 namespace ml
 {
@@ -12,7 +12,6 @@ namespace ml
 	struct Font;
 	struct Image;
 	struct Material;
-	struct Mesh;
 	struct Model;
 	struct Script;
 	struct Shader;
@@ -95,14 +94,6 @@ namespace ml
 	ML_GEN_ASSET_IMPORTER(MaterialAssetImporter, Material, "material",
 	{
 		Material * operator()(const Metadata & md) const;
-	});
-
-
-	// Mesh Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_ASSET_IMPORTER(MeshAssetImporter, Mesh, "mesh",
-	{
-		Mesh * operator()(const Metadata & md) const;
 	});
 
 

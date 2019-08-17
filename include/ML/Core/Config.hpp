@@ -22,9 +22,10 @@
 # define _ML_BEGIN			namespace ml {
 # define _ML_END			}
 		 
-# define ML_xstr(l)			ML_str(l)
-# define ML_str(l)			#l
+# define ML_TOSTRING(l)		#l
+# define ML_STRINGIFY(l)	ML_TOSTRING(l)
 # define ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
+# define ML_CONCAT(l, r)	l##r
 		 
 # define ML_TEMPLATE(...)	template<##__VA_ARGS__>
 # define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
@@ -81,13 +82,9 @@
   || defined(__ppc64__	)\
   || defined(_x64		)\
   || defined(_M_X64		)
-#	define ML_x32 true
-#	define ML_x64 true
 #	define ML_ARCHITECTURE 64
 #	define ML_PLATFORM_TARGET "x64"
 # else
-#	define ML_x32 true
-#	define ML_x64 false
 #	define ML_ARCHITECTURE 32
 #	define ML_PLATFORM_TARGET "x86"
 # endif

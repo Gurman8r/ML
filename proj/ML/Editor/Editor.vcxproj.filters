@@ -28,31 +28,31 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{ef73e409-5b19-40f5-87a3-8a1d765735fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Windows">
+    <Filter Include="Header Files\Forms">
       <UniqueIdentifier>{479ff0b2-aa13-4cc3-ae27-3794523dc929}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Windows">
+    <Filter Include="Source Files\Forms">
       <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorExplorer.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Forms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorImporter.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Forms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorProfiler.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Forms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorContent.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Forms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorTerminal.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Forms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorDockspace.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Forms</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imconfig.h">
       <Filter>Resource Files\ImGui</Filter>
@@ -84,9 +84,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp">
-      <Filter>Header Files\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -102,25 +99,31 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorManual.hpp">
+      <Filter>Header Files\Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorForm.hpp">
+      <Filter>Header Files\Forms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorContent.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Forms</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorDockspace.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Forms</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorExplorer.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Forms</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorImporter.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Forms</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorProfiler.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Forms</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorTerminal.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Forms</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui.cpp">
       <Filter>Resource Files\ImGui</Filter>
@@ -143,9 +146,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
@@ -154,6 +154,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiStyleLoader.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorManual.cpp">
+      <Filter>Source Files\Forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorForm.cpp">
+      <Filter>Source Files\Forms</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

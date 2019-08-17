@@ -1,7 +1,7 @@
 #ifndef _ML_ASSET_HPP_
 #define _ML_ASSET_HPP_
 
-#include <ML/Engine/Content.hpp>
+#include <ML/Engine/ContentDatabase.hpp>
 
 namespace ml
 {

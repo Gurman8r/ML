@@ -4,7 +4,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/Asset.hpp>
-#include <ML/Engine/ContentLoader.hpp>
+#include <ML/Engine/MetadataLoader.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Plugin.hpp>
@@ -84,9 +84,7 @@ namespace ml
 	{
 		// Setup Python
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const String python_home { ev.prefs.get_string(
-			"Engine", "python_home", ""
-		) })
+		if (const String python_home { ev.prefs.get_string("Engine", "python_home", "") })
 		{
 			Py_SetPythonHome(alg::widen(ML_FS.pathTo(python_home)).c_str());
 		}
@@ -98,7 +96,7 @@ namespace ml
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ev.window.create(
-			ev.prefs.get_string	("Window", "title",				"MemeLib"), { 
+			ev.prefs.get_string	("Window", "title",				""), { 
 			ev.prefs.get_uint	("Window", "width",				1280),
 			ev.prefs.get_uint	("Window", "height",			720),
 			ev.prefs.get_uint	("Window", "color_depth",		32) }, {
@@ -118,7 +116,7 @@ namespace ml
 			ev.prefs.get_bool	("Window", "srgb_capable",		false)
 		}))
 		{
-			ev.window.seCursorMode(Cursor::Mode::Normal);
+			ev.window.setCursorMode(Cursor::Mode::Normal);
 
 			ev.window.setViewport(vec2i { 0, 0 }, ev.window.getFrameSize());
 

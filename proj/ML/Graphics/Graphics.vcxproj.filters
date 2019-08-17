@@ -141,6 +141,9 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexBufferObject.hpp">
       <Filter>Header Files\Handles</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\ModelRenderer.hpp">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp">
@@ -208,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\FrameBufferObject.cpp">
       <Filter>Source Files\Handles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\ModelRenderer.cpp">
+      <Filter>Source Files\Drawables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,12 +3,13 @@
 
 #include <ML/Core/I_EventListener.hpp>
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Editor/EditorTerminal.hpp>
+#include <ML/Editor/EditorContent.hpp>
+#include <ML/Editor/EditorDockspace.hpp>
 #include <ML/Editor/EditorExplorer.hpp>
 #include <ML/Editor/EditorImporter.hpp>
-#include <ML/Editor/EditorDockspace.hpp>
-#include <ML/Editor/EditorContent.hpp>
 #include <ML/Editor/EditorProfiler.hpp>
+#include <ML/Editor/EditorManual.hpp>
+#include <ML/Editor/EditorTerminal.hpp>
 
 namespace ml
 {
@@ -35,10 +36,11 @@ namespace ml
 
 	public:
 		inline auto content()	-> EditorContent	&	{ return m_content; }
-		inline auto browser()	-> EditorExplorer	&	{ return m_browser; }
 		inline auto dockspace() -> EditorDockspace	&	{ return m_dockspace; }
+		inline auto explorer()	-> EditorExplorer	&	{ return m_explorer; }
 		inline auto importer()	-> EditorImporter	&	{ return m_importer; }
 		inline auto profiler()	-> EditorProfiler	&	{ return m_profiler; }
+		inline auto manual()	-> EditorManual		&	{ return m_manual; }
 		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
 
 		inline bool show_menubar() const { return m_show_menubar; }
@@ -51,11 +53,12 @@ namespace ml
 		bool m_show_imgui_style		{ false };
 		bool m_show_imgui_about		{ false };
 
-		EditorExplorer	m_browser;
 		EditorContent	m_content;
+		EditorExplorer	m_explorer;
 		EditorDockspace	m_dockspace;
 		EditorImporter	m_importer;
 		EditorProfiler	m_profiler;
+		EditorManual	m_manual;
 		EditorTerminal	m_terminal;
 	};
 

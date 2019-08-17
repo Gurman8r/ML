@@ -192,8 +192,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Metadata.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MetadataValue.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />

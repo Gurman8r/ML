@@ -18,11 +18,12 @@ namespace ml
 
 	Editor::Editor(EventSystem & eventSystem)
 		: I_EventListener	{ eventSystem }
-		, m_browser			{ *this }
+		, m_explorer		{ *this }
 		, m_content			{ *this }
 		, m_dockspace		{ *this }
 		, m_importer		{ *this }
 		, m_profiler		{ *this }
+		, m_manual			{ *this }
 		, m_terminal		{ *this }
 	{
 		eventSystem.addListener(EnterEvent		::ID, this);
@@ -60,7 +61,7 @@ namespace ml
 			if (auto ev = value.as<DockspaceEvent>())
 			{
 				EditorDockspace & d { ev->dockspace };
-				d.dockWindow(m_browser	.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_explorer	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_importer	.getTitle(), d.getNode(d.RightUp));
@@ -78,7 +79,7 @@ namespace ml
 				if (ev->getPress(KeyCode::T, { 0, 1, 1, 0 })) m_terminal.toggleOpen();
 
 				// Show Explorer | Ctrl + Alt + E
-				if (ev->getPress(KeyCode::E, { 0, 1, 1, 0 })) m_browser.toggleOpen();
+				if (ev->getPress(KeyCode::E, { 0, 1, 1, 0 })) m_explorer.toggleOpen();
 
 				// Show Importer | Ctrl + Alt + I
 				if (ev->getPress(KeyCode::I, { 0, 1, 1, 0 })) m_importer.toggleOpen();
@@ -88,6 +89,9 @@ namespace ml
 
 				// Show Resources | Ctrl + Alt + C
 				if (ev->getPress(KeyCode::C, { 0, 1, 1, 0 })) m_content.toggleOpen();
+
+				// Show Resources | Ctrl + Alt + M
+				if (ev->getPress(KeyCode::M, { 0, 1, 1, 0 })) m_manual.toggleOpen();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -131,9 +135,9 @@ namespace ml
 		case File_Open_Event::ID:
 			if (auto ev = value.as<File_Open_Event>())
 			{
-				if (m_browser.isOpen())
+				if (m_explorer.isOpen())
 				{
-					OS::execute("open", m_browser.get_selected_path());
+					OS::execute("open", m_explorer.get_selected_path());
 				}
 			}
 			break;
@@ -216,16 +220,9 @@ namespace ml
 			}
 		}
 
-		// Setup ImGui Ini File
-		/* * * * * * * * * * * * * * * * * * * * */
-		C_String imgui_ini { ev.prefs.get_bool("Editor", "use_imgui_ini", false)
-			? "imgui.ini"
-			: nullptr
-		};
-
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_ImGuiImpl.Startup("#version 410", &ev.window, true, imgui_ini))
+		if (!ML_ImGuiImpl.Startup("#version 410", &ev.window, true))
 		{
 			return Debug::fatal("Failed starting ImGui instance");
 		}
@@ -234,11 +231,12 @@ namespace ml
 		if (m_redirect_cout) m_terminal.redirect(cout);
 
 		// Configure Builtin Windows
-		m_browser	.setOpen(ev.prefs.get_bool("Editor", "show_explorer", false));
-		m_content	.setOpen(ev.prefs.get_bool("Editor", "show_content", false));
-		m_importer	.setOpen(ev.prefs.get_bool("Editor", "show_importer", false));
-		m_profiler	.setOpen(ev.prefs.get_bool("Editor", "show_profiler", false));
-		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal", false));
+		m_content	.setOpen(ev.prefs.get_bool("Editor", "show_content",	false));
+		m_explorer	.setOpen(ev.prefs.get_bool("Editor", "show_explorer",	false));
+		m_importer	.setOpen(ev.prefs.get_bool("Editor", "show_importer",	false));
+		m_profiler	.setOpen(ev.prefs.get_bool("Editor", "show_profiler",	false));
+		m_manual	.setOpen(ev.prefs.get_bool("Editor", "show_manual",		false));
+		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal",	false));
 	}
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
@@ -331,11 +329,12 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(m_content .getTitle(), "Ctrl+Alt+C", m_content.openPtr());
-				ImGui::MenuItem(m_browser .getTitle(), "Ctrl+Alt+E", m_browser.openPtr());
-				ImGui::MenuItem(m_importer.getTitle(), "Ctrl+Alt+I", m_importer.openPtr());
-				ImGui::MenuItem(m_profiler.getTitle(), "Ctrl+Alt+P", m_profiler.openPtr());
-				ImGui::MenuItem(m_terminal.getTitle(), "Ctrl+Alt+T", m_terminal.openPtr());
+				ImGui::MenuItem(m_content .getTitle(),	"Ctrl+Alt+C", m_content	.openPtr());
+				ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
+				ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
+				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
+				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+M", m_manual	.openPtr());
+				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
 
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Window));
 				
@@ -346,7 +345,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Help"))
 			{
-				if (ImGui::MenuItem("Project Page"))
+				if (ImGui::MenuItem("Repository"))
 				{
 					OS::execute("open", ML_PROJECT_URL);
 				}
@@ -354,20 +353,11 @@ namespace ml
 				{
 					OS::execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
 				}
-				if (ImGui::BeginMenu("License"))
-				{
-					static String preview;
-					if (!preview && ML_FS.getFileContents(ML_FS.pathTo("../../../LICENSE.txt"), preview))
-					{
-						preview.pop_back();
-					}
-					ImGui::TextUnformatted(&preview[0], &preview[preview.size()]);
-					ImGui::EndMenu();
-				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
 					if (ImGui::MenuItem("assimp")) OS::execute("open", "https://github.com/assimp/assimp");
 					if (ImGui::MenuItem("cpython")) OS::execute("open", "https://github.com/python/cpython");
+					if (ImGui::MenuItem("dirent")) OS::execute("open", "https://github.com/tronkko/dirent");
 					if (ImGui::MenuItem("flac")) OS::execute("open", "https://github.com/xiph/flac");
 					if (ImGui::MenuItem("FreeType")) OS::execute("open", "https://www.freetype.org/");
 					if (ImGui::MenuItem("GCEM")) OS::execute("open", "https://github.com/kthohr/gcem");
@@ -375,16 +365,16 @@ namespace ml
 					if (ImGui::MenuItem("GLFW")) OS::execute("open", "https://www.glfw.org/");
 					if (ImGui::MenuItem("GLM")) OS::execute("open", "https://glm.g-truc.net/0.9.9/index.html");
 					if (ImGui::MenuItem("ImGui")) OS::execute("open", "https://github.com/ocornut/imgui");
-					if (ImGui::MenuItem("Lua")) OS::execute("open", "https://github.com/lua/lua");
-					if (ImGui::MenuItem("ogg")) OS::execute("open", "https://github.com/xiph/ogg");
 					if (ImGui::MenuItem("ImGuiColorTextEdit")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
 					if (ImGui::MenuItem("INIReader")) OS::execute("open", "https://github.com/benhoyt/inih");
+					if (ImGui::MenuItem("Lua")) OS::execute("open", "https://github.com/lua/lua");
+					if (ImGui::MenuItem("ogg")) OS::execute("open", "https://github.com/xiph/ogg");
 					if (ImGui::MenuItem("OpenAL")) OS::execute("open", "https://www.openal.org/");
+					if (ImGui::MenuItem("pdcurses")) OS::execute("open", "https://github.com/wmcbrine/PDCurses");
 					if (ImGui::MenuItem("pybind11")) OS::execute("open", "https://github.com/pybind/pybind11");
 					if (ImGui::MenuItem("RakNet")) OS::execute("open", "http://www.jenkinssoftware.com/");
 					if (ImGui::MenuItem("stb")) OS::execute("open", "https://github.com/nothings/stb");
 					if (ImGui::MenuItem("vorbis")) OS::execute("open", "https://github.com/xiph/vorbis");
-
 
 					ImGui::EndMenu();
 				}
@@ -406,12 +396,13 @@ namespace ml
 			ImGui::EndMainMenuBar();
 		}
 
-		/* Dockspace */ if (m_dockspace	.isOpen()) m_dockspace	.onGui(ev);
-		/* Explorer */	if (m_browser	.isOpen()) m_browser	.onGui(ev);
-		/* Importer */	if (m_importer	.isOpen()) m_importer	.onGui(ev);
-		/* Profiler */	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
-		/* Resources */ if (m_content	.isOpen()) m_content	.onGui(ev);
-		/* Terminal */	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
+		/*	Dockspace	*/	if (m_dockspace	.isOpen()) m_dockspace	.onGui(ev);
+		/*	Content		*/	if (m_content	.isOpen()) m_content	.onGui(ev);
+		/*	Explorer	*/	if (m_explorer	.isOpen()) m_explorer	.onGui(ev);
+		/*	Importer	*/	if (m_importer	.isOpen()) m_importer	.onGui(ev);
+		/*	Profiler	*/	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
+		/*	Manual		*/	if (m_manual	.isOpen()) m_manual		.onGui(ev);
+		/*	Terminal	*/	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)

@@ -14,7 +14,6 @@ namespace ml
 	struct Font;
 	struct Image;
 	struct Material;
-	struct Mesh;
 	struct Model;
 	struct Script;
 	struct Shader;
@@ -105,16 +104,6 @@ namespace ml
 	// Material Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(MaterialPropertyDrawer, Material, "material",
-	{
-		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
-		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
-
-
-	// Mesh Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(MeshPropertyDrawer, Mesh, "mesh",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;

@@ -4,6 +4,7 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/I_Writable.hpp>
 #include <ML/Core/I_Readable.hpp>
 
 namespace ml
@@ -15,22 +16,24 @@ namespace ml
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
+		, public I_Writable
 		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Preferences();
 		explicit Preferences(const String & filename);
-		Preferences(Preferences && copy);
 		~Preferences() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
+		bool saveToFile(const String & filename) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		bool		set			(const String & section, const String & name, const String & value);
 		bool		get_bool	(const String & section, const String & name, bool dv) const;
 		float64_t	get_double	(const String & section, const String & name, float64_t dv) const;
 		float_t		get_float	(const String & section, const String & name, float_t dv) const;

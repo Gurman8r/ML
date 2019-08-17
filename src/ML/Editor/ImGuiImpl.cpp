@@ -3,6 +3,7 @@
 #include <ML/Editor/ImGuiImpl.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiStyleLoader.hpp>
+#include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Graphics/OpenGL.hpp>
@@ -14,8 +15,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	ImGuiImpl::ImGuiImpl()
-		: g_Running			{ false }
-		, g_Window			{ nullptr }
+		: g_Window			{ nullptr }
 		, g_ClientApi		{ API_Unknown }
 		, g_Time			{ 0.0 }
 		, g_MousePressed	{ false, false, false, false, false }
@@ -37,20 +37,14 @@ namespace ml
 
 	ImGuiImpl::~ImGuiImpl()
 	{
-		this->Shutdown();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGuiImpl::Startup(C_String glsl_version, Window * window, bool install_callbacks, C_String iniName)
+	bool ImGuiImpl::Startup(C_String glsl_version, Window * window, bool install_callbacks)
 	{
-		if (!g_Running) g_Running = true;
-		else return false;
-
 		g_ClientApi = API_OpenGL;
 
-		// Store GLSL version string so we can refer to it later in case we recreate shaders.
-		// Note: GLSL version is NOT the same as GL version. Leave this to NULL if unsure.
 		glsl_version = (!glsl_version ? "#version 130" : glsl_version);
 		IM_ASSERT((int32_t)strlen(glsl_version) + 2 < IM_ARRAYSIZE(g_GlslVersion));
 		std::strcpy(g_GlslVersion, glsl_version);
@@ -65,7 +59,8 @@ namespace ml
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;	// We can honor io.WantSetMousePos requests (optional, rarely used)
 		io.BackendPlatformName = "imgui_impl_glfw3";
 		io.BackendRendererName = "imgui_impl_opengl3";
-		io.IniFilename = iniName;
+		io.IniFilename = nullptr;
+		io.LogFilename = nullptr;
 
 		// Keyboard
 		io.KeyMap[ImGuiKey_Tab]			= KeyCode::Tab;
@@ -129,9 +124,6 @@ namespace ml
 
 	bool ImGuiImpl::Shutdown()
 	{
-		if (g_Running) g_Running = false;
-		else return false;
-
 		this->DestroyDeviceObjects();
 
 		for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor_COUNT; cursor_n++)
@@ -648,7 +640,7 @@ namespace ml
 		if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor)
 		{
 			// Hide OS mouse cursor if imgui is drawing it or if it wants no cursor
-			g_Window->seCursorMode(Cursor::Mode::Hidden);
+			g_Window->setCursorMode(Cursor::Mode::Hidden);
 		}
 		else
 		{
@@ -657,7 +649,7 @@ namespace ml
 			g_Window->setCursor(g_MouseCursors[imgui_cursor] 
 				? g_MouseCursors[imgui_cursor] 
 				: g_MouseCursors[ImGuiMouseCursor_Arrow]);
-			g_Window->seCursorMode(Cursor::Mode::Normal);
+			g_Window->setCursorMode(Cursor::Mode::Normal);
 		}
 	}
 

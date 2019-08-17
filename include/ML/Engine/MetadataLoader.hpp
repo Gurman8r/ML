@@ -1,8 +1,8 @@
-#ifndef _ML_CONTENT_LOADER_HPP_
-#define _ML_CONTENT_LOADER_HPP_
+#ifndef _ML_METADATA_LOADER_HPP_
+#define _ML_METADATA_LOADER_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Metadata.hpp>
+#include <ML/Engine/Metadata.hpp>
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Disposable.hpp>
 
@@ -10,16 +10,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API ContentLoader final
+	struct ML_ENGINE_API MetadataLoader final
 		: public I_Readable
 		, public I_Disposable
 		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ContentLoader();
-		explicit ContentLoader(const List<Metadata *> & data);
-		~ContentLoader();
+		MetadataLoader();
+		explicit MetadataLoader(const List<Metadata *> & data);
+		~MetadataLoader();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -50,4 +50,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_CONTENT_LOADER_HPP_
+#endif // !_ML_METADATA_LOADER_HPP_

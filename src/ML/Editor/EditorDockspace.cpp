@@ -10,11 +10,11 @@ namespace ml
 
 	EditorDockspace::EditorDockspace(Editor & editor)
 		: EditorWindow		{ editor, "Dockspace", true }
-		, m_border		{ 0.0f }
-		, m_padding		{ 0.f, 0.f }
-		, m_rounding	{ 0.0f }
-		, m_size		{ 0.f, 0.f }
-		, m_bgAlpha		{ 1.0f }
+		, m_border			{ 0.0f }
+		, m_padding			{ 0.f, 0.f }
+		, m_rounding		{ 0.0f }
+		, m_size			{ 0.f, 0.f }
+		, m_bgAlpha			{ 1.0f }
 	{
 	}
 
@@ -54,7 +54,7 @@ namespace ml
 			ImGuiWindowFlags_NoMove |
 			ImGuiWindowFlags_NoBringToFrontOnFocus |
 			ImGuiWindowFlags_NoNavFocus |
-			ImGuiWindowFlags_MenuBar |
+			(ev.editor.show_menubar() ? ImGuiWindowFlags_MenuBar : 0) |
 			ImGuiWindowFlags_NoDocking |
 			ImGuiWindowFlags_NoBackground
 		))

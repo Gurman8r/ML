@@ -360,6 +360,30 @@ namespace ml
 		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl {
+			"sys",
+			"Run a system command",
+			"sys [CMD]...",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+			if (const String code = ([&]()
+				{
+					if (args.size() == 1) return String();
+					SStream ss;
+					for (size_t i = 1; i < args.size(); i++)
+						ss << args[i] << " ";
+					return (String)ss.str();
+				})())
+				{
+					Debug::system(code.c_str());
+					return true;
+				}
+				return false;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

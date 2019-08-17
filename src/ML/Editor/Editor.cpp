@@ -183,9 +183,11 @@ namespace ml
 	void Editor::onEnter(const EnterEvent & ev)
 	{
 		m_redirect_cout = ev.prefs.get_bool("Editor", "redirect_cout", false);
+		m_show_menubar = ev.prefs.get_bool("Editor", "show_menubar", true);
 
 		// Initialize Implementation Instance
-		ML_ImGuiImpl;
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
 
 		// Setup Style
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -249,19 +251,14 @@ namespace ml
 	{
 		// ImGui Demo
 		/* * * * * * * * * * * * * * * * * * * * */
-		static bool show_imgui_demo		= false;
-		static bool show_imgui_metrics	= false;
-		static bool show_imgui_style	= false;
-		static bool show_imgui_about	= false;
-
-		if (show_imgui_demo)	{ ImGui::ShowDemoWindow(&show_imgui_demo); }
-		if (show_imgui_metrics) { ImGui::ShowMetricsWindow(&show_imgui_metrics); }
-		if (show_imgui_style)	{ ImGui::Begin("Dear ImGui Style Editor", &show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
-		if (show_imgui_about)	{ ImGui::ShowAboutWindow(&show_imgui_about); }
+		if (m_show_imgui_demo)	{ ImGui::ShowDemoWindow(&m_show_imgui_demo); }
+		if (m_show_imgui_metrics) { ImGui::ShowMetricsWindow(&m_show_imgui_metrics); }
+		if (m_show_imgui_style)	{ ImGui::Begin("Dear ImGui Style Editor", &m_show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
+		if (m_show_imgui_about)	{ ImGui::ShowAboutWindow(&m_show_imgui_about); }
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ImGui::BeginMainMenuBar())
+		if (m_show_menubar && ImGui::BeginMainMenuBar())
 		{
 			// Menu -> File
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -369,34 +366,34 @@ namespace ml
 				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
-					if (ImGui::MenuItem("Assimp")) OS::execute("open", "https://github.com/assimp/assimp");
+					if (ImGui::MenuItem("assimp")) OS::execute("open", "https://github.com/assimp/assimp");
 					if (ImGui::MenuItem("cpython")) OS::execute("open", "https://github.com/python/cpython");
-					if (ImGui::MenuItem("FLAC")) OS::execute("open", "");
+					if (ImGui::MenuItem("flac")) OS::execute("open", "https://github.com/xiph/flac");
 					if (ImGui::MenuItem("FreeType")) OS::execute("open", "https://www.freetype.org/");
 					if (ImGui::MenuItem("GCEM")) OS::execute("open", "https://github.com/kthohr/gcem");
 					if (ImGui::MenuItem("GLEW")) OS::execute("open", "http://glew.sourceforge.net/");
 					if (ImGui::MenuItem("GLFW")) OS::execute("open", "https://www.glfw.org/");
 					if (ImGui::MenuItem("GLM")) OS::execute("open", "https://glm.g-truc.net/0.9.9/index.html");
 					if (ImGui::MenuItem("ImGui")) OS::execute("open", "https://github.com/ocornut/imgui");
-					if (ImGui::MenuItem("Lua")) OS::execute("open", "");
-					if (ImGui::MenuItem("ogg")) OS::execute("open", "");
+					if (ImGui::MenuItem("Lua")) OS::execute("open", "https://github.com/lua/lua");
+					if (ImGui::MenuItem("ogg")) OS::execute("open", "https://github.com/xiph/ogg");
 					if (ImGui::MenuItem("ImGuiColorTextEdit")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
 					if (ImGui::MenuItem("INIReader")) OS::execute("open", "https://github.com/benhoyt/inih");
 					if (ImGui::MenuItem("OpenAL")) OS::execute("open", "https://www.openal.org/");
 					if (ImGui::MenuItem("pybind11")) OS::execute("open", "https://github.com/pybind/pybind11");
 					if (ImGui::MenuItem("RakNet")) OS::execute("open", "http://www.jenkinssoftware.com/");
 					if (ImGui::MenuItem("stb")) OS::execute("open", "https://github.com/nothings/stb");
-					if (ImGui::MenuItem("vorbis")) OS::execute("open", "");
+					if (ImGui::MenuItem("vorbis")) OS::execute("open", "https://github.com/xiph/vorbis");
 
 
 					ImGui::EndMenu();
 				}
 				ImGui::Separator();
 
-				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
-				ImGui::MenuItem("ImGui Metrics", "", &show_imgui_metrics);
-				ImGui::MenuItem("Style Editor", "", &show_imgui_style);
-				ImGui::MenuItem("About Dear ImGui", "", &show_imgui_about);
+				ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
+				ImGui::MenuItem("ImGui Metrics", "", &m_show_imgui_metrics);
+				ImGui::MenuItem("Style Editor", "", &m_show_imgui_style);
+				ImGui::MenuItem("About Dear ImGui", "", &m_show_imgui_about);
 
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Help));
 

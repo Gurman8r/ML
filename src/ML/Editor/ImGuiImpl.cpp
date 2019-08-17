@@ -33,8 +33,6 @@ namespace ml
 		, g_VboHandle		{ NULL }
 		, g_ElementsHandle	{ NULL }
 	{
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
 	}
 
 	ImGuiImpl::~ImGuiImpl()

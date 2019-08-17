@@ -37,6 +37,8 @@ namespace ml
 		uint32_t splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * other);
 		uint32_t splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * out, uint32_t * other);
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline uint32_t getNode(const int32_t i) const 
 		{ 
 			return (((i >= DockNode::Root) && (i < DockNode::MAX_DOCK_POS))

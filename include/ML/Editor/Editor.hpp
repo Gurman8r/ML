@@ -41,8 +41,15 @@ namespace ml
 		inline auto profiler()	-> EditorProfiler	&	{ return m_profiler; }
 		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
 
+		inline bool show_menubar() const { return m_show_menubar; }
+
 	private:
-		bool m_redirect_cout { false };
+		bool m_redirect_cout		{ false };
+		bool m_show_menubar			{ true };
+		bool m_show_imgui_demo		{ false };
+		bool m_show_imgui_metrics	{ false };
+		bool m_show_imgui_style		{ false };
+		bool m_show_imgui_about		{ false };
 
 		EditorExplorer	m_browser;
 		EditorContent	m_content;

@@ -32,10 +32,8 @@ import memelib_content
 class ML_Content:
     def load(self, data):
         if isinstance(data, dict):
-            # Load dict of strings
             memelib_content.load(data)
         elif isinstance(data, list):
-            # Load each dict in in list
             for elem in data:
                 self.load(elem)
 content = ML_Content()

@@ -2,29 +2,25 @@ from memelib import content as content
 
 PATH = "../../../assets"
 
+content.load([
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-content.load({ 
-    "type": "image",
-    "name": "icon",
-    "file": PATH + "/images/dean.png",
-    "flip_v": "False"
-    })
-
+    {
+        "type": "image",
+        "name": "icon",
+        "file": PATH + "/images/dean.png",
+        "flip_v": "False"
+    },
 
 # Fonts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-content.load([
     { "type": "font", "name": "clacon",         "file": PATH + "/fonts/clacon.ttf" },
     { "type": "font", "name": "consolas",       "file": PATH + "/fonts/consolas.ttf" },
     { "type": "font", "name": "lconsole",       "file": PATH + "/fonts/lucida_console.ttf" },
-    { "type": "font", "name": "minecraft",      "file": PATH + "/fonts/minecraft.ttf" }
-    ])
-
+    { "type": "font", "name": "minecraft",      "file": PATH + "/fonts/minecraft.ttf" },
 
 # Shaders
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-content.load([
     { "type": "shader", "name": "basic",        "file": PATH + "/shaders/basic.shader" },
     { "type": "shader", "name": "normal",       "file": PATH + "/shaders/normal.shader" },
     { "type": "shader", "name": "surface",      "file": PATH + "/shaders/surface.shader" },
@@ -38,13 +34,10 @@ content.load([
         "name": "demo_shader",
         "vert": PATH + "/shaders/demo.vs.shader",
         "frag": PATH + "/shaders/demo.fs.shader"
-    }
-    ])
-
+    },
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-content.load([
     { "type": "texture", "name": "dean",        "file": PATH + "/images/dean.png" },
     { "type": "texture", "name": "neutrino",    "file": PATH + "/images/neutrino.png" },
     { "type": "texture", "name": "sanic",       "file": PATH + "/images/sanic.png" },
@@ -65,12 +58,9 @@ content.load([
     { "type": "texture", "name": "mars_nm",     "file": PATH + "/textures/mars/mars_nm_2k.png", "format": "RGB" },
     { "type": "texture", "name": "moon_dm",     "file": PATH + "/textures/moon/moon_dm_2k.png", "format": "RGB" },
     { "type": "texture", "name": "moon_nm",     "file": PATH + "/textures/moon/moon_nm_2k.png", "format": "RGB" },
-    ])
-
 
 # Skyboxes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-content.load([
     { "type": "image", "name": "star",          "file": PATH + "/skyboxes/star.jpg" },
     { "type": "image", "name": "sunset_right",  "file": PATH + "/skyboxes/sunset/sunset_right.png", "flip_v": "False" },
     { "type": "image", "name": "sunset_left",   "file": PATH + "/skyboxes/sunset/sunset_left.png", "flip_v": "False" },
@@ -78,90 +68,78 @@ content.load([
     { "type": "image", "name": "sunset_bottom", "file": PATH + "/skyboxes/sunset/sunset_bottom.png", "flip_v": "False" },
     { "type": "image", "name": "sunset_front",  "file": PATH + "/skyboxes/sunset/sunset_front.png", "flip_v": "False" },
     { "type": "image", "name": "sunset_back",   "file": PATH + "/skyboxes/sunset/sunset_back.png", "flip_v": "False" },
-    ])
-
-content.load({
-    "type":     "texture",
-    "name":     "starfield",
-    "sampler":  "texture_cube",
-    "smooth":   "False",
-    "repeat":   "True",
-    "format":   "RGB",
-    "source":   "images",
-    "front":    "star",
-    "left":     "star",
-    "back":     "star",
-    "right":    "star",
-    "top":      "star",
-    "bottom":   "star"
-    })
-
-content.load({
-    "type":     "texture",
-    "name":     "space",
-    "sampler":  "texture_cube",
-    "smooth":   "False",
-    "repeat":   "True",
-    "format":   "RGB",
-    "source":   "files",
-    "front":    PATH + "/skyboxes/space/1.png",
-    "left":     PATH + "/skyboxes/space/2.png",
-    "back":     PATH + "/skyboxes/space/3.png",
-    "right":    PATH + "/skyboxes/space/4.png",
-    "top":      PATH + "/skyboxes/space/5.png",
-    "bottom":   PATH + "/skyboxes/space/6.png"
-    })
-
-content.load({
-    "type":     "texture",
-    "name":     "sunset",
-    "sampler":  "texture_cube",
-    "smooth":   "False",
-    "repeat":   "True",
-    "format":   "RGBA",
-    "source":   "images",
-    "right":    "sunset_right",
-    "left":     "sunset_left",
-    "top":      "sunset_top",
-    "bottom":   "sunset_bottom",
-    "front":    "sunset_front",
-    "back":     "sunset_back"
-    })
-
+    {
+        "type":     "texture",
+        "name":     "starfield",
+        "sampler":  "texture_cube",
+        "smooth":   "False",
+        "repeat":   "True",
+        "format":   "RGB",
+        "source":   "images",
+        "front":    "star",
+        "left":     "star",
+        "back":     "star",
+        "right":    "star",
+        "top":      "star",
+        "bottom":   "star"
+    },
+    {
+        "type":     "texture",
+        "name":     "space",
+        "sampler":  "texture_cube",
+        "smooth":   "False",
+        "repeat":   "True",
+        "format":   "RGB",
+        "source":   "files",
+        "front":    PATH + "/skyboxes/space/1.png",
+        "left":     PATH + "/skyboxes/space/2.png",
+        "back":     PATH + "/skyboxes/space/3.png",
+        "right":    PATH + "/skyboxes/space/4.png",
+        "top":      PATH + "/skyboxes/space/5.png",
+        "bottom":   PATH + "/skyboxes/space/6.png"
+    },
+    {
+        "type":     "texture",
+        "name":     "sunset",
+        "sampler":  "texture_cube",
+        "smooth":   "False",
+        "repeat":   "True",
+        "format":   "RGBA",
+        "source":   "images",
+        "right":    "sunset_right",
+        "left":     "sunset_left",
+        "top":      "sunset_top",
+        "bottom":   "sunset_bottom",
+        "front":    "sunset_front",
+        "back":     "sunset_back"
+    },
 
 # Models
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-content.load([
     { "type": "model", "name": "cube",          "file": PATH + "/meshes/cube.obj" },
     { "type": "model", "name": "sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "model", "name": "sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
-    ])
-
 
 # Surfaces
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-content.load([
     { "type": "surface", "name": "surf_scene_main", "model": "default_quad", "shader": "surface" },
     { "type": "surface", "name": "surf_scene_post", "model": "default_quad", "shader": "surface" },
-    ])
-
 
 # Materials
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-content.load([
     {
-    "type":     "material",
-    "name":     "skybox",
-    "shader":   "skybox",
-    "defs":     "True",
-    "file":     PATH + "/materials/skybox.mat"
+        "type":     "material",
+        "name":     "skybox",
+        "shader":   "skybox",
+        "defs":     "True",
+        "file":     PATH + "/materials/skybox.mat"
     },
     {
-    "type":     "material",
-    "name":     "demo_material",
-    "shader":   "demo_shader",
-    "defs":     "True",
-    "file":     PATH + "/materials/demo.mat"
+        "type":     "material",
+        "name":     "demo_material",
+        "shader":   "demo_shader",
+        "defs":     "True",
+        "file":     PATH + "/materials/demo.mat"
     }
     ])
 

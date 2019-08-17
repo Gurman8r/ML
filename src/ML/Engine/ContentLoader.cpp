@@ -17,6 +17,11 @@ namespace ml
 
 	ContentLoader::ContentLoader() : m_lists() {}
 
+	ContentLoader::ContentLoader(const List<Metadata *> & data)
+		: m_lists(data)
+	{
+	}
+
 	ContentLoader::~ContentLoader() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -52,6 +57,22 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const List<Metadata *> & ContentLoader::loadLists(List<Metadata *> & data, const List<Tree<String, String>>& value)
+	{
+		for (const auto & elem : value)
+		{
+			Metadata * md = new Metadata();
+
+			for (const auto & pair : elem)
+			{
+				md->setData(pair.first, pair.second);
+
+				data.push_back(md);
+			}
+		}
+		return data;
+	}
 
 	bool ContentLoader::readFile(const String & filename, List<Metadata *>& list)
 	{

@@ -10,9 +10,10 @@ namespace ml
 {
 	// Types
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	using str_t		= typename std::string;
-	using args_t	= typename std::vector<str_t>;
-	using table_t	= typename Tree<str_t, str_t>;
+	using str_t			= typename std::string;
+	using args_t		= typename std::vector<str_t>;
+	using table_t		= typename Tree<str_t, str_t>;
+	using metatable_t	= typename std::vector<Tree<str_t, str_t>>;
 
 
 	// Config

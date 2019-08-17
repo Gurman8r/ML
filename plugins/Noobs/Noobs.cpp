@@ -215,7 +215,13 @@ namespace ml
 		if (!m_open) return;
 		ImGui::PushID("Noobs");
 		ImGui::PushID("Demo Scene");
-		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_MenuBar))
+		if (ImGui::Begin(
+			title,
+			(ev.editor.show_menubar() ? &m_open : nullptr),
+			ImGuiWindowFlags_MenuBar | (ev.editor.show_menubar()
+				? ImGuiWindowFlags_None
+				: ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)
+		))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -324,7 +330,13 @@ namespace ml
 	{
 		if (!m_open) return;
 		ImGui::PushID("##DemoEditor##Noobs");
-		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_None))
+		if (ImGui::Begin(
+			title,
+			(ev.editor.show_menubar() ? &m_open : nullptr),
+			(ev.editor.show_menubar()
+				? ImGuiWindowFlags_None
+				: ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)
+		))
 		{
 			if (ImGui::BeginTabBar("DemoEditor##TabBar##Main"))
 			{

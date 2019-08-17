@@ -1,7 +1,6 @@
 @echo off
 rem Post_Build.bat
 
-rem PARAMETERS
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 set SolutionDir=%1
@@ -9,8 +8,6 @@ set TargetName=%2
 set Configuration=%3
 set PlatformTarget=%4
 
-
-rem DIRECTORIES
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 set CurDir=%cd%/
@@ -19,7 +16,6 @@ set LibDir=%SolutionDir%lib
 set BinDir=%SolutionDir%bin
 set OutDir=%SolutionDir%bin\%Configuration%\%PlatformTarget%
 
-rem COPY BINARIES
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 rem OpenAL

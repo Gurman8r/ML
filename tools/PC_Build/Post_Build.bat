@@ -1,6 +1,7 @@
 @echo off
 rem Post_Build.bat
 
+rem PARAMETERS
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 set SolutionDir=%1
@@ -8,37 +9,35 @@ set TargetName=%2
 set Configuration=%3
 set PlatformTarget=%4
 
-set Cur=%cd%/
-set Ext=%SolutionDir%thirdparty
-set Lib=%SolutionDir%lib
-set Bin=%SolutionDir%bin
-set Out=%SolutionDir%bin\%Configuration%\%PlatformTarget%
 
+rem DIRECTORIES
+rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+set CurDir=%cd%/
+set ExtDir=%SolutionDir%thirdparty
+set LibDir=%SolutionDir%lib
+set BinDir=%SolutionDir%bin
+set OutDir=%SolutionDir%bin\%Configuration%\%PlatformTarget%
+
+rem COPY BINARIES
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 rem OpenAL
-call :copy_if %Ext%\bin\OpenAL32.dll %Out%
+xcopy /y %ExtDir%\bin\OpenAL32.dll %OutDir%
 
 rem Assimp
-call :copy_if %Ext%\bin\assimp_%Configuration%_%PlatformTarget%.dll %Out%
+xcopy /y %ExtDir%\bin\assimp_%Configuration%_%PlatformTarget%.dll %OutDir%
 
 rem PDcurses
-call :copy_if %Ext%\bin\%Configuration%\pdcurses.dll %Out%
+xcopy /y %ExtDir%\bin\%Configuration%\pdcurses.dll %OutDir%
 
 rem Python
 if "%Configuration%"=="Debug" (
- call :copy_if %Ext%\bin\%Configuration%\%PlatformTarget%\python39_d.dll %Out%
- call :copy_if %Ext%\bin\%Configuration%\%PlatformTarget%\python_d.exe %Out%
+	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python39_d.dll %OutDir%
+	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python_d.exe %OutDir%
 ) else (
- call :copy_if %Ext%\bin\%Configuration%\%PlatformTarget%\python39.dll %Out%
- call :copy_if %Ext%\bin\%Configuration%\%PlatformTarget%\python.exe %Out%
+	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python39.dll %OutDir%
+	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python.exe %OutDir%
 )
-
-exit /B %ERRORLEVEL%
-
-rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-:copy_if
-if not exist %~1 ( xcopy /y %~1 %~2 )
 
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

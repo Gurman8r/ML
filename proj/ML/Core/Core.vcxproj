@@ -180,7 +180,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\File.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\FileSystem.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\GLM.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Disposable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_EventListener.hpp" />

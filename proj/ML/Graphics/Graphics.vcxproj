@@ -192,6 +192,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Graphics\BufferLayout.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\GLM.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\ModelRenderer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />

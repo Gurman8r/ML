@@ -207,7 +207,6 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\assets\manual\index.txt" />
     <Text Include="..\..\..\assets\styles\obsidian.txt" />
   </ItemGroup>
   <ItemGroup>

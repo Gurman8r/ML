@@ -1,5 +1,5 @@
 #include <ML/Engine/Camera.hpp>
-#include <ML/Core/GLM.hpp>
+#include <ML/Graphics/GLM.hpp>
 
 namespace ml
 {

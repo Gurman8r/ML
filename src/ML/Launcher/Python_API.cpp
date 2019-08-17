@@ -42,20 +42,17 @@ namespace ml
 		{
 			return ML_Launcher.prefs.loadFromFile(filename);
 		});
-
 		m.def("save", [](const str_t & filename)
 		{
 			return ML_Launcher.prefs.saveToFile(filename);
 		});
-
-		m.def("set", [](const str_t & section, const str_t & name, const str_t & value) 
-		{
-			return ML_Launcher.prefs.set(section, name, value);
-		});
-
 		m.def("get", [](const str_t & section, const str_t & name, const str_t & dv)
 		{
 			return (str_t)ML_Launcher.prefs.get_string(section, name, dv);
+		});
+		m.def("set", [](const str_t & section, const str_t & name, const str_t & value) 
+		{
+			return ML_Launcher.prefs.set(section, name, value);
 		});
 	}
 

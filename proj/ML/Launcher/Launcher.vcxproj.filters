@@ -137,16 +137,10 @@
     <Filter Include="Resource Files\assets\textures\bg">
       <UniqueIdentifier>{53ec33e9-d7e1-4841-a236-b1b1332f8b4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\assets\manual">
-      <UniqueIdentifier>{2fda3616-5333-4d9f-9474-3270283c5b5b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\assets\styles\obsidian.txt">
       <Filter>Resource Files\assets\styles</Filter>
-    </Text>
-    <Text Include="..\..\..\assets\manual\index.txt">
-      <Filter>Resource Files\assets\manual</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

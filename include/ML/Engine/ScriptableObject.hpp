@@ -7,6 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// WIP
 	struct ML_ENGINE_API ScriptableObject final
 		: public I_Newable
 		, public I_Disposable

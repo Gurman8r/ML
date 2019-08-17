@@ -144,6 +144,9 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\ModelRenderer.hpp">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\GLM.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp">

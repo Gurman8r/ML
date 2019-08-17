@@ -6,6 +6,7 @@ class ML_Config:
     compiler_name   = str   (   memelib_config.compiler_name    )
     compiler_ver    = int   (   memelib_config.compiler_ver     )
     configuration   = str   (   memelib_config.configuration    )
+    cplusplus_ver   = int   (   memelib_config.cplusplus_ver    )
     is_debug        = bool  (   memelib_config.is_debug         )
     platform_target = str   (   memelib_config.platform_target  )
     project_url     = str   (   memelib_config.project_url      )

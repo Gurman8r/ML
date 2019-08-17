@@ -24,6 +24,7 @@ namespace ml
 		m.attr("compiler_name")		= ML_CC_NAME;
 		m.attr("compiler_ver")		= ML_CC_VER;
 		m.attr("configuration")		= ML_CONFIGURATION;
+		m.attr("cplusplus_ver")		= ML_CPLUSPLUS;
 		m.attr("is_debug")			= ML_DEBUG;
 		m.attr("platform_target")	= ML_PLATFORM_TARGET;
 		m.attr("project_url")		= ML_PROJECT_URL;

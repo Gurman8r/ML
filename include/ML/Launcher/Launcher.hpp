@@ -19,10 +19,24 @@
 
 namespace ml
 {
-	class Launcher final : public I_Singleton<Launcher>
+	struct Launcher final : public I_Singleton<Launcher>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		bool			running;		// 
+		Preferences 	prefs;			// 
+		GameTime		time;			// 
+		EventSystem		eventSystem;	// 
+		RenderWindow	window;			// 
+		Engine			engine;			// 
+		Editor			editor;			// 
+		PluginLoader	plugins;		// 
+
+		int32_t operator()(int32_t argc, char ** argv);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private:
 		friend struct I_Singleton<Launcher>;
 
 		Launcher()
@@ -38,20 +52,6 @@ namespace ml
 		}
 
 		~Launcher() {}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	public:
-		bool			running;		// 
-		Preferences 	prefs;			// 
-		GameTime		time;			// 
-		EventSystem		eventSystem;	// 
-		RenderWindow	window;			// 
-		Engine			engine;			// 
-		Editor			editor;			// 
-		PluginLoader	plugins;		// 
-
-		int32_t operator()(int32_t argc, char ** argv);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

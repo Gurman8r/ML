@@ -18,32 +18,32 @@ namespace ml
 		{
 		}
 
-		MetadataValue(bool value)
+		explicit MetadataValue(bool value)
 			: m_data { std::to_string(value) }
 		{
 		}
 
-		MetadataValue(float64_t value)
+		explicit MetadataValue(float64_t value)
 			: m_data { std::to_string(value) }
 		{
 		}
 
-		MetadataValue(float32_t value)
+		explicit MetadataValue(float32_t value)
 			: m_data { std::to_string(value) }
 		{
 		}
 
-		MetadataValue(int32_t value)
+		explicit MetadataValue(int32_t value)
 			: m_data { std::to_string(value) }
 		{
 		}
 
-		MetadataValue(uint32_t value)
+		explicit MetadataValue(uint32_t value)
 			: m_data { std::to_string(value) }
 		{
 		}
 
-		MetadataValue(const String & value)
+		explicit MetadataValue(const String & value)
 			: m_data { value }
 		{
 		}

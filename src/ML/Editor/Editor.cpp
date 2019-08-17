@@ -345,7 +345,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Help"))
 			{
-				if (ImGui::MenuItem("Repository"))
+				if (ImGui::MenuItem("Project Page"))
 				{
 					OS::execute("open", ML_PROJECT_URL);
 				}

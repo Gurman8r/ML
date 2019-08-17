@@ -12,13 +12,13 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_WINDOW_API Window
+	struct ML_WINDOW_API Window
 		: public I_Newable
 		, public I_NonCopyable
 		, public I_EventListener
 	{
-	public: // Callback Types
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		using CharFun			= typename void(*)(void *, uint32_t);
 		using CursorEnterFun	= typename void(*)(void *, int32_t);
 		using CursorPosFun		= typename void(*)(void *, float64_t, float64_t);
@@ -32,15 +32,13 @@ namespace ml
 		using PositionFun		= typename void(*)(void *, int32_t, int32_t);
 		using SizeFun			= typename void(*)(void *, int32_t, int32_t);
 
-
-	public: // Constructors / Destructor
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		explicit Window(EventSystem & eventSystem);
 		virtual ~Window();
 
-
-	public: // Core
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool create(
 			const String & title, 
 			const VideoMode & video, 
@@ -52,9 +50,8 @@ namespace ml
 
 		virtual void onEvent(const Event & value) override;
 
-
-	public: // Modifiers
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Window & close();
 		Window & destroy();
 		Window & iconify();
@@ -74,9 +71,8 @@ namespace ml
 		Window & setTitle(const String & value);
 		Window & terminate();
 
-
-	public: // Accessors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		bool		isFocused() const;
 		bool		isOpen() const;
 		int32_t		getAttribute(const int32_t value) const;
@@ -90,12 +86,11 @@ namespace ml
 		vec2i		getPosition() const;
 		float64_t	getTime() const;
 
-
-	public: // Inline
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline auto getContext()	const -> const ContextSettings & { return m_context; }
 		inline auto getStyle()		const -> const WindowStyle & { return m_style; }
-		inline auto getVideo()		const -> const VideoMode & { return m_video; }
+		inline auto getVideo()		const -> const VideoMode & { return m_videoMode; }
 		inline auto getTitle()		const -> const String { return m_title; }
 		inline auto getSize()		const -> const vec2u & { return getVideo().resolution; }
 		inline auto getWidth()		const -> const uint32_t { return getSize()[0]; }
@@ -104,16 +99,15 @@ namespace ml
 		inline auto getFrameHeight()const -> const int32_t { return getFrameSize()[1]; }
 		inline auto getAspect()		const -> const float_t { return ML_ASPECT(getWidth(), getHeight()); };
 		inline auto getFrameAspect()const -> const float_t { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
-
-
-	public: // Cursors
+	
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		void *	createCustomCursor(const Image & image) const;
 		void *	createStandardCursor(Cursor::Shape value) const;
 		void	destroyCursor(void * value) const;
 
-	public: // Set Callbacks
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		CharFun			setCharCallback			(CharFun		callback);
 		CursorEnterFun	setCursorEnterCallback	(CursorEnterFun callback);
 		CursorPosFun	setCursorPosCallback	(CursorPosFun	callback);
@@ -127,17 +121,19 @@ namespace ml
 		PositionFun		setWindowPosCallback	(PositionFun	callback);
 		SizeFun			setWindowSizeCallback	(SizeFun		callback);
 
-
-	protected: // Data
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	protected:
 		void *			m_window;
 		void *			m_monitor;
 		void *			m_share;
 		ContextSettings	m_context;
 		WindowStyle		m_style;
-		VideoMode	m_video;
+		VideoMode		m_videoMode;
 		String			m_title;
 		mutable char	m_char;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -48,7 +48,7 @@ namespace ml
 		, m_title		(String())
 		, m_context		(ContextSettings())
 		, m_style		(WindowStyle())
-		, m_video		(VideoMode())
+		, m_videoMode		(VideoMode())
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		// Disable CMD Close Button
@@ -97,7 +97,7 @@ namespace ml
 	bool Window::create(const String & title, const VideoMode & video, const WindowStyle & style, const ContextSettings & context)
 	{
 		m_title		= title;
-		m_video		= video;
+		m_videoMode		= video;
 		m_context	= context;
 		m_style		= style;
 
@@ -289,7 +289,7 @@ namespace ml
 		case WindowSizeEvent::ID:
 			if (auto ev = value.as<WindowSizeEvent>())
 			{
-				m_video.resolution = { (uint32_t)ev->width, (uint32_t)ev->height };
+				m_videoMode.resolution = { (uint32_t)ev->width, (uint32_t)ev->height };
 			}
 			break;
 		}
@@ -439,8 +439,8 @@ namespace ml
 	{
 		if (m_window) (glfwSetWindowSize(
 			static_cast<GLFWwindow *>(m_window),
-			m_video.resolution[0] = value[0],
-			m_video.resolution[1] = value[1]
+			m_videoMode.resolution[0] = value[0],
+			m_videoMode.resolution[1] = value[1]
 		));
 		return (*this);
 	}

@@ -30,10 +30,8 @@ xcopy /y %ExtDir%\bin\%Configuration%\pdcurses.dll %OutDir%
 rem Python
 if "%Configuration%"=="Debug" (
 	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python39_d.dll %OutDir%
-	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python_d.exe %OutDir%
 ) else (
 	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python39.dll %OutDir%
-	xcopy /y %ExtDir%\bin\%Configuration%\%PlatformTarget%\python.exe %OutDir%
 )
 
 rem * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

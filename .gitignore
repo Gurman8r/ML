@@ -9,5 +9,4 @@ imgui.ini
 desktop.ini
 *.log
 *.lastbuildstateslm
-/assets/scripts/__pycache__
-/assets/scripts/Lib/__pycache__
+__pycache__/

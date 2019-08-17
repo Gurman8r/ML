@@ -580,7 +580,7 @@ namespace ml
 	Texture & Texture::swap(Texture & other)
 	{
 		std::swap(get_reference(),	other.get_reference());
-		std::swap(m_sampler,			other.m_sampler);
+		std::swap(m_sampler,		other.m_sampler);
 		std::swap(m_level,			other.m_level);
 		std::swap(m_size,			other.m_size);
 		std::swap(m_realSize,		other.m_realSize);

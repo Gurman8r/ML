@@ -33,7 +33,7 @@ namespace ml
 
 		inline void * get_handle() const
 		{ 
-			return (void *)(intptr_t)(m_handle);
+			return ML_ADDRESSOF(m_handle);
 		}
 
 		inline bool set_handle(const_reference value)

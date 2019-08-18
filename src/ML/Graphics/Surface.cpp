@@ -60,8 +60,10 @@ namespace ml
 	{
 		if (!m_fbo && !m_rbo)
 		{
-			if (((m_size = size) != vec2i { 0, 0 }) && (m_attachment = attachment))
+			if ((size != vec2i { 0, 0 }) && (m_attachment = attachment))
 			{
+				m_size = size;
+
 				// Setup Framebuffer
 				if (m_fbo.create().bind())
 				{
@@ -78,7 +80,9 @@ namespace ml
 					{
 						// Create Texture
 						m_texture.dispose();
-						m_texture.create(size);
+						m_texture.create(m_size);
+
+						// Attach to FBO
 						m_fbo.setTexture(
 							m_attachment,
 							(*m_texture),
@@ -100,7 +104,7 @@ namespace ml
 	bool Surface::update(const vec2i & size)
 	{
 		return 
-			(size != vec2i { 0, 0 }) &&
+			(size[0] != 0 && size[1] != 0) &&
 			(m_size != size) &&
 			(dispose()) &&
 			(create(size, m_attachment));

@@ -6,6 +6,7 @@
 #include <ML/Graphics/Material.hpp>
 #include <ML/Engine/Asset.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Graphics/ModelRenderer.hpp>
 
 #include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
 
@@ -44,6 +45,9 @@ namespace ml
 		void onDraw		(const DrawEvent	& ev);
 		void onGui		(const GuiEvent		& ev);
 		void onExit		(const ExitEvent	& ev);
+
+		bool m_showModel { false };
+		ModelRenderer m_model;
 
 		// DEMO SKYBOX
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -103,7 +107,7 @@ namespace ml
 
 			DemoScene() 
 				: m_open		{ true }
-				, m_autoView	{ true }
+				, m_freeAspect	{ true }
 				, m_clearColor	{ Color::black }
 				, m_viewport	{ 1920, 1080 }
 				, m_effectMode	{ "u_effectMode", 3 }
@@ -118,9 +122,8 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			inline auto is_open()		-> bool &		{ return m_open; }
-			inline auto autoView()		-> bool	&		{ return m_autoView; }
+			inline auto freeAspect()	-> bool	&		{ return m_freeAspect; }
 			inline auto clearColor()	-> vec4	&		{ return m_clearColor; }
-			inline auto windowSize()	-> vec2 &		{ return m_windowSize; }
 			inline auto viewport()		-> vec2	&		{ return m_viewport; }
 			inline auto effectMode()	-> uni_int	&	{ return m_effectMode; }
 			inline auto kernel()		-> uni_mat3	&	{ return m_kernel; }
@@ -129,9 +132,8 @@ namespace ml
 
 		private:
 			bool		m_open;
-			bool		m_autoView;
+			bool		m_freeAspect;
 			vec4		m_clearColor;
-			vec2		m_windowSize;
 			vec2		m_viewport;
 			uni_int		m_effectMode;
 			uni_mat3	m_kernel;

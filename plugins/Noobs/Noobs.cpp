@@ -112,26 +112,32 @@ namespace ml
 		if (Entity * e = m_editor.entity().create())
 		{
 			// Create Editor Renderer
-			m_editor.renderer() = e->add<Renderer>(m_editor.model(), m_editor.material(),
-				RenderStates { {
-					new AlphaState	{ true, GL::Greater, 0.01f },
-					new BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-					new CullState	{ true, GL::Back },
-					new DepthState	{ true, GL::Less, true }
-				} });
+			m_editor.renderer() = e->add<Renderer>(
+				m_editor.model(),
+				m_editor.material(),
+				RenderStates::Default
+			);
 		}
 
 		// Setup Source Editors
 		m_editor.generate_sources();
+
+
+		// Load Model
+		if (m_model.loadFromFile(ML_FS.pathTo("../../../assets/meshes/cow.obj")))
+		{
+			m_model.setMaterial(m_editor.material());
+		}
+		else
+		{
+			Debug::logError("Failed loading model");
+		}
 	}
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
 		// Update Viewports
-		if (m_scene.autoView()) { m_scene.viewport() = m_scene.windowSize(); }
-		
 		if (auto & surf { m_pipeline[Surf_Main] }) { surf->update(m_scene.viewport()); }
-
 		if (auto & surf { m_pipeline[Surf_Post] }) { surf->update(m_scene.viewport()); }
 	}
 
@@ -158,8 +164,15 @@ namespace ml
 				ML_GL.depthMask(true);
 			}
 
-			// Draw Renderer
-			ev.window.draw(m_editor.renderer());
+			if (m_showModel)
+			{
+				ev.window.draw(m_model); // Draw Model
+			}
+			else
+			{
+				ev.window.draw(m_editor.renderer()); // Draw Renderer
+			}
+
 		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -234,7 +247,7 @@ namespace ml
 					{
 						static List<String> temp
 						{
-							"Auto" 
+							"Free" 
 						};
 						for (const VideoMode & elem : mode_values)
 						{
@@ -242,24 +255,34 @@ namespace ml
 						}
 						return temp;
 					}();
+					ImGui::Separator();
 
 					// Viewport
 					static int32_t index = 0;
 					if (ImGuiExt::Combo("Viewport", &index, mode_names))
 					{
-						m_autoView = (index == 0);
+						m_freeAspect = (index == 0);
 					}
-					if (!m_autoView)
+					if (!m_freeAspect)
 					{
 						m_viewport = (vec2i)mode_values[index - 1].resolution;
 					}
+					ImGui::Separator();
 
 					// Clear Color
 					ImGui::ColorEdit4("Clear Color", &m_clearColor[0]);
+					ImGui::Separator();
 
 					// Effect Mode
-					UniformPropertyDrawer()("##Effect Mode", (Uni &)m_effectMode);
-					ImGui::SameLine(); ImGui::Text("Effect Mode");
+					ImGui::Combo("Effect Mode", &m_effectMode.data,
+						"Default\0"
+						"Grayscale\0"
+						"Blur\0"
+						"Juicy\0"
+						"Inverted\0"
+						"Kernel\0"
+					);
+					ImGui::Separator();
 
 					// Kernel
 					UniformPropertyDrawer()("##Kernel", (Uni &)m_kernel);
@@ -274,19 +297,15 @@ namespace ml
 
 			if (surf && (*surf))
 			{
-				const vec2 scl = alg::scale_to_fit((vec2)surf->size(), m_windowSize) * 0.95f;
-				const vec2 pos = ((m_windowSize - scl) * 0.5f);
+				const vec2 dst = ImGuiExt::GetContentRegionAvail();
+				const vec2 scl = alg::scale_to_fit((vec2)surf->size(), dst) * 0.95f;
+				const vec2 pos = ((dst - scl) * 0.5f);
 
-				ImGui::BeginChild(
-					"NoobsSceneViewport", { 0, 0 }, true, ImGuiWindowFlags_NoScrollWithMouse
-				);
+				if (m_freeAspect) { m_viewport = dst; }
 
-				m_windowSize = ImGuiExt::GetContentRegionAvail();
-				
+				ImGui::BeginChild("NoobsSceneViewport", { 0, 0 }, true);
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				
 				ImGui::Image(surf->get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
-				
 				ImGui::EndChild();
 			}
 

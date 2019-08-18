@@ -40,10 +40,6 @@ namespace ml
 		constexpr auto i_name = i_info.raw_name();
 		constexpr auto i_hash = i_info.hash_code();
 
-		constexpr CX_String pre { "ml::CX_String ml::signature_of<" };
-		constexpr CX_String suf { ">()" };
-		constexpr CX_String test = filter_typename_prefix(i_name);
-		
 		constexpr auto f_info = ml_type_id(1.0f);
 		constexpr auto f_name = f_info.raw_name();
 		constexpr auto f_hash = f_info.hash_code();

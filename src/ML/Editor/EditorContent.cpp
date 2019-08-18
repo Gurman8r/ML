@@ -49,7 +49,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorContent::EditorContent(Editor & editor)
-		: EditorForm { editor, "ContentDatabase", false }
+		: EditorForm { editor, "Content", false }
 	{
 	}
 

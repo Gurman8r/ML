@@ -84,9 +84,9 @@ namespace ml
 	{
 		// Setup Python
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (const String python_home { ev.prefs.get_string("Engine", "python_home", "") })
+		if (const String script_path { ev.prefs.get_string("Engine", "script_path", "") })
 		{
-			Py_SetPythonHome(alg::widen(ML_FS.pathTo(python_home)).c_str());
+			Py_SetPythonHome(alg::widen(ML_FS.pathTo(script_path)).c_str());
 		}
 
 		// Boot Script

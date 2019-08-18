@@ -201,6 +201,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static const RenderStates Default;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		RenderStates();
 		RenderStates(List<mapped_type> && data);
 		RenderStates(const RenderStates & copy);

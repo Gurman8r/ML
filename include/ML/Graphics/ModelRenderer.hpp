@@ -22,7 +22,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		ModelRenderer();
-		explicit ModelRenderer(const BufferLayout & layout);
 		~ModelRenderer();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -32,6 +31,12 @@ namespace ml
 		bool loadFromMemory(const Vertices & vertices);
 		bool loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices);
 		bool loadFromMemory(const List<float_t> & vertices, const List<uint32_t> & indices);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		ModelRenderer & setLayout(const BufferLayout & value);
+		ModelRenderer & setMaterial(const Material * value);
+		ModelRenderer & setStates(const RenderStates & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

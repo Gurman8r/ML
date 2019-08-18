@@ -13,8 +13,6 @@
 #	define ML_SIGNATURE __PRETTY_FUNCTION__
 # endif
 
-
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

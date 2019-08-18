@@ -67,8 +67,6 @@ namespace ml
 				List<aiMesh *> meshes;
 				processNode(meshes, scene->mRootNode, scene);
 
-				ModelRenderer * m { new ModelRenderer() };
-				return m;
 			}
 		}
 		return nullptr;
@@ -82,16 +80,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	ModelRenderer::ModelRenderer()
-		: ModelRenderer { BufferLayout::Default }
-	{
-	}
-
-	ModelRenderer::ModelRenderer(const BufferLayout & layout)
-		: m_layout		{ layout }
-		, m_vao			{ }
+		: m_vao			{ }
 		, m_vbo			{ }
 		, m_ibo			{ }
-		, m_states		{ }
+		, m_layout		{ BufferLayout::Default }
+		, m_states		{ RenderStates::Default }
 		, m_material	{ nullptr }
 	{
 	}
@@ -104,6 +97,19 @@ namespace ml
 
 	bool ModelRenderer::loadFromFile(const String & filename)
 	{
+		if (const aiScene * scene = aiImportFile(
+			filename.c_str(),
+			aiProcess_Triangulate | aiProcess_FlipUVs
+		))
+		{
+			if (!(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) && scene->mRootNode)
+			{
+				List<aiMesh *> meshes;
+				//processNode(meshes, scene->mRootNode, scene);
+
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -143,6 +149,35 @@ namespace ml
 		m_vao.unbind();
 
 		return (m_vao && m_vbo && m_ibo);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	ModelRenderer & ModelRenderer::setLayout(const BufferLayout & value)
+	{
+		if (&value != &m_layout)
+		{
+			m_layout = value;
+		}
+		return (*this);
+	}
+
+	ModelRenderer & ModelRenderer::setMaterial(const Material * value)
+	{
+		if (value != m_material)
+		{
+			m_material = value;
+		}
+		return (*this);
+	}
+
+	ModelRenderer & ModelRenderer::setStates(const RenderStates & value)
+	{
+		if (&value != &m_states)
+		{
+			m_states = value;
+		}
+		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

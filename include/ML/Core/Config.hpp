@@ -16,24 +16,6 @@
 # endif
 
 
-//	General
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# define _ML				::ml::
-# define _ML_BEGIN			namespace ml {
-# define _ML_END			}
-		 
-# define ML_TOSTRING(l)		#l
-# define ML_STRINGIFY(l)	ML_TOSTRING(l)
-# define ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
-# define ML_CONCAT(l, r)	l##r
-		 
-# define ML_TEMPLATE(...)	template<##__VA_ARGS__>
-# define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
-# define ML_USING_X			ML_USING_VA(class X)
-# define ML_USING_XY		ML_USING_VA(class X, class Y)
-# define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
-
-
 //	Configuration (Debug / Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_DEBUG)
@@ -82,12 +64,57 @@
   || defined(__ppc64__	)\
   || defined(_x64		)\
   || defined(_M_X64		)
-#	define ML_ARCHITECTURE 64
-#	define ML_PLATFORM_TARGET "x64"
+#	define ML_ARCHITECTURE		64
+#	define ML_PLATFORM_TARGET	"x64"
 # else
-#	define ML_ARCHITECTURE 32
-#	define ML_PLATFORM_TARGET "x86"
+#	define ML_ARCHITECTURE		32
+#	define ML_PLATFORM_TARGET	"x86"
 # endif
+
+
+// Types
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+# define ML_INT8		signed char			// 1 byte
+# define ML_INT16		signed short		// 2 bytes
+# define ML_INT32		signed int			// 4 bytes
+# define ML_INT64		signed long long	// 8 bytes
+
+# define ML_UINT8		unsigned char		// 1 byte
+# define ML_UINT16		unsigned short		// 2 bytes
+# define ML_UINT32		unsigned int		// 4 bytes
+# define ML_UINT64		unsigned long long	// 8 bytes
+
+# define ML_FLOAT32		float				// 4 bytes
+# define ML_FLOAT64		double				// 8 bytes
+# define ML_FLOAT80		long double			// 8 or 10 bytes (CC dependant)
+
+# if ML_ARCHITECTURE == 32
+#	define ML_INTMAX	ML_INT32			// Max Signed	(32-Bit)
+#	define ML_UINTMAX	ML_UINT32			// Max Unsigned	(32-Bit)
+# else
+#	define ML_INTMAX	ML_INT64			// Max Signed	(64-Bit)
+#	define ML_UINTMAX	ML_UINT64			// Max Unsigned	(64-Bit)
+# endif
+
+
+//	Preprocessor
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+# define _ML				::ml::
+# define _ML_BEGIN			namespace ml {
+# define _ML_END			}
+
+# define ML_TOSTRING(l)		#l
+# define ML_STRINGIFY(l)	ML_TOSTRING(l)
+# define ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
+# define ML_CONCAT(l, r)	l##r		 
+# define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
+
+# define ML_TEMPLATE(...)	template<##__VA_ARGS__>
+# define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
+# define ML_USING_X			ML_USING_VA(class X)
+# define ML_USING_XY		ML_USING_VA(class X, class Y)
+# define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
 
 
 //	Compiler

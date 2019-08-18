@@ -22,12 +22,14 @@ namespace ml
 
 	bool EditorForm::beginDraw(int32_t flags)
 	{
+		ImGui::PushID(ML_ADDRESSOF(this));
 		return m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags));
 	}
 
 	bool EditorForm::endDraw()
 	{
 		ImGui::End();
+		ImGui::PopID();
 		return m_good;
 	}
 

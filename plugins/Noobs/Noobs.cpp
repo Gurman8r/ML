@@ -215,7 +215,7 @@ namespace ml
 		if (!m_open) return;
 		ImGui::PushID("Noobs");
 		ImGui::PushID("Demo Scene");
-		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_None))
+		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_MenuBar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 

@@ -3,48 +3,54 @@
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Graphics/Mesh.hpp>
 #include <ML/Core/TypeInfo.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	constexpr CX_String filter_prefix(const CX_String& str, const CX_String& prefix)
+	{
+		return str.size() >= prefix.size() ? (str(0, prefix.size()) == prefix ? str(prefix.size(), str.size()) : str) : str;
+	}
+
+	constexpr CX_String leftpad(const CX_String& str)
+	{
+		return (str.size() > 0 && str[0] == ' ') ? leftpad(str(1, str.size())) : str;
+	}
+
+	constexpr CX_String filter_class(const CX_String& type_name)
+	{
+		return leftpad(filter_prefix(leftpad(type_name), "class"));
+	}
+
+	constexpr CX_String filter_struct(const CX_String& type_name)
+	{
+		return leftpad(filter_prefix(leftpad(type_name), "struct"));
+	}
+
+	constexpr CX_String filter_typename_prefix(const CX_String& type_name)
+	{
+		return filter_struct(filter_class(type_name));
+	}
+
 	static void test_type_info()
 	{
-		constexpr auto i_info = type_id<int32_t>();
+		constexpr auto i_info = ml_type_id<int32_t>();
 		constexpr auto i_name = i_info.raw_name();
 		constexpr auto i_hash = i_info.hash_code();
+
+		constexpr CX_String pre { "ml::CX_String ml::signature_of<" };
+		constexpr CX_String suf { ">()" };
+		constexpr CX_String test = filter_typename_prefix(i_name);
 		
-		constexpr auto f_info = type_id(1.0f);
+		constexpr auto f_info = ml_type_id(1.0f);
 		constexpr auto f_name = f_info.raw_name();
 		constexpr auto f_hash = f_info.hash_code();
 
-		constexpr auto s_info = type_id<C_String>();
+		constexpr auto s_info = ml_type_id<C_String>();
 		constexpr auto s_name = s_info.raw_name();
 		constexpr auto s_hash = s_info.hash_code();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	static void test_assimp()
-	{
-		if (Mesh * mesh { Mesh::loadFromAssimp(ML_FS.pathTo(
-			"../../../assets/meshes/cow.obj"
-		)) })
-		{
-			Debug::log("Filename:\t{0}", mesh->filename());
-			Debug::log("Directory:\t{0}", mesh->directory());
-			Debug::log("Vertices:\t{0}", mesh->vertices().size());
-			Debug::log("Indices:\t{0}", mesh->indices().size());
-			Debug::log("Contiguous:\t{0}", mesh->contiguous().size());
-
-			delete mesh;
-		}
-		else
-		{
-			Debug::logError("Failed loading mesh");
-		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

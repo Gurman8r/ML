@@ -54,7 +54,7 @@ namespace ml
 		}
 
 		constexpr CX_String(const_pointer begin, const_pointer end)
-			: self_type { begin, numeric<size_t>{ end - begin } }
+			: self_type { begin, (size_t)(end - begin) }
 		{
 		}
 
@@ -89,22 +89,22 @@ namespace ml
 
 		constexpr const_reference operator[](size_t i) const
 		{ 
-			return this->data()[i];
+			return m_data[i];
 		}
 			
 		constexpr const_pointer operator()(size_t i) const 
 		{ 
-			return (this->data() + i);
+			return m_data + i;
 		}
 
 		constexpr self_type operator()(size_t begin, size_t end) const
 		{
-			return self_type { this->data() + begin, this->data() + end };
+			return { m_data + begin, m_data + end };
 		}
 
 		constexpr self_type pad(size_t begin_off, size_t end_off) const
 		{
-			return (*this)(begin_off, this->size() - end_off);
+			return (*this)(begin_off, m_size - end_off);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

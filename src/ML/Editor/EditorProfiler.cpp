@@ -19,17 +19,20 @@ namespace ml
 		ImGuiStyle & style = ImGui::GetStyle();
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			graph.update("##Framerate", (float_t)ev.time.frameRate() + ev.time.elapsed().delta(), "fps {0}");
+			const float max_width { ImGui::GetContentRegionAvail().x - 4 * style.ItemSpacing.x };
+			const float max_height { ImGui::GetContentRegionAvail().y - 4 * style.ItemSpacing.y };
+
+			if (ImGui::BeginChild("Graphs", { 0, 0 }))
+			{
+				graph.update("##Framerate", (float_t)ev.time.frameRate() + ev.time.elapsed().delta(), "fps {0}");
+			}
+			ImGui::EndChild();
 			
 			ImGui::Separator();
 			
-			if (ImGui::BeginChild(
-				"Allocations",
-				{ 0, (ImGui::GetContentRegionAvail().y - 4 * style.ItemSpacing.y) / 2 },
-				true
-			))
+			if (ImGui::BeginChild("Active Allocations", { 0, max_height / 4 }, true))
 			{
-				ImGui::Text("Allocations: %u", ML_MemoryTracker.records().size());
+				ImGui::Text("Active Allocations: %u", ML_MemoryTracker.records().size());
 				ImGui::Separator();
 
 				ImGui::Columns(4);
@@ -42,7 +45,7 @@ namespace ml
 				ImGui::Text("Address");
 				ImGui::Columns(1);
 
-				ImGui::BeginChild("Allocation##Content", { 0, 0 }, true);
+				ImGui::BeginChild("Active Allocation##Content Area", { 0, 0 }, true);
 				for (const auto & pair : ML_MemoryTracker.records())
 				{
 					const MemoryTracker::Record * r { pair.second };

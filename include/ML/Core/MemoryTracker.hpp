@@ -23,7 +23,7 @@ namespace ml
 		struct Record final : public I_NonCopyable
 		{
 			size_t	index;	// Index
-			void *	ptr; // Value
+			void *	ptr;	// Value
 			size_t	size;	// Size
 
 			Record(size_t index, void * ptr, size_t size);

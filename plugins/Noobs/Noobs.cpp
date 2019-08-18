@@ -124,7 +124,7 @@ namespace ml
 
 
 		// Load Model
-		if (m_model.loadFromFile(ML_FS.pathTo("../../../assets/meshes/cow.obj")))
+		if (m_model.loadFromFile(ML_FS.pathTo("../../../assets/meshes/teapot.obj")))
 		{
 			m_model.setMaterial(m_editor.material());
 		}
@@ -209,6 +209,12 @@ namespace ml
 
 	void Noobs::onGui(const GuiEvent & ev)
 	{
+		if (ImGui::Begin("TESTING"))
+		{
+			ImGui::Checkbox("SHOW MODEL", &m_showModel);
+			ImGui::End();
+		}
+
 		// Render Scene
 		m_scene.render(ev, "Scene##Noobs##DemoScene", m_pipeline[Surf_Post]);
 		

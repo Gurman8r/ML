@@ -33,6 +33,8 @@ namespace ml
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<TT>())
 		{
+			if (ML_Content.data<TT>().empty()) 
+				continue;
 			if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<TT>::tag).c_str()))
 			{
 				if (pair.second)

@@ -13,6 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+
 	struct ML_GRAPHICS_API ModelRenderer
 		: public I_Newable
 		, public I_Drawable
@@ -21,20 +22,46 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		struct tex_t
+		{
+			uint32_t	id;
+			String		type;
+		};
+
+		struct mesh_t : public I_Drawable, public I_Newable
+		{
+			Vertices		vertices;
+			List<uint32_t>	indices;
+			List<tex_t>		textures;
+
+			mesh_t(const Vertices & v, const List<uint32_t> & i, const List<tex_t> & t)
+				: vertices(v)
+				, indices(i)
+				, textures(t)
+			{
+				setup();
+			}
+
+			VAO	m_vao;
+			VBO	m_vbo;
+			IBO	m_ibo;
+
+			void setup();
+
+			void draw(RenderTarget & target, RenderBatch batch) const override;
+		};
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		ModelRenderer();
 		~ModelRenderer();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool loadFromFile(const String & filename) override;
-		bool loadFromMemory(const List<float_t> & vertices);
-		bool loadFromMemory(const Vertices & vertices);
-		bool loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices);
-		bool loadFromMemory(const List<float_t> & vertices, const List<uint32_t> & indices);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ModelRenderer & setLayout(const BufferLayout & value);
 		ModelRenderer & setMaterial(const Material * value);
 		ModelRenderer & setStates(const RenderStates & value);
 
@@ -44,11 +71,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto layout()			-> BufferLayout &		{ return m_layout; }
-		inline auto layout()	const	-> const BufferLayout & { return m_layout; }
-		inline auto vao()		const	-> const VAO &			{ return m_vao; }
-		inline auto vbo()		const	-> const VBO &			{ return m_vbo; }
-		inline auto ibo()		const	-> const IBO &			{ return m_ibo; }
 		inline auto material()			-> const Material *&	{ return m_material; }
 		inline auto material()	const	-> const Material *		{ return m_material; }
 		inline auto states()			-> RenderStates	&		{ return m_states; }
@@ -57,12 +79,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		BufferLayout		m_layout;
-		VAO					m_vao;
-		VBO					m_vbo;
-		IBO					m_ibo;
 		RenderStates		m_states;
 		const Material *	m_material;
+		List<mesh_t *>		m_meshes;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

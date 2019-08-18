@@ -9,29 +9,51 @@
 #include <assimp/material.h>
 #include <assimp/scene.h>
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
-	struct TempMesh
-	{
-		List<vec3> vertices;
-	};
+	using tex_t = ModelRenderer::tex_t;
+	using mesh_t = ModelRenderer::mesh_t;
 
-	static inline aiMesh * processMesh(aiMesh * mesh, const aiScene * scene)
+	static inline mesh_t * processMesh(aiMesh * mesh, const aiScene *scene)
 	{
+		if (!mesh || !scene)
+			return nullptr;
+
+		Vertices		vertices;
+		List<uint32_t>	indices;
+		List<tex_t>		textures;
+
 		for (uint32_t i = 0; i < mesh->mNumVertices; i++)
 		{
-			mesh->mVertices[i];
+			vertices.push_back(Vertex {
+				mesh->mVertices
+					? vec3 { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z }
+					: vec3 { uninit },
+				mesh->mNormals
+					? vec4 { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z, 1 }
+					: vec4 { uninit },
+				mesh->mTextureCoords[0]
+					? vec2 { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y }
+					: vec2 { uninit }
+			});
 		}
 
 		for (uint32_t i = 0; i < mesh->mNumFaces; i++)
 		{
-			mesh->mFaces[i];
+			aiFace face = mesh->mFaces[i];
+
+			for (uint32_t j = 0; j < face.mNumIndices; j++)
+			{
+				indices.push_back(face.mIndices[j]);
+			}
 		}
 
-		return nullptr;
+		return new mesh_t { vertices, indices, textures };
 	}
 
-	static inline void processNode(List<aiMesh *> & meshes, aiNode * node, const aiScene * scene)
+	static inline void processNode(List<mesh_t *> & meshes, aiNode * node, const aiScene * scene)
 	{
 		// process all of the node's meshes and then do the same for each of its children
 		if (node && scene)
@@ -55,21 +77,41 @@ namespace ml
 		}
 	}
 
-	static inline ModelRenderer * loadFromAssimp(const String & filename)
+	void ModelRenderer::mesh_t::setup()
 	{
-		if (const aiScene * scene = aiImportFile(
-			filename.c_str(),
-			aiProcess_Triangulate | aiProcess_FlipUVs
-		))
+		if (vertices && indices)
 		{
-			if (!(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) && scene->mRootNode)
-			{
-				List<aiMesh *> meshes;
-				processNode(meshes, scene->mRootNode, scene);
+			m_vao.create(GL::Triangles).bind();
+			m_vbo.create(GL::StaticDraw).bind().bufferData(vertices.contiguous());
+			m_ibo.create(GL::StaticDraw, GL::UnsignedInt).bind().bufferData(indices);
+			BufferLayout::Default.bind();
+			m_ibo.unbind();
+			m_vbo.unbind();
+			m_vao.unbind();
+		}
+		else if (vertices)
+		{
+			m_vao.create(GL::Triangles).bind();
+			m_vbo.create(GL::StaticDraw).bind().bufferData(vertices.contiguous());
+			BufferLayout::Default.bind();
+			m_vbo.unbind();
+			m_vao.unbind();
+		}
+	}
 
+	void ModelRenderer::mesh_t::draw(RenderTarget & target, RenderBatch batch) const
+	{
+		if (m_vao && m_vbo)
+		{
+			if (m_ibo)
+			{
+				target.draw(m_vao, m_vbo, m_ibo);
+			}
+			else
+			{
+				target.draw(m_vao, m_vbo);
 			}
 		}
-		return nullptr;
 	}
 }
 
@@ -80,87 +122,35 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	ModelRenderer::ModelRenderer()
-		: m_vao			{ }
-		, m_vbo			{ }
-		, m_ibo			{ }
-		, m_layout		{ BufferLayout::Default }
-		, m_states		{ RenderStates::Default }
+		: m_states		{ RenderStates::Default }
 		, m_material	{ nullptr }
+		, m_meshes		{}
 	{
 	}
 
 	ModelRenderer::~ModelRenderer()
 	{
+		for (auto *& elem : m_meshes)
+			delete elem;
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ModelRenderer::loadFromFile(const String & filename)
 	{
-		if (const aiScene * scene = aiImportFile(
-			filename.c_str(),
-			aiProcess_Triangulate | aiProcess_FlipUVs
-		))
+		if (const aiScene * scene = aiImportFile(filename.c_str(), aiProcess_Triangulate))
 		{
 			if (!(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) && scene->mRootNode)
 			{
-				List<aiMesh *> meshes;
-				//processNode(meshes, scene->mRootNode, scene);
+				processNode(m_meshes, scene->mRootNode, scene);
 
-				return true;
+				return !m_meshes.empty();
 			}
 		}
 		return false;
 	}
 
-	bool ModelRenderer::loadFromMemory(const Vertices & vertices)
-	{
-		return loadFromMemory(vertices.contiguous());
-	}
-
-	bool ModelRenderer::loadFromMemory(const List<float_t> & vertices)
-	{
-		m_vao.create(GL::Triangles).bind();
-		m_vbo.create(GL::StaticDraw).bind().bufferData(vertices);
-
-		m_layout.bind();
-
-		m_vbo.unbind();
-		m_vao.unbind();
-
-		return (m_vao && m_vbo);
-	}
-
-	bool ModelRenderer::loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices)
-	{
-		return loadFromMemory(vertices.contiguous(), indices);
-	}
-
-	bool ModelRenderer::loadFromMemory(const List<float_t> & vertices, const List<uint32_t> & indices)
-	{
-		m_vao.create(GL::Triangles).bind();
-		m_vbo.create(GL::StaticDraw).bind().bufferData(vertices);
-		m_ibo.create(GL::StaticDraw, GL::UnsignedInt).bind().bufferData(indices);
-
-		m_layout.bind();
-
-		m_ibo.unbind();
-		m_vbo.unbind();
-		m_vao.unbind();
-
-		return (m_vao && m_vbo && m_ibo);
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	ModelRenderer & ModelRenderer::setLayout(const BufferLayout & value)
-	{
-		if (&value != &m_layout)
-		{
-			m_layout = value;
-		}
-		return (*this);
-	}
 
 	ModelRenderer & ModelRenderer::setMaterial(const Material * value)
 	{
@@ -190,16 +180,9 @@ namespace ml
 
 			m_material->bind();
 
-			if (m_vao && m_vbo)
+			for (const auto & elem : m_meshes)
 			{
-				if (m_ibo)
-				{
-					target.draw(m_vao, m_vbo, m_ibo);
-				}
-				else
-				{
-					target.draw(m_vao, m_vbo);
-				}
+				target.draw(elem);
 			}
 
 			m_material->unbind();

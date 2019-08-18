@@ -32,8 +32,6 @@ namespace ml
 		bool loadFromMemory(const Vertices & vertices);
 		bool loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices);
 
-		static Mesh * loadFromAssimp(const String & filename);
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <

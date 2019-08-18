@@ -31,7 +31,9 @@ namespace ml
 			friend ML_SERIALIZE(Ostream & out, const Record & value);
 		};
 
-		using RecordMap = typename HashMap<void *, Record *>;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		using RecordMap = typename Tree<void *, Record *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

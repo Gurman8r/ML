@@ -124,7 +124,7 @@ namespace ml
 
 
 		// Load Model
-		if (m_model.loadFromFile(ML_FS.pathTo("../../../assets/meshes/teapot.obj")))
+		if (m_model.loadFromFile(ML_FS.pathTo("../../../assets/meshes/sphere32x24.obj")))
 		{
 			m_model.setMaterial(m_editor.material());
 		}

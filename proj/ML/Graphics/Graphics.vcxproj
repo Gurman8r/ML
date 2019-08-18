@@ -222,7 +222,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Vertex.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexArrayObject.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexBufferObject.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\Vertices.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />

@@ -10,58 +10,39 @@ namespace ml
 
 	Mesh::Mesh()
 		: m_vertices()
-		, m_indices()
+		, m_indices	()
 		, m_textures()
-		, m_vao()
-		, m_vbo()
-		, m_ibo()
+		, m_layout	(BufferLayout::Default)
+		, m_vao		()
+		, m_vbo		()
+		, m_ibo		()
 	{
 	}
 
-	Mesh::Mesh(const Vertices & vertices, const List<uint32_t> & indices, const List<tex_t> & textures)
+	Mesh::Mesh(const List<Vertex> & vertices, const List<uint32_t> & indices, const List<const Texture *> & textures)
 		: m_vertices(vertices)
 		, m_indices	(indices)
 		, m_textures(textures)
-		, m_vao()
-		, m_vbo()
-		, m_ibo()
+		, m_layout	(BufferLayout::Default)
+		, m_vao		()
+		, m_vbo		()
+		, m_ibo		()
 	{
-		setup();
+		create();
 	}
 
 	Mesh::Mesh(const Mesh & copy)
 		: m_vertices(copy.m_vertices)
 		, m_indices	(copy.m_indices)
 		, m_textures(copy.m_textures)
-		, m_vao(copy.m_vao)
-		, m_vbo(copy.m_vbo)
-		, m_ibo(copy.m_ibo)
+		, m_layout	(copy.m_layout)
+		, m_vao		(copy.m_vao)
+		, m_vbo		(copy.m_vbo)
+		, m_ibo		(copy.m_ibo)
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
-	void Mesh::setup()
-	{
-		if (m_vertices && m_indices)
-		{
-			m_vao.create(GL::Triangles).bind();
-			m_vbo.create(GL::StaticDraw).bind().bufferData(m_vertices.contiguous());
-			m_ibo.create(GL::StaticDraw, GL::UnsignedInt).bind().bufferData(m_indices);
-			BufferLayout::Default.bind();
-			m_ibo.unbind();
-			m_vbo.unbind();
-			m_vao.unbind();
-		}
-		else if (m_vertices)
-		{
-			m_vao.create(GL::Triangles).bind();
-			m_vbo.create(GL::StaticDraw).bind().bufferData(m_vertices.contiguous());
-			BufferLayout::Default.bind();
-			m_vbo.unbind();
-			m_vao.unbind();
-		}
-	}
 
 	bool Mesh::dispose()
 	{
@@ -75,6 +56,53 @@ namespace ml
 
 		return true;
 	}
+	
+	Mesh & Mesh::create()
+	{
+		if (m_vertices && m_indices)
+		{
+			m_vao.create(GL::Triangles).bind();
+			m_vbo.create(GL::StaticDraw).bind().bufferData(alg::contiguous(m_vertices));
+			m_ibo.create(GL::StaticDraw, GL::UnsignedInt).bind().bufferData(m_indices);
+			
+			m_layout.bind();
+			
+			m_ibo.unbind();
+			m_vbo.unbind();
+			m_vao.unbind();
+		}
+		else if (m_vertices)
+		{
+			m_vao.create(GL::Triangles).bind();
+			m_vbo.create(GL::StaticDraw).bind().bufferData(alg::contiguous(m_vertices));
+			
+			m_layout.bind();
+			
+			m_vbo.unbind();
+			m_vao.unbind();
+		}
+		return (*this);
+	}
+
+	Mesh & Mesh::addVertex(const Vertex & value)
+	{
+		m_vertices.push_back(value);
+		return (*this);
+	}
+
+	Mesh & Mesh::addIndex(uint32_t value)
+	{
+		m_indices.push_back(value);
+		return (*this);
+	}
+
+	Mesh & Mesh::setLayout(const BufferLayout & value)
+	{
+		m_layout = value;
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Mesh::draw(RenderTarget & target, RenderBatch batch) const
 	{
@@ -90,7 +118,6 @@ namespace ml
 			}
 		}
 	}
-	
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

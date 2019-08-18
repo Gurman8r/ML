@@ -14,20 +14,13 @@
 
 namespace ml
 {
-	using tex_t = Mesh::tex_t;
-
-	static inline Mesh * processMesh(aiMesh * mesh, const aiScene *scene)
+	static inline Mesh * processMesh(aiMesh * mesh, const aiScene * scene)
 	{
-		if (!mesh || !scene)
-			return nullptr;
-
-		Vertices		vertices;
-		List<uint32_t>	indices;
-		List<tex_t>		textures;
+		Mesh * temp { new Mesh() };
 
 		for (uint32_t i = 0; i < mesh->mNumVertices; i++)
 		{
-			vertices.push_back(Vertex {
+			temp->addVertex(Vertex {
 				mesh->mVertices
 					? vec3 { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z }
 					: vec3 { uninit },
@@ -42,15 +35,17 @@ namespace ml
 
 		for (uint32_t i = 0; i < mesh->mNumFaces; i++)
 		{
-			aiFace face = mesh->mFaces[i];
+			const aiFace & face = mesh->mFaces[i];
 
 			for (uint32_t j = 0; j < face.mNumIndices; j++)
 			{
-				indices.push_back(face.mIndices[j]);
+				temp->addIndex(face.mIndices[j]);
 			}
 		}
 
-		return new Mesh { vertices, indices, textures };
+		temp->setLayout(BufferLayout::Default);
+
+		return &temp->create();
 	}
 
 	static inline void processNode(List<Mesh *> & meshes, aiNode * node, const aiScene * scene)
@@ -60,19 +55,18 @@ namespace ml
 		{
 			for (uint32_t i = 0; i < node->mNumMeshes; i++)
 			{
-				meshes.push_back(processMesh(
-					scene->mMeshes[node->mMeshes[i]],
-					scene
-				));
+				if (aiMesh * mesh = scene->mMeshes[node->mMeshes[i]])
+				{
+					meshes.push_back(processMesh(mesh, scene));
+				}
 			}
 
 			for (uint32_t i = 0; i < node->mNumChildren; i++)
 			{
-				processNode(
-					meshes,
-					node->mChildren[i],
-					scene
-				);
+				if (aiNode * child { node->mChildren[i] })
+				{
+					processNode(meshes, child, scene);
+				}
 			}
 		}
 	}

@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/I_Drawable.hpp>
 #include <ML/Graphics/Font.hpp>
-#include <ML/Graphics/Vertices.hpp>
+#include <ML/Graphics/Vertex.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/VertexArrayObject.hpp>
 #include <ML/Graphics/VertexBufferObject.hpp>

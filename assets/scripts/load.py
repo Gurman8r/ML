@@ -120,10 +120,10 @@ content.load([
     { "type": "model", "name": "sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "model", "name": "sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
 
-    #{ "type": "model", "name": "cow",           "file": PATH + "/meshes/cow.obj" },
-    #{ "type": "model", "name": "pumpkin",       "file": PATH + "/meshes/pumpkin.obj" },
-    #{ "type": "model", "name": "teapot",        "file": PATH + "/meshes/teapot.obj" },
-    #{ "type": "model", "name": "teddy",         "file": PATH + "/meshes/teddy.obj" },
+    { "type": "model", "name": "cow",           "file": PATH + "/meshes/cow.obj" },
+    { "type": "model", "name": "pumpkin",       "file": PATH + "/meshes/pumpkin.obj" },
+    { "type": "model", "name": "teapot",        "file": PATH + "/meshes/teapot.obj" },
+    { "type": "model", "name": "teddy",         "file": PATH + "/meshes/teddy.obj" },
 
 # Surfaces
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

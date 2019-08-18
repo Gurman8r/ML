@@ -53,6 +53,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline auto meshes() -> List<Mesh *> & { return m_meshes; }
+		inline auto meshes() const -> const List<Mesh *> & { return m_meshes; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private: List<Mesh *> m_meshes;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

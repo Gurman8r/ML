@@ -114,9 +114,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Vertices.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Geometry.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>

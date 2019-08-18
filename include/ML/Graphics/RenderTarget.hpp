@@ -36,7 +36,7 @@ namespace ml
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		RenderTarget & draw(const Vertices & verts, const RenderBatch & batch);
+		RenderTarget & draw(const List<Vertex> & verts, const RenderBatch & batch);
 		RenderTarget & draw(const List<float_t> & verts, const RenderBatch & batch);
 		RenderTarget & draw(const float_t * verts, size_t count, const RenderBatch & batch);
 		

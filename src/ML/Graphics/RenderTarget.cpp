@@ -53,9 +53,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const Vertices & verts, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const List<Vertex> & verts, const RenderBatch & batch)
 	{
-		return draw(verts.contiguous(), batch);
+		return draw(alg::contiguous(verts), batch);
 	}
 
 	RenderTarget & RenderTarget::draw(const List<float_t> & verts, const RenderBatch & batch)

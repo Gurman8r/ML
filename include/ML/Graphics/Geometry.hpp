@@ -2,7 +2,7 @@
 #define _ML_GEOMETRY_HPP_
 
 #include <ML/Core/Rect.hpp>
-#include <ML/Graphics/Vertices.hpp>
+#include <ML/Graphics/Vertex.hpp>
 
 // Default meshes and rect quad generator functions
 // Used to create builtin geometry

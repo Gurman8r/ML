@@ -3,6 +3,7 @@
 
 #include <ML/Graphics/Color.hpp>
 #include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/List.hpp>
 
 namespace ml
 {
@@ -135,6 +136,30 @@ namespace ml
 
 	private: array_type m_data;
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	namespace alg
+	{
+		static inline const List<float_t> & contiguous(const List<Vertex> & vertices)
+		{
+			static List<float_t> temp;
+			if (const size_t imax = (vertices.size() * Vertex::Size))
+			{
+				temp.resize(imax);
+
+				for (size_t i = 0; i < imax; i++)
+				{
+					temp[i] = vertices[i / Vertex::Size][i % Vertex::Size];
+				}
+			}
+			else if (!temp.empty())
+			{
+				temp.clear();
+			}
+			return temp;
+		}
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

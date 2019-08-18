@@ -374,7 +374,20 @@ namespace ml
 
 	bool ModelPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		return (*this)(label, (const_reference)value, flags);
+		ImGui::Text("Meshes: %u", value.meshes().size());
+		for (const Mesh * mesh : value.meshes())
+		{
+			//for (const auto & v : mesh->vertices())
+			//{
+			//}
+			//for (const auto & i : mesh->vertices())
+			//{
+			//}
+			//for (const auto & t : mesh->textures())
+			//{
+			//}
+		}
+		return false;
 	}
 
 

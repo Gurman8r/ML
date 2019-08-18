@@ -61,7 +61,7 @@ content.load([
 
 # Skyboxes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "image", "name": "star",          "file": PATH + "/skyboxes/star.jpg" },
+    { "type": "image", "name": "star", "file": PATH + "/skyboxes/star.jpg" },
     {
         "type":     "texture",
         "name":     "starfield",
@@ -131,14 +131,14 @@ content.load([
         "type":     "material",
         "name":     "skybox",
         "shader":   "skybox",
-        "defs":     "True",
+        "defaults": "True",
         "file":     PATH + "/materials/skybox.mat"
     },
     {
         "type":     "material",
         "name":     "demo_material",
         "shader":   "demo_shader",
-        "defs":     "True",
+        "defaults": "True",
         "file":     PATH + "/materials/demo.mat"
     }
     ])

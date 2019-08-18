@@ -41,7 +41,7 @@ prefs = ML_Prefs()
 import memelib_io
 class ML_IO:
     def clear(self):                return memelib_io.clear()
-    def command(self, cmd):         return memelib_io.command(cmd)
+    def command(self, cmd):         return memelib_io.command(str(cmd))
     def pause(self):                return memelib_io.pause()
     def print(self, value):         return memelib_io.print(str(value))
     def printl(self, value):        return memelib_io.printl(str(value))
@@ -64,10 +64,8 @@ class ML_Window:
     def restore(self):              return memelib_window.restore()
     def swap_buffers(self):         return memelib_window.swap_buffers()
     def terminate(self):            return memelib_window.terminate()
-    
     def is_open(self):              return memelib_window.is_open()
     def is_focused(self):           return memelib_window.is_focused()
-
     def get_cx(self):               return memelib_window.get_cx()
     def get_cy(self):               return memelib_window.get_cy()
     def get_key(self, k):           return memelib_window.get_key(int(k))
@@ -76,7 +74,6 @@ class ML_Window:
     def get_h(self):                return memelib_window.get_h()
     def get_x(self):                return memelib_window.get_x()
     def get_y(self):                return memelib_window.get_y()
-    
     def set_clipboard(self, s):     return memelib_window.set_clipboard(str(s))
     def set_cursor(self, c):        return memelib_window.set_cursor(int(c))
     def set_pos(self, x, y):        return memelib_window.set_pos(int(x), int(y))

@@ -13,7 +13,6 @@ namespace ml
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
-		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -26,7 +25,8 @@ namespace ml
 
 		Material();
 		Material(const Shader * shader);
-		Material(const Shader * shader, const List<Uni *> & uniforms);
+		Material(const Shader * shader, List<Uni *> && uniforms);
+		Material(const Material & copy);
 		~Material();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -73,7 +73,7 @@ namespace ml
 				!this->get(value->name) &&
 				(std::find(this->begin(), this->end(), value) == this->end()))
 			{
-				m_uni.push_back(value);
+				m_uniforms.push_back(value);
 				return value;
 			}
 			return nullptr;
@@ -95,7 +95,7 @@ namespace ml
 			if (it != this->end())
 			{
 				if (*it) delete (*it);
-				m_uni.erase(it);
+				m_uniforms.erase(it);
 				return true;
 			}
 			return false;
@@ -105,30 +105,30 @@ namespace ml
 
 		inline auto shader()			-> const Shader	*&		{ return m_shader; }
 		inline auto shader()	const	-> const Shader	*		{ return m_shader; }
-		inline auto uniforms()			-> List<Uni *> &		{ return m_uni; }
-		inline auto uniforms()	const	-> const List<Uni *> &	{ return m_uni; }
+		inline auto uniforms()			-> List<Uni *> &		{ return m_uniforms; }
+		inline auto uniforms()	const	-> const List<Uni *> &	{ return m_uniforms; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto begin()				-> iterator					{ return m_uni.begin(); }
-		inline auto begin()		const	-> const_iterator			{ return m_uni.begin(); }
-		inline auto cbegin()	const	-> const_iterator			{ return m_uni.cbegin(); }
-		inline auto end()				-> iterator					{ return m_uni.end(); }
-		inline auto end()		const	-> const_iterator			{ return m_uni.end(); }
-		inline auto cend()		const	-> const_iterator			{ return m_uni.cend(); }
+		inline auto begin()				-> iterator					{ return m_uniforms.begin(); }
+		inline auto begin()		const	-> const_iterator			{ return m_uniforms.begin(); }
+		inline auto cbegin()	const	-> const_iterator			{ return m_uniforms.cbegin(); }
+		inline auto end()				-> iterator					{ return m_uniforms.end(); }
+		inline auto end()		const	-> const_iterator			{ return m_uniforms.end(); }
+		inline auto cend()		const	-> const_iterator			{ return m_uniforms.cend(); }
 		
-		inline auto rbegin()			-> reverse_iterator			{ return m_uni.rbegin(); }
-		inline auto rbegin()	const	-> const_reverse_iterator	{ return m_uni.rbegin(); }
-		inline auto rend()				-> reverse_iterator			{ return m_uni.rend(); }
-		inline auto rend()		const	-> const_reverse_iterator	{ return m_uni.rend(); }
-		inline auto crbegin()	const	-> const_reverse_iterator	{ return m_uni.crbegin(); }
-		inline auto crend()		const	-> const_reverse_iterator	{ return m_uni.crend(); }
+		inline auto rbegin()			-> reverse_iterator			{ return m_uniforms.rbegin(); }
+		inline auto rbegin()	const	-> const_reverse_iterator	{ return m_uniforms.rbegin(); }
+		inline auto rend()				-> reverse_iterator			{ return m_uniforms.rend(); }
+		inline auto rend()		const	-> const_reverse_iterator	{ return m_uniforms.rend(); }
+		inline auto crbegin()	const	-> const_reverse_iterator	{ return m_uniforms.crbegin(); }
+		inline auto crend()		const	-> const_reverse_iterator	{ return m_uniforms.crend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		const Shader *	m_shader;
-		List<Uni *>		m_uni;
+		List<Uni *>		m_uniforms;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

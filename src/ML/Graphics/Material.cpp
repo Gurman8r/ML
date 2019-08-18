@@ -12,20 +12,37 @@ namespace ml
 
 	Material::Material()
 		: m_shader	(nullptr)
-		, m_uni()
+		, m_uniforms()
 	{
 	}
 
 	Material::Material(const Shader * shader)
 		: m_shader	(shader)
-		, m_uni()
+		, m_uniforms()
 	{
 	}
 
-	Material::Material(const Shader * shader, const List<Uni *> & uni)
+	Material::Material(const Shader * shader, List<Uni *> && uniforms)
 		: m_shader	(shader)
-		, m_uni		(uni)
+		, m_uniforms()
 	{
+		for (Uni *& u : uniforms)
+		{
+			if (u && u->name && !get(u->name) && (std::find(begin(), end(), u) == end()))
+			{
+				m_uniforms.push_back(std::move(u));
+			}
+		}
+	}
+
+	Material::Material(const Material & copy)
+		: m_shader	(copy.m_shader)
+		, m_uniforms()
+	{
+		for (const Uni * u : copy)
+		{
+			this->add(u->clone());
+		}
 	}
 
 	Material::~Material() { dispose(); }
@@ -34,12 +51,12 @@ namespace ml
 
 	bool Material::dispose()
 	{
-		for (auto & elem : m_uni)
+		for (auto & elem : m_uniforms)
 		{
 			delete elem;
 		}
-		m_uni.clear();
-		return m_uni.empty();
+		m_uniforms.clear();
+		return m_uniforms.empty();
 	}
 
 	bool Material::loadFromFile(const String & filename)
@@ -157,7 +174,7 @@ namespace ml
 						return u = nullptr;
 					})(u_type, u_name, u_data, textures))
 					{
-						m_uni.push_back(u);
+						m_uniforms.push_back(u);
 					}
 				}
 			}

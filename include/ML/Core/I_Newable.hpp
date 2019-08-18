@@ -14,9 +14,13 @@ namespace ml
 	{
 		virtual ~I_Newable() {}
 
+		inline auto get_type_hash_code()	const { return typeid(*this).hash_code();	}
+		inline auto get_type_name()			const { return typeid(*this).name();		}
+		inline auto get_type_raw_name()		const { return typeid(*this).raw_name();	}
+
 		inline friend ML_SERIALIZE(Ostream & out, const I_Newable & value)
 		{
-			return out << typeid(value).name();
+			return out << value.get_type_name();
 		}
 
 		inline void * operator new		(size_t size) { return ML_allocate(size);  }

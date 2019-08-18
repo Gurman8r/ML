@@ -202,6 +202,8 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Python.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Script.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ScriptableObject.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\SerializedObject.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\SerializedProperty.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +223,8 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ScriptableObject.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\SerializedObject.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\SerializedProperty.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

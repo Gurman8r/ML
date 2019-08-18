@@ -101,34 +101,31 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_window, m)
 	{
-		m.def("close", []() { ML_Launcher.window.close(); });
-		m.def("destroy", []() { ML_Launcher.window.destroy(); });
-		m.def("iconify", []() { ML_Launcher.window.iconify(); });
-		m.def("make_context_current", []() { ML_Launcher.window.makeContextCurrent(); });
-		m.def("maximize", []() { ML_Launcher.window.maximize(); });
-		m.def("poll_events", []() { ML_Launcher.window.pollEvents(); });
-		m.def("restore", []() { ML_Launcher.window.restore(); });
-		m.def("swap_buffers", []() { ML_Launcher.window.swapBuffers(); });
-		m.def("terminate", []() { ML_Launcher.window.terminate(); });
-
-		m.def("is_focused", []() { return ML_Launcher.window.isFocused(); });
-		m.def("is_open", []() { return ML_Launcher.window.isOpen(); });
-
-		m.def("get_cx", []() { return (int32_t)ML_Launcher.window.getCursorPos()[0]; });
-		m.def("get_cy", []() { return (int32_t)ML_Launcher.window.getCursorPos()[1]; });
-		m.def("get_key", [](int32_t k) { return ML_Launcher.window.getKey(k); });
-		m.def("get_title", []() { return (str_t)ML_Launcher.window.getTitle(); });
-		m.def("get_w", []() { return (int32_t)ML_Launcher.window.getWidth(); });
-		m.def("get_h", []() { return (int32_t)ML_Launcher.window.getHeight(); });
-		m.def("get_x", []() { return ML_Launcher.window.getPosition()[0]; });
-		m.def("get_y", []() { return ML_Launcher.window.getPosition()[1]; });
-		
-		m.def("set_clipboard", [](const str_t & s) { ML_Launcher.window.setClipboardString(s); });
-		m.def("set_cursor", [](int32_t m) { ML_Launcher.window.setCursorMode(((Cursor::Mode)m)); });
-		m.def("set_pos", [](int32_t x, int32_t y) { ML_Launcher.window.setPosition({ x, y }); });
-		m.def("set_size", [](int32_t w, int32_t h) { ML_Launcher.window.setSize(vec2i { w, h }); });
-		m.def("set_swap_interval", [](int32_t i) { ML_Launcher.window.swapInterval(i); });
-		m.def("set_title", [](const str_t & s) { ML_Launcher.window.setTitle(s); });
+		m.def("close",					[]() { ML_Launcher.window.close(); });
+		m.def("destroy",				[]() { ML_Launcher.window.destroy(); });
+		m.def("iconify",				[]() { ML_Launcher.window.iconify(); });
+		m.def("make_context_current",	[]() { ML_Launcher.window.makeContextCurrent(); });
+		m.def("maximize",				[]() { ML_Launcher.window.maximize(); });
+		m.def("poll_events",			[]() { ML_Launcher.window.pollEvents(); });
+		m.def("restore",				[]() { ML_Launcher.window.restore(); });
+		m.def("swap_buffers",			[]() { ML_Launcher.window.swapBuffers(); });
+		m.def("terminate",				[]() { ML_Launcher.window.terminate(); });
+		m.def("is_focused",				[]() { return ML_Launcher.window.isFocused(); });
+		m.def("is_open",				[]() { return ML_Launcher.window.isOpen(); });
+		m.def("get_cx",					[]() { return (int32_t)ML_Launcher.window.getCursorPos()[0]; });
+		m.def("get_cy",					[]() { return (int32_t)ML_Launcher.window.getCursorPos()[1]; });
+		m.def("get_key",				[](int32_t k) { return ML_Launcher.window.getKey(k); });
+		m.def("get_title",				[]() { return (str_t)ML_Launcher.window.getTitle(); });
+		m.def("get_w",					[]() { return (int32_t)ML_Launcher.window.getWidth(); });
+		m.def("get_h",					[]() { return (int32_t)ML_Launcher.window.getHeight(); });
+		m.def("get_x",					[]() { return ML_Launcher.window.getPosition()[0]; });
+		m.def("get_y",					[]() { return ML_Launcher.window.getPosition()[1]; });
+		m.def("set_clipboard",			[](const str_t & s) { ML_Launcher.window.setClipboardString(s); });
+		m.def("set_cursor",				[](int32_t m) { ML_Launcher.window.setCursorMode(((Cursor::Mode)m)); });
+		m.def("set_pos",				[](int32_t x, int32_t y) { ML_Launcher.window.setPosition({ x, y }); });
+		m.def("set_size",				[](int32_t w, int32_t h) { ML_Launcher.window.setSize(vec2i { w, h }); });
+		m.def("set_swap_interval",		[](int32_t i) { ML_Launcher.window.swapInterval(i); });
+		m.def("set_title",				[](const str_t & s) { ML_Launcher.window.setTitle(s); });
 	}
 
 

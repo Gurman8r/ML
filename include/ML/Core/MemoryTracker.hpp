@@ -16,23 +16,40 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_CORE_API MemoryTracker final : public I_Singleton<MemoryTracker>
+	struct ML_CORE_API MemoryTracker final : public I_Singleton<MemoryTracker>
 	{	
-		friend I_Singleton<MemoryTracker>;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		struct Record final : public I_NonCopyable
+		{
+			size_t	index;	// Index
+			void *	ptr; // Value
+			size_t	size;	// Size
 
-	private:
-		struct Record;
-		using  RecordMap = typename HashMap<void *, Record *>;
+			Record(size_t index, void * ptr, size_t size);
 
-	private:
-		MemoryTracker();
-		~MemoryTracker();
+			friend ML_SERIALIZE(Ostream & out, const Record & value);
+		};
 
-	public:
+		using RecordMap = typename HashMap<void *, Record *>;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void *	allocate(size_t size);
 		void	deallocate(void *& ptr);
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto records() const -> const RecordMap & { return m_records; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
+		friend I_Singleton<MemoryTracker>;
+
+		MemoryTracker();
+		~MemoryTracker();
+
 		RecordMap	m_records;
 		size_t		m_index;
 	};

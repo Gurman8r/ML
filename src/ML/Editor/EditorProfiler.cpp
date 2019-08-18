@@ -16,9 +16,50 @@ namespace ml
 
 	bool EditorProfiler::onGui(const GuiEvent & ev)
 	{
-		if (beginDraw(0))
+		ImGuiStyle & style = ImGui::GetStyle();
+		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			graph.update("##Framerate", (float_t)ev.time.frameRate(), "fps {0}");
+			graph.update("##Framerate", (float_t)ev.time.frameRate() + ev.time.elapsed().delta(), "fps {0}");
+			
+			ImGui::Separator();
+			
+			if (ImGui::BeginChild(
+				"Allocations",
+				{ 0, (ImGui::GetContentRegionAvail().y - 4 * style.ItemSpacing.y) / 2 },
+				true
+			))
+			{
+				ImGui::Text("Allocations: %u", ML_MemoryTracker.records().size());
+				ImGui::Separator();
+
+				ImGui::Columns(4);
+				ImGui::Text("Type");
+				ImGui::NextColumn();
+				ImGui::Text("Index");
+				ImGui::NextColumn();
+				ImGui::Text("Size");
+				ImGui::NextColumn();
+				ImGui::Text("Address");
+				ImGui::Columns(1);
+
+				ImGui::BeginChild("Allocation##Content", { 0, 0 }, true);
+				for (const auto & pair : ML_MemoryTracker.records())
+				{
+					const MemoryTracker::Record * r { pair.second };
+
+					ImGui::Columns(4);
+					ImGui::Text("%s", static_cast<const I_Newable *>(r->ptr)->get_type_name());
+					ImGui::NextColumn();
+					ImGui::Text("%u", r->index);
+					ImGui::NextColumn();
+					ImGui::Text("%u", r->size);
+					ImGui::NextColumn();
+					ImGui::Text("%p", r->ptr);
+					ImGui::Columns(1);
+				}
+				ImGui::EndChild();
+			}
+			ImGui::EndChild();
 		}
 		return endDraw();
 	}

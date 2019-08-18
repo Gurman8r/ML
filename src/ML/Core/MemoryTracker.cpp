@@ -4,39 +4,26 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct MemoryTracker::Record
+	MemoryTracker::Record::Record(size_t index, void * ptr, size_t size)
+		: ptr(ptr)
+		, index(index)
+		, size(size)
 	{
-		I_Newable *	object; // Value of Allocation
-		size_t		index;	// Index of Allocation
-		size_t		size;	// Size of Allocation
+	}
 
-		Record(I_Newable * object, const size_t index, const size_t size)
-			: object(object)
-			, index	(index)
-			, size	(size)
-		{
-		}
+	ML_SERIALIZE(Ostream & out, const MemoryTracker::Record & value)
+	{
+		return out << std::left
+			<< static_cast<I_Newable *>(value.ptr)->get_type_name()
+			<< " index: " << value.index
+			<< " | size: " << value.size 
+			<< " | address: " << value.ptr
+			;
+	}
 
-		Record(const Record & copy)
-			: object(copy.object)
-			, index(copy.index)
-			, size(copy.size)
-		{
-		}
-
-		friend ML_SERIALIZE(Ostream & out, const MemoryTracker::Record & value)
-		{
-			return out << std::left
-				<< (*value.object)
-				<< " addr: "  << value.object
-				<< " | size: "  << value.size
-				<< " | indx: "  << value.index;
-		}
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	MemoryTracker::MemoryTracker()
 		: m_records	()
@@ -61,20 +48,14 @@ namespace ml
 #endif
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void * MemoryTracker::allocate(size_t size)
 	{
-		if (auto value = static_cast<I_Newable *>(std::malloc(size)))
-		{
-			if (m_records.find(value) == m_records.end())
-			{
-				return m_records.insert({
-					(void *)value, new Record(value, m_index++, size)
-				}).first->second->object;
-			}
-		}
-		return nullptr;
+		void * ptr { std::malloc(size) };
+		return m_records.insert({
+			ptr, new Record { m_index++, ptr, size }
+		}).first->second->ptr;
 	}
 
 	void MemoryTracker::deallocate(void *& value)
@@ -82,8 +63,9 @@ namespace ml
 		RecordMap::iterator it;
 		if ((it = m_records.find(value)) != m_records.end())
 		{
-			// free the object
-			std::free(it->second->object);
+			// free the ptr
+			std::free(it->second->ptr);
+			it->second->ptr = value = nullptr;
 			
 			// delete the record
 			delete it->second;
@@ -92,5 +74,5 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

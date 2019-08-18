@@ -43,6 +43,12 @@
     <Filter Include="Header Files\Commands">
       <UniqueIdentifier>{57f77f12-a021-4485-a643-d95630252a26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Serialization">
+      <UniqueIdentifier>{eddba349-8ad3-4ff2-ba5b-767ad03c7b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Serialization">
+      <UniqueIdentifier>{674b5e34-fc35-4a22-a051-6400545e22f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp">
@@ -120,6 +126,12 @@
     <ClInclude Include="..\..\..\include\ML\Engine\MetadataValue.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\SerializedObject.hpp">
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\SerializedProperty.hpp">
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp">
@@ -172,6 +184,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\MetadataParser.cpp">
       <Filter>Source Files\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\SerializedProperty.cpp">
+      <Filter>Source Files\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\SerializedObject.cpp">
+      <Filter>Source Files\Serialization</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

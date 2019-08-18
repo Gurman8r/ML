@@ -1,6 +1,7 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Debug.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -41,17 +42,16 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::Window(EventSystem & eventSystem)
-		: I_EventListener	(eventSystem)
-		, m_window		(nullptr)
-		, m_monitor		(nullptr)
-		, m_share		(nullptr)
-		, m_title		(String())
-		, m_context		(ContextSettings())
-		, m_style		(WindowStyle())
-		, m_videoMode		(VideoMode())
+		: I_EventListener	{ eventSystem }
+		, m_window			{ nullptr }
+		, m_monitor			{ nullptr }
+		, m_share			{ nullptr }
+		, m_title			{}
+		, m_context			{}
+		, m_style			{}
+		, m_videoMode		{}
 	{
 #ifdef ML_SYSTEM_WINDOWS
-		// Disable CMD Close Button
 		if (HWND window = GetConsoleWindow())
 		{
 			if (HMENU menu = GetSystemMenu(window, false))
@@ -81,7 +81,6 @@ namespace ml
 		this->terminate();
 
 #ifdef ML_SYSTEM_WINDOWS
-		// Re-Enable CMD Close Button
 		if (HWND window = GetConsoleWindow())
 		{
 			if (HMENU menu = GetSystemMenu(window, false))
@@ -97,7 +96,7 @@ namespace ml
 	bool Window::create(const String & title, const VideoMode & video, const WindowStyle & style, const ContextSettings & context)
 	{
 		m_title		= title;
-		m_videoMode		= video;
+		m_videoMode	= video;
 		m_context	= context;
 		m_style		= style;
 

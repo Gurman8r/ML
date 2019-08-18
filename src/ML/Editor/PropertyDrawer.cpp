@@ -374,19 +374,22 @@ namespace ml
 
 	bool ModelPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
+		ImGui::PushID(ML_ADDRESSOF(&value));
 		ImGui::Text("Meshes: %u", value.meshes().size());
-		for (const Mesh * mesh : value.meshes())
+		for (size_t i = 0; i < value.meshes().size(); i++)
 		{
-			//for (const auto & v : mesh->vertices())
-			//{
-			//}
-			//for (const auto & i : mesh->vertices())
-			//{
-			//}
-			//for (const auto & t : mesh->textures())
-			//{
-			//}
+			const Mesh * mesh { value.meshes()[i] };
+			ImGui::PushID(ML_ADDRESSOF(mesh));
+
+			if (ImGui::TreeNode(String(label + " [" + std::to_string(i) + "]").c_str()))
+			{
+				ImGui::Text("Vertices: %u", mesh->vertices().size());
+				ImGui::Text("Indices: %u", mesh->indices().size());
+				ImGui::TreePop();
+			}
+			ImGui::PopID();
 		}
+		ImGui::PopID();
 		return false;
 	}
 

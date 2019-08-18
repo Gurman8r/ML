@@ -25,9 +25,8 @@ uniform mat3		u_kernel;
 #define MODE_DEFAULT		0
 #define MODE_GRAYSCALE		1
 #define MODE_BLUR			2
-#define MODE_JUICY			3
+#define MODE_KERNEL			3
 #define MODE_INVERTED		4
-#define MODE_CUSTOM_KERNEL	5
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -74,12 +73,8 @@ void main()
 		gl_Color = vec4(average, average, average, 1.0);
 		break;
 
-	case MODE_JUICY:
-		gl_Color = drawKernel(mat3(
-			-1, -1, -1,
-			-1, +9, -1,
-			-1, -1, -1
-		));
+	case MODE_KERNEL:
+		gl_Color = drawKernel(u_kernel);
 		break;
 
 	case MODE_BLUR:
@@ -92,10 +87,6 @@ void main()
 
 	case MODE_INVERTED:
 		gl_Color = vec4(vec3(1.0 - texture(u_texture0, V.Texcoord)), 1.0);
-		break;
-
-	case MODE_CUSTOM_KERNEL:
-		gl_Color = drawKernel(u_kernel);
 		break;
 
 	case MODE_DEFAULT:

@@ -278,9 +278,8 @@ namespace ml
 						"Default\0"
 						"Grayscale\0"
 						"Blur\0"
-						"Juicy\0"
-						"Inverted\0"
 						"Kernel\0"
+						"Inverted\0"
 					);
 					ImGui::Separator();
 

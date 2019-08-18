@@ -5,6 +5,7 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Engine/Asset.hpp>
+#include <ML/Editor/ImGui.hpp>
 
 #include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
 
@@ -119,6 +120,7 @@ namespace ml
 			inline auto is_open()		-> bool &		{ return m_open; }
 			inline auto autoView()		-> bool	&		{ return m_autoView; }
 			inline auto clearColor()	-> vec4	&		{ return m_clearColor; }
+			inline auto windowSize()	-> vec2 &		{ return m_windowSize; }
 			inline auto viewport()		-> vec2	&		{ return m_viewport; }
 			inline auto effectMode()	-> uni_int	&	{ return m_effectMode; }
 			inline auto kernel()		-> uni_mat3	&	{ return m_kernel; }
@@ -129,6 +131,7 @@ namespace ml
 			bool		m_open;
 			bool		m_autoView;
 			vec4		m_clearColor;
+			vec2		m_windowSize;
 			vec2		m_viewport;
 			uni_int		m_effectMode;
 			uni_mat3	m_kernel;

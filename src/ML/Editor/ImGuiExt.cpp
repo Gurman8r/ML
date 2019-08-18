@@ -6,6 +6,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	vec2 ImGuiExt::GetContentRegionAvail()
+	{
+		return { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+	}
+
 	bool ImGuiExt::Combo(C_String label, int32_t * index, const List<String> & arr)
 	{
 		return ImGui::Combo(

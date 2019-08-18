@@ -4,12 +4,17 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Core/String.hpp>
 #include <ML/Core/List.hpp>
+#include <ML/Core/Matrix.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
 namespace ml
 {
 	struct ML_EDITOR_API ImGuiExt final : public I_Singleton<ImGuiExt>
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static vec2 GetContentRegionAvail();
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static bool Combo(C_String label, int32_t * index, const List<String> & arr);

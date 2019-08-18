@@ -128,7 +128,7 @@ namespace ml
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
 		// Update Viewports
-		if (m_scene.autoView()) { m_scene.viewport() = ev.window.getFrameSize(); }
+		if (m_scene.autoView()) { m_scene.viewport() = m_scene.windowSize(); }
 		
 		if (auto & surf { m_pipeline[Surf_Main] }) { surf->update(m_scene.viewport()); }
 
@@ -274,22 +274,19 @@ namespace ml
 
 			if (surf && (*surf))
 			{
-				const vec2 src = surf->size();
-				const vec2 dst = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
-				const vec2 off = { 1.0f, 0.8f };
-				const vec2 scl = alg::scale_to_fit(src, dst * off);
-				const vec2 pos = ((dst - scl) * 0.5f) * off;
+				const vec2 scl = alg::scale_to_fit((vec2)surf->size(), m_windowSize) * 0.95f;
+				const vec2 pos = ((m_windowSize - scl) * 0.5f);
 
 				ImGui::BeginChild(
-					"Viewport", { 0, 0 }, true, ImGuiWindowFlags_NoScrollWithMouse
+					"NoobsSceneViewport", { 0, 0 }, true, ImGuiWindowFlags_NoScrollWithMouse
 				);
+
+				m_windowSize = ImGuiExt::GetContentRegionAvail();
+				
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(
-					surf->get_handle(), 
-					{ scl[0], scl[1] }, 
-					{ 0, 1 }, 
-					{ 1, 0 }
-				);
+				
+				ImGui::Image(surf->get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				
 				ImGui::EndChild();
 			}
 

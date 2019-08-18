@@ -6,8 +6,6 @@
 #include <ML/Graphics/Material.hpp>
 #include <ML/Engine/Asset.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Graphics/ModelRenderer.hpp>
-
 #include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
 
 extern "C"
@@ -45,9 +43,6 @@ namespace ml
 		void onDraw		(const DrawEvent	& ev);
 		void onGui		(const GuiEvent		& ev);
 		void onExit		(const ExitEvent	& ev);
-
-		bool m_showModel { false };
-		ModelRenderer m_model;
 
 		// DEMO SKYBOX
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

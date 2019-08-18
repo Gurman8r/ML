@@ -121,17 +121,6 @@ namespace ml
 
 		// Setup Source Editors
 		m_editor.generate_sources();
-
-
-		// Load Model
-		if (m_model.loadFromFile(ML_FS.pathTo("../../../assets/meshes/sphere32x24.obj")))
-		{
-			m_model.setMaterial(m_editor.material());
-		}
-		else
-		{
-			Debug::logError("Failed loading model");
-		}
 	}
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
@@ -164,14 +153,7 @@ namespace ml
 				ML_GL.depthMask(true);
 			}
 
-			if (m_showModel)
-			{
-				ev.window.draw(m_model); // Draw Model
-			}
-			else
-			{
-				ev.window.draw(m_editor.renderer()); // Draw Renderer
-			}
+			ev.window.draw(m_editor.renderer()); // Draw Renderer
 
 		});
 
@@ -209,12 +191,6 @@ namespace ml
 
 	void Noobs::onGui(const GuiEvent & ev)
 	{
-		if (ImGui::Begin("TESTING"))
-		{
-			ImGui::Checkbox("SHOW MODEL", &m_showModel);
-			ImGui::End();
-		}
-
 		// Render Scene
 		m_scene.render(ev, "Scene##Noobs##DemoScene", m_pipeline[Surf_Post]);
 		

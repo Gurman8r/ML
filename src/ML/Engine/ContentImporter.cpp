@@ -182,18 +182,6 @@ namespace ml
 						}
 						delete temp;
 					}
-					else if (const String file = md.getData("mesh"))
-					{
-						if (const Mesh * mesh = ML_Content.get<Mesh>(file))
-						{
-							auto temp = new Model();
-							if (temp->loadFromMemory(*mesh))
-							{
-								return ML_Content.insert(name, temp);
-							}
-							delete temp;
-						}
-					}
 					else
 					{
 						return ML_Content.insert(name, new Model());

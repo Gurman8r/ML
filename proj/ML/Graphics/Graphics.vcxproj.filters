@@ -84,9 +84,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Vertex.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderParser.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -141,11 +138,11 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexBufferObject.hpp">
       <Filter>Header Files\Handles</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\ModelRenderer.hpp">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\GLM.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp">
+      <Filter>Header Files\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +165,6 @@
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Material.cpp">
@@ -215,7 +209,7 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\FrameBufferObject.cpp">
       <Filter>Source Files\Handles</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\ModelRenderer.cpp">
+    <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp">
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
   </ItemGroup>

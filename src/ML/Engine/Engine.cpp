@@ -143,19 +143,19 @@ namespace ml
 		// Load Default Models
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Content.create<Model>("default_triangle")->loadFromMemory(
-			geo::tri::contiguous,
+			geo::tri::vertices,
 			geo::tri::indices
 		);
 		ML_Content.create<Model>("default_quad")->loadFromMemory(
-			geo::quad::contiguous,
+			geo::quad::vertices,
 			geo::quad::indices
 		);
 		ML_Content.create<Model>("default_cube")->loadFromMemory(
-			geo::cube::contiguous,
+			geo::cube::vertices,
 			geo::cube::indices
 		);
 		ML_Content.create<Model>("default_skybox")->loadFromMemory(
-			geo::sky::contiguous
+			geo::sky::vertices
 		);
 
 

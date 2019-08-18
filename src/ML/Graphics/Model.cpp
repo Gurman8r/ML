@@ -2,107 +2,149 @@
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/Geometry.hpp>
 
-#define ML_DEFAULT_CUBE "DEFAULT_CUBE"
-#define ML_DEFAULT_QUAD "DEFAULT_QUAD"
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#include <assimp/Importer.hpp>
+#include <assimp/cimport.h>
+#include <assimp/postprocess.h>
+#include <assimp/material.h>
+#include <assimp/scene.h>
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	using tex_t = Mesh::tex_t;
+
+	static inline Mesh * processMesh(aiMesh * mesh, const aiScene *scene)
+	{
+		if (!mesh || !scene)
+			return nullptr;
+
+		Vertices		vertices;
+		List<uint32_t>	indices;
+		List<tex_t>		textures;
+
+		for (uint32_t i = 0; i < mesh->mNumVertices; i++)
+		{
+			vertices.push_back(Vertex {
+				mesh->mVertices
+					? vec3 { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z }
+					: vec3 { uninit },
+				mesh->mNormals
+					? vec4 { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z, 1 }
+					: vec4 { uninit },
+				mesh->mTextureCoords[0]
+					? vec2 { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y }
+					: vec2 { uninit }
+			});
+		}
+
+		for (uint32_t i = 0; i < mesh->mNumFaces; i++)
+		{
+			aiFace face = mesh->mFaces[i];
+
+			for (uint32_t j = 0; j < face.mNumIndices; j++)
+			{
+				indices.push_back(face.mIndices[j]);
+			}
+		}
+
+		return new Mesh { vertices, indices, textures };
+	}
+
+	static inline void processNode(List<Mesh *> & meshes, aiNode * node, const aiScene * scene)
+	{
+		// process all of the node's meshes and then do the same for each of its children
+		if (node && scene)
+		{
+			for (uint32_t i = 0; i < node->mNumMeshes; i++)
+			{
+				meshes.push_back(processMesh(
+					scene->mMeshes[node->mMeshes[i]],
+					scene
+				));
+			}
+
+			for (uint32_t i = 0; i < node->mNumChildren; i++)
+			{
+				processNode(
+					meshes,
+					node->mChildren[i],
+					scene
+				);
+			}
+		}
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+namespace ml
+{
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Model::Model()
-		: Model(BufferLayout::Default)
-	{
-	}
-
-	Model::Model(const BufferLayout & layout)
-		: m_layout	(layout)
-		, m_vao		()
-		, m_vbo		()
-		, m_ibo		()
-	{
-	}
-
-	Model::Model(const Model & copy)
-		: m_layout	(copy.m_layout)
-		, m_vao		(copy.m_vao)
-		, m_vbo		(copy.m_vbo)
-		, m_ibo		(copy.m_ibo)
+		: m_meshes {}
 	{
 	}
 
 	Model::~Model()
 	{
+		dispose();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool Model::dispose()
+	{
+		for (auto *& elem : m_meshes)
+			delete elem;
+		m_meshes.clear();
+		return m_meshes.empty();
+	}
 
 	bool Model::loadFromFile(const String & filename)
 	{
-		Mesh mesh;
-		return mesh.loadFromFile(filename) && loadFromMemory(mesh);
+		if (const aiScene * scene = aiImportFile(filename.c_str(), aiProcess_Triangulate))
+		{
+			if (!(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) && scene->mRootNode)
+			{
+				processNode(m_meshes, scene->mRootNode, scene);
+
+				return !m_meshes.empty();
+			}
+		}
+		return false;
 	}
 
-	bool Model::loadFromMemory(const Mesh & mesh)
+	bool Model::loadFromMemory(const List<Vertex>& vertices)
 	{
-		return mesh.indices().empty()
-			? loadFromMemory(mesh.contiguous())
-			: loadFromMemory(mesh.contiguous(), mesh.indices());
+		if (dispose())
+		{
+			m_meshes.push_back(new Mesh { vertices, {}, {} });
+		}
+		return !m_meshes.empty();
 	}
 
-	bool Model::loadFromMemory(const Vertices & vertices)
+	bool Model::loadFromMemory(const List<Vertex>& vertices, const List<uint32_t>& indices)
 	{
-		return loadFromMemory(vertices.contiguous());
+		if (dispose())
+		{
+			m_meshes.push_back(new Mesh { vertices, indices, {} });
+		}
+		return !m_meshes.empty();
 	}
 
-	bool Model::loadFromMemory(const List<float_t> & vertices)
-	{
-		m_vao.create(GL::Triangles).bind();
-		m_vbo.create(GL::StaticDraw).bind().bufferData(vertices);
-		
-		m_layout.bind();
-		
-		m_vbo.unbind();
-		m_vao.unbind();
-		
-		return (m_vao && m_vbo);
-	}
-
-	bool Model::loadFromMemory(const Vertices & vertices, const List<uint32_t> & indices)
-	{
-		return loadFromMemory(vertices.contiguous(), indices);
-	}
-
-	bool Model::loadFromMemory(const List<float_t> & vertices, const List<uint32_t> & indices)
-	{
-		m_vao.create(GL::Triangles).bind();
-		m_vbo.create(GL::StaticDraw).bind().bufferData(vertices);
-		m_ibo.create(GL::StaticDraw, GL::UnsignedInt).bind().bufferData(indices);
-		
-		m_layout.bind();
-		
-		m_ibo.unbind();
-		m_vbo.unbind();
-		m_vao.unbind();
-		
-		return (m_vao && m_vbo && m_ibo);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Model::draw(RenderTarget & target, RenderBatch batch) const
 	{
-		if (m_vao && m_vbo)
+		for (const auto & elem : m_meshes)
 		{
-			if (m_ibo)
-			{
-				target.draw(m_vao, m_vbo, m_ibo);
-			}
-			else
-			{
-				target.draw(m_vao, m_vbo);
-			}
+			target.draw(elem);
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

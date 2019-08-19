@@ -20,6 +20,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	void EditorDockspace::onUpdate(const UpdateEvent & ev)
+	{
+	}
+
 	bool EditorDockspace::beginDraw(int32_t flags)
 	{
 		if (m_good = (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable))

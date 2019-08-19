@@ -15,6 +15,8 @@ namespace ml
 
 		explicit EditorImporter(Editor & editor);
 
+		void onUpdate(const UpdateEvent & ev) override;
+
 		bool onGui(const GuiEvent & ev) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

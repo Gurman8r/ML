@@ -2,7 +2,6 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/Asset.hpp>
 #include <ML/Engine/MetadataParser.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
@@ -60,20 +59,7 @@ namespace ml
 		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
 
 		case CommandEvent::ID:
-			if (auto ev = value.as<CommandEvent>())
-			{
-				if (auto args = alg::tokenize(ev->cmd, " "))
-				{
-					if (auto cmd = ML_CommandRegistry.find_by_name(args.front()))
-					{
-						cmd->execute(args);
-					}
-					else
-					{
-						Debug::logError("Unknown Command: \'{0}\'", args.front());
-					}
-				}
-			}
+			if (auto ev = value.as<CommandEvent>()) { ML_CommandRegistry.execute(ev->cmd); }
 			break;
 		}
 	}
@@ -95,11 +81,12 @@ namespace ml
 
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (ev.window.create(
+		if (!ev.window.create(
 			ev.prefs.get_string	("Window", "title",				""), { 
 			ev.prefs.get_uint	("Window", "width",				1280),
 			ev.prefs.get_uint	("Window", "height",			720),
-			ev.prefs.get_uint	("Window", "color_depth",		32) }, {
+			ev.prefs.get_uint	("Window", "bits_per_pixel",	32) }, {
+			ev.prefs.get_bool	("Window", "fullscreen",		false),
 			ev.prefs.get_bool	("Window", "resizable",			true),
 			ev.prefs.get_bool	("Window", "visible",			false),
 			ev.prefs.get_bool	("Window", "decorated",			true),
@@ -115,24 +102,6 @@ namespace ml
 			ev.prefs.get_bool	("Window", "multisample",		false),
 			ev.prefs.get_bool	("Window", "srgb_capable",		false)
 		}))
-		{
-			ev.window.setCursorMode(Cursor::Mode::Normal);
-
-			ev.window.setViewport(vec2i { 0, 0 }, ev.window.getFrameSize());
-
-			if (ev.window.getStyle().maximized)
-			{
-				ev.window.maximize();
-			}
-			else
-			{
-				// centered
-				ev.window.setPosition(
-					(vec2i)(VideoMode::get_desktop_mode().resolution - ev.window.getSize()) / 2
-				);
-			}
-		}
-		else
 		{
 			Debug::fatal("Failed Creating Window");
 		}

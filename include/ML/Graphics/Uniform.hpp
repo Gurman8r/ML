@@ -101,12 +101,12 @@ namespace ml
 	// Generic Uniform Interface
 	template <
 		class T, uint32_t ID, uint32_t Flags
-	> struct I_Uni final : public Uni
+	> struct uni_impl final : public Uni
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using type				= typename T;
-		using self_type			= typename I_Uni<type, ID, Flags>;
+		using self_type			= typename uni_impl<type, ID, Flags>;
 		using value_type		= typename detail::decay_t<type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
@@ -136,7 +136,7 @@ namespace ml
 
 		type data;
 
-		explicit I_Uni(const String & name, type data)
+		explicit uni_impl(const String & name, type data)
 			: Uni { name, ID }, data { data }
 		{
 		}
@@ -158,16 +158,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> using uni_bool_t		= I_Uni<T, Uni::Boolean,	0b0>;
-	template <class T> using uni_float_t	= I_Uni<T, Uni::Float,		0b0>;
-	template <class T> using uni_int_t		= I_Uni<T, Uni::Integer,	0b0>;
-	template <class T> using uni_vec2_t		= I_Uni<T, Uni::Vector2,	0b0>;
-	template <class T> using uni_vec3_t		= I_Uni<T, Uni::Vector3,	0b0>;
-	template <class T> using uni_vec4_t		= I_Uni<T, Uni::Vector4,	0b0>;
-	template <class T> using uni_color_t	= I_Uni<T, Uni::Color,		0b0>;
-	template <class T> using uni_mat3_t		= I_Uni<T, Uni::Matrix3,	0b0>;
-	template <class T> using uni_mat4_t		= I_Uni<T, Uni::Matrix4,	0b0>;
-	template <class T> using uni_sampler_t	= I_Uni<T, Uni::Sampler,	0b1>;
+	template <class T> using uni_bool_t		= uni_impl<T, Uni::Boolean,	0b0>;
+	template <class T> using uni_float_t	= uni_impl<T, Uni::Float,	0b0>;
+	template <class T> using uni_int_t		= uni_impl<T, Uni::Integer,	0b0>;
+	template <class T> using uni_vec2_t		= uni_impl<T, Uni::Vector2,	0b0>;
+	template <class T> using uni_vec3_t		= uni_impl<T, Uni::Vector3,	0b0>;
+	template <class T> using uni_vec4_t		= uni_impl<T, Uni::Vector4,	0b0>;
+	template <class T> using uni_color_t	= uni_impl<T, Uni::Color,	0b0>;
+	template <class T> using uni_mat3_t		= uni_impl<T, Uni::Matrix3,	0b0>;
+	template <class T> using uni_mat4_t		= uni_impl<T, Uni::Matrix4,	0b0>;
+	template <class T> using uni_sampler_t	= uni_impl<T, Uni::Sampler,	0b1>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -14,6 +14,8 @@ namespace ml
 		friend class Editor;
 
 		explicit EditorTerminal(Editor & editor);
+
+		void onUpdate(const UpdateEvent & ev) override;
 		
 		bool onGui(const GuiEvent & ev) override;
 

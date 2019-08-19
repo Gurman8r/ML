@@ -9,74 +9,92 @@ namespace ml
 
 	EditorProfiler::EditorProfiler(Editor & editor)
 		: EditorForm { editor, "Profiler", false }
-		, graphs { { { uninit }, 0, 0.f, 0.f, 0.f, { 0, 80 } } }
+		, graphs {}
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
+
+	void EditorProfiler::onUpdate(const UpdateEvent & ev)
+	{
+		const float_t dt { ev.time.elapsed().delta() };
+		graphs[0].update("Delta Time", dt, std::to_string(dt).c_str());
+
+		const float_t fr = { (float_t)ev.time.frameRate() };
+		graphs[1].update("Frame Rate", fr, std::to_string(fr).c_str());
+	}
 
 	bool EditorProfiler::onGui(const GuiEvent & ev)
 	{
 		ImGuiStyle & style = ImGui::GetStyle();
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			const float max_width { ImGui::GetContentRegionAvail().x - 4 * style.ItemSpacing.x };
-			const float max_height { ImGui::GetContentRegionAvail().y - 4 * style.ItemSpacing.y };
-
-			if (ImGui::BeginChild("Profiler Graphs", { 0, max_height / 6 }, true))
+			if (ImGui::BeginTabBar("Profiler Tabs"))
 			{
-				ImGui::Text("Graphs");
-				if (ImGui::BeginChild("Profiler Graphs##Content Area", { 0, 0 }, true))
+				// Graphs
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginTabItem("Graphs"))
 				{
-					const float dt { ImGui::GetIO().DeltaTime };
-					graphs[0].update("##DeltaTime", dt, std::to_string(dt));
-				}
-				ImGui::EndChild();
-			}
-			ImGui::EndChild();
-			
-			ImGui::Separator();
-			
-			if (ImGui::BeginChild("Active Allocations##Profiler", { 0, max_height / 2 }, true))
-			{
-				ImGui::Text("Active Allocations: %u", ML_MemoryTracker.records().size());
-
-				if (ImGui::BeginChild("Active Allocation##Content##Profiler", { 0, 0 }, true))
-				{
-					ImGui::Columns(4, "Allocations##Columns##Profiler");
-					ImGui::Text("Type"); ImGui::NextColumn();
-					ImGui::Text("Index"); ImGui::NextColumn();
-					ImGui::Text("Size"); ImGui::NextColumn();
-					ImGui::Text("Address"); ImGui::NextColumn();
-					ImGui::Separator();
-
-					for (const auto & pair : ML_MemoryTracker.records())
+					for (size_t i = 0; i < graphs.size(); i++)
 					{
-						const MemoryTracker::Record * r { pair.second };
-						const I_Newable * ptr { static_cast<const I_Newable *>(r->ptr) };
-
-						ImGui::Columns(4, "Allocations##Columns##Profiler");
-						ImGui::Text("%s", ptr->get_type_name());
-						ImGui::NextColumn();
-						ImGui::Text("%u", r->index);
-						ImGui::NextColumn();
-						ImGui::Text("%u", r->size);
-						ImGui::NextColumn();
-						ImGui::Text("%p", r->ptr);
-						ImGui::Columns(1);
+						graphs[i].render();
 					}
+					ImGui::EndTabItem();
 				}
-				ImGui::EndChild();
+
+				// Active Allocations
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginTabItem("Active Allocations"))
+				{
+					if (ImGui::BeginChild("Active Allocations", { 0, 0 }, true))
+					{
+						ImGui::Text("Active Allocations: %u", ML_MemoryTracker.records().size());
+
+						if (ImGui::BeginChild("Active Allocation##Content", { 0, 0 }, true))
+						{
+							ImGui::Columns(4, "Allocations##Columns");
+							ImGui::Text("Type"); ImGui::NextColumn();
+							ImGui::Text("Index"); ImGui::NextColumn();
+							ImGui::Text("Size"); ImGui::NextColumn();
+							ImGui::Text("Address"); ImGui::NextColumn();
+							ImGui::Separator();
+
+							for (const auto & pair : ML_MemoryTracker.records())
+							{
+								const MemoryTracker::Record * r { pair.second };
+								const I_Newable * ptr { static_cast<const I_Newable *>(r->ptr) };
+
+								ImGui::Columns(4, "Allocations##Columns");
+								ImGui::Text("%s", ptr->get_type_name());
+								ImGui::NextColumn();
+								ImGui::Text("%u", r->index);
+								ImGui::NextColumn();
+								ImGui::Text("%u", r->size);
+								ImGui::NextColumn();
+								ImGui::Text("%p", r->ptr);
+								ImGui::Columns(1);
+							}
+						}
+						ImGui::EndChild();
+					}
+					ImGui::EndChild();
+					ImGui::EndTabItem();
+				}
+
+				ImGui::EndTabBar();
 			}
-			ImGui::EndChild();
 		}
 		return endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void EditorProfiler::GraphLines::update(C_String label, const float_t sample, const String & fmt)
+	void EditorProfiler::GraphLines::update(C_String label, float_t sample, C_String text)
 	{
+		m_label		= label;
+		m_sample	= sample;
+		m_text		= text;
+
 		if (refresh == 0.0f)
 		{
 			refresh = (float_t)ImGui::GetTime();
@@ -84,22 +102,33 @@ namespace ml
 
 		while (refresh < ImGui::GetTime())
 		{
-			values[offset] = sample;
-			offset = (offset + 1) % ML_ARRAYSIZE(values);
+			values[offset] = m_sample;
+			offset = (offset + 1) % values.size();
 			refresh += (1.0f / 60.0f);
 		}
+	}
 
-		if (sample >= max)
+	void EditorProfiler::GraphLines::render()
+	{
+		if (size[0] <= 0) size[0] =
+			(ImGui::GetContentRegionAvail().x -
+			(4 * ImGui::GetStyle().ItemSpacing.x)) * (m_label ? 0.9f : 1.0f);
+
+		if (size[1] <= 0) size[1] =
+			(ImGui::GetContentRegionAvail().y -
+			(4 * ImGui::GetStyle().ItemSpacing.y)) * (m_label ? 0.9f : 1.0f);
+
+		if (m_sample >= max)
 		{
 			max += ImGui::GetIO().DeltaTime;
 		}
 
 		ImGui::PlotLines(
-			label,
-			values,
-			ML_ARRAYSIZE(values),
+			m_label,
+			values.data(),
+			(int32_t)values.size(),
 			offset,
-			fmt.c_str(),
+			m_text,
 			min,
 			max,
 			{ size[0], size[1] }

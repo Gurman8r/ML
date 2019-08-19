@@ -13,6 +13,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	void EditorManual::onUpdate(const UpdateEvent & ev)
+	{
+	}
+
 	bool EditorManual::onGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_None))

@@ -143,15 +143,15 @@ namespace ml
 		{
 			case Hash("manifest") : return true;
 
-			case ContentImporter<Entity	>::id: return ContentImporter<Entity	>()(data);
-			case ContentImporter<Font		>::id: return ContentImporter<Font	>()(data);
-			case ContentImporter<Image	>::id: return ContentImporter<Image	>()(data);
-			case ContentImporter<Material	>::id: return ContentImporter<Material>()(data);
-			case ContentImporter<Model	>::id: return ContentImporter<Model	>()(data);
-			case ContentImporter<Script	>::id: return ContentImporter<Script	>()(data);
-			case ContentImporter<Shader	>::id: return ContentImporter<Shader	>()(data);
-			case ContentImporter<Sound	>::id: return ContentImporter<Sound	>()(data);
-			case ContentImporter<Sprite	>::id: return ContentImporter<Sprite	>()(data);
+			case ContentImporter<Entity		>::id: return ContentImporter<Entity	>()(data);
+			case ContentImporter<Font		>::id: return ContentImporter<Font		>()(data);
+			case ContentImporter<Image		>::id: return ContentImporter<Image		>()(data);
+			case ContentImporter<Material	>::id: return ContentImporter<Material	>()(data);
+			case ContentImporter<Model		>::id: return ContentImporter<Model		>()(data);
+			case ContentImporter<Script		>::id: return ContentImporter<Script	>()(data);
+			case ContentImporter<Shader		>::id: return ContentImporter<Shader	>()(data);
+			case ContentImporter<Sound		>::id: return ContentImporter<Sound		>()(data);
+			case ContentImporter<Sprite		>::id: return ContentImporter<Sprite	>()(data);
 			case ContentImporter<Surface	>::id: return ContentImporter<Surface	>()(data);
 			case ContentImporter<Texture	>::id: return ContentImporter<Texture	>()(data);
 		

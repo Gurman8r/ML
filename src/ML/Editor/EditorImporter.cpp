@@ -14,6 +14,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	void EditorImporter::onUpdate(const UpdateEvent & ev)
+	{
+	}
+
 	bool EditorImporter::onGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_None))

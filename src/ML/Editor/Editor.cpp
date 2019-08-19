@@ -3,7 +3,6 @@
 #include <ML/Editor/ImGuiImpl.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/Plugin.hpp>
-#include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Window/WindowEvents.hpp>
@@ -27,10 +26,12 @@ namespace ml
 		, m_terminal		{ *this }
 	{
 		eventSystem.addListener(EnterEvent		::ID, this);
-		eventSystem.addListener(ExitEvent		::ID, this);
+		eventSystem.addListener(UpdateEvent		::ID, this);
 		eventSystem.addListener(BeginGuiEvent	::ID, this);
 		eventSystem.addListener(GuiEvent		::ID, this);
 		eventSystem.addListener(EndGuiEvent		::ID, this);
+		eventSystem.addListener(ExitEvent		::ID, this);
+
 		eventSystem.addListener(DockspaceEvent	::ID, this);
 		eventSystem.addListener(KeyEvent		::ID, this);
 		eventSystem.addListener(File_New_Event	::ID, this);
@@ -51,10 +52,11 @@ namespace ml
 		switch (*value)
 		{
 		case EnterEvent::ID		: if (auto ev = value.as<EnterEvent>())		return onEnter(*ev);
-		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
+		case UpdateEvent::ID	: if (auto ev = value.as<UpdateEvent>())	return onUpdate(*ev);
 		case BeginGuiEvent::ID	: if (auto ev = value.as<BeginGuiEvent>())	return onBeginGui(*ev);
 		case GuiEvent::ID		: if (auto ev = value.as<GuiEvent>())		return onGui(*ev);
 		case EndGuiEvent::ID	: if (auto ev = value.as<EndGuiEvent>())	return onEndGui(*ev);
+		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
 
 			// Dockspace
 		case DockspaceEvent::ID:
@@ -239,6 +241,17 @@ namespace ml
 		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal",	false));
 	}
 
+	void Editor::onUpdate(const UpdateEvent & ev)
+	{
+		m_content	.onUpdate(ev);
+		m_explorer	.onUpdate(ev);
+		m_dockspace	.onUpdate(ev);
+		m_importer	.onUpdate(ev);
+		m_profiler	.onUpdate(ev);
+		m_manual	.onUpdate(ev);
+		m_terminal	.onUpdate(ev);
+	}
+
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
 	{
 		ML_ImGuiImpl.NewFrame();
@@ -331,9 +344,9 @@ namespace ml
 			{
 				ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content	.openPtr());
 				ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
-				ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
+				//ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
 				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
-				ImGui::MenuItem(m_manual.getTitle(),	"Ctrl+Alt+M", m_manual	.openPtr());
+				//ImGui::MenuItem(m_manual.getTitle(),	"Ctrl+Alt+M", m_manual	.openPtr());
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
 
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Window));

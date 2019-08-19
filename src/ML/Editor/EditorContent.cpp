@@ -27,14 +27,13 @@ namespace ml
 		class T, class TT = detail::decay_t<T>
 	> static inline void draw_content(const String & label)
 	{
-		if (!ImGui::CollapsingHeader(label.c_str()))
+		if (ML_Content.data<TT>().empty() ||
+			!ImGui::CollapsingHeader(label.c_str()))
 			return;
 
 		ImGui::BeginGroup();
 		for (auto & pair : ML_Content.data<TT>())
 		{
-			if (ML_Content.data<TT>().empty()) 
-				continue;
 			if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<TT>::tag).c_str()))
 			{
 				if (pair.second)
@@ -56,6 +55,10 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void EditorContent::onUpdate(const UpdateEvent & ev)
+	{
+	}
 
 	bool EditorContent::onGui(const GuiEvent & ev)
 	{

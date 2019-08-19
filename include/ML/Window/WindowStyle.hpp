@@ -8,6 +8,7 @@ namespace ml
 {
 	struct WindowStyle final : public I_NonNewable
 	{
+		bool fullscreen;
 		bool resizable;
 		bool visible;
 		bool decorated;
@@ -17,12 +18,13 @@ namespace ml
 		bool maximized;
 
 		constexpr WindowStyle()
-			: WindowStyle(true, true, true, true, true, false, false)
+			: WindowStyle(false, true, true, true, true, true, false, false)
 		{
 		}
 
-		constexpr WindowStyle(bool resizable, bool visible, bool decorated, bool focused, bool autoIconify, bool floating, bool maximized)
-			: resizable		(resizable)
+		constexpr WindowStyle(bool fullscreen, bool resizable, bool visible, bool decorated, bool focused, bool autoIconify, bool floating, bool maximized)
+			: fullscreen	(fullscreen)
+			, resizable		(resizable)
 			, visible		(visible)
 			, decorated		(decorated)
 			, focused		(focused)
@@ -33,6 +35,7 @@ namespace ml
 		}
 
 		constexpr WindowStyle(const WindowStyle & copy) : WindowStyle(
+			copy.fullscreen,
 			copy.resizable, 
 			copy.visible, 
 			copy.decorated, 
@@ -46,6 +49,7 @@ namespace ml
 		constexpr bool operator==(const WindowStyle & other) const
 		{
 			return
+				this->fullscreen	== other.fullscreen		&&
 				this->resizable		== other.resizable		&&
 				this->visible		== other.visible		&&
 				this->decorated		== other.decorated		&&

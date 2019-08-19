@@ -15,6 +15,8 @@ namespace ml
 		
 		explicit EditorDockspace(Editor & editor);
 
+		void onUpdate(const UpdateEvent & ev) override;
+
 		bool beginDraw(int32_t flags) override;
 		
 		bool onGui(const GuiEvent & ev) override;

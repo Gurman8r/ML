@@ -3,6 +3,7 @@
 #define _ML_EDITOR_FORM_HPP_
 
 #include <ML/Editor/Export.hpp>
+#include <ML/Engine/EngineEvents.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/Rect.hpp>
@@ -26,6 +27,7 @@ namespace ml
 
 		virtual ~EditorForm() {}
 
+		virtual void onUpdate(const UpdateEvent & ev) = 0;
 		virtual bool beginDraw(int32_t flags);
 		virtual bool onGui(const GuiEvent & ev) = 0;
 		virtual bool endDraw();

@@ -16,6 +16,8 @@ namespace ml
 
 		explicit EditorExplorer(Editor & editor);
 
+		void onUpdate(const UpdateEvent & ev) override;
+
 		bool onGui(const GuiEvent & ev) override;
 		
 		void draw_directory();

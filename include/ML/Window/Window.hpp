@@ -18,7 +18,7 @@ namespace ml
 		, public I_EventListener
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
+
 		using CharFun			= typename void(*)(void *, uint32_t);
 		using CursorEnterFun	= typename void(*)(void *, int32_t);
 		using CursorPosFun		= typename void(*)(void *, float64_t, float64_t);
@@ -60,11 +60,13 @@ namespace ml
 		Window & pollEvents();
 		Window & restore();
 		Window & swapBuffers();
-		Window & swapInterval(const int32_t value);
+		Window & swapInterval(int32_t value);
+		Window & setCentered();
 		Window & setClipboardString(const String & value);
 		Window & setCursor(void * value);
 		Window & setCursorMode(const Cursor::Mode value);
 		Window & setCursorPos(const vec2i & value);
+		Window & setFullscreen(bool value);
 		Window & setIcons(const List<Image> & value);
 		Window & setPosition(const vec2i & value);
 		Window & setSize(const vec2u & value);
@@ -74,6 +76,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool		isFocused() const;
+		bool		isFullscreen() const;
 		bool		isOpen() const;
 		int32_t		getAttribute(const int32_t value) const;
 		char		getChar() const;
@@ -90,15 +93,17 @@ namespace ml
 
 		inline auto getContext()	const -> const ContextSettings & { return m_context; }
 		inline auto getStyle()		const -> const WindowStyle & { return m_style; }
-		inline auto getVideo()		const -> const VideoMode & { return m_videoMode; }
+		inline auto getVideoMode()	const -> const VideoMode & { return m_videoMode; }
 		inline auto getTitle()		const -> const String { return m_title; }
-		inline auto getSize()		const -> const vec2u & { return getVideo().resolution; }
+		inline auto getSize()		const -> const vec2u & { return getVideoMode().resolution; }
 		inline auto getWidth()		const -> const uint32_t { return getSize()[0]; }
 		inline auto getHeight()		const -> const uint32_t { return getSize()[1]; }
 		inline auto getFrameWidth()	const -> const int32_t { return getFrameSize()[0]; }
 		inline auto getFrameHeight()const -> const int32_t { return getFrameSize()[1]; }
 		inline auto getAspect()		const -> const float_t { return ML_ASPECT(getWidth(), getHeight()); };
 		inline auto getFrameAspect()const -> const float_t { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
+		inline auto getMonitor()	const -> const void * { return m_monitor; }
+		inline auto getShare()		const -> const void * { return m_share; }
 	
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

@@ -3,6 +3,7 @@
 
 #include <ML/Engine/CommandExecutor.hpp>
 #include <ML/Engine/CommandDescriptor.hpp>
+#include <ML/Core/StringUtility.hpp>
 
 #define ML_CommandRegistry _ML CommandRegistry::getInstance()
 
@@ -16,6 +17,20 @@ namespace ml
 		using command_list		= typename List<value_type>;
 		using iterator			= typename command_list::iterator;
 		using const_iterator	= typename command_list::const_iterator;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool execute(const String & value)
+		{
+			if (auto args = alg::tokenize(value, " "))
+			{
+				if (auto cmd = this->find_by_name(args.front()))
+				{
+					return cmd->execute(args);
+				}
+			}
+			return false;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

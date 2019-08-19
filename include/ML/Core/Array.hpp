@@ -132,6 +132,27 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
+
+	namespace alg
+	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class T = typename uint32_t
+		> static constexpr Array<uint8_t, sizeof(T)> to_bytes(const T value)
+		{
+			Array<uint8_t, sizeof(T)> temp {};
+			for (T i = 0; i < sizeof(T); i++)
+			{
+				temp[i] = static_cast<uint8_t>(value >> (i * numeric<T>::eight));
+			}
+			return temp;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ARRAY_HPP_

@@ -2,7 +2,6 @@
 #define _ML_EDITOR_HPP_
 
 #include <ML/Core/I_EventListener.hpp>
-#include <ML/Engine/EngineEvents.hpp>
 #include <ML/Editor/EditorContent.hpp>
 #include <ML/Editor/EditorDockspace.hpp>
 #include <ML/Editor/EditorExplorer.hpp>
@@ -29,6 +28,7 @@ namespace ml
 
 	private:
 		void onEnter	(const EnterEvent & ev);
+		void onUpdate	(const UpdateEvent & ev);
 		void onBeginGui	(const BeginGuiEvent & ev);
 		void onGui		(const GuiEvent & ev);
 		void onEndGui	(const EndGuiEvent & ev);

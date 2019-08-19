@@ -35,6 +35,10 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	void EditorTerminal::onUpdate(const UpdateEvent & ev)
+	{
+	}
+
 	bool EditorTerminal::onGui(const GuiEvent & ev)
 	{
 		if (m_coutBuf)

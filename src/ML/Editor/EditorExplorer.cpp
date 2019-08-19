@@ -29,6 +29,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	void EditorExplorer::onUpdate(const UpdateEvent & ev)
+	{
+	}
+
 	bool EditorExplorer::onGui(const GuiEvent & ev)
 	{
 		if (beginDraw(0))

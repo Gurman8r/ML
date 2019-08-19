@@ -50,8 +50,8 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			Ref<Model>	model		{ "default_skybox" };
-			Ref<Material> material	{ "default_skybox" };
+			Ref<Model>		model		{ "default_skybox" };
+			Ref<Material>	material	{ "default_skybox" };
 
 			DemoSkybox() = default;
 
@@ -240,20 +240,20 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			inline auto is_open()	-> bool &				{ return m_open; }
+			inline auto is_open()	-> bool &			{ return m_open; }
 			inline auto material()	-> Ref<Material> &	{ return m_material; }
 			inline auto model()		-> Ref<Model> &		{ return m_model; }
-			inline auto shader()	-> const Shader *&		{ return m_material->shader(); }
-			inline auto entity()	-> Ref<Entity> &		{ return m_entity; }
-			inline auto renderer()	-> Renderer *&			{ return m_renderer; }
+			inline auto shader()	-> const Shader *&	{ return m_material->shader(); }
+			inline auto entity()	-> Ref<Entity> &	{ return m_entity; }
+			inline auto renderer()	-> Renderer *&		{ return m_renderer; }
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
 		private:
 			bool			m_open;
-			Ref<Material> m_material;
-			Ref<Model>	m_model;
-			Ref<Entity>	m_entity;
+			Ref<Material>	m_material;
+			Ref<Model>		m_model;
+			Ref<Entity>		m_entity;
 			Renderer *		m_renderer;
 			File_List		m_files;
 

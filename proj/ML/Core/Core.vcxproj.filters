@@ -22,9 +22,6 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{4cc0b5f2-b6e7-4346-8846-52961655e456}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\DS">
-      <UniqueIdentifier>{20e74748-a8af-4fb8-9054-e62d04ea39f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{df4d87b1-4e98-474f-890e-b6053714747f}</UniqueIdentifier>
     </Filter>
@@ -67,9 +64,6 @@
       <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Image.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp">
@@ -170,9 +164,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Core\Image.cpp">
-      <Filter>Source Files\DS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>

@@ -189,8 +189,10 @@ namespace ml
 	struct ExitEvent final : public I_Event<EngineEvent::EV_Exit>
 	{
 		const GameTime & time;
-		constexpr ExitEvent(const GameTime & time)
+		RenderWindow & window;
+		constexpr ExitEvent(const GameTime & time, RenderWindow & window)
 			: time(time)
+			, window(window)
 		{
 		}
 	};

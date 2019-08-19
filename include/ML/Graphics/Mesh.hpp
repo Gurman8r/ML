@@ -34,6 +34,8 @@ namespace ml
 		Mesh & addIndex(uint32_t value);
 		Mesh & setLayout(const BufferLayout & value);
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

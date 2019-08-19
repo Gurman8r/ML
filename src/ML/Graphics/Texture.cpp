@@ -609,6 +609,8 @@ namespace ml
 		{
 			Image::Pixels pixels(width() * height() * 4);
 
+			Image temp(width(), height());
+
 			if ((m_size == m_realSize))
 			{
 				this->bind();

@@ -4,7 +4,7 @@
 #include <ML/Core/OS.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
-#include <ML/Engine/Asset.hpp>
+#include <ML/Engine/Ref.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Lua.hpp>
 #include <ML/Engine/Python.hpp>

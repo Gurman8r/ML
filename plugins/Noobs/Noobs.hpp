@@ -4,7 +4,7 @@
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Graphics/Material.hpp>
-#include <ML/Engine/Asset.hpp>
+#include <ML/Engine/Ref.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
 
@@ -37,6 +37,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		//Ref<Image> m_img { "MY_IMAGE" };
+		//Ref<Texture> m_tex { "MY_TEXTURE" };
+
 	private:
 		void onStart	(const StartEvent	& ev);
 		void onUpdate	(const UpdateEvent	& ev);
@@ -50,8 +53,8 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			Asset<Model>	model		{ "default_skybox" };
-			Asset<Material> material	{ "skybox" };
+			Ref<Model>	model		{ "skybox" };
+			Ref<Material> material	{ "skybox" };
 
 			DemoSkybox() = default;
 
@@ -68,14 +71,14 @@ namespace ml
 			MAX_DEMO_SURFACE
 		};
 		struct DemoPipeline final : public I_NonCopyable, public Array<
-			Asset<Surface>, MAX_DEMO_SURFACE
+			Ref<Surface>, MAX_DEMO_SURFACE
 		>
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			DemoPipeline() : Array {
-				Asset<Surface> { "surf_scene_main" },
-				Asset<Surface> { "surf_scene_post" },
+				Ref<Surface> { "surf_scene_main" },
+				Ref<Surface> { "surf_scene_post" },
 			}
 			{
 			}
@@ -241,19 +244,19 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			inline auto is_open()	-> bool &				{ return m_open; }
-			inline auto material()	-> Asset<Material> &	{ return m_material; }
-			inline auto model()		-> Asset<Model> &		{ return m_model; }
+			inline auto material()	-> Ref<Material> &	{ return m_material; }
+			inline auto model()		-> Ref<Model> &		{ return m_model; }
 			inline auto shader()	-> const Shader *&		{ return m_material->shader(); }
-			inline auto entity()	-> Asset<Entity> &		{ return m_entity; }
+			inline auto entity()	-> Ref<Entity> &		{ return m_entity; }
 			inline auto renderer()	-> Renderer *&			{ return m_renderer; }
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
 		private:
 			bool			m_open;
-			Asset<Material> m_material;
-			Asset<Model>	m_model;
-			Asset<Entity>	m_entity;
+			Ref<Material> m_material;
+			Ref<Model>	m_model;
+			Ref<Entity>	m_entity;
 			Renderer *		m_renderer;
 			File_List		m_files;
 

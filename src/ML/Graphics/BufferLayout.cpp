@@ -16,36 +16,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	BufferLayout::Element::Element()
-		: Element(0, 0, GL::Byte, false, 0, 0, 0)
-	{
-	}
-
-	BufferLayout::Element::Element(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, uint32_t offset, uint32_t width)
-		: index		(index)
-		, size		(size)
-		, type		(type)
-		, normalized(normalized)
-		, stride	(stride)
-		, offset	(offset)
-		, width		(width)
-	{
-	}
-
-	BufferLayout::Element::Element(const Element & copy) : Element(
-		copy.index, 
-		copy.size, 
-		copy.type, 
-		copy.normalized, 
-		copy.stride, 
-		copy.offset, 
-		copy.width)
-	{
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	void BufferLayout::Element::use() const
+	const BufferLayout::Element & BufferLayout::Element::operator()() const
 	{
 		ML_GL.vertexAttribPointer(
 			index,
@@ -54,8 +25,10 @@ namespace ml
 			normalized,
 			stride,
 			offset,
-			width);
+			width
+		);
 		ML_GL.enableVertexAttribArray(index);
+		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -77,7 +50,7 @@ namespace ml
 	{
 	}
 
-	BufferLayout::BufferLayout(const std::initializer_list<Element> & elements)
+	BufferLayout::BufferLayout(const Initializer<Element> & elements)
 		: m_elements(elements.begin(), elements.end())
 	{
 	}
@@ -95,9 +68,9 @@ namespace ml
 	
 	void BufferLayout::bind() const
 	{
-		for (const Element & e : elements())
+		for (const Element & elem : this->elements())
 		{
-			e.use();
+			elem();
 		}
 	}
 

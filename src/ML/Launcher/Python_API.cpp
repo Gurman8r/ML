@@ -3,7 +3,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/Input.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Engine/Asset.hpp>
+#include <ML/Engine/Ref.hpp>
 #include <ML/Engine/MetadataParser.hpp>
 
 namespace py = pybind11;

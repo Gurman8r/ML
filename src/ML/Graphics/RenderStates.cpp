@@ -6,13 +6,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const RenderStates RenderStates::Default { {
+	const RenderStates & RenderStates::get_default()
+	{
+		static RenderStates temp { {
 			new AlphaState	{ true, GL::Greater, 0.01f },
 			new BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
 			new CullState	{ true, GL::Back },
 			new DepthState	{ true, GL::Less, true }
-		} 
-	};
+		} };
+		return temp;
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

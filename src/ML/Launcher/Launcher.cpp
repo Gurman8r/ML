@@ -31,7 +31,7 @@ namespace ml
 
 		// Shutdown
 		eventSystem.fireEvent(UnloadEvent	{ time, window, engine });
-		eventSystem.fireEvent(ExitEvent		{ time });
+		eventSystem.fireEvent(ExitEvent		{ time, window });
 		
 		// Cleanup Plugins
 		plugins.dispose();

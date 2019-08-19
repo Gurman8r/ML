@@ -2,7 +2,8 @@
 #define _ML_WINDOW_HPP_
 
 #include <ML/Core/I_EventListener.hpp>
-#include <ML/Core/Image.hpp>
+#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/String.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
 #include <ML/Window/VideoMode.hpp>
@@ -14,6 +15,7 @@ namespace ml
 
 	struct ML_WINDOW_API Window
 		: public I_Newable
+		, public I_Disposable
 		, public I_NonCopyable
 		, public I_EventListener
 	{
@@ -50,6 +52,8 @@ namespace ml
 
 		virtual void onEvent(const Event & value) override;
 
+		virtual bool dispose() override;
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Window & close();
@@ -66,7 +70,7 @@ namespace ml
 		Window & setCursor(void * value);
 		Window & setCursorMode(const Cursor::Mode value);
 		Window & setCursorPos(const vec2i & value);
-		Window & setIcons(const List<Image> & value);
+		Window & setIcon(uint32_t w, uint32_t h, const uint8_t * pixels);
 		Window & setPosition(const vec2i & value);
 		Window & setSize(const vec2u & value);
 		Window & setTitle(const String & value);
@@ -105,7 +109,7 @@ namespace ml
 	
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		void *	createCustomCursor(const Image & image) const;
+		void *	createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels) const;
 		void *	createStandardCursor(Cursor::Shape value) const;
 		void	destroyCursor(void * value) const;
 
@@ -127,14 +131,14 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		void *			m_window;
-		void *			m_monitor;
-		void *			m_share;
-		ContextSettings	m_context;
-		WindowStyle		m_style;
-		VideoMode		m_videoMode;
-		String			m_title;
-		mutable char	m_char;
+		void *			m_window;		// 
+		void *			m_monitor;		// 
+		void *			m_share;		// 
+		ContextSettings	m_context;		// 
+		WindowStyle		m_style;		// 
+		VideoMode		m_videoMode;	// 
+		String			m_title;		// 
+		mutable char	m_char;			// 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

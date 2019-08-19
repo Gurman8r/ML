@@ -30,6 +30,7 @@ namespace ml
 		eventSystem.addListener(BeginGuiEvent	::ID, this);
 		eventSystem.addListener(GuiEvent		::ID, this);
 		eventSystem.addListener(EndGuiEvent		::ID, this);
+		eventSystem.addListener(UnloadEvent		::ID, this);
 		eventSystem.addListener(ExitEvent		::ID, this);
 
 		eventSystem.addListener(DockspaceEvent	::ID, this);
@@ -56,6 +57,7 @@ namespace ml
 		case BeginGuiEvent::ID	: if (auto ev = value.as<BeginGuiEvent>())	return onBeginGui(*ev);
 		case GuiEvent::ID		: if (auto ev = value.as<GuiEvent>())		return onGui(*ev);
 		case EndGuiEvent::ID	: if (auto ev = value.as<EndGuiEvent>())	return onEndGui(*ev);
+		case UnloadEvent::ID	: if (auto ev = value.as<UnloadEvent>())	return onUnload(*ev);
 		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
 
 			// Dockspace
@@ -425,13 +427,16 @@ namespace ml
 		ML_ImGuiImpl.Render(ImGui::GetDrawData());
 	}
 
+	void Editor::onUnload(const UnloadEvent & ev)
+	{
+		// Shutdown ImGui
+		ML_ImGuiImpl.Shutdown();
+	}
+
 	void Editor::onExit(const ExitEvent & ev)
 	{
 		// Release Cout
 		if (m_redirect_cout) m_terminal.redirect(cout);
-
-		// Shutdown ImGui
-		ML_ImGuiImpl.Shutdown();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -33,7 +33,7 @@ namespace ml
 	GameTime & GameTime::endLoop()
 	{
 		m_elapsed = m_loopTimer.stop().elapsed();
-		
+
 		m_frameCount++;
 		
 		if (((m_nextSecond += m_elapsed.delta()) - m_prevSecond) > 1.0f)

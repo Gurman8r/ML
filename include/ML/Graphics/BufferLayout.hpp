@@ -33,13 +33,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			Element();
-			Element(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, uint32_t offset, uint32_t width);
-			Element(const Element & copy);
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			void use() const;
+			const Element & operator()() const;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
@@ -48,7 +42,7 @@ namespace ml
 
 		BufferLayout();
 		BufferLayout(const List<Element> & elements);
-		BufferLayout(const std::initializer_list<Element> & elements);
+		BufferLayout(const Initializer<Element> & elements);
 		BufferLayout(const BufferLayout & copy);
 		~BufferLayout();
 

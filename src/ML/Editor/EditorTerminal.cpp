@@ -10,7 +10,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorTerminal::EditorTerminal(Editor & editor)
 		: EditorForm	{ editor, "Terminal", false }
@@ -33,7 +33,7 @@ namespace ml
 		this->printf("# Type \'help\' for a list of commands.");
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorTerminal::onUpdate(const UpdateEvent & ev)
 	{
@@ -172,7 +172,7 @@ namespace ml
 		return endDraw();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorTerminal::clear()
 	{
@@ -214,7 +214,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorTerminal::printf(C_String value, ...)
 	{
@@ -270,7 +270,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	int32_t EditorTerminal::inputCallback(void * value)
 	{
@@ -410,5 +410,5 @@ namespace ml
 		return 0;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

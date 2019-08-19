@@ -10,8 +10,6 @@
 #include <assimp/material.h>
 #include <assimp/scene.h>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
 	static inline Mesh * processMesh(aiMesh * mesh, const aiScene * scene)

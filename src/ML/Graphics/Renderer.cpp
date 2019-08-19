@@ -29,6 +29,18 @@ namespace ml
 
 	Renderer::~Renderer() {}
 
+	Renderer & Renderer::setDrawable(const I_Drawable * value)
+	{
+		m_drawable = value;
+		return (*this);
+	}
+
+	Renderer & Renderer::setMaterial(const Material * value)
+	{
+		m_material = value;
+		return (*this);
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	void Renderer::draw(RenderTarget & target, RenderBatch batch) const

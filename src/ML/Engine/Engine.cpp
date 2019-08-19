@@ -2,7 +2,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Engine/Asset.hpp>
+#include <ML/Engine/Ref.hpp>
 #include <ML/Engine/MetadataParser.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/GameTime.hpp>
@@ -123,10 +123,9 @@ namespace ml
 			geo::cube::vertices,
 			geo::cube::indices
 		);
-		ML_Content.create<Model>("default_skybox")->loadFromMemory(
+		ML_Content.create<Model>("skybox")->loadFromMemory(
 			geo::sky::vertices
 		);
-
 
 		// Load Default Uniforms
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -137,12 +136,17 @@ namespace ml
 		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &m_totalTime);
 		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&m_viewport);
 
-		// Load Script
+		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
 		Py::Run_SandboxedFile(ev.prefs.get_string("Engine", "load_script", ""));
 
-		// Set Window Icon
-		if (m_icon) { ev.window.setIcons({ (*m_icon) }); }
+		// Set Icon
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (m_icon) { ev.window.setIcon(
+			m_icon->width(), 
+			m_icon->height(), 
+			m_icon->data()
+		); }
 	}
 
 	void Engine::onStart(const StartEvent & ev)
@@ -202,6 +206,8 @@ namespace ml
 
 	void Engine::onExit(const ExitEvent & ev)
 	{
+		// Dispose Window
+		ev.window.dispose();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -193,6 +193,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\BufferLayout.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\GLM.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />
@@ -225,6 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />

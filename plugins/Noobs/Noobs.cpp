@@ -98,6 +98,18 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
+		//m_img.create();
+		//m_tex.create(GL::Texture2D, true, false);
+		//
+		//Image img;
+		//for (uint8_t & pix : img)
+		//{
+		//	pix = 0xFF;
+		//}
+		//
+		//m_img->create(256, 256, Color::magenta);
+		//m_tex->loadFromImage(*m_img);
+
 		// Modify Default Uniforms
 		if (Material * m = m_editor.material())
 		{
@@ -115,7 +127,7 @@ namespace ml
 			m_editor.renderer() = e->add<Renderer>(
 				m_editor.model(),
 				m_editor.material(),
-				RenderStates::Default
+				RenderStates::get_default()
 			);
 		}
 
@@ -529,7 +541,7 @@ namespace ml
 					const Model * m = (const Model *)m_renderer->drawable();
 					if (ModelPropertyDrawer()("Model##Renderer##Noobs", m))
 					{
-						this->renderer()->drawable() = m;
+						this->renderer()->setDrawable(m);
 					}
 					ImGuiExt::Tooltip("Specifies model to be drawn");
 

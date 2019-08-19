@@ -32,6 +32,7 @@ namespace ml
 		void onBeginGui	(const BeginGuiEvent & ev);
 		void onGui		(const GuiEvent & ev);
 		void onEndGui	(const EndGuiEvent & ev);
+		void onUnload	(const UnloadEvent & ev);
 		void onExit		(const ExitEvent & ev);
 
 	public:

@@ -9,31 +9,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	constexpr CX_String filter_prefix(const CX_String& str, const CX_String& prefix)
-	{
-		return str.size() >= prefix.size() ? (str(0, prefix.size()) == prefix ? str(prefix.size(), str.size()) : str) : str;
-	}
-
-	constexpr CX_String leftpad(const CX_String& str)
-	{
-		return (str.size() > 0 && str[0] == ' ') ? leftpad(str(1, str.size())) : str;
-	}
-
-	constexpr CX_String filter_class(const CX_String& type_name)
-	{
-		return leftpad(filter_prefix(leftpad(type_name), "class"));
-	}
-
-	constexpr CX_String filter_struct(const CX_String& type_name)
-	{
-		return leftpad(filter_prefix(leftpad(type_name), "struct"));
-	}
-
-	constexpr CX_String filter_typename_prefix(const CX_String& type_name)
-	{
-		return filter_struct(filter_class(type_name));
-	}
-
 	static void test_type_info()
 	{
 		constexpr auto i_info = ml_type_id<int32_t>();

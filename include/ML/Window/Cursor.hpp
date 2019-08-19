@@ -2,13 +2,14 @@
 #define _ML_CURSOR_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/Alg.hpp>
+#include <ML/Core/Matrix.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct Cursor final
+	struct Cursor final : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -78,9 +79,30 @@ namespace ml
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		Mode	mode;
+		Shape	shape;
+
+		constexpr Cursor(Mode mode, Shape shape)
+			: mode { mode }
+			, shape { shape }
+		{
+		}
+
+		constexpr Cursor(const Cursor & copy)
+			: Cursor { copy.mode, copy.shape }
+		{
+		}
+
+		constexpr Cursor()
+			: Cursor { Mode::Normal, Shape::Arrow }
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static constexpr bool value_at(int32_t i, Cursor::Mode & value)
 	{
@@ -98,12 +120,7 @@ namespace ml
 		return (i >= 0) ? Cursor::Mode_names[i] : "";
 	}
 
-	inline ML_SERIALIZE(Ostream & out, const Cursor::Mode & value)
-	{
-		return out << name_of(value);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static constexpr bool value_at(int32_t i, Cursor::Shape & value)
 	{
@@ -121,12 +138,24 @@ namespace ml
 		return (i >= 0) ? Cursor::Shape_names[i] : "";
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(Ostream & out, const Cursor::Mode & value)
+	{
+		return out << name_of(value);
+	}
+
 	inline ML_SERIALIZE(Ostream & out, const Cursor::Shape & value)
 	{
 		return out << name_of(value);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	inline ML_SERIALIZE(Ostream & out, const Cursor & value)
+	{
+		return out << value.mode << " " << value.shape;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_CURSOR_HPP_

@@ -93,9 +93,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderTarget.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderStates.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderBatch.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
@@ -141,6 +138,12 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderStates.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Image.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp">
@@ -179,9 +182,6 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\OpenGL.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderTarget.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
@@ -208,6 +208,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp">
       <Filter>Source Files\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp">
+      <Filter>Source Files\DS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\Image.cpp">
+      <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

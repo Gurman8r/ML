@@ -1,10 +1,9 @@
 #ifndef _ML_TEXTURE_HPP_
 #define _ML_TEXTURE_HPP_
 
-#include <ML/Graphics/Export.hpp>
+#include <ML/Graphics/Image.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/Rect.hpp>
-#include <ML/Core/Image.hpp>
 #include <ML/Core/I_Handle.hpp>
 
 // Default texture parameters

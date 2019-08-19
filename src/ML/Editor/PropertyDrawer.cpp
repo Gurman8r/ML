@@ -65,13 +65,13 @@ namespace ml
 				const Model * model = (const Model *)r->drawable();
 				if (ModelPropertyDrawer()("Model##Renderer", model))
 				{
-					r->drawable() = model;
+					r->setDrawable(model);
 				}
 
 				const Material * material = r->material();
 				if (MaterialPropertyDrawer()("Material##Renderer", material))
 				{
-					r->material() = material;
+					r->setMaterial(material);
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */

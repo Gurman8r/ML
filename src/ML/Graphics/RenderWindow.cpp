@@ -22,13 +22,10 @@ namespace ml
 		if (Window::setup() && ML_GL.init())
 		{
 			// Validate OpenGL Version
-			ML_GL.validateVersion(m_context.majorVersion, m_context.minorVersion);
+			ML_GL.validateVersion(m_context.major, m_context.minor);
 
 			// Setup States
-			AlphaState	{ true, GL::Greater, 0.01f }();
-			BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha }();
-			CullState	{ true, GL::Back }(); 
-			DepthState	{ true, GL::Less, true }(); 
+			RenderStates::get_default().apply();
 
 			ML_GL.enable(GL::Multisample, m_context.multisample);
 			ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable);

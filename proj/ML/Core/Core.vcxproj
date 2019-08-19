@@ -167,7 +167,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\C_String.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Input.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Event.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp" />
@@ -213,7 +212,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\TokenLexer.cpp" />

@@ -178,7 +178,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Engine\Asset.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\Ref.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ContentImporter.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandDescriptor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandExecutor.hpp" />

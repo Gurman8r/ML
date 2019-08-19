@@ -23,9 +23,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto drawable()			-> const I_Drawable *&	{ return m_drawable; }
+		Renderer & setDrawable(const I_Drawable * value);
+		Renderer & setMaterial(const Material * value);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline auto drawable()	const	-> const I_Drawable *	{ return m_drawable; }
-		inline auto material()			-> const Material *&	{ return m_material; }
 		inline auto material()	const	-> const Material *		{ return m_material; }
 		inline auto states()			-> RenderStates	&		{ return m_states; }
 		inline auto states()	const	-> const RenderStates & { return m_states; }

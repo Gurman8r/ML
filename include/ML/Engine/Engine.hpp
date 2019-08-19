@@ -2,7 +2,7 @@
 #define _ML_ENGINE_HPP_
 
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Engine/Asset.hpp>
+#include <ML/Engine/Ref.hpp>
 #include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/Matrix.hpp>
 
@@ -40,7 +40,7 @@ namespace ml
 		void onExit			(const ExitEvent & ev);
 
 	private:
-		Asset<Image>	m_icon			{ "icon" };
+		Ref<Image>	m_icon			{ "icon" };
 		vec2			m_cursorPos		{ uninit };
 		float_t			m_deltaTime		{ uninit };
 		int32_t			m_frameCount	{ uninit };

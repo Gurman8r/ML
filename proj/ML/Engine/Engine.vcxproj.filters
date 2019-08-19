@@ -54,9 +54,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Asset.hpp">
-      <Filter>Header Files\Content</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp">
       <Filter>Header Files\Plugins</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\SerializedProperty.hpp">
       <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Ref.hpp">
+      <Filter>Header Files\Content</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

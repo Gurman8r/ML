@@ -1,6 +1,6 @@
 #include <ML/Engine/ContentImporter.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Engine/Asset.hpp>
+#include <ML/Engine/Ref.hpp>
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>

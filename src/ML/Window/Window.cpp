@@ -8,7 +8,7 @@
 
 #include <GLFW/glfw3.h>
 
-# if APIENTRY
+# ifdef APIENTRY
 # 	undef APIENTRY
 # endif
 
@@ -18,7 +18,6 @@
 
 #define ML_WINDOW(ptr)	static_cast<GLFWwindow *>(ptr)
 #define ML_MONITOR(ptr) static_cast<GLFWmonitor *>(ptr)
-#define ML_SHARE(ptr)	static_cast<GLFWshare *>(ptr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -97,7 +96,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Window::create(const String & title, const VideoMode & video, const WindowStyle & style, const ContextSettings & context)
+	bool Window::create(const String & title, const VideoMode & videoMode, const WindowStyle & style, const ContextSettings & context)
 	{
 		// Initialize
 		if (!glfwInit())
@@ -106,12 +105,10 @@ namespace ml
 		}
 
 		// Set Data
-		m_title = title;
-		m_videoMode = video;
-		m_context = context;
-		m_style = style;
-		m_monitor = glfwGetPrimaryMonitor();
-		m_share = nullptr;
+		m_title		= title;
+		m_videoMode = videoMode;
+		m_context	= context;
+		m_style		= style;
 
 		// Context Settings
 		glfwWindowHint(GLFW_CLIENT_API,				GLFW_OPENGL_API);
@@ -145,24 +142,30 @@ namespace ml
 			getWidth(), 
 			getHeight(), 
 			getTitle().c_str(),
-			ML_MONITOR(m_monitor),
-			ML_WINDOW(m_share)
+			ML_MONITOR(m_monitor = m_style.fullscreen ? glfwGetPrimaryMonitor() : nullptr),
+			ML_WINDOW(m_share = nullptr)
 		)))
 		{
-			this->makeContextCurrent();
+			makeContextCurrent();
 
-			this->setCursorMode(Cursor::Mode::Normal);
-
-			if (this->getStyle().maximized)
+			if (setup())
 			{
-				this->maximize(); // Maximized
-			}
-			else
-			{
-				this->setCentered(); // Centered
-			}
+				setCursorMode(Cursor::Mode::Normal);
 
-			return this->setup();
+				if (!getStyle().fullscreen)
+				{
+					if (getStyle().maximized)
+					{
+						maximize(); // Maximized
+					}
+					else
+					{
+						setCentered(); // Centered
+					}
+				}
+				
+				return true;
+			}
 		}
 		return false;
 	}
@@ -420,15 +423,6 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setFullscreen(bool value)
-	{
-		if (isFullscreen() != value)
-		{
-
-		}
-		return (*this);
-	}
-
 	Window & Window::setIcons(const List<Image> & value)
 	{
 		List<GLFWimage> temp;
@@ -489,11 +483,6 @@ namespace ml
 		return getAttribute(GLFW_FOCUSED);
 	}
 
-	bool Window::isFullscreen() const
-	{
-		return m_style.fullscreen;
-	}
-
 	bool Window::isOpen() const
 	{
 		return m_window && (!glfwWindowShouldClose(
@@ -511,9 +500,9 @@ namespace ml
 
 	char Window::getChar() const
 	{
-		static char temp;
-		std::swap(m_char, temp);
-		return temp;
+		char temp = m_char;
+		m_char = '\0';
+		return m_char;
 	}
 
 	C_String Window::getClipboardString() const

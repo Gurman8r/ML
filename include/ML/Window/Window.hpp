@@ -41,7 +41,7 @@ namespace ml
 
 		bool create(
 			const String & title, 
-			const VideoMode & video, 
+			const VideoMode & videoMode,
 			const WindowStyle & style,
 			const ContextSettings & context
 		);
@@ -66,7 +66,6 @@ namespace ml
 		Window & setCursor(void * value);
 		Window & setCursorMode(const Cursor::Mode value);
 		Window & setCursorPos(const vec2i & value);
-		Window & setFullscreen(bool value);
 		Window & setIcons(const List<Image> & value);
 		Window & setPosition(const vec2i & value);
 		Window & setSize(const vec2u & value);
@@ -76,7 +75,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool		isFocused() const;
-		bool		isFullscreen() const;
 		bool		isOpen() const;
 		int32_t		getAttribute(const int32_t value) const;
 		char		getChar() const;

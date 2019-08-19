@@ -66,7 +66,7 @@ namespace ml
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>())
 			{
-				if (ev->getPress(KeyCode::F))
+				if (ev->getPress(KeyCode::F11))
 				{
 					if (Window * w { ev->window })
 					{

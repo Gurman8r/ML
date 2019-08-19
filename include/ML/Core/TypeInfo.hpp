@@ -11,12 +11,20 @@ namespace ml
 	{
 		constexpr CX_String filter_prefix(const CX_String& str, const CX_String& pre)
 		{
-			return str.size() >= pre.size() ? (str(0, pre.size()) == pre ? str(pre.size(), str.size()) : str) : str;
+			return (str.size() >= pre.size()
+				? str(0, pre.size()) == pre
+					? str(pre.size(), str.size())
+					: str
+				: str
+			);
 		}
 
 		constexpr CX_String leftpad(const CX_String& str)
 		{
-			return (str.size() > 0 && str[0] == ' ') ? leftpad(str(1, str.size())) : str;
+			return ((str.size() > 0 && *str.begin() == ' ')
+				? leftpad(str(1, str.size()))
+				: str
+			);
 		}
 
 		constexpr CX_String filter_class(const CX_String& type_name)

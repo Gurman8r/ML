@@ -4,6 +4,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/TypeInfo.hpp>
+#include <ML/Core/Duration.hpp>
 
 namespace ml
 {

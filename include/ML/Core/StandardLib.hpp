@@ -84,6 +84,7 @@ namespace ml
 	using intptr_t	= typename intmax_t;	// Int Pointer Type
 	using ptrdiff_t	= typename intmax_t;	// Pointer Difference Type
 	using size_t	= typename uintmax_t;	// Size Type
+	using time_t	= typename uint64_t;	// Time Type
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	

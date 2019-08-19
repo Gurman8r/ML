@@ -35,8 +35,8 @@ namespace ml
 			void render();
 
 		private:
-			C_String	m_label		{ nullptr };
-			C_String	m_text		{ nullptr };
+			String		m_label		{};
+			String		m_text		{};
 			float_t		m_sample	{ 0.0f };
 		};
 

@@ -170,20 +170,16 @@ namespace ml
 	{
 		// Update Default Uniforms
 		m_cursorPos		= (vec2)ev.window.getCursorPos();
-		m_deltaTime		= ev.time.elapsed().delta<Millisec>();
+		m_deltaTime		= ev.time.elapsed().delta();
 		m_frameCount	= m_frameCount + 1;
 		m_frameRate		= (float_t)ev.time.frameRate();
 		m_viewport		= (vec2)ev.window.getSize();
-		m_totalTime		= ev.time.total().delta<Millisec>();
+		m_totalTime		= ev.time.total().delta();
 
 		// Update Window Title
 		static const String original_title { ev.window.getTitle() };
-		ev.window.setTitle(String("{0} | {1} | {2} | {3} ms/frame ({4} fps)").format(
-			original_title,
-			ML_CONFIGURATION,
-			ML_PLATFORM_TARGET,
-			ev.time.elapsed().delta(),
-			ev.time.frameRate()
+		ev.window.setTitle(String("{0} | {1} | {2}").format(
+			original_title, ML_CONFIGURATION, ML_PLATFORM_TARGET
 		));
 	}
 

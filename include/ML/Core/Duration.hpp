@@ -27,16 +27,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using Nanosec	= typename std::chrono::duration<uint64_t,  Nano>;
-	using Microsec	= typename std::chrono::duration<uint64_t,  Micro>;
-	using Millisec	= typename std::chrono::duration<uint64_t,  Milli>;
-	using Seconds	= typename std::chrono::duration<uint64_t,  detail::Seconds>;		   	
-	using Minutes	= typename std::chrono::duration<uint64_t,  detail::Minutes>;	   	
-	using Hours		= typename std::chrono::duration<uint64_t,  detail::Hours>;	   	
-	using Days		= typename std::chrono::duration<uint64_t,  detail::Days>;	   
-	using Weeks		= typename std::chrono::duration<uint64_t,  detail::Weeks>;   
-	using Months	= typename std::chrono::duration<uint64_t,  detail::Months>;
-	using Years		= typename std::chrono::duration<uint64_t,  detail::Years>; 
+	using Nanosec	= typename std::chrono::duration<time_t,  Nano>;
+	using Microsec	= typename std::chrono::duration<time_t,  Micro>;
+	using Millisec	= typename std::chrono::duration<time_t,  Milli>;
+	using Seconds	= typename std::chrono::duration<time_t,  detail::Seconds>;		   	
+	using Minutes	= typename std::chrono::duration<time_t,  detail::Minutes>;	   	
+	using Hours		= typename std::chrono::duration<time_t,  detail::Hours>;	   	
+	using Days		= typename std::chrono::duration<time_t,  detail::Days>;	   
+	using Weeks		= typename std::chrono::duration<time_t,  detail::Weeks>;   
+	using Months	= typename std::chrono::duration<time_t,  detail::Months>;
+	using Years		= typename std::chrono::duration<time_t,  detail::Years>; 
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -45,7 +45,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type = typename uint64_t;
+		using value_type = typename time_t;
 		using unit_type  = typename Nanosec;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -100,12 +100,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
+			class Out = typename float_t,
 			class Rep = typename Millisec,
 			class Per = typename Rep::period
-		> constexpr float_t delta() const
+		> constexpr Out delta() const
 		{
 			static_assert(0 < Per::den, "period negative or zero");
-			using cast = numeric<float_t>;
+			using cast = numeric<Out>;
 			return cast(ML_duration_cast(Rep, base())) / cast(Per::den);
 		}
 
@@ -207,16 +208,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	constexpr Duration operator "" _ns	(uint64_t value) { return Nanosec	{ value }; }
-	constexpr Duration operator "" _us	(uint64_t value) { return Microsec	{ value }; }
-	constexpr Duration operator "" _ms	(uint64_t value) { return Millisec	{ value }; }
-	constexpr Duration operator "" _s	(uint64_t value) { return Seconds	{ value }; }
-	constexpr Duration operator "" _m	(uint64_t value) { return Minutes	{ value }; }
-	constexpr Duration operator "" _hr	(uint64_t value) { return Hours		{ value }; }
-	constexpr Duration operator "" _d	(uint64_t value) { return Days		{ value }; }
-	constexpr Duration operator "" _wk	(uint64_t value) { return Weeks		{ value }; }
-	constexpr Duration operator "" _mo	(uint64_t value) { return Months	{ value }; }
-	constexpr Duration operator "" _yr	(uint64_t value) { return Years		{ value }; }
+	constexpr Duration operator "" _ns	(time_t value) { return { Nanosec	{ value } }; }
+	constexpr Duration operator "" _us	(time_t value) { return { Microsec	{ value } }; }
+	constexpr Duration operator "" _ms	(time_t value) { return { Millisec	{ value } }; }
+	constexpr Duration operator "" _sec	(time_t value) { return { Seconds	{ value } }; }
+	constexpr Duration operator "" _min	(time_t value) { return { Minutes	{ value } }; }
+	constexpr Duration operator "" _hr	(time_t value) { return { Hours		{ value } }; }
+	constexpr Duration operator "" _dy	(time_t value) { return { Days		{ value } }; }
+	constexpr Duration operator "" _wk	(time_t value) { return { Weeks		{ value } }; }
+	constexpr Duration operator "" _mn	(time_t value) { return { Months	{ value } }; }
+	constexpr Duration operator "" _yr	(time_t value) { return { Years		{ value } }; }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

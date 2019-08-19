@@ -24,8 +24,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline auto deltaTime() const -> float_t			{ return m_delta; }
 		inline auto elapsed()	const -> const Duration &	{ return m_elapsed; }
-		inline auto frameRate()	const -> const uint32_t		{ return m_frameRate; }
+		inline auto frameRate()	const -> float_t			{ return m_fps.frameRate; }
 		inline auto total()		const -> const Duration &	{ return m_mainTimer.elapsed(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -33,11 +34,19 @@ namespace ml
 	private:
 		Timer		m_mainTimer;
 		Timer		m_loopTimer;
+		float_t		m_delta;
 		Duration	m_elapsed;
-		uint32_t	m_frameRate;
-		uint32_t	m_frameCount;
-		float_t		m_nextSecond;
-		float_t		m_prevSecond;
+
+		struct FPS_Tracker final
+		{
+			static constexpr time_t		size	{ (2_min).seconds() };
+			static constexpr float_t	scale	{ (float_t)size };
+
+			size_t	index;
+			float_t frameRate;
+			float_t accum;
+			float_t capture[size];
+		} m_fps;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

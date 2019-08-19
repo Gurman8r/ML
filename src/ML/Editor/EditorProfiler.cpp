@@ -125,11 +125,11 @@ namespace ml
 		}
 
 		ImGui::PlotLines(
-			m_label,
+			m_label.c_str(),
 			values.data(),
 			(int32_t)values.size(),
 			offset,
-			m_text,
+			m_text.c_str(),
 			min,
 			max,
 			{ size[0], size[1] }

@@ -7,11 +7,9 @@ namespace ml
 	GameTime::GameTime()
 		: m_mainTimer	{}
 		, m_loopTimer	{}
-		, m_elapsed		{}
-		, m_frameCount	{}
-		, m_frameRate	{}
-		, m_nextSecond	{}
-		, m_prevSecond	{}
+		, m_delta		{ uninit }
+		, m_elapsed		{ uninit }
+		, m_fps			{ uninit }
 	{
 		m_mainTimer.start();
 	}
@@ -26,24 +24,21 @@ namespace ml
 	GameTime & GameTime::beginLoop()
 	{
 		m_loopTimer.start();
-
 		return (*this);
 	}
 
 	GameTime & GameTime::endLoop()
 	{
-		m_elapsed = m_loopTimer.stop().elapsed();
+		m_delta = (m_elapsed = m_loopTimer.stop().elapsed()).delta();
 
-		m_frameCount++;
+		m_fps.accum += m_delta - m_fps.capture[m_fps.index];
 		
-		if (((m_nextSecond += m_elapsed.delta()) - m_prevSecond) > 1.0f)
-		{
-			m_prevSecond = m_nextSecond;
-			
-			m_frameRate = m_frameCount;
-			
-			m_frameCount = 0;
-		}
+		m_fps.capture[m_fps.index] = m_delta;
+		
+		m_fps.index = (m_fps.index + 1) % m_fps.size;
+		
+		m_fps.frameRate = (m_fps.accum > 0.0f) ? (1.0f / (m_fps.accum / m_fps.scale)) : FLT_MAX;
+
 		return (*this);
 	}
 

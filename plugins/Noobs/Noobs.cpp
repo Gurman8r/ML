@@ -524,7 +524,7 @@ namespace ml
 					}
 					ImGuiExt::Tooltip("Specifies the shader to be edited");
 
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					ImGui::NewLine();
 
 					const Model * m = (const Model *)m_renderer->drawable();
 					if (ModelPropertyDrawer()("Model##Renderer##Noobs", m))

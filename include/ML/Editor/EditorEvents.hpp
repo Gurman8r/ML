@@ -5,14 +5,14 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class	Editor;
 	struct	GameTime;
 	class	EditorDockspace;
 	struct	RenderWindow;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct EditorEvent final
 	{
@@ -46,7 +46,7 @@ namespace ml
 		);
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct BeginGuiEvent final : public I_Event<EditorEvent::EV_BeginGui>
 	{
@@ -87,7 +87,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct MainMenuBarEvent final : public I_Event<EditorEvent::EV_MainMenuBar>
 	{
@@ -114,7 +114,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct File_New_Event final : public I_Event<EditorEvent::EV_File_New>
 	{
@@ -136,7 +136,7 @@ namespace ml
 		constexpr File_Quit_Event() {}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct Edit_Undo_Event final : public I_Event<EditorEvent::EV_Edit_Undo>
 	{
@@ -163,7 +163,7 @@ namespace ml
 		constexpr Edit_Paste_Event() {}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_EDITOR_EVENTS_HPP_

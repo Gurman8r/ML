@@ -12,7 +12,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	ImGuiImpl::ImGuiImpl()
 		: g_Window			{ nullptr }
@@ -39,7 +39,7 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ImGuiImpl::Startup(C_String glsl_version, Window * window, bool install_callbacks)
 	{
@@ -350,7 +350,7 @@ namespace ml
 		return loader.loadFromFile(filename);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ImGuiImpl::CreateFontsTexture()
 	{
@@ -389,7 +389,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ImGuiImpl::CreateDeviceObjects()
 	{
@@ -601,7 +601,7 @@ namespace ml
 		this->DestroyFontsTexture();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void ImGuiImpl::HandleInput()
 	{
@@ -712,7 +712,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void ImGuiImpl::MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods)
 	{
@@ -753,5 +753,5 @@ namespace ml
 		ML_ImGuiImpl.fireEvent(CharEvent(value));
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

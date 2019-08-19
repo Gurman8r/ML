@@ -9,12 +9,12 @@ struct ml::Texture;
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Base Uniform
 	struct Uni : public I_Newable, public I_NonCopyable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Type : uint32_t
 		{
@@ -38,14 +38,14 @@ namespace ml
 			"sampler"
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using id_type = typename const Type;
 
 		String	name;
 		id_type id;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit Uni(const String & name, uint32_t id)
 			: name { name }, id { static_cast<id_type>(id) }
@@ -54,7 +54,7 @@ namespace ml
 
 		virtual ~Uni() {}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		virtual Uni *	clone()				const = 0;
 		virtual bool	isValue()			const = 0;
@@ -64,7 +64,7 @@ namespace ml
 		virtual bool	isConstReference()	const = 0;
 		virtual bool	isModifiable()		const = 0;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class T> inline T * as()
 		{
@@ -76,7 +76,7 @@ namespace ml
 			return dynamic_cast<const T *>(this);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline friend ML_SERIALIZE(Ostream & out, const Uni & value)
 		{
@@ -93,17 +93,17 @@ namespace ml
 			return ((lhs.id < rhs.id) || (lhs.name < rhs.name));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Generic Uniform Interface
 	template <
 		class T, uint32_t ID, uint32_t Flags
 	> struct uni_impl final : public Uni
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using type				= typename T;
 		using self_type			= typename uni_impl<type, ID, Flags>;
@@ -113,7 +113,7 @@ namespace ml
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class U>
 		static constexpr bool is_same				{ std::is_same_v<type, U> };
@@ -124,13 +124,13 @@ namespace ml
 		static constexpr bool is_const_reference	{ is_same<const_reference> };
 		static constexpr bool is_modifiable			{ is_value || bitRead(Flags, 0) };
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static_assert(is_value || is_const_pointer || is_const_reference,
 			"An unacceptable value type has been specified for uniform."
 		);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum { ID = ID };
 
@@ -153,10 +153,10 @@ namespace ml
 		inline bool isConstReference()	const override	{ return this->is_const_reference; }
 		inline bool isModifiable()		const override	{ return this->is_modifiable; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <class T> using uni_bool_t		= uni_impl<T, Uni::Boolean,	0b0>;
 	template <class T> using uni_float_t	= uni_impl<T, Uni::Float,	0b0>;
@@ -169,7 +169,7 @@ namespace ml
 	template <class T> using uni_mat4_t		= uni_impl<T, Uni::Matrix4,	0b0>;
 	template <class T> using uni_sampler_t	= uni_impl<T, Uni::Sampler,	0b1>;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using uni_bool		= typename uni_bool_t	<bool>;
 	using uni_float		= typename uni_float_t	<float_t>;
@@ -202,11 +202,11 @@ namespace ml
 	using uni_mat3_ptr	= typename uni_mat3_t	<const mat3 *>;
 	using uni_mat4_ptr	= typename uni_mat4_t	<const mat4 *>;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	namespace detail
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr bool value_at(int32_t i, Uni::Type & value)
 		{
@@ -224,7 +224,7 @@ namespace ml
 			return (i >= 0) ? Uni::Type_names[i] : nullptr;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static inline bool * as_bool(const Uni * value)
 		{
@@ -323,10 +323,10 @@ namespace ml
 			else { return nullptr; }
 		}
 		
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_UNIFORM_HPP_

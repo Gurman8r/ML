@@ -12,7 +12,7 @@ namespace ml
 		class Alloc  = typename Allocator<Elem>
 	> struct BasicString : public std::basic_string<Elem, Traits, Alloc>
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		using value_type			= typename Elem;
 		using traits_type			= typename Traits;
@@ -33,7 +33,7 @@ namespace ml
 		using alty_type				= typename base_type::_Alty;
 		using alty_traits_type		= typename base_type::_Alty_traits;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		BasicString()
 			: base_type()
@@ -128,7 +128,7 @@ namespace ml
 		
 		virtual ~BasicString() noexcept {}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		inline operator bool() const
 		{
@@ -145,7 +145,7 @@ namespace ml
 			return static_cast<const base_type &>(*this);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
 			class Arg0, class ... Args
@@ -173,7 +173,7 @@ namespace ml
 			return self_type(*this).format(arg0, std::forward<Args>(args)...);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		inline self_type & replaceAll(const self_type & to_replace, const self_type & value)
 		{
@@ -193,7 +193,7 @@ namespace ml
 			return self_type(*this).replaceAll(f, r);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		inline self_type & trim()
 		{
@@ -211,7 +211,7 @@ namespace ml
 			return self_type(*this).trim();
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 }
 

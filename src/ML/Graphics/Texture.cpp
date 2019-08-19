@@ -4,7 +4,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Texture::Texture() : Texture(
 		ML_TEX_DEFAULT_TARGET
@@ -122,7 +122,7 @@ namespace ml
 
 	Texture::~Texture() { this->dispose(); }
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Texture::dispose()
 	{
@@ -204,7 +204,7 @@ namespace ml
 		return false;
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool Texture::create(const Texture & other)
 	{
@@ -294,7 +294,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool Texture::update(const Texture & other)
 	{
@@ -396,7 +396,7 @@ namespace ml
 		}
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Texture & Texture::setMipmapped(bool value)
 	{
@@ -575,7 +575,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Texture & Texture::swap(Texture & other)
 	{
@@ -600,7 +600,7 @@ namespace ml
 		return swap(temp);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const Image Texture::copyToImage() const
 	{
@@ -608,8 +608,6 @@ namespace ml
 		if (*this)
 		{
 			Image::Pixels pixels(width() * height() * 4);
-
-			Image temp(width(), height());
 
 			if ((m_size == m_realSize))
 			{
@@ -624,7 +622,7 @@ namespace ml
 				this->unbind();
 			}
 
-			return image.create(width(), height(), &pixels[0]);
+			return image.update(width(), height(), pixels);
 		}
 		return image;
 	}
@@ -649,5 +647,5 @@ namespace ml
 		);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -28,7 +28,7 @@ void main()
 	gl_Position = proj * vec4(V.Position, 1.0);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #shader fragment
 #include "../../../assets/shaders/common/Frag.shader"
 
@@ -39,7 +39,7 @@ void main()
 	gl_Color = u_color;
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #shader geometry
 #include "../../../assets/shaders/common/Curve.Draw.shader"
 
@@ -119,4 +119,4 @@ void main()
 	stub(u_samples, (u_delta / float(u_samples)));
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

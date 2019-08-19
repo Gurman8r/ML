@@ -10,11 +10,11 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static constexpr Bytes MaxPreviewSize { 15_MB };
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorExplorer::EditorExplorer(Editor & editor)
 		: EditorForm		{ editor, "Explorer", false }
@@ -27,32 +27,29 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorExplorer::onUpdate(const UpdateEvent & ev)
 	{
+		const String workingDir { ML_FS.getPath() };
+		if ((m_isDouble) ||
+			(!m_path) ||
+			(m_path != workingDir) ||
+			(m_path && m_dir.empty()))
+		{
+			m_path = workingDir;
+			if (ML_FS.getDirContents(m_path, m_dir))
+			{
+				set_selected(T_Dir, 0);
+			}
+		}
 	}
 
 	bool EditorExplorer::onGui(const GuiEvent & ev)
 	{
 		if (beginDraw(0))
 		{
-			// Update Working Dir
-			const String workingDir = ML_FS.getPath();
-
-			if ((m_isDouble) ||
-				(!m_path) ||
-				(m_path != workingDir) ||
-				(m_path && m_dir.empty()))
-			{
-				m_path = workingDir;
-				if (ML_FS.getDirContents(m_path, m_dir))
-				{
-					set_selected(T_Dir, 0);
-				}
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			ImGui::Columns(2, "Directory Columns", true);
 
@@ -64,21 +61,18 @@ namespace ml
 
 			ImGui::Columns(1);
 
-			// Handle Double Clicks
-			if (m_isDouble || (m_isDouble = false))
+			// Handle Input
+			if (m_isDouble || (m_isDouble = false) && (m_type == T_Dir))
 			{
-				switch (m_type)
-				{
-				case T_Dir: 
-					ML_FS.setPath(get_selected_name()); 
-					break;
-				}
+				ML_FS.setPath(get_selected_name());
 			}
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		}
 		return endDraw();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorExplorer::draw_directory()
 	{
@@ -182,7 +176,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorExplorer::set_selected(char type, size_t index)
 	{
@@ -254,5 +248,5 @@ namespace ml
 		return ML_FS.getFileSize(get_selected_path());
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -25,7 +25,7 @@ content.load([
     { "type": "shader", "name": "normal",       "file": PATH + "/shaders/normal.shader" },
     { "type": "shader", "name": "surface",      "file": PATH + "/shaders/surface.shader" },
     { "type": "shader", "name": "solid",        "file": PATH + "/shaders/solid.shader" },
-    { "type": "shader", "name": "skybox",       "file": PATH + "/shaders/skybox.shader" },
+    { "type": "shader", "name": "default_skybox",       "file": PATH + "/shaders/skybox.shader" },
     #{ "type": "shader", "name": "sprites",      "file": PATH + "/shaders/sprites.shader" },
     #{ "type": "shader", "name": "text",         "file": PATH + "/shaders/text.shader" },
     #{ "type": "shader", "name": "geometry",     "file": PATH + "/shaders/geometry.shader" },
@@ -134,8 +134,8 @@ content.load([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     {
         "type":     "material",
-        "name":     "skybox",
-        "shader":   "skybox",
+        "name":     "default_skybox",
+        "shader":   "default_skybox",
         "defaults": "True",
         "file":     PATH + "/materials/skybox.mat"
     },

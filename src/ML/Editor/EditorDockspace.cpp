@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorDockspace::EditorDockspace(Editor & editor)
 		: EditorForm		{ editor, "Dockspace", true }
@@ -18,7 +18,7 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorDockspace::onUpdate(const UpdateEvent & ev)
 	{
@@ -93,7 +93,7 @@ namespace ml
 		return EditorForm::endDraw();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	uint32_t EditorDockspace::beginBuilder(int32_t flags)
 	{
@@ -138,5 +138,5 @@ namespace ml
 		return ImGui::DockBuilderSplitNode(id, dir, ratio, out, other);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

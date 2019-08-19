@@ -11,11 +11,11 @@ namespace ml
 {
 	struct ML_EDITOR_API ImGuiExt final : public I_Singleton<ImGuiExt>
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static vec2 GetContentRegionAvail();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static bool Combo(C_String label, int32_t * index, const List<String> & arr);
 
@@ -28,13 +28,13 @@ namespace ml
 			return Combo(label, index, arr, ML_ARRAYSIZE(arr));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static void HelpMarker(const String & message);
 
 		static void Tooltip(const String & message);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static inline bool vector_getter(void * value, int32_t index, C_String * out)
 		{
@@ -49,7 +49,7 @@ namespace ml
 			return false;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: friend struct I_Singleton<ImGuiExt>;
 	};

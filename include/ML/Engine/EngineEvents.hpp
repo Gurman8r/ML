@@ -6,14 +6,14 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class	Engine;
 	struct	GameTime;
 	struct	Preferences;
 	struct	RenderWindow;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct EngineEvent final
 	{
@@ -44,7 +44,7 @@ namespace ml
 	};
 
 	// Startup
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct EnterEvent final : public I_Event<EngineEvent::EV_Enter>
 	{
@@ -84,7 +84,7 @@ namespace ml
 	};
 
 	// Loop
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct BeginFrameEvent final : public I_Event<EngineEvent::EV_BeginFrame>
 	{
@@ -99,7 +99,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct UpdateEvent final : public I_Event<EngineEvent::EV_Update>
 	{
@@ -114,7 +114,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct BeginDrawEvent final : public I_Event<EngineEvent::EV_BeginDraw>
 	{
@@ -155,7 +155,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct EndFrameEvent final : public I_Event<EngineEvent::EV_EndFrame>
 	{
@@ -171,7 +171,7 @@ namespace ml
 	};
 
 	// Shutdown
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct UnloadEvent final : public I_Event<EngineEvent::EV_Unload>
 	{
@@ -199,7 +199,7 @@ namespace ml
 
 
 	// Utility
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct CommandEvent final : public I_Event<EngineEvent::EV_Command>
 	{
@@ -210,7 +210,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_ENGINE_EVENTS_HPP_

@@ -41,12 +41,12 @@ namespace ml
 
 	private:
 		Ref<Image>	m_icon			{ "icon" };
-		vec2			m_cursorPos		{ uninit };
-		float_t			m_deltaTime		{ uninit };
-		int32_t			m_frameCount	{ uninit };
-		float_t			m_frameRate		{ uninit };
-		vec2			m_viewport		{ uninit };
-		float_t			m_totalTime		{ uninit };
+		vec2		m_cursorPos		{ uninit };
+		float_t		m_deltaTime		{ uninit };
+		int32_t		m_frameCount	{ uninit };
+		float_t		m_frameRate		{ uninit };
+		vec2		m_viewport		{ uninit };
+		float_t		m_totalTime		{ uninit };
 
 	};
 

@@ -282,7 +282,7 @@ namespace ml
 		return false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::setUniform(const String & name, const float_t value) const
 	{

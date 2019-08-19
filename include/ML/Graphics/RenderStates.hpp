@@ -10,7 +10,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API RenderSetting : public I_Newable
 	{
@@ -26,7 +26,7 @@ namespace ml
 		virtual const RenderSetting & operator()() const = 0;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API AlphaState final : public RenderSetting
 	{
@@ -64,7 +64,7 @@ namespace ml
 		const AlphaState & operator()() const override;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API BlendState final : public RenderSetting
 	{
@@ -111,7 +111,7 @@ namespace ml
 		const BlendState & operator()() const override;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API CullState final : public RenderSetting
 	{
@@ -147,7 +147,7 @@ namespace ml
 		const CullState & operator()() const override;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API DepthState final : public RenderSetting
 	{
@@ -185,7 +185,7 @@ namespace ml
 		const DepthState & operator()() const override;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API RenderStates final 
 		: public I_Newable
@@ -312,7 +312,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_RENDER_STATES_HPP_

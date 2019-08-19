@@ -13,7 +13,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor(EventSystem & eventSystem)
 		: I_EventListener	{ eventSystem }
@@ -46,7 +46,7 @@ namespace ml
 		eventSystem.addListener(Edit_Paste_Event::ID, this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Editor::onEvent(const Event & value)
 	{
@@ -186,7 +186,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
@@ -439,5 +439,5 @@ namespace ml
 		if (m_redirect_cout) m_terminal.redirect(cout);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

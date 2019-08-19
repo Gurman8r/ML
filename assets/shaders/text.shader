@@ -1,5 +1,5 @@
 // text.shader
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "../../../assets/shaders/common/Vert.shader"
 
@@ -30,7 +30,7 @@ void main()
 	gl_Position = proj * vec4(V.Position, 1.0);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "../../../assets/shaders/common/Frag.shader"
 
@@ -42,4 +42,4 @@ void main()
 	gl_Color = u_color * vec4(1, 1, 1, texture(u_texture0, V.Texcoord).r);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

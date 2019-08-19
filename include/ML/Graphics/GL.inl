@@ -2,13 +2,13 @@
 #include <ML/Core/C_String.hpp>
 
 // OpenGL Enum Details
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
 	namespace GL
 	{
 		// GL::Flag
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Flag Flag_values[] = {
 			Flag::CullFace,
@@ -77,7 +77,7 @@ namespace ml
 
 
 		// GL::Sampler
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Sampler Sampler_values[] = {
 			Sampler::Texture2D,
@@ -130,7 +130,7 @@ namespace ml
 
 
 		// GL::Target
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Target Target_values[] = {
 			Target::ArrayBuffer,
@@ -231,7 +231,7 @@ namespace ml
 
 
 		// GL::Usage
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Usage Usage_values[] = {
 			Usage::StreamDraw,
@@ -284,7 +284,7 @@ namespace ml
 
 
 		// GL::Err
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Err Err_values[] = {
 			Err::NoError,
@@ -357,7 +357,7 @@ namespace ml
 
 
 		// GL::StringID
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr StringID StringID_values[] = {
 			StringID::Vendor,
@@ -418,7 +418,7 @@ namespace ml
 
 
 		// GL::IntID
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr IntID IntID_values[] = {
 			IntID::MajorVersion,
@@ -527,7 +527,7 @@ namespace ml
 
 
 		// GL::Clip
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Clip Clip_values[] = {
 			Clip::LowerLeft,
@@ -580,7 +580,7 @@ namespace ml
 
 
 		// GL::Status
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Status Status_values[] = {
 			Status::ObjectDeleteStatus,
@@ -637,7 +637,7 @@ namespace ml
 
 
 		// GL::ShaderType
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr ShaderType ShaderType_values[] = {
 			ShaderType::FragmentShader,
@@ -690,7 +690,7 @@ namespace ml
 
 
 		// GL::Mode
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Mode Mode_values[] = {
 			Mode::Points,
@@ -763,7 +763,7 @@ namespace ml
 
 
 		// GL::Equation
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Equation Equation_values[] = {
 			Equation::Multiply,
@@ -820,7 +820,7 @@ namespace ml
 
 
 		// GL::Predicate
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr const Predicate Predicate_values[] = {
 			Predicate::Never,
@@ -893,7 +893,7 @@ namespace ml
 
 
 		// GL::Factor
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Factor Factor_values[] = {
 			Factor::SrcColor,
@@ -970,7 +970,7 @@ namespace ml
 
 
 		// GL::Face
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr const Face Face_values[] = {
 			Face::FrontLeft,
@@ -1047,7 +1047,7 @@ namespace ml
 
 
 		// GL::Type
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Type Type_values[] = {
 			Type::Byte,
@@ -1120,7 +1120,7 @@ namespace ml
 
 
 		// GL::Format
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Format Format_values[] = {
 			Format::Red,
@@ -1229,7 +1229,7 @@ namespace ml
 
 
 		// GL::FrameAttachment
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr FrameAttachment FrameAttachment_values[] = {
 			FrameAttachment::ColorEncoding,
@@ -1314,7 +1314,7 @@ namespace ml
 
 
 		// GL::TexParam
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr TexParam TexParam_values[] = {
 			TexParam::Nearest,
@@ -1450,7 +1450,7 @@ namespace ml
 
 
 		// GL::Pack
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Pack Pack_values[] = {
 			Pack::UnpackSwapBytes,
@@ -1539,7 +1539,7 @@ namespace ml
 
 
 		// GL::Attachment
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr ColorAttachment ColorAttachment_values[] = {
 			ColorAttachment::ColorAttachment0,
@@ -1644,7 +1644,7 @@ namespace ml
 
 
 		// GL::TexID
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr TexID TexID_values[] = {
 			TexID::Texture0,
@@ -1813,7 +1813,7 @@ namespace ml
 
 
 		// GL::DrawBuffer
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr DrawBuffer DrawBuffer_values[] = {
 			DrawBuffer::DrawBuffer0,
@@ -1918,7 +1918,7 @@ namespace ml
 
 
 		// GL::Mask
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Mask Mask_values[] = {
 			Mask::ContextCoreProfileBit,
@@ -1981,14 +1981,14 @@ namespace ml
 			return alg::at_index(index_of(value), Mask_descriptions);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 // OpenGL Enum Functions
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
 	namespace GL

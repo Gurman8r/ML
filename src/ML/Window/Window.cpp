@@ -4,7 +4,7 @@
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Debug.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <GLFW/glfw3.h>
 
@@ -20,7 +20,7 @@
 #define ML_MONITOR(ptr) static_cast<GLFWmonitor *>(ptr)
 #define ML_CURSOR(ptr)	static_cast<GLFWcursor *>(ptr)
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -39,11 +39,11 @@ namespace ml
 	}
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::Window(EventSystem & eventSystem)
 		: I_EventListener	{ eventSystem }
@@ -94,7 +94,7 @@ namespace ml
 #endif
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Window::create(const String & title, const VideoMode & videoMode, const WindowStyle & style, const ContextSettings & context)
 	{
@@ -321,7 +321,7 @@ namespace ml
 		return true;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window & Window::close()
 	{
@@ -488,7 +488,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Window::isFocused() const
 	{
@@ -595,7 +595,7 @@ namespace ml
 		);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void * Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels) const
 	{
@@ -621,7 +621,7 @@ namespace ml
 		);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::CharFun Window::setCharCallback(CharFun callback)
 	{
@@ -742,5 +742,5 @@ namespace ml
 		);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

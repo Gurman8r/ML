@@ -9,7 +9,7 @@ namespace ml
 
 	class ML_EDITOR_API EditorDockspace final : public EditorForm
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 		
@@ -39,7 +39,7 @@ namespace ml
 		uint32_t splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * other);
 		uint32_t splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * out, uint32_t * other);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline uint32_t getNode(const int32_t i) const 
 		{ 
@@ -49,7 +49,7 @@ namespace ml
 			);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		float_t		m_border;
@@ -59,7 +59,7 @@ namespace ml
 		float_t		m_bgAlpha;
 		uint32_t	m_nodes[MAX_DOCK_POS];
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

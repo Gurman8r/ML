@@ -14,14 +14,14 @@ namespace ml
 		, public I_Disposable
 		, public I_Readable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using iterator					= typename List<Uni *>::iterator;
 		using const_iterator			= typename List<Uni *>::const_iterator;
 		using reverse_iterator			= typename List<Uni *>::reverse_iterator;
 		using const_reverse_iterator	= typename List<Uni *>::const_reverse_iterator;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Material();
 		Material(const Shader * shader);
@@ -29,18 +29,18 @@ namespace ml
 		Material(const Material & copy);
 		~Material();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromFile(const String & filename, const Tree<String, Texture *> * textures);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const Material & bind(bool bindTextures = true) const;
 		const Material & unbind() const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T = typename Uni
@@ -64,7 +64,7 @@ namespace ml
 			return (it != this->cend()) ? dynamic_cast<const T *>(*it) : nullptr;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline Uni * add(Uni * value)
 		{
@@ -79,7 +79,7 @@ namespace ml
 			return nullptr;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool erase(Uni * value)
 		{
@@ -101,14 +101,14 @@ namespace ml
 			return false;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto shader()			-> const Shader	*&		{ return m_shader; }
 		inline auto shader()	const	-> const Shader	*		{ return m_shader; }
 		inline auto uniforms()			-> List<Uni *> &		{ return m_uniforms; }
 		inline auto uniforms()	const	-> const List<Uni *> &	{ return m_uniforms; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto begin()				-> iterator					{ return m_uniforms.begin(); }
 		inline auto begin()		const	-> const_iterator			{ return m_uniforms.begin(); }
@@ -124,13 +124,13 @@ namespace ml
 		inline auto crbegin()	const	-> const_reverse_iterator	{ return m_uniforms.crbegin(); }
 		inline auto crend()		const	-> const_reverse_iterator	{ return m_uniforms.crend(); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		const Shader *	m_shader;
 		List<Uni *>		m_uniforms;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

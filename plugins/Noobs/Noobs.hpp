@@ -27,7 +27,7 @@ namespace ml
 
 	struct ML_PLUGIN_API Noobs final : public Plugin
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		explicit Noobs(EventSystem & eventSystem);
 		
@@ -35,10 +35,7 @@ namespace ml
 		
 		void onEvent(const Event & value) override;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		//Ref<Image> m_img { "MY_IMAGE" };
-		//Ref<Texture> m_tex { "MY_TEXTURE" };
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		void onStart	(const StartEvent	& ev);
@@ -48,13 +45,13 @@ namespace ml
 		void onExit		(const ExitEvent	& ev);
 
 		// DEMO SKYBOX
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoSkybox final : public I_Newable, public I_NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			Ref<Model>	model		{ "skybox" };
-			Ref<Material> material	{ "skybox" };
+			Ref<Model>	model		{ "default_skybox" };
+			Ref<Material> material	{ "default_skybox" };
 
 			DemoSkybox() = default;
 
@@ -63,7 +60,7 @@ namespace ml
 
 
 		// DEMO PIPELINE
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		enum : size_t
 		{
 			Surf_Main, 
@@ -98,7 +95,7 @@ namespace ml
 
 
 		// DEMO SCENE
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoScene final : public I_Newable, public I_NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -141,7 +138,7 @@ namespace ml
 
 
 		// DEMO FILE
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoFile final : public I_Newable, public I_NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -203,7 +200,7 @@ namespace ml
 
 
 		// DEMO EDITOR
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoEditor final : public I_Newable, public I_NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -263,7 +260,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 		} m_editor;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

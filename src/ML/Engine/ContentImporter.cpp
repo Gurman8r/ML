@@ -16,7 +16,7 @@
 namespace ml
 {
 	// Entity Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Entity * EntityImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -46,7 +46,7 @@ namespace ml
 
 
 	// Font Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Font * FontImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -76,7 +76,7 @@ namespace ml
 
 
 	// Image Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Image * ImageImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -109,7 +109,7 @@ namespace ml
 
 
 	// Material Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Material * MaterialImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -164,7 +164,7 @@ namespace ml
 
 
 	// Model Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Model * ModelImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -194,7 +194,7 @@ namespace ml
 
 
 	// Script Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Script * ScriptImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -224,7 +224,7 @@ namespace ml
 
 
 	// Shader Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Shader * ShaderImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -279,7 +279,7 @@ namespace ml
 
 
 	// Sound Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Sound * SoundImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -309,7 +309,7 @@ namespace ml
 
 
 	// Sprite Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Sprite * SpriteImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -342,7 +342,7 @@ namespace ml
 
 
 	// Surface Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Surface * SurfaceImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -372,7 +372,7 @@ namespace ml
 
 
 	// Texture Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Texture * TextureImporter::operator()(const Metadata & md) const
 	{
 		if (md.getData("type").asString() == this->getTag())
@@ -429,7 +429,7 @@ namespace ml
 						if (const String file = md.getData("file"))
 						{
 							auto temp = new Texture {
-								sampler, format, format, smooth, repeat, mipmap, level, pixfmt
+							sampler, format, format, smooth, repeat, mipmap, level, pixfmt
 							};
 							if (temp->loadFromFile(ML_FS.pathTo(file)))
 							{

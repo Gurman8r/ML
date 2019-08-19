@@ -8,7 +8,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct Entity;
 	struct Font;
@@ -23,13 +23,13 @@ namespace ml
 	struct Texture;
 	struct Uni;
 	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T
 	> struct PropertyDrawer;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T
@@ -47,7 +47,7 @@ namespace ml
 		static constexpr auto getTag()	-> C_String	{ return wrapper_type::tag; }
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #define ML_GEN_PROPERTY_DRAWER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
@@ -72,7 +72,7 @@ template <> struct _ML PropertyDrawer<ELEM>							\
 namespace ml
 {
 	// Entity Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(EntityPropertyDrawer, Entity, "entity",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -82,7 +82,7 @@ namespace ml
 
 
 	// Font Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(FontPropertyDrawer, Font, "font",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -92,7 +92,7 @@ namespace ml
 
 
 	// Image Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(ImagePropertyDrawer, Image, "image",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -102,7 +102,7 @@ namespace ml
 
 
 	// Material Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(MaterialPropertyDrawer, Material, "material",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -112,7 +112,7 @@ namespace ml
 
 
 	// Model Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(ModelPropertyDrawer, Model, "model",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -122,7 +122,7 @@ namespace ml
 
 
 	// Script Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(ScriptPropertyDrawer, Script, "script",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -132,7 +132,7 @@ namespace ml
 
 
 	// Shader Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(ShaderPropertyDrawer, Shader, "shader",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -142,7 +142,7 @@ namespace ml
 
 
 	// Sound Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(SoundPropertyDrawer, Sound, "sound",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -152,7 +152,7 @@ namespace ml
 
 
 	// Sprite Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(SpritePropertyDrawer, Sprite, "sprite",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -162,7 +162,7 @@ namespace ml
 
 
 	// Surface Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(SurfacePropertyDrawer, Surface, "surface",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -172,7 +172,7 @@ namespace ml
 
 
 	// Texture Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(TexturePropertyDrawer, Texture, "cubemap",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
@@ -182,7 +182,7 @@ namespace ml
 
 
 	// Uniform Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_PROPERTY_DRAWER(UniformPropertyDrawer, Uni, "uniform",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;

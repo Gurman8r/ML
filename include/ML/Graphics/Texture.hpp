@@ -25,7 +25,7 @@ namespace ml
 		, public I_Readable
 		, public I_Handle<uint32_t>
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Texture();
 		explicit Texture(GL::Sampler sampler);
@@ -40,14 +40,14 @@ namespace ml
 		explicit Texture(const Texture & copy);
 		~Texture();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 		bool loadFromImage(const Image & value);
 		bool loadFromFaces(const Array<const Image *, 6> & faces);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool create(const Texture & copy);
 		bool create(const vec2u & size);
@@ -56,7 +56,7 @@ namespace ml
 		bool create(const uint8_t * pixels, const vec2u & size);
 		bool create(const uint8_t * pixels, uint32_t w, uint32_t h);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool update(const Texture & other);
 		bool update(const Texture & other, const UintRect & area);
@@ -73,7 +73,7 @@ namespace ml
 		bool update(const uint8_t * pixels, const vec2u & position, const vec2u & size);
 		bool update(const uint8_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Texture & setMipmapped(bool value);
 		Texture & setRepeated(bool value);
@@ -86,12 +86,12 @@ namespace ml
 		Texture & setColorFormat(GL::Format value);
 		Texture & setType(GL::Type value);
 		
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Texture & swap(Texture & value);
 		Texture & operator=(const Texture & value);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const Image copyToImage() const;
 
@@ -101,7 +101,7 @@ namespace ml
 
 		static void	bind(const Texture * value);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto sampler()		const -> GL::Sampler	{ return m_sampler; }
 		inline auto level()			const -> int32_t		{ return m_level; }
@@ -118,7 +118,7 @@ namespace ml
 		inline auto realWidth()		const -> uint32_t		{ return m_realSize[0]; }
 		inline auto realHeight()	const -> uint32_t		{ return m_realSize[1]; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		GL::Sampler	m_sampler;			// Sampler Type
@@ -132,7 +132,7 @@ namespace ml
 		bool		m_repeated;			// Is Repeated
 		bool		m_mipmapped;		// Is Mipmapped
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

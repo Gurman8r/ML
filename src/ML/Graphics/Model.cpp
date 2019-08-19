@@ -2,7 +2,7 @@
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/Geometry.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <assimp/Importer.hpp>
 #include <assimp/cimport.h>

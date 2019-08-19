@@ -28,24 +28,24 @@ namespace ml
 	struct ML_GRAPHICS_API OpenGL final : public I_Singleton<OpenGL>
 	{
 		// Errors
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	getError() -> GL::Err;
 		static auto	checkError(C_String file, uint32_t line, C_String expr) -> Ostream &;
 		static auto	checkError(Ostream & out, C_String file, uint32_t line, C_String expr) -> Ostream &;
 
 		// Initialization
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static bool	init(bool reinit = false);
 		static void	validateVersion(uint32_t & major, uint32_t & minor);
 
 		// Flags
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static bool isEnabled(uint32_t value);
 		static bool enable(uint32_t value, bool cond = true);
 		static bool disable(uint32_t value, bool cond = true);
 		
 		// Getters
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto getString(uint32_t name) -> C_String;
 		static auto getString(uint32_t name, uint32_t index) -> C_String;
 		static bool	getBool(uint32_t name);
@@ -55,7 +55,7 @@ namespace ml
 		static auto	getIntv(uint32_t name, int32_t * params) -> int32_t *;
 
 		// Functions
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void	activeTexture(uint32_t value);
 		static void	alphaFunc(GL::Predicate predicate, float_t value);
 		static void	blendFunc(uint32_t sFactor, uint32_t dFactor);
@@ -69,7 +69,7 @@ namespace ml
 		static void	polygonMode(uint32_t face, uint32_t mode);
 
 		// Drawing
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void clear(uint32_t mask);
 		static void clearColor(float_t r, float_t g, float_t b, float_t a);
 		static void drawElements(GL::Mode mode, int32_t count, GL::Type type, const void * indices);
@@ -77,7 +77,7 @@ namespace ml
 		static void flush();
 
 		// Buffers
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto genBuffers(uint32_t count) -> uint32_t;
 		static auto genVertexArrays(uint32_t count) -> uint32_t;
 		static void	bindBuffer(uint32_t type, uint32_t buffer);
@@ -91,7 +91,7 @@ namespace ml
 		static void	enableVertexAttribArray(uint32_t index);
 
 		// Textures
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	getMaxTextureUnits() -> int32_t;
 		static auto	getMaxTextureSize() -> uint32_t;
 		static auto getValidTextureSize(uint32_t value) -> uint32_t;
@@ -112,7 +112,7 @@ namespace ml
 		static void	bindSampler(uint32_t unit, int32_t sampler);
 
 		// Framebuffers
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static bool	framebuffersAvailable();
 		static auto genFramebuffers(uint32_t count) -> uint32_t;
 		static auto	checkFramebufferStatus(uint32_t target) -> uint32_t;
@@ -122,7 +122,7 @@ namespace ml
 		static void	framebufferTexture2D(uint32_t target, uint32_t attachment, uint32_t textarget, uint32_t texture, int32_t level);
 
 		// Renderbuffers
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto genRenderbuffers(uint32_t count) -> uint32_t;
 		static void	deleteRenderbuffers(uint32_t count, const uint32_t * renderbuffers);
 		static void	bindRenderbuffer(uint32_t target, uint32_t renderbuffer);
@@ -130,7 +130,7 @@ namespace ml
 		static void	framebufferRenderbuffer(uint32_t target, uint32_t attachment, uint32_t renderbuffertarget, uint32_t renderbuffer);
 
 		// Shaders
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static bool	shadersAvailable();
 		static bool	geometryShadersAvailable();
 
@@ -168,7 +168,7 @@ namespace ml
 		static void	uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
 		static void	uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: friend struct I_Singleton<OpenGL>;
 	};

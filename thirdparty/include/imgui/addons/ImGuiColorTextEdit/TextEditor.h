@@ -18,7 +18,7 @@ namespace ImGui
 	class IMGUI_API TextEditor
 	{
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		enum class PaletteIndex
 		{
 			Default,
@@ -53,7 +53,7 @@ namespace ImGui
 		};
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct IMGUI_API Breakpoint
 		{
 			int32_t mLine;
@@ -68,7 +68,7 @@ namespace ImGui
 		};
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct IMGUI_API Coordinates
 		{
 			// Represents a character coordinate from the user's point of view,
@@ -132,7 +132,7 @@ namespace ImGui
 		};
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct IMGUI_API Identifier
 		{
 			Coordinates mLocation;
@@ -148,7 +148,7 @@ namespace ImGui
 		typedef uint8_t Char;
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct IMGUI_API Glyph
 		{
 			Char mChar;
@@ -167,7 +167,7 @@ namespace ImGui
 		typedef std::vector<Line> Lines;
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct IMGUI_API LanguageDefinition
 		{
 			typedef std::pair<std::string, PaletteIndex> TokenRegexString;
@@ -205,13 +205,13 @@ namespace ImGui
 		};
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		TextEditor();
 		TextEditor(const std::string & text, const LanguageDefinition & languageDef);
 		~TextEditor();
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		void SetLanguageDefinition(const LanguageDefinition & aLanguageDef);
 		const LanguageDefinition & GetLanguageDefinition() const { return mLanguageDefinition; }
 
@@ -265,13 +265,13 @@ namespace ImGui
 		void Redo(int32_t aSteps = 1);
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static const Palette & GetDarkPalette();
 		static const Palette & GetLightPalette();
 		static const Palette & GetRetroBluePalette();
 
 	public:
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		inline auto GetPalette() const -> const Palette & { return mPaletteBase; }
 		inline auto GetTotalLines() const -> int32_t { return (int32_t)mLines.size(); }
 		inline auto	GetTabSize() const -> int32_t { return mTabSize; }

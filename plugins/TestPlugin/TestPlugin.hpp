@@ -14,7 +14,7 @@ namespace ml
 
 	struct ML_PLUGIN_API TestPlugin final : public Plugin
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit TestPlugin(EventSystem & eventSystem);
 		
@@ -22,7 +22,7 @@ namespace ml
 
 		void onEvent(const Event & value) override;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 	
 	/* * * * * * * * * * * * * * * * * * * * */

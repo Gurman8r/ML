@@ -5,7 +5,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorProfiler::EditorProfiler(Editor & editor)
 		: EditorForm { editor, "Profiler", false }
@@ -13,7 +13,7 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorProfiler::onUpdate(const UpdateEvent & ev)
 	{
@@ -87,7 +87,7 @@ namespace ml
 		return endDraw();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void EditorProfiler::GraphLines::update(C_String label, float_t sample, C_String text)
 	{
@@ -136,5 +136,5 @@ namespace ml
 		);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

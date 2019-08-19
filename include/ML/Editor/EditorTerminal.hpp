@@ -9,7 +9,7 @@ namespace ml
 
 	class ML_EDITOR_API EditorTerminal final : public EditorForm
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
@@ -19,7 +19,7 @@ namespace ml
 		
 		bool onGui(const GuiEvent & ev) override;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
 		void    clear();
@@ -35,7 +35,7 @@ namespace ml
 			return m_history; 
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		const Ostream *		m_coutPtr; // stream redirect reference
@@ -49,7 +49,7 @@ namespace ml
 		List<C_String>		m_autoFill;
 		bool				m_paused;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

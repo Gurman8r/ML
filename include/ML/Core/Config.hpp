@@ -2,13 +2,13 @@
 #define _ML_CONFIG_HPP_
 
 //	Project Info
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #define ML_PROJECT_VER "alpha"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
 
 //	C++ Version
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(__cplusplus)
 #	define ML_CPLUSPLUS __cplusplus
 # else
@@ -17,7 +17,7 @@
 
 
 //	Configuration (Debug / Release)
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_DEBUG)
 #	define ML_DEBUG			true
 #	define ML_CONFIGURATION "Debug"
@@ -28,7 +28,7 @@
 
 
 //	Operating System
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_WIN32		) \
   || defined(_WIN64		) \
   || defined(WIN32		) \
@@ -62,7 +62,7 @@
 
 
 //	Architecture / Platform Target
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_WIN64		)\
   || defined(WIN64		)\
   || defined(__x86_64__	)\
@@ -78,7 +78,7 @@
 
 
 // Types
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # define ML_INT8		signed char			// 1 byte
 # define ML_INT16		signed short		// 2 bytes
@@ -104,7 +104,7 @@
 
 
 //	Preprocessor
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # define _ML				::ml::
 # define _ML_BEGIN			namespace ml {
 # define _ML_END			}
@@ -123,7 +123,7 @@
 
 
 //	Compiler
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # if defined(_MSC_VER)
 //	Microsoft Compiler
 #	define ML_CC_NAME	"Microsoft"
@@ -145,7 +145,7 @@
 
 
 //	Export / Import
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 # ifndef ML_STATIC
 #	ifdef ML_SYSTEM_WINDOWS
 #		define ML_API_EXPORT __declspec(dllexport)

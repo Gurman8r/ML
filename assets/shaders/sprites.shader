@@ -1,5 +1,5 @@
 #shader vertex
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "../../../assets/shaders/common/Vert.shader"
 
 mat4 orthographic(float left, float right, float bottom, float top)
@@ -29,7 +29,7 @@ void main()
 	gl_Position	= proj * vec4(V.Position, 1.0);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #shader fragment
 #include "../../../assets/shaders/common/Frag.shader"
 
@@ -41,4 +41,4 @@ void main()
 	gl_Color = u_color * texture(u_texture0, V.Texcoord);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

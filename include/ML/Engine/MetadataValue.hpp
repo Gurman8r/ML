@@ -11,7 +11,7 @@ namespace ml
 	// A string that can be interpreted as other types
 	struct MetadataValue final : public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		MetadataValue()
 			: m_data {}
@@ -55,7 +55,7 @@ namespace ml
 
 		~MetadataValue() {}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T
@@ -64,7 +64,7 @@ namespace ml
 			return ((*this) = MetadataValue(value));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline const String & getData() const { return m_data; }
 
@@ -75,7 +75,7 @@ namespace ml
 		inline auto asString()	const -> String			{ return getData(); }
 		inline auto asUint()	const -> uint32_t		{ return alg::to_uint(asString()); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline operator bool		() const { return asBool();		}
 		inline operator float64_t	() const { return asDouble();	}
@@ -84,11 +84,11 @@ namespace ml
 		inline operator uint32_t	() const { return asUint();		}
 		inline operator String		() const { return asString();	}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: String m_data;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -11,7 +11,7 @@ namespace py = pybind11;
 namespace ml
 {
 	// Types
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	using str_t		= typename std::string;
 	using list_t	= typename std::vector<str_t>;
 	using dict_t	= typename std::map<str_t, str_t>;
@@ -19,7 +19,7 @@ namespace ml
 
 
 	// Config
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_config, m)
 	{
 		m.attr("architecture")		= ML_ARCHITECTURE;
@@ -36,7 +36,7 @@ namespace ml
 
 
 	// Preferences
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_prefs, m)
 	{
 		m.def("load", [](const str_t & filename)
@@ -59,7 +59,7 @@ namespace ml
 
 
 	// IO
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_io, m)
 	{
 		m.def("clear", []() { Debug::clear(); });
@@ -84,7 +84,7 @@ namespace ml
 
 
 	// Content
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_content, m)
 	{
 		m.def("load", [](const dict_t & data)
@@ -99,7 +99,7 @@ namespace ml
 	}
 
 	// Window
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_window, m)
 	{
 		m.def("close",					[]() { ML_Launcher.window.close(); });
@@ -131,7 +131,7 @@ namespace ml
 
 
 	// Plugins
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_plugins, m)
 	{
 		m.def("load", [](const str_t & filename)
@@ -142,7 +142,7 @@ namespace ml
 
 
 	// Editor
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_editor, m)
 	{
 	}

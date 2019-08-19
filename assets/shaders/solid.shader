@@ -90,7 +90,7 @@ void main()
 	gl_Position	= (proj * view * model) * vec4(V.Position, 1.0);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #shader fragment
 #include "../../../assets/shaders/common/Frag.shader"
 
@@ -101,4 +101,4 @@ void main()
 	gl_Color = u_color;
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

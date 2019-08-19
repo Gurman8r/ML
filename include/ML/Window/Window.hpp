@@ -19,7 +19,7 @@ namespace ml
 		, public I_NonCopyable
 		, public I_EventListener
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using CharFun			= typename void(*)(void *, uint32_t);
 		using CursorEnterFun	= typename void(*)(void *, int32_t);
@@ -34,12 +34,12 @@ namespace ml
 		using PositionFun		= typename void(*)(void *, int32_t, int32_t);
 		using SizeFun			= typename void(*)(void *, int32_t, int32_t);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit Window(EventSystem & eventSystem);
 		virtual ~Window();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool create(
 			const String & title, 
@@ -54,7 +54,7 @@ namespace ml
 
 		virtual bool dispose() override;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Window & close();
 		Window & destroy();
@@ -76,7 +76,7 @@ namespace ml
 		Window & setTitle(const String & value);
 		Window & terminate();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool		isFocused() const;
 		bool		isOpen() const;
@@ -91,7 +91,7 @@ namespace ml
 		vec2i		getPosition() const;
 		float64_t	getTime() const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto getContext()	const -> const ContextSettings & { return m_context; }
 		inline auto getStyle()		const -> const WindowStyle & { return m_style; }
@@ -107,13 +107,13 @@ namespace ml
 		inline auto getMonitor()	const -> const void * { return m_monitor; }
 		inline auto getShare()		const -> const void * { return m_share; }
 	
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		void *	createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels) const;
 		void *	createStandardCursor(Cursor::Shape value) const;
 		void	destroyCursor(void * value) const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		CharFun			setCharCallback			(CharFun		callback);
 		CursorEnterFun	setCursorEnterCallback	(CursorEnterFun callback);
@@ -128,7 +128,7 @@ namespace ml
 		PositionFun		setWindowPosCallback	(PositionFun	callback);
 		SizeFun			setWindowSizeCallback	(SizeFun		callback);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
 		void *			m_window;		// 
@@ -140,7 +140,7 @@ namespace ml
 		String			m_title;		// 
 		mutable char	m_char;			// 
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

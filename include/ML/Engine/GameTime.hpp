@@ -12,23 +12,23 @@ namespace ml
 		: public I_Newable
 		, public I_NonCopyable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		GameTime();
 		~GameTime();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		GameTime & beginLoop();
 		GameTime & endLoop();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto elapsed()	const -> const Duration &	{ return m_elapsed; }
 		inline auto frameRate()	const -> const uint32_t		{ return m_frameRate; }
 		inline auto total()		const -> const Duration &	{ return m_mainTimer.elapsed(); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		Timer		m_mainTimer;
@@ -39,7 +39,7 @@ namespace ml
 		float_t		m_nextSecond;
 		float_t		m_prevSecond;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

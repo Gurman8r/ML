@@ -13,7 +13,7 @@ namespace ml
 		, public I_Disposable
 		, public I_Readable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using GlyphTable = Tree<uint32_t, Glyph>;
 		using PageTable  = Tree<uint32_t, GlyphTable>;
@@ -23,18 +23,18 @@ namespace ml
 			String family;
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Font();
 		explicit Font(const Font & copy);
 		~Font();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		inline const Info & getInfo() const { return m_info; };
 
@@ -42,7 +42,7 @@ namespace ml
 		
 		Glyph loadGlyph(uint32_t c, uint32_t characterSize) const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		mutable PageTable m_pages;
@@ -51,7 +51,7 @@ namespace ml
 		void *	m_library;
 		void *	m_face;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

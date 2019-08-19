@@ -4,13 +4,13 @@
 #include <ML/Core/StandardLib.hpp>
 
 // OpenGL Enums
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
 	namespace GL
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Flag : uint32_t
 		{
@@ -23,7 +23,7 @@ namespace ml
 			ScissorTest		= 0x0C11,		// GL_SCISSOR_TEST
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Sampler : uint32_t
 		{
@@ -32,7 +32,7 @@ namespace ml
 			TextureCubeMap = 0x8513,		// GL_TEXTURE_CUBE_MAP
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Target : uint32_t
 		{
@@ -53,7 +53,7 @@ namespace ml
 			ActiveTexture = 0x84E0,			// GL_ACTIVE_TEXTURE
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Usage : uint32_t
 		{
@@ -62,7 +62,7 @@ namespace ml
 			DynamicDraw	= 0x88E8,			// GL_DYNAMIC_DRAW
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Err : uint32_t
 		{
@@ -76,7 +76,7 @@ namespace ml
 			InvalidFramebufferOperation,	// GL_INVALID_FRAMEBUFFER_OPERATION
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum StringID : uint32_t
 		{
@@ -87,7 +87,7 @@ namespace ml
 			ShadingLanguageVersion = 0x8B8C,// GL_SHADING_LANGUAGE_VERSION			
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		enum IntID : uint32_t
 		{
@@ -110,7 +110,7 @@ namespace ml
 			BlendSourceAlpha,				// GL_BLEND_SRC_ALPHA
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Clip : uint32_t
 		{
@@ -119,7 +119,7 @@ namespace ml
 			ClipOrigin = 0x935C,			// GL_CLIP_ORIGIN
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Status : uint32_t
 		{
@@ -129,7 +129,7 @@ namespace ml
 			FramebufferComplete = 0x8CD5,	// GL_FRAMEBUFFER_COMPLETE
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum ShaderType : uint32_t
 		{
@@ -138,7 +138,7 @@ namespace ml
 			GeometryShader = 0x8DD9,		// GL_GEOMETRY_SHADER
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Mode : uint32_t
 		{
@@ -152,7 +152,7 @@ namespace ml
 			Fill = 0x1B02,					// GL_FILL
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Equation : uint32_t
 		{
@@ -162,7 +162,7 @@ namespace ml
 			FuncAdd	= 0x8006,				// GL_FUNC_ADD
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Predicate : uint32_t
 		{
@@ -176,7 +176,7 @@ namespace ml
 			Always,							// GL_ALWAYS
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Factor : uint32_t
 		{
@@ -191,7 +191,7 @@ namespace ml
 			SrcAlphaSaturate,				// GL_SRC_ALPHA_SATURATE
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Face : uint32_t
 		{
@@ -206,7 +206,7 @@ namespace ml
 			FrontAndBack,					// GL_FRONT_AND_BACK
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Type : uint32_t
 		{
@@ -220,7 +220,7 @@ namespace ml
 			HalfFloat,						// GL_HALF_FLOAT
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Format : uint32_t
 		{
@@ -245,7 +245,7 @@ namespace ml
 			Depth24_Stencil8 = 0x88F0,		// GL_DEPTH24_STENCIL8
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum FrameAttachment : uint32_t
 		{
@@ -262,7 +262,7 @@ namespace ml
 			DepthStencil,					// GL_DEPTH_STENCIL_ATTACHMENT
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum TexParam : uint32_t
 		{
@@ -293,7 +293,7 @@ namespace ml
 			CubeMap_Negative_Z,				// GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Pack : uint32_t
 		{
@@ -312,7 +312,7 @@ namespace ml
 			PackAlignment,					// GL_PACK_ALIGNMENT
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum ColorAttachment : uint32_t
 		{
@@ -334,7 +334,7 @@ namespace ml
 			ColorAttachment15,				// GL_COLOR_ATTACHMENT15
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum TexID : uint32_t
 		{
@@ -372,7 +372,7 @@ namespace ml
 			Texture31,						// GL_TEXTURE31
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum DrawBuffer : uint32_t
 		{
@@ -394,7 +394,7 @@ namespace ml
 			DrawBuffer15,					// GL_DRAW_BUFFER15
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum Mask : uint32_t
 		{
@@ -407,14 +407,14 @@ namespace ml
 			ColorBufferBit = 0x4000,		// GL_COLOR_BUFFER_BIT
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Graphics/GL.inl>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_GL_HPP_

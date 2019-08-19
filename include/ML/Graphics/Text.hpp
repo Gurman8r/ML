@@ -17,13 +17,13 @@ namespace ml
 		: public I_Newable
 		, public I_Drawable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Text();
 		Text(const Text & copy);
 		~Text();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Text & setPosition(const vec2 & value);
 		Text & setScale(const vec2 & value);
@@ -32,7 +32,7 @@ namespace ml
 		Text & setFontSize(uint32_t value);
 		Text & setString(const String & value);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto getFont()		const -> const Font *		{ return m_font; }
 		inline auto getFontSize()	const -> const uint32_t		{ return m_fontSize; }
@@ -41,12 +41,12 @@ namespace ml
 		inline auto getString()		const -> const String &		{ return m_string; }
 		inline auto getColor()		const -> const vec4 &		{ return m_color; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void update() const;
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		const Font *m_font;
@@ -60,7 +60,7 @@ namespace ml
 		mutable List<const Texture *> m_textures;
 		mutable List<geo::rect_quad::contiguous_t> m_vertices;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

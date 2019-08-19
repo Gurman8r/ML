@@ -14,17 +14,17 @@ namespace ml
 
 	struct ML_GRAPHICS_API RenderTarget
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		virtual ~RenderTarget() {}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		RenderTarget & clear();
 		RenderTarget & clear(const vec4 & color);
 		RenderTarget & setViewport(const vec2i & pos, const vec2i & size);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		RenderTarget & draw(const I_Drawable * value);
 		RenderTarget & draw(const I_Drawable * value, const RenderBatch & batch);
@@ -45,7 +45,7 @@ namespace ml
 		RenderTarget & draw(const VAO & vao, const VBO & vbo, const IBO & ibo);
 		RenderTarget & draw(const VAO & vao, const VBO & vbo);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

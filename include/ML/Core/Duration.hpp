@@ -12,7 +12,7 @@ namespace ml
 
 	namespace detail
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using Seconds	= Ratio< 1 >;
 		using Minutes	= Ratio< Seconds::num	* 60>;
@@ -22,7 +22,7 @@ namespace ml
 		using Months	= Ratio< Weeks::num		* 4>; // FIXME: 28
 		using Years		= Ratio< Days::num		* 365>;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -43,12 +43,12 @@ namespace ml
 	// Unit of time stored in nanoseconds
 	struct Duration final : public I_NonNewable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type = typename uint64_t;
 		using unit_type  = typename Nanosec;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr Duration()
 			: m_base { uninit }
@@ -72,7 +72,7 @@ namespace ml
 		{
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		constexpr operator value_type() const
 		{ 
@@ -84,7 +84,7 @@ namespace ml
 			return static_cast<Nanosec>((value_type)(*this));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr value_type nanos	() const { return ML_duration_cast(Nanosec,	base()); }
 		constexpr value_type micros	() const { return ML_duration_cast(Microsec,base()); }
@@ -97,7 +97,7 @@ namespace ml
 		constexpr value_type months	() const { return ML_duration_cast(Months,	base()); }
 		constexpr value_type years	() const { return ML_duration_cast(Years,	base()); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
 			class Rep = typename Millisec,
@@ -109,7 +109,7 @@ namespace ml
 			return cast(ML_duration_cast(Rep, base())) / cast(Per::den);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
 			class T
@@ -183,11 +183,11 @@ namespace ml
 			return (lhs = (lhs - rhs));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: value_type m_base; // nanoseconds
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

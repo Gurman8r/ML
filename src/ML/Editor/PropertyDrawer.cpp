@@ -38,7 +38,7 @@ namespace ml
 namespace ml
 {
 	// Entity Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool EntityPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Entity>(label, value);
@@ -199,7 +199,7 @@ namespace ml
 
 
 	// Font Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool FontPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Font>(label, value);
@@ -218,7 +218,7 @@ namespace ml
 
 
 	// Image Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool ImagePropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Image>(label, value);
@@ -238,7 +238,7 @@ namespace ml
 
 
 	// Material Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool MaterialPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Material>(label, value);
@@ -360,7 +360,7 @@ namespace ml
 
 
 	// Model Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool ModelPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Model>(label, value);
@@ -395,7 +395,7 @@ namespace ml
 
 
 	// Script Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool ScriptPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Script>(label, value);
@@ -414,7 +414,7 @@ namespace ml
 
 
 	// Shader Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool ShaderPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Shader>(label, value);
@@ -455,7 +455,7 @@ namespace ml
 
 
 	// Sound Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool SoundPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Sound>(label, value);
@@ -473,7 +473,7 @@ namespace ml
 
 
 	// Sprite Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool SpritePropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Sprite>(label, value);
@@ -560,7 +560,7 @@ namespace ml
 
 	
 	// Surface Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool SurfacePropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Surface>(label, value);
@@ -612,7 +612,7 @@ namespace ml
 
 	
 	// Texture Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool TexturePropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Texture>(label, value);
@@ -776,7 +776,7 @@ namespace ml
 
 
 	// Uniform Drawer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool UniformPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Uni>(label, value);
@@ -800,7 +800,7 @@ namespace ml
 			ImGuiWindowFlags_AlwaysAutoResize
 		))
 		{
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			// Type Input
 			static int32_t	type = 0;

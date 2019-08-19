@@ -10,11 +10,11 @@ namespace ml
 
 	struct ML_GRAPHICS_API ShaderParser final
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using IncludeClbk = typename String(*)(const String&);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static bool		parseShader(const String & src, SStream & v, SStream & g, SStream & f);
 		static String	parseShader(const String & src);
@@ -22,7 +22,7 @@ namespace ml
 		static String	parseIncludes(const String & src, char lhs, char rhs, IncludeClbk callback);
 		static bool		parseWrapped(const String & src, const char lhs, const char rhs, String & out);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

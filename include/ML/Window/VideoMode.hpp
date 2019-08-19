@@ -12,12 +12,12 @@ namespace ml
 
 	struct ML_WINDOW_API VideoMode final : public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		vec2u	 resolution;
 		uint32_t bitsPerPixel;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		VideoMode();
 		VideoMode(uint32_t width, uint32_t height, uint32_t bitsPerPixel);
@@ -25,12 +25,12 @@ namespace ml
 		VideoMode(const VideoMode & copy);
 		~VideoMode();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static const VideoMode &		get_desktop_mode();
 		static const List<VideoMode> &	get_fullscreen_modes();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool is_valid() const
 		{
@@ -41,7 +41,7 @@ namespace ml
 		inline auto width()  const -> const uint32_t & { return resolution[0]; }
 		inline auto height() const -> const uint32_t & { return resolution[1]; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

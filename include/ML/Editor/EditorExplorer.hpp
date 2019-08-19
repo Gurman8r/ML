@@ -10,7 +10,7 @@ namespace ml
 
 	class ML_EDITOR_API EditorExplorer final : public EditorForm
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
@@ -25,7 +25,7 @@ namespace ml
 		void draw_file_preview();
 		void draw_file_details();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
 		enum : char
@@ -67,7 +67,7 @@ namespace ml
 				: nullptr);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		String		m_path;		// Working Directory
@@ -77,7 +77,7 @@ namespace ml
 		String		m_preview;	// File Contents
 		bool		m_isDouble;	// Has Double Click
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -3,7 +3,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	I_EventListener * EventSystem::addListener(const int32_t type, I_EventListener * listener)
 	{
@@ -29,7 +29,7 @@ namespace ml
 		return false;
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool EventSystem::removeListener(const int32_t & type, I_EventListener * listener)
 	{
@@ -69,5 +69,5 @@ namespace ml
 		return allTheWayThrough;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

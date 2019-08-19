@@ -1,11 +1,11 @@
 #ifndef _ML_STANDARD_LIB_HPP_
 #define _ML_STANDARD_LIB_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Core/Config.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <algorithm>
 #include <array>
@@ -44,7 +44,7 @@
 #include <utility>
 #include <vector>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # ifdef ML_SYSTEM_WINDOWS
 #	define popen	_popen
@@ -53,11 +53,11 @@
 #	define snprintf	_snprintf
 # endif
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using int8_t	= typename ML_INT8;
 	using int16_t	= typename ML_INT16;
@@ -76,7 +76,7 @@ namespace ml
 	using intmax_t	= typename ML_INTMAX;
 	using uintmax_t = typename ML_UINTMAX;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using byte_t	= typename uint8_t;		// Byte Type
 	using float_t	= typename float32_t;	// Float Type
@@ -85,7 +85,7 @@ namespace ml
 	using ptrdiff_t	= typename intmax_t;	// Pointer Difference Type
 	using size_t	= typename uintmax_t;	// Size Type
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	ML_USING_X	Allocator		= typename _STD allocator		<X>;
 	ML_USING_X	CharTraits		= typename _STD char_traits		<X>;
@@ -106,7 +106,7 @@ namespace ml
 	using		Istream			= typename	_ML	BasicIstream	<char, CharTraits<char>>;
 	using		StreamBuf		= typename	_ML	BasicStreamBuf	<char, CharTraits<char>>;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static Ostream & cout { _STD cout }; // Output Handle
 	static Ostream & cerr { _STD cerr }; // Error Handle
@@ -125,9 +125,9 @@ namespace ml
 		return out;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_STANDARD_LIB_HPP_

@@ -18,7 +18,7 @@ namespace ml
 
 	struct ML_CORE_API MemoryTracker final : public I_Singleton<MemoryTracker>
 	{	
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		struct Record final : public I_NonCopyable
 		{
@@ -31,20 +31,20 @@ namespace ml
 			friend ML_SERIALIZE(Ostream & out, const Record & value);
 		};
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using RecordMap = typename Tree<void *, Record *>;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void *	allocate(size_t size);
 		void	deallocate(void *& ptr);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto records() const -> const RecordMap & { return m_records; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		friend I_Singleton<MemoryTracker>;

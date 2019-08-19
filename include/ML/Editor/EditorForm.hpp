@@ -16,11 +16,11 @@ namespace ml
 
 	class ML_EDITOR_API EditorForm : public I_NonCopyable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
 		explicit EditorForm(Editor & editor, C_String title, bool open);
@@ -32,7 +32,7 @@ namespace ml
 		virtual bool onGui(const GuiEvent & ev) = 0;
 		virtual bool endDraw();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
 		inline auto editor()		const	-> Editor &	{ return m_editor; }
@@ -43,7 +43,7 @@ namespace ml
 		inline auto setOpen(bool v)			-> bool		{ return m_open = v; }
 		inline auto toggleOpen()			-> bool		{ return setOpen(!isOpen()); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
 		Editor &	m_editor;
@@ -52,7 +52,7 @@ namespace ml
 		C_String	m_title;
 		int32_t		m_flags;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

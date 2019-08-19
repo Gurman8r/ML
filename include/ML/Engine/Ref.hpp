@@ -13,7 +13,7 @@ namespace ml
 		class T
 	> struct Ref final : public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename T;
 		using self_type			= typename Ref<value_type>;
@@ -22,29 +22,32 @@ namespace ml
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Ref()
 			: m_name(nullptr)
 			, m_data(nullptr)
+			, m_changed(true)
 		{
 		}
 
 		explicit Ref(const String & name)
 			: m_name(name)
 			, m_data(nullptr)
+			, m_changed(true)
 		{
 		}
 
 		Ref(const self_type & copy)
 			: m_name(copy.m_name)
 			, m_data(copy.m_data)
+			, m_changed(copy.m_changed)
 		{
 		}
 
 		~Ref() {}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class ... Args
@@ -86,7 +89,7 @@ namespace ml
 			return !m_data;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline const_pointer data() const 
 		{ 
@@ -108,7 +111,7 @@ namespace ml
 			return m_name;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline operator			bool()			const	{ return this->get(); }
 		inline operator			pointer()				{ return this->get(); }
@@ -118,7 +121,7 @@ namespace ml
 		inline reference		operator *()			{ return (*this->get()); }
 		inline const_reference	operator *()	const	{ return (*this->get()); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		String			m_name;

@@ -6,14 +6,14 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// A collection of MetadataValues
 	struct Metadata final 
 		: public I_Newable
 		, public I_Disposable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using self_type			= typename Metadata;
 		using value_type		= typename MetadataValue;
@@ -27,7 +27,7 @@ namespace ml
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Metadata() 
 			: m_data()
@@ -46,7 +46,7 @@ namespace ml
 
 		~Metadata() { dispose(); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool dispose() override
 		{
@@ -58,7 +58,7 @@ namespace ml
 			return m_data.empty();
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T = typename String
@@ -112,7 +112,7 @@ namespace ml
 			return ((*it->second) = value_type { std::forward<Args>(args)... });
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto begin	()		 -> iterator		{ return m_data.begin(); }
 		inline auto begin	() const -> const_iterator	{ return m_data.begin(); }
@@ -121,14 +121,14 @@ namespace ml
 		inline auto end		() const -> const_iterator	{ return m_data.end(); }
 		inline auto cend	() const -> const_iterator	{ return m_data.cend(); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: mutable map_type m_data;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	inline ML_SERIALIZE(Ostream & out, const Metadata & value)
 	{
@@ -139,7 +139,7 @@ namespace ml
 		return out;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_METADATA_HPP_

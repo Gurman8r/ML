@@ -22,7 +22,7 @@ namespace ml
 		, public I_Readable
 		, public I_Writable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename Elem;
 		using traits_type		= typename Traits;
@@ -40,7 +40,7 @@ namespace ml
 		using const_pointer		= typename list_type::const_pointer;
 		using const_reference	= typename list_type::const_reference;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		BasicFile() 
 			: m_data()
@@ -68,7 +68,7 @@ namespace ml
 
 		~BasicFile() { dispose(); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool dispose() override
 		{
@@ -109,7 +109,7 @@ namespace ml
 			return false;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline operator bool() const
 		{ 
@@ -131,7 +131,7 @@ namespace ml
 			return m_data[i]; 
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto at(size_t i) const	-> const_reference		{ return m_data[i]; }
 		inline auto at(size_t i)		-> value_type &			{ return m_data[i]; }
@@ -143,7 +143,7 @@ namespace ml
 		inline auto str() const			-> string_type			{ return string_type(begin(), end()); }
 		inline auto sstr() const		-> sstream_type			{ return sstream_type(str()); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto begin()				-> iterator				{ return m_data.begin(); }
 		inline auto end()				-> iterator				{ return m_data.end(); }
@@ -152,13 +152,13 @@ namespace ml
 		inline auto cbegin() const		-> const_iterator		{ return m_data.cbegin(); }
 		inline auto cend() const		-> const_iterator		{ return m_data.cend(); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		String		m_path;
 		list_type	m_data;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

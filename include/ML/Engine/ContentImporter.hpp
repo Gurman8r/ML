@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct Entity;
 	struct Font;
@@ -21,13 +21,13 @@ namespace ml
 	struct Texture;
 	struct Uni;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T
 	> struct ContentImporter;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T
@@ -41,7 +41,7 @@ namespace ml
 		static constexpr auto getTag()	-> C_String	{ return wrapper_type::tag;	}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #define ML_GEN_CONTENT_IMPORTER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
@@ -66,7 +66,7 @@ template <> struct _ML ContentImporter<ELEM>						\
 namespace ml
 {
 	// Entity Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(EntityImporter, Entity, "entity",
 	{
 		Entity * operator()(const Metadata & md) const;
@@ -74,7 +74,7 @@ namespace ml
 
 
 	// Font Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(FontImporter, Font, "font",
 	{
 		Font * operator()(const Metadata & md) const;
@@ -82,7 +82,7 @@ namespace ml
 
 
 	// Image Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(ImageImporter, Image, "image",
 	{
 		Image * operator()(const Metadata & md) const;
@@ -90,7 +90,7 @@ namespace ml
 
 
 	// Material Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(MaterialImporter, Material, "material",
 	{
 		Material * operator()(const Metadata & md) const;
@@ -98,7 +98,7 @@ namespace ml
 
 
 	// Model Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(ModelImporter, Model, "model",
 	{
 		Model * operator()(const Metadata & md) const;
@@ -106,7 +106,7 @@ namespace ml
 
 
 	// Script Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(ScriptImporter, Script, "script",
 	{
 		Script * operator()(const Metadata & md) const;
@@ -114,7 +114,7 @@ namespace ml
 
 
 	// Shader Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(ShaderImporter, Shader, "shader",
 	{
 		Shader * operator()(const Metadata & md) const;
@@ -122,7 +122,7 @@ namespace ml
 
 
 	// Sound Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(SoundImporter, Sound, "sound",
 	{
 		Sound * operator()(const Metadata & md) const;
@@ -130,7 +130,7 @@ namespace ml
 
 
 	// Sprite Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(SpriteImporter, Sprite, "sprite",
 	{
 		Sprite * operator()(const Metadata & md) const;
@@ -138,7 +138,7 @@ namespace ml
 
 
 	// Surface Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(SurfaceImporter, Surface, "surface",
 	{
 		Surface * operator()(const Metadata & md) const;
@@ -146,7 +146,7 @@ namespace ml
 
 
 	// Texture Importer
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ML_GEN_CONTENT_IMPORTER(TextureImporter, Texture, "texture",
 	{
 		Texture * operator()(const Metadata & md) const;

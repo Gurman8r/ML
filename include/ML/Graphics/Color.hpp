@@ -8,8 +8,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	struct Color final : public vec4f
+	struct Color final
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr Color() = delete;
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr vec4 clear		{ 0.0f, 0.0f, 0.0f, 0.0f };
@@ -34,73 +38,38 @@ namespace ml
 		static constexpr vec4 azure		{ 0.0f, 0.5f, 1.0f, 1.0f };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	};
 
-		using value_type		= typename float_t;
-		using self_type			= typename Color;
-		using base_type			= typename tvec4<value_type>;
-		using complex_type		= typename tvec3<value_type>;
-		using pointer			= typename base_type::pointer;
-		using reference			= typename base_type::reference;
-		using const_pointer		= typename base_type::const_pointer;
-		using const_reference	= typename base_type::const_reference;
-		using iterator			= typename base_type::iterator;
-		using const_iterator	= typename base_type::const_iterator;
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct Color32 final
+	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr Color32() = delete;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Color()
-			: base_type { 1.0f, 1.0f, 1.0f, 1.0f }
-		{
-		}
+		static constexpr vec4b clear	{ 0x00, 0x00, 0x00, 0x00 };
+		static constexpr vec4b white	{ 0xFF, 0xFF, 0xFF, 0xFF };
+		static constexpr vec4b black	{ 0x00, 0x00, 0x00, 0xFF };
+		static constexpr vec4b gray		{ 0x40, 0x40, 0x40, 0xFF };
 
-		constexpr Color(value_type r, value_type g, value_type b, value_type a)
-			: base_type { r, g, b, a }
-		{
-		}
+		static constexpr vec4b red		{ 0xFF, 0x00, 0x00, 0xFF };
+		static constexpr vec4b green	{ 0x00, 0xFF, 0x00, 0xFF };
+		static constexpr vec4b blue		{ 0x00, 0x00, 0xFF, 0xFF };
 
-		constexpr Color(value_type r, value_type g, value_type b)
-			: base_type { r, g, b, 1.0f }
-		{
-		}
+		static constexpr vec4b cyan		{ 0x00, 0xFF, 0xFF, 0xFF };
+		static constexpr vec4b yellow	{ 0xFF, 0xFF, 0x00, 0xFF };
+		static constexpr vec4b magenta	{ 0xFF, 0x00, 0xFF, 0xFF };
 
-		constexpr Color(const self_type & copy)
-			: base_type { copy }
-		{
-		}
+		static constexpr vec4b violet	{ 0x80, 0x00, 0xFF, 0xFF };
+		static constexpr vec4b lime		{ 0x80, 0xFF, 0x00, 0xFF };
+		static constexpr vec4b orange	{ 0xFF, 0x80, 0x00, 0xFF };
 
-		template <
-			class U
-		> constexpr Color(const tvec4<U> & copy)
-			: base_type { copy }
-		{
-		}
-
-		template <
-			class U
-		> constexpr operator tvec4<U>() const
-		{
-			using TT = numeric<U>;
-			return { TT(r()), TT(g()), TT(b()), TT(a()) };
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		constexpr auto r() { return (*this)[0]; }
-		constexpr auto g() { return (*this)[1]; }
-		constexpr auto b() { return (*this)[2]; }
-		constexpr auto a() { return (*this)[3]; }
-
-		constexpr auto r() const { return (*this)[0]; }
-		constexpr auto g() const { return (*this)[1]; }
-		constexpr auto b() const { return (*this)[2]; }
-		constexpr auto a() const { return (*this)[3]; }
-		constexpr auto rgb() const -> vec3f { return { r(), g(), b() }; }
-
-		constexpr auto r(value_type value) { (*this)[0] = value; return (*this); }
-		constexpr auto g(value_type value) { (*this)[1] = value; return (*this); }
-		constexpr auto b(value_type value) { (*this)[2] = value; return (*this); }
-		constexpr auto a(value_type value) { (*this)[3] = value; return (*this); }
-		constexpr auto rgb(const vec3f & value) { return r(value[0]).g(value[1]).b(value[2]); }
+		static constexpr vec4b fuchsia	{ 0xFF, 0x00, 0x80, 0xFF };
+		static constexpr vec4b aqua		{ 0x00, 0xFF, 0x80, 0xFF };
+		static constexpr vec4b azure	{ 0x00, 0x80, 0xFF, 0xFF };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

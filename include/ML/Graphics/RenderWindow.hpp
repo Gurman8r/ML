@@ -12,7 +12,7 @@ namespace ml
 		: public Window
 		, public RenderTarget
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit RenderWindow(EventSystem & eventSystem);
 		
@@ -22,7 +22,7 @@ namespace ml
 
 		virtual void onEvent(const Event & value) override;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

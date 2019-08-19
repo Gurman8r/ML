@@ -32,7 +32,7 @@ ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Noobs::Noobs(EventSystem & eventSystem)
 		: Plugin		{ eventSystem }
@@ -51,7 +51,7 @@ namespace ml
 		eventSystem.addListener(DockspaceEvent::ID,		this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Noobs::onEvent(const Event & value)
 	{
@@ -94,22 +94,10 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		//m_img.create();
-		//m_tex.create(GL::Texture2D, true, false);
-		//
-		//Image img;
-		//for (uint8_t & pix : img)
-		//{
-		//	pix = 0xFF;
-		//}
-		//
-		//m_img->create(256, 256, Color::magenta);
-		//m_tex->loadFromImage(*m_img);
-
 		// Modify Default Uniforms
 		if (Material * m = m_editor.material())
 		{
@@ -216,7 +204,7 @@ namespace ml
 
 
 	// DEMO SCENE
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void Noobs::DemoScene::render(const GuiEvent & ev, C_String title, const Surface * surf)
 	{
 		if (!m_open) return;
@@ -311,7 +299,7 @@ namespace ml
 
 
 	// DEMO FILE
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void Noobs::DemoFile::render(const GuiEvent & ev)
 	{
 		ImGui::BeginChild("DemoFile##ContentArea", { 0, 0 }, true);
@@ -328,7 +316,7 @@ namespace ml
 
 	
 	// DEMO EDITOR
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void Noobs::DemoEditor::render(const GuiEvent & ev, C_String title)
 	{
 		if (!m_open) return;
@@ -519,13 +507,13 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginTabItem("Settings"))
 				{
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					ImGui::PushID("##Settings");
 					ImGui::BeginChild("##Settings##Content", { 0, 0 }, true);
 					ImGui::NewLine();
 
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					const Shader * s = this->shader();
 					if (ShaderPropertyDrawer()("Shader##Material##Noobs", s))
@@ -545,7 +533,7 @@ namespace ml
 					}
 					ImGuiExt::Tooltip("Specifies model to be drawn");
 
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					enum Setting_
 					{
@@ -571,7 +559,7 @@ namespace ml
 
 
 					// Alpha State
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 					if (alpha_state) ([](AlphaState *& alpha)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -652,7 +640,7 @@ namespace ml
 
 
 					// Blend State
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 					if (blend_state) ([](BlendState * blend)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -778,7 +766,7 @@ namespace ml
 
 
 					// Cull State
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 					if (cull_state) ([](CullState * cull)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -844,7 +832,7 @@ namespace ml
 
 
 					// Depth State
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 					if (depth_state) ([](DepthState * depth)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
@@ -922,13 +910,13 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(depth_state);
 
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					ImGui::EndChild();
 					ImGui::PopID(); 
 					ImGui::EndTabItem();
 
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 				}
 
 				ImGui::EndTabBar();
@@ -1075,5 +1063,5 @@ namespace ml
 		return (String)out.str();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

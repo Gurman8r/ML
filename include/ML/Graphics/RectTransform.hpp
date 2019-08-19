@@ -12,32 +12,32 @@ namespace ml
 	struct ML_GRAPHICS_API RectTransform final
 		: public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RectTransform();
 		RectTransform(const vec2 & position, const vec2 & scale, const float_t rotation, const vec2 & origin);
 		RectTransform(const RectTransform & copy);
 		~RectTransform();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void update() const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RectTransform & setOrigin	(const vec2 &	value);
 		RectTransform & setPosition	(const vec2 &	value);
 		RectTransform & setRotation	(const float_t	value);
 		RectTransform & setScale	(const vec2 &	value);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto origin()	const -> const vec2 &		{ return m_origin; }
 		inline auto position()	const -> const vec2 &		{ return m_position; }
 		inline auto rotation()	const -> const float_t &	{ return m_rotation; }
 		inline auto scale()		const -> const vec2 &		{ return m_scale; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline const mat4 & getMat() const
 		{
@@ -45,7 +45,7 @@ namespace ml
 			return m_matrix;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		vec2	m_origin;
@@ -56,7 +56,7 @@ namespace ml
 		mutable mat4 m_matrix;
 		mutable bool m_changed;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

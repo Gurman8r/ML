@@ -17,7 +17,7 @@
 
 namespace ImGui
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class InputIt1, class InputIt2, class BinaryPredicate
@@ -86,7 +86,7 @@ namespace ImGui
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	TextEditor::TextEditor()
 		: mLineSpacing(1.0f)
@@ -129,7 +129,7 @@ namespace ImGui
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::SetLanguageDefinition(const LanguageDefinition & aLanguageDef)
 	{
@@ -147,7 +147,7 @@ namespace ImGui
 		mPaletteBase = aValue;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	std::string TextEditor::GetText(const Coordinates & aStart, const Coordinates & aEnd) const
 	{
@@ -216,7 +216,7 @@ namespace ImGui
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::Advance(Coordinates & aCoordinates) const
 	{
@@ -343,7 +343,7 @@ namespace ImGui
 		++mUndoIndex;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	TextEditor::Coordinates TextEditor::ScreenPosToCoordinates(const ImVec2 & aPosition) const
 	{
@@ -514,7 +514,7 @@ namespace ImGui
 		return at;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	int32_t TextEditor::GetCharacterIndex(const Coordinates & aCoordinates) const
 	{
@@ -582,7 +582,7 @@ namespace ImGui
 		return col;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool TextEditor::IsOnWordBoundary(const Coordinates & aAt) const
 	{
@@ -723,7 +723,7 @@ namespace ImGui
 		return color;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::HandleKeyboardInputs()
 	{
@@ -881,7 +881,7 @@ namespace ImGui
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::Render()
 	{
@@ -1185,7 +1185,7 @@ namespace ImGui
 		mWithinRender = false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::SetText(const std::string & aText)
 	{
@@ -1530,7 +1530,7 @@ namespace ImGui
 		Colorize(mState.mSelectionStart.mLine, 1);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::MoveUp(int32_t aAmount, bool aSelect)
 	{
@@ -1791,7 +1791,7 @@ namespace ImGui
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::Delete()
 	{
@@ -1945,7 +1945,7 @@ namespace ImGui
 		return mState.mSelectionEnd > mState.mSelectionStart;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void TextEditor::Copy()
 	{
@@ -2044,7 +2044,7 @@ namespace ImGui
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool TextEditor::CanUndo() const
 	{
@@ -2068,7 +2068,7 @@ namespace ImGui
 			mUndoBuffer[mUndoIndex++].Redo(this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const TextEditor::Palette & TextEditor::GetDarkPalette()
 	{
@@ -2154,7 +2154,7 @@ namespace ImGui
 		return p;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	std::string TextEditor::GetText() const
 	{
@@ -3282,5 +3282,5 @@ namespace ImGui
 		return langDef;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

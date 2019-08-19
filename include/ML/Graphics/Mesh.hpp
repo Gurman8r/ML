@@ -18,14 +18,14 @@ namespace ml
 		, public I_Disposable
 		, public I_Drawable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Mesh();
 		Mesh(const List<Vertex> & vertices, const List<uint32_t> & indices, const List<const Texture *> & textures);
 		Mesh(const Mesh & copy);
 		~Mesh() { dispose(); }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 
@@ -34,11 +34,11 @@ namespace ml
 		Mesh & addIndex(uint32_t value);
 		Mesh & setLayout(const BufferLayout & value);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto vertices()	const -> const List<Vertex> &			{ return m_vertices; }
 		inline auto indices()	const -> const List<uint32_t> &			{ return m_indices; }
@@ -48,7 +48,7 @@ namespace ml
 		inline auto vbo()		const -> const VBO &					{ return m_vbo; }
 		inline auto ibo()		const -> const IBO &					{ return m_ibo; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		List<Vertex>			m_vertices;
@@ -61,7 +61,7 @@ namespace ml
 		VBO	m_vbo;
 		IBO	m_ibo;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

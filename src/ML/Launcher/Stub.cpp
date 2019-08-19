@@ -79,9 +79,9 @@ namespace ml
 
 		// Color Tests
 		{
-			constexpr Color red		{ 1.0f, 0.0f, 0.0f, 1.0f };
-			constexpr Color green	{ Color::green };
-			constexpr vec4f blue	= Color { 0.0f, 0.0f, 1.0f, 1.0f };
+			constexpr vec4f red		{ 1.0f, 0.0f, 0.0f, 1.0f };
+			constexpr vec4f green	{ Color::green };
+			constexpr vec4f blue	{ 0.0f, 0.0f, 1.0f, 1.0f };
 		}
 
 		// Quaternion Tests

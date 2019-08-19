@@ -22,13 +22,13 @@ namespace ml
 		, public I_Readable
 		, public I_Handle<uint32_t>
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Shader();
 		Shader(const Shader & copy);
 		~Shader();
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
@@ -38,7 +38,7 @@ namespace ml
 		bool loadFromMemory(const String & vs, const String & gs, const String & fs);
 		bool loadFromMemory(const String & vs, const String & fs);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const Shader & bind(bool bindTextures = true) const;
 		
@@ -46,7 +46,7 @@ namespace ml
 
 		static void bind(const Shader * shader, bool bindTextures = true);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		struct Source final { String vs, fs, gs; };
 
@@ -55,7 +55,7 @@ namespace ml
 		inline auto fragSrc() const -> const String & { return sources().fs; }
 		inline auto geomSrc() const -> const String & { return sources().gs; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniform(const Uni * value) const;
 
@@ -91,7 +91,7 @@ namespace ml
 		bool setUniformList(const String & name, const List<mat3> & value) const;
 		bool setUniformList(const String & name, const List<mat4> & value) const;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		bool	compile(C_String vs, C_String gs, C_String fs);
@@ -109,7 +109,7 @@ namespace ml
 		mutable UniformTable	m_uniforms; // Uniform Cache
 		mutable Source			m_sources;	// Sources Cache
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

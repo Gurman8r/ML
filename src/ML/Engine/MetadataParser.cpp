@@ -13,7 +13,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	MetadataParser::MetadataParser() : m_lists() {}
 
@@ -24,7 +24,7 @@ namespace ml
 
 	MetadataParser::~MetadataParser() { dispose(); }
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool MetadataParser::dispose()
 	{
@@ -56,7 +56,7 @@ namespace ml
 		return false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const List<Metadata *> & MetadataParser::loadLists(List<Metadata *> & data, const List<Tree<String, String>>& value)
 	{
@@ -163,5 +163,5 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

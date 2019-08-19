@@ -19,34 +19,59 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pixels = typename List<uint8_t>;
-		using iterator = typename Pixels::iterator;
-		using const_iterator = typename Pixels::const_iterator;
-		using reverse_iterator = typename Pixels::reverse_iterator;
-		using const_reverse_iterator = typename Pixels::const_reverse_iterator;
+		using Pixels					= typename List<uint8_t>;
+		using iterator					= typename Pixels::iterator;
+		using const_iterator			= typename Pixels::const_iterator;
+		using reverse_iterator			= typename Pixels::reverse_iterator;
+		using const_reverse_iterator	= typename Pixels::const_reverse_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Image();
 		Image(uint32_t width, uint32_t height);
+		Image(uint32_t width, uint32_t height, int32_t channels);
 		Image(uint32_t width, uint32_t height, const Pixels & pixels);
 		Image(uint32_t width, uint32_t height, const Pixels & pixels, int32_t channels);
+		Image(const vec2u & size);
+		Image(const vec2u & size, int32_t channels);
+		Image(const vec2u & size, const Pixels & pixels);
+		Image(const vec2u & size, const Pixels & pixels, int32_t channels);
+		explicit Image(const String & filename);
+		explicit Image(const String & filename, bool flip_v);
 		Image(const Image & copy);
 		Image(Image && copy);
-		explicit Image(const String & filename);
-		explicit Image(const String & filename, bool flipV);
 		~Image();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
-		bool loadFromFile(const String & filename, bool flipV);
+		bool loadFromFile(const String & filename, bool flip_v);
+		bool loadFromFile(const String & filename, bool flip_v, int32_t channels);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Image & create(uint32_t width, uint32_t height, const vec4b & color);
-		Image & create(uint32_t width, uint32_t height, const uint8_t * pixels);
+		Image & update(uint32_t width, uint32_t height, int32_t channels, const vec4b & color);
+		Image & update(uint32_t width, uint32_t height, const vec4b & color);
+		Image & update(const vec2u & size, const vec4b & color);
+		Image & update(const vec2u & size, int32_t channels, const vec4b & color);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		Image & update(uint32_t width, uint32_t height, int32_t channels, const Pixels & pixels);
+		Image & update(uint32_t width, uint32_t height, const Pixels & pixels);
+		Image & update(const vec2u & size, const Pixels & pixels);
+		Image & update(const vec2u & size, int32_t channels, const Pixels & pixels);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		Image & setChannels(int32_t value);
+		Image & setSize(uint32_t width, uint32_t height);
+		Image & setSize(const vec2u & value);
+		Image & setWidth(uint32_t value);
+		Image & setHeight(uint32_t value);
+		Image & setPixels(const Pixels & value);
+		Image & setPixels(const vec4b & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -55,20 +80,31 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		vec4b	getPixel(uint32_t x, uint32_t y) const;
-		Image & setPixel(uint32_t x, uint32_t y, const vec4b & color);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		inline auto data()		const -> const uint8_t *	{ return &pixels()[0]; }
 		inline auto bounds()	const -> const UintRect		{ return UintRect { { 0, 0 }, size() }; }
+		inline auto capacity()	const -> uint32_t			{ return (width() * height() * channels()); }
 		inline auto channels()	const -> int32_t			{ return m_channels; }
 		inline auto height()	const -> uint32_t			{ return m_size[1]; }
 		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }
 		inline auto size()		const -> const vec2u &		{ return m_size; }
 		inline auto width()		const -> uint32_t			{ return m_size[0]; }
 
-		inline operator bool() const { return !m_pixels.empty(); }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline operator bool() const 
+		{ 
+			return !m_pixels.empty(); 
+		}
+
+		inline const uint8_t & operator[](size_t i) const
+		{
+			return m_pixels[i];
+		}
+
+		inline uint8_t & operator[](size_t i)
+		{
+			return m_pixels[i];
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

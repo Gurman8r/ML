@@ -21,7 +21,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Engine::Engine(EventSystem & eventSystem)	
 		: I_EventListener { eventSystem }
@@ -40,7 +40,7 @@ namespace ml
 		eventSystem.addListener(CommandEvent	::ID, this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Engine::onEvent(const Event & value)
 	{
@@ -64,7 +64,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Engine::onEnter(const EnterEvent & ev)
 	{
@@ -109,8 +109,15 @@ namespace ml
 
 	void Engine::onLoad(const LoadEvent & ev)
 	{
-		// Load Default Models
+		// Load Defaults
 		/* * * * * * * * * * * * * * * * * * * * */
+		Ref<Image> img { "default_image" };
+		img.create()->update(512, 512, 4, Color32::magenta);
+
+		Ref<Texture> tex { "default_texture" };
+		tex.create()->loadFromImage(*img);
+
+		
 		ML_Content.create<Model>("default_triangle")->loadFromMemory(
 			geo::tri::vertices,
 			geo::tri::indices
@@ -123,12 +130,11 @@ namespace ml
 			geo::cube::vertices,
 			geo::cube::indices
 		);
-		ML_Content.create<Model>("skybox")->loadFromMemory(
+		ML_Content.create<Model>("default_skybox")->loadFromMemory(
 			geo::sky::vertices
 		);
 
-		// Load Default Uniforms
-		/* * * * * * * * * * * * * * * * * * * * */
+
 		ML_Content.create<uni_vec2_ptr>	("CURSOR_POS",	"u_cursorPos",  &m_cursorPos);
 		ML_Content.create<uni_float_ptr>("DELTA_TIME",	"u_deltaTime",  &m_deltaTime);
 		ML_Content.create<uni_int_ptr>	("FRAME_COUNT",	"u_frameCount", &m_frameCount);
@@ -136,11 +142,13 @@ namespace ml
 		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &m_totalTime);
 		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&m_viewport);
 
+
 		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
 		Py::Run_SandboxedFile(ev.prefs.get_string("Engine", "load_script", ""));
 
-		// Set Icon
+
+		// Set Window Icon
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (m_icon) { ev.window.setIcon(
 			m_icon->width(), 
@@ -210,5 +218,5 @@ namespace ml
 		ev.window.dispose();
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

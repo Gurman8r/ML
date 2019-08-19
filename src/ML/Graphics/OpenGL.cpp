@@ -7,7 +7,7 @@
 namespace ml
 {
 	// Errors
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	GL::Err OpenGL::getError()
 	{
@@ -44,7 +44,7 @@ namespace ml
 
 
 	// Initialization
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool OpenGL::init(bool reinit)
 	{
@@ -115,7 +115,7 @@ namespace ml
 
 	
 	// Flags
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool OpenGL::isEnabled(uint32_t value)
 	{
@@ -146,7 +146,7 @@ namespace ml
 
 
 	// Getters
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	C_String OpenGL::getString(uint32_t name)
 	{
@@ -198,7 +198,7 @@ namespace ml
 
 
 	// Functions
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void OpenGL::activeTexture(uint32_t value)
 	{
@@ -257,7 +257,7 @@ namespace ml
 
 
 	// Drawing
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void OpenGL::clear(uint32_t mask)
 	{
@@ -287,7 +287,7 @@ namespace ml
 
 
 	// Buffers
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	uint32_t OpenGL::genBuffers(uint32_t count)
 	{
@@ -369,7 +369,7 @@ namespace ml
 
 
 	// Textures
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool OpenGL::edgeClampAvailable()
 	{
@@ -506,7 +506,7 @@ namespace ml
 
 
 	// Framebuffers
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool OpenGL::framebuffersAvailable()
 	{
@@ -560,7 +560,7 @@ namespace ml
 
 
 	// Renderbuffers
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	uint32_t OpenGL::genRenderbuffers(uint32_t count)
 	{
@@ -592,7 +592,7 @@ namespace ml
 
 
 	// Shaders
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool OpenGL::shadersAvailable()
 	{
@@ -824,5 +824,5 @@ namespace ml
 		glCheck(glUniformMatrix4fvARB(location, count, transpose, value));
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

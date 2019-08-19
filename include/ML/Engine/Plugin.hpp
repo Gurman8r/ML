@@ -22,7 +22,7 @@ namespace ml
 		, public I_NonCopyable
 		, public I_EventListener
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit Plugin(EventSystem & eventSystem);
 		
@@ -30,7 +30,7 @@ namespace ml
 
 		virtual void onEvent(const Event & value) override = 0;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

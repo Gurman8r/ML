@@ -40,7 +40,6 @@ namespace ml
 		void onExit			(const ExitEvent & ev);
 
 	private:
-		Ref<Image>	m_icon			{ "icon" };
 		vec2		m_cursorPos		{ uninit };
 		float_t		m_deltaTime		{ uninit };
 		int32_t		m_frameCount	{ uninit };

@@ -150,11 +150,10 @@ namespace ml
 
 		// Set Window Icon
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (m_icon) { ev.window.setIcon(
-			m_icon->width(), 
-			m_icon->height(), 
-			m_icon->data()
-		); }
+		if (Ref<Image> icon { "icon" })
+		{
+			ev.window.setIcon(icon->width(), icon->height(), icon->data());
+		}
 	}
 
 	void Engine::onStart(const StartEvent & ev)

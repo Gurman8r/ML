@@ -45,6 +45,14 @@ namespace ml
 		{
 		}
 
+		Ref(self_type && copy)
+			: Ref()
+		{
+			std::swap(m_name, copy.m_name);
+			std::swap(m_data, copy.m_data);
+			std::swap(m_changed, copy.m_changed);
+		}
+
 		~Ref() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

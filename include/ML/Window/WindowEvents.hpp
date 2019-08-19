@@ -25,6 +25,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	struct Window;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct WindowEvent final
 	{
 		enum : int32_t
@@ -91,6 +95,8 @@ namespace ml
 
 	struct KeyEvent final : public I_Event<WindowEvent::EV_Key>
 	{
+		Window * window;
+
 		const int32_t key, scan, act;
 		
 		const struct Mods final
@@ -111,8 +117,9 @@ namespace ml
 
 		} mods;
 
-		constexpr KeyEvent(int32_t key, int32_t scan, int32_t act, const Mods & mods)
-			: key	{ key }
+		constexpr KeyEvent(Window * window, int32_t key, int32_t scan, int32_t act, const Mods & mods)
+			: window{ window }
+			, key	{ key }
 			, scan	{ scan }
 			, act	{ act }
 			, mods	{ mods.shift, mods.ctrl, mods.alt, mods.super }

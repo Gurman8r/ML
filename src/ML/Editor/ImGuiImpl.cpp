@@ -737,7 +737,7 @@ namespace ml
 		if (action == ML_KEY_PRESS) { io.KeysDown[key] = true; }
 		if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
 		if (key == KeyCode::KP_Enter) { io.KeysDown[KeyCode::Enter] = io.KeysDown[key]; }
-		ML_ImGuiImpl.fireEvent(KeyEvent(key, scancode, action, 
+		ML_ImGuiImpl.fireEvent(KeyEvent(ML_ImGuiImpl.g_Window, key, scancode, action, 
 		{
 			io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
 			io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],

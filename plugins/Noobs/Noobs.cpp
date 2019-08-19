@@ -66,6 +66,13 @@ namespace ml
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>())
 			{
+				if (ev->getPress(KeyCode::F))
+				{
+					if (Window * w { ev->window })
+					{
+						w->setFullscreen(!w->getStyle().fullscreen);
+					}
+				}
 			}
 			break;
 

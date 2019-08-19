@@ -37,6 +37,17 @@ namespace ml
 		}
 		return it->second;
 	}
+
+	static const Window & cache_Window(const GLFWwindow * key, const Window & value)
+	{
+		static HashMap<const GLFWwindow *, const Window &> cache;
+		auto it = cache.find(key);
+		if (it == cache.end())
+		{
+			it = cache.insert({ key, value }).first;
+		}
+		return it->second;
+	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -180,6 +191,9 @@ namespace ml
 		static EventSystem * evSys = nullptr;
 		evSys = &this->eventSystem();
 
+		static Window * curWindow = nullptr;
+		curWindow = this;
+
 		setCharCallback([](void *, uint32_t c)
 		{
 			evSys->fireEvent(CharEvent(c));
@@ -210,7 +224,7 @@ namespace ml
 
 		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			evSys->fireEvent(KeyEvent(button, scan, action, {
+			evSys->fireEvent(KeyEvent(curWindow, button, scan, action, {
 				(bool)(mods & ML_MOD_SHIFT),
 				(bool)(mods & ML_MOD_CTRL),
 				(bool)(mods & ML_MOD_ALT),
@@ -437,6 +451,42 @@ namespace ml
 			value[0],
 			value[1]
 		));
+		return (*this);
+	}
+
+	Window & Window::setFullscreen(bool value)
+	{
+		if (m_style.fullscreen == value)
+			return (*this);
+		m_style.fullscreen = value;
+		
+		if (m_monitor = value ? glfwGetPrimaryMonitor() : nullptr)
+		{
+			if (auto v = glfwGetVideoMode(ML_MONITOR(m_monitor)))
+			{
+				glfwSetWindowMonitor(
+					ML_WINDOW(m_window),
+					ML_MONITOR(m_monitor),
+					0, 0,
+					v->width,
+					v->height,
+					GLFW_DONT_CARE
+				);
+			}
+		}
+		else
+		{
+			glfwSetWindowMonitor(
+				ML_WINDOW(m_window), 
+				ML_MONITOR(m_monitor),
+				0, 
+				0, 
+				getWidth(), 
+				getHeight(), 
+				GLFW_DONT_CARE
+			);
+			return setCentered();
+		}
 		return (*this);
 	}
 

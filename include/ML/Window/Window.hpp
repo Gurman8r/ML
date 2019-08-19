@@ -70,6 +70,7 @@ namespace ml
 		Window & setCursor(void * value);
 		Window & setCursorMode(const Cursor::Mode value);
 		Window & setCursorPos(const vec2i & value);
+		Window & setFullscreen(bool value);
 		Window & setIcon(uint32_t w, uint32_t h, const uint8_t * pixels);
 		Window & setPosition(const vec2i & value);
 		Window & setSize(const vec2u & value);

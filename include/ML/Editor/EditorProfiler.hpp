@@ -32,7 +32,7 @@ namespace ml
 			vec2		size			{ 0.0f, 80.0f };
 
 			void update(C_String label, float_t sample, C_String text);
-			void render();
+			void render(const GuiEvent & ev);
 
 		private:
 			String		m_label		{};

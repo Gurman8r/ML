@@ -37,7 +37,7 @@ namespace ml
 				{
 					for (size_t i = 0; i < graphs.size(); i++)
 					{
-						graphs[i].render();
+						graphs[i].render(ev);
 					}
 					ImGui::EndTabItem();
 				}
@@ -108,7 +108,7 @@ namespace ml
 		}
 	}
 
-	void EditorProfiler::GraphLines::render()
+	void EditorProfiler::GraphLines::render(const GuiEvent & ev)
 	{
 		if (size[0] <= 0) size[0] =
 			(ImGui::GetContentRegionAvail().x -
@@ -120,8 +120,7 @@ namespace ml
 
 		if (m_sample >= max)
 		{
-			//max += ImGui::GetIO().DeltaTime;
-			max = m_sample * 2.0f;
+			max += m_sample * ev.time.deltaTime();
 		}
 
 		ImGui::PlotLines(

@@ -11,6 +11,7 @@ class ML_Config:
     platform_target = str   (   memelib_config.platform_target  )
     project_url     = str   (   memelib_config.project_url      )
     project_ver     = str   (   memelib_config.project_ver      )
+    system_name     = str   (   memelib_config.system_name      )
 config = ML_Config()
 
 

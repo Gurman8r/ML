@@ -9,6 +9,7 @@ namespace ml
 
 	EditorProfiler::EditorProfiler(Editor & editor)
 		: EditorForm { editor, "Profiler", false }
+		, graphs { { { uninit }, 0, 0.f, 0.f, 0.f, { 0, 80 } } }
 	{
 	}
 
@@ -27,7 +28,8 @@ namespace ml
 				ImGui::Text("Graphs");
 				if (ImGui::BeginChild("Profiler Graphs##Content Area", { 0, 0 }, true))
 				{
-					graph.update("##Framerate", (float_t)ev.time.frameRate() + ev.time.elapsed().delta(), "fps {0}");
+					const float dt { ImGui::GetIO().DeltaTime };
+					graphs[0].update("##DeltaTime", dt, std::to_string(dt));
 				}
 				ImGui::EndChild();
 			}
@@ -87,12 +89,17 @@ namespace ml
 			refresh += (1.0f / 60.0f);
 		}
 
+		if (sample >= max)
+		{
+			max += ImGui::GetIO().DeltaTime;
+		}
+
 		ImGui::PlotLines(
 			label,
 			values,
 			ML_ARRAYSIZE(values),
 			offset,
-			fmt.format(sample).c_str(),
+			fmt.c_str(),
 			min,
 			max,
 			{ size[0], size[1] }

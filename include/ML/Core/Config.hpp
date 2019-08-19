@@ -35,19 +35,24 @@
   || defined(WIN64		) \
   || defined(__WIN32__	)
 #	define ML_SYSTEM_WINDOWS
+#	define ML_SYSTEM "Windows"
 #	ifndef NOMINMAX
 #		define NOMINMAX
 #	endif
 # elif defined(__APPLE__) && defined(__MACH__)
 #	define ML_SYSTEM_APPLE
+#	define ML_SYSTEM "Apple"
 # elif defined(__unix__)
 #	define ML_SYSTEM_UNIX
 #	if defined(__ANDROID__)
 #		define ML_SYSTEM_ANDROID
+#		define ML_SYSTEM "Android"
 #	elif defined(__linux__)
 #		define ML_SYSTEM_LINUX
+#		define ML_SYSTEM "Linux"
 #	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)	
 #		define ML_SYSTEM_FREEBSD
+#		ML_SYSTEM "FreeBSD"
 #	else
 #		error This unix operating system does not support memes.
 #	endif

@@ -11,10 +11,11 @@ if (__name__ == "__main__"):
             ])
 
     # Load Plugins
-    ml.plugins.load([
-		"Noobs_$(Configuration)_$(PlatformTarget).dll",
-		"CommandSuite_$(Configuration)_$(PlatformTarget).dll",
-		"TestPlugin_$(Configuration)_$(PlatformTarget).dll",
-		])
+    if ml.config.system_name == "Windows":
+        ml.plugins.load([
+	    	"Noobs_$(Configuration)_$(PlatformTarget).dll",
+	    	"CommandSuite_$(Configuration)_$(PlatformTarget).dll",
+	    	"TestPlugin_$(Configuration)_$(PlatformTarget).dll",
+	    	])
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

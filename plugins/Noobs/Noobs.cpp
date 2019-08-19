@@ -279,7 +279,7 @@ namespace ml
 			if (surf && (*surf))
 			{
 				const vec2 dst = ImGuiExt::GetContentRegionAvail();
-				const vec2 scl = alg::scale_to_fit((vec2)surf->size(), dst) * 0.95f;
+				const vec2 scl = alg::scale_to_fit((vec2)surf->size(), dst) * 0.975f;
 				const vec2 pos = ((dst - scl) * 0.5f);
 
 				if (m_freeAspect) { m_viewport = dst; }

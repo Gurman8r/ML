@@ -145,26 +145,23 @@ namespace ml
 
 			enum Type : size_t
 			{
-				Conf, Vert, Frag, Geom, 
+				Vert, Frag, Geom, 
 				MAX_DEMO_FILE_TYPE
 			};
 
 			static constexpr C_String Names[MAX_DEMO_FILE_TYPE] = {
-				"Config",
 				"Vertex",
 				"Fragment",
 				"Geometry",
 			};
 
 			static constexpr C_String Tags[MAX_DEMO_FILE_TYPE] = {
-				"",
 				"#shader vertex",
 				"#shader fragment",
 				"#shader geometry",
 			};
 
 			static constexpr C_String Incl[MAX_DEMO_FILE_TYPE] = {
-				"",
 				"#include \"Vertex\"",
 				"#include \"Fragment\"",
 				"#include \"Geometry\"",
@@ -236,7 +233,6 @@ namespace ml
 			void	generate_sources();
 			bool	compile_sources();
 			void	reset_sources();
-			String	parse_sources(const String & source) const;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 

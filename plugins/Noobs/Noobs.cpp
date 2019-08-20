@@ -351,10 +351,10 @@ namespace ml
 					ImGui::Separator();
 
 					// Toggle Demo Files (start at one to always show config)
-					for (size_t i = 1; i < m_files.size(); i++)
+					for (size_t i = 0; i < m_files.size(); i++)
 					{
 						if (!m_files[i]) { continue; }
-						if (i > 1) { ImGui::SameLine(); }
+						if (i > 0) { ImGui::SameLine(); }
 						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
 					}
 
@@ -950,29 +950,12 @@ namespace ml
 					m_files[type]->text.SetText(src);
 				}
 
-				if ((type != DemoFile::Conf) && src)
-				{
-					m_files[DemoFile::Conf]->text.SetText(([&]()
-					{
-						SStream ss; ss
-							<< m_files[DemoFile::Conf]->text.GetText()
-							<< DemoFile::Tags[type] << endl
-							<< DemoFile::Incl[type] << endl;
-						return ss.str();
-					})());
-				}
-
 				return m_files[type];
 			}
 			return (DemoFile *)nullptr;
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * */
-
-		if (auto conf = setup_file(DemoFile::Conf, String()))
-		{
-			conf->open = true;
-		}
 
 		if (auto vert = setup_file(DemoFile::Vert, this->shader()->sources().vs))
 		{
@@ -1003,9 +986,21 @@ namespace ml
 					if (f) { f->dirty = false; }
 				}
 
-				return s->loadFromMemory(
-					this->parse_sources(m_files[DemoFile::Conf]->text.GetText())
-				);
+				if (m_files[DemoFile::Geom]->open)
+				{
+					return s->loadFromMemory(
+						m_files[DemoFile::Vert]->text.GetText(),
+						m_files[DemoFile::Geom]->text.GetText(),
+						m_files[DemoFile::Frag]->text.GetText()
+					);
+				}
+				else
+				{
+					return s->loadFromMemory(
+						m_files[DemoFile::Vert]->text.GetText(),
+						m_files[DemoFile::Frag]->text.GetText()
+					);
+				}
 			}
 		}
 		return false;
@@ -1019,55 +1014,6 @@ namespace ml
 			f->open = false;
 			f->text.SetText(String());
 		}
-	}
-
-	String Noobs::DemoEditor::parse_sources(const String & source) const
-	{
-		SStream out;
-		SStream sstr { source };
-		String	line;
-		while (std::getline(sstr, line))
-		{
-			if (line.find("#include") != String::npos)
-			{
-				bool found { false };
-				String name {};
-				if (ShaderParser::parseWrapped(line, '\"', '\"', name))
-				{
-					// Search File List
-					for (const DemoFile * elem : m_files)
-					{
-						if (elem && (elem->name == name) && (elem->open))
-						{
-							out << this->parse_sources(elem->text.GetText());
-							found = true;
-							break;
-						}
-					}
-
-					// Search Content
-					const Shader * shader { nullptr };
-					if (!found && (found = (shader = ML_Content.get<Shader>(name))))
-					{
-						if (const auto & src = shader->sources().vs)
-							out << DemoFile::Tags[DemoFile::Vert] << endl << src << endl;
-						
-						if (const auto & src = shader->sources().fs)
-							out << DemoFile::Tags[DemoFile::Frag] << endl << src << endl;
-						
-						if (const auto & src = shader->sources().gs)
-							out << DemoFile::Tags[DemoFile::Geom] << endl << src << endl;
-					}
-				}
-
-				if (!found) { out << line << endl; }
-			}
-			else
-			{
-				out << line << endl;
-			}
-		}
-		return (String)out.str();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

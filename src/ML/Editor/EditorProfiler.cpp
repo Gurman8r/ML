@@ -18,10 +18,10 @@ namespace ml
 	void EditorProfiler::onUpdate(const UpdateEvent & ev)
 	{
 		const float_t dt { ev.time.elapsed().delta() };
-		graphs[0].update("Delta Time", dt, std::to_string(dt).c_str());
+		graphs[0].update(ev, "Delta Time", dt, std::to_string(dt).c_str());
 
 		const float_t fr = { (float_t)ev.time.frameRate() };
-		graphs[1].update("Frame Rate", fr, std::to_string(fr).c_str());
+		graphs[1].update(ev, "Frame Rate", fr, std::to_string(fr).c_str());
 	}
 
 	bool EditorProfiler::onGui(const GuiEvent & ev)
@@ -89,22 +89,30 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorProfiler::GraphLines::update(C_String label, float_t sample, C_String text)
+	void EditorProfiler::GraphLines::update(const UpdateEvent & ev, C_String label, float_t sample, C_String text)
 	{
+		const float_t dt { ev.time.elapsed().delta() };
+
 		m_label		= label;
 		m_sample	= sample;
 		m_text		= text;
 
-		if (refresh == 0.0f)
+		if (m_sample >= max)
 		{
-			refresh = (float_t)ImGui::GetTime();
+			max += m_sample * dt / 2;
+		}
+		else if (m_sample <= min)
+		{
+			min -= m_sample * dt / 2;
 		}
 
-		while (refresh < ImGui::GetTime())
+		if (refresh == 0.0f) { refresh = ev.time.totalTime(); }
+
+		while (refresh < ev.time.totalTime())
 		{
 			values[offset] = m_sample;
 			offset = (offset + 1) % values.size();
-			refresh += (1.0f / 60.0f);
+			refresh += dt;
 		}
 	}
 
@@ -117,11 +125,6 @@ namespace ml
 		if (size[1] <= 0) size[1] =
 			(ImGui::GetContentRegionAvail().y -
 			(4 * ImGui::GetStyle().ItemSpacing.y)) * (m_label ? 0.9f : 1.0f);
-
-		if (m_sample >= max)
-		{
-			max += m_sample * ev.time.deltaTime();
-		}
 
 		ImGui::PlotLines(
 			m_label.c_str(),

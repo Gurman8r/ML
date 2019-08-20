@@ -24,14 +24,15 @@ namespace ml
 	public:
 		struct GraphLines
 		{
-			Array<float_t, 512> values	{ uninit };
-			int32_t		offset			{ 0 };
-			float_t		refresh			{ 0.0f };
-			float_t		min				{ 0.0f };
-			float_t		max				{ 0.0f };
-			vec2		size			{ 0.0f, 80.0f };
+			Array<float_t, 512> values { uninit };
 
-			void update(C_String label, float_t sample, C_String text);
+			int32_t	offset	{ 0 };
+			float_t	refresh	{ 0.0f };
+			float_t	min		{ 0.0f };
+			float_t	max		{ 0.0f };
+			vec2	size	{ 0.0f, 80.0f };
+
+			void update(const UpdateEvent & ev, C_String label, float_t sample, C_String text);
 			void render(const GuiEvent & ev);
 
 		private:

@@ -24,10 +24,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto deltaTime() const -> float_t			{ return m_delta; }
 		inline auto elapsed()	const -> const Duration &	{ return m_elapsed; }
-		inline auto frameRate()	const -> float_t			{ return m_fps.frameRate; }
 		inline auto total()		const -> const Duration &	{ return m_mainTimer.elapsed(); }
+		inline auto deltaTime() const -> const float_t		{ return m_delta; }
+		inline auto frameRate()	const -> const float_t		{ return m_fps.frameRate; }
+		inline auto totalTime()	const -> const float_t		{ return total().delta(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

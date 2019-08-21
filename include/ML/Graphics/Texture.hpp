@@ -6,15 +6,6 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/I_Handle.hpp>
 
-// Default texture parameters
-#define ML_TEX_DEFAULT_TARGET	GL::Texture2D
-#define ML_TEX_DEFAULT_SMOOTH	true
-#define ML_TEX_DEFAULT_REPEAT	false
-#define ML_TEX_DEFAULT_MIPMAP	false
-#define ML_TEX_DEFAULT_FORMAT	GL::RGBA
-#define ML_TEX_DEFAULT_LEVEL	0
-#define ML_TEX_DEFAULT_TYPE		GL::UnsignedByte
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -34,9 +25,9 @@ namespace ml
 		explicit Texture(GL::Sampler sampler, bool smooth, bool repeated);
 		explicit Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated);
 		explicit Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated, bool mipmapped);
-		explicit Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated);
-		explicit Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped);
-		explicit Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colorFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
+		explicit Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated);
+		explicit Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped);
+		explicit Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
 		explicit Texture(const Texture & copy);
 		~Texture();
 
@@ -105,8 +96,8 @@ namespace ml
 
 		inline auto sampler()		const -> GL::Sampler	{ return m_sampler; }
 		inline auto level()			const -> int32_t		{ return m_level; }
-		inline auto internalFormat()const -> GL::Format		{ return m_internalFormat; }
-		inline auto colorFormat()	const -> GL::Format		{ return m_colorFormat; }
+		inline auto internalFormat()const -> GL::Format		{ return m_iFormat; }
+		inline auto colorFormat()	const -> GL::Format		{ return m_cFormat; }
 		inline auto type()			const -> GL::Type		{ return m_type; }
 		inline auto size()			const -> const vec2u &	{ return m_size; }
 		inline auto realSize()		const -> const vec2u &	{ return m_realSize; }
@@ -123,8 +114,8 @@ namespace ml
 	private:
 		GL::Sampler	m_sampler;			// Sampler Type
 		int32_t		m_level;			// Texture Level
-		GL::Format	m_internalFormat;	// Internal Format
-		GL::Format	m_colorFormat;		// Color Format
+		GL::Format	m_iFormat;	// Internal Format
+		GL::Format	m_cFormat;		// Color Format
 		GL::Type	m_type;				// Storage Type
 		vec2u		m_size;				// Texture Size
 		vec2u		m_realSize;			// Real Texture Size

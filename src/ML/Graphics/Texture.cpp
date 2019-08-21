@@ -2,6 +2,14 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 
+#define ML_TEX_DEFAULT_TARGET	GL::Texture2D
+#define ML_TEX_DEFAULT_SMOOTH	true
+#define ML_TEX_DEFAULT_REPEAT	false
+#define ML_TEX_DEFAULT_MIPMAP	false
+#define ML_TEX_DEFAULT_FORMAT	GL::RGBA
+#define ML_TEX_DEFAULT_LEVEL	0
+#define ML_TEX_DEFAULT_TYPE		GL::UnsignedByte
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -67,10 +75,10 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated) : Texture(
+	Texture::Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated) : Texture(
 		sampler, 
-		internalFormat, 
-		colFormat, 
+		iFormat, 
+		cFormat, 
 		smooth, 
 		repeated, 
 		ML_TEX_DEFAULT_MIPMAP
@@ -92,24 +100,24 @@ namespace ml
 	}
 
 	Texture::Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
-		: I_Handle			(NULL)
-		, m_size			(vec2u { 0, 0 })
-		, m_realSize		(vec2u { 0, 0 })
-		, m_sampler			(sampler)
-		, m_internalFormat	(internalFormat)
-		, m_colorFormat		(colFormat)
-		, m_smooth			(smooth)
-		, m_repeated		(repeated)
-		, m_mipmapped		(mipmapped)
-		, m_level			(level)
-		, m_type			(type)
+		: I_Handle		{ NULL }
+		, m_size		{ uninit }
+		, m_realSize	{ uninit }
+		, m_sampler		{ sampler }
+		, m_iFormat		{ internalFormat }
+		, m_cFormat		{ colFormat }
+		, m_smooth		{ smooth }
+		, m_repeated	{ repeated }
+		, m_mipmapped	{ mipmapped }
+		, m_level		{ level }
+		, m_type		{ type }
 	{
 	}
 
 	Texture::Texture(const Texture & copy) : Texture(
 		copy.m_sampler,
-		copy.m_internalFormat,
-		copy.m_colorFormat,
+		copy.m_iFormat,
+		copy.m_cFormat,
 		copy.m_smooth,
 		copy.m_repeated,
 		copy.m_mipmapped,
@@ -127,10 +135,11 @@ namespace ml
 	bool Texture::dispose()
 	{
 		this->unbind();
-		if (*this)
+		if ((*this))
 		{
 			ML_GL.deleteTextures(1, (*this));
-			get_reference() = NULL;
+
+			this->set_handle(NULL);
 		}
 		return !(*this);
 	}
@@ -148,11 +157,13 @@ namespace ml
 
 	bool Texture::loadFromFaces(const Array<const Image *, 6> & faces)
 	{
-		// Validate Target
+		// Validate Sampler
 		if (m_sampler != GL::TextureCubeMap)
+		{
 			return Debug::logError("Load from faces only available for {0}s.",
 				GL::TextureCubeMap
 			);
+		}
 
 		// Validate Images
 		for (size_t i = 0; i < faces.size(); i++)
@@ -178,27 +189,33 @@ namespace ml
 		}
 
 		// Create Texture
-		if (this->dispose() && set_handle(ML_GL.genTextures(1)))
+		if (this->dispose() && this->set_handle(ML_GL.genTexture()))
 		{
 			this->bind();
+
 			for (size_t i = 0; i < faces.size(); i++)
 			{
 				ML_GL.texImage2D(
 					GL::CubeMap_Positive_X + (uint32_t)i,
 					m_level,
-					m_internalFormat,
+					m_iFormat,
 					faces[i]->size()[0],
 					faces[i]->size()[1],
 					0,
-					m_colorFormat,
+					m_cFormat,
 					m_type,
 					faces[i]->data()
 				);
 			}
+			
 			this->unbind();
+			
 			ML_GL.flush();
+			
 			this->setRepeated(m_repeated);
+			
 			this->setSmooth(m_smooth);
+			
 			return true;
 		}
 		return false;
@@ -240,7 +257,7 @@ namespace ml
 	{
 		if (w && h)
 		{
-			if (this->dispose() && set_handle(ML_GL.genTextures(1)))
+			if (this->dispose() && set_handle(ML_GL.genTexture()))
 			{
 				m_size = { w, h };
 				m_realSize =
@@ -249,30 +266,30 @@ namespace ml
 					ML_GL.getValidTextureSize(m_size[1])
 				};
 
-				static const uint32_t maxSize = ML_GL.getMaxTextureSize();
-				if ((m_realSize[0] > maxSize) || (m_realSize[1] > maxSize))
+				static const uint32_t max_size { ML_GL.getMaxTextureSize() };
+				if ((m_realSize[0] > max_size) || (m_realSize[1] > max_size))
 				{
 					return Debug::logError(
 						"Failed creating texture, size is too large {0} max is {1}",
 						m_realSize, 
-						vec2u { maxSize , maxSize }
+						vec2u { max_size , max_size }
 					);
 				}
 
 				this->bind();
-				{
-					ML_GL.texImage2D(
-						m_sampler,
-						m_level,
-						m_internalFormat,
-						m_size[0],
-						m_size[1],
-						0, // border: "This value must be 0" -khronos.org
-						m_colorFormat,
-						m_type,
-						pixels
-					);
-				}
+
+				ML_GL.texImage2D(
+					m_sampler,
+					m_level,
+					m_iFormat,
+					m_size[0], 
+					m_size[1],
+					0, // border: "This value must be 0" -khronos.org
+					m_cFormat,
+					m_type,
+					pixels
+				);
+				
 				this->unbind();
 
 				ML_GL.flush();
@@ -362,26 +379,18 @@ namespace ml
 			if ((*this) && (pixels))
 			{
 				this->bind();
-				{
-					ML_GL.texSubImage2D(
-						m_sampler,
-						m_level,
-						x,
-						y,
-						w,
-						h,
-						m_internalFormat,
-						m_type,
-						pixels
-					);
-				}
+
+				ML_GL.texSubImage2D(
+					m_sampler, m_level, x, y, w, h, m_iFormat, m_type, pixels
+				);
+
 				this->unbind();
 
 				ML_GL.flush();
 
-				setRepeated(m_repeated);
+				this->setRepeated(m_repeated);
 
-				setSmooth(m_smooth);
+				this->setSmooth(m_smooth);
 
 				return true;
 			}
@@ -400,18 +409,17 @@ namespace ml
 
 	Texture & Texture::setMipmapped(bool value)
 	{
-		if (*this)
+		if ((*this))
 		{
 			if ((m_mipmapped = value) && !ML_GL.framebuffersAvailable())
 			{
-				static bool warned = false;
-				if (!warned)
+				static bool once { true };
+				if (once && !(once = false))
 				{
 					Debug::logWarning("Texture Mipmap Framebuffers Unavailable");
-					warned = true;
 				}
 				m_mipmapped = false;
-				return setSmooth(m_smooth);
+				return this->setSmooth(m_smooth);
 			}
 
 			this->bind();
@@ -421,18 +429,14 @@ namespace ml
 			ML_GL.texParameter(
 				m_sampler,
 				GL::TexMinFilter,
-				(((m_smooth)
-					? GL::LinearMipmapLinear
-					: GL::NearestMipmapNearest
-					)));
+				m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
+			);
 
 			ML_GL.texParameter(
-				m_sampler,
-				GL::TexMagFilter,
-				(((m_smooth)
-					? GL::LinearMipmapLinear
-					: GL::NearestMipmapNearest
-					)));
+				m_sampler, 
+				GL::TexMagFilter, 
+				m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
+			);
 			
 			this->unbind();
 
@@ -443,18 +447,17 @@ namespace ml
 
 	Texture & Texture::setRepeated(bool value)
 	{
-		if (*this)
+		if ((*this))
 		{
-			if (((m_repeated) = value) && !(ML_GL.edgeClampAvailable()))
+			if ((m_repeated = value) && !ML_GL.edgeClampAvailable())
 			{
-				static bool warned = false;
-				if (!warned)
+				static bool once { true };
+				if (once && !(once = false))
 				{
 					Debug::logWarning(
-						"OpenGL extension texture_edge_clamp unavailable\n"
-						"Artifacts may occur along texture edges"
+						"OpenGL extension texture_edge_clamp unavailable.\n"
+						"Artifacts may occur along texture edges."
 					);
-					warned = true;
 				}
 			}
 
@@ -463,7 +466,7 @@ namespace ml
 			ML_GL.texParameter(
 				m_sampler,
 				GL::TexWrapS,
-				((m_repeated)
+				(m_repeated
 					? GL::Repeat
 					: ((ML_GL.edgeClampAvailable())
 						? GL::ClampToEdge
@@ -473,7 +476,7 @@ namespace ml
 			ML_GL.texParameter(
 				m_sampler,
 				GL::TexWrapT,
-				((m_repeated)
+				(m_repeated
 					? GL::Repeat
 					: ((ML_GL.edgeClampAvailable())
 						? GL::ClampToEdge
@@ -489,27 +492,23 @@ namespace ml
 
 	Texture & Texture::setSmooth(bool value)
 	{
-		if (*this)
+		if ((*this))
 		{
 			m_smooth = value;
 
 			this->bind();
 
 			ML_GL.texParameter(
-				m_sampler,
+				m_sampler, 
 				GL::TexMinFilter,
-				((m_smooth)
-					? GL::Linear
-					: GL::Nearest
-					));
+				m_smooth ? GL::Linear : GL::Nearest
+			);
 
 			ML_GL.texParameter(
-				m_sampler,
-				GL::TexMagFilter,
-				((m_smooth)
-					? GL::Linear
-					: GL::Nearest
-					));
+				m_sampler, 
+				GL::TexMagFilter, 
+				m_smooth ? GL::Linear : GL::Nearest
+			);
 
 			this->unbind();
 
@@ -520,7 +519,7 @@ namespace ml
 
 	Texture & Texture::setSampler(GL::Sampler value)
 	{
-		if (*this)
+		if ((*this))
 		{
 			this->bind();
 			this->unbind();
@@ -531,7 +530,7 @@ namespace ml
 
 	Texture & Texture::setLevel(int32_t value)
 	{
-		if (*this)
+		if ((*this))
 		{
 			this->bind();
 			//ML_GL.texParameter(m_sampler, GL::BaseLevel, value);
@@ -544,7 +543,7 @@ namespace ml
 
 	Texture & Texture::setInternalFormat(GL::Format value)
 	{
-		if (*this)
+		if ((*this))
 		{
 			this->bind();
 			this->unbind();
@@ -555,7 +554,7 @@ namespace ml
 
 	Texture & Texture::setColorFormat(GL::Format value)
 	{
-		if (*this)
+		if ((*this))
 		{
 			this->bind();
 			this->unbind();
@@ -566,7 +565,7 @@ namespace ml
 
 	Texture & Texture::setType(GL::Type value)
 	{
-		if (*this)
+		if ((*this))
 		{
 			this->bind();
 			this->unbind();
@@ -579,18 +578,17 @@ namespace ml
 
 	Texture & Texture::swap(Texture & other)
 	{
-		std::swap(get_reference(),	other.get_reference());
-		std::swap(m_sampler,		other.m_sampler);
-		std::swap(m_level,			other.m_level);
-		std::swap(m_size,			other.m_size);
-		std::swap(m_realSize,		other.m_realSize);
-		std::swap(m_internalFormat,	other.m_internalFormat);
-		std::swap(m_colorFormat,	other.m_colorFormat);
-		std::swap(m_type,			other.m_type);
-		std::swap(m_smooth,			other.m_smooth);
-		std::swap(m_repeated,		other.m_repeated);
-		std::swap(m_mipmapped,		other.m_mipmapped);
-
+		std::swap(m_handle,		other.m_handle);
+		std::swap(m_sampler,	other.m_sampler);
+		std::swap(m_level,		other.m_level);
+		std::swap(m_size,		other.m_size);
+		std::swap(m_realSize,	other.m_realSize);
+		std::swap(m_iFormat,	other.m_iFormat);
+		std::swap(m_cFormat,	other.m_cFormat);
+		std::swap(m_type,		other.m_type);
+		std::swap(m_smooth,		other.m_smooth);
+		std::swap(m_repeated,	other.m_repeated);
+		std::swap(m_mipmapped,	other.m_mipmapped);
 		return other;
 	}
 	
@@ -605,7 +603,7 @@ namespace ml
 	const Image Texture::copyToImage() const
 	{
 		Image image;
-		if (*this)
+		if ((*this))
 		{
 			Image::Pixels pixels(width() * height() * 4);
 
@@ -615,7 +613,7 @@ namespace ml
 				ML_GL.getTexImage(
 					m_sampler,
 					m_level,
-					m_internalFormat,
+					m_iFormat,
 					m_type,
 					&pixels[0]
 				);

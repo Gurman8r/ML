@@ -3,9 +3,13 @@
 
 #include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/I_Newable.hpp>
 #include <ML/Core/String.hpp>
+#include <ML/Core/Matrix.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
+#include <ML/Window/KeyCode.hpp>
+#include <ML/Window/MouseButton.hpp>
 #include <ML/Window/VideoMode.hpp>
 #include <ML/Window/WindowStyle.hpp>
 
@@ -65,6 +69,10 @@ namespace ml
 		Window & restore();
 		Window & swapBuffers();
 		Window & swapInterval(int32_t value);
+		Window & terminate();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Window & setCentered();
 		Window & setClipboardString(const String & value);
 		Window & setCursor(void * value);
@@ -75,7 +83,6 @@ namespace ml
 		Window & setPosition(const vec2i & value);
 		Window & setSize(const vec2u & value);
 		Window & setTitle(const String & value);
-		Window & terminate();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -94,40 +101,45 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getContext()	const -> const ContextSettings & { return m_context; }
-		inline auto getStyle()		const -> const WindowStyle & { return m_style; }
-		inline auto getVideoMode()	const -> const VideoMode & { return m_videoMode; }
-		inline auto getTitle()		const -> const String { return m_title; }
-		inline auto getSize()		const -> const vec2u & { return getVideoMode().resolution; }
-		inline auto getWidth()		const -> const uint32_t { return getSize()[0]; }
-		inline auto getHeight()		const -> const uint32_t { return getSize()[1]; }
-		inline auto getFrameWidth()	const -> const int32_t { return getFrameSize()[0]; }
-		inline auto getFrameHeight()const -> const int32_t { return getFrameSize()[1]; }
-		inline auto getAspect()		const -> const float_t { return ML_ASPECT(getWidth(), getHeight()); };
-		inline auto getFrameAspect()const -> const float_t { return ML_ASPECT(getFrameWidth(), getFrameHeight()); };
-		inline auto getMonitor()	const -> const void * { return m_monitor; }
-		inline auto getShare()		const -> const void * { return m_share; }
+		inline auto aspect()		const -> const float_t			{ return ML_ASPECT(width(), height()); };
+		inline auto context()		const -> const ContextSettings &{ return m_context; }
+		inline auto frame_aspect()	const -> const float_t			{ return ML_ASPECT(frame_width(), frame_height()); };
+		inline auto frame_height()	const -> const int32_t			{ return getFrameSize()[1]; }
+		inline auto frame_width()	const -> const int32_t			{ return getFrameSize()[0]; }
+		inline auto height()		const -> const uint32_t			{ return size()[1]; }
+		inline auto monitor()		const -> const void *			{ return m_monitor; }
+		inline auto share()			const -> const void *			{ return m_share; }
+		inline auto size()			const -> const vec2u &			{ return video_mode().size; }
+		inline auto style()			const -> const WindowStyle &	{ return m_style; }
+		inline auto title()			const -> const String			{ return m_title; }
+		inline auto video_mode()	const -> const VideoMode &		{ return m_videoMode; }
+		inline auto width()			const -> const uint32_t			{ return size()[0]; }
 	
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		void *	createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels) const;
 		void *	createStandardCursor(Cursor::Shape value) const;
-		void	destroyCursor(void * value) const;
+		bool	destroyCursor(void * value) const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static const VideoMode &		getDesktopMode();
+		static const List<VideoMode> &	getFullscreenModes();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		CharFun			setCharCallback			(CharFun		callback);
-		CursorEnterFun	setCursorEnterCallback	(CursorEnterFun callback);
-		CursorPosFun	setCursorPosCallback	(CursorPosFun	callback);
-		ErrorFun		setErrorCallback		(ErrorFun		callback);
-		FrameSizeFun	setFrameSizeCallback	(FrameSizeFun	callback);
-		KeyFun			setKeyCallback			(KeyFun			callback);
-		MouseButtonFun	setMouseButtonCallback	(MouseButtonFun callback);
-		ScrollFun		setScrollCallback		(ScrollFun		callback);
-		CloseFun		setWindowCloseCallback	(CloseFun		callback);
-		FocusFun		setWindowFocusCallback	(FocusFun		callback);
-		PositionFun		setWindowPosCallback	(PositionFun	callback);
-		SizeFun			setWindowSizeCallback	(SizeFun		callback);
+		CharFun			setCharCallback			(CharFun		value);
+		CursorEnterFun	setCursorEnterCallback	(CursorEnterFun value);
+		CursorPosFun	setCursorPosCallback	(CursorPosFun	value);
+		ErrorFun		setErrorCallback		(ErrorFun		value);
+		FrameSizeFun	setFrameSizeCallback	(FrameSizeFun	value);
+		KeyFun			setKeyCallback			(KeyFun			value);
+		MouseButtonFun	setMouseButtonCallback	(MouseButtonFun value);
+		ScrollFun		setScrollCallback		(ScrollFun		value);
+		CloseFun		setWindowCloseCallback	(CloseFun		value);
+		FocusFun		setWindowFocusCallback	(FocusFun		value);
+		PositionFun		setWindowPosCallback	(PositionFun	value);
+		SizeFun			setWindowSizeCallback	(SizeFun		value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -139,7 +151,13 @@ namespace ml
 		WindowStyle		m_style;		// 
 		VideoMode		m_videoMode;	// 
 		String			m_title;		// 
-		mutable char	m_char;			// 
+		
+		mutable char		m_char;
+		mutable vec2i		m_position;
+		mutable float64_t	m_time;
+
+		mutable Array<int32_t, KeyCode::MAX_KEYCODE> m_keys;
+		mutable Array<int32_t, MouseButton::MAX_MOUSE_BUTTON> m_mouse;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

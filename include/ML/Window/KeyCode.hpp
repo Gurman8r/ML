@@ -2,14 +2,18 @@
 #define _ML_KEY_CODE_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/StandardLib.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
-	struct KeyCode final
+	struct KeyCode final : public I_NonNewable
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		enum : int32_t
 		{
+			INVALID_KEY_CODE = -1,
+
 			Space		= 32,
 			Apostrophe	= 39,	/* ' */
 			Comma		= 44,	/* , */
@@ -134,6 +138,34 @@ namespace ml
 			MAX_KEYCODE,
 			MIN_KEYCODE = Space,
 		};
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		int32_t value;
+
+		constexpr KeyCode(int32_t value)
+			: value { value }
+		{
+		}
+
+		constexpr KeyCode(const KeyCode & copy)
+			: KeyCode { copy.value }
+		{
+		}
+
+		constexpr KeyCode()
+			: KeyCode { INVALID_KEY_CODE }
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr operator bool() const
+		{
+			return (value >= MIN_KEYCODE && value < MAX_KEYCODE);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 }
 

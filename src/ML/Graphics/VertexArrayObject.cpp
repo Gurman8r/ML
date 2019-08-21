@@ -27,14 +27,16 @@ namespace ml
 	{
 		if ((*this))
 		{
-			ML_GL.deleteVertexArrays(1, (*this));
+			ML_GL.deleteVertexArray(*this);
+
+			this->set_handle(NULL);
 		}
 		return (*this);
 	}
 
 	VertexArrayObject & VertexArrayObject::create(GL::Mode mode)
 	{
-		if (set_handle(ML_GL.genVertexArrays(1)))
+		if (this->set_handle(ML_GL.genVertexArray()))
 		{
 			m_mode = mode;
 		}

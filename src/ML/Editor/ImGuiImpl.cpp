@@ -145,7 +145,7 @@ namespace ml
 		IM_ASSERT(io.Fonts->IsBuilt() && "Font atlas not built! It is generally built by the renderer back-end. Missing call to renderer _NewFrame() function? e.g. ImGui_ImplOpenGL3_NewFrame().");
 
 		// Setup display size (every frame to accommodate for window resizing)
-		vec2 size = vec2(g_Window->getSize());
+		vec2 size = vec2(g_Window->size());
 		vec2 display = vec2(g_Window->getFrameSize());
 		io.DisplaySize = ImVec2(size[0], size[1]);
 		io.DisplayFramebufferScale = ImVec2(size[0] > 0 ? (display[0] / size[0]) : 0, size[1] > 0 ? (display[1] / size[1]) : 0);
@@ -362,7 +362,7 @@ namespace ml
 
 		// Upload texture to graphics system
 		int32_t last_texture = ML_GL.getInt(GL::TextureBinding2D);
-		g_FontTexture = ML_GL.genTextures(1);
+		g_FontTexture = ML_GL.genTexture();
 		ML_GL.bindTexture(GL::Texture2D, g_FontTexture);
 		ML_GL.texParameter(GL::Texture2D, GL::TexMinFilter, GL::Linear);
 		ML_GL.texParameter(GL::Texture2D, GL::TexMagFilter, GL::Linear);

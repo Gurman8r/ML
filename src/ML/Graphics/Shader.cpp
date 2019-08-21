@@ -16,9 +16,9 @@ namespace ml
 		int32_t		location;
 
 		UniformBinder(const Shader * value, const String & name)
-			: cached(NULL)
-			, program(*value)
-			, location(-1)
+			: cached { NULL }
+			, program { *value }
+			, location { -1 }
 		{
 			if (program)
 			{
@@ -84,25 +84,22 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Shader::Shader()
-		: I_Handle(NULL)
-		, m_attribs()
+		: I_Handle	(NULL)
+		, m_attribs	()
 		, m_textures()
 		, m_uniforms()
 	{
 	}
 
 	Shader::Shader(const Shader & copy)
-		: I_Handle(copy)
-		, m_attribs(copy.m_attribs)
+		: I_Handle	(copy)
+		, m_attribs	(copy.m_attribs)
 		, m_textures(copy.m_textures)
 		, m_uniforms(copy.m_uniforms)
 	{
 	}
 
-	Shader::~Shader()
-	{
-		dispose();
-	}
+	Shader::~Shader() { this->dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -116,7 +113,7 @@ namespace ml
 		if (*this)
 		{
 			ML_GL.deleteShader(*this);
-			get_reference() = NULL;
+			set_handle(NULL);
 		}
 		return !(*this);
 	}

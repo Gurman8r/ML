@@ -111,13 +111,10 @@ namespace ml
 	{
 		// Load Defaults
 		/* * * * * * * * * * * * * * * * * * * * */
-		Ref<Image> img { "default_image" };
-		img.create()->update(512, 512, 4, Color32::magenta);
+		ML_Content.create<Texture>("default_texture")->loadFromImage(
+			ML_Content.create<Image>("default_image")->update(512, 512, 4, Color32::magenta)
+		);
 
-		Ref<Texture> tex { "default_texture" };
-		tex.create()->loadFromImage(*img);
-
-		
 		ML_Content.create<Model>("default_triangle")->loadFromMemory(
 			geo::tri::vertices,
 			geo::tri::indices
@@ -173,11 +170,11 @@ namespace ml
 		m_deltaTime		= ev.time.elapsed().delta();
 		m_frameCount	= m_frameCount + 1;
 		m_frameRate		= (float_t)ev.time.frameRate();
-		m_viewport		= (vec2)ev.window.getSize();
+		m_viewport		= (vec2)ev.window.size();
 		m_totalTime		= ev.time.total().delta();
 
 		// Update Window Title
-		static const String original_title { ev.window.getTitle() };
+		static const String original_title { ev.window.title() };
 		ev.window.setTitle(String("{0} | {1} | {2}").format(
 			original_title, ML_CONFIGURATION, ML_PLATFORM_TARGET
 		));

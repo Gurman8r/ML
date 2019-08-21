@@ -34,14 +34,16 @@ namespace ml
 	{
 		if ((*this))
 		{
-			ML_GL.deleteBuffers(1, (*this));
+			ML_GL.deleteBuffer(*this);
+
+			this->set_handle(NULL);
 		}
 		return (*this);
 	}
 
 	IndexBufferObject & IndexBufferObject::create(GL::Usage usage, GL::Type type)
 	{
-		if (set_handle(ML_GL.genBuffers(1)))
+		if (this->set_handle(ML_GL.genBuffer()))
 		{
 			m_usage = usage;
 			m_type = type;

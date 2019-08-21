@@ -24,27 +24,15 @@
 
 namespace ml
 {
-	static const GLFWimage & cache_GLFWimage(uint32_t w, uint32_t h, const uint8_t * pixels)
+	static const GLFWimage & cache_image(uint32_t w, uint32_t h, const uint8_t * pixels)
 	{
-		static HashMap<const uint8_t *, GLFWimage> cache;
+		static HashMap<const uint8_t *, GLFWimage> cache {};
 		auto it = cache.find(pixels);
 		if (it == cache.end())
 		{
 			it = cache.insert({
-				pixels,
-				GLFWimage { (int32_t)w, (int32_t)h, (uint8_t *)pixels }
+				pixels, GLFWimage { (int32_t)w, (int32_t)h, (uint8_t *)pixels }
 			}).first;
-		}
-		return it->second;
-	}
-
-	static const Window & cache_Window(const GLFWwindow * key, const Window & value)
-	{
-		static HashMap<const GLFWwindow *, const Window &> cache;
-		auto it = cache.find(key);
-		if (it == cache.end())
-		{
-			it = cache.insert({ key, value }).first;
 		}
 		return it->second;
 	}
@@ -61,10 +49,10 @@ namespace ml
 		, m_window			{ nullptr }
 		, m_monitor			{ nullptr }
 		, m_share			{ nullptr }
-		, m_title			{}
-		, m_context			{}
-		, m_style			{}
-		, m_videoMode		{}
+		, m_title			{ String() }
+		, m_context			{ ContextSettings() }
+		, m_style			{ WindowStyle() }
+		, m_videoMode		{ VideoMode() }
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		if (HWND window = GetConsoleWindow())
@@ -155,28 +143,28 @@ namespace ml
 
 		// Create Window
 		if (m_window = ML_WINDOW(glfwCreateWindow(
-			getWidth(), 
-			getHeight(), 
-			getTitle().c_str(),
+			this->width(),
+			this->height(),
+			this->title().c_str(),
 			ML_MONITOR(m_monitor = m_style.fullscreen ? glfwGetPrimaryMonitor() : nullptr),
 			ML_WINDOW(m_share = nullptr)
 		)))
 		{
-			makeContextCurrent();
+			this->makeContextCurrent();
 
-			if (setup())
+			if (this->setup())
 			{
-				setCursorMode(Cursor::Mode::Normal);
+				this->setCursorMode(Cursor::Mode::Normal);
 
-				if (!getStyle().fullscreen)
+				if (!this->style().fullscreen)
 				{
-					if (getStyle().maximized)
+					if (this->style().maximized)
 					{
-						maximize(); // Maximized
+						this->maximize(); // Maximized
 					}
 					else
 					{
-						setCentered(); // Centered
+						this->setCentered(); // Centered
 					}
 				}
 				
@@ -317,7 +305,7 @@ namespace ml
 		case WindowSizeEvent::ID:
 			if (auto ev = value.as<WindowSizeEvent>())
 			{
-				m_videoMode.resolution = { (uint32_t)ev->width, (uint32_t)ev->height };
+				m_videoMode.size = { (uint32_t)ev->width, (uint32_t)ev->height };
 			}
 			break;
 		}
@@ -409,10 +397,21 @@ namespace ml
 		return (*this);
 	}
 
+	Window & Window::terminate()
+	{
+		if (m_window)
+		{
+			glfwTerminate();
+		}
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	Window & Window::setCentered()
 	{
 		return setPosition(
-			(vec2i)(VideoMode::get_desktop_mode().resolution - getSize()) / 2
+			(vec2i)(Window::getDesktopMode().size - size()) / 2
 		);
 	}
 
@@ -481,8 +480,8 @@ namespace ml
 				ML_MONITOR(m_monitor),
 				0, 
 				0, 
-				getWidth(), 
-				getHeight(), 
+				width(), 
+				height(), 
 				GLFW_DONT_CARE
 			);
 			return setCentered();
@@ -494,49 +493,40 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwSetWindowIcon(
-				ML_WINDOW(m_window),
-				1,
-				&cache_GLFWimage(w, h, pixels)
-			);
+			glfwSetWindowIcon(ML_WINDOW(m_window), 1, &cache_image(w, h, pixels));
 		}
 		return (*this);
 	}
 
 	Window & Window::setPosition(const vec2i & value)
 	{
-		if (m_window) (glfwSetWindowPos(
-			ML_WINDOW(m_window),
-			value[0],
-			value[1]
-		));
+		if (m_window)
+		{
+			glfwSetWindowPos(ML_WINDOW(m_window), value[0], value[1]);
+		}
 		return (*this);
 	}
 
 	Window & Window::setSize(const vec2u & value)
 	{
-		if (m_window) (glfwSetWindowSize(
-			ML_WINDOW(m_window),
-			m_videoMode.resolution[0] = value[0],
-			m_videoMode.resolution[1] = value[1]
-		));
+		m_videoMode.size = value;
+		if (m_window)
+		{
+			glfwSetWindowSize(ML_WINDOW(m_window), width(), height());
+		}
 		return (*this);
 	}
 
 	Window & Window::setTitle(const String & value)
 	{
-		if (m_window) (glfwSetWindowTitle(
-			ML_WINDOW(m_window),
-			(m_title = value).c_str()
-		));
+		m_title = value;
+		if (m_window)
+		{
+			glfwSetWindowTitle(ML_WINDOW(m_window), m_title.c_str());
+		}
 		return (*this);
 	}
 	
-	Window & Window::terminate()
-	{
-		if (m_window) glfwTerminate();
-		return (*this);
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -547,17 +537,15 @@ namespace ml
 
 	bool Window::isOpen() const
 	{
-		return m_window && (!glfwWindowShouldClose(
-			ML_WINDOW(m_window)
-		));
+		return m_window && !glfwWindowShouldClose(ML_WINDOW(m_window));
 	}
 	
 	int32_t Window::getAttribute(int32_t value) const
 	{
 		return (m_window
-			? glfwGetWindowAttrib(
-				ML_WINDOW(m_window), value)
-			: NULL);
+			? glfwGetWindowAttrib(ML_WINDOW(m_window), value)
+			: NULL
+		);
 	}
 
 	char Window::getChar() const
@@ -570,39 +558,35 @@ namespace ml
 	C_String Window::getClipboardString() const
 	{
 		return (m_window
-			? glfwGetClipboardString(
-			ML_WINDOW(m_window))
-			: nullptr);
+			? glfwGetClipboardString(ML_WINDOW(m_window))
+			: nullptr
+		);
 	}
 
 	vec2 Window::getCursorPos() const
 	{
 		static vec2d temp;
-		if (m_window) (glfwGetCursorPos(
-			ML_WINDOW(m_window),
-			&temp[0],
-			&temp[1]
-		));
+		if (m_window)
+		{
+			glfwGetCursorPos(ML_WINDOW(m_window), &temp[0], &temp[1]);
+		}
 		return (vec2)temp;
 	}
 
 	vec2i Window::getFrameSize() const
 	{
 		static vec2i temp;
-		if (m_window) (glfwGetFramebufferSize(
-			ML_WINDOW(m_window),
-			&temp[0],
-			&temp[1]
-		));
+		if (m_window)
+		{
+			glfwGetFramebufferSize(ML_WINDOW(m_window), &temp[0], &temp[1]);
+		}
 		return temp;
 	}
 
 	int32_t	Window::getKey(const int32_t value) const
 	{
-		return (m_window
-			? glfwGetKey(
-				ML_WINDOW(m_window),
-				value)
+		return m_keys[value] = (m_window
+			? glfwGetKey(ML_WINDOW(m_window), value)
 			: NULL
 		);
 	}
@@ -610,184 +594,215 @@ namespace ml
 	int32_t Window::getInputMode() const
 	{
 		return (m_window
-			? glfwGetInputMode(
-				ML_WINDOW(m_window),
-				GLFW_CURSOR)
+			? glfwGetInputMode(ML_WINDOW(m_window), GLFW_CURSOR)
 			: NULL
 		);
 	}
 
 	int32_t	Window::getMouseButton(const int32_t value) const
 	{
-		return (m_window
-			? glfwGetMouseButton(
-				ML_WINDOW(m_window),
-				value)
+		return m_mouse[value] = ((m_window
+			? glfwGetMouseButton(ML_WINDOW(m_window), value)
 			: NULL
-		);
+		));
 	}
 
 	vec2i Window::getPosition() const
 	{
-		vec2i temp;
 		if (m_window)
 		{
-			glfwGetWindowPos(ML_WINDOW(m_window), &temp[0], &temp[1]);
+			glfwGetWindowPos(ML_WINDOW(m_window), &m_position[0], &m_position[1]);
 		}
-		return temp;
+		return m_position;
 	}
 
 	float64_t Window::getTime() const
 	{
-		return (m_window 
-			? glfwGetTime()
-			: 0.0
-		);
+		return (m_time = (m_window ? glfwGetTime() : 0.0));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void * Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels) const
 	{
-		return (m_window
-			? glfwCreateCursor(&cache_GLFWimage(w, h, pixels), w, h)
-			: nullptr
-		);
+		return (m_window ? glfwCreateCursor(&cache_image(w, h, pixels), w, h) : nullptr);
 	}
 
 	void * Window::createStandardCursor(Cursor::Shape value) const
 	{
-		return (m_window
-			? glfwCreateStandardCursor(static_cast<int32_t>(value))
-			: nullptr
-		);
+		return (m_window ? glfwCreateStandardCursor((int32_t)value) : nullptr);
 	}
 
-	void Window::destroyCursor(void * value) const
+	bool Window::destroyCursor(void * value) const
 	{
-		return (m_window
-			? glfwDestroyCursor(ML_CURSOR(value))
-			: void()
+		return ((m_window && value)
+			? ML_TRUE_EXPR(glfwDestroyCursor(ML_CURSOR(value)))
+			: false
 		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Window::CharFun Window::setCharCallback(CharFun callback)
+	const VideoMode & Window::getDesktopMode()
+	{
+		static VideoMode temp {};
+		static bool once { true };
+		if (once && !(once = false))
+		{
+#ifdef ML_SYSTEM_WINDOWS
+			DEVMODE dm;
+			dm.dmSize = sizeof(dm);
+			EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &dm);
+			temp = VideoMode { dm.dmPelsWidth, dm.dmPelsHeight, dm.dmBitsPerPel };
+#else
+			// do the thing
+#endif
+		}
+		return temp;
+	}
+
+	const List<VideoMode>& Window::getFullscreenModes()
+	{
+		static List<VideoMode> temp {};
+		static bool once { true };
+		if (once && !(once = false))
+		{
+#ifdef ML_SYSTEM_WINDOWS
+			DEVMODE dm;
+			dm.dmSize = sizeof(dm);
+			for (int32_t count = 0; EnumDisplaySettings(nullptr, count, &dm); ++count)
+			{
+				VideoMode vm { dm.dmPelsWidth, dm.dmPelsHeight, dm.dmBitsPerPel };
+
+				if (std::find(temp.begin(), temp.end(), vm) == temp.end())
+				{
+					temp.push_back(vm);
+				}
+			}
+#else
+			// do the thing
+#endif
+		}
+		return temp;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	Window::CharFun Window::setCharCallback(CharFun value)
 	{
 		return (m_window
 			? glfwSetCharCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWcharfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWcharfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::CursorEnterFun Window::setCursorEnterCallback(CursorEnterFun callback)
+	Window::CursorEnterFun Window::setCursorEnterCallback(CursorEnterFun value)
 	{
 		return (m_window
 			? glfwSetCursorEnterCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWcursorenterfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWcursorenterfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::CursorPosFun Window::setCursorPosCallback(CursorPosFun callback)
+	Window::CursorPosFun Window::setCursorPosCallback(CursorPosFun value)
 	{
 		return (m_window
 			? glfwSetCursorPosCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWcursorposfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWcursorposfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::ErrorFun Window::setErrorCallback(ErrorFun callback)
+	Window::ErrorFun Window::setErrorCallback(ErrorFun value)
 	{
 		return (m_window
 			? glfwSetErrorCallback(
-				reinterpret_cast<GLFWerrorfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWerrorfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 
-	Window::FrameSizeFun Window::setFrameSizeCallback(FrameSizeFun callback)
+	Window::FrameSizeFun Window::setFrameSizeCallback(FrameSizeFun value)
 	{
 		return (m_window
 			? glfwSetFramebufferSizeCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWframebuffersizefun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWframebuffersizefun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::KeyFun Window::setKeyCallback(KeyFun callback)
+	Window::KeyFun Window::setKeyCallback(KeyFun value)
 	{
 		return (m_window
 			? glfwSetKeyCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWkeyfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWkeyfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::MouseButtonFun Window::setMouseButtonCallback(MouseButtonFun callback)
+	Window::MouseButtonFun Window::setMouseButtonCallback(MouseButtonFun value)
 	{
 		return (m_window
 			? glfwSetMouseButtonCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWmousebuttonfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWmousebuttonfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::ScrollFun Window::setScrollCallback(ScrollFun callback)
+	Window::ScrollFun Window::setScrollCallback(ScrollFun value)
 	{
 		return (m_window
 			? glfwSetScrollCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWscrollfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWscrollfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::CloseFun Window::setWindowCloseCallback(CloseFun callback)
+	Window::CloseFun Window::setWindowCloseCallback(CloseFun value)
 	{
 		return (m_window
 			? glfwSetWindowCloseCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWwindowclosefun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWwindowclosefun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::FocusFun Window::setWindowFocusCallback(FocusFun callback)
+	Window::FocusFun Window::setWindowFocusCallback(FocusFun value)
 	{
 		return (m_window
 			? glfwSetWindowFocusCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWwindowfocusfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWwindowfocusfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::PositionFun Window::setWindowPosCallback(PositionFun callback)
+	Window::PositionFun Window::setWindowPosCallback(PositionFun value)
 	{
 		return (m_window
 			? glfwSetWindowPosCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWwindowposfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWwindowposfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::SizeFun Window::setWindowSizeCallback(SizeFun callback)
+	Window::SizeFun Window::setWindowSizeCallback(SizeFun value)
 	{
 		return (m_window
 			? glfwSetWindowSizeCallback(
 				ML_WINDOW(m_window),
-				reinterpret_cast<GLFWwindowposfun>(callback)) ? callback : nullptr
+				reinterpret_cast<GLFWwindowposfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}

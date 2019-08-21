@@ -26,15 +26,15 @@ namespace ml
 	{
 		if ((*this))
 		{
-			ML_GL.deleteFramebuffers(1, (*this));
-			get_reference() = NULL;
+			ML_GL.deleteFramebuffer(*this);
+			this->set_handle(NULL);
 		}
 		return (*this);
 	}
 
 	FrameBufferObject & FrameBufferObject::create()
 	{
-		if (set_handle(ML_GL.genFramebuffers(1)))
+		if (this->set_handle(ML_GL.genFramebuffer()))
 		{
 			// good
 		}

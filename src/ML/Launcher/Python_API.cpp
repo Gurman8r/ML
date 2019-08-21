@@ -116,9 +116,9 @@ namespace ml
 		m.def("get_cx",					[]() { return (int32_t)ML_Launcher.window.getCursorPos()[0]; });
 		m.def("get_cy",					[]() { return (int32_t)ML_Launcher.window.getCursorPos()[1]; });
 		m.def("get_key",				[](int32_t k) { return ML_Launcher.window.getKey(k); });
-		m.def("get_title",				[]() { return (str_t)ML_Launcher.window.getTitle(); });
-		m.def("get_w",					[]() { return (int32_t)ML_Launcher.window.getWidth(); });
-		m.def("get_h",					[]() { return (int32_t)ML_Launcher.window.getHeight(); });
+		m.def("get_title",				[]() { return (str_t)ML_Launcher.window.title(); });
+		m.def("get_w",					[]() { return (int32_t)ML_Launcher.window.width(); });
+		m.def("get_h",					[]() { return (int32_t)ML_Launcher.window.height(); });
 		m.def("get_x",					[]() { return ML_Launcher.window.getPosition()[0]; });
 		m.def("get_y",					[]() { return ML_Launcher.window.getPosition()[1]; });
 		m.def("set_clipboard",			[](const str_t & s) { ML_Launcher.window.setClipboardString(s); });

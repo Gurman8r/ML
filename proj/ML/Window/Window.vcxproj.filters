@@ -17,9 +17,6 @@
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Window\VideoMode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Window\Cursor.hpp">

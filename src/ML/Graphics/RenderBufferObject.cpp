@@ -26,15 +26,16 @@ namespace ml
 	{
 		if ((*this))
 		{
-			ML_GL.deleteRenderbuffers(1, (*this));
-			get_reference() = NULL;
+			ML_GL.deleteRenderbuffer(*this);
+
+			this->set_handle(NULL);
 		}
 		return (*this);
 	}
 	
 	RenderBufferObject & RenderBufferObject::create(int32_t width, int32_t height)
 	{
-		if (set_handle(ML_GL.genRenderbuffers(1)))
+		if (this->set_handle(ML_GL.genRenderbuffer()))
 		{
 			m_width = width;
 			m_height = height;

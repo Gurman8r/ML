@@ -70,7 +70,7 @@ namespace ml
 				{
 					if (Window * w { ev->window })
 					{
-						w->setFullscreen(!w->getStyle().fullscreen);
+						w->setFullscreen(!w->style().fullscreen);
 					}
 				}
 			}
@@ -228,7 +228,7 @@ namespace ml
 					// Get Video Modes
 					static const List<VideoMode> & mode_values
 					{
-						VideoMode::get_fullscreen_modes() 
+						Window::getFullscreenModes()
 					};
 
 					// Get Video Names
@@ -240,7 +240,7 @@ namespace ml
 						};
 						for (const VideoMode & elem : mode_values)
 						{
-							temp.push_back(String("{0}").format(elem.resolution));
+							temp.push_back(String("{0}").format(elem.size));
 						}
 						return temp;
 					}();
@@ -254,7 +254,7 @@ namespace ml
 					}
 					if (!m_freeAspect)
 					{
-						m_viewport = (vec2i)mode_values[index - 1].resolution;
+						m_viewport = (vec2i)mode_values[index - 1].size;
 					}
 					ImGui::Separator();
 

@@ -9,24 +9,24 @@ namespace ml
 	// Errors
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	GL::Err OpenGL::getError()
+	auto OpenGL::getError() -> GL::Err
 	{
 		return static_cast<GL::Err>(glGetError());
 	}
 
-	Ostream & OpenGL::checkError(C_String file, uint32_t line, C_String expr)
+	auto OpenGL::checkError(C_String file, uint32_t line, C_String expr) -> Ostream &
 	{
 		return checkError(cout, file, line, expr);
 	}
 
-	Ostream & OpenGL::checkError(Ostream & out, C_String file, uint32_t line, C_String expr)
+	auto OpenGL::checkError(Ostream & out, C_String file, uint32_t line, C_String expr) -> Ostream &
 	{
 		// Get the last error
 		if (const GL::Err code = getError())
 		{
 			// Error location
-			String fileName { file };
-			fileName = fileName.substr(fileName.find_last_of("\\/") + 1);
+			String filename { file };
+			filename = filename.substr(filename.find_last_of("\\/") + 1);
 
 			// Decode the error
 			out << FG::Red		<< "\nAn OpenGL call failed in \'" << file << "\' (" << line << ")"
@@ -148,14 +148,14 @@ namespace ml
 	// Getters
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	C_String OpenGL::getString(uint32_t name)
+	auto OpenGL::getString(uint32_t name) -> C_String
 	{
 		static C_String temp;
 		glCheck(temp = reinterpret_cast<C_String>(glGetString(name)));
 		return temp;
 	}
 
-	C_String OpenGL::getString(uint32_t name, uint32_t index)
+	auto OpenGL::getString(uint32_t name, uint32_t index) -> C_String
 	{
 		static C_String temp;
 		glCheck(temp = reinterpret_cast<C_String>(glGetStringi(name, index)));
@@ -169,28 +169,28 @@ namespace ml
 		return (bool)temp;
 	}
 
-	float64_t OpenGL::getDouble(uint32_t name)
+	auto OpenGL::getDouble(uint32_t name) -> float64_t
 	{
 		static float64_t temp;
 		glCheck(glGetDoublev(name, &temp));
 		return temp;
 	}
 
-	float_t OpenGL::getFloat(uint32_t name)
+	auto OpenGL::getFloat(uint32_t name) -> float_t
 	{
 		static float_t temp;
 		glCheck(glGetFloatv(name, &temp));
 		return temp;
 	}
 
-	int32_t OpenGL::getInt(uint32_t name)
+	auto OpenGL::getInt(uint32_t name) -> int32_t
 	{
 		static int32_t temp;
 		glCheck(getIntv(name, &temp));
 		return temp;
 	}
 
-	int32_t * OpenGL::getIntv(uint32_t name, int32_t * params)
+	auto OpenGL::getIntv(uint32_t name, int32_t * params) -> int32_t *
 	{
 		glCheck(glGetIntegerv(name, params));
 		return params;
@@ -289,14 +289,24 @@ namespace ml
 	// Buffers
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	uint32_t OpenGL::genBuffers(uint32_t count)
+	auto OpenGL::genBuffer() -> uint32_t
+	{
+		return genBuffers(1);
+	}
+
+	auto OpenGL::genBuffers(uint32_t count) -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(glGenBuffers(count, &temp));
 		return temp;
 	}
 
-	uint32_t OpenGL::genVertexArrays(uint32_t count)
+	auto OpenGL::genVertexArray() -> uint32_t
+	{
+		return genVertexArrays(1);
+	}
+
+	auto OpenGL::genVertexArrays(uint32_t count) -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(glGenVertexArrays(count, &temp));
@@ -323,9 +333,19 @@ namespace ml
 		glCheck(glBufferSubData(target, offset, size, data));
 	}
 
+	bool OpenGL::deleteBuffer(const uint32_t * value)
+	{
+		return value ? ML_TRUE_EXPR(deleteBuffers(1, value)) : false;
+	}
+
 	void OpenGL::deleteBuffers(uint32_t count, const uint32_t * buffers)
 	{
 		glCheck(glDeleteBuffers(count, buffers));
+	}
+
+	bool OpenGL::deleteVertexArray(const uint32_t * value)
+	{
+		return value ? ML_TRUE_EXPR(deleteVertexArrays(1, value)) : false;
 	}
 
 	void OpenGL::deleteVertexArrays(uint32_t count, const uint32_t * arrays)
@@ -407,7 +427,7 @@ namespace ml
 		return temp;
 	}
 
-	int32_t OpenGL::getMaxTextureUnits()
+	auto OpenGL::getMaxTextureUnits() -> int32_t
 	{
 		static int32_t temp;
 		static bool checked = false;
@@ -419,7 +439,7 @@ namespace ml
 		return temp;
 	}
 
-	uint32_t OpenGL::getMaxTextureSize()
+	auto OpenGL::getMaxTextureSize() -> uint32_t
 	{
 		static uint32_t temp;
 		static bool checked = false;
@@ -431,7 +451,7 @@ namespace ml
 		return temp;
 	}
 
-	uint32_t OpenGL::getValidTextureSize(uint32_t value)
+	auto OpenGL::getValidTextureSize(uint32_t value) -> uint32_t
 	{
 		if (!nonPowerOfTwoAvailable())
 		{
@@ -447,7 +467,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	uint32_t OpenGL::genTextures(uint32_t count)
+	auto OpenGL::genTexture() -> uint32_t
+	{
+		return genTextures(1);
+	}
+
+	auto OpenGL::genTextures(uint32_t count) -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(glGenTextures(count, &temp));
@@ -519,15 +544,20 @@ namespace ml
 		}
 		return temp;
 	}
+
+	auto OpenGL::genFramebuffer() -> uint32_t
+	{
+		return genFramebuffers(1);
+	}
 	
-	uint32_t OpenGL::genFramebuffers(uint32_t count)
+	auto OpenGL::genFramebuffers(uint32_t count) -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(glGenFramebuffers(count, &temp));
 		return temp;
 	}
 
-	uint32_t OpenGL::checkFramebufferStatus(uint32_t target)
+	auto OpenGL::checkFramebufferStatus(uint32_t target) -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(temp = glCheckFramebufferStatus(target));
@@ -537,6 +567,11 @@ namespace ml
 	void OpenGL::bindFramebuffer(uint32_t target, uint32_t framebuffer)
 	{
 		glCheck(glBindFramebuffer(target, framebuffer));
+	}
+
+	bool OpenGL::deleteFramebuffer(const uint32_t * value)
+	{
+		return value ? ML_TRUE_EXPR(deleteFramebuffers(1, value)) : false;
 	}
 
 	void OpenGL::deleteFramebuffers(uint32_t count, const uint32_t * framebuffers)
@@ -562,11 +597,21 @@ namespace ml
 	// Renderbuffers
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	uint32_t OpenGL::genRenderbuffers(uint32_t count)
+	auto OpenGL::genRenderbuffer() -> uint32_t
+	{
+		return genRenderbuffers(1);
+	}
+
+	auto OpenGL::genRenderbuffers(uint32_t count) -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(glGenRenderbuffers(count, &temp));
 		return temp;
+	}
+
+	bool OpenGL::deleteRenderbuffer(const uint32_t * value)
+	{
+		return value ? ML_TRUE_EXPR(deleteRenderbuffers(1, value)) : false;
 	}
 
 	void OpenGL::deleteRenderbuffers(uint32_t count, const uint32_t * renderbuffers)
@@ -625,56 +670,56 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	C_String OpenGL::getProgramInfoLog(uint32_t obj)
+	auto OpenGL::getProgramInfoLog(uint32_t obj) -> C_String
 	{
 		static char temp[512];
 		glCheck(glGetInfoLogARB(obj, sizeof(temp), 0, temp));
 		return temp;
 	}
 
-	uint32_t OpenGL::getProgramHandle(uint32_t name)
+	auto OpenGL::getProgramHandle(uint32_t name) -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(temp = glGetHandleARB(name));
 		return temp;
 	}
 
-	uint32_t OpenGL::createProgramObject()
+	auto OpenGL::createProgramObject() -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(temp = glCreateProgramObjectARB());
 		return temp;
 	}
 
-	uint32_t OpenGL::createShaderObject(GL::ShaderType type)
+	auto OpenGL::createShaderObject(GL::ShaderType type) -> uint32_t
 	{
 		static uint32_t temp;
 		glCheck(temp = glCreateShaderObjectARB(type));
 		return temp;
 	}
 
-	int32_t OpenGL::getProgramParameter(int32_t obj, GL::Status param)
+	auto OpenGL::getProgramParameter(int32_t obj, GL::Status param) -> int32_t
 	{
 		static int32_t temp;
 		glCheck(glGetObjectParameterivARB(obj, param, &temp));
 		return temp;
 	}
 
-	int32_t OpenGL::getProgramiv(uint32_t program, uint32_t name)
+	auto OpenGL::getProgramiv(uint32_t program, uint32_t name) -> int32_t
 	{
 		static int32_t temp;
 		glCheck(glGetProgramiv(program, name, &temp));
 		return temp;
 	}
 	
-	int32_t OpenGL::getAttribLocation(uint32_t program, C_String name)
+	auto OpenGL::getAttribLocation(uint32_t program, C_String name) -> int32_t
 	{
 		static int32_t temp;
 		glCheck(temp = glGetAttribLocationARB(program, name));
 		return temp;
 	}
 
-	int32_t OpenGL::getUniformLocation(uint32_t program, C_String name)
+	auto OpenGL::getUniformLocation(uint32_t program, C_String name) -> int32_t
 	{
 		static int32_t temp;
 		glCheck(temp = glGetUniformLocationARB(program, name));
@@ -708,14 +753,14 @@ namespace ml
 		glCheck(glShaderSource(obj, count, &src[0], length));
 	}
 
-	int32_t OpenGL::compileShader(uint32_t obj)
+	auto OpenGL::compileShader(uint32_t obj) -> int32_t
 	{
 		glCheck(glCompileShaderARB(obj));
 
 		return getProgramParameter(obj, GL::ObjectCompileStatus);
 	}
 
-	int32_t OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source)
+	auto OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source) -> int32_t
 	{
 		if (source && (*source))
 		{
@@ -740,7 +785,7 @@ namespace ml
 		return ML_WARNING; // -1 (true)
 	}
 
-	int32_t OpenGL::linkShader(uint32_t obj)
+	auto OpenGL::linkShader(uint32_t obj) -> int32_t
 	{
 		glCheck(glLinkProgramARB(obj));
 

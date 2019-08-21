@@ -32,14 +32,16 @@ namespace ml
 	{
 		if ((*this))
 		{
-			ML_GL.deleteBuffers(1, (*this));
+			ML_GL.deleteBuffer(*this);
+
+			this->set_handle(NULL);
 		}
 		return (*this);
 	}
 
 	VertexBufferObject & VertexBufferObject::create(GL::Usage usage)
 	{
-		if (set_handle(ML_GL.genBuffers(1)))
+		if (this->set_handle(ML_GL.genBuffer()))
 		{
 			m_usage = usage;
 		}

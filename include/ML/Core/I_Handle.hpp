@@ -5,22 +5,21 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Handle represents a device object.
-	template <
-		class T
-	> struct I_Handle
+	// Handle is a representation of a hardware/device object.
+	template <class T> struct I_Handle
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename T;
+		using self_type			= typename I_Handle<value_type>;
 		using pointer			= typename value_type * ;
 		using reference			= typename value_type & ;
 		using const_pointer		= typename const value_type * ;
 		using const_reference	= typename const value_type & ;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		I_Handle(const_reference value)
 			: m_handle(value)
@@ -29,40 +28,33 @@ namespace ml
 
 		virtual ~I_Handle() {}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline void * get_handle() const
 		{ 
 			return ML_ADDRESSOF(m_handle);
 		}
 
-		inline bool set_handle(const_reference value)
+		inline self_type & set_handle(const_reference value)
 		{
-			return ((!m_handle) && (m_handle = value));
+			m_handle = value;
+			return (*this);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto good() const				-> bool { return  m_handle; }
-		inline auto get_pointer()				-> pointer { return &m_handle; }
-		inline auto get_reference()				-> reference { return  m_handle; }
-		inline auto get_const_pointer() const	-> const_pointer { return &m_handle; }
-		inline auto get_const_reference() const	-> const_reference { return  m_handle; }
+		inline operator bool() const			{ return m_handle;	}
+		inline operator pointer()				{ return &m_handle; }
+		inline operator reference()				{ return m_handle;	}
+		inline operator const_pointer() const	{ return &m_handle; }
+		inline operator const_reference() const	{ return m_handle;	}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const			{ return good(); }
-		inline operator pointer()				{ return get_pointer(); }
-		inline operator reference()				{ return get_reference(); }
-		inline operator const_pointer() const	{ return get_const_pointer(); }
-		inline operator const_reference() const	{ return get_const_reference(); }
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-	private: mutable value_type m_handle;
+	protected: mutable value_type m_handle;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_I_HANDLE_HPP_

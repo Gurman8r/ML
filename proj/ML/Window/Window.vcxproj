@@ -168,7 +168,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Window\VideoMode.cpp" />
     <ClCompile Include="..\..\..\src\ML\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>

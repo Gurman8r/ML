@@ -62,7 +62,52 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr bool operator==(const ContextSettings & other)
+		{			    
+			return
+				this->major			== other.major &&
+				this->minor			== other.minor &&
+				this->profile	    == other.profile &&
+				this->depthBits		== other.depthBits &&
+				this->stencilBits	== other.stencilBits &&
+				this->multisample	== other.multisample &&
+				this->srgbCapable	== other.srgbCapable;
+		}
+
+		constexpr bool operator!=(const ContextSettings & other)
+		{
+			return !((*this) == other);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(Ostream & out, const ContextSettings & value)
+	{
+		return out
+			<< value.major << " "
+			<< value.minor << " "
+			<< value.profile << " "
+			<< value.depthBits << " "
+			<< value.stencilBits << " "
+			<< value.multisample << " "
+			<< value.srgbCapable << " ";
+	}
+
+	inline ML_DESERIALIZE(Istream & in, ContextSettings & value)
+	{
+		return in
+			>> value.major
+			>> value.minor
+			>> value.profile
+			>> value.depthBits
+			>> value.stencilBits
+			>> value.multisample
+			>> value.srgbCapable;
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

@@ -4,42 +4,83 @@
 #include <ML/Window/Export.hpp>
 #include <ML/Core/Matrix.hpp>
 #include <ML/Core/List.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_WINDOW_API VideoMode final : public I_Newable
+	struct VideoMode final : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		vec2u	 resolution;
-		uint32_t bitsPerPixel;
+		vec2u	 size;
+		uint32_t depth;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		VideoMode();
-		VideoMode(uint32_t width, uint32_t height, uint32_t bitsPerPixel);
-		VideoMode(const vec2u & size, uint32_t bitsPerPixel);
-		VideoMode(const VideoMode & copy);
-		~VideoMode();
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static const VideoMode &		get_desktop_mode();
-		static const List<VideoMode> &	get_fullscreen_modes();
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline bool is_valid() const
+		constexpr VideoMode(const vec2u & size, uint32_t depth)
+			: size { size }
+			, depth { depth }
 		{
-			const List<VideoMode> & modes { get_fullscreen_modes() };
-			return std::find(modes.begin(), modes.end(), (*this)) != modes.end();
+		}
+
+		constexpr VideoMode(uint32_t width, uint32_t height, uint32_t depth)
+			: VideoMode { { width, height }, depth }
+		{
 		}
 		
-		inline auto width()  const -> const uint32_t & { return resolution[0]; }
-		inline auto height() const -> const uint32_t & { return resolution[1]; }
+		constexpr VideoMode(const VideoMode & copy)
+			: VideoMode { copy.size, copy.depth }
+		{
+		}
+
+		constexpr VideoMode()
+			: VideoMode { { uninit }, 0 }
+		{
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		constexpr auto width()  const -> const uint32_t & { return size[0]; }
+		constexpr auto height() const -> const uint32_t & { return size[1]; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline operator bool() const
+		{
+			return (this->size[0] > 0) && (this->size[1] > 0) && (this->depth > 0);
+		}
+
+		constexpr bool operator==(const VideoMode & other)
+		{
+			return (this->size == other.size) && (this->depth == other.depth);
+		}
+
+		constexpr bool operator!=(const VideoMode & other)
+		{
+			return !((*this) == other);
+		}
+
+		constexpr bool operator<(const VideoMode & other)
+		{
+			return (this->size < other.size) || (this->depth < other.depth);
+		}
+
+		constexpr bool operator>(const VideoMode & other)
+		{
+			return !((*this) < other);
+		}
+
+		constexpr bool operator<=(const VideoMode & other)
+		{
+			return ((*this) == other) || ((*this) < other);
+		}
+
+		constexpr bool operator>=(const VideoMode & other)
+		{
+			return ((*this) == other) || ((*this) > other);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -48,26 +89,12 @@ namespace ml
 
 	inline ML_SERIALIZE(Ostream & out, const VideoMode & value)
 	{
-		return out
-			<< value.resolution << " "
-			<< value.bitsPerPixel << " ";
+		return out << value.size << " " << value.depth << " ";
 	}
 
 	inline ML_DESERIALIZE(Istream & in, VideoMode & value)
 	{
-		return in 
-			>> value.resolution 
-			>> value.bitsPerPixel;
-	}
-
-	inline bool operator==(const VideoMode & lhs, const VideoMode & rhs)
-	{
-		return (lhs.resolution == rhs.resolution) && (lhs.bitsPerPixel == rhs.bitsPerPixel);
-	}
-
-	inline bool operator!=(const VideoMode & lhs, const VideoMode & rhs)
-	{
-		return !(lhs == rhs);
+		return in >> value.size >> value.depth;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

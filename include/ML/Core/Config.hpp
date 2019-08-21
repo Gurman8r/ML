@@ -77,6 +77,28 @@
 # endif
 
 
+//	Compiler
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+# if defined(_MSC_VER)
+//	Microsoft Compiler
+#	define ML_CC_NAME	"Microsoft"
+#	define ML_CC_MSC	_MSC_VER
+#	define ML_CC_VER	ML_CC_MSC
+# elif defined(__clang__)
+//	Clang Compiler
+#	define ML_CC_NAME	"Clang"
+#	define ML_CC_CLANG	__clang_
+#	define ML_CC_VER	ML_CC_CLANG
+# elif defined(__GNUC__)
+//	GNU Compiler
+#	define ML_CC_NAME	"GNU"
+#	define ML_CC_GNUC	__GNUC__
+#	define ML_CC_VER	ML_CC_GNUC
+#else
+#	error This compiler does not support memes.
+# endif
+
+
 // Types
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -105,43 +127,24 @@
 
 //	Preprocessor
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# define _ML				::ml::
-# define _ML_BEGIN			namespace ml {
-# define _ML_END			}
+#define _ML					::ml::
+#define _ML_BEGIN			namespace ml {
+#define _ML_END				}
 
-# define ML_TOSTRING(l)		#l
-# define ML_STRINGIFY(l)	ML_TOSTRING(l)
-# define ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
-# define ML_CONCAT(l, r)	l##r		 
-# define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
+#define ML_TOSTRING(l)		#l
+#define ML_STRINGIFY(l)		ML_TOSTRING(l)
+#define ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
+#define ML_CONCAT(l, r)		l##r		 
+#define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
 
-# define ML_TEMPLATE(...)	template<##__VA_ARGS__>
-# define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
-# define ML_USING_X			ML_USING_VA(class X)
-# define ML_USING_XY		ML_USING_VA(class X, class Y)
-# define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
+#define ML_TEMPLATE(...)	template<##__VA_ARGS__>
+#define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
+#define ML_USING_X			ML_USING_VA(class X)
+#define ML_USING_XY			ML_USING_VA(class X, class Y)
+#define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
 
-
-//	Compiler
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if defined(_MSC_VER)
-//	Microsoft Compiler
-#	define ML_CC_NAME	"Microsoft"
-#	define ML_CC_MSC	_MSC_VER
-#	define ML_CC_VER	ML_CC_MSC
-# elif defined(__clang__)
-//	Clang Compiler
-#	define ML_CC_NAME	"Clang"
-#	define ML_CC_CLANG	__clang_
-#	define ML_CC_VER	ML_CC_CLANG
-# elif defined(__GNUC__)
-//	GNU Compiler
-#	define ML_CC_NAME	"GNU"
-#	define ML_CC_GNUC	__GNUC__
-#	define ML_CC_VER	ML_CC_GNUC
-#else
-#	error This compiler does not support memes.
-# endif
+#define ML_TRUE_EXPR(expr)	(([&](){ expr; return true; })())
+#define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
 
 
 //	Export / Import

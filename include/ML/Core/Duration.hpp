@@ -18,9 +18,6 @@ namespace ml
 		using Minutes	= Ratio< Seconds::num	* 60>;
 		using Hours		= Ratio< Minutes::num	* 60>;
 		using Days		= Ratio< Hours::num		* 24>;
-		using Weeks		= Ratio< Days::num		* 7>;
-		using Months	= Ratio< Weeks::num		* 4>; // FIXME: 28
-		using Years		= Ratio< Days::num		* 365>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
@@ -33,10 +30,7 @@ namespace ml
 	using Seconds	= typename std::chrono::duration<time_t,  detail::Seconds>;		   	
 	using Minutes	= typename std::chrono::duration<time_t,  detail::Minutes>;	   	
 	using Hours		= typename std::chrono::duration<time_t,  detail::Hours>;	   	
-	using Days		= typename std::chrono::duration<time_t,  detail::Days>;	   
-	using Weeks		= typename std::chrono::duration<time_t,  detail::Weeks>;   
-	using Months	= typename std::chrono::duration<time_t,  detail::Months>;
-	using Years		= typename std::chrono::duration<time_t,  detail::Years>; 
+	using Days		= typename std::chrono::duration<time_t,  detail::Days>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -93,20 +87,16 @@ namespace ml
 		constexpr value_type minutes() const { return ML_duration_cast(Minutes, base()); }
 		constexpr value_type hours	() const { return ML_duration_cast(Hours,	base()); }
 		constexpr value_type days	() const { return ML_duration_cast(Days,	base()); }
-		constexpr value_type weeks	() const { return ML_duration_cast(Weeks,	base()); }
-		constexpr value_type months	() const { return ML_duration_cast(Months,	base()); }
-		constexpr value_type years	() const { return ML_duration_cast(Years,	base()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
-			class Out = typename float_t,
 			class Rep = typename Millisec,
 			class Per = typename Rep::period
-		> constexpr Out delta() const
+		> constexpr float_t delta() const
 		{
 			static_assert(0 < Per::den, "period negative or zero");
-			using cast = numeric<Out>;
+			using cast = numeric<float_t>;
 			return cast(ML_duration_cast(Rep, base())) / cast(Per::den);
 		}
 
@@ -215,9 +205,6 @@ namespace ml
 	constexpr Duration operator "" _min	(time_t value) { return { Minutes	{ value } }; }
 	constexpr Duration operator "" _hr	(time_t value) { return { Hours		{ value } }; }
 	constexpr Duration operator "" _dy	(time_t value) { return { Days		{ value } }; }
-	constexpr Duration operator "" _wk	(time_t value) { return { Weeks		{ value } }; }
-	constexpr Duration operator "" _mn	(time_t value) { return { Months	{ value } }; }
-	constexpr Duration operator "" _yr	(time_t value) { return { Years		{ value } }; }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

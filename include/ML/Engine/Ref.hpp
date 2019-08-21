@@ -109,7 +109,7 @@ namespace ml
 			return m_name; 
 		}
 
-		inline const String & rename(const String & value)
+		inline const String & name(const String & value)
 		{
 			if (value != m_name)
 			{

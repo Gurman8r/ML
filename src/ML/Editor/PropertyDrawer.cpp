@@ -1,5 +1,4 @@
 #include <ML/Editor/PropertyDrawer.hpp>
-#include <ML/Engine/ContentDatabase.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Core/Debug.hpp>
@@ -680,24 +679,49 @@ namespace ml
 
 	bool SurfacePropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
+		bool changed { false };
+
+		ImGui::Columns(2);
+
+		ImGui::Text("Texture Handle: %u", value.texture());
+
+		const Shader * shader { value.shader() };
+		if (ShaderPropertyDrawer()(("Shader##Surface##" + label), shader))
 		{
-			const vec2
-				hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
-				vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
-			return (src * (((hs) < (vs)) ? (hs) : (vs)));
+			//value.setShader(shader); changed = true;
+		}
 
-		})(value.size(), { 256, 256 }); // <- target size
+		const Model * model { value.model() };
+		if (ModelPropertyDrawer()(("Model##Surface##" + label), model))
+		{
+			//value.setModel(model); changed = true;
+		}
 
-		ImGui::Image(
-			value.texture().get_handle(),
-			{ previewSize[0], previewSize[1] },
-			{ 0, 1 },
-			{ 1, 0 },
-			{ 255, 255, 255, 255 },
-			{ 255, 255, 255, 128 }
-		);
-		return false;
+		ImGui::NextColumn();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		if (value)
+		{
+			const vec2 dst { ImGuiExt::GetContentRegionAvail()[0], 380 };
+			const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
+			const vec2 pos { ((dst - scl) * 0.5f) };
+
+			ImGui::BeginChild(
+				("##PropertyDrawer##Texture##Preview" + label).c_str(),
+				{ dst[0], dst[1] },
+				true,
+				ImGuiWindowFlags_NoScrollbar
+			);
+			ImGui::SetCursorPos({ pos[0], pos[1] });
+			ImGui::Image(value.get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+			ImGui::EndChild();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		ImGui::Columns(1);
+		return changed;
 	}
 
 	
@@ -762,6 +786,24 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		ImGui::Text("Flip");
+		ImGui::SameLine();
+		if (ImGui::Button(("Horizontally##Flip##" + label).c_str()))
+		{
+			Image temp { value.copyToImage() };
+			temp.flipHorizontally();
+			value.update(temp);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button(("Vertically##Flip##" + label).c_str()))
+		{
+			Image temp { value.copyToImage() };
+			temp.flipVertically();
+			value.update(temp);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		int32_t level { value.level() };
 		if (ImGui::InputInt(("Level##" + label).c_str(), &level))
 		{
@@ -780,9 +822,9 @@ namespace ml
 			ML_ARRAYSIZE(GL::Sampler_names)
 		))
 		{
-			GL::Sampler temp;
-			if (GL::value_at(target, temp)) value.setSampler(temp);
-			changed = true;
+			//GL::Sampler temp;
+			//if (GL::value_at(target, temp)) value.setSampler(temp);
+			//changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
@@ -796,9 +838,9 @@ namespace ml
 			ML_ARRAYSIZE(GL::Format_names)
 		))
 		{
-			GL::Format temp;
-			if (GL::value_at(colorFormat, temp)) value.setColorFormat(temp);
-			changed = true;
+			//GL::Format temp;
+			//if (GL::value_at(colorFormat, temp)) value.setColorFormat(temp);
+			//changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
@@ -812,9 +854,9 @@ namespace ml
 			ML_ARRAYSIZE(GL::Format_names)
 		))
 		{
-			GL::Format temp;
-			if (GL::value_at(internalFormat, temp)) value.setInternalFormat(temp);
-			changed = true;
+			//GL::Format temp;
+			//if (GL::value_at(internalFormat, temp)) value.setInternalFormat(temp);
+			//changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
@@ -828,9 +870,9 @@ namespace ml
 			ML_ARRAYSIZE(GL::Type_names)
 		))
 		{
-			GL::Type temp;
-			if (GL::value_at(pixelType, temp)) value.setPixelType(temp);
-			changed = true;
+			//GL::Type temp;
+			//if (GL::value_at(pixelType, temp)) value.setPixelType(temp);
+			//changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 

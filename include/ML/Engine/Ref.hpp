@@ -11,7 +11,7 @@ namespace ml
 	// Automatically retrieves the value from Content and acts like a pointer to it
 	template <
 		class T
-	> struct Ref final : public I_Newable
+	> struct Ref final : public I_Newable, public I_Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -53,17 +53,34 @@ namespace ml
 			std::swap(m_changed, copy.m_changed);
 		}
 
-		~Ref() {}
+		~Ref() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class ... Args
-		> inline pointer create(Args && ... args)
+		inline bool dispose() override
+		{
+			m_data = nullptr;
+			m_changed = true;
+			return !m_data;
+		}
+
+		inline pointer assign(pointer value)
 		{
 			if (m_changed || (!m_data && m_name))
 			{
-				m_data = ML_Content.create<value_type>(m_name, std::forward<Args>(args)...);
+				m_changed = !(m_data = ML_Content.insert<value_type>({ m_name, value }));
+			}
+			return m_data;
+		}
+
+		template <class ... Args >
+		inline pointer create(Args && ... args)
+		{
+			if (m_changed || (!m_data && m_name))
+			{
+				m_changed = !(m_data = ML_Content.create<value_type>(
+					m_name, std::forward<Args>(args)...
+				));
 			}
 			return m_data;
 		}
@@ -72,8 +89,7 @@ namespace ml
 		{ 
 			if (m_changed || (!m_data && m_name))
 			{
-				m_data = ML_Content.get<value_type>(m_name);
-				m_changed = false;
+				m_changed = !(m_data = ML_Content.get<value_type>(m_name));
 			}
 			return m_data;
 		}
@@ -82,15 +98,14 @@ namespace ml
 		{
 			if (m_changed || (!m_data && m_name))
 			{
-				m_data = ML_Content.get<value_type>(m_name);
-				m_changed = false;
+				m_changed = !(m_data = ML_Content.get<value_type>(m_name));
 			}
 			return m_data;
 		}
 
 		inline bool destroy()
 		{
-			if (m_data && m_name)
+			if (m_changed || (!m_data && m_name))
 			{
 				return ML_Content.erase<value_type>(m_name);
 			}

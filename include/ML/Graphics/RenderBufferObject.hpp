@@ -6,6 +6,7 @@
 #include <ML/Core/List.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Handle.hpp>
+#include <ML/Core/Matrix.hpp>
 
 namespace ml
 {
@@ -24,7 +25,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RenderBufferObject & clean();
-		RenderBufferObject & create(int32_t width, int32_t height);
+		RenderBufferObject & create(const vec2i & size);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -38,14 +39,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto width()  const -> int32_t { return m_width; }
-		inline auto height() const -> int32_t { return m_height; }
+		inline auto size()		const -> const vec2i &		{ return m_size; }
+		inline auto width()		const -> const int32_t &	{ return m_size[0]; }
+		inline auto height()	const -> const int32_t &	{ return m_size[1]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		mutable int32_t m_width;
-		mutable int32_t m_height;
+		mutable vec2i m_size;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

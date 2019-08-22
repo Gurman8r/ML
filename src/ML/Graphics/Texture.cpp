@@ -592,12 +592,22 @@ namespace ml
 
 	const Image Texture::copyToImage() const
 	{
-		Image image { this->size() };
+		const uint32_t channels = ([&]() {  
+			switch (m_iFormat)
+			{
+			case ml::GL::Red: return 1;
+			case ml::GL::RGB: return 3;
+			case ml::GL::RGBA: return 4;
+			default: return 0;
+			}
+		})();
+
+		Image image { this->size(), channels };
 		if ((*this))
 		{
 			this->bind();
 			
-			ML_GL.getTexImage(m_sampler, m_level, m_iFormat, m_pixType, &image[0]);
+			ML_GL.getTexImage(GL::Texture2D, m_level, m_iFormat, m_pixType, &image[0]);
 			
 			this->unbind();
 		}

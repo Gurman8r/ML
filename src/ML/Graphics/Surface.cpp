@@ -69,7 +69,7 @@ namespace ml
 				{
 					// Setup Renderbuffer
 					m_rbo
-						.create(m_size[0], m_size[1])
+						.create(m_size)
 						.bind()
 						.bufferStorage(GL::Depth24_Stencil8)
 						.setFramebuffer(GL::DepthStencil)
@@ -121,6 +121,20 @@ namespace ml
 	const Surface & Surface::unbind() const
 	{
 		m_fbo.unbind();
+		return (*this);
+	}
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	Surface & Surface::setModel(const Model * value)
+	{
+		m_model = value;
+		return (*this);
+	}
+
+	Surface & Surface::setShader(const Shader * value)
+	{
+		m_shader = value;
 		return (*this);
 	}
 

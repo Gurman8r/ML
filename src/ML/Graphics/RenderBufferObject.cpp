@@ -33,12 +33,11 @@ namespace ml
 		return (*this);
 	}
 	
-	RenderBufferObject & RenderBufferObject::create(int32_t width, int32_t height)
+	RenderBufferObject & RenderBufferObject::create(const vec2i & size)
 	{
 		if (this->set_handle(ML_GL.genRenderbuffer()))
 		{
-			m_width = width;
-			m_height = height;
+			m_size = size;
 		}
 		return (*this);
 	}
@@ -66,8 +65,8 @@ namespace ml
 			ML_GL.renderbufferStorage(
 				GL::Renderbuffer, 
 				format, 
-				m_width, 
-				m_height
+				width(), 
+				height()
 			);
 		}
 		return (*this);

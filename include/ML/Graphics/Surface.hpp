@@ -33,6 +33,9 @@ namespace ml
 		const Surface & bind() const;
 		const Surface & unbind() const;
 
+		Surface & setModel(const Model * value);
+		Surface & setShader(const Shader * value);
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void draw(RenderTarget & target, RenderBatch batch) const override;
@@ -63,9 +66,7 @@ namespace ml
 			if (*this)
 			{
 				this->bind();
-
 				fun(std::forward<Args>(args)...);
-				
 				this->unbind();
 			}
 			return (*this);
@@ -73,9 +74,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto model()				-> const Model *&	{ return m_model; }
 		inline auto model()		const	-> const Model *	{ return m_model; }
-		inline auto shader()			-> const Shader *&	{ return m_shader; }
 		inline auto shader()	const	-> const Shader *	{ return m_shader; }
 		inline auto fbo()		const	-> const FBO &		{ return m_fbo; }
 		inline auto rbo()		const	-> const RBO &		{ return m_rbo; }

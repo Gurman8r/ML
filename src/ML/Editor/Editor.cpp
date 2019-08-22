@@ -310,17 +310,8 @@ namespace ml
 			{
 				if (ImGui::BeginMenu("Create"))
 				{
-					if (ImGui::MenuItem("Entity")) {}
-					if (ImGui::MenuItem("Font")) {}
-					if (ImGui::MenuItem("Image")) {}
 					if (ImGui::MenuItem("Material")) {}
-					if (ImGui::MenuItem("Model")) {}
-					if (ImGui::MenuItem("Script")) {}
 					if (ImGui::MenuItem("Shader")) {}
-					if (ImGui::MenuItem("Sound")) {}
-					if (ImGui::MenuItem("Sprite")) {}
-					if (ImGui::MenuItem("Surface")) {}
-					if (ImGui::MenuItem("Texture")) {}
 					if (ImGui::MenuItem("Uniform")) {}
 					ImGui::EndMenu();
 				}

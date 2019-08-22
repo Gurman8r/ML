@@ -27,24 +27,34 @@ namespace ml
 		class T, class TT = detail::decay_t<T>
 	> static inline void draw_content(const String & label)
 	{
-		if (ML_Content.data<TT>().empty() ||
-			!ImGui::CollapsingHeader(label.c_str()))
-			return;
-
-		ImGui::BeginGroup();
-		for (auto & pair : ML_Content.data<TT>())
+		if (!ML_Content.data<TT>().empty() && ImGui::CollapsingHeader(label.c_str()))
 		{
-			if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<TT>::tag).c_str()))
+			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<TT>()));
+			ImGui::BeginGroup();
+			for (auto & pair : ML_Content.data<TT>())
 			{
-				if (pair.second)
+				if (pair.first.size() >= 2 && pair.first.substr(0, 2) == "##")
 				{
-					PropertyDrawer<TT>()(pair.first, (T)*pair.second);
+					continue; // hidden items
 				}
-				ImGui::TreePop();
+
+				ImGui::PushID(pair.first.c_str());
+				if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<TT>::tag).c_str()))
+				{
+					if (pair.second)
+					{
+						ImGui::PushID(ML_ADDRESSOF(pair.second));
+						PropertyDrawer<TT>()(pair.first, (T)*pair.second);
+						ImGui::PopID();
+					}
+					ImGui::TreePop();
+				}
+				ImGui::Separator();
+				ImGui::PopID();
 			}
-			ImGui::Separator();
+			ImGui::EndGroup();
+			ImGui::PopID();
 		}
-		ImGui::EndGroup();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

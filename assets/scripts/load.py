@@ -68,7 +68,7 @@ content.load([
     { "type": "image", "name": "star", "file": PATH + "/skyboxes/star.jpg" },
     {
         "type":     "texture",
-        "name":     "starfield",
+        "name":     "sky_starfield",
         "sampler":  "texture_cube",
         "smooth":   "False",
         "repeat":   "True",
@@ -83,7 +83,7 @@ content.load([
     },
     {
         "type":     "texture",
-        "name":     "space",
+        "name":     "sky_space",
         "sampler":  "texture_cube",
         "smooth":   "False",
         "repeat":   "True",
@@ -104,7 +104,7 @@ content.load([
     { "type": "image", "name": "sunset_back",   "file": PATH + "/skyboxes/sunset/sunset_back.png", "flip_v": "False" },
     {
         "type":     "texture",
-        "name":     "sunset",
+        "name":     "sky_sunset",
         "sampler":  "texture_cube",
         "smooth":   "False",
         "repeat":   "True",

@@ -10,8 +10,12 @@
 #include <assimp/material.h>
 #include <assimp/scene.h>
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	static inline Mesh * processMesh(aiMesh * mesh, const aiScene * scene)
 	{
 		Mesh * temp { new Mesh() };
@@ -23,7 +27,7 @@ namespace ml
 					? vec3 { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z }
 					: vec3 { uninit },
 				mesh->mNormals
-					? vec4 { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z, 1 }
+					? vec4 { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z, 1.0f }
 					: vec4 { uninit },
 				mesh->mTextureCoords[0]
 					? vec2 { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y }
@@ -41,7 +45,7 @@ namespace ml
 			}
 		}
 
-		temp->setLayout(BufferLayout::Default);
+		temp->setLayout(BufferLayout::get_default());
 
 		return &temp->create();
 	}
@@ -68,6 +72,8 @@ namespace ml
 			}
 		}
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

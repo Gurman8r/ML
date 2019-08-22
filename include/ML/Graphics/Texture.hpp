@@ -74,9 +74,10 @@ namespace ml
 		// NYI
 		Texture & setSampler(GL::Sampler value);
 		Texture & setLevel(int32_t value);
+		Texture & setFormat(GL::Format value);
 		Texture & setInternalFormat(GL::Format value);
 		Texture & setColorFormat(GL::Format value);
-		Texture & setType(GL::Type value);
+		Texture & setPixelType(GL::Type value);
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

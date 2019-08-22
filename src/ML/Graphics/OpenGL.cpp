@@ -479,6 +479,11 @@ namespace ml
 		return temp;
 	}
 
+	bool OpenGL::deleteTexture(const uint32_t * value)
+	{
+		return value ? ML_TRUE_EXPR(deleteTextures(1, value)) : false;
+	}
+
 	void OpenGL::deleteTextures(uint32_t count, const uint32_t * id)
 	{
 		glCheck(glDeleteTextures(count, id));

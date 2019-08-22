@@ -157,7 +157,7 @@ namespace ml
 	
 	Image & Image::update(const vec2u & size, uint32_t channels, const Pixels & pixels)
 	{
-		if (pixels && size[0] && size[1] && (channels > 0))
+		if (pixels && (pixels.size() == (size[0] * size[1] * channels)))
 		{
 			return this->setSize(size).setChannels(channels).setPixels(pixels);
 		}

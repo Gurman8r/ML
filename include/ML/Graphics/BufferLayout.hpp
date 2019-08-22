@@ -10,19 +10,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API BufferLayout final
-		: public I_Newable
+	struct ML_GRAPHICS_API BufferLayout final : public I_Newable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static const BufferLayout Default;
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		struct Element final
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
 			uint32_t	index;
 			uint32_t	size;
 			GL::Type	type;
@@ -31,11 +24,7 @@ namespace ml
 			uint32_t	offset;
 			uint32_t	width;
 
-			/* * * * * * * * * * * * * * * * * * * * */
-
 			const Element & operator()() const;
-
-			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -48,6 +37,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static const BufferLayout & get_default();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void bind() const;
 
 		BufferLayout & push_back(const Element & value);
@@ -56,8 +49,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
-		List<Element> m_elements;
+	private: List<Element> m_elements;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

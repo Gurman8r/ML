@@ -90,4 +90,23 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+namespace std
+{
+	template <
+		class Elem, class Alloc
+	> struct hash<_ML List<Elem, Alloc>>
+	{
+		using argument_type = _ML List<Elem, Alloc>;
+
+		inline _ML hash_t operator()(const argument_type & value) const noexcept
+		{
+			return _Hash_array_representation(value.data(), value.size());
+		}
+	};
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #endif // !_ML_LIST_HPP_

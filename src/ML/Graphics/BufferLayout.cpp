@@ -3,18 +3,10 @@
 #include <ML/Graphics/Vertex.hpp>
 
 // BufferLayout::Element
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	const BufferLayout BufferLayout::Default({
-		{ 0, 3, GL::Float, false, Vertex::Size, 0, sizeof(float_t) },
-		{ 1, 4, GL::Float, false, Vertex::Size, 3, sizeof(float_t) },
-		{ 2, 2, GL::Float, false, Vertex::Size, 7, sizeof(float_t) },
-	});
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const BufferLayout::Element & BufferLayout::Element::operator()() const
 	{
@@ -31,14 +23,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-}
-
-// BufferLayout
-/* * * * * * * * * * * * * * * * * * * * */
-namespace ml
-{
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	BufferLayout::BufferLayout()
 		: BufferLayout(List<Element>())
@@ -64,7 +49,19 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const BufferLayout & BufferLayout::get_default()
+	{
+		static const BufferLayout temp {
+			{ 0, 3, GL::Float, false, Vertex::Size, 0, sizeof(float_t) },
+			{ 1, 4, GL::Float, false, Vertex::Size, 3, sizeof(float_t) },
+			{ 2, 2, GL::Float, false, Vertex::Size, 7, sizeof(float_t) },
+		};
+		return temp;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	void BufferLayout::bind() const
 	{
@@ -80,5 +77,5 @@ namespace ml
 		return (*this);
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

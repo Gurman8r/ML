@@ -132,12 +132,12 @@ namespace ml
 		);
 
 
-		ML_Content.create<uni_vec2_ptr>	("CURSOR_POS",	"u_cursorPos",  &m_cursorPos);
-		ML_Content.create<uni_float_ptr>("DELTA_TIME",	"u_deltaTime",  &m_deltaTime);
-		ML_Content.create<uni_int_ptr>	("FRAME_COUNT",	"u_frameCount", &m_frameCount);
-		ML_Content.create<uni_float_ptr>("FRAME_RATE",	"u_frameRate",	&m_frameRate);
-		ML_Content.create<uni_float_ptr>("TOTAL_TIME",	"u_totalTime",  &m_totalTime);
-		ML_Content.create<uni_vec2_ptr>	("VIEWPORT",	"u_viewport",	&m_viewport);
+		ML_Content.create<uni_vec2_ptr>	("##CURSOR_POS",	"u_cursorPos",  &m_cursorPos);
+		ML_Content.create<uni_float_ptr>("##DELTA_TIME",	"u_deltaTime",  &m_deltaTime);
+		ML_Content.create<uni_int_ptr>	("##FRAME_COUNT",	"u_frameCount", &m_frameCount);
+		ML_Content.create<uni_float_ptr>("##FRAME_RATE",	"u_frameRate",	&m_frameRate);
+		ML_Content.create<uni_float_ptr>("##TOTAL_TIME",	"u_totalTime",  &m_totalTime);
+		ML_Content.create<uni_vec2_ptr>	("##VIEWPORT",		"u_viewport",	&m_viewport);
 
 
 		// Run Load Script

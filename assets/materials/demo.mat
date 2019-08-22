@@ -6,13 +6,13 @@ uniform vec3		u_camera.pos		{ 1.0, 0.0, 3.0 }
 uniform vec3		u_camera.target		{ 0.0, 0.0, 0.0 }
 uniform float		u_camera.zNear		{ 0.001 }
 uniform float		u_camera.zFar		{ 1000.0 }
-uniform sampler		u_texture0			{ earth_dm }
-uniform sampler		u_texture1			{ earth_sm } 
 uniform color		u_color				{ 1.0, 1.0, 1.0, 1.0 }
 uniform vec3		u_lightPos			{ 0.0, 0.0, 30.0 }
 uniform color		u_ambient			{ 0.01, 0.01, 0.01, 1.0 }
 uniform color		u_diffuse			{ 1.0, 1.0, 0.75, 1.0 }
 uniform color		u_specular			{ 0.1, 0.1, 0.1, 1.0 }
 uniform float		u_shininess			{ 8.0 }
+uniform sampler		u_texture0			{ earth_dm }
+uniform sampler		u_texture1			{ earth_sm } 
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

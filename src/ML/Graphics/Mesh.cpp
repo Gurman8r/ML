@@ -12,7 +12,7 @@ namespace ml
 		: m_vertices()
 		, m_indices	()
 		, m_textures()
-		, m_layout	(BufferLayout::Default)
+		, m_layout	(BufferLayout::get_default())
 		, m_vao		()
 		, m_vbo		()
 		, m_ibo		()
@@ -23,7 +23,7 @@ namespace ml
 		: m_vertices(vertices)
 		, m_indices	(indices)
 		, m_textures(textures)
-		, m_layout	(BufferLayout::Default)
+		, m_layout	(BufferLayout::get_default())
 		, m_vao		()
 		, m_vbo		()
 		, m_ibo		()
@@ -64,9 +64,7 @@ namespace ml
 			m_vao.create(GL::Triangles).bind();
 			m_vbo.create(GL::StaticDraw).bind().bufferData(alg::contiguous(m_vertices));
 			m_ibo.create(GL::StaticDraw, GL::UnsignedInt).bind().bufferData(m_indices);
-			
 			m_layout.bind();
-			
 			m_ibo.unbind();
 			m_vbo.unbind();
 			m_vao.unbind();
@@ -75,9 +73,7 @@ namespace ml
 		{
 			m_vao.create(GL::Triangles).bind();
 			m_vbo.create(GL::StaticDraw).bind().bufferData(alg::contiguous(m_vertices));
-			
 			m_layout.bind();
-			
 			m_vbo.unbind();
 			m_vao.unbind();
 		}

@@ -95,7 +95,7 @@ namespace ml
 		this->unbind();
 		if ((*this))
 		{
-			ML_GL.deleteTextures(1, (*this));
+			ML_GL.deleteTexture(*this);
 
 			this->set_handle(NULL);
 		}
@@ -110,15 +110,21 @@ namespace ml
 
 	bool Texture::loadFromImage(const Image & value)
 	{
-		switch (value.channels())
+		if (const uint32_t format { ([&]()
 		{
-		case 1: assert(m_iFormat == GL::Red); break;
-		case 3: assert(m_iFormat == GL::RGB); break;
-		case 4: assert(m_iFormat == GL::RGBA); break;
-		default: 
-			return Debug::logError("Failed creating texture");
+			switch (value.channels())
+			{
+			case 1	: return (uint32_t)GL::Red;
+			case 3	: return (uint32_t)GL::RGB;
+			case 4	: return (uint32_t)GL::RGBA;
+			default	: return 0U;
+			}
+		})() })
+		{
+			m_iFormat = m_cFormat = (GL::Format)format;
+			return this->create(value.size()) && this->update(value);
 		}
-		return this->create(value.size()) && this->update(value);
+		return !dispose();
 	}
 
 	bool Texture::loadFromFaces(const Array<const Image *, 6> & faces)
@@ -489,7 +495,7 @@ namespace ml
 
 	Texture & Texture::setSampler(GL::Sampler value)
 	{
-		if ((*this))
+		if ((*this) && (m_sampler != value))
 		{
 			this->bind();
 			this->unbind();
@@ -500,6 +506,19 @@ namespace ml
 
 	Texture & Texture::setLevel(int32_t value)
 	{
+		m_level = value;
+		if ((*this) && (m_level != value))
+		{
+			this->bind();
+			this->unbind();
+			ML_GL.flush();
+		}
+		return (*this);
+	}
+
+	Texture & Texture::setFormat(GL::Format value)
+	{
+		m_iFormat = m_cFormat = value;
 		if ((*this))
 		{
 			this->bind();
@@ -511,6 +530,7 @@ namespace ml
 
 	Texture & Texture::setInternalFormat(GL::Format value)
 	{
+		m_iFormat = value;
 		if ((*this))
 		{
 			this->bind();
@@ -522,6 +542,7 @@ namespace ml
 
 	Texture & Texture::setColorFormat(GL::Format value)
 	{
+		m_cFormat = value;
 		if ((*this))
 		{
 			this->bind();
@@ -531,8 +552,9 @@ namespace ml
 		return (*this);
 	}
 
-	Texture & Texture::setType(GL::Type value)
+	Texture & Texture::setPixelType(GL::Type value)
 	{
+		m_pixType = value;
 		if ((*this))
 		{
 			this->bind();

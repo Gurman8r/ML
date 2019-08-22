@@ -3,6 +3,8 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/Rect.hpp>
+#include <ML/Engine/Ref.hpp>
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
@@ -12,9 +14,8 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Engine/Script.hpp>
-
-#include <ML/Core/Rect.hpp>
 #include <ML/Graphics/Renderer.hpp>
+
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +26,6 @@ namespace ml
 	> static inline bool asset_dropdown(const String & label, const T *& value)
 	{
 		int32_t index = ML_Content.get_index_of<T>(value);
-
 		return (ImGuiExt::Combo(label.c_str(), &index, ML_Content.get_keys<T>())
 			? (value = ML_Content.find_by_index<T>(index))
 			: false
@@ -51,10 +51,6 @@ namespace ml
 
 	bool EntityPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		ImGui::PushID(label.c_str());
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		if (Renderer * r = value.get<Renderer>())
 		{
 			RenderStates & states = r->states();
@@ -190,10 +186,6 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 			}
 		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		ImGui::PopID();
 		return false;
 	}
 
@@ -233,7 +225,63 @@ namespace ml
 
 	bool ImagePropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		return (*this)(label, (const_reference)value, flags);
+		bool changed { false };
+
+		ImGui::Columns(2);
+
+		// Settings
+		ImGui::Text("Size: %i x %i", value.width(), value.height());
+		ImGui::Text("Channels: %i", value.channels());
+		if (ImGui::Button("Flip Vertically"))
+		{
+			value.flipVertically();
+			changed = true;
+		}
+		if (ImGui::Button("Flip Horizontally"))
+		{
+			value.flipHorizontally();
+			changed = true;
+		}
+
+		ImGui::NextColumn();
+
+		// Temporary Texture
+		Ref<Texture> preview { "##PropertyDrawer##Image##Preview##" + label };
+		if (!preview && !preview.create())
+		{
+			return changed;
+		}
+
+		// Lock
+		static hash_t img_lock { 0 };
+		if (const hash_t img_hash { Hash { value.pixels() } })
+		{
+			if ((img_lock != img_hash) && (img_lock = img_hash))
+			{
+				preview->loadFromImage(value);
+			}
+		}
+
+		// Preview
+		if (preview && (*preview))
+		{
+			const vec2 dst { ImGuiExt::GetContentRegionAvail()[0], 256 };
+			const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) };
+			const vec2 pos { ((dst - scl) * 0.5f) };
+
+			ImGui::BeginChild(
+				preview.name().c_str(),
+				{ dst[0], dst[1] },
+				true,
+				ImGuiWindowFlags_NoScrollbar
+			);
+			ImGui::SetCursorPos({ pos[0], pos[1] });
+			ImGui::Image(preview->get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+			ImGui::EndChild();
+		}
+
+		ImGui::Columns(1);
+		return changed;
 	}
 
 
@@ -689,8 +737,7 @@ namespace ml
 		))
 		{
 			GL::Sampler temp;
-			if (GL::value_at(target, temp))
-				value.setSampler(temp);
+			if (GL::value_at(target, temp)) value.setSampler(temp);
 			changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
@@ -706,8 +753,7 @@ namespace ml
 		))
 		{
 			GL::Format temp;
-			if (GL::value_at(colorFormat, temp))
-				value.setColorFormat(temp);
+			if (GL::value_at(colorFormat, temp)) value.setColorFormat(temp);
 			changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
@@ -723,8 +769,7 @@ namespace ml
 		))
 		{
 			GL::Format temp;
-			if (GL::value_at(internalFormat, temp))
-				value.setInternalFormat(temp);
+			if (GL::value_at(internalFormat, temp)) value.setInternalFormat(temp);
 			changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
@@ -740,8 +785,7 @@ namespace ml
 		))
 		{
 			GL::Type temp;
-			if (GL::value_at(pixelType, temp))
-				value.setType(temp);
+			if (GL::value_at(pixelType, temp)) value.setPixelType(temp);
 			changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");

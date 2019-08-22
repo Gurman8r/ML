@@ -105,6 +105,7 @@ namespace ml
 
 		static auto genTexture() -> uint32_t;
 		static auto genTextures(uint32_t count) -> uint32_t;
+		static bool deleteTexture(const uint32_t * value);
 		static void	deleteTextures(uint32_t count, const uint32_t * id);
 		static void	bindTexture(uint32_t target, uint32_t id);
 		static void	texImage2D(uint32_t target, int32_t level, GL::Format internalFormat, int32_t width, int32_t height, int32_t border, GL::Format format, GL::Type type, const void * pixels);

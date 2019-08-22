@@ -15,19 +15,17 @@ namespace ml
 		enum Flag : uint32_t
 		{
 			None		= (0 << 0), // 0
-			Fullscreen	= (1 << 0), // 1
-			Resizable	= (1 << 1), // 2
-			Visible		= (1 << 2), // 4
-			Decorated	= (1 << 3), // 8
-			Focused		= (1 << 4), // 16
-			AutoIconify = (1 << 5), // 32
-			Floating	= (1 << 6), // 64
-			Maximized	= (1 << 7), // 128
+			Resizable	= (1 << 0), // 1
+			Visible		= (1 << 1), // 2
+			Decorated	= (1 << 2), // 4
+			Focused		= (1 << 3), // 8
+			AutoIconify = (1 << 4), // 16
+			Floating	= (1 << 5), // 32
+			Maximized	= (1 << 6), // 64
 		};
 
 		static constexpr Flag Flag_values[] = {
 			Flag::None,
-			Flag::Fullscreen,
 			Flag::Resizable,
 			Flag::Visible,
 			Flag::Decorated,
@@ -40,7 +38,6 @@ namespace ml
 		static constexpr C_String Flag_names[] =
 		{
 			"None",
-			"Fullscreen",
 			"Resizable",
 			"Visible",
 			"Decorated",
@@ -52,7 +49,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool fullscreen;	// Fullscreen
 		bool resizable;		// Resizable
 		bool visible;		// Visible
 		bool decorated;		// Decorated
@@ -64,7 +60,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr WindowStyle(
-			bool fullscreen, 
 			bool resizable, 
 			bool visible, 
 			bool decorated,
@@ -72,8 +67,7 @@ namespace ml
 			bool autoIconify,
 			bool floating, 
 			bool maximized
-		)	: fullscreen	{ fullscreen	}
-			, resizable		{ resizable		}
+		)	: resizable		{ resizable		}
 			, visible		{ visible		}
 			, decorated		{ decorated		}
 			, focused		{ focused		}
@@ -84,7 +78,6 @@ namespace ml
 		}
 
 		constexpr WindowStyle(uint32_t value) : WindowStyle {
-			(value & Flag::Fullscreen	),
 			(value & Flag::Resizable	),
 			(value & Flag::Visible		),
 			(value & Flag::Decorated	),
@@ -97,7 +90,6 @@ namespace ml
 		}
 
 		constexpr WindowStyle(const WindowStyle & copy) : WindowStyle {
-			copy.fullscreen,
 			copy.resizable,
 			copy.visible,
 			copy.decorated,
@@ -110,7 +102,7 @@ namespace ml
 		}
 
 		constexpr WindowStyle() : WindowStyle {
-			false, true, true, true, true, true, false, false
+			true, true, true, true, true, false, false
 		}
 		{
 		}
@@ -120,7 +112,6 @@ namespace ml
 		constexpr uint32_t flags() const
 		{
 			return Flag::None
-				| (fullscreen	? Flag::Fullscreen	: 0)
 				| (resizable	? Flag::Resizable	: 0)
 				| (visible		? Flag::Visible		: 0)
 				| (decorated	? Flag::Decorated	: 0)
@@ -173,7 +164,6 @@ namespace ml
 	inline ML_SERIALIZE(Ostream & out, const WindowStyle & value)
 	{
 		return out
-			<< value.fullscreen << " "
 			<< value.resizable << " "
 			<< value.visible << " "
 			<< value.decorated << " "
@@ -186,7 +176,6 @@ namespace ml
 	inline ML_DESERIALIZE(Istream & in, WindowStyle & value)
 	{
 		return in
-			>> value.fullscreen
 			>> value.resizable
 			>> value.visible
 			>> value.decorated

@@ -69,7 +69,7 @@ namespace ml
 				// Toggle Fullscreen
 				if (ev->getPress(KeyCode::F11))
 				{
-					eventSystem().fireEvent(WindowStyleEvent { WindowStyle::Fullscreen, -1 });
+					eventSystem().fireEvent(WindowFullscreenEvent { -1 });
 				}
 			}
 			break;

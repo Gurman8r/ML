@@ -155,4 +155,23 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+namespace std
+{
+	template <
+		class T, size_t N
+	> struct hash<_ML Array<T, N>>
+	{
+		using argument_type = _ML Array<T, N>;
+
+		inline _ML hash_t operator()(const argument_type & value) const noexcept
+		{
+			return _Hash_array_representation(value.data(), value.size());
+		}
+	};
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #endif // !_ML_ARRAY_HPP_

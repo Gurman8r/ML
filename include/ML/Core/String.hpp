@@ -227,7 +227,7 @@ namespace std
 
 		inline _ML hash_t operator()(const argument_type & value) const noexcept
 		{
-			return _ML Hash(value.size(), value.data());
+			return _Hash_array_representation(value.data(), value.size());
 		}
 	};
 }

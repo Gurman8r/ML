@@ -48,7 +48,7 @@ namespace ml
 			EV_WindowKill,		// Tell window to close
 			EV_WindowSize,		// Window size changed
 			EV_WindowPos,		// Window position changed
-			EV_WindowStyle,
+			EV_WindowFullscreen,
 
 			MAX_WINDOW_EVENT
 		};
@@ -248,13 +248,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowStyleEvent final : public I_Event<WindowEvent::EV_WindowStyle>
+	struct WindowFullscreenEvent final : public I_Event<WindowEvent::EV_WindowFullscreen>
 	{
-		const uint32_t	key;
-		const int32_t	value;
-		constexpr WindowStyleEvent(uint32_t key, int32_t value)
-			: key(key)
-			, value(value)
+		const int32_t value;
+		constexpr WindowFullscreenEvent(int32_t value)
+			: value(value)
 		{
 		}
 	};

@@ -86,7 +86,6 @@ namespace ml
 			ev.prefs.get_uint	("Window", "width",				1280),
 			ev.prefs.get_uint	("Window", "height",			720),
 			ev.prefs.get_uint	("Window", "bits_per_pixel",	32) }, {
-			ev.prefs.get_bool	("Window", "fullscreen",		false),
 			ev.prefs.get_bool	("Window", "resizable",			true),
 			ev.prefs.get_bool	("Window", "visible",			false),
 			ev.prefs.get_bool	("Window", "decorated",			true),
@@ -104,6 +103,10 @@ namespace ml
 		}))
 		{
 			Debug::fatal("Failed Creating Window");
+		}
+		else if (ev.prefs.get_bool("Window", "fullscreen", false))
+		{
+			ev.window.setFullscreen(true);
 		}
 	}
 

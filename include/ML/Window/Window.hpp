@@ -88,6 +88,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool		is_focused() const;
+		bool		is_fullscreen()	const;
 		bool		is_open() const;
 		int32_t		getAttribute(int32_t value) const;
 		char		getChar() const;
@@ -108,7 +109,6 @@ namespace ml
 		inline auto frame_height()	const -> int32_t				{ return getFrameSize()[1]; }
 		inline auto frame_width()	const -> int32_t				{ return getFrameSize()[0]; }
 		inline auto height()		const -> const uint32_t	&		{ return size()[1]; }
-		inline auto is_fullscreen()	const -> bool					{ return m_style.fullscreen; }
 		inline auto monitor()		const -> const void *			{ return m_monitor; }
 		inline auto share()			const -> const void *			{ return m_share; }
 		inline auto size()			const -> const vec2u &			{ return video_mode().size; }

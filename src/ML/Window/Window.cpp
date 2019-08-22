@@ -76,7 +76,7 @@ namespace ml
 		eventSystem.addListener(WindowKillEvent::ID,	this);
 		eventSystem.addListener(WindowSizeEvent::ID,	this);
 		eventSystem.addListener(WindowPosEvent::ID,		this);
-		eventSystem.addListener(WindowStyleEvent::ID,	this);
+		eventSystem.addListener(WindowFullscreenEvent::ID,	this);
 	}
 	
 	Window::~Window() 
@@ -147,7 +147,7 @@ namespace ml
 			this->width(),
 			this->height(),
 			this->title().c_str(),
-			ML_MONITOR(m_monitor = m_style.fullscreen ? glfwGetPrimaryMonitor() : nullptr),
+			ML_MONITOR(m_monitor = nullptr),
 			ML_WINDOW(m_share = nullptr)
 		)))
 		{
@@ -157,16 +157,13 @@ namespace ml
 			{
 				this->setCursorMode(Cursor::Mode::Normal);
 
-				if (!this->style().fullscreen)
+				if (this->style().maximized)
 				{
-					if (this->style().maximized)
-					{
-						this->maximize(); // Maximized
-					}
-					else
-					{
-						this->setCentered(); // Centered
-					}
+					this->maximize(); // Maximized
+				}
+				else
+				{
+					this->setCentered(); // Centered
 				}
 				
 				return true;
@@ -306,18 +303,14 @@ namespace ml
 				m_videoMode.size = { (uint32_t)ev->width, (uint32_t)ev->height };
 			}
 			break;
-		case WindowStyleEvent::ID:
-			if (auto ev = value.as<WindowStyleEvent>())
+		case WindowFullscreenEvent::ID:
+			if (auto ev = value.as<WindowFullscreenEvent>())
 			{
-				switch (ev->key)
+				switch (ev->value)
 				{
-				case WindowStyle::Fullscreen:
-					switch (ev->value)
-					{
-					case true:
-					case false: this->setFullscreen(ev->value); break;
-					default:	this->setFullscreen(!this->is_fullscreen()); break;
-					}
+				case  0:
+				case  1: this->setFullscreen(ev->value); break;
+				case -1: this->setFullscreen(!this->is_fullscreen()); break;
 				}
 			}
 			break;
@@ -473,7 +466,7 @@ namespace ml
 
 	Window & Window::setFullscreen(bool value)
 	{
-		return setMonitor((m_style.fullscreen = value) ? glfwGetPrimaryMonitor() : nullptr);
+		return setMonitor(value ? glfwGetPrimaryMonitor() : nullptr);
 	}
 
 	Window & Window::setIcon(uint32_t w, uint32_t h, const uint8_t * pixels)
@@ -555,6 +548,11 @@ namespace ml
 	bool Window::is_focused() const
 	{
 		return getAttribute(GLFW_FOCUSED);
+	}
+
+	bool Window::is_fullscreen() const
+	{
+		return m_window && m_monitor && (m_monitor == glfwGetPrimaryMonitor());
 	}
 
 	bool Window::is_open() const

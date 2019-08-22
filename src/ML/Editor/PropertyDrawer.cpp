@@ -265,8 +265,8 @@ namespace ml
 		// Preview
 		if (preview && (*preview))
 		{
-			const vec2 dst { ImGuiExt::GetContentRegionAvail()[0], 256 };
-			const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) };
+			const vec2 dst { ImGuiExt::GetContentRegionAvail()[0], 380 };
+			const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
 			const vec2 pos { ((dst - scl) * 0.5f) };
 
 			ImGui::BeginChild(
@@ -675,6 +675,8 @@ namespace ml
 	{
 		bool changed = false;
 
+		ImGui::Columns(2);
+
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		const uint32_t handle { value };
@@ -792,12 +794,30 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		ImGui::NextColumn();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		switch (value.sampler())
 		{
 		case GL::Texture2D:
 		{
-			const vec2 scl { alg::scale_to_fit((vec2)value.size(), { 256, 256 }) };
-			ImGui::Image(value.get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+			if (value)
+			{
+				const vec2 dst { ImGuiExt::GetContentRegionAvail()[0], 380 };
+				const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
+				const vec2 pos { ((dst - scl) * 0.5f) };
+
+				ImGui::BeginChild(
+					("##PropertyDrawer##Texture##Preview" + label).c_str(),
+					{ dst[0], dst[1] },
+					true,
+					ImGuiWindowFlags_NoScrollbar
+				);
+				ImGui::SetCursorPos({ pos[0], pos[1] });
+				ImGui::Image(value.get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::EndChild();
+			}
 		}
 		break;
 		case GL::TextureCubeMap:
@@ -808,6 +828,8 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
+
+		ImGui::Columns(1);
 
 		return changed;
 	}

@@ -1,5 +1,5 @@
-#ifndef _ML_STATIC_VALUE_HPP_
-#define _ML_STATIC_VALUE_HPP_
+#ifndef _ML_CONSTANTS_HPP_
+#define _ML_CONSTANTS_HPP_
 
 #include <ML/Core/StandardLib.hpp>
 
@@ -31,7 +31,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct numeric final
+	template <class T> struct constant_t final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -44,11 +44,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		numeric() = delete;
+		constant_t() = delete;
 
 		template <
 			class U
-		> constexpr explicit numeric(const U & value) noexcept
+		> constexpr explicit constant_t(const U & value) noexcept
 			: m_value { cast(value) }
 		{
 		}
@@ -124,42 +124,42 @@ namespace ml
 
 	template <
 		class T
-	> constexpr bool operator==(const numeric<T> & lhs, const numeric<T> & rhs)
+	> constexpr bool operator==(const constant_t<T> & lhs, const constant_t<T> & rhs)
 	{
 		return ((T)lhs == (T)rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator!=(const numeric<T> & lhs, const numeric<T> & rhs)
+	> constexpr bool operator!=(const constant_t<T> & lhs, const constant_t<T> & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator<(const numeric<T> & lhs, const numeric<T> & rhs)
+	> constexpr bool operator<(const constant_t<T> & lhs, const constant_t<T> & rhs)
 	{
 		return ((T)lhs < (T)rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator>(const numeric<T> & lhs, const numeric<T> & rhs)
+	> constexpr bool operator>(const constant_t<T> & lhs, const constant_t<T> & rhs)
 	{
 		return !(lhs < rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator<=(const numeric<T> & lhs, const numeric<T> & rhs)
+	> constexpr bool operator<=(const constant_t<T> & lhs, const constant_t<T> & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
 	template <
 		class T
-	> constexpr bool operator>=(const numeric<T> & lhs, const numeric<T> & rhs)
+	> constexpr bool operator>=(const constant_t<T> & lhs, const constant_t<T> & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}
@@ -167,4 +167,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_STATIC_VALUE_HPP_
+#endif // !_ML_CONSTANTS_HPP_

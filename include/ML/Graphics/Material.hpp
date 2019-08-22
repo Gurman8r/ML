@@ -16,16 +16,16 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using iterator					= typename List<Uni *>::iterator;
-		using const_iterator			= typename List<Uni *>::const_iterator;
-		using reverse_iterator			= typename List<Uni *>::reverse_iterator;
-		using const_reverse_iterator	= typename List<Uni *>::const_reverse_iterator;
+		using iterator					= typename List<Uniform *>::iterator;
+		using const_iterator			= typename List<Uniform *>::const_iterator;
+		using reverse_iterator			= typename List<Uniform *>::reverse_iterator;
+		using const_reverse_iterator	= typename List<Uniform *>::const_reverse_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Material();
 		Material(const Shader * shader);
-		Material(const Shader * shader, List<Uni *> && uniforms);
+		Material(const Shader * shader, List<Uniform *> && uniforms);
 		Material(const Material & copy);
 		~Material();
 
@@ -43,7 +43,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			class T = typename Uni
+			class T = typename Uniform
 		> inline T * get(const String & name)
 		{
 			iterator it = std::find_if(this->begin(), this->end(), [&](auto && u)
@@ -54,7 +54,7 @@ namespace ml
 		}
 
 		template <
-			class T = typename Uni
+			class T = typename Uniform
 		> inline const T * get(const String & name) const
 		{
 			const_iterator it = std::find_if(this->cbegin(), this->cend(), [&](auto && u)
@@ -66,7 +66,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Uni * add(Uni * value)
+		inline Uniform * add(Uniform * value)
 		{
 			if (value && 
 				value->name && 
@@ -81,7 +81,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool erase(Uni * value)
+		inline bool erase(Uniform * value)
 		{
 			return (value && value->name) && this->erase(value->name);
 		}
@@ -105,8 +105,8 @@ namespace ml
 
 		inline auto shader()			-> const Shader	*&		{ return m_shader; }
 		inline auto shader()	const	-> const Shader	*		{ return m_shader; }
-		inline auto uniforms()			-> List<Uni *> &		{ return m_uniforms; }
-		inline auto uniforms()	const	-> const List<Uni *> &	{ return m_uniforms; }
+		inline auto uniforms()			-> List<Uniform *> &		{ return m_uniforms; }
+		inline auto uniforms()	const	-> const List<Uniform *> &	{ return m_uniforms; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -128,7 +128,7 @@ namespace ml
 
 	private:
 		const Shader *	m_shader;
-		List<Uni *>		m_uniforms;
+		List<Uniform *>		m_uniforms;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

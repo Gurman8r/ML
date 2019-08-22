@@ -205,6 +205,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\SerializedObject.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SerializedProperty.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SharedLibrary.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\ContentImporter.cpp" />

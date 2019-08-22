@@ -86,7 +86,7 @@ namespace ml
 				const size_t w { this->width() };
 				const size_t h { this->height() };
 
-				using UU = numeric<U>;
+				using UU = constant_t<U>;
 				temp[i] = ((y < h && x < w) ? UU { (*this)[y * w + x] } : UU::zero);
 			}
 			return temp;
@@ -104,7 +104,7 @@ namespace ml
 			self_type temp { uninit };
 			for (auto & elem : temp) 
 			{
-				elem = numeric<T>::one; 
+				elem = constant_t<T>::one; 
 			}
 			return temp;
 		}
@@ -115,8 +115,8 @@ namespace ml
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				temp[i] = (((i / temp.width()) == (i % temp.width())) 
-					? numeric<T>::one 
-					: numeric<T>::zero
+					? constant_t<T>::one 
+					: constant_t<T>::zero
 				);
 			}
 			return temp;
@@ -132,9 +132,9 @@ namespace ml
 		{
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = numeric<T>::two / (right - left);
-			temp[1 * 4 + 1] = numeric<T>::two / (top - bottom);
-			temp[2 * 4 + 2] = numeric<T>::minus_one;
+			temp[0 * 4 + 0] = constant_t<T>::two / (right - left);
+			temp[1 * 4 + 1] = constant_t<T>::two / (top - bottom);
+			temp[2 * 4 + 2] = constant_t<T>::minus_one;
 			temp[3 * 4 + 0] = -(right + left) / (right - left);
 			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
 			return temp;
@@ -150,11 +150,11 @@ namespace ml
 		{
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = numeric<T>::two / (right - left);
-			temp[1 * 4 + 1] = numeric<T>::two / (top - bottom);
+			temp[0 * 4 + 0] = constant_t<T>::two / (right - left);
+			temp[1 * 4 + 1] = constant_t<T>::two / (top - bottom);
 			temp[3 * 4 + 0] = -(right + left) / (right - left);
 			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
-			temp[2 * 4 + 2] = -numeric<T>::two / (far - near);
+			temp[2 * 4 + 2] = -constant_t<T>::two / (far - near);
 			temp[3 * 4 + 2] = -(far + near) / (far - near);
 			return temp;
 		}
@@ -167,11 +167,11 @@ namespace ml
 		{
 			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
 			self_type temp { uninit };
-			temp[0 * 4 + 0] = numeric<T>::one / (aspect * alg::tan(fov / numeric<T>::two));
-			temp[1 * 4 + 1] = numeric<T>::one / alg::tan(fov / numeric<T>::two);
-			temp[2 * 4 + 3] = numeric<T>::minus_one;
+			temp[0 * 4 + 0] = constant_t<T>::one / (aspect * alg::tan(fov / constant_t<T>::two));
+			temp[1 * 4 + 1] = constant_t<T>::one / alg::tan(fov / constant_t<T>::two);
+			temp[2 * 4 + 3] = constant_t<T>::minus_one;
 			temp[2 * 4 + 2] = -(far + near) / (far - near);
-			temp[3 * 4 + 3] = -(numeric<T>::two * far * near) / (far - near);
+			temp[3 * 4 + 3] = -(constant_t<T>::two * far * near) / (far - near);
 			return temp;
 		}
 
@@ -532,7 +532,7 @@ namespace ml
 	> constexpr auto operator-(const Matrix<T, X, Y> & lhs)
 		-> Matrix<T, X, Y>
 	{
-		return (lhs * numeric<T>::minus_one);
+		return (lhs * constant_t<T>::minus_one);
 	}
 
 	template <

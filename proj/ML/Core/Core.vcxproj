@@ -202,7 +202,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Numeric.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Constants.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Token.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TokenLexer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp" />

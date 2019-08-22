@@ -63,8 +63,8 @@ namespace ml
 			constexpr hash_t hash3	= mat4i::identity().hash();
 			constexpr hash_t hash4	= mat4f::identity().hash();
 
-			constexpr auto eps1		= numeric<float64_t>::epsilon;
-			constexpr auto eps2		= numeric<float80_t>::epsilon;
+			constexpr auto eps1		= constant_t<float64_t>::epsilon;
+			constexpr auto eps2		= constant_t<float80_t>::epsilon;
 			constexpr auto sqr_mag	= alg::sqr_magnitude(vb);
 			constexpr auto mag		= alg::magnitude(vb);
 			constexpr auto norm		= alg::normalize(vb);

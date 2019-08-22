@@ -59,16 +59,6 @@ namespace ml
 		Image & update(const vec2u & size, uint32_t channels, const Pixels & pixels);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		Image & setChannels(uint32_t value);
-		Image & setSize(uint32_t width, uint32_t height);
-		Image & setSize(const vec2u & value);
-		Image & setWidth(uint32_t value);
-		Image & setHeight(uint32_t value);
-		Image & setPixels(const Pixels & value);
-		Image & setPixels(const vec4b & value);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		Image & flipHorizontally();
 		Image & flipVertically();

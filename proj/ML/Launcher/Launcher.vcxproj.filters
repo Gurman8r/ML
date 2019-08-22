@@ -83,9 +83,6 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{01562ed4-e60f-40f0-8983-46b95d793a4a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{38481286-8f26-4c5c-b4c7-be1cf12c597d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{3136e72b-75c4-4ab9-983c-208594feaf09}</UniqueIdentifier>
     </Filter>
@@ -136,6 +133,9 @@
     </Filter>
     <Filter Include="Resource Files\assets\textures\bg">
       <UniqueIdentifier>{53ec33e9-d7e1-4841-a236-b1b1332f8b4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{38481286-8f26-4c5c-b4c7-be1cf12c597d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #ifndef _ML_ALG_HPP_
 #define _ML_ALG_HPP_
 
-#include <ML/Core/Numeric.hpp>
+#include <ML/Core/Constants.hpp>
 #include <gcem/gcem.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -89,21 +89,21 @@ namespace ml
 			class T, class Tx, class Ty
 		> static constexpr T acos2(const Tx & x, const Ty & y)
 		{
-			return numeric<T> { gcem::acos2<Tx, Ty>(x, y) };
+			return constant_t<T> { gcem::acos2<Tx, Ty>(x, y) };
 		}
 
 		template <
 			class T, class Tx, class Ty
 		> static constexpr T asin2(const Tx & x, const Ty & y)
 		{
-			return numeric<T> { gcem::asin2<Tx, Ty>(x, y) };
+			return constant_t<T> { gcem::asin2<Tx, Ty>(x, y) };
 		}
 
 		template <
 			class T, class Tx, class Ty
 		> static constexpr T atan2(const Tx & x, const Ty & y)
 		{
-			return numeric<T>{ gcem::atan2<Tx, Ty>(x, y) };
+			return constant_t<T>{ gcem::atan2<Tx, Ty>(x, y) };
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -128,7 +128,7 @@ namespace ml
 
 			template <> struct sqrt<uintmax_t>
 			{
-				using cast = typename numeric<uintmax_t>;
+				using cast = typename constant_t<uintmax_t>;
 
 				constexpr uintmax_t operator()(uintmax_t value) const
 				{
@@ -148,7 +148,7 @@ namespace ml
 
 			template <> struct sqrt<float64_t>
 			{
-				using cast = typename numeric<float64_t>;
+				using cast = typename constant_t<float64_t>;
 
 				constexpr float64_t operator()(float64_t value, float64_t curr, float64_t prev) const
 				{
@@ -177,7 +177,7 @@ namespace ml
 					class U
 				> constexpr To operator()(const U & value) const
 				{
-					return numeric<To>(sqrt<From>{}(numeric<From>(value)));
+					return constant_t<To>(sqrt<From>{}(constant_t<From>(value)));
 				}
 			};
 
@@ -229,11 +229,11 @@ namespace ml
 		> static constexpr auto sign(const T & value)
 			-> T
 		{
-			return ((value == numeric<T>::zero)
-				? numeric<T>::zero
-				: ((value < numeric<T>::zero)
-					? numeric<T>::minus_one
-					: numeric<T>::one
+			return ((value == constant_t<T>::zero)
+				? constant_t<T>::zero
+				: ((value < constant_t<T>::zero)
+					? constant_t<T>::minus_one
+					: constant_t<T>::one
 			));
 		}
 
@@ -242,8 +242,8 @@ namespace ml
 		> static constexpr auto abs(const T & value)
 			-> T
 		{
-			return ((ML_ALG sign(value) < numeric<T>::zero)
-				? (value * numeric<T>::minus_one)
+			return ((ML_ALG sign(value) < constant_t<T>::zero)
+				? (value * constant_t<T>::minus_one)
 				: value
 			);
 		}
@@ -253,8 +253,8 @@ namespace ml
 		> static constexpr auto pow(const B & base, const E & exp)
 			-> B
 		{
-			using TB = numeric<B>;
-			using TE = numeric<E>;
+			using TB = constant_t<B>;
+			using TE = constant_t<E>;
 			return ((exp < TE::zero)
 				? ((base == TB::zero)
 					? TB::nan
@@ -272,9 +272,9 @@ namespace ml
 		> static constexpr auto fact(const T & value)
 			-> T
 		{
-			return ((value > numeric<T>::one)
-				? value * ML_ALG fact(value - numeric<T>::one)
-				: numeric<T>::one
+			return ((value > constant_t<T>::one)
+				? value * ML_ALG fact(value - constant_t<T>::one)
+				: constant_t<T>::one
 			);
 		}
 			
@@ -317,7 +317,7 @@ namespace ml
 			class T, class C
 		> static constexpr T lerp(const T & a, const T & b, const C & coeff)
 		{
-			return (a * coeff + b * (numeric<C>::one - coeff));
+			return (a * coeff + b * (constant_t<C>::one - coeff));
 		}
 
 		template <
@@ -336,7 +336,7 @@ namespace ml
 			class T, class Num, class Den = typename Num
 		> static constexpr T delta_cast(const Num numerator, const Den denominator)
 		{
-			using cast = numeric<T>;
+			using cast = constant_t<T>;
 			const T num { cast(numerator) };
 			const T den { cast(denominator) };
 			return (((den > cast::zero) && (num < den)) ? (num / den) : cast::zero);
@@ -556,7 +556,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T sqr_magnitude(const A<T, N...> & value)
 		{
-			T temp { numeric<T>::zero };
+			T temp { constant_t<T>::zero };
 			for (const auto & elem : value)
 			{
 				temp += (elem * elem);
@@ -568,7 +568,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T magnitude(const A<T, N...> & value)
 		{
-			return numeric<T> { sqrt<T> {}(ML_ALG sqr_magnitude(value)) };
+			return constant_t<T> { sqrt<T> {}(ML_ALG sqr_magnitude(value)) };
 		}
 
 		template <
@@ -612,7 +612,7 @@ namespace ml
 		> static constexpr M<T, 4, 4> inverse(const M<T, 4, 4> & v)
 		{
 			const T det { ML_ALG determinant(v) };
-			return ((det != numeric<T>::zero)
+			return ((det != constant_t<T>::zero)
 				? M<T, 4, 4> {	
 					+(v[15] * v[5] - v[7] * v[13]) / det,
 					-(v[15] * v[4] - v[7] * v[12]) / det,
@@ -690,7 +690,7 @@ namespace ml
 			const M<T, 3, 1> & up
 		)
 		{
-			using cast = numeric<T>;
+			using cast = constant_t<T>;
 			const M<T, 3, 1> f = ML_ALG normalize(center - eye);
 			const M<T, 3, 1> s = ML_ALG normalize(ML_ALG cross(f, up));
 			const M<T, 3, 1> u = ML_ALG cross(s, f);

@@ -242,7 +242,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Shader::setUniform(const Uni * value) const
+	bool Shader::setUniform(const Uniform * value) const
 	{
 		if (value && value->name)
 		{

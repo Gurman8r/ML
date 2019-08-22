@@ -21,7 +21,7 @@ namespace ml
 	struct Sprite;
 	struct Surface;
 	struct Texture;
-	struct Uni;
+	struct Uniform;
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -183,7 +183,7 @@ namespace ml
 
 	// Uniform Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(UniformPropertyDrawer, Uni, "uniform",
+	ML_GEN_PROPERTY_DRAWER(UniformPropertyDrawer, Uniform, "uniform",
 	{
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;

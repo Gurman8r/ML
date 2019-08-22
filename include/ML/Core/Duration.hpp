@@ -96,7 +96,7 @@ namespace ml
 		> constexpr float_t delta() const
 		{
 			static_assert(0 < Per::den, "period negative or zero");
-			using cast = numeric<float_t>;
+			using cast = constant_t<float_t>;
 			return cast(ML_duration_cast(Rep, base())) / cast(Per::den);
 		}
 

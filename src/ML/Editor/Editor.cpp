@@ -277,22 +277,22 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("File"))
 			{
-				// File -> New
-				if (ImGui::MenuItem("New", "Ctrl+N"))
-				{
-					eventSystem().fireEvent(File_New_Event());
-				}
-				// File -> Open
-				if (ImGui::MenuItem("Open", "Ctrl+O"))
-				{
-					eventSystem().fireEvent(File_Open_Event());
-				}
-				// File -> Save
-				if (ImGui::MenuItem("Save", "Ctrl+S"))
-				{
-					eventSystem().fireEvent(File_Save_Event());
-				}
-				ImGui::Separator();
+				//// File -> New
+				//if (ImGui::MenuItem("New", "Ctrl+N"))
+				//{
+				//	eventSystem().fireEvent(File_New_Event());
+				//}
+				//// File -> Open
+				//if (ImGui::MenuItem("Open", "Ctrl+O"))
+				//{
+				//	eventSystem().fireEvent(File_Open_Event());
+				//}
+				//// File -> Save
+				//if (ImGui::MenuItem("Save", "Ctrl+S"))
+				//{
+				//	eventSystem().fireEvent(File_Save_Event());
+				//}
+				//ImGui::Separator();
 				// File -> Quit
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{
@@ -304,9 +304,32 @@ namespace ml
 				ImGui::EndMenu();
 			}
 
+			// Menu -> Assets
+			/* * * * * * * * * * * * * * * * * * * * */
+			if (ImGui::BeginMenu("Assets"))
+			{
+				if (ImGui::BeginMenu("Create"))
+				{
+					if (ImGui::MenuItem("Entity")) {}
+					if (ImGui::MenuItem("Font")) {}
+					if (ImGui::MenuItem("Image")) {}
+					if (ImGui::MenuItem("Material")) {}
+					if (ImGui::MenuItem("Model")) {}
+					if (ImGui::MenuItem("Script")) {}
+					if (ImGui::MenuItem("Shader")) {}
+					if (ImGui::MenuItem("Sound")) {}
+					if (ImGui::MenuItem("Sprite")) {}
+					if (ImGui::MenuItem("Surface")) {}
+					if (ImGui::MenuItem("Texture")) {}
+					if (ImGui::MenuItem("Uniform")) {}
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenu();
+			}
+
 			// Menu -> Edit
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginMenu("Edit"))
+			if (0 && ImGui::BeginMenu("Edit"))
 			{
 				// Edit -> Undo
 				if (ImGui::MenuItem("Undo", "Ctrl+Z"))

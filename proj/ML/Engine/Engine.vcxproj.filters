@@ -132,6 +132,9 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Ref.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp">

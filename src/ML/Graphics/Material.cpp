@@ -22,11 +22,11 @@ namespace ml
 	{
 	}
 
-	Material::Material(const Shader * shader, List<Uni *> && uniforms)
+	Material::Material(const Shader * shader, List<Uniform *> && uniforms)
 		: m_shader	(shader)
 		, m_uniforms()
 	{
-		for (Uni *& u : uniforms)
+		for (Uniform *& u : uniforms)
 		{
 			if (u && u->name && !get(u->name) && (std::find(begin(), end(), u) == end()))
 			{
@@ -39,7 +39,7 @@ namespace ml
 		: m_shader	(copy.m_shader)
 		, m_uniforms()
 	{
-		for (const Uni * u : copy)
+		for (const Uniform * u : copy)
 		{
 			this->add(u->clone());
 		}
@@ -115,8 +115,8 @@ namespace ml
 					const int32_t u_type = ([](C_String type)
 					{
 						if (!type) return -1;
-						for (size_t i = 0; i < ML_ARRAYSIZE(Uni::Type_names); i++)
-							if (std::strcmp(type, Uni::Type_names[i]) == 0)
+						for (size_t i = 0; i < ML_ARRAYSIZE(Uniform::Type_names); i++)
+							if (std::strcmp(type, Uniform::Type_names[i]) == 0)
 								return (int32_t)i;
 						return -1;
 					})(pop_front(tokens).c_str());
@@ -145,9 +145,9 @@ namespace ml
 
 					// Generate Uniform
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (Uni * u = ([](int32_t type, const String & name, SStream & ss, const auto * t)
+					if (Uniform * u = ([](int32_t type, const String & name, SStream & ss, const auto * t)
 					{
-						Uni * u;
+						Uniform * u;
 						if ((type == -1) || name.empty() || ss.str().empty())
 						{
 							return u = nullptr;

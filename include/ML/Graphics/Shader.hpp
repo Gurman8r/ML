@@ -12,7 +12,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Uni;
+	struct Uniform;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -57,7 +57,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniform(const Uni * value) const;
+		bool setUniform(const Uniform * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

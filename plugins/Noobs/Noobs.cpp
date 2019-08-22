@@ -271,7 +271,7 @@ namespace ml
 					ImGui::Separator();
 
 					// Kernel
-					UniformPropertyDrawer()("##Kernel", (Uni &)m_kernel);
+					UniformPropertyDrawer()("##Kernel", (Uniform &)m_kernel);
 					ImGui::SameLine(); ImGui::Text("Kernel");
 
 					ImGui::EndMenu();
@@ -405,8 +405,8 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// New Uniform Popup
-					Uni * to_add { nullptr };
-					if (UniformPropertyDrawer()("##New##Uni", (Uni *&)to_add))
+					Uniform * to_add { nullptr };
+					if (UniformPropertyDrawer()("##New##Uni", (Uniform *&)to_add))
 					{
 						// Already Exists
 						if (!m_material->add(to_add))
@@ -430,8 +430,8 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 					
 					// Uniform List
-					Uni * to_remove { nullptr };
-					for (Uni *& uni : (*m_material))
+					Uniform * to_remove { nullptr };
+					for (Uniform *& uni : (*m_material))
 					{
 						if (!uni) continue;
 						ImGui::Columns(3, "##Uni##Columns");
@@ -468,14 +468,14 @@ namespace ml
 						
 						// Uniform Type
 						/* * * * * * * * * * * * * * * * * * * * */
-						ImGui::Text("%s", detail::name_of((Uni::Type)uni->id)); 
+						ImGui::Text("%s", detail::name_of((Uniform::Type)uni->id)); 
 						ImGui::NextColumn();
 
 						// Uniform Value
 						/* * * * * * * * * * * * * * * * * * * * */
 						ImGui::PushID(label.c_str());
 						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-						if (UniformPropertyDrawer()(label, (Uni &)(*uni)))
+						if (UniformPropertyDrawer()(label, (Uniform &)(*uni)))
 						{
 							// Remove Uniform
 							ImGui::SameLine();

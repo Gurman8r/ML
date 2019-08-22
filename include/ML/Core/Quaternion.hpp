@@ -62,19 +62,19 @@ namespace ml
 
 		constexpr value_type angle() const
 		{
-			return alg::acos(this->real()) * numeric<float>::two;
+			return alg::acos(this->real()) * constant_t<float>::two;
 		}
 
 		constexpr complex_type axis() const
 		{
-			const value_type temp { numeric<float>::one - this->real() * this->real() };
-			if (temp < numeric<float>::zero)
+			const value_type temp { constant_t<float>::one - this->real() * this->real() };
+			if (temp < constant_t<float>::zero)
 			{
 				return complex_type { 0, 0, 1 };
 			}
 			else
 			{
-				return this->complex() * (numeric<float>::one / alg::sqrt<value_type>()(temp));
+				return this->complex() * (constant_t<float>::one / alg::sqrt<value_type>()(temp));
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace ml
 		constexpr value_type pitch() const
 		{
 			return alg::atan2<value_type>(
-				(numeric<float>::two * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
+				(constant_t<float>::two * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
 				(this->real() * this->real() - (*this)[0] *
 					(*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
 			);
@@ -97,7 +97,7 @@ namespace ml
 		constexpr value_type roll() const
 		{
 			return alg::atan2<value_type>(
-				(numeric<float>::two * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
+				(constant_t<float>::two * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
 				(this->real() * this->real() + (*this)[0] * (*this)[0] -
 					(*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
 			);
@@ -106,10 +106,10 @@ namespace ml
 		constexpr value_type yaw() const
 		{
 			return alg::asin<value_type>(alg::clamp(
-				(numeric<float>::two *
+				(constant_t<float>::two *
 					((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
-				numeric<float>::minus_one,
-				numeric<float>::one
+				constant_t<float>::minus_one,
+				constant_t<float>::one
 			));
 		}
 
@@ -119,15 +119,15 @@ namespace ml
 		{
 			// not sure if this is correct
 			return tmat3<value_type> {
-				(numeric<float>::one - numeric<float>::two	 * ((*this)[1] * (*this)[1]) - numeric<float>::two   * ((*this)[2] * (*this)[2])),
-				(numeric<float>::two * ((*this)[0] * (*this)[1]) - numeric<float>::two   * ((*this)[2] * (*this)[3])),
-				(numeric<float>::two * ((*this)[0] * (*this)[2]) + numeric<float>::two   * ((*this)[1] * (*this)[3])),
-				(numeric<float>::two * ((*this)[0] * (*this)[1]) + numeric<float>::two   * ((*this)[2] * (*this)[3])),
-				(numeric<float>::one - numeric<float>::two   * ((*this)[0] * (*this)[0]) - numeric<float>::two   * ((*this)[2] * (*this)[2])),
-				(numeric<float>::two * ((*this)[1] * (*this)[2]) - numeric<float>::two   * ((*this)[0] * (*this)[3])),
-				(numeric<float>::two * ((*this)[0] * (*this)[2]) - numeric<float>::two   * ((*this)[1] * (*this)[3])),
-				(numeric<float>::two * ((*this)[1] * (*this)[2]) + numeric<float>::two   * ((*this)[0] * (*this)[3])),
-				(numeric<float>::one - numeric<float>::two   * ((*this)[0] * (*this)[0]) - numeric<float>::two   * ((*this)[1] * (*this)[1]))
+				(constant_t<float>::one - constant_t<float>::two	 * ((*this)[1] * (*this)[1]) - constant_t<float>::two   * ((*this)[2] * (*this)[2])),
+				(constant_t<float>::two * ((*this)[0] * (*this)[1]) - constant_t<float>::two   * ((*this)[2] * (*this)[3])),
+				(constant_t<float>::two * ((*this)[0] * (*this)[2]) + constant_t<float>::two   * ((*this)[1] * (*this)[3])),
+				(constant_t<float>::two * ((*this)[0] * (*this)[1]) + constant_t<float>::two   * ((*this)[2] * (*this)[3])),
+				(constant_t<float>::one - constant_t<float>::two   * ((*this)[0] * (*this)[0]) - constant_t<float>::two   * ((*this)[2] * (*this)[2])),
+				(constant_t<float>::two * ((*this)[1] * (*this)[2]) - constant_t<float>::two   * ((*this)[0] * (*this)[3])),
+				(constant_t<float>::two * ((*this)[0] * (*this)[2]) - constant_t<float>::two   * ((*this)[1] * (*this)[3])),
+				(constant_t<float>::two * ((*this)[1] * (*this)[2]) + constant_t<float>::two   * ((*this)[0] * (*this)[3])),
+				(constant_t<float>::one - constant_t<float>::two   * ((*this)[0] * (*this)[0]) - constant_t<float>::two   * ((*this)[1] * (*this)[1]))
 			};
 		}
 
@@ -135,10 +135,10 @@ namespace ml
 		{
 			const tmat3<value_type> temp = as_mat3();
 			return tmat4<value_type> {
-				temp[0],	temp[1],	temp[2],	numeric<float>::zero,
-				temp[3],	temp[4],	temp[5],	numeric<float>::zero,
-				temp[6],	temp[7],	temp[8],	numeric<float>::zero,
-				numeric<float>::zero, numeric<float>::zero, numeric<float>::zero, numeric<float>::one,
+				temp[0],	temp[1],	temp[2],	constant_t<float>::zero,
+				temp[3],	temp[4],	temp[5],	constant_t<float>::zero,
+				temp[6],	temp[7],	temp[8],	constant_t<float>::zero,
+				constant_t<float>::zero, constant_t<float>::zero, constant_t<float>::zero, constant_t<float>::one,
 			};
 		}
 
@@ -146,7 +146,7 @@ namespace ml
 
 		static constexpr self_type angleAxis(const_reference angle, const complex_type & axis)
 		{
-			const value_type half_angle { angle * numeric<float>::half };
+			const value_type half_angle { angle * constant_t<float>::half };
 			const value_type temp { alg::sin(half_angle) };
 			return self_type {
 				axis[0] * temp,

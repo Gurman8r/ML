@@ -135,9 +135,21 @@ namespace ml
 	
 	Image & Image::update(const vec2u & size, uint32_t channels, const vec4b & color)
 	{
-		if (size[0] && size[1])
+		if (size[0] && size[1] && channels)
 		{
-			return this->setSize(size).setChannels(channels).setPixels(color);
+			m_size = size;
+			m_channels = channels;
+			m_pixels.resize(capacity());
+
+			iterator it = this->begin();
+			while (it != this->end())
+			{
+				*it++ = color[0];
+				*it++ = color[1];
+				*it++ = color[2];
+				*it++ = color[3];
+			}
+			return (*this);
 		}
 		this->dispose();
 		return (*this);
@@ -159,68 +171,12 @@ namespace ml
 	{
 		if (pixels && (pixels.size() == (size[0] * size[1] * channels)))
 		{
-			return this->setSize(size).setChannels(channels).setPixels(pixels);
+			m_size = size;
+			m_channels = channels;
+			m_pixels = pixels;
+			return (*this);
 		}
 		this->dispose();
-		return (*this);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
-	Image & Image::setChannels(uint32_t value)
-	{
-		m_channels = value;
-		if (this->capacity() != m_pixels.size())
-		{
-			m_pixels.resize(capacity());
-		}
-		return (*this);
-	}
-
-	Image & Image::setSize(uint32_t width, uint32_t height)
-	{
-		return this->setSize({ width, height });
-	}
-
-	Image & Image::setSize(const vec2u & value)
-	{
-		m_size = value;
-		if (capacity() != m_pixels.size())
-		{
-			m_pixels.resize(this->capacity());
-		}
-		return (*this);
-	}
-
-	Image & Image::setWidth(uint32_t value)
-	{
-		return this->setSize({ value, width() });
-	}
-
-	Image & Image::setHeight(uint32_t value)
-	{
-		return this->setSize({ width(), value });
-	}
-
-	Image & Image::setPixels(const Pixels & value)
-	{
-		m_pixels = value;
-		return (*this);
-	}
-
-	Image & Image::setPixels(const vec4b & value)
-	{
-		if (*this)
-		{
-			iterator it = this->begin();
-			while (it != this->end())
-			{
-				*it++ = value[0];
-				*it++ = value[1];
-				*it++ = value[2];
-				*it++ = value[3];
-			}
-		}
 		return (*this);
 	}
 

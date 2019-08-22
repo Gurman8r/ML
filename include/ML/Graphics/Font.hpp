@@ -15,8 +15,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using GlyphTable = Tree<uint32_t, Glyph>;
-		using PageTable  = Tree<uint32_t, GlyphTable>;
+		using Page		= typename Tree<uint32_t, Glyph>;
+		using PageTable = typename Tree<uint32_t, Page>;
 
 		struct Info final
 		{
@@ -39,8 +39,14 @@ namespace ml
 		inline const Info & getInfo() const { return m_info; };
 
 		const Glyph & getGlyph(uint32_t c, uint32_t characterSize) const;
+
+		Page & getPage(uint32_t characterSize) const;
 		
 		Glyph loadGlyph(uint32_t c, uint32_t characterSize) const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto pages() const -> const PageTable & { return m_pages; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

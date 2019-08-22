@@ -144,7 +144,7 @@ namespace ml
 			Array<uint8_t, sizeof(T)> temp {};
 			for (T i = 0; i < sizeof(T); i++)
 			{
-				temp[i] = static_cast<uint8_t>(value >> (i * numeric<T>::eight));
+				temp[i] = static_cast<uint8_t>(value >> (i * constant_t<T>::eight));
 			}
 			return temp;
 		}

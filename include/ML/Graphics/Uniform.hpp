@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Base Uniform
-	struct Uni : public I_Newable, public I_NonCopyable
+	struct Uniform : public I_Newable, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -47,16 +47,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit Uni(const String & name, uint32_t id)
+		explicit Uniform(const String & name, uint32_t id)
 			: name { name }, id { static_cast<id_type>(id) }
 		{
 		}
 
-		virtual ~Uni() {}
+		virtual ~Uniform() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual Uni *	clone()				const = 0;
+		virtual Uniform *	clone()				const = 0;
 		virtual bool	isValue()			const = 0;
 		virtual bool	isPointer()			const = 0;
 		virtual bool	isReference()		const = 0;
@@ -78,17 +78,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(Ostream & out, const Uni & value)
+		inline friend ML_SERIALIZE(Ostream & out, const Uniform & value)
 		{
 			return out << Type_names[value.id];
 		}
 
-		inline friend bool operator==(const Uni & lhs, const Uni & rhs)
+		inline friend bool operator==(const Uniform & lhs, const Uniform & rhs)
 		{
 			return ((lhs.id == rhs.id) && (lhs.name == rhs.name));
 		}
 
-		inline friend bool operator<(const Uni & lhs, const Uni & rhs)
+		inline friend bool operator<(const Uniform & lhs, const Uniform & rhs)
 		{
 			return ((lhs.id < rhs.id) || (lhs.name < rhs.name));
 		}
@@ -101,12 +101,12 @@ namespace ml
 	// Generic Uniform Interface
 	template <
 		class T, uint32_t ID, uint32_t Flags
-	> struct uni_impl final : public Uni
+	> struct Uni_Impl final : public Uniform
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using type				= typename T;
-		using self_type			= typename uni_impl<type, ID, Flags>;
+		using self_type			= typename Uni_Impl<type, ID, Flags>;
 		using value_type		= typename detail::decay_t<type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
@@ -136,8 +136,8 @@ namespace ml
 
 		type data;
 
-		explicit uni_impl(const String & name, type data)
-			: Uni { name, ID }, data { data }
+		explicit Uni_Impl(const String & name, type data)
+			: Uniform { name, ID }, data { data }
 		{
 		}
 
@@ -158,16 +158,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> using uni_bool_t		= uni_impl<T, Uni::Boolean,	0b0>;
-	template <class T> using uni_float_t	= uni_impl<T, Uni::Float,	0b0>;
-	template <class T> using uni_int_t		= uni_impl<T, Uni::Integer,	0b0>;
-	template <class T> using uni_vec2_t		= uni_impl<T, Uni::Vector2,	0b0>;
-	template <class T> using uni_vec3_t		= uni_impl<T, Uni::Vector3,	0b0>;
-	template <class T> using uni_vec4_t		= uni_impl<T, Uni::Vector4,	0b0>;
-	template <class T> using uni_color_t	= uni_impl<T, Uni::Color,	0b0>;
-	template <class T> using uni_mat3_t		= uni_impl<T, Uni::Matrix3,	0b0>;
-	template <class T> using uni_mat4_t		= uni_impl<T, Uni::Matrix4,	0b0>;
-	template <class T> using uni_sampler_t	= uni_impl<T, Uni::Sampler,	0b1>;
+	template <class T> using uni_bool_t		= Uni_Impl<T, Uniform::Boolean,	0b0>;
+	template <class T> using uni_float_t	= Uni_Impl<T, Uniform::Float,	0b0>;
+	template <class T> using uni_int_t		= Uni_Impl<T, Uniform::Integer,	0b0>;
+	template <class T> using uni_vec2_t		= Uni_Impl<T, Uniform::Vector2,	0b0>;
+	template <class T> using uni_vec3_t		= Uni_Impl<T, Uniform::Vector3,	0b0>;
+	template <class T> using uni_vec4_t		= Uni_Impl<T, Uniform::Vector4,	0b0>;
+	template <class T> using uni_color_t	= Uni_Impl<T, Uniform::Color,	0b0>;
+	template <class T> using uni_mat3_t		= Uni_Impl<T, Uniform::Matrix3,	0b0>;
+	template <class T> using uni_mat4_t		= Uni_Impl<T, Uniform::Matrix4,	0b0>;
+	template <class T> using uni_sampler_t	= Uni_Impl<T, Uniform::Sampler,	0b1>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -208,25 +208,25 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr bool value_at(int32_t i, Uni::Type & value)
+		static constexpr bool value_at(int32_t i, Uniform::Type & value)
 		{
-			return alg::value_at(i, value, Uni::Type_values);
+			return alg::value_at(i, value, Uniform::Type_values);
 		}
 
-		static constexpr int32_t index_of(const Uni::Type value)
+		static constexpr int32_t index_of(const Uniform::Type value)
 		{
-			return alg::index_of(value, Uni::Type_values);
+			return alg::index_of(value, Uniform::Type_values);
 		}
 
-		static constexpr C_String name_of(const Uni::Type value)
+		static constexpr C_String name_of(const Uniform::Type value)
 		{
 			const int32_t i = index_of(value);
-			return (i >= 0) ? Uni::Type_names[i] : nullptr;
+			return (i >= 0) ? Uniform::Type_names[i] : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline bool * as_bool(const Uni * value)
+		static inline bool * as_bool(const Uniform * value)
 		{
 			static bool temp;
 			if (!value || (value->id != uni_bool::ID))		{ return nullptr; }
@@ -236,7 +236,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline float_t * as_float(const Uni * value)
+		static inline float_t * as_float(const Uniform * value)
 		{
 			static float_t temp;
 			if (!value || (value->id != uni_float::ID))		{ return nullptr; }
@@ -246,7 +246,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline int32_t * as_int(const Uni * value)
+		static inline int32_t * as_int(const Uniform * value)
 		{
 			static int32_t temp;
 			if (!value || (value->id != uni_int::ID))		{ return nullptr; }
@@ -256,7 +256,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline vec2 * as_vec2(const Uni * value)
+		static inline vec2 * as_vec2(const Uniform * value)
 		{
 			static vec2 temp;
 			if (!value || value->id != uni_vec2::ID)		{ return nullptr; }
@@ -266,7 +266,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline vec3 * as_vec3(const Uni * value)
+		static inline vec3 * as_vec3(const Uniform * value)
 		{
 			static vec3 temp;
 			if (!value || (value->id != uni_vec3::ID))		{ return nullptr; }
@@ -276,7 +276,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline vec4 * as_vec4(const Uni * value)
+		static inline vec4 * as_vec4(const Uniform * value)
 		{
 			static vec4 temp;
 			if (!value || (value->id != uni_vec4::ID))		{ return nullptr; }
@@ -286,7 +286,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline vec4 * as_color(const Uni * value)
+		static inline vec4 * as_color(const Uniform * value)
 		{
 			static vec4 temp;
 			if (!value || (value->id != uni_color::ID))		{ return nullptr; }
@@ -296,7 +296,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline mat3 * as_mat3(const Uni * value)
+		static inline mat3 * as_mat3(const Uniform * value)
 		{
 			static mat3 temp;
 			if (!value || (value->id != uni_mat3::ID))		{ return nullptr; }
@@ -306,7 +306,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline mat4 * as_mat4(const Uni * value)
+		static inline mat4 * as_mat4(const Uniform * value)
 		{
 			static mat4 temp;
 			if (!value || (value->id != uni_mat4::ID))		{ return nullptr; }
@@ -316,7 +316,7 @@ namespace ml
 			else { return nullptr; }
 		}
 
-		static inline const Texture * as_sampler(const Uni * value)
+		static inline const Texture * as_sampler(const Uniform * value)
 		{
 			if (!value || (value->id != uni_sampler::ID))	{ return nullptr; }
 			else if (auto u = value->as<uni_sampler>())		{ return u->data; }

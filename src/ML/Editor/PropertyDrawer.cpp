@@ -199,13 +199,55 @@ namespace ml
 
 	bool FontPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
 	{
-		ImGui::Text("%s", value.getInfo().family.c_str());
 		return false;
 	}
 
 	bool FontPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
 	{
-		return (*this)(label, (const_reference)value, flags);
+		ImGui::Text("%s", value.getInfo().family.c_str());
+
+		const uint32_t font_size { 40 };
+
+		Font::Page & page { value.getPage(font_size) };
+
+		ImGui::BeginChild(
+			("##PropertyDrawer##Font##" + label).c_str(),
+			{ ImGuiExt::GetContentRegionAvail()[0], 128 },
+			true,
+			ImGuiWindowFlags_NoScrollbar
+		);
+		ImGui::BeginGroup();
+		auto draw_glyph = [](const Glyph & g) 
+		{
+			ImGui::Image(
+				g.texture.get_handle(),
+				{ g.width(), g.height() }, 
+				{ 0, 0 }, 
+				{ 1, 1 }
+			);
+		};
+		for (char i = 'A'; i <= 'Z'; i++)
+		{
+			draw_glyph(value.getGlyph(i, font_size));
+			ImGui::SameLine();
+		}
+		ImGui::NewLine();
+		for (char i = 'a'; i <= 'z'; i++)
+		{
+			draw_glyph(value.getGlyph(i, font_size));
+			ImGui::SameLine();
+		}
+		ImGui::NewLine();
+		for (char i = '0'; i <= '9'; i++)
+		{
+			draw_glyph(value.getGlyph(i, font_size));
+			ImGui::SameLine();
+		}
+		ImGui::NewLine();
+		ImGui::EndGroup();
+		ImGui::EndChild();
+
+		return false;
 	}
 
 
@@ -315,7 +357,7 @@ namespace ml
 		if (ImGui::TreeNode(("Uniforms##" + label).c_str()))
 		{
 			// new uniform editor
-			Uni * u = nullptr;
+			Uniform * u = nullptr;
 			if (UniformPropertyDrawer()(("##NewUniform##Material" + label).c_str(), u))
 			{
 				if (!value.add(u))
@@ -330,7 +372,7 @@ namespace ml
 				ImGui::Separator();
 
 			// to remove
-			List<List<Uni *>::iterator> toRemove;
+			List<List<Uniform *>::iterator> toRemove;
 
 			for (auto it = value.uniforms().begin();
 				it != value.uniforms().end();
@@ -364,7 +406,7 @@ namespace ml
 							ImGuiWindowFlags_NoScrollWithMouse
 						);
 
-						if (UniformPropertyDrawer()(name, (Uni &)(*(*it))))
+						if (UniformPropertyDrawer()(name, (Uniform &)(*(*it))))
 						{
 							ImGui::SameLine();
 							if (ImGui::Button(("Remove##" + name).c_str()))
@@ -839,7 +881,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool UniformPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Uni>(label, value);
+		return asset_dropdown<Uniform>(label, value);
 	}
 
 	bool UniformPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
@@ -867,8 +909,8 @@ namespace ml
 			ImGui::Combo(
 				"Type",
 				&type,
-				Uni::Type_names,
-				ML_ARRAYSIZE(Uni::Type_names)
+				Uniform::Type_names,
+				ML_ARRAYSIZE(Uniform::Type_names)
 			);
 
 			// Name Input
@@ -893,18 +935,18 @@ namespace ml
 				{
 					switch (type)
 					{
-					case uni_bool	::ID: return (Uni *)new uni_bool	{ name, { NULL } };
-					case uni_float	::ID: return (Uni *)new uni_float	{ name, { NULL } };
-					case uni_int	::ID: return (Uni *)new uni_int		{ name, { NULL } };
-					case uni_vec2	::ID: return (Uni *)new uni_vec2	{ name, { NULL } };
-					case uni_vec3	::ID: return (Uni *)new uni_vec3	{ name, { NULL } };
-					case uni_vec4	::ID: return (Uni *)new uni_vec4	{ name, { NULL } };
-					case uni_color	::ID: return (Uni *)new uni_color	{ name, { NULL } };
-					case uni_mat3	::ID: return (Uni *)new uni_mat3	{ name, { NULL } };
-					case uni_mat4	::ID: return (Uni *)new uni_mat4	{ name, { NULL } };
-					case uni_sampler::ID: return (Uni *)new uni_sampler	{ name, { NULL } };
+					case uni_bool	::ID: return (Uniform *)new uni_bool	{ name, { NULL } };
+					case uni_float	::ID: return (Uniform *)new uni_float	{ name, { NULL } };
+					case uni_int	::ID: return (Uniform *)new uni_int		{ name, { NULL } };
+					case uni_vec2	::ID: return (Uniform *)new uni_vec2	{ name, { NULL } };
+					case uni_vec3	::ID: return (Uniform *)new uni_vec3	{ name, { NULL } };
+					case uni_vec4	::ID: return (Uniform *)new uni_vec4	{ name, { NULL } };
+					case uni_color	::ID: return (Uniform *)new uni_color	{ name, { NULL } };
+					case uni_mat3	::ID: return (Uniform *)new uni_mat3	{ name, { NULL } };
+					case uni_mat4	::ID: return (Uniform *)new uni_mat4	{ name, { NULL } };
+					case uni_sampler::ID: return (Uniform *)new uni_sampler	{ name, { NULL } };
 					}
-					return (Uni *)nullptr;
+					return (Uniform *)nullptr;
 				})();
 
 				if (value)

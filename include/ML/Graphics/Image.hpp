@@ -60,7 +60,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Image & setChannels(int32_t value);
+		Image & setChannels(uint32_t value);
 		Image & setSize(uint32_t width, uint32_t height);
 		Image & setSize(const vec2u & value);
 		Image & setWidth(uint32_t value);

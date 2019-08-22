@@ -13,16 +13,20 @@ namespace ml
 		);
 	}
 	
-	bool EventSystem::fireEvent(const Event & ev)
+	bool EventSystem::fireEvent(const Event & value)
 	{
-		if (*ev > Event::EV_INVALID)
+		if (value && (value.m_eventSystem != this))
 		{
-			Pair<iterator, iterator> found = m_listeners.equal_range(*ev);
+			value.m_eventSystem = this;
+
+			Pair<iterator, iterator> found { m_listeners.equal_range(*value) };
 
 			for (iterator it = found.first; it != found.second; ++it)
 			{
-				it->second->onEvent(ev);
+				it->second->onEvent(value);
 			}
+
+			value.m_eventSystem = nullptr;
 
 			return true;
 		}

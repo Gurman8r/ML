@@ -66,12 +66,10 @@ namespace ml
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>())
 			{
+				// Toggle Fullscreen
 				if (ev->getPress(KeyCode::F11))
 				{
-					if (Window * w { ev->window })
-					{
-						w->setFullscreen(!w->style().fullscreen);
-					}
+					eventSystem().fireEvent(WindowStyleEvent { WindowStyle::Fullscreen, -1 });
 				}
 			}
 			break;
@@ -79,7 +77,7 @@ namespace ml
 		case MainMenuBarEvent::ID:
 			if (auto ev = value.as<MainMenuBarEvent>())
 			{
-				switch (ev->menu)
+				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
 					ImGui::Separator();
@@ -170,9 +168,9 @@ namespace ml
 		static RenderStates states
 		{ {
 			new AlphaState	{ true, GL::Greater, 0.01f },
-			new BlendState	{ true	},
-			new CullState	{ false },
-			new DepthState	{ false },
+			new BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+			new CullState	{ false, GL::Back },
+			new DepthState	{ false, GL::Less, true },
 		} };
 		states.apply();
 

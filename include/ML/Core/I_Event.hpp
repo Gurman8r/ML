@@ -11,7 +11,9 @@ namespace ml
 	{
 		enum : int32_t { ID = ID };
 
-		constexpr I_Event() : Event(ID) {}
+		static constexpr int32_t id { ID };
+
+		constexpr I_Event() : Event { id } {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

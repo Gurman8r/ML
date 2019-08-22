@@ -8,6 +8,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	struct EventSystem;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_CORE_API Event : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,14 +31,25 @@ namespace ml
 			EV_CUSTOM	= (MAX_LIBRARY_EVENTS * 8),
 		};
 
-		constexpr Event(const int32_t id) 
-			: m_id(id) 
+		constexpr Event(int32_t value)
+			: m_id { value }
+			, m_eventSystem { nullptr }
 		{
 		}
 
 		constexpr const int32_t & operator*() const
 		{ 
 			return m_id;
+		}
+
+		constexpr const EventSystem * eventSystem() const
+		{
+			return m_eventSystem;
+		}
+
+		constexpr operator bool() const
+		{
+			return (m_id > EV_INVALID);
 		}
 
 		template <class T> inline T * as()
@@ -49,8 +64,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: const int32_t m_id;
-
+	private:
+		const int32_t m_id;
+		friend struct EventSystem;
+		mutable const EventSystem * m_eventSystem;
+		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 

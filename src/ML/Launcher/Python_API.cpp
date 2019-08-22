@@ -111,8 +111,8 @@ namespace ml
 		m.def("restore",				[]() { ML_Launcher.window.restore(); });
 		m.def("swap_buffers",			[]() { ML_Launcher.window.swapBuffers(); });
 		m.def("terminate",				[]() { ML_Launcher.window.terminate(); });
-		m.def("is_focused",				[]() { return ML_Launcher.window.isFocused(); });
-		m.def("is_open",				[]() { return ML_Launcher.window.isOpen(); });
+		m.def("is_focused",				[]() { return ML_Launcher.window.is_focused(); });
+		m.def("is_open",				[]() { return ML_Launcher.window.is_open(); });
 		m.def("get_cx",					[]() { return (int32_t)ML_Launcher.window.getCursorPos()[0]; });
 		m.def("get_cy",					[]() { return (int32_t)ML_Launcher.window.getCursorPos()[1]; });
 		m.def("get_key",				[](int32_t k) { return ML_Launcher.window.getKey(k); });

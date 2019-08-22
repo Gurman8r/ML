@@ -1,14 +1,14 @@
 #ifndef _ML_WINDOW_EVENTS_HPP_
 #define _ML_WINDOW_EVENTS_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Core/I_Event.hpp>
 #include <ML/Core/C_String.hpp>
 #include <ML/Window/KeyCode.hpp>
 #include <ML/Window/MouseButton.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define ML_KEY_RELEASE	0
 #define ML_KEY_PRESS	1
@@ -19,15 +19,15 @@
 #define ML_MOD_ALT		(1 << 2)
 #define ML_MOD_SUPER	(1 << 3)
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct Window;
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct WindowEvent final
 	{
@@ -35,19 +35,20 @@ namespace ml
 		{
 			MIN_WINDOW_EVENT = Event::EV_WINDOW,
 
-			EV_Char,		// Keyboard text input
-			EV_CursorEnter,	// Cursor enter/exit window
-			EV_CursorPos,	// Cursor position changed
-			EV_FrameSize,	// Window frame size changed
-			EV_Key,			// Keyboard state changed
-			EV_MouseButton,	// Mouse button state changed
-			EV_Scroll,		// Mouse scrollwheel state changed
-			EV_WindowClose,	// Fired when window is closed
-			EV_WindowError,	// Window error callback
-			EV_WindowFocus,	// Window focused/unfocused
-			EV_WindowKill,	// Tell window to close
-			EV_WindowSize,	// Window size changed
-			Ev_WindowPos,	// Window position changed
+			EV_Char,			// Keyboard text input
+			EV_CursorEnter,		// Cursor enter/exit window
+			EV_CursorPos,		// Cursor position changed
+			EV_FrameSize,		// Window frame size changed
+			EV_Key,				// Keyboard state changed
+			EV_MouseButton,		// Mouse button state changed
+			EV_Scroll,			// Mouse scrollwheel state changed
+			EV_WindowClose,		// Fired when window is closed
+			EV_WindowError,		// Window error callback
+			EV_WindowFocus,		// Window focused/unfocused
+			EV_WindowKill,		// Tell window to close
+			EV_WindowSize,		// Window size changed
+			EV_WindowPos,		// Window position changed
+			EV_WindowStyle,
 
 			MAX_WINDOW_EVENT
 		};
@@ -57,7 +58,7 @@ namespace ml
 		);
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct CharEvent final : public I_Event<WindowEvent::EV_Char>
 	{
@@ -68,7 +69,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct CursorEnterEvent final : public I_Event<WindowEvent::EV_CursorEnter>
 	{
@@ -79,7 +80,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct CursorPosEvent final : public I_Event<WindowEvent::EV_CursorPos>
 	{
@@ -91,13 +92,11 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct KeyEvent final : public I_Event<WindowEvent::EV_Key>
 	{
-		Window * window;
-
-		const int32_t key, scan, act;
+		const int32_t key, scan, action;
 		
 		const struct Mods final
 		{ 
@@ -117,18 +116,17 @@ namespace ml
 
 		} mods;
 
-		constexpr KeyEvent(Window * window, int32_t key, int32_t scan, int32_t act, const Mods & mods)
-			: window{ window }
-			, key	{ key }
-			, scan	{ scan }
-			, act	{ act }
-			, mods	{ mods.shift, mods.ctrl, mods.alt, mods.super }
+		constexpr KeyEvent(int32_t key, int32_t scan, int32_t action, const Mods & mods)
+			: key	(key)
+			, scan	(scan)
+			, action(action)
+			, mods	({ mods.shift, mods.ctrl, mods.alt, mods.super })
 		{
 		}
 
-		constexpr bool getPress	(int32_t k)	const { return (key == k && act == ML_KEY_PRESS); }
-		constexpr bool getDown	(int32_t k) const { return (key == k && act == ML_KEY_REPEAT); }
-		constexpr bool getUp	(int32_t k)	const { return (key == k && act == ML_KEY_RELEASE); }
+		constexpr bool getPress	(int32_t k)	const { return (key == k && action == ML_KEY_PRESS); }
+		constexpr bool getDown	(int32_t k) const { return (key == k && action == ML_KEY_REPEAT); }
+		constexpr bool getUp	(int32_t k)	const { return (key == k && action == ML_KEY_RELEASE); }
 
 		constexpr bool getPress	(int32_t k, const Mods & m)	const { return getPress(k) && (mods == m); }
 		constexpr bool getDown	(int32_t k, const Mods & m) const { return getDown(k) && (mods == m); }
@@ -149,20 +147,20 @@ namespace ml
 		constexpr bool isPaste	() const { return isCtrl(KeyCode::V) || isShift(KeyCode::Insert); }
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct MouseButtonEvent final : public I_Event<WindowEvent::EV_MouseButton>
 	{
-		const int32_t key, act, mod;
-		constexpr MouseButtonEvent(int32_t key, int32_t act, int32_t mod)
+		const int32_t key, action, mod;
+		constexpr MouseButtonEvent(int32_t key, int32_t action, int32_t mod)
 			: key(key)
-			, act(act)
+			, action(action)
 			, mod(mod)
 		{
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ScrollEvent final : public I_Event<WindowEvent::EV_Scroll>
 	{
@@ -174,7 +172,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct FrameSizeEvent final : public I_Event<WindowEvent::EV_FrameSize>
 	{
@@ -186,14 +184,14 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct WindowCloseEvent final : public I_Event<WindowEvent::EV_WindowClose>
 	{
 		WindowCloseEvent() {}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct WindowErrorEvent final : public I_Event<WindowEvent::EV_WindowError>
 	{
@@ -206,7 +204,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct WindowFocusEvent final : public I_Event<WindowEvent::EV_WindowFocus>
 	{
@@ -217,16 +215,16 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct WindowKillEvent final : public I_Event<WindowEvent::EV_WindowKill>
 	{
 		constexpr WindowKillEvent() {}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowPosEvent final : public I_Event<WindowEvent::Ev_WindowPos>
+	struct WindowPosEvent final : public I_Event<WindowEvent::EV_WindowPos>
 	{
 		const int32_t x, y;
 		constexpr WindowPosEvent(int32_t x, int32_t y)
@@ -236,7 +234,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct WindowSizeEvent final : public I_Event<WindowEvent::EV_WindowSize>
 	{
@@ -248,7 +246,20 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct WindowStyleEvent final : public I_Event<WindowEvent::EV_WindowStyle>
+	{
+		const uint32_t	key;
+		const int32_t	value;
+		constexpr WindowStyleEvent(uint32_t key, int32_t value)
+			: key(key)
+			, value(value)
+		{
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_WINDOW_EVENTS_HPP_

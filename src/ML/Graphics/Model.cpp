@@ -81,17 +81,16 @@ namespace ml
 	{
 	}
 
-	Model::~Model()
-	{
-		dispose();
-	}
+	Model::~Model() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Model::dispose()
 	{
-		for (auto *& elem : m_meshes)
+		for (Mesh *& elem : m_meshes)
+		{
 			delete elem;
+		}
 		m_meshes.clear();
 		return m_meshes.empty();
 	}
@@ -132,7 +131,7 @@ namespace ml
 
 	void Model::draw(RenderTarget & target, RenderBatch batch) const
 	{
-		for (const auto & elem : m_meshes)
+		for (const Mesh * elem : m_meshes)
 		{
 			target.draw(elem);
 		}

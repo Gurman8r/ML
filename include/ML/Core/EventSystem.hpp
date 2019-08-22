@@ -20,6 +20,7 @@ namespace ml
 		
 		using map_type = typename MultiMap<int32_t, I_EventListener *>;
 		using iterator = typename map_type::iterator;
+		using const_iterator = typename map_type::const_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -29,11 +30,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		I_EventListener * addListener(const int32_t type, I_EventListener * listener);
-		bool fireEvent(const Event & ev);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		bool fireEvent(const Event & value);
 
 		bool removeListener(const int32_t & type, I_EventListener * listener);
+		
 		bool removeListenerFromAllEvents(I_EventListener * listener);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

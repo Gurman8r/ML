@@ -167,7 +167,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	Image & Image::setChannels(int32_t value)
+	Image & Image::setChannels(uint32_t value)
 	{
 		m_channels = value;
 		if (this->capacity() != m_pixels.size())

@@ -63,8 +63,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr WindowStyle(bool fullscreen, bool resizable, bool visible, bool decorated, bool focused, bool autoIconify, bool floating, bool maximized)
-			: fullscreen	{ fullscreen	}
+		constexpr WindowStyle(
+			bool fullscreen, 
+			bool resizable, 
+			bool visible, 
+			bool decorated,
+			bool focused,
+			bool autoIconify,
+			bool floating, 
+			bool maximized
+		)	: fullscreen	{ fullscreen	}
 			, resizable		{ resizable		}
 			, visible		{ visible		}
 			, decorated		{ decorated		}
@@ -109,17 +117,27 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		constexpr uint32_t flags() const
+		{
+			return Flag::None
+				| (fullscreen	? Flag::Fullscreen	: 0)
+				| (resizable	? Flag::Resizable	: 0)
+				| (visible		? Flag::Visible		: 0)
+				| (decorated	? Flag::Decorated	: 0)
+				| (focused		? Flag::Focused		: 0)
+				| (autoIconify	? Flag::AutoIconify : 0)
+				| (floating		? Flag::Floating	: 0)
+				| (maximized	? Flag::Maximized	: 0);
+		}
+
+		constexpr bool operator[](Flag i) const
+		{
+			return this->flags() & static_cast<uint32_t>(i);
+		}
+
 		constexpr bool operator==(const WindowStyle & other) const
 		{
-			return
-				this->fullscreen	== other.fullscreen		&&
-				this->resizable		== other.resizable		&&
-				this->visible		== other.visible		&&
-				this->decorated		== other.decorated		&&
-				this->focused		== other.focused		&&
-				this->autoIconify	== other.autoIconify	&&
-				this->floating		== other.floating		&&
-				this->maximized		== other.maximized;
+			return this->flags() == other.flags();
 		}
 
 		constexpr bool operator!=(const WindowStyle & other) const
@@ -129,15 +147,7 @@ namespace ml
 
 		constexpr bool operator<(const WindowStyle & other) const
 		{
-			return
-				this->fullscreen	< other.fullscreen		||
-				this->resizable		< other.resizable		||
-				this->visible		< other.visible			||
-				this->decorated		< other.decorated		||
-				this->focused		< other.focused			||
-				this->autoIconify	< other.autoIconify		||
-				this->floating		< other.floating		||
-				this->maximized		< other.maximized;
+			return this->flags() < other.flags();
 		}
 
 		constexpr bool operator>(const WindowStyle & other) const

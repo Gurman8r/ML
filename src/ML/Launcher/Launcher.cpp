@@ -16,7 +16,7 @@ namespace ml
 		eventSystem.fireEvent(StartEvent	{ time, window });
 
 		// Loop
-		while (window.isOpen())
+		while (window.is_open())
 		{
 			eventSystem.fireEvent(BeginFrameEvent	{ time, window, engine });
 			eventSystem.fireEvent(UpdateEvent		{ time, window, engine });

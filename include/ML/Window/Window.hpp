@@ -81,21 +81,22 @@ namespace ml
 		Window & setFullscreen(bool value);
 		Window & setIcon(uint32_t w, uint32_t h, const uint8_t * pixels);
 		Window & setPosition(const vec2i & value);
+		Window & setMonitor(void * value);
 		Window & setSize(const vec2u & value);
 		Window & setTitle(const String & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool		isFocused() const;
-		bool		isOpen() const;
-		int32_t		getAttribute(const int32_t value) const;
+		bool		is_focused() const;
+		bool		is_open() const;
+		int32_t		getAttribute(int32_t value) const;
 		char		getChar() const;
 		C_String	getClipboardString() const;
 		vec2		getCursorPos() const;
 		vec2i		getFrameSize() const;
-		int32_t		getKey(const int32_t value) const;
+		int32_t		getKey(int32_t value) const;
 		int32_t		getInputMode() const;
-		int32_t		getMouseButton(const int32_t button) const;
+		int32_t		getMouseButton(int32_t button) const;
 		vec2i		getPosition() const;
 		float64_t	getTime() const;
 
@@ -103,17 +104,18 @@ namespace ml
 
 		inline auto aspect()		const -> const float_t			{ return ML_ASPECT(width(), height()); };
 		inline auto context()		const -> const ContextSettings &{ return m_context; }
-		inline auto frame_aspect()	const -> const float_t			{ return ML_ASPECT(frame_width(), frame_height()); };
-		inline auto frame_height()	const -> const int32_t			{ return getFrameSize()[1]; }
-		inline auto frame_width()	const -> const int32_t			{ return getFrameSize()[0]; }
-		inline auto height()		const -> const uint32_t			{ return size()[1]; }
+		inline auto frame_aspect()	const -> float_t				{ return ML_ASPECT(frame_width(), frame_height()); };
+		inline auto frame_height()	const -> int32_t				{ return getFrameSize()[1]; }
+		inline auto frame_width()	const -> int32_t				{ return getFrameSize()[0]; }
+		inline auto height()		const -> const uint32_t	&		{ return size()[1]; }
+		inline auto is_fullscreen()	const -> bool					{ return m_style.fullscreen; }
 		inline auto monitor()		const -> const void *			{ return m_monitor; }
 		inline auto share()			const -> const void *			{ return m_share; }
 		inline auto size()			const -> const vec2u &			{ return video_mode().size; }
 		inline auto style()			const -> const WindowStyle &	{ return m_style; }
-		inline auto title()			const -> const String			{ return m_title; }
+		inline auto title()			const -> const String &			{ return m_title; }
 		inline auto video_mode()	const -> const VideoMode &		{ return m_videoMode; }
-		inline auto width()			const -> const uint32_t			{ return size()[0]; }
+		inline auto width()			const -> const uint32_t	&		{ return size()[0]; }
 	
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -151,13 +153,7 @@ namespace ml
 		WindowStyle		m_style;		// 
 		VideoMode		m_videoMode;	// 
 		String			m_title;		// 
-		
-		mutable char		m_char;
-		mutable vec2i		m_position;
-		mutable float64_t	m_time;
-
-		mutable Array<int32_t, KeyCode::MAX_KEYCODE> m_keys;
-		mutable Array<int32_t, MouseButton::MAX_MOUSE_BUTTON> m_mouse;
+		mutable char	m_char;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

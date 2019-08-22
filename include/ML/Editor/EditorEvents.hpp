@@ -98,9 +98,9 @@ namespace ml
 			MAX_MAIN_MENU_BAR_MENU
 		};
 
-		const Menu menu;
-		constexpr MainMenuBarEvent(const Menu menu)
-			: menu(menu)
+		const Menu submenu;
+		constexpr MainMenuBarEvent(const Menu submenu)
+			: submenu(submenu)
 		{
 		}
 	};

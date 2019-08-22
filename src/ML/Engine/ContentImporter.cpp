@@ -148,7 +148,7 @@ namespace ml
 					// Load Uniforms
 					using TexTree = Tree<String, Texture *>;
 					if (!temp->loadFromFile(
-						md.getData("file").asString(),
+						md.getData("uniforms").asString(),
 						reinterpret_cast<const TexTree *>(&ML_Content.data<Texture>())
 					))
 					{
@@ -429,7 +429,7 @@ namespace ml
 						if (const String file = md.getData("file"))
 						{
 							auto temp = new Texture {
-							sampler, format, format, smooth, repeat, mipmap, level, pixfmt
+							sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
 							if (temp->loadFromFile(ML_FS.pathTo(file)))
 							{
@@ -442,7 +442,7 @@ namespace ml
 							if (const Image * img = ML_Content.get<Image>(file))
 							{
 								auto temp = new Texture {
-								sampler, format, format, smooth, repeat, mipmap, level, pixfmt
+								sampler, format, smooth, repeat, mipmap, level, pixfmt
 								};
 								if (temp->loadFromImage(*img))
 								{
@@ -476,7 +476,7 @@ namespace ml
 						if (source == "images")
 						{
 							auto temp = new Texture {
-								sampler, format, format, smooth, repeat, mipmap, level, pixfmt
+							sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
 							if (temp->loadFromFaces({
 								ML_Content.get<Image>(names[0]),
@@ -494,7 +494,7 @@ namespace ml
 						else if (source == "files")
 						{
 							auto temp = new Texture {
-								sampler, format, format, smooth, repeat, mipmap, level, pixfmt
+							sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
 							if (temp->loadFromFaces({
 								&Image(names[0]),

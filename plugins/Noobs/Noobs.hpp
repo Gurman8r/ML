@@ -50,8 +50,8 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			Ref<Model>		model		{ "default_skybox" };
-			Ref<Material>	material	{ "default_skybox" };
+			Ref<Model>		model		{ "skybox" };
+			Ref<Material>	material	{ "skybox" };
 
 			DemoSkybox() = default;
 

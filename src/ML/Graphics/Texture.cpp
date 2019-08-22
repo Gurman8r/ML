@@ -2,119 +2,77 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 
-#define ML_TEX_DEFAULT_TARGET	GL::Texture2D
-#define ML_TEX_DEFAULT_SMOOTH	true
-#define ML_TEX_DEFAULT_REPEAT	false
-#define ML_TEX_DEFAULT_MIPMAP	false
-#define ML_TEX_DEFAULT_FORMAT	GL::RGBA
-#define ML_TEX_DEFAULT_LEVEL	0
-#define ML_TEX_DEFAULT_TYPE		GL::UnsignedByte
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Texture::Texture() : Texture(
-		ML_TEX_DEFAULT_TARGET
-	)
+	Texture::Texture() 
+		: Texture { GL::Texture2D }
 	{
 	}
 
-	Texture::Texture(GL::Sampler sampler) : Texture(
-		sampler, 
-		ML_TEX_DEFAULT_SMOOTH,
-		ML_TEX_DEFAULT_REPEAT
-	) 
+	Texture::Texture(GL::Sampler sampler) 
+		: Texture { sampler, true, false }
 	{
 	}
 
-	Texture::Texture(bool smooth, bool repeated) : Texture(
-		ML_TEX_DEFAULT_TARGET,
-		smooth, 
-		repeated
-	)
+	Texture::Texture(bool smooth, bool repeated) 
+		: Texture { GL::Texture2D, smooth, repeated }
 	{
 	}
 
-	Texture::Texture(GL::Format format, bool smooth, bool repeated) : Texture(
-		ML_TEX_DEFAULT_TARGET,
-		format,
-		smooth,
-		repeated
-	)
+	Texture::Texture(GL::Format format, bool smooth, bool repeated) 
+		: Texture { GL::Texture2D, format, smooth, repeated }
 	{
 	}
 
-	Texture::Texture(GL::Sampler sampler, bool smooth, bool repeated) : Texture(
-		sampler, 
-		ML_TEX_DEFAULT_FORMAT,
-		smooth, 
-		repeated
-	)
+	Texture::Texture(GL::Sampler sampler, bool smooth, bool repeated) 
+		: Texture { sampler, GL::RGBA, smooth, repeated }
 	{
 	}
 
-	Texture::Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated) : Texture(
-		sampler, 
-		format, 
-		smooth, 
-		repeated, 
-		ML_TEX_DEFAULT_MIPMAP
-	)
+	Texture::Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated)
+		: Texture { sampler, format, smooth, repeated, false }
 	{
 	}
 
-	Texture::Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated, bool mipmapped) : Texture(
-		sampler, 
-		format, // internal format
-		format, // color format
-		smooth, 
-		repeated, 
-		mipmapped
-	)
+	Texture::Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated, bool mipmapped) 
+		: Texture { sampler, format, format, smooth, repeated, mipmapped }
 	{
 	}
 
-	Texture::Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated) : Texture(
-		sampler, 
-		iFormat, 
-		cFormat, 
-		smooth, 
-		repeated, 
-		ML_TEX_DEFAULT_MIPMAP
-	)
+	Texture::Texture(GL::Sampler sampler, GL::Format format, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
+		: Texture { sampler, format, format, smooth, repeated, mipmapped, level, type }
 	{
 	}
 
-	Texture::Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped) : Texture(
-		sampler, 
-		internalFormat, 
-		colFormat, 
-		smooth, 
-		repeated, 
-		mipmapped, 
-		ML_TEX_DEFAULT_LEVEL,
-		ML_TEX_DEFAULT_TYPE
-	)
+	Texture::Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated) 
+		: Texture { sampler, iFormat, cFormat, smooth, repeated, false }
 	{
 	}
 
-	Texture::Texture(GL::Sampler sampler, GL::Format internalFormat, GL::Format colFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type)
+	Texture::Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped) 
+		: Texture { sampler, iFormat, cFormat, smooth, repeated, mipmapped, 0, GL::UnsignedByte }
+	{
+	}
+
+	Texture::Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type pixType)
 		: I_Handle		{ NULL }
-		, m_size		{ uninit }
-		, m_realSize	{ uninit }
+		, m_size		{ 0, 0 }
+		, m_realSize	{ 0, 0 }
 		, m_sampler		{ sampler }
-		, m_iFormat		{ internalFormat }
-		, m_cFormat		{ colFormat }
+		, m_iFormat		{ iFormat }
+		, m_cFormat		{ cFormat }
 		, m_smooth		{ smooth }
 		, m_repeated	{ repeated }
 		, m_mipmapped	{ mipmapped }
 		, m_level		{ level }
-		, m_type		{ type }
+		, m_pixType		{ pixType }
 	{
 	}
 
-	Texture::Texture(const Texture & copy) : Texture(
+	Texture::Texture(const Texture & copy)
+		: Texture {
 		copy.m_sampler,
 		copy.m_iFormat,
 		copy.m_cFormat,
@@ -122,10 +80,10 @@ namespace ml
 		copy.m_repeated,
 		copy.m_mipmapped,
 		copy.m_level,
-		copy.m_type
-	)
+		copy.m_pixType
+	}
 	{
-		create(copy);
+		this->create(copy);
 	}
 
 	Texture::~Texture() { this->dispose(); }
@@ -147,12 +105,20 @@ namespace ml
 	bool Texture::loadFromFile(const String & filename)
 	{
 		Image image;
-		return image.loadFromFile(filename) && loadFromImage(image);
+		return image.loadFromFile(filename) && this->loadFromImage(image);
 	}
 
 	bool Texture::loadFromImage(const Image & value)
 	{
-		return create(value.size()) && update(value);
+		switch (value.channels())
+		{
+		case 1: assert(m_iFormat == GL::Red); break;
+		case 3: assert(m_iFormat == GL::RGB); break;
+		case 4: assert(m_iFormat == GL::RGBA); break;
+		default: 
+			return Debug::logError("Failed creating texture");
+		}
+		return this->create(value.size()) && this->update(value);
 	}
 
 	bool Texture::loadFromFaces(const Array<const Image *, 6> & faces)
@@ -203,7 +169,7 @@ namespace ml
 					faces[i]->size()[1],
 					0,
 					m_cFormat,
-					m_type,
+					m_pixType,
 					faces[i]->data()
 				);
 			}
@@ -257,7 +223,7 @@ namespace ml
 	{
 		if (w && h)
 		{
-			if (this->dispose() && set_handle(ML_GL.genTexture()))
+			if (this->dispose() && this->set_handle(ML_GL.genTexture()))
 			{
 				m_size = { w, h };
 				m_realSize =
@@ -279,15 +245,15 @@ namespace ml
 				this->bind();
 
 				ML_GL.texImage2D(
-					m_sampler,
-					m_level,
-					m_iFormat,
-					m_size[0], 
-					m_size[1],
-					0, // border: "This value must be 0" -khronos.org
-					m_cFormat,
-					m_type,
-					pixels
+					m_sampler,		// 
+					m_level,		// 
+					m_iFormat,		// 
+					m_size[0],		//  
+					m_size[1],		// 
+					0,				// border: "This value must be 0" -khronos.org
+					m_cFormat,		// 
+					m_pixType,		// 
+					pixels			// 
 				);
 				
 				this->unbind();
@@ -307,7 +273,7 @@ namespace ml
 		}
 		else
 		{
-			return Debug::logError("Failed creating texture, invalid size: {0}", vec2u { w, h });
+			return Debug::logError("Failed creating texture, invalid size: {0} x {1}", w, h);
 		}
 	}
 
@@ -381,7 +347,15 @@ namespace ml
 				this->bind();
 
 				ML_GL.texSubImage2D(
-					m_sampler, m_level, x, y, w, h, m_iFormat, m_type, pixels
+					m_sampler,	// 
+					m_level,	// 
+					x,			//  
+					y,			// 
+					w,			//  
+					h,			// 
+					m_iFormat,	// 
+					m_pixType,	// 
+					pixels		// 
 				);
 
 				this->unbind();
@@ -468,20 +442,16 @@ namespace ml
 				GL::TexWrapS,
 				(m_repeated
 					? GL::Repeat
-					: ((ML_GL.edgeClampAvailable())
-						? GL::ClampToEdge
-						: GL::Clamp
-						)));
+					: (ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp)
+			);
 
 			ML_GL.texParameter(
 				m_sampler,
 				GL::TexWrapT,
 				(m_repeated
 					? GL::Repeat
-					: ((ML_GL.edgeClampAvailable())
-						? GL::ClampToEdge
-						: GL::Clamp
-						)));
+					: (ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp)
+			);
 			
 			this->unbind();
 
@@ -501,13 +471,13 @@ namespace ml
 			ML_GL.texParameter(
 				m_sampler, 
 				GL::TexMinFilter,
-				m_smooth ? GL::Linear : GL::Nearest
+				(m_smooth ? GL::Linear : GL::Nearest)
 			);
 
 			ML_GL.texParameter(
 				m_sampler, 
 				GL::TexMagFilter, 
-				m_smooth ? GL::Linear : GL::Nearest
+				(m_smooth ? GL::Linear : GL::Nearest)
 			);
 
 			this->unbind();
@@ -533,8 +503,6 @@ namespace ml
 		if ((*this))
 		{
 			this->bind();
-			//ML_GL.texParameter(m_sampler, GL::BaseLevel, value);
-			//ML_GL.texParameter(m_sampler, GL::MaxLevel, value);
 			this->unbind();
 			ML_GL.flush();
 		}
@@ -585,7 +553,7 @@ namespace ml
 		std::swap(m_realSize,	other.m_realSize);
 		std::swap(m_iFormat,	other.m_iFormat);
 		std::swap(m_cFormat,	other.m_cFormat);
-		std::swap(m_type,		other.m_type);
+		std::swap(m_pixType,	other.m_pixType);
 		std::swap(m_smooth,		other.m_smooth);
 		std::swap(m_repeated,	other.m_repeated);
 		std::swap(m_mipmapped,	other.m_mipmapped);
@@ -602,25 +570,14 @@ namespace ml
 
 	const Image Texture::copyToImage() const
 	{
-		Image image;
+		Image image { this->size() };
 		if ((*this))
 		{
-			Image::Pixels pixels(width() * height() * 4);
-
-			if ((m_size == m_realSize))
-			{
-				this->bind();
-				ML_GL.getTexImage(
-					m_sampler,
-					m_level,
-					m_iFormat,
-					m_type,
-					&pixels[0]
-				);
-				this->unbind();
-			}
-
-			return image.update(width(), height(), pixels);
+			this->bind();
+			
+			ML_GL.getTexImage(m_sampler, m_level, m_iFormat, m_pixType, &image[0]);
+			
+			this->unbind();
 		}
 		return image;
 	}

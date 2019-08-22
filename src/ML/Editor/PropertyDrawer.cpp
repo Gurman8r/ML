@@ -87,7 +87,7 @@ namespace ml
 							"Comparison##Alpha Testing",
 							&index,
 							GL::Predicate_names,
-							IM_ARRAYSIZE(GL::Predicate_names)
+							ML_ARRAYSIZE(GL::Predicate_names)
 						))
 						{
 							GL::value_at(index, alphaTest->predicate);
@@ -112,7 +112,7 @@ namespace ml
 								label,
 								&index,
 								GL::Factor_names,
-								IM_ARRAYSIZE(GL::Factor_names)
+								ML_ARRAYSIZE(GL::Factor_names)
 							);
 						};
 
@@ -156,7 +156,7 @@ namespace ml
 							"Face##Culling",
 							&index,
 							GL::Face_names,
-							IM_ARRAYSIZE(GL::Face_names)
+							ML_ARRAYSIZE(GL::Face_names)
 						))
 						{
 							GL::value_at(index, cullFace->face);
@@ -178,7 +178,7 @@ namespace ml
 							"Comparison##Depth Testing",
 							&index,
 							GL::Predicate_names,
-							IM_ARRAYSIZE(GL::Predicate_names)
+							ML_ARRAYSIZE(GL::Predicate_names)
 						))
 						{
 							GL::value_at(index, depthTest->predicate);
@@ -629,22 +629,22 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		const uint32_t handle = value;
+		const uint32_t handle { value };
 		ImGui::Text("Handle: %u", handle);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		vec2u size = value.size();
+		vec2u size { value.size() };
 		ImGui::Text("Size: %u x %u", size[0], size[1]);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		vec2u realSize = value.realSize();
+		vec2u realSize { value.realSize() };
 		ImGui::Text("Real Size: %u x %u", realSize[0], realSize[1]);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool smooth = value.smooth();
+		bool smooth { value.smooth() };
 		if (ImGui::Checkbox(("Smooth##" + label).c_str(), &smooth))
 		{
 			value.setSmooth(smooth); changed = true;
@@ -652,7 +652,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool repeated = value.repeated();
+		bool repeated { value.repeated() };
 		if (ImGui::Checkbox(("Repeated##" + label).c_str(), &repeated))
 		{
 			value.setRepeated(repeated); 
@@ -661,7 +661,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool mipmapped = value.mipmapped();
+		bool mipmapped { value.mipmapped() };
 		if (ImGui::Checkbox(("Mipmapped##" + label).c_str(), &mipmapped))
 		{
 			value.setMipmapped(mipmapped);
@@ -670,22 +670,22 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t level = value.level();
+		int32_t level { value.level() };
 		if (ImGui::InputInt(("Level##" + label).c_str(), &level))
 		{
 			value.setLevel(level); 
 			changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t target = GL::index_of(value.sampler());
+		int32_t target { GL::index_of(value.sampler()) };
 		if (ImGui::Combo(
 			("Sampler##" + label).c_str(),
 			&(target), 
 			GL::Sampler_names, 
-			IM_ARRAYSIZE(GL::Sampler_names)
+			ML_ARRAYSIZE(GL::Sampler_names)
 		))
 		{
 			GL::Sampler temp;
@@ -693,16 +693,16 @@ namespace ml
 				value.setSampler(temp);
 			changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t colorFormat = GL::index_of(value.colorFormat());
+		int32_t colorFormat { GL::index_of(value.color_fmt()) };
 		if (ImGui::Combo(
 			("Color Format##" + label).c_str(),
 			&(colorFormat),
 			GL::Format_names,
-			IM_ARRAYSIZE(GL::Format_names)
+			ML_ARRAYSIZE(GL::Format_names)
 		))
 		{
 			GL::Format temp;
@@ -710,16 +710,16 @@ namespace ml
 				value.setColorFormat(temp);
 			changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t internalFormat = GL::index_of(value.internalFormat());
+		int32_t internalFormat { GL::index_of(value.internal_fmt()) };
 		if (ImGui::Combo(
 			("Internal Format##" + label).c_str(),
 			&(internalFormat),
 			GL::Format_names,
-			IM_ARRAYSIZE(GL::Format_names)
+			ML_ARRAYSIZE(GL::Format_names)
 		))
 		{
 			GL::Format temp;
@@ -727,16 +727,16 @@ namespace ml
 				value.setInternalFormat(temp);
 			changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		int32_t pixelType = GL::index_of(value.type());
+		int32_t pixelType { GL::index_of(value.pixel_type()) };
 		if (ImGui::Combo(
 			("Pixel Type##" + label).c_str(),
 			&(pixelType),
 			GL::Type_names,
-			IM_ARRAYSIZE(GL::Type_names)
+			ML_ARRAYSIZE(GL::Type_names)
 		))
 		{
 			GL::Type temp;
@@ -744,29 +744,23 @@ namespace ml
 				value.setType(temp);
 			changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (value.sampler() == GL::Texture2D)
+		switch (value.sampler())
 		{
-			const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
-			{
-				const vec2
-					hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
-					vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
-				return (src * (((hs) < (vs)) ? (hs) : (vs)));
+		case GL::Texture2D:
+		{
+			const vec2 scl { alg::scale_to_fit((vec2)value.size(), { 256, 256 }) };
+			ImGui::Image(value.get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+		}
+		break;
+		case GL::TextureCubeMap:
+		{
 
-			})(value.size(), { 256, 256 }); // <- target size
-
-			ImGui::Image(
-				value.get_handle(),
-				{ previewSize[0], previewSize[1] },
-				{ 0, 1 },
-				{ 1, 0 },
-				{ 255, 255, 255, 255 },
-				{ 255, 255, 255, 128 }
-			);
+		}
+		break;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -808,7 +802,7 @@ namespace ml
 				"Type",
 				&type,
 				Uni::Type_names,
-				IM_ARRAYSIZE(Uni::Type_names)
+				ML_ARRAYSIZE(Uni::Type_names)
 			);
 
 			// Name Input
@@ -816,7 +810,7 @@ namespace ml
 			const bool enterPress = ImGui::InputText(
 				"Name",
 				name,
-				IM_ARRAYSIZE(name),
+				ML_ARRAYSIZE(name),
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 

@@ -59,22 +59,27 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using int8_t	= typename ML_INT8;
-	using int16_t	= typename ML_INT16;
-	using int32_t	= typename ML_INT32;
-	using int64_t	= typename ML_INT64;
+	using int8_t		= typename ML_INT8;
+	using int16_t		= typename ML_INT16;
+	using int32_t		= typename ML_INT32;
+	using int64_t		= typename ML_INT64;
 
-	using uint8_t	= typename ML_UINT8;
-	using uint16_t	= typename ML_UINT16;
-	using uint32_t	= typename ML_UINT32;
-	using uint64_t	= typename ML_UINT64;
+	using uint8_t		= typename ML_UINT8;
+	using uint16_t		= typename ML_UINT16;
+	using uint32_t		= typename ML_UINT32;
+	using uint64_t		= typename ML_UINT64;
 
-	using float32_t = typename ML_FLOAT32;
-	using float64_t = typename ML_FLOAT64;
-	using float80_t = typename ML_FLOAT80;
+	using float32_t		= typename ML_FLOAT32;
+	using float64_t		= typename ML_FLOAT64;
+	using float80_t		= typename ML_FLOAT80;
 
-	using intmax_t	= typename ML_INTMAX;
-	using uintmax_t = typename ML_UINTMAX;
+	using intmax_t		= typename ML_INTMAX;
+	using uintmax_t		= typename ML_UINTMAX;
+
+	using C_String		= typename const char *;
+	using C_WString		= typename const wchar_t *;
+	using C_U16String	= typename const char16_t *;
+	using C_U32String	= typename const char32_t *;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -199,6 +199,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\String.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\StringView.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Constants.hpp" />

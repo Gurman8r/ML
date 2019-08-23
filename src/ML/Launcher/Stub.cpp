@@ -12,20 +12,12 @@ namespace ml
 
 	static void test_type_info()
 	{
-		constexpr auto i_info = typeof<ml::int32_t>();
-		constexpr auto i_name = i_info.name();
-		constexpr auto i_hash = i_info.hash_code();
-		static_assert(i_name == "int", "What?");
-
-		constexpr auto f_info = typeof<>(1.0f);
-		constexpr auto f_name = f_info.raw_name();
-		constexpr auto f_hash = f_info.hash_code();
-		static_assert(f_info.name() == "float", "What?");
-
-		constexpr auto s_info = typeof<C_String>();
-		constexpr auto s_name = s_info.name();
-		constexpr auto s_hash = s_info.hash_code();
-		static_assert(s_name == "const char*", "What?");
+		// ignore red underlines in most cases. visual studio is a butt.
+		static_assert(typeof<int32_t>().name()	== "int",				"What?");
+		static_assert(typeof<uint32_t>().name() == "unsigned int",		"What?");
+		static_assert(typeof<>(1.0f).name()		== "float",				"What?");
+		static_assert(typeof<C_String>().name() == "const char*",		"What?");
+		static_assert(typeof<Debug>().name()	== "struct ml::Debug",	"What?");
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -59,10 +51,10 @@ namespace ml
 			constexpr auto arr2 = Array<char, 3> { 'a', 'b', 'c' };
 			static_assert(arr1 == arr2, "What?");
 
-			static_assert(CX_String("Here") == CX_String("Here"), "What?");
+			static_assert(StringView("Here") == StringView("Here"), "What?");
 
 			constexpr hash_t hash1	= Hash("Here");
-			constexpr hash_t hash2	= CX_String("Here").hash();
+			constexpr hash_t hash2	= StringView("Here").hash();
 			constexpr hash_t hash3	= mat4i::identity().hash();
 			constexpr hash_t hash4	= mat4f::identity().hash();
 

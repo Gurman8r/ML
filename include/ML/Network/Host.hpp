@@ -3,7 +3,7 @@
 
 #include <ML/Network/Export.hpp>
 #include <ML/Core/I_NonNewable.hpp>
-#include <ML/Core/C_String.hpp>
+#include <ML/Core/StringView.hpp>
 
 namespace ml
 {
@@ -60,7 +60,7 @@ namespace ml
 	{
 		return
 			(lhs.port == rhs.port) &&
-			((CX_String)lhs.addr == (CX_String)rhs.addr);
+			((StringView)lhs.addr == (StringView)rhs.addr);
 	}
 
 	constexpr bool operator!=(const Host & lhs, const Host & rhs)
@@ -72,7 +72,7 @@ namespace ml
 	{
 		return
 			(lhs.port < rhs.port) &&
-			((CX_String)lhs.addr < (CX_String)rhs.addr);
+			((StringView)lhs.addr < (StringView)rhs.addr);
 	}
 
 	constexpr bool operator>(const Host & lhs, const Host & rhs)

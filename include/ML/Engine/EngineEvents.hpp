@@ -2,7 +2,6 @@
 #define _ML_ENGINE_EVENTS_HPP_
 
 #include <ML/Core/I_Event.hpp>
-#include <ML/Core/C_String.hpp>
 
 namespace ml
 {

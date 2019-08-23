@@ -1,4 +1,5 @@
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/Array.hpp>
 
 #ifdef ML_SYSTEM_WINDOWS
 #include <Windows.h>

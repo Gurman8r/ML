@@ -1,8 +1,5 @@
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/C_String.hpp>
 
-// OpenGL Enum Details
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 namespace ml
 {
 	namespace GL

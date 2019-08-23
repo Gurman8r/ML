@@ -4,7 +4,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Core/I_Event.hpp>
-#include <ML/Core/C_String.hpp>
 #include <ML/Window/KeyCode.hpp>
 #include <ML/Window/MouseButton.hpp>
 

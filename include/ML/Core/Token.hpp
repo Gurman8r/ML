@@ -1,7 +1,7 @@
 #ifndef _ML_TOKEN_HPP_
 #define _ML_TOKEN_HPP_
 
-#include <ML/Core/C_String.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {

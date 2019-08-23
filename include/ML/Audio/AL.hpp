@@ -2,6 +2,7 @@
 #define _ML_AL_HPP_
 
 #include <ML/Core/StandardLib.hpp>
+#include <ML/Core/Alg.hpp>
 
 namespace ml
 {

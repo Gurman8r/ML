@@ -11,9 +11,8 @@ namespace ml
 	// Use in conjunction with I_Newable to help ensure memory safety.
 	struct I_NonNewable
 	{
-		inline auto get_type_hash_code()	const { return typeid(*this).hash_code(); }
-		inline auto get_type_name()			const { return typeid(*this).name(); }
-		inline auto get_type_raw_name()		const { return typeid(*this).raw_name(); }
+		inline auto get_type_hash()	const { return typeid(*this).hash_code(); }
+		inline auto get_type_name()	const { return typeid(*this).name(); }
 
 		inline friend ML_SERIALIZE(Ostream & out, const I_NonNewable & value)
 		{

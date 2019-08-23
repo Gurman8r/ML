@@ -2,9 +2,7 @@
 #define _ML_GL_HPP_
 
 #include <ML/Core/StandardLib.hpp>
-
-// OpenGL Enums
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+#include <ML/Core/Alg.hpp>
 
 namespace ml
 {

@@ -49,6 +49,8 @@ namespace ml
 		eventSystem.addListener(KeyEvent::ID,			this);
 		eventSystem.addListener(MainMenuBarEvent::ID,	this);
 		eventSystem.addListener(DockspaceEvent::ID,		this);
+
+		//static constexpr size_t v2_size { BufferLayout::size_of<vec2>() };
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -159,7 +161,6 @@ namespace ml
 			}
 
 			ev.window.draw(m_editor.renderer()); // Draw Renderer
-
 		});
 
 		/* * * * * * * * * * * * * * * * * * * * */

@@ -101,12 +101,12 @@ namespace ml
 	// Generic Uniform Interface
 	template <
 		class T, uint32_t ID, uint32_t Flags
-	> struct Uni_Impl final : public Uniform
+	> struct I_Uniform final : public Uniform
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using type				= typename T;
-		using self_type			= typename Uni_Impl<type, ID, Flags>;
+		using self_type			= typename I_Uniform<type, ID, Flags>;
 		using value_type		= typename detail::decay_t<type>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
@@ -136,7 +136,7 @@ namespace ml
 
 		type data;
 
-		explicit Uni_Impl(const String & name, type data)
+		explicit I_Uniform(const String & name, type data)
 			: Uniform { name, ID }, data { data }
 		{
 		}
@@ -158,16 +158,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> using uni_bool_t		= Uni_Impl<T, Uniform::Boolean,	0b0>;
-	template <class T> using uni_float_t	= Uni_Impl<T, Uniform::Float,	0b0>;
-	template <class T> using uni_int_t		= Uni_Impl<T, Uniform::Integer,	0b0>;
-	template <class T> using uni_vec2_t		= Uni_Impl<T, Uniform::Vector2,	0b0>;
-	template <class T> using uni_vec3_t		= Uni_Impl<T, Uniform::Vector3,	0b0>;
-	template <class T> using uni_vec4_t		= Uni_Impl<T, Uniform::Vector4,	0b0>;
-	template <class T> using uni_color_t	= Uni_Impl<T, Uniform::Color,	0b0>;
-	template <class T> using uni_mat3_t		= Uni_Impl<T, Uniform::Matrix3,	0b0>;
-	template <class T> using uni_mat4_t		= Uni_Impl<T, Uniform::Matrix4,	0b0>;
-	template <class T> using uni_sampler_t	= Uni_Impl<T, Uniform::Sampler,	0b1>;
+	template <class T> using uni_bool_t		= I_Uniform<T, Uniform::Boolean,	0b0>;
+	template <class T> using uni_float_t	= I_Uniform<T, Uniform::Float,		0b0>;
+	template <class T> using uni_int_t		= I_Uniform<T, Uniform::Integer,	0b0>;
+	template <class T> using uni_vec2_t		= I_Uniform<T, Uniform::Vector2,	0b0>;
+	template <class T> using uni_vec3_t		= I_Uniform<T, Uniform::Vector3,	0b0>;
+	template <class T> using uni_vec4_t		= I_Uniform<T, Uniform::Vector4,	0b0>;
+	template <class T> using uni_color_t	= I_Uniform<T, Uniform::Color,		0b0>;
+	template <class T> using uni_mat3_t		= I_Uniform<T, Uniform::Matrix3,	0b0>;
+	template <class T> using uni_mat4_t		= I_Uniform<T, Uniform::Matrix4,	0b0>;
+	template <class T> using uni_sampler_t	= I_Uniform<T, Uniform::Sampler,	0b1>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

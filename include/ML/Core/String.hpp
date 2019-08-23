@@ -1,7 +1,7 @@
 #ifndef _ML_STRING_HPP_
 #define _ML_STRING_HPP_
 
-#include <ML/Core/C_String.hpp>
+#include <ML/Core/TypeInfo.hpp>
 
 namespace ml
 {
@@ -238,13 +238,18 @@ namespace ml
 {
 	using String	= BasicString<char>;
 	using WString	= BasicString<wchar_t>;
-	using String16	= BasicString<char16_t>;
-	using String32	= BasicString<char32_t>;
+	using U16String	= BasicString<char16_t>;
+	using U32String	= BasicString<char32_t>;
 	
 	using SStream	= typename String::sstream_type;
 	using WSStream	= typename WString::sstream_type;
-	using SStream16 = typename String16::sstream_type;
-	using SStream32 = typename String32::sstream_type;
+	using SStream16 = typename U16String::sstream_type;
+	using SStream32 = typename U32String::sstream_type;
+
+	ML_GEN_SIGNATURE(String,	"struct ml::String");
+	ML_GEN_SIGNATURE(WString,	"struct ml::WString");
+	ML_GEN_SIGNATURE(U16String, "struct ml::U16String");
+	ML_GEN_SIGNATURE(U32String, "struct ml::U32String");
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

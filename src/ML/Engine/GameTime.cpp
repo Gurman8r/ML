@@ -37,7 +37,10 @@ namespace ml
 		
 		m_fps.index = (m_fps.index + 1) % m_fps.size;
 		
-		m_fps.frameRate = (m_fps.accum > 0.0f) ? (1.0f / (m_fps.accum / m_fps.scale)) : FLT_MAX;
+		m_fps.frameRate = ((m_fps.accum > 0.0f)
+			? (1.0f / (m_fps.accum / (float_t)m_fps.size))
+			: FLT_MAX
+		);
 
 		return (*this);
 	}

@@ -13,6 +13,8 @@
 #include <ML/Window/VideoMode.hpp>
 #include <ML/Window/WindowStyle.hpp>
 
+#define ML_ASPECT(w, h) ((w != 0 && h != 0) ? ((float_t)w / (float_t)(h)) : 0.0f)
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */

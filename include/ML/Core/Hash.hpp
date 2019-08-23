@@ -23,32 +23,32 @@ namespace ml
 		{
 		}
 
-		constexpr Hash() : m_value { uninit } {}
+		constexpr Hash() : m_value { 0 } {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T
-		> constexpr hash_t operator()(hash_t size, const T * arr, hash_t seed)
+		> constexpr hash_t operator()(const T * arr, hash_t size, hash_t seed)
 		{
 			return ((size > 0)
-				? (*this)((size - 1), (arr + 1), (seed ^ static_cast<hash_t>(*arr)) * prime)
+				? (*this)((arr + 1), (size - 1), (seed ^ static_cast<hash_t>(*arr)) * prime)
 				: seed
 			);
 		}
 
 		template <
 			class T
-		> constexpr hash_t operator()(hash_t size, const T * arr)
+		> constexpr hash_t operator()(const T * arr, hash_t size)
 		{
-			return (*this)(size, arr, basis);
+			return (*this)(arr, size, basis);
 		}
 
 		template <
 			class T, hash_t N
 		> constexpr hash_t operator()(const T(&value)[N])
 		{
-			return (*this)(N - 1, value);
+			return (*this)(value, (N - 1));
 		}
 
 		template <

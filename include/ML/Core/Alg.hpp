@@ -10,22 +10,15 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_MIN(x, y) ((x <= y) ? x : y)
-
-#define ML_MAX(x, y) ((x >= y) ? x : y)
-
-#define ML_CLAMP(VAL, MIN, MAX) (ML_MIN(ML_MAX(VAL, MIN), MAX))
-
-#define ML_ASPECT(w, h) ((w != 0 && h != 0) ? ((float_t)w / (float_t)(h)) : 0.0f)
+#define ML_MIN(lhs, rhs) ((lhs <= rhs) ? lhs : rhs)
+#define ML_MAX(lhs, rhs) ((lhs >= rhs) ? lhs : rhs)
+#define ML_CLAMP(value, minimum, maximum) (ML_MIN(ML_MAX(value, minimum), maximum))
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define bitRead(value, bit) ((value >> bit) & 1)
-
 #define bitSet(value, bit) (value |= (1 << bit))
-
 #define bitClear(value, bit) (value &= ~(1 << bit))
-
 #define bitWrite(value, bit, bitValue) ((bitValue) ? bitSet(value, bit) : bitClear(value, bit)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -12,17 +12,15 @@ namespace ml
 
 	static void test_type_info()
 	{
-		constexpr hash_t test { Hash("material") };
-
-		constexpr auto i_info = ml_type_id<int32_t>();
+		constexpr auto i_info = typeof<int32_t>();
 		constexpr auto i_name = i_info.raw_name();
 		constexpr auto i_hash = i_info.hash_code();
 
-		constexpr auto f_info = ml_type_id(1.0f);
+		constexpr auto f_info = typeof<>(1.0f);
 		constexpr auto f_name = f_info.raw_name();
 		constexpr auto f_hash = f_info.hash_code();
 
-		constexpr auto s_info = ml_type_id<C_String>();
+		constexpr auto s_info = typeof<C_String>();
 		constexpr auto s_name = s_info.raw_name();
 		constexpr auto s_hash = s_info.hash_code();
 	}

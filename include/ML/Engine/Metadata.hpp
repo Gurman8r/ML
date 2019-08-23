@@ -9,9 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// A collection of MetadataValues
-	struct Metadata final 
-		: public I_Newable
-		, public I_Disposable
+	struct Metadata final : public I_Newable, public I_Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

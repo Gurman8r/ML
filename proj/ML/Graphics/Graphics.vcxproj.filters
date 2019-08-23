@@ -99,9 +99,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\OpenGL.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
@@ -143,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Image.hpp">
       <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -218,7 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\ML\Graphics\GL.inl">
-      <Filter>Header Files\Rendering</Filter>
+      <Filter>Header Files\Utility</Filter>
     </None>
   </ItemGroup>
 </Project>

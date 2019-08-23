@@ -9,14 +9,14 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	using C_String	 = typename const char *;
 	using C_WString	 = typename const wchar_t *;
 	using C_String16 = typename const char16_t *;
 	using C_String32 = typename const char32_t *;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	namespace alg
 	{
@@ -28,12 +28,12 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Constexpr String
 	struct CX_String final
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename char;
 		using self_type			= typename CX_String;
@@ -44,7 +44,11 @@ namespace ml
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr size_t npos { static_cast<size_t>(-1) };
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			size_t N
@@ -58,18 +62,18 @@ namespace ml
 		{
 		}
 
-		constexpr CX_String(const_pointer value)
-			: self_type { value, alg::strlen(value) }
+		constexpr CX_String(const_pointer data)
+			: self_type { data, alg::strlen(data) }
 		{
 		}
 
-		constexpr CX_String(const_pointer value, size_t size)
-			: m_data { value }
+		constexpr CX_String(const_pointer data, size_t size)
+			: m_data { data }
 			, m_size { size }
 		{
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr auto begin()	const -> const_iterator	{ return data(); }
 		constexpr auto cbegin() const -> const_iterator	{ return begin(); }
@@ -77,41 +81,44 @@ namespace ml
 		constexpr auto c_str()	const -> const_pointer	{ return begin(); }
 		constexpr auto data()	const -> const_pointer	{ return m_data; }
 		constexpr auto end()	const -> const_iterator	{ return begin() + size(); }
-		constexpr auto hash()	const -> hash_t			{ return Hash(size(), begin()); }
+		constexpr auto hash()	const -> hash_t			{ return Hash { begin(), size() }; }
 		constexpr auto size()	const -> size_t			{ return m_size; }
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr operator const_pointer() const 
 		{ 
-			return this->c_str(); 
+			return m_data; 
 		}
 
 		constexpr const_reference operator[](size_t i) const
 		{ 
 			return m_data[i];
 		}
-			
-		constexpr const_pointer operator()(size_t i) const 
-		{ 
-			return m_data + i;
-		}
 
-		constexpr self_type operator()(size_t begin, size_t end) const
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr size_t find_first_of(size_t off, value_type value) const
 		{
-			return { m_data + begin, m_data + end };
+			return ((off < this->size())
+				? (((*this)[off] == value) ? off : this->find_first_of(off + 1, value))
+				: self_type::npos
+			);
 		}
 
-		constexpr self_type pad(size_t begin_off, size_t end_off) const
+		constexpr size_t find_last_of(size_t off, value_type value) const
 		{
-			return (*this)(begin_off, m_size - end_off);
+			return ((off < this->size())
+				? (((*this)[off] == value) ? off : this->find_last_of(off - 1, value))
+				: self_type::npos
+			);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const_pointer m_data;
-		size_t m_size;
+		const_pointer	m_data;
+		size_t			m_size;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -1,7 +1,39 @@
 #ifndef _ML_TYPE_INFO_HPP_
 #define _ML_TYPE_INFO_HPP_
 
-#include <ML/Core/Signature.hpp>
+/* * * * * * * * * * * * * * * * * * * * */
+
+#include <ML/Core/C_String.hpp>
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+# if defined(ML_CC_MSC)
+#	define ML_SIGNATURE		__FUNCSIG__
+#	define ML_SIGNATURE_PRE	"struct ml::CX_String __cdecl ml::detail::signature<"
+#	define ML_SIGNATURE_SUF	">(void)"
+# elif defined(ML_CC_CLANG)
+#	define ML_SIGNATURE		__PRETTY_FUNCTION__
+#	define ML_SIGNATURE_PRE	""
+#	define ML_SIGNATURE_SUF	""
+# elif defined(ML_CC_GNUC)
+#	define ML_SIGNATURE		__PRETTY_FUNCTION__
+#	define ML_SIGNATURE_PRE	""
+#	define ML_SIGNATURE_SUF	""
+# endif
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+#define ML_GEN_SIGNATURE(TYPE, NAME)						\
+template <> struct _ML nameof<TYPE>							\
+{															\
+	constexpr nameof() noexcept = default;					\
+	constexpr operator _ML CX_String() const noexcept		\
+	{														\
+		return { ML_SIGNATURE_PRE NAME ML_SIGNATURE_SUF };	\
+	}														\
+}
+
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -9,97 +41,82 @@ namespace ml
 
 	namespace detail
 	{
-		constexpr CX_String filter_prefix(const CX_String& str, const CX_String& pre)
-		{
-			return (str.size() >= pre.size()
-				? str(0, pre.size()) == pre
-					? str(pre.size(), str.size())
-					: str
-				: str
-			);
-		}
-
-		constexpr CX_String leftpad(const CX_String& str)
-		{
-			return ((str.size() > 0 && *str.begin() == ' ')
-				? leftpad(str(1, str.size()))
-				: str
-			);
-		}
-
-		constexpr CX_String filter_class(const CX_String& type_name)
-		{
-			return leftpad(filter_prefix(leftpad(type_name), "class"));
-		}
-
-		constexpr CX_String filter_struct(const CX_String& type_name)
-		{
-			return leftpad(filter_prefix(leftpad(type_name), "struct"));
-		}
-
-		constexpr CX_String filter_type_prefix(const CX_String& type_name)
-		{
-			return filter_struct(filter_class(type_name));
-		}
-
-		constexpr CX_String filter_sig_suffix(const CX_String & value)
-		{
-			return { value.begin(), value.size() - CX_String(ML_SIGNATURE_SUFFIX).size() };
-		}
-
-		constexpr CX_String filter_sig_prefix(const CX_String & value)
-		{
-			return filter_sig_suffix(
-				leftpad(filter_prefix(leftpad(value), ML_SIGNATURE_PREFIX))
-			);
-		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <class T> static constexpr CX_String ml_name_of()
-	{
-		return detail::filter_sig_prefix(signature_of<T>());
-	}
-
-	template <class T> static constexpr CX_String ml_name_of(T)
-	{
-		return ml_name_of<T>();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	namespace detail
-	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		struct type_info final
+		template <class T> static constexpr CX_String signature()
 		{
-			constexpr type_info(const CX_String & name) : m_name { name } {}
+			return { ML_SIGNATURE };
+		}
 
-			constexpr auto hash_code() const -> hash_t { return m_name.hash(); }
-
-			constexpr auto raw_name() const -> const CX_String & { return m_name; }
-
-			constexpr auto name() const -> CX_String { return filter_sig_prefix(raw_name()); }
-
-		private: const CX_String m_name;
-		};
+		static constexpr CX_String filter_name(const CX_String & value)
+		{
+			const size_t lhs { value.find_first_of(0, '<') };
+			const size_t rhs { value.find_last_of(value.size() - 1, '>') };
+			return (((lhs != value.npos) && (rhs != value.npos))
+				? CX_String { (value.begin() + lhs + 1), (rhs - lhs) - 1 }
+				: value
+			);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> static constexpr auto ml_type_id()
-	{
-		return detail::type_info { signature_of<T>() };
-	}
+	template <class ... T> struct nameof;
 
-	template <class T> static constexpr auto ml_type_id(T)
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <class T> struct nameof<T> final
 	{
-		return ml_type_id<T>();
-	}
+		constexpr nameof() noexcept = default;
+
+		constexpr operator CX_String() const noexcept
+		{
+			return detail::signature<T>(); 
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <class ... T> struct typeof;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <class T> struct typeof<T>
+	{
+		constexpr typeof() noexcept = default;
+
+		constexpr auto hash_code()	const noexcept -> hash_t	{ return raw_name().hash(); }
+		constexpr auto name()		const noexcept -> CX_String	{ return detail::filter_name(raw_name()); }
+		constexpr auto raw_name()	const noexcept -> CX_String	{ return nameof<T>(); }
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct typeof<>
+	{
+		template <class T> constexpr typeof(const T &) noexcept
+			: typeof<> { typeof<T>() }
+		{
+		}
+
+		template <class T> explicit constexpr typeof(const typeof<T> & copy) noexcept
+			: m_raw  { copy.raw_name() }
+			, m_name { copy.name() }
+			, m_hash { copy.hash_code() }
+		{
+		}
+
+		constexpr auto hash_code()	const noexcept -> hash_t	{ return m_hash; }
+		constexpr auto name()		const noexcept -> CX_String	{ return m_name; }
+		constexpr auto raw_name()	const noexcept -> CX_String	{ return m_raw; }
+
+	private: 
+		const hash_t	m_hash;
+		const CX_String	m_name;
+		const CX_String	m_raw;
+	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

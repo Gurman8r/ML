@@ -40,8 +40,7 @@ namespace ml
 
 		struct FPS_Tracker final
 		{
-			static constexpr time_t		size	{ (2_min).seconds() };
-			static constexpr float_t	scale	{ (float_t)size };
+			static constexpr time_t	size { (2_min).seconds() };
 
 			size_t	index;
 			float_t frameRate;

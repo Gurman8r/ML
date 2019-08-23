@@ -115,7 +115,9 @@ namespace ml
 		// Load Defaults
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Content.create<Texture>("default_texture")->loadFromImage(
-			ML_Content.create<Image>("default_image")->update({ 512, 512 }, Color32::magenta)
+			ML_Content.create<Image>("default_image")->update(
+				{ 512, 512 }, 4, Color32::magenta
+			)
 		);
 
 		ML_Content.create<Model>("default_triangle")->loadFromMemory(

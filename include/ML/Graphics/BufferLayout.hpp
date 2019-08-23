@@ -4,7 +4,10 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/List.hpp>
+#include <ML/Core/Matrix.hpp>
 #include <ML/Core/I_Newable.hpp>
+//#include <ML/Core/TypeInfo.hpp>
+//#include <mapbox/eternal.hpp>
 
 namespace ml
 {
@@ -12,6 +15,22 @@ namespace ml
 
 	struct ML_GRAPHICS_API BufferLayout final : public I_Newable
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		//static constexpr const auto test = mapbox::eternal::map<hash_t, size_t>({
+		//{ ml_type_id<vec2>().hash_code(), sizeof(float_t) * 2 * 1 },
+		//{ ml_type_id<vec3>().hash_code(), sizeof(float_t) * 3 * 1 },
+		//{ ml_type_id<vec4>().hash_code(), sizeof(float_t) * 4 * 1 },
+		//{ ml_type_id<mat3>().hash_code(), sizeof(float_t) * 3 * 3 },
+		//{ ml_type_id<mat4>().hash_code(), sizeof(float_t) * 4 * 4 },
+		//});
+		//
+		//template <class T>
+		//static constexpr size_t size_of()
+		//{
+		//	return test.find(ml_type_id<T>().hash_code())->second;
+		//}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		struct Element final

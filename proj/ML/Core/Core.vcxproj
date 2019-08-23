@@ -165,7 +165,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Alg.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\C_String.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Input.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Event.hpp" />

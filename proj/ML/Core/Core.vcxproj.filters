@@ -111,9 +111,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\C_String.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>

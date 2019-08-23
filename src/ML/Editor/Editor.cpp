@@ -191,7 +191,6 @@ namespace ml
 	void Editor::onEnter(const EnterEvent & ev)
 	{
 		m_redirect_cout = ev.prefs.get_bool("Editor", "redirect_cout", false);
-		m_show_menubar = ev.prefs.get_bool("Editor", "show_menubar", true);
 
 		// Initialize Implementation Instance
 		IMGUI_CHECKVERSION();
@@ -271,7 +270,7 @@ namespace ml
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (m_show_menubar && ImGui::BeginMainMenuBar())
+		if (ImGui::BeginMainMenuBar())
 		{
 			// Menu -> File
 			/* * * * * * * * * * * * * * * * * * * * */

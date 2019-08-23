@@ -2,7 +2,6 @@
 #define _ML_EDITOR_IMPORTER_HPP_
 
 #include <ML/Editor/EditorForm.hpp>
-#include <ML/Engine/ContentDatabase.hpp>
 
 namespace ml
 {

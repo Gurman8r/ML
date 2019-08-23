@@ -1,4 +1,5 @@
 #include <ML/Editor/PropertyDrawer.hpp>
+#include <ML/Engine/ContentDatabase.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Core/Debug.hpp>
@@ -786,20 +787,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		ImGui::Text("Flip");
-		ImGui::SameLine();
-		if (ImGui::Button(("Horizontally##Flip##" + label).c_str()))
+		if (ImGui::Button(("Flip Horizontally##" + label).c_str()))
 		{
-			Image temp { value.copyToImage() };
-			temp.flipHorizontally();
-			value.update(temp);
+			value.update(Image { value.copyToImage() }.flipHorizontally());
 		}
 		ImGui::SameLine();
-		if (ImGui::Button(("Vertically##Flip##" + label).c_str()))
+		if (ImGui::Button(("Flip Vertically##" + label).c_str()))
 		{
-			Image temp { value.copyToImage() };
-			temp.flipVertically();
-			value.update(temp);
+			value.update(Image { value.copyToImage() }.flipVertically());
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -807,8 +802,8 @@ namespace ml
 		int32_t level { value.level() };
 		if (ImGui::InputInt(("Level##" + label).c_str(), &level))
 		{
-			value.setLevel(level); 
-			changed = true;
+			//value.setLevel(level); 
+			//changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 

@@ -58,7 +58,7 @@ namespace ml
 			ImGuiWindowFlags_NoMove |
 			ImGuiWindowFlags_NoBringToFrontOnFocus |
 			ImGuiWindowFlags_NoNavFocus |
-			(ev.editor.show_menubar() ? ImGuiWindowFlags_MenuBar : 0) |
+			ImGuiWindowFlags_MenuBar |
 			ImGuiWindowFlags_NoDocking |
 			ImGuiWindowFlags_NoBackground
 		))

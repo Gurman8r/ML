@@ -325,7 +325,7 @@ namespace ml
 	void Noobs::DemoEditor::render(const GuiEvent & ev, C_String title)
 	{
 		if (!m_open) return;
-		ImGui::PushID("##DemoEditor##Noobs");
+		ImGui::PushID(ML_ADDRESSOF(this));
 		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_None))
 		{
 			if (ImGui::BeginTabBar("DemoEditor##TabBar##Main"))
@@ -346,6 +346,16 @@ namespace ml
 					{
 						this->compile_sources();
 					}
+					ImGuiExt::Tooltip("Build shader source code");
+					ImGui::SameLine();
+					
+					// Rebuild
+					if (ImGui::Button("Rebuild"))
+					{
+						this->reset_sources();
+						this->generate_sources();
+					}
+					ImGuiExt::Tooltip("Update source code to that from the last successfull compilation");
 					ImGui::Separator();
 
 					// Toggle Demo Files (start at one to always show config)

@@ -188,20 +188,28 @@ namespace ml
 	{
 		if (gs)
 		{
-			m_sources.vs = ShaderParser::parseShader(vs);
-			m_sources.gs = ShaderParser::parseShader(gs);
-			m_sources.fs = ShaderParser::parseShader(fs);
-			return compile(m_sources.vs.c_str(), m_sources.gs.c_str(), m_sources.fs.c_str());
+			if (compile(vs.c_str(), gs.c_str(), fs.c_str()))
+			{
+				m_sources.vs = ShaderParser::parseShader(vs);
+				m_sources.gs = ShaderParser::parseShader(gs);
+				m_sources.fs = ShaderParser::parseShader(fs);
+				return true;
+			}
+			return false;
 		}
 		return loadFromMemory(vs, fs);
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & fs)
 	{
-		m_sources.vs = ShaderParser::parseShader(vs);
-		m_sources.gs = String();
-		m_sources.fs = ShaderParser::parseShader(fs);
-		return compile(m_sources.vs.c_str(), nullptr, m_sources.fs.c_str());
+		if (compile(vs.c_str(), nullptr, fs.c_str()))
+		{
+			m_sources.vs = ShaderParser::parseShader(vs);
+			m_sources.gs = String();
+			m_sources.fs = ShaderParser::parseShader(fs);
+			return true;
+		}
+		return false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

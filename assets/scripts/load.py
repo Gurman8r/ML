@@ -1,8 +1,8 @@
-from memelib import content as content
+import memelib as ml
 
 PATH = "../../../assets"
 
-content.load([
+ml.content.load([
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     {

@@ -965,6 +965,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		if (!this->material()) return;
+
 		if (auto vert = setup_file(DemoFile::Vert, this->shader()->sources().vs))
 		{
 			vert->open = this->shader()->sources().vs;

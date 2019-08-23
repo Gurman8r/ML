@@ -139,28 +139,25 @@ namespace ml
 
 	bool MetadataParser::parseMetadata(const Metadata & data)
 	{
-		switch (Hash(data.getData("type").asString()))
-		{
-			case Hash("manifest") : return true;
+		const String type { data.getData("type").asString() };
 
-			case ContentImporter<Entity		>::id: return ContentImporter<Entity	>()(data);
-			case ContentImporter<Font		>::id: return ContentImporter<Font		>()(data);
-			case ContentImporter<Image		>::id: return ContentImporter<Image		>()(data);
-			case ContentImporter<Material	>::id: return ContentImporter<Material	>()(data);
-			case ContentImporter<Model		>::id: return ContentImporter<Model		>()(data);
-			case ContentImporter<Script		>::id: return ContentImporter<Script	>()(data);
-			case ContentImporter<Shader		>::id: return ContentImporter<Shader	>()(data);
-			case ContentImporter<Sound		>::id: return ContentImporter<Sound		>()(data);
-			case ContentImporter<Sprite		>::id: return ContentImporter<Sprite	>()(data);
-			case ContentImporter<Surface	>::id: return ContentImporter<Surface	>()(data);
-			case ContentImporter<Texture	>::id: return ContentImporter<Texture	>()(data);
-		
-			default:
-				return Debug::logError("Failed Loading {0}:  \'{1}\'",
-					data.getData("type").asString(),
-					data.getData("name").asString()
-				);
-		}
+		if (type == "manifest")			return true;
+		else if (type == "entity")		return ContentImporter<Entity	>()(data);
+		else if (type == "font")		return ContentImporter<Font		>()(data);
+		else if (type == "image")		return ContentImporter<Image	>()(data);
+		else if (type == "material")	return ContentImporter<Material	>()(data);
+		else if (type == "model")		return ContentImporter<Model	>()(data);
+		else if (type == "script")		return ContentImporter<Script	>()(data);
+		else if (type == "shader")		return ContentImporter<Shader	>()(data);
+		else if (type == "sound")		return ContentImporter<Sound	>()(data);
+		else if (type == "sprite")		return ContentImporter<Sprite	>()(data);
+		else if (type == "surface")		return ContentImporter<Surface	>()(data);
+		else if (type == "texture")		return ContentImporter<Texture	>()(data);
+
+		return Debug::logError("Failed Loading {0}:  \'{1}\'",
+			data.getData("type").asString(),
+			data.getData("name").asString()
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

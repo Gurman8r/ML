@@ -12,6 +12,8 @@ namespace ml
 
 	static void test_type_info()
 	{
+		constexpr hash_t test { Hash("material") };
+
 		constexpr auto i_info = ml_type_id<int32_t>();
 		constexpr auto i_name = i_info.raw_name();
 		constexpr auto i_hash = i_info.hash_code();

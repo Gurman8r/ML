@@ -7,18 +7,22 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+// Source: https://github.com/Manu343726/ctti
+
+/* * * * * * * * * * * * * * * * * * * * */
+
 # if defined(ML_CC_MSC)
 #	define ML_SIGNATURE		__FUNCSIG__
 #	define ML_SIGNATURE_PRE	"struct ml::CX_String __cdecl ml::detail::signature<"
 #	define ML_SIGNATURE_SUF	">(void)"
-# elif defined(ML_CC_CLANG)
-#	define ML_SIGNATURE		__PRETTY_FUNCTION__
-#	define ML_SIGNATURE_PRE	""
-#	define ML_SIGNATURE_SUF	""
 # elif defined(ML_CC_GNUC)
 #	define ML_SIGNATURE		__PRETTY_FUNCTION__
-#	define ML_SIGNATURE_PRE	""
-#	define ML_SIGNATURE_SUF	""
+#	define ML_SIGNATURE_PRE	"constexpr ml::CX_String ml::detail::signature() [with T = "
+#	define ML_SIGNATURE_SUF	"]"
+# elif defined(ML_CC_CLANG)
+#	define ML_SIGNATURE		__PRETTY_FUNCTION__
+#	define ML_SIGNATURE_PRE	"ml::CX_String ml::detail::signature() [T = "
+#	define ML_SIGNATURE_SUF	"]"
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -48,14 +52,23 @@ namespace ml
 			return { ML_SIGNATURE };
 		}
 
-		static constexpr CX_String filter_name(const CX_String & value)
+		static constexpr CX_String filter_signature(const CX_String & value)
 		{
+#ifdef ML_CC_MSC
 			const size_t lhs { value.find_first_of(0, '<') };
 			const size_t rhs { value.find_last_of(value.size() - 1, '>') };
 			return (((lhs != value.npos) && (rhs != value.npos))
 				? CX_String { (value.begin() + lhs + 1), (rhs - lhs) - 1 }
 				: value
 			);
+#else
+			const size_t lhs { value.find_first_of(0, '=') };
+			const size_t rhs { value.find_last_of(value.size() - 1, ']') };
+			return (((lhs != value.npos) && (rhs != value.npos))
+				? CX_String { (value.begin() + lhs + 2), (rhs - lhs) - 1 }
+				: value
+			);
+#endif
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -79,43 +92,57 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	namespace detail
+	{
+		struct type_info final
+		{
+			const CX_String raw;
+			const hash_t	hash;
+			const CX_String name;
+
+			constexpr type_info(const CX_String & str) noexcept
+				: raw	{ str }
+				, hash	{ str.hash() }
+				, name	{ filter_signature(str) }
+			{
+			}
+		};
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	template <class ... T> struct typeof;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <class T> struct typeof<T>
 	{
-		constexpr typeof() noexcept = default;
+		constexpr typeof() noexcept 
+			: m_info { nameof<T>() } 
+		{
+		}
 
-		constexpr auto hash_code()	const noexcept -> hash_t	{ return raw_name().hash(); }
-		constexpr auto name()		const noexcept -> CX_String	{ return detail::filter_name(raw_name()); }
-		constexpr auto raw_name()	const noexcept -> CX_String	{ return nameof<T>(); }
+		constexpr auto hash_code()	const noexcept -> const hash_t &	{ return m_info.hash; }
+		constexpr auto name()		const noexcept -> const CX_String &	{ return m_info.name; }
+		constexpr auto raw_name()	const noexcept -> const CX_String &	{ return m_info.raw; }
+
+	private: const detail::type_info m_info;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <> struct typeof<>
 	{
-		template <class T> constexpr typeof(const T &) noexcept
-			: typeof<> { typeof<T>() }
+		template <class T> constexpr typeof(const T &) noexcept 
+			: m_info { nameof<T>() }
 		{
 		}
 
-		template <class T> explicit constexpr typeof(const typeof<T> & copy) noexcept
-			: m_raw  { copy.raw_name() }
-			, m_name { copy.name() }
-			, m_hash { copy.hash_code() }
-		{
-		}
+		constexpr auto hash_code()	const noexcept -> const hash_t &	{ return m_info.hash; }
+		constexpr auto name()		const noexcept -> const CX_String &	{ return m_info.name; }
+		constexpr auto raw_name()	const noexcept -> const CX_String &	{ return m_info.raw; }
 
-		constexpr auto hash_code()	const noexcept -> hash_t	{ return m_hash; }
-		constexpr auto name()		const noexcept -> CX_String	{ return m_name; }
-		constexpr auto raw_name()	const noexcept -> CX_String	{ return m_raw; }
-
-	private: 
-		const hash_t	m_hash;
-		const CX_String	m_name;
-		const CX_String	m_raw;
+	private: const detail::type_info m_info;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

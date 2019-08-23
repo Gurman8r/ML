@@ -84,16 +84,16 @@
 #	define ML_CC_NAME	"Microsoft"
 #	define ML_CC_MSC	_MSC_VER
 #	define ML_CC_VER	ML_CC_MSC
-# elif defined(__clang__)
-//	Clang Compiler
-#	define ML_CC_NAME	"Clang"
-#	define ML_CC_CLANG	__clang_
-#	define ML_CC_VER	ML_CC_CLANG
-# elif defined(__GNUC__)
+# elif defined(__GNUC__) && not defined(__clang__)
 //	GNU Compiler
 #	define ML_CC_NAME	"GNU"
 #	define ML_CC_GNUC	__GNUC__
 #	define ML_CC_VER	ML_CC_GNUC
+# elif defined(__clang__)
+//	Clang Compiler
+#	define ML_CC_NAME	"Clang"
+#	define ML_CC_CLANG	__clang__
+#	define ML_CC_VER	ML_CC_CLANG
 #else
 #	error This compiler does not support memes.
 # endif

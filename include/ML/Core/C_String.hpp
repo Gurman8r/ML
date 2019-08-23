@@ -1,22 +1,18 @@
 #ifndef _ML_C_STRING_HPP_
 #define _ML_C_STRING_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Core/Array.hpp>
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using C_String	 = typename const char *;
 	using C_WString	 = typename const wchar_t *;
 	using C_String16 = typename const char16_t *;
 	using C_String32 = typename const char32_t *;
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	namespace alg
 	{
@@ -28,7 +24,7 @@ namespace ml
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Constexpr String
 	struct CX_String final
@@ -52,22 +48,22 @@ namespace ml
 
 		template <
 			size_t N
-		> constexpr CX_String(const value_type(& value)[N])
+		> constexpr CX_String(const value_type(& value)[N]) noexcept
 			: self_type { &value[0], (N - 1) }
 		{
 		}
 
-		constexpr CX_String(const_pointer begin, const_pointer end)
+		constexpr CX_String(const_pointer begin, const_pointer end) noexcept
 			: self_type { begin, (size_t)(end - begin) }
 		{
 		}
 
-		constexpr CX_String(const_pointer data)
+		constexpr CX_String(const_pointer data) noexcept
 			: self_type { data, alg::strlen(data) }
 		{
 		}
 
-		constexpr CX_String(const_pointer data, size_t size)
+		constexpr CX_String(const_pointer data, size_t size) noexcept
 			: m_data { data }
 			, m_size { size }
 		{
@@ -81,14 +77,14 @@ namespace ml
 		constexpr auto c_str()	const -> const_pointer	{ return begin(); }
 		constexpr auto data()	const -> const_pointer	{ return m_data; }
 		constexpr auto end()	const -> const_iterator	{ return begin() + size(); }
-		constexpr auto hash()	const -> hash_t			{ return Hash { begin(), size() }; }
+		constexpr auto hash()	const -> hash_t			{ return Hash { data(), size() }; }
 		constexpr auto size()	const -> size_t			{ return m_size; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr operator const_pointer() const 
+		constexpr operator const_pointer() const
 		{ 
-			return m_data; 
+			return m_data;
 		}
 
 		constexpr const_reference operator[](size_t i) const
@@ -119,9 +115,11 @@ namespace ml
 	private:
 		const_pointer	m_data;
 		size_t			m_size;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	inline ML_SERIALIZE(Ostream & out, const CX_String & value)
 	{
@@ -132,7 +130,7 @@ namespace ml
 		return out;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	constexpr bool operator==(const CX_String & lhs, const CX_String & rhs)
 	{
@@ -165,8 +163,38 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-}
 
-/* * * * * * * * * * * * * * * * * * * * */
+	constexpr bool operator==(const CX_String & lhs, C_String rhs)
+	{
+		return (lhs == CX_String { rhs });
+	}
+
+	constexpr bool operator!=(const CX_String & lhs, C_String rhs)
+	{
+		return (lhs != CX_String { rhs });
+	}
+
+	constexpr bool operator<(const CX_String & lhs, C_String rhs)
+	{
+		return (lhs < CX_String { rhs });
+	}
+
+	constexpr bool operator>(const CX_String & lhs, C_String rhs)
+	{
+		return (lhs < CX_String { rhs });
+	}
+
+	constexpr bool operator<=(const CX_String & lhs, C_String rhs)
+	{
+		return (lhs <= CX_String { rhs });
+	}
+
+	constexpr bool operator>=(const CX_String & lhs, C_String rhs)
+	{
+		return (lhs >= CX_String { rhs });
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+}
 
 #endif // !_ML_C_STRING_HPP_

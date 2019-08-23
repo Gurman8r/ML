@@ -347,16 +347,14 @@ namespace ml
 
 		template <
 			class T, size_t N
-		> static constexpr auto begin(const T(&value)[N])
-			-> const T *
+		> static constexpr auto begin(const T(&value)[N]) -> const T *
 		{
 			return (&value[0]);
 		}
 
 		template <
 			class T, size_t N
-		> static constexpr auto end(const T(&value)[N])
-			-> const T *
+		> static constexpr auto end(const T(&value)[N]) -> const T *
 		{
 			return (&value[N]);
 		}
@@ -368,8 +366,8 @@ namespace ml
 		> static constexpr bool equals(LI lBegin, LI lEnd, RI rBegin, RI rEnd)
 		{
 			return ((lBegin != lEnd && rBegin != rEnd)
-				? ((*lBegin) == (*rBegin))
-					&& ML_ALG equals((lBegin + 1), lEnd, (rBegin + 1), rEnd)
+				? (((*lBegin) == (*rBegin))
+					&& ML_ALG equals((lBegin + 1), lEnd, (rBegin + 1), rEnd))
 				: ((lBegin == lEnd) && (rBegin == rEnd))
 			);
 		}
@@ -379,8 +377,8 @@ namespace ml
 		> static constexpr bool less(LI lBegin, LI lEnd, RI rBegin, RI rEnd)
 		{
 			return ((lBegin != lEnd && rBegin != rEnd)
-				? ((*lBegin) < (*rBegin))
-					&& ML_ALG less((lBegin + 1), lEnd, (rBegin + 1), rEnd)
+				? (((*lBegin) < (*rBegin))
+					&& ML_ALG less((lBegin + 1), lEnd, (rBegin + 1), rEnd))
 				: ((lBegin == lEnd) && (rBegin == rEnd))
 			);
 		}

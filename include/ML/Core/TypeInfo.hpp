@@ -115,7 +115,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct typeof<T>
+	template <class T> struct typeof<T> final
 	{
 		constexpr typeof() noexcept 
 			: m_info { nameof<T>() } 
@@ -131,7 +131,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <> struct typeof<>
+	template <> struct typeof<> final
 	{
 		template <class T> constexpr typeof(const T &) noexcept 
 			: m_info { nameof<T>() }

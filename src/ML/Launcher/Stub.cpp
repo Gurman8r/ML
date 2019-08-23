@@ -13,9 +13,9 @@ namespace ml
 	static void test_type_info()
 	{
 		constexpr auto i_info = typeof<ml::int32_t>();
-		constexpr auto i_name = i_info.raw_name();
+		constexpr auto i_name = i_info.name();
 		constexpr auto i_hash = i_info.hash_code();
-		static_assert(i_info.name() == "int", "What?");
+		static_assert(i_name == "int", "What?");
 
 		constexpr auto f_info = typeof<>(1.0f);
 		constexpr auto f_name = f_info.raw_name();
@@ -23,9 +23,9 @@ namespace ml
 		static_assert(f_info.name() == "float", "What?");
 
 		constexpr auto s_info = typeof<C_String>();
-		constexpr auto s_name = s_info.raw_name();
+		constexpr auto s_name = s_info.name();
 		constexpr auto s_hash = s_info.hash_code();
-		static_assert(s_info.name() == "const char*", "What?");
+		static_assert(s_name == "const char*", "What?");
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

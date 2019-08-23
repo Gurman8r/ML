@@ -205,7 +205,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Token.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TokenLexer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />

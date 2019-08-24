@@ -47,7 +47,7 @@ namespace ml
 			{
 				// Create Item
 				T * temp { nullptr };
-				if (!PropertyDrawer<T>()(label, (T *&)temp)) { /* error */ }
+				if (!PropertyDrawer<T>()(label, (T *&)temp, 1)) { /* error */ }
 			}
 			// Draw Items
 			for (auto & pair : ML_Content.data<T>())

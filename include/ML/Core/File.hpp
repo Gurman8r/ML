@@ -12,11 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Stores the contents of a text file
-	template <
-		class Elem,
-		class Traits	= CharTraits<Elem>,
-		class Alloc		= Allocator<Elem>
-	> struct BasicFile final
+	template <class Ch> struct BasicFile final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
@@ -24,14 +20,13 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type		= typename Elem;
-		using traits_type		= typename Traits;
-		using allocator_type	= typename Alloc;
-		using self_type			= typename BasicFile<value_type, traits_type, allocator_type>;
-		using string_type		= typename BasicString<value_type, traits_type, allocator_type>;
+		using value_type		= typename Ch;
+		using traits_type		= typename CharTraits<Ch>;
+		using self_type			= typename BasicFile<value_type>;
+		using string_type		= typename BasicString<value_type>;
 		using sstream_type		= typename string_type::sstream_type;
-		using ifstream_type		= typename std::basic_ifstream<value_type, traits_type>;
-		using ofstream_type		= typename std::basic_ofstream<value_type, traits_type>;
+		using ifstream_type		= typename BasicIfstream<value_type, traits_type>;
+		using ofstream_type		= typename BasicOfstream<value_type, traits_type>;
 		using list_type			= typename List<value_type>;
 		using iterator			= typename list_type::iterator;
 		using const_iterator	= typename list_type::const_iterator;
@@ -167,7 +162,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const File & value)
+	template <class Ch>
+	inline ML_SERIALIZE(Ostream & out, const BasicFile<Ch> & value)
 	{
 		return out << value.str();
 	}

@@ -17,9 +17,9 @@ namespace ml
 {
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Entity * EntityImporter::operator()(const Metadata & md) const
+	Entity * ContentImporter<Entity>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -47,9 +47,9 @@ namespace ml
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Font * FontImporter::operator()(const Metadata & md) const
+	Font * ContentImporter<Font>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -77,9 +77,9 @@ namespace ml
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Image * ImageImporter::operator()(const Metadata & md) const
+	Image * ContentImporter<Image>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -110,9 +110,9 @@ namespace ml
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Material * MaterialImporter::operator()(const Metadata & md) const
+	Material * ContentImporter<Material>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -165,9 +165,9 @@ namespace ml
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Model * ModelImporter::operator()(const Metadata & md) const
+	Model * ContentImporter<Model>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -195,9 +195,9 @@ namespace ml
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Script * ScriptImporter::operator()(const Metadata & md) const
+	Script * ContentImporter<Script>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -225,9 +225,9 @@ namespace ml
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Shader * ShaderImporter::operator()(const Metadata & md) const
+	Shader * ContentImporter<Shader>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -280,9 +280,9 @@ namespace ml
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Sound * SoundImporter::operator()(const Metadata & md) const
+	Sound * ContentImporter<Sound>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -310,9 +310,9 @@ namespace ml
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Sprite * SpriteImporter::operator()(const Metadata & md) const
+	Sprite * ContentImporter<Sprite>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -343,9 +343,9 @@ namespace ml
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Surface * SurfaceImporter::operator()(const Metadata & md) const
+	Surface * ContentImporter<Surface>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -373,9 +373,9 @@ namespace ml
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Texture * TextureImporter::operator()(const Metadata & md) const
+	Texture * ContentImporter<Texture>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->getTag())
+		if (md.getData("type").asString() == this->name().str())
 		{
 			if (const String name = md.getData("name"))
 			{

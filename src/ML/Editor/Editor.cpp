@@ -17,12 +17,12 @@ namespace ml
 
 	Editor::Editor(EventSystem & eventSystem)
 		: I_EventListener	{ eventSystem }
+		, m_dockspace		{ *this }
 		, m_explorer		{ *this }
 		, m_content			{ *this }
-		, m_dockspace		{ *this }
 		, m_importer		{ *this }
 		, m_profiler		{ *this }
-		, m_manual			{ *this }
+		, m_inspector			{ *this }
 		, m_terminal		{ *this }
 	{
 		eventSystem.addListener(EnterEvent		::ID, this);
@@ -69,6 +69,7 @@ namespace ml
 				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_importer	.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_inspector.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_terminal	.getTitle(), d.getNode(d.LeftDn));
 			}
 			break;
@@ -79,23 +80,25 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				constexpr KeyEvent::Mods ctrl_alt { 0, 1, 1, 0 };
+
 				// Show Terminal | Ctrl + Alt + T
-				if (ev->getPress(KeyCode::T, { 0, 1, 1, 0 })) m_terminal.toggleOpen();
+				if (ev->getPress(KeyCode::T, ctrl_alt)) m_terminal.toggleOpen();
 
 				// Show Explorer | Ctrl + Alt + E
-				if (ev->getPress(KeyCode::E, { 0, 1, 1, 0 })) m_explorer.toggleOpen();
+				if (ev->getPress(KeyCode::E, ctrl_alt)) m_explorer.toggleOpen();
 
 				// Show Importer | Ctrl + Alt + I
-				if (ev->getPress(KeyCode::I, { 0, 1, 1, 0 })) m_importer.toggleOpen();
+				if (ev->getPress(KeyCode::I, ctrl_alt)) m_importer.toggleOpen();
 
 				// Show Profiler | Ctrl + Alt + P
-				if (ev->getPress(KeyCode::P, { 0, 1, 1, 0 })) m_profiler.toggleOpen();
+				if (ev->getPress(KeyCode::P, ctrl_alt)) m_profiler.toggleOpen();
 
-				// Show Resources | Ctrl + Alt + C
-				if (ev->getPress(KeyCode::C, { 0, 1, 1, 0 })) m_content.toggleOpen();
+				// Show Content | Ctrl + Alt + C
+				if (ev->getPress(KeyCode::C, ctrl_alt)) m_content.toggleOpen();
 
-				// Show Resources | Ctrl + Alt + M
-				if (ev->getPress(KeyCode::M, { 0, 1, 1, 0 })) m_manual.toggleOpen();
+				// Show Inspector | Ctrl + Alt + M
+				if (ev->getPress(KeyCode::M, ctrl_alt)) m_inspector.toggleOpen();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -137,14 +140,7 @@ namespace ml
 
 			// File -> Open
 		case File_Open_Event::ID:
-			if (auto ev = value.as<File_Open_Event>())
-			{
-				if (m_explorer.isOpen())
-				{
-					OS::execute("open", m_explorer.get_selected_path());
-				}
-			}
-			break;
+			if (auto ev = value.as<File_Open_Event>()) {} break;
 
 			// File -> Save
 		case File_Save_Event::ID:
@@ -238,7 +234,7 @@ namespace ml
 		m_explorer	.setOpen(ev.prefs.get_bool("Editor", "show_explorer",	false));
 		m_importer	.setOpen(ev.prefs.get_bool("Editor", "show_importer",	false));
 		m_profiler	.setOpen(ev.prefs.get_bool("Editor", "show_profiler",	false));
-		m_manual	.setOpen(ev.prefs.get_bool("Editor", "show_manual",		false));
+		m_inspector	.setOpen(ev.prefs.get_bool("Editor", "show_inspector",	false));
 		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal",	false));
 	}
 
@@ -249,7 +245,7 @@ namespace ml
 		m_dockspace	.onUpdate(ev);
 		m_importer	.onUpdate(ev);
 		m_profiler	.onUpdate(ev);
-		m_manual	.onUpdate(ev);
+		m_inspector	.onUpdate(ev);
 		m_terminal	.onUpdate(ev);
 	}
 
@@ -276,22 +272,22 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("File"))
 			{
-				//// File -> New
-				//if (ImGui::MenuItem("New", "Ctrl+N"))
-				//{
-				//	eventSystem().fireEvent(File_New_Event());
-				//}
-				//// File -> Open
-				//if (ImGui::MenuItem("Open", "Ctrl+O"))
-				//{
-				//	eventSystem().fireEvent(File_Open_Event());
-				//}
-				//// File -> Save
-				//if (ImGui::MenuItem("Save", "Ctrl+S"))
-				//{
-				//	eventSystem().fireEvent(File_Save_Event());
-				//}
-				//ImGui::Separator();
+				// File -> New
+				if (ImGui::MenuItem("New", "Ctrl+N"))
+				{
+					eventSystem().fireEvent(File_New_Event());
+				}
+				// File -> Open
+				if (ImGui::MenuItem("Open", "Ctrl+O"))
+				{
+					eventSystem().fireEvent(File_Open_Event());
+				}
+				// File -> Save
+				if (ImGui::MenuItem("Save", "Ctrl+S"))
+				{
+					eventSystem().fireEvent(File_Save_Event());
+				}
+				ImGui::Separator();
 				// File -> Quit
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{
@@ -300,20 +296,6 @@ namespace ml
 
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::File));
 
-				ImGui::EndMenu();
-			}
-
-			// Menu -> Assets
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginMenu("Assets"))
-			{
-				if (ImGui::BeginMenu("Create"))
-				{
-					if (ImGui::MenuItem("Material")) {}
-					if (ImGui::MenuItem("Shader")) {}
-					if (ImGui::MenuItem("Uniform")) {}
-					ImGui::EndMenu();
-				}
 				ImGui::EndMenu();
 			}
 
@@ -359,13 +341,11 @@ namespace ml
 			{
 				ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content	.openPtr());
 				ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
-				//ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
+				ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
 				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
-				//ImGui::MenuItem(m_manual.getTitle(),	"Ctrl+Alt+M", m_manual	.openPtr());
+				ImGui::MenuItem(m_inspector.getTitle(),	"Ctrl+Alt+M", m_inspector.openPtr());
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
-
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Window));
-				
 				ImGui::EndMenu();
 			}
 
@@ -429,7 +409,7 @@ namespace ml
 		/*	Explorer	*/	if (m_explorer	.isOpen()) m_explorer	.onGui(ev);
 		/*	Importer	*/	if (m_importer	.isOpen()) m_importer	.onGui(ev);
 		/*	Profiler	*/	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
-		/*	Manual		*/	if (m_manual	.isOpen()) m_manual		.onGui(ev);
+		/*	Inspector		*/	if (m_inspector	.isOpen()) m_inspector		.onGui(ev);
 		/*	Terminal	*/	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
 	}
 

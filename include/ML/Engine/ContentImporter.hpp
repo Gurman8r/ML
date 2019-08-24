@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct Entity;
 	struct Font;
@@ -21,136 +21,125 @@ namespace ml
 	struct Texture;
 	struct Uniform;
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		class T
-	> struct ContentImporter;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		class T
-	> struct CustomContentImporter
-	{
-		using value_type	= typename detail::decay_t<T>;
-		using self_type		= typename CustomContentImporter<value_type>;
-		using wrapper_type	= typename ContentImporter<value_type>;
-
-		static constexpr auto getHash() -> hash_t	{ return wrapper_type::id;	}
-		static constexpr auto getTag()	-> C_String	{ return wrapper_type::tag;	}
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_CONTENT_IMPORTER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
-struct PREFIX NAME final : public _ML CustomContentImporter<ELEM>	\
-##IMPL;																\
-template <> struct _ML ContentImporter<ELEM>						\
-{																	\
-	using type = typename ELEM;										\
-	static constexpr auto id	{ _ML Hash(##TAG) };				\
-	static constexpr auto tag	{ ##TAG };							\
-	template <														\
-		class ... Args												\
-	> inline auto operator()(Args && ... args) const				\
-	{																\
-		return NAME()(_STD forward<Args>(args)...);					\
-	}																\
-};
-
-#define ML_GEN_CONTENT_IMPORTER(NAME, ELEM, TAG, IMPL) \
-	ML_GEN_CONTENT_IMPORTER_EXT(ML_ENGINE_API, NAME, ELEM, TAG, IMPL)
+#define ML_GEN_IMPORTER_DETAILS(T)									\
+using value_type		= typename _ML detail::decay_t<T>;			\
+using self_type			= typename ContentImporter<T>;				\
+using pointer			= typename value_type *;					\
+using reference			= typename value_type &;					\
+using const_pointer		= typename const value_type *;				\
+using const_reference	= typename const value_type &;				\
+static constexpr _ML StringView name() { return ML_STRINGIFY(T); }	\
+static constexpr _ML hash_t		hash() { return name().hash(); }	\
+ContentImporter() = default;
 
 namespace ml
 {
+	// Base
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	template <class ... T>
+	struct ContentImporter;
+
+
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(EntityImporter, Entity, "entity",
+	template <> struct ML_ENGINE_API ContentImporter<Entity> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Entity);
 		Entity * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(FontImporter, Font, "font",
+	template <> struct ML_ENGINE_API ContentImporter<Font> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Font);
 		Font * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(ImageImporter, Image, "image",
+	template <> struct ML_ENGINE_API ContentImporter<Image> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Image);
 		Image * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(MaterialImporter, Material, "material",
+	template <> struct ML_ENGINE_API ContentImporter<Material> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Material);
 		Material * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(ModelImporter, Model, "model",
+	template <> struct ML_ENGINE_API ContentImporter<Model> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Model);
 		Model * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(ScriptImporter, Script, "script",
+	template <> struct ML_ENGINE_API ContentImporter<Script> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Script);
 		Script * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(ShaderImporter, Shader, "shader",
+	template <> struct ML_ENGINE_API ContentImporter<Shader> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Shader);
 		Shader * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(SoundImporter, Sound, "sound",
+	template <> struct ML_ENGINE_API ContentImporter<Sound> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Sound);
 		Sound * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(SpriteImporter, Sprite, "sprite",
+	template <> struct ML_ENGINE_API ContentImporter<Sprite> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Sprite);
 		Sprite * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(SurfaceImporter, Surface, "surface",
+	template <> struct ML_ENGINE_API ContentImporter<Surface> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Surface);
 		Surface * operator()(const Metadata & md) const;
-	});
+	};
 
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_CONTENT_IMPORTER(TextureImporter, Texture, "texture",
+	template <> struct ML_ENGINE_API ContentImporter<Texture> final
 	{
+		ML_GEN_IMPORTER_DETAILS(Texture);
 		Texture * operator()(const Metadata & md) const;
-	});
+	};
 }
 
 #endif // !_ML_CONTENT_IMPORTER_HPP_

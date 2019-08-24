@@ -29,14 +29,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline String narrow(const WString & value)
+		static inline String narrow(const W_String & value)
 		{
 			return std::wstring_convert<
 				std::codecvt_utf8_utf16<wchar_t>
 			>().to_bytes(value);
 		}
 
-		static inline WString widen(const String & value)
+		static inline W_String widen(const String & value)
 		{
 			return std::wstring_convert<
 				std::codecvt_utf8_utf16<wchar_t>

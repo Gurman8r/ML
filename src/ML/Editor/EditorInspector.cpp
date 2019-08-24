@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorManual.hpp>
+#include <ML/Editor/EditorInspector.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 
@@ -6,18 +6,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorManual::EditorManual(Editor & editor)
+	EditorInspector::EditorInspector(Editor & editor)
 		: EditorForm { editor, "Manual", false }
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorManual::onUpdate(const UpdateEvent & ev)
+	void EditorInspector::onUpdate(const UpdateEvent & ev)
 	{
 	}
 
-	bool EditorManual::onGui(const GuiEvent & ev)
+	bool EditorInspector::onGui(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{

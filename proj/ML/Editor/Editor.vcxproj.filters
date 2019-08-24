@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Forms">
       <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Widgets">
+      <UniqueIdentifier>{b2f239fb-96e8-428d-a993-c86203592354}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets">
+      <UniqueIdentifier>{58231a78-19d4-450f-861f-bec954f84847}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorExplorer.hpp">
@@ -99,10 +105,13 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorManual.hpp">
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorForm.hpp">
       <Filter>Header Files\Forms</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorForm.hpp">
+    <ClInclude Include="..\..\..\include\ML\Editor\FileBrowser.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorInspector.hpp">
       <Filter>Header Files\Forms</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,10 +164,13 @@
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiStyleLoader.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorManual.cpp">
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorForm.cpp">
       <Filter>Source Files\Forms</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorForm.cpp">
+    <ClCompile Include="..\..\..\src\ML\Editor\FileBrowser.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorInspector.cpp">
       <Filter>Source Files\Forms</Filter>
     </ClCompile>
   </ItemGroup>

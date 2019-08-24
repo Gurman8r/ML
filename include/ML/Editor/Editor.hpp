@@ -7,7 +7,7 @@
 #include <ML/Editor/EditorExplorer.hpp>
 #include <ML/Editor/EditorImporter.hpp>
 #include <ML/Editor/EditorProfiler.hpp>
-#include <ML/Editor/EditorManual.hpp>
+#include <ML/Editor/EditorInspector.hpp>
 #include <ML/Editor/EditorTerminal.hpp>
 
 namespace ml
@@ -41,7 +41,7 @@ namespace ml
 		inline auto explorer()	-> EditorExplorer	&	{ return m_explorer; }
 		inline auto importer()	-> EditorImporter	&	{ return m_importer; }
 		inline auto profiler()	-> EditorProfiler	&	{ return m_profiler; }
-		inline auto manual()	-> EditorManual		&	{ return m_manual; }
+		inline auto manual()	-> EditorInspector		&	{ return m_inspector; }
 		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
 
 	private:
@@ -51,12 +51,12 @@ namespace ml
 		bool m_show_imgui_style		{ false };
 		bool m_show_imgui_about		{ false };
 
+		EditorDockspace	m_dockspace;
 		EditorContent	m_content;
 		EditorExplorer	m_explorer;
-		EditorDockspace	m_dockspace;
 		EditorImporter	m_importer;
 		EditorProfiler	m_profiler;
-		EditorManual	m_manual;
+		EditorInspector	m_inspector;
 		EditorTerminal	m_terminal;
 	};
 

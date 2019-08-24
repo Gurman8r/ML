@@ -7,14 +7,14 @@ namespace ml
 {
 	// just a wrapper for std::basic_string<>
 	template <
-		class Elem,
-		class Traits = typename CharTraits<Elem>,
-		class Alloc  = typename Allocator<Elem>
-	> struct BasicString : public std::basic_string<Elem, Traits, Alloc>
+		class Ch,
+		class Traits = typename CharTraits<Ch>,
+		class Alloc  = typename Allocator<Ch>
+	> struct BasicString : public std::basic_string<Ch, Traits, Alloc>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using value_type			= typename Elem;
+		using value_type			= typename Ch;
 		using traits_type			= typename Traits;
 		using allocator_type		= typename Alloc;
 		using self_type				= typename BasicString<value_type, traits_type, allocator_type>;
@@ -225,10 +225,10 @@ namespace ml
 namespace std
 {
 	template <
-		class Elem, class Traits, class Alloc
-	> struct hash<_ML BasicString<Elem, Traits, Alloc>>
+		class Ch, class Traits, class Alloc
+	> struct hash<_ML BasicString<Ch, Traits, Alloc>>
 	{
-		using argument_type = _ML BasicString<Elem, Traits, Alloc>;
+		using argument_type = _ML BasicString<Ch, Traits, Alloc>;
 
 		inline _ML hash_t operator()(const argument_type & value) const noexcept
 		{
@@ -241,20 +241,20 @@ namespace std
 
 namespace ml
 {
-	using String	= BasicString<char>;
-	using WString	= BasicString<wchar_t>;
-	using U16String	= BasicString<char16_t>;
-	using U32String	= BasicString<char32_t>;
+	using String		= BasicString<char>;
+	using W_String		= BasicString<wchar_t>;
+	using U16_String	= BasicString<char16_t>;
+	using U32_String	= BasicString<char32_t>;
 	
-	using SStream	= typename String::sstream_type;
-	using WSStream	= typename WString::sstream_type;
-	using SStream16 = typename U16String::sstream_type;
-	using SStream32 = typename U32String::sstream_type;
+	using SStream		= typename String::sstream_type;
+	using W_SStream		= typename W_String::sstream_type;
+	using U16_SStream	= typename U16_String::sstream_type;
+	using U32_SStream	= typename U32_String::sstream_type;
 
-	ML_GEN_SIGNATURE(String,	"struct ml::String");
-	ML_GEN_SIGNATURE(WString,	"struct ml::WString");
-	ML_GEN_SIGNATURE(U16String, "struct ml::U16String");
-	ML_GEN_SIGNATURE(U32String, "struct ml::U32String");
+	ML_GEN_SIGNATURE(String,		"struct ml::String");
+	ML_GEN_SIGNATURE(W_String,		"struct ml::W_String");
+	ML_GEN_SIGNATURE(U16_String,	"struct ml::U16_String");
+	ML_GEN_SIGNATURE(U32_String,	"struct ml::U32_String");
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

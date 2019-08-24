@@ -270,7 +270,7 @@ namespace ml
 					ImGui::Separator();
 
 					// Kernel
-					UniformPropertyDrawer()("##Kernel", (Uniform &)m_kernel);
+					PropertyDrawer<Uniform>()("##Kernel", (Uniform &)m_kernel);
 					ImGui::SameLine(); ImGui::Text("Kernel");
 
 					ImGui::EndMenu();
@@ -415,7 +415,7 @@ namespace ml
 
 					// New Uniform Popup
 					Uniform * to_add { nullptr };
-					if (UniformPropertyDrawer()("##New##Uni", (Uniform *&)to_add))
+					if (PropertyDrawer<Uniform>()("##New##Uni", (Uniform *&)to_add))
 					{
 						// Already Exists
 						if (!m_material->add(to_add))
@@ -484,7 +484,7 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 						ImGui::PushID(label.c_str());
 						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-						if (UniformPropertyDrawer()(label, (Uniform &)(*uni)))
+						if (PropertyDrawer<Uniform>()(label, (Uniform &)(*uni)))
 						{
 							// Remove Uniform
 							ImGui::SameLine();
@@ -530,7 +530,7 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					const Shader * s = this->shader();
-					if (ShaderPropertyDrawer()("Shader##Material##Noobs", s))
+					if (PropertyDrawer<Shader>()("Shader##Material##Noobs", s))
 					{
 						this->shader() = s;
 						this->reset_sources();
@@ -541,7 +541,7 @@ namespace ml
 					ImGui::NewLine();
 
 					const Model * m = (const Model *)m_renderer->drawable();
-					if (ModelPropertyDrawer()("Model##Renderer##Noobs", m))
+					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", m))
 					{
 						this->renderer()->setDrawable(m);
 					}

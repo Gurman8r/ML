@@ -7,14 +7,16 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ ] Rework Mesh/Model/Renderer to utilize Assimp
-[ ] reimplement old math
-[ ] cameras
+[ ] proper gui for creating/importing new assets
+[ ] gui open file dialog
+
 
 [?] async asset loading (threaded w/ progress bar)
 [?] automatic/recursive asset loading
 [?] custom asset importer gui
 
+[X] reimplement old math
+[X] Rework Mesh/Model/Renderer to utilize Assimp (needs work)
 [x] texture cube maps (6-sided)
 [x] constexpr math structures
 [x] material deserialization

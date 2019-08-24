@@ -142,17 +142,17 @@ namespace ml
 		const String type { data.getData("type").asString() };
 
 		if (type == "manifest")			return true;
-		else if (type == "entity")		return ContentImporter<Entity	>()(data);
-		else if (type == "font")		return ContentImporter<Font		>()(data);
-		else if (type == "image")		return ContentImporter<Image	>()(data);
-		else if (type == "material")	return ContentImporter<Material	>()(data);
-		else if (type == "model")		return ContentImporter<Model	>()(data);
-		else if (type == "script")		return ContentImporter<Script	>()(data);
-		else if (type == "shader")		return ContentImporter<Shader	>()(data);
-		else if (type == "sound")		return ContentImporter<Sound	>()(data);
-		else if (type == "sprite")		return ContentImporter<Sprite	>()(data);
-		else if (type == "surface")		return ContentImporter<Surface	>()(data);
-		else if (type == "texture")		return ContentImporter<Texture	>()(data);
+		else if (type == "Entity")		return ContentImporter<Entity	>()(data);
+		else if (type == "Font")		return ContentImporter<Font		>()(data);
+		else if (type == "Image")		return ContentImporter<Image	>()(data);
+		else if (type == "Material")	return ContentImporter<Material	>()(data);
+		else if (type == "Model")		return ContentImporter<Model	>()(data);
+		else if (type == "Script")		return ContentImporter<Script	>()(data);
+		else if (type == "Shader")		return ContentImporter<Shader	>()(data);
+		else if (type == "Sound")		return ContentImporter<Sound	>()(data);
+		else if (type == "Sprite")		return ContentImporter<Sprite	>()(data);
+		else if (type == "Surface")		return ContentImporter<Surface	>()(data);
+		else if (type == "Texture")		return ContentImporter<Texture	>()(data);
 
 		return Debug::logError("Failed Loading {0}:  \'{1}\'",
 			data.getData("type").asString(),

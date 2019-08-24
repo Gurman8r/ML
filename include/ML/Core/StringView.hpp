@@ -13,12 +13,14 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename char;
+		using self_type			= typename StringView;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
+		using string_type		= typename std::basic_string<value_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -29,17 +31,17 @@ namespace ml
 		template <
 			size_t N
 		> constexpr StringView(const value_type(& value)[N]) noexcept
-			: StringView { &value[0], (N - 1) }
+			: self_type { &value[0], (N - 1) }
 		{
 		}
 
 		constexpr StringView(const_pointer begin, const_pointer end) noexcept
-			: StringView { begin, (size_t)(end - begin) }
+			: self_type { begin, (size_t)(end - begin) }
 		{
 		}
 
 		constexpr StringView(const_pointer data) noexcept
-			: StringView { data, alg::strlen(data) }
+			: self_type { data, alg::strlen(data) }
 		{
 		}
 
@@ -51,14 +53,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto begin()	const -> const_iterator	{ return data(); }
+		constexpr auto begin()	const -> const_iterator	{ return m_data; }
 		constexpr auto cbegin() const -> const_iterator	{ return begin(); }
 		constexpr auto cend()	const -> const_iterator	{ return end(); }
-		constexpr auto c_str()	const -> const_pointer	{ return begin(); }
+		constexpr auto c_str()	const -> const_pointer	{ return m_data; }
 		constexpr auto data()	const -> const_pointer	{ return m_data; }
-		constexpr auto end()	const -> const_iterator	{ return begin() + size(); }
-		constexpr auto hash()	const -> hash_t			{ return Hash { data(), size() }; }
+		constexpr auto end()	const -> const_iterator	{ return m_data + m_size; }
+		constexpr auto hash()	const -> hash_t			{ return Hash { m_data, m_size }; }
 		constexpr auto size()	const -> size_t			{ return m_size; }
+		inline	  auto str()	const -> string_type	{ return { begin(), size() }; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -72,7 +75,17 @@ namespace ml
 			return m_data[i];
 		}
 
+		inline operator string_type() const
+		{
+			return this->str();
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr size_t find_first_of(value_type value) const
+		{
+			return find_first_of(0, value);
+		}
 
 		constexpr size_t find_first_of(size_t off, value_type value) const
 		{
@@ -80,6 +93,13 @@ namespace ml
 				? (((*this)[off] == value) ? (off) : find_first_of(off + 1, value))
 				: npos
 			);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr size_t find_last_of(value_type value) const
+		{
+			return find_last_of(size() - 1, value);
 		}
 
 		constexpr size_t find_last_of(size_t off, value_type value) const
@@ -90,11 +110,13 @@ namespace ml
 			);
 		}
 
-		constexpr StringView substr(size_t off, size_t count) const
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr self_type substr(size_t off, size_t count) const
 		{
 			return (((off + count) < size())
-				? StringView { begin() + off, count }
-				: StringView { (*this) }
+				? self_type { begin() + off, count }
+				: self_type { (*this) }
 			);
 		}
 

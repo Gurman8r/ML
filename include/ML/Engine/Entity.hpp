@@ -42,14 +42,14 @@ namespace ml
 			class T
 		> inline iterator find()
 		{
-			return (iterator)(m_map.find(typeof<T>().hash()));
+			return (iterator)(m_map.find(typeid(T).hash_code()));
 		}
 
 		template <
 			class T
 		> inline const_iterator find() const
 		{
-			return (const_iterator)(m_map.find(typeof<T>().hash()));
+			return (const_iterator)(m_map.find(typeid(T).hash_code()));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -60,7 +60,7 @@ namespace ml
 		{
 			return ((this->find<T>() == this->end())
 				? (static_cast<T *>(m_map.insert({ 
-						typeof<T>().hash(), 
+						typeid(T).hash_code(), 
 						new T() 
 					}).first->second))
 				: (nullptr)
@@ -73,7 +73,7 @@ namespace ml
 		{
 			return ((this->find<T>() == this->end())
 				? (static_cast<T *>(m_map.insert({
-						typeof<T>().hash(),
+						typeid(T).hash_code(),
 						value
 					}).first->second))
 				: (nullptr)

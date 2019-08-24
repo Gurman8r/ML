@@ -39,17 +39,12 @@ namespace ml
 {
 	// Entity Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool EntityPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Entity>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Entity>(label, value);
 	}
 
-	bool EntityPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		return false;
-	}
-
-	bool EntityPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Entity>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		if (Renderer * r = value.get<Renderer>())
 		{
@@ -59,13 +54,13 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				const Model * model = (const Model *)r->drawable();
-				if (ModelPropertyDrawer()("Model##Renderer", model))
+				if (PropertyDrawer<Model>()("Model##Renderer", model))
 				{
 					r->setDrawable(model);
 				}
 
 				const Material * material = r->material();
-				if (MaterialPropertyDrawer()("Material##Renderer", material))
+				if (PropertyDrawer<Material>()("Material##Renderer", material))
 				{
 					r->setMaterial(material);
 				}
@@ -192,17 +187,12 @@ namespace ml
 
 	// Font Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool FontPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Font>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Font>(label, value);
 	}
 
-	bool FontPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		return false;
-	}
-
-	bool FontPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Font>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		ImGui::Text("%s", value.getInfo().family.c_str());
 
@@ -253,19 +243,12 @@ namespace ml
 
 	// Image Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool ImagePropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Image>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Image>(label, value);
 	}
 
-	bool ImagePropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		ImGui::Text("Size: %i x %i", value.width(), value.height());
-		ImGui::Text("Channels: %i", value.channels());
-		return false;
-	}
-
-	bool ImagePropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Image>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		bool changed { false };
 
@@ -329,25 +312,19 @@ namespace ml
 
 	// Material Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool MaterialPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Material>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Material>(label, value);
 	}
 
-	bool MaterialPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		
-		return false;
-	}
-
-	bool MaterialPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Material>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		ImGui::PushID(label.c_str());
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		const Shader * shader = value.shader();
-		if (ShaderPropertyDrawer()("Shader##Material", shader))
+		if (PropertyDrawer<Shader>()("Shader##Material", shader))
 		{
 			value.shader() = shader;
 		}
@@ -358,7 +335,7 @@ namespace ml
 		{
 			// new uniform editor
 			Uniform * u = nullptr;
-			if (UniformPropertyDrawer()(("##NewUniform##Material" + label).c_str(), u))
+			if (PropertyDrawer<Uniform>()(("##NewUniform##Material" + label).c_str(), u))
 			{
 				if (!value.add(u))
 				{
@@ -406,7 +383,7 @@ namespace ml
 							ImGuiWindowFlags_NoScrollWithMouse
 						);
 
-						if (UniformPropertyDrawer()(name, (Uniform &)(*(*it))))
+						if (PropertyDrawer<Uniform>()(name, (Uniform &)(*(*it))))
 						{
 							ImGui::SameLine();
 							if (ImGui::Button(("Remove##" + name).c_str()))
@@ -451,18 +428,12 @@ namespace ml
 
 	// Model Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool ModelPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Model>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Model>(label, value);
 	}
 
-	bool ModelPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		ImGui::Text("%s", label.c_str());
-		return false;
-	}
-
-	bool ModelPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Model>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		ImGui::PushID(ML_ADDRESSOF(&value));
 		ImGui::Text("Meshes: %u", value.meshes().size());
@@ -486,31 +457,26 @@ namespace ml
 
 	// Script Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool ScriptPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Script>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Script>(label, value);
 	}
 
-	bool ScriptPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
+	bool PropertyDrawer<Script>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		ImGui::Text("%s", label.c_str());
 		return false;
 	}
 
-	bool ScriptPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
-	{
-		return (*this)(label, (const_reference)value, flags);
-	}
-
 
 	// Shader Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool ShaderPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Shader>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Shader>(label, value);
 	}
 	
-	bool ShaderPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
+	bool PropertyDrawer<Shader>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		if (ImGui::BeginTabBar("SourceTabs"))
 		{
@@ -538,25 +504,15 @@ namespace ml
 		return false;
 	}
 
-	bool ShaderPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
-	{
-		return (*this)(label, (const Shader &)value);
-	}
-
 
 	// Sound Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool SoundPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Sound>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Sound>(label, value);
 	}
 
-	bool SoundPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		return false;
-	}
-
-	bool SoundPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Sound>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		return false;
 	}
@@ -564,39 +520,12 @@ namespace ml
 
 	// Sprite Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool SpritePropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Sprite>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Sprite>(label, value);
 	}
 
-	bool SpritePropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		ImGui::PushID(label.c_str());
-
-		vec4 color = value.color();
-		if (ImGui::ColorEdit4("Color##Sprite", &color[0])) {}
-
-		vec2 origin = value.origin();
-		if (ImGui::InputFloat2("Origin##Sprite", &origin[0], 1)) {}
-
-		vec2 position = value.position();
-		if (ImGui::InputFloat2("Position##Sprite", &position[0], 1)) {}
-
-		float_t rotation = value.rotation();
-		if (ImGui::InputFloat("Rotation##Sprite", &rotation, 1)) {}
-
-		vec2 scale = value.scale();
-		if (ImGui::InputFloat2("Scale##Sprite", &scale[0], 1)) {}
-
-		const Texture * tex = value.texture();
-		TexturePropertyDrawer()("Texture##Sprite", tex);
-
-		ImGui::PopID();
-
-		return false;
-	}
-
-	bool SpritePropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Sprite>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		bool changed = false;
 
@@ -638,7 +567,7 @@ namespace ml
 		}
 
 		const Texture * tex = value.texture();
-		if (TexturePropertyDrawer()("Texture##Sprite", tex))
+		if (PropertyDrawer<Texture>()("Texture##Sprite", tex))
 		{
 			value.setTexture(tex);
 		}
@@ -651,34 +580,12 @@ namespace ml
 	
 	// Surface Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool SurfacePropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Surface>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Surface>(label, value);
 	}
 
-	bool SurfacePropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		const vec2 previewSize = ([](const vec2 & src, const vec2 & dst)
-		{
-			const vec2
-				hs = { (dst[0] / src[0]), (dst[0] / src[0]) },
-				vs = { (dst[1] / src[1]), (dst[1] / src[1]) };
-			return (src * (((hs) < (vs)) ? (hs) : (vs)));
-
-		})(value.size(), { 256, 256 }); // <- target size
-
-		ImGui::Image(
-			value.texture().get_handle(),
-			{ previewSize[0], previewSize[1] },
-			{ 0, 1 },
-			{ 1, 0 },
-			{ 255, 255, 255, 255 },
-			{ 255, 255, 255, 128 }
-		);
-		return false;
-	}
-
-	bool SurfacePropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Surface>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		bool changed { false };
 
@@ -687,13 +594,13 @@ namespace ml
 		ImGui::Text("Texture Handle: %u", value.texture());
 
 		const Shader * shader { value.shader() };
-		if (ShaderPropertyDrawer()(("Shader##Surface##" + label), shader))
+		if (PropertyDrawer<Shader>()(("Shader##Surface##" + label), shader))
 		{
 			//value.setShader(shader); changed = true;
 		}
 
 		const Model * model { value.model() };
-		if (ModelPropertyDrawer()(("Model##Surface##" + label), model))
+		if (PropertyDrawer<Model>()(("Model##Surface##" + label), model))
 		{
 			//value.setModel(model); changed = true;
 		}
@@ -728,17 +635,12 @@ namespace ml
 	
 	// Texture Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool TexturePropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Texture>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Texture>(label, value);
 	}
 
-	bool TexturePropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		return false;
-	}
-
-	bool TexturePropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Texture>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		bool changed = false;
 
@@ -916,17 +818,12 @@ namespace ml
 
 	// Uniform Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	bool UniformPropertyDrawer::operator()(const String & label, const_pointer & value, int32_t flags) const
+	bool PropertyDrawer<Uniform>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		return asset_dropdown<Uniform>(label, value);
 	}
 
-	bool UniformPropertyDrawer::operator()(const String & label, const_reference value, int32_t flags) const
-	{
-		return false;
-	}
-
-	bool UniformPropertyDrawer::operator()(const String & label, pointer & value, int32_t flags) const
+	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		if (ImGui::Button(("New##" + label).c_str()))
 		{
@@ -1006,7 +903,7 @@ namespace ml
 		return false;
 	}
 
-	bool UniformPropertyDrawer::operator()(const String & label, reference value, int32_t flags) const
+	bool PropertyDrawer<Uniform>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		constexpr float speed = 0.001f;
 		switch (value.id)
@@ -1141,7 +1038,7 @@ namespace ml
 			{
 				const String name = "##" + label + "##Sampler##Uni" + value.name;
 				const Texture * temp = u->data;
-				if (TexturePropertyDrawer()(name, temp)) { u->data = temp; }
+				if (PropertyDrawer<Texture>()(name, temp)) { u->data = temp; }
 				return true;
 			}
 			break;

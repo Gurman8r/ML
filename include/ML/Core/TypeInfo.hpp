@@ -57,15 +57,15 @@ namespace ml
 		static constexpr StringView filter_name(const StringView & value)
 		{
 #ifdef ML_CC_MSC
-			const size_t lhs { value.find_first_of(0, '<') };
-			const size_t rhs { value.find_last_of(value.size() - 1, '>') };
+			const size_t lhs { value.find_first_of('<') };
+			const size_t rhs { value.find_last_of('>') };
 			return (((lhs != value.npos) && (rhs != value.npos))
 				? value.substr((lhs + 1), (rhs - lhs) - 1)
 				: value
 			);
 #else
-			const size_t lhs { value.find_first_of(0, '=') };
-			const size_t rhs { value.find_last_of(value.size() - 1, ']') };
+			const size_t lhs { value.find_first_of('=') };
+			const size_t rhs { value.find_last_of(']') };
 			return (((lhs != value.npos) && (rhs != value.npos))
 				? value.substr((lhs + 2), (rhs - lhs) - 1)
 				: value

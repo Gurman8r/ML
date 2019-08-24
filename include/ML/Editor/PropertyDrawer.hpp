@@ -8,7 +8,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct Entity;
 	struct Font;
@@ -23,173 +23,147 @@ namespace ml
 	struct Texture;
 	struct Uniform;
 	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		class T
-	> struct PropertyDrawer;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		class T
-	> struct CustomPropertyDrawer
-	{
-		using value_type		= typename detail::decay_t<T>;
-		using pointer			= typename value_type *;
-		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
-		using const_reference	= typename const value_type &;
-		using self_type			= typename CustomPropertyDrawer<value_type>;
-		using wrapper_type		= typename PropertyDrawer<value_type>;
-
-		static constexpr auto getHash() -> hash_t	{ return wrapper_type::id;	}
-		static constexpr auto getTag()	-> C_String	{ return wrapper_type::tag; }
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#define ML_GEN_PROPERTY_DRAWER_EXT(PREFIX, NAME, ELEM, TAG, IMPL)	\
-struct PREFIX NAME final : public _ML CustomPropertyDrawer<ELEM>	\
-##IMPL;																\
-template <> struct _ML PropertyDrawer<ELEM>							\
-{																	\
-	using type = typename ELEM;										\
-	static constexpr auto id	{ _ML Hash(##TAG) };				\
-	static constexpr auto tag	{ ##TAG };							\
-	template <														\
-		class ... Args												\
-	> inline auto operator()(Args && ... args) const				\
-	{																\
-		return NAME()(_STD forward<Args>(args)...);					\
-	}																\
-};
-
-#define ML_GEN_PROPERTY_DRAWER(NAME, ELEM, TAG, IMPL) \
-	ML_GEN_PROPERTY_DRAWER_EXT(ML_EDITOR_API, NAME, ELEM, TAG, IMPL)
+#define ML_GEN_DRAWER_DETAILS(T)									\
+using value_type		= typename _ML detail::decay_t<T>;			\
+using self_type			= typename PropertyDrawer<T>;				\
+using pointer			= typename value_type *;					\
+using reference			= typename value_type &;					\
+using const_pointer		= typename const value_type *;				\
+using const_reference	= typename const value_type &;				\
+static constexpr _ML StringView name() { return ML_STRINGIFY(T); }	\
+static constexpr _ML hash_t		hash() { return name().hash(); }	\
+PropertyDrawer() = default;
 
 namespace ml
 {
+	// Base
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	template <class ... T>
+	struct PropertyDrawer;
+
+
 	// Entity Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(EntityPropertyDrawer, Entity, "entity",
+	template <> struct ML_EDITOR_API PropertyDrawer<Entity> final
 	{
+		ML_GEN_DRAWER_DETAILS(Entity);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Font Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(FontPropertyDrawer, Font, "font",
+	template <> struct ML_EDITOR_API PropertyDrawer<Font> final
 	{
+		ML_GEN_DRAWER_DETAILS(Font);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Image Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(ImagePropertyDrawer, Image, "image",
+	template <> struct ML_EDITOR_API PropertyDrawer<Image> final
 	{
+		ML_GEN_DRAWER_DETAILS(Image);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Material Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(MaterialPropertyDrawer, Material, "material",
+	template <> struct ML_EDITOR_API PropertyDrawer<Material> final
 	{
+		ML_GEN_DRAWER_DETAILS(Material);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Model Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(ModelPropertyDrawer, Model, "model",
+	template <> struct ML_EDITOR_API PropertyDrawer<Model> final
 	{
+		ML_GEN_DRAWER_DETAILS(Model);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Script Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(ScriptPropertyDrawer, Script, "script",
+	template <> struct ML_EDITOR_API PropertyDrawer<Script> final
 	{
+		ML_GEN_DRAWER_DETAILS(Script);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Shader Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(ShaderPropertyDrawer, Shader, "shader",
+	template <> struct ML_EDITOR_API PropertyDrawer<Shader> final
 	{
+		ML_GEN_DRAWER_DETAILS(Shader);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Sound Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(SoundPropertyDrawer, Sound, "sound",
+	template <> struct ML_EDITOR_API PropertyDrawer<Sound> final
 	{
+		ML_GEN_DRAWER_DETAILS(Sound);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Sprite Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(SpritePropertyDrawer, Sprite, "sprite",
+	template <> struct ML_EDITOR_API PropertyDrawer<Sprite> final
 	{
+		ML_GEN_DRAWER_DETAILS(Sprite);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Surface Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(SurfacePropertyDrawer, Surface, "surface",
+	template <> struct ML_EDITOR_API PropertyDrawer<Surface> final
 	{
+		ML_GEN_DRAWER_DETAILS(Surface);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Texture Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(TexturePropertyDrawer, Texture, "cubemap",
+	template <> struct ML_EDITOR_API PropertyDrawer<Texture> final
 	{
+		ML_GEN_DRAWER_DETAILS(Texture);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 
 
 	// Uniform Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_GEN_PROPERTY_DRAWER(UniformPropertyDrawer, Uniform, "uniform",
+	template <> struct ML_EDITOR_API PropertyDrawer<Uniform> final
 	{
+		ML_GEN_DRAWER_DETAILS(Uniform);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
-		bool operator()(const String & label, const_reference value, int32_t flags = 0) const;
 		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
-	});
+	};
 }
 
 #endif // !_ML_PROPERTY_DRAWER_HPP_

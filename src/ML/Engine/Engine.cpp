@@ -137,12 +137,12 @@ namespace ml
 		);
 
 
-		ML_Content.insert<Uniform>("CURSOR_POS",	new uni_vec2_ptr ("u_cursorPos",	&m_cursorPos));
-		ML_Content.insert<Uniform>("DELTA_TIME",	new uni_float_ptr("u_deltaTime",	&m_deltaTime));
-		ML_Content.insert<Uniform>("FRAME_COUNT",	new uni_int_ptr	 ("u_frameCount",	&m_frameCount));
-		ML_Content.insert<Uniform>("FRAME_RATE",	new uni_float_ptr("u_frameRate",	&m_frameRate));
-		ML_Content.insert<Uniform>("TOTAL_TIME",	new uni_float_ptr("u_totalTime",	&m_totalTime));
-		ML_Content.insert<Uniform>("VIEWPORT",		new uni_vec2_ptr ("u_viewport",		&m_viewport));
+		ML_Content.insert<Uniform>("u_cursorPos",	new uni_vec2_ptr ("u_cursorPos",	&m_cursorPos));
+		ML_Content.insert<Uniform>("u_deltaTime",	new uni_float_ptr("u_deltaTime",	&m_deltaTime));
+		ML_Content.insert<Uniform>("u_frameCount",	new uni_int_ptr	 ("u_frameCount",	&m_frameCount));
+		ML_Content.insert<Uniform>("u_frameRate",	new uni_float_ptr("u_frameRate",	&m_frameRate));
+		ML_Content.insert<Uniform>("u_totalTime",	new uni_float_ptr("u_totalTime",	&m_totalTime));
+		ML_Content.insert<Uniform>("u_viewport",	new uni_vec2_ptr ("u_viewport",		&m_viewport));
 
 
 		// Run Load Script

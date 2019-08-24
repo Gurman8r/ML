@@ -1101,7 +1101,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			if (value && flags == 1) { ML_Content.insert<Uniform>(name, value); }
+			if (value && flags == 1) { ML_Content.insert<Uniform>(value->name, value); }
 
 			return value;
 		}

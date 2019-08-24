@@ -40,10 +40,7 @@ namespace ml
 			if (!ImGui::CollapsingHeader(label.c_str())) { return; }
 
 			// Empty
-			if (ML_Content.data<T>().empty())
-			{
-				return ImGui::Text("-");
-			}
+			if (ML_Content.data<T>().empty()) { return ImGui::Text("-"); }
 
 			// Draw Elements
 			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<T>()));

@@ -31,7 +31,7 @@ namespace ml
 		{
 			// Type Name
 			static String type_name;
-			if (!type_name && (type_name = typeid(T).name()))
+			if (!type_name && (type_name = typeof<T>().name()))
 			{
 				type_name = type_name.substr(type_name.find_last_of(":") + 1);
 			}

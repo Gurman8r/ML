@@ -12,10 +12,11 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using pointer			= typename char *;
-		using reference			= typename char &;
-		using const_pointer		= typename const char *;
-		using const_reference	= typename const char &;
+		using value_type		= typename char;
+		using pointer			= typename value_type *;
+		using reference			= typename value_type &;
+		using const_pointer		= typename const value_type *;
+		using const_reference	= typename const value_type &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
 
@@ -27,7 +28,7 @@ namespace ml
 
 		template <
 			size_t N
-		> constexpr StringView(const char(& value)[N]) noexcept
+		> constexpr StringView(const value_type(& value)[N]) noexcept
 			: StringView { &value[0], (N - 1) }
 		{
 		}
@@ -73,7 +74,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr size_t find_first_of(size_t off, char value) const
+		constexpr size_t find_first_of(size_t off, value_type value) const
 		{
 			return ((off < size())
 				? (((*this)[off] == value) ? (off) : find_first_of(off + 1, value))
@@ -81,7 +82,7 @@ namespace ml
 			);
 		}
 
-		constexpr size_t find_last_of(size_t off, char value) const
+		constexpr size_t find_last_of(size_t off, value_type value) const
 		{
 			return ((off < size())
 				? (((*this)[off] == value) ? (off) : find_last_of(off - 1, value))

@@ -125,6 +125,11 @@ namespace ml
 			: base_type(first, last, std::random_access_iterator_tag())
 		{
 		}
+
+		BasicString(const StringView & copy)
+			: base_type(copy.data(), copy.size())
+		{
+		}
 		
 		virtual ~BasicString() noexcept {}
 

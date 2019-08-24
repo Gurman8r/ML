@@ -26,9 +26,9 @@ namespace ml
 	{
 		for (auto & elem : data)
 		{
-			if (elem && (this->find(elem->get_id()) == this->end()))
+			if (elem && (this->find(elem->get_type_hash()) == this->end()))
 			{
-				m_map[elem->get_id()] = std::move(elem);
+				m_map[elem->get_type_hash()] = std::move(elem);
 			}
 		}
 	}
@@ -38,9 +38,9 @@ namespace ml
 	{
 		for (const auto & pair : copy)
 		{
-			if (pair.second && (this->find(pair.second->get_id()) == this->end()))
+			if (pair.second && (this->find(pair.second->get_type_hash()) == this->end()))
 			{
-				m_map[pair.second->get_id()] = pair.second->clone();
+				m_map[pair.second->get_type_hash()] = pair.second->clone();
 			}
 		}
 	}

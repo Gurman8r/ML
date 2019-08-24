@@ -14,11 +14,6 @@ namespace ml
 
 	struct ML_GRAPHICS_API RenderSetting : public I_Newable
 	{
-		inline size_t get_id() const
-		{ 
-			return typeid(*this).hash_code(); 
-		}
-		
 		virtual ~RenderSetting() {}
 
 		virtual RenderSetting * clone() const = 0;
@@ -257,7 +252,7 @@ namespace ml
 		{
 			iterator it;
 			return ((value && ((it = this->find<T>()) == this->end()))
-				? reinterpret_cast<T *>(this->insert(value->get_id(), value)->second)
+				? reinterpret_cast<T *>(this->insert(value->get_type_hash(), value)->second)
 				: nullptr
 			);
 		}

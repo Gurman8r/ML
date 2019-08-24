@@ -63,7 +63,7 @@ namespace ml
 		RecordMap::iterator it;
 		if ((it = m_records.find(value)) != m_records.end())
 		{
-			// free the ptr
+			// free the pointer
 			std::free(it->second->ptr);
 			it->second->ptr = value = nullptr;
 			

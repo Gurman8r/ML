@@ -299,18 +299,18 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("##name##" + label).c_str(),
+				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
 			// Path
-			static char asset_path[32] = "";
+			static char asset_path[ML_PATH_LENGTH] = "";
 			ImGui::InputText(
 				("Path##" + label).c_str(),
 				asset_path,
-				ML_ARRAYSIZE(asset_name),
+				ML_PATH_LENGTH,
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
@@ -450,7 +450,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("##name##" + label).c_str(),
+				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
@@ -720,7 +720,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("##name##" + label).c_str(),
+				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
@@ -979,7 +979,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("##name##" + label).c_str(),
+				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
@@ -1070,9 +1070,10 @@ namespace ml
 		bool mipmapped { value.mipmapped() };
 		if (ImGui::Checkbox(("Mipmapped##" + label).c_str(), &mipmapped))
 		{
-			value.setMipmapped(mipmapped);
-			changed = true;
+			//value.setMipmapped(mipmapped);
+			//changed = true;
 		}
+		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

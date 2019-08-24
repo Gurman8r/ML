@@ -343,7 +343,7 @@ namespace ml
 				ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
 				ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
 				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
-				ImGui::MenuItem(m_inspector.getTitle(),	"Ctrl+Alt+M", m_inspector.openPtr());
+				//ImGui::MenuItem(m_inspector.getTitle(),	"Ctrl+Alt+M", m_inspector.openPtr());
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Window));
 				ImGui::EndMenu();

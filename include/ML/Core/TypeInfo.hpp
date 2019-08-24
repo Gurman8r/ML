@@ -44,8 +44,6 @@ namespace ml
 
 	namespace detail
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
 		static constexpr StringView pretty_prefix { ML_SIGNATURE_PRE };
 		static constexpr StringView pretty_suffix { ML_SIGNATURE_SUF };
 
@@ -53,8 +51,13 @@ namespace ml
 		{
 			return { ML_SIGNATURE };
 		}
+	}
 
-		static constexpr StringView filter_name(const StringView & value)
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	namespace filter
+	{
+		static constexpr StringView name(const StringView & value)
 		{
 #ifdef ML_CC_MSC
 			const size_t lhs { value.find_first_of('<') };
@@ -72,8 +75,6 @@ namespace ml
 			);
 #endif
 		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -108,19 +109,26 @@ namespace ml
 
 	template <class T> struct typeof<T> final
 	{
-		constexpr typeof() noexcept : m_name { nameof<T>() } {}
-		constexpr auto name() const noexcept -> StringView { return detail::filter_name(m_name); }
-		constexpr auto hash() const noexcept -> hash_t { return name().hash(); }
-	private: const nameof<> m_name;
+		constexpr typeof() noexcept : m_guid { nameof<T>() } {};
+
+		constexpr auto guid() const noexcept -> StringView	{ return m_guid; }
+		constexpr auto name() const noexcept -> StringView	{ return filter::name(m_guid); }
+		constexpr auto hash() const noexcept -> hash_t		{ return name().hash(); }
+
+	private: const nameof<> m_guid;
 	};
 
 	template <> struct typeof<> final
 	{
-		template <class T> constexpr typeof(const T &) noexcept : m_name { nameof<T>() } {}
-		template <class T> constexpr typeof(const T *) noexcept : m_name { nameof<const T *>() } {}
-		constexpr auto name() const noexcept -> StringView { return detail::filter_name(m_name); }
-		constexpr auto hash() const noexcept -> hash_t { return name().hash(); }
-	private: const nameof<> m_name;
+		template <class T>  constexpr typeof(const typeof<T> &) noexcept : m_guid { nameof<T>() } {}
+		template <class T>  constexpr typeof(const T &) noexcept : m_guid { nameof<T>() } {}
+		template <class T>  constexpr typeof(const T *) noexcept : m_guid { nameof<const T *>() } {}
+
+		constexpr auto guid() const noexcept -> StringView	{ return m_guid; }
+		constexpr auto name() const noexcept -> StringView	{ return filter::name(m_guid); }
+		constexpr auto hash() const noexcept -> hash_t		{ return name().hash(); }
+
+	private: const nameof<> m_guid;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -179,7 +187,10 @@ namespace ml
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-ML_GEN_SIGNATURE(std::string, "std::string");
+ML_GEN_SIGNATURE(std::string,		"class std::string");
+ML_GEN_SIGNATURE(std::wstring,		"class std::wstring");
+ML_GEN_SIGNATURE(std::u16string,	"class std::u16string");
+ML_GEN_SIGNATURE(std::u32string,	"class std::u32string");
 
 /* * * * * * * * * * * * * * * * * * * * */
 

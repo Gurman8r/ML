@@ -30,13 +30,13 @@ namespace ml
 
 		template <
 			size_t N
-		> constexpr StringView(const value_type(& value)[N]) noexcept
-			: self_type { &value[0], (N - 1) }
+		> constexpr StringView(const value_type(&arr)[N]) noexcept
+			: self_type { &arr[0], (N - 1) }
 		{
 		}
 
-		constexpr StringView(const_pointer begin, const_pointer end) noexcept
-			: self_type { begin, (size_t)(end - begin) }
+		constexpr StringView(const_iterator first, const_iterator last) noexcept
+			: self_type { first, (size_t)(last - first) }
 		{
 		}
 
@@ -54,30 +54,30 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr auto begin()	const -> const_iterator	{ return m_data; }
-		constexpr auto cbegin() const -> const_iterator	{ return begin(); }
-		constexpr auto cend()	const -> const_iterator	{ return end(); }
+		constexpr auto cbegin() const -> const_iterator	{ return m_data; }
+		constexpr auto cend()	const -> const_iterator	{ return m_data + m_size; }
 		constexpr auto c_str()	const -> const_pointer	{ return m_data; }
 		constexpr auto data()	const -> const_pointer	{ return m_data; }
 		constexpr auto end()	const -> const_iterator	{ return m_data + m_size; }
 		constexpr auto hash()	const -> hash_t			{ return Hash { m_data, m_size }; }
 		constexpr auto size()	const -> size_t			{ return m_size; }
-		inline	  auto str()	const -> string_type	{ return { begin(), size() }; }
+		inline	  auto str()	const -> string_type	{ return { m_data, m_size }; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr const_reference operator[](size_t i) const
+		{
+			return m_data[i];
+		}
 
 		constexpr operator const_pointer() const
 		{ 
 			return m_data;
 		}
 
-		constexpr const_reference operator[](size_t i) const
-		{ 
-			return m_data[i];
-		}
-
 		inline operator string_type() const
 		{
-			return this->str();
+			return str();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -91,7 +91,7 @@ namespace ml
 		{
 			return ((off < size())
 				? (((*this)[off] == value) ? (off) : find_first_of(off + 1, value))
-				: npos
+				: self_type::npos
 			);
 		}
 
@@ -106,18 +106,20 @@ namespace ml
 		{
 			return ((off < size())
 				? (((*this)[off] == value) ? (off) : find_last_of(off - 1, value))
-				: npos
+				: self_type::npos
 			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		constexpr self_type substr(size_t off) const
+		{
+			return substr(off, size() - off);
+		}
+
 		constexpr self_type substr(size_t off, size_t count) const
 		{
-			return (((off + count) < size())
-				? self_type { begin() + off, count }
-				: self_type { (*this) }
-			);
+			return self_type { begin() + off, count };
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -2,8 +2,7 @@
 #define _ML_SERIALIZED_PROPERTY_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Engine/Metadata.hpp>
 
 namespace ml
 {

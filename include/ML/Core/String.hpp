@@ -251,10 +251,10 @@ namespace ml
 	using U16_SStream	= typename U16_String::sstream_type;
 	using U32_SStream	= typename U32_String::sstream_type;
 
-	ML_GEN_SIGNATURE(String,		"struct ml::String");
-	ML_GEN_SIGNATURE(W_String,		"struct ml::W_String");
-	ML_GEN_SIGNATURE(U16_String,	"struct ml::U16_String");
-	ML_GEN_SIGNATURE(U32_String,	"struct ml::U32_String");
+	ML_GEN_SIGNATURE(String,		"class std::string");
+	ML_GEN_SIGNATURE(W_String,		"class std::wstring");
+	ML_GEN_SIGNATURE(U16_String,	"class std::u16string");
+	ML_GEN_SIGNATURE(U32_String,	"class std::u32tring");
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

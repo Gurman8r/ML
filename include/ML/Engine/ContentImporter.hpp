@@ -1,8 +1,7 @@
 #ifndef _ML_CONTENT_IMPORTER_HPP_
 #define _ML_CONTENT_IMPORTER_HPP_
 
-#include <ML/Engine/Export.hpp>
-#include <ML/Engine/Metadata.hpp>
+#include <ML/Engine/SerializedObject.hpp>
 
 #define ML_GEN_CONTENT_IMPORTER(T)									\
 using value_type		= typename _ML detail::decay_t<T>;			\
@@ -11,6 +10,7 @@ using pointer			= typename value_type *;					\
 using reference			= typename value_type &;					\
 using const_pointer		= typename const value_type *;				\
 using const_reference	= typename const value_type &;				\
+static constexpr _ML typeof<T>	type() { return typeof<T>(); }		\
 static constexpr _ML StringView name() { return ML_STRINGIFY(T); }	\
 static constexpr _ML hash_t		hash() { return name().hash(); }	\
 ContentImporter() = default;
@@ -36,7 +36,6 @@ namespace ml
 		ML_GEN_CONTENT_IMPORTER(Entity);
 		Entity * operator()(const Metadata & md) const;
 	};
-
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

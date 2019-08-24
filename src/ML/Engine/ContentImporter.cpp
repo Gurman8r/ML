@@ -13,6 +13,18 @@
 #include <ML/Core/Debug.hpp>
 
 
+/* * * * * * * * * * * * * * * * * * * * */
+
+namespace ml
+{
+	struct ContentImporter<>::Util
+	{
+		Util() = delete;
+	};
+}
+
+/* * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	// Entity Importer

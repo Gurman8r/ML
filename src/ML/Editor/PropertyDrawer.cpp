@@ -21,16 +21,20 @@
 
 namespace ml
 {
-	template <
-		class T
-	> static inline bool asset_dropdown(const String & label, const T *& value)
+	struct PropertyDrawer<>::Layout
 	{
-		int32_t index = ML_Content.get_index_of<T>(value);
-		return (ImGuiExt::Combo(label.c_str(), &index, ML_Content.get_keys<T>())
-			? (value = ML_Content.find_by_index<T>(index))
-			: false
-		);
-	}
+		Layout() = delete;
+
+		template <class T>
+		static inline bool dropdown(const String & label, const T *& value)
+		{
+			int32_t index = ML_Content.get_index_of<T>(value);
+			return (ImGuiExt::Combo(label.c_str(), &index, ML_Content.get_keys<T>())
+				? (value = ML_Content.find_by_index<T>(index))
+				: false
+			);
+		}
+	};
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -41,7 +45,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Entity>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Entity>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Entity>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Entity>::operator()(const String & label, reference value, int32_t flags) const
@@ -189,7 +197,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Font>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Font>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Font>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Font>::operator()(const String & label, reference value, int32_t flags) const
@@ -245,7 +257,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Image>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Image>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Image>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Image>::operator()(const String & label, reference value, int32_t flags) const
@@ -314,7 +330,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Material>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Material>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Material>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Material>::operator()(const String & label, reference value, int32_t flags) const
@@ -430,7 +450,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Model>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Model>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Model>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Model>::operator()(const String & label, reference value, int32_t flags) const
@@ -459,7 +483,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Script>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Script>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Script>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Script>::operator()(const String & label, reference value, int32_t flags) const
@@ -473,7 +501,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Shader>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Shader>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Shader>(label, value);
+		}
+		return false;
 	}
 	
 	bool PropertyDrawer<Shader>::operator()(const String & label, reference value, int32_t flags) const
@@ -509,7 +541,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Sound>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Sound>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Sound>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Sound>::operator()(const String & label, reference value, int32_t flags) const
@@ -522,7 +558,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Sprite>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Sprite>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Sprite>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Sprite>::operator()(const String & label, reference value, int32_t flags) const
@@ -582,7 +622,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Surface>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Surface>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Surface>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Surface>::operator()(const String & label, reference value, int32_t flags) const
@@ -637,7 +681,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Texture>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Texture>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Texture>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Texture>::operator()(const String & label, reference value, int32_t flags) const
@@ -820,7 +868,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Uniform>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		return asset_dropdown<Uniform>(label, value);
+		switch (flags)
+		{
+		case 0: return PropertyDrawer<>::Layout::dropdown<Uniform>(label, value);
+		}
+		return false;
 	}
 
 	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value, int32_t flags) const

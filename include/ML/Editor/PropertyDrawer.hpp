@@ -3,32 +3,11 @@
 
 #include <ML/Editor/Export.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Engine/SerializedObject.hpp>
 
-namespace ml
-{
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	struct Entity;
-	struct Font;
-	struct Image;
-	struct Material;
-	struct Model;
-	struct Script;
-	struct Shader;
-	struct Sound;
-	struct Sprite;
-	struct Surface;
-	struct Texture;
-	struct Uniform;
-	
-	/* * * * * * * * * * * * * * * * * * * * */
-}
-
-#define ML_GEN_DRAWER_DETAILS(T)									\
+#define ML_GEN_PROPERTY_DRAWER(T)									\
 using value_type		= typename _ML detail::decay_t<T>;			\
-using self_type			= typename PropertyDrawer<T>;				\
+using self_type			= typename PropertyDrawer<value_type>;		\
 using pointer			= typename value_type *;					\
 using reference			= typename value_type &;					\
 using const_pointer		= typename const value_type *;				\
@@ -39,17 +18,23 @@ PropertyDrawer() = default;
 
 namespace ml
 {
-	// Base
+	// Property Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	template <class ... T>
-	struct PropertyDrawer;
+	template <class ... T> struct PropertyDrawer;
+
+	template <> struct ML_EDITOR_API PropertyDrawer<>
+	{
+		struct Layout;
+		PropertyDrawer() = delete;
+	};
 
 
 	// Entity Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Entity;
 	template <> struct ML_EDITOR_API PropertyDrawer<Entity> final
 	{
-		ML_GEN_DRAWER_DETAILS(Entity);
+		ML_GEN_PROPERTY_DRAWER(Entity);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -57,9 +42,10 @@ namespace ml
 
 	// Font Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Font;
 	template <> struct ML_EDITOR_API PropertyDrawer<Font> final
 	{
-		ML_GEN_DRAWER_DETAILS(Font);
+		ML_GEN_PROPERTY_DRAWER(Font);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -67,9 +53,10 @@ namespace ml
 
 	// Image Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Image;
 	template <> struct ML_EDITOR_API PropertyDrawer<Image> final
 	{
-		ML_GEN_DRAWER_DETAILS(Image);
+		ML_GEN_PROPERTY_DRAWER(Image);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -77,9 +64,10 @@ namespace ml
 
 	// Material Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Material;
 	template <> struct ML_EDITOR_API PropertyDrawer<Material> final
 	{
-		ML_GEN_DRAWER_DETAILS(Material);
+		ML_GEN_PROPERTY_DRAWER(Material);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -87,9 +75,10 @@ namespace ml
 
 	// Model Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Model;
 	template <> struct ML_EDITOR_API PropertyDrawer<Model> final
 	{
-		ML_GEN_DRAWER_DETAILS(Model);
+		ML_GEN_PROPERTY_DRAWER(Model);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -97,9 +86,10 @@ namespace ml
 
 	// Script Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Script;
 	template <> struct ML_EDITOR_API PropertyDrawer<Script> final
 	{
-		ML_GEN_DRAWER_DETAILS(Script);
+		ML_GEN_PROPERTY_DRAWER(Script);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -107,9 +97,10 @@ namespace ml
 
 	// Shader Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Shader;
 	template <> struct ML_EDITOR_API PropertyDrawer<Shader> final
 	{
-		ML_GEN_DRAWER_DETAILS(Shader);
+		ML_GEN_PROPERTY_DRAWER(Shader);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -117,9 +108,10 @@ namespace ml
 
 	// Sound Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Sound;
 	template <> struct ML_EDITOR_API PropertyDrawer<Sound> final
 	{
-		ML_GEN_DRAWER_DETAILS(Sound);
+		ML_GEN_PROPERTY_DRAWER(Sound);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -127,9 +119,10 @@ namespace ml
 
 	// Sprite Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Sprite;
 	template <> struct ML_EDITOR_API PropertyDrawer<Sprite> final
 	{
-		ML_GEN_DRAWER_DETAILS(Sprite);
+		ML_GEN_PROPERTY_DRAWER(Sprite);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -137,9 +130,10 @@ namespace ml
 
 	// Surface Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Surface;
 	template <> struct ML_EDITOR_API PropertyDrawer<Surface> final
 	{
-		ML_GEN_DRAWER_DETAILS(Surface);
+		ML_GEN_PROPERTY_DRAWER(Surface);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -147,9 +141,10 @@ namespace ml
 
 	// Texture Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Texture;
 	template <> struct ML_EDITOR_API PropertyDrawer<Texture> final
 	{
-		ML_GEN_DRAWER_DETAILS(Texture);
+		ML_GEN_PROPERTY_DRAWER(Texture);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
@@ -157,9 +152,10 @@ namespace ml
 
 	// Uniform Drawer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	struct Uniform;
 	template <> struct ML_EDITOR_API PropertyDrawer<Uniform> final
 	{
-		ML_GEN_DRAWER_DETAILS(Uniform);
+		ML_GEN_PROPERTY_DRAWER(Uniform);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;

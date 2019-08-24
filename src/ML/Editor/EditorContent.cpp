@@ -36,59 +36,8 @@ namespace ml
 				type_name = type_name.substr(type_name.find_last_of(":") + 1);
 			}
 
-			// Can Create
-			static const bool creatable { 
-				std::is_same_v<T, Material> ||
-				std::is_same_v<T, Shader>
-			};
-
-			// Begin Header
-			const bool collapsing_header { ImGui::CollapsingHeader(label.c_str()) };
-
-			// Popup
-			if (creatable && ImGui::BeginPopupContextItem())
-			{
-				// State
-				static bool popup_open { false };
-				static char asset_name[32] = "";
-
-				// Popup Opened
-				if (!popup_open && (popup_open = true))
-				{
-					std::strcpy(asset_name, ("new_" + alg::to_lower(type_name)).c_str());
-				}
-
-				// Name
-				ImGui::Text("Create %s:", type_name.c_str());
-				ImGui::InputText(
-					"##edit", 
-					asset_name, 
-					ML_ARRAYSIZE(asset_name),
-					ImGuiInputTextFlags_EnterReturnsTrue
-				);
-
-				// Submit
-				const bool submit { ImGui::Button("Submit") };
-				if (submit)
-				{
-					if (ML_Content.create<T>(asset_name))
-					{
-						Debug::log("Created {0}", asset_name);
-					}
-				}
-				ImGui::SameLine();
-
-				// Cancel / Popup Closed
-				if (submit || ImGui::Button("Cancel"))
-				{
-					popup_open = false;
-					ImGui::CloseCurrentPopup();
-				}
-				ImGui::EndPopup();
-			}
-
-			// Header is Closed
-			if (!collapsing_header) { return; }
+			// Header
+			if (!ImGui::CollapsingHeader(label.c_str())) { return; }
 
 			// Empty
 			if (ML_Content.data<T>().empty())
@@ -99,6 +48,23 @@ namespace ml
 			// Draw Elements
 			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<T>()));
 			ImGui::BeginGroup();
+			{
+				if (std::is_same_v<T, Material>)
+				{
+					Material * temp { nullptr };
+					if (!PropertyDrawer<Material>()(label, (Material *&)temp)) { /* error */ }
+				}
+				if (std::is_same_v<T, Shader>)
+				{
+					Shader * temp { nullptr };
+					if (!PropertyDrawer<Shader>()(label, (Shader *&)temp)) { /* error */ }
+				}
+				if (std::is_same_v<T, Uniform>)
+				{
+					Uniform * temp { nullptr };
+					if (!PropertyDrawer<Uniform>()(label, (Uniform *&)temp, 1)) { /* error */ }
+				}
+			}
 			for (auto & pair : ML_Content.data<T>())
 			{
 				if ((!pair.second) ||
@@ -140,7 +106,6 @@ namespace ml
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			Layout::draw_content<Entity		>(ev, "Entities");
 			Layout::draw_content<Font		>(ev, "Fonts");
 			Layout::draw_content<Image		>(ev, "Images");
 			Layout::draw_content<Material	>(ev, "Materials");
@@ -150,6 +115,7 @@ namespace ml
 			Layout::draw_content<Sprite		>(ev, "Sprites");
 			Layout::draw_content<Surface	>(ev, "Surfaces");
 			Layout::draw_content<Texture	>(ev, "Textures");
+			Layout::draw_content<Uniform	>(ev, "Uniforms");
 		}
 		return endDraw();
 	}

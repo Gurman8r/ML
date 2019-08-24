@@ -529,10 +529,25 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-					const Shader * s = this->shader();
-					if (PropertyDrawer<Shader>()("Shader##Material##Noobs", s))
+					const Material * mtl = this->material();
+					if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 					{
-						this->shader() = s;
+						if ((this->material().get() != mtl) &&
+							this->material().update(
+								ML_Content.get_name<Material>(mtl),
+								std::remove_cv_t<Material *>(mtl)
+							))
+						{
+							this->renderer()->setMaterial(mtl);
+						}
+					}
+
+					ImGui::NewLine();
+
+					const Shader * shd = this->shader();
+					if (PropertyDrawer<Shader>()("Shader##Material##Noobs", shd))
+					{
+						this->shader() = shd;
 						this->reset_sources();
 						this->generate_sources();
 					}
@@ -540,10 +555,10 @@ namespace ml
 
 					ImGui::NewLine();
 
-					const Model * m = (const Model *)m_renderer->drawable();
-					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", m))
+					const Model * mdl = (const Model *)m_renderer->drawable();
+					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 					{
-						this->renderer()->setDrawable(m);
+						this->renderer()->setDrawable(mdl);
 					}
 					ImGuiExt::Tooltip("Specifies model to be drawn");
 

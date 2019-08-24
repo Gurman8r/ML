@@ -77,7 +77,7 @@ namespace ml
 
 		// Boot Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		Py::Run_SandboxedFile(ev.prefs.get_string("Engine", "boot_script", ""));
+		Py::RunFile(ev.prefs.get_string("Engine", "boot_script", ""));
 
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -137,17 +137,17 @@ namespace ml
 		);
 
 
-		ML_Content.create<uni_vec2_ptr>	("##CURSOR_POS",	"u_cursorPos",  &m_cursorPos);
-		ML_Content.create<uni_float_ptr>("##DELTA_TIME",	"u_deltaTime",  &m_deltaTime);
-		ML_Content.create<uni_int_ptr>	("##FRAME_COUNT",	"u_frameCount", &m_frameCount);
-		ML_Content.create<uni_float_ptr>("##FRAME_RATE",	"u_frameRate",	&m_frameRate);
-		ML_Content.create<uni_float_ptr>("##TOTAL_TIME",	"u_totalTime",  &m_totalTime);
-		ML_Content.create<uni_vec2_ptr>	("##VIEWPORT",		"u_viewport",	&m_viewport);
+		ML_Content.insert<Uniform>("CURSOR_POS",	new uni_vec2_ptr ("u_cursorPos",	&m_cursorPos));
+		ML_Content.insert<Uniform>("DELTA_TIME",	new uni_float_ptr("u_deltaTime",	&m_deltaTime));
+		ML_Content.insert<Uniform>("FRAME_COUNT",	new uni_int_ptr	 ("u_frameCount",	&m_frameCount));
+		ML_Content.insert<Uniform>("FRAME_RATE",	new uni_float_ptr("u_frameRate",	&m_frameRate));
+		ML_Content.insert<Uniform>("TOTAL_TIME",	new uni_float_ptr("u_totalTime",	&m_totalTime));
+		ML_Content.insert<Uniform>("VIEWPORT",		new uni_vec2_ptr ("u_viewport",		&m_viewport));
 
 
 		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		Py::Run_SandboxedFile(ev.prefs.get_string("Engine", "load_script", ""));
+		Py::RunFile(ev.prefs.get_string("Engine", "load_script", ""));
 
 
 		// Set Window Icon

@@ -29,7 +29,7 @@ namespace ml
 {
 	struct ML_ENGINE_API Py
 	{
-		static inline int32_t Run_SandboxedString(const String & value)
+		static inline int32_t RunString(const String & value)
 		{
 			Py_Initialize();
 			int32_t retval = PyRun_SimpleString(value.c_str());
@@ -37,11 +37,11 @@ namespace ml
 			return retval;
 		}
 
-		static inline int32_t Run_SandboxedFile(const String & filename)
+		static inline int32_t RunFile(const String & filename)
 		{
 			if (const String file { ML_FS.getFileContents(filename) })
 			{
-				return Run_SandboxedString(file.c_str());
+				return RunString(file.c_str());
 			}
 			return EXIT_FAILURE;
 		}

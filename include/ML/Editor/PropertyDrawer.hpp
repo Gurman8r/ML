@@ -70,6 +70,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Material);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -103,6 +104,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Shader);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 

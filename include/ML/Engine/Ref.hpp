@@ -64,13 +64,16 @@ namespace ml
 			return !m_data;
 		}
 
-		inline pointer assign(pointer value)
+		inline bool update(const String & name, pointer data)
 		{
-			if (m_changed || (!m_data && m_name))
+			if (m_name != name && m_data != data)
 			{
-				m_changed = !(m_data = ML_Content.insert<value_type>({ m_name, value }));
+				m_name = name;
+				m_data = data;
+				m_changed = false;
+				return true;
 			}
-			return m_data;
+			return false;
 		}
 
 		template <class ... Args >

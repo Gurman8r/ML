@@ -187,6 +187,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	Material & Material::setShader(const Shader * value)
+	{
+		m_shader = value;
+		return (*this);
+	}
+
 	const Material & Material::bind(bool bindTextures) const
 	{
 		if (m_shader && (*m_shader))

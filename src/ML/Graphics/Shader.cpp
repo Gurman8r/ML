@@ -175,6 +175,13 @@ namespace ml
 		return loadFromMemory(vert.str(), geom.str(), frag.str());
 	}
 
+	bool Shader::loadFromMemory(const Shader::Source & source)
+	{
+		return source.gs
+			? loadFromMemory(source.vs, source.gs, source.fs)
+			: loadFromMemory(source.vs, source.fs);
+	}
+
 	bool Shader::loadFromMemory(const String & source)
 	{
 		SStream vert, geom, frag;

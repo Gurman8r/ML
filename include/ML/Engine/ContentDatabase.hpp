@@ -149,6 +149,14 @@ namespace ml
 
 		template <
 			class T
+		> inline String get_name(const T * value) const
+		{
+			const int32_t i { get_index_of<T>(value) };
+			return (i >= 0) ? get_keys<T>()[(size_t)i] : String();
+		}
+
+		template <
+			class T
 		> inline object_map::const_iterator get_iter_at_index(int32_t index) const
 		{
 			if ((index >= 0) && ((size_t)index < this->data<T>().size()))

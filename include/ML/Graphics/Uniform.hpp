@@ -57,12 +57,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		virtual Uniform *	clone()				const = 0;
-		virtual bool	isValue()			const = 0;
-		virtual bool	isPointer()			const = 0;
-		virtual bool	isReference()		const = 0;
-		virtual bool	isConstPointer()	const = 0;
-		virtual bool	isConstReference()	const = 0;
-		virtual bool	isModifiable()		const = 0;
+		virtual bool		isValue()			const = 0;
+		virtual bool		isPointer()			const = 0;
+		virtual bool		isReference()		const = 0;
+		virtual bool		isConstPointer()	const = 0;
+		virtual bool		isConstReference()	const = 0;
+		virtual bool		isModifiable()		const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

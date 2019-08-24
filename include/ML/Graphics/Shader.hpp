@@ -23,6 +23,10 @@ namespace ml
 		, public I_Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		struct Source final { String vs, fs, gs; };
+		
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Shader();
 		Shader(const Shader & copy);
@@ -34,6 +38,7 @@ namespace ml
 		bool loadFromFile(const String & filename) override;
 		bool loadFromFile(const String & vs, const String & fs);
 		bool loadFromFile(const String & vs, const String & gs, const String & fs);
+		bool loadFromMemory(const Shader::Source & source);
 		bool loadFromMemory(const String & source);
 		bool loadFromMemory(const String & vs, const String & gs, const String & fs);
 		bool loadFromMemory(const String & vs, const String & fs);
@@ -48,7 +53,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct Source final { String vs, fs, gs; };
 
 		inline auto sources() const	-> const Source & { return m_sources; }
 		inline auto vertSrc() const -> const String & { return sources().vs; }

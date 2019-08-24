@@ -337,6 +337,94 @@ namespace ml
 		return false;
 	}
 
+	bool PropertyDrawer<Material>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
+		// Popup
+		if (ImGui::Button(("New Material##" + label).c_str()))
+		{
+			ImGui::OpenPopup(("Create Material##" + label).c_str());
+		}
+		if (ImGui::BeginPopupModal(
+			("Create Material##" + label).c_str(),
+			nullptr,
+			ImGuiWindowFlags_AlwaysAutoResize
+		))
+		{
+			// State
+			static bool popup_open { false };
+			static char asset_name[32] = "";
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(asset_name, "new_material");
+			}
+
+			// Name
+			ImGui::InputText(
+				("##edit##" + label).c_str(),
+				asset_name,
+				ML_ARRAYSIZE(asset_name),
+				ImGuiInputTextFlags_EnterReturnsTrue
+			);
+
+			// Defaults
+			static bool globals { false };
+			ImGui::Checkbox("Load Globals", &globals);
+
+			// Shader
+			static const Shader * shader { nullptr };
+			PropertyDrawer<Shader>()("Shader", (const Shader *&)shader);
+
+			// Copy From
+			static const Material * copy { nullptr };
+			PropertyDrawer<Material>()("Copy Uniforms", (const Material *&)copy);
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (value = ML_Content.create<Material>(asset_name))
+				{
+					if (globals)
+					{
+						for (const auto & pair : ML_Content.data<Uniform>())
+						{
+							value->add(static_cast<const Uniform *>(pair.second)->clone());
+						}
+					}
+					if (shader)
+					{
+						value->setShader(shader);
+					}
+					if (copy)
+					{
+						for (const auto * u : (*copy))
+						{
+							if (!value->get(u->name)) { value->add(u->clone()); }
+						}
+					}
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			if (submit || ImGui::Button("Cancel"))
+			{
+				popup_open = false;
+				globals = false;
+				copy = nullptr;
+				shader = nullptr;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return value;
+		}
+		return false;
+	}
+
 	bool PropertyDrawer<Material>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		ImGui::PushID(label.c_str());
@@ -508,6 +596,69 @@ namespace ml
 		return false;
 	}
 	
+	bool PropertyDrawer<Shader>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
+		// Popup
+		if (ImGui::Button(("New Shader##" + label).c_str()))
+		{
+			ImGui::OpenPopup(("Create Shader##" + label).c_str());
+		}
+		if (ImGui::BeginPopupModal(
+			("Create Shader##" + label).c_str(),
+			nullptr,
+			ImGuiWindowFlags_AlwaysAutoResize
+		))
+		{
+			// State
+			static bool popup_open { false };
+			static char asset_name[32] = "";
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(asset_name, "new_shader");
+			}
+
+			// Name
+			ImGui::InputText(
+				("##edit##" + label).c_str(),
+				asset_name,
+				ML_ARRAYSIZE(asset_name),
+				ImGuiInputTextFlags_EnterReturnsTrue
+			);
+
+			static const Shader * copy { nullptr };
+			PropertyDrawer<Shader>()("Copy From", (const Shader *&)copy);
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (value = ML_Content.create<Shader>(asset_name))
+				{
+					if (copy)
+					{
+						value->loadFromMemory(copy->sources());
+					}
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			if (submit || ImGui::Button("Cancel"))
+			{
+				popup_open = false;
+				copy = nullptr;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return value;
+		}
+		return false;
+	}
+
 	bool PropertyDrawer<Shader>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		if (ImGui::BeginTabBar("SourceTabs"))
@@ -877,13 +1028,13 @@ namespace ml
 
 	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
-		if (ImGui::Button(("New##" + label).c_str()))
+		if (ImGui::Button(("New Uniform##" + label).c_str()))
 		{
-			ImGui::OpenPopup(("New Uniform##" + label).c_str());
+			ImGui::OpenPopup(("New Uniform##Popup##" + label).c_str());
 		}
 		
 		if (ImGui::BeginPopupModal(
-			("New Uniform##" + label).c_str(),
+			("New Uniform##Popup##" + label).c_str(),
 			nullptr,
 			ImGuiWindowFlags_AlwaysAutoResize
 		))
@@ -900,7 +1051,7 @@ namespace ml
 			);
 
 			// Name Input
-			static char name[32] = "my_uniform\0";
+			static char name[32] = "new_uniform\0";
 			const bool enterPress = ImGui::InputText(
 				"Name",
 				name,
@@ -911,7 +1062,7 @@ namespace ml
 			auto ResetPopup = []()
 			{
 				type = 0;
-				std::strcpy(name, "my_uniform\0");
+				std::strcpy(name, "new_uniform\0");
 				ImGui::CloseCurrentPopup();
 			};
 
@@ -949,6 +1100,8 @@ namespace ml
 			}
 
 			ImGui::EndPopup();
+
+			if (value && flags == 1) { ML_Content.insert<Uniform>(name, value); }
 
 			return value;
 		}

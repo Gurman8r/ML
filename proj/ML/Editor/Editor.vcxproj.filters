@@ -87,9 +87,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -113,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorInspector.hpp">
       <Filter>Header Files\Forms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp">
+      <Filter>Header Files\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,9 +152,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
@@ -172,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorInspector.cpp">
       <Filter>Source Files\Forms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">
+      <Filter>Source Files\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -138,22 +138,22 @@ namespace ml
 					// Default Uniforms
 					if (md.getData("defaults", true))
 					{
-						if (auto u = ML_Content.get<uni_vec2_ptr>("##CURSOR_POS"))
+						if (auto u = ML_Content.get<Uniform>("CURSOR_POS"))
 							temp->add(u->clone());
 
-						if (auto u = ML_Content.get<uni_float_ptr>("##DELTA_TIME"))
+						if (auto u = ML_Content.get<Uniform>("DELTA_TIME"))
 							temp->add(u->clone());
 
-						if (auto u = ML_Content.get<uni_int_ptr>("##FRAME_COUNT"))
+						if (auto u = ML_Content.get<Uniform>("FRAME_COUNT"))
 							temp->add(u->clone());
 
-						if (auto u = ML_Content.get<uni_float_ptr>("##FRAME_RATE"))
+						if (auto u = ML_Content.get<Uniform>("FRAME_RATE"))
 							temp->add(u->clone());
 
-						if (auto u = ML_Content.get<uni_float_ptr>("##TOTAL_TIME"))
+						if (auto u = ML_Content.get<Uniform>("TOTAL_TIME"))
 							temp->add(u->clone());
 
-						if (auto u = ML_Content.get<uni_vec2_ptr>("##VIEWPORT"))
+						if (auto u = ML_Content.get<Uniform>("VIEWPORT"))
 							temp->add(u->clone());
 					}
 

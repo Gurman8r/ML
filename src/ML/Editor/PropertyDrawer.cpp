@@ -15,7 +15,7 @@
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Renderer.hpp>
-
+#include <ML/Core/FileSystem.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -49,6 +49,11 @@ namespace ml
 		{
 		case 0: return PropertyDrawer<>::Layout::dropdown<Entity>(label, value);
 		}
+		return false;
+	}
+
+	bool PropertyDrawer<Entity>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
 		return false;
 	}
 
@@ -204,6 +209,11 @@ namespace ml
 		return false;
 	}
 
+	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
+		return false;
+	}
+
 	bool PropertyDrawer<Font>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		ImGui::Text("%s", value.getInfo().family.c_str());
@@ -260,6 +270,84 @@ namespace ml
 		switch (flags)
 		{
 		case 0: return PropertyDrawer<>::Layout::dropdown<Image>(label, value);
+		}
+		return false;
+	}
+
+	bool PropertyDrawer<Image>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
+		// Popup
+		if (ImGui::Button(("New Image##" + label).c_str()))
+		{
+			ImGui::OpenPopup(("Create Image##" + label).c_str());
+		}
+		if (ImGui::BeginPopupModal(
+			("Create Image##" + label).c_str(),
+			nullptr,
+			ImGuiWindowFlags_AlwaysAutoResize
+		))
+		{
+			// State
+			static bool popup_open { false };
+			static char asset_name[32] = "";
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(asset_name, "new_image");
+			}
+
+			// Name
+			ImGui::InputText(
+				("##name##" + label).c_str(),
+				asset_name,
+				ML_ARRAYSIZE(asset_name),
+				ImGuiInputTextFlags_EnterReturnsTrue
+			);
+
+			// Path
+			static char asset_path[32] = "";
+			ImGui::InputText(
+				("Path##" + label).c_str(),
+				asset_path,
+				ML_ARRAYSIZE(asset_name),
+				ImGuiInputTextFlags_EnterReturnsTrue
+			);
+
+			static const Image * copy { nullptr };
+			PropertyDrawer<Image>()("Copy From", (const Image *&)copy);
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (copy)
+				{
+					value = ML_Content.create<Image>(asset_name, (*copy));
+				}
+				else if (const String path { asset_path })
+				{
+					if (ML_FS.fileExists(ML_FS.pathTo(path)))
+					{
+						value = ML_Content.create<Image>(asset_name, path);
+					}
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			if (submit || ImGui::Button("Cancel"))
+			{
+				popup_open = false;
+				std::strcpy(asset_name, "");
+				std::strcpy(asset_path, "");
+				copy = nullptr;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return value;
 		}
 		return false;
 	}
@@ -362,7 +450,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("##edit##" + label).c_str(),
+				("##name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
@@ -378,7 +466,7 @@ namespace ml
 
 			// Copy From
 			static const Material * copy { nullptr };
-			PropertyDrawer<Material>()("Copy Uniforms", (const Material *&)copy);
+			PropertyDrawer<Material>()("Copy From", (const Material *&)copy);
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
@@ -415,6 +503,7 @@ namespace ml
 				globals = false;
 				copy = nullptr;
 				shader = nullptr;
+				std::strcpy(asset_name, "");
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -545,6 +634,11 @@ namespace ml
 		return false;
 	}
 
+	bool PropertyDrawer<Model>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
+		return false;
+	}
+
 	bool PropertyDrawer<Model>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		ImGui::PushID(ML_ADDRESSOF(&value));
@@ -575,6 +669,11 @@ namespace ml
 		{
 		case 0: return PropertyDrawer<>::Layout::dropdown<Script>(label, value);
 		}
+		return false;
+	}
+
+	bool PropertyDrawer<Script>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
 		return false;
 	}
 
@@ -621,7 +720,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("##edit##" + label).c_str(),
+				("##name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
@@ -649,6 +748,7 @@ namespace ml
 			{
 				popup_open = false;
 				copy = nullptr;
+				std::strcpy(asset_name, "");
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -699,6 +799,11 @@ namespace ml
 		return false;
 	}
 
+	bool PropertyDrawer<Sound>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
+		return false;
+	}
+
 	bool PropertyDrawer<Sound>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		return false;
@@ -713,6 +818,11 @@ namespace ml
 		{
 		case 0: return PropertyDrawer<>::Layout::dropdown<Sprite>(label, value);
 		}
+		return false;
+	}
+
+	bool PropertyDrawer<Sprite>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
 		return false;
 	}
 
@@ -780,6 +890,11 @@ namespace ml
 		return false;
 	}
 
+	bool PropertyDrawer<Surface>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
+		return false;
+	}
+
 	bool PropertyDrawer<Surface>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		bool changed { false };
@@ -835,6 +950,79 @@ namespace ml
 		switch (flags)
 		{
 		case 0: return PropertyDrawer<>::Layout::dropdown<Texture>(label, value);
+		}
+		return false;
+	}
+
+	bool PropertyDrawer<Texture>::operator()(const String & label, pointer & value, int32_t flags) const
+	{
+		// Popup
+		if (ImGui::Button(("New Texture##" + label).c_str()))
+		{
+			ImGui::OpenPopup(("Create Texture##" + label).c_str());
+		}
+		if (ImGui::BeginPopupModal(
+			("Create Texture##" + label).c_str(),
+			nullptr,
+			ImGuiWindowFlags_AlwaysAutoResize
+		))
+		{
+			// State
+			static bool popup_open { false };
+			static char asset_name[32] = "";
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(asset_name, "new_texture");
+			}
+
+			// Name
+			ImGui::InputText(
+				("##name##" + label).c_str(),
+				asset_name,
+				ML_ARRAYSIZE(asset_name),
+				ImGuiInputTextFlags_EnterReturnsTrue
+			);
+
+			static const Image * image { nullptr };
+			PropertyDrawer<Image>()("Image", (const Image *&) image);
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (image)
+				{
+					GL::Format fmt;
+					switch (image->channels())
+					{
+					case 1: fmt = GL::Red; break;
+					case 3: fmt = GL::RGB; break;
+					default:
+					case 4: fmt = GL::RGBA; break;
+					}
+
+					if (value = ML_Content.create<Texture>(asset_name, fmt, true, false))
+					{
+						value->loadFromImage(*image);
+					}
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			if (submit || ImGui::Button("Cancel"))
+			{
+				popup_open = false;
+				image = nullptr;
+				std::strcpy(asset_name, "");
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return value;
 		}
 		return false;
 	}

@@ -37,6 +37,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Entity);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -48,6 +49,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Font);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -59,6 +61,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Image);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -82,6 +85,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Model);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -93,6 +97,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Script);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -116,6 +121,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Sound);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -127,6 +133,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Sprite);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -138,6 +145,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Surface);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 
@@ -149,6 +157,7 @@ namespace ml
 	{
 		ML_GEN_PROPERTY_DRAWER(Texture);
 		bool operator()(const String & label, const_pointer & value, int32_t flags = 0) const;
+		bool operator()(const String & label, pointer & value, int32_t flags = 0) const;
 		bool operator()(const String & label, reference value, int32_t flags = 0) const;
 	};
 

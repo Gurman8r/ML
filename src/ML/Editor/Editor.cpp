@@ -272,22 +272,23 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("File"))
 			{
-				// File -> New
-				if (ImGui::MenuItem("New", "Ctrl+N"))
-				{
-					eventSystem().fireEvent(File_New_Event());
-				}
-				// File -> Open
-				if (ImGui::MenuItem("Open", "Ctrl+O"))
-				{
-					eventSystem().fireEvent(File_Open_Event());
-				}
-				// File -> Save
-				if (ImGui::MenuItem("Save", "Ctrl+S"))
-				{
-					eventSystem().fireEvent(File_Save_Event());
-				}
-				ImGui::Separator();
+				//// File -> New
+				//if (ImGui::MenuItem("New", "Ctrl+N"))
+				//{
+				//	eventSystem().fireEvent(File_New_Event());
+				//}
+				//// File -> Open
+				//if (ImGui::MenuItem("Open", "Ctrl+O"))
+				//{
+				//	eventSystem().fireEvent(File_Open_Event());
+				//}
+				//// File -> Save
+				//if (ImGui::MenuItem("Save", "Ctrl+S"))
+				//{
+				//	eventSystem().fireEvent(File_Save_Event());
+				//}
+				//ImGui::Separator();
+
 				// File -> Quit
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{

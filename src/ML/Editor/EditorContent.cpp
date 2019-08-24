@@ -42,26 +42,14 @@ namespace ml
 			// Empty
 			if (ML_Content.data<T>().empty()) { return ImGui::Text("-"); }
 
-			// Draw Elements
 			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<T>()));
 			ImGui::BeginGroup();
 			{
-				if (std::is_same_v<T, Material>)
-				{
-					Material * temp { nullptr };
-					if (!PropertyDrawer<Material>()(label, (Material *&)temp)) { /* error */ }
-				}
-				if (std::is_same_v<T, Shader>)
-				{
-					Shader * temp { nullptr };
-					if (!PropertyDrawer<Shader>()(label, (Shader *&)temp)) { /* error */ }
-				}
-				if (std::is_same_v<T, Uniform>)
-				{
-					Uniform * temp { nullptr };
-					if (!PropertyDrawer<Uniform>()(label, (Uniform *&)temp, 1)) { /* error */ }
-				}
+				// Create Item
+				T * temp { nullptr };
+				if (!PropertyDrawer<T>()(label, (T *&)temp)) { /* error */ }
 			}
+			// Draw Items
 			for (auto & pair : ML_Content.data<T>())
 			{
 				if ((!pair.second) ||

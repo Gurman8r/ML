@@ -263,6 +263,9 @@ namespace ml
 		{
 			switch (value->id)
 			{
+			case uni_bool::ID: if (auto temp = detail::as_bool(value))
+				return this->setUniform(value->name, (*temp));
+
 			case uni_float::ID: if (auto temp = detail::as_float(value))
 				return this->setUniform(value->name, (*temp));
 
@@ -295,6 +298,11 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool Shader::setUniform(const String & name, const bool value) const
+	{
+		return setUniform(name, (int32_t)value);
+	}
 
 	bool Shader::setUniform(const String & name, const float_t value) const
 	{

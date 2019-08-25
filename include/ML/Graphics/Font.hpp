@@ -12,6 +12,7 @@ namespace ml
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
+		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -26,7 +27,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Font();
-		explicit Font(const Font & copy);
+		explicit Font(const String & filename);
 		~Font();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

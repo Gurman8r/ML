@@ -21,17 +21,16 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Font::Font()
-		: m_pages	()
-		, m_library	(nullptr)
-		, m_face	(nullptr)
+		: m_pages	{}
+		, m_library	{ nullptr }
+		, m_face	{ nullptr }
 	{
 	}
 
-	Font::Font(const Font & copy)
-		: m_pages	(copy.m_pages)
-		, m_library	(copy.m_library)
-		, m_face	(copy.m_face)
+	Font::Font(const String & filename)
+		: Font {}
 	{
+		loadFromFile(filename);
 	}
 
 	Font::~Font()
@@ -62,6 +61,8 @@ namespace ml
 
 	bool Font::loadFromFile(const String & filename)
 	{
+		if (m_library) return false;
+
 		FT_Library library;
 		if (FT_Init_FreeType(&library) != EXIT_SUCCESS)
 		{
@@ -110,7 +111,7 @@ namespace ml
 		// Store the fonts information
 		m_info.family = face->family_name ? face->family_name : String();
 
-		return true;
+		return m_library;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

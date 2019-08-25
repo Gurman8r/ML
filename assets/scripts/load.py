@@ -38,30 +38,30 @@ ml.content.load([
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Texture", "name": "dean",        "file": PATH + "/images/dean.png",      "format": "RGBA" },
-    { "type": "Texture", "name": "neutrino",    "file": PATH + "/images/neutrino.png",  "format": "RGBA" },
-    { "type": "Texture", "name": "sanic",       "file": PATH + "/images/sanic.png",     "format": "RGBA" },
-    { "type": "Texture", "name": "borg",        "file": PATH + "/images/borg.png",      "format": "RGBA" },
-    { "type": "Texture", "name": "grass",       "file": PATH + "/images/grass.png",     "format": "RGBA" },
-    { "type": "Texture", "name": "navball",     "file": PATH + "/images/navball.png",   "format": "RGBA" },
-    { "type": "Texture", "name": "buck",        "file": PATH + "/images/buck.png",      "format": "RGBA" },
+    { "type": "Texture", "name": "dean",        "file": PATH + "/images/dean.png"       },
+    { "type": "Texture", "name": "neutrino",    "file": PATH + "/images/neutrino.png"   },
+    { "type": "Texture", "name": "sanic",       "file": PATH + "/images/sanic.png"      },
+    { "type": "Texture", "name": "borg",        "file": PATH + "/images/borg.png"       },
+    { "type": "Texture", "name": "grass",       "file": PATH + "/images/grass.png"      },
+    { "type": "Texture", "name": "navball",     "file": PATH + "/images/navball.png"    },
+    { "type": "Texture", "name": "buck",        "file": PATH + "/images/buck.png"       },
 
-    { "type": "Texture", "name": "earth_cm",    "file": PATH + "/textures/earth/earth_cm_2k.png", "format": "RGB" },
-    { "type": "Texture", "name": "earth_dm",    "file": PATH + "/textures/earth/earth_dm_2k.png", "format": "RGB" },
-    { "type": "Texture", "name": "earth_hm",    "file": PATH + "/textures/earth/earth_hm_2k.png", "format": "red" },
-    { "type": "Texture", "name": "earth_lm",    "file": PATH + "/textures/earth/earth_lm_2k.png", "format": "RGB" },
-    { "type": "Texture", "name": "earth_nm",    "file": PATH + "/textures/earth/earth_nm_2k.png", "format": "RGB" },
-    { "type": "Texture", "name": "earth_sm",    "file": PATH + "/textures/earth/earth_sm_2k.png", "format": "red" },
+    { "type": "Texture", "name": "earth_cm",    "file": PATH + "/textures/earth/earth_cm_2k.png" },
+    { "type": "Texture", "name": "earth_dm",    "file": PATH + "/textures/earth/earth_dm_2k.png" },
+    { "type": "Texture", "name": "earth_hm",    "file": PATH + "/textures/earth/earth_hm_2k.png" },
+    { "type": "Texture", "name": "earth_lm",    "file": PATH + "/textures/earth/earth_lm_2k.png" },
+    { "type": "Texture", "name": "earth_nm",    "file": PATH + "/textures/earth/earth_nm_2k.png" },
+    { "type": "Texture", "name": "earth_sm",    "file": PATH + "/textures/earth/earth_sm_2k.png" },
     
-    { "type": "Texture", "name": "stone_dm",    "file": PATH + "/textures/stone/stone_dm.png", "format": "RGBA" },
-    { "type": "Texture", "name": "stone_hm",    "file": PATH + "/textures/stone/stone_hm.png", "format": "RGBA" },
-    { "type": "Texture", "name": "stone_nm",    "file": PATH + "/textures/stone/stone_nm.png", "format": "RGBA" },
+    { "type": "Texture", "name": "stone_dm",    "file": PATH + "/textures/stone/stone_dm.png" },
+    { "type": "Texture", "name": "stone_hm",    "file": PATH + "/textures/stone/stone_hm.png" },
+    { "type": "Texture", "name": "stone_nm",    "file": PATH + "/textures/stone/stone_nm.png" },
     
-    { "type": "Texture", "name": "mars_dm",     "file": PATH + "/textures/mars/mars_dm_2k.png", "format": "RGB" },
-    { "type": "Texture", "name": "mars_nm",     "file": PATH + "/textures/mars/mars_nm_2k.png", "format": "RGB" },
+    { "type": "Texture", "name": "mars_dm",     "file": PATH + "/textures/mars/mars_dm_2k.png" },
+    { "type": "Texture", "name": "mars_nm",     "file": PATH + "/textures/mars/mars_nm_2k.png" },
     
-    { "type": "Texture", "name": "moon_dm",     "file": PATH + "/textures/moon/moon_dm_2k.png", "format": "RGB" },
-    { "type": "Texture", "name": "moon_nm",     "file": PATH + "/textures/moon/moon_nm_2k.png", "format": "RGB" },
+    { "type": "Texture", "name": "moon_dm",     "file": PATH + "/textures/moon/moon_dm_2k.png" },
+    { "type": "Texture", "name": "moon_nm",     "file": PATH + "/textures/moon/moon_nm_2k.png" },
 
 # Skyboxes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -72,7 +72,6 @@ ml.content.load([
         "sampler":  "texture_cube",
         "smooth":   "False",
         "repeat":   "True",
-        "format":   "RGB",
         "source":   "images",
         "front":    "star",
         "left":     "star",
@@ -87,7 +86,6 @@ ml.content.load([
         "sampler":  "texture_cube",
         "smooth":   "False",
         "repeat":   "True",
-        "format":   "RGB",
         "source":   "files",
         "front":    PATH + "/skyboxes/space/1.png",
         "left":     PATH + "/skyboxes/space/2.png",
@@ -108,7 +106,6 @@ ml.content.load([
         "sampler":  "texture_cube",
         "smooth":   "False",
         "repeat":   "True",
-        "format":   "RGBA",
         "source":   "images",
         "right":    "sunset_right",
         "left":     "sunset_left",
@@ -123,7 +120,6 @@ ml.content.load([
     { "type": "Model", "name": "cube",          "file": PATH + "/meshes/cube.obj" },
     { "type": "Model", "name": "sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "Model", "name": "sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
-
     #{ "type": "Model", "name": "cow",           "file": PATH + "/meshes/cow.obj" },
     #{ "type": "Model", "name": "pumpkin",       "file": PATH + "/meshes/pumpkin.obj" },
     #{ "type": "Model", "name": "teapot",        "file": PATH + "/meshes/teapot.obj" },

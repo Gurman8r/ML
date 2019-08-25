@@ -110,21 +110,16 @@ namespace ml
 
 	bool Texture::loadFromImage(const Image & value)
 	{
-		if (const uint32_t format { ([&]()
+		GL::Format fmt;
+		switch (value.channels())
 		{
-			switch (value.channels())
-			{
-			case 1	: return (uint32_t)GL::Red;
-			case 3	: return (uint32_t)GL::RGB;
-			case 4	: return (uint32_t)GL::RGBA;
-			default	: return 0U;
-			}
-		})() })
-		{
-			m_iFormat = m_cFormat = (GL::Format)format;
-			return this->create(value.size()) && this->update(value);
+		case 1: fmt = GL::Red; break;
+		case 3: fmt = GL::RGB; break;
+		case 4:
+		default: fmt = GL::RGBA; break;
 		}
-		return !dispose();
+		m_iFormat = m_cFormat = fmt;
+		return this->create(value.size()) && this->update(value);
 	}
 
 	bool Texture::loadFromFaces(const Array<const Image *, 6> & faces)
@@ -138,6 +133,7 @@ namespace ml
 		}
 
 		// Validate Images
+		uint32_t channels = 0;
 		for (size_t i = 0; i < faces.size(); i++)
 		{
 			if (!faces[i])
@@ -151,6 +147,7 @@ namespace ml
 			else if (i == 0)
 			{
 				m_size = m_realSize = { faces[i]->size() };
+				channels = faces[i]->channels();
 			}
 			else if (faces[i]->size() != m_size)
 			{
@@ -158,7 +155,21 @@ namespace ml
 					m_size, faces[i]->size()
 				);
 			}
+			else if (faces[i]->channels() != channels)
+			{
+				return Debug::logError("Face channel mismatch {0}", channels);
+			}
 		}
+
+		GL::Format fmt;
+		switch (channels)
+		{
+		case 1: fmt = GL::Red; break;
+		case 3: fmt = GL::RGB; break;
+		case 4:
+		default: fmt = GL::RGBA; break;
+		}
+		m_iFormat = m_cFormat = fmt;
 
 		// Create Texture
 		if (this->dispose() && this->set_handle(ML_GL.genTexture()))

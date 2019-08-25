@@ -65,6 +65,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		bool setUniform(const String & name, const bool value) const;
 		bool setUniform(const String & name, const float_t value) const;
 		bool setUniform(const String & name, const int32_t value) const;
 		bool setUniform(const String & name, const vec2 & value) const;

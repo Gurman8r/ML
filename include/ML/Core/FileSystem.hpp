@@ -6,10 +6,10 @@
 #define ML_FS _ML FileSystem::getInstance()
 
 # if defined(ML_SYSTEM_WINDOWS)
-#	define ML_PATH_LENGTH	260
+#	define ML_MAX_PATH		260
 #	define ML_PATH_DELIM	"\\"
 # else
-#	define ML_PATH_LENGTH	255
+#	define ML_MAX_PATH		255
 #	define ML_PATH_DELIM	"/"
 # endif
 

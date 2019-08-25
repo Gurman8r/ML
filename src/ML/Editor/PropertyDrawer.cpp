@@ -211,6 +211,69 @@ namespace ml
 
 	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
+		// Popup
+		if (ImGui::Button(("New Font##" + label).c_str()))
+		{
+			ImGui::OpenPopup(("Create Font##" + label).c_str());
+		}
+		if (ImGui::BeginPopupModal(
+			("Create Font##" + label).c_str(),
+			nullptr,
+			ImGuiWindowFlags_AlwaysAutoResize
+		))
+		{
+			// State
+			static bool popup_open { false };
+			static char asset_name[32] = "";
+			static char asset_path[ML_MAX_PATH] = "";
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(asset_name, "new_font");
+				std::strcpy(asset_path, "");
+			}
+
+			// Name
+			const bool enterPress = ImGui::InputText(
+				("Name##" + label).c_str(),
+				asset_name,
+				ML_ARRAYSIZE(asset_name),
+				ImGuiInputTextFlags_EnterReturnsTrue
+			);
+
+			// Path
+			ImGui::InputText(
+				("Path##" + label).c_str(),
+				asset_path,
+				ML_MAX_PATH
+			);
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if ((submit || enterPress) && !value)
+			{
+				if (const String path { asset_path })
+				{
+					if (ML_FS.fileExists(ML_FS.pathTo(path)))
+					{
+						value = ML_Content.create<Font>(asset_name, path);
+					}
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			if (submit || ImGui::Button("Cancel"))
+			{
+				popup_open = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return value;
+		}
 		return false;
 	}
 
@@ -290,15 +353,19 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char asset_name[32] = "";
+			static char asset_path[ML_MAX_PATH] = "";
+			static const Image * copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(asset_name, "new_image");
+				std::strcpy(asset_path, "");
+				copy = nullptr;
 			}
 
 			// Name
-			ImGui::InputText(
+			const bool enterPress = ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
@@ -306,20 +373,17 @@ namespace ml
 			);
 
 			// Path
-			static char asset_path[ML_PATH_LENGTH] = "";
 			ImGui::InputText(
 				("Path##" + label).c_str(),
 				asset_path,
-				ML_PATH_LENGTH,
-				ImGuiInputTextFlags_EnterReturnsTrue
+				ML_MAX_PATH
 			);
 
-			static const Image * copy { nullptr };
 			PropertyDrawer<Image>()("Copy From", (const Image *&)copy);
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if (submit && !value)
+			if ((submit || enterPress) && !value)
 			{
 				if (copy)
 				{
@@ -339,9 +403,6 @@ namespace ml
 			if (submit || ImGui::Button("Cancel"))
 			{
 				popup_open = false;
-				std::strcpy(asset_name, "");
-				std::strcpy(asset_path, "");
-				copy = nullptr;
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -441,15 +502,21 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char asset_name[32] = "";
+			static bool globals { false };
+			static const Shader * shader { nullptr };
+			static const Material * copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(asset_name, "new_material");
+				globals = false;
+				copy = nullptr;
+				shader = nullptr;
 			}
 
 			// Name
-			ImGui::InputText(
+			const bool enterPress = ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
@@ -457,20 +524,17 @@ namespace ml
 			);
 
 			// Defaults
-			static bool globals { false };
 			ImGui::Checkbox("Load Globals", &globals);
 
 			// Shader
-			static const Shader * shader { nullptr };
 			PropertyDrawer<Shader>()("Shader", (const Shader *&)shader);
 
 			// Copy From
-			static const Material * copy { nullptr };
 			PropertyDrawer<Material>()("Copy From", (const Material *&)copy);
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if (submit && !value)
+			if ((submit || enterPress) && !value)
 			{
 				if (value = ML_Content.create<Material>(asset_name))
 				{
@@ -500,10 +564,6 @@ namespace ml
 			if (submit || ImGui::Button("Cancel"))
 			{
 				popup_open = false;
-				globals = false;
-				copy = nullptr;
-				shader = nullptr;
-				std::strcpy(asset_name, "");
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -711,27 +771,28 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char asset_name[32] = "";
+			static const Shader * copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(asset_name, "new_shader");
+				copy = nullptr;
 			}
 
 			// Name
-			ImGui::InputText(
+			const bool enterPress = ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
-			static const Shader * copy { nullptr };
 			PropertyDrawer<Shader>()("Copy From", (const Shader *&)copy);
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if (submit && !value)
+			if ((submit || enterPress) && !value)
 			{
 				if (value = ML_Content.create<Shader>(asset_name))
 				{
@@ -747,8 +808,6 @@ namespace ml
 			if (submit || ImGui::Button("Cancel"))
 			{
 				popup_open = false;
-				copy = nullptr;
-				std::strcpy(asset_name, "");
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -901,7 +960,7 @@ namespace ml
 
 		ImGui::Columns(2);
 
-		ImGui::Text("Texture Handle: %u", value.texture());
+		ImGui::Text("Texture Handle: %u", (uint32_t)value.texture());
 
 		const Shader * shader { value.shader() };
 		if (PropertyDrawer<Shader>()(("Shader##Surface##" + label), shader))
@@ -970,27 +1029,28 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char asset_name[32] = "";
+			static const Image * image { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(asset_name, "new_texture");
+				image = nullptr;
 			}
 
 			// Name
-			ImGui::InputText(
+			const bool enterPress = ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
-			static const Image * image { nullptr };
 			PropertyDrawer<Image>()("Image", (const Image *&) image);
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if (submit && !value)
+			if ((submit || enterPress) && !value)
 			{
 				if (image)
 				{
@@ -999,8 +1059,8 @@ namespace ml
 					{
 					case 1: fmt = GL::Red; break;
 					case 3: fmt = GL::RGB; break;
-					default:
-					case 4: fmt = GL::RGBA; break;
+					case 4:
+					default: fmt = GL::RGBA; break;
 					}
 
 					if (value = ML_Content.create<Texture>(asset_name, fmt, true, false))
@@ -1015,8 +1075,6 @@ namespace ml
 			if (submit || ImGui::Button("Cancel"))
 			{
 				popup_open = false;
-				image = nullptr;
-				std::strcpy(asset_name, "");
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -1219,25 +1277,16 @@ namespace ml
 	{
 		if (ImGui::Button(("New Uniform##" + label).c_str()))
 		{
-			ImGui::OpenPopup(("New Uniform##Popup##" + label).c_str());
+			ImGui::OpenPopup(("Create Uniform##Popup##" + label).c_str());
 		}
-		
+	
 		if (ImGui::BeginPopupModal(
-			("New Uniform##Popup##" + label).c_str(),
+			("Create Uniform##Popup##" + label).c_str(),
 			nullptr,
 			ImGuiWindowFlags_AlwaysAutoResize
 		))
 		{
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-			// Type Input
-			static int32_t	type = 0;
-			ImGui::Combo(
-				"Type",
-				&type,
-				Uniform::Type_names,
-				ML_ARRAYSIZE(Uniform::Type_names)
-			);
 
 			// Name Input
 			static char name[32] = "new_uniform\0";
@@ -1246,6 +1295,15 @@ namespace ml
 				name,
 				ML_ARRAYSIZE(name),
 				ImGuiInputTextFlags_EnterReturnsTrue
+			);
+
+			// Type Input
+			static int32_t	type = 0;
+			ImGui::Combo(
+				"Type",
+				&type,
+				Uniform::Type_names,
+				ML_ARRAYSIZE(Uniform::Type_names)
 			);
 
 			auto ResetPopup = []()
@@ -1290,7 +1348,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			if (value && flags == 1) { ML_Content.insert<Uniform>(value->name, value); }
+			if (value && bitRead(flags, 0)) { ML_Content.insert<Uniform>(value->name, value); }
 
 			return value;
 		}

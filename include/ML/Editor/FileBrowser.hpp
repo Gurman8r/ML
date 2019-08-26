@@ -35,7 +35,6 @@ namespace ml
 		void update();
 		void render();
 		void render(const String & label, const vec2 & size = { 0 }, bool border = true, int32_t flags = 0);
-		void handle_input();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -67,12 +66,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		String		m_path;		// Working Directory
-		Directory	m_dir;		// Directory Contents
-		char		m_type;		// Selected List
-		size_t		m_index;	// Selected File
-		String		m_preview;	// File Contents
-		bool		m_isDouble;	// Has Double Click
+		String		m_label;		// Label of Widget
+		String		m_path;			// Working Directory
+		Directory	m_dir;			// Directory Contents
+		char		m_type;			// Selected List
+		size_t		m_index;		// Selected File
+		String		m_preview;		// File Contents
+		bool		m_doubleClick;	// Has Double Click
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

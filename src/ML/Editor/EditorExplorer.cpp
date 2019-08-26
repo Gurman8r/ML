@@ -33,7 +33,7 @@ namespace ml
 	{
 		if (beginDraw(ImGuiWindowFlags_AlwaysAutoResize))
 		{
-			m_browser.render(getTitle());
+			m_browser.render((String(getTitle()) + "##FileBrowser"), { 0 }, true, 0);
 		}
 		return endDraw();
 	}

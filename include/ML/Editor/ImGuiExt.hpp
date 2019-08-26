@@ -28,9 +28,9 @@ namespace ml
 			return Combo(label, index, arr, ML_ARRAYSIZE(arr));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		static void HelpMarker(const String & message);
+
+		static bool OpenFile(const String & label, String & path, const vec2 & size);
 
 		static void Tooltip(const String & message);
 

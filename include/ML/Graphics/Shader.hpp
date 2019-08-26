@@ -29,6 +29,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Shader();
+		explicit Shader(const String & filename);
 		Shader(const Shader & copy);
 		~Shader();
 

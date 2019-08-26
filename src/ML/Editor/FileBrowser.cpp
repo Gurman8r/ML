@@ -12,7 +12,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	FileBrowser::FileBrowser()
-		: m_path {}
+		: m_label		{}
+		, m_path		{}
+		, m_dir			{}
+		, m_type		{ '\0' }
+		, m_index		{ 0 }
+		, m_preview		{}
+		, m_doubleClick { false }
 	{
 	}
 
@@ -24,13 +30,17 @@ namespace ml
 
 	void FileBrowser::update()
 	{
-		const String workingDir { ML_FS.getPath() };
-		if ((m_isDouble) ||
-			(!m_path) ||
-			(m_path != workingDir) ||
-			(m_path && m_dir.empty()))
+		const String cwd { ML_FS.getPath() };
+		const bool shouldUpdate { 
+			(!cwd.empty()) &&
+			(m_doubleClick) ||
+			(m_path.empty()) ||
+			(m_path != cwd) ||
+			(m_path && m_dir.empty())
+		};
+		if (shouldUpdate)
 		{
-			m_path = workingDir;
+			m_path = cwd;
 			if (ML_FS.getDirContents(m_path, m_dir))
 			{
 				set_selected(T_Dir, 0);
@@ -42,13 +52,13 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		ImGui::Columns(2, "FileBrowserColumns", true);
+		ImGui::Columns(2, ("FileBrowser##Columns##" + m_label).c_str(), true);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (ImGui::BeginChild("Directory View", { 0, 0 }, true))
+		if (ImGui::BeginChild(("FileBrowser##Content##" + m_label).c_str()))
 		{
-			m_isDouble = false;
+			m_doubleClick = false;
 			for (const auto & pair : m_dir)
 			{
 				const char & type = pair.first;
@@ -71,13 +81,13 @@ namespace ml
 					const String & name = list.at(i);
 
 					if (ImGui::Selectable(
-						((name + type).c_str()),
+						((name + type + "##" + m_label).c_str()),
 						((m_type == type) && (m_index == i)),
 						(ImGuiSelectableFlags_AllowDoubleClick)))
 					{
 						if (ImGui::IsMouseDoubleClicked(0))
 						{
-							(m_isDouble = true); break;
+							(m_doubleClick = true); break;
 						}
 						else
 						{
@@ -88,7 +98,7 @@ namespace ml
 				ImGui::PopStyleColor();
 				ImGui::Separator();
 
-				if (m_isDouble) break;
+				if (m_doubleClick) break;
 			}
 		}
 		ImGui::EndChild();
@@ -99,18 +109,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (ImGui::BeginChild("FileBrowserTabs", { 0, 0 }, true))
+		if (ImGui::BeginChild(("FileBrowser##Tabs##" + m_label).c_str()))
 		{
-			if (ImGui::BeginTabBar("##FileBrowserTabs"))
+			if (ImGui::BeginTabBar(("FileBrowser##Tabs##" + m_label).c_str()))
 			{
 				// File Preview
-				if (ImGui::BeginTabItem("Preview##FileBrowser"))
+				if (ImGui::BeginTabItem(("Preview##FileBrowser##" + m_label).c_str()))
 				{
 					if (ImGui::BeginChild(
-						"Content",
-						{ -1.f, -1.f },
-						true,
-						ImGuiWindowFlags_AlwaysHorizontalScrollbar
+						("##Preview##Content##FileBrowser##" + m_label).c_str()
 					))
 					{
 						ImGui::TextUnformatted(&m_preview[0], &m_preview[m_preview.size()]);
@@ -120,9 +127,9 @@ namespace ml
 				}
 
 				// File Details
-				if (ImGui::BeginTabItem("Details##FileBrowser"))
+				if (ImGui::BeginTabItem(("Details##FileBrowser##" + m_label).c_str()))
 				{
-					const Bytes size(get_selected_size());
+					const Bytes size { get_selected_size() };
 					ImGui::Text("Name: %s", get_selected_name().c_str());
 					ImGui::Text("Type: %s", get_selected_type().c_str());
 					ImGui::Text("Size: %s", size.str().c_str());
@@ -144,21 +151,21 @@ namespace ml
 	void FileBrowser::render(const String & label, const vec2 & size, bool border, int32_t flags)
 	{
 		ImGui::PushID(ML_ADDRESSOF(this));
-		if (ImGui::BeginChild(label.c_str(), { size[0], size[1] }, border, flags))
+		ImGui::PushID(label.c_str());
+		if (ImGui::BeginChild(
+			(m_label = label).c_str(), { size[0], size[1] }, border, flags
+		))
 		{
 			render();
-			handle_input();
+
+			if ((m_doubleClick || (m_doubleClick = false)) && (m_type == T_Dir))
+			{
+				ML_FS.setPath(get_selected_name());
+			}
 		}
 		ImGui::EndChild();
 		ImGui::PopID();
-	}
-
-	void FileBrowser::handle_input()
-	{
-		if (m_isDouble || (m_isDouble = false) && (m_type == T_Dir))
-		{
-			ML_FS.setPath(get_selected_name());
-		}
+		ImGui::PopID();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -167,7 +174,6 @@ namespace ml
 	{
 		m_type = type;
 		m_index = index;
-
 		switch (m_type)
 		{
 		case T_Reg:
@@ -185,10 +191,10 @@ namespace ml
 			}
 			else
 			{
-				m_preview = String("File size of {0} exceeds preview limit of {1}.").format(
-					Bytes(get_selected_size()), 
+				m_preview = (String("File size of {0} exceeds preview limit of {1}.").format(
+					Bytes(get_selected_size()),
 					MaxPreviewSize
-				);
+				));
 			}
 		}
 		break;
@@ -214,8 +220,8 @@ namespace ml
 
 	String FileBrowser::get_selected_path() const
 	{
-		return pathTo(get_selected_name());
-	}
+		const String * file;
+		return (file = get_selected()) ? pathTo(*file) : String(); }
 
 	String FileBrowser::get_selected_type() const
 	{

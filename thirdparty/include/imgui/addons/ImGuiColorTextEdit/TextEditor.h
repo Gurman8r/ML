@@ -202,6 +202,21 @@ namespace ImGui
 			static const LanguageDefinition & SQL();
 			static const LanguageDefinition & AngelScript();
 			static const LanguageDefinition & Lua();
+
+			inline static const LanguageDefinition * get(const int value)
+			{
+				switch (value)
+				{
+				case 0: return &CPlusPlus();
+				case 1: return &HLSL();
+				case 2: return &GLSL();
+				case 3: return &C();
+				case 4: return &SQL();
+				case 5: return &AngelScript();
+				case 6: return &Lua();
+				default: return nullptr;
+				}
+			}
 		};
 
 	public:

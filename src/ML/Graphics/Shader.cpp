@@ -91,6 +91,12 @@ namespace ml
 	{
 	}
 
+	Shader::Shader(const String & filename)
+		: Shader {}
+	{
+		loadFromFile(filename);
+	}
+
 	Shader::Shader(const Shader & copy)
 		: I_Handle	(copy)
 		, m_attribs	(copy.m_attribs)

@@ -5,6 +5,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Engine/Ref.hpp>
+#include <ML/Editor/FileBrowser.hpp>
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
@@ -23,8 +24,6 @@ namespace ml
 {
 	struct PropertyDrawer<>::Layout
 	{
-		Layout() = delete;
-
 		template <class T>
 		static inline bool dropdown(const String & label, const T *& value)
 		{
@@ -208,7 +207,7 @@ namespace ml
 	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		if (ImGui::Button(("New Font##" + label).c_str()))
+		if (ImGui::Button(("New " + type_name().str() + "##" + label).c_str()))
 		{
 			ImGui::OpenPopup(("Create Font##" + label).c_str());
 		}
@@ -222,6 +221,7 @@ namespace ml
 			static bool popup_open { false };
 			static char asset_name[32] = "";
 			static char asset_path[ML_MAX_PATH] = "";
+			static const Font * copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
@@ -231,30 +231,52 @@ namespace ml
 			}
 
 			// Name
-			const bool enterPress = ImGui::InputText(
+			ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
+			ImGui::Separator();
+
+			if (PropertyDrawer<Font>()(("Copy From##" + label), (const Font *&)copy))
+			{
+				std::strcpy(asset_path, "");
+			}
+
 			// Path
 			ImGui::InputText(
-				("Path##" + label).c_str(),
+				("##Path##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
+			ImGui::SameLine();
+			static String open_path;
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			{
+				if (ML_FS.fileExists(open_path))
+				{
+					std::strcpy(asset_path, open_path.c_str());
+					open_path.clear();
+					copy = nullptr;
+				}
+			}
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if ((submit || enterPress) && !value)
+			if (submit && !value)
 			{
+				if (copy)
+				{
+					if (copy->getInfo().filename)
+					{
+						std::strcpy(asset_path, copy->getInfo().filename.c_str());
+					}
+				}
 				if (const String path { asset_path })
 				{
-					if (ML_FS.fileExists(ML_FS.pathTo(path)))
-					{
-						value = ML_Content.create<Font>(asset_name, path);
-					}
+					value = ML_Content.create<Font>(asset_name, path);
 				}
 			}
 			ImGui::SameLine();
@@ -334,7 +356,7 @@ namespace ml
 	bool PropertyDrawer<Image>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		if (ImGui::Button(("New Image##" + label).c_str()))
+		if (ImGui::Button(("New " + type_name().str() + "##" + label).c_str()))
 		{
 			ImGui::OpenPopup(("Create Image##" + label).c_str());
 		}
@@ -359,25 +381,42 @@ namespace ml
 			}
 
 			// Name
-			const bool enterPress = ImGui::InputText(
+			ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
+			ImGui::Separator();
+
+			// Copy
+			if (PropertyDrawer<Image>()("Copy From", (const Image *&)copy))
+			{
+				std::strcpy(asset_path, "");
+			}
+
 			// Path
 			ImGui::InputText(
-				("Path##" + label).c_str(),
+				("##Path##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
-
-			PropertyDrawer<Image>()("Copy From", (const Image *&)copy);
+			ImGui::SameLine();
+			static String open_path;
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			{
+				if (ML_FS.fileExists(open_path))
+				{
+					std::strcpy(asset_path, open_path.c_str());
+					open_path.clear();
+					copy = nullptr;
+				}
+			}
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if ((submit || enterPress) && !value)
+			if (submit && !value)
 			{
 				if (copy)
 				{
@@ -385,10 +424,7 @@ namespace ml
 				}
 				else if (const String path { asset_path })
 				{
-					if (ML_FS.fileExists(ML_FS.pathTo(path)))
-					{
-						value = ML_Content.create<Image>(asset_name, path);
-					}
+					value = ML_Content.create<Image>(asset_name, path);
 				}
 			}
 			ImGui::SameLine();
@@ -508,7 +544,7 @@ namespace ml
 			}
 
 			// Name
-			const bool enterPress = ImGui::InputText(
+			ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
@@ -526,7 +562,7 @@ namespace ml
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if ((submit || enterPress) && !value)
+			if (submit && !value)
 			{
 				if (value = ML_Content.create<Material>(asset_name))
 				{
@@ -744,12 +780,12 @@ namespace ml
 	bool PropertyDrawer<Shader>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		if (ImGui::Button(("New Shader##" + label).c_str()))
+		if (ImGui::Button(("New " + type_name().str() + "##" + label).c_str()))
 		{
-			ImGui::OpenPopup(("Create Shader##" + label).c_str());
+			ImGui::OpenPopup(("Create Font##" + label).c_str());
 		}
 		if (ImGui::BeginPopupModal(
-			("Create Shader##" + label).c_str(),
+			("Create Font##" + label).c_str(),
 			nullptr,
 			ImGuiWindowFlags_AlwaysAutoResize
 		))
@@ -757,34 +793,64 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char asset_name[32] = "";
-			static const Shader * copy { nullptr };
+			static char asset_path[ML_MAX_PATH] = "";
+			static Shader * copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(asset_name, "new_shader");
+				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
-			const bool enterPress = ImGui::InputText(
+			ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
-			PropertyDrawer<Shader>()("Copy From", (const Shader *&)copy);
+			ImGui::Separator();
+
+			// Copy
+			if (PropertyDrawer<Shader>()(("Copy From##" + label), (const Shader *&)copy))
+			{
+				std::strcpy(asset_path, "");
+			}
+
+			// Path
+			ImGui::InputText(
+				("##Path##" + label).c_str(),
+				asset_path,
+				ML_MAX_PATH
+			);
+			ImGui::SameLine();
+			static String open_path;
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			{
+				if (ML_FS.fileExists(open_path))
+				{
+					std::strcpy(asset_path, open_path.c_str());
+					open_path.clear();
+					copy = nullptr;
+				}
+			}
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if ((submit || enterPress) && !value)
+			if (submit && !value)
 			{
-				if (value = ML_Content.create<Shader>(asset_name))
+				if (copy)
 				{
-					if (copy)
+					value = ML_Content.create<Shader>(asset_name, (*copy));
+				}
+				else if (const String path { asset_path })
+				{
+					if (ML_FS.fileExists(path))
 					{
-						value->loadFromMemory(copy->sources());
+						value = ML_Content.create<Shader>(asset_name, path);
 					}
 				}
 			}
@@ -1009,7 +1075,7 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char asset_name[32] = "";
-			static const Image * image { nullptr };
+			static Image * image { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
@@ -1019,18 +1085,20 @@ namespace ml
 			}
 
 			// Name
-			const bool enterPress = ImGui::InputText(
+			ImGui::InputText(
 				("Name##" + label).c_str(),
 				asset_name,
 				ML_ARRAYSIZE(asset_name),
 				ImGuiInputTextFlags_EnterReturnsTrue
 			);
 
-			PropertyDrawer<Image>()("Image", (const Image *&) image);
+			ImGui::Separator();
+
+			PropertyDrawer<Image>()(("Image##" + label), (const Image *&)image);
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
-			if ((submit || enterPress) && !value)
+			if (submit && !value)
 			{
 				if (image)
 				{
@@ -1268,7 +1336,7 @@ namespace ml
 
 			// Name Input
 			static char name[32] = "new_uniform\0";
-			const bool enterPress = ImGui::InputText(
+			ImGui::InputText(
 				"Name",
 				name,
 				ML_ARRAYSIZE(name),
@@ -1291,7 +1359,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			};
 
-			if ((ImGui::Button("Submit") || enterPress) && (name && !value))
+			if (ImGui::Button("Submit") && (name && !value))
 			{
 				value = ([&]()
 				{

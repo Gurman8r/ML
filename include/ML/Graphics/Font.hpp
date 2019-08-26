@@ -21,6 +21,7 @@ namespace ml
 
 		struct Info final
 		{
+			String filename;
 			String family;
 		};
 

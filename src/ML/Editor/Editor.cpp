@@ -342,7 +342,7 @@ namespace ml
 			{
 				ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content	.openPtr());
 				ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
-				ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
+				//ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
 				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
 				//ImGui::MenuItem(m_inspector.getTitle(),	"Ctrl+Alt+M", m_inspector.openPtr());
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
@@ -410,7 +410,7 @@ namespace ml
 		/*	Explorer	*/	if (m_explorer	.isOpen()) m_explorer	.onGui(ev);
 		/*	Importer	*/	if (m_importer	.isOpen()) m_importer	.onGui(ev);
 		/*	Profiler	*/	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
-		/*	Inspector		*/	if (m_inspector	.isOpen()) m_inspector		.onGui(ev);
+		/*	Inspector	*/	if (m_inspector	.isOpen()) m_inspector	.onGui(ev);
 		/*	Terminal	*/	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
 	}
 

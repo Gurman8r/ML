@@ -103,6 +103,9 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
+		// CD
+		ML_FS.setPath("../../../");
+
 		// Modify Default Uniforms
 		if (Material * m = m_editor.material())
 		{

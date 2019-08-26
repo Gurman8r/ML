@@ -59,7 +59,7 @@ namespace ml
 				}
 
 				ImGui::PushID(pair.first.c_str());
-				if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<T>::name().str()).c_str()))
+				if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<T>::type_name().str()).c_str()))
 				{
 					ImGui::PushID(ML_ADDRESSOF(pair.second));
 					PropertyDrawer<T>()(pair.first, (T &)*pair.second);

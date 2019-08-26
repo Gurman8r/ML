@@ -21,7 +21,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Font::Font()
-		: m_pages	{}
+		: m_info	{}
+		, m_pages	{}
 		, m_library	{ nullptr }
 		, m_face	{ nullptr }
 	{
@@ -33,10 +34,7 @@ namespace ml
 		loadFromFile(filename);
 	}
 
-	Font::~Font()
-	{
-		dispose();
-	}
+	Font::~Font() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -62,6 +60,8 @@ namespace ml
 	bool Font::loadFromFile(const String & filename)
 	{
 		if (m_library) return false;
+
+		m_info.filename = filename;
 
 		FT_Library library;
 		if (FT_Init_FreeType(&library) != EXIT_SUCCESS)

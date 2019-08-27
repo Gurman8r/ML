@@ -65,8 +65,8 @@ namespace ml
 		{
 			if (m_nodes[Root] = beginBuilder(ImGuiDockNodeFlags_None))
 			{
-				m_nodes[Left]	= splitNode(m_nodes[Root],	ImGuiDir_Left,	0.50f,	&m_nodes[Root]);
-				m_nodes[Right]	= splitNode(m_nodes[Root],	ImGuiDir_Right, 0.50f,	&m_nodes[Root]);
+				m_nodes[Left]	= splitNode(m_nodes[Root],	ImGuiDir_Left,	0.33f,	&m_nodes[Root]);
+				m_nodes[Right]	= splitNode(m_nodes[Root],	ImGuiDir_Right, 0.66f,	&m_nodes[Root]);
 				m_nodes[LeftUp]	= splitNode(m_nodes[Left],	ImGuiDir_Up,	0.75f,	&m_nodes[Left]);
 				m_nodes[RightUp]= splitNode(m_nodes[Right], ImGuiDir_Up,	0.75f,	&m_nodes[Right]);
 				m_nodes[LeftDn]	= splitNode(m_nodes[Left],	ImGuiDir_Down,	0.25f,	&m_nodes[Left]);

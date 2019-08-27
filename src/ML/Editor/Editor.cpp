@@ -183,13 +183,13 @@ namespace ml
 
 		// Setup Style
 		/* * * * * * * * * * * * * * * * * * * * */
-		const String styleFile = ev.prefs.get_string(
-			"Editor", "style_file", "Classic"
+		const String styleConf = ev.prefs.get_string(
+			"Editor", "style_config", "Classic"
 		);
-		if (styleFile == "Classic")  ImGui::StyleColorsClassic();
-		else if (styleFile == "Dark") ImGui::StyleColorsDark();
-		else if (styleFile == "Light") ImGui::StyleColorsLight();
-		else if (!ML_ImGuiImpl.LoadStyle(ML_FS.pathTo(styleFile)))
+		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
+		else if (styleConf == "Dark") ImGui::StyleColorsDark();
+		else if (styleConf == "Light") ImGui::StyleColorsLight();
+		else if (!ML_ImGuiImpl.LoadStyle(ML_FS.pathTo(styleConf)))
 		{
 			Debug::logError("Failed loading ImGui style");
 		}
@@ -246,7 +246,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (m_show_imgui_demo)	{ ImGui::ShowDemoWindow(&m_show_imgui_demo); }
 		if (m_show_imgui_metrics) { ImGui::ShowMetricsWindow(&m_show_imgui_metrics); }
-		if (m_show_imgui_style)	{ ImGui::Begin("Dear ImGui Style Editor", &m_show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
+		if (m_show_imgui_style)	{ ImGui::Begin("Style Editor", &m_show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
 		if (m_show_imgui_about)	{ ImGui::ShowAboutWindow(&m_show_imgui_about); }
 
 		// Main Menu Bar

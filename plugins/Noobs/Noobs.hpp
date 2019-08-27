@@ -155,18 +155,6 @@ namespace ml
 				"Geometry",
 			};
 
-			static constexpr C_String Tags[MAX_DEMO_FILE_TYPE] = {
-				"#shader vertex",
-				"#shader fragment",
-				"#shader geometry",
-			};
-
-			static constexpr C_String Incl[MAX_DEMO_FILE_TYPE] = {
-				"#include \"Vertex\"",
-				"#include \"Fragment\"",
-				"#include \"Geometry\"",
-			};
-
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			using TextEditor = ImGui::TextEditor;
@@ -187,10 +175,6 @@ namespace ml
 				, dirty { false }
 			{
 			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			void render(const GuiEvent & ev);
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		};

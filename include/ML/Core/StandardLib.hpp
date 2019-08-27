@@ -77,9 +77,9 @@ namespace ml
 	using uintmax_t		= typename ML_UINTMAX;
 
 	using C_String		= typename const char *;
-	using C_WString		= typename const wchar_t *;
-	using C_U16String	= typename const char16_t *;
-	using C_U32String	= typename const char32_t *;
+	using CW_String		= typename const wchar_t *;
+	using CU16_String	= typename const char16_t *;
+	using CU32_String	= typename const char32_t *;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -49,9 +49,9 @@ namespace ml
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
 			// Filter
-			static ImGuiTextFilter filter("-" ML_MSG_WRN);
+			static ImGuiTextFilter filter {};
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
-			filter.Draw("Filter (\"incl,-excl\")", 180);
+			filter.Draw("Filter", 180);
 			ImGui::PopStyleVar();
 
 			// Clear Button

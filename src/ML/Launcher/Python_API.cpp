@@ -140,11 +140,4 @@ namespace ml
 		});
 	}
 
-
-	// Editor
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(memelib_editor, m)
-	{
-	}
-
 }

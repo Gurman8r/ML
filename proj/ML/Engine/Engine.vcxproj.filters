@@ -158,9 +158,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\CommandExecutor.cpp">
       <Filter>Source Files\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\CommandRegistry.cpp">
-      <Filter>Source Files\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\CommandDescriptor.cpp">
       <Filter>Source Files\Commands</Filter>
     </ClCompile>

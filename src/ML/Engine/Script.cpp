@@ -19,10 +19,9 @@ namespace ml
 		loadFromFile(filename);
 	}
 
-	Script::Script(Script && copy)
-		: Script()
+	Script::Script(const Script & copy)
+		: m_filename(copy.m_filename)
 	{
-		std::swap(m_filename, copy.m_filename);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -24,7 +24,7 @@ namespace ml
 
 		Script();
 		explicit Script(const String & filename);
-		Script(Script && copy);
+		Script(const Script & copy);
 		~Script() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

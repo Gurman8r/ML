@@ -15,11 +15,12 @@ namespace ml
 		, public I_Drawable
 		, public I_Readable
 		, public I_Disposable
-		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Model();
+		explicit Model(const String & filename);
+		Model(const Model & copy);
 		~Model();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -87,6 +87,23 @@ namespace ml
 	{
 	}
 
+	Model::Model(const String & filename)
+		: Model {}
+	{
+		loadFromFile(filename);
+	}
+
+	Model::Model(const Model & copy)
+		: Model {}
+	{
+		m_meshes.reserve(copy.meshes().size());
+		for (const Mesh * mesh : copy.meshes())
+		{
+			m_meshes.push_back(new Mesh { *mesh });
+			m_meshes.back()->create();
+		}
+	}
+
 	Model::~Model() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -115,7 +132,7 @@ namespace ml
 		return false;
 	}
 
-	bool Model::loadFromMemory(const List<Vertex>& vertices)
+	bool Model::loadFromMemory(const List<Vertex> & vertices)
 	{
 		if (dispose())
 		{
@@ -124,7 +141,7 @@ namespace ml
 		return !m_meshes.empty();
 	}
 
-	bool Model::loadFromMemory(const List<Vertex>& vertices, const List<uint32_t>& indices)
+	bool Model::loadFromMemory(const List<Vertex> & vertices, const List<uint32_t> & indices)
 	{
 		if (dispose())
 		{

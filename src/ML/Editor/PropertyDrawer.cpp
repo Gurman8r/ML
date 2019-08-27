@@ -221,31 +221,32 @@ namespace ml
 			static bool popup_open { false };
 			static char name[32] = "";
 			static char asset_path[ML_MAX_PATH] = "";
-			static const Font * copy { nullptr };
+			static const_pointer copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
+				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##"+ label).c_str(),
+				("Name##" + type_name().str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
 
 			// Copy
-			if (PropertyDrawer<Font>()(("Copy From##" + label), (const Font *&)copy))
+			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
 			{
 				std::strcpy(asset_path, "");
 			}
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##"+ label).c_str(),
+				("##Path##" + type_name().str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -365,7 +366,7 @@ namespace ml
 			static bool popup_open { false };
 			static char name[32] = "";
 			static char asset_path[ML_MAX_PATH] = "";
-			static const Image * copy { nullptr };
+			static const_pointer copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
@@ -377,20 +378,20 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##"+ label).c_str(),
+				("Name##" + type_name().str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
 
 			// Copy
-			if (PropertyDrawer<Image>()(("Copy From##" + label), (const Image *&)copy))
+			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
 			{
 				std::strcpy(asset_path, "");
 			}
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##"+ label).c_str(),
+				("##Path##" + type_name().str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -412,7 +413,7 @@ namespace ml
 			{
 				if (copy)
 				{
-					value = ML_Content.create<Image>(name, (*copy));
+					value = ML_Content.create<value_type>(name, (*copy));
 				}
 				else if (ML_FS.fileExists(asset_path))
 				{
@@ -716,6 +717,87 @@ namespace ml
 
 	bool PropertyDrawer<Model>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
+		// Popup
+		const String button_label { "New " + type_name().str() + "##" + label };
+		const String popup_label { "Create " + type_name().str() + "##" + label };
+		if (ImGui::Button(button_label.c_str()))
+		{
+			ImGui::OpenPopup(popup_label.c_str());
+		}
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			// State
+			static bool popup_open { false };
+			static char name[32] = "";
+			static char asset_path[ML_MAX_PATH] = "";
+			static const_pointer copy { nullptr };
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(asset_path, "");
+				copy = nullptr;
+			}
+
+			// Name
+			ImGui::InputText(
+				("Name##" + type_name().str() + "##" + label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
+			);
+
+			// Copy
+			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
+			{
+				std::strcpy(asset_path, "");
+			}
+
+			// Path
+			ImGui::InputText(
+				("##Path##" + type_name().str() + "##" + label).c_str(),
+				asset_path,
+				ML_MAX_PATH
+			);
+			ImGui::SameLine();
+			static String open_path;
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			{
+				if (ML_FS.fileExists(open_path))
+				{
+					std::strcpy(asset_path, open_path.c_str());
+					open_path.clear();
+					copy = nullptr;
+				}
+			}
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (copy)
+				{
+					value = ML_Content.create<value_type>(name, (*copy));
+				}
+				else if (ML_FS.fileExists(asset_path))
+				{
+					value = ML_Content.create<value_type>(name, asset_path);
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
+			{
+				popup_open = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return (submit || cancel);
+		}
 		return false;
 	}
 
@@ -752,6 +834,91 @@ namespace ml
 
 	bool PropertyDrawer<Script>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
+		// Popup
+		const String button_label { "New " + type_name().str() + "##" + label };
+		const String popup_label { "Create " + type_name().str() + "##" + label };
+		if (ImGui::Button(button_label.c_str()))
+		{
+			ImGui::OpenPopup(popup_label.c_str());
+		}
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			// State
+			static bool popup_open { false };
+			static char name[32] = "";
+			static char asset_path[ML_MAX_PATH] = "";
+			static const_pointer copy { nullptr };
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(asset_path, "");
+				copy = nullptr;
+			}
+
+			// Name
+			ImGui::InputText(
+				("Name##" + type_name().str() + "##" + label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
+			);
+
+			// Copy
+			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
+			{
+				std::strcpy(asset_path, "");
+			}
+
+			// Path
+			ImGui::InputText(
+				("##Path##" + type_name().str() + "##" + label).c_str(),
+				asset_path,
+				ML_MAX_PATH
+			);
+			ImGui::SameLine();
+			static String open_path;
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			{
+				if (ML_FS.fileExists(open_path))
+				{
+					std::strcpy(asset_path, open_path.c_str());
+					open_path.clear();
+					copy = nullptr;
+				}
+			}
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (copy)
+				{
+					value = ML_Content.create<value_type>(name, (*copy));
+				}
+				else if (ML_FS.fileExists(asset_path))
+				{
+					value = ML_Content.create<value_type>(name, asset_path);
+				}
+				else
+				{
+					value = ML_Content.create<value_type>(name);
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
+			{
+				popup_open = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return (submit || cancel);
+		}
 		return false;
 	}
 
@@ -786,7 +953,7 @@ namespace ml
 			static bool popup_open { false };
 			static char name[32] = "";
 			static char asset_path[ML_MAX_PATH] = "";
-			static Shader * copy { nullptr };
+			static const_pointer copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
@@ -798,20 +965,20 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##"+ label).c_str(),
+				("Name##" + type_name().str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
 
 			// Copy
-			if (PropertyDrawer<Shader>()(("Copy From##" + label), (const Shader *&)copy))
+			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
 			{
 				std::strcpy(asset_path, "");
 			}
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##"+ label).c_str(),
+				("##Path##" + type_name().str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -831,13 +998,17 @@ namespace ml
 			const bool submit { ImGui::Button("Submit") };
 			if (submit && !value)
 			{
-				if (copy && (value = ML_Content.create<Shader>(name)))
+				if (copy)
 				{
-					value->loadFromMemory(copy->sources());
+					value = ML_Content.create<value_type>(name, (*copy));
 				}
 				else if (ML_FS.fileExists(asset_path))
 				{
 					value = ML_Content.create<value_type>(name, asset_path);
+				}
+				else
+				{
+					value = ML_Content.create<value_type>(name);
 				}
 			}
 			ImGui::SameLine();

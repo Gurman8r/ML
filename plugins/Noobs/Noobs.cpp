@@ -306,23 +306,6 @@ namespace ml
 	}
 
 
-	// DEMO FILE
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	void Noobs::DemoFile::render(const GuiEvent & ev)
-	{
-		ImGui::BeginChild("DemoFile##ContentArea", { 0, 0 }, true);
-		
-		this->text.Render(("##DemoFile##" + this->name + "##ImGuiColorTextEdit").c_str());
-
-		if (this->text.IsTextChanged())
-		{ 
-			this->dirty = true; 
-		}
-
-		ImGui::EndChild();
-	}
-
-	
 	// DEMO EDITOR
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void Noobs::DemoEditor::render(const GuiEvent & ev, C_String title)
@@ -333,44 +316,27 @@ namespace ml
 		{
 			if (ImGui::BeginTabBar("DemoEditor##TabBar##Main"))
 			{
-				// Sources Tab
+				// Code Tab
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginTabItem("Sources"))
+				if (ImGui::BeginTabItem("Code"))
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID("##Sources");
-					ImGui::BeginChild("##Sources##Content", { 0, 0 }, true);
+					ImGui::PushID("##Code");
+					ImGui::BeginChild("##Code##Content", { 0, 0, }, true,
+						ImGuiWindowFlags_NoScrollbar
+					);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					// Compile
-					if (ImGui::Button("Compile"))
-					{
-						this->compile_sources();
-					}
-					ImGuiExt::Tooltip("Build shader source code");
-					ImGui::SameLine();
+					const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
+
+					ImGui::BeginChild(
+						"DemoFile##ContentArea", 
+						{ max_size[0], max_size[1] * 0.95f }, 
+						true
+					);
 					
-					// Rebuild
-					if (ImGui::Button("Rebuild"))
-					{
-						this->reset_sources();
-						this->generate_sources();
-					}
-					ImGuiExt::Tooltip("Update source code to that from the last successfull compilation");
-					ImGui::Separator();
-
-					// Toggle Demo Files (start at one to always show config)
-					for (size_t i = 0; i < m_files.size(); i++)
-					{
-						if (!m_files[i]) { continue; }
-						if (i > 0) { ImGui::SameLine(); }
-						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
 					// Demo File Tab Bar
 					if (ImGui::BeginTabBar("Demo File Tab Bar"))
 					{
@@ -388,7 +354,16 @@ namespace ml
 										: ImGuiTabItemFlags_None)
 								))
 								{
-									file->render(ev); // Render Demo File
+									file->text.Render(
+										("##DemoFile##" + file->name + "##ImGuiColorTextEdit").c_str(),
+										{ 0, 0 }, 
+										true
+									);
+
+									if (file->text.IsTextChanged())
+									{
+										file->dirty = true;
+									}
 
 									ImGui::EndTabItem();
 								}
@@ -396,6 +371,34 @@ namespace ml
 						}
 						ImGui::EndTabBar();
 					}
+
+					ImGui::EndChild();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::BeginChild(
+						"DemoFile##ToolsArea",
+						{ max_size[0], max_size[1] * 0.05f },
+						true
+					);
+
+					// Compile
+					if (ImGui::Button("Compile"))
+					{
+						this->compile_sources();
+					}
+					ImGuiExt::Tooltip("Build shader source code");
+					ImGui::SameLine();
+
+					// Rebuild
+					if (ImGui::Button("Revert"))
+					{
+						this->reset_sources();
+						this->generate_sources();
+					}
+					ImGuiExt::Tooltip("Revert code to last successfully compiled state");
+
+					ImGui::EndChild();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -545,6 +548,7 @@ namespace ml
 							this->renderer()->setMaterial(mtl);
 						}
 					}
+					ImGuiExt::Tooltip("Specifies the targeted material");
 
 					ImGui::NewLine();
 
@@ -555,7 +559,7 @@ namespace ml
 						this->reset_sources();
 						this->generate_sources();
 					}
-					ImGuiExt::Tooltip("Specifies the shader to be edited");
+					ImGuiExt::Tooltip("Specifies the targeted shader");
 
 					ImGui::NewLine();
 
@@ -565,6 +569,21 @@ namespace ml
 						this->renderer()->setDrawable(mdl);
 					}
 					ImGuiExt::Tooltip("Specifies model to be drawn");
+
+					ImGui::NewLine();
+
+					// Toggle Demo Files (start at one to always show config)
+					for (size_t i = 0; i < m_files.size(); i++)
+					{
+						if (!m_files[i]) { continue; }
+						if (i > 0) { ImGui::SameLine(); }
+						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
+					}
+
+					if (m_files[DemoFile::Geom]->open)
+					{
+						// do the thing
+					}
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

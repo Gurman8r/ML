@@ -96,9 +96,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\StateMachine.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>

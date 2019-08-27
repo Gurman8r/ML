@@ -74,9 +74,9 @@ namespace ml
 			return !(this->empty());
 		}
 
-		inline operator base_type() const
+		inline operator base_type &()
 		{
-			return static_cast<base_type>(*this);
+			return static_cast<base_type &>(*this);
 		}
 
 		inline operator const base_type &() const

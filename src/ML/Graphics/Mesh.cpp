@@ -36,9 +36,9 @@ namespace ml
 		, m_indices	(copy.m_indices)
 		, m_textures(copy.m_textures)
 		, m_layout	(copy.m_layout)
-		, m_vao		(copy.m_vao)
-		, m_vbo		(copy.m_vbo)
-		, m_ibo		(copy.m_ibo)
+		, m_vao		()
+		, m_vbo		()
+		, m_ibo		()
 	{
 	}
 

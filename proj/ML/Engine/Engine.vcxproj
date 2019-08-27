@@ -211,7 +211,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\ContentImporter.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandDescriptor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandExecutor.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\CommandRegistry.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\ContentManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Camera.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\MetadataParser.cpp" />

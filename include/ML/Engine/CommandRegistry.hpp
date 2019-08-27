@@ -13,6 +13,8 @@ namespace ml
 
 	struct ML_ENGINE_API CommandRegistry final : public I_Singleton<CommandRegistry>
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using value_type		= typename CommandDescriptor *;
 		using command_list		= typename List<value_type>;
 		using iterator			= typename command_list::iterator;
@@ -22,9 +24,9 @@ namespace ml
 
 		inline bool execute(const String & value)
 		{
-			if (auto args = alg::tokenize(value, " "))
+			if (auto args { alg::tokenize(value, " ") })
 			{
-				if (auto cmd = this->find_by_name(args.front()))
+				if (auto cmd { this->find_by_name(args.front()) })
 				{
 					return cmd->execute(args);
 				}
@@ -83,8 +85,8 @@ namespace ml
 	private:
 		friend struct I_Singleton<CommandRegistry>;
 
-		CommandRegistry();
-		~CommandRegistry();
+		CommandRegistry() : m_cmd() {}
+		~CommandRegistry() {}
 
 		command_list m_cmd;
 

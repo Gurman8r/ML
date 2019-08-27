@@ -144,10 +144,10 @@ namespace ml
 			iterator it = this->begin();
 			while (it != this->end())
 			{
-				*it++ = color[0];
-				*it++ = color[1];
-				*it++ = color[2];
-				*it++ = color[3];
+				if (m_channels >= 1) *it++ = color[0];
+				if (m_channels >= 2) *it++ = color[1];
+				if (m_channels >= 3) *it++ = color[2];
+				if (m_channels >= 4) *it++ = color[3];
 			}
 			return (*this);
 		}
@@ -196,9 +196,7 @@ namespace ml
 				for (uint32_t x = 0; x < m_size[0] / 2; ++x)
 				{
 					std::swap_ranges(left, left + m_channels, right);
-					
 					left += m_channels;
-					
 					right -= m_channels;
 				}
 			}
@@ -217,9 +215,7 @@ namespace ml
 			for (uint32_t y = 0; y < m_size[1] / 2; ++y)
 			{
 				std::swap_ranges(top, top + rows, bottom);
-				
 				top += rows;
-				
 				bottom -= rows;
 			}
 		}

@@ -207,6 +207,38 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	constexpr bool operator==(const StringView & lhs, const std::basic_string<char> & rhs)
+	{
+		return (lhs == rhs.c_str());
+	}
+
+	constexpr bool operator!=(const StringView & lhs, const std::basic_string<char> & rhs)
+	{
+		return (lhs != rhs.c_str());
+	}
+
+	constexpr bool operator<(const StringView & lhs, const std::basic_string<char> & rhs)
+	{
+		return (lhs < rhs.c_str());
+	}
+
+	constexpr bool operator>(const StringView & lhs, const std::basic_string<char> & rhs)
+	{
+		return (lhs < rhs.c_str());
+	}
+
+	constexpr bool operator<=(const StringView & lhs, const std::basic_string<char> & rhs)
+	{
+		return (lhs <= rhs.c_str());
+	}
+
+	constexpr bool operator>=(const StringView & lhs, const std::basic_string<char> & rhs)
+	{
+		return (lhs >= rhs.c_str());
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_STRING_VIEW_HPP_

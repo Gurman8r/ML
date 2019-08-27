@@ -84,7 +84,7 @@ namespace ml
 						ImGui::Checkbox("##Enabled##Alpha Testing", &alphaTest->enabled);
 
 						int32_t index = GL::index_of(alphaTest->predicate);
-						if (ImGui::Combo(
+						if (ImGuiExt::Combo(
 							"Comparison##Alpha Testing",
 							&index,
 							GL::Predicate_names,
@@ -109,7 +109,7 @@ namespace ml
 
 						auto factor_combo = [](C_String label, int32_t & index)
 						{
-							return ImGui::Combo(
+							return ImGuiExt::Combo(
 								label,
 								&index,
 								GL::Factor_names,
@@ -153,7 +153,7 @@ namespace ml
 						ImGui::Checkbox("Enabled##Culling", &cullFace->enabled);
 
 						int32_t index = GL::index_of(cullFace->face);
-						if (ImGui::Combo(
+						if (ImGuiExt::Combo(
 							"Face##Culling",
 							&index,
 							GL::Face_names,
@@ -175,7 +175,7 @@ namespace ml
 						ImGui::Checkbox("Enabled##Depth Testing", &depthTest->enabled);
 
 						int32_t index = GL::index_of(depthTest->predicate);
-						if (ImGui::Combo(
+						if (ImGuiExt::Combo(
 							"Comparison##Depth Testing",
 							&index,
 							GL::Predicate_names,
@@ -207,35 +207,32 @@ namespace ml
 	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		if (ImGui::Button(("New " + type_name().str() + "##" + label).c_str()))
+		const String button_label { "New " + type_name().str() + "##" + label };
+		const String popup_label { "Create " + type_name().str() + "##" + label };
+		if (ImGui::Button(button_label.c_str()))
 		{
-			ImGui::OpenPopup(("Create Font##" + label).c_str());
+			ImGui::OpenPopup(popup_label.c_str());
 		}
-		if (ImGui::BeginPopupModal(
-			("Create Font##" + label).c_str(),
-			nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize
-		))
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			// State
 			static bool popup_open { false };
-			static char asset_name[32] = "";
+			static char name[32] = "";
 			static char asset_path[ML_MAX_PATH] = "";
 			static const Font * copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(asset_name, "new_font");
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + label).c_str(),
-				asset_name,
-				ML_ARRAYSIZE(asset_name),
-				ImGuiInputTextFlags_EnterReturnsTrue
+				("Name##" + type_name().str() + "##"+ label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
 			);
 
 			ImGui::Separator();
@@ -247,7 +244,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + label).c_str(),
+				("##Path##" + type_name().str() + "##"+ label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -274,9 +271,9 @@ namespace ml
 						std::strcpy(asset_path, copy->getInfo().filename.c_str());
 					}
 				}
-				if (const String path { asset_path })
+				else if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<Font>(asset_name, path);
+					value = ML_Content.create<value_type>(name, asset_path);
 				}
 			}
 			ImGui::SameLine();
@@ -356,49 +353,46 @@ namespace ml
 	bool PropertyDrawer<Image>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		if (ImGui::Button(("New " + type_name().str() + "##" + label).c_str()))
+		const String button_label { "New " + type_name().str() + "##" + label };
+		const String popup_label { "Create " + type_name().str() + "##" + label };
+		if (ImGui::Button(button_label.c_str()))
 		{
-			ImGui::OpenPopup(("Create Image##" + label).c_str());
+			ImGui::OpenPopup(popup_label.c_str());
 		}
-		if (ImGui::BeginPopupModal(
-			("Create Image##" + label).c_str(),
-			nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize
-		))
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			// State
 			static bool popup_open { false };
-			static char asset_name[32] = "";
+			static char name[32] = "";
 			static char asset_path[ML_MAX_PATH] = "";
 			static const Image * copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(asset_name, "new_image");
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + label).c_str(),
-				asset_name,
-				ML_ARRAYSIZE(asset_name),
-				ImGuiInputTextFlags_EnterReturnsTrue
+				("Name##" + type_name().str() + "##"+ label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
 			);
 
 			ImGui::Separator();
 
 			// Copy
-			if (PropertyDrawer<Image>()("Copy From", (const Image *&)copy))
+			if (PropertyDrawer<Image>()(("Copy From##" + label), (const Image *&)copy))
 			{
 				std::strcpy(asset_path, "");
 			}
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + label).c_str(),
+				("##Path##" + type_name().str() + "##"+ label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -420,11 +414,11 @@ namespace ml
 			{
 				if (copy)
 				{
-					value = ML_Content.create<Image>(asset_name, (*copy));
+					value = ML_Content.create<Image>(name, (*copy));
 				}
-				else if (const String path { asset_path })
+				else if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<Image>(asset_name, path);
+					value = ML_Content.create<value_type>(name, asset_path);
 				}
 			}
 			ImGui::SameLine();
@@ -447,7 +441,7 @@ namespace ml
 	{
 		bool changed { false };
 
-		ImGui::Columns(2);
+		ImGui::Columns(2, label.c_str());
 
 		// Settings
 		ImGui::Text("Size: %i x %i", value.width(), value.height());
@@ -485,7 +479,7 @@ namespace ml
 		// Preview
 		if (preview && (*preview))
 		{
-			const vec2 dst { ImGuiExt::GetContentRegionAvail()[0], 380 };
+			const vec2 dst { ImGuiExt::GetContentRegionAvail() };
 			const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
 			const vec2 pos { ((dst - scl) * 0.5f) };
 
@@ -517,19 +511,17 @@ namespace ml
 	bool PropertyDrawer<Material>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		if (ImGui::Button(("New Material##" + label).c_str()))
+		const String button_label { "New " + type_name().str() + "##" + label };
+		const String popup_label { "Create " + type_name().str() + "##" + label };
+		if (ImGui::Button(button_label.c_str()))
 		{
-			ImGui::OpenPopup(("Create Material##" + label).c_str());
+			ImGui::OpenPopup(popup_label.c_str());
 		}
-		if (ImGui::BeginPopupModal(
-			("Create Material##" + label).c_str(),
-			nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize
-		))
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			// State
 			static bool popup_open { false };
-			static char asset_name[32] = "";
+			static char name[32] = "";
 			static bool globals { false };
 			static const Shader * shader { nullptr };
 			static const Material * copy { nullptr };
@@ -537,7 +529,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(asset_name, "new_material");
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
 				globals = false;
 				copy = nullptr;
 				shader = nullptr;
@@ -545,10 +537,9 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + label).c_str(),
-				asset_name,
-				ML_ARRAYSIZE(asset_name),
-				ImGuiInputTextFlags_EnterReturnsTrue
+				("Name##" + type_name().str() + "##"+ label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
 			);
 
 			// Defaults
@@ -558,13 +549,13 @@ namespace ml
 			PropertyDrawer<Shader>()("Shader", (const Shader *&)shader);
 
 			// Copy From
-			PropertyDrawer<Material>()("Copy From", (const Material *&)copy);
+			PropertyDrawer<Material>()(("Copy From##" + label), (const Material *&)copy);
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
 			if (submit && !value)
 			{
-				if (value = ML_Content.create<Material>(asset_name))
+				if (value = ML_Content.create<Material>(name))
 				{
 					if (globals)
 					{
@@ -620,7 +611,7 @@ namespace ml
 		{
 			// new uniform editor
 			Uniform * u = nullptr;
-			if (PropertyDrawer<Uniform>()(("##NewUniform##Material" + label).c_str(), u))
+			if (PropertyDrawer<Uniform>()(("##NewUniform##Material" + label).c_str(), u, 0b0))
 			{
 				if (!value.add(u))
 				{
@@ -668,7 +659,7 @@ namespace ml
 							ImGuiWindowFlags_NoScrollWithMouse
 						);
 
-						if (PropertyDrawer<Uniform>()(name, (Uniform &)(*(*it))))
+						if (PropertyDrawer<Uniform>()(name, (Uniform &)**it))
 						{
 							ImGui::SameLine();
 							if (ImGui::Button(("Remove##" + name).c_str()))
@@ -780,36 +771,33 @@ namespace ml
 	bool PropertyDrawer<Shader>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		if (ImGui::Button(("New " + type_name().str() + "##" + label).c_str()))
+		const String button_label { "New " + type_name().str() + "##" + label };
+		const String popup_label { "Create " + type_name().str() + "##" + label };
+		if (ImGui::Button(button_label.c_str()))
 		{
-			ImGui::OpenPopup(("Create Font##" + label).c_str());
+			ImGui::OpenPopup(popup_label.c_str());
 		}
-		if (ImGui::BeginPopupModal(
-			("Create Font##" + label).c_str(),
-			nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize
-		))
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			// State
 			static bool popup_open { false };
-			static char asset_name[32] = "";
+			static char name[32] = "";
 			static char asset_path[ML_MAX_PATH] = "";
 			static Shader * copy { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(asset_name, "new_shader");
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + label).c_str(),
-				asset_name,
-				ML_ARRAYSIZE(asset_name),
-				ImGuiInputTextFlags_EnterReturnsTrue
+				("Name##" + type_name().str() + "##"+ label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
 			);
 
 			ImGui::Separator();
@@ -822,7 +810,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + label).c_str(),
+				("##Path##" + type_name().str() + "##"+ label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -842,16 +830,13 @@ namespace ml
 			const bool submit { ImGui::Button("Submit") };
 			if (submit && !value)
 			{
-				if (copy)
+				if (copy && (value = ML_Content.create<Shader>(name)))
 				{
-					value = ML_Content.create<Shader>(asset_name, (*copy));
+					value->loadFromMemory(copy->sources());
 				}
-				else if (const String path { asset_path })
+				else if (ML_FS.fileExists(asset_path))
 				{
-					if (ML_FS.fileExists(path))
-					{
-						value = ML_Content.create<Shader>(asset_name, path);
-					}
+					value = ML_Content.create<value_type>(name, asset_path);
 				}
 			}
 			ImGui::SameLine();
@@ -1026,7 +1011,7 @@ namespace ml
 
 		if (value)
 		{
-			const vec2 dst { ImGuiExt::GetContentRegionAvail()[0], 380 };
+			const vec2 dst { ImGuiExt::GetContentRegionAvail() };
 			const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
 			const vec2 pos { ((dst - scl) * 0.5f) };
 
@@ -1062,34 +1047,31 @@ namespace ml
 	bool PropertyDrawer<Texture>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		if (ImGui::Button(("New Texture##" + label).c_str()))
+		const String button_label { "New " + type_name().str() + "##" + label };
+		const String popup_label { "Create " + type_name().str() + "##" + label };
+		if (ImGui::Button(button_label.c_str()))
 		{
-			ImGui::OpenPopup(("Create Texture##" + label).c_str());
+			ImGui::OpenPopup(popup_label.c_str());
 		}
-		if (ImGui::BeginPopupModal(
-			("Create Texture##" + label).c_str(),
-			nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize
-		))
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			// State
 			static bool popup_open { false };
-			static char asset_name[32] = "";
+			static char name[32] = "";
 			static Image * image { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(asset_name, "new_texture");
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
 				image = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + label).c_str(),
-				asset_name,
-				ML_ARRAYSIZE(asset_name),
-				ImGuiInputTextFlags_EnterReturnsTrue
+				("Name##" + type_name().str() + "##"+ label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
 			);
 
 			ImGui::Separator();
@@ -1100,21 +1082,9 @@ namespace ml
 			const bool submit { ImGui::Button("Submit") };
 			if (submit && !value)
 			{
-				if (image)
+				if (image && (value = ML_Content.create<Texture>(name, image->format(), true, false)))
 				{
-					GL::Format fmt;
-					switch (image->channels())
-					{
-					case 1: fmt = GL::Red; break;
-					case 3: fmt = GL::RGB; break;
-					case 4:
-					default: fmt = GL::RGBA; break;
-					}
-
-					if (value = ML_Content.create<Texture>(asset_name, fmt, true, false))
-					{
-						value->loadFromImage(*image);
-					}
+					value->loadFromImage(*image);
 				}
 			}
 			ImGui::SameLine();
@@ -1206,7 +1176,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		int32_t target { GL::index_of(value.sampler()) };
-		if (ImGui::Combo(
+		if (ImGuiExt::Combo(
 			("Sampler##" + label).c_str(),
 			&(target), 
 			GL::Sampler_names, 
@@ -1222,7 +1192,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		int32_t colorFormat { GL::index_of(value.color_fmt()) };
-		if (ImGui::Combo(
+		if (ImGuiExt::Combo(
 			("Color Format##" + label).c_str(),
 			&(colorFormat),
 			GL::Format_names,
@@ -1238,7 +1208,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		int32_t internalFormat { GL::index_of(value.internal_fmt()) };
-		if (ImGui::Combo(
+		if (ImGuiExt::Combo(
 			("Internal Format##" + label).c_str(),
 			&(internalFormat),
 			GL::Format_names,
@@ -1254,7 +1224,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		int32_t pixelType { GL::index_of(value.pixel_type()) };
-		if (ImGui::Combo(
+		if (ImGuiExt::Combo(
 			("Pixel Type##" + label).c_str(),
 			&(pixelType),
 			GL::Type_names,
@@ -1279,7 +1249,7 @@ namespace ml
 		{
 			if (value)
 			{
-				const vec2 dst { ImGuiExt::GetContentRegionAvail()[0], 380 };
+				const vec2 dst { ImGuiExt::GetContentRegionAvail() };
 				const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
 				const vec2 pos { ((dst - scl) * 0.5f) };
 
@@ -1321,31 +1291,28 @@ namespace ml
 
 	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
-		if (ImGui::Button(("New Uniform##" + label).c_str()))
+		// Popup
+		const String button_label { "New " + type_name().str() + "##" + label };
+		const String popup_label { "Create " + type_name().str() + "##" + label };
+		if (ImGui::Button(button_label.c_str()))
 		{
-			ImGui::OpenPopup(("Create Uniform##Popup##" + label).c_str());
+			ImGui::OpenPopup(popup_label.c_str());
 		}
-	
-		if (ImGui::BeginPopupModal(
-			("Create Uniform##Popup##" + label).c_str(),
-			nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize
-		))
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 			// Name Input
 			static char name[32] = "new_uniform\0";
 			ImGui::InputText(
-				"Name",
+				("Name##" + type_name().str() + "##"+ label).c_str(),
 				name,
-				ML_ARRAYSIZE(name),
-				ImGuiInputTextFlags_EnterReturnsTrue
+				ML_ARRAYSIZE(name)
 			);
 
 			// Type Input
 			static int32_t	type = 0;
-			ImGui::Combo(
+			ImGuiExt::Combo(
 				"Type",
 				&type,
 				Uniform::Type_names,
@@ -1394,7 +1361,10 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			if (value && bitRead(flags, 0)) { ML_Content.insert<Uniform>(value->name, value); }
+			if (value && bitRead(flags, 0)) 
+			{ 
+				ML_Content.insert<Uniform>(value->name, value); 
+			}
 
 			return value;
 		}
@@ -1541,7 +1511,6 @@ namespace ml
 			}
 			break;
 		}
-		
 		ImGui::SameLine();
 		ImGuiExt::HelpMarker("This uniform cannot be modified.");
 		return false;

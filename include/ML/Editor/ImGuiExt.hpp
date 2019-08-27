@@ -9,36 +9,45 @@
 
 namespace ml
 {
-	struct ML_EDITOR_API ImGuiExt final : public I_Singleton<ImGuiExt>
+	class ML_EDITOR_API ImGuiExt final : public I_Singleton<ImGuiExt>
 	{
+		friend struct I_Singleton<ImGuiExt>;
+
+	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static vec2 GetContentRegionAvail();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static bool Combo(C_String label, int32_t * index, const List<String> & arr);
+		static bool Combo(C_String label, int32_t * index, const List<String> & arr, int32_t max_height = -1);
 
-		static bool Combo(C_String label, int32_t * index, const C_String * arr, int32_t size);
+		static bool Combo(C_String label, int32_t * index, const C_String * arr, int32_t max_height = -1);
 
-		template <
-			size_t N
-		> inline static bool Combo(C_String label, int32_t * index, const C_String(&arr)[N])
-		{
-			return Combo(label, index, arr, ML_ARRAYSIZE(arr));
-		}
+		static bool Combo(C_String label, int32_t * index, C_String items, int32_t max_height = -1);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static void HelpMarker(const String & message);
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static bool OpenFile(const String & label, String & path, const vec2 & size);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static void Tooltip(const String & message);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline bool vector_getter(void * value, int32_t index, C_String * out)
+		inline static bool IsHidden(const String & value)
 		{
-			if (auto * vector = static_cast<List<String> *>(value))
+			return ((value.size() >= 2) && (value.substr(0, 2) == "##"));
+		}
+
+		static inline bool vector_getter(void * vec, int32_t index, C_String * out)
+		{
+			if (auto * vector = static_cast<List<String> *>(vec))
 			{
 				if ((index >= 0) && (index < static_cast<int32_t>(vector->size())))
 				{
@@ -50,8 +59,6 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private: friend struct I_Singleton<ImGuiExt>;
 	};
 }
 

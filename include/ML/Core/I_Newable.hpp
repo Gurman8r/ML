@@ -1,7 +1,7 @@
 #ifndef _ML_I_NEWABLE_HPP_
 #define _ML_I_NEWABLE_HPP_
 
-#include <ML/Core/MemoryTracker.hpp>
+#include <ML/Core/MemoryManager.hpp>
 
 namespace ml
 {
@@ -22,10 +22,10 @@ namespace ml
 			return out << value.get_type_name();
 		}
 
-		inline void * operator new		(size_t size) { return ML_allocate(size);  }
-		inline void * operator new[]    (size_t size) { return ML_allocate(size);  }
-		inline void	  operator delete   (void * ptr)  { return ML_deallocate(ptr); }
-		inline void	  operator delete[] (void * ptr)  { return ML_deallocate(ptr); }
+		inline void * operator new		(size_t size) { return ML_new(size);  }
+		inline void * operator new[]    (size_t size) { return ML_new(size);  }
+		inline void	  operator delete   (void * ptr)  { return ML_delete(ptr); }
+		inline void	  operator delete[] (void * ptr)  { return ML_delete(ptr); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

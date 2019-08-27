@@ -16,6 +16,7 @@
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
+#include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Editor/PropertyDrawer.hpp>
 
@@ -25,59 +26,98 @@ namespace ml
 
 	struct EditorContent::Layout
 	{
-		template <
-			class T
-		> static inline void draw_content(const GuiEvent & ev, const String & label)
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		template <class T>
+		static inline void draw_list(const GuiEvent & ev)
 		{
+			// Data
+			static ContentManager::ObjectDatabase & database { ML_Content.data<T>() };
+
 			// Type Name
-			static String type_name;
-			if (!type_name && (type_name = typeof<T>().name()))
+			static const String type_name { PropertyDrawer<T>::type_name().str() };
+
+			// Plural Name
+			static const String label { ([&]()
 			{
-				type_name = type_name.substr(type_name.find_last_of(":") + 1);
+				if (!type_name) { return String(); }
+				switch (alg::to_lower(type_name).back())
+				{
+				case 's': return String(type_name + "es");
+				case 'y': return String(type_name.substr(0, type_name.size() - 1) + "ies");
+				default	: return String(type_name + "s");
+				}
+			})() };
+
+			const bool has_selected_type { type_name == ev.editor.content().m_typename };
+			if (has_selected_type)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
+				ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
 			}
 
 			// Header
-			if (!ImGui::CollapsingHeader(label.c_str())) { return; }
+			const bool header { ImGui::CollapsingHeader(label.c_str()) };
+			if (has_selected_type) ImGui::PopStyleColor(2);
+			if (!header) { return; }
 
 			// Empty
-			if (ML_Content.data<T>().empty()) { return ImGui::Text("-"); }
+			if (database.empty()) { ImGui::Text("-"); return; }
 
-			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<T>()));
+			ImGui::PushID(ML_ADDRESSOF(&database));
 			ImGui::BeginGroup();
+			// Create Item
 			{
-				// Create Item
 				T * temp { nullptr };
-				if (!PropertyDrawer<T>()(label, (T *&)temp, 1)) { /* error */ }
+				if (PropertyDrawer<T>()(label, (T *&)temp, 0b1)) {}
 			}
 			// Draw Items
-			for (auto & pair : ML_Content.data<T>())
+			for (auto & pair : database)
 			{
-				if ((!pair.second) ||
-					(pair.first.size() >= 2 && pair.first.substr(0, 2) == "##"))
-				{
-					continue; // hidden items
-				}
+				if (!pair.second || ImGuiExt::IsHidden(pair.first)) { continue; }
 
+				const bool is_selected { ev.editor.content().m_selected == pair.second };
 				ImGui::PushID(pair.first.c_str());
-				if (ImGui::TreeNode((pair.first + "##" + PropertyDrawer<T>::type_name().str()).c_str()))
+				ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
+				if (is_selected)
 				{
-					ImGui::PushID(ML_ADDRESSOF(pair.second));
-					PropertyDrawer<T>()(pair.first, (T &)*pair.second);
-					ImGui::PopID();
-					ImGui::TreePop();
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
 				}
-				ImGui::Separator();
+				if (ImGui::Selectable((pair.first + "##" + label).c_str(), is_selected))
+				{
+					ev.editor.content().m_typename = type_name;
+					ev.editor.content().m_selected = pair.second;
+				}
+				ImGui::PopStyleColor(1 + is_selected);
 				ImGui::PopID();
+				ImGui::Separator();
 			}
 			ImGui::EndGroup();
 			ImGui::PopID();
 		}
+		
+		/* * * * * * * * * * * * * * * * * * * * */
+		template <class T>
+		inline static void draw_inspector(void * ptr)
+		{
+			static const String type_name { PropertyDrawer<T>::type_name().str() };
+			if (!ptr) return;
+			ImGui::PushID(type_name.c_str());
+			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<T>()));
+			ImGui::PushID(ptr);
+			PropertyDrawer<T>()((type_name + " ##Inspector"), ((T &)*static_cast<T *>(ptr)));
+			ImGui::PopID();
+			ImGui::PopID();
+			ImGui::PopID();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorContent::EditorContent(Editor & editor)
-		: EditorForm { editor, "Content", false }
+		: EditorForm { editor, "Content Manager", false }
 	{
 	}
 
@@ -91,16 +131,83 @@ namespace ml
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			Layout::draw_content<Font		>(ev, "Fonts");
-			Layout::draw_content<Image		>(ev, "Images");
-			Layout::draw_content<Material	>(ev, "Materials");
-			Layout::draw_content<Model		>(ev, "Models");
-			Layout::draw_content<Shader		>(ev, "Shaders");
-			Layout::draw_content<Script		>(ev, "Scripts");
-			Layout::draw_content<Sprite		>(ev, "Sprites");
-			Layout::draw_content<Surface	>(ev, "Surfaces");
-			Layout::draw_content<Texture	>(ev, "Textures");
-			Layout::draw_content<Uniform	>(ev, "Uniforms");
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+			if (ImGui::BeginChild(
+				("##Content##" + String(getTitle())).c_str(),
+				{ max_size[0], max_size[1] * 0.5f },
+				true,
+				ImGuiWindowFlags_MenuBar
+			))
+			{
+				ImGui::PopStyleVar();
+				if (ImGui::BeginMenuBar())
+				{
+					ImGui::Text("Database");
+					ImGui::EndMenuBar();
+				}
+				Layout::draw_list<Entity>(ev);
+				Layout::draw_list<Font>(ev);
+				Layout::draw_list<Image>(ev);
+				Layout::draw_list<Material>(ev);
+				Layout::draw_list<Model>(ev);
+				Layout::draw_list<Shader>(ev);
+				Layout::draw_list<Script>(ev);
+				Layout::draw_list<Sprite>(ev);
+				Layout::draw_list<Surface>(ev);
+				Layout::draw_list<Texture>(ev);
+				Layout::draw_list<Uniform>(ev);
+			}
+			else
+			{
+				ImGui::PopStyleVar();
+			}
+			ImGui::EndChild();
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+			if (ImGui::BeginChild(
+				("##Inspector##" + String(getTitle())).c_str(),
+				{ max_size[0], max_size[1] * 0.5f },
+				true,
+				ImGuiWindowFlags_MenuBar
+			))
+			{
+				ImGui::PopStyleVar();
+				if (ImGui::BeginMenuBar())
+				{
+					ImGui::Text("Inspector");
+					ImGui::EndMenuBar();
+				}
+				switch (Hash { m_typename.data(), m_typename.size() })
+				{
+				case PropertyDrawer<Entity>::hash_code():	Layout::draw_inspector<Entity>(m_selected); break;
+				case PropertyDrawer<Font>::hash_code():		Layout::draw_inspector<Font>(m_selected); break;
+				case PropertyDrawer<Image>::hash_code():	Layout::draw_inspector<Image>(m_selected); break;
+				case PropertyDrawer<Material>::hash_code():	Layout::draw_inspector<Material>(m_selected); break;
+				case PropertyDrawer<Model>::hash_code():	Layout::draw_inspector<Model>(m_selected); break;
+				case PropertyDrawer<Script>::hash_code():	Layout::draw_inspector<Script>(m_selected); break;
+				case PropertyDrawer<Shader>::hash_code():	Layout::draw_inspector<Shader>(m_selected); break;
+				case PropertyDrawer<Sound>::hash_code():	Layout::draw_inspector<Sound>(m_selected); break;
+				case PropertyDrawer<Sprite>::hash_code():	Layout::draw_inspector<Sprite>(m_selected); break;
+				case PropertyDrawer<Surface>::hash_code():	Layout::draw_inspector<Surface>(m_selected); break;
+				case PropertyDrawer<Texture>::hash_code():	Layout::draw_inspector<Texture>(m_selected); break;
+				case PropertyDrawer<Uniform>::hash_code():	Layout::draw_inspector<Uniform>(m_selected); break;
+				}
+			}
+			else
+			{
+				ImGui::PopStyleVar();
+			}
+			ImGui::EndChild();
+
+			/* * * * * * * * * * * * * * * * * * * * */
 		}
 		return endDraw();
 	}

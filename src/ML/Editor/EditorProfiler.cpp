@@ -48,7 +48,7 @@ namespace ml
 				{
 					if (ImGui::BeginChild("Active Allocations", { 0, 0 }, true))
 					{
-						ImGui::Text("Active Allocations: %u", ML_MemoryTracker.records().size());
+						ImGui::Text("Active Allocations: %u", ML_Memory.records().size());
 
 						if (ImGui::BeginChild("Active Allocation##Content", { 0, 0 }, true))
 						{
@@ -59,9 +59,9 @@ namespace ml
 							ImGui::Text("Address"); ImGui::NextColumn();
 							ImGui::Separator();
 
-							for (const auto & pair : ML_MemoryTracker.records())
+							for (const auto & pair : ML_Memory.records())
 							{
-								const MemoryTracker::Record * r { pair.second };
+								const MemoryManager::Record * r { pair.second };
 								const I_Newable * ptr { static_cast<const I_Newable *>(r->ptr) };
 
 								ImGui::Columns(4, "Allocations##Columns");

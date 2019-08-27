@@ -19,7 +19,7 @@
 #define bitRead(value, bit) ((value >> bit) & 1)
 #define bitSet(value, bit) (value |= (1 << bit))
 #define bitClear(value, bit) (value &= ~(1 << bit))
-#define bitWrite(value, bit, bitValue) ((bitValue) ? bitSet(value, bit) : bitClear(value, bit)
+#define bitWrite(value, bit, bitValue) ((bitValue) ? bitSet(value, bit) : bitClear(value, bit))
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

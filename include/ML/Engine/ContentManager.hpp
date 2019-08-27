@@ -18,16 +18,16 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using object_map = Tree<String, I_Newable *>;	// Map of String to Object
-		using typeid_map = HashMap<size_t, object_map>;	// Map of TypeID to ObjectMap
+		using ObjectDatabase = Tree<String, I_Newable *>;	// Map of String to Object
+		using TypeDatabase = HashMap<size_t, ObjectDatabase>;	// Map of TypeID to ObjectMap
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		
-		object_map & at(size_t index);
+		ObjectDatabase & at(size_t index);
 		
-		const object_map & at(size_t index) const;
+		const ObjectDatabase & at(size_t index) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -54,9 +54,9 @@ namespace ml
 
 		template <
 			class T
-		> inline object_map & data()
+		> inline ObjectDatabase & data()
 		{
-			static object_map & temp
+			static ObjectDatabase & temp
 			{ 
 				this->at(this->get_hash<T>()) 
 			};
@@ -65,9 +65,9 @@ namespace ml
 
 		template <
 			class T
-		> inline const object_map & data() const
+		> inline const ObjectDatabase & data() const
 		{
-			static const object_map & temp 
+			static const ObjectDatabase & temp 
 			{ 
 				this->at(this->get_hash<T>())
 			};
@@ -99,7 +99,7 @@ namespace ml
 			class T
 		> inline bool erase(const String & name)
 		{
-			static object_map::iterator it;
+			static ObjectDatabase::iterator it;
 			if ((it = this->data<T>().find(name)) != this->data<T>().end())
 			{
 				this->data<T>().erase(it);
@@ -114,7 +114,7 @@ namespace ml
 			class T
 		> inline T * get(const String & name)
 		{
-			static object_map::iterator it;
+			static ObjectDatabase::iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<T *>(it->second)
 				: nullptr
@@ -125,7 +125,7 @@ namespace ml
 			class T
 		> inline const T * get(const String & name) const
 		{
-			static object_map::const_iterator it;
+			static ObjectDatabase::const_iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
@@ -157,7 +157,7 @@ namespace ml
 
 		template <
 			class T
-		> inline object_map::const_iterator get_iter_at_index(int32_t index) const
+		> inline ObjectDatabase::const_iterator get_iter_at_index(int32_t index) const
 		{
 			if ((index >= 0) && ((size_t)index < this->data<T>().size()))
 			{
@@ -175,7 +175,7 @@ namespace ml
 			class T
 		> inline const T * find_by_index(int32_t index) const
 		{
-			object_map::const_iterator it;
+			ObjectDatabase::const_iterator it;
 			return (((it = this->get_iter_at_index<T>(index)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
@@ -206,7 +206,7 @@ namespace ml
 		ContentManager() : m_data() {}
 		~ContentManager() { dispose(); }
 
-		mutable typeid_map m_data;	// The Data
+		mutable TypeDatabase m_data;	// The Data
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

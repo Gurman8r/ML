@@ -188,7 +188,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\I_Writable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\MemoryTracker.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
@@ -210,7 +210,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\MemoryTracker.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\TokenLexer.cpp" />
   </ItemGroup>

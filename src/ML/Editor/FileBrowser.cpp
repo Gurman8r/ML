@@ -117,7 +117,9 @@ namespace ml
 				if (ImGui::BeginTabItem(("Preview##FileBrowser##" + m_label).c_str()))
 				{
 					if (ImGui::BeginChild(
-						("##Preview##Content##FileBrowser##" + m_label).c_str()
+						("##Preview##Content##FileBrowser##" + m_label).c_str(),
+						{ 0, 0 },
+						true
 					))
 					{
 						ImGui::TextUnformatted(&m_preview[0], &m_preview[m_preview.size()]);
@@ -129,13 +131,20 @@ namespace ml
 				// File Details
 				if (ImGui::BeginTabItem(("Details##FileBrowser##" + m_label).c_str()))
 				{
-					const Bytes size { get_selected_size() };
-					ImGui::Text("Name: %s", get_selected_name().c_str());
-					ImGui::Text("Type: %s", get_selected_type().c_str());
-					ImGui::Text("Size: %s", size.str().c_str());
+					if (ImGui::BeginChild(
+						("##Details##Content##FileBrowser##" + m_label).c_str(),
+						{ 0, 0 },
+						true
+					))
+					{
+						const Bytes size { get_selected_size() };
+						ImGui::Text("Name: %s", get_selected_name().c_str());
+						ImGui::Text("Type: %s", get_selected_type().c_str());
+						ImGui::Text("Size: %s", size.str().c_str());
+						ImGui::EndChild();
+					}
 					ImGui::EndTabItem();
 				}
-
 				ImGui::EndTabBar();
 			}
 		}

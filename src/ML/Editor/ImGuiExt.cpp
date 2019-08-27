@@ -14,27 +14,46 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGuiExt::Combo(C_String label, int32_t * index, const List<String> & arr)
+	bool ImGuiExt::Combo(C_String label, int32_t * index, const List<String> & arr, int32_t max_height)
 	{
-		return ImGui::Combo(
+		ImGui::PushID(label);
+		const bool retval { ImGui::Combo(
 			label,
 			index,
-			ImGuiExt::vector_getter,
+			vector_getter,
 			static_cast<void *>(&std::remove_cv_t<List<String> &>(arr)),
-			static_cast<int32_t>(arr.size())
-		);
+			static_cast<int32_t>(arr.size()),
+			max_height
+		) };
+		ImGui::PopID();
+		return retval;
 	}
 
-	bool ImGuiExt::Combo(C_String label, int32_t * index, const C_String * arr, int32_t size)
+	bool ImGuiExt::Combo(C_String label, int32_t * index, const C_String * arr, int32_t max_height)
 	{
-		return ImGui::Combo(label, index, arr, size);
+		ImGui::PushID(label);
+		const bool retval { ImGui::Combo(label, index, arr, max_height) };
+		ImGui::PopID();
+		return retval;
 	}
+
+	bool ImGuiExt::Combo(C_String label, int32_t * index, C_String items, int32_t max_height)
+	{
+		ImGui::PushID(label);
+		const bool retval { ImGui::Combo(label, index, items, max_height) };
+		ImGui::PopID();
+		return retval;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void ImGuiExt::HelpMarker(const String & message)
 	{
 		ImGui::TextDisabled("(?)");
 		ImGuiExt::Tooltip(message);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ImGuiExt::OpenFile(const String & label, String & path, const vec2 & size)
 	{
@@ -69,6 +88,8 @@ namespace ml
 		ImGui::PopID();
 		return good;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void ImGuiExt::Tooltip(const String & message)
 	{

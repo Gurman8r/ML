@@ -31,7 +31,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Entity * ContentImporter<Entity>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -61,7 +61,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Font * ContentImporter<Font>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -91,7 +91,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Image * ContentImporter<Image>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -124,7 +124,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Material * ContentImporter<Material>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -172,7 +172,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Model * ContentImporter<Model>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -202,7 +202,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Script * ContentImporter<Script>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -232,7 +232,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Shader * ContentImporter<Shader>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -287,7 +287,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Sound * ContentImporter<Sound>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -317,7 +317,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Sprite * ContentImporter<Sprite>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -350,7 +350,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Surface * ContentImporter<Surface>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -380,7 +380,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Texture * ContentImporter<Texture>::operator()(const Metadata & md) const
 	{
-		if (md.getData("type").asString() == this->name().str())
+		if (this->type_name() == md.getData("type").asString())
 		{
 			if (const String name = md.getData("name"))
 			{
@@ -490,7 +490,7 @@ namespace ml
 								ML_Content.get<Image>(names[3]),
 								ML_Content.get<Image>(names[4]),
 								ML_Content.get<Image>(names[5]),
-								}))
+							}))
 							{
 								return ML_Content.insert(name, temp);
 							}

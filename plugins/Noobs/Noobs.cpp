@@ -207,6 +207,7 @@ namespace ml
 
 	void Noobs::onExit(const ExitEvent & ev)
 	{
+		Debug::log("Goodbye!");
 	}
 
 
@@ -263,7 +264,7 @@ namespace ml
 					ImGui::Separator();
 
 					// Effect Mode
-					ImGui::Combo("Effect Mode", &m_effectMode.data,
+					ImGuiExt::Combo("Effect Mode", &m_effectMode.data,
 						"Default\0"
 						"Grayscale\0"
 						"Blur\0"
@@ -630,7 +631,7 @@ namespace ml
 
 						int32_t predicate = GL::index_of(alpha->predicate);
 						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
-						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names))
+						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
 						{
 							alpha->predicate = GL::value_at<GL::Predicate>(predicate);
 						}
@@ -711,7 +712,7 @@ namespace ml
 
 						int32_t srcRGB = GL::index_of(blend->srcRGB);
 						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
-						if (ImGuiExt::Combo("##SrcRGB", &srcRGB, GL::Factor_raw_names))
+						if (ImGuiExt::Combo("##SrcRGB", &srcRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 						{
 							blend->srcRGB = GL::value_at<GL::Factor>(srcRGB);
 						}
@@ -731,7 +732,7 @@ namespace ml
 
 						int32_t dstRGB = GL::index_of(blend->dstRGB);
 						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
-						if (ImGuiExt::Combo("##DstRGB", &dstRGB, GL::Factor_raw_names))
+						if (ImGuiExt::Combo("##DstRGB", &dstRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 						{
 							blend->dstRGB = GL::value_at<GL::Factor>(dstRGB);
 						}
@@ -751,7 +752,7 @@ namespace ml
 
 						int32_t srcAlpha = GL::index_of(blend->srcAlpha);
 						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
-						if (ImGuiExt::Combo("##SrcAlpha", &srcAlpha, GL::Factor_raw_names))
+						if (ImGuiExt::Combo("##SrcAlpha", &srcAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 						{
 							blend->srcAlpha = GL::value_at<GL::Factor>(srcAlpha);
 						}
@@ -771,7 +772,7 @@ namespace ml
 
 						int32_t dstAlpha = GL::index_of(blend->dstAlpha);
 						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
-						if (ImGuiExt::Combo("##DstAlpha", &dstAlpha, GL::Factor_raw_names))
+						if (ImGuiExt::Combo("##DstAlpha", &dstAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 						{
 							blend->dstAlpha = GL::value_at<GL::Factor>(dstAlpha);
 						}
@@ -837,7 +838,7 @@ namespace ml
 
 						int32_t face = GL::index_of(cull->face);
 						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
-						if (ImGuiExt::Combo("##Face", &face, GL::Face_raw_names))
+						if (ImGuiExt::Combo("##Face", &face, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
 						{
 							cull->face = GL::value_at<GL::Face>(face);
 						}
@@ -917,7 +918,7 @@ namespace ml
 
 						int32_t predicate = GL::index_of(depth->predicate);
 						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
-						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names))
+						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
 						{
 							depth->predicate = GL::value_at<GL::Predicate>(predicate);
 						}

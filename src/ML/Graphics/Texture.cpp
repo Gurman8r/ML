@@ -133,7 +133,6 @@ namespace ml
 		}
 
 		// Validate Images
-		uint32_t channels = 0;
 		for (size_t i = 0; i < faces.size(); i++)
 		{
 			if (!faces[i])
@@ -147,7 +146,6 @@ namespace ml
 			else if (i == 0)
 			{
 				m_size = m_realSize = { faces[i]->size() };
-				channels = faces[i]->channels();
 			}
 			else if (faces[i]->size() != m_size)
 			{
@@ -155,21 +153,16 @@ namespace ml
 					m_size, faces[i]->size()
 				);
 			}
-			else if (faces[i]->channels() != channels)
+			else if (faces[i]->channels() != faces[0]->channels())
 			{
-				return Debug::logError("Face channel mismatch {0}", channels);
+				return Debug::logError("Face channel mismatch: {0} -> {1}", 
+					faces[0]->channels(),
+					faces[i]->channels()
+				);
 			}
 		}
 
-		GL::Format fmt;
-		switch (channels)
-		{
-		case 1: fmt = GL::Red; break;
-		case 3: fmt = GL::RGB; break;
-		case 4:
-		default: fmt = GL::RGBA; break;
-		}
-		m_iFormat = m_cFormat = fmt;
+		m_iFormat = m_cFormat = faces[0]->format();
 
 		// Create Texture
 		if (this->dispose() && this->set_handle(ML_GL.genTexture()))

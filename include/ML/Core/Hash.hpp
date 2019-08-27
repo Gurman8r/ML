@@ -55,7 +55,7 @@ namespace ml
 			class T
 		> inline hash_t operator()(const T & value)
 		{
-			return std::hash<T>()(value);
+			return static_cast<hash_t>(std::hash<T>()(value));
 		}
 
 		constexpr const hash_t & operator()() const

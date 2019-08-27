@@ -26,7 +26,7 @@ namespace ml
 		
 		struct Source final { String vs, fs, gs; };
 		
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Shader();
 		explicit Shader(const String & filename);

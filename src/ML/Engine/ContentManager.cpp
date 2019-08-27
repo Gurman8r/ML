@@ -23,18 +23,18 @@ namespace ml
 		return m_data.empty();
 	}
 
-	ContentManager::object_map & ContentManager::at(size_t index)
+	ContentManager::ObjectDatabase & ContentManager::at(size_t index)
 	{
-		typeid_map::iterator it;
+		TypeDatabase::iterator it;
 		return (((it = m_data.find(index)) != m_data.end())
 			? it->second
 			: m_data.insert({ index, {} }).first->second
 		);
 	}
 
-	const ContentManager::object_map & ContentManager::at(size_t index) const
+	const ContentManager::ObjectDatabase & ContentManager::at(size_t index) const
 	{
-		typeid_map::const_iterator it;
+		TypeDatabase::const_iterator it;
 		return (((it = m_data.find(index)) != m_data.cend())
 			? it->second
 			: m_data.insert({ index, {} }).first->second

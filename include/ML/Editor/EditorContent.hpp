@@ -22,6 +22,11 @@ namespace ml
 		bool onGui(const GuiEvent & ev) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		String m_typename {};
+		void * m_selected { nullptr };
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

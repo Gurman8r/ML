@@ -2,6 +2,7 @@
 #define _ML_IMAGE_HPP_
 
 #include <ML/Graphics/Export.hpp>
+#include <ML/Graphics/GL.hpp>
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Newable.hpp>
@@ -74,6 +75,17 @@ namespace ml
 		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }
 		inline auto size()		const -> const vec2u &		{ return m_size; }
 		inline auto width()		const -> const uint32_t &	{ return m_size[0]; }
+
+		inline auto format() const -> GL::Format
+		{
+			switch (m_channels)
+			{
+			case 1: return GL::Red;
+			case 3: return GL::RGB;
+			case 4:
+			default: return GL::RGBA;
+			}
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

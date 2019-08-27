@@ -57,11 +57,8 @@ namespace ml
 				ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
 			}
 
-			// Count String
-			const String count_str { "(" + std::to_string(database.size()) + ")" };
-
 			// Header
-			const bool header { ImGui::CollapsingHeader((label + " " + count_str).c_str()) };
+			const bool header { ImGui::CollapsingHeader(label.c_str()) };
 			if (has_selected_type) ImGui::PopStyleColor(2);
 			
 			// Main Context Menu
@@ -92,7 +89,6 @@ namespace ml
 					ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
 					ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
 				}
-
 				// Selectable
 				if (ImGui::Selectable((pair.first + "##" + label).c_str(), is_selected))
 				{
@@ -101,15 +97,7 @@ namespace ml
 					ev.editor.content().m_selected = pair.second;
 					ev.editor.content().m_itemname = pair.first;
 				}
-
 				ImGui::PopStyleColor((int32_t)is_selected * 2);
-				
-				// Sub Context Menu
-				if (ImGui::BeginPopupContextItem(("##ContextMenu##" + pair.first + "##" + label).c_str()))
-				{
-					ImGui::CloseCurrentPopup();
-					ImGui::EndPopup();
-				}
 				ImGui::PopID();
 				ImGui::Separator();
 			}
@@ -119,14 +107,17 @@ namespace ml
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 		template <class T>
-		inline static void draw_inspector(void * ptr)
+		inline static void draw_inspector(void * ptr, const String & name)
 		{
 			static const String type_name { PropertyDrawer<T>::type_name().str() };
 			if (!ptr) return;
 			ImGui::PushID(type_name.c_str());
 			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<T>()));
 			ImGui::PushID(ptr);
-			PropertyDrawer<T>()((type_name + " ##Inspector"), ((T &)*static_cast<T *>(ptr)));
+			PropertyDrawer<T>()(
+				(type_name + "##" + name + " ##Inspector"),
+				((T &)*static_cast<T *>(ptr))
+			);
 			ImGui::PopID();
 			ImGui::PopID();
 			ImGui::PopID();
@@ -157,7 +148,7 @@ namespace ml
 			ImGuiStyle & style { ImGui::GetStyle() };
 			
 			const vec2 max_size { 
-				ImGuiExt::GetContentRegionAvail() * vec2 { 1, 0.975f * 0.5f } 
+				ImGuiExt::GetContentRegionAvail() * vec2 { 1.0f, 0.5f } 
 			};
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -172,6 +163,7 @@ namespace ml
 			{
 				ImGui::PopStyleVar();
 				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { style.ItemSpacing.x, 5 });
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { style.FramePadding.x, 8 });
 				Layout::draw_list<Entity>(ev);
 				Layout::draw_list<Font>(ev);
 				Layout::draw_list<Image>(ev);
@@ -183,17 +175,13 @@ namespace ml
 				Layout::draw_list<Surface>(ev);
 				Layout::draw_list<Texture>(ev);
 				Layout::draw_list<Uniform>(ev);
-				ImGui::PopStyleVar();
+				ImGui::PopStyleVar(2);
 			}
 			else
 			{
 				ImGui::PopStyleVar();
 			}
 			ImGui::EndChild();
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			ImGui::NewLine();
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -219,18 +207,18 @@ namespace ml
 				}
 				switch (Hash { m_typename.data(), m_typename.size() })
 				{
-				case PropertyDrawer<Entity>::hash_code():	Layout::draw_inspector<Entity>(m_selected); break;
-				case PropertyDrawer<Font>::hash_code():		Layout::draw_inspector<Font>(m_selected); break;
-				case PropertyDrawer<Image>::hash_code():	Layout::draw_inspector<Image>(m_selected); break;
-				case PropertyDrawer<Material>::hash_code():	Layout::draw_inspector<Material>(m_selected); break;
-				case PropertyDrawer<Model>::hash_code():	Layout::draw_inspector<Model>(m_selected); break;
-				case PropertyDrawer<Script>::hash_code():	Layout::draw_inspector<Script>(m_selected); break;
-				case PropertyDrawer<Shader>::hash_code():	Layout::draw_inspector<Shader>(m_selected); break;
-				case PropertyDrawer<Sound>::hash_code():	Layout::draw_inspector<Sound>(m_selected); break;
-				case PropertyDrawer<Sprite>::hash_code():	Layout::draw_inspector<Sprite>(m_selected); break;
-				case PropertyDrawer<Surface>::hash_code():	Layout::draw_inspector<Surface>(m_selected); break;
-				case PropertyDrawer<Texture>::hash_code():	Layout::draw_inspector<Texture>(m_selected); break;
-				case PropertyDrawer<Uniform>::hash_code():	Layout::draw_inspector<Uniform>(m_selected); break;
+				case PropertyDrawer<Entity>::hash_code():	Layout::draw_inspector<Entity>(m_selected, m_itemname); break;
+				case PropertyDrawer<Font>::hash_code():		Layout::draw_inspector<Font>(m_selected, m_itemname); break;
+				case PropertyDrawer<Image>::hash_code():	Layout::draw_inspector<Image>(m_selected, m_itemname); break;
+				case PropertyDrawer<Material>::hash_code():	Layout::draw_inspector<Material>(m_selected, m_itemname); break;
+				case PropertyDrawer<Model>::hash_code():	Layout::draw_inspector<Model>(m_selected, m_itemname); break;
+				case PropertyDrawer<Script>::hash_code():	Layout::draw_inspector<Script>(m_selected, m_itemname); break;
+				case PropertyDrawer<Shader>::hash_code():	Layout::draw_inspector<Shader>(m_selected, m_itemname); break;
+				case PropertyDrawer<Sound>::hash_code():	Layout::draw_inspector<Sound>(m_selected, m_itemname); break;
+				case PropertyDrawer<Sprite>::hash_code():	Layout::draw_inspector<Sprite>(m_selected, m_itemname); break;
+				case PropertyDrawer<Surface>::hash_code():	Layout::draw_inspector<Surface>(m_selected, m_itemname); break;
+				case PropertyDrawer<Texture>::hash_code():	Layout::draw_inspector<Texture>(m_selected, m_itemname); break;
+				case PropertyDrawer<Uniform>::hash_code():	Layout::draw_inspector<Uniform>(m_selected, m_itemname); break;
 				}
 			}
 			else

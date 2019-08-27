@@ -93,9 +93,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiStyleLoader.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\ImGuiExt.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
@@ -106,6 +103,9 @@
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\ImGuiExt.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
@@ -143,9 +143,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiImpl.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
@@ -159,6 +156,9 @@
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
   </ItemGroup>

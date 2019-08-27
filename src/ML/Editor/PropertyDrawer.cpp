@@ -272,7 +272,7 @@ namespace ml
 						std::strcpy(asset_path, copy->getInfo().filename.c_str());
 					}
 				}
-				else if (ML_FS.fileExists(asset_path))
+				if (ML_FS.fileExists(asset_path))
 				{
 					value = ML_Content.create<value_type>(name, asset_path);
 				}
@@ -296,18 +296,16 @@ namespace ml
 
 	bool PropertyDrawer<Font>::operator()(const String & label, reference value, int32_t flags) const
 	{
-		ImGui::Text("%s", value.getInfo().family.c_str());
-
 		const uint32_t font_size { 40 };
-
 		Font::Page & page { value.getPage(font_size) };
 
 		ImGui::BeginChild(
 			("##PropertyDrawer##Font##" + label).c_str(),
-			{ ImGuiExt::GetContentRegionAvail()[0], 128 },
+			{ ImGuiExt::GetContentRegionAvail()[0], font_size * 4 },
 			true,
 			ImGuiWindowFlags_NoScrollbar
 		);
+		ImGui::Text("%s", value.getInfo().family.c_str());
 		ImGui::BeginGroup();
 		auto draw_glyph = [](const Glyph & g) 
 		{
@@ -469,7 +467,7 @@ namespace ml
 
 		// Lock
 		static hash_t img_lock { 0 };
-		if (const hash_t img_hash { Hash { value.pixels() } })
+		if (const hash_t img_hash { Hash { label.data(), label.size() } })
 		{
 			if ((img_lock != img_hash) && (img_lock = img_hash))
 			{

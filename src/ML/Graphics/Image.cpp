@@ -63,8 +63,9 @@ namespace ml
 	}
 
 	Image::Image(const Image & copy)
-		: Image { copy.m_size, copy.m_pixels, copy.m_channels }
+		: Image {}
 	{
+		this->update(copy.m_size, copy.m_channels, copy.m_pixels);
 	}
 
 	Image::Image(Image && copy)

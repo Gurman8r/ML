@@ -7,14 +7,13 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ ] proper gui for creating/importing new assets
-[ ] gui open file dialog
-
+[ ] Temporary/Preview Assets
 
 [?] async asset loading (threaded w/ progress bar)
 [?] automatic/recursive asset loading
-[?] custom asset importer gui
 
+[X] gui open file dialog
+[X] proper gui for creating/importing new assets
 [X] reimplement old math
 [X] Rework Mesh/Model/Renderer to utilize Assimp (needs work)
 [x] texture cube maps (6-sided)

@@ -30,7 +30,6 @@ namespace ml
 		eventSystem.addListener(EndGuiEvent		::ID, this);
 		eventSystem.addListener(UnloadEvent		::ID, this);
 		eventSystem.addListener(ExitEvent		::ID, this);
-
 		eventSystem.addListener(DockspaceEvent	::ID, this);
 		eventSystem.addListener(KeyEvent		::ID, this);
 		eventSystem.addListener(File_New_Event	::ID, this);

@@ -12,7 +12,7 @@
 #include <ML/Engine/Entity.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/ContentDatabase.hpp>
+#include <ML/Engine/ContentManager.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>

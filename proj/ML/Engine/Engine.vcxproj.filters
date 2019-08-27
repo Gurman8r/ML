@@ -96,9 +96,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Python.hpp">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\ContentDatabase.hpp">
-      <Filter>Header Files\Content</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\ObjectPool.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -127,6 +124,9 @@
       <Filter>Header Files\Content</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\SerializedObject.hpp">
+      <Filter>Header Files\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\ContentManager.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,9 +170,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\ContentDatabase.cpp">
-      <Filter>Source Files\Content</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\ContentImporter.cpp">
       <Filter>Source Files\Content</Filter>
     </ClCompile>
@@ -186,6 +183,9 @@
       <Filter>Source Files\Content</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\SerializedProperty.cpp">
+      <Filter>Source Files\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\ContentManager.cpp">
       <Filter>Source Files\Content</Filter>
     </ClCompile>
   </ItemGroup>

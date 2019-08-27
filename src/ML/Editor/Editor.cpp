@@ -20,9 +20,7 @@ namespace ml
 		, m_dockspace		{ *this }
 		, m_explorer		{ *this }
 		, m_content			{ *this }
-		, m_importer		{ *this }
 		, m_profiler		{ *this }
-		, m_inspector			{ *this }
 		, m_terminal		{ *this }
 	{
 		eventSystem.addListener(EnterEvent		::ID, this);
@@ -68,8 +66,6 @@ namespace ml
 				d.dockWindow(m_explorer	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_importer	.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_inspector.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_terminal	.getTitle(), d.getNode(d.LeftDn));
 			}
 			break;
@@ -88,17 +84,11 @@ namespace ml
 				// Show Explorer | Ctrl + Alt + E
 				if (ev->getPress(KeyCode::E, ctrl_alt)) m_explorer.toggleOpen();
 
-				// Show Importer | Ctrl + Alt + I
-				if (ev->getPress(KeyCode::I, ctrl_alt)) m_importer.toggleOpen();
-
 				// Show Profiler | Ctrl + Alt + P
 				if (ev->getPress(KeyCode::P, ctrl_alt)) m_profiler.toggleOpen();
 
 				// Show Content | Ctrl + Alt + C
 				if (ev->getPress(KeyCode::C, ctrl_alt)) m_content.toggleOpen();
-
-				// Show Inspector | Ctrl + Alt + M
-				if (ev->getPress(KeyCode::M, ctrl_alt)) m_inspector.toggleOpen();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -232,9 +222,7 @@ namespace ml
 		// Configure Builtin Windows
 		m_content	.setOpen(ev.prefs.get_bool("Editor", "show_content",	false));
 		m_explorer	.setOpen(ev.prefs.get_bool("Editor", "show_explorer",	false));
-		m_importer	.setOpen(ev.prefs.get_bool("Editor", "show_importer",	false));
 		m_profiler	.setOpen(ev.prefs.get_bool("Editor", "show_profiler",	false));
-		m_inspector	.setOpen(ev.prefs.get_bool("Editor", "show_inspector",	false));
 		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal",	false));
 	}
 
@@ -243,9 +231,7 @@ namespace ml
 		m_content	.onUpdate(ev);
 		m_explorer	.onUpdate(ev);
 		m_dockspace	.onUpdate(ev);
-		m_importer	.onUpdate(ev);
 		m_profiler	.onUpdate(ev);
-		m_inspector	.onUpdate(ev);
 		m_terminal	.onUpdate(ev);
 	}
 
@@ -342,9 +328,7 @@ namespace ml
 			{
 				ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content	.openPtr());
 				ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
-				//ImGui::MenuItem(m_importer.getTitle(),	"Ctrl+Alt+I", m_importer.openPtr());
 				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
-				//ImGui::MenuItem(m_inspector.getTitle(),	"Ctrl+Alt+M", m_inspector.openPtr());
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Window));
 				ImGui::EndMenu();
@@ -408,9 +392,7 @@ namespace ml
 		/*	Dockspace	*/	if (m_dockspace	.isOpen()) m_dockspace	.onGui(ev);
 		/*	Content		*/	if (m_content	.isOpen()) m_content	.onGui(ev);
 		/*	Explorer	*/	if (m_explorer	.isOpen()) m_explorer	.onGui(ev);
-		/*	Importer	*/	if (m_importer	.isOpen()) m_importer	.onGui(ev);
 		/*	Profiler	*/	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
-		/*	Inspector	*/	if (m_inspector	.isOpen()) m_inspector	.onGui(ev);
 		/*	Terminal	*/	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
 	}
 

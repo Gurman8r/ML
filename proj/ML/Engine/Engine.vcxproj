@@ -183,7 +183,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\CommandDescriptor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandExecutor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandRegistry.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\ContentDatabase.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\ContentManager.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Camera.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\MetadataParser.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Lua.hpp" />
@@ -212,7 +212,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\CommandDescriptor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandExecutor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandRegistry.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\ContentDatabase.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\ContentManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Camera.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\MetadataParser.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />

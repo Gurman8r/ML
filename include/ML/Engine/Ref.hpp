@@ -1,7 +1,7 @@
 #ifndef _ML_REF_HPP_
 #define _ML_REF_HPP_
 
-#include <ML/Engine/ContentDatabase.hpp>
+#include <ML/Engine/ContentManager.hpp>
 
 namespace ml
 {

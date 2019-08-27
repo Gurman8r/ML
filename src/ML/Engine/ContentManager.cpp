@@ -1,11 +1,11 @@
-#include <ML/Engine/ContentDatabase.hpp>
+#include <ML/Engine/ContentManager.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ContentDatabase::dispose()
+	bool ContentManager::dispose()
 	{
 		for (auto & asset_types : m_data)
 		{
@@ -23,7 +23,7 @@ namespace ml
 		return m_data.empty();
 	}
 
-	ContentDatabase::object_map & ContentDatabase::at(size_t index)
+	ContentManager::object_map & ContentManager::at(size_t index)
 	{
 		typeid_map::iterator it;
 		return (((it = m_data.find(index)) != m_data.end())
@@ -32,7 +32,7 @@ namespace ml
 		);
 	}
 
-	const ContentDatabase::object_map & ContentDatabase::at(size_t index) const
+	const ContentManager::object_map & ContentManager::at(size_t index) const
 	{
 		typeid_map::const_iterator it;
 		return (((it = m_data.find(index)) != m_data.cend())

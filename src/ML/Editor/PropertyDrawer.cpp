@@ -466,13 +466,16 @@ namespace ml
 		}
 
 		// Lock
-		static hash_t img_lock { 0 };
-		if (const hash_t img_hash { Hash { label.data(), label.size() } })
+		static Image::Pixels pixels {};
+		if (!pixels ||
+			pixels.size() != value.pixels().size() ||
+			pixels.front() != value.pixels().front() ||
+			pixels.back() != value.pixels().back() ||
+			pixels != value.pixels())
 		{
-			if ((img_lock != img_hash) && (img_lock = img_hash))
-			{
-				preview->loadFromImage(value);
-			}
+			pixels = value.pixels();
+			preview->loadFromImage(value);
+			Debug::log("Here");
 		}
 
 		// Preview

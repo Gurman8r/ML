@@ -154,14 +154,14 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-			if (ImGui::BeginChild(
+			ImGui::BeginChild(
 				("##Content##" + String(getTitle())).c_str(),
 				{ max_size[0], max_size[1] },
 				true,
 				ImGuiWindowFlags_None
-			))
+			);
+			ImGui::PopStyleVar();
 			{
-				ImGui::PopStyleVar();
 				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { style.ItemSpacing.x, 5 });
 				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { style.FramePadding.x, 8 });
 				Layout::draw_list<Entity>(ev);
@@ -177,23 +177,19 @@ namespace ml
 				Layout::draw_list<Uniform>(ev);
 				ImGui::PopStyleVar(2);
 			}
-			else
-			{
-				ImGui::PopStyleVar();
-			}
 			ImGui::EndChild();
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-			if (ImGui::BeginChild(
+			ImGui::BeginChild(
 				("##Inspector##" + String(getTitle())).c_str(),
 				{ max_size[0], max_size[1] },
 				true,
 				ImGuiWindowFlags_MenuBar
-			))
+			);
+			ImGui::PopStyleVar();
 			{
-				ImGui::PopStyleVar();
 				if (ImGui::BeginMenuBar())
 				{
 					ImGui::PushStyleColor(ImGuiCol_Text, { 0.2f, 0.8f, 1.0f, 1.0f });
@@ -220,10 +216,6 @@ namespace ml
 				case PropertyDrawer<Texture>::hash_code():	Layout::draw_inspector<Texture>(m_selected, m_itemname); break;
 				case PropertyDrawer<Uniform>::hash_code():	Layout::draw_inspector<Uniform>(m_selected, m_itemname); break;
 				}
-			}
-			else
-			{
-				ImGui::PopStyleVar();
 			}
 			ImGui::EndChild();
 

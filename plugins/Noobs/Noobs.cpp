@@ -422,7 +422,7 @@ namespace ml
 					if (PropertyDrawer<Uniform>()("##New##Uni", (Uniform *&)to_add))
 					{
 						// Already Exists
-						if (!m_material->add(to_add))
+						if (to_add && !m_material->add(to_add))
 						{
 							delete to_add;
 							Debug::logError("A uniform with that name already exists");

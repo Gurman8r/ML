@@ -174,6 +174,8 @@ namespace ml
 					{
 						ImGui::Checkbox("Enabled##Depth Testing", &depthTest->enabled);
 
+						ImGui::Checkbox("Mask##Depth Testing", &depthTest->mask);
+
 						int32_t index = GL::index_of(depthTest->predicate);
 						if (ImGuiExt::Combo(
 							"Comparison##Depth Testing",
@@ -235,8 +237,7 @@ namespace ml
 				ML_ARRAYSIZE(name)
 			);
 
-			ImGui::Separator();
-
+			// Copy
 			if (PropertyDrawer<Font>()(("Copy From##" + label), (const Font *&)copy))
 			{
 				std::strcpy(asset_path, "");
@@ -279,7 +280,8 @@ namespace ml
 			ImGui::SameLine();
 
 			// Cancel / Popup Closed
-			if (submit || ImGui::Button("Cancel"))
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
 			{
 				popup_open = false;
 				ImGui::CloseCurrentPopup();
@@ -287,7 +289,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return value;
+			return (submit || cancel);
 		}
 		return false;
 	}
@@ -382,8 +384,6 @@ namespace ml
 				ML_ARRAYSIZE(name)
 			);
 
-			ImGui::Separator();
-
 			// Copy
 			if (PropertyDrawer<Image>()(("Copy From##" + label), (const Image *&)copy))
 			{
@@ -424,7 +424,8 @@ namespace ml
 			ImGui::SameLine();
 
 			// Cancel / Popup Closed
-			if (submit || ImGui::Button("Cancel"))
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
 			{
 				popup_open = false;
 				ImGui::CloseCurrentPopup();
@@ -432,7 +433,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return value;
+			return (submit || cancel);
 		}
 		return false;
 	}
@@ -580,7 +581,8 @@ namespace ml
 			ImGui::SameLine();
 
 			// Cancel / Popup Closed
-			if (submit || ImGui::Button("Cancel"))
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
 			{
 				popup_open = false;
 				ImGui::CloseCurrentPopup();
@@ -588,7 +590,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return value;
+			return (submit || cancel);
 		}
 		return false;
 	}
@@ -611,9 +613,9 @@ namespace ml
 		{
 			// new uniform editor
 			Uniform * u = nullptr;
-			if (PropertyDrawer<Uniform>()(("##NewUniform##Material" + label).c_str(), u, 0b0))
+			if (PropertyDrawer<Uniform>()(("##NewUniform##Material" + label).c_str(), u))
 			{
-				if (!value.add(u))
+				if (u && !value.add(u))
 				{
 					delete u;
 					Debug::logError("A uniform with that name already exists");
@@ -800,8 +802,6 @@ namespace ml
 				ML_ARRAYSIZE(name)
 			);
 
-			ImGui::Separator();
-
 			// Copy
 			if (PropertyDrawer<Shader>()(("Copy From##" + label), (const Shader *&)copy))
 			{
@@ -842,7 +842,8 @@ namespace ml
 			ImGui::SameLine();
 
 			// Cancel / Popup Closed
-			if (submit || ImGui::Button("Cancel"))
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
 			{
 				popup_open = false;
 				ImGui::CloseCurrentPopup();
@@ -850,7 +851,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return value;
+			return (submit || cancel);
 		}
 		return false;
 	}
@@ -1058,13 +1059,14 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char name[32] = "";
-			static Image * image { nullptr };
+			static Array<const Image *, 6> image { nullptr };
+			static int32_t sampler_type { 0 };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
-				image = nullptr;
+				for (auto *& e : image) e = nullptr;
 			}
 
 			// Name
@@ -1074,23 +1076,62 @@ namespace ml
 				ML_ARRAYSIZE(name)
 			);
 
-			ImGui::Separator();
+			// Copy
+			ImGuiExt::Combo(
+				("Sampler##" + label).c_str(), 
+				&sampler_type,
+				GL::Sampler_names, 
+				ML_ARRAYSIZE(GL::Sampler_names)
+			);
 
-			PropertyDrawer<Image>()(("Image##" + label), (const Image *&)image);
+			if (sampler_type == 0)
+			{
+				PropertyDrawer<Image>()(("Image##" + label), (const Image *&)image[0]);
+			}
+			else if (sampler_type == 1)
+			{
+				ImGui::TextDisabled("Texture3D Not Supported");
+			}
+			else if (sampler_type == 2)
+			{
+				PropertyDrawer<Image>()(("Right##Image##" + label), (const Image *&)image[0]);
+				PropertyDrawer<Image>()(("Left##Image##" + label), (const Image *&)image[1]);
+				PropertyDrawer<Image>()(("Top##Image##" + label), (const Image *&)image[2]);
+				PropertyDrawer<Image>()(("Bottom##Image##" + label), (const Image *&)image[3]);
+				PropertyDrawer<Image>()(("Front##Image##" + label), (const Image *&)image[4]);
+				PropertyDrawer<Image>()(("Back##Image##" + label), (const Image *&)image[5]);
+			}
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
 			if (submit && !value)
 			{
-				if (image && (value = ML_Content.create<Texture>(name, image->format(), true, false)))
+				if (sampler_type == 0)
 				{
-					value->loadFromImage(*image);
+					if (image[0] && (value = ML_Content.create<Texture>(name, image[0]->format(), true, false)))
+					{
+						value->loadFromImage(*image[0]);
+					}
+				}
+				else if (sampler_type == 1)
+				{
+					Debug::logError("Texture3D Not Supported");
+				}
+				else if (sampler_type == 2)
+				{
+					value = new Texture { GL::TextureCubeMap, true, false };
+					if (value->loadFromFaces(image))
+					{
+						ML_Content.insert<Texture>(name, value);
+					}
+					else { delete value; }
 				}
 			}
 			ImGui::SameLine();
 
 			// Cancel / Popup Closed
-			if (submit || ImGui::Button("Cancel"))
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
 			{
 				popup_open = false;
 				ImGui::CloseCurrentPopup();
@@ -1098,7 +1139,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return value;
+			return (submit || cancel);
 		}
 		return false;
 	}
@@ -1326,7 +1367,8 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			};
 
-			if (ImGui::Button("Submit") && (name && !value))
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && (name && !value))
 			{
 				value = ([&]()
 				{
@@ -1354,7 +1396,8 @@ namespace ml
 
 			ImGui::SameLine();
 
-			if (ImGui::Button("Cancel"))
+			const bool cancel { ImGui::Button("Cancel") };
+			if (cancel)
 			{
 				ResetPopup();
 			}
@@ -1366,7 +1409,7 @@ namespace ml
 				ML_Content.insert<Uniform>(value->name, value); 
 			}
 
-			return value;
+			return (submit || cancel);
 		}
 		return false;
 	}

@@ -49,46 +49,67 @@ namespace ml
 				}
 			})() };
 
+			// Highlight Group
 			const bool has_selected_type { type_name == ev.editor.content().m_typename };
 			if (has_selected_type)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
+				ImGui::PushStyleColor(ImGuiCol_Header, { 0.7f, 0.7f, 0.5f, 1.0f });
 				ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
 			}
 
+			// Count String
+			const String count_str { "(" + std::to_string(database.size()) + ")" };
+
 			// Header
-			const bool header { ImGui::CollapsingHeader(label.c_str()) };
+			const bool header { ImGui::CollapsingHeader((label + " " + count_str).c_str()) };
 			if (has_selected_type) ImGui::PopStyleColor(2);
-			if (!header) { return; }
-
-			// Empty
-			if (database.empty()) { ImGui::Text("-"); return; }
-
-			ImGui::PushID(ML_ADDRESSOF(&database));
-			ImGui::BeginGroup();
-			// Create Item
+			
+			// Main Context Menu
+			if (ImGui::BeginPopupContextItem(("##MainContextMenu##" + label).c_str()))
 			{
 				T * temp { nullptr };
-				if (PropertyDrawer<T>()(label, (T *&)temp, 0b1)) {}
+				if (PropertyDrawer<T>()(label, (T *&)temp, 0b1))
+					ImGui::CloseCurrentPopup();
+				ImGui::EndPopup();
 			}
+
+			// Hidden
+			if (!header) { return; }
+
 			// Draw Items
+			ImGui::PushID(ML_ADDRESSOF(&database));
+			ImGui::BeginGroup();
+			if (database.empty()) { ImGui::Text("-"); }
 			for (auto & pair : database)
 			{
 				if (!pair.second || ImGuiExt::IsHidden(pair.first)) { continue; }
 
-				const bool is_selected { ev.editor.content().m_selected == pair.second };
 				ImGui::PushID(pair.first.c_str());
-				ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
+
+				const bool is_selected { ev.editor.content().m_selected == pair.second };
 				if (is_selected)
 				{
+					ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
 					ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
 				}
+
+				// Selectable
 				if (ImGui::Selectable((pair.first + "##" + label).c_str(), is_selected))
 				{
+
 					ev.editor.content().m_typename = type_name;
 					ev.editor.content().m_selected = pair.second;
+					ev.editor.content().m_itemname = pair.first;
 				}
-				ImGui::PopStyleColor(1 + is_selected);
+
+				ImGui::PopStyleColor((int32_t)is_selected * 2);
+				
+				// Sub Context Menu
+				if (ImGui::BeginPopupContextItem(("##ContextMenu##" + pair.first + "##" + label).c_str()))
+				{
+					ImGui::CloseCurrentPopup();
+					ImGui::EndPopup();
+				}
 				ImGui::PopID();
 				ImGui::Separator();
 			}
@@ -117,7 +138,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorContent::EditorContent(Editor & editor)
-		: EditorForm { editor, "Content Manager", false }
+		: EditorForm { editor, "Content", false }
 	{
 	}
 
@@ -129,28 +150,28 @@ namespace ml
 
 	bool EditorContent::onGui(const GuiEvent & ev)
 	{
-		if (beginDraw(ImGuiWindowFlags_None))
+		if (beginDraw(ImGuiWindowFlags_NoScrollbar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
+			ImGuiStyle & style { ImGui::GetStyle() };
+			
+			const vec2 max_size { 
+				ImGuiExt::GetContentRegionAvail() * vec2 { 1, 0.975f * 0.5f } 
+			};
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 			if (ImGui::BeginChild(
 				("##Content##" + String(getTitle())).c_str(),
-				{ max_size[0], max_size[1] * 0.5f },
+				{ max_size[0], max_size[1] },
 				true,
-				ImGuiWindowFlags_MenuBar
+				ImGuiWindowFlags_None
 			))
 			{
 				ImGui::PopStyleVar();
-				if (ImGui::BeginMenuBar())
-				{
-					ImGui::Text("Database");
-					ImGui::EndMenuBar();
-				}
+				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { style.ItemSpacing.x, 5 });
 				Layout::draw_list<Entity>(ev);
 				Layout::draw_list<Font>(ev);
 				Layout::draw_list<Image>(ev);
@@ -162,6 +183,7 @@ namespace ml
 				Layout::draw_list<Surface>(ev);
 				Layout::draw_list<Texture>(ev);
 				Layout::draw_list<Uniform>(ev);
+				ImGui::PopStyleVar();
 			}
 			else
 			{
@@ -171,10 +193,14 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
+			ImGui::NewLine();
+
+			/* * * * * * * * * * * * * * * * * * * * */
+
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 			if (ImGui::BeginChild(
 				("##Inspector##" + String(getTitle())).c_str(),
-				{ max_size[0], max_size[1] * 0.5f },
+				{ max_size[0], max_size[1] },
 				true,
 				ImGuiWindowFlags_MenuBar
 			))
@@ -182,7 +208,13 @@ namespace ml
 				ImGui::PopStyleVar();
 				if (ImGui::BeginMenuBar())
 				{
-					ImGui::Text("Inspector");
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.2f, 0.8f, 1.0f, 1.0f });
+					ImGui::Text("[%s]", m_typename.c_str());
+					ImGui::PopStyleColor();
+					ImGui::SameLine();
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.2f, 1.0f, 0.8f, 1.0f });
+					ImGui::Text("\'%s\'", m_itemname.c_str());
+					ImGui::PopStyleColor();
 					ImGui::EndMenuBar();
 				}
 				switch (Hash { m_typename.data(), m_typename.size() })

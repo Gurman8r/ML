@@ -23,8 +23,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		String m_typename {};
+		String m_typename { "Type" };
 		void * m_selected { nullptr };
+		String m_itemname { "Name" };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -7,7 +7,7 @@
 
 #define ML_GEN_PROPERTY_DRAWER(T)											\
 using value_type		= typename _ML detail::decay_t<T>;					\
-using self_type			= typename PropertyDrawer<value_type>;				\
+using self_type			= typename _ML PropertyDrawer<value_type>;			\
 using pointer			= typename value_type *;							\
 using reference			= typename value_type &;							\
 using const_pointer		= typename const value_type *;						\

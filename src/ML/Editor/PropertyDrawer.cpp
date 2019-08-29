@@ -1212,8 +1212,6 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
-		if (bitRead(flags, 0)) { ImGui::SameLine(); ImGuiExt::HelpMarker("Here"); }
-		
 		return changed;
 	}
 

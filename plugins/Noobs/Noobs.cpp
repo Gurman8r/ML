@@ -38,8 +38,6 @@ namespace ml
 		: Plugin		{ eventSystem }
 		, m_pipeline	{}
 		, m_editor		{}
-		, m_scene		{}
-		, m_skybox		{}
 	{
 		eventSystem.addListener(StartEvent::ID,			this);
 		eventSystem.addListener(UpdateEvent::ID,		this);
@@ -81,7 +79,7 @@ namespace ml
 				{
 				case MainMenuBarEvent::Window:
 					ImGui::Separator();
-					ImGui::MenuItem("Scene##Enable##Noobs##DemoScene", "", &m_scene.is_open());
+					ImGui::MenuItem("Scene##Enable##Noobs##DemoScene", "", &m_editor.scene.m_open);
 					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.is_open());
 					break;
 				}
@@ -112,7 +110,7 @@ namespace ml
 			// Viewport
 			if (auto u = m->get<uni_vec2_ptr>("u_viewport"))
 			{
-				u->data = &m_scene.viewport();
+				u->data = &m_editor.scene.m_viewport;
 			}
 		}
 
@@ -134,8 +132,8 @@ namespace ml
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
 		// Update Viewports
-		if (auto & surf { m_pipeline[Surf_Main] }) { surf->update(m_scene.viewport()); }
-		if (auto & surf { m_pipeline[Surf_Post] }) { surf->update(m_scene.viewport()); }
+		if (auto & surf { m_pipeline[Surf_Main] }) { surf->update(m_editor.scene.m_viewport); }
+		if (auto & surf { m_pipeline[Surf_Post] }) { surf->update(m_editor.scene.m_viewport); }
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)
@@ -146,22 +144,25 @@ namespace ml
 		m_pipeline.render_to(Surf_Main, [&]()
 		{
 			// Set Viewport
-			ev.window.setViewport({ 0, 0 }, m_scene.viewport());
+			ev.window.setViewport({ 0, 0 }, m_editor.scene.m_viewport);
 
 			// Clear Sceen
-			ev.window.clear(m_scene.clearColor());
+			ev.window.clear(m_editor.scene.m_clearColor);
 
 			// Draw Skybox
-			if (m_skybox.material && m_skybox.model)
+			if (m_editor.scene.m_skybox.enabled &&
+				m_editor.scene.m_skybox.material && 
+				m_editor.scene.m_skybox.model)
 			{
 				ML_GL.depthMask(false);
-				m_skybox.material->bind();
-				ev.window.draw(m_skybox.model);
-				m_skybox.material->unbind();
+				m_editor.scene.m_skybox.material->bind();
+				ev.window.draw(m_editor.scene.m_skybox.model);
+				m_editor.scene.m_skybox.material->unbind();
 				ML_GL.depthMask(true);
 			}
 
-			ev.window.draw(m_editor.renderer()); // Draw Renderer
+			// Draw Renderer
+			ev.window.draw(m_editor.renderer());
 		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -182,13 +183,13 @@ namespace ml
 		m_pipeline.render_to(Surf_Post, [&]()
 		{
 			// Set Viewport
-			ev.window.setViewport({ 0, 0 }, m_scene.viewport());
+			ev.window.setViewport({ 0, 0 }, m_editor.scene.m_viewport);
 
 			// Apply Effects to Main
 			if (Surface * surf { m_pipeline[Surf_Main] })
 			{
-				surf->setUniform(&m_scene.effectMode());
-				surf->setUniform(&m_scene.kernel());
+				surf->setUniform(&m_editor.scene.m_effectMode);
+				surf->setUniform(&m_editor.scene.m_kernel);
 				ev.window.draw(surf);
 			}
 		});
@@ -199,7 +200,7 @@ namespace ml
 	void Noobs::onGui(const GuiEvent & ev)
 	{
 		// Render Scene
-		m_scene.render(ev, "Scene##Noobs##DemoScene", m_pipeline[Surf_Post]);
+		m_editor.scene.render(ev, "Scene##Noobs##DemoScene", m_pipeline[Surf_Post]);
 		
 		// Render Editor
 		m_editor.render(ev, "Editor##Noobs##DemoEditor");
@@ -218,70 +219,8 @@ namespace ml
 		if (!m_open) return;
 		ImGui::PushID("Noobs");
 		ImGui::PushID("Demo Scene");
-		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_MenuBar))
+		if (ImGui::Begin(title, &m_open))
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			if (ImGui::BeginMenuBar())
-			{
-				if (ImGui::BeginMenu("Settings"))
-				{
-					// Get Video Modes
-					static const List<VideoMode> & mode_values
-					{
-						Window::getFullscreenModes()
-					};
-
-					// Get Video Names
-					static const List<String> & mode_names = [&]
-					{
-						static List<String> temp
-						{
-							"Free" 
-						};
-						for (const VideoMode & elem : mode_values)
-						{
-							temp.push_back(String("{0}").format(elem.size));
-						}
-						return temp;
-					}();
-					ImGui::Separator();
-
-					// Viewport
-					static int32_t index = 0;
-					if (ImGuiExt::Combo("Viewport", &index, mode_names))
-					{
-						m_freeAspect = (index == 0);
-					}
-					if (!m_freeAspect)
-					{
-						m_viewport = (vec2i)mode_values[index - 1].size;
-					}
-					ImGui::Separator();
-
-					// Clear Color
-					ImGui::ColorEdit4("Clear Color", &m_clearColor[0]);
-					ImGui::Separator();
-
-					// Effect Mode
-					ImGuiExt::Combo("Effect Mode", &m_effectMode.data,
-						"Default\0"
-						"Grayscale\0"
-						"Blur\0"
-						"Kernel\0"
-						"Inverted\0"
-					);
-					ImGui::Separator();
-
-					// Kernel
-					PropertyDrawer<Uniform>()("##Kernel", (Uniform &)m_kernel);
-					ImGui::SameLine(); ImGui::Text("Kernel");
-
-					ImGui::EndMenu();
-				}
-				ImGui::EndMenuBar();
-			}
-
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			if (surf && (*surf))
@@ -552,6 +491,15 @@ namespace ml
 
 					ImGui::NewLine();
 
+					const Model * mdl = (const Model *)m_renderer->drawable();
+					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
+					{
+						this->renderer()->setDrawable(mdl);
+					}
+					ImGuiExt::Tooltip("Specifies model to be drawn");
+
+					ImGui::NewLine();
+
 					const Shader * shd = this->shader();
 					if (PropertyDrawer<Shader>()("Shader##Material##Noobs", shd))
 					{
@@ -560,15 +508,6 @@ namespace ml
 						this->generate_sources();
 					}
 					ImGuiExt::Tooltip("Specifies the targeted shader");
-
-					ImGui::NewLine();
-
-					const Model * mdl = (const Model *)m_renderer->drawable();
-					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
-					{
-						this->renderer()->setDrawable(mdl);
-					}
-					ImGuiExt::Tooltip("Specifies model to be drawn");
 
 					ImGui::NewLine();
 
@@ -585,30 +524,81 @@ namespace ml
 						// do the thing
 					}
 
+					ImGui::NewLine(); ImGui::Separator(); ImGui::NewLine();
+
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-					enum Setting_
+					// Get Video Modes
+					static const List<VideoMode> & mode_values
 					{
-						Setting_Disabled,
-						Setting_Enum,
-						Setting_Bool,
-						Setting_Number,
+						Window::getFullscreenModes()
 					};
 
-					static const ImVec4 Setting_Colors[] = {
-						ImVec4 { 0.84f, 0.63f, 0.63f, 1.00f },	// Disabled
-						ImVec4 { 0.72f, 0.84f, 0.63f, 1.00f },	// Enum
-						ImVec4 { 0.20f, 0.33f, 1.00f, 1.00f },	// Bool
-						ImVec4 { 0.20f, 1.00f, 0.33f, 1.00f },	// Number
-					};
+					// Get Video Names
+					static const List<String> & mode_names = [&]
+					{
+						static List<String> temp
+						{
+							"Free"
+						};
+						for (const VideoMode & elem : mode_values)
+						{
+							temp.push_back(String("{0}").format(elem.size));
+						}
+						return temp;
+					}();
+
+					// Viewport
+					static int32_t index = 0;
+					if (ImGuiExt::Combo("Viewport", &index, mode_names))
+					{
+						scene.m_freeAspect = (index == 0);
+					}
+					if (!scene.m_freeAspect)
+					{
+						scene.m_viewport = (vec2i)mode_values[index - 1].size;
+					}
+
+					ImGui::NewLine();
+
+					// Clear Color
+					ImGui::ColorEdit4("Clear Color", &scene.m_clearColor[0]);
+
+					ImGui::NewLine();
+
+					// Enable Skybox
+					ImGui::Checkbox("Enable Skybox", &scene.m_skybox.enabled);
+
+					ImGui::NewLine();
+
+					if (0)
+					{
+						// Effect Mode
+						ImGuiExt::Combo("Effect Mode", &scene.m_effectMode.data,
+							"Default\0"
+							"Grayscale\0"
+							"Blur\0"
+							"Kernel\0"
+							"Inverted\0"
+						);
+
+						ImGui::NewLine();
+
+						// Kernel
+						PropertyDrawer<Uniform>()("##Kernel", (Uniform &)scene.m_kernel);
+						ImGui::SameLine(); ImGui::Text("Kernel");
+
+						ImGui::NewLine();
+					}
+
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					AlphaState	* alpha_state	{ m_renderer->states().get<AlphaState>() };
 					BlendState	* blend_state	{ m_renderer->states().get<BlendState>() };
 					CullState	* cull_state	{ m_renderer->states().get<CullState>()	 };
 					DepthState	* depth_state	{ m_renderer->states().get<DepthState>() };
 
-					ImGui::NewLine(); ImGui::Separator();
-
+					ImGui::Separator();
 
 					// Alpha State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -628,12 +618,7 @@ namespace ml
 						);
 						ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::PushStyleColor(ImGuiCol_Text, alpha->enabled
-							? Setting_Colors[Setting_Enum]
-							: Setting_Colors[Setting_Disabled]
-						);
 						ImGui::Text(GL::raw_name_of(GL::AlphaTest));
-						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
 						ImGui::NewLine();
 
@@ -649,12 +634,10 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t predicate = GL::index_of(alpha->predicate);
-						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
 						{
 							alpha->predicate = GL::value_at<GL::Predicate>(predicate);
 						}
-						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
 							"Param: \'predicate\'\n\n"
 							"Value: {0} (0x{1})\n\n"
@@ -668,9 +651,7 @@ namespace ml
 
 						/* * * * * * * * * * * * * * * * * * * * */
 
-						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Number]);
 						ImGui::DragFloat("##Coefficient", &alpha->coeff);
-						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
 							"Param: \'coefficient\'\n\n"
 							"Value: {0}\n\n"
@@ -709,12 +690,7 @@ namespace ml
 						);
 						ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::PushStyleColor(ImGuiCol_Text, blend->enabled
-							? Setting_Colors[Setting_Enum]
-							: Setting_Colors[Setting_Disabled]
-						);
 						ImGui::Text(GL::raw_name_of(GL::Blend));
-						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
 						ImGui::NewLine();
 
@@ -730,12 +706,10 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t srcRGB = GL::index_of(blend->srcRGB);
-						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##SrcRGB", &srcRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 						{
 							blend->srcRGB = GL::value_at<GL::Factor>(srcRGB);
 						}
-						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
 							"Param: \'srcRGB\'\n\n"
 							"Value: {0} (0x{1})\n\n"
@@ -750,12 +724,10 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t dstRGB = GL::index_of(blend->dstRGB);
-						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##DstRGB", &dstRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 						{
 							blend->dstRGB = GL::value_at<GL::Factor>(dstRGB);
 						}
-						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
 							"Param: \'dstRGB\'\n\n"
 							"Value: {0} (0x{1})\n\n"
@@ -770,12 +742,10 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t srcAlpha = GL::index_of(blend->srcAlpha);
-						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##SrcAlpha", &srcAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 						{
 							blend->srcAlpha = GL::value_at<GL::Factor>(srcAlpha);
 						}
-						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
 							"Param: \'srcAlpha\'\n\n"
 							"Value: {0} (0x{1})\n\n"
@@ -790,12 +760,10 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t dstAlpha = GL::index_of(blend->dstAlpha);
-						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##DstAlpha", &dstAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 						{
 							blend->dstAlpha = GL::value_at<GL::Factor>(dstAlpha);
 						}
-						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
 							"Param: \'dstAlpha\'\n\n"
 							"Value: {0} (0x{1})\n\n"
@@ -835,12 +803,7 @@ namespace ml
 						);
 						ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::PushStyleColor(ImGuiCol_Text, cull->enabled
-							? Setting_Colors[Setting_Enum]
-							: Setting_Colors[Setting_Disabled]
-						);
 						ImGui::Text(GL::raw_name_of(GL::CullFace));
-						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
 						ImGui::NewLine();
 
@@ -856,12 +819,10 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t face = GL::index_of(cull->face);
-						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##Face", &face, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
 						{
 							cull->face = GL::value_at<GL::Face>(face);
 						}
-						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
 							"Param: \'face\'\n\n"
 							"Value: {0} (0x{1})\n\n"
@@ -901,12 +862,7 @@ namespace ml
 						); 
 						ImGuiExt::Tooltip("If enabled, do depth comparisons and update the depth buffer.");
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::PushStyleColor(ImGuiCol_Text, depth->enabled
-							? Setting_Colors[Setting_Enum]
-							: Setting_Colors[Setting_Disabled]
-						);
 						ImGui::Text(GL::raw_name_of(GL::DepthTest));
-						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
 						ImGui::NewLine();
 
@@ -915,12 +871,7 @@ namespace ml
 						ImGui::Checkbox("glDepthMask", &depth->mask); 
 						ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
 						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::PushStyleColor(ImGuiCol_Text, depth->mask 
-							? Setting_Colors[Setting_Bool]
-							: Setting_Colors[Setting_Disabled]
-						);
 						ImGui::Text(depth->mask ? "true" : "false");
-						ImGui::PopStyleColor();
 						ImGui::SameLine(); ImGui::Text(")");
 						ImGui::NewLine();
 
@@ -936,12 +887,10 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 
 						int32_t predicate = GL::index_of(depth->predicate);
-						ImGui::PushStyleColor(ImGuiCol_Text, Setting_Colors[Setting_Enum]);
 						if (ImGuiExt::Combo("##Predicate", &predicate, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
 						{
 							depth->predicate = GL::value_at<GL::Predicate>(predicate);
 						}
-						ImGui::PopStyleColor();
 						ImGuiExt::Tooltip(String(
 							"Param: \'predicate\'\n\n"
 							"Value: {0} (0x{1})\n\n"

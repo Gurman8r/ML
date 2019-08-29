@@ -106,6 +106,7 @@ namespace ml
 		}
 		
 		/* * * * * * * * * * * * * * * * * * * * */
+
 		template <class T>
 		inline static void draw_inspector(void * ptr, const String & name)
 		{

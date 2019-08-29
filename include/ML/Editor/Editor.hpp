@@ -43,9 +43,7 @@ namespace ml
 	private:
 		bool m_redirect_cout		{ false };
 		bool m_show_imgui_demo		{ false };
-		bool m_show_imgui_metrics	{ false };
 		bool m_show_imgui_style		{ false };
-		bool m_show_imgui_about		{ false };
 
 		EditorDockspace	m_dockspace;
 		EditorContent	m_content;

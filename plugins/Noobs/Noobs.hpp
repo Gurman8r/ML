@@ -50,13 +50,15 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
+			bool enabled { false };
+
 			Ref<Model>		model		{ "skybox" };
 			Ref<Material>	material	{ "skybox" };
 
 			DemoSkybox() = default;
 
 			/* * * * * * * * * * * * * * * * * * * * */
-		} m_skybox;
+		};
 
 
 		// DEMO PIPELINE
@@ -105,7 +107,8 @@ namespace ml
 				, m_freeAspect	{ true }
 				, m_clearColor	{ Color::black }
 				, m_viewport	{ 1920, 1080 }
-				, m_effectMode	{ "u_effectMode", 3 }
+				, m_skybox		{}
+				, m_effectMode	{ "u_effectMode", 0 }
 				, m_kernel		{ "u_kernel", { -1, -1, -1, -1, 9, -1, -1, -1, -1 } }
 			{
 			}
@@ -116,25 +119,16 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			inline auto is_open()		-> bool &		{ return m_open; }
-			inline auto freeAspect()	-> bool	&		{ return m_freeAspect; }
-			inline auto clearColor()	-> vec4	&		{ return m_clearColor; }
-			inline auto viewport()		-> vec2	&		{ return m_viewport; }
-			inline auto effectMode()	-> uni_int	&	{ return m_effectMode; }
-			inline auto kernel()		-> uni_mat3	&	{ return m_kernel; }
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-		private:
 			bool		m_open;
 			bool		m_freeAspect;
 			vec4		m_clearColor;
 			vec2		m_viewport;
+			DemoSkybox	m_skybox;
 			uni_int		m_effectMode;
 			uni_mat3	m_kernel;
 
 			/* * * * * * * * * * * * * * * * * * * * */
-		} m_scene;
+		};
 
 
 		// DEMO FILE
@@ -190,6 +184,8 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
+			DemoScene scene;
+
 			DemoEditor() 
 				: m_open	{ true }
 				, m_material{ "demo_material" }
@@ -197,6 +193,7 @@ namespace ml
 				, m_model	{ "sphere32x24" }
 				, m_renderer{ nullptr }
 				, m_files	{ nullptr }
+				, scene {}
 			{
 			}
 

@@ -10,6 +10,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/OS.hpp>
 #include <ML/Core/FileSystem.hpp>
+#include <ML/Editor/PropertyDrawer.hpp>
 
 namespace ml
 {
@@ -245,9 +246,7 @@ namespace ml
 		// ImGui Demo
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (m_show_imgui_demo)	{ ImGui::ShowDemoWindow(&m_show_imgui_demo); }
-		if (m_show_imgui_metrics) { ImGui::ShowMetricsWindow(&m_show_imgui_metrics); }
 		if (m_show_imgui_style)	{ ImGui::Begin("Style Editor", &m_show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
-		if (m_show_imgui_about)	{ ImGui::ShowAboutWindow(&m_show_imgui_about); }
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -257,11 +256,20 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("File"))
 			{
-				//// File -> New
-				//if (ImGui::MenuItem("New", "Ctrl+N"))
-				//{
-				//	eventSystem().fireEvent(File_New_Event());
-				//}
+				// File -> New
+				if (ImGui::BeginMenu("New", "Ctrl+N"))
+				{
+					void * temp { nullptr };
+
+					if (PropertyDrawer<Image>	()("Create##Image",		(Image *&)temp,		0b1)) {}
+					if (PropertyDrawer<Material>()("Create##Material",	(Material *&)temp,	0b1)) {}
+					if (PropertyDrawer<Model>	()("Create##Model",		(Model *&)temp,		0b1)) {}
+					if (PropertyDrawer<Shader>	()("Create##Shader",	(Shader *&)temp,	0b1)) {}
+					if (PropertyDrawer<Texture>	()("Create##Texture",	(Texture *&)temp,	0b1)) {}
+					
+					eventSystem().fireEvent(File_New_Event());
+					ImGui::EndMenu();
+				}
 				//// File -> Open
 				//if (ImGui::MenuItem("Open", "Ctrl+O"))
 				//{
@@ -337,45 +345,42 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Help"))
 			{
-				if (ImGui::MenuItem("Project Page", "http://"))
+				if (ImGui::MenuItem("Project Page"))
 				{
 					OS::execute("open", ML_PROJECT_URL);
 				}
-				if (ImGui::MenuItem("Downloads", "http://"))
+				if (ImGui::MenuItem("Downloads"))
 				{
 					OS::execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
 				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
-					if (ImGui::MenuItem("assimp", "http://")) OS::execute("open", "https://github.com/assimp/assimp");
-					if (ImGui::MenuItem("cpython", "http://")) OS::execute("open", "https://github.com/python/cpython");
-					if (ImGui::MenuItem("dirent", "http://")) OS::execute("open", "https://github.com/tronkko/dirent");
-					if (ImGui::MenuItem("flac", "http://")) OS::execute("open", "https://github.com/xiph/flac");
-					if (ImGui::MenuItem("FreeType", "http://")) OS::execute("open", "https://www.freetype.org/");
-					if (ImGui::MenuItem("GCEM", "http://")) OS::execute("open", "https://github.com/kthohr/gcem");
-					if (ImGui::MenuItem("GLEW", "http://")) OS::execute("open", "http://glew.sourceforge.net/");
-					if (ImGui::MenuItem("GLFW", "http://")) OS::execute("open", "https://www.glfw.org/");
-					if (ImGui::MenuItem("GLM", "http://")) OS::execute("open", "https://glm.g-truc.net/0.9.9/index.html");
-					if (ImGui::MenuItem("ImGui", "http://")) OS::execute("open", "https://github.com/ocornut/imgui");
-					if (ImGui::MenuItem("ImGuiColorTextEdit", "http://")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
-					if (ImGui::MenuItem("INIReader", "http://")) OS::execute("open", "https://github.com/benhoyt/inih");
-					if (ImGui::MenuItem("Lua", "http://")) OS::execute("open", "https://github.com/lua/lua");
-					if (ImGui::MenuItem("ogg", "http://")) OS::execute("open", "https://github.com/xiph/ogg");
-					if (ImGui::MenuItem("OpenAL", "http://")) OS::execute("open", "https://www.openal.org/");
-					if (ImGui::MenuItem("pdcurses", "http://")) OS::execute("open", "https://github.com/wmcbrine/PDCurses");
-					if (ImGui::MenuItem("pybind11", "http://")) OS::execute("open", "https://github.com/pybind/pybind11");
-					if (ImGui::MenuItem("RakNet", "http://")) OS::execute("open", "http://www.jenkinssoftware.com/");
-					if (ImGui::MenuItem("stb", "http://")) OS::execute("open", "https://github.com/nothings/stb");
-					if (ImGui::MenuItem("vorbis", "http://")) OS::execute("open", "https://github.com/xiph/vorbis");
+					if (ImGui::MenuItem("assimp")) OS::execute("open", "https://github.com/assimp/assimp");
+					if (ImGui::MenuItem("cpython")) OS::execute("open", "https://github.com/python/cpython");
+					if (ImGui::MenuItem("dirent")) OS::execute("open", "https://github.com/tronkko/dirent");
+					if (ImGui::MenuItem("flac")) OS::execute("open", "https://github.com/xiph/flac");
+					if (ImGui::MenuItem("FreeType")) OS::execute("open", "https://www.freetype.org/");
+					if (ImGui::MenuItem("GCEM")) OS::execute("open", "https://github.com/kthohr/gcem");
+					if (ImGui::MenuItem("GLEW")) OS::execute("open", "http://glew.sourceforge.net/");
+					if (ImGui::MenuItem("GLFW")) OS::execute("open", "https://www.glfw.org/");
+					if (ImGui::MenuItem("GLM")) OS::execute("open", "https://glm.g-truc.net/0.9.9/index.html");
+					if (ImGui::MenuItem("ImGui")) OS::execute("open", "https://github.com/ocornut/imgui");
+					if (ImGui::MenuItem("ImGuiColorTextEdit")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
+					if (ImGui::MenuItem("INIReader")) OS::execute("open", "https://github.com/benhoyt/inih");
+					if (ImGui::MenuItem("Lua")) OS::execute("open", "https://github.com/lua/lua");
+					if (ImGui::MenuItem("ogg")) OS::execute("open", "https://github.com/xiph/ogg");
+					if (ImGui::MenuItem("OpenAL")) OS::execute("open", "https://www.openal.org/");
+					if (ImGui::MenuItem("pdcurses")) OS::execute("open", "https://github.com/wmcbrine/PDCurses");
+					if (ImGui::MenuItem("pybind11")) OS::execute("open", "https://github.com/pybind/pybind11");
+					if (ImGui::MenuItem("RakNet")) OS::execute("open", "http://www.jenkinssoftware.com/");
+					if (ImGui::MenuItem("stb")) OS::execute("open", "https://github.com/nothings/stb");
+					if (ImGui::MenuItem("vorbis")) OS::execute("open", "https://github.com/xiph/vorbis");
 
 					ImGui::EndMenu();
 				}
-				ImGui::Separator();
 
 				ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
-				ImGui::MenuItem("ImGui Metrics", "", &m_show_imgui_metrics);
 				ImGui::MenuItem("Style Editor", "", &m_show_imgui_style);
-				ImGui::MenuItem("About Dear ImGui", "", &m_show_imgui_about);
 
 				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Help));
 

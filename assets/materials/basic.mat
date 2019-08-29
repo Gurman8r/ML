@@ -1,4 +1,4 @@
-# demo.mat
+# advanced.mat
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 uniform float		u_camera.fov		{ 45.0 }

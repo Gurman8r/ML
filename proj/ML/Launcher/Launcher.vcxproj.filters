@@ -78,6 +78,9 @@
     <None Include="..\..\..\ML.ini">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\assets\materials\basic.mat">
+      <Filter>Resource Files\assets\materials</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

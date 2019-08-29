@@ -75,7 +75,7 @@ void main()
 	V.Texcoord	= a_Texcoord;
 
 	// Model Matrix
-	mat4 model = angle_axis(vec3(0.0, 1.0, 0.0), u_totalTime);
+	mat4 model = angle_axis(vec3(0.0, 1.0, 0.0), u_totalTime * 0.33);
 
 	// View Matrix
 	mat4 view = look_at(

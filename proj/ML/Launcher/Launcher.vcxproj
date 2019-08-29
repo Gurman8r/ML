@@ -186,7 +186,7 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\materials\basic.mat" />
-    <None Include="..\..\..\assets\materials\demo.mat" />
+    <None Include="..\..\..\assets\materials\advanced.mat" />
     <None Include="..\..\..\assets\materials\skybox.mat" />
     <None Include="..\..\..\assets\scripts\boot.py" />
     <None Include="..\..\..\assets\scripts\load.py" />
@@ -196,8 +196,8 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <None Include="..\..\..\assets\shaders\common\Frag.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Sample.shader" />
     <None Include="..\..\..\assets\shaders\common\Vert.shader" />
-    <None Include="..\..\..\assets\shaders\demo.fs.shader" />
-    <None Include="..\..\..\assets\shaders\demo.vs.shader" />
+    <None Include="..\..\..\assets\shaders\advanced.fs.shader" />
+    <None Include="..\..\..\assets\shaders\advanced.vs.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />
     <None Include="..\..\..\assets\shaders\normal.shader" />
     <None Include="..\..\..\assets\shaders\skybox.shader" />

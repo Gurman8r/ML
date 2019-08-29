@@ -226,7 +226,6 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-		private:
 			bool			m_open;
 			Ref<Material>	m_material;
 			Ref<Model>		m_model;

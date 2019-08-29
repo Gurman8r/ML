@@ -28,12 +28,12 @@ ml.content.load([
     { "type": "Shader", "name": "skybox",       "file": PATH + "/shaders/skybox.shader" },
     #{ "type": "Shader", "name": "sprites",      "file": PATH + "/shaders/sprites.shader" },
     #{ "type": "Shader", "name": "text",         "file": PATH + "/shaders/text.shader" },
-    #{ "type": "Shader", "name": "geometry",     "file": PATH + "/shaders/geometry.shader" },
+    { "type": "Shader", "name": "geometry",     "file": PATH + "/shaders/geometry.shader" },
     {
         "type": "Shader",
-        "name": "demo_shader",
-        "vert": PATH + "/shaders/demo.vs.shader",
-        "frag": PATH + "/shaders/demo.fs.shader"
+        "name": "advanced",
+        "vert": PATH + "/shaders/advanced.vs.shader",
+        "frag": PATH + "/shaders/advanced.fs.shader"
     },
 
 # Textures
@@ -138,6 +138,13 @@ ml.content.load([
         "shader":   "skybox",
         "defaults": "True",
         "uniforms": PATH + "/materials/skybox.mat"
+    },
+    {
+        "type":     "Material",
+        "name":     "advanced",
+        "shader":   "advanced",
+        "defaults": "True",
+        "uniforms": PATH + "/materials/advanced.mat"
     },
     {
         "type":     "Material",

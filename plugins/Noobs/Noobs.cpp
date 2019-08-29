@@ -104,13 +104,19 @@ namespace ml
 		// CD
 		ML_FS.setPath("../../../");
 
-		// Modify Default Uniforms
-		if (Material * m = m_editor.material())
+		// Need to Redirect ALL Viewport Uniforms to Noobs Scene
+		if (uni_vec2_ptr * u = (uni_vec2_ptr *)ML_Content.get<Uniform>("u_viewport"))
 		{
-			// Viewport
-			if (auto u = m->get<uni_vec2_ptr>("u_viewport"))
+			u->data = &m_editor.scene.m_viewport;
+		}
+		for (auto & pair : ML_Content.data<Material>())
+		{
+			if (Material * m { static_cast<Material *>(pair.second) })
 			{
-				u->data = &m_editor.scene.m_viewport;
+				if (uni_vec2_ptr * u = m->get<uni_vec2_ptr>("u_viewport"))
+				{
+					u->data = &m_editor.scene.m_viewport;
+				}
 			}
 		}
 
@@ -512,16 +518,11 @@ namespace ml
 					ImGui::NewLine();
 
 					// Toggle Demo Files (start at one to always show config)
-					for (size_t i = 0; i < m_files.size(); i++)
+					for (size_t i = 0; i < m_files.size() - 1; i++)
 					{
 						if (!m_files[i]) { continue; }
 						if (i > 0) { ImGui::SameLine(); }
 						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
-					}
-
-					if (m_files[DemoFile::Geom]->open)
-					{
-						// do the thing
 					}
 
 					ImGui::NewLine(); ImGui::Separator(); ImGui::NewLine();

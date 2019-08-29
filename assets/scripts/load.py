@@ -1,8 +1,7 @@
 import memelib as ml
-
 PATH = "../../../assets"
-
 ml.content.load([
+
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     {
@@ -153,6 +152,6 @@ ml.content.load([
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.mat"
     }
-    ])
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+    ])

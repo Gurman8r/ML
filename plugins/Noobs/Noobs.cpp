@@ -491,6 +491,8 @@ namespace ml
 							))
 						{
 							this->renderer()->setMaterial(mtl);
+							this->reset_sources();
+							this->generate_sources();
 						}
 					}
 					ImGuiExt::Tooltip("Specifies the targeted material");

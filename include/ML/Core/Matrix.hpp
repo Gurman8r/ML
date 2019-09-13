@@ -122,57 +122,13 @@ namespace ml
 			return temp;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static constexpr self_type ortho(
-			const_reference left,
-			const_reference right,
-			const_reference bottom,
-			const_reference top)
+		inline self_type & update(const_pointer value)
 		{
-			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
-			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = constant_t<T>::two / (right - left);
-			temp[1 * 4 + 1] = constant_t<T>::two / (top - bottom);
-			temp[2 * 4 + 2] = constant_t<T>::minus_one;
-			temp[3 * 4 + 0] = -(right + left) / (right - left);
-			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
-			return temp;
-		}
-
-		static constexpr self_type ortho(
-			const_reference left,
-			const_reference right,
-			const_reference bottom,
-			const_reference top,
-			const_reference near,
-			const_reference far)
-		{
-			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
-			self_type temp { self_type::identity() };
-			temp[0 * 4 + 0] = constant_t<T>::two / (right - left);
-			temp[1 * 4 + 1] = constant_t<T>::two / (top - bottom);
-			temp[3 * 4 + 0] = -(right + left) / (right - left);
-			temp[3 * 4 + 1] = -(top + bottom) / (top - bottom);
-			temp[2 * 4 + 2] = -constant_t<T>::two / (far - near);
-			temp[3 * 4 + 2] = -(far + near) / (far - near);
-			return temp;
-		}
-
-		static constexpr self_type persp(
-			const_reference fov,
-			const_reference aspect,
-			const_reference near,
-			const_reference far)
-		{
-			static_assert((X == 4 && Y == 4), "matrix must be 4x4");
-			self_type temp { uninit };
-			temp[0 * 4 + 0] = constant_t<T>::one / (aspect * alg::tan(fov / constant_t<T>::two));
-			temp[1 * 4 + 1] = constant_t<T>::one / alg::tan(fov / constant_t<T>::two);
-			temp[2 * 4 + 3] = constant_t<T>::minus_one;
-			temp[2 * 4 + 2] = -(far + near) / (far - near);
-			temp[3 * 4 + 3] = -(constant_t<T>::two * far * near) / (far - near);
-			return temp;
+			for (size_t i = 0; i < Size; i++)
+			{
+				m_data[i] = value[i];
+			}
+			return (*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -544,35 +500,6 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
-	namespace alg
-	{
-		static inline mat4 look_at(const vec3 & eye, const vec3 & center, const vec3 & up)
-		{
-			vec3 f = alg::normalize(center - eye);
-			vec3 s = alg::normalize(alg::cross(f, up));
-			vec3 u = alg::cross(s, f);
-			mat4 m = mat4::one();
-			m[0 * 4 + 0] = s[0];
-			m[1 * 4 + 0] = s[1];
-			m[2 * 4 + 0] = s[2];
-			m[0 * 4 + 1] = u[0];
-			m[1 * 4 + 1] = u[1];
-			m[2 * 4 + 1] = u[2];
-			m[0 * 4 + 2] = -f[0];
-			m[1 * 4 + 2] = -f[1];
-			m[2 * 4 + 2] = -f[2];
-			m[3 * 4 + 0] = -alg::dot(s, eye);
-			m[3 * 4 + 1] = -alg::dot(u, eye);
-			m[3 * 4 + 2] = alg::dot(f, eye);
-			return m;
-		}
-	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

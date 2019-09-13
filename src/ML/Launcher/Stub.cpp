@@ -100,6 +100,7 @@ namespace ml
 			constexpr auto tri		= geo::tri::contiguous;
 			constexpr auto quad		= geo::quad::contiguous;
 			constexpr auto cube		= geo::cube::contiguous;
+			constexpr auto sky		= geo::sky::contiguous;
 		}
 
 		// Camera Tests
@@ -109,8 +110,8 @@ namespace ml
 			constexpr auto aspect	= (res[0] / res[1]);
 			constexpr auto zNear	= 0.1f;
 			constexpr auto zFar		= 1000.f;
-			constexpr auto persp	= mat4::persp(fov, aspect, zNear, zFar);
-			constexpr auto ortho	= mat4::ortho(0, res[0], res[1], 0);
+			//constexpr auto persp	= mat4::persp(fov, aspect, zNear, zFar);
+			//constexpr auto ortho	= mat4::ortho(0, res[0], res[1], 0);
 		}
 	}
 

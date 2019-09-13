@@ -40,13 +40,14 @@ namespace ml
 		void onExit			(const ExitEvent & ev);
 
 	private:
-		vec2		m_cursorPos		{ uninit };
-		float_t		m_deltaTime		{ uninit };
-		int32_t		m_frameCount	{ uninit };
-		float_t		m_frameRate		{ uninit };
-		vec2		m_viewport		{ uninit };
-		float_t		m_totalTime		{ uninit };
-
+		vec2	m_cursorPos		{ uninit };
+		float_t	m_deltaTime		{ uninit };
+		int32_t	m_frameCount	{ uninit };
+		float_t	m_frameRate		{ uninit };
+		vec2	m_viewport		{ uninit };
+		float_t	m_totalTime		{ uninit };
+		mat4	m_proj			{ uninit };
+		mat4	m_view			{ uninit };
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

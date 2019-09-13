@@ -458,7 +458,9 @@ namespace ml
 		}
 
 		ImGui::NextColumn();
-
+#if 1
+		ImGui::Text("Image previews currently disabled.");
+#else
 		// Temporary Texture
 		Ref<Texture> preview { "##PropertyDrawer##Image##Preview##" + label };
 		if (!preview && !preview.create())
@@ -496,6 +498,7 @@ namespace ml
 			ImGui::Image(preview->get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 			ImGui::EndChild();
 		}
+#endif
 
 		ImGui::Columns(1);
 		return changed;

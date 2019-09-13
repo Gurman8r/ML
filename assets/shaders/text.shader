@@ -22,12 +22,12 @@ void main()
 	V.Normal = a_Normal;
 	V.Texcoord = a_Texcoord;
 
-	mat4 proj = orthographic(
+	mat4 p = orthographic(
 		0.0, u_viewport.x,
 		0.0, u_viewport.y
 	);
 
-	gl_Position = proj * vec4(V.Position, 1.0);
+	gl_Position = p * vec4(V.Position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

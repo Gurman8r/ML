@@ -44,8 +44,8 @@ namespace ml
 		> inline bool loadFromMemory(const A<Vertex, V> & v, const A<uint32_t, I> & i)
 		{
 			return loadFromMemory(
-				List<Vertex>	{ v.begin(), v.end() },
-				List<uint32_t>	{ i.begin(), i.end() }
+				List<Vertex> { v.begin(), v.end() },
+				List<uint32_t> { i.begin(), i.end() }
 			);
 		}
 

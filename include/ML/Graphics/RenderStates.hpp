@@ -18,6 +18,8 @@ namespace ml
 
 		virtual RenderSetting * clone() const = 0;
 
+		virtual RenderSetting * reverted() const = 0;
+
 		virtual const RenderSetting & operator()() const = 0;
 	};
 
@@ -51,11 +53,8 @@ namespace ml
 		{
 		}
 
-		inline AlphaState * clone() const override
-		{
-			return new AlphaState { enabled, predicate, coeff };
-		}
-
+		AlphaState * clone() const override;
+		AlphaState * reverted() const override;
 		const AlphaState & operator()() const override;
 	};
 
@@ -98,11 +97,8 @@ namespace ml
 		{
 		}
 
-		inline BlendState * clone() const override
-		{
-			return new BlendState { enabled, srcRGB, srcAlpha, dstRGB, dstAlpha };
-		}
-
+		BlendState * clone() const override;
+		BlendState * reverted() const override;
 		const BlendState & operator()() const override;
 	};
 
@@ -134,11 +130,8 @@ namespace ml
 		{
 		}
 
-		inline CullState * clone() const override
-		{
-			return new CullState { enabled, face };
-		}
-
+		CullState * clone() const override;
+		CullState * reverted() const override;
 		const CullState & operator()() const override;
 	};
 
@@ -157,6 +150,11 @@ namespace ml
 		{
 		}
 
+		DepthState(bool enabled, bool mask)
+			: DepthState(enabled, (GL::Predicate)0, mask)
+		{
+		}
+
 		DepthState(const DepthState & copy) 
 			: DepthState(copy.enabled)
 		{
@@ -172,19 +170,14 @@ namespace ml
 		{
 		}
 
-		inline DepthState * clone() const override
-		{
-			return new DepthState { enabled, predicate, mask };
-		}
-
+		DepthState * clone() const override;
+		DepthState * reverted() const override;
 		const DepthState & operator()() const override;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API RenderStates final 
-		: public I_Newable
-		, public I_Disposable
+	struct ML_GRAPHICS_API RenderStates final : public I_Newable, public I_Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -208,33 +201,25 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
+
 		const RenderStates & apply() const;
-		const RenderStates & revert() const; // WIP
+
+		RenderStates * clone() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline iterator find(key_type key)
-		{ 
-			return m_map.find(key);
-		}
+		inline iterator find(key_type key) { return m_map.find(key); }
 
-		inline const_iterator find(key_type key) const
-		{ 
-			return m_map.find(key);
-		}
+		inline const_iterator find(key_type key) const { return m_map.find(key); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline iterator find()
+		template <class T> inline iterator find()
 		{
 			return this->find(typeid(T).hash_code());
 		}
 
-		template <
-			class T
-		> inline const_iterator find() const
+		template <class T> inline const_iterator find() const
 		{
 			return this->find(typeid(T).hash_code());
 		}
@@ -246,20 +231,16 @@ namespace ml
 			return m_map.insert({ key, value }).first;
 		}
 
-		template <
-			class T
-		> inline T * insert(mapped_type value)
+		template <class T> inline T * insert(mapped_type value)
 		{
-			iterator it;
-			return ((value && ((it = this->find<T>()) == this->end()))
+			iterator it { this->find<T>() };
+			return ((value && (it == this->end()))
 				? reinterpret_cast<T *>(this->insert(value->get_type_hash(), value)->second)
 				: nullptr
 			);
 		}
 
-		template <
-			class T, class ... Args
-		> inline T * create(Args && ... args)
+		template <class T, class ... Args> inline T * create(Args && ... args)
 		{
 			return ((this->find(typeid(T).hash_code()) == this->end())
 				? this->insert<T>(new T { std::forward<Args>(args)... })
@@ -269,23 +250,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline T * get()
+		template <class T> inline T * get()
 		{
-			iterator it;
-			return (((it = this->find<T>()) != this->end())
+			iterator it { this->find<T>() };
+			return ((it != this->end())
 				? reinterpret_cast<T *>(it->second)
 				: nullptr
 			);
 		}
 
-		template <
-			class T
-		> inline const T * get() const
+		template <class T> inline const T * get() const
 		{
-			const_iterator it;
-			return (((it = this->find<T>()) != this->end())
+			const_iterator it { this->find<T>() };
+			return ((it != this->end())
 				? reinterpret_cast<const T *>(it->second)
 				: nullptr
 			);

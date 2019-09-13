@@ -76,7 +76,7 @@ namespace ml
 			return false;
 		}
 
-		template <class ... Args >
+		template <class ... Args>
 		inline pointer create(Args && ... args)
 		{
 			if (m_changed || (!m_data && m_name))

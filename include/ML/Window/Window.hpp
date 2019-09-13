@@ -14,6 +14,7 @@
 #include <ML/Window/WindowStyle.hpp>
 
 #define ML_ASPECT(w, h) ((w != 0 && h != 0) ? ((float_t)w / (float_t)(h)) : 0.0f)
+#define ML_ASPECT_2(v)	ML_ASPECT(v[0], v[1])
 
 namespace ml
 {
@@ -105,9 +106,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto aspect()		const -> const float_t			{ return ML_ASPECT(width(), height()); };
+		inline auto aspect()		const -> const float_t			{ return ML_ASPECT_2(size()); };
 		inline auto context()		const -> const ContextSettings &{ return m_context; }
-		inline auto frame_aspect()	const -> float_t				{ return ML_ASPECT(frame_width(), frame_height()); };
+		inline auto frame_aspect()	const -> float_t				{ return ML_ASPECT_2(getFrameSize()); };
 		inline auto frame_height()	const -> int32_t				{ return getFrameSize()[1]; }
 		inline auto frame_width()	const -> int32_t				{ return getFrameSize()[0]; }
 		inline auto height()		const -> const uint32_t	&		{ return size()[1]; }

@@ -25,10 +25,40 @@
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 {
 	return new ml::Noobs { eventSystem };
 }
+
+/* * * * * * * * * * * * * * * * * * * * */
+
+namespace ml
+{
+	template <
+		class U, class T
+	> static inline auto redirect_uni_ptr(const String & name, const T * value)
+	{
+		if (!name) return;
+		if (U * u = (U *)ML_Content.get<Uniform>(name))
+		{
+			u->data = value;
+		}
+		for (auto & pair : ML_Content.data<Material>())
+		{
+			if (Material * m { static_cast<Material *>(pair.second) })
+			{
+				if (U * u = m->get<U>(name))
+				{
+					u->data = value;
+				}
+			}
+		}
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -36,8 +66,6 @@ namespace ml
 
 	Noobs::Noobs(EventSystem & eventSystem)
 		: Plugin		{ eventSystem }
-		, m_pipeline	{}
-		, m_editor		{}
 	{
 		eventSystem.addListener(StartEvent::ID,			this);
 		eventSystem.addListener(UpdateEvent::ID,		this);
@@ -69,6 +97,12 @@ namespace ml
 				{
 					eventSystem().fireEvent(WindowFullscreenEvent { -1 });
 				}
+
+				// Compile Sources
+				if (ev->isSave())
+				{
+					m_editor.compile_sources();
+				}
 			}
 			break;
 
@@ -79,8 +113,8 @@ namespace ml
 				{
 				case MainMenuBarEvent::Window:
 					ImGui::Separator();
-					ImGui::MenuItem("Scene##Enable##Noobs##DemoScene", "", &m_editor.scene.m_open);
-					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.is_open());
+					ImGui::MenuItem("Scene##Enable##Noobs##DemoScene", "", &m_editor.m_scene.m_open);
+					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.m_open);
 					break;
 				}
 			}
@@ -101,33 +135,32 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		// CD
+		// Set Path
 		ML_FS.setPath("../../../");
 
-		// Need to Redirect ALL Viewport Uniforms to Noobs Scene
-		if (uni_vec2_ptr * u = (uni_vec2_ptr *)ML_Content.get<Uniform>("u_viewport"))
-		{
-			u->data = &m_editor.scene.m_viewport;
-		}
-		for (auto & pair : ML_Content.data<Material>())
-		{
-			if (Material * m { static_cast<Material *>(pair.second) })
-			{
-				if (uni_vec2_ptr * u = m->get<uni_vec2_ptr>("u_viewport"))
-				{
-					u->data = &m_editor.scene.m_viewport;
-				}
-			}
-		}
+		// Setup Uniforms
+		redirect_uni_ptr<uni_vec2_ptr>("u_viewport", &m_editor.m_scene.m_viewport);
 
 		// Create Editor Entity
-		if (Entity * e = m_editor.entity().create())
+		if (Entity * e = m_editor.m_entity.create())
 		{
 			// Create Editor Renderer
-			m_editor.renderer() = e->add<Renderer>(
-				m_editor.model(),
-				m_editor.material(),
+			m_editor.m_renderer = e->add<Renderer>(
+				m_editor.m_model,
+				m_editor.m_material,
 				RenderStates::get_default()
+			);
+			m_editor.m_renderer->states().get<CullState>()->enabled = false;
+		}
+
+		// Create Skybox Entity
+		if (Entity * e = m_editor.m_skybox.entity.create())
+		{
+			// Create Skybox Renderer
+			m_editor.m_skybox.renderer = e->add<Renderer>(
+				m_editor.m_skybox.model, 
+				m_editor.m_skybox.material, 
+				RenderStates { { new DepthState { true, false } } }
 			);
 		}
 
@@ -138,8 +171,8 @@ namespace ml
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
 		// Update Viewports
-		if (auto & surf { m_pipeline[Surf_Main] }) { surf->update(m_editor.scene.m_viewport); }
-		if (auto & surf { m_pipeline[Surf_Post] }) { surf->update(m_editor.scene.m_viewport); }
+		if (auto & surf { m_pipeline[Surf_Main] }) { surf->update(m_editor.m_scene.m_viewport); }
+		if (auto & surf { m_pipeline[Surf_Post] }) { surf->update(m_editor.m_scene.m_viewport); }
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)
@@ -147,28 +180,22 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Render to Main Surface
-		m_pipeline.render_to(Surf_Main, [&]()
+		m_pipeline[Surf_Main]->render_to([&]() 
 		{
 			// Set Viewport
-			ev.window.setViewport({ 0, 0 }, m_editor.scene.m_viewport);
+			ev.window.setViewport({ 0, 0 }, m_editor.m_scene.m_viewport);
 
 			// Clear Sceen
-			ev.window.clear(m_editor.scene.m_clearColor);
+			ev.window.clear(m_editor.m_scene.m_clearColor);
 
 			// Draw Skybox
-			if (m_editor.scene.m_skybox.enabled &&
-				m_editor.scene.m_skybox.material && 
-				m_editor.scene.m_skybox.model)
+			if (m_editor.m_skybox.enabled)
 			{
-				ML_GL.depthMask(false);
-				m_editor.scene.m_skybox.material->bind();
-				ev.window.draw(m_editor.scene.m_skybox.model);
-				m_editor.scene.m_skybox.material->unbind();
-				ML_GL.depthMask(true);
+				ev.window.draw(m_editor.m_skybox.renderer);
 			}
 
 			// Draw Renderer
-			ev.window.draw(m_editor.renderer());
+			ev.window.draw(m_editor.m_renderer);
 		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -186,16 +213,16 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Render to Post Surface
-		m_pipeline.render_to(Surf_Post, [&]()
+		m_pipeline[Surf_Post]->render_to([&]()
 		{
 			// Set Viewport
-			ev.window.setViewport({ 0, 0 }, m_editor.scene.m_viewport);
+			ev.window.setViewport({ 0, 0 }, m_editor.m_scene.m_viewport);
 
 			// Apply Effects to Main
 			if (Surface * surf { m_pipeline[Surf_Main] })
 			{
-				surf->setUniform(&m_editor.scene.m_effectMode);
-				surf->setUniform(&m_editor.scene.m_kernel);
+				surf->setUniform("u_effectMode", 0);
+				surf->setUniform("u_kernel", mat3 { -1, -1, -1, -1, 9, -1, -1, -1, -1 });
 				ev.window.draw(surf);
 			}
 		});
@@ -206,7 +233,7 @@ namespace ml
 	void Noobs::onGui(const GuiEvent & ev)
 	{
 		// Render Scene
-		m_editor.scene.render(ev, "Scene##Noobs##DemoScene", m_pipeline[Surf_Post]);
+		m_editor.m_scene.render(ev, "Scene##Noobs##DemoScene", m_pipeline[Surf_Post]);
 		
 		// Render Editor
 		m_editor.render(ev, "Editor##Noobs##DemoEditor");
@@ -332,11 +359,11 @@ namespace ml
 					{
 						this->compile_sources();
 					}
-					ImGuiExt::Tooltip("Build shader source code");
+					ImGuiExt::Tooltip("(Ctrl+S) Build shader source code");
 					ImGui::SameLine();
 
 					// Rebuild
-					if (ImGui::Button("Revert"))
+					if (ImGui::Button("Refresh"))
 					{
 						this->reset_sources();
 						this->generate_sources();
@@ -481,16 +508,16 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-					const Material * mtl = this->material();
+					const Material * mtl = m_material;
 					if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 					{
-						if ((this->material().get() != mtl) &&
-							this->material().update(
+						if ((m_material.get() != mtl) &&
+							m_material.update(
 								ML_Content.get_name<Material>(mtl),
 								std::remove_cv_t<Material *>(mtl)
 							))
 						{
-							this->renderer()->setMaterial(mtl);
+							m_renderer->setMaterial(mtl);
 							this->reset_sources();
 							this->generate_sources();
 						}
@@ -502,16 +529,16 @@ namespace ml
 					const Model * mdl = (const Model *)m_renderer->drawable();
 					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 					{
-						this->renderer()->setDrawable(mdl);
+						m_renderer->setDrawable(mdl);
 					}
 					ImGuiExt::Tooltip("Specifies model to be drawn");
 
 					ImGui::NewLine();
 
-					const Shader * shd = this->shader();
+					const Shader * shd = m_material->shader();
 					if (PropertyDrawer<Shader>()("Shader##Material##Noobs", shd))
 					{
-						this->shader() = shd;
+						m_material->shader() = shd;
 						this->reset_sources();
 						this->generate_sources();
 					}
@@ -555,44 +582,41 @@ namespace ml
 					static int32_t index = 0;
 					if (ImGuiExt::Combo("Viewport", &index, mode_names))
 					{
-						scene.m_freeAspect = (index == 0);
+						m_scene.m_freeAspect = (index == 0);
 					}
-					if (!scene.m_freeAspect)
+					if (!m_scene.m_freeAspect)
 					{
-						scene.m_viewport = (vec2i)mode_values[index - 1].size;
+						m_scene.m_viewport = (vec2i)mode_values[index - 1].size;
 					}
 
 					ImGui::NewLine();
 
 					// Clear Color
-					ImGui::ColorEdit4("Clear Color", &scene.m_clearColor[0]);
+					ImGui::ColorEdit4("Clear Color", &m_scene.m_clearColor[0]);
 
 					ImGui::NewLine();
 
 					// Enable Skybox
-					ImGui::Checkbox("Enable Skybox", &scene.m_skybox.enabled);
+					ImGui::Checkbox("Enable Skybox", &m_skybox.enabled);
 
 					ImGui::NewLine();
 
-					if (0)
-					{
-						// Effect Mode
-						ImGuiExt::Combo("Effect Mode", &scene.m_effectMode.data,
-							"Default\0"
-							"Grayscale\0"
-							"Blur\0"
-							"Kernel\0"
-							"Inverted\0"
-						);
+#if 0
+					// Effect Mode
+					ImGuiExt::Combo("Effect Mode", &m_scene.m_effectMode.data,
+						"Default\0"
+						"Grayscale\0"
+						"Blur\0"
+						"Kernel\0"
+						"Inverted\0"
+					);
+					ImGui::NewLine();
 
-						ImGui::NewLine();
-
-						// Kernel
-						PropertyDrawer<Uniform>()("##Kernel", (Uniform &)scene.m_kernel);
-						ImGui::SameLine(); ImGui::Text("Kernel");
-
-						ImGui::NewLine();
-					}
+					// Kernel
+					PropertyDrawer<Uniform>()("##Kernel", (Uniform &)m_scene.m_kernel);
+					ImGui::SameLine(); ImGui::Text("Kernel");
+					ImGui::NewLine();
+#endif
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -929,6 +953,18 @@ namespace ml
 		ImGui::End();
 		ImGui::PopID();
 	}
+	
+	bool Noobs::DemoEditor::dispose()
+	{
+		for (size_t i = 0; i < m_files.size(); i++)
+		{
+			if (m_files[i])
+			{
+				delete m_files[i];
+			}
+		}
+		return true;
+	}
 
 	void Noobs::DemoEditor::generate_sources()
 	{
@@ -936,7 +972,7 @@ namespace ml
 
 		auto setup_file = [&](DemoFile::Type type, const String & src)
 		{
-			if (this->material() && this->shader())
+			if (m_material && m_material->shader())
 			{
 				if (!m_files[type])
 				{
@@ -954,21 +990,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (!this->material()) return;
+		if (!m_material) return;
 
-		if (auto vert = setup_file(DemoFile::Vert, this->shader()->sources().vs))
+		if (auto vert = setup_file(DemoFile::Vert, m_material->shader()->sources().vs))
 		{
-			vert->open = this->shader()->sources().vs;
+			vert->open = m_material->shader()->sources().vs;
 		}
 
-		if (auto frag = setup_file(DemoFile::Frag, this->shader()->sources().fs))
+		if (auto frag = setup_file(DemoFile::Frag, m_material->shader()->sources().fs))
 		{
-			frag->open = this->shader()->sources().fs;
+			frag->open = m_material->shader()->sources().fs;
 		}
 
-		if (auto geom = setup_file(DemoFile::Geom, this->shader()->sources().gs))
+		if (auto geom = setup_file(DemoFile::Geom, m_material->shader()->sources().gs))
 		{
-			geom->open = this->shader()->sources().gs;
+			geom->open = m_material->shader()->sources().gs;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -976,9 +1012,9 @@ namespace ml
 
 	bool Noobs::DemoEditor::compile_sources()
 	{
-		if (m_material && shader())
+		if (m_material && m_material->shader())
 		{
-			if (Shader * s = std::remove_cv_t<Shader *>(this->shader()))
+			if (Shader * s = std::remove_cv_t<Shader *>(m_material->shader()))
 			{
 				for (DemoFile *& f : m_files)
 				{

@@ -44,62 +44,63 @@ namespace ml
 		void onGui		(const GuiEvent		& ev);
 		void onExit		(const ExitEvent	& ev);
 
-		// DEMO SKYBOX
+		// SKYBOX
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoSkybox final : public I_Newable, public I_NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			bool enabled { false };
+			bool			enabled;
+			Ref<Entity>		entity;
+			Renderer *		renderer;
+			Ref<Material>	material;
+			Ref<Model>		model;
 
-			Ref<Model>		model		{ "skybox" };
-			Ref<Material>	material	{ "skybox" };
+			DemoSkybox(const String & name)
+				: enabled	{ false }
+				, entity	{ name }
+				, renderer	{ nullptr }
+				, material	{ "skybox" }
+				, model		{ "skybox" }
+			{
+			}
 
-			DemoSkybox() = default;
+			inline operator bool() const
+			{
+				return enabled && renderer && entity && material && model;
+			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
 
-		// DEMO PIPELINE
+		// PIPELINE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		enum : size_t
+		enum : size_t 
 		{
 			Surf_Main, 
-			Surf_Post,
+			Surf_Post, 
 			MAX_DEMO_SURFACE
 		};
-		struct DemoPipeline final : public I_NonCopyable, public Array<
-			Ref<Surface>, MAX_DEMO_SURFACE
-		>
+		
+		Array<Ref<Surface>, MAX_DEMO_SURFACE> m_pipeline 
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			DemoPipeline() : Array {
-				Ref<Surface> { "surf_scene_main" },
-				Ref<Surface> { "surf_scene_post" },
-			}
-			{
-			}
-
-			template <
-				class Fun, class ... Args
-			> inline void render_to(size_t i, Fun && fun, Args && ... args)
-			{
-				if (Surface * surf { (*this)[i] })
-				{
-					surf->render_to(fun, std::forward<Args>(args)...);
-				}
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-		} m_pipeline;
+			Ref<Surface> { "surf_scene_main" },
+			Ref<Surface> { "surf_scene_post" },
+		};
 
 
-		// DEMO SCENE
+		// SCENE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoScene final : public I_Newable, public I_NonCopyable
 		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			bool m_open;
+			bool m_freeAspect;
+			vec4 m_clearColor;
+			vec2 m_viewport;
+
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			DemoScene() 
@@ -107,9 +108,6 @@ namespace ml
 				, m_freeAspect	{ true }
 				, m_clearColor	{ Color::black }
 				, m_viewport	{ 1920, 1080 }
-				, m_skybox		{}
-				, m_effectMode	{ "u_effectMode", 0 }
-				, m_kernel		{ "u_kernel", { -1, -1, -1, -1, 9, -1, -1, -1, -1 } }
 			{
 			}
 
@@ -118,20 +116,10 @@ namespace ml
 			void render(const GuiEvent & ev, C_String title, const Surface * surf);
 
 			/* * * * * * * * * * * * * * * * * * * * */
-
-			bool		m_open;
-			bool		m_freeAspect;
-			vec4		m_clearColor;
-			vec2		m_viewport;
-			DemoSkybox	m_skybox;
-			uni_int		m_effectMode;
-			uni_mat3	m_kernel;
-
-			/* * * * * * * * * * * * * * * * * * * * */
-		};
+		} m_scene;
 
 
-		// DEMO FILE
+		// FILE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoFile final : public I_Newable, public I_NonCopyable
 		{
@@ -139,14 +127,11 @@ namespace ml
 
 			enum Type : size_t
 			{
-				Vert, Frag, Geom, 
-				MAX_DEMO_FILE_TYPE
+				Vert, Frag, Geom, MAX_DEMO_FILE
 			};
 
-			static constexpr C_String Names[MAX_DEMO_FILE_TYPE] = {
-				"Vertex",
-				"Fragment",
-				"Geometry",
+			static constexpr C_String Names[MAX_DEMO_FILE] = {
+				"Vertex", "Fragment", "Geometry",
 			};
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -161,77 +146,58 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			DemoFile(Type type, const String & data)
+			DemoFile(Type type, const String & text)
 				: type	{ type }
-				, text	{ data, TextEditor::LanguageDefinition::GLSL() }
+				, text	{ text, TextEditor::LanguageDefinition::GLSL() }
 				, name	{ Names[type] }
 				, open	{ false }
 				, dirty { false }
 			{
 			}
 
+			~DemoFile() {}
+
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
 
-		// DEMO EDITOR
+		// EDITOR
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoEditor final : public I_Newable, public I_NonCopyable
+		struct DemoEditor final 
+			: public I_Newable
+			, public I_NonCopyable
+			, public I_Disposable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			using File_List = typename Array<DemoFile *, DemoFile::MAX_DEMO_FILE_TYPE>;
+			using File_List = typename Array<DemoFile *, DemoFile::MAX_DEMO_FILE>;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			DemoScene scene;
+			bool			m_open		{ true };
+			Ref<Entity>		m_entity	{ "demo_entity" };
+			Ref<Material>	m_material	{ "demo_material" };
+			Ref<Model>		m_model		{ "default_quad" };
+			Renderer *		m_renderer	{ nullptr };
+			File_List		m_files		{ nullptr };
+			DemoSkybox		m_skybox	{ "demo_skybox" };
+			DemoScene		m_scene		{};
 
-			DemoEditor() 
-				: m_open	{ true }
-				, m_material{ "demo_material" }
-				, m_entity	{ "demo_entity" }
-				, m_model	{ "sphere32x24" }
-				, m_renderer{ nullptr }
-				, m_files	{ nullptr }
-				, scene {}
-			{
-			}
+			uni_mat4 view { "u_view", mat4 {} };
+			uni_mat4 proj { "u_proj", mat4 {} };
 
-			~DemoEditor() 
-			{ 
-				for (size_t i = 0; i < m_files.size(); i++)
-				{
-					if (m_files[i])
-					{
-						delete m_files[i];
-					}
-				}
-			}
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			DemoEditor() {}
+			~DemoEditor() { dispose(); }
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			void	render(const GuiEvent & ev, C_String title);
+			bool	dispose() override;
 			void	generate_sources();
 			bool	compile_sources();
 			void	reset_sources();
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			inline auto is_open()	-> bool &			{ return m_open; }
-			inline auto material()	-> Ref<Material> &	{ return m_material; }
-			inline auto model()		-> Ref<Model> &		{ return m_model; }
-			inline auto shader()	-> const Shader *&	{ return m_material->shader(); }
-			inline auto entity()	-> Ref<Entity> &	{ return m_entity; }
-			inline auto renderer()	-> Renderer *&		{ return m_renderer; }
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			bool			m_open;
-			Ref<Material>	m_material;
-			Ref<Model>		m_model;
-			Ref<Entity>		m_entity;
-			Renderer *		m_renderer;
-			File_List		m_files;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} m_editor;

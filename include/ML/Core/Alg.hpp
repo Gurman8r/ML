@@ -678,31 +678,9 @@ namespace ml
 		> static constexpr M<T, 3, 1> cross(const M<T, 3, 1> & a, const M<T, 3, 1> & b)
 		{
 			return M<T, 3, 1> {
-				(a[1] * b[2]) - (a[2] * b[1]),
-				(a[2] * b[0]) - (a[0] * b[2]),
-				(a[0] * b[1]) - (a[1] * b[0])
-			};
-		}
-
-		// this needs to be made constexpr, normalize functions causing problems?
-		template <
-			template <class, size_t, size_t> class M,
-			class T
-		> static inline M<T, 4, 4> lookAt(
-			const M<T, 3, 1> & eye, 
-			const M<T, 3, 1> & center,
-			const M<T, 3, 1> & up
-		)
-		{
-			using cast = constant_t<T>;
-			const M<T, 3, 1> f = ML_ALG normalize(center - eye);
-			const M<T, 3, 1> s = ML_ALG normalize(ML_ALG cross(f, up));
-			const M<T, 3, 1> u = ML_ALG cross(s, f);
-			return M<T, 4, 4> { 
-				s[0], u[0], -f[0], cast::one, 
-				s[1], u[1], -f[1], cast::one, 
-				s[2], u[2], -f[2], cast::one, 
-				-ML_ALG dot(s, eye), -ML_ALG dot(u, eye), ML_ALG dot(f, eye), cast::one
+				a[1] * b[2] - b[1] * a[2],
+				a[2] * b[0] - b[2] * a[0],
+				a[0] * b[1] - b[0] * a[1]
 			};
 		}
 

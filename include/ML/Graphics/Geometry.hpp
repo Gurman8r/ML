@@ -74,16 +74,9 @@ namespace ml
 				size_t V, size_t I
 			> struct static_mesh
 			{
-				struct num final
-				{
-					static constexpr size_t vertices	{ V };
-					static constexpr size_t indices		{ I };
-					static constexpr size_t contiguous	{ vertices * Vertex::Size };
-				};
-
-				using vertices_t	= typename Array<Vertex,	num::vertices>;
-				using indices_t		= typename Array<uint32_t,	num::indices>;
-				using contiguous_t	= typename Array<float_t,	num::contiguous>;
+				using vertices_t	= typename Array<Vertex,	V>;
+				using indices_t		= typename Array<uint32_t,	I>;
+				using contiguous_t	= typename Array<float_t,	V * Vertex::Size>;
 
 				static constexpr contiguous_t Contiguous(const vertices_t & value)
 				{

@@ -18,10 +18,9 @@ out vec4 gl_Color;
 uniform struct Camera
 {
 	vec3	pos;		// Position of camera
-	vec3	target;		// Where is the camera looking?
 	float	fov;		// Field of View
-	float	zNear;		// Near Clipping Distance
-	float	zFar;		// Far Clipping Distance
+	float	near;		// Near Clipping Distance
+	float	far;		// Far Clipping Distance
 } u_camera;
 
 uniform vec2		u_cursorPos;	// Position of Cursor

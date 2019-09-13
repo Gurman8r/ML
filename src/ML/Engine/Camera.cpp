@@ -40,7 +40,6 @@ namespace ml
 		if (m_changed)
 		{
 			m_changed = false;
-			m_matrix = alg::lookAt(m_position, m_target, m_up);
 		}
 		return (*this);
 	}

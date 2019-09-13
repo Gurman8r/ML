@@ -3,9 +3,8 @@
 
 uniform float		u_camera.fov		{ 45.0 }
 uniform vec3		u_camera.pos		{ 1.0, 0.0, 3.0 }
-uniform vec3		u_camera.target		{ 0.0, 0.0, 0.0 }
-uniform float		u_camera.zNear		{ 0.001 }
-uniform float		u_camera.zFar		{ 1000.0 }
+uniform float		u_camera.near		{ 0.001 }
+uniform float		u_camera.far		{ 1000.0 }
 uniform color		u_color				{ 1.0, 1.0, 1.0, 1.0 }
 uniform vec3		u_lightPos			{ 0.0, 0.0, 30.0 }
 uniform color		u_ambient			{ 0.01, 0.01, 0.01, 1.0 }

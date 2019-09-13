@@ -19,7 +19,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderStates::RenderStates() : m_map() {}
+	RenderStates::RenderStates() 
+		: m_map	{}
+	{
+	}
 
 	RenderStates::RenderStates(List<mapped_type> && data)
 		: RenderStates()
@@ -71,12 +74,32 @@ namespace ml
 		return (*this);
 	}
 
-	const RenderStates & RenderStates::revert() const
+	RenderStates * RenderStates::clone() const
 	{
-		return (*this);
+		RenderStates * temp { new RenderStates {} };
+		for (const auto & pair : (*this))
+		{
+			if (const RenderSetting * elem { pair.second })
+			{
+				temp->m_map[elem->get_type_hash()] = elem->clone();
+			}
+		}
+		return temp;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	AlphaState * AlphaState::clone() const
+	{
+		return new AlphaState { enabled, predicate, coeff };
+	}
+
+	AlphaState * AlphaState::reverted() const
+	{
+		AlphaState * temp { clone() };
+		temp->enabled = !temp->enabled;
+		return temp;
+	}
 
 	const AlphaState & AlphaState::operator()() const
 	{
@@ -86,12 +109,27 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::AlphaTest, this->enabled))
 		{
-			ML_GL.alphaFunc(this->predicate, this->coeff);
+			if (this->predicate)
+			{
+				ML_GL.alphaFunc(this->predicate, this->coeff);
+			}
 		}
 		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	BlendState * BlendState::clone() const
+	{
+		return new BlendState { enabled, srcRGB, srcAlpha, dstRGB, dstAlpha };
+	}
+
+	BlendState * BlendState::reverted() const
+	{
+		BlendState * temp { clone() };
+		temp->enabled = !temp->enabled;
+		return temp;
+	}
 
 	const BlendState & BlendState::operator()() const
 	{
@@ -101,15 +139,30 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::Blend, this->enabled))
 		{
-			ML_GL.blendFuncSeparate(
-				this->srcRGB, this->srcAlpha,
-				this->dstRGB, this->dstAlpha
-			);
+			if (this->srcRGB && this->srcAlpha && this->dstRGB && this->dstAlpha)
+			{
+				ML_GL.blendFuncSeparate(
+					this->srcRGB, this->srcAlpha,
+					this->dstRGB, this->dstAlpha
+				);
+			}
 		}
 		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	CullState * CullState::clone() const
+	{
+		return new CullState { enabled, face };
+	}
+
+	CullState * CullState::reverted() const
+	{
+		CullState * temp { clone() };
+		temp->enabled = !temp->enabled;
+		return temp;
+	}
 
 	const CullState & CullState::operator()() const
 	{
@@ -119,12 +172,27 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::CullFace, this->enabled))
 		{
-			ML_GL.cullFace(this->face);
+			if (this->face)
+			{
+				ML_GL.cullFace(this->face);
+			}
 		}
 		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	DepthState * DepthState::clone() const
+	{
+		return new DepthState { enabled, predicate, mask };
+	}
+
+	DepthState * DepthState::reverted() const
+	{
+		DepthState * temp { clone() };
+		temp->enabled = !temp->enabled;
+		return temp;
+	}
 
 	const DepthState & DepthState::operator()() const
 	{
@@ -134,7 +202,10 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::DepthTest, this->enabled))
 		{
-			ML_GL.depthFunc(this->predicate);
+			if (this->predicate)
+			{
+				ML_GL.depthFunc(this->predicate);
+			}
 
 			ML_GL.depthMask(this->mask);
 		}

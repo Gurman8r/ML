@@ -118,11 +118,10 @@ namespace ImGui
 		mLines.push_back(Line());
 	}
 
-	TextEditor::TextEditor(const std::string & text, const LanguageDefinition & languageDef)
+	TextEditor::TextEditor(const std::string & text)
 		: TextEditor()
 	{
 		this->SetText(text);
-		this->SetLanguageDefinition(languageDef);
 	}
 
 	TextEditor::~TextEditor()

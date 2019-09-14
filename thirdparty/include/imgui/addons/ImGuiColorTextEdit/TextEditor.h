@@ -222,7 +222,7 @@ namespace ImGui
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		TextEditor();
-		TextEditor(const std::string & text, const LanguageDefinition & languageDef);
+		TextEditor(const std::string & text);
 		~TextEditor();
 
 	public:

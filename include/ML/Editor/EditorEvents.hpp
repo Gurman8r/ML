@@ -98,9 +98,11 @@ namespace ml
 			MAX_MAIN_MENU_BAR_MENU
 		};
 
+		Editor & editor;
 		const Menu submenu;
-		constexpr MainMenuBarEvent(const Menu submenu)
-			: submenu(submenu)
+		constexpr MainMenuBarEvent(Editor & editor, const Menu submenu)
+			: editor(editor)
+			, submenu(submenu)
 		{
 		}
 	};

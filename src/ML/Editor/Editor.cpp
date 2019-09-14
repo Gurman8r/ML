@@ -288,7 +288,7 @@ namespace ml
 					eventSystem().fireEvent(File_Quit_Event());
 				}
 
-				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::File));
+				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::File));
 
 				ImGui::EndMenu();
 			}
@@ -324,7 +324,7 @@ namespace ml
 					eventSystem().fireEvent(Edit_Paste_Event());
 				}
 
-				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Edit));
+				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Edit));
 
 				ImGui::EndMenu();
 			}
@@ -333,11 +333,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content	.openPtr());
-				ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
-				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
-				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
-				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Window));
+				//ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content	.openPtr());
+				//ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
+				//ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
+				//ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
+				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Window));
 				ImGui::EndMenu();
 			}
 
@@ -345,11 +345,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Help"))
 			{
-				if (ImGui::MenuItem("Project Page"))
+				if (ImGui::MenuItem("Project Page", "http://"))
 				{
 					OS::execute("open", ML_PROJECT_URL);
 				}
-				if (ImGui::MenuItem("Downloads"))
+				if (ImGui::MenuItem("Downloads", "http://"))
 				{
 					OS::execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
 				}
@@ -382,13 +382,13 @@ namespace ml
 				ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
 				ImGui::MenuItem("Style Editor", "", &m_show_imgui_style);
 
-				eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::Help));
+				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Help));
 
 				ImGui::EndMenu();
 			}
 
 			// User Menu Bars
-			eventSystem().fireEvent(MainMenuBarEvent(MainMenuBarEvent::User));
+			eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::User));
 
 			ImGui::EndMainMenuBar();
 		}

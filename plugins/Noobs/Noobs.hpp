@@ -65,6 +65,8 @@ namespace ml
 			{
 			}
 
+			~DemoSkybox() {}
+
 			inline operator bool() const
 			{
 				return enabled && renderer && entity && material && model;
@@ -111,6 +113,8 @@ namespace ml
 			{
 			}
 
+			~DemoScene() {}
+
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			void render(const GuiEvent & ev, C_String title, const Surface * surf);
@@ -148,11 +152,14 @@ namespace ml
 
 			DemoFile(Type type, const String & text)
 				: type	{ type }
-				, text	{ text, TextEditor::LanguageDefinition::GLSL() }
+				, text	{ text }
 				, name	{ Names[type] }
 				, open	{ false }
 				, dirty { false }
 			{
+				this->text.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
+				this->text.SetShowWhitespaces(false);
+				this->text.SetPalette(TextEditor::GetLightPalette());
 			}
 
 			~DemoFile() {}
@@ -189,6 +196,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			DemoEditor() {}
+
 			~DemoEditor() { dispose(); }
 
 			/* * * * * * * * * * * * * * * * * * * * */

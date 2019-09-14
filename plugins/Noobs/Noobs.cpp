@@ -98,6 +98,13 @@ namespace ml
 					eventSystem().fireEvent(WindowFullscreenEvent { -1 });
 				}
 
+				// Refresh Sources
+				if (ev->getPress(KeyCode::F5))
+				{
+					m_editor.reset_sources();
+					m_editor.generate_sources();
+				}
+
 				// Compile Sources
 				if (ev->isSave())
 				{
@@ -112,8 +119,8 @@ namespace ml
 				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
-					ImGui::Separator();
-					ImGui::MenuItem("Scene##Enable##Noobs##DemoScene", "", &m_editor.m_scene.m_open);
+					ImGui::MenuItem(ev->editor.terminal().getTitle(), "", ev->editor.terminal().openPtr());
+					ImGui::MenuItem("Viewport##Enable##Noobs##DemoView", "", &m_editor.m_scene.m_open);
 					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.m_open);
 					break;
 				}
@@ -124,7 +131,7 @@ namespace ml
 			if (auto ev = value.as<DockspaceEvent>())
 			{
 				EditorDockspace & d = ev->dockspace;
-				d.dockWindow("Scene##Noobs##DemoScene", d.getNode(d.LeftUp));
+				d.dockWindow("Viewport##Noobs##DemoView", d.getNode(d.LeftUp));
 				d.dockWindow("Editor##Noobs##DemoEditor", d.getNode(d.RightUp));
 			}
 			break;
@@ -233,7 +240,7 @@ namespace ml
 	void Noobs::onGui(const GuiEvent & ev)
 	{
 		// Render Scene
-		m_editor.m_scene.render(ev, "Scene##Noobs##DemoScene", m_pipeline[Surf_Post]);
+		m_editor.m_scene.render(ev, "Viewport##Noobs##DemoView", m_pipeline[Surf_Post]);
 		
 		// Render Editor
 		m_editor.render(ev, "Editor##Noobs##DemoEditor");
@@ -348,28 +355,18 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::BeginChild(
-						"DemoFile##ToolsArea",
-						{ max_size[0], max_size[1] * 0.05f },
-						true
-					);
-
 					// Compile
+					ImGui::BeginChild(
+						"DemoFile##Tools", 
+						ImGui::GetContentRegionAvail(),
+						true,
+						ImGuiWindowFlags_NoScrollbar
+					);
 					if (ImGui::Button("Compile"))
 					{
 						this->compile_sources();
 					}
-					ImGuiExt::Tooltip("(Ctrl+S) Build shader source code");
-					ImGui::SameLine();
-
-					// Rebuild
-					if (ImGui::Button("Refresh"))
-					{
-						this->reset_sources();
-						this->generate_sources();
-					}
-					ImGuiExt::Tooltip("Revert code to last successfully compiled state");
-
+					ImGuiExt::Tooltip("Build shader source code (Ctrl+S)");
 					ImGui::EndChild();
 
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -508,6 +505,7 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+					// Select Material
 					const Material * mtl = m_material;
 					if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 					{
@@ -526,6 +524,7 @@ namespace ml
 
 					ImGui::NewLine();
 
+					// Select Model
 					const Model * mdl = (const Model *)m_renderer->drawable();
 					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 					{
@@ -535,6 +534,7 @@ namespace ml
 
 					ImGui::NewLine();
 
+					// Select Shader
 					const Shader * shd = m_material->shader();
 					if (PropertyDrawer<Shader>()("Shader##Material##Noobs", shd))
 					{

@@ -21,6 +21,7 @@ namespace ml
 		, m_dockspace		{ *this }
 		, m_explorer		{ *this }
 		, m_content			{ *this }
+		, m_inspector		{ *this }
 		, m_profiler		{ *this }
 		, m_terminal		{ *this }
 	{
@@ -66,6 +67,7 @@ namespace ml
 				d.dockWindow(m_explorer	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_inspector.getTitle(), d.getNode(d.RightDn));
 				d.dockWindow(m_terminal	.getTitle(), d.getNode(d.LeftDn));
 			}
 			break;
@@ -89,6 +91,9 @@ namespace ml
 
 				// Show Content | Ctrl + Alt + C
 				if (ev->getPress(KeyCode::C, ctrl_alt)) m_content.toggleOpen();
+
+				// Show Inspector | Ctrl + Alt + I
+				if (ev->getPress(KeyCode::I, ctrl_alt)) m_inspector.toggleOpen();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -222,6 +227,7 @@ namespace ml
 		// Configure Builtin Windows
 		m_content	.setOpen(ev.prefs.get_bool("Editor", "show_content",	false));
 		m_explorer	.setOpen(ev.prefs.get_bool("Editor", "show_explorer",	false));
+		m_inspector	.setOpen(ev.prefs.get_bool("Editor", "show_inspector",	false));
 		m_profiler	.setOpen(ev.prefs.get_bool("Editor", "show_profiler",	false));
 		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal",	false));
 	}
@@ -231,6 +237,7 @@ namespace ml
 		m_content	.onUpdate(ev);
 		m_explorer	.onUpdate(ev);
 		m_dockspace	.onUpdate(ev);
+		m_inspector	.onUpdate(ev);
 		m_profiler	.onUpdate(ev);
 		m_terminal	.onUpdate(ev);
 	}
@@ -257,30 +264,19 @@ namespace ml
 			if (ImGui::BeginMenu("File"))
 			{
 				// File -> New
-				if (ImGui::BeginMenu("New", "Ctrl+N"))
+				if (ImGui::BeginMenu("New"))
 				{
 					void * temp { nullptr };
 
-					if (PropertyDrawer<Image>	()("Create##Image",		(Image *&)temp,		0b1)) {}
-					if (PropertyDrawer<Material>()("Create##Material",	(Material *&)temp,	0b1)) {}
-					if (PropertyDrawer<Model>	()("Create##Model",		(Model *&)temp,		0b1)) {}
-					if (PropertyDrawer<Shader>	()("Create##Shader",	(Shader *&)temp,	0b1)) {}
-					if (PropertyDrawer<Texture>	()("Create##Texture",	(Texture *&)temp,	0b1)) {}
+					PropertyDrawer<Image>	()("Image##New",	(Image *&)temp,		0b1);
+					PropertyDrawer<Material>()("Material##New",	(Material *&)temp,	0b1);
+					PropertyDrawer<Model>	()("Model##New",	(Model *&)temp,		0b1);
+					PropertyDrawer<Shader>	()("Shader##New",	(Shader *&)temp,	0b1);
+					PropertyDrawer<Texture>	()("Texture##New",	(Texture *&)temp,	0b1);
 					
 					eventSystem().fireEvent(File_New_Event());
 					ImGui::EndMenu();
 				}
-				//// File -> Open
-				//if (ImGui::MenuItem("Open", "Ctrl+O"))
-				//{
-				//	eventSystem().fireEvent(File_Open_Event());
-				//}
-				//// File -> Save
-				//if (ImGui::MenuItem("Save", "Ctrl+S"))
-				//{
-				//	eventSystem().fireEvent(File_Save_Event());
-				//}
-				//ImGui::Separator();
 
 				// File -> Quit
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
@@ -333,10 +329,6 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				//ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content	.openPtr());
-				//ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
-				//ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
-				//ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
 				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Window));
 				ImGui::EndMenu();
 			}
@@ -351,7 +343,7 @@ namespace ml
 				}
 				if (ImGui::MenuItem("Downloads", "http://"))
 				{
-					OS::execute("open", "https://mega.nz/#F!kDIkQQIL!mByWlNs89zlwh9WHi3VUcw");
+					OS::execute("open", "https://bit.ly/ml_noobs");
 				}
 				if (ImGui::BeginMenu("Third Party Software"))
 				{
@@ -396,6 +388,7 @@ namespace ml
 		/*	Dockspace	*/	if (m_dockspace	.isOpen()) m_dockspace	.onGui(ev);
 		/*	Content		*/	if (m_content	.isOpen()) m_content	.onGui(ev);
 		/*	Explorer	*/	if (m_explorer	.isOpen()) m_explorer	.onGui(ev);
+		/*	Inspector	*/	if (m_inspector	.isOpen()) m_inspector	.onGui(ev);
 		/*	Profiler	*/	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
 		/*	Terminal	*/	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
 	}

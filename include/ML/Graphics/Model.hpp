@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Model is a Drawable Mesh
+	// Model is a drawable collection of Meshes
 	struct ML_GRAPHICS_API Model final
 		: public I_Newable
 		, public I_Drawable

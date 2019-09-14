@@ -61,14 +61,21 @@ namespace ml
 		ImGui::PushID(label.c_str());
 		if (ImGui::Button(label.c_str()))
 		{
-			ImGui::OpenPopup(("Open File Dialog##" + label).c_str());
+			ImGui::OpenPopup(("Open File##" + label).c_str());
 		}
 		if (ImGui::BeginPopupModal(
-			("Open File Dialog##" + label).c_str(),
+			("Open File##" + label).c_str(),
 			nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize
+			ImGuiWindowFlags_AlwaysAutoResize |
+			ImGuiWindowFlags_MenuBar
 		))
 		{
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::Text("%s", ML_FS.getPath().c_str());
+				ImGui::EndMenuBar();
+			}
+
 			static FileBrowser browser {};
 			browser.update();
 			browser.render(("File Browser##" + label), size, true);

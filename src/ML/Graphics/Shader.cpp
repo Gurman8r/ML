@@ -551,7 +551,7 @@ namespace ml
 		if (dispose() && set_handle(ML_GL.createProgramObject()))
 		{
 			// Compile Vertex
-			uint32_t vert = NULL;
+			uint32_t vert { NULL };
 			switch (ML_GL.compileShader(vert, GL::VertexShader, 1, &vs))
 			{
 			case ML_SUCCESS:
@@ -564,7 +564,7 @@ namespace ml
 			}
 
 			// Compile Geometry
-			uint32_t geom = NULL;
+			uint32_t geom { NULL };
 			switch (ML_GL.compileShader(geom, GL::GeometryShader, 1, &gs))
 			{
 			case ML_SUCCESS:
@@ -577,7 +577,7 @@ namespace ml
 			}
 
 			// Compile Fragment
-			uint32_t frag = NULL;
+			uint32_t frag { NULL };
 			switch (ML_GL.compileShader(frag, GL::FragmentShader, 1, &fs))
 			{
 			case ML_SUCCESS:

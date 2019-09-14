@@ -108,6 +108,12 @@
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiExt.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\JsonEditor.hpp">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorInspector.hpp">
+      <Filter>Header Files\Forms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorContent.cpp">
@@ -160,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp">
       <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\JsonEditor.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorInspector.cpp">
+      <Filter>Source Files\Forms</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

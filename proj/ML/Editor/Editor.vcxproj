@@ -166,6 +166,7 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorDockspace.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorInspector.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\FileBrowser.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiExt.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="..\..\..\include\ML\Editor\ImGui.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiImpl.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorProfiler.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Editor\JsonEditor.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\PropertyDrawer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorContent.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiStyleLoader.hpp" />
@@ -191,11 +193,13 @@
     <ClCompile Include="..\..\..\src\ML\Editor\EditorDockspace.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorExplorer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorForm.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorInspector.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorProfiler.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\EditorTerminal.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\FileBrowser.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiExt.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiImpl.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Editor\JsonEditor.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiStyleLoader.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.cpp" />

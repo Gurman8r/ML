@@ -209,8 +209,8 @@ namespace ml
 	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { "New " + type_name().str() + "##" + label };
-		const String popup_label { "Create " + type_name().str() + "##" + label };
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -354,8 +354,8 @@ namespace ml
 	bool PropertyDrawer<Image>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { "New " + type_name().str() + "##" + label };
-		const String popup_label { "Create " + type_name().str() + "##" + label };
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -517,8 +517,8 @@ namespace ml
 	bool PropertyDrawer<Material>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { "New " + type_name().str() + "##" + label };
-		const String popup_label { "Create " + type_name().str() + "##" + label };
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -618,7 +618,10 @@ namespace ml
 		{
 			// new uniform editor
 			Uniform * u = nullptr;
-			if (PropertyDrawer<Uniform>()(("##NewUniform##Material" + label).c_str(), u))
+			if (PropertyDrawer<Uniform>()(
+				("New Uniform##Material##" + label).c_str(), 
+				(Uniform *&)u
+			))
 			{
 				if (u && !value.add(u))
 				{
@@ -721,8 +724,8 @@ namespace ml
 	bool PropertyDrawer<Model>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { "New " + type_name().str() + "##" + label };
-		const String popup_label { "Create " + type_name().str() + "##" + label };
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -838,8 +841,8 @@ namespace ml
 	bool PropertyDrawer<Script>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { "New " + type_name().str() + "##" + label };
-		const String popup_label { "Create " + type_name().str() + "##" + label };
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -944,8 +947,8 @@ namespace ml
 	bool PropertyDrawer<Shader>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { "New " + type_name().str() + "##" + label };
-		const String popup_label { "Create " + type_name().str() + "##" + label };
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1221,8 +1224,8 @@ namespace ml
 	bool PropertyDrawer<Texture>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { "New " + type_name().str() + "##" + label };
-		const String popup_label { "Create " + type_name().str() + "##" + label };
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1234,12 +1237,16 @@ namespace ml
 			static char name[32] = "";
 			static Array<const Image *, 6> image { nullptr };
 			static int32_t sampler_type { 0 };
+			static char asset_path[ML_MAX_PATH] = "";
+			static String open_path;
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(asset_path, "");
 				for (auto *& e : image) e = nullptr;
+				open_path.clear();
 			}
 
 			// Name
@@ -1249,9 +1256,9 @@ namespace ml
 				ML_ARRAYSIZE(name)
 			);
 
-			// Copy
+			// Sampler Type
 			ImGuiExt::Combo(
-				("Sampler##" + label).c_str(), 
+				("Type##Sampler##" + label).c_str(), 
 				&sampler_type,
 				GL::Sampler_names, 
 				ML_ARRAYSIZE(GL::Sampler_names)
@@ -1259,7 +1266,28 @@ namespace ml
 
 			if (sampler_type == 0)
 			{
-				PropertyDrawer<Image>()(("Image##" + label), (const Image *&)image[0]);
+				// Copy
+				if (PropertyDrawer<Image>()(("Image##" + label), (const Image *&)image[0]))
+				{
+					std::strcpy(asset_path, "");
+				}
+
+				// Path
+				ImGui::InputText(
+					("##Path##" + type_name().str() + "##" + label).c_str(),
+					asset_path,
+					ML_MAX_PATH
+				);
+				ImGui::SameLine();
+				if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+				{
+					if (ML_FS.fileExists(open_path))
+					{
+						std::strcpy(asset_path, open_path.c_str());
+						open_path.clear();
+						image[0] = nullptr;
+					}
+				}
 			}
 			else if (sampler_type == 1)
 			{
@@ -1284,6 +1312,13 @@ namespace ml
 					if (image[0] && (value = ML_Content.create<Texture>(name, image[0]->format(), true, false)))
 					{
 						value->loadFromImage(*image[0]);
+					}
+					else if (ML_FS.fileExists(asset_path))
+					{
+						if (value = ML_Content.create<value_type>(name))
+						{
+							value->loadFromFile(asset_path);
+						}
 					}
 				}
 				else if (sampler_type == 1)
@@ -1506,8 +1541,8 @@ namespace ml
 	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { "New " + type_name().str() + "##" + label };
-		const String popup_label { "Create " + type_name().str() + "##" + label };
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());

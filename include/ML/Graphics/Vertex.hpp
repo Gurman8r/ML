@@ -32,11 +32,8 @@ namespace ml
 		{
 		}
 
-		constexpr explicit Vertex(const vec3 & pos, const vec4 & col, const vec2 & tex)
-			: self_type { {
-			pos[0], pos[1], pos[2],
-			col[0], col[1], col[2], col[3],
-			tex[0], tex[1] } }
+		constexpr explicit Vertex(const vec3 & p, const vec4 & n, const vec2 & t)
+			: self_type { { p[0], p[1], p[2], n[0], n[1], n[2], n[3], t[0], t[1] } }
 		{
 		}
 

@@ -212,8 +212,8 @@ namespace ml
 		{ {
 			new AlphaState	{ true, GL::Greater, 0.01f },
 			new BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-			new CullState	{ false, GL::Back },
-			new DepthState	{ false, GL::Less, true },
+			new CullState	{ false },
+			new DepthState	{ false },
 		} };
 		states.apply();
 
@@ -356,17 +356,29 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					// Compile
-					ImGui::BeginChild(
-						"DemoFile##Tools", 
+					if (ImGui::BeginChild(
+						"DemoFile##Tools",
 						ImGui::GetContentRegionAvail(),
 						true,
 						ImGuiWindowFlags_NoScrollbar
-					);
-					if (ImGui::Button("Compile"))
+					))
 					{
-						this->compile_sources();
+						if (ImGui::Button("Compile"))
+						{
+							this->compile_sources();
+						}
+						ImGuiExt::Tooltip("Build shader source code (Ctrl+S)");
+
+						ImGui::SameLine();
+
+						// Toggle Files
+						for (size_t i = 0; i < m_files.size() - 1; i++)
+						{
+							if (!m_files[i]) { continue; }
+							if (i > 0) { ImGui::SameLine(); }
+							ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
+						}
 					}
-					ImGuiExt::Tooltip("Build shader source code (Ctrl+S)");
 					ImGui::EndChild();
 
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -391,7 +403,7 @@ namespace ml
 
 					// New Uniform Popup
 					Uniform * to_add { nullptr };
-					if (PropertyDrawer<Uniform>()("##New##Uni", (Uniform *&)to_add))
+					if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (Uniform *&)to_add))
 					{
 						// Already Exists
 						if (to_add && !m_material->add(to_add))
@@ -501,7 +513,6 @@ namespace ml
 
 					ImGui::PushID("##Settings");
 					ImGui::BeginChild("##Settings##Content", { 0, 0 }, true);
-					ImGui::NewLine();
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -522,18 +533,6 @@ namespace ml
 					}
 					ImGuiExt::Tooltip("Specifies the targeted material");
 
-					ImGui::NewLine();
-
-					// Select Model
-					const Model * mdl = (const Model *)m_renderer->drawable();
-					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
-					{
-						m_renderer->setDrawable(mdl);
-					}
-					ImGuiExt::Tooltip("Specifies model to be drawn");
-
-					ImGui::NewLine();
-
 					// Select Shader
 					const Shader * shd = m_material->shader();
 					if (PropertyDrawer<Shader>()("Shader##Material##Noobs", shd))
@@ -544,19 +543,13 @@ namespace ml
 					}
 					ImGuiExt::Tooltip("Specifies the targeted shader");
 
-					ImGui::NewLine();
-
-					// Toggle Demo Files (start at one to always show config)
-					for (size_t i = 0; i < m_files.size() - 1; i++)
+					// Select Model
+					const Model * mdl = (const Model *)m_renderer->drawable();
+					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 					{
-						if (!m_files[i]) { continue; }
-						if (i > 0) { ImGui::SameLine(); }
-						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
+						m_renderer->setDrawable(mdl);
 					}
-
-					ImGui::NewLine(); ImGui::Separator(); ImGui::NewLine();
-
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					ImGuiExt::Tooltip("Specifies model to be drawn");
 
 					// Get Video Modes
 					static const List<VideoMode> & mode_values
@@ -589,18 +582,11 @@ namespace ml
 						m_scene.m_viewport = (vec2i)mode_values[index - 1].size;
 					}
 
-					ImGui::NewLine();
-
 					// Clear Color
 					ImGui::ColorEdit4("Clear Color", &m_scene.m_clearColor[0]);
 
-					ImGui::NewLine();
-
 					// Enable Skybox
 					ImGui::Checkbox("Enable Skybox", &m_skybox.enabled);
-
-					ImGui::NewLine();
-
 #if 0
 					// Effect Mode
 					ImGuiExt::Combo("Effect Mode", &m_scene.m_effectMode.data,
@@ -610,12 +596,10 @@ namespace ml
 						"Kernel\0"
 						"Inverted\0"
 					);
-					ImGui::NewLine();
 
 					// Kernel
 					PropertyDrawer<Uniform>()("##Kernel", (Uniform &)m_scene.m_kernel);
 					ImGui::SameLine(); ImGui::Text("Kernel");
-					ImGui::NewLine();
 #endif
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

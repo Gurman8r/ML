@@ -44,7 +44,7 @@ namespace ml
 
 				// Active Allocations
 				/* * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginTabItem("Active Allocations"))
+				if (ImGui::BeginTabItem("Allocations"))
 				{
 					if (ImGui::BeginChild("Active Allocations", { 0, 0 }, true))
 					{
@@ -53,10 +53,10 @@ namespace ml
 						if (ImGui::BeginChild("Active Allocation##Content", { 0, 0 }, true))
 						{
 							ImGui::Columns(4, "Allocations##Columns");
-							ImGui::Text("Type"); ImGui::NextColumn();
+							ImGui::Text("Address"); ImGui::NextColumn();
 							ImGui::Text("Index"); ImGui::NextColumn();
 							ImGui::Text("Size"); ImGui::NextColumn();
-							ImGui::Text("Address"); ImGui::NextColumn();
+							ImGui::Text("Type"); ImGui::NextColumn();
 							ImGui::Separator();
 
 							for (const auto & pair : ML_Memory.records())
@@ -65,13 +65,13 @@ namespace ml
 								const I_Newable * ptr { static_cast<const I_Newable *>(r->ptr) };
 
 								ImGui::Columns(4, "Allocations##Columns");
-								ImGui::Text("%s", ptr->get_type_name());
+								ImGui::Text("%p", r->ptr);
 								ImGui::NextColumn();
 								ImGui::Text("%u", r->index);
 								ImGui::NextColumn();
 								ImGui::Text("%u", r->size);
 								ImGui::NextColumn();
-								ImGui::Text("%p", r->ptr);
+								ImGui::Text("%s", ptr->get_type_name());
 								ImGui::Columns(1);
 							}
 						}

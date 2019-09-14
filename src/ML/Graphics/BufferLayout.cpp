@@ -45,9 +45,7 @@ namespace ml
 	{
 	}
 
-	BufferLayout::~BufferLayout()
-	{
-	}
+	BufferLayout::~BufferLayout() {}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

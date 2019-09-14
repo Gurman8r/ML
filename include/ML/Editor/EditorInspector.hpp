@@ -13,6 +13,8 @@ namespace ml
 
 		friend class Editor;
 
+		struct Layout;
+
 		explicit EditorInspector(Editor & editor);
 
 		void onUpdate(const UpdateEvent & ev) override;

@@ -784,7 +784,7 @@ namespace ml
 			}
 			else
 			{
-				return Debug::logError("Failed creating {0} object", type);
+				return Debug::logError("Failed creating {0} object", type); // 0 (false)
 			}
 		}
 		return ML_WARNING; // -1 (true)

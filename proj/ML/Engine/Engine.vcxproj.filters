@@ -66,9 +66,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\Camera.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -139,9 +136,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp">
       <Filter>Source Files\Plugins</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Camera.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp">
       <Filter>Source Files\Utility</Filter>

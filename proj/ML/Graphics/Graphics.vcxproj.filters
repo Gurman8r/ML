@@ -144,6 +144,15 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Transform.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Camera.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp">
@@ -213,6 +222,15 @@
       <Filter>Source Files\DS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Image.cpp">
+      <Filter>Source Files\DS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\Transform.cpp">
+      <Filter>Source Files\DS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\Camera.cpp">
+      <Filter>Source Files\DS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\Light.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
   </ItemGroup>

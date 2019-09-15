@@ -118,19 +118,12 @@ namespace ml
 
 	bool EditorContent::onGui(const GuiEvent & ev)
 	{
-		if (beginDraw(ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollbar))
+		if (beginDraw(ImGuiWindowFlags_NoScrollbar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ImGuiStyle & style { ImGui::GetStyle() };
 			
-			if (ImGui::BeginMenuBar())
-			{
-				ImGui::EndMenuBar();
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
 			const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
 
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);

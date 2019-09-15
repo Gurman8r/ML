@@ -147,7 +147,7 @@ ml.content.load([
     },
     {
         "type":     "Material",
-        "name":     "demo_material",
+        "name":     "basic",
         "shader":   "basic",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.mat"

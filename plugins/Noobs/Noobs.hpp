@@ -181,7 +181,7 @@ namespace ml
 
 			bool			m_open		{ true };
 			Ref<Entity>		m_entity	{ "demo_entity" };
-			Ref<Material>	m_material	{ "demo_material" };
+			Ref<Material>	m_material	{ "basic" };
 			Ref<Model>		m_model		{ "default_quad" };
 			Renderer *		m_renderer	{ nullptr };
 			File_List		m_files		{ nullptr };

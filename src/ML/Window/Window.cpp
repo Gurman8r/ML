@@ -579,7 +579,7 @@ namespace ml
 
 	vec2 Window::getCursorPos() const
 	{
-		vec2d temp { uninit };
+		vec2d temp { NULL };
 		if (m_window)
 		{
 			glfwGetCursorPos(ML_WINDOW(m_window), &temp[0], &temp[1]);
@@ -589,7 +589,7 @@ namespace ml
 
 	vec2i Window::getFrameSize() const
 	{
-		vec2i temp { uninit };
+		vec2i temp { NULL };
 		if (m_window)
 		{
 			glfwGetFramebufferSize(ML_WINDOW(m_window), &temp[0], &temp[1]);
@@ -614,7 +614,7 @@ namespace ml
 
 	vec2i Window::getPosition() const
 	{
-		vec2i temp { uninit };
+		vec2i temp { NULL };
 		if (m_window)
 		{
 			glfwGetWindowPos(ML_WINDOW(m_window), &temp[0], &temp[1]);

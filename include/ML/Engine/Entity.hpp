@@ -54,27 +54,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline T * add()
+		template <class T> inline T * add()
 		{
 			return ((this->find<T>() == this->end())
 				? (static_cast<T *>(m_map.insert({ 
-						typeid(T).hash_code(), 
-						new T() 
+						typeid(T).hash_code(), new T() 
 					}).first->second))
 				: (nullptr)
 			);
 		}
 
-		template <
-			class T
-		> inline T * add(T * value)
+		template <class T> inline T * add(T * value)
 		{
 			return ((this->find<T>() == this->end())
 				? (static_cast<T *>(m_map.insert({
-						typeid(T).hash_code(),
-						value
+						typeid(T).hash_code(), value
 					}).first->second))
 				: (nullptr)
 			);

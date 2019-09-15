@@ -1,0 +1,10 @@
+# geometry.mat
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+uniform color	u_color		{ 1.0, 0.0, 0.0, 1.0 }
+uniform int		u_mode		{ 0 }
+uniform float	u_delta		{ 1.0 }
+uniform float	u_size		{ 0.975 }
+uniform int		u_samples	{ 16 }
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

@@ -63,6 +63,12 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				bool enabled { r->enabled() };
+				if (ImGui::Checkbox(("Enabled##Renderer##" + label).c_str(), &enabled))
+				{
+					r->setEnabled(enabled);
+				}
+
 				const Model * model = (const Model *)r->drawable();
 				if (PropertyDrawer<Model>()("Model##Renderer", model))
 				{
@@ -451,6 +457,7 @@ namespace ml
 			value.flipVertically();
 			changed = true;
 		}
+		ImGui::SameLine();
 		if (ImGui::Button("Flip Horizontally"))
 		{
 			value.flipHorizontally();
@@ -653,7 +660,6 @@ namespace ml
 				if (ImGui::TreeNode(((*it)->name + name).c_str()))
 				{
 					ImGui::PopStyleColor();
-
 					if ((*it))
 					{
 						float_t height = 1;
@@ -661,14 +667,13 @@ namespace ml
 						else if ((*it)->id == uni_mat4::ID) { height = 4; }
 
 						ImGui::PushID(name.c_str());
-						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 						ImGui::BeginChild(
 							("UniformChild##" + name).c_str(),
-							{ -1, (32 * height) + (height == 1 ? 8 : -8) },
+							{ -1, (35 * height) + (height == 1 ? 8 : -8) },
 							true,
+							ImGuiWindowFlags_NoScrollbar |
 							ImGuiWindowFlags_NoScrollWithMouse
 						);
-
 						if (PropertyDrawer<Uniform>()(name, (Uniform &)**it))
 						{
 							ImGui::SameLine();
@@ -677,9 +682,7 @@ namespace ml
 								toRemove.push_back(it);
 							}
 						}
-
 						ImGui::EndChild();
-						ImGui::PopStyleVar();
 						ImGui::PopID();
 					}
 					
@@ -1309,7 +1312,7 @@ namespace ml
 			{
 				if (sampler_type == 0)
 				{
-					if (image[0] && (value = ML_Content.create<Texture>(name, image[0]->format(), true, false)))
+					if (image[0] && (value = ML_Content.create<Texture>(name, image[0]->getFormat(), true, false)))
 					{
 						value->loadFromImage(*image[0]);
 					}
@@ -1395,8 +1398,8 @@ namespace ml
 		bool mipmapped { value.mipmapped() };
 		if (ImGui::Checkbox(("Mipmapped##" + label).c_str(), &mipmapped))
 		{
-			//value.setMipmapped(mipmapped);
-			//changed = true;
+			value.setMipmapped(mipmapped);
+			changed = true;
 		}
 		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
@@ -1417,10 +1420,8 @@ namespace ml
 		int32_t level { value.level() };
 		if (ImGui::InputInt(("Level##" + label).c_str(), &level))
 		{
-			//value.setLevel(level); 
-			//changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1432,11 +1433,8 @@ namespace ml
 			ML_ARRAYSIZE(GL::Sampler_names)
 		))
 		{
-			//GL::Sampler temp;
-			//if (GL::value_at(target, temp)) value.setSampler(temp);
-			//changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1448,11 +1446,8 @@ namespace ml
 			ML_ARRAYSIZE(GL::Format_names)
 		))
 		{
-			//GL::Format temp;
-			//if (GL::value_at(colorFormat, temp)) value.setColorFormat(temp);
-			//changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1464,11 +1459,8 @@ namespace ml
 			ML_ARRAYSIZE(GL::Format_names)
 		))
 		{
-			//GL::Format temp;
-			//if (GL::value_at(internalFormat, temp)) value.setInternalFormat(temp);
-			//changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1480,11 +1472,8 @@ namespace ml
 			ML_ARRAYSIZE(GL::Type_names)
 		))
 		{
-			//GL::Type temp;
-			//if (GL::value_at(pixelType, temp)) value.setPixelType(temp);
-			//changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
+		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

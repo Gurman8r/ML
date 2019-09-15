@@ -9,9 +9,7 @@ namespace ml
 	
 	// Pointer to something that lives in Content
 	// Automatically retrieves the value from Content and acts like a pointer to it
-	template <
-		class T
-	> struct Ref final : public I_Newable, public I_Disposable
+	template <class T> struct Ref final : public I_Newable, public I_Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

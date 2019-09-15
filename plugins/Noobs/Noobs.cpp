@@ -169,6 +169,7 @@ namespace ml
 				m_editor.m_skybox.material, 
 				RenderStates { { new DepthState { true, false } } }
 			);
+			m_editor.m_skybox.renderer->setEnabled(false);
 		}
 
 		// Setup Source Editors
@@ -196,13 +197,19 @@ namespace ml
 			ev.window.clear(m_editor.m_scene.m_clearColor);
 
 			// Draw Skybox
-			if (m_editor.m_skybox.enabled)
-			{
-				ev.window.draw(m_editor.m_skybox.renderer);
-			}
+			ev.window.draw(m_editor.m_skybox.renderer);
 
 			// Draw Renderer
 			ev.window.draw(m_editor.m_renderer);
+
+			// Draw Geometry
+			static Ref<Material> geo { "geometry" };
+			if (geo)
+			{
+				geo->bind();
+				ML_GL.drawArrays(GL::Points, 0, 4);
+				geo->unbind();
+			}
 		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -251,9 +258,8 @@ namespace ml
 		Debug::log("Goodbye!");
 	}
 
-
-	// DEMO SCENE
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
 	void Noobs::DemoScene::render(const GuiEvent & ev, C_String title, const Surface * surf)
 	{
 		if (!m_open) return;
@@ -283,10 +289,7 @@ namespace ml
 		ImGui::PopID();
 		ImGui::PopID();
 	}
-
-
-	// DEMO EDITOR
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
 	void Noobs::DemoEditor::render(const GuiEvent & ev, C_String title)
 	{
 		if (!m_open) return;
@@ -471,7 +474,6 @@ namespace ml
 						// Uniform Value
 						/* * * * * * * * * * * * * * * * * * * * */
 						ImGui::PushID(label.c_str());
-						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 						if (PropertyDrawer<Uniform>()(label, (Uniform &)(*uni)))
 						{
 							// Remove Uniform
@@ -489,7 +491,6 @@ namespace ml
 								ImGui::EndTooltip();
 							}
 						}
-						ImGui::PopStyleVar();
 						ImGui::PopID();
 						ImGui::Columns(1);
 						ImGui::Separator();
@@ -552,16 +553,14 @@ namespace ml
 					ImGuiExt::Tooltip("Specifies model to be drawn");
 
 					// Get Video Modes
-					static const List<VideoMode> & mode_values
-					{
+					static const List<VideoMode> & mode_values {
 						Window::getFullscreenModes()
 					};
 
 					// Get Video Names
 					static const List<String> & mode_names = [&]
 					{
-						static List<String> temp
-						{
+						static List<String> temp {
 							"Free"
 						};
 						for (const VideoMode & elem : mode_values)
@@ -571,7 +570,7 @@ namespace ml
 						return temp;
 					}();
 
-					// Viewport
+					// Set Viewport
 					static int32_t index = 0;
 					if (ImGuiExt::Combo("Viewport", &index, mode_names))
 					{
@@ -582,25 +581,17 @@ namespace ml
 						m_scene.m_viewport = (vec2i)mode_values[index - 1].size;
 					}
 
-					// Clear Color
+					// Set Clear Color
 					ImGui::ColorEdit4("Clear Color", &m_scene.m_clearColor[0]);
 
-					// Enable Skybox
-					ImGui::Checkbox("Enable Skybox", &m_skybox.enabled);
-#if 0
-					// Effect Mode
-					ImGuiExt::Combo("Effect Mode", &m_scene.m_effectMode.data,
-						"Default\0"
-						"Grayscale\0"
-						"Blur\0"
-						"Kernel\0"
-						"Inverted\0"
-					);
+					if (m_files[DemoFile::Geom]->open)
+					{
+						ImGui::Separator();
 
-					// Kernel
-					PropertyDrawer<Uniform>()("##Kernel", (Uniform &)m_scene.m_kernel);
-					ImGui::SameLine(); ImGui::Text("Kernel");
-#endif
+
+					}
+
+					ImGui::Separator();
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -608,8 +599,6 @@ namespace ml
 					BlendState	* blend_state	{ m_renderer->states().get<BlendState>() };
 					CullState	* cull_state	{ m_renderer->states().get<CullState>()	 };
 					DepthState	* depth_state	{ m_renderer->states().get<DepthState>() };
-
-					ImGui::Separator();
 
 					// Alpha State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

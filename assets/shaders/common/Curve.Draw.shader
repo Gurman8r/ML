@@ -1,13 +1,4 @@
-#shader geometry
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#version 410 core
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #include "../../../assets/shaders/common/Curve.Sample.shader"
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 void drawLine(in vec4 a, in vec4 b, const int samples, const float dt)
 {
@@ -109,5 +100,3 @@ void drawCubicHermiteSplineSegment(in vec4 a, in vec4 m0, in vec4 b, in vec4 m1,
 	}
 	EndPrimitive();
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

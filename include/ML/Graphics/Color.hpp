@@ -19,7 +19,7 @@ namespace ml
 		static constexpr vec4 clear		{ 0.0f, 0.0f, 0.0f, 0.0f };
 		static constexpr vec4 white		{ 1.0f, 1.0f, 1.0f, 1.0f };
 		static constexpr vec4 black		{ 0.0f, 0.0f, 0.0f, 1.0f };
-		static constexpr vec4 gray		{ 0.2f, 0.2f, 0.2f, 1.0f };
+		static constexpr vec4 gray		{ 0.5f, 0.5f, 0.5f, 1.0f };
 
 		static constexpr vec4 red		{ 1.0f, 0.0f, 0.0f, 1.0f };
 		static constexpr vec4 green		{ 0.0f, 1.0f, 0.0f, 1.0f };
@@ -53,7 +53,7 @@ namespace ml
 		static constexpr vec4b clear	{ 0x00, 0x00, 0x00, 0x00 };
 		static constexpr vec4b white	{ 0xFF, 0xFF, 0xFF, 0xFF };
 		static constexpr vec4b black	{ 0x00, 0x00, 0x00, 0xFF };
-		static constexpr vec4b gray		{ 0x40, 0x40, 0x40, 0xFF };
+		static constexpr vec4b gray		{ 0x80, 0x80, 0x80, 0xFF };
 
 		static constexpr vec4b red		{ 0xFF, 0x00, 0x00, 0xFF };
 		static constexpr vec4b green	{ 0x00, 0xFF, 0x00, 0xFF };

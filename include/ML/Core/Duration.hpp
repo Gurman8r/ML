@@ -45,7 +45,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr Duration()
-			: m_base { uninit }
+			: m_base { NULL }
 		{
 		}
 

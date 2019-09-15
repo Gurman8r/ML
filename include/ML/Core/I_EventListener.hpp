@@ -25,11 +25,13 @@ namespace ml
 
 		virtual void onEvent(const Event & value) = 0;
 
-		inline EventSystem & eventSystem() const { return m_eventSystem; }
+		inline auto eventSystem() const -> EventSystem & { return m_eventSystem; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private: EventSystem & m_eventSystem;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

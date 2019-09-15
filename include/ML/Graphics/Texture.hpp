@@ -68,14 +68,6 @@ namespace ml
 		Texture & setMipmapped(bool value);
 		Texture & setRepeated(bool value);
 		Texture & setSmooth(bool value);
-
-		// NYI
-		Texture & setSampler(GL::Sampler value);
-		Texture & setLevel(int32_t value);
-		Texture & setFormat(GL::Format value);
-		Texture & setInternalFormat(GL::Format value);
-		Texture & setColorFormat(GL::Format value);
-		Texture & setPixelType(GL::Type value);
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -85,6 +77,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const Image copyToImage() const;
+
+		uint32_t getChannels() const;
 
 		const Texture & bind() const;
 

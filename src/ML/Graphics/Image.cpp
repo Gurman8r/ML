@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Image::Image()
-		: Image { { uninit } }
+		: Image { vec2u { NULL } }
 	{
 	}
 
@@ -93,19 +93,19 @@ namespace ml
 	
 	bool Image::loadFromFile(const String & filename)
 	{
-		return this->loadFromFile(filename, true);
+		return loadFromFile(filename, true);
 	}
 
 	bool Image::loadFromFile(const String & filename, bool flip_v)
 	{
-		return this->loadFromFile(filename, flip_v, 0);
+		return loadFromFile(filename, flip_v, 0);
 	}
 
 	bool Image::loadFromFile(const String & filename, bool flip_v, uint32_t req_comp)
 	{
 		stbi_set_flip_vertically_on_load(flip_v);
 
-		if (byte_t * data = stbi_load(
+		if (uint8_t * data = stbi_load(
 			filename.c_str(), 
 			(int32_t *)(&m_size[0]),
 			(int32_t *)(&m_size[1]),
@@ -113,25 +113,23 @@ namespace ml
 			req_comp
 		))
 		{
-			this->update({ data, data + this->capacity() });
-			
+			update({ data, data + capacity() });
 			stbi_image_free(data);
-			
 			return (*this);
 		}
-		return this->dispose();
+		return dispose();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Image & Image::update(const vec2u & size, const vec4b & color)
 	{
-		return this->update(size, m_channels, color);
+		return update(size, channels(), color);
 	}
 
 	Image & Image::update(const vec4b & color)
 	{
-		return this->update(m_size, m_channels, color);
+		return update(size(), channels(), color);
 	}
 	
 	Image & Image::update(const vec2u & size, uint32_t channels, const vec4b & color)
@@ -142,8 +140,8 @@ namespace ml
 			m_channels = channels;
 			m_pixels.resize(capacity());
 
-			iterator it = this->begin();
-			while (it != this->end())
+			iterator it { begin() };
+			while (it != end())
 			{
 				if (m_channels >= 1) *it++ = color[0];
 				if (m_channels >= 2) *it++ = color[1];
@@ -152,7 +150,7 @@ namespace ml
 			}
 			return (*this);
 		}
-		this->dispose();
+		dispose();
 		return (*this);
 	}
 
@@ -160,12 +158,12 @@ namespace ml
 	
 	Image & Image::update(const vec2u & size, const Pixels & pixels)
 	{
-		return this->update(size, m_channels, pixels);
+		return update(size, m_channels, pixels);
 	}
 
 	Image & Image::update(const Pixels & pixels)
 	{
-		return this->update(m_size, m_channels, pixels);
+		return update(m_size, m_channels, pixels);
 	}
 	
 	Image & Image::update(const vec2u & size, uint32_t channels, const Pixels & pixels)
@@ -174,10 +172,10 @@ namespace ml
 		{
 			m_size = size;
 			m_channels = channels;
-			m_pixels = pixels;
+			m_pixels.assign(pixels.begin(), pixels.end());
 			return (*this);
 		}
-		this->dispose();
+		dispose();
 		return (*this);
 	}
 
@@ -187,18 +185,16 @@ namespace ml
 	{
 		if (*this)
 		{
-			uint32_t rows { m_size[0] * m_channels };
-
-			for (uint32_t y = 0; y < m_size[1]; ++y)
+			const uint32_t cols { width() * channels() };
+			for (uint32_t y = 0; y < height(); ++y)
 			{
-				iterator left	{ this->begin() + y * rows };
-				iterator right	{ this->begin() + (y + 1) * rows - m_channels };
-
-				for (uint32_t x = 0; x < m_size[0] / 2; ++x)
+				iterator lhs { begin() + y * cols };
+				iterator rhs { begin() + (y + 1) * cols - channels() };
+				for (uint32_t x = 0; x < width() / 2; ++x)
 				{
-					std::swap_ranges(left, left + m_channels, right);
-					left += m_channels;
-					right -= m_channels;
+					std::swap_ranges(lhs, lhs + channels(), rhs);
+					lhs += channels();
+					rhs -= channels();
 				}
 			}
 		}
@@ -209,15 +205,14 @@ namespace ml
 	{
 		if (*this)
 		{
-			uint32_t rows	{ m_size[0] * m_channels };
-			iterator top	{ this->begin() };
-			iterator bottom { this->end() - rows };
-
-			for (uint32_t y = 0; y < m_size[1] / 2; ++y)
+			const uint32_t cols { width() * channels() };
+			iterator top { begin() };
+			iterator bot { end() - cols };
+			for (uint32_t y = 0; y < height() / 2; ++y)
 			{
-				std::swap_ranges(top, top + rows, bottom);
-				top += rows;
-				bottom -= rows;
+				std::swap_ranges(top, top + cols, bot);
+				top += cols;
+				bot -= cols;
 			}
 		}
 		return (*this);

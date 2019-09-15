@@ -180,6 +180,7 @@
     <ClInclude Include="..\..\..\include\ML\Editor\ImGuiStyleLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Editor\EditorTerminal.hpp" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.h" />
+    <ClInclude Include="..\..\..\thirdparty\include\imgui\addons\ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imconfig.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imgui.h" />
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imgui_internal.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="..\..\..\src\ML\Editor\PropertyDrawer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiStyleLoader.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.cpp" />
+    <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_draw.cpp" />

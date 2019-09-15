@@ -165,6 +165,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Alg.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Decay.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Input.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Event.hpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Token.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TokenLexer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />

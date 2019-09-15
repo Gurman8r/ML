@@ -17,7 +17,7 @@ namespace ml
 		, m_coutBuf		{ nullptr }
 		, m_coutPtr		{ nullptr }
 		, m_coutStr		{}
-		, m_inputBuf	{ uninit }
+		, m_inputBuf	{ NULL }
 		, m_lines		{}
 		, m_scrollToBot	{}
 		, m_history		{}

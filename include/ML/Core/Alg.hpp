@@ -84,7 +84,7 @@ namespace ml
 
 		template <
 			class T
-		> static constexpr auto atan(const T & value)
+		> static constexpr T atan(const T & value)
 		{
 			return gcem::atan<T>(value);
 		}
@@ -95,21 +95,21 @@ namespace ml
 			class T, class Tx, class Ty
 		> static constexpr T acos2(const Tx & x, const Ty & y)
 		{
-			return constant_t<T> { gcem::acos2<Tx, Ty>(x, y) };
+			return static_cast<T>(gcem::acos2<Tx, Ty>(x, y));
 		}
 
 		template <
 			class T, class Tx, class Ty
 		> static constexpr T asin2(const Tx & x, const Ty & y)
 		{
-			return constant_t<T> { gcem::asin2<Tx, Ty>(x, y) };
+			return static_cast<T>(gcem::asin2<Tx, Ty>(x, y));
 		}
 
 		template <
 			class T, class Tx, class Ty
 		> static constexpr T atan2(const Tx & x, const Ty & y)
 		{
-			return constant_t<T>{ gcem::atan2<Tx, Ty>(x, y) };
+			return static_cast<T>(gcem::atan2<Tx, Ty>(x, y));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -183,7 +183,7 @@ namespace ml
 					class U
 				> constexpr To operator()(const U & value) const
 				{
-					return constant_t<To>(sqrt<From>{}(constant_t<From>(value)));
+					return static_cast<To>(sqrt<From>{}(static_cast<From>(value)));
 				}
 			};
 
@@ -432,7 +432,7 @@ namespace ml
 		> static constexpr auto copy(const A<T, N...> & value)
 			-> A<T, N...>
 		{
-			A<T, N...> temp { uninit };
+			A<T, N...> temp { NULL };
 			ML_ALG copy(temp, value);
 			return temp;
 		}
@@ -473,7 +473,7 @@ namespace ml
 		> static constexpr auto fill(const T & value)
 			-> A<T, N...>
 		{
-			A<T, N...> temp { uninit };
+			A<T, N...> temp { NULL };
 			ML_ALG fill(temp, value);
 			return temp;
 		}
@@ -538,7 +538,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T dot(const A<T, N...> & lhs, const A<T, N...> & rhs)
 		{
-			T temp { uninit };
+			T temp { NULL };
 			for (size_t i = 0; i < lhs.size(); i++)
 			{
 				temp += (lhs[i] * rhs[i]);
@@ -599,12 +599,12 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr A<T, N...> transpose(const A<T, N...> & value)
 		{
-			A<T, N...> temp { uninit };
+			A<T, N...> temp { NULL };
 			for (size_t i = 0; i < value.size(); i++)
 			{
-				temp[i] = value[
-					(i % value.cols()) * value.cols() + (i / value.cols())
-				];
+				const size_t y { i % value.width() };
+				const size_t x { i / value.width() };
+				temp[i] = value[y * value.width() + x];
 			}
 			return temp;
 		}
@@ -669,7 +669,7 @@ namespace ml
 			class T
 		> static constexpr T cross(const M<T, 2, 1> & a, const M<T, 2, 1> & b)
 		{
-			return (a[0] * b[1]) - (a[1] * b[0]);
+			return a[0] * b[1] - b[0] * a[1];
 		}
 
 		template <

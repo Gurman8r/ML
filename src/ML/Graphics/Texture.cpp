@@ -110,15 +110,8 @@ namespace ml
 
 	bool Texture::loadFromImage(const Image & value)
 	{
-		GL::Format fmt;
-		switch (value.channels())
-		{
-		case 1: fmt = GL::Red; break;
-		case 3: fmt = GL::RGB; break;
-		case 4:
-		default: fmt = GL::RGBA; break;
-		}
-		m_iFormat = m_cFormat = fmt;
+		if (!value.channels()) return false;
+		m_iFormat = m_cFormat = value.getFormat();
 		return this->create(value.size()) && this->update(value);
 	}
 
@@ -162,7 +155,7 @@ namespace ml
 			}
 		}
 
-		m_iFormat = m_cFormat = faces[0]->format();
+		m_iFormat = m_cFormat = faces[0]->getFormat();
 
 		// Create Texture
 		if (this->dispose() && this->set_handle(ML_GL.genTexture()))
@@ -497,77 +490,6 @@ namespace ml
 		return (*this);
 	}
 
-	Texture & Texture::setSampler(GL::Sampler value)
-	{
-		if ((*this) && (m_sampler != value))
-		{
-			this->bind();
-			this->unbind();
-			ML_GL.flush();
-		}
-		return (*this);
-	}
-
-	Texture & Texture::setLevel(int32_t value)
-	{
-		m_level = value;
-		if ((*this) && (m_level != value))
-		{
-			this->bind();
-			this->unbind();
-			ML_GL.flush();
-		}
-		return (*this);
-	}
-
-	Texture & Texture::setFormat(GL::Format value)
-	{
-		m_iFormat = m_cFormat = value;
-		if ((*this))
-		{
-			this->bind();
-			this->unbind();
-			ML_GL.flush();
-		}
-		return (*this);
-	}
-
-	Texture & Texture::setInternalFormat(GL::Format value)
-	{
-		m_iFormat = value;
-		if ((*this))
-		{
-			this->bind();
-			this->unbind();
-			ML_GL.flush();
-		}
-		return (*this);
-	}
-
-	Texture & Texture::setColorFormat(GL::Format value)
-	{
-		m_cFormat = value;
-		if ((*this))
-		{
-			this->bind();
-			this->unbind();
-			ML_GL.flush();
-		}
-		return (*this);
-	}
-
-	Texture & Texture::setPixelType(GL::Type value)
-	{
-		m_pixType = value;
-		if ((*this))
-		{
-			this->bind();
-			this->unbind();
-			ML_GL.flush();
-		}
-		return (*this);
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Texture & Texture::swap(Texture & other)
@@ -596,17 +518,7 @@ namespace ml
 
 	const Image Texture::copyToImage() const
 	{
-		const uint32_t channels = ([&]() {  
-			switch (m_iFormat)
-			{
-			case ml::GL::Red: return 1;
-			case ml::GL::RGB: return 3;
-			case ml::GL::RGBA: return 4;
-			default: return 0;
-			}
-		})();
-
-		Image image { this->size(), channels };
+		Image image { this->size(), getChannels() };
 		if ((*this))
 		{
 			this->bind();
@@ -616,6 +528,17 @@ namespace ml
 			this->unbind();
 		}
 		return image;
+	}
+
+	uint32_t Texture::getChannels() const
+	{
+		switch (m_iFormat)
+		{
+		case ml::GL::Red: return 1;
+		case ml::GL::RGB: return 3;
+		case ml::GL::RGBA: return 4;
+		default: return 0;
+		}
 	}
 
 	const Texture & Texture::bind() const

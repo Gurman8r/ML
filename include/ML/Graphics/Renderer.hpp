@@ -9,6 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// Renderer is a drawable that draws another drawable
 	struct ML_GRAPHICS_API Renderer final
 		: public I_Newable
 		, public I_Drawable
@@ -24,10 +25,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Renderer & setDrawable(const I_Drawable * value);
+		Renderer & setEnabled(bool value);
 		Renderer & setMaterial(const Material * value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline auto enabled()	const	-> const bool &			{ return m_enabled; }
 		inline auto drawable()	const	-> const I_Drawable *	{ return m_drawable; }
 		inline auto material()	const	-> const Material *		{ return m_material; }
 		inline auto states()			-> RenderStates	&		{ return m_states; }
@@ -41,6 +44,7 @@ namespace ml
 
 	private:
 		const I_Drawable *	m_drawable;
+		bool				m_enabled;
 		const Material *	m_material;
 		RenderStates		m_states;
 

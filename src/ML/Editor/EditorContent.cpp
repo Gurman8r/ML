@@ -3,6 +3,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/OS.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/TypeTag.hpp>
 #include <ML/Engine/ContentManager.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
@@ -84,7 +85,6 @@ namespace ml
 					// Selectable
 					if (ImGui::Selectable((pair.first + "##" + label).c_str(), is_selected))
 					{
-
 						ev.editor.content().m_typename = type_name;
 						ev.editor.content().m_selected = pair.second;
 						ev.editor.content().m_itemname = pair.first;
@@ -118,15 +118,20 @@ namespace ml
 
 	bool EditorContent::onGui(const GuiEvent & ev)
 	{
-		if (beginDraw(ImGuiWindowFlags_NoScrollbar))
+		if (beginDraw(ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoScrollbar))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ImGuiStyle & style { ImGui::GetStyle() };
 			
-			const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::EndMenuBar();
+			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
+
+			const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
 
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 			ImGui::BeginChild(

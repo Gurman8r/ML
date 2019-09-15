@@ -65,18 +65,20 @@ namespace ml
 
 	RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const RenderBatch & batch)
 	{
-		if (batch.vbo && batch.vbo)
+		if (batch.vao && batch.vbo)
 		{
-			if (batch.mat && (batch.mat->shader() && (*batch.mat->shader())))
-			{
-				batch.mat->bind();
-			}
+			const bool has_mtl { batch.mat && (batch.mat->shader() && (*batch.mat->shader())) };
+			
+			if (has_mtl) { batch.mat->bind(); }
 
-			batch.vbo->bind();
-			batch.vbo->bufferSubData(verts, (uint32_t)(count), 0);
-			batch.vbo->unbind();
+			(*batch.vbo)
+				.bind()
+				.bufferSubData(verts, (uint32_t)(count), 0)
+				.unbind();
 
-			return draw((*batch.vao), (*batch.vbo));
+			draw((*batch.vao), (*batch.vbo));
+
+			if (has_mtl) { batch.mat->unbind(); }
 		}
 		return (*this);
 	}

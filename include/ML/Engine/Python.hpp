@@ -27,8 +27,10 @@
 
 namespace ml
 {
-	struct ML_ENGINE_API Py
+	struct ML_ENGINE_API Py final
 	{
+		Py() = delete;
+
 		static inline int32_t RunString(const String & value)
 		{
 			Py_Initialize();

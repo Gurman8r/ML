@@ -151,6 +151,13 @@ ml.content.load([
         "shader":   "basic",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.mat"
+    },
+    {
+        "type":     "Material",
+        "name":     "geometry",
+        "shader":   "geometry",
+        "defaults": "False",
+        "uniforms": PATH + "/materials/geometry.mat"
     }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

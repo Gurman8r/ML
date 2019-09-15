@@ -4,24 +4,27 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Renderer::Renderer()
-		: m_drawable(nullptr)
+		: m_enabled(true)
+		, m_drawable(nullptr)
 		, m_material(nullptr)
 		, m_states()
 	{
 	}
 
 	Renderer::Renderer(const I_Drawable * drawable, const Material * material)
-		: m_drawable(drawable)
+		: m_enabled(true)
+		, m_drawable(drawable)
 		, m_material(material)
 		, m_states()
 	{
 	}
 
 	Renderer::Renderer(const I_Drawable * drawable, const Material * material, const RenderStates & states)
-		: m_drawable(drawable)
+		: m_enabled(true)
+		, m_drawable(drawable)
 		, m_material(material)
 		, m_states(states)
 	{
@@ -29,9 +32,17 @@ namespace ml
 
 	Renderer::~Renderer() {}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	Renderer & Renderer::setDrawable(const I_Drawable * value)
 	{
 		m_drawable = value;
+		return (*this);
+	}
+
+	Renderer & Renderer::setEnabled(bool value)
+	{
+		m_enabled = value;
 		return (*this);
 	}
 
@@ -45,7 +56,7 @@ namespace ml
 
 	void Renderer::draw(RenderTarget & target, RenderBatch batch) const
 	{
-		if (m_drawable && m_material)
+		if (m_enabled && m_drawable && m_material)
 		{
 			m_states.apply();
 

@@ -12,7 +12,10 @@ namespace ml
 	Ostream & FMT::operator()(Ostream & out) const
 	{
 #ifdef ML_SYSTEM_WINDOWS
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (*(*this)));
+		if (HANDLE handle { GetStdHandle(STD_OUTPUT_HANDLE) })
+		{
+			SetConsoleTextAttribute(handle, (*(*this)));
+		}
 #else 
 		// Do the thing
 #endif
@@ -23,13 +26,13 @@ namespace ml
 
 	void Debug::exit(int32_t exitCode)
 	{
-		return std::exit(exitCode);
+		std::exit(exitCode);
 	}
 
 	void Debug::fatal(const String & message)
 	{
 		Logger()(cerr, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
-		return std::abort();
+		std::abort();
 	}
 
 	int32_t Debug::clear()

@@ -78,7 +78,7 @@ namespace ml
 			template <class, size_t, size_t> class M, class U, size_t W, size_t H
 		> constexpr operator M<U, W, H>() const
 		{
-			M<U, W, H> temp { uninit };
+			M<U, W, H> temp { NULL };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				const size_t x { i % temp.width() };
@@ -96,12 +96,12 @@ namespace ml
 
 		static constexpr self_type zero()
 		{
-			return self_type { uninit };
+			return self_type { NULL };
 		}
 
 		static constexpr self_type one()
 		{
-			self_type temp { uninit };
+			self_type temp { NULL };
 			for (auto & elem : temp) 
 			{
 				elem = constant_t<T>::one; 
@@ -111,7 +111,7 @@ namespace ml
 
 		static constexpr self_type identity()
 		{
-			self_type temp { uninit };
+			self_type temp { NULL };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				temp[i] = (((i / temp.width()) == (i % temp.width())) 

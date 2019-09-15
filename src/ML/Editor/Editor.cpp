@@ -66,8 +66,8 @@ namespace ml
 				EditorDockspace & d { ev->dockspace };
 				d.dockWindow(m_explorer	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_inspector.getTitle(), d.getNode(d.RightDn));
+				d.dockWindow(m_inspector.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightDn));
 				d.dockWindow(m_terminal	.getTitle(), d.getNode(d.LeftDn));
 			}
 			break;
@@ -263,18 +263,15 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("File"))
 			{
-				// File -> New
-				if (ImGui::BeginMenu("New"))
+				// File -> Create
+				if (ImGui::BeginMenu("Create"))
 				{
 					void * temp { nullptr };
-
-					PropertyDrawer<Image>	()("Image##New",	(Image *&)temp,		0b1);
-					PropertyDrawer<Material>()("Material##New",	(Material *&)temp,	0b1);
-					PropertyDrawer<Model>	()("Model##New",	(Model *&)temp,		0b1);
-					PropertyDrawer<Shader>	()("Shader##New",	(Shader *&)temp,	0b1);
-					PropertyDrawer<Texture>	()("Texture##New",	(Texture *&)temp,	0b1);
-					
-					eventSystem().fireEvent(File_New_Event());
+					PropertyDrawer<Image>	()("Image##Create",		(Image *&)temp,		0b1);
+					PropertyDrawer<Material>()("Material##Create",	(Material *&)temp,	0b1);
+					PropertyDrawer<Model>	()("Model##Create",		(Model *&)temp,		0b1);
+					PropertyDrawer<Shader>	()("Shader##Create",	(Shader *&)temp,	0b1);
+					PropertyDrawer<Texture>	()("Texture##Create",	(Texture *&)temp,	0b1);
 					ImGui::EndMenu();
 				}
 
@@ -345,7 +342,7 @@ namespace ml
 				{
 					OS::execute("open", "https://bit.ly/ml_noobs");
 				}
-				if (ImGui::BeginMenu("Third Party Software"))
+				if (ImGui::BeginMenu("Third Party"))
 				{
 					if (ImGui::MenuItem("assimp")) OS::execute("open", "https://github.com/assimp/assimp");
 					if (ImGui::MenuItem("cpython")) OS::execute("open", "https://github.com/python/cpython");

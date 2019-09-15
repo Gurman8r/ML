@@ -7,9 +7,9 @@ namespace ml
 	GameTime::GameTime()
 		: m_mainTimer	{}
 		, m_loopTimer	{}
-		, m_delta		{ uninit }
-		, m_elapsed		{ uninit }
-		, m_fps			{ uninit }
+		, m_delta		{ NULL }
+		, m_elapsed		{ NULL }
+		, m_fps			{ NULL }
 	{
 		m_mainTimer.start();
 	}

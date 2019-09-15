@@ -1,7 +1,19 @@
 #shader vertex
-#include "../../../assets/shaders/common/Vert.shader"
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-mat4 orthographic(float left, float right, float bottom, float top)
+#version 410 core
+
+layout(location = 0) in vec3 a_Position;
+layout(location = 1) in vec4 a_Normal;
+layout(location = 2) in vec2 a_Texcoord;
+
+out Vertex {
+	vec3 Position;
+	vec4 Normal;
+	vec2 Texcoord;
+} V;
+
+mat4 ortho(float left, float right, float bottom, float top)
 {
 	mat4 temp = mat4(1.0);
 	temp[0][0] = 2.0 / (right - left);
@@ -12,7 +24,9 @@ mat4 orthographic(float left, float right, float bottom, float top)
 	return temp;
 }
 
-uniform vec2 u_viewport;
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_proj;
 
 void main()
 {
@@ -20,17 +34,22 @@ void main()
 	V.Normal = a_Normal;
 	V.Texcoord = a_Texcoord;
 
-	mat4 p = orthographic(
-		0.0, u_viewport.x,
-		0.0, u_viewport.y
-	);
-
-	gl_Position = p * vec4(V.Position, 1.0);
+	gl_Position = (u_proj * u_view * u_model) * vec4(V.Position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #shader fragment
-#include "../../../assets/shaders/common/Frag.shader"
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#version 410 core
+
+in Vertex {
+	vec3 Position;
+	vec4 Normal;
+	vec2 Texcoord;
+} V;
+
+out vec4 gl_Color;
 
 uniform	vec4 u_color;
 
@@ -41,7 +60,9 @@ void main()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #shader geometry
-#include "../../../assets/shaders/common/Curve.Draw.shader"
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#version 410 core
 
 #define SAMPLES_PER_SEGMENT 16
 #define SAMPLES_MAX 128
@@ -52,6 +73,8 @@ void main()
 
 layout(points) in;
 layout(line_strip, max_vertices = SAMPLES_MAX) out;
+
+#include "../../../assets/shaders/common/Curve.Draw.shader"
 
 uniform int		u_mode;
 uniform float	u_delta;

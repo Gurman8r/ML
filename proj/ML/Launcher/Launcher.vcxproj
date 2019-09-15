@@ -187,6 +187,7 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
   <ItemGroup>
     <None Include="..\..\..\assets\materials\basic.mat" />
     <None Include="..\..\..\assets\materials\advanced.mat" />
+    <None Include="..\..\..\assets\materials\geometry.mat" />
     <None Include="..\..\..\assets\materials\skybox.mat" />
     <None Include="..\..\..\assets\scripts\boot.py" />
     <None Include="..\..\..\assets\scripts\load.py" />

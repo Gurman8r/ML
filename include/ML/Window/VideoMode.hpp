@@ -36,7 +36,7 @@ namespace ml
 		}
 
 		constexpr VideoMode()
-			: VideoMode { { uninit }, 0 }
+			: VideoMode { { NULL }, 0 }
 		{
 		}
 

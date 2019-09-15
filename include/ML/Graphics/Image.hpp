@@ -20,7 +20,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pixels					= typename List<byte_t>;
+		using Pixels					= typename List<uint8_t>;
 		using iterator					= typename Pixels::iterator;
 		using const_iterator			= typename Pixels::const_iterator;
 		using reverse_iterator			= typename Pixels::reverse_iterator;
@@ -66,23 +66,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto bounds()	const -> const UintRect		{ return UintRect { { 0, 0 }, size() }; }
-		inline auto capacity()	const -> uint32_t			{ return m_size[0] * m_size[1] * m_channels; }
+		inline auto bounds()	const -> UintRect			{ return UintRect { { 0, 0 }, size() }; }
+		inline auto capacity()	const -> uint32_t			{ return width() * height() * channels(); }
 		inline auto channels()	const -> const uint32_t	&	{ return m_channels; }
-		inline auto data()		const -> const byte_t *		{ return m_pixels.data(); }
+		inline auto data()		const -> const uint8_t *	{ return m_pixels.data(); }
 		inline auto empty()		const -> bool				{ return m_pixels.empty(); }
 		inline auto height()	const -> const uint32_t &	{ return m_size[1]; }
 		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }
 		inline auto size()		const -> const vec2u &		{ return m_size; }
 		inline auto width()		const -> const uint32_t &	{ return m_size[0]; }
 
-		inline auto format() const -> GL::Format
+		inline auto getFormat() const -> GL::Format
 		{
 			switch (m_channels)
 			{
-			case 1: return GL::Red;
-			case 3: return GL::RGB;
-			case 4:
+			case 1 : return GL::Red;
+			case 3 : return GL::RGB;
+			case 4 :
 			default: return GL::RGBA;
 			}
 		}
@@ -94,12 +94,12 @@ namespace ml
 			return !this->empty();
 		}
 
-		inline const byte_t & operator[](size_t i) const
+		inline const uint8_t & operator[](size_t i) const
 		{
 			return m_pixels[i];
 		}
 
-		inline byte_t & operator[](size_t i)
+		inline uint8_t & operator[](size_t i)
 		{
 			return m_pixels[i];
 		}

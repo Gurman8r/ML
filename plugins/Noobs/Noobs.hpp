@@ -50,15 +50,13 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			bool			enabled;
 			Ref<Entity>		entity;
 			Renderer *		renderer;
 			Ref<Material>	material;
 			Ref<Model>		model;
 
 			DemoSkybox(const String & name)
-				: enabled	{ false }
-				, entity	{ name }
+				: entity	{ name }
 				, renderer	{ nullptr }
 				, material	{ "skybox" }
 				, model		{ "skybox" }
@@ -69,7 +67,7 @@ namespace ml
 
 			inline operator bool() const
 			{
-				return enabled && renderer && entity && material && model;
+				return renderer && entity && material && model;
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */

@@ -25,13 +25,13 @@ namespace ml
 			temp->addVertex(Vertex {
 				mesh->mVertices
 					? vec3 { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z }
-					: vec3 { uninit },
+					: vec3 { NULL },
 				mesh->mNormals
 					? vec4 { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z, 1.0f }
-					: vec4 { uninit },
+					: vec4 { NULL },
 				mesh->mTextureCoords[0]
 					? vec2 { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y }
-					: vec2 { uninit }
+					: vec2 { NULL }
 			});
 		}
 

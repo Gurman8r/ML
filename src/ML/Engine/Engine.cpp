@@ -22,41 +22,6 @@
 
 namespace ml
 {
-	static inline mat4 LOOK_AT(const vec3 & eye, const vec3 & center, const vec3 & up)
-	{
-		const vec3 f = alg::normalize(center - eye);
-		const vec3 s = alg::normalize(alg::cross(f, up));
-		const vec3 u = alg::cross(s, f);
-		mat4 m { 1 };
-		m[ 0] = s[0];
-		m[ 1] = u[0];
-		m[ 2] = -f[0];
-		m[ 4] = s[1];
-		m[ 5] = u[1];
-		m[ 6] = -f[1];
-		m[ 8] = s[2];
-		m[ 9] = u[2];
-		m[10] = -f[2];
-		m[12] = -alg::dot(s, eye);
-		m[13] = -alg::dot(u, eye);
-		m[14] = alg::dot(f, eye);
-		return m;
-	}
-
-	static inline mat4 PERSP(float_t fov, float_t aspect, float_t zNear, float_t zFar)
-	{
-		mat4 m { uninit };
-		m[0 * 4 + 0] = 1.0f / (aspect * std::tan(fov / 2.0f));
-		m[1 * 4 + 1] = 1.0f / std::tan(fov / 2.0f);
-		m[2 * 4 + 3] = -1.0f;
-		m[2 * 4 + 2] = -(zFar + zNear) / (zFar - zNear);
-		m[3 * 4 + 2] = -(2.0f * zFar * zNear) / (zFar - zNear);
-		return m;
-	}
-}
-
-namespace ml
-{
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Engine::Engine(EventSystem & eventSystem)	
@@ -178,8 +143,6 @@ namespace ml
 		ML_Content.insert<Uniform>("u_frameRate",	new uni_float_ptr("u_frameRate",	&m_frameRate));
 		ML_Content.insert<Uniform>("u_totalTime",	new uni_float_ptr("u_totalTime",	&m_totalTime));
 		ML_Content.insert<Uniform>("u_viewport",	new uni_vec2_ptr ("u_viewport",		&m_viewport));
-		//ML_Content.insert<Uniform>("u_view",		new uni_mat4_ptr ("u_view",			&m_proj));
-		//ML_Content.insert<Uniform>("u_proj",		new uni_mat4_ptr ("u_proj",			&m_view));
 
 		
 		// Run Load Script
@@ -214,8 +177,6 @@ namespace ml
 		m_frameRate		= (float_t)ev.time.frameRate();
 		m_viewport		= (vec2)ev.window.size();
 		m_totalTime		= ev.time.total().delta();
-		m_view			= LOOK_AT({ 0.f, 0.f, 3.f }, { 0.f, 0.f, -1.f }, { 0.f, 1.f, 0.f });
-		m_proj			= PERSP(45.f, ML_ASPECT_2(m_viewport), 0.001f, 1000.f);
 
 		// Update Window Title
 		static const String original_title { ev.window.title() };

@@ -361,6 +361,7 @@ namespace ml
 					if (ImGui::MenuItem("GLM")) OS::execute("open", "https://glm.g-truc.net/0.9.9/index.html");
 					if (ImGui::MenuItem("ImGui")) OS::execute("open", "https://github.com/ocornut/imgui");
 					if (ImGui::MenuItem("ImGuiColorTextEdit")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
+					if (ImGui::MenuItem("ImGuizmo")) OS::execute("open", "https://github.com/CedricGuillemet/ImGuizmo");
 					if (ImGui::MenuItem("INIReader")) OS::execute("open", "https://github.com/benhoyt/inih");
 					if (ImGui::MenuItem("Lua")) OS::execute("open", "https://github.com/lua/lua");
 					if (ImGui::MenuItem("ogg")) OS::execute("open", "https://github.com/xiph/ogg");

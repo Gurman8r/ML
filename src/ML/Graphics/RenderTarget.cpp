@@ -1,31 +1,9 @@
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/OpenGL.hpp>
-#include <ML/Core/Debug.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
-	
-	RenderTarget & RenderTarget::clear()
-	{
-		ML_GL.clear(GL::DepthBufferBit);
-		return (*this);
-	}
-	
-	RenderTarget & RenderTarget::clear(const vec4 & color)
-	{
-		ML_GL.clearColor(color[0], color[1], color[2], color[3]);
-		ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
-		return (*this);
-	}
-
-	RenderTarget & RenderTarget::setViewport(const vec2i & pos, const vec2i & size)
-	{
-		ML_GL.viewport(pos[0], pos[1], size[0], size[1]);
-		return (*this);
-	}
-	
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderTarget & RenderTarget::draw(const I_Drawable * value)
 	{
@@ -37,7 +15,7 @@ namespace ml
 		return (value) ? draw(*value, batch) : (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderTarget & RenderTarget::draw(const I_Drawable & value)
 	{
@@ -51,7 +29,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderTarget & RenderTarget::draw(const List<Vertex> & verts, const RenderBatch & batch)
 	{
@@ -83,7 +61,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo, const IBO & ibo)
 	{
@@ -117,5 +95,5 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

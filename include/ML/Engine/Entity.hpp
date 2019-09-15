@@ -11,98 +11,84 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API Entity final
+	struct ML_ENGINE_API Entity
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 		, public I_Writable
-		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type	= typename I_Newable *;
-		using map_type		= typename HashMap<size_t, value_type>;
+		using map_type		= typename HashMap<hash_t, value_type>;
 		using iterator		= typename map_type::iterator;
 		using const_iterator= typename map_type::const_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Entity();
-		~Entity();
+		Entity() : m_map {} {}
+		
+		virtual ~Entity() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
-		bool saveToFile(const String & filename) const override;
+		virtual bool dispose() override;
+		virtual bool loadFromFile(const String & filename) override;
+		virtual bool saveToFile(const String & filename) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline iterator find()
+		template <class T> static inline hash_t get_hash()
 		{
-			return (iterator)(m_map.find(typeid(T).hash_code()));
+			return static_cast<hash_t>(typeid(T).hash_code());
 		}
 
-		template <
-			class T
-		> inline const_iterator find() const
+		template <class T> inline iterator find()
 		{
-			return (const_iterator)(m_map.find(typeid(T).hash_code()));
+			return m_map.find(get_hash<T>());
+		}
+
+		template <class T> inline const_iterator find() const
+		{
+			return m_map.find(get_hash<T>());
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class T> inline T * insert(T * value)
+		{
+			return ((this->find<T>() == this->end())
+				? static_cast<T *>(m_map.insert({ get_hash<T>(), value }).first->second)
+				: nullptr
+			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class T> inline T * add()
 		{
-			return ((this->find<T>() == this->end())
-				? (static_cast<T *>(m_map.insert({ 
-						typeid(T).hash_code(), new T() 
-					}).first->second))
-				: (nullptr)
-			);
-		}
-
-		template <class T> inline T * add(T * value)
-		{
-			return ((this->find<T>() == this->end())
-				? (static_cast<T *>(m_map.insert({
-						typeid(T).hash_code(), value
-					}).first->second))
-				: (nullptr)
-			);
+			return this->insert<T>(new T {});
 		}
 
 		template <
 			class T, class ... Args
 		> inline T * add(Args && ... args)
 		{
-			return this->add<T>(new T { std::forward<Args>(args)... });
+			return this->insert<T>(new T { std::forward<Args>(args)... });
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline T * get()
+		template <class T> inline T * get()
 		{
-			iterator it;
-			return (((it = this->find<T>()) != this->end())
-				? (static_cast<T *>(it->second))
-				: (nullptr)
-			);
+			iterator it { this->find<T>() };
+			return ((it != this->end()) ? static_cast<T *>(it->second) : nullptr);
 		}
 
-		template <
-			class T
-		> inline const T * get() const
+		template <class T> inline const T * get() const
 		{
-			const_iterator it;
-			return (((it = this->find<T>()) != this->cend())
-				? (static_cast<const T *>(it->second))
-				: (nullptr)
-			);
+			const_iterator it { this->find<T>() };
+			return ((it != this->cend()) ? static_cast<const T *>(it->second) : nullptr);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

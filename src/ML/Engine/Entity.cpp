@@ -5,18 +5,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	Entity::Entity()
-		: m_map()
-	{
-	}
-
-	Entity::~Entity()
-	{
-		dispose();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	bool Entity::dispose()
 	{
 		for (auto & pair : m_map)

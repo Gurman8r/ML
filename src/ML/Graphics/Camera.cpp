@@ -1,5 +1,7 @@
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/GLM.hpp>
+#include <ML/Graphics/OpenGL.hpp>
+#include <ML/Core/Debug.hpp>
 
 namespace ml
 {
@@ -49,6 +51,27 @@ namespace ml
 	}
 	
 	Camera::~Camera() {}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	Camera & Camera::clear()
+	{
+		ML_GL.clear(GL::DepthBufferBit);
+		return (*this);
+	}
+
+	Camera & Camera::clear(const vec4 & color)
+	{
+		ML_GL.clearColor(color[0], color[1], color[2], color[3]);
+		ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
+		return (*this);
+	}
+
+	Camera & Camera::setViewport(const vec2i & pos, const vec2i & size)
+	{
+		ML_GL.viewport(pos[0], pos[1], size[0], size[1]);
+		return (*this);
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

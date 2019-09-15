@@ -188,8 +188,8 @@ namespace ml
 			DemoSkybox		m_skybox	{ "demo_skybox" };
 			DemoScene		m_scene		{};
 
-			uni_mat4 view { "u_view", mat4 {} };
-			uni_mat4 proj { "u_proj", mat4 {} };
+			GL::Mode		m_geoMode	{ GL::Points };
+			int32_t			m_geoCount	{ 4 };
 
 			/* * * * * * * * * * * * * * * * * * * * */
 

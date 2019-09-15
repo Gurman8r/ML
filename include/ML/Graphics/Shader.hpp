@@ -54,7 +54,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 		inline auto sources() const	-> const Source & { return m_sources; }
 		inline auto vertSrc() const -> const String & { return sources().vs; }
 		inline auto fragSrc() const -> const String & { return sources().fs; }

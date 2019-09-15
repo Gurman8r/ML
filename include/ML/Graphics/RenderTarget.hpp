@@ -20,12 +20,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		RenderTarget & clear();
-		RenderTarget & clear(const vec4 & color);
-		RenderTarget & setViewport(const vec2i & pos, const vec2i & size);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
 		RenderTarget & draw(const I_Drawable * value);
 		RenderTarget & draw(const I_Drawable * value, const RenderBatch & batch);
 

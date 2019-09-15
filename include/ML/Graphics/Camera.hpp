@@ -27,6 +27,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		Camera & clear();
+		Camera & clear(const vec4 & color);
+		Camera & setViewport(const vec2i & pos, const vec2i & size);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline auto clearFlags()	const -> const ClearFlags & { return m_clearFlags; }
 		inline auto background()	const -> const vec4 &		{ return m_background; }
 		inline auto projection()	const -> const Projection & { return m_projection; }

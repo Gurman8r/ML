@@ -25,12 +25,9 @@ namespace ml
 			ML_GL.validateVersion(m_context.major, m_context.minor);
 
 			// Setup States
-			RenderStates::get_default().apply();
-
+			RenderStates().apply();
 			ML_GL.enable(GL::Multisample, m_context.multisample);
 			ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable);
-
-			this->setViewport(vec2i { 0, 0 }, getFrameSize());
 
 			return true;
 		}

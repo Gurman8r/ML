@@ -24,6 +24,7 @@
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Window/WindowEvents.hpp>
+#include <ML/Graphics/Camera.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -155,9 +156,9 @@ namespace ml
 			m_editor.m_renderer = e->add<Renderer>(
 				m_editor.m_model,
 				m_editor.m_material,
-				RenderStates::get_default()
+				RenderStates {}
 			);
-			m_editor.m_renderer->states().get<CullState>()->enabled = false;
+			m_editor.m_renderer->states().cull().enabled = false;
 		}
 
 		// Create Skybox Entity
@@ -167,7 +168,7 @@ namespace ml
 			m_editor.m_skybox.renderer = e->add<Renderer>(
 				m_editor.m_skybox.model, 
 				m_editor.m_skybox.material, 
-				RenderStates { { new DepthState { true, false } } }
+				RenderStates { {}, {}, {}, DepthState { true, false } }
 			);
 			m_editor.m_skybox.renderer->setEnabled(false);
 		}
@@ -187,14 +188,16 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		static Camera camera;
+
 		// Render to Main Surface
 		m_pipeline[Surf_Main]->render_to([&]() 
 		{
 			// Set Viewport
-			ev.window.setViewport({ 0, 0 }, m_editor.m_scene.m_viewport);
+			camera.setViewport({ 0, 0 }, m_editor.m_scene.m_viewport);
 
 			// Clear Sceen
-			ev.window.clear(m_editor.m_scene.m_clearColor);
+			camera.clear(m_editor.m_scene.m_clearColor);
 
 			// Draw Skybox
 			ev.window.draw(m_editor.m_skybox.renderer);
@@ -207,21 +210,21 @@ namespace ml
 			if (geo)
 			{
 				geo->bind();
-				ML_GL.drawArrays(GL::Points, 0, 4);
+				ML_GL.drawArrays(m_editor.m_geoMode, 0, m_editor.m_geoCount);
 				geo->unbind();
 			}
 		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Apply Default States
+		// Reset States
 		static RenderStates states
-		{ {
-			new AlphaState	{ true, GL::Greater, 0.01f },
-			new BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-			new CullState	{ false },
-			new DepthState	{ false },
-		} };
+		{
+			AlphaState	{ true, GL::Greater, 0.01f },
+			BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+			CullState	{ false },
+			DepthState	{ false },
+		};
 		states.apply();
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -230,7 +233,7 @@ namespace ml
 		m_pipeline[Surf_Post]->render_to([&]()
 		{
 			// Set Viewport
-			ev.window.setViewport({ 0, 0 }, m_editor.m_scene.m_viewport);
+			//ev.window.setViewport({ 0, 0 }, m_editor.m_scene.m_viewport);
 
 			// Apply Effects to Main
 			if (Surface * surf { m_pipeline[Surf_Main] })
@@ -375,7 +378,7 @@ namespace ml
 						ImGui::SameLine();
 
 						// Toggle Files
-						for (size_t i = 0; i < m_files.size() - 1; i++)
+						for (size_t i = 0; i < m_files.size(); i++)
 						{
 							if (!m_files[i]) { continue; }
 							if (i > 0) { ImGui::SameLine(); }
@@ -584,25 +587,32 @@ namespace ml
 					// Set Clear Color
 					ImGui::ColorEdit4("Clear Color", &m_scene.m_clearColor[0]);
 
+					// Geometry Settings
 					if (m_files[DemoFile::Geom]->open)
 					{
 						ImGui::Separator();
 
+						int32_t count { m_geoCount };
+						if (ImGui::InputInt("Geometry Count", &count, 1, 100))
+						{
+							if (count >= 0) { m_geoCount = count; }
+						}
 
+						int32_t mode { GL::index_of(m_geoMode) };
+						if (ImGuiExt::Combo(
+							"Geometry Mode", &mode, GL::Mode_names, ML_ARRAYSIZE(GL::Mode_names)))
+						{
+							m_geoMode = GL::value_at<GL::Mode>(mode);
+						}
 					}
 
 					ImGui::Separator();
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-					AlphaState	* alpha_state	{ m_renderer->states().get<AlphaState>() };
-					BlendState	* blend_state	{ m_renderer->states().get<BlendState>() };
-					CullState	* cull_state	{ m_renderer->states().get<CullState>()	 };
-					DepthState	* depth_state	{ m_renderer->states().get<DepthState>() };
-
 					// Alpha State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					if (alpha_state) ([](AlphaState *& alpha)
+					([](AlphaState * alpha)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -669,12 +679,12 @@ namespace ml
 						ImGui::NewLine(); ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					})(alpha_state);
+					})(&m_renderer->states().alpha());
 
 
 					// Blend State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					if (blend_state) ([](BlendState * blend)
+					([](BlendState * blend)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -782,12 +792,12 @@ namespace ml
 						ImGui::NewLine(); ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					})(blend_state);
+					})(&m_renderer->states().blend());
 
 
 					// Cull State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					if (cull_state) ([](CullState * cull)
+					([](CullState * cull)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -841,12 +851,12 @@ namespace ml
 						ImGui::NewLine(); ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					})(cull_state);
+					})(&m_renderer->states().cull());
 
 
 					// Depth State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					if (depth_state) ([](DepthState * depth)
+					([](DepthState * depth)
 					{
 						/* * * * * * * * * * * * * * * * * * * * */
 
@@ -909,7 +919,7 @@ namespace ml
 						ImGui::NewLine(); ImGui::Separator();
 
 						/* * * * * * * * * * * * * * * * * * * * */
-					})(depth_state);
+					})(&m_renderer->states().depth());
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

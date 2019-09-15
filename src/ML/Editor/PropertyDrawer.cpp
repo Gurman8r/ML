@@ -56,9 +56,10 @@ namespace ml
 
 	bool PropertyDrawer<Entity>::operator()(const String & label, reference value, int32_t flags) const
 	{
+		ImGui::PushID(ML_ADDRESSOF(&value));
 		if (Renderer * r = value.get<Renderer>())
 		{
-			RenderStates & states = r->states();
+			ImGui::PushID(ML_ADDRESSOF(r));
 			if (ImGui::CollapsingHeader("Renderer"))
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -83,122 +84,114 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (ImGui::TreeNode("Alpha Testing"))
+				if (ImGui::TreeNode("Alpha"))
 				{
-					if (AlphaState * alphaTest = states.get<AlphaState>())
+					ImGui::Checkbox("##Enabled##AlphaState", &r->states().alpha().enabled);
+					
+					int32_t index = GL::index_of(r->states().alpha().predicate);
+					if (ImGuiExt::Combo(
+						"Comparison##Alpha Testing",
+						&index,
+						GL::Predicate_names,
+						ML_ARRAYSIZE(GL::Predicate_names)
+					))
 					{
-						ImGui::Checkbox("##Enabled##Alpha Testing", &alphaTest->enabled);
+						GL::value_at(index, r->states().alpha().predicate);
+					}
+					ImGui::DragFloat("Coeff##AlphaState", &r->states().alpha().coeff);
+					
+					ImGui::TreePop();
+				}
 
-						int32_t index = GL::index_of(alphaTest->predicate);
-						if (ImGuiExt::Combo(
-							"Comparison##Alpha Testing",
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (ImGui::TreeNode("Blend"))
+				{
+					ImGui::Checkbox("Enabled##BlendState", &r->states().blend().enabled);
+
+					auto factor_combo = [](C_String label, int32_t & index)
+					{
+						return ImGuiExt::Combo(
+							label,
 							&index,
-							GL::Predicate_names,
-							ML_ARRAYSIZE(GL::Predicate_names)
-						))
-						{
-							GL::value_at(index, alphaTest->predicate);
-						}
+							GL::Factor_names,
+							ML_ARRAYSIZE(GL::Factor_names)
+						);
+					};
 
-						ImGui::DragFloat("Coeff##Alpha Testing", &alphaTest->coeff);
+					int32_t srcRGB = GL::index_of(r->states().blend().srcRGB);
+					if (factor_combo("Src RGB##BlendState", srcRGB))
+					{
+						GL::value_at(srcRGB, r->states().blend().srcRGB);
+					}
+
+					int32_t srcAlpha = GL::index_of(r->states().blend().srcAlpha);
+					if (factor_combo("Src Alpha##BlendState", srcAlpha))
+					{
+						GL::value_at(srcAlpha, r->states().blend().srcAlpha);
+					}
+
+					int32_t dstRGB = GL::index_of(r->states().blend().dstRGB);
+					if (factor_combo("Dst RGB##BlendState", dstRGB))
+					{
+						GL::value_at(dstRGB, r->states().blend().dstRGB);
+					}
+
+					int32_t dstAlpha = GL::index_of(r->states().blend().dstAlpha);
+					if (factor_combo("Dst Alpha##BlendState", dstAlpha))
+					{
+						GL::value_at(dstAlpha, r->states().blend().dstAlpha);
 					}
 					ImGui::TreePop();
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (ImGui::TreeNode("Blend Function"))
+				if (ImGui::TreeNode("Cull"))
 				{
-					if (BlendState * blendFunc = states.get<BlendState>())
+					ImGui::Checkbox("Enabled##CullState", &r->states().cull().enabled);
+
+					int32_t index = GL::index_of(r->states().cull().face);
+					if (ImGuiExt::Combo(
+						"Face##Cull",
+						&index,
+						GL::Face_names,
+						ML_ARRAYSIZE(GL::Face_names)
+					))
 					{
-						ImGui::Checkbox("Enabled##Blending", &blendFunc->enabled);
-
-						auto factor_combo = [](C_String label, int32_t & index)
-						{
-							return ImGuiExt::Combo(
-								label,
-								&index,
-								GL::Factor_names,
-								ML_ARRAYSIZE(GL::Factor_names)
-							);
-						};
-
-						int32_t srcRGB = GL::index_of(blendFunc->srcRGB);
-						if (factor_combo("Src RGB##Blending", srcRGB))
-						{
-							GL::value_at(srcRGB, blendFunc->srcRGB);
-						}
-
-						int32_t srcAlpha = GL::index_of(blendFunc->srcAlpha);
-						if (factor_combo("Src Alpha##Blending", srcAlpha))
-						{
-							GL::value_at(srcAlpha, blendFunc->srcAlpha);
-						}
-
-						int32_t dstRGB = GL::index_of(blendFunc->dstRGB);
-						if (factor_combo("Dst RGB##Blending", dstRGB))
-						{
-							GL::value_at(dstRGB, blendFunc->dstRGB);
-						}
-
-						int32_t dstAlpha = GL::index_of(blendFunc->dstAlpha);
-						if (factor_combo("Dst Alpha##Blending", dstAlpha))
-						{
-							GL::value_at(dstAlpha, blendFunc->dstAlpha);
-						}
+						GL::value_at(index, r->states().cull().face);
 					}
+
 					ImGui::TreePop();
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (ImGui::TreeNode("Cull Face"))
+				if (ImGui::TreeNode("Depth"))
 				{
-					if (CullState * cullFace = states.get<CullState>())
+					ImGui::Checkbox("Enabled##DepthState", &r->states().depth().enabled);
+
+					ImGui::Checkbox("Mask##DepthState", &r->states().depth().mask);
+
+					int32_t index = GL::index_of(r->states().depth().predicate);
+					if (ImGuiExt::Combo(
+						"Comparison##Depth",
+						&index,
+						GL::Predicate_names,
+						ML_ARRAYSIZE(GL::Predicate_names)
+					))
 					{
-						ImGui::Checkbox("Enabled##Culling", &cullFace->enabled);
-
-						int32_t index = GL::index_of(cullFace->face);
-						if (ImGuiExt::Combo(
-							"Face##Culling",
-							&index,
-							GL::Face_names,
-							ML_ARRAYSIZE(GL::Face_names)
-						))
-						{
-							GL::value_at(index, cullFace->face);
-						}
+						GL::value_at(index, r->states().depth().predicate);
 					}
-					ImGui::TreePop();
-				}
 
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::TreeNode("Depth Testing"))
-				{
-					if (DepthState * depthTest = states.get<DepthState>())
-					{
-						ImGui::Checkbox("Enabled##Depth Testing", &depthTest->enabled);
-
-						ImGui::Checkbox("Mask##Depth Testing", &depthTest->mask);
-
-						int32_t index = GL::index_of(depthTest->predicate);
-						if (ImGuiExt::Combo(
-							"Comparison##Depth Testing",
-							&index,
-							GL::Predicate_names,
-							ML_ARRAYSIZE(GL::Predicate_names)
-						))
-						{
-							GL::value_at(index, depthTest->predicate);
-						}
-					}
 					ImGui::TreePop();
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			}
+			ImGui::PopID();
 		}
+		ImGui::PopID();
 		return false;
 	}
 

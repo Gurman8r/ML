@@ -131,7 +131,7 @@ namespace ml
 		}
 
 		constexpr DepthState(bool enabled, bool mask)
-			: DepthState(enabled, (GL::Predicate)0, mask)
+			: DepthState(enabled, GL::Less, mask)
 		{
 		}
 
@@ -186,6 +186,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const RenderStates & apply() const;
+
+		inline auto operator()() const { return this->apply(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

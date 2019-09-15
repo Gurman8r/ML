@@ -197,6 +197,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\Scene.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Font.hpp" />
@@ -233,6 +234,7 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Image.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\Scene.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\FrameBufferObject.cpp" />

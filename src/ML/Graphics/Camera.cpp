@@ -1,11 +1,12 @@
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/GLM.hpp>
 #include <ML/Graphics/OpenGL.hpp>
+#include <ML/Graphics/Color.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
 {
-	static inline mat4 LOOK_AT(const vec3 & eye, const vec3 & center, const vec3 & up)
+	static inline mat4 look_at(const vec3 & eye, const vec3 & center, const vec3 & up)
 	{
 		const vec3 f = alg::normalize(center - eye);
 		const vec3 s = alg::normalize(alg::cross(f, up));
@@ -26,7 +27,7 @@ namespace ml
 		return m;
 	}
 
-	static inline mat4 PERSP(float_t fov, float_t aspect, float_t zNear, float_t zFar)
+	static inline mat4 perspective(float_t fov, float_t aspect, float_t zNear, float_t zFar)
 	{
 		mat4 m { NULL };
 		m[0 * 4 + 0] = 1.0f / (aspect * std::tan(fov / 2.0f));
@@ -43,10 +44,29 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Camera::Camera()
+		: Camera { ClearFlags::SolidColor, Projection::Perspective }
+	{
+	}
+
+	Camera::Camera(ClearFlags clearFlags, Projection projection)
+		: m_clearFlags	{ clearFlags }
+		, m_background	{ Color::black }
+		, m_projection	{ projection }
+		, m_fieldOfView { 45.0f }
+		, m_clipNear	{ 0.001f }
+		, m_clipFar		{ 1000.0f }
+		, m_viewport	{ { 0, 0 }, { 1920, 1080 } }
 	{
 	}
 
 	Camera::Camera(const Camera & copy)
+		: m_clearFlags	{ copy.m_clearFlags	}
+		, m_background	{ copy.m_background	}
+		, m_projection	{ copy.m_projection	}
+		, m_fieldOfView { copy.m_fieldOfView }
+		, m_clipNear	{ copy.m_clipNear }
+		, m_clipFar		{ copy.m_clipFar }
+		, m_viewport	{ copy.m_viewport }
 	{
 	}
 	
@@ -54,22 +74,96 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Camera & Camera::clear()
+	const Camera & Camera::apply() const
 	{
-		ML_GL.clear(GL::DepthBufferBit);
+		// Apply Clear
+		const vec4 & bg { m_background };
+		switch (m_clearFlags)
+		{
+		case Camera::Skybox:
+			break;
+
+		case Camera::SolidColor:
+			ML_GL.clearColor(bg[0], bg[1], bg[2], bg[3]);
+			ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
+			break;
+
+		case Camera::DepthOnly:
+			ML_GL.clear(GL::DepthBufferBit);
+			break;
+
+		case Camera::DontClear:
+		default:
+			break;
+		}
+
+		// Apply Viewport
+		ML_GL.viewport(
+			m_viewport.position()[0], 
+			m_viewport.position()[1], 
+			m_viewport.size()[0], 
+			m_viewport.size()[1]
+		);
+
 		return (*this);
 	}
 
-	Camera & Camera::clear(const vec4 & color)
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	Camera & Camera::setClearFlags(ClearFlags value)
 	{
-		ML_GL.clearColor(color[0], color[1], color[2], color[3]);
-		ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
+		m_clearFlags = value;
+		return (*this);
+	}
+
+	Camera & Camera::setBackground(const vec4 & value)
+	{
+		m_background = value;
+		return (*this);
+	}
+
+	Camera & Camera::setFieldOfView(float_t value)
+	{
+		m_fieldOfView = value;
+		return (*this);
+	}
+
+	Camera & Camera::setProjection(Projection value)
+	{
+		m_projection = value;
+		return (*this);
+	}
+
+	Camera & Camera::setClipping(float_t zNear, float_t zFar)
+	{
+		return setClipNear(zNear).setClipFar(zFar);
+	}
+
+	Camera & Camera::setClipFar(float_t value)
+	{
+		m_clipFar = value;
+		return (*this);
+	}
+
+	Camera & Camera::setClipNear(float_t value)
+	{
+		m_clipNear = value;
 		return (*this);
 	}
 
 	Camera & Camera::setViewport(const vec2i & pos, const vec2i & size)
 	{
-		ML_GL.viewport(pos[0], pos[1], size[0], size[1]);
+		return setViewport({ pos, size });
+	}
+
+	Camera & Camera::setViewport(const vec2i & value)
+	{
+		return setViewport({ { 0, 0 }, value });
+	}
+
+	Camera & Camera::setViewport(const IntRect & value)
+	{
+		m_viewport = value;
 		return (*this);
 	}
 

@@ -102,9 +102,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ContentImporter.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\ScriptableObject.hpp">
-      <Filter>Header Files\Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Metadata.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
@@ -169,9 +166,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\ContentImporter.cpp">
       <Filter>Source Files\Content</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\ScriptableObject.cpp">
-      <Filter>Source Files\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\MetadataParser.cpp">
       <Filter>Source Files\Content</Filter>

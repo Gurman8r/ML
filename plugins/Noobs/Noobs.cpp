@@ -24,7 +24,6 @@
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Window/WindowEvents.hpp>
-#include <ML/Graphics/Camera.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -188,16 +187,20 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		static Camera camera;
+		// Update Camera
+		m_editor.m_camera.setClearFlags(Camera::SolidColor);
+		m_editor.m_camera.setProjection(Camera::Perspective);
+		m_editor.m_camera.setFieldOfView(45.0f);
+		m_editor.m_camera.setClipNear(0.001f);
+		m_editor.m_camera.setClipFar(1000.0f);
+		m_editor.m_camera.setViewport({ 0, 0 }, (vec2i)m_editor.m_scene.m_viewport);
+		m_editor.m_camera.setBackground(m_editor.m_scene.m_clearColor);
 
-		// Render to Main Surface
+		// Render Scene
 		m_pipeline[Surf_Main]->render_to([&]() 
 		{
-			// Set Viewport
-			camera.setViewport({ 0, 0 }, m_editor.m_scene.m_viewport);
-
-			// Clear Sceen
-			camera.clear(m_editor.m_scene.m_clearColor);
+			// Apply Camera
+			m_editor.m_camera.apply();
 
 			// Draw Skybox
 			ev.window.draw(m_editor.m_skybox.renderer);
@@ -218,23 +221,18 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Reset States
-		static RenderStates states
-		{
+		RenderStates {
 			AlphaState	{ true, GL::Greater, 0.01f },
 			BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
 			CullState	{ false },
 			DepthState	{ false },
-		};
-		states.apply();
+		}();
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Render to Post Surface
+		// Render Post Processing
 		m_pipeline[Surf_Post]->render_to([&]()
 		{
-			// Set Viewport
-			//ev.window.setViewport({ 0, 0 }, m_editor.m_scene.m_viewport);
-
 			// Apply Effects to Main
 			if (Surface * surf { m_pipeline[Surf_Main] })
 			{

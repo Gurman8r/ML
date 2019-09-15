@@ -153,6 +153,9 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderStates.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Scene.hpp">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp">
@@ -232,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp">
       <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\Scene.cpp">
+      <Filter>Source Files\Drawables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Graphics/Material.hpp>
+#include <ML/Graphics/Camera.hpp>
 #include <ML/Engine/Ref.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
@@ -187,7 +188,7 @@ namespace ml
 			File_List		m_files		{ nullptr };
 			DemoSkybox		m_skybox	{ "demo_skybox" };
 			DemoScene		m_scene		{};
-
+			Camera			m_camera	{};
 			GL::Mode		m_geoMode	{ GL::Points };
 			int32_t			m_geoCount	{ 4 };
 

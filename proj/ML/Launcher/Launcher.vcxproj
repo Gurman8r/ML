@@ -194,9 +194,7 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <None Include="..\..\..\assets\scripts\memelib.py" />
     <None Include="..\..\..\assets\shaders\basic.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader" />
-    <None Include="..\..\..\assets\shaders\common\Frag.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Sample.shader" />
-    <None Include="..\..\..\assets\shaders\common\Vert.shader" />
     <None Include="..\..\..\assets\shaders\advanced.fs.shader" />
     <None Include="..\..\..\assets\shaders\advanced.vs.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />

@@ -20,7 +20,6 @@ namespace ml
 		static String	parseShader(const String & src);
 		static String	parseIncludes(const String & src);
 		static String	parseIncludes(const String & src, char lhs, char rhs, IncludeClbk callback);
-		static bool		parseWrapped(const String & src, const char lhs, const char rhs, String & out);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

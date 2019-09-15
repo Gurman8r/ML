@@ -119,7 +119,6 @@ namespace ml
 				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
-					ImGui::MenuItem(ev->editor.terminal().getTitle(), "", ev->editor.terminal().openPtr());
 					ImGui::MenuItem("Viewport##Enable##Noobs##DemoView", "", &m_editor.m_scene.m_open);
 					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.m_open);
 					break;
@@ -197,7 +196,7 @@ namespace ml
 		m_editor.m_camera.setBackground(m_editor.m_scene.m_clearColor);
 
 		// Render Scene
-		m_pipeline[Surf_Main]->render_to([&]() 
+		m_pipeline[Surf_Main]->render_to([&]()
 		{
 			// Apply Camera
 			m_editor.m_camera.apply();

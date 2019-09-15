@@ -62,6 +62,10 @@ namespace ml
 			ImGui::PushID(ML_ADDRESSOF(r));
 			if (ImGui::CollapsingHeader("Renderer"))
 			{
+				ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+				ImGui::BeginChild(("##Renderer##" + label).c_str(), { 0, 0 }, true);
+				ImGui::PopStyleVar();
+
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				bool enabled { r->enabled() };
@@ -188,6 +192,8 @@ namespace ml
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::EndChild();
 			}
 			ImGui::PopID();
 		}
@@ -459,7 +465,7 @@ namespace ml
 
 		ImGui::NextColumn();
 #if 1
-		ImGui::Text("Image previews currently disabled.");
+		ImGui::Text("Image previews are currently disabled.");
 #else
 		// Temporary Texture
 		Ref<Texture> preview { "##PropertyDrawer##Image##Preview##" + label };
@@ -812,7 +818,7 @@ namespace ml
 			const Mesh * mesh { value.meshes()[i] };
 			ImGui::PushID(ML_ADDRESSOF(mesh));
 
-			if (ImGui::TreeNode(String(label + " [" + std::to_string(i) + "]").c_str()))
+			if (ImGui::TreeNode(String("Mesh [" + std::to_string(i) + "]##" + label).c_str()))
 			{
 				ImGui::Text("Vertices: %u", mesh->vertices().size());
 				ImGui::Text("Indices: %u", mesh->indices().size());
@@ -1287,7 +1293,7 @@ namespace ml
 			}
 			else if (sampler_type == 1)
 			{
-				ImGui::TextDisabled("Texture3D Not Supported");
+				ImGui::TextDisabled("Texture3D is currently not supported");
 			}
 			else if (sampler_type == 2)
 			{
@@ -1319,7 +1325,7 @@ namespace ml
 				}
 				else if (sampler_type == 1)
 				{
-					Debug::logError("Texture3D Not Supported");
+					Debug::logError("Texture3D is currently not supported");
 				}
 				else if (sampler_type == 2)
 				{

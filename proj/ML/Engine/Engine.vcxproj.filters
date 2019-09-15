@@ -132,6 +132,9 @@
     <ClInclude Include="..\..\..\include\ML\Engine\ComponentLibrary.hpp">
       <Filter>Header Files\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Engine\Variable.hpp">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Engine\SharedLibrary.cpp">

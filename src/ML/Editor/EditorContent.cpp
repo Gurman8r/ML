@@ -32,6 +32,9 @@ namespace ml
 		template <class T>
 		static inline void draw_list(const GuiEvent & ev)
 		{
+			// Self
+			EditorContent & self { ev.editor.content() };
+
 			// Data
 			static ContentManager::ObjectDatabase & database { ML_Content.data<T>() };
 
@@ -51,7 +54,16 @@ namespace ml
 			})() };
 
 			// Tab Item
-			const bool visible { ImGui::BeginTabItem(label.c_str()) };
+			const bool has_selected { self.m_typename == type_name };
+			if (has_selected)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Tab, { 1.0f, 1.0f, 0.8f, 1.0f });
+			}
+			const bool tab_visible { ImGui::BeginTabItem(label.c_str()) };
+			if (has_selected) 
+			{ 
+				ImGui::PopStyleColor(1); 
+			}
 			
 			// Context Menu
 			if (ImGui::BeginPopupContextItem(("##MainContextMenu##" + label).c_str()))
@@ -64,7 +76,8 @@ namespace ml
 				ImGui::EndPopup();
 			}
 			
-			if (visible)
+			// Tab Content
+			if (tab_visible)
 			{
 				// Draw Items
 				ImGui::PushID(ML_ADDRESSOF(&database));
@@ -76,7 +89,7 @@ namespace ml
 
 					ImGui::PushID(pair.first.c_str());
 
-					const bool is_selected { ev.editor.content().m_selected == pair.second };
+					const bool is_selected { self.m_selected == pair.second };
 					if (is_selected)
 					{
 						ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
@@ -85,9 +98,9 @@ namespace ml
 					// Selectable
 					if (ImGui::Selectable((pair.first + "##" + label).c_str(), is_selected))
 					{
-						ev.editor.content().m_typename = type_name;
-						ev.editor.content().m_selected = pair.second;
-						ev.editor.content().m_itemname = pair.first;
+						self.m_typename = type_name;
+						self.m_selected = pair.second;
+						self.m_itemname = pair.first;
 					}
 					ImGui::PopStyleColor((int32_t)is_selected * 2);
 					ImGui::PopID();
@@ -95,7 +108,6 @@ namespace ml
 				}
 				ImGui::EndGroup();
 				ImGui::PopID();
-
 				ImGui::EndTabItem();
 			}
 		}
@@ -118,7 +130,7 @@ namespace ml
 
 	bool EditorContent::onGui(const GuiEvent & ev)
 	{
-		if (beginDraw(ImGuiWindowFlags_NoScrollbar))
+		if (beginDraw(ImGuiWindowFlags_None))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 

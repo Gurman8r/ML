@@ -34,9 +34,8 @@ in Vertex {
 } V;
 
 out vec4 gl_Color;
-
-uniform	vec4		u_color;
-uniform sampler2D	u_texture0;
+uniform	vec4 u_color;
+uniform sampler2D u_texture0;
 
 void main()
 {

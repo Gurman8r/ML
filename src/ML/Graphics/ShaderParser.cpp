@@ -4,15 +4,33 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	static inline bool parseWrapped(const String & src, char lhs, char rhs, String & out)
+	{
+		size_t a;
+		if ((a = src.find_first_of(lhs)) != String::npos)
+		{
+			size_t b;
+			if ((b = src.find_last_of(rhs)) != String::npos)
+			{
+				if (a != b)
+				{
+					return (bool)(out = src.substr((a + 1), (b - a - 1)));
+				}
+			}
+		}
+		return (bool)(out = String());
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ShaderParser::parseShader(const String & src, SStream & v, SStream & g, SStream & f)
 	{
-		SStream *	dst = nullptr;
-		size_t		count = 0;
-		SStream		ss(parseIncludes(src.replaceAll("\0", " ")));
-		String		line;
-
+		SStream * dst = nullptr;
+		size_t	count = 0;
+		SStream ss { parseIncludes(src.replaceAll("\0", " ")) };
+		String	line;
 		while (std::getline(ss, line))
 		{
 			if (line.find("#shader") != String::npos)
@@ -49,10 +67,9 @@ namespace ml
 			(src.find("#include") == String::npos))
 			return src;
 
-		SStream ss(parseIncludes(src));
+		SStream ss { parseIncludes(src) };
 		String	line;
 		SStream out;
-
 		while (std::getline(ss, line))
 		{
 			if (line.find("#shader") == String::npos)
@@ -60,11 +77,10 @@ namespace ml
 				out << line << endl;
 			}
 		}
-
 		return out.str();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	String ShaderParser::parseIncludes(const String & src)
 	{
@@ -125,24 +141,5 @@ namespace ml
 		return String();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	bool ShaderParser::parseWrapped(const String & src, const char lhs, const char rhs, String & out)
-	{
-		size_t a;
-		if ((a = src.find_first_of(lhs)) != String::npos)
-		{
-			size_t b;
-			if ((b = src.find_last_of(rhs)) != String::npos)
-			{
-				if (a != b)
-				{
-					return (bool)(out = src.substr((a + 1), (b - a - 1)));
-				}
-			}
-		}
-		return (bool)(out = String());
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

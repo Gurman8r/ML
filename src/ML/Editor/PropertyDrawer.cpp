@@ -1184,7 +1184,7 @@ namespace ml
 		}
 
 		int32_t frameID { GL::index_of(value.frameID()) };
-		if (ImGuiExt::Combo(("Framebuffer Attachment##Surface##" + label).c_str(),
+		if (ImGuiExt::Combo(("FB Attachment##Surface##" + label).c_str(),
 			&frameID, GL::FrameID_names, ML_ARRAYSIZE(GL::FrameID_names)))
 		{
 			value.setFrameID(GL::value_at<GL::FrameID>(frameID));

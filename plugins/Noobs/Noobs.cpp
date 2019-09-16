@@ -372,7 +372,7 @@ namespace ml
 						ImGui::SameLine();
 
 						// Toggle Files
-						for (size_t i = 0; i < m_files.size(); i++)
+						for (size_t i = 0; i < m_files.size() - 1; i++)
 						{
 							if (!m_files[i]) { continue; }
 							if (i > 0) { ImGui::SameLine(); }

@@ -116,7 +116,7 @@ ml.content.load([
 
 # Models
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Model", "name": "cube",          "file": PATH + "/meshes/cube.obj" },
+    { "type": "Model", "name": "cube_obj",      "file": PATH + "/meshes/cube.obj" },
     { "type": "Model", "name": "sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "Model", "name": "sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
     #{ "type": "Model", "name": "cow",           "file": PATH + "/meshes/cow.obj" },

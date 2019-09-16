@@ -119,7 +119,7 @@ namespace ml
 				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
-					ImGui::MenuItem("Viewport##Enable##Noobs##DemoView", "", &m_editor.m_scene.m_open);
+					ImGui::MenuItem("Display##Enable##Noobs##DemoView", "", &m_editor.m_scene.m_open);
 					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.m_open);
 					break;
 				}
@@ -130,7 +130,7 @@ namespace ml
 			if (auto ev = value.as<DockspaceEvent>())
 			{
 				EditorDockspace & d = ev->dockspace;
-				d.dockWindow("Viewport##Noobs##DemoView", d.getNode(d.LeftUp));
+				d.dockWindow("Display##Noobs##DemoView", d.getNode(d.LeftUp));
 				d.dockWindow("Editor##Noobs##DemoEditor", d.getNode(d.RightUp));
 			}
 			break;
@@ -244,7 +244,7 @@ namespace ml
 	void Noobs::onGui(const GuiEvent & ev)
 	{
 		// Render Scene
-		m_editor.m_scene.render(ev, "Viewport##Noobs##DemoView", m_pipeline[Surf_Post]);
+		m_editor.m_scene.render(ev, "Display##Noobs##DemoView", m_pipeline[Surf_Post]);
 		
 		// Render Editor
 		m_editor.render(ev, "Editor##Noobs##DemoEditor");
@@ -465,7 +465,7 @@ namespace ml
 						
 						// Uniform Type
 						/* * * * * * * * * * * * * * * * * * * * */
-						ImGui::Text("%s", detail::name_of((Uniform::Type)uni->id)); 
+						ImGui::Text(detail::name_of((Uniform::Type)uni->id)); 
 						ImGui::NextColumn();
 
 						// Uniform Value
@@ -475,7 +475,7 @@ namespace ml
 						{
 							// Remove Uniform
 							ImGui::SameLine();
-							if (ImGui::Button(("X##" + label).c_str())) 
+							if (ImGui::Button(("X##" + label).c_str()))
 							{
 								to_remove = uni;
 							}

@@ -1172,18 +1172,34 @@ namespace ml
 
 		ImGui::Columns(2);
 
-		ImGui::Text("Texture Handle: %u", (uint32_t)value.texture());
+		ImGui::Text("Handle: %u", (uint32_t)value.texture());
+
+		ImGui::Text("Size: %i x %i", value.width(), value.height());
+
+		int32_t colorID { GL::index_of(value.colorID()) };
+		if (ImGuiExt::Combo(("Color Attachment##Surface##" + label).c_str(), 
+			&colorID, GL::ColorID_names, ML_ARRAYSIZE(GL::ColorID_names)))
+		{
+			value.setColorID(GL::value_at<GL::ColorID>(colorID));
+		}
+
+		int32_t frameID { GL::index_of(value.frameID()) };
+		if (ImGuiExt::Combo(("Framebuffer Attachment##Surface##" + label).c_str(),
+			&frameID, GL::FrameID_names, ML_ARRAYSIZE(GL::FrameID_names)))
+		{
+			value.setFrameID(GL::value_at<GL::FrameID>(frameID));
+		}
 
 		const Material * material { value.material() };
 		if (PropertyDrawer<Material>()(("Material##Surface##" + label), material))
 		{
-			//value.setMaterial(material); changed = true;
+			value.setMaterial(material); changed = true;
 		}
 
 		const Model * model { value.model() };
 		if (PropertyDrawer<Model>()(("Model##Surface##" + label), model))
 		{
-			//value.setModel(model); changed = true;
+			value.setModel(model); changed = true;
 		}
 
 		ImGui::NextColumn();

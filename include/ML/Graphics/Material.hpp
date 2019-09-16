@@ -46,6 +46,15 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
+			class T
+		> inline bool setUniform(const String & name, const T & value) const
+		{
+			return shader() && shader()->setUniform(name, value);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
 			class T = typename Uniform
 		> inline T * get(const String & name)
 		{
@@ -131,7 +140,7 @@ namespace ml
 
 	private:
 		const Shader *	m_shader;
-		List<Uniform *>		m_uniforms;
+		List<Uniform *>	m_uniforms;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -43,7 +43,7 @@ namespace ml
 			"If enabled, do alpha testing",
 			"If enabled, blend the computed fragment color values with the values in the color buffers",
 			"If enabled, use multiple fragment samples in computing the final color of a pixel",
-			"If enabled, and the value of the framebuffer attachment corresponding to the destination buffer is sRGB",
+			"If enabled, and the value of the framebuffer colorID corresponding to the destination buffer is sRGB",
 			"If enabled, discard fragments that are outside the scissor rectangle",
 		};
 
@@ -1225,24 +1225,24 @@ namespace ml
 		}
 
 
-		// GL::FrameAttachment
+		// GL::FrameID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr FrameAttachment FrameAttachment_values[] = {
-			FrameAttachment::ColorEncoding,
-			FrameAttachment::ComponentType,
-			FrameAttachment::RedSize,
-			FrameAttachment::GreenSize,
-			FrameAttachment::BlueSize,
-			FrameAttachment::AlphaSize,
-			FrameAttachment::DepthSize,
-			FrameAttachment::StencilSize,
-			FrameAttachment::FramebufferDefault,
-			FrameAttachment::FramebufferUndefined,
-			FrameAttachment::DepthStencil,
+		static constexpr FrameID FrameID_values[] = {
+			GL::FrameID::ColorEncoding,
+			GL::FrameID::ComponentType,
+			GL::FrameID::RedSize,
+			GL::FrameID::GreenSize,
+			GL::FrameID::BlueSize,
+			GL::FrameID::AlphaSize,
+			GL::FrameID::DepthSize,
+			GL::FrameID::StencilSize,
+			GL::FrameID::FramebufferDefault,
+			GL::FrameID::FramebufferUndefined,
+			GL::FrameID::DepthStencil,
 		};
 
-		static constexpr C_String FrameAttachment_names[] = {
+		static constexpr C_String FrameID_names[] = {
 			"Color Encoding",
 			"Component Type",
 			"Red Size",
@@ -1256,7 +1256,7 @@ namespace ml
 			"Depth Stencil",
 		};
 
-		static constexpr C_String FrameAttachment_raw_names[] = {
+		static constexpr C_String FrameID_raw_names[] = {
 			"GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING",
 			"GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE",
 			"GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE",
@@ -1270,7 +1270,7 @@ namespace ml
 			"GL_DEPTH_STENCIL_ATTACHMENT",
 		};
 
-		static constexpr C_String FrameAttachment_descriptions[] = {
+		static constexpr C_String FrameID_descriptions[] = {
 			"No Description",
 			"No Description",
 			"No Description",
@@ -1284,29 +1284,29 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, FrameAttachment & value)
+		static constexpr bool value_at(int32_t i, FrameID & value)
 		{
-			return alg::value_at(i, value, FrameAttachment_values);
+			return alg::value_at(i, value, FrameID_values);
 		}
 
-		static constexpr int32_t index_of(FrameAttachment value)
+		static constexpr int32_t index_of(FrameID value)
 		{
-			return alg::index_of(value, FrameAttachment_values);
+			return alg::index_of(value, FrameID_values);
 		}
 
-		static constexpr C_String name_of(FrameAttachment value)
+		static constexpr C_String name_of(FrameID value)
 		{
-			return alg::at_index(index_of(value), FrameAttachment_names);
+			return alg::at_index(index_of(value), FrameID_names);
 		}
 
-		static constexpr C_String raw_name_of(FrameAttachment value)
+		static constexpr C_String raw_name_of(FrameID value)
 		{
-			return alg::at_index(index_of(value), FrameAttachment_raw_names);
+			return alg::at_index(index_of(value), FrameID_raw_names);
 		}
 
-		static constexpr C_String desc_of(FrameAttachment value)
+		static constexpr C_String desc_of(FrameID value)
 		{
-			return alg::at_index(index_of(value), FrameAttachment_descriptions);
+			return alg::at_index(index_of(value), FrameID_descriptions);
 		}
 
 
@@ -1538,26 +1538,26 @@ namespace ml
 		// GL::Attachment
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr ColorAttachment ColorAttachment_values[] = {
-			ColorAttachment::ColorAttachment0,
-			ColorAttachment::ColorAttachment1,
-			ColorAttachment::ColorAttachment2,
-			ColorAttachment::ColorAttachment3,
-			ColorAttachment::ColorAttachment4,
-			ColorAttachment::ColorAttachment5,
-			ColorAttachment::ColorAttachment6,
-			ColorAttachment::ColorAttachment7,
-			ColorAttachment::ColorAttachment8,
-			ColorAttachment::ColorAttachment9,
-			ColorAttachment::ColorAttachment10,
-			ColorAttachment::ColorAttachment11,
-			ColorAttachment::ColorAttachment12,
-			ColorAttachment::ColorAttachment13,
-			ColorAttachment::ColorAttachment14,
-			ColorAttachment::ColorAttachment15,
+		static constexpr ColorID ColorID_values[] = {
+			ColorID::ColorAttachment0,
+			ColorID::ColorAttachment1,
+			ColorID::ColorAttachment2,
+			ColorID::ColorAttachment3,
+			ColorID::ColorAttachment4,
+			ColorID::ColorAttachment5,
+			ColorID::ColorAttachment6,
+			ColorID::ColorAttachment7,
+			ColorID::ColorAttachment8,
+			ColorID::ColorAttachment9,
+			ColorID::ColorAttachment10,
+			ColorID::ColorAttachment11,
+			ColorID::ColorAttachment12,
+			ColorID::ColorAttachment13,
+			ColorID::ColorAttachment14,
+			ColorID::ColorAttachment15,
 		};
 
-		static constexpr C_String ColorAttachment_names[] = {
+		static constexpr C_String ColorID_names[] = {
 			"Color Attachment 0",
 			"Color Attachment 1",
 			"Color Attachment 2",
@@ -1576,7 +1576,7 @@ namespace ml
 			"Color Attachment 15",
 		};
 
-		static constexpr C_String ColorAttachment_raw_names[] = {
+		static constexpr C_String ColorID_raw_names[] = {
 			"GL_COLOR_ATTACHMENT0",
 			"GL_COLOR_ATTACHMENT1",
 			"GL_COLOR_ATTACHMENT2",
@@ -1595,7 +1595,7 @@ namespace ml
 			"GL_COLOR_ATTACHMENT15",
 		};
 
-		static constexpr C_String ColorAttachment_descriptions[] = {
+		static constexpr C_String ColorID_descriptions[] = {
 			"No Description",
 			"No Description",
 			"No Description",
@@ -1614,29 +1614,29 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, ColorAttachment & value)
+		static constexpr bool value_at(int32_t i, ColorID & value)
 		{
-			return alg::value_at(i, value, ColorAttachment_values);
+			return alg::value_at(i, value, ColorID_values);
 		}
 
-		static constexpr int32_t index_of(ColorAttachment value)
+		static constexpr int32_t index_of(ColorID value)
 		{
-			return alg::index_of(value, ColorAttachment_values);
+			return alg::index_of(value, ColorID_values);
 		}
 
-		static constexpr C_String name_of(ColorAttachment value)
+		static constexpr C_String name_of(ColorID value)
 		{
-			return alg::at_index(index_of(value), ColorAttachment_names);
+			return alg::at_index(index_of(value), ColorID_names);
 		}
 
-		static constexpr C_String raw_name_of(ColorAttachment value)
+		static constexpr C_String raw_name_of(ColorID value)
 		{
-			return alg::at_index(index_of(value), ColorAttachment_raw_names);
+			return alg::at_index(index_of(value), ColorID_raw_names);
 		}
 
-		static constexpr C_String desc_of(ColorAttachment value)
+		static constexpr C_String desc_of(ColorID value)
 		{
-			return alg::at_index(index_of(value), ColorAttachment_descriptions);
+			return alg::at_index(index_of(value), ColorID_descriptions);
 		}
 
 
@@ -2034,10 +2034,10 @@ namespace ml
 	inline ML_SERIALIZE(Ostream & out, const GL::Face & value) { return out << GL::name_of(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::Type & value) { return out << GL::name_of(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::Format & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::FrameAttachment & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::FrameID & value) { return out << GL::name_of(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::TexParam & value) { return out << GL::name_of(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::Pack & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::ColorAttachment & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(Ostream & out, const GL::ColorID & value) { return out << GL::name_of(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::TexID & value) { return out << GL::name_of(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::DrawBuffer & value) { return out << GL::name_of(value); }
 	inline ML_SERIALIZE(Ostream & out, const GL::Mask & value) { return out << GL::name_of(value); }

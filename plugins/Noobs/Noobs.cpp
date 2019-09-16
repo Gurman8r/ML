@@ -177,9 +177,8 @@ namespace ml
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
-		// Update Viewports
-		if (auto & surf { m_pipeline[Surf_Main] }) { surf->update(m_editor.m_scene.m_viewport); }
-		if (auto & surf { m_pipeline[Surf_Post] }) { surf->update(m_editor.m_scene.m_viewport); }
+		// Update Surfaces Viewports
+		for (auto & surf : m_pipeline) { surf->update(m_editor.m_scene.m_viewport); }
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)
@@ -235,8 +234,6 @@ namespace ml
 			// Apply Effects to Main
 			if (Surface * surf { m_pipeline[Surf_Main] })
 			{
-				surf->setUniform("u_effectMode", 0);
-				surf->setUniform("u_kernel", mat3 { -1, -1, -1, -1, 9, -1, -1, -1, -1 });
 				ev.window.draw(surf);
 			}
 		});

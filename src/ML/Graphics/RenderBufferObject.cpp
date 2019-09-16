@@ -72,7 +72,7 @@ namespace ml
 		return (*this);
 	}
 
-	const RenderBufferObject & RenderBufferObject::setFramebuffer(GL::FrameAttachment attachment) const
+	const RenderBufferObject & RenderBufferObject::setFramebuffer(GL::FrameID attachment) const
 	{
 		if (*this)
 		{

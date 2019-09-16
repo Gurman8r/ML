@@ -35,7 +35,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const RenderBufferObject & bufferStorage(GL::Format internalFormat) const;
-		const RenderBufferObject & setFramebuffer(GL::FrameAttachment attachment) const;
+		const RenderBufferObject & setFramebuffer(GL::FrameID attachment) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

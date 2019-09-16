@@ -124,11 +124,6 @@ ml.content.load([
     #{ "type": "Model", "name": "teapot",        "file": PATH + "/meshes/teapot.obj" },
     #{ "type": "Model", "name": "teddy",         "file": PATH + "/meshes/teddy.obj" },
 
-# Surfaces
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Surface", "name": "surf_scene_main", "model": "default_quad", "shader": "surface" },
-    { "type": "Surface", "name": "surf_scene_post", "model": "default_quad", "shader": "surface" },
-
 # Materials
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     {
@@ -158,7 +153,19 @@ ml.content.load([
         "shader":   "geometry",
         "defaults": "False",
         "uniforms": PATH + "/materials/geometry.mat"
-    }
+    },
+    {
+        "type":     "Material",
+        "name":     "surface",
+        "shader":   "surface",
+        "defaults": "False",
+        "uniforms": PATH + "/materials/surface.mat"
+    },
+
+# Surfaces
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+    { "type": "Surface", "name": "surf_scene_main", "model": "default_quad", "material": "surface" },
+    { "type": "Surface", "name": "surf_scene_post", "model": "default_quad", "material": "surface" },
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     ])

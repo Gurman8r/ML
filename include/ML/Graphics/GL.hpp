@@ -245,7 +245,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum FrameAttachment : uint32_t
+		enum FrameID : uint32_t
 		{
 			ColorEncoding= 0x8210,			// GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING
 			ComponentType,					// GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE
@@ -312,7 +312,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum ColorAttachment : uint32_t
+		enum ColorID : uint32_t
 		{
 			ColorAttachment0 = 0x8CE0,		// GL_COLOR_ATTACHMENT0
 			ColorAttachment1,				// GL_COLOR_ATTACHMENT1

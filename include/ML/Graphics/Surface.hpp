@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/FrameBufferObject.hpp>
 #include <ML/Graphics/RenderBufferObject.hpp>
-#include <ML/Graphics/Shader.hpp>
+#include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 
 namespace ml
@@ -19,44 +19,54 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Surface();
-		Surface(const Model * model, const Shader * shader);
+		Surface(const Model * model, const Material * material);
 		Surface(const Surface & copy);
 		~Surface();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-
-		bool create(const vec2i & size, uint32_t attachment);
+		bool create();
 		bool update(const vec2i & size);
+		void draw(RenderTarget & target, RenderBatch batch) const override;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		const Surface & bind() const;
 		const Surface & unbind() const;
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		Surface & setColorID(GL::ColorID value);
+		Surface & setFrameID(GL::FrameID value);
 		Surface & setModel(const Model * value);
-		Surface & setShader(const Shader * value);
+		Surface & setMaterial(const Material * value);
+		Surface & setSize(const vec2i & value);
+		Surface & setStorage(GL::Format value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void draw(RenderTarget & target, RenderBatch batch) const override;
+		inline auto colorID()	const -> GL::ColorID		{ return m_colorID; }
+		inline auto frameID()	const -> GL::FrameID		{ return m_frameID; }
+		inline auto fbo()		const -> const FBO &		{ return m_fbo; }
+		inline auto model()		const -> const Model *		{ return m_model; }
+		inline auto rbo()		const -> const RBO &		{ return m_rbo; }
+		inline auto material()	const -> const Material *	{ return m_material; }
+		inline auto size()		const -> const vec2i &		{ return m_size; }
+		inline auto storage()	const -> GL::Format			{ return m_storage; }
+		inline auto texture()	const -> const Texture &	{ return m_texture; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const
-		{
-			return model() && shader();
-		}
+		inline operator bool() const { return model() && material(); }
 
-		inline void * get_handle() const
-		{
-			return texture().get_handle();
-		}
+		inline void * get_handle() const { return texture().get_handle(); }
 
 		template <
 			class ... Args
 		> inline bool setUniform(Args && ... args) const
 		{
-			return shader() && shader()->setUniform(std::forward<Args>(args)...);
+			return material() && material()->setUniform(std::forward<Args>(args)...);
 		}
 
 		template <
@@ -74,24 +84,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto model()		const	-> const Model *	{ return m_model; }
-		inline auto shader()	const	-> const Shader *	{ return m_shader; }
-		inline auto fbo()		const	-> const FBO &		{ return m_fbo; }
-		inline auto rbo()		const	-> const RBO &		{ return m_rbo; }
-		inline auto size()		const	-> const vec2i	&	{ return m_size; }
-		inline auto texture()	const	-> const Texture &	{ return m_texture; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	private:
+		GL::ColorID		m_colorID;
+		GL::FrameID		m_frameID;
+		FBO				m_fbo;
 		const Model *	m_model;
-		const Shader *	m_shader;
-		
-		Texture		m_texture;
-		vec2i		m_size;
-		uint32_t	m_attachment;
-		FBO			m_fbo;
-		RBO			m_rbo;
+		RBO				m_rbo;
+		const Material *m_material;
+		vec2i			m_size;
+		GL::Format		m_storage;
+		Texture			m_texture;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -668,7 +668,7 @@ namespace ml
 						ImGui::PushID(name.c_str());
 						ImGui::BeginChild(
 							("UniformChild##" + name).c_str(),
-							{ -1, (35 * height) + (height == 1 ? 8 : -8) },
+							{ -1, (35 * height) + 8 },
 							true,
 							ImGuiWindowFlags_NoScrollbar |
 							ImGuiWindowFlags_NoScrollWithMouse
@@ -1174,10 +1174,10 @@ namespace ml
 
 		ImGui::Text("Texture Handle: %u", (uint32_t)value.texture());
 
-		const Shader * shader { value.shader() };
-		if (PropertyDrawer<Shader>()(("Shader##Surface##" + label), shader))
+		const Material * material { value.material() };
+		if (PropertyDrawer<Material>()(("Material##Surface##" + label), material))
 		{
-			//value.setShader(shader); changed = true;
+			//value.setMaterial(material); changed = true;
 		}
 
 		const Model * model { value.model() };

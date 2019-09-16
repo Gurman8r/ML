@@ -356,19 +356,10 @@ namespace ml
 			{
 				if (!ML_Content.get<Surface>(name))
 				{
-					auto temp = new Surface {
+					return ML_Content.create<Surface>(name, 
 						ML_Content.get<Model>(md.getData("model")),
-						ML_Content.get<Shader>(md.getData("shader"))
-					};
-					if (!temp->create({
-						md.getData("width", 1920),
-						md.getData("height", 1080)
-						}, GL::ColorAttachment0
-					))
-					{
-						/* error */
-					}
-					return ML_Content.insert(name, temp);
+						ML_Content.get<Material>(md.getData("material"))
+					);
 				}
 			}
 		}

@@ -39,7 +39,7 @@ out vec4 gl_Color;
 
 uniform vec4		u_color;
 uniform sampler2D	u_texture0;
-uniform int			u_effectMode;
+uniform int			u_effect;
 uniform mat3		u_kernel;
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -87,7 +87,7 @@ vec4 drawKernel(in mat3 kernel)
 
 void main()
 {
-	switch (u_effectMode)
+	switch (u_effect)
 	{
 	case MODE_GRAYSCALE:
 		gl_Color = texture(u_texture0, V.Texcoord);

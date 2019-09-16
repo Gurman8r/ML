@@ -89,6 +89,10 @@ namespace ml
 					ImGui::SameLine();
 					ImGui::Text("\'%s\'", con.get_itemname().c_str());
 				}
+				else
+				{
+					ImGui::Text("Nothing selected");
+				}
 				ImGui::EndMenuBar();
 			}
 			switch (Hash { con.get_typename().data(), con.get_typename().size() })

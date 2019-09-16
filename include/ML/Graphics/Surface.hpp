@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Surface is used to render to a Texture
+	// Surface is used to render a texture
 	struct ML_GRAPHICS_API Surface final
 		: public I_Newable
 		, public I_Disposable
@@ -49,9 +49,9 @@ namespace ml
 		inline auto colorID()	const -> GL::ColorID		{ return m_colorID; }
 		inline auto frameID()	const -> GL::FrameID		{ return m_frameID; }
 		inline auto fbo()		const -> const FBO &		{ return m_fbo; }
+		inline auto material()	const -> const Material *	{ return m_material; }
 		inline auto model()		const -> const Model *		{ return m_model; }
 		inline auto rbo()		const -> const RBO &		{ return m_rbo; }
-		inline auto material()	const -> const Material *	{ return m_material; }
 		inline auto size()		const -> const vec2i &		{ return m_size; }
 		inline auto storage()	const -> GL::Format			{ return m_storage; }
 		inline auto texture()	const -> const Texture &	{ return m_texture; }
@@ -85,15 +85,15 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		GL::ColorID		m_colorID;
-		GL::FrameID		m_frameID;
-		FBO				m_fbo;
-		const Model *	m_model;
-		RBO				m_rbo;
-		const Material *m_material;
-		vec2i			m_size;
-		GL::Format		m_storage;
-		Texture			m_texture;
+		GL::ColorID		m_colorID;	// 
+		GL::FrameID		m_frameID;	// 
+		FBO				m_fbo;		// 
+		const Material *m_material;	// 
+		const Model *	m_model;	// 
+		RBO				m_rbo;		// 
+		vec2i			m_size;		// 
+		GL::Format		m_storage;	// 
+		Texture			m_texture;	// 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -5,6 +5,5 @@ uniform color	u_color		{ 1.0, 1.0, 1.0, 1.0 }
 uniform sampler	u_texture0	{ sanic }
 uniform mat3	u_test_m3	{ 1 0 0, 0 1 0, 0 0 1 }
 uniform mat4	u_test_m4	{ 1 0 0 0, 0 1 0 0, 0 0 1 0, 0 0 0 1 }
-uniform int		u_test_neg	{ -1 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

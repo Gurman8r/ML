@@ -1,7 +1,7 @@
 # surface.mat
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-uniform int		u_effect	{ 3 }
+uniform int		u_effect	{ 0 }
 uniform mat3	u_kernel	{ -1, -1, -1, -1, 9, -1, -1, -1, -1 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

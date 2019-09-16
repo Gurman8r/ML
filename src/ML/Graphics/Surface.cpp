@@ -15,13 +15,13 @@ namespace ml
 	Surface::Surface(const Model * model, const Material * material)
 		: m_colorID	{ GL::ColorAttachment0 }
 		, m_frameID { GL::DepthStencil }
-		, m_fbo		{}
+		, m_fbo		{ }
+		, m_material{ material }
 		, m_model	{ model }
-		, m_rbo		{}
-		, m_material	{ material }
+		, m_rbo		{ }
 		, m_size	{ 0, 0 }
 		, m_storage	{ GL::Depth24_Stencil8 }
-		, m_texture	{}
+		, m_texture	{ }
 	{
 	}
 
@@ -29,9 +29,9 @@ namespace ml
 		: m_colorID	{ copy.m_colorID }
 		, m_frameID	{ copy.m_frameID }
 		, m_fbo		{ }
+		, m_material{ copy.m_material }
 		, m_model	{ copy.m_model }
 		, m_rbo		{ }
-		, m_material{ copy.m_material }
 		, m_size	{ copy.m_size }
 		, m_storage	{ copy.m_storage }
 		, m_texture	{ }
@@ -141,15 +141,15 @@ namespace ml
 		return (*this);
 	}
 
-	Surface & Surface::setModel(const Model * value)
-	{
-		m_model = value;
-		return (*this);
-	}
-
 	Surface & Surface::setMaterial(const Material * value)
 	{
 		m_material = value;
+		return (*this);
+	}
+
+	Surface & Surface::setModel(const Model * value)
+	{
+		m_model = value;
 		return (*this);
 	}
 

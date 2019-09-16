@@ -46,10 +46,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			class T
-		> inline bool setUniform(const String & name, const T & value) const
+			class ... Args
+		> inline bool setUniform(Args && ... args) const
 		{
-			return shader() && shader()->setUniform(name, value);
+			return shader() && shader()->setUniform(std::forward<Args>(args)...);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

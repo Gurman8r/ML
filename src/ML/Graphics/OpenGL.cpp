@@ -778,14 +778,11 @@ namespace ml
 					C_String log = getProgramInfoLog(obj);
 					deleteShader(obj);
 					cout << log << endl;
-					return Debug::logError("Failed compiling {0} source", type);
+					return Debug::logError("Failed compiling {0} source", type); // 0 (false)
 				}
 				return ML_SUCCESS; // +1 (true)
 			}
-			else
-			{
-				return Debug::logError("Failed creating {0} object", type); // 0 (false)
-			}
+			return Debug::logError("Failed creating {0} object", type); // 0 (false)
 		}
 		return ML_WARNING; // -1 (true)
 	}

@@ -140,24 +140,26 @@ namespace ml
 	bool MetadataParser::parseMetadata(const Metadata & data)
 	{
 		const String type { data.getData("type").asString() };
-
-		if (type == "manifest")			return true;
-		else if (type == "Entity")		return ContentImporter<Entity	>()(data);
-		else if (type == "Font")		return ContentImporter<Font		>()(data);
-		else if (type == "Image")		return ContentImporter<Image	>()(data);
-		else if (type == "Material")	return ContentImporter<Material	>()(data);
-		else if (type == "Model")		return ContentImporter<Model	>()(data);
-		else if (type == "Script")		return ContentImporter<Script	>()(data);
-		else if (type == "Shader")		return ContentImporter<Shader	>()(data);
-		else if (type == "Sound")		return ContentImporter<Sound	>()(data);
-		else if (type == "Sprite")		return ContentImporter<Sprite	>()(data);
-		else if (type == "Surface")		return ContentImporter<Surface	>()(data);
-		else if (type == "Texture")		return ContentImporter<Texture	>()(data);
-
-		return Debug::logError("Failed Loading {0}:  \'{1}\'",
-			data.getData("type").asString(),
-			data.getData("name").asString()
-		);
+		switch (Hash { type.data(), type.size() })
+		{
+		case Hash { "Manifest" }:					return true;
+		case ContentImporter<Entity>::hash_code():	return ContentImporter<Entity	>()(data);
+		case ContentImporter<Font>::hash_code():	return ContentImporter<Font		>()(data);
+		case ContentImporter<Image>::hash_code():	return ContentImporter<Image	>()(data);
+		case ContentImporter<Material>::hash_code():return ContentImporter<Material	>()(data);
+		case ContentImporter<Model>::hash_code():	return ContentImporter<Model	>()(data);
+		case ContentImporter<Script>::hash_code():	return ContentImporter<Script	>()(data);
+		case ContentImporter<Shader>::hash_code():	return ContentImporter<Shader	>()(data);
+		case ContentImporter<Sound>::hash_code():	return ContentImporter<Sound	>()(data);
+		case ContentImporter<Sprite>::hash_code():	return ContentImporter<Sprite	>()(data);
+		case ContentImporter<Surface>::hash_code():	return ContentImporter<Surface	>()(data);
+		case ContentImporter<Texture>::hash_code():	return ContentImporter<Texture	>()(data);
+		default:
+			return Debug::logError("Failed Loading {0}:  \'{1}\'",
+				data.getData("type").asString(),
+				data.getData("name").asString()
+			);
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -555,13 +555,23 @@ namespace ml
 			);
 
 			// Defaults
-			ImGui::Checkbox("Load Globals", &globals);
+			ImGui::Checkbox("Load Global Uniforms", &globals);
+			ImGuiExt::Tooltip(
+				"If true, copy all global uniforms into this material.\n"
+				"**Note: Once added, constants cannot be removed."
+			);
+
+			// Copy
+			PropertyDrawer<Material>()(("Copy Uniforms##" + label), (const Material *&)copy);
+			ImGuiExt::Tooltip(
+				"Select an existing material to copy uniforms from"
+			);
 
 			// Shader
 			PropertyDrawer<Shader>()("Shader", (const Shader *&)shader);
-
-			// Copy From
-			PropertyDrawer<Material>()(("Copy From##" + label), (const Material *&)copy);
+			ImGuiExt::Tooltip(
+				"Select the shader to use"
+			);
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };

@@ -267,7 +267,6 @@ namespace ml
 				if (ImGui::BeginMenu("Create"))
 				{
 					void * temp { nullptr };
-					PropertyDrawer<Image>	()("Image##Create",		(Image *&)temp,		0b1);
 					PropertyDrawer<Material>()("Material##Create",	(Material *&)temp,	0b1);
 					PropertyDrawer<Model>	()("Model##Create",		(Model *&)temp,		0b1);
 					PropertyDrawer<Shader>	()("Shader##Create",	(Shader *&)temp,	0b1);

@@ -399,8 +399,6 @@ namespace ml
 					// Internal / Color Format
 					const GL::Format format = md.getData("format", GL::RGBA, {
 						{ "red",			GL::Red	},
-						{ "green",			GL::Green },
-						{ "blue",			GL::Blue },
 						{ "rgb",			GL::RGB	},
 						{ "rgba",			GL::RGBA },
 					});

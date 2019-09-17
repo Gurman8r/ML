@@ -1,4 +1,4 @@
-// demo.fs.shader
+// advanced.fs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #version 410 core

@@ -57,7 +57,9 @@ namespace ml
 			aiProcess_CalcTangentSpace |
 			aiProcess_Triangulate |
 			aiProcess_JoinIdenticalVertices |
-			aiProcess_SortByPType
+			aiProcess_SortByPType |
+			aiProcess_GenNormals |
+			aiProcess_GenUVCoords
 		) };
 		
 		if (!scene) { return false; }

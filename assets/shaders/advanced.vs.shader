@@ -1,4 +1,4 @@
-// demo.vs.shader
+// advanced.vs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #version 410 core
@@ -9,17 +9,17 @@ layout(location = 2) in vec2 a_texcoord;
 
 out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
-mat4 angle_axis(vec3 v, float angle)
+mat4 transform(vec3 pos, vec4 rot)
 {
-	v = normalize(v);
-	float s = sin(angle);
-	float c = cos(angle);
-	float o = 1.0 - c;
+	vec3  v = normalize(rot.xyz);
+	float s = sin(rot.w);
+	float c = cos(rot.w);
+	float o = (1.0 - c);
 	return mat4(
-		o * v.x * v.x + c, o * v.x * v.y - v.z * s, o * v.z * v.x + v.y * s, 0.0,
-		o * v.x * v.y + v.z * s, o * v.y * v.y + c, o * v.y * v.z - v.x * s, 0.0,
-		o * v.z * v.x - v.y * s, o * v.y * v.z + v.x * s, o * v.z * v.z + c, 0.0,
-		0.0, 0.0, 0.0, 1.0
+		(o * v.x * v.x + c), (o * v.x * v.y - v.z * s), (o * v.z * v.x + v.y * s), 0.0,
+		(o * v.x * v.y + v.z * s), (o * v.y * v.y + c), (o * v.y * v.z - v.x * s), 0.0,
+		(o * v.z * v.x - v.y * s), (o * v.y * v.z + v.x * s), (o * v.z * v.z + c), 0.0,
+		pos.x, pos.y, pos.z, 1.0
 	);
 }
 
@@ -29,30 +29,21 @@ mat4 look_at(vec3 eye, vec3 center, vec3 up)
 	vec3 s = normalize(cross(f, up));
 	vec3 u = cross(s, f);
 	mat4 m = mat4(1.0);
-	m[0][0] = s.x;
-	m[1][0] = s.y;
-	m[2][0] = s.z;
-	m[0][1] = u.x;
-	m[1][1] = u.y;
-	m[2][1] = u.z;
-	m[0][2] = -f.x;
-	m[1][2] = -f.y;
-	m[2][2] = -f.z;
-	m[3][0] = -dot(s, eye);
-	m[3][1] = -dot(u, eye);
-	m[3][2] = dot(f, eye);
+	m[0][0] = s.x; m[1][0] = s.y; m[2][0] = s.z;
+	m[0][1] = u.x; m[1][1] = u.y;  m[2][1] = u.z;
+	m[0][2] = -f.x; m[1][2] = -f.y; m[2][2] = -f.z;
+	m[3][0] = -dot(s, eye); m[3][1] = -dot(u, eye); m[3][2] = dot(f, eye);
 	return m;
 }
 
 mat4 perspective(float fov, float aspect, float near, float far)
 {
-	mat4 m;
-	m[0][0] = 1.0 / (aspect * tan(fov / 2.0));
-	m[1][1] = 1.0 / tan(fov / 2.0);
-	m[2][3] = -1.0;
-	m[2][2] = -(far + near) / (far - near);
-	m[3][2] = -(2.0 * far * near) / (far - near);
-	return m;
+	return mat4(
+		1.0 / (aspect * tan(fov / 2.0)), 0.0, 0.0, 0.0,
+		0.0, 1.0 / tan(fov / 2.0), 0.0, 0.0,
+		0.0, 0.0, -(far + near) / (far - near), -1.0,
+		0.0, 0.0, -(2.0 * far * near) / (far - near), 0.0
+	);
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -70,17 +61,18 @@ uniform float	u_deltaTime;	// Elapsed Frame Time
 uniform int		u_frameCount;	// Current Frame Index
 uniform vec2	u_viewport;		// Size of Main Window
 uniform float	u_totalTime;	// Total Time Elapsed (seconds)
+uniform vec3	u_position;		// Model Position
 
 void main()
 {
 	// Model Matrix
-	mat4 m = angle_axis(vec3(0.0, 1.0, 0.0), u_totalTime * 0.33);
-	m[3] = vec4(0, 0, 0, 1);
+	mat4 m = transform(
+		u_position,
+		vec4(0.0, 1.0, 0.0, u_totalTime * 0.33)
+	);
 
 	// View Matrix
-	mat4 v = look_at(
-		u_camera.pos, vec3(0), vec3(0.0, 1.0, 0.0)
-	);
+	mat4 v = look_at(u_camera.pos, vec3(0), vec3(0.0, 1.0, 0.0));
 
 	// Projection Matrix
 	mat4 p = perspective(

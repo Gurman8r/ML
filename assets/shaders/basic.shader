@@ -9,14 +9,14 @@ layout(location = 2) in vec2 a_texcoord;
 
 out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
-uniform vec2		u_cursorPos;	// Position of Cursor
-uniform float		u_deltaTime;	// Elapsed Frame Time
-uniform int			u_frameCount;	// Current Frame Index
-uniform vec2		u_viewport;		// Size of Main Window
-uniform float		u_totalTime;	// Total Time Elapsed (seconds)
-uniform mat4		u_proj;			// Projection Matrix
-uniform mat4		u_view;			// View Matrix
-uniform mat4		u_model;		// Model Matrix
+uniform vec2	u_cursorPos;	// Position of Cursor
+uniform float	u_deltaTime;	// Elapsed Frame Time
+uniform int		u_frameCount;	// Current Frame Index
+uniform vec2	u_viewport;		// Size of Main Window
+uniform float	u_totalTime;	// Total Time Elapsed (seconds)
+uniform mat4	u_proj;			// Projection Matrix
+uniform mat4	u_view;			// View Matrix
+uniform mat4	u_model;		// Model Matrix
 
 void main()
 {

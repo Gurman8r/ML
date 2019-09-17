@@ -59,10 +59,10 @@ mat4 perspective(float fov, float aspect, float near, float far)
 
 uniform struct Camera
 {
-	vec3		pos;		// Position of camera
-	float		fov;		// Field of View
-	float		near;		// Near Clipping Distance
-	float		far;		// Far Clipping Distance
+	vec3	pos;	// Position of camera
+	float	fov;	// Field of View
+	float	near;	// Near Clipping Distance
+	float	far;	// Far Clipping Distance
 } u_camera;
 
 uniform vec2	u_cursorPos;	// Position of Cursor
@@ -79,7 +79,7 @@ void main()
 
 	// View Matrix
 	mat4 v = look_at(
-		u_camera.pos, m[3].xyz, vec3(0.0, 1.0, 0.0)
+		u_camera.pos, vec3(0), vec3(0.0, 1.0, 0.0)
 	);
 
 	// Projection Matrix

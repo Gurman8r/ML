@@ -846,8 +846,6 @@ namespace ml
 				ImGui::Text("IBO Handle:"); ImGui::SameLine();
 				ImGui::Text("%u", (uint32_t)mesh->ibo());
 
-				ImGui::NewLine();
-				ImGui::Text("Buffer Layout:");
 				for (const BufferLayout::Element & e : mesh->layout().elements())
 				{
 					ImGui::Text(

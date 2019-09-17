@@ -44,50 +44,51 @@ namespace ml
 
 	bool Model::dispose()
 	{
-		for (Mesh *& elem : m_meshes)
-		{
-			delete elem;
-		}
+		for (Mesh *& elem : m_meshes) { delete elem; }
 		m_meshes.clear();
 		return m_meshes.empty();
 	}
 
 	bool Model::loadFromFile(const String & filename)
 	{
-		Assimp::Importer _importer;
-		const aiScene * scene { _importer.ReadFile(filename.c_str(),
+		Assimp::Importer ai;
+		
+		const aiScene * scene { ai.ReadFile(filename.c_str(),
 			aiProcess_CalcTangentSpace |
 			aiProcess_Triangulate |
 			aiProcess_JoinIdenticalVertices |
 			aiProcess_SortByPType
 		) };
-		if (!scene) return false;
-		for (uint32_t m = 0; m < scene->mNumMeshes; m++)
-		{
-			const aiMesh * mesh { scene->mMeshes[m] };
-			for (uint32_t f = 0; f < mesh->mNumFaces; f++)
-			{
-				Mesh * temp { new Mesh() };
-				const aiFace & face = mesh->mFaces[f];
-				for (uint32_t i = 0; i < 3; i++)
-				{
-					const aiVector3D * v { &mesh->mVertices[face.mIndices[i]] };
-					const aiVector3D * n { &mesh->mVertices[face.mIndices[i]] };
-					const aiVector3D * t { mesh->HasTextureCoords(0)
-						? &mesh->mTextureCoords[0][face.mIndices[i]]
-						: nullptr 
-					};
+		
+		if (!scene) { return false; }
 
+		// Load Meshes
+		for (aiMesh ** m = &scene->mMeshes[0]; m != &scene->mMeshes[scene->mNumMeshes]; m++)
+		{
+			Mesh * temp { new Mesh() };
+			
+			// Load Faces
+			for (aiFace * f = &(*m)->mFaces[0]; f != &(*m)->mFaces[(*m)->mNumFaces]; f++)
+			{
+				// Vertices
+				for (uint32_t i = 0; i < f->mNumIndices; i++)
+				{
+					const uint32_t & ind { f->mIndices[i] };
+					const aiVector3D * v { (*m)->mVertices ? &(*m)->mVertices[ind] : nullptr };
+					const aiVector3D * n { (*m)->mNormals ? &(*m)->mNormals[ind] : nullptr };
+					const aiVector3D * t { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][ind] : nullptr };
+					
 					temp->addVertex(Vertex {
-						(v ? vec3 { v->x, v->y, v->z } : vec3 { NULL }),
-						(n ? vec4 { n->x, n->y, n->z, 1.0f } : vec4 { NULL }),
-						(t ? vec2 { t->x, t->y } : vec2 { NULL })
+						v ? vec3 { v->x, v->y, v->z } : vec3::zero(),
+						n ? vec4 { n->x, n->y, n->z, 1.0f } : vec4::one(),
+						t ? vec2 { t->x, t->y } : vec2::one()
 					});
 				}
-				temp->setLayout(BufferLayout::get_default());
-				temp->create();
-				m_meshes.push_back(temp);
 			}
+			
+			temp->setLayout(BufferLayout::get_default());
+			temp->create();
+			m_meshes.push_back(temp);
 		}
 		return !m_meshes.empty();
 	}

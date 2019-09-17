@@ -2962,6 +2962,7 @@ void ImGui::ShowAboutWindow(bool* p_open)
         ImGui::Separator();
         ImGui::Text("sizeof(size_t): %d, sizeof(ImDrawIdx): %d, sizeof(ImDrawVert): %d", (int)sizeof(size_t), (int)sizeof(ImDrawIdx), (int)sizeof(ImDrawVert));
         ImGui::Text("define: __cplusplus=%d", (int)__cplusplus);
+
 #ifdef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
         ImGui::Text("define: IMGUI_DISABLE_OBSOLETE_FUNCTIONS");
 #endif
@@ -2999,7 +3000,7 @@ void ImGui::ShowAboutWindow(bool* p_open)
         ImGui::Text("define: __APPLE__");
 #endif
 #ifdef _MSC_VER
-        ImGui::Text("define: _MSC_VER=%d", _MSC_VER);
+        ImGui::Text("define: _MSC_VER=%d", ML_CC_MSC);
 #endif
 #ifdef __MINGW32__
         ImGui::Text("define: __MINGW32__");
@@ -3008,7 +3009,7 @@ void ImGui::ShowAboutWindow(bool* p_open)
         ImGui::Text("define: __MINGW64__");
 #endif
 #ifdef __GNUC__
-        ImGui::Text("define: __GNUC__=%d", (int)__GNUC__);
+        ImGui::Text("define: __GNUC__=%d", ML_CC_GNUC);
 #endif
 #ifdef __clang_version__
         ImGui::Text("define: __clang_version__=%s", __clang_version__);

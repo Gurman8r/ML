@@ -26,15 +26,11 @@ namespace ml
 
 		static bool Combo(C_String label, int32_t * index, C_String items, int32_t max_height = -1);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		static int32_t Confirm(const String & label, bool trigger, const String & message);
 
 		static void HelpMarker(const String & message);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		static bool OpenFile(const String & label, String & path, const vec2 & size);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static void Tooltip(const String & message);
 
@@ -47,7 +43,7 @@ namespace ml
 
 		static inline bool vector_getter(void * vec, int32_t index, C_String * out)
 		{
-			if (auto * vector = static_cast<List<String> *>(vec))
+			if (auto * vector { static_cast<List<String> *>(vec) })
 			{
 				if ((index >= 0) && (index < static_cast<int32_t>(vector->size())))
 				{

@@ -31,7 +31,7 @@ namespace ml
 		m.attr("platform_target")	= ML_PLATFORM_TARGET;
 		m.attr("project_url")		= ML_PROJECT_URL;
 		m.attr("project_ver")		= ML_PROJECT_VER;
-		m.attr("system_name")		= ML_SYSTEM;
+		m.attr("system_name")		= ML_SYSTEM_NAME;
 	}
 
 

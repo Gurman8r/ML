@@ -65,8 +65,8 @@ namespace ml
 				ImGui::PopStyleColor(1); 
 			}
 			
-			// Context Menu
-			if (ImGui::BeginPopupContextItem(("##MainContextMenu##" + label).c_str()))
+			// Tab Context Menu
+			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + label).c_str()))
 			{
 				void * temp { nullptr };
 				if (PropertyDrawer<T>()(String("New {0}").format(type_name), (T *&)temp, 1))
@@ -77,39 +77,72 @@ namespace ml
 			}
 			
 			// Tab Content
-			if (tab_visible)
+			if (!tab_visible) { return; }
+
+			// Draw Items
+			ImGui::PushID(ML_ADDRESSOF(&database));
+			if (database.empty()) { ImGui::Text("-"); }
+			ContentManager::ObjectDatabase::iterator to_remove { database.end() };
+			ContentManager::ObjectDatabase::iterator to_select { database.end() };
+			for (auto it = database.begin(); it != database.end(); it++)
 			{
-				// Draw Items
-				ImGui::PushID(ML_ADDRESSOF(&database));
-				ImGui::BeginGroup();
-				if (database.empty()) { ImGui::Text("-"); }
-				for (auto & pair : database)
+				if (!it->second || ImGuiExt::IsHidden(it->first)) { continue; }
+				
+				ImGui::PushID(it->first.c_str());
+
+				// Item Selectable
+				const bool is_selected { self.m_selected == it->second };
+				if (is_selected)
 				{
-					if (!pair.second || ImGuiExt::IsHidden(pair.first)) { continue; }
-
-					ImGui::PushID(pair.first.c_str());
-
-					const bool is_selected { self.m_selected == pair.second };
-					if (is_selected)
-					{
-						ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
-						ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
-					}
-					// Selectable
-					if (ImGui::Selectable((pair.first + "##" + label).c_str(), is_selected))
-					{
-						self.m_typename = type_name;
-						self.m_selected = pair.second;
-						self.m_itemname = pair.first;
-					}
-					ImGui::PopStyleColor((int32_t)is_selected * 2);
-					ImGui::PopID();
-					ImGui::Separator();
+					ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
 				}
-				ImGui::EndGroup();
+				if (ImGui::Selectable((it->first + "##" + label).c_str(), is_selected))
+				{
+					to_select = it;
+				}
+				ImGui::PopStyleColor((int32_t)is_selected * 2);
+				
+				// Item Context Menu
+				if (ImGui::BeginPopupContextItem(("##ItemContextMenu##" + label).c_str()))
+				{
+					// Inspect Button
+					if (ImGui::Button("Inspect"))
+					{
+						ev.editor.inspector().setOpen(true);
+						ImGui::SetWindowFocus(ev.editor.inspector().getTitle());
+						to_select = it;
+					}
+					// Delete Button
+					if (ImGuiExt::Confirm(
+						String("Delete {0}?").format(type_name),
+						ImGui::Button("Delete"),
+						String("Are you sure you want to delete {0}: \'{1}\'?").format(type_name, it->first)
+					) == 1)
+					{
+						to_remove = it;
+					}
+
+					ImGui::EndPopup();
+				}
 				ImGui::PopID();
-				ImGui::EndTabItem();
+				ImGui::Separator();
 			}
+			if (to_remove != database.end())
+			{
+				ML_Content.erase<T>(to_remove->first);
+				self.m_typename = String();
+				self.m_itemname = String();
+				self.m_selected = nullptr;
+			}
+			if (to_select != database.end())
+			{
+				self.m_typename = type_name;
+				self.m_itemname = to_select->first;
+				self.m_selected = to_select->second;
+			}
+			ImGui::PopID();
+			ImGui::EndTabItem();
 		}
 		
 		/* * * * * * * * * * * * * * * * * * * * */

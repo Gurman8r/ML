@@ -51,6 +51,50 @@ namespace ml
 
 	bool PropertyDrawer<Entity>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
+		// Popup
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		if (ImGui::Button(button_label.c_str()))
+		{
+			ImGui::OpenPopup(popup_label.c_str());
+		}
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			// State
+			static bool popup_open { false };
+			static char name[32] = "";
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+			}
+
+			// Name
+			ImGui::InputText(
+				("Name##" + type_name().str() + "##" + label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
+			);
+
+			// Submit / Cancel
+			const bool submit { ImGui::Button("Submit") };
+			ImGui::SameLine();
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit && !value)
+			{
+				value = ML_Content.create<value_type>(name);
+			}
+			if (submit || cancel)
+			{
+				popup_open = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return (submit || cancel);
+		}
 		return false;
 	}
 
@@ -1120,6 +1164,76 @@ namespace ml
 
 	bool PropertyDrawer<Sound>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
+		// Popup
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		if (ImGui::Button(button_label.c_str()))
+		{
+			ImGui::OpenPopup(popup_label.c_str());
+		}
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			// State
+			static bool popup_open { false };
+			static char name[32] = "";
+			static char asset_path[ML_MAX_PATH] = "";
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(asset_path, "");
+			}
+
+			// Name
+			ImGui::InputText(
+				("Name##" + type_name().str() + "##" + label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
+			);
+
+			// Path
+			ImGui::InputText(
+				("##Path##" + type_name().str() + "##" + label).c_str(),
+				asset_path,
+				ML_MAX_PATH
+			);
+			ImGui::SameLine();
+			static String open_path;
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			{
+				if (ML_FS.fileExists(open_path))
+				{
+					std::strcpy(asset_path, open_path.c_str());
+					open_path.clear();
+				}
+			}
+
+			// Submit / Cancel
+			const bool submit { ImGui::Button("Submit") };
+			ImGui::SameLine();
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit && !value)
+			{
+				if (ML_FS.fileExists(asset_path))
+				{
+					value = ML_Content.create<value_type>(name, asset_path);
+				}
+				else
+				{
+					value = ML_Content.create<value_type>(name);
+				}
+			}
+			if (submit || cancel)
+			{
+				popup_open = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return (submit || cancel);
+		}
 		return false;
 	}
 
@@ -1140,6 +1254,91 @@ namespace ml
 
 	bool PropertyDrawer<Sprite>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
+		// Popup
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		if (ImGui::Button(button_label.c_str()))
+		{
+			ImGui::OpenPopup(popup_label.c_str());
+		}
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			// State
+			static bool popup_open { false };
+			static char name[32] = "";
+			static char asset_path[ML_MAX_PATH] = "";
+			static const_pointer copy { nullptr };
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(asset_path, "");
+				copy = nullptr;
+			}
+
+			// Name
+			ImGui::InputText(
+				("Name##" + type_name().str() + "##" + label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
+			);
+
+			// Copy
+			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
+			{
+				std::strcpy(asset_path, "");
+			}
+
+			// Path
+			ImGui::InputText(
+				("##Path##" + type_name().str() + "##" + label).c_str(),
+				asset_path,
+				ML_MAX_PATH
+			);
+			ImGui::SameLine();
+			static String open_path;
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			{
+				if (ML_FS.fileExists(open_path))
+				{
+					std::strcpy(asset_path, open_path.c_str());
+					open_path.clear();
+					copy = nullptr;
+				}
+			}
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (copy)
+				{
+					value = ML_Content.create<value_type>(name, (*copy));
+				}
+				else if (ML_FS.fileExists(asset_path))
+				{
+					value = ML_Content.create<value_type>(name, asset_path);
+				}
+				else
+				{
+					value = ML_Content.create<value_type>(name);
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
+			{
+				popup_open = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return (submit || cancel);
+		}
 		return false;
 	}
 
@@ -1207,6 +1406,66 @@ namespace ml
 
 	bool PropertyDrawer<Surface>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
+		// Popup
+		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
+		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		if (ImGui::Button(button_label.c_str()))
+		{
+			ImGui::OpenPopup(popup_label.c_str());
+		}
+		if (ImGui::BeginPopupModal(popup_label.c_str(), 0, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			// State
+			static bool popup_open { false };
+			static char name[32] = "";
+			static const_pointer copy { nullptr };
+
+			// Popup Opened
+			if (!popup_open && (popup_open = true))
+			{
+				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				copy = nullptr;
+			}
+
+			// Name
+			ImGui::InputText(
+				("Name##" + type_name().str() + "##" + label).c_str(),
+				name,
+				ML_ARRAYSIZE(name)
+			);
+
+			// Copy
+			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
+			{
+			}
+
+			// Submit
+			const bool submit { ImGui::Button("Submit") };
+			if (submit && !value)
+			{
+				if (copy)
+				{
+					value = ML_Content.create<value_type>(name, (*copy));
+				}
+				else
+				{
+					value = ML_Content.create<value_type>(name);
+				}
+			}
+			ImGui::SameLine();
+
+			// Cancel / Popup Closed
+			const bool cancel { ImGui::Button("Cancel") };
+			if (submit || cancel)
+			{
+				popup_open = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+
+			return (submit || cancel);
+		}
 		return false;
 	}
 

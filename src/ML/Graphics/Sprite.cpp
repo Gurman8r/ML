@@ -14,6 +14,12 @@ namespace ml
 	{
 	}
 
+	Sprite::Sprite(const String & filename)
+		: Sprite()
+	{
+		loadFromFile(filename);
+	}
+
 	Sprite::Sprite(const Sprite & copy)
 		: m_color(copy.m_color)
 		, m_texture(copy.m_texture)

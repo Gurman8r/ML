@@ -18,10 +18,12 @@ namespace ml
 
 	Editor::Editor(EventSystem & eventSystem)
 		: I_EventListener	{ eventSystem }
+		, m_about			{ *this }
 		, m_dockspace		{ *this }
 		, m_explorer		{ *this }
 		, m_content			{ *this }
 		, m_inspector		{ *this }
+		, m_manual			{ *this }
 		, m_profiler		{ *this }
 		, m_terminal		{ *this }
 	{
@@ -71,20 +73,26 @@ namespace ml
 
 				constexpr KeyEvent::Mods ctrl_alt { 0, 1, 1, 0 };
 
-				// Show Terminal | Ctrl + Alt + T
-				if (ev->getPress(KeyCode::T, ctrl_alt)) m_terminal.toggleOpen();
-
-				// Show Explorer | Ctrl + Alt + E
-				if (ev->getPress(KeyCode::E, ctrl_alt)) m_explorer.toggleOpen();
-
-				// Show Profiler | Ctrl + Alt + P
-				if (ev->getPress(KeyCode::P, ctrl_alt)) m_profiler.toggleOpen();
+				// Show About | Ctrl + Alt + A
+				if (ev->getPress(KeyCode::A, ctrl_alt)) m_about.toggleOpen();
 
 				// Show Content | Ctrl + Alt + C
 				if (ev->getPress(KeyCode::C, ctrl_alt)) m_content.toggleOpen();
 
+				// Show Explorer | Ctrl + Alt + E
+				if (ev->getPress(KeyCode::E, ctrl_alt)) m_explorer.toggleOpen();
+
 				// Show Inspector | Ctrl + Alt + I
 				if (ev->getPress(KeyCode::I, ctrl_alt)) m_inspector.toggleOpen();
+
+				// Show Manual | Ctrl + Alt + M
+				if (ev->getPress(KeyCode::M, ctrl_alt)) m_manual.toggleOpen();
+
+				// Show Profiler | Ctrl + Alt + P
+				if (ev->getPress(KeyCode::P, ctrl_alt)) m_profiler.toggleOpen();
+
+				// Show Terminal | Ctrl + Alt + T
+				if (ev->getPress(KeyCode::T, ctrl_alt)) m_terminal.toggleOpen();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			}
@@ -149,10 +157,12 @@ namespace ml
 
 	void Editor::onUpdate(const UpdateEvent & ev)
 	{
+		m_about		.onUpdate(ev);
 		m_content	.onUpdate(ev);
 		m_explorer	.onUpdate(ev);
 		m_dockspace	.onUpdate(ev);
 		m_inspector	.onUpdate(ev);
+		m_manual	.onUpdate(ev);
 		m_profiler	.onUpdate(ev);
 		m_terminal	.onUpdate(ev);
 	}
@@ -168,13 +178,9 @@ namespace ml
 		// ImGui Demo
 		/* * * * * * * * * * * * * * * * * * * * */
 		static bool show_imgui_demo = false;
-		static bool show_imgui_metrics = false;
 		static bool show_imgui_style_editor = false;
-		static bool show_imgui_about = false;
 		if (show_imgui_demo) { ImGui::ShowDemoWindow(&show_imgui_demo); }
-		if (show_imgui_metrics) { ImGui::ShowMetricsWindow(&show_imgui_metrics); }
 		if (show_imgui_style_editor) { ImGui::Begin("Style Editor", &show_imgui_style_editor); ImGui::ShowStyleEditor(); ImGui::End(); }
-		if (show_imgui_about) { ImGui::ShowAboutWindow(&show_imgui_about); }
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -211,9 +217,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
+				ImGui::MenuItem(m_about.getTitle(),		"Ctrl+Alt+A", m_about.openPtr());
 				ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content.openPtr());
 				ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
 				ImGui::MenuItem(m_inspector.getTitle(), "Ctrl+Alt+I", m_inspector.openPtr());
+				ImGui::MenuItem(m_manual.getTitle(),	"Ctrl+Alt+M", m_manual.openPtr());
 				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
 				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Window));
@@ -261,9 +269,7 @@ namespace ml
 
 				ImGui::Separator();
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
-				ImGui::MenuItem("ImGui Metrics", "", &show_imgui_metrics);
 				ImGui::MenuItem("Style Editor", "", &show_imgui_style_editor);
-				ImGui::MenuItem("About Dear ImGui", "", &show_imgui_about);
 
 				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Help));
 
@@ -277,9 +283,11 @@ namespace ml
 		}
 
 		/*	Dockspace	*/	if (m_dockspace	.isOpen()) m_dockspace	.onGui(ev);
+		/*	About		*/	if (m_about		.isOpen()) m_about		.onGui(ev);
 		/*	Content		*/	if (m_content	.isOpen()) m_content	.onGui(ev);
 		/*	Explorer	*/	if (m_explorer	.isOpen()) m_explorer	.onGui(ev);
 		/*	Inspector	*/	if (m_inspector	.isOpen()) m_inspector	.onGui(ev);
+		/*	Manual		*/	if (m_manual	.isOpen()) m_manual		.onGui(ev);
 		/*	Profiler	*/	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
 		/*	Terminal	*/	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
 	}

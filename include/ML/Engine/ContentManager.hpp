@@ -99,9 +99,10 @@ namespace ml
 			class T
 		> inline bool erase(const String & name)
 		{
-			static ObjectDatabase::iterator it;
+			ObjectDatabase::iterator it;
 			if ((it = this->data<T>().find(name)) != this->data<T>().end())
 			{
+				if (it->second) { delete it->second; }
 				this->data<T>().erase(it);
 				return true;
 			}
@@ -114,7 +115,7 @@ namespace ml
 			class T
 		> inline T * get(const String & name)
 		{
-			static ObjectDatabase::iterator it;
+			ObjectDatabase::iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<T *>(it->second)
 				: nullptr
@@ -125,7 +126,7 @@ namespace ml
 			class T
 		> inline const T * get(const String & name) const
 		{
-			static ObjectDatabase::const_iterator it;
+			ObjectDatabase::const_iterator it;
 			return (((it = this->data<T>().find(name)) != this->data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr

@@ -2,10 +2,12 @@
 #define _ML_EDITOR_HPP_
 
 #include <ML/Core/I_EventListener.hpp>
+#include <ML/Editor/EditorAbout.hpp>
 #include <ML/Editor/EditorContent.hpp>
 #include <ML/Editor/EditorDockspace.hpp>
 #include <ML/Editor/EditorExplorer.hpp>
 #include <ML/Editor/EditorInspector.hpp>
+#include <ML/Editor/EditorManual.hpp>
 #include <ML/Editor/EditorProfiler.hpp>
 #include <ML/Editor/EditorTerminal.hpp>
 
@@ -35,20 +37,24 @@ namespace ml
 		void onExit		(const ExitEvent & ev);
 
 	public:
+		inline auto about()		-> EditorAbout		&	{ return m_about; }
 		inline auto content()	-> EditorContent	&	{ return m_content; }
 		inline auto dockspace() -> EditorDockspace	&	{ return m_dockspace; }
 		inline auto explorer()	-> EditorExplorer	&	{ return m_explorer; }
 		inline auto inspector() -> EditorInspector	&	{ return m_inspector; }
+
 		inline auto profiler()	-> EditorProfiler	&	{ return m_profiler; }
 		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
 
 	private:
 		bool m_redirect_cout { false };
 
+		EditorAbout		m_about;
 		EditorDockspace	m_dockspace;
 		EditorContent	m_content;
 		EditorExplorer	m_explorer;
 		EditorInspector	m_inspector;
+		EditorManual	m_manual;
 		EditorProfiler	m_profiler;
 		EditorTerminal	m_terminal;
 	};

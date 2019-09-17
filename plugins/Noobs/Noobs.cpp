@@ -496,7 +496,11 @@ namespace ml
 						{
 							// Remove Uniform
 							ImGui::SameLine();
-							if (ImGui::Button(("X##" + label).c_str()))
+							if (ImGuiExt::Confirm(
+								"Delete Uniform",
+								ImGui::Button(("X##" + label).c_str()),
+								"Are you sure you want to delete this Uniform?"
+							) == 1)
 							{
 								to_remove = uni;
 							}

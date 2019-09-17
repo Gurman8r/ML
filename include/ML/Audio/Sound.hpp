@@ -18,6 +18,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Sound();
+		explicit Sound(const String & filename);
 		~Sound();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

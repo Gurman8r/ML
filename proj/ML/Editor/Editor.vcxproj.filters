@@ -120,6 +120,12 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp">
       <Filter>Header Files\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorAbout.hpp">
+      <Filter>Header Files\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorManual.hpp">
+      <Filter>Header Files\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorContent.cpp">
@@ -180,6 +186,12 @@
       <Filter>Resource Files\ImGui\Addons\ImGuizmo</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorAbout.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorManual.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
   </ItemGroup>

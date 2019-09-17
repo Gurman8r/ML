@@ -9,6 +9,12 @@ namespace ml
 	{
 	}
 
+	Sound::Sound(const String & filename)
+		: Sound()
+	{
+		loadFromFile(filename);
+	}
+
 	Sound::~Sound()
 	{
 		dispose();

@@ -9,120 +9,121 @@
 
 //	C++ Version
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if defined(__cplusplus)
+#if defined(__cplusplus)
 #	define ML_CPLUSPLUS __cplusplus
-# else
+#else
 #	error This system does not support C++
-# endif
+#endif
 
 
 //	Configuration (Debug / Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if defined(_DEBUG)
+#if defined(_DEBUG)
 #	define ML_DEBUG			true
 #	define ML_CONFIGURATION "Debug"
-# else
+#else
 #	define ML_DEBUG			false
 #	define ML_CONFIGURATION "Release"
-# endif
+#endif
 
 
 //	Operating System
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if defined(_WIN32		) \
-  || defined(_WIN64		) \
-  || defined(WIN32		) \
-  || defined(WIN64		) \
-  || defined(__WIN32__	)
+#if defined(_WIN32) \
+||	defined(_WIN64) \
+||	defined(WIN32) \
+||	defined(WIN64) \
+||	defined(__WIN32__) \
+||	defined(__MINGW32__) \
+||	defined(__MINGW64__)
 #	define ML_SYSTEM_WINDOWS
-#	define ML_SYSTEM "Windows"
+#	define ML_SYSTEM_NAME "Windows"
 #	ifndef NOMINMAX
 #		define NOMINMAX
 #	endif
-# elif defined(__APPLE__) && defined(__MACH__)
+#elif defined(__APPLE__) && defined(__MACH__)
 #	define ML_SYSTEM_APPLE
-#	define ML_SYSTEM "Apple"
-# elif defined(__unix__)
+#	define ML_SYSTEM_NAME "Apple"
+#elif defined(__unix__)
 #	define ML_SYSTEM_UNIX
 #	if defined(__ANDROID__)
 #		define ML_SYSTEM_ANDROID
-#		define ML_SYSTEM "Android"
+#		define ML_SYSTEM_NAME "Android"
 #	elif defined(__linux__)
 #		define ML_SYSTEM_LINUX
-#		define ML_SYSTEM "Linux"
+#		define ML_SYSTEM_NAME "Linux"
 #	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)	
 #		define ML_SYSTEM_FREEBSD
-#		ML_SYSTEM "FreeBSD"
+#		ML_SYSTEM_NAME "FreeBSD"
 #	else
 #		error This unix operating system does not support memes.
 #	endif
-# else
+#else
 #	error This operating system does not support memes.
-# endif
+#endif
 
 
-//	Architecture / Platform Target
+//	Architecture
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if defined(_WIN64		)\
-  || defined(WIN64		)\
-  || defined(__x86_64__	)\
-  || defined(__ppc64__	)\
-  || defined(_x64		)\
-  || defined(_M_X64		)
-#	define ML_ARCHITECTURE		64
-#	define ML_PLATFORM_TARGET	"x64"
-# else
-#	define ML_ARCHITECTURE		32
-#	define ML_PLATFORM_TARGET	"x86"
-# endif
+#if defined(_WIN64		) \
+  || defined(WIN64		) \
+  || defined(__x86_64__	) \
+  || defined(__ppc64__	) \
+  || defined(_x64		) \
+  || defined(_M_X64		) \
+  || defined(__MINGW64__)
+#	define ML_ARCHITECTURE 64
+#else
+#	define ML_ARCHITECTURE 32
+#endif
 
 
 //	Compiler
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if defined(_MSC_VER)
+#if defined(_MSC_VER)
 //	Microsoft Compiler
 #	define ML_CC_NAME	"Microsoft"
 #	define ML_CC_MSC	_MSC_VER
 #	define ML_CC_VER	ML_CC_MSC
-# elif defined(__GNUC__) && not defined(__clang__)
+#elif defined(__GNUC__) && not defined(__clang__)
 //	GNU Compiler
 #	define ML_CC_NAME	"GNU"
 #	define ML_CC_GNUC	__GNUC__
 #	define ML_CC_VER	ML_CC_GNUC
-# elif defined(__clang__)
+#elif defined(__clang__)
 //	Clang Compiler
 #	define ML_CC_NAME	"Clang"
 #	define ML_CC_CLANG	__clang__
 #	define ML_CC_VER	ML_CC_CLANG
 #else
 #	error This compiler does not support memes.
-# endif
+#endif
 
 
 // Types
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# define ML_INT8		signed char			// 1 byte
-# define ML_INT16		signed short		// 2 bytes
-# define ML_INT32		signed int			// 4 bytes
-# define ML_INT64		signed long long	// 8 bytes
+#define ML_INT8			signed char			// 1 byte
+#define ML_INT16		signed short		// 2 bytes
+#define ML_INT32		signed int			// 4 bytes
+#define ML_INT64		signed long long	// 8 bytes
 
-# define ML_UINT8		unsigned char		// 1 byte
-# define ML_UINT16		unsigned short		// 2 bytes
-# define ML_UINT32		unsigned int		// 4 bytes
-# define ML_UINT64		unsigned long long	// 8 bytes
+#define ML_UINT8		unsigned char		// 1 byte
+#define ML_UINT16		unsigned short		// 2 bytes
+#define ML_UINT32		unsigned int		// 4 bytes
+#define ML_UINT64		unsigned long long	// 8 bytes
 
-# define ML_FLOAT32		float				// 4 bytes
-# define ML_FLOAT64		double				// 8 bytes
-# define ML_FLOAT80		long double			// 8 or 10 bytes (CC dependant)
+#define ML_FLOAT32		float				// 4 bytes
+#define ML_FLOAT64		double				// 8 bytes
+#define ML_FLOAT80		long double			// 8 or 10 bytes (CC dependant)
 
-# if ML_ARCHITECTURE == 32
+#if (ML_ARCHITECTURE == 32)
 #	define ML_INTMAX	ML_INT32			// Max Signed	(32-Bit)
 #	define ML_UINTMAX	ML_UINT32			// Max Unsigned	(32-Bit)
-# else
+#else
 #	define ML_INTMAX	ML_INT64			// Max Signed	(64-Bit)
 #	define ML_UINTMAX	ML_UINT64			// Max Unsigned	(64-Bit)
-# endif
+#endif
 
 
 //	Preprocessor
@@ -131,11 +132,14 @@
 #define _ML_BEGIN			namespace ml {
 #define _ML_END				}
 
-#define ML_TOSTRING(l)		#l
-#define ML_STRINGIFY(l)		ML_TOSTRING(l)
-#define ML_ARRAYSIZE(ARR)	(sizeof(ARR) / sizeof(*ARR))
-#define ML_CONCAT(l, r)		l##r		 
+#define ML_TOSTRING(str)	#str
+#define ML_STRINGIFY(str)	ML_TOSTRING(str)
+#define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
 #define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
+#define ML_CONCAT(a, b)		a b
+#define ML_BUILD_DATE		__DATE__
+#define ML_BUILD_TIME		__TIME__
+#define ML_PLATFORM_TARGET	ML_CONCAT("x", ML_STRINGIFY(ML_ARCHITECTURE))
 
 #define ML_TEMPLATE(...)	template<##__VA_ARGS__>
 #define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
@@ -170,10 +174,10 @@
 #			define ML_API_IMPORT
 #		endif
 #	endif
-# else
+#else
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
-# endif
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

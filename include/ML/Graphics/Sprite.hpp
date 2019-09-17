@@ -17,6 +17,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Sprite();
+		explicit Sprite(const String & filename);
 		Sprite(const Sprite & copy);
 		~Sprite();
 

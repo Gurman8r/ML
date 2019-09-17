@@ -25,16 +25,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	public:
+		String m_typename { "Type" };
 		String m_itemname { "Name" };
 		void * m_selected { nullptr };
-		String m_typename { "Type" };
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	public:
-		inline auto get_itemname() const -> const String &	{ return m_itemname; }
-		inline auto get_selected() const -> void *			{ return m_selected; }
-		inline auto get_typename() const -> const String &	{ return m_typename; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

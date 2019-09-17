@@ -81,13 +81,13 @@ namespace ml
 			ImGui::PopStyleVar();
 			if (ImGui::BeginMenuBar())
 			{
-				if (con.get_selected())
+				if (con.m_selected)
 				{
 					ImGui::PushStyleColor(ImGuiCol_Text, { 0.2f, 0.1f, 1.0f, 1.0f });
-					ImGui::Text("[%s]", con.get_typename().c_str());
+					ImGui::Text("[%s]", con.m_typename.c_str());
 					ImGui::PopStyleColor();
 					ImGui::SameLine();
-					ImGui::Text("\'%s\'", con.get_itemname().c_str());
+					ImGui::Text("\'%s\'", con.m_itemname.c_str());
 				}
 				else
 				{
@@ -95,20 +95,20 @@ namespace ml
 				}
 				ImGui::EndMenuBar();
 			}
-			switch (Hash { con.get_typename().data(), con.get_typename().size() })
+			switch (Hash { con.m_typename.data(), con.m_typename.size() })
 			{
-			case PropertyDrawer<Entity>::hash_code():	Layout::draw_item<Entity>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Font>::hash_code():		Layout::draw_item<Font>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Image>::hash_code():	Layout::draw_item<Image>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Material>::hash_code():	Layout::draw_item<Material>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Model>::hash_code():	Layout::draw_item<Model>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Script>::hash_code():	Layout::draw_item<Script>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Shader>::hash_code():	Layout::draw_item<Shader>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Sound>::hash_code():	Layout::draw_item<Sound>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Sprite>::hash_code():	Layout::draw_item<Sprite>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Surface>::hash_code():	Layout::draw_item<Surface>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Texture>::hash_code():	Layout::draw_item<Texture>(con.get_selected(), con.get_itemname()); break;
-			case PropertyDrawer<Uniform>::hash_code():	Layout::draw_item<Uniform>(con.get_selected(), con.get_itemname()); break;
+			case PropertyDrawer<Entity>::hash_code():	Layout::draw_item<Entity>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Font>::hash_code():		Layout::draw_item<Font>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Image>::hash_code():	Layout::draw_item<Image>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Material>::hash_code():	Layout::draw_item<Material>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Model>::hash_code():	Layout::draw_item<Model>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Script>::hash_code():	Layout::draw_item<Script>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Shader>::hash_code():	Layout::draw_item<Shader>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Sound>::hash_code():	Layout::draw_item<Sound>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Sprite>::hash_code():	Layout::draw_item<Sprite>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Surface>::hash_code():	Layout::draw_item<Surface>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Texture>::hash_code():	Layout::draw_item<Texture>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Uniform>::hash_code():	Layout::draw_item<Uniform>(con.m_selected, con.m_itemname); break;
 			}
 			ImGui::EndChild();
 

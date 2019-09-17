@@ -180,8 +180,11 @@ namespace ml
 
 		// Update Window Title
 		static const String original_title { ev.window.title() };
-		ev.window.setTitle(String("{0} | {1} | {2}").format(
-			original_title, ML_CONFIGURATION, ML_PLATFORM_TARGET
+		ev.window.setTitle(String("{0} | {1} | {2} | {3} ms/frame").format(
+			original_title,
+			ML_CONFIGURATION,
+			ML_PLATFORM_TARGET,
+			ev.time.elapsed().delta()
 		));
 	}
 

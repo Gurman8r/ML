@@ -193,6 +193,7 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <None Include="..\..\..\assets\scripts\boot.py" />
     <None Include="..\..\..\assets\scripts\load.py" />
     <None Include="..\..\..\assets\scripts\memelib.py" />
+    <None Include="..\..\..\assets\scripts\test.py" />
     <None Include="..\..\..\assets\shaders\basic.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader" />
     <None Include="..\..\..\assets\shaders\common\Curve.Sample.shader" />

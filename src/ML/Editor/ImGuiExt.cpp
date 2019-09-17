@@ -45,15 +45,40 @@ namespace ml
 		return retval;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	int32_t ImGuiExt::Confirm(const String & label, bool trigger, const String & message)
+	{
+		int32_t retval { 0 };
+		const String name { label + "##ConfirmSubmissionPopupModal" };
+		ImGui::PushID(name.c_str());
+		if (trigger)
+		{
+			ImGui::OpenPopup(name.c_str());
+		}
+		if (ImGui::BeginPopupModal(name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("%s", message.c_str());
+
+			const bool submit { ImGui::Button(("Submit##" + name).c_str()) };
+			
+			ImGui::SameLine();
+			
+			const bool cancel { ImGui::Button(("Cancel##" + name).c_str()) };
+			
+			if (submit || cancel) { ImGui::CloseCurrentPopup(); }
+			
+			ImGui::EndPopup();
+
+			retval = (submit ? 1 : (cancel ? -1 : 0));
+		}
+		ImGui::PopID();
+		return retval;
+	}
 
 	void ImGuiExt::HelpMarker(const String & message)
 	{
 		ImGui::TextDisabled("(?)");
 		ImGuiExt::Tooltip(message);
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ImGuiExt::OpenFile(const String & label, String & path, const vec2 & size)
 	{
@@ -95,8 +120,6 @@ namespace ml
 		ImGui::PopID();
 		return good;
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void ImGuiExt::Tooltip(const String & message)
 	{

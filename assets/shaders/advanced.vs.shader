@@ -62,14 +62,12 @@ uniform int		u_frameCount;	// Current Frame Index
 uniform vec2	u_viewport;		// Size of Main Window
 uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 uniform vec3	u_position;		// Model Position
+uniform vec3	u_scale;
 
 void main()
 {
 	// Model Matrix
-	mat4 m = transform(
-		u_position,
-		vec4(0.0, 1.0, 0.0, u_totalTime * 0.33)
-	);
+	mat4 m = transform(u_position, vec4(0.0, 1.0, 0.0, u_totalTime * 0.33));
 
 	// View Matrix
 	mat4 v = look_at(u_camera.pos, vec3(0), vec3(0.0, 1.0, 0.0));
@@ -80,7 +78,7 @@ void main()
 	);
 
 	// Output
-	gl_Position = (p * v * m) * vec4(a_position, 1.0);
+	gl_Position = (p * v * m) * vec4(a_position * u_scale, 1.0);
 	V.position	= gl_Position.xyz;
 	V.normal	= transpose(inverse(m)) * a_normal;
 	V.texcoord	= a_texcoord;

@@ -62,26 +62,25 @@ namespace ml
 		
 		if (!scene) { return false; }
 
-		// Load Meshes
+		// Meshes
 		for (aiMesh ** m = &scene->mMeshes[0]; m != &scene->mMeshes[scene->mNumMeshes]; m++)
 		{
 			Mesh * temp { new Mesh() };
 			
-			// Load Faces
+			// Faces
 			for (aiFace * f = &(*m)->mFaces[0]; f != &(*m)->mFaces[(*m)->mNumFaces]; f++)
 			{
-				// Vertices
-				for (uint32_t i = 0; i < f->mNumIndices; i++)
+				// Indices
+				for (uint32_t * i = &f->mIndices[0]; i != &f->mIndices[f->mNumIndices]; i++)
 				{
-					const uint32_t & ind { f->mIndices[i] };
-					const aiVector3D * v { (*m)->mVertices ? &(*m)->mVertices[ind] : nullptr };
-					const aiVector3D * n { (*m)->mNormals ? &(*m)->mNormals[ind] : nullptr };
-					const aiVector3D * t { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][ind] : nullptr };
-					
+					const aiVector3D * vp { (*m)->mVertices ? &(*m)->mVertices[*i] : nullptr };
+					const aiVector3D * vn { (*m)->mNormals ? &(*m)->mNormals[*i] : nullptr };
+					const aiVector3D * uv { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][*i] : nullptr };
+
 					temp->addVertex(Vertex {
-						v ? vec3 { v->x, v->y, v->z } : vec3::zero(),
-						n ? vec4 { n->x, n->y, n->z, 1.0f } : vec4::one(),
-						t ? vec2 { t->x, t->y } : vec2::one()
+						vp ? vec3 { vp->x, vp->y, vp->z } : vec3::zero(),
+						vn ? vec4 { vn->x, vn->y, vn->z, 1.0f } : vec4::one(),
+						uv ? vec2 { uv->x, uv->y } : vec2::one()
 					});
 				}
 			}

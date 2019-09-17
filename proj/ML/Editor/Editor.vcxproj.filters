@@ -28,12 +28,6 @@
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{ef73e409-5b19-40f5-87a3-8a1d765735fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Forms">
-      <UniqueIdentifier>{479ff0b2-aa13-4cc3-ae27-3794523dc929}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Forms">
-      <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Widgets">
       <UniqueIdentifier>{b2f239fb-96e8-428d-a993-c86203592354}</UniqueIdentifier>
     </Filter>
@@ -43,22 +37,28 @@
     <Filter Include="Resource Files\ImGui\Addons\ImGuizmo">
       <UniqueIdentifier>{81610a78-fb7c-4620-ac03-2ef21e407b6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Windows">
+      <UniqueIdentifier>{479ff0b2-aa13-4cc3-ae27-3794523dc929}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows">
+      <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorExplorer.hpp">
-      <Filter>Header Files\Forms</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorProfiler.hpp">
-      <Filter>Header Files\Forms</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorContent.hpp">
-      <Filter>Header Files\Forms</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorTerminal.hpp">
-      <Filter>Header Files\Forms</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorDockspace.hpp">
-      <Filter>Header Files\Forms</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imconfig.h">
       <Filter>Resource Files\ImGui</Filter>
@@ -99,9 +99,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\EditorForm.hpp">
-      <Filter>Header Files\Forms</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\FileBrowser.hpp">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
@@ -115,27 +112,30 @@
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorInspector.hpp">
-      <Filter>Header Files\Forms</Filter>
+      <Filter>Header Files\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\thirdparty\include\imgui\addons\ImGuizmo\ImGuizmo.h">
       <Filter>Resource Files\ImGui\Addons\ImGuizmo</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp">
+      <Filter>Header Files\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorContent.cpp">
-      <Filter>Source Files\Forms</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorDockspace.cpp">
-      <Filter>Source Files\Forms</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorExplorer.cpp">
-      <Filter>Source Files\Forms</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorProfiler.cpp">
-      <Filter>Source Files\Forms</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorTerminal.cpp">
-      <Filter>Source Files\Forms</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui.cpp">
       <Filter>Resource Files\ImGui</Filter>
@@ -161,9 +161,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiStyleLoader.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\EditorForm.cpp">
-      <Filter>Source Files\Forms</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\FileBrowser.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
@@ -177,10 +174,13 @@
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorInspector.cpp">
-      <Filter>Source Files\Forms</Filter>
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuizmo\ImGuizmo.cpp">
       <Filter>Resource Files\ImGui\Addons\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp">
+      <Filter>Source Files\Windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorTerminal::EditorTerminal(Editor & editor)
-		: EditorForm	{ editor, "Terminal", false }
+		: EditorWindow	{ editor, "Terminal", false }
 		, m_coutBuf		{ nullptr }
 		, m_coutPtr		{ nullptr }
 		, m_coutStr		{}

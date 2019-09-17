@@ -34,15 +34,6 @@ namespace ml
 		eventSystem.addListener(ExitEvent		::ID, this);
 		eventSystem.addListener(DockspaceEvent	::ID, this);
 		eventSystem.addListener(KeyEvent		::ID, this);
-		eventSystem.addListener(File_New_Event	::ID, this);
-		eventSystem.addListener(File_Open_Event	::ID, this);
-		eventSystem.addListener(File_Save_Event	::ID, this);
-		eventSystem.addListener(File_Quit_Event	::ID, this);
-		eventSystem.addListener(Edit_Undo_Event	::ID, this);
-		eventSystem.addListener(Edit_Redo_Event	::ID, this);
-		eventSystem.addListener(Edit_Cut_Event	::ID, this);
-		eventSystem.addListener(Edit_Copy_Event	::ID, this);
-		eventSystem.addListener(Edit_Paste_Event::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -96,83 +87,7 @@ namespace ml
 				if (ev->getPress(KeyCode::I, ctrl_alt)) m_inspector.toggleOpen();
 
 				/* * * * * * * * * * * * * * * * * * * * */
-
-				// File -> New | Ctrl + N
-				if (ev->isNew()) eventSystem().fireEvent(File_New_Event());
-
-				// File -> Open | Ctrl + O
-				if (ev->isOpen()) eventSystem().fireEvent(File_Open_Event());
-
-				// File -> Save | Ctrl + S
-				if (ev->isSave()) eventSystem().fireEvent(File_Save_Event());
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				// Edit -> Undo	| Ctrl + Z
-				if (ev->isUndo()) eventSystem().fireEvent(Edit_Undo_Event());
-
-				// Edit -> Redo	| Ctrl + Y / Ctrl + Shift + Z
-				if (ev->isRedo()) eventSystem().fireEvent(Edit_Redo_Event());
-
-				// Edit -> Cut	| Ctrl + X / Shift + Insert
-				if (ev->isCut()) eventSystem().fireEvent(Edit_Cut_Event());
-
-				// Edit -> Copy | Ctrl + C / Ctrl + Insert
-				if (ev->isCopy()) eventSystem().fireEvent(Edit_Copy_Event());
-
-				// Edit -> Paste | Ctrl + V / Shift + Insert
-				if (ev->isPaste()) eventSystem().fireEvent(Edit_Paste_Event());
-
-				/* * * * * * * * * * * * * * * * * * * * */
 			}
-			break;
-
-
-			// File -> New
-		case File_New_Event::ID:
-			if (auto ev = value.as<File_New_Event>()) {}
-			break;
-
-			// File -> Open
-		case File_Open_Event::ID:
-			if (auto ev = value.as<File_Open_Event>()) {} break;
-
-			// File -> Save
-		case File_Save_Event::ID:
-			if (auto ev = value.as<File_Save_Event>()) {}
-			break;
-
-			// File -> Exit
-		case File_Quit_Event::ID:
-			if (auto ev = value.as<File_Quit_Event>())
-			{
-				eventSystem().fireEvent(WindowKillEvent());
-			}
-			break;
-
-			// Edit -> Undo
-		case Edit_Undo_Event::ID:
-			if (auto ev = value.as<Edit_Undo_Event>()) {}
-			break;
-
-			// Edit -> Redo
-		case Edit_Redo_Event::ID:
-			if (auto ev = value.as<Edit_Redo_Event>()) {}
-			break;
-
-			// Edit -> Cut
-		case Edit_Cut_Event::ID:
-			if (auto ev = value.as<Edit_Cut_Event>()) {}
-			break;
-
-			// Edit -> Copy
-		case Edit_Copy_Event::ID:
-			if (auto ev = value.as<Edit_Copy_Event>()) {}
-			break;
-
-			// Edit -> Paste
-		case Edit_Paste_Event::ID: 
-			if (auto ev = value.as<Edit_Paste_Event>()) {}
 			break;
 		}
 	}
@@ -252,8 +167,14 @@ namespace ml
 	{
 		// ImGui Demo
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (m_show_imgui_demo)	{ ImGui::ShowDemoWindow(&m_show_imgui_demo); }
-		if (m_show_imgui_style)	{ ImGui::Begin("Style Editor", &m_show_imgui_style); ImGui::ShowStyleEditor(); ImGui::End(); }
+		static bool show_imgui_demo = false;
+		static bool show_imgui_metrics = false;
+		static bool show_imgui_style_editor = false;
+		static bool show_imgui_about = false;
+		if (show_imgui_demo) { ImGui::ShowDemoWindow(&show_imgui_demo); }
+		if (show_imgui_metrics) { ImGui::ShowMetricsWindow(&show_imgui_metrics); }
+		if (show_imgui_style_editor) { ImGui::Begin("Style Editor", &show_imgui_style_editor); ImGui::ShowStyleEditor(); ImGui::End(); }
+		if (show_imgui_about) { ImGui::ShowAboutWindow(&show_imgui_about); }
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -274,49 +195,14 @@ namespace ml
 					ImGui::EndMenu();
 				}
 
-				// File -> Quit
-				if (ImGui::MenuItem("Quit", "Alt+F4"))
-				{
-					eventSystem().fireEvent(File_Quit_Event());
-				}
-
 				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::File));
 
-				ImGui::EndMenu();
-			}
-
-			// Menu -> Edit
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (0 && ImGui::BeginMenu("Edit"))
-			{
-				// Edit -> Undo
-				if (ImGui::MenuItem("Undo", "Ctrl+Z"))
-				{
-					eventSystem().fireEvent(Edit_Undo_Event());
-				}
-				// Edit -> Redo
-				if (ImGui::MenuItem("Redo", "Ctrl+Y"))
-				{
-					eventSystem().fireEvent(Edit_Redo_Event());
-				}
+				// File -> Quit
 				ImGui::Separator();
-				// Edit -> Cut
-				if (ImGui::MenuItem("Cut", "Ctrl+X"))
+				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{
-					eventSystem().fireEvent(Edit_Cut_Event());
+					eventSystem().fireEvent(WindowKillEvent());
 				}
-				// Edit -> Copy
-				if (ImGui::MenuItem("Copy", "Ctrl+C"))
-				{
-					eventSystem().fireEvent(Edit_Copy_Event());
-				}
-				// Edit -> Paste
-				if (ImGui::MenuItem("Paste", "Ctrl+V"))
-				{
-					eventSystem().fireEvent(Edit_Paste_Event());
-				}
-
-				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Edit));
 
 				ImGui::EndMenu();
 			}
@@ -330,7 +216,6 @@ namespace ml
 				ImGui::MenuItem(m_inspector.getTitle(), "Ctrl+Alt+I", m_inspector.openPtr());
 				ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
 				ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
-				ImGui::Separator();
 				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Window));
 				ImGui::EndMenu();
 			}
@@ -374,8 +259,11 @@ namespace ml
 					ImGui::EndMenu();
 				}
 
-				ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
-				ImGui::MenuItem("Style Editor", "", &m_show_imgui_style);
+				ImGui::Separator();
+				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
+				ImGui::MenuItem("ImGui Metrics", "", &show_imgui_metrics);
+				ImGui::MenuItem("Style Editor", "", &show_imgui_style_editor);
+				ImGui::MenuItem("About Dear ImGui", "", &show_imgui_about);
 
 				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Help));
 

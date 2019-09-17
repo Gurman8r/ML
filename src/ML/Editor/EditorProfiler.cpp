@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorProfiler::EditorProfiler(Editor & editor)
-		: EditorForm { editor, "Profiler", false }
+		: EditorWindow { editor, "Profiler", false }
 		, graphs {}
 	{
 	}

@@ -2,7 +2,7 @@
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/Geometry.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * */
 
 #include <assimp/Importer.hpp>
 #include <assimp/cimport.h>
@@ -10,73 +10,7 @@
 #include <assimp/material.h>
 #include <assimp/scene.h>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	static inline Mesh * processMesh(aiMesh * mesh, const aiScene * scene)
-	{
-		Mesh * temp { new Mesh() };
-
-		for (uint32_t i = 0; i < mesh->mNumVertices; i++)
-		{
-			temp->addVertex(Vertex {
-				mesh->mVertices
-					? vec3 { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z }
-					: vec3 { NULL },
-				mesh->mNormals
-					? vec4 { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z, 1.0f }
-					: vec4 { NULL },
-				mesh->mTextureCoords[0]
-					? vec2 { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y }
-					: vec2 { NULL }
-			});
-		}
-
-		for (uint32_t i = 0; i < mesh->mNumFaces; i++)
-		{
-			const aiFace & face = mesh->mFaces[i];
-
-			for (uint32_t j = 0; j < face.mNumIndices; j++)
-			{
-				temp->addIndex(face.mIndices[j]);
-			}
-		}
-
-		temp->setLayout(BufferLayout::get_default());
-
-		return &temp->create();
-	}
-
-	static inline void processNode(List<Mesh *> & meshes, aiNode * node, const aiScene * scene)
-	{
-		// process all of the node's meshes and then do the same for each of its children
-		if (node && scene)
-		{
-			for (uint32_t i = 0; i < node->mNumMeshes; i++)
-			{
-				if (aiMesh * mesh = scene->mMeshes[node->mMeshes[i]])
-				{
-					meshes.push_back(processMesh(mesh, scene));
-				}
-			}
-
-			for (uint32_t i = 0; i < node->mNumChildren; i++)
-			{
-				if (aiNode * child { node->mChildren[i] })
-				{
-					processNode(meshes, child, scene);
-				}
-			}
-		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -120,16 +54,42 @@ namespace ml
 
 	bool Model::loadFromFile(const String & filename)
 	{
-		if (const aiScene * scene = aiImportFile(filename.c_str(), aiProcess_Triangulate))
+		Assimp::Importer _importer;
+		const aiScene * scene { _importer.ReadFile(filename.c_str(),
+			aiProcess_CalcTangentSpace |
+			aiProcess_Triangulate |
+			aiProcess_JoinIdenticalVertices |
+			aiProcess_SortByPType
+		) };
+		if (!scene) return false;
+		for (uint32_t m = 0; m < scene->mNumMeshes; m++)
 		{
-			if (!(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) && scene->mRootNode)
+			const aiMesh * mesh { scene->mMeshes[m] };
+			for (uint32_t f = 0; f < mesh->mNumFaces; f++)
 			{
-				processNode(m_meshes, scene->mRootNode, scene);
+				Mesh * temp { new Mesh() };
+				const aiFace & face = mesh->mFaces[f];
+				for (uint32_t i = 0; i < 3; i++)
+				{
+					const aiVector3D * v { &mesh->mVertices[face.mIndices[i]] };
+					const aiVector3D * n { &mesh->mVertices[face.mIndices[i]] };
+					const aiVector3D * t { mesh->HasTextureCoords(0)
+						? &mesh->mTextureCoords[0][face.mIndices[i]]
+						: nullptr 
+					};
 
-				return !m_meshes.empty();
+					temp->addVertex(Vertex {
+						(v ? vec3 { v->x, v->y, v->z } : vec3 { NULL }),
+						(n ? vec4 { n->x, n->y, n->z, 1.0f } : vec4 { NULL }),
+						(t ? vec2 { t->x, t->y } : vec2 { NULL })
+					});
+				}
+				temp->setLayout(BufferLayout::get_default());
+				temp->create();
+				m_meshes.push_back(temp);
 			}
 		}
-		return false;
+		return !m_meshes.empty();
 	}
 
 	bool Model::loadFromMemory(const List<Vertex> & vertices)
@@ -156,7 +116,7 @@ namespace ml
 	{
 		for (const Mesh * elem : m_meshes)
 		{
-			target.draw(elem);
+			elem->draw(target, batch);
 		}
 	}
 

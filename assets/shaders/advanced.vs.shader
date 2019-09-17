@@ -3,19 +3,11 @@
 
 #version 410 core
 
-/* * * * * * * * * * * * * * * * * * * * */
+layout(location = 0) in vec3 a_position;
+layout(location = 1) in vec4 a_normal;
+layout(location = 2) in vec2 a_texcoord;
 
-layout(location = 0) in vec3 a_Position;
-layout(location = 1) in vec4 a_Normal;
-layout(location = 2) in vec2 a_Texcoord;
-
-out Vertex {
-	vec3 Position;
-	vec4 Normal;
-	vec2 Texcoord;
-} V;
-
-/* * * * * * * * * * * * * * * * * * * * */
+out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 mat4 angle_axis(vec3 v, float angle)
 {
@@ -79,8 +71,6 @@ uniform int		u_frameCount;	// Current Frame Index
 uniform vec2	u_viewport;		// Size of Main Window
 uniform float	u_totalTime;	// Total Time Elapsed (seconds)
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 void main()
 {
 	// Model Matrix
@@ -98,10 +88,10 @@ void main()
 	);
 
 	// Output
-	gl_Position = (p * v * m) * vec4(a_Position, 1.0);
-	V.Position	= gl_Position.xyz;
-	V.Normal	= transpose(inverse(m)) * a_Normal;
-	V.Texcoord	= a_Texcoord;
+	gl_Position = (p * v * m) * vec4(a_position, 1.0);
+	V.position	= gl_Position.xyz;
+	V.normal	= transpose(inverse(m)) * a_normal;
+	V.texcoord	= a_texcoord;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

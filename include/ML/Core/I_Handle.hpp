@@ -30,16 +30,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * get_handle() const
-		{ 
-			return ML_ADDRESSOF(m_handle);
-		}
+		inline auto get_address() const -> void * { return ML_ADDRESSOF(m_handle); }
+		
+		inline auto get_handle() -> reference { return m_handle; }
+		
+		inline auto get_handle() const -> const_reference { return m_handle; }
 
-		inline self_type & set_handle(const_reference value)
-		{
-			m_handle = value;
-			return (*this);
-		}
+		inline auto set_handle(value_type value) -> self_type & { m_handle = value; return (*this); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -60,28 +60,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const { return model() && material(); }
+		inline operator bool() const 
+		{ 
+			return model() && material(); 
+		}
 
-		inline void * get_handle() const { return texture().get_handle(); }
+		inline void * get_address() const 
+		{ 
+			return texture().get_address(); 
+		}
 
 		template <
 			class ... Args
 		> inline bool setUniform(Args && ... args) const
 		{
 			return material() && material()->setUniform(std::forward<Args>(args)...);
-		}
-
-		template <
-			class Fun, class ... Args
-		> inline Surface & render_to(Fun && fun, Args && ... args)
-		{
-			if (*this)
-			{
-				this->bind();
-				fun(std::forward<Args>(args)...);
-				this->unbind();
-			}
-			return (*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

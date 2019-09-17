@@ -43,9 +43,7 @@ namespace ml
 		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
 
 	private:
-		bool m_redirect_cout		{ false };
-		bool m_show_imgui_demo		{ false };
-		bool m_show_imgui_style		{ false };
+		bool m_redirect_cout { false };
 
 		EditorDockspace	m_dockspace;
 		EditorContent	m_content;

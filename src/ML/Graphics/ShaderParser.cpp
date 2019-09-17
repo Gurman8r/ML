@@ -6,25 +6,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static inline bool parseWrapped(const String & src, char lhs, char rhs, String & out)
-	{
-		size_t a;
-		if ((a = src.find_first_of(lhs)) != String::npos)
-		{
-			size_t b;
-			if ((b = src.find_last_of(rhs)) != String::npos)
-			{
-				if (a != b)
-				{
-					return (bool)(out = src.substr((a + 1), (b - a - 1)));
-				}
-			}
-		}
-		return (bool)(out = String());
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	bool ShaderParser::parseShader(const String & src, SStream & v, SStream & g, SStream & f)
 	{
 		SStream * dst = nullptr;
@@ -84,59 +65,58 @@ namespace ml
 
 	String ShaderParser::parseIncludes(const String & src)
 	{
-		auto includeCallback = [](const String & name)
+		auto clbk = ([](const String & name)
 		{
-			if (name)
+			if (String file { ML_FS.getFileContents(ML_FS.pathTo(name)) })
 			{
-				String file;
-				if (ML_FS.getFileContents(ML_FS.pathTo(name), file))
-				{
-					file.pop_back();
-					return file;
-				}
+				file.pop_back(); return file;
 			}
 			return String();
-		};
+		});
 
 		SStream	out;
-		SStream	ss(src);
+		SStream	ss { src };
 		String	line;
 		while (std::getline(ss, line))
 		{
-			String data;
-			if ((data = parseIncludes(line, '\'', '\'', includeCallback)) ||
-				(data = parseIncludes(line, '\"', '\"', includeCallback)) ||
-				(data = parseIncludes(line, '<', '>',	includeCallback)))
+			String content;
+			if ((content = parseIncludes(line, '\"', '\"', clbk)) ||
+				(content = parseIncludes(line, '<',  '>',  clbk)))
 			{
-				out << parseIncludes(data);
+				out << parseIncludes(content);
 			}
 			else
 			{
-				if (line.find("#include") != String::npos)
-				{
-					Debug::logError("Include Failed: {0}", line);
-				}
-
 				out << line << endl;
 			}
 		}
 		return out.str();
 	}
 
-	String ShaderParser::parseIncludes(const String & line, char lhs, char rhs, IncludeClbk callback)
+	String ShaderParser::parseIncludes(String line, char lhs, char rhs, IncludeCallback callback)
 	{
 		if (line && lhs && rhs && callback)
 		{
-			SStream	out;
-			if (line.find("#include") != String::npos)
+			if (line.trim() && line.front() == '#')
 			{
-				String name, path;
-				if (parseWrapped(line, lhs, rhs, name))
+				line.erase(line.begin());
+				static constexpr StringView inc { "include" };
+				if (line.trim().substr(0, inc.size()) == inc.str())
 				{
-					out << callback(name);
+					size_t a;
+					if ((a = line.find_first_of(lhs)) != String::npos)
+					{
+						size_t b;
+						if ((b = line.find_last_of(rhs)) != String::npos)
+						{
+							if (a != b)
+							{
+								return callback(line.substr(a + 1, b - a - 1));
+							}
+						}
+					}
 				}
 			}
-			return out.str();
 		}
 		return String();
 	}

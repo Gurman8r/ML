@@ -119,8 +119,14 @@ namespace ml
 				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
+					ImGui::Separator();
 					ImGui::MenuItem("Display##Enable##Noobs##DemoView", "", &m_editor.m_scene.m_open);
 					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.m_open);
+					break;
+
+				case MainMenuBarEvent::Help:
+					//ImGui::Separator();
+					//ImGui::MenuItem("About Noobs");
 					break;
 				}
 			}
@@ -195,8 +201,11 @@ namespace ml
 		m_editor.m_camera.setBackground(m_editor.m_scene.m_clearColor);
 
 		// Render Scene
-		m_pipeline[Surf_Main]->render_to([&]()
+		if (m_pipeline[Surf_Main])
 		{
+			// Bind Surface
+			m_pipeline[Surf_Main]->bind();
+
 			// Apply Camera
 			m_editor.m_camera.apply();
 
@@ -214,7 +223,10 @@ namespace ml
 				ML_GL.drawArrays(m_editor.m_geoMode, 0, m_editor.m_geoCount);
 				geo->unbind();
 			}
-		});
+
+			// Unbind Surface
+			m_pipeline[Surf_Main]->unbind();
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -229,14 +241,23 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Render Post Processing
-		m_pipeline[Surf_Post]->render_to([&]()
+		if (m_pipeline[Surf_Post])
 		{
+			// Bind Surface
+			m_pipeline[Surf_Post]->bind();
+
+			// Apply Camera
+			m_editor.m_camera.apply();
+
 			// Apply Effects to Main
 			if (Surface * surf { m_pipeline[Surf_Main] })
 			{
 				ev.window.draw(surf);
 			}
-		});
+
+			// Unbind Surface
+			m_pipeline[Surf_Post]->unbind();
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
@@ -276,7 +297,7 @@ namespace ml
 
 				ImGui::BeginChild("NoobsSceneViewport", { 0, 0 }, true);
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(surf->get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::Image(surf->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 				ImGui::EndChild();
 			}
 

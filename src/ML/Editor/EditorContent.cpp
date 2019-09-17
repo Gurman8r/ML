@@ -118,7 +118,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorContent::EditorContent(Editor & editor)
-		: EditorForm { editor, "Content", false }
+		: EditorWindow { editor, "Content", false }
 	{
 	}
 

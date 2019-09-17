@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// WORK IN PROGRESS
+	// WIP
 	struct ML_GRAPHICS_API RenderBatch final
 		: public I_Newable
 	{

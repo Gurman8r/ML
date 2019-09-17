@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_DOCKSPACE_HPP_
 #define _ML_EDITOR_DOCKSPACE_HPP_
 
-#include <ML/Editor/EditorForm.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorDockspace final : public EditorForm
+	class ML_EDITOR_API EditorDockspace final : public EditorWindow
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

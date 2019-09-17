@@ -316,7 +316,7 @@ namespace ml
 		auto draw_glyph = [](const Glyph & g) 
 		{
 			ImGui::Image(
-				g.texture.get_handle(),
+				g.texture.get_address(),
 				{ g.width(), g.height() }, 
 				{ 0, 0 }, 
 				{ 1, 1 }
@@ -501,7 +501,7 @@ namespace ml
 				ImGuiWindowFlags_NoScrollbar
 			);
 			ImGui::SetCursorPos({ pos[0], pos[1] });
-			ImGui::Image(preview->get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+			ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 			ImGui::EndChild();
 		}
 #endif
@@ -828,10 +828,46 @@ namespace ml
 			const Mesh * mesh { value.meshes()[i] };
 			ImGui::PushID(ML_ADDRESSOF(mesh));
 
-			if (ImGui::TreeNode(String("Mesh [" + std::to_string(i) + "]##" + label).c_str()))
+			const String meshID { String("Mesh [" + std::to_string(i) + "]##" + label) };
+			if (ImGui::TreeNode(meshID.c_str()))
 			{
-				ImGui::Text("Vertices: %u", mesh->vertices().size());
-				ImGui::Text("Indices: %u", mesh->indices().size());
+				ImGui::Text("Vertex Count:"); ImGui::SameLine();
+				ImGui::Text("%u", mesh->vertices().size());
+
+				ImGui::Text("Index Count:"); ImGui::SameLine();
+				ImGui::Text("%u", mesh->indices().size());
+				
+				ImGui::Text("VAO Handle:"); ImGui::SameLine();
+				ImGui::Text("%u", (uint32_t)mesh->vao());
+				
+				ImGui::Text("VBO Handle:"); ImGui::SameLine();
+				ImGui::Text("%u", (uint32_t)mesh->vbo());
+				
+				ImGui::Text("IBO Handle:"); ImGui::SameLine();
+				ImGui::Text("%u", (uint32_t)mesh->ibo());
+
+				ImGui::NewLine();
+				ImGui::Text("Buffer Layout:");
+				for (const BufferLayout::Element & e : mesh->layout().elements())
+				{
+					ImGui::Text(
+						"Index: %u | "
+						"Size: %u | "
+						"Type: %s | "
+						"Normalize: %u | "
+						"Stride: %u | "
+						"Offset: %u | "
+						"Width: %u",
+						e.index, 
+						e.size,
+						GL::name_of(e.type), 
+						e.normalize,
+						e.stride, 
+						e.offset, 
+						e.width
+					);
+				}
+
 				ImGui::TreePop();
 			}
 			ImGui::PopID();
@@ -1229,7 +1265,7 @@ namespace ml
 				ImGuiWindowFlags_NoScrollbar
 			);
 			ImGui::SetCursorPos({ pos[0], pos[1] });
-			ImGui::Image(value.get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+			ImGui::Image(value.get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 			ImGui::EndChild();
 		}
 
@@ -1523,7 +1559,7 @@ namespace ml
 					ImGuiWindowFlags_NoScrollbar
 				);
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(value.get_handle(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::Image(value.get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 				ImGui::EndChild();
 			}
 		}

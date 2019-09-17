@@ -1,4 +1,3 @@
-
 #ifndef _ML_EDITOR_FORM_HPP_
 #define _ML_EDITOR_FORM_HPP_
 
@@ -14,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorForm : public I_NonCopyable
+	class ML_EDITOR_API EditorWindow : public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -23,9 +22,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		explicit EditorForm(Editor & editor, C_String title, bool open);
+		explicit EditorWindow(Editor & editor, C_String title, bool open);
 
-		virtual ~EditorForm() {}
+		virtual ~EditorWindow() {}
 
 		virtual void onUpdate(const UpdateEvent & ev) = 0;
 		virtual bool beginDraw(int32_t flags);

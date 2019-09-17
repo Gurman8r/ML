@@ -4,12 +4,14 @@ ml.content.load([
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    {
-        "type":     "Image",
-        "name":     "icon",
-        "file":     PATH + "/images/dean.png",
-        "flip_v":   "False"
-    },
+    { "type": "Image", "name": "icon",          "file": PATH + "/images/dean.png", "flip_v": "False" },
+    { "type": "Image", "name": "star",          "file": PATH + "/skyboxes/star.jpg" },
+    { "type": "Image", "name": "sunset_right",  "file": PATH + "/skyboxes/sunset/sunset_right.png", "flip_v": "False" },
+    { "type": "Image", "name": "sunset_left",   "file": PATH + "/skyboxes/sunset/sunset_left.png", "flip_v": "False" },
+    { "type": "Image", "name": "sunset_top",    "file": PATH + "/skyboxes/sunset/sunset_top.png", "flip_v": "False" },
+    { "type": "Image", "name": "sunset_bottom", "file": PATH + "/skyboxes/sunset/sunset_bottom.png", "flip_v": "False" },
+    { "type": "Image", "name": "sunset_front",  "file": PATH + "/skyboxes/sunset/sunset_front.png", "flip_v": "False" },
+    { "type": "Image", "name": "sunset_back",   "file": PATH + "/skyboxes/sunset/sunset_back.png", "flip_v": "False" },
 
 # Fonts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -29,7 +31,7 @@ ml.content.load([
     #{ "type": "Shader", "name": "text",         "file": PATH + "/shaders/text.shader" },
     { "type": "Shader", "name": "geometry",     "file": PATH + "/shaders/geometry.shader" },
     {
-        "type": "Shader",
+        "type": "Shader", 
         "name": "advanced",
         "vert": PATH + "/shaders/advanced.vs.shader",
         "frag": PATH + "/shaders/advanced.fs.shader"
@@ -51,20 +53,29 @@ ml.content.load([
     { "type": "Texture", "name": "earth_lm",    "file": PATH + "/textures/earth/earth_lm_2k.png" },
     { "type": "Texture", "name": "earth_nm",    "file": PATH + "/textures/earth/earth_nm_2k.png" },
     { "type": "Texture", "name": "earth_sm",    "file": PATH + "/textures/earth/earth_sm_2k.png" },
-    
     { "type": "Texture", "name": "stone_dm",    "file": PATH + "/textures/stone/stone_dm.png" },
     { "type": "Texture", "name": "stone_hm",    "file": PATH + "/textures/stone/stone_hm.png" },
     { "type": "Texture", "name": "stone_nm",    "file": PATH + "/textures/stone/stone_nm.png" },
-    
     { "type": "Texture", "name": "mars_dm",     "file": PATH + "/textures/mars/mars_dm_2k.png" },
     { "type": "Texture", "name": "mars_nm",     "file": PATH + "/textures/mars/mars_nm_2k.png" },
-    
     { "type": "Texture", "name": "moon_dm",     "file": PATH + "/textures/moon/moon_dm_2k.png" },
     { "type": "Texture", "name": "moon_nm",     "file": PATH + "/textures/moon/moon_nm_2k.png" },
 
+    { "type": "Texture", "name": "icon_add",        "file": PATH + "/ui/Add-Icon.png" },
+    { "type": "Texture", "name": "icon_check",      "file": PATH + "/ui/Check-Icon.png" },
+    { "type": "Texture", "name": "icon_home",       "file": PATH + "/ui/Home-Icon.png" },
+    { "type": "Texture", "name": "icon_lock",       "file": PATH + "/ui/Lock-Icon.png" },
+    { "type": "Texture", "name": "icon_power",      "file": PATH + "/ui/Power-Icon.png" },
+    { "type": "Texture", "name": "icon_refresh",    "file": PATH + "/ui/Refresh-Icon.png" },
+    { "type": "Texture", "name": "icon_remote",     "file": PATH + "/ui/Remote-Icon.png" },
+    { "type": "Texture", "name": "icon_remove",     "file": PATH + "/ui/Remove-Icon.png" },
+    { "type": "Texture", "name": "icon_search",     "file": PATH + "/ui/Search-Icon.png" },
+    { "type": "Texture", "name": "icon_settings",   "file": PATH + "/ui/Settings-Icon.png" },
+    { "type": "Texture", "name": "icon_social",     "file": PATH + "/ui/Social-Icon.png" },
+    { "type": "Texture", "name": "icon_trash",      "file": PATH + "/ui/Trash-Icon.png" },
+
 # Skyboxes
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Image", "name": "star", "file": PATH + "/skyboxes/star.jpg" },
     {
         "type":     "Texture",
         "name":     "sky_starfield",
@@ -93,12 +104,6 @@ ml.content.load([
         "top":      PATH + "/skyboxes/space/5.png",
         "bottom":   PATH + "/skyboxes/space/6.png"
     },
-    { "type": "Image", "name": "sunset_right",  "file": PATH + "/skyboxes/sunset/sunset_right.png", "flip_v": "False" },
-    { "type": "Image", "name": "sunset_left",   "file": PATH + "/skyboxes/sunset/sunset_left.png", "flip_v": "False" },
-    { "type": "Image", "name": "sunset_top",    "file": PATH + "/skyboxes/sunset/sunset_top.png", "flip_v": "False" },
-    { "type": "Image", "name": "sunset_bottom", "file": PATH + "/skyboxes/sunset/sunset_bottom.png", "flip_v": "False" },
-    { "type": "Image", "name": "sunset_front",  "file": PATH + "/skyboxes/sunset/sunset_front.png", "flip_v": "False" },
-    { "type": "Image", "name": "sunset_back",   "file": PATH + "/skyboxes/sunset/sunset_back.png", "flip_v": "False" },
     {
         "type":     "Texture",
         "name":     "sky_sunset",
@@ -121,7 +126,7 @@ ml.content.load([
     { "type": "Model", "name": "sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
     #{ "type": "Model", "name": "cow",           "file": PATH + "/meshes/cow.obj" },
     #{ "type": "Model", "name": "pumpkin",       "file": PATH + "/meshes/pumpkin.obj" },
-    #{ "type": "Model", "name": "teapot",        "file": PATH + "/meshes/teapot.obj" },
+    { "type": "Model", "name": "teapot",        "file": PATH + "/meshes/teapot.obj" },
     #{ "type": "Model", "name": "teddy",         "file": PATH + "/meshes/teddy.obj" },
 
 # Materials

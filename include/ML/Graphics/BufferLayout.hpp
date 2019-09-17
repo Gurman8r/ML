@@ -17,15 +17,21 @@ namespace ml
 
 		struct Element final
 		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
 			uint32_t	index;
 			uint32_t	size;
 			GL::Type	type;
-			bool		normalized;
+			bool		normalize;
 			uint32_t	stride;
 			uint32_t	offset;
 			uint32_t	width;
 
+			/* * * * * * * * * * * * * * * * * * * * */
+
 			const Element & operator()() const;
+
+			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -39,8 +45,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static const BufferLayout & get_default();
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void bind() const;
 

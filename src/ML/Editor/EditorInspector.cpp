@@ -47,7 +47,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorInspector::EditorInspector(Editor & editor)
-		: EditorForm { editor, "Inspector", false }
+		: EditorWindow { editor, "Inspector", false }
 	{
 	}
 

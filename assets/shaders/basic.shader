@@ -3,22 +3,18 @@
 
 #version 410 core
 
-layout(location = 0) in vec3 a_Position;
-layout(location = 1) in vec4 a_Normal;
-layout(location = 2) in vec2 a_Texcoord;
+layout(location = 0) in vec3 a_position;
+layout(location = 1) in vec4 a_normal;
+layout(location = 2) in vec2 a_texcoord;
 
-out Vertex {
-	vec3 Position;
-	vec4 Normal;
-	vec2 Texcoord;
-} V;
+out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 void main()
 {
-	V.Position = a_Position;
-	V.Normal = a_Normal;
-	V.Texcoord = a_Texcoord;
-	gl_Position = vec4(V.Position.x, V.Position.y, 0.0, 1.0);
+	V.position	= a_position;
+	V.normal	= a_normal;
+	V.texcoord	= a_texcoord;
+	gl_Position = vec4(V.position, 1.0);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,11 +23,7 @@ void main()
 
 #version 410 core
 
-in Vertex {
-	vec3 Position;
-	vec4 Normal;
-	vec2 Texcoord;
-} V;
+in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 uniform	vec4 u_color;
@@ -39,7 +31,7 @@ uniform sampler2D u_texture0;
 
 void main()
 {
-	gl_Color = u_color * texture(u_texture0, V.Texcoord);
+	gl_Color = u_color * texture(u_texture0, V.texcoord);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

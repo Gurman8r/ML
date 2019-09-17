@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_TERMINAL_HPP_
 #define _ML_EDITOR_TERMINAL_HPP_
 
-#include <ML/Editor/EditorForm.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorTerminal final : public EditorForm
+	class ML_EDITOR_API EditorTerminal final : public EditorWindow
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -30,10 +30,9 @@ namespace ml
 		bool	redirect(Ostream & value);
 		int32_t inputCallback(void * value);
 
-		inline const List<char *> & history() const
-		{ 
-			return m_history; 
-		}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto history() const -> const List<char *> & { return m_history; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

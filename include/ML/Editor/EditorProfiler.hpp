@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_PROFILER_HPP_
 #define _ML_EDITOR_PROFILER_HPP_
 
-#include <ML/Editor/EditorForm.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorProfiler final : public EditorForm
+	class ML_EDITOR_API EditorProfiler final : public EditorWindow
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

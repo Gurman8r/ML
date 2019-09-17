@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorForm.hpp>
+#include <ML/Editor/EditorWindow.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorForm::EditorForm(Editor & editor, C_String title, bool open)
+	EditorWindow::EditorWindow(Editor & editor, C_String title, bool open)
 		: m_editor	{ editor }
 		, m_title	{ title }
 		, m_open	{ open }
@@ -20,14 +20,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorForm::beginDraw(int32_t flags)
+	bool EditorWindow::beginDraw(int32_t flags)
 	{
 		ImGui::PushID(ML_ADDRESSOF(this));
 		ImGui::PushID(getTitle());
 		return m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags));
 	}
 
-	bool EditorForm::endDraw()
+	bool EditorWindow::endDraw()
 	{
 		ImGui::End();
 		ImGui::PopID();

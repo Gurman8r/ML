@@ -1,10 +1,8 @@
 #ifndef _ML_ENTITY_HPP_
 #define _ML_ENTITY_HPP_
 
-#include <ML/Engine/Export.hpp>
-#include <ML/Core/I_Disposable.hpp>
+#include <ML/Engine/RegistryManager.hpp>
 #include <ML/Core/I_Readable.hpp>
-#include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Writable.hpp>
 
 namespace ml
@@ -55,7 +53,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline T * insert(T * value)
+		template <class T> inline T * attach(T * value)
 		{
 			return ((this->find<T>() == this->end())
 				? static_cast<T *>(m_map.insert({ get_hash<T>(), value }).first->second)
@@ -63,18 +61,11 @@ namespace ml
 			);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class T> inline T * add()
-		{
-			return this->insert<T>(new T {});
-		}
-
 		template <
 			class T, class ... Args
 		> inline T * add(Args && ... args)
 		{
-			return this->insert<T>(new T { std::forward<Args>(args)... });
+			return this->attach<T>(new T { std::forward<Args>(args)... });
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

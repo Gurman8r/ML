@@ -51,7 +51,7 @@ namespace ml
 		inline auto fieldOfView()	const -> const float_t &	{ return m_fieldOfView; }
 		inline auto clipNear()		const -> const float_t &	{ return m_clipNear; }
 		inline auto clipFar()		const -> const float_t &	{ return m_clipFar; }
-		inline auto viewport()		const -> const FloatRect &	{ return m_viewport; }
+		inline auto viewport()		const -> const IntRect &	{ return m_viewport; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

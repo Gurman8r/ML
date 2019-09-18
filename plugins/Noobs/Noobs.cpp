@@ -6,6 +6,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
 #include <ML/Core/OS.hpp>
+#include <ML/Core/TypeTag.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -13,6 +14,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/ContentManager.hpp>
+#include <ML/Engine/RegistryManager.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
@@ -23,6 +25,8 @@
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Graphics/Sprite.hpp>
+#include <ML/Graphics/Light.hpp>
+#include <ML/Graphics/Transform.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -65,7 +69,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Noobs::Noobs(EventSystem & eventSystem)
-		: Plugin		{ eventSystem }
+		: Plugin { eventSystem }
 	{
 		eventSystem.addListener(StartEvent::ID,			this);
 		eventSystem.addListener(UpdateEvent::ID,		this);
@@ -123,11 +127,6 @@ namespace ml
 					ImGui::MenuItem("Display##Enable##Noobs##DemoView", "", &m_editor.m_scene.m_open);
 					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.m_open);
 					break;
-
-				case MainMenuBarEvent::Help:
-					//ImGui::Separator();
-					//ImGui::MenuItem("About Noobs");
-					break;
 				}
 			}
 			break;
@@ -153,31 +152,28 @@ namespace ml
 		// Setup Uniforms
 		redirect_uni_ptr<uni_vec2_ptr>("u_viewport", &m_editor.m_scene.m_viewport);
 
-		// Create Editor Entity
-		if (Entity * e = m_editor.m_entity.create())
+		// Create Demo Entity
+		if (Entity * e { m_editor.m_entity.create() })
 		{
-			// Create Editor Renderer
-			m_editor.m_renderer = e->add<Renderer>(
-				m_editor.m_model,
-				m_editor.m_material,
-				RenderStates {}
-			);
+			// Attach Renderer
+			m_editor.m_renderer = e->attach(ML_Registry.generate<Renderer>());
+			m_editor.m_renderer->setDrawable(m_editor.m_model);
+			m_editor.m_renderer->setMaterial(m_editor.m_material);
 			m_editor.m_renderer->states().cull().enabled = false;
 		}
 
 		// Create Skybox Entity
-		if (Entity * e = m_editor.m_skybox.entity.create())
+		if (Entity * e { m_editor.m_skybox.entity.create() })
 		{
-			// Create Skybox Renderer
-			m_editor.m_skybox.renderer = e->add<Renderer>(
-				m_editor.m_skybox.model, 
-				m_editor.m_skybox.material, 
-				RenderStates { {}, {}, {}, DepthState { true, false } }
-			);
+			// Attach Renderer
+			m_editor.m_skybox.renderer = e->attach(ML_Registry.generate<Renderer>());
+			m_editor.m_skybox.renderer->setDrawable(m_editor.m_model);
+			m_editor.m_skybox.renderer->setMaterial(m_editor.m_material);
+			m_editor.m_skybox.renderer->states() = { {}, {}, {}, DepthState { true, false } };
 			m_editor.m_skybox.renderer->setEnabled(false);
 		}
 
-		// Setup Source Editors
+		// Setup Editor
 		m_editor.generate_sources();
 	}
 
@@ -197,7 +193,7 @@ namespace ml
 		m_editor.m_camera.setFieldOfView(45.0f);
 		m_editor.m_camera.setClipNear(0.001f);
 		m_editor.m_camera.setClipFar(1000.0f);
-		m_editor.m_camera.setViewport({ 0, 0 }, (vec2i)m_editor.m_scene.m_viewport);
+		m_editor.m_camera.setViewport((vec2i)m_editor.m_scene.m_viewport);
 		m_editor.m_camera.setBackground(m_editor.m_scene.m_clearColor);
 
 		// Render Scene
@@ -269,6 +265,44 @@ namespace ml
 		
 		// Render Editor
 		m_editor.render(ev, "Editor##Noobs##DemoEditor");
+
+		if (ImGui::Begin("Add Component Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+			ImGui::BeginChildFrame(
+				ImGui::GetID("AddComponentMenuContent"),
+				{ 380, ImGui::GetTextLineHeightWithSpacing() * 10 },
+				ImGuiWindowFlags_NoMove
+			);
+			ImGui::PopStyleVar();
+
+			// Filter
+			static ImGuiTextFilter filter {};
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
+			filter.Draw("Filter", 180);
+			ImGui::PopStyleVar();
+
+			// Component List
+			for (const auto & pair : ML_Registry.data())
+			{
+				if (!filter.PassFilter(pair.first.c_str())) continue;
+				if (ImGui::Selectable((pair.first + "##AddComponentMenuButton").c_str()))
+				{
+					switch (Hash { pair.first.data(), pair.first.size() })
+					{
+					case typeof<Camera>().hash():
+					case typeof<Light>().hash():
+					case typeof<Renderer>().hash():
+					case typeof<Transform>().hash():
+						Debug::log("{0}", pair.first.c_str());
+						break;
+					}
+				}
+			}
+
+			ImGui::EndChildFrame();
+		}
+		ImGui::End();
 	}
 
 	void Noobs::onExit(const ExitEvent & ev)

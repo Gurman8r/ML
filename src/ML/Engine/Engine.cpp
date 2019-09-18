@@ -8,6 +8,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>
+#include <ML/Engine/RegistryManager.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/PluginLoader.hpp>
 #include <ML/Engine/Python.hpp>

@@ -3,7 +3,6 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/OS.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Core/TypeTag.hpp>
 #include <ML/Engine/ContentManager.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>

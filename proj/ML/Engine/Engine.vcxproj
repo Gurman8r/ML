@@ -178,7 +178,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Engine\ComponentLibrary.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Ref.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\ContentImporter.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandDescriptor.hpp" />
@@ -200,6 +199,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\PluginLoader.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Python.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\RegistryManager.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Script.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SerializedObject.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\SerializedProperty.hpp" />
@@ -220,6 +220,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\CommandImpl.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\PluginLoader.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\RegistryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SerializedObject.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\SerializedProperty.cpp" />

@@ -28,6 +28,11 @@ namespace ml
 
 		if (ImGui::CollapsingHeader("About MemeLib"))
 		{
+			ImGui::Text("MemeLib %s", ML_PROJECT_VER);
+			ImGui::Text("By Melody Gurman");
+			ImGui::Text("MemeLib is licensed under the MIT License, see LICENSE for more information.");
+			ImGui::Separator();
+
 			auto draw_def = ([](C_String label, C_String fmt, auto data, bool last = false)
 			{
 				ImGui::Text("define: %s", label); 
@@ -55,9 +60,9 @@ namespace ml
 		if (ImGui::CollapsingHeader("About Dear ImGui"))
 		{
 			ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
-			ImGui::Separator();
 			ImGui::Text("By Omar Cornut and all dear imgui contributors.");
 			ImGui::Text("Dear ImGui is licensed under the MIT License, see LICENSE for more information.");
+			ImGui::Separator();
 
 			static bool show_config_info = false;
 			ImGui::Checkbox("Config/Build Information", &show_config_info);
@@ -67,7 +72,11 @@ namespace ml
 				ImGuiStyle& style = ImGui::GetStyle();
 
 				bool copy_to_clipboard = ImGui::Button("Copy to clipboard");
-				ImGui::BeginChildFrame(ImGui::GetID("cfginfos"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 18), ImGuiWindowFlags_NoMove);
+				ImGui::BeginChildFrame(
+					ImGui::GetID("cfginfos"), 
+					ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 18), 
+					ImGuiWindowFlags_NoMove
+				);
 				if (copy_to_clipboard)
 					ImGui::LogToClipboard();
 

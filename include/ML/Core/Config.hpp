@@ -3,7 +3,7 @@
 
 //	Project Info
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_PROJECT_VER "alpha"
+#define ML_PROJECT_VER "Alpha"
 #define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
 
 
@@ -72,9 +72,11 @@
   || defined(_x64		) \
   || defined(_M_X64		) \
   || defined(__MINGW64__)
-#	define ML_ARCHITECTURE 64
+#	define ML_ARCHITECTURE		64
+#	define ML_PLATFORM_TARGET	"x64"
 #else
-#	define ML_ARCHITECTURE 32
+#	define ML_ARCHITECTURE		32
+#	define ML_PLATFORM_TARGET	"x86"
 #endif
 
 
@@ -136,10 +138,9 @@
 #define ML_STRINGIFY(str)	ML_TOSTRING(str)
 #define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
 #define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
-#define ML_CONCAT(a, b)		a b
+#define ML_CONCAT(a, b)		a##b
 #define ML_BUILD_DATE		__DATE__
 #define ML_BUILD_TIME		__TIME__
-#define ML_PLATFORM_TARGET	ML_CONCAT("x", ML_STRINGIFY(ML_ARCHITECTURE))
 
 #define ML_TEMPLATE(...)	template<##__VA_ARGS__>
 #define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using

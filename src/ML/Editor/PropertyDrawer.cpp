@@ -6,7 +6,6 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Engine/Ref.hpp>
 #include <ML/Editor/FileBrowser.hpp>
-
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Font.hpp>

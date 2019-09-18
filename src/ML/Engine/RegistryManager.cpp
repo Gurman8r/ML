@@ -4,23 +4,20 @@
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Transform.hpp>
 
-#define ML_GEN_FUNC(name) ML_CONCAT(ml_generate_, name)
-
-#define ML_REGISTER_EXT(TYPE, FUN) \
-static void * FUN(); \
-bool _ML Registry<TYPE>::s_registered = ML_Registry.production<TYPE>(FUN); \
+#define ML_REGISTER_TYPE_EXT(T, FUN) static void * FUN(); \
+bool _ML Registry<T>::s_registered = ML_Registry.production<T>(FUN); \
 void * FUN()
 
-#define ML_REGISTER(T) ML_REGISTER_EXT(T, ML_GEN_FUNC(T))
+#define ML_REGISTER_TYPE(T) ML_REGISTER_TYPE_EXT(T, ML_CONCAT(ml_production_, T))
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ML_REGISTER(Camera)		{ return new Camera(); };
-	ML_REGISTER(Light)		{ return new Light(); }
-	ML_REGISTER(Renderer)	{ return new Renderer(); }
-	ML_REGISTER(Transform)	{ return new Transform(); }
+	ML_REGISTER_TYPE(Camera)	{ return new Camera(); };
+	ML_REGISTER_TYPE(Light)		{ return new Light(); }
+	ML_REGISTER_TYPE(Renderer)	{ return new Renderer(); }
+	ML_REGISTER_TYPE(Transform)	{ return new Transform(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

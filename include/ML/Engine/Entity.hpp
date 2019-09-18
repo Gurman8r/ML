@@ -53,10 +53,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline void * attach(hash_t code, void * value)
+		{
+			return ((code && value)
+				? (I_Newable *)m_map.insert({ code, (I_Newable *)value }).first->second
+				: nullptr
+			);
+		}
+
 		template <class T> inline T * attach(T * value)
 		{
 			return ((this->find<T>() == this->end())
-				? static_cast<T *>(m_map.insert({ get_hash<T>(), value }).first->second)
+				? static_cast<T *>(this->attach(get_hash<T>(), value))
 				: nullptr
 			);
 		}

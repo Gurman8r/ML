@@ -167,8 +167,8 @@ namespace ml
 		{
 			// Attach Renderer
 			m_editor.m_skybox.renderer = e->attach(ML_Registry.generate<Renderer>());
-			m_editor.m_skybox.renderer->setDrawable(m_editor.m_model);
-			m_editor.m_skybox.renderer->setMaterial(m_editor.m_material);
+			m_editor.m_skybox.renderer->setDrawable(m_editor.m_skybox.model);
+			m_editor.m_skybox.renderer->setMaterial(m_editor.m_skybox.material);
 			m_editor.m_skybox.renderer->states() = { {}, {}, {}, DepthState { true, false } };
 			m_editor.m_skybox.renderer->setEnabled(false);
 		}
@@ -265,44 +265,6 @@ namespace ml
 		
 		// Render Editor
 		m_editor.render(ev, "Editor##Noobs##DemoEditor");
-
-		if (ImGui::Begin("Add Component Menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-		{
-			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-			ImGui::BeginChildFrame(
-				ImGui::GetID("AddComponentMenuContent"),
-				{ 380, ImGui::GetTextLineHeightWithSpacing() * 10 },
-				ImGuiWindowFlags_NoMove
-			);
-			ImGui::PopStyleVar();
-
-			// Filter
-			static ImGuiTextFilter filter {};
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
-			filter.Draw("Filter", 180);
-			ImGui::PopStyleVar();
-
-			// Component List
-			for (const auto & pair : ML_Registry.data())
-			{
-				if (!filter.PassFilter(pair.first.c_str())) continue;
-				if (ImGui::Selectable((pair.first + "##AddComponentMenuButton").c_str()))
-				{
-					switch (Hash { pair.first.data(), pair.first.size() })
-					{
-					case typeof<Camera>().hash():
-					case typeof<Light>().hash():
-					case typeof<Renderer>().hash():
-					case typeof<Transform>().hash():
-						Debug::log("{0}", pair.first.c_str());
-						break;
-					}
-				}
-			}
-
-			ImGui::EndChildFrame();
-		}
-		ImGui::End();
 	}
 
 	void Noobs::onExit(const ExitEvent & ev)

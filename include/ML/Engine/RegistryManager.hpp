@@ -12,12 +12,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct ML_ENGINE_API Registry
+	template <class T> struct ML_ENGINE_API Registry final
 	{
 		using type = typename detail::decay_t<T>;
-		using pointer = typename type *;
-		using function = typename pointer(*)(void);
 		static bool s_registered;
+		Registry() = default;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -30,8 +29,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool production(const String & name, generator fun)
+		bool production(const String & name, hash_t code, generator fun)
 		{
+			m_codes.insert({ name, code });
 			auto it { m_data.find(name) };
 			return ((it == m_data.end())
 				? (m_data.insert({ name, fun }).first->second != nullptr)
@@ -39,11 +39,9 @@ namespace ml
 			);
 		}
 
-		template <
-			class T, class Fun
-		> inline bool production(Fun && fun)
+		template <class T, class Fun> inline bool production(Fun && fun)
 		{
-			return this->production(typeof<T>().name(), (generator)fun);
+			return this->production(typeof<T>().name(), typeid(T).hash_code(), (generator)fun);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -54,15 +52,14 @@ namespace ml
 			return (it != m_data.end()) ? it->second() : nullptr;
 		}
 
-		template <
-			class T
-		> inline T * generate() const
+		template <class T> inline T * generate() const
 		{
 			return static_cast<T *>(this->generate(typeof<T>().name()));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline auto codes() const -> const Tree<String, hash_t> & { return m_codes; }
 		inline auto data() const -> const Tree<String, generator> & { return m_data; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -70,9 +67,9 @@ namespace ml
 	private:
 		friend struct I_Singleton<RegistryManager>;
 
-		RegistryManager() : m_data {} {}
-		~RegistryManager() {}
+		RegistryManager() = default;
 
+		Tree<String, hash_t> m_codes;
 		Tree<String, generator> m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

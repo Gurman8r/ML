@@ -100,6 +100,58 @@ namespace ml
 	bool PropertyDrawer<Entity>::operator()(const String & label, reference value, int32_t flags) const
 	{
 		ImGui::PushID(ML_ADDRESSOF(&value));
+
+		if (ImGui::Button("Add Component##Button"))
+		{
+			ImGui::OpenPopup("Add Component##PopupModal");
+		}
+		if (ImGui::BeginPopupModal(
+			"Add Component##PopupModal",
+			nullptr, 
+			ImGuiWindowFlags_AlwaysAutoResize
+		))
+		{
+			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+			ImGui::BeginChildFrame(
+				ImGui::GetID("AddComponentMenuContent"),
+				{ 380, ImGui::GetTextLineHeightWithSpacing() * 10 },
+				ImGuiWindowFlags_NoMove
+			);
+			ImGui::PopStyleVar();
+
+			// Filter
+			static ImGuiTextFilter filter {};
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
+			filter.Draw("Filter", 180);
+			ImGui::PopStyleVar();
+
+			// Component List
+			for (const auto & pair : ML_Registry.data())
+			{
+				if (!filter.PassFilter(pair.first.c_str())) continue;
+				if (ImGui::Selectable((pair.first + "##AddComponentMenuButton").c_str()))
+				{
+					if (!value.attach(
+						ML_Registry.codes().at(pair.first),
+						ML_Registry.generate(pair.first)
+					))
+					{
+						Debug::logError("Failed Creating \'{0}\'", pair.first);
+					}
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			// Cancel
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndChildFrame();
+			ImGui::EndPopup();
+		}
+
 		if (Renderer * r = value.get<Renderer>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(r));

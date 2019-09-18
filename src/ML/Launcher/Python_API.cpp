@@ -23,6 +23,8 @@ namespace ml
 	PYBIND11_EMBEDDED_MODULE(memelib_config, m)
 	{
 		m.attr("architecture")		= ML_ARCHITECTURE;
+		m.attr("build_date")		= ML_BUILD_DATE;
+		m.attr("build_time")		= ML_BUILD_TIME;
 		m.attr("compiler_name")		= ML_CC_NAME;
 		m.attr("compiler_ver")		= ML_CC_VER;
 		m.attr("configuration")		= ML_CONFIGURATION;

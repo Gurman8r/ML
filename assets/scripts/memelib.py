@@ -3,6 +3,8 @@
 import memelib_config
 class ML_Config:
     architecture    = int   (   memelib_config.architecture     ) #
+    build_date      = str   (   memelib_config.build_date       ) #
+    build_time      = str   (   memelib_config.build_time       ) #
     compiler_name   = str   (   memelib_config.compiler_name    ) #
     compiler_ver    = int   (   memelib_config.compiler_ver     ) #
     configuration   = str   (   memelib_config.configuration    ) #

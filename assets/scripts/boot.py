@@ -5,9 +5,11 @@ if (__name__ == "__main__"):
     
     # Debug Message
     if ml.config.is_debug:
-        ml.io.printf("[ MemeLib | {0} | {1} ]\n", [ 
+        ml.io.printf("[ MemeLib {0} | {1} | {2} | {3} ]\n", [ 
             ml.config.project_ver, 
-            ml.config.project_url 
+            ml.config.build_date,
+            ml.config.build_time,
+            ml.config.project_url
             ])
 
     # Load Plugins

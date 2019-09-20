@@ -19,7 +19,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_GL _ML OpenGL::getInstance()
+#define ML_GL ::ml::OpenGL::getInstance()
 
 /* * * * * * * * * * * * * * * * * * * * */
 

@@ -14,7 +14,7 @@
 #define ML_CONFIG_INI "../../../ML.ini"
 #endif
 
-#define ML_Launcher _ML Launcher::getInstance()
+#define ML_Launcher ::ml::Launcher::getInstance()
 
 namespace ml
 {

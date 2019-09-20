@@ -4,7 +4,9 @@
 #include <ML/Core/Input.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Engine/Ref.hpp>
+#include <ML/Engine/Registry.hpp>
 #include <ML/Engine/MetadataParser.hpp>
+#include <ML/Engine/Entity.hpp>
 
 namespace py = pybind11;
 
@@ -96,9 +98,29 @@ namespace ml
 			{
 				md.setData(pair.first, pair.second);
 			}
-			return (bool)MetadataParser::parseMetadata(md);
+			return MetadataParser::parseMetadata(md);
+		});
+		m.def("create", [](const str_t & type, const str_t & name)
+		{
+			Metadata md;
+			md.setData("type", type);
+			md.setData("name", name);
+			return MetadataParser::parseMetadata(md);
+		});
+		m.def("destroy", [](const str_t & type, const str_t & name) 
+		{
+			return false;
+		});
+		m.def("add_component", [](const str_t & name, const str_t & type) 
+		{
+			if (Entity * e = ML_Content.get<Entity>(name))
+			{
+				return (bool)e->addByName(type);
+			}
+			return false;
 		});
 	}
+
 
 	// Window
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

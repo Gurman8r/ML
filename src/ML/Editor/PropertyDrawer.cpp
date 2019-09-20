@@ -16,6 +16,9 @@
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Core/FileSystem.hpp>
+#include <ML/Graphics/Light.hpp>
+#include <ML/Graphics/Camera.hpp>
+#include <ML/Graphics/Transform.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -101,6 +104,7 @@ namespace ml
 	{
 		ImGui::PushID(ML_ADDRESSOF(&value));
 
+		// Add Component
 		if (ImGui::Button("Add Component##Button"))
 		{
 			ImGui::OpenPopup("Add Component##PopupModal");
@@ -111,14 +115,6 @@ namespace ml
 			ImGuiWindowFlags_AlwaysAutoResize
 		))
 		{
-			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-			ImGui::BeginChildFrame(
-				ImGui::GetID("AddComponentMenuContent"),
-				{ 380, ImGui::GetTextLineHeightWithSpacing() * 10 },
-				ImGuiWindowFlags_NoMove
-			);
-			ImGui::PopStyleVar();
-
 			// Filter
 			static ImGuiTextFilter filter {};
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
@@ -126,31 +122,57 @@ namespace ml
 			ImGui::PopStyleVar();
 
 			// Component List
-			for (const auto & pair : ML_Registry.data())
+			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
+			const float_t height { ImGui::GetTextLineHeightWithSpacing() };
+			ImGui::BeginChildFrame(
+				ImGui::GetID("AddComponentMenuContent"),
+				{ 380, height * (ML_Registry.funcs().size() + 1) },
+				ImGuiWindowFlags_NoMove
+			);
+			ImGui::PopStyleVar();
+			for (const auto & pair : ML_Registry.funcs())
 			{
+				// Skip
 				if (!filter.PassFilter(pair.first.c_str())) continue;
+				const String * info { ML_Registry.get_info(pair.first) };
+				if (info && *info != "/Component") continue;
+
+				// Selectable
 				if (ImGui::Selectable((pair.first + "##AddComponentMenuButton").c_str()))
 				{
-					if (!value.attach(
-						ML_Registry.codes().at(pair.first),
-						ML_Registry.generate(pair.first)
-					))
+					void * temp { ML_Registry.generate(pair.first) };
+					const hash_t code { ML_Registry.codes().at(pair.first) };
+					if (!value.addByCode(code, temp))
 					{
 						Debug::logError("Failed Creating \'{0}\'", pair.first);
+						delete temp;
 					}
 					ImGui::CloseCurrentPopup();
 				}
 			}
+			ImGui::EndChildFrame();
 
 			// Cancel
 			if (ImGui::Button("Cancel"))
 			{
 				ImGui::CloseCurrentPopup();
 			}
-
-			ImGui::EndChildFrame();
 			ImGui::EndPopup();
 		}
+
+		// Component Names
+		ImGui::BeginChildFrame(
+			ImGui::GetID("entitycomponents"),
+			ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * value.size())
+		);
+		for (Pair<const hash_t, I_Newable *> & pair : value)
+		{
+			if (const String * str { ML_Registry.get_name(pair.first) })
+			{
+				ImGui::Text("%s", str->c_str());
+			}
+		}
+		ImGui::EndChildFrame();
 
 		if (Renderer * r = value.get<Renderer>())
 		{

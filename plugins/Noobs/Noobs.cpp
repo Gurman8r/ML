@@ -14,7 +14,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/ContentManager.hpp>
-#include <ML/Engine/RegistryManager.hpp>
+#include <ML/Engine/Registry.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
@@ -42,7 +42,7 @@ namespace ml
 {
 	template <
 		class U, class T
-	> static inline auto redirect_uni_ptr(const String & name, const T * value)
+	> static inline auto redirect_uniform(const String & name, const T * value)
 	{
 		if (!name) return;
 		if (U * u = (U *)ML_Content.get<Uniform>(name))
@@ -150,27 +150,27 @@ namespace ml
 		ML_FS.setPath("../../../");
 
 		// Setup Uniforms
-		redirect_uni_ptr<uni_vec2_ptr>("u_viewport", &m_editor.m_scene.m_viewport);
+		redirect_uniform<uni_vec2_ptr>("u_viewport", &m_editor.m_scene.m_viewport);
 
 		// Create Demo Entity
 		if (Entity * e { m_editor.m_entity.create() })
 		{
 			// Attach Renderer
-			m_editor.m_renderer = e->attach(ML_Registry.generate<Renderer>());
-			m_editor.m_renderer->setDrawable(m_editor.m_model);
-			m_editor.m_renderer->setMaterial(m_editor.m_material);
-			m_editor.m_renderer->states().cull().enabled = false;
+			(*(m_editor.m_renderer = e->add<Renderer>()))
+				.setDrawable(m_editor.m_model)
+				.setMaterial(m_editor.m_material)
+				.states().cull().enabled = false;
 		}
 
 		// Create Skybox Entity
 		if (Entity * e { m_editor.m_skybox.entity.create() })
 		{
 			// Attach Renderer
-			m_editor.m_skybox.renderer = e->attach(ML_Registry.generate<Renderer>());
-			m_editor.m_skybox.renderer->setDrawable(m_editor.m_skybox.model);
-			m_editor.m_skybox.renderer->setMaterial(m_editor.m_skybox.material);
-			m_editor.m_skybox.renderer->states() = { {}, {}, {}, DepthState { true, false } };
-			m_editor.m_skybox.renderer->setEnabled(false);
+			(*(m_editor.m_skybox.renderer = e->add<Renderer>()))
+				.setDrawable(m_editor.m_skybox.model)
+				.setMaterial(m_editor.m_skybox.material)
+				.setEnabled(false)
+				.states().depth().mask = false;
 		}
 
 		// Setup Editor
@@ -205,11 +205,14 @@ namespace ml
 			// Apply Camera
 			m_editor.m_camera.apply();
 
-			// Draw Skybox
-			ev.window.draw(m_editor.m_skybox.renderer);
-
-			// Draw Renderer
-			ev.window.draw(m_editor.m_renderer);
+			// Draw Renderers
+			for (auto & pair : ML_Content.data<Entity>())
+			{
+				if (auto * ent { static_cast<const Entity *>(pair.second) })
+				{
+					ev.window.draw(ent->get<Renderer>());
+				}
+			}
 
 			// Draw Geometry
 			static Ref<Material> geo { "geometry" };

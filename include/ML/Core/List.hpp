@@ -8,15 +8,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	
 	// just a wrapper for std::vector<>
-	template <
-		class Elem, class Alloc = typename Allocator<Elem>
-	> struct List : public std::vector<Elem, Alloc>
+	template <class T> struct List : public std::vector<T, Allocator<T>>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type			= typename Elem;
-		using allocator_type		= typename Alloc;
-		using self_type				= typename List<value_type, allocator_type>;
+		using value_type			= typename T;
+		using allocator_type		= typename Allocator<T>;
+		using self_type				= typename List<value_type>;
 		using base_type				= typename std::vector<value_type, allocator_type>;
 		using init_type				= typename Initializer<value_type>;
 		using difference_type		= typename base_type::difference_type;
@@ -94,13 +92,11 @@ namespace ml
 
 namespace std
 {
-	template <
-		class Elem, class Alloc
-	> struct hash<_ML List<Elem, Alloc>>
+	template <class T> struct hash<::ml::List<T>>
 	{
-		using argument_type = _ML List<Elem, Alloc>;
+		using argument_type = ::ml::List<T>;
 
-		inline _ML hash_t operator()(const argument_type & value) const noexcept
+		inline ::ml::hash_t operator()(const argument_type & value) const noexcept
 		{
 			return _Hash_array_representation(value.data(), value.size());
 		}

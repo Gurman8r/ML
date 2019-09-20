@@ -96,8 +96,19 @@ class ML_Content:
         elif isinstance(data, list):
             for elem in data:
                 self.load(elem)
+    def create(self, type, name):
+        return memelib_content.create(str(type), str(name))
+    def destroy(self, type, name):
+        return memelib_content.destroy(str(type), str(name))
 content = ML_Content()
 
+class Entity:
+    def __init__(self, name):
+        self.name = str(name)
+    def create(self):
+        return content.create("Entity", self.name)
+    def attach(self, type):
+        return memelib_content.add_component(self.name, str(type))
 
 # Plugins
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

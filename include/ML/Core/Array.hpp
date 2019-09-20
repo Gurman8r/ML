@@ -161,11 +161,11 @@ namespace std
 {
 	template <
 		class T, size_t N
-	> struct hash<_ML Array<T, N>>
+	> struct hash<::ml::Array<T, N>>
 	{
-		using argument_type = _ML Array<T, N>;
+		using argument_type = ::ml::Array<T, N>;
 
-		inline _ML hash_t operator()(const argument_type & value) const noexcept
+		inline ::ml::hash_t operator()(const argument_type & value) const noexcept
 		{
 			return _Hash_array_representation(value.data(), value.size());
 		}

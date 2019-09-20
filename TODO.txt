@@ -7,6 +7,9 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
+[ ] Real-time python scripts
+[ ] Json Editor
+[ ] MORE PROPERTY DRAWERS
 [ ] Temporary/Preview Assets
 
 [?] async asset loading (threaded w/ progress bar)

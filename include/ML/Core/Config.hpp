@@ -130,10 +130,6 @@
 
 //	Preprocessor
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define _ML					::ml::
-#define _ML_BEGIN			namespace ml {
-#define _ML_END				}
-
 #define ML_TOSTRING(str)	#str
 #define ML_STRINGIFY(str)	ML_TOSTRING(str)
 #define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))

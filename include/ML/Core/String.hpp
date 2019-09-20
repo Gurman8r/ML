@@ -7,17 +7,15 @@ namespace ml
 {
 	// just a wrapper for std::basic_string<>
 	template <
-		class Ch,
-		class Traits = typename CharTraits<Ch>,
-		class Alloc  = typename Allocator<Ch>
-	> struct BasicString : public std::basic_string<Ch, Traits, Alloc>
+		class Ch
+	> struct BasicString : public std::basic_string<Ch, CharTraits<Ch>, Allocator<Ch>>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		using value_type			= typename Ch;
-		using traits_type			= typename Traits;
-		using allocator_type		= typename Alloc;
-		using self_type				= typename BasicString<value_type, traits_type, allocator_type>;
+		using traits_type			= typename CharTraits<Ch>;
+		using allocator_type		= typename Allocator<Ch>;
+		using self_type				= typename BasicString<value_type>;
 		using base_type				= typename std::basic_string<value_type, traits_type, allocator_type>;
 		using sstream_type			= typename std::basic_stringstream<value_type, traits_type, allocator_type>;
 		using pointer				= typename base_type::pointer;
@@ -151,7 +149,14 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline hash_t hash() const
+		{
+			return Hash { this->data(), this->size() };
+		}
 		
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		template <
 			class Arg0, class ... Args
 		> inline self_type & format(const Arg0 & arg0, Args && ... args)
@@ -225,12 +230,12 @@ namespace ml
 namespace std
 {
 	template <
-		class Ch, class Traits, class Alloc
-	> struct hash<_ML BasicString<Ch, Traits, Alloc>>
+		class Ch
+	> struct hash<::ml::BasicString<Ch>>
 	{
-		using argument_type = _ML BasicString<Ch, Traits, Alloc>;
+		using argument_type = ::ml::BasicString<Ch>;
 
-		inline _ML hash_t operator()(const argument_type & value) const noexcept
+		inline ::ml::hash_t operator()(const argument_type & value) const noexcept
 		{
 			return _Hash_array_representation(value.data(), value.size());
 		}
@@ -250,11 +255,6 @@ namespace ml
 	using W_SStream		= typename W_String::sstream_type;
 	using U16_SStream	= typename U16_String::sstream_type;
 	using U32_SStream	= typename U32_String::sstream_type;
-
-	ML_GEN_SIGNATURE(String,		"class std::string");
-	ML_GEN_SIGNATURE(W_String,		"class std::wstring");
-	ML_GEN_SIGNATURE(U16_String,	"class std::u16string");
-	ML_GEN_SIGNATURE(U32_String,	"class std::u32tring");
 }
 
 /* * * * * * * * * * * * * * * * * * * * */

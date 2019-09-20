@@ -4,7 +4,7 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/Metadata.hpp>
 
-#define ML_Content _ML ContentManager::getInstance()
+#define ML_Content ::ml::ContentManager::getInstance()
 
 namespace ml
 {
@@ -41,8 +41,8 @@ namespace ml
 			class T
 		> inline size_t get_hash() const
 		{
-			static List<size_t> & cache { this->get_codes() };
-			const size_t code { typeid(T).hash_code() };
+			static List<size_t> & cache { get_codes() };
+			const size_t code { typeof<T>().hash() };
 			if (std::find(cache.cbegin(), cache.cend(), code) == cache.cend())
 			{
 				cache.push_back(code);
@@ -56,10 +56,7 @@ namespace ml
 			class T
 		> inline ObjectDatabase & data()
 		{
-			static ObjectDatabase & temp
-			{ 
-				this->at(this->get_hash<T>()) 
-			};
+			static ObjectDatabase & temp { at(get_hash<T>()) };
 			return temp;
 		}
 
@@ -67,10 +64,7 @@ namespace ml
 			class T
 		> inline const ObjectDatabase & data() const
 		{
-			static const ObjectDatabase & temp 
-			{ 
-				this->at(this->get_hash<T>())
-			};
+			static const ObjectDatabase & temp { at(get_hash<T>()) };
 			return temp;
 		}
 
@@ -80,8 +74,8 @@ namespace ml
 			class T, class ... Args
 		> inline T * create(const String & name, Args && ... args)
 		{
-			return ((!this->get<T>(name))
-				? this->insert(name, new T { std::forward<Args>(args)... })
+			return ((!get<T>(name))
+				? insert(name, new T { std::forward<Args>(args)... })
 				: nullptr
 			);
 		}
@@ -90,7 +84,7 @@ namespace ml
 			class T
 		> inline T * insert(const String & name, T * value)
 		{
-			return static_cast<T *>(this->data<T>().insert({
+			return static_cast<T *>(data<T>().insert({
 				name, value
 			}).first->second);
 		}
@@ -100,10 +94,10 @@ namespace ml
 		> inline bool erase(const String & name)
 		{
 			ObjectDatabase::iterator it;
-			if ((it = this->data<T>().find(name)) != this->data<T>().end())
+			if ((it = data<T>().find(name)) != data<T>().end())
 			{
 				if (it->second) { delete it->second; }
-				this->data<T>().erase(it);
+				data<T>().erase(it);
 				return true;
 			}
 			return false;
@@ -116,7 +110,7 @@ namespace ml
 		> inline T * get(const String & name)
 		{
 			ObjectDatabase::iterator it;
-			return (((it = this->data<T>().find(name)) != this->data<T>().end())
+			return (((it = data<T>().find(name)) != data<T>().end())
 				? static_cast<T *>(it->second)
 				: nullptr
 			);
@@ -127,7 +121,7 @@ namespace ml
 		> inline const T * get(const String & name) const
 		{
 			ObjectDatabase::const_iterator it;
-			return (((it = this->data<T>().find(name)) != this->data<T>().end())
+			return (((it = data<T>().find(name)) != data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
 			);
@@ -140,8 +134,8 @@ namespace ml
 		> inline List<String> get_keys() const
 		{
 			List<String> temp;
-			temp.reserve(this->data<T>().size());
-			for (const auto & pair : this->data<T>())
+			temp.reserve(data<T>().size());
+			for (const auto & pair : data<T>())
 			{
 				temp.push_back(pair.first);
 			}
@@ -160,16 +154,16 @@ namespace ml
 			class T
 		> inline ObjectDatabase::const_iterator get_iter_at_index(int32_t index) const
 		{
-			if ((index >= 0) && ((size_t)index < this->data<T>().size()))
+			if ((index >= 0) && ((size_t)index < data<T>().size()))
 			{
-				auto it = this->data<T>().cbegin();
+				auto it = data<T>().cbegin();
 				for (int32_t i = 0; i < index; i++)
 				{
-					if ((++it) == this->data<T>().cend()) { break; }
+					if ((++it) == data<T>().cend()) { break; }
 				}
 				return it;
 			}
-			return this->data<T>().cend();
+			return data<T>().cend();
 		}
 
 		template <
@@ -177,7 +171,7 @@ namespace ml
 		> inline const T * find_by_index(int32_t index) const
 		{
 			ObjectDatabase::const_iterator it;
-			return (((it = this->get_iter_at_index<T>(index)) != this->data<T>().end())
+			return (((it = get_iter_at_index<T>(index)) != data<T>().end())
 				? static_cast<const T *>(it->second)
 				: nullptr
 			);
@@ -188,7 +182,7 @@ namespace ml
 		> inline int32_t get_index_of(const T * value) const
 		{
 			int32_t index = 0;
-			for (const auto & pair : this->data<T>())
+			for (const auto & pair : data<T>())
 			{
 				if (pair.second == value)
 				{

@@ -142,18 +142,18 @@ namespace ml
 		const String type { data.getData("type").asString() };
 		switch (Hash { type.data(), type.size() })
 		{
-		case Hash { "Manifest" }:					return true;
-		case ContentImporter<Entity>::hash_code():	return ContentImporter<Entity	>()(data);
-		case ContentImporter<Font>::hash_code():	return ContentImporter<Font		>()(data);
-		case ContentImporter<Image>::hash_code():	return ContentImporter<Image	>()(data);
-		case ContentImporter<Material>::hash_code():return ContentImporter<Material	>()(data);
-		case ContentImporter<Model>::hash_code():	return ContentImporter<Model	>()(data);
-		case ContentImporter<Script>::hash_code():	return ContentImporter<Script	>()(data);
-		case ContentImporter<Shader>::hash_code():	return ContentImporter<Shader	>()(data);
-		case ContentImporter<Sound>::hash_code():	return ContentImporter<Sound	>()(data);
-		case ContentImporter<Sprite>::hash_code():	return ContentImporter<Sprite	>()(data);
-		case ContentImporter<Surface>::hash_code():	return ContentImporter<Surface	>()(data);
-		case ContentImporter<Texture>::hash_code():	return ContentImporter<Texture	>()(data);
+		case Hash { "Manifest" }:	return true;
+		case Hash { "Entity" }:		return ContentImporter<Entity>()(data);
+		case Hash { "Font" }:		return ContentImporter<Font>()(data);
+		case Hash { "Image" }:		return ContentImporter<Image>()(data);
+		case Hash { "Material" }:	return ContentImporter<Material>()(data);
+		case Hash { "Model" }:		return ContentImporter<Model>()(data);
+		case Hash { "Script" }:		return ContentImporter<Script>()(data);
+		case Hash { "Shader" }:		return ContentImporter<Shader>()(data);
+		case Hash { "Sound" }:		return ContentImporter<Sound>()(data);
+		case Hash { "Sprite" }:		return ContentImporter<Sprite>()(data);
+		case Hash { "Surface" }:	return ContentImporter<Surface>()(data);
+		case Hash { "Texture" }:	return ContentImporter<Texture>()(data);
 		default:
 			return Debug::logError("Failed Loading {0}:  \'{1}\'",
 				data.getData("type").asString(),

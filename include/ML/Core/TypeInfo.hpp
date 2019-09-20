@@ -27,14 +27,14 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_GEN_SIGNATURE(TYPE, NAME)					\
-template <> struct _ML nameof<TYPE>	final				\
-{														\
-	constexpr nameof() = default;						\
-	constexpr operator _ML StringView() const noexcept	\
-	{													\
-		return _ML StringView { NAME };					\
-	}													\
+#define ML_GEN_SIGNATURE(TYPE, NAME)						\
+template <> struct ::ml::nameof<TYPE>	final				\
+{															\
+	constexpr nameof() = default;							\
+	constexpr operator ::ml::StringView() const noexcept	\
+	{														\
+		return ::ml::StringView { NAME };					\
+	}														\
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -95,9 +95,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		class ... T
-	> struct typeof;
+	template <class ... T> struct typeof;
 
 	template <class T> struct typeof<T> final
 	{

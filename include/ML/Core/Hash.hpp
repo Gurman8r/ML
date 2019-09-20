@@ -51,13 +51,6 @@ namespace ml
 			return (*this)(value, (N - 1));
 		}
 
-		template <
-			class T
-		> inline hash_t operator()(const T & value)
-		{
-			return static_cast<hash_t>(std::hash<T>()(value));
-		}
-
 		constexpr const hash_t & operator()() const
 		{
 			return m_value;

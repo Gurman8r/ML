@@ -1,7 +1,7 @@
 #ifndef _ML_ENTITY_HPP_
 #define _ML_ENTITY_HPP_
 
-#include <ML/Engine/RegistryManager.hpp>
+#include <ML/Engine/Registry.hpp>
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Writable.hpp>
 
@@ -24,7 +24,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Entity() : m_map {} {}
+		Entity() : m_data {} {}
 		
 		virtual ~Entity() { this->dispose(); }
 
@@ -36,35 +36,36 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> static inline hash_t get_hash()
+		inline void * addByCode(hash_t code, void * value)
 		{
-			return static_cast<hash_t>(typeid(T).hash_code());
-		}
-
-		template <class T> inline iterator find()
-		{
-			return m_map.find(get_hash<T>());
-		}
-
-		template <class T> inline const_iterator find() const
-		{
-			return m_map.find(get_hash<T>());
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline void * attach(hash_t code, void * value)
-		{
-			return ((code && value)
-				? (I_Newable *)m_map.insert({ code, (I_Newable *)value }).first->second
+			return ((m_data.find(code) == m_data.end())
+				? m_data.insert({ code, static_cast<I_Newable *>(value) }).first->second
 				: nullptr
 			);
 		}
 
+		inline void * addByName(const String & name, void * value)
+		{
+			return ((m_data.find(name.hash()) == m_data.end())
+				? this->addByCode(name.hash(), value)
+				: nullptr
+			);
+		}
+
+		inline void * addByName(const String & name)
+		{
+			return ((m_data.find(name.hash()) == m_data.end())
+				? this->addByCode(name.hash(), ML_Registry.generate(name))
+				: nullptr
+			);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		template <class T> inline T * attach(T * value)
 		{
-			return ((this->find<T>() == this->end())
-				? static_cast<T *>(this->attach(get_hash<T>(), value))
+			return ((m_data.find(typeof<T>().hash()) == m_data.end())
+				? static_cast<T *>(this->addByCode(typeof<T>().hash(), value))
 				: nullptr
 			);
 		}
@@ -80,28 +81,30 @@ namespace ml
 
 		template <class T> inline T * get()
 		{
-			iterator it { this->find<T>() };
+			iterator it { m_data.find(typeof<T>().hash()) };
 			return ((it != this->end()) ? static_cast<T *>(it->second) : nullptr);
 		}
 
 		template <class T> inline const T * get() const
 		{
-			const_iterator it { this->find<T>() };
+			const_iterator it { m_data.find(typeof<T>().hash()) };
 			return ((it != this->cend()) ? static_cast<const T *>(it->second) : nullptr);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
-		inline iterator			begin()				{ return m_map.begin();  }
-		inline const_iterator	begin()		const	{ return m_map.begin();  }
-		inline const_iterator	cbegin()	const	{ return m_map.cbegin(); }
-		inline iterator			end()				{ return m_map.end();	 }
-		inline const_iterator	end()		const	{ return m_map.end();	 }
-		inline const_iterator	cend()		const	{ return m_map.cend();	 }
+
+		inline auto data() const	-> const map_type & { return m_data; }
+		inline auto size() const	-> size_t			{ return m_data.size(); }
+		inline auto begin()			-> iterator			{ return m_data.begin(); }
+		inline auto begin() const	-> const_iterator	{ return m_data.begin(); }
+		inline auto cbegin() const	-> const_iterator	{ return m_data.cbegin(); }
+		inline auto end()			-> iterator			{ return m_data.end(); }
+		inline auto end() const		-> const_iterator	{ return m_data.end(); }
+		inline auto cend() const	-> const_iterator	{ return m_data.cend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: map_type m_map;
+	private: map_type m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

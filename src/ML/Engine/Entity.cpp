@@ -7,7 +7,7 @@ namespace ml
 
 	bool Entity::dispose()
 	{
-		for (auto & pair : m_map)
+		for (auto & pair : m_data)
 		{
 			if (pair.second)
 			{
@@ -15,7 +15,7 @@ namespace ml
 				pair.second = nullptr;
 			}
 		}
-		m_map.clear();
+		m_data.clear();
 		return true;
 	}
 

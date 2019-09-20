@@ -4,7 +4,7 @@
 #include <ML/Core/Export.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
-#define ML_Memory		_ML MemoryManager::getInstance()
+#define ML_Memory		::ml::MemoryManager::getInstance()
 #define ML_new(size)	ML_Memory.allocate(size)
 #define ML_delete(ptr)	ML_Memory.deallocate(ptr)
 

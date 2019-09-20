@@ -5,7 +5,7 @@
 #include <ML/Engine/CommandDescriptor.hpp>
 #include <ML/Core/StringUtility.hpp>
 
-#define ML_CommandRegistry _ML CommandRegistry::getInstance()
+#define ML_CommandRegistry ::ml::CommandRegistry::getInstance()
 
 namespace ml
 {

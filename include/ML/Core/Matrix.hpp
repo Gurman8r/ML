@@ -508,11 +508,11 @@ namespace std
 {
 	template <
 		class T, size_t X, size_t Y
-	> struct hash<_ML Matrix<T, X, Y>>
+	> struct hash<::ml::Matrix<T, X, Y>>
 	{
-		using argument_type = _ML Matrix<T, X, Y>;
+		using argument_type = ::ml::Matrix<T, X, Y>;
 
-		inline _ML hash_t operator()(const argument_type & value) const noexcept
+		inline ::ml::hash_t operator()(const argument_type & value) const noexcept
 		{
 			return _Hash_array_representation(value.data(), value.size());
 		}

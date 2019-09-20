@@ -4,7 +4,7 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Window/Window.hpp>
 
-#define ML_ImGuiImpl _ML ImGuiImpl::getInstance()
+#define ML_ImGuiImpl ::ml::ImGuiImpl::getInstance()
 
 namespace ml
 {

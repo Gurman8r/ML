@@ -105,11 +105,11 @@ namespace ml
 	ML_USING_XY BasicIfstream	= typename _STD basic_ifstream	<X, Y>;
 	ML_USING_XY BasicOfstream	= typename _STD basic_ofstream	<X, Y>;
 	ML_USING_XY BasicStreamBuf	= typename _STD basic_streambuf	<X, Y>;
-	using		Ofstream		= typename	_ML	BasicOfstream	<char, CharTraits<char>>;
-	using		Ifstream		= typename	_ML	BasicIfstream	<char, CharTraits<char>>;
-	using		Ostream			= typename	_ML	BasicOstream	<char, CharTraits<char>>;
-	using		Istream			= typename	_ML	BasicIstream	<char, CharTraits<char>>;
-	using		StreamBuf		= typename	_ML	BasicStreamBuf	<char, CharTraits<char>>;
+	using		Ofstream		= typename		BasicOfstream	<char, CharTraits<char>>;
+	using		Ifstream		= typename		BasicIfstream	<char, CharTraits<char>>;
+	using		Ostream			= typename		BasicOstream	<char, CharTraits<char>>;
+	using		Istream			= typename		BasicIstream	<char, CharTraits<char>>;
+	using		StreamBuf		= typename		BasicStreamBuf	<char, CharTraits<char>>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -117,8 +117,8 @@ namespace ml
 	static Ostream & cerr { _STD cerr }; // Error Handle
 	static Istream & cin  { _STD cin  }; // Input Handle
 
-#define ML_SERIALIZE	_ML Ostream & operator<< // Stream Insertion Operator
-#define ML_DESERIALIZE	_ML Istream & operator>> // Stream Extraction Operator
+#define ML_SERIALIZE	::ml::Ostream & operator<< // Stream Insertion Operator
+#define ML_DESERIALIZE	::ml::Istream & operator>> // Stream Extraction Operator
 
 	template <
 		class Ch, class Traits = typename CharTraits<Ch>

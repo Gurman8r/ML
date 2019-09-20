@@ -6,14 +6,14 @@
 #include <ML/Engine/SerializedObject.hpp>
 
 #define ML_GEN_PROPERTY_DRAWER(T)											\
-using value_type		= typename _ML detail::decay_t<T>;					\
-using self_type			= typename _ML PropertyDrawer<value_type>;			\
+using value_type		= typename ::ml::detail::decay_t<T>;				\
+using self_type			= typename ::ml::PropertyDrawer<value_type>;		\
 using pointer			= typename value_type *;							\
 using reference			= typename value_type &;							\
 using const_pointer		= typename const value_type *;						\
 using const_reference	= typename const value_type &;						\
-static constexpr _ML StringView type_name() { return ML_STRINGIFY(T); }		\
-static constexpr _ML hash_t		hash_code() { return type_name().hash(); }	\
+static constexpr ::ml::StringView type_name() { return ML_STRINGIFY(T); }	\
+static constexpr ::ml::hash_t hash_code() { return type_name().hash(); }	\
 
 namespace ml
 {

@@ -1,9 +1,7 @@
 #ifndef _ML_RECT_TRANSFORM_HPP_
 #define _ML_RECT_TRANSFORM_HPP_
 
-#include <ML/Graphics/Export.hpp>
-#include <ML/Core/Matrix.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Graphics/Transform.hpp>
 
 namespace ml
 {

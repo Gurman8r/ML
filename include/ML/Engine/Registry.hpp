@@ -8,17 +8,15 @@
 
 #define ML_Registry ::ml::Registry<>::getInstance()
 
-#define ML_FACTORY(TYPE) ML_CONCAT(ml_factory_, TYPE)
-
 #define ML_REGISTER_EXT(TYPE, INFO, FUNC)		\
 bool Registry<TYPE>::s_registered {				\
 	ML_Registry.registrate<TYPE>(INFO, FUNC)	\
 }
 
 #define ML_REGISTER(TYPE, INFO)					\
-static void * ML_FACTORY(TYPE)();				\
-ML_REGISTER_EXT(TYPE, INFO, ML_FACTORY(TYPE));	\
-void * ML_FACTORY(TYPE)()
+static void * ml_factory_##TYPE();				\
+ML_REGISTER_EXT(TYPE, INFO, ml_factory_##TYPE);	\
+void * ml_factory_##TYPE()
 
 namespace ml
 {

@@ -191,6 +191,7 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <None Include="..\..\..\assets\materials\skybox.mat" />
     <None Include="..\..\..\assets\materials\surface.mat" />
     <None Include="..\..\..\assets\scripts\boot.py" />
+    <None Include="..\..\..\assets\scripts\ecs.py" />
     <None Include="..\..\..\assets\scripts\load.py" />
     <None Include="..\..\..\assets\scripts\memelib.py" />
     <None Include="..\..\..\assets\scripts\test.py" />

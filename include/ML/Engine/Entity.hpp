@@ -70,9 +70,7 @@ namespace ml
 			);
 		}
 
-		template <
-			class T, class ... Args
-		> inline T * add(Args && ... args)
+		template <class T, class ... Args> inline T * add(Args && ... args)
 		{
 			return this->attach<T>(new T { std::forward<Args>(args)... });
 		}
@@ -94,7 +92,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto data() const	-> const map_type & { return m_data; }
-		inline auto size() const	-> size_t			{ return m_data.size(); }
 		inline auto begin()			-> iterator			{ return m_data.begin(); }
 		inline auto begin() const	-> const_iterator	{ return m_data.begin(); }
 		inline auto cbegin() const	-> const_iterator	{ return m_data.cbegin(); }

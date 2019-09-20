@@ -124,7 +124,7 @@ namespace ml
 		glfwWindowHint(GLFW_SRGB_CAPABLE,			m_context.srgbCapable);
 
 		// Profile
-		static Array<int32_t, 4> profiles 
+		static constexpr Array<int32_t, 4> profiles 
 		{
 			GLFW_OPENGL_ANY_PROFILE,
 			GLFW_OPENGL_CORE_PROFILE,

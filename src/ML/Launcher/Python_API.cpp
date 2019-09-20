@@ -100,6 +100,11 @@ namespace ml
 			}
 			return MetadataParser::parseMetadata(md);
 		});
+		m.def("exists", [](const str_t & type, const str_t & name) 
+		{
+			auto & data { ML_Content.at(String(type).hash())};
+			return (data.find(name) != data.end());
+		});
 		m.def("create", [](const str_t & type, const str_t & name)
 		{
 			Metadata md;
@@ -109,6 +114,14 @@ namespace ml
 		});
 		m.def("destroy", [](const str_t & type, const str_t & name) 
 		{
+			auto & data { ML_Content.at(String(type).hash()) };
+			auto it { data.find(name) };
+			if (it != data.end())
+			{
+				delete it->second;
+				data.erase(it);
+				return true;
+			}
 			return false;
 		});
 		m.def("add_component", [](const str_t & name, const str_t & type) 

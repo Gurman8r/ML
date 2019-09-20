@@ -84,6 +84,9 @@
     <None Include="..\..\..\assets\scripts\test.py">
       <Filter>Resource Files\assets\scripts</Filter>
     </None>
+    <None Include="..\..\..\assets\scripts\ecs.py">
+      <Filter>Resource Files\assets\scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

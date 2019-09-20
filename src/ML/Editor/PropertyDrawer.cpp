@@ -129,7 +129,7 @@ namespace ml
 				ImGuiWindowFlags_NoMove
 			);
 			ImGui::PopStyleVar();
-			for (const auto & pair : ML_Registry.funcs())
+			for (const Pair<String, Registry<>::Method> & pair : ML_Registry.funcs())
 			{
 				// Skip
 				if (!filter.PassFilter(pair.first.c_str())) continue;
@@ -139,12 +139,14 @@ namespace ml
 				// Selectable
 				if (ImGui::Selectable((pair.first + "##AddComponentMenuButton").c_str()))
 				{
-					void * temp { ML_Registry.generate(pair.first) };
-					const hash_t code { ML_Registry.codes().at(pair.first) };
-					if (!value.addByCode(code, temp))
+					if (const hash_t * code { ML_Registry.get_code(pair.first) })
 					{
-						Debug::logError("Failed Creating \'{0}\'", pair.first);
-						delete temp;
+						void * temp { ML_Registry.generate(pair.first) };
+						if (!value.addByCode(*code, temp))
+						{
+							Debug::logError("Failed Creating \'{0}\'", pair.first);
+							delete temp;
+						}
 					}
 					ImGui::CloseCurrentPopup();
 				}
@@ -162,7 +164,7 @@ namespace ml
 		// Component Names
 		ImGui::BeginChildFrame(
 			ImGui::GetID("entitycomponents"),
-			ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * value.size())
+			ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * value.data().size())
 		);
 		for (Pair<const hash_t, I_Newable *> & pair : value)
 		{

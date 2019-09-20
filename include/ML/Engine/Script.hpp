@@ -34,7 +34,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Script & setFilename(const String & value);
 		Script & setLanguage(Language value);
 		Script & setText(const String & value);
 

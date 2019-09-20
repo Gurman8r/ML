@@ -59,12 +59,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Script & Script::setFilename(const String & value)
-	{
-		m_filename = value;
-		return (*this);
-	}
-
 	Script & Script::setLanguage(Language value)
 	{
 		m_language = value;

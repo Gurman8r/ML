@@ -102,15 +102,20 @@ namespace ml
 		});
 		m.def("exists", [](const str_t & type, const str_t & name) 
 		{
-			auto & data { ML_Content.at(String(type).hash())};
+			auto & data { ML_Content.at(String(type).hash()) };
 			return (data.find(name) != data.end());
 		});
 		m.def("create", [](const str_t & type, const str_t & name)
 		{
-			Metadata md;
-			md.setData("type", type);
-			md.setData("name", name);
-			return MetadataParser::parseMetadata(md);
+			if (const hash_t * code { ML_Registry.get_code(type) })
+			{
+				auto & data { ML_Content.at(*code) };
+				auto it { data.find(name) };
+				return (it == data.end()) && data.insert({
+					name, (I_Newable *)ML_Registry.generate(*code)
+				}).first->second;
+			}
+			return (bool)Debug::logError("Unknown Type: \'{0}\'", type);
 		});
 		m.def("destroy", [](const str_t & type, const str_t & name) 
 		{
@@ -124,7 +129,14 @@ namespace ml
 			}
 			return false;
 		});
-		m.def("add_component", [](const str_t & name, const str_t & type) 
+	}
+
+	
+	// ECS
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	PYBIND11_EMBEDDED_MODULE(memelib_ecs, m)
+	{
+		m.def("add_component", [](const str_t & name, const str_t & type)
 		{
 			if (Entity * e = ML_Content.get<Entity>(name))
 			{

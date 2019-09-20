@@ -37,9 +37,7 @@ namespace ml
 			return codes;
 		}
 
-		template <
-			class T
-		> inline hash_t get_hash() const
+		template <class T> inline hash_t get_hash() const
 		{
 			static List<hash_t> & cache { get_codes() };
 			const hash_t code { typeof<T>().hash() };
@@ -52,17 +50,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline ObjectDatabase & data()
+		template <class T> inline ObjectDatabase & data()
 		{
 			static ObjectDatabase & temp { at(get_hash<T>()) };
 			return temp;
 		}
 
-		template <
-			class T
-		> inline const ObjectDatabase & data() const
+		template <class T> inline const ObjectDatabase & data() const
 		{
 			static const ObjectDatabase & temp { at(get_hash<T>()) };
 			return temp;
@@ -80,18 +74,14 @@ namespace ml
 			);
 		}
 
-		template <
-			class T
-		> inline T * insert(const String & name, T * value)
+		template <class T> inline T * insert(const String & name, T * value)
 		{
 			return static_cast<T *>(data<T>().insert({
 				name, value
 			}).first->second);
 		}
 
-		template <
-			class T
-		> inline bool erase(const String & name)
+		template <class T> inline bool erase(const String & name)
 		{
 			ObjectDatabase::iterator it;
 			if ((it = data<T>().find(name)) != data<T>().end())
@@ -105,9 +95,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline T * get(const String & name)
+		template <class T> inline T * get(const String & name)
 		{
 			ObjectDatabase::iterator it;
 			return (((it = data<T>().find(name)) != data<T>().end())
@@ -116,9 +104,7 @@ namespace ml
 			);
 		}
 
-		template <
-			class T
-		> inline const T * get(const String & name) const
+		template <class T> inline const T * get(const String & name) const
 		{
 			ObjectDatabase::const_iterator it;
 			return (((it = data<T>().find(name)) != data<T>().end())
@@ -129,9 +115,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline List<String> get_keys() const
+		template <class T> inline List<String> get_keys() const
 		{
 			List<String> temp;
 			temp.reserve(data<T>().size());
@@ -142,17 +126,14 @@ namespace ml
 			return temp;
 		}
 
-		template <
-			class T
-		> inline String get_name(const T * value) const
+		template <class T> inline String get_name(const T * value) const
 		{
 			const int32_t i { get_index_of<T>(value) };
 			return (i >= 0) ? get_keys<T>()[(hash_t)i] : String();
 		}
 
-		template <
-			class T
-		> inline ObjectDatabase::const_iterator get_iter_at_index(int32_t index) const
+		template <class T> inline auto get_iter_at_index(int32_t index) const
+			-> ObjectDatabase::const_iterator
 		{
 			if ((index >= 0) && ((hash_t)index < data<T>().size()))
 			{
@@ -166,9 +147,7 @@ namespace ml
 			return data<T>().cend();
 		}
 
-		template <
-			class T
-		> inline const T * find_by_index(int32_t index) const
+		template <class T> inline const T * find_by_index(int32_t index) const
 		{
 			ObjectDatabase::const_iterator it;
 			return (((it = get_iter_at_index<T>(index)) != data<T>().end())
@@ -177,9 +156,7 @@ namespace ml
 			);
 		}
 
-		template <
-			class T
-		> inline int32_t get_index_of(const T * value) const
+		template <class T> inline int32_t get_index_of(const T * value) const
 		{
 			int32_t index = 0;
 			for (const auto & pair : data<T>())
@@ -197,11 +174,9 @@ namespace ml
 
 	private:
 		friend struct I_Singleton<ContentManager>;
-
 		ContentManager() : m_data() {}
 		~ContentManager() { dispose(); }
-
-		mutable TypeDatabase m_data;	// The Data
+		mutable TypeDatabase m_data; // The Data
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

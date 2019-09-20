@@ -100,20 +100,34 @@ namespace ml
 	template <class T> struct typeof<T> final
 	{
 		using type = typename T;
-		constexpr typeof() noexcept : m_name { nameof<T>() } {};
-		constexpr auto name() const noexcept -> StringView	{ return filter::name(m_name); }
-		constexpr auto hash() const noexcept -> hash_t		{ return name().hash(); }
-	private: const nameof<> m_name;
+		constexpr typeof() noexcept = default;
+		constexpr auto name() const noexcept -> const StringView & { return m_name; }
+		constexpr auto hash() const noexcept -> const hash_t & { return m_hash; }
+		static constexpr StringView m_name { filter::name(nameof<T>()) };
+		static constexpr hash_t m_hash { m_name.hash() };
 	};
 
 	template <> struct typeof<> final
 	{
-		template <class T> constexpr typeof(const typeof<T> &) noexcept : m_name { nameof<T>() } {}
-		template <class T> constexpr typeof(const T &) noexcept : m_name { nameof<T>() } {}
-		template <class T> constexpr typeof(const T *) noexcept : m_name { nameof<const T *>() } {}
-		constexpr auto name() const noexcept -> StringView	{ return filter::name(m_name); }
-		constexpr auto hash() const noexcept -> hash_t		{ return name().hash(); }
-	private: const nameof<> m_name;
+		template <class T> constexpr typeof(const typeof<T> &) noexcept 
+			: m_name { filter::name(nameof<T>()) }
+			, m_hash { m_name.hash() }
+		{
+		}
+		template <class T> constexpr typeof(const T &) noexcept 
+			: m_name { filter::name(nameof<T>()) }
+			, m_hash { m_name.hash() }
+		{
+		}
+		template <class T> constexpr typeof(const T *) noexcept 
+			: m_name { filter::name(nameof<const T *>()) }
+			, m_hash { m_name.hash() }
+		{
+		}
+		constexpr auto name() const noexcept -> const StringView & { return m_name; }
+		constexpr auto hash() const noexcept -> const hash_t & { return m_hash; }
+		const StringView m_name;
+		const hash_t m_hash;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

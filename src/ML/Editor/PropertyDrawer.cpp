@@ -19,6 +19,7 @@
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Transform.hpp>
+#include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -1114,16 +1115,25 @@ namespace ml
 		}
 
 		// Text
-		const String & text { value.text() };
-		const intmax_t count { std::count(text.begin(), text.end(), '\n') };
-		ImGui::BeginChildFrame(
-			ImGui::GetID("ScriptTextContent"),
-			{ 0, ImGui::GetTextLineHeightWithSpacing() * count },
-			ImGuiWindowFlags_NoMove
+		using TextEditor = ImGui::TextEditor;
+		using LanguageDefinition = TextEditor::LanguageDefinition;
+		static HashMap<const_pointer, TextEditor> editors;
+		auto it { editors.find(&value) };
+		if (it == editors.end())
+		{
+			it = editors.insert({ &value, TextEditor() }).first;
+			it->second.SetText(value.text());
+			it->second.SetLanguageDefinition(LanguageDefinition::GLSL());
+			it->second.SetShowWhitespaces(false);
+		}
+		it->second.Render(
+			("ScriptEditor##" + label).c_str(), { 0, 0, }, true
 		);
-		ImGui::TextUnformatted(&text[0], &text[text.size()]);
-		ImGui::EndChildFrame();
-
+		if (it->second.IsTextChanged())
+		{
+			value.setText(it->second.GetText());
+			changed = true;
+		}
 		ImGui::PopID();
 		return changed;
 	}
@@ -1230,6 +1240,8 @@ namespace ml
 
 	bool PropertyDrawer<Shader>::operator()(const String & label, reference value, int32_t flags) const
 	{
+		bool changed { false };
+		ImGui::PushID(ML_ADDRESSOF(&value));
 		if (ImGui::BeginTabBar("SourceTabs"))
 		{
 			auto draw_source_tab = [](
@@ -1253,7 +1265,8 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}
-		return false;
+		ImGui::PopID();
+		return changed;
 	}
 
 

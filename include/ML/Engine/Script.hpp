@@ -12,8 +12,7 @@ namespace ml
 
 	// WIP
 	struct ML_ENGINE_API Script final
-		: public I_Disposable
-		, public I_Newable
+		: public I_Newable
 		, public I_Readable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -23,23 +22,34 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Script();
+		Script(Language language);
 		explicit Script(const String & filename);
 		Script(const Script & copy);
-		~Script() { dispose(); }
+		~Script();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
 		bool loadFromFile(const String & filename) override;
+		int32_t execute() const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		Script & setFilename(const String & value);
+		Script & setLanguage(Language value);
+		Script & setText(const String & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto filename()	const -> const String & { return m_filename; }
+		inline auto language() const -> const Language & { return m_language; }
+		inline auto text() const -> const String & { return m_text; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		Language m_language;
 		String m_filename;
+		String m_text;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -42,7 +42,7 @@ namespace ml
 {
 	template <
 		class U, class T
-	> static inline auto redirect_uniform(const String & name, const T * value)
+	> static inline void redirect_uniform(const String & name, const T * value)
 	{
 		if (!name) return;
 		if (U * u = (U *)ML_Content.get<Uniform>(name))

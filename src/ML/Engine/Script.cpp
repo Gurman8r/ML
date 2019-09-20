@@ -9,35 +9,72 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Script::Script()
-		: m_filename()
+		: Script(Language::Python)
+	{
+	}
+
+	Script::Script(Language language)
+		: m_language(language)
+		, m_filename()
+		, m_text()
 	{
 	}
 
 	Script::Script(const String & filename)
-		: m_filename()
+		: Script()
+
 	{
 		loadFromFile(filename);
 	}
 
 	Script::Script(const Script & copy)
-		: m_filename(copy.m_filename)
+		: m_language(copy.m_language)
+		, m_filename(copy.m_filename)
+		, m_text(copy.m_text)
 	{
+	}
+
+	Script::~Script() {}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool Script::loadFromFile(const String & filename)
+	{
+		if (m_text = ML_FS.getFileContents(m_filename = filename))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	int32_t Script::execute() const
+	{
+		switch (m_language)
+		{
+		case Language::Lua: return 0;
+		case Language::Python: return Py::RunString(m_text);
+		default: return 0;
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Script::dispose()
+	Script & Script::setFilename(const String & value)
 	{
-		return false;
+		m_filename = value;
+		return (*this);
 	}
 
-	bool Script::loadFromFile(const String & filename)
+	Script & Script::setLanguage(Language value)
 	{
-		if (String text { ML_FS.getFileContents(filename) })
-		{
+		m_language = value;
+		return (*this);
+	}
 
-		}
-		return false;
+	Script & Script::setText(const String & value)
+	{
+		m_text = value;
+		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

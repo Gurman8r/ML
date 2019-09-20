@@ -210,12 +210,7 @@ namespace ml
 				{
 					if (const String file = md.getData("file"))
 					{
-						auto temp = new Script();
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
+						return ML_Content.insert(name, new Script(file));
 					}
 					else
 					{

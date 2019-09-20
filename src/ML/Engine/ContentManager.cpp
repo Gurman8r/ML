@@ -23,7 +23,7 @@ namespace ml
 		return m_data.empty();
 	}
 
-	ContentManager::ObjectDatabase & ContentManager::at(size_t index)
+	ContentManager::ObjectDatabase & ContentManager::at(hash_t index)
 	{
 		TypeDatabase::iterator it;
 		return (((it = m_data.find(index)) != m_data.end())
@@ -32,7 +32,7 @@ namespace ml
 		);
 	}
 
-	const ContentManager::ObjectDatabase & ContentManager::at(size_t index) const
+	const ContentManager::ObjectDatabase & ContentManager::at(hash_t index) const
 	{
 		TypeDatabase::const_iterator it;
 		return (((it = m_data.find(index)) != m_data.cend())

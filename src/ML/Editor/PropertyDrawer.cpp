@@ -123,10 +123,9 @@ namespace ml
 
 			// Component List
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-			const float_t height { ImGui::GetTextLineHeightWithSpacing() };
 			ImGui::BeginChildFrame(
 				ImGui::GetID("AddComponentMenuContent"),
-				{ 380, height * (ML_Registry.funcs().size() + 1) },
+				{ 380, ImGui::GetTextLineHeightWithSpacing() * 10 },
 				ImGuiWindowFlags_NoMove
 			);
 			ImGui::PopStyleVar();
@@ -1093,8 +1092,38 @@ namespace ml
 
 	bool PropertyDrawer<Script>::operator()(const String & label, reference value, int32_t flags) const
 	{
-		ImGui::Text("%s", label.c_str());
-		return false;
+		bool changed { false };
+		ImGui::PushID(ML_ADDRESSOF(&value));
+
+		// Filename
+		ImGui::Text("%s", value.filename().c_str());
+
+		// Execute
+		if (ImGui::Button(("Execute##" + label).c_str()))
+		{
+			value.execute();
+		}
+
+		// Language
+		int32_t lang { (int32_t)value.language() };
+		if (ImGui::Combo(("Language##" + label).c_str(), &lang, "Lua\0Python"))
+		{
+			value.setLanguage((Script::Language)lang);
+		}
+
+		// Text
+		const String & text { value.text() };
+		const intmax_t count { std::count(text.begin(), text.end(), '\n') };
+		ImGui::BeginChildFrame(
+			ImGui::GetID("ScriptTextContent"),
+			{ 0, ImGui::GetTextLineHeightWithSpacing() * count },
+			ImGuiWindowFlags_NoMove
+		);
+		ImGui::TextUnformatted(&text[0], &text[text.size()]);
+		ImGui::EndChildFrame();
+
+		ImGui::PopID();
+		return changed;
 	}
 
 

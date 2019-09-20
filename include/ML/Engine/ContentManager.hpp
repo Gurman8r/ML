@@ -19,30 +19,30 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using ObjectDatabase = Tree<String, I_Newable *>;	// Map of String to Object
-		using TypeDatabase = HashMap<size_t, ObjectDatabase>;	// Map of TypeID to ObjectMap
+		using TypeDatabase = HashMap<hash_t, ObjectDatabase>;	// Map of TypeID to ObjectMap
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
 		
-		ObjectDatabase & at(size_t index);
+		ObjectDatabase & at(hash_t index);
 		
-		const ObjectDatabase & at(size_t index) const;
+		const ObjectDatabase & at(hash_t index) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline List<size_t> & get_codes() const
+		inline List<hash_t> & get_codes() const
 		{ 
-			static List<size_t> codes;
+			static List<hash_t> codes;
 			return codes;
 		}
 
 		template <
 			class T
-		> inline size_t get_hash() const
+		> inline hash_t get_hash() const
 		{
-			static List<size_t> & cache { get_codes() };
-			const size_t code { typeof<T>().hash() };
+			static List<hash_t> & cache { get_codes() };
+			const hash_t code { typeof<T>().hash() };
 			if (std::find(cache.cbegin(), cache.cend(), code) == cache.cend())
 			{
 				cache.push_back(code);
@@ -147,14 +147,14 @@ namespace ml
 		> inline String get_name(const T * value) const
 		{
 			const int32_t i { get_index_of<T>(value) };
-			return (i >= 0) ? get_keys<T>()[(size_t)i] : String();
+			return (i >= 0) ? get_keys<T>()[(hash_t)i] : String();
 		}
 
 		template <
 			class T
 		> inline ObjectDatabase::const_iterator get_iter_at_index(int32_t index) const
 		{
-			if ((index >= 0) && ((size_t)index < data<T>().size()))
+			if ((index >= 0) && ((hash_t)index < data<T>().size()))
 			{
 				auto it = data<T>().cbegin();
 				for (int32_t i = 0; i < index; i++)

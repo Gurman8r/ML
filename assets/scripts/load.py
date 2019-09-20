@@ -172,5 +172,9 @@ ml.content.load([
     { "type": "Surface", "name": "surf_scene_main", "model": "default_quad", "material": "surface" },
     { "type": "Surface", "name": "surf_scene_post", "model": "default_quad", "material": "surface" },
 
+# Scripts
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+    { "type": "Script", "name": "test_script", "file": PATH + "/scripts/test.py" },
+
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     ])

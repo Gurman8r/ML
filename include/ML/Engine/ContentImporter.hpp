@@ -4,14 +4,14 @@
 #include <ML/Engine/SerializedObject.hpp>
 
 #define ML_GEN_CONTENT_IMPORTER(T)											\
-using value_type		= typename ::ml::detail::decay_t<T>;					\
-using self_type			= typename ::ml::ContentImporter<value_type>;			\
+using value_type		= typename ::ml::detail::decay_t<T>;				\
+using self_type			= typename ::ml::ContentImporter<value_type>;		\
 using pointer			= typename value_type *;							\
 using reference			= typename value_type &;							\
 using const_pointer		= typename const value_type *;						\
 using const_reference	= typename const value_type &;						\
-static constexpr ::ml::StringView type_name() { return ML_STRINGIFY(T); }		\
-static constexpr ::ml::hash_t		hash_code() { return type_name().hash(); }	\
+static constexpr ::ml::StringView type_name() { return ML_STRINGIFY(T); }	\
+static constexpr ::ml::hash_t hash_code() { return type_name().hash(); }	\
 ContentImporter() = default;
 
 namespace ml

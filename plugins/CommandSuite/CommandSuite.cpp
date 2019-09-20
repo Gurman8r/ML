@@ -8,6 +8,7 @@
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Lua.hpp>
 #include <ML/Engine/Python.hpp>
+#include <ML/Engine/Script.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
@@ -378,6 +379,39 @@ namespace ml
 				{
 					Debug::system(code.c_str());
 					return true;
+				}
+				return false;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl { 
+			"pause",
+			"Pause the console subsystem",
+			"pause",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				Debug::pause(0);
+				return false;
+			})
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m_commands.push_back(new CommandImpl {
+			"execute",
+			"Execute a script",
+			"execute [SCR]...",
+			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+			{
+				if (args.size() == 2)
+				{
+					if (Script * scr { ML_Content.get<Script>(args[1]) })
+					{
+						scr->execute();
+						return true;
+					}
 				}
 				return false;
 			})

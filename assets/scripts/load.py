@@ -124,10 +124,10 @@ ml.content.load([
     { "type": "Model", "name": "cube_obj",      "file": PATH + "/meshes/cube.obj" },
     { "type": "Model", "name": "sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "Model", "name": "sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
-    #{ "type": "Model", "name": "cow",           "file": PATH + "/meshes/cow.obj" },
+    { "type": "Model", "name": "cow",           "file": PATH + "/meshes/cow.obj" },
+    { "type": "Model", "name": "teapot",        "file": PATH + "/meshes/teapot.obj" },
+    { "type": "Model", "name": "teddy",         "file": PATH + "/meshes/teddy.obj" },
     #{ "type": "Model", "name": "pumpkin",       "file": PATH + "/meshes/pumpkin.obj" },
-    #{ "type": "Model", "name": "teapot",        "file": PATH + "/meshes/teapot.obj" },
-    #{ "type": "Model", "name": "teddy",         "file": PATH + "/meshes/teddy.obj" },
 
 # Materials
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -174,8 +174,8 @@ ml.content.load([
 
 # Scripts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Script", "name": "test_script", "file": PATH + "/scripts/test.py" },
-    { "type": "Script", "name": "test_ecs", "file": PATH + "/scripts/ecs.py" },
+    { "type": "Script", "name": "test_script",  "file": PATH + "/scripts/test.py" },
+    { "type": "Script", "name": "test_ecs",     "file": PATH + "/scripts/ecs.py" },
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     ])

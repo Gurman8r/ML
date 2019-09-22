@@ -25,14 +25,12 @@
 
 namespace ml
 {
-	// Strings
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	// Strings
 	namespace alg
 	{
-		template <
-			class Ch
-		> static constexpr size_t strlen(const Ch * value)
+		template <class Ch> static constexpr size_t strlen(const Ch * value)
 		{
 			return ((*value) ? (1 + alg::strlen(value + 1)) : 0);
 		}

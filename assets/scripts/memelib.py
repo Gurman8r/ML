@@ -2,21 +2,20 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 import memelib_config
 class ML_Config:
-    architecture    = int   (   memelib_config.architecture     ) #
-    compiler_name   = str   (   memelib_config.compiler_name    ) #
-    compiler_ver    = int   (   memelib_config.compiler_ver     ) #
-    configuration   = str   (   memelib_config.configuration    ) #
-    cplusplus_ver   = int   (   memelib_config.cplusplus_ver    ) #
-    is_debug        = bool  (   memelib_config.is_debug         ) #
-    platform_target = str   (   memelib_config.platform_target  ) #
-    project_auth    = str   (   memelib_config.project_auth     ) #
-    project_date    = str   (   memelib_config.project_date     ) #
-    project_name    = str   (   memelib_config.project_name     ) #
-    project_time    = str   (   memelib_config.project_time     ) #
-    project_url     = str   (   memelib_config.project_url      ) #
-    project_ver     = str   (   memelib_config.project_ver      ) #
-    system_name     = str   (   memelib_config.system_name      ) #
-config = ML_Config()
+    ARCHITECTURE    = int   (   memelib_config.ARCHITECTURE     ) #
+    COMPILER_NAME   = str   (   memelib_config.COMPILER_NAME    ) #
+    COMPILER_VER    = int   (   memelib_config.COMPILER_VER     ) #
+    CONFIGURATION   = str   (   memelib_config.CONFIGURATION    ) #
+    CPLUSPLUS_VER   = int   (   memelib_config.CPLUSPLUS_VER    ) #
+    IS_DEBUG        = bool  (   memelib_config.IS_DEBUG         ) #
+    PLATFORM_TARGET = str   (   memelib_config.PLATFORM_TARGET  ) #
+    PROJECT_AUTH    = str   (   memelib_config.PROJECT_AUTH     ) #
+    PROJECT_DATE    = str   (   memelib_config.PROJECT_DATE     ) #
+    PROJECT_NAME    = str   (   memelib_config.PROJECT_NAME     ) #
+    PROJECT_TIME    = str   (   memelib_config.PROJECT_TIME     ) #
+    PROJECT_URL     = str   (   memelib_config.PROJECT_URL      ) #
+    PROJECT_VER     = str   (   memelib_config.PROJECT_VER      ) #
+    SYSTEM_NAME     = str   (   memelib_config.SYSTEM_NAME      ) #
 
 
 # Prefrences
@@ -24,21 +23,13 @@ config = ML_Config()
 import memelib_prefs
 class ML_Prefs:
     def load(self, filename):
-        """Load settings from INI file """
         return memelib_prefs.load(filename)
-
     def save(self, filename):
-        """ Save settings to INI file """
         return memelib_prefs.save(filename)
-    
     def set(self, section, name, value):
-        """ Overwrite a value in preferences """
         return memelib_prefs.set(str(section), str(name), str(value))
-
     def get(self, section, name, value): 
-        """ Retreive a value from preferences """
         return memelib_prefs.get(str(section), str(name), str(value))
-prefs = ML_Prefs()
 
 
 # IO
@@ -54,7 +45,6 @@ class ML_IO:
     def printl(self, value):        return memelib_io.printl(str(value))
     def printf(self, fmt, args):    return memelib_io.printf(str(fmt), list(args))
     def system(self, command):      return memelib_io.system(str(command))
-io = ML_IO()
 
 
 # Window
@@ -72,12 +62,15 @@ class ML_Window:
     def terminate(self):            return memelib_window.terminate()
     def is_open(self):              return memelib_window.is_open()
     def is_focused(self):           return memelib_window.is_focused()
+    def get_cursor(self):           return memelib_window.get_cursor()
     def get_cx(self):               return memelib_window.get_cx()
     def get_cy(self):               return memelib_window.get_cy()
     def get_key(self, k):           return memelib_window.get_key(int(k))
     def get_title(self):            return memelib_window.get_title()
+    def get_size(self):             return memelib_window.get_size()
     def get_w(self):                return memelib_window.get_w()
     def get_h(self):                return memelib_window.get_h()
+    def get_position(self):         return memelib_window.get_position()
     def get_x(self):                return memelib_window.get_x()
     def get_y(self):                return memelib_window.get_y()
     def set_clipboard(self, s):     return memelib_window.set_clipboard(str(s))
@@ -86,7 +79,6 @@ class ML_Window:
     def set_size(self, w, h):       return memelib_window.set_size(int(w), int(h))
     def set_swap_interval(self, x): return memelib_window.swap_interval(int(x))
     def set_title(self, s):         return memelib_window.set_title(str(s))
-window = ML_Window()
 
 
 # Content
@@ -94,30 +86,27 @@ window = ML_Window()
 import memelib_content
 class ML_Content:
     def load(self, data):
-        if isinstance(data, dict):
-            memelib_content.load(data)
-        elif isinstance(data, list):
-            for elem in data:
-                self.load(elem)
+        if isinstance(data, dict): return memelib_content.load(data)
+        elif isinstance(data, list): return memelib_content.load_all(data)
+        else: return False
+    
     def create(self, type, name):
         return memelib_content.create(str(type), str(name))
+    
     def destroy(self, type, name):
         return memelib_content.destroy(str(type), str(name))
+    
     def exists(self, type, name):
         return memelib_content.exists(str(type), str(name))
-content = ML_Content()
 
 # Plugins
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 import memelib_plugins
 class ML_Plugins:
     def load(self, value):
-        if isinstance(value, str):
-            memelib_plugins.load(value)
-        elif isinstance(value, list):
-            for file in value:
-                self.load(file)
-plugins = ML_Plugins()
+        if isinstance(value, str): return memelib_plugins.load(value)
+        elif isinstance(value, list): return memelib_plugins.load_all(value)
+        else: return False
 
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

@@ -209,8 +209,7 @@ namespace ml
 						return 0;
 					};
 					static const struct luaL_Reg printLib[] = {
-						{ "print", my_print },
-						{ nullptr, nullptr }
+						{ "print", my_print }
 					};
 					lua_State * L = luaL_newstate();
 					luaL_openlibs(L);
@@ -301,7 +300,6 @@ namespace ml
 			"py [CODE]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				return (bool)Debug::logWarning("This command is currently disabled");
 				if (const String code = ([&]()
 				{
 					if (args.size() == 1) return String();
@@ -311,45 +309,7 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					if (PyObject * pyMain = PyImport_AddModule("__main__"))
-					{
-						ML_Py.SimpleString(
-							"import sys\n"
-							"class ml_OutputCatcher:\n"
-							"	def __init__(self):\n"
-							"		self.text = ''\n"
-							"	def write(self, value):\n"
-							"		self.text += value\n"
-							"ml_out = ml_OutputCatcher()\n"
-							"sys.stdout = ml_out\n"
-							"sys.stderr = ml_out\n"
-						);
-						ML_Py.SimpleString("import memelib as ml\n");
-						ML_Py.SimpleString(code);
-
-						if (PyObject * redir { PyObject_GetAttrString(pyMain, "ml_out") })
-						{
-							PyErr_Print();
-
-							if (PyObject * text { PyObject_GetAttrString(redir, "text") })
-							{
-								if (PyUnicode_Check(text))
-								{
-									if (PyObject * bytes { PyUnicode_AsEncodedString(
-										text, "UTF-8", "strict"
-									) })
-									{
-										cout << PyBytes_AS_STRING(bytes);
-
-										Py_DECREF(bytes);
-									}
-								}
-								Py_DECREF(text);
-							}
-							Py_DECREF(redir);
-						}
-					}
-					return true;
+					return (bool)ML_Py.SimpleString(code);
 				}
 				return false;
 			})

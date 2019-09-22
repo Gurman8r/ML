@@ -139,8 +139,7 @@ namespace ml
 
 	bool MetadataParser::parseMetadata(const Metadata & data)
 	{
-		const String type { data.getData("type").asString() };
-		switch (Hash { type.data(), type.size() })
+		switch (data.getData("type").asString().hash())
 		{
 		case Hash { "Manifest" }:	return true;
 		case Hash { "Entity" }:		return ContentImporter<Entity>()(data);

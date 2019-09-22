@@ -23,11 +23,42 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		inline bool dispose() override
+		{
+			for (auto & types : m_data)
+			{
+				for (auto & elem : types.second)
+				{
+					if (elem.second)
+					{
+						delete elem.second;
+					}
+				}
+				types.second.clear();
+			}
+			m_data.clear();
+			return m_data.empty();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		ObjectDatabase & at(hash_t index);
+		inline ObjectDatabase & at(hash_t index)
+		{
+			TypeDatabase::iterator it;
+			return (((it = m_data.find(index)) != m_data.end())
+				? it->second
+				: m_data.insert({ index, {} }).first->second
+			);
+		}
 		
-		const ObjectDatabase & at(hash_t index) const;
+		inline const ObjectDatabase & at(hash_t index) const
+		{
+			TypeDatabase::const_iterator it;
+			return (((it = m_data.find(index)) != m_data.cend())
+				? it->second
+				: m_data.insert({ index, {} }).first->second
+			);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -174,8 +205,8 @@ namespace ml
 
 	private:
 		friend struct I_Singleton<ContentManager>;
-		ContentManager() : m_data() {}
-		~ContentManager() { dispose(); }
+		ContentManager();
+		~ContentManager();
 		mutable TypeDatabase m_data; // The Data
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

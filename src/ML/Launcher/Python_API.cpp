@@ -18,26 +18,27 @@ namespace ml
 	using list_t	= typename std::vector<str_t>;
 	using dict_t	= typename std::map<str_t, str_t>;
 	using table_t	= typename std::vector<dict_t>;
+	using coord_t	= typename std::array<float_t, 2>;
 
 
 	// Config
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_config, m)
 	{
-		m.attr("architecture")		= ML_ARCHITECTURE;
-		m.attr("compiler_name")		= ML_CC_NAME;
-		m.attr("compiler_ver")		= ML_CC_VER;
-		m.attr("configuration")		= ML_CONFIGURATION;
-		m.attr("cppversion")		= ML_CPLUSPLUS;
-		m.attr("is_debug")			= ML_DEBUG;
-		m.attr("platform_target")	= ML_PLATFORM_TARGET;
-		m.attr("project_auth")		= ML_PROJECT_AUTH;
-		m.attr("project_date")		= ML_PROJECT_DATE;
-		m.attr("project_name")		= ML_PROJECT_NAME;
-		m.attr("project_time")		= ML_PROJECT_TIME;
-		m.attr("project_url")		= ML_PROJECT_URL;
-		m.attr("project_ver")		= ML_PROJECT_VER;
-		m.attr("system_name")		= ML_SYSTEM_NAME;
+		m.attr("ARCHITECTURE")		= ML_ARCHITECTURE;
+		m.attr("COMPILER_NAME")		= ML_CC_NAME;
+		m.attr("COMPILER_VER")		= ML_CC_VER;
+		m.attr("CONFIGURATION")		= ML_CONFIGURATION;
+		m.attr("CPLUSPLUS_VER")		= ML_CPLUSPLUS;
+		m.attr("IS_DEBUG")			= ML_DEBUG;
+		m.attr("PLATFORM_TARGET")	= ML_PLATFORM_TARGET;
+		m.attr("PROJECT_AUTH")		= ML_PROJECT_AUTH;
+		m.attr("PROJECT_DATE")		= ML_PROJECT_DATE;
+		m.attr("PROJECT_NAME")		= ML_PROJECT_NAME;
+		m.attr("PROJECT_TIME")		= ML_PROJECT_TIME;
+		m.attr("PROJECT_URL")		= ML_PROJECT_URL;
+		m.attr("PROJECT_VER")		= ML_PROJECT_VER;
+		m.attr("SYSTEM_NAME")		= ML_SYSTEM_NAME;
 	}
 
 
@@ -45,6 +46,35 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_content, m)
 	{
+		m.def("create", [](const str_t & type, const str_t & name)
+		{
+			if (const hash_t * code { ML_Registry.get_code(type) })
+			{
+				auto & data { ML_Content.at(*code) };
+				auto it { data.find(name) };
+				return (it == data.end()) && data.insert({
+					name, (I_Newable *)ML_Registry.generate(*code)
+				}).first->second;
+			}
+			return (bool)Debug::logError("Unknown Type: \'{0}\'", type);
+		});
+		m.def("exists", [](const str_t & type, const str_t & name)
+		{
+			auto & data { ML_Content.at(String(type).hash()) };
+			return (data.find(name) != data.end());
+		});
+		m.def("destroy", [](const str_t & type, const str_t & name)
+		{
+			auto & data { ML_Content.at(String(type).hash()) };
+			auto it { data.find(name) };
+			if (it != data.end())
+			{
+				delete it->second;
+				data.erase(it);
+				return true;
+			}
+			return false;
+		});
 		m.def("load", [](const dict_t & data)
 		{
 			Metadata md;
@@ -63,38 +93,12 @@ namespace ml
 				{
 					md.setData(pair.first, pair.second);
 				}
-				MetadataParser::parseMetadata(md);
+				if (!MetadataParser::parseMetadata(md))
+				{
+					/* error */
+				}
 			}
 			return true;
-		});
-		m.def("exists", [](const str_t & type, const str_t & name)
-		{
-			auto & data { ML_Content.at(String(type).hash()) };
-			return (data.find(name) != data.end());
-		});
-		m.def("create", [](const str_t & type, const str_t & name)
-		{
-			if (const hash_t * code { ML_Registry.get_code(type) })
-			{
-				auto & data { ML_Content.at(*code) };
-				auto it { data.find(name) };
-				return (it == data.end()) && data.insert({
-					name, (I_Newable *)ML_Registry.generate(*code)
-				}).first->second;
-			}
-			return (bool)Debug::logError("Unknown Type: \'{0}\'", type);
-		});
-		m.def("destroy", [](const str_t & type, const str_t & name)
-		{
-			auto & data { ML_Content.at(String(type).hash()) };
-			auto it { data.find(name) };
-			if (it != data.end())
-			{
-				delete it->second;
-				data.erase(it);
-				return true;
-			}
-			return false;
 		});
 	}
 
@@ -155,6 +159,7 @@ namespace ml
 			{
 				ML_Launcher.plugins.loadOneShot(file);
 			}
+			return true;
 		});
 	}
 
@@ -197,12 +202,15 @@ namespace ml
 		m.def("terminate", []() { ML_Launcher.window.terminate(); });
 		m.def("is_focused", []() { return ML_Launcher.window.is_focused(); });
 		m.def("is_open", []() { return ML_Launcher.window.is_open(); });
+		m.def("get_cursor", []() { return (coord_t)(vec2)ML_Launcher.window.getCursorPos(); });
 		m.def("get_cx", []() { return (int32_t)ML_Launcher.window.getCursorPos()[0]; });
 		m.def("get_cy", []() { return (int32_t)ML_Launcher.window.getCursorPos()[1]; });
 		m.def("get_key", [](int32_t k) { return ML_Launcher.window.getKey(k); });
 		m.def("get_title", []() { return (str_t)ML_Launcher.window.title(); });
+		m.def("get_size", []() { return (coord_t)(vec2)ML_Launcher.window.size(); });
 		m.def("get_w", []() { return (int32_t)ML_Launcher.window.width(); });
 		m.def("get_h", []() { return (int32_t)ML_Launcher.window.height(); });
+		m.def("get_position", []() { return (coord_t)(vec2)ML_Launcher.window.getPosition(); });
 		m.def("get_x", []() { return ML_Launcher.window.getPosition()[0]; });
 		m.def("get_y", []() { return ML_Launcher.window.getPosition()[1]; });
 		m.def("set_clipboard", [](const str_t & s) { ML_Launcher.window.setClipboardString(s); });

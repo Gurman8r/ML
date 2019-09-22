@@ -56,11 +56,10 @@ namespace ml
 
 		inline int32_t SimpleString(const String & value)
 		{
-			if (m_init)
-			{
-				return PyRun_SimpleString(value.c_str());
-			}
-			return 0;
+			return ((m_init)
+				? PyRun_SimpleString(value.c_str())
+				: 0
+			);
 		}
 
 	private:

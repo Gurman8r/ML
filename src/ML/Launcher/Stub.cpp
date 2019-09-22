@@ -24,6 +24,11 @@ namespace ml
 
 	static void test_math()
 	{
+
+		{
+			
+		}
+
 		// Matrix Tests
 		{
 			constexpr mat4f ma {

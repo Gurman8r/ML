@@ -8,13 +8,21 @@ class Component:
     def __init__(self, type): 
         self.type = str(type)
 
+class Camera(Component):
+    def __init__(self):
+        Component.__init__(self, "struct ml::Camera")
+
+class Light(Component):
+    def __init__(self):
+        Component.__init__(self, "struct ml::Light")
+
 class Renderer(Component):
-    def __init__(self): 
+    def __init__(self):
         Component.__init__(self, "struct ml::Renderer")
-    def set_model(self, value):
-        return
-    def set_material(self, value):
-        return
+
+class Transform(Component):
+    def __init__(self):
+        Component.__init__(self, "struct ml::Transform")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
@@ -24,25 +32,26 @@ class Entity:
         self.name = str(name)
         self.components = []
 
-    def create(self):
-        return bool(content.create(self.type, self.name))
-
-    def destroy(self):
-        return bool(content.destroy(self.type, self.name))
-
     def attach(self, value):
         if isinstance(value, Component) and ecs.add_component(self.name, value.type):
             self.components.append(value)
             return value
         return None
 
+    def create(self):
+        return bool(content.create(self.type, self.name))
+
+    def destroy(self):
+        return bool(content.destroy(self.type, self.name))
+
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 e = Entity("MyEntity")
 if e.create():
-    io.printl("Created Entity: \'" + e.name + "\'")
+    io.printf("Create {0}: \'{1}\'\n", [ e.type, e.name ])
     r = e.attach(Renderer())
-    if r != None:
-        io.printl("Attached Renderer")
+    if (r != None): io.printf("Attached: {0}\n", [ r.type ])
+else:
+    io.printf("Entity \'{0}\' already exists.", [ e.name ])
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

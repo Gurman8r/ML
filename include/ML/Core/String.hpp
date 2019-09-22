@@ -125,7 +125,7 @@ namespace ml
 		}
 
 		BasicString(const StringView & copy)
-			: base_type(copy.data(), copy.size())
+			: base_type(copy.str())
 		{
 		}
 		

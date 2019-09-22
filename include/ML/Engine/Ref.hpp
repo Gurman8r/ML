@@ -23,7 +23,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Ref()
-			: m_name(nullptr)
+			: m_name(String())
 			, m_data(nullptr)
 			, m_changed(true)
 		{
@@ -125,14 +125,15 @@ namespace ml
 			return m_name; 
 		}
 
-		inline const String & name(const String & value)
+		inline bool rename(const String & value)
 		{
-			if (value != m_name)
+			if (value && (!m_name || (value != m_name)))
 			{
 				m_name = value;
 				m_changed = true;
+				return true;
 			}
-			return m_name;
+			return false;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

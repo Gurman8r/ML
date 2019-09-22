@@ -39,6 +39,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		void onEnter	(const EnterEvent	& ev);
 		void onStart	(const StartEvent	& ev);
 		void onUpdate	(const UpdateEvent	& ev);
 		void onDraw		(const DrawEvent	& ev);
@@ -176,8 +177,8 @@ namespace ml
 
 			bool			m_open		{ true };
 			Ref<Entity>		m_entity	{ "demo_entity" };
-			Ref<Material>	m_material	{ "basic" };
-			Ref<Model>		m_model		{ "default_quad" };
+			Ref<Material>	m_material	{ "" };
+			Ref<Model>		m_model		{ "" };
 			Renderer *		m_renderer	{ nullptr };
 			File_List		m_files		{ nullptr };
 			DemoSkybox		m_skybox	{ "demo_skybox" };

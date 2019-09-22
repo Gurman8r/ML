@@ -71,6 +71,8 @@ namespace ml
 	Noobs::Noobs(EventSystem & eventSystem)
 		: Plugin { eventSystem }
 	{
+
+		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(StartEvent::ID,			this);
 		eventSystem.addListener(UpdateEvent::ID,		this);
 		eventSystem.addListener(DrawEvent::ID,			this);
@@ -87,6 +89,7 @@ namespace ml
 	{
 		switch (*value)
 		{
+		case EnterEvent::ID: if (auto ev = value.as<EnterEvent>()) return onEnter(*ev);
 		case StartEvent::ID	: if (auto ev = value.as<StartEvent>()) return onStart(*ev);
 		case UpdateEvent::ID: if (auto ev = value.as<UpdateEvent>()) return onUpdate(*ev);
 		case DrawEvent::ID	: if (auto ev = value.as<DrawEvent>()) return onDraw(*ev);
@@ -144,6 +147,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	void Noobs::onEnter(const EnterEvent & ev)
+	{
+		m_editor.m_material.rename(ev.prefs.get_string("Noobs", "demo_material", "basic"));
+		m_editor.m_model.rename(ev.prefs.get_string("Noobs", "demo_model", "default_quad"));
+	}
+
 	void Noobs::onStart(const StartEvent & ev)
 	{
 		// Set Path
@@ -157,9 +166,15 @@ namespace ml
 		{
 			// Attach Renderer
 			(*(m_editor.m_renderer = e->add<Renderer>()))
+				.setEnabled(true)
 				.setDrawable(m_editor.m_model)
 				.setMaterial(m_editor.m_material)
-				.states().cull().enabled = false;
+				.setStates({
+					AlphaState {},
+					BlendState {},
+					CullState  { false }, // disable culling
+					DepthState {}
+					});
 		}
 
 		// Create Skybox Entity
@@ -167,10 +182,15 @@ namespace ml
 		{
 			// Attach Renderer
 			(*(m_editor.m_skybox.renderer = e->add<Renderer>()))
+				.setEnabled(false)
 				.setDrawable(m_editor.m_skybox.model)
 				.setMaterial(m_editor.m_skybox.material)
-				.setEnabled(false)
-				.states().depth().mask = false;
+				.setStates({
+					AlphaState {},
+					BlendState {},
+					CullState  {},
+					DepthState { true, false } // disable depth mask
+					});
 		}
 
 		// Setup Editor

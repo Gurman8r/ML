@@ -6,8 +6,6 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	struct StringView final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -20,7 +18,7 @@ namespace ml
 		using const_reference	= typename const value_type &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
-		using string_type		= typename std::basic_string<value_type>;
+		using cppstring_type	= typename std::basic_string<value_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -28,9 +26,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			size_t N
-		> constexpr StringView(const value_type(&arr)[N]) noexcept
+		template <size_t N> constexpr StringView(const value_type(&arr)[N]) noexcept
 			: self_type { &arr[0], (N - 1) }
 		{
 		}
@@ -61,7 +57,7 @@ namespace ml
 		constexpr auto end()	const -> const_iterator	{ return m_data + m_size; }
 		constexpr auto hash()	const -> hash_t			{ return Hash { m_data, m_size }; }
 		constexpr auto size()	const -> size_t			{ return m_size; }
-		inline	  auto str()	const -> string_type	{ return { m_data, m_size }; }
+		inline	  auto str()	const -> cppstring_type	{ return { m_data, m_size }; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -75,7 +71,7 @@ namespace ml
 			return m_data;
 		}
 
-		inline operator string_type() const
+		inline operator cppstring_type() const
 		{
 			return str();
 		}
@@ -237,8 +233,6 @@ namespace ml
 	{
 		return (lhs >= rhs.c_str());
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_STRING_VIEW_HPP_

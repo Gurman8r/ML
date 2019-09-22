@@ -27,6 +27,7 @@ namespace ml
 		Renderer & setDrawable(const I_Drawable * value);
 		Renderer & setEnabled(bool value);
 		Renderer & setMaterial(const Material * value);
+		Renderer & setStates(const RenderStates & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

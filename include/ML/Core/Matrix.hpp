@@ -66,13 +66,14 @@ namespace ml
 
 		constexpr const_reference operator[](size_t i) const { return m_data[i]; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		constexpr operator base_type &() { return m_data; }
 
 		constexpr operator const base_type &() const { return m_data; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		template <class U> inline operator std::array<U, Size>() const
+		{ 
+			return (std::array<U, Size>)(base_type)(*this);
+		}
 
 		template <
 			template <class, size_t, size_t> class M, class U, size_t W, size_t H
@@ -85,7 +86,6 @@ namespace ml
 				const size_t y { i / temp.width() };
 				const size_t w { this->width() };
 				const size_t h { this->height() };
-
 				using UU = constant_t<U>;
 				temp[i] = ((y < h && x < w) ? UU { (*this)[y * w + x] } : UU::zero);
 			}

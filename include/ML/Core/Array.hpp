@@ -57,8 +57,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr reference			operator[](size_t i)		{ return at(i); }
-		constexpr const_reference	operator[](size_t i) const	{ return at(i); }
+		constexpr reference operator[](size_t i) { return at(i); }
+		
+		constexpr const_reference operator[](size_t i) const { return at(i); }
+
+		template <class U> inline operator std::array<U, Size>() const
+		{
+			std::array<U, Size> temp { NULL };
+			for (size_t i = 0; i < temp.size(); i++)
+			{
+				temp[i] = static_cast<U>(m_data[i]);
+			}
+			return temp;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

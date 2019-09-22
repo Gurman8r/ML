@@ -52,6 +52,12 @@ namespace ml
 		return (*this);
 	}
 
+	Renderer & Renderer::setStates(const RenderStates & value)
+	{
+		m_states = value;
+		return (*this);
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	void Renderer::draw(RenderTarget & target, RenderBatch batch) const

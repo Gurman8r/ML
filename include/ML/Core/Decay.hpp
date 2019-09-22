@@ -13,10 +13,12 @@ namespace ml
 
 		template <class T> struct decay final
 		{
-			ML_USING_X remove_const_t = std::remove_const_t<X>;
-			ML_USING_X remove_volatile_t = std::remove_volatile_t<X>;
-			ML_USING_X remove_pointer_t = std::remove_pointer_t<X>;
-			ML_USING_X remove_reference_t = std::remove_reference_t<X>;
+			decay() = delete;
+
+			ML_USING_X remove_const_t		= std::remove_const_t<X>;
+			ML_USING_X remove_volatile_t	= std::remove_volatile_t<X>;
+			ML_USING_X remove_pointer_t		= std::remove_pointer_t<X>;
+			ML_USING_X remove_reference_t	= std::remove_reference_t<X>;
 
 			using type = typename 
 				remove_const_t<

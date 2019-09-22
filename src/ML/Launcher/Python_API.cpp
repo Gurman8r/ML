@@ -183,6 +183,7 @@ namespace ml
 		m.def("swap_buffers", []() { ML_Launcher.window.swapBuffers(); });
 		m.def("terminate", []() { ML_Launcher.window.terminate(); });
 		m.def("is_focused", []() { return ML_Launcher.window.is_focused(); });
+		m.def("is_fullscreen", []() { return ML_Launcher.window.is_fullscreen(); });
 		m.def("is_open", []() { return ML_Launcher.window.is_open(); });
 		m.def("get_cursor", []() { return (coord_t)(vec2)ML_Launcher.window.getCursorPos(); });
 		m.def("get_cx", []() { return (int32_t)ML_Launcher.window.getCursorPos()[0]; });
@@ -198,6 +199,7 @@ namespace ml
 		m.def("get_time", []() { return (float_t)ML_Launcher.window.getTime(); });
 		m.def("set_clipboard", [](const str_t & s) { ML_Launcher.window.setClipboardString(s); });
 		m.def("set_cursor", [](int32_t m) { ML_Launcher.window.setCursorMode(((Cursor::Mode)m)); });
+		m.def("set_fullscreen", [](bool b) { ML_Launcher.window.setFullscreen(b); });
 		m.def("set_position", [](const coord_t & v) { ML_Launcher.window.setPosition({ (int32_t)v[0], (int32_t)v[1] }); });
 		m.def("set_size", [](int32_t w, int32_t h) { ML_Launcher.window.setSize(vec2i { w, h }); });
 		m.def("set_swap_interval", [](int32_t i) { ML_Launcher.window.swapInterval(i); });

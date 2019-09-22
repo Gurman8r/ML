@@ -30,8 +30,12 @@
 
 namespace ml
 {
-	struct ML_ENGINE_API Py final : public I_Singleton<Py>
+	class ML_ENGINE_API Py final : public I_Singleton<Py>, I_Disposable
 	{
+		friend struct I_Singleton<Py>;
+		bool m_init { false };
+
+	public:
 		inline bool Initialize(const String & name, const String & path)
 		{
 			if (!m_init && name && ML_FS.dirExists(path))
@@ -44,7 +48,7 @@ namespace ml
 			return false;
 		}
 
-		inline bool Finalize()
+		inline bool dispose() override
 		{
 			if (m_init)
 			{
@@ -54,17 +58,10 @@ namespace ml
 			return false;
 		}
 
-		inline int32_t SimpleString(const String & value)
+		inline int32_t DoString(const String & value)
 		{
-			return ((m_init)
-				? PyRun_SimpleString(value.c_str())
-				: 0
-			);
+			return ((value && m_init) ? PyRun_SimpleString(value.c_str()) : 0);
 		}
-
-	private:
-		friend struct I_Singleton<Py>;
-		bool m_init { false };
 	};
 }
 

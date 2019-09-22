@@ -4,9 +4,11 @@ import memelib_config   as config
 import memelib_io       as io
 import memelib_plugins  as plugins
 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
 # Debug Message
 if (config.CONFIGURATION == "Debug"):
-    io.printf("{0} {1} | by {2} | {3} - {4}\n", [ 
+    io.printf("{0} {1} | by {2} | {3} {4}\n", [ 
         config.PROJECT_NAME, 
         config.PROJECT_VER,
         config.PROJECT_AUTH,

@@ -309,7 +309,7 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					return (bool)ML_Py.SimpleString(code);
+					return (bool)ML_Py.DoString(code);
 				}
 				return false;
 			})

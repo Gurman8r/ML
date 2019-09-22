@@ -1,3 +1,5 @@
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
 import memelib_content  as content
 import memelib_ecs      as ecs
 import memelib_io       as io
@@ -9,20 +11,16 @@ class Component:
         self.type = str(type)
 
 class Camera(Component):
-    def __init__(self):
-        Component.__init__(self, "struct ml::Camera")
+    def __init__(self): Component.__init__(self, "struct ml::Camera")
 
 class Light(Component):
-    def __init__(self):
-        Component.__init__(self, "struct ml::Light")
+    def __init__(self): Component.__init__(self, "struct ml::Light")
 
 class Renderer(Component):
-    def __init__(self):
-        Component.__init__(self, "struct ml::Renderer")
+    def __init__(self): Component.__init__(self, "struct ml::Renderer")
 
 class Transform(Component):
-    def __init__(self):
-        Component.__init__(self, "struct ml::Transform")
+    def __init__(self): Component.__init__(self, "struct ml::Transform")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
@@ -38,11 +36,9 @@ class Entity:
             return value
         return None
 
-    def create(self):
-        return bool(content.create(self.type, self.name))
+    def create(self): return content.create(self.type, self.name)
 
-    def destroy(self):
-        return bool(content.destroy(self.type, self.name))
+    def destroy(self): return content.destroy(self.type, self.name)
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 

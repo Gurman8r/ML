@@ -12,6 +12,7 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/PluginLoader.hpp>
 #include <ML/Engine/Python.hpp>
+#include <ML/Engine/Lua.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/GLM.hpp>
 #include <ML/Graphics/Material.hpp>
@@ -221,11 +222,9 @@ namespace ml
 
 	void Engine::onExit(const ExitEvent & ev)
 	{
-		// Dispose Window
 		ev.window.dispose();
-
-		// Finalize Python
-		ML_Py.Finalize();
+		ML_Lua.dispose();
+		ML_Py.dispose();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

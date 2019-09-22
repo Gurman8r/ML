@@ -22,9 +22,50 @@
 
 namespace ml
 {
-	struct ML_ENGINE_API Lua final : public I_Singleton<Lua>
+	class ML_ENGINE_API Lua final : public I_Singleton<Lua>, public I_Disposable
 	{
-	private: friend struct I_Singleton<Lua>;
+		friend struct I_Singleton<Lua>;
+		mutable lua_State * m_L { nullptr };
+
+	public:
+		inline lua_State * getL() const
+		{ 
+			auto my_print = ([](lua_State * L)
+			{
+				for (int32_t i = 1, imax = lua_gettop(L); i <= imax; ++i)
+				{
+					cout << lua_tostring(L, i);
+				}
+				return 0;
+			});
+			static const struct luaL_Reg lib[] = {
+				{ "print", my_print },
+				{ nullptr, nullptr }
+			};
+			if (!m_L && (m_L = luaL_newstate()))
+			{
+				luaL_openlibs(m_L);
+				lua_getglobal(m_L, "_G");
+				luaL_setfuncs(m_L, lib, 0);
+				lua_pop(m_L, 1);
+			}
+			return m_L;
+		}
+
+		inline bool dispose() override
+		{
+			if (m_L)
+			{
+				lua_close(m_L);
+				return true;
+			}
+			return false;
+		}
+
+		inline int32_t DoString(const String & value) const
+		{
+			return ((value && getL()) ? luaL_dostring(getL(), value.c_str()) : 0);
+		}
 	};
 }
 

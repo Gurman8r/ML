@@ -202,6 +202,7 @@ namespace ImGui
 			static const LanguageDefinition & SQL();
 			static const LanguageDefinition & AngelScript();
 			static const LanguageDefinition & Lua();
+			static const LanguageDefinition & Python();
 
 			inline static const LanguageDefinition * get(const int value)
 			{
@@ -214,6 +215,7 @@ namespace ImGui
 				case 4: return &SQL();
 				case 5: return &AngelScript();
 				case 6: return &Lua();
+				case 7: return &Python();
 				default: return nullptr;
 				}
 			}

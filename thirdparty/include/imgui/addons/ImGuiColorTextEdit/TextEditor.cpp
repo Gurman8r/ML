@@ -3281,5 +3281,67 @@ namespace ImGui
 		return langDef;
 	}
 
+	const TextEditor::LanguageDefinition & TextEditor::LanguageDefinition::Python()
+	{
+		static bool inited = false;
+		static LanguageDefinition langDef;
+		if (!inited)
+		{
+			static const char* const keywords[] = {
+				"False", "class", "finally", "is", "return",
+				"None", "continue", "for", "lambda", "try",
+				"True", "def", "from", "nonlocal", "while",
+				"and", "del", "global", "not", "with",
+				"as", "elif", "if", "or", "yield",
+				"assert", "else", "import", "pass",
+				"break", "except", "in", "raise",
+			};
+			for (auto& k : keywords)
+				langDef.mKeywords.insert(k);
+
+			static const char* const identifiers[] = {
+				"abs", "delattr", "hash", "memoryview", "set",
+				"all", "dict", "help", "min", "setattr",
+				"any", "dir", "hex", "next", "slice",
+				"ascii", "divmod", "id", "object", "sorted",
+				"bin", "enumerate", "input", "oct", "staticmethod",
+				"bool", "eval", "int", "open", "str",
+				"breakpoint", "exec", "isinstance", "ord", "sum",
+				"bytearray", "filter", "issubclass", "pow", "super",
+				"bytes", "float", "iter", "print", "tuple",
+				"callable", "format", "len", "property", "type",
+				"chr", "frozenset", "list", "range", "vars",
+				"classmethod", "getattr", "locals", "repr", "zip",
+				"compile", "globals", "map", "reversed", "__import__",
+				"complex", "hasattr", "max", "round",
+			};
+			for (auto& k : identifiers)
+			{
+				Identifier id;
+				id.mDeclaration = "Built-in function";
+				langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
+			}
+			
+			langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("L?\\\"(\\\\.|[^\\\"])*\\\"", PaletteIndex::String));
+			langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("\\\'[^\\\']*\\\'", PaletteIndex::String));
+			langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("0[xX][0-9a-fA-F]+[uU]?[lL]?[lL]?", PaletteIndex::Number));
+			langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][+-]?[0-9]+)?[fF]?", PaletteIndex::Number));
+			langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[+-]?[0-9]+[Uu]?[lL]?[lL]?", PaletteIndex::Number));
+			langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[a-zA-Z_][a-zA-Z0-9_]*", PaletteIndex::Identifier));
+			langDef.mTokenRegexStrings.push_back(std::make_pair<std::string, PaletteIndex>("[\\[\\]\\{\\}\\!\\%\\^\\&\\*\\(\\)\\-\\+\\=\\~\\|\\<\\>\\?\\/\\;\\,\\.]", PaletteIndex::Punctuation));
+
+			langDef.mCommentStart = "#";
+			langDef.mCommentEnd = "#";
+			langDef.mSingleLineComment = "#";
+
+			langDef.mCaseSensitive = true;
+			langDef.mAutoIndentation = false;
+			langDef.mName = "Python";
+
+			inited = true;
+		}
+		return langDef;
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

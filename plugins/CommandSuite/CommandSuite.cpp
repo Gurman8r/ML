@@ -200,28 +200,7 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					auto my_print = [](lua_State * L)
-					{
-						for (int32_t i = 1, imax = lua_gettop(L); i <= imax; ++i)
-						{
-							cout << lua_tostring(L, i);
-						}
-						return 0;
-					};
-					static const struct luaL_Reg printLib[] = {
-						{ "print", my_print }
-					};
-					lua_State * L = luaL_newstate();
-					luaL_openlibs(L);
-					lua_getglobal(L, "_G");
-					luaL_setfuncs(L, printLib, 0);
-					lua_pop(L, 1);
-					if (luaL_dostring(L, code.c_str()) != LUA_OK)
-					{
-						cout << "Lua Error: " << String(lua_tostring(L, -1)) << endl;
-					}
-					lua_close(L);
-					return true;
+					return (bool)ML_Lua.DoString(code);
 				}
 				return false;
 			})

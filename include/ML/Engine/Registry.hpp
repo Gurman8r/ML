@@ -128,7 +128,8 @@ namespace ml
 
 	private:
 		friend struct I_Singleton<Registry<>>;
-		Registry();
+		Registry() : m_codes(), m_funcs(), m_infos(), m_names() {}
+		~Registry() {}
 		HashMap<String, hash_t> m_codes; // 
 		HashMap<String, Method> m_funcs; // 
 		HashMap<String, String> m_infos; // 

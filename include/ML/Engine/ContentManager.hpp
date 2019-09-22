@@ -42,7 +42,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline ObjectDatabase & at(hash_t index)
+		inline ObjectDatabase & data(hash_t index)
 		{
 			TypeDatabase::iterator it;
 			return (((it = m_data.find(index)) != m_data.end())
@@ -51,7 +51,7 @@ namespace ml
 			);
 		}
 		
-		inline const ObjectDatabase & at(hash_t index) const
+		inline const ObjectDatabase & data(hash_t index) const
 		{
 			TypeDatabase::const_iterator it;
 			return (((it = m_data.find(index)) != m_data.cend())
@@ -62,34 +62,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline List<hash_t> & get_codes() const
-		{ 
-			static List<hash_t> codes;
-			return codes;
-		}
-
-		template <class T> inline hash_t get_hash() const
-		{
-			static List<hash_t> & cache { get_codes() };
-			const hash_t code { typeof<T>().hash() };
-			if (std::find(cache.cbegin(), cache.cend(), code) == cache.cend())
-			{
-				cache.push_back(code);
-			}
-			return code;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		template <class T> inline ObjectDatabase & data()
 		{
-			static ObjectDatabase & temp { at(get_hash<T>()) };
+			static ObjectDatabase & temp { data(typeof<T>().hash()) };
 			return temp;
 		}
 
 		template <class T> inline const ObjectDatabase & data() const
 		{
-			static const ObjectDatabase & temp { at(get_hash<T>()) };
+			static const ObjectDatabase & temp { data(typeof<T>().hash()) };
 			return temp;
 		}
 
@@ -112,16 +93,23 @@ namespace ml
 			}).first->second);
 		}
 
-		template <class T> inline bool erase(const String & name)
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool destroy(hash_t code, const String & name)
 		{
-			ObjectDatabase::iterator it;
-			if ((it = data<T>().find(name)) != data<T>().end())
+			ObjectDatabase::iterator it { data(code).find(name) };
+			if (it != data(code).end())
 			{
 				if (it->second) { delete it->second; }
-				data<T>().erase(it);
+				data(code).erase(it);
 				return true;
 			}
 			return false;
+		}
+
+		template <class T> inline bool destroy(const String & name)
+		{
+			return destroy(typeof<T>().hash(), name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

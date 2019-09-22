@@ -16,11 +16,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum class Language { Lua, Python, Unknown };
-
-		static constexpr C_String Language_names[] = {
-			"Lua", "Python", "Unknown"
-		};
+		enum class Language { Unknown, Lua, Python };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

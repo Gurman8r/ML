@@ -32,9 +32,13 @@ namespace ml
 		{
 		}
 
-		explicit Metadata(const map_type & values)
-			: m_data(values)
+		template <class Str> explicit Metadata(const Tree<Str, Str> & values)
+			: m_data()
 		{
+			for (const auto & pair : values)
+			{
+				this->setData(pair);
+			}
 		}
 
 		Metadata(const Metadata & copy)
@@ -108,6 +112,11 @@ namespace ml
 				it = m_data.insert({ name, new value_type() }).first;
 			}
 			return ((*it->second) = value_type { std::forward<Args>(args)... });
+		}
+
+		inline const_reference & setData(const Pair<String, String> & pair)
+		{
+			return setData(pair.first, pair.second);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -108,7 +108,7 @@ namespace ml
 		{
 			if (m_changed || (!m_data && m_name))
 			{
-				return ML_Content.erase<value_type>(m_name);
+				return ML_Content.destroy<value_type>(m_name);
 			}
 			return !m_data;
 		}

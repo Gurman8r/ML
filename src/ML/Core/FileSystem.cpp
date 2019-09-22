@@ -139,48 +139,44 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	String FileSystem::getFileType(const String & filename) const
+	String FileSystem::getFileType(const String & value) const
+	{
+		size_t i;
+		return
+			((i = value.find_last_of('.')) != String::npos) ||
+			((i = value.find_last_of('/')) != String::npos) ||
+			((i = value.find_last_of('\\')) != String::npos)
+			? String(value.substr(i + 1, value.size() - i - 1))
+			: value;
+	}
+
+	String FileSystem::getFileName(const String & value) const
+	{
+		size_t i;
+		return
+			((i = value.find_last_of('/')) != String::npos) ||
+			((i = value.find_last_of('\\')) != String::npos)
+			? String(value.substr(i + 1, value.size() - i - 1))
+			: value;
+	}
+
+	String FileSystem::getFilePath(const String & value) const
 	{
 		size_t i;
 		return (
-			((i = filename.find_last_of('.')) != String::npos) ||
-			((i = filename.find_last_of('/')) != String::npos) ||
-			((i = filename.find_last_of('\\')) != String::npos)
-			? (String(filename.substr(i + 1, filename.size() - i - 1)))
-			: (String())
+			((i = value.find_last_of('/')) != String::npos) ||
+			((i = value.find_last_of('\\')) != String::npos)
+			? String(value.substr(0, i))
+			: value
 		);
 	}
 
-	String FileSystem::getFileName(const String & filename) const
-	{
-		size_t i;
-		return (
-			((i = filename.find_last_of('/')) != String::npos) ||
-			((i = filename.find_last_of('\\')) != String::npos)
-			? (String(filename.substr(i + 1, filename.size() - i - 1)))
-			: (filename)
-		);
-	}
-
-	String FileSystem::getFilePath(const String & filename) const
-	{
-		size_t i;
-		return (
-			((i = filename.find_last_of('/')) != String::npos) ||
-			((i = filename.find_last_of('\\')) != String::npos)
-			? (String(filename.substr(0, i)))
-			: (filename)
-		);
-	}
-
-	size_t FileSystem::getFileSize(const String & filename) const
+	size_t FileSystem::getFileSize(const String & value) const
 	{
 		Ifstream stream;
-		return (
-			(stream = Ifstream(filename, Ifstream::ate | Ifstream::binary))
-				? ((size_t)(stream.tellg()))
-				: ((size_t)(0))
-		);
+		return (stream = Ifstream(value, Ifstream::ate | Ifstream::binary))
+			? (size_t)stream.tellg()
+			: 0;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -7,8 +7,8 @@ import memelib_io       as io
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 class Component:
-    def __init__(self, type): 
-        self.type = str(type)
+    def __init__(self, type_name): 
+        self.type_name = str(type_name)
 
 class Camera(Component):
     def __init__(self): Component.__init__(self, "struct ml::Camera")
@@ -25,29 +25,33 @@ class Transform(Component):
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 class Entity:
-    def __init__(self, name):
-        self.type = "struct ml::Entity"
-        self.name = str(name)
+    def __init__(self, item_name):
+        self.type_name = "struct ml::Entity"
+        self.item_name = str(item_name)
         self.components = []
 
     def attach(self, value):
-        if isinstance(value, Component) and ecs.add_component(self.name, value.type):
-            self.components.append(value)
-            return value
+        if isinstance(value, Component):
+            return self.attach(value.type_name)
+        if isinstance(value, str):
+            if ecs.add_component(self.item_name, value):
+                return value
         return None
 
-    def create(self): return content.create(self.type, self.name)
+    def create(self):
+        return content.create(self.type_name, self.item_name)
 
-    def destroy(self): return content.destroy(self.type, self.name)
+    def destroy(self):
+        return content.destroy(self.type_name, self.item_name)
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 e = Entity("MyEntity")
 if e.create():
-    io.printf("Create {0}: \'{1}\'\n", [ e.type, e.name ])
-    r = e.attach(Renderer())
-    if (r != None): io.printf("Attached: {0}\n", [ r.type ])
+    io.printf("Create {0}: \'{1}\'\n", [ e.type_name, e.item_name ])
+    if (e.attach(Renderer()) != None): 
+        io.printf("Attached: {0}\n", [ r.type_name ])
 else:
-    io.printf("Entity \'{0}\' already exists.", [ e.name ])
+    io.printf("Entity \'{0}\' already exists.", [ e.item_name ])
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

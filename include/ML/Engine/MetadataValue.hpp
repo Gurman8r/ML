@@ -48,45 +48,32 @@ namespace ml
 		{
 		}
 
-		MetadataValue(const MetadataValue & copy)
+		explicit MetadataValue(const MetadataValue & copy)
 			: m_data { copy.m_data }
 		{
 		}
 
-		~MetadataValue() {}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto asBool()	const -> bool		{ return alg::to_bool(asString()); }
+		inline auto asDouble()	const -> float64_t	{ return alg::to_double(asString()); }
+		inline auto asFloat()	const -> float32_t	{ return alg::to_float(asString()); }
+		inline auto asInt()		const -> int32_t	{ return alg::to_int(asString()); }
+		inline auto asString()	const -> String		{ return m_data ? m_data.front() : String(); }
+		inline auto asUint()	const -> uint32_t	{ return alg::to_uint(asString()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> inline MetadataValue & operator=(const T & value)
-		{
-			return ((*this) = MetadataValue(value));
-		}
+		inline operator bool()		const { return asBool();	}
+		inline operator float64_t() const { return asDouble();	}
+		inline operator float32_t() const { return asFloat();	}
+		inline operator int32_t()	const { return asInt();		}
+		inline operator uint32_t()	const { return asUint();	}
+		inline operator String()	const { return asString();	}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const String & getData() const { return m_data; }
-
-		inline auto asBool()	const -> bool			{ return alg::to_bool(asString()); }
-		inline auto asDouble()	const -> float64_t		{ return alg::to_double(asString()); }
-		inline auto asFloat()	const -> float32_t		{ return alg::to_float(asString()); }
-		inline auto asInt()		const -> int32_t		{ return alg::to_int(asString()); }
-		inline auto asString()	const -> String			{ return getData(); }
-		inline auto asUint()	const -> uint32_t		{ return alg::to_uint(asString()); }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline operator bool		() const { return asBool();		}
-		inline operator float64_t	() const { return asDouble();	}
-		inline operator float32_t	() const { return asFloat();	}
-		inline operator int32_t		() const { return asInt();		}
-		inline operator uint32_t	() const { return asUint();		}
-		inline operator String		() const { return asString();	}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private: String m_data;
+	private: List<String> m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -95,7 +82,7 @@ namespace ml
 
 	inline ML_SERIALIZE(Ostream & out, const MetadataValue & value)
 	{
-		return out << value.getData();
+		return out << value.asString();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

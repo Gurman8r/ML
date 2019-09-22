@@ -129,7 +129,7 @@ namespace ml
 			}
 			if (to_remove != database.end())
 			{
-				ML_Content.erase<T>(to_remove->first);
+				ML_Content.destroy<T>(to_remove->first);
 				self.m_typename = String();
 				self.m_itemname = String();
 				self.m_selected = nullptr;

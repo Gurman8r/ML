@@ -17,10 +17,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Registry<>::Registry() : m_codes(), m_funcs(), m_infos(), m_names() {}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	ML_REGISTER(Entity,		"/Asset") { return new Entity(); }
 	ML_REGISTER(Font,		"/Asset") { return new Font(); }
 	ML_REGISTER(Image,		"/Asset") { return new Image(); }

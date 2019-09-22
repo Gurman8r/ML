@@ -36,17 +36,21 @@ namespace ml
 		bool m_init { false };
 
 	public:
-		inline bool Initialize(const String & name, const String & path)
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool init(const String & name, const String & home)
 		{
-			if (!m_init && name && ML_FS.dirExists(path))
+			if (!m_init && name && ML_FS.dirExists(home))
 			{
 				Py_SetProgramName(alg::widen(name).c_str());
-				Py_SetPythonHome(alg::widen(path).c_str());
+				Py_SetPythonHome(alg::widen(home).c_str());
 				Py_Initialize();
 				return (m_init = true);
 			}
 			return false;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool dispose() override
 		{
@@ -58,10 +62,14 @@ namespace ml
 			return false;
 		}
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline int32_t DoString(const String & value)
 		{
 			return ((value && m_init) ? PyRun_SimpleString(value.c_str()) : 0);
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 }
 

@@ -50,7 +50,7 @@ namespace ml
 		{
 			if (const hash_t * code { ML_Registry.get_code(type) })
 			{
-				auto & data { ML_Content.at(*code) };
+				auto & data { ML_Content.data(*code) };
 				auto it { data.find(name) };
 				return (it == data.end()) && data.insert({
 					name, (I_Newable *)ML_Registry.generate(*code)
@@ -58,42 +58,24 @@ namespace ml
 			}
 			return (bool)Debug::logError("Unknown Type: \'{0}\'", type);
 		});
-		m.def("exists", [](const str_t & type, const str_t & name)
-		{
-			auto & data { ML_Content.at(String(type).hash()) };
-			return (data.find(name) != data.end());
-		});
 		m.def("destroy", [](const str_t & type, const str_t & name)
 		{
-			auto & data { ML_Content.at(String(type).hash()) };
-			auto it { data.find(name) };
-			if (it != data.end())
-			{
-				delete it->second;
-				data.erase(it);
-				return true;
-			}
-			return false;
+			return ML_Content.destroy(String(type).hash(), name);
 		});
-		m.def("load", [](const dict_t & data)
+		m.def("exists", [](const str_t & type, const str_t & name)
 		{
-			Metadata md;
-			for (const auto & pair : data)
-			{
-				md.setData(pair.first, pair.second);
-			}
-			return MetadataParser::parseMetadata(md);
+			auto & data { ML_Content.data(String(type).hash()) };
+			return (data.find(name) != data.end());
+		});
+		m.def("load", [](const dict_t & value)
+		{
+			return MetadataParser::parseMetadata(Metadata { value });
 		});
 		m.def("load_all", [](const table_t & value)
 		{
 			for (const dict_t & elem : value)
 			{
-				Metadata md;
-				for (const auto & pair : elem)
-				{
-					md.setData(pair.first, pair.second);
-				}
-				if (!MetadataParser::parseMetadata(md))
+				if (!MetadataParser::parseMetadata(Metadata { elem }))
 				{
 					/* error */
 				}
@@ -213,9 +195,10 @@ namespace ml
 		m.def("get_position", []() { return (coord_t)(vec2)ML_Launcher.window.getPosition(); });
 		m.def("get_x", []() { return ML_Launcher.window.getPosition()[0]; });
 		m.def("get_y", []() { return ML_Launcher.window.getPosition()[1]; });
+		m.def("get_time", []() { return (float_t)ML_Launcher.window.getTime(); });
 		m.def("set_clipboard", [](const str_t & s) { ML_Launcher.window.setClipboardString(s); });
 		m.def("set_cursor", [](int32_t m) { ML_Launcher.window.setCursorMode(((Cursor::Mode)m)); });
-		m.def("set_pos", [](int32_t x, int32_t y) { ML_Launcher.window.setPosition({ x, y }); });
+		m.def("set_position", [](const coord_t & v) { ML_Launcher.window.setPosition({ (int32_t)v[0], (int32_t)v[1] }); });
 		m.def("set_size", [](int32_t w, int32_t h) { ML_Launcher.window.setSize(vec2i { w, h }); });
 		m.def("set_swap_interval", [](int32_t i) { ML_Launcher.window.swapInterval(i); });
 		m.def("set_title", [](const str_t & s) { ML_Launcher.window.setTitle(s); });

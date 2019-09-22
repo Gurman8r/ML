@@ -73,11 +73,11 @@ namespace ml
 	void Engine::onEnter(const EnterEvent & ev)
 	{
 		// Initialize Python
-		if (!ML_Py.Initialize(
-			ML_ARGV[0], ML_FS.pathTo(ev.prefs.get_string("Engine", "script_path", ""))
-		))
+		if (!ML_Py.init(ML_ARGV[0], ML_FS.pathTo(ev.prefs.get_string(
+			"Engine", "python_home", ""
+		))))
 		{
-			Debug::fatal("Failed initializing Python");
+			Debug::logError("Failed initializing Python");
 		}
 
 		// Run Boot Script

@@ -1,6 +1,6 @@
-import memelib_content as content
+import memelib_content
 PATH = "../../../assets"
-content.load_all([
+memelib_content.load_all([
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -53,11 +53,14 @@ content.load_all([
     { "type": "Texture", "name": "earth_lm",    "file": PATH + "/textures/earth/earth_lm_2k.png" },
     { "type": "Texture", "name": "earth_nm",    "file": PATH + "/textures/earth/earth_nm_2k.png" },
     { "type": "Texture", "name": "earth_sm",    "file": PATH + "/textures/earth/earth_sm_2k.png" },
+
     { "type": "Texture", "name": "stone_dm",    "file": PATH + "/textures/stone/stone_dm.png" },
     { "type": "Texture", "name": "stone_hm",    "file": PATH + "/textures/stone/stone_hm.png" },
     { "type": "Texture", "name": "stone_nm",    "file": PATH + "/textures/stone/stone_nm.png" },
+
     { "type": "Texture", "name": "mars_dm",     "file": PATH + "/textures/mars/mars_dm_2k.png" },
     { "type": "Texture", "name": "mars_nm",     "file": PATH + "/textures/mars/mars_nm_2k.png" },
+
     { "type": "Texture", "name": "moon_dm",     "file": PATH + "/textures/moon/moon_dm_2k.png" },
     { "type": "Texture", "name": "moon_nm",     "file": PATH + "/textures/moon/moon_nm_2k.png" },
 

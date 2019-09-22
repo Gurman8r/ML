@@ -33,23 +33,11 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Entity>(name))
 				{
-					if (const String file = md.getData("file"))
-					{
-						auto temp = new Entity();
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
-					}
-					else
-					{
-						return ML_Content.insert(name, new Entity());
-					}
+					return ML_Content.insert(name, new Entity());
 				}
 			}
 		}
@@ -63,18 +51,13 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Font>(name))
 				{
-					if (const String file = md.getData("file"))
+					if (const String file { md.getData("file") })
 					{
-						auto temp = new Font();
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
+						return ML_Content.insert(name, new Font(ML_FS.pathTo(file)));
 					}
 					else
 					{
@@ -93,21 +76,15 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Image>(name))
 				{
-					if (const String file = md.getData("file"))
+					if (const String file { md.getData("file") })
 					{
-						auto temp = new Image();
-
-						bool flipV = md.getData("flip_v", true);
-
-						if (temp->loadFromFile(ML_FS.pathTo(file), flipV))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
+						return ML_Content.insert(name,
+							new Image(ML_FS.pathTo(file), md.getData("flip_v", true))
+						);
 					}
 					else
 					{
@@ -126,7 +103,7 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Material>(name))
 				{
@@ -174,18 +151,13 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Model>(name))
 				{
-					if (const String file = md.getData("file"))
+					if (const String file { md.getData("file") })
 					{
-						auto temp = new Model();
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
+						return ML_Content.insert(name, new Model(ML_FS.pathTo(file)));
 					}
 					else
 					{
@@ -204,13 +176,13 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Script>(name))
 				{
-					if (const String file = md.getData("file"))
+					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Script(file));
+						return ML_Content.insert(name, new Script(ML_FS.pathTo(file)));
 					}
 					else
 					{
@@ -229,25 +201,19 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Shader>(name))
 				{
-					if (const String file = md.getData("file"))
+					if (const String file { md.getData("file") })
 					{
-						auto temp = new Shader();
-						if (temp->loadFromFile(ML_FS.pathTo(file)))
-						{
-							return ML_Content.insert(name, temp);
-						}
-						delete temp;
+						return ML_Content.insert(name, new Shader(ML_FS.pathTo(file)));
 					}
 					else
 					{
 						const String vert = md.getData("vert");
 						const String geom = md.getData("geom");
 						const String frag = md.getData("frag");
-
 						if (vert && geom && frag)
 						{
 							auto temp = new Shader();
@@ -284,11 +250,11 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Sound>(name))
 				{
-					if (const String file = md.getData("file"))
+					if (const String file { md.getData("file") })
 					{
 						auto temp = new Sound();
 						if (temp->loadFromFile(ML_FS.pathTo(file)))
@@ -314,7 +280,7 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Sprite>(name))
 				{
@@ -347,7 +313,7 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Surface>(name))
 				{
@@ -368,7 +334,7 @@ namespace ml
 	{
 		if (this->type_name() == md.getData("type").asString())
 		{
-			if (const String name = md.getData("name"))
+			if (const String name { md.getData("name") })
 			{
 				if (!ML_Content.get<Texture>(name))
 				{
@@ -415,7 +381,7 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 					case GL::Texture2D:
 					{
-						if (const String file = md.getData("file"))
+						if (const String file { md.getData("file") })
 						{
 							auto temp = new Texture {
 							sampler, format, smooth, repeat, mipmap, level, pixfmt

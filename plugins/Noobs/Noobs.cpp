@@ -126,7 +126,11 @@ namespace ml
 				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
-					ImGui::Separator();
+					if (!ev->editor.show_advanced())
+					{
+						auto & t { ev->editor.terminal() };
+						ImGui::MenuItem(t.getTitle(), "", t.openPtr());
+					}
 					ImGui::MenuItem("Display##Enable##Noobs##DemoView", "", &m_editor.m_scene.m_open);
 					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.m_open);
 					break;

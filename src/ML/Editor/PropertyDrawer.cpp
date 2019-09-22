@@ -1142,30 +1142,40 @@ namespace ml
 		}
 
 		// Language
-		int32_t lang { (int32_t)value.language() };
-		if (ImGui::Combo(("Language##" + label).c_str(), &lang, "Lua\0Python"))
+		int32_t lang { (int32_t)value.language() - 1 };
+		bool lang_changed;
+		if (lang_changed = ImGui::Combo(("Language##" + label).c_str(), &lang, "Lua\0Python"))
 		{
-			value.setLanguage((Script::Language)lang);
+			value.setLanguage((Script::Language)(lang + 1));
 		}
 
 		// Text
 		using TextEditor = ImGui::TextEditor;
 		using LanguageDefinition = TextEditor::LanguageDefinition;
 		static HashMap<const_pointer, TextEditor> editors;
-		auto it { editors.find(&value) };
-		if (it == editors.end())
+		auto edit { editors.find(&value) };
+		if (edit == editors.end())
 		{
-			it = editors.insert({ &value, TextEditor() }).first;
-			it->second.SetText(value.text());
-			it->second.SetLanguageDefinition(LanguageDefinition::CPlusPlus());
-			it->second.SetShowWhitespaces(true);
+			edit = editors.insert({ &value, TextEditor() }).first;
+			edit->second.SetText(value.text());
+			lang_changed = true;
+			edit->second.SetShowWhitespaces(true);
 		}
-		it->second.Render(
+		if (lang_changed)
+		{
+			edit->second.SetLanguageDefinition((lang == 0
+				? LanguageDefinition::Lua()
+				: (lang == 1
+					? LanguageDefinition::Python()
+					: LanguageDefinition::CPlusPlus()
+					)));
+		}
+		edit->second.Render(
 			("ScriptEditor##" + label).c_str(), { 0, 0, }, true
 		);
-		if (it->second.IsTextChanged())
+		if (edit->second.IsTextChanged())
 		{
-			value.setText(it->second.GetText());
+			value.setText(edit->second.GetText());
 			changed = true;
 		}
 		ImGui::PopID();

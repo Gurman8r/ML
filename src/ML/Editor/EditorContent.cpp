@@ -186,7 +186,7 @@ namespace ml
 			Layout::draw_list<Model>(ev);
 			Layout::draw_list<Shader>(ev);
 			Layout::draw_list<Script>(ev);
-			Layout::draw_list<Sprite>(ev);
+			//Layout::draw_list<Sprite>(ev);
 			Layout::draw_list<Surface>(ev);
 			Layout::draw_list<Texture>(ev);
 			Layout::draw_list<Uniform>(ev);

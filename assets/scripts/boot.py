@@ -27,7 +27,7 @@ if (config.SYSTEM_NAME == "Windows"):
     plugins.load_all([
  	    "Noobs_$(Configuration)_$(PlatformTarget).dll",
  	    "CommandSuite_$(Configuration)_$(PlatformTarget).dll",
- 	    "TestPlugin_$(Configuration)_$(PlatformTarget).dll",
+ 	    #"TestPlugin_$(Configuration)_$(PlatformTarget).dll",
  	    ])
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

@@ -1,12 +1,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-import memelib_config   as config
-import memelib_content  as content
-import memelib_ecs      as ecs
-import memelib_io       as io
-import memelib_plugins  as plugins
-import memelib_prefs    as prefs
-import memelib_window   as window
+import memelib_io as io
+import memelib_window as window
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 

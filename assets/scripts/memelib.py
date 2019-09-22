@@ -3,14 +3,16 @@
 import memelib_config
 class ML_Config:
     architecture    = int   (   memelib_config.architecture     ) #
-    build_date      = str   (   memelib_config.build_date       ) #
-    build_time      = str   (   memelib_config.build_time       ) #
     compiler_name   = str   (   memelib_config.compiler_name    ) #
     compiler_ver    = int   (   memelib_config.compiler_ver     ) #
     configuration   = str   (   memelib_config.configuration    ) #
     cplusplus_ver   = int   (   memelib_config.cplusplus_ver    ) #
     is_debug        = bool  (   memelib_config.is_debug         ) #
     platform_target = str   (   memelib_config.platform_target  ) #
+    project_auth    = str   (   memelib_config.project_auth     ) #
+    project_date    = str   (   memelib_config.project_date     ) #
+    project_name    = str   (   memelib_config.project_name     ) #
+    project_time    = str   (   memelib_config.project_time     ) #
     project_url     = str   (   memelib_config.project_url      ) #
     project_ver     = str   (   memelib_config.project_ver      ) #
     system_name     = str   (   memelib_config.system_name      ) #
@@ -45,11 +47,12 @@ import memelib_io
 class ML_IO:
     def clear(self):                return memelib_io.clear()
     def command(self, cmd):         return memelib_io.command(str(cmd))
+    def exit(self):                 return memelib_io.exit()
+    def fatal(self, msg):           return memelib_io.fatal(str(msg))
     def pause(self):                return memelib_io.pause()
     def print(self, value):         return memelib_io.print(str(value))
     def printl(self, value):        return memelib_io.printl(str(value))
-    def format(self, fmt, args):    return memelib_io.format(str(fmt), list(args))
-    def printf(self, fmt, args):    return self.print(self.format(fmt, list(args)))
+    def printf(self, fmt, args):    return memelib_io.printf(str(fmt), list(args))
     def system(self, command):      return memelib_io.system(str(command))
 io = ML_IO()
 

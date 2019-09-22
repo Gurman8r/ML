@@ -331,6 +331,7 @@ public:
 	// Return the list of sections found in ini file
 	std::set<std::string> Sections();
 
+	// Set a string value in the INI file
 	int Set(std::string section, std::string name, std::string value);
 
 	// Get a string value from INI file, returning default_value if not found.

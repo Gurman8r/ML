@@ -5,24 +5,28 @@
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Readable.hpp>
+#include <ML/Core/List.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP
-	struct ML_ENGINE_API Script final
-		: public I_Newable
-		, public I_Readable
+	struct ML_ENGINE_API Script final : public I_Newable, public I_Readable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum class Language { Lua, Python };
+		enum class Language { Lua, Python, Unknown };
+
+		static constexpr C_String Language_names[] = {
+			"Lua", "Python", "Unknown"
+		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Script();
 		Script(Language language);
+		Script(Language language, const String & text);
 		explicit Script(const String & filename);
 		Script(const Script & copy);
 		~Script();
@@ -39,16 +43,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto filename()	const -> const String & { return m_filename; }
-		inline auto language() const -> const Language & { return m_language; }
-		inline auto text() const -> const String & { return m_text; }
+		inline operator bool() const
+		{
+			return ((m_lang != Language::Unknown) && m_text);
+		}
+
+		inline auto language()	const -> const Language &	{ return m_lang; }
+		inline auto path()		const -> const String &		{ return m_path; }
+		inline auto text()		const -> const String &		{ return m_text; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		Language m_language;
-		String m_filename;
-		String m_text;
+		Language	m_lang;
+		String		m_path;
+		String		m_text;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

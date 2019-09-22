@@ -21,17 +21,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ML_REGISTER(Entity,		"") { return new Entity(); }
-	ML_REGISTER(Font,		"") { return new Font(); }
-	ML_REGISTER(Image,		"") { return new Image(); }
-	ML_REGISTER(Material,	"") { return new Material(); }
-	ML_REGISTER(Model,		"") { return new Model(); }
-	ML_REGISTER(Script,		"") { return new Script(); }
-	ML_REGISTER(Shader,		"") { return new Shader(); }
-	ML_REGISTER(Sound,		"") { return new Sound(); }
-	ML_REGISTER(Sprite,		"") { return new Sprite(); }
-	ML_REGISTER(Surface,	"") { return new Surface(); }
-	ML_REGISTER(Texture,	"") { return new Texture(); }
+	ML_REGISTER(Entity,		"/Asset") { return new Entity(); }
+	ML_REGISTER(Font,		"/Asset") { return new Font(); }
+	ML_REGISTER(Image,		"/Asset") { return new Image(); }
+	ML_REGISTER(Material,	"/Asset") { return new Material(); }
+	ML_REGISTER(Model,		"/Asset") { return new Model(); }
+	ML_REGISTER(Script,		"/Asset") { return new Script(); }
+	ML_REGISTER(Shader,		"/Asset") { return new Shader(); }
+	ML_REGISTER(Sound,		"/Asset") { return new Sound(); }
+	ML_REGISTER(Sprite,		"/Asset") { return new Sprite(); }
+	ML_REGISTER(Surface,	"/Asset") { return new Surface(); }
+	ML_REGISTER(Texture,	"/Asset") { return new Texture(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

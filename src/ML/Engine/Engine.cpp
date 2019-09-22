@@ -12,6 +12,7 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/PluginLoader.hpp>
 #include <ML/Engine/Python.hpp>
+#include <ML/Engine/Script.hpp>
 #include <ML/Graphics/GLM.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
@@ -70,16 +71,19 @@ namespace ml
 
 	void Engine::onEnter(const EnterEvent & ev)
 	{
-		// Setup Python
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (const String script_path { ev.prefs.get_string("Engine", "script_path", "") })
+		// Initialize Python
+		if (!ML_Py.Initialize(
+			ML_ARGV[0], ML_FS.pathTo(ev.prefs.get_string("Engine", "script_path", ""))
+		))
 		{
-			Py_SetPythonHome(alg::widen(ML_FS.pathTo(script_path)).c_str());
+			Debug::fatal("Failed initializing Python");
 		}
 
-		// Boot Script
-		/* * * * * * * * * * * * * * * * * * * * */
-		Py::RunFile(ev.prefs.get_string("Engine", "boot_script", ""));
+		// Run Boot Script
+		if (Script boot { ev.prefs.get_string("Engine", "boot_script", "") })
+		{
+			boot.execute();
+		}
 
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -134,7 +138,7 @@ namespace ml
 			geo::cube::vertices,
 			geo::cube::indices
 		);
-		ML_Content.create<Model>("skybox")->loadFromMemory(
+		ML_Content.create<Model>("default_skybox")->loadFromMemory(
 			geo::sky::vertices
 		);
 
@@ -148,8 +152,10 @@ namespace ml
 		
 		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		Py::RunFile(ev.prefs.get_string("Engine", "load_script", ""));
-
+		if (Script load { ev.prefs.get_string("Engine", "load_script", "") })
+		{
+			load.execute();
+		}
 
 		// Set Window Icon
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -217,6 +223,9 @@ namespace ml
 	{
 		// Dispose Window
 		ev.window.dispose();
+
+		// Finalize Python
+		ML_Py.Finalize();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

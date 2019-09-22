@@ -5,6 +5,7 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/FileSystem.hpp>
+#include <ML/Core/StringUtility.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -25,28 +26,46 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+#define ML_Py ::ml::Py::getInstance()
+
 namespace ml
 {
-	struct ML_ENGINE_API Py final
+	struct ML_ENGINE_API Py final : public I_Singleton<Py>
 	{
-		Py() = delete;
-
-		static inline int32_t RunString(const String & value)
+		inline bool Initialize(const String & name, const String & path)
 		{
-			Py_Initialize();
-			int32_t retval = PyRun_SimpleString(value.c_str());
-			Py_Finalize();
-			return retval;
-		}
-
-		static inline int32_t RunFile(const String & filename)
-		{
-			if (const String file { ML_FS.getFileContents(filename) })
+			if (!m_init && name && ML_FS.dirExists(path))
 			{
-				return RunString(file.c_str());
+				Py_SetProgramName(alg::widen(name).c_str());
+				Py_SetPythonHome(alg::widen(path).c_str());
+				Py_Initialize();
+				return (m_init = true);
 			}
-			return EXIT_FAILURE;
+			return false;
 		}
+
+		inline bool Finalize()
+		{
+			if (m_init)
+			{
+				Py_Finalize();
+				return !(m_init = false);
+			}
+			return false;
+		}
+
+		inline int32_t SimpleString(const String & value)
+		{
+			if (m_init)
+			{
+				return PyRun_SimpleString(value.c_str());
+			}
+			return 0;
+		}
+
+	private:
+		friend struct I_Singleton<Py>;
+		bool m_init { false };
 	};
 }
 

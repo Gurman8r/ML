@@ -60,11 +60,9 @@ namespace ml
 				: entity	{ name }
 				, renderer	{ nullptr }
 				, material	{ "skybox" }
-				, model		{ "skybox" }
+				, model		{ "default_skybox" }
 			{
 			}
-
-			~DemoSkybox() {}
 
 			inline operator bool() const
 			{
@@ -112,8 +110,6 @@ namespace ml
 			{
 			}
 
-			~DemoScene() {}
-
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			void render(const GuiEvent & ev, C_String title, const Surface * surf);
@@ -160,8 +156,6 @@ namespace ml
 				this->text.SetShowWhitespaces(false);
 				this->text.SetPalette(TextEditor::GetLightPalette());
 			}
-
-			~DemoFile() {}
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		};

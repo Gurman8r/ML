@@ -176,6 +176,26 @@ namespace ml
 		}
 		ImGui::EndChildFrame();
 
+		if (Camera * c = value.get<Camera>())
+		{
+			ImGui::PushID(ML_ADDRESSOF(c));
+			if (ImGui::CollapsingHeader("Camera"))
+			{
+				ImGui::Text("WIP");
+			}
+			ImGui::PopID();
+		}
+
+		if (Light * l = value.get<Light>())
+		{
+			ImGui::PushID(ML_ADDRESSOF(l));
+			if (ImGui::CollapsingHeader("Light"))
+			{
+				ImGui::Text("WIP");
+			}
+			ImGui::PopID();
+		}
+
 		if (Renderer * r = value.get<Renderer>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(r));
@@ -316,6 +336,17 @@ namespace ml
 			}
 			ImGui::PopID();
 		}
+
+		if (Transform * t { value.get<Transform>() })
+		{
+			ImGui::PushID(ML_ADDRESSOF(t));
+			if (ImGui::CollapsingHeader("Transform"))
+			{
+				ImGui::Text("WIP");
+			}
+			ImGui::PopID();
+		}
+
 		ImGui::PopID();
 		return false;
 	}
@@ -1099,7 +1130,10 @@ namespace ml
 		ImGui::PushID(ML_ADDRESSOF(&value));
 
 		// Filename
-		ImGui::Text("%s", value.filename().c_str());
+		if (value.path())
+		{
+			ImGui::Text("%s", value.path().c_str());
+		}
 
 		// Execute
 		if (ImGui::Button(("Execute##" + label).c_str()))
@@ -1124,7 +1158,7 @@ namespace ml
 			it = editors.insert({ &value, TextEditor() }).first;
 			it->second.SetText(value.text());
 			it->second.SetLanguageDefinition(LanguageDefinition::CPlusPlus());
-			it->second.SetShowWhitespaces(false);
+			it->second.SetShowWhitespaces(true);
 		}
 		it->second.Render(
 			("ScriptEditor##" + label).c_str(), { 0, 0, }, true

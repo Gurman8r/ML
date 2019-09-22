@@ -208,12 +208,10 @@ namespace ml
 						}
 						return 0;
 					};
-
 					static const struct luaL_Reg printLib[] = {
 						{ "print", my_print },
 						{ nullptr, nullptr }
 					};
-
 					lua_State * L = luaL_newstate();
 					luaL_openlibs(L);
 					lua_getglobal(L, "_G");
@@ -303,6 +301,7 @@ namespace ml
 			"py [CODE]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
+				return (bool)Debug::logWarning("This command is currently disabled");
 				if (const String code = ([&]()
 				{
 					if (args.size() == 1) return String();
@@ -312,10 +311,9 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					Py_Initialize();
 					if (PyObject * pyMain = PyImport_AddModule("__main__"))
 					{
-						PyRun_SimpleString(
+						ML_Py.SimpleString(
 							"import sys\n"
 							"class ml_OutputCatcher:\n"
 							"	def __init__(self):\n"
@@ -326,10 +324,8 @@ namespace ml
 							"sys.stdout = ml_out\n"
 							"sys.stderr = ml_out\n"
 						);
-
-						PyRun_SimpleString("import memelib as ml\n");
-
-						PyRun_SimpleString(code.c_str());
+						ML_Py.SimpleString("import memelib as ml\n");
+						ML_Py.SimpleString(code);
 
 						if (PyObject * redir { PyObject_GetAttrString(pyMain, "ml_out") })
 						{
@@ -353,7 +349,6 @@ namespace ml
 							Py_DECREF(redir);
 						}
 					}
-					Py_Finalize();
 					return true;
 				}
 				return false;
@@ -368,7 +363,7 @@ namespace ml
 			"sys [CMD]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-			if (const String code = ([&]()
+				if (const String code = ([&]()
 				{
 					if (args.size() == 1) return String();
 					SStream ss;

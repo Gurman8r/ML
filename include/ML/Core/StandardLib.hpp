@@ -46,6 +46,11 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#define ML_ARGC	__argc	// Pointer to number of command line arguments
+#define ML_ARGV	__argv	// Pointer to table of narrow command line arguments
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 # ifdef ML_SYSTEM_WINDOWS
 #	define popen	_popen
 #	define pclose	_pclose

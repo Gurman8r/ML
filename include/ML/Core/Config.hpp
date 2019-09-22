@@ -3,8 +3,12 @@
 
 //	Project Info
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_PROJECT_VER "Alpha"
-#define ML_PROJECT_URL "https://www.github.com/Gurman8r/ML"
+#define ML_PROJECT_AUTH	"Melody Gurman"
+#define ML_PROJECT_DATE	__DATE__
+#define ML_PROJECT_NAME "MemeLib"
+#define ML_PROJECT_TIME	__TIME__
+#define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
+#define ML_PROJECT_VER	"Alpha"
 
 
 //	C++ Version
@@ -135,8 +139,6 @@
 #define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
 #define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
 #define ML_CONCAT(a, b)		a##b
-#define ML_BUILD_DATE		__DATE__
-#define ML_BUILD_TIME		__TIME__
 
 #define ML_TEMPLATE(...)	template<##__VA_ARGS__>
 #define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using

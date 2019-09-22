@@ -29,7 +29,7 @@ namespace ml
 		if (ImGui::CollapsingHeader("About MemeLib"))
 		{
 			ImGui::Text("MemeLib %s", ML_PROJECT_VER);
-			ImGui::Text("By Melody Gurman");
+			ImGui::Text("By %s", ML_PROJECT_AUTH);
 			ImGui::Text("MemeLib is licensed under the MIT License, see LICENSE for more information.");
 			ImGui::Separator();
 
@@ -42,10 +42,11 @@ namespace ml
 			});
 
 			ImGui::Columns(2);
-			draw_def("ML_PROJECT_VER", "%s", ML_PROJECT_VER);
+			draw_def("ML_PROJECT_AUTH", "%s", ML_PROJECT_AUTH);
+			draw_def("ML_PROJECT_DATE", "%s", ML_PROJECT_DATE);
+			draw_def("ML_PROJECT_TIME", "%s", ML_PROJECT_TIME);
 			draw_def("ML_PROJECT_URL", "%s", ML_PROJECT_URL);
-			draw_def("ML_BUILD_DATE", "%s", ML_BUILD_DATE);
-			draw_def("ML_BUILD_TIME", "%s", ML_BUILD_TIME);
+			draw_def("ML_PROJECT_VER", "%s", ML_PROJECT_VER);
 			draw_def("ML_CC_NAME", "%s", ML_CC_NAME);
 			draw_def("ML_CC_VER", "%u", ML_CC_VER);
 			draw_def("ML_CONFIGURATION", "%s", ML_CONFIGURATION);

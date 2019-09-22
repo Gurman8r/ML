@@ -1,7 +1,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
+import memelib_io as io
 if (__name__ == "__main__"):
-    import memelib as ml
-    ml.io.printl("Hello, World!")
+    io.printl("Hello, World!")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

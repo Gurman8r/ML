@@ -1123,7 +1123,7 @@ namespace ml
 		{
 			it = editors.insert({ &value, TextEditor() }).first;
 			it->second.SetText(value.text());
-			it->second.SetLanguageDefinition(LanguageDefinition::GLSL());
+			it->second.SetLanguageDefinition(LanguageDefinition::CPlusPlus());
 			it->second.SetShowWhitespaces(false);
 		}
 		it->second.Render(

@@ -232,7 +232,7 @@ namespace ml
 			if (ImGui::BeginMenu("Help"))
 			{
 				ImGui::MenuItem(m_about.getTitle(), "Ctrl+Alt+A", m_about.openPtr());
-				ImGui::MenuItem(m_manual.getTitle(), "Ctrl+Alt+M", m_manual.openPtr());
+				//ImGui::MenuItem(m_manual.getTitle(), "Ctrl+Alt+M", m_manual.openPtr());
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Repository", "http://"))

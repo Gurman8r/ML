@@ -174,8 +174,9 @@ ml.content.load([
 
 # Scripts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Script", "name": "test_script",  "file": PATH + "/scripts/test.py" },
     { "type": "Script", "name": "test_ecs",     "file": PATH + "/scripts/ecs.py" },
+    { "type": "Script", "name": "test_lua",     "file": PATH + "/scripts/test.lua" },
+    { "type": "Script", "name": "test_python",  "file": PATH + "/scripts/test.py" },
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     ])

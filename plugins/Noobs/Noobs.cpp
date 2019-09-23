@@ -89,7 +89,7 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID: if (auto ev = value.as<EnterEvent>()) return onEnter(*ev);
+		case EnterEvent::ID : if (auto ev = value.as<EnterEvent>()) return onEnter(*ev);
 		case StartEvent::ID	: if (auto ev = value.as<StartEvent>()) return onStart(*ev);
 		case UpdateEvent::ID: if (auto ev = value.as<UpdateEvent>()) return onUpdate(*ev);
 		case DrawEvent::ID	: if (auto ev = value.as<DrawEvent>()) return onDraw(*ev);

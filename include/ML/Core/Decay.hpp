@@ -24,8 +24,9 @@ namespace ml
 				remove_const_t<
 				remove_volatile_t<
 				remove_reference_t<
-				remove_pointer_t<T>
-			>>>;
+				remove_pointer_t<
+				T
+			>>>>;
 		};
 
 		template <class T> using decay_t = typename decay<T>::type;

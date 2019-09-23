@@ -5,7 +5,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Base class for anything you REALLY don't want to be dynamically allocated.
 	// Use in conjunction with I_Newable to help ensure memory safety.
@@ -26,7 +26,7 @@ namespace ml
 		inline void	  operator	delete[] (void *)	{ return; }
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_I_NON_NEWABLE_HPP_

@@ -4,33 +4,17 @@
 #include <ML/Core/Ratio.hpp>
 #include <ML/Core/I_NonNewable.hpp>
 
-#define ML_duration_cast(RATIO, VALUE) (_STD chrono::duration_cast<RATIO>(VALUE).count())
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	namespace detail
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		using Seconds	= Ratio< 1 >;
-		using Minutes	= Ratio< Seconds::num	* 60>;
-		using Hours		= Ratio< Minutes::num	* 60>;
-		using Days		= Ratio< Hours::num		* 24>;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	using Nanosec	= typename std::chrono::duration<time_t,  Nano>;
-	using Microsec	= typename std::chrono::duration<time_t,  Micro>;
-	using Millisec	= typename std::chrono::duration<time_t,  Milli>;
-	using Seconds	= typename std::chrono::duration<time_t,  detail::Seconds>;		   	
-	using Minutes	= typename std::chrono::duration<time_t,  detail::Minutes>;	   	
-	using Hours		= typename std::chrono::duration<time_t,  detail::Hours>;	   	
-	using Days		= typename std::chrono::duration<time_t,  detail::Days>;
+	using Nanoseconds	= typename std::chrono::duration<time_t, Nano>;
+	using Microseconds	= typename std::chrono::duration<time_t, Micro>;
+	using Milliseconds	= typename std::chrono::duration<time_t, Milli>;
+	using Seconds		= typename std::chrono::duration<time_t, Ratio<1>>;
+	using Minutes		= typename std::chrono::duration<time_t, Ratio<60>>;
+	using Hours			= typename std::chrono::duration<time_t, Ratio<60 * 60>>;
+	using Days			= typename std::chrono::duration<time_t, Ratio<60 * 60 * 24>>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -39,8 +23,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type = typename time_t;
-		using unit_type  = typename Nanosec;
+		using unit_type = typename Nanoseconds;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -49,7 +32,7 @@ namespace ml
 		{
 		}
 
-		constexpr Duration(const value_type value)
+		constexpr Duration(const time_t value)
 			: m_base { value }
 		{
 		}
@@ -60,44 +43,50 @@ namespace ml
 		}
 
 		template <
-			class Rep, class Per = typename Rep::period
-		> constexpr Duration(const std::chrono::duration<Rep, Per> & value)
-			: m_base { ML_duration_cast(unit_type, value) }
+			class R, class P = typename R::period
+		> constexpr Duration(const std::chrono::duration<R, P> & value)
+			: m_base { cast<unit_type>(value) }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <
+			class T, class R, class P = typename R::period
+		> static constexpr auto cast(const std::chrono::duration<R, P> & value)
+		{
+			return std::chrono::duration_cast<T, R, P>(value).count();
+		}
 		
-		constexpr operator value_type() const
+		constexpr operator const time_t &() const
 		{ 
-			return m_base; 
+			return m_base;
 		}
 
 		constexpr unit_type base() const
 		{
-			return static_cast<Nanosec>((value_type)(*this));
+			return static_cast<Nanoseconds>((time_t)(*this));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr value_type nanos	() const { return ML_duration_cast(Nanosec,	base()); }
-		constexpr value_type micros	() const { return ML_duration_cast(Microsec,base()); }
-		constexpr value_type millis	() const { return ML_duration_cast(Millisec,base()); }
-		constexpr value_type seconds() const { return ML_duration_cast(Seconds, base()); }
-		constexpr value_type minutes() const { return ML_duration_cast(Minutes, base()); }
-		constexpr value_type hours	() const { return ML_duration_cast(Hours,	base()); }
-		constexpr value_type days	() const { return ML_duration_cast(Days,	base()); }
+		constexpr time_t nanos()	const { return cast<Nanoseconds>(base()); }
+		constexpr time_t micros()	const { return cast<Microseconds>(base()); }
+		constexpr time_t millis()	const { return cast<Milliseconds>(base()); }
+		constexpr time_t seconds()	const { return cast<Seconds>(base()); }
+		constexpr time_t minutes()	const { return cast<Minutes>(base()); }
+		constexpr time_t hours()	const { return cast<Hours>(base()); }
+		constexpr time_t days()		const { return cast<Days>(base()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
-			class Rep = typename Millisec,
-			class Per = typename Rep::period
+			class R = typename Milliseconds,
+			class P = typename R::period
 		> constexpr float_t delta() const
 		{
-			static_assert(0 < Per::den, "period negative or zero");
-			using cast = constant_t<float_t>;
-			return cast(ML_duration_cast(Rep, base())) / cast(Per::den);
+			static_assert(0 < P::den, "period negative or zero");
+			return static_cast<float_t>(cast<R>(base())) / static_cast<float_t>(P::den);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -106,14 +95,14 @@ namespace ml
 			class T
 		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return ((value_type)(lhs) == (value_type)(Duration(rhs)));
+			return ((time_t)(lhs) == (time_t)(Duration(rhs)));
 		}
 
 		template <
 			class T
 		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return ((value_type)(lhs) < (value_type)(Duration(rhs)));
+			return ((time_t)(lhs) < (time_t)(Duration(rhs)));
 		}
 
 		template <
@@ -150,14 +139,14 @@ namespace ml
 			class T
 		> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
-			return Duration((value_type)(lhs) + (value_type)(rhs));
+			return Duration((time_t)(lhs) + (time_t)(rhs));
 		}
 
 		template <
 			class T
 		> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
-			return Duration((value_type)(lhs) - (value_type)(rhs));
+			return Duration((time_t)(lhs) - (time_t)(rhs));
 		}
 
 		template <
@@ -176,7 +165,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: value_type m_base; // nanoseconds
+	private: time_t m_base; // nanoseconds
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -198,9 +187,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	constexpr Duration operator "" _ns	(time_t value) { return { Nanosec	{ value } }; }
-	constexpr Duration operator "" _us	(time_t value) { return { Microsec	{ value } }; }
-	constexpr Duration operator "" _ms	(time_t value) { return { Millisec	{ value } }; }
+	constexpr Duration operator "" _ns	(time_t value) { return { Nanoseconds	{ value } }; }
+	constexpr Duration operator "" _us	(time_t value) { return { Microseconds	{ value } }; }
+	constexpr Duration operator "" _ms	(time_t value) { return { Milliseconds	{ value } }; }
 	constexpr Duration operator "" _sec	(time_t value) { return { Seconds	{ value } }; }
 	constexpr Duration operator "" _min	(time_t value) { return { Minutes	{ value } }; }
 	constexpr Duration operator "" _hr	(time_t value) { return { Hours		{ value } }; }

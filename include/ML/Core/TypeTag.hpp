@@ -3,18 +3,15 @@
 
 namespace ml
 {
-	template <class ... T> struct TypeTag;
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct TypeTag<T>
+	template <class T> struct TypeTag
 	{
 		using type = typename T;
 		constexpr TypeTag() = default;
 	};
 
-	template <> struct TypeTag<>
-	{
-		using type = typename void;
-	};
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_TYPE_TAG_HPP_

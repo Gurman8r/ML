@@ -62,19 +62,19 @@ namespace ml
 
 		constexpr value_type angle() const
 		{
-			return alg::acos(this->real()) * constant_t<float>::two;
+			return alg::acos(this->real()) * 2.0f;
 		}
 
 		constexpr complex_type axis() const
 		{
-			const value_type temp { constant_t<float>::one - this->real() * this->real() };
+			const value_type temp { 1.0f - this->real() * this->real() };
 			if (temp < constant_t<float>::zero)
 			{
 				return complex_type { 0, 0, 1 };
 			}
 			else
 			{
-				return this->complex() * (constant_t<float>::one / alg::sqrt<value_type>()(temp));
+				return this->complex() * (1.0f / alg::sqrt<value_type>()(temp));
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace ml
 		constexpr value_type pitch() const
 		{
 			return alg::atan2<value_type>(
-				(constant_t<float>::two * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
+				(2.0f * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
 				(this->real() * this->real() - (*this)[0] *
 					(*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
 			);
@@ -97,7 +97,7 @@ namespace ml
 		constexpr value_type roll() const
 		{
 			return alg::atan2<value_type>(
-				(constant_t<float>::two * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
+				(2.0f * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
 				(this->real() * this->real() + (*this)[0] * (*this)[0] -
 					(*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
 			);
@@ -106,10 +106,9 @@ namespace ml
 		constexpr value_type yaw() const
 		{
 			return alg::asin<value_type>(alg::clamp(
-				(constant_t<float>::two *
-					((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
-				constant_t<float>::minus_one,
-				constant_t<float>::one
+				(2.0f * ((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
+				-1.0f,
+				1.0f
 			));
 		}
 
@@ -119,15 +118,15 @@ namespace ml
 		{
 			// not sure if this is correct
 			return tmat3<value_type> {
-				(constant_t<float>::one - constant_t<float>::two	 * ((*this)[1] * (*this)[1]) - constant_t<float>::two   * ((*this)[2] * (*this)[2])),
-				(constant_t<float>::two * ((*this)[0] * (*this)[1]) - constant_t<float>::two   * ((*this)[2] * (*this)[3])),
-				(constant_t<float>::two * ((*this)[0] * (*this)[2]) + constant_t<float>::two   * ((*this)[1] * (*this)[3])),
-				(constant_t<float>::two * ((*this)[0] * (*this)[1]) + constant_t<float>::two   * ((*this)[2] * (*this)[3])),
-				(constant_t<float>::one - constant_t<float>::two   * ((*this)[0] * (*this)[0]) - constant_t<float>::two   * ((*this)[2] * (*this)[2])),
-				(constant_t<float>::two * ((*this)[1] * (*this)[2]) - constant_t<float>::two   * ((*this)[0] * (*this)[3])),
-				(constant_t<float>::two * ((*this)[0] * (*this)[2]) - constant_t<float>::two   * ((*this)[1] * (*this)[3])),
-				(constant_t<float>::two * ((*this)[1] * (*this)[2]) + constant_t<float>::two   * ((*this)[0] * (*this)[3])),
-				(constant_t<float>::one - constant_t<float>::two   * ((*this)[0] * (*this)[0]) - constant_t<float>::two   * ((*this)[1] * (*this)[1]))
+				(1.0f - 2.0f	 * ((*this)[1] * (*this)[1]) - 2.0f   * ((*this)[2] * (*this)[2])),
+				(2.0f * ((*this)[0] * (*this)[1]) - 2.0f   * ((*this)[2] * (*this)[3])),
+				(2.0f * ((*this)[0] * (*this)[2]) + 2.0f   * ((*this)[1] * (*this)[3])),
+				(2.0f * ((*this)[0] * (*this)[1]) + 2.0f   * ((*this)[2] * (*this)[3])),
+				(1.0f - 2.0f   * ((*this)[0] * (*this)[0]) - 2.0f   * ((*this)[2] * (*this)[2])),
+				(2.0f * ((*this)[1] * (*this)[2]) - 2.0f   * ((*this)[0] * (*this)[3])),
+				(2.0f * ((*this)[0] * (*this)[2]) - 2.0f   * ((*this)[1] * (*this)[3])),
+				(2.0f * ((*this)[1] * (*this)[2]) + 2.0f   * ((*this)[0] * (*this)[3])),
+				(1.0f - 2.0f   * ((*this)[0] * (*this)[0]) - 2.0f   * ((*this)[1] * (*this)[1]))
 			};
 		}
 
@@ -138,7 +137,7 @@ namespace ml
 				temp[0],	temp[1],	temp[2],	constant_t<float>::zero,
 				temp[3],	temp[4],	temp[5],	constant_t<float>::zero,
 				temp[6],	temp[7],	temp[8],	constant_t<float>::zero,
-				constant_t<float>::zero, constant_t<float>::zero, constant_t<float>::zero, constant_t<float>::one,
+				constant_t<float>::zero, constant_t<float>::zero, constant_t<float>::zero, 1.0f,
 			};
 		}
 

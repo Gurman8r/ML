@@ -37,8 +37,8 @@ namespace ml
 		> static constexpr T ratio_cast(T value, const Ratio<Num, Den> & r)
 		{
 			using TT = constant_t<T>;
-			const T num { TT(r.num) };
-			const T den { TT(r.den) };
+			const T num { TT {}(r.num) };
+			const T den { TT {}(r.den) };
 			return (((num == TT::one) && (den == TT::one))
 				? (value)
 				: (((num != TT::one) && (den == TT::one))

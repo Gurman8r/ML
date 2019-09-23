@@ -97,37 +97,32 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	ML_USING_X	Allocator		= typename _STD allocator		<X>;
-	ML_USING_X	CharTraits		= typename _STD char_traits		<X>;
-	ML_USING_X	Initializer		= typename _STD initializer_list<X>;
 	ML_USING_XY HashMap			= typename _STD unordered_map	<X, Y>;
 	ML_USING_XY HashSet			= typename _STD unordered_set	<X, Y>;
 	ML_USING_XY MultiMap		= typename _STD multimap		<X, Y>;
 	ML_USING_XY Pair			= typename _STD pair			<X, Y>;
 	ML_USING_XY Tree			= typename _STD map				<X, Y>;
-	ML_USING_XY BasicIstream	= typename _STD basic_istream	<X, Y>;
-	ML_USING_XY BasicOstream	= typename _STD basic_ostream	<X, Y>;
-	ML_USING_XY BasicIfstream	= typename _STD basic_ifstream	<X, Y>;
-	ML_USING_XY BasicOfstream	= typename _STD basic_ofstream	<X, Y>;
-	ML_USING_XY BasicStreamBuf	= typename _STD basic_streambuf	<X, Y>;
-	using		Ofstream		= typename		BasicOfstream	<char, CharTraits<char>>;
-	using		Ifstream		= typename		BasicIfstream	<char, CharTraits<char>>;
-	using		Ostream			= typename		BasicOstream	<char, CharTraits<char>>;
-	using		Istream			= typename		BasicIstream	<char, CharTraits<char>>;
-	using		StreamBuf		= typename		BasicStreamBuf	<char, CharTraits<char>>;
+	ML_USING_X	BasicIstream	= typename _STD basic_istream	<X, _STD char_traits<X>>;
+	ML_USING_X	BasicOstream	= typename _STD basic_ostream	<X, _STD char_traits<X>>;
+	ML_USING_X	BasicIfstream	= typename _STD basic_ifstream	<X, _STD char_traits<X>>;
+	ML_USING_X	BasicOfstream	= typename _STD basic_ofstream	<X, _STD char_traits<X>>;
+	ML_USING_X	BasicStreamBuf	= typename _STD basic_streambuf	<X, _STD char_traits<X>>;
+	using		Ofstream		= typename		BasicOfstream	<char>;
+	using		Ifstream		= typename		BasicIfstream	<char>;
+	using		Ostream			= typename		BasicOstream	<char>;
+	using		Istream			= typename		BasicIstream	<char>;
+	using		StreamBuf		= typename		BasicStreamBuf	<char>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#define ML_SERIALIZE	::ml::Ostream & operator<<
+#define ML_DESERIALIZE	::ml::Istream & operator>>
 
 	static Ostream & cout { _STD cout }; // Output Handle
 	static Ostream & cerr { _STD cerr }; // Error Handle
 	static Istream & cin  { _STD cin  }; // Input Handle
 
-#define ML_SERIALIZE	::ml::Ostream & operator<< // Stream Insertion Operator
-#define ML_DESERIALIZE	::ml::Istream & operator>> // Stream Extraction Operator
-
-	template <
-		class Ch, class Traits = typename CharTraits<Ch>
-	> inline BasicOstream<Ch, Traits> & endl(BasicOstream<Ch, Traits> & out)
+	template <class Ch> inline BasicOstream<Ch> & endl(BasicOstream<Ch> & out)
 	{
 		// insert newline and flush stream
 		out.put(out.widen('\n'));

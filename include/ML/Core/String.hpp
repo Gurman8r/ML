@@ -5,16 +5,18 @@
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	// just a wrapper for std::basic_string<>
-	template <
-		class Ch
-	> struct BasicString : public std::basic_string<Ch, CharTraits<Ch>, Allocator<Ch>>
+	template <class Ch> struct BasicString : public std::basic_string<
+		Ch, std::char_traits<Ch>, std::allocator<Ch>
+	>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		using value_type			= typename Ch;
-		using traits_type			= typename CharTraits<Ch>;
-		using allocator_type		= typename Allocator<Ch>;
+		using traits_type			= typename std::char_traits<value_type>;
+		using allocator_type		= typename std::allocator<value_type>;
 		using self_type				= typename BasicString<value_type>;
 		using base_type				= typename std::basic_string<value_type, traits_type, allocator_type>;
 		using sstream_type			= typename std::basic_stringstream<value_type, traits_type, allocator_type>;
@@ -209,7 +211,10 @@ namespace ml
 		{
 			auto is_whitespace = [&](const_reference c)
 			{
-				return !this->empty() && ((c == ' ') || (c == '\t'));
+				return (!this->empty() && (
+					(c == static_cast<value_type>(' ')) ||
+					(c == static_cast<value_type>('\t'))
+				));
 			};
 			while (is_whitespace(this->front())) this->erase(this->begin());
 			while (is_whitespace(this->back()))  this->pop_back();
@@ -223,29 +228,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
-}
 
-/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-namespace std
-{
-	template <
-		class Ch
-	> struct hash<::ml::BasicString<Ch>>
-	{
-		using argument_type = ::ml::BasicString<Ch>;
-
-		inline ::ml::hash_t operator()(const argument_type & value) const noexcept
-		{
-			return _Hash_array_representation(value.data(), value.size());
-		}
-	};
-}
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
 	using String		= BasicString<char>;
 	using W_String		= BasicString<wchar_t>;
 	using U16_String	= BasicString<char16_t>;
@@ -255,8 +240,18 @@ namespace ml
 	using W_SStream		= typename W_String::sstream_type;
 	using U16_SStream	= typename U16_String::sstream_type;
 	using U32_SStream	= typename U32_String::sstream_type;
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
+template <class Ch> struct _STD hash<::ml::BasicString<Ch>>
+{
+	using argument_type = ::ml::BasicString<Ch>;
+
+	inline _STD size_t operator()(const argument_type & value) const noexcept
+	{
+		return static_cast<_STD size_t>(value.hash());
+	}
+};
 
 #endif // !_ML_STRING_HPP_

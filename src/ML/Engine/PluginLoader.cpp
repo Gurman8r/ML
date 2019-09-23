@@ -54,8 +54,6 @@ namespace ml
 		return false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	size_t PluginLoader::loadLibraries()
 	{
 		if (!m_files.empty() && m_libraries.empty())

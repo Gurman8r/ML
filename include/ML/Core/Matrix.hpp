@@ -87,7 +87,7 @@ namespace ml
 				const size_t w { this->width() };
 				const size_t h { this->height() };
 				using UU = constant_t<U>;
-				temp[i] = ((y < h && x < w) ? UU { (*this)[y * w + x] } : UU::zero);
+				temp[i] = ((y < h && x < w) ? UU {}((*this)[y * w + x]) : UU::zero);
 			}
 			return temp;
 		}

@@ -42,16 +42,17 @@ namespace ml
 			});
 
 			ImGui::Columns(2);
+			draw_def("ML_CC_NAME", "%s", ML_CC_NAME);
+			draw_def("ML_CC_VER", "%u", ML_CC_VER);
+			draw_def("ML_CONFIGURATION", "%s", ML_CONFIGURATION);
+			draw_def("ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
+			draw_def("ML_HAS_CXX17", "", ML_HAS_CXX17);
+			draw_def("ML_PLATFORM_TARGET", "%s", ML_PLATFORM_TARGET);
 			draw_def("ML_PROJECT_AUTH", "%s", ML_PROJECT_AUTH);
 			draw_def("ML_PROJECT_DATE", "%s", ML_PROJECT_DATE);
 			draw_def("ML_PROJECT_TIME", "%s", ML_PROJECT_TIME);
 			draw_def("ML_PROJECT_URL", "%s", ML_PROJECT_URL);
 			draw_def("ML_PROJECT_VER", "%s", ML_PROJECT_VER);
-			draw_def("ML_CC_NAME", "%s", ML_CC_NAME);
-			draw_def("ML_CC_VER", "%u", ML_CC_VER);
-			draw_def("ML_CONFIGURATION", "%s", ML_CONFIGURATION);
-			draw_def("ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
-			draw_def("ML_PLATFORM_TARGET", "%s", ML_PLATFORM_TARGET);
 			draw_def("ML_SYSTEM_NAME", "%s", ML_SYSTEM_NAME, true);
 			ImGui::Columns(1);
 		}
@@ -132,7 +133,7 @@ namespace ml
 				ImGui::Text("define: __MINGW64__");
 #endif
 #ifdef __GNUC__
-				ImGui::Text("define: __GNUC__=%d", ML_CC_GNUC);
+				ImGui::Text("define: __GNUC__=%d", ML_CC_GNU);
 #endif
 #ifdef __clang_version__
 				ImGui::Text("define: __clang_version__=%s", __clang_version__);

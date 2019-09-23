@@ -20,23 +20,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constant_t() = delete;
+		constexpr constant_t() = default;
 
-		template <
-			class U
-		> constexpr explicit constant_t(const U & value) noexcept
-			: m_value { cast(value) }
+		template <class U> constexpr type operator()(const U & value) const noexcept
 		{
+			return cast(value);
 		}
 
-		constexpr operator const_reference() const noexcept
-		{
-			return m_value;
-		}
-
-		template <
-			class U
-		> static constexpr type cast(const U & value) noexcept
+		template <class U> static constexpr type cast(const U & value) noexcept
 		{
 			return static_cast<type>(value);
 		}
@@ -90,55 +81,7 @@ namespace ml
 		static constexpr type rad2deg		{ one_eighty / pi };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private: type m_value;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		class T
-	> constexpr bool operator==(const constant_t<T> & lhs, const constant_t<T> & rhs)
-	{
-		return ((T)lhs == (T)rhs);
-	}
-
-	template <
-		class T
-	> constexpr bool operator!=(const constant_t<T> & lhs, const constant_t<T> & rhs)
-	{
-		return !(lhs == rhs);
-	}
-
-	template <
-		class T
-	> constexpr bool operator<(const constant_t<T> & lhs, const constant_t<T> & rhs)
-	{
-		return ((T)lhs < (T)rhs);
-	}
-
-	template <
-		class T
-	> constexpr bool operator>(const constant_t<T> & lhs, const constant_t<T> & rhs)
-	{
-		return !(lhs < rhs);
-	}
-
-	template <
-		class T
-	> constexpr bool operator<=(const constant_t<T> & lhs, const constant_t<T> & rhs)
-	{
-		return (lhs < rhs) || (lhs == rhs);
-	}
-
-	template <
-		class T
-	> constexpr bool operator>=(const constant_t<T> & lhs, const constant_t<T> & rhs)
-	{
-		return (lhs > rhs) || (lhs == rhs);
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

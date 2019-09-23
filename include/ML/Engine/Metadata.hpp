@@ -20,7 +20,7 @@ namespace ml
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
 		using map_type			= typename Tree<String, pointer>;
-		using init_type			= typename Initializer<Pair<String, value_type>>;
+		using init_type			= typename std::initializer_list<Pair<String, value_type>>;
 		using pair_type			= typename map_type::value_type;
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;

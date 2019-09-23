@@ -33,7 +33,9 @@ namespace ml
 	class ML_ENGINE_API Py final : public I_Singleton<Py>, I_Disposable
 	{
 		friend struct I_Singleton<Py>;
-		bool m_init { false };
+		bool	m_init { false };
+		String	m_name {};
+		String	m_home {};
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -42,15 +44,22 @@ namespace ml
 		{
 			if (!m_init && name && ML_FS.dirExists(home))
 			{
-				Py_SetProgramName(alg::widen(name).c_str());
-				Py_SetPythonHome(alg::widen(home).c_str());
+				Py_SetProgramName(alg::widen(m_name = name).c_str());
+				Py_SetPythonHome(alg::widen(m_home = home).c_str());
 				Py_Initialize();
 				return (m_init = true);
 			}
 			return false;
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		inline bool restart()
+		{
+			if (dispose())
+			{
+				return init(m_name, m_home);
+			}
+			return false;
+		}
 
 		inline bool dispose() override
 		{

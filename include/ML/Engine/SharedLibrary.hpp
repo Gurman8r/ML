@@ -43,8 +43,9 @@ namespace ml
 			using Fun = Out(*)(Args...);
 			Fun fun;
 			return ((fun = reinterpret_cast<Fun>(loadFunction(name)))
-				? (static_cast<Out>(fun(std::forward<Args>(args)...)))
-				: (static_cast<Out>(nullptr)));
+				? static_cast<Out>(fun(std::forward<Args>(args)...))
+				: static_cast<Out>(nullptr)
+			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

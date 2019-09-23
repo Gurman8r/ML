@@ -21,12 +21,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename Ch;
-		using traits_type		= typename CharTraits<Ch>;
 		using self_type			= typename BasicFile<value_type>;
 		using string_type		= typename BasicString<value_type>;
 		using sstream_type		= typename string_type::sstream_type;
-		using ifstream_type		= typename BasicIfstream<value_type, traits_type>;
-		using ofstream_type		= typename BasicOfstream<value_type, traits_type>;
+		using ifstream_type		= typename BasicIfstream<value_type>;
+		using ofstream_type		= typename BasicOfstream<value_type>;
 		using list_type			= typename List<value_type>;
 		using iterator			= typename list_type::iterator;
 		using const_iterator	= typename list_type::const_iterator;

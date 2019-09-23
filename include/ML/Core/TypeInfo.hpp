@@ -1,21 +1,14 @@
 #ifndef _ML_TYPE_INFO_HPP_
 #define _ML_TYPE_INFO_HPP_
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Core/StringView.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 // Source: https://github.com/Manu343726/ctti
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 # if defined(ML_CC_MSC)
 #	define ML_SIGNATURE		__FUNCSIG__
 #	define ML_SIGNATURE_PRE	"struct ml::StringView __cdecl ml::signature<"
 #	define ML_SIGNATURE_SUF	">(void)"
-# elif defined(ML_CC_GNUC)
+# elif defined(ML_CC_GNU)
 #	define ML_SIGNATURE		__PRETTY_FUNCTION__
 #	define ML_SIGNATURE_PRE	"constexpr ml::StringView ml::signature() [with T = "
 #	define ML_SIGNATURE_SUF	"]"
@@ -23,24 +16,15 @@
 #	define ML_SIGNATURE		__PRETTY_FUNCTION__
 #	define ML_SIGNATURE_PRE	"ml::StringView ml::signature() [T = "
 #	define ML_SIGNATURE_SUF	"]"
+# elif defined(ML_CC_INTEL)
+# else
 # endif
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-#define ML_GEN_SIGNATURE(TYPE, NAME)						\
-template <> struct ::ml::nameof<TYPE>	final				\
-{															\
-	constexpr nameof() = default;							\
-	constexpr operator ::ml::StringView() const noexcept	\
-	{														\
-		return ::ml::StringView { NAME };					\
-	}														\
-}
 
 /* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
+	// Signature
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <class T> static constexpr StringView signature()
@@ -48,11 +32,25 @@ namespace ml
 		return { ML_SIGNATURE };
 	}
 
+
+	// Name Of
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	namespace filter
+	template <class ... T> struct nameof;
+
+	template <class T> struct nameof<T> final
 	{
-		static constexpr StringView name(const StringView & value)
+		using type = typename T;
+		nameof() = delete;
+		static constexpr StringView value { signature<type>() };
+	};
+
+	template <class T> static constexpr StringView nameof_v { nameof<T>::value };
+
+	template <> struct nameof<> final
+	{
+		nameof() = delete;
+		static constexpr StringView filter(const StringView & value) noexcept
 		{
 #ifdef ML_CC_MSC
 			const size_t lhs { value.find_first_of('<') };
@@ -70,29 +68,10 @@ namespace ml
 			);
 #endif
 		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <class ... T> struct nameof;
-
-	template <class T> struct nameof<T> final
-	{
-		using type = typename T;
-		constexpr nameof() = default;
-		constexpr operator StringView() const noexcept { return signature<type>(); }
 	};
 
-	template <> struct nameof<> final
-	{
-		template <class T> constexpr nameof(const nameof<T> &) noexcept : m_sig { nameof<T>() } {}
-		template <class T> constexpr nameof(const T &) noexcept : m_sig { nameof<T>() } {}
-		template <class T> constexpr nameof(const T *) noexcept : m_sig { nameof<const T *>() } {}
-		constexpr nameof() noexcept : m_sig { nullptr } {}
-		constexpr operator StringView() const noexcept { return m_sig; }
-	private: const StringView m_sig;
-	};
 
+	// Type Of
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <class ... T> struct typeof;
@@ -101,33 +80,28 @@ namespace ml
 	{
 		using type = typename T;
 		constexpr typeof() noexcept = default;
-		constexpr auto name() const noexcept -> const StringView & { return m_name; }
-		constexpr auto hash() const noexcept -> const hash_t & { return m_hash; }
-		static constexpr StringView m_name { filter::name(nameof<T>()) };
-		static constexpr hash_t m_hash { m_name.hash() };
+		static constexpr StringView name { nameof<>::filter(nameof_v<type>) };
+		static constexpr hash_t		hash { name.hash() };
 	};
 
 	template <> struct typeof<> final
 	{
-		template <class T> constexpr typeof(const typeof<T> &) noexcept 
-			: m_name { filter::name(nameof<T>()) }
-			, m_hash { m_name.hash() }
+		template <class T> constexpr typeof(const typeof<T> & copy) noexcept
+			: name { copy.name }, hash { copy.hash }
 		{
 		}
-		template <class T> constexpr typeof(const T &) noexcept 
-			: m_name { filter::name(nameof<T>()) }
-			, m_hash { m_name.hash() }
+
+		template <class T> constexpr typeof(const T &) noexcept
+			: typeof { typeof<T>() }
 		{
 		}
-		template <class T> constexpr typeof(const T *) noexcept 
-			: m_name { filter::name(nameof<const T *>()) }
-			, m_hash { m_name.hash() }
+
+		template <class T> constexpr typeof(const T *) noexcept
+			: typeof { typeof<const T *>() }
 		{
 		}
-		constexpr auto name() const noexcept -> const StringView & { return m_name; }
-		constexpr auto hash() const noexcept -> const hash_t & { return m_hash; }
-		const StringView m_name;
-		const hash_t m_hash;
+
+		StringView name; hash_t hash;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -136,14 +110,60 @@ namespace ml
 		class ... T
 	> inline ML_SERIALIZE(Ostream & out, const typeof<T...> & value)
 	{
-		return out << value.name();
+		return out << value.name;
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <
+		class ... T
+	> constexpr bool operator==(const typeof<> & lhs, const typeof<T...> & rhs)
+	{
+		return (lhs.hash == rhs.hash);
+	}
+
+	template <
+		class ... T
+	> constexpr bool operator!=(const typeof<> & lhs, const typeof<T...> & rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <
+		class ... T
+	> constexpr bool operator<(const typeof<> & lhs, const typeof<T...> & rhs)
+	{
+		return (lhs.hash < rhs.hash);
+	}
+
+	template <
+		class ... T
+	> constexpr bool operator>(const typeof<> & lhs, const typeof<T...> & rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	template <
+		class ... T
+	> constexpr bool operator<=(const typeof<> & lhs, const typeof<T...> & rhs)
+	{
+		return (lhs < rhs) || (lhs == rhs);
+	}
+
+	template <
+		class ... T
+	> constexpr bool operator>=(const typeof<> & lhs, const typeof<T...> & rhs)
+	{
+		return (lhs > rhs) || (lhs == rhs);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class X, class ... Y
 	> constexpr bool operator==(const typeof<X> & lhs, const typeof<Y...> & rhs)
 	{
-		return (lhs.hash() == rhs.hash());
+		return (lhs.hash == rhs.hash);
 	}
 
 	template <
@@ -157,7 +177,7 @@ namespace ml
 		class X, class ... Y
 	> constexpr bool operator<(const typeof<X> & lhs, const typeof<Y...> & rhs)
 	{
-		return (lhs.hash() < rhs.hash());
+		return (lhs.hash < rhs.hash);
 	}
 
 	template <
@@ -186,10 +206,25 @@ namespace ml
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-ML_GEN_SIGNATURE(std::string,		"class std::string");
-ML_GEN_SIGNATURE(std::wstring,		"class std::wstring");
-ML_GEN_SIGNATURE(std::u16string,	"class std::u16string");
-ML_GEN_SIGNATURE(std::u32string,	"class std::u32string");
+template <> struct ml::nameof<std::string>
+{
+	static constexpr StringView value { "class std::string" };
+};
+
+template <> struct ml::nameof<std::wstring>
+{
+	static constexpr StringView value { "class std::wstring" };
+};
+
+template <> struct ml::nameof<std::u16string>
+{
+	static constexpr StringView value { "class std::u16string" };
+};
+
+template <> struct ml::nameof<std::u32string>
+{
+	static constexpr StringView value { "class std::u32string" };
+};
 
 /* * * * * * * * * * * * * * * * * * * * */
 

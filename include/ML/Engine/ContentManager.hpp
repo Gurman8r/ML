@@ -64,13 +64,13 @@ namespace ml
 
 		template <class T> inline ObjectDatabase & data()
 		{
-			static ObjectDatabase & temp { data(typeof<T>().hash()) };
+			static ObjectDatabase & temp { data(typeof<T>().hash) };
 			return temp;
 		}
 
 		template <class T> inline const ObjectDatabase & data() const
 		{
-			static const ObjectDatabase & temp { data(typeof<T>().hash()) };
+			static const ObjectDatabase & temp { data(typeof<T>().hash) };
 			return temp;
 		}
 
@@ -109,7 +109,7 @@ namespace ml
 
 		template <class T> inline bool destroy(const String & name)
 		{
-			return destroy(typeof<T>().hash(), name);
+			return destroy(typeof<T>().hash, name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

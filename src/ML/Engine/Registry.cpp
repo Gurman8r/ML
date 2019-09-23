@@ -10,6 +10,7 @@
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Surface.hpp>
+#include <ML/Graphics/Text.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Core/Debug.hpp>
 
@@ -27,6 +28,7 @@ namespace ml
 	ML_REGISTER(Sound,		"/Asset") { return new Sound(); }
 	ML_REGISTER(Sprite,		"/Asset") { return new Sprite(); }
 	ML_REGISTER(Surface,	"/Asset") { return new Surface(); }
+	ML_REGISTER(Text,		"/Asset") { return new Text(); }
 	ML_REGISTER(Texture,	"/Asset") { return new Texture(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

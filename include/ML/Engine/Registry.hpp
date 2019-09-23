@@ -63,7 +63,7 @@ namespace ml
 
 		template <class T> inline T * generate() const
 		{
-			return static_cast<T *>(generate(typeof<T>().name()));
+			return static_cast<T *>(generate(typeof<T>().name));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -83,7 +83,7 @@ namespace ml
 
 		template <class T, class F> inline bool registrate(const String & info, F && func)
 		{
-			return registrate(typeof<T>().name(), info, typeof<T>().hash(), (Method)func);
+			return registrate(typeof<T>().name, info, typeof<T>().hash, (Method)func);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

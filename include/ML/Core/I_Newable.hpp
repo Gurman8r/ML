@@ -5,7 +5,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Base class for anything which might be dynamically allocated.
 	// Provides memory leak detection and simple serialization.
@@ -28,7 +28,7 @@ namespace ml
 		inline void	  operator delete[] (void * ptr)  { return ML_delete(ptr); }
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_I_NEWABLE_HPP_

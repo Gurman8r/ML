@@ -64,8 +64,8 @@ namespace ml
 
 		template <class T> inline T * attach(T * value)
 		{
-			return ((m_data.find(typeof<T>().hash()) == m_data.end())
-				? static_cast<T *>(this->addByCode(typeof<T>().hash(), value))
+			return ((m_data.find(typeof<T>().hash) == m_data.end())
+				? static_cast<T *>(this->addByCode(typeof<T>().hash, value))
 				: nullptr
 			);
 		}
@@ -79,13 +79,13 @@ namespace ml
 
 		template <class T> inline T * get()
 		{
-			iterator it { m_data.find(typeof<T>().hash()) };
+			iterator it { m_data.find(typeof<T>().hash) };
 			return ((it != this->end()) ? static_cast<T *>(it->second) : nullptr);
 		}
 
 		template <class T> inline const T * get() const
 		{
-			const_iterator it { m_data.find(typeof<T>().hash()) };
+			const_iterator it { m_data.find(typeof<T>().hash) };
 			return ((it != this->cend()) ? static_cast<const T *>(it->second) : nullptr);
 		}
 

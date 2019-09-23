@@ -3,73 +3,83 @@
 
 //	Project Info
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #define ML_PROJECT_AUTH	"Melody Gurman"
-#define ML_PROJECT_DATE	__DATE__
 #define ML_PROJECT_NAME "MemeLib"
-#define ML_PROJECT_TIME	__TIME__
-#define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
 #define ML_PROJECT_VER	"Alpha"
+#define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
+#define ML_PROJECT_DATE	__DATE__
+#define ML_PROJECT_TIME	__TIME__
 
 
 //	C++ Version
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#if defined(__cplusplus)
-#	define ML_CPLUSPLUS __cplusplus
-#else
+
+# if defined(__cplusplus)
+#	ifdef _MSVC_LANG
+#		define ML_CPLUSPLUS _MSVC_LANG
+#	else
+#		define ML_CPLUSPLUS __cplusplus
+#	endif
+#	define ML_HAS_CXX11 (ML_CPLUSPLUS >= 201103L) // 11
+#	define ML_HAS_CXX14 (ML_CPLUSPLUS >= 201402L) // 14
+#	define ML_HAS_CXX17 (ML_CPLUSPLUS >= 201703L) // 17
+# else
 #	error This system does not support C++
-#endif
+# endif
 
 
 //	Configuration (Debug / Release)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#if defined(_DEBUG)
+
+# if defined(_DEBUG)
 #	define ML_DEBUG			true
-#	define ML_CONFIGURATION "Debug"
-#else
+#	define ML_CONFIGURATION	"Debug"
+# else
 #	define ML_DEBUG			false
-#	define ML_CONFIGURATION "Release"
-#endif
+#	define ML_CONFIGURATION	"Release"
+# endif
 
 
 //	Operating System
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#if defined(_WIN32) \
-||	defined(_WIN64) \
-||	defined(WIN32) \
-||	defined(WIN64) \
-||	defined(__WIN32__) \
-||	defined(__MINGW32__) \
-||	defined(__MINGW64__)
+
+# if defined(_WIN32) || defined(_WIN64) \
+  || defined(WIN32) || defined(WIN64) \
+  || defined(__MINGW32__) || defined(__MINGW64__)
 #	define ML_SYSTEM_WINDOWS
-#	define ML_SYSTEM_NAME "Windows"
-#	ifndef NOMINMAX
-#		define NOMINMAX
-#	endif
-#elif defined(__APPLE__) && defined(__MACH__)
+# elif defined(__APPLE__) && defined(__MACH__)
 #	define ML_SYSTEM_APPLE
-#	define ML_SYSTEM_NAME "Apple"
-#elif defined(__unix__)
+# elif defined(__unix__)
 #	define ML_SYSTEM_UNIX
 #	if defined(__ANDROID__)
 #		define ML_SYSTEM_ANDROID
-#		define ML_SYSTEM_NAME "Android"
 #	elif defined(__linux__)
 #		define ML_SYSTEM_LINUX
-#		define ML_SYSTEM_NAME "Linux"
 #	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)	
 #		define ML_SYSTEM_FREEBSD
-#		ML_SYSTEM_NAME "FreeBSD"
-#	else
-#		error This unix operating system does not support memes.
 #	endif
-#else
+# endif
+
+# if defined(ML_SYSTEM_WINDOWS)
+#	define ML_SYSTEM_NAME "Windows"
+# elif defined(ML_SYSTEM_APPLE)
+#	define ML_SYSTEM_NAME "Apple"
+# elif defined(ML_SYSTEM_ANDROID)
+#	define ML_SYSTEM_NAME "Android"
+# elif defined(ML_SYSTEM_LINUX)
+#	define ML_SYSTEM_NAME "Linux"
+# elif defined(ML_SYSTEM_FREEBSD)
+#	define ML_SYSTEM_NAME "FreeBSD"
+# else
 #	error This operating system does not support memes.
-#endif
+# endif
 
 
 //	Architecture
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#if defined(_WIN64		) \
+
+# if defined(_WIN64		) \
   || defined(WIN64		) \
   || defined(__x86_64__	) \
   || defined(__ppc64__	) \
@@ -78,32 +88,48 @@
   || defined(__MINGW64__)
 #	define ML_ARCHITECTURE		64
 #	define ML_PLATFORM_TARGET	"x64"
-#else
+# else
 #	define ML_ARCHITECTURE		32
 #	define ML_PLATFORM_TARGET	"x86"
-#endif
+# endif
 
 
 //	Compiler
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#if defined(_MSC_VER)
-//	Microsoft Compiler
+
+# if defined(_MSC_VER)
+#	define ML_CC_MSC _MSC_VER
+# elif defined(__clang__)
+#	define ML_CC_CLANG __clang__
+# elif defined(__GNUC__) || defined(__GNUG__)
+#	ifdef __GNUC__
+#		define ML_CC_GNU __GNUC__
+#	else
+#		define ML_CC_GNU __GNUG__
+#	endif
+# elif defined(__ICC) || defined(__INTEL_COMPILER)
+#	ifdef __ICC
+#		define ML_CC_INTEL __ICC
+#	else
+#		define ML_CC_INTEL __INTEL_COMPILER
+#	endif
+# endif
+
+# if defined(ML_CC_MSC)
 #	define ML_CC_NAME	"Microsoft"
-#	define ML_CC_MSC	_MSC_VER
 #	define ML_CC_VER	ML_CC_MSC
-#elif defined(__GNUC__) && not defined(__clang__)
-//	GNU Compiler
-#	define ML_CC_NAME	"GNU"
-#	define ML_CC_GNUC	__GNUC__
-#	define ML_CC_VER	ML_CC_GNUC
-#elif defined(__clang__)
-//	Clang Compiler
+# elif defined(ML_CC_CLANG)
 #	define ML_CC_NAME	"Clang"
-#	define ML_CC_CLANG	__clang__
 #	define ML_CC_VER	ML_CC_CLANG
-#else
+# elif defined(ML_CC_GNU)
+#	define ML_CC_NAME	"GNU"
+#	define ML_CC_VER	ML_CC_GNU
+# elif defined(ML_CC_INTEL)
+#	define ML_CC_NAME	"Intel"
+#	define ML_CC_VER	ML_CC_INTEL
+# else
 #	error This compiler does not support memes.
-#endif
+# endif
 
 
 // Types
@@ -123,22 +149,23 @@
 #define ML_FLOAT64		double				// 8 bytes
 #define ML_FLOAT80		long double			// 8 or 10 bytes (CC dependant)
 
-#if (ML_ARCHITECTURE == 32)
+# if (ML_ARCHITECTURE == 32)
 #	define ML_INTMAX	ML_INT32			// Max Signed	(32-Bit)
 #	define ML_UINTMAX	ML_UINT32			// Max Unsigned	(32-Bit)
-#else
+# else
 #	define ML_INTMAX	ML_INT64			// Max Signed	(64-Bit)
 #	define ML_UINTMAX	ML_UINT64			// Max Unsigned	(64-Bit)
-#endif
+# endif
 
 
 //	Preprocessor
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_TOSTRING(str)	#str
-#define ML_STRINGIFY(str)	ML_TOSTRING(str)
-#define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
+
 #define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
+#define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
 #define ML_CONCAT(a, b)		a##b
+#define ML_STRINGIFY(str)	ML_TOSTRING(str)
+#define ML_TOSTRING(str)	#str
 
 #define ML_TEMPLATE(...)	template<##__VA_ARGS__>
 #define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
@@ -152,20 +179,22 @@
 
 //	Export / Import
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# ifndef ML_STATIC
-#	ifdef ML_SYSTEM_WINDOWS
+
+# if not defined(ML_STATIC)
+#	if defined(ML_CC_MSC)
 #		define ML_API_EXPORT __declspec(dllexport)
 #		define ML_API_IMPORT __declspec(dllimport)
-#		ifdef ML_CC_MSC
-#			pragma warning(disable: 4031) // second formal parameter list longer than the first list
-#			pragma warning(disable: 4099) // PDB was not found
-#			pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
-#			pragma warning(disable: 4307) // integral constant overflow
-#			pragma warning(disable: 4309) // truncation of constant value
-#			pragma warning(disable: 4723) // potential divide by zero
+#		if not defined(NOMINMAX)
+#			define NOMINMAX
 #		endif
-#	else
-#		if ML_CC_GNUC >= 4
+#		pragma warning(disable: 4031) // second formal parameter list longer than the first list
+#		pragma warning(disable: 4099) // PDB was not found
+#		pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
+#		pragma warning(disable: 4307) // integral constant overflow
+#		pragma warning(disable: 4309) // truncation of constant value
+#		pragma warning(disable: 4723) // potential divide by zero
+#	elif defined(ML_CC_GNU)
+#		if ML_CC_GNU >= 4
 #			define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
 #			define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
 #		else
@@ -173,11 +202,11 @@
 #			define ML_API_IMPORT
 #		endif
 #	endif
-#else
+# else
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
-#endif
+# endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#endif // !_ML_CONFIG_HPP_
+# endif // !_ML_CONFIG_HPP_

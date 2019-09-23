@@ -13,11 +13,11 @@ namespace ml
 	static void test_type_info()
 	{
 		// ignore red underlines in most cases. visual studio is a butt.
-		static_assert(typeof<int32_t>().name()	== "int",				"What?");
-		static_assert(typeof<uint32_t>().name() == "unsigned int",		"What?");
-		static_assert(typeof<>(1.0f).name()		== "float",				"What?");
-		static_assert(typeof<C_String>().name() == "const char*",		"What?");
-		static_assert(typeof<Debug>().name()	== "struct ml::Debug",	"What?");
+		static_assert(typeof<int32_t>().name	== "int",				"What?");
+		static_assert(typeof<uint32_t>().name	== "unsigned int",		"What?");
+		static_assert(typeof<>(1.0f).name		== "float",				"What?");
+		static_assert(typeof<C_String>().name	== "const char*",		"What?");
+		static_assert(typeof<Debug>().name		== "struct ml::Debug",	"What?");
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

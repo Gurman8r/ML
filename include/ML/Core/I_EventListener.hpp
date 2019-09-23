@@ -14,8 +14,6 @@ namespace ml
 
 	struct ML_CORE_API I_EventListener
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
 		explicit I_EventListener(EventSystem & eventSystem)
 			: m_eventSystem { eventSystem }
 		{
@@ -27,11 +25,7 @@ namespace ml
 
 		inline auto eventSystem() const -> EventSystem & { return m_eventSystem; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	private: EventSystem & m_eventSystem;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

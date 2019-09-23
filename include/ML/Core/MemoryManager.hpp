@@ -27,6 +27,8 @@ namespace ml
 			friend ML_SERIALIZE(Ostream & out, const Record & value);
 		};
 
+		using RecordMap = typename Tree<void *, Record *>;
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void * allocate(size_t size);
@@ -35,7 +37,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto allocID() const -> const size_t & { return m_allocID; }
-		inline auto records() const -> const Tree<void *, Record *> & { return m_records; }
+		inline auto records() const -> const RecordMap & { return m_records; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -45,7 +47,7 @@ namespace ml
 		MemoryManager();
 		~MemoryManager();
 
-		Tree<void *, Record *> m_records;
+		RecordMap m_records;
 		size_t m_allocID;
 	};
 

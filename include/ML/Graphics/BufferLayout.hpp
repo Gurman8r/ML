@@ -38,7 +38,7 @@ namespace ml
 
 		BufferLayout();
 		BufferLayout(const List<Element> & elements);
-		BufferLayout(const Initializer<Element> & elements);
+		BufferLayout(const std::initializer_list<Element> & elements);
 		BufferLayout(const BufferLayout & copy);
 		~BufferLayout();
 

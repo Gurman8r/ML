@@ -31,16 +31,32 @@ namespace ml
 
 		static inline String narrow(const W_String & value)
 		{
+#ifndef ML_HAS_CXX17
 			return std::wstring_convert<
 				std::codecvt_utf8_utf16<wchar_t>
 			>().to_bytes(value);
+#else
+			String out;
+			out.reserve(value.size());
+			for (const wchar_t & c : value)
+				out.push_back(static_cast<char>(c));
+			return out;
+#endif
 		}
 
 		static inline W_String widen(const String & value)
 		{
+#ifndef ML_HAS_CXX17
 			return std::wstring_convert<
 				std::codecvt_utf8_utf16<wchar_t>
 			>().from_bytes(value);
+#else
+			W_String out;
+			out.reserve(value.size());
+			for (const char & c : value)
+				out.push_back(static_cast<wchar_t>(c));
+			return out;
+#endif
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

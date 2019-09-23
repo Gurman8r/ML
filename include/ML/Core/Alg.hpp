@@ -341,8 +341,8 @@ namespace ml
 		> static constexpr T delta_cast(const Num numerator, const Den denominator)
 		{
 			using cast = constant_t<T>;
-			const T num { cast(numerator) };
-			const T den { cast(denominator) };
+			const T num { cast()(numerator) };
+			const T den { cast()(denominator) };
 			return (((den > cast::zero) && (num < den)) ? (num / den) : cast::zero);
 		}
 
@@ -570,7 +570,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T magnitude(const A<T, N...> & value)
 		{
-			return constant_t<T> { sqrt<T> {}(ML_ALG sqr_magnitude(value)) };
+			return static_cast<T>(sqrt<T> {}(ML_ALG sqr_magnitude(value)));
 		}
 
 		template <

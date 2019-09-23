@@ -17,6 +17,9 @@
 #	define ML_SIGNATURE_PRE	"ml::StringView ml::signature() [T = "
 #	define ML_SIGNATURE_SUF	"]"
 # elif defined(ML_CC_INTEL)
+#	define ML_SIGNATURE		0
+#	define ML_SIGNATURE_PRE ""
+#	define ML_SIGNATURE_SUF ""
 # else
 # endif
 
@@ -38,36 +41,43 @@ namespace ml
 
 	template <class ... T> struct nameof;
 
-	template <class T> struct nameof<T> final
-	{
-		using type = typename T;
-		nameof() = delete;
-		static constexpr StringView value { signature<type>() };
-	};
-
-	template <class T> static constexpr StringView nameof_v { nameof<T>::value };
-
 	template <> struct nameof<> final
 	{
 		nameof() = delete;
 		static constexpr StringView filter(const StringView & value) noexcept
 		{
-#ifdef ML_CC_MSC
+# if defined(ML_CC_MSC)
 			const size_t lhs { value.find_first_of('<') };
 			const size_t rhs { value.find_last_of('>') };
 			return (((lhs != value.npos) && (rhs != value.npos))
 				? value.substr((lhs + 1), (rhs - lhs) - 1)
 				: value
 			);
-#else
+# else
 			const size_t lhs { value.find_first_of('=') };
 			const size_t rhs { value.find_last_of(']') };
 			return (((lhs != value.npos) && (rhs != value.npos))
 				? value.substr((lhs + 2), (rhs - lhs) - 1)
 				: value
 			);
-#endif
+# endif
 		}
+	};
+
+	template <class T> struct nameof<T> final
+	{
+		nameof() = delete;
+		static constexpr StringView value { signature<T>() };
+	};
+
+	template <class T> static constexpr StringView nameof_v
+	{ 
+		nameof<>::filter(nameof<T>::value)
+	};
+
+	template <class T> static constexpr hash_t hashof_v
+	{
+		nameof_v<T>.hash()
 	};
 
 
@@ -78,14 +88,15 @@ namespace ml
 
 	template <class T> struct typeof<T> final
 	{
-		using type = typename T;
 		constexpr typeof() noexcept = default;
-		static constexpr StringView name { nameof<>::filter(nameof_v<type>) };
-		static constexpr hash_t		hash { name.hash() };
+		static constexpr auto name { nameof_v<T> };
+		static constexpr auto hash { hashof_v<T> };
 	};
 
 	template <> struct typeof<> final
 	{
+		StringView name; hash_t hash;
+
 		template <class T> constexpr typeof(const typeof<T> & copy) noexcept
 			: name { copy.name }, hash { copy.hash }
 		{
@@ -100,8 +111,6 @@ namespace ml
 			: typeof { typeof<const T *>() }
 		{
 		}
-
-		StringView name; hash_t hash;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -208,22 +217,22 @@ namespace ml
 
 template <> struct ml::nameof<std::string>
 {
-	static constexpr StringView value { "class std::string" };
+	static constexpr auto value { "class std::string" };
 };
 
 template <> struct ml::nameof<std::wstring>
 {
-	static constexpr StringView value { "class std::wstring" };
+	static constexpr auto value { "class std::wstring" };
 };
 
 template <> struct ml::nameof<std::u16string>
 {
-	static constexpr StringView value { "class std::u16string" };
+	static constexpr auto value { "class std::u16string" };
 };
 
 template <> struct ml::nameof<std::u32string>
 {
-	static constexpr StringView value { "class std::u32string" };
+	static constexpr auto value { "class std::u32string" };
 };
 
 /* * * * * * * * * * * * * * * * * * * * */

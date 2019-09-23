@@ -18,7 +18,7 @@ namespace ml
 		using const_reference	= typename const value_type &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
-		using cppstring_type	= typename std::basic_string<value_type>;
+		using cppstring			= typename std::basic_string<value_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -57,7 +57,7 @@ namespace ml
 		constexpr auto end()	const -> const_iterator	{ return m_data + m_size; }
 		constexpr auto hash()	const -> hash_t			{ return Hash { m_data, m_size }; }
 		constexpr auto size()	const -> size_t			{ return m_size; }
-		inline	  auto str()	const -> cppstring_type	{ return { m_data, m_size }; }
+		inline	  auto str()	const -> cppstring		{ return { m_data, m_size }; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -71,7 +71,7 @@ namespace ml
 			return m_data;
 		}
 
-		inline operator cppstring_type() const
+		inline operator cppstring() const
 		{
 			return str();
 		}

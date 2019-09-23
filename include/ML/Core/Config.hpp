@@ -16,7 +16,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if defined(__cplusplus)
-#	ifdef _MSVC_LANG
+#	if defined(_MSVC_LANG)
 #		define ML_CPLUSPLUS _MSVC_LANG
 #	else
 #		define ML_CPLUSPLUS __cplusplus
@@ -62,15 +62,15 @@
 # endif
 
 # if defined(ML_SYSTEM_WINDOWS)
-#	define ML_SYSTEM_NAME "Windows"
+#	define ML_SYSTEM_NAME		 "Windows"
 # elif defined(ML_SYSTEM_APPLE)
-#	define ML_SYSTEM_NAME "Apple"
+#	define ML_SYSTEM_NAME		 "Apple"
 # elif defined(ML_SYSTEM_ANDROID)
-#	define ML_SYSTEM_NAME "Android"
+#	define ML_SYSTEM_NAME		 "Android"
 # elif defined(ML_SYSTEM_LINUX)
-#	define ML_SYSTEM_NAME "Linux"
+#	define ML_SYSTEM_NAME		 "Linux"
 # elif defined(ML_SYSTEM_FREEBSD)
-#	define ML_SYSTEM_NAME "FreeBSD"
+#	define ML_SYSTEM_NAME		 "FreeBSD"
 # else
 #	error This operating system does not support memes.
 # endif
@@ -102,13 +102,13 @@
 # elif defined(__clang__)
 #	define ML_CC_CLANG __clang__
 # elif defined(__GNUC__) || defined(__GNUG__)
-#	ifdef __GNUC__
+#	if defined(__GNUC__)
 #		define ML_CC_GNU __GNUC__
 #	else
 #		define ML_CC_GNU __GNUG__
 #	endif
 # elif defined(__ICC) || defined(__INTEL_COMPILER)
-#	ifdef __ICC
+#	if defined(__ICC)
 #		define ML_CC_INTEL __ICC
 #	else
 #		define ML_CC_INTEL __INTEL_COMPILER
@@ -116,17 +116,17 @@
 # endif
 
 # if defined(ML_CC_MSC)
-#	define ML_CC_NAME	"Microsoft"
-#	define ML_CC_VER	ML_CC_MSC
+#	define ML_CC_NAME		"Microsoft"
+#	define ML_CC_VER		ML_CC_MSC
 # elif defined(ML_CC_CLANG)
-#	define ML_CC_NAME	"Clang"
-#	define ML_CC_VER	ML_CC_CLANG
+#	define ML_CC_NAME		"Clang"
+#	define ML_CC_VER		ML_CC_CLANG
 # elif defined(ML_CC_GNU)
-#	define ML_CC_NAME	"GNU"
-#	define ML_CC_VER	ML_CC_GNU
+#	define ML_CC_NAME		"GNU"
+#	define ML_CC_VER		ML_CC_GNU
 # elif defined(ML_CC_INTEL)
-#	define ML_CC_NAME	"Intel"
-#	define ML_CC_VER	ML_CC_INTEL
+#	define ML_CC_NAME		"Intel"
+#	define ML_CC_VER		ML_CC_INTEL
 # else
 #	error This compiler does not support memes.
 # endif
@@ -176,23 +176,24 @@
 #define ML_TRUE_EXPR(expr)	(([&](){ expr; return true; })())
 #define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
 
-
 //	Export / Import
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if not defined(ML_STATIC)
-#	if defined(ML_CC_MSC)
+#	if defined(ML_SYSTEM_WINDOWS)
 #		define ML_API_EXPORT __declspec(dllexport)
 #		define ML_API_IMPORT __declspec(dllimport)
 #		if not defined(NOMINMAX)
 #			define NOMINMAX
 #		endif
-#		pragma warning(disable: 4031) // second formal parameter list longer than the first list
-#		pragma warning(disable: 4099) // PDB was not found
-#		pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
-#		pragma warning(disable: 4307) // integral constant overflow
-#		pragma warning(disable: 4309) // truncation of constant value
-#		pragma warning(disable: 4723) // potential divide by zero
+#		if defined(ML_CC_MSC)
+#			pragma warning(disable: 4031) // second formal parameter list longer than the first list
+#			pragma warning(disable: 4099) // PDB was not found
+#			pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
+#			pragma warning(disable: 4307) // integral constant overflow
+#			pragma warning(disable: 4309) // truncation of constant value
+#			pragma warning(disable: 4723) // potential divide by zero
+#		endif
 #	elif defined(ML_CC_GNU)
 #		if ML_CC_GNU >= 4
 #			define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))

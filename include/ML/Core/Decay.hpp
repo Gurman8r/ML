@@ -15,10 +15,10 @@ namespace ml
 		{
 			decay() = delete;
 
-			ML_USING_X remove_const_t		= std::remove_const_t<X>;
-			ML_USING_X remove_volatile_t	= std::remove_volatile_t<X>;
-			ML_USING_X remove_pointer_t		= std::remove_pointer_t<X>;
-			ML_USING_X remove_reference_t	= std::remove_reference_t<X>;
+			ML_USING_X remove_const_t		= typename _STD remove_const_t<X>;
+			ML_USING_X remove_volatile_t	= typename _STD remove_volatile_t<X>;
+			ML_USING_X remove_pointer_t		= typename _STD remove_pointer_t<X>;
+			ML_USING_X remove_reference_t	= typename _STD remove_reference_t<X>;
 
 			using type = typename 
 				remove_const_t<

@@ -65,7 +65,7 @@ namespace ml
 
 		constexpr unit_type base() const
 		{
-			return static_cast<Nanoseconds>((time_t)(*this));
+			return static_cast<Nanoseconds>(m_base);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -81,12 +81,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		template <
+			class T = typename float_t,
 			class R = typename Milliseconds,
 			class P = typename R::period
 		> constexpr float_t delta() const
 		{
 			static_assert(0 < P::den, "period negative or zero");
-			return static_cast<float_t>(cast<R>(base())) / static_cast<float_t>(P::den);
+			return static_cast<T>(cast<R>(base())) / static_cast<T>(P::den);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

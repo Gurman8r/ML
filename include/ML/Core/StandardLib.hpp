@@ -7,6 +7,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <any>
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -16,7 +17,7 @@
 #include <csignal>
 #include <cstddef>
 #include <ctime>
-#include <experimental/filesystem>
+#include <filesystem>
 #include <fstream>
 #include <future>
 #include <initializer_list>
@@ -42,6 +43,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -51,11 +53,12 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# ifdef ML_SYSTEM_WINDOWS
+# ifdef ML_SYSTEM_WINDOWS // Deprecated Functions
 #	define popen	_popen
 #	define pclose	_pclose
 #	define strdup	_strdup
 #	define snprintf	_snprintf
+# else
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

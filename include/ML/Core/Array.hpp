@@ -52,7 +52,7 @@ namespace ml
 		constexpr auto end()		const	-> const_iterator	{ return data() + size(); }
 		constexpr auto front()				-> reference		{ return (*begin()); }
 		constexpr auto front()		const	-> const_reference	{ return (*cbegin()); }
-		constexpr auto hash()		const	-> hash_t			{ return Hash { begin(), size() }; }
+		constexpr auto hash()		const	-> hash_t			{ return Hash { data(), size() }; }
 		constexpr auto size()		const	-> size_t			{ return self_type::Size; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -61,7 +61,7 @@ namespace ml
 		
 		constexpr const_reference operator[](size_t i) const { return at(i); }
 
-		template <class U> inline operator std::array<U, Size>() const
+		template <class U> constexpr operator std::array<U, Size>() const
 		{
 			std::array<U, Size> temp { NULL };
 			for (size_t i = 0; i < temp.size(); i++)

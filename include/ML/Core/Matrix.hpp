@@ -70,7 +70,7 @@ namespace ml
 
 		constexpr operator const base_type &() const { return m_data; }
 
-		template <class U> inline operator std::array<U, Size>() const
+		template <class U> constexpr operator std::array<U, Size>() const
 		{ 
 			return (std::array<U, Size>)(base_type)(*this);
 		}

@@ -10,8 +10,12 @@ import memelib_window   as window
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-# Debug Message
+# Debug
 if config.IS_DEBUG:
+    # Advanced Mode
+    prefs.set("Editor", "show_advanced", "true")
+
+    # Print Version
     io.printf("{0} {1} | {2}/{3} | by {4} | {5} {6}\n", [ 
         config.PROJECT_NAME, 
         config.PROJECT_VER,

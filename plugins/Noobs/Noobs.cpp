@@ -238,15 +238,6 @@ namespace ml
 				}
 			}
 
-			// Draw Geometry
-			static Ref<Material> geo { "geometry" };
-			if (geo)
-			{
-				geo->bind();
-				ML_GL.drawArrays(m_editor.m_geoMode, 0, m_editor.m_geoCount);
-				geo->unbind();
-			}
-
 			// Unbind Surface
 			m_pipeline[Surf_Main]->unbind();
 		}
@@ -628,25 +619,6 @@ namespace ml
 
 					// Set Clear Color
 					ImGui::ColorEdit4("Clear Color", &m_scene.m_clearColor[0]);
-
-					// Geometry Settings
-					if (m_files[DemoFile::Geom]->open)
-					{
-						ImGui::Separator();
-
-						int32_t count { m_geoCount };
-						if (ImGui::InputInt("Geometry Count", &count, 1, 100))
-						{
-							if (count >= 0) { m_geoCount = count; }
-						}
-
-						int32_t mode { GL::index_of(m_geoMode) };
-						if (ImGuiExt::Combo(
-							"Geometry Mode", &mode, GL::Mode_names, ML_ARRAYSIZE(GL::Mode_names)))
-						{
-							m_geoMode = GL::value_at<GL::Mode>(mode);
-						}
-					}
 
 					ImGui::Separator();
 

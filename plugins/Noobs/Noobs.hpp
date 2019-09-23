@@ -184,8 +184,6 @@ namespace ml
 			DemoSkybox		m_skybox	{ "demo_skybox" };
 			DemoScene		m_scene		{};
 			Camera			m_camera	{};
-			GL::Mode		m_geoMode	{ GL::Points };
-			int32_t			m_geoCount	{ 4 };
 
 			/* * * * * * * * * * * * * * * * * * * * */
 

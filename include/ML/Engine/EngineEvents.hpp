@@ -23,12 +23,12 @@ namespace ml
 			EV_Enter,
 			EV_Load,
 			EV_Start,
-			EV_BeginFrame,
+			EV_BeginLoop,
 			EV_Update,
 			EV_BeginDraw,
 			EV_Draw,
 			EV_EndDraw,
-			EV_EndFrame,
+			EV_EndLoop,
 			EV_Unload,
 			EV_Exit,
 
@@ -48,7 +48,7 @@ namespace ml
 	struct EnterEvent final : public I_Event<EngineEvent::EV_Enter>
 	{
 		const GameTime & time;
-		const Preferences & prefs;
+		Preferences & prefs;
 		RenderWindow & window;
 		constexpr EnterEvent(const GameTime & time, Preferences & prefs, RenderWindow & window)
 			: time(time)
@@ -61,7 +61,7 @@ namespace ml
 	struct LoadEvent final : public I_Event<EngineEvent::EV_Load>
 	{
 		const GameTime & time;
-		const Preferences & prefs;
+		Preferences & prefs;
 		RenderWindow & window;
 		constexpr LoadEvent(const GameTime & time, Preferences & prefs, RenderWindow & window)
 			: time(time)
@@ -74,9 +74,11 @@ namespace ml
 	struct StartEvent final : public I_Event<EngineEvent::EV_Start>
 	{
 		const GameTime & time;
+		Preferences & prefs;
 		RenderWindow & window;
-		constexpr StartEvent(const GameTime & time, RenderWindow & window)
+		constexpr StartEvent(const GameTime & time, Preferences & prefs, RenderWindow & window)
 			: time(time)
+			, prefs(prefs)
 			, window(window)
 		{
 		}
@@ -85,12 +87,12 @@ namespace ml
 	// Loop
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct BeginFrameEvent final : public I_Event<EngineEvent::EV_BeginFrame>
+	struct BeginLoopEvent final : public I_Event<EngineEvent::EV_BeginLoop>
 	{
 		GameTime & time;
 		RenderWindow & window;
 		Engine & engine;
-		constexpr BeginFrameEvent(GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr BeginLoopEvent(GameTime & time, RenderWindow & window, Engine & engine)
 			: time(time)
 			, window(window)
 			, engine(engine)
@@ -156,12 +158,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct EndFrameEvent final : public I_Event<EngineEvent::EV_EndFrame>
+	struct EndLoopEvent final : public I_Event<EngineEvent::EV_EndLoop>
 	{
 		GameTime & time;
 		RenderWindow & window;
 		Engine & engine;
-		constexpr EndFrameEvent(GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr EndLoopEvent(GameTime & time, RenderWindow & window, Engine & engine)
 			: time(time)
 			, window(window)
 			, engine(engine)

@@ -1,17 +1,6 @@
 #ifndef _ML_CONFIG_HPP_
 #define _ML_CONFIG_HPP_
 
-//	Project Info
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#define ML_PROJECT_AUTH	"Melody Gurman"
-#define ML_PROJECT_NAME "MemeLib"
-#define ML_PROJECT_VER	"Alpha"
-#define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
-#define ML_PROJECT_DATE	__DATE__
-#define ML_PROJECT_TIME	__TIME__
-
-
 //	C++ Version
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -175,6 +164,30 @@
 
 #define ML_TRUE_EXPR(expr)	(([&](){ expr; return true; })())
 #define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
+
+
+//	Version Information
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#define ML_PROJECT_AUTH	"Melody Gurman"
+#define ML_PROJECT_NAME "MemeLib"
+#define ML_PROJECT_VER	"Alpha"
+#define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
+#define ML_PROJECT_DATE	__DATE__
+#define ML_PROJECT_TIME	__TIME__
+
+#define ML_GET_VERSION_STRING(N, V, C, P, A, D, T) \
+"" N "-" V " (" C "/" P ")" " was created by " A " on " D " at " T ""
+
+#define MEMELIB_VERSION ML_GET_VERSION_STRING( \
+	ML_PROJECT_NAME, \
+	ML_PROJECT_VER, \
+	ML_CONFIGURATION, \
+	ML_PLATFORM_TARGET, \
+	ML_PROJECT_AUTH, \
+	ML_PROJECT_DATE, \
+	ML_PROJECT_TIME \
+)
 
 
 //	Export / Import

@@ -33,6 +33,13 @@ namespace ml
 		
 		bool fireEvent(const Event & value);
 
+		template <
+			class T, class ... Args
+		> inline bool fireEvent(Args && ... args)
+		{
+			return fireEvent(T { std::forward<Args>(args)... });
+		}
+
 		bool removeListener(const int32_t & type, I_EventListener * listener);
 		
 		bool removeListenerFromAllEvents(I_EventListener * listener);

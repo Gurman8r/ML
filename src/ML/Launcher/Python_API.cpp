@@ -39,6 +39,7 @@ namespace ml
 		m.attr("PROJECT_URL")		= ML_PROJECT_URL;
 		m.attr("PROJECT_VER")		= ML_PROJECT_VER;
 		m.attr("SYSTEM_NAME")		= ML_SYSTEM_NAME;
+		m.attr("MEMELIB_VERSION")	= MEMELIB_VERSION;
 	}
 
 
@@ -164,7 +165,7 @@ namespace ml
 		});
 		m.def("set", [](const str_t & section, const str_t & name, const str_t & value)
 		{
-			return ML_Launcher.prefs.set(section, name, value);
+			return ML_Launcher.prefs.set_string(section, name, value);
 		});
 	}
 

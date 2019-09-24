@@ -17,7 +17,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorExplorer::EditorExplorer(Editor & editor)
-		: EditorWindow	{ editor, "Explorer", false }
+		: EditorWindow	{ editor, "Explorer", "Ctrl+Alt+E", false }
 		, m_browser		{ }
 	{
 	}

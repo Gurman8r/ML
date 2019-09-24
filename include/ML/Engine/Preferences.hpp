@@ -11,17 +11,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// just a wrapper for INIReader.h
 	struct ML_ENGINE_API Preferences final
 		: public I_Newable
 		, public I_Disposable
 		, public I_Readable
 		, public I_Writable
-		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Preferences();
+		explicit Preferences(const Preferences & copy);
 		explicit Preferences(const String & filename);
 		~Preferences() { dispose(); }
 
@@ -33,7 +32,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool		set			(const String & section, const String & name, const String & value);
+		Set<String> sections() const;
+		bool		set_string	(const String & section, const String & name, const String & value);
 		bool		get_bool	(const String & section, const String & name, bool dv) const;
 		float64_t	get_double	(const String & section, const String & name, float64_t dv) const;
 		float_t		get_float	(const String & section, const String & name, float_t dv) const;

@@ -3,6 +3,19 @@
 
 namespace ml
 {
+	Entity::Entity()
+		: m_data {}
+	{
+	}
+
+	Entity::Entity(const String & filename)
+		: Entity {}
+	{
+		this->loadFromFile(filename);
+	}
+
+	Entity::~Entity() { this->dispose(); }
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool Entity::dispose()

@@ -45,12 +45,7 @@ namespace ml
 		inline auto profiler()	-> EditorProfiler	&	{ return m_profiler; }
 		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
 
-		inline bool show_advanced() const { return m_show_advanced; }
-
 	private:
-		bool m_redirect_cout { false };
-		bool m_show_advanced { false };
-
 		EditorAbout		m_about;
 		EditorDockspace	m_dockspace;
 		EditorContent	m_content;

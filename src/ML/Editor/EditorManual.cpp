@@ -6,7 +6,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorManual::EditorManual(Editor & editor)
-		: EditorWindow { editor, "Manual", false }
+		: EditorWindow { editor, "Manual", "Ctrl+Alt+M", false }
 	{
 	}
 

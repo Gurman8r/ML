@@ -108,10 +108,9 @@ namespace ml
 					// Inspect Button
 					if (ImGui::Button("Inspect"))
 					{
-						ev.editor.inspector().setOpen(true);
-						ImGui::SetWindowFocus(ev.editor.inspector().getTitle());
 						to_select = it;
 					}
+					ImGui::SameLine();
 					// Delete Button
 					if (ImGuiExt::Confirm(
 						String("Delete {0}?").format(type_name),
@@ -136,6 +135,7 @@ namespace ml
 			}
 			if (to_select != database.end())
 			{
+				ev.editor.inspector().Focus(true);
 				self.m_typename = type_name;
 				self.m_itemname = to_select->first;
 				self.m_selected = to_select->second;
@@ -150,7 +150,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorContent::EditorContent(Editor & editor)
-		: EditorWindow { editor, "Content", false }
+		: EditorWindow { editor, "Content", "Ctrl+Alt+C", false }
 	{
 	}
 

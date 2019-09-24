@@ -47,7 +47,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorInspector::EditorInspector(Editor & editor)
-		: EditorWindow { editor, "Inspector", false }
+		: EditorWindow { editor, "Inspector", "Ctrl+Alt+I", false }
 	{
 	}
 

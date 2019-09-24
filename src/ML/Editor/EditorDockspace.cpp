@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	EditorDockspace::EditorDockspace(Editor & editor)
-		: EditorWindow		{ editor, "Dockspace", true }
+		: EditorWindow		{ editor, "Dockspace", "", true }
 		, m_border			{ 0.0f }
 		, m_padding			{ 0.f, 0.f }
 		, m_rounding		{ 0.0f }

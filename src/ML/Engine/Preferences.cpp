@@ -4,20 +4,35 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Preferences::Preferences()
-		: m_ini(nullptr)
+		: m_ini { nullptr }
 	{
+	}
+
+	Preferences::Preferences(const Preferences & copy)
+		: Preferences()
+	{
+		if (!m_ini && copy.m_ini)
+		{
+			if (auto ini { static_cast<INIReader *>(m_ini = new INIReader())})
+			{
+				ini->Copy(*static_cast<const INIReader *>(copy.m_ini));
+			}
+		}
 	}
 
 	Preferences::Preferences(const String & filename)
 		: Preferences()
 	{
-		loadFromFile(filename);
+		if (!loadFromFile(filename))
+		{
+			Debug::logError("FAILED LOADING INI: \'{0}\'", filename);
+		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Preferences::dispose()
 	{
@@ -32,7 +47,7 @@ namespace ml
 	bool Preferences::loadFromFile(const String & filename)
 	{
 		return (((!m_ini) && (m_ini = static_cast<INIReader *>(new INIReader(filename))))
-			? static_cast<INIReader *>(m_ini)->ParseError() == EXIT_SUCCESS
+			? (static_cast<INIReader *>(m_ini)->ParseError() == EXIT_SUCCESS)
 			: false
 		);
 	}
@@ -46,9 +61,18 @@ namespace ml
 		return false;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Preferences::set(const String & section, const String & name, const String & value)
+	Set<String> Preferences::sections() const
+	{
+		if (auto ini { static_cast<const INIReader *>(m_ini) })
+		{
+			return reinterpret_cast<const Set<String> &>(ini->Sections());
+		}
+		return Set<String>();
+	}
+
+	bool Preferences::set_string(const String & section, const String & name, const String & value)
 	{
 		if (m_ini)
 		{
@@ -101,5 +125,5 @@ namespace ml
 		);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

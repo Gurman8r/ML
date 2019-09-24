@@ -33,12 +33,12 @@ namespace ml
 		eventSystem.addListener(EnterEvent		::ID, this);
 		eventSystem.addListener(LoadEvent		::ID, this);
 		eventSystem.addListener(StartEvent		::ID, this);
-		eventSystem.addListener(BeginFrameEvent	::ID, this);
+		eventSystem.addListener(BeginLoopEvent	::ID, this);
 		eventSystem.addListener(UpdateEvent		::ID, this);
 		eventSystem.addListener(BeginDrawEvent	::ID, this);
 		eventSystem.addListener(DrawEvent		::ID, this);
 		eventSystem.addListener(EndDrawEvent	::ID, this);
-		eventSystem.addListener(EndFrameEvent	::ID, this);
+		eventSystem.addListener(EndLoopEvent	::ID, this);
 		eventSystem.addListener(UnloadEvent		::ID, this);
 		eventSystem.addListener(ExitEvent		::ID, this);
 		eventSystem.addListener(CommandEvent	::ID, this);
@@ -53,12 +53,12 @@ namespace ml
 		case EnterEvent::ID		: if (auto ev = value.as<EnterEvent>())		return onEnter(*ev);
 		case LoadEvent::ID		: if (auto ev = value.as<LoadEvent>())		return onLoad(*ev);
 		case StartEvent::ID		: if (auto ev = value.as<StartEvent>())		return onStart(*ev);
-		case BeginFrameEvent::ID: if (auto ev = value.as<BeginFrameEvent>())return onBeginFrame(*ev);
+		case BeginLoopEvent::ID: if (auto ev = value.as<BeginLoopEvent>())return onBeginFrame(*ev);
 		case UpdateEvent::ID	: if (auto ev = value.as<UpdateEvent>())	return onUpdate(*ev);
 		case BeginDrawEvent::ID	: if (auto ev = value.as<BeginDrawEvent>())	return onBeginDraw(*ev);
 		case DrawEvent::ID		: if (auto ev = value.as<DrawEvent>())		return onDraw(*ev);
 		case EndDrawEvent::ID	: if (auto ev = value.as<EndDrawEvent>())	return onEndDraw(*ev);
-		case EndFrameEvent::ID	: if (auto ev = value.as<EndFrameEvent>())	return onEndFrame(*ev);
+		case EndLoopEvent::ID	: if (auto ev = value.as<EndLoopEvent>())	return onEndFrame(*ev);
 		case UnloadEvent::ID	: if (auto ev = value.as<UnloadEvent>())	return onUnload(*ev);
 		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
 
@@ -170,7 +170,7 @@ namespace ml
 	{
 	}
 
-	void Engine::onBeginFrame(const BeginFrameEvent & ev)
+	void Engine::onBeginFrame(const BeginLoopEvent & ev)
 	{
 		ev.time.beginLoop();
 		ev.window.pollEvents();
@@ -208,7 +208,7 @@ namespace ml
 	{
 	}
 
-	void Engine::onEndFrame(const EndFrameEvent & ev)
+	void Engine::onEndFrame(const EndLoopEvent & ev)
 	{
 		ev.window.makeContextCurrent();
 		ev.window.swapBuffers();

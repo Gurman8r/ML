@@ -9,10 +9,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorWindow::EditorWindow(Editor & editor, C_String title, bool open)
+	EditorWindow::EditorWindow(Editor & editor, C_String title, C_String hotkey, bool startOpen)
 		: m_editor	{ editor }
 		, m_title	{ title }
-		, m_open	{ open }
+		, m_hotkey	{ hotkey }
+		, m_open	{ startOpen }
 		, m_good	{ false }
 		, m_flags	{ ImGuiWindowFlags_None }
 	{
@@ -33,6 +34,23 @@ namespace ml
 		ImGui::PopID();
 		ImGui::PopID();
 		return m_good;
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool EditorWindow::Focus(bool value)
+	{
+		if (setOpen(value))
+		{
+			ImGui::SetWindowFocus(getTitle());
+			return true;
+		}
+		return false;
+	}
+
+	bool EditorWindow::MenuItem(bool showHotkey)
+	{
+		return ImGui::MenuItem(getTitle(), (showHotkey ? getHotkey() : nullptr), openPtr());
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

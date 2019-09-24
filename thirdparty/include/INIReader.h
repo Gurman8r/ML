@@ -329,7 +329,7 @@ public:
 	int ParseError() const;
 
 	// Return the list of sections found in ini file
-	std::set<std::string> Sections();
+	const std::set<std::string> & Sections() const;
 
 	// Set a string value in the INI file
 	int Set(std::string section, std::string name, std::string value);
@@ -350,6 +350,15 @@ public:
 	// not a valid true/false value. Valid true values are "true", "yes", "on", "1",
 	// and valid false values are "false", "no", "off", "0" (not case sensitive).
 	bool GetBoolean(std::string section, std::string name, bool default_value);
+
+	// Copy data into Other - Gurman8r/2019
+	inline INIReader & Copy(const INIReader & other)
+	{
+		_error = other._error;
+		_values = other._values;
+		_sections = other._sections;
+		return (*this);
+	}
 
 private:
 	int _error;
@@ -381,7 +390,7 @@ inline int INIReader::ParseError() const
 	return _error;
 }
 
-inline std::set<string> INIReader::Sections()
+inline const std::set<std::string> & INIReader::Sections() const
 {
 	return _sections;
 }

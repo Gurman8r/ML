@@ -22,7 +22,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		explicit EditorWindow(Editor & editor, C_String title, bool open);
+		explicit EditorWindow(Editor & editor, C_String title, C_String hotkey, bool startOpen);
 
 		virtual ~EditorWindow() {}
 
@@ -34,12 +34,19 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
+		bool Focus(bool value);
+		bool MenuItem(bool showHotkey = true);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	public:
 		inline auto editor()		const	-> Editor &	{ return m_editor; }
 		inline auto getTitle()		const	-> C_String	{ return m_title; }
+		inline auto getHotkey()		const	-> C_String { return m_hotkey; }
 		inline auto getFlags()		const	-> int32_t	{ return m_flags; }
 		inline auto isOpen()		const	-> bool		{ return m_open; }
 		inline auto openPtr()				-> bool *	{ return &m_open; }
-		inline auto setOpen(bool v)			-> bool		{ return m_open = v; }
+		inline auto setOpen(bool value)		-> bool		{ return (m_open = value); }
 		inline auto toggleOpen()			-> bool		{ return setOpen(!isOpen()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -49,6 +56,7 @@ namespace ml
 		bool		m_good;
 		bool		m_open;
 		C_String	m_title;
+		C_String	m_hotkey;
 		int32_t		m_flags;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

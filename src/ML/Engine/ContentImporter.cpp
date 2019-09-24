@@ -37,7 +37,14 @@ namespace ml
 			{
 				if (!ML_Content.get<Entity>(name))
 				{
-					return ML_Content.insert(name, new Entity());
+					if (const String file { md.getData("file") })
+					{
+						return ML_Content.insert(name, new Entity(ML_FS.pathTo(file)));
+					}
+					else
+					{
+						return ML_Content.insert(name, new Entity());
+					}
 				}
 			}
 		}

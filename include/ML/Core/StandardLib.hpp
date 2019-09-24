@@ -32,6 +32,7 @@
 #include <random>
 #include <regex>
 #include <stack>
+#include <set>
 #include <sstream>
 #include <stdarg.h>
 #include <stdint.h>
@@ -105,6 +106,7 @@ namespace ml
 	ML_USING_XY MultiMap		= typename _STD multimap		<X, Y>;
 	ML_USING_XY Pair			= typename _STD pair			<X, Y>;
 	ML_USING_XY Tree			= typename _STD map				<X, Y>;
+	ML_USING_X	Set				= typename _STD set<X>;
 	ML_USING_X	BasicIstream	= typename _STD basic_istream	<X, _STD char_traits<X>>;
 	ML_USING_X	BasicOstream	= typename _STD basic_ostream	<X, _STD char_traits<X>>;
 	ML_USING_X	BasicIfstream	= typename _STD basic_ifstream	<X, _STD char_traits<X>>;

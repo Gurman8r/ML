@@ -104,10 +104,6 @@ namespace ml
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
-		// Preferences
-		m_redirect_cout = ev.prefs.get_bool("Editor", "redirect_cout", false);
-		m_show_advanced = ev.prefs.get_bool("Editor", "show_advanced", false);
-
 		// Initialize Implementation Instance
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -147,12 +143,14 @@ namespace ml
 		}
 
 		// Capture Cout
-		if (m_redirect_cout) m_terminal.redirect(cout);
+		m_terminal.redirect(cout);
 
-		// Configure Builtin Windows
+		// Get Preferences
+		m_about		.setOpen(ev.prefs.get_bool("Editor", "show_about",		false));
 		m_content	.setOpen(ev.prefs.get_bool("Editor", "show_content",	false));
 		m_explorer	.setOpen(ev.prefs.get_bool("Editor", "show_explorer",	false));
 		m_inspector	.setOpen(ev.prefs.get_bool("Editor", "show_inspector",	false));
+		m_manual	.setOpen(ev.prefs.get_bool("Editor", "show_manual",		false));
 		m_profiler	.setOpen(ev.prefs.get_bool("Editor", "show_profiler",	false));
 		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal",	false));
 	}
@@ -196,10 +194,10 @@ namespace ml
 				if (ImGui::BeginMenu("Create"))
 				{
 					void * temp { nullptr };
-					PropertyDrawer<Material>()("Material##Create",	(Material *&)temp,	0b1);
-					PropertyDrawer<Model>	()("Model##Create",		(Model *&)temp,		0b1);
-					PropertyDrawer<Shader>	()("Shader##Create",	(Shader *&)temp,	0b1);
-					PropertyDrawer<Texture>	()("Texture##Create",	(Texture *&)temp,	0b1);
+					PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp, true);
+					PropertyDrawer<Model>	()("Model##File##Create", (Model *&)temp, true);
+					PropertyDrawer<Shader>	()("Shader##File##Create", (Shader *&)temp, true);
+					PropertyDrawer<Texture>	()("Texture##File##Create", (Texture *&)temp, true);
 					ImGui::EndMenu();
 				}
 
@@ -219,15 +217,12 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Window"))
 			{
-				if (m_show_advanced)
-				{
-					ImGui::MenuItem(m_content.getTitle(),	"Ctrl+Alt+C", m_content.openPtr());
-					ImGui::MenuItem(m_explorer.getTitle(),	"Ctrl+Alt+E", m_explorer.openPtr());
-					ImGui::MenuItem(m_inspector.getTitle(), "Ctrl+Alt+I", m_inspector.openPtr());
-					ImGui::MenuItem(m_profiler.getTitle(),	"Ctrl+Alt+P", m_profiler.openPtr());
-					ImGui::MenuItem(m_terminal.getTitle(),	"Ctrl+Alt+T", m_terminal.openPtr());
-					ImGui::Separator();
-				}
+				m_content.MenuItem();
+				m_explorer.MenuItem();
+				m_inspector.MenuItem();
+				m_profiler.MenuItem();
+				m_terminal.MenuItem();
+				ImGui::Separator();
 				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Window));
 				ImGui::EndMenu();
 			}
@@ -236,45 +231,13 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Help"))
 			{
-				ImGui::MenuItem(m_about.getTitle(), "Ctrl+Alt+A", m_about.openPtr());
-				//ImGui::MenuItem(m_manual.getTitle(), "Ctrl+Alt+M", m_manual.openPtr());
-				ImGui::Separator();
-
+				m_about.MenuItem();
+				
 				if (ImGui::MenuItem("Repository", "http://"))
-				{
 					OS::execute("open", ML_PROJECT_URL);
-				}
-				if (ImGui::MenuItem("Downloads", "http://"))
-				{
+				
+				if (ImGui::MenuItem("Downloads", "http://")) 
 					OS::execute("open", "https://bit.ly/ml_noobs");
-				}
-				if (ImGui::BeginMenu("Third Party"))
-				{
-					if (ImGui::MenuItem("assimp")) OS::execute("open", "https://github.com/assimp/assimp");
-					if (ImGui::MenuItem("cpython")) OS::execute("open", "https://github.com/python/cpython");
-					if (ImGui::MenuItem("dirent")) OS::execute("open", "https://github.com/tronkko/dirent");
-					if (ImGui::MenuItem("flac")) OS::execute("open", "https://github.com/xiph/flac");
-					if (ImGui::MenuItem("FreeType")) OS::execute("open", "https://www.freetype.org/");
-					if (ImGui::MenuItem("GCEM")) OS::execute("open", "https://github.com/kthohr/gcem");
-					if (ImGui::MenuItem("GLEW")) OS::execute("open", "http://glew.sourceforge.net/");
-					if (ImGui::MenuItem("GLFW")) OS::execute("open", "https://www.glfw.org/");
-					if (ImGui::MenuItem("GLM")) OS::execute("open", "https://glm.g-truc.net/0.9.9/index.html");
-					if (ImGui::MenuItem("ImGui")) OS::execute("open", "https://github.com/ocornut/imgui");
-					if (ImGui::MenuItem("ImGuiColorTextEdit")) OS::execute("open", "https://github.com/BalazsJako/ImGuiColorTextEdit");
-					if (ImGui::MenuItem("ImGuizmo")) OS::execute("open", "https://github.com/CedricGuillemet/ImGuizmo");
-					if (ImGui::MenuItem("INIReader")) OS::execute("open", "https://github.com/benhoyt/inih");
-					if (ImGui::MenuItem("Lua")) OS::execute("open", "https://github.com/lua/lua");
-					if (ImGui::MenuItem("ogg")) OS::execute("open", "https://github.com/xiph/ogg");
-					if (ImGui::MenuItem("OpenAL")) OS::execute("open", "https://www.openal.org/");
-					if (ImGui::MenuItem("pdcurses")) OS::execute("open", "https://github.com/wmcbrine/PDCurses");
-					if (ImGui::MenuItem("pybind11")) OS::execute("open", "https://github.com/pybind/pybind11");
-					if (ImGui::MenuItem("RakNet")) OS::execute("open", "http://www.jenkinssoftware.com/");
-					if (ImGui::MenuItem("rapidjson")) OS::execute("open", "https://github.com/Tencent/rapidjson");
-					if (ImGui::MenuItem("stb")) OS::execute("open", "https://github.com/nothings/stb");
-					if (ImGui::MenuItem("vorbis")) OS::execute("open", "https://github.com/xiph/vorbis");
-
-					ImGui::EndMenu();
-				}
 
 				ImGui::Separator();
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
@@ -316,7 +279,7 @@ namespace ml
 	void Editor::onExit(const ExitEvent & ev)
 	{
 		// Release Cout
-		if (m_redirect_cout) m_terminal.redirect(cout);
+		m_terminal.redirect(cout);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

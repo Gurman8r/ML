@@ -24,9 +24,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Entity() : m_data {} {}
-		
-		virtual ~Entity() { this->dispose(); }
+		Entity();
+		explicit Entity(const String & filename);
+		virtual ~Entity();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

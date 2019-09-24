@@ -95,7 +95,7 @@ namespace ml
 		static constexpr auto filter_suffix(const StringView & value, const StringView & suf)
 		{
 			return ((value.substr(value.size() - suf.size(), suf.size()) == suf)
-				? StringView { value.begin(), value.size() - suf.size() }
+				? value.substr(0, (value.size() - suf.size()))
 				: value
 			);
 		}
@@ -119,19 +119,9 @@ namespace ml
 # endif
 		}
 
-		static constexpr auto filter_struct(const StringView & value)
-		{
-			return filter_prefix(value, "struct");
-		}
-
-		static constexpr auto filter_class(const StringView & value)
-		{
-			return filter_prefix(value, "class");
-		}
-
 		static constexpr auto filter(const StringView & value)
 		{
-			return trim_whitespace(filter_class(filter_struct(filter_signature(value))));
+			return filter_signature(value);
 		}
 	};
 

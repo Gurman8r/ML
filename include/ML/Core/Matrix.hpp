@@ -47,7 +47,6 @@ namespace ml
 		constexpr auto begin()		const	-> const_iterator	{ return m_data.begin(); }
 		constexpr auto cbegin()		const	-> const_iterator	{ return m_data.cbegin(); }
 		constexpr auto cend()		const	-> const_iterator	{ return m_data.cend(); }
-		constexpr auto cols()		const	-> size_t			{ return self_type::Cols; }
 		constexpr auto data()				-> pointer			{ return m_data.data(); }
 		constexpr auto data()		const	-> const_pointer	{ return m_data.data(); }
 		constexpr auto end()				-> iterator			{ return m_data.end(); }
@@ -55,10 +54,14 @@ namespace ml
 		constexpr auto front()				-> reference		{ return m_data.front(); }
 		constexpr auto front()		const	-> const_reference	{ return m_data.front(); }
 		constexpr auto hash()		const	-> hash_t			{ return m_data.hash(); }
-		constexpr auto height()		const	-> size_t			{ return rows(); }
-		constexpr auto rows()		const	-> size_t			{ return self_type::Rows; }
-		constexpr auto size()		const	-> size_t			{ return m_data.size(); }
-		constexpr auto width()		const	-> size_t			{ return cols(); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr size_t cols()		{ return self_type::Cols; }
+		static constexpr size_t height()	{ return rows(); }
+		static constexpr size_t rows()		{ return self_type::Rows; }
+		static constexpr size_t size()		{ return self_type::Size; }
+		static constexpr size_t width()		{ return cols(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

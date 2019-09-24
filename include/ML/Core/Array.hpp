@@ -53,7 +53,10 @@ namespace ml
 		constexpr auto front()				-> reference		{ return (*begin()); }
 		constexpr auto front()		const	-> const_reference	{ return (*cbegin()); }
 		constexpr auto hash()		const	-> hash_t			{ return Hash { data(), size() }; }
-		constexpr auto size()		const	-> size_t			{ return self_type::Size; }
+		
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr size_t size() { return self_type::Size; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

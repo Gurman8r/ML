@@ -10,25 +10,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static void test_type_info()
-	{
-		// ignore red underlines in most cases. visual studio is a butt.
-		static_assert(typeof<int32_t>().name	== "int",				"What?");
-		static_assert(typeof<uint32_t>().name	== "unsigned int",		"What?");
-		static_assert(typeof<>(1.0f).name		== "float",				"What?");
-		static_assert(typeof<C_String>().name	== "const char*",		"What?");
-		static_assert(typeof<Debug>().name		== "struct ml::Debug",	"What?");
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	static void test_math()
 	{
-
-		{
-			
-		}
-
 		// Matrix Tests
 		{
 			constexpr mat4f ma {
@@ -121,4 +104,96 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+}
+
+namespace ml
+{
+	template <class T> struct bitset final
+	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		using type	= typename detail::decay_t<T>;
+		using bit	= typename bool;
+		using byte	= typename uint8_t;
+		using bits	= typename Array<bit, sizeof(type) * 8>;
+		using bytes = typename Array<byte, sizeof(type)>;
+
+		using pointer			= typename bit *;
+		using reference			= typename bit &;
+		using const_pointer		= typename const bit *;
+		using const_reference	= typename const bit &;
+		using iterator			= typename pointer;
+		using const_iterator	= typename const_pointer;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr bitset() : m_bits { bits() } {}
+		constexpr bitset(const bitset<type> & copy) : m_bits { copy.m_bits } {}
+		constexpr bitset(const type & value) : m_bits { to_bits(value) } {}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr type get() const { return from_bits(m_bits); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr type from_bits(const bits & value)
+		{
+			type temp { 0 };
+			for (size_t i = 0; i < sizeof(bits); i++)
+			{
+				bitWrite(temp, i, value[i]);
+			}
+			return temp;
+		}
+
+		static constexpr bits to_bits(const type & value)
+		{
+			bits temp { 0 };
+			for (size_t i = 0; i < sizeof(bits); i++)
+			{
+				temp[i] = bitRead(value, i);
+			}
+			return temp;
+		}
+
+		static constexpr bytes to_bytes(const type & value)
+		{
+			bytes temp { 0 };
+			for (size_t i = 0; i < sizeof(bytes); i++)
+			{
+				temp[i] = static_cast<bit>(value >> (i * 8));
+			}
+			return temp;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr const_reference operator[](size_t i) const { return m_bits[i]; }
+		
+		inline reference operator[](size_t i) { return m_bits[i]; }
+		
+		inline friend ML_SERIALIZE(Ostream & out, const bitset<type> & value)
+		{
+			return out << value.m_bits;
+		}
+
+		inline friend ML_DESERIALIZE(Istream & in, bitset<type> & value)
+		{
+			return in >> value.m_bits;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline		auto begin()			-> iterator			{ return &m_bits[0]; }
+		constexpr	auto begin()	const	-> const_iterator	{ return &m_bits[0]; }
+		constexpr	auto cbegin()	const	-> const_iterator	{ return begin(); }
+		constexpr	auto cend()		const	-> const_iterator	{ return end(); }
+		inline		auto end()				-> iterator			{ return &m_bits[sizeof(bits)]; }
+		constexpr	auto end()		const	-> const_iterator	{ return &m_bits[sizeof(bits)]; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: bits m_bits;
+	};
 }

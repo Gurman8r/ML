@@ -49,15 +49,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto begin()	const -> const_iterator	{ return m_data; }
-		constexpr auto cbegin() const -> const_iterator	{ return m_data; }
-		constexpr auto cend()	const -> const_iterator	{ return m_data + m_size; }
-		constexpr auto c_str()	const -> const_pointer	{ return m_data; }
-		constexpr auto data()	const -> const_pointer	{ return m_data; }
-		constexpr auto end()	const -> const_iterator	{ return m_data + m_size; }
-		constexpr auto hash()	const -> hash_t			{ return Hash { m_data, m_size }; }
-		constexpr auto size()	const -> size_t			{ return m_size; }
-		inline	  auto str()	const -> cppstring		{ return { m_data, m_size }; }
+		constexpr auto back()	const -> const_reference	{ return (*(end() - 1)); }
+		constexpr auto begin()	const -> const_iterator		{ return m_data; }
+		constexpr auto cbegin() const -> const_iterator		{ return m_data; }
+		constexpr auto cend()	const -> const_iterator		{ return m_data + m_size; }
+		constexpr auto c_str()	const -> const_pointer		{ return m_data; }
+		constexpr auto data()	const -> const_pointer		{ return m_data; }
+		constexpr auto end()	const -> const_iterator		{ return m_data + m_size; }
+		constexpr auto front()	const -> const_reference	{ return (*begin()); }
+		constexpr auto hash()	const -> hash_t				{ return Hash { m_data, m_size }; }
+		constexpr auto size()	const -> size_t				{ return m_size; }
+		inline	  auto str()	const -> cppstring			{ return { m_data, m_size }; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -66,7 +68,7 @@ namespace ml
 			return m_data[i];
 		}
 
-		constexpr operator const_pointer() const
+		constexpr operator const const_pointer &() const
 		{ 
 			return m_data;
 		}
@@ -121,8 +123,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const_pointer	m_data;
-		const size_t	m_size;
+		const const_pointer	m_data;
+		const size_t m_size;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -142,7 +144,8 @@ namespace ml
 
 	constexpr bool operator==(const StringView & lhs, const StringView & rhs)
 	{
-		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return ((lhs.begin() == rhs.begin()) && (lhs.end() == rhs.end())) ||
+			alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	constexpr bool operator!=(const StringView & lhs, const StringView & rhs)

@@ -11,22 +11,22 @@ class Component:
         self.type_name = str(type_name)
 
 class Camera(Component):
-    def __init__(self): Component.__init__(self, "struct ml::Camera")
+    def __init__(self): Component.__init__(self, "ml::Camera")
 
 class Light(Component):
-    def __init__(self): Component.__init__(self, "struct ml::Light")
+    def __init__(self): Component.__init__(self, "ml::Light")
 
 class Renderer(Component):
-    def __init__(self): Component.__init__(self, "struct ml::Renderer")
+    def __init__(self): Component.__init__(self, "ml::Renderer")
 
 class Transform(Component):
-    def __init__(self): Component.__init__(self, "struct ml::Transform")
+    def __init__(self): Component.__init__(self, "ml::Transform")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 class Entity:
     def __init__(self, item_name):
-        self.type_name = "struct ml::Entity"
+        self.type_name = "ml::Entity"
         self.item_name = str(item_name)
         self.components = []
 

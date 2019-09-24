@@ -3,6 +3,8 @@
 
 #include <ML/Core/StringView.hpp>
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 // Source: https://github.com/Manu343726/ctti
 # if defined(ML_CC_MSC)
 #	define ML_SIGNATURE		__FUNCSIG__
@@ -16,11 +18,8 @@
 #	define ML_SIGNATURE		__PRETTY_FUNCTION__
 #	define ML_SIGNATURE_PRE	"ml::StringView ml::signature() [T = "
 #	define ML_SIGNATURE_SUF	"]"
-# elif defined(ML_CC_INTEL)
-#	define ML_SIGNATURE		0
-#	define ML_SIGNATURE_PRE ""
-#	define ML_SIGNATURE_SUF ""
 # else
+#	error Type information is not available.
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -29,7 +28,6 @@ namespace ml
 {
 	// Signature
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	template <class T> static constexpr StringView signature()
 	{
 		return { ML_SIGNATURE };
@@ -38,13 +36,71 @@ namespace ml
 
 	// Name Of
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	template <class ... T> struct nameof;
+
+	template <class T> struct nameof<T> final
+	{
+		constexpr nameof() = default;
+		static constexpr auto value { signature<T>() };
+	};
 
 	template <> struct nameof<> final
 	{
-		nameof() = delete;
-		static constexpr StringView filter(const StringView & value) noexcept
+		const StringView value;
+
+		template <class T> constexpr nameof(const nameof<T> & copy)
+			: value { copy.value }
+		{
+		}
+
+		template <class T> constexpr nameof(const T &) noexcept
+			: nameof { nameof<T>() }
+		{
+		}
+
+		template <class T> constexpr nameof(const T *) noexcept
+			: nameof { nameof<const T *>() }
+		{
+		}
+
+		static constexpr StringView trim_front(const StringView & value)
+		{
+			return ((value.size() && (value.front() == ' '))
+				? trim_front(StringView { value.begin() + 1, value.size() - 1 })
+				: value
+			);
+		}
+
+		static constexpr StringView trim_back(const StringView & value)
+		{
+			return ((value.size() && (value.back() == ' '))
+				? StringView { value.begin(), value.size() - 1 }
+				: value
+			);
+		}
+
+		static constexpr StringView trim_whitespace(const StringView & value)
+		{
+			return trim_front(trim_back(value));
+		}
+
+		static constexpr auto filter_prefix(const StringView & value, const StringView & pre)
+		{
+			return ((value.size() >= pre.size() && (value.substr(0, pre.size()) == pre))
+				? value.substr(pre.size())
+				: value
+			);
+		}
+
+		static constexpr auto filter_suffix(const StringView & value, const StringView & suf)
+		{
+			return ((value.substr(value.size() - suf.size(), suf.size()) == suf)
+				? StringView { value.begin(), value.size() - suf.size() }
+				: value
+			);
+		}
+
+		static constexpr auto filter_signature(const StringView & value)
 		{
 # if defined(ML_CC_MSC)
 			const size_t lhs { value.find_first_of('<') };
@@ -62,40 +118,39 @@ namespace ml
 			);
 # endif
 		}
-	};
 
-	template <class T> struct nameof<T> final
-	{
-		nameof() = delete;
-		static constexpr StringView value { signature<T>() };
-	};
+		static constexpr auto filter_struct(const StringView & value)
+		{
+			return filter_prefix(value, "struct");
+		}
 
-	template <class T> static constexpr StringView nameof_v
-	{ 
-		nameof<>::filter(nameof<T>::value)
-	};
+		static constexpr auto filter_class(const StringView & value)
+		{
+			return filter_prefix(value, "class");
+		}
 
-	template <class T> static constexpr hash_t hashof_v
-	{
-		nameof_v<T>.hash()
+		static constexpr auto filter(const StringView & value)
+		{
+			return trim_whitespace(filter_class(filter_struct(filter_signature(value))));
+		}
 	};
 
 
 	// Type Of
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	template <class ... T> struct typeof;
 
 	template <class T> struct typeof<T> final
 	{
 		constexpr typeof() noexcept = default;
-		static constexpr auto name { nameof_v<T> };
-		static constexpr auto hash { hashof_v<T> };
+		static constexpr auto name { nameof<>::filter(nameof<T>::value) };
+		static constexpr auto hash { name.hash() };
 	};
 
 	template <> struct typeof<> final
 	{
-		StringView name; hash_t hash;
+		const StringView name;
+		const hash_t hash;
 
 		template <class T> constexpr typeof(const typeof<T> & copy) noexcept
 			: name { copy.name }, hash { copy.hash }

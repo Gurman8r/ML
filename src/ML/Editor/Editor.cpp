@@ -239,11 +239,10 @@ namespace ml
 				if (ImGui::MenuItem("Downloads", "http://")) 
 					OS::execute("open", "https://bit.ly/ml_noobs");
 
-				ImGui::Separator();
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
-				ImGui::MenuItem("Style Editor", "", &show_imgui_style_editor);
 
 				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Help));
+				
 				ImGui::EndMenu();
 			}
 

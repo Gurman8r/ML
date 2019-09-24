@@ -62,16 +62,26 @@ namespace ml
 			return !m_data;
 		}
 
-		inline bool update(const String & name, pointer data)
+		inline self_type & update(const String & name, pointer data)
 		{
 			if (m_name != name && m_data != data)
 			{
 				m_name = name;
 				m_data = data;
 				m_changed = false;
-				return true;
 			}
-			return false;
+			return (*this);
+		}
+
+		inline self_type & update(const_pointer value)
+		{
+			if (const String name { ML_Content.get_name(value) })
+			{
+				m_name = name;
+				m_data = std::remove_cv_t<pointer>(value);
+				m_changed = false;
+			}
+			return (*this);
 		}
 
 		template <class ... Args>

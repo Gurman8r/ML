@@ -28,6 +28,7 @@
 #include <locale>
 #include <map>
 #include <mutex>
+#include <optional>
 #include <queue>
 #include <random>
 #include <regex>

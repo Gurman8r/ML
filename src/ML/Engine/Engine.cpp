@@ -53,7 +53,7 @@ namespace ml
 		case EnterEvent::ID		: if (auto ev = value.as<EnterEvent>())		return onEnter(*ev);
 		case LoadEvent::ID		: if (auto ev = value.as<LoadEvent>())		return onLoad(*ev);
 		case StartEvent::ID		: if (auto ev = value.as<StartEvent>())		return onStart(*ev);
-		case BeginLoopEvent::ID: if (auto ev = value.as<BeginLoopEvent>())return onBeginFrame(*ev);
+		case BeginLoopEvent::ID	: if (auto ev = value.as<BeginLoopEvent>())	return onBeginFrame(*ev);
 		case UpdateEvent::ID	: if (auto ev = value.as<UpdateEvent>())	return onUpdate(*ev);
 		case BeginDrawEvent::ID	: if (auto ev = value.as<BeginDrawEvent>())	return onBeginDraw(*ev);
 		case DrawEvent::ID		: if (auto ev = value.as<DrawEvent>())		return onDraw(*ev);

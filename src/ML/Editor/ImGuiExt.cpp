@@ -12,6 +12,11 @@ namespace ml
 		return { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 	}
 
+	float ImGuiExt::GetLineHeight()
+	{
+		return ImGui::GetTextLineHeightWithSpacing();
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool ImGuiExt::Combo(C_String label, int32_t * index, const List<String> & arr, int32_t max_height)

@@ -9,9 +9,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API Entity
+	struct ML_ENGINE_API Entity final
 		: public I_Newable
 		, public I_Disposable
+		, public I_NonCopyable
 		, public I_Readable
 		, public I_Writable
 	{
@@ -26,13 +27,13 @@ namespace ml
 
 		Entity();
 		explicit Entity(const String & filename);
-		virtual ~Entity();
+		~Entity();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual bool dispose() override;
-		virtual bool loadFromFile(const String & filename) override;
-		virtual bool saveToFile(const String & filename) const override;
+		bool dispose() override;
+		bool loadFromFile(const String & filename) override;
+		bool saveToFile(const String & filename) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -72,7 +72,6 @@ namespace ml
 		: Plugin { eventSystem }
 	{
 
-		eventSystem.addListener(EnterEvent::ID,			this);
 		eventSystem.addListener(StartEvent::ID,			this);
 		eventSystem.addListener(UpdateEvent::ID,		this);
 		eventSystem.addListener(DrawEvent::ID,			this);
@@ -89,7 +88,6 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID : if (auto ev = value.as<EnterEvent>()) return onEnter(*ev);
 		case StartEvent::ID	: if (auto ev = value.as<StartEvent>()) return onStart(*ev);
 		case UpdateEvent::ID: if (auto ev = value.as<UpdateEvent>()) return onUpdate(*ev);
 		case DrawEvent::ID	: if (auto ev = value.as<DrawEvent>()) return onDraw(*ev);
@@ -146,12 +144,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Noobs::onEnter(const EnterEvent & ev)
-	{
-		m_editor.m_material.rename(ev.prefs.get_string("Noobs", "demo_material", "basic"));
-		m_editor.m_model.rename(ev.prefs.get_string("Noobs", "demo_model", "default_quad"));
-	}
-
 	void Noobs::onStart(const StartEvent & ev)
 	{
 		// Set Path
@@ -160,36 +152,16 @@ namespace ml
 		// Setup Uniforms
 		redirect_uniform<uni_vec2_ptr>("u_viewport", &m_editor.m_scene.m_viewport);
 
-		// Create Demo Entity
-		if (Entity * e { m_editor.m_entity.create() })
+		// Setup Editor Entity
+		if (Entity * ent { m_editor.m_entity.update(ML_Content.get<Entity>(
+			ev.prefs.get_string("Noobs", "demo_entity", "demo_entity")
+		)) })
 		{
-			// Attach Renderer
-			(*(m_editor.m_renderer = e->add<Renderer>()))
-				.setEnabled(true)
-				.setDrawable(m_editor.m_model)
-				.setMaterial(m_editor.m_material)
-				.setStates({
-					AlphaState {},
-					BlendState {},
-					CullState  { false }, // disable culling
-					DepthState {}
-					});
-		}
-
-		// Create Skybox Entity
-		if (Entity * e { m_editor.m_skybox.entity.create() })
-		{
-			// Attach Renderer
-			(*(m_editor.m_skybox.renderer = e->add<Renderer>()))
-				.setEnabled(false)
-				.setDrawable(m_editor.m_skybox.model)
-				.setMaterial(m_editor.m_skybox.material)
-				.setStates({
-					AlphaState {},
-					BlendState {},
-					CullState  {},
-					DepthState { true, false } // disable depth mask
-					});
+			if (m_editor.m_renderer = ent->get<Renderer>())
+			{
+				m_editor.m_material.update(m_editor.m_renderer->material());
+				m_editor.m_model.update((const Model *)m_editor.m_renderer->drawable());
+			}
 		}
 
 		// Setup Editor

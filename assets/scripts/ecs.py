@@ -29,16 +29,16 @@ class Entity:
         self.type_name = "struct ml::Entity"
         self.item_name = str(item_name)
 
-    def attach(self, value):
-        if isinstance(value, Component): return self.attach(value.type_name)
-        elif isinstance(value, str): return ecs.add_component(self.item_name, value)
-        else: return False
-
     def create(self):
         return content.create(self.type_name, self.item_name)
 
     def destroy(self):
         return content.destroy(self.type_name, self.item_name)
+
+    def attach(self, value):
+        if isinstance(value, Component): return self.attach(value.type_name)
+        elif isinstance(value, str): return ecs.add_component(self.item_name, value)
+        else: return False
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 

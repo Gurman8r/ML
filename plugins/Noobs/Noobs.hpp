@@ -39,40 +39,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		void onEnter	(const EnterEvent	& ev);
 		void onStart	(const StartEvent	& ev);
 		void onUpdate	(const UpdateEvent	& ev);
 		void onDraw		(const DrawEvent	& ev);
 		void onGui		(const GuiEvent		& ev);
 		void onExit		(const ExitEvent	& ev);
-
-		// SKYBOX
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoSkybox final : public I_Newable, public I_NonCopyable
-		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			Ref<Entity>		entity;
-			Renderer *		renderer;
-			Ref<Material>	material;
-			Ref<Model>		model;
-
-			DemoSkybox(const String & name)
-				: entity	{ name }
-				, renderer	{ nullptr }
-				, material	{ "skybox" }
-				, model		{ "default_skybox" }
-			{
-			}
-
-			inline operator bool() const
-			{
-				return renderer && entity && material && model;
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-		};
-
 
 		// PIPELINE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -176,12 +147,11 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			bool			m_open		{ true };
-			Ref<Entity>		m_entity	{ "demo_entity" };
-			Ref<Material>	m_material	{ "" };
-			Ref<Model>		m_model		{ "" };
+			Ref<Entity>		m_entity	{};
+			Ref<Material>	m_material	{};
+			Ref<Model>		m_model		{};
 			Renderer *		m_renderer	{ nullptr };
 			File_List		m_files		{ nullptr };
-			DemoSkybox		m_skybox	{ "demo_skybox" };
 			DemoScene		m_scene		{};
 			Camera			m_camera	{};
 

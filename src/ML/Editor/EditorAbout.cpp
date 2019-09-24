@@ -27,22 +27,18 @@ namespace ml
 			return endDraw(); 
 		}
 
-		auto draw_link = ([](C_String label, C_String url)
-		{
-			if (ImGui::MenuItem(label, url)) OS::execute("open", url);
-		});
-
 		// Menu Bar
 		if (ImGui::BeginMenuBar())
 		{
-			draw_link("Downloads", "https://bit.ly/ml_noobs");
-			draw_link("Repository", ML_PROJECT_URL);
+			if (ImGui::Button("Downloads")) OS::execute("open", "https://bit.ly/ml_noobs");
+			if (ImGui::Button("Repository")) OS::execute("open", ML_PROJECT_URL);
 			ImGui::EndMenuBar();
 		}
 
 		// Header
 		ImGui::Text("%s", MEMELIB_VERSION);
-		ImGui::Text("Special thanks to Sajid Farooq and Champlain College.");
+		ImGui::Separator();
+		ImGui::Text("Special thanks to Sajid Farooq and Champlain College for their help and support.");
 		ImGui::Separator();
 
 		// Config/Build Information
@@ -78,28 +74,32 @@ namespace ml
 		// Third Party Software
 		if (ImGui::CollapsingHeader("Third Party Software"))
 		{
-			draw_link("assimp", "https://github.com/assimp/assimp");
-			draw_link("cpython", "https://github.com/python/cpython");
-			draw_link("dirent", "https://github.com/tronkko/dirent");
-			draw_link("flac", "https://github.com/xiph/flac");
-			draw_link("FreeType", "https://www.freetype.org/");
-			draw_link("GCEM", "https://github.com/kthohr/gcem");
-			draw_link("GLEW", "http://glew.sourceforge.net/");
-			draw_link("GLFW", "https://www.glfw.org/");
-			draw_link("GLM", "https://glm.g-truc.net/0.9.9/index.html");
-			draw_link("ImGui", "https://github.com/ocornut/imgui");
-			draw_link("ImGuiColorTextEdit", "https://github.com/BalazsJako/ImGuiColorTextEdit");
-			draw_link("ImGuizmo", "https://github.com/CedricGuillemet/ImGuizmo");
-			draw_link("INIReader", "https://github.com/benhoyt/inih");
-			draw_link("Lua", "https://github.com/lua/lua");
-			draw_link("ogg", "https://github.com/xiph/ogg");
-			draw_link("OpenAL", "https://www.openal.org/");
-			draw_link("pdcurses", "https://github.com/wmcbrine/PDCurses");
-			draw_link("pybind11", "https://github.com/pybind/pybind11");
-			draw_link("RakNet", "http://www.jenkinssoftware.com/");
-			draw_link("rapidjson", "https://github.com/Tencent/rapidjson");
-			draw_link("stb", "https://github.com/nothings/stb");
-			draw_link("vorbis", "https://github.com/xiph/vorbis");
+			auto link_item = ([](C_String label, C_String url)
+			{
+				if (ImGui::MenuItem(label, url)) OS::execute("open", url);
+			});
+			link_item("assimp", "https://github.com/assimp/assimp");
+			link_item("cpython", "https://github.com/python/cpython");
+			link_item("dirent", "https://github.com/tronkko/dirent");
+			link_item("flac", "https://github.com/xiph/flac");
+			link_item("FreeType", "https://www.freetype.org/");
+			link_item("GCEM", "https://github.com/kthohr/gcem");
+			link_item("GLEW", "http://glew.sourceforge.net/");
+			link_item("GLFW", "https://www.glfw.org/");
+			link_item("GLM", "https://glm.g-truc.net/0.9.9/index.html");
+			link_item("ImGui", "https://github.com/ocornut/imgui");
+			link_item("ImGuiColorTextEdit", "https://github.com/BalazsJako/ImGuiColorTextEdit");
+			link_item("ImGuizmo", "https://github.com/CedricGuillemet/ImGuizmo");
+			link_item("INIReader", "https://github.com/benhoyt/inih");
+			link_item("Lua", "https://github.com/lua/lua");
+			link_item("ogg", "https://github.com/xiph/ogg");
+			link_item("OpenAL", "https://www.openal.org/");
+			link_item("pdcurses", "https://github.com/wmcbrine/PDCurses");
+			link_item("pybind11", "https://github.com/pybind/pybind11");
+			link_item("RakNet", "http://www.jenkinssoftware.com/");
+			link_item("rapidjson", "https://github.com/Tencent/rapidjson");
+			link_item("stb", "https://github.com/nothings/stb");
+			link_item("vorbis", "https://github.com/xiph/vorbis");
 		}
 
 		return endDraw();

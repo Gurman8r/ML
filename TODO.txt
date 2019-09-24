@@ -12,8 +12,9 @@
 [ ] MORE PROPERTY DRAWERS
 [ ] Temporary/Preview Assets
 
-[?] async asset loading (threaded w/ progress bar)
+[?] Virtual File System?
 [?] automatic/recursive asset loading
+[?] async asset loading (threaded w/ progress bar)
 
 [X] gui open file dialog
 [X] proper gui for creating/importing new assets

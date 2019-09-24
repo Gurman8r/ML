@@ -183,3 +183,30 @@ memelib_content.load_all([
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     ])
+
+
+# Entities
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+name = "ent_skybox"
+if content.load({ "type": "Entity", "name": name }):
+    if ecs.add_component(name, "struct ml::Renderer"):
+        ecs.set_renderer_enabled(name, False)
+        ecs.set_renderer_material(name, "skybox")
+        ecs.set_renderer_model(name, "default_skybox")
+        ecs.set_renderer_attrib(name, "depth", "mask", "False")
+
+name = "ent_earth"
+if content.load({ "type": "Entity", "name": name }):
+    if ecs.add_component(name, "struct ml::Renderer"):
+        ecs.set_renderer_enabled(name, False)
+        ecs.set_renderer_material(name, "advanced")
+        ecs.set_renderer_model(name, "sphere32x24")
+
+name = "demo_entity"
+if content.load({ "type": "Entity", "name": name }):
+    if ecs.add_component(name, "struct ml::Renderer"):
+        ecs.set_renderer_enabled(name, True)
+        ecs.set_renderer_material(name, "basic")
+        ecs.set_renderer_model(name, "default_quad")
+        ecs.set_renderer_attrib(name, "cull", "enabled", "False")

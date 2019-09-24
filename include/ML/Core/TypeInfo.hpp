@@ -133,8 +133,8 @@ namespace ml
 	template <class T> struct typeof<T> final
 	{
 		constexpr typeof() noexcept = default;
-		static constexpr auto name { nameof<>::filter(nameof<T>::value) };
-		static constexpr auto hash { name.hash() };
+		static constexpr StringView name { nameof<>::filter(nameof<T>::value) };
+		static constexpr hash_t hash { name.hash() };
 	};
 
 	template <> struct typeof<> final

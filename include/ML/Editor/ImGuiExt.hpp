@@ -18,6 +18,8 @@ namespace ml
 
 		static vec2 GetContentRegionAvail();
 
+		static float GetLineHeight();
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static bool Combo(C_String label, int32_t * index, const List<String> & arr, int32_t max_height = -1);

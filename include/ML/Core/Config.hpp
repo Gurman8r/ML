@@ -176,8 +176,9 @@
 #define ML_PROJECT_DATE	__DATE__
 #define ML_PROJECT_TIME	__TIME__
 
+// N-V (C / P) was created by A on D at T
 #define ML_GET_VERSION_STRING(N, V, C, P, A, D, T) \
-"" N "-" V " (" C "/" P ")" " was created by " A " on " D " at " T ""
+"" N "-" V " (" C "/" P ") was created by " A " on " D " at " T ""
 
 #define MEMELIB_VERSION ML_GET_VERSION_STRING( \
 	ML_PROJECT_NAME, \

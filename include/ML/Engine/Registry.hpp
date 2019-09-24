@@ -90,37 +90,37 @@ namespace ml
 
 		inline const hash_t * get_code(const String & name) const
 		{
-			HashMap<String, hash_t>::const_iterator it { m_codes.find(name) };
+			auto it { m_codes.find(name) };
 			return ((it != m_codes.end()) ? &it->second : nullptr);
 		}
 
 		inline const Method get_func(const String & name) const
 		{
-			HashMap<String, Method>::const_iterator it { m_funcs.find(name) };
+			auto it { m_funcs.find(name) };
 			return ((it != m_funcs.end()) ? it->second : nullptr);
 		}
 
 		inline const Method get_func(hash_t code) const
 		{
-			HashMap<hash_t, String>::const_iterator it { m_names.find(code) };
+			auto it { m_names.find(code) };
 			return ((it != m_names.end()) ? this->get_func(it->second) : nullptr);
 		}
 
 		inline const String * get_info(const String & name) const
 		{
-			HashMap<String, String>::const_iterator it { m_infos.find(name) };
+			auto it { m_infos.find(name) };
 			return ((it != m_infos.end()) ? &it->second : nullptr);
 		}
 
 		inline const String * get_info(hash_t code) const
 		{
-			HashMap<hash_t, String>::const_iterator it { m_names.find(code) };
+			auto it { m_names.find(code) };
 			return ((it != m_names.end()) ? this->get_info(it->second) : nullptr);
 		}
 
 		inline const String * get_name(hash_t code) const
 		{
-			HashMap<hash_t, String>::const_iterator it { m_names.find(code) };
+			auto it { m_names.find(code) };
 			return ((it != m_names.end()) ? &it->second : nullptr);
 		}
 

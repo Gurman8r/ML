@@ -981,21 +981,63 @@ namespace ml
 			const String meshID { String("Mesh [" + std::to_string(i) + "]##" + label) };
 			if (ImGui::TreeNode(meshID.c_str()))
 			{
-				ImGui::Text("Vertex Count:"); ImGui::SameLine();
-				ImGui::Text("%u", mesh->vertices().size());
+				ImGui::Text("Vertex Count:"); ImGui::SameLine(); ImGui::Text("%u", mesh->vertices().size());
+				ImGui::Text("Index Count:"); ImGui::SameLine(); ImGui::Text("%u", mesh->indices().size());
 
-				ImGui::Text("Index Count:"); ImGui::SameLine();
-				ImGui::Text("%u", mesh->indices().size());
-				
-				ImGui::Text("VAO Handle:"); ImGui::SameLine();
-				ImGui::Text("%u", (uint32_t)mesh->vao());
-				
-				ImGui::Text("VBO Handle:"); ImGui::SameLine();
-				ImGui::Text("%u", (uint32_t)mesh->vbo());
-				
-				ImGui::Text("IBO Handle:"); ImGui::SameLine();
-				ImGui::Text("%u", (uint32_t)mesh->ibo());
+				ImGui::Separator();
 
+				ImGui::Text("VAO");
+				ImGui::BeginChildFrame(ImGui::GetID("vao"),
+					{ 0, ImGuiExt::GetLineHeight() * 2.25f }
+				);
+				{
+					ImGui::Text("Handle: %u", (uint32_t)mesh->vao());
+					int32_t vao_mode { GL::index_of(mesh->vao().mode()) };
+					ImGuiExt::Combo(
+						"Mode", &vao_mode, GL::Mode_names, ML_ARRAYSIZE(GL::Mode_names)
+					);
+				}
+				ImGui::EndChildFrame();
+				
+				ImGui::Separator();
+
+				ImGui::Text("VBO");
+				ImGui::BeginChildFrame(ImGui::GetID("vbo"),
+					{ 0, ImGuiExt::GetLineHeight() * 4.25f }
+				);
+				{
+					ImGui::Text("Handle: %u", (uint32_t)mesh->vbo());
+					
+					ImGui::Text("Size: %u", mesh->vbo().size());
+					ImGuiExt::Tooltip("Total length of contiguous data");
+
+					ImGui::Text("Count: %u", mesh->vbo().count());
+					ImGuiExt::Tooltip("Number of vertices");
+
+					int32_t vbo_usage { GL::index_of(mesh->vbo().usage()) };
+					ImGuiExt::Combo(
+						"Usage", &vbo_usage, GL::Usage_names, ML_ARRAYSIZE(GL::Usage_names)
+					);
+				}
+				ImGui::EndChildFrame();
+				
+				ImGui::Separator();
+
+				ImGui::Text("IBO");
+				ImGui::BeginChildFrame(ImGui::GetID("ibo"),
+					{ 0, ImGuiExt::GetLineHeight() * 1 }
+				);
+				{
+					ImGui::Text("Handle: %u", (uint32_t)mesh->ibo());
+				}
+				ImGui::EndChildFrame();
+
+				ImGui::Separator();
+
+				ImGui::Text("Vertex Attributes");
+				ImGui::BeginChildFrame(ImGui::GetID("vertexattrib"), 
+					{ 0, ImGuiExt::GetLineHeight() * mesh->layout().elements().size() }
+				);
 				for (const BufferLayout::Element & e : mesh->layout().elements())
 				{
 					ImGui::Text(
@@ -1015,7 +1057,7 @@ namespace ml
 						e.width
 					);
 				}
-
+				ImGui::EndChildFrame();
 				ImGui::TreePop();
 			}
 			ImGui::PopID();

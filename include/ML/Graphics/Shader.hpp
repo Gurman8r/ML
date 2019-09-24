@@ -24,6 +24,12 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
+		using uniform_variant = std::variant<
+			bool, int32_t, float_t, 
+			vec2, vec3, vec4, mat3, mat4,
+			const Texture *
+		>;
+
 		struct Source final { String vs, fs, gs; };
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -62,6 +68,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool setUniform(const Uniform * value) const;
+
+		bool setUniformVariant(const String & name, const uniform_variant & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

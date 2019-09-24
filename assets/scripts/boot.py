@@ -10,8 +10,8 @@ import memelib_window   as window
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-# Print Version
-if (config.IS_DEBUG):
+# Debug Message
+if (config.IS_DEBUG): 
     io.printl(config.MEMELIB_VERSION)
 
 # Load Plugins

@@ -7,6 +7,8 @@
 #include <ML/Engine/Registry.hpp>
 #include <ML/Engine/MetadataParser.hpp>
 #include <ML/Engine/Entity.hpp>
+#include <ML/Graphics/Renderer.hpp>
+#include <ML/Graphics/Model.hpp>
 
 namespace py = pybind11;
 
@@ -95,6 +97,95 @@ namespace ml
 			if (Entity * e = ML_Content.get<Entity>(name))
 			{
 				return (bool)e->addByName(type);
+			}
+			return false;
+		});
+		m.def("set_renderer_enabled", [](const str_t & name, bool value)
+		{
+			if (auto ent { ML_Content.get<Entity>(name) })
+			{
+				if (auto r { ent->get<Renderer>() })
+				{
+					r->setEnabled(value); return true;
+				}
+			}
+			return false;
+		});
+		m.def("set_renderer_material", [](const str_t & name, const str_t & value) 
+		{
+			if (auto ent { ML_Content.get<Entity>(name) })
+			{
+				if (auto r { ent->get<Renderer>() })
+				{
+					if (auto mat { ML_Content.get<Material>(value) })
+					{
+						r->setMaterial(mat); return true;
+					}
+				}
+			}
+			return false;
+		});
+		m.def("set_renderer_model", [](const str_t & name, const str_t & value) 
+		{
+			if (auto ent { ML_Content.get<Entity>(name) })
+			{
+				if (auto r { ent->get<Renderer>() })
+				{
+					if (auto mdl { ML_Content.get<Model>(value) })
+					{
+						r->setDrawable(mdl); return true;
+					}
+				}
+			}
+			return false;
+		});
+		m.def("set_renderer_attrib", [](const str_t & name, const str_t & state, const str_t & key, const str_t & value)
+		{
+			if (auto ent { ML_Content.get<Entity>(name) })
+			{
+				if (auto r { ent->get<Renderer>() })
+				{
+					switch (String(state).hash())
+					{
+						// Alpha State
+					case Hash { "alpha" }:
+						switch (String(key).hash())
+						{
+						case Hash { "enabled" }:
+							r->states().alpha().enabled = alg::to_bool(value); break;
+						}
+						break;
+
+						// Blend State
+					case Hash { "blend" }:
+						switch (String(key).hash())
+						{
+						case Hash { "enabled" }:
+							r->states().blend().enabled = alg::to_bool(value); break;
+						}
+						break;
+
+						// Cull State
+					case Hash { "cull" }:
+						switch (String(key).hash())
+						{
+						case Hash { "enabled" }:
+							r->states().cull().enabled = alg::to_bool(value); break;
+						}
+						break;
+
+						// Depth State
+					case Hash { "depth" }: 
+						switch (String(key).hash())
+						{
+						case Hash { "enabled" }:
+							r->states().depth().enabled = alg::to_bool(value); break;
+						case Hash { "mask" }:
+							r->states().depth().mask = alg::to_bool(value); break;
+						}
+						break;
+					}
+				}
 			}
 			return false;
 		});

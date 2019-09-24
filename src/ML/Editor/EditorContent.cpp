@@ -81,8 +81,8 @@ namespace ml
 			// Draw Items
 			ImGui::PushID(ML_ADDRESSOF(&database));
 			if (database.empty()) { ImGui::Text("-"); }
-			ContentManager::ObjectDatabase::iterator to_remove { database.end() };
-			ContentManager::ObjectDatabase::iterator to_select { database.end() };
+			ContentManager::ObjectDatabase::iterator 
+				to_remove { database.end() }, to_select { database.end() };
 			for (auto it = database.begin(); it != database.end(); it++)
 			{
 				if (!it->second || ImGuiExt::IsHidden(it->first)) { continue; }
@@ -105,13 +105,7 @@ namespace ml
 				// Item Context Menu
 				if (ImGui::BeginPopupContextItem(("##ItemContextMenu##" + label).c_str()))
 				{
-					// Inspect Button
-					if (ImGui::Button("Inspect"))
-					{
-						to_select = it;
-					}
-					ImGui::SameLine();
-					// Delete Button
+					// Delete
 					if (ImGuiExt::Confirm(
 						String("Delete {0}?").format(type_name),
 						ImGui::Button("Delete"),

@@ -25,7 +25,7 @@ static constexpr TYPE find_by_name(C_String value, TYPE dv = TYPE##_values[0]) \
 { \
 	int32_t i = alg::index_of(value, TYPE##_names); \
 	return ((i != -1) ? TYPE##_values[i] : dv); \
-} \
+}
 
 namespace ml
 {

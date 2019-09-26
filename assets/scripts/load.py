@@ -188,46 +188,57 @@ ml_content.load_all([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 import ml_ecs
 
-name = "ent_light"
-if ml_content.load({ "type": "Entity", "name": name }):
-    if ml_ecs.add_component(name, "struct ml::Transform"):
-        ml_ecs.transform_enable(name, True)
-    if ml_ecs.add_component(name, "struct ml::Light"):
-        ml_ecs.light_enable(name, True)
+id = "ent_light"
+if ml_content.load({ "type": "Entity", "name": id }):
+    if ml_ecs.add_component(id, "struct ml::Transform"):
+        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+    if ml_ecs.add_component(id, "struct ml::Light"):
+        ml_ecs.light_attrib(id, "self", "enabled", "True")
 
-name = "ent_camera"
-if ml_content.load({ "type": "Entity", "name": name }):
-    if ml_ecs.add_component(name, "struct ml::Transform"):
-        ml_ecs.transform_enable(name, True)
-    if ml_ecs.add_component(name, "struct ml::Camera"):
-        ml_ecs.camera_enable(name, True)
+id = "ent_camera"
+if ml_content.load({ "type": "Entity", "name": id }):
+    if ml_ecs.add_component(id, "struct ml::Transform"):
+        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+    if ml_ecs.add_component(id, "struct ml::Camera"):
+        ml_ecs.camera_attrib(id, "self", "enabled", "True")
 
-name = "ent_skybox"
-if ml_content.load({ "type": "Entity", "name": name }):
-    if ml_ecs.add_component(name, "struct ml::Transform"):
-        ml_ecs.transform_enable(name, True)
-    if ml_ecs.add_component(name, "struct ml::Renderer"):
-        ml_ecs.renderer_enable(name,  False)
-        ml_ecs.renderer_attrib(name, "material", "name", "mat_skybox")
-        ml_ecs.renderer_attrib(name, "model", "name", "default_skybox")
-        ml_ecs.renderer_attrib(name, "depth", "mask", "False")
+id = "ent_skybox"
+if ml_content.load({ "type": "Entity", "name": id }):
+    if ml_ecs.add_component(id, "struct ml::Transform"):
+        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+    if ml_ecs.add_component(id, "struct ml::Renderer"):
+        ml_ecs.renderer_attrib(id, "self", "enabled", "False")
+        ml_ecs.renderer_attrib(id, "material", "name", "mat_skybox")
+        ml_ecs.renderer_attrib(id, "model", "name", "default_skybox")
+        ml_ecs.renderer_attrib(id, "depth", "mask", "False")
 
-name = "ent_earth"
-if ml_content.load({ "type": "Entity", "name": name }):
-    if ml_ecs.add_component(name, "struct ml::Transform"):
-        ml_ecs.transform_enable(name, True)
-    if ml_ecs.add_component(name, "struct ml::Renderer"):
-        ml_ecs.renderer_enable(name,  False)
-        ml_ecs.renderer_attrib(name, "material", "name", "mat_advanced")
-        ml_ecs.renderer_attrib(name, "model", "name", "obj_sphere32x24")
+id = "ent_earth"
+if ml_content.load({ "type": "Entity", "name": id }):
+    if ml_ecs.add_component(id, "struct ml::Transform"):
+        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+    if ml_ecs.add_component(id, "struct ml::Renderer"):
+        ml_ecs.renderer_attrib(id, "self", "enabled", "False")
+        ml_ecs.renderer_attrib(id, "material", "name", "mat_advanced")
+        ml_ecs.renderer_attrib(id, "model", "name", "obj_sphere32x24")
 
-name = "ent_demo"
-if ml_content.load({ "type": "Entity", "name": name }):
-    if ml_ecs.add_component(name, "struct ml::Transform"):
-        ml_ecs.transform_enable(name, True)
-    if ml_ecs.add_component(name, "struct ml::Renderer"):
-        ml_ecs.renderer_enable(name, True)
-        ml_ecs.renderer_attrib(name, "material", "name", "mat_basic")
-        ml_ecs.renderer_attrib(name, "model", "name", "default_quad")
-        ml_ecs.renderer_attrib(name, "cull", "enabled", "False")
-        ml_ecs.renderer_attrib(name, "cull", "face", "Back")
+id = "ent_demo"
+if ml_content.load({ "type": "Entity", "name": id }):
+    if ml_ecs.add_component(id, "struct ml::Transform"):
+        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+    if ml_ecs.add_component(id, "struct ml::Renderer"):
+        ml_ecs.renderer_attrib(id, "self",      "enabled",      "True")
+        ml_ecs.renderer_attrib(id, "material",  "name",         "mat_basic")
+        ml_ecs.renderer_attrib(id, "model",     "name",         "default_quad")
+        ml_ecs.renderer_attrib(id, "alpha",     "enabled",      "True")
+        ml_ecs.renderer_attrib(id, "alpha",     "predicate",    "Greater")
+        ml_ecs.renderer_attrib(id, "alpha",     "coeff",        "0.01")
+        ml_ecs.renderer_attrib(id, "blend",     "enabled",      "True")
+        ml_ecs.renderer_attrib(id, "blend",     "srcRGB",       "Source Alpha")
+        ml_ecs.renderer_attrib(id, "blend",     "srcAlpha",     "One Minus Source Alpha")
+        ml_ecs.renderer_attrib(id, "blend",     "dstRGB",       "Source Alpha")
+        ml_ecs.renderer_attrib(id, "blend",     "dstAlpha",     "One Minus Source Alpha")
+        ml_ecs.renderer_attrib(id, "cull",      "enabled",      "False")
+        ml_ecs.renderer_attrib(id, "cull",      "face",         "Back")
+        ml_ecs.renderer_attrib(id, "depth",     "enabled",      "True")
+        ml_ecs.renderer_attrib(id, "depth",     "predicate",    "Less")
+        ml_ecs.renderer_attrib(id, "depth",     "mask",         "True")

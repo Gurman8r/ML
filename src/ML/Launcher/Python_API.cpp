@@ -104,33 +104,22 @@ namespace ml
 		m.def("get_component", [](const str_t & name, const str_t & type)
 		{
 			Entity * e { ML_Content.get<Entity>(name) };
-			return (e && e->addByName(type));
+			return (e && e->getByName(type));
 		});
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m.def("camera_enable", [](const str_t & name, bool value)
-		{
-			if (auto e { ML_Content.get<Entity>(name) })
-			{
-				if (auto c { e->get<Camera>() })
-				{
-					c->setEnabled(value); return true;
-				}
-			}
-			return false;
-		});
 		m.def("camera_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
 			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 			auto * c { e->get<Camera>() }; if (!c) return false;
 			switch (String(section).hash())
 			{
-			case Hash(""):
+			case Hash("self"):
 			{
 				switch (String(key).hash())
 				{
-				case Hash(""): break;
+				case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
 				}
 			}
 			break;
@@ -140,28 +129,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m.def("light_enable", [](const str_t & name, bool value)
-		{
-			if (auto e { ML_Content.get<Entity>(name) })
-			{
-				if (auto c { e->get<Light>() })
-				{
-					c->setEnabled(value); return true;
-				}
-			}
-			return false;
-		});
 		m.def("light_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
 			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 			auto * c { e->get<Light>() }; if (!c) return false;
 			switch (String(section).hash())
 			{
-			case Hash(""):
+			case Hash("self"):
 			{
 				switch (String(key).hash())
 				{
-				case Hash(""): break;
+				case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
 				}
 			}
 			break;
@@ -171,29 +149,30 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m.def("renderer_enable", [](const str_t & name, bool value)
-		{
-			if (auto e { ML_Content.get<Entity>(name) })
-			{
-				if (auto c { e->get<Renderer>() })
-				{
-					c->setEnabled(value); return true;
-				}
-			}
-			return false;
-		});
 		m.def("renderer_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
 			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 			auto * c { e->get<Renderer>() }; if (!c) return false;
 			switch (String(section).hash())
 			{
+			case Hash("self"):
+			{
+				switch (String(key).hash())
+				{
+				case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+				}
+			}
+			break;
 			case Hash("material"): 
 			{
 				switch (String(key).hash())
 				{
-				case Hash("name"): c->setMaterial(ML_Content.get<Material>(value)); break;
-				case Hash("shader"): c->setShader(ML_Content.get<Shader>(value)); break;
+				case Hash("name"): 
+					c->setMaterial(ML_Content.get<Material>(value)); 
+					break;
+				case Hash("shader"): 
+					c->setShader(ML_Content.get<Shader>(value)); 
+					break;
 				}
 			}
 			break;
@@ -201,7 +180,9 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("name"): c->setDrawable(ML_Content.get<Model>(value)); break;
+				case Hash("name"):
+					c->setDrawable(ML_Content.get<Model>(value)); 
+					break;
 				}
 			}
 			break;
@@ -209,7 +190,15 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): c->states().alpha().enabled = alg::to_bool(value); break;
+				case Hash("enabled"): 
+					c->states().alpha().enabled = alg::to_bool(value); 
+					break;
+				case Hash("predicate"): 
+					c->states().alpha().predicate = GL::find_by_name(value.c_str(), GL::Greater);
+					break;
+				case Hash("coeff"): 
+					c->states().alpha().coeff = alg::to_float(value, 0.01f);
+					break;
 				}
 			}
 			break;
@@ -217,7 +206,21 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): c->states().blend().enabled = alg::to_bool(value); break;
+				case Hash("enabled"): 
+					c->states().blend().enabled = alg::to_bool(value); 
+					break;
+				case Hash("srcRGB"):
+					c->states().blend().srcRGB = GL::find_by_name(value.c_str(), GL::SrcAlpha);
+					break;
+				case Hash("srcAlpha"):
+					c->states().blend().srcAlpha = GL::find_by_name(value.c_str(), GL::OneMinusSrcAlpha);
+					break;
+				case Hash("dstRGB"):
+					c->states().blend().dstRGB = GL::find_by_name(value.c_str(), GL::SrcAlpha);
+					break;
+				case Hash("dstAlpha"): 
+					c->states().blend().dstAlpha = GL::find_by_name(value.c_str(), GL::OneMinusSrcAlpha);
+					break;
 				}
 			}
 			break;
@@ -225,8 +228,12 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): c->states().cull().enabled = alg::to_bool(value); break;
-				case Hash("face"): c->states().cull().face = GL::find_by_name(value.c_str(), GL::Back);
+				case Hash("enabled"): 
+					c->states().cull().enabled = alg::to_bool(value); 
+					break;
+				case Hash("face"):
+					c->states().cull().face = GL::find_by_name(value.c_str(), GL::Back);
+					break;
 				}
 			}
 			break;
@@ -234,8 +241,15 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): c->states().depth().enabled = alg::to_bool(value); break;
-				case Hash("mask"): c->states().depth().mask = alg::to_bool(value); break;
+				case Hash("enabled"): 
+					c->states().depth().enabled = alg::to_bool(value); 
+					break;
+				case Hash("predicate"): 
+					c->states().depth().predicate = GL::find_by_name(value.c_str(), GL::Less);
+					break;
+				case Hash("mask"): 
+					c->states().depth().mask = alg::to_bool(value); 
+					break;
 				}
 			}
 			break;
@@ -245,28 +259,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m.def("transform_enable", [](const str_t & name, bool value)
-		{
-			if (auto e { ML_Content.get<Entity>(name) })
-			{
-				if (auto c { e->get<Transform>() })
-				{
-					c->setEnabled(value); return true;
-				}
-			}
-			return false;
-		});
 		m.def("transform_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
 			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 			auto * c { e->get<Transform>() }; if (!c) return false;
 			switch (String(section).hash())
 			{
-			case Hash(""):
+			case Hash("self"):
 			{
 				switch (String(key).hash())
 				{
-				case Hash(""): break;
+				case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
 				}
 			}
 			break;

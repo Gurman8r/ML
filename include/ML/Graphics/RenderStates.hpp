@@ -53,7 +53,7 @@ namespace ml
 		GL::Factor dstAlpha;
 
 		constexpr explicit BlendState(bool enabled, GL::Factor srcRGB, GL::Factor srcAlpha, GL::Factor dstRGB, GL::Factor dstAlpha)
-			: enabled(enabled)
+			: enabled	(enabled)
 			, srcRGB	(srcRGB)
 			, srcAlpha	(srcAlpha)
 			, dstRGB	(dstRGB)

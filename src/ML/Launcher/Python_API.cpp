@@ -100,7 +100,7 @@ namespace ml
 			}
 			return false;
 		});
-		m.def("set_renderer_enabled", [](const str_t & name, bool value)
+		m.def("renderer_enable", [](const str_t & name, bool value)
 		{
 			if (auto ent { ML_Content.get<Entity>(name) })
 			{
@@ -111,83 +111,65 @@ namespace ml
 			}
 			return false;
 		});
-		m.def("set_renderer_material", [](const str_t & name, const str_t & value) 
+		m.def("renderer_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
-			if (auto ent { ML_Content.get<Entity>(name) })
+			auto * ent { ML_Content.get<Entity>(name) }; if (!ent) return false;
+			auto * r { ent->get<Renderer>() }; if (!r) return false;
+			switch (String(section).hash())
 			{
-				if (auto r { ent->get<Renderer>() })
+			case Hash("material"): 
+			{
+				switch (String(key).hash())
 				{
-					if (auto mat { ML_Content.get<Material>(value) })
-					{
-						r->setMaterial(mat); return true;
-					}
+				case Hash("name"): r->setMaterial(ML_Content.get<Material>(value)); break;
+				case Hash("shader"): std::remove_cv_t<Material *>(r->material())
+					->setShader(ML_Content.get<Shader>(value)); break;
 				}
 			}
-			return false;
-		});
-		m.def("set_renderer_model", [](const str_t & name, const str_t & value) 
-		{
-			if (auto ent { ML_Content.get<Entity>(name) })
+			break;
+			case Hash("model"):
 			{
-				if (auto r { ent->get<Renderer>() })
+				switch (String(key).hash())
 				{
-					if (auto mdl { ML_Content.get<Model>(value) })
-					{
-						r->setDrawable(mdl); return true;
-					}
+				case Hash("name"): r->setDrawable(ML_Content.get<Model>(value)); break;
 				}
 			}
-			return false;
-		});
-		m.def("set_renderer_attrib", [](const str_t & name, const str_t & state, const str_t & key, const str_t & value)
-		{
-			if (auto ent { ML_Content.get<Entity>(name) })
+			break;
+			case Hash("alpha"):
 			{
-				if (auto r { ent->get<Renderer>() })
+				switch (String(key).hash())
 				{
-					switch (String(state).hash())
-					{
-						// Alpha State
-					case Hash { "alpha" }:
-						switch (String(key).hash())
-						{
-						case Hash { "enabled" }:
-							r->states().alpha().enabled = alg::to_bool(value); break;
-						}
-						break;
-
-						// Blend State
-					case Hash { "blend" }:
-						switch (String(key).hash())
-						{
-						case Hash { "enabled" }:
-							r->states().blend().enabled = alg::to_bool(value); break;
-						}
-						break;
-
-						// Cull State
-					case Hash { "cull" }:
-						switch (String(key).hash())
-						{
-						case Hash { "enabled" }:
-							r->states().cull().enabled = alg::to_bool(value); break;
-						}
-						break;
-
-						// Depth State
-					case Hash { "depth" }: 
-						switch (String(key).hash())
-						{
-						case Hash { "enabled" }:
-							r->states().depth().enabled = alg::to_bool(value); break;
-						case Hash { "mask" }:
-							r->states().depth().mask = alg::to_bool(value); break;
-						}
-						break;
-					}
+				case Hash("enabled"): r->states().alpha().enabled = alg::to_bool(value); break;
 				}
 			}
-			return false;
+			break;
+			case Hash("blend"):
+			{
+				switch (String(key).hash())
+				{
+				case Hash("enabled"): r->states().blend().enabled = alg::to_bool(value); break;
+				}
+			}
+			break;
+			case Hash("cull"):
+			{
+				switch (String(key).hash())
+				{
+				case Hash("enabled"): r->states().cull().enabled = alg::to_bool(value); break;
+				}
+			}
+			break;
+			case Hash("depth"):
+			{
+				switch (String(key).hash())
+				{
+				case Hash("enabled"): r->states().depth().enabled = alg::to_bool(value); break;
+				case Hash("mask"): r->states().depth().mask = alg::to_bool(value); break;
+				}
+			}
+			break;
+			}
+			return true;
 		});
 	}
 
@@ -196,15 +178,30 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	PYBIND11_EMBEDDED_MODULE(memelib_io, m)
 	{
-		m.def("clear", []() { Debug::clear(); });
+		m.def("clear", []()
+		{
+			Debug::clear();
+		});
 		m.def("command", [](const str_t & cmd)
 		{
 			ML_Launcher.eventSystem.fireEvent(CommandEvent(cmd.c_str()));
 		});
-		m.def("exit", []() { Debug::exit(0); });
-		m.def("fatal", [](const str_t & msg) { Debug::fatal(msg); });
-		m.def("pause", []() { Debug::pause(0); });
-		m.def("print", [](const str_t & msg) { cout << msg; });
+		m.def("exit", []()
+		{
+			Debug::exit(0);
+		});
+		m.def("fatal", [](const str_t & msg)
+		{
+			Debug::fatal(msg);
+		});
+		m.def("pause", []()
+		{
+			Debug::pause(0);
+		});
+		m.def("print", [](const str_t & msg)
+		{
+			cout << msg;
+		});
 		m.def("printf", [](const str_t & fmt, const list_t & args)
 		{
 			String str { fmt };
@@ -214,8 +211,14 @@ namespace ml
 			}
 			cout << str;
 		});
-		m.def("printl", [](const str_t & msg) { cout << msg << endl; });
-		m.def("system", [](const str_t & msg) { return Debug::system(msg.c_str()); });
+		m.def("printl", [](const str_t & msg)
+		{
+			cout << msg << endl;
+		});
+		m.def("system", [](const str_t & msg)
+		{
+			return Debug::system(msg.c_str());
+		});
 	}
 
 

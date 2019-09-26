@@ -177,15 +177,14 @@
 #define ML_PROJECT_TIME	__TIME__
 
 // N-V (C / P) was created by A on D at T
-#define ML_GET_VERSION_STRING(N, V, C, P, A, D, T) \
-"" N "-" V " (" C "/" P ") was created by " A " on " D " at " T ""
+#define ML_GET_VERSION_STRING(N, V, C, P, D, T) \
+"" N "-" V " (" C "/" P ") was compiled on " D " at " T ""
 
 #define MEMELIB_VERSION ML_GET_VERSION_STRING( \
 	ML_PROJECT_NAME, \
 	ML_PROJECT_VER, \
 	ML_CONFIGURATION, \
 	ML_PLATFORM_TARGET, \
-	ML_PROJECT_AUTH, \
 	ML_PROJECT_DATE, \
 	ML_PROJECT_TIME \
 )

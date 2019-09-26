@@ -36,9 +36,11 @@ namespace ml
 		}
 
 		// Header
-		ImGui::Text("%s", MEMELIB_VERSION);
-		ImGui::Separator();
-		ImGui::Text("Special thanks to Sajid Farooq and Champlain College for their help and support.");
+		ImGui::Text("Created by Melody Gurman");
+		ImGui::Text(MEMELIB_VERSION);
+		ImGui::Text(
+			"Special thanks to Sajid Farooq and Champlain College for their help and support."
+		); 
 		ImGui::Separator();
 
 		// Config/Build Information

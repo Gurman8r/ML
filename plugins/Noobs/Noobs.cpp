@@ -535,17 +535,17 @@ namespace ml
 							this->generate_sources();
 						}
 					}
-					ImGuiExt::Tooltip("Specifies the targeted material");
+					ImGuiExt::Tooltip("Specifies the active shader and its corresponding uniforms");
 
-					// Select Shader
-					const Shader * shd = m_material->shader();
-					if (PropertyDrawer<Shader>()("Shader##Material##Noobs", shd))
-					{
-						m_material->shader() = shd;
-						this->reset_sources();
-						this->generate_sources();
-					}
-					ImGuiExt::Tooltip("Specifies the targeted shader");
+					//// Select Shader
+					//const Shader * shd = m_material->shader();
+					//if (PropertyDrawer<Shader>()("Shader##Material##Noobs", shd))
+					//{
+					//	m_material->shader() = shd;
+					//	this->reset_sources();
+					//	this->generate_sources();
+					//}
+					//ImGuiExt::Tooltip("Specifies the targeted shader");
 
 					// Select Model
 					const Model * mdl = (const Model *)m_renderer->drawable();

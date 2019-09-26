@@ -27,8 +27,6 @@ ml_content.load_all([
     { "type": "Shader", "name": "gl_surface",          "file": PATH + "/shaders/surface.shader" },
     { "type": "Shader", "name": "gl_solid",            "file": PATH + "/shaders/solid.shader" },
     { "type": "Shader", "name": "gl_skybox",           "file": PATH + "/shaders/skybox.shader" },
-    #{ "type": "Shader", "name": "gl_sprites",          "file": PATH + "/shaders/sprites.shader" },
-    #{ "type": "Shader", "name": "gl_text",             "file": PATH + "/shaders/text.shader" },
     { "type": "Shader", "name": "gl_geometry",         "file": PATH + "/shaders/geometry.shader" },
     {
         "type": "Shader", 
@@ -130,7 +128,6 @@ ml_content.load_all([
     { "type": "Model", "name": "obj_cow",           "file": PATH + "/meshes/cow.obj" },
     { "type": "Model", "name": "obj_teapot",        "file": PATH + "/meshes/teapot.obj" },
     { "type": "Model", "name": "obj_teddy",         "file": PATH + "/meshes/teddy.obj" },
-    #{ "type": "Model", "name": "obj_pumpkin",       "file": PATH + "/meshes/pumpkin.obj" },
 
 # Materials
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -188,21 +185,21 @@ ml_content.load_all([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 import ml_ecs
 
-id = "ent_light"
+id = "_ent_light_"
 if ml_content.load({ "type": "Entity", "name": id }):
     if ml_ecs.add_component(id, "struct ml::Transform"):
         ml_ecs.transform_attrib(id, "self", "enabled", "True")
     if ml_ecs.add_component(id, "struct ml::Light"):
         ml_ecs.light_attrib(id, "self", "enabled", "True")
 
-id = "ent_camera"
+id = "_ent_camera_"
 if ml_content.load({ "type": "Entity", "name": id }):
     if ml_ecs.add_component(id, "struct ml::Transform"):
         ml_ecs.transform_attrib(id, "self", "enabled", "True")
     if ml_ecs.add_component(id, "struct ml::Camera"):
         ml_ecs.camera_attrib(id, "self", "enabled", "True")
 
-id = "ent_skybox"
+id = "_ent_skybox_"
 if ml_content.load({ "type": "Entity", "name": id }):
     if ml_ecs.add_component(id, "struct ml::Transform"):
         ml_ecs.transform_attrib(id, "self", "enabled", "True")

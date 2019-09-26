@@ -5,16 +5,27 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Transform::Transform()
+		: m_enabled { true }
+		, m_pos { NULL }
+		, m_scl { NULL }
+		, m_rot { NULL }
 	{
 	}
 
 	Transform::Transform(const Transform & copy)
+		: Transform {}
 	{
 	}
 
 	Transform::~Transform() {}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	Transform & Transform::setEnabled(bool value)
+	{
+		m_enabled = value;
+		return (*this);
+	}
 
 	Transform & Transform::setPosition(const vec3 & value)
 	{

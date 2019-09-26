@@ -94,28 +94,26 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto get(size_t i) const
-			-> const_reference
+		constexpr auto at(size_t i) const -> const_reference
 		{
 			return (*this)[i];
 		}
 
-		constexpr auto pos() const -> vec3 { return { get(0), get(1), get(2) }; }
-		constexpr auto col() const -> vec4 { return { get(3), get(4), get(5), get(6) }; }
-		constexpr auto tex() const -> vec2 { return { get(7), get(8) }; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		constexpr auto set(size_t i, const_reference value)
-			-> self_type &
+		constexpr auto at(size_t i, const_reference value) -> self_type &
 		{
 			(*this)[i] = value;
 			return (*this);
 		}
 
-		constexpr auto pos(const vec3 & v) -> self_type & { return set(0, v[0]).set(1, v[1]).set(2, v[2]); }
-		constexpr auto col(const vec4 & v) -> self_type & { return set(3, v[0]).set(4, v[1]).set(5, v[2]).set(6, v[3]); }
-		constexpr auto tex(const vec2 & v) -> self_type & { return set(7, v[0]).set(8, v[1]); }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr auto pos() const -> vec3 { return { at(0), at(1), at(2) }; }
+		constexpr auto col() const -> vec4 { return { at(3), at(4), at(5), at(6) }; }
+		constexpr auto tex() const -> vec2 { return { at(7), at(8) }; }
+
+		constexpr auto pos(const vec3 & v) -> self_type & { return at(0, v[0]).at(1, v[1]).at(2, v[2]); }
+		constexpr auto col(const vec4 & v) -> self_type & { return at(3, v[0]).at(4, v[1]).at(5, v[2]).at(6, v[3]); }
+		constexpr auto tex(const vec2 & v) -> self_type & { return at(7, v[0]).at(8, v[1]); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

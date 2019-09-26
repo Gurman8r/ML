@@ -7,14 +7,12 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
+[ ] Increase data density of Entity and ContentManager
+[ ] Remove "RenderBatch"
 [ ] Real-time python scripts
-[ ] Json Editor
+[ ] Json Editor Gui
 [ ] MORE PROPERTY DRAWERS
 [ ] Temporary/Preview Assets
-
-[?] Virtual File System?
-[?] automatic/recursive asset loading
-[?] async asset loading (threaded w/ progress bar)
 
 [X] gui open file dialog
 [X] proper gui for creating/importing new assets
@@ -26,5 +24,9 @@
 [x] template property drawers
 [x] template asset importers
 [x] rework command system
+
+[?] Virtual File System?
+[?] automatic/recursive asset loading
+[?] async asset loading (threaded w/ progress bar)
 
 # * * * * * * * * * * * * * * * * * * * * * * * #

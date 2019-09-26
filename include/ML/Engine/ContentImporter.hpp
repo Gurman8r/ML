@@ -1,7 +1,7 @@
 #ifndef _ML_CONTENT_IMPORTER_HPP_
 #define _ML_CONTENT_IMPORTER_HPP_
 
-#include <ML/Engine/SerializedObject.hpp>
+#include <ML/Engine/MetadataParser.hpp>
 
 #define ML_GEN_CONTENT_IMPORTER(T)											\
 using value_type		= typename ::ml::detail::decay_t<T>;				\

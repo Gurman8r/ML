@@ -1,5 +1,32 @@
 #include <ML/Graphics/GL.hpp>
 
+#define ML_GEN_GL_ENUM_INFO(TYPE) \
+static constexpr bool value_at(int32_t i, TYPE & value) \
+{ \
+	return alg::value_at(i, value, TYPE##_values); \
+} \
+static constexpr int32_t index_of(TYPE value) \
+{ \
+	return alg::index_of(value, TYPE##_values); \
+} \
+static constexpr C_String name_of(TYPE value) \
+{ \
+	return alg::at_index(index_of(value), TYPE##_names); \
+} \
+static constexpr C_String raw_name_of(TYPE value) \
+{ \
+	return alg::at_index(index_of(value), TYPE##_raw_names); \
+} \
+static constexpr C_String desc_of(TYPE value) \
+{ \
+	return alg::at_index(index_of(value), TYPE##_descriptions); \
+} \
+static constexpr TYPE find_by_name(C_String value, TYPE dv = TYPE##_values[0]) \
+{ \
+	int32_t i = alg::index_of(value, TYPE##_names); \
+	return ((i != -1) ? TYPE##_values[i] : dv); \
+} \
+
 namespace ml
 {
 	namespace GL
@@ -47,31 +74,6 @@ namespace ml
 			"If enabled, discard fragments that are outside the scissor rectangle",
 		};
 
-		static constexpr bool value_at(int32_t i, Flag & value)
-		{
-			return alg::value_at(i, value, Flag_values);
-		}
-
-		static constexpr int32_t index_of(Flag value)
-		{
-			return alg::index_of(value, Flag_values);
-		}
-
-		static constexpr C_String name_of(Flag value)
-		{
-			return alg::at_index(index_of(value), Flag_names);
-		}
-
-		static constexpr C_String raw_name_of(Flag value)
-		{
-			return alg::at_index(index_of(value), Flag_raw_names);
-		}
-
-		static constexpr C_String desc_of(Flag value)
-		{
-			return alg::at_index(index_of(value), Flag_descriptions);
-		}
-
 
 		// GL::Sampler
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -99,31 +101,6 @@ namespace ml
 			"No Description",
 			"No Description",
 		};
-
-		static constexpr bool value_at(int32_t i, Sampler & value)
-		{
-			return alg::value_at(i, value, Sampler_values);
-		}
-
-		static constexpr int32_t index_of(Sampler value)
-		{
-			return alg::index_of(value, Sampler_values);
-		}
-
-		static constexpr C_String name_of(Sampler value)
-		{
-			return alg::at_index(index_of(value), Sampler_names);
-		}
-
-		static constexpr C_String raw_name_of(Sampler value)
-		{
-			return alg::at_index(index_of(value), Sampler_raw_names);
-		}
-
-		static constexpr C_String desc_of(Sampler value)
-		{
-			return alg::at_index(index_of(value), Sampler_descriptions);
-		}
 
 
 		// GL::Target
@@ -201,31 +178,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, Target & value)
-		{
-			return alg::value_at(i, value, Target_values);
-		}
-
-		static constexpr int32_t index_of(Target value)
-		{
-			return alg::index_of(value, Target_values);
-		}
-
-		static constexpr C_String name_of(Target value)
-		{
-			return alg::at_index(index_of(value), Target_names);
-		}
-
-		static constexpr C_String raw_name_of(Target value)
-		{
-			return alg::at_index(index_of(value), Target_raw_names);
-		}
-
-		static constexpr C_String desc_of(Target value)
-		{
-			return alg::at_index(index_of(value), Target_descriptions);
-		}
-
 
 		// GL::Usage
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -253,31 +205,6 @@ namespace ml
 			"The data will be modified once and used many times",
 			"The data will be modified repeatedly and used many times",
 		};
-
-		static constexpr bool value_at(int32_t i, Usage & value)
-		{
-			return alg::value_at(i, value, Usage_values);
-		}
-
-		static constexpr int32_t index_of(Usage value)
-		{
-			return alg::index_of(value, Usage_values);
-		}
-
-		static constexpr C_String name_of(Usage value)
-		{
-			return alg::at_index(index_of(value), Usage_names);
-		}
-
-		static constexpr C_String raw_name_of(Usage value)
-		{
-			return alg::at_index(index_of(value), Usage_raw_names);
-		}
-
-		static constexpr C_String desc_of(Usage value)
-		{
-			return alg::at_index(index_of(value), Usage_descriptions);
-		}
 
 
 		// GL::Err
@@ -327,31 +254,6 @@ namespace ml
 			"The object bound to framebuffer binding is not \'framebuffer complete\'"
 		};
 
-		static constexpr bool value_at(int32_t i, Err & value)
-		{
-			return alg::value_at(i, value, Err_values);
-		}
-
-		static constexpr int32_t index_of(Err value)
-		{
-			return alg::index_of(value, Err_values);
-		}
-
-		static constexpr C_String name_of(Err value)
-		{
-			return alg::at_index(index_of(value), Err_names);
-		}
-
-		static constexpr C_String raw_name_of(Err value)
-		{
-			return alg::at_index(index_of(value), Err_raw_names);
-		}
-
-		static constexpr C_String desc_of(Err value)
-		{
-			return alg::at_index(index_of(value), Err_descriptions);
-		}
-
 
 		// GL::StringID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -387,31 +289,6 @@ namespace ml
 			"No Description",
 			"No Description",
 		};
-
-		static constexpr bool value_at(int32_t i, StringID & value)
-		{
-			return alg::value_at(i, value, StringID_values);
-		}
-
-		static constexpr int32_t index_of(StringID value)
-		{
-			return alg::index_of(value, StringID_values);
-		}
-
-		static constexpr C_String name_of(StringID value)
-		{
-			return alg::at_index(index_of(value), StringID_names);
-		}
-
-		static constexpr C_String raw_name_of(StringID value)
-		{
-			return alg::at_index(index_of(value), StringID_raw_names);
-		}
-
-		static constexpr C_String desc_of(StringID value)
-		{
-			return alg::at_index(index_of(value), StringID_descriptions);
-		}
 
 
 		// GL::IntID
@@ -497,31 +374,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, IntID & value)
-		{
-			return alg::value_at(i, value, IntID_values);
-		}
-
-		static constexpr int32_t index_of(IntID value)
-		{
-			return alg::index_of(value, IntID_values);
-		}
-
-		static constexpr C_String name_of(IntID value)
-		{
-			return alg::at_index(index_of(value), IntID_names);
-		}
-
-		static constexpr C_String raw_name_of(IntID value)
-		{
-			return alg::at_index(index_of(value), IntID_raw_names);
-		}
-
-		static constexpr C_String desc_of(IntID value)
-		{
-			return alg::at_index(index_of(value), IntID_descriptions);
-		}
-
 
 		// GL::Clip
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -549,31 +401,6 @@ namespace ml
 			"No Description",
 			"No Description",
 		};
-
-		static constexpr bool value_at(int32_t i, Clip & value)
-		{
-			return alg::value_at(i, value, Clip_values);
-		}
-
-		static constexpr int32_t index_of(Clip value)
-		{
-			return alg::index_of(value, Clip_values);
-		}
-
-		static constexpr C_String name_of(Clip value)
-		{
-			return alg::at_index(index_of(value), Clip_names);
-		}
-
-		static constexpr C_String raw_name_of(Clip value)
-		{
-			return alg::at_index(index_of(value), Clip_raw_names);
-		}
-
-		static constexpr C_String desc_of(Clip value)
-		{
-			return alg::at_index(index_of(value), Clip_descriptions);
-		}
 
 
 		// GL::Status
@@ -607,32 +434,7 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, Status & value)
-		{
-			return alg::value_at(i, value, Status_values);
-		}
-
-		static constexpr int32_t index_of(Status value)
-		{
-			return alg::index_of(value, Status_values);
-		}
-
-		static constexpr C_String name_of(Status value)
-		{
-			return alg::at_index(index_of(value), Status_names);
-		}
-
-		static constexpr C_String raw_name_of(Status value)
-		{
-			return alg::at_index(index_of(value), Status_raw_names);
-		}
-
-		static constexpr C_String desc_of(Status value)
-		{
-			return alg::at_index(index_of(value), Status_descriptions);
-		}
-
-
+		
 		// GL::ShaderType
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -660,32 +462,7 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, ShaderType & value)
-		{
-			return alg::value_at(i, value, ShaderType_values);
-		}
-
-		static constexpr int32_t index_of(ShaderType value)
-		{
-			return alg::index_of(value, ShaderType_values);
-		}
-
-		static constexpr C_String name_of(ShaderType value)
-		{
-			return alg::at_index(index_of(value), ShaderType_names);
-		}
-
-		static constexpr C_String raw_name_of(ShaderType value)
-		{
-			return alg::at_index(index_of(value), ShaderType_raw_names);
-		}
-
-		static constexpr C_String desc_of(ShaderType value)
-		{
-			return alg::at_index(index_of(value), ShaderType_descriptions);
-		}
-
-
+		
 		// GL::Mode
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -733,31 +510,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, Mode & value)
-		{
-			return alg::value_at(i, value, Mode_values);
-		}
-
-		static constexpr int32_t index_of(Mode value)
-		{
-			return alg::index_of(value, Mode_values);
-		}
-
-		static constexpr C_String name_of(Mode value)
-		{
-			return alg::at_index(index_of(value), Mode_names);
-		}
-
-		static constexpr C_String raw_name_of(Mode value)
-		{
-			return alg::at_index(index_of(value), Mode_raw_names);
-		}
-
-		static constexpr C_String desc_of(Mode value)
-		{
-			return alg::at_index(index_of(value), Mode_descriptions);
-		}
-
 
 		// GL::Equation
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -789,31 +541,6 @@ namespace ml
 			"No Description",
 			"No Description",
 		};
-
-		static constexpr bool value_at(int32_t i, Equation & value)
-		{
-			return alg::value_at(i, value, Equation_values);
-		}
-
-		static constexpr int32_t index_of(Equation value)
-		{
-			return alg::index_of(value, Equation_values);
-		}
-
-		static constexpr C_String name_of(Equation value)
-		{
-			return alg::at_index(index_of(value), Equation_names);
-		}
-
-		static constexpr C_String raw_name_of(Equation value)
-		{
-			return alg::at_index(index_of(value), Equation_raw_names);
-		}
-
-		static constexpr C_String desc_of(Equation value)
-		{
-			return alg::at_index(index_of(value), Equation_descriptions);
-		}
 
 
 		// GL::Predicate
@@ -862,31 +589,6 @@ namespace ml
 			"Passes if the incoming value is greater than or equal to the stored value",
 			"Always passes",
 		};
-
-		static constexpr bool value_at(int32_t i, Predicate & value)
-		{
-			return alg::value_at(i, value, Predicate_values);
-		}
-
-		static constexpr int32_t index_of(Predicate value)
-		{
-			return alg::index_of(value, Predicate_values);
-		}
-
-		static constexpr C_String name_of(Predicate value)
-		{
-			return alg::at_index(index_of(value), Predicate_names);
-		}
-
-		static constexpr C_String raw_name_of(Predicate value)
-		{
-			return alg::at_index(index_of(value), Predicate_raw_names);
-		}
-
-		static constexpr C_String desc_of(Predicate value)
-		{
-			return alg::at_index(index_of(value), Predicate_descriptions);
-		}
 
 
 		// GL::Factor
@@ -940,31 +642,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, Factor & value)
-		{
-			return alg::value_at(i, value, Factor_values);
-		}
-
-		static constexpr int32_t index_of(Factor value)
-		{
-			return alg::index_of(value, Factor_values);
-		}
-
-		static constexpr C_String name_of(Factor value)
-		{
-			return alg::at_index(index_of(value), Factor_names);
-		}
-
-		static constexpr C_String raw_name_of(Factor value)
-		{
-			return alg::at_index(index_of(value), Factor_raw_names);
-		}
-
-		static constexpr C_String desc_of(Factor value)
-		{
-			return alg::at_index(index_of(value), Factor_descriptions);
-		}
-
 
 		// GL::Face
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1017,32 +694,7 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, Face & value)
-		{
-			return alg::value_at(i, value, Face_values);
-		}
-
-		static constexpr int32_t index_of(Face value)
-		{
-			return alg::index_of(value, Face_values);
-		}
-
-		static constexpr C_String name_of(Face value)
-		{
-			return alg::at_index(index_of(value), Face_names);
-		}
-
-		static constexpr C_String raw_name_of(Face value)
-		{
-			return alg::at_index(index_of(value), Face_raw_names);
-		}
-
-		static constexpr C_String desc_of(Face value)
-		{
-			return alg::at_index(index_of(value), Face_descriptions);
-		}
-
-
+		
 		// GL::Type
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -1089,31 +741,6 @@ namespace ml
 			"No Description",
 			"No Description",
 		};
-
-		static constexpr bool value_at(int32_t i, Type & value)
-		{
-			return alg::value_at(i, value, Type_values);
-		}
-
-		static constexpr int32_t index_of(Type value)
-		{
-			return alg::index_of(value, Type_values);
-		}
-
-		static constexpr C_String name_of(Type value)
-		{
-			return alg::at_index(index_of(value), Type_names);
-		}
-
-		static constexpr C_String raw_name_of(Type value)
-		{
-			return alg::at_index(index_of(value), Type_raw_names);
-		}
-
-		static constexpr C_String desc_of(Type value)
-		{
-			return alg::at_index(index_of(value), Type_descriptions);
-		}
 
 
 		// GL::Format
@@ -1199,31 +826,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, Format & value)
-		{
-			return alg::value_at(i, value, Format_values);
-		}
-
-		static constexpr int32_t index_of(Format value)
-		{
-			return alg::index_of(value, Format_values);
-		}
-
-		static constexpr C_String name_of(Format value)
-		{
-			return alg::at_index(index_of(value), Format_names);
-		}
-
-		static constexpr C_String raw_name_of(Format value)
-		{
-			return alg::at_index(index_of(value), Format_raw_names);
-		}
-
-		static constexpr C_String desc_of(Format value)
-		{
-			return alg::at_index(index_of(value), Format_descriptions);
-		}
-
 
 		// GL::FrameID
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1283,31 +885,6 @@ namespace ml
 			"No Description",
 			"No Description",
 		};
-
-		static constexpr bool value_at(int32_t i, FrameID & value)
-		{
-			return alg::value_at(i, value, FrameID_values);
-		}
-
-		static constexpr int32_t index_of(FrameID value)
-		{
-			return alg::index_of(value, FrameID_values);
-		}
-
-		static constexpr C_String name_of(FrameID value)
-		{
-			return alg::at_index(index_of(value), FrameID_names);
-		}
-
-		static constexpr C_String raw_name_of(FrameID value)
-		{
-			return alg::at_index(index_of(value), FrameID_raw_names);
-		}
-
-		static constexpr C_String desc_of(FrameID value)
-		{
-			return alg::at_index(index_of(value), FrameID_descriptions);
-		}
 
 
 		// GL::TexParam
@@ -1420,31 +997,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, TexParam & value)
-		{
-			return alg::value_at(i, value, TexParam_values);
-		}
-
-		static constexpr int32_t index_of(TexParam value)
-		{
-			return alg::index_of(value, TexParam_values);
-		}
-
-		static constexpr C_String name_of(TexParam value)
-		{
-			return alg::at_index(index_of(value), TexParam_names);
-		}
-
-		static constexpr C_String raw_name_of(TexParam value)
-		{
-			return alg::at_index(index_of(value), TexParam_raw_names);
-		}
-
-		static constexpr C_String desc_of(TexParam value)
-		{
-			return alg::at_index(index_of(value), TexParam_descriptions);
-		}
-
 
 		// GL::Pack
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1508,31 +1060,6 @@ namespace ml
 			"No Description",
 			"No Description",
 		};
-
-		static constexpr bool value_at(int32_t i, Pack & value)
-		{
-			return alg::value_at(i, value, Pack_values);
-		}
-
-		static constexpr int32_t index_of(Pack value)
-		{
-			return alg::index_of(value, Pack_values);
-		}
-
-		static constexpr C_String name_of(Pack value)
-		{
-			return alg::at_index(index_of(value), Pack_names);
-		}
-
-		static constexpr C_String raw_name_of(Pack value)
-		{
-			return alg::at_index(index_of(value), Pack_raw_names);
-		}
-
-		static constexpr C_String desc_of(Pack value)
-		{
-			return alg::at_index(index_of(value), Pack_descriptions);
-		}	
 
 
 		// GL::Attachment
@@ -1613,31 +1140,6 @@ namespace ml
 			"No Description",
 			"No Description",
 		};
-
-		static constexpr bool value_at(int32_t i, ColorID & value)
-		{
-			return alg::value_at(i, value, ColorID_values);
-		}
-
-		static constexpr int32_t index_of(ColorID value)
-		{
-			return alg::index_of(value, ColorID_values);
-		}
-
-		static constexpr C_String name_of(ColorID value)
-		{
-			return alg::at_index(index_of(value), ColorID_names);
-		}
-
-		static constexpr C_String raw_name_of(ColorID value)
-		{
-			return alg::at_index(index_of(value), ColorID_raw_names);
-		}
-
-		static constexpr C_String desc_of(ColorID value)
-		{
-			return alg::at_index(index_of(value), ColorID_descriptions);
-		}
 
 
 		// GL::TexID
@@ -1783,31 +1285,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, TexID & value)
-		{
-			return alg::value_at(i, value, TexID_values);
-		}
-
-		static constexpr int32_t index_of(TexID value)
-		{
-			return alg::index_of(value, TexID_values);
-		}
-
-		static constexpr C_String name_of(TexID value)
-		{
-			return alg::at_index(index_of(value), TexID_names);
-		}
-
-		static constexpr C_String raw_name_of(TexID value)
-		{
-			return alg::at_index(index_of(value), TexID_raw_names);
-		}
-
-		static constexpr C_String desc_of(TexID value)
-		{
-			return alg::at_index(index_of(value), TexID_descriptions);
-		}
-
 
 		// GL::DrawBuffer
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1888,32 +1365,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, DrawBuffer & value)
-		{
-			return alg::value_at(i, value, DrawBuffer_values);
-		}
-
-		static constexpr int32_t index_of(DrawBuffer value)
-		{
-			return alg::index_of(value, DrawBuffer_values);
-		}
-
-		static constexpr C_String name_of(DrawBuffer value)
-		{
-			return alg::at_index(index_of(value), DrawBuffer_names);
-		}
-
-		static constexpr C_String raw_name_of(DrawBuffer value)
-		{
-			return alg::at_index(index_of(value), DrawBuffer_raw_names);
-		}
-
-		static constexpr C_String desc_of(DrawBuffer value)
-		{
-			return alg::at_index(index_of(value), DrawBuffer_descriptions);
-		}
-
-
 		// GL::Mask
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -1953,31 +1404,6 @@ namespace ml
 			"No Description",
 		};
 
-		static constexpr bool value_at(int32_t i, Mask & value)
-		{
-			return alg::value_at(i, value, Mask_values);
-		}
-
-		static constexpr int32_t index_of(Mask value)
-		{
-			return alg::index_of(value, Mask_values);
-		}
-
-		static constexpr C_String name_of(Mask value)
-		{
-			return alg::at_index(index_of(value), Mask_names);
-		}
-
-		static constexpr C_String raw_name_of(Mask value)
-		{
-			return alg::at_index(index_of(value), Mask_raw_names);
-		}
-
-		static constexpr C_String desc_of(Mask value)
-		{
-			return alg::at_index(index_of(value), Mask_descriptions);
-		}
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
@@ -1990,6 +1416,35 @@ namespace ml
 {
 	namespace GL
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		ML_GEN_GL_ENUM_INFO(Flag);
+		ML_GEN_GL_ENUM_INFO(Sampler);
+		ML_GEN_GL_ENUM_INFO(Target);
+		ML_GEN_GL_ENUM_INFO(Usage);
+		ML_GEN_GL_ENUM_INFO(Err);
+		ML_GEN_GL_ENUM_INFO(StringID);
+		ML_GEN_GL_ENUM_INFO(IntID);
+		ML_GEN_GL_ENUM_INFO(Clip);
+		ML_GEN_GL_ENUM_INFO(Status);
+		ML_GEN_GL_ENUM_INFO(ShaderType);
+		ML_GEN_GL_ENUM_INFO(Mode);
+		ML_GEN_GL_ENUM_INFO(Equation);
+		ML_GEN_GL_ENUM_INFO(Predicate);
+		ML_GEN_GL_ENUM_INFO(Factor);
+		ML_GEN_GL_ENUM_INFO(Face);
+		ML_GEN_GL_ENUM_INFO(Type);
+		ML_GEN_GL_ENUM_INFO(Format);
+		ML_GEN_GL_ENUM_INFO(FrameID);
+		ML_GEN_GL_ENUM_INFO(TexParam);
+		ML_GEN_GL_ENUM_INFO(Pack);
+		ML_GEN_GL_ENUM_INFO(ColorID);
+		ML_GEN_GL_ENUM_INFO(TexID);
+		ML_GEN_GL_ENUM_INFO(DrawBuffer);
+		ML_GEN_GL_ENUM_INFO(Mask);
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		template <class T> static constexpr T value_at(int32_t index, T dv = (T)0)
 		{
 			::ml::GL::value_at(index, dv);
@@ -2015,6 +1470,8 @@ namespace ml
 		{
 			return ::ml::GL::desc_of(value);
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	inline ML_SERIALIZE(Ostream & out, const GL::Flag & value) { return out << GL::name_of(value); }

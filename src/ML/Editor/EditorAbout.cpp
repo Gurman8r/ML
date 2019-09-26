@@ -1,6 +1,7 @@
 #include <ML/Editor/EditorAbout.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
+#include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/OS.hpp>
@@ -37,7 +38,14 @@ namespace ml
 
 		// Header
 		ImGui::Text("Created by Melody Gurman");
-		ImGui::Text(MEMELIB_VERSION);
+		ImGui::Text("%s ( %s / %s / %s ) - %s - %s", 
+			ML_PROJECT_NAME,
+			ML_PROJECT_VER,
+			ML_CONFIGURATION,
+			ML_PLATFORM_TARGET,
+			ML_PROJECT_DATE,
+			ML_PROJECT_TIME
+		);
 		ImGui::Text(
 			"Special thanks to Sajid Farooq and Champlain College for their help and support."
 		); 
@@ -69,6 +77,24 @@ namespace ml
 			draw_def("ML_PROJECT_URL", "%s", ML_PROJECT_URL);
 			draw_def("ML_PROJECT_VER", "%s", ML_PROJECT_VER);
 			draw_def("ML_SYSTEM_NAME", "%s", ML_SYSTEM_NAME);
+			ImGui::NextColumn();
+			ImGui::Columns(1);
+		}
+
+		// OpenGL Information
+		if (ImGui::CollapsingHeader("Renderer Information"))
+		{
+			auto draw_def = ([](C_String label, C_String fmt, auto data)
+			{
+				ImGui::Text("%s: ", label);
+				ImGui::NextColumn();
+				ImGui::Text(fmt, data);
+				ImGui::NextColumn();
+			});
+			ImGui::Columns(2);
+			draw_def("OpenGL Vendor", "%s", ML_GL.getString(GL::Vendor));
+			draw_def("OpenGL Renderer", "%s", ML_GL.getString(GL::Renderer));
+			draw_def("OpenGL Version", "%s", ML_GL.getString(GL::Version));
 			ImGui::NextColumn();
 			ImGui::Columns(1);
 		}

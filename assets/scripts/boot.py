@@ -1,22 +1,31 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-import memelib_config   as config
-import memelib_content  as content
-import memelib_ecs      as ecs
-import memelib_io       as io
-import memelib_plugins  as plugins
-import memelib_prefs    as prefs
-import memelib_window   as window
+import ml_config
+import ml_content
+import ml_ecs
+import ml_io
+import ml_plugins
+import ml_prefs
+import ml_window
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 # Debug Message
-if (config.IS_DEBUG): 
-    io.printl(config.MEMELIB_VERSION)
+if (ml_config.IS_DEBUG): 
+    ml_io.printf("{0} - {1} - {2} - {3} - {4} - {5} \n", [
+        ml_config.PROJECT_NAME,
+        ml_config.PROJECT_VER,
+        ml_config.CONFIGURATION,
+        ml_config.PLATFORM_TARGET,
+        ml_config.PROJECT_DATE,
+        ml_config.PROJECT_TIME
+        ])
+    #ml_io.pause()
+    #ml_io.exit()
 
 # Load Plugins
-if (config.SYSTEM_NAME == "Windows"):
-    plugins.load_all([
+if (ml_config.SYSTEM_NAME == "Windows"):
+    ml_plugins.load_all([
  	    "Noobs_$(Configuration)_$(PlatformTarget).dll",
  	    "CommandSuite_$(Configuration)_$(PlatformTarget).dll",
  	    #"TestPlugin_$(Configuration)_$(PlatformTarget).dll",

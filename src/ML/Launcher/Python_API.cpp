@@ -8,6 +8,9 @@
 #include <ML/Engine/MetadataParser.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Renderer.hpp>
+#include <ML/Graphics/Light.hpp>
+#include <ML/Graphics/Camera.hpp>
+#include <ML/Graphics/Transform.hpp>
 #include <ML/Graphics/Model.hpp>
 
 namespace py = pybind11;
@@ -22,10 +25,10 @@ namespace ml
 	using table_t	= typename std::vector<dict_t>;
 	using coord_t	= typename std::array<float_t, 2>;
 
-
+	
 	// Config
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(memelib_config, m)
+	PYBIND11_EMBEDDED_MODULE(ml_config, m)
 	{
 		m.attr("ARCHITECTURE")		= ML_ARCHITECTURE;
 		m.attr("COMPILER_NAME")		= ML_CC_NAME;
@@ -41,13 +44,12 @@ namespace ml
 		m.attr("PROJECT_URL")		= ML_PROJECT_URL;
 		m.attr("PROJECT_VER")		= ML_PROJECT_VER;
 		m.attr("SYSTEM_NAME")		= ML_SYSTEM_NAME;
-		m.attr("MEMELIB_VERSION")	= MEMELIB_VERSION;
 	}
 
 
 	// Content
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(memelib_content, m)
+	PYBIND11_EMBEDDED_MODULE(ml_content, m)
 	{
 		m.def("create", [](const str_t & type, const str_t & name)
 		{
@@ -90,40 +92,108 @@ namespace ml
 
 	// ECS
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(memelib_ecs, m)
+	PYBIND11_EMBEDDED_MODULE(ml_ecs, m)
 	{
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		m.def("add_component", [](const str_t & name, const str_t & type)
 		{
-			if (Entity * e = ML_Content.get<Entity>(name))
+			Entity * e { ML_Content.get<Entity>(name) };
+			return (e && e->addByName(type));
+		});
+		m.def("get_component", [](const str_t & name, const str_t & type)
+		{
+			Entity * e { ML_Content.get<Entity>(name) };
+			return (e && e->addByName(type));
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m.def("camera_enable", [](const str_t & name, bool value)
+		{
+			if (auto e { ML_Content.get<Entity>(name) })
 			{
-				return (bool)e->addByName(type);
+				if (auto c { e->get<Camera>() })
+				{
+					c->setEnabled(value); return true;
+				}
 			}
 			return false;
 		});
+		m.def("camera_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
+		{
+			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+			auto * c { e->get<Camera>() }; if (!c) return false;
+			switch (String(section).hash())
+			{
+			case Hash(""):
+			{
+				switch (String(key).hash())
+				{
+				case Hash(""): break;
+				}
+			}
+			break;
+			}
+			return true;
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m.def("light_enable", [](const str_t & name, bool value)
+		{
+			if (auto e { ML_Content.get<Entity>(name) })
+			{
+				if (auto c { e->get<Light>() })
+				{
+					c->setEnabled(value); return true;
+				}
+			}
+			return false;
+		});
+		m.def("light_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
+		{
+			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+			auto * c { e->get<Light>() }; if (!c) return false;
+			switch (String(section).hash())
+			{
+			case Hash(""):
+			{
+				switch (String(key).hash())
+				{
+				case Hash(""): break;
+				}
+			}
+			break;
+			}
+			return true;
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		m.def("renderer_enable", [](const str_t & name, bool value)
 		{
-			if (auto ent { ML_Content.get<Entity>(name) })
+			if (auto e { ML_Content.get<Entity>(name) })
 			{
-				if (auto r { ent->get<Renderer>() })
+				if (auto c { e->get<Renderer>() })
 				{
-					r->setEnabled(value); return true;
+					c->setEnabled(value); return true;
 				}
 			}
 			return false;
 		});
 		m.def("renderer_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
-			auto * ent { ML_Content.get<Entity>(name) }; if (!ent) return false;
-			auto * r { ent->get<Renderer>() }; if (!r) return false;
+			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+			auto * c { e->get<Renderer>() }; if (!c) return false;
 			switch (String(section).hash())
 			{
 			case Hash("material"): 
 			{
 				switch (String(key).hash())
 				{
-				case Hash("name"): r->setMaterial(ML_Content.get<Material>(value)); break;
-				case Hash("shader"): std::remove_cv_t<Material *>(r->material())
-					->setShader(ML_Content.get<Shader>(value)); break;
+				case Hash("name"): c->setMaterial(ML_Content.get<Material>(value)); break;
+				case Hash("shader"): c->setShader(ML_Content.get<Shader>(value)); break;
 				}
 			}
 			break;
@@ -131,7 +201,7 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("name"): r->setDrawable(ML_Content.get<Model>(value)); break;
+				case Hash("name"): c->setDrawable(ML_Content.get<Model>(value)); break;
 				}
 			}
 			break;
@@ -139,7 +209,7 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): r->states().alpha().enabled = alg::to_bool(value); break;
+				case Hash("enabled"): c->states().alpha().enabled = alg::to_bool(value); break;
 				}
 			}
 			break;
@@ -147,7 +217,7 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): r->states().blend().enabled = alg::to_bool(value); break;
+				case Hash("enabled"): c->states().blend().enabled = alg::to_bool(value); break;
 				}
 			}
 			break;
@@ -155,7 +225,8 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): r->states().cull().enabled = alg::to_bool(value); break;
+				case Hash("enabled"): c->states().cull().enabled = alg::to_bool(value); break;
+				case Hash("face"): c->states().cull().face = GL::find_by_name(value.c_str(), GL::Back);
 				}
 			}
 			break;
@@ -163,20 +234,53 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): r->states().depth().enabled = alg::to_bool(value); break;
-				case Hash("mask"): r->states().depth().mask = alg::to_bool(value); break;
+				case Hash("enabled"): c->states().depth().enabled = alg::to_bool(value); break;
+				case Hash("mask"): c->states().depth().mask = alg::to_bool(value); break;
 				}
 			}
 			break;
 			}
 			return true;
 		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		m.def("transform_enable", [](const str_t & name, bool value)
+		{
+			if (auto e { ML_Content.get<Entity>(name) })
+			{
+				if (auto c { e->get<Transform>() })
+				{
+					c->setEnabled(value); return true;
+				}
+			}
+			return false;
+		});
+		m.def("transform_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
+		{
+			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+			auto * c { e->get<Transform>() }; if (!c) return false;
+			switch (String(section).hash())
+			{
+			case Hash(""):
+			{
+				switch (String(key).hash())
+				{
+				case Hash(""): break;
+				}
+			}
+			break;
+			}
+			return true;
+		});
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 
 	// IO
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(memelib_io, m)
+	PYBIND11_EMBEDDED_MODULE(ml_io, m)
 	{
 		m.def("clear", []()
 		{
@@ -224,7 +328,7 @@ namespace ml
 
 	// Plugins
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(memelib_plugins, m)
+	PYBIND11_EMBEDDED_MODULE(ml_plugins, m)
 	{
 		m.def("load", [](const str_t & filename)
 		{
@@ -243,7 +347,7 @@ namespace ml
 
 	// Preferences
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(memelib_prefs, m)
+	PYBIND11_EMBEDDED_MODULE(ml_prefs, m)
 	{
 		m.def("load", [](const str_t & filename)
 		{
@@ -266,7 +370,7 @@ namespace ml
 
 	// Window
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(memelib_window, m)
+	PYBIND11_EMBEDDED_MODULE(ml_window, m)
 	{
 		m.def("close", []() { ML_Launcher.window.close(); });
 		m.def("destroy", []() { ML_Launcher.window.destroy(); });

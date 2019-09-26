@@ -1,6 +1,6 @@
-import memelib_content
+import ml_content
 PATH = "../../../assets"
-memelib_content.load_all([
+ml_content.load_all([
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -186,25 +186,48 @@ memelib_content.load_all([
 
 # Entities
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+import ml_ecs
+
+name = "ent_light"
+if ml_content.load({ "type": "Entity", "name": name }):
+    if ml_ecs.add_component(name, "struct ml::Transform"):
+        ml_ecs.transform_enable(name, True)
+    if ml_ecs.add_component(name, "struct ml::Light"):
+        ml_ecs.light_enable(name, True)
+
+name = "ent_camera"
+if ml_content.load({ "type": "Entity", "name": name }):
+    if ml_ecs.add_component(name, "struct ml::Transform"):
+        ml_ecs.transform_enable(name, True)
+    if ml_ecs.add_component(name, "struct ml::Camera"):
+        ml_ecs.camera_enable(name, True)
+
 name = "ent_skybox"
-if content.load({ "type": "Entity", "name": name }):
-    if ecs.add_component(name, "struct ml::Renderer"):
-        ecs.renderer_enable(name,  False)
-        ecs.renderer_attrib(name, "material", "name", "mat_skybox")
-        ecs.renderer_attrib(name, "model", "name", "default_skybox")
-        ecs.renderer_attrib(name, "depth", "mask", "False")
+if ml_content.load({ "type": "Entity", "name": name }):
+    if ml_ecs.add_component(name, "struct ml::Transform"):
+        ml_ecs.transform_enable(name, True)
+    if ml_ecs.add_component(name, "struct ml::Renderer"):
+        ml_ecs.renderer_enable(name,  False)
+        ml_ecs.renderer_attrib(name, "material", "name", "mat_skybox")
+        ml_ecs.renderer_attrib(name, "model", "name", "default_skybox")
+        ml_ecs.renderer_attrib(name, "depth", "mask", "False")
 
 name = "ent_earth"
-if content.load({ "type": "Entity", "name": name }):
-    if ecs.add_component(name, "struct ml::Renderer"):
-        ecs.renderer_enable(name,  False)
-        ecs.renderer_attrib(name, "material", "name", "mat_advanced")
-        ecs.renderer_attrib(name, "model", "name", "obj_sphere32x24")
+if ml_content.load({ "type": "Entity", "name": name }):
+    if ml_ecs.add_component(name, "struct ml::Transform"):
+        ml_ecs.transform_enable(name, True)
+    if ml_ecs.add_component(name, "struct ml::Renderer"):
+        ml_ecs.renderer_enable(name,  False)
+        ml_ecs.renderer_attrib(name, "material", "name", "mat_advanced")
+        ml_ecs.renderer_attrib(name, "model", "name", "obj_sphere32x24")
 
-name = "ent_sanic"
-if content.load({ "type": "Entity", "name": name }):
-    if ecs.add_component(name, "struct ml::Renderer"):
-        ecs.renderer_enable(name, True)
-        ecs.renderer_attrib(name, "material", "name", "mat_basic")
-        ecs.renderer_attrib(name, "model", "name", "default_quad")
-        ecs.renderer_attrib(name, "cull", "enabled", "False")
+name = "ent_demo"
+if ml_content.load({ "type": "Entity", "name": name }):
+    if ml_ecs.add_component(name, "struct ml::Transform"):
+        ml_ecs.transform_enable(name, True)
+    if ml_ecs.add_component(name, "struct ml::Renderer"):
+        ml_ecs.renderer_enable(name, True)
+        ml_ecs.renderer_attrib(name, "material", "name", "mat_basic")
+        ml_ecs.renderer_attrib(name, "model", "name", "default_quad")
+        ml_ecs.renderer_attrib(name, "cull", "enabled", "False")
+        ml_ecs.renderer_attrib(name, "cull", "face", "Back")

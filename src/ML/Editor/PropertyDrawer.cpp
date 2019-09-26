@@ -162,48 +162,144 @@ namespace ml
 			ImGui::EndPopup();
 		}
 
-		// Component Names
-		ImGui::BeginChildFrame(
-			ImGui::GetID("entitycomponents"),
-			ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * value.data().size())
-		);
-		for (Pair<const hash_t, I_Newable *> & pair : value)
-		{
-			if (const String * str { ML_Registry.get_name(pair.first) })
-			{
-				ImGui::Text("%s", str->c_str());
-			}
-		}
-		ImGui::EndChildFrame();
-
+		// Camera
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		if (Camera * c = value.get<Camera>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(c));
-			if (ImGui::CollapsingHeader("Camera"))
+			if (ImGui::CollapsingHeader("Camera (WIP)"))
 			{
-				ImGui::Text("WIP");
+				bool	enabled		= c->enabled();
+				int32_t clearFlags	= c->clearFlags();
+				int32_t projection	= c->projection();
+				vec4	background	= c->background();
+				float_t fieldOfView = c->fieldOfView();
+				float_t clipNear	= c->clipNear();
+				float_t clipFar		= c->clipFar();
+				IntRect viewport	= c->viewport();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::BeginChildFrame(
+					ImGui::GetID(("##Camera##" + label).c_str()),
+					{ 0, (ImGuiExt::GetLineHeight() * 1.25f) * 8.0f },
+					true
+				);
+
+				if (ImGui::Checkbox(("Enabled##Camera##" + label).c_str(), &enabled))
+				{
+					c->setEnabled(enabled);
+				}
+
+				if (ImGuiExt::Combo(
+					("Clear Flags##Camera##" + label).c_str(),
+					&clearFlags, 
+					"Skybox\0Solid Color\0Depth Only\0Don't Clear"
+				))
+				{
+					c->setClearFlags((Camera::ClearFlags)clearFlags);
+				}
+
+				if (ImGuiExt::Combo(
+					("Projection##Camera##" + label).c_str(),
+					&projection, 
+					"Perspective\0Orthographic"
+				))
+				{
+					c->setProjection((Camera::Projection)projection);
+				}
+
+				if (ImGui::ColorEdit4(("Background##Camera##" + label).c_str(), &background[0]))
+				{
+					c->setBackground(background);
+				}
+
+				if (ImGui::DragFloat(("Field of View##Camera##" + label).c_str(), &fieldOfView))
+				{
+					c->setFieldOfView(fieldOfView);
+				}
+
+				if (ImGui::DragFloat(("Clip Near##Camera##" + label).c_str(), &clipNear))
+				{
+					c->setClipNear(clipNear);
+				}
+
+				if (ImGui::DragFloat(("Clip Far##Camera##" + label).c_str(), &clipFar))
+				{
+					c->setClipFar(clipFar);
+				}
+
+				if (ImGui::DragInt4(("Viewport##Camera##" + label).c_str(), &viewport[0]))
+				{
+					c->setViewport(viewport);
+				}
+
+				ImGui::EndChildFrame();
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			}
 			ImGui::PopID();
 		}
 
+		// Light
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		if (Light * l = value.get<Light>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(l));
-			if (ImGui::CollapsingHeader("Light"))
+			if (ImGui::CollapsingHeader("Light (WIP)"))
 			{
-				ImGui::Text("WIP");
+				bool enabled = l->enabled();
+				vec4 color = l->color();
+				float_t intensity = l->intensity();
+				int32_t mode = l->mode();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::BeginChildFrame(
+					ImGui::GetID(("##Light##" + label).c_str()),
+					{ 0, (ImGuiExt::GetLineHeight() * 1.25f) * 4.0f },
+					true
+				);
+
+				if (ImGui::Checkbox(("Enabled##Light##" + label).c_str(), &enabled))
+				{
+					l->setEnabled(enabled);
+				}
+				
+				if (ImGui::ColorEdit4(("Color##Light##" + label).c_str(), &color[0]))
+				{
+					l->setColor(color);
+				}
+
+				if (ImGui::DragFloat(("Intensity##Light##" + label).c_str(), &intensity))
+				{
+					l->setIntensity(intensity);
+				}
+
+				if (ImGuiExt::Combo(("Mode##Light##" + label).c_str(), &mode, "Realtime"))
+				{
+					l->setMode((Light::Mode)mode);
+				}
+
+				ImGui::EndChildFrame();
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			}
 			ImGui::PopID();
 		}
 
+		// Renderer
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		if (Renderer * r = value.get<Renderer>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(r));
 			if (ImGui::CollapsingHeader("Renderer"))
 			{
-				ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-				ImGui::BeginChild(("##Renderer##" + label).c_str(), { 0, 0 }, true);
-				ImGui::PopStyleVar();
+				ImGui::BeginChildFrame(
+					ImGui::GetID(("##Renderer##" + label).c_str()),
+					{ 0, 0 }, 
+					true
+				);
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -229,7 +325,7 @@ namespace ml
 
 				if (ImGui::TreeNode("Alpha"))
 				{
-					ImGui::Checkbox("##Enabled##AlphaState", &r->states().alpha().enabled);
+					ImGui::Checkbox("Enabled##AlphaState", &r->states().alpha().enabled);
 					
 					int32_t index = GL::index_of(r->states().alpha().predicate);
 					if (ImGuiExt::Combo(
@@ -332,17 +428,54 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ImGui::EndChild();
+				ImGui::EndChildFrame();
 			}
 			ImGui::PopID();
 		}
 
+		// Transform
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		if (Transform * t { value.get<Transform>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(t));
-			if (ImGui::CollapsingHeader("Transform"))
+			if (ImGui::CollapsingHeader("Transform (WIP)"))
 			{
-				ImGui::Text("WIP");
+				bool enabled = t->enabled();
+				vec3 pos = t->position();
+				vec3 scl = t->scale();
+				vec3 rot = t->rotation();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::BeginChildFrame(
+					ImGui::GetID(("##Transform##" + label).c_str()), 
+					{ 0, (ImGuiExt::GetLineHeight() * 1.25f) * 4.0f },
+					true
+				);
+
+				if (ImGui::Checkbox(("Enabled##Transform##" + label).c_str(), &enabled))
+				{
+					t->setEnabled(enabled);
+				}
+
+				if (ImGui::DragFloat3(("Position##Transform##" + label).c_str(), &pos[0]))
+				{
+					t->setPosition(pos);
+				}
+
+				if (ImGui::DragFloat3(("Scale##Transform##" + label).c_str(), &scl[0]))
+				{
+					t->setScale(scl);
+				}
+
+				if (ImGui::DragFloat3(("Rotation##Transform##" + label).c_str(), &rot[0]))
+				{
+					t->setRotation(rot);
+				}
+
+				ImGui::EndChildFrame();
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			}
 			ImGui::PopID();
 		}

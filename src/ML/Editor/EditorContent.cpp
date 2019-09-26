@@ -53,24 +53,18 @@ namespace ml
 			})() };
 
 			// Tab Item
-			const bool has_selected { self.m_typename == type_name };
-			if (has_selected)
-			{
-				ImGui::PushStyleColor(ImGuiCol_Tab, { 1.0f, 1.0f, 0.8f, 1.0f });
-			}
 			const bool tab_visible { ImGui::BeginTabItem(label.c_str()) };
-			if (has_selected) 
-			{ 
-				ImGui::PopStyleColor(1); 
-			}
 			
 			// Tab Context Menu
 			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + label).c_str()))
 			{
 				void * temp { nullptr };
-				if (PropertyDrawer<T>()(String("New {0}").format(type_name), (T *&)temp, 1))
+				if (!std::is_same_v<T, Surface>)
 				{
-					ImGui::CloseCurrentPopup();
+					if (PropertyDrawer<T>()(String("New {0}").format(type_name), (T *&)temp, 0b1))
+					{
+						ImGui::CloseCurrentPopup();
+					}
 				}
 				ImGui::EndPopup();
 			}
@@ -82,7 +76,8 @@ namespace ml
 			ImGui::PushID(ML_ADDRESSOF(&database));
 			if (database.empty()) { ImGui::Text("-"); }
 			ContentManager::ObjectDatabase::iterator 
-				to_remove { database.end() }, to_select { database.end() };
+				to_remove { database.end() },
+				to_select { database.end() };
 			for (auto it = database.begin(); it != database.end(); it++)
 			{
 				if (!it->second || ImGuiExt::IsHidden(it->first)) { continue; }
@@ -90,17 +85,13 @@ namespace ml
 				ImGui::PushID(it->first.c_str());
 
 				// Item Selectable
-				const bool is_selected { self.m_selected == it->second };
-				if (is_selected)
-				{
-					ImGui::PushStyleColor(ImGuiCol_Header, { 1.0f, 1.0f, 0.8f, 1.0f });
-					ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 0.0f, 0.0f, 1.0f });
-				}
-				if (ImGui::Selectable((it->first + "##" + label).c_str(), is_selected))
+				if (ImGui::Selectable(
+					(it->first + "##" + label).c_str(), 
+					(self.m_selected == it->second)
+				))
 				{
 					to_select = it;
 				}
-				ImGui::PopStyleColor((int32_t)is_selected * 2);
 				
 				// Item Context Menu
 				if (ImGui::BeginPopupContextItem(("##ItemContextMenu##" + label).c_str()))

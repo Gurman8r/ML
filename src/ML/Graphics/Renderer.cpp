@@ -52,6 +52,15 @@ namespace ml
 		return (*this);
 	}
 
+	Renderer & Renderer::setShader(const Shader * value)
+	{
+		if (m_material)
+		{
+			std::remove_cv_t<Material *>(m_material)->setShader(value);
+		}
+		return (*this);
+	}
+
 	Renderer & Renderer::setStates(const RenderStates & value)
 	{
 		m_states = value;

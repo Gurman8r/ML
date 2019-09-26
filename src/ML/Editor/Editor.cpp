@@ -194,20 +194,25 @@ namespace ml
 				if (ImGui::BeginMenu("Create"))
 				{
 					void * temp { nullptr };
+					PropertyDrawer<Entity>()("Entity##File##Create", (Entity *&)temp, true);
+					PropertyDrawer<Font>()("Font##File##Create", (Font *&)temp, true);
+					PropertyDrawer<Image>()("Image##File##Create", (Image *&)temp, true);
 					PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp, true);
-					PropertyDrawer<Model>	()("Model##File##Create", (Model *&)temp, true);
-					PropertyDrawer<Shader>	()("Shader##File##Create", (Shader *&)temp, true);
-					PropertyDrawer<Texture>	()("Texture##File##Create", (Texture *&)temp, true);
+					PropertyDrawer<Model>()("Model##File##Create", (Model *&)temp, true);
+					PropertyDrawer<Shader>()("Shader##File##Create", (Shader *&)temp, true);
+					PropertyDrawer<Script>()("Script##File##Create", (Script *&)temp, true);
+					PropertyDrawer<Texture>()("Texture##File##Create", (Texture *&)temp, true);
+					PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp, true);
 					ImGui::EndMenu();
 				}
 
-				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::File));
+				eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::File);
 
 				// File -> Quit
 				ImGui::Separator();
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{
-					eventSystem().fireEvent(WindowKillEvent());
+					eventSystem().fireEvent<WindowKillEvent>();
 				}
 
 				ImGui::EndMenu();
@@ -223,7 +228,7 @@ namespace ml
 				m_profiler.MenuItem();
 				m_terminal.MenuItem();
 				ImGui::Separator();
-				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Window));
+				eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::Window);
 				ImGui::EndMenu();
 			}
 
@@ -241,13 +246,13 @@ namespace ml
 
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
 
-				eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::Help));
+				eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::Help);
 				
 				ImGui::EndMenu();
 			}
 
 			// User Menu Bars
-			eventSystem().fireEvent(MainMenuBarEvent((*this), MainMenuBarEvent::User));
+			eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::User);
 
 			ImGui::EndMainMenuBar();
 		}

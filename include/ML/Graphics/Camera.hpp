@@ -32,6 +32,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		Camera & setEnabled(bool value);
 		Camera & setClearFlags(ClearFlags value);
 		Camera & setBackground(const vec4 & value);
 		Camera & setFieldOfView(float_t value);
@@ -45,6 +46,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline auto enabled()		const -> const bool &		{ return m_enabled; }
 		inline auto clearFlags()	const -> const ClearFlags & { return m_clearFlags; }
 		inline auto background()	const -> const vec4 &		{ return m_background; }
 		inline auto projection()	const -> const Projection & { return m_projection; }
@@ -53,9 +55,15 @@ namespace ml
 		inline auto clipFar()		const -> const float_t &	{ return m_clipFar; }
 		inline auto viewport()		const -> const IntRect &	{ return m_viewport; }
 
+		static inline Camera * mainCamera()
+		{
+			return s_mainCamera;
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		bool		m_enabled;		//
 		ClearFlags	m_clearFlags;	// 
 		vec4		m_background;	// 
 		Projection	m_projection;	// 
@@ -63,6 +71,8 @@ namespace ml
 		float_t		m_clipNear;		// 
 		float_t		m_clipFar;		// 
 		IntRect		m_viewport;		// 
+
+		static Camera * s_mainCamera;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

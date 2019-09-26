@@ -111,12 +111,6 @@
     <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\SerializedProperty.hpp">
-      <Filter>Header Files\Content</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Engine\SerializedObject.hpp">
-      <Filter>Header Files\Content</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\ContentManager.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
@@ -162,12 +156,6 @@
       <Filter>Source Files\Content</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\MetadataParser.cpp">
-      <Filter>Source Files\Content</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\SerializedObject.cpp">
-      <Filter>Source Files\Content</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\SerializedProperty.cpp">
       <Filter>Source Files\Content</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\ContentManager.cpp">

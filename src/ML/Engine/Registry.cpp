@@ -26,7 +26,6 @@ namespace ml
 	ML_REGISTER(Script,		"/Asset") { return new Script(); }
 	ML_REGISTER(Shader,		"/Asset") { return new Shader(); }
 	ML_REGISTER(Sound,		"/Asset") { return new Sound(); }
-	ML_REGISTER(Sprite,		"/Asset") { return new Sprite(); }
 	ML_REGISTER(Surface,	"/Asset") { return new Surface(); }
 	ML_REGISTER(Text,		"/Asset") { return new Text(); }
 	ML_REGISTER(Texture,	"/Asset") { return new Texture(); }

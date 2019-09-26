@@ -179,13 +179,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Update Camera
-		m_editor.m_camera.setClearFlags(Camera::SolidColor);
-		m_editor.m_camera.setProjection(Camera::Perspective);
-		m_editor.m_camera.setFieldOfView(45.0f);
-		m_editor.m_camera.setClipNear(0.001f);
-		m_editor.m_camera.setClipFar(1000.0f);
-		m_editor.m_camera.setViewport((vec2i)m_editor.m_scene.m_viewport);
-		m_editor.m_camera.setBackground(m_editor.m_scene.m_clearColor);
+		Camera * camera { Camera::mainCamera() };
+		if (camera)
+		{
+			camera->setViewport((vec2i)m_editor.m_scene.m_viewport);
+			camera->setBackground(m_editor.m_scene.m_clearColor);
+		}
 
 		// Render Scene
 		if (m_pipeline[Surf_Main])
@@ -194,7 +193,7 @@ namespace ml
 			m_pipeline[Surf_Main]->bind();
 
 			// Apply Camera
-			m_editor.m_camera.apply();
+			if (camera) camera->apply();
 
 			// Draw Renderers
 			for (auto & pair : ML_Content.data<Entity>())
@@ -228,7 +227,7 @@ namespace ml
 			m_pipeline[Surf_Post]->bind();
 
 			// Apply Camera
-			m_editor.m_camera.apply();
+			if (camera) camera->apply();
 
 			// Apply Effects to Main
 			if (Surface * surf { m_pipeline[Surf_Main] })
@@ -254,7 +253,6 @@ namespace ml
 
 	void Noobs::onExit(const ExitEvent & ev)
 	{
-		Debug::log("Goodbye!");
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

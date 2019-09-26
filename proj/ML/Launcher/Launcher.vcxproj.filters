@@ -57,9 +57,6 @@
     <None Include="..\..\..\assets\scripts\load.py">
       <Filter>Resource Files\assets\scripts</Filter>
     </None>
-    <None Include="..\..\..\assets\scripts\memelib.py">
-      <Filter>Resource Files\assets\scripts</Filter>
-    </None>
     <None Include="..\..\..\ML.ini">
       <Filter>Resource Files</Filter>
     </None>

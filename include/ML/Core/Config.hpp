@@ -166,7 +166,7 @@
 #define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
 
 
-//	Version Information
+//	Project Information
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define ML_PROJECT_AUTH	"Melody Gurman"
@@ -175,19 +175,6 @@
 #define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
 #define ML_PROJECT_DATE	__DATE__
 #define ML_PROJECT_TIME	__TIME__
-
-// N-V (C / P) was created by A on D at T
-#define ML_GET_VERSION_STRING(N, V, C, P, D, T) \
-"" N "-" V " (" C "/" P ") was compiled on " D " at " T ""
-
-#define MEMELIB_VERSION ML_GET_VERSION_STRING( \
-	ML_PROJECT_NAME, \
-	ML_PROJECT_VER, \
-	ML_CONFIGURATION, \
-	ML_PLATFORM_TARGET, \
-	ML_PROJECT_DATE, \
-	ML_PROJECT_TIME \
-)
 
 
 //	Export / Import

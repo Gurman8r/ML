@@ -43,13 +43,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	Camera * Camera::s_mainCamera { nullptr };
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	Camera::Camera()
 		: Camera { ClearFlags::SolidColor, Projection::Perspective }
 	{
 	}
 
 	Camera::Camera(ClearFlags clearFlags, Projection projection)
-		: m_clearFlags	{ clearFlags }
+		: m_enabled		{ true }
+		, m_clearFlags	{ clearFlags }
 		, m_background	{ Color::black }
 		, m_projection	{ projection }
 		, m_fieldOfView { 45.0f }
@@ -57,10 +62,15 @@ namespace ml
 		, m_clipFar		{ 1000.0f }
 		, m_viewport	{ { 0, 0 }, { 1920, 1080 } }
 	{
+		if (!s_mainCamera)
+		{
+			s_mainCamera = this;
+		}
 	}
 
 	Camera::Camera(const Camera & copy)
-		: m_clearFlags	{ copy.m_clearFlags	}
+		: m_enabled		{ copy.m_enabled }
+		, m_clearFlags	{ copy.m_clearFlags	}
 		, m_background	{ copy.m_background	}
 		, m_projection	{ copy.m_projection	}
 		, m_fieldOfView { copy.m_fieldOfView }
@@ -70,12 +80,21 @@ namespace ml
 	{
 	}
 	
-	Camera::~Camera() {}
+	Camera::~Camera() 
+	{
+		if (s_mainCamera && (s_mainCamera == this))
+		{
+			s_mainCamera = nullptr;
+		}
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const Camera & Camera::apply() const
 	{
+		// Not Enabled
+		if (!m_enabled) return (*this);
+
 		// Apply Clear
 		const vec4 & bg { m_background };
 		switch (m_clearFlags)
@@ -109,6 +128,12 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	Camera & Camera::setEnabled(bool value)
+	{
+		m_enabled = value;
+		return (*this);
+	}
 
 	Camera & Camera::setClearFlags(ClearFlags value)
 	{

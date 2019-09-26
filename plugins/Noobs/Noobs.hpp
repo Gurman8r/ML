@@ -153,7 +153,6 @@ namespace ml
 			Renderer *		m_renderer	{ nullptr };
 			File_List		m_files		{ nullptr };
 			DemoScene		m_scene		{};
-			Camera			m_camera	{};
 
 			/* * * * * * * * * * * * * * * * * * * * */
 

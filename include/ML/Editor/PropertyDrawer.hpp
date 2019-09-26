@@ -3,7 +3,7 @@
 
 #include <ML/Editor/Export.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Engine/SerializedObject.hpp>
+#include <ML/Engine/Metadata.hpp>
 
 #define ML_GEN_PROPERTY_DRAWER(T)											\
 using value_type		= typename ::ml::detail::decay_t<T>;				\

@@ -196,7 +196,6 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <None Include="..\..\..\assets\materials\surface.mat" />
     <None Include="..\..\..\assets\scripts\boot.py" />
     <None Include="..\..\..\assets\scripts\load.py" />
-    <None Include="..\..\..\assets\scripts\memelib.py" />
     <None Include="..\..\..\assets\scripts\test.lua" />
     <None Include="..\..\..\assets\scripts\test.py" />
     <None Include="..\..\..\assets\shaders\basic.shader" />

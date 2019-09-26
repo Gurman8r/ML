@@ -72,7 +72,7 @@ namespace ml
 				m_nodes[LeftDn]	= splitNode(m_nodes[Left],	ImGuiDir_Down,	0.25f,	&m_nodes[Left]);
 				m_nodes[RightDn]= splitNode(m_nodes[Right],	ImGuiDir_Down,	0.25f,	&m_nodes[Right]);
 
-				editor().eventSystem().fireEvent(DockspaceEvent(*this));
+				editor().eventSystem().fireEvent<DockspaceEvent>(*this);
 
 				endBuilder(m_nodes[Root]);
 			};

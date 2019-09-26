@@ -80,14 +80,38 @@ namespace ml
 
 		template <class T> inline T * get()
 		{
-			iterator it { m_data.find(typeof<T>().hash) };
-			return ((it != this->end()) ? static_cast<T *>(it->second) : nullptr);
+			return static_cast<T *>(getByCode(typeof<T>::hash));
 		}
 
 		template <class T> inline const T * get() const
 		{
-			const_iterator it { m_data.find(typeof<T>().hash) };
-			return ((it != this->cend()) ? static_cast<const T *>(it->second) : nullptr);
+			return static_cast<const T *>(getByCode(typeof<T>::hash));
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline I_Newable * getByCode(hash_t value)
+		{
+			iterator it { m_data.find(value) };
+			return ((it != this->cend()) ? it->second : nullptr);
+		}
+
+		inline const I_Newable * getByCode(hash_t value) const
+		{
+			const_iterator it { m_data.find(value) };
+			return ((it != this->cend()) ? it->second : nullptr);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline I_Newable * getByName(const String & value)
+		{
+			return getByCode(value.hash());
+		}
+
+		inline const I_Newable * getByName(const String & value) const
+		{
+			return getByCode(value.hash());
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

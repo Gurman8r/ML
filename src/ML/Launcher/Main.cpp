@@ -14,14 +14,14 @@ namespace ml
 
 	template <
 		class T, class ... Args
-	> static inline uniform_variant make_uniform(Args && ... args)
+	> static constexpr uniform_variant make_uniform(Args && ... args)
 	{
 		return uniform_variant { T { std::forward<Args>(args)... } };
 	}
 
 	template <
 		class T
-	> static inline T * uniform_cast(uniform_variant & value)
+	> static constexpr T * uniform_cast(uniform_variant & value)
 	{
 		if (std::holds_alternative<T>(value))
 		{
@@ -32,7 +32,7 @@ namespace ml
 
 	template <
 		class T
-	> static inline const T * uniform_cast(const uniform_variant & value)
+	> static constexpr const T * uniform_cast(const uniform_variant & value)
 	{
 		if (std::holds_alternative<T>(value))
 		{
@@ -43,7 +43,7 @@ namespace ml
 
 	template <
 		class ... U
-	> static inline int32_t uniform_type(const std::variant<U...> & value)
+	> static constexpr int32_t uniform_type(const std::variant<U...> & value)
 	{
 		if (std::holds_alternative<const Texture *>(value)) return 8;
 		else if (std::holds_alternative<mat4>(value)) return 7;
@@ -59,7 +59,7 @@ namespace ml
 
 	template <
 		class ... U
-	> static inline C_String uniform_name(const std::variant<U...> & value)
+	> static constexpr C_String uniform_name(const std::variant<U...> & value)
 	{
 		switch (uniform_type(value))
 		{

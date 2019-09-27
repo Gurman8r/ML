@@ -532,17 +532,7 @@ namespace ml
 							this->generate_sources();
 						}
 					}
-					ImGuiExt::Tooltip("Specifies the active shader and its corresponding uniforms");
-
-					//// Select Shader
-					//const Shader * shd = m_material->shader();
-					//if (PropertyDrawer<Shader>()("Shader##Material##Noobs", shd))
-					//{
-					//	m_material->shader() = shd;
-					//	this->reset_sources();
-					//	this->generate_sources();
-					//}
-					//ImGuiExt::Tooltip("Specifies the targeted shader");
+					ImGuiExt::Tooltip("Materials specify the active shader and its corresponding uniforms");
 
 					// Select Model
 					const Model * mdl = (const Model *)m_renderer->drawable();
@@ -550,7 +540,7 @@ namespace ml
 					{
 						m_renderer->setDrawable(mdl);
 					}
-					ImGuiExt::Tooltip("Specifies model to be drawn");
+					ImGuiExt::Tooltip("Models specify the geometry to be drawn");
 
 					// Get Video Modes
 					static const List<VideoMode> & mode_values {

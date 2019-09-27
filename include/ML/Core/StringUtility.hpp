@@ -28,7 +28,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline String format(String str, const List<String> & args)
+		template <class S>
+		static inline String format(String str, const List<S> & args)
 		{
 			for (size_t i = 0; i < args.size(); i++)
 			{
@@ -212,7 +213,22 @@ namespace ml
 
 		static inline bool to_bool(const String & value, bool dv = false)
 		{
-			return (value && (value == "1" || to_lower(value) == "true")) ? true : dv;
+			switch (to_lower(value).hash())
+			{
+			case Hash("1"):
+			case Hash("true"):
+			case Hash("on"):
+			case Hash("yes"):
+				return true;
+
+			case Hash("0"):
+			case Hash("false"):
+			case Hash("off"):
+			case Hash("no"):
+				return false;
+
+			default: return dv;
+			}
 		}
 
 		static inline int32_t to_int(const String & value, int32_t dv = 0)

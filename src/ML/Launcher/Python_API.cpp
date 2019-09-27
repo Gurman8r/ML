@@ -52,11 +52,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct py_ml_content { };
 		py::class_<py_ml_content>(m, "content")
-			.def_static("create",	[](str_t type, str_t name) { return (bool)ML_Content.generate(type, name); })
-			.def_static("destroy",	[](str_t type, str_t name) { return ML_Content.destroy(String(type).hash(), name); })
-			.def_static("exists",	[](str_t type, str_t name) { return ML_Content.exists(String(type).hash(), name); })
-			.def_static("load",		[](const dict_t & value) { return MetadataParser::parseMetadata(Metadata { value }); })
-			.def_static("load_all", [](const table_t & value) { return MetadataParser::parseMetadata(value); })
+			.def_static("create",	[](str_t t, str_t n) { return (bool)ML_Content.generate(t, n); })
+			.def_static("destroy",	[](str_t t, str_t n) { return ML_Content.destroy(String(t).hash(), n); })
+			.def_static("exists",	[](str_t t, str_t n) { return ML_Content.exists(String(t).hash(), n); })
+			.def_static("load",		[](const dict_t & d) { return MetadataParser::parseMetadata(Metadata { d }); })
+			.def_static("load_all", [](const table_t & t) { return MetadataParser::parseMetadata(t); })
 			;
 
 		// Plugins
@@ -75,7 +75,7 @@ namespace ml
 			.def_static("fatal",	[](str_t s) { Debug::fatal(s); })
 			.def_static("pause",	[]() { Debug::pause(0); })
 			.def_static("print",	[](str_t s) { cout << s; })
-			.def_static("printf",	[](str_t s, const list_t & args) { cout << alg::format(s, { args.begin(), args.end() }); })
+			.def_static("printf",	[](str_t s, const list_t & l) { cout << alg::format(s, l); })
 			.def_static("printl",	[](str_t s) { cout << s << endl; })
 			.def_static("system",	[](str_t s) { return Debug::system(s.c_str()); })
 			;
@@ -113,8 +113,8 @@ namespace ml
 			.def_static("set_clipboard",	[](str_t s) { ML_Launcher.window.setClipboardString(s); })
 			.def_static("set_cursor",		[](int32_t i) { ML_Launcher.window.setCursorMode(((Cursor::Mode)i)); })
 			.def_static("set_fullscreen",	[](bool b) { ML_Launcher.window.setFullscreen(b); })
-			.def_static("set_position",		[](const coord_t & v) { ML_Launcher.window.setPosition({ (int32_t)v[0], (int32_t)v[1] }); })
-			.def_static("set_size",			[](const coord_t & v) { ML_Launcher.window.setSize({ (uint32_t)v[0], (uint32_t)v[1] }); })
+			.def_static("set_position",		[](const coord_t & c) { ML_Launcher.window.setPosition({ (int32_t)c[0], (int32_t)c[1] }); })
+			.def_static("set_size",			[](const coord_t & c) { ML_Launcher.window.setSize({ (uint32_t)c[0], (uint32_t)c[1] }); })
 			.def_static("set_title",		[](str_t s) { ML_Launcher.window.setTitle(s); })
 			;
 
@@ -135,7 +135,7 @@ namespace ml
 				{
 					switch (alg::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("clearflags"): c->setClearFlags(input<Camera::ClearFlags>()(value)); break;
 					case Hash("background"): c->setBackground(input<vec4>()(value)); break;
 					case Hash("fov"): c->setFieldOfView(alg::to_float(value)); break;
@@ -159,7 +159,7 @@ namespace ml
 				{
 					switch (alg::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("color"): c->setColor(input<vec4>()(value)); break;
 					case Hash("intensity"): c->setIntensity(alg::to_float(value)); break;
 					case Hash("mode"): c->setMode(input<Light::Mode>()(value)); break;
@@ -179,7 +179,7 @@ namespace ml
 				{
 					switch (alg::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("material"): c->setMaterial(ML_Content.get<Material>(value)); break;
 					case Hash("shader"): c->setShader(ML_Content.get<Shader>(value)); break;
 					case Hash("model"): c->setDrawable(ML_Content.get<Model>(value)); break;
@@ -191,7 +191,7 @@ namespace ml
 					switch (alg::to_lower(key).hash())
 					{
 					case Hash("enabled"): 
-						c->states().alpha().enabled = alg::to_bool(value); 
+						c->states().alpha().enabled = input<bool>()(value); 
 						break;
 					case Hash("predicate"): 
 						c->states().alpha().predicate = GL::find_by_raw_name(value.c_str(), GL::Greater);
@@ -207,7 +207,7 @@ namespace ml
 					switch (alg::to_lower(key).hash())
 					{
 					case Hash("enabled"): 
-						c->states().blend().enabled = alg::to_bool(value); 
+						c->states().blend().enabled = input<bool>()(value); 
 						break;
 					case Hash("srcRGB"):
 						c->states().blend().srcRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
@@ -229,7 +229,7 @@ namespace ml
 					switch (alg::to_lower(key).hash())
 					{
 					case Hash("enabled"): 
-						c->states().cull().enabled = alg::to_bool(value); 
+						c->states().cull().enabled = input<bool>()(value); 
 						break;
 					case Hash("face"):
 						c->states().cull().face = GL::find_by_raw_name(value.c_str(), GL::Back);
@@ -242,13 +242,13 @@ namespace ml
 					switch (alg::to_lower(key).hash())
 					{
 					case Hash("enabled"): 
-						c->states().depth().enabled = alg::to_bool(value); 
+						c->states().depth().enabled = input<bool>()(value);
 						break;
 					case Hash("predicate"): 
 						c->states().depth().predicate = GL::find_by_raw_name(value.c_str(), GL::Less);
 						break;
 					case Hash("mask"): 
-						c->states().depth().mask = alg::to_bool(value); 
+						c->states().depth().mask = input<bool>()(value); 
 						break;
 					}
 				}
@@ -266,7 +266,7 @@ namespace ml
 				{
 					switch (alg::to_lower(key).hash())
 					{
-					case Hash("enabled"):	c->setEnabled(alg::to_bool(value)); break;
+					case Hash("enabled"):	c->setEnabled(input<bool>()(value)); break;
 					case Hash("position"):	c->setPosition(input<vec3>()(value)); break;
 					case Hash("scale"):		c->setScale(input<vec3>()(value)); break;
 					case Hash("rotation"):	c->setRotation(input<vec3>()(value)); break;

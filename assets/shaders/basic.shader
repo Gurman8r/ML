@@ -9,11 +9,12 @@ layout(location = 2) in vec2 a_texcoord;
 
 out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
-uniform vec2	u_cursorPos;	// Position of Cursor
-uniform float	u_deltaTime;	// Elapsed Frame Time
-uniform int		u_frameCount;	// Current Frame Index
-uniform vec2	u_viewport;		// Size of Main Window
-uniform float	u_totalTime;	// Total Time Elapsed (seconds)
+uniform vec2	u_cursor;		// Cursor Position
+uniform float	u_delta;		// Delta Time
+uniform int		u_frame;		// Frame Index
+uniform float	u_fps;			// Frame Rate
+uniform vec2	u_viewport;		// Frame Size
+uniform float	u_time;			// Total Time
 uniform mat4	u_proj;			// Projection Matrix
 uniform mat4	u_view;			// View Matrix
 uniform mat4	u_model;		// Model Matrix
@@ -36,11 +37,12 @@ in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
-uniform vec2		u_cursorPos;	// Position of Cursor
-uniform float		u_deltaTime;	// Elapsed Frame Time
-uniform int			u_frameCount;	// Current Frame Index
-uniform vec2		u_viewport;		// Size of Main Window
-uniform float		u_totalTime;	// Total Time Elapsed (seconds)
+uniform vec2		u_cursor;		// Cursor Position
+uniform float		u_delta;		// Delta Time
+uniform int			u_frame;		// Frame Index
+uniform float		u_fps;			// Frame Rate
+uniform vec2		u_viewport;		// Frame Size
+uniform float		u_time;			// Total Time
 uniform	vec4		u_color;		// Main Color
 uniform sampler2D	u_texture0;		// Main Texture
 

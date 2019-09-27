@@ -9,17 +9,18 @@ out vec4 gl_Color;
 
 uniform struct Camera
 {
-	vec3	pos;		// Position of camera
+	vec3	pos;		// Camera Position
 	float	fov;		// Field of View
 	float	near;		// Near Clipping Distance
 	float	far;		// Far Clipping Distance
 } u_camera;
 
-uniform vec2		u_cursorPos;	// Position of Cursor
-uniform float		u_deltaTime;	// Elapsed Frame Time
-uniform int			u_frameCount;	// Current Frame Vdex
-uniform vec2		u_viewport;		// Size of Main Window
-uniform float		u_totalTime;	// Total Time Elapsed (seconds)
+uniform vec2		u_cursor;		// Cursor Position
+uniform float		u_delta;		// Delta Time
+uniform int			u_frame;		// Frame Index
+uniform float		u_fps;			// Frame Rate
+uniform vec2		u_viewport;		// Frame Size
+uniform float		u_time;			// Total Time
 uniform vec4		u_color;		// Main Color
 uniform vec3		u_lightPos;		// Position of Light
 uniform vec4		u_diffuse;		// Diffuse

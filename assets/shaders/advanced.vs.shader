@@ -50,24 +50,25 @@ mat4 perspective(float fov, float aspect, float near, float far)
 
 uniform struct Camera
 {
-	vec3	pos;	// Position of camera
+	vec3	pos;	// Camera Position
 	float	fov;	// Field of View
 	float	near;	// Near Clipping Distance
 	float	far;	// Far Clipping Distance
 } u_camera;
 
-uniform vec2	u_cursorPos;	// Position of Cursor
-uniform float	u_deltaTime;	// Elapsed Frame Time
-uniform int		u_frameCount;	// Current Frame Index
-uniform vec2	u_viewport;		// Size of Main Window
-uniform float	u_totalTime;	// Total Time Elapsed (seconds)
-uniform vec3	u_position;		// Model Position
-uniform vec3	u_scale;
+uniform vec2	u_cursor;	// Cursor Position
+uniform float	u_delta;	// Delta Time
+uniform int		u_frame;	// Frame Index
+uniform float	u_fps;		// Frame Rate
+uniform vec2	u_viewport;	// Frame Size
+uniform float	u_time;		// Total Time
+uniform vec3	u_position;	// Model Position
+uniform vec3	u_scale;	// Model Scale
 
 void main()
 {
 	// Model Matrix
-	mat4 m = transform(u_position, vec4(0.0, 1.0, 0.0, u_totalTime * 0.33));
+	mat4 m = transform(u_position, vec4(0.0, 1.0, 0.0, u_time * 0.33));
 
 	// View Matrix
 	mat4 v = look_at(u_camera.pos, vec3(0), vec3(0.0, 1.0, 0.0));

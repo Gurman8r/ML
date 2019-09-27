@@ -109,7 +109,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m.def("camera_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
+		m.def("camera_attr", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
 			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 			auto * c { e->get<Camera>() }; if (!c) return false;
@@ -131,7 +131,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m.def("light_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
+		m.def("light_attr", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
 			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 			auto * c { e->get<Light>() }; if (!c) return false;
@@ -153,7 +153,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m.def("renderer_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
+		m.def("renderer_attr", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
 			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 			auto * c { e->get<Renderer>() }; if (!c) return false;
@@ -265,7 +265,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		m.def("transform_attrib", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
+		m.def("transform_attr", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
 		{
 			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 			auto * c { e->get<Transform>() }; if (!c) return false;

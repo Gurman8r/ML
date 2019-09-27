@@ -21,12 +21,12 @@ ml_content.load_all([
 
 # Shaders
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Shader", "name": "gl_basic",            "file": PATH + "/shaders/basic.shader" },
-    { "type": "Shader", "name": "gl_normal",           "file": PATH + "/shaders/normal.shader" },
-    { "type": "Shader", "name": "gl_surface",          "file": PATH + "/shaders/surface.shader" },
-    { "type": "Shader", "name": "gl_solid",            "file": PATH + "/shaders/solid.shader" },
-    { "type": "Shader", "name": "gl_skybox",           "file": PATH + "/shaders/skybox.shader" },
-    { "type": "Shader", "name": "gl_geometry",         "file": PATH + "/shaders/geometry.shader" },
+    { "type": "Shader", "name": "gl_basic",         "file": PATH + "/shaders/basic.shader" },
+    { "type": "Shader", "name": "gl_normal",        "file": PATH + "/shaders/normal.shader" },
+    { "type": "Shader", "name": "gl_surface",       "file": PATH + "/shaders/surface.shader" },
+    { "type": "Shader", "name": "gl_solid",         "file": PATH + "/shaders/solid.shader" },
+    { "type": "Shader", "name": "gl_skybox",        "file": PATH + "/shaders/skybox.shader" },
+    { "type": "Shader", "name": "gl_geometry",      "file": PATH + "/shaders/geometry.shader" },
     {
         "type": "Shader", 
         "name": "gl_advanced",
@@ -36,31 +36,26 @@ ml_content.load_all([
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Texture", "name": "tex_dean",        "file": PATH + "/images/dean.png"       },
-    { "type": "Texture", "name": "tex_neutrino",    "file": PATH + "/images/neutrino.png"   },
-    { "type": "Texture", "name": "tex_sanic",       "file": PATH + "/images/sanic.png"      },
-    { "type": "Texture", "name": "tex_borg",        "file": PATH + "/images/borg.png"       },
-    { "type": "Texture", "name": "tex_grass",       "file": PATH + "/images/grass.png"      },
-    { "type": "Texture", "name": "tex_navball",     "file": PATH + "/images/navball.png"    },
-    { "type": "Texture", "name": "tex_buck",        "file": PATH + "/images/buck.png"       },
-
-    { "type": "Texture", "name": "tex_earth_cm",    "file": PATH + "/textures/earth/earth_cm_2k.png" },
-    { "type": "Texture", "name": "tex_earth_dm",    "file": PATH + "/textures/earth/earth_dm_2k.png" },
-    { "type": "Texture", "name": "tex_earth_hm",    "file": PATH + "/textures/earth/earth_hm_2k.png" },
-    { "type": "Texture", "name": "tex_earth_lm",    "file": PATH + "/textures/earth/earth_lm_2k.png" },
-    { "type": "Texture", "name": "tex_earth_nm",    "file": PATH + "/textures/earth/earth_nm_2k.png" },
-    { "type": "Texture", "name": "tex_earth_sm",    "file": PATH + "/textures/earth/earth_sm_2k.png" },
-
-    { "type": "Texture", "name": "tex_stone_dm",    "file": PATH + "/textures/stone/stone_dm.png" },
-    { "type": "Texture", "name": "tex_stone_hm",    "file": PATH + "/textures/stone/stone_hm.png" },
-    { "type": "Texture", "name": "tex_stone_nm",    "file": PATH + "/textures/stone/stone_nm.png" },
-
-    { "type": "Texture", "name": "tex_mars_dm",     "file": PATH + "/textures/mars/mars_dm_2k.png" },
-    { "type": "Texture", "name": "tex_mars_nm",     "file": PATH + "/textures/mars/mars_nm_2k.png" },
-
-    { "type": "Texture", "name": "tex_moon_dm",     "file": PATH + "/textures/moon/moon_dm_2k.png" },
-    { "type": "Texture", "name": "tex_moon_nm",     "file": PATH + "/textures/moon/moon_nm_2k.png" },
-
+    { "type": "Texture", "name": "tex_dean",            "file": PATH + "/images/dean.png"       },
+    { "type": "Texture", "name": "tex_neutrino",        "file": PATH + "/images/neutrino.png"   },
+    { "type": "Texture", "name": "tex_sanic",           "file": PATH + "/images/sanic.png"      },
+    { "type": "Texture", "name": "tex_borg",            "file": PATH + "/images/borg.png"       },
+    { "type": "Texture", "name": "tex_grass",           "file": PATH + "/images/grass.png"      },
+    { "type": "Texture", "name": "tex_navball",         "file": PATH + "/images/navball.png"    },
+    { "type": "Texture", "name": "tex_buck",            "file": PATH + "/images/buck.png"       },
+    { "type": "Texture", "name": "tex_earth_cm",        "file": PATH + "/textures/earth/earth_cm_2k.png" },
+    { "type": "Texture", "name": "tex_earth_dm",        "file": PATH + "/textures/earth/earth_dm_2k.png" },
+    { "type": "Texture", "name": "tex_earth_hm",        "file": PATH + "/textures/earth/earth_hm_2k.png" },
+    { "type": "Texture", "name": "tex_earth_lm",        "file": PATH + "/textures/earth/earth_lm_2k.png" },
+    { "type": "Texture", "name": "tex_earth_nm",        "file": PATH + "/textures/earth/earth_nm_2k.png" },
+    { "type": "Texture", "name": "tex_earth_sm",        "file": PATH + "/textures/earth/earth_sm_2k.png" },
+    { "type": "Texture", "name": "tex_stone_dm",        "file": PATH + "/textures/stone/stone_dm.png" },
+    { "type": "Texture", "name": "tex_stone_hm",        "file": PATH + "/textures/stone/stone_hm.png" },
+    { "type": "Texture", "name": "tex_stone_nm",        "file": PATH + "/textures/stone/stone_nm.png" },
+    { "type": "Texture", "name": "tex_mars_dm",         "file": PATH + "/textures/mars/mars_dm_2k.png" },
+    { "type": "Texture", "name": "tex_mars_nm",         "file": PATH + "/textures/mars/mars_nm_2k.png" },
+    { "type": "Texture", "name": "tex_moon_dm",         "file": PATH + "/textures/moon/moon_dm_2k.png" },
+    { "type": "Texture", "name": "tex_moon_nm",         "file": PATH + "/textures/moon/moon_nm_2k.png" },
     { "type": "Texture", "name": "tex_icon_add",        "file": PATH + "/ui/Add-Icon.png" },
     { "type": "Texture", "name": "tex_icon_check",      "file": PATH + "/ui/Check-Icon.png" },
     { "type": "Texture", "name": "tex_icon_home",       "file": PATH + "/ui/Home-Icon.png" },
@@ -185,64 +180,64 @@ ml_content.load_all([
 id = "_ent_light_"
 if ml_content.load({ "type": "Entity", "name": id }):
     if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+        ml_ecs.transform_attr(id, "self", "enabled", "True")
     if ml_ecs.add_component(id, "struct ml::Light"):
-        ml_ecs.light_attrib(id, "self", "enabled", "True")
+        ml_ecs.light_attr(id, "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 id = "_ent_camera_"
 if ml_content.load({ "type": "Entity", "name": id }):
     if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+        ml_ecs.transform_attr(id, "self", "enabled", "True")
     if ml_ecs.add_component(id, "struct ml::Camera"):
-        ml_ecs.camera_attrib(id, "self", "enabled", "True")
+        ml_ecs.camera_attr(id, "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 id = "_ent_skybox_"
 if ml_content.load({ "type": "Entity", "name": id }):
     if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+        ml_ecs.transform_attr(id, "self", "enabled", "True")
     if ml_ecs.add_component(id, "struct ml::Renderer"):
-        ml_ecs.renderer_attrib(id, "self",      "enabled",  "False")
-        ml_ecs.renderer_attrib(id, "material",  "name",     "mat_skybox")
-        ml_ecs.renderer_attrib(id, "model",     "name",     "default_skybox")
-        ml_ecs.renderer_attrib(id, "depth",     "mask",     "False")
+        ml_ecs.renderer_attr(id, "self",      "enabled",  "False")
+        ml_ecs.renderer_attr(id, "material",  "name",     "mat_skybox")
+        ml_ecs.renderer_attr(id, "model",     "name",     "default_skybox")
+        ml_ecs.renderer_attr(id, "depth",     "mask",     "False")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 id = "ent_earth"
 if ml_content.load({ "type": "Entity", "name": id }):
     if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+        ml_ecs.transform_attr(id, "self", "enabled", "True")
     if ml_ecs.add_component(id, "struct ml::Renderer"):
-        ml_ecs.renderer_attrib(id, "self",      "enabled",  "False")
-        ml_ecs.renderer_attrib(id, "material",  "name",     "mat_advanced")
-        ml_ecs.renderer_attrib(id, "model",     "name",     "obj_sphere32x24")
+        ml_ecs.renderer_attr(id, "self",      "enabled",  "False")
+        ml_ecs.renderer_attr(id, "material",  "name",     "mat_advanced")
+        ml_ecs.renderer_attr(id, "model",     "name",     "obj_sphere32x24")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 id = "ent_demo"
 if ml_content.load({ "type": "Entity", "name": id }):
     if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attrib(id, "self", "enabled", "True")
+        ml_ecs.transform_attr(id, "self", "enabled", "True")
     if ml_ecs.add_component(id, "struct ml::Renderer"):
-        ml_ecs.renderer_attrib(id, "self",      "enabled",      "True")
-        ml_ecs.renderer_attrib(id, "material",  "name",         "mat_basic")
-        ml_ecs.renderer_attrib(id, "model",     "name",         "default_quad")
-        ml_ecs.renderer_attrib(id, "alpha",     "enabled",      "True")
-        ml_ecs.renderer_attrib(id, "alpha",     "predicate",    "GL_GREATER")
-        ml_ecs.renderer_attrib(id, "alpha",     "coeff",        "0.01")
-        ml_ecs.renderer_attrib(id, "blend",     "enabled",      "True")
-        ml_ecs.renderer_attrib(id, "blend",     "srcRGB",       "GL_SRC_ALPHA")
-        ml_ecs.renderer_attrib(id, "blend",     "srcAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
-        ml_ecs.renderer_attrib(id, "blend",     "dstRGB",       "GL_SRC_ALPHA")
-        ml_ecs.renderer_attrib(id, "blend",     "dstAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
-        ml_ecs.renderer_attrib(id, "cull",      "enabled",      "False")
-        ml_ecs.renderer_attrib(id, "cull",      "face",         "GL_BACK")
-        ml_ecs.renderer_attrib(id, "depth",     "enabled",      "True")
-        ml_ecs.renderer_attrib(id, "depth",     "predicate",    "GL_LESS")
-        ml_ecs.renderer_attrib(id, "depth",     "mask",         "True")
+        ml_ecs.renderer_attr(id, "self",      "enabled",      "True")
+        ml_ecs.renderer_attr(id, "material",  "name",         "mat_basic")
+        ml_ecs.renderer_attr(id, "model",     "name",         "default_quad")
+        ml_ecs.renderer_attr(id, "alpha",     "enabled",      "True")
+        ml_ecs.renderer_attr(id, "alpha",     "predicate",    "GL_GREATER")
+        ml_ecs.renderer_attr(id, "alpha",     "coeff",        "0.01")
+        ml_ecs.renderer_attr(id, "blend",     "enabled",      "True")
+        ml_ecs.renderer_attr(id, "blend",     "srcRGB",       "GL_SRC_ALPHA")
+        ml_ecs.renderer_attr(id, "blend",     "srcAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
+        ml_ecs.renderer_attr(id, "blend",     "dstRGB",       "GL_SRC_ALPHA")
+        ml_ecs.renderer_attr(id, "blend",     "dstAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
+        ml_ecs.renderer_attr(id, "cull",      "enabled",      "False")
+        ml_ecs.renderer_attr(id, "cull",      "face",         "GL_BACK")
+        ml_ecs.renderer_attr(id, "depth",     "enabled",      "True")
+        ml_ecs.renderer_attr(id, "depth",     "predicate",    "GL_LESS")
+        ml_ecs.renderer_attr(id, "depth",     "mask",         "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

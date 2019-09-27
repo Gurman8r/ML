@@ -194,7 +194,7 @@ namespace ml
 					c->states().alpha().enabled = alg::to_bool(value); 
 					break;
 				case Hash("predicate"): 
-					c->states().alpha().predicate = GL::find_by_name(value.c_str(), GL::Greater);
+					c->states().alpha().predicate = GL::find_by_raw_name(value.c_str(), GL::Greater);
 					break;
 				case Hash("coeff"): 
 					c->states().alpha().coeff = alg::to_float(value, 0.01f);
@@ -210,16 +210,16 @@ namespace ml
 					c->states().blend().enabled = alg::to_bool(value); 
 					break;
 				case Hash("srcRGB"):
-					c->states().blend().srcRGB = GL::find_by_name(value.c_str(), GL::SrcAlpha);
+					c->states().blend().srcRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
 					break;
 				case Hash("srcAlpha"):
-					c->states().blend().srcAlpha = GL::find_by_name(value.c_str(), GL::OneMinusSrcAlpha);
+					c->states().blend().srcAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
 					break;
 				case Hash("dstRGB"):
-					c->states().blend().dstRGB = GL::find_by_name(value.c_str(), GL::SrcAlpha);
+					c->states().blend().dstRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
 					break;
 				case Hash("dstAlpha"): 
-					c->states().blend().dstAlpha = GL::find_by_name(value.c_str(), GL::OneMinusSrcAlpha);
+					c->states().blend().dstAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
 					break;
 				}
 			}
@@ -232,7 +232,7 @@ namespace ml
 					c->states().cull().enabled = alg::to_bool(value); 
 					break;
 				case Hash("face"):
-					c->states().cull().face = GL::find_by_name(value.c_str(), GL::Back);
+					c->states().cull().face = GL::find_by_raw_name(value.c_str(), GL::Back);
 					break;
 				}
 			}
@@ -245,7 +245,7 @@ namespace ml
 					c->states().depth().enabled = alg::to_bool(value); 
 					break;
 				case Hash("predicate"): 
-					c->states().depth().predicate = GL::find_by_name(value.c_str(), GL::Less);
+					c->states().depth().predicate = GL::find_by_raw_name(value.c_str(), GL::Less);
 					break;
 				case Hash("mask"): 
 					c->states().depth().mask = alg::to_bool(value); 

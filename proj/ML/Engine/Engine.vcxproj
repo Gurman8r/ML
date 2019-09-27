@@ -216,7 +216,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\MetadataParser.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Plugin.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandImpl.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\PluginLoader.cpp" />

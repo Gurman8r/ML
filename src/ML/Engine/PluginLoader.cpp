@@ -124,5 +124,15 @@ namespace ml
 		return true;
 	}
 
+	size_t PluginLoader::loadList(const std::vector<std::string>& value)
+	{
+		size_t count { 0 };
+		for (const auto & filename : value)
+		{
+			count += loadOneShot(filename);
+		}
+		return count;
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

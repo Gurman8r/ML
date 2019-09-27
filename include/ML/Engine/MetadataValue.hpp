@@ -59,7 +59,7 @@ namespace ml
 		inline auto asDouble()	const -> float64_t	{ return alg::to_double(asString()); }
 		inline auto asFloat()	const -> float32_t	{ return alg::to_float(asString()); }
 		inline auto asInt()		const -> int32_t	{ return alg::to_int(asString()); }
-		inline auto asString()	const -> String		{ return m_data ? m_data.front() : String(); }
+		inline auto asString()	const -> String		{ return m_data; }
 		inline auto asUint()	const -> uint32_t	{ return alg::to_uint(asString()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -73,7 +73,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: List<String> m_data;
+	private: String m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

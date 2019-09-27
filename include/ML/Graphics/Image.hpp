@@ -7,7 +7,6 @@
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/Rect.hpp>
-#include <ML/Core/List.hpp>
 
 namespace ml
 {

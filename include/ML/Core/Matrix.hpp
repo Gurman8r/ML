@@ -133,15 +133,6 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		// preventing dynamic allocation because matrices lack C/D-tors
-		private:
-			inline void * operator	new		 (size_t)	{ return nullptr; }
-			inline void * operator	new[]	 (size_t)	{ return nullptr; }
-			inline void	  operator	delete	 (void *)	{ return;  }
-			inline void	  operator	delete[] (void *)	{ return;  }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -3,7 +3,6 @@
 
 #include <ML/Graphics/Color.hpp>
 #include <ML/Core/I_NonNewable.hpp>
-#include <ML/Core/List.hpp>
 
 namespace ml
 {

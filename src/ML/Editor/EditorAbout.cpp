@@ -37,8 +37,7 @@ namespace ml
 		}
 
 		// Header
-		ImGui::Text("Created by Melody Gurman");
-		ImGui::Text("%s", String("{0}-{1} ({2}/{3}) ({4} {5})").format(
+		ImGui::Text("%s", String("{0} / {1} | {2} / {3} | {4} / {5}").format(
 			ML_PROJECT_NAME,
 			ML_PROJECT_VER,
 			ML_CONFIGURATION,
@@ -46,9 +45,8 @@ namespace ml
 			ML_PROJECT_DATE,
 			ML_PROJECT_TIME
 		).c_str());
-		ImGui::Text(
-			"Special thanks to Sajid Farooq and Champlain College for their help and support."
-		); 
+		ImGui::Text("Created by Melody Gurman");
+		ImGui::Text("Special thanks to Sajid Farooq and Champlain College for their help and support."); 
 		ImGui::Separator();
 
 		// Config/Build Information
@@ -56,45 +54,32 @@ namespace ml
 		{
 			auto draw_def = ([](C_String label, C_String fmt, auto data)
 			{
-				ImGui::Text("define: %s", label);
+				ImGui::Text("%s", label);
 				ImGui::NextColumn();
 				ImGui::Text(fmt, data);
 				ImGui::NextColumn();
 			});
 			ImGui::Columns(2);
-			draw_def("ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
-			draw_def("ML_CC_NAME", "%s", ML_CC_NAME);
-			draw_def("ML_CC_VER", "%u", ML_CC_VER);
-			draw_def("ML_CONFIGURATION", "%s", ML_CONFIGURATION);
-			draw_def("ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
-			draw_def("ML_HAS_CXX11", "%s", ML_HAS_CXX11 ? "true" : "false");
-			draw_def("ML_HAS_CXX14", "%s", ML_HAS_CXX14 ? "true" : "false");
-			draw_def("ML_HAS_CXX17", "%s", ML_HAS_CXX17 ? "true" : "false");
-			draw_def("ML_PLATFORM_TARGET", "%s", ML_PLATFORM_TARGET);
-			draw_def("ML_PROJECT_AUTH", "%s", ML_PROJECT_AUTH);
-			draw_def("ML_PROJECT_DATE", "%s", ML_PROJECT_DATE);
-			draw_def("ML_PROJECT_TIME", "%s", ML_PROJECT_TIME);
-			draw_def("ML_PROJECT_URL", "%s", ML_PROJECT_URL);
-			draw_def("ML_PROJECT_VER", "%s", ML_PROJECT_VER);
-			draw_def("ML_SYSTEM_NAME", "%s", ML_SYSTEM_NAME);
-			ImGui::NextColumn();
-			ImGui::Columns(1);
-		}
-
-		// OpenGL Information
-		if (ImGui::CollapsingHeader("Renderer Information"))
-		{
-			auto draw_def = ([](C_String label, C_String fmt, auto data)
-			{
-				ImGui::Text("%s: ", label);
-				ImGui::NextColumn();
-				ImGui::Text(fmt, data);
-				ImGui::NextColumn();
-			});
-			ImGui::Columns(2);
-			draw_def("OpenGL Vendor", "%s", ML_GL.getString(GL::Vendor));
-			draw_def("OpenGL Renderer", "%s", ML_GL.getString(GL::Renderer));
-			draw_def("OpenGL Version", "%s", ML_GL.getString(GL::Version));
+			draw_def("define: ML_PROJECT_AUTH", "%s", ML_PROJECT_AUTH);
+			draw_def("define: ML_PROJECT_DATE", "%s", ML_PROJECT_DATE);
+			draw_def("define: ML_PROJECT_TIME", "%s", ML_PROJECT_TIME);
+			draw_def("define: ML_PROJECT_URL", "%s", ML_PROJECT_URL);
+			draw_def("define: ML_PROJECT_VER", "%s", ML_PROJECT_VER);
+			draw_def("define: ML_SYSTEM_NAME", "%s", ML_SYSTEM_NAME);
+			ImGui::Separator();
+			draw_def("define: ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
+			draw_def("define: ML_CC_NAME", "%s", ML_CC_NAME);
+			draw_def("define: ML_CC_VER", "%u", ML_CC_VER);
+			draw_def("define: ML_CONFIGURATION", "%s", ML_CONFIGURATION);
+			draw_def("define: ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
+			draw_def("define: ML_HAS_CXX11", "%s", ML_HAS_CXX11 ? "true" : "false");
+			draw_def("define: ML_HAS_CXX14", "%s", ML_HAS_CXX14 ? "true" : "false");
+			draw_def("define: ML_HAS_CXX17", "%s", ML_HAS_CXX17 ? "true" : "false");
+			draw_def("define: ML_PLATFORM_TARGET", "%s", ML_PLATFORM_TARGET);
+			ImGui::Separator();
+			draw_def("GL Vendor", "%s", ML_GL.getString(GL::Vendor));
+			draw_def("GL Renderer", "%s", ML_GL.getString(GL::Renderer));
+			draw_def("GL Version", "%s", ML_GL.getString(GL::Version));
 			ImGui::NextColumn();
 			ImGui::Columns(1);
 		}

@@ -24,7 +24,8 @@ namespace ml
 
 		inline bool execute(const String & value)
 		{
-			if (auto args { alg::tokenize(value, " ") })
+			auto args { alg::tokenize(value, " ") };
+			if (!args.empty())
 			{
 				if (auto cmd { this->find_by_name(args.front()) })
 				{

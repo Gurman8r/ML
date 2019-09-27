@@ -38,37 +38,40 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Method = typename std::function<void *(void)>;
+		using Code = typename hash_t;
+		using Name = typename String;
+		using Info = typename String;
+		using Func = typename std::function<void *(void)>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto codes() const -> const HashMap<String, hash_t> & { return m_codes; }
-		inline auto funcs() const -> const HashMap<String, Method> & { return m_funcs; }
-		inline auto infos() const -> const HashMap<String, String> & { return m_infos; }
-		inline auto names() const -> const HashMap<hash_t, String> & { return m_names; }
+		inline auto codes() const -> const HashMap<Name, Code> & { return m_codes; }
+		inline auto funcs() const -> const HashMap<Name, Func> & { return m_funcs; }
+		inline auto infos() const -> const HashMap<Name, Info> & { return m_infos; }
+		inline auto names() const -> const HashMap<Code, Name> & { return m_names; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * generate(const String & name) const
+		inline void * generate(const Name & name) const
 		{
-			const Method func { get_func(name) };
+			const Func func { this->get_func(name) };
 			return (func ? func() : nullptr);
 		}
 
-		inline void * generate(hash_t code) const
+		inline void * generate(Code code) const
 		{
-			const Method func { get_func(code) };
+			const Func func { this->get_func(code) };
 			return (func ? func() : nullptr);
 		}
 
 		template <class T> inline T * generate() const
 		{
-			return static_cast<T *>(generate(typeof<T>().name));
+			return static_cast<T *>(this->generate(typeof<T>().name));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool registrate(const String & name, const String & info, hash_t code, Method func)
+		inline bool registrate(const Name & name, const Info & info, Code code, Func func)
 		{
 			if (m_funcs.find(name) == m_funcs.end())
 			{
@@ -81,44 +84,44 @@ namespace ml
 			return false;
 		}
 
-		template <class T, class F> inline bool registrate(const String & info, F && func)
+		template <class T, class F> inline bool registrate(const Info & info, F && func)
 		{
-			return registrate(typeof<T>().name, info, typeof<T>().hash, (Method)func);
+			return this->registrate(typeof<T>().name, info, typeof<T>().hash, (Func)func);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const hash_t * get_code(const String & name) const
+		inline const Code * get_code(const Name & name) const
 		{
 			auto it { m_codes.find(name) };
 			return ((it != m_codes.end()) ? &it->second : nullptr);
 		}
 
-		inline const Method get_func(const String & name) const
+		inline const Func get_func(const Name & name) const
 		{
 			auto it { m_funcs.find(name) };
 			return ((it != m_funcs.end()) ? it->second : nullptr);
 		}
 
-		inline const Method get_func(hash_t code) const
+		inline const Func get_func(Code code) const
 		{
 			auto it { m_names.find(code) };
 			return ((it != m_names.end()) ? this->get_func(it->second) : nullptr);
 		}
 
-		inline const String * get_info(const String & name) const
+		inline const String * get_info(const Name & name) const
 		{
 			auto it { m_infos.find(name) };
 			return ((it != m_infos.end()) ? &it->second : nullptr);
 		}
 
-		inline const String * get_info(hash_t code) const
+		inline const String * get_info(Code code) const
 		{
 			auto it { m_names.find(code) };
 			return ((it != m_names.end()) ? this->get_info(it->second) : nullptr);
 		}
 
-		inline const String * get_name(hash_t code) const
+		inline const String * get_name(Code code) const
 		{
 			auto it { m_names.find(code) };
 			return ((it != m_names.end()) ? &it->second : nullptr);
@@ -130,10 +133,10 @@ namespace ml
 		friend struct I_Singleton<Registry<>>;
 		Registry() : m_codes(), m_funcs(), m_infos(), m_names() {}
 		~Registry() {}
-		HashMap<String, hash_t> m_codes; // 
-		HashMap<String, Method> m_funcs; // 
+		HashMap<String, Code>	m_codes; // 
+		HashMap<String, Func>	m_funcs; // 
 		HashMap<String, String> m_infos; // 
-		HashMap<hash_t, String> m_names; // 
+		HashMap<Code,	String> m_names; // 
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

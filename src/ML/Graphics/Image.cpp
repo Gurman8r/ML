@@ -82,7 +82,7 @@ namespace ml
 
 	bool Image::dispose()
 	{
-		if (m_pixels)
+		if (!m_pixels.empty())
 		{
 			Pixels().swap(m_pixels);
 		}
@@ -168,7 +168,7 @@ namespace ml
 	
 	Image & Image::update(const vec2u & size, uint32_t channels, const Pixels & pixels)
 	{
-		if (pixels && (pixels.size() == (size[0] * size[1] * channels)))
+		if (!pixels.empty() && (pixels.size() == (size[0] * size[1] * channels)))
 		{
 			m_size = size;
 			m_channels = channels;

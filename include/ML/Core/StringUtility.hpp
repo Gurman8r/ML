@@ -4,7 +4,6 @@
 // String Utilities
 
 #include <ML/Core/String.hpp>
-#include <ML/Core/List.hpp>
 
 namespace ml
 {
@@ -25,6 +24,17 @@ namespace ml
 			}
 			out.push_back(value);
 			return out;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static inline String format(String str, const List<String> & args)
+		{
+			for (size_t i = 0; i < args.size(); i++)
+			{
+				str.replaceAll(("{" + std::to_string(i) + "}"), args[i]);
+			}
+			return str;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

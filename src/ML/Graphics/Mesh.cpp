@@ -58,7 +58,7 @@ namespace ml
 	
 	Mesh & Mesh::create()
 	{
-		if (m_vertices && m_indices)
+		if (!m_vertices.empty() && !m_indices.empty())
 		{
 			m_vao.create(GL::Triangles).bind();
 			m_vbo.create(GL::StaticDraw).bind().bufferData(alg::contiguous(m_vertices));
@@ -68,7 +68,7 @@ namespace ml
 			m_vbo.unbind();
 			m_vao.unbind();
 		}
-		else if (m_vertices)
+		else if (!m_vertices.empty())
 		{
 			m_vao.create(GL::Triangles).bind();
 			m_vbo.create(GL::StaticDraw).bind().bufferData(alg::contiguous(m_vertices));

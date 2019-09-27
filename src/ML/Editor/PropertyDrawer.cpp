@@ -130,7 +130,7 @@ namespace ml
 				ImGuiWindowFlags_NoMove
 			);
 			ImGui::PopStyleVar();
-			for (const Pair<String, Registry<>::Method> & pair : ML_Registry.funcs())
+			for (const auto & pair : ML_Registry.funcs())
 			{
 				// Skip
 				if (!filter.PassFilter(pair.first.c_str())) continue;
@@ -194,7 +194,7 @@ namespace ml
 				if (ImGuiExt::Combo(
 					("Clear Flags##Camera##" + label).c_str(),
 					&clearFlags, 
-					"Skybox\0Solid Color\0Depth Only\0Don't Clear"
+					"Solid Color\0Depth Only\0Don't Clear"
 				))
 				{
 					c->setClearFlags((Camera::ClearFlags)clearFlags);
@@ -2146,7 +2146,7 @@ namespace ml
 				const vec2 pos { ((dst - scl) * 0.5f) };
 
 				ImGui::BeginChild(
-					("##PropertyDrawer##Texture##Preview" + label).c_str(),
+					("##PropertyDrawer##Texture2D##Preview" + label).c_str(),
 					{ dst[0], dst[1] },
 					true,
 					ImGuiWindowFlags_NoScrollbar
@@ -2157,9 +2157,14 @@ namespace ml
 			}
 		}
 		break;
+		case GL::Texture3D:
+		{
+			ImGui::Text("Texture-3D previews are currently disabled.");
+		}
+		break;
 		case GL::TextureCubeMap:
 		{
-
+			ImGui::Text("Texture-CubeMap previews are currently disabled.");
 		}
 		break;
 		}

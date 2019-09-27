@@ -1,5 +1,6 @@
+import MEMELIB as ml
 PATH = "../../../assets"
-ml_content.load_all([
+ml.content.load_all([
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -177,57 +178,81 @@ ml_content.load_all([
 # Entities
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-id = "_ent_light_"
-if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "ml::Light"):
-        ml_ecs.light_attr(id, "self", "enabled", "True")
+name = "_ent_light_"
+if ml.content.load({ "type": "Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Light"):
+        ml.ecs.light_attr(name,     "self",     "enabled",      "True")
+        ml.ecs.light_attr(name,     "self",     "color",        "1 1 1 1")
+        ml.ecs.light_attr(name,     "self",     "intensity",    "1.0")
+        ml.ecs.light_attr(name,     "self",     "mode",         "Realtime")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-id = "_ent_camera_"
-if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "ml::Camera"):
-        ml_ecs.camera_attr(id, "self", "enabled", "True")
+name = "_ent_camera_"
+if ml.content.load({ "type": "Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Camera"):
+        ml.ecs.camera_attr(name,    "self",     "enabled",      "True")
+        ml.ecs.camera_attr(name,    "self",     "clearflags",   "SolidColor")
+        ml.ecs.camera_attr(name,    "self",     "background",   "0 0 0 1")
+        ml.ecs.camera_attr(name,    "self",     "fov",          "45.0")
+        ml.ecs.camera_attr(name,    "self",     "projection",   "Perspective")
+        ml.ecs.camera_attr(name,    "self",     "near",         "0.001")
+        ml.ecs.camera_attr(name,    "self",     "far",          "1000.0")
+        ml.ecs.camera_attr(name,    "self",     "viewport",     "0 1920 0 1080")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-id = "_ent_skybox_"
-if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "ml::Renderer"):
-        ml_ecs.renderer_attr(id, "self",      "enabled",  "False")
-        ml_ecs.renderer_attr(id, "material",  "name",     "mat_skybox")
-        ml_ecs.renderer_attr(id, "model",     "name",     "default_skybox")
-        ml_ecs.renderer_attr(id, "depth",     "mask",     "False")
+name = "_ent_skybox_"
+if ml.content.load({ "type": "Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Renderer"):
+        ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_skybox")
+        ml.ecs.renderer_attr(name,  "self",     "model",        "default_skybox")
+        ml.ecs.renderer_attr(name,  "depth",    "mask",         "False")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-id = "ent_earth"
-if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "ml::Renderer"):
-        ml_ecs.renderer_attr(id, "self",      "enabled",  "False")
-        ml_ecs.renderer_attr(id, "material",  "name",     "mat_advanced")
-        ml_ecs.renderer_attr(id, "model",     "name",     "obj_sphere32x24")
+name = "ent_earth"
+if ml.content.load({ "type": "Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Renderer"):
+        ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
+        ml.ecs.renderer_attr(name,  "self",     "model",        "obj_sphere32x24")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-id = "ent_demo"
-if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "ml::Renderer"):
-        ml_ecs.renderer_attr(id, "self",      "enabled",      "True")
-        ml_ecs.renderer_attr(id, "material",  "name",         "mat_basic")
-        ml_ecs.renderer_attr(id, "model",     "name",         "default_quad")
-        ml_ecs.renderer_attr(id, "alpha",     "enabled",      "True")
-        ml_ecs.renderer_attr(id, "alpha",     "predicate",    "GL_GREATER")
-        ml_ecs.renderer_attr(id, "alpha",     "coeff",        "0.01")
-        ml_ecs.renderer_attr(id, "blend",     "enabled",      "True")
-        ml_ecs.renderer_attr(id, "blend",     "srcRGB",       "GL_SRC_ALPHA")
-        ml_ecs.renderer_attr(id, "blend",     "srcAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
-        ml_ecs.renderer_attr(id, "blend",     "dstRGB",       "GL_SRC_ALPHA")
-        ml_ecs.renderer_attr(id, "blend",     "dstAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
-        ml_ecs.renderer_attr(id, "cull",      "enabled",      "False")
-        ml_ecs.renderer_attr(id, "cull",      "face",         "GL_BACK")
-        ml_ecs.renderer_attr(id, "depth",     "enabled",      "True")
-        ml_ecs.renderer_attr(id, "depth",     "predicate",    "GL_LESS")
-        ml_ecs.renderer_attr(id, "depth",     "mask",         "True")
+name = "ent_testing"
+if ml.content.load({ "type": "Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Transform"):
+        ml.ecs.transform_attr(name, "self",     "enabled",      "True")
+        ml.ecs.transform_attr(name, "self",     "position",     "0.0 0.0 0.0")
+        ml.ecs.transform_attr(name, "self",     "scale",        "1.0 1.0 1.0")
+        ml.ecs.transform_attr(name, "self",     "rotation",     "1.0 1.0 1.0")
+    if ml.ecs.add_component(name, "ml::Renderer"):
+        ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
+        ml.ecs.renderer_attr(name,  "self",     "model",        "obj_sphere32x24")
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+name = "ent_sanic"
+if ml.content.load({ "type": "Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Renderer"):
+        ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_basic")
+        ml.ecs.renderer_attr(name,  "self",     "model",        "default_quad")
+        ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")
+        ml.ecs.renderer_attr(name,  "alpha",    "predicate",    "GL_GREATER")
+        ml.ecs.renderer_attr(name,  "alpha",    "coeff",        "0.01")
+        ml.ecs.renderer_attr(name,  "blend",    "enabled",      "True")
+        ml.ecs.renderer_attr(name,  "blend",    "srcRGB",       "GL_SRC_ALPHA")
+        ml.ecs.renderer_attr(name,  "blend",    "srcAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
+        ml.ecs.renderer_attr(name,  "blend",    "dstRGB",       "GL_SRC_ALPHA")
+        ml.ecs.renderer_attr(name,  "blend",    "dstAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
+        ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
+        ml.ecs.renderer_attr(name,  "cull",     "face",         "GL_BACK")
+        ml.ecs.renderer_attr(name,  "depth",    "enabled",      "True")
+        ml.ecs.renderer_attr(name,  "depth",    "predicate",    "GL_LESS")
+        ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

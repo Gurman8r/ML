@@ -3,6 +3,7 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/Metadata.hpp>
+#include <ML/Engine/Registry.hpp>
 
 #define ML_Content ::ml::ContentManager::getInstance()
 
@@ -86,11 +87,34 @@ namespace ml
 			);
 		}
 
+		inline I_Newable * insert(hash_t code, const String & name, void * value)
+		{
+			return static_cast<I_Newable *>(data(code).insert({
+				name, (I_Newable *)value
+			}).first->second);
+		}
+
 		template <class T> inline T * insert(const String & name, T * value)
 		{
 			return static_cast<T *>(data<T>().insert({
 				name, value
 			}).first->second);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline I_Newable * generate(const String & type, const String & name)
+		{
+			if (const hash_t * code { ML_Registry.get_code(type) })
+			{
+				if (data(*code).find(name) == data(*code).end())
+				{
+					return data(*code).insert({ 
+						name, (I_Newable *)ML_Registry.generate(*code) 
+					}).first->second;
+				}
+			}
+			return nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -110,6 +134,18 @@ namespace ml
 		template <class T> inline bool destroy(const String & name)
 		{
 			return destroy(typeof<T>().hash, name);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool exists(hash_t code, const String & name)
+		{
+			return data(code).find(name) != data(code).end();
+		}
+
+		template <class T> inline bool exists(const String & name) const
+		{
+			return exists(typeof<T>::hash, name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -14,16 +14,15 @@ namespace ml
 	template <class T> struct typeof<T> final
 	{
 		constexpr typeof() noexcept = default;
-		static constexpr StringView name { nameof<>::filter(nameof<T>::value) };
-		static constexpr hash_t hash { name.hash() };
+		static constexpr auto name { nameof<>::filter(nameof<T>::value) };
+		static constexpr auto hash { name.hash() };
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <> struct typeof<> final
 	{
-		const StringView name;
-		const hash_t hash;
+		const StringView name; const hash_t hash;
 
 		template <class T> constexpr typeof(const typeof<T> & copy) noexcept
 			: name { copy.name }, hash { copy.hash }

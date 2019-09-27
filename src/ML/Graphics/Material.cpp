@@ -108,7 +108,7 @@ namespace ml
 
 				// Parse uniform from tokens
 				/* * * * * * * * * * * * * * * * * * * * */
-				if (tokens && (pop_front(tokens) == "uniform"))
+				if (!tokens.empty() && (pop_front(tokens) == "uniform"))
 				{
 					// Uniform Type
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -134,7 +134,7 @@ namespace ml
 						{
 							toks.erase(toks.begin());
 							String temp;
-							while (toks && ((temp = toks.front()) != "}"))
+							while (!toks.empty() && ((temp = toks.front()) != "}"))
 							{
 								out << temp << ' ';
 								toks.erase(toks.begin());

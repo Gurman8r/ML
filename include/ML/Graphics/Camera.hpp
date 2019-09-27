@@ -5,6 +5,7 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/Quaternion.hpp>
 #include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Input.hpp>
 
 namespace ml
 {
@@ -15,7 +16,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum ClearFlags { Skybox, SolidColor, DepthOnly, DontClear };
+		enum ClearFlags { SolidColor, DepthOnly, DontClear };
 
 		enum Projection { Perspective, Orthographic };
 
@@ -55,10 +56,7 @@ namespace ml
 		inline auto clipFar()		const -> const float_t &	{ return m_clipFar; }
 		inline auto viewport()		const -> const IntRect &	{ return m_viewport; }
 
-		static inline Camera * mainCamera()
-		{
-			return s_mainCamera;
-		}
+		static inline Camera * mainCamera() { return s_mainCamera; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -75,6 +73,37 @@ namespace ml
 		static Camera * s_mainCamera;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<Camera::ClearFlags>
+	{
+		inline auto operator()(const String & value) const
+		{
+			switch (alg::to_lower(value).hash())
+			{
+			case Hash("solidcolor"): return Camera::SolidColor;
+			case Hash("depthonly"): return Camera::DepthOnly;
+			case Hash("dontclear"): return Camera::DontClear;
+			default: return (Camera::ClearFlags)0;
+			}
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<Camera::Projection>
+	{
+		inline Camera::Projection operator()(const String & value) const
+		{
+			switch (alg::to_lower(value).hash())
+			{
+			case Hash("orthographic"): return Camera::Orthographic;
+			case Hash("perspective"): return Camera::Perspective;
+			default: return (Camera::Projection)0;
+			}
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

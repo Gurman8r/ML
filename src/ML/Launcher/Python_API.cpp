@@ -24,396 +24,260 @@ namespace ml
 	using dict_t	= typename std::map<str_t, str_t>;
 	using table_t	= typename std::vector<dict_t>;
 	using coord_t	= typename std::array<float_t, 2>;
+	using rect_t	= typename std::array<float_t, 4>;
 
-	
-	// Config
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(ml_config, m)
+	PYBIND11_EMBEDDED_MODULE(MEMELIB, m)
 	{
-		m.attr("ARCHITECTURE")		= ML_ARCHITECTURE;
-		m.attr("COMPILER_NAME")		= ML_CC_NAME;
-		m.attr("COMPILER_VER")		= ML_CC_VER;
-		m.attr("CONFIGURATION")		= ML_CONFIGURATION;
-		m.attr("CPLUSPLUS_VER")		= ML_CPLUSPLUS;
-		m.attr("IS_DEBUG")			= ML_DEBUG;
-		m.attr("PLATFORM_TARGET")	= ML_PLATFORM_TARGET;
-		m.attr("PROJECT_AUTH")		= ML_PROJECT_AUTH;
-		m.attr("PROJECT_DATE")		= ML_PROJECT_DATE;
-		m.attr("PROJECT_NAME")		= ML_PROJECT_NAME;
-		m.attr("PROJECT_TIME")		= ML_PROJECT_TIME;
-		m.attr("PROJECT_URL")		= ML_PROJECT_URL;
-		m.attr("PROJECT_VER")		= ML_PROJECT_VER;
-		m.attr("SYSTEM_NAME")		= ML_SYSTEM_NAME;
+		// Config
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct py_ml_config {};
+		py::class_<py_ml_config>(m, "config")
+			.def_static("architecture",			[]() { return ML_ARCHITECTURE; })
+			.def_static("compiler_name",		[]() { return ML_CC_NAME; })
+			.def_static("compiler_version",		[]() { return ML_CC_VER; })
+			.def_static("configuration",		[]() { return ML_CONFIGURATION; })
+			.def_static("cplusplus_version",	[]() { return ML_CPLUSPLUS; })
+			.def_static("is_debug",				[]() { return ML_DEBUG; })
+			.def_static("platform_target",		[]() { return ML_PLATFORM_TARGET; })
+			.def_static("project_author",		[]() { return ML_PROJECT_AUTH; })
+			.def_static("project_date",			[]() { return ML_PROJECT_DATE; })
+			.def_static("project_name",			[]() { return ML_PROJECT_NAME; })
+			.def_static("project_time",			[]() { return ML_PROJECT_TIME; })
+			.def_static("project_url",			[]() { return ML_PROJECT_URL; })
+			.def_static("project_version",		[]() { return ML_PROJECT_VER; })
+			.def_static("system_name",			[]() { return ML_SYSTEM_NAME; })
+			;
+		
+		// Content
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct py_ml_content { };
+		py::class_<py_ml_content>(m, "content")
+			.def_static("create",	[](str_t type, str_t name) { return (bool)ML_Content.generate(type, name); })
+			.def_static("destroy",	[](str_t type, str_t name) { return ML_Content.destroy(String(type).hash(), name); })
+			.def_static("exists",	[](str_t type, str_t name) { return ML_Content.exists(String(type).hash(), name); })
+			.def_static("load",		[](const dict_t & value) { return MetadataParser::parseMetadata(Metadata { value }); })
+			.def_static("load_all", [](const table_t & value) { return MetadataParser::parseMetadata(value); })
+			;
+
+		// Plugins
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct py_ml_plugins {};
+		py::class_<py_ml_plugins>(m, "plugins")
+			.def_static("load",		[](str_t s) { return ML_Launcher.plugins.loadOneShot(s); })
+			.def_static("load_all", [](const list_t & l) { return ML_Launcher.plugins.loadList(l); })
+			;
+
+		struct py_ml_io {};
+		py::class_<py_ml_io>(m, "io")
+			.def_static("clear",	[]() { Debug::clear(); })
+			.def_static("command",	[](str_t s) { ML_Launcher.eventSystem.fireEvent<CommandEvent>(s.c_str()); })
+			.def_static("exit",		[]() { Debug::exit(0); })
+			.def_static("fatal",	[](str_t s) { Debug::fatal(s); })
+			.def_static("pause",	[]() { Debug::pause(0); })
+			.def_static("print",	[](str_t s) { cout << s; })
+			.def_static("printf",	[](str_t s, const list_t & args) { cout << alg::format(s, { args.begin(), args.end() }); })
+			.def_static("printl",	[](str_t s) { cout << s << endl; })
+			.def_static("system",	[](str_t s) { return Debug::system(s.c_str()); })
+			;
+
+
+		// Prefs
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct py_ml_prefs {};
+		py::class_<py_ml_prefs>(m, "prefs")
+			.def_static("load",		[](str_t s) { return ML_Launcher.prefs.loadFromFile(s); })
+			.def_static("save",		[](str_t s) { return ML_Launcher.prefs.saveToFile(s); })
+			.def_static("get",		[](str_t s, str_t n, str_t v) { return (str_t)ML_Launcher.prefs.get_string(s, n, v); })
+			.def_static("set",		[](str_t s, str_t n, str_t v) { return ML_Launcher.prefs.set_string(s, n, v); })
+			;
+
+
+		// Window
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct py_ml_window {};
+		py::class_<py_ml_window>(m, "window")
+			.def_static("close",			[]() { ML_Launcher.window.close(); })
+			.def_static("iconify",			[]() { ML_Launcher.window.iconify(); })
+			.def_static("maximize",			[]() { ML_Launcher.window.maximize(); })
+			.def_static("restore",			[]() { ML_Launcher.window.restore(); })
+			.def_static("is_focused",		[]() { return ML_Launcher.window.is_focused(); })
+			.def_static("is_fullscreen",	[]() { return ML_Launcher.window.is_fullscreen(); })
+			.def_static("is_open",			[]() { return ML_Launcher.window.is_open(); })
+			.def_static("get_clipboard",	[]() { return (str_t)ML_Launcher.window.getClipboardString(); })
+			.def_static("get_cursor",		[]() { return (coord_t)(vec2)ML_Launcher.window.getCursorPos(); })
+			.def_static("get_key",			[](int32_t i) { return ML_Launcher.window.getKey(i); })
+			.def_static("get_title",		[]() { return (str_t)ML_Launcher.window.title(); })
+			.def_static("get_size",			[]() { return (coord_t)(vec2)ML_Launcher.window.size(); })
+			.def_static("get_position",		[]() { return (coord_t)(vec2)ML_Launcher.window.getPosition(); })
+			.def_static("get_time",			[]() { return (float_t)ML_Launcher.window.getTime(); })
+			.def_static("set_clipboard",	[](str_t s) { ML_Launcher.window.setClipboardString(s); })
+			.def_static("set_cursor",		[](int32_t i) { ML_Launcher.window.setCursorMode(((Cursor::Mode)i)); })
+			.def_static("set_fullscreen",	[](bool b) { ML_Launcher.window.setFullscreen(b); })
+			.def_static("set_position",		[](const coord_t & v) { ML_Launcher.window.setPosition({ (int32_t)v[0], (int32_t)v[1] }); })
+			.def_static("set_size",			[](const coord_t & v) { ML_Launcher.window.setSize({ (uint32_t)v[0], (uint32_t)v[1] }); })
+			.def_static("set_title",		[](str_t s) { ML_Launcher.window.setTitle(s); })
+			;
+
+
+		// ECS
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct py_ml_ecs {};
+		py::class_<py_ml_ecs>(m, "ecs")
+			.def_static("add_component", [](str_t n, str_t t) { Entity * e { ML_Content.get<Entity>(n) }; return (e && e->addByName(t)); })
+			.def_static("get_component", [](str_t n, str_t t) { Entity * e { ML_Content.get<Entity>(n) }; return (e && e->getByName(t)); })
+			.def_static("camera_attr", [](str_t name, str_t section, str_t key, str_t value)
+			{
+				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+				auto * c { e->get<Camera>() }; if (!c) return false;
+				switch (alg::to_lower(section).hash())
+				{
+				case Hash("self"):
+				{
+					switch (alg::to_lower(key).hash())
+					{
+					case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+					case Hash("clearflags"): c->setClearFlags(input<Camera::ClearFlags>()(value)); break;
+					case Hash("background"): c->setBackground(input<vec4>()(value)); break;
+					case Hash("fov"): c->setFieldOfView(alg::to_float(value)); break;
+					case Hash("projection"): c->setProjection(input<Camera::Projection>()(value)); break;
+					case Hash("near"): c->setClipNear(alg::to_float(value)); break;
+					case Hash("far"): c->setClipFar(alg::to_float(value)); break;
+					case Hash("viewport"): c->setViewport(input<IntRect>()(value)); break;
+					}
+				}
+				break;
+				}
+				return true;
+			})
+			.def_static("light_attr", [](str_t name, str_t section, str_t key, str_t value)
+			{
+				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+				auto * c { e->get<Light>() }; if (!c) return false;
+				switch (alg::to_lower(section).hash())
+				{
+				case Hash("self"):
+				{
+					switch (alg::to_lower(key).hash())
+					{
+					case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+					case Hash("color"): c->setColor(input<vec4>()(value)); break;
+					case Hash("intensity"): c->setIntensity(alg::to_float(value)); break;
+					case Hash("mode"): c->setMode(input<Light::Mode>()(value)); break;
+					}
+				}
+				break;
+				}
+				return true;
+			})
+			.def_static("renderer_attr", [](str_t name, str_t section, str_t key, str_t value)
+			{
+				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+				auto * c { e->get<Renderer>() }; if (!c) return false;
+				switch (alg::to_lower(section).hash())
+				{
+				case Hash("self"):
+				{
+					switch (alg::to_lower(key).hash())
+					{
+					case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+					case Hash("material"): c->setMaterial(ML_Content.get<Material>(value)); break;
+					case Hash("shader"): c->setShader(ML_Content.get<Shader>(value)); break;
+					case Hash("model"): c->setDrawable(ML_Content.get<Model>(value)); break;
+					}
+				}
+				break;
+				case Hash("alpha"):
+				{
+					switch (alg::to_lower(key).hash())
+					{
+					case Hash("enabled"): 
+						c->states().alpha().enabled = alg::to_bool(value); 
+						break;
+					case Hash("predicate"): 
+						c->states().alpha().predicate = GL::find_by_raw_name(value.c_str(), GL::Greater);
+						break;
+					case Hash("coeff"): 
+						c->states().alpha().coeff = alg::to_float(value, 0.01f);
+						break;
+					}
+				}
+				break;
+				case Hash("blend"):
+				{
+					switch (alg::to_lower(key).hash())
+					{
+					case Hash("enabled"): 
+						c->states().blend().enabled = alg::to_bool(value); 
+						break;
+					case Hash("srcRGB"):
+						c->states().blend().srcRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
+						break;
+					case Hash("srcAlpha"):
+						c->states().blend().srcAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
+						break;
+					case Hash("dstRGB"):
+						c->states().blend().dstRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
+						break;
+					case Hash("dstAlpha"): 
+						c->states().blend().dstAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
+						break;
+					}
+				}
+				break;
+				case Hash("cull"):
+				{
+					switch (alg::to_lower(key).hash())
+					{
+					case Hash("enabled"): 
+						c->states().cull().enabled = alg::to_bool(value); 
+						break;
+					case Hash("face"):
+						c->states().cull().face = GL::find_by_raw_name(value.c_str(), GL::Back);
+						break;
+					}
+				}
+				break;
+				case Hash("depth"):
+				{
+					switch (alg::to_lower(key).hash())
+					{
+					case Hash("enabled"): 
+						c->states().depth().enabled = alg::to_bool(value); 
+						break;
+					case Hash("predicate"): 
+						c->states().depth().predicate = GL::find_by_raw_name(value.c_str(), GL::Less);
+						break;
+					case Hash("mask"): 
+						c->states().depth().mask = alg::to_bool(value); 
+						break;
+					}
+				}
+				break;
+				}
+				return true;
+			})
+			.def_static("transform_attr", [](str_t name, str_t section, str_t key, str_t value)
+			{
+				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+				auto * c { e->get<Transform>() }; if (!c) return false;
+				switch (alg::to_lower(section).hash())
+				{
+				case Hash("self"):
+				{
+					switch (alg::to_lower(key).hash())
+					{
+					case Hash("enabled"):	c->setEnabled(alg::to_bool(value)); break;
+					case Hash("position"):	c->setPosition(input<vec3>()(value)); break;
+					case Hash("scale"):		c->setScale(input<vec3>()(value)); break;
+					case Hash("rotation"):	c->setRotation(input<vec3>()(value)); break;
+					}
+				}
+				break;
+				}
+				return true;
+			})
+			;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
-
-
-	// Content
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(ml_content, m)
-	{
-		m.def("create", [](const str_t & type, const str_t & name)
-		{
-			if (const hash_t * code { ML_Registry.get_code(type) })
-			{
-				auto & data { ML_Content.data(*code) };
-				auto it { data.find(name) };
-				return (it == data.end()) && data.insert({
-					name, (I_Newable *)ML_Registry.generate(*code)
-				}).first->second;
-			}
-			return (bool)Debug::logError("Unknown Type: \'{0}\'", type);
-		});
-		m.def("destroy", [](const str_t & type, const str_t & name)
-		{
-			return ML_Content.destroy(String(type).hash(), name);
-		});
-		m.def("exists", [](const str_t & type, const str_t & name)
-		{
-			auto & data { ML_Content.data(String(type).hash()) };
-			return (data.find(name) != data.end());
-		});
-		m.def("load", [](const dict_t & value)
-		{
-			return MetadataParser::parseMetadata(Metadata { value });
-		});
-		m.def("load_all", [](const table_t & value)
-		{
-			for (const dict_t & elem : value)
-			{
-				if (!MetadataParser::parseMetadata(Metadata { elem }))
-				{
-					/* error */
-				}
-			}
-			return true;
-		});
-	}
-
-
-	// ECS
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(ml_ecs, m)
-	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m.def("add_component", [](const str_t & name, const str_t & type)
-		{
-			Entity * e { ML_Content.get<Entity>(name) };
-			return (e && e->addByName(type));
-		});
-		m.def("get_component", [](const str_t & name, const str_t & type)
-		{
-			Entity * e { ML_Content.get<Entity>(name) };
-			return (e && e->getByName(type));
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m.def("camera_attr", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
-		{
-			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
-			auto * c { e->get<Camera>() }; if (!c) return false;
-			switch (String(section).hash())
-			{
-			case Hash("self"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("enabled"):
-					c->setEnabled(alg::to_bool(value));
-					break;
-				}
-			}
-			break;
-			}
-			return true;
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m.def("light_attr", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
-		{
-			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
-			auto * c { e->get<Light>() }; if (!c) return false;
-			switch (String(section).hash())
-			{
-			case Hash("self"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("enabled"):
-					c->setEnabled(alg::to_bool(value));
-					break;
-				}
-			}
-			break;
-			}
-			return true;
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m.def("renderer_attr", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
-		{
-			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
-			auto * c { e->get<Renderer>() }; if (!c) return false;
-			switch (String(section).hash())
-			{
-			case Hash("self"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("enabled"): 
-					c->setEnabled(alg::to_bool(value));
-					break;
-				}
-			}
-			break;
-			case Hash("material"): 
-			{
-				switch (String(key).hash())
-				{
-				case Hash("name"): 
-					c->setMaterial(ML_Content.get<Material>(value)); 
-					break;
-				case Hash("shader"): 
-					c->setShader(ML_Content.get<Shader>(value)); 
-					break;
-				}
-			}
-			break;
-			case Hash("model"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("name"):
-					c->setDrawable(ML_Content.get<Model>(value)); 
-					break;
-				}
-			}
-			break;
-			case Hash("alpha"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("enabled"): 
-					c->states().alpha().enabled = alg::to_bool(value); 
-					break;
-				case Hash("predicate"): 
-					c->states().alpha().predicate = GL::find_by_raw_name(value.c_str(), GL::Greater);
-					break;
-				case Hash("coeff"): 
-					c->states().alpha().coeff = alg::to_float(value, 0.01f);
-					break;
-				}
-			}
-			break;
-			case Hash("blend"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("enabled"): 
-					c->states().blend().enabled = alg::to_bool(value); 
-					break;
-				case Hash("srcRGB"):
-					c->states().blend().srcRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
-					break;
-				case Hash("srcAlpha"):
-					c->states().blend().srcAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
-					break;
-				case Hash("dstRGB"):
-					c->states().blend().dstRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
-					break;
-				case Hash("dstAlpha"): 
-					c->states().blend().dstAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
-					break;
-				}
-			}
-			break;
-			case Hash("cull"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("enabled"): 
-					c->states().cull().enabled = alg::to_bool(value); 
-					break;
-				case Hash("face"):
-					c->states().cull().face = GL::find_by_raw_name(value.c_str(), GL::Back);
-					break;
-				}
-			}
-			break;
-			case Hash("depth"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("enabled"): 
-					c->states().depth().enabled = alg::to_bool(value); 
-					break;
-				case Hash("predicate"): 
-					c->states().depth().predicate = GL::find_by_raw_name(value.c_str(), GL::Less);
-					break;
-				case Hash("mask"): 
-					c->states().depth().mask = alg::to_bool(value); 
-					break;
-				}
-			}
-			break;
-			}
-			return true;
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m.def("transform_attr", [](const str_t & name, const str_t & section, const str_t & key, const str_t & value)
-		{
-			auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
-			auto * c { e->get<Transform>() }; if (!c) return false;
-			switch (String(section).hash())
-			{
-			case Hash("self"):
-			{
-				switch (String(key).hash())
-				{
-				case Hash("enabled"):
-					c->setEnabled(alg::to_bool(value));
-					break;
-				}
-			}
-			break;
-			}
-			return true;
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-	}
-
-
-	// IO
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(ml_io, m)
-	{
-		m.def("clear", []()
-		{
-			Debug::clear();
-		});
-		m.def("command", [](const str_t & cmd)
-		{
-			ML_Launcher.eventSystem.fireEvent<CommandEvent>(cmd.c_str());
-		});
-		m.def("exit", []()
-		{
-			Debug::exit(0);
-		});
-		m.def("fatal", [](const str_t & msg)
-		{
-			Debug::fatal(msg);
-		});
-		m.def("pause", []()
-		{
-			Debug::pause(0);
-		});
-		m.def("print", [](const str_t & msg)
-		{
-			cout << msg;
-		});
-		m.def("printf", [](const str_t & fmt, const list_t & args)
-		{
-			String str { fmt };
-			for (size_t i = 0; i < args.size(); i++)
-			{
-				str.replaceAll(("{" + std::to_string(i) + "}"), args[i]);
-			}
-			cout << str;
-		});
-		m.def("printl", [](const str_t & msg)
-		{
-			cout << msg << endl;
-		});
-		m.def("system", [](const str_t & msg)
-		{
-			return Debug::system(msg.c_str());
-		});
-	}
-
-
-	// Plugins
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(ml_plugins, m)
-	{
-		m.def("load", [](const str_t & filename)
-		{
-			return ML_Launcher.plugins.loadOneShot(filename);
-		});
-		m.def("load_all", [](const list_t & filenames) 
-		{
-			for (const str_t & file : filenames)
-			{
-				ML_Launcher.plugins.loadOneShot(file);
-			}
-			return true;
-		});
-	}
-
-
-	// Preferences
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(ml_prefs, m)
-	{
-		m.def("load", [](const str_t & filename)
-		{
-			return ML_Launcher.prefs.loadFromFile(filename);
-		});
-		m.def("save", [](const str_t & filename)
-		{
-			return ML_Launcher.prefs.saveToFile(filename);
-		});
-		m.def("get", [](const str_t & section, const str_t & name, const str_t & dv)
-		{
-			return (str_t)ML_Launcher.prefs.get_string(section, name, dv);
-		});
-		m.def("set", [](const str_t & section, const str_t & name, const str_t & value)
-		{
-			return ML_Launcher.prefs.set_string(section, name, value);
-		});
-	}
-
-
-	// Window
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	PYBIND11_EMBEDDED_MODULE(ml_window, m)
-	{
-		m.def("close", []() { ML_Launcher.window.close(); });
-		m.def("destroy", []() { ML_Launcher.window.destroy(); });
-		m.def("iconify", []() { ML_Launcher.window.iconify(); });
-		m.def("make_context_current", []() { ML_Launcher.window.makeContextCurrent(); });
-		m.def("maximize", []() { ML_Launcher.window.maximize(); });
-		m.def("poll_events", []() { ML_Launcher.window.pollEvents(); });
-		m.def("restore", []() { ML_Launcher.window.restore(); });
-		m.def("swap_buffers", []() { ML_Launcher.window.swapBuffers(); });
-		m.def("terminate", []() { ML_Launcher.window.terminate(); });
-		m.def("is_focused", []() { return ML_Launcher.window.is_focused(); });
-		m.def("is_fullscreen", []() { return ML_Launcher.window.is_fullscreen(); });
-		m.def("is_open", []() { return ML_Launcher.window.is_open(); });
-		m.def("get_cursor", []() { return (coord_t)(vec2)ML_Launcher.window.getCursorPos(); });
-		m.def("get_cx", []() { return (int32_t)ML_Launcher.window.getCursorPos()[0]; });
-		m.def("get_cy", []() { return (int32_t)ML_Launcher.window.getCursorPos()[1]; });
-		m.def("get_key", [](int32_t k) { return ML_Launcher.window.getKey(k); });
-		m.def("get_title", []() { return (str_t)ML_Launcher.window.title(); });
-		m.def("get_size", []() { return (coord_t)(vec2)ML_Launcher.window.size(); });
-		m.def("get_w", []() { return (int32_t)ML_Launcher.window.width(); });
-		m.def("get_h", []() { return (int32_t)ML_Launcher.window.height(); });
-		m.def("get_position", []() { return (coord_t)(vec2)ML_Launcher.window.getPosition(); });
-		m.def("get_x", []() { return ML_Launcher.window.getPosition()[0]; });
-		m.def("get_y", []() { return ML_Launcher.window.getPosition()[1]; });
-		m.def("get_time", []() { return (float_t)ML_Launcher.window.getTime(); });
-		m.def("set_clipboard", [](const str_t & s) { ML_Launcher.window.setClipboardString(s); });
-		m.def("set_cursor", [](int32_t m) { ML_Launcher.window.setCursorMode(((Cursor::Mode)m)); });
-		m.def("set_fullscreen", [](bool b) { ML_Launcher.window.setFullscreen(b); });
-		m.def("set_position", [](const coord_t & v) { ML_Launcher.window.setPosition({ (int32_t)v[0], (int32_t)v[1] }); });
-		m.def("set_size", [](int32_t w, int32_t h) { ML_Launcher.window.setSize(vec2i { w, h }); });
-		m.def("set_swap_interval", [](int32_t i) { ML_Launcher.window.swapInterval(i); });
-		m.def("set_title", [](const str_t & s) { ML_Launcher.window.setTitle(s); });
-	}
-
 }

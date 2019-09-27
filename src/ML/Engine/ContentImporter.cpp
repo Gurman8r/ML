@@ -17,16 +17,6 @@
 
 namespace ml
 {
-	struct ContentImporter<>::Util
-	{
-		Util() = delete;
-	};
-}
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Entity * ContentImporter<Entity>::operator()(const Metadata & md) const
@@ -37,14 +27,7 @@ namespace ml
 			{
 				if (!ML_Content.get<Entity>(name))
 				{
-					if (const String file { md.getData("file") })
-					{
-						return ML_Content.insert(name, new Entity(ML_FS.pathTo(file)));
-					}
-					else
-					{
-						return ML_Content.insert(name, new Entity());
-					}
+					return ML_Content.insert(name, new Entity());
 				}
 			}
 		}

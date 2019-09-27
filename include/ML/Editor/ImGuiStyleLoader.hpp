@@ -4,7 +4,6 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/I_Readable.hpp>
-#include <ML/Core/List.hpp>
 
 namespace ml
 {

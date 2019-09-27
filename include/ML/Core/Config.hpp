@@ -1,6 +1,18 @@
 #ifndef _ML_CONFIG_HPP_
 #define _ML_CONFIG_HPP_
 
+
+//	Project Information
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#define ML_PROJECT_AUTH	"Melody Gurman"
+#define ML_PROJECT_NAME "MemeLib"
+#define ML_PROJECT_VER	"Alpha"
+#define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
+#define ML_PROJECT_DATE	__DATE__
+#define ML_PROJECT_TIME	__TIME__
+
+
 //	C++ Version
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -167,17 +179,6 @@
 #define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
 
 
-//	Project Information
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#define ML_PROJECT_AUTH	"Melody Gurman"
-#define ML_PROJECT_NAME "MemeLib"
-#define ML_PROJECT_VER	"Alpha"
-#define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
-#define ML_PROJECT_DATE	__DATE__
-#define ML_PROJECT_TIME	__TIME__
-
-
 //	Export / Import
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -211,6 +212,5 @@
 #	define ML_API_IMPORT
 # endif
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # endif // !_ML_CONFIG_HPP_

@@ -105,6 +105,7 @@ namespace ml
 	
 	ML_USING_XY HashMap		= typename _STD unordered_map	<X, Y>;
 	ML_USING_XY HashSet		= typename _STD unordered_set	<X, Y>;
+	ML_USING_X	List		= typename _STD vector			<X>;
 	ML_USING_XY MultiMap	= typename _STD multimap		<X, Y>;
 	ML_USING_XY Pair		= typename _STD pair			<X, Y>;
 	ML_USING_XY Tree		= typename _STD map				<X, Y>;

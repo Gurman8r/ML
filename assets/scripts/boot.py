@@ -1,27 +1,23 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-import ml_config
-import ml_content
-import ml_ecs
-import ml_io
-import ml_plugins
-import ml_prefs
-import ml_window
+import MEMELIB as ml
 
 # Debug Message
-if (ml_config.IS_DEBUG): 
-    ml_io.printf("{0}-{1} ({2}/{3}) ({4} {5}) \n", [
-        ml_config.PROJECT_NAME,
-        ml_config.PROJECT_VER,
-        ml_config.CONFIGURATION,
-        ml_config.PLATFORM_TARGET,
-        ml_config.PROJECT_DATE,
-        ml_config.PROJECT_TIME
+if (ml.config.is_debug()): 
+    ml.io.printf("{0} / {1} | {2} / {3} | {4} / {5} \n", [
+        ml.config.project_name(),
+        ml.config.project_version(),
+        ml.config.configuration(),
+        ml.config.platform_target(),
+        ml.config.project_date(),
+        ml.config.project_time()
         ])
+    #ml.io.pause()
+    #ml.io.exit()
 
 # Load Plugins
-if (ml_config.SYSTEM_NAME == "Windows"):
-    ml_plugins.load_all([
+if (ml.config.system_name() == "Windows"):
+    ml.plugins.load_all([
  	    "Noobs_$(Configuration)_$(PlatformTarget).dll",
  	    "CommandSuite_$(Configuration)_$(PlatformTarget).dll",
  	    #"TestPlugin_$(Configuration)_$(PlatformTarget).dll",

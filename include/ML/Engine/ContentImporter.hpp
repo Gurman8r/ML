@@ -20,11 +20,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class ... T> struct ContentImporter;
 
-	template <> struct ContentImporter<>
-	{
-		struct Util;
-		ContentImporter() = delete;
-	};
+	template <> struct ContentImporter<> { ContentImporter() = delete; };
 
 
 	// Entity Importer

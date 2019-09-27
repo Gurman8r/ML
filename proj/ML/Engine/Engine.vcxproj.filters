@@ -161,9 +161,6 @@
     <ClCompile Include="..\..\..\src\ML\Engine\ContentManager.cpp">
       <Filter>Source Files\Content</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Engine\Entity.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Registry.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>

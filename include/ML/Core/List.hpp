@@ -7,22 +7,22 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	// just a wrapper for std::vector<>
+#ifdef ML_LIST_IMPL
 	template <class T> struct List : public std::vector<T, std::allocator<T>>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type			= typename T;
-		using allocator_type		= typename std::allocator<T>;
-		using self_type				= typename List<value_type>;
-		using base_type				= typename std::vector<value_type, allocator_type>;
-		using init_type				= typename std::initializer_list<value_type>;
-		using difference_type		= typename base_type::difference_type;
-		using size_type				= typename base_type::size_type;
-		using iterator				= typename base_type::iterator;
-		using const_iterator		= typename base_type::const_iterator;
-		using reverse_iterator		= typename base_type::reverse_iterator;
-		using const_reverse_iterator= typename base_type::const_reverse_iterator;
+		using value_type = typename T;
+		using allocator_type = typename std::allocator<T>;
+		using self_type = typename List<value_type>;
+		using base_type = typename std::vector<value_type, allocator_type>;
+		using init_type = typename std::initializer_list<value_type>;
+		using difference_type = typename base_type::difference_type;
+		using size_type = typename base_type::size_type;
+		using iterator = typename base_type::iterator;
+		using const_iterator = typename base_type::const_iterator;
+		using reverse_iterator = typename base_type::reverse_iterator;
+		using const_reverse_iterator = typename base_type::const_reverse_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -35,7 +35,7 @@ namespace ml
 			: base_type(alloc)
 		{
 		}
-		
+
 		explicit List(const size_type count, const allocator_type & alloc = allocator_type())
 			: base_type(count, alloc)
 		{
@@ -45,24 +45,24 @@ namespace ml
 			: base_type(value, alloc)
 		{
 		}
-		
+
 		List(const init_type & value, const allocator_type & alloc = allocator_type())
 			: base_type(value, alloc)
 		{
 		}
-		
+
 		List(const self_type & value, const allocator_type & alloc = allocator_type())
 			: base_type(value, alloc)
 		{
 		}
-		
+
 		template <
 			class Iter
 		> List(Iter begin, Iter end, const allocator_type & alloc = allocator_type())
 			: base_type(begin, end, alloc)
 		{
 		}
-		
+
 		virtual ~List() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -84,6 +84,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
+#endif 
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

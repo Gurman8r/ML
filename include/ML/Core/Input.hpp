@@ -2,31 +2,56 @@
 #define _ML_INPUT_HPP_
 
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/StringUtility.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		class ... Ts
-	> struct input;
+	template <class ... T> struct input;
+
+	template <> struct input<> final { input() = delete; };
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct input<T>
+	template <class T> struct input<T> final
 	{
-		using value_type = typename T;
-
-		inline value_type operator()(std::istream & in) const
+		inline T operator()(std::istream & in) const
 		{
-			value_type temp {};
+			T temp {};
 			if (in.good()) { in >> temp; }
 			return temp;
 		}
 
-		inline value_type operator()() const
+		inline T operator()(const String & str) const
+		{
+			SStream ss { str };
+			return (*this)(ss);
+		}
+
+		inline T operator()() const
 		{
 			return (*this)(cin);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <class To, class From> struct input<To, From>
+	{
+		inline To operator()(std::istream & in) const
+		{
+			return static_cast<To>(input<From>()(in));
+		}
+
+		inline To operator()(const String & str) const
+		{
+			return static_cast<To>(input<From>()(str));
+		}
+
+		inline To operator()() const
+		{
+			return static_cast<To>(input<From>()());
 		}
 	};
 

@@ -5,6 +5,7 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/Quaternion.hpp>
 #include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Input.hpp>
 
 namespace ml
 {
@@ -47,6 +48,20 @@ namespace ml
 		Mode	m_mode;			// 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<Light::Mode>
+	{
+		inline auto operator()(const String & str) const
+		{
+			switch (alg::to_lower(str).hash())
+			{
+			case Hash("realtime"): return Light::Realtime;
+			default: return (Light::Mode)0;
+			}
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

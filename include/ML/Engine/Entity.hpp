@@ -13,52 +13,31 @@ namespace ml
 		: public I_Newable
 		, public I_Disposable
 		, public I_NonCopyable
-		, public I_Readable
-		, public I_Writable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type	= typename I_Newable *;
-		using map_type		= typename HashMap<hash_t, value_type>;
-		using iterator		= typename map_type::iterator;
-		using const_iterator= typename map_type::const_iterator;
+		using value_type = typename I_Newable *;
+		using base_type = typename HashMap<hash_t, value_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Entity();
-		explicit Entity(const String & filename);
-		~Entity();
+		Entity() : m_data {} {}
+		~Entity() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
-		bool saveToFile(const String & filename) const override;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline void * addByCode(hash_t code, void * value)
+		inline bool dispose() override
 		{
-			return ((m_data.find(code) == m_data.end())
-				? m_data.insert({ code, static_cast<I_Newable *>(value) }).first->second
-				: nullptr
-			);
-		}
-
-		inline void * addByName(const String & name, void * value)
-		{
-			return ((m_data.find(name.hash()) == m_data.end())
-				? this->addByCode(name.hash(), value)
-				: nullptr
-			);
-		}
-
-		inline void * addByName(const String & name)
-		{
-			return ((m_data.find(name.hash()) == m_data.end())
-				? this->addByCode(name.hash(), ML_Registry.generate(name))
-				: nullptr
-			);
+			for (auto & pair : m_data)
+			{
+				if (pair.second)
+				{
+					delete pair.second;
+					pair.second = nullptr;
+				}
+			}
+			m_data.clear();
+			return true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -90,43 +69,68 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline I_Newable * getByCode(hash_t value)
+		inline void * addByCode(hash_t code, void * value)
 		{
-			iterator it { m_data.find(value) };
+			return ((m_data.find(code) == m_data.end())
+				? m_data.insert({ code, static_cast<value_type>(value) }).first->second
+				: nullptr
+			);
+		}
+
+		inline void * addByName(const String & name, void * value)
+		{
+			return ((m_data.find(name.hash()) == m_data.end())
+				? this->addByCode(name.hash(), value)
+				: nullptr
+			);
+		}
+
+		inline void * addByName(const String & name)
+		{
+			return ((m_data.find(name.hash()) == m_data.end())
+				? this->addByCode(name.hash(), ML_Registry.generate(name))
+				: nullptr
+			);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline value_type getByCode(hash_t value)
+		{
+			base_type::iterator it { m_data.find(value) };
 			return ((it != this->cend()) ? it->second : nullptr);
 		}
 
-		inline const I_Newable * getByCode(hash_t value) const
+		inline const value_type getByCode(hash_t value) const
 		{
-			const_iterator it { m_data.find(value) };
+			base_type::const_iterator it { m_data.find(value) };
 			return ((it != this->cend()) ? it->second : nullptr);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline I_Newable * getByName(const String & value)
+		inline value_type getByName(const String & value)
 		{
 			return getByCode(value.hash());
 		}
 
-		inline const I_Newable * getByName(const String & value) const
+		inline const value_type getByName(const String & value) const
 		{
 			return getByCode(value.hash());
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto data() const	-> const map_type & { return m_data; }
-		inline auto begin()			-> iterator			{ return m_data.begin(); }
-		inline auto begin() const	-> const_iterator	{ return m_data.begin(); }
-		inline auto cbegin() const	-> const_iterator	{ return m_data.cbegin(); }
-		inline auto end()			-> iterator			{ return m_data.end(); }
-		inline auto end() const		-> const_iterator	{ return m_data.end(); }
-		inline auto cend() const	-> const_iterator	{ return m_data.cend(); }
+		inline auto begin()			-> base_type::iterator			{ return m_data.begin(); }
+		inline auto begin() const	-> base_type::const_iterator	{ return m_data.begin(); }
+		inline auto cbegin() const	-> base_type::const_iterator	{ return m_data.cbegin(); }
+		inline auto end()			-> base_type::iterator			{ return m_data.end(); }
+		inline auto end() const		-> base_type::const_iterator	{ return m_data.end(); }
+		inline auto cend() const	-> base_type::const_iterator	{ return m_data.cend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: map_type m_data;
+	private: base_type m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -6,7 +6,6 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/Rect.hpp>
-#include <ML/Core/List.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml

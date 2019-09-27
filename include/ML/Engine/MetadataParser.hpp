@@ -36,6 +36,16 @@ namespace ml
 		static bool readMetadata(Metadata *& data, std::istream & file, String & line);
 		static bool parseMetadata(const Metadata & data);
 
+		template <class S> inline static bool parseMetadata(const List<Tree<S, S>> & value)
+		{
+			size_t count { 0 };
+			for (const auto & elem : value)
+			{
+				count += parseMetadata(Metadata { elem });
+			}
+			return count;
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto lists() const -> const List<Metadata *> & { return m_lists; }

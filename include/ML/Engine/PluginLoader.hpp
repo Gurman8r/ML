@@ -3,7 +3,6 @@
 
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
-#include <ML/Core/List.hpp>
 
 namespace ml
 {
@@ -33,6 +32,8 @@ namespace ml
 		size_t loadPlugins();
 
 		bool loadOneShot(const String & filename);
+
+		size_t loadList(const std::vector<std::string> & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

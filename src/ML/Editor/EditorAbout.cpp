@@ -38,14 +38,14 @@ namespace ml
 
 		// Header
 		ImGui::Text("Created by Melody Gurman");
-		ImGui::Text("%s ( %s / %s / %s ) - %s - %s", 
+		ImGui::Text("%s", String("{0}-{1} ({2}/{3}) ({4} {5})").format(
 			ML_PROJECT_NAME,
 			ML_PROJECT_VER,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
 			ML_PROJECT_DATE,
 			ML_PROJECT_TIME
-		);
+		).c_str());
 		ImGui::Text(
 			"Special thanks to Sajid Farooq and Champlain College for their help and support."
 		); 

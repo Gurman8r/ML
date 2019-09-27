@@ -119,7 +119,9 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+				case Hash("enabled"):
+					c->setEnabled(alg::to_bool(value));
+					break;
 				}
 			}
 			break;
@@ -139,7 +141,9 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+				case Hash("enabled"):
+					c->setEnabled(alg::to_bool(value));
+					break;
 				}
 			}
 			break;
@@ -159,7 +163,9 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+				case Hash("enabled"): 
+					c->setEnabled(alg::to_bool(value));
+					break;
 				}
 			}
 			break;
@@ -269,7 +275,9 @@ namespace ml
 			{
 				switch (String(key).hash())
 				{
-				case Hash("enabled"): c->setEnabled(alg::to_bool(value)); break;
+				case Hash("enabled"):
+					c->setEnabled(alg::to_bool(value));
+					break;
 				}
 			}
 			break;

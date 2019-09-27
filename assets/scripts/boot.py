@@ -8,11 +8,9 @@ import ml_plugins
 import ml_prefs
 import ml_window
 
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
 # Debug Message
 if (ml_config.IS_DEBUG): 
-    ml_io.printf("{0} - {1} - {2} - {3} - {4} - {5} \n", [
+    ml_io.printf("{0}-{1} ({2}/{3}) ({4} {5}) \n", [
         ml_config.PROJECT_NAME,
         ml_config.PROJECT_VER,
         ml_config.CONFIGURATION,
@@ -20,8 +18,6 @@ if (ml_config.IS_DEBUG):
         ml_config.PROJECT_DATE,
         ml_config.PROJECT_TIME
         ])
-    #ml_io.pause()
-    #ml_io.exit()
 
 # Load Plugins
 if (ml_config.SYSTEM_NAME == "Windows"):

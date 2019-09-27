@@ -32,8 +32,8 @@ namespace ml
 		
 		static const List<Metadata *> & loadLists(List<Metadata *> & data, const List<Tree<String, String>> & value);
 		static bool readFile(const String & filename, List<Metadata *> & list);
-		static bool readLists(List<Metadata *> & list, Istream & file, String & line);
-		static bool readMetadata(Metadata *& data, Istream & file, String & line);
+		static bool readLists(List<Metadata *> & list, std::istream & file, String & line);
+		static bool readMetadata(Metadata *& data, std::istream & file, String & line);
 		static bool parseMetadata(const Metadata & data);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

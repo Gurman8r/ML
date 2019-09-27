@@ -299,7 +299,7 @@ namespace ml
 		});
 		m.def("command", [](const str_t & cmd)
 		{
-			ML_Launcher.eventSystem.fireEvent(CommandEvent(cmd.c_str()));
+			ML_Launcher.eventSystem.fireEvent<CommandEvent>(cmd.c_str());
 		});
 		m.def("exit", []()
 		{

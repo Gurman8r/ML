@@ -78,7 +78,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(Ostream & out, const Uniform & value)
+		inline friend ML_SERIALIZE(std::ostream & out, const Uniform & value)
 		{
 			return out << Type_names[value.id];
 		}

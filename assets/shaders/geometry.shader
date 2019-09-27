@@ -1,7 +1,7 @@
 #shader vertex
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#version 410 core
+#version 460 core
 
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec4 a_normal;
@@ -37,7 +37,7 @@ void main()
 #shader fragment
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#version 410 core
+#version 460 core
 
 in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
@@ -54,7 +54,7 @@ void main()
 #shader geometry
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#version 410 core
+#version 460 core
 
 #define SAMPLES_PER_SEGMENT 16
 #define SAMPLES_MAX 128

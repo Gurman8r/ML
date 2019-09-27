@@ -1,7 +1,7 @@
 #ifndef _ML_STRING_HPP_
 #define _ML_STRING_HPP_
 
-#include <ML/Core/TypeInfo.hpp>
+#include <ML/Core/TypeOf.hpp>
 
 namespace ml
 {

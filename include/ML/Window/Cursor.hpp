@@ -139,17 +139,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const Cursor::Mode & value)
+	inline ML_SERIALIZE(std::ostream & out, const Cursor::Mode & value)
 	{
 		return out << name_of(value);
 	}
 
-	inline ML_SERIALIZE(Ostream & out, const Cursor::Shape & value)
+	inline ML_SERIALIZE(std::ostream & out, const Cursor::Shape & value)
 	{
 		return out << name_of(value);
 	}
 
-	inline ML_SERIALIZE(Ostream & out, const Cursor & value)
+	inline ML_SERIALIZE(std::ostream & out, const Cursor & value)
 	{
 		return out << value.mode << " " << value.shape;
 	}

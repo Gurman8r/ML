@@ -27,7 +27,7 @@ namespace ml
 		void    printf(C_String value, ...);	// Print Format
 		void	printl(const String & value);	// Print Line
 		void	printss(SStream & value);		// Print SStream
-		bool	redirect(Ostream & value);
+		bool	redirect(std::ostream & value);
 		int32_t inputCallback(void * value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -37,8 +37,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const Ostream *		m_coutPtr; // stream redirect reference
-		StreamBuf *			m_coutBuf; // stream redirect buffer
+		const std::ostream *		m_coutPtr; // stream redirect reference
+		std::streambuf *			m_coutBuf; // stream redirect buffer
 		SStream				m_coutStr; // stream redirect stream
 		Array<char, 256>	m_inputBuf;
 		List<String>		m_lines;

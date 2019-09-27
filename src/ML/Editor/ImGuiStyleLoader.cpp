@@ -161,7 +161,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (Ifstream file { filename })
+		if (std::ifstream file { filename })
 		{
 			String line;
 			while (std::getline(file, line))

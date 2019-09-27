@@ -59,7 +59,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const CommandDescriptor & value)
+	inline ML_SERIALIZE(std::ostream & out, const CommandDescriptor & value)
 	{
 		return out
 			<< value.getName() << ": " << value.getUsage() << endl

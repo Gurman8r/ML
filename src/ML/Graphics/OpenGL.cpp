@@ -14,12 +14,12 @@ namespace ml
 		return static_cast<GL::Err>(glGetError());
 	}
 
-	auto OpenGL::checkError(C_String file, uint32_t line, C_String expr) -> Ostream &
+	auto OpenGL::checkError(C_String file, uint32_t line, C_String expr) -> std::ostream &
 	{
 		return checkError(cout, file, line, expr);
 	}
 
-	auto OpenGL::checkError(Ostream & out, C_String file, uint32_t line, C_String expr) -> Ostream &
+	auto OpenGL::checkError(std::ostream & out, C_String file, uint32_t line, C_String expr) -> std::ostream &
 	{
 		// Get the last error
 		if (const GL::Err code = getError())

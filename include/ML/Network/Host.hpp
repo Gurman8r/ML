@@ -49,7 +49,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const Host & value)
+	inline ML_SERIALIZE(std::ostream & out, const Host & value)
 	{
 		return out << value.addr;
 	}

@@ -17,7 +17,7 @@ namespace ml
 	{
 		using value_type = typename T;
 
-		inline value_type operator()(Istream & in) const
+		inline value_type operator()(std::istream & in) const
 		{
 			value_type temp {};
 			if (in.good()) { in >> temp; }

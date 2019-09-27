@@ -173,7 +173,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const Duration & value)
+	inline ML_SERIALIZE(std::ostream & out, const Duration & value)
 	{
 		const auto hr	= value.hours();
 		const auto m	= value.minutes();

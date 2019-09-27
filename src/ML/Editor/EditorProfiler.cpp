@@ -71,7 +71,7 @@ namespace ml
 								ImGui::NextColumn();
 								ImGui::Text("%u", r->size);
 								ImGui::NextColumn();
-								ImGui::Text("%s", ptr->get_type_name());
+								ImGui::Text("%s", ptr->get_type_info().name());
 								ImGui::Columns(1);
 							}
 						}

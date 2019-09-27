@@ -7,6 +7,7 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
+[ ] Dedicated Color Type
 [ ] Increase data density of Entity and ContentManager
 [ ] Remove "RenderBatch"
 [ ] Real-time python scripts

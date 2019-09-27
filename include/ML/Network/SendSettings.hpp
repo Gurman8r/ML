@@ -65,7 +65,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const SendSettings & value)
+	inline ML_SERIALIZE(std::ostream & out, const SendSettings & value)
 	{
 		return out
 			<< value.priority		<< " "

@@ -6,7 +6,6 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
 #include <ML/Core/OS.hpp>
-#include <ML/Core/TypeTag.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Editor/ImGui.hpp>

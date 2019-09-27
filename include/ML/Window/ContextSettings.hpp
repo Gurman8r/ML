@@ -85,7 +85,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const ContextSettings & value)
+	inline ML_SERIALIZE(std::ostream & out, const ContextSettings & value)
 	{
 		return out
 			<< value.major << " "
@@ -97,7 +97,7 @@ namespace ml
 			<< value.srgbCapable << " ";
 	}
 
-	inline ML_DESERIALIZE(Istream & in, ContextSettings & value)
+	inline ML_DESERIALIZE(std::istream & in, ContextSettings & value)
 	{
 		return in
 			>> value.major

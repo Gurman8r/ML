@@ -67,7 +67,7 @@ namespace ml
 	bool Material::loadFromFile(const String & filename, const Tree<String, Texture *> * textures)
 	{
 		// Load uniforms from file
-		if (Ifstream file { filename })
+		if (std::ifstream file { filename })
 		{
 			auto pop_front = [](List<String> & toks)
 			{

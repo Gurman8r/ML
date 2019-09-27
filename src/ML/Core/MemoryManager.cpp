@@ -13,14 +13,14 @@ namespace ml
 	{
 	}
 
-	ML_SERIALIZE(Ostream & out, const MemoryManager::Record & value)
+	ML_SERIALIZE(std::ostream & out, const MemoryManager::Record & value)
 	{
 		auto object { static_cast<I_Newable *>(value.ptr) };
 		return out << std::left
 			<< FG::Green << std::setw(6) << value.index
 			<< FG::Cyan << std::setw(sizeof(size_t) * 2) << value.size
 			<< FG::Yellow << std::setw(sizeof(size_t) * 3) << value.ptr
-			<< FG::Normal << std::setw(10) << object->get_type_name()
+			<< FG::Normal << std::setw(10) << object->get_type_info().name()
 			<< FMT();
 	}
 

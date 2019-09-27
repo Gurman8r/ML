@@ -161,7 +161,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const WindowStyle & value)
+	inline ML_SERIALIZE(std::ostream & out, const WindowStyle & value)
 	{
 		return out
 			<< value.resizable << " "
@@ -173,7 +173,7 @@ namespace ml
 			<< value.maximized << " ";
 	}
 
-	inline ML_DESERIALIZE(Istream & in, WindowStyle & value)
+	inline ML_DESERIALIZE(std::istream & in, WindowStyle & value)
 	{
 		return in
 			>> value.resizable
@@ -203,7 +203,7 @@ namespace ml
 		return (i >= 0) ? WindowStyle::Flag_names[i] : "";
 	}
 
-	inline ML_SERIALIZE(Ostream & out, const WindowStyle::Flag & value)
+	inline ML_SERIALIZE(std::ostream & out, const WindowStyle::Flag & value)
 	{
 		return out << name_of(value);
 	}

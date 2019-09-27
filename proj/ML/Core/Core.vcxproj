@@ -194,11 +194,13 @@
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\NameOf.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\OS.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Quaternion.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Random.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Ratio.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Rect.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StandardLib.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\String.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\StringUtility.hpp" />
@@ -208,8 +210,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\Constants.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Token.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TokenLexer.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\TypeInfo.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\TypeTag.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\TypeOf.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />

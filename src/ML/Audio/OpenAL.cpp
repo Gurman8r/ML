@@ -40,12 +40,12 @@ namespace ml
 		return static_cast<AL::Err>(alGetError());
 	}
 
-	Ostream & OpenAL::checkError(C_String file, uint32_t line, C_String expr)
+	std::ostream & OpenAL::checkError(C_String file, uint32_t line, C_String expr)
 	{
 		return checkError(cout, file, line, expr);
 	}
 
-	Ostream & OpenAL::checkError(Ostream & out, C_String file, uint32_t line, C_String expr)
+	std::ostream & OpenAL::checkError(std::ostream & out, C_String file, uint32_t line, C_String expr)
 	{
 		// Get the last error
 		const AL::Err code = getError();

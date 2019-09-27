@@ -179,27 +179,21 @@ ml_content.load_all([
 
 id = "_ent_light_"
 if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attr(id, "self", "enabled", "True")
-    if ml_ecs.add_component(id, "struct ml::Light"):
+    if ml_ecs.add_component(id, "ml::Light"):
         ml_ecs.light_attr(id, "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 id = "_ent_camera_"
 if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attr(id, "self", "enabled", "True")
-    if ml_ecs.add_component(id, "struct ml::Camera"):
+    if ml_ecs.add_component(id, "ml::Camera"):
         ml_ecs.camera_attr(id, "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 id = "_ent_skybox_"
 if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attr(id, "self", "enabled", "True")
-    if ml_ecs.add_component(id, "struct ml::Renderer"):
+    if ml_ecs.add_component(id, "ml::Renderer"):
         ml_ecs.renderer_attr(id, "self",      "enabled",  "False")
         ml_ecs.renderer_attr(id, "material",  "name",     "mat_skybox")
         ml_ecs.renderer_attr(id, "model",     "name",     "default_skybox")
@@ -209,9 +203,7 @@ if ml_content.load({ "type": "Entity", "name": id }):
 
 id = "ent_earth"
 if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attr(id, "self", "enabled", "True")
-    if ml_ecs.add_component(id, "struct ml::Renderer"):
+    if ml_ecs.add_component(id, "ml::Renderer"):
         ml_ecs.renderer_attr(id, "self",      "enabled",  "False")
         ml_ecs.renderer_attr(id, "material",  "name",     "mat_advanced")
         ml_ecs.renderer_attr(id, "model",     "name",     "obj_sphere32x24")
@@ -220,9 +212,7 @@ if ml_content.load({ "type": "Entity", "name": id }):
 
 id = "ent_demo"
 if ml_content.load({ "type": "Entity", "name": id }):
-    if ml_ecs.add_component(id, "struct ml::Transform"):
-        ml_ecs.transform_attr(id, "self", "enabled", "True")
-    if ml_ecs.add_component(id, "struct ml::Renderer"):
+    if ml_ecs.add_component(id, "ml::Renderer"):
         ml_ecs.renderer_attr(id, "self",      "enabled",      "True")
         ml_ecs.renderer_attr(id, "material",  "name",         "mat_basic")
         ml_ecs.renderer_attr(id, "model",     "name",         "default_quad")

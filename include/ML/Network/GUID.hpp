@@ -43,7 +43,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const GUID & value)
+	inline ML_SERIALIZE(std::ostream & out, const GUID & value)
 	{
 		return out << value.id;
 	}

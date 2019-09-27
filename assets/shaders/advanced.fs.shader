@@ -1,7 +1,7 @@
 // advanced.fs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#version 410 core
+#version 460 core
 
 in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 

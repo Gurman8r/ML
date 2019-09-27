@@ -81,7 +81,7 @@ namespace ml
 		return ML_FS.getFileContents(filename, file) && readLists(list, file, line);
 	}
 
-	bool MetadataParser::readLists(List<Metadata *>& list, Istream & file, String & line)
+	bool MetadataParser::readLists(List<Metadata *>& list, std::istream & file, String & line)
 	{
 		while (std::getline(file, line))
 		{
@@ -99,7 +99,7 @@ namespace ml
 		return !list.empty();
 	}
 
-	bool MetadataParser::readMetadata(Metadata *& data, Istream & file, String & line)
+	bool MetadataParser::readMetadata(Metadata *& data, std::istream & file, String & line)
 	{
 		if ((!data) &&
 			(line) &&

@@ -11,12 +11,14 @@ namespace ml
 	// Use in conjunction with I_Newable to help ensure memory safety.
 	struct I_NonNewable
 	{
-		inline auto get_type_hash()	const { return typeid(*this).hash_code(); }
-		inline auto get_type_name()	const { return typeid(*this).name(); }
-
-		inline friend ML_SERIALIZE(Ostream & out, const I_NonNewable & value)
+		inline const std::type_info & get_type_info() const
 		{
-			return out << value.get_type_name();
+			return typeid(*this);
+		}
+
+		inline friend ML_SERIALIZE(std::ostream & out, const I_NonNewable & value)
+		{
+			return out << value.get_type_info().name();
 		}
 
 	private:

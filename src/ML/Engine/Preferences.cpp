@@ -54,7 +54,7 @@ namespace ml
 
 	bool Preferences::saveToFile(const String & filename) const
 	{
-		if (Ofstream file { filename })
+		if (std::ofstream file { filename })
 		{
 			file.close();
 		}

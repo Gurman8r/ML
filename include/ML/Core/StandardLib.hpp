@@ -38,6 +38,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <type_traits>
 #include <typeindex>
@@ -102,35 +103,27 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	ML_USING_XY HashMap			= typename _STD unordered_map	<X, Y>;
-	ML_USING_XY HashSet			= typename _STD unordered_set	<X, Y>;
-	ML_USING_XY MultiMap		= typename _STD multimap		<X, Y>;
-	ML_USING_XY Pair			= typename _STD pair			<X, Y>;
-	ML_USING_XY Tree			= typename _STD map				<X, Y>;
-	ML_USING_X	Set				= typename _STD set<X>;
-	ML_USING_X	BasicIstream	= typename _STD basic_istream	<X, _STD char_traits<X>>;
-	ML_USING_X	BasicOstream	= typename _STD basic_ostream	<X, _STD char_traits<X>>;
-	ML_USING_X	BasicIfstream	= typename _STD basic_ifstream	<X, _STD char_traits<X>>;
-	ML_USING_X	BasicOfstream	= typename _STD basic_ofstream	<X, _STD char_traits<X>>;
-	ML_USING_X	BasicStreamBuf	= typename _STD basic_streambuf	<X, _STD char_traits<X>>;
-	using		Ofstream		= typename		BasicOfstream	<char>;
-	using		Ifstream		= typename		BasicIfstream	<char>;
-	using		Ostream			= typename		BasicOstream	<char>;
-	using		Istream			= typename		BasicIstream	<char>;
-	using		StreamBuf		= typename		BasicStreamBuf	<char>;
+	ML_USING_XY HashMap		= typename _STD unordered_map	<X, Y>;
+	ML_USING_XY HashSet		= typename _STD unordered_set	<X, Y>;
+	ML_USING_XY MultiMap	= typename _STD multimap		<X, Y>;
+	ML_USING_XY Pair		= typename _STD pair			<X, Y>;
+	ML_USING_XY Tree		= typename _STD map				<X, Y>;
+	ML_USING_X	Set			= typename _STD set				<X>;
+	ML_USING_TS Variant		= typename _STD variant			<Ts...>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_SERIALIZE	::ml::Ostream & operator<<
-#define ML_DESERIALIZE	::ml::Istream & operator>>
+#define ML_SERIALIZE	_STD ostream & operator<<
+#define ML_DESERIALIZE	_STD istream & operator>>
 
-	static Ostream & cout { _STD cout }; // Output Handle
-	static Ostream & cerr { _STD cerr }; // Error Handle
-	static Istream & cin  { _STD cin  }; // Input Handle
+	static _STD ostream & cout { _STD cout }; // Output Handle
+	static _STD ostream & cerr { _STD cerr }; // Error Handle
+	static _STD istream & cin  { _STD cin  }; // Input Handle
 
-	template <class Ch> inline BasicOstream<Ch> & endl(BasicOstream<Ch> & out)
+	template <
+		class Ch, class Tr = typename _STD char_traits<char>
+	> inline _STD basic_ostream<Ch, Tr> & endl(_STD basic_ostream<Ch, Tr> & out)
 	{
-		// insert newline and flush stream
 		out.put(out.widen('\n'));
 		out.flush();
 		return out;

@@ -24,8 +24,8 @@ namespace ml
 		using self_type			= typename BasicFile<value_type>;
 		using string_type		= typename BasicString<value_type>;
 		using sstream_type		= typename string_type::sstream_type;
-		using ifstream_type		= typename BasicIfstream<value_type>;
-		using ofstream_type		= typename BasicOfstream<value_type>;
+		using ifstream_type		= typename std::basic_ifstream<value_type>;
+		using ofstream_type		= typename std::basic_ofstream<value_type>;
 		using list_type			= typename List<value_type>;
 		using iterator			= typename list_type::iterator;
 		using const_iterator	= typename list_type::const_iterator;
@@ -162,7 +162,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <class Ch>
-	inline ML_SERIALIZE(Ostream & out, const BasicFile<Ch> & value)
+	inline ML_SERIALIZE(std::ostream & out, const BasicFile<Ch> & value)
 	{
 		return out << value.str();
 	}

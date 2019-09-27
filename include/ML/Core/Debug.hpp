@@ -107,7 +107,7 @@ namespace ml
 						)));
 		}
 
-		Ostream & operator()(Ostream & out) const;
+		std::ostream & operator()(std::ostream & out) const;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -115,9 +115,9 @@ namespace ml
 	constexpr FMT operator|(const BG & bg, const FG & fg)	{ return FMT { fg, bg }; }
 	constexpr FMT operator|(const FG & fg, const BG & bg)	{ return FMT { fg, bg }; }
 
-	inline ML_SERIALIZE(Ostream & out, const FMT & value)	{ return value(out); }
-	inline ML_SERIALIZE(Ostream & out, const FG & value)	{ return out << FMT { value }; }
-	inline ML_SERIALIZE(Ostream & out, const BG & value)	{ return out << FMT { value }; }
+	inline ML_SERIALIZE(std::ostream & out, const FMT & value)	{ return value(out); }
+	inline ML_SERIALIZE(std::ostream & out, const FG & value)	{ return out << FMT { value }; }
+	inline ML_SERIALIZE(std::ostream & out, const BG & value)	{ return out << FMT { value }; }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -134,7 +134,7 @@ namespace ml
 		static int32_t	clear();
 		static int32_t	pause(int32_t exitCode);
 		static int32_t	system(C_String cmd);
-		static int32_t	system(C_String cmd, Ostream & out);
+		static int32_t	system(C_String cmd, std::ostream & out);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -142,7 +142,7 @@ namespace ml
 		{
 			Logger() = default;
 			inline int32_t operator()(
-				Ostream &		out,
+				std::ostream &		out,
 				const int32_t	exitCode,
 				const FMT &		color,
 				const String &	prefix,

@@ -137,7 +137,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const Metadata & value)
+	inline ML_SERIALIZE(std::ostream & out, const Metadata & value)
 	{
 		for (const auto & pair : value)
 		{

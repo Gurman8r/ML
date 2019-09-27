@@ -87,12 +87,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const VideoMode & value)
+	inline ML_SERIALIZE(std::ostream & out, const VideoMode & value)
 	{
 		return out << value.size << " " << value.depth << " ";
 	}
 
-	inline ML_DESERIALIZE(Istream & in, VideoMode & value)
+	inline ML_DESERIALIZE(std::istream & in, VideoMode & value)
 	{
 		return in >> value.size >> value.depth;
 	}

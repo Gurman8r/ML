@@ -24,7 +24,7 @@ namespace ml
 
 			Record(size_t index, void * ptr, size_t size);
 
-			friend ML_SERIALIZE(Ostream & out, const Record & value);
+			friend ML_SERIALIZE(std::ostream & out, const Record & value);
 		};
 
 		using RecordMap = typename Tree<void *, Record *>;

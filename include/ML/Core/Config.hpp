@@ -161,6 +161,7 @@
 #define ML_USING_X			ML_USING_VA(class X)
 #define ML_USING_XY			ML_USING_VA(class X, class Y)
 #define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
+#define ML_USING_TS			ML_USING_VA(class ... Ts)
 
 #define ML_TRUE_EXPR(expr)	(([&](){ expr; return true; })())
 #define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
@@ -192,6 +193,7 @@
 #			pragma warning(disable: 4099) // PDB was not found
 #			pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
 #			pragma warning(disable: 4307) // integral constant overflow
+#			pragma warning(disable: 4308) // negative integral constant converted to unsigned type
 #			pragma warning(disable: 4309) // truncation of constant value
 #			pragma warning(disable: 4723) // potential divide by zero
 #		endif

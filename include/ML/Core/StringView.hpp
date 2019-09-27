@@ -22,7 +22,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr const size_t npos { static_cast<size_t>(-1) };
+		static constexpr auto npos { static_cast<size_t>(-1) };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -55,6 +55,7 @@ namespace ml
 		constexpr auto cend()	const -> const_iterator		{ return m_data + m_size; }
 		constexpr auto c_str()	const -> const_pointer		{ return m_data; }
 		constexpr auto data()	const -> const_pointer		{ return m_data; }
+		constexpr auto empty()	const -> bool				{ return (m_size == 0); }
 		constexpr auto end()	const -> const_iterator		{ return m_data + m_size; }
 		constexpr auto front()	const -> const_reference	{ return (*begin()); }
 		constexpr auto hash()	const -> hash_t				{ return Hash { m_data, m_size }; }
@@ -131,7 +132,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const StringView & value)
+	inline ML_SERIALIZE(std::ostream & out, const StringView & value)
 	{
 		for (const auto & elem : value)
 		{

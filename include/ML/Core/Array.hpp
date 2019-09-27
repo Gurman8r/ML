@@ -8,9 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		class T, size_t N
-	> struct Array
+	template <class T, size_t N> struct Array
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -81,7 +79,7 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> inline ML_SERIALIZE(Ostream & out, const Array<T, N> & value)
+	> inline ML_SERIALIZE(std::ostream & out, const Array<T, N> & value)
 	{
 		for (const auto & elem : value)
 		{
@@ -92,7 +90,7 @@ namespace ml
 
 	template <
 		class T, size_t N
-	> inline ML_DESERIALIZE(Istream & in, Array<T, N> & value)
+	> inline ML_DESERIALIZE(std::istream & in, Array<T, N> & value)
 	{
 		for (auto & elem : value)
 		{

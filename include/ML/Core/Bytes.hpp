@@ -85,7 +85,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const Bytes & value)
+	inline ML_SERIALIZE(std::ostream & out, const Bytes & value)
 	{
 		return out << value.str();
 	}

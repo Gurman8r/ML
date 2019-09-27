@@ -248,11 +248,11 @@ namespace ml
 		}
 	}
 
-	bool EditorTerminal::redirect(Ostream & value)
+	bool EditorTerminal::redirect(std::ostream & value)
 	{
 		if (m_coutBuf && (m_coutPtr == &value))
 		{
-			// Release Ostream
+			// Release std::ostream
 			value.rdbuf(m_coutBuf);
 			m_coutBuf = nullptr;
 			m_coutPtr = nullptr;
@@ -260,7 +260,7 @@ namespace ml
 		}
 		else if (m_coutBuf = value.rdbuf(m_coutStr.rdbuf()))
 		{
-			// Capture Ostream
+			// Capture std::ostream
 			m_coutPtr = &value;
 			return true;
 		}

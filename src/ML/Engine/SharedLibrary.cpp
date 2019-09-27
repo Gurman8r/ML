@@ -4,9 +4,9 @@
 
 # ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
-#	define ML_FREE_LIBRARY(inst)		(FreeLibrary((HINSTANCE)inst))
-#	define ML_LOAD_LIBRARY(file)		(LoadLibraryA(file))
-#	define ML_LOAD_FUNCTION(inst, name) (GetProcAddress((HINSTANCE)inst, name))
+#	define ML_FREE_LIBRARY(inst)		FreeLibrary(static_cast<HINSTANCE>(inst))
+#	define ML_LOAD_LIBRARY(file)		LoadLibraryA(file)
+#	define ML_LOAD_FUNCTION(inst, name) GetProcAddress(static_cast<HINSTANCE>(inst), name)
 # else
 #	define ML_LOAD_LIBRARY(file)		(0)
 #	define ML_FREE_LIBRARY(inst)		(0)

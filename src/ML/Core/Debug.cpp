@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Ostream & FMT::operator()(Ostream & out) const
+	std::ostream & FMT::operator()(std::ostream & out) const
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		if (HANDLE handle { GetStdHandle(STD_OUTPUT_HANDLE) })
@@ -59,7 +59,7 @@ namespace ml
 		return system(cmd, cout);
 	}
 
-	int32_t Debug::system(C_String cmd, Ostream & out)
+	int32_t Debug::system(C_String cmd, std::ostream & out)
 	{
 		if (auto file = std::shared_ptr<std::FILE>(popen(cmd, "r"), pclose))
 		{

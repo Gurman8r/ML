@@ -80,7 +80,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(Ostream & out, const MetadataValue & value)
+	inline ML_SERIALIZE(std::ostream & out, const MetadataValue & value)
 	{
 		return out << value.asString();
 	}

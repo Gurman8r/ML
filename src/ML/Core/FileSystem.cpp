@@ -134,7 +134,7 @@ namespace ml
 
 	bool FileSystem::fileExists(const String & filename) const
 	{
-		return (bool)(Ifstream(filename));
+		return (bool)(std::ifstream(filename));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -173,8 +173,8 @@ namespace ml
 
 	size_t FileSystem::getFileSize(const String & value) const
 	{
-		Ifstream stream;
-		return (stream = Ifstream(value, Ifstream::ate | Ifstream::binary))
+		std::ifstream stream;
+		return (stream = std::ifstream(value, std::ifstream::ate | std::ifstream::binary))
 			? (size_t)stream.tellg()
 			: 0;
 	}

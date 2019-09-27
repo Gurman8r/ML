@@ -14,15 +14,17 @@ namespace ml
 	{
 		virtual ~I_Newable() {}
 
-		inline auto get_type_hash()	const { return typeid(*this).hash_code(); }
-		inline auto get_type_name()	const { return typeid(*this).name(); }
-
-		inline friend ML_SERIALIZE(Ostream & out, const I_Newable & value)
+		inline const std::type_info & get_type_info() const
 		{
-			return out << value.get_type_name();
+			return typeid(*this);
 		}
 
-		inline void * operator new		(size_t size) { return ML_new(size);  }
+		inline friend ML_SERIALIZE(std::ostream & out, const I_Newable & value)
+		{
+			return out << value.get_type_info().name();
+		}
+
+		inline void * operator new		(size_t size) { return ML_new(size); }
 		inline void * operator new[]    (size_t size) { return ML_new(size);  }
 		inline void	  operator delete   (void * ptr)  { return ML_delete(ptr); }
 		inline void	  operator delete[] (void * ptr)  { return ML_delete(ptr); }

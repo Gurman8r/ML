@@ -117,12 +117,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(Ostream & out, const self_type & rhs)
+		inline friend ML_SERIALIZE(std::ostream & out, const self_type & rhs)
 		{
 			return out << rhs.m_data;
 		}
 
-		inline friend ML_DESERIALIZE(Istream & in, self_type & rhs)
+		inline friend ML_DESERIALIZE(std::istream & in, self_type & rhs)
 		{
 			return in >> rhs.m_data;
 		}

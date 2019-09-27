@@ -1479,28 +1479,28 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
-	inline ML_SERIALIZE(Ostream & out, const GL::Flag & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Sampler & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Target & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Usage & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Err & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::StringID & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::IntID & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Clip & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Status & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::ShaderType & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Mode & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Equation & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Predicate & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Factor & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Face & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Type & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Format & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::FrameID & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::TexParam & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Pack & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::ColorID & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::TexID & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::DrawBuffer & value) { return out << GL::name_of(value); }
-	inline ML_SERIALIZE(Ostream & out, const GL::Mask & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Flag & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Sampler & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Target & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Usage & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Err & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::StringID & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::IntID & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Clip & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Status & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::ShaderType & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Mode & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Equation & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Predicate & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Factor & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Face & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Type & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Format & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::FrameID & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::TexParam & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Pack & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::ColorID & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::TexID & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::DrawBuffer & value) { return out << GL::name_of(value); }
+	inline ML_SERIALIZE(std::ostream & out, const GL::Mask & value) { return out << GL::name_of(value); }
 }

@@ -9,9 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		class T, size_t X, size_t Y
-	> struct Matrix
+	template <class T, size_t X, size_t Y> struct Matrix
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -236,7 +234,7 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> inline ML_SERIALIZE(Ostream & out, const Matrix<T, X, Y> & value)
+	> inline ML_SERIALIZE(std::ostream & out, const Matrix<T, X, Y> & value)
 	{
 		for (const auto & elem : value)
 		{
@@ -247,7 +245,7 @@ namespace ml
 
 	template <
 		class T, size_t X, size_t Y
-	> inline ML_DESERIALIZE(Istream & in, Matrix<T, X, Y> & value)
+	> inline ML_DESERIALIZE(std::istream & in, Matrix<T, X, Y> & value)
 	{
 		for (auto & elem : value)
 		{

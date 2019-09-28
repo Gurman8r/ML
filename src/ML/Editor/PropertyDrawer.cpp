@@ -556,9 +556,9 @@ namespace ml
 			{
 				if (copy)
 				{
-					if (copy->getInfo().filename)
+					if (copy->info().filename)
 					{
-						std::strcpy(asset_path, copy->getInfo().filename.c_str());
+						std::strcpy(asset_path, copy->info().filename.c_str());
 					}
 				}
 				if (ML_FS.fileExists(asset_path))
@@ -594,7 +594,7 @@ namespace ml
 			true,
 			ImGuiWindowFlags_NoScrollbar
 		);
-		ImGui::Text("%s", value.getInfo().family.c_str());
+		ImGui::Text("%s", value.info().family.c_str());
 		ImGui::BeginGroup();
 		auto draw_glyph = [](const Glyph & g) 
 		{

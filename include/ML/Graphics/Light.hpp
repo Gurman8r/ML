@@ -52,7 +52,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <> struct input<Light::Mode>
+	template <> struct input<Light::Mode> final
 	{
 		inline auto operator()(const String & str) const
 		{

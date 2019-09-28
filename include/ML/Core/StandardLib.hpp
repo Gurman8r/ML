@@ -94,32 +94,32 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using float_t	= typename float32_t;	// Float Type
-	using hash_t	= typename uint64_t;	// Hash Type
-	using intptr_t	= typename intmax_t;	// Int Pointer Type
-	using ptrdiff_t	= typename intmax_t;	// Pointer Difference Type
-	using size_t	= typename uintmax_t;	// Size Type
-	using time_t	= typename uint64_t;	// Time Type
+	using float_t		= typename float32_t;	// Float Type
+	using hash_t		= typename uint64_t;	// Hash Type
+	using intptr_t		= typename intmax_t;	// Int Pointer Type
+	using ptrdiff_t		= typename intptr_t;	// Pointer Difference Type
+	using size_t		= typename uintmax_t;	// Size Type
+	using time_t		= typename uint64_t;	// Time Type
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	ML_USING_XY HashMap	= typename std::unordered_map	<X, Y>;
-	ML_USING_XY HashSet = typename std::unordered_set	<X, Y>;
-	ML_USING_X	List	= typename std::vector			<X>;
-	ML_USING_XY Tree	= typename std::map				<X, Y>;
+	ML_USING_XY HashMap	= typename ::std::unordered_map	<X, Y>;
+	ML_USING_XY HashSet = typename ::std::unordered_set	<X, Y>;
+	ML_USING_X	List	= typename ::std::vector		<X>;
+	ML_USING_XY Tree	= typename ::std::map			<X, Y>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_SERIALIZE	std::ostream & operator<<
-#define ML_DESERIALIZE	std::istream & operator>>
+#define ML_SERIALIZE	::std::ostream & operator<<
+#define ML_DESERIALIZE	::std::istream & operator>>
 
-	static std::ostream & cout { std::cout }; // Output Handle
-	static std::ostream & cerr { std::cerr }; // Error Handle
-	static std::istream & cin  { std::cin  }; // Input Handle
+	static ::std::ostream & cout { ::std::cout }; // Output Handle
+	static ::std::ostream & cerr { ::std::cerr }; // Error Handle
+	static ::std::istream & cin  { ::std::cin  }; // Input Handle
 
 	template <
-		class Ch, class Tr = typename std::char_traits<char>
-	> inline std::basic_ostream<Ch, Tr> & endl(std::basic_ostream<Ch, Tr> & out)
+		class Ch, class Tr = typename ::std::char_traits<char>
+	> inline ::std::basic_ostream<Ch, Tr> & endl(::std::basic_ostream<Ch, Tr> & out)
 	{
 		out.put(out.widen('\n'));
 		out.flush();

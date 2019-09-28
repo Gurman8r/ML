@@ -77,7 +77,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <> struct input<Camera::ClearFlags>
+	template <> struct input<Camera::ClearFlags> final
 	{
 		inline auto operator()(const String & value) const
 		{
@@ -93,7 +93,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <> struct input<Camera::Projection>
+	template <> struct input<Camera::Projection> final
 	{
 		inline Camera::Projection operator()(const String & value) const
 		{

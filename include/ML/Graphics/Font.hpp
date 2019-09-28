@@ -16,8 +16,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Page		= typename Tree<uint32_t, Glyph>;
-		using PageTable = typename Tree<uint32_t, Page>;
+		using Page		= typename HashMap<uint32_t, Glyph>;
+		using PageTable = typename HashMap<uint32_t, Page>;
 
 		struct Info final
 		{
@@ -38,7 +38,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline const Info & getInfo() const { return m_info; };
 
 		const Glyph & getGlyph(uint32_t c, uint32_t characterSize) const;
 
@@ -47,6 +46,8 @@ namespace ml
 		Glyph loadGlyph(uint32_t c, uint32_t characterSize) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto info() const -> const Info & { return m_info; };
 
 		inline auto pages() const -> const PageTable & { return m_pages; }
 
@@ -71,7 +72,7 @@ namespace ml
 
 	inline ML_SERIALIZE(std::ostream & out, const Font & value)
 	{
-		return out << value.getInfo();
+		return out << value.info();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

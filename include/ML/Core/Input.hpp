@@ -3,6 +3,7 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/StringUtility.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
@@ -30,6 +31,28 @@ namespace ml
 			SStream ss { str };
 			return (*this)(ss);
 		}
+
+		inline auto operator()() const
+		{
+			return (*this)(cin);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <class To, class From> struct input<To, From> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, To dv = To { 0 }) const
+		{
+			return static_cast<To>(input<From>()(str, static_cast<From>(dv)));
+		}
+
+		inline auto operator()(std::istream & in, To dv = To { 0 }) const
+		{
+			return static_cast<To>(input<From>()(in, static_cast<From>(dv)));
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -41,7 +64,7 @@ namespace ml
 		inline auto operator()(std::istream & in) const
 		{
 			String temp {};
-			in >> temp;
+			if (in.good()) { in >> temp; }
 			return temp;
 		}
 
@@ -76,12 +99,12 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, float32_t dv = 0.0f) const
+		inline auto operator()(const String & str, float32_t dv = 0) const
 		{
 			return alg::to_float(str, dv);
 		}
 
-		inline auto operator()(std::istream & in, float32_t dv = 0.0f) const
+		inline auto operator()(std::istream & in, float32_t dv = 0) const
 		{
 			return (*this)(input<String>()(in), dv);
 		}
@@ -93,12 +116,12 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, float64_t dv = 0.0) const
+		inline auto operator()(const String & str, float64_t dv = 0) const
 		{
 			return alg::to_double(str, dv);
 		}
 
-		inline auto operator()(std::istream & in, float64_t dv = 0.0) const
+		inline auto operator()(std::istream & in, float64_t dv = 0) const
 		{
 			return (*this)(input<String>()(in), dv);
 		}
@@ -110,12 +133,12 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, int32_t dv = 0.0f) const
+		inline auto operator()(const String & str, int32_t dv = 0) const
 		{
 			return alg::to_int(str, dv);
 		}
 
-		inline auto operator()(std::istream & in, int32_t dv = 0.0f) const
+		inline auto operator()(std::istream & in, int32_t dv = 0) const
 		{
 			return (*this)(input<String>()(in), dv);
 		}
@@ -127,12 +150,12 @@ namespace ml
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, uint32_t dv = 0.0f) const
+		inline auto operator()(const String & str, uint32_t dv = 0) const
 		{
 			return alg::to_uint(str, dv);
 		}
 
-		inline auto operator()(std::istream & in, uint32_t dv = 0.0f) const
+		inline auto operator()(std::istream & in, uint32_t dv = 0) const
 		{
 			return (*this)(input<String>()(in), dv);
 		}
@@ -146,12 +169,12 @@ namespace ml
 
 		inline auto operator()(const String & str, int64_t dv = 0) const
 		{
-			return static_cast<int64_t>(input<int32_t>()(str, static_cast<int32_t>(dv)));
+			return input<int64_t, int32_t>()(str, dv);
 		}
 
 		inline auto operator()(std::istream & in, int64_t dv = 0) const
 		{
-			return static_cast<int64_t>(input<int32_t>()(in, static_cast<int32_t>(dv)));
+			return input<int64_t, int32_t>()(in, dv);
 		}
 	};
 
@@ -163,12 +186,12 @@ namespace ml
 
 		inline auto operator()(const String & str, uint64_t dv = 0) const
 		{
-			return static_cast<uint64_t>(input<uint32_t>()(str, static_cast<uint32_t>(dv)));
+			return input<uint64_t, uint32_t>()(str, dv);
 		}
 
 		inline auto operator()(std::istream & in, uint64_t dv = 0) const
 		{
-			return static_cast<uint64_t>(input<uint32_t>()(in, static_cast<uint32_t>(dv)));
+			return input<uint64_t, uint32_t>()(in, dv);
 		}
 	};
 

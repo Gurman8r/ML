@@ -8,10 +8,8 @@
 
 namespace ml
 {
-	class ML_EDITOR_API ImGuiExt final : public I_Singleton<ImGuiExt>
+	struct ML_EDITOR_API ImGuiExt final : public I_NonNewable
 	{
-		friend struct I_Singleton<ImGuiExt>;
-
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

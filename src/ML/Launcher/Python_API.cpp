@@ -24,14 +24,13 @@ namespace ml
 	using dict_t	= typename std::map<str_t, str_t>;
 	using table_t	= typename std::vector<dict_t>;
 	using coord_t	= typename std::array<float_t, 2>;
-	using rect_t	= typename std::array<float_t, 4>;
 
 	PYBIND11_EMBEDDED_MODULE(MEMELIB, m)
 	{
 		// Config
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct py_ml_config {};
-		py::class_<py_ml_config>(m, "config")
+		struct ml_py_config {};
+		py::class_<ml_py_config>(m, "config")
 			.def_static("architecture",			[]() { return ML_ARCHITECTURE; })
 			.def_static("compiler_name",		[]() { return ML_CC_NAME; })
 			.def_static("compiler_version",		[]() { return ML_CC_VER; })
@@ -50,8 +49,8 @@ namespace ml
 		
 		// Content
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct py_ml_content { };
-		py::class_<py_ml_content>(m, "content")
+		struct ml_py_content { };
+		py::class_<ml_py_content>(m, "content")
 			.def_static("create",	[](str_t t, str_t n) { return (bool)ML_Content.generate(t, n); })
 			.def_static("destroy",	[](str_t t, str_t n) { return ML_Content.destroy(String(t).hash(), n); })
 			.def_static("exists",	[](str_t t, str_t n) { return ML_Content.exists(String(t).hash(), n); })
@@ -61,14 +60,14 @@ namespace ml
 
 		// Plugins
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct py_ml_plugins {};
-		py::class_<py_ml_plugins>(m, "plugins")
+		struct ml_py_plugins {};
+		py::class_<ml_py_plugins>(m, "plugins")
 			.def_static("load",		[](str_t s) { return ML_Launcher.plugins.loadOneShot(s); })
 			.def_static("load_all", [](const list_t & l) { return ML_Launcher.plugins.loadList(l); })
 			;
 
-		struct py_ml_io {};
-		py::class_<py_ml_io>(m, "io")
+		struct ml_py_io {};
+		py::class_<ml_py_io>(m, "io")
 			.def_static("clear",	[]() { Debug::clear(); })
 			.def_static("command",	[](str_t s) { ML_Launcher.eventSystem.fireEvent<CommandEvent>(s.c_str()); })
 			.def_static("exit",		[]() { Debug::exit(0); })
@@ -83,8 +82,8 @@ namespace ml
 
 		// Prefs
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct py_ml_prefs {};
-		py::class_<py_ml_prefs>(m, "prefs")
+		struct ml_py_prefs {};
+		py::class_<ml_py_prefs>(m, "prefs")
 			.def_static("load",		[](str_t s) { return ML_Launcher.prefs.loadFromFile(s); })
 			.def_static("save",		[](str_t s) { return ML_Launcher.prefs.saveToFile(s); })
 			.def_static("get",		[](str_t s, str_t n, str_t v) { return (str_t)ML_Launcher.prefs.get_string(s, n, v); })
@@ -94,8 +93,8 @@ namespace ml
 
 		// Window
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct py_ml_window {};
-		py::class_<py_ml_window>(m, "window")
+		struct ml_py_window {};
+		py::class_<ml_py_window>(m, "window")
 			.def_static("close",			[]() { ML_Launcher.window.close(); })
 			.def_static("iconify",			[]() { ML_Launcher.window.iconify(); })
 			.def_static("maximize",			[]() { ML_Launcher.window.maximize(); })
@@ -121,8 +120,8 @@ namespace ml
 
 		// ECS
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct py_ml_ecs {};
-		py::class_<py_ml_ecs>(m, "ecs")
+		struct ml_py_ecs {};
+		py::class_<ml_py_ecs>(m, "ecs")
 			.def_static("add_component", [](str_t n, str_t t) { Entity * e { ML_Content.get<Entity>(n) }; return (e && e->addByName(t)); })
 			.def_static("get_component", [](str_t n, str_t t) { Entity * e { ML_Content.get<Entity>(n) }; return (e && e->getByName(t)); })
 			.def_static("camera_attr", [](str_t name, str_t section, str_t key, str_t value)
@@ -138,10 +137,10 @@ namespace ml
 					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("clearflags"): c->setClearFlags(input<Camera::ClearFlags>()(value)); break;
 					case Hash("background"): c->setBackground(input<vec4>()(value)); break;
-					case Hash("fov"): c->setFieldOfView(alg::to_float(value)); break;
+					case Hash("fov"): c->setFieldOfView(input<float_t>()(value)); break;
 					case Hash("projection"): c->setProjection(input<Camera::Projection>()(value)); break;
-					case Hash("near"): c->setClipNear(alg::to_float(value)); break;
-					case Hash("far"): c->setClipFar(alg::to_float(value)); break;
+					case Hash("near"): c->setClipNear(input<float_t>()(value)); break;
+					case Hash("far"): c->setClipFar(input<float_t>()(value)); break;
 					case Hash("viewport"): c->setViewport(input<IntRect>()(value)); break;
 					}
 				}
@@ -161,7 +160,7 @@ namespace ml
 					{
 					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("color"): c->setColor(input<vec4>()(value)); break;
-					case Hash("intensity"): c->setIntensity(alg::to_float(value)); break;
+					case Hash("intensity"): c->setIntensity(input<float_t>()(value)); break;
 					case Hash("mode"): c->setMode(input<Light::Mode>()(value)); break;
 					}
 				}
@@ -197,7 +196,7 @@ namespace ml
 						c->states().alpha().predicate = GL::find_by_raw_name(value.c_str(), GL::Greater);
 						break;
 					case Hash("coeff"): 
-						c->states().alpha().coeff = alg::to_float(value, 0.01f);
+						c->states().alpha().coeff = input<float_t>()(value);
 						break;
 					}
 				}

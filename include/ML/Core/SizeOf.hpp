@@ -1,34 +1,33 @@
-#ifndef _ML_SIZEOF_HPP_
-#define _ML_SIZEOF_HPP_
+#ifndef _ML_SIZE_OF_HPP_
+#define _ML_SIZE_OF_HPP_
 
 #include <ML/Core/Ratio.hpp>
 #include <ML/Core/String.hpp>
-#include <ML/Core/I_NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Bytes final : public I_NonNewable
+	struct size_of final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			intmax_t Num,	// Numerator
 			intmax_t Den	// Denominator
-		> constexpr Bytes(uint64_t value, const Ratio<Num, Den> & r)
-			: Bytes(alg::ratio_cast(value, r))
+		> constexpr size_of(uint64_t value, const Ratio<Num, Den> & r)
+			: size_of(alg::ratio_cast(value, r))
 		{
 		}
 
-		constexpr Bytes(const Bytes & copy)
+		constexpr size_of(const size_of & copy)
 			: m_size(copy.m_size)
 			, m_name(copy.m_name)
 			, m_real(copy.m_real)
 		{
 		}
 
-		constexpr Bytes(const uint64_t value)
+		constexpr size_of(const uint64_t value)
 			: m_real(value)
 			, m_size(((value == 0)
 				? 0
@@ -85,7 +84,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	inline ML_SERIALIZE(std::ostream & out, const Bytes & value)
+	inline ML_SERIALIZE(std::ostream & out, const size_of & value)
 	{
 		return out << value.str();
 	}
@@ -100,4 +99,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_SIZEOF_HPP_
+#endif // !_ML_SIZE_OF_HPP_

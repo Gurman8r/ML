@@ -6,13 +6,13 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/OS.hpp>
-#include <ML/Core/Bytes.hpp>
+#include <ML/Core/SizeOf.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static constexpr Bytes MaxPreviewSize { 15_MB };
+	static constexpr size_of MaxPreviewSize { 15_MB };
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

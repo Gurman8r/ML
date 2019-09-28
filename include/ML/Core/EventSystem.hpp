@@ -18,7 +18,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using map_type = typename MultiMap<int32_t, I_EventListener *>;
+		using map_type = typename std::multimap<int32_t, I_EventListener *>;
 		using iterator = typename map_type::iterator;
 		using const_iterator = typename map_type::const_iterator;
 

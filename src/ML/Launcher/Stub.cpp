@@ -1,3 +1,4 @@
+
 #include <ML/Core/Matrix.hpp>
 #include <ML/Core/Quaternion.hpp>
 #include <ML/Graphics/Geometry.hpp>
@@ -11,8 +12,19 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static void test_math()
+	static void stub()
 	{
+		// Type Tests
+		{
+			static_assert(typeof<int32_t>::name == "int");
+			static_assert(typeof<uint32_t>::name == "unsigned int");
+			static_assert(typeof<float_t>::name == "float");
+			static_assert(typeof<C_String>::name == "const char*");
+			static_assert(typeof<Debug>::name == "ml::Debug");
+			static_assert(typeof<std::string>::name == "std::string");
+			static_assert(typeof<String>::name == "ml::BasicString<char>");
+		}
+
 		// Matrix Tests
 		{
 			constexpr mat4f ma {
@@ -234,13 +246,13 @@ namespace ml
 		return out << ((value > uni_type::Invalid) ? uni_type_names[(size_t)value] : "?");
 	}
 
-	using uni_info = typename Pair<uni_name, uni_type>;
+	using uni_info = typename std::pair<uni_name, uni_type>;
 
-	using uni_data = typename Variant<
+	using uni_data = typename std::variant<
 		bool, int32_t, float_t, vec2, vec3, vec4, mat3, mat4, const Texture *
 	>;
 
-	using uni_pair = typename Pair<uni_info, uni_data>;
+	using uni_pair = typename std::pair<uni_info, uni_data>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -175,7 +175,7 @@
     <ClInclude Include="..\..\..\include\ML\Core\I_Event.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\I_Singleton.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\SizeOf.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Duration.hpp" />
@@ -208,8 +208,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Timer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Constants.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\Token.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\TokenLexer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\TypeOf.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -218,7 +216,6 @@
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Core\TokenLexer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

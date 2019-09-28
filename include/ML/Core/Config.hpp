@@ -173,7 +173,7 @@
 #define ML_USING_X			ML_USING_VA(class X)
 #define ML_USING_XY			ML_USING_VA(class X, class Y)
 #define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
-#define ML_USING_TS			ML_USING_VA(class ... Ts)
+#define ML_USING_Ts			ML_USING_VA(class ... Ts)
 
 #define ML_TRUE_EXPR(expr)	(([&](){ expr; return true; })())
 #define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())

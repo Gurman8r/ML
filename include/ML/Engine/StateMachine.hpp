@@ -19,7 +19,7 @@ namespace ml
 		using self_type		= typename StateMachine<key_type>;
 		using fun_type		= typename key_type(*)(Args&&...);
 		using map_type		= typename HashMap<key_type, fun_type>;
-		using pair_type		= typename Pair<key_type, fun_type>;
+		using pair_type		= typename std::pair<key_type, fun_type>;
 		using init_type		= typename std::initializer_list<pair_type>;
 		using const_iterator= typename map_type::const_iterator;
 

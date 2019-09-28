@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// just a wrapper for std::basic_string<>
-	template <class Ch> struct BasicString : public std::basic_string<
+	template <class Ch> struct BasicString final : public std::basic_string<
 		Ch, std::char_traits<Ch>, std::allocator<Ch>
 	>
 	{
@@ -131,7 +131,7 @@ namespace ml
 		{
 		}
 		
-		virtual ~BasicString() noexcept {}
+		~BasicString() noexcept {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

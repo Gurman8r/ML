@@ -20,7 +20,7 @@ namespace ml
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
 		using map_type			= typename Tree<String, pointer>;
-		using init_type			= typename std::initializer_list<Pair<String, value_type>>;
+		using init_type			= typename std::initializer_list<std::pair<String, value_type>>;
 		using pair_type			= typename map_type::value_type;
 		using iterator			= typename map_type::iterator;
 		using const_iterator	= typename map_type::const_iterator;
@@ -114,7 +114,7 @@ namespace ml
 			return ((*it->second) = value_type { std::forward<Args>(args)... });
 		}
 
-		inline const_reference & setData(const Pair<String, String> & pair)
+		inline const_reference & setData(const std::pair<String, String> & pair)
 		{
 			return setData(pair.first, pair.second);
 		}

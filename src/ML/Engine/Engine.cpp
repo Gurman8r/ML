@@ -77,7 +77,7 @@ namespace ml
 			"Engine", "python_home", ""
 		))))
 		{
-			Debug::logError("Failed initializing Python");
+			Debug::fatal("Failed initializing Python");
 		}
 
 		// Run Boot Script

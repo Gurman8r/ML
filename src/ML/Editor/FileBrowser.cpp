@@ -1,5 +1,5 @@
 #include <ML/Editor/FileBrowser.hpp>
-#include <ML/Core/Bytes.hpp>
+#include <ML/Core/SizeOf.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 
@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static constexpr Bytes MaxPreviewSize { 15_MB };
+	static constexpr size_of MaxPreviewSize { 15_MB };
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -137,7 +137,7 @@ namespace ml
 						true
 					))
 					{
-						const Bytes size { get_selected_size() };
+						const size_of size { get_selected_size() };
 						ImGui::Text("Name: %s", get_selected_name().c_str());
 						ImGui::Text("Type: %s", get_selected_type().c_str());
 						ImGui::Text("Size: %s", size.str().c_str());
@@ -201,7 +201,7 @@ namespace ml
 			else
 			{
 				m_preview = (String("File size of {0} exceeds preview limit of {1}.").format(
-					Bytes(get_selected_size()),
+					size_of(get_selected_size()),
 					MaxPreviewSize
 				));
 			}

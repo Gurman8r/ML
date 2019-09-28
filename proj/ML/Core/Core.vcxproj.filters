@@ -60,9 +60,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Bytes.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
@@ -132,12 +129,6 @@
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\Token.hpp">
-      <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Core\TokenLexer.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Core\Constants.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -162,6 +153,9 @@
     <ClInclude Include="..\..\..\include\ML\Core\Signature.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Core\SizeOf.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp">
@@ -174,9 +168,6 @@
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Core\TokenLexer.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp">

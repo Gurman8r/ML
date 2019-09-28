@@ -62,9 +62,13 @@ namespace ml
 	{
 		switch (m_lang)
 		{
-		case Language::Lua: return ML_Lua.DoString(m_text);
-		case Language::Python: return ML_Py.DoString(m_text);
-		case Language::Unknown: default: return 0;
+		case Language::Lua: 
+			return ML_Lua.DoString(m_text);
+		
+		case Language::Python: 
+			return ML_Py.DoString(m_text);
+		
+		default: return 0;
 		}
 	}
 

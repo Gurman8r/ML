@@ -331,6 +331,9 @@ public:
 	// Return the list of sections found in ini file
 	const std::set<std::string> & Sections() const;
 
+	// Return the map of values found in ini file
+	const std::map<std::string, std::string> Values() const;
+
 	// Set a string value in the INI file
 	int Set(std::string section, std::string name, std::string value);
 
@@ -388,6 +391,11 @@ inline INIReader::INIReader(string filename)
 inline int INIReader::ParseError() const
 {
 	return _error;
+}
+
+inline const std::map<std::string, std::string> INIReader::Values() const
+{
+	return _values;
 }
 
 inline const std::set<std::string> & INIReader::Sections() const

@@ -178,9 +178,20 @@ namespace ml
 		// ImGui Demo
 		/* * * * * * * * * * * * * * * * * * * * */
 		static bool show_imgui_demo = false;
+		if (show_imgui_demo) 
+		{
+			ImGui::ShowDemoWindow(&show_imgui_demo); 
+		}
+		
+		// ImGui Style Editor
+		/* * * * * * * * * * * * * * * * * * * * */
 		static bool show_imgui_style_editor = false;
-		if (show_imgui_demo) { ImGui::ShowDemoWindow(&show_imgui_demo); }
-		if (show_imgui_style_editor) { ImGui::Begin("Style Editor", &show_imgui_style_editor); ImGui::ShowStyleEditor(); ImGui::End(); }
+		if (show_imgui_style_editor) 
+		{
+			ImGui::Begin("Style Editor", &show_imgui_style_editor);
+			ImGui::ShowStyleEditor(); 
+			ImGui::End(); 
+		}
 
 		// Main Menu Bar
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -191,6 +202,7 @@ namespace ml
 			if (ImGui::BeginMenu("File"))
 			{
 				// File -> Create
+				/* * * * * * * * * * * * * * * * * * * * */
 				if (ImGui::BeginMenu("Create"))
 				{
 					void * temp { nullptr };
@@ -209,6 +221,7 @@ namespace ml
 				eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::File);
 
 				// File -> Quit
+				/* * * * * * * * * * * * * * * * * * * * */
 				ImGui::Separator();
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{

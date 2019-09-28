@@ -8,11 +8,13 @@ namespace ml
 
 	Preferences::Preferences()
 		: m_ini { nullptr }
+		, m_filename {}
 	{
 	}
 
 	Preferences::Preferences(const Preferences & copy)
-		: Preferences()
+		: m_ini { nullptr }
+		, m_filename { copy.m_filename }
 	{
 		if (!m_ini && copy.m_ini)
 		{
@@ -46,39 +48,62 @@ namespace ml
 	
 	bool Preferences::loadFromFile(const String & filename)
 	{
-		return (((!m_ini) && (m_ini = static_cast<INIReader *>(new INIReader(filename))))
-			? (static_cast<INIReader *>(m_ini)->ParseError() == EXIT_SUCCESS)
-			: false
-		);
+		if ((!m_ini) && (m_ini = new INIReader(m_filename = filename)))
+		{
+			if (static_cast<INIReader *>(m_ini)->ParseError() == EXIT_SUCCESS)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	bool Preferences::saveToFile(const String & filename) const
 	{
 		if (std::ofstream file { filename })
 		{
+			for (const String & elem : sections())
+			{
+
+			}
+			
 			file.close();
 		}
 		return false;
 	}
 
+	bool Preferences::saveToFile() const
+	{
+		return saveToFile(m_filename);
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Set<String> Preferences::sections() const
+	std::set<String> Preferences::sections() const
 	{
 		if (auto ini { static_cast<const INIReader *>(m_ini) })
 		{
-			return reinterpret_cast<const Set<String> &>(ini->Sections());
+			return reinterpret_cast<const std::set<String> &>(ini->Sections());
 		}
-		return Set<String>();
+		return std::set<String>();
+	}
+
+	Tree<String, String> Preferences::values() const
+	{
+		if (auto ini { static_cast<const INIReader *>(m_ini) })
+		{
+			return Tree<String, String> { ini->Values().begin(), ini->Values().end() };
+		}
+		return Tree<String, String>();
 	}
 
 	bool Preferences::set_string(const String & section, const String & name, const String & value)
 	{
-		if (m_ini)
+		if (auto ini { static_cast<INIReader *>(m_ini) })
 		{
-			static_cast<INIReader *>(m_ini)->Set(section, name, value);
+			ini->Set(section, name, value);
 
-			return get_string(section, name, "") == value;
+			return (get_string(section, name, "") == value);
 		}
 		return false;
 	}

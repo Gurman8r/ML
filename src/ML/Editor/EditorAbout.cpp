@@ -97,9 +97,9 @@ namespace ml
 			link_item("flac", "https://github.com/xiph/flac");
 			link_item("FreeType", "https://www.freetype.org/");
 			link_item("GCEM", "https://github.com/kthohr/gcem");
-			link_item("GLEW", "http://glew.sourceforge.net/");
-			link_item("GLFW", "https://www.glfw.org/");
-			link_item("GLM", "https://glm.g-truc.net/0.9.9/index.html");
+			link_item("GLEW", "https://github.com/nigels-com/glew");
+			link_item("GLFW", "https://github.com/glfw/glfw");
+			link_item("GLM", "https://github.com/g-truc/glm");
 			link_item("ImGui", "https://github.com/ocornut/imgui");
 			link_item("ImGuiColorTextEdit", "https://github.com/BalazsJako/ImGuiColorTextEdit");
 			link_item("ImGuizmo", "https://github.com/CedricGuillemet/ImGuizmo");

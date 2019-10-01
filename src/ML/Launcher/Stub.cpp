@@ -213,12 +213,11 @@ namespace ml
 
 namespace ml
 {
-	// Types
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	using uni_name = typename C_String;
 
-	enum class uni_type
+	enum uni_type : int32_t
 	{
 		Invalid = -1,
 		Boolean, Float, Integer,
@@ -252,58 +251,76 @@ namespace ml
 		bool, int32_t, float_t, vec2, vec3, vec4, mat3, mat4, const Texture *
 	>;
 
-	using uni_pair = typename std::pair<uni_info, uni_data>;
+	using uni_base = typename std::pair<uni_info, uni_data>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static constexpr int32_t uniform_id(const uni_data & value)
 	{
-		if (std::holds_alternative<bool>(value)) return 0;
-		else if (std::holds_alternative<float_t>(value)) return 1;
-		else if (std::holds_alternative<int32_t>(value)) return 2;
-		else if (std::holds_alternative<vec2>(value)) return 3;
-		else if (std::holds_alternative<vec3>(value)) return 4;
-		else if (std::holds_alternative<vec4>(value)) return 5;
-		//else if (std::holds_alternative<vec4>(value)) return 6; // color
-		else if (std::holds_alternative<mat3>(value)) return 7;
-		else if (std::holds_alternative<mat4>(value)) return 8;
-		else if (std::holds_alternative<const Texture *>(value)) return 9;
-		else return -1;
+		if (std::holds_alternative<bool>(value)) return uni_type::Boolean;
+		else if (std::holds_alternative<float_t>(value)) return uni_type::Float;
+		else if (std::holds_alternative<int32_t>(value)) return uni_type::Integer;
+		else if (std::holds_alternative<vec2>(value)) return uni_type::Vector2;
+		else if (std::holds_alternative<vec3>(value)) return uni_type::Vector3;
+		else if (std::holds_alternative<vec4>(value)) return uni_type::Vector4;
+		//else if (std::holds_alternative<vec4>(value)) return uni_type::Color;
+		else if (std::holds_alternative<mat3>(value)) return uni_type::Matrix3;
+		else if (std::holds_alternative<mat4>(value)) return uni_type::Matrix4;
+		else if (std::holds_alternative<const Texture *>(value)) return uni_type::Sampler;
+		else return uni_type::Invalid;
 	}
 
-	static constexpr int32_t uniform_id(const uni_pair & value)
+	static constexpr int32_t uniform_id(const uni_base & value)
 	{
 		return uniform_id(value.second);
 	}
 
 	template <class T> static constexpr int32_t uniform_id()
 	{
-		if (std::is_same_v<T, bool>) return 0;
-		else if (std::is_same_v<T, float_t>) return 1;
-		else if (std::is_same_v<T, int32_t>) return 2;
-		else if (std::is_same_v<T, vec2>) return 3;
-		else if (std::is_same_v<T, vec3>) return 4;
-		else if (std::is_same_v<T, vec4>) return 5;
-		//else if (std::is_same_v<T, vec4>) return 6; // color
-		else if (std::is_same_v<T, mat3>) return 7;
-		else if (std::is_same_v<T, mat4>) return 8;
-		else if (std::is_same_v<T, const Texture *>) return 9;
-		else return -1;
+		if (std::is_same_v<T, bool>) return uni_type::Boolean;
+		else if (std::is_same_v<T, float_t>) return uni_type::Integer;
+		else if (std::is_same_v<T, int32_t>) return uni_type::Float;
+		else if (std::is_same_v<T, vec2>) return uni_type::Vector2;
+		else if (std::is_same_v<T, vec3>) return uni_type::Vector3;
+		else if (std::is_same_v<T, vec4>) return uni_type::Vector4;
+		//else if (std::is_same_v<T, vec4>) return uni_type::Color;
+		else if (std::is_same_v<T, mat3>) return uni_type::Matrix3;
+		else if (std::is_same_v<T, mat4>) return uni_type::Matrix4;
+		else if (std::is_same_v<T, const Texture *>) return uni_type::Sampler;
+		else return uni_type::Invalid;
+	}
+
+	template <class T> static constexpr int32_t uniform_id(const typeof<T> &)
+	{
+		switch (typeof<T>::hash)
+		{
+		case typeof<bool>	::hash: return uni_type::Boolean;
+		case typeof<float_t>::hash: return uni_type::Float;
+		case typeof<int32_t>::hash: return uni_type::Integer;
+		case typeof<vec2>	::hash: return uni_type::Vector2;
+		case typeof<vec3>	::hash: return uni_type::Vector3;
+		case typeof<vec4>	::hash: return uni_type::Vector4;
+		//case typeof<Color>::hash: return uni_type::Color;
+		case typeof<mat3>	::hash: return uni_type::Matrix3;
+		case typeof<mat4>	::hash: return uni_type::Matrix4;
+		case typeof<const Texture *>::hash: return uni_type::Sampler;
+		}
+		return uni_type::Invalid;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static constexpr uni_pair make_uniform(const uni_info & info, const uni_data & data)
+	static constexpr uni_base make_uniform(const uni_info & info, const uni_data & data)
 	{
 		return std::make_pair(info, data);
 	}
 
-	static constexpr uni_pair make_uniform(const uni_name & name, const uni_type & type, const uni_data & data)
+	static constexpr uni_base make_uniform(const uni_name & name, const uni_type & type, const uni_data & data)
 	{
 		return make_uniform(std::make_pair(name, type), data);
 	}
 
-	static constexpr uni_pair make_uniform(const uni_name & name, const uni_data & data)
+	static constexpr uni_base make_uniform(const uni_name & name, const uni_data & data)
 	{
 		return make_uniform(std::make_pair(name, (uni_type)uniform_id(data)), data);
 	}
@@ -312,7 +329,7 @@ namespace ml
 
 	template <
 		class T
-	> static constexpr const T * uniform_cast(const uni_pair & value)
+	> static constexpr const T * uniform_cast(const uni_base & value)
 	{
 		return (std::holds_alternative<T>(value.second)
 			? &std::get<T>(value.second)
@@ -322,7 +339,7 @@ namespace ml
 
 	template <
 		class T
-	> static constexpr T * uniform_cast(uni_pair & value)
+	> static inline T * uniform_cast(uni_base & value)
 	{
 		return (std::holds_alternative<T>(value.second)
 			? &std::get<T>(value.second)
@@ -332,7 +349,7 @@ namespace ml
 
 	template <
 		class T
-	> static constexpr const T & uniform_cast(const uni_pair & value, const T & dv)
+	> static constexpr const T & uniform_cast(const uni_base & value, const T & dv)
 	{
 		const T * temp { uniform_cast<T>(value) };
 		return (temp ? (*temp) : dv);
@@ -340,7 +357,7 @@ namespace ml
 
 	template <
 		class T
-	> static inline bool uniform_cast(const uni_pair & value, T & out, const T & dv)
+	> static inline bool uniform_cast(const uni_base & value, T & out, const T & dv)
 	{
 		const T * temp { uniform_cast<T>(value) };
 		return (temp ? ML_TRUE_EXPR(out = (*temp)) : ML_FALSE_EXPR(out = dv));
@@ -350,23 +367,11 @@ namespace ml
 
 	template <class ... T> struct uniform_t;
 
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	template <class T> struct uniform_t<T> final
 	{
-		using value_type = typename T;
-		using pointer = typename value_type *;
-		using reference = typename value_type &;
-		using const_pointer = typename const value_type *;
-		using const_reference = typename const value_type &;
-
-		template <class U>
-		static constexpr bool is_same { std::is_same_v<T, U> };
-		static constexpr bool is_pointer { std::is_pointer_v<value_type> };
-		static constexpr bool is_reference { std::is_reference_v<value_type> };
-		static constexpr bool is_value { !is_pointer && !is_reference };
-		static constexpr bool is_const_pointer { is_same<const_pointer> };
-		static constexpr bool is_const_reference { is_same<const_reference> };
-
-		static constexpr auto ID { (uni_type)uniform_id<value_type>() };
+		enum { ID = uniform_id<T>() };
 
 		constexpr uniform_t(const uniform_t<T> & copy)
 			: m_base { copy.m_base }
@@ -378,16 +383,18 @@ namespace ml
 		{
 		}
 
-		constexpr auto base() const -> const uni_pair & { return m_base; }
+		constexpr auto base() const -> const uni_base & { return m_base; }
 		constexpr auto info() const -> const uni_info & { return base().first; }
 		constexpr auto name() const -> const uni_name & { return info().first; }
 		constexpr auto type() const -> const uni_type & { return info().second; }
-		constexpr auto data() const -> const_pointer { return uniform_cast<T>(base()); }
+		constexpr auto data() const -> const T *		{ return uniform_cast<T>(base()); }
 
-		bool operator()(const Shader * shader) const;
+		bool apply(const Shader * shader) const;
 
-	private: uni_pair m_base;
+	private: uni_base m_base;
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <> struct uniform_t<> final
 	{
@@ -401,33 +408,33 @@ namespace ml
 		{
 		}
 
-		constexpr auto base() const -> const uni_pair & { return m_base; }
+		constexpr auto base() const -> const uni_base & { return m_base; }
 		constexpr auto info() const -> const uni_info & { return base().first; }
 		constexpr auto name() const -> const uni_name & { return info().first; }
 		constexpr auto type() const -> const uni_type & { return info().second; }
 		constexpr auto data() const -> const uni_data & { return base().second; }
 
-		bool operator()(const Shader * shader) const;
+		bool apply(const Shader * shader) const;
 
-	private: uni_pair m_base;
+	private: uni_base m_base;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uniform_bool = uniform_t<bool>;
-	using uniform_float = uniform_t<float_t>;
-	using uniform_int = uniform_t<int32_t>;
-	using uniform_vec2 = uniform_t<vec2>;
-	using uniform_vec3 = uniform_t<vec3>;
-	using uniform_vec4 = uniform_t<vec4>;
-	using uniform_color = uniform_t<vec4>;
-	using uniform_mat3 = uniform_t<mat3>;
-	using uniform_mat4 = uniform_t<mat4>;
-	using uniform_sampler = uniform_t<const Texture *>;
+	using uniform_bool		= typename uniform_t<bool>;
+	using uniform_float		= typename uniform_t<float_t>;
+	using uniform_int		= typename uniform_t<int32_t>;
+	using uniform_vec2		= typename uniform_t<vec2>;
+	using uniform_vec3		= typename uniform_t<vec3>;
+	using uniform_vec4		= typename uniform_t<vec4>;
+	//using uniform_color		= typename uniform_t<vec4>;
+	using uniform_mat3		= typename uniform_t<mat3>;
+	using uniform_mat4		= typename uniform_t<mat4>;
+	using uniform_sampler	= typename uniform_t<const Texture *>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool uniform_t<>::operator()(const Shader * shader) const
+	bool uniform_t<>::apply(const Shader * shader) const
 	{
 		if (!shader || !this->name()) { return false; }
 		switch (this->type())
@@ -458,14 +465,53 @@ namespace ml
 
 		case uniform_sampler::ID: if (auto temp { uniform_cast<const Texture *>(this->base()) })
 			return shader->setUniform(this->name(), (*temp));
-
-		default: return false;
 		}
+		return false;
 	}
 
-	template <class T> bool uniform_t<T>::operator()(const Shader * shader) const
+	bool uniform_bool::apply(const Shader * shader) const
 	{
-		return uniform_t<>(*this)(shader);
+		return shader->setUniform(this->name(), (*this->data()));
+	}
+
+	bool uniform_int::apply(const Shader * shader) const
+	{
+		return shader->setUniform(this->name(), (*this->data()));
+	}
+
+	bool uniform_float::apply(const Shader * shader) const
+	{
+		return shader->setUniform(this->name(), (*this->data()));
+	}
+
+	bool uniform_vec2::apply(const Shader * shader) const
+	{
+		return shader->setUniform(this->name(), (*this->data()));
+	}
+
+	bool uniform_vec3::apply(const Shader * shader) const
+	{
+		return shader->setUniform(this->name(), (*this->data()));
+	}
+
+	bool uniform_vec4::apply(const Shader * shader) const
+	{
+		return shader->setUniform(this->name(), (*this->data()));
+	}
+
+	bool uniform_mat3::apply(const Shader * shader) const
+	{
+		return shader->setUniform(this->name(), (*this->data()));
+	}
+
+	bool uniform_mat4::apply(const Shader * shader) const
+	{
+		return shader->setUniform(this->name(), (*this->data()));
+	}
+
+	bool uniform_sampler::apply(const Shader * shader) const
+	{
+		return (*this->data()) && shader->setUniform(this->name(), (**this->data()));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -473,6 +519,8 @@ namespace ml
 	static inline auto test_uniforms()
 	{
 		{
+			constexpr auto id = uniform_id(typeof<const Texture *>());
+
 			constexpr auto bb = make_uniform("a", true);
 			constexpr auto ff = make_uniform("b", 1.0f);
 			constexpr auto ii = make_uniform("c", 123);
@@ -481,13 +529,13 @@ namespace ml
 			constexpr auto v4 = make_uniform("f", vec4 { 5, 6, 7, 8 });
 			constexpr auto m3 = make_uniform("g", mat3::identity());
 			constexpr auto m4 = make_uniform("h", mat4::identity());
-			constexpr auto t2 = make_uniform("i", (const Texture *)nullptr);
+			constexpr auto t2 = make_uniform("i", nullptr);
 		}
 		{
-			uniform_t<const Texture *> tex("", nullptr);
+			uniform_sampler tex("", nullptr);
 			if (const Texture * const * temp { tex.data() }) {}
 
-			uniform_t<float_t> flt("", 0.0f);
+			uniform_float flt("", 0.0f);
 			if (const float_t * temp { flt.data() }) {}
 		}
 	}

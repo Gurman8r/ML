@@ -84,6 +84,9 @@
     <None Include="..\..\..\assets\scripts\test.lua">
       <Filter>Resource Files\assets\scripts</Filter>
     </None>
+    <None Include="..\..\..\assets\materials\test.mat">
+      <Filter>Resource Files\assets\materials</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

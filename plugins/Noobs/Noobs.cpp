@@ -148,10 +148,15 @@ namespace ml
 		// Set Path
 		ML_FS.setPath("../../../");
 
-		// Setup Uniforms
+		//static Camera * camera { Camera::mainCamera() };
+		//static const float_t & fov { camera->fieldOfView() };
+		//static const float_t & zNear { camera->clipNear() };
+		//static const float_t & zFar { camera->clipFar() };
+
+		// Redirect Viewport
 		redirect_uniform<uni_vec2_ptr>("u_viewport", &m_editor.m_scene.m_viewport);
 
-		// Setup Editor Entity
+		// Setup Editor
 		if (Entity * ent { m_editor.m_entity.update(ML_Content.get<Entity>(
 			ev.prefs.get_string("Noobs", "demo_entity", "demo_entity")
 		)) })
@@ -162,15 +167,16 @@ namespace ml
 				m_editor.m_model.update((const Model *)m_editor.m_renderer->drawable());
 			}
 		}
-
-		// Setup Editor
 		m_editor.generate_sources();
 	}
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
 		// Update Surfaces Viewports
-		for (auto & surf : m_pipeline) { surf->update(m_editor.m_scene.m_viewport); }
+		for (auto & surf : m_pipeline)
+		{
+			surf->update(m_editor.m_scene.m_viewport); 
+		}
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)
@@ -182,7 +188,6 @@ namespace ml
 		if (camera)
 		{
 			camera->setViewport((vec2i)m_editor.m_scene.m_viewport);
-			camera->setBackground(m_editor.m_scene.m_clearColor);
 		}
 
 		// Render Scene
@@ -305,19 +310,19 @@ namespace ml
 						ImGuiWindowFlags_NoScrollbar
 					);
 
+					const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
+					const float_t line_height { ImGuiExt::GetLineHeight() * 1.25f };
+					
+					// Text Editors
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
-
-					ImGui::BeginChild(
-						"DemoFile##ContentArea", 
-						{ max_size[0], max_size[1] * 0.95f }, 
-						true
-					);
-					
-					// Demo File Tab Bar
-					if (ImGui::BeginTabBar("Demo File Tab Bar"))
+					if (ImGui::BeginChildFrame(
+						ImGui::GetID("DemoFile##TextEditors"),
+						{ max_size[0], max_size[1] - line_height },
+						ImGuiWindowFlags_NoScrollbar
+					) && ImGui::BeginTabBar("Demo File Tab Bar"))
 					{
+						// Demo File Tab Bar
 						for (size_t i = 0; i < m_files.size(); i++)
 						{
 							DemoFile *& file { m_files[i] };
@@ -349,16 +354,14 @@ namespace ml
 						}
 						ImGui::EndTabBar();
 					}
+					ImGui::EndChildFrame();
 
-					ImGui::EndChild();
-
+					// Toolbar
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					// Compile
-					if (ImGui::BeginChild(
-						"DemoFile##Tools",
-						ImGui::GetContentRegionAvail(),
-						true,
+					if (ImGui::BeginChildFrame(
+						ImGui::GetID("DemoFile##Toolbar"),
+						{ max_size[0], line_height },
 						ImGuiWindowFlags_NoScrollbar
 					))
 					{
@@ -378,7 +381,7 @@ namespace ml
 							ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
 						}
 					}
-					ImGui::EndChild();
+					ImGui::EndChildFrame();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -482,14 +485,7 @@ namespace ml
 							{
 								to_remove = uni;
 							}
-							if (ImGui::IsItemHovered())
-							{
-								ImGui::BeginTooltip();
-								ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-								ImGui::TextUnformatted("Delete this uniform");
-								ImGui::PopTextWrapPos();
-								ImGui::EndTooltip();
-							}
+							ImGuiExt::Tooltip("Delete this uniform");
 						}
 						ImGui::PopID();
 						ImGui::Columns(1);
@@ -521,11 +517,7 @@ namespace ml
 					const Material * mtl = m_material;
 					if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 					{
-						if ((m_material.get() != mtl) &&
-							m_material.update(
-								ML_Content.get_name<Material>(mtl),
-								std::remove_cv_t<Material *>(mtl)
-							))
+						if ((m_material.get() != mtl) && m_material.update(mtl))
 						{
 							m_renderer->setMaterial(mtl);
 							this->reset_sources();
@@ -560,19 +552,27 @@ namespace ml
 						return temp;
 					}();
 
-					// Set Viewport
-					static int32_t index = 0;
-					if (ImGuiExt::Combo("Viewport", &index, mode_names))
+					// Camera Settings
+					if (auto camera { Camera::mainCamera() })
 					{
-						m_scene.m_freeAspect = (index == 0);
-					}
-					if (!m_scene.m_freeAspect)
-					{
-						m_scene.m_viewport = (vec2i)mode_values[index - 1].size;
-					}
+						// Set Viewport
+						static int32_t index = 0;
+						if (ImGuiExt::Combo("Viewport", &index, mode_names))
+						{
+							m_scene.m_freeAspect = (index == 0);
+						}
+						if (!m_scene.m_freeAspect)
+						{
+							m_scene.m_viewport = (vec2i)mode_values[index - 1].size;
+						}
 
-					// Set Clear Color
-					ImGui::ColorEdit4("Clear Color", &m_scene.m_clearColor[0]);
+						// Set Background
+						vec4 background { camera->background() };
+						if (ImGui::ColorEdit4("Background", &background[0]))
+						{
+							camera->setBackground(background);
+						}
+					}
 
 					ImGui::Separator();
 
@@ -989,7 +989,9 @@ namespace ml
 				}
 			}
 		}
-		return false;
+		return Debug::log("Failed compiling shader: {0}", 
+			ML_Content.get_name(m_material->shader())
+		);
 	}
 
 	void Noobs::DemoEditor::reset_sources()

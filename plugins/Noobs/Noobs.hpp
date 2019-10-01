@@ -69,7 +69,6 @@ namespace ml
 
 			bool m_open;
 			bool m_freeAspect;
-			vec4 m_clearColor;
 			vec2 m_viewport;
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -77,7 +76,6 @@ namespace ml
 			DemoScene() 
 				: m_open		{ true }
 				, m_freeAspect	{ true }
-				, m_clearColor	{ Color::black }
 				, m_viewport	{ 1920, 1080 }
 			{
 			}

@@ -280,11 +280,6 @@ namespace ml
 		}
 	}
 
-	bool Shader::setUniformVariant(const String & name, const uniform_variant & value) const
-	{
-		return false;
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::setUniform(const String & name, const bool value) const

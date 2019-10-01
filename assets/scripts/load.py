@@ -4,7 +4,7 @@ ml.content.load_all([
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Image", "name": "icon",              "file": PATH + "/images/dean.png", "flip_v": "False" },
+    { "type": "Image", "name": "icon",              "file": PATH + "/images/icon.png", "flip_v": "False" },
     { "type": "Image", "name": "img_star",          "file": PATH + "/skyboxes/star.jpg" },
     { "type": "Image", "name": "img_sunset_right",  "file": PATH + "/skyboxes/sunset/sunset_right.png", "flip_v": "False" },
     { "type": "Image", "name": "img_sunset_left",   "file": PATH + "/skyboxes/sunset/sunset_left.png", "flip_v": "False" },
@@ -37,13 +37,10 @@ ml.content.load_all([
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Texture", "name": "tex_dean",            "file": PATH + "/images/dean.png"       },
     { "type": "Texture", "name": "tex_neutrino",        "file": PATH + "/images/neutrino.png"   },
     { "type": "Texture", "name": "tex_sanic",           "file": PATH + "/images/sanic.png"      },
     { "type": "Texture", "name": "tex_borg",            "file": PATH + "/images/borg.png"       },
-    { "type": "Texture", "name": "tex_grass",           "file": PATH + "/images/grass.png"      },
     { "type": "Texture", "name": "tex_navball",         "file": PATH + "/images/navball.png"    },
-    { "type": "Texture", "name": "tex_buck",            "file": PATH + "/images/buck.png"       },
     { "type": "Texture", "name": "tex_earth_cm",        "file": PATH + "/textures/earth/earth_cm_2k.png" },
     { "type": "Texture", "name": "tex_earth_dm",        "file": PATH + "/textures/earth/earth_dm_2k.png" },
     { "type": "Texture", "name": "tex_earth_hm",        "file": PATH + "/textures/earth/earth_hm_2k.png" },
@@ -175,19 +172,18 @@ ml.content.load_all([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     ])
 
-# Entities
+# Light
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+#name = "_ent_light_"
+#if ml.content.load({ "type": "Entity", "name": name }):
+#    if ml.ecs.add_component(name, "ml::Light"):
+#        ml.ecs.light_attr(name,     "self",     "enabled",      "True")
+#        ml.ecs.light_attr(name,     "self",     "color",        "1 1 1 1")
+#        ml.ecs.light_attr(name,     "self",     "intensity",    "1.0")
+#        ml.ecs.light_attr(name,     "self",     "mode",         "Realtime")
 
-name = "_ent_light_"
-if ml.content.load({ "type": "Entity", "name": name }):
-    if ml.ecs.add_component(name, "ml::Light"):
-        ml.ecs.light_attr(name,     "self",     "enabled",      "True")
-        ml.ecs.light_attr(name,     "self",     "color",        "1 1 1 1")
-        ml.ecs.light_attr(name,     "self",     "intensity",    "1.0")
-        ml.ecs.light_attr(name,     "self",     "mode",         "Realtime")
-
+# Camera
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
 name = "_ent_camera_"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Camera"):
@@ -200,8 +196,8 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.camera_attr(name,    "self",     "far",          "1000.0")
         ml.ecs.camera_attr(name,    "self",     "viewport",     "0 1920 0 1080")
 
+# Skybox
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
 name = "_ent_skybox_"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
@@ -210,8 +206,8 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "model",        "default_skybox")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "False")
 
+# Advanced
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
 name = "ent_earth"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
@@ -219,9 +215,28 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj_sphere32x24")
 
+# Basic
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+name = "ent_basic"
+if ml.content.load({ "type": "Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Renderer"):
+        ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_basic")
+        ml.ecs.renderer_attr(name,  "self",     "model",        "default_quad")
+        ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
+
+# Test
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-name = "ent_testing"
+ml.content.load({
+    "type":     "Material",
+    "name":     "mat_test",
+    "shader":   "gl_advanced",
+    "defaults": "True",
+    "uniforms": PATH + "/materials/test.mat"
+    })
+
+name = "ent_test"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Transform"):
         ml.ecs.transform_attr(name, "self",     "enabled",      "True")
@@ -230,17 +245,8 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.transform_attr(name, "self",     "rotation",     "1 1 1")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
-        ml.ecs.renderer_attr(name,  "self",     "model",        "obj_sphere32x24")
-
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
-name = "ent_sanic"
-if ml.content.load({ "type": "Entity", "name": name }):
-    if ml.ecs.add_component(name, "ml::Renderer"):
-        ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_basic")
-        ml.ecs.renderer_attr(name,  "self",     "model",        "default_quad")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_test")
+        ml.ecs.renderer_attr(name,  "self",     "model",        "obj_cow")
         ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")
         ml.ecs.renderer_attr(name,  "alpha",    "predicate",    "GL_GREATER")
         ml.ecs.renderer_attr(name,  "alpha",    "coeff",        "0.01")
@@ -249,10 +255,17 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "blend",    "srcAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
         ml.ecs.renderer_attr(name,  "blend",    "dstRGB",       "GL_SRC_ALPHA")
         ml.ecs.renderer_attr(name,  "blend",    "dstAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
-        ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
+        ml.ecs.renderer_attr(name,  "cull",     "enabled",      "True")
         ml.ecs.renderer_attr(name,  "cull",     "face",         "GL_BACK")
         ml.ecs.renderer_attr(name,  "depth",    "enabled",      "True")
         ml.ecs.renderer_attr(name,  "depth",    "predicate",    "GL_LESS")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
+
+if False:
+    ml.prefs.set("Noobs", "demo_entity",    "ent_test")
+    ml.prefs.set("Noobs", "demo_material",  "mat_test")
+    ml.prefs.set("Noobs", "demo_model",     "obj_cow")
+    ml.ecs.renderer_attr("ent_basic", "self", "enabled", "False")
+    ml.ecs.renderer_attr("ent_test", "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

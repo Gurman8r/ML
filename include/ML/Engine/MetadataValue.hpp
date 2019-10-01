@@ -56,11 +56,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto asBool()	const -> bool		{ return alg::to_bool(asString()); }
-		inline auto asDouble()	const -> float64_t	{ return alg::to_double(asString()); }
-		inline auto asFloat()	const -> float32_t	{ return alg::to_float(asString()); }
-		inline auto asInt()		const -> int32_t	{ return alg::to_int(asString()); }
+		inline auto asDouble()	const -> float64_t	{ return alg::to_f64(asString()); }
+		inline auto asFloat()	const -> float32_t	{ return alg::to_f32(asString()); }
+		inline auto asInt()		const -> int32_t	{ return alg::to_i32(asString()); }
 		inline auto asString()	const -> String		{ return m_data; }
-		inline auto asUint()	const -> uint32_t	{ return alg::to_uint(asString()); }
+		inline auto asUint()	const -> uint32_t	{ return alg::to_u32(asString()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

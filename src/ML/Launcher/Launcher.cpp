@@ -11,9 +11,9 @@ namespace ml
 		running = true;
 
 		// Startup
-		eventSystem.fireEvent<EnterEvent>(time, prefs, window);
-		eventSystem.fireEvent<LoadEvent	>(time, prefs, window);
-		eventSystem.fireEvent<StartEvent>(time, prefs, window);
+		eventSystem.fireEvent<EnterEvent>	(time, prefs, window);
+		eventSystem.fireEvent<LoadEvent>	(time, prefs, window);
+		eventSystem.fireEvent<StartEvent>	(time, prefs, window);
 
 		// Loop
 		while (window.is_open())
@@ -30,8 +30,8 @@ namespace ml
 		}
 
 		// Shutdown
-		eventSystem.fireEvent<UnloadEvent>(time, window, engine);
-		eventSystem.fireEvent<ExitEvent>(time, window);
+		eventSystem.fireEvent<UnloadEvent>	(time, window, engine);
+		eventSystem.fireEvent<ExitEvent>	(time, window);
 		
 		// Cleanup Plugins
 		plugins.dispose();

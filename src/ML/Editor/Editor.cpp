@@ -214,7 +214,6 @@ namespace ml
 					PropertyDrawer<Shader>()("Shader##File##Create", (Shader *&)temp, true);
 					PropertyDrawer<Script>()("Script##File##Create", (Script *&)temp, true);
 					PropertyDrawer<Texture>()("Texture##File##Create", (Texture *&)temp, true);
-					PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp, true);
 					ImGui::EndMenu();
 				}
 

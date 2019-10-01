@@ -123,7 +123,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_Content.create<Texture>("default_texture")->loadFromImage(
 			ML_Content.create<Image>("default_image")->update(
-				{ 512, 512 }, 4, Color32::magenta
+				{ 512, 512 }, 4, Colors::magenta
 			)
 		);
 
@@ -143,12 +143,12 @@ namespace ml
 			geo::sky::vertices
 		);
 
-		ML_Content.insert<Uniform>("u_cursor",	new uni_vec2_ptr ("u_cursor",	&m_cursorPos));
-		ML_Content.insert<Uniform>("u_delta",	new uni_float_ptr("u_delta",	&m_deltaTime));
-		ML_Content.insert<Uniform>("u_frame",	new uni_int_ptr	 ("u_frame",	&m_frameCount));
-		ML_Content.insert<Uniform>("u_fps",	new uni_float_ptr("u_fps",	&m_frameRate));
-		ML_Content.insert<Uniform>("u_time",	new uni_float_ptr("u_time",	&m_totalTime));
-		ML_Content.insert<Uniform>("u_viewport",	new uni_vec2_ptr ("u_viewport",		&m_viewport));
+		ML_Content.insert<Uniform>("u_cursor",	new uni_vec2_ptr { "u_cursor",	&m_cursorPos });
+		ML_Content.insert<Uniform>("u_delta",	new uni_float_ptr{ "u_delta",	&m_deltaTime });
+		ML_Content.insert<Uniform>("u_frame",	new uni_int_ptr	 { "u_frame",	&m_frameCount });
+		ML_Content.insert<Uniform>("u_fps",		new uni_float_ptr{ "u_fps",		&m_frameRate });
+		ML_Content.insert<Uniform>("u_time",	new uni_float_ptr{ "u_time",	&m_totalTime });
+		ML_Content.insert<Uniform>("u_viewport",new uni_vec2_ptr { "u_viewport",&m_viewport });
 
 		
 		// Run Load Script

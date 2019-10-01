@@ -244,11 +244,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-template <class Ch> struct _STD hash<::ml::BasicString<Ch>>
+template <class Ch> struct _STD hash<_ML BasicString<Ch>>
 {
-	using argument_type = ::ml::BasicString<Ch>;
-
-	inline _STD size_t operator()(const argument_type & value) const noexcept
+	inline _STD size_t operator()(const _ML BasicString<Ch> & value) const noexcept
 	{
 		return static_cast<_STD size_t>(value.hash());
 	}

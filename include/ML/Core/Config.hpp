@@ -162,6 +162,8 @@
 //	Preprocessor
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#define _ML ::ml::
+
 #define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
 #define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
 #define ML_CONCAT(a, b)		a##b

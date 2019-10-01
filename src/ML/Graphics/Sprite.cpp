@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Sprite::Sprite()
-		: m_color(Color::white)
+		: m_color(Colors::white)
 		, m_texture(nullptr)
 		, m_tf()
 	{

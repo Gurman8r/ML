@@ -96,11 +96,11 @@ namespace ml
 
 			enum Type : size_t
 			{
-				Vert, Frag, Geom, MAX_DEMO_FILE
+				Frag, Vert, Geom, MAX_DEMO_FILE
 			};
 
 			static constexpr C_String Names[MAX_DEMO_FILE] = {
-				"Vertex", "Fragment", "Geometry",
+				"Fragment", "Vertex", "Geometry",
 			};
 
 			/* * * * * * * * * * * * * * * * * * * * */

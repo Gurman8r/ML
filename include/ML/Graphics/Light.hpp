@@ -1,7 +1,7 @@
 #ifndef _ML_LIGHT_HPP_
 #define _ML_LIGHT_HPP_
 
-#include <ML/Graphics/Export.hpp>
+#include <ML/Graphics/Color.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/Quaternion.hpp>
 #include <ML/Core/I_Newable.hpp>
@@ -28,14 +28,14 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Light & setEnabled(bool value);
-		Light & setColor(const vec4 & value);
+		Light & setColor(const Color & value);
 		Light & setIntensity(float_t value);
 		Light & setMode(Light::Mode value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto enabled()	const -> const bool & { return m_enabled; }
-		inline auto color()		const -> const vec4 & { return m_color; }
+		inline auto color()		const -> const Color & { return m_color; }
 		inline auto intensity() const -> const float_t & { return m_intensity; }
 		inline auto mode()		const -> const Mode & { return m_mode; }
 
@@ -43,7 +43,7 @@ namespace ml
 
 	private:
 		bool	m_enabled;		//
-		vec4	m_color;		// 
+		Color	m_color;		// 
 		float_t m_intensity;	// 
 		Mode	m_mode;			// 
 

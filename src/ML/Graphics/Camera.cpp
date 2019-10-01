@@ -55,7 +55,7 @@ namespace ml
 	Camera::Camera(ClearFlags clearFlags, Projection projection)
 		: m_enabled		{ true }
 		, m_clearFlags	{ clearFlags }
-		, m_background	{ Color::black }
+		, m_background	{ Colors::black }
 		, m_projection	{ projection }
 		, m_fieldOfView { 45.0f }
 		, m_clipNear	{ 0.001f }
@@ -99,7 +99,7 @@ namespace ml
 			{
 			case Camera::SolidColor:
 			{
-				const vec4 & bg { m_background };
+				const Color & bg { m_background };
 				ML_GL.clearColor(bg[0], bg[1], bg[2], bg[3]);
 				ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
 			}

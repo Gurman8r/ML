@@ -15,6 +15,8 @@ namespace ml
 
 		static_assert(0 < (X * Y), "Matrix : size negative or zero");
 
+		static_assert(std::is_trivial_v<T>, "Matrix : value type must be trivial");
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum : size_t { Cols = X, Rows = Y, Size = Cols * Rows };
@@ -63,13 +65,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr reference operator[](size_t i) { return m_data[i]; }
+		constexpr reference operator[](size_t i)
+		{
+			return m_data[i];
+		}
 
-		constexpr const_reference operator[](size_t i) const { return m_data[i]; }
+		constexpr const_reference operator[](size_t i) const
+		{ 
+			return m_data[i];
+		}
 
-		constexpr operator base_type &() { return m_data; }
+		constexpr operator base_type &()
+		{
+			return m_data;
+		}
 
-		constexpr operator const base_type &() const { return m_data; }
+		constexpr operator const base_type &() const 
+		{
+			return m_data; 
+		}
 
 		template <class U> constexpr operator std::array<U, Size>() const
 		{ 
@@ -80,7 +94,7 @@ namespace ml
 			template <class, size_t, size_t> class M, class U, size_t W, size_t H
 		> constexpr operator M<U, W, H>() const
 		{
-			M<U, W, H> temp { NULL };
+			M<U, W, H> temp { uninit };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				const size_t x { i % temp.width() };
@@ -97,12 +111,12 @@ namespace ml
 
 		static constexpr self_type zero()
 		{
-			return self_type { NULL };
+			return self_type { uninit };
 		}
 
 		static constexpr self_type one()
 		{
-			self_type temp { NULL };
+			self_type temp { uninit };
 			for (auto & elem : temp) 
 			{
 				elem = constant_t<T>::one; 
@@ -110,9 +124,19 @@ namespace ml
 			return temp;
 		}
 
+		static constexpr self_type all(value_type value)
+		{
+			self_type temp { uninit };
+			for (auto & elem : temp)
+			{
+				temp = value;
+			}
+			return temp;
+		}
+
 		static constexpr self_type identity()
 		{
-			self_type temp { NULL };
+			self_type temp { uninit };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				temp[i] = (((i / temp.width()) == (i % temp.width())) 
@@ -154,7 +178,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tmat2 = tmat_nxn<T, 2>;
-	using mat2b = tmat2<uint8_t>;
+	using mat2b = tmat2<byte_t>;
 	using mat2i = tmat2<int32_t>;
 	using mat2u = tmat2<uint32_t>;
 	using mat2f = tmat2<float32_t>;
@@ -165,7 +189,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tmat3 = tmat_nxn<T, 3>;
-	using mat3b = tmat3<uint8_t>;
+	using mat3b = tmat3<byte_t>;
 	using mat3i = tmat3<int32_t>;
 	using mat3u = tmat3<uint32_t>;
 	using mat3f = tmat3<float32_t>;
@@ -176,7 +200,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tmat4 = tmat_nxn<T, 4>;
-	using mat4b = tmat4<uint8_t>;
+	using mat4b = tmat4<byte_t>;
 	using mat4i = tmat4<int32_t>;
 	using mat4u = tmat4<uint32_t>;
 	using mat4f = tmat4<float32_t>;
@@ -187,7 +211,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec2 = tmat_nx1<T, 2>;
-	using vec2b = tvec2<uint8_t>;
+	using vec2b = tvec2<byte_t>;
 	using vec2i = tvec2<int32_t>;
 	using vec2u = tvec2<uint32_t>;
 	using vec2f = tvec2<float32_t>;
@@ -198,7 +222,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec3 = tmat_nx1<T, 3>;
-	using vec3b = tvec3<uint8_t>;
+	using vec3b = tvec3<byte_t>;
 	using vec3i = tvec3<int32_t>;
 	using vec3u = tvec3<uint32_t>;
 	using vec3f = tvec3<float32_t>;
@@ -209,7 +233,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec4 = tmat_nx1<T, 4>;
-	using vec4b = tvec4<uint8_t>;
+	using vec4b = tvec4<byte_t>;
 	using vec4i = tvec4<int32_t>;
 	using vec4u = tvec4<uint32_t>;
 	using vec4f = tvec4<float32_t>;
@@ -494,23 +518,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace std
+template <class T, _STD size_t X, _STD size_t Y> struct _STD hash<_ML Matrix<T, X, Y>>
 {
-	template <
-		class T, size_t X, size_t Y
-	> struct hash<::ml::Matrix<T, X, Y>>
+	inline _STD size_t operator()(const _ML Matrix<T, X, Y> & value) const noexcept
 	{
-		using argument_type = ::ml::Matrix<T, X, Y>;
-
-		inline ::ml::hash_t operator()(const argument_type & value) const noexcept
-		{
-			return _Hash_array_representation(value.data(), value.size());
-		}
-	};
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		return static_cast<_STD size_t>(value.hash());
+	}
+};
 
 #endif // !_ML_MATRIX_HPP_

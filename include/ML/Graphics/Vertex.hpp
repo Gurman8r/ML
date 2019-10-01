@@ -42,7 +42,7 @@ namespace ml
 		}
 
 		constexpr explicit Vertex(const vec3 & pos, const vec2 & tex)
-			: self_type { pos, Color::white, tex }
+			: self_type { pos, Colors::white, tex }
 		{
 		}
 
@@ -52,12 +52,12 @@ namespace ml
 		}
 
 		constexpr explicit Vertex(const vec3 & pos)
-			: self_type { pos, Color::white, vec2 { NULL } }
+			: self_type { pos, Colors::white, vec2 { NULL } }
 		{
 		}
 
 		constexpr explicit Vertex(const vec2 & tex)
-			: self_type { vec3 { NULL }, Color::white, tex }
+			: self_type { vec3 { NULL }, Colors::white, tex }
 		{
 		}
 
@@ -67,7 +67,7 @@ namespace ml
 		}
 
 		constexpr Vertex()
-			: self_type { vec3 { NULL }, Color::white, vec2 { NULL } }
+			: self_type { vec3 { NULL }, Colors::white, vec2 { NULL } }
 		{
 		}
 

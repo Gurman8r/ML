@@ -44,13 +44,13 @@ namespace ml
 	> static inline void redirect_uniform(const String & name, const T * value)
 	{
 		if (!name) return;
-		if (U * u = (U *)ML_Content.get<Uniform>(name))
+		if (auto u { (U *)ML_Content.get<Uniform>(name) })
 		{
 			u->data = value;
 		}
 		for (auto & pair : ML_Content.data<Material>())
 		{
-			if (Material * m { static_cast<Material *>(pair.second) })
+			if (auto m { (Material *)pair.second })
 			{
 				if (U * u = m->get<U>(name))
 				{
@@ -175,7 +175,10 @@ namespace ml
 		// Update Surfaces Viewports
 		for (auto & surf : m_pipeline)
 		{
-			surf->update(m_editor.m_scene.m_viewport); 
+			if (surf)
+			{
+				surf->update(m_editor.m_scene.m_viewport);
+			}
 		}
 	}
 
@@ -202,7 +205,7 @@ namespace ml
 			// Draw Renderers
 			for (auto & pair : ML_Content.data<Entity>())
 			{
-				if (auto * ent { static_cast<const Entity *>(pair.second) })
+				if (auto ent { (Entity *)pair.second })
 				{
 					ev.window.draw(ent->get<Renderer>());
 				}

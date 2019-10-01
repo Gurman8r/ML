@@ -43,8 +43,8 @@ namespace ml
 		bool create(const vec2u & size);
 		bool create(const Image & image, const vec2u & size);
 		bool create(const Image & image, uint32_t w, uint32_t h);
-		bool create(const uint8_t * pixels, const vec2u & size);
-		bool create(const uint8_t * pixels, uint32_t w, uint32_t h);
+		bool create(const byte_t * pixels, const vec2u & size);
+		bool create(const byte_t * pixels, uint32_t w, uint32_t h);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -58,10 +58,10 @@ namespace ml
 		bool update(const Image & image, const vec2u & position, const vec2u & size);
 		bool update(const Image & image, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 		
-		bool update(const uint8_t * pixels);
-		bool update(const uint8_t * pixels, const UintRect & area);
-		bool update(const uint8_t * pixels, const vec2u & position, const vec2u & size);
-		bool update(const uint8_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+		bool update(const byte_t * pixels);
+		bool update(const byte_t * pixels, const UintRect & area);
+		bool update(const byte_t * pixels, const vec2u & position, const vec2u & size);
+		bool update(const byte_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

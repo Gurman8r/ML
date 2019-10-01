@@ -129,7 +129,7 @@ namespace ml
 		{
 			return loadFromMemory(file.str());
 		}
-		return Debug::logError("Failed to open shader source file \"{0}\"", filename);
+		return Debug::logError("Failed opening shader source file \"{0}\"", filename);
 	}
 
 	bool Shader::loadFromFile(const String & vs, const String & fs)
@@ -138,14 +138,14 @@ namespace ml
 		static File vert;
 		if (!vert.loadFromFile(vs))
 		{
-			return Debug::logError("Failed to open vertex source file \"{0}\"", vs);
+			return Debug::logError("Failed opening vertex source file \"{0}\"", vs);
 		}
 
 		// Read the fragment shader file
 		static File frag;
 		if (!frag.loadFromFile(fs))
 		{
-			return Debug::logError("Failed to open fragment source file \"{0}\"", fs);
+			return Debug::logError("Failed opening fragment source file \"{0}\"", fs);
 		}
 
 		// Compile the shader program
@@ -158,38 +158,38 @@ namespace ml
 		static File vert;
 		if (!vert.loadFromFile(vs))
 		{
-			return Debug::logError("Failed to open vertex source file \"{0}\"", vs);
+			return Debug::logError("Failed opening vertex source file \"{0}\"", vs);
 		}
 
 		// Read the geometry shader file
 		static File geom;
 		if (!geom.loadFromFile(gs))
 		{
-			return Debug::logError("Failed to open geometry source file \"{0}\"", gs);
+			return Debug::logError("Failed opening geometry source file \"{0}\"", gs);
 		}
 
 		// Read the fragment shader file
 		static File frag;
 		if (!frag.loadFromFile(fs))
 		{
-			return Debug::logError("Failed to open fragment source file \"{0}\"", fs);
+			return Debug::logError("Failed opening fragment source file \"{0}\"", fs);
 		}
 
 		// Compile the shader program
 		return loadFromMemory(vert.str(), geom.str(), frag.str());
 	}
 
-	bool Shader::loadFromMemory(const Shader::Source & source)
+	bool Shader::loadFromMemory(const Shader::Source & value)
 	{
-		return source.gs
-			? loadFromMemory(source.vs, source.gs, source.fs)
-			: loadFromMemory(source.vs, source.fs);
+		return value.gs
+			? loadFromMemory(value.vs, value.gs, value.fs)
+			: loadFromMemory(value.vs, value.fs);
 	}
 
-	bool Shader::loadFromMemory(const String & source)
+	bool Shader::loadFromMemory(const String & value)
 	{
 		SStream vert, geom, frag;
-		return (ShaderParser::parseShader(source, vert, geom, frag)
+		return (ShaderParser::parseShader(value, vert, geom, frag)
 			? loadFromMemory(vert.str(), geom.str(), frag.str())
 			: Debug::logError("Failed Parsing Shader")
 		);
@@ -197,30 +197,47 @@ namespace ml
 
 	bool Shader::loadFromMemory(const String & vs, const String & gs, const String & fs)
 	{
-		if (gs)
+		if ((vs && fs && gs) && compile(vs.c_str(), gs.c_str(), fs.c_str()))
 		{
-			if (compile(vs.c_str(), gs.c_str(), fs.c_str()))
-			{
-				m_sources.vs = ShaderParser::parseShader(vs);
-				m_sources.gs = ShaderParser::parseShader(gs);
-				m_sources.fs = ShaderParser::parseShader(fs);
-				return true;
-			}
-			return false;
+			m_sources.vs = ShaderParser::parseShader(vs);
+			m_sources.gs = ShaderParser::parseShader(gs);
+			m_sources.fs = ShaderParser::parseShader(fs);
+			return true;
 		}
-		return loadFromMemory(vs, fs);
+		else if ((vs && fs) && compile(vs.c_str(), nullptr, fs.c_str()))
+		{
+			m_sources.vs = ShaderParser::parseShader(vs);
+			m_sources.gs = {};
+			m_sources.fs = ShaderParser::parseShader(fs);
+			return true;
+		}
+		else if (vs && compile(vs.c_str(), nullptr, nullptr))
+		{
+			m_sources.vs = ShaderParser::parseShader(vs);
+			m_sources.gs = {};
+			m_sources.fs = {};
+			return true;
+		}
+		else if (fs && compile(nullptr, nullptr, fs.c_str()))
+		{
+			m_sources.vs = {};
+			m_sources.gs = {};
+			m_sources.fs = ShaderParser::parseShader(fs);
+			return true;
+		}
+		else if (gs && compile(nullptr, gs.c_str(), nullptr))
+		{
+			m_sources.vs = {};
+			m_sources.gs = ShaderParser::parseShader(gs);
+			m_sources.fs = {};
+			return true;
+		}
+		return false;
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & fs)
 	{
-		if (compile(vs.c_str(), nullptr, fs.c_str()))
-		{
-			m_sources.vs = ShaderParser::parseShader(vs);
-			m_sources.gs = String();
-			m_sources.fs = ShaderParser::parseShader(fs);
-			return true;
-		}
-		return false;
+		return loadFromMemory(vs, {}, fs);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

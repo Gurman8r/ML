@@ -1,7 +1,7 @@
 #ifndef _ML_IMAGE_HPP_
 #define _ML_IMAGE_HPP_
 
-#include <ML/Graphics/Export.hpp>
+#include <ML/Graphics/Color.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/I_Readable.hpp>
 #include <ML/Core/I_Disposable.hpp>
@@ -19,7 +19,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pixels					= typename List<uint8_t>;
+		using Pixels					= typename List<byte_t>;
 		using iterator					= typename Pixels::iterator;
 		using const_iterator			= typename Pixels::const_iterator;
 		using reverse_iterator			= typename Pixels::reverse_iterator;
@@ -48,9 +48,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Image & update(const vec2u & size, const vec4b & color);
-		Image & update(const vec4b & color);
-		Image & update(const vec2u & size, uint32_t channels, const vec4b & color);
+		Image & update(const vec2u & size, const Color32 & color);
+		Image & update(const Color32 & color);
+		Image & update(const vec2u & size, uint32_t channels, const Color32 & color);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -68,7 +68,7 @@ namespace ml
 		inline auto bounds()	const -> UintRect			{ return UintRect { { 0, 0 }, size() }; }
 		inline auto capacity()	const -> uint32_t			{ return width() * height() * channels(); }
 		inline auto channels()	const -> const uint32_t	&	{ return m_channels; }
-		inline auto data()		const -> const uint8_t *	{ return m_pixels.data(); }
+		inline auto data()		const -> const byte_t *	{ return m_pixels.data(); }
 		inline auto empty()		const -> bool				{ return m_pixels.empty(); }
 		inline auto height()	const -> const uint32_t &	{ return m_size[1]; }
 		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }
@@ -93,12 +93,12 @@ namespace ml
 			return !this->empty();
 		}
 
-		inline const uint8_t & operator[](size_t i) const
+		inline const byte_t & operator[](size_t i) const
 		{
 			return m_pixels[i];
 		}
 
-		inline uint8_t & operator[](size_t i)
+		inline byte_t & operator[](size_t i)
 		{
 			return m_pixels[i];
 		}

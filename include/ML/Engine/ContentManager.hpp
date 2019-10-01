@@ -19,8 +19,8 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using ObjectDatabase = Tree<String, I_Newable *>;	// Map of String to Object
-		using TypeDatabase = HashMap<hash_t, ObjectDatabase>;	// Map of TypeID to ObjectMap
+		using AssetMap	= typename Tree<String, I_Newable *>;
+		using TypeMap	= typename HashMap<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -30,10 +30,7 @@ namespace ml
 			{
 				for (auto & elem : types.second)
 				{
-					if (elem.second)
-					{
-						delete elem.second;
-					}
+					if (elem.second) { delete elem.second; }
 				}
 				types.second.clear();
 			}
@@ -43,75 +40,82 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline ObjectDatabase & data(hash_t index)
+		inline AssetMap & data(hash_t code)
 		{
-			TypeDatabase::iterator it;
-			return (((it = m_data.find(index)) != m_data.end())
-				? it->second
-				: m_data.insert({ index, {} }).first->second
+			auto it { m_data.find(code) };
+			return ((it != m_data.end())
+				? it->second 
+				: m_data.insert({ code, {} }).first->second
 			);
 		}
+
+		template <hash_t H> inline AssetMap & data()
+		{
+			static auto & temp { this->data(H) };
+			return temp;
+		}
+
+		template <class T> inline AssetMap & data()
+		{
+			return this->data<typeof<T>::hash>();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline const ObjectDatabase & data(hash_t index) const
+		inline const AssetMap & data(hash_t code) const
 		{
-			TypeDatabase::const_iterator it;
-			return (((it = m_data.find(index)) != m_data.cend())
-				? it->second
-				: m_data.insert({ index, {} }).first->second
+			auto it { m_data.find(code) };
+			return ((it != m_data.end()) 
+				? it->second 
+				: m_data.insert({ code, {} }).first->second
 			);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class T> inline ObjectDatabase & data()
+		template <hash_t H> inline const AssetMap & data() const
 		{
-			static ObjectDatabase & temp { data(typeof<T>().hash) };
+			static const auto & temp { this->data(H) };
 			return temp;
 		}
 
-		template <class T> inline const ObjectDatabase & data() const
+		template <class T> inline const AssetMap & data() const
 		{
-			static const ObjectDatabase & temp { data(typeof<T>().hash) };
-			return temp;
+			return this->data<typeof<T>::hash>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class T, class ... Args
-		> inline T * create(const String & name, Args && ... args)
-		{
-			return ((!get<T>(name))
-				? insert(name, new T { std::forward<Args>(args)... })
-				: nullptr
-			);
-		}
 
 		inline I_Newable * insert(hash_t code, const String & name, void * value)
 		{
-			return static_cast<I_Newable *>(data(code).insert({
-				name, (I_Newable *)value
-			}).first->second);
+			return this->data(code).insert({ name, (I_Newable *)value }).first->second;
+		}
+
+		template <hash_t H> inline I_Newable * insert(const String & name, void * value)
+		{
+			return this->insert(H, name, value);
 		}
 
 		template <class T> inline T * insert(const String & name, T * value)
 		{
-			return static_cast<T *>(data<T>().insert({
-				name, value
-			}).first->second);
+			return (T *)this->insert<typeof<T>::hash>(name, value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class T, class ... A> inline T * create(const String & name, A && ... args)
+		{
+			return (!this->exists<T>(name)
+				? this->insert(name, new T { std::forward<A>(args)... })
+				: nullptr
+			);
+		}
 
 		inline I_Newable * generate(const String & type, const String & name)
 		{
 			if (const hash_t * code { ML_Registry.get_code(type) })
 			{
-				if (data(*code).find(name) == data(*code).end())
+				if (!this->exists(*code, name))
 				{
-					return data(*code).insert({ 
-						name, (I_Newable *)ML_Registry.generate(*code) 
-					}).first->second;
+					return this->insert(*code, name, ML_Registry.generate(*code));
 				}
 			}
 			return nullptr;
@@ -121,51 +125,69 @@ namespace ml
 
 		inline bool destroy(hash_t code, const String & name)
 		{
-			ObjectDatabase::iterator it { data(code).find(name) };
-			if (it != data(code).end())
+			auto it { this->data(code).find(name) };
+			if (it != this->data(code).end())
 			{
 				if (it->second) { delete it->second; }
-				data(code).erase(it);
+				this->data(code).erase(it);
 				return true;
 			}
 			return false;
 		}
 
+		template <hash_t H> inline bool destroy(const String & name)
+		{
+			return this->destroy(H, name);
+		}
+
 		template <class T> inline bool destroy(const String & name)
 		{
-			return destroy(typeof<T>().hash, name);
+			return this->destroy<typeof<T>::hash>(name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool exists(hash_t code, const String & name)
+		inline bool exists(hash_t code, const String & name) const
 		{
-			return data(code).find(name) != data(code).end();
+			return (this->data(code).find(name) != this->data(code).cend());
+		}
+
+		template <hash_t H> inline bool exists(const String & name) const
+		{
+			return this->exists(H, name);
 		}
 
 		template <class T> inline bool exists(const String & name) const
 		{
-			return exists(typeof<T>::hash, name);
+			return this->exists<typeof<T>::hash>(name);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class T> inline auto find(const String & name)
+			-> AssetMap::iterator
+		{
+			return this->data<T>().find(name);
+		}
+
+		template <class T> inline auto find(const String & name) const
+			-> AssetMap::const_iterator
+		{
+			return this->data<T>().find(name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class T> inline T * get(const String & name)
 		{
-			ObjectDatabase::iterator it;
-			return (((it = data<T>().find(name)) != data<T>().end())
-				? static_cast<T *>(it->second)
-				: nullptr
-			);
+			auto it { this->find<T>(name) };
+			return ((it != this->end<T>()) ? (T *)it->second : nullptr);
 		}
 
 		template <class T> inline const T * get(const String & name) const
 		{
-			ObjectDatabase::const_iterator it;
-			return (((it = data<T>().find(name)) != data<T>().end())
-				? static_cast<const T *>(it->second)
-				: nullptr
-			);
+			auto it { this->find<T>(name) };
+			return ((it != this->end<T>()) ? (const T *)it->second : nullptr);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -173,8 +195,8 @@ namespace ml
 		template <class T> inline List<String> get_keys() const
 		{
 			List<String> temp;
-			temp.reserve(data<T>().size());
-			for (const auto & pair : data<T>())
+			temp.reserve(this->size<T>());
+			for (const auto & pair : this->data<T>())
 			{
 				temp.push_back(pair.first);
 			}
@@ -183,47 +205,58 @@ namespace ml
 
 		template <class T> inline String get_name(const T * value) const
 		{
-			const int32_t i { get_index_of<T>(value) };
-			return (i >= 0) ? get_keys<T>()[(hash_t)i] : String();
+			const int32_t i { this->get_index_of<T>(value) };
+			return (i >= 0) ? this->get_keys<T>()[(hash_t)i] : String();
 		}
 
 		template <class T> inline auto get_iter_at_index(int32_t index) const
-			-> ObjectDatabase::const_iterator
 		{
-			if ((index >= 0) && ((hash_t)index < data<T>().size()))
+			if ((index >= 0) && ((hash_t)index < this->size<T>()))
 			{
-				auto it = data<T>().cbegin();
+				auto it { this->begin<T>() };
 				for (int32_t i = 0; i < index; i++)
 				{
-					if ((++it) == data<T>().cend()) { break; }
+					if ((++it) == this->end<T>()) { break; }
 				}
 				return it;
 			}
-			return data<T>().cend();
+			return this->end<T>();
 		}
 
 		template <class T> inline const T * find_by_index(int32_t index) const
 		{
-			ObjectDatabase::const_iterator it;
-			return (((it = get_iter_at_index<T>(index)) != data<T>().end())
-				? static_cast<const T *>(it->second)
-				: nullptr
-			);
+			auto it { this->get_iter_at_index<T>(index) };
+			return ((it != this->end<T>()) ? (const T *)it->second : nullptr);
 		}
 
 		template <class T> inline int32_t get_index_of(const T * value) const
 		{
-			int32_t index = 0;
-			for (const auto & pair : data<T>())
+			int32_t index { 0 };
+			for (const auto & pair : this->data<T>())
 			{
-				if (pair.second == value)
-				{
-					return index;
+				if (pair.second == value) 
+				{ 
+					return index; 
 				}
 				index++;
 			}
-			return (index = (-1));
+			return -1;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class T>	inline auto begin()			{ return this->begin<typeof<T>::hash>(); }
+		template <class T>	inline auto begin()	const	{ return this->begin<typeof<T>::hash>(); }
+		template <hash_t H> inline auto begin()			{ return this->data(H).begin(); }
+		template <hash_t H> inline auto begin()	const	{ return this->data(H).begin(); }
+		
+		template <class T>	inline auto end()			{ return this->end<typeof<T>::hash>(); }
+		template <class T>	inline auto end()	const	{ return this->end<typeof<T>::hash>(); }
+		template <hash_t H> inline auto end()			{ return this->data(H).end(); }
+		template <hash_t H> inline auto end()	const	{ return this->data(H).end(); }
+
+		template <class T>	inline auto size()	const	{ return this->size<typeof<T>::hash>(); }
+		template <hash_t H> inline auto size()	const	{ return this->data(H).size(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -231,7 +264,7 @@ namespace ml
 		friend struct I_Singleton<ContentManager>;
 		ContentManager();
 		~ContentManager();
-		mutable TypeDatabase m_data; // The Data
+		mutable TypeMap m_data; // The Data
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

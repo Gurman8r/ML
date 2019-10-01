@@ -16,10 +16,8 @@ namespace ml
 	{
 		// Type Tests
 		{
-			static_assert(typeof<int32_t>::name == "int");
 			static_assert(typeof<uint32_t>::name == "unsigned int");
 			static_assert(typeof<float_t>::name == "float");
-			static_assert(typeof<C_String>::name == "const char*");
 			static_assert(typeof<Debug>::name == "ml::Debug");
 			static_assert(typeof<std::string>::name == "std::string");
 			static_assert(typeof<String>::name == "ml::BasicString<char>");
@@ -72,13 +70,6 @@ namespace ml
 			constexpr auto pow		= alg::pow(1.23, 10);
 			constexpr auto fact		= alg::fact(10);
 			constexpr auto cross	= alg::cross(vec3 { 1, 2, 3 }, vec3 { 4, 5, 6 });
-		}
-
-		// Color Tests
-		{
-			constexpr vec4f red		{ 1.0f, 0.0f, 0.0f, 1.0f };
-			constexpr vec4f green	{ Color::green };
-			constexpr vec4f blue	{ 0.0f, 0.0f, 1.0f, 1.0f };
 		}
 
 		// Quaternion Tests
@@ -219,18 +210,18 @@ namespace ml
 
 	enum uni_type : int32_t
 	{
-		Invalid = -1,
-		Boolean, Float, Integer,
-		Vector2, Vector3, Vector4, Color,
-		Matrix3, Matrix4,
-		Sampler
+		U_Invalid = -1,
+		U_Boolean, U_Float, U_Integer,
+		U_Vector2, U_Vector3, U_Vector4, U_Color,
+		U_Matrix3, U_Matrix4,
+		U_Sampler
 	};
 
 	static constexpr uni_type uni_type_values[] = {
-		uni_type::Boolean, uni_type::Float, uni_type::Integer,
-		uni_type::Vector2, uni_type::Vector3, uni_type::Vector4, uni_type::Color,
-		uni_type::Matrix3, uni_type::Matrix4,
-		uni_type::Sampler
+		U_Boolean, U_Float, U_Integer,
+		U_Vector2, U_Vector3, U_Vector4, U_Color,
+		U_Matrix3, U_Matrix4,
+		U_Sampler
 	};
 
 	static constexpr uni_name uni_type_names[] = {
@@ -240,15 +231,26 @@ namespace ml
 		"sampler"
 	};
 
+	namespace alg
+	{
+		inline String to_string(uni_type value)
+		{
+			return ((value > U_Invalid) ? uni_type_names[(size_t)value] : "");
+		}
+	}
+
 	inline ML_SERIALIZE(std::ostream & out, const uni_type & value)
 	{
-		return out << ((value > uni_type::Invalid) ? uni_type_names[(size_t)value] : "?");
+		return out << alg::to_string(value);
 	}
 
 	using uni_info = typename std::pair<uni_name, uni_type>;
 
 	using uni_data = typename std::variant<
-		bool, int32_t, float_t, vec2, vec3, vec4, mat3, mat4, const Texture *
+		bool, int32_t, float_t, 
+		vec2, vec3, vec4, Color, 
+		mat3, mat4, 
+		const Texture *
 	>;
 
 	using uni_base = typename std::pair<uni_info, uni_data>;
@@ -257,17 +259,17 @@ namespace ml
 
 	static constexpr int32_t uniform_id(const uni_data & value)
 	{
-		if (std::holds_alternative<bool>(value)) return uni_type::Boolean;
-		else if (std::holds_alternative<float_t>(value)) return uni_type::Float;
-		else if (std::holds_alternative<int32_t>(value)) return uni_type::Integer;
-		else if (std::holds_alternative<vec2>(value)) return uni_type::Vector2;
-		else if (std::holds_alternative<vec3>(value)) return uni_type::Vector3;
-		else if (std::holds_alternative<vec4>(value)) return uni_type::Vector4;
-		//else if (std::holds_alternative<vec4>(value)) return uni_type::Color;
-		else if (std::holds_alternative<mat3>(value)) return uni_type::Matrix3;
-		else if (std::holds_alternative<mat4>(value)) return uni_type::Matrix4;
-		else if (std::holds_alternative<const Texture *>(value)) return uni_type::Sampler;
-		else return uni_type::Invalid;
+		if (std::holds_alternative<bool>(value)) return U_Boolean;
+		else if (std::holds_alternative<float_t>(value)) return U_Float;
+		else if (std::holds_alternative<int32_t>(value)) return U_Integer;
+		else if (std::holds_alternative<vec2>(value)) return U_Vector2;
+		else if (std::holds_alternative<vec3>(value)) return U_Vector3;
+		else if (std::holds_alternative<vec4>(value)) return U_Vector4;
+		else if (std::holds_alternative<Color>(value)) return U_Color;
+		else if (std::holds_alternative<mat3>(value)) return U_Matrix3;
+		else if (std::holds_alternative<mat4>(value)) return U_Matrix4;
+		else if (std::holds_alternative<const Texture *>(value)) return U_Sampler;
+		else return U_Invalid;
 	}
 
 	static constexpr int32_t uniform_id(const uni_base & value)
@@ -275,37 +277,27 @@ namespace ml
 		return uniform_id(value.second);
 	}
 
-	template <class T> static constexpr int32_t uniform_id()
-	{
-		if (std::is_same_v<T, bool>) return uni_type::Boolean;
-		else if (std::is_same_v<T, float_t>) return uni_type::Integer;
-		else if (std::is_same_v<T, int32_t>) return uni_type::Float;
-		else if (std::is_same_v<T, vec2>) return uni_type::Vector2;
-		else if (std::is_same_v<T, vec3>) return uni_type::Vector3;
-		else if (std::is_same_v<T, vec4>) return uni_type::Vector4;
-		//else if (std::is_same_v<T, vec4>) return uni_type::Color;
-		else if (std::is_same_v<T, mat3>) return uni_type::Matrix3;
-		else if (std::is_same_v<T, mat4>) return uni_type::Matrix4;
-		else if (std::is_same_v<T, const Texture *>) return uni_type::Sampler;
-		else return uni_type::Invalid;
-	}
-
 	template <class T> static constexpr int32_t uniform_id(const typeof<T> &)
 	{
 		switch (typeof<T>::hash)
 		{
-		case typeof<bool>	::hash: return uni_type::Boolean;
-		case typeof<float_t>::hash: return uni_type::Float;
-		case typeof<int32_t>::hash: return uni_type::Integer;
-		case typeof<vec2>	::hash: return uni_type::Vector2;
-		case typeof<vec3>	::hash: return uni_type::Vector3;
-		case typeof<vec4>	::hash: return uni_type::Vector4;
-		//case typeof<Color>::hash: return uni_type::Color;
-		case typeof<mat3>	::hash: return uni_type::Matrix3;
-		case typeof<mat4>	::hash: return uni_type::Matrix4;
-		case typeof<const Texture *>::hash: return uni_type::Sampler;
+		case typeof<bool>::hash: return U_Boolean;
+		case typeof<float_t>::hash: return U_Float;
+		case typeof<int32_t>::hash: return U_Integer;
+		case typeof<vec2>::hash: return U_Vector2;
+		case typeof<vec3>::hash: return U_Vector3;
+		case typeof<vec4>::hash: return U_Vector4;
+		case typeof<Color>::hash: return U_Color;
+		case typeof<mat3>::hash: return U_Matrix3;
+		case typeof<mat4>::hash: return U_Matrix4;
+		case typeof<const Texture *>::hash: return U_Sampler;
 		}
-		return uni_type::Invalid;
+		return U_Invalid;
+	}
+
+	template <class T> static constexpr int32_t uniform_id()
+	{
+		return uniform_id(typeof<T>());
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -404,7 +396,7 @@ namespace ml
 		}
 
 		template <class T> constexpr uniform_t(uni_name name, T data)
-			: m_base { make_uniform<T>(name, data) }
+			: m_base { make_uniform(name, data) }
 		{
 		}
 
@@ -427,7 +419,7 @@ namespace ml
 	using uniform_vec2		= typename uniform_t<vec2>;
 	using uniform_vec3		= typename uniform_t<vec3>;
 	using uniform_vec4		= typename uniform_t<vec4>;
-	//using uniform_color		= typename uniform_t<vec4>;
+	using uniform_color		= typename uniform_t<Color>;
 	using uniform_mat3		= typename uniform_t<mat3>;
 	using uniform_mat4		= typename uniform_t<mat4>;
 	using uniform_sampler	= typename uniform_t<const Texture *>;
@@ -521,22 +513,26 @@ namespace ml
 		{
 			constexpr auto id = uniform_id(typeof<const Texture *>());
 
-			constexpr auto bb = make_uniform("a", true);
-			constexpr auto ff = make_uniform("b", 1.0f);
-			constexpr auto ii = make_uniform("c", 123);
-			constexpr auto v2 = make_uniform("d", vec2 { 0, 1 });
-			constexpr auto v3 = make_uniform("e", vec3 { 2, 3, 4 });
-			constexpr auto v4 = make_uniform("f", vec4 { 5, 6, 7, 8 });
-			constexpr auto m3 = make_uniform("g", mat3::identity());
-			constexpr auto m4 = make_uniform("h", mat4::identity());
-			constexpr auto t2 = make_uniform("i", nullptr);
+			//constexpr auto bb = make_uniform("a", true);
+			//constexpr auto ff = make_uniform("b", 1.0f);
+			//constexpr auto ii = make_uniform("c", 123);
+			//constexpr auto v2 = make_uniform("d", vec2 { 0, 1 });
+			//constexpr auto v3 = make_uniform("e", vec3 { 2, 3, 4 });
+			//constexpr auto v4 = make_uniform("f", vec4 { 5, 6, 7, 8 });
+			//constexpr auto c4 = make_uniform("g", Color {});
+			//constexpr auto m3 = make_uniform("h", mat3::identity());
+			//constexpr auto m4 = make_uniform("i", mat4::identity());
+			//constexpr auto t2 = make_uniform("j", nullptr);
 		}
 		{
-			uniform_sampler tex("", nullptr);
-			if (const Texture * const * temp { tex.data() }) {}
-
-			uniform_float flt("", 0.0f);
+			uniform_float flt("f1", 0.0f);
 			if (const float_t * temp { flt.data() }) {}
+
+			uniform_color col("c4", Colors::white);
+			if (const Color * temp { col.data() }) {}
+
+			uniform_sampler tex("t2", nullptr);
+			if (const Texture * const * temp { tex.data() }) {}
 		}
 	}
 

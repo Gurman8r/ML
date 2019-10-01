@@ -8,7 +8,7 @@ namespace ml
 
 	Light::Light()
 		: m_enabled		{ true }
-		, m_color		{ Color::white }
+		, m_color		{ Colors::white }
 		, m_intensity	{ 1.0f }
 		, m_mode		{ Light::Realtime }
 	{
@@ -32,7 +32,7 @@ namespace ml
 		return (*this);
 	}
 
-	Light & Light::setColor(const vec4 & value)
+	Light & Light::setColor(const Color & value)
 	{
 		m_color = value;
 		return (*this);

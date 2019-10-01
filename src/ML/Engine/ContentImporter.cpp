@@ -98,7 +98,7 @@ namespace ml
 				if (!ML_Content.get<Material>(name))
 				{
 					// New Material
-					auto temp = new Material { 
+					auto temp = new Material {
 						ML_Content.get<Shader>(md.getData("shader")) // Shader
 					};
 
@@ -107,7 +107,7 @@ namespace ml
 					{
 						for (const auto & pair : ML_Content.data<Uniform>())
 						{
-							if (auto u { static_cast<const Uniform *>(pair.second) })
+							if (auto u { (const Uniform *)pair.second })
 							{
 								if (!temp->get(u->name))
 								{
@@ -118,10 +118,9 @@ namespace ml
 					}
 
 					// Load Uniforms
-					using TexTree = Tree<String, Texture *>;
 					if (!temp->loadFromFile(
 						md.getData("uniforms").asString(),
-						reinterpret_cast<const TexTree *>(&ML_Content.data<Texture>())
+						(const Tree<String, Texture *> *)&ML_Content.data<Texture>()
 					))
 					{
 						/* error */

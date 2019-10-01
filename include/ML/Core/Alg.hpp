@@ -6,7 +6,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_ALG ::ml::alg::
+#define ML_ALG _ML alg::
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -20,6 +20,17 @@
 #define bitSet(value, bit) (value |= (1 << bit))
 #define bitClear(value, bit) (value &= ~(1 << bit))
 #define bitWrite(value, bit, bitValue) ((bitValue) ? bitSet(value, bit) : bitClear(value, bit))
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+namespace ml
+{
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	enum { uninit }; // used for zero initialization
+
+	/* * * * * * * * * * * * * * * * * * * * */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -430,7 +441,7 @@ namespace ml
 		> static constexpr auto copy(const A<T, N...> & value)
 			-> A<T, N...>
 		{
-			A<T, N...> temp { NULL };
+			A<T, N...> temp { uninit };
 			ML_ALG copy(temp, value);
 			return temp;
 		}
@@ -471,7 +482,7 @@ namespace ml
 		> static constexpr auto fill(const T & value)
 			-> A<T, N...>
 		{
-			A<T, N...> temp { NULL };
+			A<T, N...> temp { uninit };
 			ML_ALG fill(temp, value);
 			return temp;
 		}
@@ -536,7 +547,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T dot(const A<T, N...> & lhs, const A<T, N...> & rhs)
 		{
-			T temp { NULL };
+			T temp { uninit };
 			for (size_t i = 0; i < lhs.size(); i++)
 			{
 				temp += (lhs[i] * rhs[i]);
@@ -597,7 +608,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr A<T, N...> transpose(const A<T, N...> & value)
 		{
-			A<T, N...> temp { NULL };
+			A<T, N...> temp { uninit };
 			for (size_t i = 0; i < value.size(); i++)
 			{
 				const size_t y { i % value.width() };

@@ -34,16 +34,6 @@ namespace ml
 		{
 		}
 
-		template <class T> constexpr typeof(T &) noexcept
-			: typeof { typeof<T>() }
-		{
-		}
-
-		template <class T> constexpr typeof(T &&) noexcept
-			: typeof { typeof<T>() }
-		{
-		}
-
 		template <class T> constexpr typeof(const T *) noexcept
 			: typeof { typeof<const T *>() }
 		{

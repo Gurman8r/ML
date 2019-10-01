@@ -64,7 +64,7 @@ namespace ml
 
 		template <class U> constexpr operator std::array<U, Size>() const
 		{
-			std::array<U, Size> temp { NULL };
+			std::array<U, Size> temp { uninit };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				temp[i] = static_cast<U>(m_data[i]);
@@ -169,20 +169,13 @@ namespace ml
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace std
+template <class T, _STD size_t N> struct _STD hash<_ML Array<T, N>>
 {
-	template <
-		class T, size_t N
-	> struct hash<::ml::Array<T, N>>
+	inline _STD size_t operator()(const _ML Array<T, N> & value) const noexcept
 	{
-		using argument_type = ::ml::Array<T, N>;
-
-		inline ::ml::hash_t operator()(const argument_type & value) const noexcept
-		{
-			return _Hash_array_representation(value.data(), value.size());
-		}
-	};
-}
+		return static_cast<_STD size_t>(value.hash());
+	}
+};
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

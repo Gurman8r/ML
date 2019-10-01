@@ -1,7 +1,7 @@
 #ifndef _ML_CAMERA_HPP_
 #define _ML_CAMERA_HPP_
 
-#include <ML/Graphics/Export.hpp>
+#include <ML/Graphics/Color.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/Quaternion.hpp>
 #include <ML/Core/I_Newable.hpp>
@@ -63,7 +63,7 @@ namespace ml
 	private:
 		bool		m_enabled;		//
 		ClearFlags	m_clearFlags;	// 
-		vec4		m_background;	// 
+		Color		m_background;	// 
 		Projection	m_projection;	// 
 		float_t		m_fieldOfView;	// 
 		float_t		m_clipNear;		// 

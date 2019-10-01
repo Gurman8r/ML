@@ -35,7 +35,7 @@ namespace ml
 			EditorContent & self { ev.editor.content() };
 
 			// Data
-			static ContentManager::ObjectDatabase & database { ML_Content.data<T>() };
+			static auto & database { ML_Content.data<T>() };
 
 			// Type Name
 			static const String type_name { PropertyDrawer<T>::type_name().str() };
@@ -75,9 +75,7 @@ namespace ml
 			// Draw Items
 			ImGui::PushID(ML_ADDRESSOF(&database));
 			if (database.empty()) { ImGui::Text("-"); }
-			ContentManager::ObjectDatabase::iterator 
-				to_remove { database.end() },
-				to_select { database.end() };
+			auto to_remove { database.end() }, to_select { database.end() };
 			for (auto it = database.begin(); it != database.end(); it++)
 			{
 				if (!it->second || ImGuiExt::IsHidden(it->first)) { continue; }

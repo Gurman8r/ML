@@ -239,4 +239,12 @@ namespace ml
 	}
 }
 
+template<> struct _STD hash<_ML StringView>
+{
+	inline _STD size_t operator()(const _ML StringView & value) const noexcept
+	{
+		return static_cast<_STD size_t>(value.hash());
+	}
+};
+
 #endif // !_ML_STRING_VIEW_HPP_

@@ -217,12 +217,12 @@ namespace ml
 		return this->create(image.data(), w, h);
 	}
 
-	bool Texture::create(const uint8_t * pixels, const vec2u & size)
+	bool Texture::create(const byte_t * pixels, const vec2u & size)
 	{
 		return this->create(pixels, size[0], size[1]);
 	}
 
-	bool Texture::create(const uint8_t * pixels, uint32_t w, uint32_t h)
+	bool Texture::create(const byte_t * pixels, uint32_t w, uint32_t h)
 	{
 		if (w && h)
 		{
@@ -326,22 +326,22 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Texture::update(const uint8_t * pixels)
+	bool Texture::update(const byte_t * pixels)
 	{
 		return this->update(pixels, UintRect { width(), height() });
 	}
 
-	bool Texture::update(const uint8_t * pixels, const UintRect & area)
+	bool Texture::update(const byte_t * pixels, const UintRect & area)
 	{
 		return this->update(pixels, area.position(), area.size());
 	}
 
-	bool Texture::update(const uint8_t * pixels, const vec2u & position, const vec2u & size)
+	bool Texture::update(const byte_t * pixels, const vec2u & position, const vec2u & size)
 	{
 		return this->update(pixels, position[0], position[1], size[0], size[1]);
 	}
 
-	bool Texture::update(const uint8_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+	bool Texture::update(const byte_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
 		if (w && h)
 		{

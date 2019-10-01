@@ -261,7 +261,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "depth",    "predicate",    "GL_LESS")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
-if False:
+if 0:
     ml.prefs.set("Noobs", "demo_entity",    "ent_test")
     ml.prefs.set("Noobs", "demo_material",  "mat_test")
     ml.prefs.set("Noobs", "demo_model",     "obj_cow")

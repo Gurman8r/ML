@@ -105,7 +105,7 @@ namespace ml
 	{
 		stbi_set_flip_vertically_on_load(flip_v);
 
-		if (uint8_t * data = stbi_load(
+		if (byte_t * data = stbi_load(
 			filename.c_str(), 
 			(int32_t *)(&m_size[0]),
 			(int32_t *)(&m_size[1]),
@@ -122,17 +122,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Image & Image::update(const vec2u & size, const vec4b & color)
+	Image & Image::update(const vec2u & size, const Color32 & color)
 	{
 		return update(size, channels(), color);
 	}
 
-	Image & Image::update(const vec4b & color)
+	Image & Image::update(const Color32 & color)
 	{
 		return update(size(), channels(), color);
 	}
 	
-	Image & Image::update(const vec2u & size, uint32_t channels, const vec4b & color)
+	Image & Image::update(const vec2u & size, uint32_t channels, const Color32 & color)
 	{
 		if (size[0] && size[1] && channels)
 		{

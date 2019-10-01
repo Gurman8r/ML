@@ -866,7 +866,10 @@ namespace ml
 					{
 						for (const auto & pair : ML_Content.data<Uniform>())
 						{
-							value->add(static_cast<const Uniform *>(pair.second)->clone());
+							if (auto u { (const Uniform *)pair.second })
+							{
+								value->add(u->clone());
+							}
 						}
 					}
 					if (shader)

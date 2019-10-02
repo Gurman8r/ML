@@ -212,7 +212,7 @@ namespace ml
 				{
 					auto renderer { ent->get<Renderer>() };
 					auto transform { ent->get<Transform>() };
-					if (renderer && transform)
+					if (renderer && (*renderer) && transform && (*transform))
 					{
 						if (Material * m { renderer->material() })
 						{

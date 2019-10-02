@@ -170,16 +170,6 @@ ml.content.load_all([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     ])
 
-# Light
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-#name = "_ent_light_"
-#if ml.content.load({ "type": "Entity", "name": name }):
-#    if ml.ecs.add_component(name, "ml::Light"):
-#        ml.ecs.light_attr(name,     "self",     "enabled",      "True")
-#        ml.ecs.light_attr(name,     "self",     "color",        "1 1 1 1")
-#        ml.ecs.light_attr(name,     "self",     "intensity",    "1.0")
-#        ml.ecs.light_attr(name,     "self",     "mode",         "Realtime")
-
 # Camera
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "_ent_camera_"
@@ -220,11 +210,6 @@ if ml.content.load({ "type": "Entity", "name": name }):
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "ent_advanced"
 if ml.content.load({ "type": "Entity", "name": name }):
-    if ml.ecs.add_component(name, "ml::Transform"):
-        ml.ecs.transform_attr(name, "self",     "enabled",      "True")
-        ml.ecs.transform_attr(name, "self",     "position",     "0 0 0")
-        ml.ecs.transform_attr(name, "self",     "scale",        "0.3 0.3 0.3")
-        ml.ecs.transform_attr(name, "self",     "rotation",     "0 1 0")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")

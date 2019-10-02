@@ -187,36 +187,6 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
-
-		// Update Entities
-		for (auto & pair : ML_Content.data<Entity>())
-		{
-			if (auto ent { (Entity *)pair.second })
-			{
-				auto renderer { ent->get<Renderer>() };
-				auto transform { ent->get<Transform>() };
-				if (transform && (*transform) && renderer && (*renderer))
-				{
-					if (Material * m { renderer->material() })
-					{
-						if (auto u { m->get<uni_vec3>("u_position") })
-						{
-							u->data = transform->position();
-						}
-						if (auto u { m->get<uni_vec3>("u_scale") })
-						{
-							u->data = transform->scale();
-						}
-						if (auto u { m->get<uni_vec3>("u_rotation") })
-						{
-							u->data = transform->rotation();
-						}
-					}
-				}
-			}
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	void Noobs::onDraw(const DrawEvent & ev)

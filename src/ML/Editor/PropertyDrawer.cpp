@@ -167,7 +167,7 @@ namespace ml
 		if (Transform * t { value.get<Transform>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(t));
-			const bool header_open { ImGui::CollapsingHeader("Transform (WIP)") };
+			const bool header_open { ImGui::CollapsingHeader("Transform") };
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Transform##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Transform#Button##" + label).c_str()))

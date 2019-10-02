@@ -210,7 +210,27 @@ namespace ml
 			{
 				if (auto ent { (Entity *)pair.second })
 				{
-					ev.window.draw(ent->get<Renderer>());
+					auto renderer { ent->get<Renderer>() };
+					auto transform { ent->get<Transform>() };
+					if (renderer && transform)
+					{
+						if (Material * m { renderer->material() })
+						{
+							if (auto u { m->get<uni_vec3>("u_position") })
+							{
+								u->data = transform->position();
+							}
+							if (auto u { m->get<uni_vec3>("u_scale") })
+							{
+								u->data = transform->scale();
+							}
+							if (auto u { m->get<uni_vec3>("u_rotation") })
+							{
+								u->data = transform->rotation();
+							}
+						}
+					}
+					ev.window.draw(renderer);
 				}
 			}
 

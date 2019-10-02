@@ -210,6 +210,10 @@ if ml.content.load({ "type": "Entity", "name": name }):
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "ent_advanced"
 if ml.content.load({ "type": "Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Transform"):
+        ml.ecs.transform_attr(name, "self",     "position",     "0.0 0.0 0.0")
+        ml.ecs.transform_attr(name, "self",     "scale",        "0.3 0.3 0.3")
+        ml.ecs.transform_attr(name, "self",     "rotation",     "0.0 1.0 0.0")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
@@ -228,7 +232,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "depth",    "predicate",    "GL_LESS")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
-if 0:
+if 1:
     ml.prefs.set("Noobs", "demo_entity", "ent_advanced")
     ml.ecs.renderer_attr("ent_basic", "self", "enabled", "False")
     ml.ecs.renderer_attr("ent_advanced", "self", "enabled", "True")

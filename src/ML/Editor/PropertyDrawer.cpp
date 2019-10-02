@@ -162,13 +162,74 @@ namespace ml
 			ImGui::EndPopup();
 		}
 
+		// Transform
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		if (Transform * t { value.get<Transform>() })
+		{
+			ImGui::PushID(ML_ADDRESSOF(t));
+			const bool header_open { ImGui::CollapsingHeader("Transform") };
+			if (ImGui::BeginPopupContextItem(("##ContextMenu##Transform##" + label).c_str()))
+			{
+				if (ImGui::Button(("Remove##Transform#Button##" + label).c_str()))
+				{
+					value.remove<Transform>();
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
+			if (header_open)
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				constexpr float_t speed { 0.005f };
+
+				bool enabled = t->enabled();
+				vec3 pos = t->position();
+				vec3 scl = t->scale();
+				vec3 rot = t->rotation();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::BeginChildFrame(
+					ImGui::GetID(("##Transform##" + label).c_str()),
+					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
+					true
+				);
+
+				if (ImGui::Checkbox(("Enabled##Transform##" + label).c_str(), &enabled))
+				{
+					t->setEnabled(enabled);
+				}
+
+				if (ImGui::DragFloat3(("Position##Transform##" + label).c_str(), &pos[0], speed))
+				{
+					t->setPosition(pos);
+				}
+
+				if (ImGui::DragFloat3(("Scale##Transform##" + label).c_str(), &scl[0], speed))
+				{
+					t->setScale(scl);
+				}
+
+				if (ImGui::DragFloat3(("Rotation##Transform##" + label).c_str(), &rot[0], speed))
+				{
+					t->setRotation(rot);
+				}
+
+				ImGui::EndChildFrame();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			}
+			ImGui::PopID();
+		}
+
 		// Camera
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		if (Camera * c = value.get<Camera>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(c));
 			const bool header_open { ImGui::CollapsingHeader("Camera") };
-			if (ImGui::BeginPopupContextItem(("##Remove##Camera##" + label).c_str()))
+			if (ImGui::BeginPopupContextItem(("##ContextMenu##Camera##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Camera#Button##" + label).c_str()))
 				{
@@ -185,6 +246,7 @@ namespace ml
 				int32_t clearFlags	= c->clearFlags();
 				int32_t projection	= c->projection();
 				vec3	position	= c->position();
+				vec3	forward		= c->direction();
 				vec4	background	= c->background();
 				float_t fieldOfView = c->fieldOfView();
 				float_t clipNear	= c->clipNear();
@@ -195,7 +257,7 @@ namespace ml
 
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Camera##" + label).c_str()),
-					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 9.0f },
+					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 10.0f },
 					true
 				);
 
@@ -235,12 +297,23 @@ namespace ml
 				}
 				ImGuiExt::Tooltip("Specify the color to apply when using \'Solid Color\'.");
 
+				ImGui::Separator();
+
 				// Position
-				if (ImGui::DragFloat4(("Position##Camera##" + label).c_str(), &position[0], speed))
+				if (ImGui::DragFloat3(("Position##Camera##" + label).c_str(), &position[0], speed))
 				{
 					c->setPosition(position);
 				}
 				ImGuiExt::Tooltip("Set the position of the camera.");
+
+				// Direction
+				if (ImGui::DragFloat3(("Direction##Camera##" + label).c_str(), &forward[0], speed))
+				{
+					c->setDirection(forward);
+				}
+				ImGuiExt::Tooltip("Set the direction the camera is facing.");
+
+				ImGui::Separator();
 
 				// Field of View
 				if (ImGui::DragFloat(("Field of View##Camera##" + label).c_str(), &fieldOfView, speed))
@@ -268,7 +341,7 @@ namespace ml
 				{
 					c->setViewport(viewport);
 				}
-				ImGuiExt::Tooltip("Specify the viewport..");
+				ImGuiExt::Tooltip("Specify the viewport.");
 
 				ImGui::EndChildFrame();
 
@@ -283,7 +356,7 @@ namespace ml
 		{
 			ImGui::PushID(ML_ADDRESSOF(l));
 			const bool header_open { ImGui::CollapsingHeader("Light (WIP)") };
-			if (ImGui::BeginPopupContextItem(("##Remove##Light##" + label).c_str()))
+			if (ImGui::BeginPopupContextItem(("##ContextMenu##Light##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Light#Button##" + label).c_str()))
 				{
@@ -340,7 +413,7 @@ namespace ml
 		{
 			ImGui::PushID(ML_ADDRESSOF(r));
 			const bool header_open { ImGui::CollapsingHeader("Renderer") };
-			if (ImGui::BeginPopupContextItem(("##Remove##Renderer##" + label).c_str()))
+			if (ImGui::BeginPopupContextItem(("##ContextMenu##Renderer##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Renderer#Button##" + label).c_str()))
 				{
@@ -353,7 +426,7 @@ namespace ml
 			{
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Renderer##" + label).c_str()),
-					{ 0, 0 }, 
+					{ 0, 0 },
 					true
 				);
 
@@ -382,7 +455,7 @@ namespace ml
 				if (ImGui::TreeNode("Alpha"))
 				{
 					ImGui::Checkbox("Enabled##AlphaState", &r->states().alpha().enabled);
-					
+
 					int32_t index = GL::index_of(r->states().alpha().predicate);
 					if (ImGuiExt::Combo(
 						"Comparison##Alpha Testing",
@@ -394,7 +467,7 @@ namespace ml
 						GL::value_at(index, r->states().alpha().predicate);
 					}
 					ImGui::DragFloat("Coeff##AlphaState", &r->states().alpha().coeff);
-					
+
 					ImGui::TreePop();
 				}
 
@@ -485,63 +558,6 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				ImGui::EndChildFrame();
-			}
-			ImGui::PopID();
-		}
-
-		// Transform
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		if (Transform * t { value.get<Transform>() })
-		{
-			ImGui::PushID(ML_ADDRESSOF(t));
-			const bool header_open { ImGui::CollapsingHeader("Transform (WIP)") };
-			if (ImGui::BeginPopupContextItem(("##Remove##Transform##" + label).c_str()))
-			{
-				if (ImGui::Button(("Remove##Transform#Button##" + label).c_str()))
-				{
-					value.remove<Transform>();
-					ImGui::CloseCurrentPopup();
-				}
-				ImGui::EndPopup();
-			}
-			if (header_open)
-			{
-				bool enabled = t->enabled();
-				vec3 pos = t->position();
-				vec3 scl = t->scale();
-				vec3 rot = t->rotation();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				ImGui::BeginChildFrame(
-					ImGui::GetID(("##Transform##" + label).c_str()), 
-					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
-					true
-				);
-
-				if (ImGui::Checkbox(("Enabled##Transform##" + label).c_str(), &enabled))
-				{
-					t->setEnabled(enabled);
-				}
-
-				if (ImGui::DragFloat3(("Position##Transform##" + label).c_str(), &pos[0]))
-				{
-					t->setPosition(pos);
-				}
-
-				if (ImGui::DragFloat3(("Scale##Transform##" + label).c_str(), &scl[0]))
-				{
-					t->setScale(scl);
-				}
-
-				if (ImGui::DragFloat3(("Rotation##Transform##" + label).c_str(), &rot[0]))
-				{
-					t->setRotation(rot);
-				}
-
-				ImGui::EndChildFrame();
-
-				/* * * * * * * * * * * * * * * * * * * * */
 			}
 			ImGui::PopID();
 		}

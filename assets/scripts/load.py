@@ -22,18 +22,16 @@ ml.content.load_all([
 
 # Shaders
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Shader", "name": "gl_basic",         "file": PATH + "/shaders/basic.shader" },
-    { "type": "Shader", "name": "gl_normal",        "file": PATH + "/shaders/normal.shader" },
-    { "type": "Shader", "name": "gl_surface",       "file": PATH + "/shaders/surface.shader" },
-    { "type": "Shader", "name": "gl_solid",         "file": PATH + "/shaders/solid.shader" },
-    { "type": "Shader", "name": "gl_skybox",        "file": PATH + "/shaders/skybox.shader" },
-    { "type": "Shader", "name": "gl_geometry",      "file": PATH + "/shaders/geometry.shader" },
     {
         "type": "Shader", 
         "name": "gl_advanced",
         "vert": PATH + "/shaders/advanced.vs.shader",
         "frag": PATH + "/shaders/advanced.fs.shader"
     },
+    { "type": "Shader", "name": "gl_basic",         "file": PATH + "/shaders/basic.shader" },
+    { "type": "Shader", "name": "gl_geometry",      "file": PATH + "/shaders/geometry.shader" },
+    { "type": "Shader", "name": "gl_skybox",        "file": PATH + "/shaders/skybox.shader" },
+    { "type": "Shader", "name": "gl_surface",       "file": PATH + "/shaders/surface.shader" },
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -191,7 +189,8 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.camera_attr(name,    "self",     "clearflags",   "SolidColor")
         ml.ecs.camera_attr(name,    "self",     "projection",   "Perspective")
         ml.ecs.camera_attr(name,    "self",     "background",   "0 0 0 1")
-        ml.ecs.camera_attr(name,    "self",     "position",     "1 0 3")
+        ml.ecs.camera_attr(name,    "self",     "position",     "0 0 3")
+        ml.ecs.camera_attr(name,    "self",     "direction",    "0 0 -1")
         ml.ecs.camera_attr(name,    "self",     "fov",          "45.0")
         ml.ecs.camera_attr(name,    "self",     "near",         "0.001")
         ml.ecs.camera_attr(name,    "self",     "far",          "1000.0")
@@ -207,15 +206,6 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "model",        "default_skybox")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "False")
 
-# Advanced
-# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-name = "ent_earth"
-if ml.content.load({ "type": "Entity", "name": name }):
-    if ml.ecs.add_component(name, "ml::Renderer"):
-        ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
-        ml.ecs.renderer_attr(name,  "self",     "model",        "obj_sphere32x24")
-
 # Basic
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "ent_basic"
@@ -226,16 +216,16 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "model",        "default_quad")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
 
-# Test
+# Advanced
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-name = "ent_test"
+name = "ent_advanced"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Transform"):
         ml.ecs.transform_attr(name, "self",     "enabled",      "True")
         ml.ecs.transform_attr(name, "self",     "position",     "0 0 0")
-        ml.ecs.transform_attr(name, "self",     "scale",        "1 1 1")
-        ml.ecs.transform_attr(name, "self",     "rotation",     "1 1 1")
+        ml.ecs.transform_attr(name, "self",     "scale",        "0.3 0.3 0.3")
+        ml.ecs.transform_attr(name, "self",     "rotation",     "0 1 0")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
@@ -254,9 +244,9 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "depth",    "predicate",    "GL_LESS")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
-if False:
-    ml.prefs.set("Noobs", "demo_entity", "ent_test")
+if 0:
+    ml.prefs.set("Noobs", "demo_entity", "ent_advanced")
     ml.ecs.renderer_attr("ent_basic", "self", "enabled", "False")
-    ml.ecs.renderer_attr("ent_test", "self", "enabled", "True")
+    ml.ecs.renderer_attr("ent_advanced", "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

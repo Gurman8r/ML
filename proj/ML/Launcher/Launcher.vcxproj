@@ -204,9 +204,7 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <None Include="..\..\..\assets\shaders\advanced.fs.shader" />
     <None Include="..\..\..\assets\shaders\advanced.vs.shader" />
     <None Include="..\..\..\assets\shaders\geometry.shader" />
-    <None Include="..\..\..\assets\shaders\normal.shader" />
     <None Include="..\..\..\assets\shaders\skybox.shader" />
-    <None Include="..\..\..\assets\shaders\solid.shader" />
     <None Include="..\..\..\assets\shaders\surface.shader" />
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>

@@ -30,10 +30,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main()
-{
-	return new ml::Noobs {};
-}
+ML_PLUGIN_API ml::Plugin * ML_Plugin_Main() { return new ml::Noobs {}; }
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -161,9 +158,10 @@ namespace ml
 
 	void Noobs::onDraw(const DrawEvent & ev)
 	{
+		// Update Uniforms
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Apply Camera
+		// Apply Camera Uniforms
 		const Camera * camera { Camera::mainCamera() };
 		if (camera && camera->enabled())
 		{
@@ -174,6 +172,10 @@ namespace ml
 					if (auto u { m->get<uni_vec3>("u_camera.pos") })
 					{
 						u->data = camera->position();
+					}
+					if (auto u { m->get<uni_vec3>("u_camera.dir") })
+					{
+						u->data = camera->direction();
 					}
 					if (auto u { m->get<uni_float>("u_camera.fov") })
 					{
@@ -195,9 +197,38 @@ namespace ml
 			}
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		// Apply Entity Uniforms
+		for (auto & pair : ML_Content.data<Entity>())
+		{
+			if (auto ent { (Entity *)pair.second })
+			{
+				auto renderer { ent->get<Renderer>() };
+				auto transform { ent->get<Transform>() };
+				if (transform && transform->enabled() && 
+					renderer && renderer->enabled())
+				{
+					if (Material * m { renderer->material() })
+					{
+						if (auto u { m->get<uni_vec3>("u_position") })
+						{
+							u->data = transform->position();
+						}
+						if (auto u { m->get<uni_vec3>("u_scale") })
+						{
+							u->data = transform->scale();
+						}
+						if (auto u { m->get<uni_vec3>("u_rotation") })
+						{
+							u->data = transform->rotation();
+						}
+					}
+				}
+			}
+		}
 
 		// Render Scene
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		if (m_pipeline[Surf_Main])
 		{
 			// Bind Surface
@@ -219,9 +250,9 @@ namespace ml
 			m_pipeline[Surf_Main]->unbind();
 		}
 
+		// Reset States
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Reset States
 		RenderStates {
 			AlphaState	{ true, GL::Greater, 0.01f },
 			BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
@@ -229,9 +260,9 @@ namespace ml
 			DepthState	{ false },
 		}();
 
+		// Render Post Processing
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Render Post Processing
 		if (m_pipeline[Surf_Post])
 		{
 			// Bind Surface
@@ -419,9 +450,6 @@ namespace ml
 					ImGui::BeginChildFrame(ImGui::GetID("##Uniforms##Content"), { 0, 0 }, 0);
 
 					/* * * * * * * * * * * * * * * * * * * * */
-
-					ImGuiExt::HelpMarker("Note**\nThese values may be overridden internally.");
-					ImGui::SameLine();
 
 					// New Uniform Popup
 					Uniform * to_add { nullptr };

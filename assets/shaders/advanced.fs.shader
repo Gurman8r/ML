@@ -12,10 +12,11 @@ out vec4 gl_Color;
 uniform struct Camera
 {
 	vec3	pos;	// Camera Position
+	vec3	dir;	// Camera Forward
 	float	fov;	// Field of View
 	float	near;	// Near Clipping Distance
 	float	far;	// Far Clipping Distance
-	vec2	view;	// Frame Size
+	vec2	view;	// Viewport Size
 } u_camera;
 
 uniform vec2		u_cursor;		// Cursor Position
@@ -24,13 +25,16 @@ uniform int			u_frame;		// Frame Index
 uniform float		u_fps;			// Frame Rate
 uniform float		u_time;			// Total Time
 uniform vec4		u_color;		// Main Color
-uniform vec3		u_lightPos;		// Position of Light
-uniform vec4		u_diffuse;		// Diffuse
-uniform vec4		u_specular;		// Specular
-uniform vec4		u_ambient;		// Ambient
+uniform vec3		u_lightPos;		// Light Position
+uniform vec4		u_diffuse;		// Diffuse Color
+uniform vec4		u_specular;		// Specular Color
+uniform vec4		u_ambient;		// Ambient Color
 uniform float		u_shininess;	// Shininess
-uniform sampler2D	u_texture0;		// Diffuse Map
-uniform sampler2D	u_texture1;		// Specular Map
+uniform sampler2D	u_texture0;		// Diffuse Texture
+uniform sampler2D	u_texture1;		// Specular Texture
+uniform vec3		u_position;		// Model Position
+uniform vec3		u_scale;		// Model Scale
+uniform vec3		u_rotation;		// Model Rotation
 
 void main()
 {

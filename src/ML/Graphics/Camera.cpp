@@ -57,6 +57,8 @@ namespace ml
 		, m_clearFlags	{ clearFlags }
 		, m_background	{ Colors::black }
 		, m_projection	{ projection }
+		, m_position	{ 0, 0, 5 }
+		, m_direction		{ 0, 0, -1 }
 		, m_fieldOfView { 45.0f }
 		, m_clipNear	{ 0.001f }
 		, m_clipFar		{ 1000.0f }
@@ -159,6 +161,12 @@ namespace ml
 	Camera & Camera::setPosition(const vec3 & value)
 	{
 		m_position = value;
+		return (*this);
+	}
+
+	Camera & Camera::setDirection(const vec3 & value)
+	{
+		m_direction = value;
 		return (*this);
 	}
 

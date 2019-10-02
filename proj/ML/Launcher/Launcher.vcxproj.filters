@@ -27,13 +27,7 @@
     <None Include="..\..\..\assets\shaders\geometry.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\normal.shader">
-      <Filter>Resource Files\assets\shaders</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\skybox.shader">
-      <Filter>Resource Files\assets\shaders</Filter>
-    </None>
-    <None Include="..\..\..\assets\shaders\solid.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
     <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader">

@@ -10,10 +10,7 @@
 #include <ML/Engine/ContentManager.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main()
-{
-	return new ml::TestPlugin {};
-}
+ML_PLUGIN_API ml::Plugin * ML_Plugin_Main() { return new ml::TestPlugin {}; }
 
 namespace ml
 {

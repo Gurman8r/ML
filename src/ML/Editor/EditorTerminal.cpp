@@ -81,7 +81,7 @@ namespace ml
 
 			static const ImVec4 colors[MAX_MODE]
 			{
-				{ 0.0f, 1.0f,  0.4f,  1.0f },	// LOG | green
+				{ 0.2f, 0.8f,  0.4f,  1.0f },	// LOG | green
 				{ 1.0f, 1.0f,  0.4f,  1.0f },	// WRN | yellow
 				{ 1.0f, 0.4f,  0.4f,  1.0f },	// ERR | red
 				{ 1.0f, 0.78f, 0.58f, 1.0f },	// SYS | orange

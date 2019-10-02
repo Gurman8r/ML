@@ -139,6 +139,7 @@ namespace ml
 					case Hash("background"): c->setBackground(input<vec4>()(value)); break;
 					case Hash("projection"): c->setProjection(input<Camera::Projection>()(value)); break;
 					case Hash("position"):	c->setPosition(input<vec3>()(value)); break;
+					case Hash("direction"):	c->setDirection(input<vec3>()(value)); break;
 					case Hash("fov"): c->setFieldOfView(input<float_t>()(value)); break;
 					case Hash("near"): c->setClipNear(input<float_t>()(value)); break;
 					case Hash("far"): c->setClipFar(input<float_t>()(value)); break;

@@ -25,16 +25,18 @@ mat4 transform(vec3 pos, vec4 rot)
 	);
 }
 
-mat4 look_at(vec3 eye, vec3 center, vec3 up)
+mat4 look_at(vec3 pos, vec3 dir)
 {
-	vec3 f = normalize(center - eye);
+	vec3 up = vec3(0, 1, 0);
+	vec3 center = pos + normalize(dir);
+	vec3 f = normalize(center - pos);
 	vec3 s = normalize(cross(f, up));
 	vec3 u = cross(s, f);
 	mat4 m = mat4(1.0);
 	m[0][0] = s.x; m[1][0] = s.y; m[2][0] = s.z;
 	m[0][1] = u.x; m[1][1] = u.y;  m[2][1] = u.z;
 	m[0][2] = -f.x; m[1][2] = -f.y; m[2][2] = -f.z;
-	m[3][0] = -dot(s, eye); m[3][1] = -dot(u, eye); m[3][2] = dot(f, eye);
+	m[3][0] = -dot(s, pos); m[3][1] = -dot(u, pos); m[3][2] = dot(f, pos);
 	return m;
 }
 
@@ -53,10 +55,11 @@ mat4 perspective(float fov, float aspect, float near, float far)
 uniform struct Camera
 {
 	vec3	pos;	// Camera Position
+	vec3	dir;	// Camera Direction
 	float	fov;	// Field of View
 	float	near;	// Near Clipping Distance
 	float	far;	// Far Clipping Distance
-	vec2	view;	// Frame Size
+	vec2	view;	// Viewport Size
 } u_camera;
 
 uniform vec2	u_cursor;	// Cursor Position
@@ -66,14 +69,15 @@ uniform float	u_fps;		// Frame Rate
 uniform float	u_time;		// Total Time
 uniform vec3	u_position;	// Model Position
 uniform vec3	u_scale;	// Model Scale
+uniform vec3	u_rotation; // Model Rotation
 
 void main()
 {
 	// Model Matrix
-	mat4 m = transform(u_position, vec4(0.0, 1.0, 0.0, u_time * 0.33));
+	mat4 m = transform(u_position, vec4(u_rotation, u_time * 0.33));
 
 	// View Matrix
-	mat4 v = look_at(u_camera.pos, vec3(0), vec3(0.0, 1.0, 0.0));
+	mat4 v = look_at(u_camera.pos, u_camera.dir);
 
 	// Projection Matrix
 	mat4 p = perspective(

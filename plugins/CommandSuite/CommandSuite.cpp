@@ -13,10 +13,7 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main()
-{
-	return new ml::CommandSuite {};
-}
+ML_PLUGIN_API ml::Plugin * ML_Plugin_Main() { return new ml::CommandSuite {}; }
 
 namespace ml
 {

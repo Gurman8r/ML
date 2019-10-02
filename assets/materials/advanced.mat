@@ -1,7 +1,8 @@
 # advanced.mat
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-uniform vec3	u_camera.pos	{ 1.0, 0.0, 3.0 }
+uniform vec3	u_camera.pos	{ 0, 0, 3 }
+uniform vec3	u_camera.dir	{ 0, 0, -1 }
 uniform float	u_camera.fov	{ 45.0 }
 uniform float	u_camera.near	{ 0.001 }
 uniform float	u_camera.far	{ 1000.0 }
@@ -13,9 +14,11 @@ uniform color	u_ambient		{ 0.01, 0.01, 0.01, 1.0 }
 uniform color	u_diffuse		{ 1.0, 1.0, 0.75, 1.0 }
 uniform color	u_specular		{ 0.1, 0.1, 0.1, 1.0 }
 uniform float	u_shininess		{ 8.0 }
-uniform sampler	u_texture0		{ tex_earth_dm }
-uniform sampler	u_texture1		{ tex_earth_sm }
+uniform sampler	u_texture0		{ default_texture }
+uniform sampler	u_texture1		{ default_texture }
+
 uniform vec3	u_position		{ 0.0, 0.0, 0.0 }
 uniform vec3	u_scale			{ 0.3 0.3 0.3 }
+uniform vec3	u_rotation		{ 0.0 0.1 0.0 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

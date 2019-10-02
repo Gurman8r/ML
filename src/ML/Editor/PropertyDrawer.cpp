@@ -179,11 +179,12 @@ namespace ml
 			}
 			if (header_open)
 			{
-				static const float_t drag_spd { 0.05f };
+				constexpr float_t speed { 0.005f };
 
 				bool	enabled		= c->enabled();
 				int32_t clearFlags	= c->clearFlags();
 				int32_t projection	= c->projection();
+				vec3	position	= c->position();
 				vec4	background	= c->background();
 				float_t fieldOfView = c->fieldOfView();
 				float_t clipNear	= c->clipNear();
@@ -194,7 +195,7 @@ namespace ml
 
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Camera##" + label).c_str()),
-					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 8.0f },
+					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 9.0f },
 					true
 				);
 
@@ -220,8 +221,7 @@ namespace ml
 				if (ImGuiExt::Combo(
 					("Projection##Camera##" + label).c_str(),
 					&projection, 
-					"Perspective"
-					//"Perspective\0Orthographic"
+					"Perspective\0"
 				))
 				{
 					c->setProjection((Camera::Projection)projection);
@@ -235,33 +235,40 @@ namespace ml
 				}
 				ImGuiExt::Tooltip("Specify the color to apply when using \'Solid Color\'.");
 
+				// Position
+				if (ImGui::DragFloat4(("Position##Camera##" + label).c_str(), &position[0], speed))
+				{
+					c->setPosition(position);
+				}
+				ImGuiExt::Tooltip("Set the position of the camera.");
+
 				// Field of View
-				if (ImGui::DragFloat(("Field of View##Camera##" + label).c_str(), &fieldOfView, drag_spd))
+				if (ImGui::DragFloat(("Field of View##Camera##" + label).c_str(), &fieldOfView, speed))
 				{
 					c->setFieldOfView(fieldOfView);
 				}
 				ImGuiExt::Tooltip("Specify the field of view.");
 
 				// Clip Near
-				if (ImGui::DragFloat(("Clip Near##Camera##" + label).c_str(), &clipNear, drag_spd))
+				if (ImGui::DragFloat(("Clip Near##Camera##" + label).c_str(), &clipNear, speed))
 				{
 					c->setClipNear(clipNear);
 				}
 				ImGuiExt::Tooltip("Specify the near clipping plane.");
 
 				// Clip Far
-				if (ImGui::DragFloat(("Clip Far##Camera##" + label).c_str(), &clipFar, drag_spd))
+				if (ImGui::DragFloat(("Clip Far##Camera##" + label).c_str(), &clipFar, speed))
 				{
 					c->setClipFar(clipFar);
 				}
 				ImGuiExt::Tooltip("Specify the far clipping plane.");
 
 				// Viewport
-				if (ImGui::DragInt4(("Viewport##Camera##" + label).c_str(), &viewport[0], drag_spd))
+				if (ImGui::DragInt4(("Viewport##Camera##" + label).c_str(), &viewport[0], speed))
 				{
 					c->setViewport(viewport);
 				}
-				ImGuiExt::Tooltip("Specify the viewport.");
+				ImGuiExt::Tooltip("Specify the viewport..");
 
 				ImGui::EndChildFrame();
 
@@ -2334,7 +2341,7 @@ namespace ml
 
 	bool PropertyDrawer<Uniform>::operator()(const String & label, reference value, int32_t flags) const
 	{
-		constexpr float speed = 0.001f;
+		constexpr float_t speed = 0.005f;
 		switch (value.id)
 		{
 		case uni_bool::ID:

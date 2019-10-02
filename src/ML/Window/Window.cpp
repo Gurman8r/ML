@@ -44,9 +44,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Window::Window(EventSystem & eventSystem)
-		: I_EventListener	{ eventSystem }
-		, m_window			{ nullptr }
+	Window::Window()
+		: m_window			{ nullptr }
 		, m_monitor			{ nullptr }
 		, m_share			{ nullptr }
 		, m_title			{ String() }
@@ -63,20 +62,20 @@ namespace ml
 			}
 		}
 #endif
-		eventSystem.addListener(CharEvent::ID, this);
-		eventSystem.addListener(CursorEnterEvent::ID, this);
-		eventSystem.addListener(CursorPosEvent::ID, this);
-		eventSystem.addListener(FrameSizeEvent::ID, this);
-		eventSystem.addListener(KeyEvent::ID, this);
-		eventSystem.addListener(MouseButtonEvent::ID, this);
-		eventSystem.addListener(ScrollEvent::ID, this);
-		eventSystem.addListener(WindowCloseEvent::ID, this);
-		eventSystem.addListener(WindowErrorEvent::ID, this);
-		eventSystem.addListener(WindowFocusEvent::ID, this);
-		eventSystem.addListener(WindowKillEvent::ID, this);
-		eventSystem.addListener(WindowSizeEvent::ID, this);
-		eventSystem.addListener(WindowPosEvent::ID, this);
-		eventSystem.addListener(WindowFullscreenEvent::ID, this);
+		ML_EventSystem.addListener(CharEvent::ID, this);
+		ML_EventSystem.addListener(CursorEnterEvent::ID, this);
+		ML_EventSystem.addListener(CursorPosEvent::ID, this);
+		ML_EventSystem.addListener(FrameSizeEvent::ID, this);
+		ML_EventSystem.addListener(KeyEvent::ID, this);
+		ML_EventSystem.addListener(MouseButtonEvent::ID, this);
+		ML_EventSystem.addListener(ScrollEvent::ID, this);
+		ML_EventSystem.addListener(WindowCloseEvent::ID, this);
+		ML_EventSystem.addListener(WindowErrorEvent::ID, this);
+		ML_EventSystem.addListener(WindowFocusEvent::ID, this);
+		ML_EventSystem.addListener(WindowKillEvent::ID, this);
+		ML_EventSystem.addListener(WindowSizeEvent::ID, this);
+		ML_EventSystem.addListener(WindowPosEvent::ID, this);
+		ML_EventSystem.addListener(WindowFullscreenEvent::ID, this);
 	}
 	
 	Window::~Window() 
@@ -174,22 +173,19 @@ namespace ml
 
 	bool Window::setup()
 	{
-		static EventSystem * evs { nullptr };
-		evs = &this->eventSystem();
-
 		setCharCallback([](void *, uint32_t c)
 		{
-			evs->fireEvent(CharEvent(c));
+			ML_EventSystem.fireEvent(CharEvent(c));
 		});
 
 		setCursorEnterCallback([](void *, int32_t entered)
 		{
-			evs->fireEvent(CursorEnterEvent(entered));
+			ML_EventSystem.fireEvent(CursorEnterEvent(entered));
 		});
 
 		setCursorPosCallback([](void *, float64_t x, float64_t y)
 		{
-			evs->fireEvent(CursorPosEvent(x, y));
+			ML_EventSystem.fireEvent(CursorPosEvent(x, y));
 		});
 
 		setErrorCallback([](int32_t code, C_String desc)
@@ -197,17 +193,17 @@ namespace ml
 #if ML_DEBUG
 			cerr << "GLFW Error " << code << ": \'" << desc << "\'" << endl;
 #endif
-			evs->fireEvent(WindowErrorEvent(code, desc));
+			ML_EventSystem.fireEvent(WindowErrorEvent(code, desc));
 		});
 
 		setFrameSizeCallback([](void *, int32_t w, int32_t h)
 		{
-			evs->fireEvent(FrameSizeEvent(w, h));
+			ML_EventSystem.fireEvent(FrameSizeEvent(w, h));
 		});
 
 		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			evs->fireEvent(KeyEvent(button, scan, action, {
+			ML_EventSystem.fireEvent(KeyEvent(button, scan, action, {
 				(bool)(mods & ML_MOD_SHIFT),
 				(bool)(mods & ML_MOD_CTRL),
 				(bool)(mods & ML_MOD_ALT),
@@ -217,32 +213,32 @@ namespace ml
 
 		setMouseButtonCallback([](void *, int32_t button, int32_t action, int32_t mods)
 		{
-			evs->fireEvent(MouseButtonEvent(button, action, mods));
+			ML_EventSystem.fireEvent(MouseButtonEvent(button, action, mods));
 		});
 		
 		setScrollCallback([](void *, float64_t x, float64_t y)
 		{
-			evs->fireEvent(ScrollEvent(x, y));
+			ML_EventSystem.fireEvent(ScrollEvent(x, y));
 		});
 
 		setWindowCloseCallback([](void *)
 		{
-			evs->fireEvent(WindowCloseEvent());
+			ML_EventSystem.fireEvent(WindowCloseEvent());
 		});
 
 		setWindowFocusCallback([](void *, int32_t focused)
 		{
-			evs->fireEvent(WindowFocusEvent(focused));
+			ML_EventSystem.fireEvent(WindowFocusEvent(focused));
 		});
 		
 		setWindowPosCallback([](void *, int32_t x, int32_t y)
 		{
-			evs->fireEvent(WindowPosEvent(x, y));
+			ML_EventSystem.fireEvent(WindowPosEvent(x, y));
 		});
 
 		setWindowSizeCallback([](void *, int32_t width, int32_t height)
 		{
-			evs->fireEvent(WindowSizeEvent(width, height));
+			ML_EventSystem.fireEvent(WindowSizeEvent(width, height));
 		});
 
 		return true;

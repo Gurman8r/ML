@@ -105,7 +105,6 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	ML_USING_XY HashMap	= typename ::std::unordered_map	<X, Y>;
-	ML_USING_XY HashSet = typename ::std::unordered_set	<X, Y>;
 	ML_USING_X	List	= typename ::std::vector		<X>;
 	ML_USING_XY Tree	= typename ::std::map			<X, Y>;
 

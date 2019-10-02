@@ -16,9 +16,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Editor::Editor(EventSystem & eventSystem)
-		: I_EventListener	{ eventSystem }
-		, m_about			{ *this }
+	Editor::Editor()
+		: m_about			{ *this }
 		, m_dockspace		{ *this }
 		, m_explorer		{ *this }
 		, m_content			{ *this }
@@ -27,15 +26,15 @@ namespace ml
 		, m_profiler		{ *this }
 		, m_terminal		{ *this }
 	{
-		eventSystem.addListener(EnterEvent		::ID, this);
-		eventSystem.addListener(UpdateEvent		::ID, this);
-		eventSystem.addListener(BeginGuiEvent	::ID, this);
-		eventSystem.addListener(GuiEvent		::ID, this);
-		eventSystem.addListener(EndGuiEvent		::ID, this);
-		eventSystem.addListener(UnloadEvent		::ID, this);
-		eventSystem.addListener(ExitEvent		::ID, this);
-		eventSystem.addListener(DockspaceEvent	::ID, this);
-		eventSystem.addListener(KeyEvent		::ID, this);
+		ML_EventSystem.addListener(EnterEvent		::ID, this);
+		ML_EventSystem.addListener(UpdateEvent		::ID, this);
+		ML_EventSystem.addListener(BeginGuiEvent	::ID, this);
+		ML_EventSystem.addListener(GuiEvent		::ID, this);
+		ML_EventSystem.addListener(EndGuiEvent		::ID, this);
+		ML_EventSystem.addListener(UnloadEvent		::ID, this);
+		ML_EventSystem.addListener(ExitEvent		::ID, this);
+		ML_EventSystem.addListener(DockspaceEvent	::ID, this);
+		ML_EventSystem.addListener(KeyEvent		::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -218,14 +217,14 @@ namespace ml
 					ImGui::EndMenu();
 				}
 
-				eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::File);
+				ML_EventSystem.fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::File);
 
 				// File -> Quit
 				/* * * * * * * * * * * * * * * * * * * * */
 				ImGui::Separator();
 				if (ImGui::MenuItem("Quit", "Alt+F4"))
 				{
-					eventSystem().fireEvent<WindowKillEvent>();
+					ML_EventSystem.fireEvent<WindowKillEvent>();
 				}
 
 				ImGui::EndMenu();
@@ -241,7 +240,7 @@ namespace ml
 				m_profiler.MenuItem();
 				m_terminal.MenuItem();
 				ImGui::Separator();
-				eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::Window);
+				ML_EventSystem.fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::Window);
 				ImGui::EndMenu();
 			}
 
@@ -259,13 +258,13 @@ namespace ml
 
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
 
-				eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::Help);
+				ML_EventSystem.fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::Help);
 				
 				ImGui::EndMenu();
 			}
 
 			// User Menu Bars
-			eventSystem().fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::User);
+			ML_EventSystem.fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::User);
 
 			ImGui::EndMainMenuBar();
 		}

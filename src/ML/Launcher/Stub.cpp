@@ -206,7 +206,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_name = typename C_String;
+	using uni_name = typename StringView;
 
 	enum uni_type : int32_t
 	{
@@ -235,7 +235,7 @@ namespace ml
 	{
 		inline String to_string(uni_type value)
 		{
-			return ((value > U_Invalid) ? uni_type_names[(size_t)value] : "");
+			return ((value > U_Invalid) ? uni_type_names[(size_t)value] : uni_name { "" });
 		}
 	}
 
@@ -247,9 +247,9 @@ namespace ml
 	using uni_info = typename std::pair<uni_name, uni_type>;
 
 	using uni_data = typename std::variant<
-		bool, int32_t, float_t, 
-		vec2, vec3, vec4, Color, 
-		mat3, mat4, 
+		bool, int32_t, float_t,
+		vec2, vec3, vec4, Color,
+		mat3, mat4,
 		const Texture *
 	>;
 
@@ -361,12 +361,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct uniform_t<T> final
+	template <class T> struct uniform_t<T> final : public I_NonNewable
 	{
 		enum { ID = uniform_id<T>() };
 
 		constexpr uniform_t(const uniform_t<T> & copy)
-			: m_base { copy.m_base }
+			: m_base { copy.base() }
 		{
 		}
 
@@ -379,7 +379,7 @@ namespace ml
 		constexpr auto info() const -> const uni_info & { return base().first; }
 		constexpr auto name() const -> const uni_name & { return info().first; }
 		constexpr auto type() const -> const uni_type & { return info().second; }
-		constexpr auto data() const -> const T *		{ return uniform_cast<T>(base()); }
+		constexpr auto data() const -> const T * { return uniform_cast<T>(base()); }
 
 		bool apply(const Shader * shader) const;
 
@@ -388,10 +388,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <> struct uniform_t<> final
+	template <> struct uniform_t<> final : public I_NonNewable
 	{
 		template <class T> constexpr uniform_t(const uniform_t<T> & copy)
-			: m_base { copy.m_base }
+			: m_base { copy.base() }
 		{
 		}
 
@@ -413,20 +413,21 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uniform_bool		= typename uniform_t<bool>;
-	using uniform_float		= typename uniform_t<float_t>;
-	using uniform_int		= typename uniform_t<int32_t>;
-	using uniform_vec2		= typename uniform_t<vec2>;
-	using uniform_vec3		= typename uniform_t<vec3>;
-	using uniform_vec4		= typename uniform_t<vec4>;
-	using uniform_color		= typename uniform_t<Color>;
-	using uniform_mat3		= typename uniform_t<mat3>;
-	using uniform_mat4		= typename uniform_t<mat4>;
-	using uniform_sampler	= typename uniform_t<const Texture *>;
+	using uniform = typename uniform_t<>;
+	using uniform_bool = typename uniform_t<bool>;
+	using uniform_float = typename uniform_t<float_t>;
+	using uniform_int = typename uniform_t<int32_t>;
+	using uniform_vec2 = typename uniform_t<vec2>;
+	using uniform_vec3 = typename uniform_t<vec3>;
+	using uniform_vec4 = typename uniform_t<vec4>;
+	using uniform_color = typename uniform_t<Color>;
+	using uniform_mat3 = typename uniform_t<mat3>;
+	using uniform_mat4 = typename uniform_t<mat4>;
+	using uniform_sampler = typename uniform_t<const Texture *>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool uniform_t<>::apply(const Shader * shader) const
+	inline bool uniform_t<>::apply(const Shader * shader) const
 	{
 		if (!shader || !this->name()) { return false; }
 		switch (this->type())
@@ -461,47 +462,47 @@ namespace ml
 		return false;
 	}
 
-	bool uniform_bool::apply(const Shader * shader) const
+	inline bool uniform_t<bool>::apply(const Shader * shader) const
 	{
 		return shader->setUniform(this->name(), (*this->data()));
 	}
 
-	bool uniform_int::apply(const Shader * shader) const
+	inline bool uniform_t<int>::apply(const Shader * shader) const
 	{
 		return shader->setUniform(this->name(), (*this->data()));
 	}
 
-	bool uniform_float::apply(const Shader * shader) const
+	inline bool uniform_t<float>::apply(const Shader * shader) const
 	{
 		return shader->setUniform(this->name(), (*this->data()));
 	}
 
-	bool uniform_vec2::apply(const Shader * shader) const
+	inline bool uniform_t<vec2>::apply(const Shader * shader) const
 	{
 		return shader->setUniform(this->name(), (*this->data()));
 	}
 
-	bool uniform_vec3::apply(const Shader * shader) const
+	inline bool uniform_t<vec3>::apply(const Shader * shader) const
 	{
 		return shader->setUniform(this->name(), (*this->data()));
 	}
 
-	bool uniform_vec4::apply(const Shader * shader) const
+	inline bool uniform_t<vec4>::apply(const Shader * shader) const
 	{
 		return shader->setUniform(this->name(), (*this->data()));
 	}
 
-	bool uniform_mat3::apply(const Shader * shader) const
+	inline bool uniform_t<mat3>::apply(const Shader * shader) const
 	{
 		return shader->setUniform(this->name(), (*this->data()));
 	}
 
-	bool uniform_mat4::apply(const Shader * shader) const
+	inline bool uniform_t<mat4>::apply(const Shader * shader) const
 	{
 		return shader->setUniform(this->name(), (*this->data()));
 	}
 
-	bool uniform_sampler::apply(const Shader * shader) const
+	inline bool uniform_t<const Texture *>::apply(const Shader * shader) const
 	{
 		return (*this->data()) && shader->setUniform(this->name(), (**this->data()));
 	}
@@ -510,30 +511,18 @@ namespace ml
 
 	static inline auto test_uniforms()
 	{
-		{
-			constexpr auto id = uniform_id(typeof<const Texture *>());
+		constexpr uniform_float f1("f1", 0.0f);
+		if (const float_t * temp { f1.data() }) {}
 
-			//constexpr auto bb = make_uniform("a", true);
-			//constexpr auto ff = make_uniform("b", 1.0f);
-			//constexpr auto ii = make_uniform("c", 123);
-			//constexpr auto v2 = make_uniform("d", vec2 { 0, 1 });
-			//constexpr auto v3 = make_uniform("e", vec3 { 2, 3, 4 });
-			//constexpr auto v4 = make_uniform("f", vec4 { 5, 6, 7, 8 });
-			//constexpr auto c4 = make_uniform("g", Color {});
-			//constexpr auto m3 = make_uniform("h", mat3::identity());
-			//constexpr auto m4 = make_uniform("i", mat4::identity());
-			//constexpr auto t2 = make_uniform("j", nullptr);
-		}
-		{
-			uniform_float flt("f1", 0.0f);
-			if (const float_t * temp { flt.data() }) {}
+		constexpr uniform_color c4("c4", Colors::white);
+		if (const Color * temp { c4.data() }) {}
 
-			uniform_color col("c4", Colors::white);
-			if (const Color * temp { col.data() }) {}
+		constexpr uniform_sampler t2("t2", nullptr);
+		if (const Texture * const * temp { t2.data() }) {}
 
-			uniform_sampler tex("t2", nullptr);
-			if (const Texture * const * temp { tex.data() }) {}
-		}
+		constexpr uniform u = t2;
+		Shader s;
+		u.apply(&s);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

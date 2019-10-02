@@ -69,7 +69,7 @@ namespace ml
 		struct ml_py_io {};
 		py::class_<ml_py_io>(m, "io")
 			.def_static("clear",	[]() { Debug::clear(); })
-			.def_static("command",	[](str_t s) { ML_Launcher.eventSystem.fireEvent<CommandEvent>(s.c_str()); })
+			.def_static("command",	[](str_t s) { ML_EventSystem.fireEvent<CommandEvent>(s.c_str()); })
 			.def_static("exit",		[]() { Debug::exit(0); })
 			.def_static("fatal",	[](str_t s) { Debug::fatal(s); })
 			.def_static("pause",	[]() { Debug::pause(0); })
@@ -137,8 +137,9 @@ namespace ml
 					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("clearflags"): c->setClearFlags(input<Camera::ClearFlags>()(value)); break;
 					case Hash("background"): c->setBackground(input<vec4>()(value)); break;
-					case Hash("fov"): c->setFieldOfView(input<float_t>()(value)); break;
 					case Hash("projection"): c->setProjection(input<Camera::Projection>()(value)); break;
+					case Hash("position"):	c->setPosition(input<vec3>()(value)); break;
+					case Hash("fov"): c->setFieldOfView(input<float_t>()(value)); break;
 					case Hash("near"): c->setClipNear(input<float_t>()(value)); break;
 					case Hash("far"): c->setClipFar(input<float_t>()(value)); break;
 					case Hash("viewport"): c->setViewport(input<IntRect>()(value)); break;

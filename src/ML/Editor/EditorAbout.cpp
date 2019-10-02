@@ -36,7 +36,7 @@ namespace ml
 			ImGui::EndMenuBar();
 		}
 
-		// Header
+		// Version String
 		ImGui::Text("%s", String("{0} / {1} | {2} / {3} | {4} / {5}").format(
 			ML_PROJECT_NAME,
 			ML_PROJECT_VER,
@@ -45,8 +45,6 @@ namespace ml
 			ML_PROJECT_DATE,
 			ML_PROJECT_TIME
 		).c_str());
-		ImGui::Text("Created by Melody Gurman");
-		ImGui::Text("Special thanks to Sajid Farooq and Champlain College for their help and support."); 
 
 		// Config/Build Information
 		if (ImGui::CollapsingHeader("Config/Build Information"))
@@ -106,8 +104,8 @@ namespace ml
 			draw_def("define: ML_CC_NAME", "%s", ML_CC_NAME);
 			draw_def("define: ML_CC_VER", "%u", ML_CC_VER);
 
-			// C++
-			draw_head("C++");
+			// Language
+			draw_head("Language");
 			draw_def("define: ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
 			draw_def("define: ML_HAS_CXX11", "%s", ML_HAS_CXX11 ? "true" : "false");
 			draw_def("define: ML_HAS_CXX14", "%s", ML_HAS_CXX14 ? "true" : "false");
@@ -140,6 +138,13 @@ namespace ml
 
 			ImGui::NextColumn();
 			ImGui::Columns(1);
+		}
+
+		// Contibutors
+		if (ImGui::CollapsingHeader("Contibutors"))
+		{
+			ImGui::Text("Created by Melody Gurman");
+			ImGui::Text("Special thanks to Sajid Farooq and Champlain College for their help and support.");
 		}
 		
 		// Third Party Software

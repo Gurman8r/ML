@@ -8,11 +8,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	NetClient::NetClient(EventSystem & eventSystem)
-		: NetInterface(eventSystem)
-		, m_connected(false)
+	NetClient::NetClient()
+		: m_connected(false)
 	{
-		eventSystem.addListener(NetworkEvent::EV_ClientRecievePacket, this);
+		ML_EventSystem.addListener(NetworkEvent::EV_ClientRecievePacket, this);
 	}
 
 	NetClient::~NetClient()
@@ -60,7 +59,7 @@ namespace ml
 			RakNet::RakString str;
 			if (bitStream.Read(str))
 			{
-				eventSystem().fireEvent(ClientRecievePacketEvent(str.C_String()));
+				ML_EventSystem.fireEvent(ClientRecievePacketEvent(str.C_String()));
 			}
 			break;
 		}

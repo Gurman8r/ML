@@ -1,14 +1,14 @@
 #include <ML/Engine/PluginLoader.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
+#include <ML/Core/EventSystem.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	PluginLoader::PluginLoader(EventSystem & eventSystem)
-		: m_eventSystem	(eventSystem)
-		, m_path		()
+	PluginLoader::PluginLoader()
+		: m_path		()
 		, m_files		()
 		, m_libraries	()
 		, m_plugins		()
@@ -77,7 +77,7 @@ namespace ml
 			{
 				// Load Plugin
 				if (Plugin * plugin = m_libraries[i]->callFunction<Plugin *>(
-					ML_TOSTRING(ML_Plugin_Main), m_eventSystem
+					ML_TOSTRING(ML_Plugin_Main), ML_EventSystem
 				))
 				{
 					Debug::log("Loaded Plugin: \'{0}\'", m_files[i]);
@@ -111,9 +111,7 @@ namespace ml
 		m_libraries.push_back(new SharedLibrary(m_files.back()));
 
 		// Load Plugin
-		if (Plugin * plugin = m_libraries.back()->callFunction<Plugin *>(
-			ML_TOSTRING(ML_Plugin_Main), m_eventSystem
-			))
+		if (Plugin * plugin { m_libraries.back()->callFunction<Plugin *>("ML_Plugin_Main") })
 		{
 			m_plugins.push_back(plugin);
 		}

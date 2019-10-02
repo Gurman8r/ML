@@ -10,19 +10,19 @@
 #include <ML/Engine/ContentManager.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
+ML_PLUGIN_API ml::Plugin * ML_Plugin_Main()
 {
-	return new ml::TestPlugin { eventSystem };
+	return new ml::TestPlugin {};
 }
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	TestPlugin::TestPlugin(EventSystem & eventSystem)
-		: Plugin { eventSystem }
+	TestPlugin::TestPlugin()
+		: Plugin {}
 	{
-		eventSystem.addListener(StartEvent::ID, this);
+		ML_EventSystem.addListener(StartEvent::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -17,7 +17,7 @@ namespace ml
 		enum { ID = 1 };
 
 	public:
-		explicit NetServer(EventSystem & eventSystem);
+		NetServer();
 		~NetServer();
 
 	public:

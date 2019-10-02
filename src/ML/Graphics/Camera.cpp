@@ -156,6 +156,12 @@ namespace ml
 		return (*this);
 	}
 
+	Camera & Camera::setPosition(const vec3 & value)
+	{
+		m_position = value;
+		return (*this);
+	}
+
 	Camera & Camera::setClipping(float_t zNear, float_t zFar)
 	{
 		return setClipNear(zNear).setClipFar(zFar);

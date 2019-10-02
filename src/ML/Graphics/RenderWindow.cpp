@@ -8,8 +8,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	RenderWindow::RenderWindow(EventSystem & eventSystem)
-		: Window(eventSystem)
+	RenderWindow::RenderWindow()
+		: Window {}
 	{
 	}
 

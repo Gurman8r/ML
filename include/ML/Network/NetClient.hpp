@@ -17,7 +17,7 @@ namespace ml
 		enum { ID = 2 };
 
 	public:
-		explicit NetClient(EventSystem & eventSystem);
+		NetClient();
 		~NetClient();
 
 	public:

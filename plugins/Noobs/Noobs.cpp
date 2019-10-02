@@ -30,9 +30,9 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
+ML_PLUGIN_API ml::Plugin * ML_Plugin_Main()
 {
-	return new ml::Noobs { eventSystem };
+	return new ml::Noobs {};
 }
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -41,18 +41,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Noobs::Noobs(EventSystem & eventSystem)
-		: Plugin { eventSystem }
+	Noobs::Noobs()
+		: Plugin {}
 	{
 
-		eventSystem.addListener(StartEvent::ID,			this);
-		eventSystem.addListener(UpdateEvent::ID,		this);
-		eventSystem.addListener(DrawEvent::ID,			this);
-		eventSystem.addListener(GuiEvent::ID,			this);
-		eventSystem.addListener(ExitEvent::ID,			this);
-		eventSystem.addListener(KeyEvent::ID,			this);
-		eventSystem.addListener(MainMenuBarEvent::ID,	this);
-		eventSystem.addListener(DockspaceEvent::ID,		this);
+		ML_EventSystem.addListener(StartEvent::ID,			this);
+		ML_EventSystem.addListener(UpdateEvent::ID,			this);
+		ML_EventSystem.addListener(DrawEvent::ID,			this);
+		ML_EventSystem.addListener(GuiEvent::ID,			this);
+		ML_EventSystem.addListener(ExitEvent::ID,			this);
+		ML_EventSystem.addListener(KeyEvent::ID,			this);
+		ML_EventSystem.addListener(MainMenuBarEvent::ID,	this);
+		ML_EventSystem.addListener(DockspaceEvent::ID,		this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -73,7 +73,7 @@ namespace ml
 				// Toggle Fullscreen
 				if (ev->getPress(KeyCode::F11))
 				{
-					eventSystem().fireEvent(WindowFullscreenEvent { -1 });
+					ML_EventSystem.fireEvent(WindowFullscreenEvent { -1 });
 				}
 
 				// Refresh Sources
@@ -173,7 +173,7 @@ namespace ml
 				{
 					if (auto u { m->get<uni_vec3>("u_camera.pos") })
 					{
-						//u->data = vec3 { 0 };
+						u->data = camera->position();
 					}
 					if (auto u { m->get<uni_float>("u_camera.fov") })
 					{
@@ -419,6 +419,9 @@ namespace ml
 					ImGui::BeginChildFrame(ImGui::GetID("##Uniforms##Content"), { 0, 0 }, 0);
 
 					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGuiExt::HelpMarker("Note**\nThese values may be overridden internally.");
+					ImGui::SameLine();
 
 					// New Uniform Popup
 					Uniform * to_add { nullptr };

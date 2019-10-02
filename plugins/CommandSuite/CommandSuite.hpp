@@ -6,7 +6,7 @@
 
 extern "C"
 {
-	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
+	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
 }
 
 namespace ml
@@ -17,7 +17,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		explicit CommandSuite(EventSystem & eventSystem);
+		explicit CommandSuite();
 
 		~CommandSuite() {}
 

@@ -27,21 +27,20 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Engine::Engine(EventSystem & eventSystem)	
-		: I_EventListener { eventSystem }
+	Engine::Engine()	
 	{
-		eventSystem.addListener(EnterEvent		::ID, this);
-		eventSystem.addListener(LoadEvent		::ID, this);
-		eventSystem.addListener(StartEvent		::ID, this);
-		eventSystem.addListener(BeginLoopEvent	::ID, this);
-		eventSystem.addListener(UpdateEvent		::ID, this);
-		eventSystem.addListener(BeginDrawEvent	::ID, this);
-		eventSystem.addListener(DrawEvent		::ID, this);
-		eventSystem.addListener(EndDrawEvent	::ID, this);
-		eventSystem.addListener(EndLoopEvent	::ID, this);
-		eventSystem.addListener(UnloadEvent		::ID, this);
-		eventSystem.addListener(ExitEvent		::ID, this);
-		eventSystem.addListener(CommandEvent	::ID, this);
+		ML_EventSystem.addListener(EnterEvent		::ID, this);
+		ML_EventSystem.addListener(LoadEvent		::ID, this);
+		ML_EventSystem.addListener(StartEvent		::ID, this);
+		ML_EventSystem.addListener(BeginLoopEvent	::ID, this);
+		ML_EventSystem.addListener(UpdateEvent		::ID, this);
+		ML_EventSystem.addListener(BeginDrawEvent	::ID, this);
+		ML_EventSystem.addListener(DrawEvent		::ID, this);
+		ML_EventSystem.addListener(EndDrawEvent	::ID, this);
+		ML_EventSystem.addListener(EndLoopEvent	::ID, this);
+		ML_EventSystem.addListener(UnloadEvent		::ID, this);
+		ML_EventSystem.addListener(ExitEvent		::ID, this);
+		ML_EventSystem.addListener(CommandEvent	::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -159,7 +158,7 @@ namespace ml
 
 		// Set Window Icon
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (Ref<Image> icon { "icon" })
+		if (Ref<Image> icon { "_icon_" })
 		{
 			ev.window.setIcon(icon->width(), icon->height(), icon->data());
 		}

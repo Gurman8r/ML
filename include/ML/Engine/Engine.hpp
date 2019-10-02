@@ -20,8 +20,7 @@ namespace ml
 		, public I_EventListener
 	{
 	public:
-		explicit Engine(EventSystem & eventSystem);
-		
+		Engine();
 		~Engine() {}
 
 		void onEvent(const Event & value) override;

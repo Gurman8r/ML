@@ -13,20 +13,20 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
+ML_PLUGIN_API ml::Plugin * ML_Plugin_Main()
 {
-	return new ml::CommandSuite { eventSystem };
+	return new ml::CommandSuite {};
 }
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	CommandSuite::CommandSuite(EventSystem & eventSystem)
-		: Plugin { eventSystem }
+	CommandSuite::CommandSuite()
+		: Plugin {}
 	{
-		eventSystem.addListener(EnterEvent::ID, this);
-		eventSystem.addListener(ExitEvent::ID,	this);
+		ML_EventSystem.addListener(EnterEvent::ID, this);
+		ML_EventSystem.addListener(ExitEvent::ID,	this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -66,10 +66,6 @@ namespace ml
 
 	void CommandSuite::initialize_commands()
 	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		static EventSystem * evSys { &eventSystem() };
-
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		m_commands.push_back(new CommandImpl {
@@ -144,7 +140,7 @@ namespace ml
 			"exit",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				evSys->fireEvent(WindowKillEvent());
+				ML_EventSystem.fireEvent(WindowKillEvent());
 				return true;
 			})
 		});

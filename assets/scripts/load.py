@@ -4,7 +4,7 @@ ml.content.load_all([
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Image", "name": "icon",              "file": PATH + "/images/icon.png", "flip_v": "False" },
+    { "type": "Image", "name": "_icon_",            "file": PATH + "/images/icon.png", "flip_v": "False" },
     { "type": "Image", "name": "img_star",          "file": PATH + "/skyboxes/star.jpg" },
     { "type": "Image", "name": "img_sunset_right",  "file": PATH + "/skyboxes/sunset/sunset_right.png", "flip_v": "False" },
     { "type": "Image", "name": "img_sunset_left",   "file": PATH + "/skyboxes/sunset/sunset_left.png", "flip_v": "False" },
@@ -189,9 +189,10 @@ if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Camera"):
         ml.ecs.camera_attr(name,    "self",     "enabled",      "True")
         ml.ecs.camera_attr(name,    "self",     "clearflags",   "SolidColor")
-        ml.ecs.camera_attr(name,    "self",     "background",   "0 0 0 1")
-        ml.ecs.camera_attr(name,    "self",     "fov",          "45.0")
         ml.ecs.camera_attr(name,    "self",     "projection",   "Perspective")
+        ml.ecs.camera_attr(name,    "self",     "background",   "0 0 0 1")
+        ml.ecs.camera_attr(name,    "self",     "position",     "1 0 3")
+        ml.ecs.camera_attr(name,    "self",     "fov",          "45.0")
         ml.ecs.camera_attr(name,    "self",     "near",         "0.001")
         ml.ecs.camera_attr(name,    "self",     "far",          "1000.0")
         ml.ecs.camera_attr(name,    "self",     "viewport",     "0 1920 0 1080")
@@ -228,14 +229,6 @@ if ml.content.load({ "type": "Entity", "name": name }):
 # Test
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-ml.content.load({
-    "type":     "Material",
-    "name":     "mat_test",
-    "shader":   "gl_advanced",
-    "defaults": "True",
-    "uniforms": PATH + "/materials/test.mat"
-    })
-
 name = "ent_test"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Transform"):
@@ -245,7 +238,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.transform_attr(name, "self",     "rotation",     "1 1 1")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_test")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj_cow")
         ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")
         ml.ecs.renderer_attr(name,  "alpha",    "predicate",    "GL_GREATER")

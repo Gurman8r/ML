@@ -43,7 +43,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit Window(EventSystem & eventSystem);
+		Window();
 		virtual ~Window();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

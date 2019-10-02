@@ -15,18 +15,14 @@ namespace ml
 	
 	bool EventSystem::fireEvent(const Event & value)
 	{
-		if (value && (value.m_eventSystem != this))
+		if (value)
 		{
-			value.m_eventSystem = this;
-
 			std::pair<iterator, iterator> found { m_listeners.equal_range(*value) };
 
 			for (iterator it = found.first; it != found.second; ++it)
 			{
 				it->second->onEvent(value);
 			}
-
-			value.m_eventSystem = nullptr;
 
 			return true;
 		}

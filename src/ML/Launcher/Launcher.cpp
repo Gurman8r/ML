@@ -11,27 +11,27 @@ namespace ml
 		running = true;
 
 		// Startup
-		eventSystem.fireEvent<EnterEvent>	(time, prefs, window);
-		eventSystem.fireEvent<LoadEvent>	(time, prefs, window);
-		eventSystem.fireEvent<StartEvent>	(time, prefs, window);
+		ML_EventSystem.fireEvent<EnterEvent>(time, prefs, window);
+		ML_EventSystem.fireEvent<LoadEvent>	(time, prefs, window);
+		ML_EventSystem.fireEvent<StartEvent>(time, prefs, window);
 
 		// Loop
 		while (window.is_open())
 		{
-			eventSystem.fireEvent<BeginLoopEvent>	(time, window, engine);
-			eventSystem.fireEvent<UpdateEvent>		(time, window, engine);
-			eventSystem.fireEvent<BeginDrawEvent>	(time, window, engine);
-			eventSystem.fireEvent<DrawEvent>		(time, window, engine);
-			eventSystem.fireEvent<EndDrawEvent>		(time, window, engine);
-			eventSystem.fireEvent<BeginGuiEvent>	(time, window, engine, editor);
-			eventSystem.fireEvent<GuiEvent>			(time, window, engine, editor);
-			eventSystem.fireEvent<EndGuiEvent>		(time, window, engine, editor);
-			eventSystem.fireEvent<EndLoopEvent>		(time, window, engine);
+			ML_EventSystem.fireEvent<BeginLoopEvent>(time, window, engine);
+			ML_EventSystem.fireEvent<UpdateEvent>	(time, window, engine);
+			ML_EventSystem.fireEvent<BeginDrawEvent>(time, window, engine);
+			ML_EventSystem.fireEvent<DrawEvent>		(time, window, engine);
+			ML_EventSystem.fireEvent<EndDrawEvent>	(time, window, engine);
+			ML_EventSystem.fireEvent<BeginGuiEvent>	(time, window, engine, editor);
+			ML_EventSystem.fireEvent<GuiEvent>		(time, window, engine, editor);
+			ML_EventSystem.fireEvent<EndGuiEvent>	(time, window, engine, editor);
+			ML_EventSystem.fireEvent<EndLoopEvent>	(time, window, engine);
 		}
 
 		// Shutdown
-		eventSystem.fireEvent<UnloadEvent>	(time, window, engine);
-		eventSystem.fireEvent<ExitEvent>	(time, window);
+		ML_EventSystem.fireEvent<UnloadEvent>(time, window, engine);
+		ML_EventSystem.fireEvent<ExitEvent>	 (time, window);
 		
 		// Cleanup Plugins
 		plugins.dispose();

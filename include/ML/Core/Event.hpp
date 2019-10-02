@@ -8,10 +8,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct EventSystem;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	struct Event : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -33,18 +29,12 @@ namespace ml
 
 		constexpr Event(int32_t value)
 			: m_id { value }
-			, m_eventSystem { nullptr }
 		{
 		}
 
 		constexpr const int32_t & operator*() const
 		{ 
 			return m_id;
-		}
-
-		constexpr const EventSystem * eventSystem() const
-		{
-			return m_eventSystem;
 		}
 
 		constexpr operator bool() const
@@ -64,10 +54,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
-		const int32_t m_id;
-		friend struct EventSystem;
-		mutable const EventSystem * m_eventSystem;
+	private: const int32_t m_id;
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

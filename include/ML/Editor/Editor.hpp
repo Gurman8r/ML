@@ -21,8 +21,7 @@ namespace ml
 		, public I_EventListener
 	{
 	public:
-		explicit Editor(EventSystem & eventSystem);
-		
+		Editor();
 		~Editor() {}
 
 		void onEvent(const Event & value) override;

@@ -4,6 +4,8 @@
 #include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/I_Newable.hpp>
 
+#define ML_EventSystem ::ml::EventSystem::getInstance()
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -12,9 +14,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API EventSystem final
-		: public I_Newable
-		, public I_NonCopyable
+	struct ML_CORE_API EventSystem final : public I_Singleton<EventSystem>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -23,9 +23,6 @@ namespace ml
 		using const_iterator = typename map_type::const_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		EventSystem() {}
-		~EventSystem() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -46,7 +43,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: map_type m_listeners;
+	private:
+		friend struct I_Singleton<EventSystem>;
+		EventSystem() {}
+		~EventSystem() {}
+		map_type m_listeners;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

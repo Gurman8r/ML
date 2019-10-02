@@ -24,7 +24,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit Plugin(EventSystem & eventSystem);
+		Plugin();
 		
 		virtual ~Plugin();
 

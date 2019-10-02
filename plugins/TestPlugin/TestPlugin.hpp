@@ -16,7 +16,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit TestPlugin(EventSystem & eventSystem);
+		TestPlugin();
 		
 		~TestPlugin() {}
 

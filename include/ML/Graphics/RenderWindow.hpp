@@ -14,7 +14,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit RenderWindow(EventSystem & eventSystem);
+		RenderWindow();
 		
 		virtual ~RenderWindow();
 

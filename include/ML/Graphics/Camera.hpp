@@ -38,6 +38,7 @@ namespace ml
 		Camera & setBackground(const vec4 & value);
 		Camera & setFieldOfView(float_t value);
 		Camera & setProjection(Projection value);
+		Camera & setPosition(const vec3 & value);
 		Camera & setClipping(float_t zNear, float_t zFar);
 		Camera & setClipFar(float_t value);
 		Camera & setClipNear(float_t value);
@@ -51,6 +52,7 @@ namespace ml
 		inline auto clearFlags()	const -> const ClearFlags & { return m_clearFlags; }
 		inline auto background()	const -> const vec4 &		{ return m_background; }
 		inline auto projection()	const -> const Projection & { return m_projection; }
+		inline auto position()		const -> const vec3 &		{ return m_position; }
 		inline auto fieldOfView()	const -> const float_t &	{ return m_fieldOfView; }
 		inline auto clipNear()		const -> const float_t &	{ return m_clipNear; }
 		inline auto clipFar()		const -> const float_t &	{ return m_clipFar; }
@@ -65,6 +67,7 @@ namespace ml
 		ClearFlags	m_clearFlags;	// 
 		Color		m_background;	// 
 		Projection	m_projection;	// 
+		vec3		m_position;		// 
 		float_t		m_fieldOfView;	// 
 		float_t		m_clipNear;		// 
 		float_t		m_clipFar;		// 

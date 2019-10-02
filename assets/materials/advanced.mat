@@ -16,6 +16,6 @@ uniform float	u_shininess		{ 8.0 }
 uniform sampler	u_texture0		{ tex_earth_dm }
 uniform sampler	u_texture1		{ tex_earth_sm }
 uniform vec3	u_position		{ 0.0, 0.0, 0.0 }
-uniform vec3	u_scale			{ 1.0, 1.0, 1.0 }
+uniform vec3	u_scale			{ 0.3 0.3 0.3 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

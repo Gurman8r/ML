@@ -12,10 +12,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static constexpr size_of MaxPreviewSize { 15_MB };
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	EditorExplorer::EditorExplorer(Editor & editor)
 		: EditorWindow	{ editor, "Explorer", "Ctrl+Alt+E", false }
 		, m_browser		{ }

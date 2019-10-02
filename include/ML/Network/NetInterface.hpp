@@ -37,7 +37,7 @@ namespace ml
 		, public I_NonCopyable
 	{
 	public:
-		explicit NetInterface(EventSystem & eventSystem);
+		NetInterface();
 		virtual ~NetInterface();
 
 	public:

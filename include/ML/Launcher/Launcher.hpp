@@ -11,7 +11,7 @@
 #include <ML/Graphics/RenderWindow.hpp>
 
 #ifndef ML_CONFIG_INI
-#define ML_CONFIG_INI "../../../ML.ini"
+#define ML_CONFIG_INI "ML.ini"
 #endif
 
 #define ML_Launcher ::ml::Launcher::getInstance()
@@ -22,14 +22,13 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool			running;		// 
-		Preferences 	prefs;			// 
-		GameTime		time;			// 
-		EventSystem		eventSystem;	// 
-		RenderWindow	window;			// 
-		Engine			engine;			// 
-		Editor			editor;			// 
-		PluginLoader	plugins;		// 
+		bool			running	{ false }; // 
+		Preferences 	prefs	{ ML_CONFIG_INI }; // 
+		GameTime		time	{ }; // 
+		RenderWindow	window	{ }; // 
+		Engine			engine	{ }; // 
+		Editor			editor	{ }; // 
+		PluginLoader	plugins	{ }; // 
 
 		int32_t operator()(int32_t argc, char ** argv);
 
@@ -38,17 +37,7 @@ namespace ml
 	private:
 		friend struct I_Singleton<Launcher>;
 
-		Launcher()
-			: running		{ false }
-			, prefs			{ ML_CONFIG_INI }
-			, time			{ }
-			, eventSystem	{ }
-			, window		{ eventSystem }
-			, engine		{ eventSystem }
-			, editor		{ eventSystem }
-			, plugins		{ eventSystem }
-		{
-		}
+		Launcher() = default;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

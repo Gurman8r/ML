@@ -15,7 +15,7 @@ namespace ml
 
 		static vec2 GetContentRegionAvail();
 
-		static float GetLineHeight();
+		static float_t GetTextLineHeightWithSpacing();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,6 +24,8 @@ namespace ml
 		static bool Combo(C_String label, int32_t * index, const C_String * arr, int32_t max_height = -1);
 
 		static bool Combo(C_String label, int32_t * index, C_String items, int32_t max_height = -1);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static int32_t Confirm(const String & label, bool trigger, const String & message);
 

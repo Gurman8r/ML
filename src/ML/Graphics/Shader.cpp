@@ -195,6 +195,22 @@ namespace ml
 		);
 	}
 
+	bool Shader::loadFromMemory(const String & source, GL::ShaderType type)
+	{
+		switch (type)
+		{
+		case GL::FragmentShader	: return loadFromMemory({}, {}, source);
+		case GL::VertexShader	: return loadFromMemory(source, {}, {});
+		case GL::GeometryShader	: return loadFromMemory({}, source, {});
+		}
+		return false;
+	}
+
+	bool Shader::loadFromMemory(const String & vs, const String & fs)
+	{
+		return loadFromMemory(vs, {}, fs);
+	}
+
 	bool Shader::loadFromMemory(const String & vs, const String & gs, const String & fs)
 	{
 		if ((vs && fs && gs) && compile(vs.c_str(), gs.c_str(), fs.c_str()))
@@ -233,11 +249,6 @@ namespace ml
 			return true;
 		}
 		return false;
-	}
-
-	bool Shader::loadFromMemory(const String & vs, const String & fs)
-	{
-		return loadFromMemory(vs, {}, fs);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

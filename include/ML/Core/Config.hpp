@@ -48,17 +48,17 @@
 # if defined(_WIN32) || defined(_WIN64) \
   || defined(WIN32) || defined(WIN64) \
   || defined(__MINGW32__) || defined(__MINGW64__)
-#	define ML_SYSTEM_WINDOWS
+#	define ML_SYSTEM_WINDOWS 1
 # elif defined(__APPLE__) && defined(__MACH__)
-#	define ML_SYSTEM_APPLE
+#	define ML_SYSTEM_APPLE 1
 # elif defined(__unix__)
-#	define ML_SYSTEM_UNIX
+#	define ML_SYSTEM_UNIX 1
 #	if defined(__ANDROID__)
-#		define ML_SYSTEM_ANDROID
+#		define ML_SYSTEM_ANDROID 1
 #	elif defined(__linux__)
-#		define ML_SYSTEM_LINUX
+#		define ML_SYSTEM_LINUX 1
 #	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)	
-#		define ML_SYSTEM_FREEBSD
+#		define ML_SYSTEM_FREEBSD 1
 #	endif
 # endif
 
@@ -188,7 +188,7 @@
 #	if defined(ML_SYSTEM_WINDOWS)
 #		define ML_API_EXPORT __declspec(dllexport)
 #		define ML_API_IMPORT __declspec(dllimport)
-#		if not defined(NOMINMAX)
+#		ifndef NOMINMAX
 #			define NOMINMAX
 #		endif
 #		if defined(ML_CC_MSC)

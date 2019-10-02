@@ -7,19 +7,21 @@ in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 uniform struct Camera
 {
-	vec3	pos;		// Camera Position
-	float	fov;		// Field of View
-	float	near;		// Near Clipping Distance
-	float	far;		// Far Clipping Distance
+	vec3	pos;	// Camera Position
+	float	fov;	// Field of View
+	float	near;	// Near Clipping Distance
+	float	far;	// Far Clipping Distance
+	vec2	view;	// Frame Size
 } u_camera;
 
 uniform vec2		u_cursor;		// Cursor Position
 uniform float		u_delta;		// Delta Time
 uniform int			u_frame;		// Frame Index
 uniform float		u_fps;			// Frame Rate
-uniform vec2		u_viewport;		// Frame Size
 uniform float		u_time;			// Total Time
 uniform vec4		u_color;		// Main Color
 uniform vec3		u_lightPos;		// Position of Light

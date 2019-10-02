@@ -9,6 +9,8 @@ layout(location = 2) in vec2 a_texcoord;
 
 out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 mat4 transform(vec3 pos, vec4 rot)
 {
 	vec3  v = normalize(rot.xyz);
@@ -54,13 +56,13 @@ uniform struct Camera
 	float	fov;	// Field of View
 	float	near;	// Near Clipping Distance
 	float	far;	// Far Clipping Distance
+	vec2	view;	// Frame Size
 } u_camera;
 
 uniform vec2	u_cursor;	// Cursor Position
 uniform float	u_delta;	// Delta Time
 uniform int		u_frame;	// Frame Index
 uniform float	u_fps;		// Frame Rate
-uniform vec2	u_viewport;	// Frame Size
 uniform float	u_time;		// Total Time
 uniform vec3	u_position;	// Model Position
 uniform vec3	u_scale;	// Model Scale
@@ -75,7 +77,7 @@ void main()
 
 	// Projection Matrix
 	mat4 p = perspective(
-		u_camera.fov, (u_viewport.x / u_viewport.y), u_camera.near, u_camera.far
+		u_camera.fov, (u_camera.view.x / u_camera.view.y), u_camera.near, u_camera.far
 	);
 
 	// Output

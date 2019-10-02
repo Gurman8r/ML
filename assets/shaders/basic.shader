@@ -13,7 +13,6 @@ uniform vec2	u_cursor;		// Cursor Position
 uniform float	u_delta;		// Delta Time
 uniform int		u_frame;		// Frame Index
 uniform float	u_fps;			// Frame Rate
-uniform vec2	u_viewport;		// Frame Size
 uniform float	u_time;			// Total Time
 uniform mat4	u_proj;			// Projection Matrix
 uniform mat4	u_view;			// View Matrix
@@ -41,7 +40,6 @@ uniform vec2		u_cursor;		// Cursor Position
 uniform float		u_delta;		// Delta Time
 uniform int			u_frame;		// Frame Index
 uniform float		u_fps;			// Frame Rate
-uniform vec2		u_viewport;		// Frame Size
 uniform float		u_time;			// Total Time
 uniform	vec4		u_color;		// Main Color
 uniform sampler2D	u_texture0;		// Main Texture

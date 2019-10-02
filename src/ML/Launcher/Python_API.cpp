@@ -181,7 +181,7 @@ namespace ml
 					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("material"): c->setMaterial(ML_Content.get<Material>(value)); break;
 					case Hash("shader"): c->setShader(ML_Content.get<Shader>(value)); break;
-					case Hash("model"): c->setDrawable(ML_Content.get<Model>(value)); break;
+					case Hash("model"): c->setModel(ML_Content.get<Model>(value)); break;
 					}
 				}
 				break;

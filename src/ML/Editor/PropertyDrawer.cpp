@@ -167,8 +167,20 @@ namespace ml
 		if (Camera * c = value.get<Camera>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(c));
-			if (ImGui::CollapsingHeader("Camera (WIP)"))
+			const bool header_open { ImGui::CollapsingHeader("Camera") };
+			if (ImGui::BeginPopupContextItem(("##Remove##Camera##" + label).c_str()))
 			{
+				if (ImGui::Button(("Remove##Camera#Button##" + label).c_str()))
+				{
+					value.remove<Camera>();
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
+			if (header_open)
+			{
+				static const float_t drag_spd { 0.05f };
+
 				bool	enabled		= c->enabled();
 				int32_t clearFlags	= c->clearFlags();
 				int32_t projection	= c->projection();
@@ -182,15 +194,18 @@ namespace ml
 
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Camera##" + label).c_str()),
-					{ 0, (ImGuiExt::GetLineHeight() * 1.25f) * 8.0f },
+					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 8.0f },
 					true
 				);
 
+				// Enabled
 				if (ImGui::Checkbox(("Enabled##Camera##" + label).c_str(), &enabled))
 				{
 					c->setEnabled(enabled);
 				}
+				ImGuiExt::Tooltip("If enabled, the camera be applied.");
 
+				// Clear Flags
 				if (ImGuiExt::Combo(
 					("Clear Flags##Camera##" + label).c_str(),
 					&clearFlags, 
@@ -199,40 +214,54 @@ namespace ml
 				{
 					c->setClearFlags((Camera::ClearFlags)clearFlags);
 				}
+				ImGuiExt::Tooltip("Specify how the screen should be cleared.");
 
+				// Projection
 				if (ImGuiExt::Combo(
 					("Projection##Camera##" + label).c_str(),
 					&projection, 
-					"Perspective\0Orthographic"
+					"Perspective"
+					//"Perspective\0Orthographic"
 				))
 				{
 					c->setProjection((Camera::Projection)projection);
 				}
+				ImGuiExt::Tooltip("Specify which projection to use.");
 
+				// Background
 				if (ImGui::ColorEdit4(("Background##Camera##" + label).c_str(), &background[0]))
 				{
 					c->setBackground(background);
 				}
+				ImGuiExt::Tooltip("Specify the color to apply when using \'Solid Color\'.");
 
-				if (ImGui::DragFloat(("Field of View##Camera##" + label).c_str(), &fieldOfView))
+				// Field of View
+				if (ImGui::DragFloat(("Field of View##Camera##" + label).c_str(), &fieldOfView, drag_spd))
 				{
 					c->setFieldOfView(fieldOfView);
 				}
+				ImGuiExt::Tooltip("Specify the field of view.");
 
-				if (ImGui::DragFloat(("Clip Near##Camera##" + label).c_str(), &clipNear))
+				// Clip Near
+				if (ImGui::DragFloat(("Clip Near##Camera##" + label).c_str(), &clipNear, drag_spd))
 				{
 					c->setClipNear(clipNear);
 				}
+				ImGuiExt::Tooltip("Specify the near clipping plane.");
 
-				if (ImGui::DragFloat(("Clip Far##Camera##" + label).c_str(), &clipFar))
+				// Clip Far
+				if (ImGui::DragFloat(("Clip Far##Camera##" + label).c_str(), &clipFar, drag_spd))
 				{
 					c->setClipFar(clipFar);
 				}
+				ImGuiExt::Tooltip("Specify the far clipping plane.");
 
-				if (ImGui::DragInt4(("Viewport##Camera##" + label).c_str(), &viewport[0]))
+				// Viewport
+				if (ImGui::DragInt4(("Viewport##Camera##" + label).c_str(), &viewport[0], drag_spd))
 				{
 					c->setViewport(viewport);
 				}
+				ImGuiExt::Tooltip("Specify the viewport.");
 
 				ImGui::EndChildFrame();
 
@@ -246,7 +275,17 @@ namespace ml
 		if (Light * l = value.get<Light>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(l));
-			if (ImGui::CollapsingHeader("Light (WIP)"))
+			const bool header_open { ImGui::CollapsingHeader("Light (WIP)") };
+			if (ImGui::BeginPopupContextItem(("##Remove##Light##" + label).c_str()))
+			{
+				if (ImGui::Button(("Remove##Light#Button##" + label).c_str()))
+				{
+					value.remove<Light>();
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
+			if (header_open)
 			{
 				bool enabled = l->enabled();
 				vec4 color = l->color();
@@ -257,7 +296,7 @@ namespace ml
 
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Light##" + label).c_str()),
-					{ 0, (ImGuiExt::GetLineHeight() * 1.25f) * 4.0f },
+					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
 					true
 				);
 
@@ -293,7 +332,17 @@ namespace ml
 		if (Renderer * r = value.get<Renderer>())
 		{
 			ImGui::PushID(ML_ADDRESSOF(r));
-			if (ImGui::CollapsingHeader("Renderer"))
+			const bool header_open { ImGui::CollapsingHeader("Renderer") };
+			if (ImGui::BeginPopupContextItem(("##Remove##Renderer##" + label).c_str()))
+			{
+				if (ImGui::Button(("Remove##Renderer#Button##" + label).c_str()))
+				{
+					value.remove<Renderer>();
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
+			if (header_open)
 			{
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Renderer##" + label).c_str()),
@@ -309,13 +358,13 @@ namespace ml
 					r->setEnabled(enabled);
 				}
 
-				const Model * model = (const Model *)r->drawable();
+				const Model * model { r->model() };
 				if (PropertyDrawer<Model>()("Model##Renderer", model))
 				{
-					r->setDrawable(model);
+					r->setModel(model);
 				}
 
-				const Material * material = r->material();
+				const Material * material { r->material() };
 				if (PropertyDrawer<Material>()("Material##Renderer", material))
 				{
 					r->setMaterial(material);
@@ -438,7 +487,17 @@ namespace ml
 		if (Transform * t { value.get<Transform>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(t));
-			if (ImGui::CollapsingHeader("Transform (WIP)"))
+			const bool header_open { ImGui::CollapsingHeader("Transform (WIP)") };
+			if (ImGui::BeginPopupContextItem(("##Remove##Transform##" + label).c_str()))
+			{
+				if (ImGui::Button(("Remove##Transform#Button##" + label).c_str()))
+				{
+					value.remove<Transform>();
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+			}
+			if (header_open)
 			{
 				bool enabled = t->enabled();
 				vec3 pos = t->position();
@@ -449,7 +508,7 @@ namespace ml
 
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Transform##" + label).c_str()), 
-					{ 0, (ImGuiExt::GetLineHeight() * 1.25f) * 4.0f },
+					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
 					true
 				);
 
@@ -1124,7 +1183,7 @@ namespace ml
 
 				ImGui::Text("VAO");
 				ImGui::BeginChildFrame(ImGui::GetID("vao"),
-					{ 0, ImGuiExt::GetLineHeight() * 2.25f }
+					{ 0, ImGuiExt::GetTextLineHeightWithSpacing() * 2.25f }
 				);
 				{
 					ImGui::Text("Handle: %u", (uint32_t)mesh->vao());
@@ -1139,7 +1198,7 @@ namespace ml
 
 				ImGui::Text("VBO");
 				ImGui::BeginChildFrame(ImGui::GetID("vbo"),
-					{ 0, ImGuiExt::GetLineHeight() * 4.25f }
+					{ 0, ImGuiExt::GetTextLineHeightWithSpacing() * 4.25f }
 				);
 				{
 					ImGui::Text("Handle: %u", (uint32_t)mesh->vbo());
@@ -1161,7 +1220,7 @@ namespace ml
 
 				ImGui::Text("IBO");
 				ImGui::BeginChildFrame(ImGui::GetID("ibo"),
-					{ 0, ImGuiExt::GetLineHeight() * 1 }
+					{ 0, ImGuiExt::GetTextLineHeightWithSpacing() * 1 }
 				);
 				{
 					ImGui::Text("Handle: %u", (uint32_t)mesh->ibo());
@@ -1172,7 +1231,7 @@ namespace ml
 
 				ImGui::Text("Vertex Attributes");
 				ImGui::BeginChildFrame(ImGui::GetID("vertexattrib"), 
-					{ 0, ImGuiExt::GetLineHeight() * mesh->layout().elements().size() }
+					{ 0, ImGuiExt::GetTextLineHeightWithSpacing() * mesh->layout().elements().size() }
 				);
 				for (const BufferLayout::Element & e : mesh->layout().elements())
 				{

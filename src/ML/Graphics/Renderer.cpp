@@ -7,26 +7,26 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Renderer::Renderer()
-		: m_enabled(true)
-		, m_drawable(nullptr)
+		: m_enabled	(true)
+		, m_model	(nullptr)
 		, m_material(nullptr)
-		, m_states()
+		, m_states	()
 	{
 	}
 
-	Renderer::Renderer(const I_Drawable * drawable, const Material * material)
-		: m_enabled(true)
-		, m_drawable(drawable)
+	Renderer::Renderer(const Model * model, const Material * material)
+		: m_enabled	(true)
+		, m_model	(model)
 		, m_material(material)
-		, m_states()
+		, m_states	()
 	{
 	}
 
-	Renderer::Renderer(const I_Drawable * drawable, const Material * material, const RenderStates & states)
-		: m_enabled(true)
-		, m_drawable(drawable)
+	Renderer::Renderer(const Model * model, const Material * material, const RenderStates & states)
+		: m_enabled	(true)
+		, m_model	(model)
 		, m_material(material)
-		, m_states(states)
+		, m_states	(states)
 	{
 	}
 
@@ -34,9 +34,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Renderer & Renderer::setDrawable(const I_Drawable * value)
+	Renderer & Renderer::setModel(const Model * value)
 	{
-		m_drawable = value;
+		m_model = value;
 		return (*this);
 	}
 
@@ -71,13 +71,13 @@ namespace ml
 
 	void Renderer::draw(RenderTarget & target, RenderBatch batch) const
 	{
-		if (m_enabled && m_drawable && m_material)
+		if (m_enabled && m_model && m_material)
 		{
 			m_states.apply();
 
 			m_material->bind();
 
-			target.draw(m_drawable);
+			target.draw(m_model);
 
 			m_material->unbind();
 		}

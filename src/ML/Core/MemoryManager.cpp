@@ -20,7 +20,7 @@ namespace ml
 			<< FG::Green << std::setw(6) << value.index
 			<< FG::Cyan << std::setw(sizeof(size_t) * 2) << value.size
 			<< FG::Yellow << std::setw(sizeof(size_t) * 3) << value.ptr
-			<< FG::Normal << std::setw(10) << object->get_type_info().name()
+			<< FG::Normal << std::setw(10) << (object ? object->get_type_info().name() : "?")
 			<< FMT();
 	}
 

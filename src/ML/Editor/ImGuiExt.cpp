@@ -12,7 +12,7 @@ namespace ml
 		return { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 	}
 
-	float ImGuiExt::GetLineHeight()
+	float_t ImGuiExt::GetTextLineHeightWithSpacing()
 	{
 		return ImGui::GetTextLineHeightWithSpacing();
 	}

@@ -23,7 +23,7 @@ namespace ml
 
 	bool EditorAbout::onGui(const GuiEvent & ev)
 	{
-		if (!beginDraw(ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize))
+		if (!beginDraw(ImGuiWindowFlags_MenuBar))
 		{ 
 			return endDraw(); 
 		}
@@ -47,39 +47,97 @@ namespace ml
 		).c_str());
 		ImGui::Text("Created by Melody Gurman");
 		ImGui::Text("Special thanks to Sajid Farooq and Champlain College for their help and support."); 
-		ImGui::Separator();
 
 		// Config/Build Information
 		if (ImGui::CollapsingHeader("Config/Build Information"))
 		{
-			auto draw_def = ([](C_String label, C_String fmt, auto data)
+			auto draw_def = ([](C_String label, C_String fmt, auto && data)
 			{
-				ImGui::Text("%s", label);
+				ImGui::Text(label);
 				ImGui::NextColumn();
 				ImGui::Text(fmt, data);
 				ImGui::NextColumn();
 			});
+
+			auto draw_head = ([&](C_String label) 
+			{
+				ImGui::Separator(); draw_def(label, "", "");
+			});
+
 			ImGui::Columns(2);
+
+			// Project
+			draw_head("Project");
 			draw_def("define: ML_PROJECT_AUTH", "%s", ML_PROJECT_AUTH);
 			draw_def("define: ML_PROJECT_DATE", "%s", ML_PROJECT_DATE);
 			draw_def("define: ML_PROJECT_TIME", "%s", ML_PROJECT_TIME);
 			draw_def("define: ML_PROJECT_URL", "%s", ML_PROJECT_URL);
 			draw_def("define: ML_PROJECT_VER", "%s", ML_PROJECT_VER);
+			
+			// System
+			draw_head("System");
+# if defined(ML_SYSTEM_WINDOWS)
+			draw_def("define: ML_SYSTEM_WINDOWS", "", "");
+# elif defined(ML_SYSTEM_APPLE)
+			draw_def("define: ML_SYSTEM_APPLE", "", "");
+# elif defined(ML_SYSTEM_UNIX)
+			draw_def("define: ML_SYSTEM_UNIX", "", "");
+#	if defined(ML_SYSTEM_ANDROID"
+			draw_def("define: ML_SYSTEM_ANDROID", "", "");
+#	elif defined(ML_SYSTEM_LINUX"
+			draw_def("define: ML_SYSTEM_LINUX", "", "");
+#	elif defined(ML_SYSTEM_FREEBSD"
+			draw_def("define: ML_SYSTEM_FREEBSD", "", "");
+#	endif
+# endif
 			draw_def("define: ML_SYSTEM_NAME", "%s", ML_SYSTEM_NAME);
-			ImGui::Separator();
-			draw_def("define: ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
+
+			// Compiler
+			draw_head("Compiler");
+# if defined(ML_CC_MSC)
+			draw_def("define: ML_CC_MSC", "", "");
+# elif defined(ML_CC_CLANG)
+			draw_def("define: ML_CC_CLANG", "", "");
+# elif defined(ML_CC_GNU)
+			draw_def("define: ML_CC_GNU", "", "");
+# elif defined(ML_CC_INTEL)
+			draw_def("define: ML_CC_INTEL", "", "");
+# endif
 			draw_def("define: ML_CC_NAME", "%s", ML_CC_NAME);
 			draw_def("define: ML_CC_VER", "%u", ML_CC_VER);
-			draw_def("define: ML_CONFIGURATION", "%s", ML_CONFIGURATION);
+
+			// C++
+			draw_head("C++");
 			draw_def("define: ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
 			draw_def("define: ML_HAS_CXX11", "%s", ML_HAS_CXX11 ? "true" : "false");
 			draw_def("define: ML_HAS_CXX14", "%s", ML_HAS_CXX14 ? "true" : "false");
 			draw_def("define: ML_HAS_CXX17", "%s", ML_HAS_CXX17 ? "true" : "false");
+
+			// Config
+			draw_head("Build");
+			draw_def("define: ML_DEBUG", "%s", ML_DEBUG ? "true" : "false");
+			draw_def("define: ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
+			draw_def("define: ML_CONFIGURATION", "%s", ML_CONFIGURATION);
 			draw_def("define: ML_PLATFORM_TARGET", "%s", ML_PLATFORM_TARGET);
-			ImGui::Separator();
-			draw_def("GL Vendor", "%s", ML_GL.getString(GL::Vendor));
-			draw_def("GL Renderer", "%s", ML_GL.getString(GL::Renderer));
-			draw_def("GL Version", "%s", ML_GL.getString(GL::Version));
+
+#if defined(ML_STATIC)
+			draw_def("define: ML_STATIC", "", "");
+# endif
+
+# if defined (ML_API_EXPORT)
+			draw_def("define: ML_API_EXPORT", "%s", ML_STRINGIFY(ML_API_EXPORT));
+# endif
+
+# if defined (ML_API_IMPORT)
+			draw_def("define: ML_API_IMPORT", "%s", ML_STRINGIFY(ML_API_IMPORT));
+# endif
+
+			// Graphics
+			draw_head("Graphics");
+			draw_def("OpenGL Version", "%s", ML_GL.getString(GL::Version));
+			draw_def("OpenGL Vendor", "%s", ML_GL.getString(GL::Vendor));
+			draw_def("OpenGL Renderer", "%s", ML_GL.getString(GL::Renderer));
+
 			ImGui::NextColumn();
 			ImGui::Columns(1);
 		}

@@ -41,8 +41,9 @@ namespace ml
 		bool loadFromFile(const String & vs, const String & gs, const String & fs);
 		bool loadFromMemory(const Shader::Source & source);
 		bool loadFromMemory(const String & source);
-		bool loadFromMemory(const String & vs, const String & gs, const String & fs);
+		bool loadFromMemory(const String & source, GL::ShaderType type);
 		bool loadFromMemory(const String & vs, const String & fs);
+		bool loadFromMemory(const String & vs, const String & gs, const String & fs);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

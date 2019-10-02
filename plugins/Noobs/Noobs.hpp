@@ -146,8 +146,6 @@ namespace ml
 
 			bool			m_open		{ true };
 			Ref<Entity>		m_entity	{};
-			Ref<Material>	m_material	{};
-			Ref<Model>		m_model		{};
 			Renderer *		m_renderer	{ nullptr };
 			File_List		m_files		{ nullptr };
 			DemoScene		m_scene		{};

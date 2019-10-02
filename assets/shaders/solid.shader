@@ -65,13 +65,13 @@ uniform struct Camera
 	float	fov;	// Field of View
 	float	near;	// Near Clipping Distance
 	float	far;	// Far Clipping Distance
+	vec2	view;	// Frame Size
 } u_camera;
 
 uniform vec2	u_cursor;		// Cursor Position
 uniform float	u_delta;		// Delta Time
 uniform int		u_frame;		// Frame Index
 uniform float	u_fps;			// Frame Rate
-uniform vec2	u_viewport;		// Frame Size
 uniform float	u_time;			// Total Time
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -94,7 +94,7 @@ void main()
 
 	// Projection Matrix
 	mat4 p = perspective(
-		u_camera.fov, (u_viewport.x / u_viewport.y), u_camera.near, u_camera.far
+		u_camera.fov, (u_camera.view.x / u_camera.view.y), u_camera.near, u_camera.far
 	);
 
 	// MVP

@@ -92,35 +92,35 @@ namespace ml
 
 	const Camera & Camera::apply() const
 	{
-		if (m_enabled)
-		{
-			// Clear
-			switch (m_clearFlags)
-			{
-			case Camera::SolidColor:
-			{
-				const Color & bg { m_background };
-				ML_GL.clearColor(bg[0], bg[1], bg[2], bg[3]);
-				ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
-			}
-			break;
-			case Camera::DepthOnly:
-			{
-				ML_GL.clear(GL::DepthBufferBit);
-			}
-			break;
-			case Camera::DontClear:
-			default: break;
-			}
+		// Disabled
+		if (!m_enabled) { return (*this); }
 
-			// Viewport
-			ML_GL.viewport(
-				m_viewport.position()[0],
-				m_viewport.position()[1],
-				m_viewport.size()[0],
-				m_viewport.size()[1]
-			);
+		// Clear
+		switch (m_clearFlags)
+		{
+		case Camera::SolidColor:
+		{
+			const Color & bg { m_background };
+			ML_GL.clearColor(bg[0], bg[1], bg[2], bg[3]);
+			ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
 		}
+		break;
+		case Camera::DepthOnly:
+		{
+			ML_GL.clear(GL::DepthBufferBit);
+		}
+		break;
+		case Camera::DontClear:
+		default: break;
+		}
+
+		// Viewport
+		ML_GL.viewport(
+			m_viewport.position()[0],
+			m_viewport.position()[1],
+			m_viewport.size()[0],
+			m_viewport.size()[1]
+		);
 		return (*this);
 	}
 

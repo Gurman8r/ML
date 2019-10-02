@@ -148,7 +148,6 @@ namespace ml
 		ML_Content.insert<Uniform>("u_frame",	new uni_int_ptr	 { "u_frame",	&m_frameCount });
 		ML_Content.insert<Uniform>("u_fps",		new uni_float_ptr{ "u_fps",		&m_frameRate });
 		ML_Content.insert<Uniform>("u_time",	new uni_float_ptr{ "u_time",	&m_totalTime });
-		ML_Content.insert<Uniform>("u_viewport",new uni_vec2_ptr { "u_viewport",&m_viewport });
 
 		
 		// Run Load Script

@@ -69,6 +69,35 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline bool remove(hash_t code)
+		{
+			base_type::iterator it { m_data.find(code) };
+			if (it != m_data.end())
+			{
+				delete it->second;
+				m_data.erase(it);
+				return true;
+			}
+			return false;
+		}
+
+		template <hash_t H> inline bool remove()
+		{
+			return this->remove(H);
+		}
+
+		template <class T> inline bool remove()
+		{
+			return this->remove<typeof<T>::hash>();
+		}
+
+		inline bool remove(const String & name)
+		{
+			return this->remove(name.hash());
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline void * addByCode(hash_t code, void * value)
 		{
 			return ((m_data.find(code) == m_data.end())

@@ -167,13 +167,13 @@ namespace ml
 		template <class T> inline auto find(const String & name)
 			-> AssetMap::iterator
 		{
-			return this->data<T>().find(name);
+			return name ? this->data<T>().find(name) : this->end<T>();
 		}
 
 		template <class T> inline auto find(const String & name) const
 			-> AssetMap::const_iterator
 		{
-			return this->data<T>().find(name);
+			return name ? this->data<T>().find(name) : this->end<T>();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

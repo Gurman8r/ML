@@ -62,6 +62,7 @@ namespace ml
 				d.dockWindow(m_inspector.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightDn));
 				d.dockWindow(m_terminal	.getTitle(), d.getNode(d.LeftDn));
+				d.dockWindow(m_about	.getTitle(), d.getNode(d.LeftUp));
 			}
 			break;
 

@@ -39,32 +39,6 @@ ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem)
 
 namespace ml
 {
-	template <
-		class U, class T
-	> static inline void redirect_uniform(const String & name, const T * value)
-	{
-		if (!name) return;
-		if (auto u { (U *)ML_Content.get<Uniform>(name) })
-		{
-			u->data = value;
-		}
-		for (auto & pair : ML_Content.data<Material>())
-		{
-			if (auto m { (Material *)pair.second })
-			{
-				if (U * u = m->get<U>(name))
-				{
-					u->data = value;
-				}
-			}
-		}
-	}
-}
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Noobs::Noobs(EventSystem & eventSystem)
@@ -112,7 +86,14 @@ namespace ml
 				// Compile Sources
 				if (ev->isSave())
 				{
-					m_editor.compile_sources();
+					if (m_editor.compile_sources())
+					{
+						Debug::log("Compiled Shader");
+					}
+					else
+					{
+						Debug::log("Shader Compilation Failed");
+					}
 				}
 			}
 			break;
@@ -148,23 +129,12 @@ namespace ml
 		// Set Path
 		ML_FS.setPath("../../../");
 
-		//static Camera * camera { Camera::mainCamera() };
-		//static const float_t & fov { camera->fieldOfView() };
-		//static const float_t & zNear { camera->clipNear() };
-		//static const float_t & zFar { camera->clipFar() };
-
-		// Redirect Viewport
-		redirect_uniform<uni_vec2_ptr>("u_viewport", &m_editor.m_scene.m_viewport);
-
 		// Setup Editor
-		if (Entity * ent { m_editor.m_entity.update(ML_Content.get<Entity>(
-			ev.prefs.get_string("Noobs", "demo_entity", "demo_entity")
-		)) })
+		if (const String ent_name { ev.prefs.get_string("Noobs", "demo_entity", "") })
 		{
-			if (m_editor.m_renderer = ent->get<Renderer>())
+			if (Entity * ent { m_editor.m_entity.update(ML_Content.get<Entity>(ent_name)) })
 			{
-				m_editor.m_material.update(m_editor.m_renderer->material());
-				m_editor.m_model.update((const Model *)m_editor.m_renderer->drawable());
+				m_editor.m_renderer = ent->get<Renderer>();
 			}
 		}
 		m_editor.generate_sources();
@@ -172,12 +142,19 @@ namespace ml
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
-		// Update Surfaces Viewports
+		// Update Camera
+		Camera * camera { Camera::mainCamera() };
+		if (camera && camera->enabled())
+		{
+			camera->setViewport((vec2i)m_editor.m_scene.m_viewport);
+		}
+
+		// Update Surfaces
 		for (auto & surf : m_pipeline)
 		{
-			if (surf)
-			{
-				surf->update(m_editor.m_scene.m_viewport);
+			if (camera && camera->enabled()) 
+			{ 
+				surf->update((vec2)camera->viewport().size()); 
 			}
 		}
 	}
@@ -186,12 +163,39 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Update Camera
-		Camera * camera { Camera::mainCamera() };
-		if (camera)
+		// Apply Camera
+		const Camera * camera { Camera::mainCamera() };
+		if (camera && camera->enabled())
 		{
-			camera->setViewport((vec2i)m_editor.m_scene.m_viewport);
+			for (auto & pair : ML_Content.data<Material>())
+			{
+				if (auto m { (Material *)pair.second })
+				{
+					if (auto u { m->get<uni_vec3>("u_camera.pos") })
+					{
+						//u->data = vec3 { 0 };
+					}
+					if (auto u { m->get<uni_float>("u_camera.fov") })
+					{
+						u->data = camera->fieldOfView();
+					}
+					if (auto u { m->get<uni_float>("u_camera.near") })
+					{
+						u->data = camera->clipNear();
+					}
+					if (auto u { m->get<uni_float>("u_camera.far") })
+					{
+						u->data = camera->clipFar();
+					}
+					if (auto u { m->get<uni_vec2>("u_camera.view") })
+					{
+						u->data = (vec2)camera->viewport().size();
+					}
+				}
+			}
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
 
 		// Render Scene
 		if (m_pipeline[Surf_Main])
@@ -309,19 +313,22 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					ImGui::PushID("##Code");
-					ImGui::BeginChild("##Code##Content", { 0, 0, }, true,
+					ImGui::BeginChild(
+						"##Code##Content", 
+						{ 0, 0, }, 
+						false,
 						ImGuiWindowFlags_NoScrollbar
 					);
 
 					const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
-					const float_t line_height { ImGuiExt::GetLineHeight() * 1.25f };
+					const float_t tools_height { ImGuiExt::GetTextLineHeightWithSpacing() * 1.5f };
 					
 					// Text Editors
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					if (ImGui::BeginChildFrame(
 						ImGui::GetID("DemoFile##TextEditors"),
-						{ max_size[0], max_size[1] - line_height },
+						{ max_size[0], max_size[1] - tools_height },
 						ImGuiWindowFlags_NoScrollbar
 					) && ImGui::BeginTabBar("Demo File Tab Bar"))
 					{
@@ -364,13 +371,20 @@ namespace ml
 
 					if (ImGui::BeginChildFrame(
 						ImGui::GetID("DemoFile##Toolbar"),
-						{ max_size[0], line_height },
+						{ max_size[0], 0 },
 						ImGuiWindowFlags_NoScrollbar
 					))
 					{
 						if (ImGui::Button("Compile"))
 						{
-							this->compile_sources();
+							if (this->compile_sources())
+							{
+								Debug::log("Compiled Shader");
+							}
+							else
+							{
+								Debug::log("Shader Compilation Failed");
+							}
 						}
 						ImGuiExt::Tooltip("Build shader source code (Ctrl+S)");
 
@@ -402,7 +416,7 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					ImGui::PushID("##Uniforms");
-					ImGui::BeginChild("##Uniforms##Content", { 0, 0 }, true);
+					ImGui::BeginChildFrame(ImGui::GetID("##Uniforms##Content"), { 0, 0 }, 0);
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -411,7 +425,7 @@ namespace ml
 					if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (Uniform *&)to_add))
 					{
 						// Already Exists
-						if (to_add && !m_material->add(to_add))
+						if (to_add && !m_renderer->material()->add(to_add))
 						{
 							delete to_add;
 							Debug::logError("A uniform with that name already exists");
@@ -433,7 +447,7 @@ namespace ml
 					
 					// Uniform List
 					Uniform * to_remove { nullptr };
-					for (Uniform *& uni : (*m_material))
+					for (Uniform *& uni : (*m_renderer->material()))
 					{
 						if (!uni) continue;
 						ImGui::Columns(3, "##Uni##Columns");
@@ -452,7 +466,7 @@ namespace ml
 								ImGuiInputTextFlags_EnterReturnsTrue
 							))
 							{
-								if (!m_material->get(name))
+								if (!m_renderer->material()->get(name))
 								{
 									uni->name = name;
 								}
@@ -494,11 +508,11 @@ namespace ml
 						ImGui::Columns(1);
 						ImGui::Separator();
 					}
-					if (to_remove) { m_material->erase(to_remove); }
+					if (to_remove) { m_renderer->material()->erase(to_remove); }
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::EndChild();
+					ImGui::EndChildFrame();
 					ImGui::PopID();
 					ImGui::EndTabItem();
 
@@ -512,28 +526,25 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					ImGui::PushID("##Settings");
-					ImGui::BeginChild("##Settings##Content", { 0, 0 }, true);
+					ImGui::BeginChildFrame(ImGui::GetID("##Settings##Content"), { 0, 0 }, 0);
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					// Select Material
-					const Material * mtl = m_material;
+					const Material * mtl { m_renderer->material() };
 					if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 					{
-						if ((m_material.get() != mtl) && m_material.update(mtl))
-						{
-							m_renderer->setMaterial(mtl);
-							this->reset_sources();
-							this->generate_sources();
-						}
+						m_renderer->setMaterial(mtl);
+						this->reset_sources();
+						this->generate_sources();
 					}
 					ImGuiExt::Tooltip("Materials specify the active shader and its corresponding uniforms");
 
 					// Select Model
-					const Model * mdl = (const Model *)m_renderer->drawable();
+					const Model * mdl { m_renderer->model() };
 					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 					{
-						m_renderer->setDrawable(mdl);
+						m_renderer->setModel(mdl);
 					}
 					ImGuiExt::Tooltip("Models specify the geometry to be drawn");
 
@@ -894,7 +905,7 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::EndChild();
+					ImGui::EndChildFrame();
 					ImGui::PopID(); 
 					ImGui::EndTabItem();
 
@@ -926,7 +937,7 @@ namespace ml
 
 		auto setup_file = [&](DemoFile::Type type, const String & src)
 		{
-			if (m_material && m_material->shader())
+			if (m_renderer->material() && m_renderer->material()->shader())
 			{
 				if (!m_files[type])
 				{
@@ -944,21 +955,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (!m_material) return;
+		if (!m_renderer->material()) return;
 
-		if (auto vert = setup_file(DemoFile::Vert, m_material->shader()->sources().vs))
+		if (auto vert = setup_file(DemoFile::Vert, m_renderer->material()->shader()->sources().vs))
 		{
-			vert->open = m_material->shader()->sources().vs;
+			vert->open = m_renderer->material()->shader()->sources().vs;
 		}
 
-		if (auto frag = setup_file(DemoFile::Frag, m_material->shader()->sources().fs))
+		if (auto frag = setup_file(DemoFile::Frag, m_renderer->material()->shader()->sources().fs))
 		{
-			frag->open = m_material->shader()->sources().fs;
+			frag->open = m_renderer->material()->shader()->sources().fs;
 		}
 
-		if (auto geom = setup_file(DemoFile::Geom, m_material->shader()->sources().gs))
+		if (auto geom = setup_file(DemoFile::Geom, m_renderer->material()->shader()->sources().gs))
 		{
-			geom->open = m_material->shader()->sources().gs;
+			geom->open = m_renderer->material()->shader()->sources().gs;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -966,16 +977,21 @@ namespace ml
 
 	bool Noobs::DemoEditor::compile_sources()
 	{
-		if (m_material && m_material->shader())
+		if (m_renderer->material() && m_renderer->material()->shader())
 		{
-			if (Shader * s = std::remove_cv_t<Shader *>(m_material->shader()))
+			if (Shader * s { m_renderer->shader() })
 			{
 				for (DemoFile *& f : m_files)
 				{
 					if (f) { f->dirty = false; }
 				}
 
-				if (m_files[DemoFile::Geom]->open)
+				const bool
+					vs = m_files[DemoFile::Vert]->open,
+					gs = m_files[DemoFile::Geom]->open,
+					fs = m_files[DemoFile::Frag]->open;
+
+				if (vs && gs && fs)
 				{
 					return s->loadFromMemory(
 						m_files[DemoFile::Vert]->text.GetText(),
@@ -983,18 +999,34 @@ namespace ml
 						m_files[DemoFile::Frag]->text.GetText()
 					);
 				}
-				else
+				else if (vs && fs)
 				{
 					return s->loadFromMemory(
 						m_files[DemoFile::Vert]->text.GetText(),
 						m_files[DemoFile::Frag]->text.GetText()
 					);
 				}
+				else if (vs)
+				{
+					return s->loadFromMemory(
+						m_files[DemoFile::Vert]->text.GetText(), GL::VertexShader
+					);
+				}
+				else if (fs)
+				{
+					return s->loadFromMemory(
+						m_files[DemoFile::Frag]->text.GetText(), GL::FragmentShader
+					);
+				}
+				else if (gs)
+				{
+					return s->loadFromMemory(
+						m_files[DemoFile::Geom]->text.GetText(), GL::GeometryShader
+					);
+				}
 			}
 		}
-		return Debug::log("Failed compiling shader: {0}", 
-			ML_Content.get_name(m_material->shader())
-		);
+		return false;
 	}
 
 	void Noobs::DemoEditor::reset_sources()

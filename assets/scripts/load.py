@@ -218,7 +218,6 @@ if ml.content.load({ "type": "Entity", "name": name }):
 
 # Advanced
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-
 name = "ent_advanced"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Transform"):

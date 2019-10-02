@@ -60,6 +60,12 @@ namespace ml
 		inline auto clipFar()		const -> const float_t &	{ return m_clipFar; }
 		inline auto viewport()		const -> const IntRect &	{ return m_viewport; }
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline operator bool() const { return enabled(); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static inline Camera * mainCamera() { return s_mainCamera; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -139,32 +139,21 @@ namespace ml
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
 	{
-		// Update Camera
-		Camera * camera { Camera::mainCamera() };
-		if (camera && camera->enabled())
-		{
-			camera->setViewport((vec2i)m_editor.m_scene.m_viewport);
-		}
-
-		// Update Surfaces
-		for (auto & surf : m_pipeline)
-		{
-			if (camera && camera->enabled()) 
-			{ 
-				surf->update((vec2)camera->viewport().size()); 
-			}
-		}
-	}
-
-	void Noobs::onDraw(const DrawEvent & ev)
-	{
-		// Update Uniforms
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Apply Camera Uniforms
-		const Camera * camera { Camera::mainCamera() };
-		if (camera && camera->enabled())
+		Camera * camera { Camera::mainCamera() };
+		if (camera && (*camera))
 		{
+			// Update Camera
+			camera->setViewport((vec2i)m_editor.m_scene.m_viewport);
+
+			// Update Surfaces
+			for (auto & surf : m_pipeline)
+			{
+				surf->update((vec2)camera->viewport().size());
+			}
+
+			// Update Materials
 			for (auto & pair : ML_Content.data<Material>())
 			{
 				if (auto m { (Material *)pair.second })
@@ -197,15 +186,16 @@ namespace ml
 			}
 		}
 
-		// Apply Entity Uniforms
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		// Update Entities
 		for (auto & pair : ML_Content.data<Entity>())
 		{
 			if (auto ent { (Entity *)pair.second })
 			{
 				auto renderer { ent->get<Renderer>() };
 				auto transform { ent->get<Transform>() };
-				if (transform && transform->enabled() && 
-					renderer && renderer->enabled())
+				if (transform && (*transform) && renderer && (*renderer))
 				{
 					if (Material * m { renderer->material() })
 					{
@@ -225,6 +215,14 @@ namespace ml
 				}
 			}
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+	}
+
+	void Noobs::onDraw(const DrawEvent & ev)
+	{
+		// Get Camera
+		const Camera * camera { Camera::mainCamera() };
 
 		// Render Scene
 		/* * * * * * * * * * * * * * * * * * * * */

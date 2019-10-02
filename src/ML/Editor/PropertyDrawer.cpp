@@ -426,7 +426,7 @@ namespace ml
 			{
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Renderer##" + label).c_str()),
-					{ 0, 0 },
+					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 6.5f },
 					true
 				);
 

@@ -94,8 +94,22 @@ namespace ml
 				// Item Context Menu
 				if (ImGui::BeginPopupContextItem(("##ItemContextMenu##" + label).c_str()))
 				{
+					bool no_delete { false };
+
+					if (std::is_same_v<T, Uniform>)
+					{
+						if (auto u { static_cast<Uniform *>(it->second) })
+						{
+							if (!u->isModifiable())
+							{
+								no_delete = true;
+							}
+						}
+					}
+
 					// Delete
-					if (ImGuiExt::Confirm(
+					if (!no_delete &&
+						ImGuiExt::Confirm(
 						String("Delete {0}?").format(type_name),
 						ImGui::Button("Delete"),
 						String("Are you sure you want to delete {0}: \'{1}\'?").format(type_name, it->first)

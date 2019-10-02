@@ -232,7 +232,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "depth",    "predicate",    "GL_LESS")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
-if 1:
+if 0:
     ml.prefs.set("Noobs", "demo_entity", "ent_advanced")
     ml.ecs.renderer_attr("ent_basic", "self", "enabled", "False")
     ml.ecs.renderer_attr("ent_advanced", "self", "enabled", "True")

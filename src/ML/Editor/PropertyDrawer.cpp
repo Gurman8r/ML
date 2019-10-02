@@ -1960,6 +1960,46 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::BeginTooltip();
+			
+			switch (value->sampler())
+			{
+			case GL::Texture2D:
+			{
+				if (value)
+				{
+					const vec2 dst { 128, 128 };
+					const vec2 scl { alg::scale_to_fit((vec2)value->size(), dst) * 0.975f };
+					const vec2 pos { ((dst - scl) * 0.5f) };
+					ImGui::BeginChild(
+						("##PropertyDrawer##Texture2D##Selector##Preview" + label).c_str(),
+						{ dst[0], dst[1] },
+						true,
+						ImGuiWindowFlags_NoScrollbar
+					);
+					ImGui::SetCursorPos({ pos[0], pos[1] });
+					ImGui::Image(value->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+					ImGui::EndChild();
+				}
+			}
+			break;
+			case GL::Texture3D:
+			{
+				ImGui::Text("Texture-3D previews are currently disabled.");
+			}
+			break;
+			case GL::TextureCubeMap:
+			{
+				ImGui::Text("Texture-CubeMap previews are currently disabled.");
+			}
+			break;
+			}
+
+			ImGui::EndTooltip();
+		}
+
 		return changed;
 	}
 

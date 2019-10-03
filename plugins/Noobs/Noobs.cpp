@@ -182,6 +182,10 @@ namespace ml
 					{
 						u->data = (vec2)camera->viewport().size();
 					}
+					if (auto u { m->get<uni_vec2>("u_viewport") })
+					{
+						u->data = (vec2)camera->viewport().size();
+					}
 				}
 			}
 		}
@@ -558,6 +562,16 @@ namespace ml
 						this->generate_sources();
 					}
 					ImGuiExt::Tooltip("Materials specify the active shader and its corresponding uniforms");
+
+					// Select Shader
+					const Shader * shd { m_renderer->shader() };
+					if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
+					{
+						m_renderer->setShader(shd);
+						this->reset_sources();
+						this->generate_sources();
+					}
+					ImGuiExt::Tooltip("Shaders target material's shader");
 
 					// Select Model
 					const Model * mdl { m_renderer->model() };

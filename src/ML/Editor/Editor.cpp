@@ -208,7 +208,7 @@ namespace ml
 					void * temp { nullptr };
 					PropertyDrawer<Entity>()("Entity##File##Create", (Entity *&)temp, true);
 					PropertyDrawer<Font>()("Font##File##Create", (Font *&)temp, true);
-					PropertyDrawer<Image>()("Image##File##Create", (Image *&)temp, true);
+					//PropertyDrawer<Image>()("Image##File##Create", (Image *&)temp, true);
 					PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp, true);
 					PropertyDrawer<Model>()("Model##File##Create", (Model *&)temp, true);
 					PropertyDrawer<Shader>()("Shader##File##Create", (Shader *&)temp, true);

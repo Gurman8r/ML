@@ -72,6 +72,27 @@
     <None Include="..\..\..\assets\scripts\test.lua">
       <Filter>Resource Files\assets\scripts</Filter>
     </None>
+    <None Include="..\..\..\assets\shaders\swirly.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\test.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\abstract_lines.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\wrainbow.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\sparkle_plexus.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\tunnel.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
+    <None Include="..\..\..\assets\shaders\flames.shader">
+      <Filter>Resource Files\assets\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

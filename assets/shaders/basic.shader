@@ -9,14 +9,9 @@ layout(location = 2) in vec2 a_texcoord;
 
 out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
-uniform vec2		u_cursor;		// Cursor Position
-uniform float		u_delta;		// Delta Time
-uniform int			u_frame;		// Frame Index
-uniform float		u_fps;			// Frame Rate
-uniform float		u_time;			// Total Time
-uniform mat4		u_proj;			// Projection Matrix
-uniform mat4		u_view;			// View Matrix
-uniform mat4		u_model;		// Model Matrix
+uniform mat4	u_proj;		// Projection Matrix
+uniform mat4	u_view;		// View Matrix
+uniform mat4	u_model;	// Model Matrix
 
 void main()
 {
@@ -36,13 +31,8 @@ in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
-uniform vec2		u_cursor;		// Cursor Position
-uniform float		u_delta;		// Delta Time
-uniform int			u_frame;		// Frame Index
-uniform float		u_fps;			// Frame Rate
-uniform float		u_time;			// Total Time
-uniform	vec4		u_color;		// Main Color
-uniform sampler2D	u_texture0;		// Main Texture
+uniform	vec4		u_color;	// Main Color
+uniform sampler2D	u_texture0;	// Main Texture
 
 void main()
 {

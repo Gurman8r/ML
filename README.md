@@ -34,6 +34,5 @@ __________
 ![alt text](https://i.imgur.com/JS4bQdL.png)
 ![alt text](https://i.imgur.com/9F3BuaL.png)
 ![alt text](https://i.imgur.com/dfm47zC.png)
-![alt text](https://i.imgur.com/6vC5hxb.mp4)
 
 __________

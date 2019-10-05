@@ -36,7 +36,7 @@ ml.content.load_all([
     { "type": "Shader", "name": "gl_surface",   "file": PATH + "/shaders/surface.shader" },
     { "type": "Shader", "name": "gl_swirly",    "file": PATH + "/shaders/swirly.shader" },
     { "type": "Shader", "name": "gl_sparkles",  "file": PATH + "/shaders/sparkle_plexus.shader" },
-    { "type": "Shader", "name": "gl_tunnel",    "file": PATH + "/shaders/tunnel.shader" },
+    { "type": "Shader", "name": "gl_wormhole",  "file": PATH + "/shaders/wormhole.shader" },
     { "type": "Shader", "name": "gl_wrainbow",  "file": PATH + "/shaders/wrainbow.shader" },
 
 # Textures
@@ -136,14 +136,14 @@ ml.content.load_all([
     },
     {
         "type":     "Material",
-        "name":     "mat_advanced",
+        "name":     "mat_3d",
         "shader":   "gl_advanced",
         "defaults": "True",
         "uniforms": PATH + "/materials/advanced.mat"
     },
     {
         "type":     "Material",
-        "name":     "mat_basic",
+        "name":     "mat_2d",
         "shader":   "gl_basic",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.mat"
@@ -204,18 +204,18 @@ if ml.content.load({ "type": "Entity", "name": name }):
 
 # Basic
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-name = "ent_basic"
+name = "ent_2d"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_basic")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_2d")
         ml.ecs.renderer_attr(name,  "self",     "model",        "default_quad")
-        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl_tunnel")
+        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl_basic")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
 
 # Advanced
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-name = "ent_advanced"
+name = "ent_3d"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Transform"):
         ml.ecs.transform_attr(name, "self",     "position",     "0.0 0.0 0.0")
@@ -223,7 +223,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.transform_attr(name, "self",     "rotation",     "0.0 1.0 0.0")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_advanced")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat_3d")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj_cow")
         ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")
         ml.ecs.renderer_attr(name,  "alpha",    "predicate",    "GL_GREATER")

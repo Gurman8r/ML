@@ -571,7 +571,7 @@ namespace ml
 						this->reset_sources();
 						this->generate_sources();
 					}
-					ImGuiExt::Tooltip("Shaders target material's shader");
+					ImGuiExt::Tooltip("Specify the target material's shader");
 
 					// Select Model
 					const Model * mdl { m_renderer->model() };
@@ -579,7 +579,7 @@ namespace ml
 					{
 						m_renderer->setModel(mdl);
 					}
-					ImGuiExt::Tooltip("Models specify the geometry to be drawn");
+					ImGuiExt::Tooltip("Specify the geometry to be drawn");
 
 					// Get Video Modes
 					static const List<VideoMode> & mode_values {
@@ -594,7 +594,7 @@ namespace ml
 						};
 						for (const VideoMode & elem : mode_values)
 						{
-							temp.push_back(String("{0}").format(elem.size));
+							temp.push_back(alg::to_string(elem.size));
 						}
 						return temp;
 					}();

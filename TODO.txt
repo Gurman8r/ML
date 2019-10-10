@@ -9,6 +9,7 @@
 
 [ ] MORE PROPERTY DRAWERS
 [ ] INCREASE DATA DENSITY
+[ ] BETTER DESERIALIZATION
 [ ] Dedicated error log (like Unity's)
 [ ] "Red Lines" in text editor
 [ ] Remove "RenderBatch"

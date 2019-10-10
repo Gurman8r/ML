@@ -7,13 +7,15 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ ] Dedicated Color Type
-[ ] Increase data density of Entity and ContentManager
+[ ] MORE PROPERTY DRAWERS
+[ ] INCREASE DATA DENSITY
+[ ] Dedicated error log (like Unity's)
+[ ] "Red Lines" in text editor
 [ ] Remove "RenderBatch"
 [ ] Real-time python scripts
 [ ] Json Editor Gui
-[ ] MORE PROPERTY DRAWERS
 [ ] Temporary/Preview Assets
+[ ] Dedicated Color Type
 
 [X] gui open file dialog
 [X] proper gui for creating/importing new assets
@@ -26,7 +28,7 @@
 [x] template asset importers
 [x] rework command system
 
-[?] Virtual File System?
+[?] Virtual File System
 [?] automatic/recursive asset loading
 [?] async asset loading (threaded w/ progress bar)
 

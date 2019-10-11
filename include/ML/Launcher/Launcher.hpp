@@ -16,24 +16,27 @@
 
 namespace ml
 {
-	struct Launcher final : public I_NonNewable
+	struct Launcher final : public I_Singleton<Launcher>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		Launcher()
-			: prefs { ML_CONFIG_INI }
-			, time { }
-			, window { }
-		{
-		}
-
-		~Launcher() {}
 
 		Preferences 	prefs;
 		GameTime		time;
 		RenderWindow	window;
 
 		int32_t operator()(int32_t argc, char ** argv);
+
+	private:
+		friend struct I_Singleton<Launcher>;
+
+		Launcher()
+			: prefs		{ ML_CONFIG_INI }
+			, time		{ }
+			, window	{ }
+		{
+		}
+
+		~Launcher() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

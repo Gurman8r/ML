@@ -5,7 +5,7 @@
 ml::int32_t main()
 {
 	using namespace ml;
-	return Launcher()(ML_ARGC, ML_ARGV);
+	return ML_Launcher(ML_ARGC, ML_ARGV);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

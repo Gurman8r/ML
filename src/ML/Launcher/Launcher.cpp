@@ -8,9 +8,6 @@ namespace ml
 
 	int32_t Launcher::operator()(int32_t argc, char ** argv)
 	{
-		// Hello!
-		if (running) { return EXIT_FAILURE; } running = true;
-
 		// Initialize Instances
 		ML_Engine; ML_Editor; ML_Plugins;
 
@@ -41,7 +38,7 @@ namespace ml
 		ML_Plugins.dispose();
 
 		// Goodbye!
-		running = false; return EXIT_SUCCESS;
+		return EXIT_SUCCESS;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

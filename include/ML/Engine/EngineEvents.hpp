@@ -14,8 +14,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct EngineEvent final
+	struct EngineEvents final
 	{
+		EngineEvents() = delete;
+
 		enum : int32_t
 		{
 			MIN_ENGINE_EVENT = Event::EV_ENGINE,
@@ -45,7 +47,7 @@ namespace ml
 	// Startup
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct EnterEvent final : public I_Event<EngineEvent::EV_Enter>
+	struct EnterEvent final : public I_Event<EngineEvents::EV_Enter>
 	{
 		const GameTime & time;
 		Preferences & prefs;
@@ -58,7 +60,7 @@ namespace ml
 		}
 	};
 
-	struct LoadEvent final : public I_Event<EngineEvent::EV_Load>
+	struct LoadEvent final : public I_Event<EngineEvents::EV_Load>
 	{
 		const GameTime & time;
 		Preferences & prefs;
@@ -71,7 +73,7 @@ namespace ml
 		}
 	};
 
-	struct StartEvent final : public I_Event<EngineEvent::EV_Start>
+	struct StartEvent final : public I_Event<EngineEvents::EV_Start>
 	{
 		const GameTime & time;
 		Preferences & prefs;
@@ -87,7 +89,7 @@ namespace ml
 	// Loop
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct BeginLoopEvent final : public I_Event<EngineEvent::EV_BeginLoop>
+	struct BeginLoopEvent final : public I_Event<EngineEvents::EV_BeginLoop>
 	{
 		GameTime & time;
 		RenderWindow & window;
@@ -102,7 +104,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct UpdateEvent final : public I_Event<EngineEvent::EV_Update>
+	struct UpdateEvent final : public I_Event<EngineEvents::EV_Update>
 	{
 		const GameTime & time;
 		RenderWindow & window;
@@ -117,7 +119,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct BeginDrawEvent final : public I_Event<EngineEvent::EV_BeginDraw>
+	struct BeginDrawEvent final : public I_Event<EngineEvents::EV_BeginDraw>
 	{
 		const GameTime & time;
 		RenderWindow & window;
@@ -130,7 +132,7 @@ namespace ml
 		}
 	};
 
-	struct DrawEvent final : public I_Event<EngineEvent::EV_Draw>
+	struct DrawEvent final : public I_Event<EngineEvents::EV_Draw>
 	{
 		const GameTime & time;
 		RenderWindow & window;
@@ -143,7 +145,7 @@ namespace ml
 		}
 	};
 
-	struct EndDrawEvent final : public I_Event<EngineEvent::EV_EndDraw>
+	struct EndDrawEvent final : public I_Event<EngineEvents::EV_EndDraw>
 	{
 		const GameTime & time;
 		RenderWindow & window;
@@ -158,7 +160,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct EndLoopEvent final : public I_Event<EngineEvent::EV_EndLoop>
+	struct EndLoopEvent final : public I_Event<EngineEvents::EV_EndLoop>
 	{
 		GameTime & time;
 		RenderWindow & window;
@@ -174,7 +176,7 @@ namespace ml
 	// Shutdown
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct UnloadEvent final : public I_Event<EngineEvent::EV_Unload>
+	struct UnloadEvent final : public I_Event<EngineEvents::EV_Unload>
 	{
 		const GameTime & time;
 		RenderWindow & window;
@@ -187,7 +189,7 @@ namespace ml
 		}
 	};
 
-	struct ExitEvent final : public I_Event<EngineEvent::EV_Exit>
+	struct ExitEvent final : public I_Event<EngineEvents::EV_Exit>
 	{
 		const GameTime & time;
 		RenderWindow & window;
@@ -202,7 +204,7 @@ namespace ml
 	// Utility
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct CommandEvent final : public I_Event<EngineEvent::EV_Command>
+	struct CommandEvent final : public I_Event<EngineEvents::EV_Command>
 	{
 		C_String cmd;
 		constexpr CommandEvent(C_String cmd)

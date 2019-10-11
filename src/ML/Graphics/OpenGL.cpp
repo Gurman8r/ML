@@ -1,5 +1,7 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/EventSystem.hpp>
+#include <ML/Graphics/GraphicsEvents.hpp>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -14,32 +16,12 @@ namespace ml
 		return static_cast<GL::Err>(glGetError());
 	}
 
-	auto OpenGL::checkError(C_String file, uint32_t line, C_String expr) -> std::ostream &
+	void OpenGL::checkError(C_String file, uint32_t line, C_String expr)
 	{
-		return checkError(cout, file, line, expr);
-	}
-
-	auto OpenGL::checkError(std::ostream & out, C_String file, uint32_t line, C_String expr) -> std::ostream &
-	{
-		// Get the last error
 		if (const GL::Err code = getError())
 		{
-			// Error location
-			String filename { file };
-			filename = filename.substr(filename.find_last_of("\\/") + 1);
-
-			// Decode the error
-			out << FG::Red		<< "\nAn OpenGL call failed in \'" << file << "\' (" << line << ")"
-				<< FG::Yellow	<< "\nCode: "
-				<< FG::White	<< "\n\t" << (uint32_t)code
-				<< FG::Yellow	<< "\nExpression: "
-				<< FG::White	<< "\n\t" << expr
-				<< FG::Yellow	<< "\nDescription:"
-				<< FG::White	<< "\n\t" << GL::name_of(code)
-				<< FG::White	<< "\n\t" << GL::desc_of(code)
-				<< FMT()		<< endl;
+			ML_EventSystem.fireEvent<OpenGlErrorEvent>(file, line, expr, code);
 		}
-		return out;
 	}
 
 

@@ -2385,7 +2385,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			if (value && bitRead(flags, 0)) 
+			if (value && ML_BITREAD(flags, 0)) 
 			{ 
 				ML_Content.insert<Uniform>(value->name, value); 
 			}

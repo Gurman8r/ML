@@ -75,7 +75,7 @@ namespace ml
 			RakNet::RakString str;
 			if (bitStream.Read(str))
 			{
-				ML_EventSystem.fireEvent(ServerRecievePacketEvent(str.C_String()));
+				ML_EventSystem.fireEvent<ServerRecievePacketEvent>(str.C_String());
 			}
 			break;
 		}

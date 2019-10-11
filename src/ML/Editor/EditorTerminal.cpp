@@ -210,7 +210,7 @@ namespace ml
 		}
 		else
 		{
-			ML_EventSystem.fireEvent(CommandEvent(value));
+			ML_EventSystem.fireEvent<CommandEvent>(value);
 		}
 	}
 

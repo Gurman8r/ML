@@ -3,7 +3,6 @@
 
 #include <ML/Editor/Export.hpp>
 #include <ML/Window/Window.hpp>
-#include <ML/Core/EventSystem.hpp>
 
 #define ML_ImGuiImpl ::ml::ImGuiImpl::getInstance()
 
@@ -37,11 +36,6 @@ namespace ml
 
 		bool CompileShader(uint32_t & obj, const C_String * vs, const C_String * fs);
 		void HandleInput();
-
-		template <class Ev> inline void fireEvent(const Ev & value)
-		{
-			ML_EventSystem.fireEvent(value);
-		}
 
 		static void MouseButtonCallback(void * window, int32_t button, int32_t action, int32_t mods);
 		static void ScrollCallback(void * window, float64_t xoffset, float64_t yoffset);

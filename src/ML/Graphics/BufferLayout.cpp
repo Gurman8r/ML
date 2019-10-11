@@ -49,9 +49,13 @@ namespace ml
 		return temp;
 	}
 
-	void BufferLayout::bind() const
+	const BufferLayout & BufferLayout::bind() const
 	{
-		for (const Element & elem : this->elements()) { elem(); }
+		for (const Element & elem : this->elements()) 
+		{ 
+			elem(); 
+		}
+		return (*this);
 	}
 
 	BufferLayout & BufferLayout::push_back(const Element & value)

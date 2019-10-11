@@ -75,6 +75,7 @@ namespace ml
 		bool setUniform(const String & name, const vec2i & value) const;
 		bool setUniform(const String & name, const vec3i & value) const;
 		bool setUniform(const String & name, const vec4i & value) const;
+		bool setUniform(const String & name, const mat2 & value) const;
 		bool setUniform(const String & name, const mat3 & value) const;
 		bool setUniform(const String & name, const mat4 & value) const;
 		bool setUniform(const String & name, const Texture & value) const;
@@ -85,6 +86,7 @@ namespace ml
 		bool setUniformArray(const String & name, const int32_t count, const vec2 * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const vec3 * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const vec4 * value) const;
+		bool setUniformArray(const String & name, const int32_t count, const mat2 * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const mat3 * value) const;
 		bool setUniformArray(const String & name, const int32_t count, const mat4 * value) const;
 
@@ -94,6 +96,7 @@ namespace ml
 		bool setUniformList(const String & name, const List<vec2> & value) const;
 		bool setUniformList(const String & name, const List<vec3> & value) const;
 		bool setUniformList(const String & name, const List<vec4> & value) const;
+		bool setUniformList(const String & name, const List<mat2> & value) const;
 		bool setUniformList(const String & name, const List<mat3> & value) const;
 		bool setUniformList(const String & name, const List<mat4> & value) const;
 

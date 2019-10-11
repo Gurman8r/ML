@@ -19,16 +19,18 @@ namespace ml
 			return typeid(*this);
 		}
 
-		inline friend ML_SERIALIZE(std::ostream & out, const I_Newable & value)
-		{
-			return out << value.get_type_info().name();
-		}
-
 		inline void * operator new		(size_t size) { return ML_new(size); }
 		inline void * operator new[]    (size_t size) { return ML_new(size);  }
 		inline void	  operator delete   (void * ptr)  { return ML_delete(ptr); }
 		inline void	  operator delete[] (void * ptr)  { return ML_delete(ptr); }
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(std::ostream & out, const I_Newable & value)
+	{
+		return out << value.get_type_info().name();
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

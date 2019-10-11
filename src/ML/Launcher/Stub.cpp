@@ -7,6 +7,7 @@
 #include <ML/Core/TypeOf.hpp>
 #include <ML/Core/Duration.hpp>
 #include <ML/Graphics/Material.hpp>
+#include <ML/Core/Bitset.hpp>
 
 namespace ml
 {
@@ -112,94 +113,11 @@ namespace ml
 
 namespace ml
 {
-	template <class T> struct bitset final
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type	= typename detail::decay_t<T>;
-		using bit	= typename bool;
-		using byte	= typename uint8_t;
-		using bits	= typename Array<bit, sizeof(type) * 8>;
-		using bytes = typename Array<byte, sizeof(type)>;
-
-		using pointer			= typename bit *;
-		using reference			= typename bit &;
-		using const_pointer		= typename const bit *;
-		using const_reference	= typename const bit &;
-		using iterator			= typename pointer;
-		using const_iterator	= typename const_pointer;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		constexpr bitset() : m_bits { bits() } {}
-		constexpr bitset(const bitset<type> & copy) : m_bits { copy.m_bits } {}
-		constexpr bitset(const type & value) : m_bits { to_bits(value) } {}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		constexpr type get() const { return from_bits(m_bits); }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static constexpr type from_bits(const bits & value)
-		{
-			type temp { 0 };
-			for (size_t i = 0; i < sizeof(bits); i++)
-			{
-				bitWrite(temp, i, value[i]);
-			}
-			return temp;
-		}
-
-		static constexpr bits to_bits(const type & value)
-		{
-			bits temp { 0 };
-			for (size_t i = 0; i < sizeof(bits); i++)
-			{
-				temp[i] = bitRead(value, i);
-			}
-			return temp;
-		}
-
-		static constexpr bytes to_bytes(const type & value)
-		{
-			bytes temp { 0 };
-			for (size_t i = 0; i < sizeof(bytes); i++)
-			{
-				temp[i] = static_cast<bit>(value >> (i * 8));
-			}
-			return temp;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		constexpr const_reference operator[](size_t i) const { return m_bits[i]; }
-		
-		inline reference operator[](size_t i) { return m_bits[i]; }
-		
-		inline friend ML_SERIALIZE(std::ostream & out, const bitset<type> & value)
-		{
-			return out << value.m_bits;
-		}
-
-		inline friend ML_DESERIALIZE(std::istream & in, bitset<type> & value)
-		{
-			return in >> value.m_bits;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline		auto begin()			-> iterator			{ return &m_bits[0]; }
-		constexpr	auto begin()	const	-> const_iterator	{ return &m_bits[0]; }
-		constexpr	auto cbegin()	const	-> const_iterator	{ return begin(); }
-		constexpr	auto cend()		const	-> const_iterator	{ return end(); }
-		inline		auto end()				-> iterator			{ return &m_bits[sizeof(bits)]; }
-		constexpr	auto end()		const	-> const_iterator	{ return &m_bits[sizeof(bits)]; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private: bits m_bits;
-	};
+	
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 namespace ml
@@ -213,14 +131,14 @@ namespace ml
 		U_Invalid = -1,
 		U_Boolean, U_Float, U_Integer,
 		U_Vector2, U_Vector3, U_Vector4, U_Color,
-		U_Matrix3, U_Matrix4,
+		U_Matrix2, U_Matrix3, U_Matrix4,
 		U_Sampler
 	};
 
 	using uni_data = typename std::variant<
 		bool, int32_t, float_t,
 		vec2, vec3, vec4, Color,
-		mat3, mat4,
+		mat2, mat3, mat4,
 		const Texture *
 	>;
 
@@ -231,14 +149,14 @@ namespace ml
 	static constexpr uni_type uni_type_values[] = {
 		U_Boolean, U_Float, U_Integer,
 		U_Vector2, U_Vector3, U_Vector4, U_Color,
-		U_Matrix3, U_Matrix4,
+		U_Matrix2, U_Matrix3, U_Matrix4,
 		U_Sampler
 	};
 
 	static constexpr uni_name uni_type_names[] = {
 		"bool", "float", "int",
 		"vec2", "vec3", "vec4", "color",
-		"mat3", "mat4",
+		"mat2", "mat3", "mat4",
 		"sampler"
 	};
 
@@ -266,6 +184,7 @@ namespace ml
 		else if (std::holds_alternative<vec3>(value)) return U_Vector3;
 		else if (std::holds_alternative<vec4>(value)) return U_Vector4;
 		else if (std::holds_alternative<Color>(value)) return U_Color;
+		else if (std::holds_alternative<mat2>(value)) return U_Matrix2;
 		else if (std::holds_alternative<mat3>(value)) return U_Matrix3;
 		else if (std::holds_alternative<mat4>(value)) return U_Matrix4;
 		else if (std::holds_alternative<const Texture *>(value)) return U_Sampler;
@@ -288,6 +207,7 @@ namespace ml
 		case typeof<vec3>::hash: return U_Vector3;
 		case typeof<vec4>::hash: return U_Vector4;
 		case typeof<Color>::hash: return U_Color;
+		case typeof<mat2>::hash: return U_Matrix2;
 		case typeof<mat3>::hash: return U_Matrix3;
 		case typeof<mat4>::hash: return U_Matrix4;
 		case typeof<const Texture *>::hash: return U_Sampler;
@@ -414,6 +334,7 @@ namespace ml
 	using uniform_vec3		= typename uniform_t<vec3>;
 	using uniform_vec4		= typename uniform_t<vec4>;
 	using uniform_color		= typename uniform_t<Color>;
+	using uniform_mat2		= typename uniform_t<mat2>;
 	using uniform_mat3		= typename uniform_t<mat3>;
 	using uniform_mat4		= typename uniform_t<mat4>;
 	using uniform_sampler	= typename uniform_t<const Texture *>;
@@ -441,6 +362,9 @@ namespace ml
 			return shader->setUniform(name(), (*temp));
 
 		case uniform_vec4::ID: if (auto temp { uniform_cast<vec4>(base()) })
+			return shader->setUniform(name(), (*temp));
+
+		case uniform_mat2::ID: if (auto temp { uniform_cast<mat2>(base()) })
 			return shader->setUniform(name(), (*temp));
 
 		case uniform_mat3::ID: if (auto temp { uniform_cast<mat3>(base()) })

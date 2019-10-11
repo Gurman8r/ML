@@ -395,6 +395,16 @@ namespace ml
 		return u;
 	}
 
+	bool Shader::setUniform(const String & name, const mat2 & value) const
+	{
+		UniformBinder u { this, name };
+		if (u)
+		{
+			ML_GL.uniformMatrix2fv(u.location, 1, false, value.data());
+		}
+		return u;
+	}
+
 	bool Shader::setUniform(const String & name, const mat3 & value) const
 	{
 		UniformBinder u { this, name };
@@ -486,6 +496,16 @@ namespace ml
 		return u;
 	}
 
+	bool Shader::setUniformArray(const String & name, const int32_t count, const mat2 * value) const
+	{
+		UniformBinder u { this, name };
+		if (u)
+		{
+			ML_GL.uniformMatrix2fv(u.location, count, false, &makeContiguous(value, (size_t)count)[0]);
+		}
+		return u;
+	}
+
 	bool Shader::setUniformArray(const String & name, const int32_t count, const mat3 * value) const
 	{
 		UniformBinder u { this, name };
@@ -524,6 +544,11 @@ namespace ml
 	}
 
 	bool Shader::setUniformList(const String & name, const List<vec4> & value) const
+	{
+		return setUniformArray(name, (int32_t)value.size(), value.data());
+	}
+
+	bool Shader::setUniformList(const String & name, const List<mat2> & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}

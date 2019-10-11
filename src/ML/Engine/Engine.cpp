@@ -36,11 +36,11 @@ namespace ml
 		ML_EventSystem.addListener(UpdateEvent		::ID, this);
 		ML_EventSystem.addListener(BeginDrawEvent	::ID, this);
 		ML_EventSystem.addListener(DrawEvent		::ID, this);
-		ML_EventSystem.addListener(EndDrawEvent	::ID, this);
-		ML_EventSystem.addListener(EndLoopEvent	::ID, this);
+		ML_EventSystem.addListener(EndDrawEvent		::ID, this);
+		ML_EventSystem.addListener(EndLoopEvent		::ID, this);
 		ML_EventSystem.addListener(UnloadEvent		::ID, this);
 		ML_EventSystem.addListener(ExitEvent		::ID, this);
-		ML_EventSystem.addListener(CommandEvent	::ID, this);
+		ML_EventSystem.addListener(CommandEvent		::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

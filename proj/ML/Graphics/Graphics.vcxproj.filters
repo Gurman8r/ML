@@ -31,17 +31,17 @@
     <Filter Include="Header Files\DS">
       <UniqueIdentifier>{f1d8200d-78e9-4f50-832b-67c37e7186b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Rendering">
-      <UniqueIdentifier>{f8195b15-4f1b-44d0-b96a-27f604117928}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Rendering">
-      <UniqueIdentifier>{80f7abf8-e0bb-4f3b-84dc-9c2101c0619e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Drawables">
       <UniqueIdentifier>{f93d9792-0b73-4629-9818-1608f123286f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Drawables">
       <UniqueIdentifier>{3c739934-7c53-45dd-a0ef-27e53feeae3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Rendering">
+      <UniqueIdentifier>{f8195b15-4f1b-44d0-b96a-27f604117928}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering">
+      <UniqueIdentifier>{80f7abf8-e0bb-4f3b-84dc-9c2101c0619e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -94,9 +94,6 @@
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderBatch.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\OpenGL.hpp">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp">
@@ -156,6 +153,12 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Scene.hpp">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\OpenGL.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\GraphicsEvents.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\Shader.cpp">
@@ -189,9 +192,6 @@
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderWindow.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\OpenGL.cpp">
       <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderTarget.cpp">
@@ -238,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Scene.cpp">
       <Filter>Source Files\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\OpenGL.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

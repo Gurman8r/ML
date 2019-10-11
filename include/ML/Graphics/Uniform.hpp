@@ -4,6 +4,7 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Core/Matrix.hpp>
 #include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Bitset.hpp>
 
 struct ml::Texture;
 
@@ -122,7 +123,7 @@ namespace ml
 		static constexpr bool is_value				{ !is_pointer && !is_reference };
 		static constexpr bool is_const_pointer		{ is_same<const_pointer> };
 		static constexpr bool is_const_reference	{ is_same<const_reference> };
-		static constexpr bool is_modifiable			{ is_value || bitRead(Flags, 0) };
+		static constexpr bool is_modifiable			{ is_value || ML_BITREAD(Flags, 0) };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

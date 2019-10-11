@@ -104,22 +104,22 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	ML_USING_XY HashMap	= typename ::std::unordered_map	<X, Y>;
-	ML_USING_X	List	= typename ::std::vector		<X>;
-	ML_USING_XY Tree	= typename ::std::map			<X, Y>;
+	ML_USING_XY HashMap	= typename _STD unordered_map	<X, Y>;
+	ML_USING_X	List	= typename _STD vector			<X>;
+	ML_USING_XY Tree	= typename _STD map				<X, Y>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_SERIALIZE	::std::ostream & operator<<
-#define ML_DESERIALIZE	::std::istream & operator>>
+#define ML_SERIALIZE	_STD ostream & operator<<
+#define ML_DESERIALIZE	_STD istream & operator>>
 
-	static ::std::ostream & cout { ::std::cout }; // Output Handle
-	static ::std::ostream & cerr { ::std::cerr }; // Error Handle
-	static ::std::istream & cin  { ::std::cin  }; // Input Handle
+	static _STD ostream & cout { _STD cout }; // Output Handle
+	static _STD ostream & cerr { _STD cerr }; // Error Handle
+	static _STD istream & cin  { _STD cin  }; // Input Handle
 
 	template <
-		class Ch, class Tr = typename ::std::char_traits<char>
-	> inline ::std::basic_ostream<Ch, Tr> & endl(::std::basic_ostream<Ch, Tr> & out)
+		class Ch, class Tr = typename _STD char_traits<char>
+	> inline _STD basic_ostream<Ch, Tr> & endl(_STD basic_ostream<Ch, Tr> & out)
 	{
 		out.put(out.widen('\n'));
 		out.flush();

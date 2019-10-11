@@ -1,8 +1,10 @@
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Window/WindowEvents.hpp>
 #include <ML/Graphics/RenderStates.hpp>
+#include <ML/Core/EventSystem.hpp>
+#include <ML/Window/WindowEvents.hpp>
+#include <ML/Graphics/GraphicsEvents.hpp>
 
 namespace ml
 {
@@ -11,6 +13,7 @@ namespace ml
 	RenderWindow::RenderWindow()
 		: Window {}
 	{
+		ML_EventSystem.addListener(OpenGlErrorEvent::ID, this);
 	}
 
 	RenderWindow::~RenderWindow() {}
@@ -37,6 +40,29 @@ namespace ml
 	void RenderWindow::onEvent(const Event & value)
 	{
 		Window::onEvent(value);
+
+		switch (*value)
+		{
+		case OpenGlErrorEvent::ID:
+			if (auto ev = value.as<OpenGlErrorEvent>())
+			{
+				// Error location
+				String filename { ev->file };
+				filename = filename.substr(filename.find_last_of("\\/") + 1);
+
+				// Decode the error
+				cout<< FG::Red		<< "\nAn OpenGL call failed in \'" << ev->file << "\' (" << ev->line << ")"
+					<< FG::Yellow	<< "\nCode: "
+					<< FG::White	<< "\n\t" << ev->code
+					<< FG::Yellow	<< "\nExpression: "
+					<< FG::White	<< "\n\t" << ev->expr
+					<< FG::Yellow	<< "\nDescription:"
+					<< FG::White	<< "\n\t" << GL::name_of((GL::Err)ev->code)
+					<< FG::White	<< "\n\t" << GL::desc_of((GL::Err)ev->code)
+					<< FMT()		<< endl;
+			}
+			break;
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */

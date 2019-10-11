@@ -70,7 +70,7 @@ namespace ml
 				// Toggle Fullscreen
 				if (ev->getPress(KeyCode::F11))
 				{
-					ML_EventSystem.fireEvent(WindowFullscreenEvent { -1 });
+					ML_EventSystem.fireEvent<WindowFullscreenEvent>(-1);
 				}
 
 				// Refresh Sources

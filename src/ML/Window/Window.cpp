@@ -175,17 +175,17 @@ namespace ml
 	{
 		setCharCallback([](void *, uint32_t c)
 		{
-			ML_EventSystem.fireEvent(CharEvent(c));
+			ML_EventSystem.fireEvent<CharEvent>(c);
 		});
 
 		setCursorEnterCallback([](void *, int32_t entered)
 		{
-			ML_EventSystem.fireEvent(CursorEnterEvent(entered));
+			ML_EventSystem.fireEvent<CursorEnterEvent>(entered);
 		});
 
 		setCursorPosCallback([](void *, float64_t x, float64_t y)
 		{
-			ML_EventSystem.fireEvent(CursorPosEvent(x, y));
+			ML_EventSystem.fireEvent<CursorPosEvent>(x, y);
 		});
 
 		setErrorCallback([](int32_t code, C_String desc)
@@ -193,52 +193,52 @@ namespace ml
 #if ML_DEBUG
 			cerr << "GLFW Error " << code << ": \'" << desc << "\'" << endl;
 #endif
-			ML_EventSystem.fireEvent(WindowErrorEvent(code, desc));
+			ML_EventSystem.fireEvent<WindowErrorEvent>(code, desc);
 		});
 
 		setFrameSizeCallback([](void *, int32_t w, int32_t h)
 		{
-			ML_EventSystem.fireEvent(FrameSizeEvent(w, h));
+			ML_EventSystem.fireEvent<FrameSizeEvent>(w, h);
 		});
 
 		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			ML_EventSystem.fireEvent(KeyEvent(button, scan, action, {
+			ML_EventSystem.fireEvent(KeyEvent(button, scan, action, { {
 				(bool)(mods & ML_MOD_SHIFT),
 				(bool)(mods & ML_MOD_CTRL),
 				(bool)(mods & ML_MOD_ALT),
 				(bool)(mods & ML_MOD_SUPER)
-				}));
+				} }));
 		});
 
 		setMouseButtonCallback([](void *, int32_t button, int32_t action, int32_t mods)
 		{
-			ML_EventSystem.fireEvent(MouseButtonEvent(button, action, mods));
+			ML_EventSystem.fireEvent<MouseButtonEvent>(button, action, mods);
 		});
 		
 		setScrollCallback([](void *, float64_t x, float64_t y)
 		{
-			ML_EventSystem.fireEvent(ScrollEvent(x, y));
+			ML_EventSystem.fireEvent<ScrollEvent>(x, y);
 		});
 
 		setWindowCloseCallback([](void *)
 		{
-			ML_EventSystem.fireEvent(WindowCloseEvent());
+			ML_EventSystem.fireEvent<WindowCloseEvent>();
 		});
 
 		setWindowFocusCallback([](void *, int32_t focused)
 		{
-			ML_EventSystem.fireEvent(WindowFocusEvent(focused));
+			ML_EventSystem.fireEvent<WindowFocusEvent>(focused);
 		});
 		
 		setWindowPosCallback([](void *, int32_t x, int32_t y)
 		{
-			ML_EventSystem.fireEvent(WindowPosEvent(x, y));
+			ML_EventSystem.fireEvent<WindowPosEvent>(x, y);
 		});
 
 		setWindowSizeCallback([](void *, int32_t width, int32_t height)
 		{
-			ML_EventSystem.fireEvent(WindowSizeEvent(width, height));
+			ML_EventSystem.fireEvent<WindowSizeEvent>(width, height);
 		});
 
 		return true;

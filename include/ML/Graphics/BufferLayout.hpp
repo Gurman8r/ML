@@ -18,6 +18,9 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
+			Element() = default;
+
+
 			uint32_t	index;
 			uint32_t	size;
 			GL::Type	type;
@@ -25,8 +28,6 @@ namespace ml
 			uint32_t	stride;
 			uint32_t	offset;
 			uint32_t	width;
-
-			/* * * * * * * * * * * * * * * * * * * * */
 
 			const Element & operator()() const;
 
@@ -45,7 +46,7 @@ namespace ml
 
 		static const BufferLayout & get_default();
 
-		void bind() const;
+		const BufferLayout & bind() const;
 
 		BufferLayout & push_back(const Element & value);
 		

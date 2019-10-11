@@ -198,6 +198,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Camera.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Color.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\GLM.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\GraphicsEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Image.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp" />

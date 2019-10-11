@@ -4,38 +4,22 @@
 #include <ML/Core/Constants.hpp>
 #include <gcem/gcem.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * */
 
 #define ML_ALG _ML alg::
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define ML_MIN(lhs, rhs) ((lhs <= rhs) ? lhs : rhs)
 #define ML_MAX(lhs, rhs) ((lhs >= rhs) ? lhs : rhs)
 #define ML_CLAMP(value, minimum, maximum) (ML_MIN(ML_MAX(value, minimum), maximum))
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#define bitRead(value, bit) ((value >> bit) & 1)
-#define bitSet(value, bit) (value |= (1 << bit))
-#define bitClear(value, bit) (value &= ~(1 << bit))
-#define bitWrite(value, bit, bitValue) ((bitValue) ? bitSet(value, bit) : bitClear(value, bit))
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum { uninit }; // used for zero initialization
 
-	/* * * * * * * * * * * * * * * * * * * * */
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Strings
@@ -244,11 +228,11 @@ namespace ml
 		> static constexpr auto sign(const T & value)
 			-> T
 		{
-			return ((value == constant_t<T>::zero)
-				? constant_t<T>::zero
-				: ((value < constant_t<T>::zero)
-					? constant_t<T>::minus_one
-					: constant_t<T>::one
+			return ((value == (T)0)
+				? (T)0
+				: ((value < (T)0)
+					? (T)-1
+					: (T)1
 			));
 		}
 
@@ -257,8 +241,8 @@ namespace ml
 		> static constexpr auto abs(const T & value)
 			-> T
 		{
-			return ((ML_ALG sign(value) < constant_t<T>::zero)
-				? (value * constant_t<T>::minus_one)
+			return ((ML_ALG sign(value) < (T)0)
+				? (value * (T)-1)
 				: value
 			);
 		}
@@ -287,9 +271,9 @@ namespace ml
 		> static constexpr auto fact(const T & value)
 			-> T
 		{
-			return ((value > constant_t<T>::one)
-				? value * ML_ALG fact(value - constant_t<T>::one)
-				: constant_t<T>::one
+			return ((value > (T)1)
+				? value * ML_ALG fact(value - (T)1)
+				: (T)1
 			);
 		}
 			
@@ -332,7 +316,7 @@ namespace ml
 			class T, class C
 		> static constexpr T lerp(const T & a, const T & b, const C & coeff)
 		{
-			return (a * coeff + b * (constant_t<C>::one - coeff));
+			return (a * coeff + b * ((C)1 - coeff));
 		}
 
 		template <
@@ -351,10 +335,9 @@ namespace ml
 			class T, class Num, class Den = typename Num
 		> static constexpr T delta_cast(const Num numerator, const Den denominator)
 		{
-			using cast = constant_t<T>;
-			const T num { cast()(numerator) };
-			const T den { cast()(denominator) };
-			return (((den > cast::zero) && (num < den)) ? (num / den) : cast::zero);
+			const T num { (T)numerator };
+			const T den { (T)denominator };
+			return (((den > (T)0) && (num < den)) ? (num / den) : (T)0);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -569,7 +552,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T sqr_magnitude(const A<T, N...> & value)
 		{
-			T temp { constant_t<T>::zero };
+			T temp { (T)0 };
 			for (const auto & elem : value)
 			{
 				temp += (elem * elem);
@@ -625,7 +608,7 @@ namespace ml
 		> static constexpr M<T, 4, 4> inverse(const M<T, 4, 4> & v)
 		{
 			const T det { ML_ALG determinant(v) };
-			return ((det != constant_t<T>::zero)
+			return ((det != (T)0)
 				? M<T, 4, 4> {	
 					+(v[15] * v[5] - v[7] * v[13]) / det,
 					-(v[15] * v[4] - v[7] * v[12]) / det,

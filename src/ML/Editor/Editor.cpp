@@ -71,7 +71,7 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				constexpr KeyEvent::Mods ctrl_alt { 0, 1, 1, 0 };
+				constexpr KeyEvent::Mods ctrl_alt { { 0, 1, 1, 0 } };
 
 				// Show About | Ctrl + Alt + A
 				if (ev->getPress(KeyCode::A, ctrl_alt)) m_about.toggleOpen();

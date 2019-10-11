@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Core\Alg.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Array.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Bitset.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\CoreEvents.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Decay.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />

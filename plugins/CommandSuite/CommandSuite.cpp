@@ -137,7 +137,7 @@ namespace ml
 			"exit",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				ML_EventSystem.fireEvent(WindowKillEvent());
+				ML_EventSystem.fireEvent<WindowKillEvent>();
 				return true;
 			})
 		});

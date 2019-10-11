@@ -718,7 +718,7 @@ namespace ml
 			(button >= 0) &&
 			(button < IM_ARRAYSIZE(m_MousePressed)))
 			ML_ImGuiImpl.m_MousePressed[button] = true;
-		ML_ImGuiImpl.fireEvent(MouseButtonEvent(button, action, mods));
+		ML_EventSystem.fireEvent<MouseButtonEvent>(button, action, mods);
 	}
 
 	void ImGuiImpl::ScrollCallback(void * window, float64_t xoffset, float64_t yoffset)
@@ -726,7 +726,7 @@ namespace ml
 		ImGuiIO & io = ImGui::GetIO();
 		io.MouseWheelH += (float_t)xoffset;
 		io.MouseWheel += (float_t)yoffset;
-		ML_ImGuiImpl.fireEvent(ScrollEvent(xoffset, yoffset));
+		ML_EventSystem.fireEvent<ScrollEvent>(xoffset, yoffset);
 	}
 
 	void ImGuiImpl::KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
@@ -735,20 +735,19 @@ namespace ml
 		if (action == ML_KEY_PRESS) { io.KeysDown[key] = true; }
 		if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
 		if (key == KeyCode::KP_Enter) { io.KeysDown[KeyCode::Enter] = io.KeysDown[key]; }
-		ML_ImGuiImpl.fireEvent(KeyEvent(key, scancode, action, 
-		{
+		ML_EventSystem.fireEvent(KeyEvent(key, scancode, action, { {
 			io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
 			io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],
 			io.KeyAlt	= io.KeysDown[KeyCode::LeftAlt]		|| io.KeysDown[KeyCode::RightAlt],
 			io.KeySuper = io.KeysDown[KeyCode::LeftSuper]	|| io.KeysDown[KeyCode::RightSuper]
-		}));
+		} }));
 	}
 
 	void ImGuiImpl::CharCallback(void * window, uint32_t value)
 	{
 		ImGuiIO & io = ImGui::GetIO();
 		if ((value > 0) && (value < 0x10000)) { io.AddInputCharacter((uint16_t)value); }
-		ML_ImGuiImpl.fireEvent(CharEvent(value));
+		ML_EventSystem.fireEvent<CharEvent>(value);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

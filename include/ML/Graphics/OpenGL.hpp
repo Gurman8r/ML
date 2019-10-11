@@ -12,7 +12,7 @@
 // The do loop is needed so that glCheck can be used as a single statement in branches
 // Source: https://github.com/SFML/SFML/blob/master/src/SFML/Graphics/GLCheck.hpp
 # if ML_DEBUG
-#	define glCheck(EX) do { EX; ML_GL.checkError(cout, __FILE__, __LINE__, #EX); } while (0)
+#	define glCheck(EX) do { EX; ML_GL.checkError(__FILE__, __LINE__, #EX); } while (0)
 # else
 #	define glCheck(EX) (EX)
 # endif
@@ -30,8 +30,7 @@ namespace ml
 		// Errors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	getError() -> GL::Err;
-		static auto	checkError(C_String file, uint32_t line, C_String expr) -> std::ostream &;
-		static auto	checkError(std::ostream & out, C_String file, uint32_t line, C_String expr) -> std::ostream &;
+		static void	checkError(C_String file, uint32_t line, C_String expr);
 
 		// Initialization
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

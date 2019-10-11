@@ -4,15 +4,18 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Core/I_Event.hpp>
+#include <ML/Core/Bitset.hpp>
 #include <ML/Window/KeyCode.hpp>
 #include <ML/Window/MouseButton.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_KEY_RELEASE	0
-#define ML_KEY_PRESS	1
-#define ML_KEY_REPEAT	2
+// Input States
+#define ML_KEY_RELEASE	0 // High	-> Low
+#define ML_KEY_PRESS	1 // Low	-> High
+#define ML_KEY_REPEAT	2 // High	-> High
 
+// Keyboard Input Modifiers
 #define ML_MOD_SHIFT	(0 << 1)
 #define ML_MOD_CTRL		(1 << 1)
 #define ML_MOD_ALT		(1 << 2)
@@ -95,31 +98,15 @@ namespace ml
 
 	struct KeyEvent final : public I_Event<WindowEvent::EV_Key>
 	{
+		using Mods = typename bitset_8;
 		const int32_t key, scan, action;
-		
-		const struct Mods final
-		{ 
-			bool shift	= false;
-			bool ctrl	= false;
-			bool alt	= false;
-			bool super	= false;
-
-			constexpr friend bool operator==(const Mods & lhs, const Mods & rhs)
-			{
-				return
-					lhs.shift == rhs.shift &&
-					lhs.ctrl  == rhs.ctrl  &&
-					lhs.alt	  == rhs.alt   &&
-					lhs.super == rhs.super ;
-			}
-
-		} mods;
+		const Mods mods;
 
 		constexpr KeyEvent(int32_t key, int32_t scan, int32_t action, const Mods & mods)
 			: key	(key)
 			, scan	(scan)
 			, action(action)
-			, mods	({ mods.shift, mods.ctrl, mods.alt, mods.super })
+			, mods	(mods)
 		{
 		}
 
@@ -131,16 +118,16 @@ namespace ml
 		constexpr bool getDown	(int32_t k, const Mods & m) const { return getDown(k) && (mods == m); }
 		constexpr bool getUp	(int32_t k, const Mods & m)	const { return getUp(k) && (mods == m); }
 
-		constexpr bool isShift	(int32_t k)	const { return getPress(k, { 1, 0, 0, 0 }); }
-		constexpr bool isCtrl	(int32_t k)	const { return getPress(k, { 0, 1, 0, 0 }); }
-		constexpr bool isAlt	(int32_t k)	const { return getPress(k, { 0, 0, 1, 0 }); }
-		constexpr bool isSuper	(int32_t k)	const { return getPress(k, { 0, 0, 0, 1 }); }
+		constexpr bool isShift	(int32_t k)	const { return getPress(k, { { 1, 0, 0, 0 } }); }
+		constexpr bool isCtrl	(int32_t k)	const { return getPress(k, { { 0, 1, 0, 0 } }); }
+		constexpr bool isAlt	(int32_t k)	const { return getPress(k, { { 0, 0, 1, 0 } }); }
+		constexpr bool isSuper	(int32_t k)	const { return getPress(k, { { 0, 0, 0, 1 } }); }
 
 		constexpr bool isNew	() const { return isCtrl(KeyCode::N); }
 		constexpr bool isOpen	() const { return isCtrl(KeyCode::O); }
-		constexpr bool isSave	() const { return isCtrl(KeyCode::S) || getPress(KeyCode::S, { 1, 1, 0, 0 }); }
+		constexpr bool isSave	() const { return isCtrl(KeyCode::S) || getPress(KeyCode::S, { { 1, 1, 0, 0 } }); }
 		constexpr bool isUndo	() const { return isCtrl(KeyCode::Z); }
-		constexpr bool isRedo	() const { return isCtrl(KeyCode::Y) || getPress(KeyCode::Z, { 1, 1, 0, 0 }); }
+		constexpr bool isRedo	() const { return isCtrl(KeyCode::Y) || getPress(KeyCode::Z, { { 1, 1, 0, 0 } }); }
 		constexpr bool isCut	() const { return isCtrl(KeyCode::X) || isShift(KeyCode::Delete); }
 		constexpr bool isCopy	() const { return isCtrl(KeyCode::C) || isCtrl(KeyCode::Insert); }
 		constexpr bool isPaste	() const { return isCtrl(KeyCode::V) || isShift(KeyCode::Insert); }

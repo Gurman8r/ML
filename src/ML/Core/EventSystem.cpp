@@ -17,7 +17,7 @@ namespace ml
 	{
 		if (value)
 		{
-			std::pair<iterator, iterator> found { m_listeners.equal_range(*value) };
+			pair_type found { m_listeners.equal_range(*value) };
 
 			for (iterator it = found.first; it != found.second; ++it)
 			{
@@ -33,7 +33,7 @@ namespace ml
 
 	bool EventSystem::removeListener(const int32_t & type, I_EventListener * listener)
 	{
-		std::pair<iterator, iterator> found = m_listeners.equal_range(type);
+		pair_type found = m_listeners.equal_range(type);
 
 		for (iterator it = found.first; it != found.second; ++it)
 		{

@@ -11,6 +11,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		// Used to get the absolute type of T
 		template <class T> struct decay final
 		{
 			decay() = delete;

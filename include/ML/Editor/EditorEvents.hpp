@@ -7,7 +7,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class	Engine;
 	class	Editor;
 	struct	GameTime;
 	class	EditorDockspace;
@@ -41,13 +40,9 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		Editor & editor;
-		constexpr BeginGuiEvent(const GameTime & time, RenderWindow & window, Engine & engine, Editor & editor)
+		constexpr BeginGuiEvent(const GameTime & time, RenderWindow & window)
 			: time	(time)
 			, window(window)
-			, engine(engine)
-			, editor(editor)
 		{
 		}
 	};
@@ -56,13 +51,9 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		Editor & editor;
-		constexpr GuiEvent(const GameTime & time, RenderWindow & window, Engine & engine, Editor & editor)
+		constexpr GuiEvent(const GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
-			, editor(editor)
 		{
 		}
 	};
@@ -71,13 +62,9 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		Editor & editor;
-		constexpr EndGuiEvent(const GameTime & time, RenderWindow & window, Engine & engine, Editor & editor)
+		constexpr EndGuiEvent(const GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
-			, editor(editor)
 		{
 		}
 	};
@@ -93,11 +80,9 @@ namespace ml
 			MAX_MAIN_MENU_BAR_MENU
 		};
 
-		Editor & editor;
 		const Menu submenu;
-		constexpr MainMenuBarEvent(Editor & editor, const Menu submenu)
-			: editor(editor)
-			, submenu(submenu)
+		constexpr MainMenuBarEvent(const Menu submenu)
+			: submenu(submenu)
 		{
 		}
 	};

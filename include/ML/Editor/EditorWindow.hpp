@@ -21,7 +21,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		explicit EditorWindow(Editor & editor, C_String title, C_String hotkey, bool startOpen);
+		explicit EditorWindow(C_String title, C_String hotkey, bool startOpen);
 
 		virtual ~EditorWindow() {}
 
@@ -39,7 +39,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline auto editor()		const	-> Editor &	{ return m_editor; }
 		inline auto getTitle()		const	-> C_String	{ return m_title; }
 		inline auto getHotkey()		const	-> C_String { return m_hotkey; }
 		inline auto getFlags()		const	-> int32_t	{ return m_flags; }
@@ -51,7 +50,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		Editor &	m_editor;
 		bool		m_good;
 		bool		m_open;
 		C_String	m_title;

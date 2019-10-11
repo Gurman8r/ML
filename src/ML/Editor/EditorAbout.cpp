@@ -10,8 +10,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorAbout::EditorAbout(Editor & editor)
-		: EditorWindow { editor, "About", "Ctrl+Alt+A", false }
+	EditorAbout::EditorAbout()
+		: EditorWindow { "About", "Ctrl+Alt+A", false }
 	{
 	}
 

@@ -46,8 +46,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorInspector::EditorInspector(Editor & editor)
-		: EditorWindow { editor, "Inspector", "Ctrl+Alt+I", false }
+	EditorInspector::EditorInspector()
+		: EditorWindow { "Inspector", "Ctrl+Alt+I", false }
 	{
 	}
 
@@ -61,7 +61,7 @@ namespace ml
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			EditorContent & con { ev.editor.content() };
+			EditorContent & con { ML_Editor.content() };
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -81,7 +81,7 @@ namespace ml
 			ImGui::PopStyleVar();
 			if (ImGui::BeginMenuBar())
 			{
-				if (con.m_selected)
+				if (ML_Editor.content().m_selected)
 				{
 					ImGui::PushStyleColor(ImGuiCol_Text, { 0.2f, 0.1f, 1.0f, 1.0f });
 					ImGui::Text("[%s]", con.m_typename.c_str());

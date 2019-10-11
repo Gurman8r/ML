@@ -3,10 +3,8 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Editor/Editor.hpp>
-#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/GameTime.hpp>
-#include <ML/Engine/PluginLoader.hpp>
+#include <ML/Engine/PluginManager.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
@@ -22,22 +20,23 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool			running	{ false }; // 
-		Preferences 	prefs	{ ML_CONFIG_INI }; // 
-		GameTime		time	{ }; // 
-		RenderWindow	window	{ }; // 
-		Engine			engine	{ }; // 
-		Editor			editor	{ }; // 
-		PluginLoader	plugins	{ }; // 
+		bool			running;
+		Preferences 	prefs;
+		GameTime		time;
+		RenderWindow	window;
 
 		int32_t operator()(int32_t argc, char ** argv);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		friend struct I_Singleton<Launcher>;
 
-		Launcher() = default;
+		Launcher() 
+			: running	{ false }
+			, prefs		{ ML_CONFIG_INI }
+			, time		{ }
+			, window	{ }
+		{
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

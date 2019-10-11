@@ -1,4 +1,4 @@
-#include <ML/Engine/PluginLoader.hpp>
+#include <ML/Engine/PluginManager.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	PluginLoader::PluginLoader()
+	PluginManager::PluginManager()
 		: m_path		()
 		, m_files		()
 		, m_libraries	()
@@ -17,7 +17,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	bool PluginLoader::dispose()
+	bool PluginManager::dispose()
 	{
 		for (auto & plugin : m_plugins) delete plugin;
 		for (auto & library : m_libraries) delete library;
@@ -27,7 +27,7 @@ namespace ml
 		return m_files.empty() && m_plugins.empty() && m_libraries.empty();
 	}
 	
-	bool PluginLoader::loadFromFile(const String & filename)
+	bool PluginManager::loadFromFile(const String & filename)
 	{
 		// Load Filenames
 		if (std::ifstream file { filename })
@@ -54,7 +54,7 @@ namespace ml
 		return false;
 	}
 
-	size_t PluginLoader::loadLibraries()
+	size_t PluginManager::loadLibraries()
 	{
 		if (!m_files.empty() && m_libraries.empty())
 		{
@@ -68,7 +68,7 @@ namespace ml
 		return m_libraries.size();
 	}
 
-	size_t PluginLoader::loadPlugins()
+	size_t PluginManager::loadPlugins()
 	{
 		if (!m_files.empty() && !m_libraries.empty() && m_plugins.empty())
 		{
@@ -92,7 +92,7 @@ namespace ml
 		return m_plugins.size();
 	}
 
-	bool PluginLoader::loadOneShot(const String & filename)
+	bool PluginManager::loadOneShot(const String & filename)
 	{
 		if (!filename || (filename.trim().front() == '#'))
 			return false;
@@ -122,7 +122,7 @@ namespace ml
 		return true;
 	}
 
-	size_t PluginLoader::loadList(const std::vector<std::string>& value)
+	size_t PluginManager::loadList(const std::vector<std::string>& value)
 	{
 		size_t count { 0 };
 		for (const auto & filename : value)

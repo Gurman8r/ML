@@ -11,16 +11,16 @@
 #include <ML/Editor/EditorProfiler.hpp>
 #include <ML/Editor/EditorTerminal.hpp>
 
+#define ML_Editor ::ml::Editor::getInstance()
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor final
-		: public I_Newable
-		, public I_NonCopyable
-		, public I_EventListener
+	class ML_EDITOR_API Editor final : public I_Singleton<Editor>, public I_EventListener
 	{
-	public:
+		friend struct I_Singleton<Editor>;
+
 		Editor();
 		~Editor() {}
 

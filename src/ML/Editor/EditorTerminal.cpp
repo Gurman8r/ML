@@ -12,8 +12,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorTerminal::EditorTerminal(Editor & editor)
-		: EditorWindow	{ editor, "Terminal", "Ctrl+Alt+T", false }
+	EditorTerminal::EditorTerminal()
+		: EditorWindow	{ "Terminal", "Ctrl+Alt+T", false }
 		, m_coutBuf		{ nullptr }
 		, m_coutPtr		{ nullptr }
 		, m_coutStr		{}

@@ -7,7 +7,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class	Engine;
 	struct	GameTime;
 	struct	Preferences;
 	struct	RenderWindow;
@@ -93,11 +92,9 @@ namespace ml
 	{
 		GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		constexpr BeginLoopEvent(GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr BeginLoopEvent(GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
 		{
 		}
 	};
@@ -108,11 +105,9 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		constexpr UpdateEvent(const GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr UpdateEvent(const GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
 		{
 		}
 	};
@@ -123,11 +118,9 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		constexpr BeginDrawEvent(const GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr BeginDrawEvent(const GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
 		{
 		}
 	};
@@ -136,11 +129,9 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		constexpr DrawEvent(const GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr DrawEvent(const GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
 		{
 		}
 	};
@@ -149,11 +140,9 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		constexpr EndDrawEvent(const GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr EndDrawEvent(const GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
 		{
 		}
 	};
@@ -164,11 +153,9 @@ namespace ml
 	{
 		GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		constexpr EndLoopEvent(GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr EndLoopEvent(GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
 		{
 		}
 	};
@@ -180,11 +167,9 @@ namespace ml
 	{
 		const GameTime & time;
 		RenderWindow & window;
-		Engine & engine;
-		constexpr UnloadEvent(const GameTime & time, RenderWindow & window, Engine & engine)
+		constexpr UnloadEvent(const GameTime & time, RenderWindow & window)
 			: time(time)
 			, window(window)
-			, engine(engine)
 		{
 		}
 	};

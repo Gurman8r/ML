@@ -13,7 +13,7 @@ namespace ml
 
 		friend class Editor;
 
-		explicit EditorProfiler(Editor & editor);
+		explicit EditorProfiler();
 
 		void onUpdate(const UpdateEvent & ev) override;
 

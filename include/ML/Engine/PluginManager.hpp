@@ -4,22 +4,23 @@
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
 
+#define ML_Plugins ::ml::PluginManager::getInstance()
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Used to stage/defer loading of plugins into an event system
-	struct ML_ENGINE_API PluginLoader final
-		: public I_Newable
+	struct ML_ENGINE_API PluginManager final
+		: public I_Singleton<PluginManager>
 		, public I_Disposable
 		, public I_Readable
-		, public I_NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit PluginLoader();
+		explicit PluginManager();
 		
-		~PluginLoader() { dispose(); }
+		~PluginManager() { dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -13,7 +13,7 @@ namespace ml
 
 		friend class Editor;
 
-		explicit EditorManual(Editor & editor);
+		explicit EditorManual();
 
 		~EditorManual() {}
 

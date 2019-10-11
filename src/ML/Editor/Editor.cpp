@@ -17,24 +17,24 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor()
-		: m_about			{ *this }
-		, m_dockspace		{ *this }
-		, m_explorer		{ *this }
-		, m_content			{ *this }
-		, m_inspector		{ *this }
-		, m_manual			{ *this }
-		, m_profiler		{ *this }
-		, m_terminal		{ *this }
+		: m_about		{ }
+		, m_dockspace	{ }
+		, m_explorer	{ }
+		, m_content		{ }
+		, m_inspector	{ }
+		, m_manual		{ }
+		, m_profiler	{ }
+		, m_terminal	{ }
 	{
 		ML_EventSystem.addListener(EnterEvent		::ID, this);
 		ML_EventSystem.addListener(UpdateEvent		::ID, this);
 		ML_EventSystem.addListener(BeginGuiEvent	::ID, this);
-		ML_EventSystem.addListener(GuiEvent		::ID, this);
+		ML_EventSystem.addListener(GuiEvent			::ID, this);
 		ML_EventSystem.addListener(EndGuiEvent		::ID, this);
 		ML_EventSystem.addListener(UnloadEvent		::ID, this);
 		ML_EventSystem.addListener(ExitEvent		::ID, this);
 		ML_EventSystem.addListener(DockspaceEvent	::ID, this);
-		ML_EventSystem.addListener(KeyEvent		::ID, this);
+		ML_EventSystem.addListener(KeyEvent			::ID, this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -217,7 +217,7 @@ namespace ml
 					ImGui::EndMenu();
 				}
 
-				ML_EventSystem.fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::File);
+				ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::File);
 
 				// File -> Quit
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -240,7 +240,7 @@ namespace ml
 				m_profiler.MenuItem();
 				m_terminal.MenuItem();
 				ImGui::Separator();
-				ML_EventSystem.fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::Window);
+				ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Window);
 				ImGui::EndMenu();
 			}
 
@@ -258,13 +258,13 @@ namespace ml
 
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
 
-				ML_EventSystem.fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::Help);
+				ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Help);
 				
 				ImGui::EndMenu();
 			}
 
 			// User Menu Bars
-			ML_EventSystem.fireEvent<MainMenuBarEvent>((*this), MainMenuBarEvent::User);
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::User);
 
 			ImGui::EndMainMenuBar();
 		}

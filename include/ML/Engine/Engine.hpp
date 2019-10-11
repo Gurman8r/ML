@@ -6,6 +6,8 @@
 #include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/Matrix.hpp>
 
+#define ML_Engine ::ml::Engine::getInstance()
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -14,12 +16,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_ENGINE_API Engine final
-		: public I_Newable
-		, public I_NonCopyable
-		, public I_EventListener
+	class ML_ENGINE_API Engine final : public I_Singleton<Engine>, public I_EventListener
 	{
-	public:
+		friend struct I_Singleton<Engine>;
+
 		Engine();
 		~Engine() {}
 

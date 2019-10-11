@@ -9,9 +9,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorWindow::EditorWindow(Editor & editor, C_String title, C_String hotkey, bool startOpen)
-		: m_editor	{ editor }
-		, m_title	{ title }
+	EditorWindow::EditorWindow(C_String title, C_String hotkey, bool startOpen)
+		: m_title	{ title }
 		, m_hotkey	{ hotkey }
 		, m_open	{ startOpen }
 		, m_good	{ false }

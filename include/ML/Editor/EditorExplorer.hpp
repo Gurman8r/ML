@@ -14,7 +14,7 @@ namespace ml
 
 		friend class Editor;
 
-		explicit EditorExplorer(Editor & editor);
+		explicit EditorExplorer();
 
 		void onUpdate(const UpdateEvent & ev) override;
 

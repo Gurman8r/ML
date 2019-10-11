@@ -10,7 +10,7 @@
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Registry.hpp>
 #include <ML/Engine/Preferences.hpp>
-#include <ML/Engine/PluginLoader.hpp>
+#include <ML/Engine/PluginManager.hpp>
 #include <ML/Engine/Python.hpp>
 #include <ML/Engine/Lua.hpp>
 #include <ML/Engine/Script.hpp>

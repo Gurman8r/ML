@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorProfiler::EditorProfiler(Editor & editor)
-		: EditorWindow { editor, "Profiler", "Ctrl+Alt+P", false }
+	EditorProfiler::EditorProfiler()
+		: EditorWindow { "Profiler", "Ctrl+Alt+P", false }
 		, graphs {}
 	{
 	}

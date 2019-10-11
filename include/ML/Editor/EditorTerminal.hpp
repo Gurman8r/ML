@@ -13,7 +13,7 @@ namespace ml
 
 		friend class Editor;
 
-		explicit EditorTerminal(Editor & editor);
+		explicit EditorTerminal();
 
 		void onUpdate(const UpdateEvent & ev) override;
 		
@@ -37,8 +37,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const std::ostream *		m_coutPtr; // stream redirect reference
-		std::streambuf *			m_coutBuf; // stream redirect buffer
+		const std::ostream *m_coutPtr; // stream redirect reference
+		std::streambuf *	m_coutBuf; // stream redirect buffer
 		SStream				m_coutStr; // stream redirect stream
 		Array<char, 256>	m_inputBuf;
 		List<String>		m_lines;

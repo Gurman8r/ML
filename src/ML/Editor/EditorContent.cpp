@@ -32,7 +32,7 @@ namespace ml
 		static inline void draw_list(const GuiEvent & ev)
 		{
 			// Self
-			EditorContent & self { ev.editor.content() };
+			EditorContent & self { ML_Editor.content() };
 
 			// Data
 			static auto & database { ML_Content.data<T>() };
@@ -132,7 +132,7 @@ namespace ml
 			}
 			if (to_select != database.end())
 			{
-				ev.editor.inspector().Focus(true);
+				ML_Editor.inspector().Focus(true);
 				self.m_typename = type_name;
 				self.m_itemname = to_select->first;
 				self.m_selected = to_select->second;
@@ -146,8 +146,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorContent::EditorContent(Editor & editor)
-		: EditorWindow { editor, "Content", "Ctrl+Alt+C", false }
+	EditorContent::EditorContent()
+		: EditorWindow { "Content", "Ctrl+Alt+C", false }
 	{
 	}
 

@@ -5,8 +5,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorManual::EditorManual(Editor & editor)
-		: EditorWindow { editor, "Manual", "Ctrl+Alt+M", false }
+	EditorManual::EditorManual()
+		: EditorWindow { "Manual", "Ctrl+Alt+M", false }
 	{
 	}
 

@@ -200,7 +200,7 @@
     <ClInclude Include="..\..\..\include\ML\Engine\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\CommandImpl.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Engine\PluginLoader.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Engine\PluginManager.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Python.hpp" />
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp" />
@@ -218,7 +218,7 @@
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\CommandImpl.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Engine\PluginLoader.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Engine\PluginManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Registry.cpp" />
     <ClCompile Include="..\..\..\src\ML\Engine\Script.cpp" />

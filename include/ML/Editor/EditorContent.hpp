@@ -15,7 +15,7 @@ namespace ml
 
 		struct Layout;
 
-		explicit EditorContent(Editor & editor);
+		explicit EditorContent();
 
 		~EditorContent() {}
 

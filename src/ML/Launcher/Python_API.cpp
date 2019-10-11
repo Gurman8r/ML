@@ -62,8 +62,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_plugins {};
 		py::class_<ml_py_plugins>(m, "plugins")
-			.def_static("load",		[](str_t s) { return ML_Launcher.plugins.loadOneShot(s); })
-			.def_static("load_all", [](const list_t & l) { return ML_Launcher.plugins.loadList(l); })
+			.def_static("load",		[](str_t s) { return ML_Plugins.loadOneShot(s); })
+			.def_static("load_all", [](const list_t & l) { return ML_Plugins.loadList(l); })
 			;
 
 		struct ml_py_io {};

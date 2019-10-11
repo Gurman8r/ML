@@ -115,15 +115,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	
-	
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-}
-
-namespace ml
-{
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	using uni_name = typename StringView;
 
 	enum uni_type : int32_t
@@ -384,12 +375,12 @@ namespace ml
 		return shader && name() && shader->setUniform(name(), (*data()));
 	}
 
-	inline bool uniform_t<int>::apply(const Shader * shader) const
+	inline bool uniform_t<int32_t>::apply(const Shader * shader) const
 	{
 		return shader && name() && shader->setUniform(name(), (*data()));
 	}
 
-	inline bool uniform_t<float>::apply(const Shader * shader) const
+	inline bool uniform_t<float_t>::apply(const Shader * shader) const
 	{
 		return shader && name() && shader->setUniform(name(), (*data()));
 	}
@@ -405,6 +396,11 @@ namespace ml
 	}
 
 	inline bool uniform_t<vec4>::apply(const Shader * shader) const
+	{
+		return shader && name() && shader->setUniform(name(), (*data()));
+	}
+
+	inline bool uniform_t<mat2>::apply(const Shader * shader) const
 	{
 		return shader && name() && shader->setUniform(name(), (*data()));
 	}

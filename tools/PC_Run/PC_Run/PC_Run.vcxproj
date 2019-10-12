@@ -72,22 +72,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+    <TargetName>Run_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+    <TargetName>Run_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+    <TargetName>Run_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)lib\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+    <TargetName>Run_$(Configuration)_$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,7 +98,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy /y $(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt) $(SolutionDir)</Command>
+      <Command>xcopy /y $(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt) $(SolutionDir)..\..\</Command>
     </PostBuildEvent>
     <Link>
       <OutputFile>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
@@ -113,7 +113,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy /y $(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt) $(SolutionDir)</Command>
+      <Command>xcopy /y $(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt) $(SolutionDir)..\..\</Command>
     </PostBuildEvent>
     <Link>
       <OutputFile>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
@@ -135,7 +135,7 @@
       <OutputFile>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt) $(SolutionDir)</Command>
+      <Command>xcopy /y $(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt) $(SolutionDir)..\..\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,7 +154,7 @@
       <OutputFile>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt) $(SolutionDir)</Command>
+      <Command>xcopy /y $(ProjectDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt) $(SolutionDir)..\..\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

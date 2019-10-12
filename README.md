@@ -41,6 +41,6 @@ ______________________________
 
 Q: Why "MemeLib"?
 
-A: It was originally just a throw away name, but after a while I grew fond of it.
+A: It was originally just a throw away name when I started working on this back around 2016. After a while I grew fond of it. That's it. :)
 
 ______________________________

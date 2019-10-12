@@ -17,6 +17,10 @@
 [ ] Json Editor Gui
 [ ] Temporary/Preview Assets
 
+[?] Virtual File System
+[?] automatic/recursive asset loading
+[?] async asset loading (threaded w/ progress bar)
+
 [x] gui open file dialog
 [x] proper gui for creating/importing new assets
 [x] reimplement old math
@@ -29,9 +33,5 @@
 [x] rework command system
 [x] Mat2x2 Support
 [x] Dedicated Color Type
-
-[?] Virtual File System
-[?] automatic/recursive asset loading
-[?] async asset loading (threaded w/ progress bar)
 
 # * * * * * * * * * * * * * * * * * * * * * * * #

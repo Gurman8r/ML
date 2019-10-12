@@ -151,7 +151,7 @@ namespace ml
 		"sampler"
 	};
 
-	namespace alg
+	namespace util
 	{
 		inline String to_string(uni_type value)
 		{

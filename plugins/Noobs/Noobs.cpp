@@ -499,7 +499,7 @@ namespace ml
 						
 						// Uniform Type
 						/* * * * * * * * * * * * * * * * * * * * */
-						ImGui::Text(detail::name_of((Uniform::Type)uni->id)); 
+						ImGui::Text(detail::name_of((Uniform::Type)uni->id));
 						ImGui::NextColumn();
 
 						// Uniform Value

@@ -95,6 +95,142 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	template <> struct input<int8_t> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, int8_t dv = 0) const
+		{
+			return util::to_i8(str, dv);
+		}
+
+		inline auto operator()(std::istream & in, int8_t dv = 0) const
+		{
+			return (*this)(input<String>{}(in), dv);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<int16_t> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, int16_t dv = 0) const
+		{
+			return util::to_i16(str, dv);
+		}
+
+		inline auto operator()(std::istream & in, int16_t dv = 0) const
+		{
+			return (*this)(input<String>{}(in), dv);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<int32_t> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, int32_t dv = 0) const
+		{
+			return util::to_i32(str, dv);
+		}
+
+		inline auto operator()(std::istream & in, int32_t dv = 0) const
+		{
+			return (*this)(input<String>{}(in), dv);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<int64_t> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, int64_t dv = 0) const
+		{
+			return util::to_i64(str, dv);
+		}
+
+		inline auto operator()(std::istream & in, int64_t dv = 0) const
+		{
+			return (*this)(input<String>{}(in), dv);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<uint8_t> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, uint8_t dv = 0) const
+		{
+			return util::to_u8(str, dv);
+		}
+
+		inline auto operator()(std::istream & in, uint8_t dv = 0) const
+		{
+			return (*this)(input<String>{}(in), dv);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<uint16_t> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, uint16_t dv = 0) const
+		{
+			return util::to_u16(str, dv);
+		}
+
+		inline auto operator()(std::istream & in, uint16_t dv = 0) const
+		{
+			return (*this)(input<String>{}(in), dv);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<uint32_t> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, uint32_t dv = 0) const
+		{
+			return util::to_u32(str, dv);
+		}
+
+		inline auto operator()(std::istream & in, uint32_t dv = 0) const
+		{
+			return (*this)(input<String>{}(in), dv);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <> struct input<uint64_t> final
+	{
+		input() = default;
+
+		inline auto operator()(const String & str, uint64_t dv = 0) const
+		{
+			return util::to_u64(str, dv);
+		}
+
+		inline auto operator()(std::istream & in, uint64_t dv = 0) const
+		{
+			return (*this)(input<String>{}(in), dv);
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	template <> struct input<float32_t> final
 	{
 		input() = default;
@@ -129,67 +265,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <> struct input<int32_t> final
+	template <> struct input<float80_t> final
 	{
 		input() = default;
 
-		inline auto operator()(const String & str, int32_t dv = 0) const
+		inline auto operator()(const String & str, float80_t dv = 0) const
 		{
-			return util::to_i32(str, dv);
+			return util::to_f80(str, dv);
 		}
 
-		inline auto operator()(std::istream & in, int32_t dv = 0) const
-		{
-			return (*this)(input<String>{}(in), dv);
-		}
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <> struct input<uint32_t> final
-	{
-		input() = default;
-
-		inline auto operator()(const String & str, uint32_t dv = 0) const
-		{
-			return util::to_u32(str, dv);
-		}
-
-		inline auto operator()(std::istream & in, uint32_t dv = 0) const
-		{
-			return (*this)(input<String>{}(in), dv);
-		}
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <> struct input<int64_t> final
-	{
-		input() = default;
-
-		inline auto operator()(const String & str, int64_t dv = 0) const
-		{
-			return util::to_i64(str, dv);
-		}
-
-		inline auto operator()(std::istream & in, int64_t dv = 0) const
-		{
-			return (*this)(input<String>{}(in), dv);
-		}
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <> struct input<uint64_t> final
-	{
-		input() = default;
-
-		inline auto operator()(const String & str, uint64_t dv = 0) const
-		{
-			return util::to_u64(str, dv);
-		}
-
-		inline auto operator()(std::istream & in, uint64_t dv = 0) const
+		inline auto operator()(std::istream & in, float80_t dv = 0) const
 		{
 			return (*this)(input<String>{}(in), dv);
 		}

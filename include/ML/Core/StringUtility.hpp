@@ -62,7 +62,7 @@ namespace ml
 			for (const From & c : value)
 				temp.push_back(static_cast<To>(c));
 			return temp;
-	}
+		}
 
 		static inline String narrow(const W_String & value) { return convert<char>(value); }
 
@@ -146,10 +146,20 @@ namespace ml
 
 		static inline bool is_bool(const String & value)
 		{
-			if (value.size() == 1) 
-				return value.front() == '0' || value.front() == '1';
-			const String temp { to_lower(value) };
-			return (temp == "true") || (temp == "false");
+			switch (to_lower(value).hash())
+			{
+			case Hash("1"):
+			case Hash("true"):
+			case Hash("on"):
+			case Hash("yes"):
+			case Hash("0"):
+			case Hash("false"):
+			case Hash("off"):
+			case Hash("no"):
+				return true;
+
+			default: return false;
+			}
 		}
 
 		static inline bool is_integer(const String & value)
@@ -212,8 +222,9 @@ namespace ml
 			case Hash("off"):
 			case Hash("no"):
 				return false;
+			
+			default: return dv;
 			}
-			return dv;
 		}
 
 		static inline int32_t to_i8(const String & value, int8_t dv = 0)

@@ -35,3 +35,8 @@ ______________________________
 ![alt text](https://i.imgur.com/dfm47zC.png)
 
 ______________________________
+# FAQ
+Q: Why "MemeLib"?
+A: It was originally just a throw away name, but after a while I grew fond of it.
+
+______________________________

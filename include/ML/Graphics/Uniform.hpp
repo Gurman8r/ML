@@ -2,7 +2,7 @@
 #define _ML_UNIFORM_HPP_
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/Matrix.hpp>
+#include <ML/Graphics/Color.hpp>
 #include <ML/Core/I_Newable.hpp>
 #include <ML/Core/Bitset.hpp>
 
@@ -21,21 +21,21 @@ namespace ml
 		{
 			Boolean, Float, Integer,
 			Vector2, Vector3, Vector4, Color,
-			Matrix3, Matrix4,
+			Matrix2, Matrix3, Matrix4,
 			Sampler
 		};
 
 		static constexpr Type Type_values[] = {
 			Boolean, Float, Integer,
 			Vector2, Vector3, Vector4, Color,
-			Matrix3, Matrix4,
+			Matrix2, Matrix3, Matrix4,
 			Sampler
 		};
 
 		static constexpr C_String Type_names[] = {
 			"bool", "float", "int",
 			"vec2", "vec3", "vec4", "color",
-			"mat3", "mat4",
+			"mat2", "mat3", "mat4",
 			"sampler"
 		};
 
@@ -166,6 +166,7 @@ namespace ml
 	template <class T> using uni_vec3_t		= I_Uniform<T, Uniform::Vector3,	0b0>;
 	template <class T> using uni_vec4_t		= I_Uniform<T, Uniform::Vector4,	0b0>;
 	template <class T> using uni_color_t	= I_Uniform<T, Uniform::Color,		0b0>;
+	template <class T> using uni_mat2_t		= I_Uniform<T, Uniform::Matrix2,	0b0>;
 	template <class T> using uni_mat3_t		= I_Uniform<T, Uniform::Matrix3,	0b0>;
 	template <class T> using uni_mat4_t		= I_Uniform<T, Uniform::Matrix4,	0b0>;
 	template <class T> using uni_sampler_t	= I_Uniform<T, Uniform::Sampler,	0b1>;
@@ -178,20 +179,11 @@ namespace ml
 	using uni_vec2		= typename uni_vec2_t	<vec2>;
 	using uni_vec3		= typename uni_vec3_t	<vec3>;
 	using uni_vec4		= typename uni_vec4_t	<vec4>;
-	using uni_color		= typename uni_color_t	<vec4>;
+	using uni_color		= typename uni_color_t	<Color>;
+	using uni_mat2		= typename uni_mat2_t	<mat2>;
 	using uni_mat3		= typename uni_mat3_t	<mat3>;
 	using uni_mat4		= typename uni_mat4_t	<mat4>;
 	using uni_sampler	= typename uni_sampler_t<const Texture *>; // All Texture Types
-
-	using uni_bool_ref	= typename uni_bool_t	<const bool &>;
-	using uni_float_ref = typename uni_float_t	<const float_t &>;
-	using uni_int_ref	= typename uni_int_t	<const int32_t &>;
-	using uni_vec2_ref	= typename uni_vec2_t	<const vec2 &>;
-	using uni_vec3_ref	= typename uni_vec3_t	<const vec3 &>;
-	using uni_vec4_ref	= typename uni_vec4_t	<const vec4 &>;
-	using uni_color_ref = typename uni_color_t	<const vec4 &>;
-	using uni_mat3_ref	= typename uni_mat3_t	<const mat3 &>;
-	using uni_mat4_ref	= typename uni_mat4_t	<const mat4 &>;
 	
 	using uni_bool_ptr	= typename uni_bool_t	<const bool *>;
 	using uni_float_ptr = typename uni_float_t	<const float_t *>;
@@ -199,7 +191,8 @@ namespace ml
 	using uni_vec2_ptr	= typename uni_vec2_t	<const vec2 *>;
 	using uni_vec3_ptr	= typename uni_vec3_t	<const vec3 *>;
 	using uni_vec4_ptr	= typename uni_vec4_t	<const vec4 *>;
-	using uni_color_ptr = typename uni_color_t	<const vec4 *>;
+	using uni_color_ptr = typename uni_color_t	<const Color *>;
+	using uni_mat2_ptr	= typename uni_mat2_t	<const mat2 *>;
 	using uni_mat3_ptr	= typename uni_mat3_t	<const mat3 *>;
 	using uni_mat4_ptr	= typename uni_mat4_t	<const mat4 *>;
 
@@ -232,7 +225,6 @@ namespace ml
 			static bool temp;
 			if (!value || (value->id != uni_bool::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_bool>())		{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_bool_ref>())	{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_bool_ptr>())	{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}
@@ -242,7 +234,6 @@ namespace ml
 			static float_t temp;
 			if (!value || (value->id != uni_float::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_float>())		{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_float_ref>())	{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_float_ptr>())	{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}
@@ -252,7 +243,6 @@ namespace ml
 			static int32_t temp;
 			if (!value || (value->id != uni_int::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_int>())			{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_int_ref>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_int_ptr>())		{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}
@@ -262,7 +252,6 @@ namespace ml
 			static vec2 temp;
 			if (!value || value->id != uni_vec2::ID)		{ return nullptr; }
 			else if (auto u = value->as<uni_vec2>())		{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_vec2_ref>())	{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_vec2_ptr>())	{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}
@@ -272,7 +261,6 @@ namespace ml
 			static vec3 temp;
 			if (!value || (value->id != uni_vec3::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_vec3>())		{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_vec3_ref>())	{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_vec3_ptr>())	{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}
@@ -282,18 +270,25 @@ namespace ml
 			static vec4 temp;
 			if (!value || (value->id != uni_vec4::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_vec4>())		{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_vec4_ref>())	{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_vec4_ptr>())	{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}
 
-		static inline vec4 * as_color(const Uniform * value)
+		static inline Color * as_color(const Uniform * value)
 		{
-			static vec4 temp;
+			static Color temp;
 			if (!value || (value->id != uni_color::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_color>())		{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_color_ref>())	{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_color_ptr>())	{ return &(temp = *u->data); }
+			else { return nullptr; }
+		}
+
+		static inline mat2 * as_mat2(const Uniform * value)
+		{
+			static mat2 temp;
+			if (!value || (value->id != uni_mat2::ID)) { return nullptr; }
+			else if (auto u = value->as<uni_mat2>()) { return &(temp = u->data); }
+			else if (auto u = value->as<uni_mat2_ptr>()) { return &(temp = *u->data); }
 			else { return nullptr; }
 		}
 
@@ -302,7 +297,6 @@ namespace ml
 			static mat3 temp;
 			if (!value || (value->id != uni_mat3::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_mat3>())		{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_mat3_ref>())	{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_mat3_ptr>())	{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}
@@ -312,7 +306,6 @@ namespace ml
 			static mat4 temp;
 			if (!value || (value->id != uni_mat4::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_mat4>())		{ return &(temp =  u->data); }
-			else if (auto u = value->as<uni_mat4_ref>())	{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_mat4_ptr>())	{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}

@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	namespace alg
+	namespace detail
 	{
 		template <
 			class To, class From
@@ -72,12 +72,12 @@ namespace ml
 		}
 
 		template <class U> constexpr BasicColor(const tvec4<U> & value)
-			: m_value { alg::color_cast(value) }
+			: m_value { detail::color_cast(value) }
 		{
 		}
 
 		template <class U> constexpr BasicColor(const BasicColor<U> & copy)
-			: m_value { alg::color_cast(copy.rgba()) }
+			: m_value { detail::color_cast(copy.rgba()) }
 		{
 		}
 

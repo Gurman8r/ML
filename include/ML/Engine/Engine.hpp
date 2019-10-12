@@ -18,14 +18,19 @@ namespace ml
 
 	class ML_ENGINE_API Engine final : public I_Singleton<Engine>, public I_EventListener
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		friend struct I_Singleton<Engine>;
 
 		Engine();
 		~Engine() {}
+		
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void onEvent(const Event & value) override;
+		
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
 		void onEnter		(const EnterEvent & ev);
 		void onLoad			(const LoadEvent & ev);
 		void onStart		(const StartEvent & ev);
@@ -38,13 +43,16 @@ namespace ml
 		void onUnload		(const UnloadEvent & ev);
 		void onExit			(const ExitEvent & ev);
 
-	private:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		vec2	m_cursorPos		{ NULL };
 		float_t	m_deltaTime		{ NULL };
 		int32_t	m_frameCount	{ NULL };
 		float_t	m_frameRate		{ NULL };
 		vec2	m_viewport		{ NULL };
 		float_t	m_totalTime		{ NULL };
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -35,7 +35,7 @@ namespace ml
 
 	MemoryManager::MemoryManager()
 		: m_records {}
-		, m_allocID { 0 }
+		, m_currentID { 0 }
 	{
 	}
 
@@ -69,7 +69,7 @@ namespace ml
 	{
 		void * ptr { std::malloc(size) };
 		return m_records.insert({
-			ptr, new Record { m_allocID++, ptr, size }
+			ptr, new Record { m_currentID++, ptr, size }
 		}).first->second->ptr;
 	}
 

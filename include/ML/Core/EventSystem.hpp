@@ -25,6 +25,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		I_EventListener * addListener(const int32_t type, I_EventListener * listener);
+
+		template <class Ev> inline auto addListener(I_EventListener * listener)
+		{
+			return addListener(Ev::ID, listener);
+		}
 		
 		bool fireEvent(const Event & value);
 

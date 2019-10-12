@@ -143,9 +143,9 @@ namespace ml
 
 		// Create Window
 		if (m_window = ML_WINDOW(glfwCreateWindow(
-			this->width(),
-			this->height(),
-			this->title().c_str(),
+			this->getWidth(),
+			this->getHeight(),
+			this->getTitle().c_str(),
 			ML_MONITOR(m_monitor = nullptr),
 			ML_WINDOW(m_share = nullptr)
 		)))
@@ -156,7 +156,7 @@ namespace ml
 			{
 				this->setCursorMode(Cursor::Mode::Normal);
 
-				if (this->style().maximized)
+				if (this->getStyle().maximized)
 				{
 					this->maximize(); // Maximized
 				}
@@ -421,7 +421,7 @@ namespace ml
 
 	Window & Window::setCentered()
 	{
-		return setPosition((vec2i)(Window::getDesktopMode().size - this->size()) / 2);
+		return setPosition((vec2i)(Window::getDesktopMode().size - this->getSize()) / 2);
 	}
 
 	Window & Window::setClipboardString(const String & value)
@@ -509,8 +509,8 @@ namespace ml
 					ML_MONITOR(m_monitor),
 					0,
 					0,
-					width(),
-					height(),
+					getWidth(),
+					getHeight(),
 					GLFW_DONT_CARE
 				);
 			}
@@ -523,7 +523,7 @@ namespace ml
 		m_videoMode.size = value;
 		if (m_window)
 		{
-			glfwSetWindowSize(ML_WINDOW(m_window), width(), height());
+			glfwSetWindowSize(ML_WINDOW(m_window), getWidth(), getHeight());
 		}
 		return (*this);
 	}

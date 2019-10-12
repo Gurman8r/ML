@@ -37,28 +37,28 @@
     <Filter Include="Resource Files\ImGui\Addons\ImGuizmo">
       <UniqueIdentifier>{81610a78-fb7c-4620-ac03-2ef21e407b6e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Windows">
+    <Filter Include="Header Files\Editor">
       <UniqueIdentifier>{479ff0b2-aa13-4cc3-ae27-3794523dc929}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Windows">
+    <Filter Include="Source Files\Editor">
       <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorExplorer.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorProfiler.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorContent.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorTerminal.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorDockspace.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imconfig.h">
       <Filter>Resource Files\ImGui</Filter>
@@ -80,9 +80,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.h">
       <Filter>Resource Files\ImGui\Addons\ImGuiColorTextEdit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp">
-      <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp">
       <Filter>Header Files\Utility</Filter>
@@ -112,36 +109,39 @@
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorInspector.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\thirdparty\include\imgui\addons\ImGuizmo\ImGuizmo.h">
       <Filter>Resource Files\ImGui\Addons\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorAbout.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorManual.hpp">
-      <Filter>Header Files\Windows</Filter>
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp">
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorContent.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorDockspace.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorExplorer.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorProfiler.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorTerminal.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui.cpp">
       <Filter>Resource Files\ImGui</Filter>
@@ -157,9 +157,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.cpp">
       <Filter>Resource Files\ImGui\Addons\ImGuiColorTextEdit</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiImpl.cpp">
       <Filter>Source Files\Utility</Filter>
@@ -180,19 +177,22 @@
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorInspector.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuizmo\ImGuizmo.cpp">
       <Filter>Resource Files\ImGui\Addons\ImGuizmo</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorAbout.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorManual.cpp">
-      <Filter>Source Files\Windows</Filter>
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp">
+      <Filter>Source Files\Editor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

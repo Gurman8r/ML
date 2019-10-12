@@ -3,32 +3,32 @@
 
 [ ] = In Progress
 [x] = Complete
-[?] = Under Consideration
+[?] = Considering
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
 [ ] MORE PROPERTY DRAWERS
 [ ] INCREASE DATA DENSITY
 [ ] BETTER DESERIALIZATION
-[ ] Mat2x2 Support
 [ ] Dedicated error log (like Unity's)
 [ ] "Red Lines" in text editor
 [ ] Remove "RenderBatch"
 [ ] Real-time python scripts
 [ ] Json Editor Gui
 [ ] Temporary/Preview Assets
-[ ] Dedicated Color Type
 
-[X] gui open file dialog
-[X] proper gui for creating/importing new assets
-[X] reimplement old math
-[X] Rework Mesh/Model/Renderer to utilize Assimp (needs work)
+[x] gui open file dialog
+[x] proper gui for creating/importing new assets
+[x] reimplement old math
+[x] Rework Mesh/Model/Renderer to utilize Assimp (needs work)
 [x] texture cube maps (6-sided)
 [x] constexpr math structures
 [x] material deserialization
 [x] template property drawers
 [x] template asset importers
 [x] rework command system
+[x] Mat2x2 Support
+[x] Dedicated Color Type
 
 [?] Virtual File System
 [?] automatic/recursive asset loading

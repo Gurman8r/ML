@@ -60,15 +60,15 @@ namespace ml
 
 	void * SharedLibrary::loadFunction(const String & name)
 	{
-		Tree<String, void *>::const_iterator it;
-		if ((it = m_functions.find(name)) != m_functions.end())
+		auto it { m_functions.find(name) };
+		if (it != m_functions.end())
 		{
 			return it->second;
 		}
 		else if (m_instance)
 		{
-			void * location;
-			if (!(location = ML_LOAD_FUNCTION(m_instance, name.c_str())))
+			void * location { ML_LOAD_FUNCTION(m_instance, name.c_str()) };
+			if (!location)
 			{
 				Debug::logWarning("Function, \'{0}\', not found in \'{1}\'.", 
 					name, 

@@ -3739,7 +3739,7 @@ typedef int stbrp_coord;
 
 typedef struct
 {
-   int width,height;
+   int getWidth,getHeight;
    int x,y,bottom_y;
 } stbrp_context;
 
@@ -3756,8 +3756,8 @@ struct stbrp_rect
 
 static void stbrp_init_target(stbrp_context *con, int pw, int ph, stbrp_node *nodes, int num_nodes)
 {
-   con->width  = pw;
-   con->height = ph;
+   con->getWidth  = pw;
+   con->getHeight = ph;
    con->x = 0;
    con->y = 0;
    con->bottom_y = 0;
@@ -3769,11 +3769,11 @@ static void stbrp_pack_rects(stbrp_context *con, stbrp_rect *rects, int num_rect
 {
    int i;
    for (i=0; i < num_rects; ++i) {
-      if (con->x + rects[i].w > con->width) {
+      if (con->x + rects[i].w > con->getWidth) {
          con->x = 0;
          con->y = con->bottom_y;
       }
-      if (con->y + rects[i].h > con->height)
+      if (con->y + rects[i].h > con->getHeight)
          break;
       rects[i].x = con->x;
       rects[i].y = con->y;

@@ -7,9 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		class T
-	> struct Quaternion final : public tvec4<T>
+	template <class T> struct Quaternion final : public tvec4<T>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -31,7 +29,7 @@ namespace ml
 		{
 		}
 
-		constexpr Quaternion(const_reference x, const_reference y, const_reference z, const_reference w)
+		constexpr Quaternion(value_type x, value_type y, value_type z, value_type w)
 			: base_type({ x, y, z, w })
 		{
 		}
@@ -143,7 +141,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr self_type angleAxis(const_reference angle, const complex_type & axis)
+		static constexpr self_type angleAxis(value_type angle, const complex_type & axis)
 		{
 			const value_type half_angle { angle * constant_t<float>::half };
 			const value_type temp { alg::sin(half_angle) };

@@ -36,7 +36,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto allocID() const -> const size_t & { return m_allocID; }
+		inline auto currentID() const -> const size_t & { return m_currentID; }
 		inline auto records() const -> const RecordMap & { return m_records; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -48,7 +48,7 @@ namespace ml
 		~MemoryManager();
 
 		RecordMap m_records;
-		size_t m_allocID;
+		size_t m_currentID;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

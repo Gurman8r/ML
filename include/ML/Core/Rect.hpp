@@ -7,9 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <
-		class T
-	> struct Rect final : public tvec4<T>
+	template <class T> struct Rect final : public tvec4<T>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -31,12 +29,12 @@ namespace ml
 		{
 		}
 		
-		constexpr Rect(const_reference width, const_reference height)
+		constexpr Rect(value_type width, value_type height)
 			: base_type({ 0, 0, width, height })
 		{
 		}
 		
-		constexpr Rect(const_reference left, const_reference top, const_reference width, const_reference height)
+		constexpr Rect(value_type left, value_type top, value_type width, value_type height)
 			: base_type({ left, top, width, height })
 		{
 		}
@@ -77,12 +75,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto left		(const_reference value)		-> self_type & { return set(0, value); }
-		constexpr auto top		(const_reference value)		-> self_type & { return set(1, value); }
-		constexpr auto width	(const_reference value)		-> self_type & { return set(2, value); }
-		constexpr auto height	(const_reference value)		-> self_type & { return set(3, value); }
-		constexpr auto bottom	(const_reference value)		-> self_type & { return height(value - top()); }
-		constexpr auto right	(const_reference value)		-> self_type & { return width(value - left()); }
+		constexpr auto left		(value_type value)			-> self_type & { return set(0, value); }
+		constexpr auto top		(value_type value)			-> self_type & { return set(1, value); }
+		constexpr auto width	(value_type value)			-> self_type & { return set(2, value); }
+		constexpr auto height	(value_type value)			-> self_type & { return set(3, value); }
+		constexpr auto bottom	(value_type value)			-> self_type & { return height(value - top()); }
+		constexpr auto right	(value_type value)			-> self_type & { return width(value - left()); }
 		constexpr auto position	(const coord_type & value)	-> self_type & { return left(value[0]).top(value[1]); }
 		constexpr auto size		(const coord_type & value)	-> self_type & { return width(value[0]).height(value[1]); }
 		constexpr auto center	(const coord_type & value)	-> self_type & { return position(value - (size() / (T)2)); }

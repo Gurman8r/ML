@@ -41,15 +41,14 @@ namespace ml
 	Noobs::Noobs()
 		: Plugin {}
 	{
-
-		ML_EventSystem.addListener(StartEvent::ID,			this);
-		ML_EventSystem.addListener(UpdateEvent::ID,			this);
-		ML_EventSystem.addListener(DrawEvent::ID,			this);
-		ML_EventSystem.addListener(GuiEvent::ID,			this);
-		ML_EventSystem.addListener(ExitEvent::ID,			this);
-		ML_EventSystem.addListener(KeyEvent::ID,			this);
-		ML_EventSystem.addListener(MainMenuBarEvent::ID,	this);
-		ML_EventSystem.addListener(DockspaceEvent::ID,		this);
+		ML_EventSystem.addListener<StartEvent>(this);
+		ML_EventSystem.addListener<UpdateEvent>(this);
+		ML_EventSystem.addListener<DrawEvent>(this);
+		ML_EventSystem.addListener<GuiEvent>(this);
+		ML_EventSystem.addListener<ExitEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
+		ML_EventSystem.addListener<MainMenuBarEvent>(this);
+		ML_EventSystem.addListener<DockspaceEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -198,9 +197,8 @@ namespace ml
 		// Get Camera
 		const Camera * camera { Camera::mainCamera() };
 
-		// Render Scene
+		// Render Main Scene
 		/* * * * * * * * * * * * * * * * * * * * */
-
 		if (m_pipeline[Surf_Main])
 		{
 			// Bind Surface
@@ -244,7 +242,6 @@ namespace ml
 
 		// Reset States
 		/* * * * * * * * * * * * * * * * * * * * */
-
 		RenderStates {
 			AlphaState	{ true, GL::Greater, 0.01f },
 			BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
@@ -254,7 +251,6 @@ namespace ml
 
 		// Render Post Processing
 		/* * * * * * * * * * * * * * * * * * * * */
-
 		if (m_pipeline[Surf_Post])
 		{
 			// Bind Surface
@@ -263,11 +259,8 @@ namespace ml
 			// Apply Camera
 			if (camera) camera->apply();
 
-			// Apply Effects to Main
-			if (Surface * surf { m_pipeline[Surf_Main] })
-			{
-				ev.window.draw(surf);
-			}
+			// Draw Scene Output
+			ev.window.draw(m_pipeline[Surf_Main]);
 
 			// Unbind Surface
 			m_pipeline[Surf_Post]->unbind();
@@ -1019,44 +1012,11 @@ namespace ml
 					if (f) { f->dirty = false; }
 				}
 
-				const bool
-					vs = m_files[DemoFile::Vert]->open,
-					gs = m_files[DemoFile::Geom]->open,
-					fs = m_files[DemoFile::Frag]->open;
-
-				if (vs && gs && fs)
-				{
-					return s->loadFromMemory(
-						m_files[DemoFile::Vert]->text.GetText(),
-						m_files[DemoFile::Geom]->text.GetText(),
-						m_files[DemoFile::Frag]->text.GetText()
-					);
-				}
-				else if (vs && fs)
-				{
-					return s->loadFromMemory(
-						m_files[DemoFile::Vert]->text.GetText(),
-						m_files[DemoFile::Frag]->text.GetText()
-					);
-				}
-				else if (vs)
-				{
-					return s->loadFromMemory(
-						m_files[DemoFile::Vert]->text.GetText(), GL::VertexShader
-					);
-				}
-				else if (fs)
-				{
-					return s->loadFromMemory(
-						m_files[DemoFile::Frag]->text.GetText(), GL::FragmentShader
-					);
-				}
-				else if (gs)
-				{
-					return s->loadFromMemory(
-						m_files[DemoFile::Geom]->text.GetText(), GL::GeometryShader
-					);
-				}
+				return s->loadFromMemory(
+					m_files[DemoFile::Vert]->text.GetText(),
+					m_files[DemoFile::Geom]->text.GetText(),
+					m_files[DemoFile::Frag]->text.GetText()
+				);
 			}
 		}
 		return false;

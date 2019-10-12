@@ -506,7 +506,7 @@ static void stb_text_makeundo_replace(STB_TEXTEDIT_STRING *str, STB_TexteditStat
 typedef struct
 {
    float x,y;    // position of n'th character
-   float height; // height of line
+   float getHeight; // height of line
    int first_char, length; // first char of row, and length
    int prev_first;  // first char of previous row
 } StbFindState;
@@ -528,12 +528,12 @@ static void stb_textedit_find_charpos(StbFindState *find, STB_TEXTEDIT_STRING *s
          find->y = 0;
          find->first_char = 0;
          find->length = z;
-         find->height = r.ymax - r.ymin;
+         find->getHeight = r.ymax - r.ymin;
          find->x = r.x1;
       } else {
          find->y = 0;
          find->x = 0;
-         find->height = 1;
+         find->getHeight = 1;
          while (i < z) {
             STB_TEXTEDIT_LAYOUTROW(&r, str, i);
             prev_start = i;
@@ -560,7 +560,7 @@ static void stb_textedit_find_charpos(StbFindState *find, STB_TEXTEDIT_STRING *s
 
    find->first_char = first = i;
    find->length = r.num_chars;
-   find->height = r.ymax - r.ymin;
+   find->getHeight = r.ymax - r.ymin;
    find->prev_first = prev_start;
 
    // now scan to find xpos

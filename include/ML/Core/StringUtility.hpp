@@ -232,13 +232,13 @@ namespace ml
 
 		static inline int32_t to_i32(const String & value, int32_t dv = 0)
 		{
-			try { return std::stoi(value); }
+			try { return static_cast<int32_t>(std::stoi(value)); }
 			catch (std::invalid_argument &) { return dv; }
 		}
 
 		static inline int64_t to_i64(const String & value, int64_t dv = 0)
 		{
-			try { return std::stoll(value); }
+			try { return static_cast<int64_t>(std::stoll(value)); }
 			catch (std::invalid_argument &) { return dv; }
 		}
 
@@ -256,13 +256,13 @@ namespace ml
 
 		static inline float32_t to_f32(const String & value, float32_t dv = 0)
 		{
-			try { return std::stof(value); }
+			try { return static_cast<float32_t>(std::stof(value)); }
 			catch (std::invalid_argument &) { return dv; }
 		}
 
 		static inline float64_t to_f64(const String & value, float64_t dv = 0)
 		{
-			try { return std::stod(value); }
+			try { return static_cast<float64_t>(std::stod(value)); }
 			catch (std::invalid_argument &) { return dv; }
 		}
 
@@ -306,7 +306,7 @@ namespace ml
 
 		template <class T> static inline String to_bin(const T & value)
 		{
-			SStream ss;
+			SStream ss {};
 			for (size_t i = 0; i < (sizeof(T) * 8); i++) 
 				ss << ML_BITREAD(value, i);
 			return ss.str();
@@ -314,14 +314,14 @@ namespace ml
 
 		template <class T> static inline String to_hex(const T & value)
 		{
-			SStream ss;
+			SStream ss {};
 			ss << std::hex << value;
 			return ss.str();
 		}
 
 		template <class T> static inline String to_oct(const T & value)
 		{
-			SStream ss;
+			SStream ss {};
 			ss << std::oct << value;
 			return ss.str();
 		}
@@ -335,60 +335,27 @@ namespace ml
 			return ss.str();
 		}
 
-		static inline String to_string(const String & value)
-		{
-			return value;
-		}
+		static inline String to_string(const String & value) { return value; }
 
-		static inline String to_string(int8_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(int8_t value) { return std::to_string(value); }
 
-		static inline String to_string(int16_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(int16_t value) { return std::to_string(value); }
 
-		static inline String to_string(int32_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(int32_t value) { return std::to_string(value); }
 
-		static inline String to_string(int64_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(int64_t value) { return std::to_string(value); }
 
-		static inline String to_string(uint8_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(uint8_t value) { return std::to_string(value); }
 
-		static inline String to_string(uint16_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(uint16_t value) { return std::to_string(value); }
 
-		static inline String to_string(uint32_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(uint32_t value) { return std::to_string(value); }
 
-		static inline String to_string(uint64_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(uint64_t value) { return std::to_string(value); }
 
-		static inline String to_string(float32_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(float32_t value) { return std::to_string(value); }
 
-		static inline String to_string(float64_t value)
-		{
-			return std::to_string(value);
-		}
+		static inline String to_string(float64_t value) { return std::to_string(value); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}

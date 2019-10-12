@@ -106,20 +106,20 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto aspect()		const -> const float_t			{ return ML_ASPECT_2(size()); };
-		inline auto context()		const -> const ContextSettings &{ return m_context; }
-		inline auto frame_aspect()	const -> float_t				{ return ML_ASPECT_2(getFrameSize()); };
-		inline auto frame_height()	const -> int32_t				{ return getFrameSize()[1]; }
-		inline auto frame_width()	const -> int32_t				{ return getFrameSize()[0]; }
-		inline auto height()		const -> const uint32_t	&		{ return size()[1]; }
-		inline auto monitor()		const -> const void *			{ return m_monitor; }
-		inline auto share()			const -> const void *			{ return m_share; }
-		inline auto size()			const -> const vec2u &			{ return video_mode().size; }
-		inline auto style()			const -> const WindowStyle &	{ return m_style; }
-		inline auto title()			const -> const String &			{ return m_title; }
-		inline auto video_mode()	const -> const VideoMode &		{ return m_videoMode; }
-		inline auto width()			const -> const uint32_t	&		{ return size()[0]; }
-	
+		inline auto getAspect()		const -> float_t { return ML_ASPECT_2(getSize()); };
+		inline auto getContext()	const -> const ContextSettings & { return m_context; }
+		inline auto getFrameAspect()const -> float_t { return ML_ASPECT_2(getFrameSize()); };
+		inline auto getFrameHeight()const -> int32_t { return getFrameSize()[1]; }
+		inline auto getFrameWidth()	const -> int32_t { return getFrameSize()[0]; }
+		inline auto getHeight()		const -> const uint32_t	& { return getSize()[1]; }
+		inline auto getMonitor()	const -> const void * { return m_monitor; }
+		inline auto getShare()		const -> const void * { return m_share; }
+		inline auto getSize()		const -> const vec2u & { return getVideoMode().size; }
+		inline auto getStyle()		const -> const WindowStyle & { return m_style; }
+		inline auto getTitle()		const -> const String & { return m_title; }
+		inline auto getVideoMode()	const -> const VideoMode & { return m_videoMode; }
+		inline auto getWidth()		const -> const uint32_t	& { return getSize()[0]; }
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		void *	createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels) const;
@@ -156,7 +156,7 @@ namespace ml
 		WindowStyle		m_style;		// 
 		VideoMode		m_videoMode;	// 
 		String			m_title;		// 
-		mutable char	m_char;
+		mutable char	m_char;			// 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

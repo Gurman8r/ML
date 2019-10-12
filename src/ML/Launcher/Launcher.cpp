@@ -11,12 +11,12 @@ namespace ml
 		// Initialize Instances
 		ML_Engine; ML_Editor; ML_Plugins;
 
-		// Startup Events
+		// Pre-Loop
 		ML_EventSystem.fireEvent<EnterEvent>(time, prefs, window);
 		ML_EventSystem.fireEvent<LoadEvent>	(time, prefs, window);
 		ML_EventSystem.fireEvent<StartEvent>(time, prefs, window);
 
-		// Loop Events
+		// Loop
 		while (window.is_open())
 		{
 			ML_EventSystem.fireEvent<BeginLoopEvent>(time, window);
@@ -30,7 +30,7 @@ namespace ml
 			ML_EventSystem.fireEvent<EndLoopEvent>	(time, window);
 		}
 
-		// Shutdown Events
+		// Shutdown
 		ML_EventSystem.fireEvent<UnloadEvent>(time, window);
 		ML_EventSystem.fireEvent<ExitEvent>	 (time, window);
 		

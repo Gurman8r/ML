@@ -1145,7 +1145,7 @@ ImGuiContext*   GImGui = NULL;
 static void*   MallocWrapper(size_t size, void* user_data)    { IM_UNUSED(user_data); return malloc(size); }
 static void    FreeWrapper(void* ptr, void* user_data)        { IM_UNUSED(user_data); free(ptr); }
 #else
-static void*   MallocWrapper(size_t size, void* user_data)    { IM_UNUSED(user_data); IM_UNUSED(size); IM_ASSERT(0); return NULL; }
+static void*   MallocWrapper(size_t getSize, void* user_data)    { IM_UNUSED(user_data); IM_UNUSED(getSize); IM_ASSERT(0); return NULL; }
 static void    FreeWrapper(void* ptr, void* user_data)        { IM_UNUSED(user_data); IM_UNUSED(ptr); IM_ASSERT(0); }
 #endif
 
@@ -14345,7 +14345,7 @@ static void ImGui::DockSettingsHandler_WriteAll(ImGuiContext* ctx, ImGuiSettings
         // [DEBUG] Include comments in the .ini file to ease debugging
         if (ImGuiDockNode* node = DockContextFindNodeByID(ctx, node_settings->ID))
         {
-            buf->appendf("%*s", ImMax(2, (line_start_pos + 92) - buf->size()), "");        // Align everything
+            buf->appendf("%*s", ImMax(2, (line_start_pos + 92) - buf->getSize()), "");        // Align everything
             if (node->IsDockSpace && node->HostWindow && node->HostWindow->ParentWindow)
                 buf->appendf(" ; in '%s'", node->HostWindow->ParentWindow->Name);
             int contains_window = 0;

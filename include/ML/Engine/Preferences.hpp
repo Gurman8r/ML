@@ -11,6 +11,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// INI Reader
 	struct ML_ENGINE_API Preferences final
 		: public I_Newable
 		, public I_Disposable

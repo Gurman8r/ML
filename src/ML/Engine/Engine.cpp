@@ -88,7 +88,7 @@ namespace ml
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (!ev.window.create(
-			ev.prefs.get_string	("Window", "title",				""), { 
+			ev.prefs.get_string	("Window", "title",				"MemeLib"), { 
 			ev.prefs.get_uint	("Window", "width",				1280),
 			ev.prefs.get_uint	("Window", "height",			720),
 			ev.prefs.get_uint	("Window", "bits_per_pixel",	32) }, {
@@ -181,11 +181,11 @@ namespace ml
 		m_deltaTime		= ev.time.elapsed().delta();
 		m_frameCount	= m_frameCount + 1;
 		m_frameRate		= (float_t)ev.time.frameRate();
-		m_viewport		= (vec2)ev.window.size();
+		m_viewport		= (vec2)ev.window.getSize();
 		m_totalTime		= ev.time.total().delta();
 
 		// Update Window Title
-		static const String original_title { ev.window.title() };
+		static const String original_title { ev.window.getTitle() };
 		ev.window.setTitle(String("{0} | {1} | {2} | {3} ms/frame").format(
 			original_title,
 			ML_CONFIGURATION,

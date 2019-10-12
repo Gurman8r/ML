@@ -842,7 +842,7 @@ namespace ml
 		// Lock
 		static Image::Pixels pixels {};
 		if (!pixels ||
-			pixels.size() != value.pixels().size() ||
+			pixels.getSize() != value.pixels().getSize() ||
 			pixels.front() != value.pixels().front() ||
 			pixels.back() != value.pixels().back() ||
 			pixels != value.pixels())
@@ -856,7 +856,7 @@ namespace ml
 		if (preview && (*preview))
 		{
 			const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-			const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
+			const vec2 scl { alg::scale_to_fit((vec2)value.getSize(), dst) * 0.975f };
 			const vec2 pos { ((dst - scl) * 0.5f) };
 
 			ImGui::BeginChild(
@@ -2355,16 +2355,17 @@ namespace ml
 				{
 					switch (type)
 					{
-					case uni_bool	::ID: return (Uniform *)new uni_bool	{ name, { NULL } };
-					case uni_float	::ID: return (Uniform *)new uni_float	{ name, { NULL } };
-					case uni_int	::ID: return (Uniform *)new uni_int		{ name, { NULL } };
-					case uni_vec2	::ID: return (Uniform *)new uni_vec2	{ name, { NULL } };
-					case uni_vec3	::ID: return (Uniform *)new uni_vec3	{ name, { NULL } };
-					case uni_vec4	::ID: return (Uniform *)new uni_vec4	{ name, { NULL } };
-					case uni_color	::ID: return (Uniform *)new uni_color	{ name, { NULL } };
-					case uni_mat3	::ID: return (Uniform *)new uni_mat3	{ name, { NULL } };
-					case uni_mat4	::ID: return (Uniform *)new uni_mat4	{ name, { NULL } };
-					case uni_sampler::ID: return (Uniform *)new uni_sampler	{ name, { NULL } };
+					case uni_bool	::ID: return (Uniform *)new uni_bool	{ name, {} };
+					case uni_float	::ID: return (Uniform *)new uni_float	{ name, {} };
+					case uni_int	::ID: return (Uniform *)new uni_int		{ name, {} };
+					case uni_vec2	::ID: return (Uniform *)new uni_vec2	{ name, {} };
+					case uni_vec3	::ID: return (Uniform *)new uni_vec3	{ name, {} };
+					case uni_vec4	::ID: return (Uniform *)new uni_vec4	{ name, {} };
+					case uni_color	::ID: return (Uniform *)new uni_color	{ name, {} };
+					case uni_mat2	::ID: return (Uniform *)new uni_mat2	{ name, {} };
+					case uni_mat3	::ID: return (Uniform *)new uni_mat3	{ name, {} };
+					case uni_mat4	::ID: return (Uniform *)new uni_mat4	{ name, {} };
+					case uni_sampler::ID: return (Uniform *)new uni_sampler	{ name, {} };
 					}
 					return (Uniform *)nullptr;
 				})();
@@ -2401,125 +2402,139 @@ namespace ml
 		switch (value.id)
 		{
 		case uni_bool::ID:
-			if (bool * temp = detail::as_bool(&value))
+			if (auto u = detail::as_bool(&value))
 			{
 				const String name = "##" + label + "##Bool##Uni" + value.name;
-				ImGui::Checkbox(name.c_str(), temp);
-				if (auto u = value.as<uni_bool>())
+				ImGui::Checkbox(name.c_str(), u);
+				if (auto temp = value.as<uni_bool>())
 				{
-					u->data = (*temp);
+					temp->data = (*u);
 					return true;
 				}
 			}
 			break;
 
 		case uni_float::ID:
-			if (float_t * temp = detail::as_float(&value))
+			if (auto u = detail::as_float(&value))
 			{
 				const String name = "##" + label + "##Float##Uni" + value.name;
-				ImGui::DragFloat(name.c_str(), temp, speed);
-				if (auto u = value.as<uni_float>())
+				ImGui::DragFloat(name.c_str(), u, speed);
+				if (auto temp = value.as<uni_float>())
 				{
-					u->data = (*temp); 
+					temp->data = (*u); 
 					return true;
 				}
 			}
 			break;
 
 		case uni_int::ID:
-			if (int32_t * temp = detail::as_int(&value))
+			if (auto u = detail::as_int(&value))
 			{
 				const String name = "##" + label + "##Int##Uni" + value.name;
 				
-				if (value.isValue()) ImGui::InputInt(name.c_str(), temp);
-				else ImGui::DragInt(name.c_str(), temp);
+				if (value.isValue()) ImGui::InputInt(name.c_str(), u);
+				else ImGui::DragInt(name.c_str(), u);
 				
-				if (auto u = value.as<uni_int>())
+				if (auto temp = value.as<uni_int>())
 				{
-					u->data = (*temp);
+					temp->data = (*u);
 					return true;
 				}
 			}
 			break;
 
 		case uni_vec2::ID:
-			if (vec2 * temp = detail::as_vec2(&value))
+			if (auto u = detail::as_vec2(&value))
 			{
 				const String name = "##" + label + "##Vec2##Uni" + value.name;
-				ImGui::DragFloat2(name.c_str(), &(*temp)[0], speed);
-				if (auto u = value.as<uni_vec2>())
+				ImGui::DragFloat2(name.c_str(), &(*u)[0], speed);
+				if (auto temp = value.as<uni_vec2>())
 				{
-					u->data = (*temp); 
+					temp->data = (*u); 
 					return true;
 				}
 			}
 			break;
 
 		case uni_vec3::ID:
-			if (vec3 * temp = detail::as_vec3(&value))
+			if (auto u = detail::as_vec3(&value))
 			{
 				const String name = "##" + label + "##Vec3##Uni" + value.name;
-				ImGui::DragFloat3(name.c_str(), &(*temp)[0], speed);
-				if (auto u = value.as<uni_vec3>())
+				ImGui::DragFloat3(name.c_str(), &(*u)[0], speed);
+				if (auto temp = value.as<uni_vec3>())
 				{
-					u->data = (*temp);
+					temp->data = (*u);
 					return true;
 				}
 			}
 			break;
 
 		case uni_vec4::ID:
-			if (vec4 * temp = detail::as_vec4(&value))
+			if (auto u = detail::as_vec4(&value))
 			{
 				const String name = "##" + label + "##Vec4##Uni" + value.name;
-				ImGui::DragFloat4(name.c_str(), &(*temp)[0], speed);
-				if (auto u = value.as<uni_vec4>())
+				ImGui::DragFloat4(name.c_str(), &(*u)[0], speed);
+				if (auto temp = value.as<uni_vec4>())
 				{
-					u->data = (*temp); 
+					temp->data = (*u); 
 					return true;
 				}
 			}
 			break;
 
 		case uni_color::ID:
-			if (vec4 * temp = detail::as_color(&value))
+			if (auto u = detail::as_color(&value))
 			{
 				const String name = "##" + label + "##Color##Uni" + value.name;
-				ImGui::ColorEdit4(name.c_str(), &(*temp)[0]);
-				if (auto u = value.as<uni_color>())
+				ImGui::ColorEdit4(name.c_str(), &(*u)[0], ImGuiColorEditFlags_Float);
+				if (auto temp = value.as<uni_color>())
 				{
-					u->data = (*temp); 
+					temp->data = (*u); 
+					return true;
+				}
+			}
+			break;
+
+		case uni_mat2::ID:
+			if (mat2 * u = detail::as_mat2(&value))
+			{
+				const String name = "##" + label + "##Mat2##Uni" + value.name;
+				ImGui::DragFloat2((name + "##00").c_str(), &(*u)[0], speed);
+				ImGui::DragFloat2((name + "##02").c_str(), &(*u)[2], speed);
+				if (auto temp = value.as<uni_mat2>())
+				{
+					temp->data = (*u);
 					return true;
 				}
 			}
 			break;
 
 		case uni_mat3::ID:
-			if (mat3 * temp = detail::as_mat3(&value))
+			if (auto u = detail::as_mat3(&value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
-				ImGui::DragFloat3((name + "##00").c_str(), &(*temp)[0], speed);
-				ImGui::DragFloat3((name + "##03").c_str(), &(*temp)[3], speed);
-				ImGui::DragFloat3((name + "##06").c_str(), &(*temp)[6], speed);
-				if (auto u = value.as<uni_mat3>())
+				ImGui::DragFloat3((name + "##00").c_str(), &(*u)[0], speed);
+				ImGui::DragFloat3((name + "##03").c_str(), &(*u)[3], speed);
+				ImGui::DragFloat3((name + "##06").c_str(), &(*u)[6], speed);
+				if (auto temp = value.as<uni_mat3>())
 				{
-					u->data = (*temp); 
+					temp->data = (*u); 
 					return true;
 				}
 			}
 			break;
 
 		case uni_mat4::ID:
-			if (mat4 * temp = detail::as_mat4(&value))
+			if (auto u = detail::as_mat4(&value))
 			{
 				const String name = "##" + label + "##Mat4##Uni" + value.name;
-				ImGui::DragFloat4((name + "##00").c_str(), &(*temp)[0],  speed);
-				ImGui::DragFloat4((name + "##04").c_str(), &(*temp)[4],  speed);
-				ImGui::DragFloat4((name + "##08").c_str(), &(*temp)[8],  speed);
-				ImGui::DragFloat4((name + "##12").c_str(), &(*temp)[12], speed);
-				if (auto u = value.as<uni_mat4>())
+				ImGui::DragFloat4((name + "##00").c_str(), &(*u)[0],  speed);
+				ImGui::DragFloat4((name + "##04").c_str(), &(*u)[4],  speed);
+				ImGui::DragFloat4((name + "##08").c_str(), &(*u)[8],  speed);
+				ImGui::DragFloat4((name + "##12").c_str(), &(*u)[12], speed);
+				if (auto temp = value.as<uni_mat4>())
 				{
-					u->data = (*temp); 
+					temp->data = (*u); 
 					return true;
 				}
 			}
@@ -2529,8 +2544,11 @@ namespace ml
 			if (auto u = value.as<uni_sampler>())
 			{
 				const String name = "##" + label + "##Sampler##Uni" + value.name;
-				const Texture * temp = u->data;
-				if (PropertyDrawer<Texture>()(name, temp, 1)) { u->data = temp; }
+				const Texture * temp { u->data };
+				if (PropertyDrawer<Texture>()(name, temp, 1)) 
+				{
+					u->data = temp; 
+				}
 				return true;
 			}
 			break;

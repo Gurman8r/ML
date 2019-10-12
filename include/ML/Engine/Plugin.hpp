@@ -6,8 +6,7 @@
 #include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/I_Newable.hpp>
 
-#define ML_PLUGIN_API	ML_API_EXPORT
-#define ML_Plugin_Main	ML_Plugin_Main
+#define ML_PLUGIN_API ML_API_EXPORT
 
 namespace ml
 {

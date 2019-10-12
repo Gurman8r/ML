@@ -8,9 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API RenderWindow
-		: public Window
-		, public RenderTarget
+	struct ML_GRAPHICS_API RenderWindow : public Window, public RenderTarget
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

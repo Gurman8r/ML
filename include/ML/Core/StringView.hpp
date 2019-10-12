@@ -123,9 +123,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
-		const const_pointer	m_data;
-		const size_t m_size;
+	private: const_pointer m_data; size_t m_size;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

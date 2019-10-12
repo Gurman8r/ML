@@ -2,8 +2,8 @@
 #define _ML_RENDERER_HPP_
 
 #include <ML/Graphics/Model.hpp>
-#include <ML/Graphics/RenderStates.hpp>
 #include <ML/Graphics/Material.hpp>
+#include <ML/Graphics/RenderStates.hpp>
 
 namespace ml
 {

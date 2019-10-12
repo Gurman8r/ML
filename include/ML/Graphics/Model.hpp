@@ -3,7 +3,6 @@
 
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Mesh.hpp>
-#include <ML/Graphics/RenderStates.hpp>
 
 namespace ml
 {

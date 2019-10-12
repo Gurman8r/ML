@@ -18,7 +18,7 @@ namespace ml
 
 	void OpenGL::checkError(C_String file, uint32_t line, C_String expr)
 	{
-		if (const GL::Err code = getError())
+		if (const GL::Err code { getError() })
 		{
 			ML_EventSystem.fireEvent<OpenGlErrorEvent>(file, line, expr, code);
 		}

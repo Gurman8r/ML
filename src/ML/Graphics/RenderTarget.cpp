@@ -7,12 +7,12 @@ namespace ml
 
 	RenderTarget & RenderTarget::draw(const I_Drawable * value)
 	{
-		return (value) ? draw(*value) : (*this);
+		return (value) ? this->draw(*value) : (*this);
 	}
 
 	RenderTarget & RenderTarget::draw(const I_Drawable * value, const RenderBatch & batch)
 	{
-		return (value) ? draw(*value, batch) : (*this);
+		return (value) ? this->draw(*value, batch) : (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -20,7 +20,7 @@ namespace ml
 	RenderTarget & RenderTarget::draw(const I_Drawable & value)
 	{
 		RenderBatch batch;
-		return draw(value, batch);
+		return this->draw(value, batch);
 	}
 
 	RenderTarget & RenderTarget::draw(const I_Drawable & value, const RenderBatch & batch)
@@ -33,32 +33,30 @@ namespace ml
 
 	RenderTarget & RenderTarget::draw(const List<Vertex> & verts, const RenderBatch & batch)
 	{
-		return draw(alg::contiguous(verts), batch);
+		return this->draw(alg::contiguous(verts), batch);
 	}
 
 	RenderTarget & RenderTarget::draw(const List<float_t> & verts, const RenderBatch & batch)
 	{
-		return draw(verts.data(), verts.size(), batch);
+		return this->draw(verts.data(), verts.size(), batch);
 	}
 
 	RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const RenderBatch & batch)
 	{
-		if (batch.vao && batch.vbo)
-		{
-			const bool has_mtl { batch.mat && (batch.mat->shader() && (*batch.mat->shader())) };
-			
-			if (has_mtl) { batch.mat->bind(); }
+		if (batch.mat) { batch.mat->bind(); }
 
-			(*batch.vbo)
-				.bind()
-				.bufferSubData(verts, (uint32_t)(count), 0)
-				.unbind();
+		this->draw(verts, count, batch.vao, batch.vbo);
 
-			draw((*batch.vao), (*batch.vbo));
+		if (batch.mat) { batch.mat->unbind(); }
 
-			if (has_mtl) { batch.mat->unbind(); }
-		}
 		return (*this);
+	}
+
+	RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const VAO * vao, const VBO * vbo)
+	{
+		if (vbo) { (*vbo).bind().bufferSubData(verts, (uint32_t)count, 0).unbind(); }
+
+		return ((vao && vbo) ? this->draw((*vao), (*vbo)) : (*this));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

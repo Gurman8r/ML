@@ -13,7 +13,6 @@
 #include <cassert>
 #include <cctype>
 #include <chrono>
-#include <codecvt>
 #include <csignal>
 #include <cstddef>
 #include <ctime>

@@ -87,9 +87,6 @@
     <None Include="..\..\..\assets\shaders\sparkle_plexus.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>
-    <None Include="..\..\..\assets\shaders\tunnel.shader">
-      <Filter>Resource Files\assets\shaders</Filter>
-    </None>
     <None Include="..\..\..\assets\shaders\flames.shader">
       <Filter>Resource Files\assets\shaders</Filter>
     </None>

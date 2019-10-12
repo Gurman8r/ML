@@ -5,9 +5,9 @@
 #include <ML/Graphics/Vertex.hpp>
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Graphics/BufferLayout.hpp>
-#include <ML/Graphics/VertexArrayObject.hpp>
-#include <ML/Graphics/VertexBufferObject.hpp>
-#include <ML/Graphics/IndexBufferObject.hpp>
+#include <ML/Graphics/VertexArray.hpp>
+#include <ML/Graphics/VertexBuffer.hpp>
+#include <ML/Graphics/IndexBuffer.hpp>
 
 namespace ml
 {

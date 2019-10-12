@@ -4,7 +4,7 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Newable.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Core/StringUtility.hpp>
 
 #define ML_Registry ::ml::Registry<>::getInstance()
 

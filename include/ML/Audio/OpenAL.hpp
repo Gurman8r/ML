@@ -5,7 +5,7 @@
 
 #include <ML/Audio/Export.hpp>
 #include <ML/Audio/AL.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Core/StringUtility.hpp>
 #include <ML/Core/I_Singleton.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */

@@ -11,30 +11,30 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API IndexBufferObject final
+	struct ML_GRAPHICS_API IndexBuffer final
 		: public I_Newable
 		, public I_Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		IndexBufferObject();
-		IndexBufferObject(const IndexBufferObject & copy);
-		~IndexBufferObject();
+		IndexBuffer();
+		IndexBuffer(const IndexBuffer & copy);
+		~IndexBuffer();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		IndexBufferObject & clean();
-		IndexBufferObject & create(GL::Usage usage, GL::Type type);
+		IndexBuffer & clean();
+		IndexBuffer & create(GL::Usage usage, GL::Type type);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const IndexBufferObject & bind() const;
-		const IndexBufferObject & unbind() const;
+		const IndexBuffer & bind() const;
+		const IndexBuffer & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const IndexBufferObject & bufferData(const uint32_t * data, uint32_t count) const;
-		const IndexBufferObject & bufferData(const List<uint32_t> & data) const;
+		const IndexBuffer & bufferData(const uint32_t * data, uint32_t count) const;
+		const IndexBuffer & bufferData(const List<uint32_t> & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -56,7 +56,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using IBO = typename IndexBufferObject;
+	using IBO = typename IndexBuffer;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

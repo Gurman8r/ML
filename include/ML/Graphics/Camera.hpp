@@ -93,7 +93,7 @@ namespace ml
 	{
 		inline auto operator()(const String & value) const
 		{
-			switch (alg::to_lower(value).hash())
+			switch (util::to_lower(value).hash())
 			{
 			case Hash("solidcolor"): return Camera::SolidColor;
 			case Hash("depthonly"): return Camera::DepthOnly;
@@ -109,7 +109,7 @@ namespace ml
 	{
 		inline Camera::Projection operator()(const String & value) const
 		{
-			switch (alg::to_lower(value).hash())
+			switch (util::to_lower(value).hash())
 			{
 			case Hash("orthographic"): return Camera::Orthographic;
 			case Hash("perspective"): return Camera::Perspective;

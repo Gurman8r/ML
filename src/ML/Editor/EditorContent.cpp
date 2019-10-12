@@ -44,7 +44,7 @@ namespace ml
 			static const String label { ([&]()
 			{
 				if (!type_name) { return String(); }
-				switch (alg::to_lower(type_name).back())
+				switch (util::to_lower(type_name).back())
 				{
 				case 's': return String(type_name + "es");
 				case 'y': return String(type_name.substr(0, type_name.size() - 1) + "ies");

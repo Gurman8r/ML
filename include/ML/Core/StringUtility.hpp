@@ -1,15 +1,40 @@
 #ifndef _ML_STRING_UTILITY_HPP_
 #define _ML_STRING_UTILITY_HPP_
 
-// String Utilities
-
 #include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	namespace alg
+	namespace string_literals
+	{
+		inline auto operator "" _s(C_String data, size_t size)
+		{
+			return String { data, size };
+		}
+
+		inline auto operator "" _s(CW_String data, size_t size)
+		{
+			return W_String { data, size };
+		}
+
+		inline auto operator "" _s(CU16_String data, size_t size)
+		{
+			return U16_String { data, size };
+		}
+
+		inline auto operator "" _s(CU32_String data, size_t size)
+		{
+			return U32_String { data, size };
+		}
+	}
+
+	using namespace string_literals;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	namespace util
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -28,47 +53,20 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class S>
-		static inline String format(String str, const List<S> & args)
+		template <
+			class To, class From
+		> static inline BasicString<To> convert(const BasicString<From> & value)
 		{
-			for (size_t i = 0, imax = args.size(); i < imax; i++)
-			{
-				str.replaceAll(("{" + ML_ALG to_string(i) + "}"), args[i]);
-			}
-			return str;
-		}
+			BasicString<To> temp {};
+			temp.reserve(value.size());
+			for (const From & c : value)
+				temp.push_back(static_cast<To>(c));
+			return temp;
+	}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		static inline String narrow(const W_String & value) { return convert<char>(value); }
 
-		static inline String narrow(const W_String & value)
-		{
-#ifndef ML_HAS_CXX17
-			return std::wstring_convert<
-				std::codecvt_utf8_utf16<wchar_t>
-			>().to_bytes(value);
-#else
-			String out;
-			out.reserve(value.size());
-			for (const wchar_t & c : value)
-				out.push_back(static_cast<char>(c));
-			return out;
-#endif
-		}
-
-		static inline W_String widen(const String & value)
-		{
-#ifndef ML_HAS_CXX17
-			return std::wstring_convert<
-				std::codecvt_utf8_utf16<wchar_t>
-			>().from_bytes(value);
-#else
-			W_String out;
-			out.reserve(value.size());
-			for (const char & c : value)
-				out.push_back(static_cast<wchar_t>(c));
-			return out;
-#endif
-		}
+		static inline W_String widen(const String & value) { return convert<wchar_t>(value); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -154,7 +152,7 @@ namespace ml
 			return (temp == "true") || (temp == "false");
 		}
 
-		static inline bool is_int(const String & value)
+		static inline bool is_integer(const String & value)
 		{
 			if (!value) return false; 
 			String::const_iterator it = value.cbegin();
@@ -167,18 +165,6 @@ namespace ml
 				++it;
 			}
 			return (it == value.cend());
-		}
-
-		static inline bool is_float(const String & value)
-		{
-			try { std::stof(value); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool is_double(const String & value)
-		{
-			try { std::stod(value); return true; }
-			catch (std::invalid_argument &) { return false; }
 		}
 
 		static inline bool is_decimal(const String & value)
@@ -230,6 +216,18 @@ namespace ml
 			return dv;
 		}
 
+		static inline int32_t to_i8(const String & value, int8_t dv = 0)
+		{
+			try { return static_cast<int8_t>(std::stoi(value)); }
+			catch (std::invalid_argument &) { return dv; }
+		}
+
+		static inline int32_t to_i16(const String & value, int16_t dv = 0)
+		{
+			try { return static_cast<int16_t>(std::stoi(value)); }
+			catch (std::invalid_argument &) { return dv; }
+		}
+
 		static inline int32_t to_i32(const String & value, int32_t dv = 0)
 		{
 			try { return static_cast<int32_t>(std::stoi(value)); }
@@ -239,6 +237,18 @@ namespace ml
 		static inline int64_t to_i64(const String & value, int64_t dv = 0)
 		{
 			try { return static_cast<int64_t>(std::stoll(value)); }
+			catch (std::invalid_argument &) { return dv; }
+		}
+
+		static inline uint8_t to_u8(const String & value, uint8_t dv = 0)
+		{
+			try { return static_cast<uint8_t>(std::stoul(value)); }
+			catch (std::invalid_argument &) { return dv; }
+		}
+
+		static inline uint16_t to_u16(const String & value, uint16_t dv = 0)
+		{
+			try { return static_cast<uint16_t>(std::stoul(value)); }
 			catch (std::invalid_argument &) { return dv; }
 		}
 
@@ -266,6 +276,12 @@ namespace ml
 			catch (std::invalid_argument &) { return dv; }
 		}
 
+		static inline float80_t to_f80(const String & value, float80_t dv = 0)
+		{
+			try { return static_cast<float80_t>(std::stold(value)); }
+			catch (std::invalid_argument &) { return dv; }
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static inline bool parse_bool(const String & value, bool & out)
@@ -278,9 +294,39 @@ namespace ml
 			return false;
 		}
 
+		static inline bool parse_i8(const String & value, int8_t & out)
+		{
+			try { out = static_cast<int8_t>(std::stoi(value)); return true; }
+			catch (std::invalid_argument &) { return false; }
+		}
+
+		static inline bool parse_i16(const String & value, int16_t & out)
+		{
+			try { out = static_cast<int16_t>(std::stoi(value)); return true; }
+			catch (std::invalid_argument &) { return false; }
+		}
+
 		static inline bool parse_i32(const String & value, int32_t & out)
 		{
-			try { out = std::stoi(value); return true; }
+			try { out = static_cast<int32_t>(std::stoi(value)); return true; }
+			catch (std::invalid_argument &) { return false; }
+		}
+
+		static inline bool parse_i64(const String & value, int64_t & out)
+		{
+			try { out = static_cast<int64_t>(std::stoll(value)); return true; }
+			catch (std::invalid_argument &) { return false; }
+		}
+
+		static inline bool parse_u8(const String & value, uint8_t & out)
+		{
+			try { out = static_cast<uint8_t>(std::stoi(value)); return true; }
+			catch (std::invalid_argument &) { return false; }
+		}
+
+		static inline bool parse_u16(const String & value, uint16_t & out)
+		{
+			try { out = static_cast<uint16_t>(std::stoi(value)); return true; }
 			catch (std::invalid_argument &) { return false; }
 		}
 
@@ -290,49 +336,35 @@ namespace ml
 			catch (std::invalid_argument &) { return false; }
 		}
 
+		static inline bool parse_u64(const String & value, uint64_t & out)
+		{
+			try { out = static_cast<uint64_t>(std::stoull(value)); return true; }
+			catch (std::invalid_argument &) { return false; }
+		}
+
 		static inline bool parse_f32(const String & value, float32_t & out)
 		{
-			try { out = std::stof(value); return true; }
+			try { out = static_cast<float32_t>(std::stof(value)); return true; }
 			catch (std::invalid_argument &) { return false; }
 		}
 
 		static inline bool parse_f64(const String & value, float64_t & out)
 		{
-			try { out = std::stod(value); return true; }
+			try { out = static_cast<float64_t>(std::stod(value)); return true; }
 			catch (std::invalid_argument &) { return false; }
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class T> static inline String to_bin(const T & value)
+		static inline bool parse_f80(const String & value, float80_t & out)
 		{
-			SStream ss {};
-			for (size_t i = 0; i < (sizeof(T) * 8); i++) 
-				ss << ML_BITREAD(value, i);
-			return ss.str();
-		}
-
-		template <class T> static inline String to_hex(const T & value)
-		{
-			SStream ss {};
-			ss << std::hex << value;
-			return ss.str();
-		}
-
-		template <class T> static inline String to_oct(const T & value)
-		{
-			SStream ss {};
-			ss << std::oct << value;
-			return ss.str();
+			try { out = static_cast<float80_t>(std::stold(value)); return true; }
+			catch (std::invalid_argument &) { return false; }
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class T> static inline String to_string(const T & value)
 		{
-			SStream ss {};
-			ss << value;
-			return ss.str();
+			SStream ss {}; ss << value; return ss.str();
 		}
 
 		static inline String to_string(const String & value) { return value; }
@@ -356,6 +388,33 @@ namespace ml
 		static inline String to_string(float32_t value) { return std::to_string(value); }
 
 		static inline String to_string(float64_t value) { return std::to_string(value); }
+
+		static inline String to_string(float80_t value) { return std::to_string(value); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class S> static inline String format(String fmt, const List<S> & args)
+		{
+			for (size_t i = 0, imax = args.size(); i < imax; i++)
+			{
+				fmt.replaceAll(("{" + to_string(i) + "}"), args[i]);
+			}
+			return fmt;
+		}
+
+		template <class T> static inline String to_hex(const T & value)
+		{
+			SStream ss {};
+			ss << std::hex << value;
+			return ss.str();
+		}
+
+		template <class T> static inline String to_oct(const T & value)
+		{
+			SStream ss {};
+			ss << std::oct << value;
+			return ss.str();
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}

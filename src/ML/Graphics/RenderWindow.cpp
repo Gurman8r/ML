@@ -1,10 +1,10 @@
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/OpenGL.hpp>
-#include <ML/Core/Debug.hpp>
+#include <ML/Graphics/GraphicsEvents.hpp>
 #include <ML/Graphics/RenderStates.hpp>
+#include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Window/WindowEvents.hpp>
-#include <ML/Graphics/GraphicsEvents.hpp>
 
 namespace ml
 {
@@ -28,7 +28,7 @@ namespace ml
 			ML_GL.validateVersion(m_context.major, m_context.minor);
 
 			// Setup States
-			RenderStates().apply();
+			RenderStates {}();
 			ML_GL.enable(GL::Multisample, m_context.multisample);
 			ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable);
 

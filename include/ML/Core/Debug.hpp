@@ -2,7 +2,7 @@
 #define _ML_DEBUG_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Core/StringUtility.hpp>
 
 // Log Codes
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -56,7 +56,7 @@ namespace ml
 	{
 		inline auto operator()(const String & str) const
 		{
-			switch (alg::to_lower(str).hash())
+			switch (util::to_lower(str).hash())
 			{
 			case Hash("realtime"): return Light::Realtime;
 			default: return (Light::Mode)0;

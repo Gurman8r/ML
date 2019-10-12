@@ -8,10 +8,13 @@ namespace ml
 
 	const RenderStates & RenderStates::apply() const
 	{
-		m_alpha();
-		m_blend();
-		m_cull();
-		m_depth();
+		if (m_enabled)
+		{
+			m_alpha();
+			m_blend();
+			m_cull();
+			m_depth();
+		}
 		return (*this);
 	}
 

@@ -66,6 +66,7 @@ namespace ml
 			.def_static("load_all", [](const list_t & l) { return ML_Plugins.loadList(l); })
 			;
 
+		// IO
 		struct ml_py_io {};
 		py::class_<ml_py_io>(m, "io")
 			.def_static("clear",	[]() { Debug::clear(); })
@@ -74,7 +75,7 @@ namespace ml
 			.def_static("fatal",	[](str_t s) { Debug::fatal(s); })
 			.def_static("pause",	[]() { Debug::pause(0); })
 			.def_static("print",	[](str_t s) { cout << s; })
-			.def_static("printf",	[](str_t s, const list_t & l) { cout << alg::format(s, l); })
+			.def_static("printf",	[](str_t s, const list_t & l) { cout << util::format(s, l); })
 			.def_static("printl",	[](str_t s) { cout << s << endl; })
 			.def_static("system",	[](str_t s) { return Debug::system(s.c_str()); })
 			;
@@ -128,11 +129,11 @@ namespace ml
 			{
 				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 				auto * c { e->get<Camera>() }; if (!c) return false;
-				switch (alg::to_lower(section).hash())
+				switch (util::to_lower(section).hash())
 				{
 				case Hash("self"):
 				{
-					switch (alg::to_lower(key).hash())
+					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("clearflags"): c->setClearFlags(input<Camera::ClearFlags>()(value)); break;
@@ -154,11 +155,11 @@ namespace ml
 			{
 				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 				auto * c { e->get<Light>() }; if (!c) return false;
-				switch (alg::to_lower(section).hash())
+				switch (util::to_lower(section).hash())
 				{
 				case Hash("self"):
 				{
-					switch (alg::to_lower(key).hash())
+					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("color"): c->setColor(input<vec4>()(value)); break;
@@ -174,11 +175,11 @@ namespace ml
 			{
 				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 				auto * c { e->get<Renderer>() }; if (!c) return false;
-				switch (alg::to_lower(section).hash())
+				switch (util::to_lower(section).hash())
 				{
 				case Hash("self"):
 				{
-					switch (alg::to_lower(key).hash())
+					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
 					case Hash("material"): c->setMaterial(ML_Content.get<Material>(value)); break;
@@ -189,7 +190,7 @@ namespace ml
 				break;
 				case Hash("alpha"):
 				{
-					switch (alg::to_lower(key).hash())
+					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"): 
 						c->states().alpha().enabled = input<bool>()(value); 
@@ -205,7 +206,7 @@ namespace ml
 				break;
 				case Hash("blend"):
 				{
-					switch (alg::to_lower(key).hash())
+					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"): 
 						c->states().blend().enabled = input<bool>()(value); 
@@ -227,7 +228,7 @@ namespace ml
 				break;
 				case Hash("cull"):
 				{
-					switch (alg::to_lower(key).hash())
+					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"): 
 						c->states().cull().enabled = input<bool>()(value); 
@@ -240,7 +241,7 @@ namespace ml
 				break;
 				case Hash("depth"):
 				{
-					switch (alg::to_lower(key).hash())
+					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"): 
 						c->states().depth().enabled = input<bool>()(value);
@@ -261,11 +262,11 @@ namespace ml
 			{
 				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
 				auto * c { e->get<Transform>() }; if (!c) return false;
-				switch (alg::to_lower(section).hash())
+				switch (util::to_lower(section).hash())
 				{
 				case Hash("self"):
 				{
-					switch (alg::to_lower(key).hash())
+					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"):	c->setEnabled(input<bool>()(value)); break;
 					case Hash("position"):	c->setPosition(input<vec3>()(value)); break;

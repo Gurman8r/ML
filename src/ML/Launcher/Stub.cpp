@@ -161,7 +161,7 @@ namespace ml
 
 	inline ML_SERIALIZE(std::ostream & out, const uni_type & value)
 	{
-		return out << alg::to_string(value);
+		return out << util::to_string(value);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -228,16 +228,6 @@ namespace ml
 	template <
 		class T
 	> static constexpr const T * uniform_cast(const uni_base & value)
-	{
-		return (std::holds_alternative<T>(std::get<2>(value))
-			? &std::get<T>(std::get<2>(value))
-			: nullptr
-		);
-	}
-
-	template <
-		class T
-	> static inline T * uniform_cast(uni_base & value)
 	{
 		return (std::holds_alternative<T>(std::get<2>(value))
 			? &std::get<T>(std::get<2>(value))

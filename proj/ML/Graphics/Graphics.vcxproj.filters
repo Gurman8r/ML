@@ -37,12 +37,6 @@
     <Filter Include="Source Files\Drawables">
       <UniqueIdentifier>{3c739934-7c53-45dd-a0ef-27e53feeae3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Rendering">
-      <UniqueIdentifier>{f8195b15-4f1b-44d0-b96a-27f604117928}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Rendering">
-      <UniqueIdentifier>{80f7abf8-e0bb-4f3b-84dc-9c2101c0619e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp">
@@ -87,19 +81,7 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\ShaderParser.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderWindow.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderTarget.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderBatch.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\RectTransform.hpp">
@@ -110,21 +92,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Uniform.hpp">
       <Filter>Header Files\DS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\FrameBufferObject.hpp">
-      <Filter>Header Files\Handles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\IndexBufferObject.hpp">
-      <Filter>Header Files\Handles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderBufferObject.hpp">
-      <Filter>Header Files\Handles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\VertexArrayObject.hpp">
-      <Filter>Header Files\Handles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\VertexBufferObject.hpp">
-      <Filter>Header Files\Handles</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\GLM.hpp">
       <Filter>Header Files\Utility</Filter>
@@ -147,9 +114,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Light.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderStates.hpp">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Scene.hpp">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
@@ -158,6 +122,36 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\GraphicsEvents.hpp">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderWindow.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderBatch.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderStates.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderTarget.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\FrameBuffer.hpp">
+      <Filter>Header Files\Handles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\IndexBuffer.hpp">
+      <Filter>Header Files\Handles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderBuffer.hpp">
+      <Filter>Header Files\Handles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\VertexArray.hpp">
+      <Filter>Header Files\Handles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\VertexBuffer.hpp">
+      <Filter>Header Files\Handles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,32 +185,11 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\ShaderParser.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\RenderWindow.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\RenderTarget.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp">
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\RectTransform.cpp">
       <Filter>Source Files\DS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\VertexBufferObject.cpp">
-      <Filter>Source Files\Handles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\VertexArrayObject.cpp">
-      <Filter>Source Files\Handles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\RenderBufferObject.cpp">
-      <Filter>Source Files\Handles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\IndexBufferObject.cpp">
-      <Filter>Source Files\Handles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\FrameBufferObject.cpp">
-      <Filter>Source Files\Handles</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp">
       <Filter>Source Files\Drawables</Filter>
@@ -233,14 +206,35 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Light.cpp">
       <Filter>Source Files\DS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\Scene.cpp">
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Graphics\OpenGL.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderTarget.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderWindow.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\FrameBuffer.cpp">
+      <Filter>Source Files\Handles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\IndexBuffer.cpp">
+      <Filter>Source Files\Handles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderBuffer.cpp">
+      <Filter>Source Files\Handles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\VertexArray.cpp">
+      <Filter>Source Files\Handles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp">
+      <Filter>Source Files\Handles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

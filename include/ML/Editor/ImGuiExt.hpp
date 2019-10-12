@@ -2,7 +2,7 @@
 #define _ML_IMGUI_EXT_HPP_
 
 #include <ML/Editor/Export.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Matrix.hpp>
 #include <ML/Core/I_Singleton.hpp>
 

@@ -55,8 +55,8 @@ namespace ml
 	bool PropertyDrawer<Entity>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -70,7 +70,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 			}
 
 			// Name
@@ -579,8 +579,8 @@ namespace ml
 	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -596,7 +596,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -724,8 +724,8 @@ namespace ml
 	bool PropertyDrawer<Image>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -741,7 +741,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -888,8 +888,8 @@ namespace ml
 	bool PropertyDrawer<Material>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -906,7 +906,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				globals = false;
 				copy = nullptr;
 				shader = nullptr;
@@ -1104,8 +1104,8 @@ namespace ml
 	bool PropertyDrawer<Model>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1121,7 +1121,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -1297,8 +1297,8 @@ namespace ml
 	bool PropertyDrawer<Script>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1314,7 +1314,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -1455,8 +1455,8 @@ namespace ml
 	bool PropertyDrawer<Shader>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1472,7 +1472,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -1586,8 +1586,8 @@ namespace ml
 	bool PropertyDrawer<Sound>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1602,7 +1602,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 			}
 
@@ -1676,8 +1676,8 @@ namespace ml
 	bool PropertyDrawer<Sprite>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1693,7 +1693,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -1828,8 +1828,8 @@ namespace ml
 	bool PropertyDrawer<Surface>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1844,7 +1844,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				copy = nullptr;
 			}
 
@@ -2006,8 +2006,8 @@ namespace ml
 	bool PropertyDrawer<Texture>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -2025,7 +2025,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + alg::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
 				std::strcpy(asset_path, "");
 				for (auto *& e : image) e = nullptr;
 				open_path.clear();
@@ -2314,8 +2314,8 @@ namespace ml
 	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { String("{0}##NewButton##{1}").format(label, type_name().str()) };
-		const String popup_label { String("Create {1}##{0}##Popup").format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());

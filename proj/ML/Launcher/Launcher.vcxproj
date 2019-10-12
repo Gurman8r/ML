@@ -211,7 +211,6 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <None Include="..\..\..\assets\shaders\surface.shader" />
     <None Include="..\..\..\assets\shaders\swirly.shader" />
     <None Include="..\..\..\assets\shaders\test.shader" />
-    <None Include="..\..\..\assets\shaders\tunnel.shader" />
     <None Include="..\..\..\assets\shaders\wrainbow.shader" />
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>

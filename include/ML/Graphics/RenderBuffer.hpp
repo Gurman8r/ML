@@ -11,30 +11,30 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API RenderBufferObject final
+	struct ML_GRAPHICS_API RenderBuffer final
 		: public I_Newable
 		, public I_Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		RenderBufferObject();
-		RenderBufferObject(const RenderBufferObject & copy);
-		~RenderBufferObject();
+		RenderBuffer();
+		RenderBuffer(const RenderBuffer & copy);
+		~RenderBuffer();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		RenderBufferObject & clean();
-		RenderBufferObject & create(const vec2i & size);
+		RenderBuffer & clean();
+		RenderBuffer & create(const vec2i & size);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const RenderBufferObject & bind() const;
-		const RenderBufferObject & unbind() const;
+		const RenderBuffer & bind() const;
+		const RenderBuffer & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const RenderBufferObject & bufferStorage(GL::Format internalFormat) const;
-		const RenderBufferObject & setFramebuffer(GL::FrameID attachment) const;
+		const RenderBuffer & bufferStorage(GL::Format internalFormat) const;
+		const RenderBuffer & setFramebuffer(GL::FrameID attachment) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -52,7 +52,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using RBO = typename RenderBufferObject;
+	using RBO = typename RenderBuffer;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

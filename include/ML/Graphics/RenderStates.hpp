@@ -1,7 +1,7 @@
 #ifndef _ML_RENDER_STATES_HPP_
 #define _ML_RENDER_STATES_HPP_
 
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/I_NonNewable.hpp>
 #include <ML/Core/Matrix.hpp>
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API AlphaState final
+	struct ML_GRAPHICS_API AlphaState final : public I_NonNewable
 	{
 		bool enabled;
 		GL::Predicate predicate;
@@ -43,7 +43,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API BlendState final
+	struct ML_GRAPHICS_API BlendState final : public I_NonNewable
 	{
 		bool enabled;
 		GL::Factor srcRGB;
@@ -85,7 +85,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API CullState final
+	struct ML_GRAPHICS_API CullState final : public I_NonNewable
 	{
 		bool enabled;
 		GL::Face face;
@@ -116,7 +116,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API DepthState final
+	struct ML_GRAPHICS_API DepthState final : public I_NonNewable
 	{
 		bool enabled;
 		GL::Predicate predicate;
@@ -154,33 +154,42 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API RenderStates final
+	struct ML_GRAPHICS_API RenderStates final : public I_NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr RenderStates()
-			: m_alpha	{}
-			, m_blend	{}
-			, m_cull	{}
-			, m_depth	{}
-		{
-		}
-
-		constexpr RenderStates(const AlphaState & alpha, const BlendState & blend, const CullState & cull, const DepthState & depth)
-			: m_alpha	{ alpha }
+		constexpr RenderStates(
+			bool enabled,
+			const AlphaState & alpha,
+			const BlendState & blend,
+			const CullState  & cull,
+			const DepthState & depth
+		)	: m_enabled { enabled }
+			, m_alpha	{ alpha }
 			, m_blend	{ blend }
 			, m_cull	{ cull  }
 			, m_depth	{ depth }
 		{
 		}
 
-		constexpr RenderStates(const RenderStates & copy)
-			: m_alpha	{ copy.m_alpha }
-			, m_blend	{ copy.m_blend }
-			, m_cull	{ copy.m_cull  }
-			, m_depth	{ copy.m_depth }
+		constexpr RenderStates(
+			const AlphaState & alpha, 
+			const BlendState & blend, 
+			const CullState  & cull,
+			const DepthState & depth
+		)	: RenderStates { true, alpha, blend, cull, depth }
 		{
 		}
+
+		constexpr RenderStates(const RenderStates & copy) : RenderStates { 
+			copy.m_enabled, copy.m_alpha, copy.m_blend, copy.m_cull, copy.m_depth 
+		}
+		{
+		}
+
+		constexpr RenderStates(bool enabled) : RenderStates { enabled, {}, {}, {}, {} } {}
+
+		constexpr RenderStates() : RenderStates { true } {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -198,6 +207,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		bool		m_enabled;
 		AlphaState	m_alpha;
 		BlendState	m_blend;
 		CullState	m_cull;

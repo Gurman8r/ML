@@ -3,7 +3,7 @@
 
 #include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Core/StringUtility.hpp>
 #include <ML/Network/GUID.hpp>
 #include <ML/Network/Host.hpp>
 #include <ML/Network/Packet.hpp>

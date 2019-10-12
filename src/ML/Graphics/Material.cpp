@@ -1,7 +1,6 @@
 #include <ML/Graphics/Material.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Input.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */

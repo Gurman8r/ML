@@ -206,17 +206,17 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Surface.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Font.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\FrameBufferObject.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\FrameBuffer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\GL.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Glyph.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\IndexBufferObject.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\IndexBuffer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Material.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Model.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\OpenGL.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderBatch.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\RenderBufferObject.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\RenderBuffer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Renderer.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderStates.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderTarget.hpp" />
@@ -230,8 +230,8 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Transform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Uniform.hpp" />
     <ClInclude Include="..\..\..\include\ML\Graphics\Vertex.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\VertexArrayObject.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Graphics\VertexBufferObject.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\VertexArray.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Graphics\VertexBuffer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Graphics\BufferLayout.cpp" />
@@ -242,13 +242,13 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Scene.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Surface.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Font.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\FrameBufferObject.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\IndexBufferObject.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Material.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Mesh.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Model.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\OpenGL.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\RenderBufferObject.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\RenderBuffer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Renderer.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderStates.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\RenderTarget.cpp" />
@@ -259,8 +259,8 @@
     <ClCompile Include="..\..\..\src\ML\Graphics\Text.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Texture.cpp" />
     <ClCompile Include="..\..\..\src\ML\Graphics\Transform.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\VertexArrayObject.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Graphics\VertexBufferObject.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\VertexArray.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Graphics\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\ML\Graphics\GL.inl" />

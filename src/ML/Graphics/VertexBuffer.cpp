@@ -1,4 +1,4 @@
-#include <ML/Graphics/VertexBufferObject.hpp>
+#include <ML/Graphics/VertexBuffer.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Vertex.hpp>
 #include <ML/Core/Debug.hpp>
@@ -7,12 +7,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	VertexBufferObject::VertexBufferObject()
+	VertexBuffer::VertexBuffer()
 		: I_Handle(NULL)
 	{
 	}
 
-	VertexBufferObject::VertexBufferObject(const VertexBufferObject & copy)
+	VertexBuffer::VertexBuffer(const VertexBuffer & copy)
 		: I_Handle(copy)
 		, m_usage(copy.m_usage)
 		, m_data(copy.m_data)
@@ -21,14 +21,14 @@ namespace ml
 	{
 	}
 
-	VertexBufferObject::~VertexBufferObject()
+	VertexBuffer::~VertexBuffer()
 	{
 		clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	VertexBufferObject & VertexBufferObject::clean()
+	VertexBuffer & VertexBuffer::clean()
 	{
 		if ((*this))
 		{
@@ -39,7 +39,7 @@ namespace ml
 		return (*this);
 	}
 
-	VertexBufferObject & VertexBufferObject::create(GL::Usage usage)
+	VertexBuffer & VertexBuffer::create(GL::Usage usage)
 	{
 		if (this->set_handle(ML_GL.genBuffer()))
 		{
@@ -50,13 +50,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const VertexBufferObject & VertexBufferObject::bind() const
+	const VertexBuffer & VertexBuffer::bind() const
 	{
 		ML_GL.bindBuffer(GL::ArrayBuffer, (*this));
 		return (*this);
 	}
 	
-	const VertexBufferObject & VertexBufferObject::unbind() const
+	const VertexBuffer & VertexBuffer::unbind() const
 	{
 		ML_GL.bindBuffer(GL::ArrayBuffer, NULL);
 		return (*this);
@@ -64,7 +64,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	const VertexBufferObject & VertexBufferObject::bufferData(const void * data, uint32_t size) const
+	const VertexBuffer & VertexBuffer::bufferData(const void * data, uint32_t size) const
 	{
 		if (*this)
 		{
@@ -81,12 +81,12 @@ namespace ml
 		return (*this);
 	}
 	
-	const VertexBufferObject & VertexBufferObject::bufferData(const List<float_t> & data) const
+	const VertexBuffer & VertexBuffer::bufferData(const List<float_t> & data) const
 	{
 		return bufferData(&data[0], (uint32_t)data.size());
 	}
 	
-	const VertexBufferObject & VertexBufferObject::bufferSubData(const void * data, uint32_t size, uint32_t offset) const
+	const VertexBuffer & VertexBuffer::bufferSubData(const void * data, uint32_t size, uint32_t offset) const
 	{
 		if (*this)
 		{
@@ -103,7 +103,7 @@ namespace ml
 		return (*this);
 	}
 	
-	const VertexBufferObject & VertexBufferObject::bufferSubData(const List<float_t> & data, uint32_t offset) const
+	const VertexBuffer & VertexBuffer::bufferSubData(const List<float_t> & data, uint32_t offset) const
 	{
 		return bufferSubData(&data[0], (uint32_t)data.size(), offset);
 	}

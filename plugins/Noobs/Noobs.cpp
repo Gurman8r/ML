@@ -19,7 +19,6 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
-#include <ML/Graphics/RenderStates.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Geometry.hpp>
@@ -587,7 +586,7 @@ namespace ml
 						};
 						for (const VideoMode & elem : mode_values)
 						{
-							temp.push_back(alg::to_string(elem.size));
+							temp.push_back(util::to_string(elem.size));
 						}
 						return temp;
 					}();
@@ -662,7 +661,7 @@ namespace ml
 							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(alpha->predicate),
-							alg::to_hex<uint32_t>(alpha->predicate),
+							util::to_hex<uint32_t>(alpha->predicate),
 							GL::desc_of(alpha->predicate)
 						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
@@ -734,7 +733,7 @@ namespace ml
 							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(blend->srcRGB),
-							alg::to_hex<uint32_t>(blend->srcRGB),
+							util::to_hex<uint32_t>(blend->srcRGB),
 							"Specifies how the red, green, and blue blending factors are computed"
 						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
@@ -752,7 +751,7 @@ namespace ml
 							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(blend->dstRGB),
-							alg::to_hex<uint32_t>(blend->dstRGB),
+							util::to_hex<uint32_t>(blend->dstRGB),
 							"Specifies how the red, green, and blue destination blending factors are computed"
 						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
@@ -770,7 +769,7 @@ namespace ml
 							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(blend->srcAlpha),
-							alg::to_hex<uint32_t>(blend->srcAlpha),
+							util::to_hex<uint32_t>(blend->srcAlpha),
 							"Specifies how the alpha source blending factor is computed"
 						));
 						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
@@ -788,7 +787,7 @@ namespace ml
 							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(blend->dstAlpha),
-							alg::to_hex<uint32_t>(blend->dstAlpha),
+							util::to_hex<uint32_t>(blend->dstAlpha),
 							"Specifies how the alpha destination blending factor is computed"
 						));
 						ImGui::SameLine(); ImGui::Text(")");
@@ -847,7 +846,7 @@ namespace ml
 							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(cull->face),
-							alg::to_hex<uint32_t>(cull->face),
+							util::to_hex<uint32_t>(cull->face),
 							GL::desc_of(cull->face)
 						));
 						ImGui::SameLine(); ImGui::Text(")");
@@ -915,7 +914,7 @@ namespace ml
 							"Brief: {2}\n"
 						).format(
 							GL::raw_name_of(depth->predicate),
-							alg::to_hex<uint32_t>(depth->predicate),
+							util::to_hex<uint32_t>(depth->predicate),
 							GL::desc_of(depth->predicate)
 						));
 						ImGui::SameLine(); ImGui::Text(")");

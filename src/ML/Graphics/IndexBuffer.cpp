@@ -1,11 +1,11 @@
-#include <ML/Graphics/IndexBufferObject.hpp>
+#include <ML/Graphics/IndexBuffer.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	IndexBufferObject::IndexBufferObject()
+	IndexBuffer::IndexBuffer()
 		: I_Handle	(NULL)
 		, m_data	(NULL)
 		, m_count	(NULL)
@@ -14,7 +14,7 @@ namespace ml
 	{
 	}
 
-	IndexBufferObject::IndexBufferObject(const IndexBufferObject & copy)
+	IndexBuffer::IndexBuffer(const IndexBuffer & copy)
 		: I_Handle	(copy)
 		, m_data	(copy.m_data)
 		, m_count	(copy.m_count)
@@ -23,14 +23,14 @@ namespace ml
 	{
 	}
 
-	IndexBufferObject::~IndexBufferObject()
+	IndexBuffer::~IndexBuffer()
 	{
 		clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	IndexBufferObject & IndexBufferObject::clean()
+	IndexBuffer & IndexBuffer::clean()
 	{
 		if ((*this))
 		{
@@ -41,7 +41,7 @@ namespace ml
 		return (*this);
 	}
 
-	IndexBufferObject & IndexBufferObject::create(GL::Usage usage, GL::Type type)
+	IndexBuffer & IndexBuffer::create(GL::Usage usage, GL::Type type)
 	{
 		if (this->set_handle(ML_GL.genBuffer()))
 		{
@@ -53,13 +53,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBufferObject & IndexBufferObject::bind() const
+	const IndexBuffer & IndexBuffer::bind() const
 	{
 		ML_GL.bindBuffer(GL::ElementArrayBuffer, (*this));
 		return (*this);
 	}
 
-	const IndexBufferObject & IndexBufferObject::unbind() const
+	const IndexBuffer & IndexBuffer::unbind() const
 	{
 		ML_GL.bindBuffer(GL::ElementArrayBuffer, NULL);
 		return (*this);
@@ -67,7 +67,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBufferObject & IndexBufferObject::bufferData(const uint32_t * data, uint32_t count) const
+	const IndexBuffer & IndexBuffer::bufferData(const uint32_t * data, uint32_t count) const
 	{
 		if (*this)
 		{
@@ -83,7 +83,7 @@ namespace ml
 		return (*this);
 	}
 
-	const IndexBufferObject & IndexBufferObject::bufferData(const List<uint32_t> & data) const
+	const IndexBuffer & IndexBuffer::bufferData(const List<uint32_t> & data) const
 	{
 		return bufferData(&data[0], (uint32_t)data.size());
 	}

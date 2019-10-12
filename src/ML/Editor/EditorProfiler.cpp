@@ -2,6 +2,7 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/GameTime.hpp>
+#include <ML/Core/StringUtility.hpp>
 
 namespace ml
 {
@@ -18,10 +19,10 @@ namespace ml
 	void EditorProfiler::onUpdate(const UpdateEvent & ev)
 	{
 		const float_t dt { ev.time.elapsed().delta() };
-		graphs[0].update(ev, "Delta Time", dt, std::to_string(dt).c_str());
+		graphs[0].update(ev, "Delta Time", dt, util::to_string(dt).c_str());
 
 		const float_t fr = { (float_t)ev.time.frameRate() };
-		graphs[1].update(ev, "Frame Rate", fr, std::to_string(fr).c_str());
+		graphs[1].update(ev, "Frame Rate", fr, util::to_string(fr).c_str());
 	}
 
 	bool EditorProfiler::onGui(const GuiEvent & ev)

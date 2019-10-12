@@ -3,7 +3,7 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/I_Newable.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Core/StringUtility.hpp>
 
 namespace ml
 {

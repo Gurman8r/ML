@@ -148,7 +148,7 @@
 
 #define ML_FLOAT32		float				// 4 bytes
 #define ML_FLOAT64		double				// 8 bytes
-#define ML_FLOAT80		long double			// 8 or 10 bytes (CC dependant)
+#define ML_FLOAT80		long double			// 8, 10, or 16 bytes (CC dependant)
 
 # if (ML_ARCHITECTURE == 32)
 #	define ML_INTMAX	ML_INT32			// Max Signed	(32-Bit)

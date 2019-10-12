@@ -4,7 +4,7 @@
 #include <ML/Core/I_EventListener.hpp>
 #include <ML/Core/I_Disposable.hpp>
 #include <ML/Core/I_Newable.hpp>
-#include <ML/Core/String.hpp>
+#include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Matrix.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>

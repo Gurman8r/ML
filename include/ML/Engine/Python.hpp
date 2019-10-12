@@ -44,8 +44,8 @@ namespace ml
 		{
 			if (!m_init && name && ML_FS.dirExists(home))
 			{
-				Py_SetProgramName(alg::widen(m_name = name).c_str());
-				Py_SetPythonHome(alg::widen(m_home = home).c_str());
+				Py_SetProgramName(util::widen(m_name = name).c_str());
+				Py_SetPythonHome(util::widen(m_home = home).c_str());
 				Py_Initialize();
 				return (m_init = true);
 			}

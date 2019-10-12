@@ -1,8 +1,8 @@
 #ifndef _ML_SURFACE_HPP_
 #define _ML_SURFACE_HPP_
 
-#include <ML/Graphics/FrameBufferObject.hpp>
-#include <ML/Graphics/RenderBufferObject.hpp>
+#include <ML/Graphics/FrameBuffer.hpp>
+#include <ML/Graphics/RenderBuffer.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 

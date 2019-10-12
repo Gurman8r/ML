@@ -84,7 +84,7 @@ namespace ml
 
 		inline auto operator()(const String & str) const
 		{
-			return alg::to_bool(str);
+			return util::to_bool(str);
 		}
 
 		inline auto operator()(std::istream & in) const
@@ -101,7 +101,7 @@ namespace ml
 
 		inline auto operator()(const String & str, float32_t dv = 0) const
 		{
-			return alg::to_f32(str, dv);
+			return util::to_f32(str, dv);
 		}
 
 		inline auto operator()(std::istream & in, float32_t dv = 0) const
@@ -118,7 +118,7 @@ namespace ml
 
 		inline auto operator()(const String & str, float64_t dv = 0) const
 		{
-			return alg::to_f64(str, dv);
+			return util::to_f64(str, dv);
 		}
 
 		inline auto operator()(std::istream & in, float64_t dv = 0) const
@@ -135,7 +135,7 @@ namespace ml
 
 		inline auto operator()(const String & str, int32_t dv = 0) const
 		{
-			return alg::to_i32(str, dv);
+			return util::to_i32(str, dv);
 		}
 
 		inline auto operator()(std::istream & in, int32_t dv = 0) const
@@ -152,7 +152,7 @@ namespace ml
 
 		inline auto operator()(const String & str, uint32_t dv = 0) const
 		{
-			return alg::to_u32(str, dv);
+			return util::to_u32(str, dv);
 		}
 
 		inline auto operator()(std::istream & in, uint32_t dv = 0) const
@@ -169,7 +169,7 @@ namespace ml
 
 		inline auto operator()(const String & str, int64_t dv = 0) const
 		{
-			return alg::to_i64(str, dv);
+			return util::to_i64(str, dv);
 		}
 
 		inline auto operator()(std::istream & in, int64_t dv = 0) const
@@ -186,7 +186,7 @@ namespace ml
 
 		inline auto operator()(const String & str, uint64_t dv = 0) const
 		{
-			return alg::to_u64(str, dv);
+			return util::to_u64(str, dv);
 		}
 
 		inline auto operator()(std::istream & in, uint64_t dv = 0) const

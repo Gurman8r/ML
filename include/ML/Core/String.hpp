@@ -8,18 +8,17 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// just a wrapper for std::basic_string<>
-	template <class Ch> struct BasicString final : public std::basic_string<
-		Ch, std::char_traits<Ch>, std::allocator<Ch>
-	>
+	template <class Ch> struct BasicString final
+		: public std::basic_string<Ch, std::char_traits<Ch>, std::allocator<Ch>>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		using value_type			= typename Ch;
-		using traits_type			= typename std::char_traits<value_type>;
-		using allocator_type		= typename std::allocator<value_type>;
-		using self_type				= typename BasicString<value_type>;
-		using base_type				= typename std::basic_string<value_type, traits_type, allocator_type>;
-		using sstream_type			= typename std::basic_stringstream<value_type, traits_type, allocator_type>;
+		using traits_type			= typename std::char_traits<Ch>;
+		using allocator_type		= typename std::allocator<Ch>;
+		using self_type				= typename BasicString<Ch>;
+		using base_type				= typename std::basic_string<Ch, traits_type, allocator_type>;
+		using sstream_type			= typename std::basic_stringstream<Ch, traits_type, allocator_type>;
 		using pointer				= typename base_type::pointer;
 		using reference				= typename base_type::reference;
 		using const_pointer			= typename base_type::const_pointer;
@@ -75,27 +74,27 @@ namespace ml
 		{
 		}
 		
-		BasicString(const value_type * const value)
+		BasicString(const Ch * const value)
 			: base_type(value)
 		{
 		}
 		
-		BasicString(const value_type * const value, const size_type count)
+		BasicString(const Ch * const value, const size_type count)
 			: base_type(value, count)
 		{
 		}
 		
-		BasicString(const value_type * const value, const size_type count, const allocator_type & alloc)
+		BasicString(const Ch * const value, const size_type count, const allocator_type & alloc)
 			: base_type(value, count, alloc)
 		{
 		}
 		
-		BasicString(const size_type count, const value_type value)
+		BasicString(const size_type count, const Ch value)
 			: base_type(count, value)
 		{
 		}
 		
-		BasicString(const size_type count, const value_type value, const allocator_type & alloc)
+		BasicString(const size_type count, const Ch value, const allocator_type & alloc)
 			: base_type(count, value, alloc)
 		{
 		}
@@ -121,7 +120,7 @@ namespace ml
 		{
 		}
 		
-		BasicString(value_type * const first, value_type * const last, std::random_access_iterator_tag)
+		BasicString(Ch * const first, Ch * const last, std::random_access_iterator_tag)
 			: base_type(first, last, std::random_access_iterator_tag())
 		{
 		}
@@ -167,6 +166,11 @@ namespace ml
 
 			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; (void)sink;
 
+			return this->format(ss);
+		}
+
+		inline self_type & format(sstream_type & ss)
+		{
 			for (size_type i = 0; ss.good(); i++)
 			{
 				self_type line;
@@ -209,11 +213,11 @@ namespace ml
 		
 		inline self_type & trim()
 		{
-			auto is_whitespace = [&](const_reference c)
+			auto is_whitespace = [&](Ch c)
 			{
 				return (!this->empty() && (
-					(c == static_cast<value_type>(' ')) ||
-					(c == static_cast<value_type>('\t'))
+					(c == static_cast<Ch>(' ')) ||
+					(c == static_cast<Ch>('\t'))
 				));
 			};
 			while (is_whitespace(this->front())) this->erase(this->begin());

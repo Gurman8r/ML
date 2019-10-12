@@ -79,7 +79,7 @@ namespace ml
 		{
 			if (!m.empty())
 			{
-				if (const String str = alg::to_lower(getData(value, String())))
+				if (const String str = util::to_lower(getData(value, String())))
 				{
 					auto it = m.find(str);
 					if (it != m.cend())

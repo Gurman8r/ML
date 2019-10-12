@@ -122,6 +122,7 @@ ml.content.load_all([
     { "type": "Model", "name": "obj_sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "Model", "name": "obj_sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
     { "type": "Model", "name": "obj_cow",           "file": PATH + "/meshes/cow.obj" },
+    { "type": "Model", "name": "obj_monkey",        "file": PATH + "/meshes/untitled.obj" },
     { "type": "Model", "name": "obj_teapot",        "file": PATH + "/meshes/teapot.obj" },
     { "type": "Model", "name": "obj_teddy",         "file": PATH + "/meshes/teddy.obj" },
 

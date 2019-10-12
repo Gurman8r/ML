@@ -36,11 +36,4 @@ ______________________________
 ![alt text](https://i.imgur.com/9F3BuaL.png)
 ![alt text](https://i.imgur.com/dfm47zC.png)
 
-______________________________
-# FAQ
-
-Q: Why "MemeLib"?
-
-A: It was originally just a throw away name when I started working on this back around 2016. After a while I grew fond of it. That's it. :)
-
-______________________________
+_____________________________

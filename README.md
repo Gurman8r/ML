@@ -1,19 +1,18 @@
-# MemeLib
+# MemeLib (ML)
 
-__________
-
-ML is an open source C++ game engine.
+MemeLib is an open source C++ game engine.
 
 Downloads: https://bit.ly/ml_noobs
 
-__________
+Old Repo: https://github.com/Gurman8r/CppSandbox
 
-Old project page: 
-https://github.com/Gurman8r/CppSandbox
+Currently ML is Windows only. I eventually plan on porting it to Emscripten.
 
-__________
+ML uses OpenGL 4.6. Try updating your graphics drivers if you're having difficulties.
 
-Projects
+______________________________
+
+# Projects
 - Libraries
   - Audio (WIP)
   - Core
@@ -28,11 +27,11 @@ Projects
   - Noobs
   - TestPlugin
 
-__________
-
+______________________________
+# Screenshots
 ![alt_text](https://i.imgur.com/TyIgSw9.png)
 ![alt text](https://i.imgur.com/JS4bQdL.png)
 ![alt text](https://i.imgur.com/9F3BuaL.png)
 ![alt text](https://i.imgur.com/dfm47zC.png)
 
-__________
+______________________________

@@ -10,3 +10,8 @@ desktop.ini
 *.log
 *.lastbuildstateslm
 __pycache__/
+/tools/PC_Run/PC_Run/bin
+/tools/PC_Run/PC_Run/lib
+/tools/PC_Run/PC_Run/obj
+/tools/PC_Run/PC_Run/*.user
+/tools/PC_Run/.vs/PC_Run/v15/*.suo

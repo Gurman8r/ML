@@ -13,6 +13,7 @@ ML uses OpenGL 4.6. Try updating your graphics drivers if you're having difficul
 ______________________________
 
 # Projects
+
 - Libraries
   - Audio (WIP)
   - Core
@@ -29,6 +30,7 @@ ______________________________
 
 ______________________________
 # Screenshots
+
 ![alt_text](https://i.imgur.com/TyIgSw9.png)
 ![alt text](https://i.imgur.com/JS4bQdL.png)
 ![alt text](https://i.imgur.com/9F3BuaL.png)
@@ -36,7 +38,9 @@ ______________________________
 
 ______________________________
 # FAQ
+
 Q: Why "MemeLib"?
+
 A: It was originally just a throw away name, but after a while I grew fond of it.
 
 ______________________________

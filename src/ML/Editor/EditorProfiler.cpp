@@ -118,13 +118,9 @@ namespace ml
 
 	void EditorProfiler::GraphLines::render(const GuiEvent & ev)
 	{
-		if (size[0] <= 0) size[0] =
+		size[0] =
 			(ImGui::GetContentRegionAvail().x -
-			(4 * ImGui::GetStyle().ItemSpacing.x)) * (m_label ? 0.9f : 1.0f);
-
-		if (size[1] <= 0) size[1] =
-			(ImGui::GetContentRegionAvail().y -
-			(4 * ImGui::GetStyle().ItemSpacing.y)) * (m_label ? 0.9f : 1.0f);
+			(4 * ImGui::GetStyle().ItemSpacing.x)) * (m_label ? 0.75f : 1.0f);
 
 		ImGui::PlotLines(
 			m_label.c_str(),

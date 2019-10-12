@@ -11,7 +11,7 @@ namespace ml
 		// Initialize Instances
 		ML_Engine; ML_Editor; ML_Plugins;
 
-		// Pre-Loop
+		// Startup
 		ML_EventSystem.fireEvent<EnterEvent>(time, prefs, window);
 		ML_EventSystem.fireEvent<LoadEvent>	(time, prefs, window);
 		ML_EventSystem.fireEvent<StartEvent>(time, prefs, window);

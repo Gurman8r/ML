@@ -99,9 +99,11 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if defined(_MSC_VER)
-#	define ML_CC_MSC _MSC_VER
+#	define ML_CC_MICROSOFT _MSC_VER
 # elif defined(__clang__)
 #	define ML_CC_CLANG __clang__
+# elif defined(__EMSCRIPTEN__)
+#	define ML_CC_EMSCRIPTEN
 # elif defined(__GNUC__) || defined(__GNUG__)
 #	if defined(__GNUC__)
 #		define ML_CC_GNU __GNUC__
@@ -116,9 +118,9 @@
 #	endif
 # endif
 
-# if defined(ML_CC_MSC)
+# if defined(ML_CC_MICROSOFT)
 #	define ML_CC_NAME		"Microsoft"
-#	define ML_CC_VER		ML_CC_MSC
+#	define ML_CC_VER		ML_CC_MICROSOFT
 # elif defined(ML_CC_CLANG)
 #	define ML_CC_NAME		"Clang"
 #	define ML_CC_VER		ML_CC_CLANG
@@ -128,6 +130,9 @@
 # elif defined(ML_CC_INTEL)
 #	define ML_CC_NAME		"Intel"
 #	define ML_CC_VER		ML_CC_INTEL
+# elif defined(ML_CC_EMSCRIPTEN)
+#	define ML_CC_NAME		"Emscripten"
+#	define ML_CC_VER		ML_CC_EMSCRIPTEN
 # else
 #	error This compiler does not support memes.
 # endif
@@ -191,7 +196,7 @@
 #		ifndef NOMINMAX
 #			define NOMINMAX
 #		endif
-#		if defined(ML_CC_MSC)
+#		if defined(ML_CC_MICROSOFT)
 #			pragma warning(disable: 4031) // second formal parameter list longer than the first list
 #			pragma warning(disable: 4099) // PDB was not found
 #			pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2

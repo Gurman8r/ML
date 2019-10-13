@@ -77,7 +77,7 @@ namespace ml
 
 		static constexpr StringView filter_signature(const StringView & value)
 		{
-# if defined(ML_CC_MSC)
+# if defined(ML_CC_MICROSOFT)
 			const auto lhs { value.find_first_of('<') };
 			const auto rhs { value.find_last_of('>') };
 			return (((lhs != value.npos) && (rhs != value.npos))

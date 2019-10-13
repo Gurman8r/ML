@@ -92,14 +92,16 @@ namespace ml
 
 			// Compiler
 			draw_head("Compiler");
-# if defined(ML_CC_MSC)
-			draw_def("define: ML_CC_MSC", "", "");
+# if defined(ML_CC_MICROSOFT)
+			draw_def("define: ML_CC_MICROSOFT", "", "");
 # elif defined(ML_CC_CLANG)
 			draw_def("define: ML_CC_CLANG", "", "");
 # elif defined(ML_CC_GNU)
 			draw_def("define: ML_CC_GNU", "", "");
 # elif defined(ML_CC_INTEL)
 			draw_def("define: ML_CC_INTEL", "", "");
+# elif defined(ML_CC_EMSCRIPTEN)
+			draw_def("define: ML_CC_EMSCRIPTEN", "", "");
 # endif
 			draw_def("define: ML_CC_NAME", "%s", ML_CC_NAME);
 			draw_def("define: ML_CC_VER", "%u", ML_CC_VER);

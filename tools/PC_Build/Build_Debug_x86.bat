@@ -5,6 +5,6 @@ call Build_32.bat ^
  "%cd%\..\..\ML.sln" ^
  "/p:Configuration=Debug" ^
  "/p:PlatformTarget=x86" ^
- "/p:PlatformToolset=v141" ^
+ "/p:PlatformToolset=v142" ^
  "/p:Subsystem=Console"
 exit /B %ERRORLEVEL%

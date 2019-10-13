@@ -14,8 +14,10 @@ rem Visual Studio 2017      (Toolset = 'v141')
 rem Visual Studio 2019      (Toolset = 'v142')
 
 rem Paths
+rem set version=2017\Enterprise\
+set version=2019\Community\
 set cur_path=%cd%\
-set env_path=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\
+set env_path=%ProgramFiles(x86)%\Microsoft Visual Studio\%version%
 set vars_path=%env_path%VC\Auxiliary\Build\
 
 rem Setup

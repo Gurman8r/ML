@@ -17,8 +17,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API FileSystem final
-		: public Singleton<FileSystem>
+	struct ML_CORE_API FileSystem final : public Singleton<FileSystem>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

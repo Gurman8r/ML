@@ -26,15 +26,15 @@ namespace ml
 		, m_profiler	{ }
 		, m_terminal	{ }
 	{
-		ML_EventSystem.addListener(EnterEvent		::ID, this);
-		ML_EventSystem.addListener(UpdateEvent		::ID, this);
-		ML_EventSystem.addListener(BeginGuiEvent	::ID, this);
-		ML_EventSystem.addListener(GuiEvent			::ID, this);
-		ML_EventSystem.addListener(EndGuiEvent		::ID, this);
-		ML_EventSystem.addListener(UnloadEvent		::ID, this);
-		ML_EventSystem.addListener(ExitEvent		::ID, this);
-		ML_EventSystem.addListener(DockspaceEvent	::ID, this);
-		ML_EventSystem.addListener(KeyEvent			::ID, this);
+		ML_EventSystem.addListener<EnterEvent>(this);
+		ML_EventSystem.addListener<UpdateEvent>(this);
+		ML_EventSystem.addListener<BeginGuiEvent>(this);
+		ML_EventSystem.addListener<GuiEvent>(this);
+		ML_EventSystem.addListener<EndGuiEvent>(this);
+		ML_EventSystem.addListener<UnloadEvent>(this);
+		ML_EventSystem.addListener<ExitEvent>(this);
+		ML_EventSystem.addListener<DockspaceEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -157,14 +157,14 @@ namespace ml
 
 	void Editor::onUpdate(const UpdateEvent & ev)
 	{
-		m_about		.onUpdate(ev);
-		m_content	.onUpdate(ev);
-		m_explorer	.onUpdate(ev);
-		m_dockspace	.onUpdate(ev);
-		m_inspector	.onUpdate(ev);
-		m_manual	.onUpdate(ev);
-		m_profiler	.onUpdate(ev);
-		m_terminal	.onUpdate(ev);
+		m_about.update(ev);
+		m_content.update(ev);
+		m_explorer.update(ev);
+		m_dockspace.update(ev);
+		m_inspector.update(ev);
+		m_manual.update(ev);
+		m_profiler.update(ev);
+		m_terminal.update(ev);
 	}
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
@@ -175,26 +175,10 @@ namespace ml
 
 	void Editor::onGui(const GuiEvent & ev)
 	{
-		// ImGui Demo
-		/* * * * * * * * * * * * * * * * * * * * */
 		static bool show_imgui_demo = false;
-		if (show_imgui_demo) 
-		{
-			ImGui::ShowDemoWindow(&show_imgui_demo); 
-		}
-		
-		// ImGui Style Editor
-		/* * * * * * * * * * * * * * * * * * * * */
 		static bool show_imgui_style_editor = false;
-		if (show_imgui_style_editor) 
-		{
-			ImGui::Begin("Style Editor", &show_imgui_style_editor);
-			ImGui::ShowStyleEditor(); 
-			ImGui::End(); 
-		}
-
+		
 		// Main Menu Bar
-		/* * * * * * * * * * * * * * * * * * * * */
 		if (ImGui::BeginMainMenuBar())
 		{
 			// Menu -> File
@@ -258,6 +242,8 @@ namespace ml
 
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
 
+				ImGui::MenuItem("Style Editor", "", &show_imgui_style_editor);
+
 				ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Help);
 				
 				ImGui::EndMenu();
@@ -269,14 +255,28 @@ namespace ml
 			ImGui::EndMainMenuBar();
 		}
 
-		/*	Dockspace	*/	if (m_dockspace	.isOpen()) m_dockspace	.onGui(ev);
-		/*	About		*/	if (m_about		.isOpen()) m_about		.onGui(ev);
-		/*	Content		*/	if (m_content	.isOpen()) m_content	.onGui(ev);
-		/*	Explorer	*/	if (m_explorer	.isOpen()) m_explorer	.onGui(ev);
-		/*	Inspector	*/	if (m_inspector	.isOpen()) m_inspector	.onGui(ev);
-		/*	Manual		*/	if (m_manual	.isOpen()) m_manual		.onGui(ev);
-		/*	Profiler	*/	if (m_profiler	.isOpen()) m_profiler	.onGui(ev);
-		/*	Terminal	*/	if (m_terminal	.isOpen()) m_terminal	.onGui(ev);
+		// ImGui Demo
+		if (show_imgui_demo)
+		{
+			ImGui::ShowDemoWindow(&show_imgui_demo);
+		}
+
+		// Style Editor
+		if (show_imgui_style_editor)
+		{
+			ImGui::Begin("Style Editor", &show_imgui_style_editor);
+			ImGui::ShowStyleEditor();
+			ImGui::End();
+		}
+
+		/*	Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw(ev);
+		/*	About		*/	if (m_about.isOpen())		m_about.draw(ev);
+		/*	Content		*/	if (m_content.isOpen())		m_content.draw(ev);
+		/*	Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw(ev);
+		/*	Inspector	*/	if (m_inspector.isOpen())	m_inspector.draw(ev);
+		/*	Manual		*/	if (m_manual.isOpen())		m_manual.draw(ev);
+		/*	Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw(ev);
+		/*	Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw(ev);
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)

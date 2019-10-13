@@ -10,14 +10,10 @@ namespace ml
 	
 	template <class T> struct Singleton : public NonCopyable, public NonNewable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		static inline T & getInstance()
 		{
 			static T instance; return instance;
 		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

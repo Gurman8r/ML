@@ -101,10 +101,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		int32_t	getAttributeLocation(const String & value) const;
+		int32_t	getUniformLocation(const String & value) const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
-		bool	compile(C_String vs, C_String gs, C_String fs);
-		int32_t	getAttribute(const String & value) const;
-		int32_t	getUniform(const String & value) const;
+		bool compile(C_String vs, C_String gs, C_String fs);
 
 		struct UniformBinder;
 

@@ -9,10 +9,7 @@
 #include <ML/Editor/ImGui.hpp>
 #include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
 
-extern "C"
-{
-	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
-}
+extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
 
 namespace ml
 {
@@ -32,7 +29,7 @@ namespace ml
 		
 		Noobs();
 		
-		~Noobs() {}
+		~Noobs() { }
 		
 		void onEvent(const Event & value) override;
 
@@ -61,53 +58,21 @@ namespace ml
 		};
 
 
-		// SCENE
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoScene final : public Newable, public NonCopyable
-		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			bool m_open;
-			bool m_freeAspect;
-			vec2 m_viewport;
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			DemoScene() 
-				: m_open		{ true }
-				, m_freeAspect	{ true }
-				, m_viewport	{ 1920, 1080 }
-			{
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			void render(const GuiEvent & ev, C_String title, const Surface * surf);
-
-			/* * * * * * * * * * * * * * * * * * * * */
-		} m_scene;
-
-
 		// FILE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		using TextEditor = ImGui::TextEditor;
+
 		struct DemoFile final : public Newable, public NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			enum Type : size_t
-			{
-				Frag, Vert, Geom, MAX_DEMO_FILE
-			};
+			enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 
-			static constexpr C_String Names[MAX_DEMO_FILE] = {
-				"Fragment", "Vertex", "Geometry",
-			};
+			static constexpr C_String Names[] = { "Fragment", "Vertex", "Geometry" };
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			using TextEditor = ImGui::TextEditor;
-
-			const Type	type;
+			FileType	type;
 			TextEditor	text;
 			String		name;
 			bool		open;
@@ -115,11 +80,11 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			DemoFile(Type type, const String & text)
-				: type	{ type }
-				, text	{ text }
-				, name	{ Names[type] }
-				, open	{ false }
+			DemoFile(FileType type, const String & text)
+				: type { type }
+				, text { text }
+				, name { Names[type] }
+				, open { false }
 				, dirty { false }
 			{
 				this->text.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
@@ -130,41 +95,27 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
+		using FileList = Array<DemoFile *, DemoFile::MAX_DEMO_FILE>;
+
 
 		// EDITOR
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoEditor final 
-			: public Newable
-			, public NonCopyable
-			, public Disposable
-		{
-			/* * * * * * * * * * * * * * * * * * * * */
+		bool		m_editor_open	{ true };
+		Ref<Entity>	m_entity		{};
+		Renderer *	m_renderer		{ nullptr };
+		FileList	m_files			{ 0 };
+		bool		m_display_open	{ true };
+		bool		m_freeAspect	{ true };
+		vec2		m_viewport		{ 1920, 1080 };
 
-			using File_List = typename Array<DemoFile *, DemoFile::MAX_DEMO_FILE>;
+		/* * * * * * * * * * * * * * * * * * * * */
 
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			bool			m_open		{ true };
-			Ref<Entity>		m_entity	{};
-			Renderer *		m_renderer	{ nullptr };
-			File_List		m_files		{ nullptr };
-			DemoScene		m_scene		{};
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			DemoEditor() {}
-			~DemoEditor() { dispose(); }
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			void	render(const GuiEvent & ev, C_String title);
-			bool	dispose() override;
-			void	generate_sources();
-			bool	compile_sources();
-			void	reset_sources();
-
-			/* * * * * * * * * * * * * * * * * * * * */
-		} m_editor;
+		bool	compile_sources();
+		void	draw_display(C_String title, const Surface * surf);
+		void	draw_editor(C_String title);
+		bool	dispose_files();
+		void	generate_sources();
+		void	reset_sources();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

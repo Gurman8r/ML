@@ -25,9 +25,9 @@ namespace ml
 
 		virtual ~EditorWindow() {}
 
-		virtual void onUpdate(const UpdateEvent & ev) = 0;
+		virtual void update(const UpdateEvent & ev) = 0;
 		virtual bool beginDraw(int32_t flags);
-		virtual bool onGui(const GuiEvent & ev) = 0;
+		virtual bool draw(const GuiEvent & ev) = 0;
 		virtual bool endDraw();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

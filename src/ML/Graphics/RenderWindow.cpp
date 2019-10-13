@@ -13,7 +13,7 @@ namespace ml
 	RenderWindow::RenderWindow()
 		: Window {}
 	{
-		ML_EventSystem.addListener(OpenGlErrorEvent::ID, this);
+		ML_EventSystem.addListener(OpenGLErrorEvent::ID, this);
 	}
 
 	RenderWindow::~RenderWindow() {}
@@ -43,8 +43,8 @@ namespace ml
 
 		switch (*value)
 		{
-		case OpenGlErrorEvent::ID:
-			if (auto ev = value.as<OpenGlErrorEvent>())
+		case OpenGLErrorEvent::ID:
+			if (auto ev = value.as<OpenGLErrorEvent>())
 			{
 				// Error location
 				String filename { ev->file };

@@ -3,10 +3,7 @@
 
 #include <ML/Engine/Plugin.hpp>
 
-extern "C"
-{
-	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main(ml::EventSystem & eventSystem);
-}
+extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
 
 namespace ml
 {

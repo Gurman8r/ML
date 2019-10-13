@@ -17,11 +17,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorAbout::onUpdate(const UpdateEvent & ev)
+	void EditorAbout::update(const UpdateEvent & ev)
 	{
 	}
 
-	bool EditorAbout::onGui(const GuiEvent & ev)
+	bool EditorAbout::draw(const GuiEvent & ev)
 	{
 		if (!beginDraw(ImGuiWindowFlags_MenuBar))
 		{ 

@@ -54,9 +54,9 @@ namespace ml
 
 	Renderer & Renderer::setShader(const Shader * value)
 	{
-		if (m_material)
+		if (auto m { material() })
 		{
-			std::remove_cv_t<Material *>(m_material)->setShader(value);
+			m->setShader(value);
 		}
 		return (*this);
 	}

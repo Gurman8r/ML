@@ -27,18 +27,13 @@
 #include <ML/Graphics/Transform.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main() { return new ml::Noobs {}; }
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Noobs::Noobs()
-		: Plugin {}
+	Noobs::Noobs() : Plugin {}
 	{
 		ML_EventSystem.addListener<StartEvent>(this);
 		ML_EventSystem.addListener<UpdateEvent>(this);
@@ -56,11 +51,11 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case StartEvent::ID	: if (auto ev = value.as<StartEvent>()) return onStart(*ev);
-		case UpdateEvent::ID: if (auto ev = value.as<UpdateEvent>()) return onUpdate(*ev);
-		case DrawEvent::ID	: if (auto ev = value.as<DrawEvent>()) return onDraw(*ev);
-		case GuiEvent::ID	: if (auto ev = value.as<GuiEvent>()) return onGui(*ev);
-		case ExitEvent::ID	: if (auto ev = value.as<ExitEvent>()) return onExit(*ev);
+		case StartEvent::ID	: return onStart(*value.as<StartEvent>());
+		case UpdateEvent::ID: return onUpdate(*value.as<UpdateEvent>());
+		case DrawEvent::ID	: return onDraw(*value.as<DrawEvent>());
+		case GuiEvent::ID	: return onGui(*value.as<GuiEvent>());
+		case ExitEvent::ID	: return onExit(*value.as<ExitEvent>());
 
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>())
@@ -74,21 +69,14 @@ namespace ml
 				// Refresh Sources
 				if (ev->getPress(KeyCode::F5))
 				{
-					m_editor.reset_sources();
-					m_editor.generate_sources();
+					reset_sources();
+					generate_sources();
 				}
 
 				// Compile Sources
 				if (ev->isSave())
 				{
-					if (m_editor.compile_sources())
-					{
-						Debug::log("Compiled Shader");
-					}
-					else
-					{
-						Debug::log("Shader Compilation Failed");
-					}
+					compile_sources();
 				}
 			}
 			break;
@@ -99,8 +87,8 @@ namespace ml
 				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
-					ImGui::MenuItem("Display##Enable##Noobs##DemoView", "", &m_editor.m_scene.m_open);
-					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor.m_open);
+					ImGui::MenuItem("Display##Enable##Noobs##DemoView", "", &m_display_open);
+					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor_open);
 					break;
 				}
 			}
@@ -109,7 +97,7 @@ namespace ml
 		case DockspaceEvent::ID:
 			if (auto ev = value.as<DockspaceEvent>())
 			{
-				EditorDockspace & d = ev->dockspace;
+				EditorDockspace & d { ev->dockspace };
 				d.dockWindow("Display##Noobs##DemoView", d.getNode(d.LeftUp));
 				d.dockWindow("Editor##Noobs##DemoEditor", d.getNode(d.RightUp));
 			}
@@ -127,12 +115,12 @@ namespace ml
 		// Setup Editor
 		if (const String ent_name { ev.prefs.get_string("Noobs", "demo_entity", "") })
 		{
-			if (Entity * ent { m_editor.m_entity.update(ML_Content.get<Entity>(ent_name)) })
+			if (Entity * ent { m_entity.update(ML_Content.get<Entity>(ent_name)) })
 			{
-				m_editor.m_renderer = ent->get<Renderer>();
+				m_renderer = ent->get<Renderer>();
 			}
 		}
-		m_editor.generate_sources();
+		generate_sources();
 	}
 
 	void Noobs::onUpdate(const UpdateEvent & ev)
@@ -143,7 +131,7 @@ namespace ml
 		if (camera && (*camera))
 		{
 			// Update Camera
-			camera->setViewport((vec2i)m_editor.m_scene.m_viewport);
+			camera->setViewport((vec2i)m_viewport);
 
 			// Update Surfaces
 			for (auto & surf : m_pipeline)
@@ -271,24 +259,56 @@ namespace ml
 	void Noobs::onGui(const GuiEvent & ev)
 	{
 		// Render Scene
-		m_editor.m_scene.render(ev, "Display##Noobs##DemoView", m_pipeline[Surf_Post]);
-		
+		draw_display("Display##Noobs##DemoView", m_pipeline[Surf_Post]);
+
 		// Render Editor
-		m_editor.render(ev, "Editor##Noobs##DemoEditor");
+		draw_editor("Editor##Noobs##DemoEditor");
 	}
 
 	void Noobs::onExit(const ExitEvent & ev)
 	{
+		dispose_files();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	void Noobs::DemoScene::render(const GuiEvent & ev, C_String title, const Surface * surf)
+	bool Noobs::compile_sources()
 	{
-		if (!m_open) return;
+		if (m_renderer->material() && m_renderer->material()->shader())
+		{
+			if (Shader * s { m_renderer->shader() })
+			{
+				for (DemoFile *& f : m_files)
+				{
+					if (f) { f->dirty = false; }
+				}
+
+				if (m_files[DemoFile::Geom]->open)
+				{
+					return s->loadFromMemory(
+						m_files[DemoFile::Vert]->text.GetText(),
+						m_files[DemoFile::Geom]->text.GetText(),
+						m_files[DemoFile::Frag]->text.GetText()
+					);
+				}
+				else
+				{
+					return s->loadFromMemory(
+						m_files[DemoFile::Vert]->text.GetText(),
+						m_files[DemoFile::Frag]->text.GetText()
+					);
+				}
+			}
+		}
+		return false;
+	}
+
+	void Noobs::draw_display(C_String title, const Surface * surf)
+	{
+		if (!m_display_open) return;
 		ImGui::PushID("Noobs");
 		ImGui::PushID("Demo Scene");
-		if (ImGui::Begin(title, &m_open))
+		if (ImGui::Begin(title, &m_display_open))
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -313,11 +333,11 @@ namespace ml
 		ImGui::PopID();
 	}
 	
-	void Noobs::DemoEditor::render(const GuiEvent & ev, C_String title)
+	void Noobs::draw_editor(C_String title)
 	{
-		if (!m_open) return;
+		if (!m_editor_open) return;
 		ImGui::PushID(ML_ADDRESSOF(this));
-		if (ImGui::Begin(title, &m_open, ImGuiWindowFlags_None))
+		if (ImGui::Begin(title, &m_editor_open, ImGuiWindowFlags_None))
 		{
 			if (ImGui::BeginTabBar("DemoEditor##TabBar##Main"))
 			{
@@ -340,6 +360,15 @@ namespace ml
 					
 					// Text Editors
 					/* * * * * * * * * * * * * * * * * * * * */
+
+					static bool once { false };
+					if (!once && (once = true))
+					{
+						// error markers
+						m_files[0]->text.SetErrorMarkers({
+							{ 1, "Example error here" }
+						});
+					}
 
 					if (ImGui::BeginChildFrame(
 						ImGui::GetID("DemoFile##TextEditors"),
@@ -392,14 +421,7 @@ namespace ml
 					{
 						if (ImGui::Button("Compile"))
 						{
-							if (this->compile_sources())
-							{
-								Debug::log("Compiled Shader");
-							}
-							else
-							{
-								Debug::log("Shader Compilation Failed");
-							}
+							compile_sources();
 						}
 						ImGuiExt::Tooltip("Build shader source code (Ctrl+S)");
 
@@ -453,7 +475,7 @@ namespace ml
 					// Header Columns
 					ImGui::Columns(3, "##Uni##Columns");
 					ImGui::Selectable("Name"); ImGui::NextColumn();
-					ImGui::Selectable("Type"); ImGui::NextColumn();
+					ImGui::Selectable("FileType"); ImGui::NextColumn();
 					ImGui::Selectable("Value"); ImGui::NextColumn();
 					ImGui::Separator();
 					ImGui::Columns(1);
@@ -497,7 +519,7 @@ namespace ml
 						}
 						ImGui::NextColumn();
 						
-						// Uniform Type
+						// Uniform FileType
 						/* * * * * * * * * * * * * * * * * * * * */
 						ImGui::Text(detail::name_of((Uniform::Type)uni->id));
 						ImGui::NextColumn();
@@ -546,27 +568,27 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					// Select Material
-					const Material * mtl { m_renderer->material() };
+					const Material * mtl { m_renderer ? m_renderer->material() : nullptr };
 					if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 					{
 						m_renderer->setMaterial(mtl);
-						this->reset_sources();
-						this->generate_sources();
+						reset_sources();
+						generate_sources();
 					}
 					ImGuiExt::Tooltip("Materials specify the active shader and its corresponding uniforms");
 
 					// Select Shader
-					const Shader * shd { m_renderer->shader() };
+					const Shader * shd { m_renderer ? m_renderer->shader() : nullptr };
 					if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
 					{
 						m_renderer->setShader(shd);
-						this->reset_sources();
-						this->generate_sources();
+						reset_sources();
+						generate_sources();
 					}
 					ImGuiExt::Tooltip("Specify the target material's shader");
 
 					// Select Model
-					const Model * mdl { m_renderer->model() };
+					const Model * mdl { m_renderer ? m_renderer->model() : nullptr };
 					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 					{
 						m_renderer->setModel(mdl);
@@ -598,11 +620,11 @@ namespace ml
 						static int32_t index = 0;
 						if (ImGuiExt::Combo("Viewport", &index, mode_names))
 						{
-							m_scene.m_freeAspect = (index == 0);
+							m_freeAspect = (index == 0);
 						}
-						if (!m_scene.m_freeAspect)
+						if (!m_freeAspect)
 						{
-							m_scene.m_viewport = (vec2i)mode_values[index - 1].size;
+							m_viewport = (vec2i)mode_values[index - 1].size;
 						}
 
 						// Set Background
@@ -943,8 +965,8 @@ namespace ml
 		ImGui::End();
 		ImGui::PopID();
 	}
-	
-	bool Noobs::DemoEditor::dispose()
+
+	bool Noobs::dispose_files()
 	{
 		for (size_t i = 0; i < m_files.size(); i++)
 		{
@@ -956,11 +978,11 @@ namespace ml
 		return true;
 	}
 
-	void Noobs::DemoEditor::generate_sources()
+	void Noobs::generate_sources()
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		auto setup_file = [&](DemoFile::Type type, const String & src)
+		auto setup_file = [&](DemoFile::FileType type, const String & src)
 		{
 			if (m_renderer->material() && m_renderer->material()->shader())
 			{
@@ -1000,28 +1022,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
-	bool Noobs::DemoEditor::compile_sources()
-	{
-		if (m_renderer->material() && m_renderer->material()->shader())
-		{
-			if (Shader * s { m_renderer->shader() })
-			{
-				for (DemoFile *& f : m_files)
-				{
-					if (f) { f->dirty = false; }
-				}
-
-				return s->loadFromMemory(
-					m_files[DemoFile::Vert]->text.GetText(),
-					m_files[DemoFile::Geom]->text.GetText(),
-					m_files[DemoFile::Frag]->text.GetText()
-				);
-			}
-		}
-		return false;
-	}
-
-	void Noobs::DemoEditor::reset_sources()
+	void Noobs::reset_sources()
 	{
 		for (DemoFile *& f : m_files)
 		{

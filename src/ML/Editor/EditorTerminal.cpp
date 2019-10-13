@@ -35,11 +35,11 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorTerminal::onUpdate(const UpdateEvent & ev)
+	void EditorTerminal::update(const UpdateEvent & ev)
 	{
 	}
 
-	bool EditorTerminal::onGui(const GuiEvent & ev)
+	bool EditorTerminal::draw(const GuiEvent & ev)
 	{
 		if (m_coutBuf)
 		{
@@ -48,8 +48,12 @@ namespace ml
 
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
+			// Scale
+			float scale { 0.8f };
+			ImGui::SetWindowFontScale(scale);
+
 			// Filter
-			static ImGuiTextFilter filter {};
+			static ImGuiTextFilter filter { "-" ML_MSG_WRN };
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
 			filter.Draw("Filter", 180);
 			ImGui::PopStyleVar();
@@ -76,6 +80,7 @@ namespace ml
 				ImGuiWindowFlags_HorizontalScrollbar
 			);
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 4, 1 });
+			ImGui::SetWindowFontScale(scale);
 			
 			enum Mode { LOG, WRN, ERR, SYS, MAX_MODE };
 

@@ -19,9 +19,9 @@ namespace ml
 
 		~EditorContent() {}
 
-		void onUpdate(const UpdateEvent & ev) override;
+		void update(const UpdateEvent & ev) override;
 
-		bool onGui(const GuiEvent & ev) override;
+		bool draw(const GuiEvent & ev) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

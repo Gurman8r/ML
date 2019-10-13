@@ -75,8 +75,7 @@ namespace ml
 	{
 		enum Menu : int32_t
 		{ 
-			File, Edit, Window, Help,
-			User,
+			File, Edit, Window, Help, User,
 			MAX_MAIN_MENU_BAR_MENU
 		};
 

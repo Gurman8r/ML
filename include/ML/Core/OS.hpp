@@ -10,6 +10,7 @@ namespace ml
 
 	struct ML_CORE_API OS final
 	{
+		OS() = delete;
 		static void * execute(const String & cmd);
 		static void * execute(const String & cmd, const String & file);
 		static void * execute(const String & cmd, const String & file, const String & args);

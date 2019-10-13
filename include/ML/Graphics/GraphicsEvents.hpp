@@ -15,7 +15,8 @@ namespace ml
 		{
 			MIN_GRAPHICS_EVENT = Event::EV_GRAPHICS,
 
-			EV_OpenGlError, // OpenGL Error
+			EV_OpenGLError, // OpenGL Error
+			EV_ShaderError, // Shader Error
 
 			MAX_GRAPHICS_EVENT
 		};
@@ -27,13 +28,30 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct OpenGlErrorEvent final : public I_Event<GraphicsEvents::EV_OpenGlError>
+	struct OpenGLErrorEvent final : public I_Event<GraphicsEvents::EV_OpenGLError>
 	{
 		C_String file;
 		uint32_t line;
 		C_String expr;
 		uint32_t code;
-		constexpr OpenGlErrorEvent(C_String file, uint32_t line, C_String expr, uint32_t code)
+		constexpr OpenGLErrorEvent(C_String file, uint32_t line, C_String expr, uint32_t code)
+			: file { file }
+			, line { line }
+			, expr { expr }
+			, code { code }
+		{
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct ShaderErrorEvent final : public I_Event<GraphicsEvents::EV_ShaderError>
+	{
+		C_String file;
+		uint32_t line;
+		C_String expr;
+		uint32_t code;
+		constexpr ShaderErrorEvent(C_String file, uint32_t line, C_String expr, uint32_t code)
 			: file { file }
 			, line { line }
 			, expr { expr }

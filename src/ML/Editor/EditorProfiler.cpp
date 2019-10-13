@@ -16,16 +16,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorProfiler::onUpdate(const UpdateEvent & ev)
+	void EditorProfiler::update(const UpdateEvent & ev)
 	{
 		const float_t dt { ev.time.elapsed().delta() };
-		graphs[0].update(ev, "Delta Time", dt, util::to_string(dt).c_str());
+		graphs[0].draw(ev, "Delta Time", dt, util::to_string(dt).c_str());
 
 		const float_t fr = { (float_t)ev.time.frameRate() };
-		graphs[1].update(ev, "Frame Rate", fr, util::to_string(fr).c_str());
+		graphs[1].draw(ev, "Frame Rate", fr, util::to_string(fr).c_str());
 	}
 
-	bool EditorProfiler::onGui(const GuiEvent & ev)
+	bool EditorProfiler::draw(const GuiEvent & ev)
 	{
 		ImGuiStyle & style = ImGui::GetStyle();
 		if (beginDraw(ImGuiWindowFlags_None))
@@ -90,7 +90,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorProfiler::GraphLines::update(const UpdateEvent & ev, C_String label, float_t sample, C_String text)
+	void EditorProfiler::GraphLines::draw(const UpdateEvent & ev, C_String label, float_t sample, C_String text)
 	{
 		const float_t dt { ev.time.elapsed().delta() };
 

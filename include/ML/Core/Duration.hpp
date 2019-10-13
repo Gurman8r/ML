@@ -11,6 +11,7 @@ namespace ml
 	using Nanoseconds	= typename std::chrono::duration<time_t, Nano>;
 	using Microseconds	= typename std::chrono::duration<time_t, Micro>;
 	using Milliseconds	= typename std::chrono::duration<time_t, Milli>;
+	using Centiseconds	= typename std::chrono::duration<time_t, Centi>;
 	using Seconds		= typename std::chrono::duration<time_t, Ratio<1>>;
 	using Minutes		= typename std::chrono::duration<time_t, Ratio<60>>;
 	using Hours			= typename std::chrono::duration<time_t, Ratio<60 * 60>>;
@@ -18,12 +19,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Unit of time stored in nanoseconds
+	// Length of time stored in nanoseconds
 	struct Duration final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using unit_type = typename Nanoseconds;
+		using base_type = typename Nanoseconds;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -45,7 +46,7 @@ namespace ml
 		template <
 			class R, class P = typename R::period
 		> constexpr Duration(const std::chrono::duration<R, P> & value)
-			: m_base { cast<unit_type>(value) }
+			: m_base { cast<base_type>(value) }
 		{
 		}
 
@@ -53,30 +54,25 @@ namespace ml
 
 		template <
 			class T, class R, class P = typename R::period
-		> static constexpr auto cast(const std::chrono::duration<R, P> & value)
+		> static constexpr time_t cast(const std::chrono::duration<R, P> & value)
 		{
 			return std::chrono::duration_cast<T, R, P>(value).count();
 		}
 		
-		constexpr operator const time_t &() const
-		{ 
-			return m_base;
-		}
+		constexpr operator const time_t &() const { return m_base; }
 
-		constexpr unit_type base() const
-		{
-			return static_cast<Nanoseconds>(m_base);
-		}
+		constexpr base_type base() const { return static_cast<Nanoseconds>(m_base); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr time_t nanos()	const { return cast<Nanoseconds>(base()); }
-		constexpr time_t micros()	const { return cast<Microseconds>(base()); }
-		constexpr time_t millis()	const { return cast<Milliseconds>(base()); }
-		constexpr time_t seconds()	const { return cast<Seconds>(base()); }
-		constexpr time_t minutes()	const { return cast<Minutes>(base()); }
-		constexpr time_t hours()	const { return cast<Hours>(base()); }
-		constexpr time_t days()		const { return cast<Days>(base()); }
+		constexpr auto nanoseconds()	const { return cast<Nanoseconds>(base()); }
+		constexpr auto microseconds()	const { return cast<Microseconds>(base()); }
+		constexpr auto milliseconds()	const { return cast<Milliseconds>(base()); }
+		constexpr auto centiseconds()	const { return cast<Centiseconds>(base()); }
+		constexpr auto seconds()		const { return cast<Seconds>(base()); }
+		constexpr auto minutes()		const { return cast<Minutes>(base()); }
+		constexpr auto hours()			const { return cast<Hours>(base()); }
+		constexpr auto days()			const { return cast<Days>(base()); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -178,7 +174,7 @@ namespace ml
 		const auto hr	= value.hours();
 		const auto m	= value.minutes();
 		const auto s	= value.seconds();
-		const auto ms	= value.millis();
+		const auto ms	= value.milliseconds();
 		return out
 			<< (((hr % 24) / 10) % 10)	<< ((hr % 24) % 10) << ':'
 			<< (((m % 60) / 10) % 10)	<< ((m % 60) % 10)	<< ':'
@@ -188,13 +184,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	constexpr Duration operator "" _ns	(time_t value) { return { Nanoseconds	{ value } }; }
-	constexpr Duration operator "" _us	(time_t value) { return { Microseconds	{ value } }; }
-	constexpr Duration operator "" _ms	(time_t value) { return { Milliseconds	{ value } }; }
-	constexpr Duration operator "" _sec	(time_t value) { return { Seconds	{ value } }; }
-	constexpr Duration operator "" _min	(time_t value) { return { Minutes	{ value } }; }
-	constexpr Duration operator "" _hr	(time_t value) { return { Hours		{ value } }; }
-	constexpr Duration operator "" _dy	(time_t value) { return { Days		{ value } }; }
+	constexpr Duration operator "" _ns	(time_t value) { return { Nanoseconds { value } }; }
+	constexpr Duration operator "" _us	(time_t value) { return { Microseconds { value } }; }
+	constexpr Duration operator "" _ms	(time_t value) { return { Milliseconds { value } }; }
+	constexpr Duration operator "" _sec	(time_t value) { return { Seconds { value } }; }
+	constexpr Duration operator "" _min	(time_t value) { return { Minutes { value } }; }
+	constexpr Duration operator "" _hr	(time_t value) { return { Hours { value } }; }
+	constexpr Duration operator "" _dy	(time_t value) { return { Days { value } }; }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

@@ -100,7 +100,7 @@ namespace ml
 
 	struct KeyEvent final : public I_Event<WindowEvent::EV_Key>
 	{
-		using Mods = typename bitset_8;
+		using Mods = typename bitmask_8;
 		const int32_t key, scan, action;
 		const Mods mods;
 

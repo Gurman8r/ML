@@ -34,7 +34,9 @@ namespace ml
 	void * OS::execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags)
 	{
 #if defined(ML_SYSTEM_WINDOWS)
-		return ShellExecuteA(GetDesktopWindow(), cmd.c_str(), file.c_str(), args.c_str(), path.c_str(), flags);
+		return ShellExecuteA(
+			GetDesktopWindow(), cmd.c_str(), file.c_str(), args.c_str(), path.c_str(), flags
+		);
 #else
 		return nullptr;
 #endif

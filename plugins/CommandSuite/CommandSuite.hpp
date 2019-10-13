@@ -4,10 +4,7 @@
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/CommandImpl.hpp>
 
-extern "C"
-{
-	ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
-}
+extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
 
 namespace ml
 {

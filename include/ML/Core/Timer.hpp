@@ -46,10 +46,7 @@ namespace ml
 
 		inline const Duration & elapsed() const
 		{
-			return (m_paused 
-				? (m_elapsed)
-				: (m_elapsed = (m_clock.now() - m_prev))
-			);
+			return (m_paused ? (m_elapsed) : (m_elapsed = (m_clock.now() - m_prev)));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

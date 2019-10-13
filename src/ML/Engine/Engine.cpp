@@ -29,18 +29,18 @@ namespace ml
 
 	Engine::Engine()	
 	{
-		ML_EventSystem.addListener(EnterEvent		::ID, this);
-		ML_EventSystem.addListener(LoadEvent		::ID, this);
-		ML_EventSystem.addListener(StartEvent		::ID, this);
-		ML_EventSystem.addListener(BeginLoopEvent	::ID, this);
-		ML_EventSystem.addListener(UpdateEvent		::ID, this);
-		ML_EventSystem.addListener(BeginDrawEvent	::ID, this);
-		ML_EventSystem.addListener(DrawEvent		::ID, this);
-		ML_EventSystem.addListener(EndDrawEvent		::ID, this);
-		ML_EventSystem.addListener(EndLoopEvent		::ID, this);
-		ML_EventSystem.addListener(UnloadEvent		::ID, this);
-		ML_EventSystem.addListener(ExitEvent		::ID, this);
-		ML_EventSystem.addListener(CommandEvent		::ID, this);
+		ML_EventSystem.addListener<EnterEvent>(this);
+		ML_EventSystem.addListener<LoadEvent>(this);
+		ML_EventSystem.addListener<StartEvent>(this);
+		ML_EventSystem.addListener<BeginLoopEvent>(this);
+		ML_EventSystem.addListener<UpdateEvent>(this);
+		ML_EventSystem.addListener<BeginDrawEvent>(this);
+		ML_EventSystem.addListener<DrawEvent>(this);
+		ML_EventSystem.addListener<EndDrawEvent>(this);
+		ML_EventSystem.addListener<EndLoopEvent>(this);
+		ML_EventSystem.addListener<UnloadEvent>(this);
+		ML_EventSystem.addListener<ExitEvent>(this);
+		ML_EventSystem.addListener<CommandEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

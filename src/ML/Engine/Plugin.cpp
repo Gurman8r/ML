@@ -5,9 +5,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Plugin::Plugin()
-	{
-	}
+	Plugin::Plugin() {}
 
 	Plugin::~Plugin() {}
 

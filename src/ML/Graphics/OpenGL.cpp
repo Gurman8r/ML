@@ -20,7 +20,7 @@ namespace ml
 	{
 		if (const GL::Err code { getError() })
 		{
-			ML_EventSystem.fireEvent<OpenGlErrorEvent>(file, line, expr, code);
+			ML_EventSystem.fireEvent<OpenGLErrorEvent>(file, line, expr, code);
 		}
 	}
 
@@ -167,7 +167,7 @@ namespace ml
 
 	auto OpenGL::getInt(uint32_t name) -> int32_t
 	{
-		static int32_t temp;
+		int32_t temp;
 		glCheck(getIntv(name, &temp));
 		return temp;
 	}
@@ -278,7 +278,7 @@ namespace ml
 
 	auto OpenGL::genBuffers(uint32_t count) -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(glGenBuffers(count, &temp));
 		return temp;
 	}
@@ -290,7 +290,7 @@ namespace ml
 
 	auto OpenGL::genVertexArrays(uint32_t count) -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(glGenVertexArrays(count, &temp));
 		return temp;
 	}
@@ -411,7 +411,7 @@ namespace ml
 
 	auto OpenGL::getMaxTextureUnits() -> int32_t
 	{
-		static int32_t temp;
+		int32_t temp;
 		static bool checked = false;
 		if (!checked)
 		{
@@ -423,7 +423,7 @@ namespace ml
 
 	auto OpenGL::getMaxTextureSize() -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		static bool checked = false;
 		if (!checked)
 		{
@@ -456,7 +456,7 @@ namespace ml
 
 	auto OpenGL::genTextures(uint32_t count) -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(glGenTextures(count, &temp));
 		return temp;
 	}
@@ -539,14 +539,14 @@ namespace ml
 	
 	auto OpenGL::genFramebuffers(uint32_t count) -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(glGenFramebuffers(count, &temp));
 		return temp;
 	}
 
 	auto OpenGL::checkFramebufferStatus(uint32_t target) -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(temp = glCheckFramebufferStatus(target));
 		return temp;
 	}
@@ -591,7 +591,7 @@ namespace ml
 
 	auto OpenGL::genRenderbuffers(uint32_t count) -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(glGenRenderbuffers(count, &temp));
 		return temp;
 	}
@@ -666,49 +666,49 @@ namespace ml
 
 	auto OpenGL::getProgramHandle(uint32_t name) -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(temp = glGetHandleARB(name));
 		return temp;
 	}
 
 	auto OpenGL::createProgramObject() -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(temp = glCreateProgramObjectARB());
 		return temp;
 	}
 
 	auto OpenGL::createShaderObject(GL::ShaderType type) -> uint32_t
 	{
-		static uint32_t temp;
+		uint32_t temp;
 		glCheck(temp = glCreateShaderObjectARB(type));
 		return temp;
 	}
 
 	auto OpenGL::getProgramParameter(int32_t obj, GL::Status param) -> int32_t
 	{
-		static int32_t temp;
+		int32_t temp;
 		glCheck(glGetObjectParameterivARB(obj, param, &temp));
 		return temp;
 	}
 
 	auto OpenGL::getProgramiv(uint32_t program, uint32_t name) -> int32_t
 	{
-		static int32_t temp;
+		int32_t temp;
 		glCheck(glGetProgramiv(program, name, &temp));
 		return temp;
 	}
 	
 	auto OpenGL::getAttribLocation(uint32_t program, C_String name) -> int32_t
 	{
-		static int32_t temp;
+		int32_t temp;
 		glCheck(temp = glGetAttribLocationARB(program, name));
 		return temp;
 	}
 
 	auto OpenGL::getUniformLocation(uint32_t program, C_String name) -> int32_t
 	{
-		static int32_t temp;
+		int32_t temp;
 		glCheck(temp = glGetUniformLocationARB(program, name));
 		return temp;
 	}
@@ -749,24 +749,24 @@ namespace ml
 
 	auto OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source) -> int32_t
 	{
-		if (source && (*source))
+		if (!source || !(*source))
 		{
-			if (obj = createShaderObject(type))
-			{
-				shaderSource(obj, count, source, nullptr);
-
-				if (!compileShader(obj))
-				{
-					C_String log = getProgramInfoLog(obj);
-					deleteShader(obj);
-					cout << log << endl;
-					return Debug::logError("Failed compiling {0} source", type); // 0 (false)
-				}
-				return ML_SUCCESS; // +1 (true)
-			}
-			return Debug::logError("Failed creating {0} object", type); // 0 (false)
+			return ML_WARNING; // -1 (true)
 		}
-		return ML_WARNING; // -1 (true)
+		else if (obj = createShaderObject(type))
+		{
+			shaderSource(obj, count, source, nullptr);
+
+			if (!compileShader(obj))
+			{
+				C_String log = getProgramInfoLog(obj);
+				deleteShader(obj);
+				cout << log;
+				return Debug::logError("Failed compiling {0} source\n", type); // 0 (false)
+			}
+			return ML_SUCCESS; // +1 (true)
+		}
+		return Debug::logError("Failed creating {0} object\n", type); // 0 (false)
 	}
 
 	auto OpenGL::linkShader(uint32_t obj) -> int32_t

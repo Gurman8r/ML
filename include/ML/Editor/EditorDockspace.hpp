@@ -15,11 +15,11 @@ namespace ml
 		
 		explicit EditorDockspace();
 
-		void onUpdate(const UpdateEvent & ev) override;
+		void update(const UpdateEvent & ev) override;
 
 		bool beginDraw(int32_t flags) override;
 		
-		bool onGui(const GuiEvent & ev) override;
+		bool draw(const GuiEvent & ev) override;
 		
 		bool endDraw() override;
 
@@ -30,7 +30,7 @@ namespace ml
 			Left, LeftUp, LeftDn,
 			Right, RightUp, RightDn,
 
-			MAX_DOCK_POS
+			MAX_DOCK_NODE
 		};
 
 		uint32_t beginBuilder(int32_t flags);
@@ -43,7 +43,7 @@ namespace ml
 
 		inline uint32_t getNode(const int32_t i) const 
 		{ 
-			return (((i >= DockNode::Root) && (i < DockNode::MAX_DOCK_POS))
+			return (((i >= DockNode::Root) && (i < DockNode::MAX_DOCK_NODE))
 				? m_nodes[i]
 				: NULL
 			);
@@ -57,7 +57,7 @@ namespace ml
 		float_t		m_rounding;
 		vec2		m_size;
 		float_t		m_bgAlpha;
-		uint32_t	m_nodes[MAX_DOCK_POS];
+		uint32_t	m_nodes[MAX_DOCK_NODE];
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -16,10 +16,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API Plugin
-		: public Newable
-		, public NonCopyable
-		, public EventListener
+	struct ML_ENGINE_API Plugin : public Newable, public NonCopyable, public EventListener
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

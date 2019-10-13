@@ -153,11 +153,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorContent::onUpdate(const UpdateEvent & ev)
+	void EditorContent::update(const UpdateEvent & ev)
 	{
 	}
 
-	bool EditorContent::onGui(const GuiEvent & ev)
+	bool EditorContent::draw(const GuiEvent & ev)
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{

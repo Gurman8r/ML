@@ -29,7 +29,7 @@ namespace ml
 					ML_GL.useShader(program);
 				}
 
-				location = value->getUniform(name);
+				location = value->getUniformLocation(name);
 			}
 		}
 
@@ -209,6 +209,13 @@ namespace ml
 	bool Shader::loadFromMemory(const String & vs, const String & fs)
 	{
 		return loadFromMemory(vs, {}, fs);
+
+		//m_sources.gs = String();
+		//return ((vs && fs) && compile(
+		//	(m_sources.vs = ShaderParser::parseShader(vs)).c_str(),
+		//	nullptr,
+		//	(m_sources.fs = ShaderParser::parseShader(fs)).c_str()
+		//));
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & gs, const String & fs)
@@ -248,7 +255,17 @@ namespace ml
 			m_sources.fs = {};
 			return true;
 		}
-		return false;
+		else
+		{
+			return false;
+		}
+
+		//return (gs ? compile(
+		//	(m_sources.vs = ShaderParser::parseShader(vs)).c_str(),
+		//	(m_sources.gs = ShaderParser::parseShader(gs)).c_str(),
+		//	(m_sources.fs = ShaderParser::parseShader(fs)).c_str()
+		//	) : loadFromMemory(vs, fs)
+		//);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -585,14 +602,52 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Shader::compile(C_String vs, C_String gs, C_String fs)
+	int32_t Shader::getAttributeLocation(const String & name) const
+	{
+		Tree<String, int32_t>::iterator it;
+		if ((it = m_attribs.find(name)) != m_attribs.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			int32_t value { ML_GL.getAttribLocation((*this), name.c_str()) };
+			if (value == -1)
+			{
+				//Debug::logWarning("Attribute not found: \'{0}\'", name);
+			}
+			return m_attribs.insert({ name, value }).first->second;
+		}
+	}
+
+	int32_t Shader::getUniformLocation(const String & name) const
+	{
+		Tree<String, int32_t>::iterator it;
+		if ((it = m_uniforms.find(name)) != m_uniforms.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			int32_t value { ML_GL.getUniformLocation((*this), name.c_str()) };
+			if (value == -1)
+			{
+				//Debug::logWarning("Uniform not found: \'{0}\'", name);
+			}
+			return m_uniforms.insert({ name, value }).first->second;
+		}
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool Shader::compile(C_String v_src, C_String g_src, C_String f_src)
 	{
 		if (!ML_GL.shadersAvailable())
 		{
 			return ml::Debug::logError("Shaders are not available on your system.");
 		}
 
-		if (gs && !ML_GL.geometryShadersAvailable())
+		if (g_src && !ML_GL.geometryShadersAvailable())
 		{
 			return Debug::logError("Geometry shaders are not available on your system.");
 		}
@@ -601,49 +656,34 @@ namespace ml
 		if (dispose() && set_handle(ML_GL.createProgramObject()))
 		{
 			// Compile Vertex
-			uint32_t vert { NULL };
-			switch (ML_GL.compileShader(vert, GL::VertexShader, 1, &vs))
+			uint32_t v { NULL };
+			switch (ML_GL.compileShader(v, GL::VertexShader, 1, &v_src))
 			{
-			case ML_SUCCESS:
-				ML_GL.attachShader((*this), vert);
-				ML_GL.deleteShader(vert);
-				break;
-			case ML_FAILURE:
-				ML_GL.deleteShader(*this);
-				return false;
+			case ML_SUCCESS: ML_GL.attachShader((*this), v); ML_GL.deleteShader(v); break;
+			case ML_FAILURE: ML_GL.deleteShader((*this)); return false;
 			}
 
 			// Compile Geometry
-			uint32_t geom { NULL };
-			switch (ML_GL.compileShader(geom, GL::GeometryShader, 1, &gs))
+			uint32_t g { NULL };
+			switch (ML_GL.compileShader(g, GL::GeometryShader, 1, &g_src))
 			{
-			case ML_SUCCESS:
-				ML_GL.attachShader((*this), geom);
-				ML_GL.deleteShader(geom);
-				break;
-			case ML_FAILURE:
-				ML_GL.deleteShader(*this);
-				return false;
+			case ML_SUCCESS: ML_GL.attachShader((*this), g); ML_GL.deleteShader(g); break;
+			case ML_FAILURE: ML_GL.deleteShader((*this)); return false;
 			}
 
 			// Compile Fragment
-			uint32_t frag { NULL };
-			switch (ML_GL.compileShader(frag, GL::FragmentShader, 1, &fs))
+			uint32_t f { NULL };
+			switch (ML_GL.compileShader(f, GL::FragmentShader, 1, &f_src))
 			{
-			case ML_SUCCESS:
-				ML_GL.attachShader((*this), frag);
-				ML_GL.deleteShader(frag);
-				break;
-			case ML_FAILURE:
-				ML_GL.deleteShader(*this);
-				return false;
+			case ML_SUCCESS: ML_GL.attachShader((*this), f); ML_GL.deleteShader(f); break;
+			case ML_FAILURE: ML_GL.deleteShader((*this)); return false;
 			}
 
 			// Link the program
 			if (!ML_GL.linkShader(*this))
 			{
-				C_String log = ML_GL.getProgramInfoLog(*this);
-				ML_GL.deleteShader(*this);
+				C_String log = ML_GL.getProgramInfoLog((*this));
+				ML_GL.deleteShader((*this));
 				cout << log << endl;
 				return Debug::logError("Failed linking shader");
 			}
@@ -654,43 +694,7 @@ namespace ml
 		}
 		else
 		{
-			return Debug::logError("Failed compiling shader");
-		}
-	}
-
-	int32_t Shader::getAttribute(const String & name) const
-	{
-		Tree<String, int32_t>::iterator it;
-		if ((it = m_attribs.find(name)) != m_attribs.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			int32_t value;
-			if ((value = ML_GL.getAttribLocation((*this), name.c_str())) == -1)
-			{
-				/* attribute not found */
-			}
-			return m_attribs.insert({ name, value }).first->second;
-		}
-	}
-
-	int32_t Shader::getUniform(const String & name) const
-	{
-		Tree<String, int32_t>::iterator it;
-		if ((it = m_uniforms.find(name)) != m_uniforms.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			int32_t value;
-			if ((value = ML_GL.getUniformLocation((*this), name.c_str())) == -1)
-			{
-				/* uniform not found */
-			}
-			return m_uniforms.insert({ name, value }).first->second;
+			return Debug::logError("Failed creating program object");
 		}
 	}
 

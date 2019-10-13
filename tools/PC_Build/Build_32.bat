@@ -11,6 +11,7 @@ rem Visual Studio 2012      (Toolset = 'v110')
 rem Visual Studio 2013      (Toolset = 'v120')
 rem Visual Studio 2015      (Toolset = 'v140')
 rem Visual Studio 2017      (Toolset = 'v141')
+rem Visual Studio 2019      (Toolset = 'v142')
 
 rem Paths
 set cur_path=%cd%\

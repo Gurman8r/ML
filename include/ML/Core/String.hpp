@@ -29,8 +29,6 @@ namespace ml
 		using const_iterator		= typename base_type::const_iterator;
 		using reverse_iterator		= typename base_type::reverse_iterator;
 		using const_reverse_iterator= typename base_type::const_reverse_iterator;
-		using alty_type				= typename base_type::_Alty;
-		using alty_traits_type		= typename base_type::_Alty_traits;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

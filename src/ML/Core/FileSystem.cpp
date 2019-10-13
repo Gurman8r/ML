@@ -10,7 +10,7 @@ namespace ml
 	{
 		if (dirExists(value))
 		{
-			std::experimental::filesystem::current_path(value);
+			std::filesystem::current_path(value.c_str());
 			return true;
 		}
 		return false;
@@ -18,7 +18,7 @@ namespace ml
 
 	String FileSystem::getPath() const
 	{
-		return std::experimental::filesystem::current_path().string();
+		return std::filesystem::current_path().string();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

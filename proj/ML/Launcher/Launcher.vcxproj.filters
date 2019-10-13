@@ -10,9 +10,6 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Launcher\Python_API.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -272,10 +269,5 @@
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_top.png">
       <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Launcher\Launcher.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

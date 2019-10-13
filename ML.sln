@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "proj\ML\Core\Core.vcxproj", "{528360E9-DDC7-4440-89A9-9D1FD9726AC1}"
 EndProject
@@ -80,21 +80,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommandSuite", "plugins\CommandSuite\CommandSuite.vcxproj", "{6A168705-BC27-4A58-B05E-68A67F7808EE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E6B44D15-0792-4593-8633-4CE6F9B5326D} = {E6B44D15-0792-4593-8633-4CE6F9B5326D}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{410B2DFC-71E9-458D-88EE-50930C4F5775}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PC_Build", "PC_Build", "{92265E5B-A47C-476E-AA06-F1A2A12F847B}"
-	ProjectSection(SolutionItems) = preProject
-		tools\PC_Build\Build_32.bat = tools\PC_Build\Build_32.bat
-		tools\PC_Build\Build_64.bat = tools\PC_Build\Build_64.bat
-		tools\PC_Build\Build_All.bat = tools\PC_Build\Build_All.bat
-		tools\PC_Build\Build_Debug_x64.bat = tools\PC_Build\Build_Debug_x64.bat
-		tools\PC_Build\Build_Debug_x86.bat = tools\PC_Build\Build_Debug_x86.bat
-		tools\PC_Build\Build_Release_x64.bat = tools\PC_Build\Build_Release_x64.bat
-		tools\PC_Build\Build_Release_x86.bat = tools\PC_Build\Build_Release_x86.bat
-		tools\PC_Build\Clean_All.bat = tools\PC_Build\Clean_All.bat
-		tools\PC_Build\Post_Build.bat = tools\PC_Build\Post_Build.bat
 	EndProjectSection
 EndProject
 Global
@@ -209,7 +194,6 @@ Global
 		{D05AD58C-413C-4072-970F-908D594E8D74} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
 		{8EEC0911-6CCC-49DC-9FC0-F4D92308F884} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
 		{6A168705-BC27-4A58-B05E-68A67F7808EE} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
-		{92265E5B-A47C-476E-AA06-F1A2A12F847B} = {410B2DFC-71E9-458D-88EE-50930C4F5775}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D3845FD-50CB-410F-95BC-888FC73F4340}

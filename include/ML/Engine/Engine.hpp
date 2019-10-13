@@ -1,12 +1,17 @@
 #ifndef _ML_ENGINE_HPP_
 #define _ML_ENGINE_HPP_
 
+#include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Ref.hpp>
-#include <ML/Core/EventListener.hpp>
-#include <ML/Core/Matrix.hpp>
+#include <ML/Engine/GameTime.hpp>
+#include <ML/Engine/Preferences.hpp>
 
 #define ML_Engine ::ml::Engine::getInstance()
+
+#ifndef ML_CONFIG_INI
+#define ML_CONFIG_INI "../../../ML.ini"
+#endif
 
 namespace ml
 {
@@ -47,6 +52,11 @@ namespace ml
 		float_t	m_frameRate		{ NULL };
 		vec2	m_viewport		{ NULL };
 		float_t	m_totalTime		{ NULL };
+
+	public:
+		Preferences		prefs;
+		RenderWindow	window;
+		GameTime		time;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -1,7 +1,7 @@
 #include <ML/Editor/EditorProfiler.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Engine/GameTime.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Core/StringUtility.hpp>
 
 namespace ml
@@ -18,10 +18,10 @@ namespace ml
 
 	void EditorProfiler::update(const UpdateEvent & ev)
 	{
-		const float_t dt { ev.time.elapsed().delta() };
+		const float_t dt { ML_Engine.time.elapsed().delta() };
 		graphs[0].draw(ev, "Delta Time", dt, util::to_string(dt).c_str());
 
-		const float_t fr = { (float_t)ev.time.frameRate() };
+		const float_t fr = { (float_t)ML_Engine.time.frameRate() };
 		graphs[1].draw(ev, "Frame Rate", fr, util::to_string(fr).c_str());
 	}
 
@@ -92,7 +92,7 @@ namespace ml
 
 	void EditorProfiler::GraphLines::draw(const UpdateEvent & ev, C_String label, float_t sample, C_String text)
 	{
-		const float_t dt { ev.time.elapsed().delta() };
+		const float_t dt { ML_Engine.time.elapsed().delta() };
 
 		m_label		= label;
 		m_sample	= sample;
@@ -107,9 +107,9 @@ namespace ml
 			min -= m_sample * dt / 2;
 		}
 
-		if (refresh == 0.0f) { refresh = ev.time.totalTime(); }
+		if (refresh == 0.0f) { refresh = ML_Engine.time.totalTime(); }
 
-		while (refresh < ev.time.totalTime())
+		while (refresh < ML_Engine.time.totalTime())
 		{
 			values[offset] = m_sample;
 			offset = (offset + 1) % values.size();

@@ -21,7 +21,7 @@
 # if not ML_DEBUG
 #	define ML_BREAKPOINT
 # else
-#	if defined(ML_CC_MICROSOFT)
+#	if defined(ML_CC_MSC)
 #		define ML_BREAKPOINT __debugbreak()
 #	else
 #		define ML_BREAKPOINT raise(SIGTRAP)

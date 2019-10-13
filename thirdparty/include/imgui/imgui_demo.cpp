@@ -3000,7 +3000,7 @@ void ImGui::ShowAboutWindow(bool* p_open)
         ImGui::Text("define: __APPLE__");
 #endif
 #ifdef _MSC_VER
-        ImGui::Text("define: _MSC_VER=%d", ML_CC_MICROSOFT);
+        ImGui::Text("define: _MSC_VER=%d", ML_CC_MSC);
 #endif
 #ifdef __MINGW32__
         ImGui::Text("define: __MINGW32__");

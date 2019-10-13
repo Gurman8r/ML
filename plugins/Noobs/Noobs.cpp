@@ -10,15 +10,13 @@
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Engine/GameTime.hpp>
-#include <ML/Engine/Preferences.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/ContentManager.hpp>
 #include <ML/Engine/Registry.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Renderer.hpp>
-#include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Surface.hpp>
 #include <ML/Graphics/Geometry.hpp>
@@ -113,7 +111,7 @@ namespace ml
 		ML_FS.setPath("../../../");
 
 		// Setup Editor
-		if (const String ent_name { ev.prefs.get_string("Noobs", "demo_entity", "") })
+		if (const String ent_name { ML_Engine.prefs.get_string("Noobs", "demo_entity", "") })
 		{
 			if (Entity * ent { m_entity.update(ML_Content.get<Entity>(ent_name)) })
 			{
@@ -219,7 +217,7 @@ namespace ml
 							}
 						}
 					}
-					ev.window.draw(renderer);
+					ML_Engine.window.draw(renderer);
 				}
 			}
 
@@ -247,7 +245,7 @@ namespace ml
 			if (camera) camera->apply();
 
 			// Draw Scene Output
-			ev.window.draw(m_pipeline[Surf_Main]);
+			ML_Engine.window.draw(m_pipeline[Surf_Main]);
 
 			// Unbind Surface
 			m_pipeline[Surf_Post]->unbind();

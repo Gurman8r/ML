@@ -99,7 +99,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if defined(_MSC_VER)
-#	define ML_CC_MICROSOFT _MSC_VER
+#	define ML_CC_MSC _MSC_VER
 # elif defined(__clang__)
 #	define ML_CC_CLANG __clang__
 # elif defined(__EMSCRIPTEN__)
@@ -118,9 +118,9 @@
 #	endif
 # endif
 
-# if defined(ML_CC_MICROSOFT)
+# if defined(ML_CC_MSC)
 #	define ML_CC_NAME		"Microsoft"
-#	define ML_CC_VER		ML_CC_MICROSOFT
+#	define ML_CC_VER		ML_CC_MSC
 # elif defined(ML_CC_CLANG)
 #	define ML_CC_NAME		"Clang"
 #	define ML_CC_VER		ML_CC_CLANG
@@ -153,7 +153,7 @@
 
 #define ML_FLOAT32		float				// 4 bytes
 #define ML_FLOAT64		double				// 8 bytes
-#define ML_FLOAT80		long double			// 8, 10, or 16 bytes (CC dependant)
+#define ML_FLOAT80		long double			// 8 or 10 bytes (CC dependant)
 
 # if (ML_ARCHITECTURE == 32)
 #	define ML_INTMAX	ML_INT32			// Max Signed	(32-Bit)
@@ -196,9 +196,8 @@
 #		ifndef NOMINMAX
 #			define NOMINMAX
 #		endif
-#		if defined(ML_CC_MICROSOFT)
+#		if defined(ML_CC_MSC)
 #			pragma warning(disable: 4031) // second formal parameter list longer than the first list
-#			pragma warning(disable: 4099) // PDB was not found
 #			pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
 #			pragma warning(disable: 4307) // integral constant overflow
 #			pragma warning(disable: 4308) // negative integral constant converted to unsigned type

@@ -12,6 +12,7 @@
 [ ] BETTER DESERIALIZATION
 [ ] Dedicated error log (like Unity's)
 [ ] "Red Lines" in text editor
+[ ] Shader error event handling
 [ ] Remove "RenderBatch"
 [ ] Real-time python scripts
 [ ] Json Editor Gui

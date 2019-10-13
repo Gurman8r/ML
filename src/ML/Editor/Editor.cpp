@@ -1,4 +1,5 @@
 #include <ML/Editor/Editor.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiImpl.hpp>
 #include <ML/Editor/EditorEvents.hpp>
@@ -110,7 +111,7 @@ namespace ml
 
 		// Setup Style
 		/* * * * * * * * * * * * * * * * * * * * */
-		const String styleConf = ev.prefs.get_string(
+		const String styleConf = ML_Engine.prefs.get_string(
 			"Editor", "style_config", "Classic"
 		);
 		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
@@ -123,10 +124,10 @@ namespace ml
 
 		// Setup Fonts
 		/* * * * * * * * * * * * * * * * * * * * */
-		String fontFile = ev.prefs.get_string("Editor", "font_file", "");
+		String fontFile = ML_Engine.prefs.get_string("Editor", "font_file", "");
 		if (fontFile)
 		{
-			float_t fontSize = ev.prefs.get_float("Editor", "font_size", 12.0f);
+			float_t fontSize = ML_Engine.prefs.get_float("Editor", "font_size", 12.0f);
 			if (fontSize > 0.0f)
 			{
 				ImGui::GetIO().Fonts->AddFontFromFileTTF(
@@ -137,7 +138,7 @@ namespace ml
 
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_ImGuiImpl.Startup("#version 410", &ev.window, true))
+		if (!ML_ImGuiImpl.Startup("#version 410", &ML_Engine.window, true))
 		{
 			return Debug::fatal("Failed starting ImGui instance");
 		}
@@ -146,13 +147,13 @@ namespace ml
 		m_terminal.redirect(cout);
 
 		// Get Preferences
-		m_about		.setOpen(ev.prefs.get_bool("Editor", "show_about",		false));
-		m_content	.setOpen(ev.prefs.get_bool("Editor", "show_content",	false));
-		m_explorer	.setOpen(ev.prefs.get_bool("Editor", "show_explorer",	false));
-		m_inspector	.setOpen(ev.prefs.get_bool("Editor", "show_inspector",	false));
-		m_manual	.setOpen(ev.prefs.get_bool("Editor", "show_manual",		false));
-		m_profiler	.setOpen(ev.prefs.get_bool("Editor", "show_profiler",	false));
-		m_terminal	.setOpen(ev.prefs.get_bool("Editor", "show_terminal",	false));
+		m_about		.setOpen(ML_Engine.prefs.get_bool("Editor", "show_about",		false));
+		m_content	.setOpen(ML_Engine.prefs.get_bool("Editor", "show_content",	false));
+		m_explorer	.setOpen(ML_Engine.prefs.get_bool("Editor", "show_explorer",	false));
+		m_inspector	.setOpen(ML_Engine.prefs.get_bool("Editor", "show_inspector",	false));
+		m_manual	.setOpen(ML_Engine.prefs.get_bool("Editor", "show_manual",		false));
+		m_profiler	.setOpen(ML_Engine.prefs.get_bool("Editor", "show_profiler",	false));
+		m_terminal	.setOpen(ML_Engine.prefs.get_bool("Editor", "show_terminal",	false));
 	}
 
 	void Editor::onUpdate(const UpdateEvent & ev)
@@ -282,7 +283,7 @@ namespace ml
 	void Editor::onEndGui(const EndGuiEvent & ev)
 	{
 		ImGui::Render();
-		ev.window.makeContextCurrent();
+		ML_Engine.window.makeContextCurrent();
 		ML_ImGuiImpl.Render(ImGui::GetDrawData());
 	}
 

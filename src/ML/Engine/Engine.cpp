@@ -27,7 +27,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Engine::Engine()	
+	Engine::Engine()
+		: prefs{ ML_CONFIG_INI }
+		, window{}
+		, time{}
 	{
 		ML_EventSystem.addListener<EnterEvent>(this);
 		ML_EventSystem.addListener<LoadEvent>(this);
@@ -72,7 +75,7 @@ namespace ml
 	void Engine::onEnter(const EnterEvent & ev)
 	{
 		// Initialize Python
-		if (!ML_Py.init(ML_ARGV[0], ML_FS.pathTo(ev.prefs.get_string(
+		if (!ML_Py.init(ML_ARGV[0], ML_FS.pathTo(prefs.get_string(
 			"Engine", "python_home", ""
 		))))
 		{
@@ -80,39 +83,39 @@ namespace ml
 		}
 
 		// Run Boot Script
-		if (Script boot { ev.prefs.get_string("Engine", "boot_script", "") })
+		if (Script boot { prefs.get_string("Engine", "boot_script", "") })
 		{
 			boot.execute();
 		}
 
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ev.window.create(
-			ev.prefs.get_string	("Window", "title",				"MemeLib"), { 
-			ev.prefs.get_uint	("Window", "width",				1280),
-			ev.prefs.get_uint	("Window", "height",			720),
-			ev.prefs.get_uint	("Window", "bits_per_pixel",	32) }, {
-			ev.prefs.get_bool	("Window", "resizable",			true),
-			ev.prefs.get_bool	("Window", "visible",			false),
-			ev.prefs.get_bool	("Window", "decorated",			true),
-			ev.prefs.get_bool	("Window", "focused",			true),
-			ev.prefs.get_bool	("Window", "auto_iconify",		true),
-			ev.prefs.get_bool	("Window", "floating",			false),
-			ev.prefs.get_bool	("Window", "maximized",			true) }, {
-			ev.prefs.get_uint	("Window", "major_version",		3),
-			ev.prefs.get_uint	("Window", "minor_version",		3),
-			ev.prefs.get_uint	("Window", "context_profile",	ContextSettings::Compat),
-			ev.prefs.get_uint	("Window", "depth_bits",		24),
-			ev.prefs.get_uint	("Window", "stencil_bits",		8),
-			ev.prefs.get_bool	("Window", "multisample",		false),
-			ev.prefs.get_bool	("Window", "srgb_capable",		false)
+		if (!window.create(
+			prefs.get_string	("Window", "title",				"MemeLib"), { 
+			prefs.get_uint	("Window", "width",				1280),
+			prefs.get_uint	("Window", "height",			720),
+			prefs.get_uint	("Window", "bits_per_pixel",	32) }, {
+			prefs.get_bool	("Window", "resizable",			true),
+			prefs.get_bool	("Window", "visible",			false),
+			prefs.get_bool	("Window", "decorated",			true),
+			prefs.get_bool	("Window", "focused",			true),
+			prefs.get_bool	("Window", "auto_iconify",		true),
+			prefs.get_bool	("Window", "floating",			false),
+			prefs.get_bool	("Window", "maximized",			true) }, {
+			prefs.get_uint	("Window", "major_version",		3),
+			prefs.get_uint	("Window", "minor_version",		3),
+			prefs.get_uint	("Window", "context_profile",	ContextSettings::Compat),
+			prefs.get_uint	("Window", "depth_bits",		24),
+			prefs.get_uint	("Window", "stencil_bits",		8),
+			prefs.get_bool	("Window", "multisample",		false),
+			prefs.get_bool	("Window", "srgb_capable",		false)
 		}))
 		{
 			Debug::fatal("Failed Creating Window");
 		}
-		else if (ev.prefs.get_bool("Window", "fullscreen", false))
+		else if (prefs.get_bool("Window", "fullscreen", false))
 		{
-			ev.window.setFullscreen(true);
+			window.setFullscreen(true);
 		}
 	}
 
@@ -151,7 +154,7 @@ namespace ml
 		
 		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (Script load { ev.prefs.get_string("Engine", "load_script", "") })
+		if (Script load { prefs.get_string("Engine", "load_script", "") })
 		{
 			load.execute();
 		}
@@ -160,7 +163,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (Ref<Image> icon { "_icon_" })
 		{
-			ev.window.setIcon(icon->width(), icon->height(), icon->data());
+			window.setIcon(icon->width(), icon->height(), icon->data());
 		}
 	}
 
@@ -170,27 +173,27 @@ namespace ml
 
 	void Engine::onBeginFrame(const BeginLoopEvent & ev)
 	{
-		ev.time.beginLoop();
-		ev.window.pollEvents();
+		time.beginLoop();
+		window.pollEvents();
 	}
 
 	void Engine::onUpdate(const UpdateEvent & ev)
 	{
 		// Update Default Uniforms
-		m_cursorPos		= (vec2)ev.window.getCursorPos();
-		m_deltaTime		= ev.time.elapsed().delta();
+		m_cursorPos		= (vec2)window.getCursorPos();
+		m_deltaTime		= time.elapsed().delta();
 		m_frameCount	= m_frameCount + 1;
-		m_frameRate		= (float_t)ev.time.frameRate();
-		m_viewport		= (vec2)ev.window.getSize();
-		m_totalTime		= ev.time.total().delta();
+		m_frameRate		= (float_t)time.frameRate();
+		m_viewport		= (vec2)window.getSize();
+		m_totalTime		= time.total().delta();
 
 		// Update Window Title
-		static const String original_title { ev.window.getTitle() };
-		ev.window.setTitle(String("{0} | {1} | {2} | {3} ms/frame").format(
+		static const String original_title { window.getTitle() };
+		window.setTitle(String("{0} | {1} | {2} | {3} ms/frame").format(
 			original_title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
-			ev.time.elapsed().delta()
+			time.elapsed().delta()
 		));
 	}
 
@@ -208,9 +211,9 @@ namespace ml
 
 	void Engine::onEndFrame(const EndLoopEvent & ev)
 	{
-		ev.window.makeContextCurrent();
-		ev.window.swapBuffers();
-		ev.time.endLoop();
+		window.makeContextCurrent();
+		window.swapBuffers();
+		time.endLoop();
 	}
 
 	void Engine::onUnload(const UnloadEvent & ev)
@@ -220,8 +223,8 @@ namespace ml
 
 	void Engine::onExit(const ExitEvent & ev)
 	{
-		ev.window.dispose();
-		//ML_Lua.dispose();
+		window.dispose();
+		ML_Lua.dispose();
 		ML_Py.dispose();
 	}
 	

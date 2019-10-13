@@ -13,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static void stub()
+	static void test_stub()
 	{
 		// Type Tests
 		{

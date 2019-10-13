@@ -73,21 +73,25 @@
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)obj\$(Configuration)\$(PlatformTarget)\$(ProjectName)\</IntDir>
     <TargetName>ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)</TargetName>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -106,8 +110,7 @@
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)tools\PC_Build
-call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,8 +130,7 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)tools\PC_Build
-call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -152,8 +154,7 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)tools\PC_Build
-call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,12 +178,10 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(SolutionDir)tools\PC_Build
-call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTarget)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\ML\Launcher\Launcher.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Python_API.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp" />
@@ -258,9 +257,6 @@ call .\Post_Build.bat $(SolutionDir) $(TargetName) $(Configuration) $(PlatformTa
     <Image Include="..\..\..\assets\textures\mars\mars_nm.png" />
     <Image Include="..\..\..\assets\textures\moon\moon_dm.png" />
     <Image Include="..\..\..\assets\textures\moon\moon_nm.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\include\ML\Launcher\Launcher.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

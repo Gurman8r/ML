@@ -6,7 +6,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // Source: https://github.com/Manu343726/ctti
-# if defined(ML_CC_MICROSOFT)
+# if defined(ML_CC_MSC)
 #	define ML_SIGNATURE		__FUNCSIG__
 #	define ML_SIGNATURE_PRE	"struct ml::StringView __cdecl ml::signature<"
 #	define ML_SIGNATURE_SUF	">(void)"

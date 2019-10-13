@@ -78,7 +78,6 @@ namespace ml
 						m_data.resize(static_cast<size_t>(size));
 						file.read(&m_data[0], size);
 					}
-					m_data.push_back('\0');
 				}
 				file.close();
 				return true;

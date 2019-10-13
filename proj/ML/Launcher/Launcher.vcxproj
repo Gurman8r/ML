@@ -110,7 +110,11 @@
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)
+xcopy /y $(SolutionDir)thirdparty\bin\OpenAL32.dll $(OutDir)
+xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)
+if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
+if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,7 +134,11 @@
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)
+xcopy /y $(SolutionDir)thirdparty\bin\OpenAL32.dll $(OutDir)
+xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)
+if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
+if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,7 +162,11 @@
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)
+xcopy /y $(SolutionDir)thirdparty\bin\OpenAL32.dll $(OutDir)
+xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)
+if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
+if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -178,7 +190,11 @@
       <OutputFile>$(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)</Command>
+      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)
+xcopy /y $(SolutionDir)thirdparty\bin\OpenAL32.dll $(OutDir)
+xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)
+if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
+if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

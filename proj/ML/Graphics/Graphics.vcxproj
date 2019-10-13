@@ -113,7 +113,8 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,7 +137,8 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -163,8 +165,13 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -190,7 +197,8 @@
       </DelayLoadDLLs>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

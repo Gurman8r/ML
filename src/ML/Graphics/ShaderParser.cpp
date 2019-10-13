@@ -69,7 +69,7 @@ namespace ml
 		{
 			if (String file { ML_FS.getFileContents(ML_FS.pathTo(name)) })
 			{
-				file.pop_back(); return file;
+				return file;
 			}
 			return String();
 		});

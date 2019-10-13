@@ -110,8 +110,8 @@
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
-if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,8 +131,8 @@ if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Con
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
-if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,8 +156,8 @@ if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Con
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
-if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -181,8 +181,8 @@ if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Con
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
-if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

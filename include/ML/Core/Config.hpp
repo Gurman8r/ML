@@ -102,8 +102,6 @@
 #	define ML_CC_MSC _MSC_VER
 # elif defined(__clang__)
 #	define ML_CC_CLANG __clang__
-# elif defined(__EMSCRIPTEN__)
-#	define ML_CC_EMSCRIPTEN
 # elif defined(__GNUC__) || defined(__GNUG__)
 #	if defined(__GNUC__)
 #		define ML_CC_GNU __GNUC__
@@ -116,6 +114,8 @@
 #	else
 #		define ML_CC_INTEL __INTEL_COMPILER
 #	endif
+# elif defined(__EMSCRIPTEN__)
+#	define ML_CC_EMSCRIPTEN
 # endif
 
 # if defined(ML_CC_MSC)

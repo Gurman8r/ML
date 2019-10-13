@@ -12,12 +12,7 @@
 #	pragma comment(lib, "lua.lib")
 # endif
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 #include <lua/lua.hpp>
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 #define ML_Lua ::ml::Lua::getInstance()
 
 namespace ml
@@ -28,6 +23,16 @@ namespace ml
 		mutable lua_State * m_L { nullptr };
 
 	public:
+		inline bool dispose() override
+		{
+			if (m_L)
+			{
+				lua_close(m_L);
+				return true;
+			}
+			return false;
+		}
+
 		inline lua_State * getL() const
 		{ 
 			auto my_print = ([](lua_State * L)
@@ -52,17 +57,7 @@ namespace ml
 			return m_L;
 		}
 
-		inline bool dispose() override
-		{
-			if (m_L)
-			{
-				lua_close(m_L);
-				return true;
-			}
-			return false;
-		}
-
-		inline int32_t DoString(const String & value) const
+		inline int32_t DoString(const String& value) const
 		{
 			return ((value && getL()) ? luaL_dostring(getL(), value.c_str()) : 0);
 		}

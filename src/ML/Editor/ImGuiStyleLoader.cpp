@@ -62,7 +62,7 @@ namespace ml
 
 namespace ml
 {
-	static inline bool readValue(const String & src, const char lhs, const char rhs, String & out)
+	static inline bool readValue(const String & src, char lhs, char rhs, String & out)
 	{
 		size_t a;
 		if ((a = src.find_first_of(lhs)) != String::npos)
@@ -151,9 +151,7 @@ namespace ml
 	{
 	}
 
-	ImGuiStyleLoader::~ImGuiStyleLoader()
-	{
-	}
+	ImGuiStyleLoader::~ImGuiStyleLoader() { }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

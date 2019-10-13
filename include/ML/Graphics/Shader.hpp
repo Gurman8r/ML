@@ -17,10 +17,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Shader final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
-		, public I_Handle<uint32_t>
+		: public Newable
+		, public Disposable
+		, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
@@ -36,7 +35,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		bool loadFromFile(const String & vs, const String & fs);
 		bool loadFromFile(const String & vs, const String & gs, const String & fs);
 		bool loadFromMemory(const Shader::Source & source);

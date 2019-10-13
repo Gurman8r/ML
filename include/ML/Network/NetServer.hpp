@@ -1,8 +1,8 @@
 #ifndef _ML_SERVER_HPP_
 #define _ML_SERVER_HPP_
 
-#include <ML/Core/I_Singleton.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Singleton.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Network/NetInterface.hpp>
 
 namespace ml
@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetServer final
-		: public I_Newable
+		: public Newable
 		, public NetInterface
 	{
 	public:

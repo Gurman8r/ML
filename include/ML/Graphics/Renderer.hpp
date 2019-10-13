@@ -10,9 +10,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Renderer final
-		: public I_Newable
-		, public I_Drawable
-		, public I_NonCopyable
+		: public Newable
+		, public Drawable
+		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -4,7 +4,7 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 
@@ -12,7 +12,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorWindow : public I_NonCopyable
+	class ML_EDITOR_API EditorWindow : public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

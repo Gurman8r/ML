@@ -1,8 +1,8 @@
 #ifndef _ML_EVENT_SYSTEM_HPP_
 #define _ML_EVENT_SYSTEM_HPP_
 
-#include <ML/Core/I_EventListener.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/EventListener.hpp>
+#include <ML/Core/Singleton.hpp>
 
 #define ML_EventSystem ::ml::EventSystem::getInstance()
 
@@ -14,19 +14,19 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API EventSystem final : public I_Singleton<EventSystem>
+	struct ML_CORE_API EventSystem final : public Singleton<EventSystem>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using map_type	= typename std::multimap<int32_t, I_EventListener *>;
+		using map_type	= typename std::multimap<int32_t, EventListener *>;
 		using iterator	= typename map_type::iterator;
 		using pair_type = typename std::pair<iterator, iterator>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		I_EventListener * addListener(const int32_t type, I_EventListener * listener);
+		EventListener * addListener(const int32_t type, EventListener * listener);
 
-		template <class Ev> inline auto addListener(I_EventListener * listener)
+		template <class Ev> inline auto addListener(EventListener * listener)
 		{
 			return addListener(Ev::ID, listener);
 		}
@@ -38,14 +38,14 @@ namespace ml
 			return fireEvent(Ev { std::forward<Args>(args)... });
 		}
 
-		bool removeListener(const int32_t & type, I_EventListener * listener);
+		bool removeListener(const int32_t & type, EventListener * listener);
 		
-		bool removeListenerFromAllEvents(I_EventListener * listener);
+		bool removeListenerFromAllEvents(EventListener * listener);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct I_Singleton<EventSystem>;
+		friend struct Singleton<EventSystem>;
 		EventSystem() {}
 		~EventSystem() {}
 		map_type m_listeners;

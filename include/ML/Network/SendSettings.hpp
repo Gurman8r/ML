@@ -2,7 +2,7 @@
 #define _ML_SEND_SETTINGS_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 
 namespace ml
 {
@@ -36,7 +36,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API SendSettings final : public I_NonNewable
+	struct ML_NETWORK_API SendSettings final : public NonNewable
 	{
 		Priority	priority;
 		Reliability reliability;

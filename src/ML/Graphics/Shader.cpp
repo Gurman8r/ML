@@ -84,7 +84,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Shader::Shader()
-		: I_Handle	(NULL)
+		: Handle	(NULL)
 		, m_attribs	()
 		, m_textures()
 		, m_uniforms()

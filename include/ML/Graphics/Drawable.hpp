@@ -1,5 +1,5 @@
-#ifndef _ML_I_DRAWABLE_HPP_
-#define _ML_I_DRAWABLE_HPP_
+#ifndef _ML_DRAWABLE_HPP_
+#define _ML_DRAWABLE_HPP_
 
 #include <ML/Graphics/RenderBatch.hpp>
 
@@ -11,11 +11,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API I_Drawable
+	struct ML_GRAPHICS_API Drawable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual ~I_Drawable() {}
+		virtual ~Drawable() {}
 
 		virtual void draw(RenderTarget & target, RenderBatch batch) const = 0;
 
@@ -25,4 +25,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_I_DRAWABLE_HPP_
+#endif // !_ML_DRAWABLE_HPP_

@@ -25,12 +25,6 @@
     <Filter Include="Source Files\Plugins">
       <UniqueIdentifier>{704bf695-6877-4bd7-9bd8-22e49d1ec129}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Utility">
-      <UniqueIdentifier>{8b0a6fbb-1017-4157-a5ef-7f611aa6a687}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utility">
-      <UniqueIdentifier>{3e2668f7-2a2d-493a-b9a9-7c7aebe6dfbd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Commands">
       <UniqueIdentifier>{e247befe-88cb-4991-ac49-6cf034621d7e}</UniqueIdentifier>
     </Filter>
@@ -42,6 +36,12 @@
     </Filter>
     <Filter Include="Header Files\Commands">
       <UniqueIdentifier>{57f77f12-a021-4485-a643-d95630252a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{3e2668f7-2a2d-493a-b9a9-7c7aebe6dfbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{8b0a6fbb-1017-4157-a5ef-7f611aa6a687}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,16 +55,16 @@
       <Filter>Header Files\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Engine.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\EngineEvents.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Preferences.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\GameTime.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\CommandExecutor.hpp">
       <Filter>Header Files\Commands</Filter>
@@ -88,7 +88,7 @@
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\ObjectPool.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\ContentImporter.hpp">
       <Filter>Header Files\Content</Filter>
@@ -106,16 +106,16 @@
       <Filter>Header Files\Content</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\StateMachine.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\ContentManager.hpp">
       <Filter>Header Files\Content</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Entity.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\Registry.hpp">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Engine\PluginManager.hpp">
       <Filter>Header Files\Plugins</Filter>
@@ -129,13 +129,13 @@
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\GameTime.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Preferences.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Engine.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\CommandExecutor.cpp">
       <Filter>Source Files\Commands</Filter>
@@ -159,7 +159,7 @@
       <Filter>Source Files\Content</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\Registry.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Engine\PluginManager.cpp">
       <Filter>Source Files\Plugins</Filter>

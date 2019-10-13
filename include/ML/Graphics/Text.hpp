@@ -1,7 +1,7 @@
 #ifndef _ML_TEXT_HPP_
 #define _ML_TEXT_HPP_
 
-#include <ML/Graphics/I_Drawable.hpp>
+#include <ML/Graphics/Drawable.hpp>
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Vertex.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
@@ -14,8 +14,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Text final
-		: public I_Newable
-		, public I_Drawable
+		: public Newable
+		, public Drawable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

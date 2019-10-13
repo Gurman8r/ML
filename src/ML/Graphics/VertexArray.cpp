@@ -7,12 +7,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	VertexArray::VertexArray()
-		: I_Handle(NULL)
+		: Handle(NULL)
 	{
 	}
 
 	VertexArray::VertexArray(const VertexArray & copy)
-		: I_Handle(copy)
+		: Handle(copy)
 	{
 	}
 

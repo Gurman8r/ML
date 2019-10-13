@@ -12,14 +12,14 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Global bank of shared resources.
-	// Anything can be stored in Content as long as it derives I_Newable.
+	// Anything can be stored in Content as long as it derives Newable.
 	struct ML_ENGINE_API ContentManager final
-		: public I_Disposable
-		, public I_Singleton<ContentManager>
+		: public Disposable
+		, public Singleton<ContentManager>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using AssetMap	= typename Tree<String, I_Newable *>;
+		using AssetMap	= typename Tree<String, Newable *>;
 		using TypeMap	= typename HashMap<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -84,12 +84,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline I_Newable * insert(hash_t code, const String & name, void * value)
+		inline Newable * insert(hash_t code, const String & name, void * value)
 		{
-			return this->data(code).insert({ name, (I_Newable *)value }).first->second;
+			return this->data(code).insert({ name, (Newable *)value }).first->second;
 		}
 
-		template <hash_t H> inline I_Newable * insert(const String & name, void * value)
+		template <hash_t H> inline Newable * insert(const String & name, void * value)
 		{
 			return this->insert(H, name, value);
 		}
@@ -109,7 +109,7 @@ namespace ml
 			);
 		}
 
-		inline I_Newable * generate(const String & type, const String & name)
+		inline Newable * generate(const String & type, const String & name)
 		{
 			if (const hash_t * code { ML_Registry.get_code(type) })
 			{
@@ -261,7 +261,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct I_Singleton<ContentManager>;
+		friend struct Singleton<ContentManager>;
 		ContentManager();
 		~ContentManager();
 		mutable TypeMap m_data; // The Data

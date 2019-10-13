@@ -2,7 +2,7 @@
 #define _ML_THREAD_HPP_
 
 #include <ML/Core/Duration.hpp>
-#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/Disposable.hpp>
 #include <ML/Core/I_Newable.hpp>
 
 namespace ml
@@ -12,8 +12,8 @@ namespace ml
 	// Wrapper and manager for std::thread
 	struct Thread final
 		: public I_Newable
-		, public I_Disposable
-		, public I_NonCopyable
+		, public Disposable
+		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

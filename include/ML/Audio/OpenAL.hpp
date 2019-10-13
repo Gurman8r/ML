@@ -6,7 +6,7 @@
 #include <ML/Audio/Export.hpp>
 #include <ML/Audio/AL.hpp>
 #include <ML/Core/StringUtility.hpp>
-#include <ML/Core/I_Singleton.hpp>
+#include <ML/Core/Singleton.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -27,9 +27,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_AUDIO_API OpenAL final
-		: public I_Singleton<OpenAL>
+		: public Singleton<OpenAL>
 	{
-		friend struct I_Singleton<OpenAL>;
+		friend struct Singleton<OpenAL>;
 
 		bool	m_good;
 		void *	m_device;

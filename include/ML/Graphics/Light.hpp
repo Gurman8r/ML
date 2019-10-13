@@ -4,7 +4,7 @@
 #include <ML/Graphics/Color.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/Quaternion.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/Input.hpp>
 
 namespace ml
@@ -13,7 +13,7 @@ namespace ml
 
 	// WIP
 	struct ML_GRAPHICS_API Light final
-		: public I_Newable
+		: public Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

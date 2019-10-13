@@ -2,16 +2,15 @@
 #define _ML_SCRIPT_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/Newable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP
-	struct ML_ENGINE_API Script final : public I_Newable, public I_Readable
+	struct ML_ENGINE_API Script final : public Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -28,7 +27,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		int32_t execute() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

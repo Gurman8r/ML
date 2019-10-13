@@ -2,17 +2,15 @@
 #define _ML_FONT_HPP_
 
 #include <ML/Graphics/Glyph.hpp>
-#include <ML/Core/I_Readable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Font final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
-		, public I_NonCopyable
+		: public Newable
+		, public Disposable
+		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -34,7 +32,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

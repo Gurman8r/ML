@@ -2,7 +2,7 @@
 #define _ML_RANDOM_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/I_Singleton.hpp>
+#include <ML/Core/Singleton.hpp>
 
 #define ML_Random ::ml::Random::getInstance()
 
@@ -10,11 +10,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Random final : public I_Singleton<Random>
+	class Random final : public Singleton<Random>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		friend struct I_Singleton<Random>;
+		friend struct Singleton<Random>;
 
 		Random() { std::srand((uint32_t)std::time(nullptr)); }
 

@@ -12,9 +12,8 @@ namespace ml
 
 	// Used to stage/defer loading of plugins into an event system
 	struct ML_ENGINE_API PluginManager final
-		: public I_Singleton<PluginManager>
-		, public I_Disposable
-		, public I_Readable
+		: public Singleton<PluginManager>
+		, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -26,7 +25,7 @@ namespace ml
 
 		bool dispose() override;
 
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		
 		size_t loadLibraries();
 

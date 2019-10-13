@@ -4,13 +4,13 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/Matrix.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API BufferLayout final : public I_Newable
+	struct ML_GRAPHICS_API BufferLayout final : public Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

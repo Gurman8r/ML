@@ -2,7 +2,7 @@
 #define _ML_COMMAND_EXECUTOR_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/StringUtility.hpp>
 
 namespace ml
@@ -13,7 +13,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API CommandExecutor : public I_Newable
+	struct ML_ENGINE_API CommandExecutor : public Newable
 	{
 		CommandExecutor() {}
 

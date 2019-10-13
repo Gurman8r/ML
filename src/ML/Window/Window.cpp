@@ -203,12 +203,14 @@ namespace ml
 
 		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			ML_EventSystem.fireEvent(KeyEvent(button, scan, action, { {
-				(bool)(mods & ML_MOD_SHIFT),
-				(bool)(mods & ML_MOD_CTRL),
-				(bool)(mods & ML_MOD_ALT),
-				(bool)(mods & ML_MOD_SUPER)
-				} }));
+			ML_EventSystem.fireEvent<KeyEvent>(button, scan, action, bitset_8 { {
+				(mods & ML_MOD_SHIFT),
+				(mods & ML_MOD_CTRL),
+				(mods & ML_MOD_ALT),
+				(mods & ML_MOD_SUPER),
+				(mods & ML_MOD_CAPSLOCK),
+				(mods & ML_MOD_NUMLOCK)
+			} });
 		});
 
 		setMouseButtonCallback([](void *, int32_t button, int32_t action, int32_t mods)

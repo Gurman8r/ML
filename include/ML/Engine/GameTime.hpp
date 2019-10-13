@@ -9,8 +9,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API GameTime final
-		: public I_Newable
-		, public I_NonCopyable
+		: public Newable
+		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -10,10 +10,9 @@ namespace ml
 
 	// Model is a drawable collection of Meshes
 	struct ML_GRAPHICS_API Model final
-		: public I_Newable
-		, public I_Drawable
-		, public I_Readable
-		, public I_Disposable
+		: public Newable
+		, public Drawable
+		, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +24,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		bool loadFromMemory(const List<Vertex> & vertices);
 		bool loadFromMemory(const List<Vertex> & vertices, const List<uint32_t> & indices);
 

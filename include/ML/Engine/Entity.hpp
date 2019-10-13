@@ -2,21 +2,19 @@
 #define _ML_ENTITY_HPP_
 
 #include <ML/Engine/Registry.hpp>
-#include <ML/Core/I_Readable.hpp>
-#include <ML/Core/I_Writable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API Entity final
-		: public I_Newable
-		, public I_Disposable
-		, public I_NonCopyable
+		: public Newable
+		, public Disposable
+		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type = typename I_Newable *;
+		using value_type = typename Newable *;
 		using base_type = typename HashMap<hash_t, value_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

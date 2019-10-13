@@ -10,9 +10,8 @@ namespace ml
 
 	// Material is a shader associated with a collection of uniforms
 	struct ML_GRAPHICS_API Material final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
+		: public Newable
+		, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -32,7 +31,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		bool loadFromFile(const String & filename, const Tree<String, Texture *> * textures);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

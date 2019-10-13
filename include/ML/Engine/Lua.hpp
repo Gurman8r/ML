@@ -22,9 +22,9 @@
 
 namespace ml
 {
-	class ML_ENGINE_API Lua final : public I_Singleton<Lua>, public I_Disposable
+	class ML_ENGINE_API Lua final : public Singleton<Lua>, public Disposable
 	{
-		friend struct I_Singleton<Lua>;
+		friend struct Singleton<Lua>;
 		mutable lua_State * m_L { nullptr };
 
 	public:

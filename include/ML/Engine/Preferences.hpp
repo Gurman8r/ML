@@ -2,10 +2,9 @@
 #define _ML_PREFERENCES_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/I_Writable.hpp>
-#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/Newable.hpp>
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
@@ -13,10 +12,8 @@ namespace ml
 
 	// INI Reader
 	struct ML_ENGINE_API Preferences final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
-		, public I_Writable
+		: public Newable
+		, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -28,8 +25,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
-		bool saveToFile(const String & filename) const override;
+		bool loadFromFile(const String & filename);
+		bool saveToFile(const String & filename) const;
 		bool saveToFile() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

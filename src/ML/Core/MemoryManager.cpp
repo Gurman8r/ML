@@ -1,5 +1,5 @@
 #include <ML/Core/MemoryManager.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
@@ -15,7 +15,7 @@ namespace ml
 
 	ML_SERIALIZE(std::ostream & out, const MemoryManager::Record & value)
 	{
-		auto object { static_cast<I_Newable *>(value.ptr) };
+		auto object { static_cast<Newable *>(value.ptr) };
 		return out << std::left
 			<< FG::Green << std::setw(6) << value.index
 			<< FG::Cyan << std::setw(sizeof(size_t) * 2) << value.size

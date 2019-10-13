@@ -735,12 +735,14 @@ namespace ml
 		if (action == ML_KEY_PRESS) { io.KeysDown[key] = true; }
 		if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
 		if (key == KeyCode::KP_Enter) { io.KeysDown[KeyCode::Enter] = io.KeysDown[key]; }
-		ML_EventSystem.fireEvent(KeyEvent(key, scancode, action, { {
+		ML_EventSystem.fireEvent<KeyEvent>(key, scancode, action, bitset_8 { {
 			io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
 			io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],
 			io.KeyAlt	= io.KeysDown[KeyCode::LeftAlt]		|| io.KeysDown[KeyCode::RightAlt],
-			io.KeySuper = io.KeysDown[KeyCode::LeftSuper]	|| io.KeysDown[KeyCode::RightSuper]
-		} }));
+			io.KeySuper = io.KeysDown[KeyCode::LeftSuper]	|| io.KeysDown[KeyCode::RightSuper],
+			false,	// caps lock
+			false	// num lock
+		} });
 	}
 
 	void ImGuiImpl::CharCallback(void * window, uint32_t value)

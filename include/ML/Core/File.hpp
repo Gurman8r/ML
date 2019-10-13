@@ -1,21 +1,16 @@
 #ifndef _ML_FILE_HPP_
 #define _ML_FILE_HPP_
 
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/I_Readable.hpp>
-#include <ML/Core/I_Writable.hpp>
+#include <ML/Core/Newable.hpp>
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Stores the contents of a text file
-	template <class Ch> struct BasicFile final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
-		, public I_Writable
+	template <class Ch> struct BasicFile final : public Newable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -69,7 +64,7 @@ namespace ml
 			return empty();
 		}
 
-		inline bool loadFromFile(const String & filename) override
+		inline bool loadFromFile(const String & filename)
 		{
 			if (ifstream_type file { (m_path = filename), std::ios_base::binary })
 			{
@@ -91,7 +86,7 @@ namespace ml
 			return !dispose();
 		}
 
-		inline bool saveToFile(const String & filename) const override
+		inline bool saveToFile(const String & filename) const
 		{
 			if (ofstream_type file { filename, std::ios_base::binary })
 			{

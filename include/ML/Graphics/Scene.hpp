@@ -1,8 +1,7 @@
 #ifndef _ML_SCENE_HPP_
 #define _ML_SCENE_HPP_
 
-#include <ML/Graphics/I_Drawable.hpp>
-#include <ML/Core/I_Writable.hpp>
+#include <ML/Graphics/Drawable.hpp>
 
 namespace ml
 {
@@ -10,11 +9,9 @@ namespace ml
 
 	// WIP
 	struct ML_GRAPHICS_API Scene final
-		: public I_Newable
-		, public I_Drawable
-		, public I_Disposable
-		, public I_Readable
-		, public I_Writable
+		: public Newable
+		, public Drawable
+		, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,8 +21,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
-		bool saveToFile(const String & filename) const override;
+		bool loadFromFile(const String & filename);
+		bool saveToFile(const String & filename) const;
 		void draw(RenderTarget & target, RenderBatch batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

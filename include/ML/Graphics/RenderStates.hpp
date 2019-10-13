@@ -1,7 +1,7 @@
 #ifndef _ML_RENDER_STATES_HPP_
 #define _ML_RENDER_STATES_HPP_
 
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/NonNewable.hpp>
 #include <ML/Core/Matrix.hpp>
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API AlphaState final : public I_NonNewable
+	struct ML_GRAPHICS_API AlphaState final : public NonNewable
 	{
 		bool enabled;
 		GL::Predicate predicate;
@@ -43,7 +43,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API BlendState final : public I_NonNewable
+	struct ML_GRAPHICS_API BlendState final : public NonNewable
 	{
 		bool enabled;
 		GL::Factor srcRGB;
@@ -85,7 +85,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API CullState final : public I_NonNewable
+	struct ML_GRAPHICS_API CullState final : public NonNewable
 	{
 		bool enabled;
 		GL::Face face;
@@ -116,7 +116,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API DepthState final : public I_NonNewable
+	struct ML_GRAPHICS_API DepthState final : public NonNewable
 	{
 		bool enabled;
 		GL::Predicate predicate;
@@ -154,7 +154,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API RenderStates final : public I_NonNewable
+	struct ML_GRAPHICS_API RenderStates final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

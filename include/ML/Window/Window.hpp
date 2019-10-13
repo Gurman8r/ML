@@ -1,9 +1,9 @@
 #ifndef _ML_WINDOW_HPP_
 #define _ML_WINDOW_HPP_
 
-#include <ML/Core/I_EventListener.hpp>
-#include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/EventListener.hpp>
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Matrix.hpp>
 #include <ML/Window/ContextSettings.hpp>
@@ -21,10 +21,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_WINDOW_API Window
-		: public I_Newable
-		, public I_Disposable
-		, public I_NonCopyable
-		, public I_EventListener
+		: public Newable
+		, public Disposable
+		, public NonCopyable
+		, public EventListener
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

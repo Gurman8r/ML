@@ -8,12 +8,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	VertexBuffer::VertexBuffer()
-		: I_Handle(NULL)
+		: Handle(NULL)
 	{
 	}
 
 	VertexBuffer::VertexBuffer(const VertexBuffer & copy)
-		: I_Handle(copy)
+		: Handle(copy)
 		, m_usage(copy.m_usage)
 		, m_data(copy.m_data)
 		, m_size(copy.m_size)

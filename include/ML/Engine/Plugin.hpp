@@ -3,8 +3,8 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Core/I_EventListener.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/EventListener.hpp>
+#include <ML/Core/Newable.hpp>
 
 #define ML_PLUGIN_API ML_API_EXPORT
 
@@ -17,9 +17,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API Plugin
-		: public I_Newable
-		, public I_NonCopyable
-		, public I_EventListener
+		: public Newable
+		, public NonCopyable
+		, public EventListener
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

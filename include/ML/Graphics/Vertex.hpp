@@ -2,13 +2,13 @@
 #define _ML_VERTEX_HPP_
 
 #include <ML/Graphics/Color.hpp>
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Vertex final : public I_NonNewable
+	struct Vertex final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

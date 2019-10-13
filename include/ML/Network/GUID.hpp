@@ -2,13 +2,13 @@
 #define _ML_GUID_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API GUID final : public I_NonNewable
+	struct ML_NETWORK_API GUID final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 

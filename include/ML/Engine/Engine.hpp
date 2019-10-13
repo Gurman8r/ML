@@ -3,7 +3,7 @@
 
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Ref.hpp>
-#include <ML/Core/I_EventListener.hpp>
+#include <ML/Core/EventListener.hpp>
 #include <ML/Core/Matrix.hpp>
 
 #define ML_Engine ::ml::Engine::getInstance()
@@ -12,15 +12,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Image;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	class ML_ENGINE_API Engine final : public I_Singleton<Engine>, public I_EventListener
+	class ML_ENGINE_API Engine final : public Singleton<Engine>, public EventListener
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		friend struct I_Singleton<Engine>;
+		friend struct Singleton<Engine>;
 
 		Engine();
 		~Engine() {}

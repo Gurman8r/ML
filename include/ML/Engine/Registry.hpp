@@ -2,8 +2,8 @@
 #define _ML_REGISTRY_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/StringUtility.hpp>
 
 #define ML_Registry ::ml::Registry<>::getInstance()
@@ -34,7 +34,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <> struct ML_ENGINE_API Registry<> final : public I_Singleton<Registry<>>
+	template <> struct ML_ENGINE_API Registry<> final : public Singleton<Registry<>>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -130,7 +130,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct I_Singleton<Registry<>>;
+		friend struct Singleton<Registry<>>;
 		Registry() : m_codes(), m_funcs(), m_infos(), m_names() {}
 		~Registry() {}
 		HashMap<String, Code>	m_codes; // 

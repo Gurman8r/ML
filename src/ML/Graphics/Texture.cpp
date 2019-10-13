@@ -57,7 +57,7 @@ namespace ml
 	}
 
 	Texture::Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type pixType)
-		: I_Handle		{ NULL }
+		: Handle		{ NULL }
 		, m_size		{ 0, 0 }
 		, m_realSize	{ 0, 0 }
 		, m_sampler		{ sampler }

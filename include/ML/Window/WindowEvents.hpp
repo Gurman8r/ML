@@ -3,7 +3,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <ML/Core/I_Event.hpp>
+#include <ML/Core/Event.hpp>
 #include <ML/Core/Bitset.hpp>
 #include <ML/Window/KeyCode.hpp>
 #include <ML/Window/MouseButton.hpp>
@@ -20,6 +20,8 @@
 #define ML_MOD_CTRL		(1 << 1)
 #define ML_MOD_ALT		(1 << 2)
 #define ML_MOD_SUPER	(1 << 3)
+#define ML_MOD_CAPSLOCK	(1 << 4)
+#define ML_MOD_NUMLOCK	(1 << 5)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

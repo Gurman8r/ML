@@ -2,14 +2,14 @@
 #define _ML_HOST_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/NonNewable.hpp>
 #include <ML/Core/StringView.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API Host final : public I_NonNewable
+	struct ML_NETWORK_API Host final : public NonNewable
 	{
 		C_String	addr;
 		uint16_t	port;

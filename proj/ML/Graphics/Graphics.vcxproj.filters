@@ -123,9 +123,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\GraphicsEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\I_Drawable.hpp">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\RenderWindow.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -152,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\VertexBuffer.hpp">
       <Filter>Header Files\Handles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ML\Graphics\Drawable.hpp">
+      <Filter>Header Files\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

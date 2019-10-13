@@ -1,7 +1,7 @@
 #ifndef _ML_META_VALUE_HPP_
 #define _ML_META_VALUE_HPP_
 
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/StringUtility.hpp>
 
 namespace ml
@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// A string that can be interpreted as other types
-	struct MetadataValue final : public I_Newable
+	struct MetadataValue final : public Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

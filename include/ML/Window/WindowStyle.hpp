@@ -2,13 +2,13 @@
 #define _ML_WINDOW_STYLE_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowStyle final : public I_NonNewable
+	struct WindowStyle final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

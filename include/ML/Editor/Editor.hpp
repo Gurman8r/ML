@@ -1,7 +1,7 @@
 #ifndef _ML_EDITOR_HPP_
 #define _ML_EDITOR_HPP_
 
-#include <ML/Core/I_EventListener.hpp>
+#include <ML/Core/EventListener.hpp>
 #include <ML/Editor/EditorAbout.hpp>
 #include <ML/Editor/EditorContent.hpp>
 #include <ML/Editor/EditorDockspace.hpp>
@@ -17,9 +17,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor final : public I_Singleton<Editor>, public I_EventListener
+	class ML_EDITOR_API Editor final : public Singleton<Editor>, public EventListener
 	{
-		friend struct I_Singleton<Editor>;
+		friend struct Singleton<Editor>;
 
 		Editor();
 		~Editor() {}

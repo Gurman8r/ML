@@ -16,7 +16,7 @@
 
 namespace ml
 {
-	struct Launcher final : public I_Singleton<Launcher>
+	struct Launcher final : public Singleton<Launcher>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -27,7 +27,7 @@ namespace ml
 		int32_t operator()(int32_t argc, char ** argv);
 
 	private:
-		friend struct I_Singleton<Launcher>;
+		friend struct Singleton<Launcher>;
 
 		Launcher()
 			: prefs		{ ML_CONFIG_INI }

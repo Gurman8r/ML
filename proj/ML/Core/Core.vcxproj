@@ -173,9 +173,8 @@
     <ClInclude Include="..\..\..\include\ML\Core\Decay.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Hash.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Input.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Event.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_NonNewable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Singleton.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\NonNewable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Singleton.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\SizeOf.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Config.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Debug.hpp" />
@@ -184,14 +183,12 @@
     <ClInclude Include="..\..\..\include\ML\Core\Export.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\File.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\FileSystem.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Disposable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Disposable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Event.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_EventListener.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Handle.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_NonCopyable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Readable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Newable.hpp" />
-    <ClInclude Include="..\..\..\include\ML\Core\I_Writable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\EventListener.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Handle.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\NonCopyable.hpp" />
+    <ClInclude Include="..\..\..\include\ML\Core\Newable.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\List.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\Matrix.hpp" />
     <ClInclude Include="..\..\..\include\ML\Core\MemoryManager.hpp" />
@@ -215,6 +212,7 @@
     <ClCompile Include="..\..\..\src\ML\Core\Debug.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\EventSystem.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\FileSystem.cpp" />
+    <ClCompile Include="..\..\..\src\ML\Core\EventListener.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\MemoryManager.cpp" />
     <ClCompile Include="..\..\..\src\ML\Core\OS.cpp" />
   </ItemGroup>

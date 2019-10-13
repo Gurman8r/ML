@@ -2,13 +2,13 @@
 #define _ML_EVENT_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Event : public I_NonNewable
+	struct Event : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -57,6 +57,17 @@ namespace ml
 	private: const int32_t m_id;
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <int32_t ID> struct I_Event : public Event
+	{
+		enum : int32_t { ID = ID };
+
+		static constexpr int32_t id { ID };
+
+		constexpr I_Event() : Event { id } {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

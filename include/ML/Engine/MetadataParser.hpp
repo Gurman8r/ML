@@ -3,17 +3,13 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/Metadata.hpp>
-#include <ML/Core/I_Readable.hpp>
-#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/Disposable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API MetadataParser final
-		: public I_Readable
-		, public I_Disposable
-		, public I_NonCopyable
+	struct ML_ENGINE_API MetadataParser final : public Disposable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,7 +20,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		bool loadElement(size_t index);
 		bool loadAll(bool clearLists);
 

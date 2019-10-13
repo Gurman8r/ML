@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP - used for rendering Text and Sprites
-	struct ML_GRAPHICS_API RenderBatch final : public I_NonNewable
+	struct ML_GRAPHICS_API RenderBatch final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -2,16 +2,16 @@
 #define _ML_AUDIO_SOURCE_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Handle.hpp>
+#include <ML/Core/Newable.hpp>
+#include <ML/Core/Handle.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_AUDIO_API AudioSource
-		: public I_Newable
-		, public I_Handle<uint32_t>
+		: public Newable
+		, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -4,11 +4,11 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Matrix.hpp>
-#include <ML/Core/I_Singleton.hpp>
+#include <ML/Core/Singleton.hpp>
 
 namespace ml
 {
-	struct ML_EDITOR_API ImGuiExt final : public I_NonNewable
+	struct ML_EDITOR_API ImGuiExt final : public NonNewable
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

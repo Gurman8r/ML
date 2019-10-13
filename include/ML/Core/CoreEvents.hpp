@@ -1,7 +1,7 @@
 #ifndef _ML_CORE_EVENTS_HPP_
 #define _ML_CORE_EVENTS_HPP_
 
-#include <ML/Core/I_Event.hpp>
+#include <ML/Core/Event.hpp>
 
 namespace ml
 {
@@ -27,9 +27,7 @@ namespace ml
 
 	struct FileSystemEvent final : public I_Event<CoreEvents::EV_FileSystem>
 	{
-		constexpr FileSystemEvent()
-		{
-		}
+		constexpr FileSystemEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

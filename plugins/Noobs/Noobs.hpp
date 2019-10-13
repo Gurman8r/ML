@@ -63,7 +63,7 @@ namespace ml
 
 		// SCENE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoScene final : public I_Newable, public I_NonCopyable
+		struct DemoScene final : public Newable, public NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -90,7 +90,7 @@ namespace ml
 
 		// FILE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoFile final : public I_Newable, public I_NonCopyable
+		struct DemoFile final : public Newable, public NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -134,9 +134,9 @@ namespace ml
 		// EDITOR
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct DemoEditor final 
-			: public I_Newable
-			, public I_NonCopyable
-			, public I_Disposable
+			: public Newable
+			, public NonCopyable
+			, public Disposable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 

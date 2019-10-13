@@ -11,7 +11,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API CommandRegistry final : public I_Singleton<CommandRegistry>
+	struct ML_ENGINE_API CommandRegistry final : public Singleton<CommandRegistry>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -84,7 +84,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct I_Singleton<CommandRegistry>;
+		friend struct Singleton<CommandRegistry>;
 
 		CommandRegistry() : m_cmd() {}
 		~CommandRegistry() {}

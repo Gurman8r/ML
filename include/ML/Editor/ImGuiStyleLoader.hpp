@@ -2,16 +2,14 @@
 #define _ML_STYLE_LOADER_HPP_
 
 #include <ML/Editor/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Readable.hpp>
+#include <ML/Core/NonNewable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API ImGuiStyleLoader final
-		: public I_Newable
-		, public I_Readable
+	struct ML_EDITOR_API ImGuiStyleLoader final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +23,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 
 		inline operator bool() const { return m_good; }
 

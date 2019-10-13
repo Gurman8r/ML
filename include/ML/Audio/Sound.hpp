@@ -2,18 +2,17 @@
 #define _ML_SOUND_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Readable.hpp>
-#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/Newable.hpp>
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_AUDIO_API Sound
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
+		: public Newable
+		, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,7 +23,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

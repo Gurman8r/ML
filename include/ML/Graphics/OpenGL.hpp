@@ -4,7 +4,7 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/String.hpp>
-#include <ML/Core/I_Singleton.hpp>
+#include <ML/Core/Singleton.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -24,7 +24,7 @@
 
 namespace ml
 {
-	struct ML_GRAPHICS_API OpenGL final : public I_Singleton<OpenGL>
+	struct ML_GRAPHICS_API OpenGL final : public Singleton<OpenGL>
 	{
 		// Errors
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -178,7 +178,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: friend struct I_Singleton<OpenGL>;
+	private: friend struct Singleton<OpenGL>;
 	};
 }
 

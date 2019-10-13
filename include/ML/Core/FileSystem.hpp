@@ -18,7 +18,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_CORE_API FileSystem final
-		: public I_Singleton<FileSystem>
+		: public Singleton<FileSystem>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -79,7 +79,7 @@ namespace ml
 
 		String m_root;
 
-		friend struct I_Singleton<FileSystem>;
+		friend struct Singleton<FileSystem>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -63,7 +63,7 @@ namespace ml
 							for (const auto & pair : ML_Memory.records())
 							{
 								const MemoryManager::Record * r { pair.second };
-								const I_Newable * ptr { static_cast<const I_Newable *>(r->ptr) };
+								const Newable * ptr { static_cast<const Newable *>(r->ptr) };
 
 								ImGui::Columns(4, "Allocations##Columns");
 								ImGui::Text("%p", r->ptr);

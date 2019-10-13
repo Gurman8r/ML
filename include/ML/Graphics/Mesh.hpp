@@ -1,7 +1,7 @@
 #ifndef _ML_MESH_HPP_
 #define _ML_MESH_HPP_
 
-#include <ML/Graphics/I_Drawable.hpp>
+#include <ML/Graphics/Drawable.hpp>
 #include <ML/Graphics/Vertex.hpp>
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Graphics/BufferLayout.hpp>
@@ -14,9 +14,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Mesh final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Drawable
+		: public Newable
+		, public Disposable
+		, public Drawable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

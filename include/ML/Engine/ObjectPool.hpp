@@ -1,8 +1,8 @@
 #ifndef _ML_OBJECT_POOL_HPP_
 #define _ML_OBJECT_POOL_HPP_
 
-#include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/Array.hpp>
 
 namespace ml
@@ -10,12 +10,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP
-	template <
-		class T, size_t N
-	> struct ObjectPool final
-		: public I_Disposable
-		, public I_Newable
-		, public I_NonCopyable
+	template <class T, size_t N> struct ObjectPool final
+		: public Disposable
+		, public Newable
+		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

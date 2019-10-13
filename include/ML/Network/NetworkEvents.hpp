@@ -1,7 +1,7 @@
 #ifndef _ML_NETWORK_EVENTS_HPP_
 #define _ML_NETWORK_EVENTS_HPP_
 
-#include <ML/Core/I_Event.hpp>
+#include <ML/Core/Event.hpp>
 
 namespace ml
 {

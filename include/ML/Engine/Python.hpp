@@ -30,9 +30,9 @@
 
 namespace ml
 {
-	class ML_ENGINE_API Py final : public I_Singleton<Py>, I_Disposable
+	class ML_ENGINE_API Py final : public Singleton<Py>, Disposable
 	{
-		friend struct I_Singleton<Py>;
+		friend struct Singleton<Py>;
 		bool	m_init { false };
 		String	m_name {};
 		String	m_home {};

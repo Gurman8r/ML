@@ -3,8 +3,8 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Handle.hpp>
+#include <ML/Core/Newable.hpp>
+#include <ML/Core/Handle.hpp>
 #include <ML/Core/Matrix.hpp>
 
 namespace ml
@@ -12,8 +12,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API RenderBuffer final
-		: public I_Newable
-		, public I_Handle<uint32_t>
+		: public Newable
+		, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

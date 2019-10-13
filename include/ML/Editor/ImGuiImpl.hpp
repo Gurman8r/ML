@@ -10,7 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API ImGuiImpl final : public I_Singleton<ImGuiImpl>
+	struct ML_EDITOR_API ImGuiImpl final : public Singleton<ImGuiImpl>
 	{
 		bool Startup(C_String version, Window * window, bool install_callbacks);
 		bool Shutdown();
@@ -21,7 +21,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct I_Singleton<ImGuiImpl>;
+		friend struct Singleton<ImGuiImpl>;
 
 		ImGuiImpl();
 		~ImGuiImpl();

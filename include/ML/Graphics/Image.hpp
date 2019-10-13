@@ -3,19 +3,18 @@
 
 #include <ML/Graphics/Color.hpp>
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/I_Readable.hpp>
-#include <ML/Core/I_Disposable.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/Newable.hpp>
 #include <ML/Core/Rect.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Image final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
+		: public Newable
+		, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -42,7 +41,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		bool loadFromFile(const String & filename, bool flip_v);
 		bool loadFromFile(const String & filename, bool flip_v, uint32_t req_comp);
 
@@ -68,7 +67,7 @@ namespace ml
 		inline auto bounds()	const -> UintRect			{ return UintRect { { 0, 0 }, size() }; }
 		inline auto capacity()	const -> uint32_t			{ return width() * height() * channels(); }
 		inline auto channels()	const -> const uint32_t	&	{ return m_channels; }
-		inline auto data()		const -> const byte_t *	{ return m_pixels.data(); }
+		inline auto data()		const -> const byte_t *		{ return m_pixels.data(); }
 		inline auto empty()		const -> bool				{ return m_pixels.empty(); }
 		inline auto height()	const -> const uint32_t &	{ return m_size[1]; }
 		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }

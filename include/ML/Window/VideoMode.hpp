@@ -3,13 +3,13 @@
 
 #include <ML/Window/Export.hpp>
 #include <ML/Core/Matrix.hpp>
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/NonNewable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct VideoMode final : public I_NonNewable
+	struct VideoMode final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

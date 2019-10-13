@@ -22,12 +22,6 @@
     <Filter Include="Resource Files\ImGui\Addons\ImGuiColorTextEdit">
       <UniqueIdentifier>{e8d5ddd5-10f2-4ad2-9f57-59157fe16f1c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Utility">
-      <UniqueIdentifier>{917c161a-16fc-46ba-91d3-eca2efb4733b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utility">
-      <UniqueIdentifier>{ef73e409-5b19-40f5-87a3-8a1d765735fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Widgets">
       <UniqueIdentifier>{b2f239fb-96e8-428d-a993-c86203592354}</UniqueIdentifier>
     </Filter>
@@ -42,6 +36,12 @@
     </Filter>
     <Filter Include="Source Files\Editor">
       <UniqueIdentifier>{26a5df71-1c52-4796-bf5f-8e3c4e481a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{917c161a-16fc-46ba-91d3-eca2efb4733b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{ef73e409-5b19-40f5-87a3-8a1d765735fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

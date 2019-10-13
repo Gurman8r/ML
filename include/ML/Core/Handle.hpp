@@ -1,5 +1,5 @@
-#ifndef _ML_I_HANDLE_HPP_
-#define _ML_I_HANDLE_HPP_
+#ifndef _ML_HANDLE_HPP_
+#define _ML_HANDLE_HPP_
 
 #include <ML/Core/StandardLib.hpp>
 
@@ -8,12 +8,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Handle is a representation of a hardware/device object.
-	template <class T> struct I_Handle
+	template <class T> struct Handle
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename T;
-		using self_type			= typename I_Handle<value_type>;
+		using self_type			= typename Handle<value_type>;
 		using pointer			= typename value_type * ;
 		using reference			= typename value_type & ;
 		using const_pointer		= typename const value_type * ;
@@ -21,12 +21,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		I_Handle(const_reference value)
+		Handle(const_reference value)
 			: m_handle(value)
 		{
 		}
 
-		virtual ~I_Handle() {}
+		virtual ~Handle() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -54,4 +54,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_I_HANDLE_HPP_
+#endif // !_ML_HANDLE_HPP_

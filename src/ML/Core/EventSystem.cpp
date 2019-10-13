@@ -5,7 +5,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	I_EventListener * EventSystem::addListener(const int32_t type, I_EventListener * listener)
+	EventListener * EventSystem::addListener(const int32_t type, EventListener * listener)
 	{
 		return ((listener)
 			? m_listeners.insert({ type, listener })->second
@@ -31,7 +31,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EventSystem::removeListener(const int32_t & type, I_EventListener * listener)
+	bool EventSystem::removeListener(const int32_t & type, EventListener * listener)
 	{
 		pair_type found { m_listeners.equal_range(type) };
 
@@ -47,7 +47,7 @@ namespace ml
 		return false;
 	}
 	
-	bool EventSystem::removeListenerFromAllEvents(I_EventListener * listener)
+	bool EventSystem::removeListenerFromAllEvents(EventListener * listener)
 	{
 		bool allTheWayThrough = false;
 		while (!allTheWayThrough)
@@ -58,7 +58,6 @@ namespace ml
 			{
 				if (it->second == listener)
 				{
-					// didn't make it the whole way through.
 					// break to prevent using invalidated iterator.
 					m_listeners.erase(it);
 					allTheWayThrough = false; 

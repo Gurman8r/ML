@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API Packet final : public I_NonNewable
+	struct ML_NETWORK_API Packet final : public NonNewable
 	{
 		Host		host;
 		GUID		guid;

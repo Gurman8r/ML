@@ -1,7 +1,7 @@
 #ifndef _ML_METADATA_HPP_
 #define _ML_METADATA_HPP_
 
-#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/Disposable.hpp>
 #include <ML/Engine/MetadataValue.hpp>
 
 namespace ml
@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// A collection of MetadataValues
-	struct Metadata final : public I_Newable, public I_Disposable
+	struct Metadata final : public Newable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

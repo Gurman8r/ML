@@ -1,5 +1,5 @@
-#ifndef _ML_I_EVENT_LISTENER_HPP_
-#define _ML_I_EVENT_LISTENER_HPP_
+#ifndef _ML_EVENT_LISTENER_HPP_
+#define _ML_EVENT_LISTENER_HPP_
 
 #include <ML/Core/Export.hpp>
 
@@ -11,9 +11,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API I_EventListener
+	struct ML_CORE_API EventListener
 	{
-		virtual ~I_EventListener() {}
+		virtual ~EventListener();
 
 		virtual void onEvent(const Event & value) = 0;
 	};
@@ -21,4 +21,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_I_EVENT_LISTENER_HPP_
+#endif // !_ML_EVENT_LISTENER_HPP_

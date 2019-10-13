@@ -2,7 +2,7 @@
 #define _ML_MEMORY_MANAGER_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/I_Singleton.hpp>
+#include <ML/Core/Singleton.hpp>
 
 #define ML_Memory		::ml::MemoryManager::getInstance()
 #define ML_new(size)	ML_Memory.allocate(size)
@@ -12,11 +12,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_CORE_API MemoryManager final : public I_Singleton<MemoryManager>
+	struct ML_CORE_API MemoryManager final : public Singleton<MemoryManager>
 	{	
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		struct Record final : public I_NonCopyable
+		struct Record final : public NonCopyable
 		{
 			size_t	index;	// Index
 			void *	ptr;	// Value
@@ -42,7 +42,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend I_Singleton<MemoryManager>;
+		friend Singleton<MemoryManager>;
 
 		MemoryManager();
 		~MemoryManager();

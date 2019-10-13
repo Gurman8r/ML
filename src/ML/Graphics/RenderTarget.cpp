@@ -5,25 +5,25 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const I_Drawable * value)
+	RenderTarget & RenderTarget::draw(const Drawable * value)
 	{
 		return (value) ? this->draw(*value) : (*this);
 	}
 
-	RenderTarget & RenderTarget::draw(const I_Drawable * value, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const Drawable * value, const RenderBatch & batch)
 	{
 		return (value) ? this->draw(*value, batch) : (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const I_Drawable & value)
+	RenderTarget & RenderTarget::draw(const Drawable & value)
 	{
 		RenderBatch batch;
 		return this->draw(value, batch);
 	}
 
-	RenderTarget & RenderTarget::draw(const I_Drawable & value, const RenderBatch & batch)
+	RenderTarget & RenderTarget::draw(const Drawable & value, const RenderBatch & batch)
 	{
 		value.draw((*this), batch);
 		return (*this);

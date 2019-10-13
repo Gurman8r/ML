@@ -1,5 +1,5 @@
-#ifndef _ML_I_NEWABLE_HPP_
-#define _ML_I_NEWABLE_HPP_
+#ifndef _ML_NEWABLE_HPP_
+#define _ML_NEWABLE_HPP_
 
 #include <ML/Core/MemoryManager.hpp>
 
@@ -9,14 +9,19 @@ namespace ml
 
 	// Base class for anything which might be dynamically allocated.
 	// Provides memory leak detection and simple serialization.
-	// Use in conjunction with I_NonNewable to help ensure memory safety.
-	struct ML_CORE_API I_Newable
+	// Use in conjunction with NonNewable to help ensure memory safety.
+	struct ML_CORE_API Newable
 	{
-		virtual ~I_Newable() {}
+		virtual ~Newable() {}
 
 		inline const std::type_info & get_type_info() const
 		{
 			return typeid(*this);
+		}
+
+		inline friend ML_SERIALIZE(std::ostream & out, const Newable & value)
+		{
+			return out << value.get_type_info().name();
 		}
 
 		inline void * operator new		(size_t size) { return ML_new(size); }
@@ -26,13 +31,6 @@ namespace ml
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
-
-	inline ML_SERIALIZE(std::ostream & out, const I_Newable & value)
-	{
-		return out << value.get_type_info().name();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_I_NEWABLE_HPP_
+#endif // !_ML_NEWABLE_HPP_

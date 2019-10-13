@@ -1,7 +1,7 @@
 #ifndef _ML_SPRITE_HPP_
 #define _ML_SPRITE_HPP_
 
-#include <ML/Graphics/I_Drawable.hpp>
+#include <ML/Graphics/Drawable.hpp>
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Graphics/RectTransform.hpp>
 
@@ -10,9 +10,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Sprite final
-		: public I_Newable
-		, public I_Drawable
-		, public I_Readable
+		: public Newable
+		, public Drawable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -23,7 +22,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		bool loadFromMemory(const Texture * value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

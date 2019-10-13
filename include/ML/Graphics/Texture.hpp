@@ -2,17 +2,16 @@
 #define _ML_TEXTURE_HPP_
 
 #include <ML/Graphics/Image.hpp>
-#include <ML/Core/I_Handle.hpp>
+#include <ML/Core/Handle.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Texture final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
-		, public I_Handle<uint32_t>
+		: public Newable
+		, public Disposable
+		, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -33,7 +32,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
-		bool loadFromFile(const String & filename) override;
+		bool loadFromFile(const String & filename);
 		bool loadFromImage(const Image & value);
 		bool loadFromFaces(const Array<const Image *, 6> & faces);
 

@@ -2,7 +2,7 @@
 #define _ML_DURATION_HPP_
 
 #include <ML/Core/Ratio.hpp>
-#include <ML/Core/I_NonNewable.hpp>
+#include <ML/Core/NonNewable.hpp>
 
 namespace ml
 {
@@ -19,7 +19,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Unit of time stored in nanoseconds
-	struct Duration final : public I_NonNewable
+	struct Duration final : public NonNewable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

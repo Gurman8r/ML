@@ -1,7 +1,7 @@
 #ifndef _ML_STATE_MACHINE_HPP_
 #define _ML_STATE_MACHINE_HPP_
 
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 
 namespace ml
 {
@@ -10,8 +10,8 @@ namespace ml
 	template <
 		class Key, class ... Args
 	> struct StateMachine final
-		: public I_Newable
-		, public I_NonCopyable
+		: public Newable
+		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

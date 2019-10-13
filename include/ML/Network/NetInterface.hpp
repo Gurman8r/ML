@@ -1,8 +1,8 @@
 #ifndef _ML_NETWORK_INTERFACE_HPP_
 #define _ML_NETWORK_INTERFACE_HPP_
 
-#include <ML/Core/I_EventListener.hpp>
-#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/EventListener.hpp>
+#include <ML/Core/Disposable.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Network/GUID.hpp>
 #include <ML/Network/Host.hpp>
@@ -32,9 +32,9 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetInterface
-		: public I_EventListener
-		, public I_Disposable
-		, public I_NonCopyable
+		: public EventListener
+		, public Disposable
+		, public NonCopyable
 	{
 	public:
 		NetInterface();

@@ -14,7 +14,7 @@ namespace ml
 	template <class T> struct typeof<T> final
 	{
 		constexpr typeof() noexcept = default;
-		static constexpr auto name { nameof<>::filter(nameof<T>::value) };
+		static constexpr auto name { nameof<>::filter(nameof_v<T>) };
 		static constexpr auto hash { name.hash() };
 	};
 

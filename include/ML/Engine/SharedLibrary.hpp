@@ -2,19 +2,18 @@
 #define _ML_SHARED_LIBRARY_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/I_Newable.hpp>
-#include <ML/Core/I_Readable.hpp>
-#include <ML/Core/I_Disposable.hpp>
+#include <ML/Core/Newable.hpp>
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API SharedLibrary final
-		: public I_Newable
-		, public I_Disposable
-		, public I_Readable
-		, public I_NonCopyable
+		: public Newable
+		, public Disposable
+		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -31,7 +30,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool	dispose() override;
-		bool	loadFromFile(const String & filename) override;
+		bool	loadFromFile(const String & filename);
 		void *	loadFunction(const String & name);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

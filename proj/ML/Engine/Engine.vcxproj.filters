@@ -164,5 +164,8 @@
     <ClCompile Include="..\..\..\src\ML\Engine\PluginManager.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ML\Engine\Python.cpp">
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,20 +6,6 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-# ifdef ML_SYSTEM_WINDOWS
-#	define MS_WINDOWS
-#	if ML_DEBUG
-#		pragma comment(lib, "python39_d.lib")
-#	else
-#		pragma comment(lib, "python39.lib")
-#	endif
-# endif
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 #include <python/Python.h>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>

@@ -10,9 +10,6 @@
     <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ML\Launcher\Python_API.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\shaders\basic.shader">
@@ -142,9 +139,6 @@
     </Filter>
     <Filter Include="Resource Files\assets\textures\bg">
       <UniqueIdentifier>{53ec33e9-d7e1-4841-a236-b1b1332f8b4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{38481286-8f26-4c5c-b4c7-be1cf12c597d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

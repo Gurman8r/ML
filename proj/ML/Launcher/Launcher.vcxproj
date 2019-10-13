@@ -183,7 +183,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ML\Launcher\Main.cpp" />
-    <ClCompile Include="..\..\..\src\ML\Launcher\Python_API.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\Stub.cpp" />
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>

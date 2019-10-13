@@ -5,15 +5,11 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/FileSystem.hpp>
+#include <lua/lua.hpp>
+
+#define ML_Lua ::ml::Lua::getInstance()
 
 /* * * * * * * * * * * * * * * * * * * * */
-
-# ifdef ML_SYSTEM_WINDOWS
-#	pragma comment(lib, "lua.lib")
-# endif
-
-#include <lua/lua.hpp>
-#define ML_Lua ::ml::Lua::getInstance()
 
 namespace ml
 {

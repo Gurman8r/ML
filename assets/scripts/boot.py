@@ -2,7 +2,7 @@
 
 import MEMELIB as ml
 
-# Debug Message
+# Debug Mode
 if (ml.config.is_debug()): 
     ml.io.printf("{0} / {1} | {2} / {3} | {4} / {5} \n", [
         ml.config.project_name(),

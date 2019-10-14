@@ -24,7 +24,7 @@ filter "system:Windows"
 	inc_dir = "%{sln_dir}include\\%{wks.name}\\%{prj.name}\\"
 	src_dir = "%{sln_dir}src\\%{wks.name}\\%{prj.name}\\"
 	prj_dir = "%{sln_dir}proj\\%{wks.name}\\"
-	prj_ext = "_%{cfg.buildcfg}_%{cfg.architecture}"
+	prj_ext = "%{cfg.buildcfg}_%{cfg.architecture}"
 	ext_dir = "%{sln_dir}thirdparty\\"
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -456,6 +456,7 @@ project "Launcher"
 	cppdialect 		("C++17")
 	staticruntime 	("Off")
 	systemversion 	("latest")
+	debugdir 		(bin_dir)
 
 	-- Additional Include Directories
 	includedirs { "%{sln_dir}include", "%{ext_dir}include" }
@@ -471,9 +472,6 @@ project "Launcher"
 	
 	-- Project Filters
 	vpaths { ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
-	
-	-- Working Directory
-	debugdir ("%{bin_dir}")
 
 	-- Additional Library Directories
 	libdirs
@@ -518,13 +516,99 @@ project "Launcher"
 			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.architecture}\\assimp.dll %{bin_dir}",
 			"if %{cfg.buildcfg} == Debug ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.architecture}\\python39_d.dll %{bin_dir} )",
 			"if %{cfg.buildcfg} == Release ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.architecture}\\python39.dll %{bin_dir} )"
-		}		
+		}
 
 	-- Debug
 	filter "configurations:Debug"
 		symbols "On"
 
 	-- Release
+	filter "configurations:Release"
+		optimize "On"
+		
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
+project "Noobs"
+	targetname 		("%{prj.name}_%{prj_ext}")
+	location		("%{sln_dir}plugins/%{prj.name}")
+	kind			("SharedLib")
+	language		("C++")
+	targetdir		(lib_dir)
+	objdir			(obj_dir)
+	cppdialect 		("C++17")
+	staticruntime 	("Off")
+	systemversion 	("latest")
+	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include", "%{prj.location}" }
+	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
+	dependson 		{ "Launcher" }
+	files 			{ "%{prj.location}/**.hpp", "%{prj.location}/**.cpp" }
+	vpaths 			{ ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
+	libdirs
+	{
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+	}
+	links
+	{
+		"%{wks.name}_Audio_%{prj_ext}",
+		"%{wks.name}_Core_%{prj_ext}",
+		"%{wks.name}_Editor_%{prj_ext}",
+		"%{wks.name}_Engine_%{prj_ext}",
+		"%{wks.name}_Graphics_%{prj_ext}",
+		"%{wks.name}_Network_%{prj_ext}",
+		"%{wks.name}_Window_%{prj_ext}"
+	}
+	filter "system:Windows"
+		postbuildcommands {	"xcopy /y %{lib_dir}%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
+	filter "configurations:Debug"
+		symbols "On"
+	filter "configurations:Release"
+		optimize "On"
+		
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
+project "CommandSuite"
+	targetname 		("%{prj.name}_%{prj_ext}")
+	location		("%{sln_dir}plugins/%{prj.name}")
+	kind			("SharedLib")
+	language		("C++")
+	targetdir		(lib_dir)
+	objdir			(obj_dir)
+	cppdialect 		("C++17")
+	staticruntime 	("Off")
+	systemversion 	("latest")
+	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include", "%{prj.location}" }
+	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
+	dependson 		{ "Launcher" }
+	files 			{ "%{prj.location}/**.hpp", "%{prj.location}/**.cpp" }
+	vpaths 			{ ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
+	libdirs
+	{
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+	}
+	links
+	{
+		"%{wks.name}_Audio_%{prj_ext}",
+		"%{wks.name}_Core_%{prj_ext}",
+		"%{wks.name}_Editor_%{prj_ext}",
+		"%{wks.name}_Engine_%{prj_ext}",
+		"%{wks.name}_Graphics_%{prj_ext}",
+		"%{wks.name}_Network_%{prj_ext}",
+		"%{wks.name}_Window_%{prj_ext}"
+	}
+	filter "system:Windows"
+		postbuildcommands {	"xcopy /y %{lib_dir}%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
+	filter "configurations:Debug"
+		symbols "On"
 	filter "configurations:Release"
 		optimize "On"
 		

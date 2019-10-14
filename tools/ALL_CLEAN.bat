@@ -3,9 +3,9 @@ rem Clean_All.bat
 cls
 
 set CurDir=%cd%\
-set BinDir=%CurDir%..\..\bin
-set LibDir=%CurDir%..\..\lib
-set IntDir=%CurDir%..\..\obj
+set BinDir=%CurDir%\..\bin
+set LibDir=%CurDir%\..\lib
+set IntDir=%CurDir%\..\obj
 
 if exist "%BinDir%" (
 	rd /s /q %BinDir%

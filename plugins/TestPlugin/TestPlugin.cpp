@@ -19,7 +19,7 @@ namespace ml
 	TestPlugin::TestPlugin()
 		: Plugin {}
 	{
-		ML_EventSystem.addListener(StartEvent::ID, this);
+		ML_EventSystem.addListener<StartEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

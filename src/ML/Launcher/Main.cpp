@@ -9,15 +9,18 @@ ml::int32_t main()
 {
 	using namespace ml;
 
-	// Initialize Instances
-	ML_EventSystem; ML_Engine; ML_Editor; ML_Plugins;
+	// Initialize Systems
+	ML_EventSystem;
+	ML_Engine;
+	ML_Editor;
+	ML_Plugins;
 
-	// Startup
+	// Startup Sequence
 	ML_EventSystem.fireEvent<EnterEvent>();
 	ML_EventSystem.fireEvent<LoadEvent>();
 	ML_EventSystem.fireEvent<StartEvent>();
 
-	// Loop
+	// Main Loop
 	while (ML_Engine.window.is_open())
 	{
 		ML_EventSystem.fireEvent<BeginLoopEvent>();
@@ -31,10 +34,9 @@ ml::int32_t main()
 		ML_EventSystem.fireEvent<EndLoopEvent>();
 	}
 
-	// Shutdown
+	// Shutdown Sequence
 	ML_EventSystem.fireEvent<UnloadEvent>();
 	ML_EventSystem.fireEvent<ExitEvent>();
-	ML_Plugins.dispose();
 
 	// Goodbye!
 	return EXIT_SUCCESS;

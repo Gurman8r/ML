@@ -22,8 +22,8 @@ namespace ml
 	CommandSuite::CommandSuite()
 		: Plugin {}
 	{
-		ML_EventSystem.addListener(EnterEvent::ID, this);
-		ML_EventSystem.addListener(ExitEvent::ID,	this);
+		ML_EventSystem.addListener<LoadEvent>(this);
+		ML_EventSystem.addListener<UnloadEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -32,8 +32,8 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID: 
-			if (auto ev = value.as<EnterEvent>()) 
+		case LoadEvent::ID: 
+			if (auto ev = value.as<LoadEvent>()) 
 			{ 
 				initialize_commands();
 
@@ -44,8 +44,8 @@ namespace ml
 			}
 			break;
 
-		case ExitEvent::ID: 
-			if (auto ev = value.as<ExitEvent>()) 
+		case UnloadEvent::ID: 
+			if (auto ev = value.as<UnloadEvent>()) 
 			{ 
 				for (auto *& cmd : m_commands)
 				{

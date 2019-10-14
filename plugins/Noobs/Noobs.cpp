@@ -37,7 +37,7 @@ namespace ml
 		ML_EventSystem.addListener<UpdateEvent>(this);
 		ML_EventSystem.addListener<DrawEvent>(this);
 		ML_EventSystem.addListener<GuiEvent>(this);
-		ML_EventSystem.addListener<ExitEvent>(this);
+		ML_EventSystem.addListener<UnloadEvent>(this);
 		ML_EventSystem.addListener<KeyEvent>(this);
 		ML_EventSystem.addListener<MainMenuBarEvent>(this);
 		ML_EventSystem.addListener<DockspaceEvent>(this);
@@ -53,7 +53,7 @@ namespace ml
 		case UpdateEvent::ID: return onUpdate(*value.as<UpdateEvent>());
 		case DrawEvent::ID	: return onDraw(*value.as<DrawEvent>());
 		case GuiEvent::ID	: return onGui(*value.as<GuiEvent>());
-		case ExitEvent::ID	: return onExit(*value.as<ExitEvent>());
+		case UnloadEvent::ID: return onUnload(*value.as<UnloadEvent>());
 
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>())
@@ -263,7 +263,7 @@ namespace ml
 		draw_editor("Editor##Noobs##DemoEditor");
 	}
 
-	void Noobs::onExit(const ExitEvent & ev)
+	void Noobs::onUnload(const UnloadEvent & ev)
 	{
 		dispose_files();
 	}

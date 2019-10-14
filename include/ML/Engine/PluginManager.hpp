@@ -19,7 +19,7 @@ namespace ml
 
 		explicit PluginManager();
 		
-		~PluginManager() { dispose(); }
+		~PluginManager() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

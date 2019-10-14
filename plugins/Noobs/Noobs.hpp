@@ -40,7 +40,7 @@ namespace ml
 		void onUpdate	(const UpdateEvent	& ev);
 		void onDraw		(const DrawEvent	& ev);
 		void onGui		(const GuiEvent		& ev);
-		void onExit		(const ExitEvent	& ev);
+		void onUnload	(const UnloadEvent	& ev);
 
 		// PIPELINE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

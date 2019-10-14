@@ -1,10 +1,10 @@
 @echo off
-rem Build Release x64
+rem Build Debug x64
 cls
 call Build_64.bat ^
- "%cd%\..\..\ML.sln" ^
- "/p:Configuration=Release" ^
+ "%cd%\..\ML.sln" ^
+ "/p:Configuration=Debug" ^
  "/p:PlatformTarget=x64" ^
  "/p:PlatformToolset=v142" ^
- "/p:Subsystem=Windows"
+ "/p:Subsystem=Console"
 exit /B %ERRORLEVEL%

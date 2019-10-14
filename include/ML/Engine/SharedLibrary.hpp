@@ -40,8 +40,8 @@ namespace ml
 		> inline Out callFunction(const String & name, Args && ... args)
 		{
 			using Fun = Out(*)(Args...);
-			Fun fun;
-			return ((fun = reinterpret_cast<Fun>(loadFunction(name)))
+			Fun fun{ reinterpret_cast<Fun>(loadFunction(name)) };
+			return (fun
 				? static_cast<Out>(fun(std::forward<Args>(args)...))
 				: static_cast<Out>(nullptr)
 			);

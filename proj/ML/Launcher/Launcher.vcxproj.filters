@@ -263,5 +263,12 @@
     <Image Include="..\..\..\assets\skyboxes\sunset\sunset_top.png">
       <Filter>Resource Files\assets\skyboxes\sunset</Filter>
     </Image>
+    <Image Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Launcher.rc" />
   </ItemGroup>
 </Project>

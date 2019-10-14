@@ -272,6 +272,13 @@ if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Con
     <Image Include="..\..\..\assets\textures\mars\mars_nm.png" />
     <Image Include="..\..\..\assets\textures\moon\moon_dm.png" />
     <Image Include="..\..\..\assets\textures\moon\moon_nm.png" />
+    <Image Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Launcher.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -167,7 +167,6 @@ namespace ml
 			link_item("GLM", "https://github.com/g-truc/glm");
 			link_item("ImGui", "https://github.com/ocornut/imgui");
 			link_item("ImGuiColorTextEdit", "https://github.com/BalazsJako/ImGuiColorTextEdit");
-			link_item("ImGuizmo", "https://github.com/CedricGuillemet/ImGuizmo");
 			link_item("INIReader", "https://github.com/benhoyt/inih");
 			link_item("Lua", "https://github.com/lua/lua");
 			link_item("ogg", "https://github.com/xiph/ogg");
@@ -175,7 +174,6 @@ namespace ml
 			link_item("pdcurses", "https://github.com/wmcbrine/PDCurses");
 			link_item("pybind11", "https://github.com/pybind/pybind11");
 			link_item("RakNet", "http://www.jenkinssoftware.com/");
-			link_item("rapidjson", "https://github.com/Tencent/rapidjson");
 			link_item("stb", "https://github.com/nothings/stb");
 			link_item("vorbis", "https://github.com/xiph/vorbis");
 		}

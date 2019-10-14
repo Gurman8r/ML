@@ -189,7 +189,7 @@
 //	Export / Import
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if not defined(ML_STATIC)
+# ifndef ML_STATIC
 #	if defined(ML_SYSTEM_WINDOWS)
 #		define ML_API_EXPORT __declspec(dllexport)
 #		define ML_API_IMPORT __declspec(dllimport)

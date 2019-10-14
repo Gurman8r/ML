@@ -19,7 +19,7 @@
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Transform.hpp>
-#include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
+#include <ImGuiColorTextEdit/TextEditor.h>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

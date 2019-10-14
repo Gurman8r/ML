@@ -7,7 +7,7 @@
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Engine/Ref.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <imgui/addons/ImGuiColorTextEdit/TextEditor.h>
+#include <ImGuiColorTextEdit/TextEditor.h>
 
 extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
 

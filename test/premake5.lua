@@ -1,25 +1,23 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 workspace "ML"
-	architecture "x64"
-	configurations
-	{
-		"Debug", "Release"
-	}
+	configurations 	{ "Debug", "Release" }
+	architecture 	("x86")
+	startproject 	("Launcher")
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 sln_dir = "%{wks.location}/"
-bin_dir = (sln_dir .. "bin/%{cfg.buildcfg}/%{cfg.architecture}")
-lib_dir = (sln_dir .. "lib/%{cfg.buildcfg}/%{cfg.architecture}")
-obj_dir = (sln_dir .. "obj/%{cfg.buildcfg}/%{cfg.architecture}")
+bin_dir = ("%{sln_dir}bin/%{cfg.buildcfg}/%{cfg.architecture}")
+lib_dir = ("%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}")
+obj_dir = ("%{sln_dir}obj/%{cfg.buildcfg}/%{cfg.architecture}")
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 project "Core"
 	-- General
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
-	location		(sln_dir .. "proj/%{wks.name}/%{prj.name}")
+	location		("%{sln_dir}proj/%{wks.name}/%{prj.name}")
 	kind			("SharedLib")
 	language		("C++")
 	targetdir		(lib_dir)
@@ -37,15 +35,15 @@ project "Core"
 	-- Additional Include Directories
 	includedirs
 	{
-		(sln_dir .. "include"),
-		(sln_dir .. "thirdparty/include")
+		("%{sln_dir}include"),
+		("%{sln_dir}thirdparty/include")
 	}
 
-	-- Headers / Source Files
+	-- Source Files
 	files
 	{
-		(sln_dir .. "include/%{wks.name}/%{prj.name}/**.hpp"),
-		(sln_dir .. "src/%{wks.name}/%{prj.name}/**.cpp")
+		("%{sln_dir}include/%{wks.name}/%{prj.name}/**.hpp"),
+		("%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp")
 	}
 	
 	-- Filters
@@ -64,10 +62,10 @@ project "Core"
 	
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-project "Window"
+project "Audio"
 	-- General
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
-	location		(sln_dir .. "proj/%{wks.name}/%{prj.name}")
+	location		("%{sln_dir}proj/%{wks.name}/%{prj.name}")
 	kind			("SharedLib")
 	language		("C++")
 	targetdir		(lib_dir)
@@ -79,113 +77,50 @@ project "Window"
 	-- Preprocessor Definitions
 	defines
 	{
-		"ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS"
+		"ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS"
 	}
 
 	-- Additional Include Directories
 	includedirs
 	{
-		(sln_dir .. "include"),
-		(sln_dir .. "thirdparty/include")
+		("%{sln_dir}include"),
+		("%{sln_dir}thirdparty/include")
 	}
 
-	-- Headers / Source Files
+	-- Source Files
 	files
 	{
-		(sln_dir .. "include/%{wks.name}/%{prj.name}/**.hpp"),
-		(sln_dir .. "src/%{wks.name}/%{prj.name}/**.cpp")
+		("%{sln_dir}include/%{wks.name}/%{prj.name}/**.hpp"),
+		("%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp")
 	}
 
 	-- Additional Library Directories
 	libdirs
 	{
-		(sln_dir .. "lib/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-		(sln_dir .. "thirdparty/lib/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
 	}
+	
+	-- Project Dependencies
+	dependson { "Core" }
 
-	-- Links
+	-- Linker Input
 	links
 	{
-		"ML_Core_%{cfg.buildcfg}_%{cfg.architecture}",
-		"glfw"
+		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.architecture}",
+		"flac",
+		"ogg",
+		"OpenAL32",
+		"vorbis",
+		"vorbisenc",
+		"vorbisfile"
 	}
 	
-	-- Filters
-	vpaths {
-		["Header Files"] = { "**.h", "**.hpp" },
-		["Source Files"] = { "**.c", "**.cpp"}
-	}
-
-	-- Debug
-	filter "configurations:Debug"
-		symbols "On"
-
-	-- Release
-	filter "configurations:Release"
-		optimize "On"
-	
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
-project "Graphics"
-	-- General
-	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
-	location		(sln_dir .. "proj/%{wks.name}/%{prj.name}")
-	kind			("SharedLib")
-	language		("C++")
-	targetdir		(lib_dir)
-	objdir			(obj_dir)
-	cppdialect 		("C++17")
-	staticruntime 	("On")
-	systemversion 	("latest")
-
-	-- Preprocessor Definitions
-	defines
-	{
-		"ML_GRAPHICS_EXPORTS", "_CRT_SECURE_NO_WARNINGS"
-	}
-
-	-- Additional Include Directories
-	includedirs
-	{
-		(sln_dir .. "include"),
-		(sln_dir .. "thirdparty/include")
-	}
-
-	-- Headers / Source Files
-	files
-	{
-		(sln_dir .. "include/%{wks.name}/%{prj.name}/**.hpp"),
-		(sln_dir .. "src/%{wks.name}/%{prj.name}/**.cpp")
-	}
-
-	-- Additional Library Directories
-	libdirs
-	{
-		(sln_dir .. "lib/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-		(sln_dir .. "thirdparty/lib/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-	}
-
-	-- Links
-	links
-	{
-		"ML_Core_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Window_%{cfg.buildcfg}_%{cfg.architecture}",
-		"glew32s",
-		"opengl32",
-		"assimp",
-		"IrrXML",
-		"zlibstatic"
-	}
-	
-	-- Filters
+	-- Project Filters
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
 		["Source Files"] = { "**.c", "**.cpp"}
@@ -204,7 +139,7 @@ project "Graphics"
 project "Network"
 	-- General
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
-	location		(sln_dir .. "proj/%{wks.name}/%{prj.name}")
+	location		("%{sln_dir}proj/%{wks.name}/%{prj.name}")
 	kind			("SharedLib")
 	language		("C++")
 	targetdir		(lib_dir)
@@ -222,37 +157,40 @@ project "Network"
 	-- Additional Include Directories
 	includedirs
 	{
-		(sln_dir .. "include"),
-		(sln_dir .. "thirdparty/include")
+		("%{sln_dir}include"),
+		("%{sln_dir}thirdparty/include")
 	}
 
-	-- Headers / Source Files
+	-- Source Files
 	files
 	{
-		(sln_dir .. "include/%{wks.name}/%{prj.name}/**.hpp"),
-		(sln_dir .. "src/%{wks.name}/%{prj.name}/**.cpp")
+		("%{sln_dir}include/%{wks.name}/%{prj.name}/**.hpp"),
+		("%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp")
 	}
 
 	-- Additional Library Directories
 	libdirs
 	{
-		(sln_dir .. "lib/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-		(sln_dir .. "thirdparty/lib/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
 	}
+	
+	-- Project Dependencies
+	dependson { "Core" }
 
-	-- Links
+	-- Linker Input
 	links
 	{
-		"ML_Core_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.architecture}",
 		"RakNet",
 		"ws2_32"
 	}
 	
-	-- Filters
+	-- Project Filters
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
 		["Source Files"] = { "**.c", "**.cpp"}
@@ -268,10 +206,10 @@ project "Network"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-project "Audio"
+project "Window"
 	-- General
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
-	location		(sln_dir .. "proj/%{wks.name}/%{prj.name}")
+	location		("%{sln_dir}proj/%{wks.name}/%{prj.name}")
 	kind			("SharedLib")
 	language		("C++")
 	targetdir		(lib_dir)
@@ -283,47 +221,119 @@ project "Audio"
 	-- Preprocessor Definitions
 	defines
 	{
-		"ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS"
+		"ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS"
 	}
 
 	-- Additional Include Directories
 	includedirs
 	{
-		(sln_dir .. "include"),
-		(sln_dir .. "thirdparty/include")
+		("%{sln_dir}include"),
+		("%{sln_dir}thirdparty/include")
 	}
 
-	-- Headers / Source Files
+	-- Source Files
 	files
 	{
-		(sln_dir .. "include/%{wks.name}/%{prj.name}/**.hpp"),
-		(sln_dir .. "src/%{wks.name}/%{prj.name}/**.cpp")
+		("%{sln_dir}include/%{wks.name}/%{prj.name}/**.hpp"),
+		("%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp")
 	}
 
 	-- Additional Library Directories
 	libdirs
 	{
-		(sln_dir .. "lib/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-		(sln_dir .. "thirdparty/lib/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-	}
-
-	-- Links
-	links
-	{
-		"ML_Core_%{cfg.buildcfg}_%{cfg.architecture}",
-		"flac",
-		"ogg",
-		"OpenAL32",
-		"vorbis",
-		"vorbisenc",
-		"vorbisfile"
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
 	}
 	
-	-- Filters
+	-- Project Dependencies
+	dependson { "Core" }
+
+	-- Linker Input
+	links
+	{
+		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.architecture}",
+		"glfw3"
+	}
+	
+	-- Project Filters
+	vpaths {
+		["Header Files"] = { "**.h", "**.hpp" },
+		["Source Files"] = { "**.c", "**.cpp"}
+	}
+
+	-- Debug
+	filter "configurations:Debug"
+		symbols "On"
+
+	-- Release
+	filter "configurations:Release"
+		optimize "On"
+	
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
+project "Graphics"
+	-- General
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
+	location		("%{sln_dir}proj/%{wks.name}/%{prj.name}")
+	kind			("SharedLib")
+	language		("C++")
+	targetdir		(lib_dir)
+	objdir			(obj_dir)
+	cppdialect 		("C++17")
+	staticruntime 	("On")
+	systemversion 	("latest")
+
+	-- Preprocessor Definitions
+	defines
+	{
+		"ML_GRAPHICS_EXPORTS", "_CRT_SECURE_NO_WARNINGS"
+	}
+
+	-- Additional Include Directories
+	includedirs
+	{
+		("%{sln_dir}include"),
+		("%{sln_dir}thirdparty/include")
+	}
+
+	-- Source Files
+	files
+	{
+		("%{sln_dir}include/%{wks.name}/%{prj.name}/**.hpp"),
+		("%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp")
+	}
+
+	-- Additional Library Directories
+	libdirs
+	{
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+	}
+	
+	-- Project Dependencies
+	dependson { "Core", "Window" }
+
+	-- Linker Input
+	links
+	{
+		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.architecture}",
+		"glew32s",
+		"opengl32",
+		"assimp",
+		"IrrXML",
+		"zlibstatic"
+	}
+	
+	-- Project Filters
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
 		["Source Files"] = { "**.c", "**.cpp"}
@@ -342,7 +352,7 @@ project "Audio"
 project "Engine"
 	-- General
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
-	location		(sln_dir .. "proj/%{wks.name}/%{prj.name}")
+	location		("%{sln_dir}proj/%{wks.name}/%{prj.name}")
 	kind			("SharedLib")
 	language		("C++")
 	targetdir		(lib_dir)
@@ -360,41 +370,44 @@ project "Engine"
 	-- Additional Include Directories
 	includedirs
 	{
-		(sln_dir .. "include"),
-		(sln_dir .. "thirdparty/include")
+		("%{sln_dir}include"),
+		("%{sln_dir}thirdparty/include")
 	}
 
-	-- Headers / Source Files
+	-- Source Files
 	files
 	{
-		(sln_dir .. "include/%{wks.name}/%{prj.name}/**.hpp"),
-		(sln_dir .. "src/%{wks.name}/%{prj.name}/**.cpp")
+		("%{sln_dir}include/%{wks.name}/%{prj.name}/**.hpp"),
+		("%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp")
 	}
 
 	-- Additional Library Directories
 	libdirs
 	{
-		(sln_dir .. "lib/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-		(sln_dir .. "thirdparty/lib/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
 	}
+	
+	-- Project Dependencies
+	dependson { "Audio", "Core", "Graphics", "Network", "Window" }
 
-	-- Links
+	-- Linker Input
 	links
 	{
-		"ML_Audio_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Core_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Graphics_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Network_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Window_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.architecture}",
 		"python37.lib",
 		"lua.lib"
 	}
 	
-	-- Filters
+	-- Project Filters
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
 		["Source Files"] = { "**.c", "**.cpp"}
@@ -413,7 +426,7 @@ project "Engine"
 project "Editor"
 	-- General
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
-	location		(sln_dir .. "proj/%{wks.name}/%{prj.name}")
+	location		("%{sln_dir}proj/%{wks.name}/%{prj.name}")
 	kind			("SharedLib")
 	language		("C++")
 	targetdir		(lib_dir)
@@ -431,40 +444,47 @@ project "Editor"
 	-- Additional Include Directories
 	includedirs
 	{
-		(sln_dir .. "include"),
-		(sln_dir .. "thirdparty/include")
+		("%{sln_dir}include"),
+		("%{sln_dir}thirdparty/include")
 	}
 
-	-- Headers / Source Files
+	-- Source Files
 	files
 	{
-		(sln_dir .. "include/%{wks.name}/%{prj.name}/**.hpp"),
-		(sln_dir .. "src/%{wks.name}/%{prj.name}/**.cpp")
+		("%{sln_dir}include/%{wks.name}/%{prj.name}/**.hpp"),
+		("%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp"),
+		("%{sln_dir}thirdparty/include/imgui/**.h"),
+		("%{sln_dir}thirdparty/include/imgui/**.cpp"),
+		("%{sln_dir}thirdparty/include/ImGuiColorTextEdit/TextEditor.h"),
+		("%{sln_dir}thirdparty/include/ImGuiColorTextEdit/TextEditor.cpp"),
 	}
 
 	-- Additional Library Directories
 	libdirs
 	{
-		(sln_dir .. "lib/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-		(sln_dir .. "thirdparty/lib/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-	}
-
-	-- Links
-	links
-	{
-		"ML_Audio_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Core_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Engine_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Graphics_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Network_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Window_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
 	}
 	
-	-- Filters
+	-- Project Dependencies
+	dependson { "Audio", "Core", "Engine", "Graphics", "Network", "Window" }
+
+	-- Linker Input
+	links
+	{
+		"%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Engine_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.architecture}",
+	}
+	
+	-- Project Filters
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
 		["Source Files"] = { "**.c", "**.cpp"}
@@ -483,7 +503,7 @@ project "Editor"
 project "Launcher"
 	-- General
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.architecture}")
-	location		(sln_dir .. "proj/%{wks.name}/%{prj.name}")
+	location		("%{sln_dir}proj/%{wks.name}/%{prj.name}")
 	kind			("ConsoleApp")
 	language		("C++")
 	targetdir		(lib_dir)
@@ -501,50 +521,63 @@ project "Launcher"
 	-- Additional Include Directories
 	includedirs
 	{
-		(sln_dir .. "include"),
-		(sln_dir .. "thirdparty/include")
+		("%{sln_dir}include"),
+		("%{sln_dir}thirdparty/include")
 	}
 
-	-- Headers / Source Files
+	-- Source Files
 	files
 	{
-		(sln_dir .. "include/%{wks.name}/%{prj.name}/**.hpp"),
-		(sln_dir .. "src/%{wks.name}/%{prj.name}/**.cpp")
+		("%{sln_dir}include/%{wks.name}/%{prj.name}/**.hpp"),
+		("%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp")
 	}
 
 	-- Additional Library Directories
 	libdirs
 	{
-		(sln_dir .. "lib/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
-		(sln_dir .. "thirdparty/lib/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/"),
-		(sln_dir .. "thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/"),
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.architecture}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.architecture}/",
 	}
+	
+	-- Project Dependencies
+	dependson { "Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window" }
 
-	-- Links
+	-- Linker Input
 	links
 	{
-		"ML_Audio_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Core_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Editor_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Engine_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Graphics_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Network_%{cfg.buildcfg}_%{cfg.architecture}",
-		"ML_Window_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Editor_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Engine_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.architecture}",
+		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.architecture}",
 		"pdcurses"
 	}
 
-	--[[
-	xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\assimp.dll $(OutDir)
-	xcopy /y $(SolutionDir)thirdparty\bin\OpenAL32.dll $(OutDir)
-	xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\pdcurses.dll $(OutDir)
-	if $(ConfigurationName) == Debug  ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39_d.dll $(OutDir) )
-	if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Configuration)\$(PlatformTarget)\python39.dll $(OutDir) )
-	]]--
+	-- Post Build Commands
+	filter "system:Windows"
+		postbuildcommands 
+		{	
+			"copy %{lib_dir}\\%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.architecture}.dll %{bin_dir}",
+			"copy %{lib_dir}\\%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.architecture}.dll %{bin_dir}",
+			"copy %{lib_dir}\\%{wks.name}_Editor_%{cfg.buildcfg}_%{cfg.architecture}.dll %{bin_dir}",
+			"copy %{lib_dir}\\%{wks.name}_Engine_%{cfg.buildcfg}_%{cfg.architecture}.dll %{bin_dir}",
+			"copy %{lib_dir}\\%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.architecture}.dll %{bin_dir}",
+			"copy %{lib_dir}\\%{wks.name}_Launcher_%{cfg.buildcfg}_%{cfg.architecture}.exe %{bin_dir}",
+			"copy %{lib_dir}\\%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.architecture}.dll %{bin_dir}",
+			"copy %{lib_dir}\\%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.architecture}.dll %{bin_dir}",
+			"copy ${sln_dir}thirdparty\\bin\\${cfg.buildcfg}\\${cfg.architecture}\\assimp.dll ${bin_dir}",
+			"copy ${sln_dir}thirdparty\\bin\\OpenAL32.dll ${bin_dir}",
+			"copy ${sln_dir}thirdparty\\bin\\${cfg.buildcfg}\\pdcurses.dll ${bin_dir}",
+			"copy ${sln_dir}thirdparty\\bin\\${cfg.buildcfg}\\${cfg.architecture}\\python39.dll  ${bin_dir}"
+		}
 	
-	-- Filters
+	-- Project Filters
 	vpaths {
 		["Header Files"] = { "**.h", "**.hpp" },
 		["Source Files"] = { "**.c", "**.cpp"}

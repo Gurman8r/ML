@@ -16,20 +16,11 @@
     <Filter Include="Resource Files\ImGui">
       <UniqueIdentifier>{eddf1b4f-e124-4bb2-b126-b4c91d26b255}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\ImGui\Addons">
-      <UniqueIdentifier>{22d4a406-fd3b-42db-b0ad-e16ef7cc5d35}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\ImGui\Addons\ImGuiColorTextEdit">
-      <UniqueIdentifier>{e8d5ddd5-10f2-4ad2-9f57-59157fe16f1c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Widgets">
       <UniqueIdentifier>{b2f239fb-96e8-428d-a993-c86203592354}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Widgets">
       <UniqueIdentifier>{58231a78-19d4-450f-861f-bec954f84847}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\ImGui\Addons\ImGuizmo">
-      <UniqueIdentifier>{81610a78-fb7c-4620-ac03-2ef21e407b6e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Editor">
       <UniqueIdentifier>{479ff0b2-aa13-4cc3-ae27-3794523dc929}</UniqueIdentifier>
@@ -42,6 +33,9 @@
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{ef73e409-5b19-40f5-87a3-8a1d765735fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\ImGuiColorTextEdit">
+      <UniqueIdentifier>{016e5ada-f2fe-4dc4-b3e2-496cfc8ea5fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +72,6 @@
     <ClInclude Include="..\..\..\thirdparty\include\imgui\imstb_truetype.h">
       <Filter>Resource Files\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.h">
-      <Filter>Resource Files\ImGui\Addons\ImGuiColorTextEdit</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorEvents.hpp">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -111,9 +102,6 @@
     <ClInclude Include="..\..\..\include\ML\Editor\EditorInspector.hpp">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\thirdparty\include\imgui\addons\ImGuizmo\ImGuizmo.h">
-      <Filter>Resource Files\ImGui\Addons\ImGuizmo</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\EditorWindow.hpp">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
@@ -125,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Editor\Editor.hpp">
       <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\thirdparty\include\ImGuiColorTextEdit\TextEditor.h">
+      <Filter>Resource Files\ImGuiColorTextEdit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +146,6 @@
     <ClCompile Include="..\..\..\thirdparty\include\imgui\imgui_widgets.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuiColorTextEdit\TextEditor.cpp">
-      <Filter>Resource Files\ImGui\Addons\ImGuiColorTextEdit</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\ImGuiImpl.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
@@ -179,9 +167,6 @@
     <ClCompile Include="..\..\..\src\ML\Editor\EditorInspector.cpp">
       <Filter>Source Files\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\thirdparty\include\imgui\addons\ImGuizmo\ImGuizmo.cpp">
-      <Filter>Resource Files\ImGui\Addons\ImGuizmo</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\EditorWindow.cpp">
       <Filter>Source Files\Editor</Filter>
     </ClCompile>
@@ -193,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\ML\Editor\Editor.cpp">
       <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\thirdparty\include\ImGuiColorTextEdit\TextEditor.cpp">
+      <Filter>Resource Files\ImGuiColorTextEdit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

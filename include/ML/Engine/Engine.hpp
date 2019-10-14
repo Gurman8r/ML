@@ -7,11 +7,11 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 
-#define ML_Engine ::ml::Engine::getInstance()
-
 #ifndef ML_CONFIG_INI
 #define ML_CONFIG_INI "../../../ML.ini"
 #endif
+
+#define ML_Engine ::ml::Engine::getInstance()
 
 namespace ml
 {
@@ -46,6 +46,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		Preferences		m_prefs;
+		GameTime		m_time;
+		RenderWindow	m_window;
+
 		vec2	m_cursorPos		{ 0 };
 		float_t	m_deltaTime		{ 0 };
 		int32_t	m_frameCount	{ 0 };
@@ -53,11 +57,12 @@ namespace ml
 		vec2	m_viewport		{ 0 };
 		float_t	m_totalTime		{ 0 };
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	public:
-		// FIXME: these shouldn't be public
-		Preferences		prefs;
-		RenderWindow	window;
-		GameTime		time;
+		inline auto & prefs()	{ return m_prefs; }
+		inline auto & time()	{ return m_time; }
+		inline auto & window()	{ return m_window; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

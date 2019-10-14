@@ -21,7 +21,7 @@ ml::int32_t main()
 	ML_EventSystem.fireEvent<StartEvent>();
 
 	// Main Loop
-	while (ML_Engine.window.is_open())
+	while (ML_Engine.window().is_open())
 	{
 		ML_EventSystem.fireEvent<BeginLoopEvent>();
 		ML_EventSystem.fireEvent<UpdateEvent>();

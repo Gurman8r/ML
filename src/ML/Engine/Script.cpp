@@ -26,7 +26,7 @@ namespace ml
 	}
 
 	Script::Script(const String & filename)
-		: Script()
+		: Script {}
 
 	{
 		loadFromFile(filename);
@@ -59,6 +59,11 @@ namespace ml
 	}
 
 	int32_t Script::execute() const
+	{
+		return execute({});
+	}
+
+	int32_t Script::execute(const List<String>& args) const
 	{
 		switch (m_lang)
 		{

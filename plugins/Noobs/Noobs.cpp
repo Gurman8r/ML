@@ -118,7 +118,7 @@ namespace ml
 	void Noobs::onStart(const StartEvent & ev)
 	{
 		// Setup Editor
-		if (const String ent_name { ML_Engine.prefs.get_string("Noobs", "demo_entity", "") })
+		if (const String ent_name { ML_Engine.prefs().get_string("Noobs", "demo_entity", "") })
 		{
 			if (Entity * ent { m_entity.update(ML_Content.get<Entity>(ent_name)) })
 			{
@@ -224,7 +224,7 @@ namespace ml
 							}
 						}
 					}
-					ML_Engine.window.draw(renderer);
+					ML_Engine.window().draw(renderer);
 				}
 			}
 
@@ -252,7 +252,7 @@ namespace ml
 			if (camera) camera->apply();
 
 			// Draw Scene Output
-			ML_Engine.window.draw(m_pipeline[Surf_Main]);
+			ML_Engine.window().draw(m_pipeline[Surf_Main]);
 
 			// Unbind Surface
 			m_pipeline[Surf_Post]->unbind();

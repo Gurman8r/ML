@@ -167,7 +167,7 @@ namespace ml
 
 	auto OpenGL::getInt(uint32_t name) -> int32_t
 	{
-		int32_t temp;
+		int32_t temp{ 0 };
 		glCheck(getIntv(name, &temp));
 		return temp;
 	}
@@ -278,7 +278,7 @@ namespace ml
 
 	auto OpenGL::genBuffers(uint32_t count) -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(glGenBuffers(count, &temp));
 		return temp;
 	}
@@ -290,7 +290,7 @@ namespace ml
 
 	auto OpenGL::genVertexArrays(uint32_t count) -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(glGenVertexArrays(count, &temp));
 		return temp;
 	}
@@ -350,7 +350,7 @@ namespace ml
 	void OpenGL::vertexAttribPointer(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, uint32_t offset, uint32_t width)
 	{
 #pragma warning(push)
-#pragma warning(disable: 4312)
+#pragma warning(disable: 26451)
 		return vertexAttribPointer(
 			index,
 			size,
@@ -411,7 +411,7 @@ namespace ml
 
 	auto OpenGL::getMaxTextureUnits() -> int32_t
 	{
-		int32_t temp;
+		static int32_t temp{ 0 };
 		static bool checked = false;
 		if (!checked)
 		{
@@ -423,7 +423,7 @@ namespace ml
 
 	auto OpenGL::getMaxTextureSize() -> uint32_t
 	{
-		uint32_t temp;
+		static uint32_t temp{ 0 };
 		static bool checked = false;
 		if (!checked)
 		{
@@ -456,7 +456,7 @@ namespace ml
 
 	auto OpenGL::genTextures(uint32_t count) -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(glGenTextures(count, &temp));
 		return temp;
 	}
@@ -539,14 +539,14 @@ namespace ml
 	
 	auto OpenGL::genFramebuffers(uint32_t count) -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(glGenFramebuffers(count, &temp));
 		return temp;
 	}
 
 	auto OpenGL::checkFramebufferStatus(uint32_t target) -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(temp = glCheckFramebufferStatus(target));
 		return temp;
 	}
@@ -591,7 +591,7 @@ namespace ml
 
 	auto OpenGL::genRenderbuffers(uint32_t count) -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(glGenRenderbuffers(count, &temp));
 		return temp;
 	}
@@ -666,49 +666,49 @@ namespace ml
 
 	auto OpenGL::getProgramHandle(uint32_t name) -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(temp = glGetHandleARB(name));
 		return temp;
 	}
 
 	auto OpenGL::createProgramObject() -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(temp = glCreateProgramObjectARB());
 		return temp;
 	}
 
 	auto OpenGL::createShaderObject(GL::ShaderType type) -> uint32_t
 	{
-		uint32_t temp;
+		uint32_t temp{ 0 };
 		glCheck(temp = glCreateShaderObjectARB(type));
 		return temp;
 	}
 
 	auto OpenGL::getProgramParameter(int32_t obj, GL::Status param) -> int32_t
 	{
-		int32_t temp;
+		int32_t temp{ 0 };
 		glCheck(glGetObjectParameterivARB(obj, param, &temp));
 		return temp;
 	}
 
 	auto OpenGL::getProgramiv(uint32_t program, uint32_t name) -> int32_t
 	{
-		int32_t temp;
+		int32_t temp{ 0 };
 		glCheck(glGetProgramiv(program, name, &temp));
 		return temp;
 	}
 	
 	auto OpenGL::getAttribLocation(uint32_t program, C_String name) -> int32_t
 	{
-		int32_t temp;
+		int32_t temp{ 0 };
 		glCheck(temp = glGetAttribLocationARB(program, name));
 		return temp;
 	}
 
 	auto OpenGL::getUniformLocation(uint32_t program, C_String name) -> int32_t
 	{
-		int32_t temp;
+		int32_t temp{ 0 };
 		glCheck(temp = glGetUniformLocationARB(program, name));
 		return temp;
 	}

@@ -350,7 +350,8 @@ namespace ml
 	void OpenGL::vertexAttribPointer(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, uint32_t offset, uint32_t width)
 	{
 #pragma warning(push)
-#pragma warning(disable: 26451)
+#pragma warning(disable: 4312)
+//#pragma warning(disable: 26451)
 		return vertexAttribPointer(
 			index,
 			size,

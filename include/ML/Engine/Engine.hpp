@@ -54,6 +54,7 @@ namespace ml
 		float_t	m_totalTime		{ 0 };
 
 	public:
+		// FIXME: these shouldn't be public
 		Preferences		prefs;
 		RenderWindow	window;
 		GameTime		time;

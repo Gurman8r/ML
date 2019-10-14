@@ -47,10 +47,12 @@ namespace ml
 
 	struct ShaderErrorEvent final : public I_Event<GraphicsEvents::EV_ShaderError>
 	{
-		uint32_t type;
-		C_String error;
-		constexpr ShaderErrorEvent(uint32_t type, C_String error)
-			: type { type }
+		const uint32_t obj;
+		const uint32_t type;
+		const C_String error;
+		constexpr ShaderErrorEvent(uint32_t obj, uint32_t type, C_String error)
+			: obj	{ obj }
+			, type	{ type }
 			, error { error } 
 		{
 		}

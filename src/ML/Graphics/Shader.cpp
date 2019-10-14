@@ -682,18 +682,21 @@ namespace ml
 			// Link the program
 			if (!ML_GL.linkShader(*this))
 			{
-				C_String log = ML_GL.getProgramInfoLog((*this));
+				C_String log{ ML_GL.getProgramInfoLog((*this)) };
 				ML_GL.deleteShader((*this));
+				Debug::logError("Failed linking shader");
 				cout << log << endl;
-				return Debug::logError("Failed linking shader");
+				ML_GL.flush();
+				return false;
 			}
 
-			// Refresh OpenGL
+			// Good
 			ML_GL.flush();
 			return true;
 		}
 		else
 		{
+			ML_GL.flush();
 			return Debug::logError("Failed creating program object");
 		}
 	}

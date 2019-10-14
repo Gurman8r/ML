@@ -763,7 +763,7 @@ namespace ml
 
 				deleteShader(obj);
 				
-				ML_EventSystem.fireEvent(ShaderErrorEvent((uint32_t)type, log));
+				ML_EventSystem.fireEvent<ShaderErrorEvent>(obj, type, log);
 				
 				return ML_FAILURE;
 			}

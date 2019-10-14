@@ -117,9 +117,6 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		// Set Path
-		ML_FS.setPath("../../../");
-
 		// Setup Editor
 		if (const String ent_name { ML_Engine.prefs.get_string("Noobs", "demo_entity", "") })
 		{
@@ -369,14 +366,14 @@ namespace ml
 					// Text Editors
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					static bool once { false };
-					if (!once && (once = true))
-					{
-						// error markers
-						m_files[0]->text.SetErrorMarkers({
-							{ 1, "Example error here" }
-						});
-					}
+					// Error Markers
+					//static bool once { false };
+					//if (!once && (once = true))
+					//{
+					//	m_files[0]->text.SetErrorMarkers({
+					//		{ 1, "Example error here" }
+					//	});
+					//}
 
 					if (ImGui::BeginChildFrame(
 						ImGui::GetID("DemoFile##TextEditors"),

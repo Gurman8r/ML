@@ -10,6 +10,10 @@ ML_$(ProjectName)_$(Configuration)_$(PlatformTarget)
 # Working Directory
 $(OutDir)
 
+# Preprocessor Definitions
+ML_CORE_EXPORTS
+_CRT_SECURE_NO_WARNINGS
+
 # Additional Include Directories
 $(SolutionDir)include
 $(SolutionDir)thirdparty\include
@@ -18,7 +22,9 @@ $(SolutionDir)thirdparty\include
 $(SolutionDir)bin\$(Configuration)\$(PlatformTarget)\$(TargetName)$(TargetExt)
 
 # Additional Library Directories
-$(SolutionDir)lib\;$(SolutionDir)lib\$(Configuration)\
+$(SolutionDir)lib\
+$(SolutionDir)lib\$(Configuration)\
 $(SolutionDir)lib\$(Configuration)\$(PlatformTarget)\
-$(SolutionDir)thirdparty\lib\;$(SolutionDir)thirdparty\lib\$(Configuration)\
+$(SolutionDir)thirdparty\lib\
+$(SolutionDir)thirdparty\lib\$(Configuration)\
 $(SolutionDir)thirdparty\lib\$(Configuration)\$(PlatformTarget)\

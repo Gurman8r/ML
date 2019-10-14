@@ -45,9 +45,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{83623E09-8549-4386-9865-F03B95B7D5E6}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.txt = LICENSE.txt
-		premake5.bat = premake5.bat
-		premake5.lua = premake5.lua
-		project_settings.md = project_settings.md
 		README.md = README.md
 		TODO.txt = TODO.txt
 	EndProjectSection

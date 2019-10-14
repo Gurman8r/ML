@@ -15,3 +15,5 @@ __pycache__/
 /tools/PC_Run/PC_Run/obj
 /tools/PC_Run/PC_Run/*.user
 /tools/PC_Run/.vs/PC_Run/v15/*.suo
+/ML.sln
+/proj

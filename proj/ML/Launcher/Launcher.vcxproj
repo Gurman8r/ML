@@ -203,75 +203,9 @@ if $(ConfigurationName) == Release ( xcopy /y $(SolutionDir)thirdparty\bin\$(Con
     <ClCompile Include="..\..\..\src\ML\Launcher\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\assets\materials\basic.mat" />
-    <None Include="..\..\..\assets\materials\advanced.mat" />
-    <None Include="..\..\..\assets\materials\geometry.mat" />
-    <None Include="..\..\..\assets\materials\skybox.mat" />
-    <None Include="..\..\..\assets\materials\surface.mat" />
-    <None Include="..\..\..\assets\scripts\boot.py" />
-    <None Include="..\..\..\assets\scripts\load.py" />
-    <None Include="..\..\..\assets\scripts\test.lua" />
-    <None Include="..\..\..\assets\scripts\test.py" />
-    <None Include="..\..\..\assets\shaders\abstract_lines.shader" />
-    <None Include="..\..\..\assets\shaders\basic.shader" />
-    <None Include="..\..\..\assets\shaders\common\Curve.Draw.shader" />
-    <None Include="..\..\..\assets\shaders\common\Curve.Sample.shader" />
-    <None Include="..\..\..\assets\shaders\advanced.fs.shader" />
-    <None Include="..\..\..\assets\shaders\advanced.vs.shader" />
-    <None Include="..\..\..\assets\shaders\flames.shader" />
-    <None Include="..\..\..\assets\shaders\geometry.shader" />
-    <None Include="..\..\..\assets\shaders\skybox.shader" />
-    <None Include="..\..\..\assets\shaders\sparkle_plexus.shader" />
-    <None Include="..\..\..\assets\shaders\surface.shader" />
-    <None Include="..\..\..\assets\shaders\swirly.shader" />
-    <None Include="..\..\..\assets\shaders\test.shader" />
-    <None Include="..\..\..\assets\shaders\wrainbow.shader" />
     <None Include="..\..\..\ML.ini" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\assets\styles\obsidian.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\..\..\assets\fonts\clacon.ttf" />
-    <Font Include="..\..\..\assets\fonts\consolas.ttf" />
-    <Font Include="..\..\..\assets\fonts\lucida_console.ttf" />
-    <Font Include="..\..\..\assets\fonts\minecraft.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\assets\images\borg.png" />
-    <Image Include="..\..\..\assets\images\buck.png" />
-    <Image Include="..\..\..\assets\images\dean.png" />
-    <Image Include="..\..\..\assets\images\grass.png" />
-    <Image Include="..\..\..\assets\images\navball.png" />
-    <Image Include="..\..\..\assets\images\neutrino.png" />
-    <Image Include="..\..\..\assets\images\Sanic.png" />
-    <Image Include="..\..\..\assets\images\test_sky.png" />
-    <Image Include="..\..\..\assets\skyboxes\space\1.png" />
-    <Image Include="..\..\..\assets\skyboxes\space\2.png" />
-    <Image Include="..\..\..\assets\skyboxes\space\3.png" />
-    <Image Include="..\..\..\assets\skyboxes\space\4.png" />
-    <Image Include="..\..\..\assets\skyboxes\space\5.png" />
-    <Image Include="..\..\..\assets\skyboxes\space\6.png" />
-    <Image Include="..\..\..\assets\skyboxes\star.jpg" />
-    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_back.png" />
-    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_bottom.png" />
-    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_front.png" />
-    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_left.png" />
-    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_right.png" />
-    <Image Include="..\..\..\assets\skyboxes\sunset\sunset_top.png" />
-    <Image Include="..\..\..\assets\textures\bg\bg_clouds.png" />
-    <Image Include="..\..\..\assets\textures\bg\sky_clouds.png" />
-    <Image Include="..\..\..\assets\textures\bg\sky_water.png" />
-    <Image Include="..\..\..\assets\textures\earth\earth_cm.png" />
-    <Image Include="..\..\..\assets\textures\earth\earth_dm.png" />
-    <Image Include="..\..\..\assets\textures\earth\earth_hm.png" />
-    <Image Include="..\..\..\assets\textures\earth\earth_lm.png" />
-    <Image Include="..\..\..\assets\textures\earth\earth_nm.png" />
-    <Image Include="..\..\..\assets\textures\earth\earth_sm.png" />
-    <Image Include="..\..\..\assets\textures\mars\mars_dm.png" />
-    <Image Include="..\..\..\assets\textures\mars\mars_nm.png" />
-    <Image Include="..\..\..\assets\textures\moon\moon_dm.png" />
-    <Image Include="..\..\..\assets\textures\moon\moon_nm.png" />
     <Image Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -46,12 +46,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		vec2	m_cursorPos		{ NULL };
-		float_t	m_deltaTime		{ NULL };
-		int32_t	m_frameCount	{ NULL };
-		float_t	m_frameRate		{ NULL };
-		vec2	m_viewport		{ NULL };
-		float_t	m_totalTime		{ NULL };
+		vec2	m_cursorPos		{ 0 };
+		float_t	m_deltaTime		{ 0 };
+		int32_t	m_frameCount	{ 0 };
+		float_t	m_frameRate		{ 0 };
+		vec2	m_viewport		{ 0 };
+		float_t	m_totalTime		{ 0 };
 
 	public:
 		Preferences		prefs;

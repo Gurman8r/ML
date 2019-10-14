@@ -10,8 +10,9 @@
 [ ] MORE PROPERTY DRAWERS
 [ ] INCREASE DATA DENSITY
 [ ] BETTER DESERIALIZATION
-[ ] Dedicated error log (like Unity's)
 [ ] "Red Lines" in text editor
+[ ] Dedicated error log (like Unity's)
+[ ] Rework Texture to be able to be imported from other textures
 [ ] Shader error event handling
 [ ] Remove "RenderBatch"
 [ ] Real-time python scripts

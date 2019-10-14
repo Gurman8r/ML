@@ -16,6 +16,7 @@
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/OpenGL.hpp>
+#include <ML/Graphics/GraphicsEvents.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Surface.hpp>
@@ -41,6 +42,7 @@ namespace ml
 		ML_EventSystem.addListener<KeyEvent>(this);
 		ML_EventSystem.addListener<MainMenuBarEvent>(this);
 		ML_EventSystem.addListener<DockspaceEvent>(this);
+		ML_EventSystem.addListener<ShaderErrorEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -54,6 +56,14 @@ namespace ml
 		case DrawEvent::ID	: return onDraw(*value.as<DrawEvent>());
 		case GuiEvent::ID	: return onGui(*value.as<GuiEvent>());
 		case UnloadEvent::ID: return onUnload(*value.as<UnloadEvent>());
+
+		case ShaderErrorEvent::ID:
+			if (auto ev = value.as<ShaderErrorEvent>())
+			{
+				Debug::logError("Failed compiling {0} source", (GL::ShaderType)ev->type);
+				cout << ev->error << endl;
+			}
+			break;
 
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>())

@@ -47,15 +47,11 @@ namespace ml
 
 	struct ShaderErrorEvent final : public I_Event<GraphicsEvents::EV_ShaderError>
 	{
-		C_String file;
-		uint32_t line;
-		C_String expr;
-		uint32_t code;
-		constexpr ShaderErrorEvent(C_String file, uint32_t line, C_String expr, uint32_t code)
-			: file { file }
-			, line { line }
-			, expr { expr }
-			, code { code }
+		uint32_t type;
+		C_String error;
+		constexpr ShaderErrorEvent(uint32_t type, C_String error)
+			: type { type }
+			, error { error } 
 		{
 		}
 	};

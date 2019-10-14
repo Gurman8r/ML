@@ -82,6 +82,172 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommandSuite", "plugins\Com
 		{E6B44D15-0792-4593-8633-4CE6F9B5326D} = {E6B44D15-0792-4593-8633-4CE6F9B5326D}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{DD2E8C15-3039-4A29-AFDD-3254464D0244}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{143D10DC-072C-445D-B21E-F68218928707}"
+	ProjectSection(SolutionItems) = preProject
+		assets\scripts\boot.py = assets\scripts\boot.py
+		assets\scripts\load.py = assets\scripts\load.py
+		assets\scripts\test.lua = assets\scripts\test.lua
+		assets\scripts\test.py = assets\scripts\test.py
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meshes", "meshes", "{4D22273C-B204-48A0-90AF-07076C5FCCED}"
+	ProjectSection(SolutionItems) = preProject
+		assets\meshes\cow.obj = assets\meshes\cow.obj
+		assets\meshes\cube.obj = assets\meshes\cube.obj
+		assets\meshes\monkey.obj = assets\meshes\monkey.obj
+		assets\meshes\pumpkin.obj = assets\meshes\pumpkin.obj
+		assets\meshes\sphere32x24.obj = assets\meshes\sphere32x24.obj
+		assets\meshes\sphere8x6.obj = assets\meshes\sphere8x6.obj
+		assets\meshes\teapot.obj = assets\meshes\teapot.obj
+		assets\meshes\teddy.obj = assets\meshes\teddy.obj
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "textures", "textures", "{52D70D9D-ACBD-46AF-8751-58059C59D3F7}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\borg.png = assets\textures\borg.png
+		assets\textures\navball.png = assets\textures\navball.png
+		assets\textures\neutrino.png = assets\textures\neutrino.png
+		assets\textures\Sanic.png = assets\textures\Sanic.png
+		assets\textures\test_sky.png = assets\textures\test_sky.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{040CD99F-AB54-45AB-937A-AB2ABF5509C9}"
+	ProjectSection(SolutionItems) = preProject
+		assets\images\borg.png = assets\images\borg.png
+		assets\images\icon.png = assets\images\icon.png
+		assets\images\navball.png = assets\images\navball.png
+		assets\images\neutrino.png = assets\images\neutrino.png
+		assets\images\Sanic.png = assets\images\Sanic.png
+		assets\images\test_sky.png = assets\images\test_sky.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "materials", "materials", "{C8354686-C4A5-4BB1-AB82-21A7F2D5CC4E}"
+	ProjectSection(SolutionItems) = preProject
+		assets\materials\advanced.mat = assets\materials\advanced.mat
+		assets\materials\basic.mat = assets\materials\basic.mat
+		assets\materials\geometry.mat = assets\materials\geometry.mat
+		assets\materials\skybox.mat = assets\materials\skybox.mat
+		assets\materials\surface.mat = assets\materials\surface.mat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{FA5371CD-8347-4A5D-90E8-E566528BFA18}"
+	ProjectSection(SolutionItems) = preProject
+		assets\fonts\clacon.ttf = assets\fonts\clacon.ttf
+		assets\fonts\consolas.ttf = assets\fonts\consolas.ttf
+		assets\fonts\lucida_console.ttf = assets\fonts\lucida_console.ttf
+		assets\fonts\minecraft.ttf = assets\fonts\minecraft.ttf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shaders", "shaders", "{4F9AF5E6-F1C0-40CB-8DC3-21EBE10EB008}"
+	ProjectSection(SolutionItems) = preProject
+		assets\shaders\abstract_lines.shader = assets\shaders\abstract_lines.shader
+		assets\shaders\advanced.fs.shader = assets\shaders\advanced.fs.shader
+		assets\shaders\advanced.vs.shader = assets\shaders\advanced.vs.shader
+		assets\shaders\basic.shader = assets\shaders\basic.shader
+		assets\shaders\flames.shader = assets\shaders\flames.shader
+		assets\shaders\geometry.shader = assets\shaders\geometry.shader
+		assets\shaders\skybox.shader = assets\shaders\skybox.shader
+		assets\shaders\sparkle_plexus.shader = assets\shaders\sparkle_plexus.shader
+		assets\shaders\sprites.shader = assets\shaders\sprites.shader
+		assets\shaders\surface.shader = assets\shaders\surface.shader
+		assets\shaders\swirly.shader = assets\shaders\swirly.shader
+		assets\shaders\test.shader = assets\shaders\test.shader
+		assets\shaders\text.shader = assets\shaders\text.shader
+		assets\shaders\wormhole.shader = assets\shaders\wormhole.shader
+		assets\shaders\wrainbow.shader = assets\shaders\wrainbow.shader
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "styles", "styles", "{02E2220B-C9CB-432D-8994-25DA0586F6C2}"
+	ProjectSection(SolutionItems) = preProject
+		assets\styles\obsidian.txt = assets\styles\obsidian.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bg", "bg", "{3D1A4D54-02A7-497E-B673-502B39202457}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\bg\bg_clouds.png = assets\textures\bg\bg_clouds.png
+		assets\textures\bg\sky_clouds.png = assets\textures\bg\sky_clouds.png
+		assets\textures\bg\sky_water.png = assets\textures\bg\sky_water.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "earth", "earth", "{DD4623B5-A0CE-42AA-81C2-0D9D789B035E}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\earth\earth_cm_2k.png = assets\textures\earth\earth_cm_2k.png
+		assets\textures\earth\earth_dm_2k.png = assets\textures\earth\earth_dm_2k.png
+		assets\textures\earth\earth_hm_2k.png = assets\textures\earth\earth_hm_2k.png
+		assets\textures\earth\earth_lm_2k.png = assets\textures\earth\earth_lm_2k.png
+		assets\textures\earth\earth_nm_2k.png = assets\textures\earth\earth_nm_2k.png
+		assets\textures\earth\earth_sm_2k.png = assets\textures\earth\earth_sm_2k.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moon", "moon", "{E32CA4E1-67E6-465B-A943-A8E02FF03010}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\moon\moon_dm_2k.png = assets\textures\moon\moon_dm_2k.png
+		assets\textures\moon\moon_nm_2k.png = assets\textures\moon\moon_nm_2k.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mars", "mars", "{5C2B7379-9CF7-4719-861C-85D63980000E}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\mars\mars_dm_2k.png = assets\textures\mars\mars_dm_2k.png
+		assets\textures\mars\mars_nm_2k.png = assets\textures\mars\mars_nm_2k.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stone", "stone", "{5C4116E2-FE80-4082-8D1D-07291CB66781}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\stone\stone_dm.png = assets\textures\stone\stone_dm.png
+		assets\textures\stone\stone_hm.png = assets\textures\stone\stone_hm.png
+		assets\textures\stone\stone_nm.png = assets\textures\stone\stone_nm.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{1A4C4899-5441-4D12-9510-95456FC115DC}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\ui\Add-Icon.png = assets\textures\ui\Add-Icon.png
+		assets\textures\ui\Check-Icon.png = assets\textures\ui\Check-Icon.png
+		assets\textures\ui\Home-Icon.png = assets\textures\ui\Home-Icon.png
+		assets\textures\ui\Lock-Icon.png = assets\textures\ui\Lock-Icon.png
+		assets\textures\ui\Power-Icon.png = assets\textures\ui\Power-Icon.png
+		assets\textures\ui\Refresh-Icon.png = assets\textures\ui\Refresh-Icon.png
+		assets\textures\ui\Remote-Icon.png = assets\textures\ui\Remote-Icon.png
+		assets\textures\ui\Remove-Icon.png = assets\textures\ui\Remove-Icon.png
+		assets\textures\ui\Search-Icon.png = assets\textures\ui\Search-Icon.png
+		assets\textures\ui\Settings-Icon.png = assets\textures\ui\Settings-Icon.png
+		assets\textures\ui\Social-Icon.png = assets\textures\ui\Social-Icon.png
+		assets\textures\ui\Trash-Icon.png = assets\textures\ui\Trash-Icon.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{9A3AA4D5-6B48-4D22-AB12-8A5E01DF253F}"
+	ProjectSection(SolutionItems) = preProject
+		assets\shaders\common\Curve.Draw.shader = assets\shaders\common\Curve.Draw.shader
+		assets\shaders\common\Curve.Sample.shader = assets\shaders\common\Curve.Sample.shader
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sky", "sky", "{CCC96DD0-7874-47FB-B22A-DD8DF85E8B96}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\sky\star.jpg = assets\textures\sky\star.jpg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sunset", "sunset", "{E98F5BEC-3045-409A-A657-50D0B3C8431B}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\sky\sunset\sunset_back.png = assets\textures\sky\sunset\sunset_back.png
+		assets\textures\sky\sunset\sunset_bottom.png = assets\textures\sky\sunset\sunset_bottom.png
+		assets\textures\sky\sunset\sunset_front.png = assets\textures\sky\sunset\sunset_front.png
+		assets\textures\sky\sunset\sunset_left.png = assets\textures\sky\sunset\sunset_left.png
+		assets\textures\sky\sunset\sunset_right.png = assets\textures\sky\sunset\sunset_right.png
+		assets\textures\sky\sunset\sunset_top.png = assets\textures\sky\sunset\sunset_top.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "space", "space", "{78DD218F-DB4D-4B5D-AD2A-10E107447686}"
+	ProjectSection(SolutionItems) = preProject
+		assets\textures\sky\space\1.png = assets\textures\sky\space\1.png
+		assets\textures\sky\space\2.png = assets\textures\sky\space\2.png
+		assets\textures\sky\space\3.png = assets\textures\sky\space\3.png
+		assets\textures\sky\space\4.png = assets\textures\sky\space\4.png
+		assets\textures\sky\space\5.png = assets\textures\sky\space\5.png
+		assets\textures\sky\space\6.png = assets\textures\sky\space\6.png
+		assets\textures\sky\space\WTFPL.txt = assets\textures\sky\space\WTFPL.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -194,6 +360,24 @@ Global
 		{D05AD58C-413C-4072-970F-908D594E8D74} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
 		{8EEC0911-6CCC-49DC-9FC0-F4D92308F884} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
 		{6A168705-BC27-4A58-B05E-68A67F7808EE} = {F9D70DFB-1154-4022-B5E5-BC2A05CA83A0}
+		{143D10DC-072C-445D-B21E-F68218928707} = {DD2E8C15-3039-4A29-AFDD-3254464D0244}
+		{4D22273C-B204-48A0-90AF-07076C5FCCED} = {DD2E8C15-3039-4A29-AFDD-3254464D0244}
+		{52D70D9D-ACBD-46AF-8751-58059C59D3F7} = {DD2E8C15-3039-4A29-AFDD-3254464D0244}
+		{040CD99F-AB54-45AB-937A-AB2ABF5509C9} = {DD2E8C15-3039-4A29-AFDD-3254464D0244}
+		{C8354686-C4A5-4BB1-AB82-21A7F2D5CC4E} = {DD2E8C15-3039-4A29-AFDD-3254464D0244}
+		{FA5371CD-8347-4A5D-90E8-E566528BFA18} = {DD2E8C15-3039-4A29-AFDD-3254464D0244}
+		{4F9AF5E6-F1C0-40CB-8DC3-21EBE10EB008} = {DD2E8C15-3039-4A29-AFDD-3254464D0244}
+		{02E2220B-C9CB-432D-8994-25DA0586F6C2} = {DD2E8C15-3039-4A29-AFDD-3254464D0244}
+		{3D1A4D54-02A7-497E-B673-502B39202457} = {52D70D9D-ACBD-46AF-8751-58059C59D3F7}
+		{DD4623B5-A0CE-42AA-81C2-0D9D789B035E} = {52D70D9D-ACBD-46AF-8751-58059C59D3F7}
+		{E32CA4E1-67E6-465B-A943-A8E02FF03010} = {52D70D9D-ACBD-46AF-8751-58059C59D3F7}
+		{5C2B7379-9CF7-4719-861C-85D63980000E} = {52D70D9D-ACBD-46AF-8751-58059C59D3F7}
+		{5C4116E2-FE80-4082-8D1D-07291CB66781} = {52D70D9D-ACBD-46AF-8751-58059C59D3F7}
+		{1A4C4899-5441-4D12-9510-95456FC115DC} = {52D70D9D-ACBD-46AF-8751-58059C59D3F7}
+		{9A3AA4D5-6B48-4D22-AB12-8A5E01DF253F} = {4F9AF5E6-F1C0-40CB-8DC3-21EBE10EB008}
+		{CCC96DD0-7874-47FB-B22A-DD8DF85E8B96} = {52D70D9D-ACBD-46AF-8751-58059C59D3F7}
+		{E98F5BEC-3045-409A-A657-50D0B3C8431B} = {CCC96DD0-7874-47FB-B22A-DD8DF85E8B96}
+		{78DD218F-DB4D-4B5D-AD2A-10E107447686} = {CCC96DD0-7874-47FB-B22A-DD8DF85E8B96}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D3845FD-50CB-410F-95BC-888FC73F4340}

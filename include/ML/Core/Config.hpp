@@ -198,6 +198,7 @@
 #		endif
 #		if defined(ML_CC_MSC)
 #			pragma warning(disable: 4031) // second formal parameter list longer than the first list
+#			pragma warning(disable: 4067) // unexpected tokens following preprocessor directive - expected a newline
 #			pragma warning(disable: 4251) // type1 needs to have dll-interface to be used by type2
 #			pragma warning(disable: 4307) // integral constant overflow
 #			pragma warning(disable: 4308) // negative integral constant converted to unsigned type

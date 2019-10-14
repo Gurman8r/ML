@@ -133,8 +133,6 @@ namespace ml
 		static void		fatal(const String & message);
 		static int32_t	clear();
 		static int32_t	pause(int32_t exitCode);
-		static int32_t	system(C_String cmd);
-		static int32_t	system(C_String cmd, std::ostream & out);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -1,5 +1,4 @@
 #include <ML/Graphics/Light.hpp>
-#include <ML/Graphics/GLM.hpp>
 #include <ML/Graphics/Color.hpp>
 
 namespace ml

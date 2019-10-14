@@ -1,23 +1,18 @@
 @echo off
 rem Build 32
 cls
+pushd %cd%\
 
-rem Paths
-rem set version=2017\Enterprise\
-set version=2019\Community\
-set cur_path=%cd%\
-set env_path=%ProgramFiles(x86)%\Microsoft Visual Studio\%version%
-set vars_path=%env_path%VC\Auxiliary\Build\
+rem set version=2017\Enterprise
+set version=2019\Community
 
-rem Setup
-cd %vars_path%
+set env_path=%ProgramFiles(x86)%\Microsoft Visual Studio\%version%\
+
+cd %env_path%VC\Auxiliary\Build\
 call vcvars32.bat
 
-rem Build
 cd %env_path%
 call msbuild.exe %*
 
-rem Exit
-cd %cur_path%
+popd
 pause
-exit /B %ERRORLEVEL%

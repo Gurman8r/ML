@@ -311,8 +311,18 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					Debug::system(code.c_str());
-					return true;
+					if (auto f { std::shared_ptr<std::FILE>(popen(code.c_str(), "r"), pclose) })
+					{
+						Array<char, 128> buffer;
+						while (!std::feof(f.get()))
+						{
+							if (std::fgets(buffer.data(), 128, f.get()) != nullptr)
+							{
+								cout << String(buffer.data());
+							}
+						}
+						return true;
+					}
 				}
 				return false;
 			})

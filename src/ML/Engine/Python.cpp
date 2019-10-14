@@ -79,7 +79,6 @@ namespace ml
 			.def_static("print",	[](str_t s) { cout << s; })
 			.def_static("printf",	[](str_t s, const list_t & l) { cout << util::format(s, l); })
 			.def_static("printl",	[](str_t s) { cout << s << endl; })
-			.def_static("system",	[](str_t s) { return Debug::system(s.c_str()); })
 			;
 
 

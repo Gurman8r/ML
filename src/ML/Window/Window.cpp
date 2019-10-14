@@ -45,13 +45,14 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::Window()
-		: m_window			{ nullptr }
-		, m_monitor			{ nullptr }
-		, m_share			{ nullptr }
-		, m_title			{ String() }
-		, m_context			{ ContextSettings() }
-		, m_style			{ WindowStyle() }
-		, m_videoMode		{ VideoMode() }
+		: m_window		{ nullptr }
+		, m_monitor		{ nullptr }
+		, m_share		{ nullptr }
+		, m_title		{ String() }
+		, m_context		{ ContextSettings() }
+		, m_style		{ WindowStyle() }
+		, m_videoMode	{ VideoMode() }
+		, m_char		{ 0 }
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		if (HWND window = GetConsoleWindow())

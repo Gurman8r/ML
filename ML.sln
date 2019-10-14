@@ -248,6 +248,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "space", "space", "{78DD218F
 		assets\textures\sky\space\WTFPL.txt = assets\textures\sky\space\WTFPL.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9252A9F0-F68E-4ABB-AC37-2B7BFBAEE9A9}"
+	ProjectSection(SolutionItems) = preProject
+		tools\ALL_BUILD.bat = tools\ALL_BUILD.bat
+		tools\ALL_CLEAN.bat = tools\ALL_CLEAN.bat
+		tools\Build_32.bat = tools\Build_32.bat
+		tools\Build_64.bat = tools\Build_64.bat
+		tools\Build_Debug_x64.bat = tools\Build_Debug_x64.bat
+		tools\Build_Debug_x86.bat = tools\Build_Debug_x86.bat
+		tools\Build_Release_x64.bat = tools\Build_Release_x64.bat
+		tools\Build_Release_x86.bat = tools\Build_Release_x86.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

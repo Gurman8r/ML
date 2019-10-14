@@ -54,27 +54,5 @@ namespace ml
 		return exitCode;
 	}
 
-	int32_t Debug::system(C_String cmd)
-	{
-		return system(cmd, cout);
-	}
-
-	int32_t Debug::system(C_String cmd, std::ostream & out)
-	{
-		if (auto file = std::shared_ptr<std::FILE>(popen(cmd, "r"), pclose))
-		{
-			Array<char, 128> buffer;
-			while (!std::feof(file.get()))
-			{
-				if (std::fgets(buffer.data(), 128, file.get()) != nullptr)
-				{
-					out << String(buffer.data());
-				}
-			}
-			return EXIT_SUCCESS;
-		}
-		return EXIT_FAILURE;
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

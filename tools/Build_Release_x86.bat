@@ -7,4 +7,3 @@ call Build_32.bat ^
  "/p:PlatformTarget=x86" ^
  "/p:PlatformToolset=v142" ^
  "/p:Subsystem=Windows"
-exit /B %ERRORLEVEL%

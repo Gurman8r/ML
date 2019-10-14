@@ -93,9 +93,6 @@
     <ClInclude Include="..\..\..\include\ML\Graphics\Uniform.hpp">
       <Filter>Header Files\DS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ML\Graphics\GLM.hpp">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\ML\Graphics\Mesh.hpp">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>

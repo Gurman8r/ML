@@ -1,5 +1,4 @@
 #include <ML/Graphics/Camera.hpp>
-#include <ML/Graphics/GLM.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Color.hpp>
 #include <ML/Core/Debug.hpp>

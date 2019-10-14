@@ -14,7 +14,6 @@
 #include <ML/Engine/Python.hpp>
 #include <ML/Engine/Lua.hpp>
 #include <ML/Engine/Script.hpp>
-#include <ML/Graphics/GLM.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
@@ -52,20 +51,20 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID		: if (auto ev = value.as<EnterEvent>())		return onEnter(*ev);
-		case LoadEvent::ID		: if (auto ev = value.as<LoadEvent>())		return onLoad(*ev);
-		case StartEvent::ID		: if (auto ev = value.as<StartEvent>())		return onStart(*ev);
-		case BeginLoopEvent::ID	: if (auto ev = value.as<BeginLoopEvent>())	return onBeginFrame(*ev);
-		case UpdateEvent::ID	: if (auto ev = value.as<UpdateEvent>())	return onUpdate(*ev);
-		case BeginDrawEvent::ID	: if (auto ev = value.as<BeginDrawEvent>())	return onBeginDraw(*ev);
-		case DrawEvent::ID		: if (auto ev = value.as<DrawEvent>())		return onDraw(*ev);
-		case EndDrawEvent::ID	: if (auto ev = value.as<EndDrawEvent>())	return onEndDraw(*ev);
-		case EndLoopEvent::ID	: if (auto ev = value.as<EndLoopEvent>())	return onEndFrame(*ev);
-		case UnloadEvent::ID	: if (auto ev = value.as<UnloadEvent>())	return onUnload(*ev);
-		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
+		case EnterEvent::ID		: return onEnter(*value.as<EnterEvent>());
+		case LoadEvent::ID		: return onLoad(*value.as<LoadEvent>());
+		case StartEvent::ID		: return onStart(*value.as<StartEvent>());
+		case BeginLoopEvent::ID	: return onBeginFrame(*value.as<BeginLoopEvent>());
+		case UpdateEvent::ID	: return onUpdate(*value.as<UpdateEvent>());
+		case BeginDrawEvent::ID	: return onBeginDraw(*value.as<BeginDrawEvent>());
+		case DrawEvent::ID		: return onDraw(*value.as<DrawEvent>());
+		case EndDrawEvent::ID	: return onEndDraw(*value.as<EndDrawEvent>());
+		case EndLoopEvent::ID	: return onEndFrame(*value.as<EndLoopEvent>());
+		case UnloadEvent::ID	: return onUnload(*value.as<UnloadEvent>());
+		case ExitEvent::ID		: return onExit(*value.as<ExitEvent>());
 
 		case CommandEvent::ID:
-			if (auto ev = value.as<CommandEvent>()) { ML_CommandRegistry.execute(ev->cmd); }
+			ML_CommandRegistry.execute(value.as<CommandEvent>()->cmd);
 			break;
 		}
 	}

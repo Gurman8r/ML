@@ -7,4 +7,3 @@ call Build_64.bat ^
  "/p:PlatformTarget=x64" ^
  "/p:PlatformToolset=v142" ^
  "/p:Subsystem=Console"
-exit /B %ERRORLEVEL%

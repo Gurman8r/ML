@@ -12,11 +12,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorManual::update(const UpdateEvent & ev)
+	void EditorManual::update()
 	{
 	}
 
-	bool EditorManual::draw(const GuiEvent & ev)
+	bool EditorManual::draw()
 	{
 		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_Once);
 		if (beginDraw(0))

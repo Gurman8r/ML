@@ -15,9 +15,9 @@ namespace ml
 
 		explicit EditorProfiler();
 
-		void update(const UpdateEvent & ev) override;
+		void update() override;
 
-		bool draw(const GuiEvent & ev) override;
+		bool draw() override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -32,8 +32,8 @@ namespace ml
 			float_t	max		{ 0.0f };
 			vec2	size	{ 0.0f, 80.0f };
 
-			void draw(const UpdateEvent & ev, C_String label, float_t sample, C_String text);
-			void render(const GuiEvent & ev);
+			void draw(C_String label, float_t sample, C_String text);
+			void render();
 
 		private:
 			String		m_label		{};

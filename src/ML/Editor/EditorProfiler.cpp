@@ -16,16 +16,16 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorProfiler::update(const UpdateEvent & ev)
+	void EditorProfiler::update()
 	{
 		const float_t dt { ML_Engine.time.elapsed().delta() };
-		graphs[0].draw(ev, "Delta Time", dt, util::to_string(dt).c_str());
+		graphs[0].draw("Delta Time", dt, util::to_string(dt).c_str());
 
 		const float_t fr = { (float_t)ML_Engine.time.frameRate() };
-		graphs[1].draw(ev, "Frame Rate", fr, util::to_string(fr).c_str());
+		graphs[1].draw("Frame Rate", fr, util::to_string(fr).c_str());
 	}
 
-	bool EditorProfiler::draw(const GuiEvent & ev)
+	bool EditorProfiler::draw()
 	{
 		ImGuiStyle & style = ImGui::GetStyle();
 		if (beginDraw(ImGuiWindowFlags_None))
@@ -38,7 +38,7 @@ namespace ml
 				{
 					for (size_t i = 0; i < graphs.size(); i++)
 					{
-						graphs[i].render(ev);
+						graphs[i].render();
 					}
 					ImGui::EndTabItem();
 				}
@@ -90,7 +90,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorProfiler::GraphLines::draw(const UpdateEvent & ev, C_String label, float_t sample, C_String text)
+	void EditorProfiler::GraphLines::draw(C_String label, float_t sample, C_String text)
 	{
 		const float_t dt { ML_Engine.time.elapsed().delta() };
 
@@ -117,7 +117,7 @@ namespace ml
 		}
 	}
 
-	void EditorProfiler::GraphLines::render(const GuiEvent & ev)
+	void EditorProfiler::GraphLines::render()
 	{
 		size[0] =
 			(ImGui::GetContentRegionAvail().x -

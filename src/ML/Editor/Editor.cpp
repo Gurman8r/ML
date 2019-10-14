@@ -158,14 +158,14 @@ namespace ml
 
 	void Editor::onUpdate(const UpdateEvent & ev)
 	{
-		m_about.update(ev);
-		m_content.update(ev);
-		m_explorer.update(ev);
-		m_dockspace.update(ev);
-		m_inspector.update(ev);
-		m_manual.update(ev);
-		m_profiler.update(ev);
-		m_terminal.update(ev);
+		m_about.update();
+		m_content.update();
+		m_explorer.update();
+		m_dockspace.update();
+		m_inspector.update();
+		m_manual.update();
+		m_profiler.update();
+		m_terminal.update();
 	}
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
@@ -270,14 +270,14 @@ namespace ml
 			ImGui::End();
 		}
 
-		/*	Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw(ev);
-		/*	About		*/	if (m_about.isOpen())		m_about.draw(ev);
-		/*	Content		*/	if (m_content.isOpen())		m_content.draw(ev);
-		/*	Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw(ev);
-		/*	Inspector	*/	if (m_inspector.isOpen())	m_inspector.draw(ev);
-		/*	Manual		*/	if (m_manual.isOpen())		m_manual.draw(ev);
-		/*	Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw(ev);
-		/*	Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw(ev);
+		/*	Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw();
+		/*	About		*/	if (m_about.isOpen())		m_about.draw();
+		/*	Content		*/	if (m_content.isOpen())		m_content.draw();
+		/*	Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw();
+		/*	Inspector	*/	if (m_inspector.isOpen())	m_inspector.draw();
+		/*	Manual		*/	if (m_manual.isOpen())		m_manual.draw();
+		/*	Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw();
+		/*	Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw();
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)

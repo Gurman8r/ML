@@ -35,11 +35,11 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorTerminal::update(const UpdateEvent & ev)
+	void EditorTerminal::update()
 	{
 	}
 
-	bool EditorTerminal::draw(const GuiEvent & ev)
+	bool EditorTerminal::draw()
 	{
 		if (m_coutBuf)
 		{

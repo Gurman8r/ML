@@ -20,12 +20,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorExplorer::update(const UpdateEvent & ev)
+	void EditorExplorer::update()
 	{
 		m_browser.update();
 	}
 
-	bool EditorExplorer::draw(const GuiEvent & ev)
+	bool EditorExplorer::draw()
 	{
 		if (beginDraw(ImGuiWindowFlags_AlwaysAutoResize))
 		{

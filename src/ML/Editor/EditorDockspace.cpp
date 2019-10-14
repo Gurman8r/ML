@@ -20,7 +20,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorDockspace::update(const UpdateEvent & ev)
+	void EditorDockspace::update()
 	{
 	}
 
@@ -49,7 +49,7 @@ namespace ml
 		return m_good;
 	}
 
-	bool EditorDockspace::draw(const GuiEvent & ev)
+	bool EditorDockspace::draw()
 	{
 		if (this->beginDraw(
 			ImGuiWindowFlags_NoTitleBar |

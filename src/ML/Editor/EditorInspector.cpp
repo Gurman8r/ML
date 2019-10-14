@@ -53,11 +53,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorInspector::update(const UpdateEvent & ev)
+	void EditorInspector::update()
 	{
 	}
 
-	bool EditorInspector::draw(const GuiEvent & ev)
+	bool EditorInspector::draw()
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{

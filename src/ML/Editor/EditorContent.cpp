@@ -29,7 +29,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		template <class T>
-		static inline void draw_list(const GuiEvent & ev)
+		static inline void draw_list()
 		{
 			// Self
 			EditorContent & self { ML_Editor.content() };
@@ -153,11 +153,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorContent::update(const UpdateEvent & ev)
+	void EditorContent::update()
 	{
 	}
 
-	bool EditorContent::draw(const GuiEvent & ev)
+	bool EditorContent::draw()
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
@@ -176,17 +176,17 @@ namespace ml
 			);
 			ImGui::PopStyleVar();
 			ImGui::BeginTabBar("Content Type Tabs", ImGuiTabBarFlags_FittingPolicyScroll);
-			Layout::draw_list<Entity>(ev);
-			Layout::draw_list<Font>(ev);
-			Layout::draw_list<Image>(ev);
-			Layout::draw_list<Material>(ev);
-			Layout::draw_list<Model>(ev);
-			Layout::draw_list<Shader>(ev);
-			Layout::draw_list<Script>(ev);
-			//Layout::draw_list<Sprite>(ev);
-			Layout::draw_list<Surface>(ev);
-			Layout::draw_list<Texture>(ev);
-			Layout::draw_list<Uniform>(ev);
+			Layout::draw_list<Entity>();
+			Layout::draw_list<Font>();
+			Layout::draw_list<Image>();
+			Layout::draw_list<Material>();
+			Layout::draw_list<Model>();
+			Layout::draw_list<Shader>();
+			Layout::draw_list<Script>();
+			//Layout::draw_list<Sprite>();
+			Layout::draw_list<Surface>();
+			Layout::draw_list<Texture>();
+			Layout::draw_list<Uniform>();
 			ImGui::EndTabBar();
 			ImGui::EndChild();
 

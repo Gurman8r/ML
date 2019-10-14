@@ -15,9 +15,9 @@ namespace ml
 
 		explicit EditorTerminal();
 
-		void update(const UpdateEvent & ev) override;
+		void update() override;
 		
-		bool draw(const GuiEvent & ev) override;
+		bool draw() override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

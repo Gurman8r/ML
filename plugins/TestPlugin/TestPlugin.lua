@@ -3,10 +3,10 @@
 project "TestPlugin"
 	targetname 		("%{prj.name}_%{prj_ext}")
 	location		("%{sln_dir}plugins/%{prj.name}")
+	targetdir		("%{lib_dir}")
+	objdir			("%{obj_dir}")
 	kind			("SharedLib")
 	language		("C++")
-	targetdir		(lib_dir)
-	objdir			(obj_dir)
 	cppdialect 		("C++17")
 	staticruntime 	("Off")
 	systemversion 	("latest")

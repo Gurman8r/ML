@@ -1,5 +1,5 @@
+-- Workspace
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
 workspace "ML"
 	configurations { "Debug", "Release" }
 	
@@ -7,8 +7,8 @@ workspace "ML"
 	
 	startproject ("Launcher")
 		
+-- Globals
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
 filter "system:Windows"
 	sln_dir = "%{wks.location}\\"
 	bin_dir = "%{sln_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\"
@@ -20,10 +20,9 @@ filter "system:Windows"
 	prj_ext = "%{cfg.buildcfg}_%{cfg.platform}"
 	ext_dir = "%{sln_dir}thirdparty\\"
 
+-- Core
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
 project "Core"
-	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
 	location		("%{prj_dir}%{prj.name}")
 	kind			("SharedLib")
@@ -58,10 +57,9 @@ project "Core"
 	filter "configurations:Release"
 		optimize "Speed"
 	
+-- Audio
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
 project "Audio"
-	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
 	location		("%{prj_dir}%{prj.name}")
 	kind			("SharedLib")
@@ -126,10 +124,10 @@ project "Audio"
 	filter "configurations:Release"
 		optimize "Speed"
 		
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
+-- Network
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 project "Network"
-	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
 	location		("%{prj_dir}%{prj.name}")
 	kind			("SharedLib")
@@ -181,10 +179,9 @@ project "Network"
 	filter "configurations:Release"
 		optimize "Speed"
 		
+-- Window		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
 project "Window"
-	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
 	location		("%{prj_dir}%{prj.name}")
 	kind			("SharedLib")
@@ -236,11 +233,10 @@ project "Window"
 	-- Release
 	filter "configurations:Release"
 		optimize ("On")
-	
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
+-- Graphics	
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 project "Graphics"
-	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
 	location		("%{prj_dir}%{prj.name}")
 	kind			("SharedLib")
@@ -308,11 +304,10 @@ project "Graphics"
 	-- Windows
 	filter "system:Windows"
 		linkoptions "/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib"
-		
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
+-- Engine		
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 project "Engine"
-	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
 	location		("%{prj_dir}%{prj.name}")
 	kind			("SharedLib")
@@ -379,10 +374,9 @@ project "Engine"
 		optimize "Speed"
 		links { "python39.lib" }
 		
+-- Editor
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
 project "Editor"
-	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
 	location		("%{prj_dir}%{prj.name}")
 	kind			("SharedLib")
@@ -465,10 +459,9 @@ project "Editor"
 	filter "configurations:Release"
 		optimize "Speed"
 		
+-- Launcher		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
 project "Launcher"
-	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
 	location		("%{prj_dir}%{prj.name}")
 	language		("C++")
@@ -518,7 +511,7 @@ project "Launcher"
 		"pdcurses"
 	}
 
-	-- Post Build Commands
+	-- Windows
 	filter "system:Windows"
 		postbuildcommands 
 		{	
@@ -535,91 +528,12 @@ project "Launcher"
 	filter "configurations:Release"
 		optimize("On")
 		kind	("WindowedApp")
-		
+
+-- Plugins		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-project "Noobs"
-	targetname 		("%{prj.name}_%{prj_ext}")
-	location		("%{sln_dir}plugins/%{prj.name}")
-	kind			("SharedLib")
-	language		("C++")
-	targetdir		(lib_dir)
-	objdir			(obj_dir)
-	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include", "%{prj.location}" }
-	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
-	dependson 		{ "Launcher" }
-	files 			{ "%{prj.location}/**.hpp", "%{prj.location}/**.cpp" }
-	vpaths 			{ ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
-	libdirs
-	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
-	}
-	links
-	{
-		"%{wks.name}_Audio_%{prj_ext}",
-		"%{wks.name}_Core_%{prj_ext}",
-		"%{wks.name}_Editor_%{prj_ext}",
-		"%{wks.name}_Engine_%{prj_ext}",
-		"%{wks.name}_Graphics_%{prj_ext}",
-		"%{wks.name}_Network_%{prj_ext}",
-		"%{wks.name}_Window_%{prj_ext}"
-	}
-	filter "system:Windows"
-		postbuildcommands {	"xcopy /y %{lib_dir}%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
-	filter "configurations:Debug"
-		symbols "On"
-	filter "configurations:Release"
-		optimize "Speed"
-		
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
-project "CommandSuite"
-	targetname 		("%{prj.name}_%{prj_ext}")
-	location		("%{sln_dir}plugins/%{prj.name}")
-	kind			("SharedLib")
-	language		("C++")
-	targetdir		(lib_dir)
-	objdir			(obj_dir)
-	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include", "%{prj.location}" }
-	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
-	dependson 		{ "Launcher" }
-	files 			{ "%{prj.location}/**.hpp", "%{prj.location}/**.cpp" }
-	vpaths 			{ ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
-	libdirs
-	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
-	}
-	links
-	{
-		"%{wks.name}_Audio_%{prj_ext}",
-		"%{wks.name}_Core_%{prj_ext}",
-		"%{wks.name}_Editor_%{prj_ext}",
-		"%{wks.name}_Engine_%{prj_ext}",
-		"%{wks.name}_Graphics_%{prj_ext}",
-		"%{wks.name}_Network_%{prj_ext}",
-		"%{wks.name}_Window_%{prj_ext}"
-	}
-	filter "system:Windows"
-		postbuildcommands {	"xcopy /y %{lib_dir}%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
-	filter "configurations:Debug"
-		symbols "On"
-	filter "configurations:Release"
-		optimize "Speed"
+dofile "./plugins/Noobs/Noobs.lua"
+dofile "./plugins/CommandSuite/CommandSuite.lua"
+dofile "./plugins/TestPlugin/TestPlugin.lua"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

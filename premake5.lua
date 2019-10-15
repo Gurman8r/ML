@@ -167,6 +167,58 @@ project "Network"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
+project "Window"
+	-- General
+	targetname 		("ML_%{prj.name}_%{prj_ext}")
+	location		("%{prj_dir}%{prj.name}")
+	kind			("SharedLib")
+	language		("C++")
+	targetdir		(lib_dir)
+	objdir			(obj_dir)
+	cppdialect 		("C++17")
+	staticruntime 	("Off")
+	systemversion 	("latest")
+
+	-- Additional Include Directories
+	includedirs { "%{sln_dir}include", "%{ext_dir}include" }
+
+	-- Preprocessor Definitions
+	defines { "ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
+	
+	-- Project Dependencies
+	dependson { "Core" }
+
+	-- Source Files
+	files { "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
+	
+	-- Project Filters
+	vpaths { ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
+
+	-- Additional Library Directories
+	libdirs
+	{
+		"%{sln_dir}lib/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/",
+		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}thirdparty/lib/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
+		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+	}
+
+	-- Linker Input
+	links { "%{wks.name}_Core_%{prj_ext}", "opengl32", "glfw3" }
+
+	-- Debug
+	filter "configurations:Debug"
+		symbols ("On")
+		linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
+
+	-- Release
+	filter "configurations:Release"
+		optimize ("On")
+	
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 project "Graphics"
 	-- General
 	targetname 		("ML_%{prj.name}_%{prj_ext}")
@@ -229,61 +281,6 @@ project "Graphics"
 	filter "system:Windows"
 		linkoptions "/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib"
 		
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-
-project "Window"
-	-- General
-	targetname 		("ML_%{prj.name}_%{prj_ext}")
-	location		("%{prj_dir}%{prj.name}")
-	kind			("SharedLib")
-	language		("C++")
-	targetdir		(lib_dir)
-	objdir			(obj_dir)
-	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
-
-	-- Additional Include Directories
-	includedirs { "%{sln_dir}include", "%{ext_dir}include" }
-
-	-- Preprocessor Definitions
-	defines { "ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
-	
-	-- Project Dependencies
-	dependson { "Core" }
-
-	-- Source Files
-	files { "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
-	
-	-- Project Filters
-	vpaths { ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
-
-	-- Additional Library Directories
-	libdirs
-	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
-	}
-
-	-- Linker Input
-	links
-	{
-		"%{wks.name}_Core_%{prj_ext}", "opengl32", "glfw3"
-	}
-
-	-- Debug
-	filter "configurations:Debug"
-		symbols ("On")
-		linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
-
-	-- Release
-	filter "configurations:Release"
-		optimize ("On")
-	
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 project "Engine"

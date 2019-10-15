@@ -127,7 +127,7 @@ namespace ml
 		}
 	}
 	
-	void Text::draw(RenderTarget & target, RenderBatch batch) const
+	void Text::draw(const RenderTarget & target, RenderBatch batch) const
 	{
 		if (m_font && batch.mat)
 		{

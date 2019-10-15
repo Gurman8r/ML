@@ -17,7 +17,7 @@ namespace ml
 
 		virtual ~Drawable() {}
 
-		virtual void draw(RenderTarget & target, RenderBatch batch) const = 0;
+		virtual void draw(const RenderTarget & target, RenderBatch batch) const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

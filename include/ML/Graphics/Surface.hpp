@@ -28,7 +28,7 @@ namespace ml
 		bool dispose() override;
 		bool create();
 		bool update(const vec2i & size);
-		void draw(RenderTarget & target, RenderBatch batch) const override;
+		void draw(const RenderTarget & target, RenderBatch batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

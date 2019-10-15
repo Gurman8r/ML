@@ -99,7 +99,7 @@ namespace ml
 		return false;
 	}
 
-	void Surface::draw(RenderTarget & target, RenderBatch batch) const
+	void Surface::draw(const RenderTarget & target, RenderBatch batch) const
 	{
 		if (*this)
 		{

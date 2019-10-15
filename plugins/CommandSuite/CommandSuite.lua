@@ -34,11 +34,14 @@ project "CommandSuite"
 		"%{wks.name}_Network_%{prj_ext}",
 		"%{wks.name}_Window_%{prj_ext}"
 	}
-	filter "system:Windows"
-		postbuildcommands {	"xcopy /y %{lib_dir}%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 	filter "configurations:Debug"
 		symbols "On"
 	filter "configurations:Release"
 		optimize "Speed"
+	filter "system:Windows"
+		postbuildcommands 
+		{
+			"xcopy /y %{lib_dir}%{prj.name}_%{prj_ext}.dll %{bin_dir}"
+		}
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

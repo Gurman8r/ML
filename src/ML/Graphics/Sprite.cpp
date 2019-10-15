@@ -86,7 +86,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Sprite::draw(RenderTarget & target, RenderBatch batch) const
+	void Sprite::draw(const RenderTarget & target, RenderBatch batch) const
 	{
 		if (m_texture && batch.mat)
 		{

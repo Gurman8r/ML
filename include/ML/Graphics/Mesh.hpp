@@ -36,7 +36,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void draw(RenderTarget & target, RenderBatch batch) const override;
+		void draw(const RenderTarget & target, RenderBatch batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

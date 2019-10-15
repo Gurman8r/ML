@@ -766,11 +766,11 @@ namespace ml
 				
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(obj, type, log);
 				
-				return ML_FAILURE;
+				return ML_FAILURE; // 0 (false)
 			}
 			return ML_SUCCESS; // +1 (true)
 		}
-		return ML_FAILURE;
+		return ML_FAILURE; // 0 (false)
 	}
 
 	auto OpenGL::linkShader(uint32_t obj) -> int32_t

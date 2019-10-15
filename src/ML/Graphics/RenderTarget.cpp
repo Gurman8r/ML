@@ -5,25 +5,25 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const Drawable * value)
+	const RenderTarget & RenderTarget::draw(const Drawable * value) const
 	{
 		return (value) ? this->draw(*value) : (*this);
 	}
 
-	RenderTarget & RenderTarget::draw(const Drawable * value, const RenderBatch & batch)
+	const RenderTarget & RenderTarget::draw(const Drawable * value, const RenderBatch & batch) const
 	{
 		return (value) ? this->draw(*value, batch) : (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const Drawable & value)
+	const RenderTarget & RenderTarget::draw(const Drawable & value) const
 	{
 		RenderBatch batch;
 		return this->draw(value, batch);
 	}
 
-	RenderTarget & RenderTarget::draw(const Drawable & value, const RenderBatch & batch)
+	const RenderTarget & RenderTarget::draw(const Drawable & value, const RenderBatch & batch) const
 	{
 		value.draw((*this), batch);
 		return (*this);
@@ -31,17 +31,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const List<Vertex> & verts, const RenderBatch & batch)
+	const RenderTarget & RenderTarget::draw(const List<Vertex> & verts, const RenderBatch & batch) const
 	{
 		return this->draw(alg::contiguous(verts), batch);
 	}
 
-	RenderTarget & RenderTarget::draw(const List<float_t> & verts, const RenderBatch & batch)
+	const RenderTarget & RenderTarget::draw(const List<float_t> & verts, const RenderBatch & batch) const
 	{
 		return this->draw(verts.data(), verts.size(), batch);
 	}
 
-	RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const RenderBatch & batch)
+	const RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const RenderBatch & batch) const
 	{
 		if (batch.mat) { batch.mat->bind(); }
 
@@ -52,7 +52,7 @@ namespace ml
 		return (*this);
 	}
 
-	RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const VAO * vao, const VBO * vbo)
+	const RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const VAO * vao, const VBO * vbo) const
 	{
 		if (vbo) { (*vbo).bind().bufferSubData(verts, (uint32_t)count, 0).unbind(); }
 
@@ -61,7 +61,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo, const IBO & ibo)
+	const RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo, const IBO & ibo) const
 	{
 		if (vao && vbo && ibo)
 		{
@@ -78,7 +78,7 @@ namespace ml
 		return (*this);
 	}
 	
-	RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo)
+	const RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo) const
 	{
 		if (vao && vbo)
 		{

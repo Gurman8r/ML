@@ -90,7 +90,7 @@ namespace ml
 		// Create Window
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (!m_window.create(
-			m_prefs.get_string("Window", "title",				"MemeLib"), { 
+			m_prefs.get_string	("Window", "title",				"MemeLib"), { 
 			m_prefs.get_uint	("Window", "width",				1280),
 			m_prefs.get_uint	("Window", "height",			720),
 			m_prefs.get_uint	("Window", "bits_per_pixel",	32) }, {

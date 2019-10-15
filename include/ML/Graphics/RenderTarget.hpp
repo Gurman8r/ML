@@ -20,28 +20,28 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		RenderTarget & draw(const Drawable * value);
-		RenderTarget & draw(const Drawable * value, const RenderBatch & batch);
+		const RenderTarget & draw(const Drawable * value) const;
+		const RenderTarget & draw(const Drawable * value, const RenderBatch & batch) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		RenderTarget & draw(const Drawable & value);
-		RenderTarget & draw(const Drawable & value, const RenderBatch & batch);
+		const RenderTarget & draw(const Drawable & value) const;
+		const RenderTarget & draw(const Drawable & value, const RenderBatch & batch) const;
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		RenderTarget & draw(const List<Vertex> & verts, const RenderBatch & batch);
-		RenderTarget & draw(const List<float_t> & verts, const RenderBatch & batch);
-		RenderTarget & draw(const float_t * verts, size_t count, const RenderBatch & batch);
-		RenderTarget & draw(const float_t * verts, size_t count, const VAO * vao, const VBO * vbo);
+		const RenderTarget & draw(const List<Vertex> & verts, const RenderBatch & batch) const;
+		const RenderTarget & draw(const List<float_t> & verts, const RenderBatch & batch) const;
+		const RenderTarget & draw(const float_t * verts, size_t count, const RenderBatch & batch) const;
+		const RenderTarget & draw(const float_t * verts, size_t count, const VAO * vao, const VBO * vbo) const;
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		RenderTarget & draw(const VAO & vao, const VBO & vbo, const IBO & ibo);
-		RenderTarget & draw(const VAO & vao, const VBO & vbo);
+		const RenderTarget & draw(const VAO & vao, const VBO & vbo, const IBO & ibo) const;
+		const RenderTarget & draw(const VAO & vao, const VBO & vbo) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	};
+	} const;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

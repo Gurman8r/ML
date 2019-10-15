@@ -36,12 +36,15 @@ project "Core"
 	defines 		{ "ML_CORE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
-	filter "system:Windows"
-		postbuildcommands {	"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 	filter "configurations:Debug"
 		symbols "On"
 	filter "configurations:Release"
 		optimize "Speed"
+	filter "system:Windows"
+		postbuildcommands 
+		{
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}"
+		}
 	
 -- Audio
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -72,23 +75,23 @@ project "Audio"
 	links
 	{
 		"%{wks.name}_Core_%{prj_ext}",
+		"OpenAL32",
 		"flac",
 		"ogg",
-		"OpenAL32",
 		"vorbis",
 		"vorbisenc",
-		"vorbisfile"
+		"vorbisfile",
 	}
+	filter "configurations:Debug"
+		symbols "On"
+	filter "configurations:Release"
+		optimize "Speed"
 	filter "system:Windows"
 		postbuildcommands 
 		{	
 			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}",
 			"xcopy /y %{ext_dir}bin\\OpenAL32.dll %{bin_dir}"
 		}
-	filter "configurations:Debug"
-		symbols "On"
-	filter "configurations:Release"
-		optimize "Speed"
 		
 -- Network
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -120,14 +123,17 @@ project "Network"
 	{ 
 		"%{wks.name}_Core_%{prj_ext}", 
 		"RakNet", 
-		"ws2_32" 
+		"ws2_32",
 	}
-	filter "system:Windows"
-		postbuildcommands {	"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 	filter "configurations:Debug"
 		symbols "On"
 	filter "configurations:Release"
 		optimize "Speed"
+	filter "system:Windows"
+		postbuildcommands
+		{
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}"
+		}
 		
 -- Window
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -159,15 +165,18 @@ project "Window"
 	{
 		"%{wks.name}_Core_%{prj_ext}", 
 		"opengl32", 
-		"glfw3" 
+		"glfw3",
 	}
-	filter "system:Windows"
-		postbuildcommands {	"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 	filter "configurations:Debug"
 		symbols ("On")
 		linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
 	filter "configurations:Release"
 		optimize ("On")
+	filter "system:Windows"
+		postbuildcommands
+		{
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}"
+		}
 	
 -- Graphics
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -203,20 +212,19 @@ project "Graphics"
 		"opengl32",
 		"assimp",
 		"IrrXML",
-		"zlibstatic"
+		"zlibstatic",
 	}
-	filter "system:Windows"
-		postbuildcommands 
-		{	
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}",
-			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_dir}"
-		}
 	filter "configurations:Debug"
 		symbols "On"
 	filter "configurations:Release"
 		optimize "Speed"
 	filter "system:Windows"
 		linkoptions "/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib"
+		postbuildcommands 
+		{	
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}",
+			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_dir}"
+		}
 		
 -- Engine
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -250,8 +258,14 @@ project "Engine"
 		"%{wks.name}_Graphics_%{prj_ext}",
 		"%{wks.name}_Network_%{prj_ext}",
 		"%{wks.name}_Window_%{prj_ext}",
-		"lua.lib"
+		"lua.lib",
 	}
+	filter "configurations:Debug"
+		symbols "On"
+		links { "python39_d.lib" }
+	filter "configurations:Release"
+		optimize "Speed"
+		links { "python39.lib" }
 	filter "system:Windows"
 		postbuildcommands
 		{
@@ -259,12 +273,6 @@ project "Engine"
 			"if %{cfg.buildcfg} == Debug ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_dir} )",
 			"if %{cfg.buildcfg} == Release ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_dir} )"
 		}
-	filter "configurations:Debug"
-		symbols "On"
-		links { "python39_d.lib" }
-	filter "configurations:Release"
-		optimize "Speed"
-		links { "python39.lib" }
 		
 -- Editor
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -320,12 +328,15 @@ project "Editor"
 		"%{wks.name}_Network_%{prj_ext}",
 		"%{wks.name}_Window_%{prj_ext}",
 	}
-	filter "system:Windows"
-		postbuildcommands {	"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 	filter "configurations:Debug"
 		symbols "On"
 	filter "configurations:Release"
 		optimize "Speed"
+	filter "system:Windows"
+		postbuildcommands
+		{
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}"
+		}
 		
 -- Launcher
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -362,20 +373,20 @@ project "Launcher"
 		"%{wks.name}_Graphics_%{prj_ext}",
 		"%{wks.name}_Network_%{prj_ext}",
 		"%{wks.name}_Window_%{prj_ext}",
-		"pdcurses"
+		"pdcurses",
 	}
-	filter "system:Windows"
-		postbuildcommands 
-		{	
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.exe %{bin_dir}",
-			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\pdcurses.dll %{bin_dir}"
-		}
 	filter "configurations:Debug"
 		symbols ("On")
 		kind	("ConsoleApp")
 	filter "configurations:Release"
 		optimize("On")
 		kind	("WindowedApp")
+	filter "system:Windows"
+		postbuildcommands 
+		{	
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.exe %{bin_dir}",
+			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\pdcurses.dll %{bin_dir}"
+		}
 
 
 -- Plugins		

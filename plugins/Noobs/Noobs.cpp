@@ -405,7 +405,7 @@ namespace ml
 								))
 								{
 									file->text.Render(
-										("##DemoFile##" + file->name + "##ImGuiColorTextEdit").c_str(),
+										("##DemoFile##" + file->name + "##TextEditor").c_str(),
 										{ 0, 0 }, 
 										true
 									);

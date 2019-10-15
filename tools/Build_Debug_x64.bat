@@ -1,5 +1,5 @@
 @echo off
-rem Build Release x64
+rem Build Debug x64
 cls
 set CWD=%cd%\
 pushd %CWD%

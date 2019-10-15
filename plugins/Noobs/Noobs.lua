@@ -1,7 +1,7 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 project "Noobs"
-	targetname 		("%{prj.name}_%{prj_ext}")
+	targetname 		("%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{sln_dir}plugins/%{prj.name}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
@@ -13,8 +13,8 @@ project "Noobs"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include", "%{prj.location}" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Launcher" }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
 	files 			{ "%{prj.location}/**.hpp", "%{prj.location}/**.cpp" }
-	vpaths 			{ ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
 	libdirs
 	{
 		"%{sln_dir}lib/",
@@ -26,22 +26,16 @@ project "Noobs"
 	}
 	links
 	{
-		"%{wks.name}_Audio_%{prj_ext}",
-		"%{wks.name}_Core_%{prj_ext}",
-		"%{wks.name}_Editor_%{prj_ext}",
-		"%{wks.name}_Engine_%{prj_ext}",
-		"%{wks.name}_Graphics_%{prj_ext}",
-		"%{wks.name}_Network_%{prj_ext}",
-		"%{wks.name}_Window_%{prj_ext}"
+		"%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.platform}",
+		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}",
+		"%{wks.name}_Editor_%{cfg.buildcfg}_%{cfg.platform}",
+		"%{wks.name}_Engine_%{cfg.buildcfg}_%{cfg.platform}",
+		"%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
+		"%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.platform}",
+		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.platform}"
 	}
-	filter "configurations:Debug"
-		symbols "On"
-	filter "configurations:Release"
-		optimize "Speed"
-	filter "system:Windows"
-		postbuildcommands 
-		{
-			"xcopy /y %{lib_dir}%{prj.name}_%{prj_ext}.dll %{bin_dir}"
-		}
+	filter "configurations:Debug" symbols ("On")
+	filter "configurations:Release" optimize ("Speed")
+	filter ("system:Windows") postbuildcommands { "xcopy /y %{lib_dir}%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}" }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

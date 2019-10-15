@@ -190,11 +190,9 @@ namespace ml
 
 	bool Shader::loadFromMemory(const String & value)
 	{
-		SStream vert, geom, frag;
-		return (ShaderParser::parseShader(value, vert, geom, frag)
-			? loadFromMemory(vert.str(), geom.str(), frag.str())
-			: Debug::logError("Failed Parsing Shader")
-		);
+		SStream v, g, f;
+		return ShaderParser::parseShader(value, v, g, f) &&
+			loadFromMemory(v.str(), g.str(), f.str());
 	}
 
 	bool Shader::loadFromMemory(const String & source, GL::ShaderType type)
@@ -211,63 +209,20 @@ namespace ml
 	bool Shader::loadFromMemory(const String & vs, const String & fs)
 	{
 		return loadFromMemory(vs, {}, fs);
-
-		//m_sources.gs = String();
-		//return ((vs && fs) && compile(
-		//	(m_sources.vs = ShaderParser::parseShader(vs)).c_str(),
-		//	nullptr,
-		//	(m_sources.fs = ShaderParser::parseShader(fs)).c_str()
-		//));
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & gs, const String & fs)
 	{
-		if ((vs && fs && gs) && compile(vs.c_str(), gs.c_str(), fs.c_str()))
-		{
-			m_sources.vs = ShaderParser::parseShader(vs);
-			m_sources.gs = ShaderParser::parseShader(gs);
-			m_sources.fs = ShaderParser::parseShader(fs);
-			return true;
-		}
-		else if ((vs && fs) && compile(vs.c_str(), nullptr, fs.c_str()))
-		{
-			m_sources.vs = ShaderParser::parseShader(vs);
-			m_sources.gs = {};
-			m_sources.fs = ShaderParser::parseShader(fs);
-			return true;
-		}
-		else if (vs && compile(vs.c_str(), nullptr, nullptr))
-		{
-			m_sources.vs = ShaderParser::parseShader(vs);
-			m_sources.gs = {};
-			m_sources.fs = {};
-			return true;
-		}
-		else if (fs && compile(nullptr, nullptr, fs.c_str()))
-		{
-			m_sources.vs = {};
-			m_sources.gs = {};
-			m_sources.fs = ShaderParser::parseShader(fs);
-			return true;
-		}
-		else if (gs && compile(nullptr, gs.c_str(), nullptr))
-		{
-			m_sources.vs = {};
-			m_sources.gs = ShaderParser::parseShader(gs);
-			m_sources.fs = {};
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		m_sources.vs = vs ? ShaderParser::parseShader(vs) : String();
+		m_sources.gs = gs ? ShaderParser::parseShader(gs) : String();
+		m_sources.fs = fs ? ShaderParser::parseShader(fs) : String();
 
-		//return (gs ? compile(
-		//	(m_sources.vs = ShaderParser::parseShader(vs)).c_str(),
-		//	(m_sources.gs = ShaderParser::parseShader(gs)).c_str(),
-		//	(m_sources.fs = ShaderParser::parseShader(fs)).c_str()
-		//	) : loadFromMemory(vs, fs)
-		//);
+		return
+			((vs && fs && gs) && compile(vs.c_str(), gs.c_str(), fs.c_str())) ||
+			((vs && fs) && compile(vs.c_str(), nullptr, fs.c_str())) ||
+			(vs && compile(vs.c_str(), nullptr, nullptr)) ||
+			(fs && compile(nullptr, nullptr, fs.c_str())) ||
+			(gs && compile(nullptr, gs.c_str(), nullptr));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -658,14 +613,16 @@ namespace ml
 		if (dispose() && set_handle(ML_GL.createProgramObject()))
 		{
 			C_String log { nullptr };
-			int32_t out { 0 };
 
 			// Compile Vertex
 			/* * * * * * * * * * * * * * * * * * * * */
 			uint32_t v { NULL };
 			switch (ML_GL.compileShader(v, GL::VertexShader, 1, &v_src, log))
 			{
-			case ML_SUCCESS: ML_GL.attachShader((*this), v); ML_GL.deleteShader(v); break;
+			case ML_SUCCESS: 
+				ML_GL.attachShader((*this), v); 
+				ML_GL.deleteShader(v);
+				break;
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::VertexShader, log);
 				ML_GL.deleteShader(*this); 
@@ -677,7 +634,10 @@ namespace ml
 			uint32_t g { NULL };
 			switch (ML_GL.compileShader(g, GL::GeometryShader, 1, &g_src, log))
 			{
-			case ML_SUCCESS: ML_GL.attachShader((*this), g); ML_GL.deleteShader(g); break;
+			case ML_SUCCESS:
+				ML_GL.attachShader((*this), g);
+				ML_GL.deleteShader(g); 
+				break;
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::GeometryShader, log);
 				ML_GL.deleteShader(*this); 
@@ -689,7 +649,10 @@ namespace ml
 			uint32_t f { NULL };
 			switch (ML_GL.compileShader(f, GL::FragmentShader, 1, &f_src, log))
 			{
-			case ML_SUCCESS: ML_GL.attachShader((*this), f); ML_GL.deleteShader(f); break;
+			case ML_SUCCESS:
+				ML_GL.attachShader((*this), f); 
+				ML_GL.deleteShader(f); 
+				break;
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::FragmentShader, log);
 				ML_GL.deleteShader(*this); 

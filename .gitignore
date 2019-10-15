@@ -1,9 +1,9 @@
 /.vs
-/obj
-/tmp
-/lib
 /bin
+/lib
+/obj
 /proj
+/tmp
 __pycache__/
 imgui.ini
 desktop.ini

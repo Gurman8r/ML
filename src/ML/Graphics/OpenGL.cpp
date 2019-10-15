@@ -757,7 +757,7 @@ namespace ml
 	auto OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source, C_String & log)->int32_t
 	{
 		log = nullptr;
-		if (!source || !(*source))
+		if ((count < 1) || !source || !(*source))
 		{
 			return ML_WARNING; // -1 (true)
 		}

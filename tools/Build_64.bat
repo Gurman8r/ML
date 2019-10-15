@@ -15,4 +15,4 @@ cd %env_path%
 call msbuild.exe %*
 
 popd
-pause
+if %ERRORLEVEL% NEQ 0 ( pause )

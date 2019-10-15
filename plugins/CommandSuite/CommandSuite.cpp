@@ -272,14 +272,7 @@ namespace ml
 			"py [CODE]...",
 			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 			{
-				if (args.size() == 2)
-				{
-					if (args[1] == "--restart")
-					{
-						ML_Py.restart();
-					}
-				}
-				else if (const String code = ([&]()
+				if (const String code = ([&]()
 				{
 					if (args.size() == 1) return String();
 					SStream ss;

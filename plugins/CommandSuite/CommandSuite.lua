@@ -2,7 +2,7 @@
 
 project "CommandSuite"
 	targetname 		("%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{sln_dir}plugins/%{prj.name}")
+	location		("%{sln_dir}proj/plugins/%{prj.name}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	kind			("SharedLib")
@@ -10,11 +10,15 @@ project "CommandSuite"
 	cppdialect 		("C++17")
 	staticruntime 	("Off")
 	systemversion 	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include", "%{prj.location}" }
+	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include", "%{sln_dir}plugins/%{prj.name}" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Launcher" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
-	files 			{ "%{prj.location}/**.hpp", "%{prj.location}/**.cpp" }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	files 
+	{ 
+		"%{sln_dir}plugins/%{prj.name}/**.h", "%{sln_dir}plugins/%{prj.name}/**.hpp",
+		"%{sln_dir}plugins/%{prj.name}/**.c", "%{sln_dir}plugins/%{prj.name}/**.cpp"
+	}
 	libdirs
 	{
 		"%{sln_dir}lib/",

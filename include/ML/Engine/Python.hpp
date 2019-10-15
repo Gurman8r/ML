@@ -33,7 +33,8 @@ namespace ml
 				Py_SetProgramName(util::widen(m_name = name).c_str());
 				Py_SetPythonHome(util::widen(m_home = home).c_str());
 				Py_Initialize();
-				return (m_init = true);
+				m_init = true;
+				return true;
 			}
 			return false;
 		}
@@ -52,7 +53,8 @@ namespace ml
 			if (m_init)
 			{
 				Py_Finalize();
-				return !(m_init = false);
+				m_init = false;
+				return true;
 			}
 			return false;
 		}

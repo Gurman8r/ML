@@ -4,7 +4,7 @@
 workspace "ML"
 	startproject ("Launcher")
 	configurations { "Debug", "Release" }
-	platforms { "Win32", "x86", "Win64", "x64" }
+	platforms { "x86", "x64" }
 	filter ("platforms:*32") architecture("x86")
 	filter ("platforms:*86") architecture("x86")
 	filter ("platforms:*64") architecture("x64")
@@ -21,7 +21,7 @@ filter ("system:not Windows")
 	tmp_dir = "%{sln_dir}tmp/%{cfg.buildcfg}/%{cfg.platform}/"
 	inc_dir = "%{sln_dir}include/%{wks.name}/%{prj.name}/"
 	src_dir = "%{sln_dir}src/%{wks.name}/%{prj.name}/"
-	prj_dir = "%{sln_dir}proj/%{wks.name}/"
+	prj_dir = "%{sln_dir}proj/%{wks.name}/%{prj.name}/"
 	ext_dir = "%{sln_dir}thirdparty/"
 	
 filter ("system:Windows")
@@ -32,7 +32,7 @@ filter ("system:Windows")
 	tmp_dir = "%{sln_dir}obj\\%{cfg.buildcfg}\\%{cfg.platform}\\"
 	inc_dir = "%{sln_dir}include\\%{wks.name}\\%{prj.name}\\"
 	src_dir = "%{sln_dir}src\\%{wks.name}\\%{prj.name}\\"
-	prj_dir = "%{sln_dir}proj\\%{wks.name}\\"
+	prj_dir = "%{sln_dir}proj\\%{wks.name}\\%{prj.name}\\"
 	ext_dir = "%{sln_dir}thirdparty\\"
 	
 	
@@ -44,7 +44,7 @@ project "Core"
 	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
-	location		("%{prj_dir}%{prj.name}")
+	location		("%{prj_dir}")
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
@@ -52,8 +52,8 @@ project "Core"
 	systemversion 	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_CORE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
-	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	filter ("configurations:Debug") symbols ("On")
 	filter ("configurations:Release") optimize ("Speed")
 	filter ("system:Windows")
@@ -69,7 +69,7 @@ project "Core"
 group "MemeLib"
 project "Audio"
 	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{prj_dir}%{prj.name}")
+	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	kind			("SharedLib")
@@ -80,7 +80,7 @@ project "Audio"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
@@ -112,7 +112,7 @@ project "Audio"
 group "MemeLib"
 project "Network"
 	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{prj_dir}%{prj.name}")
+	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	kind			("SharedLib")
@@ -123,7 +123,7 @@ project "Network"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_NETWORK_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
@@ -154,7 +154,7 @@ project "Network"
 group "MemeLib"
 project "Window"
 	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{prj_dir}%{prj.name}")
+	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	kind			("SharedLib")
@@ -165,7 +165,7 @@ project "Window"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
@@ -196,7 +196,7 @@ project "Window"
 group "MemeLib"
 project "Graphics"
 	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{prj_dir}%{prj.name}")
+	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	kind			("SharedLib")
@@ -207,7 +207,7 @@ project "Graphics"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_GRAPHICS_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core", "Window" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
@@ -241,7 +241,7 @@ project "Graphics"
 group "MemeLib"
 project "Engine"
 	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{prj_dir}%{prj.name}")
+	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	kind			("SharedLib")
@@ -251,7 +251,7 @@ project "Engine"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_ENGINE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Graphics", "Network", "Window" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
@@ -288,7 +288,7 @@ project "Engine"
 group "MemeLib"
 project "Editor"
 	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{prj_dir}%{prj.name}")
+	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	kind			("SharedLib")
@@ -300,7 +300,7 @@ project "Editor"
 	defines 		{ "ML_EDITOR_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Engine", "Graphics", "Network", "Window" }
 	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp", "**.hxx" }, ["Sources"] = { "**.c", "**.cpp", "**.cxx" } }
+	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	files 
 	{ 
 		"%{inc_dir}**.hpp", 
@@ -344,7 +344,7 @@ project "Editor"
 group "MemeLib"
 project "Launcher"
 	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{prj_dir}%{prj.name}")
+	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	debugdir 		("%{bin_dir}")
@@ -356,19 +356,18 @@ project "Launcher"
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window" }
 	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp", "%{sln_dir}ML.ini", "%{sln_dir}assets/**.**", }
-	excludes 		{ "%{sln_dir}assets/scripts/Lib/**.**" }
 	vpaths
 	{
-		["Headers"] 		= { "**.h", "**.hpp", "**.hxx" }, 
-		["Sources"] 		= { "**.c", "**.cpp", "**.cxx" },
-		["Assets/Docs"] 	= { "**.txt", "**.md" },
-		["Assets/Fonts"] 	= { "**.ttf", "**.otf" },
-		["Assets/Materials"]= { "**.mat", "**.mtl" },
-		["Assets/Meshes"] 	= { "**.obj", "**.fbx" },
-		["Assets/Scripts"] 	= { "**.py", "**.lua" },
-		["Assets/Shaders"] 	= { "**.glsl", "**.hlsl", "**.shader" },
-		["Assets/Styles"] 	= { "**.style" },
-		["Assets/Textures"] = { "**.png", "**.jpg", "**.tiff" },
+		["Docs"] 		= { "**.txt", "**.md" },
+		["Headers"] 	= { "**.h", "**.hpp" },
+		["Fonts"] 		= { "**.ttf", "**.otf" },
+		["Materials"]	= { "**.mat", "**.mtl" },
+		["Meshes"] 		= { "**.obj", "**.fbx" },
+		["Scripts"] 	= { "**.py", "**.lua" },
+		["Shaders"] 	= { "**.glsl", "**.hlsl", "**.shader" },
+		["Sources"] 	= { "**.c", "**.cpp" },
+		["Styles"] 		= { "**.style" },
+		["Textures"] 	= { "**.png", "**.jpg", "**.tiff" }, 
 	}
 	libdirs
 	{

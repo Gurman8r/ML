@@ -48,8 +48,8 @@ project "Core"
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
+	staticruntime	("Off")
+	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_CORE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
@@ -75,8 +75,8 @@ project "Audio"
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
+	staticruntime	("Off")
+	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
@@ -118,8 +118,8 @@ project "Network"
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
+	staticruntime	("Off")
+	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_NETWORK_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
@@ -160,8 +160,8 @@ project "Window"
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
+	staticruntime	("Off")
+	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
@@ -202,8 +202,8 @@ project "Graphics"
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
+	staticruntime	("Off")
+	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_GRAPHICS_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core", "Window" }
@@ -247,7 +247,8 @@ project "Engine"
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
-	staticruntime 	("Off")
+	staticruntime	("Off")
+	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_ENGINE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Graphics", "Network", "Window" }
@@ -294,8 +295,8 @@ project "Editor"
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
+	staticruntime	("Off")
+	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_EDITOR_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Engine", "Graphics", "Network", "Window" }
@@ -350,8 +351,8 @@ project "Launcher"
 	debugdir 		("%{bin_dir}")
 	language		("C++")
 	cppdialect 		("C++17")
-	staticruntime 	("Off")
-	systemversion 	("latest")
+	staticruntime	("Off")
+	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window" }

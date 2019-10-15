@@ -30,13 +30,13 @@ project "Noobs"
 	}
 	links
 	{
-		"%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Editor_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Engine_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.platform}"
+		"ML_Audio_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Editor_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Engine_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Network_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}"
 	}
 	filter "configurations:Debug" symbols ("On")
 	filter "configurations:Release" optimize ("Speed")

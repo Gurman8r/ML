@@ -19,9 +19,9 @@ filter ("system:not Windows")
 	lib_dir = "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/"
 	obj_dir = "%{sln_dir}obj/%{cfg.buildcfg}/%{cfg.platform}/"
 	tmp_dir = "%{sln_dir}tmp/%{cfg.buildcfg}/%{cfg.platform}/"
-	inc_dir = "%{sln_dir}include/%{wks.name}/%{prj.name}/"
-	src_dir = "%{sln_dir}src/%{wks.name}/%{prj.name}/"
-	prj_dir = "%{sln_dir}proj/%{wks.name}/%{prj.name}/"
+	inc_dir = "%{sln_dir}include/ML/%{prj.name}/"
+	src_dir = "%{sln_dir}src/ML/%{prj.name}/"
+	prj_dir = "%{sln_dir}proj/ML/%{prj.name}/"
 	ext_dir = "%{sln_dir}thirdparty/"
 	
 filter ("system:Windows")
@@ -30,9 +30,9 @@ filter ("system:Windows")
 	lib_dir = "%{sln_dir}lib\\%{cfg.buildcfg}\\%{cfg.platform}\\"
 	obj_dir = "%{sln_dir}obj\\%{cfg.buildcfg}\\%{cfg.platform}\\"
 	tmp_dir = "%{sln_dir}obj\\%{cfg.buildcfg}\\%{cfg.platform}\\"
-	inc_dir = "%{sln_dir}include\\%{wks.name}\\%{prj.name}\\"
-	src_dir = "%{sln_dir}src\\%{wks.name}\\%{prj.name}\\"
-	prj_dir = "%{sln_dir}proj\\%{wks.name}\\%{prj.name}\\"
+	inc_dir = "%{sln_dir}include\\ML\\%{prj.name}\\"
+	src_dir = "%{sln_dir}src\\ML\\%{prj.name}\\"
+	prj_dir = "%{sln_dir}proj\\ML\\%{prj.name}\\"
 	ext_dir = "%{sln_dir}thirdparty\\"
 	
 	
@@ -41,7 +41,7 @@ filter ("system:Windows")
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 group "MemeLib"
 project "Core"
-	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
 	location		("%{prj_dir}")
@@ -59,7 +59,7 @@ project "Core"
 	filter ("system:Windows")
 		postbuildcommands 
 		{
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
+			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
 		}
 		
 
@@ -68,7 +68,7 @@ project "Core"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 group "MemeLib"
 project "Audio"
-	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
@@ -93,7 +93,7 @@ project "Audio"
 	}
 	links
 	{
-		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
 		"OpenAL32", "flac", "ogg", "vorbis", "vorbisenc", "vorbisfile",
 	}
 	filter ("configurations:Debug") symbols ("On")
@@ -101,7 +101,7 @@ project "Audio"
 	filter ("system:Windows")
 		postbuildcommands 
 		{	
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
+			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
 			"xcopy /y %{ext_dir}bin\\OpenAL32.dll %{bin_dir}"
 		}
 		
@@ -111,7 +111,7 @@ project "Audio"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 group "MemeLib"
 project "Network"
-	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
@@ -136,7 +136,7 @@ project "Network"
 	}
 	links
 	{ 
-		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}", 
+		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}", 
 		"RakNet", "ws2_32",
 	}
 	filter ("configurations:Debug") symbols ("On")
@@ -144,7 +144,7 @@ project "Network"
 	filter ("system:Windows")
 		postbuildcommands
 		{
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
+			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
 		}
 		
 
@@ -153,7 +153,7 @@ project "Network"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 group "MemeLib"
 project "Window"
-	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
@@ -178,7 +178,7 @@ project "Window"
 	}
 	links 
 	{
-		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}", 
+		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}", 
 		"opengl32", "glfw3",
 	}
 	filter ("configurations:Debug") symbols ("On") linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
@@ -186,7 +186,7 @@ project "Window"
 	filter ("system:Windows")
 		postbuildcommands
 		{
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
+			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
 		}
 		
 		
@@ -195,7 +195,7 @@ project "Window"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 group "MemeLib"
 project "Graphics"
-	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
@@ -220,8 +220,8 @@ project "Graphics"
 	}
 	links
 	{
-		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
 		"glew32s", "opengl32", "assimp", "IrrXML", "zlibstatic",
 	}
 	filter ("configurations:Debug") symbols ("On")
@@ -230,7 +230,7 @@ project "Graphics"
 		linkoptions ("/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib")
 		postbuildcommands 
 		{
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
+			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
 			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_dir}"
 		}
 		
@@ -240,7 +240,7 @@ project "Graphics"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 group "MemeLib"
 project "Engine"
-	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
@@ -264,11 +264,11 @@ project "Engine"
 	}
 	links
 	{
-		"%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Audio_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Network_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
 		"lua",
 	}
 	filter ("configurations:Debug") symbols ("On") links { "python39_d" }
@@ -276,7 +276,7 @@ project "Engine"
 	filter ("system:Windows")
 		postbuildcommands
 		{
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
+			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
 			"if %{cfg.buildcfg} == Debug ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_dir} )",
 			"if %{cfg.buildcfg} == Release ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_dir} )"
 		}
@@ -287,7 +287,7 @@ project "Engine"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 group "MemeLib"
 project "Editor"
-	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
@@ -305,7 +305,7 @@ project "Editor"
 	{ 
 		"%{inc_dir}**.hpp", 
 		"%{src_dir}**.cpp",
-		"%{sln_dir}src/%{wks.name}/%{prj.name}/**.cpp",
+		"%{sln_dir}src/ML/%{prj.name}/**.cpp",
 		"%{sln_dir}thirdparty/include/imgui/**.h",
 		"%{sln_dir}thirdparty/include/imgui/**.cpp",
 		"%{sln_dir}thirdparty/include/ImGuiColorTextEdit/**.h",
@@ -322,19 +322,19 @@ project "Editor"
 	}
 	links
 	{
-		"%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Engine_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Audio_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Engine_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Network_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
 	}
 	filter ("configurations:Debug") symbols ("On")
 	filter ("configurations:Release") optimize ("Speed")
 	filter ("system:Windows")
 		postbuildcommands
 		{
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
+			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
 		}
 		
 		
@@ -343,7 +343,7 @@ project "Editor"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 group "MemeLib"
 project "Launcher"
-	targetname 		("%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
 	targetdir		("%{lib_dir}")
 	objdir			("%{obj_dir}")
@@ -380,13 +380,13 @@ project "Launcher"
 	}
 	links
 	{
-		"%{wks.name}_Audio_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Core_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Editor_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Engine_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Network_%{cfg.buildcfg}_%{cfg.platform}",
-		"%{wks.name}_Window_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Audio_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Editor_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Engine_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Network_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
 		"pdcurses",
 	}
 	filter ("configurations:Debug") kind("ConsoleApp") symbols("On")
@@ -394,7 +394,7 @@ project "Launcher"
 	filter ("system:Windows")
 		postbuildcommands 
 		{	
-			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.exe %{bin_dir}",
+			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.exe %{bin_dir}",
 			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\pdcurses.dll %{bin_dir}"
 		}
 

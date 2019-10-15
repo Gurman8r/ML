@@ -26,7 +26,6 @@ namespace ml
 
 		void onEvent(const Event & value) override;
 
-	private:
 		void onEnter	(const EnterEvent & ev);
 		void onUpdate	(const UpdateEvent & ev);
 		void onBeginGui	(const BeginGuiEvent & ev);
@@ -35,16 +34,6 @@ namespace ml
 		void onUnload	(const UnloadEvent & ev);
 		void onExit		(const ExitEvent & ev);
 
-	public:
-		inline auto about()		-> EditorAbout		&	{ return m_about; }
-		inline auto content()	-> EditorContent	&	{ return m_content; }
-		inline auto dockspace() -> EditorDockspace	&	{ return m_dockspace; }
-		inline auto explorer()	-> EditorExplorer	&	{ return m_explorer; }
-		inline auto inspector() -> EditorInspector	&	{ return m_inspector; }
-		inline auto profiler()	-> EditorProfiler	&	{ return m_profiler; }
-		inline auto terminal()	-> EditorTerminal	&	{ return m_terminal; }
-
-	private:
 		EditorAbout		m_about;
 		EditorDockspace	m_dockspace;
 		EditorContent	m_content;
@@ -53,6 +42,15 @@ namespace ml
 		EditorManual	m_manual;
 		EditorProfiler	m_profiler;
 		EditorTerminal	m_terminal;
+
+	public:
+		inline auto & about()		{ return m_about; }
+		inline auto & content()		{ return m_content; }
+		inline auto & dockspace()	{ return m_dockspace; }
+		inline auto & explorer()	{ return m_explorer; }
+		inline auto & inspector()	{ return m_inspector; }
+		inline auto & profiler()	{ return m_profiler; }
+		inline auto & terminal()	{ return m_terminal; }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -17,3 +17,7 @@ __pycache__/
 /tools/PC_Run/.vs/PC_Run/v15/*.suo
 /ML.sln
 /proj
+/plugins/CommandSuite/CommandSuite.vcxproj
+/plugins/CommandSuite/CommandSuite.vcxproj.filters
+/plugins/Noobs/Noobs.vcxproj
+/plugins/Noobs/Noobs.vcxproj.filters

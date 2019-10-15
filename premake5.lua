@@ -45,6 +45,10 @@ project "Core"
 	
 	-- Project Filters
 	vpaths { ["Header Files"] = { "**.h", "**.hpp" }, ["Source Files"] = { "**.c", "**.cpp"} }
+	
+	-- Post Build Commands
+	filter "system:Windows"
+		postbuildcommands {	"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 
 	-- Debug
 	filter "configurations:Debug"
@@ -105,6 +109,14 @@ project "Audio"
 		"vorbisenc",
 		"vorbisfile"
 	}
+	
+	-- Post Build Commands
+	filter "system:Windows"
+		postbuildcommands 
+		{	
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}",
+			"xcopy /y %{ext_dir}bin\\OpenAL32.dll %{bin_dir}"
+		}
 
 	-- Debug
 	filter "configurations:Debug"
@@ -156,6 +168,10 @@ project "Network"
 
 	-- Linker Input
 	links { "%{wks.name}_Core_%{prj_ext}", "RakNet", "ws2_32" }
+	
+	-- Post Build Commands
+	filter "system:Windows"
+		postbuildcommands {	"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 
 	-- Debug
 	filter "configurations:Debug"
@@ -207,6 +223,10 @@ project "Window"
 
 	-- Linker Input
 	links { "%{wks.name}_Core_%{prj_ext}", "opengl32", "glfw3" }
+	
+	-- Post Build Commands
+	filter "system:Windows"
+		postbuildcommands {	"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 
 	-- Debug
 	filter "configurations:Debug"
@@ -268,6 +288,14 @@ project "Graphics"
 		"IrrXML",
 		"zlibstatic"
 	}
+	
+	-- Post Build Commands
+	filter "system:Windows"
+		postbuildcommands 
+		{	
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}",
+			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_dir}"
+		}
 
 	-- Debug
 	filter "configurations:Debug"
@@ -331,6 +359,15 @@ project "Engine"
 		"%{wks.name}_Window_%{prj_ext}",
 		"lua.lib"
 	}
+	
+	-- Post Build Commands
+	filter "system:Windows"
+		postbuildcommands
+		{
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}",
+			"if %{cfg.buildcfg} == Debug ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_dir} )",
+			"if %{cfg.buildcfg} == Release ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_dir} )"
+		}
 
 	-- Debug
 	filter "configurations:Debug"
@@ -415,6 +452,10 @@ project "Editor"
 		"%{wks.name}_Network_%{prj_ext}",
 		"%{wks.name}_Window_%{prj_ext}",
 	}
+	
+	-- Post Build Commands
+	filter "system:Windows"
+		postbuildcommands {	"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.dll %{bin_dir}" }
 
 	-- Debug
 	filter "configurations:Debug"
@@ -481,19 +522,8 @@ project "Launcher"
 	filter "system:Windows"
 		postbuildcommands 
 		{	
-			"xcopy /y %{lib_dir}%{wks.name}_Audio_%{prj_ext}.dll %{bin_dir}",
-			"xcopy /y %{lib_dir}%{wks.name}_Core_%{prj_ext}.dll %{bin_dir}",
-			"xcopy /y %{lib_dir}%{wks.name}_Editor_%{prj_ext}.dll %{bin_dir}",
-			"xcopy /y %{lib_dir}%{wks.name}_Engine_%{prj_ext}.dll %{bin_dir}",
-			"xcopy /y %{lib_dir}%{wks.name}_Graphics_%{prj_ext}.dll %{bin_dir}",
-			"xcopy /y %{lib_dir}%{wks.name}_Launcher_%{prj_ext}.exe %{bin_dir}",
-			"xcopy /y %{lib_dir}%{wks.name}_Network_%{prj_ext}.dll %{bin_dir}",
-			"xcopy /y %{lib_dir}%{wks.name}_Window_%{prj_ext}.dll %{bin_dir}",
-			"xcopy /y %{ext_dir}bin\\OpenAL32.dll %{bin_dir}",
-			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\pdcurses.dll %{bin_dir}",
-			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_dir}",
-			"if %{cfg.buildcfg} == Debug ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_dir} )",
-			"if %{cfg.buildcfg} == Release ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_dir} )"
+			"xcopy /y %{lib_dir}%{wks.name}_%{prj.name}_%{prj_ext}.exe %{bin_dir}",
+			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\pdcurses.dll %{bin_dir}"
 		}
 
 	-- Debug

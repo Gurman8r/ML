@@ -3,7 +3,6 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
-#include <ML/Engine/PluginManager.hpp>
 
 ml::int32_t main()
 {
@@ -13,7 +12,6 @@ ml::int32_t main()
 	ML_EventSystem;
 	ML_Engine;
 	ML_Editor;
-	ML_Plugins;
 
 	// Startup Sequence
 	ML_EventSystem.fireEvent<EnterEvent>();

@@ -11,15 +11,11 @@ namespace ml
 
 	struct ML_PLUGIN_API TestPlugin final : public Plugin
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		TestPlugin();
 		
 		~TestPlugin() {}
 
 		void onEvent(const Event & value) override;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 	
 	/* * * * * * * * * * * * * * * * * * * * */

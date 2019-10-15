@@ -52,8 +52,8 @@ project "Core"
 	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_CORE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
+	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
-	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	filter ("configurations:Debug") symbols ("On")
 	filter ("configurations:Release") optimize ("Speed")
 	filter ("system:Windows")
@@ -80,8 +80,8 @@ project "Audio"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
+	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
-	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
 		"%{sln_dir}lib/",
@@ -123,8 +123,8 @@ project "Network"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_NETWORK_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
+	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
-	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
 		"%{sln_dir}lib/",
@@ -165,8 +165,8 @@ project "Window"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
+	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
-	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
 		"%{sln_dir}lib/",
@@ -207,8 +207,8 @@ project "Graphics"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_GRAPHICS_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core", "Window" }
+	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
-	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
 		"%{sln_dir}lib/",
@@ -252,8 +252,8 @@ project "Engine"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_ENGINE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Graphics", "Network", "Window" }
+	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
-	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
 	libdirs
 	{
 		"%{sln_dir}lib/",
@@ -300,18 +300,17 @@ project "Editor"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "ML_EDITOR_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Engine", "Graphics", "Network", "Window" }
-	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	files 
 	{ 
-		"%{inc_dir}**.hpp", 
-		"%{src_dir}**.cpp",
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", 
+		"%{src_dir}**.c", "%{src_dir}**.cpp", 
 		"%{sln_dir}src/ML/%{prj.name}/**.cpp",
 		"%{sln_dir}thirdparty/include/imgui/**.h",
 		"%{sln_dir}thirdparty/include/imgui/**.cpp",
 		"%{sln_dir}thirdparty/include/ImGuiColorTextEdit/**.h",
 		"%{sln_dir}thirdparty/include/ImGuiColorTextEdit/**.cpp",
 	}
+	vpaths { ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	libdirs
 	{
 		"%{sln_dir}lib/",
@@ -356,7 +355,12 @@ project "Launcher"
 	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window" }
-	files 			{ "%{inc_dir}**.hpp", "%{src_dir}**.cpp", "%{sln_dir}ML.ini", "%{sln_dir}assets/**.**", }
+	files 
+	{
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", 
+		"%{src_dir}**.c", "%{src_dir}**.cpp", 
+		"%{sln_dir}ML.ini", "%{sln_dir}assets/**.**", 
+	}
 	vpaths
 	{
 		["Docs"] 		= { "**.txt", "**.md" },

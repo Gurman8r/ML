@@ -406,6 +406,5 @@ group "Plugins"
 dofile "./plugins/Noobs/Noobs.lua"
 dofile "./plugins/CommandSuite/CommandSuite.lua"
 dofile "./plugins/TestPlugin/TestPlugin.lua"
-
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

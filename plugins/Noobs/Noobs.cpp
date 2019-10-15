@@ -60,8 +60,39 @@ namespace ml
 		case ShaderErrorEvent::ID:
 			if (auto ev = value.as<ShaderErrorEvent>())
 			{
-				//Debug::logError("Failed compiling {0} source", (GL::ShaderType)ev->type);
-				//cout << ev->error << endl;
+				if (ev->obj && (ev->obj == m_renderer->shader()))
+				{
+					// Decode Errors
+					SStream ss { String{ ev->error } };
+					String line;
+					while (std::getline(ss, line, '\n'))
+					{
+						auto err { decode_error(ev->type, line) };
+						switch (ev->type)
+						{
+						case GL::VertexShader:
+							m_files[DemoFile::Vert]->errs.push_back(err);
+							break;
+						case GL::FragmentShader:
+							m_files[DemoFile::Frag]->errs.push_back(err);
+							break;
+						case GL::GeometryShader:
+							m_files[DemoFile::Geom]->errs.push_back(err);
+							break;
+						}
+					}
+
+					// Set Markers
+					for (auto & file : m_files)
+					{
+						TextEditor::ErrorMarkers markers;
+						for (auto & err : file->errs)
+						{
+							markers.insert({ err.line, err.code + ": " + err.desc });
+						}
+						file->text.SetErrorMarkers(markers);
+					}
+				}
 			}
 			break;
 
@@ -291,9 +322,11 @@ namespace ml
 		{
 			if (Shader * s { m_renderer->shader() })
 			{
-				for (DemoFile *& f : m_files)
+				for (auto & f : m_files)
 				{
-					if (f) { f->dirty = false; }
+					f->dirty = false;
+					f->errs.clear();
+					f->text.SetErrorMarkers({});
 				}
 
 				if (m_files[DemoFile::Geom]->open)
@@ -374,15 +407,6 @@ namespace ml
 					// Text Editors
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					// Error Markers
-					//static bool once { false };
-					//if (!once && (once = true))
-					//{
-					//	m_files[0]->text.SetErrorMarkers({
-					//		{ 1, "Example error here" }
-					//	});
-					//}
-
 					if (ImGui::BeginChildFrame(
 						ImGui::GetID("DemoFile##TextEditors"),
 						{ max_size[0], max_size[1] - tools_height },
@@ -392,7 +416,7 @@ namespace ml
 						// Demo File Tab Bar
 						for (size_t i = 0; i < m_files.size(); i++)
 						{
-							DemoFile *& file { m_files[i] };
+							auto & file { m_files[i] };
 							if (file && file->open)
 							{
 								// Demo File Tab
@@ -1007,7 +1031,6 @@ namespace ml
 				{
 					m_files[type]->text.SetText(src);
 				}
-
 				return m_files[type];
 			}
 			return (DemoFile *)nullptr;
@@ -1037,7 +1060,7 @@ namespace ml
 
 	void Noobs::reset_sources()
 	{
-		for (DemoFile *& f : m_files)
+		for (auto & f : m_files)
 		{
 			if (!f) continue;
 			f->open = false;

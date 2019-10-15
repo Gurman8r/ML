@@ -58,6 +58,84 @@ namespace ml
 		};
 
 
+		// ERROR
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		struct Error final : Newable
+		{
+			String	file;
+			int32_t line;
+			String	code;
+			String	desc;
+
+			Error(const String & file, int32_t line, const String & code, const String & expr)
+				: file { file }
+				, line { line }
+				, code { code }
+				, desc { expr }
+			{
+			}
+
+			Error(const Error & copy) : Error {
+				copy.file, copy.line, copy.code, copy.desc
+			}
+			{
+			}
+
+			inline operator bool() const
+			{
+				return file && line && code && desc;
+			}
+
+			inline friend ML_SERIALIZE(std::ostream & out, const Error & in)
+			{
+				return out
+					<< "File: \'" << in.file << "\'" << endl
+					<< "Line: \'" << in.line << "\'" << endl
+					<< "Code: \'" << in.code << "\'" << endl
+					<< "Desc: \'" << in.desc << "\'" << endl
+					;
+			}
+		};
+
+		static inline Error decode_error(uint32_t type, String str)
+		{
+			Error err { "", 0, "", "" };
+
+			if (!str) { return err; }
+			if (str.front() != '0') { return err; }
+			str.erase(str.begin());
+
+			switch (type)
+			{
+			case GL::FragmentShader: err.file = "Fragment"; break;
+			case GL::GeometryShader: err.file = "Geometry"; break;
+			case GL::VertexShader: err.file = "Vertex"; break;
+			default: err.file = "Unknown"; break;
+			}
+
+			size_t a, b;
+			if ((a = str.find_first_of('(')) != String::npos)
+			{
+				if ((b = str.find_first_of(')', a + 1)) != String::npos)
+				{
+					err.line = util::to_i32(str.substr(a + 1, b - a - 1));
+
+					if ((a = str.find_first_of(':', b)) != String::npos)
+					{
+						if ((b = str.find_first_of(':', a + 1)) != String::npos)
+						{
+							err.code = String { str.substr(a + 2, b - a - 2) }.removeAll("error ");
+							err.desc = str.substr(b + 2);
+						}
+					}
+				}
+			}
+
+			return err;
+		}
+
+
+
 		// FILE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		using TextEditor = ImGui::TextEditor;
@@ -77,6 +155,7 @@ namespace ml
 			String		name;
 			bool		open;
 			bool		dirty;
+			List<Error>	errs;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -86,6 +165,7 @@ namespace ml
 				, name { Names[type] }
 				, open { false }
 				, dirty { false }
+				, errs {}
 			{
 				this->text.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
 				this->text.SetShowWhitespaces(false);

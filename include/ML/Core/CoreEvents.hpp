@@ -18,7 +18,7 @@ namespace ml
 			MAX_CORE_EVENT
 		};
 
-		static_assert(MAX_CORE_EVENT < (MIN_CORE_EVENT + Event::MAX_LIBRARY_EVENTS),
+		static_assert(MAX_CORE_EVENT < (MIN_CORE_EVENT + (int32_t)Event::MAX_LIBRARY_EVENTS),
 			"too many library event types specified in " __FILE__
 		);
 	};

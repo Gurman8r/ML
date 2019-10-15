@@ -209,14 +209,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
+		inline self_type & removeAll(const self_type & to_remove)
+		{
+			return this->replaceAll(to_remove, self_type {});
+		}
+
+		inline self_type removeAll(const self_type & to_remove) const
+		{
+			return self_type(*this).removeAll(to_remove);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		inline self_type & trim()
 		{
-			auto is_whitespace = [&](Ch c)
+			auto is_whitespace = [&](Ch c) 
 			{
-				return (!this->empty() && (
-					(c == static_cast<Ch>(' ')) ||
-					(c == static_cast<Ch>('\t'))
-				));
+				return (!this->empty() && ((c == (Ch)' ') || (c == (Ch)'\t')));
 			};
 			while (is_whitespace(this->front())) this->erase(this->begin());
 			while (is_whitespace(this->back()))  this->pop_back();

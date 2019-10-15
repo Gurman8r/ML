@@ -351,7 +351,7 @@ namespace ml
 	{
 #pragma warning(push)
 #pragma warning(disable: 4312)
-//#pragma warning(disable: 26451)
+#pragma warning(disable: 26451)
 		return vertexAttribPointer(
 			index,
 			size,
@@ -750,6 +750,13 @@ namespace ml
 
 	auto OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source) -> int32_t
 	{
+		C_String log { nullptr };
+		return compileShader(obj, type, count, source, log);
+	}
+
+	auto OpenGL::compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source, C_String & log)->int32_t
+	{
+		log = nullptr;
 		if (!source || !(*source))
 		{
 			return ML_WARNING; // -1 (true)
@@ -757,15 +764,10 @@ namespace ml
 		else if (obj = createShaderObject(type))
 		{
 			shaderSource(obj, count, source, nullptr);
-
 			if (!compileShader(obj))
 			{
-				C_String log{ getProgramInfoLog(obj) };
-
+				log = getProgramInfoLog(obj);
 				deleteShader(obj);
-				
-				ML_EventSystem.fireEvent<ShaderErrorEvent>(obj, type, log);
-				
 				return ML_FAILURE; // 0 (false)
 			}
 			return ML_SUCCESS; // +1 (true)

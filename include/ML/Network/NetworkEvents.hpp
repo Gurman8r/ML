@@ -19,7 +19,7 @@ namespace ml
 			MAX_NETWORK_EVENT
 		};
 
-		static_assert(MAX_NETWORK_EVENT < (MIN_NETWORK_EVENT + Event::MAX_LIBRARY_EVENTS),
+		static_assert(MAX_NETWORK_EVENT < (MIN_NETWORK_EVENT + (int32_t)Event::MAX_LIBRARY_EVENTS),
 			"too many library event types specified in " __FILE__
 		);
 	};

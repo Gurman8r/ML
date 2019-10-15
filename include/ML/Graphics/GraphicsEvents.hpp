@@ -7,6 +7,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	struct Shader;
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	struct GraphicsEvents final
 	{
 		GraphicsEvents() = delete;
@@ -21,7 +25,7 @@ namespace ml
 			MAX_GRAPHICS_EVENT
 		};
 
-		static_assert(MAX_GRAPHICS_EVENT < (MIN_GRAPHICS_EVENT + Event::MAX_LIBRARY_EVENTS),
+		static_assert(MAX_GRAPHICS_EVENT < (MIN_GRAPHICS_EVENT + (int32_t)Event::MAX_LIBRARY_EVENTS),
 			"too many library event types specified in " __FILE__
 		);
 	};
@@ -47,10 +51,10 @@ namespace ml
 
 	struct ShaderErrorEvent final : public I_Event<GraphicsEvents::EV_ShaderError>
 	{
-		const uint32_t obj;
-		const uint32_t type;
-		const C_String error;
-		constexpr ShaderErrorEvent(uint32_t obj, uint32_t type, C_String error)
+		const Shader * obj;
+		uint32_t type;
+		C_String error;
+		constexpr ShaderErrorEvent(const Shader * obj, uint32_t type, C_String error)
 			: obj	{ obj }
 			, type	{ type }
 			, error { error } 

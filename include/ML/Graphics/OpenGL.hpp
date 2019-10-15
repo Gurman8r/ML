@@ -158,6 +158,7 @@ namespace ml
 		static void	shaderSource(uint32_t obj, int32_t count, C_String const * src, const int32_t * length);
 		static auto	compileShader(uint32_t obj) -> int32_t;
 		static auto	compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source) -> int32_t;
+		static auto	compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source, C_String & log) -> int32_t;
 		static auto	linkShader(uint32_t obj) -> int32_t;
 
 		static void	uniform1f(int32_t location, float_t value);

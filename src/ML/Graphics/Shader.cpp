@@ -4,6 +4,8 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Graphics/ShaderParser.hpp>
 #include <ML/Graphics/Uniform.hpp>
+#include <ML/Core/EventSystem.hpp>
+#include <ML/Graphics/GraphicsEvents.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -655,35 +657,51 @@ namespace ml
 		// Create Program
 		if (dispose() && set_handle(ML_GL.createProgramObject()))
 		{
+			C_String log { nullptr };
+			int32_t out { 0 };
+
 			// Compile Vertex
+			/* * * * * * * * * * * * * * * * * * * * */
 			uint32_t v { NULL };
-			switch (ML_GL.compileShader(v, GL::VertexShader, 1, &v_src))
+			switch (ML_GL.compileShader(v, GL::VertexShader, 1, &v_src, log))
 			{
 			case ML_SUCCESS: ML_GL.attachShader((*this), v); ML_GL.deleteShader(v); break;
-			case ML_FAILURE: ML_GL.deleteShader((*this)); return false;
+			case ML_FAILURE:
+				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::VertexShader, log);
+				ML_GL.deleteShader(*this); 
+				return false;
 			}
 
 			// Compile Geometry
+			/* * * * * * * * * * * * * * * * * * * * */
 			uint32_t g { NULL };
-			switch (ML_GL.compileShader(g, GL::GeometryShader, 1, &g_src))
+			switch (ML_GL.compileShader(g, GL::GeometryShader, 1, &g_src, log))
 			{
 			case ML_SUCCESS: ML_GL.attachShader((*this), g); ML_GL.deleteShader(g); break;
-			case ML_FAILURE: ML_GL.deleteShader((*this)); return false;
+			case ML_FAILURE:
+				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::GeometryShader, log);
+				ML_GL.deleteShader(*this); 
+				return false;
 			}
 
 			// Compile Fragment
+			/* * * * * * * * * * * * * * * * * * * * */
 			uint32_t f { NULL };
-			switch (ML_GL.compileShader(f, GL::FragmentShader, 1, &f_src))
+			switch (ML_GL.compileShader(f, GL::FragmentShader, 1, &f_src, log))
 			{
 			case ML_SUCCESS: ML_GL.attachShader((*this), f); ML_GL.deleteShader(f); break;
-			case ML_FAILURE: ML_GL.deleteShader((*this)); return false;
+			case ML_FAILURE:
+				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::FragmentShader, log);
+				ML_GL.deleteShader(*this); 
+				return false;
 			}
 
 			// Link the program
+			/* * * * * * * * * * * * * * * * * * * * */
 			if (!ML_GL.linkShader(*this))
 			{
-				C_String log{ ML_GL.getProgramInfoLog((*this)) };
-				ML_GL.deleteShader((*this));
+				log = ML_GL.getProgramInfoLog(*this);
+				ML_GL.deleteShader(*this);
 				Debug::logError("Failed linking shader");
 				cout << log << endl;
 				ML_GL.flush();

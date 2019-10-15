@@ -57,7 +57,7 @@ namespace ml
 			MAX_WINDOW_EVENT
 		};
 
-		static_assert(MAX_WINDOW_EVENT < (MIN_WINDOW_EVENT + Event::MAX_LIBRARY_EVENTS),
+		static_assert(MAX_WINDOW_EVENT < (MIN_WINDOW_EVENT + (int32_t)Event::MAX_LIBRARY_EVENTS),
 			"too many library event types specified in " __FILE__
 		);
 	};

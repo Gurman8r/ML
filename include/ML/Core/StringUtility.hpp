@@ -181,7 +181,7 @@ namespace ml
 		{
 			if (!value) { return false; }
 			String::pointer endptr = nullptr;
-			std::strtod(value.c_str(), &endptr);
+			auto temp { std::strtod(value.c_str(), &endptr) };
 			return !(*endptr != '\0' || endptr == value);
 		}
 

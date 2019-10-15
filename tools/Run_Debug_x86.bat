@@ -1,9 +1,9 @@
 @echo off
-rem Run_Release_x64.bat
+rem Run_Debug_x86.bat
 cls
 
-set Configuration=Release
-set PlatformTarget=x64
+set Configuration=Debug
+set PlatformTarget=x86
 set ExePath=..\bin\%Configuration%\%PlatformTarget%\
 set ExeName=ML_Launcher_%Configuration%_%PlatformTarget%.exe
 
@@ -14,6 +14,6 @@ if not exist %ExePath%%ExeName% (
 ) else (
 	echo %ExePath%%ExeName%
 	cd %ExePath%
-	start %ExeName% %*
+	call %ExeName% %*
 	exit %ERRORLEVEL%
 )

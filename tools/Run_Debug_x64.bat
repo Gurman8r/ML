@@ -2,12 +2,10 @@
 rem Run_Debug_x64.bat
 cls
 
-set TargetName=ML_Launcher
 set Configuration=Debug
 set PlatformTarget=x64
-
 set ExePath=..\bin\%Configuration%\%PlatformTarget%\
-set ExeName=%TargetName%_%Configuration%_%PlatformTarget%.exe
+set ExeName=ML_Launcher_%Configuration%_%PlatformTarget%.exe
 
 if not exist %ExePath%%ExeName% (
 	echo File Not Found: "%ExePath%%ExeName%"
@@ -16,6 +14,6 @@ if not exist %ExePath%%ExeName% (
 ) else (
 	echo %ExePath%%ExeName%
 	cd %ExePath%
-	call %ExeName% %*
+	start %ExeName% %*
 	exit %ERRORLEVEL%
 )

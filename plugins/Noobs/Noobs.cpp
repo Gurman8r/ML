@@ -60,8 +60,8 @@ namespace ml
 		case ShaderErrorEvent::ID:
 			if (auto ev = value.as<ShaderErrorEvent>())
 			{
-				Debug::logError("Failed compiling {0} source", (GL::ShaderType)ev->type);
-				cout << ev->error << endl;
+				//Debug::logError("Failed compiling {0} source", (GL::ShaderType)ev->type);
+				//cout << ev->error << endl;
 			}
 			break;
 

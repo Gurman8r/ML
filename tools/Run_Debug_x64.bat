@@ -14,6 +14,6 @@ if not exist %ExePath%%ExeName% (
 ) else (
 	echo %ExePath%%ExeName%
 	cd %ExePath%
-	start %ExeName% %*
+	call %ExeName% %*
 	exit %ERRORLEVEL%
 )

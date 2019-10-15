@@ -173,6 +173,7 @@ namespace ml
 			link_item("OpenAL", "https://www.openal.org/");
 			link_item("pdcurses", "https://github.com/wmcbrine/PDCurses");
 			link_item("pybind11", "https://github.com/pybind/pybind11");
+			link_item("premake5", "https://github.com/premake/premake-core");
 			link_item("RakNet", "http://www.jenkinssoftware.com/");
 			link_item("stb", "https://github.com/nothings/stb");
 			link_item("vorbis", "https://github.com/xiph/vorbis");

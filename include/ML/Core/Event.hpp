@@ -31,7 +31,7 @@ namespace ml
 
 		constexpr const int32_t & operator*() const { return m_id; }
 
-		constexpr operator bool() const { return (m_id > EV_INVALID); }
+		constexpr operator bool() const { return (m_id > (int32_t)EV_INVALID); }
 
 		template <class T> inline auto as() { return static_cast<T *>(this); }
 

@@ -52,7 +52,7 @@ project "Core"
 
 	-- Release
 	filter "configurations:Release"
-		optimize "On"
+		optimize "Speed"
 	
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
@@ -112,7 +112,7 @@ project "Audio"
 
 	-- Release
 	filter "configurations:Release"
-		optimize "On"
+		optimize "Speed"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
@@ -163,7 +163,7 @@ project "Network"
 
 	-- Release
 	filter "configurations:Release"
-		optimize "On"
+		optimize "Speed"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
@@ -223,7 +223,7 @@ project "Graphics"
 
 	-- Release
 	filter "configurations:Release"
-		optimize "On"
+		optimize "Speed"
 		
 	-- Windows
 	filter "system:Windows"
@@ -342,7 +342,7 @@ project "Engine"
 
 	-- Release
 	filter "configurations:Release"
-		optimize "On"
+		optimize "Speed"
 		links { "python39.lib" }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -425,7 +425,7 @@ project "Editor"
 
 	-- Release
 	filter "configurations:Release"
-		optimize "On"
+		optimize "Speed"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
@@ -550,7 +550,7 @@ project "Noobs"
 	filter "configurations:Debug"
 		symbols "On"
 	filter "configurations:Release"
-		optimize "On"
+		optimize "Speed"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
@@ -593,6 +593,6 @@ project "CommandSuite"
 	filter "configurations:Debug"
 		symbols "On"
 	filter "configurations:Release"
-		optimize "On"
+		optimize "Speed"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

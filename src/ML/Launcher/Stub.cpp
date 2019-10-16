@@ -6,7 +6,7 @@
 #include <ML/Core/TypeOf.hpp>
 #include <ML/Core/Duration.hpp>
 #include <ML/Graphics/Material.hpp>
-#include <ML/Core/Bitset.hpp>
+#include <ML/Core/BitMask.hpp>
 
 namespace ml
 {

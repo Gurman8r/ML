@@ -204,7 +204,6 @@ namespace ml
 					/* error */
 				}
 			}
-
 			m_shader->bind(bindTextures);
 		}
 		return (*this);

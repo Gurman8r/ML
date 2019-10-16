@@ -82,27 +82,27 @@ namespace ml
 		copy.m_pixType
 	}
 	{
-		this->create(copy);
+		create(copy);
 	}
 
 	Texture::Texture(const Image & image)
 		: Texture {}
 	{
-		this->loadFromImage(image);
+		loadFromImage(image);
 	}
 
-	Texture::~Texture() { this->dispose(); }
+	Texture::~Texture() { dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Texture::dispose()
 	{
-		this->unbind();
+		unbind();
 		if ((*this))
 		{
 			ML_GL.deleteTexture(*this);
 
-			this->set_handle(NULL);
+			set_handle(NULL);
 		}
 		return !(*this);
 	}
@@ -110,14 +110,14 @@ namespace ml
 	bool Texture::loadFromFile(const String & filename)
 	{
 		Image image;
-		return image.loadFromFile(filename) && this->loadFromImage(image);
+		return image.loadFromFile(filename) && loadFromImage(image);
 	}
 
 	bool Texture::loadFromImage(const Image & value)
 	{
 		if (!value.channels()) return false;
 		m_iFormat = m_cFormat = value.getFormat();
-		return this->create(value.size()) && this->update(value);
+		return create(value.size()) && update(value);
 	}
 
 	bool Texture::loadFromFaces(const Array<const Image *, 6> & faces)
@@ -163,9 +163,9 @@ namespace ml
 		m_iFormat = m_cFormat = faces[0]->getFormat();
 
 		// Create Texture
-		if (this->dispose() && this->set_handle(ML_GL.genTexture()))
+		if (dispose() && set_handle(ML_GL.genTexture()))
 		{
-			this->bind();
+			bind();
 
 			for (size_t i = 0; i < faces.size(); i++)
 			{
@@ -182,13 +182,13 @@ namespace ml
 				);
 			}
 			
-			this->unbind();
+			unbind();
 			
 			ML_GL.flush();
 			
-			this->setRepeated(m_repeated);
+			setRepeated(m_repeated);
 			
-			this->setSmooth(m_smooth);
+			setSmooth(m_smooth);
 			
 			return true;
 		}
@@ -200,8 +200,8 @@ namespace ml
 	bool Texture::create(const Texture & other)
 	{
 		return ((other)
-			? (this->create(other.size())
-				? this->update(other)
+			? (create(other.size())
+				? update(other)
 				: Debug::logError("Failed to copy texture, failed to create new texture")) 
 			: false
 		);
@@ -209,29 +209,29 @@ namespace ml
 
 	bool Texture::create(const vec2u & size)
 	{
-		return this->create(nullptr, size);
+		return create(nullptr, size);
 	}
 
 	bool Texture::create(const Image & image, const vec2u & size)
 	{
-		return this->create(image.data(), size);
+		return create(image.data(), size);
 	}
 
 	bool Texture::create(const Image & image, uint32_t w, uint32_t h)
 	{
-		return this->create(image.data(), w, h);
+		return create(image.data(), w, h);
 	}
 
 	bool Texture::create(const byte_t * pixels, const vec2u & size)
 	{
-		return this->create(pixels, size[0], size[1]);
+		return create(pixels, size[0], size[1]);
 	}
 
 	bool Texture::create(const byte_t * pixels, uint32_t w, uint32_t h)
 	{
 		if (w && h)
 		{
-			if (this->dispose() && this->set_handle(ML_GL.genTexture()))
+			if (dispose() && set_handle(ML_GL.genTexture()))
 			{
 				m_size = { w, h };
 				m_realSize =
@@ -250,7 +250,7 @@ namespace ml
 					);
 				}
 
-				this->bind();
+				bind();
 
 				ML_GL.texImage2D(
 					m_sampler,		// 
@@ -264,7 +264,7 @@ namespace ml
 					pixels			// 
 				);
 				
-				this->unbind();
+				unbind();
 
 				ML_GL.flush();
 
@@ -289,61 +289,61 @@ namespace ml
 	
 	bool Texture::update(const Texture & other)
 	{
-		return this->update(other.copyToImage());
+		return update(other.copyToImage());
 	}
 
 	bool Texture::update(const Texture & other, const UintRect & area)
 	{
-		return this->update(other.copyToImage(), area);
+		return update(other.copyToImage(), area);
 	}
 
 	bool Texture::update(const Texture & other, const vec2u & position, const vec2u & size)
 	{
-		return this->update(other.copyToImage(), position, size);
+		return update(other.copyToImage(), position, size);
 	}
 
 	bool Texture::update(const Texture & other, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
-		return this->update(other.copyToImage(), x, y, w, h);
+		return update(other.copyToImage(), x, y, w, h);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool Texture::update(const Image & image)
 	{
-		return this->update(image.data(), image.bounds());
+		return update(image.data(), image.bounds());
 	}
 
 	bool Texture::update(const Image & image, const UintRect & area)
 	{
-		return this->update(image.data(), area.position(), area.size());
+		return update(image.data(), area.position(), area.size());
 	}
 
 	bool Texture::update(const Image & image, const vec2u & position, const vec2u & size)
 	{
-		return this->update(image.data(), position[0], position[1], size[0], size[1]);
+		return update(image.data(), position[0], position[1], size[0], size[1]);
 	}
 
 	bool Texture::update(const Image & image, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
-		return this->update(image.data(), x, y, w, h);
+		return update(image.data(), x, y, w, h);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	bool Texture::update(const byte_t * pixels)
 	{
-		return this->update(pixels, UintRect { width(), height() });
+		return update(pixels, UintRect { width(), height() });
 	}
 
 	bool Texture::update(const byte_t * pixels, const UintRect & area)
 	{
-		return this->update(pixels, area.position(), area.size());
+		return update(pixels, area.position(), area.size());
 	}
 
 	bool Texture::update(const byte_t * pixels, const vec2u & position, const vec2u & size)
 	{
-		return this->update(pixels, position[0], position[1], size[0], size[1]);
+		return update(pixels, position[0], position[1], size[0], size[1]);
 	}
 
 	bool Texture::update(const byte_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
@@ -352,7 +352,7 @@ namespace ml
 		{
 			if ((*this) && (pixels))
 			{
-				this->bind();
+				bind();
 
 				ML_GL.texSubImage2D(
 					m_sampler,	// 
@@ -366,13 +366,13 @@ namespace ml
 					pixels		// 
 				);
 
-				this->unbind();
+				unbind();
 
 				ML_GL.flush();
 
-				this->setRepeated(m_repeated);
+				setRepeated(m_repeated);
 
-				this->setSmooth(m_smooth);
+				setSmooth(m_smooth);
 
 				return true;
 			}
@@ -401,10 +401,10 @@ namespace ml
 					Debug::logWarning("Texture Mipmap Framebuffers Unavailable");
 				}
 				m_mipmapped = false;
-				return this->setSmooth(m_smooth);
+				return setSmooth(m_smooth);
 			}
 
-			this->bind();
+			bind();
 
 			ML_GL.generateMipmap(m_sampler);
 
@@ -420,7 +420,7 @@ namespace ml
 				m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
 			);
 			
-			this->unbind();
+			unbind();
 
 			ML_GL.flush();
 		}
@@ -443,7 +443,7 @@ namespace ml
 				}
 			}
 
-			this->bind();
+			bind();
 			
 			ML_GL.texParameter(
 				m_sampler,
@@ -461,7 +461,7 @@ namespace ml
 					: (ML_GL.edgeClampAvailable()) ? GL::ClampToEdge : GL::Clamp)
 			);
 			
-			this->unbind();
+			unbind();
 
 			ML_GL.flush();
 		}
@@ -474,7 +474,7 @@ namespace ml
 		{
 			m_smooth = value;
 
-			this->bind();
+			bind();
 
 			ML_GL.texParameter(
 				m_sampler, 
@@ -488,7 +488,7 @@ namespace ml
 				(m_smooth ? GL::Linear : GL::Nearest)
 			);
 
-			this->unbind();
+			unbind();
 
 			ML_GL.flush();
 		}
@@ -523,14 +523,14 @@ namespace ml
 
 	const Image Texture::copyToImage() const
 	{
-		Image image { this->size(), getChannels() };
+		Image image { size(), getChannels() };
 		if ((*this))
 		{
-			this->bind();
+			bind();
 			
 			ML_GL.getTexImage(GL::Texture2D, m_level, m_iFormat, m_pixType, &image[0]);
 			
-			this->unbind();
+			unbind();
 		}
 		return image;
 	}

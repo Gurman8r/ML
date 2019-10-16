@@ -4,7 +4,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Core/Event.hpp>
-#include <ML/Core/Bitset.hpp>
+#include <ML/Core/BitMask.hpp>
 #include <ML/Window/KeyCode.hpp>
 #include <ML/Window/MouseButton.hpp>
 

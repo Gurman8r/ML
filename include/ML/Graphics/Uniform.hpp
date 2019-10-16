@@ -4,7 +4,7 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/Color.hpp>
 #include <ML/Core/Newable.hpp>
-#include <ML/Core/Bitset.hpp>
+#include <ML/Core/BitMask.hpp>
 
 struct ml::Texture;
 

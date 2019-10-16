@@ -43,10 +43,7 @@ namespace ml
 			}
 		}
 
-		inline operator bool() const
-		{
-			return (location != -1);
-		}
+		inline operator bool() const { return (location != -1); }
 	};
 }
 
@@ -424,7 +421,7 @@ namespace ml
 		UniformBinder u { this, name };
 		if (u)
 		{
-			static const size_t max_tex_units
+			static const size_t max_units
 			{
 				static_cast<size_t>(ML_GL.getMaxTextureUnits())
 			};
@@ -434,14 +431,14 @@ namespace ml
 			{
 				it->second = &value;
 			}
-			else if ((m_textures.size() + 1) < max_tex_units)
+			else if ((m_textures.size() + 1) < max_units)
 			{
 				m_textures.insert({ u.location, &value });
 			}
 			else
 			{
 				return Debug::logError("All available texture units are used: {0}", 
-					max_tex_units
+					max_units
 				);
 			}
 		}

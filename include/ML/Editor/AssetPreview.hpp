@@ -25,9 +25,14 @@ namespace ml
 			return getPreview(typeof<T>(), value);
 		}
 
+		template <class T> inline const Texture * getPreview(const T * value) const
+		{
+			return getPreview<T>(static_cast<void *>(std::remove_cv_t<T *>(value)));
+		}
+
 		template <class T> inline const Texture * getPreview(const T & value) const
 		{
-			return getPreview<T>(static_cast<void *>(std::remove_cv_t<T *>(&value)));
+			return getPreview<T>(&value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -35,10 +40,25 @@ namespace ml
 	private:
 		friend struct Singleton<AssetPreview>;
 
-		AssetPreview();
-		~AssetPreview();
+		AssetPreview() : m_previewMap {}, m_textureList {} {}
+		~AssetPreview() { dispose(); }
 
-		mutable HashMap<void *, Texture *> m_previews;
+		using PreviewMap = typename HashMap<void *, const Texture *>;
+		using TextureList = typename List<Texture *>;
+
+		mutable PreviewMap	m_previewMap;
+		mutable TextureList m_textureList;
+
+		template <class ... Args> inline Texture * loadTemporary(Args && ... args) const
+		{
+			m_textureList.push_back(new Texture { std::forward<Args>(args)... });
+			return m_textureList.back();
+		}
+
+		inline const Texture * createPreview(void * value, const Texture * preview) const
+		{
+			return m_previewMap.insert({ value, preview }).first->second;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

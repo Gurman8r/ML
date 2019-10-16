@@ -103,7 +103,10 @@ namespace ml
 	{
 		if (*this)
 		{
-			m_material->setUniform(ML_UNI_MAIN_TEX, m_texture);
+			if (const auto * s { m_material->shader() })
+			{
+				s->setUniform(ML_UNI_MAIN_TEX, m_texture);
+			}
 
 			m_material->bind();
 

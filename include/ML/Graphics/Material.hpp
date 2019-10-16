@@ -110,15 +110,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class ... Args> inline bool setUniform(Args && ... args) const
-		{
-			if (auto * s { shader() })
-			{
-				return s->setUniform(std::forward<Args>(args)...);
-			}
-			return false;
-		}
-
 		template <class U, class T> inline bool update(const String & name, const T & value)
 		{
 			if (auto u { get<U>(name) })

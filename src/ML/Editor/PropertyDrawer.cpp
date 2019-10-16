@@ -1925,7 +1925,7 @@ namespace ml
 			{
 			case GL::Texture2D:
 			{
-				if (value)
+				if (auto preview { ML_AssetPreview.getPreview(value) })
 				{
 					const vec2 dst { 128, 128 };
 					const vec2 scl { alg::scale_to_fit((vec2)value->size(), dst) * 0.975f };

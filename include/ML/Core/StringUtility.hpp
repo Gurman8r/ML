@@ -72,7 +72,7 @@ namespace ml
 		static inline bool is_alpha(const String & value)
 		{
 			if (value.empty()) return false;
-			std::locale loc;
+			std::locale loc {};
 			for (const auto & elem : value)
 				if (!std::isalpha(elem, loc))
 					return false;
@@ -82,7 +82,7 @@ namespace ml
 		static inline bool is_alnum(const String & value)
 		{
 			if (value.empty()) return false;
-			std::locale loc;
+			std::locale loc {};
 			for (const auto & elem : value)
 				if (!std::isalnum(elem, loc))
 					return false;
@@ -92,7 +92,7 @@ namespace ml
 		static inline bool is_graph(const String & value)
 		{
 			if (value.empty()) return false;
-			std::locale loc;
+			std::locale loc {};
 			for (const auto & elem : value)
 				if (!std::isgraph(elem, loc))
 					return false;
@@ -127,7 +127,7 @@ namespace ml
 
 		static inline String to_lower(String value)
 		{
-			std::locale loc;
+			std::locale loc {};
 			for (auto & elem : value)
 				elem = std::tolower(elem, loc);
 			return value;
@@ -135,7 +135,7 @@ namespace ml
 
 		static inline String to_upper(String value)
 		{
-			std::locale loc;
+			std::locale loc {};
 			for (auto & elem : value)
 				elem = std::toupper(elem, loc);
 			return value;

@@ -46,15 +46,6 @@ uniform vec2 		u_viewport;		// Viewport Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define iFrame		u_frame
-#define iMouse		u_cursor
-#define iResolution u_viewport
-#define iTime		u_time
-#define iTimeDelta	u_delta
-#define iChannel0	u_texture0
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 float noise(vec3 p) //Thx to Las^Mercury
 {
 	vec3 i = floor(p);
@@ -73,7 +64,7 @@ float sphere(vec3 p, vec4 spr)
 float flame(vec3 p)
 {
 	float d = sphere(p*vec3(1., .5, 1.), vec4(.0, -1., .0, 1.));
-	return d + (noise(p + vec3(.0, iTime*2., .0)) + noise(p*3.)*.5)*.25*(p.y);
+	return d + (noise(p + vec3(.0, u_time*2., .0)) + noise(p*3.)*.5)*.25*(p.y);
 }
 
 float scene(vec3 p)
@@ -104,7 +95,7 @@ vec4 raymarch(vec3 org, vec3 dir)
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-	vec2 v = 2.0 * (fragCoord.xy * iResolution.xy) / iResolution.y;
+	vec2 v = 2.0 * (fragCoord.xy * u_viewport.xy) / u_viewport.y;
 
 	vec3 org = vec3(0., -2., 4.);
 	vec3 dir = normalize(vec3(v.x*1.6, -v.y, -1.5));

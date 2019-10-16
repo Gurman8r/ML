@@ -46,14 +46,6 @@ uniform vec2 		u_viewport;		// Viewport Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define iFrame		u_frame
-#define iMouse		u_cursor
-#define iResolution u_viewport
-#define iTime		u_time
-#define iTimeDelta	u_delta
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #define S(a,b,t) smoothstep(a,b,t)
 
 float DistLine(vec2 p, vec2 a, vec2 b)
@@ -79,7 +71,7 @@ vec2 N22(vec2 p)
 
 vec2 GetPos(vec2 id, vec2 offs)
 {
-	vec2 n = N22(id + offs)* iTime;
+	vec2 n = N22(id + offs)* u_time;
 
 	return offs + sin(n)*.4;
 }
@@ -110,7 +102,7 @@ float Layer(vec2 uv)
 		}
 	}
 
-	float t = iTime * 20.;
+	float t = u_time * 20.;
 	for (int i = 0; i < 9; i++)
 	{
 		m += Line(gv, p[4], p[i]);
@@ -133,7 +125,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 	vec2 uv = (fragCoord * u_viewport) / u_viewport.y;
 	vec2 mouse = (u_cursor / u_viewport) * vec2(1, -1) - 0.5;
 	float m = 0.;
-	float t = iTime * .1;
+	float t = u_time * .1;
 
 	float s = sin(t);
 	float c = cos(t);

@@ -28,14 +28,14 @@ ml.content.load_all([
         "vert": PATH + "/shaders/advanced.vs.shader",
         "frag": PATH + "/shaders/advanced.fs.shader"
     },
-    { "type": "Shader", "name": "gl_lines",         "file": PATH + "/shaders/abstract_lines.shader" },
     { "type": "Shader", "name": "gl_basic",         "file": PATH + "/shaders/basic.shader" },
     { "type": "Shader", "name": "gl_flames",        "file": PATH + "/shaders/flames.shader" },
     { "type": "Shader", "name": "gl_geometry",      "file": PATH + "/shaders/geometry.shader" },
+    { "type": "Shader", "name": "gl_lines",         "file": PATH + "/shaders/lines.shader" },
     { "type": "Shader", "name": "gl_skybox",        "file": PATH + "/shaders/skybox.shader" },
     { "type": "Shader", "name": "gl_surface",       "file": PATH + "/shaders/surface.shader" },
     { "type": "Shader", "name": "gl_swirly",        "file": PATH + "/shaders/swirly.shader" },
-    { "type": "Shader", "name": "gl_sparkles",      "file": PATH + "/shaders/sparkle_plexus.shader" },
+    { "type": "Shader", "name": "gl_sparkles",      "file": PATH + "/shaders/sparkles.shader" },
     { "type": "Shader", "name": "gl_wormhole",      "file": PATH + "/shaders/wormhole.shader" },
     { "type": "Shader", "name": "gl_wrainbow",      "file": PATH + "/shaders/wrainbow.shader" },
 

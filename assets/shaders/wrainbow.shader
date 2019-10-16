@@ -46,14 +46,6 @@ uniform vec2 		u_viewport;		// Viewport Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define iFrame		u_frame
-#define iMouse		u_cursor
-#define iResolution u_viewport
-#define iTime		u_time
-#define iTimeDelta	u_delta
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #define SIN(a) smoothstep(-4., 2.5, sin(a))
 #define SIN2(a) (SIN(a)*SIN(a))
 
@@ -65,11 +57,11 @@ vec2 rot(vec2 p, float a)
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-	vec2 uv = (2.*fragCoord * iResolution.xy) / iResolution.y;
+	vec2 uv = (2.*fragCoord * u_viewport.xy) / u_viewport.y;
 
 	uv.x += .1*sin(uv.y*uv.x*40.);
 
-	uv += rot(uv, length(uv + iTime));
+	uv += rot(uv, length(uv + u_time));
 
 	vec2 tuv = abs(log(-uv * .005 + 0.909));
 

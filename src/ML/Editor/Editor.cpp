@@ -45,13 +45,13 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID		: if (auto ev = value.as<EnterEvent>())		return onEnter(*ev);
-		case UpdateEvent::ID	: if (auto ev = value.as<UpdateEvent>())	return onUpdate(*ev);
-		case BeginGuiEvent::ID	: if (auto ev = value.as<BeginGuiEvent>())	return onBeginGui(*ev);
-		case GuiEvent::ID		: if (auto ev = value.as<GuiEvent>())		return onGui(*ev);
-		case EndGuiEvent::ID	: if (auto ev = value.as<EndGuiEvent>())	return onEndGui(*ev);
-		case UnloadEvent::ID	: if (auto ev = value.as<UnloadEvent>())	return onUnload(*ev);
-		case ExitEvent::ID		: if (auto ev = value.as<ExitEvent>())		return onExit(*ev);
+		case EnterEvent::ID:	return onEnter(*value.as<EnterEvent>());
+		case UpdateEvent::ID:	return onUpdate(*value.as<UpdateEvent>());
+		case BeginGuiEvent::ID:	return onBeginGui(*value.as<BeginGuiEvent>());
+		case GuiEvent::ID:		return onGui(*value.as<GuiEvent>());
+		case EndGuiEvent::ID:	return onEndGui(*value.as<EndGuiEvent>());
+		case UnloadEvent::ID:	return onUnload(*value.as<UnloadEvent>());
+		case ExitEvent::ID:		return onExit(*value.as<ExitEvent>());
 
 			// Dockspace
 		case DockspaceEvent::ID:
@@ -125,15 +125,12 @@ namespace ml
 
 		// Setup Fonts
 		/* * * * * * * * * * * * * * * * * * * * */
-		String fontFile = ML_Engine.prefs().get_string("Editor", "font_file", "");
-		if (fontFile)
+		if (String fontFile { ML_Engine.prefs().get_string("Editor", "font_file", "") })
 		{
-			float_t fontSize = ML_Engine.prefs().get_float("Editor", "font_size", 12.0f);
+			float_t fontSize { ML_Engine.prefs().get_float("Editor", "font_size", 12.0f) };
 			if (fontSize > 0.0f)
 			{
-				ImGui::GetIO().Fonts->AddFontFromFileTTF(
-					fontFile.c_str(), fontSize
-				);
+				ImGui::GetIO().Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);
 			}
 		}
 
@@ -152,7 +149,7 @@ namespace ml
 		m_content	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content",	false));
 		m_explorer	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer",	false));
 		m_inspector	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_inspector",	false));
-		m_manual	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual",		false));
+		m_manual	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual",	false));
 		m_profiler	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_profiler",	false));
 		m_terminal	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_terminal",	false));
 	}

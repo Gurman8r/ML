@@ -60,22 +60,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const 
-		{ 
-			return model() && material(); 
-		}
-
-		inline void * get_address() const 
-		{ 
-			return texture().get_address(); 
-		}
-
-		template <
-			class ... Args
-		> inline bool setUniform(Args && ... args) const
-		{
-			return material() && material()->setUniform(std::forward<Args>(args)...);
-		}
+		inline operator bool() const { return model() && material(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

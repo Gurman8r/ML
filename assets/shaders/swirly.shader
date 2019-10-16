@@ -46,14 +46,6 @@ uniform vec2 		u_viewport;		// Viewport Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define iFrame		u_frame
-#define iMouse		u_cursor
-#define iResolution u_viewport
-#define iTime		u_time
-#define iTimeDelta	u_delta
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 vec2 hash(vec2 p) // replace this by something better
 {
 	p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
@@ -80,8 +72,8 @@ float noise(in vec2 p)
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-	vec2 uv = (fragCoord * iResolution.xy) / iResolution.y;
-	uv = vec2(noise(uv + iTime * 0.1), noise(uv + 10.));
+	vec2 uv = (fragCoord * u_viewport.xy) / u_viewport.y;
+	uv = vec2(noise(uv + u_time * 0.1), noise(uv + 10.));
 
 	float d = uv.x - uv.y;
 	d *= 20.;

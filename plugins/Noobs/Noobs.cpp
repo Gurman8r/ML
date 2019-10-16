@@ -337,15 +337,13 @@ namespace ml
 
 			if (surf && (*surf))
 			{
-				const vec2 dst = ImGuiExt::GetContentRegionAvail();
-				const vec2 scl = alg::scale_to_fit((vec2)surf->size(), dst) * 0.975f;
-				const vec2 pos = ((dst - scl) * 0.5f);
-
+				const vec2 dst { ImGuiExt::GetContentRegionAvail() };
+				const vec2 scl { alg::scale_to_fit((vec2)surf->size(), dst) * 0.975f };
+				const vec2 pos { ((dst - scl) * 0.5f) };
 				if (m_freeAspect) { m_viewport = dst; }
-
 				ImGui::BeginChild("NoobsSceneViewport", { 0, 0 }, true);
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(surf->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::Image(surf->texture().get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 				ImGui::EndChild();
 			}
 

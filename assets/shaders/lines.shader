@@ -46,11 +46,11 @@ uniform vec2 		u_viewport;		// Viewport Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define iFrame		u_frame
-#define iMouse		u_cursor
-#define iResolution u_viewport
-#define iTime		u_time
-#define iTimeDelta	u_delta
+#define u_frame		u_frame
+#define u_cursor		u_cursor
+#define u_viewport u_viewport
+#define u_time		u_time
+#define u_delta	u_delta
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

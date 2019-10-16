@@ -1,4 +1,5 @@
 #include <ML/Editor/AssetPreview.hpp>
+#include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Surface.hpp>
 
 namespace ml
@@ -21,25 +22,36 @@ namespace ml
 	const Texture * AssetPreview::getPreview(const typeof<> & type, void * value) const
 	{
 		if (!value) { return nullptr; }
-		
 		auto it { m_previewMap.find(value) };
 		if (it != m_previewMap.end()) { return it->second; }
-
 		switch (type.hash)
 		{
-		case typeof<Image>::hash:
-			if (auto temp { static_cast<const Image *>(value) })
+		case typeof<Glyph>::hash:
+			if (auto temp { static_cast<const Glyph *>(value) })
 			{
-				return createPreview(value, loadTemporary(*temp));
+				return getPreview(temp->texture);
 			}
 			break;
 
+		case typeof<Image>::hash:
+			if (auto temp { static_cast<const Image *>(value) })
+			{
+				return insertPreview(value, loadTemp(*temp));
+			}
+			break;
+
+		case typeof<Surface>::hash:
+			if (auto temp { static_cast<const Surface *>(value) })
+			{
+				return getPreview(temp->texture());
+			}
+
 		case typeof<Texture>::hash:
-			if (auto temp { static_cast<Texture *>(value) })
+			if (auto temp { static_cast<const Texture *>(value) })
 			{
 				switch (temp->sampler())
 				{
-				case GL::Texture2D: return createPreview(value, temp);
+				case GL::Texture2D: return insertPreview(value, temp);
 				}
 			}
 			break;

@@ -3,8 +3,8 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 workspace "ML"
 	startproject ("Launcher")
-	configurations { "Release", "Debug" }
-	platforms { "x64", "x86" }
+	configurations { "Debug", "Release" }
+	platforms { "x86", "x64" }
 	filter ("platforms:*32") architecture("x86")
 	filter ("platforms:*86") architecture("x86")
 	filter ("platforms:*64") architecture("x64")

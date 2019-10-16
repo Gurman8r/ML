@@ -162,7 +162,7 @@ namespace ml
 
 		constexpr operator bool() const
 		{
-			return (value >= MIN_KEYCODE && value < MAX_KEYCODE);
+			return (value >= (int32_t)MIN_KEYCODE && value < (int32_t)MAX_KEYCODE);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

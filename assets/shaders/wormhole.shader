@@ -46,15 +46,6 @@ uniform vec2 		u_viewport;		// Viewport Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define iFrame		u_frame
-#define iMouse		u_cursor
-#define iResolution u_viewport
-#define iTime		u_time
-#define iTimeDelta	u_delta
-#define iChannel0	u_texture0
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 /*
 
 	Hyper Tunnel from "Sailing Beyond" (demoscene producion)
@@ -77,8 +68,8 @@ uniform vec2 		u_viewport;		// Viewport Size
 #define FAR 1e3
 #define INFINITY 1e32
 
-#define T iTime
-#define mt iTime
+#define T u_time
+#define mt u_time
 #define FOV 70.0
 #define FOG .06
 
@@ -241,19 +232,19 @@ geometry trace(vec3 o, vec3 d)
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
 
-	vec2 ouv = (fragCoord.xy * iResolution.xy) / iResolution.y;
+	vec2 ouv = (fragCoord.xy * u_viewport.xy) / u_viewport.y;
 	vec2 uv = ouv;
 
 	uv *= tan(radians(FOV) / 2.0) * 4.;
 
 	vec3
 		vuv = normalize(vec3(cos(T), sin(T * .11), sin(T * .41))), // up
-		ro = vec3(0., 30. + iTime * 100., -.1);
+		ro = vec3(0., 30. + u_time * 100., -.1);
 
 	ro.x += yC(ro.y * .1) * 3.;
 	ro.z -= yC(ro.y * .01) * 4.;
 
-	vec3 vrp = vec3(0., 50. + iTime * 100., 2.);
+	vec3 vrp = vec3(0., 50. + u_time * 100., 2.);
 
 	vrp.x += yC(vrp.y * .1) * 3.;
 	vrp.z -= yC(vrp.y * .01) * 4.;
@@ -263,7 +254,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 		u = normalize(cross(vuv, vpn)),
 		v = cross(vpn, u),
 		vcv = (ro + vpn),
-		scrCoord = (vcv + uv.x * u * iResolution.x / iResolution.y + uv.y * v),
+		scrCoord = (vcv + uv.x * u * u_viewport.x / u_viewport.y + uv.y * v),
 		rd = normalize(scrCoord - ro),
 		oro = ro;
 
@@ -277,8 +268,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 	col.b *= fbm(tr.hit * .01) * 10.;
 
 	sceneColor += min(.8, float(tr.iterations) / 90.) * col + col * .03;
-	sceneColor *= 1. + .9 * (abs(fbm(tr.hit * .002 + 3.) * 10.) * (fbm(vec3(0., 0., iTime * .05) * 2.)) * 1.);
-	sceneColor = pow(sceneColor, vec3(1.)) * texelFetch(iChannel0, ivec2(128, 0), 0).r * min(1., iTime * .1);
+	sceneColor *= 1. + .9 * (abs(fbm(tr.hit * .002 + 3.) * 10.) * (fbm(vec3(0., 0., u_time * .05) * 2.)) * 1.);
+	sceneColor = pow(sceneColor, vec3(1.)) * texelFetch(u_texture0, ivec2(128, 0), 0).r * min(1., u_time * .1);
 
 	vec3 steamColor1 = vec3(.0, .4, .5);
 	vec3 rro = oro;
@@ -295,7 +286,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 		if (distC < 3.) break;
 	}
 
-	steamColor1 *= texelFetch(iChannel0, ivec2(32, 0), 0).r;
+	steamColor1 *= texelFetch(u_texture0, ivec2(32, 0), 0).r;
 	sceneColor += steamColor1 * pow(abs(f * 1.5), 3.) * 4.;
 
 	fragColor = vec4(clamp(sceneColor * (1. - length(uv) / 2.), 0.0, 1.0), 1.0);

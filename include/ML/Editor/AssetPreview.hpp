@@ -49,13 +49,13 @@ namespace ml
 		mutable PreviewMap	m_previewMap;
 		mutable TextureList m_textureList;
 
-		template <class ... Args> inline Texture * loadTemporary(Args && ... args) const
+		template <class ... Args> inline Texture * loadTemp(Args && ... args) const
 		{
 			m_textureList.push_back(new Texture { std::forward<Args>(args)... });
 			return m_textureList.back();
 		}
 
-		inline const Texture * createPreview(void * value, const Texture * preview) const
+		inline const Texture * insertPreview(void * value, const Texture * preview) const
 		{
 			return m_previewMap.insert({ value, preview }).first->second;
 		}

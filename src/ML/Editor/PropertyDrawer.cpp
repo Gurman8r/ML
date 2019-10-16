@@ -1887,20 +1887,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (value)
+		if (auto preview { ML_AssetPreview.getPreview(value) })
 		{
 			const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-			const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
+			const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
 			const vec2 pos { ((dst - scl) * 0.5f) };
-
 			ImGui::BeginChild(
 				("##PropertyDrawer##Texture##Preview" + label).c_str(),
-				{ dst[0], dst[1] },
-				true,
-				ImGuiWindowFlags_NoScrollbar
+				{ dst[0], dst[1] }, true, ImGuiWindowFlags_NoScrollbar
 			);
 			ImGui::SetCursorPos({ pos[0], pos[1] });
-			ImGui::Image(value.get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+			ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 			ImGui::EndChild();
 		}
 
@@ -1920,40 +1917,30 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 			ImGui::BeginTooltip();
-			
 			switch (value->sampler())
 			{
 			case GL::Texture2D:
-			{
 				if (auto preview { ML_AssetPreview.getPreview(value) })
 				{
 					const vec2 dst { 128, 128 };
-					const vec2 scl { alg::scale_to_fit((vec2)value->size(), dst) * 0.975f };
+					const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
 					const vec2 pos { ((dst - scl) * 0.5f) };
 					ImGui::BeginChild(
 						("##PropertyDrawer##Texture2D##Selector##Preview" + label).c_str(),
-						{ dst[0], dst[1] },
-						true,
-						ImGuiWindowFlags_NoScrollbar
+						{ dst[0], dst[1] }, true, ImGuiWindowFlags_NoScrollbar
 					);
 					ImGui::SetCursorPos({ pos[0], pos[1] });
-					ImGui::Image(value->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+					ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 					ImGui::EndChild();
 				}
-			}
-			break;
+				break;
 			case GL::Texture3D:
-			{
 				ImGui::Text("Texture-3D previews are currently disabled.");
-			}
-			break;
+				break;
 			case GL::TextureCubeMap:
-			{
 				ImGui::Text("Texture-CubeMap previews are currently disabled.");
+				break;
 			}
-			break;
-			}
-
 			ImGui::EndTooltip();
 		}
 

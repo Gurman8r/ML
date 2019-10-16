@@ -70,15 +70,9 @@ namespace ml
 						auto err { decode_error(ev->type, line) };
 						switch (ev->type)
 						{
-						case GL::VertexShader:
-							m_files[DemoFile::Vert]->errs.push_back(err);
-							break;
-						case GL::FragmentShader:
-							m_files[DemoFile::Frag]->errs.push_back(err);
-							break;
-						case GL::GeometryShader:
-							m_files[DemoFile::Geom]->errs.push_back(err);
-							break;
+						case GL::VertexShader	: m_files[DemoFile::Vert]->errs.push_back(err); break;
+						case GL::FragmentShader	: m_files[DemoFile::Frag]->errs.push_back(err); break;
+						case GL::GeometryShader	: m_files[DemoFile::Geom]->errs.push_back(err); break;
 						}
 					}
 

@@ -71,8 +71,7 @@ namespace ml
 	{
 	}
 
-	Texture::Texture(const Texture & copy)
-		: Texture {
+	Texture::Texture(const Texture & copy) : Texture {
 		copy.m_sampler,
 		copy.m_iFormat,
 		copy.m_cFormat,
@@ -84,6 +83,12 @@ namespace ml
 	}
 	{
 		this->create(copy);
+	}
+
+	Texture::Texture(const Image & image)
+		: Texture {}
+	{
+		this->loadFromImage(image);
 	}
 
 	Texture::~Texture() { this->dispose(); }

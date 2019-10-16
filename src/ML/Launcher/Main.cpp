@@ -9,9 +9,7 @@ ml::int32_t main()
 	using namespace ml;
 
 	// Initialize Systems
-	ML_EventSystem;
-	ML_Engine;
-	ML_Editor;
+	ML_EventSystem; ML_Engine; ML_Editor;
 
 	// Startup Sequence
 	ML_EventSystem.fireEvent<EnterEvent>();

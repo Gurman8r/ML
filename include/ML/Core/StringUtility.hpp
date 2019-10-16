@@ -29,7 +29,6 @@ namespace ml
 			return U32_String { data, size };
 		}
 	}
-
 	using namespace string_literals;
 
 	/* * * * * * * * * * * * * * * * * * * * */

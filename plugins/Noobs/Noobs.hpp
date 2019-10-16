@@ -46,9 +46,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		enum : size_t 
 		{
-			Surf_Main, 
-			Surf_Post, 
-			MAX_DEMO_SURFACE
+			Surf_Main, Surf_Post, MAX_DEMO_SURFACE
 		};
 		
 		Array<Ref<Surface>, MAX_DEMO_SURFACE> m_pipeline 
@@ -100,11 +98,9 @@ namespace ml
 		static inline Error decode_error(uint32_t type, String str)
 		{
 			Error err { "", 0, "", "" };
-
 			if (!str) { return err; }
 			if (str.front() != '0') { return err; }
 			str.erase(str.begin());
-
 			switch (type)
 			{
 			case GL::FragmentShader: err.file = "Fragment"; break;
@@ -112,7 +108,6 @@ namespace ml
 			case GL::VertexShader: err.file = "Vertex"; break;
 			default: err.file = "Unknown"; break;
 			}
-
 			size_t a, b;
 			if ((a = str.find_first_of('(')) != String::npos)
 			{
@@ -130,7 +125,6 @@ namespace ml
 					}
 				}
 			}
-
 			return err;
 		}
 

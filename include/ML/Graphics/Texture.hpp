@@ -27,6 +27,7 @@ namespace ml
 		explicit Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped);
 		explicit Texture(GL::Sampler sampler, GL::Format iFormat, GL::Format cFormat, bool smooth, bool repeated, bool mipmapped, int32_t level, GL::Type type);
 		explicit Texture(const Texture & copy);
+		explicit Texture(const Image & image);
 		~Texture();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

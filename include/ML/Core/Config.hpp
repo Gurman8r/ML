@@ -30,7 +30,7 @@
 # endif
 
 
-//	Configuration (Debug / Release)
+//	Configuration
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if defined(_DEBUG)
@@ -42,7 +42,7 @@
 # endif
 
 
-//	Operating System
+//	System
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if defined(_WIN32) || defined(_WIN64) \
@@ -77,7 +77,7 @@
 # endif
 
 
-//	Architecture
+//	Platform
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if defined(_WIN64		) \
@@ -186,7 +186,7 @@
 #define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
 
 
-//	Export / Import
+//	Build
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # ifndef ML_STATIC
@@ -204,6 +204,7 @@
 #			pragma warning(disable: 4308)	// negative integral constant converted to unsigned type
 #			pragma warning(disable: 4309)	// truncation of constant value
 #			pragma warning(disable: 4723)	// potential divide by zero
+#			pragma warning(disable: 6282)	// incorrect operator
 #			pragma warning(disable: 6301)	// return value ignored
 #			pragma warning(disable: 26437)	// do not slice
 #			pragma warning(disable: 26495)	// value may be uninitialized

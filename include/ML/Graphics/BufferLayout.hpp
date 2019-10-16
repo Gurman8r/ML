@@ -20,7 +20,6 @@ namespace ml
 
 			Element() = default;
 
-
 			uint32_t	index;
 			uint32_t	size;
 			GL::Type	type;

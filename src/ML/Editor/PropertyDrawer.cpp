@@ -6,6 +6,7 @@
 #include <ML/Core/Rect.hpp>
 #include <ML/Engine/Ref.hpp>
 #include <ML/Editor/FileBrowser.hpp>
+#include <ML/Editor/AssetPreview.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Font.hpp>
@@ -811,67 +812,23 @@ namespace ml
 	{
 		bool changed { false };
 
-		ImGui::Columns(2, label.c_str());
-
-		// Settings
 		ImGui::Text("Size: %i x %i", value.width(), value.height());
+		
 		ImGui::Text("Channels: %i", value.channels());
-		if (ImGui::Button("Flip Vertically"))
-		{
-			value.flipVertically();
-			changed = true;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Flip Horizontally"))
-		{
-			value.flipHorizontally();
-			changed = true;
-		}
 
-		ImGui::NextColumn();
-#if 1
-		ImGui::Text("Image previews are currently disabled.");
-#else
-		// Temporary Texture
-		Ref<Texture> preview { "##PropertyDrawer##Image##Preview##" + label };
-		if (!preview && !preview.create())
-		{
-			return changed;
-		}
-
-		// Lock
-		static Image::Pixels pixels {};
-		if (!pixels ||
-			pixels.getSize() != value.pixels().getSize() ||
-			pixels.front() != value.pixels().front() ||
-			pixels.back() != value.pixels().back() ||
-			pixels != value.pixels())
-		{
-			pixels = value.pixels();
-			preview->loadFromImage(value);
-			Debug::log("Here");
-		}
-
-		// Preview
-		if (preview && (*preview))
+		if (auto preview { ML_AssetPreview.getPreview<Image>(value) })
 		{
 			const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-			const vec2 scl { alg::scale_to_fit((vec2)value.getSize(), dst) * 0.975f };
+			const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
 			const vec2 pos { ((dst - scl) * 0.5f) };
-
-			ImGui::BeginChild(
-				preview.name().c_str(),
-				{ dst[0], dst[1] },
-				true,
-				ImGuiWindowFlags_NoScrollbar
+			ImGui::BeginChild(("##PropertyDrawer##Image##Preview##" + label).c_str(),
+				{ dst[0], dst[1] }, true, ImGuiWindowFlags_NoScrollbar
 			);
 			ImGui::SetCursorPos({ pos[0], pos[1] });
 			ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 			ImGui::EndChild();
 		}
-#endif
 
-		ImGui::Columns(1);
 		return changed;
 	}
 
@@ -2264,20 +2221,17 @@ namespace ml
 		{
 		case GL::Texture2D:
 		{
-			if (value)
+			if (auto preview { ML_AssetPreview.getPreview<Texture>(value)})
 			{
 				const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-				const vec2 scl { alg::scale_to_fit((vec2)value.size(), dst) * 0.975f };
+				const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
 				const vec2 pos { ((dst - scl) * 0.5f) };
-
 				ImGui::BeginChild(
-					("##PropertyDrawer##Texture2D##Preview" + label).c_str(),
-					{ dst[0], dst[1] },
-					true,
-					ImGuiWindowFlags_NoScrollbar
+					("##PropertyDrawer##Texture2D##Preview##" + label).c_str(),
+					{ dst[0], dst[1] }, true, ImGuiWindowFlags_NoScrollbar
 				);
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(value.get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 				ImGui::EndChild();
 			}
 		}

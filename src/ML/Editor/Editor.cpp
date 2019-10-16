@@ -1,5 +1,6 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
+#include <ML/Editor/AssetPreview.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiImpl.hpp>
 #include <ML/Editor/EditorEvents.hpp>
@@ -289,8 +290,8 @@ namespace ml
 
 	void Editor::onUnload(const UnloadEvent & ev)
 	{
-		// Shutdown ImGui
 		ML_ImGuiImpl.Shutdown();
+		ML_AssetPreview.dispose();
 	}
 
 	void Editor::onExit(const ExitEvent & ev)

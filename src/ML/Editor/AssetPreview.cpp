@@ -1,4 +1,5 @@
 #include <ML/Editor/AssetPreview.hpp>
+#include <ML/Graphics/Surface.hpp>
 
 namespace ml
 {
@@ -40,20 +41,25 @@ namespace ml
 
 		switch (type.hash)
 		{
-		case typeof<Texture>::hash:
-			if (auto temp { static_cast<Texture *>(value) })
-			{
-				return m_previews.insert({ value, temp }).first->second;
-			}
-
 		case typeof<Image>::hash:
 			if (auto temp { static_cast<const Image *>(value) })
 			{
 				return m_previews.insert({ value, new Texture { *temp } }).first->second;
 			}
-		
-		default: return nullptr;
+			break;
+
+		case typeof<Texture>::hash:
+			if (auto temp { static_cast<Texture *>(value) })
+			{
+				switch (temp->sampler())
+				{
+				case GL::Texture2D:
+					return m_previews.insert({ value, temp }).first->second;
+				}
+			}
+			break;
 		}
+		return nullptr;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

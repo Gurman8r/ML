@@ -12,9 +12,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Image final
-		: public Newable
-		, public Disposable
+	struct ML_GRAPHICS_API Image final : public Newable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -206,13 +206,32 @@ namespace ml
 			}
 		}
 
-		for (auto & pair : ML_Content.data<Material>())
-		{
-			if (auto * m { (Material *)pair.second })
-			{
-
-			}
-		}
+		//for (auto & pair : ML_Content.data<Material>())
+		//{
+		//	if (auto * m { (Material *)pair.second })
+		//	{
+		//		if (auto u { m->get<uni_vec2>("u_cursor") })
+		//		{
+		//			u->data = ML_Engine.window().getCursorPos();
+		//		}
+		//		if (auto u { m->get<uni_float>("u_delta") })
+		//		{
+		//			u->data = ML_Engine.time().deltaTime();
+		//		}
+		//		if (auto u { m->get<uni_int>("u_frame") })
+		//		{
+		//			u->data = ML_Engine.time().frameCount();
+		//		}
+		//		if (auto u { m->get<uni_float>("u_fps") })
+		//		{
+		//			u->data = ML_Engine.time().frameRate();
+		//		}
+		//		if (auto u { m->get<uni_float>("u_time") })
+		//		{
+		//			u->data = ML_Engine.time().deltaTime();
+		//		}
+		//	}
+		//}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}

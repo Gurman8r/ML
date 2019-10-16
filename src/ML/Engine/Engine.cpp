@@ -33,7 +33,6 @@ namespace ml
 	{
 		ML_EventSystem.addListener<EnterEvent>(this);
 		ML_EventSystem.addListener<LoadEvent>(this);
-		ML_EventSystem.addListener<StartEvent>(this);
 		ML_EventSystem.addListener<BeginLoopEvent>(this);
 		ML_EventSystem.addListener<UpdateEvent>(this);
 		ML_EventSystem.addListener<BeginDrawEvent>(this);
@@ -53,7 +52,6 @@ namespace ml
 		{
 		case EnterEvent::ID		: return onEnter(*value.as<EnterEvent>());
 		case LoadEvent::ID		: return onLoad(*value.as<LoadEvent>());
-		case StartEvent::ID		: return onStart(*value.as<StartEvent>());
 		case BeginLoopEvent::ID	: return onBeginFrame(*value.as<BeginLoopEvent>());
 		case UpdateEvent::ID	: return onUpdate(*value.as<UpdateEvent>());
 		case BeginDrawEvent::ID	: return onBeginDraw(*value.as<BeginDrawEvent>());
@@ -144,11 +142,12 @@ namespace ml
 			geo::sky::vertices
 		);
 
-		ML_Content.insert<Uniform>("u_cursor",	new uni_vec2_ptr { "u_cursor",	&m_cursorPos });
-		ML_Content.insert<Uniform>("u_delta",	new uni_float_ptr{ "u_delta",	&m_deltaTime });
-		ML_Content.insert<Uniform>("u_frame",	new uni_int_ptr	 { "u_frame",	&m_frameCount });
-		ML_Content.insert<Uniform>("u_fps",		new uni_float_ptr{ "u_fps",		&m_frameRate });
-		ML_Content.insert<Uniform>("u_time",	new uni_float_ptr{ "u_time",	&m_totalTime });
+		ML_Content.insert<Uniform>("u_cursor", new uni_vec2_ptr{ "u_cursor", &m_window.getCursorPos() });
+		ML_Content.insert<Uniform>("u_viewport",new uni_vec2_ptr{ "u_viewport", &static_cast<const vec2 &>(m_window.getSize()) });
+		ML_Content.insert<Uniform>("u_delta", new uni_float_ptr{ "u_delta", &m_time.deltaTime() });
+		ML_Content.insert<Uniform>("u_frame", new uni_int_ptr{ "u_frame", &m_time.frameCount() });
+		ML_Content.insert<Uniform>("u_fps", new uni_float_ptr{ "u_fps", &m_time.frameRate() });
+		ML_Content.insert<Uniform>("u_time", new uni_float_ptr{ "u_time", &m_time.totalTime() });
 
 		
 		// Run Load Script
@@ -166,10 +165,6 @@ namespace ml
 		}
 	}
 
-	void Engine::onStart(const StartEvent & ev)
-	{
-	}
-
 	void Engine::onBeginFrame(const BeginLoopEvent & ev)
 	{
 		m_time.beginLoop();
@@ -178,21 +173,13 @@ namespace ml
 
 	void Engine::onUpdate(const UpdateEvent & ev)
 	{
-		// Update Default Uniforms
-		m_cursorPos		= (vec2)m_window.getCursorPos();
-		m_deltaTime		= m_time.elapsed().delta();
-		m_frameCount	= m_frameCount + 1;
-		m_frameRate		= (float_t)m_time.frameRate();
-		m_viewport		= (vec2)m_window.getSize();
-		m_totalTime		= m_time.total().delta();
-
 		// Update Window Title
 		static const String original_title { m_window.getTitle() };
 		m_window.setTitle(String("{0} | {1} | {2} | {3} ms/frame").format(
 			original_title,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
-			m_time.elapsed().delta()
+			m_time.deltaTime()
 		));
 	}
 

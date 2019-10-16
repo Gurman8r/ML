@@ -53,6 +53,7 @@ namespace ml
 		, m_style		{ WindowStyle() }
 		, m_videoMode	{ VideoMode() }
 		, m_char		{ 0 }
+		, m_cursorPos	{ 0 }
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		if (HWND window = GetConsoleWindow())
@@ -541,7 +542,6 @@ namespace ml
 		return (*this);
 	}
 	
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Window::is_focused() const
@@ -564,7 +564,7 @@ namespace ml
 		return (m_window ? glfwGetWindowAttrib(ML_WINDOW(m_window), value) : NULL);
 	}
 
-	char Window::getChar() const
+	const char & Window::getChar() const
 	{
 		char temp { m_char };
 		m_char = '\0';
@@ -576,14 +576,14 @@ namespace ml
 		return (m_window ? glfwGetClipboardString(ML_WINDOW(m_window)) : nullptr);
 	}
 
-	vec2 Window::getCursorPos() const
+	const vec2 & Window::getCursorPos() const
 	{
 		vec2d temp { NULL };
 		if (m_window)
 		{
 			glfwGetCursorPos(ML_WINDOW(m_window), &temp[0], &temp[1]);
 		}
-		return (vec2)temp;
+		return (m_cursorPos = (vec2)temp);
 	}
 
 	vec2i Window::getFrameSize() const

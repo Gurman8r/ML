@@ -34,7 +34,6 @@ namespace ml
 
 		void onEnter		(const EnterEvent & ev);
 		void onLoad			(const LoadEvent & ev);
-		void onStart		(const StartEvent & ev);
 		void onBeginFrame	(const BeginLoopEvent & ev);
 		void onUpdate		(const UpdateEvent & ev);
 		void onBeginDraw	(const BeginDrawEvent & ev);
@@ -49,13 +48,6 @@ namespace ml
 		Preferences		m_prefs;
 		GameTime		m_time;
 		RenderWindow	m_window;
-
-		vec2	m_cursorPos		{ 0 };
-		float_t	m_deltaTime		{ 0 };
-		int32_t	m_frameCount	{ 0 };
-		float_t	m_frameRate		{ 0 };
-		vec2	m_viewport		{ 0 };
-		float_t	m_totalTime		{ 0 };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

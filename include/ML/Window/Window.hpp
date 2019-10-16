@@ -90,19 +90,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool		is_focused() const;
-		bool		is_fullscreen()	const;
-		bool		is_open() const;
-		int32_t		getAttribute(int32_t value) const;
-		char		getChar() const;
-		C_String	getClipboardString() const;
-		vec2		getCursorPos() const;
-		vec2i		getFrameSize() const;
-		int32_t		getKey(int32_t value) const;
-		int32_t		getInputMode() const;
-		int32_t		getMouseButton(int32_t button) const;
-		vec2i		getPosition() const;
-		float64_t	getTime() const;
+		bool			is_focused() const;
+		bool			is_fullscreen()	const;
+		bool			is_open() const;
+		int32_t			getAttribute(int32_t value) const;
+		const char &	getChar() const;
+		C_String		getClipboardString() const;
+		const vec2 &	getCursorPos() const;
+		vec2i			getFrameSize() const;
+		int32_t			getKey(int32_t value) const;
+		int32_t			getInputMode() const;
+		int32_t			getMouseButton(int32_t button) const;
+		vec2i			getPosition() const;
+		float64_t		getTime() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -157,6 +157,7 @@ namespace ml
 		VideoMode		m_videoMode;	// 
 		String			m_title;		// 
 		mutable char	m_char;			// 
+		mutable vec2	m_cursorPos;	//
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

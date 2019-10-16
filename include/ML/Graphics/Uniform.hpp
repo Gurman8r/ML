@@ -79,9 +79,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline friend ML_SERIALIZE(std::ostream & out, const Type & value)
+		{
+			return out << Type_names[value];
+		}
+
 		inline friend ML_SERIALIZE(std::ostream & out, const Uniform & value)
 		{
-			return out << Type_names[value.id];
+			return out << value.id;
 		}
 
 		inline friend bool operator==(const Uniform & lhs, const Uniform & rhs)
@@ -89,9 +94,19 @@ namespace ml
 			return ((lhs.id == rhs.id) && (lhs.name == rhs.name));
 		}
 
-		inline friend bool operator<(const Uniform & lhs, const Uniform & rhs)
+		template <class T> inline friend bool operator<(const Type & lhs, const T & rhs)
 		{
-			return ((lhs.id < rhs.id) || (lhs.name < rhs.name));
+			return (lhs < static_cast<Type>(rhs));
+		}
+
+		template <class T> inline friend bool operator==(const Type & lhs, const T & rhs)
+		{
+			return !(lhs < rhs) && !(rhs < static_cast<T>(lhs));
+		}
+
+		template <class T> inline friend bool operator!=(const Type & lhs, const T & rhs)
+		{
+			return !(lhs == rhs);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

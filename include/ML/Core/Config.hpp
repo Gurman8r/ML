@@ -13,7 +13,7 @@
 #define ML_PROJECT_TIME	__TIME__
 
 
-//	C++ Version
+//	Language
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 # if defined(__cplusplus)

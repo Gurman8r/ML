@@ -4,43 +4,34 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	GameTime::GameTime()
-		: m_mainTimer	{}
-		, m_loopTimer	{}
-		, m_delta		{ NULL }
-		, m_elapsed		{ NULL }
-		, m_fps			{ NULL }
-	{
-		m_mainTimer.start();
-	}
+	GameTime::GameTime() : m_main {}, m_loop {} { m_main.start(); }
 
-	GameTime::~GameTime()
-	{
-		m_mainTimer.stop();
-	}
+	GameTime::~GameTime() { m_main.stop(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	GameTime & GameTime::beginLoop()
 	{
-		m_loopTimer.start();
+		m_loop.start();
 		return (*this);
 	}
 
 	GameTime & GameTime::endLoop()
 	{
-		m_delta = (m_elapsed = m_loopTimer.stop().elapsed()).delta();
+		m_elapsed = m_loop.stop().elapsed();
 
-		m_fps.accum += m_delta - m_fps.capture[m_fps.index];
+		m_tracker.accum += deltaTime() - m_tracker.capture[m_tracker.index];
 		
-		m_fps.capture[m_fps.index] = m_delta;
+		m_tracker.capture[m_tracker.index] = deltaTime();
 		
-		m_fps.index = (m_fps.index + 1) % m_fps.size;
+		m_tracker.index = (m_tracker.index + 1) % m_tracker.size;
 		
-		m_fps.frameRate = ((m_fps.accum > 0.0f)
-			? (1.0f / (m_fps.accum / (float_t)m_fps.size))
+		m_tracker.frameRate = ((m_tracker.accum > 0.0f)
+			? (1.0f / (m_tracker.accum / (float_t)m_tracker.size))
 			: FLT_MAX
 		);
+
+		m_frame++;
 
 		return (*this);
 	}

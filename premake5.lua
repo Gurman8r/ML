@@ -22,7 +22,7 @@ filter ("system:not Windows")
 	inc_dir = "%{sln_dir}include/ML/%{prj.name}/"
 	src_dir = "%{sln_dir}src/ML/%{prj.name}/"
 	prj_dir = "%{sln_dir}proj/ML/%{prj.name}/"
-	ext_dir = "%{sln_dir}thirdparty/"
+	dep_dir = "%{dep_dir}"
 	
 filter ("system:Windows")
 	sln_dir = "%{wks.location}\\"
@@ -33,7 +33,7 @@ filter ("system:Windows")
 	inc_dir = "%{sln_dir}include\\ML\\%{prj.name}\\"
 	src_dir = "%{sln_dir}src\\ML\\%{prj.name}\\"
 	prj_dir = "%{sln_dir}proj\\ML\\%{prj.name}\\"
-	ext_dir = "%{sln_dir}thirdparty\\"
+	dep_dir = "%{sln_dir}thirdparty\\"
 	
 	
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
@@ -50,7 +50,7 @@ project "Core"
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_CORE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
@@ -77,19 +77,15 @@ project "Audio"
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
 	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	libdirs
 	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{
@@ -102,7 +98,7 @@ project "Audio"
 		postbuildcommands 
 		{	
 			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
-			"xcopy /y %{ext_dir}bin\\OpenAL32.dll %{bin_dir}"
+			"xcopy /y %{dep_dir}bin\\OpenAL32.dll %{bin_dir}"
 		}
 		
 		
@@ -120,19 +116,15 @@ project "Network"
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_NETWORK_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
 	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	libdirs
 	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{ 
@@ -162,19 +154,15 @@ project "Window"
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
 	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	libdirs
 	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links 
 	{
@@ -204,19 +192,15 @@ project "Graphics"
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_GRAPHICS_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core", "Window" }
 	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	libdirs
 	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{
@@ -231,7 +215,7 @@ project "Graphics"
 		postbuildcommands 
 		{
 			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
-			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_dir}"
+			"xcopy /y %{dep_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_dir}"
 		}
 		
 		
@@ -249,19 +233,15 @@ project "Engine"
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_ENGINE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Graphics", "Network", "Window" }
 	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	libdirs
 	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{
@@ -278,8 +258,8 @@ project "Engine"
 		postbuildcommands
 		{
 			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
-			"if %{cfg.buildcfg} == Debug ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_dir} )",
-			"if %{cfg.buildcfg} == Release ( xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_dir} )"
+			"if %{cfg.buildcfg} == Debug ( xcopy /y %{dep_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_dir} )",
+			"if %{cfg.buildcfg} == Release ( xcopy /y %{dep_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_dir} )"
 		}
 		
 		
@@ -297,7 +277,7 @@ project "Editor"
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_EDITOR_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Engine", "Graphics", "Network", "Window" }
 	files 
@@ -305,20 +285,16 @@ project "Editor"
 		"%{inc_dir}**.h", "%{inc_dir}**.hpp", 
 		"%{src_dir}**.c", "%{src_dir}**.cpp", 
 		"%{sln_dir}src/ML/%{prj.name}/**.cpp",
-		"%{sln_dir}thirdparty/include/imgui/**.h",
-		"%{sln_dir}thirdparty/include/imgui/**.cpp",
-		"%{sln_dir}thirdparty/include/ImGuiColorTextEdit/**.h",
-		"%{sln_dir}thirdparty/include/ImGuiColorTextEdit/**.cpp",
+		"%{dep_dir}include/imgui/**.h",
+		"%{dep_dir}include/imgui/**.cpp",
+		"%{dep_dir}include/ImGuiColorTextEdit/**.h",
+		"%{dep_dir}include/ImGuiColorTextEdit/**.cpp",
 	}
 	vpaths { ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	libdirs
 	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{
@@ -352,7 +328,7 @@ project "Launcher"
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window" }
 	files 
@@ -376,12 +352,8 @@ project "Launcher"
 	}
 	libdirs
 	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{
@@ -400,7 +372,7 @@ project "Launcher"
 		postbuildcommands 
 		{	
 			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.exe %{bin_dir}",
-			"xcopy /y %{ext_dir}bin\\%{cfg.buildcfg}\\pdcurses.dll %{bin_dir}"
+			"xcopy /y %{dep_dir}bin\\%{cfg.buildcfg}\\pdcurses.dll %{bin_dir}"
 		}
 
 

@@ -10,7 +10,7 @@ project "TestPlugin"
 	cppdialect 		("C++17")
 	staticruntime 	("Off")
 	systemversion 	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}include", "%{sln_dir}plugins/%{prj.name}" }
+	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include", "%{sln_dir}plugins/%{prj.name}" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Launcher" }
 	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
@@ -21,12 +21,8 @@ project "TestPlugin"
 	}
 	libdirs
 	{
-		"%{sln_dir}lib/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/",
-		"%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{sln_dir}thirdparty/lib/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/",
-		"%{sln_dir}thirdparty/lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{

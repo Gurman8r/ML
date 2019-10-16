@@ -18,6 +18,7 @@
 [ ] Real-time python scripts
 [ ] Json Editor Gui
 [ ] Temporary/Preview Assets
+[ ] Text Manager / Database
 
 [?] Virtual File System
 [?] automatic/recursive asset loading

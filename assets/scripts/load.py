@@ -30,7 +30,7 @@ ml.content.load_all([
     },
     { "type": "Shader", "name": "gl_basic",         "file": PATH + "/shaders/basic.shader" },
     { "type": "Shader", "name": "gl_flames",        "file": PATH + "/shaders/flames.shader" },
-    { "type": "Shader", "name": "gl_geometry",      "file": PATH + "/shaders/geometry.shader" },
+    #{ "type": "Shader", "name": "gl_geometry",      "file": PATH + "/shaders/geometry.shader" },
     { "type": "Shader", "name": "gl_lines",         "file": PATH + "/shaders/lines.shader" },
     { "type": "Shader", "name": "gl_skybox",        "file": PATH + "/shaders/skybox.shader" },
     { "type": "Shader", "name": "gl_surface",       "file": PATH + "/shaders/surface.shader" },

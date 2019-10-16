@@ -21,6 +21,7 @@
 #include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Transform.hpp>
 #include <ImGuiColorTextEdit/TextEditor.h>
+#include <ML/Editor/Editor.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -37,6 +38,21 @@ namespace ml
 				: false
 			);
 		}
+
+		template <class T> static inline bool inspect_button(const T * value)
+		{
+			const bool out { ImGui::Button("Inspect") };
+			if (out)
+			{
+				ML_Editor.inspector().Focus(true);
+				ML_Editor.content().select_item(
+					PropertyDrawer<T>::type_name(), 
+					ML_Content.get_name(value), 
+					(void *)value
+				);
+			}
+			return out;
+		}
 	};
 }
 
@@ -49,6 +65,14 @@ namespace ml
 	bool PropertyDrawer<Entity>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
+
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
 
 		return changed;
 	}
@@ -574,6 +598,14 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
+
 		return changed;
 	}
 
@@ -719,6 +751,14 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
+
 		return changed;
 	}
 
@@ -838,6 +878,14 @@ namespace ml
 	bool PropertyDrawer<Material>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
+
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
 
 		return changed;
 	}
@@ -1055,6 +1103,14 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
+
 		return changed;
 	}
 
@@ -1248,6 +1304,14 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
+
 		return changed;
 	}
 
@@ -1406,6 +1470,14 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
+
 		return changed;
 	}
 	
@@ -1537,6 +1609,14 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
+
 		return changed;
 	}
 
@@ -1626,6 +1706,14 @@ namespace ml
 	bool PropertyDrawer<Sprite>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
+
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
 
 		return changed;
 	}
@@ -1779,6 +1867,14 @@ namespace ml
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
 
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
+
 		return changed;
 	}
 
@@ -1913,6 +2009,14 @@ namespace ml
 	bool PropertyDrawer<Texture>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
+
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value)) 
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
 
 		if (ImGui::IsItemHovered())
 		{
@@ -2248,6 +2352,14 @@ namespace ml
 	bool PropertyDrawer<Uniform>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
+
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		if (ImGui::BeginPopupContextWindow(menu_label.c_str()))
+		{
+			if (PropertyDrawer<>::Layout::inspect_button(value))
+				ImGui::CloseCurrentPopup();
+			ImGui::EndPopup();
+		}
 
 		return changed;
 	}

@@ -31,11 +31,8 @@ namespace ml
 		template <class T>
 		static inline void draw_list()
 		{
-			// Self
-			EditorContent & self { ML_Editor.content() };
-
-			// Data
-			static auto & database { ML_Content.data<T>() };
+			// Database
+			static auto & db { ML_Content.data<T>() };
 
 			// Type Name
 			static const String type_name { PropertyDrawer<T>::type_name().str() };
@@ -73,10 +70,10 @@ namespace ml
 			if (!tab_visible) { return; }
 
 			// Draw Items
-			ImGui::PushID(ML_ADDRESSOF(&database));
-			if (database.empty()) { ImGui::Text("-"); }
-			auto to_remove { database.end() }, to_select { database.end() };
-			for (auto it = database.begin(); it != database.end(); it++)
+			ImGui::PushID(ML_ADDRESSOF(&db));
+			if (db.empty()) { ImGui::Text("-"); }
+			auto to_remove { db.end() }, to_select { db.end() };
+			for (auto it = db.begin(); it != db.end(); it++)
 			{
 				if (!it->second || ImGuiExt::IsHidden(it->first)) { continue; }
 				
@@ -85,7 +82,7 @@ namespace ml
 				// Item Selectable
 				if (ImGui::Selectable(
 					(it->first + "##" + label).c_str(), 
-					(self.m_selected == it->second)
+					(ML_Editor.content().m_selected == it->second)
 				))
 				{
 					to_select = it;
@@ -100,10 +97,7 @@ namespace ml
 					{
 						if (auto u { static_cast<Uniform *>(it->second) })
 						{
-							if (!u->isModifiable())
-							{
-								no_delete = true;
-							}
+							no_delete = !u->isModifiable();
 						}
 					}
 
@@ -123,19 +117,15 @@ namespace ml
 				ImGui::PopID();
 				ImGui::Separator();
 			}
-			if (to_remove != database.end())
+			if (to_remove != db.end())
 			{
 				ML_Content.destroy<T>(to_remove->first);
-				self.m_typename = String();
-				self.m_itemname = String();
-				self.m_selected = nullptr;
+				ML_Editor.content().select_none();
 			}
-			if (to_select != database.end())
+			if (to_select != db.end())
 			{
 				ML_Editor.inspector().Focus(true);
-				self.m_typename = type_name;
-				self.m_itemname = to_select->first;
-				self.m_selected = to_select->second;
+				ML_Editor.content().select_item(type_name, to_select->first, to_select->second);
 			}
 			ImGui::PopID();
 			ImGui::EndTabItem();

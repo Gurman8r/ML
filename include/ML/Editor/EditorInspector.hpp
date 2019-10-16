@@ -15,7 +15,7 @@ namespace ml
 
 		struct Layout;
 
-		explicit EditorInspector();
+		EditorInspector();
 
 		void update() override;
 

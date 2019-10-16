@@ -14,7 +14,7 @@ namespace ml
 
 		friend class Editor;
 
-		explicit EditorExplorer();
+		EditorExplorer();
 
 		void update() override;
 

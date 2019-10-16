@@ -21,7 +21,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		explicit EditorWindow(C_String title, C_String hotkey, bool startOpen);
+		EditorWindow(C_String title, C_String hotkey, bool startOpen);
 
 		virtual ~EditorWindow() {}
 

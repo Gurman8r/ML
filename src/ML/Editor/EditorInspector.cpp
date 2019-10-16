@@ -29,13 +29,12 @@ namespace ml
 		template <class T>
 		inline static void draw_item(void * ptr, const String & name)
 		{
-			static const String type_name { PropertyDrawer<T>::type_name().str() };
 			if (!ptr) return;
-			ImGui::PushID(type_name.c_str());
+			ImGui::PushID(typeof<T>::name.c_str());
 			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<T>()));
 			ImGui::PushID(ptr);
 			PropertyDrawer<T>()(
-				(type_name + "##" + name + " ##Inspector"),
+				(typeof<T>::name.str() + "##" + name + " ##Inspector"),
 				((T &)*static_cast<T *>(ptr))
 			);
 			ImGui::PopID();
@@ -61,7 +60,7 @@ namespace ml
 	{
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			EditorContent & con { ML_Editor.content() };
+			EditorContent & c { ML_Editor.content() };
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -81,13 +80,13 @@ namespace ml
 			ImGui::PopStyleVar();
 			if (ImGui::BeginMenuBar())
 			{
-				if (ML_Editor.content().m_selected)
+				if (ML_Editor.content().selected())
 				{
 					ImGui::PushStyleColor(ImGuiCol_Text, { 0.2f, 0.1f, 1.0f, 1.0f });
-					ImGui::Text("[%s]", con.m_typename.c_str());
+					ImGui::Text("[%s]", c.type_name().c_str());
 					ImGui::PopStyleColor();
 					ImGui::SameLine();
-					ImGui::Text("\'%s\'", con.m_itemname.c_str());
+					ImGui::Text("\'%s\'", c.item_name().c_str());
 				}
 				else
 				{
@@ -95,20 +94,20 @@ namespace ml
 				}
 				ImGui::EndMenuBar();
 			}
-			switch (Hash { con.m_typename.data(), con.m_typename.size() })
+			switch (Hash { c.type_name().data(), c.type_name().size() })
 			{
-			case PropertyDrawer<Entity>::hash_code():	Layout::draw_item<Entity>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Font>::hash_code():		Layout::draw_item<Font>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Image>::hash_code():	Layout::draw_item<Image>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Material>::hash_code():	Layout::draw_item<Material>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Model>::hash_code():	Layout::draw_item<Model>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Script>::hash_code():	Layout::draw_item<Script>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Shader>::hash_code():	Layout::draw_item<Shader>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Sound>::hash_code():	Layout::draw_item<Sound>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Sprite>::hash_code():	Layout::draw_item<Sprite>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Surface>::hash_code():	Layout::draw_item<Surface>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Texture>::hash_code():	Layout::draw_item<Texture>(con.m_selected, con.m_itemname); break;
-			case PropertyDrawer<Uniform>::hash_code():	Layout::draw_item<Uniform>(con.m_selected, con.m_itemname); break;
+			case PropertyDrawer<Entity>::hash_code():	Layout::draw_item<Entity>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Font>::hash_code():		Layout::draw_item<Font>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Image>::hash_code():	Layout::draw_item<Image>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Material>::hash_code():	Layout::draw_item<Material>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Model>::hash_code():	Layout::draw_item<Model>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Script>::hash_code():	Layout::draw_item<Script>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Shader>::hash_code():	Layout::draw_item<Shader>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Sound>::hash_code():	Layout::draw_item<Sound>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Sprite>::hash_code():	Layout::draw_item<Sprite>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Surface>::hash_code():	Layout::draw_item<Surface>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Texture>::hash_code():	Layout::draw_item<Texture>(c.selected(), c.item_name()); break;
+			case PropertyDrawer<Uniform>::hash_code():	Layout::draw_item<Uniform>(c.selected(), c.item_name()); break;
 			}
 			ImGui::EndChild();
 

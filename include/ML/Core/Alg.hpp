@@ -119,9 +119,7 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			template <
-				class ... Ts
-			> struct sqrt;
+			template <class ... T> struct sqrt;
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -168,13 +166,9 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			template <
-				class To, class From
-			> struct sqrt<To, From> : public sqrt<From>
+			template <class To, class From> struct sqrt<To, From> : public sqrt<From>
 			{
-				template <
-					class U
-				> constexpr To operator()(const U & value) const
+				template <class U> constexpr To operator()(const U & value) const
 				{
 					return static_cast<To>(sqrt<From>{}(static_cast<From>(value)));
 				}
@@ -203,9 +197,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		}
 
-		template <
-			class T
-		> struct sqrt : public ML_ALG impl::sqrt<T>
+		template <class T> struct sqrt : public ML_ALG impl::sqrt<T>
 		{
 			constexpr T operator()(T value) const
 			{
@@ -223,10 +215,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> static constexpr auto sign(const T & value)
-			-> T
+		template <class T> static constexpr int32_t sign(const T & value)
 		{
 			return ((value == (T)0)
 				? (T)0
@@ -236,10 +225,7 @@ namespace ml
 			));
 		}
 
-		template <
-			class T
-		> static constexpr auto abs(const T & value)
-			-> T
+		template <class T> static constexpr T abs(const T & value)
 		{
 			return ((ML_ALG sign(value) < (T)0)
 				? (value * (T)-1)
@@ -248,12 +234,11 @@ namespace ml
 		}
 
 		template <
-			class B, class E
-		> static constexpr auto pow(const B & base, const E & exp)
-			-> B
+			class Base, class Exp
+		> static constexpr Base pow(const Base & base, const Exp & exp)
 		{
-			using TB = constant_t<B>;
-			using TE = constant_t<E>;
+			using TB = constant_t<Base>;
+			using TE = constant_t<Exp>;
 			return ((exp < TE::zero)
 				? ((base == TB::zero)
 					? TB::nan
@@ -266,48 +251,24 @@ namespace ml
 						)));
 		}
 
-		template <
-			class T
-		> static constexpr auto fact(const T & value)
-			-> T
+		template <class T> static constexpr T fact(const T & value)
 		{
-			return ((value > (T)1)
-				? value * ML_ALG fact(value - (T)1)
-				: (T)1
-			);
+			return ((value > (T)1) ? value * ML_ALG fact(value - (T)1) : (T)1);
 		}
 			
-		template <
-			class T
-		> static constexpr auto max(const T & lhs, const T & rhs)
-			-> const T &
+		template <class T> static constexpr const T & max(const T & lhs, const T & rhs)
 		{
 			return (lhs >= rhs) ? lhs : rhs;
 		}
 
-		template <
-			class T
-		> static constexpr auto min(const T & lhs, const T & rhs)
-			-> const T &
+		template <class T> static constexpr const T & min(const T & lhs, const T & rhs)
 		{
 			return (lhs <= rhs) ? lhs : rhs;
 		}
 
-		template <
-			class T
-		> static constexpr auto clamp(const T & value, const T & mn, const T & mx)
-			-> const T
+		template <class T> static constexpr T clamp(const T & value, const T & mn, const T & mx)
 		{
 			return ML_ALG min(ML_ALG max(value, mn), mx);
-		}
-
-		template <
-			class T
-		> static constexpr void swap(T & lhs, T & rhs)
-		{
-			auto temp { lhs };
-			lhs = rhs;
-			rhs = temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -319,25 +280,13 @@ namespace ml
 			return (a * coeff + b * ((C)1 - coeff));
 		}
 
-		template <
-			class T
-		> static constexpr T map(
+		template <class T> static constexpr T map(
 			const T & value, 
 			const T & a0, const T & a1,
-			const T & b0, const T & b1)
+			const T & b0, const T & b1
+		)
 		{
 			return (b0 + (value - a0) * (b1 - b0) / (a1 - a0));
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class T, class Num, class Den = typename Num
-		> static constexpr T delta_cast(const Num numerator, const Den denominator)
-		{
-			const T num { (T)numerator };
-			const T den { (T)denominator };
-			return (((den > (T)0) && (num < den)) ? (num / den) : (T)0);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -350,16 +299,12 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T, size_t N
-		> static constexpr auto begin(const T(&value)[N]) -> const T *
+		template <class T, size_t N> static constexpr const T * begin(const T(&value)[N])
 		{
 			return (&value[0]);
 		}
 
-		template <
-			class T, size_t N
-		> static constexpr auto end(const T(&value)[N]) -> const T *
+		template <class T, size_t N> static constexpr const T * end(const T(&value)[N])
 		{
 			return (&value[N]);
 		}
@@ -392,8 +337,7 @@ namespace ml
 
 		template <
 			class InIt, class OutIt
-		> static constexpr auto copy_unchecked(InIt first, InIt last, OutIt dest)
-			-> OutIt
+		> static constexpr OutIt copy_unchecked(InIt first, InIt last, OutIt dest)
 		{
 			while (first != last)
 			{
@@ -404,37 +348,24 @@ namespace ml
 
 		template <
 			class InIt, class OutIt
-		> static constexpr auto copy(InIt first, InIt last, OutIt dest)
-			-> OutIt
+		> static constexpr OutIt copy(InIt first, InIt last, OutIt dest)
 		{
 			return ML_ALG copy_unchecked(first, last, dest);
 		}
 
 		template <
 			template <class, size_t ...> class A, class T, size_t ... N
-		> static constexpr auto copy(A<T, N...> & lhs, const A<T, N...> & rhs)
-			-> A<T, N...> &
+		> static constexpr A<T, N...> & copy(A<T, N...> & lhs, const A<T, N...> & rhs)
 		{
 			ML_ALG copy(ML_ALG begin(lhs), ML_ALG end(lhs), ML_ALG begin(rhs));
 			return lhs;
-		}
-
-		template <
-			template <class, size_t ...> class A, class T, size_t ... N
-		> static constexpr auto copy(const A<T, N...> & value)
-			-> A<T, N...>
-		{
-			A<T, N...> temp { uninit };
-			ML_ALG copy(temp, value);
-			return temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class InIt, class T
-		> static constexpr auto fill_unchecked(InIt first, InIt last, T value)
-			-> InIt
+		> static constexpr InIt fill_unchecked(InIt first, InIt last, T value)
 		{
 			while (first != last)
 			{
@@ -445,29 +376,17 @@ namespace ml
 
 		template <
 			class InIt, class T
-		> static constexpr auto fill(InIt first, InIt last, T value)
-			-> InIt
+		> static constexpr InIt fill(InIt first, InIt last, T value)
 		{
 			return ML_ALG fill_unchecked(first, last, value);
 		}
 
 		template <
 			template <class, size_t ...> class A, class T, size_t ... N
-		> static constexpr auto fill(A<T, N...> & arr, const T & value)
-			-> A<T, N...> &
+		> static constexpr A<T, N...> & fill(A<T, N...> & arr, const T & value)
 		{
 			ML_ALG fill(ML_ALG begin(arr), ML_ALG end(arr), value);
 			return arr;
-		}
-
-		template <
-			template <class, size_t ...> class A, class T, size_t ... N
-		> static constexpr auto fill(const T & value)
-			-> A<T, N...>
-		{
-			A<T, N...> temp { uninit };
-			ML_ALG fill(temp, value);
-			return temp;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

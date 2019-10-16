@@ -58,7 +58,7 @@ namespace ml
 
 		mutable bool m_changed;
 		mutable List<const Texture *> m_textures;
-		mutable List<geo::rect_quad::contiguous_t> m_vertices;
+		mutable List<geo::rect_quad> m_vertices;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

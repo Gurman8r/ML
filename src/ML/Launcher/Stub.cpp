@@ -50,8 +50,6 @@ namespace ml
 			constexpr auto arr2 = Array<char, 3> { 'a', 'b', 'c' };
 			static_assert(arr1 == arr2, "What?");
 
-			static_assert(StringView("Here") == StringView("Here"), "What?");
-
 			constexpr hash_t hash1	= Hash("Here");
 			constexpr hash_t hash2	= StringView("Here").hash();
 			constexpr hash_t hash3	= mat4i::identity().hash();
@@ -70,10 +68,7 @@ namespace ml
 			constexpr auto pow		= alg::pow(1.23, 10);
 			constexpr auto fact		= alg::fact(10);
 			constexpr auto cross	= alg::cross(vec3 { 1, 2, 3 }, vec3 { 4, 5, 6 });
-		}
-
-		// Quaternion Tests
-		{
+		
 			constexpr quat		q			{ 1.0f, 2.0f, 3.0f, 4.0f };
 			constexpr vec3		q_complex	= q.complex();
 			constexpr float_t	q_real		= q.real();
@@ -85,25 +80,14 @@ namespace ml
 			constexpr vec3		q_euler		= q.eulerAngles();
 			constexpr mat3		q_toMat3	= q.as_mat3();
 			constexpr mat4		q_toMat4	= q.as_mat4();
-		}
-
-		// Geometry Tests
-		{
-			constexpr auto tri		= geo::tri::contiguous;
-			constexpr auto quad		= geo::quad::contiguous;
-			constexpr auto cube		= geo::cube::contiguous;
-			constexpr auto sky		= geo::sky::contiguous;
-		}
-
-		// Camera Tests
-		{
-			constexpr auto res		= vec2 { 1280, 720 };
-			constexpr auto fov		= 45.f;
-			constexpr auto aspect	= (res[0] / res[1]);
-			constexpr auto zNear	= 0.1f;
-			constexpr auto zFar		= 1000.f;
-			//constexpr auto persp	= mat4::persp(fov, aspect, zNear, zFar);
-			//constexpr auto ortho	= mat4::ortho(0, res[0], res[1], 0);
+			
+			constexpr auto cam_res		= vec2 { 1280, 720 };
+			constexpr auto cam_fov		= 45.f;
+			constexpr auto cam_aspect	= (cam_res[0] / cam_res[1]);
+			constexpr auto cam_zNear	= 0.1f;
+			constexpr auto cam_zFar		= 1000.f;
+			//constexpr auto persp	= mat4::persp(cam_fov, cam_aspect, cam_zNear, cam_zFar);
+			//constexpr auto ortho	= mat4::ortho(0, cam_res[0], cam_res[1], 0);
 		}
 	}
 

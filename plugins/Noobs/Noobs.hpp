@@ -58,14 +58,14 @@ namespace ml
 
 		// ERROR
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct Error final : Newable
+		struct DemoError final : Newable
 		{
 			String	file;
 			int32_t line;
 			String	code;
 			String	desc;
 
-			Error(const String & file, int32_t line, const String & code, const String & expr)
+			DemoError(const String & file, int32_t line, const String & code, const String & expr)
 				: file { file }
 				, line { line }
 				, code { code }
@@ -73,7 +73,7 @@ namespace ml
 			{
 			}
 
-			Error(const Error & copy) : Error {
+			DemoError(const DemoError & copy) : DemoError {
 				copy.file, copy.line, copy.code, copy.desc
 			}
 			{
@@ -84,7 +84,7 @@ namespace ml
 				return file && line && code && desc;
 			}
 
-			inline friend ML_SERIALIZE(std::ostream & out, const Error & in)
+			inline friend ML_SERIALIZE(std::ostream & out, const DemoError & in)
 			{
 				return out
 					<< "File: \'" << in.file << "\'" << endl
@@ -95,9 +95,9 @@ namespace ml
 			}
 		};
 
-		static inline Error decode_error(uint32_t type, String str)
+		static inline DemoError decode_error(uint32_t type, String str)
 		{
-			Error err { "", 0, "", "" };
+			DemoError err { "", 0, "", "" };
 			if (!str) { return err; }
 			if (str.front() != '0') { return err; }
 			str.erase(str.begin());
@@ -149,7 +149,7 @@ namespace ml
 			String		name;
 			bool		open;
 			bool		dirty;
-			List<Error>	errs;
+			List<DemoError>	errs;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 

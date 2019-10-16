@@ -26,9 +26,7 @@ namespace ml
 	{
 	}
 	
-	Text::~Text()
-	{
-	}
+	Text::~Text() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -110,7 +108,7 @@ namespace ml
 					glyph.size() * m_scale
 				};
 
-				m_vertices[i] = geo::rect_quad::glyphQuad(rect);
+				m_vertices[i] = geo::glyphQuad(rect);
 				m_textures[i] = (&glyph.texture);
 				
 				switch (m_string[i])
@@ -133,23 +131,13 @@ namespace ml
 		{
 			update();
 
-			if (uni_color * u = batch.mat->get<uni_color>(ML_UNI_MAIN_COL))
-			{
-				u->data = m_color;
-			}
+			batch.mat->update<uni_color>(ML_UNI_MAIN_COL, m_color);
 
 			for (size_t i = 0, imax = m_string.size(); i < imax; i++)
 			{
-				if (uni_sampler * u = batch.mat->get<uni_sampler>(ML_UNI_MAIN_TEX))
-				{
-					u->data = m_textures[i];
-				}
+				batch.mat->update<uni_sampler>(ML_UNI_MAIN_TEX, m_textures[i]);
 
-				target.draw(
-					m_vertices[i].data(),
-					geo::rect_quad::contiguous_t::Size, 
-					batch
-				);
+				target.draw(m_vertices[i].data(), geo::rect_quad::Size, batch);
 			}
 		}
 	}

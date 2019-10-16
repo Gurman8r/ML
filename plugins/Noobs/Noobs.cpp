@@ -174,34 +174,13 @@ namespace ml
 			{
 				if (auto m { (Material *)pair.second })
 				{
-					if (auto u { m->get<uni_vec3>("u_camera.pos") })
-					{
-						u->data = camera->position();
-					}
-					if (auto u { m->get<uni_vec3>("u_camera.dir") })
-					{
-						u->data = camera->direction();
-					}
-					if (auto u { m->get<uni_float>("u_camera.fov") })
-					{
-						u->data = camera->fieldOfView();
-					}
-					if (auto u { m->get<uni_float>("u_camera.near") })
-					{
-						u->data = camera->clipNear();
-					}
-					if (auto u { m->get<uni_float>("u_camera.far") })
-					{
-						u->data = camera->clipFar();
-					}
-					if (auto u { m->get<uni_vec2>("u_camera.view") })
-					{
-						u->data = (vec2)camera->viewport().size();
-					}
-					if (auto u { m->get<uni_vec2>("u_viewport") })
-					{
-						u->data = (vec2)camera->viewport().size();
-					}
+					m->update<uni_vec3>("u_camera.pos", camera->position());
+					m->update<uni_vec3>("u_camera.dir", camera->direction());
+					m->update<uni_float>("u_camera.fov", camera->fieldOfView());
+					m->update<uni_float>("u_camera.near", camera->clipNear());
+					m->update<uni_float>("u_camera.far", camera->clipNear());
+					m->update<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
+					m->update<uni_vec2>("u_viewport", (vec2)camera->viewport().size());
 				}
 			}
 		}
@@ -210,26 +189,11 @@ namespace ml
 		//{
 		//	if (auto * m { (Material *)pair.second })
 		//	{
-		//		if (auto u { m->get<uni_vec2>("u_cursor") })
-		//		{
-		//			u->data = ML_Engine.window().getCursorPos();
-		//		}
-		//		if (auto u { m->get<uni_float>("u_delta") })
-		//		{
-		//			u->data = ML_Engine.time().deltaTime();
-		//		}
-		//		if (auto u { m->get<uni_int>("u_frame") })
-		//		{
-		//			u->data = ML_Engine.time().frameCount();
-		//		}
-		//		if (auto u { m->get<uni_float>("u_fps") })
-		//		{
-		//			u->data = ML_Engine.time().frameRate();
-		//		}
-		//		if (auto u { m->get<uni_float>("u_time") })
-		//		{
-		//			u->data = ML_Engine.time().deltaTime();
-		//		}
+		//		m->update<uni_vec2>	("u_cursor", ML_Engine.window().getCursorPos());
+		//		m->update<uni_float>("u_delta", ML_Engine.time().deltaTime());
+		//		m->update<uni_int>	("u_frame", ML_Engine.time().frameCount());
+		//		m->update<uni_float>("u_fps", ML_Engine.time().frameRate());
+		//		m->update<uni_float>("u_time", ML_Engine.time().deltaTime());
 		//	}
 		//}
 

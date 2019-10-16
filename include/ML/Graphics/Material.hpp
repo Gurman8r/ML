@@ -44,48 +44,24 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class ... Args
-		> inline bool setUniform(Args && ... args) const
-		{
-			return shader() && shader()->setUniform(std::forward<Args>(args)...);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class T = typename Uniform
-		> inline T * get(const String & name)
-		{
-			iterator it = std::find_if(this->begin(), this->end(), [&](auto && u)
-			{
-				return u && (u->name == name);
-			});
-			return (it != this->end()) ? dynamic_cast<T *>(*it) : nullptr;
-		}
-
-		template <
-			class T = typename Uniform
-		> inline const T * get(const String & name) const
-		{
-			const_iterator it = std::find_if(this->cbegin(), this->cend(), [&](auto && u)
-			{
-				return u && (u->name == name);
-			});
-			return (it != this->cend()) ? dynamic_cast<const T *>(*it) : nullptr;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		inline Uniform * add(Uniform * value)
 		{
-			if (value && 
-				value->name && 
-				!this->get(value->name) &&
-				(std::find(this->begin(), this->end(), value) == this->end()))
+			if (value && value->name && !get(value->name) &&
+				(std::find(begin(), end(), value) == end()))
 			{
 				m_uniforms.push_back(value);
 				return value;
+			}
+			return nullptr;
+		}
+
+		template <class U, class T> inline bool add(const String & name, const T & value)
+		{
+			if (name && !get(name) && (std::find(begin(), end(), value) == end()))
+			{
+				m_uniforms.push_back(new U { name, value });
+
+				return m_uniforms.back();
 			}
 			return nullptr;
 		}
@@ -94,20 +70,60 @@ namespace ml
 
 		inline bool erase(Uniform * value)
 		{
-			return (value && value->name) && this->erase(value->name);
+			return (value && value->name) && erase(value->name);
 		}
 
 		inline bool erase(const String & name)
 		{
-			iterator it = std::find_if(this->begin(), this->end(), [&](auto && u)
+			iterator it = std::find_if(begin(), end(), [&](auto && u)
 			{
 				return u && (u->name == name);
 			});
-			if (it != this->end())
+			if (it != end())
 			{
 				if (*it) delete (*it);
 				m_uniforms.erase(it);
 				return true;
+			}
+			return false;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class U = typename Uniform> inline U * get(const String & name)
+		{
+			iterator it = std::find_if(begin(), end(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			});
+			return (it != end()) ? dynamic_cast<U *>(*it) : nullptr;
+		}
+
+		template <class U = typename Uniform> inline const U * get(const String & name) const
+		{
+			const_iterator it = std::find_if(cbegin(), cend(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			});
+			return (it != cend()) ? dynamic_cast<const U *>(*it) : nullptr;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class ... Args> inline bool setUniform(Args && ... args) const
+		{
+			if (auto * s { shader() })
+			{
+				return s->setUniform(std::forward<Args>(args)...);
+			}
+			return false;
+		}
+
+		template <class U, class T> inline bool update(const String & name, const T & value)
+		{
+			if (auto u { get<U>(name) })
+			{
+				u->data = value; return true;
 			}
 			return false;
 		}

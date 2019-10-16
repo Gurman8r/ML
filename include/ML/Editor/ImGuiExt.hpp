@@ -8,7 +8,7 @@
 
 namespace ml
 {
-	struct ML_EDITOR_API ImGuiExt final : public NonNewable
+	struct ML_EDITOR_API ImGuiExt final
 	{
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

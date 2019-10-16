@@ -5,10 +5,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	AssetPreview::AssetPreview()
-		: m_previews {}
-	{
-	}
+	AssetPreview::AssetPreview() : m_previews {} {}
 
 	AssetPreview::~AssetPreview() { this->dispose(); }
 

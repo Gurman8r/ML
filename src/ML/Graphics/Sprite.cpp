@@ -90,22 +90,13 @@ namespace ml
 	{
 		if (m_texture && batch.mat)
 		{
-			if (uni_color * u = batch.mat->get<uni_color>(ML_UNI_MAIN_COL))
-			{
-				u->data = m_color;
-			}
-
-			if (uni_sampler * u = batch.mat->get<uni_sampler>(ML_UNI_MAIN_TEX))
-			{
-				u->data = m_texture;
-			}
-
-			const vec2 scl = scale() * (vec2)m_texture->size();
-			const vec2 pos = position() - (scl * origin());
+			batch.mat->update<uni_color>(ML_UNI_MAIN_COL, m_color);
+			
+			batch.mat->update<uni_sampler>(ML_UNI_MAIN_TEX, m_texture);
 
 			target.draw(
-				geo::rect_quad::spriteQuad({ pos, scl }).data(),
-				geo::rect_quad::contiguous_t::Size,
+				geo::spriteQuad({ position() - (size() * origin()), size() }).data(),
+				geo::rect_quad::Size,
 				batch
 			);
 		}

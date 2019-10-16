@@ -102,43 +102,43 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T, size_t N
-	> constexpr bool operator==(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		class Tx, class Ty, size_t N
+	> constexpr bool operator==(const Array<Tx, N> & lhs, const Array<Ty, N> & rhs)
 	{
 		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <
-		class T, size_t N
-	> constexpr bool operator!=(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		class Tx, class Ty, size_t N
+	> constexpr bool operator!=(const Array<Tx, N> & lhs, const Array<Ty, N> & rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <
-		class T, size_t N
-	> constexpr bool operator<(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		class Tx, class Ty, size_t N
+	> constexpr bool operator<(const Array<Tx, N> & lhs, const Array<Ty, N> & rhs)
 	{
 		return alg::less(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <
-		class T, size_t N
-	> constexpr bool operator<=(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		class Tx, class Ty, size_t N
+	> constexpr bool operator<=(const Array<Tx, N> & lhs, const Array<Ty, N> & rhs)
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
 	template <
-		class T, size_t N
-	> constexpr bool operator>(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		class Tx, class Ty, size_t N
+	> constexpr bool operator>(const Array<Tx, N> & lhs, const Array<Ty, N> & rhs)
 	{
 		return !(lhs < rhs) && (lhs != rhs);
 	}
 
 	template <
-		class T, size_t N
-	> constexpr bool operator>=(const Array<T, N> & lhs, const Array<T, N> & rhs)
+		class Tx, class Ty, size_t N
+	> constexpr bool operator>=(const Array<Tx, N> & lhs, const Array<Ty, N> & rhs)
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}

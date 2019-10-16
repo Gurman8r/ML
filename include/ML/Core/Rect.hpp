@@ -44,9 +44,7 @@ namespace ml
 		{
 		}
 
-		template <
-			class U
-		> constexpr Rect(const tvec4<U> & copy)
+		template <class U> constexpr Rect(const tvec4<U> & copy)
 			: base_type(copy)
 		{
 		}
@@ -67,7 +65,7 @@ namespace ml
 		constexpr auto top()		const -> value_type { return (*this)[1]; }
 		constexpr auto width()		const -> value_type { return (*this)[2]; }
 		constexpr auto height()		const -> value_type { return (*this)[3]; }
-		constexpr auto bottom()		const -> value_type { return (top() + height()); }
+		constexpr auto bot()		const -> value_type { return (top() + height()); }
 		constexpr auto right()		const -> value_type { return (left() + width()); }
 		constexpr auto position()	const -> coord_type { return { left(), top() }; }
 		constexpr auto size()		const -> coord_type { return { width(), height() }; }
@@ -79,7 +77,7 @@ namespace ml
 		constexpr auto top		(value_type value)			-> self_type & { return set(1, value); }
 		constexpr auto width	(value_type value)			-> self_type & { return set(2, value); }
 		constexpr auto height	(value_type value)			-> self_type & { return set(3, value); }
-		constexpr auto bottom	(value_type value)			-> self_type & { return height(value - top()); }
+		constexpr auto bot		(value_type value)			-> self_type & { return height(value - top()); }
 		constexpr auto right	(value_type value)			-> self_type & { return width(value - left()); }
 		constexpr auto position	(const coord_type & value)	-> self_type & { return left(value[0]).top(value[1]); }
 		constexpr auto size		(const coord_type & value)	-> self_type & { return width(value[0]).height(value[1]); }

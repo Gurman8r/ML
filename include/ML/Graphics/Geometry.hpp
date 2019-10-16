@@ -15,72 +15,65 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct rect_quad final
+		// Rect-Quad
+		
+		using rect_quad = typename Array<float_t, Vertex::Size * 6>;
+		
+		using rect_uvs	= typename Array<float_t, rect_quad::Size * 2>;
+
+		static constexpr rect_quad rectQuad(const FloatRect & rq, const rect_uvs & uv)
 		{
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			using contiguous_t	= typename Array<float_t, Vertex::Size * 6>;
-			using texcoord_t	= typename Array<float_t, (contiguous_t::Size * 2)>;
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			static constexpr contiguous_t create(const FloatRect & r, const texcoord_t & uv)
+			return
 			{
-				return
-				{
-					r.left(),  r.bottom(),	0.0f,	1.0f, 1.0f, 1.0f, 1.0f,	uv[ 0],	uv[ 1],
-					r.left(),  r.top(),		0.0f,	1.0f, 1.0f, 1.0f, 1.0f,	uv[ 2],	uv[ 3],
-					r.right(), r.top(),		0.0f,	1.0f, 1.0f, 1.0f, 1.0f,	uv[ 4],	uv[ 5],
-					r.left(),  r.bottom(),	0.0f,	1.0f, 1.0f, 1.0f, 1.0f,	uv[ 6],	uv[ 7],
-					r.right(), r.top(),		0.0f,	1.0f, 1.0f, 1.0f, 1.0f,	uv[ 8],	uv[ 9],
-					r.right(), r.bottom(),	0.0f,	1.0f, 1.0f, 1.0f, 1.0f,	uv[10], uv[11],
-				};
-			}
+				// Position						// Normal					// Texcoord
+				rq.left(),  rq.bot(), 0.f,		1.0f, 1.0f, 1.0f, 1.0f,		uv[ 0],	uv[ 1],
+				rq.left(),  rq.top(), 0.f,		1.0f, 1.0f, 1.0f, 1.0f,		uv[ 2],	uv[ 3],
+				rq.right(), rq.top(), 0.f,		1.0f, 1.0f, 1.0f, 1.0f,		uv[ 4],	uv[ 5],
+				rq.left(),  rq.bot(), 0.f,		1.0f, 1.0f, 1.0f, 1.0f,		uv[ 6],	uv[ 7],
+				rq.right(), rq.top(), 0.f,		1.0f, 1.0f, 1.0f, 1.0f,		uv[ 8],	uv[ 9],
+				rq.right(), rq.bot(), 0.f,		1.0f, 1.0f, 1.0f, 1.0f,		uv[10], uv[11],
+			};
+		}
 
-			static constexpr contiguous_t glyphQuad(const FloatRect & r)
+		static constexpr rect_quad glyphQuad(const FloatRect & rq)
+		{
+			return rectQuad(rq,
 			{
-				return create(r,
-				{
-					0.0f, 1.0f, // LB
-					0.0f, 0.0f, // LT
-					1.0f, 0.0f, // RT
-					0.0f, 1.0f, // LB
-					1.0f, 0.0f, // RT
-					1.0f, 1.0f  // RB
-				});
-			}
+				0.0f, 1.0f, // Left  Bottom
+				0.0f, 0.0f, // Left  Top
+				1.0f, 0.0f, // Right Top
+				0.0f, 1.0f, // Left  Bottom
+				1.0f, 0.0f, // Right Top
+				1.0f, 1.0f  // Right Bottom
+			});
+		}
 
-			static constexpr contiguous_t spriteQuad(const FloatRect & r)
+		static constexpr rect_quad spriteQuad(const FloatRect & rq)
+		{
+			return rectQuad(rq,
 			{
-				return create(r,
-				{
-					0.0f, 0.0f, // LB
-					0.0f, 1.0f, // LT
-					1.0f, 1.0f, // RT
-					0.0f, 0.0f, // LB
-					1.0f, 1.0f, // RT
-					1.0f, 0.0f  // RB
-				});
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-		};
+				0.0f, 0.0f, // Left  Bottom
+				0.0f, 1.0f, // Left  Top
+				1.0f, 1.0f, // Right Top
+				0.0f, 0.0f, // Left  Bottom
+				1.0f, 1.0f, // Right Top
+				1.0f, 0.0f  // Right Bottom
+			});
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		namespace impl
 		{
-			template <
-				size_t V, size_t I
-			> struct static_mesh
+			template <size_t V, size_t I> struct static_mesh
 			{
-				using vertices_t	= typename Array<Vertex,	V>;
-				using indices_t		= typename Array<uint32_t,	I>;
-				using contiguous_t	= typename Array<float_t,	V * Vertex::Size>;
+				using vertices_t	= typename Array<Vertex, V>;
+				using indices_t		= typename Array<uint32_t, I>;
+				using contiguous_t	= typename Array<float_t, V * Vertex::Size>;
 
-				static constexpr contiguous_t Contiguous(const vertices_t & value)
+				static constexpr contiguous_t make_contiguous(const vertices_t & value)
 				{
-					contiguous_t temp { NULL };
+					contiguous_t temp { 0 };
 					for (size_t i = 0; i < temp.size(); i++)
 					{
 						temp[i] = (value[i / Vertex::Size])[i % Vertex::Size];
@@ -92,7 +85,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct tri final : public impl::static_mesh<3, 3>
+		struct triangle_static final : public impl::static_mesh<3, 3>
 		{
 			static constexpr vertices_t vertices
 			{
@@ -104,12 +97,11 @@ namespace ml
 			{
 				0, 1, 2
 			};
-			static constexpr contiguous_t contiguous { Contiguous(vertices) };
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct quad final : public impl::static_mesh<4, 6>
+		struct quad_static final : public impl::static_mesh<4, 6>
 		{
 			static constexpr vertices_t vertices
 			{
@@ -123,12 +115,11 @@ namespace ml
 				0, 1, 3,
 				1, 2, 3
 			};
-			static constexpr contiguous_t contiguous { Contiguous(vertices) };
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct cube final : public impl::static_mesh<24, 36>
+		struct cube_static final : public impl::static_mesh<24, 36>
 		{
 			static constexpr vertices_t vertices
 			{
@@ -172,12 +163,11 @@ namespace ml
 				22, 21, 20,
 				20, 23, 22
 			};
-			static constexpr contiguous_t contiguous { Contiguous(vertices) };
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct sky final : public impl::static_mesh<36, 0>
+		struct skybox_static final : public impl::static_mesh<36, 0>
 		{
 			static constexpr vertices_t vertices
 			{
@@ -218,7 +208,6 @@ namespace ml
 				Vertex { { -1.0f, -1.0f,  1.0f }, Colors::white, vec2 { NULL } },
 				Vertex { {  1.0f, -1.0f,  1.0f }, Colors::white, vec2 { NULL } },
 			};
-			static constexpr contiguous_t contiguous { Contiguous(vertices) };
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

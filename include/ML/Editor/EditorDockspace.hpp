@@ -43,7 +43,7 @@ namespace ml
 
 		inline uint32_t getNode(const int32_t i) const 
 		{ 
-			return (((i >= DockNode::Root) && (i < DockNode::MAX_DOCK_NODE))
+			return (((i >= (int32_t)Root) && (i < (int32_t)MAX_DOCK_NODE))
 				? m_nodes[i]
 				: NULL
 			);

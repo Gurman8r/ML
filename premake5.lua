@@ -22,7 +22,7 @@ filter ("system:not Windows")
 	inc_dir = "%{sln_dir}include/ML/%{prj.name}/"
 	src_dir = "%{sln_dir}src/ML/%{prj.name}/"
 	prj_dir = "%{sln_dir}proj/ML/%{prj.name}/"
-	dep_dir = "%{dep_dir}"
+	dep_dir = "%{sln_dir}thirdparty/"
 	
 filter ("system:Windows")
 	sln_dir = "%{wks.location}\\"

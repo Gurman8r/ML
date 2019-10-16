@@ -68,9 +68,7 @@ namespace ml
 			vao.bind();
 			vbo.bind();
 			ibo.bind();
-			{
-				ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), nullptr);
-			}
+			ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), nullptr);
 			ibo.unbind();
 			vbo.unbind();
 			vao.unbind();
@@ -84,9 +82,7 @@ namespace ml
 		{
 			vao.bind();
 			vbo.bind();
-			{
-				ML_GL.drawArrays(vao.mode(), 0, vbo.size());
-			}
+			ML_GL.drawArrays(vao.mode(), 0, vbo.size());
 			vbo.unbind();
 			vao.unbind();
 		}

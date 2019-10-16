@@ -127,23 +127,22 @@ namespace ml
 		);
 
 		ML_Content.create<Model>("default_triangle")->loadFromMemory(
-			geo::tri::vertices,
-			geo::tri::indices
+			geo::triangle_static::vertices,
+			geo::triangle_static::indices
 		);
 		ML_Content.create<Model>("default_quad")->loadFromMemory(
-			geo::quad::vertices,
-			geo::quad::indices
+			geo::quad_static::vertices,
+			geo::quad_static::indices
 		);
 		ML_Content.create<Model>("default_cube")->loadFromMemory(
-			geo::cube::vertices,
-			geo::cube::indices
+			geo::cube_static::vertices,
+			geo::cube_static::indices
 		);
 		ML_Content.create<Model>("default_skybox")->loadFromMemory(
-			geo::sky::vertices
+			geo::skybox_static::vertices
 		);
 
 		ML_Content.insert<Uniform>("u_cursor", new uni_vec2_ptr{ "u_cursor", &m_window.getCursorPos() });
-		ML_Content.insert<Uniform>("u_viewport",new uni_vec2_ptr{ "u_viewport", &static_cast<const vec2 &>(m_window.getSize()) });
 		ML_Content.insert<Uniform>("u_delta", new uni_float_ptr{ "u_delta", &m_time.deltaTime() });
 		ML_Content.insert<Uniform>("u_frame", new uni_int_ptr{ "u_frame", &m_time.frameCount() });
 		ML_Content.insert<Uniform>("u_fps", new uni_float_ptr{ "u_fps", &m_time.frameRate() });

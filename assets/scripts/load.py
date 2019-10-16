@@ -149,13 +149,13 @@ ml.content.load_all([
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.mat"
     },
-    {
-        "type":     "Material",
-        "name":     "mat_geometry",
-        "shader":   "gl_geometry",
-        "defaults": "False",
-        "uniforms": PATH + "/materials/geometry.mat"
-    },
+    #{
+    #    "type":     "Material",
+    #    "name":     "mat_geometry",
+    #    "shader":   "gl_geometry",
+    #    "defaults": "False",
+    #    "uniforms": PATH + "/materials/geometry.mat"
+    #},
     {
         "type":     "Material",
         "name":     "mat_surface",
@@ -242,7 +242,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
 
 if 0:
     ml.prefs.set("Noobs", "demo_entity", "ent_advanced")
-    ml.ecs.renderer_attr("ent_basic", "self", "enabled", "False")
-    ml.ecs.renderer_attr("ent_advanced", "self", "enabled", "True")
+    ml.ecs.renderer_attr("ent_2d", "self", "enabled", "False")
+    ml.ecs.renderer_attr("ent_3d", "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

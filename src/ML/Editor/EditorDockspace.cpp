@@ -97,7 +97,7 @@ namespace ml
 
 	uint32_t EditorDockspace::beginBuilder(int32_t flags)
 	{
-		if (uint32_t root = ImGui::GetID(getTitle()))
+		if (uint32_t root { ImGui::GetID(getTitle()) })
 		{
 			if (!ImGui::DockBuilderGetNode(root))
 			{

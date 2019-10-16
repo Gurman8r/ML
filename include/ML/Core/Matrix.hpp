@@ -7,7 +7,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <class T, size_t X, size_t Y> struct Matrix
 	{
@@ -115,20 +115,14 @@ namespace ml
 		static constexpr self_type one()
 		{
 			self_type temp { uninit };
-			for (auto & elem : temp) 
-			{
-				elem = constant_t<T>::one; 
-			}
+			for (auto & elem : temp)  { elem = static_cast<value_type>(1); }
 			return temp;
 		}
 
 		static constexpr self_type all(value_type value)
 		{
 			self_type temp { uninit };
-			for (auto & elem : temp)
-			{
-				temp = value;
-			}
+			for (auto & elem : temp) { temp = value; }
 			return temp;
 		}
 
@@ -138,26 +132,17 @@ namespace ml
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				temp[i] = (((i / temp.width()) == (i % temp.width())) 
-					? constant_t<T>::one 
-					: constant_t<T>::zero
+					? static_cast<value_type>(1) 
+					: static_cast<value_type>(0)
 				);
 			}
 			return temp;
 		}
 
-		inline self_type & update(const_pointer value)
-		{
-			for (size_t i = 0; i < Size; i++)
-			{
-				m_data[i] = value[i];
-			}
-			return (*this);
-		}
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -165,7 +150,7 @@ namespace ml
 namespace ml
 {
 	// MATRIX NxN
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T, size_t N>
 	using tmat_nxn = Matrix<T, N, N>;
 
@@ -173,7 +158,7 @@ namespace ml
 	using tmat_nx1 = Matrix<T, N, 1>;
 
 	// MATRIX 2x2
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tmat2 = tmat_nxn<T, 2>;
 	using mat2b = tmat2<byte_t>;
@@ -184,7 +169,7 @@ namespace ml
 	using mat2  = mat2f;
 
 	// MATRIX 3x3
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tmat3 = tmat_nxn<T, 3>;
 	using mat3b = tmat3<byte_t>;
@@ -195,7 +180,7 @@ namespace ml
 	using mat3	= mat3f;
 
 	// MATRIX 4x4
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tmat4 = tmat_nxn<T, 4>;
 	using mat4b = tmat4<byte_t>;
@@ -206,7 +191,7 @@ namespace ml
 	using mat4	= mat4f;
 
 	// VECTOR 2
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec2 = tmat_nx1<T, 2>;
 	using vec2b = tvec2<byte_t>;
@@ -217,7 +202,7 @@ namespace ml
 	using vec2	= vec2f;
 
 	// VECTOR 3
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec3 = tmat_nx1<T, 3>;
 	using vec3b = tvec3<byte_t>;
@@ -228,7 +213,7 @@ namespace ml
 	using vec3	= vec3f;
 
 	// VECTOR 4
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
 	using tvec4 = tmat_nx1<T, 4>;
 	using vec4b = tvec4<byte_t>;
@@ -243,7 +228,7 @@ namespace ml
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class T, size_t X, size_t Y
@@ -267,253 +252,253 @@ namespace ml
 		return in;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr bool operator==(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr bool operator==(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
 	{
 		return (lhs.m_data == rhs.m_data);
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr bool operator!=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr bool operator!=(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
 	{
 		return (lhs.m_data != rhs.m_data);
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr bool operator<(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr bool operator<(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
 	{
 		return (lhs.m_data < rhs.m_data);
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr bool operator<=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr bool operator<=(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
 	{
 		return (lhs.m_data <= rhs.m_data);
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr bool operator>(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr bool operator>(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
 	{
 		return (lhs.m_data > rhs.m_data);
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr bool operator>=(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr bool operator>=(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
 	{
 		return (lhs.m_data >= rhs.m_data);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator+=(Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
-		-> Matrix<T, X, Y> &
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator+=(Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+		-> Matrix<Tx, X, Y> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
-			lhs[i] = (lhs[i] + rhs[i]);
+			lhs[i] = (lhs[i] + static_cast<Tx>(rhs[i]));
 		}
 		return lhs;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator-=(Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
-		-> Matrix<T, X, Y> &
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator-=(Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+		-> Matrix<Tx, X, Y> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
-			lhs[i] = (lhs[i] - rhs[i]);
+			lhs[i] = (lhs[i] - static_cast<Tx>(rhs[i]));
 		}
 		return lhs;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator*=(Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
-		-> Matrix<T, X, Y> &
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator*=(Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+		-> Matrix<Tx, X, Y> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
-			lhs[i] = (lhs[i] * rhs[i]);
+			lhs[i] = (lhs[i] * static_cast<Tx>(rhs[i]));
 		}
 		return lhs;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator/=(Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
-		-> Matrix<T, X, Y> &
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator/=(Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+		-> Matrix<Tx, X, Y> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
-			lhs[i] = (lhs[i] / rhs[i]);
+			lhs[i] = (lhs[i] / static_cast<Tx>(rhs[i]));
 		}
 		return lhs;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator+(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
-		-> Matrix<T, X, Y>
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator+(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+		-> Matrix<Tx, X, Y>
 	{
-		Matrix<T, X, Y> temp { lhs };
+		Matrix<Tx, X, Y> temp { lhs };
 		temp += rhs;
 		return temp;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator-(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
-		-> Matrix<T, X, Y>
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator-(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+		-> Matrix<Tx, X, Y>
 	{
-		Matrix<T, X, Y> temp { lhs };
+		Matrix<Tx, X, Y> temp { lhs };
 		temp -= rhs;
 		return temp;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator*(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
-		-> Matrix<T, X, Y>
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator*(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+		-> Matrix<Tx, X, Y>
 	{
-		Matrix<T, X, Y> temp { lhs };
+		Matrix<Tx, X, Y> temp { lhs };
 		temp *= rhs;
 		return temp;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator/(const Matrix<T, X, Y> & lhs, const Matrix<T, X, Y> & rhs)
-		-> Matrix<T, X, Y>
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator/(const Matrix<Tx, X, Y> & lhs, const Matrix<Ty, X, Y> & rhs)
+		-> Matrix<Tx, X, Y>
 	{
-		Matrix<T, X, Y> temp { lhs };
+		Matrix<Tx, X, Y> temp { lhs };
 		temp /= rhs;
 		return temp;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator+=(Matrix<T, X, Y> & lhs, const T & rhs)
-		-> Matrix<T, X, Y> &
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator+=(Matrix<Tx, X, Y> & lhs, const Ty & rhs)
+		-> Matrix<Tx, X, Y> &
 	{
 		for (auto & elem : lhs)
 		{
-			elem += rhs;
+			elem += static_cast<Tx>(rhs);
 		}
 		return lhs;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator-=(Matrix<T, X, Y> & lhs, const T & rhs)
-		-> Matrix<T, X, Y> &
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator-=(Matrix<Tx, X, Y> & lhs, const Ty & rhs)
+		-> Matrix<Tx, X, Y> &
 	{
 		for (auto & elem : lhs)
 		{
-			elem -= rhs;
+			elem -= static_cast<Tx>(rhs);
 		}
 		return lhs;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator*=(Matrix<T, X, Y> & lhs, const T & rhs)
-		-> Matrix<T, X, Y> &
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator*=(Matrix<Tx, X, Y> & lhs, const Ty & rhs)
+		-> Matrix<Tx, X, Y> &
 	{
 		for (auto & elem : lhs)
 		{
-			elem *= rhs;
+			elem *= static_cast<Tx>(rhs);
 		}
 		return lhs;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator/=(Matrix<T, X, Y> & lhs, const T & rhs)
-		-> Matrix<T, X, Y> &
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator/=(Matrix<Tx, X, Y> & lhs, const Ty & rhs)
+		-> Matrix<Tx, X, Y> &
 	{
 		for (auto & elem : lhs)
 		{
-			elem /= rhs;
+			elem /= static_cast<Tx>(rhs);
 		}
 		return lhs;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator+(const Matrix<T, X, Y> & lhs, const T & rhs)
-		-> Matrix<T, X, Y>
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator+(const Matrix<Tx, X, Y> & lhs, const Ty & rhs)
+		-> Matrix<Tx, X, Y>
 	{
-		Matrix<T, X, Y> temp { lhs };
-		temp += rhs;
+		Matrix<Tx, X, Y> temp { lhs };
+		temp += static_cast<Tx>(rhs);
 		return temp;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator-(const Matrix<T, X, Y> & lhs, const T & rhs)
-		-> Matrix<T, X, Y>
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator-(const Matrix<Tx, X, Y> & lhs, const Ty & rhs)
+		-> Matrix<Tx, X, Y>
 	{
-		Matrix<T, X, Y> temp { lhs };
-		temp -= rhs;
+		Matrix<Tx, X, Y> temp { lhs };
+		temp -= static_cast<Tx>(rhs);
 		return temp;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator*(const Matrix<T, X, Y> & lhs, const T & rhs)
-		-> Matrix<T, X, Y>
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator*(const Matrix<Tx, X, Y> & lhs, const Ty & rhs)
+		-> Matrix<Tx, X, Y>
 	{
-		Matrix<T, X, Y> temp { lhs };
-		temp *= rhs;
+		Matrix<Tx, X, Y> temp { lhs };
+		temp *= static_cast<Tx>(rhs);
 		return temp;
 	}
 
 	template <
-		class T, size_t X, size_t Y
-	> constexpr auto operator/(const Matrix<T, X, Y> & lhs, const T & rhs)
-		-> Matrix<T, X, Y>
+		class Tx, class Ty, size_t X, size_t Y
+	> constexpr auto operator/(const Matrix<Tx, X, Y> & lhs, const Ty & rhs)
+		-> Matrix<Tx, X, Y>
 	{
-		Matrix<T, X, Y> temp { lhs };
-		temp /= rhs;
+		Matrix<Tx, X, Y> temp { lhs };
+		temp /= static_cast<Tx>(rhs);
 		return temp;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
-		class T, size_t X, size_t Y
+		class T,  size_t X, size_t Y
 	> constexpr auto operator-(const Matrix<T, X, Y> & lhs)
 		-> Matrix<T, X, Y>
 	{
-		return (lhs * constant_t<T>::minus_one);
+		return (lhs * static_cast<T>(-1));
 	}
 
 	template <
-		class T, size_t X, size_t Y
+		class T,  size_t X, size_t Y
 	> constexpr auto operator+(const Matrix<T, X, Y> & lhs)
 		-> Matrix<T, X, Y>
 	{
 		return -(-(lhs));
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 template <class T, _STD size_t X, _STD size_t Y> struct _STD hash<_ML Matrix<T, X, Y>>

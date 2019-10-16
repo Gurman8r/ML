@@ -49,8 +49,6 @@ namespace ml
 			return (m_paused ? (m_elapsed) : (m_elapsed = (m_clock.now() - m_prev)));
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		inline Timer & pause(bool value)
 		{
 			if (value && !m_paused)

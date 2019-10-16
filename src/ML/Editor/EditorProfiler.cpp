@@ -18,7 +18,7 @@ namespace ml
 
 	void EditorProfiler::update()
 	{
-		const float_t dt { ML_Engine.time().elapsed().delta() };
+		const float_t dt { ML_Engine.time().deltaTime() };
 		graphs[0].draw("Delta Time", dt, util::to_string(dt).c_str());
 
 		const float_t fr = { (float_t)ML_Engine.time().frameRate() };
@@ -92,7 +92,7 @@ namespace ml
 
 	void EditorProfiler::GraphLines::draw(C_String label, float_t sample, C_String text)
 	{
-		const float_t dt { ML_Engine.time().elapsed().delta() };
+		const float_t dt { ML_Engine.time().deltaTime() };
 
 		m_label		= label;
 		m_sample	= sample;

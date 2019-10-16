@@ -17,38 +17,35 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		GameTime & beginLoop();
-		GameTime & endLoop();
+		GameTime & beginStep();
+		GameTime & endStep();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto elapsed()		const -> const Duration & { return m_elapsed; }
-		inline auto total()			const -> const Duration & { return m_main.elapsed(); }
-		inline auto deltaTime()		const -> const float_t & { return (m_delta = m_elapsed.delta()); }
-		inline auto frameCount()	const -> const int32_t & { return m_frame; }
-		inline auto frameRate()		const -> const float_t & { return m_tracker.frameRate; }
-		inline auto totalTime()		const -> const float_t & { return (m_total = total().delta()); }
+		inline auto totalTime()		const -> const float_t	& { return (m_totalTime = m_main.elapsed().delta()); }
+		inline auto deltaTime()		const -> const float_t	& { return (m_deltaTime = m_elapsed.delta()); }
+		inline auto frameCount()	const -> const int32_t	& { return m_frame.count; }
+		inline auto frameRate()		const -> const float_t	& { return m_frame.rate; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		Timer m_main;
-		Timer m_loop;
-		
-		mutable float_t		m_delta		{ 0 };
-		mutable Duration	m_elapsed	{ 0 };
-		mutable int32_t		m_frame		{ 0 };
-		mutable float_t		m_total		{ 0 };
+		Timer m_main; // Master Timer
+		Timer m_step; // Frame Timer
 
-		struct FPS_Tracker final
+		mutable Duration	m_elapsed	{ 0 };
+		mutable float_t		m_deltaTime	{ 0 };
+		mutable float_t		m_totalTime	{ 0 };
+
+		struct FrameTracker final
 		{
-			static constexpr time_t	size { 512 };
-			size_t	index;
-			float_t frameRate;
-			float_t accum;
-			float_t capture[size];
-			FPS_Tracker() = default;
-		} m_tracker;
+			FrameTracker() = default;
+			size_t	index		{ 0 };
+			float_t rate		{ 0 };
+			float_t accum		{ 0 };
+			float_t buf[512]	{ 0 };
+			int32_t count		{ 0 };
+		} m_frame;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

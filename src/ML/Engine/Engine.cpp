@@ -167,7 +167,7 @@ namespace ml
 
 	void Engine::onBeginFrame(const BeginLoopEvent & ev)
 	{
-		m_time.beginLoop();
+		m_time.beginStep();
 		m_window.pollEvents();
 	}
 
@@ -199,7 +199,7 @@ namespace ml
 	{
 		m_window.makeContextCurrent();
 		m_window.swapBuffers();
-		m_time.endLoop();
+		m_time.endStep();
 	}
 
 	void Engine::onUnload(const UnloadEvent & ev)

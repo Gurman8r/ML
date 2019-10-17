@@ -114,7 +114,8 @@ namespace ml
 		{
 			if (auto u { get<U>(name) })
 			{
-				u->data = value; return true;
+				u->data = value; 
+				return true;
 			}
 			return false;
 		}

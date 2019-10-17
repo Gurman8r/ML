@@ -178,7 +178,7 @@ namespace ml
 					m->update<uni_vec3>("u_camera.dir", camera->direction());
 					m->update<uni_float>("u_camera.fov", camera->fieldOfView());
 					m->update<uni_float>("u_camera.near", camera->clipNear());
-					m->update<uni_float>("u_camera.far", camera->clipNear());
+					m->update<uni_float>("u_camera.far", camera->clipFar());
 					m->update<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
 					m->update<uni_vec2>("u_viewport", (vec2)camera->viewport().size());
 				}
@@ -226,18 +226,9 @@ namespace ml
 					{
 						if (Material * m { renderer->material() })
 						{
-							if (auto u { m->get<uni_vec3>("u_position") })
-							{
-								u->data = transform->position();
-							}
-							if (auto u { m->get<uni_vec3>("u_scale") })
-							{
-								u->data = transform->scale();
-							}
-							if (auto u { m->get<uni_vec3>("u_rotation") })
-							{
-								u->data = transform->rotation();
-							}
+							m->update<uni_vec3>("u_position", transform->position());
+							m->update<uni_vec3>("u_scale", transform->scale());
+							m->update<uni_vec3>("u_rotation", transform->rotation());
 						}
 					}
 					ML_Engine.window().draw(renderer);

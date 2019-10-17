@@ -1,5 +1,6 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
+group "Plugins"
 project "Noobs"
 	targetname 		("%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{sln_dir}proj/plugins/%{prj.name}")
@@ -13,11 +14,15 @@ project "Noobs"
 	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include", "%{sln_dir}plugins/%{prj.name}" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Launcher" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
 	files 
+	{
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
+		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+	}
+	vpaths 
 	{ 
-		"%{sln_dir}plugins/%{prj.name}/**.h", "%{sln_dir}plugins/%{prj.name}/**.hpp",
-		"%{sln_dir}plugins/%{prj.name}/**.c", "%{sln_dir}plugins/%{prj.name}/**.cpp"
+		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Sources"] = { "**.c", "**.cpp" } 
 	}
 	libdirs
 	{

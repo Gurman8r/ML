@@ -109,7 +109,7 @@ namespace ml
 				};
 
 				m_vertices[i] = geo::glyphQuad(rect);
-				m_textures[i] = (&glyph.texture);
+				m_textures[i] = &glyph.texture;
 				
 				switch (m_string[i])
 				{

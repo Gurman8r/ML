@@ -344,8 +344,7 @@ namespace ml
 
 	bool ImGuiImpl::LoadStyle(const String & filename)
 	{
-		ImGuiStyleLoader loader;
-		return loader.loadFromFile(filename);
+		return ImGuiStyleLoader { filename };
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

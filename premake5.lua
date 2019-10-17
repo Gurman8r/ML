@@ -1,6 +1,7 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Workspace
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 workspace "ML"
 	startproject ("Launcher")
 	configurations { "Debug", "Release" }
@@ -13,6 +14,7 @@ workspace "ML"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Paths
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 filter ("system:not Windows")
 	sln_dir = "%{wks.location}/"
 	bin_dir = "%{sln_dir}bin/%{cfg.buildcfg}/%{cfg.platform}/"
@@ -39,6 +41,7 @@ filter ("system:Windows")
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Core
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 group "MemeLib"
 project "Core"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
@@ -52,8 +55,16 @@ project "Core"
 	systemversion	("latest")
 	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_CORE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
-	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	files 
+	{
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
+		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+	}
+	vpaths 
+	{ 
+		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Sources"] = { "**.c", "**.cpp" } 
+	}
 	filter ("configurations:Debug") symbols ("On")
 	filter ("configurations:Release") optimize ("Speed")
 	filter ("system:Windows")
@@ -66,6 +77,7 @@ project "Core"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --	
 -- Audio
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 group "MemeLib"
 project "Audio"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
@@ -80,8 +92,16 @@ project "Audio"
 	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
-	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	files 
+	{
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
+		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+	}
+	vpaths 
+	{ 
+		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Sources"] = { "**.c", "**.cpp" } 
+	}
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
@@ -105,6 +125,7 @@ project "Audio"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Network
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 group "MemeLib"
 project "Network"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
@@ -119,8 +140,16 @@ project "Network"
 	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_NETWORK_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
-	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	files 
+	{
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
+		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+	}
+	vpaths 
+	{ 
+		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Sources"] = { "**.c", "**.cpp" } 
+	}
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
@@ -143,6 +172,7 @@ project "Network"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --	
 -- Window
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 group "MemeLib"
 project "Window"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
@@ -157,8 +187,16 @@ project "Window"
 	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_WINDOW_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
-	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	files 
+	{
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
+		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+	}
+	vpaths 
+	{ 
+		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Sources"] = { "**.c", "**.cpp" } 
+	}
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
@@ -181,6 +219,7 @@ project "Window"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Graphics
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 group "MemeLib"
 project "Graphics"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
@@ -195,8 +234,16 @@ project "Graphics"
 	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_GRAPHICS_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core", "Window" }
-	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	files 
+	{
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
+		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+	}
+	vpaths 
+	{ 
+		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Sources"] = { "**.c", "**.cpp" } 
+	}
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
@@ -222,6 +269,7 @@ project "Graphics"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Engine
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 group "MemeLib"
 project "Engine"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
@@ -236,8 +284,16 @@ project "Engine"
 	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
 	defines 		{ "ML_ENGINE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Graphics", "Network", "Window" }
-	files 			{ "%{inc_dir}**.h", "%{inc_dir}**.hpp",  "%{src_dir}**.c", "%{src_dir}**.cpp" }
-	vpaths 			{ ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	files 
+	{
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
+		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+	}
+	vpaths 
+	{ 
+		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Sources"] = { "**.c", "**.cpp" } 
+	}
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
@@ -266,6 +322,7 @@ project "Engine"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Editor
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 group "MemeLib"
 project "Editor"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
@@ -282,7 +339,7 @@ project "Editor"
 	dependson 		{ "Audio", "Core", "Engine", "Graphics", "Network", "Window" }
 	files 
 	{ 
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", 
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl", 
 		"%{src_dir}**.c", "%{src_dir}**.cpp", 
 		"%{sln_dir}src/ML/%{prj.name}/**.cpp",
 		"%{dep_dir}include/imgui/**.h",
@@ -290,7 +347,11 @@ project "Editor"
 		"%{dep_dir}include/ImGuiColorTextEdit/**.h",
 		"%{dep_dir}include/ImGuiColorTextEdit/**.cpp",
 	}
-	vpaths { ["Headers"] = { "**.h", "**.hpp" }, ["Sources"] = { "**.c", "**.cpp" } }
+	vpaths 
+	{ 
+		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Sources"] = { "**.c", "**.cpp" } 
+	}
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
@@ -317,6 +378,7 @@ project "Editor"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Launcher
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+
 group "MemeLib"
 project "Launcher"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
@@ -333,14 +395,14 @@ project "Launcher"
 	dependson 		{ "Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window" }
 	files 
 	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", 
+		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl", 
 		"%{src_dir}**.c", "%{src_dir}**.cpp", 
 		"%{sln_dir}ML.ini", "%{sln_dir}assets/**.**", 
 	}
 	vpaths
 	{
 		["Docs"] 		= { "**.txt", "**.md" },
-		["Headers"] 	= { "**.h", "**.hpp" },
+		["Headers"] 	= { "**.h", "**.hpp", "**.inl", },
 		["Fonts"] 		= { "**.ttf", "**.otf" },
 		["Materials"]	= { "**.mat", "**.mtl" },
 		["Meshes"] 		= { "**.obj", "**.fbx" },
@@ -379,7 +441,7 @@ project "Launcher"
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Plugins		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
-group "Plugins"
+
 dofile "./plugins/Noobs/Noobs.lua"
 dofile "./plugins/CommandSuite/CommandSuite.lua"
 dofile "./plugins/TestPlugin/TestPlugin.lua"

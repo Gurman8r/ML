@@ -132,7 +132,13 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				static String temp {};
+				if (!temp)
+				{
+					temp = util::to_lower(typeof<value_type>::name);
+					temp = temp.substr(temp.find_first_of("::") + 2);
+				}
+				std::strcpy(name, ("new_" + temp).c_str());
 			}
 
 			// Name
@@ -669,7 +675,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_font");
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -825,7 +831,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_image");
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -957,7 +963,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_material");
 				globals = false;
 				copy = nullptr;
 				shader = nullptr;
@@ -1183,7 +1189,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_model");
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -1387,7 +1393,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_script");
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -1556,7 +1562,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_shader");
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -1706,7 +1712,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_sprite");
 				std::strcpy(asset_path, "");
 			}
 
@@ -1808,7 +1814,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_sprite");
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
@@ -1970,7 +1976,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_surface");
 				copy = nullptr;
 			}
 
@@ -2147,7 +2153,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
+				std::strcpy(name, "new_texture");
 				std::strcpy(asset_path, "");
 				for (auto *& e : image) e = nullptr;
 				open_path.clear();

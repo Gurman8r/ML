@@ -94,6 +94,23 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline friend bool operator<(const Type & lhs, const uint32_t & rhs)
+		{
+			return ((uint32_t)lhs < (uint32_t)rhs);
+		}
+
+		inline friend bool operator==(const Type & lhs, const uint32_t & rhs)
+		{
+			return ((uint32_t)lhs == (uint32_t)rhs);
+		}
+
+		inline friend bool operator!=(const Type & lhs, const uint32_t & rhs)
+		{
+			return ((uint32_t)lhs != (uint32_t)rhs);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -105,7 +122,7 @@ namespace ml
 
 		using self_type = typename I_Uniform<T, ID>;
 
-		enum : int32_t { ID = ID };
+		static constexpr uint32_t ID { ID };
 
 		T data;
 

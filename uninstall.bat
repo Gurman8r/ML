@@ -7,4 +7,5 @@ if exist ".\proj" 			( rd /s /q .\proj )
 if exist ".\tmp" 			( rd /s /q .\tmp )
 if exist ".\ML.sln" 		( del .\ML.sln )
 if exist ".\ML.workspace" 	( del .\ML.workspace )
+FOR /d /r . %%d IN ("__pycache__") DO @IF EXIST "%%d" echo "%%d"
 exit

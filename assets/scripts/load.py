@@ -29,10 +29,12 @@ ml.content.load_all([
         "frag": PATH + "/shaders/advanced.fs.shader"
     },
     { "type": "Shader", "name": "gl_basic",         "file": PATH + "/shaders/basic.shader" },
+    { "type": "Shader", "name": "gl_boxes",      	"file": PATH + "/shaders/gl_boxes.shader" },
     { "type": "Shader", "name": "gl_flames",        "file": PATH + "/shaders/flames.shader" },
     #{ "type": "Shader", "name": "gl_geometry",      "file": PATH + "/shaders/geometry.shader" },
     { "type": "Shader", "name": "gl_lines",         "file": PATH + "/shaders/lines.shader" },
     { "type": "Shader", "name": "gl_skybox",        "file": PATH + "/shaders/skybox.shader" },
+    { "type": "Shader", "name": "gl_spirals",      	"file": PATH + "/shaders/spirals.shader" },
     { "type": "Shader", "name": "gl_surface",       "file": PATH + "/shaders/surface.shader" },
     { "type": "Shader", "name": "gl_swirly",        "file": PATH + "/shaders/swirly.shader" },
     { "type": "Shader", "name": "gl_sparkles",      "file": PATH + "/shaders/sparkles.shader" },

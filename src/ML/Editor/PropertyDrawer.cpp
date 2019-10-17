@@ -899,18 +899,7 @@ namespace ml
 		
 		ImGui::Text("Channels: %i", value.channels());
 
-		if (auto preview { ML_AssetPreview.getPreview<Image>(value) })
-		{
-			const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-			const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
-			const vec2 pos { ((dst - scl) * 0.5f) };
-			ImGui::BeginChild(("##PropertyDrawer##Image##Preview##" + label).c_str(),
-				{ dst[0], dst[1] }, true, ImGuiWindowFlags_NoScrollbar
-			);
-			ImGui::SetCursorPos({ pos[0], pos[1] });
-			ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
-			ImGui::EndChild();
-		}
+		ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
 
 		return changed;
 	}
@@ -2056,19 +2045,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		if (auto preview { ML_AssetPreview.getPreview(value) })
-		{
-			const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-			const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
-			const vec2 pos { ((dst - scl) * 0.5f) };
-			ImGui::BeginChild(
-				("##PropertyDrawer##Texture##Preview" + label).c_str(),
-				{ dst[0], dst[1] }, true, ImGuiWindowFlags_NoScrollbar
-			);
-			ImGui::SetCursorPos({ pos[0], pos[1] });
-			ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
-			ImGui::EndChild();
-		}
+		ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2386,19 +2363,7 @@ namespace ml
 		{
 		case GL::Texture2D:
 		{
-			if (auto preview { ML_AssetPreview.getPreview<Texture>(value)})
-			{
-				const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-				const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
-				const vec2 pos { ((dst - scl) * 0.5f) };
-				ImGui::BeginChild(
-					("##PropertyDrawer##Texture2D##Preview##" + label).c_str(),
-					{ dst[0], dst[1] }, true, ImGuiWindowFlags_NoScrollbar
-				);
-				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
-				ImGui::EndChild();
-			}
+			ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
 		}
 		break;
 		case GL::Texture3D:

@@ -19,22 +19,27 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum Type : uint32_t {
+		enum : int32_t
+		{
+			Invalid = -1,
+			Boolean, Float, Integer,
+			Vector2, Vector3, Vector4, Color,
+			Matrix2, Matrix3, Matrix4,
+			Sampler,
+			MAX_UNIFORM_TYPE
+		};
+
+		static constexpr int32_t Type_values[MAX_UNIFORM_TYPE] =
+		{
 			Boolean, Float, Integer,
 			Vector2, Vector3, Vector4, Color,
 			Matrix2, Matrix3, Matrix4,
 			Sampler
 		};
 
-		static constexpr Type Type_values[] = {
-			Boolean, Float, Integer,
-			Vector2, Vector3, Vector4, Color,
-			Matrix2, Matrix3, Matrix4,
-			Sampler
-		};
-
-		static constexpr C_String Type_names[] = {
-			"bool", "float", "int",
+		static constexpr C_String Type_names[MAX_UNIFORM_TYPE] = 
+		{
+			"bool_t", "float", "int",
 			"vec2", "vec3", "vec4", "color",
 			"mat2", "mat3", "mat4",
 			"sampler"
@@ -42,12 +47,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const uint32_t id;
+		const int32_t id;
 		String name;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		explicit Uniform(const String & name, uint32_t id)
+		explicit Uniform(const String & name, int32_t id)
 			: name { name }, id { id }
 		{
 		}
@@ -57,7 +62,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		virtual Uniform * clone() const = 0;
-		virtual bool isModifiable() const = 0;
+		virtual bool_t isModifiable() const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -73,41 +78,42 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static constexpr bool_t value_at(int32_t i, int32_t & value)
+		{
+			return alg::value_at(i, value, Uniform::Type_values);
+		}
+
+		static constexpr int32_t index_of(const int32_t value)
+		{
+			return alg::index_of(value, Uniform::Type_values);
+		}
+
+		static constexpr C_String name_of(const int32_t value)
+		{
+			const int32_t i = index_of(value);
+			return (i >= 0) ? Uniform::Type_names[i] : nullptr;
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline friend ML_SERIALIZE(std::ostream & out, const Uniform & value)
 		{
 			return out << Type_names[value.id];
 		}
 
-		inline friend bool operator<(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool_t operator<(const Uniform & lhs, const Uniform & rhs)
 		{
 			return ((lhs.id < rhs.id) || (lhs.name < rhs.name));
 		}
 
-		inline friend bool operator==(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool_t operator==(const Uniform & lhs, const Uniform & rhs)
 		{
 			return !(lhs < rhs) && !(rhs < lhs);
 		}
 
-		inline friend bool operator!=(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool_t operator!=(const Uniform & lhs, const Uniform & rhs)
 		{
 			return !(lhs == rhs);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline friend bool operator<(const Type & lhs, const uint32_t & rhs)
-		{
-			return ((uint32_t)lhs < (uint32_t)rhs);
-		}
-
-		inline friend bool operator==(const Type & lhs, const uint32_t & rhs)
-		{
-			return ((uint32_t)lhs == (uint32_t)rhs);
-		}
-
-		inline friend bool operator!=(const Type & lhs, const uint32_t & rhs)
-		{
-			return ((uint32_t)lhs != (uint32_t)rhs);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -116,17 +122,17 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Generic Uniform Interface
-	template <class T, uint32_t ID> struct I_Uniform final : public Uniform
+	template <class T, int32_t ID> struct UniformImpl final : public Uniform
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using self_type = typename I_Uniform<T, ID>;
+		using self_type = typename UniformImpl<T, ID>;
 
-		static constexpr uint32_t ID { ID };
+		static constexpr int32_t ID { ID };
 
 		T data;
 
-		explicit I_Uniform(const String & name, T data)
+		explicit UniformImpl(const String & name, T data)
 			: Uniform { name, ID }, data { data }
 		{
 		}
@@ -136,7 +142,7 @@ namespace ml
 			return new self_type { name, data };
 		}
 
-		inline bool isModifiable() const override 
+		inline bool_t isModifiable() const override 
 		{ 
 			return // holds a value or a sampler
 				std::is_same_v<T, detail::decay_t<T>> ||
@@ -148,44 +154,59 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> using uni_bool_t		= I_Uniform<T, Uniform::Boolean>;
-	template <class T> using uni_float_t	= I_Uniform<T, Uniform::Float>;
-	template <class T> using uni_int_t		= I_Uniform<T, Uniform::Integer>;
-	template <class T> using uni_vec2_t		= I_Uniform<T, Uniform::Vector2>;
-	template <class T> using uni_vec3_t		= I_Uniform<T, Uniform::Vector3>;
-	template <class T> using uni_vec4_t		= I_Uniform<T, Uniform::Vector4>;
-	template <class T> using uni_color_t	= I_Uniform<T, Uniform::Color>;
-	template <class T> using uni_mat2_t		= I_Uniform<T, Uniform::Matrix2>;
-	template <class T> using uni_mat3_t		= I_Uniform<T, Uniform::Matrix3>;
-	template <class T> using uni_mat4_t		= I_Uniform<T, Uniform::Matrix4>;
-	template <class T> using uni_sampler_t	= I_Uniform<T, Uniform::Sampler>;
+	namespace impl
+	{
+		template <class T> static constexpr int32_t uniform_id()
+		{
+			switch (typeof<detail::decay_t<T>>::hash)
+			{
+			case typeof<bool_t>	::hash: return Uniform::Boolean;
+			case typeof<float_t>::hash: return Uniform::Float;
+			case typeof<int32_t>::hash: return Uniform::Integer;
+			case typeof<vec2>	::hash: return Uniform::Vector2;
+			case typeof<vec3>	::hash: return Uniform::Vector3;
+			case typeof<vec4>	::hash: return Uniform::Vector4;
+			case typeof<Color>	::hash: return Uniform::Color;
+			case typeof<mat2>	::hash: return Uniform::Matrix2;
+			case typeof<mat3>	::hash: return Uniform::Matrix3;
+			case typeof<mat4>	::hash: return Uniform::Matrix4;
+			case typeof<Texture>::hash: return Uniform::Sampler;
+			}
+			return Uniform::Invalid;
+		}
+
+		template <class T> static constexpr int32_t uniform_id_v 
+		{ 
+			uniform_id<T>() 
+		};
+
+		template <class T> using uni_t = typename UniformImpl<T, uniform_id_v<T>>;
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_bool		= typename uni_bool_t	<bool>;
-	using uni_float		= typename uni_float_t	<float_t>;
-	using uni_int		= typename uni_int_t	<int32_t>;
-	using uni_vec2		= typename uni_vec2_t	<vec2>;
-	using uni_vec3		= typename uni_vec3_t	<vec3>;
-	using uni_vec4		= typename uni_vec4_t	<vec4>;
-	using uni_color		= typename uni_color_t	<Color>;
-	using uni_mat2		= typename uni_mat2_t	<mat2>;
-	using uni_mat3		= typename uni_mat3_t	<mat3>;
-	using uni_mat4		= typename uni_mat4_t	<mat4>;
-	using uni_sampler	= typename uni_sampler_t<const Texture *>; // All Texture Types
+	using uni_bool		= typename impl::uni_t<bool_t>;
+	using uni_float		= typename impl::uni_t<float_t>;
+	using uni_int		= typename impl::uni_t<int32_t>;
+	using uni_vec2		= typename impl::uni_t<vec2>;
+	using uni_vec3		= typename impl::uni_t<vec3>;
+	using uni_vec4		= typename impl::uni_t<vec4>;
+	using uni_color		= typename impl::uni_t<Color>;
+	using uni_mat2		= typename impl::uni_t<mat2>;
+	using uni_mat3		= typename impl::uni_t<mat3>;
+	using uni_mat4		= typename impl::uni_t<mat4>;
+	using uni_sampler	= typename impl::uni_t<const Texture *>; // All Texture Types
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	
-	using uni_bool_ptr	= typename uni_bool_t	<const bool *>;
-	using uni_float_ptr = typename uni_float_t	<const float_t *>;
-	using uni_int_ptr	= typename uni_int_t	<const int32_t *>;
-	using uni_vec2_ptr	= typename uni_vec2_t	<const vec2 *>;
-	using uni_vec3_ptr	= typename uni_vec3_t	<const vec3 *>;
-	using uni_vec4_ptr	= typename uni_vec4_t	<const vec4 *>;
-	using uni_color_ptr = typename uni_color_t	<const Color *>;
-	using uni_mat2_ptr	= typename uni_mat2_t	<const mat2 *>;
-	using uni_mat3_ptr	= typename uni_mat3_t	<const mat3 *>;
-	using uni_mat4_ptr	= typename uni_mat4_t	<const mat4 *>;
+	using uni_bool_ptr	= typename impl::uni_t<const bool_t *>;
+	using uni_float_ptr = typename impl::uni_t<const float_t *>;
+	using uni_int_ptr	= typename impl::uni_t<const int32_t *>;
+	using uni_vec2_ptr	= typename impl::uni_t<const vec2 *>;
+	using uni_vec3_ptr	= typename impl::uni_t<const vec3 *>;
+	using uni_vec4_ptr	= typename impl::uni_t<const vec4 *>;
+	using uni_color_ptr = typename impl::uni_t<const Color *>;
+	using uni_mat2_ptr	= typename impl::uni_t<const mat2 *>;
+	using uni_mat3_ptr	= typename impl::uni_t<const mat3 *>;
+	using uni_mat4_ptr	= typename impl::uni_t<const mat4 *>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -193,27 +214,9 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr bool value_at(int32_t i, Uniform::Type & value)
+		static inline bool_t * as_bool(const Uniform * value)
 		{
-			return alg::value_at(i, value, Uniform::Type_values);
-		}
-
-		static constexpr int32_t index_of(const Uniform::Type value)
-		{
-			return alg::index_of(value, Uniform::Type_values);
-		}
-
-		static constexpr C_String name_of(const Uniform::Type value)
-		{
-			const int32_t i = index_of(value);
-			return (i >= 0) ? Uniform::Type_names[i] : nullptr;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static inline bool * as_bool(const Uniform * value)
-		{
-			static bool temp;
+			static bool_t temp {};
 			if (!value || (value->id != uni_bool::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_bool>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_bool_ptr>())	{ return &(temp = *u->data); }
@@ -222,7 +225,7 @@ namespace ml
 
 		static inline float_t * as_float(const Uniform * value)
 		{
-			static float_t temp;
+			static float_t temp {};
 			if (!value || (value->id != uni_float::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_float>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_float_ptr>())	{ return &(temp = *u->data); }
@@ -231,7 +234,7 @@ namespace ml
 
 		static inline int32_t * as_int(const Uniform * value)
 		{
-			static int32_t temp;
+			static int32_t temp {};
 			if (!value || (value->id != uni_int::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_int>())			{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_int_ptr>())		{ return &(temp = *u->data); }
@@ -240,7 +243,7 @@ namespace ml
 
 		static inline vec2 * as_vec2(const Uniform * value)
 		{
-			static vec2 temp;
+			static vec2 temp {};
 			if (!value || value->id != uni_vec2::ID)		{ return nullptr; }
 			else if (auto u = value->as<uni_vec2>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_vec2_ptr>())	{ return &(temp = *u->data); }
@@ -249,7 +252,7 @@ namespace ml
 
 		static inline vec3 * as_vec3(const Uniform * value)
 		{
-			static vec3 temp;
+			static vec3 temp {};
 			if (!value || (value->id != uni_vec3::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_vec3>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_vec3_ptr>())	{ return &(temp = *u->data); }
@@ -258,7 +261,7 @@ namespace ml
 
 		static inline vec4 * as_vec4(const Uniform * value)
 		{
-			static vec4 temp;
+			static vec4 temp {};
 			if (!value || (value->id != uni_vec4::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_vec4>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_vec4_ptr>())	{ return &(temp = *u->data); }
@@ -267,7 +270,7 @@ namespace ml
 
 		static inline Color * as_color(const Uniform * value)
 		{
-			static Color temp;
+			static Color temp {};
 			if (!value || (value->id != uni_color::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_color>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_color_ptr>())	{ return &(temp = *u->data); }
@@ -276,7 +279,7 @@ namespace ml
 
 		static inline mat2 * as_mat2(const Uniform * value)
 		{
-			static mat2 temp;
+			static mat2 temp {};
 			if (!value || (value->id != uni_mat2::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_mat2>())		{ return &(temp = u->data); }
 			else if (auto u = value->as<uni_mat2_ptr>())	{ return &(temp = *u->data); }
@@ -285,7 +288,7 @@ namespace ml
 
 		static inline mat3 * as_mat3(const Uniform * value)
 		{
-			static mat3 temp;
+			static mat3 temp {};
 			if (!value || (value->id != uni_mat3::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_mat3>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_mat3_ptr>())	{ return &(temp = *u->data); }
@@ -294,7 +297,7 @@ namespace ml
 
 		static inline mat4 * as_mat4(const Uniform * value)
 		{
-			static mat4 temp;
+			static mat4 temp {};
 			if (!value || (value->id != uni_mat4::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_mat4>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_mat4_ptr>())	{ return &(temp = *u->data); }

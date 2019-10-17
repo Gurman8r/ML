@@ -37,6 +37,26 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		using Clbk = std::function<void()>;
+
+		void drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk && fun) const;
+
+		template <
+			class T, class F
+		> inline auto drawPreview(const T * value, const vec2 & size, F && fun) const
+		{
+			return drawPreview(typeof<T>(), std::remove_cv_t<void *>(value), size, fun);
+		}
+
+		template <
+			class T, class F
+		> inline auto drawPreview(const T & value, const vec2 & size, F && fun) const
+		{
+			return drawPreview<T>(&value, size, fun);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		friend struct Singleton<AssetPreview>;
 

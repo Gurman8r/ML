@@ -132,13 +132,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				static String temp {};
-				if (!temp)
-				{
-					temp = util::to_lower(typeof<value_type>::name);
-					temp = temp.substr(temp.find_first_of("::") + 2);
-				}
-				std::strcpy(name, ("new_" + temp).c_str());
+				std::strcpy(name, "new_entity");
 			}
 
 			// Name

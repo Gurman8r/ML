@@ -34,20 +34,18 @@ namespace ml
 			// Database
 			static auto & db { ML_Content.data<T>() };
 
-			// Type Name
-			static const String type_name { PropertyDrawer<T>::type_name().str() };
-
 			// Plural Name
-			static const String label { ([&]()
+			static const String label { ([&](String name)
 			{
-				if (!type_name) { return String(); }
-				switch (util::to_lower(type_name).back())
+				if (!name) { return String{}; }
+				name = name.substr(name.find_first_of(':') + 2);
+				switch (util::to_lower(name).back())
 				{
-				case 's': return String(type_name + "es");
-				case 'y': return String(type_name.substr(0, type_name.size() - 1) + "ies");
-				default	: return String(type_name + "s");
+				case 's': return String(name + "es");
+				case 'y': return String(name.substr(0, name.size() - 1) + "ies");
+				default	: return String(name + "s");
 				}
-			})() };
+			})(typeof<T>::name) };
 
 			// Tab Item
 			const bool tab_visible { ImGui::BeginTabItem(label.c_str()) };
@@ -58,7 +56,7 @@ namespace ml
 				void * temp { nullptr };
 				if (!std::is_same_v<T, Surface>)
 				{
-					if (PropertyDrawer<T>()(String("New {0}").format(type_name), (T *&)temp, 0b1))
+					if (PropertyDrawer<T>()(String("New {0}").format(typeof<T>::name), (T *&)temp, 0b1))
 					{
 						ImGui::CloseCurrentPopup();
 					}
@@ -104,9 +102,9 @@ namespace ml
 					// Delete
 					if (!no_delete &&
 						ImGuiExt::Confirm(
-						String("Delete {0}?").format(type_name),
+						String("Delete {0}?").format(typeof<T>::name),
 						ImGui::Button("Delete"),
-						String("Are you sure you want to delete {0}: \'{1}\'?").format(type_name, it->first)
+						String("Are you sure you want to delete {0}: \'{1}\'?").format(typeof<T>::name, it->first)
 					) == 1)
 					{
 						to_remove = it;
@@ -125,7 +123,7 @@ namespace ml
 			if (to_select != db.end())
 			{
 				ML_Editor.inspector().Focus(true);
-				ML_Editor.content().select_item(type_name, to_select->first, to_select->second);
+				ML_Editor.content().select_item(typeof<T>::name, to_select->first, to_select->second);
 			}
 			ImGui::PopID();
 			ImGui::EndTabItem();

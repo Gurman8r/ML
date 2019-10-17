@@ -22,6 +22,7 @@ namespace ml
 
 	bool EditorWindow::beginDraw(int32_t flags)
 	{
+		ImGui::PushID(typeof<>(*this).hash);
 		ImGui::PushID(ML_ADDRESSOF(this));
 		ImGui::PushID(getTitle());
 		return m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags));
@@ -30,6 +31,7 @@ namespace ml
 	bool EditorWindow::endDraw()
 	{
 		ImGui::End();
+		ImGui::PopID();
 		ImGui::PopID();
 		ImGui::PopID();
 		return m_good;

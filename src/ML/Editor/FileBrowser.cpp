@@ -165,6 +165,12 @@ namespace ml
 			(m_label = label).c_str(), { size[0], size[1] }, border, flags
 		))
 		{
+			if (ImGui::BeginMenuBar())
+			{
+				ImGui::Text("%s", ML_FS.getPath().c_str());
+				ImGui::EndMenuBar();
+			}
+			
 			render();
 
 			if ((m_doubleClick || (m_doubleClick = false)) && (m_type == T_Dir))

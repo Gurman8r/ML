@@ -29,7 +29,12 @@ namespace ml
 	{
 		if (beginDraw(ImGuiWindowFlags_AlwaysAutoResize))
 		{
-			m_browser.render((String(getTitle()) + "##FileBrowser"), { 0 }, true, 0);
+			m_browser.render(
+				(getTitle() + "##FileBrowser"_s).c_str(), 
+				{ 0, 0 }, 
+				true, 
+				ImGuiWindowFlags_MenuBar
+			);
 		}
 		return endDraw();
 	}

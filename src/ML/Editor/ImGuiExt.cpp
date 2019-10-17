@@ -96,19 +96,12 @@ namespace ml
 		if (ImGui::BeginPopupModal(
 			("Open File##" + label).c_str(),
 			nullptr,
-			ImGuiWindowFlags_AlwaysAutoResize |
-			ImGuiWindowFlags_MenuBar
+			ImGuiWindowFlags_AlwaysAutoResize
 		))
 		{
-			if (ImGui::BeginMenuBar())
-			{
-				ImGui::Text("%s", ML_FS.getPath().c_str());
-				ImGui::EndMenuBar();
-			}
-
 			static FileBrowser browser {};
 			browser.update();
-			browser.render(("File Browser##" + label), size, true);
+			browser.render(("File Browser##" + label), size, true, ImGuiWindowFlags_MenuBar);
 
 			const bool submit { ImGui::Button(("Open##" + label).c_str()) };
 			if (submit)

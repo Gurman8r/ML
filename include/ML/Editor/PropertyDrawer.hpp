@@ -12,8 +12,6 @@ using pointer			= typename value_type *;						\
 using reference			= typename value_type &;						\
 using const_pointer		= typename const value_type *;					\
 using const_reference	= typename const value_type &;					\
-static constexpr _ML StringView type_name() { return ML_STRINGIFY(T); }	\
-static constexpr _ML hash_t hash_code() { return type_name().hash(); }	\
 PropertyDrawer() = default;
 
 namespace ml

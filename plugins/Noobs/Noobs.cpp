@@ -478,7 +478,7 @@ namespace ml
 					// Header Columns
 					ImGui::Columns(3, "##Uni##Columns");
 					ImGui::Selectable("Name"); ImGui::NextColumn();
-					ImGui::Selectable("FileType"); ImGui::NextColumn();
+					ImGui::Selectable("Type"); ImGui::NextColumn();
 					ImGui::Selectable("Value"); ImGui::NextColumn();
 					ImGui::Separator();
 					ImGui::Columns(1);
@@ -641,6 +641,12 @@ namespace ml
 					ImGui::Separator();
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::BeginChildFrame(
+						ImGui::GetID("NoobsRenderStates"),
+						{ 0, 0 },
+						ImGuiWindowFlags_None
+					);
 
 					// Alpha State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -952,6 +958,10 @@ namespace ml
 
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(&m_renderer->states().depth());
+
+					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::EndChildFrame();
 
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

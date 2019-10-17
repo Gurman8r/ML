@@ -145,38 +145,41 @@ namespace ml
 		// Contibutors
 		if (ImGui::CollapsingHeader("Contibutors"))
 		{
-			ImGui::Text("Created by Melody Gurman");
-			ImGui::Text("Special thanks to Sajid Farooq and Champlain College for their help and support.");
+			static constexpr StringView msg {
+				"Created by Melody Gurman\n"
+				"Special thanks to Sajid Farooq and Champlain College for their help and support.\n"
+			};
+			ImGui::TextUnformatted(msg.begin(), msg.end());
 		}
 		
 		// Third Party Software
 		if (ImGui::CollapsingHeader("Third Party Software"))
 		{
-			auto link_item = ([](C_String label, C_String url)
+			auto draw_lnk = ([](C_String label, C_String url)
 			{
 				if (ImGui::MenuItem(label, url)) OS::execute("open", url);
 			});
-			link_item("assimp", "https://github.com/assimp/assimp");
-			link_item("cpython", "https://github.com/python/cpython");
-			link_item("dirent", "https://github.com/tronkko/dirent");
-			link_item("flac", "https://github.com/xiph/flac");
-			link_item("FreeType", "https://www.freetype.org/");
-			link_item("GCEM", "https://github.com/kthohr/gcem");
-			link_item("GLEW", "https://github.com/nigels-com/glew");
-			link_item("GLFW", "https://github.com/glfw/glfw");
-			link_item("GLM", "https://github.com/g-truc/glm");
-			link_item("ImGui", "https://github.com/ocornut/imgui");
-			link_item("ImGuiColorTextEdit", "https://github.com/BalazsJako/ImGuiColorTextEdit");
-			link_item("INIReader", "https://github.com/benhoyt/inih");
-			link_item("Lua", "https://github.com/lua/lua");
-			link_item("ogg", "https://github.com/xiph/ogg");
-			link_item("OpenAL", "https://www.openal.org/");
-			link_item("pdcurses", "https://github.com/wmcbrine/PDCurses");
-			link_item("pybind11", "https://github.com/pybind/pybind11");
-			link_item("premake5", "https://github.com/premake/premake-core");
-			link_item("RakNet", "http://www.jenkinssoftware.com/");
-			link_item("stb", "https://github.com/nothings/stb");
-			link_item("vorbis", "https://github.com/xiph/vorbis");
+			draw_lnk("assimp", "https://github.com/assimp/assimp");
+			draw_lnk("cpython", "https://github.com/python/cpython");
+			draw_lnk("dirent", "https://github.com/tronkko/dirent");
+			draw_lnk("flac", "https://github.com/xiph/flac");
+			draw_lnk("FreeType", "https://www.freetype.org/");
+			draw_lnk("GCEM", "https://github.com/kthohr/gcem");
+			draw_lnk("GLEW", "https://github.com/nigels-com/glew");
+			draw_lnk("GLFW", "https://github.com/glfw/glfw");
+			draw_lnk("GLM", "https://github.com/g-truc/glm");
+			draw_lnk("ImGui", "https://github.com/ocornut/imgui");
+			draw_lnk("ImGuiColorTextEdit", "https://github.com/BalazsJako/ImGuiColorTextEdit");
+			draw_lnk("INIReader", "https://github.com/benhoyt/inih");
+			draw_lnk("Lua", "https://github.com/lua/lua");
+			draw_lnk("ogg", "https://github.com/xiph/ogg");
+			draw_lnk("OpenAL", "https://www.openal.org/");
+			draw_lnk("pdcurses", "https://github.com/wmcbrine/PDCurses");
+			draw_lnk("pybind11", "https://github.com/pybind/pybind11");
+			draw_lnk("premake5", "https://github.com/premake/premake-core");
+			draw_lnk("RakNet", "http://www.jenkinssoftware.com/");
+			draw_lnk("stb", "https://github.com/nothings/stb");
+			draw_lnk("vorbis", "https://github.com/xiph/vorbis");
 		}
 
 		return endDraw();

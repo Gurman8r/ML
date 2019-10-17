@@ -39,9 +39,10 @@ namespace ml
 			);
 		}
 
-		template <class T> static inline bool inspect_button(const String & label, const T * value)
+		template <class T>
+		static inline bool inspect_button(const String & label, const T * value)
 		{
-			ImGui::PushID(typeof<T>::name.c_str());
+			ImGui::PushID(typeof<T>::hash);
 			ImGui::PushID(label.c_str());
 			ImGui::PushID(value);
 			const bool out { ImGui::Button(("Inspect##{0}##{1}"_s.format(
@@ -51,7 +52,7 @@ namespace ml
 			{
 				ML_Editor.inspector().Focus(true);
 				ML_Editor.content().select_item(
-					PropertyDrawer<T>::type_name(), 
+					typeof<T>::name, 
 					ML_Content.get_name(value), 
 					(void *)value
 				);
@@ -72,11 +73,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Entity>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -92,8 +93,8 @@ namespace ml
 	bool PropertyDrawer<Entity>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -107,12 +108,12 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -608,11 +609,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Font>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -628,8 +629,8 @@ namespace ml
 	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -645,14 +646,14 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -665,7 +666,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##" + label).c_str(),
+				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -765,11 +766,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Image>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -785,8 +786,8 @@ namespace ml
 	bool PropertyDrawer<Image>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -802,14 +803,14 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -822,7 +823,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##" + label).c_str(),
+				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -897,11 +898,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Material>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -917,8 +918,8 @@ namespace ml
 	bool PropertyDrawer<Material>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -935,7 +936,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				globals = false;
 				copy = nullptr;
 				shader = nullptr;
@@ -943,7 +944,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##"+ label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##"+ label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1125,11 +1126,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Model>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -1145,8 +1146,8 @@ namespace ml
 	bool PropertyDrawer<Model>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1162,14 +1163,14 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1182,7 +1183,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##" + label).c_str(),
+				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1330,11 +1331,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Script>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -1350,8 +1351,8 @@ namespace ml
 	bool PropertyDrawer<Script>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1367,14 +1368,14 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1387,7 +1388,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##" + label).c_str(),
+				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1500,11 +1501,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Shader>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -1520,8 +1521,8 @@ namespace ml
 	bool PropertyDrawer<Shader>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1537,14 +1538,14 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1557,7 +1558,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##" + label).c_str(),
+				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1643,11 +1644,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Sound>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -1663,8 +1664,8 @@ namespace ml
 	bool PropertyDrawer<Sound>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1679,20 +1680,20 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				std::strcpy(asset_path, "");
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##" + label).c_str(),
+				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1745,11 +1746,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Sprite>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -1765,8 +1766,8 @@ namespace ml
 	bool PropertyDrawer<Sprite>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1782,14 +1783,14 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				std::strcpy(asset_path, "");
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1802,7 +1803,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + type_name().str() + "##" + label).c_str(),
+				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1909,11 +1910,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Surface>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -1929,8 +1930,8 @@ namespace ml
 	bool PropertyDrawer<Surface>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1945,13 +1946,13 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				copy = nullptr;
 			}
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##" + label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -2056,7 +2057,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Texture>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
@@ -2089,7 +2090,7 @@ namespace ml
 			}
 			ImGui::EndTooltip();
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -2105,8 +2106,8 @@ namespace ml
 	bool PropertyDrawer<Texture>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -2124,7 +2125,7 @@ namespace ml
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
-				std::strcpy(name, ("new_" + util::to_lower(type_name().str())).c_str());
+				std::strcpy(name, ("new_" + util::to_lower(typeof<value_type>::name.str())).c_str());
 				std::strcpy(asset_path, "");
 				for (auto *& e : image) e = nullptr;
 				open_path.clear();
@@ -2132,7 +2133,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##"+ label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##"+ label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -2155,7 +2156,7 @@ namespace ml
 
 				// Path
 				ImGui::InputText(
-					("##Path##" + type_name().str() + "##" + label).c_str(),
+					("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
 					asset_path,
 					ML_MAX_PATH
 				);
@@ -2402,11 +2403,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	bool PropertyDrawer<Uniform>::operator()(const String & label, const_pointer & value, int32_t flags) const
 	{
-		ImGui::PushID(type_name().c_str());
+		ImGui::PushID(typeof<value_type>::name.c_str());
 		ImGui::PushID(label.c_str());
 		ImGui::PushID(value);
 		const bool changed { PropertyDrawer<>::Layout::dropdown<value_type>(label, value) };
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, type_name()) };
+		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (PropertyDrawer<>::Layout::inspect_button((label + menu_label), value))
@@ -2422,8 +2423,8 @@ namespace ml
 	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value, int32_t flags) const
 	{
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, type_name().str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, type_name().str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -2435,7 +2436,7 @@ namespace ml
 			// Name Input
 			static char name[32] = "new_uniform\0";
 			ImGui::InputText(
-				("Name##" + type_name().str() + "##"+ label).c_str(),
+				("Name##" + typeof<value_type>::name.str() + "##"+ label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);

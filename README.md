@@ -8,9 +8,8 @@ Old Repo: https://github.com/Gurman8r/CppSandbox
 
 ML uses OpenGL 4.6. Try updating your graphics drivers if you're having difficulties.
 
-Currently building for Windows with Vs2019.
-If you have Visual Studio 2019 installed on your system the runtime library is also most likely installed.
-Otherwise you can download the VC++ Runtime here.
+Currently building for Windows with VS2019. 
+If you already have VS2019 installed on your system the VC++ runtime library is also most likely installed, otherwise you can download it here.
 https://www.itechtics.com/microsoft-visual-c-redistributable-versions-direct-download-links/
 
 # Projects

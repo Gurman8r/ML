@@ -323,10 +323,22 @@ namespace ml
 		ImGui::PushID("Demo Scene");
 		if (ImGui::Begin(title, &m_display_open))
 		{
-			ML_AssetPreview.drawPreview(surf, ImGuiExt::GetContentRegionAvail(), [&]() 
+			//ML_AssetPreview.drawPreview(surf, ImGuiExt::GetContentRegionAvail(), [&]() 
+			//{
+			//	if (m_freeAspect) { m_viewport = ImGuiExt::GetContentRegionAvail(); }
+			//});
+
+			if (auto preview { ML_AssetPreview.getPreview(surf) })
 			{
-				if (m_freeAspect) { m_viewport = ImGuiExt::GetContentRegionAvail(); }
-			});
+				const vec2 dst { ImGuiExt::GetContentRegionAvail() };
+				const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
+				const vec2 pos { ((dst - scl) * 0.5f) };
+				if (m_freeAspect) { m_viewport = dst; }
+				ImGui::BeginChild("NoobsSceneViewport", { 0, 0 }, true);
+				ImGui::SetCursorPos({ pos[0], pos[1] });
+				ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::EndChild();
+			}
 		}
 		ImGui::End();
 		ImGui::PopID();

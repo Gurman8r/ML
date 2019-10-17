@@ -157,22 +157,36 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		// Capture Camera
 		Camera * camera { Camera::mainCamera() };
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		// Update Viewports
 		if (camera && (*camera))
 		{
-			// Update Camera
 			camera->setViewport((vec2i)m_viewport);
 
-			// Update Surfaces
 			for (auto & surf : m_pipeline)
 			{
 				surf->update((vec2)camera->viewport().size());
 			}
+		}
 
-			// Update Materials
-			for (auto & pair : ML_Content.data<Material>())
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		// Update Materials
+		for (auto & pair : ML_Content.data<Material>())
+		{
+			if (auto m { (Material *)pair.second })
 			{
-				if (auto m { (Material *)pair.second })
+				m->set<uni_vec2>("u_cursor", ML_Engine.window().getCursorPos());
+				m->set<uni_float>("u_delta", ML_Engine.time().deltaTime());
+				m->set<uni_int>("u_frame", ML_Engine.time().frameCount());
+				m->set<uni_float>("u_fps", ML_Engine.time().frameRate());
+				m->set<uni_float>("u_time", ML_Engine.time().deltaTime());
+
+				if (camera && (*camera))
 				{
 					m->set<uni_vec3>("u_camera.pos", camera->position());
 					m->set<uni_vec3>("u_camera.dir", camera->direction());
@@ -184,18 +198,6 @@ namespace ml
 				}
 			}
 		}
-
-		//for (auto & pair : ML_Content.data<Material>())
-		//{
-		//	if (auto * m { (Material *)pair.second })
-		//	{
-		//		m->set<uni_vec2>("u_cursor", ML_Engine.window().getCursorPos());
-		//		m->set<uni_float>("u_delta", ML_Engine.time().deltaTime());
-		//		m->set<uni_int>("u_frame", ML_Engine.time().frameCount());
-		//		m->set<uni_float>("u_fps", ML_Engine.time().frameRate());
-		//		m->set<uni_float>("u_time", ML_Engine.time().deltaTime());
-		//	}
-		//}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 	}
@@ -213,7 +215,10 @@ namespace ml
 			m_pipeline[Surf_Main]->bind();
 
 			// Apply Camera
-			if (camera) camera->apply();
+			if (camera) (*camera)
+				.applyClear()
+				.applyViewport()
+				;
 
 			// Draw Renderers
 			for (auto & pair : ML_Content.data<Entity>())
@@ -224,11 +229,11 @@ namespace ml
 					auto transform { ent->get<Transform>() };
 					if (renderer && (*renderer) && transform && (*transform))
 					{
-						if (Material * m { renderer->material() })
+						if (auto m { (Material *)renderer->material() })
 						{
 							m->set<uni_vec3>("u_position", transform->position());
-							m->set<uni_vec3>("u_scale", transform->scale());
 							m->set<uni_vec3>("u_rotation", transform->rotation());
+							m->set<uni_vec3>("u_scale", transform->scale());
 						}
 					}
 					ML_Engine.window().draw(renderer);
@@ -256,7 +261,10 @@ namespace ml
 			m_pipeline[Surf_Post]->bind();
 
 			// Apply Camera
-			if (camera) camera->apply();
+			if (camera) (*camera)
+				.applyClear()
+				.applyViewport()
+				;
 
 			// Draw Scene Output
 			ML_Engine.window().draw(m_pipeline[Surf_Main]);

@@ -33,12 +33,12 @@ namespace ml
 	{
 		ML_EventSystem.addListener<EnterEvent>(this);
 		ML_EventSystem.addListener<LoadEvent>(this);
-		ML_EventSystem.addListener<BeginLoopEvent>(this);
+		ML_EventSystem.addListener<BeginStepEvent>(this);
 		ML_EventSystem.addListener<UpdateEvent>(this);
 		ML_EventSystem.addListener<BeginDrawEvent>(this);
 		ML_EventSystem.addListener<DrawEvent>(this);
 		ML_EventSystem.addListener<EndDrawEvent>(this);
-		ML_EventSystem.addListener<EndLoopEvent>(this);
+		ML_EventSystem.addListener<EndStepEvent>(this);
 		ML_EventSystem.addListener<UnloadEvent>(this);
 		ML_EventSystem.addListener<ExitEvent>(this);
 		ML_EventSystem.addListener<CommandEvent>(this);
@@ -52,12 +52,12 @@ namespace ml
 		{
 		case EnterEvent::ID		: return onEnter(*value.as<EnterEvent>());
 		case LoadEvent::ID		: return onLoad(*value.as<LoadEvent>());
-		case BeginLoopEvent::ID	: return onBeginFrame(*value.as<BeginLoopEvent>());
+		case BeginStepEvent::ID	: return onBeginStep(*value.as<BeginStepEvent>());
 		case UpdateEvent::ID	: return onUpdate(*value.as<UpdateEvent>());
 		case BeginDrawEvent::ID	: return onBeginDraw(*value.as<BeginDrawEvent>());
 		case DrawEvent::ID		: return onDraw(*value.as<DrawEvent>());
 		case EndDrawEvent::ID	: return onEndDraw(*value.as<EndDrawEvent>());
-		case EndLoopEvent::ID	: return onEndFrame(*value.as<EndLoopEvent>());
+		case EndStepEvent::ID	: return onEndStep(*value.as<EndStepEvent>());
 		case UnloadEvent::ID	: return onUnload(*value.as<UnloadEvent>());
 		case ExitEvent::ID		: return onExit(*value.as<ExitEvent>());
 
@@ -164,7 +164,7 @@ namespace ml
 		}
 	}
 
-	void Engine::onBeginFrame(const BeginLoopEvent & ev)
+	void Engine::onBeginStep(const BeginStepEvent & ev)
 	{
 		m_time.beginStep();
 		m_window.pollEvents();
@@ -194,7 +194,7 @@ namespace ml
 	{
 	}
 
-	void Engine::onEndFrame(const EndLoopEvent & ev)
+	void Engine::onEndStep(const EndStepEvent & ev)
 	{
 		m_window.makeContextCurrent();
 		m_window.swapBuffers();

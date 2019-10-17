@@ -204,7 +204,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     vec2 uv = ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
     
-    vec2 m = u_cursor.xy/u_viewport.xy;
+    vec2 m = (u_cursor / u_viewport) * vec2(1, -1);
     float  t = u_time*.6+m.x+6.;
 	uv *= 5.;
 	vec4 col = vec4(.0);

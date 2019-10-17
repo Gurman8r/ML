@@ -24,12 +24,12 @@ namespace ml
 			EV_Enter,		// 
 			EV_Load,		// 
 			EV_Start,		// 
-			EV_BeginLoop,	// 
+			EV_BeginStep,	// 
 			EV_Update,		// 
 			EV_BeginDraw,	// 
 			EV_Draw,		// 
 			EV_EndDraw,		// 
-			EV_EndLoop,		// 
+			EV_EndStep,		// 
 			EV_Unload,		// 
 			EV_Exit,		// 
 			EV_Command,		// 
@@ -65,9 +65,9 @@ namespace ml
 	// Loop
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct BeginLoopEvent final : public I_Event<EngineEvents::EV_BeginLoop>
+	struct BeginStepEvent final : public I_Event<EngineEvents::EV_BeginStep>
 	{
-		constexpr BeginLoopEvent() {}
+		constexpr BeginStepEvent() {}
 	};
 
 	struct UpdateEvent final : public I_Event<EngineEvents::EV_Update>
@@ -90,9 +90,9 @@ namespace ml
 		constexpr EndDrawEvent() {}
 	};
 
-	struct EndLoopEvent final : public I_Event<EngineEvents::EV_EndLoop>
+	struct EndStepEvent final : public I_Event<EngineEvents::EV_EndStep>
 	{
-		constexpr EndLoopEvent() {}
+		constexpr EndStepEvent() {}
 	};
 
 

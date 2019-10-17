@@ -91,38 +91,47 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const Camera & Camera::apply() const
+	const Camera & Camera::applyClear() const
 	{
-		// Disabled
-		if (!m_enabled) { return (*this); }
+		if (m_enabled)
+		{
+			switch (m_clearFlags)
+			{
+			case Camera::SolidColor:
+				ML_GL.clearColor(
+					m_background[0], 
+					m_background[1], 
+					m_background[2],
+					m_background[3]
+				);
+				ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
+				break;
 
-		// Clear
-		switch (m_clearFlags)
-		{
-		case Camera::SolidColor:
-		{
-			const Color & bg { m_background };
-			ML_GL.clearColor(bg[0], bg[1], bg[2], bg[3]);
-			ML_GL.clear(GL::ColorBufferBit | GL::DepthBufferBit);
-		}
-		break;
-		case Camera::DepthOnly:
-		{
-			ML_GL.clear(GL::DepthBufferBit);
-		}
-		break;
-		case Camera::DontClear:
-		default: break;
-		}
+			case Camera::DepthOnly:
+				ML_GL.clear(GL::DepthBufferBit);
+				break;
 
-		// Viewport
-		ML_GL.viewport(
-			m_viewport.position()[0],
-			m_viewport.position()[1],
-			m_viewport.size()[0],
-			m_viewport.size()[1]
-		);
+			case Camera::DontClear:
+			default:
+				break;
+			}
+		}
 		return (*this);
+	}
+
+	const Camera & Camera::applyViewport() const
+	{
+		if (m_enabled)
+		{ 
+			ML_GL.viewport(
+				m_viewport.position()[0],
+				m_viewport.position()[1],
+				m_viewport.size()[0],
+				m_viewport.size()[1]
+			);
+		}
+		return (*this);
+
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

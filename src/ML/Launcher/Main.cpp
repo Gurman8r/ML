@@ -19,7 +19,7 @@ ml::int32_t main()
 	// Main Loop
 	while (ML_Engine.window().is_open())
 	{
-		ML_EventSystem.fireEvent<BeginLoopEvent>();
+		ML_EventSystem.fireEvent<BeginStepEvent>();
 		ML_EventSystem.fireEvent<UpdateEvent>();
 		ML_EventSystem.fireEvent<BeginDrawEvent>();
 		ML_EventSystem.fireEvent<DrawEvent>();
@@ -27,7 +27,7 @@ ml::int32_t main()
 		ML_EventSystem.fireEvent<BeginGuiEvent>();
 		ML_EventSystem.fireEvent<GuiEvent>();
 		ML_EventSystem.fireEvent<EndGuiEvent>();
-		ML_EventSystem.fireEvent<EndLoopEvent>();
+		ML_EventSystem.fireEvent<EndStepEvent>();
 	}
 
 	// Shutdown Sequence

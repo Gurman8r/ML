@@ -34,12 +34,12 @@ namespace ml
 
 		void onEnter		(const EnterEvent & ev);
 		void onLoad			(const LoadEvent & ev);
-		void onBeginFrame	(const BeginLoopEvent & ev);
+		void onBeginStep	(const BeginStepEvent & ev);
 		void onUpdate		(const UpdateEvent & ev);
 		void onBeginDraw	(const BeginDrawEvent & ev);
 		void onDraw			(const DrawEvent & ev);
 		void onEndDraw		(const EndDrawEvent & ev);
-		void onEndFrame		(const EndLoopEvent & ev);
+		void onEndStep		(const EndStepEvent & ev);
 		void onUnload		(const UnloadEvent & ev);
 		void onExit			(const ExitEvent & ev);
 

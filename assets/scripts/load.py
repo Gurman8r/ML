@@ -213,7 +213,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat_2d")
         ml.ecs.renderer_attr(name,  "self",     "model",        "default_quad")
-        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl_boxes")
+        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl_basic")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
 
 # Advanced

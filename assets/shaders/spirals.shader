@@ -40,7 +40,7 @@ uniform float 		u_time;		// Total Time
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
-    vec2 uv = (fragCoord.xy * u_viewport.xy) / u_viewport.y;
+    vec2 uv = ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
 	uv *= 5.;
     float f = smoothstep(-.4,.4,sin(atan(uv.y, uv.x)*4.-length(uv)*5. +u_time) + sin(length(uv)+u_time));
     f = 1.- abs(f-1.)*10.0;

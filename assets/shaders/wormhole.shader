@@ -232,7 +232,7 @@ geometry trace(vec3 o, vec3 d)
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
 
-	vec2 ouv = (fragCoord.xy * u_viewport.xy) / u_viewport.y;
+	vec2 ouv = ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
 	vec2 uv = ouv;
 
 	uv *= tan(radians(FOV) / 2.0) * 4.;

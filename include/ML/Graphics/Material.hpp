@@ -56,27 +56,16 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline iterator find(const String & name)
+		inline bool contains(Uniform * value) const
 		{
-			return std::find_if(begin(), end(), [&](auto && u)
-			{
-				return u && (u->name == name);
-			});
-		}
-
-		inline const_iterator find(const String & name) const
-		{
-			return std::find_if(cbegin(), cend(), [&](auto && u)
-			{
-				return u && (u->name == name);
-			});
+			return ((value && value->name) && get(value->name) && (find(value) != cend()));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline Uniform * insert(Uniform * value)
 		{
-			if (value && value->name && !get(value->name) && (find(value) == cend()))
+			if (!contains(value))
 			{
 				m_uniforms.push_back(value);
 				return m_uniforms.back();
@@ -84,9 +73,10 @@ namespace ml
 			return nullptr;
 		}
 
-		template <class U, class T> inline bool insert(const String & name, const T & value)
+		template <class U, class T> 
+		inline Uniform * insert(const String & name, const T & value)
 		{
-			if (name && !get(name) && (find(value) == cend()))
+			if (name && !get(name))
 			{
 				m_uniforms.push_back(new U { name, value });
 				return m_uniforms.back();
@@ -103,10 +93,13 @@ namespace ml
 
 		inline bool erase(const String & name)
 		{
-			iterator it { find(name) };
+			iterator it { std::find_if(begin(), end(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			}) };
 			if (it != end())
 			{
-				if (*it) delete (*it);
+				if (*it) { delete (*it); }
 				m_uniforms.erase(it);
 				return true;
 			}
@@ -117,13 +110,19 @@ namespace ml
 
 		template <class U = typename Uniform> inline U * get(const String & name)
 		{
-			iterator it { find(name) };
+			iterator it { std::find_if(begin(), end(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			}) };
 			return (it != end()) ? dynamic_cast<U *>(*it) : nullptr;
 		}
 
 		template <class U = typename Uniform> inline const U * get(const String & name) const
 		{
-			const_iterator it { find(name) };
+			const_iterator it { std::find_if(cbegin(), cend(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			}) };
 			return (it != cend()) ? dynamic_cast<const U *>(*it) : nullptr;
 		}
 

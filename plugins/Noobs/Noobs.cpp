@@ -1031,6 +1031,7 @@ namespace ml
 			if (!f) continue;
 			f->open = false;
 			f->text.SetText(String());
+			f->text.SetErrorMarkers({});
 		}
 	}
 

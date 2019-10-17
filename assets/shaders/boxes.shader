@@ -37,7 +37,7 @@ uniform	vec4		u_color;	// Main Color
 uniform sampler2D	u_texture0;	// Main Texture
 uniform vec2 		u_viewport;	// Display Size
 uniform float 		u_time;		// Total Time
-uniform vec3 u_cursor;
+uniform vec3 		u_cursor;	// Cursor Position
 
 // This is a combination of a semi-random noise gnerator 
 // from Art of Code on Youtube - https://www.youtube.com/channel/UCcAlTqd9zID6aNX3TzwxJXg/videos

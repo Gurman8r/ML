@@ -155,15 +155,15 @@ namespace ml
 			
 			const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
 
-			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
-			ImGui::BeginChild(
-				("##Content##" + String(getTitle())).c_str(),
+			ImGui::BeginChildFrame(
+				ImGui::GetID(("##Content##"_s + getTitle()).c_str()),
 				{ max_size[0], max_size[1] },
-				true,
-				ImGuiWindowFlags_None
+				ImGuiWindowFlags_NoScrollbar
 			);
-			ImGui::PopStyleVar();
-			ImGui::BeginTabBar("Content Type Tabs", ImGuiTabBarFlags_FittingPolicyScroll);
+			ImGui::BeginTabBar(
+				"Content Type Tabs", 
+				ImGuiTabBarFlags_FittingPolicyScroll
+			);
 			Layout::draw_list<Entity>();
 			Layout::draw_list<Font>();
 			Layout::draw_list<Image>();
@@ -176,7 +176,7 @@ namespace ml
 			Layout::draw_list<Texture>();
 			Layout::draw_list<Uniform>();
 			ImGui::EndTabBar();
-			ImGui::EndChild();
+			ImGui::EndChildFrame();
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}

@@ -73,60 +73,44 @@ namespace ml
 			{
 			}
 
-			DemoError(const DemoError & copy) : DemoError {
-				copy.file, copy.line, copy.code, copy.desc
-			}
+			DemoError(const DemoError & copy) 
+				: DemoError { copy.file, copy.line, copy.code, copy.desc }
 			{
 			}
 
-			inline operator bool() const
+			explicit DemoError(uint32_t type, String str)
+				: DemoError { "", 0, "", "" }
 			{
-				return file && line && code && desc;
-			}
-
-			inline friend ML_SERIALIZE(std::ostream & out, const DemoError & in)
-			{
-				return out
-					<< "File: \'" << in.file << "\'" << endl
-					<< "Line: \'" << in.line << "\'" << endl
-					<< "Code: \'" << in.code << "\'" << endl
-					<< "Desc: \'" << in.desc << "\'" << endl
-					;
-			}
-		};
-
-		static inline DemoError decode_error(uint32_t type, String str)
-		{
-			DemoError err { "", 0, "", "" };
-			if (!str) { return err; }
-			if (str.front() != '0') { return err; }
-			str.erase(str.begin());
-			switch (type)
-			{
-			case GL::FragmentShader: err.file = "Fragment"; break;
-			case GL::GeometryShader: err.file = "Geometry"; break;
-			case GL::VertexShader: err.file = "Vertex"; break;
-			default: err.file = "Unknown"; break;
-			}
-			size_t a, b;
-			if ((a = str.find_first_of('(')) != String::npos)
-			{
-				if ((b = str.find_first_of(')', a + 1)) != String::npos)
+				if (!str || str.front() != '0') { return; }
+				str.erase(str.begin());
+				switch (type)
 				{
-					err.line = util::to_i32(str.substr(a + 1, b - a - 1));
-
-					if ((a = str.find_first_of(':', b)) != String::npos)
+				case GL::FragmentShader: this->file = "Fragment"; break;
+				case GL::GeometryShader: this->file = "Geometry"; break;
+				case GL::VertexShader: this->file = "Vertex"; break;
+				default: this->file = "Unknown"; break;
+				}
+				size_t a, b;
+				if ((a = str.find_first_of('(')) != String::npos)
+				{
+					if ((b = str.find_first_of(')', a + 1)) != String::npos)
 					{
-						if ((b = str.find_first_of(':', a + 1)) != String::npos)
+						this->line = util::to_i32(str.substr(a + 1, b - a - 1));
+
+						if ((a = str.find_first_of(':', b)) != String::npos)
 						{
-							err.code = String { str.substr(a + 2, b - a - 2) }.removeAll("error ");
-							err.desc = str.substr(b + 2);
+							if ((b = str.find_first_of(':', a + 1)) != String::npos)
+							{
+								this->code = String { 
+									str.substr(a + 2, b - a - 2) 
+								}.removeAll("error ");
+								this->desc = str.substr(b + 2);
+							}
 						}
 					}
 				}
 			}
-			return err;
-		}
+		};
 
 
 

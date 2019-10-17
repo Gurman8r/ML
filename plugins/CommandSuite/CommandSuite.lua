@@ -15,9 +15,12 @@ project "CommandSuite"
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Launcher" }
 	files 
-	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
-		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+	{ 
+		"%{sln_dir}plugins/%{prj.name}/**.h", 
+		"%{sln_dir}plugins/%{prj.name}/**.hpp",
+		"%{sln_dir}plugins/%{prj.name}/**.inl",
+		"%{sln_dir}plugins/%{prj.name}/**.c",
+		"%{sln_dir}plugins/%{prj.name}/**.cpp"
 	}
 	vpaths 
 	{ 

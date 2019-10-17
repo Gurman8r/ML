@@ -22,6 +22,7 @@
 #include <ML/Graphics/Transform.hpp>
 #include <ImGuiColorTextEdit/TextEditor.h>
 #include <ML/Editor/Editor.hpp>
+#include <ML/Engine/Engine.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -1637,9 +1638,18 @@ namespace ml
 				const String & source)
 			{
 				if (!source) return;
-				if (ImGui::BeginTabItem((type + "##Shader##" + name).c_str()))
+				if (ImGui::BeginTabItem((type + "##ShaderTab##" + name).c_str()))
 				{
 					ImGui::TextUnformatted(&source[0], &source[source.size() - 1]);
+					if (ImGui::BeginPopupContextItem((type + "##ShaderMenu##" + name).c_str()))
+					{
+						if (ImGui::Button("Copy to Clipboard"))
+						{
+							ML_Engine.window().setClipboardString(source);
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::EndPopup();
+					}
 					ImGui::EndTabItem();
 				}
 			};

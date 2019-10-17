@@ -18,7 +18,12 @@ namespace ml
 {
 	class ML_ENGINE_API Py final : public Singleton<Py>, Disposable
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		friend struct Singleton<Py>;
+
+		Py() = default;
+		
 		bool	m_init { false };
 		String	m_name {};
 		String	m_home {};
@@ -26,45 +31,10 @@ namespace ml
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool init(const String & name, const String & home)
-		{
-			if (!m_init && name && ML_FS.dirExists(home))
-			{
-				Py_SetProgramName(util::widen(m_name = name).c_str());
-				Py_SetPythonHome(util::widen(m_home = home).c_str());
-				Py_Initialize();
-				m_init = true;
-				return true;
-			}
-			return false;
-		}
-
-		inline bool restart()
-		{
-			if (dispose())
-			{
-				return init(m_name, m_home);
-			}
-			return false;
-		}
-
-		inline bool dispose() override
-		{
-			if (m_init)
-			{
-				Py_Finalize();
-				m_init = false;
-				return true;
-			}
-			return false;
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline int32_t DoString(const String & value)
-		{
-			return ((value && m_init) ? PyRun_SimpleString(value.c_str()) : 0);
-		}
+		bool	init(const String & name, const String & home);
+		bool	restart();
+		bool	dispose() override;
+		int32_t doString(const String & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

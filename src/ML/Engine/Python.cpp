@@ -15,6 +15,52 @@
 #include <ML/Graphics/Transform.hpp>
 #include <ML/Graphics/Model.hpp>
 
+namespace ml
+{
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool Py::init(const String & name, const String & home)
+	{
+		if (!m_init && name && ML_FS.dirExists(home))
+		{
+			Py_SetProgramName(util::widen(m_name = name).c_str());
+			Py_SetPythonHome(util::widen(m_home = home).c_str());
+			Py_InitializeEx(Py_DontWriteBytecodeFlag);
+			m_init = true;
+			return true;
+		}
+		return false;
+	}
+
+	bool Py::restart()
+	{
+		if (dispose())
+		{
+			return init(m_name, m_home);
+		}
+		return false;
+	}
+
+	bool Py::dispose()
+	{
+		if (m_init)
+		{
+			Py_Finalize();
+			m_init = false;
+			return true;
+		}
+		return false;
+	}
+
+	int32_t Py::doString(const String & value)
+	{
+		return ((value && m_init) ? PyRun_SimpleString(value.c_str()) : 0);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+}
+
+
 namespace py = pybind11;
 
 namespace ml
@@ -60,6 +106,22 @@ namespace ml
 			.def_static("load_all", [](const table_t & t) { return MetadataParser::parseMetadata(t); })
 			;
 
+		// IO
+		struct ml_py_io {};
+		py::class_<ml_py_io>(m, "io")
+			.def_static("clear", []() { Debug::clear(); })
+			.def_static("command", [](str_t s) { ML_EventSystem.fireEvent<CommandEvent>(s.c_str()); })
+			.def_static("exit", []() { Debug::exit(0); })
+			.def_static("fatal", [](str_t s) { Debug::fatal(s); })
+			.def_static("pause", []() { Debug::pause(0); })
+			.def_static("print", [](str_t s) { cout << s; })
+			.def_static("printf", [](str_t s, const list_t & l) { cout << util::format(s, l); })
+			.def_static("printl", [](str_t s) { cout << s << endl; })
+			.def_static("log", [](str_t s) { Debug::log(s); })
+			.def_static("warning", [](str_t s) { Debug::logWarning(s); })
+			.def_static("error", [](str_t s) { Debug::logError(s); })
+			;
+
 		// Plugins
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_plugins {};
@@ -67,20 +129,6 @@ namespace ml
 			.def_static("load",		[](str_t s) { return ML_Plugins.loadOneShot(s); })
 			.def_static("load_all", [](const list_t & l) { return ML_Plugins.loadList(l); })
 			;
-
-		// IO
-		struct ml_py_io {};
-		py::class_<ml_py_io>(m, "io")
-			.def_static("clear",	[]() { Debug::clear(); })
-			.def_static("command",	[](str_t s) { ML_EventSystem.fireEvent<CommandEvent>(s.c_str()); })
-			.def_static("exit",		[]() { Debug::exit(0); })
-			.def_static("fatal",	[](str_t s) { Debug::fatal(s); })
-			.def_static("pause",	[]() { Debug::pause(0); })
-			.def_static("print",	[](str_t s) { cout << s; })
-			.def_static("printf",	[](str_t s, const list_t & l) { cout << util::format(s, l); })
-			.def_static("printl",	[](str_t s) { cout << s << endl; })
-			;
-
 
 		// Prefs
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -91,7 +139,6 @@ namespace ml
 			.def_static("get",		[](str_t s, str_t n, str_t v) { return (str_t)ML_Engine.prefs().get_string(s, n, v); })
 			.def_static("set",		[](str_t s, str_t n, str_t v) { return ML_Engine.prefs().set_string(s, n, v); })
 			;
-
 
 		// Window
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -118,7 +165,6 @@ namespace ml
 			.def_static("set_size",			[](const coord_t & c) { ML_Engine.window().setSize({ (uint32_t)c[0], (uint32_t)c[1] }); })
 			.def_static("set_title",		[](str_t s) { ML_Engine.window().setTitle(s); })
 			;
-
 
 		// ECS
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -193,7 +193,7 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					return (bool)ML_Lua.DoString(code);
+					return (bool)ML_Lua.doString(code);
 				}
 				return false;
 			})
@@ -281,7 +281,7 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					return (bool)ML_Py.DoString(code);
+					return (bool)ML_Py.doString(code);
 				}
 				return false;
 			})

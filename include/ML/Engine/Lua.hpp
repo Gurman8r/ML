@@ -53,7 +53,7 @@ namespace ml
 			return m_L;
 		}
 
-		inline int32_t DoString(const String& value) const
+		inline int32_t doString(const String& value) const
 		{
 			return ((value && getL()) ? luaL_dostring(getL(), value.c_str()) : 0);
 		}

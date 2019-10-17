@@ -12,9 +12,9 @@
 
 // Log Prefixes
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_MSG_LOG "log"
-#define ML_MSG_WRN "wrn"
-#define ML_MSG_ERR "err"
+#define ML_MSG_LOG "log" // Info
+#define ML_MSG_WRN "wrn" // Warning
+#define ML_MSG_ERR "err" // Error
 
 // Breakpoint
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -140,7 +140,7 @@ namespace ml
 		{
 			Logger() = default;
 			inline int32_t operator()(
-				std::ostream &		out,
+				std::ostream &	out,
 				const int32_t	exitCode,
 				const FMT &		color,
 				const String &	prefix,

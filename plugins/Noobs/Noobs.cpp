@@ -25,6 +25,7 @@
 #include <ML/Graphics/Light.hpp>
 #include <ML/Graphics/Transform.hpp>
 #include <ML/Window/WindowEvents.hpp>
+#include <ML/Editor/AssetPreview.hpp>
 
 ML_PLUGIN_API ml::Plugin * ML_Plugin_Main() { return new ml::Noobs {}; }
 
@@ -67,7 +68,7 @@ namespace ml
 					String line;
 					while (std::getline(ss, line, '\n'))
 					{
-						auto err { decode_error(ev->type, line) };
+						const DemoError err { ev->type, line };
 						switch (ev->type)
 						{
 						case GL::VertexShader	: m_files[DemoFile::Vert]->errs.push_back(err); break;
@@ -294,7 +295,7 @@ namespace ml
 	
 	bool Noobs::compile_sources()
 	{
-		if (m_renderer->material() && m_renderer->material()->shader())
+		if (m_renderer && m_renderer->material())
 		{
 			if (Shader * s { m_renderer->shader() })
 			{
@@ -305,21 +306,11 @@ namespace ml
 					f->text.SetErrorMarkers({});
 				}
 
-				if (m_files[DemoFile::Geom]->open)
-				{
-					return s->loadFromMemory(
-						m_files[DemoFile::Vert]->text.GetText(),
-						m_files[DemoFile::Geom]->text.GetText(),
-						m_files[DemoFile::Frag]->text.GetText()
-					);
-				}
-				else
-				{
-					return s->loadFromMemory(
-						m_files[DemoFile::Vert]->text.GetText(),
-						m_files[DemoFile::Frag]->text.GetText()
-					);
-				}
+				return s->loadFromMemory(
+					m_files[DemoFile::Vert]->open ? m_files[DemoFile::Vert]->text.GetText() : "",
+					m_files[DemoFile::Geom]->open ? m_files[DemoFile::Geom]->text.GetText() : "",
+					m_files[DemoFile::Frag]->open ? m_files[DemoFile::Frag]->text.GetText() : ""
+				);
 			}
 		}
 		return false;
@@ -334,15 +325,15 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (surf && (*surf))
+			if (auto preview { ML_AssetPreview.getPreview(surf) })
 			{
 				const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-				const vec2 scl { alg::scale_to_fit((vec2)surf->size(), dst) * 0.975f };
+				const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
 				const vec2 pos { ((dst - scl) * 0.5f) };
 				if (m_freeAspect) { m_viewport = dst; }
 				ImGui::BeginChild("NoobsSceneViewport", { 0, 0 }, true);
 				ImGui::SetCursorPos({ pos[0], pos[1] });
-				ImGui::Image(surf->texture().get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
+				ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
 				ImGui::EndChild();
 			}
 

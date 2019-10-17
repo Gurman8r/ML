@@ -27,7 +27,7 @@ namespace ml
 
 		template <class T> inline const Texture * getPreview(const T * value) const
 		{
-			return getPreview<T>(static_cast<void *>(std::remove_cv_t<T *>(value)));
+			return getPreview<T>(std::remove_cv_t<void *>(value));
 		}
 
 		template <class T> inline const Texture * getPreview(const T & value) const

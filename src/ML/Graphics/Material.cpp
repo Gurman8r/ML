@@ -10,20 +10,20 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Material::Material()
-		: m_shader	(nullptr)
-		, m_uniforms()
+		: m_shader { nullptr }
+		, m_uniforms {}
 	{
 	}
 
 	Material::Material(const Shader * shader)
-		: m_shader	(shader)
-		, m_uniforms()
+		: m_shader { shader }
+		, m_uniforms {}
 	{
 	}
 
 	Material::Material(const Shader * shader, List<Uniform *> && uniforms)
-		: m_shader	(shader)
-		, m_uniforms()
+		: m_shader { shader }
+		, m_uniforms {}
 	{
 		for (Uniform *& u : uniforms)
 		{
@@ -35,12 +35,12 @@ namespace ml
 	}
 
 	Material::Material(const Material & copy)
-		: m_shader	(copy.m_shader)
-		, m_uniforms()
+		: m_shader { copy.m_shader }
+		, m_uniforms {}
 	{
 		for (const Uniform * u : copy)
 		{
-			this->add(u->clone());
+			this->insert(u->clone());
 		}
 	}
 
@@ -193,10 +193,11 @@ namespace ml
 		return (*this);
 	}
 
-	const Material & Material::bind(bool bindTextures) const
+	const Material & Material::bind() const
 	{
 		if (m_shader && (*m_shader))
 		{
+			m_shader->bind(false);
 			for (const auto & elem : (*this))
 			{
 				if (!m_shader->setUniform(elem))
@@ -204,7 +205,7 @@ namespace ml
 					/* error */
 				}
 			}
-			m_shader->bind(bindTextures);
+			m_shader->bind(true);
 		}
 		return (*this);
 	}

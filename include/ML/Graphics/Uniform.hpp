@@ -6,6 +6,8 @@
 #include <ML/Core/Newable.hpp>
 #include <ML/Core/BitMask.hpp>
 
+// this entire system needs to be reworked
+
 struct ml::Texture;
 
 namespace ml
@@ -17,8 +19,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum Type : uint32_t
-		{
+		enum Type : uint32_t {
 			Boolean, Float, Integer,
 			Vector2, Vector3, Vector4, Color,
 			Matrix2, Matrix3, Matrix4,
@@ -41,15 +42,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using id_type = typename const Type;
-
-		String	name;
-		id_type id;
+		const uint32_t id;
+		String name;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit Uniform(const String & name, uint32_t id)
-			: name { name }, id { static_cast<id_type>(id) }
+			: name { name }, id { id }
 		{
 		}
 
@@ -57,13 +56,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		virtual Uniform *	clone()				const = 0;
-		virtual bool		isValue()			const = 0;
-		virtual bool		isPointer()			const = 0;
-		virtual bool		isReference()		const = 0;
-		virtual bool		isConstPointer()	const = 0;
-		virtual bool		isConstReference()	const = 0;
-		virtual bool		isModifiable()		const = 0;
+		virtual Uniform * clone() const = 0;
+		virtual bool isModifiable() const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -79,32 +73,22 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline friend ML_SERIALIZE(std::ostream & out, const Type & value)
-		{
-			return out << Type_names[value];
-		}
-
 		inline friend ML_SERIALIZE(std::ostream & out, const Uniform & value)
 		{
-			return out << value.id;
+			return out << Type_names[value.id];
+		}
+
+		inline friend bool operator<(const Uniform & lhs, const Uniform & rhs)
+		{
+			return ((lhs.id < rhs.id) || (lhs.name < rhs.name));
 		}
 
 		inline friend bool operator==(const Uniform & lhs, const Uniform & rhs)
 		{
-			return ((lhs.id == rhs.id) && (lhs.name == rhs.name));
+			return !(lhs < rhs) && !(rhs < lhs);
 		}
 
-		template <class T> inline friend bool operator<(const Type & lhs, const T & rhs)
-		{
-			return (lhs < static_cast<Type>(rhs));
-		}
-
-		template <class T> inline friend bool operator==(const Type & lhs, const T & rhs)
-		{
-			return !(lhs < rhs) && !(rhs < static_cast<T>(lhs));
-		}
-
-		template <class T> inline friend bool operator!=(const Type & lhs, const T & rhs)
+		inline friend bool operator!=(const Uniform & lhs, const Uniform & rhs)
 		{
 			return !(lhs == rhs);
 		}
@@ -115,44 +99,17 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Generic Uniform Interface
-	template <
-		class T, uint32_t ID, uint32_t Flags
-	> struct I_Uniform final : public Uniform
+	template <class T, uint32_t ID> struct I_Uniform final : public Uniform
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type				= typename T;
-		using self_type			= typename I_Uniform<type, ID, Flags>;
-		using value_type		= typename detail::decay_t<type>;
-		using pointer			= typename value_type *;
-		using reference			= typename value_type &;
-		using const_pointer		= typename const value_type *;
-		using const_reference	= typename const value_type &;
+		using self_type = typename I_Uniform<T, ID>;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		enum : int32_t { ID = ID };
 
-		template <class U>
-		static constexpr bool is_same				{ std::is_same_v<type, U> };
-		static constexpr bool is_pointer			{ std::is_pointer_v<type> };
-		static constexpr bool is_reference			{ std::is_reference_v<type> };
-		static constexpr bool is_value				{ !is_pointer && !is_reference };
-		static constexpr bool is_const_pointer		{ is_same<const_pointer> };
-		static constexpr bool is_const_reference	{ is_same<const_reference> };
-		static constexpr bool is_modifiable			{ is_value || ML_BITREAD(Flags, 0) };
+		T data;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static_assert(is_value || is_const_pointer || is_const_reference,
-			"An unacceptable value type has been specified for uniform."
-		);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		enum { ID = ID };
-
-		type data;
-
-		explicit I_Uniform(const String & name, type data)
+		explicit I_Uniform(const String & name, T data)
 			: Uniform { name, ID }, data { data }
 		{
 		}
@@ -162,29 +119,29 @@ namespace ml
 			return new self_type { name, data };
 		}
 
-		inline bool isValue()			const override	{ return this->is_value; }
-		inline bool isPointer()			const override	{ return this->is_pointer; }
-		inline bool isReference()		const override	{ return this->is_reference; }
-		inline bool isConstPointer()	const override	{ return this->is_const_pointer; }
-		inline bool isConstReference()	const override	{ return this->is_const_reference; }
-		inline bool isModifiable()		const override	{ return this->is_modifiable; }
+		inline bool isModifiable() const override 
+		{ 
+			return // holds a value or a sampler
+				std::is_same_v<T, detail::decay_t<T>> ||
+				std::is_same_v<T, const Texture *>;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> using uni_bool_t		= I_Uniform<T, Uniform::Boolean,	0b0>;
-	template <class T> using uni_float_t	= I_Uniform<T, Uniform::Float,		0b0>;
-	template <class T> using uni_int_t		= I_Uniform<T, Uniform::Integer,	0b0>;
-	template <class T> using uni_vec2_t		= I_Uniform<T, Uniform::Vector2,	0b0>;
-	template <class T> using uni_vec3_t		= I_Uniform<T, Uniform::Vector3,	0b0>;
-	template <class T> using uni_vec4_t		= I_Uniform<T, Uniform::Vector4,	0b0>;
-	template <class T> using uni_color_t	= I_Uniform<T, Uniform::Color,		0b0>;
-	template <class T> using uni_mat2_t		= I_Uniform<T, Uniform::Matrix2,	0b0>;
-	template <class T> using uni_mat3_t		= I_Uniform<T, Uniform::Matrix3,	0b0>;
-	template <class T> using uni_mat4_t		= I_Uniform<T, Uniform::Matrix4,	0b0>;
-	template <class T> using uni_sampler_t	= I_Uniform<T, Uniform::Sampler,	0b1>;
+	template <class T> using uni_bool_t		= I_Uniform<T, Uniform::Boolean>;
+	template <class T> using uni_float_t	= I_Uniform<T, Uniform::Float>;
+	template <class T> using uni_int_t		= I_Uniform<T, Uniform::Integer>;
+	template <class T> using uni_vec2_t		= I_Uniform<T, Uniform::Vector2>;
+	template <class T> using uni_vec3_t		= I_Uniform<T, Uniform::Vector3>;
+	template <class T> using uni_vec4_t		= I_Uniform<T, Uniform::Vector4>;
+	template <class T> using uni_color_t	= I_Uniform<T, Uniform::Color>;
+	template <class T> using uni_mat2_t		= I_Uniform<T, Uniform::Matrix2>;
+	template <class T> using uni_mat3_t		= I_Uniform<T, Uniform::Matrix3>;
+	template <class T> using uni_mat4_t		= I_Uniform<T, Uniform::Matrix4>;
+	template <class T> using uni_sampler_t	= I_Uniform<T, Uniform::Sampler>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -199,6 +156,8 @@ namespace ml
 	using uni_mat3		= typename uni_mat3_t	<mat3>;
 	using uni_mat4		= typename uni_mat4_t	<mat4>;
 	using uni_sampler	= typename uni_sampler_t<const Texture *>; // All Texture Types
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	using uni_bool_ptr	= typename uni_bool_t	<const bool *>;
 	using uni_float_ptr = typename uni_float_t	<const float_t *>;
@@ -301,9 +260,9 @@ namespace ml
 		static inline mat2 * as_mat2(const Uniform * value)
 		{
 			static mat2 temp;
-			if (!value || (value->id != uni_mat2::ID)) { return nullptr; }
-			else if (auto u = value->as<uni_mat2>()) { return &(temp = u->data); }
-			else if (auto u = value->as<uni_mat2_ptr>()) { return &(temp = *u->data); }
+			if (!value || (value->id != uni_mat2::ID))		{ return nullptr; }
+			else if (auto u = value->as<uni_mat2>())		{ return &(temp = u->data); }
+			else if (auto u = value->as<uni_mat2_ptr>())	{ return &(temp = *u->data); }
 			else { return nullptr; }
 		}
 

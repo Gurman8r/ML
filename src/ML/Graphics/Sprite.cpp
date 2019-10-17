@@ -86,13 +86,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Sprite::draw(const RenderTarget & target, RenderBatch batch) const
+	void Sprite::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
 		if (m_texture && batch.mat)
 		{
-			batch.mat->update<uni_color>(ML_UNI_MAIN_COL, m_color);
+			batch.mat->set<uni_color>(ML_UNI_MAIN_COL, m_color);
 			
-			batch.mat->update<uni_sampler>(ML_UNI_MAIN_TEX, m_texture);
+			batch.mat->set<uni_sampler>(ML_UNI_MAIN_TEX, m_texture);
 
 			target.draw(
 				geo::spriteQuad({ position() - (size() * origin()), size() }).data(),

@@ -95,7 +95,7 @@ vec4 raymarch(vec3 org, vec3 dir)
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-	vec2 v = 2.0 * (fragCoord.xy * u_viewport.xy) / u_viewport.y;
+	vec2 v = 2.0 * ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
 
 	vec3 org = vec3(0., -2., 4.);
 	vec3 dir = normalize(vec3(v.x*1.6, -v.y, -1.5));
@@ -114,7 +114,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
 void main()
 {
-	mainImage(gl_Color, V.texcoord - vec2(0.5));
+	mainImage(gl_Color, V.texcoord);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

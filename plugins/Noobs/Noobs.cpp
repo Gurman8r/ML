@@ -174,13 +174,13 @@ namespace ml
 			{
 				if (auto m { (Material *)pair.second })
 				{
-					m->update<uni_vec3>("u_camera.pos", camera->position());
-					m->update<uni_vec3>("u_camera.dir", camera->direction());
-					m->update<uni_float>("u_camera.fov", camera->fieldOfView());
-					m->update<uni_float>("u_camera.near", camera->clipNear());
-					m->update<uni_float>("u_camera.far", camera->clipFar());
-					m->update<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
-					m->update<uni_vec2>("u_viewport", (vec2)camera->viewport().size());
+					m->set<uni_vec3>("u_camera.pos", camera->position());
+					m->set<uni_vec3>("u_camera.dir", camera->direction());
+					m->set<uni_float>("u_camera.fov", camera->fieldOfView());
+					m->set<uni_float>("u_camera.near", camera->clipNear());
+					m->set<uni_float>("u_camera.far", camera->clipFar());
+					m->set<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
+					m->set<uni_vec2>("u_viewport", (vec2)camera->viewport().size());
 				}
 			}
 		}
@@ -189,11 +189,11 @@ namespace ml
 		//{
 		//	if (auto * m { (Material *)pair.second })
 		//	{
-		//		m->update<uni_vec2>	("u_cursor", ML_Engine.window().getCursorPos());
-		//		m->update<uni_float>("u_delta", ML_Engine.time().deltaTime());
-		//		m->update<uni_int>	("u_frame", ML_Engine.time().frameCount());
-		//		m->update<uni_float>("u_fps", ML_Engine.time().frameRate());
-		//		m->update<uni_float>("u_time", ML_Engine.time().deltaTime());
+		//		m->set<uni_vec2>("u_cursor", ML_Engine.window().getCursorPos());
+		//		m->set<uni_float>("u_delta", ML_Engine.time().deltaTime());
+		//		m->set<uni_int>("u_frame", ML_Engine.time().frameCount());
+		//		m->set<uni_float>("u_fps", ML_Engine.time().frameRate());
+		//		m->set<uni_float>("u_time", ML_Engine.time().deltaTime());
 		//	}
 		//}
 
@@ -226,9 +226,9 @@ namespace ml
 					{
 						if (Material * m { renderer->material() })
 						{
-							m->update<uni_vec3>("u_position", transform->position());
-							m->update<uni_vec3>("u_scale", transform->scale());
-							m->update<uni_vec3>("u_rotation", transform->rotation());
+							m->set<uni_vec3>("u_position", transform->position());
+							m->set<uni_vec3>("u_scale", transform->scale());
+							m->set<uni_vec3>("u_rotation", transform->rotation());
 						}
 					}
 					ML_Engine.window().draw(renderer);
@@ -465,7 +465,7 @@ namespace ml
 					if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (Uniform *&)to_add))
 					{
 						// Already Exists
-						if (to_add && !m_renderer->material()->add(to_add))
+						if (to_add && !m_renderer->material()->insert(to_add))
 						{
 							delete to_add;
 							Debug::logError("A uniform with that name already exists");
@@ -487,7 +487,7 @@ namespace ml
 					
 					// Uniform List
 					Uniform * to_remove { nullptr };
-					for (Uniform *& uni : (*m_renderer->material()))
+					for (auto & uni : (*m_renderer->material()))
 					{
 						if (!uni) continue;
 						ImGui::Columns(3, "##Uni##Columns");
@@ -495,6 +495,7 @@ namespace ml
 
 						// Uniform Name
 						/* * * * * * * * * * * * * * * * * * * * */
+
 						if (uni->isModifiable())
 						{
 							static char name[32] = "";

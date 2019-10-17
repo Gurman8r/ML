@@ -123,7 +123,7 @@ float Layer(vec2 uv)
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
 	vec2 uv = (fragCoord * u_viewport) / u_viewport.y;
-	vec2 mouse = (u_cursor / u_viewport) * vec2(1, -1) - 0.5;
+	vec2 mouse = (u_cursor / u_viewport) * vec2(1, -1);
 	float m = 0.;
 	float t = u_time * .1;
 
@@ -151,7 +151,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
 void main()
 {
-	mainImage(gl_Color, V.texcoord - vec2(0.5));
+	mainImage(gl_Color, V.texcoord);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

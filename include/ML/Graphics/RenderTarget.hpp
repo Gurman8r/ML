@@ -21,27 +21,33 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		const RenderTarget & draw(const Drawable * value) const;
-		const RenderTarget & draw(const Drawable * value, const RenderBatch & batch) const;
+		
+		const RenderTarget & draw(const Drawable * value, RenderBatch & batch) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		const RenderTarget & draw(const Drawable & value) const;
-		const RenderTarget & draw(const Drawable & value, const RenderBatch & batch) const;
+		
+		const RenderTarget & draw(const Drawable & value, RenderBatch & batch) const;
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		const RenderTarget & draw(const List<Vertex> & verts, const RenderBatch & batch) const;
-		const RenderTarget & draw(const List<float_t> & verts, const RenderBatch & batch) const;
-		const RenderTarget & draw(const float_t * verts, size_t count, const RenderBatch & batch) const;
+		const RenderTarget & draw(const List<Vertex> & verts, RenderBatch & batch) const;
+		
+		const RenderTarget & draw(const List<float_t> & verts, RenderBatch & batch) const;
+		
+		const RenderTarget & draw(const float_t * verts, size_t count, RenderBatch & batch) const;
+		
 		const RenderTarget & draw(const float_t * verts, size_t count, const VAO * vao, const VBO * vbo) const;
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		const RenderTarget & draw(const VAO & vao, const VBO & vbo, const IBO & ibo) const;
+		
 		const RenderTarget & draw(const VAO & vao, const VBO & vbo) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	} const;
+	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

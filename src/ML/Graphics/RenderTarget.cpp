@@ -10,7 +10,7 @@ namespace ml
 		return (value) ? this->draw(*value) : (*this);
 	}
 
-	const RenderTarget & RenderTarget::draw(const Drawable * value, const RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(const Drawable * value, RenderBatch & batch) const
 	{
 		return (value) ? this->draw(*value, batch) : (*this);
 	}
@@ -23,7 +23,7 @@ namespace ml
 		return this->draw(value, batch);
 	}
 
-	const RenderTarget & RenderTarget::draw(const Drawable & value, const RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(const Drawable & value, RenderBatch & batch) const
 	{
 		value.draw((*this), batch);
 		return (*this);
@@ -31,17 +31,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const RenderTarget & RenderTarget::draw(const List<Vertex> & verts, const RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(const List<Vertex> & verts, RenderBatch & batch) const
 	{
 		return this->draw(alg::contiguous(verts), batch);
 	}
 
-	const RenderTarget & RenderTarget::draw(const List<float_t> & verts, const RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(const List<float_t> & verts, RenderBatch & batch) const
 	{
 		return this->draw(verts.data(), verts.size(), batch);
 	}
 
-	const RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, RenderBatch & batch) const
 	{
 		if (batch.mat) { batch.mat->bind(); }
 

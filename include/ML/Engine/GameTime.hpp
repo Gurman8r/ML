@@ -22,10 +22,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto totalTime()		const -> const float_t	& { return (m_totalTime = m_main.elapsed().delta()); }
-		inline auto deltaTime()		const -> const float_t	& { return (m_deltaTime = m_elapsed.delta()); }
-		inline auto frameCount()	const -> const int32_t	& { return m_frame.count; }
-		inline auto frameRate()		const -> const float_t	& { return m_frame.rate; }
+		inline const float_t & totalTime() const
+		{ 
+			return (m_totalTime = m_main.elapsed().delta());
+		}
+
+		inline const float_t & deltaTime()	const
+		{ 
+			return (m_deltaTime = m_elapsed.delta());
+		}
+
+		inline const int32_t & frameCount() const
+		{ 
+			return m_frame.count; 
+		}
+
+		inline const float_t & frameRate() const
+		{ 
+			return m_frame.rate; 
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -125,17 +125,17 @@ namespace ml
 		}
 	}
 	
-	void Text::draw(const RenderTarget & target, RenderBatch batch) const
+	void Text::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
 		if (m_font && batch.mat)
 		{
 			update();
 
-			batch.mat->update<uni_color>(ML_UNI_MAIN_COL, m_color);
+			batch.mat->set<uni_color>(ML_UNI_MAIN_COL, m_color);
 
 			for (size_t i = 0, imax = m_string.size(); i < imax; i++)
 			{
-				batch.mat->update<uni_sampler>(ML_UNI_MAIN_TEX, m_textures[i]);
+				batch.mat->set<uni_sampler>(ML_UNI_MAIN_TEX, m_textures[i]);
 
 				target.draw(m_vertices[i].data(), geo::rect_quad::Size, batch);
 			}

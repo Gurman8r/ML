@@ -69,7 +69,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void Renderer::draw(const RenderTarget & target, RenderBatch batch) const
+	void Renderer::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
 		if (m_enabled && m_model && m_material)
 		{
@@ -77,7 +77,7 @@ namespace ml
 
 			m_material->bind();
 
-			target.draw(m_model);
+			target.draw(m_model, batch);
 
 			m_material->unbind();
 		}

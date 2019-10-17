@@ -33,11 +33,16 @@ in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
-uniform	vec4		u_color;	// Main Color
-uniform sampler2D	u_texture0;	// Main Texture
-uniform vec2 		u_viewport;	// Display Size
-uniform float 		u_time;		// Total Time
-uniform vec3 		u_cursor;	// Cursor Position
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+uniform vec2		u_cursor;		// Cursor Position
+uniform float		u_delta;		// Delta Time
+uniform int			u_frame;		// Frame Index
+uniform float		u_fps;			// Frame Rate
+uniform float		u_time;			// Total Time
+uniform	vec4		u_color;		// Main Color
+uniform sampler2D	u_texture0;		// Main Texture
+uniform vec2 		u_viewport;		// Viewport Size
 
 // This is a combination of a semi-random noise gnerator 
 // from Art of Code on Youtube - https://www.youtube.com/channel/UCcAlTqd9zID6aNX3TzwxJXg/videos
@@ -197,7 +202,7 @@ vec4 dots(vec2 uv,float t, vec4 rgba, float seed) {
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
-    vec2 uv = (fragCoord.xy * u_viewport.xy) / u_viewport.y;
+    vec2 uv = ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
     
     vec2 m = u_cursor.xy/u_viewport.xy;
     float  t = u_time*.6+m.x+6.;
@@ -215,7 +220,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
 void main()
 {
-	mainImage(gl_Color, V.texcoord - vec2(0.5));
+	mainImage(gl_Color, V.texcoord);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

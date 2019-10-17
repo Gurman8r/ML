@@ -72,7 +72,7 @@ float noise(in vec2 p)
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-	vec2 uv = (fragCoord * u_viewport.xy) / u_viewport.y;
+	vec2 uv = ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
 	uv = vec2(noise(uv + u_time * 0.1), noise(uv + 10.));
 
 	float d = uv.x - uv.y;
@@ -91,7 +91,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
 void main()
 {
-	mainImage(gl_Color, V.texcoord - vec2(0.5));
+	mainImage(gl_Color, V.texcoord);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

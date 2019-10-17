@@ -99,16 +99,16 @@ namespace ml
 		return false;
 	}
 
-	void Surface::draw(const RenderTarget & target, RenderBatch batch) const
+	void Surface::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
 		if (*this)
 		{
+			m_material->bind();
+
 			if (const auto * s { m_material->shader() })
 			{
 				s->setUniform(ML_UNI_MAIN_TEX, m_texture);
 			}
-
-			m_material->bind();
 
 			target.draw(m_model);
 

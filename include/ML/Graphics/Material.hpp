@@ -38,29 +38,57 @@ namespace ml
 
 		Material & setShader(const Shader * value);
 
-		const Material & bind(bool bindTextures = true) const;
+		const Material & bind() const;
 
 		const Material & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Uniform * add(Uniform * value)
+		inline iterator find(Uniform * value)
 		{
-			if (value && value->name && !get(value->name) &&
-				(std::find(begin(), end(), value) == end()))
+			return std::find(begin(), end(), value);
+		}
+
+		inline const_iterator find(Uniform * value) const
+		{
+			return std::find(cbegin(), cend(), value);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline iterator find(const String & name)
+		{
+			return std::find_if(begin(), end(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			});
+		}
+
+		inline const_iterator find(const String & name) const
+		{
+			return std::find_if(cbegin(), cend(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			});
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline Uniform * insert(Uniform * value)
+		{
+			if (value && value->name && !get(value->name) && (find(value) == cend()))
 			{
 				m_uniforms.push_back(value);
-				return value;
+				return m_uniforms.back();
 			}
 			return nullptr;
 		}
 
-		template <class U, class T> inline bool add(const String & name, const T & value)
+		template <class U, class T> inline bool insert(const String & name, const T & value)
 		{
-			if (name && !get(name) && (std::find(begin(), end(), value) == end()))
+			if (name && !get(name) && (find(value) == cend()))
 			{
 				m_uniforms.push_back(new U { name, value });
-
 				return m_uniforms.back();
 			}
 			return nullptr;
@@ -75,10 +103,7 @@ namespace ml
 
 		inline bool erase(const String & name)
 		{
-			iterator it = std::find_if(begin(), end(), [&](auto && u)
-			{
-				return u && (u->name == name);
-			});
+			iterator it { find(name) };
 			if (it != end())
 			{
 				if (*it) delete (*it);
@@ -92,27 +117,21 @@ namespace ml
 
 		template <class U = typename Uniform> inline U * get(const String & name)
 		{
-			iterator it = std::find_if(begin(), end(), [&](auto && u)
-			{
-				return u && (u->name == name);
-			});
+			iterator it { find(name) };
 			return (it != end()) ? dynamic_cast<U *>(*it) : nullptr;
 		}
 
 		template <class U = typename Uniform> inline const U * get(const String & name) const
 		{
-			const_iterator it = std::find_if(cbegin(), cend(), [&](auto && u)
-			{
-				return u && (u->name == name);
-			});
+			const_iterator it { find(name) };
 			return (it != cend()) ? dynamic_cast<const U *>(*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class U, class T> inline bool update(const String & name, const T & value)
+		template <class U, class T> inline bool set(const String & name, const T & value)
 		{
-			if (auto u { get<U>(name) })
+			if (auto * u { get<U>(name) })
 			{
 				u->data = value; 
 				return true;
@@ -135,7 +154,6 @@ namespace ml
 		inline auto end()				-> iterator					{ return m_uniforms.end(); }
 		inline auto end()		const	-> const_iterator			{ return m_uniforms.end(); }
 		inline auto cend()		const	-> const_iterator			{ return m_uniforms.cend(); }
-		
 		inline auto rbegin()			-> reverse_iterator			{ return m_uniforms.rbegin(); }
 		inline auto rbegin()	const	-> const_reverse_iterator	{ return m_uniforms.rbegin(); }
 		inline auto rend()				-> reverse_iterator			{ return m_uniforms.rend(); }

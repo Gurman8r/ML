@@ -98,7 +98,7 @@ namespace ml
 	bool Texture::dispose()
 	{
 		unbind();
-		if ((*this))
+		if (*this)
 		{
 			ML_GL.deleteTexture(*this);
 
@@ -391,7 +391,7 @@ namespace ml
 
 	Texture & Texture::setMipmapped(bool value)
 	{
-		if ((*this))
+		if (*this)
 		{
 			if ((m_mipmapped = value) && !ML_GL.framebuffersAvailable())
 			{
@@ -429,7 +429,7 @@ namespace ml
 
 	Texture & Texture::setRepeated(bool value)
 	{
-		if ((*this))
+		if (*this)
 		{
 			if ((m_repeated = value) && !ML_GL.edgeClampAvailable())
 			{
@@ -470,7 +470,7 @@ namespace ml
 
 	Texture & Texture::setSmooth(bool value)
 	{
-		if ((*this))
+		if (*this)
 		{
 			m_smooth = value;
 
@@ -524,7 +524,7 @@ namespace ml
 	const Image Texture::copyToImage() const
 	{
 		Image image { size(), getChannels() };
-		if ((*this))
+		if (*this)
 		{
 			bind();
 			

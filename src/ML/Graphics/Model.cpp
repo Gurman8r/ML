@@ -114,7 +114,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Model::draw(const RenderTarget & target, RenderBatch batch) const
+	void Model::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
 		for (const Mesh * elem : m_meshes)
 		{

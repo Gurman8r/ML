@@ -56,7 +56,7 @@ namespace ml
 				void * temp { nullptr };
 				if (!std::is_same_v<T, Surface>)
 				{
-					if (PropertyDrawer<T>()(String("New {0}").format(typeof<T>::name), (T *&)temp, 0b1))
+					if (PropertyDrawer<T>()(("New {0}"_s).format(typeof<T>::name), (T *&)temp))
 					{
 						ImGui::CloseCurrentPopup();
 					}

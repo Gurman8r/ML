@@ -189,14 +189,14 @@ namespace ml
 				if (ImGui::BeginMenu("Create"))
 				{
 					void * temp { nullptr };
-					PropertyDrawer<Entity>()("Entity##File##Create", (Entity *&)temp, true);
-					PropertyDrawer<Font>()("Font##File##Create", (Font *&)temp, true);
-					//PropertyDrawer<Image>()("Image##File##Create", (Image *&)temp, true);
-					PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp, true);
-					PropertyDrawer<Model>()("Model##File##Create", (Model *&)temp, true);
-					PropertyDrawer<Shader>()("Shader##File##Create", (Shader *&)temp, true);
-					PropertyDrawer<Script>()("Script##File##Create", (Script *&)temp, true);
-					PropertyDrawer<Texture>()("Texture##File##Create", (Texture *&)temp, true);
+					PropertyDrawer<Entity>()("Entity##File##Create", (Entity *&)temp);
+					PropertyDrawer<Font>()("Font##File##Create", (Font *&)temp);
+					PropertyDrawer<Image>()("Image##File##Create", (Image *&)temp);
+					PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp);
+					PropertyDrawer<Model>()("Model##File##Create", (Model *&)temp);
+					PropertyDrawer<Shader>()("Shader##File##Create", (Shader *&)temp);
+					PropertyDrawer<Script>()("Script##File##Create", (Script *&)temp);
+					PropertyDrawer<Texture>()("Texture##File##Create", (Texture *&)temp);
 					ImGui::EndMenu();
 				}
 

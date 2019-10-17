@@ -244,18 +244,16 @@ namespace ml
 
 			if (bindTextures)
 			{
-				uint32_t i = 0;
+				uint32_t i { 0 };
 				for (const auto & pair : shader->m_textures)
 				{
 					ML_GL.activeTexture(GL::Texture0 + (i++));
+
 					Texture::bind(pair.second);
 				}
 			}
 		}
-		else
-		{
-			ML_GL.useShader(NULL);
-		}
+		else { ML_GL.useShader(NULL); }
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -294,9 +292,8 @@ namespace ml
 
 		case uni_sampler::ID: if (auto a { detail::as_sampler(value) }) 
 			return setUniform(value->name, (*a));
-		
-		default: return false;
 		}
+		return false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

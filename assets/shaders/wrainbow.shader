@@ -57,7 +57,7 @@ vec2 rot(vec2 p, float a)
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-	vec2 uv = (2.*fragCoord * u_viewport.xy) / u_viewport.y;
+	vec2 uv = (2.*(fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
 
 	uv.x += .1*sin(uv.y*uv.x*40.);
 
@@ -80,7 +80,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
 void main()
 {
-	mainImage(gl_Color, V.texcoord - vec2(0.5));
+	mainImage(gl_Color, V.texcoord);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

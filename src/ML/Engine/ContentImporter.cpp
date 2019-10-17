@@ -109,10 +109,7 @@ namespace ml
 						{
 							if (auto u { (const Uniform *)pair.second })
 							{
-								if (!temp->get(u->name))
-								{
-									temp->add(u->clone());
-								}
+								temp->insert(u->clone());
 							}
 						}
 					}

@@ -99,7 +99,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Mesh::draw(const RenderTarget & target, RenderBatch batch) const
+	void Mesh::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
 		if (m_vao && m_vbo)
 		{

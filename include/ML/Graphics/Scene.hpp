@@ -23,7 +23,7 @@ namespace ml
 		bool dispose() override;
 		bool loadFromFile(const String & filename);
 		bool saveToFile(const String & filename) const;
-		void draw(const RenderTarget & target, RenderBatch batch) const override;
+		void draw(const RenderTarget & target, RenderBatch & batch) const override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

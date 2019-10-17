@@ -28,7 +28,7 @@ namespace ml
 		return false; 
 	}
 
-	void Scene::draw(const RenderTarget & target, RenderBatch batch) const
+	void Scene::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
 	}
 

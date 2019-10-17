@@ -574,46 +574,17 @@ namespace ml
 			u.push_back(uniform("f", 1.0f));
 			u.push_back(uniform("i", 123));
 			u.push_back(uniform("v2", vec2 { }));
-
 			u[0].update(false);
 			u[1].update(2.0f);
 			u[2].update(456);
 			u[3].update(nullptr);
 		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-}
-
-namespace ml
-{
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		template <class, class> class Base, class K, class V
-	> struct DenseTable
-	{
-		using key_type		= typename K;
-		using value_type	= typename V;
-		using pair_type		= typename std::pair<K, V>;
-		using base_type		= typename Base<K, V>;
-		using list_type		= typename List<pair_type>;
-
-		DenseTable()
-			: m_data { }
 		{
+			List<uniform> u {
+				uniform_vec2 { "v2", vec2::zero() }
+			};
 		}
-
-		~DenseTable() {}
-
-	private: list_type m_data;
-	};
-
-	template <class K, class V>
-	using DenseHashMap = DenseTable<HashMap, K, V>;
-
-	template <class K, class V>
-	using DenseTreeMap = DenseTable<Tree, K, V>;
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

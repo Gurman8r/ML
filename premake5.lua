@@ -311,6 +311,7 @@ project "Engine"
 	filter ("configurations:Debug") symbols ("On") links { "python39_d" }
 	filter ("configurations:Release") optimize ("Speed") links { "python39" }
 	filter ("system:Windows")
+		linkoptions ("/NODEFAULTLIB:LIBCMT.lib")
 		postbuildcommands
 		{
 			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",

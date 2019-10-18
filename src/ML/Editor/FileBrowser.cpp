@@ -2,6 +2,7 @@
 #include <ML/Core/SizeOf.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
+#include <ML/Core/OS.hpp>
 
 namespace ml
 {
@@ -93,6 +94,20 @@ namespace ml
 						{
 							set_selected(pair.first, (int32_t)i);
 						}
+					}
+					if (ImGui::BeginPopupContextItem(((name + type + "##Popup##" + m_label).c_str())))
+					{
+						if (ImGui::Button("Open"))
+						{
+							OS::execute("open", get_selected_path());
+							ImGui::CloseCurrentPopup();
+						}
+						if (ImGui::Button("Browse"))
+						{
+							OS::execute("open", ML_FS.getFilePath(get_selected_path()));
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::EndPopup();
 					}
 				}
 				ImGui::PopStyleColor();

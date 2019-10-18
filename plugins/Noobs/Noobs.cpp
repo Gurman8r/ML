@@ -68,12 +68,12 @@ namespace ml
 					String line;
 					while (std::getline(ss, line, '\n'))
 					{
-						const DemoError err { ev->type, line };
+						const ShaderError err { ev->type, line };
 						switch (ev->type)
 						{
-						case GL::VertexShader	: m_files[DemoFile::Vert]->errs.push_back(err); break;
-						case GL::FragmentShader	: m_files[DemoFile::Frag]->errs.push_back(err); break;
-						case GL::GeometryShader	: m_files[DemoFile::Geom]->errs.push_back(err); break;
+						case GL::VertexShader	: m_files[ShaderFile::Vert]->errs.push_back(err); break;
+						case GL::FragmentShader	: m_files[ShaderFile::Frag]->errs.push_back(err); break;
+						case GL::GeometryShader	: m_files[ShaderFile::Geom]->errs.push_back(err); break;
 						}
 					}
 
@@ -132,8 +132,8 @@ namespace ml
 			if (auto ev = value.as<DockspaceEvent>())
 			{
 				EditorDockspace & d { ev->dockspace };
-				d.dockWindow("Display##Noobs##DemoView", d.getNode(d.LeftUp));
-				d.dockWindow("Editor##Noobs##DemoEditor", d.getNode(d.RightUp));
+				d.dockWindow(display_name, d.getNode(d.LeftUp));
+				d.dockWindow(editor_name, d.getNode(d.RightUp));
 			}
 			break;
 		}
@@ -274,10 +274,10 @@ namespace ml
 	void Noobs::onGui(const GuiEvent & ev)
 	{
 		// Render Scene
-		draw_display("Display##Noobs##DemoView", m_pipeline[Surf_Post]);
+		draw_display(display_name, m_pipeline[Surf_Post]);
 
 		// Render Editor
-		draw_editor("Editor##Noobs##DemoEditor");
+		draw_editor(editor_name);
 	}
 
 	void Noobs::onUnload(const UnloadEvent & ev)
@@ -351,7 +351,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		if (ImGui::BeginChildFrame(
-			ImGui::GetID("DemoFile##TextEditors"),
+			ImGui::GetID("ShaderFile##TextEditors"),
 			{ max_size[0], max_size[1] - tools_height },
 			ImGuiWindowFlags_NoScrollbar
 		) && ImGui::BeginTabBar("Demo File Tab Bar"))
@@ -382,7 +382,7 @@ namespace ml
 					if (tab_open)
 					{
 						file->text.Render(
-							("##DemoFile##" + file->name + "##TextEditor").c_str(),
+							("##ShaderFile##" + file->name + "##TextEditor").c_str(),
 							{ 0, 0 }, 
 							true
 						);
@@ -404,7 +404,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		if (ImGui::BeginChildFrame(
-			ImGui::GetID("DemoFile##Toolbar"),
+			ImGui::GetID("ShaderFile##Toolbar"),
 			{ max_size[0], 0 },
 			ImGuiWindowFlags_NoScrollbar
 		))
@@ -1014,9 +1014,9 @@ namespace ml
 				}
 
 				return s->loadFromMemory(
-					m_files[DemoFile::Vert]->open ? m_files[DemoFile::Vert]->text.GetText() : "",
-					m_files[DemoFile::Geom]->open ? m_files[DemoFile::Geom]->text.GetText() : "",
-					m_files[DemoFile::Frag]->open ? m_files[DemoFile::Frag]->text.GetText() : ""
+					m_files[ShaderFile::Vert]->open ? m_files[ShaderFile::Vert]->text.GetText() : "",
+					m_files[ShaderFile::Geom]->open ? m_files[ShaderFile::Geom]->text.GetText() : "",
+					m_files[ShaderFile::Frag]->open ? m_files[ShaderFile::Frag]->text.GetText() : ""
 				);
 			}
 		}
@@ -1039,13 +1039,13 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		auto setup_file = [&](DemoFile::FileType type, const String & src)
+		auto setup_file = [&](ShaderFile::FileType type, const String & src)
 		{
 			if (m_renderer->material() && m_renderer->material()->shader())
 			{
 				if (!m_files[type])
 				{
-					m_files[type] = new DemoFile(type, src);
+					m_files[type] = new ShaderFile(type, src);
 				}
 				else
 				{
@@ -1053,24 +1053,24 @@ namespace ml
 				}
 				return m_files[type];
 			}
-			return (DemoFile *)nullptr;
+			return (ShaderFile *)nullptr;
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		if (!m_renderer->material()) return;
 
-		if (auto vert = setup_file(DemoFile::Vert, m_renderer->material()->shader()->sources().vs))
+		if (auto vert = setup_file(ShaderFile::Vert, m_renderer->material()->shader()->sources().vs))
 		{
 			vert->open = m_renderer->material()->shader()->sources().vs;
 		}
 
-		if (auto frag = setup_file(DemoFile::Frag, m_renderer->material()->shader()->sources().fs))
+		if (auto frag = setup_file(ShaderFile::Frag, m_renderer->material()->shader()->sources().fs))
 		{
 			frag->open = m_renderer->material()->shader()->sources().fs;
 		}
 
-		if (auto geom = setup_file(DemoFile::Geom, m_renderer->material()->shader()->sources().gs))
+		if (auto geom = setup_file(ShaderFile::Geom, m_renderer->material()->shader()->sources().gs))
 		{
 			geom->open = m_renderer->material()->shader()->sources().gs;
 		}

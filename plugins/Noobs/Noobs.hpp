@@ -58,14 +58,14 @@ namespace ml
 
 		// ERROR
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct DemoError final : Newable
+		struct ShaderError final : public Newable
 		{
 			String	file;
 			int32_t line;
 			String	code;
 			String	desc;
 
-			DemoError(const String & file, int32_t line, const String & code, const String & expr)
+			ShaderError(const String & file, int32_t line, const String & code, const String & expr)
 				: file { file }
 				, line { line }
 				, code { code }
@@ -73,13 +73,13 @@ namespace ml
 			{
 			}
 
-			DemoError(const DemoError & copy) 
-				: DemoError { copy.file, copy.line, copy.code, copy.desc }
+			ShaderError(const ShaderError & copy) 
+				: ShaderError { copy.file, copy.line, copy.code, copy.desc }
 			{
 			}
 
-			explicit DemoError(uint32_t type, String str)
-				: DemoError { "", 0, "", "" }
+			explicit ShaderError(uint32_t type, String str)
+				: ShaderError { "", 0, "", "" }
 			{
 				if (!str || str.front() != '0') { return; }
 				str.erase(str.begin());
@@ -118,13 +118,15 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		using TextEditor = ImGui::TextEditor;
 
-		struct DemoFile final : public Newable, public NonCopyable
+		struct ShaderFile final : public Newable, public NonCopyable
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 
 			static constexpr C_String Names[] = { "Fragment", "Vertex", "Geometry" };
+
+			using Errors = typename List<ShaderError>;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
@@ -133,17 +135,17 @@ namespace ml
 			String		name;
 			bool		open;
 			bool		dirty;
-			List<DemoError>	errs;
+			Errors		errs;
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			DemoFile(FileType type, const String & text)
-				: type { type }
-				, text { text }
-				, name { Names[type] }
-				, open { false }
+			ShaderFile(FileType type, const String & text)
+				: type	{ type }
+				, text	{ text }
+				, name	{ Names[type] }
+				, open	{ false }
 				, dirty { false }
-				, errs {}
+				, errs	{}
 			{
 				this->text.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
 				this->text.SetShowWhitespaces(false);
@@ -153,7 +155,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
-		using FileList = Array<DemoFile *, DemoFile::MAX_DEMO_FILE>;
+		using FileList = Array<ShaderFile *, ShaderFile::MAX_DEMO_FILE>;
 
 
 		// EDITOR
@@ -165,6 +167,9 @@ namespace ml
 		bool		m_display_open	{ true };
 		bool		m_freeAspect	{ true };
 		vec2		m_viewport		{ 1920, 1080 };
+
+		static constexpr auto display_name { "Display##Noobs##DemoView" };
+		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

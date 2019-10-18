@@ -2251,8 +2251,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		vec2u realSize { value.realSize() };
-		ImGui::Text("Real Size: %u x %u", realSize[0], realSize[1]);
+		vec2u real_size { value.real_size() };
+		ImGui::Text("Real Size: %u x %u", real_size[0], real_size[1]);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2279,7 +2279,6 @@ namespace ml
 			value.setMipmapped(mipmapped);
 			changed = true;
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("Work In Progress");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2299,7 +2298,6 @@ namespace ml
 		if (ImGui::InputInt(("Level##" + label).c_str(), &level))
 		{
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2312,7 +2310,6 @@ namespace ml
 		))
 		{
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2325,7 +2322,6 @@ namespace ml
 		))
 		{
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2338,7 +2334,6 @@ namespace ml
 		))
 		{
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2351,7 +2346,6 @@ namespace ml
 		))
 		{
 		}
-		ImGui::SameLine(); ImGuiExt::HelpMarker("WIP");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

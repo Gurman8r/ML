@@ -555,7 +555,7 @@ namespace ml
 
 	int32_t Shader::getAttributeLocation(const String & name) const
 	{
-		Tree<String, int32_t>::iterator it;
+		Map<String, int32_t>::iterator it;
 		if ((it = m_attribs.find(name)) != m_attribs.end())
 		{
 			return it->second;
@@ -573,7 +573,7 @@ namespace ml
 
 	int32_t Shader::getUniformLocation(const String & name) const
 	{
-		Tree<String, int32_t>::iterator it;
+		Map<String, int32_t>::iterator it;
 		if ((it = m_uniforms.find(name)) != m_uniforms.end())
 		{
 			return it->second;

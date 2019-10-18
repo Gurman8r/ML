@@ -122,13 +122,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Generic Uniform Interface
-	template <class T, int32_t ID> struct UniformImpl final : public Uniform
+	template <class T, int32_t _ID> struct UniformImpl final : public Uniform
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using self_type = typename UniformImpl<T, ID>;
+		using self_type = typename UniformImpl<T, _ID>;
 
-		static constexpr int32_t ID { ID };
+		static constexpr int32_t ID { _ID };
 
 		T data;
 

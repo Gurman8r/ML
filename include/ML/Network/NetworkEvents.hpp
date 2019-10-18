@@ -5,7 +5,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct NetworkEvent final
 	{
@@ -24,7 +24,7 @@ namespace ml
 		);
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ServerRecievePacketEvent final : public I_Event<NetworkEvent::EV_ServerRecievePacket>
 	{
@@ -35,7 +35,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ClientRecievePacketEvent final : public I_Event<NetworkEvent::EV_ClientRecievePacket>
 	{
@@ -46,7 +46,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_NETWORK_EVENTS_HPP_

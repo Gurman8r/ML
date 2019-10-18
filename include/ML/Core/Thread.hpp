@@ -3,17 +3,14 @@
 
 #include <ML/Core/Duration.hpp>
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/I_Newable.hpp>
+#include <ML/Core/Newable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Wrapper and manager for std::thread
-	struct Thread final
-		: public I_Newable
-		, public Disposable
-		, public NonCopyable
+	struct Thread final : public Newable, public Disposable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -47,24 +44,24 @@ namespace ml
 			return !(m_thr);
 		}
 
-		inline void sleep(const Duration & value)
+		inline Thread & sleep(const Duration & value)
 		{
 			if (joinable())
 			{
 				std::this_thread::sleep_for(value.base());
 			}
+			return (*this);
 		}
 
 		template <
-			class Fun, class ... Args,
-			class = std::enable_if_t<
+			class Fun, class ... Args, class = std::enable_if_t<
 				!std::is_same_v<std::remove_cv_t<std::remove_reference_t<Fun>>, std::thread>
 			>
 		> inline std::thread * launch(Fun && fun, Args && ... args)
 		{
-			return ((alive())
-				? (nullptr)
-				: (m_thr = new std::thread(fun, std::forward<Args>(args)...))
+			return (!alive()
+				? (m_thr = new std::thread(fun, std::forward<Args>(args)...))
+				: nullptr
 			);
 		}
 

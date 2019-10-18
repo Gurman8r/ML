@@ -9,27 +9,27 @@
 #include <ML/Network/Packet.hpp>
 #include <ML/Network/SendSettings.hpp>
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define ML_LOCALHOST	"127.0.0.1"
 #define ML_DEFAULT_PORT	60000
 #define ML_MAX_CLIENTS	10
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define ML_USER_PACKET 134 // ID_USER_PACKET_ENUM
 #define ML_SERVER_RECIEVE (ML_USER_PACKET + 1)
 #define ML_CLIENT_RECIEVE (ML_USER_PACKET + 2)
 
-/* * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	static constexpr Host LocalHost { "127.0.0.1" };
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	class ML_NETWORK_API NetInterface
 		: public EventListener
@@ -63,7 +63,7 @@ namespace ml
 		void * m_peer;
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_NETWORK_INTERFACE_HPP_

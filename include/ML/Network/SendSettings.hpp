@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum Priority : uint8_t
 	{
@@ -18,7 +18,7 @@ namespace ml
 		MAX_PRIORITY
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	enum Reliability : uint8_t
 	{
@@ -34,7 +34,7 @@ namespace ml
 		MAX_RELIABILITY
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_NETWORK_API SendSettings final : public NonNewable
 	{
@@ -63,7 +63,7 @@ namespace ml
 		}
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	inline ML_SERIALIZE(std::ostream & out, const SendSettings & value)
 	{
@@ -75,7 +75,7 @@ namespace ml
 			<< value.receiptNumber	<< " ";
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	constexpr bool operator==(const SendSettings & lhs, const SendSettings & rhs)
 	{
@@ -87,7 +87,7 @@ namespace ml
 			lhs.receiptNumber	== rhs.receiptNumber;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	constexpr bool operator<(const SendSettings & lhs, const SendSettings & rhs)
 	{
@@ -99,7 +99,7 @@ namespace ml
 			lhs.receiptNumber	< rhs.receiptNumber;
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_SEND_SETTINGS_HPP_

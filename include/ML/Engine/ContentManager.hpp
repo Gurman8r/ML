@@ -19,7 +19,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using AssetMap	= typename Tree<String, Newable *>;
+		using AssetMap	= typename Map<String, Newable *>;
 		using TypeMap	= typename HashMap<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

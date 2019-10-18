@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_NETWORK_API Packet final : public NonNewable
 	{
@@ -33,10 +33,10 @@ namespace ml
 		{
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	inline ML_SERIALIZE(std::ostream & out, const Packet & value)
 	{
@@ -47,7 +47,7 @@ namespace ml
 			<< value.data << " ";
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	constexpr bool operator==(const Packet & lhs, const Packet & rhs)
 	{
@@ -87,7 +87,7 @@ namespace ml
 		return (lhs == rhs) || (lhs > rhs);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_PACKET_HPP_

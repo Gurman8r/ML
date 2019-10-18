@@ -117,7 +117,7 @@ namespace ml
 					// Load Uniforms
 					if (!temp->loadFromFile(
 						md.getData("uniforms").asString(),
-						(const Tree<String, Texture *> *)&ML_Content.data<Texture>()
+						(const Map<String, Texture *> *)&ML_Content.data<Texture>()
 					))
 					{
 						/* error */

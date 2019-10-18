@@ -88,13 +88,13 @@ namespace ml
 		return std::set<String>();
 	}
 
-	Tree<String, String> Preferences::values() const
+	Map<String, String> Preferences::values() const
 	{
 		if (auto ini { static_cast<const INIReader *>(m_ini) })
 		{
-			return Tree<String, String> { ini->Values().begin(), ini->Values().end() };
+			return Map<String, String> { ini->Values().begin(), ini->Values().end() };
 		}
-		return Tree<String, String>();
+		return Map<String, String>();
 	}
 
 	bool Preferences::set_string(const String & section, const String & name, const String & value)

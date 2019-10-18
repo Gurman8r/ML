@@ -1452,28 +1452,28 @@ namespace ml
 
 		template <class T> static constexpr T value_at(int32_t index, T dv = (T)0)
 		{
-			::ml::GL::value_at(index, dv);
+			_ML GL::value_at(index, dv);
 			return dv;
 		}
 
 		template <class T> static constexpr int32_t index_of(T value)
 		{
-			return ::ml::GL::index_of(value);
+			return _ML GL::index_of(value);
 		}
 
 		template <class T> static constexpr C_String name_of(T value)
 		{
-			return ::ml::GL::name_of(value);
+			return _ML GL::name_of(value);
 		}
 
 		template <class T> static constexpr C_String raw_name_of(T value)
 		{
-			return ::ml::GL::raw_name_of(value);
+			return _ML GL::raw_name_of(value);
 		}
 
 		template <class T> static constexpr C_String desc_of(T value)
 		{
-			return ::ml::GL::desc_of(value);
+			return _ML GL::desc_of(value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

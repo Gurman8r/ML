@@ -76,7 +76,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const Image copyToImage() const;
+		Image copyToImage() const;
 
 		uint32_t getChannels() const;
 
@@ -94,7 +94,7 @@ namespace ml
 		inline auto color_fmt()		const -> GL::Format		{ return m_cFormat; }
 		inline auto pixel_type()	const -> GL::Type		{ return m_pixType; }
 		inline auto size()			const -> const vec2u &	{ return m_size; }
-		inline auto realSize()		const -> const vec2u &	{ return m_realSize; }
+		inline auto real_size()		const -> const vec2u &	{ return m_realSize; }
 		inline auto smooth()		const -> bool			{ return m_smooth; }
 		inline auto repeated()		const -> bool			{ return m_repeated; }
 		inline auto mipmapped()		const -> bool			{ return m_mipmapped; }

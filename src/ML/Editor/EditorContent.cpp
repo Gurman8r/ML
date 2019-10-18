@@ -54,7 +54,7 @@ namespace ml
 			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + label).c_str()))
 			{
 				void * temp { nullptr };
-				if (!std::is_same_v<T, Surface>)
+				if (!std::is_same_v<T, Surface> && !std::is_same_v<T, Uniform>)
 				{
 					if (PropertyDrawer<T>()(("New {0}"_s).format(typeof<T>::name), (T *&)temp))
 					{

@@ -404,25 +404,33 @@ namespace ml
 				return setSmooth(m_smooth);
 			}
 
-			bind();
+			if (m_mipmapped)
+			{
+				bind();
 
-			ML_GL.generateMipmap(m_sampler);
+				ML_GL.generateMipmap(m_sampler);
 
-			ML_GL.texParameter(
-				m_sampler,
-				GL::TexMinFilter,
-				m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
-			);
+				ML_GL.texParameter(
+					m_sampler,
+					GL::TexMinFilter,
+					m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
+				);
 
-			ML_GL.texParameter(
-				m_sampler, 
-				GL::TexMagFilter, 
-				m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
-			);
-			
-			unbind();
+				ML_GL.texParameter(
+					m_sampler,
+					GL::TexMagFilter,
+					m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
+				);
 
-			ML_GL.flush();
+				unbind();
+				
+				ML_GL.flush();
+			}
+			else
+			{
+				return setSmooth(m_smooth);
+			}
+
 		}
 		return (*this);
 	}
@@ -521,7 +529,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const Image Texture::copyToImage() const
+	Image Texture::copyToImage() const
 	{
 		Image image { size(), getChannels() };
 		if (*this)

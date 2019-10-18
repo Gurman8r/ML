@@ -168,12 +168,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool	compile_sources();
-		void	draw_display(C_String title, const Surface * surf);
-		void	draw_editor(C_String title);
-		bool	dispose_files();
-		void	generate_sources();
-		void	reset_sources();
+		void draw_display(C_String title, const Surface * surf);
+		void draw_editor(C_String title);
+
+		void draw_code_tab();
+		void draw_uniforms_tab();
+		void draw_settings_tab();
+
+		bool compile_sources();
+		bool dispose_files();
+		void generate_sources();
+		void reset_sources();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

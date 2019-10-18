@@ -55,7 +55,7 @@ namespace ml
 		class ... T
 	> constexpr bool operator==(const typeof<> & lhs, const typeof<T...> & rhs)
 	{
-		return (lhs.hash == rhs.hash);
+		return !(lhs < rhs) && !(rhs < lhs);
 	}
 
 	template <
@@ -99,7 +99,7 @@ namespace ml
 		class X, class ... Y
 	> constexpr bool operator==(const typeof<X> & lhs, const typeof<Y...> & rhs)
 	{
-		return (lhs.hash == rhs.hash);
+		return !(lhs < rhs) && !(rhs < lhs);
 	}
 
 	template <

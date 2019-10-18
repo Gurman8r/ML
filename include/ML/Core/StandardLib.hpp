@@ -108,7 +108,7 @@ namespace ml
 	
 	ML_USING_XY HashMap	= typename _STD unordered_map	<X, Y>;
 	ML_USING_X	List	= typename _STD vector			<X>;
-	ML_USING_XY Tree	= typename _STD map				<X, Y>;
+	ML_USING_XY Map		= typename _STD map				<X, Y>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

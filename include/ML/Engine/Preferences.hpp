@@ -32,7 +32,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		std::set<String> sections() const;
-		Tree<String, String> values() const;
+		Map<String, String> values() const;
 
 		bool		set_string	(const String & section, const String & name, const String & value);
 		bool		get_bool	(const String & section, const String & name, bool dv) const;

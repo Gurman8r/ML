@@ -132,35 +132,35 @@ namespace ml
 
 	auto OpenGL::getString(uint32_t name) -> C_String
 	{
-		static C_String temp;
+		C_String temp;
 		glCheck(temp = reinterpret_cast<C_String>(glGetString(name)));
 		return temp;
 	}
 
 	auto OpenGL::getString(uint32_t name, uint32_t index) -> C_String
 	{
-		static C_String temp;
+		C_String temp;
 		glCheck(temp = reinterpret_cast<C_String>(glGetStringi(name, index)));
 		return temp;
 	}
 
 	bool OpenGL::getBool(uint32_t name)
 	{
-		static uint8_t temp;
+		uint8_t temp;
 		glCheck(glGetBooleanv(name, &temp));
 		return (bool)temp;
 	}
 
 	auto OpenGL::getDouble(uint32_t name) -> float64_t
 	{
-		static float64_t temp;
+		float64_t temp;
 		glCheck(glGetDoublev(name, &temp));
 		return temp;
 	}
 
 	auto OpenGL::getFloat(uint32_t name) -> float_t
 	{
-		static float_t temp;
+		float_t temp;
 		glCheck(glGetFloatv(name, &temp));
 		return temp;
 	}
@@ -573,7 +573,8 @@ namespace ml
 			srcX0, srcY0, srcX1, srcY1,
 			dstX0, dstY0, dstX1, dstY1,
 			mask,
-			filter));
+			filter
+		));
 	}
 
 	void OpenGL::framebufferTexture2D(uint32_t target, uint32_t attachment, uint32_t textarget, uint32_t texture, int32_t level)

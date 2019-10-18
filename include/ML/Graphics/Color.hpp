@@ -119,6 +119,11 @@ namespace ml
 	using Color		= BasicColor<float_t>;
 	using Color32	= BasicColor<byte_t>;
 
+	template <class T> inline ML_SERIALIZE(std::ostream & out, const BasicColor<T> & value)
+	{
+		return out << value.rgba();
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct Colors final

@@ -26,13 +26,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		static const List<Metadata *> & loadLists(List<Metadata *> & data, const List<Tree<String, String>> & value);
+		static const List<Metadata *> & loadLists(List<Metadata *> & data, const List<Map<String, String>> & value);
 		static bool readFile(const String & filename, List<Metadata *> & list);
 		static bool readLists(List<Metadata *> & list, std::istream & file, String & line);
 		static bool readMetadata(Metadata *& data, std::istream & file, String & line);
 		static bool parseMetadata(const Metadata & data);
 
-		template <class S> inline static bool parseMetadata(const List<Tree<S, S>> & value)
+		template <class S> inline static bool parseMetadata(const List<Map<S, S>> & value)
 		{
 			size_t count { 0 };
 			for (const auto & elem : value)

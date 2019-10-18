@@ -1257,86 +1257,106 @@ namespace ml
 
 				if (mesh->vao())
 				{
+					ImGui::PushID(("VAO##" + meshID).c_str());
 					ImGui::Text("VAO");
 					ImGui::BeginChildFrame(ImGui::GetID("vao"),
-						{ 0, ImGui::GetTextLineHeightWithSpacing() * 2.25f },
-						ImGuiWindowFlags_NoScrollbar
+						{ 0, ImGui::GetTextLineHeightWithSpacing() * 2.5f },
+						ImGuiWindowFlags_NoScrollbar |
+						ImGuiWindowFlags_NoScrollWithMouse
 					);
 					{
-						ImGui::Text("Handle: %u", (uint32_t)mesh->vao());
+						int32_t vao_handle { (int32_t)(uint32_t)mesh->vao() };
+						ImGui::DragInt(("Handle##VAO##" + meshID).c_str(), &vao_handle);
+
 						int32_t vao_mode { GL::index_of(mesh->vao().mode()) };
-						ImGuiExt::Combo(
-							"Mode", &vao_mode, GL::Mode_names, ML_ARRAYSIZE(GL::Mode_names)
-						);
+						ImGuiExt::Combo(("Mode##VAO##" + meshID).c_str(), &vao_mode, GL::Mode_names, ML_ARRAYSIZE(GL::Mode_names));
 					}
 					ImGui::EndChildFrame();
 					ImGui::Separator();
+					ImGui::PopID();
 				}
 
 				if (mesh->vbo())
 				{
+					ImGui::PushID(("VBO##" + meshID).c_str());
 					ImGui::Text("VBO");
 					ImGui::BeginChildFrame(ImGui::GetID("vbo"),
-						{ 0, ImGui::GetTextLineHeightWithSpacing() * 4.25f },
-						ImGuiWindowFlags_NoScrollbar
+						{ 0, ImGui::GetTextLineHeightWithSpacing() * 5.0f },
+						ImGuiWindowFlags_NoScrollbar |
+						ImGuiWindowFlags_NoScrollWithMouse
 					);
 					{
-						ImGui::Text("Handle: %u", (uint32_t)mesh->vbo());
+						int32_t vbo_handle { (int32_t)(uint32_t)mesh->vbo() };
+						ImGui::DragInt(("Handle##VBO##" + meshID).c_str(), &vbo_handle);
 
-						ImGui::Text("Size: %u", mesh->vbo().size());
+						int32_t vbo_size { (int32_t)mesh->vbo().size() };
+						ImGui::DragInt(("Size##VBO##" + meshID).c_str(), &vbo_size);
 						ImGuiExt::Tooltip("Total length of contiguous data");
 
-						ImGui::Text("Count: %u", mesh->vbo().count());
+						int32_t vbo_count { (int32_t)mesh->vbo().count() };
+						ImGui::DragInt(("Count##VBO##" + meshID).c_str(), &vbo_count);
 						ImGuiExt::Tooltip("Number of vertices");
 
 						int32_t vbo_usage { GL::index_of(mesh->vbo().usage()) };
-						ImGuiExt::Combo("Usage", &vbo_usage, GL::Usage_names, ML_ARRAYSIZE(GL::Usage_names));
+						ImGuiExt::Combo(("Usage##VBO##" + meshID).c_str(), &vbo_usage, GL::Usage_names, ML_ARRAYSIZE(GL::Usage_names));
 					}
 					ImGui::EndChildFrame();
 					ImGui::Separator();
+					ImGui::PopID();
 				}
 
 				if (mesh->ibo())
 				{
+					ImGui::PushID(("IBO##" + meshID).c_str());
 					ImGui::Text("IBO");
 					ImGui::BeginChildFrame(ImGui::GetID("ibo"),
-						{ 0, ImGui::GetTextLineHeightWithSpacing() * 4.5f },
-						ImGuiWindowFlags_NoScrollbar
+						{ 0, ImGui::GetTextLineHeightWithSpacing() * 5.0f },
+						ImGuiWindowFlags_NoScrollbar |
+						ImGuiWindowFlags_NoScrollWithMouse
 					);
 					{
-						ImGui::Text("Handle: %u", (uint32_t)mesh->ibo());
+						int32_t ibo_handle { (int32_t)(uint32_t)mesh->ibo() };
+						ImGui::DragInt(("Handle##IBO##" + meshID).c_str(), &ibo_handle);
 
-						ImGui::Text("Count: %u", mesh->ibo().count());
+						int32_t ibo_count { (int32_t)mesh->ibo().count() };
+						ImGui::DragInt(("Count##IBO##" + meshID).c_str(), &ibo_count);
 
 						int32_t ibo_usage { GL::index_of(mesh->ibo().usage()) };
-						ImGuiExt::Combo("Usage", &ibo_usage, GL::Usage_names, ML_ARRAYSIZE(GL::Usage_names));
+						ImGuiExt::Combo(("Usage##IBO##" + meshID).c_str(), &ibo_usage, GL::Usage_names, ML_ARRAYSIZE(GL::Usage_names));
 
 						int32_t ibo_type { GL::index_of(mesh->ibo().type()) };
-						ImGuiExt::Combo("Type", &ibo_usage, GL::Type_names, ML_ARRAYSIZE(GL::Type_names));
+						ImGuiExt::Combo(("Type##IBO##" + meshID).c_str(), &ibo_usage, GL::Type_names, ML_ARRAYSIZE(GL::Type_names));
 					}
 					ImGui::EndChildFrame();
 					ImGui::Separator();
+					ImGui::PopID();
 				}
 
-				ImGui::Text("Layout");
-				ImGui::BeginChildFrame(ImGui::GetID("vertexattrib"), 
-					{ 0, ImGui::GetTextLineHeightWithSpacing() * mesh->layout().elements().size() },
-					ImGuiWindowFlags_NoScrollbar
-				);
-				for (const BufferLayout::Element & e : mesh->layout().elements())
+				if (!mesh->layout().elements().empty())
 				{
-					ImGui::Text(
-						"Index: %u | "
-						"Size: %u | "
-						"Type: %s | "
-						"Normalize: %u | "
-						"Stride: %u | "
-						"Offset: %u | "
-						"Width: %u",
-						e.index, e.size, GL::name_of(e.type), e.normalize, e.stride, e.offset, e.width
+					ImGui::PushID(("Layout" + meshID).c_str());
+					ImGui::Text("Layout");
+					ImGui::BeginChildFrame(ImGui::GetID("vertexattrib"),
+						{ 0, ImGui::GetTextLineHeightWithSpacing() * mesh->layout().elements().size() },
+						ImGuiWindowFlags_NoScrollbar |
+						ImGuiWindowFlags_NoScrollWithMouse
 					);
+					for (const BufferLayout::Element & e : mesh->layout().elements())
+					{
+						ImGui::Text(
+							"Index: %u | "
+							"Size: %u | "
+							"Type: %s | "
+							"Normalize: %u | "
+							"Stride: %u | "
+							"Offset: %u | "
+							"Width: %u",
+							e.index, e.size, GL::name_of(e.type), e.normalize, e.stride, e.offset, e.width
+						);
+					}
+					ImGui::EndChildFrame();
+					ImGui::PopID();
 				}
-				ImGui::EndChildFrame();
 				ImGui::TreePop();
 			}
 			ImGui::PopID();

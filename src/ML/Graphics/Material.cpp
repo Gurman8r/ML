@@ -92,8 +92,8 @@ namespace ml
 					List<String> toks;
 					if (!line) return toks;
 					line.trim()
-						.replaceAll("\t", " ")
-						.replaceAll(",", "");
+						.replace_all("\t", " ")
+						.replace_all(",", "");
 					size_t idx = 0;
 					while ((idx = line.find(" ")) != String::npos)
 					{

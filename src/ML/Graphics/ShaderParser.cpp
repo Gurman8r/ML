@@ -10,7 +10,7 @@ namespace ml
 	{
 		SStream * dst = nullptr;
 		size_t	count = 0;
-		SStream ss { parseIncludes(src.replaceAll("\0", " ")) };
+		SStream ss { parseIncludes(src.replace_all("\0", " ")) };
 		String	line;
 		while (std::getline(ss, line))
 		{

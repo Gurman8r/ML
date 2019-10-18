@@ -407,7 +407,7 @@ namespace ml
 		{
 			for (size_t i = 0, imax = args.size(); i < imax; i++)
 			{
-				fmt.replaceAll(("{" + to_string(i) + "}"), args[i]);
+				fmt.replace_all(("{" + to_string(i) + "}"), args[i]);
 			}
 			return fmt;
 		}

@@ -109,8 +109,8 @@ namespace ml
 			data = new Metadata();
 			while (std::getline(file, line))
 			{
-				line.replaceAll("$(Configuration)", ML_CONFIGURATION);
-				line.replaceAll("$(PlatformTarget)", ML_PLATFORM_TARGET);
+				line.replace_all("$(Configuration)", ML_CONFIGURATION);
+				line.replace_all("$(PlatformTarget)", ML_PLATFORM_TARGET);
 
 				size_t i;
 				if ((i = line.find("</import>")) != String::npos)

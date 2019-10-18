@@ -74,7 +74,7 @@ namespace ml
 				{
 					return (bool)(out = String(src
 						.substr((a + 1), (b - a - 1)))
-						.replaceAll(",", "")
+						.replace_all(",", "")
 					);
 				}
 			}

@@ -7,18 +7,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// just a wrapper for std::basic_string<>
+	// just a wrapper for _STD basic_string<>
 	template <class Ch> struct BasicString final
-		: public std::basic_string<Ch, std::char_traits<Ch>, std::allocator<Ch>>
+		: public _STD basic_string<Ch, _STD char_traits<Ch>, _STD allocator<Ch>>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		using value_type			= typename Ch;
-		using traits_type			= typename std::char_traits<Ch>;
-		using allocator_type		= typename std::allocator<Ch>;
-		using self_type				= typename BasicString<Ch>;
-		using base_type				= typename std::basic_string<Ch, traits_type, allocator_type>;
-		using sstream_type			= typename std::basic_stringstream<Ch, traits_type, allocator_type>;
+		using self_type				= typename _ML BasicString<Ch>;
+		using traits_type			= typename _STD char_traits<Ch>;
+		using allocator_type		= typename _STD allocator<Ch>;
+		using base_type				= typename _STD basic_string<Ch, traits_type, allocator_type>;
+		using sstream_type			= typename _STD basic_stringstream<Ch, traits_type, allocator_type>;
 		using pointer				= typename base_type::pointer;
 		using reference				= typename base_type::reference;
 		using const_pointer			= typename base_type::const_pointer;
@@ -99,15 +99,15 @@ namespace ml
 		
 		template <
 			class Iter
-		> BasicString(Iter begin, Iter end, std::input_iterator_tag)
-			: base_type(begin, end, std::input_iterator_tag())
+		> BasicString(Iter begin, Iter end, _STD input_iterator_tag)
+			: base_type(begin, end, _STD input_iterator_tag())
 		{
 		}
 		
 		template <
 			class Iter
-		> BasicString(Iter begin, Iter end, std::forward_iterator_tag)
-			: base_type(begin, end, std::forward_iterator_tag())
+		> BasicString(Iter begin, Iter end, _STD forward_iterator_tag)
+			: base_type(begin, end, _STD forward_iterator_tag())
 		{
 		}
 		
@@ -118,8 +118,8 @@ namespace ml
 		{
 		}
 		
-		BasicString(Ch * const first, Ch * const last, std::random_access_iterator_tag)
-			: base_type(first, last, std::random_access_iterator_tag())
+		BasicString(Ch * const first, Ch * const last, _STD random_access_iterator_tag)
+			: base_type(first, last, _STD random_access_iterator_tag())
 		{
 		}
 
@@ -172,9 +172,9 @@ namespace ml
 			for (size_type i = 0; ss.good(); i++)
 			{
 				self_type line;
-				if (std::getline(ss, line))
+				if (_STD getline(ss, line))
 				{
-					this->replaceAll(("{" + std::to_string(i) + "}"), line);
+					this->replace_all(("{" + _STD to_string(i) + "}"), line);
 				}
 			}
 			return (*this);
@@ -184,12 +184,12 @@ namespace ml
 			class Arg0, class ... Args
 		> inline self_type format(const Arg0 & arg0, Args && ... args) const
 		{
-			return self_type(*this).format(arg0, std::forward<Args>(args)...);
+			return self_type(*this).format(arg0, _STD forward<Args>(args)...);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline self_type & replaceAll(const self_type & to_replace, const self_type & value)
+		inline self_type & replace_all(const self_type & to_replace, const self_type & value)
 		{
 			if (!this->empty() && !to_replace.empty())
 			{
@@ -202,21 +202,21 @@ namespace ml
 			return (*this);
 		}
 
-		inline self_type replaceAll(const self_type & f, const self_type & r) const
+		inline self_type replace_all(const self_type & f, const self_type & r) const
 		{
-			return self_type(*this).replaceAll(f, r);
+			return self_type(*this).replace_all(f, r);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline self_type & removeAll(const self_type & to_remove)
+		inline self_type & remove_all(const self_type & to_remove)
 		{
-			return this->replaceAll(to_remove, self_type {});
+			return this->replace_all(to_remove, self_type {});
 		}
 
-		inline self_type removeAll(const self_type & to_remove) const
+		inline self_type remove_all(const self_type & to_remove) const
 		{
-			return self_type(*this).removeAll(to_remove);
+			return self_type(*this).remove_all(to_remove);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

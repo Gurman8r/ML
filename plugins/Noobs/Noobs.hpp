@@ -103,7 +103,7 @@ namespace ml
 							{
 								this->code = String { 
 									str.substr(a + 2, b - a - 2) 
-								}.removeAll("error ");
+								}.remove_all("error ");
 								this->desc = str.substr(b + 2);
 							}
 						}

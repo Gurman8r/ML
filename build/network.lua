@@ -21,11 +21,6 @@ project "Network"
 		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
 		"%{src_dir}**.c", "%{src_dir}**.cpp" 
 	}
-	vpaths 
-	{ 
-		["Headers"] = { "**.h", "**.hpp", "**.inl", },
-		["Sources"] = { "**.c", "**.cpp" } 
-	}
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",

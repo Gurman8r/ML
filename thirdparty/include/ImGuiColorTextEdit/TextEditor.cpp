@@ -2986,7 +2986,7 @@ namespace ImGui
 				"sampler2DMS", "isampler2DMS", "usampler2DMS",
 				"sampler2DMSArray", "isampler2DMSArray", "usampler2DMSArray",
 				"samplerCubeArray", "samplerCubeArrayShadow", "isamplerCubeArray", "usamplerCubeArray",
-				"struct",
+				"struct"
 			};
 			for (auto& k : keywords)
 				langDef.mKeywords.insert(k);
@@ -2996,7 +2996,7 @@ namespace ImGui
 				"sinh", "cosh", "tanh", "asinh", "acosh", "atanh",
 				"pow", "exp", "log", "exp2", "log2", "sqrt", "inversesqrt",
 				"abs", "sign", "floor", "trunc", "round", "roundEven", "ceil", "fract",
-				"mod", "modf", "min", "max", "clamp", "mix", "step", "smoothStep", "isnan", "isinf",
+				"mod", "modf", "min", "max", "clamp", "mix", "step", "smoothstep", "isnan", "isinf",
 				"floatBitsToInt", "floatBitsToUint", "fma", "frexp", "ldexp",
 				"packUnorm2x16", "packUnorm4x8", "packSnorm4x8",
 				"unpackUnorm2x16", "unpackUnorm4x8", "unpackSnorm4x8",

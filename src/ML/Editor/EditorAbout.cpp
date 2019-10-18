@@ -64,56 +64,7 @@ namespace ml
 
 			ImGui::Columns(2);
 
-			// Project
-			draw_head("Project");
-			draw_def("define: ML_PROJECT_AUTH", "%s", ML_PROJECT_AUTH);
-			draw_def("define: ML_PROJECT_DATE", "%s", ML_PROJECT_DATE);
-			draw_def("define: ML_PROJECT_TIME", "%s", ML_PROJECT_TIME);
-			draw_def("define: ML_PROJECT_URL", "%s", ML_PROJECT_URL);
-			draw_def("define: ML_PROJECT_VER", "%s", ML_PROJECT_VER);
-			
-			// System
-			draw_head("System");
-# if defined(ML_SYSTEM_WINDOWS)
-			draw_def("define: ML_SYSTEM_WINDOWS", "", "");
-# elif defined(ML_SYSTEM_APPLE)
-			draw_def("define: ML_SYSTEM_APPLE", "", "");
-# elif defined(ML_SYSTEM_UNIX)
-			draw_def("define: ML_SYSTEM_UNIX", "", "");
-#	if defined(ML_SYSTEM_ANDROID"
-			draw_def("define: ML_SYSTEM_ANDROID", "", "");
-#	elif defined(ML_SYSTEM_LINUX"
-			draw_def("define: ML_SYSTEM_LINUX", "", "");
-#	elif defined(ML_SYSTEM_FREEBSD"
-			draw_def("define: ML_SYSTEM_FREEBSD", "", "");
-#	endif
-# endif
-			draw_def("define: ML_SYSTEM_NAME", "%s", ML_SYSTEM_NAME);
-
-			// Compiler
-			draw_head("Compiler");
-# if defined(ML_CC_MSC)
-			draw_def("define: ML_CC_MSC", "", "");
-# elif defined(ML_CC_CLANG)
-			draw_def("define: ML_CC_CLANG", "", "");
-# elif defined(ML_CC_GNU)
-			draw_def("define: ML_CC_GNU", "", "");
-# elif defined(ML_CC_INTEL)
-			draw_def("define: ML_CC_INTEL", "", "");
-# elif defined(ML_CC_EMSCRIPTEN)
-			draw_def("define: ML_CC_EMSCRIPTEN", "", "");
-# endif
-			draw_def("define: ML_CC_NAME", "%s", ML_CC_NAME);
-			draw_def("define: ML_CC_VER", "%u", ML_CC_VER);
-
-			// Language
-			draw_head("Language");
-			draw_def("define: ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
-			draw_def("define: ML_HAS_CXX11", "%s", ML_HAS_CXX11 ? "true" : "false");
-			draw_def("define: ML_HAS_CXX14", "%s", ML_HAS_CXX14 ? "true" : "false");
-			draw_def("define: ML_HAS_CXX17", "%s", ML_HAS_CXX17 ? "true" : "false");
-
-			// Config
+			// Build
 			draw_head("Build");
 			draw_def("define: ML_DEBUG", "%s", ML_DEBUG ? "true" : "false");
 			draw_def("define: ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
@@ -132,14 +83,64 @@ namespace ml
 			draw_def("define: ML_API_IMPORT", "%s", ML_STRINGIFY(ML_API_IMPORT));
 # endif
 
+			// Compiler
+			draw_head("Compiler");
+# if defined(ML_CC_MSC)
+			draw_def("define: ML_CC_MSC", "", "");
+# elif defined(ML_CC_CLANG)
+			draw_def("define: ML_CC_CLANG", "", "");
+# elif defined(ML_CC_GNU)
+			draw_def("define: ML_CC_GNU", "", "");
+# elif defined(ML_CC_INTEL)
+			draw_def("define: ML_CC_INTEL", "", "");
+# elif defined(ML_CC_EMSCRIPTEN)
+			draw_def("define: ML_CC_EMSCRIPTEN", "", "");
+# endif
+			draw_def("define: ML_CC_NAME", "%s", ML_CC_NAME);
+			draw_def("define: ML_CC_VER", "%u", ML_CC_VER);
+
 			// Graphics
 			draw_head("Graphics");
 			draw_def("OpenGL Version", "%s", ML_GL.getString(GL::Version));
 			draw_def("OpenGL Vendor", "%s", ML_GL.getString(GL::Vendor));
 			draw_def("OpenGL Renderer", "%s", ML_GL.getString(GL::Renderer));
 
+			// Language
+			draw_head("Language");
+			draw_def("define: ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
+			draw_def("define: ML_HAS_CXX11", "%s", ML_HAS_CXX11 ? "true" : "false");
+			draw_def("define: ML_HAS_CXX14", "%s", ML_HAS_CXX14 ? "true" : "false");
+			draw_def("define: ML_HAS_CXX17", "%s", ML_HAS_CXX17 ? "true" : "false");
+
+			// Project
+			draw_head("Project");
+			draw_def("define: ML_PROJECT_AUTH", "%s", ML_PROJECT_AUTH);
+			draw_def("define: ML_PROJECT_DATE", "%s", ML_PROJECT_DATE);
+			draw_def("define: ML_PROJECT_TIME", "%s", ML_PROJECT_TIME);
+			draw_def("define: ML_PROJECT_URL", "%s", ML_PROJECT_URL);
+			draw_def("define: ML_PROJECT_VER", "%s", ML_PROJECT_VER);
+
+			// System
+			draw_head("System");
+# if defined(ML_SYSTEM_WINDOWS)
+			draw_def("define: ML_SYSTEM_WINDOWS", "", "");
+# elif defined(ML_SYSTEM_APPLE)
+			draw_def("define: ML_SYSTEM_APPLE", "", "");
+# elif defined(ML_SYSTEM_UNIX)
+			draw_def("define: ML_SYSTEM_UNIX", "", "");
+#	if defined(ML_SYSTEM_ANDROID"
+			draw_def("define: ML_SYSTEM_ANDROID", "", "");
+#	elif defined(ML_SYSTEM_LINUX"
+			draw_def("define: ML_SYSTEM_LINUX", "", "");
+#	elif defined(ML_SYSTEM_FREEBSD"
+			draw_def("define: ML_SYSTEM_FREEBSD", "", "");
+#	endif
+# endif
+			draw_def("define: ML_SYSTEM_NAME", "%s", ML_SYSTEM_NAME);
+
 			ImGui::NextColumn();
 			ImGui::Columns(1);
+			ImGui::Separator();
 		}
 
 		// Contibutors

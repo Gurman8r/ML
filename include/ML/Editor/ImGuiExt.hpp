@@ -10,12 +10,11 @@ namespace ml
 {
 	struct ML_EDITOR_API ImGuiExt final
 	{
+		ImGuiExt() = delete;
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static vec2 GetContentRegionAvail();
-
-		static float_t GetTextLineHeightWithSpacing();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

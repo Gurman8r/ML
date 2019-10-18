@@ -254,7 +254,7 @@ namespace ml
 
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Transform##" + label).c_str()),
-					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
+					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
 					true
 				);
 
@@ -319,7 +319,7 @@ namespace ml
 
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Camera##" + label).c_str()),
-					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 10.0f },
+					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 10.0f },
 					true
 				);
 
@@ -438,7 +438,7 @@ namespace ml
 
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Light##" + label).c_str()),
-					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
+					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
 					true
 				);
 
@@ -488,7 +488,7 @@ namespace ml
 			{
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Renderer##" + label).c_str()),
-					{ 0, (ImGuiExt::GetTextLineHeightWithSpacing() * 1.25f) * 6.5f },
+					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 6.5f },
 					true
 				);
 
@@ -1255,57 +1255,73 @@ namespace ml
 
 				ImGui::Separator();
 
-				ImGui::Text("VAO");
-				ImGui::BeginChildFrame(ImGui::GetID("vao"),
-					{ 0, ImGuiExt::GetTextLineHeightWithSpacing() * 2.25f }
-				);
+				if (mesh->vao())
 				{
-					ImGui::Text("Handle: %u", (uint32_t)mesh->vao());
-					int32_t vao_mode { GL::index_of(mesh->vao().mode()) };
-					ImGuiExt::Combo(
-						"Mode", &vao_mode, GL::Mode_names, ML_ARRAYSIZE(GL::Mode_names)
+					ImGui::Text("VAO");
+					ImGui::BeginChildFrame(ImGui::GetID("vao"),
+						{ 0, ImGui::GetTextLineHeightWithSpacing() * 2.25f },
+						ImGuiWindowFlags_NoScrollbar
 					);
+					{
+						ImGui::Text("Handle: %u", (uint32_t)mesh->vao());
+						int32_t vao_mode { GL::index_of(mesh->vao().mode()) };
+						ImGuiExt::Combo(
+							"Mode", &vao_mode, GL::Mode_names, ML_ARRAYSIZE(GL::Mode_names)
+						);
+					}
+					ImGui::EndChildFrame();
+					ImGui::Separator();
 				}
-				ImGui::EndChildFrame();
-				
-				ImGui::Separator();
 
-				ImGui::Text("VBO");
-				ImGui::BeginChildFrame(ImGui::GetID("vbo"),
-					{ 0, ImGuiExt::GetTextLineHeightWithSpacing() * 4.25f }
-				);
+				if (mesh->vbo())
 				{
-					ImGui::Text("Handle: %u", (uint32_t)mesh->vbo());
-					
-					ImGui::Text("Size: %u", mesh->vbo().size());
-					ImGuiExt::Tooltip("Total length of contiguous data");
-
-					ImGui::Text("Count: %u", mesh->vbo().count());
-					ImGuiExt::Tooltip("Number of vertices");
-
-					int32_t vbo_usage { GL::index_of(mesh->vbo().usage()) };
-					ImGuiExt::Combo(
-						"Usage", &vbo_usage, GL::Usage_names, ML_ARRAYSIZE(GL::Usage_names)
+					ImGui::Text("VBO");
+					ImGui::BeginChildFrame(ImGui::GetID("vbo"),
+						{ 0, ImGui::GetTextLineHeightWithSpacing() * 4.25f },
+						ImGuiWindowFlags_NoScrollbar
 					);
-				}
-				ImGui::EndChildFrame();
-				
-				ImGui::Separator();
+					{
+						ImGui::Text("Handle: %u", (uint32_t)mesh->vbo());
 
-				ImGui::Text("IBO");
-				ImGui::BeginChildFrame(ImGui::GetID("ibo"),
-					{ 0, ImGuiExt::GetTextLineHeightWithSpacing() * 1 }
-				);
+						ImGui::Text("Size: %u", mesh->vbo().size());
+						ImGuiExt::Tooltip("Total length of contiguous data");
+
+						ImGui::Text("Count: %u", mesh->vbo().count());
+						ImGuiExt::Tooltip("Number of vertices");
+
+						int32_t vbo_usage { GL::index_of(mesh->vbo().usage()) };
+						ImGuiExt::Combo("Usage", &vbo_usage, GL::Usage_names, ML_ARRAYSIZE(GL::Usage_names));
+					}
+					ImGui::EndChildFrame();
+					ImGui::Separator();
+				}
+
+				if (mesh->ibo())
 				{
-					ImGui::Text("Handle: %u", (uint32_t)mesh->ibo());
+					ImGui::Text("IBO");
+					ImGui::BeginChildFrame(ImGui::GetID("ibo"),
+						{ 0, ImGui::GetTextLineHeightWithSpacing() * 4.5f },
+						ImGuiWindowFlags_NoScrollbar
+					);
+					{
+						ImGui::Text("Handle: %u", (uint32_t)mesh->ibo());
+
+						ImGui::Text("Count: %u", mesh->ibo().count());
+
+						int32_t ibo_usage { GL::index_of(mesh->ibo().usage()) };
+						ImGuiExt::Combo("Usage", &ibo_usage, GL::Usage_names, ML_ARRAYSIZE(GL::Usage_names));
+
+						int32_t ibo_type { GL::index_of(mesh->ibo().type()) };
+						ImGuiExt::Combo("Type", &ibo_usage, GL::Type_names, ML_ARRAYSIZE(GL::Type_names));
+					}
+					ImGui::EndChildFrame();
+					ImGui::Separator();
 				}
-				ImGui::EndChildFrame();
 
-				ImGui::Separator();
-
-				ImGui::Text("Vertex Attributes");
+				ImGui::Text("Layout");
 				ImGui::BeginChildFrame(ImGui::GetID("vertexattrib"), 
-					{ 0, ImGuiExt::GetTextLineHeightWithSpacing() * mesh->layout().elements().size() }
+					{ 0, ImGui::GetTextLineHeightWithSpacing() * mesh->layout().elements().size() },
+					ImGuiWindowFlags_NoScrollbar
 				);
 				for (const BufferLayout::Element & e : mesh->layout().elements())
 				{
@@ -1317,13 +1333,7 @@ namespace ml
 						"Stride: %u | "
 						"Offset: %u | "
 						"Width: %u",
-						e.index, 
-						e.size,
-						GL::name_of(e.type), 
-						e.normalize,
-						e.stride, 
-						e.offset, 
-						e.width
+						e.index, e.size, GL::name_of(e.type), e.normalize, e.stride, e.offset, e.width
 					);
 				}
 				ImGui::EndChildFrame();
@@ -2362,12 +2372,12 @@ namespace ml
 		break;
 		case GL::Texture3D:
 		{
-			ImGui::Text("Texture-3D previews are currently disabled.");
+			ImGui::TextWrapped("Texture-3D previews are currently disabled.");
 		}
 		break;
 		case GL::TextureCubeMap:
 		{
-			ImGui::Text("Texture-CubeMap previews are currently disabled.");
+			ImGui::TextWrapped("Texture-CubeMap previews are currently disabled.");
 		}
 		break;
 		}

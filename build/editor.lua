@@ -26,11 +26,6 @@ project "Editor"
 		"%{dep_dir}include/ImGuiColorTextEdit/**.h",
 		"%{dep_dir}include/ImGuiColorTextEdit/**.cpp",
 	}
-	vpaths 
-	{ 
-		["Headers"] = { "**.h", "**.hpp", "**.inl", },
-		["Sources"] = { "**.c", "**.cpp" } 
-	}
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",

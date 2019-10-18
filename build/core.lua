@@ -20,11 +20,6 @@ project "Core"
 		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
 		"%{src_dir}**.c", "%{src_dir}**.cpp" 
 	}
-	vpaths 
-	{ 
-		["Headers"] = { "**.h", "**.hpp", "**.inl", },
-		["Sources"] = { "**.c", "**.cpp" } 
-	}
 	filter ("configurations:Debug") symbols ("On")
 	filter ("configurations:Release") optimize ("Speed")
 	filter ("system:windows")

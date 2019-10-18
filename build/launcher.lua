@@ -22,19 +22,7 @@ project "Launcher"
 		"%{src_dir}**.c", "%{src_dir}**.cpp", 
 		"%{sln_dir}ML.ini", "%{sln_dir}assets/**.**", 
 	}
-	vpaths
-	{
-		["Docs"] 		= { "**.txt", "**.md" },
-		["Headers"] 	= { "**.h", "**.hpp", "**.inl", },
-		["Fonts"] 		= { "**.ttf", "**.otf" },
-		["Materials"]	= { "**.mat", "**.mtl" },
-		["Meshes"] 		= { "**.obj", "**.fbx" },
-		["Scripts"] 	= { "**.py", "**.lua" },
-		["Shaders"] 	= { "**.glsl", "**.hlsl", "**.shader" },
-		["Sources"] 	= { "**.c", "**.cpp" },
-		["Styles"] 		= { "**.style" },
-		["Textures"] 	= { "**.png", "**.jpg", "**.tiff" }, 
-	}
+	excludes { "assets/Lib/**.**" }
 	libdirs
 	{
 		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",

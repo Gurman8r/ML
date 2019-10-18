@@ -345,7 +345,7 @@ namespace ml
 		);
 
 		const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
-		const float_t tools_height { ImGuiExt::GetTextLineHeightWithSpacing() * 1.5f };
+		const float_t tools_height { ImGui::GetTextLineHeightWithSpacing() * 1.5f };
 					
 		// Text Editors
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -460,7 +460,7 @@ namespace ml
 		ImGui::SameLine();
 
 		// Copy to Clipboard
-		const String clipboard_uniforms { [&]() 
+		if (ImGui::Button("Copy to Clipboard"))
 		{
 			SStream ss;
 			for (const auto & u : (*m_renderer->material()))
@@ -485,17 +485,10 @@ namespace ml
 				case Uniform::Matrix4: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
 				case Uniform::Sampler: if (auto a { detail::as_sampler(u) }) ss << ML_Content.get_name(a); break;
 				}
-				ss << " }" << endl;
+				if (ss.str().back() != ' ') ss << ' ';
+				ss << "}" << endl;
 			}
-			return ss.str();
-		}() };
-		if (ImGui::Button("Copy to Clipboard"))
-		{
-			ML_Engine.window().setClipboardString(clipboard_uniforms);
-		}
-		if (ImGui::IsItemHovered())
-		{
-			ImGuiExt::Tooltip(clipboard_uniforms);
+			ML_Engine.window().setClipboardString(ss.str());
 		}
 
 		ImGui::Separator();

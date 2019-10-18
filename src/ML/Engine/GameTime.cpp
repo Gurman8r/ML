@@ -12,7 +12,8 @@ namespace ml
 
 	GameTime & GameTime::beginStep()
 	{
-		m_step.start(); return (*this);
+		m_step.start();
+		return (*this);
 	}
 
 	GameTime & GameTime::endStep()

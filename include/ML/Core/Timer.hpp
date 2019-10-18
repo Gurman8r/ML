@@ -18,20 +18,20 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Timer()
-			: m_paused	(true)
-			, m_clock	()
-			, m_prev	()
-			, m_next	()
-			, m_elapsed	()
+			: m_paused	{ true }
+			, m_clock	{}
+			, m_prev	{}
+			, m_next	{}
+			, m_elapsed	{}
 		{
 		}
 
 		Timer(const Timer & copy)
-			: m_paused	(copy.m_paused)
-			, m_clock	(copy.m_clock)
-			, m_prev	(copy.m_prev)
-			, m_next	(copy.m_next)
-			, m_elapsed	(copy.m_elapsed)
+			: m_paused	{ copy.m_paused }
+			, m_clock	{ copy.m_clock }
+			, m_prev	{ copy.m_prev }
+			, m_next	{ copy.m_next }
+			, m_elapsed	{ copy.m_elapsed }
 		{
 		}
 
@@ -73,7 +73,7 @@ namespace ml
 		inline Timer & start()
 		{
 			m_prev = m_next = m_clock.now();
-			m_elapsed = Duration();
+			m_elapsed = Duration {};
 			return pause(false);
 		}
 

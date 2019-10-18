@@ -87,19 +87,12 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		
+
 		template <
 			class T
 		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
-			return ((time_t)(lhs) == (time_t)(Duration(rhs)));
-		}
-
-		template <
-			class T
-		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
-		{
-			return ((time_t)(lhs) < (time_t)(Duration(rhs)));
+			return !(lhs < rhs) && !(rhs < lhs);
 		}
 
 		template <
@@ -107,6 +100,13 @@ namespace ml
 		> constexpr friend bool operator!=(const Duration & lhs, const T & rhs)
 		{
 			return !(lhs == rhs);
+		}
+
+		template <
+			class T
+		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
+		{
+			return ((time_t)(lhs) < (time_t)(Duration(rhs)));
 		}
 
 		template <
@@ -136,14 +136,14 @@ namespace ml
 			class T
 		> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
-			return Duration((time_t)(lhs) + (time_t)(rhs));
+			return Duration { (time_t)lhs + (time_t)rhs };
 		}
 
 		template <
 			class T
 		> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
-			return Duration((time_t)(lhs) - (time_t)(rhs));
+			return Duration { (time_t)lhs - (time_t)rhs };
 		}
 
 		template <

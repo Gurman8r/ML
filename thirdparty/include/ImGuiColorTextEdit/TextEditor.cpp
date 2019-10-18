@@ -1199,7 +1199,9 @@ namespace ImGui
 				// ignore the carriage return character
 			}
 			else if (chr == '\n')
+			{
 				mLines.emplace_back(Line());
+			}
 			else
 			{
 				mLines.back().emplace_back(Glyph(chr, PaletteIndex::Default));

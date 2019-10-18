@@ -363,13 +363,23 @@ namespace ml
 				if (file && file->open)
 				{
 					// Demo File Tab
-					if (ImGui::BeginTabItem(
+					const bool tab_open { ImGui::BeginTabItem(
 						file->name.c_str(),
 						nullptr,
 						(file->dirty
 							? ImGuiTabItemFlags_UnsavedDocument
 							: ImGuiTabItemFlags_None)
-					))
+					) };
+					if (ImGui::BeginPopupContextItem())
+					{
+						if (ImGui::Button("Copy to Clipboard"))
+						{
+							ML_Engine.window().setClipboardString(file->text.GetText());
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::EndPopup();
+					}
+					if (tab_open)
 					{
 						file->text.Render(
 							("##DemoFile##" + file->name + "##TextEditor").c_str(),
@@ -455,7 +465,12 @@ namespace ml
 			SStream ss;
 			for (const auto & u : (*m_renderer->material()))
 			{
-				ss << "uniform " << Uniform::name_of(u->id) << " " << u->name << " " << "{ ";
+				if (!u) continue;
+				ss	<< std::left
+					<< "uniform " 
+					<< std::setw(7) << Uniform::name_of(u->id) << " "
+					<< std::setw(10) << u->name << " "
+					<< "{ ";
 				switch (u->id)
 				{
 				case Uniform::Boolean: if (auto a { detail::as_bool(u) }) ss << (*a); break;
@@ -589,7 +604,7 @@ namespace ml
 			reset_sources();
 			generate_sources();
 		}
-		ImGuiExt::Tooltip("Materials specify the active shader and its corresponding uniforms");
+		ImGuiExt::Tooltip("Materials combine a shader and its corresponding uniform set");
 
 		// Select Shader
 		const Shader * shd { m_renderer ? m_renderer->shader() : nullptr };

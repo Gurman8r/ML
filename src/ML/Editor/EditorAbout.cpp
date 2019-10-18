@@ -37,7 +37,7 @@ namespace ml
 		}
 
 		// Version String
-		ImGui::Text("%s", String("{0} / {1} | {2} / {3} | {4} / {5}").format(
+		ImGui::Text("%s", String("{0}/{1} | {2}/{3} | {4}/{5}").format(
 			ML_PROJECT_NAME,
 			ML_PROJECT_VER,
 			ML_CONFIGURATION,
@@ -145,11 +145,10 @@ namespace ml
 		// Contibutors
 		if (ImGui::CollapsingHeader("Contibutors"))
 		{
-			static constexpr StringView msg {
+			ImGui::TextWrapped(
 				"Created by Melody Gurman\n"
 				"Special thanks to Sajid Farooq and Champlain College for their help and support.\n"
-			};
-			ImGui::TextUnformatted(msg.begin(), msg.end());
+			);
 		}
 		
 		// Third Party Software

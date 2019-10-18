@@ -208,7 +208,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
 
 # Basic
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-name = "ent_2d"
+name = "ent_2d_demo"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
@@ -219,7 +219,7 @@ if ml.content.load({ "type": "Entity", "name": name }):
 
 # Advanced
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-name = "ent_3d"
+name = "ent_3d_demo"
 if ml.content.load({ "type": "Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Transform"):
         ml.ecs.transform_attr(name, "self",     "position",     "0.0 0.0 0.0")
@@ -244,8 +244,8 @@ if ml.content.load({ "type": "Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
 if 0:
-    ml.prefs.set("Noobs", "demo_entity", "ent_3d")
-    ml.ecs.renderer_attr("ent_2d", "self", "enabled", "False")
-    ml.ecs.renderer_attr("ent_3d", "self", "enabled", "True")
+    ml.prefs.set("Noobs", "demo_entity", "ent_3d_demo")
+    ml.ecs.renderer_attr("ent_2d_demo", "self", "enabled", "False")
+    ml.ecs.renderer_attr("ent_3d_demo", "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

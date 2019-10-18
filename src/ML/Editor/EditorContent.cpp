@@ -56,10 +56,16 @@ namespace ml
 				void * temp { nullptr };
 				if (!std::is_same_v<T, Surface> && !std::is_same_v<T, Uniform>)
 				{
-					if (PropertyDrawer<T>()(("New {0}"_s).format(typeof<T>::name), (T *&)temp))
+					if (PropertyDrawer<T>()(("New {0}"_s).format(
+						nameof<>::filter_namespace(typeof<T>::name)
+					), (T *&)temp))
 					{
 						ImGui::CloseCurrentPopup();
 					}
+				}
+				else
+				{
+					ImGui::Text("No actions available");
 				}
 				ImGui::EndPopup();
 			}

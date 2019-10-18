@@ -83,13 +83,13 @@ namespace ml
 
 		constexpr size_t find_first_of(value_type value) const
 		{
-			return find_first_of(0, value);
+			return find_first_of(value, 0);
 		}
 
-		constexpr size_t find_first_of(size_t off, value_type value) const
+		constexpr size_t find_first_of(value_type value, size_t off) const
 		{
 			return ((off < size())
-				? (((*this)[off] == value) ? (off) : find_first_of(off + 1, value))
+				? (((*this)[off] == value) ? (off) : find_first_of(value, off + 1))
 				: self_type::npos
 			);
 		}
@@ -98,13 +98,13 @@ namespace ml
 
 		constexpr size_t find_last_of(value_type value) const
 		{
-			return find_last_of(size() - 1, value);
+			return find_last_of(value, size() - 1);
 		}
 
-		constexpr size_t find_last_of(size_t off, value_type value) const
+		constexpr size_t find_last_of(value_type value, size_t off) const
 		{
 			return ((off < size())
-				? (((*this)[off] == value) ? (off) : find_last_of(off - 1, value))
+				? (((*this)[off] == value) ? (off) : find_last_of(value, off - 1))
 				: self_type::npos
 			);
 		}
@@ -143,8 +143,7 @@ namespace ml
 
 	constexpr bool operator==(const StringView & lhs, const StringView & rhs)
 	{
-		return ((lhs.begin() == rhs.begin()) && (lhs.end() == rhs.end())) ||
-			alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return alg::equals(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	constexpr bool operator!=(const StringView & lhs, const StringView & rhs)

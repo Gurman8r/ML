@@ -144,7 +144,7 @@ namespace ml
 	void Noobs::onStart(const StartEvent & ev)
 	{
 		// Setup Editor
-		if (const String ent_name { ML_Engine.prefs().get_string("Noobs", "demo_entity", "") })
+		if (const String ent_name { ML_Engine.prefs().get_string("Noobs", "target_entity", "") })
 		{
 			if (Entity * ent { m_entity.update(ML_Content.get<Entity>(ent_name)) })
 			{

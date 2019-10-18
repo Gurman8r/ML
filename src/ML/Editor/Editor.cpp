@@ -186,7 +186,7 @@ namespace ml
 			{
 				// File -> Create
 				/* * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginMenu("Create"))
+				if (ImGui::BeginMenu("New"))
 				{
 					void * temp { nullptr };
 					PropertyDrawer<Entity>()("Entity##File##Create", (Entity *&)temp);

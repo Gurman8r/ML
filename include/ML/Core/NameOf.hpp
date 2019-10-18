@@ -28,19 +28,19 @@ namespace ml
 		{
 		}
 
-		template <class T> constexpr nameof(const T &) noexcept
+		template <class T> constexpr nameof(const T &)
 			: nameof { nameof<T>() }
 		{
 		}
 
-		template <class T> constexpr nameof(const T *) noexcept
+		template <class T> constexpr nameof(const T *)
 			: nameof { nameof<const T *>() }
 		{
 		}
 
 		static constexpr StringView trim_front(const StringView & value)
 		{
-			return ((!value.empty() && value.front() == ' ' || value.front() == '\t')
+			return ((!value.empty() && (value.front() == ' ' || value.front() == '\t'))
 				? trim_front(StringView { value.begin() + 1, value.size() - 1 })
 				: value
 			);
@@ -48,13 +48,13 @@ namespace ml
 
 		static constexpr StringView trim_back(const StringView & value)
 		{
-			return ((value.size() && (value.back() == ' '))
+			return ((value.size() && (value.back() == ' ' || value.back() == '\t'))
 				? StringView { value.begin(), value.size() - 1 }
 				: value
 			);
 		}
 
-		static constexpr StringView trim_whitespace(const StringView & value)
+		static constexpr StringView trim(const StringView & value)
 		{
 			return trim_front(trim_back(value));
 		}
@@ -85,13 +85,18 @@ namespace ml
 				: value
 			);
 # else
-			const size_t lhs { value.find_first_of('=') };
-			const size_t rhs { value.find_last_of(']') };
+			const auto lhs { value.find_first_of('=') };
+			const auto rhs { value.find_last_of(']') };
 			return (((lhs != value.npos) && (rhs != value.npos))
 				? value.substr((lhs + 2), (rhs - lhs) - 1)
 				: value
 			);
 # endif
+		}
+
+		static constexpr StringView filter_namespace(const StringView & value)
+		{
+			return value.substr(value.find_first_of(':') + 2);
 		}
 
 		static constexpr StringView filter_struct(const StringView & value)
@@ -107,6 +112,11 @@ namespace ml
 		static constexpr StringView filter_constexpr(const StringView & value)
 		{
 			return filter_prefix(value, "constexpr ");
+		}
+
+		static constexpr StringView filter_template(const StringView & value)
+		{
+			return value.substr(0, value.find_first_of('<'));
 		}
 
 		static constexpr StringView filter(const StringView & value)

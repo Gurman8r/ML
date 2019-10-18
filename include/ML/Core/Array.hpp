@@ -12,10 +12,6 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static_assert(0 < N, "Array : size negative or zero");
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		enum : size_t { Size = N };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -56,8 +52,6 @@ namespace ml
 
 		static constexpr size_t size() { return self_type::Size; }
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		constexpr reference operator[](size_t i) { return at(i); }
 		
 		constexpr const_reference operator[](size_t i) const { return at(i); }
@@ -71,6 +65,61 @@ namespace ml
 			}
 			return temp;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <class T> struct Array<T, 0>
+	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		enum { Size = 0 };
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		using value_type		= typename T;
+		using base_type			= typename value_type[1];
+		using self_type			= typename Array<value_type, 0>;
+		using pointer			= typename value_type *;
+		using reference			= typename value_type &;
+		using const_pointer		= typename const value_type *;
+		using const_reference	= typename const value_type &;
+		using iterator			= typename pointer;
+		using const_iterator	= typename const_pointer;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		base_type m_data; // aggregate initializer
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr auto at(size_t)			-> reference		{ return m_data[0]; }
+		constexpr auto at(size_t)	const	-> const_reference	{ return m_data[0]; }
+		constexpr auto back()				-> reference		{ return m_data[0]; }
+		constexpr auto back()		const	-> const_reference	{ return m_data[0]; }
+		constexpr auto begin()				-> iterator			{ return nullptr; }
+		constexpr auto begin()		const	-> const_iterator	{ return nullptr; }
+		constexpr auto cbegin()		const	-> const_iterator	{ return nullptr; }
+		constexpr auto cend()		const	-> const_iterator	{ return nullptr; }
+		constexpr auto data()				-> pointer			{ return nullptr; }
+		constexpr auto data()		const	-> const_pointer	{ return nullptr; }
+		constexpr auto end()				-> iterator			{ return nullptr; }
+		constexpr auto end()		const	-> const_iterator	{ return nullptr; }
+		constexpr auto front()				-> reference		{ return m_data[0]; }
+		constexpr auto front()		const	-> const_reference	{ return m_data[0]; }
+		constexpr auto hash()		const	-> hash_t			{ return 0; }
+		
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr size_t size() { return 0; }
+
+		constexpr reference operator[](size_t) { return m_data[0]; }
+		
+		constexpr const_reference operator[](size_t) const { m_data[0]; }
+
+		template <class U> constexpr operator std::array<U, 0>() const { return {}; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

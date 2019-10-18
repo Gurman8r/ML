@@ -37,7 +37,7 @@ namespace ml
 			if (prop)
 			{
 				ImGui::PushID(prop);
-				ImGui::PushID(prop->type_name.c_str());
+				ImGui::PushID((int32_t)prop->type_hash);
 				ImGui::PushID(label.c_str());
 				ImGui::PushID((int32_t)typeof<Args...>::hash);
 			}
@@ -58,7 +58,7 @@ namespace ml
 		template <class T>
 		static inline bool select_combo(const String & label, const T *& value)
 		{
-			int32_t index = ML_Content.get_index_of<T>(value);
+			int32_t index { ML_Content.get_index_of<T>(value) };
 			return (ImGuiExt::Combo(label.c_str(), &index, ML_Content.get_keys<T>())
 				? (value = ML_Content.find_by_index<T>(index))
 				: false
@@ -68,7 +68,7 @@ namespace ml
 		template <class T>
 		static inline bool inspect_button(const String & label, const T * value)
 		{
-			ImGui::PushID(typeof<T>::name.c_str());
+			ImGui::PushID((int32_t)typeof<T>::hash);
 			ImGui::PushID(label.c_str());
 			ImGui::PushID(value);
 			const bool out { ImGui::Button(("Inspect##{0}##{1}"_s.format(
@@ -98,6 +98,7 @@ namespace ml
 	bool PropertyDrawer<Entity>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -109,6 +110,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -129,7 +131,7 @@ namespace ml
 			static bool popup_open { false };
 			static char name[32] = "";
 
-			// Popup Opened
+			// Popup Opened01245001
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(name, "new_entity");
@@ -197,7 +199,7 @@ namespace ml
 				// Skip
 				if (!filter.PassFilter(pair.first.c_str())) continue;
 				const String * info { ML_Registry.get_info(pair.first) };
-				if (info && *info != "/Component") continue;
+				if (info && *info != "Component") continue;
 
 				// Selectable
 				if (ImGui::Selectable((pair.first + "##AddComponentMenuButton").c_str()))
@@ -633,6 +635,7 @@ namespace ml
 	bool PropertyDrawer<Font>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -644,12 +647,14 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -791,6 +796,7 @@ namespace ml
 	bool PropertyDrawer<Image>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -802,6 +808,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -914,6 +921,7 @@ namespace ml
 	bool PropertyDrawer<Material>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -925,6 +933,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -947,11 +956,13 @@ namespace ml
 			static bool globals { false };
 			static const Shader * shader { nullptr };
 			static const Material * copy { nullptr };
+			static char asset_path[ML_MAX_PATH] = "";
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(name, "new_material");
+				std::strcpy(asset_path, "");
 				globals = false;
 				copy = nullptr;
 				shader = nullptr;
@@ -964,6 +975,10 @@ namespace ml
 				ML_ARRAYSIZE(name)
 			);
 
+			// Shader
+			PropertyDrawer<Shader>()("Shader", (const Shader *&)shader);
+			ImGuiExt::Tooltip("Select the shader to use");
+
 			// Defaults
 			ImGui::Checkbox("Load Global Uniforms", &globals);
 			ImGuiExt::Tooltip(
@@ -973,15 +988,25 @@ namespace ml
 
 			// Copy
 			PropertyDrawer<Material>()(("Copy Uniforms##" + label), (const Material *&)copy);
-			ImGuiExt::Tooltip(
-				"Select an existing material to copy uniforms from"
-			);
+			ImGuiExt::Tooltip("Select an existing material to copy uniforms from");
 
-			// Shader
-			PropertyDrawer<Shader>()("Shader", (const Shader *&)shader);
-			ImGuiExt::Tooltip(
-				"Select the shader to use"
+			// Path
+			ImGui::InputText(
+				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				asset_path,
+				ML_MAX_PATH
 			);
+			ImGui::SameLine();
+			static String open_path;
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			{
+				if (ML_FS.fileExists(open_path))
+				{
+					std::strcpy(asset_path, open_path.c_str());
+					open_path.clear();
+				}
+			}
+			ImGuiExt::Tooltip("Select a file to read uniforms from");
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
@@ -1009,6 +1034,13 @@ namespace ml
 						{
 							if (!value->get(u->name)) { value->insert(u->clone()); }
 						}
+					}
+					if (ML_FS.fileExists(asset_path))
+					{
+						value->loadFromFile(
+							asset_path, 
+							(const Map<String, Texture *> *) & ML_Content.data<Texture>()
+						);
 					}
 				}
 			}
@@ -1144,6 +1176,7 @@ namespace ml
 	bool PropertyDrawer<Model>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -1155,6 +1188,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -1381,6 +1415,7 @@ namespace ml
 	bool PropertyDrawer<Script>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -1392,6 +1427,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -1553,6 +1589,7 @@ namespace ml
 	bool PropertyDrawer<Shader>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -1564,6 +1601,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 	
@@ -1707,6 +1745,7 @@ namespace ml
 	bool PropertyDrawer<Sound>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -1718,6 +1757,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -1811,6 +1851,7 @@ namespace ml
 	bool PropertyDrawer<Sprite>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -1822,6 +1863,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -1977,6 +2019,7 @@ namespace ml
 	bool PropertyDrawer<Surface>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -1988,6 +2031,7 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -2318,7 +2362,8 @@ namespace ml
 		bool smooth { value.smooth() };
 		if (ImGui::Checkbox(("Smooth##" + label).c_str(), &smooth))
 		{
-			value.setSmooth(smooth); changed = true;
+			value.setSmooth(smooth); 
+			changed = true;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -2444,6 +2489,7 @@ namespace ml
 	bool PropertyDrawer<Uniform>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -2461,6 +2507,7 @@ namespace ml
 	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -2547,6 +2594,7 @@ namespace ml
 	bool PropertyDrawer<Uniform>::operator()(const String & label, reference value) const
 	{
 		Layout::begin_prop(this, label, value);
+
 		constexpr float_t speed = 0.005f;
 		switch (value.id)
 		{

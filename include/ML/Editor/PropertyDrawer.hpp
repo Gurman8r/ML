@@ -25,8 +25,7 @@ namespace ml
 
 	template <> struct ML_EDITOR_API PropertyDrawer<>
 	{
-		struct Layout;
-		PropertyDrawer() = delete;
+		struct Layout; PropertyDrawer() = delete;
 	};
 
 

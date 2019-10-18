@@ -290,8 +290,7 @@ namespace ml
 	void Noobs::draw_display(C_String title, const Surface * surf)
 	{
 		if (!m_display_open) return;
-		ImGui::PushID("Noobs");
-		ImGui::PushID("Demo Scene");
+		ImGui::PushID(ML_ADDRESSOF(this));
 		if (ImGui::Begin(title, &m_display_open))
 		{
 			if (auto preview { ML_AssetPreview.getPreview(surf) })
@@ -307,7 +306,6 @@ namespace ml
 			}
 		}
 		ImGui::End();
-		ImGui::PopID();
 		ImGui::PopID();
 	}
 	

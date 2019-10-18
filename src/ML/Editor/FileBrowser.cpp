@@ -95,7 +95,7 @@ namespace ml
 							set_selected(pair.first, (int32_t)i);
 						}
 					}
-					if (ImGui::BeginPopupContextItem(((name + type + "##Popup##" + m_label).c_str())))
+					if (ImGui::BeginPopupContextItem())
 					{
 						if (ImGui::Button("Open"))
 						{

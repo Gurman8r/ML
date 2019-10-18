@@ -31,9 +31,7 @@ namespace ml
 	struct PropertyDrawer<>::Layout
 	{
 		template <class T, class ... Args> static inline void begin_prop(
-			const PropertyDrawer<T> * prop, 
-			const String & label, 
-			Args && ... value
+			const PropertyDrawer<T> * prop, const String & label, Args && ...
 		)
 		{
 			if (prop)
@@ -41,11 +39,11 @@ namespace ml
 				ImGui::PushID(prop);
 				ImGui::PushID(prop->type_name.c_str());
 				ImGui::PushID(label.c_str());
-				ImGui::PushID(std::forward<Args>(value)...);
+				ImGui::PushID((int32_t)typeof<Args...>::hash);
 			}
 		}
 
-		template <class T> static inline void end_prop(const PropertyDrawer<T> * prop)
+		template <class T> static inline bool end_prop(const PropertyDrawer<T> * prop, bool changed)
 		{
 			if (prop)
 			{
@@ -54,6 +52,7 @@ namespace ml
 				ImGui::PopID();
 				ImGui::PopID();
 			}
+			return changed;
 		}
 
 		template <class T>
@@ -110,12 +109,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Entity>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -158,14 +158,14 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Entity>::operator()(const String & label, reference value) const
 	{
-		ImGui::PushID(ML_ADDRESSOF(&value));
+		Layout::begin_prop(this, label, value);
 
 		// Add Component
 		if (ImGui::Button("Add Component##Button"))
@@ -624,8 +624,7 @@ namespace ml
 			ImGui::PopID();
 		}
 
-		ImGui::PopID();
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 
@@ -645,12 +644,12 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Font>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -733,13 +732,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Font>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		const uint32_t font_size { 40 };
 		Font::Page & page { value.getPage(font_size) };
 
@@ -781,7 +782,7 @@ namespace ml
 		ImGui::EndGroup();
 		ImGui::EndChild();
 
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 
@@ -801,12 +802,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Image>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -886,13 +888,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Image>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		bool changed { false };
 
 		ImGui::Text("Size: %i x %i", value.width(), value.height());
@@ -901,7 +905,7 @@ namespace ml
 
 		ML_AssetPreview.drawPreview(value, ImGuiExt::GetContentRegionAvail(), nullptr);
 
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 
@@ -921,12 +925,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Material>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -1019,13 +1024,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Material>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		ImGui::PushID(label.c_str());
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -1128,7 +1135,7 @@ namespace ml
 
 		ImGui::PopID();
 
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 
@@ -1148,12 +1155,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Model>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -1233,13 +1241,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Model>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		ImGui::PushID(ML_ADDRESSOF(&value));
 		ImGui::Text("Meshes: %u", value.meshes().size());
 		for (size_t i = 0; i < value.meshes().size(); i++)
@@ -1362,7 +1372,7 @@ namespace ml
 			ImGui::PopID();
 		}
 		ImGui::PopID();
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 
@@ -1382,12 +1392,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Script>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -1471,13 +1482,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Script>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		bool changed { false };
 		ImGui::PushID(ML_ADDRESSOF(&value));
 
@@ -1531,7 +1544,7 @@ namespace ml
 			changed = true;
 		}
 		ImGui::PopID();
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 
@@ -1551,12 +1564,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 	
 	bool PropertyDrawer<Shader>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -1640,13 +1654,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Shader>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		bool changed { false };
 		ImGui::PushID(ML_ADDRESSOF(&value));
 		if (ImGui::BeginTabBar("SourceTabs"))
@@ -1682,7 +1698,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 		}
 		ImGui::PopID();
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 
@@ -1702,12 +1718,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Sound>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -1776,14 +1793,16 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Sound>::operator()(const String & label, reference value) const
 	{
-		return false;
+		Layout::begin_prop(this, label, value);
+
+		return Layout::end_prop(this, false);
 	}
 
 
@@ -1803,12 +1822,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Sprite>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -1892,13 +1912,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Sprite>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		bool changed = false;
 
 		ImGui::PushID(label.c_str());
@@ -1946,7 +1968,7 @@ namespace ml
 
 		ImGui::PopID();
 
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	
@@ -1966,12 +1988,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Surface>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -2030,13 +2053,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Surface>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+
 		bool changed { false };
 
 		ImGui::Columns(2);
@@ -2080,7 +2105,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		ImGui::Columns(1);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	
@@ -2089,6 +2114,7 @@ namespace ml
 	bool PropertyDrawer<Texture>::operator()(const String & label, const_pointer & value) const
 	{
 		Layout::begin_prop(this, label, value);
+		
 		const bool changed { Layout::select_combo<value_type>(label, value) };
 		if (ImGui::IsItemHovered())
 		{
@@ -2128,12 +2154,13 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Texture>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
+		
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -2258,13 +2285,15 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Texture>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
+		
 		bool changed = false;
 
 		ImGui::Columns(2);
@@ -2406,7 +2435,7 @@ namespace ml
 
 		ImGui::Columns(1);
 
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 
@@ -2426,12 +2455,12 @@ namespace ml
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
-		Layout::end_prop(this);
-		return changed;
+		return Layout::end_prop(this, changed);
 	}
 
 	bool PropertyDrawer<Uniform>::operator()(const String & label, pointer & value) const
 	{
+		Layout::begin_prop(this, label, value);
 		// Popup
 		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
 		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
@@ -2510,13 +2539,14 @@ namespace ml
 			//	ML_Content.insert<Uniform>(value->name, value); 
 			//}
 
-			return (submit || cancel);
+			return Layout::end_prop(this, submit || cancel);
 		}
-		return false;
+		return Layout::end_prop(this, false);
 	}
 
 	bool PropertyDrawer<Uniform>::operator()(const String & label, reference value) const
 	{
+		Layout::begin_prop(this, label, value);
 		constexpr float_t speed = 0.005f;
 		switch (value.id)
 		{
@@ -2528,7 +2558,7 @@ namespace ml
 				if (auto temp = value.as<uni_bool>())
 				{
 					temp->data = (*u);
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2541,7 +2571,7 @@ namespace ml
 				if (auto temp = value.as<uni_float>())
 				{
 					temp->data = (*u); 
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2557,7 +2587,7 @@ namespace ml
 				if (auto temp = value.as<uni_int>())
 				{
 					temp->data = (*u);
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2570,7 +2600,7 @@ namespace ml
 				if (auto temp = value.as<uni_vec2>())
 				{
 					temp->data = (*u); 
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2583,7 +2613,7 @@ namespace ml
 				if (auto temp = value.as<uni_vec3>())
 				{
 					temp->data = (*u);
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2596,7 +2626,7 @@ namespace ml
 				if (auto temp = value.as<uni_vec4>())
 				{
 					temp->data = (*u); 
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2609,7 +2639,7 @@ namespace ml
 				if (auto temp = value.as<uni_color>())
 				{
 					temp->data = (*u); 
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2623,7 +2653,7 @@ namespace ml
 				if (auto temp = value.as<uni_mat2>())
 				{
 					temp->data = (*u);
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2638,7 +2668,7 @@ namespace ml
 				if (auto temp = value.as<uni_mat3>())
 				{
 					temp->data = (*u); 
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2654,7 +2684,7 @@ namespace ml
 				if (auto temp = value.as<uni_mat4>())
 				{
 					temp->data = (*u); 
-					return true;
+					return Layout::end_prop(this, true);
 				}
 			}
 			break;
@@ -2668,12 +2698,12 @@ namespace ml
 				{
 					u->data = temp; 
 				}
-				return true;
+				return Layout::end_prop(this, true);
 			}
 			break;
 		}
 		ImGui::SameLine();
 		ImGuiExt::HelpMarker("This uniform cannot be modified.");
-		return false;
+		return Layout::end_prop(this, false);
 	}
 }

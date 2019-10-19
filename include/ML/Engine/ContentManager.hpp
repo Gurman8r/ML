@@ -13,9 +13,7 @@ namespace ml
 
 	// Global bank of shared resources.
 	// Anything can be stored in Content as long as it derives Newable.
-	struct ML_ENGINE_API ContentManager final
-		: public Disposable
-		, public Singleton<ContentManager>
+	struct ML_ENGINE_API ContentManager final : public Singleton<ContentManager>, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

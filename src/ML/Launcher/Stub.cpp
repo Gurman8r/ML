@@ -16,35 +16,35 @@ namespace ml
 	{
 		// Type Tests
 		{
-			static_assert(typeof<bool>			::name == "bool");
-			static_assert(typeof<char>			::name == "char");
-			static_assert(typeof<wchar_t>		::name == "wchar_t");
-			static_assert(typeof<char16_t>		::name == "char16_t");
-			static_assert(typeof<char32_t>		::name == "char32_t");
-			static_assert(typeof<int8_t>		::name == "signed char");
-			static_assert(typeof<int16_t>		::name == "short");
-			static_assert(typeof<int32_t>		::name == "int");
+			static_assert(typeof<bool>::name			== "bool");
+			static_assert(typeof<char>::name			== "char");
+			static_assert(typeof<wchar_t>::name			== "wchar_t");
+			static_assert(typeof<char16_t>::name		== "char16_t");
+			static_assert(typeof<char32_t>::name		== "char32_t");
+			static_assert(typeof<int8_t>::name			== "signed char");
+			static_assert(typeof<int16_t>::name			== "short");
+			static_assert(typeof<int32_t>::name			== "int");
 #ifdef ML_CC_MSC
-			static_assert(typeof<int64_t>		::name == "__int64");
+			static_assert(typeof<int64_t>::name			== "__int64");
 #else
-			static_assert(typeof<int64_t>		::name == "long long");
+			static_assert(typeof<int64_t>::name			== "long long");
 #endif
-			static_assert(typeof<uint8_t>		::name == "unsigned char");
-			static_assert(typeof<uint16_t>		::name == "unsigned short");
-			static_assert(typeof<uint32_t>		::name == "unsigned int");
+			static_assert(typeof<uint8_t>::name			== "unsigned char");
+			static_assert(typeof<uint16_t>::name		== "unsigned short");
+			static_assert(typeof<uint32_t>::name		== "unsigned int");
 #ifdef ML_CC_MSC
-			static_assert(typeof<uint64_t>		::name == "unsigned __int64");
+			static_assert(typeof<uint64_t>::name		== "unsigned __int64");
 #else
-			static_assert(typeof<uint64_t>		::name == "unsigned long long");
+			static_assert(typeof<uint64_t>::name		== "unsigned long long");
 #endif
-			static_assert(typeof<float32_t>		::name == "float");
-			static_assert(typeof<float64_t>		::name == "double");
-			static_assert(typeof<float80_t>		::name == "long double");
+			static_assert(typeof<float32_t>	::name		== "float");
+			static_assert(typeof<float64_t>	::name		== "double");
+			static_assert(typeof<float80_t>	::name		== "long double");
 
-			static_assert(typeof<std::string>	::name == "std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >");
-			static_assert(typeof<std::wstring>	::name == "std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >");
-			static_assert(typeof<std::u16string>::name == "std::basic_string<char16_t,struct std::char_traits<char16_t>,class std::allocator<char16_t> >");
-			static_assert(typeof<std::u32string>::name == "std::basic_string<char32_t,struct std::char_traits<char32_t>,class std::allocator<char32_t> >");
+			static_assert(typeof<std::string>::name		== "std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >");
+			static_assert(typeof<std::wstring>::name	== "std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >");
+			static_assert(typeof<std::u16string>::name	== "std::basic_string<char16_t,struct std::char_traits<char16_t>,class std::allocator<char16_t> >");
+			static_assert(typeof<std::u32string>::name	== "std::basic_string<char32_t,struct std::char_traits<char32_t>,class std::allocator<char32_t> >");
 		}
 
 		// Matrix Tests

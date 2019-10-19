@@ -40,6 +40,11 @@ namespace ml
 			static_assert(typeof<std::wstring>	::name == "std::wstring");
 			static_assert(typeof<std::u16string>::name == "std::u16string");
 			static_assert(typeof<std::u32string>::name == "std::u32string");
+#else
+			static_assert(typeof<std::string>	::name == "std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >");
+			static_assert(typeof<std::wstring>	::name == "std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >");
+			static_assert(typeof<std::u16string>::name == "std::basic_string<char16_t,struct std::char_traits<char16_t>,class std::allocator<char16_t> >");
+			static_assert(typeof<std::u32string>::name == "std::basic_string<char32_t,struct std::char_traits<char32_t>,class std::allocator<char32_t> >");
 #endif
 		}
 

@@ -142,17 +142,17 @@ namespace ml
 		switch (data.getData("type").asString().hash())
 		{
 		case Hash { "Manifest" }:	return true;
-		case Hash { "Entity" }:		return ContentImporter<Entity>()(data);
-		case Hash { "Font" }:		return ContentImporter<Font>()(data);
-		case Hash { "Image" }:		return ContentImporter<Image>()(data);
-		case Hash { "Material" }:	return ContentImporter<Material>()(data);
-		case Hash { "Model" }:		return ContentImporter<Model>()(data);
-		case Hash { "Script" }:		return ContentImporter<Script>()(data);
-		case Hash { "Shader" }:		return ContentImporter<Shader>()(data);
-		case Hash { "Sound" }:		return ContentImporter<Sound>()(data);
-		case Hash { "Sprite" }:		return ContentImporter<Sprite>()(data);
-		case Hash { "Surface" }:	return ContentImporter<Surface>()(data);
-		case Hash { "Texture" }:	return ContentImporter<Texture>()(data);
+		case typeof<Entity	>::hash:return ContentImporter<Entity>()(data);
+		case typeof<Font	>::hash:return ContentImporter<Font>()(data);
+		case typeof<Image	>::hash:return ContentImporter<Image>()(data);
+		case typeof<Material>::hash:return ContentImporter<Material>()(data);
+		case typeof<Model	>::hash:return ContentImporter<Model>()(data);
+		case typeof<Script	>::hash:return ContentImporter<Script>()(data);
+		case typeof<Shader	>::hash:return ContentImporter<Shader>()(data);
+		case typeof<Sound	>::hash:return ContentImporter<Sound>()(data);
+		case typeof<Sprite	>::hash:return ContentImporter<Sprite>()(data);
+		case typeof<Surface	>::hash:return ContentImporter<Surface>()(data);
+		case typeof<Texture	>::hash:return ContentImporter<Texture>()(data);
 		default:
 			return Debug::logError("Failed Loading {0}:  \'{1}\'",
 				data.getData("type").asString(),

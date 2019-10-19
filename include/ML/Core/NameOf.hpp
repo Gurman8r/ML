@@ -136,7 +136,7 @@ namespace ml
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_NAMEOF_INTEGRALS
+//#define ML_NAMEOF_INTEGRALS
 #ifdef ML_NAMEOF_INTEGRALS
 template <> struct ml::nameof<ML_BOOL>		{ static constexpr auto value { ML_STRINGIFY(ML_BOOL) }; };
 template <> struct ml::nameof<ML_CHAR>		{ static constexpr auto value { ML_STRINGIFY(ML_CHAR) }; };
@@ -158,7 +158,7 @@ template <> struct ml::nameof<ML_FLOAT80>	{ static constexpr auto value { ML_STR
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_NAMEOF_STRINGS
+//#define ML_NAMEOF_STRINGS
 #ifdef ML_NAMEOF_STRINGS
 template <> struct ml::nameof<std::string>		{ static constexpr auto value { ML_STRINGIFY(std::string) }; };
 template <> struct ml::nameof<std::wstring>		{ static constexpr auto value { ML_STRINGIFY(std::wstring) }; };

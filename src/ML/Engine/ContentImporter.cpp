@@ -21,7 +21,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Entity * ContentImporter<Entity>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -39,7 +39,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Font * ContentImporter<Font>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -64,7 +64,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Image * ContentImporter<Image>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -91,7 +91,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Material * ContentImporter<Material>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -135,7 +135,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Model * ContentImporter<Model>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -160,7 +160,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Script * ContentImporter<Script>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -185,7 +185,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Shader * ContentImporter<Shader>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -234,7 +234,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Sound * ContentImporter<Sound>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -264,7 +264,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Sprite * ContentImporter<Sprite>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -297,7 +297,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Surface * ContentImporter<Surface>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -318,7 +318,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Texture * ContentImporter<Texture>::operator()(const Metadata & md) const
 	{
-		if (this->type_name() == md.getData("type").asString())
+		if (info().hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{

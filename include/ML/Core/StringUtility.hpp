@@ -231,67 +231,67 @@ namespace ml
 		static inline int32_t to_i8(const String & value, int8_t dv = 0)
 		{
 			try { return static_cast<int8_t>(std::stoi(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline int32_t to_i16(const String & value, int16_t dv = 0)
 		{
 			try { return static_cast<int16_t>(std::stoi(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline int32_t to_i32(const String & value, int32_t dv = 0)
 		{
 			try { return static_cast<int32_t>(std::stoi(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline int64_t to_i64(const String & value, int64_t dv = 0)
 		{
 			try { return static_cast<int64_t>(std::stoll(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline uint8_t to_u8(const String & value, uint8_t dv = 0)
 		{
 			try { return static_cast<uint8_t>(std::stoul(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline uint16_t to_u16(const String & value, uint16_t dv = 0)
 		{
 			try { return static_cast<uint16_t>(std::stoul(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline uint32_t to_u32(const String & value, uint32_t dv = 0)
 		{
 			try { return static_cast<uint32_t>(std::stoul(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline uint64_t to_u64(const String & value, uint64_t dv = 0)
 		{
 			try { return static_cast<uint64_t>(std::stoull(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline float32_t to_f32(const String & value, float32_t dv = 0)
 		{
 			try { return static_cast<float32_t>(std::stof(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline float64_t to_f64(const String & value, float64_t dv = 0)
 		{
 			try { return static_cast<float64_t>(std::stod(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		static inline float80_t to_f80(const String & value, float80_t dv = 0)
 		{
 			try { return static_cast<float80_t>(std::stold(value)); }
-			catch (std::invalid_argument &) { return dv; }
+			catch (std::exception &) { return dv; }
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

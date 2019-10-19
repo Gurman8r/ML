@@ -119,7 +119,7 @@ namespace ml
 			return temp;
 		}
 
-		static constexpr self_type all(value_type value)
+		static constexpr self_type fill(value_type value)
 		{
 			self_type temp { uninit };
 			for (auto & elem : temp) { temp = value; }

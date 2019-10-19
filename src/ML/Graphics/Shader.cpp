@@ -213,13 +213,13 @@ namespace ml
 		m_sources.vs = vs ? ShaderParser::parseShader(vs) : String();
 		m_sources.gs = gs ? ShaderParser::parseShader(gs) : String();
 		m_sources.fs = fs ? ShaderParser::parseShader(fs) : String();
-
 		return
 			((vs && fs && gs) && compile(vs.c_str(), gs.c_str(), fs.c_str())) ||
 			((vs && fs) && compile(vs.c_str(), nullptr, fs.c_str())) ||
 			(vs && compile(vs.c_str(), nullptr, nullptr)) ||
 			(fs && compile(nullptr, nullptr, fs.c_str())) ||
-			(gs && compile(nullptr, gs.c_str(), nullptr));
+			(gs && compile(nullptr, gs.c_str(), nullptr))
+			;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -25,6 +25,7 @@ filter ("system:not windows")
 	src_dir = "%{sln_dir}src/ML/%{prj.name}/"
 	prj_dir = "%{sln_dir}proj/ML/%{prj.name}/"
 	dep_dir = "%{sln_dir}thirdparty/"
+	ext_dir = "%{sln_dir}ext/"
 	
 filter ("system:windows")
 	sln_dir = "%{wks.location}\\"
@@ -36,6 +37,7 @@ filter ("system:windows")
 	src_dir = "%{sln_dir}src\\ML\\%{prj.name}\\"
 	prj_dir = "%{sln_dir}proj\\ML\\%{prj.name}\\"
 	dep_dir = "%{sln_dir}thirdparty\\"
+	ext_dir = "%{sln_dir}ext\\"
 
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

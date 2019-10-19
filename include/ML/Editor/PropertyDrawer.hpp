@@ -21,8 +21,7 @@ using reference			= typename value_type &;					\
 using const_pointer		= typename const value_type *;				\
 using const_reference	= typename const value_type &;				\
 using Layout = typename PropertyDrawer<>::Layout;					\
-static constexpr auto type_name { typeof<value_type>::name };		\
-static constexpr auto type_hash { typeof<value_type>::hash };		\
+static constexpr typeof<> info() { return typeof<T>{}; }			\
 PropertyDrawer() = default;
 
 namespace ml

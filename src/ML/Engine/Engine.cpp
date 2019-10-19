@@ -181,7 +181,7 @@ namespace ml
 			dt = m_time.deltaTime();
 			tm.reset();
 		}
-		m_window.setTitle(String("{0} | {1} | {2} | {3} us/frame").format(
+		m_window.setTitle(String("{0} | {1} | {2} | {3}s/frame").format(
 			original_title, 
 			ML_CONFIGURATION, 
 			ML_PLATFORM_TARGET, 

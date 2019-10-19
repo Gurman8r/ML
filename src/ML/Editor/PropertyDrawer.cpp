@@ -36,8 +36,8 @@ namespace ml
 		{
 			if (prop)
 			{
-				ImGui::PushID(prop);
-				ImGui::PushID((int32_t)prop->type_hash);
+				ImGui::PushID(ML_ADDRESSOF(prop));
+				ImGui::PushID((int32_t)prop->info().hash);
 				ImGui::PushID(label.c_str());
 				ImGui::PushID((int32_t)typeof<Args...>::hash);
 			}
@@ -103,7 +103,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -119,8 +119,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -139,7 +139,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -640,7 +640,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -656,8 +656,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -680,7 +680,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -693,7 +693,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("##Path##" + info().name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -801,7 +801,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -817,8 +817,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -841,7 +841,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -854,7 +854,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("##Path##" + info().name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -926,7 +926,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -942,8 +942,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -970,7 +970,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##"+ label).c_str(),
+				("Name##" + info().name.str() + "##"+ label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -992,7 +992,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("##Path##" + info().name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1181,7 +1181,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -1197,8 +1197,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1221,7 +1221,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1234,7 +1234,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("##Path##" + info().name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1420,7 +1420,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -1436,8 +1436,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1460,7 +1460,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1473,7 +1473,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("##Path##" + info().name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1594,7 +1594,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -1610,8 +1610,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1634,7 +1634,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1647,7 +1647,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("##Path##" + info().name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1750,7 +1750,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -1766,8 +1766,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1788,14 +1788,14 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("##Path##" + info().name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -1856,7 +1856,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -1872,8 +1872,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -1896,7 +1896,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -1909,7 +1909,7 @@ namespace ml
 
 			// Path
 			ImGui::InputText(
-				("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("##Path##" + info().name.str() + "##" + label).c_str(),
 				asset_path,
 				ML_MAX_PATH
 			);
@@ -2024,7 +2024,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -2040,8 +2040,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -2062,7 +2062,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+				("Name##" + info().name.str() + "##" + label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -2191,7 +2191,7 @@ namespace ml
 			}
 			ImGui::EndTooltip();
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -2206,8 +2206,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 		
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -2233,7 +2233,7 @@ namespace ml
 
 			// Name
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##"+ label).c_str(),
+				("Name##" + info().name.str() + "##"+ label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -2256,7 +2256,7 @@ namespace ml
 
 				// Path
 				ImGui::InputText(
-					("##Path##" + typeof<value_type>::name.str() + "##" + label).c_str(),
+					("##Path##" + info().name.str() + "##" + label).c_str(),
 					asset_path,
 					ML_MAX_PATH
 				);
@@ -2496,7 +2496,7 @@ namespace ml
 		if (ImGui::IsItemHovered())
 		{
 		}
-		const String menu_label { ("##SelectorMenu##{0}##{1}"_s).format(label, typeof<value_type>::name) };
+		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
@@ -2511,8 +2511,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		// Popup
-		const String button_label { ("{0}##NewButton##{1}"_s).format(label, typeof<value_type>::name.str()) };
-		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, typeof<value_type>::name.str()) };
+		const String button_label { ("{0}##NewButton##{1}"_s).format(label, info().name.str()) };
+		const String popup_label { ("Create {1}##{0}##Popup"_s).format(label, info().name.str()) };
 		if (ImGui::Button(button_label.c_str()))
 		{
 			ImGui::OpenPopup(popup_label.c_str());
@@ -2524,7 +2524,7 @@ namespace ml
 			// Name Input
 			static char name[32] = "new_uniform\0";
 			ImGui::InputText(
-				("Name##" + typeof<value_type>::name.str() + "##"+ label).c_str(),
+				("Name##" + info().name.str() + "##"+ label).c_str(),
 				name,
 				ML_ARRAYSIZE(name)
 			);
@@ -2583,7 +2583,7 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			//if (value && ML_BITREAD(flags, 0)) 
+			//if (value && (flags & (1 << 0))) 
 			//{ 
 			//	ML_Content.insert<Uniform>(value->name, value); 
 			//}

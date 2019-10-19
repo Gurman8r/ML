@@ -32,6 +32,11 @@ namespace ml
 	protected: static bool s_registered;
 	};
 
+	template <hash_t H> struct TestReg
+	{
+
+	};
+
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <> struct ML_ENGINE_API Registry<> final : public Singleton<Registry<>>
@@ -54,19 +59,19 @@ namespace ml
 
 		inline void * generate(const Name & name) const
 		{
-			const Func func { this->get_func(name) };
+			const Func func { get_func(name) };
 			return (func ? func() : nullptr);
 		}
 
 		inline void * generate(Code code) const
 		{
-			const Func func { this->get_func(code) };
+			const Func func { get_func(code) };
 			return (func ? func() : nullptr);
 		}
 
 		template <class T> inline T * generate() const
 		{
-			return static_cast<T *>(this->generate(typeof<T>::name));
+			return static_cast<T *>(generate(typeof<T>::name));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -86,7 +91,7 @@ namespace ml
 
 		template <class T, class F> inline bool registrate(const Info & info, F && func)
 		{
-			return this->registrate(typeof<T>::name, info, typeof<T>::hash, (Func)func);
+			return registrate(typeof<T>::name, info, typeof<T>::hash, (Func)func);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -106,10 +111,10 @@ namespace ml
 		inline const Func get_func(Code code) const
 		{
 			auto it { m_names.find(code) };
-			return ((it != m_names.end()) ? this->get_func(it->second) : nullptr);
+			return ((it != m_names.end()) ? get_func(it->second) : nullptr);
 		}
 
-		inline const String * get_info(const Name & name) const
+		inline const String *	get_info(const Name & name) const
 		{
 			auto it { m_infos.find(name) };
 			return ((it != m_infos.end()) ? &it->second : nullptr);
@@ -118,7 +123,7 @@ namespace ml
 		inline const String * get_info(Code code) const
 		{
 			auto it { m_names.find(code) };
-			return ((it != m_names.end()) ? this->get_info(it->second) : nullptr);
+			return ((it != m_names.end()) ? get_info(it->second) : nullptr);
 		}
 
 		inline const String * get_name(Code code) const

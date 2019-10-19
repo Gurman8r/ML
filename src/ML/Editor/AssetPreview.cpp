@@ -63,7 +63,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void AssetPreview::drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk && clbk) const
+	void AssetPreview::drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk clbk) const
 	{
 		ImGui::PushID((int32_t)type.hash);
 		ImGui::PushID(value);
@@ -84,6 +84,8 @@ namespace ml
 			{
 				((dst - scl) * 0.5f)
 			};
+
+			if (clbk) clbk();
 			
 			ImGui::BeginChild(
 				("##AssetPreview##" + type.name.str() + "##").c_str(), 

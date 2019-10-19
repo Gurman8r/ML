@@ -39,7 +39,7 @@ namespace ml
 
 		using Clbk = std::function<void()>;
 
-		void drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk && fun) const;
+		void drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk fun) const;
 
 		template <
 			class T, class F

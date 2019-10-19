@@ -53,14 +53,13 @@ namespace ml
 
 		constexpr base_type base() const { return static_cast<Nanoseconds>(m_base); }
 
-		template <
-			class T = typename float_t,
-			class R = typename Milliseconds,
-			class P = typename R::period
-		> constexpr T delta() const
+		template <class To = typename float_t,
+			class Rep = typename Milliseconds,
+			class Per = typename Rep::period
+		> constexpr To delta() const
 		{
-			static_assert(0 < P::den, "period negative or zero");
-			return static_cast<T>(cast<R>(base())) / static_cast<T>(P::den);
+			static_assert(0 < Per::den, "period negative or zero");
+			return static_cast<To>(cast<Rep>(base())) / static_cast<To>(Per::den);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -75,74 +74,54 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
+		template <class T> constexpr friend bool operator==(const Duration & lhs, const T & rhs)
 		{
 			return !(lhs < rhs) && !(rhs < lhs);
 		}
 
-		template <
-			class T
-		> constexpr friend bool operator!=(const Duration & lhs, const T & rhs)
+		template <class T> constexpr friend bool operator!=(const Duration & lhs, const T & rhs)
 		{
 			return !(lhs == rhs);
 		}
 
-		template <
-			class T
-		> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
+		template <class T> constexpr friend bool operator <(const Duration & lhs, const T & rhs)
 		{
-			return ((int64_t)(lhs) < (int64_t)(Duration(rhs)));
+			return ((int64_t)lhs < (int64_t)Duration { rhs });
 		}
 
-		template <
-			class T
-		> constexpr friend bool operator >(const Duration & lhs, const T & rhs)
+		template <class T> constexpr friend bool operator >(const Duration & lhs, const T & rhs)
 		{
 			return !(lhs < rhs);
 		}
 
-		template <
-			class T
-		> constexpr friend bool operator>=(const Duration & lhs, const T & rhs)
+		template <class T> constexpr friend bool operator>=(const Duration & lhs, const T & rhs)
 		{
 			return (lhs > rhs) || (lhs == rhs);
 		}
 
-		template <
-			class T
-		> constexpr friend bool operator<=(const Duration & lhs, const T & rhs)
+		template <class T> constexpr friend bool operator<=(const Duration & lhs, const T & rhs)
 		{
 			return (lhs < rhs) || (lhs == rhs);
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
+		template <class T> constexpr friend Duration operator+(const Duration & lhs, const T & rhs)
 		{
 			return Duration { (int64_t)lhs + (int64_t)rhs };
 		}
 
-		template <
-			class T
-		> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
+		template <class T> constexpr friend Duration operator-(const Duration & lhs, const T & rhs)
 		{
 			return Duration { (int64_t)lhs - (int64_t)rhs };
 		}
 
-		template <
-			class T
-		> constexpr friend Duration & operator+=(Duration & lhs, const T & rhs)
+		template <class T> constexpr friend Duration & operator+=(Duration & lhs, const T & rhs)
 		{
 			return (lhs = (lhs + rhs));
 		}
 		
-		template <
-			class T
-		> constexpr friend Duration operator-=(Duration & lhs, const T & rhs)
+		template <class T> constexpr friend Duration operator-=(Duration & lhs, const T & rhs)
 		{
 			return (lhs = (lhs - rhs));
 		}

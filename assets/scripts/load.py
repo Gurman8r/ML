@@ -43,11 +43,11 @@ ml.content.load_all([
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Texture", "name": "tex_neutrino",        "file": PATH + "/textures/neutrino.png"   },
-    { "type": "Texture", "name": "tex_sanic",           "file": PATH + "/textures/sanic.png"      },
-    { "type": "Texture", "name": "tex_borg",            "file": PATH + "/textures/borg.png"       },
-	{ "type": "Texture", "name": "tex_doot",            "file": PATH + "/textures/doot.png"       },
-    { "type": "Texture", "name": "tex_navball",         "file": PATH + "/textures/navball.png"    },
+    { "type": "Texture", "name": "tex_neutrino",        "file": PATH + "/textures/neutrino.png" },
+    { "type": "Texture", "name": "tex_sanic",           "file": PATH + "/textures/sanic.png" },
+    { "type": "Texture", "name": "tex_borg",            "file": PATH + "/textures/borg.png" },
+	{ "type": "Texture", "name": "tex_doot",            "file": PATH + "/textures/doot.png" },
+    { "type": "Texture", "name": "tex_navball",         "file": PATH + "/textures/navball.png" },
     { "type": "Texture", "name": "tex_earth_cm",        "file": PATH + "/textures/earth/earth_cm_2k.png" },
     { "type": "Texture", "name": "tex_earth_dm",        "file": PATH + "/textures/earth/earth_dm_2k.png" },
     { "type": "Texture", "name": "tex_earth_hm",        "file": PATH + "/textures/earth/earth_hm_2k.png" },

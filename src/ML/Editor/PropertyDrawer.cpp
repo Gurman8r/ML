@@ -2598,7 +2598,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		constexpr float_t speed = 0.005f;
-		constexpr C_String fmt { "%.4f" };
+		constexpr C_String fmt { "%.3f" };
 		switch (value.id)
 		{
 		case uni_bool::ID:

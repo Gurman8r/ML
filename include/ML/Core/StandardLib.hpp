@@ -94,9 +94,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using bool_t		= typename bool;		// Boolean Type
 	using byte_t		= typename uint8_t;		// Byte Type
-	using char_t		= typename char;		// Character Type
 	using float_t		= typename float32_t;	// Float Type
 	using hash_t		= typename uint64_t;	// Hash Type
 	using intptr_t		= typename intmax_t;	// Int Pointer Type

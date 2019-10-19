@@ -62,7 +62,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		virtual Uniform * clone() const = 0;
-		virtual bool_t isModifiable() const = 0;
+		virtual bool isModifiable() const = 0;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -78,7 +78,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr bool_t value_at(int32_t i, int32_t & value)
+		static constexpr bool value_at(int32_t i, int32_t & value)
 		{
 			return alg::value_at(i, value, Uniform::Type_values);
 		}
@@ -101,17 +101,17 @@ namespace ml
 			return out << Type_names[value.id];
 		}
 
-		inline friend bool_t operator<(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool operator<(const Uniform & lhs, const Uniform & rhs)
 		{
 			return ((lhs.id < rhs.id) || (lhs.name < rhs.name));
 		}
 
-		inline friend bool_t operator==(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool operator==(const Uniform & lhs, const Uniform & rhs)
 		{
 			return !(lhs < rhs) && !(rhs < lhs);
 		}
 
-		inline friend bool_t operator!=(const Uniform & lhs, const Uniform & rhs)
+		inline friend bool operator!=(const Uniform & lhs, const Uniform & rhs)
 		{
 			return !(lhs == rhs);
 		}
@@ -142,7 +142,7 @@ namespace ml
 			return new self_type { name, data };
 		}
 
-		inline bool_t isModifiable() const override 
+		inline bool isModifiable() const override 
 		{ 
 			return // holds a value or a sampler
 				std::is_same_v<T, detail::decay_t<T>> ||
@@ -160,7 +160,7 @@ namespace ml
 		{
 			switch (typeof<detail::decay_t<T>>::hash)
 			{
-			case typeof<bool_t>	::hash: return Uniform::Boolean;
+			case typeof<bool>	::hash: return Uniform::Boolean;
 			case typeof<float_t>::hash: return Uniform::Float;
 			case typeof<int32_t>::hash: return Uniform::Integer;
 			case typeof<vec2>	::hash: return Uniform::Vector2;
@@ -185,7 +185,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_bool		= typename impl::uni_t<bool_t>;
+	using uni_bool		= typename impl::uni_t<bool>;
 	using uni_float		= typename impl::uni_t<float_t>;
 	using uni_int		= typename impl::uni_t<int32_t>;
 	using uni_vec2		= typename impl::uni_t<vec2>;
@@ -197,7 +197,7 @@ namespace ml
 	using uni_mat4		= typename impl::uni_t<mat4>;
 	using uni_sampler	= typename impl::uni_t<const Texture *>; // All Texture Types
 
-	using uni_bool_ptr	= typename impl::uni_t<const bool_t *>;
+	using uni_bool_ptr	= typename impl::uni_t<const bool *>;
 	using uni_float_ptr = typename impl::uni_t<const float_t *>;
 	using uni_int_ptr	= typename impl::uni_t<const int32_t *>;
 	using uni_vec2_ptr	= typename impl::uni_t<const vec2 *>;
@@ -214,9 +214,9 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline bool_t * as_bool(const Uniform * value)
+		static inline bool * as_bool(const Uniform * value)
 		{
-			static bool_t temp {};
+			static bool temp {};
 			if (!value || (value->id != uni_bool::ID))		{ return nullptr; }
 			else if (auto u = value->as<uni_bool>())		{ return &(temp =  u->data); }
 			else if (auto u = value->as<uni_bool_ptr>())	{ return &(temp = *u->data); }

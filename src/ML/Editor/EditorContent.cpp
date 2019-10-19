@@ -104,6 +104,7 @@ namespace ml
 							no_delete = !u->isModifiable();
 						}
 					}
+					else if (std::is_same_v<T, Surface>) no_delete = true;
 
 					// Delete
 					if (!no_delete &&

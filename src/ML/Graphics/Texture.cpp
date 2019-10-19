@@ -401,9 +401,7 @@ namespace ml
 					Debug::logWarning("Texture Mipmap Framebuffers Unavailable");
 				}
 				m_mipmapped = false;
-				return setSmooth(m_smooth);
 			}
-
 			if (m_mipmapped)
 			{
 				bind();
@@ -413,24 +411,13 @@ namespace ml
 				ML_GL.texParameter(
 					m_sampler,
 					GL::TexMinFilter,
-					m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
-				);
-
-				ML_GL.texParameter(
-					m_sampler,
-					GL::TexMagFilter,
-					m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapNearest
+					m_smooth ? GL::LinearMipmapLinear : GL::NearestMipmapLinear
 				);
 
 				unbind();
 				
 				ML_GL.flush();
 			}
-			else
-			{
-				return setSmooth(m_smooth);
-			}
-
 		}
 		return (*this);
 	}

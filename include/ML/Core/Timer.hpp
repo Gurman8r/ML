@@ -26,6 +26,15 @@ namespace ml
 		{
 		}
 
+		Timer(bool start)
+			: m_paused	{ !start }
+			, m_clock	{}
+			, m_prev	{}
+			, m_next	{}
+			, m_elapsed	{}
+		{
+		}
+
 		Timer(const Timer & copy)
 			: m_paused	{ copy.m_paused }
 			, m_clock	{ copy.m_clock }

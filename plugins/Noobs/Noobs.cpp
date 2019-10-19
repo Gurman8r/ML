@@ -467,7 +467,7 @@ namespace ml
 				ss	<< std::left
 					<< "uniform " 
 					<< std::setw(7) << Uniform::name_of(u->id) << " "
-					<< std::setw(10) << u->name << " "
+					<< std::setw(15) << u->name << " "
 					<< "{ ";
 				switch (u->id)
 				{

@@ -38,7 +38,7 @@ ml.content.load_all([
     { "type": "Shader", "name": "gl_surface",       "file": PATH + "/shaders/surface.shader" },
     { "type": "Shader", "name": "gl_swirly",        "file": PATH + "/shaders/swirly.shader" },
     { "type": "Shader", "name": "gl_sparkles",      "file": PATH + "/shaders/sparkles.shader" },
-    { "type": "Shader", "name": "gl_wormhole",      "file": PATH + "/shaders/wormhole.shader" },
+    { "type": "Shader", "name": "gl_hypertunnel",   "file": PATH + "/shaders/hypertunnel.shader" },
     { "type": "Shader", "name": "gl_wrainbow",      "file": PATH + "/shaders/wrainbow.shader" },
 
 # Textures

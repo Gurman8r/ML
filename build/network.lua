@@ -31,8 +31,10 @@ project "Network"
 		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}", 
 		"RakNet", "ws2_32",
 	}
-	filter ("configurations:Debug") symbols ("On")
-	filter ("configurations:Release") optimize ("Speed")
+	filter ("configurations:Debug") 
+		symbols ("On")
+	filter ("configurations:Release") 
+		optimize ("Speed")
 	filter ("system:windows")
 		postbuildcommands
 		{

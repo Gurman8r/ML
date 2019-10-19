@@ -32,8 +32,10 @@ project "Graphics"
 		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
 		"glew32s", "opengl32", "assimp", "IrrXML", "zlibstatic",
 	}
-	filter ("configurations:Debug") symbols ("On")
-	filter ("configurations:Release") optimize ("Speed")
+	filter ("configurations:Debug") 
+		symbols ("On")
+	filter ("configurations:Release") 
+		optimize ("Speed")
 	filter ("system:windows")
 		linkoptions ("/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib")
 		postbuildcommands 

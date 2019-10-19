@@ -31,8 +31,11 @@ project "Window"
 		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}", 
 		"opengl32", "glfw3",
 	}
-	filter ("configurations:Debug") symbols ("On") linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
-	filter ("configurations:Release") optimize ("Speed")
+	filter ("configurations:Debug") 
+		symbols ("On") 
+		linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
+	filter ("configurations:Release") 
+		optimize ("Speed")
 	filter ("system:windows")
 		postbuildcommands
 		{

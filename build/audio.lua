@@ -31,8 +31,10 @@ project "Audio"
 		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
 		"OpenAL32", "flac", "ogg", "vorbis", "vorbisenc", "vorbisfile",
 	}
-	filter ("configurations:Debug") symbols ("On")
-	filter ("configurations:Release") optimize ("Speed")
+	filter ("configurations:Debug") 
+		symbols ("On")
+	filter ("configurations:Release") 
+		optimize ("Speed")
 	filter ("system:windows")
 		postbuildcommands 
 		{	

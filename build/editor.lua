@@ -40,8 +40,10 @@ project "Editor"
 		"ML_Network_%{cfg.buildcfg}_%{cfg.platform}",
 		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
 	}
-	filter ("configurations:Debug") symbols ("On")
-	filter ("configurations:Release") optimize ("Speed")
+	filter ("configurations:Debug") 
+		symbols ("On")
+	filter ("configurations:Release") 
+		optimize ("Speed")
 	filter ("system:windows")
 		postbuildcommands
 		{

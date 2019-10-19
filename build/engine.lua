@@ -35,8 +35,12 @@ project "Engine"
 		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
 		"lua",
 	}
-	filter ("configurations:Debug") symbols ("On") links { "python39_d" }
-	filter ("configurations:Release") optimize ("Speed") links { "python39" }
+	filter ("configurations:Debug") 
+		symbols ("On") 
+		links { "python39_d" }
+	filter ("configurations:Release") 
+		optimize ("Speed") 
+		links { "python39" }
 	filter ("system:windows")
 		linkoptions ("/NODEFAULTLIB:LIBCMT.lib")
 		postbuildcommands

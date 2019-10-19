@@ -39,8 +39,12 @@ project "Launcher"
 		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
 		"pdcurses",
 	}
-	filter ("configurations:Debug") kind("ConsoleApp") symbols("On")
-	filter ("configurations:Release") kind("WindowedApp") optimize("On")
+	filter ("configurations:Debug") 
+		symbols ("On")
+		kind("ConsoleApp")
+	filter ("configurations:Release") 
+		optimize ("Speed")
+		kind("WindowedApp")
 	filter ("system:windows")
 		postbuildcommands 
 		{	

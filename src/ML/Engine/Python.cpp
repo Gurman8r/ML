@@ -34,11 +34,7 @@ namespace ml
 
 	bool Py::restart()
 	{
-		if (dispose())
-		{
-			return init(m_name, m_home);
-		}
-		return false;
+		return dispose() && init(m_name, m_home);
 	}
 
 	bool Py::dispose()

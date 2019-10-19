@@ -26,10 +26,9 @@
 
 namespace ml
 {
-	template <class T> static constexpr StringView signature()
-	{
-		return { ML_SIGNATURE };
-	}
+	template <
+		class T
+	> static constexpr auto signature() { return StringView { ML_SIGNATURE }; }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

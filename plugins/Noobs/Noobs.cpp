@@ -5,7 +5,6 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
-#include <ML/Core/OS.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -698,7 +697,7 @@ namespace ml
 
 			if (ImGui::Button("glAlphaFunc"))
 			{
-				OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glAlphaFunc.xml");
+				Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glAlphaFunc.xml");
 			}
 			ImGuiExt::Tooltip("Specify the alpha test function");
 			ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
@@ -770,7 +769,7 @@ namespace ml
 
 			if (ImGui::Button("glBlendFuncSeparate"))
 			{
-				OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
+				Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
 			}
 			ImGuiExt::Tooltip("Specify pixel arithmetic for RGB and alpha components separately");
 			ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
@@ -883,7 +882,7 @@ namespace ml
 
 			if (ImGui::Button("glCullFace"))
 			{
-				OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
+				Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
 			}
 			ImGuiExt::Tooltip("Specify which faces can be culled");
 			ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
@@ -951,7 +950,7 @@ namespace ml
 
 			if (ImGui::Button("glDepthFunc"))
 			{
-				OS::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
+				Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
 			}
 			ImGuiExt::Tooltip("Specify the value used for depth buffer comparisons");
 			ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();

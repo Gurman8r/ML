@@ -1,8 +1,8 @@
 #include <ML/Editor/FileBrowser.hpp>
 #include <ML/Core/SizeOf.hpp>
+#include <ML/Core/Debug.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
-#include <ML/Core/OS.hpp>
 
 namespace ml
 {
@@ -99,12 +99,12 @@ namespace ml
 					{
 						if (ImGui::Button("Open"))
 						{
-							OS::execute("open", get_selected_path());
+							Debug::execute("open", get_selected_path());
 							ImGui::CloseCurrentPopup();
 						}
 						if (ImGui::Button("Browse"))
 						{
-							OS::execute("open", ML_FS.getFilePath(get_selected_path()));
+							Debug::execute("open", ML_FS.getFilePath(get_selected_path()));
 							ImGui::CloseCurrentPopup();
 						}
 						ImGui::EndPopup();

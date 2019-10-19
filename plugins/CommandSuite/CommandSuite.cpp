@@ -1,7 +1,6 @@
 #include "CommandSuite.hpp"
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Core/OS.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/Ref.hpp>
@@ -241,11 +240,11 @@ namespace ml
 			{
 				switch (args.size())
 				{
-				case 2: return (bool)OS::execute(args[1]);
-				case 3: return (bool)OS::execute(args[1], args[2]);
-				case 4: return (bool)OS::execute(args[1], args[2], args[3]);
-				case 5: return (bool)OS::execute(args[1], args[2], args[3], args[4]);
-				case 6: return (bool)OS::execute(args[1], args[2], args[3], args[4], util::to_i32(args[5]));
+				case 2: return (bool)Debug::execute(args[1]);
+				case 3: return (bool)Debug::execute(args[1], args[2]);
+				case 4: return (bool)Debug::execute(args[1], args[2], args[3]);
+				case 5: return (bool)Debug::execute(args[1], args[2], args[3], args[4]);
+				case 6: return (bool)Debug::execute(args[1], args[2], args[3], args[4], util::to_i32(args[5]));
 				}
 				return false;
 			})
@@ -282,40 +281,6 @@ namespace ml
 				})())
 				{
 					return (bool)ML_Py.doString(code);
-				}
-				return false;
-			})
-		});
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m_commands.push_back(new CommandImpl {
-			"sys",
-			"Run a system command",
-			"sys [CMD]...",
-			new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
-			{
-				if (const String code = ([&]()
-				{
-					if (args.size() == 1) return String();
-					SStream ss;
-					for (size_t i = 1; i < args.size(); i++)
-						ss << args[i] << " ";
-					return (String)ss.str();
-				})())
-				{
-					if (auto f { std::shared_ptr<std::FILE>(popen(code.c_str(), "r"), pclose) })
-					{
-						Array<char, 128> buffer;
-						while (!std::feof(f.get()))
-						{
-							if (std::fgets(buffer.data(), 128, f.get()) != nullptr)
-							{
-								cout << String(buffer.data());
-							}
-						}
-						return true;
-					}
 				}
 				return false;
 			})

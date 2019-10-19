@@ -4,7 +4,6 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Core/OS.hpp>
 
 namespace ml
 {
@@ -31,8 +30,8 @@ namespace ml
 		// Menu Bar
 		if (ImGui::BeginMenuBar())
 		{
-			if (ImGui::Button("Downloads")) OS::execute("open", "https://bit.ly/ml_noobs");
-			if (ImGui::Button("Repository")) OS::execute("open", ML_PROJECT_URL);
+			if (ImGui::Button("Downloads")) Debug::execute("open", "https://bit.ly/ml_noobs");
+			if (ImGui::Button("Repository")) Debug::execute("open", ML_PROJECT_URL);
 			ImGui::EndMenuBar();
 		}
 
@@ -157,7 +156,7 @@ namespace ml
 		{
 			auto draw_lnk = ([](C_String label, C_String url)
 			{
-				if (ImGui::MenuItem(label, url)) OS::execute("open", url);
+				if (ImGui::MenuItem(label, url)) Debug::execute("open", url);
 			});
 			draw_lnk("assimp", "https://github.com/assimp/assimp");
 			draw_lnk("cpython", "https://github.com/python/cpython");

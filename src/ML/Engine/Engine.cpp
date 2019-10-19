@@ -176,12 +176,12 @@ namespace ml
 		static const String original_title { m_window.getTitle() };
 		static Timer tm { true };
 		static float_t dt { 0 };
-		if (tm.elapsed() > 1_s)
+		if (tm.elapsed() > 500_ms)
 		{
 			dt = m_time.deltaTime();
 			tm.reset();
 		}
-		m_window.setTitle(String("{0} | {1} | {2} | {3}s/frame").format(
+		m_window.setTitle("{0} | {1} | {2} | {3}s/frame"_s.format(
 			original_title, 
 			ML_CONFIGURATION, 
 			ML_PLATFORM_TARGET, 

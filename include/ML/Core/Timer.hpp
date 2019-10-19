@@ -48,7 +48,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool paused() const
+		inline const bool & paused() const
 		{
 			return m_paused;
 		}

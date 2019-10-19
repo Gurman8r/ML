@@ -48,17 +48,20 @@
 # if defined(_WIN32) || defined(_WIN64) \
   || defined(WIN32) || defined(WIN64) \
   || defined(__MINGW32__) || defined(__MINGW64__)
-#	define ML_SYSTEM_WINDOWS 1
+#	define ML_SYSTEM_WINDOWS
+#	ifndef NOMINMAX
+#		define NOMINMAX
+#	endif
 # elif defined(__APPLE__) && defined(__MACH__)
-#	define ML_SYSTEM_APPLE 1
+#	define ML_SYSTEM_APPLE
 # elif defined(__unix__)
-#	define ML_SYSTEM_UNIX 1
+#	define ML_SYSTEM_UNIX
 #	if defined(__ANDROID__)
-#		define ML_SYSTEM_ANDROID 1
+#		define ML_SYSTEM_ANDROID
 #	elif defined(__linux__)
-#		define ML_SYSTEM_LINUX 1
+#		define ML_SYSTEM_LINUX
 #	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)	
-#		define ML_SYSTEM_FREEBSD 1
+#		define ML_SYSTEM_FREEBSD
 #	endif
 # endif
 
@@ -141,26 +144,32 @@
 // Types
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_INT8			signed char			// 1 byte
-#define ML_INT16		signed short		// 2 bytes
-#define ML_INT32		signed int			// 4 bytes
-#define ML_INT64		signed long long	// 8 bytes
+# define	ML_BOOL			bool
+# define	ML_CHAR			char
+# define	ML_WCHAR		wchar_t
+# define	ML_CHAR16		char16_t
+# define	ML_CHAR32		char32_t
 
-#define ML_UINT8		unsigned char		// 1 byte
-#define ML_UINT16		unsigned short		// 2 bytes
-#define ML_UINT32		unsigned int		// 4 bytes
-#define ML_UINT64		unsigned long long	// 8 bytes
+# define	ML_INT8			signed char			// 1 byte
+# define	ML_INT16		signed short		// 2 bytes
+# define	ML_INT32		signed int			// 4 bytes
+# define	ML_INT64		signed long long	// 8 bytes
 
-#define ML_FLOAT32		float				// 4 bytes
-#define ML_FLOAT64		double				// 8 bytes
-#define ML_FLOAT80		long double			// 8 or 10 bytes (CC dependant)
+# define	ML_UINT8		unsigned char		// 1 byte
+# define	ML_UINT16		unsigned short		// 2 bytes
+# define	ML_UINT32		unsigned int		// 4 bytes
+# define	ML_UINT64		unsigned long long	// 8 bytes
+
+# define	ML_FLOAT32		float				// 4 bytes
+# define	ML_FLOAT64		double				// 8 bytes
+# define	ML_FLOAT80		long double			// 8, 10, 12, or 16 bytes (CC Dependant)
 
 # if (ML_ARCHITECTURE == 32)
-#	define ML_INTMAX	ML_INT32			// Max Signed	(32-Bit)
-#	define ML_UINTMAX	ML_UINT32			// Max Unsigned	(32-Bit)
+#	define ML_INTMAX	ML_INT32	// Max Signed	(32-Bit)
+#	define ML_UINTMAX	ML_UINT32	// Max Unsigned	(32-Bit)
 # else
-#	define ML_INTMAX	ML_INT64			// Max Signed	(64-Bit)
-#	define ML_UINTMAX	ML_UINT64			// Max Unsigned	(64-Bit)
+#	define ML_INTMAX	ML_INT64	// Max Signed	(64-Bit)
+#	define ML_UINTMAX	ML_UINT64	// Max Unsigned	(64-Bit)
 # endif
 
 
@@ -193,9 +202,6 @@
 #	if defined(ML_SYSTEM_WINDOWS)
 #		define ML_API_EXPORT __declspec(dllexport)
 #		define ML_API_IMPORT __declspec(dllimport)
-#		ifndef NOMINMAX
-#			define NOMINMAX
-#		endif
 #		if defined(ML_CC_MSC)
 #			pragma warning(disable: 4031)	// second formal parameter list longer than the first list
 #			pragma warning(disable: 4067)	// unexpected tokens following preprocessor directive - expected a newline

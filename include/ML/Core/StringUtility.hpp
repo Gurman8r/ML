@@ -294,89 +294,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline bool parse_bool(const String & value, bool & out)
-		{
-			if (is_bool(value))
-			{
-				out = to_bool(value); 
-				return true;
-			}
-			return false;
-		}
-
-		static inline bool parse_i8(const String & value, int8_t & out)
-		{
-			try { out = static_cast<int8_t>(std::stoi(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_i16(const String & value, int16_t & out)
-		{
-			try { out = static_cast<int16_t>(std::stoi(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_i32(const String & value, int32_t & out)
-		{
-			try { out = static_cast<int32_t>(std::stoi(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_i64(const String & value, int64_t & out)
-		{
-			try { out = static_cast<int64_t>(std::stoll(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_u8(const String & value, uint8_t & out)
-		{
-			try { out = static_cast<uint8_t>(std::stoi(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_u16(const String & value, uint16_t & out)
-		{
-			try { out = static_cast<uint16_t>(std::stoi(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_u32(const String & value, uint32_t & out)
-		{
-			try { out = static_cast<uint32_t>(std::stoul(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_u64(const String & value, uint64_t & out)
-		{
-			try { out = static_cast<uint64_t>(std::stoull(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_f32(const String & value, float32_t & out)
-		{
-			try { out = static_cast<float32_t>(std::stof(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_f64(const String & value, float64_t & out)
-		{
-			try { out = static_cast<float64_t>(std::stod(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		static inline bool parse_f80(const String & value, float80_t & out)
-		{
-			try { out = static_cast<float80_t>(std::stold(value)); return true; }
-			catch (std::invalid_argument &) { return false; }
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class T> static inline String to_string(const T & value)
-		{
-			SStream ss {}; ss << value; return ss.str();
-		}
-
 		static inline String to_string(const String & value) { return value; }
 
 		static inline String to_string(int8_t value) { return std::to_string(value); }
@@ -400,6 +317,11 @@ namespace ml
 		static inline String to_string(float64_t value) { return std::to_string(value); }
 
 		static inline String to_string(float80_t value) { return std::to_string(value); }
+
+		template <class T> static inline String to_string(const T & value)
+		{
+			SStream ss {}; ss << value; return ss.str();
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

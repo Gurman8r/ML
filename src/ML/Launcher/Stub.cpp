@@ -16,11 +16,31 @@ namespace ml
 	{
 		// Type Tests
 		{
-			static_assert(typeof<uint32_t>::name == "unsigned int");
-			static_assert(typeof<float_t>::name == "float");
-			static_assert(typeof<Debug>::name == "ml::Debug");
-			static_assert(typeof<std::string>::name == "std::string");
-			static_assert(typeof<String>::name == "ml::BasicString<char>");
+#ifdef ML_NAMEOF_INTEGRALS
+			static_assert(typeof<bool>			::name == "bool");
+			static_assert(typeof<char>			::name == "char");
+			static_assert(typeof<wchar_t>		::name == "wchar_t");
+			static_assert(typeof<char16_t>		::name == "char16_t");
+			static_assert(typeof<char32_t>		::name == "char32_t");
+			static_assert(typeof<int8_t>		::name == "signed char");
+			static_assert(typeof<int16_t>		::name == "signed short");
+			static_assert(typeof<int32_t>		::name == "signed int");
+			static_assert(typeof<int64_t>		::name == "signed long long");
+			static_assert(typeof<uint8_t>		::name == "unsigned char");
+			static_assert(typeof<uint16_t>		::name == "unsigned short");
+			static_assert(typeof<uint32_t>		::name == "unsigned int");
+			static_assert(typeof<uint64_t>		::name == "unsigned long long");
+			static_assert(typeof<float32_t>		::name == "float");
+			static_assert(typeof<float64_t>		::name == "double");
+			static_assert(typeof<float80_t>		::name == "long double");
+#endif
+
+#ifdef ML_NAMEOF_STRINGS
+			static_assert(typeof<std::string>	::name == "std::string");
+			static_assert(typeof<std::wstring>	::name == "std::wstring");
+			static_assert(typeof<std::u16string>::name == "std::u16string");
+			static_assert(typeof<std::u32string>::name == "std::u32string");
+#endif
 		}
 
 		// Matrix Tests

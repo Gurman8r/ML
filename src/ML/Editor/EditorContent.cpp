@@ -1,7 +1,6 @@
 #include <ML/Editor/EditorContent.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
-#include <ML/Core/OS.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Engine/ContentManager.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -35,7 +34,7 @@ namespace ml
 			static auto & db { ML_Content.data<T>() };
 
 			// Plural Name
-			static const String label { ([&](String name)
+			static const String plural { ([&](String name)
 			{
 				if (!name) { return String{}; }
 				name = name.substr(name.find_first_of(':') + 2);
@@ -48,10 +47,10 @@ namespace ml
 			})(typeof<T>::name) };
 
 			// Tab Item
-			const bool tab_visible { ImGui::BeginTabItem(label.c_str()) };
+			const bool tab_visible { ImGui::BeginTabItem(plural.c_str()) };
 			
 			// Tab Context Menu
-			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + label).c_str()))
+			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + plural).c_str()))
 			{
 				void * temp { nullptr };
 				if (!std::is_same_v<T, Surface> && !std::is_same_v<T, Uniform>)
@@ -85,7 +84,7 @@ namespace ml
 
 				// Item Selectable
 				if (ImGui::Selectable(
-					(it->first + "##" + label).c_str(), 
+					(it->first + "##" + plural).c_str(), 
 					(ML_Editor.content().m_selected == it->second)
 				))
 				{
@@ -93,7 +92,7 @@ namespace ml
 				}
 				
 				// Item Context Menu
-				if (ImGui::BeginPopupContextItem(("##ItemContextMenu##" + label).c_str()))
+				if (ImGui::BeginPopupContextItem(("##ItemContextMenu##" + plural).c_str()))
 				{
 					bool no_delete { false };
 

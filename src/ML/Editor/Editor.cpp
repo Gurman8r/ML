@@ -10,7 +10,6 @@
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Core/OS.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Editor/PropertyDrawer.hpp>
 
@@ -234,10 +233,10 @@ namespace ml
 				m_about.MenuItem();
 				
 				if (ImGui::MenuItem("Repository", "http://"))
-					OS::execute("open", ML_PROJECT_URL);
+					Debug::execute("open", ML_PROJECT_URL);
 				
 				if (ImGui::MenuItem("Downloads", "http://")) 
-					OS::execute("open", "https://bit.ly/ml_noobs");
+					Debug::execute("open", "https://bit.ly/ml_noobs");
 
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
 

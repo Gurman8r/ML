@@ -136,6 +136,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static void * execute(const String & cmd);
+		static void * execute(const String & cmd, const String & file);
+		static void * execute(const String & cmd, const String & file, const String & args);
+		static void * execute(const String & cmd, const String & file, const String & args, const String & path);
+		static void * execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		struct Logger final
 		{
 			Logger() = default;

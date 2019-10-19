@@ -2378,15 +2378,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		bool mipmapped { value.mipmapped() };
-
-		if (ImGui::Button(("Generate Mipmap##" + label).c_str()))
+		if (ImGui::Button(((mipmapped 
+			? "Invalidate Mipmap##" : "Generate Mipmap##") + label).c_str()
+		))
 		{
-			value.setMipmapped(true);
+			value.setMipmapped(!mipmapped);
 			changed = true;
 		}
-		ImGui::SameLine();
-		if (ImGui::Checkbox(("##Mipmapped##" + label).c_str(), &mipmapped)) {}
-		ImGuiExt::Tooltip(mipmapped ? "Has Mipmap" : "No Mipmap");
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

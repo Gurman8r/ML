@@ -4,7 +4,7 @@ ml.content.load_all([
 
 # Images
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "Image", "name": "_icon_",            "file": PATH + "/icon.png", "flip_v": "False" },
+    { "type": "Image", "name": "_app_icon_",        "file": PATH + "/icon.png", "flip_v": "False" },
     { "type": "Image", "name": "img_star",          "file": PATH + "/textures/sky/star.jpg" },
     { "type": "Image", "name": "img_sunset_right",  "file": PATH + "/textures/sky/sunset/sunset_right.png", "flip_v": "False" },
     { "type": "Image", "name": "img_sunset_left",   "file": PATH + "/textures/sky/sunset/sunset_left.png", "flip_v": "False" },

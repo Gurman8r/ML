@@ -158,7 +158,7 @@ namespace ml
 
 		// Set Window Icon
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (Ref<Image> icon { "_icon_" })
+		if (Ref<Image> icon { "_app_icon_" })
 		{
 			m_window.setIcon(icon->width(), icon->height(), icon->data());
 		}

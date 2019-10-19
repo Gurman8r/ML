@@ -2598,6 +2598,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		constexpr float_t speed = 0.005f;
+		constexpr C_String fmt { "%.4f" };
 		switch (value.id)
 		{
 		case uni_bool::ID:
@@ -2617,7 +2618,7 @@ namespace ml
 			if (auto u = detail::as_float(&value))
 			{
 				const String name = "##" + label + "##Float##Uni" + value.name;
-				ImGui::DragFloat(name.c_str(), u, speed);
+				ImGui::DragFloat(name.c_str(), u, speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_float>())
 				{
 					temp->data = (*u); 
@@ -2646,7 +2647,7 @@ namespace ml
 			if (auto u = detail::as_vec2(&value))
 			{
 				const String name = "##" + label + "##Vec2##Uni" + value.name;
-				ImGui::DragFloat2(name.c_str(), &(*u)[0], speed);
+				ImGui::DragFloat2(name.c_str(), &(*u)[0], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_vec2>())
 				{
 					temp->data = (*u); 
@@ -2659,7 +2660,7 @@ namespace ml
 			if (auto u = detail::as_vec3(&value))
 			{
 				const String name = "##" + label + "##Vec3##Uni" + value.name;
-				ImGui::DragFloat3(name.c_str(), &(*u)[0], speed);
+				ImGui::DragFloat3(name.c_str(), &(*u)[0], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_vec3>())
 				{
 					temp->data = (*u);
@@ -2672,7 +2673,7 @@ namespace ml
 			if (auto u = detail::as_vec4(&value))
 			{
 				const String name = "##" + label + "##Vec4##Uni" + value.name;
-				ImGui::DragFloat4(name.c_str(), &(*u)[0], speed);
+				ImGui::DragFloat4(name.c_str(), &(*u)[0], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_vec4>())
 				{
 					temp->data = (*u); 
@@ -2698,8 +2699,8 @@ namespace ml
 			if (mat2 * u = detail::as_mat2(&value))
 			{
 				const String name = "##" + label + "##Mat2##Uni" + value.name;
-				ImGui::DragFloat2((name + "##00").c_str(), &(*u)[0], speed);
-				ImGui::DragFloat2((name + "##02").c_str(), &(*u)[2], speed);
+				ImGui::DragFloat2((name + "##00").c_str(), &(*u)[0], speed, 0, 0, fmt);
+				ImGui::DragFloat2((name + "##02").c_str(), &(*u)[2], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_mat2>())
 				{
 					temp->data = (*u);
@@ -2712,9 +2713,9 @@ namespace ml
 			if (auto u = detail::as_mat3(&value))
 			{
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
-				ImGui::DragFloat3((name + "##00").c_str(), &(*u)[0], speed);
-				ImGui::DragFloat3((name + "##03").c_str(), &(*u)[3], speed);
-				ImGui::DragFloat3((name + "##06").c_str(), &(*u)[6], speed);
+				ImGui::DragFloat3((name + "##00").c_str(), &(*u)[0], speed, 0, 0, fmt);
+				ImGui::DragFloat3((name + "##03").c_str(), &(*u)[3], speed, 0, 0, fmt);
+				ImGui::DragFloat3((name + "##06").c_str(), &(*u)[6], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_mat3>())
 				{
 					temp->data = (*u); 
@@ -2727,10 +2728,10 @@ namespace ml
 			if (auto u = detail::as_mat4(&value))
 			{
 				const String name = "##" + label + "##Mat4##Uni" + value.name;
-				ImGui::DragFloat4((name + "##00").c_str(), &(*u)[0],  speed);
-				ImGui::DragFloat4((name + "##04").c_str(), &(*u)[4],  speed);
-				ImGui::DragFloat4((name + "##08").c_str(), &(*u)[8],  speed);
-				ImGui::DragFloat4((name + "##12").c_str(), &(*u)[12], speed);
+				ImGui::DragFloat4((name + "##00").c_str(), &(*u)[0],  speed, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##04").c_str(), &(*u)[4],  speed, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##08").c_str(), &(*u)[8],  speed, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##12").c_str(), &(*u)[12], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_mat4>())
 				{
 					temp->data = (*u); 

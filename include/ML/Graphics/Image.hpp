@@ -24,6 +24,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static const Image Default;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Image();
 		Image(const vec2u & size);
 		Image(const vec2u & size, uint32_t channels);
@@ -33,7 +37,6 @@ namespace ml
 		explicit Image(const String & filename, bool flip_v);
 		explicit Image(const String & filename, bool flip_v, uint32_t req_comp);
 		Image(const Image & copy);
-		Image(Image && copy);
 		~Image();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -59,6 +62,11 @@ namespace ml
 		
 		Image & flipHorizontally();
 		Image & flipVertically();
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		Color32 getPixel(uint32_t x, uint32_t y) const;
+		Image & setPixel(uint32_t x, uint32_t y, const Color32 & color);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

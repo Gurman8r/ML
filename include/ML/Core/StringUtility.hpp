@@ -7,29 +7,25 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	namespace string_literals
+	inline auto operator "" _s(C_String data, size_t size)
 	{
-		inline auto operator "" _s(C_String data, size_t size)
-		{
-			return String { data, size };
-		}
-
-		inline auto operator "" _s(CW_String data, size_t size)
-		{
-			return W_String { data, size };
-		}
-
-		inline auto operator "" _s(CU16_String data, size_t size)
-		{
-			return U16_String { data, size };
-		}
-
-		inline auto operator "" _s(CU32_String data, size_t size)
-		{
-			return U32_String { data, size };
-		}
+		return String { data, size };
 	}
-	using namespace string_literals;
+
+	inline auto operator "" _s(CW_String data, size_t size)
+	{
+		return W_String { data, size };
+	}
+
+	inline auto operator "" _s(C16_String data, size_t size)
+	{
+		return U16_String { data, size };
+	}
+
+	inline auto operator "" _s(C32_String data, size_t size)
+	{
+		return U32_String { data, size };
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -63,9 +59,15 @@ namespace ml
 			return temp;
 		}
 
-		static inline String narrow(const W_String & value) { return convert<char>(value); }
+		static inline String narrow(const W_String & value)
+		{ 
+			return convert<char>(value); 
+		}
 
-		static inline W_String widen(const String & value) { return convert<wchar_t>(value); }
+		static inline W_String widen(const String & value)
+		{ 
+			return convert<wchar_t>(value); 
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

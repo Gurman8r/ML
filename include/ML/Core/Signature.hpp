@@ -6,6 +6,9 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 // Source: https://github.com/Manu343726/ctti
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 # if defined(ML_CC_MSC)
 #	define ML_SIGNATURE		__FUNCSIG__
 #	define ML_SIGNATURE_PRE	"struct ml::StringView __cdecl ml::detail::signature<"
@@ -28,9 +31,9 @@ namespace ml
 {
 	namespace detail
 	{
-		template <class T> static constexpr auto signature() 
+		template <class T> static constexpr StringView signature()
 		{ 
-			return StringView { ML_SIGNATURE }; 
+			return { ML_SIGNATURE }; 
 		}
 	}
 }

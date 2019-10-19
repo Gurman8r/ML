@@ -23,8 +23,7 @@ namespace ml
 
 	template <> struct typeof<> final
 	{
-		const StringView name;
-		const hash_t hash;
+		const StringView name; const hash_t hash;
 
 		template <class T> constexpr typeof(const typeof<T> & copy)
 			: name { copy.name }, hash { copy.hash }

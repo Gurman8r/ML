@@ -35,8 +35,6 @@
 #include <stack>
 #include <set>
 #include <sstream>
-#include <stdarg.h>
-#include <stdint.h>
 #include <string>
 #include <string_view>
 #include <thread>
@@ -89,8 +87,8 @@ namespace ml
 
 	using C_String		= typename const char *;
 	using CW_String		= typename const wchar_t *;
-	using CU16_String	= typename const char16_t *;
-	using CU32_String	= typename const char32_t *;
+	using C16_String	= typename const char16_t *;
+	using C32_String	= typename const char32_t *;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

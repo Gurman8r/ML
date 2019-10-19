@@ -120,33 +120,58 @@ namespace ml
 	{
 		// Load Defaults
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Content.create<Texture>("default_texture")->loadFromImage(
-			ML_Content.create<Image>("default_image")->update(
-				{ 512, 512 }, 4, Colors::magenta
-			)
+		ML_Content.create<Texture>("default_texture")->loadFromImage
+		(
+			*ML_Content.create<Image>("default_image", Image::Default)
 		);
 
-		ML_Content.create<Model>("default_triangle")->loadFromMemory(
+		ML_Content.create<Model>("default_triangle")->loadFromMemory
+		(
 			geo::triangle_static::vertices,
 			geo::triangle_static::indices
 		);
-		ML_Content.create<Model>("default_quad")->loadFromMemory(
+		
+		ML_Content.create<Model>("default_quad")->loadFromMemory
+		(
 			geo::quad_static::vertices,
 			geo::quad_static::indices
 		);
-		ML_Content.create<Model>("default_cube")->loadFromMemory(
+		
+		ML_Content.create<Model>("default_cube")->loadFromMemory
+		(
 			geo::cube_static::vertices,
 			geo::cube_static::indices
 		);
-		ML_Content.create<Model>("default_skybox")->loadFromMemory(
+		
+		ML_Content.create<Model>("default_skybox")->loadFromMemory
+		(
 			geo::skybox_static::vertices
 		);
 
-		ML_Content.insert<Uniform>("u_cursor", new uni_vec2_ptr{ "u_cursor", &m_window.getCursorPos() });
-		ML_Content.insert<Uniform>("u_delta", new uni_float_ptr{ "u_delta", &m_time.deltaTime() });
-		ML_Content.insert<Uniform>("u_frame", new uni_int_ptr{ "u_frame", &m_time.frameCount() });
-		ML_Content.insert<Uniform>("u_fps", new uni_float_ptr{ "u_fps", &m_time.frameRate() });
-		ML_Content.insert<Uniform>("u_time", new uni_float_ptr{ "u_time", &m_time.totalTime() });
+		ML_Content.insert<Uniform>("u_cursor", new uni_vec2_ptr
+		{ 
+			"u_cursor", &m_window.getCursorPos() 
+		});
+		
+		ML_Content.insert<Uniform>("u_delta", new uni_float_ptr
+		{ 
+			"u_delta", &m_time.deltaTime() 
+		});
+		
+		ML_Content.insert<Uniform>("u_frame", new uni_int_ptr
+		{ 
+			"u_frame", &m_time.frameCount()
+		});
+		
+		ML_Content.insert<Uniform>("u_fps", new uni_float_ptr
+		{ 
+			"u_fps", &m_time.frameRate() 
+		});
+		
+		ML_Content.insert<Uniform>("u_time", new uni_float_ptr
+		{ 
+			"u_time", &m_time.totalTime() 
+		});
 
 		
 		// Run Load Script
@@ -181,7 +206,7 @@ namespace ml
 			dt = m_time.deltaTime();
 			tm.reset();
 		}
-		m_window.setTitle("{0} | {1} | {2} | {3}s/frame"_s.format(
+		m_window.setTitle(String{ "{0} | {1} | {2} | {3}s/frame" }.format(
 			original_title, 
 			ML_CONFIGURATION, 
 			ML_PLATFORM_TARGET, 

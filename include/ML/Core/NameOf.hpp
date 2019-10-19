@@ -127,45 +127,17 @@ namespace ml
 
 		static constexpr StringView filter(const StringView & value)
 		{
-			return filter_constexpr(filter_class(filter_struct(filter_signature(value))));
+			return 
+				filter_constexpr(
+				filter_class(
+				filter_struct(
+				filter_signature(
+				value
+			))));
 		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-//#define ML_NAMEOF_INTEGRALS
-#ifdef ML_NAMEOF_INTEGRALS
-template <> struct ml::nameof<ML_BOOL>		{ static constexpr auto value { ML_STRINGIFY(ML_BOOL) }; };
-template <> struct ml::nameof<ML_CHAR>		{ static constexpr auto value { ML_STRINGIFY(ML_CHAR) }; };
-template <> struct ml::nameof<ML_WCHAR>		{ static constexpr auto value { ML_STRINGIFY(ML_WCHAR) }; };
-template <> struct ml::nameof<ML_CHAR16>	{ static constexpr auto value { ML_STRINGIFY(ML_CHAR16) }; };
-template <> struct ml::nameof<ML_CHAR32>	{ static constexpr auto value { ML_STRINGIFY(ML_CHAR32) }; };
-template <> struct ml::nameof<ML_INT8>		{ static constexpr auto value { ML_STRINGIFY(ML_INT8) }; };
-template <> struct ml::nameof<ML_INT16>		{ static constexpr auto value { ML_STRINGIFY(ML_INT16) }; };
-template <> struct ml::nameof<ML_INT32>		{ static constexpr auto value { ML_STRINGIFY(ML_INT32) }; };
-template <> struct ml::nameof<ML_INT64>		{ static constexpr auto value { ML_STRINGIFY(ML_INT64) }; };
-template <> struct ml::nameof<ML_UINT8>		{ static constexpr auto value { ML_STRINGIFY(ML_UINT8) }; };
-template <> struct ml::nameof<ML_UINT16>	{ static constexpr auto value { ML_STRINGIFY(ML_UINT16) }; };
-template <> struct ml::nameof<ML_UINT32>	{ static constexpr auto value { ML_STRINGIFY(ML_UINT32) }; };
-template <> struct ml::nameof<ML_UINT64>	{ static constexpr auto value { ML_STRINGIFY(ML_UINT64) }; };
-template <> struct ml::nameof<ML_FLOAT32>	{ static constexpr auto value { ML_STRINGIFY(ML_FLOAT32) }; };
-template <> struct ml::nameof<ML_FLOAT64>	{ static constexpr auto value { ML_STRINGIFY(ML_FLOAT64) }; };
-template <> struct ml::nameof<ML_FLOAT80>	{ static constexpr auto value { ML_STRINGIFY(ML_FLOAT80) }; };
-#endif // ML_NAMEOF_INTEGRALS
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-//#define ML_NAMEOF_STRINGS
-#ifdef ML_NAMEOF_STRINGS
-template <> struct ml::nameof<std::string>		{ static constexpr auto value { ML_STRINGIFY(std::string) }; };
-template <> struct ml::nameof<std::wstring>		{ static constexpr auto value { ML_STRINGIFY(std::wstring) }; };
-template <> struct ml::nameof<std::u16string>	{ static constexpr auto value { ML_STRINGIFY(std::u16string) }; };
-template <> struct ml::nameof<std::u32string>	{ static constexpr auto value { ML_STRINGIFY(std::u32string) }; };
-#endif // ML_NAMEOF_STRING
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #endif // !_ML_NAMEOF_HPP_

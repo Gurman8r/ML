@@ -12,6 +12,30 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	static inline Image generate_default_image()
+	{
+		Image img { vec2u{ 512, 512 }, 4 };
+		for (uint32_t y = 0; y < img.height(); y++)
+		{
+			for (uint32_t x = 0; x < img.width(); x++)
+			{
+				img.setPixel(x, y,
+					(((y < img.height() / 2) && (x < img.width() / 2)) ||
+					((y >= img.height() / 2) && (x >= img.width() / 2))
+						? Colors::black
+						: (((y >= img.height() / 2) || (x >= img.width() / 2))
+							? Colors::magenta
+							: Colors::green
+							)));
+			}
+		}
+		return img;
+	}
+
+	const Image Image::Default { generate_default_image() };
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	Image::Image()
 		: Image { vec2u { NULL } }
 	{
@@ -66,14 +90,6 @@ namespace ml
 		: Image {}
 	{
 		this->update(copy.m_size, copy.m_channels, copy.m_pixels);
-	}
-
-	Image::Image(Image && copy)
-		: Image {}
-	{
-		std::swap(m_size, copy.m_size);
-		std::swap(m_pixels, copy.m_pixels);
-		std::swap(m_channels, copy.m_channels);
 	}
 
 	Image::~Image() { this->dispose(); }
@@ -214,6 +230,37 @@ namespace ml
 				top += cols;
 				bot -= cols;
 			}
+		}
+		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	Color32 Image::getPixel(uint32_t x, uint32_t y) const
+	{
+		Color32 temp { Colors::clear };
+		const size_t i { (x + y * m_size[0]) * m_channels };
+		if (i < capacity())
+		{
+			const_iterator it { cbegin() + i };
+			if (m_channels >= 1) temp[0] = *(it + 0);
+			if (m_channels >= 2) temp[1] = *(it + 1);
+			if (m_channels >= 3) temp[2] = *(it + 2);
+			if (m_channels >= 4) temp[3] = *(it + 3);
+		}
+		return temp;
+	}
+
+	Image & Image::setPixel(uint32_t x, uint32_t y, const Color32 & color)
+	{
+		const size_t i { (x + y * m_size[0]) * m_channels };
+		if (i < capacity())
+		{
+			iterator it { begin() + i };
+			if (m_channels >= 1) *it++ = color[0];
+			if (m_channels >= 2) *it++ = color[1];
+			if (m_channels >= 3) *it++ = color[2];
+			if (m_channels >= 4) *it++ = color[3];
 		}
 		return (*this);
 	}

@@ -56,12 +56,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-
-namespace py = pybind11;
-
 namespace ml
 {
-	// Types
+	namespace py = pybind11;
+
+	// In / Out Types
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	using str_t		= typename std::string;
 	using list_t	= typename std::vector<str_t>;

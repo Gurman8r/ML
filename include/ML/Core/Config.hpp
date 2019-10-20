@@ -151,23 +151,23 @@
 # define	ML_CHAR32	char32_t
 
 # ifdef ML_CC_MSC
-# define	ML_INT8		signed		__int8
-# define	ML_INT16	signed		__int16
-# define	ML_INT32	signed		__int32
-# define	ML_INT64	signed		__int64
-# define	ML_UINT8	unsigned	__int8
-# define	ML_UINT16	unsigned	__int16
-# define	ML_UINT32	unsigned	__int32
-# define	ML_UINT64	unsigned	__int64
+# define	ML_INT8		signed __int8
+# define	ML_INT16	signed __int16
+# define	ML_INT32	signed __int32
+# define	ML_INT64	signed __int64
+# define	ML_UINT8	unsigned __int8
+# define	ML_UINT16	unsigned __int16
+# define	ML_UINT32	unsigned __int32
+# define	ML_UINT64	unsigned __int64
 # else
-# define	ML_INT8		signed		char
-# define	ML_INT16	signed		short
-# define	ML_INT32	signed		int
-# define	ML_INT64	signed		long long
-# define	ML_UINT8	unsigned	char
-# define	ML_UINT16	unsigned	short
-# define	ML_UINT32	unsigned	int
-# define	ML_UINT64	unsigned	long long
+# define	ML_INT8		signed char
+# define	ML_INT16	signed short
+# define	ML_INT32	signed int
+# define	ML_INT64	signed long long
+# define	ML_UINT8	unsigned char
+# define	ML_UINT16	unsigned short
+# define	ML_UINT32	unsigned int
+# define	ML_UINT64	unsigned long long
 # endif
 
 # define	ML_FLOAT32	float

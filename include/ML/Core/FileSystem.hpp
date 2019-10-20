@@ -69,16 +69,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		FileSystem()
-			: m_root(this->getPath())
-		{
-		}
-
+		friend struct Singleton<FileSystem>;
+		
+		FileSystem() : m_root { getPath() } {}
+		
 		~FileSystem() {}
 
 		String m_root;
-
-		friend struct Singleton<FileSystem>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

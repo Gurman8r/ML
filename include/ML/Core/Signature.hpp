@@ -11,15 +11,15 @@
 
 # if defined(ML_CC_MSC)
 #	define ML_SIGNATURE		__FUNCSIG__
-#	define ML_SIGNATURE_PRE	"struct ml::StringView __cdecl ml::detail::signature<"
+#	define ML_SIGNATURE_PRE	"struct ml::StringView __cdecl ml::signature::type<"
 #	define ML_SIGNATURE_SUF	">(void)"
 # elif defined(ML_CC_GNU)
 #	define ML_SIGNATURE		__PRETTY_FUNCTION__
-#	define ML_SIGNATURE_PRE	"constexpr ml::StringView ml::detail::signature() [with T = "
+#	define ML_SIGNATURE_PRE	"constexpr ml::StringView ml::signature::type() [with T = "
 #	define ML_SIGNATURE_SUF	"]"
 # elif defined(ML_CC_CLANG)
 #	define ML_SIGNATURE		__PRETTY_FUNCTION__
-#	define ML_SIGNATURE_PRE	"ml::StringView ml::detail::signature() [T = "
+#	define ML_SIGNATURE_PRE	"ml::StringView ml::signature::type() [T = "
 #	define ML_SIGNATURE_SUF	"]"
 # else
 #	error Type information is not available.
@@ -29,11 +29,11 @@
 
 namespace ml
 {
-	namespace detail
+	namespace signature
 	{
-		template <class T> static constexpr StringView signature()
-		{ 
-			return { ML_SIGNATURE }; 
+		template <class T> static constexpr StringView type()
+		{
+			return { ML_SIGNATURE };
 		}
 	}
 }

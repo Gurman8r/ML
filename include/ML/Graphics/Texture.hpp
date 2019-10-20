@@ -36,6 +36,7 @@ namespace ml
 		bool loadFromFile(const String & filename);
 		bool loadFromImage(const Image & value);
 		bool loadFromFaces(const Array<const Image *, 6> & faces);
+		bool loadFromFaces(const Array<Image, 6> & faces);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

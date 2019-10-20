@@ -14,7 +14,10 @@ namespace ml
 	template <class T> struct nameof<T> final
 	{
 		constexpr nameof() = default;
-		static constexpr auto value { detail::signature<T>() };
+		static constexpr StringView value
+		{
+			signature::type<T>() 
+		};
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

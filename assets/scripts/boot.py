@@ -1,4 +1,8 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+# For more information see:
+# https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/ContentImporter.cpp
+# https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/Python.cpp
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 import MEMELIB as ml
 
@@ -13,7 +17,6 @@ if (ml.config.is_debug()):
         ml.config.project_time()
         ])
     ml.prefs.set("Editor", "style_config", "../../../assets/styles/obsidian.style")
-    ml.prefs.set("Editor", "font_size", "20.0")
     #ml.io.pause()
     #ml.io.exit()
 

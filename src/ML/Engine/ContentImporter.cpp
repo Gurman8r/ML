@@ -27,7 +27,7 @@ namespace ml
 			{
 				if (!ML_Content.get<Entity>(name))
 				{
-					return ML_Content.insert(name, new Entity());
+					return ML_Content.insert(name, new Entity{});
 				}
 			}
 		}
@@ -47,11 +47,11 @@ namespace ml
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Font(ML_FS.pathTo(file)));
+						return ML_Content.insert(name, new Font{ ML_FS.pathTo(file) });
 					}
 					else
 					{
-						return ML_Content.insert(name, new Font());
+						return ML_Content.insert(name, new Font{});
 					}
 				}
 			}
@@ -78,7 +78,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Image());
+						return ML_Content.insert(name, new Image{});
 					}
 				}
 			}
@@ -143,11 +143,11 @@ namespace ml
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Model(ML_FS.pathTo(file)));
+						return ML_Content.insert(name, new Model{ ML_FS.pathTo(file) });
 					}
 					else
 					{
-						return ML_Content.insert(name, new Model());
+						return ML_Content.insert(name, new Model{});
 					}
 				}
 			}
@@ -168,11 +168,11 @@ namespace ml
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Script(ML_FS.pathTo(file)));
+						return ML_Content.insert(name, new Script{ ML_FS.pathTo(file) });
 					}
 					else
 					{
-						return ML_Content.insert(name, new Script());
+						return ML_Content.insert(name, new Script{});
 					}
 				}
 			}
@@ -193,7 +193,7 @@ namespace ml
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Shader(ML_FS.pathTo(file)));
+						return ML_Content.insert(name, new Shader{ ML_FS.pathTo(file) });
 					}
 					else
 					{
@@ -220,7 +220,7 @@ namespace ml
 						}
 						else
 						{
-							return ML_Content.insert(name, new Shader());
+							return ML_Content.insert(name, new Shader{});
 						}
 					}
 				}
@@ -251,7 +251,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Sound());
+						return ML_Content.insert(name, new Sound{});
 					}
 				}
 			}
@@ -284,7 +284,7 @@ namespace ml
 					}
 					else
 					{
-						return ML_Content.insert(name, new Sprite());
+						return ML_Content.insert(name, new Sprite{});
 					}
 				}
 			}
@@ -414,7 +414,30 @@ namespace ml
 							md.getData("back"),
 						};
 
-						if (source == "images")
+						switch (util::to_lower(source).hash())
+						{
+						/* * * * * * * * * * * * * * * * * * * * */
+						case Hash("files"):
+						{
+							auto temp = new Texture {
+							sampler, format, smooth, repeat, mipmap, level, pixfmt
+							};
+							if (temp->loadFromFaces({
+								&Image{ names[0] },
+								&Image{ names[1] },
+								&Image{ names[2] },
+								&Image{ names[3] },
+								&Image{ names[4] },
+								&Image{ names[5] },
+							}))
+							{
+								return ML_Content.insert(name, temp);
+							}
+							delete temp;
+						}
+						break;
+						/* * * * * * * * * * * * * * * * * * * * */
+						case Hash("images"):
 						{
 							auto temp = new Texture {
 							sampler, format, smooth, repeat, mipmap, level, pixfmt
@@ -432,30 +455,42 @@ namespace ml
 							}
 							delete temp;
 						}
-						else if (source == "files")
+						break;
+						/* * * * * * * * * * * * * * * * * * * * */
+						case Hash("textures"):
 						{
+							Array<const Texture *, 6> tex {
+								ML_Content.get<Texture>(names[0]),
+								ML_Content.get<Texture>(names[1]),
+								ML_Content.get<Texture>(names[2]),
+								ML_Content.get<Texture>(names[3]),
+								ML_Content.get<Texture>(names[4]),
+								ML_Content.get<Texture>(names[5]),
+							};
+							Array<Image, 6> img {};
+							for (size_t i = 0; i < 6; i++)
+							{
+								img[i] = (tex[i] ? tex[i]->copyToImage() : Image::Default);
+							}
 							auto temp = new Texture {
 							sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
-							if (temp->loadFromFaces({
-								&Image(names[0]),
-								&Image(names[1]),
-								&Image(names[2]),
-								&Image(names[3]),
-								&Image(names[4]),
-								&Image(names[5]),
-								}))
+							if (temp->loadFromFaces(img))
 							{
 								return ML_Content.insert(name, temp);
 							}
 							delete temp;
 						}
+						break;
+						}
+						/* * * * * * * * * * * * * * * * * * * * */
+						
 					}
 					break;
 					/* * * * * * * * * * * * * * * * * * * * */
 					}
 
-					return ML_Content.insert(name, new Texture());
+					return ML_Content.insert(name, new Texture{});
 				}
 			}
 		}

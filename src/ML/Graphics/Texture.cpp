@@ -195,6 +195,18 @@ namespace ml
 		return false;
 	}
 	
+	bool Texture::loadFromFaces(const Array<Image, 6> & faces)
+	{
+		return loadFromFaces({
+			& faces[0],
+			& faces[1],
+			& faces[2],
+			& faces[3],
+			& faces[4],
+			& faces[5]
+		});
+	}
+	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool Texture::create(const Texture & other)

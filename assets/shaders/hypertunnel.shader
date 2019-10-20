@@ -269,7 +269,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
 	sceneColor += min(.8, float(tr.iterations) / 90.) * col + col * .03;
 	sceneColor *= 1. + .9 * (abs(fbm(tr.hit * .002 + 3.) * 10.) * (fbm(vec3(0., 0., u_time * .05) * 2.)) * 1.);
-	sceneColor = pow(sceneColor, vec3(1.)) * texelFetch(u_texture0, ivec2(128, 0), 0).r * min(1., u_time * .1);
+	sceneColor = pow(sceneColor, vec3(1.)) 
+	//* texture(u_texture0, fragCoord).rgb 
+	* min(1., u_time * .1);
 
 	vec3 steamColor1 = vec3(.0, .4, .5);
 	vec3 rro = oro;

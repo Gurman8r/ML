@@ -16,7 +16,7 @@ namespace ml
 		: m_label		{}
 		, m_path		{}
 		, m_dir			{}
-		, m_type		{ '\0' }
+		, m_type		{ 0 }
 		, m_index		{ 0 }
 		, m_preview		{}
 		, m_doubleClick { false }
@@ -211,11 +211,7 @@ namespace ml
 		{
 			if (get_selected_size() <= MaxPreviewSize)
 			{
-				if (ML_FS.getFileContents(get_selected_path(), m_preview))
-				{
-					m_preview.pop_back(); // remove last char, shows up as '?'
-				}
-				else
+				if (!ML_FS.getFileContents(get_selected_path(), m_preview))
 				{
 					m_preview = get_selected_path();
 				}

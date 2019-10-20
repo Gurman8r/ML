@@ -58,8 +58,6 @@ namespace ml
 
 namespace ml
 {
-	namespace py = pybind11;
-
 	// In / Out Types
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	using str_t		= typename std::string;
@@ -70,6 +68,8 @@ namespace ml
 
 	PYBIND11_EMBEDDED_MODULE(MEMELIB, m)
 	{
+		namespace py = pybind11;
+
 		// Config
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_config {};

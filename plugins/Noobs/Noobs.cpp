@@ -175,7 +175,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Update Materials
+		// Update Materials (slow)
 		for (auto & pair : ML_Content.data<Material>())
 		{
 			if (auto m { (Material *)pair.second })

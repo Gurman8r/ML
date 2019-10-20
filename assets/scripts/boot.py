@@ -1,6 +1,5 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 # For more information see:
-# https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/ContentImporter.cpp
 # https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/Python.cpp
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 

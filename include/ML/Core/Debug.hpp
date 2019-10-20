@@ -12,9 +12,9 @@
 
 // Log Prefixes
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_MSG_LOG "log" // Info
-#define ML_MSG_WRN "wrn" // Warning
-#define ML_MSG_ERR "err" // Error
+#define ML_MSG_LOG "info"	// Info
+#define ML_MSG_WRN "warn"	// Warning
+#define ML_MSG_ERR "error"	// Error
 
 // Breakpoint
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

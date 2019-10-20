@@ -97,14 +97,15 @@ namespace ml
 					}
 					if (ImGui::BeginPopupContextItem())
 					{
+						set_selected(pair.first, (int32_t)i);
 						if (ImGui::Button("Open"))
 						{
-							Debug::execute("open", get_selected_path());
+							Debug::execute("open", get_selected_name());
 							ImGui::CloseCurrentPopup();
 						}
 						if (ImGui::Button("Browse"))
 						{
-							Debug::execute("open", ML_FS.getFilePath(get_selected_path()));
+							Debug::execute("open", get_selected_path());
 							ImGui::CloseCurrentPopup();
 						}
 						ImGui::EndPopup();

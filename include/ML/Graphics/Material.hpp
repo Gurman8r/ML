@@ -67,11 +67,8 @@ namespace ml
 		{
 			if (value && !contains(value))
 			{
-				iterator it { std::find_if(begin(), end(), [&](auto u)
-				{
-					return (*u) < (*value);
-				}) };
-				return (*m_uniforms.insert(it, value));
+				m_uniforms.push_back(value);
+				return m_uniforms.back();
 			}
 			return nullptr;
 		}
@@ -81,11 +78,8 @@ namespace ml
 		{
 			if (name && !get(name))
 			{
-				iterator it { std::find_if(begin(), end(), [&](auto u)
-				{
-					return (u->name < name);
-				}) };
-				return (*m_uniforms.insert(it, new U { name, value }));
+				m_uniforms.push_back(new U { name, value });
+				return m_uniforms.back();
 			}
 			return nullptr;
 		}

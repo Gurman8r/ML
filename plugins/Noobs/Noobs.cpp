@@ -212,6 +212,7 @@ namespace ml
 					auto transform { ent->get<Transform>() };
 					if (renderer && (*renderer) && transform && (*transform))
 					{
+						// Update Materials (slow)
 						if (auto m { (Material *)renderer->material() })
 						{
 							m->set<uni_vec3>("u_position", transform->position());

@@ -14,9 +14,12 @@ namespace ml
 	template <class T> struct typeof<T> final
 	{
 		using type = typename T;
-		constexpr typeof() = default;
-		static constexpr auto name { nameof<>::filter(nameof<T>::value) };
-		static constexpr auto hash { name.hash() };
+
+		constexpr typeof() noexcept = default;
+
+		static constexpr StringView name { nameof<>::filter(nameof<T>::value) };
+		
+		static constexpr hash_t hash { name.hash() };
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -25,16 +28,25 @@ namespace ml
 	{
 		const StringView name; const hash_t hash;
 
-		template <class T> constexpr typeof(const typeof<T> & copy)
+		template <class T> constexpr typeof(const typeof<T> & copy) noexcept
 			: name { copy.name }, hash { copy.hash }
 		{
 		}
 
-		template <class T> constexpr typeof(const T &) : typeof { typeof<T>{} } {}
+		template <class T> constexpr typeof(const T &) noexcept 
+			: typeof { typeof<T>{} } 
+		{
+		}
 
-		template <class T> constexpr typeof(const T *) : typeof { typeof<const T *>{} } {}
+		template <class T> constexpr typeof(const T *) noexcept 
+			: typeof { typeof<const T *>{} } 
+		{
+		}
 
-		constexpr typeof() noexcept : name { "" }, hash { 0 } {}
+		constexpr typeof() noexcept 
+			: name { "" }, hash { 0 } 
+		{
+		}
 	};
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -50,42 +62,42 @@ namespace ml
 
 	template <
 		class ... T
-	> constexpr bool operator==(const typeof<> & lhs, const typeof<T...> & rhs)
+	> constexpr bool operator==(const typeof<> & lhs, const typeof<T...> & rhs) noexcept
 	{
 		return !(lhs < rhs) && !(rhs < lhs);
 	}
 
 	template <
 		class ... T
-	> constexpr bool operator!=(const typeof<> & lhs, const typeof<T...> & rhs)
+	> constexpr bool operator!=(const typeof<> & lhs, const typeof<T...> & rhs) noexcept
 	{
 		return !(lhs == rhs);
 	}
 
 	template <
 		class ... T
-	> constexpr bool operator<(const typeof<> & lhs, const typeof<T...> & rhs)
+	> constexpr bool operator<(const typeof<> & lhs, const typeof<T...> & rhs) noexcept
 	{
 		return (lhs.hash < rhs.hash);
 	}
 
 	template <
 		class ... T
-	> constexpr bool operator>(const typeof<> & lhs, const typeof<T...> & rhs)
+	> constexpr bool operator>(const typeof<> & lhs, const typeof<T...> & rhs) noexcept
 	{
 		return !(lhs < rhs);
 	}
 
 	template <
 		class ... T
-	> constexpr bool operator<=(const typeof<> & lhs, const typeof<T...> & rhs)
+	> constexpr bool operator<=(const typeof<> & lhs, const typeof<T...> & rhs) noexcept
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
 	template <
 		class ... T
-	> constexpr bool operator>=(const typeof<> & lhs, const typeof<T...> & rhs)
+	> constexpr bool operator>=(const typeof<> & lhs, const typeof<T...> & rhs) noexcept
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}
@@ -94,42 +106,42 @@ namespace ml
 
 	template <
 		class X, class ... Y
-	> constexpr bool operator==(const typeof<X> & lhs, const typeof<Y...> & rhs)
+	> constexpr bool operator==(const typeof<X> & lhs, const typeof<Y...> & rhs) noexcept
 	{
 		return !(lhs < rhs) && !(rhs < lhs);
 	}
 
 	template <
 		class X, class ... Y
-	> constexpr bool operator!=(const typeof<X> & lhs, const typeof<Y...> & rhs)
+	> constexpr bool operator!=(const typeof<X> & lhs, const typeof<Y...> & rhs) noexcept
 	{
 		return !(lhs == rhs);
 	}
 
 	template <
 		class X, class ... Y
-	> constexpr bool operator<(const typeof<X> & lhs, const typeof<Y...> & rhs)
+	> constexpr bool operator<(const typeof<X> & lhs, const typeof<Y...> & rhs) noexcept
 	{
 		return (lhs.hash < rhs.hash);
 	}
 
 	template <
 		class X, class ... Y
-	> constexpr bool operator>(const typeof<X> & lhs, const typeof<Y...> & rhs)
+	> constexpr bool operator>(const typeof<X> & lhs, const typeof<Y...> & rhs) noexcept
 	{
 		return !(lhs < rhs);
 	}
 
 	template <
 		class X, class ... Y
-	> constexpr bool operator<=(const typeof<X> & lhs, const typeof<Y...> & rhs)
+	> constexpr bool operator<=(const typeof<X> & lhs, const typeof<Y...> & rhs) noexcept
 	{
 		return (lhs < rhs) || (lhs == rhs);
 	}
 
 	template <
 		class X, class ... Y
-	> constexpr bool operator>=(const typeof<X> & lhs, const typeof<Y...> & rhs)
+	> constexpr bool operator>=(const typeof<X> & lhs, const typeof<Y...> & rhs) noexcept
 	{
 		return (lhs > rhs) || (lhs == rhs);
 	}

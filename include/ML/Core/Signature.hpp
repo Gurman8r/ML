@@ -5,6 +5,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+// Based on CTTI pretty_function
 // Source: https://github.com/Manu343726/ctti
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -32,6 +33,11 @@ namespace ml
 	namespace signature
 	{
 		template <class T> static constexpr StringView type()
+		{
+			return { ML_SIGNATURE };
+		}
+
+		template <class T, T Value> static constexpr StringView value()
 		{
 			return { ML_SIGNATURE };
 		}

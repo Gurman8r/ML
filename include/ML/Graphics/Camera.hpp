@@ -29,6 +29,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		const Camera & apply() const;
 		const Camera & applyClear() const;
 		const Camera & applyViewport() const;
 

@@ -1,4 +1,4 @@
-// Based On:
+// Implementation Based On:
 // https://github.com/SFML/SFML/blob/master/src/SFML/Graphics/Image.cpp
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

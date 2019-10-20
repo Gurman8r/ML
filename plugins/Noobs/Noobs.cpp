@@ -157,36 +157,22 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Capture Camera
 		Camera * camera { Camera::mainCamera() };
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		// Update Viewports
 		if (camera && (*camera))
 		{
+			// Update Camera
 			camera->setViewport((vec2i)m_viewport);
-
+			
+			// Update Viewports
 			for (auto & surf : m_pipeline)
 			{
 				surf->update((vec2)camera->viewport().size());
 			}
-		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		// Update Materials (slow)
-		for (auto & pair : ML_Content.data<Material>())
-		{
-			if (auto m { (Material *)pair.second })
+			// Update Materials (slow)
+			for (auto & pair : ML_Content.data<Material>())
 			{
-				m->set<uni_vec2>("u_cursor", ML_Engine.window().getCursorPos());
-				m->set<uni_float>("u_delta", ML_Engine.time().deltaTime());
-				m->set<uni_int>("u_frame", ML_Engine.time().frameCount());
-				m->set<uni_float>("u_fps", ML_Engine.time().frameRate());
-				m->set<uni_float>("u_time", ML_Engine.time().deltaTime());
-
-				if (camera && (*camera))
+				if (auto m { (Material *)pair.second })
 				{
 					m->set<uni_vec3>("u_camera.pos", camera->position());
 					m->set<uni_vec3>("u_camera.dir", camera->direction());
@@ -197,8 +183,6 @@ namespace ml
 					m->set<uni_vec2>("u_viewport", (vec2)camera->viewport().size());
 				}
 			}
-
-			constexpr auto test = Duration(1600000).microseconds();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -217,7 +201,7 @@ namespace ml
 			m_pipeline[Surf_Main]->bind();
 
 			// Apply Camera
-			if (camera) (*camera).applyClear().applyViewport();
+			if (camera) camera->apply();
 
 			// Draw Renderers
 			for (auto & pair : ML_Content.data<Entity>())
@@ -260,7 +244,7 @@ namespace ml
 			m_pipeline[Surf_Post]->bind();
 
 			// Apply Camera
-			if (camera) (*camera).applyClear().applyViewport();
+			if (camera) camera->apply();
 
 			// Draw Scene Output
 			ML_Engine.window().draw(m_pipeline[Surf_Main]);
@@ -298,18 +282,6 @@ namespace ml
 			{
 				if (m_freeAspect) { m_viewport = ImGuiExt::GetContentRegionAvail(); }
 			});
-
-			//if (auto preview { ML_AssetPreview.getPreview(surf) })
-			//{
-			//	const vec2 dst { ImGuiExt::GetContentRegionAvail() };
-			//	const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
-			//	const vec2 pos { ((dst - scl) * 0.5f) };
-			//	if (m_freeAspect) { m_viewport = dst; }
-			//	ImGui::BeginChild("NoobsSceneViewport", { 0, 0 }, true);
-			//	ImGui::SetCursorPos({ pos[0], pos[1] });
-			//	ImGui::Image(preview->get_address(), { scl[0], scl[1] }, { 0, 1 }, { 1, 0 });
-			//	ImGui::EndChild();
-			//}
 		}
 		ImGui::End();
 		ImGui::PopID();
@@ -472,10 +444,10 @@ namespace ml
 				if (!u) continue;
 				ss	<< std::left
 					<< "uniform " 
-					<< std::setw(7) << Uniform::name_of(u->id) << " "
+					<< std::setw(7) << Uniform::name_of(u->getID()) << " "
 					<< std::setw(15) << u->name << " "
 					<< "{ ";
-				switch (u->id)
+				switch (u->getID())
 				{
 				case Uniform::Boolean: if (auto a { detail::as_bool(u) }) ss << (*a); break;
 				case Uniform::	Float: if (auto a { detail::as_float(u) }) ss << (*a); break;
@@ -549,7 +521,7 @@ namespace ml
 						
 			// Uniform FileType
 			/* * * * * * * * * * * * * * * * * * * * */
-			ImGui::Text(Uniform::name_of(uni->id));
+			ImGui::Text(Uniform::name_of(uni->getID()));
 			ImGui::NextColumn();
 
 			// Uniform Value

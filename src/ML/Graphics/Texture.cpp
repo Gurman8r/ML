@@ -1,3 +1,8 @@
+// Implementation Based On:
+// https://github.com/SFML/SFML/blob/master/src/SFML/Graphics/Texture.cpp
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
@@ -284,6 +289,8 @@ namespace ml
 
 				setSmooth(m_smooth);
 
+				if (m_mipmapped) setMipmapped(m_mipmapped);
+
 				return true;
 			}
 			else
@@ -385,6 +392,8 @@ namespace ml
 				setRepeated(m_repeated);
 
 				setSmooth(m_smooth);
+
+				if (m_mipmapped) setMipmapped(m_mipmapped);
 
 				return true;
 			}
@@ -516,7 +525,7 @@ namespace ml
 	
 	Texture & Texture::operator=(const Texture & value)
 	{
-		static Texture temp;
+		Texture temp;
 		return swap(temp);
 	}
 

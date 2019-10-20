@@ -1119,8 +1119,8 @@ namespace ml
 					if ((*it))
 					{
 						float_t height = 1;
-						if ((*it)->id == uni_mat3::ID) { height = 3; }
-						else if ((*it)->id == uni_mat4::ID) { height = 4; }
+						if ((*it)->getID() == uni_mat3::ID) { height = 3; }
+						else if ((*it)->getID() == uni_mat4::ID) { height = 4; }
 
 						ImGui::PushID(name.c_str());
 						ImGui::BeginChild(
@@ -2594,16 +2594,17 @@ namespace ml
 
 		constexpr float_t speed = 0.005f;
 		constexpr C_String fmt { "%.3f" };
-		switch (value.id)
+		switch (value.getID())
 		{
 		case uni_bool::ID:
 			if (auto u = detail::as_bool(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Bool##Uni" + value.name;
-				ImGui::Checkbox(name.c_str(), u);
+				ImGui::Checkbox(name.c_str(), &copy);
 				if (auto temp = value.as<uni_bool>())
 				{
-					temp->data = (*u);
+					temp->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2612,11 +2613,12 @@ namespace ml
 		case uni_float::ID:
 			if (auto u = detail::as_float(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Float##Uni" + value.name;
-				ImGui::DragFloat(name.c_str(), u, speed, 0, 0, fmt);
+				ImGui::DragFloat(name.c_str(), &copy, speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_float>())
 				{
-					temp->data = (*u); 
+					temp->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2625,14 +2627,13 @@ namespace ml
 		case uni_int::ID:
 			if (auto u = detail::as_int(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Int##Uni" + value.name;
-				
-				if (value.isModifiable()) ImGui::InputInt(name.c_str(), u);
-				else ImGui::DragInt(name.c_str(), u);
-				
+				if (value.isModifiable()) ImGui::InputInt(name.c_str(), &copy);
+				else ImGui::DragInt(name.c_str(), &copy);
 				if (auto temp = value.as<uni_int>())
 				{
-					temp->data = (*u);
+					temp->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2641,11 +2642,12 @@ namespace ml
 		case uni_vec2::ID:
 			if (auto u = detail::as_vec2(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Vec2##Uni" + value.name;
-				ImGui::DragFloat2(name.c_str(), &(*u)[0], speed, 0, 0, fmt);
+				ImGui::DragFloat2(name.c_str(), &copy[0], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_vec2>())
 				{
-					temp->data = (*u); 
+					temp->data = copy; 
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2654,11 +2656,12 @@ namespace ml
 		case uni_vec3::ID:
 			if (auto u = detail::as_vec3(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Vec3##Uni" + value.name;
-				ImGui::DragFloat3(name.c_str(), &(*u)[0], speed, 0, 0, fmt);
+				ImGui::DragFloat3(name.c_str(), &copy[0], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_vec3>())
 				{
-					temp->data = (*u);
+					temp->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2667,11 +2670,12 @@ namespace ml
 		case uni_vec4::ID:
 			if (auto u = detail::as_vec4(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Vec4##Uni" + value.name;
-				ImGui::DragFloat4(name.c_str(), &(*u)[0], speed, 0, 0, fmt);
+				ImGui::DragFloat4(name.c_str(), &copy[0], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_vec4>())
 				{
-					temp->data = (*u); 
+					temp->data = copy; 
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2680,25 +2684,27 @@ namespace ml
 		case uni_color::ID:
 			if (auto u = detail::as_color(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Color##Uni" + value.name;
-				ImGui::ColorEdit4(name.c_str(), &(*u)[0], ImGuiColorEditFlags_Float);
+				ImGui::ColorEdit4(name.c_str(), &copy[0], ImGuiColorEditFlags_Float);
 				if (auto temp = value.as<uni_color>())
 				{
-					temp->data = (*u); 
+					temp->data = copy; 
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_mat2::ID:
-			if (mat2 * u = detail::as_mat2(&value))
+			if (auto u = detail::as_mat2(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Mat2##Uni" + value.name;
-				ImGui::DragFloat2((name + "##00").c_str(), &(*u)[0], speed, 0, 0, fmt);
-				ImGui::DragFloat2((name + "##02").c_str(), &(*u)[2], speed, 0, 0, fmt);
+				ImGui::DragFloat2((name + "##00").c_str(), &copy[0], speed, 0, 0, fmt);
+				ImGui::DragFloat2((name + "##02").c_str(), &copy[2], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_mat2>())
 				{
-					temp->data = (*u);
+					temp->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2707,13 +2713,14 @@ namespace ml
 		case uni_mat3::ID:
 			if (auto u = detail::as_mat3(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
-				ImGui::DragFloat3((name + "##00").c_str(), &(*u)[0], speed, 0, 0, fmt);
-				ImGui::DragFloat3((name + "##03").c_str(), &(*u)[3], speed, 0, 0, fmt);
-				ImGui::DragFloat3((name + "##06").c_str(), &(*u)[6], speed, 0, 0, fmt);
+				ImGui::DragFloat3((name + "##00").c_str(), &copy[0], speed, 0, 0, fmt);
+				ImGui::DragFloat3((name + "##03").c_str(), &copy[3], speed, 0, 0, fmt);
+				ImGui::DragFloat3((name + "##06").c_str(), &copy[6], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_mat3>())
 				{
-					temp->data = (*u); 
+					temp->data = (copy); 
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2722,14 +2729,15 @@ namespace ml
 		case uni_mat4::ID:
 			if (auto u = detail::as_mat4(&value))
 			{
+				auto copy { *u };
 				const String name = "##" + label + "##Mat4##Uni" + value.name;
-				ImGui::DragFloat4((name + "##00").c_str(), &(*u)[0],  speed, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##04").c_str(), &(*u)[4],  speed, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##08").c_str(), &(*u)[8],  speed, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##12").c_str(), &(*u)[12], speed, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##00").c_str(), &copy[0],  speed, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##04").c_str(), &copy[4],  speed, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##08").c_str(), &copy[8],  speed, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##12").c_str(), &copy[12], speed, 0, 0, fmt);
 				if (auto temp = value.as<uni_mat4>())
 				{
-					temp->data = (*u); 
+					temp->data = copy; 
 					return Layout::end_prop(this, true);
 				}
 			}

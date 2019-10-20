@@ -75,15 +75,9 @@ namespace ml
 				size[1] == 0.0f ? ImGuiExt::GetContentRegionAvail()[1] : size[1]
 			};
 
-			const vec2 scl 
-			{ 
-				alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f 
-			};
+			const vec2 scl { alg::scale_to_fit((vec2)preview->size(), dst) * 0.975f };
 
-			const vec2 pos 
-			{
-				((dst - scl) * 0.5f)
-			};
+			const vec2 pos { ((dst - scl) * 0.5f) };
 
 			if (clbk) clbk();
 			

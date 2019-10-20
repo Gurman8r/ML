@@ -65,10 +65,13 @@ namespace ml
 
 		inline Uniform * insert(Uniform * value)
 		{
-			if (!contains(value))
+			if (value && !contains(value))
 			{
-				m_uniforms.push_back(value);
-				return m_uniforms.back();
+				iterator it { std::find_if(begin(), end(), [&](auto u)
+				{
+					return (*u) < (*value);
+				}) };
+				return (*m_uniforms.insert(it, value));
 			}
 			return nullptr;
 		}
@@ -78,8 +81,11 @@ namespace ml
 		{
 			if (name && !get(name))
 			{
-				m_uniforms.push_back(new U { name, value });
-				return m_uniforms.back();
+				iterator it { std::find_if(begin(), end(), [&](auto u)
+				{
+					return (u->name < name);
+				}) };
+				return (*m_uniforms.insert(it, new U { name, value }));
 			}
 			return nullptr;
 		}

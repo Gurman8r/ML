@@ -5,12 +5,12 @@
 //	Project Information
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_PROJECT_AUTH	"Melody Gurman"
-#define ML_PROJECT_NAME "MemeLib"
-#define ML_PROJECT_VER	"Alpha"
-#define ML_PROJECT_URL	"https://www.github.com/Gurman8r/ML"
-#define ML_PROJECT_DATE	__DATE__
-#define ML_PROJECT_TIME	__TIME__
+# define ML_PROJECT_AUTH	"Melody Gurman"
+# define ML_PROJECT_NAME	"MemeLib"
+# define ML_PROJECT_VER		"Alpha"
+# define ML_PROJECT_URL		"https://www.github.com/Gurman8r/ML"
+# define ML_PROJECT_DATE	__DATE__
+# define ML_PROJECT_TIME	__TIME__
 
 
 //	Language
@@ -186,23 +186,23 @@
 //	Preprocessor
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define _ML ::ml::
+# define _ML ::ml::
 
-#define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
-#define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
-#define ML_CONCAT(a, b)		a##b
-#define ML_STRINGIFY(str)	ML_TOSTRING(str)
-#define ML_TOSTRING(str)	#str
+# define ML_ADDRESSOF(ptr)		((void *)(ML_INTMAX)ptr)
+# define ML_ARRAYSIZE(arr)		(sizeof(arr) / sizeof(*arr))
+# define ML_CONCAT(a, b)		a##b
+# define ML_STRINGIFY(str)		ML_TOSTRING(str)
+# define ML_TOSTRING(str)		#str
 
-#define ML_TEMPLATE(...)	template<##__VA_ARGS__>
-#define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) using
-#define ML_USING_X			ML_USING_VA(class X)
-#define ML_USING_XY			ML_USING_VA(class X, class Y)
-#define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
-#define ML_USING_TS			ML_USING_VA(class ... Ts)
+# define ML_TEMPLATE(...)		template<##__VA_ARGS__>
+# define ML_USING_VA(...)		ML_TEMPLATE(##__VA_ARGS__) using
+# define ML_USING_X				ML_USING_VA(class X)
+# define ML_USING_XY			ML_USING_VA(class X, class Y)
+# define ML_USING_XYZ			ML_USING_VA(class X, class Y, class Z)
+# define ML_USING_TS			ML_USING_VA(class ... Ts)
 
-#define ML_TRUE_EXPR(expr)	(([&](){ expr; return true; })())
-#define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
+# define ML_TRUE_EXPR(expr)		(([&](){ expr; return true; })())
+# define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
 
 
 //	Build

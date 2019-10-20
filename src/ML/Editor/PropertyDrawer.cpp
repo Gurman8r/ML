@@ -1294,11 +1294,6 @@ namespace ml
 			const String meshID { String("Mesh [" + std::to_string(i) + "]##" + label) };
 			if (ImGui::TreeNode(meshID.c_str()))
 			{
-				ImGui::Text("Vertex Count:"); ImGui::SameLine(); ImGui::Text("%u", mesh->vertices().size());
-				ImGui::Text("Index Count:"); ImGui::SameLine(); ImGui::Text("%u", mesh->indices().size());
-
-				ImGui::Separator();
-
 				if (mesh->vao())
 				{
 					ImGui::PushID(("VAO##" + meshID).c_str());

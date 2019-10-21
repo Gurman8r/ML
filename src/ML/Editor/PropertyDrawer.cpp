@@ -2637,15 +2637,12 @@ namespace ml
 			{
 				auto copy { *data };
 				const String name = "##" + label + "##Int##Uni" + value.name;
+				if (value.isModifiable()) ImGui::InputInt(name.c_str(), &copy);
+				else ImGui::DragInt(name.c_str(), &copy);
 				if (auto u = value.as<uni_int>())
 				{
-					ImGui::InputInt(name.c_str(), &copy);
 					u->data = copy;
 					return Layout::end_prop(this, true);
-				}
-				else
-				{
-					ImGui::DragInt(name.c_str(), &copy);
 				}
 			}
 			break;

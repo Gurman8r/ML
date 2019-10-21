@@ -147,9 +147,10 @@ namespace ml
 
 		inline bool isModifiable() const override
 		{
-			// uniform owns its value or points to a texture
-			return std::is_same_v<value_type, detail::decay_t<value_type>> ||
-				std::is_same_v<value_type, const Texture *>;
+			// uniform owns its value and is not a function
+			return (std::is_same_v<value_type, detail::decay_t<value_type>> ||
+				std::is_same_v<value_type, const Texture *>)
+				&& !std::is_function_v<value_type>;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

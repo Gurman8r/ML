@@ -12,32 +12,21 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Clock		= typename std::chrono::high_resolution_clock;
+		using Clock		= typename chrono::high_resolution_clock;
 		using TimePoint = typename Clock::time_point;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Timer()
-			: m_paused	{ true }
-			, m_clock	{}
+			: m_paused	{ false }
 			, m_prev	{}
 			, m_next	{}
-			, m_elapsed	{}
-		{
-		}
-
-		Timer(bool start)
-			: m_paused	{ !start }
-			, m_clock	{}
-			, m_prev	{}
-			, m_next	{}
-			, m_elapsed	{}
+			, m_elapsed	{ 0 }
 		{
 		}
 
 		Timer(const Timer & copy)
 			: m_paused	{ copy.m_paused }
-			, m_clock	{ copy.m_clock }
 			, m_prev	{ copy.m_prev }
 			, m_next	{ copy.m_next }
 			, m_elapsed	{ copy.m_elapsed }
@@ -55,7 +44,7 @@ namespace ml
 
 		inline const Duration & elapsed() const
 		{
-			return (m_paused ? (m_elapsed) : (m_elapsed = (m_clock.now() - m_prev)));
+			return (m_paused ? (m_elapsed) : (m_elapsed = (Clock::now() - m_prev)));
 		}
 
 		inline Timer & pause(bool value)
@@ -63,13 +52,13 @@ namespace ml
 			if (value && !m_paused)
 			{
 				m_paused = true;
-				m_next = m_clock.now();
+				m_next = Clock::now();
 				m_elapsed = (m_next - m_prev);
 			}
 			else if (!value && m_paused)
 			{
 				m_paused = false;
-				m_prev = m_clock.now();
+				m_prev = Clock::now();
 			}
 			return (*this);
 		}
@@ -81,14 +70,14 @@ namespace ml
 
 		inline Timer & start()
 		{
-			m_prev = m_next = m_clock.now();
-			m_elapsed = Duration {};
+			m_prev = m_next = Clock::now();
+			m_elapsed = 0.0;
 			return pause(false);
 		}
 
 		inline Timer & stop()
 		{
-			m_next = m_clock.now();
+			m_next = Clock::now();
 			m_elapsed = (m_next - m_prev);
 			return (*this);
 		}
@@ -97,7 +86,6 @@ namespace ml
 
 	private:
 		bool		m_paused;
-		Clock		m_clock;
 		TimePoint	m_prev;
 		TimePoint	m_next;
 

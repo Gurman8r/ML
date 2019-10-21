@@ -107,9 +107,9 @@ namespace ml
 			min -= m_sample * dt / 2;
 		}
 
-		if (refresh == 0.0f) { refresh = ML_Engine.time().totalTime(); }
+		if (refresh == 0.0f) { refresh = ImGui::GetTime(); }
 
-		while (refresh < ML_Engine.time().totalTime())
+		while (refresh < ImGui::GetTime())
 		{
 			values[offset] = m_sample;
 			offset = (offset + 1) % values.size();

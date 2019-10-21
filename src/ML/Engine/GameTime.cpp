@@ -1,18 +1,27 @@
 #include <ML/Engine/GameTime.hpp>
+#include <ML/Core/Debug.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	GameTime::GameTime() : m_main {}, m_step {} { m_main.start(); }
+	GameTime::GameTime() 
+		: m_main {}
+		, m_step {}
+	{
+		m_main.start();
+	}
 
-	GameTime::~GameTime() { m_main.stop(); }
+	GameTime::~GameTime()
+	{ 
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	GameTime & GameTime::beginStep()
 	{
 		m_step.start();
+
 		return (*this);
 	}
 
@@ -34,6 +43,28 @@ namespace ml
 		m_frame.count++;
 
 		return (*this);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const float_t & GameTime::totalTime() const
+	{
+		return (m_totalTime = (float_t)m_main.elapsed().count());
+	}
+
+	const float_t & GameTime::deltaTime() const
+	{
+		return (m_deltaTime = (float_t)m_elapsed.count());
+	}
+
+	const int32_t & GameTime::frameCount() const
+	{
+		return m_frame.count;
+	}
+
+	const float_t & GameTime::frameRate() const
+	{
+		return m_frame.rate;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -127,20 +127,17 @@ namespace ml
 
 		ML_Content.create<Model>("default_triangle")->loadFromMemory
 		(
-			geo::triangle_static::vertices,
-			geo::triangle_static::indices
+			geo::triangle_static::vertices, geo::triangle_static::indices
 		);
 		
 		ML_Content.create<Model>("default_quad")->loadFromMemory
 		(
-			geo::quad_static::vertices,
-			geo::quad_static::indices
+			geo::quad_static::vertices, geo::quad_static::indices
 		);
 		
 		ML_Content.create<Model>("default_cube")->loadFromMemory
 		(
-			geo::cube_static::vertices,
-			geo::cube_static::indices
+			geo::cube_static::vertices, geo::cube_static::indices
 		);
 		
 		ML_Content.create<Model>("default_skybox")->loadFromMemory
@@ -148,29 +145,29 @@ namespace ml
 			geo::skybox_static::vertices
 		);
 
-		ML_Content.insert<Uniform>("u_cursor", new uni_vec2_ptr
+		ML_Content.insert<Uniform>("u_cursor", new uni_vec2_clbk
 		{ 
-			"u_cursor", &m_window.getCursorPos() 
+			"u_cursor", []() { return ML_Engine.window().getCursorPos(); }
 		});
 		
-		ML_Content.insert<Uniform>("u_delta", new uni_float_ptr
+		ML_Content.insert<Uniform>("u_delta", new uni_float_clbk
 		{ 
-			"u_delta", &m_time.deltaTime() 
+			"u_delta", []() { return ML_Engine.time().deltaTime(); }
 		});
 		
-		ML_Content.insert<Uniform>("u_frame", new uni_int_ptr
+		ML_Content.insert<Uniform>("u_frame", new uni_int_clbk
 		{ 
-			"u_frame", &m_time.frameCount()
+			"u_frame", []() { return ML_Engine.time().frameCount(); }
 		});
 		
-		ML_Content.insert<Uniform>("u_fps", new uni_float_ptr
+		ML_Content.insert<Uniform>("u_fps", new uni_float_clbk
 		{ 
-			"u_fps", &m_time.frameRate() 
+			"u_fps", []() { return ML_Engine.time().frameRate(); }
 		});
 		
-		ML_Content.insert<Uniform>("u_time", new uni_float_ptr
+		ML_Content.insert<Uniform>("u_time", new uni_float_clbk
 		{ 
-			"u_time", &m_time.totalTime() 
+			"u_time", []() { return ML_Engine.time().totalTime(); }
 		});
 
 		
@@ -199,18 +196,11 @@ namespace ml
 	{
 		// Update Window Title
 		static const String original_title { m_window.getTitle() };
-		//static Timer tm { true };
-		//static float_t dt { 0 };
-		//if (tm.elapsed() > 500_ms)
-		//{
-		//	dt = m_time.deltaTime();
-		//	tm.reset();
-		//}
-		m_window.setTitle(String{ "{0} | {1} | {2} | {3}s/frame" }.format(
+		m_window.setTitle(String{ "{0} | {1} | {2} | {3}" }.format(
 			original_title, 
 			ML_CONFIGURATION, 
 			ML_PLATFORM_TARGET, 
-			m_time.deltaTime()
+			util::to_string(m_time.mainTimer().elapsed())
 		));
 	}
 

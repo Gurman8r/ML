@@ -22,6 +22,8 @@ namespace ml
 
 	template <> struct nameof<> final
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		const StringView value;
 
 		template <class T> constexpr nameof(const nameof<T> & copy) noexcept
@@ -39,10 +41,12 @@ namespace ml
 		{
 		}
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		static constexpr StringView trim_front(const StringView & value) noexcept
 		{
 			return ((!value.empty() && (value.front() == ' ' || value.front() == '\t'))
-				? trim_front(StringView { value.begin() + 1, value.size() - 1 })
+				? trim_front(value.substr(1))
 				: value
 			);
 		}
@@ -50,7 +54,7 @@ namespace ml
 		static constexpr StringView trim_back(const StringView & value) noexcept
 		{
 			return ((value.size() && (value.back() == ' ' || value.back() == '\t'))
-				? StringView { value.begin(), value.size() - 1 }
+				? trim_back(value.substr(0, value.size() - 1))
 				: value
 			);
 		}
@@ -136,6 +140,8 @@ namespace ml
 				value
 			))));
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

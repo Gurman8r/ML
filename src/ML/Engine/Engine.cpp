@@ -127,20 +127,17 @@ namespace ml
 
 		ML_Content.create<Model>("default_triangle")->loadFromMemory
 		(
-			geo::triangle_static::vertices,
-			geo::triangle_static::indices
+			geo::triangle_static::vertices, geo::triangle_static::indices
 		);
 		
 		ML_Content.create<Model>("default_quad")->loadFromMemory
 		(
-			geo::quad_static::vertices,
-			geo::quad_static::indices
+			geo::quad_static::vertices, geo::quad_static::indices
 		);
 		
 		ML_Content.create<Model>("default_cube")->loadFromMemory
 		(
-			geo::cube_static::vertices,
-			geo::cube_static::indices
+			geo::cube_static::vertices, geo::cube_static::indices
 		);
 		
 		ML_Content.create<Model>("default_skybox")->loadFromMemory
@@ -150,27 +147,27 @@ namespace ml
 
 		ML_Content.insert<Uniform>("u_cursor", new uni_vec2_clbk
 		{ 
-			"u_cursor", []() { return ML_Engine.window().getCursorPos(); }
+			"u_cursor", [&]() { return m_window.getCursorPos(); }
 		});
 		
 		ML_Content.insert<Uniform>("u_delta", new uni_float_clbk
 		{ 
-			"u_delta", []() { return ML_Engine.time().deltaTime(); }
+			"u_delta", [&]() { return m_time.deltaTime(); }
 		});
 		
 		ML_Content.insert<Uniform>("u_frame", new uni_int_clbk
 		{ 
-			"u_frame", []() { return ML_Engine.time().frameCount(); }
+			"u_frame", [&]() { return (int32_t)m_time.frameCount(); }
 		});
 		
 		ML_Content.insert<Uniform>("u_fps", new uni_float_clbk
 		{ 
-			"u_fps", []() { return ML_Engine.time().frameRate(); }
+			"u_fps", [&]() { return m_time.frameRate(); }
 		});
 		
 		ML_Content.insert<Uniform>("u_time", new uni_float_clbk
 		{ 
-			"u_time", []() { return ML_Engine.time().totalTime(); }
+			"u_time", [&]() { return m_time.totalTime(); }
 		});
 
 		

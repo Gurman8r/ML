@@ -148,10 +148,9 @@ namespace ml
 		inline bool isModifiable() const override
 		{
 			// uniform owns its value and is not a function
-			static const bool is_fun { String(getType().name).find("function") != String::npos };
-			return (
-				std::is_same_v<value_type, detail::decay_t<value_type>> ||
-				std::is_same_v<value_type, const Texture *>)
+			static const bool is_fun { getType().name.str().find("function") != String::npos };
+			return (std::is_same_v<value_type, detail::decay_t<value_type>> 
+				|| std::is_same_v<value_type, const Texture *>)
 				&& !is_fun;
 		}
 
@@ -204,7 +203,7 @@ namespace ml
 
 		static inline const bool * as_bool(const Uniform * value)
 		{
-			static bool temp {};
+			static bool temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -222,7 +221,7 @@ namespace ml
 
 		static inline const float_t * as_float(const Uniform * value)
 		{
-			static float_t temp {};
+			static float_t temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -240,7 +239,7 @@ namespace ml
 
 		static inline const int32_t * as_int(const Uniform * value)
 		{
-			static int32_t temp {};
+			static int32_t temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -258,7 +257,7 @@ namespace ml
 
 		static inline const vec2 * as_vec2(const Uniform * value)
 		{
-			static vec2 temp {};
+			static vec2 temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -276,7 +275,7 @@ namespace ml
 
 		static inline const vec3 * as_vec3(const Uniform * value)
 		{
-			static vec3 temp {};
+			static vec3 temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -294,7 +293,7 @@ namespace ml
 
 		static inline const vec4 * as_vec4(const Uniform * value)
 		{
-			static vec4 temp {};
+			static vec4 temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -312,7 +311,7 @@ namespace ml
 
 		static inline const Color * as_color(const Uniform * value)
 		{
-			static Color temp {};
+			static Color temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -330,7 +329,7 @@ namespace ml
 
 		static inline const mat2 * as_mat2(const Uniform * value)
 		{
-			static mat2 temp {};
+			static mat2 temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -348,7 +347,7 @@ namespace ml
 
 		static inline const mat3 * as_mat3(const Uniform * value)
 		{
-			static mat3 temp {};
+			static mat3 temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -366,7 +365,7 @@ namespace ml
 
 		static inline const mat4 * as_mat4(const Uniform * value)
 		{
-			static mat4 temp {};
+			static mat4 temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
@@ -384,7 +383,7 @@ namespace ml
 
 		static inline const Texture * const * as_sampler(const Uniform * value)
 		{
-			static const Texture * temp { nullptr };
+			static const Texture * temp { 0 };
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{

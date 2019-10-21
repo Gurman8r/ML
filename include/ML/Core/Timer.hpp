@@ -12,7 +12,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Clock		= typename chrono::high_resolution_clock;
+		using Clock		= typename std::chrono::high_resolution_clock;
 		using TimePoint = typename Clock::time_point;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

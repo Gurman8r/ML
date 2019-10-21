@@ -27,10 +27,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const float_t & totalTime() const;
-		const float_t & deltaTime()	const;
-		const int32_t & frameCount() const;
-		const float_t & frameRate() const;
+		inline float_t totalTime() const
+		{
+			return (m_totalTime = (float_t)m_main.elapsed().count());
+		}
+
+		inline float_t deltaTime() const
+		{
+			return (m_deltaTime = (float_t)m_elapsed.count());
+		}
+
+		inline uint64_t frameCount() const
+		{
+			return m_frame.count;
+		}
+
+		inline float_t frameRate() const
+		{
+			return m_frame.rate;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -45,11 +60,11 @@ namespace ml
 		struct FrameTracker final
 		{
 			FrameTracker() = default;
-			size_t	index		{ 0 };
-			float_t rate		{ 0 };
-			float_t accum		{ 0 };
-			float_t buf[512]	{ 0 };
-			int32_t count		{ 0 };
+			size_t		index		{ 0 };
+			float_t		rate		{ 0 };
+			float_t		accum		{ 0 };
+			float_t		buf[512]	{ 0 };
+			uint64_t	count		{ 0 };
 		} m_frame;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

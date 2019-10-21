@@ -61,6 +61,11 @@ namespace ml
 		{
 		}
 
+		constexpr BasicColor(type rgba)
+			: m_value { rgba, rgba, rgba, rgba }
+		{
+		}
+
 		constexpr BasicColor(type r, type g, type b)
 			: m_value { r, g, b, 1.0f }
 		{

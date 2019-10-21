@@ -9,6 +9,8 @@ ml::int32_t main()
 {
 	using namespace ml;
 
+	cout << typeof<std::function<mat4()>>::name << endl;
+
 	// Initialize Systems
 	ML_EventSystem; ML_Engine; ML_Editor;
 

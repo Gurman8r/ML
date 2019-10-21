@@ -148,9 +148,11 @@ namespace ml
 		inline bool isModifiable() const override
 		{
 			// uniform owns its value and is not a function
-			return (std::is_same_v<value_type, detail::decay_t<value_type>> ||
+			static const bool is_fun { String(getType().name).find("function") != String::npos };
+			return (
+				std::is_same_v<value_type, detail::decay_t<value_type>> ||
 				std::is_same_v<value_type, const Texture *>)
-				&& !std::is_class_v<value_type>;
+				&& !is_fun;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

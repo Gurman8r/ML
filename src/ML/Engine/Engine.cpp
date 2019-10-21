@@ -127,17 +127,20 @@ namespace ml
 
 		ML_Content.create<Model>("default_triangle")->loadFromMemory
 		(
-			geo::triangle_static::vertices, geo::triangle_static::indices
+			geo::triangle_static::vertices,
+			geo::triangle_static::indices
 		);
 		
 		ML_Content.create<Model>("default_quad")->loadFromMemory
 		(
-			geo::quad_static::vertices, geo::quad_static::indices
+			geo::quad_static::vertices,
+			geo::quad_static::indices
 		);
 		
 		ML_Content.create<Model>("default_cube")->loadFromMemory
 		(
-			geo::cube_static::vertices, geo::cube_static::indices
+			geo::cube_static::vertices,
+			geo::cube_static::indices
 		);
 		
 		ML_Content.create<Model>("default_skybox")->loadFromMemory
@@ -196,11 +199,18 @@ namespace ml
 	{
 		// Update Window Title
 		static const String original_title { m_window.getTitle() };
-		m_window.setTitle(String{ "{0} | {1} | {2} | {3}" }.format(
+		static Timer tm {};
+		static float_t dt { 0 };
+		if (tm.elapsed().count() > 0.5)
+		{
+			dt = m_time.deltaTime();
+			tm.reset();
+		}
+		m_window.setTitle(String{ "{0} | {1} | {2} | {3}s/frame" }.format(
 			original_title, 
 			ML_CONFIGURATION, 
 			ML_PLATFORM_TARGET, 
-			util::to_string(m_time.mainTimer().elapsed())
+			dt
 		));
 	}
 

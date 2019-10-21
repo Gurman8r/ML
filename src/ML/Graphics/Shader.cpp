@@ -428,6 +428,11 @@ namespace ml
 		return u;
 	}
 
+	bool Shader::setUniform(const String & name, const Texture * value) const
+	{
+		return value ? setUniform(name, (*value)) : false;
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::setUniformArray(const String & name, const int32_t count, const float_t * value) const

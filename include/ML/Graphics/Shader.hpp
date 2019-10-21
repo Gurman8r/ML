@@ -78,6 +78,7 @@ namespace ml
 		bool setUniform(const String & name, const mat3 & value) const;
 		bool setUniform(const String & name, const mat4 & value) const;
 		bool setUniform(const String & name, const Texture & value) const;
+		bool setUniform(const String & name, const Texture * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

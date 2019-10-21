@@ -46,11 +46,20 @@ namespace ml
 			return out;
 		}
 
+		template <
+			class Arg0, class ... Args
+		> inline SStream ssink(const Arg0 & arg0, Args && ... args)
+		{
+			SStream ss {}; ss << arg0 << endl;
+			int32_t i[] = { 0, ((void)(ss << args << endl), 0)... }; (void)i;
+			return ss;
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class To, class From
-		> static inline BasicString<To> convert(const BasicString<From> & value)
+		> static inline BasicString<To> str_convert(const BasicString<From> & value)
 		{
 			BasicString<To> temp {};
 			temp.reserve(value.size());
@@ -61,12 +70,12 @@ namespace ml
 
 		static inline String narrow(const W_String & value)
 		{ 
-			return convert<char>(value); 
+			return str_convert<char>(value); 
 		}
 
 		static inline W_String widen(const String & value)
 		{ 
-			return convert<wchar_t>(value); 
+			return str_convert<wchar_t>(value); 
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -322,7 +331,9 @@ namespace ml
 
 		template <class T> static inline String to_string(const T & value)
 		{
-			SStream ss {}; ss << value; return ss.str();
+			SStream ss {}; 
+			ss << value; 
+			return ss.str();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

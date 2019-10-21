@@ -229,14 +229,17 @@ namespace ml
 
 		template <class T> inline int32_t get_index_of(const T * value) const
 		{
-			int32_t index { 0 };
-			for (const auto & pair : this->data<T>())
+			if (value)
 			{
-				if (pair.second == value) 
-				{ 
-					return index; 
+				int32_t index { 0 };
+				for (const auto & pair : this->data<T>())
+				{
+					if (pair.second == value)
+					{
+						return index;
+					}
+					index++;
 				}
-				index++;
 			}
 			return -1;
 		}

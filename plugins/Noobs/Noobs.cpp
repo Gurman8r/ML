@@ -445,22 +445,22 @@ namespace ml
 				if (!u) continue;
 				ss	<< std::left
 					<< "uniform " 
-					<< std::setw(7) << Uniform::name_of(u->getID()) << " "
+					<< std::setw(7) << util::to_string(*u) << " "
 					<< std::setw(15) << u->name << " "
 					<< "{ ";
 				switch (u->getID())
 				{
-				case Uniform::Boolean: if (auto a { detail::as_bool(u) }) ss << (*a); break;
-				case Uniform::	Float: if (auto a { detail::as_float(u) }) ss << (*a); break;
-				case Uniform::Integer: if (auto a { detail::as_int(u) }) ss << (*a); break;
-				case Uniform::Vector2: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
-				case Uniform::Vector3: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
-				case Uniform::Vector4: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
-				case Uniform::	Color: if (auto a { detail::as_color(u) }) ss << (*a); break;
-				case Uniform::Matrix2: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
-				case Uniform::Matrix3: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
-				case Uniform::Matrix4: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
-				case Uniform::Sampler: if (auto a { detail::as_sampler(u) }) ss << ML_Content.get_name(a); break;
+				case Uniform::U_Boolean	: if (auto a { detail::as_bool(u) }) ss << (*a); break;
+				case Uniform::U_Float	: if (auto a { detail::as_float(u) }) ss << (*a); break;
+				case Uniform::U_Integer	: if (auto a { detail::as_int(u) }) ss << (*a); break;
+				case Uniform::U_Vector2	: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
+				case Uniform::U_Vector3	: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
+				case Uniform::U_Vector4	: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
+				case Uniform::U_Color	: if (auto a { detail::as_color(u) }) ss << (*a); break;
+				case Uniform::U_Matrix2	: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
+				case Uniform::U_Matrix3	: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
+				case Uniform::U_Matrix4	: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
+				case Uniform::U_Sampler	: if (auto a { detail::as_sampler(u) }) ss << ML_Content.get_name(*a); break;
 				}
 				if (ss.str().back() != ' ') ss << ' ';
 				ss << "}" << endl;
@@ -522,7 +522,7 @@ namespace ml
 						
 			// Uniform FileType
 			/* * * * * * * * * * * * * * * * * * * * */
-			ImGui::Text(Uniform::name_of(uni->getID()));
+			ImGui::Text("%s", util::to_string(*uni).c_str());
 			ImGui::NextColumn();
 
 			// Uniform Value

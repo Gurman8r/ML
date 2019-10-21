@@ -100,7 +100,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -637,7 +637,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -798,7 +798,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -923,7 +923,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -1178,7 +1178,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -1412,7 +1412,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -1586,7 +1586,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -1742,7 +1742,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -1848,7 +1848,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -2016,7 +2016,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		if (value && ImGui::IsItemHovered())
 		{
 		}
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
@@ -2155,7 +2155,8 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 		
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		
+		if (value && ImGui::IsItemHovered())
 		{
 			ImGui::BeginTooltip();
 			switch (value->sampler())
@@ -2177,22 +2178,25 @@ namespace ml
 				break;
 			
 			case GL::Texture3D:
-				ImGui::Text("Texture-3D previews are currently disabled.");
+				ImGui::Text("Texture3D previews are currently disabled.");
 				break;
 			
 			case GL::TextureCubeMap:
-				ImGui::Text("Texture-CubeMap previews are currently disabled.");
+				ImGui::Text("Cubemap previews are currently disabled.");
 				break;
 			}
 			ImGui::EndTooltip();
 		}
+		
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
+		
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+		
 		return Layout::end_prop(this, changed);
 	}
 
@@ -2463,12 +2467,12 @@ namespace ml
 		break;
 		case GL::Texture3D:
 		{
-			ImGui::TextWrapped("Texture-3D previews are currently disabled.");
+			ImGui::TextWrapped("Texture3D previews are currently disabled.");
 		}
 		break;
 		case GL::TextureCubeMap:
 		{
-			ImGui::TextWrapped("Texture-CubeMap previews are currently disabled.");
+			ImGui::TextWrapped("Cubemap previews are currently disabled.");
 		}
 		break;
 		}
@@ -2488,16 +2492,20 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		const bool changed { Layout::select_combo<value_type>(label, value) };
-		if (ImGui::IsItemHovered())
+		
+		if (value && ImGui::IsItemHovered())
 		{
 		}
+		
 		const String menu_label { "##SelectorMenu##{0}##{1}"_s.format(label, info().name) };
+		
 		if (ImGui::BeginPopupContextItem(menu_label.c_str()))
 		{
 			if (Layout::inspect_button((label + menu_label), value))
 				ImGui::CloseCurrentPopup();
 			ImGui::EndPopup();
 		}
+
 		return Layout::end_prop(this, changed);
 	}
 
@@ -2597,160 +2605,163 @@ namespace ml
 		switch (value.getID())
 		{
 		case uni_bool::ID:
-			if (auto u = detail::as_bool(&value))
+			if (auto data = detail::as_bool(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Bool##Uni" + value.name;
 				ImGui::Checkbox(name.c_str(), &copy);
-				if (auto temp = value.as<uni_bool>())
+				if (auto u = value.as<uni_bool>())
 				{
-					temp->data = copy;
+					u->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_float::ID:
-			if (auto u = detail::as_float(&value))
+			if (auto data = detail::as_float(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Float##Uni" + value.name;
 				ImGui::DragFloat(name.c_str(), &copy, speed, 0, 0, fmt);
-				if (auto temp = value.as<uni_float>())
+				if (auto u = value.as<uni_float>())
 				{
-					temp->data = copy;
+					u->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_int::ID:
-			if (auto u = detail::as_int(&value))
+			if (auto data = detail::as_int(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Int##Uni" + value.name;
 				if (value.isModifiable()) ImGui::InputInt(name.c_str(), &copy);
 				else ImGui::DragInt(name.c_str(), &copy);
-				if (auto temp = value.as<uni_int>())
+				if (auto u = value.as<uni_int>())
 				{
-					temp->data = copy;
+					u->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_vec2::ID:
-			if (auto u = detail::as_vec2(&value))
+			if (auto data = detail::as_vec2(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Vec2##Uni" + value.name;
 				ImGui::DragFloat2(name.c_str(), &copy[0], speed, 0, 0, fmt);
-				if (auto temp = value.as<uni_vec2>())
+				if (auto u = value.as<uni_vec2>())
 				{
-					temp->data = copy; 
+					u->data = copy; 
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_vec3::ID:
-			if (auto u = detail::as_vec3(&value))
+			if (auto data = detail::as_vec3(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Vec3##Uni" + value.name;
 				ImGui::DragFloat3(name.c_str(), &copy[0], speed, 0, 0, fmt);
-				if (auto temp = value.as<uni_vec3>())
+				if (auto u = value.as<uni_vec3>())
 				{
-					temp->data = copy;
+					u->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_vec4::ID:
-			if (auto u = detail::as_vec4(&value))
+			if (auto data = detail::as_vec4(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Vec4##Uni" + value.name;
 				ImGui::DragFloat4(name.c_str(), &copy[0], speed, 0, 0, fmt);
-				if (auto temp = value.as<uni_vec4>())
+				if (auto u = value.as<uni_vec4>())
 				{
-					temp->data = copy; 
+					u->data = copy; 
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_color::ID:
-			if (auto u = detail::as_color(&value))
+			if (auto data = detail::as_color(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Color##Uni" + value.name;
 				ImGui::ColorEdit4(name.c_str(), &copy[0], ImGuiColorEditFlags_Float);
-				if (auto temp = value.as<uni_color>())
+				if (auto u = value.as<uni_color>())
 				{
-					temp->data = copy; 
+					u->data = copy; 
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_mat2::ID:
-			if (auto u = detail::as_mat2(&value))
+			if (auto data = detail::as_mat2(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Mat2##Uni" + value.name;
 				ImGui::DragFloat2((name + "##00").c_str(), &copy[0], speed, 0, 0, fmt);
 				ImGui::DragFloat2((name + "##02").c_str(), &copy[2], speed, 0, 0, fmt);
-				if (auto temp = value.as<uni_mat2>())
+				if (auto u = value.as<uni_mat2>())
 				{
-					temp->data = copy;
+					u->data = copy;
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_mat3::ID:
-			if (auto u = detail::as_mat3(&value))
+			if (auto data = detail::as_mat3(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
 				ImGui::DragFloat3((name + "##00").c_str(), &copy[0], speed, 0, 0, fmt);
 				ImGui::DragFloat3((name + "##03").c_str(), &copy[3], speed, 0, 0, fmt);
 				ImGui::DragFloat3((name + "##06").c_str(), &copy[6], speed, 0, 0, fmt);
-				if (auto temp = value.as<uni_mat3>())
+				if (auto u = value.as<uni_mat3>())
 				{
-					temp->data = (copy); 
+					u->data = (copy); 
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_mat4::ID:
-			if (auto u = detail::as_mat4(&value))
+			if (auto data = detail::as_mat4(&value))
 			{
-				auto copy { *u };
+				auto copy { *data };
 				const String name = "##" + label + "##Mat4##Uni" + value.name;
 				ImGui::DragFloat4((name + "##00").c_str(), &copy[0],  speed, 0, 0, fmt);
 				ImGui::DragFloat4((name + "##04").c_str(), &copy[4],  speed, 0, 0, fmt);
 				ImGui::DragFloat4((name + "##08").c_str(), &copy[8],  speed, 0, 0, fmt);
 				ImGui::DragFloat4((name + "##12").c_str(), &copy[12], speed, 0, 0, fmt);
-				if (auto temp = value.as<uni_mat4>())
+				if (auto u = value.as<uni_mat4>())
 				{
-					temp->data = copy; 
+					u->data = copy; 
 					return Layout::end_prop(this, true);
 				}
 			}
 			break;
 
 		case uni_sampler::ID:
-			if (auto u = value.as<uni_sampler>())
+			if (auto data = detail::as_sampler(&value))
 			{
+				auto copy { *data };
 				const String name = "##" + label + "##Sampler##Uni" + value.name;
-				const Texture * temp { u->data };
-				if (PropertyDrawer<Texture>()(name, temp)) 
+				if (PropertyDrawer<Texture>()(name, copy))
 				{
-					u->data = temp; 
+					if (auto u = value.as<uni_sampler>())
+					{
+						u->data = copy;
+					}
 				}
 				return Layout::end_prop(this, true);
 			}

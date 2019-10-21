@@ -6,8 +6,6 @@
 #include <ML/Core/Newable.hpp>
 #include <ML/Core/BitMask.hpp>
 
-// this entire system needs to be reworked
-
 struct ml::Texture;
 
 namespace ml
@@ -19,31 +17,52 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum : int32_t
+		enum : hash_t
 		{
-			Invalid = -1,
-			Boolean, Float, Integer,
-			Vector2, Vector3, Vector4, Color,
-			Matrix2, Matrix3, Matrix4,
-			Sampler,
+			U_Error,
+			U_Boolean, U_Float, U_Integer,
+			U_Vector2, U_Vector3, U_Vector4, U_Color,
+			U_Matrix2, U_Matrix3, U_Matrix4,
+			U_Sampler,
 			MAX_UNIFORM_TYPE
 		};
 
-		static constexpr int32_t Type_values[MAX_UNIFORM_TYPE] =
+		static constexpr hash_t Type_values[MAX_UNIFORM_TYPE] =
 		{
-			Boolean, Float, Integer,
-			Vector2, Vector3, Vector4, Color,
-			Matrix2, Matrix3, Matrix4,
-			Sampler
+			U_Error,
+			U_Boolean, U_Float, U_Integer,
+			U_Vector2, U_Vector3, U_Vector4, U_Color,
+			U_Matrix2, U_Matrix3, U_Matrix4,
+			U_Sampler
 		};
 
 		static constexpr C_String Type_names[MAX_UNIFORM_TYPE] = 
 		{
+			"error",
 			"bool", "float", "int",
 			"vec2", "vec3", "vec4", "color",
 			"mat2", "mat3", "mat4",
 			"sampler"
 		};
+
+		template <class T> static constexpr hash_t category()
+		{
+			switch (typeof<detail::decay_t<T>>::hash)
+			{
+			case typeof<bool>		::hash:	return U_Boolean;
+			case typeof<_ML float_t>::hash: return U_Float;
+			case typeof<_ML int32_t>::hash: return U_Integer;
+			case typeof<_ML vec2>	::hash:	return U_Vector2;
+			case typeof<_ML vec3>	::hash:	return U_Vector3;
+			case typeof<_ML vec4>	::hash:	return U_Vector4;
+			case typeof<_ML Color>	::hash:	return U_Color;
+			case typeof<_ML mat2>	::hash:	return U_Matrix2;
+			case typeof<_ML mat3>	::hash:	return U_Matrix3;
+			case typeof<_ML mat4>	::hash:	return U_Matrix4;
+			case typeof<_ML Texture>::hash: return U_Sampler;
+			}
+			return U_Error;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -55,11 +74,9 @@ namespace ml
 
 		virtual ~Uniform() {}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		virtual Uniform * clone() const = 0;
 		
-		virtual const int32_t & getID() const = 0;
+		virtual const hash_t & getID() const = 0;
 
 		virtual const typeof<> & getType() const = 0;
 		
@@ -68,36 +85,18 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
-			class T
-		> inline T * as() { return dynamic_cast<T *>(this); }
+			class U
+		> inline U * as() { return dynamic_cast<U *>(this); }
 
 		template <
-			class T
-		> inline const T * as() const { return dynamic_cast<const T *>(this); }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static constexpr bool value_at(int32_t i, int32_t & value)
-		{
-			return alg::value_at(i, value, Uniform::Type_values);
-		}
-
-		static constexpr int32_t index_of(const int32_t value)
-		{
-			return alg::index_of(value, Uniform::Type_values);
-		}
-
-		static constexpr C_String name_of(const int32_t value)
-		{
-			const int32_t i = index_of(value);
-			return (i >= 0) ? Uniform::Type_names[i] : nullptr;
-		}
+			class U
+		> inline const U * as() const { return dynamic_cast<const U *>(this); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline friend ML_SERIALIZE(std::ostream & out, const Uniform & value)
 		{
-			return out << Uniform::name_of(value.getID());
+			return out << Uniform::Type_names[value.getID()];
 		}
 
 		inline friend bool operator<(const Uniform & lhs, const Uniform & rhs)
@@ -120,28 +119,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	namespace detail
-	{
-		template <class T> static constexpr int32_t uniform_id()
-		{
-			switch (typeof<detail::decay_t<T>>::hash)
-			{
-			case typeof<bool>	::hash:	return Uniform::Boolean;
-			case typeof<float_t>::hash: return Uniform::Float;
-			case typeof<int32_t>::hash: return Uniform::Integer;
-			case typeof<vec2>	::hash:	return Uniform::Vector2;
-			case typeof<vec3>	::hash:	return Uniform::Vector3;
-			case typeof<vec4>	::hash:	return Uniform::Vector4;
-			case typeof<Color>	::hash:	return Uniform::Color;
-			case typeof<mat2>	::hash:	return Uniform::Matrix2;
-			case typeof<mat3>	::hash:	return Uniform::Matrix3;
-			case typeof<mat4>	::hash:	return Uniform::Matrix4;
-			case typeof<Texture>::hash: return Uniform::Sampler;
-			}
-			return Uniform::Invalid;
-		}
-	}
-
 	// Uniform Implementation
 	template <class T> struct UniformImpl final : public Uniform
 	{
@@ -151,7 +128,9 @@ namespace ml
 
 		using self_type = typename UniformImpl<value_type>;
 
-		static constexpr int32_t ID { detail::uniform_id<value_type>() };
+		static constexpr hash_t ID { Uniform::category<value_type>() };
+
+		static constexpr typeof<> type { typeof<value_type>() };
 
 		value_type data;
 
@@ -160,28 +139,17 @@ namespace ml
 		{
 		}
 
-		inline self_type * clone() const override 
-		{ 
-			return new self_type { name, data }; 
-		}
+		inline self_type * clone() const override { return new self_type { name, data }; }
 
-		inline const int32_t & getID() const override
-		{
-			return this->ID;
-		}
+		inline const hash_t & getID() const override { return this->ID; }
 
-		inline const typeof<> & getType() const override
-		{
-			static typeof<> temp { typeof<value_type>() };
-			return temp;
-		}
+		inline const typeof<> & getType() const override { return this->type; }
 
 		inline bool isModifiable() const override
 		{
-			return // uniform owns its value or points to a texture
-				std::is_same_v<value_type, detail::decay_t<value_type>> ||
-				std::is_same_v<value_type, const Texture *>
-				;
+			// uniform owns its value or points to a texture
+			return std::is_same_v<value_type, detail::decay_t<value_type>> ||
+				std::is_same_v<value_type, const Texture *>;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -357,13 +325,13 @@ namespace ml
 			return nullptr;
 		}
 
-		static inline const Texture * as_sampler(const Uniform * value)
+		static inline const Texture * const * as_sampler(const Uniform * value)
 		{
 			if (!value) return nullptr;
 			switch (value->getType().hash)
 			{
 			case typeof<const Texture *>::hash:
-				return static_cast<const uni_sampler *>(value)->data;
+				return &(static_cast<const uni_sampler *>(value)->data);
 			}
 			return nullptr;
 		}

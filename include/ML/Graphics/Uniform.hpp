@@ -49,17 +49,17 @@ namespace ml
 		{
 			switch (typeof<detail::decay_t<T>>::hash)
 			{
-			case typeof<bool>		::hash:	return U_Boolean;
-			case typeof<_ML float_t>::hash: return U_Float;
-			case typeof<_ML int32_t>::hash: return U_Integer;
-			case typeof<_ML vec2>	::hash:	return U_Vector2;
-			case typeof<_ML vec3>	::hash:	return U_Vector3;
-			case typeof<_ML vec4>	::hash:	return U_Vector4;
-			case typeof<_ML Color>	::hash:	return U_Color;
-			case typeof<_ML mat2>	::hash:	return U_Matrix2;
-			case typeof<_ML mat3>	::hash:	return U_Matrix3;
-			case typeof<_ML mat4>	::hash:	return U_Matrix4;
-			case typeof<_ML Texture>::hash: return U_Sampler;
+			case typeof<bool>	::hash:	return U_Boolean;
+			case typeof<float_t>::hash: return U_Float;
+			case typeof<int32_t>::hash: return U_Integer;
+			case typeof<vec2>	::hash:	return U_Vector2;
+			case typeof<vec3>	::hash:	return U_Vector3;
+			case typeof<vec4>	::hash:	return U_Vector4;
+			case typeof<Color>	::hash:	return U_Color;
+			case typeof<mat2>	::hash:	return U_Matrix2;
+			case typeof<mat3>	::hash:	return U_Matrix3;
+			case typeof<mat4>	::hash:	return U_Matrix4;
+			case typeof<Texture>::hash: return U_Sampler;
 			}
 			return U_Error;
 		}

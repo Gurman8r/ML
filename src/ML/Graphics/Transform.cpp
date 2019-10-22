@@ -33,7 +33,7 @@ namespace ml
 		return (*this);
 	}
 
-	Transform & Transform::setRotation(const vec3 & value)
+	Transform & Transform::setRotation(const vec4 & value)
 	{
 		m_rot = value;
 		return (*this);

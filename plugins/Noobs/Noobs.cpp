@@ -216,7 +216,7 @@ namespace ml
 						if (auto m { (Material *)renderer->material() })
 						{
 							m->set<uni_vec3>("u_position", transform->position());
-							m->set<uni_vec3>("u_rotation", transform->rotation());
+							m->set<uni_vec4>("u_rotation", transform->rotation());
 							m->set<uni_vec3>("u_scale", transform->scale());
 						}
 					}

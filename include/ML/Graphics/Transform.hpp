@@ -23,14 +23,14 @@ namespace ml
 
 		Transform & setEnabled(bool value);
 		Transform & setPosition(const vec3 & value);
-		Transform & setRotation(const vec3 & value);
+		Transform & setRotation(const vec4 & value);
 		Transform & setScale(const vec3 & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto enabled()	const -> const bool & { return m_enabled; }
 		inline auto position()	const -> const vec3 & { return m_pos; }
-		inline auto rotation()	const -> const vec3 & { return m_rot; }
+		inline auto rotation()	const -> const vec4 & { return m_rot; }
 		inline auto scale()		const -> const vec3 & { return m_scl; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -42,7 +42,7 @@ namespace ml
 	private:
 		bool m_enabled; //
 		vec3 m_pos; // 
-		vec3 m_rot; // 
+		vec4 m_rot; // 
 		vec3 m_scl; // 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

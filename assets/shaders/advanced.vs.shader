@@ -69,12 +69,12 @@ uniform float	u_fps;		// Frame Rate
 uniform float	u_time;		// Total Time
 uniform vec3	u_position;	// Model Position
 uniform vec3	u_scale;	// Model Scale
-uniform vec3	u_rotation; // Model Rotation
+uniform vec4	u_rotation; // Model Rotation
 
 void main()
 {
 	// Model Matrix
-	mat4 m = transform(u_position, vec4(u_rotation, u_time * 0.33));
+	mat4 m = transform(u_position, vec4(u_rotation.xyz, u_time * 0.33));
 
 	// View Matrix
 	mat4 v = look_at(u_camera.pos, u_camera.dir);

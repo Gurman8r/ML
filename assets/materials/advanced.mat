@@ -19,6 +19,6 @@ uniform sampler	u_texture1		{ default_texture }
 
 uniform vec3	u_position		{ 0.0, 0.0, 0.0 }
 uniform vec3	u_scale			{ 0.3 0.3 0.3 }
-uniform vec3	u_rotation		{ 0.0 0.1 0.0 }
+uniform vec4	u_rotation		{ 0.0 0.1 0.0 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

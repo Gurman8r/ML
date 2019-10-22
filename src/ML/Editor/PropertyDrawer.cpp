@@ -250,7 +250,7 @@ namespace ml
 				bool enabled = t->enabled();
 				vec3 pos = t->position();
 				vec3 scl = t->scale();
-				vec3 rot = t->rotation();
+				vec4 rot = t->rotation();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -275,7 +275,7 @@ namespace ml
 					t->setScale(scl);
 				}
 
-				if (ImGui::DragFloat3(("Rotation##Transform##" + label).c_str(), &rot[0], speed))
+				if (ImGui::DragFloat4(("Rotation##Transform##" + label).c_str(), &rot[0], speed))
 				{
 					t->setRotation(rot);
 				}

@@ -34,7 +34,7 @@ uniform sampler2D	u_texture0;		// Diffuse Texture
 uniform sampler2D	u_texture1;		// Specular Texture
 uniform vec3		u_position;		// Model Position
 uniform vec3		u_scale;		// Model Scale
-uniform vec3		u_rotation;		// Model Rotation
+uniform vec4		u_rotation;		// Model Rotation
 
 void main()
 {

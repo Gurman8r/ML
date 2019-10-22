@@ -1,6 +1,15 @@
 #ifndef _ML_NAMEOF_HPP_
 #define _ML_NAMEOF_HPP_
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+// Based on CTTI
+// https://github.com/Manu343726/ctti
+// https://github.com/Manu343726/ctti/blob/master/include/ctti/nameof.hpp
+// https://github.com/Manu343726/ctti/blob/master/include/ctti/detail/name_filters.hpp
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include <ML/Core/Signature.hpp>
 
 namespace ml
@@ -74,28 +83,35 @@ namespace ml
 
 		static constexpr StringView filter_suffix(const StringView & value, const StringView & suf) noexcept
 		{
-			return ((value.substr(value.size() - suf.size(), suf.size()) == suf)
+			return ((value.size() >= suf.size()) && ((value.substr(value.size() - suf.size(), suf.size()) == suf))
 				? value.substr(0, (value.size() - suf.size()))
 				: value
 			);
 		}
 
-		static constexpr StringView filter_signature(const StringView & value) noexcept
+		static constexpr StringView filter_signature_type(const StringView & value) noexcept
 		{
-# if defined(ML_CC_MSC)
-			const size_t lhs { value.find_first_of('<') };
-			const size_t rhs { value.find_last_of('>') };
+#if defined(ML_HAS_CONSTEXPR_17)
+			return filter_suffix(filter_prefix(value, 
+				std::get<0>(signature::detail::type)),
+				std::get<1>(signature::detail::type)
+			);
+# else
+#	if defined(ML_CC_MSC)
+			const auto lhs { value.find_first_of('<') };
+			const auto rhs { value.find_last_of('>') };
 			return (((lhs != StringView::npos) && (rhs != StringView::npos))
 				? value.substr((lhs + 1), (rhs - lhs) - 1)
 				: value
 			);
-# else
-			const size_t lhs { value.find_first_of('=') };
-			const size_t rhs { value.find_last_of(']') };
+#	else
+			const auto lhs { value.find_first_of('=') };
+			const auto rhs { value.find_last_of(']') };
 			return (((lhs != StringView::npos) && (rhs != StringView::npos))
 				? value.substr((lhs + 2), (rhs - lhs) - 1)
 				: value
 			);
+#	endif
 # endif
 		}
 
@@ -136,7 +152,7 @@ namespace ml
 				filter_constexpr(
 				filter_class(
 				filter_struct(
-				filter_signature(
+				filter_signature_type(
 				value
 			))));
 		}
@@ -146,5 +162,27 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
+
+# if not defined(ML_HAS_CONSTEXPR_17)
+template <> struct ml::nameof<std::string> final
+{
+	static constexpr auto value { "std::string" };
+};
+
+template <> struct ml::nameof<std::wstring> final
+{
+	static constexpr auto value { "std::wstring" };
+};
+
+template <> struct ml::nameof<std::u16string> final
+{
+	static constexpr auto value { "std::u16string" };
+};
+
+template <> struct ml::nameof<std::u32string> final
+{
+	static constexpr auto value { "std::u32string" };
+};
+# endif
 
 #endif // !_ML_NAMEOF_HPP_

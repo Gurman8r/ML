@@ -170,9 +170,9 @@ namespace ml
 			}
 
 			// Update Materials (slow)
-			for (auto & pair : ML_Content.data<Material>())
+			for (auto & [key, value] : ML_Content.data<Material>())
 			{
-				if (auto m { (Material *)pair.second })
+				if (auto m { (Material *)value })
 				{
 					m->set<uni_vec3>("u_camera.pos", camera->position());
 					m->set<uni_vec3>("u_camera.dir", camera->direction());
@@ -204,9 +204,9 @@ namespace ml
 			if (camera) camera->apply();
 
 			// Draw Renderers
-			for (auto & pair : ML_Content.data<Entity>())
+			for (auto & [key, value] : ML_Content.data<Entity>())
 			{
-				if (auto ent { (Entity *)pair.second })
+				if (auto ent { (Entity *)value })
 				{
 					auto renderer { ent->get<Renderer>() };
 					auto transform { ent->get<Transform>() };
@@ -334,43 +334,41 @@ namespace ml
 		) && ImGui::BeginTabBar("Demo File Tab Bar"))
 		{
 			// Demo File Tab Bar
-			for (size_t i = 0; i < m_files.size(); i++)
+			for (auto & file : m_files)
 			{
-				auto & file { m_files[i] };
-				if (file && file->open)
+				if (!file || !file->open) continue;
+
+				// Demo File Tab
+				const bool tab_open { ImGui::BeginTabItem(
+					file->name.c_str(),
+					nullptr,
+					(file->dirty
+						? ImGuiTabItemFlags_UnsavedDocument
+						: ImGuiTabItemFlags_None)
+				) };
+				if (ImGui::BeginPopupContextItem())
 				{
-					// Demo File Tab
-					const bool tab_open { ImGui::BeginTabItem(
-						file->name.c_str(),
-						nullptr,
-						(file->dirty
-							? ImGuiTabItemFlags_UnsavedDocument
-							: ImGuiTabItemFlags_None)
-					) };
-					if (ImGui::BeginPopupContextItem())
+					if (ImGui::Button("Copy to Clipboard"))
 					{
-						if (ImGui::Button("Copy to Clipboard"))
-						{
-							ML_Engine.window().setClipboardString(file->text.GetText());
-							ImGui::CloseCurrentPopup();
-						}
-						ImGui::EndPopup();
+						ML_Engine.window().setClipboardString(file->text.GetText());
+						ImGui::CloseCurrentPopup();
 					}
-					if (tab_open)
+					ImGui::EndPopup();
+				}
+				if (tab_open)
+				{
+					file->text.Render(
+						("##ShaderFile##" + file->name + "##TextEditor").c_str(),
+						{ 0, 0 },
+						true
+					);
+
+					if (file->text.IsTextChanged())
 					{
-						file->text.Render(
-							("##ShaderFile##" + file->name + "##TextEditor").c_str(),
-							{ 0, 0 }, 
-							true
-						);
-
-						if (file->text.IsTextChanged())
-						{
-							file->dirty = true;
-						}
-
-						ImGui::EndTabItem();
+						file->dirty = true;
 					}
+
+					ImGui::EndTabItem();
 				}
 			}
 			ImGui::EndTabBar();
@@ -450,17 +448,17 @@ namespace ml
 					<< "{ ";
 				switch (u->getID())
 				{
-				case Uniform::U_Boolean	: if (auto a { detail::as_bool(u) }) ss << (*a); break;
-				case Uniform::U_Float	: if (auto a { detail::as_float(u) }) ss << (*a); break;
-				case Uniform::U_Integer	: if (auto a { detail::as_int(u) }) ss << (*a); break;
-				case Uniform::U_Vector2	: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
-				case Uniform::U_Vector3	: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
-				case Uniform::U_Vector4	: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
-				case Uniform::U_Color	: if (auto a { detail::as_color(u) }) ss << (*a); break;
-				case Uniform::U_Matrix2	: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
-				case Uniform::U_Matrix3	: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
-				case Uniform::U_Matrix4	: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
-				case Uniform::U_Sampler	: if (auto a { detail::as_sampler(u) }) ss << ML_Content.get_name(*a); break;
+				case uni_bool	::ID: if (auto a { detail::as_bool(u) }) ss << (*a); break;
+				case uni_float	::ID: if (auto a { detail::as_float(u) }) ss << (*a); break;
+				case uni_int	::ID: if (auto a { detail::as_int(u) }) ss << (*a); break;
+				case uni_vec2	::ID: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
+				case uni_vec3	::ID: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
+				case uni_vec4	::ID: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
+				case uni_color	::ID: if (auto a { detail::as_color(u) }) ss << (*a); break;
+				case uni_mat2	::ID: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
+				case uni_mat3	::ID: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
+				case uni_mat4	::ID: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
+				case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Content.get_name(*a); break;
 				}
 				if (ss.str().back() != ' ') ss << ' ';
 				ss << "}" << endl;
@@ -632,6 +630,10 @@ namespace ml
 			{
 				camera->setBackground(background);
 			}
+		}
+		else
+		{
+			ImGui::Text("No Camera Found");
 		}
 
 		ImGui::Separator();
@@ -995,12 +997,9 @@ namespace ml
 
 	bool Noobs::dispose_files()
 	{
-		for (size_t i = 0; i < m_files.size(); i++)
+		for (auto & file : m_files)
 		{
-			if (m_files[i])
-			{
-				delete m_files[i];
-			}
+			if (file) delete file;
 		}
 		return true;
 	}

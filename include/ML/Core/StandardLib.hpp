@@ -7,45 +7,54 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <any>
-#include <algorithm>
-#include <array>
-#include <atomic>
-#include <cassert>
-#include <cctype>
-#include <chrono>
-#include <csignal>
-#include <cstddef>
-#include <ctime>
-#include <filesystem>
-#include <fstream>
-#include <future>
-#include <initializer_list>
-#include <iomanip>
-#include <iostream>
-#include <iterator>
-#include <limits>
-#include <locale>
-#include <map>
-#include <mutex>
-#include <optional>
-#include <queue>
-#include <random>
-#include <regex>
-#include <stack>
-#include <set>
-#include <sstream>
-#include <string>
-#include <string_view>
-#include <thread>
-#include <type_traits>
-#include <typeindex>
-#include <typeinfo>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
-#include <variant>
-#include <vector>
+# if defined(ML_HAS_CXX20)
+#	include <concepts>
+# endif
+
+# if defined(ML_HAS_CXX17)
+#	include <any>
+#	include <filesystem>
+#	include <optional>
+#	include <string_view>
+#	include <variant>
+# endif
+
+# if defined(ML_HAS_CXX14)
+#	include <algorithm>
+#	include <array>
+#	include <atomic>
+#	include <cassert>
+#	include <cctype>
+#	include <chrono>
+#	include <csignal>
+#	include <cstddef>
+#	include <ctime>
+#	include <fstream>
+#	include <future>
+#	include <initializer_list>
+#	include <iomanip>
+#	include <iostream>
+#	include <iterator>
+#	include <limits>
+#	include <locale>
+#	include <map>
+#	include <mutex>
+#	include <queue>
+#	include <random>
+#	include <regex>
+#	include <stack>
+#	include <set>
+#	include <sstream>
+#	include <string>
+#	include <thread>
+#	include <type_traits>
+#	include <typeindex>
+#	include <typeinfo>
+#	include <unordered_map>
+#	include <unordered_set>
+#	include <utility>
+#	include <vector>
+# endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -54,7 +63,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# ifdef ML_SYSTEM_WINDOWS // Deprecated Functions
+# ifdef ML_CC_MSC // Deprecated Functions
 #	define popen	_popen
 #	define pclose	_pclose
 #	define strdup	_strdup

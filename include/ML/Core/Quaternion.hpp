@@ -66,7 +66,7 @@ namespace ml
 		constexpr complex_type axis() const
 		{
 			const value_type temp { 1.0f - this->real() * this->real() };
-			if (temp < constant_t<float>::zero)
+			if (temp < 0.0f)
 			{
 				return complex_type { 0, 0, 1 };
 			}
@@ -132,10 +132,10 @@ namespace ml
 		{
 			const tmat3<value_type> temp = as_mat3();
 			return tmat4<value_type> {
-				temp[0],	temp[1],	temp[2],	constant_t<float>::zero,
-				temp[3],	temp[4],	temp[5],	constant_t<float>::zero,
-				temp[6],	temp[7],	temp[8],	constant_t<float>::zero,
-				constant_t<float>::zero, constant_t<float>::zero, constant_t<float>::zero, 1.0f,
+				temp[0],	temp[1],	temp[2],	0.0f,
+				temp[3],	temp[4],	temp[5],	0.0f,
+				temp[6],	temp[7],	temp[8],	0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f,
 			};
 		}
 
@@ -143,7 +143,7 @@ namespace ml
 
 		static constexpr self_type angleAxis(value_type angle, const complex_type & axis)
 		{
-			const value_type half_angle { angle * constant_t<float>::half };
+			const value_type half_angle { angle * 0.5f };
 			const value_type temp { alg::sin(half_angle) };
 			return self_type {
 				axis[0] * temp,

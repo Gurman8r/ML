@@ -1,7 +1,7 @@
 #ifndef _ML_ALG_HPP_
 #define _ML_ALG_HPP_
 
-#include <ML/Core/Constants.hpp>
+#include <ML/Core/Cast.hpp>
 #include <gcem/gcem.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
@@ -38,46 +38,34 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> static constexpr T cos(const T & value)
+		template <class T> static constexpr T cos(const T & value)
 		{
 			return gcem::cos<T>(value);
 		}
 
-		template <
-			class T
-		> static constexpr T sin(const T & value)
+		template <class T> static constexpr T sin(const T & value)
 		{
 			return gcem::sin<T>(value);
 		}
 
-		template <
-			class T
-		> static constexpr T tan(const T value)
+		template <class T> static constexpr T tan(const T value)
 		{
 			return gcem::tan<T>(value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class T
-		> static constexpr T acos(const T & value)
+		template <class T> static constexpr T acos(const T & value)
 		{
 			return gcem::acos<T>(value);
 		}
 
-		template <
-			class T
-		> static constexpr T asin(const T & value)
+		template <class T> static constexpr T asin(const T & value)
 		{
 			return gcem::asin<T>(value);
 		}
 
-		template <
-			class T
-		> static constexpr T atan(const T & value)
+		template <class T> static constexpr T atan(const T & value)
 		{
 			return gcem::atan<T>(value);
 		}
@@ -125,7 +113,7 @@ namespace ml
 
 			template <> struct sqrt<uintmax_t>
 			{
-				using cast = typename constant_t<uintmax_t>;
+				using cast = typename cast_t<uintmax_t>;
 
 				constexpr uintmax_t operator()(uintmax_t value) const
 				{
@@ -145,7 +133,7 @@ namespace ml
 
 			template <> struct sqrt<float64_t>
 			{
-				using cast = typename constant_t<float64_t>;
+				using cast = typename cast_t<float64_t>;
 
 				constexpr float64_t operator()(float64_t value, float64_t curr, float64_t prev) const
 				{
@@ -237,8 +225,8 @@ namespace ml
 			class Base, class Exp
 		> static constexpr Base pow(const Base & base, const Exp & exp)
 		{
-			using TB = constant_t<Base>;
-			using TE = constant_t<Exp>;
+			using TB = cast_t<Base>;
+			using TE = cast_t<Exp>;
 			return ((exp < TE::zero)
 				? ((base == TB::zero)
 					? TB::nan

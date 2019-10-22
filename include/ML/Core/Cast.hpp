@@ -1,5 +1,5 @@
-#ifndef _ML_CONSTANTS_HPP_
-#define _ML_CONSTANTS_HPP_
+#ifndef _ML_CAST_HPP_
+#define _ML_CAST_HPP_
 
 #include <ML/Core/Decay.hpp>
 
@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct constant_t final
+	template <class T> struct cast_t final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -20,38 +20,33 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr constant_t() = default;
+		constexpr cast_t() = default;
 
-		template <class U> constexpr type operator()(const U & value) const noexcept
+		template <class T> constexpr auto operator()(T && value) const
 		{
-			return cast(value);
-		}
-
-		template <class U> static constexpr type cast(const U & value) noexcept
-		{
-			return static_cast<type>(value);
+			return static_cast<type>(std::forward<T>(value));
 		}
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static constexpr type minus_one		{ cast( -1) };
-		static constexpr type zero			{ cast(  0) };
-		static constexpr type one			{ cast(  1) };
-		static constexpr type two			{ cast(  2) };
-		static constexpr type three			{ cast(  3) };
-		static constexpr type four			{ cast(  4) };
-		static constexpr type five			{ cast(  5) };
-		static constexpr type six			{ cast(  6) };
-		static constexpr type seven			{ cast(  7) };
-		static constexpr type eight			{ cast(  8) };
-		static constexpr type nine			{ cast(  9) };
-		static constexpr type ten			{ cast( 10) };
-		static constexpr type fourty_five	{ cast( 45) };
-		static constexpr type sixty			{ cast( 60) };
-		static constexpr type ninety		{ cast( 90) };
-		static constexpr type one_hundred	{ cast(100) };
-		static constexpr type one_eighty	{ cast(180) };
-		static constexpr type three_sixty	{ cast(360) };
+		static constexpr type minus_one		{ static_cast<type>( -1) };
+		static constexpr type zero			{ static_cast<type>(  0) };
+		static constexpr type one			{ static_cast<type>(  1) };
+		static constexpr type two			{ static_cast<type>(  2) };
+		static constexpr type three			{ static_cast<type>(  3) };
+		static constexpr type four			{ static_cast<type>(  4) };
+		static constexpr type five			{ static_cast<type>(  5) };
+		static constexpr type six			{ static_cast<type>(  6) };
+		static constexpr type seven			{ static_cast<type>(  7) };
+		static constexpr type eight			{ static_cast<type>(  8) };
+		static constexpr type nine			{ static_cast<type>(  9) };
+		static constexpr type ten			{ static_cast<type>( 10) };
+		static constexpr type fourty_five	{ static_cast<type>( 45) };
+		static constexpr type sixty			{ static_cast<type>( 60) };
+		static constexpr type ninety		{ static_cast<type>( 90) };
+		static constexpr type one_hundred	{ static_cast<type>(100) };
+		static constexpr type one_eighty	{ static_cast<type>(180) };
+		static constexpr type three_sixty	{ static_cast<type>(360) };
 
 		static constexpr type half			{ one / two };
 		static constexpr type third			{ one / three };
@@ -72,7 +67,7 @@ namespace ml
 		static constexpr type epsilon		{ limits::epsilon() };
 		static constexpr type half_epsilon	{ epsilon * half };
 
-		static constexpr type pi			{ cast(3.14159265358979323846264338327L) };
+		static constexpr type pi			{ static_cast<type>(3.14159265358979323846264338327L) };
 		static constexpr type two_pi		{ pi * two };
 		static constexpr type half_pi		{ pi * half };
 		static constexpr type quarter_pi	{ pi * quarter };

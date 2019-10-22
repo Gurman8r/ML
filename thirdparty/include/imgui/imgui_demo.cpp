@@ -3009,7 +3009,7 @@ void ImGui::ShowAboutWindow(bool* p_open)
         ImGui::Text("define: __MINGW64__");
 #endif
 #ifdef __GNUC__
-        ImGui::Text("define: __GNUC__=%d", ML_CC_GNU);
+        ImGui::Text("define: __GNUC__=%d", ML_CC_GCC);
 #endif
 #ifdef __clang_version__
         ImGui::Text("define: __clang_version__=%s", __clang_version__);

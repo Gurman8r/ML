@@ -160,10 +160,10 @@ namespace ml
 			class Arg0, class ... Args
 		> inline self_type & format(const Arg0 & arg0, Args && ... args)
 		{
-			sstream_type ss; ss << arg0 << endl;
-
-			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; (void)sink;
-
+			sstream_type ss {};
+			ss << arg0 << endl;
+			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; 
+			(void)sink;
 			return this->format(ss);
 		}
 
@@ -187,6 +187,13 @@ namespace ml
 			return self_type(*this).format(arg0, _STD forward<Args>(args)...);
 		}
 
+		template <
+			class Arg0, class ... Args
+		> static inline self_type format(const self_type & fmt, const Arg0 & arg0, Args && ... args)
+		{
+			return fmt.format(arg0, _STD forward<Args>(args)...);
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		inline self_type & replace_all(const self_type & to_replace, const self_type & value)
@@ -207,6 +214,11 @@ namespace ml
 			return self_type(*this).replace_all(f, r);
 		}
 
+		static inline self_type replace_all(const self_type & str, const self_type & f, const self_type & r)
+		{
+			return str.replace_all(f, r);
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		inline self_type & remove_all(const self_type & to_remove)
@@ -217,6 +229,11 @@ namespace ml
 		inline self_type remove_all(const self_type & to_remove) const
 		{
 			return self_type(*this).remove_all(to_remove);
+		}
+
+		static inline self_type remove_all(const self_type & str, const self_type & to_remove)
+		{
+			return str.remove_all(to_remove);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -235,6 +252,11 @@ namespace ml
 		inline self_type trim() const
 		{
 			return self_type(*this).trim();
+		}
+
+		static inline self_type trim(const self_type & str)
+		{
+			return str.trim();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

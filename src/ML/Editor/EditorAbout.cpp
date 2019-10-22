@@ -64,6 +64,7 @@ namespace ml
 			ImGui::Columns(2);
 
 			// Build
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("Build");
 			draw_def("define: ML_DEBUG", "%s", ML_DEBUG ? "true" : "false");
 			draw_def("define: ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
@@ -83,13 +84,14 @@ namespace ml
 # endif
 
 			// Compiler
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("Compiler");
 # if defined(ML_CC_MSC)
 			draw_def("define: ML_CC_MSC", "", "");
 # elif defined(ML_CC_CLANG)
 			draw_def("define: ML_CC_CLANG", "", "");
-# elif defined(ML_CC_GNU)
-			draw_def("define: ML_CC_GNU", "", "");
+# elif defined(ML_CC_GCC)
+			draw_def("define: ML_CC_GCC", "", "");
 # elif defined(ML_CC_INTEL)
 			draw_def("define: ML_CC_INTEL", "", "");
 # elif defined(ML_CC_EMSCRIPTEN)
@@ -99,19 +101,69 @@ namespace ml
 			draw_def("define: ML_CC_VER", "%u", ML_CC_VER);
 
 			// Graphics
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("Graphics");
 			draw_def("OpenGL Version", "%s", ML_GL.getString(GL::Version));
 			draw_def("OpenGL Vendor", "%s", ML_GL.getString(GL::Vendor));
 			draw_def("OpenGL Renderer", "%s", ML_GL.getString(GL::Renderer));
 
 			// Language
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("Language");
-			draw_def("define: ML_CPLUSPLUS", "%u", ML_CPLUSPLUS);
-			draw_def("define: ML_HAS_CXX11", "%s", ML_HAS_CXX11 ? "true" : "false");
-			draw_def("define: ML_HAS_CXX14", "%s", ML_HAS_CXX14 ? "true" : "false");
-			draw_def("define: ML_HAS_CXX17", "%s", ML_HAS_CXX17 ? "true" : "false");
+			draw_def("define: ML_CPP", "%u", ML_CPP);
+# ifdef ML_HAS_CXX11
+			draw_def("define: ML_HAS_CXX11", "", "");
+# endif
+#ifdef ML_HAS_CXX14
+			draw_def("define: ML_HAS_CXX14", "", "");
+#endif
+#ifdef ML_HAS_CXX17
+			draw_def("define: ML_HAS_CXX17", "", "");
+#endif
+#ifdef ML_HAS_CXX20
+			draw_def("define: ML_HAS_CXX20", "", "");
+#endif
+#ifdef ML_CPP_CONSTEXPR
+			draw_def("define: ML_CPP_CONSTEXPR", "%u", ML_CPP_CONSTEXPR);
+#endif
+# ifdef ML_HAS_CONSTEXPR_11
+			draw_def("define: ML_HAS_CONSTEXPR_11", "", "");
+# endif
+#ifdef ML_HAS_CONSTEXPR_14
+			draw_def("define: ML_HAS_CONSTEXPR_14", "", "");
+#endif
+#ifdef ML_HAS_CONSTEXPR_17
+			draw_def("define: ML_HAS_CONSTEXPR_17", "", "");
+#endif
+#ifdef ML_HAS_CONSTEXPR_20
+			draw_def("define: ML_HAS_CONSTEXPR_20", "", "");
+#endif
+			
+			// Platform
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			draw_head("Platform:");
+			draw_def("define: ML_ARCHITECTURE", "%u", ML_ARCHITECTURE);
+#ifdef ML_X64
+			draw_def("define: ML_X64", "", "");
+#endif
+#ifdef ML_X86
+			draw_def("define: ML_X86", "", "");
+#endif
+#ifdef ML_ARM64
+			draw_def("define: ML_ARM64", "", "");
+#endif
+#ifdef ML_ARM32
+			draw_def("define: ML_ARM32", "", "");
+#endif
+#ifdef ML_PPC64
+			draw_def("define: ML_PPC64", "", "");
+#endif
+#ifdef ML_PPC32
+			draw_def("define: ML_PPC32", "", "");
+#endif
 
 			// Project
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("Project");
 			draw_def("define: ML_PROJECT_AUTH", "%s", ML_PROJECT_AUTH);
 			draw_def("define: ML_PROJECT_DATE", "%s", ML_PROJECT_DATE);
@@ -120,6 +172,7 @@ namespace ml
 			draw_def("define: ML_PROJECT_VER", "%s", ML_PROJECT_VER);
 
 			// System
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("System");
 # if defined(ML_SYSTEM_WINDOWS)
 			draw_def("define: ML_SYSTEM_WINDOWS", "", "");

@@ -13,23 +13,6 @@
 # define ML_PROJECT_TIME	__TIME__
 
 
-//	Language
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-# if defined(__cplusplus)
-#	if defined(_MSVC_LANG)
-#		define ML_CPLUSPLUS _MSVC_LANG
-#	else
-#		define ML_CPLUSPLUS __cplusplus
-#	endif
-#	define ML_HAS_CXX11 (ML_CPLUSPLUS >= 201103L) // 11
-#	define ML_HAS_CXX14 (ML_CPLUSPLUS >= 201402L) // 14
-#	define ML_HAS_CXX17 (ML_CPLUSPLUS >= 201703L) // 17
-# else
-#	error This system does not support C++
-# endif
-
-
 //	Configuration
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -42,6 +25,50 @@
 # endif
 
 
+//	Language
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+# if defined(__cplusplus)
+#	if defined(_MSVC_LANG)
+#		define ML_CPP _MSVC_LANG
+#	else
+#		define ML_CPP __cplusplus
+#	endif
+#	if (ML_CPP >= 201103L) 
+#		define ML_HAS_CXX11 // C++11
+#	endif
+#	if (ML_CPP >= 201402L) 
+#		define ML_HAS_CXX14 // C++14 
+#	endif
+#	if (ML_CPP >= 201703L)
+#		define ML_HAS_CXX17 // C++17
+#	endif
+#	if (ML_CPP >= 201907L)
+#		define ML_HAS_CXX20	// C++20
+#	endif
+# else
+#	error This system does not support C++.
+# endif
+
+# if defined(__cpp_constexpr)
+#	define ML_CPP_CONSTEXPR __cpp_constexpr
+#	if (ML_CPP_CONSTEXPR >= 201907L)
+#		define ML_HAS_CONSTEXPR_20	// trivial default initialization and asm-declaration
+#	endif
+#	if (ML_CPP_CONSTEXPR >= 201603L)
+#		define ML_HAS_CONSTEXPR_17	// constexpr lambda
+#	endif
+#	if (ML_CPP_CONSTEXPR >= 201304L)
+#		define ML_HAS_CONSTEXPR_14	// constexpr member functions and implicit const
+#	endif
+#	if (ML_CPP_CONSTEXPR >= 200704L)
+#		define ML_HAS_CONSTEXPR_11	// constexpr
+#	endif
+# else
+#	error This compiler does not support constexpr.
+# endif
+
+
 //	System
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -49,52 +76,61 @@
   || defined(WIN32) || defined(WIN64) \
   || defined(__MINGW32__) || defined(__MINGW64__)
 #	define ML_SYSTEM_WINDOWS
+#	define ML_SYSTEM_NAME "Windows"
 #	ifndef NOMINMAX
 #		define NOMINMAX
 #	endif
 # elif defined(__APPLE__) && defined(__MACH__)
 #	define ML_SYSTEM_APPLE
+#	define ML_SYSTEM_NAME "Apple"
 # elif defined(__unix__)
 #	define ML_SYSTEM_UNIX
 #	if defined(__ANDROID__)
 #		define ML_SYSTEM_ANDROID
+#		define ML_SYSTEM_NAME "Android"
 #	elif defined(__linux__)
 #		define ML_SYSTEM_LINUX
+#		define ML_SYSTEM_NAME "Linux"
 #	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)	
 #		define ML_SYSTEM_FREEBSD
+#		define ML_SYSTEM_NAME "FreeBSD"
 #	endif
 # endif
 
-# if defined(ML_SYSTEM_WINDOWS)
-#	define ML_SYSTEM_NAME		 "Windows"
-# elif defined(ML_SYSTEM_APPLE)
-#	define ML_SYSTEM_NAME		 "Apple"
-# elif defined(ML_SYSTEM_ANDROID)
-#	define ML_SYSTEM_NAME		 "Android"
-# elif defined(ML_SYSTEM_LINUX)
-#	define ML_SYSTEM_NAME		 "Linux"
-# elif defined(ML_SYSTEM_FREEBSD)
-#	define ML_SYSTEM_NAME		 "FreeBSD"
-# else
-#	error This operating system does not support memes.
-# endif
 
-
-//	Platform
+//	Platform / Architecture
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(_WIN64		) \
-  || defined(WIN64		) \
-  || defined(__x86_64__	) \
-  || defined(__ppc64__	) \
-  || defined(_x64		) \
-  || defined(_M_X64		) \
-  || defined(__MINGW64__)
-#	define ML_ARCHITECTURE		64
-#	define ML_PLATFORM_TARGET	"x64"
+# if defined(__x86_64__) || defined(_M_X64) || defined(_x64)
+#	define ML_X64
+#	define ML_ARCHITECTURE 64
+#	define ML_PLATFORM_TARGET "x64"
+# elif defined(__i386__) || defined(_M_IX86)
+#	define ML_X86
+#	define ML_ARCHITECTURE 32
+#	define ML_PLATFORM_TARGET "x86"
+# elif defined(__arm__) || defined(_M_ARM) || defined(__aarch64__)
+#	if defined(__aarch64__)
+#		define ML_ARM64
+#		define ML_ARCHITECTURE 64
+#		define ML_PLATFORM_TARGET "arm64"
+#	else
+#		define ML_ARM32
+#		define ML_ARCHITECTURE 32
+#		define ML_PLATFORM_TARGET "arm32"
+#	endif
+# elif defined(ppc) || defined(_M_PPC) || defined(__ppc64__)
+#	if defined(__ppc64__)
+#		define ML_PPC64
+#		define ML_ARCHITECTURE 64
+#		define ML_PLATFORM_TARGET "ppc64"
+#	else
+#		define ML_PPC32
+#		define ML_ARCHITECTURE 32
+#		define ML_PLATFORM_TARGET "ppc32"
+#	endif
 # else
-#	define ML_ARCHITECTURE		32
-#	define ML_PLATFORM_TARGET	"x86"
+#	error Unable to detect platform architecture.
 # endif
 
 
@@ -107,9 +143,9 @@
 #	define ML_CC_CLANG __clang__
 # elif defined(__GNUC__) || defined(__GNUG__)
 #	if defined(__GNUC__)
-#		define ML_CC_GNU __GNUC__
+#		define ML_CC_GCC __GNUC__
 #	else
-#		define ML_CC_GNU __GNUG__
+#		define ML_CC_GCC __GNUG__
 #	endif
 # elif defined(__ICC) || defined(__INTEL_COMPILER)
 #	if defined(__ICC)
@@ -119,25 +155,54 @@
 #	endif
 # elif defined(__EMSCRIPTEN__)
 #	define ML_CC_EMSCRIPTEN
+# elif defined(__MINGW32__) || defined(__MINGW64__)
+#	if defined(__MINGW64__)
+#		define ML_CC_MINGW __MINGW64__
+#	else
+#		define ML_CC_MINGW __MINGW32__
+#	endif
+# elif defined(__asmjs__)
+#	define ML_CC_ASMJS
+# elif defined(__wasm__)
+#	define ML_CC_WASM
+# else
+#	error This compiler is not supported.
 # endif
 
 # if defined(ML_CC_MSC)
-#	define ML_CC_NAME		"Microsoft"
 #	define ML_CC_VER		ML_CC_MSC
+#	if (ML_CC_VER >= 1920)
+#	define ML_CC_NAME		"Visual Studio 2019"
+#	elif (ML_CC_VER >= 1910)
+#	define ML_CC_NAME		"Visual Studio 2017"
+#	elif (ML_CC_VER >= 1900)
+#	define ML_CC_NAME		"Visual Studio 2015"
+#	elif (ML_CC_VER >= 1800)
+#	define ML_CC_NAME		"Visual Studio 2013"
+#	else
+#		error This version of Visual Studio is not supported.
+#	endif
 # elif defined(ML_CC_CLANG)
-#	define ML_CC_NAME		"Clang"
 #	define ML_CC_VER		ML_CC_CLANG
-# elif defined(ML_CC_GNU)
-#	define ML_CC_NAME		"GNU"
-#	define ML_CC_VER		ML_CC_GNU
+#	define ML_CC_NAME		"Clang/LLVM"
+# elif defined(ML_CC_GCC)
+#	define ML_CC_VER		ML_CC_GCC
+#	define ML_CC_NAME		"GCC"
 # elif defined(ML_CC_INTEL)
-#	define ML_CC_NAME		"Intel"
 #	define ML_CC_VER		ML_CC_INTEL
+#	define ML_CC_NAME		"Intel"
 # elif defined(ML_CC_EMSCRIPTEN)
-#	define ML_CC_NAME		"Emscripten"
 #	define ML_CC_VER		ML_CC_EMSCRIPTEN
-# else
-#	error This compiler does not support memes.
+#	define ML_CC_NAME		"Emscripten"
+# elif defined(ML_CC_MINGW)
+#	define ML_CC_VER		ML_CC_MINGW
+#	define ML_CC_NAME		"MinGW"
+# elif defined(ML_CC_ASMJS)
+#	define ML_CC_VER		ML_CC_ASMJS
+#	define ML_CC_NAME		"asm.js"
+# elif defined(ML_CC_WASM)
+#	define ML_CC_VER		ML_CC_WASM
+#	define ML_CC_NAME		"WebAssembly"
 # endif
 
 
@@ -150,24 +215,24 @@
 # define	ML_CHAR16	char16_t
 # define	ML_CHAR32	char32_t
 
-# ifdef ML_CC_MSC
-# define	ML_INT8		signed __int8
-# define	ML_INT16	signed __int16
-# define	ML_INT32	signed __int32
-# define	ML_INT64	signed __int64
-# define	ML_UINT8	unsigned __int8
-# define	ML_UINT16	unsigned __int16
-# define	ML_UINT32	unsigned __int32
-# define	ML_UINT64	unsigned __int64
+# if defined(ML_CC_MSC)
+#	define	ML_INT8		signed __int8
+#	define	ML_INT16	signed __int16
+#	define	ML_INT32	signed __int32
+#	define	ML_INT64	signed __int64
+#	define	ML_UINT8	unsigned __int8
+#	define	ML_UINT16	unsigned __int16
+#	define	ML_UINT32	unsigned __int32
+#	define	ML_UINT64	unsigned __int64
 # else
-# define	ML_INT8		signed char
-# define	ML_INT16	signed short
-# define	ML_INT32	signed int
-# define	ML_INT64	signed long long
-# define	ML_UINT8	unsigned char
-# define	ML_UINT16	unsigned short
-# define	ML_UINT32	unsigned int
-# define	ML_UINT64	unsigned long long
+#	define	ML_INT8		signed char
+#	define	ML_INT16	signed short
+#	define	ML_INT32	signed int
+#	define	ML_INT64	signed long long
+#	define	ML_UINT8	unsigned char
+#	define	ML_UINT16	unsigned short
+#	define	ML_UINT32	unsigned int
+#	define	ML_UINT64	unsigned long long
 # endif
 
 # define	ML_FLOAT32	float
@@ -227,8 +292,8 @@
 #			pragma warning(disable: 26495)	// value may be uninitialized
 #			pragma warning(disable: 26812)	// unscoped enum
 #		endif
-#	elif defined(ML_CC_GNU)
-#		if ML_CC_GNU >= 4
+#	elif defined(ML_CC_GCC)
+#		if ML_CC_GCC >= 4
 #			define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
 #			define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
 #		else

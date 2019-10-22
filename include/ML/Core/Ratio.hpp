@@ -1,7 +1,7 @@
 #ifndef _ML_RATIO_HPP_
 #define _ML_RATIO_HPP_
 
-#include <ML/Core/Constants.hpp>
+#include <ML/Core/Cast.hpp>
 
 namespace ml
 {
@@ -36,7 +36,7 @@ namespace ml
 			class T, int64_t Num, int64_t Den
 		> static constexpr T ratio_cast(T value, const Ratio<Num, Den> & r)
 		{
-			using TT = constant_t<T>;
+			using TT = cast_t<T>;
 			const T num { TT {}(r.num) };
 			const T den { TT {}(r.den) };
 			return (((num == TT::one) && (den == TT::one))

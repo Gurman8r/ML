@@ -1,16 +1,6 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ImGuiStyle] FrameBorderSize		= { 1.0 }
-[ImGuiStyle] FramePadding			= { 4.0, 4.0 }
-[ImGuiStyle] ItemSpacing			= { 8.0, 2.0 }
-[ImGuiStyle] WindowBorderSize		= { 1.0 }
-[ImGuiStyle] TabBorderSize			= { 1.0 }
-[ImGuiStyle] WindowRounding			= { 1.0 }
-[ImGuiStyle] ChildRounding			= { 1.0 }
-[ImGuiStyle] FrameRounding			= { 1.0 }
-[ImGuiStyle] ScrollbarRounding		= { 1.0 }
-[ImGuiStyle] GrabRounding			= { 1.0 }
-[ImGuiStyle] TabRounding			= { 1.0 }
+[ImGuiStyle] FrameBorderSize = { 1.0 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 

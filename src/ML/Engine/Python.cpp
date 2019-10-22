@@ -78,7 +78,7 @@ namespace ml
 			.def_static("compiler_name",		[]() { return ML_CC_NAME; })
 			.def_static("compiler_version",		[]() { return ML_CC_VER; })
 			.def_static("configuration",		[]() { return ML_CONFIGURATION; })
-			.def_static("cplusplus_version",	[]() { return ML_CPLUSPLUS; })
+			.def_static("cplusplus_version",	[]() { return ML_CPP; })
 			.def_static("is_debug",				[]() { return ML_DEBUG; })
 			.def_static("platform_target",		[]() { return ML_PLATFORM_TARGET; })
 			.def_static("project_author",		[]() { return ML_PROJECT_AUTH; })

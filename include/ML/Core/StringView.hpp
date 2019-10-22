@@ -18,7 +18,6 @@ namespace ml
 		using const_reference	= typename const value_type &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
-		using cppstring			= typename std::basic_string<value_type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -49,35 +48,27 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto back()	const -> const_reference	{ return (*(end() - 1)); }
-		constexpr auto begin()	const -> const_iterator		{ return m_data; }
-		constexpr auto cbegin() const -> const_iterator		{ return m_data; }
-		constexpr auto cend()	const -> const_iterator		{ return m_data + m_size; }
-		constexpr auto c_str()	const -> const_pointer		{ return m_data; }
-		constexpr auto data()	const -> const_pointer		{ return m_data; }
-		constexpr auto empty()	const -> bool				{ return (m_size == 0); }
-		constexpr auto end()	const -> const_iterator		{ return m_data + m_size; }
-		constexpr auto front()	const -> const_reference	{ return (*begin()); }
-		constexpr auto hash()	const -> hash_t				{ return Hash { m_data, m_size }; }
-		constexpr auto size()	const -> size_t				{ return m_size; }
-		inline	  auto str()	const -> cppstring			{ return { m_data, m_size }; }
+		constexpr auto at(size_t i) const -> const_reference	{ return *(cbegin() + i); }
+		constexpr auto back()		const -> const_reference	{ return (*(cend() - 1)); }
+		constexpr auto begin()		const -> const_iterator		{ return m_data; }
+		constexpr auto cbegin()		const -> const_iterator		{ return m_data; }
+		constexpr auto cend()		const -> const_iterator		{ return m_data + m_size; }
+		constexpr auto c_str()		const -> const_pointer		{ return m_data; }
+		constexpr auto data()		const -> const_pointer		{ return m_data; }
+		constexpr auto empty()		const -> bool				{ return (m_size == 0); }
+		constexpr auto end()		const -> const_iterator		{ return m_data + m_size; }
+		constexpr auto front()		const -> const_reference	{ return (*cbegin()); }
+		constexpr auto hash()		const -> hash_t				{ return Hash { m_data, m_size }; }
+		constexpr auto size()		const -> size_t				{ return m_size; }
+		inline	  auto str()		const -> std::string		{ return { m_data, m_size }; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr const_reference operator[](size_t i) const
-		{
-			return m_data[i];
-		}
+		constexpr const_reference operator[](size_t i) const { return at(i); }
 
-		constexpr operator const const_pointer &() const
-		{ 
-			return m_data;
-		}
+		constexpr operator const const_pointer &() const { return data(); }
 
-		inline operator cppstring() const
-		{
-			return str();
-		}
+		inline operator std::string() const { return str(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -89,7 +80,9 @@ namespace ml
 		constexpr size_t find_first_of(value_type value, size_t off) const
 		{
 			return ((off < size())
-				? (((*this)[off] == value) ? (off) : find_first_of(value, off + 1))
+				? (at(off) != value)
+					? find_first_of(value, off + 1)
+					: off
 				: self_type::npos
 			);
 		}
@@ -104,7 +97,9 @@ namespace ml
 		constexpr size_t find_last_of(value_type value, size_t off) const
 		{
 			return ((off < size())
-				? (((*this)[off] == value) ? (off) : find_last_of(value, off - 1))
+				? (at(off) != value) 
+					? find_last_of(value, off - 1)
+					: off
 				: self_type::npos
 			);
 		}
@@ -205,32 +200,32 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	constexpr bool operator==(const StringView & lhs, const std::basic_string<char> & rhs)
+	constexpr bool operator==(const StringView & lhs, const std::string & rhs)
 	{
 		return (lhs == rhs.c_str());
 	}
 
-	constexpr bool operator!=(const StringView & lhs, const std::basic_string<char> & rhs)
+	constexpr bool operator!=(const StringView & lhs, const std::string & rhs)
 	{
 		return (lhs != rhs.c_str());
 	}
 
-	constexpr bool operator<(const StringView & lhs, const std::basic_string<char> & rhs)
+	constexpr bool operator<(const StringView & lhs, const std::string & rhs)
 	{
 		return (lhs < rhs.c_str());
 	}
 
-	constexpr bool operator>(const StringView & lhs, const std::basic_string<char> & rhs)
+	constexpr bool operator>(const StringView & lhs, const std::string & rhs)
 	{
 		return (lhs < rhs.c_str());
 	}
 
-	constexpr bool operator<=(const StringView & lhs, const std::basic_string<char> & rhs)
+	constexpr bool operator<=(const StringView & lhs, const std::string & rhs)
 	{
 		return (lhs <= rhs.c_str());
 	}
 
-	constexpr bool operator>=(const StringView & lhs, const std::basic_string<char> & rhs)
+	constexpr bool operator>=(const StringView & lhs, const std::string & rhs)
 	{
 		return (lhs >= rhs.c_str());
 	}

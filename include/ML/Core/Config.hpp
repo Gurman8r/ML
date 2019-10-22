@@ -13,18 +13,6 @@
 # define ML_PROJECT_TIME	__TIME__
 
 
-//	Configuration
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-# if defined(_DEBUG)
-#	define ML_DEBUG			true
-#	define ML_CONFIGURATION	"Debug"
-# else
-#	define ML_DEBUG			false
-#	define ML_CONFIGURATION	"Release"
-# endif
-
-
 //	Language
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -53,13 +41,13 @@
 # if defined(__cpp_constexpr)
 #	define ML_CPP_CONSTEXPR __cpp_constexpr
 #	if (ML_CPP_CONSTEXPR >= 201907L)
-#		define ML_HAS_CONSTEXPR_20	// trivial default initialization and asm-declaration
+#		define ML_HAS_CONSTEXPR_20	// trivial default initialization and asm-declaration in constexpr functions
 #	endif
 #	if (ML_CPP_CONSTEXPR >= 201603L)
 #		define ML_HAS_CONSTEXPR_17	// constexpr lambda
 #	endif
 #	if (ML_CPP_CONSTEXPR >= 201304L)
-#		define ML_HAS_CONSTEXPR_14	// constexpr member functions and implicit const
+#		define ML_HAS_CONSTEXPR_14	// relaxing constraints on constexpr functions / constexpr member functions and implicit const
 #	endif
 #	if (ML_CPP_CONSTEXPR >= 200704L)
 #		define ML_HAS_CONSTEXPR_11	// constexpr
@@ -91,7 +79,7 @@
 #	elif defined(__linux__)
 #		define ML_SYSTEM_LINUX
 #		define ML_SYSTEM_NAME "Linux"
-#	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)	
+#	elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #		define ML_SYSTEM_FREEBSD
 #		define ML_SYSTEM_NAME "FreeBSD"
 #	endif
@@ -139,70 +127,60 @@
 
 # if defined(_MSC_VER)
 #	define ML_CC_MSC _MSC_VER
+#	define ML_CC_VER ML_CC_MSC
+#	if (ML_CC_VER >= 1920)
+#	define ML_CC_NAME "Visual Studio 2019"
+#	elif (ML_CC_VER >= 1910)
+#	define ML_CC_NAME "Visual Studio 2017"
+#	elif (ML_CC_VER >= 1900)
+#	define ML_CC_NAME "Visual Studio 2015"
+#	elif (ML_CC_VER >= 1800)
+#	define ML_CC_NAME "Visual Studio 2013"
+#	else
+#		error This version of Visual Studio is not supported.
+#	endif
 # elif defined(__clang__)
 #	define ML_CC_CLANG __clang__
+#	define ML_CC_VER ML_CC_CLANG
+#	define ML_CC_NAME "Clang/LLVM"
 # elif defined(__GNUC__) || defined(__GNUG__)
 #	if defined(__GNUC__)
 #		define ML_CC_GCC __GNUC__
 #	else
 #		define ML_CC_GCC __GNUG__
 #	endif
+#	define ML_CC_VER ML_CC_GCC
+#	define ML_CC_NAME "GCC"
 # elif defined(__ICC) || defined(__INTEL_COMPILER)
 #	if defined(__ICC)
 #		define ML_CC_INTEL __ICC
 #	else
 #		define ML_CC_INTEL __INTEL_COMPILER
 #	endif
+#	define ML_CC_VER ML_CC_INTEL
+#	define ML_CC_NAME "Intel"
 # elif defined(__EMSCRIPTEN__)
 #	define ML_CC_EMSCRIPTEN
+#	define ML_CC_VER ML_CC_EMSCRIPTEN
+#	define ML_CC_NAME "Emscripten"
 # elif defined(__MINGW32__) || defined(__MINGW64__)
 #	if defined(__MINGW64__)
 #		define ML_CC_MINGW __MINGW64__
 #	else
 #		define ML_CC_MINGW __MINGW32__
 #	endif
+#	define ML_CC_VER ML_CC_MINGW
+#	define ML_CC_NAME "MinGW"
 # elif defined(__asmjs__)
 #	define ML_CC_ASMJS
+#	define ML_CC_VER ML_CC_ASMJS
+#	define ML_CC_NAME "asm.js"
 # elif defined(__wasm__)
 #	define ML_CC_WASM
+#	define ML_CC_VER ML_CC_WASM
+#	define ML_CC_NAME "WebAssembly"
 # else
 #	error This compiler is not supported.
-# endif
-
-# if defined(ML_CC_MSC)
-#	define ML_CC_VER		ML_CC_MSC
-#	if (ML_CC_VER >= 1920)
-#	define ML_CC_NAME		"Visual Studio 2019"
-#	elif (ML_CC_VER >= 1910)
-#	define ML_CC_NAME		"Visual Studio 2017"
-#	elif (ML_CC_VER >= 1900)
-#	define ML_CC_NAME		"Visual Studio 2015"
-#	elif (ML_CC_VER >= 1800)
-#	define ML_CC_NAME		"Visual Studio 2013"
-#	else
-#		error This version of Visual Studio is not supported.
-#	endif
-# elif defined(ML_CC_CLANG)
-#	define ML_CC_VER		ML_CC_CLANG
-#	define ML_CC_NAME		"Clang/LLVM"
-# elif defined(ML_CC_GCC)
-#	define ML_CC_VER		ML_CC_GCC
-#	define ML_CC_NAME		"GCC"
-# elif defined(ML_CC_INTEL)
-#	define ML_CC_VER		ML_CC_INTEL
-#	define ML_CC_NAME		"Intel"
-# elif defined(ML_CC_EMSCRIPTEN)
-#	define ML_CC_VER		ML_CC_EMSCRIPTEN
-#	define ML_CC_NAME		"Emscripten"
-# elif defined(ML_CC_MINGW)
-#	define ML_CC_VER		ML_CC_MINGW
-#	define ML_CC_NAME		"MinGW"
-# elif defined(ML_CC_ASMJS)
-#	define ML_CC_VER		ML_CC_ASMJS
-#	define ML_CC_NAME		"asm.js"
-# elif defined(ML_CC_WASM)
-#	define ML_CC_VER		ML_CC_WASM
-#	define ML_CC_NAME		"WebAssembly"
 # endif
 
 
@@ -272,6 +250,14 @@
 
 //	Build
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+# if defined(_DEBUG)
+#	define ML_DEBUG			true
+#	define ML_CONFIGURATION	"Debug"
+# else
+#	define ML_DEBUG			false
+#	define ML_CONFIGURATION	"Release"
+# endif
 
 # ifndef ML_STATIC
 #	if defined(ML_SYSTEM_WINDOWS)

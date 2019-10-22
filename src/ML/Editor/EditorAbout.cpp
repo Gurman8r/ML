@@ -36,14 +36,14 @@ namespace ml
 		}
 
 		// Version String
-		ImGui::Text("%s", String("{0}/{1} | {2}/{3} | {4}/{5}").format(
+		ImGui::Text("%s/%s | %s/%s | %s/%s",
 			ML_PROJECT_NAME,
 			ML_PROJECT_VER,
 			ML_CONFIGURATION,
 			ML_PLATFORM_TARGET,
 			ML_PROJECT_DATE,
 			ML_PROJECT_TIME
-		).c_str());
+		);
 
 		// Config/Build Information
 		if (ImGui::CollapsingHeader("Config/Build Information"))
@@ -67,9 +67,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("Build");
 			draw_def("define: ML_DEBUG", "%s", ML_DEBUG ? "true" : "false");
-			draw_def("define: ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
 			draw_def("define: ML_CONFIGURATION", "%s", ML_CONFIGURATION);
-			draw_def("define: ML_PLATFORM_TARGET", "%s", ML_PLATFORM_TARGET);
 
 #if defined(ML_STATIC)
 			draw_def("define: ML_STATIC", "", "");
@@ -142,7 +140,8 @@ namespace ml
 			// Platform
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("Platform:");
-			draw_def("define: ML_ARCHITECTURE", "%u", ML_ARCHITECTURE);
+			draw_def("define: ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
+			draw_def("define: ML_PLATFORM_TARGET", "%s", ML_PLATFORM_TARGET);
 #ifdef ML_X64
 			draw_def("define: ML_X64", "", "");
 #endif

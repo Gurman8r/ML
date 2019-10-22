@@ -1,6 +1,11 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/Debug.hpp>
-#include <dirent.h>
+
+# ifdef ML_SYSTEM_WINDOWS
+#	include <dirent/dirent.h>
+# else
+#	include <dirent.h>
+# endif
 
 namespace ml
 {

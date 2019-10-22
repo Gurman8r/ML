@@ -4,7 +4,7 @@
 #include <ML/Graphics/GraphicsEvents.hpp>
 
 #define GLEW_STATIC
-#include <GL/glew.h>
+#include <glew/glew.h>
 
 namespace ml
 {

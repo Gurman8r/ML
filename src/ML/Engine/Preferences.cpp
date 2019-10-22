@@ -1,6 +1,6 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Core/Debug.hpp>
-#include <INIReader.h>
+#include <inih/INIReader.h>
 
 namespace ml
 {

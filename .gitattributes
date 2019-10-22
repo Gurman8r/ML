@@ -1,1 +1,3 @@
 *.* linguist-language=C++
+*.py linguist-detectable=false
+*.pyc linguist-detectable=false

@@ -1,11 +1,12 @@
 # MemeLib (ML)
 
-- ML is an open source C++ game engine.
-- ML is very much a work in progress and is constantly evolving.
+- ML is an STL-based C++ framework for games.
+	- ML is the collection of my personal C++ libraries, therefore everything should be considered 'evperimental'
+	- ML is very much a work in progress and is constantly evolving
 - Downloads: https://bit.ly/ml_noobs
 - Old Repo: https://github.com/Gurman8r/CppSandbox
 - ML uses OpenGL 4.6
-	- Try updating your graphics drivers if you're having difficulties.
+	- Try updating your graphics drivers if you're having difficulties
 - Building for Windows with VS2019
 	- If you already have VS2019 installed on your system the VC++ runtime library is also most likely installed, else you can download it here:
 	- https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads

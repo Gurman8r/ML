@@ -61,7 +61,6 @@ ml::int32_t main()
 
 	static_assert(check_version());
 
-
 	// Initialize Systems
 	ML_EventSystem; ML_Engine; ML_Editor;
 

@@ -10,10 +10,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Used to stage/defer loading of plugins into an event system
-	struct ML_ENGINE_API PluginManager final
-		: public Singleton<PluginManager>
-		, public Disposable
+	// Used to load and store plugin instances
+	// Stages broken out into separate functions
+	struct ML_ENGINE_API PluginManager final : public Singleton<PluginManager>, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

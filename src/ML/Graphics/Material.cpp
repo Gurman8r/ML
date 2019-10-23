@@ -21,16 +21,13 @@ namespace ml
 	{
 	}
 
-	Material::Material(const Shader * shader, List<Uniform *> && uniforms)
+	Material::Material(const Shader * shader, Map<String, Uniform *> && uniforms)
 		: m_shader { shader }
 		, m_uniforms {}
 	{
-		for (Uniform *& u : uniforms)
+		for (auto & [name, u] : uniforms)
 		{
-			if (u && u->name && !get(u->name) && (std::find(begin(), end(), u) == end()))
-			{
-				m_uniforms.push_back(std::move(u));
-			}
+			this->insert(std::move(u));
 		}
 	}
 
@@ -38,7 +35,7 @@ namespace ml
 		: m_shader { copy.m_shader }
 		, m_uniforms {}
 	{
-		for (const Uniform * u : copy)
+		for (const auto & [name, u] : copy)
 		{
 			this->insert(u->clone());
 		}
@@ -50,9 +47,9 @@ namespace ml
 
 	bool Material::dispose()
 	{
-		for (auto & elem : m_uniforms)
+		for (auto & [n, u] : m_uniforms)
 		{
-			delete elem;
+			delete u;
 		}
 		m_uniforms.clear();
 		return m_uniforms.empty();
@@ -174,7 +171,7 @@ namespace ml
 						return u = nullptr;
 					})(u_type, u_name, u_data, textures))
 					{
-						m_uniforms.push_back(u);
+						m_uniforms.insert({ u->name, u });
 					}
 				}
 			}
@@ -198,7 +195,7 @@ namespace ml
 		if (m_shader && (*m_shader))
 		{
 			m_shader->bind(false);
-			for (const auto & elem : (*this))
+			for (const auto & [name, elem] : (*this))
 			{
 				if (!m_shader->setUniform(elem))
 				{

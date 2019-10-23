@@ -1030,7 +1030,7 @@ namespace ml
 					}
 					if (copy)
 					{
-						for (const auto * u : (*copy))
+						for (const auto & [n, u] : (*copy))
 						{
 							if (!value->get(u->name)) { value->insert(u->clone()); }
 						}
@@ -1098,14 +1098,14 @@ namespace ml
 				ImGui::Separator();
 
 			// to remove
-			List<List<Uniform *>::iterator> toRemove;
+			Material::iterator toRemove { value.end() };
 
 			for (auto it = value.uniforms().begin();
 				it != value.uniforms().end();
 				it++)
 			{
 				// name
-				const String name("##Uni##" + (*it)->name + "##Material##" + label);
+				const String name("##Uni##" + (it->second)->name + "##Material##" + label);
 
 				// Uniform Header
 				ImGui::PushStyleColor(
@@ -1113,14 +1113,14 @@ namespace ml
 					{ 0.367f, 0.258f, 0.489f, 0.580f }
 				);
 
-				if (ImGui::TreeNode(((*it)->name + name).c_str()))
+				if (ImGui::TreeNode((it->first + name).c_str()))
 				{
 					ImGui::PopStyleColor();
-					if ((*it))
+					if (it->second)
 					{
 						float_t height = 1;
-						if ((*it)->getID() == uni_mat3::ID) { height = 3; }
-						else if ((*it)->getID() == uni_mat4::ID) { height = 4; }
+						if (it->second->getID() == uni_mat3::ID) { height = 3; }
+						else if (it->second->getID() == uni_mat4::ID) { height = 4; }
 
 						ImGui::PushID(name.c_str());
 						ImGui::BeginChild(
@@ -1130,12 +1130,12 @@ namespace ml
 							ImGuiWindowFlags_NoScrollbar |
 							ImGuiWindowFlags_NoScrollWithMouse
 						);
-						if (PropertyDrawer<Uniform>()(name, (Uniform &)**it))
+						if (PropertyDrawer<Uniform>()(name, (Uniform &)*it->second))
 						{
 							ImGui::SameLine();
 							if (ImGui::Button(("Remove##" + name).c_str()))
 							{
-								toRemove.push_back(it);
+								toRemove = it;
 							}
 						}
 						ImGui::EndChild();
@@ -1152,10 +1152,10 @@ namespace ml
 				ImGui::Separator();
 			}
 
-			for (auto & it : toRemove)
+			if (toRemove != value.end())
 			{
-				if (*it) delete (*it);
-				value.uniforms().erase(it);
+				delete toRemove->second;
+				value.uniforms().erase(toRemove);
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */

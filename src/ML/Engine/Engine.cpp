@@ -14,6 +14,7 @@
 #include <ML/Engine/Python.hpp>
 #include <ML/Engine/Lua.hpp>
 #include <ML/Engine/Script.hpp>
+#include <ML/Graphics/Camera.hpp>
 #include <ML/Graphics/Material.hpp>
 #include <ML/Graphics/Model.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
@@ -168,6 +169,14 @@ namespace ml
 		ML_Content.insert<Uniform>("u_time", new uni_float_clbk
 		{ 
 			"u_time", [&]() { return m_time.totalTime(); }
+		});
+
+		ML_Content.insert<Uniform>("u_viewport", new uni_vec2_clbk
+		{
+			"u_viewport", [&]() { 
+				const auto c { Camera::mainCamera() }; 
+				return c ? (vec2)c->viewport().size() : vec2{};
+			}
 		});
 
 		

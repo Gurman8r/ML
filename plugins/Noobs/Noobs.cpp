@@ -181,7 +181,6 @@ namespace ml
 					m->set<uni_float>("u_camera.near", camera->clipNear());
 					m->set<uni_float>("u_camera.far", camera->clipFar());
 					m->set<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
-					m->set<uni_vec2>("u_viewport", (vec2)camera->viewport().size());
 				}
 			}
 		}
@@ -298,7 +297,10 @@ namespace ml
 		ImGui::PushID(ML_ADDRESSOF(this));
 		if (ImGui::Begin(title, &m_editor_open, ImGuiWindowFlags_None))
 		{
-			if (ImGui::BeginTabBar("DemoEditor##TabBar##Main"))
+			if (ImGui::BeginTabBar(
+				"DemoEditor##TabBar##Main",
+				ImGuiTabBarFlags_Reorderable
+			))
 			{
 				if (ImGui::BeginTabItem("Code")) { draw_code_tab(); }
 				if (ImGui::BeginTabItem("Uniforms")) { draw_uniforms_tab(); }
@@ -335,7 +337,10 @@ namespace ml
 			ImGui::GetID("ShaderFile##TextEditors"),
 			{ max_size[0], max_size[1] - tools_height },
 			ImGuiWindowFlags_NoScrollbar
-		) && ImGui::BeginTabBar("Demo File Tab Bar"))
+		) && ImGui::BeginTabBar(
+			"Demo File Tab Bar",
+			ImGuiTabBarFlags_Reorderable
+		))
 		{
 			// Demo File Tab Bar
 			for (auto & file : m_files)
@@ -442,7 +447,7 @@ namespace ml
 		if (ImGui::Button("Copy to Clipboard"))
 		{
 			SStream ss;
-			for (const auto & u : (*m_renderer->material()))
+			for (const auto & [name, u] : (*m_renderer->material()))
 			{
 				if (!u) continue;
 				ss	<< std::left
@@ -486,7 +491,7 @@ namespace ml
 					
 		// Uniform List
 		Uniform * to_remove { nullptr };
-		for (auto & uni : (*m_renderer->material()))
+		for (auto & [name, uni] : (*m_renderer->material()))
 		{
 			if (!uni) continue;
 			ImGui::Columns(3, "##Uni##Columns");

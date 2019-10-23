@@ -1,7 +1,6 @@
 # basic.mat
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-uniform vec2	u_viewport	{ 1920, 1080 }
 uniform color	u_color		{ 1.0, 1.0, 1.0, 1.0 }
 uniform sampler	u_texture0	{ default_texture }
 uniform mat4	u_proj		{ 1 0 0 0, 0 1 0 0, 0 0 1 0, 0 0 0 1 }

@@ -14,7 +14,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum class EditorEvents
+	enum class EditorEventType
 	{
 		MIN_EDITOR_EVENT = Event::EV_EDITOR,
 
@@ -28,35 +28,35 @@ namespace ml
 	};
 
 	static_assert(
-		(int32_t)EditorEvents::MAX_EDITOR_EVENT < 
-		(int32_t)EditorEvents::MIN_EDITOR_EVENT + Event::MAX_LIBRARY_EVENTS,
+		(int32_t)EditorEventType::MAX_EDITOR_EVENT < 
+		(int32_t)EditorEventType::MIN_EDITOR_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
 		);
 
-	template <EditorEvents ID> struct EditorEvent : public T_Event<EditorEvents, ID>
+	template <EditorEventType ID> struct EditorEvent : public T_Event<EditorEventType, ID>
 	{
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct BeginGuiEvent final : public EditorEvent<EditorEvents::EV_BeginGui>
+	struct BeginGuiEvent final : public EditorEvent<EditorEventType::EV_BeginGui>
 	{
 		constexpr BeginGuiEvent() {}
 	};
 
-	struct GuiEvent final : public EditorEvent<EditorEvents::EV_Gui>
+	struct GuiEvent final : public EditorEvent<EditorEventType::EV_Gui>
 	{
 		constexpr GuiEvent() {}
 	};
 
-	struct EndGuiEvent final : public EditorEvent<EditorEvents::EV_EndGui>
+	struct EndGuiEvent final : public EditorEvent<EditorEventType::EV_EndGui>
 	{
 		constexpr EndGuiEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct MainMenuBarEvent final : public EditorEvent<EditorEvents::EV_MainMenuBar>
+	struct MainMenuBarEvent final : public EditorEvent<EditorEventType::EV_MainMenuBar>
 	{
 		enum Menu : int32_t
 		{ 
@@ -71,7 +71,7 @@ namespace ml
 		}
 	};
 
-	struct DockspaceEvent final : public EditorEvent<EditorEvents::EV_Dockspace>
+	struct DockspaceEvent final : public EditorEvent<EditorEventType::EV_Dockspace>
 	{
 		EditorDockspace & dockspace;
 		constexpr DockspaceEvent(EditorDockspace & dockspace)

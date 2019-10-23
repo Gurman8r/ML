@@ -81,9 +81,9 @@ namespace ml
 		}
 
 		// Run Boot Script
-		if (Script boot { m_prefs.get_string("Engine", "boot_script", "") })
+		if (Script scr_enter { m_prefs.get_string("Engine", "enter_script", "") })
 		{
-			boot.execute();
+			scr_enter.execute();
 		}
 
 		// Create Window
@@ -182,9 +182,9 @@ namespace ml
 		
 		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (Script load { m_prefs.get_string("Engine", "load_script", "") })
+		if (Script scr_load { m_prefs.get_string("Engine", "load_script", "") })
 		{
-			load.execute();
+			scr_load.execute();
 		}
 
 		// Set Window Icon

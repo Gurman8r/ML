@@ -3,12 +3,12 @@
 
 #version 460 core
 
-// In Attributes
+// Input
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec4 a_normal;
 layout(location = 2) in vec2 a_texcoord;
 
-// Out Vertex
+// Output
 out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 // Uniforms
@@ -31,10 +31,10 @@ void main()
 
 #version 460 core
 
-// In Vertex
+// Input
 in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
-// Out Color
+// Output
 out vec4 gl_Color;
 
 // Uniforms

@@ -11,7 +11,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum class GraphicsEvents
+	enum class GraphicsEventType
 	{
 		MIN_GRAPHICS_EVENT = Event::EV_GRAPHICS,
 
@@ -22,18 +22,18 @@ namespace ml
 	};
 
 	static_assert(
-		(int32_t)GraphicsEvents::MAX_GRAPHICS_EVENT <
-		(int32_t)GraphicsEvents::MIN_GRAPHICS_EVENT + Event::MAX_LIBRARY_EVENTS,
+		(int32_t)GraphicsEventType::MAX_GRAPHICS_EVENT <
+		(int32_t)GraphicsEventType::MIN_GRAPHICS_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
 		);
 
-	template <GraphicsEvents ID> struct GraphicsEvent : public T_Event<GraphicsEvents, ID>
+	template <GraphicsEventType ID> struct GraphicsEvent : public T_Event<GraphicsEventType, ID>
 	{
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct OpenGLErrorEvent final : public GraphicsEvent<GraphicsEvents::EV_OpenGLError>
+	struct OpenGLErrorEvent final : public GraphicsEvent<GraphicsEventType::EV_OpenGLError>
 	{
 		C_String file;
 		uint32_t line;
@@ -50,7 +50,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ShaderErrorEvent final : public GraphicsEvent<GraphicsEvents::EV_ShaderError>
+	struct ShaderErrorEvent final : public GraphicsEvent<GraphicsEventType::EV_ShaderError>
 	{
 		const Shader * obj;
 		uint32_t type;

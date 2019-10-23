@@ -22,7 +22,7 @@ namespace ml
 
 	template <class T> struct nameof<T> final
 	{
-		constexpr nameof() noexcept = default;
+		nameof() = delete;
 
 		static constexpr StringView value { signature::type<T>() };
 	};
@@ -33,22 +33,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const StringView value;
-
-		template <class T> constexpr nameof(const nameof<T> & copy) noexcept
-			: value { copy.value }
-		{
-		}
-
-		template <class T> constexpr nameof(const T &) noexcept
-			: nameof { nameof<T>() }
-		{
-		}
-
-		template <class T> constexpr nameof(const T *) noexcept
-			: nameof { nameof<const T *>() }
-		{
-		}
+		nameof() = delete;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -1,4 +1,6 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+# This script is called once when the program starts, before the window is created.
+#
 # For more information see:
 # https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/Python.cpp
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -7,7 +9,7 @@ import MEMELIB as ml
 
 # Debug Mode
 if (ml.config.is_debug()): 
-    ml.io.printf("{0} / {1} | {2} / {3} | {4} / {5} \n", [
+    ml.io.printf("{0}/{1} | {2}/{3} | {4}/{5} \n", [
         ml.config.project_name(),
         ml.config.project_version(),
         ml.config.configuration(),

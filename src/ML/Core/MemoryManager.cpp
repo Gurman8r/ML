@@ -41,7 +41,7 @@ namespace ml
 
 	MemoryManager::~MemoryManager() 
 	{
-#if ML_DEBUG == 1
+#if (ML_DEBUG == 1)
 		if (!m_records.empty())
 		{
 			Debug::logError("Memory leaks detected:");

@@ -13,13 +13,15 @@ namespace ml
 
 	template <class T> struct typeof<T> final
 	{
-		using type = typename T;
+		using type		= typename T;
+		using self_type = typename typeof<type>;
+		using name_type = typename nameof<type>;
 
 		constexpr typeof() noexcept = default;
 
-		static constexpr StringView name { nameof<>::filter(nameof<T>::value) };
+		static constexpr StringView name { nameof<>::filter(name_type::value) };
 		
-		static constexpr hash_t hash { name.hash() };
+		static constexpr hash_t hash { self_type::name.hash() };
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

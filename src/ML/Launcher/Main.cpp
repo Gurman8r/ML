@@ -4,6 +4,7 @@
 #include <ML/Editor/Editor.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Core/Debug.hpp>
+#include <ML/Core/Meta.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

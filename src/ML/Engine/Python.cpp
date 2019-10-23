@@ -74,20 +74,20 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_config {};
 		py::class_<ml_py_config>(m, "config")
-			.def_static("architecture",			[]() { return ML_ARCHITECTURE; })
-			.def_static("compiler_name",		[]() { return ML_CC_NAME; })
-			.def_static("compiler_version",		[]() { return ML_CC_VER; })
-			.def_static("configuration",		[]() { return ML_CONFIGURATION; })
-			.def_static("cplusplus_version",	[]() { return ML_CPP; })
-			.def_static("is_debug",				[]() { return ML_DEBUG; })
-			.def_static("platform_target",		[]() { return ML_PLATFORM_TARGET; })
-			.def_static("project_author",		[]() { return ML_PROJECT_AUTH; })
-			.def_static("project_date",			[]() { return ML_PROJECT_DATE; })
-			.def_static("project_name",			[]() { return ML_PROJECT_NAME; })
-			.def_static("project_time",			[]() { return ML_PROJECT_TIME; })
-			.def_static("project_url",			[]() { return ML_PROJECT_URL; })
-			.def_static("project_version",		[]() { return ML_PROJECT_VER; })
-			.def_static("system_name",			[]() { return ML_SYSTEM_NAME; })
+			.def_static("architecture", []() { return ML_ARCHITECTURE; })
+			.def_static("compiler_name", []() { return ML_CC_NAME; })
+			.def_static("compiler_version", []() { return ML_CC_VER; })
+			.def_static("configuration", []() { return ML_CONFIGURATION; })
+			.def_static("cplusplus_version", []() { return ML_CPP; })
+			.def_static("is_debug", []() { return ML_DEBUG; })
+			.def_static("platform_target", []() { return ML_PLATFORM_TARGET; })
+			.def_static("project_author", []() { return ML_PROJECT_AUTH; })
+			.def_static("project_date", []() { return ML_PROJECT_DATE; })
+			.def_static("project_name", []() { return ML_PROJECT_NAME; })
+			.def_static("project_time", []() { return ML_PROJECT_TIME; })
+			.def_static("project_url", []() { return ML_PROJECT_URL; })
+			.def_static("project_version", []() { return ML_PROJECT_VER; })
+			.def_static("system_name", []() { return ML_SYSTEM_NAME; })
 			;
 		
 		// Content
@@ -129,36 +129,36 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_prefs {};
 		py::class_<ml_py_prefs>(m, "prefs")
-			.def_static("load",		[](str_t s) { return ML_Engine.prefs().loadFromFile(s); })
-			.def_static("save",		[](str_t s) { return ML_Engine.prefs().saveToFile(s); })
-			.def_static("get",		[](str_t s, str_t n, str_t v) { return (str_t)ML_Engine.prefs().get_string(s, n, v); })
-			.def_static("set",		[](str_t s, str_t n, str_t v) { return ML_Engine.prefs().set_string(s, n, v); })
+			.def_static("load", [](str_t s) { return ML_Engine.prefs().loadFromFile(s); })
+			//.def_static("save", [](str_t s) { return ML_Engine.prefs().saveToFile(s); })
+			.def_static("get", [](str_t s, str_t n, str_t v) { return (str_t)ML_Engine.prefs().get_string(s, n, v); })
+			.def_static("set", [](str_t s, str_t n, str_t v) { return ML_Engine.prefs().set_string(s, n, v); })
 			;
 
 		// Window
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_window {};
 		py::class_<ml_py_window>(m, "window")
-			.def_static("close",			[]() { ML_Engine.window().close(); })
-			.def_static("iconify",			[]() { ML_Engine.window().iconify(); })
-			.def_static("maximize",			[]() { ML_Engine.window().maximize(); })
-			.def_static("restore",			[]() { ML_Engine.window().restore(); })
-			.def_static("is_focused",		[]() { return ML_Engine.window().is_focused(); })
-			.def_static("is_fullscreen",	[]() { return ML_Engine.window().is_fullscreen(); })
-			.def_static("is_open",			[]() { return ML_Engine.window().is_open(); })
-			.def_static("get_clipboard",	[]() { return (str_t)ML_Engine.window().getClipboardString(); })
-			.def_static("get_cursor",		[]() { return (coord_t)(vec2)ML_Engine.window().getCursorPos(); })
-			.def_static("get_key",			[](int32_t i) { return ML_Engine.window().getKey(i); })
-			.def_static("get_title",		[]() { return (str_t)ML_Engine.window().getTitle(); })
-			.def_static("get_size",			[]() { return (coord_t)(vec2)ML_Engine.window().getSize(); })
-			.def_static("get_position",		[]() { return (coord_t)(vec2)ML_Engine.window().getPosition(); })
-			.def_static("get_time",			[]() { return (float_t)ML_Engine.window().getTime(); })
-			.def_static("set_clipboard",	[](str_t s) { ML_Engine.window().setClipboardString(s); })
-			.def_static("set_cursor",		[](int32_t i) { ML_Engine.window().setCursorMode(((Cursor::Mode)i)); })
-			.def_static("set_fullscreen",	[](bool b) { ML_Engine.window().setFullscreen(b); })
-			.def_static("set_position",		[](const coord_t & c) { ML_Engine.window().setPosition({ (int32_t)c[0], (int32_t)c[1] }); })
-			.def_static("set_size",			[](const coord_t & c) { ML_Engine.window().setSize({ (uint32_t)c[0], (uint32_t)c[1] }); })
-			.def_static("set_title",		[](str_t s) { ML_Engine.window().setTitle(s); })
+			.def_static("close", []() { ML_Engine.window().close(); })
+			.def_static("iconify", []() { ML_Engine.window().iconify(); })
+			.def_static("maximize", []() { ML_Engine.window().maximize(); })
+			.def_static("restore", []() { ML_Engine.window().restore(); })
+			.def_static("is_focused", []() { return ML_Engine.window().is_focused(); })
+			.def_static("is_fullscreen", []() { return ML_Engine.window().is_fullscreen(); })
+			.def_static("is_open", []() { return ML_Engine.window().is_open(); })
+			.def_static("get_clipboard", []() { return (str_t)ML_Engine.window().getClipboardString(); })
+			.def_static("get_cursor", []() { return (coord_t)(vec2)ML_Engine.window().getCursorPos(); })
+			.def_static("get_key", [](int32_t i) { return ML_Engine.window().getKey(i); })
+			.def_static("get_title", []() { return (str_t)ML_Engine.window().getTitle(); })
+			.def_static("get_size", []() { return (coord_t)(vec2)ML_Engine.window().getSize(); })
+			.def_static("get_position", []() { return (coord_t)(vec2)ML_Engine.window().getPosition(); })
+			.def_static("get_time", []() { return (float_t)ML_Engine.window().getTime(); })
+			.def_static("set_clipboard", [](str_t s) { ML_Engine.window().setClipboardString(s); })
+			.def_static("set_cursor", [](int32_t i) { ML_Engine.window().setCursorMode(((Cursor::Mode)i)); })
+			.def_static("set_fullscreen", [](bool b) { ML_Engine.window().setFullscreen(b); })
+			.def_static("set_position", [](const coord_t & c) { ML_Engine.window().setPosition({ (int32_t)c[0], (int32_t)c[1] }); })
+			.def_static("set_size", [](const coord_t & c) { ML_Engine.window().setSize({ (uint32_t)c[0], (uint32_t)c[1] }); })
+			.def_static("set_title", [](str_t s) { ML_Engine.window().setTitle(s); })
 			;
 
 		// ECS
@@ -313,7 +313,7 @@ namespace ml
 					case Hash("enabled"):	c->setEnabled(input<bool>()(value)); break;
 					case Hash("position"):	c->setPosition(input<vec3>()(value)); break;
 					case Hash("scale"):		c->setScale(input<vec3>()(value)); break;
-					case Hash("rotation"):	c->setRotation(input<vec3>()(value)); break;
+					case Hash("rotation"):	c->setRotation(input<vec4>()(value)); break;
 					}
 				}
 				break;

@@ -7,7 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum class NetworkEvents
+	enum class NetworkEventType
 	{
 		MIN_NETWORK_EVENT = Event::EV_NETWORK + 1,
 
@@ -18,18 +18,18 @@ namespace ml
 	};
 
 	static_assert(
-		(int32_t)NetworkEvents::MAX_NETWORK_EVENT < 
-		(int32_t)NetworkEvents::MIN_NETWORK_EVENT + Event::MAX_LIBRARY_EVENTS,
+		(int32_t)NetworkEventType::MAX_NETWORK_EVENT < 
+		(int32_t)NetworkEventType::MIN_NETWORK_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
 		);
 
-	template <NetworkEvents ID> struct NetworkEvent : public T_Event<NetworkEvents, ID>
+	template <NetworkEventType ID> struct NetworkEvent : public T_Event<NetworkEventType, ID>
 	{
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ServerRecievePacketEvent final : public NetworkEvent<NetworkEvents::EV_ServerRecievePacket>
+	struct ServerRecievePacketEvent final : public NetworkEvent<NetworkEventType::EV_ServerRecievePacket>
 	{
 		C_String data;
 		constexpr ServerRecievePacketEvent(C_String data)
@@ -40,7 +40,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ClientRecievePacketEvent final : public NetworkEvent<NetworkEvents::EV_ClientRecievePacket>
+	struct ClientRecievePacketEvent final : public NetworkEvent<NetworkEventType::EV_ClientRecievePacket>
 	{
 		C_String data;
 		constexpr ClientRecievePacketEvent(C_String data)

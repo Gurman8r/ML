@@ -17,20 +17,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <
-			class ... Args
-		> constexpr Hash(Args && ... args)
+		template <class ... Args> constexpr Hash(Args && ... args) noexcept
 			: m_value { (*this)(std::forward<Args>(args)...) }
 		{
 		}
 
-		constexpr Hash() : m_value { 0 } {}
+		constexpr Hash() noexcept : m_value { 0 } {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T
-		> constexpr hash_t operator()(const T * arr, hash_t size, hash_t seed)
+		> constexpr hash_t operator()(const T * arr, hash_t size, hash_t seed) noexcept
 		{
 			return ((size > 0)
 				? (*this)((arr + 1), (size - 1), (seed ^ static_cast<hash_t>(*arr)) * prime)
@@ -40,24 +38,24 @@ namespace ml
 
 		template <
 			class T
-		> constexpr hash_t operator()(const T * arr, hash_t size)
+		> constexpr hash_t operator()(const T * arr, hash_t size) noexcept
 		{
 			return (*this)(arr, size, basis);
 		}
 
 		template <
 			class T, hash_t N
-		> constexpr hash_t operator()(const T(&value)[N])
+		> constexpr hash_t operator()(const T(&value)[N]) noexcept
 		{
 			return (*this)(value, (N - 1));
 		}
 
-		constexpr const hash_t & operator()() const
+		constexpr const hash_t & operator()() const noexcept
 		{
 			return m_value;
 		}
 
-		constexpr operator const hash_t &() const
+		constexpr operator const hash_t &() const noexcept
 		{
 			return (*this)();
 		}

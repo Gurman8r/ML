@@ -13,7 +13,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	enum class EngineEvents
+	enum class EngineEventType
 	{
 		MIN_ENGINE_EVENT = Event::EV_ENGINE,
 
@@ -34,12 +34,12 @@ namespace ml
 	};
 
 	static_assert(
-		(int32_t)EngineEvents::MAX_ENGINE_EVENT < 
-		(int32_t)EngineEvents::MIN_ENGINE_EVENT + Event::MAX_LIBRARY_EVENTS,
+		(int32_t)EngineEventType::MAX_ENGINE_EVENT < 
+		(int32_t)EngineEventType::MIN_ENGINE_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
 		);
 
-	template <EngineEvents ID> struct EngineEvent : public T_Event<EngineEvents, ID> 
+	template <EngineEventType ID> struct EngineEvent : public T_Event<EngineEventType, ID> 
 	{
 	};
 
@@ -47,17 +47,17 @@ namespace ml
 	// Startup
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct EnterEvent final : public EngineEvent<EngineEvents::EV_Enter>
+	struct EnterEvent final : public EngineEvent<EngineEventType::EV_Enter>
 	{
 		constexpr EnterEvent() {}
 	};
 
-	struct LoadEvent final : public EngineEvent<EngineEvents::EV_Load>
+	struct LoadEvent final : public EngineEvent<EngineEventType::EV_Load>
 	{
 		constexpr LoadEvent() {}
 	};
 
-	struct StartEvent final : public EngineEvent<EngineEvents::EV_Start>
+	struct StartEvent final : public EngineEvent<EngineEventType::EV_Start>
 	{
 		constexpr StartEvent() {}
 	};
@@ -66,32 +66,32 @@ namespace ml
 	// Loop
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct BeginStepEvent final : public EngineEvent<EngineEvents::EV_BeginStep>
+	struct BeginStepEvent final : public EngineEvent<EngineEventType::EV_BeginStep>
 	{
 		constexpr BeginStepEvent() {}
 	};
 
-	struct UpdateEvent final : public EngineEvent<EngineEvents::EV_Update>
+	struct UpdateEvent final : public EngineEvent<EngineEventType::EV_Update>
 	{
 		constexpr UpdateEvent() {}
 	};
 
-	struct BeginDrawEvent final : public EngineEvent<EngineEvents::EV_BeginDraw>
+	struct BeginDrawEvent final : public EngineEvent<EngineEventType::EV_BeginDraw>
 	{
 		constexpr BeginDrawEvent() {}
 	};
 
-	struct DrawEvent final : public EngineEvent<EngineEvents::EV_Draw>
+	struct DrawEvent final : public EngineEvent<EngineEventType::EV_Draw>
 	{
 		constexpr DrawEvent() {}
 	};
 
-	struct EndDrawEvent final : public EngineEvent<EngineEvents::EV_EndDraw>
+	struct EndDrawEvent final : public EngineEvent<EngineEventType::EV_EndDraw>
 	{
 		constexpr EndDrawEvent() {}
 	};
 
-	struct EndStepEvent final : public EngineEvent<EngineEvents::EV_EndStep>
+	struct EndStepEvent final : public EngineEvent<EngineEventType::EV_EndStep>
 	{
 		constexpr EndStepEvent() {}
 	};
@@ -100,12 +100,12 @@ namespace ml
 	// Shutdown
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct UnloadEvent final : public EngineEvent<EngineEvents::EV_Unload>
+	struct UnloadEvent final : public EngineEvent<EngineEventType::EV_Unload>
 	{
 		constexpr UnloadEvent() {}
 	};
 
-	struct ExitEvent final : public EngineEvent<EngineEvents::EV_Exit>
+	struct ExitEvent final : public EngineEvent<EngineEventType::EV_Exit>
 	{
 		constexpr ExitEvent() {}
 	};
@@ -114,7 +114,7 @@ namespace ml
 	// Utility
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct CommandEvent final : public EngineEvent<EngineEvents::EV_Command>
+	struct CommandEvent final : public EngineEvent<EngineEventType::EV_Command>
 	{
 		C_String cmd;
 		constexpr CommandEvent(C_String cmd) : cmd(cmd) {}

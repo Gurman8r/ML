@@ -61,12 +61,6 @@ ml::int32_t main()
 
 	static_assert(check_version());
 
-	cout << typeof<std::string>::name << endl;
-
-	cout << typeid(std::string).name() << endl;
-
-	return Debug::pause(0);
-
 
 	// Initialize Systems
 	ML_EventSystem; ML_Engine; ML_Editor;

@@ -19,10 +19,10 @@ namespace ml
 
 		enum : hash_t
 		{
-			U_Boolean, U_Float, U_Integer,
-			U_Vector2, U_Vector3, U_Vector4, U_Color,
-			U_Matrix2, U_Matrix3, U_Matrix4,
-			U_Sampler,
+			ID_Boolean, ID_Float, ID_Integer,
+			ID_Vector2, ID_Vector3, ID_Vector4, ID_Color,
+			ID_Matrix2, ID_Matrix3, ID_Matrix4,
+			ID_Sampler,
 			MAX_UNIFORM_TYPE
 		};
 
@@ -38,19 +38,19 @@ namespace ml
 		{
 			switch (typeof<detail::decay_t<T>>::hash)
 			{
-			case typeof<bool>	::hash:	return U_Boolean;
-			case typeof<float_t>::hash: return U_Float;
-			case typeof<int32_t>::hash: return U_Integer;
-			case typeof<vec2>	::hash:	return U_Vector2;
-			case typeof<vec3>	::hash:	return U_Vector3;
-			case typeof<vec4>	::hash:	return U_Vector4;
-			case typeof<Color>	::hash:	return U_Color;
-			case typeof<mat2>	::hash:	return U_Matrix2;
-			case typeof<mat3>	::hash:	return U_Matrix3;
-			case typeof<mat4>	::hash:	return U_Matrix4;
-			case typeof<Texture>::hash: return U_Sampler;
+			case typeof<bool>	::hash:	return ID_Boolean;
+			case typeof<float_t>::hash: return ID_Float;
+			case typeof<int32_t>::hash: return ID_Integer;
+			case typeof<vec2>	::hash:	return ID_Vector2;
+			case typeof<vec3>	::hash:	return ID_Vector3;
+			case typeof<vec4>	::hash:	return ID_Vector4;
+			case typeof<Color>	::hash:	return ID_Color;
+			case typeof<mat2>	::hash:	return ID_Matrix2;
+			case typeof<mat3>	::hash:	return ID_Matrix3;
+			case typeof<mat4>	::hash:	return ID_Matrix4;
+			case typeof<Texture>::hash: return ID_Sampler;
 			}
-			return static_cast<hash_t>(-1);
+			return MAX_UNIFORM_TYPE;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -123,7 +123,11 @@ namespace ml
 
 		static constexpr typeof<> type { typeof<value_type>() };
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		value_type data;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit UniformImpl(const String & name, value_type data)
 			: Uniform { name }, data { data }

@@ -46,14 +46,6 @@ uniform vec2 		u_viewport;		// Viewport Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define u_frame		u_frame
-#define u_cursor		u_cursor
-#define u_viewport u_viewport
-#define u_time		u_time
-#define u_delta	u_delta
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 vec2 hash(vec2 p) // replace this by something better
 {
 	p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));

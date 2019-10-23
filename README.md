@@ -8,6 +8,7 @@
 	- Try updating your graphics drivers if you're having difficulties.
 - Building for Windows with VS2019
 	- If you already have VS2019 installed on your system the VC++ runtime library is also most likely installed, else you can download it here:
+	- https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
 	- https://www.itechtics.com/microsoft-visual-c-redistributable-versions-direct-download-links/
 - ML uses Python 3.9
 	- I only included the libraries needed to get going

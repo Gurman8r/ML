@@ -127,7 +127,7 @@ namespace ml
 			
 			// Platform
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-			draw_head("Platform:");
+			draw_head("Platform");
 			draw_def("define: ML_ARCHITECTURE", "%u-bit", ML_ARCHITECTURE);
 			draw_def("define: ML_PLATFORM_TARGET", "%s", ML_PLATFORM_TARGET);
 #ifdef ML_X64

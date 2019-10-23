@@ -53,7 +53,7 @@ namespace ml
 			ImGui::SetWindowFontScale(scale);
 
 			// Filter
-			static ImGuiTextFilter filter { "-" ML_MSG_WRN };
+			static ImGuiTextFilter filter {};
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
 			filter.Draw("Filter", 180);
 			ImGui::PopStyleVar();

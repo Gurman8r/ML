@@ -124,18 +124,6 @@ namespace ml
 #ifdef ML_CPP_CONSTEXPR
 			draw_def("define: ML_CPP_CONSTEXPR", "%u", ML_CPP_CONSTEXPR);
 #endif
-# ifdef ML_HAS_CONSTEXPR_11
-			draw_def("define: ML_HAS_CONSTEXPR_11", "", "");
-# endif
-#ifdef ML_HAS_CONSTEXPR_14
-			draw_def("define: ML_HAS_CONSTEXPR_14", "", "");
-#endif
-#ifdef ML_HAS_CONSTEXPR_17
-			draw_def("define: ML_HAS_CONSTEXPR_17", "", "");
-#endif
-#ifdef ML_HAS_CONSTEXPR_20
-			draw_def("define: ML_HAS_CONSTEXPR_20", "", "");
-#endif
 			
 			// Platform
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

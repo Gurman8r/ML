@@ -481,11 +481,27 @@ namespace ml
 					
 		// Header Columns
 		ImGui::Columns(3, "##Uni##Columns");
-		ImGui::Selectable("Name"); ImGui::NextColumn();
-		ImGui::Selectable("Type"); ImGui::NextColumn();
-		ImGui::Selectable("Value"); ImGui::NextColumn();
-		ImGui::Separator();
-		ImGui::Columns(1);
+		if (ImGui::Selectable("Name"))
+		{
+			auto & m { *m_renderer->material() };
+			std::sort(m.begin(), m.end(), [](auto lhs, auto rhs)
+			{
+				return (lhs->name) < (rhs->name);
+			});
+		}
+		ImGui::NextColumn();
+		if (ImGui::Selectable("Type"))
+		{
+			auto & m { *m_renderer->material() };
+			std::sort(m.begin(), m.end(), [](auto lhs, auto rhs)
+			{
+				return (lhs->getID()) < (rhs->getID());
+			});
+		}
+		ImGui::NextColumn();
+		if (ImGui::Selectable("Value")) {}
+		ImGui::NextColumn();
+		ImGui::Separator(); ImGui::Columns(1);
 
 		/* * * * * * * * * * * * * * * * * * * * */
 					

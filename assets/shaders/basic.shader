@@ -9,9 +9,7 @@ layout(location = 1) in vec4 a_normal;
 layout(location = 2) in vec2 a_texcoord;
 
 // Out Vertex
-out Vertex { 
-	vec3 position; vec4 normal; vec2 texcoord; 
-} V;
+out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 // Uniforms
 uniform mat4 u_proj; // Projection Matrix
@@ -34,9 +32,7 @@ void main()
 #version 460 core
 
 // In Vertex
-in Vertex { 
-	vec3 position; vec4 normal; vec2 texcoord; 
-} V;
+in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 // Out Color
 out vec4 gl_Color;

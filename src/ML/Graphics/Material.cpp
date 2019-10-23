@@ -177,6 +177,10 @@ namespace ml
 			}
 
 			file.close();
+
+			std::sort(begin(), end(),
+				[&](auto lhs, auto rhs) { return lhs->name < rhs->name; });
+
 			return true;
 		}
 		return false;

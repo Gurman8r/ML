@@ -482,8 +482,9 @@ namespace ml
 		ImGui::Separator();
 
 		/* * * * * * * * * * * * * * * * * * * * */
-					
-		// Header Columns
+
+		static bool setup_uni_columns { false };
+		// Uniform Column Headers
 		ImGui::Columns(3, "##Uni##Columns");
 		if (ImGui::Selectable("Name"))
 		{
@@ -502,6 +503,11 @@ namespace ml
 			else { sort_name_descending(); }
 		}
 		ImGui::NextColumn();
+		if (!setup_uni_columns)
+		{
+			ImGui::SetColumnWidth(-1, 
+				ImGui::GetWindowContentRegionWidth() * 0.1f);
+		}
 		if (ImGui::Selectable("Type"))
 		{
 			auto sort_type_ascending = ([&]() { std::sort(
@@ -524,6 +530,7 @@ namespace ml
 		}
 		ImGui::NextColumn();
 		ImGui::Separator(); ImGui::Columns(1);
+		if (!setup_uni_columns) { setup_uni_columns = true; }
 
 		/* * * * * * * * * * * * * * * * * * * * */
 					

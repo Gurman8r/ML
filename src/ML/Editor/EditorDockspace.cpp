@@ -63,7 +63,9 @@ namespace ml
 			ImGuiWindowFlags_NoBackground
 		))
 		{
-			if (m_nodes[Root] = beginBuilder(ImGuiDockNodeFlags_None))
+			if (m_nodes[Root] = beginBuilder(
+				ImGuiDockNodeFlags_AutoHideTabBar
+			))
 			{
 				m_nodes[Left]	= splitNode(m_nodes[Root],	ImGuiDir_Left,	0.4f,	&m_nodes[Root]);
 				m_nodes[Right]	= splitNode(m_nodes[Root],	ImGuiDir_Right, 0.6f,	&m_nodes[Root]);
@@ -87,7 +89,8 @@ namespace ml
 			ImGui::DockSpace(
 				ImGui::GetID(getTitle()),
 				{ m_size[0], m_size[1] },
-				ImGuiDockNodeFlags_PassthruCentralNode
+				ImGuiDockNodeFlags_PassthruCentralNode |
+				ImGuiDockNodeFlags_AutoHideTabBar
 			);
 		}
 		return EditorWindow::endDraw();

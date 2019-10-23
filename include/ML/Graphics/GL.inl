@@ -688,15 +688,15 @@ namespace ml
 		};
 
 		static constexpr C_String Face_descriptions[] = {
-			"No Description",
-			"No Description",
-			"No Description",
-			"No Description",
-			"No Description",
-			"No Description",
-			"No Description",
-			"No Description",
-			"No Description",
+			"Front & Left Face Culling",
+			"Front & Right Face Culling",
+			"Back & Left Face Culling",
+			"Back & Right Face Culling",
+			"Front Face Culling",
+			"Back Face Culling",
+			"Left Face Culling",
+			"Right Face Culling",
+			"Front & Back Face Culling",
 		};
 
 		

@@ -231,12 +231,16 @@ namespace ml
 			if (ImGui::BeginMenu("Help"))
 			{
 				m_about.MenuItem();
+
+				ImGui::Separator();
 				
 				if (ImGui::MenuItem("Repository", "http://"))
 					Debug::execute("open", ML_PROJECT_URL);
 				
 				if (ImGui::MenuItem("Downloads", "http://")) 
 					Debug::execute("open", "https://bit.ly/ml_noobs");
+
+				ImGui::Separator();
 
 				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
 

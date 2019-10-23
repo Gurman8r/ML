@@ -15,16 +15,16 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using iterator					= typename Map<String, Uniform *>::iterator;
-		using const_iterator			= typename Map<String, Uniform *>::const_iterator;
-		using reverse_iterator			= typename Map<String, Uniform *>::reverse_iterator;
-		using const_reverse_iterator	= typename Map<String, Uniform *>::const_reverse_iterator;
+		using iterator					= typename List<Uniform *>::iterator;
+		using const_iterator			= typename List<Uniform *>::const_iterator;
+		using reverse_iterator			= typename List<Uniform *>::reverse_iterator;
+		using const_reverse_iterator	= typename List<Uniform *>::const_reverse_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Material();
 		Material(const Shader * shader);
-		Material(const Shader * shader, Map<String, Uniform *> && uniforms);
+		Material(const Shader * shader, List<Uniform *> && uniforms);
 		Material(const Material & copy);
 		~Material();
 
@@ -44,11 +44,31 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline iterator find(Uniform * value)
+		{
+			return std::find(begin(), end(), value);
+		}
+
+		inline const_iterator find(Uniform * value) const
+		{
+			return std::find(cbegin(), cend(), value);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool contains(Uniform * value) const
+		{
+			return ((value && value->name) && get(value->name) && (find(value) != cend()));
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline Uniform * insert(Uniform * value)
 		{
-			if (value && (m_uniforms.find(value->name) == end()))
+			if (value && !contains(value))
 			{
-				return m_uniforms.insert({ value->name, std::move(value) }).first->second;
+				m_uniforms.push_back(std::move(value));
+				return m_uniforms.back();
 			}
 			return nullptr;
 		}
@@ -56,9 +76,10 @@ namespace ml
 		template <class U, class T> 
 		inline Uniform * insert(const String & name, const T & value)
 		{
-			if (name && (m_uniforms.find(name) == end()))
+			if (name && !get(name))
 			{
-				return m_uniforms.insert({ name, new U { name, value } }).first->second;
+				m_uniforms.push_back(new U { name, value });
+				return m_uniforms.back();
 			}
 			return nullptr;
 		}
@@ -67,15 +88,18 @@ namespace ml
 
 		inline bool erase(Uniform * value)
 		{
-			return value && erase(value->name);
+			return (value && value->name) && erase(value->name);
 		}
 
 		inline bool erase(const String & name)
 		{
-			auto it { m_uniforms.find(name) };
+			iterator it { std::find_if(begin(), end(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			}) };
 			if (it != end())
 			{
-				if (it->second) { delete it->second; }
+				if (*it) { delete (*it); }
 				m_uniforms.erase(it);
 				return true;
 			}
@@ -86,14 +110,20 @@ namespace ml
 
 		template <class U = typename Uniform> inline U * get(const String & name)
 		{
-			auto it { m_uniforms.find(name) };
-			return (it != end()) ? dynamic_cast<U *>(it->second) : nullptr;
+			iterator it { std::find_if(begin(), end(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			}) };
+			return (it != end()) ? dynamic_cast<U *>(*it) : nullptr;
 		}
 
 		template <class U = typename Uniform> inline const U * get(const String & name) const
 		{
-			auto it { m_uniforms.find(name) };
-			return (it != cend()) ? dynamic_cast<const U *>(it->second) : nullptr;
+			const_iterator it { std::find_if(cbegin(), cend(), [&](auto && u)
+			{
+				return u && (u->name == name);
+			}) };
+			return (it != cend()) ? dynamic_cast<const U *>(*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -110,25 +140,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto shader()			-> const Shader	*& { return m_shader; }
-		inline auto shader()	const	-> const Shader	* { return m_shader; }
-		inline auto uniforms()			-> Map<String, Uniform *> & { return m_uniforms; }
-		inline auto uniforms()	const	-> const Map<String, Uniform *> & { return m_uniforms; }
+		inline auto shader()			-> const Shader	*&			{ return m_shader; }
+		inline auto shader()	const	-> const Shader	*			{ return m_shader; }
+		inline auto uniforms()			-> List<Uniform *> &		{ return m_uniforms; }
+		inline auto uniforms()	const	-> const List<Uniform *> &	{ return m_uniforms; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto begin()				-> iterator			{ return m_uniforms.begin(); }
-		inline auto begin()		const	-> const_iterator	{ return m_uniforms.begin(); }
-		inline auto cbegin()	const	-> const_iterator	{ return m_uniforms.cbegin(); }
-		inline auto end()				-> iterator			{ return m_uniforms.end(); }
-		inline auto end()		const	-> const_iterator	{ return m_uniforms.end(); }
-		inline auto cend()		const	-> const_iterator	{ return m_uniforms.cend(); }
+		inline auto begin()				-> iterator					{ return m_uniforms.begin(); }
+		inline auto begin()		const	-> const_iterator			{ return m_uniforms.begin(); }
+		inline auto cbegin()	const	-> const_iterator			{ return m_uniforms.cbegin(); }
+		inline auto end()				-> iterator					{ return m_uniforms.end(); }
+		inline auto end()		const	-> const_iterator			{ return m_uniforms.end(); }
+		inline auto cend()		const	-> const_iterator			{ return m_uniforms.cend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		const Shader *	m_shader;
-		Map<String, Uniform *>	m_uniforms;
+		List<Uniform *>	m_uniforms;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

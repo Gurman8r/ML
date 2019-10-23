@@ -447,7 +447,7 @@ namespace ml
 		if (ImGui::Button("Copy to Clipboard"))
 		{
 			SStream ss;
-			for (const auto & [name, u] : (*m_renderer->material()))
+			for (const auto & u : (*m_renderer->material()))
 			{
 				if (!u) continue;
 				ss	<< std::left
@@ -491,19 +491,19 @@ namespace ml
 					
 		// Uniform List
 		Uniform * to_remove { nullptr };
-		for (auto & [name, uni] : (*m_renderer->material()))
+		for (auto & u : (*m_renderer->material()))
 		{
-			if (!uni) continue;
+			if (!u) continue;
 			ImGui::Columns(3, "##Uni##Columns");
-			const String label { "##Uni##" + uni->name };
+			const String label { "##Uni##" + u->name };
 
 			// Uniform Name
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (uni->isModifiable())
+			if (u->isModifiable())
 			{
 				static char name[32] = "";
-				std::strcpy(name, uni->name.c_str());
+				std::strcpy(name, u->name.c_str());
 				if (ImGui::InputText(
 					(label + "##Name").c_str(),
 					name,
@@ -513,7 +513,7 @@ namespace ml
 				{
 					if (!m_renderer->material()->get(name))
 					{
-						uni->name = name;
+						u->name = name;
 					}
 					else
 					{
@@ -523,19 +523,19 @@ namespace ml
 			}
 			else
 			{
-				ImGui::Text(uni->name.c_str());
+				ImGui::Text(u->name.c_str());
 			}
 			ImGui::NextColumn();
 						
 			// Uniform FileType
 			/* * * * * * * * * * * * * * * * * * * * */
-			ImGui::Text("%s", util::to_string(*uni).c_str());
+			ImGui::Text("%s", util::to_string(*u).c_str());
 			ImGui::NextColumn();
 
 			// Uniform Value
 			/* * * * * * * * * * * * * * * * * * * * */
 			ImGui::PushID(label.c_str());
-			if (PropertyDrawer<Uniform>()(label, (Uniform &)(*uni)))
+			if (PropertyDrawer<Uniform>()(label, (Uniform &)(*u)))
 			{
 				// Remove Uniform
 				ImGui::SameLine();
@@ -545,7 +545,7 @@ namespace ml
 					"Are you sure you want to delete this Uniform?"
 				) == 1)
 				{
-					to_remove = uni;
+					to_remove = u;
 				}
 				ImGuiExt::Tooltip("Delete this uniform");
 			}

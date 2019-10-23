@@ -19,7 +19,6 @@ namespace ml
 
 		enum : hash_t
 		{
-			U_Error,
 			U_Boolean, U_Float, U_Integer,
 			U_Vector2, U_Vector3, U_Vector4, U_Color,
 			U_Matrix2, U_Matrix3, U_Matrix4,
@@ -27,18 +26,8 @@ namespace ml
 			MAX_UNIFORM_TYPE
 		};
 
-		static constexpr hash_t Type_values[MAX_UNIFORM_TYPE] =
-		{
-			U_Error,
-			U_Boolean, U_Float, U_Integer,
-			U_Vector2, U_Vector3, U_Vector4, U_Color,
-			U_Matrix2, U_Matrix3, U_Matrix4,
-			U_Sampler
-		};
-
 		static constexpr C_String Type_names[MAX_UNIFORM_TYPE] = 
 		{
-			"error",
 			"bool", "float", "int",
 			"vec2", "vec3", "vec4", "color",
 			"mat2", "mat3", "mat4",
@@ -61,7 +50,7 @@ namespace ml
 			case typeof<mat4>	::hash:	return U_Matrix4;
 			case typeof<Texture>::hash: return U_Sampler;
 			}
-			return U_Error;
+			return static_cast<hash_t>(-1);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -120,15 +109,17 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Uniform Implementation
-	template <class T, int32_t _ID> struct UniformImpl final : public Uniform
+	template <class Base, class Value> struct UniformImpl final : public Uniform
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type = typename T;
+		using base_type = typename Base;
 
-		using self_type = typename UniformImpl<value_type, _ID>;
+		using value_type = typename Value;
+		
+		using self_type = typename UniformImpl<base_type, value_type>;
 
-		static constexpr hash_t ID { _ID };
+		static constexpr hash_t ID { Uniform::category<base_type>() };
 
 		static constexpr typeof<> type { typeof<value_type>() };
 
@@ -139,16 +130,27 @@ namespace ml
 		{
 		}
 
-		inline self_type * clone() const override { return new self_type { name, data }; }
+		inline self_type * clone() const override
+		{
+			return new self_type { name, data }; 
+		}
 
-		inline const hash_t & getID() const override { return this->ID; }
+		inline const hash_t & getID() const override
+		{
+			return self_type::ID;
+		}
 
-		inline const typeof<> & getType() const override { return this->type; }
+		inline const typeof<> & getType() const override
+		{
+			return self_type::type;
+		}
 
 		inline bool isModifiable() const override
 		{
 			// uniform owns its value and is not a function
-			static const bool is_fun { getType().name.str().find("function") != String::npos };
+			static const bool is_fun { 
+				getType().name.str().find("function") != String::npos
+			};
 			return (std::is_same_v<value_type, detail::decay_t<value_type>> 
 				|| std::is_same_v<value_type, const Texture *>)
 				&& !is_fun;
@@ -159,41 +161,41 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using uni_bool			= typename UniformImpl<bool, Uniform::U_Boolean>;
-	using uni_float			= typename UniformImpl<float_t, Uniform::U_Float>;
-	using uni_int			= typename UniformImpl<int32_t, Uniform::U_Integer>;
-	using uni_vec2			= typename UniformImpl<vec2, Uniform::U_Vector2>;
-	using uni_vec3			= typename UniformImpl<vec3, Uniform::U_Vector3>;
-	using uni_vec4			= typename UniformImpl<vec4, Uniform::U_Vector4>;
-	using uni_color			= typename UniformImpl<Color, Uniform::U_Color>;
-	using uni_mat2			= typename UniformImpl<mat2, Uniform::U_Matrix2>;
-	using uni_mat3			= typename UniformImpl<mat3, Uniform::U_Matrix3>;
-	using uni_mat4			= typename UniformImpl<mat4, Uniform::U_Matrix4>;
-	using uni_sampler		= typename UniformImpl<const Texture *, Uniform::U_Sampler>;
+	using uni_bool			= typename UniformImpl<bool,	bool>;
+	using uni_float			= typename UniformImpl<float_t, float_t>;
+	using uni_int			= typename UniformImpl<int32_t, int32_t>;
+	using uni_vec2			= typename UniformImpl<vec2,	vec2>;
+	using uni_vec3			= typename UniformImpl<vec3,	vec3>;
+	using uni_vec4			= typename UniformImpl<vec4,	vec4>;
+	using uni_color			= typename UniformImpl<Color,	Color>;
+	using uni_mat2			= typename UniformImpl<mat2,	mat2>;
+	using uni_mat3			= typename UniformImpl<mat3,	mat3>;
+	using uni_mat4			= typename UniformImpl<mat4,	mat4>;
+	using uni_sampler		= typename UniformImpl<Texture, const Texture *>;
 
-	using uni_bool_ptr		= typename UniformImpl<const bool *, Uniform::U_Boolean>;
-	using uni_float_ptr		= typename UniformImpl<const float_t *, Uniform::U_Float>;
-	using uni_int_ptr		= typename UniformImpl<const int32_t *, Uniform::U_Integer>;
-	using uni_vec2_ptr		= typename UniformImpl<const vec2 *, Uniform::U_Vector2>;
-	using uni_vec3_ptr		= typename UniformImpl<const vec3 *, Uniform::U_Vector3>;
-	using uni_vec4_ptr		= typename UniformImpl<const vec4 *, Uniform::U_Vector4>;
-	using uni_color_ptr		= typename UniformImpl<const Color *, Uniform::U_Color>;
-	using uni_mat2_ptr		= typename UniformImpl<const mat2 *, Uniform::U_Matrix2>;
-	using uni_mat3_ptr		= typename UniformImpl<const mat3 *, Uniform::U_Matrix3>;
-	using uni_mat4_ptr		= typename UniformImpl<const mat4 *, Uniform::U_Matrix4>;
-	using uni_sampler_ptr	= typename UniformImpl<const Texture * const *, Uniform::U_Sampler>;
+	using uni_bool_ptr		= typename UniformImpl<bool,	const bool *>;
+	using uni_float_ptr		= typename UniformImpl<float_t, const float_t *>;
+	using uni_int_ptr		= typename UniformImpl<int32_t, const int32_t *>;
+	using uni_vec2_ptr		= typename UniformImpl<vec2,	const vec2 *>;
+	using uni_vec3_ptr		= typename UniformImpl<vec3,	const vec3 *>;
+	using uni_vec4_ptr		= typename UniformImpl<vec4,	const vec4 *>;
+	using uni_color_ptr		= typename UniformImpl<Color,	const Color *>;
+	using uni_mat2_ptr		= typename UniformImpl<mat2,	const mat2 *>;
+	using uni_mat3_ptr		= typename UniformImpl<mat3,	const mat3 *>;
+	using uni_mat4_ptr		= typename UniformImpl<mat4,	const mat4 *>;
+	using uni_sampler_ptr	= typename UniformImpl<Texture, const Texture * const *>;
 
-	using uni_bool_clbk		= typename UniformImpl<std::function<bool()>, Uniform::U_Boolean>;
-	using uni_float_clbk	= typename UniformImpl<std::function<float_t()>, Uniform::U_Float>;
-	using uni_int_clbk		= typename UniformImpl<std::function<int32_t()>, Uniform::U_Integer>;
-	using uni_vec2_clbk		= typename UniformImpl<std::function<vec2()>, Uniform::U_Vector2>;
-	using uni_vec3_clbk		= typename UniformImpl<std::function<vec3()>, Uniform::U_Vector3>;
-	using uni_vec4_clbk		= typename UniformImpl<std::function<vec4()>, Uniform::U_Vector4>;
-	using uni_color_clbk	= typename UniformImpl<std::function<Color()>, Uniform::U_Color>;
-	using uni_mat2_clbk		= typename UniformImpl<std::function<mat2()>, Uniform::U_Matrix2>;
-	using uni_mat3_clbk		= typename UniformImpl<std::function<mat3()>, Uniform::U_Matrix3>;
-	using uni_mat4_clbk		= typename UniformImpl<std::function<mat4()>, Uniform::U_Matrix4>;
-	using uni_sampler_clbk	= typename UniformImpl<std::function<const Texture *()>, Uniform::U_Sampler>;
+	using uni_bool_clbk		= typename UniformImpl<bool,	std::function<bool()>>;
+	using uni_float_clbk	= typename UniformImpl<float_t, std::function<float_t()>>;
+	using uni_int_clbk		= typename UniformImpl<int32_t, std::function<int32_t()>>;
+	using uni_vec2_clbk		= typename UniformImpl<vec2,	std::function<vec2()>>;
+	using uni_vec3_clbk		= typename UniformImpl<vec3,	std::function<vec3()>>;
+	using uni_vec4_clbk		= typename UniformImpl<vec4,	std::function<vec4()>>;
+	using uni_color_clbk	= typename UniformImpl<Color,	std::function<Color()>>;
+	using uni_mat2_clbk		= typename UniformImpl<mat2,	std::function<mat2()>>;
+	using uni_mat3_clbk		= typename UniformImpl<mat3,	std::function<mat3()>>;
+	using uni_mat4_clbk		= typename UniformImpl<mat4,	std::function<mat4()>>;
+	using uni_sampler_clbk	= typename UniformImpl<Texture, std::function<const Texture *()>>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

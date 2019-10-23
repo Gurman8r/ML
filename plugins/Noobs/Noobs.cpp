@@ -169,11 +169,12 @@ namespace ml
 				surf->update((vec2)camera->viewport().size());
 			}
 
-			// Update Materials (slow)
+			// Update Materials
 			for (auto & [key, value] : ML_Content.data<Material>())
 			{
 				if (auto m { (Material *)value })
 				{
+					// Update Uniforms (slow)
 					m->set<uni_vec3>("u_camera.pos", camera->position());
 					m->set<uni_vec3>("u_camera.dir", camera->direction());
 					m->set<uni_float>("u_camera.fov", camera->fieldOfView());
@@ -209,15 +210,18 @@ namespace ml
 				if (auto ent { (Entity *)value })
 				{
 					auto renderer { ent->get<Renderer>() };
-					auto transform { ent->get<Transform>() };
-					if (renderer && (*renderer) && transform && (*transform))
+					if (renderer && (*renderer))
 					{
-						// Update Materials (slow)
-						if (auto m { (Material *)renderer->material() })
+						auto transform { ent->get<Transform>() };
+						if (transform && (*transform))
 						{
-							m->set<uni_vec3>("u_position", transform->position());
-							m->set<uni_vec4>("u_rotation", transform->rotation());
-							m->set<uni_vec3>("u_scale", transform->scale());
+							if (auto m { (Material *)renderer->material() })
+							{
+								// Update Uniforms (slow)
+								m->set<uni_vec3>("u_position", transform->position());
+								m->set<uni_vec4>("u_rotation", transform->rotation());
+								m->set<uni_vec3>("u_scale", transform->scale());
+							}
 						}
 					}
 					ML_Engine.window().draw(renderer);

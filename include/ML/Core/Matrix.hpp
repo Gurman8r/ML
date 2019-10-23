@@ -13,9 +13,15 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static_assert(0 < (X * Y), "Matrix : size negative or zero");
-
-		static_assert(std::is_trivial_v<T>, "Matrix : value type must be trivial");
+		static_assert(0 < (X * Y),
+			"Matrix : size negative or zero"
+			);
+		static_assert(std::is_trivial_v<T>, 
+			"Matrix : type must be trivial"
+			);
+		static_assert(std::is_trivially_copyable_v<T>, 
+			"Matrix : type must be trivially copyable"
+			);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -94,12 +100,12 @@ namespace ml
 			template <class, size_t, size_t> class M, class U, size_t W, size_t H
 		> constexpr operator M<U, W, H>() const
 		{
-			M<U, W, H> temp { uninit };
+			M<U, W, H> temp { 0 };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				const size_t x { i % temp.width() };
 				const size_t y { i / temp.width() };
-				using UU = cast_t<U>;
+				using UU = cast<U>;
 				temp[i] = ((y < Rows && x < Cols)
 					? static_cast<U>((*this)[y * Cols + x]) 
 					: (U)0);
@@ -111,26 +117,26 @@ namespace ml
 
 		static constexpr self_type zero()
 		{
-			return self_type { uninit };
+			return self_type { 0 };
 		}
 
 		static constexpr self_type one()
 		{
-			self_type temp { uninit };
+			self_type temp { 0 };
 			for (auto & elem : temp)  { elem = static_cast<value_type>(1); }
 			return temp;
 		}
 
 		static constexpr self_type fill(value_type value)
 		{
-			self_type temp { uninit };
+			self_type temp { 0 };
 			for (auto & elem : temp) { temp = value; }
 			return temp;
 		}
 
 		static constexpr self_type identity()
 		{
-			self_type temp { uninit };
+			self_type temp { 0 };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				temp[i] = (((i / temp.width()) == (i % temp.width())) 
@@ -153,77 +159,85 @@ namespace ml
 {
 	// MATRIX NxN
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	template <class T, size_t N>
-	using tmat_nxn = Matrix<T, N, N>;
+	template <class T, size_t N> 
+	using tmatn = Matrix<T, N, N>;
 
-	template <class T, size_t N>
-	using tmat_nx1 = Matrix<T, N, 1>;
+	template <class T, size_t N> 
+	using tvecn = Matrix<T, N, 1>;
+
 
 	// MATRIX 2x2
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
-	using tmat2 = tmat_nxn<T, 2>;
-	using mat2b = tmat2<byte_t>;
-	using mat2i = tmat2<int32_t>;
-	using mat2u = tmat2<uint32_t>;
-	using mat2f = tmat2<float32_t>;
-	using mat2d = tmat2<float64_t>;
-	using mat2  = mat2f;
+	using tmat2 = tmatn<T, 2>;		// 
+	using mat2b = tmat2<byte_t>;	// 
+	using mat2i = tmat2<int32_t>;	// 
+	using mat2u = tmat2<uint32_t>;	// 
+	using mat2f = tmat2<float32_t>;	// 
+	using mat2d = tmat2<float64_t>;	// 
+	using mat2  = mat2f;			// 
+
 
 	// MATRIX 3x3
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
-	using tmat3 = tmat_nxn<T, 3>;
-	using mat3b = tmat3<byte_t>;
-	using mat3i = tmat3<int32_t>;
-	using mat3u = tmat3<uint32_t>;
-	using mat3f = tmat3<float32_t>;
-	using mat3d = tmat3<float64_t>;
-	using mat3	= mat3f;
+	using tmat3 = tmatn<T, 3>;		// 
+	using mat3b = tmat3<byte_t>;	// 
+	using mat3i = tmat3<int32_t>;	// 
+	using mat3u = tmat3<uint32_t>;	// 
+	using mat3f = tmat3<float32_t>;	// 
+	using mat3d = tmat3<float64_t>;	// 
+	using mat3	= mat3f;			// 
+
 
 	// MATRIX 4x4
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
-	using tmat4 = tmat_nxn<T, 4>;
-	using mat4b = tmat4<byte_t>;
-	using mat4i = tmat4<int32_t>;
-	using mat4u = tmat4<uint32_t>;
-	using mat4f = tmat4<float32_t>;
-	using mat4d = tmat4<float64_t>;
-	using mat4	= mat4f;
+	using tmat4 = tmatn<T, 4>;		// 
+	using mat4b = tmat4<byte_t>;	// 
+	using mat4i = tmat4<int32_t>;	// 
+	using mat4u = tmat4<uint32_t>;	// 
+	using mat4f = tmat4<float32_t>;	// 
+	using mat4d = tmat4<float64_t>;	// 
+	using mat4	= mat4f;			// 
+
 
 	// VECTOR 2
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
-	using tvec2 = tmat_nx1<T, 2>;
-	using vec2b = tvec2<byte_t>;
-	using vec2i = tvec2<int32_t>;
-	using vec2u = tvec2<uint32_t>;
-	using vec2f = tvec2<float32_t>;
-	using vec2d = tvec2<float64_t>;
-	using vec2	= vec2f;
+	using tvec2 = tvecn<T, 2>;		// 
+	using vec2b = tvec2<byte_t>;	// 
+	using vec2i = tvec2<int32_t>;	// 
+	using vec2u = tvec2<uint32_t>;	// 
+	using vec2f = tvec2<float32_t>;	// 
+	using vec2d = tvec2<float64_t>;	// 
+	using vec2	= vec2f;			// 
+
 
 	// VECTOR 3
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
-	using tvec3 = tmat_nx1<T, 3>;
-	using vec3b = tvec3<byte_t>;
-	using vec3i = tvec3<int32_t>;
-	using vec3u = tvec3<uint32_t>;
-	using vec3f = tvec3<float32_t>;
-	using vec3d = tvec3<float64_t>;
-	using vec3	= vec3f;
+	using tvec3 = tvecn<T, 3>;		// 
+	using vec3b = tvec3<byte_t>;	// 
+	using vec3i = tvec3<int32_t>;	// 
+	using vec3u = tvec3<uint32_t>;	// 
+	using vec3f = tvec3<float32_t>;	// 
+	using vec3d = tvec3<float64_t>;	// 
+	using vec3	= vec3f;			// 
+
 
 	// VECTOR 4
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class T>
-	using tvec4 = tmat_nx1<T, 4>;
-	using vec4b = tvec4<byte_t>;
-	using vec4i = tvec4<int32_t>;
-	using vec4u = tvec4<uint32_t>;
-	using vec4f = tvec4<float32_t>;
-	using vec4d = tvec4<float64_t>;
-	using vec4	= vec4f;
+	using tvec4 = tvecn<T, 4>;		// 
+	using vec4b = tvec4<byte_t>;	// 
+	using vec4i = tvec4<int32_t>;	// 
+	using vec4u = tvec4<uint32_t>;	// 
+	using vec4f = tvec4<float32_t>;	// 
+	using vec4d = tvec4<float64_t>;	// 
+	using vec4	= vec4f;			// 
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -302,8 +316,8 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator+=(tmat_nx1<Tx, N> & lhs, const tmat_nx1<Ty, N> & rhs)
-		-> tmat_nx1<Tx, N> &
+	> constexpr auto operator+=(tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+		-> tvecn<Tx, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -314,8 +328,8 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator-=(tmat_nx1<Tx, N> & lhs, const tmat_nx1<Ty, N> & rhs)
-		-> tmat_nx1<Tx, N> &
+	> constexpr auto operator-=(tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+		-> tvecn<Tx, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -326,8 +340,8 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator*=(tmat_nx1<Tx, N> & lhs, const tmat_nx1<Ty, N> & rhs)
-		-> tmat_nx1<Tx, N> &
+	> constexpr auto operator*=(tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+		-> tvecn<Tx, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -338,8 +352,8 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator/=(tmat_nx1<Tx, N> & lhs, const tmat_nx1<Ty, N> & rhs)
-		-> tmat_nx1<Tx, N> &
+	> constexpr auto operator/=(tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+		-> tvecn<Tx, N> &
 	{
 		for (size_t i = 0; i < lhs.size(); i++)
 		{
@@ -352,40 +366,40 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator+(const tmat_nx1<Tx, N> & lhs, const tmat_nx1<Ty, N> & rhs)
-		-> tmat_nx1<Tx, N>
+	> constexpr auto operator+(const tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+		-> tvecn<Tx, N>
 	{
-		tmat_nx1<Tx, N> temp { lhs };
+		tvecn<Tx, N> temp { lhs };
 		temp += rhs;
 		return temp;
 	}
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator-(const tmat_nx1<Tx, N> & lhs, const tmat_nx1<Ty, N> & rhs)
-		-> tmat_nx1<Tx, N>
+	> constexpr auto operator-(const tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+		-> tvecn<Tx, N>
 	{
-		tmat_nx1<Tx, N> temp { lhs };
+		tvecn<Tx, N> temp { lhs };
 		temp -= rhs;
 		return temp;
 	}
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator*(const tmat_nx1<Tx, N> & lhs, const tmat_nx1<Ty, N> & rhs)
-		-> tmat_nx1<Tx, N>
+	> constexpr auto operator*(const tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+		-> tvecn<Tx, N>
 	{
-		tmat_nx1<Tx, N> temp { lhs };
+		tvecn<Tx, N> temp { lhs };
 		temp *= rhs;
 		return temp;
 	}
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator/(const tmat_nx1<Tx, N> & lhs, const tmat_nx1<Ty, N> & rhs)
-		-> tmat_nx1<Tx, N>
+	> constexpr auto operator/(const tvecn<Tx, N> & lhs, const tvecn<Ty, N> & rhs)
+		-> tvecn<Tx, N>
 	{
-		tmat_nx1<Tx, N> temp { lhs };
+		tvecn<Tx, N> temp { lhs };
 		temp /= rhs;
 		return temp;
 	}
@@ -394,8 +408,8 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator+=(tmat_nx1<Tx, N> & lhs, const Ty & rhs)
-		-> tmat_nx1<Tx, N> &
+	> constexpr auto operator+=(tvecn<Tx, N> & lhs, const Ty & rhs)
+		-> tvecn<Tx, N> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -406,8 +420,8 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator-=(tmat_nx1<Tx, N> & lhs, const Ty & rhs)
-		-> tmat_nx1<Tx, N> &
+	> constexpr auto operator-=(tvecn<Tx, N> & lhs, const Ty & rhs)
+		-> tvecn<Tx, N> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -418,8 +432,8 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator*=(tmat_nx1<Tx, N> & lhs, const Ty & rhs)
-		-> tmat_nx1<Tx, N> &
+	> constexpr auto operator*=(tvecn<Tx, N> & lhs, const Ty & rhs)
+		-> tvecn<Tx, N> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -430,8 +444,8 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator/=(tmat_nx1<Tx, N> & lhs, const Ty & rhs)
-		-> tmat_nx1<Tx, N> &
+	> constexpr auto operator/=(tvecn<Tx, N> & lhs, const Ty & rhs)
+		-> tvecn<Tx, N> &
 	{
 		for (auto & elem : lhs)
 		{
@@ -444,40 +458,40 @@ namespace ml
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator+(const tmat_nx1<Tx, N> & lhs, const Ty & rhs)
-		-> tmat_nx1<Tx, N>
+	> constexpr auto operator+(const tvecn<Tx, N> & lhs, const Ty & rhs)
+		-> tvecn<Tx, N>
 	{
-		tmat_nx1<Tx, N> temp { lhs };
+		tvecn<Tx, N> temp { lhs };
 		temp += static_cast<Tx>(rhs);
 		return temp;
 	}
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator-(const tmat_nx1<Tx, N> & lhs, const Ty & rhs)
-		-> tmat_nx1<Tx, N>
+	> constexpr auto operator-(const tvecn<Tx, N> & lhs, const Ty & rhs)
+		-> tvecn<Tx, N>
 	{
-		tmat_nx1<Tx, N> temp { lhs };
+		tvecn<Tx, N> temp { lhs };
 		temp -= static_cast<Tx>(rhs);
 		return temp;
 	}
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator*(const tmat_nx1<Tx, N> & lhs, const Ty & rhs)
-		-> tmat_nx1<Tx, N>
+	> constexpr auto operator*(const tvecn<Tx, N> & lhs, const Ty & rhs)
+		-> tvecn<Tx, N>
 	{
-		tmat_nx1<Tx, N> temp { lhs };
+		tvecn<Tx, N> temp { lhs };
 		temp *= static_cast<Tx>(rhs);
 		return temp;
 	}
 
 	template <
 		class Tx, class Ty, size_t N
-	> constexpr auto operator/(const tmat_nx1<Tx, N> & lhs, const Ty & rhs)
-		-> tmat_nx1<Tx, N>
+	> constexpr auto operator/(const tvecn<Tx, N> & lhs, const Ty & rhs)
+		-> tvecn<Tx, N>
 	{
-		tmat_nx1<Tx, N> temp { lhs };
+		tvecn<Tx, N> temp { lhs };
 		temp /= static_cast<Tx>(rhs);
 		return temp;
 	}

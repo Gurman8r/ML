@@ -7,20 +7,21 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct cast_t final
+	template <class ... T> struct cast;
+
+	template <> struct cast<> { cast() = delete; };
+
+	template <class T> struct cast<T> final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using type				= typename detail::decay_t<T>;
-		using limits			= typename std::numeric_limits<type>;
-		using pointer			= typename type *;
-		using reference			= typename type &;
-		using const_pointer		= typename const type *;
-		using const_reference	= typename const type &;
+		using type = typename detail::decay_t<T>;
+
+		using self_type = typename cast<type>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr cast_t() = default;
+		constexpr cast() = default;
 
 		template <class T> constexpr auto operator()(T && value) const
 		{
@@ -59,21 +60,6 @@ namespace ml
 		static constexpr type tenth			{ one / ten };
 		static constexpr type two_thirds	{ two / three };
 		static constexpr type three_fourths	{ three / four };
-
-		static constexpr type infinity		{ limits::infinity() };
-		static constexpr type nan			{ limits::quiet_NaN() };
-		static constexpr type min			{ limits::min() };
-		static constexpr type max			{ limits::max() };
-		static constexpr type epsilon		{ limits::epsilon() };
-		static constexpr type half_epsilon	{ epsilon * half };
-
-		static constexpr type pi			{ static_cast<type>(3.14159265358979323846264338327L) };
-		static constexpr type two_pi		{ pi * two };
-		static constexpr type half_pi		{ pi * half };
-		static constexpr type quarter_pi	{ pi * quarter };
-		static constexpr type third_pi		{ pi * third };
-		static constexpr type deg2rad		{ pi / one_eighty };
-		static constexpr type rad2deg		{ one_eighty / pi };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

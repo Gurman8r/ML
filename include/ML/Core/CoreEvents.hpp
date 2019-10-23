@@ -7,28 +7,26 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct CoreEvents final
+	enum class CoreEvents
 	{
-		enum : int32_t
-		{
-			MIN_CORE_EVENT = Event::EV_CORE,
+		MIN_CORE_EVENT = Event::EV_CORE,
 
-			EV_FileSystem,
+		// 
 
-			MAX_CORE_EVENT
-		};
+		MAX_CORE_EVENT
+	};
 
-		static_assert(MAX_CORE_EVENT < (MIN_CORE_EVENT + (int32_t)Event::MAX_LIBRARY_EVENTS),
-			"too many library event types specified in " __FILE__
+	static_assert(
+		(int32_t)CoreEvents::MAX_CORE_EVENT < 
+		(int32_t)CoreEvents::MIN_CORE_EVENT + Event::MAX_LIBRARY_EVENTS,
+		"too many library event types specified in " __FILE__
 		);
+
+	template <CoreEvents ID> struct CoreEvent : public T_Event<CoreEvents, ID>
+	{
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	struct FileSystemEvent final : public I_Event<CoreEvents::EV_FileSystem>
-	{
-		constexpr FileSystemEvent() {}
-	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

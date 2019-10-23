@@ -27,15 +27,16 @@ namespace ml
 			EV_CUSTOM	= (MAX_LIBRARY_EVENTS * 8),
 		};
 
-		constexpr Event(int32_t value) : m_id { value } {}
+		constexpr Event(int32_t value) noexcept : m_id { value } {}
 
-		constexpr const int32_t & operator*() const { return m_id; }
+		constexpr const int32_t & operator*() const noexcept { return m_id; }
 
-		constexpr operator bool() const { return (m_id > (int32_t)EV_INVALID); }
+		constexpr operator bool() const noexcept { return (m_id > (int32_t)EV_INVALID); }
 
 		template <class T> inline auto as() { return static_cast<T *>(this); }
 
-		template <class T> inline auto as() const { return static_cast<const T *>(this); }
+		template <class T> inline auto as() const { return static_cast<const T *>(this); 
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -46,13 +47,18 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <int32_t _ID> struct I_Event : public Event
+	template <int32_t ID> struct I_Event : public Event
 	{
-		enum : int32_t { ID = _ID };
+		enum : int32_t { ID = ID };
 
-		static constexpr int32_t id { _ID };
+		constexpr I_Event() noexcept : Event { ID } {}
+	};
 
-		constexpr I_Event() : Event { _ID } {}
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	template <class T, T ID> struct T_Event : public I_Event<static_cast<int32_t>(ID)>
+	{
+		constexpr T_Event() noexcept : I_Event<static_cast<int32_t>(ID)> {} {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

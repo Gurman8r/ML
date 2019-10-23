@@ -83,6 +83,8 @@
 #		define ML_SYSTEM_FREEBSD
 #		define ML_SYSTEM_NAME "FreeBSD"
 #	endif
+# else
+#	error This system is not supported.
 # endif
 
 

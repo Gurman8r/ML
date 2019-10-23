@@ -58,7 +58,7 @@ namespace ml
 
 		template <class U> constexpr operator std::array<U, Size>() const
 		{
-			std::array<U, Size> temp { uninit };
+			std::array<U, Size> temp { 0 };
 			for (size_t i = 0; i < temp.size(); i++)
 			{
 				temp[i] = static_cast<U>(m_data[i]);
@@ -75,8 +75,11 @@ namespace ml
 	template <class T> struct Array<T, 0>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		enum { Size = 0 };
+		
+		enum : size_t { Size = 0 };
+		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		using value_type		= typename T;
 		using base_type			= typename value_type[1];
 		using self_type			= typename Array<value_type, 0>;
@@ -86,29 +89,36 @@ namespace ml
 		using const_reference	= typename const value_type &;
 		using iterator			= typename pointer;
 		using const_iterator	= typename const_pointer;
+		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		base_type m_data;
+		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		constexpr auto at(size_t)			-> reference		{ return m_data[0]; }
 		constexpr auto at(size_t)	const	-> const_reference	{ return m_data[0]; }
 		constexpr auto back()				-> reference		{ return m_data[0]; }
 		constexpr auto back()		const	-> const_reference	{ return m_data[0]; }
-		constexpr auto begin()				-> iterator			{ return nullptr; }
-		constexpr auto begin()		const	-> const_iterator	{ return nullptr; }
-		constexpr auto cbegin()		const	-> const_iterator	{ return nullptr; }
-		constexpr auto cend()		const	-> const_iterator	{ return nullptr; }
-		constexpr auto data()				-> pointer			{ return nullptr; }
-		constexpr auto data()		const	-> const_pointer	{ return nullptr; }
-		constexpr auto end()				-> iterator			{ return nullptr; }
-		constexpr auto end()		const	-> const_iterator	{ return nullptr; }
+		constexpr auto begin()				-> iterator			{ return &m_data[0]; }
+		constexpr auto begin()		const	-> const_iterator	{ return &m_data[0]; }
+		constexpr auto cbegin()		const	-> const_iterator	{ return &m_data[0]; }
+		constexpr auto cend()		const	-> const_iterator	{ return &m_data[0]; }
+		constexpr auto data()				-> pointer			{ return &m_data[0]; }
+		constexpr auto data()		const	-> const_pointer	{ return &m_data[0]; }
+		constexpr auto end()				-> iterator			{ return &m_data[0]; }
+		constexpr auto end()		const	-> const_iterator	{ return &m_data[0]; }
 		constexpr auto front()				-> reference		{ return m_data[0]; }
 		constexpr auto front()		const	-> const_reference	{ return m_data[0]; }
 		constexpr auto hash()		const	-> hash_t			{ return 0; }
+		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
 		static constexpr size_t size() { return 0; }
 		constexpr reference operator[](size_t) { return m_data[0]; }
 		constexpr const_reference operator[](size_t) const { m_data[0]; }
 		template <class U> constexpr operator std::array<U, 0>() const { return {}; }
+		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
@@ -193,7 +203,7 @@ namespace ml
 			Array<uint8_t, sizeof(T)> temp {};
 			for (T i = 0; i < sizeof(T); i++)
 			{
-				temp[i] = static_cast<uint8_t>(value >> (i * cast_t<T>::eight));
+				temp[i] = static_cast<uint8_t>(value >> (i * cast<T>::eight));
 			}
 			return temp;
 		}

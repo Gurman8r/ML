@@ -147,12 +147,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto begin()				-> iterator					{ return m_uniforms.begin(); }
-		inline auto begin()		const	-> const_iterator			{ return m_uniforms.begin(); }
-		inline auto cbegin()	const	-> const_iterator			{ return m_uniforms.cbegin(); }
-		inline auto end()				-> iterator					{ return m_uniforms.end(); }
-		inline auto end()		const	-> const_iterator			{ return m_uniforms.end(); }
-		inline auto cend()		const	-> const_iterator			{ return m_uniforms.cend(); }
+		inline auto begin()				-> iterator			{ return m_uniforms.begin(); }
+		inline auto begin()		const	-> const_iterator	{ return m_uniforms.begin(); }
+		inline auto cbegin()	const	-> const_iterator	{ return m_uniforms.cbegin(); }
+		inline auto end() 				-> iterator			{ return m_uniforms.end(); }
+		inline auto end()		const	-> const_iterator	{ return m_uniforms.end(); }
+		inline auto cend()		const	-> const_iterator	{ return m_uniforms.cend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

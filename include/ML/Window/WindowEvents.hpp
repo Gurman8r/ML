@@ -33,38 +33,41 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowEvent final
+	enum class WindowEvents
 	{
-		enum : int32_t
-		{
-			MIN_WINDOW_EVENT = Event::EV_WINDOW,
+		MIN_WINDOW_EVENT = Event::EV_WINDOW,
 
-			EV_Char,			// Keyboard text input
-			EV_CursorEnter,		// Cursor enter/exit window
-			EV_CursorPos,		// Cursor position changed
-			EV_FrameSize,		// Window frame size changed
-			EV_Key,				// Keyboard state changed
-			EV_MouseButton,		// Mouse button state changed
-			EV_Scroll,			// Mouse scrollwheel state changed
-			EV_WindowClose,		// Fired when window is closed
-			EV_WindowError,		// Window error callback
-			EV_WindowFocus,		// Window focused/unfocused
-			EV_WindowKill,		// Tell window to close
-			EV_WindowSize,		// Window size changed
-			EV_WindowPos,		// Window position changed
-			EV_WindowFullscreen,
+		EV_Char,				// Keyboard text input
+		EV_CursorEnter,			// Cursor enter/exit window
+		EV_CursorPos,			// Cursor position changed
+		EV_FrameSize,			// Window frame size changed
+		EV_Key,					// Keyboard state changed
+		EV_MouseButton,			// Mouse button state changed
+		EV_Scroll,				// Mouse scrollwheel state changed
+		EV_WindowClose,			// Fired when window is closed
+		EV_WindowError,			// Window error callback
+		EV_WindowFocus,			// Window focused/unfocused
+		EV_WindowKill,			// Tell window to close
+		EV_WindowSize,			// Window size changed
+		EV_WindowPos,			// Window position changed
+		EV_WindowFullscreen,	// Change window fullscreen state
 
-			MAX_WINDOW_EVENT
-		};
+		MAX_WINDOW_EVENT
+	};
 
-		static_assert(MAX_WINDOW_EVENT < (MIN_WINDOW_EVENT + (int32_t)Event::MAX_LIBRARY_EVENTS),
-			"too many library event types specified in " __FILE__
+	static_assert(
+		(int32_t)WindowEvents::MAX_WINDOW_EVENT < 
+		(int32_t)WindowEvents::MIN_WINDOW_EVENT + Event::MAX_LIBRARY_EVENTS,
+		"too many library event types specified in " __FILE__
 		);
+
+	template <WindowEvents ID> struct WindowEvent : public T_Event<WindowEvents, ID>
+	{
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct CharEvent final : public I_Event<WindowEvent::EV_Char>
+	struct CharEvent final : public WindowEvent<WindowEvents::EV_Char>
 	{
 		const uint32_t value;
 		constexpr CharEvent(uint32_t value)
@@ -75,7 +78,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct CursorEnterEvent final : public I_Event<WindowEvent::EV_CursorEnter>
+	struct CursorEnterEvent final : public WindowEvent<WindowEvents::EV_CursorEnter>
 	{
 		const int32_t entered;
 		constexpr CursorEnterEvent(int32_t entered)
@@ -86,7 +89,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct CursorPosEvent final : public I_Event<WindowEvent::EV_CursorPos>
+	struct CursorPosEvent final : public WindowEvent<WindowEvents::EV_CursorPos>
 	{
 		const float64_t x, y;
 		constexpr CursorPosEvent(float64_t x, float64_t y)
@@ -98,7 +101,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct KeyEvent final : public I_Event<WindowEvent::EV_Key>
+	struct KeyEvent final : public WindowEvent<WindowEvents::EV_Key>
 	{
 		using Mods = typename bitmask_8;
 		const int32_t key, scan, action;
@@ -137,7 +140,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct MouseButtonEvent final : public I_Event<WindowEvent::EV_MouseButton>
+	struct MouseButtonEvent final : public WindowEvent<WindowEvents::EV_MouseButton>
 	{
 		const int32_t key, action, mod;
 		constexpr MouseButtonEvent(int32_t key, int32_t action, int32_t mod)
@@ -150,7 +153,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ScrollEvent final : public I_Event<WindowEvent::EV_Scroll>
+	struct ScrollEvent final : public WindowEvent<WindowEvents::EV_Scroll>
 	{
 		const float64_t x, y;
 		constexpr ScrollEvent(float64_t x, float64_t y)
@@ -162,7 +165,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct FrameSizeEvent final : public I_Event<WindowEvent::EV_FrameSize>
+	struct FrameSizeEvent final : public WindowEvent<WindowEvents::EV_FrameSize>
 	{
 		const int32_t width, height;
 		constexpr FrameSizeEvent(int32_t width, int32_t height)
@@ -174,14 +177,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowCloseEvent final : public I_Event<WindowEvent::EV_WindowClose>
+	struct WindowCloseEvent final : public WindowEvent<WindowEvents::EV_WindowClose>
 	{
 		WindowCloseEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowErrorEvent final : public I_Event<WindowEvent::EV_WindowError>
+	struct WindowErrorEvent final : public WindowEvent<WindowEvents::EV_WindowError>
 	{
 		const int32_t code;
 		const C_String desc;
@@ -194,7 +197,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowFocusEvent final : public I_Event<WindowEvent::EV_WindowFocus>
+	struct WindowFocusEvent final : public WindowEvent<WindowEvents::EV_WindowFocus>
 	{
 		const int32_t focused;
 		constexpr WindowFocusEvent(int32_t entered)
@@ -205,14 +208,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowKillEvent final : public I_Event<WindowEvent::EV_WindowKill>
+	struct WindowKillEvent final : public WindowEvent<WindowEvents::EV_WindowKill>
 	{
 		constexpr WindowKillEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowPosEvent final : public I_Event<WindowEvent::EV_WindowPos>
+	struct WindowPosEvent final : public WindowEvent<WindowEvents::EV_WindowPos>
 	{
 		const int32_t x, y;
 		constexpr WindowPosEvent(int32_t x, int32_t y)
@@ -224,7 +227,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowSizeEvent final : public I_Event<WindowEvent::EV_WindowSize>
+	struct WindowSizeEvent final : public WindowEvent<WindowEvents::EV_WindowSize>
 	{
 		const int32_t width, height;
 		constexpr WindowSizeEvent(int32_t width, int32_t height)
@@ -236,7 +239,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct WindowFullscreenEvent final : public I_Event<WindowEvent::EV_WindowFullscreen>
+	struct WindowFullscreenEvent final : public WindowEvent<WindowEvents::EV_WindowFullscreen>
 	{
 		const int32_t value;
 		constexpr WindowFullscreenEvent(int32_t value)

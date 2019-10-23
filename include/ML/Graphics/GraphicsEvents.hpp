@@ -11,28 +11,29 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct GraphicsEvents final
+	enum class GraphicsEvents
 	{
-		GraphicsEvents() = delete;
+		MIN_GRAPHICS_EVENT = Event::EV_GRAPHICS,
 
-		enum : int32_t
-		{
-			MIN_GRAPHICS_EVENT = Event::EV_GRAPHICS,
+		EV_OpenGLError, // OpenGL Error
+		EV_ShaderError, // Shader Error
 
-			EV_OpenGLError, // OpenGL Error
-			EV_ShaderError, // Shader Error
+		MAX_GRAPHICS_EVENT
+	};
 
-			MAX_GRAPHICS_EVENT
-		};
-
-		static_assert(MAX_GRAPHICS_EVENT < (MIN_GRAPHICS_EVENT + (int32_t)Event::MAX_LIBRARY_EVENTS),
-			"too many library event types specified in " __FILE__
+	static_assert(
+		(int32_t)GraphicsEvents::MAX_GRAPHICS_EVENT <
+		(int32_t)GraphicsEvents::MIN_GRAPHICS_EVENT + Event::MAX_LIBRARY_EVENTS,
+		"too many library event types specified in " __FILE__
 		);
+
+	template <GraphicsEvents ID> struct GraphicsEvent : public T_Event<GraphicsEvents, ID>
+	{
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct OpenGLErrorEvent final : public I_Event<GraphicsEvents::EV_OpenGLError>
+	struct OpenGLErrorEvent final : public GraphicsEvent<GraphicsEvents::EV_OpenGLError>
 	{
 		C_String file;
 		uint32_t line;
@@ -49,7 +50,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ShaderErrorEvent final : public I_Event<GraphicsEvents::EV_ShaderError>
+	struct ShaderErrorEvent final : public GraphicsEvent<GraphicsEvents::EV_ShaderError>
 	{
 		const Shader * obj;
 		uint32_t type;

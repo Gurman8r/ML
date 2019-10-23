@@ -16,7 +16,7 @@ namespace ml
 	NetServer::NetServer()
 		: m_running(false)
 	{
-		ML_EventSystem.addListener(NetworkEvent::EV_ServerRecievePacket, this);
+		ML_EventSystem.addListener<ServerRecievePacketEvent>(this);
 	}
 
 	NetServer::~NetServer()
@@ -29,7 +29,7 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case NetworkEvent::EV_ServerRecievePacket:
+		case ServerRecievePacketEvent::ID:
 			if (auto ev = value.as<ServerRecievePacketEvent>())
 			{
 				Debug::log("SERVER -> {0}", ev->data);

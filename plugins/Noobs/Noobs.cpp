@@ -280,7 +280,9 @@ namespace ml
 	{
 		if (!m_display_open) return;
 		ImGui::PushID(ML_ADDRESSOF(this));
-		if (ImGui::Begin(title, &m_display_open))
+		if (ImGui::Begin(title, &m_display_open,
+			ImGuiWindowFlags_None
+		))
 		{
 			ML_AssetPreview.drawPreview(surf, ImGuiExt::GetContentRegionAvail(), [&] 
 			{
@@ -295,7 +297,9 @@ namespace ml
 	{
 		if (!m_editor_open) return;
 		ImGui::PushID(ML_ADDRESSOF(this));
-		if (ImGui::Begin(title, &m_editor_open, ImGuiWindowFlags_None))
+		if (ImGui::Begin(title, &m_editor_open, 
+			ImGuiWindowFlags_None
+		))
 		{
 			if (ImGui::BeginTabBar(
 				"DemoEditor##TabBar##Main",
@@ -483,23 +487,41 @@ namespace ml
 		ImGui::Columns(3, "##Uni##Columns");
 		if (ImGui::Selectable("Name"))
 		{
-			auto & m { *m_renderer->material() };
-			std::sort(m.begin(), m.end(), [](auto lhs, auto rhs)
-			{
-				return (lhs->name) < (rhs->name);
-			});
+			auto sort_name_ascending = ([&]() { std::sort(
+				m_renderer->material()->begin(),
+				m_renderer->material()->end(),
+				[](auto lhs, auto rhs) { return (lhs->name) < (rhs->name); }); });
+
+			auto sort_name_descending = ([&]() { std::sort(
+				m_renderer->material()->begin(),
+				m_renderer->material()->end(),
+				[](auto lhs, auto rhs) { return (lhs->name) > (rhs->name); }); });
+
+			static bool state { 0 };
+			if (state = !state) { sort_name_ascending(); }
+			else { sort_name_descending(); }
 		}
 		ImGui::NextColumn();
 		if (ImGui::Selectable("Type"))
 		{
-			auto & m { *m_renderer->material() };
-			std::sort(m.begin(), m.end(), [](auto lhs, auto rhs)
-			{
-				return (lhs->getID()) < (rhs->getID());
-			});
+			auto sort_type_ascending = ([&]() { std::sort(
+				m_renderer->material()->begin(),
+				m_renderer->material()->end(),
+				[](auto lhs, auto rhs) { return (lhs->getID()) < (rhs->getID()); }); });
+
+			auto sort_type_descending = ([&]() { std::sort(
+				m_renderer->material()->begin(),
+				m_renderer->material()->end(),
+				[](auto lhs, auto rhs) { return (lhs->getID()) > (rhs->getID()); }); });
+
+			static bool state { 0 };
+			if (state = !state) { sort_type_ascending(); }
+			else { sort_type_descending(); }
 		}
 		ImGui::NextColumn();
-		if (ImGui::Selectable("Value")) {}
+		if (ImGui::Selectable("Value")) 
+		{
+		}
 		ImGui::NextColumn();
 		ImGui::Separator(); ImGui::Columns(1);
 

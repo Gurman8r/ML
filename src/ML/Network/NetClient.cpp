@@ -11,7 +11,7 @@ namespace ml
 	NetClient::NetClient()
 		: m_connected(false)
 	{
-		ML_EventSystem.addListener(NetworkEvent::EV_ClientRecievePacket, this);
+		ML_EventSystem.addListener<ClientRecievePacketEvent>(this);
 	}
 
 	NetClient::~NetClient()
@@ -24,7 +24,7 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case NetworkEvent::EV_ClientRecievePacket:
+		case ClientRecievePacketEvent::ID:
 			if (auto ev = value.as<ClientRecievePacketEvent>())
 			{
 				Debug::log("CLIENT -> {0}", ev->data);

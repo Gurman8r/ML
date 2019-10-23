@@ -55,11 +55,56 @@ namespace ml
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+namespace ml
+{
+	namespace test
+	{
+		struct Base : public NonNewable
+		{
+			constexpr Base(int32_t id) : m_id { id } {}
+
+		protected: const int32_t m_id;
+		};
+
+		template <int32_t _ID> struct I_Child : public Base
+		{
+			enum : int32_t { ID = _ID };
+
+			constexpr I_Child() : Base { ID } {}
+		};
+
+		template <class T, T _ID> struct T_Child : public I_Child<static_cast<int32_t>(_ID)>
+		{
+		};
+
+		enum class EnumClass { First, Second, Third };
+
+		static constexpr struct TestA : public I_Child<0>
+		{
+		} a;
+
+		static constexpr struct TestB : public T_Child<int32_t, 0>
+		{
+		} b;
+
+		static constexpr struct TestC : public T_Child<EnumClass, EnumClass::First>
+		{
+		} c;
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 ml::int32_t main()
 {
 	using namespace ml;
+	{
+		test::a;
+		test::b;
+		test::c;
+	}
 
-	static_assert(check_version());
+	//static_assert(check_version());
 
 	// Initialize Systems
 	ML_EventSystem; ML_Engine; ML_Editor;

@@ -14,46 +14,49 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct EditorEvent final
+	enum class EditorEvents
 	{
-		enum : int32_t
-		{
-			MIN_EDITOR_EVENT = Event::EV_EDITOR,
+		MIN_EDITOR_EVENT = Event::EV_EDITOR,
 
-			EV_BeginGui,
-			EV_Gui,
-			EV_EndGui,
-			EV_MainMenuBar,
-			EV_Dockspace,
+		EV_BeginGui,
+		EV_Gui,
+		EV_EndGui,
+		EV_MainMenuBar,
+		EV_Dockspace,
 
-			MAX_EDITOR_EVENT
-		};
+		MAX_EDITOR_EVENT
+	};
 
-		static_assert(MAX_EDITOR_EVENT < (MIN_EDITOR_EVENT + Event::MAX_LIBRARY_EVENTS),
-			"too many library event types specified in " __FILE__
+	static_assert(
+		(int32_t)EditorEvents::MAX_EDITOR_EVENT < 
+		(int32_t)EditorEvents::MIN_EDITOR_EVENT + Event::MAX_LIBRARY_EVENTS,
+		"too many library event types specified in " __FILE__
 		);
+
+	template <EditorEvents ID> struct EditorEvent : public T_Event<EditorEvents, ID>
+	{
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct BeginGuiEvent final : public I_Event<EditorEvent::EV_BeginGui>
+	struct BeginGuiEvent final : public EditorEvent<EditorEvents::EV_BeginGui>
 	{
 		constexpr BeginGuiEvent() {}
 	};
 
-	struct GuiEvent final : public I_Event<EditorEvent::EV_Gui>
+	struct GuiEvent final : public EditorEvent<EditorEvents::EV_Gui>
 	{
 		constexpr GuiEvent() {}
 	};
 
-	struct EndGuiEvent final : public I_Event<EditorEvent::EV_EndGui>
+	struct EndGuiEvent final : public EditorEvent<EditorEvents::EV_EndGui>
 	{
 		constexpr EndGuiEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct MainMenuBarEvent final : public I_Event<EditorEvent::EV_MainMenuBar>
+	struct MainMenuBarEvent final : public EditorEvent<EditorEvents::EV_MainMenuBar>
 	{
 		enum Menu : int32_t
 		{ 
@@ -68,7 +71,7 @@ namespace ml
 		}
 	};
 
-	struct DockspaceEvent final : public I_Event<EditorEvent::EV_Dockspace>
+	struct DockspaceEvent final : public EditorEvent<EditorEvents::EV_Dockspace>
 	{
 		EditorDockspace & dockspace;
 		constexpr DockspaceEvent(EditorDockspace & dockspace)

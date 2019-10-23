@@ -87,7 +87,7 @@ namespace ml
 		}
 
 		constexpr BasicColor()
-			: m_value { uninit }
+			: m_value { 0 }
 		{
 		}
 

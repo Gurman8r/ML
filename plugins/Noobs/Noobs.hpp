@@ -101,9 +101,7 @@ namespace ml
 						{
 							if ((b = str.find_first_of(':', a + 1)) != String::npos)
 							{
-								this->code = String { 
-									str.substr(a + 2, b - a - 2) 
-								}.remove_all("error ");
+								this->code = str.substr(a + 2, b - a - 2);
 								this->desc = str.substr(b + 2);
 							}
 						}

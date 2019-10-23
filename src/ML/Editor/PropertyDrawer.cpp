@@ -2601,7 +2601,7 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		constexpr float_t speed = 0.005f;
-		constexpr C_String fmt { "%.3f" };
+		constexpr C_String fmt { "%.4f" };
 		switch (value.getID())
 		{
 		case uni_bool::ID:

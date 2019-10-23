@@ -62,6 +62,8 @@ namespace ml
 			{
 				if (ev->obj && (ev->obj == m_renderer->shader()))
 				{
+					cout << ev->error;
+
 					// Decode Errors
 					SStream ss { String{ ev->error } };
 					String line;

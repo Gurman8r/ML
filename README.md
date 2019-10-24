@@ -34,6 +34,7 @@
 
 # Screenshots
 
+![alt_text](https://i.imgur.com/Uqvf4jS.png)
 ![alt_text](https://i.imgur.com/2wsHoQC.png)
 ![alt_text](https://i.imgur.com/TyIgSw9.png)
 ![alt text](https://i.imgur.com/JS4bQdL.png)

@@ -252,9 +252,13 @@ namespace ml
 				uint32_t i { 0 };
 				for (const auto & pair : shader->m_textures)
 				{
-					ML_GL.activeTexture(GL::Texture0 + (i++));
+					ML_GL.uniform1i(pair.first, i);
+
+					ML_GL.activeTexture(GL::Texture0 + i);
 
 					Texture::bind(pair.second);
+
+					i++;
 				}
 			}
 		}

@@ -121,63 +121,66 @@ namespace ml
 	{
 		// Load Defaults
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Content.create<Texture>("default_texture")->loadFromImage
+		ML_Content.create<Texture>("tex/default")->loadFromImage
 		(
-			*ML_Content.create<Image>("default_image", Image::Default)
+			*ML_Content.create<Image>("img/default", Image::Default)
 		);
 
-		ML_Content.create<Model>("default_triangle")->loadFromMemory
+		ML_Content.create<Model>("obj/default/triangle")->loadFromMemory
 		(
 			geo::triangle_static::vertices, geo::triangle_static::indices
 		);
 		
-		ML_Content.create<Model>("default_quad")->loadFromMemory
+		ML_Content.create<Model>("obj/default/quad")->loadFromMemory
 		(
 			geo::quad_static::vertices, geo::quad_static::indices
 		);
 		
-		ML_Content.create<Model>("default_cube")->loadFromMemory
+		ML_Content.create<Model>("obj/default/cube")->loadFromMemory
 		(
 			geo::cube_static::vertices, geo::cube_static::indices
 		);
 		
-		ML_Content.create<Model>("default_skybox")->loadFromMemory
+		ML_Content.create<Model>("obj/default/skybox")->loadFromMemory
 		(
 			geo::skybox_static::vertices
 		);
 
-		ML_Content.insert<Uniform>("u_cursor", new uni_vec2_clbk
-		{ 
-			"u_cursor", [&]() { return m_window.getCursorPos(); }
-		});
-		
-		ML_Content.insert<Uniform>("u_delta", new uni_float_clbk
-		{ 
-			"u_delta", [&]() { return m_time.deltaTime(); }
-		});
-		
-		ML_Content.insert<Uniform>("u_frame", new uni_int_clbk
-		{ 
-			"u_frame", [&]() { return (int32_t)m_time.frameCount(); }
-		});
-		
-		ML_Content.insert<Uniform>("u_fps", new uni_float_clbk
-		{ 
-			"u_fps", [&]() { return m_time.frameRate(); }
-		});
-		
-		ML_Content.insert<Uniform>("u_time", new uni_float_clbk
-		{ 
-			"u_time", [&]() { return m_time.totalTime(); }
-		});
+		ML_Content.insert<Uniform>("u_delta", new uni_float_clbk {
+			"u_delta", [&]() {
+				return m_time.deltaTime();
+			} });
 
-		ML_Content.insert<Uniform>("u_viewport", new uni_vec2_clbk
-		{
-			"u_viewport", [&]() { 
-				const auto c { Camera::mainCamera() }; 
-				return c ? (vec2)c->viewport().size() : vec2{};
-			}
-		});
+		ML_Content.insert<Uniform>("u_fps", new uni_float_clbk {
+			"u_fps", [&]() {
+				return m_time.frameRate();
+			} });
+
+		ML_Content.insert<Uniform>("u_frame", new uni_int_clbk {
+			"u_frame", [&]() {
+				return (int32_t)m_time.frameCount();
+			} });
+
+		ML_Content.insert<Uniform>("u_mouse", new uni_vec4_clbk {
+			"u_mouse", [&]() {
+				return vec4 {
+					m_window.getCursorPos()[0],
+					m_window.getCursorPos()[1],
+					(float_t)m_window.getMouseButton(MouseButton::Button0),
+					(float_t)m_window.getMouseButton(MouseButton::Button1)
+				};
+			} });
+
+		ML_Content.insert<Uniform>("u_time", new uni_float_clbk {
+			"u_time", [&]() {
+				return m_time.totalTime();
+			} });
+
+		ML_Content.insert<Uniform>("u_viewport", new uni_vec2_clbk {
+			"u_viewport", [&]() {
+				if (auto c { Camera::mainCamera() }) { return (vec2)c->viewport().size(); }
+				return vec2{};
+			} });
 
 		
 		// Run Load Script

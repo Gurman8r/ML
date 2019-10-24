@@ -1,35 +1,35 @@
 #include <ML/Graphics/GL.hpp>
 
-#define ML_GEN_GL_ENUM_INFO(TYPE) \
-static constexpr bool value_at(int32_t i, TYPE & value) \
-{ \
-	return alg::value_at(i, value, TYPE##_values); \
-} \
-static constexpr int32_t index_of(TYPE value) \
-{ \
-	return alg::index_of(value, TYPE##_values); \
-} \
-static constexpr C_String name_of(TYPE value) \
-{ \
-	return alg::at_index(index_of(value), TYPE##_names); \
-} \
-static constexpr C_String raw_name_of(TYPE value) \
-{ \
-	return alg::at_index(index_of(value), TYPE##_raw_names); \
-} \
-static constexpr C_String desc_of(TYPE value) \
-{ \
-	return alg::at_index(index_of(value), TYPE##_descriptions); \
-} \
-static constexpr TYPE find_by_name(C_String value, TYPE dv = TYPE##_values[0]) \
-{ \
-	int32_t i = alg::index_of(value, TYPE##_names); \
-	return ((i != -1) ? TYPE##_values[i] : dv); \
-} \
-static constexpr TYPE find_by_raw_name(C_String value, TYPE dv = TYPE##_values[0]) \
-{ \
-	int32_t i = alg::index_of(value, TYPE##_raw_names); \
-	return ((i != -1) ? TYPE##_values[i] : dv); \
+#define ML_GEN_GL_ENUM_INFO(TYPE)													\
+static constexpr bool value_at(int32_t i, TYPE & value)								\
+{																					\
+	return alg::value_at(i, value, TYPE##_values);									\
+}																					\
+static constexpr int32_t index_of(TYPE value)										\
+{																					\
+	return alg::index_of(value, TYPE##_values);										\
+}																					\
+static constexpr C_String name_of(TYPE value)										\
+{																					\
+	return alg::at_index(index_of(value), TYPE##_names);							\
+}																					\
+static constexpr C_String raw_name_of(TYPE value)									\
+{																					\
+	return alg::at_index(index_of(value), TYPE##_raw_names);						\
+}																					\
+static constexpr C_String desc_of(TYPE value)										\
+{																					\
+	return alg::at_index(index_of(value), TYPE##_descriptions);						\
+}																					\
+static constexpr TYPE find_by_name(C_String value, TYPE dv = TYPE##_values[0])		\
+{																					\
+	int32_t i = alg::index_of(value, TYPE##_names);									\
+	return ((i != -1) ? TYPE##_values[i] : dv);										\
+}																					\
+static constexpr TYPE find_by_raw_name(C_String value, TYPE dv = TYPE##_values[0])	\
+{																					\
+	int32_t i = alg::index_of(value, TYPE##_raw_names);								\
+	return ((i != -1) ? TYPE##_values[i] : dv);										\
 }
 
 namespace ml
@@ -600,6 +600,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr Factor Factor_values[] = {
+			Factor::Zero,
+			Factor::One,
 			Factor::SrcColor,
 			Factor::OneMinusSrcColor,
 			Factor::SrcAlpha,
@@ -612,6 +614,8 @@ namespace ml
 		};
 
 		static constexpr C_String Factor_names[] = {
+			"Zero",
+			"One",
 			"Source Color",
 			"One Minus Source Color",
 			"Source Alpha",
@@ -624,6 +628,8 @@ namespace ml
 		};
 
 		static constexpr C_String Factor_raw_names[] = {
+			"GL_ZERO",
+			"GL_ONE",
 			"GL_SRC_COLOR",
 			"GL_ONE_MINUS_SRC_COLOR",
 			"GL_SRC_ALPHA",

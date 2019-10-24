@@ -1,8 +1,10 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-# This script is called once when the program starts, before the window is created.
 #
-# For more information see:
-# https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/Python.cpp
+#   This script is called once when the program starts, before the window is created.
+#
+#   For more information see:
+#   https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/Python.cpp
+#
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 import MEMELIB as ml

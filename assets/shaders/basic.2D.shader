@@ -38,7 +38,7 @@ in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 out vec4 gl_Color;
 
 // Uniforms
-uniform	vec4 u_color; // Main Color
+uniform vec4 u_color; // Main Color
 uniform sampler2D u_texture0; // Main Texture
 
 // Main

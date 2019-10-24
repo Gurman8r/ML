@@ -69,11 +69,7 @@ uniform struct Camera
 	vec2	view;	// Viewport Size
 } u_camera;
 
-uniform vec2	u_cursor;	// Cursor Position
-uniform float	u_delta;	// Delta Time
-uniform int		u_frame;	// Frame Index
-uniform float	u_fps;		// Frame Rate
-uniform float	u_time;		// Total Time
+uniform float u_time; // Total Time
 
 /* * * * * * * * * * * * * * * * * * * * */
 

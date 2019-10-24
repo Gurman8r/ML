@@ -1,4 +1,3 @@
-// advanced.fs.shader
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #version 460 core
@@ -19,7 +18,7 @@ uniform struct Camera
 	vec2	view;	// Viewport Size
 } u_camera;
 
-uniform vec2		u_cursor;		// Cursor Position
+uniform vec4		u_mouse;		// Mouse Position (xy) and Input (zw)
 uniform float		u_delta;		// Delta Time
 uniform int			u_frame;		// Frame Index
 uniform float		u_fps;			// Frame Rate

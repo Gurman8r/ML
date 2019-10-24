@@ -25,7 +25,7 @@ namespace ml
 				img.setPixel(x, y,
 					(((y < img.height() / 2) && (x < img.width() / 2)) ||
 					((y >= img.height() / 2) && (x >= img.width() / 2))
-						? Colors::black
+						? Color(Color(0.1f).rgb(), 1.0)
 						: (((y >= img.height() / 2) || (x >= img.width() / 2))
 							? Colors::magenta
 							: Colors::green

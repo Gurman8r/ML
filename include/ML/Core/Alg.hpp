@@ -276,7 +276,7 @@ namespace ml
 
 		template <
 			class T, size_t N
-		> static constexpr size_t size_of(const T(&value)[N])
+		> static constexpr size_t array_size(const T(&value)[N])
 		{
 			return static_cast<size_t>(ML_ARRAYSIZE(value));
 		}

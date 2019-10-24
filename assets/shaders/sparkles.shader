@@ -35,7 +35,7 @@ out vec4 gl_Color;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-uniform vec2		u_cursor;		// Cursor Position
+uniform vec4		u_mouse;		// Mouse Position (xy) and Input (zw)
 uniform float		u_delta;		// Delta Time
 uniform int			u_frame;		// Frame Index
 uniform float		u_fps;			// Frame Rate
@@ -123,7 +123,7 @@ float Layer(vec2 uv)
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
 	vec2 uv = ((fragCoord - 0.5).xy * u_viewport) / u_viewport.y;
-	vec2 mouse = (u_cursor / u_viewport) * vec2(1, -1);
+	vec2 mouse = (u_mouse.xy / u_viewport) * vec2(1, -1);
 	float m = 0.;
 	float t = u_time * .1;
 

@@ -178,6 +178,8 @@ namespace ml
 
 		enum Factor : uint32_t
 		{
+			Zero = 0,						// GL_ZERO
+			One = 1,						// GL_ONE
 			SrcColor = 0x0300,				// GL_SRC_COLOR
 			OneMinusSrcColor,				// GL_ONE_MINUS_SRC_COLOR
 			SrcAlpha,						// GL_SRC_ALPHA

@@ -44,28 +44,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline iterator find(Uniform * value)
-		{
-			return std::find(begin(), end(), value);
-		}
-
-		inline const_iterator find(Uniform * value) const
-		{
-			return std::find(cbegin(), cend(), value);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline bool contains(Uniform * value) const
-		{
-			return ((value && value->name) && get(value->name) && (find(value) != cend()));
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		inline Uniform * insert(Uniform * value)
 		{
-			if (value && !contains(value))
+			if (!value) { return nullptr; }
+			auto it { std::find_if(begin(), end(), [&](auto u)
+			{
+				return u && (u->name == value->name);
+			}) };
+			if (it == end())
 			{
 				m_uniforms.push_back(std::move(value));
 				return m_uniforms.back();
@@ -76,7 +62,12 @@ namespace ml
 		template <class U, class T> 
 		inline Uniform * insert(const String & name, const T & value)
 		{
-			if (name && !get(name))
+			if (!name) { return nullptr; }
+			auto it { std::find_if(begin(), end(), [&](auto u)
+			{
+				return u && (u->name == name);
+			}) };
+			if (it == end())
 			{
 				m_uniforms.push_back(new U { name, value });
 				return m_uniforms.back();
@@ -93,7 +84,7 @@ namespace ml
 
 		inline bool erase(const String & name)
 		{
-			iterator it { std::find_if(begin(), end(), [&](auto && u)
+			iterator it { std::find_if(begin(), end(), [&](auto u)
 			{
 				return u && (u->name == name);
 			}) };
@@ -110,7 +101,7 @@ namespace ml
 
 		template <class U = typename Uniform> inline U * get(const String & name)
 		{
-			iterator it { std::find_if(begin(), end(), [&](auto && u)
+			iterator it { std::find_if(begin(), end(), [&](auto u)
 			{
 				return u && (u->name == name);
 			}) };
@@ -119,7 +110,7 @@ namespace ml
 
 		template <class U = typename Uniform> inline const U * get(const String & name) const
 		{
-			const_iterator it { std::find_if(cbegin(), cend(), [&](auto && u)
+			const_iterator it { std::find_if(cbegin(), cend(), [&](auto u)
 			{
 				return u && (u->name == name);
 			}) };

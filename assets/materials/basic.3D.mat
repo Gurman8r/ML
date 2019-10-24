@@ -14,11 +14,11 @@ uniform color	u_ambient		{ 0.5, 0.5, 0.5, 1.0 }
 uniform color	u_diffuse		{ 1.0, 1.0, 0.75, 1.0 }
 uniform color	u_specular		{ 0.1, 0.1, 0.1, 1.0 }
 uniform float	u_shininess		{ 8.0 }
-uniform sampler	u_texture0		{ default_texture }
-uniform sampler	u_texture1		{ default_texture }
+uniform sampler	u_texture0		{ tex/default }
+uniform sampler	u_texture1		{ tex/default }
 
 uniform vec3	u_position		{ 0.0, 0.0, 0.0 }
-uniform vec3	u_scale			{ 0.3 0.3 0.3 }
-uniform vec4	u_rotation		{ 0.0 0.1 0.0 }
+uniform vec3	u_scale			{ 1.0, 1.0, 1.0 }
+uniform vec4	u_rotation		{ 0.0, 0.1, 0.0, 1.0 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

@@ -80,7 +80,7 @@ namespace ml
 		inline auto size()		const -> const vec2u &		{ return m_size; }
 		inline auto width()		const -> const uint32_t &	{ return m_size[0]; }
 
-		inline auto getFormat() const -> GL::Format
+		inline GL::Format getFormat() const
 		{
 			switch (m_channels)
 			{

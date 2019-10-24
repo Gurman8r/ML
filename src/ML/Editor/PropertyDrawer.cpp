@@ -405,7 +405,7 @@ namespace ml
 				{
 					c->setViewport(viewport);
 				}
-				ImGuiExt::Tooltip("Specify the viewport.");
+				ImGuiExt::Tooltip("Specify the viewport size.");
 
 				ImGui::EndChildFrame();
 

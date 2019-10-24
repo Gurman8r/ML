@@ -2,7 +2,7 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 uniform color	u_color		{ 1.0, 1.0, 1.0, 1.0 }
-uniform sampler	u_texture0	{ default_texture }
+uniform sampler	u_texture0	{ tex/default }
 uniform mat4	u_proj		{ 1 0 0 0, 0 1 0 0, 0 0 1 0, 0 0 0 1 }
 uniform mat4	u_view		{ 1 0 0 0, 0 1 0 0, 0 0 1 0, 0 0 0 1 }
 uniform mat4	u_model		{ 1 0 0 0, 0 1 0 0, 0 0 1 0, 0 0 0 1 }

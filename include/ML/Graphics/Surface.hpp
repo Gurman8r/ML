@@ -19,7 +19,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Surface();
-		Surface(const Model * model, const Material * material);
+		Surface(const Model * model, const Material * material, const Shader * shader);
 		Surface(const Surface & copy);
 		~Surface();
 
@@ -41,6 +41,7 @@ namespace ml
 		Surface & setFrameID(GL::FrameID value);
 		Surface & setModel(const Model * value);
 		Surface & setMaterial(const Material * value);
+		Surface & setShader(const Shader * value);
 		Surface & setSize(const vec2i & value);
 		Surface & setStorage(GL::Format value);
 
@@ -53,6 +54,7 @@ namespace ml
 		inline auto material()	const -> const Material *	{ return m_material; }
 		inline auto model()		const -> const Model *		{ return m_model; }
 		inline auto rbo()		const -> const RBO &		{ return m_rbo; }
+		inline auto shader()	const -> const Shader *		{ return m_shader; }
 		inline auto size()		const -> const vec2i &		{ return m_size; }
 		inline auto storage()	const -> GL::Format			{ return m_storage; }
 		inline auto texture()	const -> const Texture &	{ return m_texture; }
@@ -60,7 +62,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const { return model() && material(); }
+		inline operator bool() const { return model() && material() && shader(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -69,6 +71,7 @@ namespace ml
 		GL::FrameID		m_frameID;	// 
 		FBO				m_fbo;		// 
 		const Material *m_material;	// 
+		const Shader *	m_shader;	//
 		const Model *	m_model;	// 
 		RBO				m_rbo;		// 
 		vec2i			m_size;		// 

@@ -17,8 +17,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Renderer();
-		Renderer(const Model * model, const Material * material);
-		Renderer(const Model * model, const Material * material, const RenderStates & states);
+		Renderer(const Model * model, const Material * material, const Shader * shader);
+		Renderer(const Model * model, const Material * material, const Shader * shader, const RenderStates & states);
 		~Renderer();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -36,8 +36,8 @@ namespace ml
 		inline auto material()	const	-> const Material *		{ return m_material; }
 		inline auto model()				-> Model *				{ return std::remove_cv_t<Model *>(m_model); }
 		inline auto model()		const	-> const Model *		{ return m_model; }
-		inline auto shader()			-> Shader *				{ return (m_material && m_material->shader()) ? std::remove_cv_t<Shader *>(m_material->shader()) : nullptr; }
-		inline auto shader()	const	-> const Shader *		{ return (m_material && m_material->shader()) ? m_material->shader() : nullptr; }
+		inline auto shader()			-> Shader	*			{ return std::remove_cv_t<Shader *>(m_shader); }
+		inline auto shader()	const	-> const Shader	*		{ return m_shader; }
 		inline auto states()			-> RenderStates	&		{ return m_states; }
 		inline auto states()	const	-> const RenderStates & { return m_states; }
 
@@ -55,6 +55,7 @@ namespace ml
 		bool				m_enabled;
 		const Model *		m_model;
 		const Material *	m_material;
+		const Shader *		m_shader;
 		RenderStates		m_states;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

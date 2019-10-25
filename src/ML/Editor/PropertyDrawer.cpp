@@ -490,7 +490,7 @@ namespace ml
 			{
 				ImGui::BeginChildFrame(
 					ImGui::GetID(("##Renderer##" + label).c_str()),
-					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 6.5f },
+					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 8.f },
 					true
 				);
 
@@ -512,6 +512,12 @@ namespace ml
 				if (PropertyDrawer<Material>()("Material##Renderer", material))
 				{
 					r->setMaterial(material);
+				}
+
+				const Shader * shader { r->shader() };
+				if (PropertyDrawer<Shader>()("Shader##Renderer", shader))
+				{
+					r->setShader(shader);
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -1024,10 +1030,10 @@ namespace ml
 							}
 						}
 					}
-					if (shader)
-					{
-						value->setShader(shader);
-					}
+					//if (shader)
+					//{
+					//	value->setShader(shader);
+					//}
 					if (copy)
 					{
 						for (const auto * u : (*copy))
@@ -1066,14 +1072,6 @@ namespace ml
 		Layout::begin_prop(this, label, value);
 
 		ImGui::PushID(label.c_str());
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		const Shader * shader = value.shader();
-		if (PropertyDrawer<Shader>()("Shader##Material", shader))
-		{
-			value.shader() = shader;
-		}
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -2117,7 +2115,7 @@ namespace ml
 		}
 
 		int32_t frameID { GL::index_of(value.frameID()) };
-		if (ImGuiExt::Combo(("FB Attachment##Surface##" + label).c_str(),
+		if (ImGuiExt::Combo(("Framebuffer Attachment##Surface##" + label).c_str(),
 			&frameID, GL::FrameID_names, ML_ARRAYSIZE(GL::FrameID_names)))
 		{
 			value.setFrameID(GL::value_at<GL::FrameID>(frameID));
@@ -2133,6 +2131,12 @@ namespace ml
 		if (PropertyDrawer<Model>()(("Model##Surface##" + label), model))
 		{
 			value.setModel(model); changed = true;
+		}
+
+		const Shader * shader { value.shader() };
+		if (PropertyDrawer<Shader>()(("Shader##Surface##" + label), shader))
+		{
+			value.setShader(shader); changed = true;
 		}
 
 		ImGui::NextColumn();

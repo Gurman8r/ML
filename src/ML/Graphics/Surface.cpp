@@ -8,16 +8,17 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Surface::Surface()
-		: Surface { nullptr, nullptr }
+		: Surface { nullptr, nullptr, nullptr }
 	{
 	}
 
-	Surface::Surface(const Model * model, const Material * material)
+	Surface::Surface(const Model * model, const Material * material, const Shader * shader)
 		: m_colorID	{ GL::ColorAttachment0 }
 		, m_frameID { GL::DepthStencil }
 		, m_fbo		{ }
 		, m_material{ material }
 		, m_model	{ model }
+		, m_shader	{ shader }
 		, m_rbo		{ }
 		, m_size	{ 0, 0 }
 		, m_storage	{ GL::Depth24_Stencil8 }
@@ -101,18 +102,22 @@ namespace ml
 
 	void Surface::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
-		if (*this)
+		if (m_model && m_material && m_shader)
 		{
-			m_material->bind();
+			m_shader->bind(false);
 
-			if (const auto * s { m_material->shader() })
+			for (const auto & u : (*m_material))
 			{
-				s->setUniform(ML_UNI_MAIN_TEX, m_texture);
+				m_shader->setUniform(u);
 			}
 
-			target.draw(m_model);
+			m_shader->setUniform(ML_UNI_MAIN_TEX, m_texture);
 
-			m_material->unbind();
+			m_shader->bind(true);
+
+			target.draw(m_model, batch);
+
+			m_shader->unbind();
 		}
 	}
 
@@ -147,6 +152,12 @@ namespace ml
 	Surface & Surface::setMaterial(const Material * value)
 	{
 		m_material = value;
+		return (*this);
+	}
+
+	Surface & Surface::setShader(const Shader * value)
+	{
+		m_shader = value;
 		return (*this);
 	}
 

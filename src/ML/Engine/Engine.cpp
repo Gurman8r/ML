@@ -182,6 +182,42 @@ namespace ml
 				return vec2{};
 			} });
 
+		//ML_Content.insert<Uniform>("u_camera.pos", new uni_vec3_clbk {
+		//	"u_camera.pos", [&]() {
+		//		if (auto c { Camera::mainCamera() }) { return c->position(); }
+		//		return vec3{};
+		//	} });
+		//
+		//ML_Content.insert<Uniform>("u_camera.dir", new uni_vec3_clbk {
+		//	"u_camera.dir", [&]() {
+		//		if (auto c { Camera::mainCamera() }) { return c->direction(); }
+		//		return vec3{};
+		//	} });
+		//
+		//ML_Content.insert<Uniform>("u_camera.fov", new uni_float_clbk {
+		//	"u_camera.fov", [&]() {
+		//		if (auto c { Camera::mainCamera() }) { return c->fieldOfView(); }
+		//		return 0.f;
+		//	} });
+		//
+		//ML_Content.insert<Uniform>("u_camera.near", new uni_float_clbk {
+		//	"u_camera.near", [&]() {
+		//		if (auto c { Camera::mainCamera() }) { return c->clipNear(); }
+		//		return 0.f;
+		//	} });
+		//
+		//ML_Content.insert<Uniform>("u_camera.far", new uni_float_clbk {
+		//	"u_camera.far", [&]() {
+		//		if (auto c { Camera::mainCamera() }) { return c->clipFar(); }
+		//		return 0.f;
+		//	} });
+		//
+		//ML_Content.insert<Uniform>("u_camera.view", new uni_vec2_clbk {
+		//	"u_camera.view", [&]() {
+		//		if (auto c { Camera::mainCamera() }) { return (vec2)c->viewport().size(); }
+		//		return vec2{};
+		//	} });
+
 		
 		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
@@ -210,7 +246,7 @@ namespace ml
 		static const String original_title { m_window.getTitle() };
 		static Timer tm {};
 		static float_t dt { 0 };
-		if (tm.elapsed().count() > 0.5)
+		if (tm.elapsed().count() > 0.25)
 		{
 			dt = m_time.deltaTime();
 			tm.reset();

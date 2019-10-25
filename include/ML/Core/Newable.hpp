@@ -7,8 +7,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// "Memory Leak Insurance"
 	// Base class for anything which might be dynamically allocated.
-	// Provides memory leak detection and simple serialization.
 	// Use in conjunction with NonNewable to help ensure memory safety.
 	struct ML_CORE_API Newable
 	{

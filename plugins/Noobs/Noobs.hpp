@@ -51,8 +51,8 @@ namespace ml
 		
 		Array<Ref<Surface>, MAX_DEMO_SURFACE> m_pipeline 
 		{
-			Ref<Surface> { "surf_scene_main" },
-			Ref<Surface> { "surf_scene_post" },
+			Ref<Surface> { "surf/main" },
+			Ref<Surface> { "surf/post" },
 		};
 
 

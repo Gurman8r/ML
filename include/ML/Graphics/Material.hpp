@@ -23,8 +23,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Material();
-		Material(const Shader * shader);
-		Material(const Shader * shader, List<Uniform *> && uniforms);
+		Material(List<Uniform *> && uniforms);
 		Material(const Material & copy);
 		~Material();
 
@@ -33,14 +32,6 @@ namespace ml
 		bool dispose() override;
 		bool loadFromFile(const String & filename);
 		bool loadFromFile(const String & filename, const Map<String, Texture *> * textures);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		Material & setShader(const Shader * value);
-
-		const Material & bind() const;
-
-		const Material & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -130,9 +121,6 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline auto shader()			-> const Shader	*&			{ return m_shader; }
-		inline auto shader()	const	-> const Shader	*			{ return m_shader; }
 		inline auto uniforms()			-> List<Uniform *> &		{ return m_uniforms; }
 		inline auto uniforms()	const	-> const List<Uniform *> &	{ return m_uniforms; }
 
@@ -148,7 +136,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const Shader *	m_shader;
 		List<Uniform *>	m_uniforms;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

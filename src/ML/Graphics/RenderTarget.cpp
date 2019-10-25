@@ -43,11 +43,11 @@ namespace ml
 
 	const RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, RenderBatch & batch) const
 	{
-		if (batch.mat) { batch.mat->bind(); }
+		//if (batch.mat) { batch.mat->bind(); }
 
 		draw(verts, count, batch.vao, batch.vbo);
 
-		if (batch.mat) { batch.mat->unbind(); }
+		//if (batch.mat) { batch.mat->unbind(); }
 
 		return (*this);
 	}

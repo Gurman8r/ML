@@ -435,6 +435,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
+		ImGuiExt::HelpMarker(
+			"** Note:\n"
+			"Some values may be overwritten internally,\n"
+			"even if they aren't marked as read-only.\n"
+		);
+		ImGui::SameLine();
+
 		// New Uniform Popup
 		Uniform * to_add { nullptr };
 		if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (Uniform *&)to_add))
@@ -648,12 +655,7 @@ namespace ml
 				reset_sources();
 				generate_sources();
 			}
-			ImGuiExt::Tooltip(
-				"Materials combine a shader and its corresponding uniform set."
-				"\n\n"
-				"** Note: Changing this value will also change the active shader and uniforms."
-			);
-
+			ImGuiExt::Tooltip("Select the uniform set to use.");
 			ImGui::Separator();
 
 			// Select Shader
@@ -664,8 +666,7 @@ namespace ml
 				reset_sources();
 				generate_sources();
 			}
-			ImGuiExt::Tooltip("Specify the target material's shader.");
-
+			ImGuiExt::Tooltip("Select the shader program to use.");
 			ImGui::Separator();
 
 			// Select Model
@@ -674,8 +675,7 @@ namespace ml
 			{
 				m_renderer->setModel(mdl);
 			}
-			ImGuiExt::Tooltip("Specify the geometry to be drawn.");
-
+			ImGuiExt::Tooltip("Select the geometry to be drawn.");
 			ImGui::Separator();
 
 			if (auto c { Camera::mainCamera() })
@@ -1065,7 +1065,7 @@ namespace ml
 	{
 		if (m_renderer && m_renderer->material())
 		{
-			if (Shader * s { m_renderer->shader() })
+			if (auto s { m_renderer->shader() })
 			{
 				for (auto & f : m_files)
 				{
@@ -1099,7 +1099,7 @@ namespace ml
 
 		auto setup_file = [&](ShaderFile::FileType type, const String & src)
 		{
-			if (m_renderer->material() && m_renderer->material()->shader())
+			if (m_renderer->material() && m_renderer->shader())
 			{
 				if (!m_files[type])
 				{
@@ -1118,19 +1118,19 @@ namespace ml
 
 		if (!m_renderer->material()) return;
 
-		if (auto vert = setup_file(ShaderFile::Vert, m_renderer->material()->shader()->sources().vs))
+		if (auto vert = setup_file(ShaderFile::Vert, m_renderer->shader()->sources().vs))
 		{
-			vert->open = m_renderer->material()->shader()->sources().vs;
+			vert->open = m_renderer->shader()->sources().vs;
 		}
 
-		if (auto frag = setup_file(ShaderFile::Frag, m_renderer->material()->shader()->sources().fs))
+		if (auto frag = setup_file(ShaderFile::Frag, m_renderer->shader()->sources().fs))
 		{
-			frag->open = m_renderer->material()->shader()->sources().fs;
+			frag->open = m_renderer->shader()->sources().fs;
 		}
 
-		if (auto geom = setup_file(ShaderFile::Geom, m_renderer->material()->shader()->sources().gs))
+		if (auto geom = setup_file(ShaderFile::Geom, m_renderer->shader()->sources().gs))
 		{
-			geom->open = m_renderer->material()->shader()->sources().gs;
+			geom->open = m_renderer->shader()->sources().gs;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

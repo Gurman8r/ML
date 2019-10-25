@@ -46,8 +46,8 @@ ml.content.load_all([
     { "type": "ml::Shader", "name": "gl/2D/wrainbow",       "file": PATH + "/shaders/wrainbow.shader" },
     { "type": "ml::Shader", "name": "gl/3D/basic",          "vert": PATH + "/shaders/basic.3D.vs.shader", "frag": PATH + "/shaders/basic.3D.fs.shader" },
     { "type": "ml::Shader", "name": "gl/3D/skybox",         "file": PATH + "/shaders/skybox.shader" },
-    #{ "type": "ml::Shader", "name": "gl/util/geometry",    "file": PATH + "/shaders/geometry.shader" },
     { "type": "ml::Shader", "name": "gl/util/surface",      "file": PATH + "/shaders/surface.shader" },
+    #{ "type": "ml::Shader", "name": "gl/geometry",          "file": PATH + "/shaders/geometry.shader" },
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -142,43 +142,50 @@ ml.content.load_all([
     {
         "type": "ml::Material",
         "name": "mat/3D/skybox",
-        "shader": "gl/3D/skybox",
         "defaults": "True",
         "uniforms": PATH + "/materials/skybox.3D.mat"
     },
     {
         "type": "ml::Material",
         "name": "mat/3D/basic",
-        "shader": "gl/3D/basic",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.3D.mat"
     },
     {
         "type": "ml::Material",
         "name": "mat/2D/basic",
-        "shader": "gl/2D/basic",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.2D.mat"
     },
     {
         "type": "ml::Material",
         "name": "mat/util/surface",
-        "shader": "gl/util/surface",
         "defaults": "False",
         "uniforms": PATH + "/materials/surface.mat"
     },
     #{
     #    "type": "ml::Material",
     #    "name": "mat_geometry",
-    #    "shader": "util/geometry",
     #    "defaults": "False",
     #    "uniforms": PATH + "/materials/geometry.mat"
     #},
 
 # Surfaces
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "ml::Surface", "name": "surf_scene_main", "model": "obj/default/quad", "material": "mat/util/surface" },
-    { "type": "ml::Surface", "name": "surf_scene_post", "model": "obj/default/quad", "material": "mat/util/surface" },
+    { 
+        "type": "ml::Surface", 
+        "name": "surf/main", 
+        "material": "mat/util/surface",
+        "shader": "gl/util/surface",
+        "model": "obj/default/quad", 
+    },
+    { 
+        "type": "ml::Surface", 
+        "name": "surf/post", 
+        "material": "mat/util/surface",
+        "shader": "gl/util/surface",
+        "model": "obj/default/quad", 
+    },
 
 # Scripts
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -211,6 +218,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D/skybox")
+        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/3D/skybox")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/skybox")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "False")
 
@@ -221,6 +229,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat/2D/basic")
+        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/2D/basic")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/quad")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
 
@@ -236,6 +245,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D/basic")
+        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/3D/basic")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/cow")
         ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")
         ml.ecs.renderer_attr(name,  "alpha",    "predicate",    "GL_GREATER")

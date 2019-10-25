@@ -7,26 +7,29 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Renderer::Renderer()
-		: m_enabled	(true)
-		, m_model	(nullptr)
-		, m_material(nullptr)
-		, m_states	()
+		: m_enabled { true }
+		, m_model	{ nullptr }
+		, m_material{ nullptr }
+		, m_shader	{ nullptr }
+		, m_states	{}
 	{
 	}
 
-	Renderer::Renderer(const Model * model, const Material * material)
-		: m_enabled	(true)
-		, m_model	(model)
-		, m_material(material)
-		, m_states	()
+	Renderer::Renderer(const Model * model, const Material * material, const Shader * shader)
+		: m_enabled	{ true }
+		, m_model	{ model }
+		, m_material{ material }
+		, m_shader	{ shader }
+		, m_states	{ }
 	{
 	}
 
-	Renderer::Renderer(const Model * model, const Material * material, const RenderStates & states)
-		: m_enabled	(true)
-		, m_model	(model)
-		, m_material(material)
-		, m_states	(states)
+	Renderer::Renderer(const Model * model, const Material * material, const Shader * shader, const RenderStates & states)
+		: m_enabled	{ true }
+		, m_model	{ model }
+		, m_material{ material }
+		, m_shader	{ shader }
+		, m_states	{ states }
 	{
 	}
 
@@ -54,10 +57,7 @@ namespace ml
 
 	Renderer & Renderer::setShader(const Shader * value)
 	{
-		if (auto m { material() })
-		{
-			m->setShader(value);
-		}
+		m_shader = value;
 		return (*this);
 	}
 
@@ -71,15 +71,22 @@ namespace ml
 
 	void Renderer::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
-		if (m_enabled && m_model && m_material)
+		if (m_enabled && m_model && m_material && m_shader)
 		{
 			m_states.apply();
 
-			m_material->bind();
+			m_shader->bind(false);
+
+			for (const auto & u : (*m_material))
+			{
+				m_shader->setUniform(u);
+			}
+			
+			m_shader->bind(true);
 
 			target.draw(m_model, batch);
 
-			m_material->unbind();
+			m_shader->unbind();
 		}
 	}
 

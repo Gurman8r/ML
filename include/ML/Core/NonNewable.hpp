@@ -7,6 +7,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	// "Memory Leak Insurance"
 	// Base class for anything you REALLY don't want to be dynamically allocated.
 	// Use in conjunction with Newable to help ensure memory safety.
 	struct NonNewable

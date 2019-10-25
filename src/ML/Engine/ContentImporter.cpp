@@ -99,7 +99,7 @@ namespace ml
 				{
 					// New Material
 					auto temp = new Material {
-						ML_Content.get<Shader>(md.getData("shader")) // Shader
+						//ML_Content.get<Shader>(md.getData("shader")) // Shader
 					};
 
 					// Default Uniforms
@@ -305,7 +305,8 @@ namespace ml
 				{
 					return ML_Content.create<Surface>(name, 
 						ML_Content.get<Model>(md.getData("model")),
-						ML_Content.get<Material>(md.getData("material"))
+						ML_Content.get<Material>(md.getData("material")),
+						ML_Content.get<Shader>(md.getData("shader"))
 					);
 				}
 			}

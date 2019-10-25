@@ -10,20 +10,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Material::Material()
-		: m_shader { nullptr }
-		, m_uniforms {}
+		: m_uniforms {}
 	{
 	}
 
-	Material::Material(const Shader * shader)
-		: m_shader { shader }
-		, m_uniforms {}
-	{
-	}
-
-	Material::Material(const Shader * shader, List<Uniform *> && uniforms)
-		: m_shader { shader }
-		, m_uniforms {}
+	Material::Material(List<Uniform *> && uniforms)
+		: m_uniforms {}
 	{
 		for (auto & u : uniforms)
 		{
@@ -32,8 +24,7 @@ namespace ml
 	}
 
 	Material::Material(const Material & copy)
-		: m_shader { copy.m_shader }
-		, m_uniforms {}
+		: m_uniforms {}
 	{
 		for (const Uniform * u : copy)
 		{
@@ -184,40 +175,6 @@ namespace ml
 			return true;
 		}
 		return false;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	Material & Material::setShader(const Shader * value)
-	{
-		m_shader = value;
-		return (*this);
-	}
-
-	const Material & Material::bind() const
-	{
-		if (m_shader && (*m_shader))
-		{
-			m_shader->bind(false);
-			for (const auto & elem : (*this))
-			{
-				if (!m_shader->setUniform(elem))
-				{
-					/* error */
-				}
-			}
-			m_shader->bind(true);
-		}
-		return (*this);
-	}
-
-	const Material & Material::unbind() const
-	{
-		if (m_shader && (*m_shader))
-		{
-			m_shader->unbind();
-		}
-		return (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

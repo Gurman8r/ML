@@ -960,7 +960,6 @@ namespace ml
 			static bool popup_open { false };
 			static char name[32] = "";
 			static bool globals { false };
-			static const Shader * shader { nullptr };
 			static const Material * copy { nullptr };
 			static char asset_path[ML_MAX_PATH] = "";
 
@@ -971,7 +970,6 @@ namespace ml
 				std::strcpy(asset_path, "");
 				globals = false;
 				copy = nullptr;
-				shader = nullptr;
 			}
 
 			// Name
@@ -980,10 +978,6 @@ namespace ml
 				name,
 				ML_ARRAYSIZE(name)
 			);
-
-			// Shader
-			PropertyDrawer<Shader>()("Shader", (const Shader *&)shader);
-			ImGuiExt::Tooltip("Select the shader to use");
 
 			// Defaults
 			ImGui::Checkbox("Load Global Uniforms", &globals);
@@ -1030,10 +1024,6 @@ namespace ml
 							}
 						}
 					}
-					//if (shader)
-					//{
-					//	value->setShader(shader);
-					//}
 					if (copy)
 					{
 						for (const auto * u : (*copy))
@@ -1096,11 +1086,8 @@ namespace ml
 				ImGui::Separator();
 
 			// to remove
-			List<List<Uniform *>::iterator> toRemove;
-
-			for (auto it = value.uniforms().begin();
-				it != value.uniforms().end();
-				it++)
+			Material::iterator toRemove { value.end() };
+			for (auto it = value.begin(); it != value.end(); it++)
 			{
 				// name
 				const String name("##Uni##" + (*it)->name + "##Material##" + label);
@@ -1133,7 +1120,7 @@ namespace ml
 							ImGui::SameLine();
 							if (ImGui::Button(("Remove##" + name).c_str()))
 							{
-								toRemove.push_back(it);
+								toRemove = it;
 							}
 						}
 						ImGui::EndChild();
@@ -1150,10 +1137,10 @@ namespace ml
 				ImGui::Separator();
 			}
 
-			for (auto & it : toRemove)
+			if (toRemove != value.end())
 			{
-				if (*it) delete (*it);
-				value.uniforms().erase(it);
+				delete (*toRemove);
+				value.uniforms().erase(toRemove);
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -1615,14 +1602,14 @@ namespace ml
 			static bool popup_open { false };
 			static char name[32] = "";
 			static char asset_path[ML_MAX_PATH] = "";
-			static const_pointer copy { nullptr };
+			static const_pointer copy[3] { nullptr };
 
 			// Popup Opened
 			if (!popup_open && (popup_open = true))
 			{
 				std::strcpy(name, "new_shader");
 				std::strcpy(asset_path, "");
-				copy = nullptr;
+				copy[0] = copy[1] = copy[2] = nullptr;
 			}
 
 			// Name
@@ -1633,10 +1620,20 @@ namespace ml
 			);
 
 			// Copy
-			if (self_type()(("Copy From##" + label), (const_pointer &)copy))
+			ImGui::Separator();
+			if (self_type()(("Copy Vertex##" + label), (const_pointer &)copy[0]))
 			{
 				std::strcpy(asset_path, "");
 			}
+			if (self_type()(("Copy Fragment##" + label), (const_pointer &)copy[2]))
+			{
+				std::strcpy(asset_path, "");
+			}
+			if (self_type()(("Copy Geometry##" + label), (const_pointer &)copy[1]))
+			{
+				std::strcpy(asset_path, "");
+			}
+			ImGui::Separator();
 
 			// Path
 			ImGui::InputText(
@@ -1652,21 +1649,26 @@ namespace ml
 				{
 					std::strcpy(asset_path, open_path.c_str());
 					open_path.clear();
-					copy = nullptr;
+					copy[0] = copy[1] = copy[2] = nullptr;
 				}
 			}
+			ImGui::Separator();
 
 			// Submit
 			const bool submit { ImGui::Button("Submit") };
 			if (submit && !value)
 			{
-				if (copy)
-				{
-					value = ML_Content.create<value_type>(name, (*copy));
-				}
-				else if (ML_FS.fileExists(asset_path))
+				if (ML_FS.fileExists(asset_path))
 				{
 					value = ML_Content.create<value_type>(name, asset_path);
+				}
+				else if (copy[0] || copy[1] || copy[2])
+				{
+					(value = ML_Content.create<value_type>(name))->loadFromMemory(
+						(copy[0] ? copy[0]->vertSrc() : String{}),
+						(copy[1] ? copy[1]->geomSrc() : String{}),
+						(copy[2] ? copy[2]->fragSrc() : String{})
+					);
 				}
 				else
 				{

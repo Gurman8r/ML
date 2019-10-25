@@ -141,25 +141,25 @@ ml.content.load_all([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     {
         "type": "ml::Material",
-        "name": "mat/3D/skybox",
+        "name": "mat/skybox",
         "defaults": "True",
         "uniforms": PATH + "/materials/skybox.3D.mat"
     },
     {
         "type": "ml::Material",
-        "name": "mat/3D/basic",
+        "name": "mat/3D",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.3D.mat"
     },
     {
         "type": "ml::Material",
-        "name": "mat/2D/basic",
+        "name": "mat/2D",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.2D.mat"
     },
     {
         "type": "ml::Material",
-        "name": "mat/util/surface",
+        "name": "mat/surface",
         "defaults": "False",
         "uniforms": PATH + "/materials/surface.mat"
     },
@@ -175,14 +175,14 @@ ml.content.load_all([
     { 
         "type": "ml::Surface", 
         "name": "surf/main", 
-        "material": "mat/util/surface",
+        "material": "mat/surface",
         "shader": "gl/util/surface",
         "model": "obj/default/quad", 
     },
     { 
         "type": "ml::Surface", 
         "name": "surf/post", 
-        "material": "mat/util/surface",
+        "material": "mat/surface",
         "shader": "gl/util/surface",
         "model": "obj/default/quad", 
     },
@@ -217,7 +217,7 @@ name = "_skybox_"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D/skybox")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/skybox")
         ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/3D/skybox")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/skybox")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "False")
@@ -228,7 +228,7 @@ name = "ent_demo"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/2D/basic")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/2D")
         ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/2D/basic")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/quad")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
@@ -244,7 +244,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.transform_attr(name, "self",     "rotation",     "0.0 1.0 0.0 1.0")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D/basic")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D")
         ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/3D/basic")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/cow")
         ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")

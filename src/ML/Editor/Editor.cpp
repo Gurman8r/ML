@@ -313,7 +313,7 @@ namespace ml
 		{
 			auto & io { ImGui::GetIO() };
 
-			if (ImGui::BeginMenu("Backend Flags"))
+			if (0 && ImGui::BeginMenu("Backend Flags"))
 			{
 				ImGuiExt::HelpMarker("These flags are set internally and specify the backend's capabilities.");
 

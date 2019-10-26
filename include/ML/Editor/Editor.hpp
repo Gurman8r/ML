@@ -19,6 +19,8 @@ namespace ml
 
 	class ML_EDITOR_API Editor final : public Singleton<Editor>, public EventListener
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		friend struct Singleton<Editor>;
 
 		Editor();
@@ -34,6 +36,19 @@ namespace ml
 		void onUnload	(const UnloadEvent & ev);
 		void onExit		(const ExitEvent & ev);
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		void draw_main_menu_bar();
+		void draw_file_menu(bool enabled);
+		void draw_edit_menu(bool enabled);
+		void draw_view_menu(bool enabled);
+		void draw_window_menu(bool enabled);
+		void draw_options_menu(bool enabled);
+		void draw_plugins_menu(bool enabled);
+		void draw_help_menu(bool enabled);
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		EditorAbout		m_about;
 		EditorDockspace	m_dockspace;
 		EditorContent	m_content;
@@ -43,6 +58,11 @@ namespace ml
 		EditorProfiler	m_profiler;
 		EditorTerminal	m_terminal;
 
+		bool m_show_main_menu_bar	{ true };
+		bool m_show_imgui_demo		{ false };
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	public:
 		inline auto & about()		{ return m_about; }
 		inline auto & content()		{ return m_content; }
@@ -51,6 +71,8 @@ namespace ml
 		inline auto & inspector()	{ return m_inspector; }
 		inline auto & profiler()	{ return m_profiler; }
 		inline auto & terminal()	{ return m_terminal; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -60,7 +60,7 @@ namespace ml
 	{
 		enum Menu : int32_t
 		{ 
-			File, Edit, Window, Help, User,
+			File, Edit, View, Window, Options, Plugins, Help, User,
 			MAX_MAIN_MENU_BAR_MENU
 		};
 

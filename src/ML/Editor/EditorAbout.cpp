@@ -22,10 +22,7 @@ namespace ml
 
 	bool EditorAbout::draw()
 	{
-		if (!beginDraw(ImGuiWindowFlags_MenuBar))
-		{ 
-			return endDraw(); 
-		}
+		if (!beginDraw(ImGuiWindowFlags_MenuBar)) { return endDraw(); }
 
 		// Menu Bar
 		if (ImGui::BeginMenuBar())

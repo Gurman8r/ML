@@ -12,6 +12,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Editor/PropertyDrawer.hpp>
+#include <ML/Editor/ImGuiExt.hpp>
 
 namespace ml
 {
@@ -135,7 +136,13 @@ namespace ml
 
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_ImGuiImpl.Startup("#version 410", &ML_Engine.window(), true))
+		if (!ML_ImGuiImpl.Startup(
+			"#version 130", 
+			&ML_Engine.window(), 
+			true,
+			ML_Engine.prefs().get_bool("Editor", "use_imgui_ini", false),
+			ML_Engine.prefs().get_bool("Editor", "use_imgui_log", false)
+		))
 		{
 			return Debug::fatal("Failed starting ImGui instance");
 		}
@@ -173,103 +180,13 @@ namespace ml
 
 	void Editor::onGui(const GuiEvent & ev)
 	{
-		static bool show_imgui_demo = false;
-		static bool show_imgui_style_editor = false;
-		
+		ImGui::PushID(ML_ADDRESSOF(this));
+
 		// Main Menu Bar
-		if (ImGui::BeginMainMenuBar())
-		{
-			// Menu -> File
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginMenu("File"))
-			{
-				// File -> Create
-				/* * * * * * * * * * * * * * * * * * * * */
-				if (ImGui::BeginMenu("New"))
-				{
-					void * temp { nullptr };
-					PropertyDrawer<Entity>()("Entity##File##Create", (Entity *&)temp);
-					PropertyDrawer<Font>()("Font##File##Create", (Font *&)temp);
-					PropertyDrawer<Image>()("Image##File##Create", (Image *&)temp);
-					PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp);
-					PropertyDrawer<Model>()("Model##File##Create", (Model *&)temp);
-					PropertyDrawer<Shader>()("Shader##File##Create", (Shader *&)temp);
-					PropertyDrawer<Script>()("Script##File##Create", (Script *&)temp);
-					PropertyDrawer<Texture>()("Texture##File##Create", (Texture *&)temp);
-					ImGui::EndMenu();
-				}
-
-				ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::File);
-
-				// File -> Quit
-				/* * * * * * * * * * * * * * * * * * * * */
-				ImGui::Separator();
-				if (ImGui::MenuItem("Quit", "Alt+F4"))
-				{
-					ML_EventSystem.fireEvent<WindowKillEvent>();
-				}
-
-				ImGui::EndMenu();
-			}
-
-			// Menu -> Window
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginMenu("Window"))
-			{
-				m_content.MenuItem();
-				m_explorer.MenuItem();
-				m_inspector.MenuItem();
-				m_profiler.MenuItem();
-				m_terminal.MenuItem();
-				ImGui::Separator();
-				ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Window);
-				ImGui::EndMenu();
-			}
-
-			// Menu -> Help
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginMenu("Help"))
-			{
-				m_about.MenuItem();
-
-				ImGui::Separator();
-				
-				if (ImGui::MenuItem("Repository", "http://"))
-					Debug::execute("open", ML_PROJECT_URL);
-				
-				if (ImGui::MenuItem("Downloads", "http://")) 
-					Debug::execute("open", "https://bit.ly/ml_noobs");
-
-				ImGui::Separator();
-
-				ImGui::MenuItem("ImGui Demo", "", &show_imgui_demo);
-
-				ImGui::MenuItem("Style Editor", "", &show_imgui_style_editor);
-
-				ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Help);
-				
-				ImGui::EndMenu();
-			}
-
-			// User Menu Bars
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::User);
-
-			ImGui::EndMainMenuBar();
-		}
+		if (m_show_main_menu_bar) { draw_main_menu_bar(); }
 
 		// ImGui Demo
-		if (show_imgui_demo)
-		{
-			ImGui::ShowDemoWindow(&show_imgui_demo);
-		}
-
-		// Style Editor
-		if (show_imgui_style_editor)
-		{
-			ImGui::Begin("Style Editor", &show_imgui_style_editor);
-			ImGui::ShowStyleEditor();
-			ImGui::End();
-		}
+		if (m_show_imgui_demo) { ImGui::ShowDemoWindow(&m_show_imgui_demo); }
 
 		/*	Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw();
 		/*	About		*/	if (m_about.isOpen())		m_about.draw();
@@ -279,6 +196,8 @@ namespace ml
 		/*	Manual		*/	if (m_manual.isOpen())		m_manual.draw();
 		/*	Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw();
 		/*	Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw();
+
+		ImGui::PopID();
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)
@@ -298,6 +217,285 @@ namespace ml
 	{
 		// Release Cout
 		m_terminal.redirect(cout);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void Editor::draw_main_menu_bar()
+	{
+		if (ImGui::BeginMainMenuBar())
+		{
+			draw_file_menu		(true);
+			draw_edit_menu		(false);
+			draw_view_menu		(false);
+			draw_window_menu	(true);
+			draw_options_menu	(true);
+			draw_plugins_menu	(false);
+			draw_help_menu		(true);
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::User);
+			ImGui::EndMainMenuBar();
+		}
+	}
+
+	void Editor::draw_file_menu(bool enabled)
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			// File -> Create
+			/* * * * * * * * * * * * * * * * * * * * */
+			if (ImGui::BeginMenu("New"))
+			{
+				void * temp { nullptr };
+				if ((PropertyDrawer<Entity>()("Entity##File##Create", (Entity *&)temp)) ||
+					(PropertyDrawer<Font>()("Font##File##Create", (Font *&)temp)) ||
+					(PropertyDrawer<Image>()("Image##File##Create", (Image *&)temp)) ||
+					(PropertyDrawer<Material>()("Material##File##Create", (Material *&)temp)) ||
+					(PropertyDrawer<Model>()("Model##File##Create", (Model *&)temp)) ||
+					(PropertyDrawer<Shader>()("Shader##File##Create", (Shader *&)temp)) ||
+					(PropertyDrawer<Script>()("Script##File##Create", (Script *&)temp)) ||
+					(PropertyDrawer<Texture>()("Texture##File##Create", (Texture *&)temp))
+					)
+				{
+				}
+				ImGui::EndMenu();
+			}
+
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::File);
+
+			ImGui::Separator();
+
+			// File -> Quit
+			if (ImGui::MenuItem("Quit", "Alt+F4"))
+			{
+				ML_EventSystem.fireEvent<WindowKillEvent>();
+			}
+
+			ImGui::EndMenu();
+		}
+	}
+
+	void Editor::draw_edit_menu(bool enabled)
+	{
+		if (enabled && ImGui::BeginMenu("Edit"))
+		{
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Edit);
+			ImGui::EndMenu();
+		}
+	}
+
+	void Editor::draw_view_menu(bool enabled)
+	{
+		if (enabled && ImGui::BeginMenu("View"))
+		{
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::View);
+			ImGui::EndMenu();
+		}
+	}
+
+	void Editor::draw_window_menu(bool enabled)
+	{
+		if (enabled && ImGui::BeginMenu("Window"))
+		{
+			m_content.MenuItem();
+			m_explorer.MenuItem();
+			m_inspector.MenuItem();
+			m_profiler.MenuItem();
+			m_terminal.MenuItem();
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Window);
+			ImGui::EndMenu();
+		}
+	}
+
+	void Editor::draw_options_menu(bool enabled)
+	{
+		if (enabled && ImGui::BeginMenu("Options"))
+		{
+			auto & io { ImGui::GetIO() };
+
+			if (ImGui::BeginMenu("Backend Flags"))
+			{
+				ImGuiExt::HelpMarker("These flags are set by the backend to specify its capabilities.");
+				
+				ImGuiBackendFlags backend_flags { io.BackendFlags }; // Make a local copy to avoid modifying actual back-end flags.
+				
+				ImGui::CheckboxFlags("Has Gamepad", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasGamepad);
+				ImGuiExt::Tooltip(
+					"Platform supports gamepad and currently has one connected."
+				);
+
+				ImGui::CheckboxFlags("Has Mouse Cursors", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasMouseCursors);
+				ImGuiExt::Tooltip(
+					"Platform supports honoring GetMouseCursor() value to change the OS cursor shape."
+				);
+				
+				ImGui::CheckboxFlags("Has Set Mouse Position", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasSetMousePos);
+				ImGuiExt::Tooltip(
+					"Platform supports io.WantSetMousePos requests to reposition the OS mouse position"
+				);
+				
+				ImGui::CheckboxFlags("Platform Has Viewports", (uint32_t *)&backend_flags, ImGuiBackendFlags_PlatformHasViewports);
+				ImGuiExt::Tooltip(
+					"Platform supports multiple viewports."
+				);
+				
+				ImGui::CheckboxFlags("Has Mouse Hovered Viewport", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasMouseHoveredViewport);
+				ImGuiExt::Tooltip(
+					"Back-end Platform supports setting io.MouseHoveredViewport to the viewport directly under the mouse IGNORING viewports with the \'No Inputs\' flag and REGARDLESS of whether another viewport is focused and may be capturing the mouse.\n"
+					"This information is NOT EASY to provide correctly with most high-level engines! Don't set this without studying how the examples/ back-end handle it!"
+				);
+				
+				ImGui::CheckboxFlags("Renderer Has Vertex Offset", (uint32_t *)&backend_flags, ImGuiBackendFlags_RendererHasVtxOffset);
+				ImGuiExt::Tooltip(
+					"Renderer supports ImDrawCmd::VtxOffset. This enables output of large meshes (64K+ vertices) while still using 16-bits indices."
+				);
+				
+				ImGui::CheckboxFlags("Renderer Has Viewports", (uint32_t *)&backend_flags, ImGuiBackendFlags_RendererHasViewports);
+				ImGuiExt::Tooltip(
+					"Renderer supports multiple viewports."
+				);
+				
+				ImGui::EndMenu();
+			}
+			
+			if (ImGui::BeginMenu("Configuration"))
+			{
+				if (ImGui::BeginMenu("Docking"))
+				{
+					ImGui::CheckboxFlags("Auto Hide Tab Bar", (uint32_t *)&m_dockspace.m_flags, ImGuiDockNodeFlags_AutoHideTabBar);
+					ImGuiExt::Tooltip(
+						"Tab bar will automatically hide when there is a single window in the dock node."
+					);
+
+					ImGui::CheckboxFlags("No Resize", (uint32_t *)&m_dockspace.m_flags, ImGuiDockNodeFlags_NoResize);
+					ImGuiExt::Tooltip(
+						"Disable resizing node using the splitter/separators. Useful with programatically setup dockspaces. "
+					);
+					
+					if (ImGui::CheckboxFlags("No Split", (uint32_t *)&m_dockspace.m_flags, ImGuiDockNodeFlags_NoSplit))
+					{
+						io.ConfigDockingNoSplit = (m_dockspace.m_flags & ImGuiDockNodeFlags_NoSplit);
+					}
+					ImGuiExt::Tooltip(
+						"Simplified docking mode: disable window splitting, so docking is limited to merging multiple windows together into tab-bars."
+					);
+					
+					ImGui::Checkbox("Dock With Shift", &io.ConfigDockingWithShift);
+					ImGuiExt::Tooltip(
+						"Enable docking when holding Shift only (allows to drop in wider space, reduce visual noise)"
+					);
+					
+					ImGui::Checkbox("Tab Bar On Single Windows", &io.ConfigDockingTabBarOnSingleWindows);
+					ImGuiExt::Tooltip(
+						"Create a docking node and tab-bar on single floating windows."
+					);
+					
+					ImGui::Checkbox("Transparent Payload", &io.ConfigDockingTransparentPayload);
+					ImGuiExt::Tooltip(
+						"Make window or viewport transparent when docking and only display docking boxes on the target viewport."
+						"Useful if rendering of multiple viewport cannot be synced."
+						"Best used with ConfigViewportsNoAutoMerge."
+					);
+					
+					ImGui::EndMenu();
+				}
+
+				if (ImGui::BeginMenu("Navigation"))
+				{
+					ImGui::CheckboxFlags("Enable Keyboard Navigation", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableKeyboard);
+					ImGuiExt::Tooltip(
+						"Master keyboard navigation enable flag."
+					);
+
+					ImGui::CheckboxFlags("Enable Gamepad Navigation", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableGamepad);
+					ImGuiExt::Tooltip(
+						"Required back-end to feed in gamepad inputs in io.NavInputs[] and set io.BackendFlags |= ImGuiBackendFlags_HasGamepad.\n\nRead instructions in imgui.cpp for details."
+					);
+
+					ImGui::CheckboxFlags("Enable Set Mouse Position", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableSetMousePos);
+					ImGuiExt::Tooltip(
+						"Instruct navigation to move the mouse cursor. See comment for ImGuiConfigFlags_NavEnableSetMousePos."
+					);
+
+					ImGui::CheckboxFlags("No Mouse Cursor Change", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NoMouseCursorChange);
+					ImGuiExt::Tooltip(
+						"Instruct back-end to not alter mouse cursor shape and visibility."
+					);
+
+					ImGui::Checkbox("Input Text Cursor Blink", &io.ConfigInputTextCursorBlink);
+					ImGuiExt::Tooltip(
+						"Set to false to disable blinking cursor, for users who consider it distracting"
+					);
+
+					ImGui::Checkbox("Windows Resize From Edges", &io.ConfigWindowsResizeFromEdges);
+					ImGuiExt::Tooltip(
+						"Enable resizing of windows from their edges and from the lower-left corner.\n"
+						"This requires (io.BackendFlags & ImGuiBackendFlags_HasMouseCursors) because it needs mouse cursor feedback."
+					);
+
+					ImGui::Checkbox("Windows Move From Title Bar Only", &io.ConfigWindowsMoveFromTitleBarOnly);
+					ImGuiExt::Tooltip(
+						"[BETA]\n"
+						"Set to true to only allow moving windows when clicked+dragged from the title bar.\n"
+						"Windows without a title bar are not affected."
+					);
+
+					ImGui::Checkbox("Mouse Draw Cursor", &io.MouseDrawCursor);
+					ImGuiExt::Tooltip(
+						"Instruct Dear ImGui to render a mouse cursor for you.\n"
+						"Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n"
+						"\n"
+						"Some desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something)."
+					);
+
+					ImGui::EndMenu();
+				}
+				
+				ImGui::EndMenu();
+			}
+			
+			if (ImGui::BeginMenu("Style"))
+			{
+				ImGui::ShowStyleEditor();
+				ImGui::EndMenu();
+			}
+			
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Options);
+			
+			ImGui::EndMenu();
+		}
+	}
+
+	void Editor::draw_plugins_menu(bool enabled)
+	{
+		if (enabled && ImGui::BeginMenu("Plugins"))
+		{
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Plugins);
+			ImGui::EndMenu();
+		}
+	}
+
+	void Editor::draw_help_menu(bool enabled)
+	{
+		if (enabled && ImGui::BeginMenu("Help"))
+		{
+			m_about.MenuItem();
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Repository", "http://"))
+				Debug::execute("open", ML_PROJECT_URL);
+
+			if (ImGui::MenuItem("Downloads", "http://"))
+				Debug::execute("open", "https://bit.ly/ml_noobs");
+
+			ImGui::Separator();
+
+			ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
+
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Help);
+
+			ImGui::EndMenu();
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

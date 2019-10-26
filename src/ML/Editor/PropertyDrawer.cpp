@@ -1063,92 +1063,83 @@ namespace ml
 
 		ImGui::PushID(label.c_str());
 
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		if (ImGui::TreeNode(("Uniforms##" + label).c_str()))
-		{
-			// new uniform editor
-			Uniform * u = nullptr;
-			if (PropertyDrawer<Uniform>()(
-				("New Uniform##Material##" + label).c_str(), 
-				(Uniform *&)u
+		// new uniform editor
+		Uniform * u = nullptr;
+		if (PropertyDrawer<Uniform>()(
+			("New Uniform##Material##" + label).c_str(),
+			(Uniform *&)u
 			))
+		{
+			if (u && !value.insert(u))
 			{
-				if (u && !value.insert(u))
-				{
-					delete u;
-					Debug::logError("A uniform with that name already exists");
-				}
+				delete u;
+				Debug::logError("A uniform with that name already exists");
 			}
-
-			// do nothing if empty
-			if (!value.uniforms().empty())
-				ImGui::Separator();
-
-			// to remove
-			Material::iterator toRemove { value.end() };
-			for (auto it = value.begin(); it != value.end(); it++)
-			{
-				// name
-				const String name("##Uni##" + (*it)->name + "##Material##" + label);
-
-				// Uniform Header
-				ImGui::PushStyleColor(
-					ImGuiCol_Header,
-					{ 0.367f, 0.258f, 0.489f, 0.580f }
-				);
-
-				if (ImGui::TreeNode(((*it)->name + name).c_str()))
-				{
-					ImGui::PopStyleColor();
-					if ((*it))
-					{
-						float_t height = 1;
-						if ((*it)->getID() == uni_mat3::ID) { height = 3; }
-						else if ((*it)->getID() == uni_mat4::ID) { height = 4; }
-
-						ImGui::PushID(name.c_str());
-						ImGui::BeginChild(
-							("UniformChild##" + name).c_str(),
-							{ -1, (35 * height) + 8 },
-							true,
-							ImGuiWindowFlags_NoScrollbar |
-							ImGuiWindowFlags_NoScrollWithMouse
-						);
-						if (PropertyDrawer<Uniform>()(name, (Uniform &)**it))
-						{
-							ImGui::SameLine();
-							if (ImGui::Button(("Remove##" + name).c_str()))
-							{
-								toRemove = it;
-							}
-						}
-						ImGui::EndChild();
-						ImGui::PopID();
-					}
-					
-					ImGui::TreePop();
-				}
-				else
-				{
-					ImGui::PopStyleColor();
-				}
-
-				ImGui::Separator();
-			}
-
-			if (toRemove != value.end())
-			{
-				delete (*toRemove);
-				value.uniforms().erase(toRemove);
-			}
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			ImGui::TreePop();
 		}
 
-		/* * * * * * * * * * * * * * * * * * * * */
+		// do nothing if empty
+		if (!value.uniforms().empty())
+		{
+			ImGui::Separator();
+		}
+
+		// to remove
+		Material::iterator toRemove { value.end() };
+		for (auto it = value.begin(); it != value.end(); it++)
+		{
+			// name
+			const String name("##Uni##" + (*it)->name + "##Material##" + label);
+
+			// Uniform Header
+			ImGui::PushStyleColor(
+				ImGuiCol_Header,
+				{ 0.367f, 0.258f, 0.489f, 0.580f }
+			);
+
+			if (ImGui::TreeNode(((*it)->name + name).c_str()))
+			{
+				ImGui::PopStyleColor();
+				if ((*it))
+				{
+					float_t height = 1;
+					if ((*it)->getID() == uni_mat3::ID) { height = 3; }
+					else if ((*it)->getID() == uni_mat4::ID) { height = 4; }
+
+					ImGui::PushID(name.c_str());
+					ImGui::BeginChild(
+						("UniformChild##" + name).c_str(),
+						{ -1, (35 * height) + 8 },
+						true,
+						ImGuiWindowFlags_NoScrollbar |
+						ImGuiWindowFlags_NoScrollWithMouse
+					);
+					if (PropertyDrawer<Uniform>()(name, (Uniform &) * *it))
+					{
+						ImGui::SameLine();
+						if (ImGui::Button(("Remove##" + name).c_str()))
+						{
+							toRemove = it;
+						}
+					}
+					ImGui::EndChild();
+					ImGui::PopID();
+				}
+
+				ImGui::TreePop();
+			}
+			else
+			{
+				ImGui::PopStyleColor();
+			}
+
+			ImGui::Separator();
+		}
+
+		if (toRemove != value.end())
+		{
+			delete (*toRemove);
+			value.uniforms().erase(toRemove);
+		}
 
 		ImGui::PopID();
 
@@ -1696,9 +1687,11 @@ namespace ml
 	{
 		Layout::begin_prop(this, label, value);
 
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		bool changed { false };
-		ImGui::PushID(ML_ADDRESSOF(&value));
-		if (ImGui::BeginTabBar("SourceTabs"))
+
+		if (ImGui::BeginTabBar(("SourceTabs##" + label).c_str()))
 		{
 			auto draw_source_tab = [](
 				const String & name, 
@@ -1706,10 +1699,30 @@ namespace ml
 				const String & source)
 			{
 				if (!source) return;
-				if (ImGui::BeginTabItem((type + "##ShaderTab##" + name).c_str()))
+				
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				const bool tab_open {
+					ImGui::BeginTabItem((type + "##ShaderTab##" + name).c_str()) 
+				};
+				if (ImGui::BeginPopupContextItem())
 				{
-					ImGui::TextUnformatted(&source[0], &source[source.size() - 1]);
-					if (ImGui::BeginPopupContextItem((type + "##ShaderMenu##" + name).c_str()))
+					if (ImGui::Button("Copy to Clipboard"))
+					{
+						ML_Engine.window().setClipboardString(source);
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndPopup();
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (tab_open)
+				{
+					ImGui::TextUnformatted(
+						&source[0], &source[source.size() - 1]
+					);
+					if (ImGui::BeginPopupContextItem())
 					{
 						if (ImGui::Button("Copy to Clipboard"))
 						{
@@ -1718,6 +1731,7 @@ namespace ml
 						}
 						ImGui::EndPopup();
 					}
+
 					ImGui::EndTabItem();
 				}
 			};
@@ -1730,7 +1744,9 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		}
-		ImGui::PopID();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		return Layout::end_prop(this, changed);
 	}
 

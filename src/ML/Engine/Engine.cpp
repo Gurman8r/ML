@@ -237,6 +237,7 @@ namespace ml
 	void Engine::onBeginStep(const BeginStepEvent & ev)
 	{
 		m_time.beginStep();
+
 		m_window.pollEvents();
 	}
 
@@ -273,8 +274,8 @@ namespace ml
 
 	void Engine::onEndStep(const EndStepEvent & ev)
 	{
-		m_window.makeContextCurrent();
 		m_window.swapBuffers();
+
 		m_time.endStep();
 	}
 

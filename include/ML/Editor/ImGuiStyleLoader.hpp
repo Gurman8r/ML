@@ -17,7 +17,7 @@ namespace ml
 		
 		explicit ImGuiStyleLoader(const String & filename);
 		
-		ImGuiStyleLoader(ImGuiStyleLoader && copy);
+		ImGuiStyleLoader(ImGuiStyleLoader && copy) noexcept;
 		
 		~ImGuiStyleLoader();
 

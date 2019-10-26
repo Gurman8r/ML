@@ -146,9 +146,10 @@ namespace ml
 		loadFromFile(filename);
 	}
 
-	ImGuiStyleLoader::ImGuiStyleLoader(ImGuiStyleLoader && copy)
-		: m_good(copy.m_good)
+	ImGuiStyleLoader::ImGuiStyleLoader(ImGuiStyleLoader && copy) noexcept
+		: ImGuiStyleLoader {}
 	{
+		std::swap(m_good, copy.m_good);
 	}
 
 	ImGuiStyleLoader::~ImGuiStyleLoader() { }
@@ -193,7 +194,7 @@ namespace ml
 						}
 						else if (tag == "ImGuiStyle")
 						{
-							ImGuiStyle & s = ImGui::GetStyle();
+							ImGuiStyle & s { ImGui::GetStyle() };
 							/**/ if (name == "Alpha") { s.Alpha = readFloat(line); }
 							else if (name == "WindowPadding") { s.WindowPadding = readVec2(line); }
 							else if (name == "WindowRounding") { s.WindowRounding = readFloat(line); }

@@ -122,6 +122,7 @@ namespace ml
 				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
+					ImGui::Separator();
 					ImGui::MenuItem("Display##Enable##Noobs##DemoView", "", &m_display_open);
 					ImGui::MenuItem("Editor##Enable##Noobs##DemoEditor", "", &m_editor_open);
 					break;
@@ -233,15 +234,6 @@ namespace ml
 			m_pipeline[Surf_Main]->unbind();
 		}
 
-		// Reset States
-		/* * * * * * * * * * * * * * * * * * * * */
-		RenderStates {
-			AlphaState	{ true, GL::Greater, 0.01f },
-			BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-			CullState	{ false },
-			DepthState	{ false },
-		}();
-
 		// Render Post Processing
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (m_pipeline[Surf_Post])
@@ -251,6 +243,14 @@ namespace ml
 
 			// Apply Camera
 			if (camera) camera->apply();
+
+			// Reset States
+			RenderStates {
+				AlphaState	{ true, GL::Greater, 0.01f },
+				BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+				CullState	{ false },
+				DepthState	{ false },
+			}();
 
 			// Draw Scene Output
 			ML_Engine.window().draw(m_pipeline[Surf_Main]);
@@ -353,7 +353,9 @@ namespace ml
 			{
 				if (!file || !file->open) continue;
 
-				// Demo File Tab
+				ImGui::PushID(ML_ADDRESSOF(file));
+
+				// Text Editor Tab
 				const bool tab_open { ImGui::BeginTabItem(
 					file->name.c_str(),
 					nullptr,
@@ -361,17 +363,46 @@ namespace ml
 						? ImGuiTabItemFlags_UnsavedDocument
 						: ImGuiTabItemFlags_None)
 				) };
+
+				ImGuiExt::Tooltip((
+					"" + file->name + " Shader Source"
+				).c_str());
+				
+				// Tab Context Item
 				if (ImGui::BeginPopupContextItem())
 				{
-					if (ImGui::Button("Copy to Clipboard"))
+					// Close
+					if (ImGui::MenuItem(("Close##" + file->name).c_str()))
+					{
+						file->open = false;
+						ImGui::CloseCurrentPopup();
+					}
+					// Reload
+					if (ImGui::MenuItem(("Reload##" + file->name).c_str()))
+					{
+						const String * src { nullptr };
+						switch (file->type)
+						{
+						case ShaderFile::Vert: src = &m_renderer->shader()->sources().vs; break;
+						case ShaderFile::Frag: src = &m_renderer->shader()->sources().fs; break;
+						case ShaderFile::Geom: src = &m_renderer->shader()->sources().gs; break;
+						}
+						if (src) { file->text.SetText(*src); }
+						ImGui::CloseCurrentPopup();
+					}
+					// Copy
+					if (ImGui::MenuItem(("Copy to Clipboard##" + file->name).c_str()))
 					{
 						ML_Engine.window().setClipboardString(file->text.GetText());
 						ImGui::CloseCurrentPopup();
 					}
 					ImGui::EndPopup();
 				}
+				
+				// Tab Contents
 				if (tab_open)
 				{
+					// Text Editor 
 					file->text.Render(
 						("##ShaderFile##" + file->name + "##TextEditor").c_str(),
 						{ 0, 0 },
@@ -385,6 +416,8 @@ namespace ml
 
 					ImGui::EndTabItem();
 				}
+
+				ImGui::PopID();
 			}
 			ImGui::EndTabBar();
 		}

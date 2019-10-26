@@ -12,7 +12,39 @@ namespace ml
 
 	struct ML_EDITOR_API ImGuiImpl final : public Singleton<ImGuiImpl>
 	{
-		bool Startup(C_String version, Window * window, bool install_callbacks);
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		friend struct Singleton<ImGuiImpl>;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		enum ClientAPI { API_Unknown, API_OpenGL, API_Vulkan };
+
+		Window *	g_Window;
+		ClientAPI	g_ClientApi;
+		float64_t   g_Time;
+		bool        g_MousePressed[5];
+		void *		g_MouseCursors[(size_t)Cursor::Shape::NUM_SHAPE];
+		bool		g_WantUpdateMonitors;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		char        g_GlslVersion[32];
+		uint32_t    g_FontTexture;
+		uint32_t    g_ShaderHandle;
+		uint32_t	g_VertHandle;
+		uint32_t	g_FragHandle;
+		int32_t     g_AttribTex;
+		int32_t		g_AttribProjMtx;
+		int32_t     g_AttribPosition;
+		int32_t		g_AttribUV;
+		int32_t		g_AttribColor;
+		uint32_t	g_VboHandle;
+		uint32_t	g_ElementsHandle;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		bool Startup(C_String version, Window * window, bool install_callbacks, bool use_ini, bool use_log);
 		bool Shutdown();
 		void NewFrame();
 		void Render(void * value);
@@ -20,13 +52,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
-		friend struct Singleton<ImGuiImpl>;
-
 		ImGuiImpl();
 		~ImGuiImpl();
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool CreateFontsTexture();
 		void DestroyFontsTexture();
@@ -41,31 +68,6 @@ namespace ml
 		static void ScrollCallback(void * window, float64_t xoffset, float64_t yoffset);
 		static void KeyCallback(void * window, int32_t key, int32_t scancode, int32_t action, int32_t mods);
 		static void CharCallback(void * window, uint32_t c);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		enum ClientAPI { API_Unknown, API_OpenGL, API_Vulkan };
-
-		Window *	m_Window;
-		ClientAPI	m_ClientApi;
-		float64_t   m_Time;
-		bool        m_MousePressed[5];
-		void *		m_MouseCursors[(size_t)Cursor::Shape::NUM_SHAPE];
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		char        m_GlslVersion[32];
-		uint32_t    m_FontTexture;
-		uint32_t    m_ShaderHandle;
-		uint32_t	m_VertHandle;
-		uint32_t	m_FragHandle;
-		int32_t     m_AttribTex;
-		int32_t		m_AttribProjMtx;
-		int32_t     m_AttribPosition;
-		int32_t		m_AttribUV;
-		int32_t		m_AttribColor;
-		uint32_t	m_VboHandle;
-		uint32_t	m_ElementsHandle;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

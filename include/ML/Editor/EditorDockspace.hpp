@@ -58,6 +58,7 @@ namespace ml
 		vec2		m_size;
 		float_t		m_bgAlpha;
 		uint32_t	m_nodes[MAX_DOCK_NODE];
+		int32_t		m_flags;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

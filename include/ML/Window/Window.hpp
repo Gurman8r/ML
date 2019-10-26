@@ -98,6 +98,8 @@ namespace ml
 		C_String		getClipboardString() const;
 		const vec2 &	getCursorPos() const;
 		vec2i			getFrameSize() const;
+		void *			getHandle();
+		void *			getRawHandle();
 		int32_t			getKey(int32_t value) const;
 		int32_t			getInputMode() const;
 		int32_t			getMouseButton(int32_t button) const;
@@ -128,8 +130,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static const VideoMode &		getDesktopMode();
-		static const List<VideoMode> &	getFullscreenModes();
+		static void * getContextCurrent();
+		static bool makeContextCurrent(void * value);
+		static const VideoMode & getDesktopMode();
+		static const List<VideoMode> & getFullscreenModes();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

@@ -6,19 +6,30 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+// GLFW
 #include <GLFW/glfw3.h>
-
-# ifdef APIENTRY
-# 	undef APIENTRY
-# endif
-
-# ifdef ML_SYSTEM_WINDOWS
-#	include <Windows.h>
-# endif
+#ifdef _WIN32
+#undef APIENTRY
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>   // for glfwGetWin32Window
+#endif
+#define GLFW_HAS_WINDOW_TOPMOST       (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ GLFW_FLOATING
+#define GLFW_HAS_WINDOW_HOVERED       (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_HOVERED
+#define GLFW_HAS_WINDOW_ALPHA         (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwSetWindowOpacity
+#define GLFW_HAS_PER_MONITOR_DPI      (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorContentScale
+#define GLFW_HAS_VULKAN               (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwCreateWindowSurface
+#define GLFW_HAS_FOCUS_WINDOW         (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwFocusWindow
+#define GLFW_HAS_FOCUS_ON_SHOW        (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_FOCUS_ON_SHOW
+#define GLFW_HAS_MONITOR_WORK_AREA    (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorWorkarea
 
 #define ML_WINDOW(ptr)	static_cast<GLFWwindow *>(ptr)
 #define ML_MONITOR(ptr) static_cast<GLFWmonitor *>(ptr)
 #define ML_CURSOR(ptr)	static_cast<GLFWcursor *>(ptr)
+
+// Windows
+# ifdef ML_SYSTEM_WINDOWS
+#	include <Windows.h>
+# endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -133,7 +144,7 @@ namespace ml
 			GLFW_OPENGL_DEBUG_CONTEXT
 		};
 		glfwWindowHint(GLFW_OPENGL_PROFILE, profiles[m_context.profile]);
-
+		
 		// Style Settings
 		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable);
 		glfwWindowHint(GLFW_VISIBLE,		m_style.visible);
@@ -153,6 +164,8 @@ namespace ml
 		)))
 		{
 			this->makeContextCurrent();
+
+			this->swapInterval(1);
 
 			if (this->setup())
 			{
@@ -360,10 +373,7 @@ namespace ml
 
 	Window & Window::makeContextCurrent()
 	{
-		if (m_window)
-		{
-			glfwMakeContextCurrent(ML_WINDOW(m_window));
-		}
+		makeContextCurrent(m_window);
 		return (*this);
 	}
 	
@@ -596,6 +606,20 @@ namespace ml
 		return temp;
 	}
 
+	void * Window::getHandle()
+	{
+		return m_window;
+	}
+
+	void * Window::getRawHandle()
+	{
+#ifdef ML_SYSTEM_WINDOWS
+		return glfwGetWin32Window(ML_WINDOW(m_window));
+#else
+		return m_window;
+#endif
+	}
+
 	int32_t	Window::getKey(const int32_t value) const
 	{
 		return (m_window ? glfwGetKey(ML_WINDOW(m_window), value) : NULL);
@@ -644,6 +668,21 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void * Window::getContextCurrent()
+	{
+		return glfwGetCurrentContext();
+	}
+
+	bool Window::makeContextCurrent(void * value)
+	{
+		if (value)
+		{
+			glfwMakeContextCurrent(ML_WINDOW(value));
+			return true;
+		}
+		return false;
+	}
 
 	const VideoMode & Window::getDesktopMode()
 	{

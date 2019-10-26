@@ -69,11 +69,6 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(this));
 					if (ImGui::BeginMenu(nameof<>::filter_namespace(get_type_info().name()).c_str()))
 					{
-						if (!m_commands.empty())
-						{
-							ImGui::Text("Commands:");
-							ImGui::Separator();
-						}
 						for (auto & cmd : m_commands)
 						{
 							ImGui::MenuItem(cmd->getName().c_str(), "");

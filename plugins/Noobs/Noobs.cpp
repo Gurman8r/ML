@@ -150,7 +150,7 @@ namespace ml
 						
 						// Use Main Camera
 						ImGui::MenuItem("Use Main Camera", "", &m_use_main_camera);
-						ImGuiExt::Tooltip("Enable or disable automatic updating of \'u_camera\'\n");
+						ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
 
 						ImGui::Separator();
 

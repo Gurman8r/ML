@@ -358,105 +358,100 @@ namespace ml
 				ImGui::EndMenu();
 			}
 			
-			if (ImGui::BeginMenu("Configuration"))
+			if (ImGui::BeginMenu("Docking"))
 			{
-				if (ImGui::BeginMenu("Docking"))
+				ImGui::CheckboxFlags("Auto Hide Tab Bar", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_AutoHideTabBar);
+				ImGuiExt::Tooltip(
+					"Tab bar will automatically hide when there is a single window in the dock node."
+				);
+
+				ImGui::CheckboxFlags("No Resize", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_NoResize);
+				ImGuiExt::Tooltip(
+					"Disable resizing node using the splitter/separators. Useful with programatically setup dockspaces. "
+				);
+
+				if (ImGui::CheckboxFlags("No Split", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_NoSplit))
 				{
-					ImGui::CheckboxFlags("Auto Hide Tab Bar", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_AutoHideTabBar);
-					ImGuiExt::Tooltip(
-						"Tab bar will automatically hide when there is a single window in the dock node."
-					);
-
-					ImGui::CheckboxFlags("No Resize", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_NoResize);
-					ImGuiExt::Tooltip(
-						"Disable resizing node using the splitter/separators. Useful with programatically setup dockspaces. "
-					);
-					
-					if (ImGui::CheckboxFlags("No Split", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_NoSplit))
-					{
-						io.ConfigDockingNoSplit = (m_dockspace.m_dockflags & ImGuiDockNodeFlags_NoSplit);
-					}
-					ImGuiExt::Tooltip(
-						"Simplified docking mode: disable window splitting, so docking is limited to merging multiple windows together into tab-bars."
-					);
-					
-					ImGui::Checkbox("Dock With Shift", &io.ConfigDockingWithShift);
-					ImGuiExt::Tooltip(
-						"Enable docking when holding Shift only (allows to drop in wider space, reduce visual noise)"
-					);
-					
-					ImGui::Checkbox("Tab Bar On Single Windows", &io.ConfigDockingTabBarOnSingleWindows);
-					ImGuiExt::Tooltip(
-						"Create a docking node and tab-bar on single floating windows."
-					);
-					
-					ImGui::Checkbox("Transparent Payload", &io.ConfigDockingTransparentPayload);
-					ImGuiExt::Tooltip(
-						"Make window or viewport transparent when docking and only display docking boxes on the target viewport."
-						"Useful if rendering of multiple viewport cannot be synced."
-						"Best used with ConfigViewportsNoAutoMerge."
-					);
-					
-					ImGui::EndMenu();
+					io.ConfigDockingNoSplit = (m_dockspace.m_dockflags & ImGuiDockNodeFlags_NoSplit);
 				}
+				ImGuiExt::Tooltip(
+					"Simplified docking mode: disable window splitting, so docking is limited to merging multiple windows together into tab-bars."
+				);
 
-				if (ImGui::BeginMenu("Navigation"))
-				{
-					ImGui::CheckboxFlags("Enable Keyboard Navigation", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableKeyboard);
-					ImGuiExt::Tooltip(
-						"Master keyboard navigation enable flag."
-					);
+				ImGui::Checkbox("Dock With Shift", &io.ConfigDockingWithShift);
+				ImGuiExt::Tooltip(
+					"Enable docking when holding Shift only (allows to drop in wider space, reduce visual noise)"
+				);
 
-					ImGui::CheckboxFlags("Enable Gamepad Navigation", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableGamepad);
-					ImGuiExt::Tooltip(
-						"Required back-end to feed in gamepad inputs in io.NavInputs[] and set io.BackendFlags |= ImGuiBackendFlags_HasGamepad.\n\nRead instructions in imgui.cpp for details."
-					);
+				ImGui::Checkbox("Tab Bar On Single Windows", &io.ConfigDockingTabBarOnSingleWindows);
+				ImGuiExt::Tooltip(
+					"Create a docking node and tab-bar on single floating windows."
+				);
 
-					ImGui::CheckboxFlags("Enable Set Mouse Position", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableSetMousePos);
-					ImGuiExt::Tooltip(
-						"Instruct navigation to move the mouse cursor. See comment for ImGuiConfigFlags_NavEnableSetMousePos."
-					);
+				ImGui::Checkbox("Transparent Payload", &io.ConfigDockingTransparentPayload);
+				ImGuiExt::Tooltip(
+					"Make window or viewport transparent when docking and only display docking boxes on the target viewport."
+					"Useful if rendering of multiple viewport cannot be synced."
+					"Best used with ConfigViewportsNoAutoMerge."
+				);
 
-					ImGui::CheckboxFlags("No Mouse Cursor Change", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NoMouseCursorChange);
-					ImGuiExt::Tooltip(
-						"Instruct back-end to not alter mouse cursor shape and visibility."
-					);
+				ImGui::EndMenu();
+			}
 
-					ImGui::Checkbox("Input Text Cursor Blink", &io.ConfigInputTextCursorBlink);
-					ImGuiExt::Tooltip(
-						"Set to false to disable blinking cursor, for users who consider it distracting"
-					);
+			if (ImGui::BeginMenu("Navigation"))
+			{
+				ImGui::CheckboxFlags("Enable Keyboard Navigation", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableKeyboard);
+				ImGuiExt::Tooltip(
+					"Master keyboard navigation enable flag."
+				);
 
-					ImGui::Checkbox("Windows Resize From Edges", &io.ConfigWindowsResizeFromEdges);
-					ImGuiExt::Tooltip(
-						"Enable resizing of windows from their edges and from the lower-left corner.\n"
-						"This requires (io.BackendFlags & ImGuiBackendFlags_HasMouseCursors) because it needs mouse cursor feedback."
-					);
+				ImGui::CheckboxFlags("Enable Gamepad Navigation", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableGamepad);
+				ImGuiExt::Tooltip(
+					"Required back-end to feed in gamepad inputs in io.NavInputs[] and set io.BackendFlags |= ImGuiBackendFlags_HasGamepad.\n\nRead instructions in imgui.cpp for details."
+				);
 
-					ImGui::Checkbox("Windows Move From Title Bar Only", &io.ConfigWindowsMoveFromTitleBarOnly);
-					ImGuiExt::Tooltip(
-						"[BETA]\n"
-						"Set to true to only allow moving windows when clicked+dragged from the title bar.\n"
-						"Windows without a title bar are not affected."
-					);
+				ImGui::CheckboxFlags("Enable Set Mouse Position", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableSetMousePos);
+				ImGuiExt::Tooltip(
+					"Instruct navigation to move the mouse cursor. See comment for ImGuiConfigFlags_NavEnableSetMousePos."
+				);
 
-					ImGui::Checkbox("Mouse Draw Cursor", &io.MouseDrawCursor);
-					ImGuiExt::Tooltip(
-						"Instruct Dear ImGui to render a mouse cursor for you.\n"
-						"Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n"
-						"\n"
-						"Some desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something)."
-					);
+				ImGui::CheckboxFlags("No Mouse Cursor Change", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NoMouseCursorChange);
+				ImGuiExt::Tooltip(
+					"Instruct back-end to not alter mouse cursor shape and visibility."
+				);
 
-					ImGui::EndMenu();
-				}
+				ImGui::Checkbox("Input Text Cursor Blink", &io.ConfigInputTextCursorBlink);
+				ImGuiExt::Tooltip(
+					"Set to false to disable blinking cursor, for users who consider it distracting"
+				);
 
-				if (ImGui::BeginMenu("Style"))
-				{
-					ImGui::ShowStyleEditor();
-					ImGui::EndMenu();
-				}
+				ImGui::Checkbox("Windows Resize From Edges", &io.ConfigWindowsResizeFromEdges);
+				ImGuiExt::Tooltip(
+					"Enable resizing of windows from their edges and from the lower-left corner.\n"
+					"This requires (io.BackendFlags & ImGuiBackendFlags_HasMouseCursors) because it needs mouse cursor feedback."
+				);
 
+				ImGui::Checkbox("Windows Move From Title Bar Only", &io.ConfigWindowsMoveFromTitleBarOnly);
+				ImGuiExt::Tooltip(
+					"[BETA]\n"
+					"Set to true to only allow moving windows when clicked+dragged from the title bar.\n"
+					"Windows without a title bar are not affected."
+				);
+
+				ImGui::Checkbox("Mouse Draw Cursor", &io.MouseDrawCursor);
+				ImGuiExt::Tooltip(
+					"Instruct Dear ImGui to render a mouse cursor for you.\n"
+					"Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n"
+					"\n"
+					"Some desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something)."
+				);
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Style"))
+			{
+				ImGui::ShowStyleEditor();
 				ImGui::EndMenu();
 			}
 

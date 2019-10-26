@@ -199,8 +199,8 @@ namespace ml
 				return m_time.totalTime();
 			} });
 
-		ML_Content.insert<Uniform>("u_viewport", new uni_vec2_clbk {
-			"u_viewport", [&]() {
+		ML_Content.insert<Uniform>("u_resolution", new uni_vec2_clbk {
+			"u_resolution", [&]() {
 				if (auto c { Camera::mainCamera() }) { return (vec2)c->viewport().size(); }
 				return vec2{};
 			} });

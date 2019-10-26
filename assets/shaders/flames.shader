@@ -42,7 +42,7 @@ uniform float		u_fps;			// Frame Rate
 uniform float		u_time;			// Total Time
 uniform	vec4		u_color;		// Main Color
 uniform sampler2D	u_texture0;		// Main Texture
-uniform vec2 		u_viewport;		// Viewport Size
+uniform vec2 		u_resolution;	// Display Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -95,7 +95,7 @@ vec4 raymarch(vec3 org, vec3 dir)
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-	vec2 v = 2.0 * ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
+	vec2 v = 2.0 * ((fragCoord - 0.5).xy * u_resolution.xy) / u_resolution.y;
 
 	vec3 org = vec3(0., -2., 4.);
 	vec3 dir = normalize(vec3(v.x*1.6, -v.y, -1.5));

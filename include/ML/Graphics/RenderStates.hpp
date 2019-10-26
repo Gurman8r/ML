@@ -13,18 +13,18 @@ namespace ml
 	struct ML_GRAPHICS_API AlphaState final : public NonNewable
 	{
 		bool enabled;
-		GL::Predicate predicate;
+		GL::Predicate func;
 		float_t coeff;
 
-		explicit constexpr AlphaState(bool enabled, GL::Predicate predicate, float_t coeff)
+		explicit constexpr AlphaState(bool enabled, GL::Predicate func, float_t coeff)
 			: enabled(enabled)
-			, predicate(predicate)
+			, func(func)
 			, coeff(coeff)
 		{
 		}
 
 		constexpr AlphaState(const AlphaState & copy)
-			: AlphaState(copy.enabled, copy.predicate, copy.coeff)
+			: AlphaState(copy.enabled, copy.func, copy.coeff)
 		{
 		}
 
@@ -46,22 +46,22 @@ namespace ml
 	struct ML_GRAPHICS_API BlendState final : public NonNewable
 	{
 		bool enabled;
-		GL::Factor srcRGB;
-		GL::Factor srcAlpha;
-		GL::Factor dstRGB;
-		GL::Factor dstAlpha;
+		GL::Factor sfactorRGB;
+		GL::Factor sfactorAlpha;
+		GL::Factor dfactorRGB;
+		GL::Factor dfactorAlpha;
 
-		constexpr explicit BlendState(bool enabled, GL::Factor srcRGB, GL::Factor srcAlpha, GL::Factor dstRGB, GL::Factor dstAlpha)
+		constexpr explicit BlendState(bool enabled, GL::Factor sfactorRGB, GL::Factor sfactorAlpha, GL::Factor dfactorRGB, GL::Factor dfactorAlpha)
 			: enabled	(enabled)
-			, srcRGB	(srcRGB)
-			, srcAlpha	(srcAlpha)
-			, dstRGB	(dstRGB)
-			, dstAlpha	(dstAlpha)
+			, sfactorRGB	(sfactorRGB)
+			, sfactorAlpha	(sfactorAlpha)
+			, dfactorRGB	(dfactorRGB)
+			, dfactorAlpha	(dfactorAlpha)
 		{
 		}
 
 		constexpr BlendState(const BlendState & copy)
-			: BlendState(copy.enabled, copy.srcRGB, copy.srcAlpha, copy.dstRGB, copy.dstAlpha)
+			: BlendState(copy.enabled, copy.sfactorRGB, copy.sfactorAlpha, copy.dfactorRGB, copy.dfactorAlpha)
 		{
 		}
 
@@ -88,16 +88,16 @@ namespace ml
 	struct ML_GRAPHICS_API CullState final : public NonNewable
 	{
 		bool enabled;
-		GL::Face face;
+		GL::Face mode;
 
-		constexpr explicit CullState(bool enabled, GL::Face face)
+		constexpr explicit CullState(bool enabled, GL::Face mode)
 			: enabled(enabled)
-			, face(face)
+			, mode(mode)
 		{
 		}
 
 		constexpr CullState(const CullState & copy)
-			: CullState(copy.enabled, copy.face)
+			: CullState(copy.enabled, copy.mode)
 		{
 		}
 
@@ -119,12 +119,12 @@ namespace ml
 	struct ML_GRAPHICS_API DepthState final : public NonNewable
 	{
 		bool enabled;
-		GL::Predicate predicate;
+		GL::Predicate func;
 		bool mask;
 
-		constexpr explicit DepthState(bool enabled, GL::Predicate predicate, bool mask)
+		constexpr explicit DepthState(bool enabled, GL::Predicate func, bool mask)
 			: enabled(enabled)
-			, predicate(predicate)
+			, func(func)
 			, mask(mask)
 		{
 		}
@@ -135,7 +135,7 @@ namespace ml
 		}
 
 		constexpr DepthState(const DepthState & copy)
-			: DepthState(copy.enabled, copy.predicate, copy.mask)
+			: DepthState(copy.enabled, copy.func, copy.mask)
 		{
 		}
 

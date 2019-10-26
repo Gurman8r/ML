@@ -20,7 +20,7 @@ mat4 orthographic(float left, float right, float bottom, float top)
 	return temp;
 }
 
-uniform vec2 u_viewport;
+uniform vec2 u_resolution;
 
 void main()
 {
@@ -29,8 +29,8 @@ void main()
 	V.texcoord = a_texcoord;
 
 	mat4 p = orthographic(
-		0.0, u_viewport.x,
-		0.0, u_viewport.y
+		0.0, u_resolution.x,
+		0.0, u_resolution.y
 	);
 
 	gl_Position = p * vec4(V.position, 1.0);

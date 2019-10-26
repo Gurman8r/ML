@@ -4,7 +4,8 @@
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Graphics/Color.hpp>
 
-// Uniforms names used internally
+// uniform names used internally by text and sprite
+// would like to phase these out
 #define ML_UNI_MAIN_COL "u_color"
 #define ML_UNI_MAIN_TEX "u_texture0"
 

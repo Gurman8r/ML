@@ -502,12 +502,6 @@ namespace ml
 					r->setEnabled(enabled);
 				}
 
-				const Model * model { r->model() };
-				if (PropertyDrawer<Model>()("Model##Renderer", model))
-				{
-					r->setModel(model);
-				}
-
 				const Material * material { r->material() };
 				if (PropertyDrawer<Material>()("Material##Renderer", material))
 				{
@@ -520,13 +514,19 @@ namespace ml
 					r->setShader(shader);
 				}
 
+				const Model * model { r->model() };
+				if (PropertyDrawer<Model>()("Model##Renderer", model))
+				{
+					r->setModel(model);
+				}
+
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				if (ImGui::TreeNode("Alpha"))
 				{
 					ImGui::Checkbox("Enabled##AlphaState", &r->states().alpha().enabled);
 
-					int32_t index = GL::index_of(r->states().alpha().predicate);
+					int32_t index = GL::index_of(r->states().alpha().func);
 					if (ImGuiExt::Combo(
 						"Comparison##Alpha Testing",
 						&index,
@@ -534,7 +534,7 @@ namespace ml
 						ML_ARRAYSIZE(GL::Predicate_names)
 					))
 					{
-						GL::value_at(index, r->states().alpha().predicate);
+						GL::value_at(index, r->states().alpha().func);
 					}
 					ImGui::DragFloat("Coeff##AlphaState", &r->states().alpha().coeff);
 
@@ -557,28 +557,28 @@ namespace ml
 						);
 					};
 
-					int32_t srcRGB = GL::index_of(r->states().blend().srcRGB);
-					if (factor_combo("Src RGB##BlendState", srcRGB))
+					int32_t sfactorRGB = GL::index_of(r->states().blend().sfactorRGB);
+					if (factor_combo("Src RGB##BlendState", sfactorRGB))
 					{
-						GL::value_at(srcRGB, r->states().blend().srcRGB);
+						GL::value_at(sfactorRGB, r->states().blend().sfactorRGB);
 					}
 
-					int32_t srcAlpha = GL::index_of(r->states().blend().srcAlpha);
-					if (factor_combo("Src Alpha##BlendState", srcAlpha))
+					int32_t sfactorAlpha = GL::index_of(r->states().blend().sfactorAlpha);
+					if (factor_combo("Src Alpha##BlendState", sfactorAlpha))
 					{
-						GL::value_at(srcAlpha, r->states().blend().srcAlpha);
+						GL::value_at(sfactorAlpha, r->states().blend().sfactorAlpha);
 					}
 
-					int32_t dstRGB = GL::index_of(r->states().blend().dstRGB);
-					if (factor_combo("Dst RGB##BlendState", dstRGB))
+					int32_t dfactorRGB = GL::index_of(r->states().blend().dfactorRGB);
+					if (factor_combo("Dst RGB##BlendState", dfactorRGB))
 					{
-						GL::value_at(dstRGB, r->states().blend().dstRGB);
+						GL::value_at(dfactorRGB, r->states().blend().dfactorRGB);
 					}
 
-					int32_t dstAlpha = GL::index_of(r->states().blend().dstAlpha);
-					if (factor_combo("Dst Alpha##BlendState", dstAlpha))
+					int32_t dfactorAlpha = GL::index_of(r->states().blend().dfactorAlpha);
+					if (factor_combo("Dst Alpha##BlendState", dfactorAlpha))
 					{
-						GL::value_at(dstAlpha, r->states().blend().dstAlpha);
+						GL::value_at(dfactorAlpha, r->states().blend().dfactorAlpha);
 					}
 					ImGui::TreePop();
 				}
@@ -589,7 +589,7 @@ namespace ml
 				{
 					ImGui::Checkbox("Enabled##CullState", &r->states().cull().enabled);
 
-					int32_t index = GL::index_of(r->states().cull().face);
+					int32_t index = GL::index_of(r->states().cull().mode);
 					if (ImGuiExt::Combo(
 						"Face##Cull",
 						&index,
@@ -597,7 +597,7 @@ namespace ml
 						ML_ARRAYSIZE(GL::Face_names)
 					))
 					{
-						GL::value_at(index, r->states().cull().face);
+						GL::value_at(index, r->states().cull().mode);
 					}
 
 					ImGui::TreePop();
@@ -611,7 +611,7 @@ namespace ml
 
 					ImGui::Checkbox("Mask##DepthState", &r->states().depth().mask);
 
-					int32_t index = GL::index_of(r->states().depth().predicate);
+					int32_t index = GL::index_of(r->states().depth().func);
 					if (ImGuiExt::Combo(
 						"Comparison##Depth",
 						&index,
@@ -619,7 +619,7 @@ namespace ml
 						ML_ARRAYSIZE(GL::Predicate_names)
 					))
 					{
-						GL::value_at(index, r->states().depth().predicate);
+						GL::value_at(index, r->states().depth().func);
 					}
 
 					ImGui::TreePop();
@@ -1705,6 +1705,7 @@ namespace ml
 				const bool tab_open {
 					ImGui::BeginTabItem((type + "##ShaderTab##" + name).c_str()) 
 				};
+
 				if (ImGui::BeginPopupContextItem())
 				{
 					if (ImGui::Button("Copy to Clipboard"))
@@ -1715,22 +1716,9 @@ namespace ml
 					ImGui::EndPopup();
 				}
 
-				/* * * * * * * * * * * * * * * * * * * * */
-
 				if (tab_open)
 				{
-					ImGui::TextUnformatted(
-						&source[0], &source[source.size() - 1]
-					);
-					if (ImGui::BeginPopupContextItem())
-					{
-						if (ImGui::Button("Copy to Clipboard"))
-						{
-							ML_Engine.window().setClipboardString(source);
-							ImGui::CloseCurrentPopup();
-						}
-						ImGui::EndPopup();
-					}
+					ImGui::TextUnformatted(&source[0], &source[source.size() - 1]);
 
 					ImGui::EndTabItem();
 				}

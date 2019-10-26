@@ -42,7 +42,7 @@ uniform float		u_fps;			// Frame Rate
 uniform float		u_time;			// Total Time
 uniform	vec4		u_color;		// Main Color
 uniform sampler2D	u_texture0;		// Main Texture
-uniform vec2 		u_viewport;		// Viewport Size
+uniform vec2 		u_resolution;	// Display Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -232,7 +232,7 @@ geometry trace(vec3 o, vec3 d)
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
 
-	vec2 ouv = ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
+	vec2 ouv = ((fragCoord - 0.5).xy * u_resolution.xy) / u_resolution.y;
 	vec2 uv = ouv;
 
 	uv *= tan(radians(FOV) / 2.0) * 4.;
@@ -254,7 +254,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 		u = normalize(cross(vuv, vpn)),
 		v = cross(vpn, u),
 		vcv = (ro + vpn),
-		scrCoord = (vcv + uv.x * u * u_viewport.x / u_viewport.y + uv.y * v),
+		scrCoord = (vcv + uv.x * u * u_resolution.x / u_resolution.y + uv.y * v),
 		rd = normalize(scrCoord - ro),
 		oro = ro;
 

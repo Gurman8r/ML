@@ -42,7 +42,7 @@ uniform float		u_fps;			// Frame Rate
 uniform float		u_time;			// Total Time
 uniform	vec4		u_color;		// Main Color
 uniform sampler2D	u_texture0;		// Main Texture
-uniform vec2 		u_viewport;		// Viewport Size
+uniform vec2 		u_resolution;	// Display Size
 
 // This is a combination of a semi-random noise gnerator 
 // from Art of Code on Youtube - https://www.youtube.com/channel/UCcAlTqd9zID6aNX3TzwxJXg/videos
@@ -147,7 +147,7 @@ vec3 DoClouds (vec2 uv) {
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
-    vec2 uv = ((fragCoord - 0.5).xy * u_viewport.xy) / u_viewport.y;
+    vec2 uv = ((fragCoord - 0.5).xy * u_resolution.xy) / u_resolution.y;
 	
 	uv *= 5.;
 	

@@ -42,7 +42,7 @@ uniform float		u_fps;			// Frame Rate
 uniform float		u_time;			// Total Time
 uniform	vec4		u_color;		// Main Color
 uniform sampler2D	u_texture0;		// Main Texture
-uniform vec2 		u_viewport;		// Viewport Size
+uniform vec2 		u_resolution;	// Display Size
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -80,7 +80,7 @@ float rand(float n)
 
 vec4 bufferA(vec2 fragCoord)
 {
-	vec2 uv = (fragCoord * u_viewport) / u_viewport.y;
+	vec2 uv = (fragCoord * u_resolution) / u_resolution.y;
 	float origX = uv.x;
 	float val = noise(uv*0.3 + u_time * 0.05 + 0.1)*0.6;
 	uv.y += val;
@@ -104,7 +104,7 @@ vec3 getCol(vec2 pos)
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-	vec2 uv = (fragCoord * u_viewport) / u_viewport.y;
+	vec2 uv = (fragCoord * u_resolution) / u_resolution.y;
 
 	vec3 color = bufferA(uv).rgb;
 

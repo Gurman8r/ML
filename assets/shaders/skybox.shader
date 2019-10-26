@@ -59,6 +59,7 @@ mat4 perspective(float fov, float aspect, float near, float far)
 
 /* * * * * * * * * * * * * * * * * * * * */
 
+// These values are overwritten by the main camera
 uniform struct Camera
 {
 	vec3	pos;	// Camera Position
@@ -66,7 +67,7 @@ uniform struct Camera
 	float	fov;	// Field of View
 	float	near;	// Near Clipping Distance
 	float	far;	// Far Clipping Distance
-	vec2	view;	// Viewport Size
+	vec2	view;	// Display Size
 } u_camera;
 
 uniform float u_time; // Total Time

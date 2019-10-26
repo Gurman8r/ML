@@ -22,30 +22,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool dispose() override
-		{
-			for (auto & types : m_data)
-			{
-				for (auto & elem : types.second)
-				{
-					if (elem.second) { delete elem.second; }
-				}
-				types.second.clear();
-			}
-			m_data.clear();
-			return m_data.empty();
-		}
+		bool dispose() override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline AssetMap & data(hash_t code)
-		{
-			auto it { m_data.find(code) };
-			return ((it != m_data.end())
-				? it->second 
-				: m_data.insert({ code, {} }).first->second
-			);
-		}
+		AssetMap & data(hash_t code);
 
 		template <hash_t H> inline AssetMap & data()
 		{
@@ -60,14 +41,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		inline const AssetMap & data(hash_t code) const
-		{
-			auto it { m_data.find(code) };
-			return ((it != m_data.end()) 
-				? it->second 
-				: m_data.insert({ code, {} }).first->second
-			);
-		}
+		const AssetMap & data(hash_t code) const;
 
 		template <hash_t H> inline const AssetMap & data() const
 		{
@@ -82,10 +56,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Newable * insert(hash_t code, const String & name, void * value)
-		{
-			return this->data(code).insert({ name, (Newable *)value }).first->second;
-		}
+		Newable * insert(hash_t code, const String & name, void * value);
 
 		template <hash_t H> inline Newable * insert(const String & name, void * value)
 		{
@@ -107,31 +78,11 @@ namespace ml
 			);
 		}
 
-		inline Newable * generate(const String & type, const String & name)
-		{
-			if (const hash_t * code { ML_Registry.get_code(type) })
-			{
-				if (!this->exists(*code, name))
-				{
-					return this->insert(*code, name, ML_Registry.generate(*code));
-				}
-			}
-			return nullptr;
-		}
+		Newable * generate(const String & type, const String & name);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool destroy(hash_t code, const String & name)
-		{
-			auto it { this->data(code).find(name) };
-			if (it != this->data(code).end())
-			{
-				if (it->second) { delete it->second; }
-				this->data(code).erase(it);
-				return true;
-			}
-			return false;
-		}
+		bool destroy(hash_t code, const String & name);
 
 		template <hash_t H> inline bool destroy(const String & name)
 		{
@@ -145,10 +96,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool exists(hash_t code, const String & name) const
-		{
-			return (this->data(code).find(name) != this->data(code).cend());
-		}
+		bool exists(hash_t code, const String & name) const;
 
 		template <hash_t H> inline bool exists(const String & name) const
 		{
@@ -250,12 +198,10 @@ namespace ml
 		template <class T>	inline auto begin()	const	{ return this->begin<typeof<T>::hash>(); }
 		template <hash_t H> inline auto begin()			{ return this->data(H).begin(); }
 		template <hash_t H> inline auto begin()	const	{ return this->data(H).begin(); }
-		
 		template <class T>	inline auto end()			{ return this->end<typeof<T>::hash>(); }
 		template <class T>	inline auto end()	const	{ return this->end<typeof<T>::hash>(); }
 		template <hash_t H> inline auto end()			{ return this->data(H).end(); }
 		template <hash_t H> inline auto end()	const	{ return this->data(H).end(); }
-
 		template <class T>	inline auto size()	const	{ return this->size<typeof<T>::hash>(); }
 		template <hash_t H> inline auto size()	const	{ return this->data(H).size(); }
 

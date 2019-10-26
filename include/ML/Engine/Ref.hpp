@@ -22,43 +22,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Ref()
-			: m_name(String())
-			, m_data(nullptr)
-			, m_changed(true)
-		{
-		}
+		Ref() : m_name {}, m_data { nullptr } {}
 
-		explicit Ref(const String & name)
-			: m_name(name)
-			, m_data(nullptr)
-			, m_changed(true)
-		{
-		}
+		explicit Ref(const String & name) : m_name { name }, m_data { nullptr } {}
 
-		Ref(const self_type & copy)
-			: m_name(copy.m_name)
-			, m_data(copy.m_data)
-			, m_changed(copy.m_changed)
-		{
-		}
+		Ref(const self_type & copy) : m_name { copy.m_name }, m_data { copy.m_data } {}
 
-		Ref(self_type && copy)
-			: Ref()
+		Ref(self_type && copy) : Ref {}
 		{
 			std::swap(m_name, copy.m_name);
 			std::swap(m_data, copy.m_data);
-			std::swap(m_changed, copy.m_changed);
 		}
 
-		~Ref() { dispose(); }
+		~Ref() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool dispose() override
 		{
 			m_data = nullptr;
-			m_changed = true;
 			return !m_data;
 		}
 
@@ -68,7 +50,6 @@ namespace ml
 			{
 				m_name = name;
 				m_data = data;
-				m_changed = false;
 			}
 			return (*this);
 		}
@@ -79,7 +60,6 @@ namespace ml
 			{
 				m_name = name;
 				m_data = std::remove_cv_t<pointer>(value);
-				m_changed = false;
 			}
 			return (*this);
 		}
@@ -87,64 +67,29 @@ namespace ml
 		template <class ... Args>
 		inline pointer create(Args && ... args)
 		{
-			if (m_changed || (!m_data && m_name))
-			{
-				m_changed = !(m_data = ML_Content.create<value_type>(
-					m_name, std::forward<Args>(args)...
-				));
-			}
-			return m_data;
+			return (m_data = ML_Content.create<value_type>(m_name, std::forward<Args>(args)...));
 		}
 
 		inline pointer get() 
 		{ 
-			if (m_changed || (!m_data && m_name))
-			{
-				m_changed = !(m_data = ML_Content.get<value_type>(m_name));
-			}
-			return m_data;
+			return (m_data = ML_Content.get<value_type>(m_name));
 		}
 
 		inline const_pointer get() const 
 		{
-			if (m_changed || (!m_data && m_name))
-			{
-				m_changed = !(m_data = ML_Content.get<value_type>(m_name));
-			}
-			return m_data;
+			return (m_data = ML_Content.get<value_type>(m_name));
 		}
 
 		inline bool destroy()
 		{
-			if (m_changed || (!m_data && m_name))
-			{
-				return ML_Content.destroy<value_type>(m_name);
-			}
-			return !m_data;
+			return ML_Content.destroy<value_type>(m_name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const_pointer data() const 
-		{ 
-			return m_data; 
-		}
+		inline const String & name() const { return m_name; }
 
-		inline const String & name() const 
-		{
-			return m_name; 
-		}
-
-		inline bool rename(const String & value)
-		{
-			if (value && (!m_name || (value != m_name)))
-			{
-				m_name = value;
-				m_changed = true;
-				return true;
-			}
-			return false;
-		}
+		inline const_pointer data() const { return m_data; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -159,9 +104,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		String			m_name;
+		String m_name;
 		mutable pointer m_data;
-		mutable bool	m_changed;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

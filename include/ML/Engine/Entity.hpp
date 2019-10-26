@@ -7,43 +7,27 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API Entity final
-		: public Newable
-		, public Disposable
-		, public NonCopyable
+	struct ML_ENGINE_API Entity final : public Newable, public Disposable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using value_type = typename Newable *;
-		using base_type = typename HashMap<hash_t, value_type>;
+		using base_type = typename HashMap<hash_t, Newable *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Entity() : m_data {} {}
-		~Entity() { this->dispose(); }
+		Entity();
+		~Entity();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool dispose() override
-		{
-			for (auto & pair : m_data)
-			{
-				if (pair.second)
-				{
-					delete pair.second;
-					pair.second = nullptr;
-				}
-			}
-			m_data.clear();
-			return true;
-		}
+		bool dispose() override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class T> inline T * attach(T * value)
 		{
-			return ((m_data.find(typeof<T>().hash) == m_data.end())
-				? static_cast<T *>(this->addByCode(typeof<T>().hash, value))
+			return ((m_data.find(typeof<T>::hash) == m_data.end())
+				? static_cast<T *>(this->addByCode(typeof<T>::hash, value))
 				: nullptr
 			);
 		}
@@ -67,84 +51,33 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool remove(hash_t code)
-		{
-			base_type::iterator it { m_data.find(code) };
-			if (it != m_data.end())
-			{
-				delete it->second;
-				m_data.erase(it);
-				return true;
-			}
-			return false;
-		}
+		bool remove(hash_t code);
 
-		template <hash_t H> inline bool remove()
-		{
-			return this->remove(H);
-		}
+		bool remove(const String & name);
 
-		template <class T> inline bool remove()
-		{
-			return this->remove<typeof<T>::hash>();
-		}
+		template <hash_t H> inline bool remove() { return this->remove(H); }
 
-		inline bool remove(const String & name)
-		{
-			return this->remove(name.hash());
-		}
+		template <class T> inline bool remove() { return this->remove<typeof<T>::hash>(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * addByCode(hash_t code, void * value)
-		{
-			return ((m_data.find(code) == m_data.end())
-				? m_data.insert({ code, static_cast<value_type>(value) }).first->second
-				: nullptr
-			);
-		}
+		void * addByCode(hash_t code, void * value);
 
-		inline void * addByName(const String & name, void * value)
-		{
-			return ((m_data.find(name.hash()) == m_data.end())
-				? this->addByCode(name.hash(), value)
-				: nullptr
-			);
-		}
+		void * addByName(const String & name, void * value);
 
-		inline void * addByName(const String & name)
-		{
-			return ((m_data.find(name.hash()) == m_data.end())
-				? this->addByCode(name.hash(), ML_Registry.generate(name))
-				: nullptr
-			);
-		}
+		void * addByName(const String & name);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline value_type getByCode(hash_t value)
-		{
-			base_type::iterator it { m_data.find(value) };
-			return ((it != this->cend()) ? it->second : nullptr);
-		}
+		Newable * getByCode(hash_t value);
 
-		inline const value_type getByCode(hash_t value) const
-		{
-			base_type::const_iterator it { m_data.find(value) };
-			return ((it != this->cend()) ? it->second : nullptr);
-		}
+		const Newable * getByCode(hash_t value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline value_type getByName(const String & value)
-		{
-			return getByCode(value.hash());
-		}
+		Newable * getByName(const String & value);
 
-		inline const value_type getByName(const String & value) const
-		{
-			return getByCode(value.hash());
-		}
+		const Newable * getByName(const String & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

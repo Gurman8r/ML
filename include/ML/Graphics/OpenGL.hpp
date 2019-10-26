@@ -55,7 +55,7 @@ namespace ml
 		// Functions
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void	activeTexture(uint32_t value);
-		static void	alphaFunc(GL::Predicate predicate, float_t value);
+		static void	alphaFunc(GL::Predicate func, float_t value);
 		static void	blendFunc(uint32_t sFactor, uint32_t dFactor);
 		static void	blendEquation(GL::Equation equation);
 		static void	cullFace(GL::Face value);

@@ -64,60 +64,101 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Window & close();
+		
 		Window & destroy();
+		
 		Window & iconify();
+		
 		Window & makeContextCurrent();
+		
 		Window & maximize();
+		
 		Window & restore();
+		
 		Window & swapBuffers();
+		
 		Window & terminate();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Window & setCentered();
+		
 		Window & setClipboardString(const String & value);
+		
 		Window & setCursor(void * value);
+		
 		Window & setCursorMode(const Cursor::Mode value);
+		
 		Window & setCursorPos(const vec2i & value);
+		
 		Window & setFullscreen(bool value);
+		
 		Window & setIcon(uint32_t w, uint32_t h, const uint8_t * pixels);
+		
 		Window & setPosition(const vec2i & value);
+		
 		Window & setMonitor(void * value);
+		
 		Window & setSize(const vec2u & value);
-		Window & setSwapInterval(int32_t value);
+		
 		Window & setTitle(const String & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool		is_focused() const;
-		bool		is_fullscreen()	const;
-		bool		is_open() const;
-		int32_t		getAttribute(int32_t value) const;
-		char		getChar() const;
-		C_String	getClipboardString() const;
-		vec2		getCursorPos() const;
-		vec2i		getFrameSize() const;
-		void *		getHandle() const;
-		int32_t		getKey(int32_t value) const;
-		int32_t		getInputMode() const;
-		int32_t		getMouseButton(int32_t button) const;
-		vec2i		getPosition() const;
-		void *		getRawHandle() const;
+		bool is_focused() const;
+		
+		bool is_fullscreen()	const;
+		
+		bool is_open() const;
+		
+		int32_t	getAttribute(int32_t value) const;
+		
+		char getChar() const;
+		
+		C_String getClipboardString() const;
+		
+		vec2 getCursorPos() const;
+		
+		vec2i getFrameSize() const;
+		
+		void * getHandle() const;
+		
+		int32_t getKey(int32_t value) const;
+		
+		int32_t	getInputMode() const;
+		
+		int32_t	getMouseButton(int32_t button) const;
+		
+		vec2i getPosition() const;
+		
+		void * getRawHandle() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto getAspect() const -> float_t { return ML_ASPECT_2(getSize()); };
+		
 		inline auto getContext() const -> const ContextSettings & { return m_context; }
+		
 		inline auto getFrameAspect() const -> float_t { return ML_ASPECT_2(getFrameSize()); };
+		
 		inline auto getFrameHeight() const -> int32_t { return getFrameSize()[1]; }
+		
 		inline auto getFrameWidth()	const -> int32_t { return getFrameSize()[0]; }
+		
 		inline auto getHeight()	const -> const uint32_t	& { return getSize()[1]; }
+		
 		inline auto getMonitor() const -> const void * { return m_monitor; }
+		
 		inline auto getShare() const -> const void * { return m_share; }
+		
 		inline auto getSize() const -> const vec2u & { return getVideoMode().size; }
+		
 		inline auto getStyle() const -> const WindowStyle & { return m_style; }
+		
 		inline auto getTitle() const -> const String & { return m_title; }
+		
 		inline auto getVideoMode() const -> const VideoMode & { return m_videoMode; }
+		
 		inline auto getWidth() const -> const uint32_t	& { return getSize()[0]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -125,6 +166,8 @@ namespace ml
 		static void pollEvents();
 
 		static float64_t getTime();
+
+		static void setSwapInterval(int32_t value);
 		
 		static void * createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels);
 		
@@ -168,7 +211,6 @@ namespace ml
 		VideoMode		m_videoMode;	// 
 		String			m_title;		// 
 		mutable char	m_char;			// 
-		mutable vec2	m_cursorPos;	//
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

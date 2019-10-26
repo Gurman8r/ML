@@ -6,9 +6,9 @@ namespace ml
 
 	Transform::Transform()
 		: m_enabled { true }
-		, m_pos { NULL }
-		, m_scl { NULL }
-		, m_rot { NULL }
+		, m_pos { 0, 0, 0 }
+		, m_scl { 1, 1, 1 }
+		, m_rot { 0, 1, 0, 1 }
 	{
 	}
 

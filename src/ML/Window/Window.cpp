@@ -13,6 +13,7 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>   // for glfwGetWin32Window
 #endif
+
 #define GLFW_HAS_WINDOW_TOPMOST       (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ GLFW_FLOATING
 #define GLFW_HAS_WINDOW_HOVERED       (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_HOVERED
 #define GLFW_HAS_WINDOW_ALPHA         (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwSetWindowOpacity
@@ -59,12 +60,11 @@ namespace ml
 		: m_window		{ nullptr }
 		, m_monitor		{ nullptr }
 		, m_share		{ nullptr }
-		, m_title		{ String() }
-		, m_context		{ ContextSettings() }
-		, m_style		{ WindowStyle() }
-		, m_videoMode	{ VideoMode() }
+		, m_title		{}
+		, m_context		{}
+		, m_style		{}
+		, m_videoMode	{}
 		, m_char		{ 0 }
-		, m_cursorPos	{ 0 }
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		if (HWND window = GetConsoleWindow())
@@ -164,8 +164,6 @@ namespace ml
 		)))
 		{
 			this->makeContextCurrent();
-
-			//this->swapInterval(1); // vsync
 
 			if (this->setup())
 			{
@@ -518,15 +516,6 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setSwapInterval(const int32_t value)
-	{
-		if (m_window)
-		{
-			glfwSwapInterval(value);
-		}
-		return (*this);
-	}
-
 	Window & Window::setTitle(const String & value)
 	{
 		m_title = value;
@@ -578,7 +567,7 @@ namespace ml
 		{
 			glfwGetCursorPos(ML_WINDOW(m_window), &temp[0], &temp[1]);
 		}
-		return (m_cursorPos = (vec2)temp);
+		return (vec2)temp;
 	}
 
 	vec2i Window::getFrameSize() const
@@ -596,7 +585,7 @@ namespace ml
 		return m_window;
 	}
 
-	int32_t	Window::getKey(const int32_t value) const
+	int32_t	Window::getKey(int32_t value) const
 	{
 		return (m_window ? glfwGetKey(ML_WINDOW(m_window), value) : NULL);
 	}
@@ -606,7 +595,7 @@ namespace ml
 		return (m_window ? glfwGetInputMode(ML_WINDOW(m_window), GLFW_CURSOR) : NULL);
 	}
 
-	int32_t	Window::getMouseButton(const int32_t value) const
+	int32_t	Window::getMouseButton(int32_t value) const
 	{
 		return (m_window ? glfwGetMouseButton(ML_WINDOW(m_window), value) : NULL);
 	}
@@ -640,6 +629,11 @@ namespace ml
 	float64_t Window::getTime()
 	{
 		return glfwGetTime();
+	}
+
+	void Window::setSwapInterval(int32_t value)
+	{
+		glfwSwapInterval(value);
 	}
 	
 	void * Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels)

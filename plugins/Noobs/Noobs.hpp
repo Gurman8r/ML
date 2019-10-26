@@ -158,13 +158,13 @@ namespace ml
 
 		// EDITOR
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		bool		m_editor_open	{ true };
-		Ref<Entity>	m_entity		{};
-		Renderer *	m_renderer		{ nullptr };
-		FileList	m_files			{ 0 };
-		bool		m_display_open	{ true };
-		bool		m_freeAspect	{ true };
-		vec2		m_viewport		{ 1920, 1080 };
+		bool		m_editor_open		{ true };
+		bool		m_display_open		{ true };
+		bool		m_use_main_camera	{ true };
+		Ref<Entity> m_entity			{};
+		FileList	m_files				{ 0 };
+		bool		m_freeAspect		{ true };
+		vec2		m_viewport			{ 1920, 1080 };
 
 		static constexpr auto display_name { "Display##Noobs##DemoView" };
 		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };
@@ -180,8 +180,8 @@ namespace ml
 
 		bool compile_sources();
 		bool dispose_files();
-		void generate_sources();
-		void reset_sources();
+		Noobs & generate_sources();
+		Noobs & reset_sources();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

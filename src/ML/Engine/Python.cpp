@@ -237,8 +237,8 @@ namespace ml
 					case Hash("enabled"): 
 						c->states().alpha().enabled = input<bool>()(value); 
 						break;
-					case Hash("predicate"): 
-						c->states().alpha().predicate = GL::find_by_raw_name(value.c_str(), GL::Greater);
+					case Hash("func"): 
+						c->states().alpha().func = GL::find_by_raw_name(value.c_str(), GL::Greater);
 						break;
 					case Hash("coeff"): 
 						c->states().alpha().coeff = input<float_t>()(value);
@@ -253,17 +253,17 @@ namespace ml
 					case Hash("enabled"): 
 						c->states().blend().enabled = input<bool>()(value); 
 						break;
-					case Hash("srcRGB"):
-						c->states().blend().srcRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
+					case Hash("sfactorRGB"):
+						c->states().blend().sfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
 						break;
-					case Hash("srcAlpha"):
-						c->states().blend().srcAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
+					case Hash("sfactorAlpha"):
+						c->states().blend().sfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
 						break;
-					case Hash("dstRGB"):
-						c->states().blend().dstRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
+					case Hash("dfactorRGB"):
+						c->states().blend().dfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
 						break;
-					case Hash("dstAlpha"): 
-						c->states().blend().dstAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
+					case Hash("dfactorAlpha"): 
+						c->states().blend().dfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
 						break;
 					}
 				}
@@ -275,8 +275,8 @@ namespace ml
 					case Hash("enabled"): 
 						c->states().cull().enabled = input<bool>()(value); 
 						break;
-					case Hash("face"):
-						c->states().cull().face = GL::find_by_raw_name(value.c_str(), GL::Back);
+					case Hash("mode"):
+						c->states().cull().mode = GL::find_by_raw_name(value.c_str(), GL::Back);
 						break;
 					}
 				}
@@ -288,8 +288,8 @@ namespace ml
 					case Hash("enabled"): 
 						c->states().depth().enabled = input<bool>()(value);
 						break;
-					case Hash("predicate"): 
-						c->states().depth().predicate = GL::find_by_raw_name(value.c_str(), GL::Less);
+					case Hash("func"): 
+						c->states().depth().func = GL::find_by_raw_name(value.c_str(), GL::Less);
 						break;
 					case Hash("mask"): 
 						c->states().depth().mask = input<bool>()(value); 

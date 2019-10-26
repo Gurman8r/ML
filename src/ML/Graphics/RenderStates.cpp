@@ -28,9 +28,9 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::AlphaTest, this->enabled))
 		{
-			if (this->predicate)
+			if (this->func)
 			{
-				ML_GL.alphaFunc(this->predicate, this->coeff);
+				ML_GL.alphaFunc(this->func, this->coeff);
 			}
 		}
 		return (*this);
@@ -46,11 +46,11 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::Blend, this->enabled))
 		{
-			if (this->srcRGB && this->srcAlpha && this->dstRGB && this->dstAlpha)
+			if (this->sfactorRGB && this->sfactorAlpha && this->dfactorRGB && this->dfactorAlpha)
 			{
 				ML_GL.blendFuncSeparate(
-					this->srcRGB, this->srcAlpha,
-					this->dstRGB, this->dstAlpha
+					this->sfactorRGB, this->sfactorAlpha,
+					this->dfactorRGB, this->dfactorAlpha
 				);
 			}
 		}
@@ -67,9 +67,9 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::CullFace, this->enabled))
 		{
-			if (this->face)
+			if (this->mode)
 			{
-				ML_GL.cullFace(this->face);
+				ML_GL.cullFace(this->mode);
 			}
 		}
 		return (*this);
@@ -85,9 +85,9 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::DepthTest, this->enabled))
 		{
-			if (this->predicate)
+			if (this->func)
 			{
-				ML_GL.depthFunc(this->predicate);
+				ML_GL.depthFunc(this->func);
 			}
 
 			ML_GL.depthMask(this->mask);

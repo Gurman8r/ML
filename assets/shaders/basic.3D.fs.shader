@@ -8,6 +8,7 @@ out vec4 gl_Color;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+// These values are overwritten by the main camera
 uniform struct Camera
 {
 	vec3	pos;	// Camera Position
@@ -15,7 +16,7 @@ uniform struct Camera
 	float	fov;	// Field of View
 	float	near;	// Near Clipping Distance
 	float	far;	// Far Clipping Distance
-	vec2	view;	// Viewport Size
+	vec2	view;	// Display Size
 } u_camera;
 
 uniform vec4		u_mouse;		// Mouse Position (xy) and Input (zw)
@@ -55,7 +56,7 @@ void main()
 	vec4  specular = texture(u_texture1, V.texcoord) * spec_col;
 
 	// Output
-	gl_Color = V.normal * u_color * (ambient + diffuse + specular);
+	gl_Color = u_color * (ambient + diffuse + specular);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

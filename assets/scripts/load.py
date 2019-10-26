@@ -222,7 +222,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/skybox")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "False")
 
-# 2D Demo
+# Primary Demo
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "ent_demo"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
@@ -233,7 +233,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/quad")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
 
-# 3D Demo
+# "Advanced" Demo
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "ent_demo_advanced"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
@@ -246,19 +246,19 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
         ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D")
         ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/3D/basic")
-        ml.ecs.renderer_attr(name,  "self",     "model",        "obj/cow")
+        ml.ecs.renderer_attr(name,  "self",     "model",        "obj/sphere32x24")
         ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")
-        ml.ecs.renderer_attr(name,  "alpha",    "predicate",    "GL_GREATER")
+        ml.ecs.renderer_attr(name,  "alpha",    "func",         "GL_GREATER")
         ml.ecs.renderer_attr(name,  "alpha",    "coeff",        "0.01")
         ml.ecs.renderer_attr(name,  "blend",    "enabled",      "True")
-        ml.ecs.renderer_attr(name,  "blend",    "srcRGB",       "GL_SRC_ALPHA")
-        ml.ecs.renderer_attr(name,  "blend",    "srcAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
-        ml.ecs.renderer_attr(name,  "blend",    "dstRGB",       "GL_SRC_ALPHA")
-        ml.ecs.renderer_attr(name,  "blend",    "dstAlpha",     "GL_ONE_MINUS_SRC_ALPHA")
+        ml.ecs.renderer_attr(name,  "blend",    "sfactorRGB",   "GL_SRC_ALPHA")
+        ml.ecs.renderer_attr(name,  "blend",    "sfactorAlpha", "GL_ONE_MINUS_SRC_ALPHA")
+        ml.ecs.renderer_attr(name,  "blend",    "dfactorRGB",   "GL_SRC_ALPHA")
+        ml.ecs.renderer_attr(name,  "blend",    "dfactorAlpha", "GL_ONE_MINUS_SRC_ALPHA")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "True")
-        ml.ecs.renderer_attr(name,  "cull",     "face",         "GL_BACK")
+        ml.ecs.renderer_attr(name,  "cull",     "mode",         "GL_BACK")
         ml.ecs.renderer_attr(name,  "depth",    "enabled",      "True")
-        ml.ecs.renderer_attr(name,  "depth",    "predicate",    "GL_LESS")
+        ml.ecs.renderer_attr(name,  "depth",    "func",         "GL_LESS")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
 if 0: # switch target entities

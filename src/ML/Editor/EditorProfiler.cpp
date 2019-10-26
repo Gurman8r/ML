@@ -107,9 +107,11 @@ namespace ml
 			min -= m_sample * dt / 2;
 		}
 
-		if (refresh == 0.0f) { refresh = ImGui::GetTime(); }
+		const float_t t { (float_t)ImGui::GetTime() };
 
-		while (refresh < ImGui::GetTime())
+		if (refresh == 0.0f) { refresh = t; }
+
+		while (refresh < t)
 		{
 			values[offset] = m_sample;
 			offset = (offset + 1) % values.size();

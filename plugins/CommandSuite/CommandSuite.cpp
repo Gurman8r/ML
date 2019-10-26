@@ -2,6 +2,9 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
+#include <ML/Editor/ImGui.hpp>
+#include <ML/Editor/ImGuiExt.hpp>
+#include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/Ref.hpp>
 #include <ML/Engine/EngineEvents.hpp>
@@ -23,6 +26,7 @@ namespace ml
 	{
 		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<UnloadEvent>(this);
+		ML_EventSystem.addListener<MainMenuBarEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -53,6 +57,33 @@ namespace ml
 					delete cmd;
 				}
 				m_commands.clear();
+			}
+			break;
+
+		case MainMenuBarEvent::ID:
+			if (auto ev = value.as<MainMenuBarEvent>())
+			{
+				switch (ev->submenu)
+				{
+				case MainMenuBarEvent::Plugins:
+					ImGui::PushID(ML_ADDRESSOF(this));
+					if (ImGui::BeginMenu(nameof<>::filter_namespace(get_type_info().name()).c_str()))
+					{
+						if (!m_commands.empty())
+						{
+							ImGui::Text("Commands:");
+							ImGui::Separator();
+						}
+						for (auto & cmd : m_commands)
+						{
+							ImGui::MenuItem(cmd->getName().c_str(), "");
+							ImGuiExt::Tooltip(util::to_string(*cmd));
+						}
+						ImGui::EndMenu();
+					}
+					ImGui::PopID();
+					break;
+				}
 			}
 			break;
 		}

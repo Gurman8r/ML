@@ -187,9 +187,9 @@ namespace ml
 		glCheck(glActiveTexture(value));
 	}
 
-	void OpenGL::alphaFunc(GL::Predicate predicate, float_t value)
+	void OpenGL::alphaFunc(GL::Predicate func, float_t value)
 	{
-		glCheck(glAlphaFunc(predicate, value));
+		glCheck(glAlphaFunc(func, value));
 	}
 
 	void OpenGL::blendFunc(uint32_t sFactor, uint32_t dFactor)
@@ -202,9 +202,9 @@ namespace ml
 		glCheck(glBlendEquation(equation));
 	}
 
-	void OpenGL::cullFace(GL::Face face)
+	void OpenGL::cullFace(GL::Face mode)
 	{
-		glCheck(glCullFace(face));
+		glCheck(glCullFace(mode));
 	}
 
 	void OpenGL::depthFunc(GL::Predicate cmp)

@@ -187,6 +187,17 @@ namespace ml
 				"Special thanks to Sajid Farooq and Champlain College for their help and support.\n"
 			);
 		}
+
+		// Disclaimer
+		if (ImGui::CollapsingHeader("Disclaimer"))
+		{
+			ImGui::TextWrapped(
+				"Please note that I am often kind of an idiot.\n"
+				"I am not an expert, I am just a person.\n"
+				"Everything here should be considered experimental.\n"
+				"Never take my word for anything, do your own research.\n"
+			);
+		}
 		
 		// Third Party Software
 		if (ImGui::CollapsingHeader("Third Party Software"))

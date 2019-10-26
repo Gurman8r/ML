@@ -11,7 +11,7 @@ namespace ml
 	{
 		MIN_CORE_EVENT = Event::EV_CORE,
 
-		// ...
+		EV_Secret,
 
 		MAX_CORE_EVENT
 	};
@@ -28,7 +28,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// ...
+	struct SecretEvent final : public CoreEvent<CoreEventType::EV_Secret>
+	{
+		constexpr SecretEvent() {}
+	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -2,6 +2,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
+#include <ML/Core/CoreEvents.hpp>
 #include <ML/Engine/Ref.hpp>
 #include <ML/Engine/MetadataParser.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
@@ -43,6 +44,7 @@ namespace ml
 		ML_EventSystem.addListener<UnloadEvent>(this);
 		ML_EventSystem.addListener<ExitEvent>(this);
 		ML_EventSystem.addListener<CommandEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -64,6 +66,27 @@ namespace ml
 
 		case CommandEvent::ID:
 			ML_CommandRegistry.execute(value.as<CommandEvent>()->cmd);
+			break;
+
+		case KeyEvent::ID:
+			if (auto ev = value.as<KeyEvent>())
+			{
+				static String secret { "" };
+				if (ev->getPress(KeyCode::Up)) secret += "u";
+				if (ev->getPress(KeyCode::Down)) secret += "d";
+				if (ev->getPress(KeyCode::Left)) secret += "l";
+				if (ev->getPress(KeyCode::Right)) secret += "r";
+				if (ev->getPress(KeyCode::A)) secret += "a";
+				if (ev->getPress(KeyCode::B)) secret += "b";
+				if (ev->getPress(KeyCode::Enter))
+				{
+					if (secret == "uuddlrlrba")
+					{
+						ML_EventSystem.fireEvent<SecretEvent>();
+					}
+					secret.clear();
+				}
+			}
 			break;
 		}
 	}

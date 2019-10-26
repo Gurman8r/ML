@@ -15,7 +15,7 @@ namespace ml
 		, m_rounding	{ 0.0f }
 		, m_size		{ 0.f, 0.f }
 		, m_bgAlpha		{ 1.0f }
-		, m_flags		{ ImGuiDockNodeFlags_AutoHideTabBar }
+		, m_dockflags		{ ImGuiDockNodeFlags_AutoHideTabBar }
 	{
 	}
 
@@ -59,12 +59,12 @@ namespace ml
 			ImGuiWindowFlags_NoMove |
 			ImGuiWindowFlags_NoBringToFrontOnFocus |
 			ImGuiWindowFlags_NoNavFocus |
-			ImGuiWindowFlags_MenuBar |
 			ImGuiWindowFlags_NoDocking |
-			ImGuiWindowFlags_NoBackground
+			ImGuiWindowFlags_NoBackground |
+			ImGuiWindowFlags_MenuBar
 		))
 		{
-			if (m_nodes[Root] = beginBuilder(m_flags))
+			if (m_nodes[Root] = beginBuilder(m_dockflags))
 			{
 				m_nodes[Left]	= splitNode(m_nodes[Root],	ImGuiDir_Left,	0.4f,	&m_nodes[Root]);
 				m_nodes[Right]	= splitNode(m_nodes[Root],	ImGuiDir_Right, 0.6f,	&m_nodes[Root]);
@@ -88,7 +88,8 @@ namespace ml
 			ImGui::DockSpace(
 				ImGui::GetID(getTitle()),
 				{ m_size[0], m_size[1] },
-				ImGuiDockNodeFlags_PassthruCentralNode | m_flags
+				ImGuiDockNodeFlags_PassthruCentralNode | 
+				m_dockflags
 			);
 		}
 		return EditorWindow::endDraw();

@@ -57,12 +57,19 @@ namespace ml
 		// Backend Flags
 		io.BackendPlatformName = "imgui_impl_glfw3";
 		io.BackendRendererName = "imgui_impl_opengl3";
+		//io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+		//io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+#ifdef ML_SYSTEM_WINDOWS
 		io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
+#endif
+
 
 		// Config Flags
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 

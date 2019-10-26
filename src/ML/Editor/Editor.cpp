@@ -256,6 +256,7 @@ namespace ml
 					(PropertyDrawer<Texture>()("Texture##File##Create", (Texture *&)temp))
 					)
 				{
+					ImGui::CloseCurrentPopup();
 				}
 				ImGui::EndMenu();
 			}
@@ -314,8 +315,8 @@ namespace ml
 
 			if (ImGui::BeginMenu("Backend Flags"))
 			{
-				ImGuiExt::HelpMarker("These flags are set by the backend to specify its capabilities.");
-				
+				ImGuiExt::HelpMarker("These flags are set internally and specify the backend's capabilities.");
+
 				ImGuiBackendFlags backend_flags { io.BackendFlags }; // Make a local copy to avoid modifying actual back-end flags.
 				
 				ImGui::CheckboxFlags("Has Gamepad", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasGamepad);
@@ -361,19 +362,19 @@ namespace ml
 			{
 				if (ImGui::BeginMenu("Docking"))
 				{
-					ImGui::CheckboxFlags("Auto Hide Tab Bar", (uint32_t *)&m_dockspace.m_flags, ImGuiDockNodeFlags_AutoHideTabBar);
+					ImGui::CheckboxFlags("Auto Hide Tab Bar", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_AutoHideTabBar);
 					ImGuiExt::Tooltip(
 						"Tab bar will automatically hide when there is a single window in the dock node."
 					);
 
-					ImGui::CheckboxFlags("No Resize", (uint32_t *)&m_dockspace.m_flags, ImGuiDockNodeFlags_NoResize);
+					ImGui::CheckboxFlags("No Resize", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_NoResize);
 					ImGuiExt::Tooltip(
 						"Disable resizing node using the splitter/separators. Useful with programatically setup dockspaces. "
 					);
 					
-					if (ImGui::CheckboxFlags("No Split", (uint32_t *)&m_dockspace.m_flags, ImGuiDockNodeFlags_NoSplit))
+					if (ImGui::CheckboxFlags("No Split", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_NoSplit))
 					{
-						io.ConfigDockingNoSplit = (m_dockspace.m_flags & ImGuiDockNodeFlags_NoSplit);
+						io.ConfigDockingNoSplit = (m_dockspace.m_dockflags & ImGuiDockNodeFlags_NoSplit);
 					}
 					ImGuiExt::Tooltip(
 						"Simplified docking mode: disable window splitting, so docking is limited to merging multiple windows together into tab-bars."
@@ -449,14 +450,20 @@ namespace ml
 
 					ImGui::EndMenu();
 				}
-				
+
+				if (ImGui::BeginMenu("Style"))
+				{
+					ImGui::ShowStyleEditor();
+					ImGui::EndMenu();
+				}
+
 				ImGui::EndMenu();
 			}
-			
-			if (ImGui::BeginMenu("Style"))
+
+			bool fullScreen { ML_Engine.window().is_fullscreen() };
+			if (ImGui::MenuItem("Fullscreen", "F11", &fullScreen))
 			{
-				ImGui::ShowStyleEditor();
-				ImGui::EndMenu();
+				ML_Engine.window().setFullscreen(fullScreen);
 			}
 			
 			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Options);

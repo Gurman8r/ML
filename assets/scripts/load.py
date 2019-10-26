@@ -238,7 +238,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
 name = "ent_demo_advanced"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Transform"):
-        ml.ecs.transform_attr(name, "self",     "enabled",      "True")
+        ml.ecs.transform_attr(name, "self",     "enabled",      "False")
         ml.ecs.transform_attr(name, "self",     "position",     "0.0 0.0 0.0")
         ml.ecs.transform_attr(name, "self",     "scale",        "0.3 0.3 0.3")
         ml.ecs.transform_attr(name, "self",     "rotation",     "0.0 1.0 0.0 1.0")

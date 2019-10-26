@@ -68,10 +68,8 @@ namespace ml
 		Window & iconify();
 		Window & makeContextCurrent();
 		Window & maximize();
-		Window & pollEvents();
 		Window & restore();
 		Window & swapBuffers();
-		Window & swapInterval(int32_t value);
 		Window & terminate();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -86,53 +84,62 @@ namespace ml
 		Window & setPosition(const vec2i & value);
 		Window & setMonitor(void * value);
 		Window & setSize(const vec2u & value);
+		Window & setSwapInterval(int32_t value);
 		Window & setTitle(const String & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool			is_focused() const;
-		bool			is_fullscreen()	const;
-		bool			is_open() const;
-		int32_t			getAttribute(int32_t value) const;
-		const char &	getChar() const;
-		C_String		getClipboardString() const;
-		const vec2 &	getCursorPos() const;
-		vec2i			getFrameSize() const;
-		void *			getHandle();
-		void *			getRawHandle();
-		int32_t			getKey(int32_t value) const;
-		int32_t			getInputMode() const;
-		int32_t			getMouseButton(int32_t button) const;
-		vec2i			getPosition() const;
-		float64_t		getTime() const;
+		bool		is_focused() const;
+		bool		is_fullscreen()	const;
+		bool		is_open() const;
+		int32_t		getAttribute(int32_t value) const;
+		char		getChar() const;
+		C_String	getClipboardString() const;
+		vec2		getCursorPos() const;
+		vec2i		getFrameSize() const;
+		void *		getHandle() const;
+		int32_t		getKey(int32_t value) const;
+		int32_t		getInputMode() const;
+		int32_t		getMouseButton(int32_t button) const;
+		vec2i		getPosition() const;
+		void *		getRawHandle() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getAspect()		const -> float_t { return ML_ASPECT_2(getSize()); };
-		inline auto getContext()	const -> const ContextSettings & { return m_context; }
-		inline auto getFrameAspect()const -> float_t { return ML_ASPECT_2(getFrameSize()); };
-		inline auto getFrameHeight()const -> int32_t { return getFrameSize()[1]; }
+		inline auto getAspect() const -> float_t { return ML_ASPECT_2(getSize()); };
+		inline auto getContext() const -> const ContextSettings & { return m_context; }
+		inline auto getFrameAspect() const -> float_t { return ML_ASPECT_2(getFrameSize()); };
+		inline auto getFrameHeight() const -> int32_t { return getFrameSize()[1]; }
 		inline auto getFrameWidth()	const -> int32_t { return getFrameSize()[0]; }
-		inline auto getHeight()		const -> const uint32_t	& { return getSize()[1]; }
-		inline auto getMonitor()	const -> const void * { return m_monitor; }
-		inline auto getShare()		const -> const void * { return m_share; }
-		inline auto getSize()		const -> const vec2u & { return getVideoMode().size; }
-		inline auto getStyle()		const -> const WindowStyle & { return m_style; }
-		inline auto getTitle()		const -> const String & { return m_title; }
-		inline auto getVideoMode()	const -> const VideoMode & { return m_videoMode; }
-		inline auto getWidth()		const -> const uint32_t	& { return getSize()[0]; }
+		inline auto getHeight()	const -> const uint32_t	& { return getSize()[1]; }
+		inline auto getMonitor() const -> const void * { return m_monitor; }
+		inline auto getShare() const -> const void * { return m_share; }
+		inline auto getSize() const -> const vec2u & { return getVideoMode().size; }
+		inline auto getStyle() const -> const WindowStyle & { return m_style; }
+		inline auto getTitle() const -> const String & { return m_title; }
+		inline auto getVideoMode() const -> const VideoMode & { return m_videoMode; }
+		inline auto getWidth() const -> const uint32_t	& { return getSize()[0]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static void pollEvents();
+
+		static float64_t getTime();
 		
-		void *	createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels) const;
-		void *	createStandardCursor(Cursor::Shape value) const;
-		bool	destroyCursor(void * value) const;
+		static void * createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels);
+		
+		static void * createStandardCursor(Cursor::Shape value);
+		
+		static bool	destroyCursor(void * value);
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+		static const List<void *> & getMonitors();
+		
 		static void * getContextCurrent();
+
 		static bool makeContextCurrent(void * value);
+		
 		static const VideoMode & getDesktopMode();
+		
 		static const List<VideoMode> & getFullscreenModes();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

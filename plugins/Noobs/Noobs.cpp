@@ -5,6 +5,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/FileSystem.hpp> 
+#include <ML/Core/CoreEvents.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -43,6 +44,7 @@ namespace ml
 		ML_EventSystem.addListener<MainMenuBarEvent>(this);
 		ML_EventSystem.addListener<DockspaceEvent>(this);
 		ML_EventSystem.addListener<ShaderErrorEvent>(this);
+		ML_EventSystem.addListener<SecretEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -136,6 +138,13 @@ namespace ml
 				EditorDockspace & d { ev->dockspace };
 				d.dockWindow(display_name, d.getNode(d.LeftUp));
 				d.dockWindow(editor_name, d.getNode(d.RightUp));
+			}
+			break;
+
+		case SecretEvent::ID:
+			if (auto ev = value.as<SecretEvent>())
+			{
+				Debug::log("You did the thing.");
 			}
 			break;
 		}
@@ -378,7 +387,7 @@ namespace ml
 						ImGui::CloseCurrentPopup();
 					}
 					// Reload
-					if (ImGui::MenuItem(("Reload##" + file->name).c_str()))
+					if (ImGui::MenuItem(("Reload##" + file->name).c_str(), "F5"))
 					{
 						const String * src { nullptr };
 						switch (file->type)

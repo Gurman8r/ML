@@ -343,13 +343,13 @@ namespace ml
 					ImGui::EndTabBar();
 				}
 			}
-			else if (m_entity)
+			else if (m_entity && !r)
 			{
 				ImGui::Text("The target entity does not have a renderer attached.");
 
 				const bool add_new
 				{
-					!r && ImGui::Button("Attach Renderer") && (r = m_entity->add<Renderer>())
+					ImGui::Button("Attach Renderer") && (r = m_entity->add<Renderer>())
 				};
 				if (add_new) { reset_sources().generate_sources(); }
 
@@ -360,7 +360,7 @@ namespace ml
 					reset_sources().generate_sources();
 				}
 			}
-			else
+			else if (m_entity && r)
 			{
 				ImGui::Text("No Entity Selected");
 
@@ -549,195 +549,198 @@ namespace ml
 
 		if (auto r { (m_entity ? m_entity->get<Renderer>() : nullptr) })
 		{
-			ImGuiExt::HelpMarker(
-				"** Note:\n"
-				"Some values may be overwritten internally,\n"
-				"even if they aren't marked as read-only.\n"
-			);
-			ImGui::SameLine();
-
-			// New Uniform Popup
-			Uniform * to_add { nullptr };
-			if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (Uniform *&)to_add))
+			if (auto m { r->material() })
 			{
-				// Already Exists
-				if (to_add && !r->material()->insert(to_add))
+				ImGuiExt::HelpMarker(
+					"** Note:\n"
+					"Some values may be overwritten internally,\n"
+					"even if they aren't marked as read-only.\n"
+				);
+				ImGui::SameLine();
+
+				// New Uniform Popup
+				Uniform * to_add { nullptr };
+				if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (Uniform *&)to_add))
 				{
-					Debug::logError("A uniform with the name \'{0}\' already exists",
-						to_add->name
-					);
-					delete to_add;
+					// Already Exists
+					if (to_add && !m->insert(to_add))
+					{
+						Debug::logError("A uniform with the name \'{0}\' already exists",
+							to_add->name
+						);
+						delete to_add;
+					}
 				}
-			}
 
-			ImGui::SameLine();
+				ImGui::SameLine();
 
-			// Copy to Clipboard
-			if (ImGui::Button("Copy to Clipboard"))
-			{
-				SStream ss;
-				for (const auto & u : (*r->material()))
+				// Copy to Clipboard
+				if (ImGui::Button("Copy to Clipboard"))
+				{
+					SStream ss;
+					for (const auto & u : (*m))
+					{
+						if (!u) continue;
+						ss << std::left
+							<< "uniform "
+							<< std::setw(7) << util::to_string(*u) << " "
+							<< std::setw(15) << u->name << " "
+							<< "{ ";
+						switch (u->getID())
+						{
+						case uni_bool::ID: if (auto a { detail::as_bool(u) }) ss << (*a); break;
+						case uni_float::ID: if (auto a { detail::as_float(u) }) ss << (*a); break;
+						case uni_int::ID: if (auto a { detail::as_int(u) }) ss << (*a); break;
+						case uni_vec2::ID: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
+						case uni_vec3::ID: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
+						case uni_vec4::ID: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
+						case uni_color::ID: if (auto a { detail::as_color(u) }) ss << (*a); break;
+						case uni_mat2::ID: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
+						case uni_mat3::ID: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
+						case uni_mat4::ID: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
+						case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Content.get_name(*a); break;
+						}
+						if (ss.str().back() != ' ') ss << ' ';
+						ss << "}" << endl;
+					}
+					ML_Engine.window().setClipboardString(ss.str());
+				}
+
+				ImGui::Separator();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				static bool setup_uni_columns { false };
+
+				// Uniform Column Headers
+				ImGui::Columns(3, "##Uni##Columns");
+				if (ImGui::Selectable("Name"))
+				{
+					auto sort_name_ascending = ([&]() { std::sort(
+						m->begin(),
+						m->end(),
+						[](auto lhs, auto rhs) { return (lhs->name) < (rhs->name); }); });
+
+					auto sort_name_descending = ([&]() { std::sort(
+						m->begin(),
+						m->end(),
+						[](auto lhs, auto rhs) { return (lhs->name) > (rhs->name); }); });
+
+					static bool state { 0 };
+					if (state = !state) { sort_name_ascending(); }
+					else { sort_name_descending(); }
+				}
+				ImGui::NextColumn();
+				if (!setup_uni_columns)
+				{
+					ImGui::SetColumnWidth(-1,
+						ImGui::GetWindowContentRegionWidth() * 0.1f);
+				}
+				if (ImGui::Selectable("Type"))
+				{
+					auto sort_type_ascending = ([&]() { std::sort(
+						m->begin(),
+						m->end(),
+						[](auto lhs, auto rhs) { return (lhs->getID()) < (rhs->getID()); }); });
+
+					auto sort_type_descending = ([&]() { std::sort(
+						m->begin(),
+						m->end(),
+						[](auto lhs, auto rhs) { return (lhs->getID()) > (rhs->getID()); }); });
+
+					static bool state { 0 };
+					if (state = !state) { sort_type_ascending(); }
+					else { sort_type_descending(); }
+				}
+				ImGui::NextColumn();
+				if (ImGui::Selectable("Value"))
+				{
+					auto sort_value_ascending = ([&]() { std::sort(
+						m->begin(),
+						m->end(),
+						[](auto lhs, auto rhs) { return (lhs->isModifiable()) < (rhs->isModifiable()); }); });
+
+					auto sort_value_descending = ([&]() { std::sort(
+						m->begin(),
+						m->end(),
+						[](auto lhs, auto rhs) { return (lhs->isModifiable()) > (rhs->isModifiable()); }); });
+
+					static bool state { 0 };
+					if (state = !state) { sort_value_ascending(); }
+					else { sort_value_descending(); }
+				}
+				ImGui::NextColumn();
+				ImGui::Separator(); ImGui::Columns(1);
+				if (!setup_uni_columns) { setup_uni_columns = true; }
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				// Uniform List
+				Uniform * to_remove { nullptr };
+				for (auto & u : (*m))
 				{
 					if (!u) continue;
-					ss	<< std::left
-						<< "uniform " 
-						<< std::setw(7) << util::to_string(*u) << " "
-						<< std::setw(15) << u->name << " "
-						<< "{ ";
-					switch (u->getID())
+					ImGui::Columns(3, "##Uni##Columns");
+					const String label { "##Uni##" + u->name };
+
+					// Uniform Name
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (u->isModifiable())
 					{
-					case uni_bool	::ID: if (auto a { detail::as_bool(u) }) ss << (*a); break;
-					case uni_float	::ID: if (auto a { detail::as_float(u) }) ss << (*a); break;
-					case uni_int	::ID: if (auto a { detail::as_int(u) }) ss << (*a); break;
-					case uni_vec2	::ID: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
-					case uni_vec3	::ID: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
-					case uni_vec4	::ID: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
-					case uni_color	::ID: if (auto a { detail::as_color(u) }) ss << (*a); break;
-					case uni_mat2	::ID: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
-					case uni_mat3	::ID: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
-					case uni_mat4	::ID: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
-					case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Content.get_name(*a); break;
-					}
-					if (ss.str().back() != ' ') ss << ' ';
-					ss << "}" << endl;
-				}
-				ML_Engine.window().setClipboardString(ss.str());
-			}
-
-			ImGui::Separator();
-
-			/* * * * * * * * * * * * * * * * * * * * */
-
-			static bool setup_uni_columns { false };
-
-			// Uniform Column Headers
-			ImGui::Columns(3, "##Uni##Columns");
-			if (ImGui::Selectable("Name"))
-			{
-				auto sort_name_ascending = ([&]() { std::sort(
-					r->material()->begin(),
-					r->material()->end(),
-					[](auto lhs, auto rhs) { return (lhs->name) < (rhs->name); }); });
-
-				auto sort_name_descending = ([&]() { std::sort(
-					r->material()->begin(),
-					r->material()->end(),
-					[](auto lhs, auto rhs) { return (lhs->name) > (rhs->name); }); });
-
-				static bool state { 0 };
-				if (state = !state) { sort_name_ascending(); }
-				else { sort_name_descending(); }
-			}
-			ImGui::NextColumn();
-			if (!setup_uni_columns)
-			{
-				ImGui::SetColumnWidth(-1, 
-					ImGui::GetWindowContentRegionWidth() * 0.1f);
-			}
-			if (ImGui::Selectable("Type"))
-			{
-				auto sort_type_ascending = ([&]() { std::sort(
-					r->material()->begin(),
-					r->material()->end(),
-					[](auto lhs, auto rhs) { return (lhs->getID()) < (rhs->getID()); }); });
-
-				auto sort_type_descending = ([&]() { std::sort(
-					r->material()->begin(),
-					r->material()->end(),
-					[](auto lhs, auto rhs) { return (lhs->getID()) > (rhs->getID()); }); });
-
-				static bool state { 0 };
-				if (state = !state) { sort_type_ascending(); }
-				else { sort_type_descending(); }
-			}
-			ImGui::NextColumn();
-			if (ImGui::Selectable("Value")) 
-			{
-				auto sort_value_ascending = ([&]() { std::sort(
-					r->material()->begin(),
-					r->material()->end(),
-					[](auto lhs, auto rhs) { return (lhs->isModifiable()) < (rhs->isModifiable()); }); });
-
-				auto sort_value_descending = ([&]() { std::sort(
-					r->material()->begin(),
-					r->material()->end(),
-					[](auto lhs, auto rhs) { return (lhs->isModifiable()) > (rhs->isModifiable()); }); });
-
-				static bool state { 0 };
-				if (state = !state) { sort_value_ascending(); }
-				else { sort_value_descending(); }
-			}
-			ImGui::NextColumn();
-			ImGui::Separator(); ImGui::Columns(1);
-			if (!setup_uni_columns) { setup_uni_columns = true; }
-
-			/* * * * * * * * * * * * * * * * * * * * */
-					
-			// Uniform List
-			Uniform * to_remove { nullptr };
-			for (auto & u : (*r->material()))
-			{
-				if (!u) continue;
-				ImGui::Columns(3, "##Uni##Columns");
-				const String label { "##Uni##" + u->name };
-
-				// Uniform Name
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (u->isModifiable())
-				{
-					static char name[32] = "";
-					std::strcpy(name, u->name.c_str());
-					if (ImGui::InputText(
-						(label + "##Name").c_str(),
-						name,
-						ML_ARRAYSIZE(name),
-						ImGuiInputTextFlags_EnterReturnsTrue
-					))
-					{
-						if (!r->material()->get(name))
+						static char name[32] = "";
+						std::strcpy(name, u->name.c_str());
+						if (ImGui::InputText(
+							(label + "##Name").c_str(),
+							name,
+							ML_ARRAYSIZE(name),
+							ImGuiInputTextFlags_EnterReturnsTrue
+						))
 						{
-							u->name = name;
-						}
-						else
-						{
-							Debug::logError("A uniform with that name already exists");
+							if (!m->get(name))
+							{
+								u->name = name;
+							}
+							else
+							{
+								Debug::logError("A uniform with that name already exists");
+							}
 						}
 					}
-				}
-				else
-				{
-					ImGui::Text(u->name.c_str());
-				}
-				ImGui::NextColumn();
-						
-				// Uniform FileType
-				/* * * * * * * * * * * * * * * * * * * * */
-				ImGui::Text("%s", util::to_string(*u).c_str());
-				ImGui::NextColumn();
-
-				// Uniform Value
-				/* * * * * * * * * * * * * * * * * * * * */
-				ImGui::PushID(label.c_str());
-				if (PropertyDrawer<Uniform>()(label, (Uniform &)(*u)))
-				{
-					// Remove Uniform
-					ImGui::SameLine();
-					if (ImGuiExt::Confirm(
-						"Delete Uniform",
-						ImGui::Button(("X##")),
-						"Are you sure you want to delete this Uniform?"
-					) == 1)
+					else
 					{
-						to_remove = u;
+						ImGui::Text(u->name.c_str());
 					}
-					ImGuiExt::Tooltip("Delete this uniform");
+					ImGui::NextColumn();
+
+					// Uniform FileType
+					/* * * * * * * * * * * * * * * * * * * * */
+					ImGui::Text("%s", util::to_string(*u).c_str());
+					ImGui::NextColumn();
+
+					// Uniform Value
+					/* * * * * * * * * * * * * * * * * * * * */
+					ImGui::PushID(label.c_str());
+					if (PropertyDrawer<Uniform>()(label, (Uniform &)(*u)))
+					{
+						// Remove Uniform
+						ImGui::SameLine();
+						if (ImGuiExt::Confirm(
+							"Delete Uniform",
+							ImGui::Button(("X##")),
+							"Are you sure you want to delete this Uniform?"
+						) == 1)
+						{
+							to_remove = u;
+						}
+						ImGuiExt::Tooltip("Delete this uniform");
+					}
+					ImGui::PopID();
+					ImGui::Columns(1);
+					ImGui::Separator();
 				}
-				ImGui::PopID();
-				ImGui::Columns(1);
-				ImGui::Separator();
+				if (to_remove) { m->erase(to_remove); }
 			}
-			if (to_remove) { r->material()->erase(to_remove); }
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * */

@@ -140,125 +140,7 @@ namespace ml
 					ImGui::PushID(ev->submenu);
 					if (ImGui::BeginMenu(nameof<>::filter_namespace(get_type_info().name()).c_str()))
 					{
-						// Show Editor
-						ImGui::Checkbox("Show Editor", &m_editor_open);
-						ImGuiExt::Tooltip("Toggle editor visibility");
-						
-						// Show Display
-						ImGui::Checkbox("Show Display", &m_display_open);
-						ImGuiExt::Tooltip("Toggle display visibility");
-						
-						// Use Main Camera
-						ImGui::Checkbox("Use Main Camera", &m_use_main_camera);
-						ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
-
-						ImGui::Separator();
-
-						// Entity
-						/* * * * * * * * * * * * * * * * * * * * */
-						const Entity * e { m_entity.get() };
-						if (PropertyDrawer<Entity>()("##TargetEntity", e) && e)
-						{
-							m_entity.update(e);
-							reset_sources().generate_sources();
-						}
-						ImGuiExt::Tooltip("Select target entity");
-						
-						// Renderer
-						/* * * * * * * * * * * * * * * * * * * * */
-						if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
-						{
-							ImGui::PushID(ML_ADDRESSOF(r));
-							const bool show_renderer { ImGui::BeginMenu("Renderer") };
-							ImGuiExt::Tooltip("Renderer Settings");
-							if (show_renderer)
-							{
-								bool enabled { r->enabled() };
-								if (ImGui::Checkbox("Enabled##Renderer", &enabled))
-								{
-									r->setEnabled(enabled); 
-								}
-								auto mdl { r->model() };
-								if (PropertyDrawer<Model>()("Model##Renderer", (const Model *&)mdl))
-								{
-									r->setModel(mdl);
-								}
-								auto mat { r->material() };
-								if (PropertyDrawer<Material>()("Material##Renderer", (const Material *&)mat)) 
-								{
-									r->setMaterial(mat);
-									reset_sources().generate_sources();
-								}
-								auto shd { r->shader() };
-								if (PropertyDrawer<Shader>()("Shader##Renderer", (const Shader *&)shd))
-								{
-									r->setShader(shd);
-									reset_sources().generate_sources();
-								}
-								ImGui::EndMenu();
-							}
-							ImGui::PopID();
-						}
-						else if (m_entity)
-						{
-							ImGui::PushID(ML_ADDRESSOF(m_entity.get()));
-							if (ImGui::Button("Add Renderer")) 
-							{
-								m_entity->add<Renderer>(); 
-								reset_sources().generate_sources();
-							}
-							ImGuiExt::Tooltip("Attach a Renderer to the target Entity");
-							ImGui::PopID();
-						}
-						
-						
-						// Transform
-						/* * * * * * * * * * * * * * * * * * * * */
-						if (auto t { m_entity ? m_entity->get<Transform>() : nullptr })
-						{
-							ImGui::PushID(ML_ADDRESSOF(t));
-							const bool show_transform { ImGui::BeginMenu("Transform") };
-							ImGuiExt::Tooltip("Transform Settings");
-							if (show_transform)
-							{
-								bool enabled { t->enabled() };
-								if (ImGui::Checkbox("Enabled##Transform", &enabled))
-								{
-									t->setEnabled(enabled); 
-								}
-								ImGuiExt::Tooltip(
-									"If enabled, the following uniforms will be overridden\n"
-									" vec3 u_position\n"
-									" vec3 u_scale\n"
-									" vec4 u_rotation\n"
-								);
-								vec3 pos = t->position();
-								if (ImGui::DragFloat3("Position##Transform", &pos[0], 0.005f))
-								{
-									t->setPosition(pos);
-								}
-								vec3 scl = t->scale();
-								if (ImGui::DragFloat3("Scale##Transform", &scl[0], 0.005f))
-								{
-									t->setScale(scl);
-								}
-								vec4 rot = t->rotation();
-								if (ImGui::DragFloat4("Rotation##Transform", &rot[0], 0.005f))
-								{
-									t->setRotation(rot);
-								}
-								ImGui::EndMenu();
-							}
-							ImGui::PopID();
-						}
-						else if (m_entity)
-						{
-							ImGui::PushID(ML_ADDRESSOF(m_entity.get()));
-							if (ImGui::Button("Add Transform")) { m_entity->add<Transform>(); }
-							ImGuiExt::Tooltip("Attach a Transform to the target Entity");
-							ImGui::PopID();
-						}
-						
+						draw_plugin_menu();
 						ImGui::EndMenu();
 					}
 					ImGui::PopID();
@@ -280,7 +162,8 @@ namespace ml
 		case SecretEvent::ID:
 			if (auto ev = value.as<SecretEvent>())
 			{
-				Debug::log("You did the thing.");
+				Debug::log("I'm so proud.");
+				Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 			}
 			break;
 		}
@@ -305,31 +188,30 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		Camera * camera { Camera::mainCamera() };
-		if (camera && (*camera))
+		if (auto c { Camera::mainCamera() })
 		{
-			// Update Camera
-			camera->setViewport((vec2i)m_viewport);
-
-			// Update Pipeline
-			for (auto & surf : m_pipeline)
+			if (c->enabled())
 			{
-				surf->update((vec2)camera->viewport().size());
-			}
-
-			// Update Camera Uniforms
-			if (m_use_main_camera)
-			{
-				for (auto & [key, value] : ML_Content.data<Material>())
+				// Update Pipeline
+				for (auto & surf : m_pipeline)
 				{
-					if (auto m { (Material *)value })
+					surf->update((vec2)c->viewport().size());
+				}
+
+				// Update Camera Uniforms
+				if (m_use_main_camera)
+				{
+					for (auto & [key, value] : ML_Content.data<Material>())
 					{
-						m->set<uni_vec3>("u_camera.pos", camera->position());
-						m->set<uni_vec3>("u_camera.dir", camera->direction());
-						m->set<uni_float>("u_camera.fov", camera->fieldOfView());
-						m->set<uni_float>("u_camera.near", camera->clipNear());
-						m->set<uni_float>("u_camera.far", camera->clipFar());
-						m->set<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
+						if (auto m { (Material *)value })
+						{
+							m->set<uni_vec3>("u_camera.pos", c->position());
+							m->set<uni_vec3>("u_camera.dir", c->direction());
+							m->set<uni_float>("u_camera.fov", c->fieldOfView());
+							m->set<uni_float>("u_camera.near", c->clipNear());
+							m->set<uni_float>("u_camera.far", c->clipFar());
+							m->set<uni_vec2>("u_camera.view", (vec2)c->viewport().size());
+						}
 					}
 				}
 			}
@@ -432,7 +314,13 @@ namespace ml
 		{
 			ML_AssetPreview.drawPreview(surf, ImGuiExt::GetContentRegionAvail(), [&] 
 			{
-				if (m_freeAspect) { m_viewport = ImGuiExt::GetContentRegionAvail(); }
+				if (m_displayMode == DisplayMode::Automatic)
+				{ 
+					if (auto c { Camera::mainCamera() })
+					{
+						c->setViewport((vec2i)ImGuiExt::GetContentRegionAvail());
+					}
+				}
 			});
 		}
 		ImGui::End();
@@ -566,6 +454,26 @@ namespace ml
 							ML_Engine.window().setClipboardString(file->text.GetText());
 							ImGui::CloseCurrentPopup();
 						}
+
+						// Style
+						int32_t editor_style {
+							((file->text.GetPalette() == TextEditor::GetDarkPalette())
+								? 0
+								: ((file->text.GetPalette() == TextEditor::GetLightPalette())
+									? 1
+									: (((file->text.GetPalette() == TextEditor::GetRetroBluePalette())
+										? 2 : 2
+										)))) };
+						if (ImGui::Combo("##TextEditorStyle", &editor_style, "Dark\0Light\0Retro"))
+						{
+							switch (editor_style)
+							{
+							case 0: file->text.SetPalette(TextEditor::GetDarkPalette()); break;
+							case 1: file->text.SetPalette(TextEditor::GetLightPalette()); break;
+							case 2: file->text.SetPalette(TextEditor::GetRetroBluePalette()); break;
+							}
+						}
+
 						ImGui::EndPopup();
 					}
 
@@ -816,7 +724,7 @@ namespace ml
 					ImGui::SameLine();
 					if (ImGuiExt::Confirm(
 						"Delete Uniform",
-						ImGui::Button(("X##" + label).c_str()),
+						ImGui::Button(("X##")),
 						"Are you sure you want to delete this Uniform?"
 					) == 1)
 					{
@@ -858,7 +766,7 @@ namespace ml
 					r->setMaterial(mtl);
 					reset_sources().generate_sources();
 				}
-				ImGuiExt::Tooltip("Materials specify the uniforms to be used.");
+				ImGuiExt::Tooltip("Materials contain the list uniforms applied to the shader.");
 				ImGui::Separator();
 
 				// Select Shader
@@ -868,7 +776,7 @@ namespace ml
 					r->setShader(shd);
 					reset_sources().generate_sources();
 				}
-				ImGuiExt::Tooltip("Shaders specify the program to be used.");
+				ImGuiExt::Tooltip("Shaders provide the code for the programmable stages of the rendering pipeline.");
 				ImGui::Separator();
 
 				// Select Model
@@ -889,7 +797,7 @@ namespace ml
 					// Get Video Names
 					static const List<String> & mode_names = [&]
 					{
-						static List<String> temp { "Free" };
+						static List<String> temp { "Automatic", "Manual" };
 						for (const auto & elem : mode_values)
 							temp.push_back(util::to_string(elem.size));
 						return temp;
@@ -897,20 +805,43 @@ namespace ml
 
 					// Viewport
 					static int32_t index { 0 };
-					if (ImGuiExt::Combo("Viewport", &index, mode_names))
+					if (ImGuiExt::Combo("Resolution", &index, mode_names))
 					{
-						m_freeAspect = (index == 0);
+						if (index == 0)
+						{
+							m_displayMode = DisplayMode::Automatic;
+						}
+						else if (index == 1)
+						{
+							m_displayMode = DisplayMode::Manual;
+						}
+						else
+						{
+							m_displayMode = DisplayMode::Fixed;
+						}
 					}
-					if (!m_freeAspect)
+					if (m_displayMode == DisplayMode::Manual)
 					{
-						m_viewport = (vec2i)mode_values[index - 1].size;
+						ImGui::Indent();
+						vec2 v { (vec2)c->viewport().size() };
+						if (ImGui::DragFloat2("##Resolution", &v[0]))
+						{
+							if (v[0] <= 0.f) v[0] = FLT_MIN;
+							if (v[1] <= 0.f) v[1] = FLT_MIN;
+							c->setViewport((vec2i)v);
+						}
+						ImGui::Unindent();
+					}
+					if (m_displayMode == DisplayMode::Fixed)
+					{
+						c->setViewport((vec2i)mode_values[index - 2].size);
 					}
 					ImGuiExt::Tooltip("Specify the display resolution.");
 
 					ImGui::Separator();
 
-					vec4 background { c->background() };
 					// Background Color
+					vec4 background { c->background() };
 					if (ImGui::ColorEdit4("Background", &background[0]))
 					{
 						c->setBackground(background);
@@ -1255,6 +1186,335 @@ namespace ml
 		ImGui::PopID(); 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void Noobs::draw_plugin_menu()
+	{
+		// Show Editor
+		ImGui::Checkbox("Show Editor", &m_editor_open);
+		ImGuiExt::Tooltip("Toggle editor visibility");
+
+		// Show Display
+		ImGui::Checkbox("Show Display", &m_display_open);
+		ImGuiExt::Tooltip("Toggle display visibility");
+
+		ImGui::Separator();
+
+		// Camera
+		if (ImGui::BeginMenu("Camera"))
+		{
+			if (auto c { Camera::mainCamera() })
+			{
+				constexpr float_t speed { 0.005f };
+
+				bool	enabled = c->enabled();
+				int32_t clearFlags = c->clearFlags();
+				int32_t projection = c->projection();
+				vec3	position = c->position();
+				vec3	forward = c->direction();
+				vec4	background = c->background();
+				float_t fieldOfView = c->fieldOfView();
+				float_t clipNear = c->clipNear();
+				float_t clipFar = c->clipFar();
+				vec2	viewport = (vec2)c->viewport().size();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				// Enabled
+				if (ImGui::Checkbox(("Enabled##Camera##Noobs"), &enabled))
+				{
+					c->setEnabled(enabled);
+				}
+				ImGuiExt::Tooltip("If enabled, the camera be applied.");
+				ImGui::SameLine();
+
+				// Use Main Camera
+				ImGui::Checkbox("Apply Uniforms", &m_use_main_camera);
+				ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
+
+				// Clear Flags
+				if (ImGuiExt::Combo(
+					("Clear Flags##Camera##Noobs"),
+					&clearFlags,
+					"Solid Color\0Depth Only\0Don't Clear"
+				))
+				{
+					c->setClearFlags((Camera::ClearFlags)clearFlags);
+				}
+				ImGuiExt::Tooltip("Specify how the screen should be cleared.");
+
+				// Projection
+				if (ImGuiExt::Combo(
+					("Projection##Camera##Noobs"),
+					&projection,
+					"Perspective\0"
+				))
+				{
+					c->setProjection((Camera::Projection)projection);
+				}
+				ImGuiExt::Tooltip("Specify which projection to use.");
+
+				// Background
+				if (ImGui::ColorEdit4(("Background##Camera##Noobs"), &background[0]))
+				{
+					c->setBackground(background);
+				}
+				ImGuiExt::Tooltip("Specify the color to apply when using \'Solid Color\'.");
+
+				ImGui::Separator();
+
+				// Position
+				if (ImGui::DragFloat3(("Position##Camera##Noobs"), &position[0], speed))
+				{
+					c->setPosition(position);
+				}
+				ImGuiExt::Tooltip("Set the position of the camera.");
+
+				// Direction
+				if (ImGui::DragFloat3(("Direction##Camera##Noobs"), &forward[0], speed))
+				{
+					c->setDirection(forward);
+				}
+				ImGuiExt::Tooltip("Set the direction the camera is facing.");
+
+				ImGui::Separator();
+
+				// Field of View
+				if (ImGui::DragFloat(("Field of View##Camera##Noobs"), &fieldOfView, speed))
+				{
+					c->setFieldOfView(fieldOfView);
+				}
+				ImGuiExt::Tooltip("Specify the field of view.");
+
+				// Clip Near
+				if (ImGui::DragFloat(("Clip Near##Camera##Noobs"), &clipNear, speed))
+				{
+					c->setClipNear(clipNear);
+				}
+				ImGuiExt::Tooltip("Specify the near clipping plane.");
+
+				// Clip Far
+				if (ImGui::DragFloat(("Clip Far##Camera##Noobs"), &clipFar, speed))
+				{
+					c->setClipFar(clipFar);
+				}
+				ImGuiExt::Tooltip("Specify the far clipping plane.");
+
+				// Viewport
+				if (ImGui::DragFloat2(("Viewport##Camera##Noobs"), &viewport[0], speed))
+				{
+					if (viewport[0] <= 0.f) viewport[0] = FLT_MIN;
+					if (viewport[1] <= 0.f) viewport[1] = FLT_MIN;
+					c->setViewport((vec2i)viewport);
+				}
+				ImGuiExt::Tooltip("Specify the viewport size.");
+			}
+			else
+			{
+				ImGui::Text("Main Camera Not Found");
+			}
+			ImGui::EndMenu();
+		}
+		
+		ImGui::Separator();
+
+		// Entity
+		/* * * * * * * * * * * * * * * * * * * * */
+		if (ImGui::BeginMenu("Entity"))
+		{
+			const Entity * e { m_entity.get() };
+			if (PropertyDrawer<Entity>()("##TargetEntity", e) && e)
+			{
+				m_entity.update(e);
+				reset_sources().generate_sources();
+			}
+			ImGuiExt::Tooltip("Select the target entity");
+
+			// Renderer
+			if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
+			{
+				if (ImGui::CollapsingHeader("Renderer"))
+				{
+					ImGui::PushID(ML_ADDRESSOF(r));
+					ImGui::Indent();
+					/* * * * * * * * * * * * * * * * * * * * */
+					bool enabled { r->enabled() };
+					if (ImGui::Checkbox("Enabled##Renderer", &enabled))
+					{
+						r->setEnabled(enabled);
+					}
+					/* * * * * * * * * * * * * * * * * * * * */
+					auto mat { r->material() };
+					if (PropertyDrawer<Material>()("Material##Renderer", (const Material *&)mat))
+					{
+						r->setMaterial(mat);
+						reset_sources().generate_sources();
+					}
+					/* * * * * * * * * * * * * * * * * * * * */
+					auto shd { r->shader() };
+					if (PropertyDrawer<Shader>()("Shader##Renderer", (const Shader *&)shd))
+					{
+						r->setShader(shd);
+						reset_sources().generate_sources();
+					}
+					/* * * * * * * * * * * * * * * * * * * * */
+					auto mdl { r->model() };
+					if (PropertyDrawer<Model>()("Model##Renderer", (const Model *&)mdl))
+					{
+						r->setModel(mdl);
+					}
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::TreeNode("Alpha"))
+					{
+						ImGui::Checkbox("Enabled##AlphaState", &r->states().alpha().enabled);
+						int32_t index = GL::index_of(r->states().alpha().func);
+						if (ImGuiExt::Combo(
+							"Comparison##Alpha Testing",
+							&index,
+							GL::Predicate_names,
+							ML_ARRAYSIZE(GL::Predicate_names)
+						))
+						{
+							GL::value_at(index, r->states().alpha().func);
+						}
+						ImGui::DragFloat("Coeff##AlphaState", &r->states().alpha().coeff);
+						ImGui::TreePop();
+					}
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::TreeNode("Blend"))
+					{
+						ImGui::Checkbox("Enabled##BlendState", &r->states().blend().enabled);
+						auto factor_combo = [](C_String label, int32_t & index)
+						{
+							return ImGuiExt::Combo(
+								label,
+								&index,
+								GL::Factor_names,
+								ML_ARRAYSIZE(GL::Factor_names)
+							);
+						};
+						int32_t sfactorRGB = GL::index_of(r->states().blend().sfactorRGB);
+						if (factor_combo("Src RGB##BlendState", sfactorRGB))
+						{
+							GL::value_at(sfactorRGB, r->states().blend().sfactorRGB);
+						}
+						int32_t sfactorAlpha = GL::index_of(r->states().blend().sfactorAlpha);
+						if (factor_combo("Src Alpha##BlendState", sfactorAlpha))
+						{
+							GL::value_at(sfactorAlpha, r->states().blend().sfactorAlpha);
+						}
+						int32_t dfactorRGB = GL::index_of(r->states().blend().dfactorRGB);
+						if (factor_combo("Dst RGB##BlendState", dfactorRGB))
+						{
+							GL::value_at(dfactorRGB, r->states().blend().dfactorRGB);
+						}
+						int32_t dfactorAlpha = GL::index_of(r->states().blend().dfactorAlpha);
+						if (factor_combo("Dst Alpha##BlendState", dfactorAlpha))
+						{
+							GL::value_at(dfactorAlpha, r->states().blend().dfactorAlpha);
+						}
+						ImGui::TreePop();
+					}
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::TreeNode("Cull"))
+					{
+						ImGui::Checkbox("Enabled##CullState", &r->states().cull().enabled);
+						int32_t index = GL::index_of(r->states().cull().mode);
+						if (ImGuiExt::Combo(
+							"Face##Cull",
+							&index,
+							GL::Face_names,
+							ML_ARRAYSIZE(GL::Face_names)
+						))
+						{
+							GL::value_at(index, r->states().cull().mode);
+						}
+						ImGui::TreePop();
+					}
+					/* * * * * * * * * * * * * * * * * * * * */
+					if (ImGui::TreeNode("Depth"))
+					{
+						ImGui::Checkbox("Enabled##DepthState", &r->states().depth().enabled);
+						ImGui::Checkbox("Mask##DepthState", &r->states().depth().mask);
+						int32_t index = GL::index_of(r->states().depth().func);
+						if (ImGuiExt::Combo(
+							"Comparison##Depth",
+							&index,
+							GL::Predicate_names,
+							ML_ARRAYSIZE(GL::Predicate_names)
+						))
+						{
+							GL::value_at(index, r->states().depth().func);
+						}
+						ImGui::TreePop();
+					}
+					/* * * * * * * * * * * * * * * * * * * * */
+					ImGui::Unindent();
+					ImGui::PopID();
+				}
+			}
+			else if (m_entity)
+			{
+				ImGui::PushID(ML_ADDRESSOF(m_entity.get()));
+				if (ImGui::Button("Add Renderer"))
+				{
+					m_entity->add<Renderer>();
+					reset_sources().generate_sources();
+				}
+				ImGuiExt::Tooltip("Attach a Renderer to the target Entity");
+				ImGui::PopID();
+			}
+
+			// Transform
+			if (auto t { m_entity ? m_entity->get<Transform>() : nullptr })
+			{
+				if (ImGui::CollapsingHeader("Transform"))
+				{
+					ImGui::PushID(ML_ADDRESSOF(t));
+					ImGui::Indent();
+					bool enabled { t->enabled() };
+					if (ImGui::Checkbox("Enabled##Transform", &enabled))
+					{
+						t->setEnabled(enabled);
+					}
+					ImGuiExt::Tooltip(
+						"If enabled, the following uniforms will be overridden\n"
+						" vec3 u_position\n"
+						" vec3 u_scale\n"
+						" vec4 u_rotation\n"
+					);
+					vec3 pos = t->position();
+					if (ImGui::DragFloat3("Position##Transform", &pos[0], 0.005f))
+					{
+						t->setPosition(pos);
+					}
+					vec3 scl = t->scale();
+					if (ImGui::DragFloat3("Scale##Transform", &scl[0], 0.005f))
+					{
+						t->setScale(scl);
+					}
+					vec4 rot = t->rotation();
+					if (ImGui::DragFloat4("Rotation##Transform", &rot[0], 0.005f))
+					{
+						t->setRotation(rot);
+					}
+					ImGui::Unindent();
+					ImGui::PopID();
+				}
+			}
+			else if (m_entity)
+			{
+				ImGui::PushID(ML_ADDRESSOF(m_entity.get()));
+				if (ImGui::Button("Add Transform")) { m_entity->add<Transform>(); }
+				ImGuiExt::Tooltip("Attach a Transform to the target Entity");
+				ImGui::PopID();
+			}
+			ImGui::EndMenu();
+		}
+		
+		ImGui::Separator();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

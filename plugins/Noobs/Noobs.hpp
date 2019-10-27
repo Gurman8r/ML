@@ -13,7 +13,7 @@ extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct Entity;
 	struct Material;
@@ -21,7 +21,7 @@ namespace ml
 	struct Renderer;
 	struct Surface;
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_PLUGIN_API Noobs final : public Plugin
 	{
@@ -44,6 +44,7 @@ namespace ml
 
 		// PIPELINE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		enum : size_t 
 		{
 			Surf_Main, Surf_Post, MAX_DEMO_SURFACE
@@ -56,8 +57,9 @@ namespace ml
 		};
 
 
-		// ERROR
+		// ERRORS
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		struct ShaderError final : public Newable
 		{
 			String	file;
@@ -112,8 +114,9 @@ namespace ml
 
 
 
-		// FILE
+		// FILES
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		using TextEditor = ImGui::TextEditor;
 
 		struct ShaderFile final : public Newable, public NonCopyable
@@ -158,13 +161,15 @@ namespace ml
 
 		// EDITOR
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		enum class DisplayMode : int32_t { Automatic, Manual, Fixed };
+
 		bool		m_editor_open		{ true };
 		bool		m_display_open		{ true };
 		bool		m_use_main_camera	{ true };
 		Ref<Entity> m_entity			{};
 		FileArray	m_files				{ 0 };
-		bool		m_freeAspect		{ true };
-		vec2		m_viewport			{ 1920, 1080 };
+		DisplayMode	m_displayMode		{ 0 };
 
 		static constexpr auto display_name { "Display##Noobs##DemoView" };
 		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };
@@ -177,6 +182,8 @@ namespace ml
 		void draw_code_tab();
 		void draw_uniforms_tab();
 		void draw_settings_tab();
+		
+		void draw_plugin_menu();
 
 		Noobs & compile_sources();
 		Noobs & dispose_files();
@@ -186,7 +193,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_NOOBS_HPP_

@@ -68,7 +68,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline Camera * mainCamera() { return s_mainCamera; }
+		static inline Camera * mainCamera() 
+		{ 
+			return s_mainCamera; 
+		}
+
+		static inline Camera * mainCamera(Camera * value)
+		{
+			return ((!s_mainCamera && value)
+				? (s_mainCamera = value)
+				: nullptr
+			);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

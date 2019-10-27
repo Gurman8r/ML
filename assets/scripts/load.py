@@ -166,7 +166,7 @@ ml.content.load_all([
     },
     {
         "type": "ml::Material",
-        "name": "mat/surface",
+        "name": "mat/util/surface",
         "defaults": "False",
         "uniforms": PATH + "/materials/surface.mat"
     },
@@ -183,14 +183,14 @@ ml.content.load_all([
         "type": "ml::Surface", 
         "name": "surf/main", 
         "model": "obj/default/quad", 
-        "material": "mat/surface",
+        "material": "mat/util/surface",
         "shader": "gl/util/surface",
     },
     { 
         "type": "ml::Surface", 
         "name": "surf/post", 
         "model": "obj/default/quad", 
-        "material": "mat/surface",
+        "material": "mat/util/surface",
         "shader": "gl/util/surface",
     },
 

@@ -315,7 +315,7 @@ namespace ml
 				float_t fieldOfView = c->fieldOfView();
 				float_t clipNear	= c->clipNear();
 				float_t clipFar		= c->clipFar();
-				IntRect viewport	= c->viewport();
+				vec2	viewport	= (vec2)c->viewport().size();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -331,6 +331,16 @@ namespace ml
 					c->setEnabled(enabled);
 				}
 				ImGuiExt::Tooltip("If enabled, the camera be applied.");
+
+				ImGui::SameLine();
+				if (auto mc { Camera::mainCamera() })
+				{
+					if (mc == c) { ImGuiExt::HelpMarker("This is the main camera."); }
+				}
+				else if (ImGui::Button("Make this the main camera"))
+				{
+					Camera::mainCamera(c);
+				}
 
 				// Clear Flags
 				if (ImGuiExt::Combo(
@@ -401,9 +411,11 @@ namespace ml
 				ImGuiExt::Tooltip("Specify the far clipping plane.");
 
 				// Viewport
-				if (ImGui::DragInt4(("Viewport##Camera##" + label).c_str(), &viewport[0], speed))
+				if (ImGui::DragFloat2(("Viewport##Camera##" + label).c_str(), &viewport[0], speed))
 				{
-					c->setViewport(viewport);
+					if (viewport[0] <= 0.f) viewport[0] = FLT_MIN;
+					if (viewport[1] <= 0.f) viewport[1] = FLT_MIN;
+					c->setViewport((vec2i)viewport);
 				}
 				ImGuiExt::Tooltip("Specify the viewport size.");
 
@@ -1690,6 +1702,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 
 		bool changed { false };
+
+		ImGui::Text("Handle: %u", (uint32_t)value);
 
 		if (ImGui::BeginTabBar(("SourceTabs##" + label).c_str()))
 		{

@@ -472,6 +472,7 @@ namespace ml
 							case 1: file->text.SetPalette(TextEditor::GetLightPalette()); break;
 							case 2: file->text.SetPalette(TextEditor::GetRetroBluePalette()); break;
 							}
+							ImGui::CloseCurrentPopup();
 						}
 
 						ImGui::EndPopup();
@@ -882,7 +883,7 @@ namespace ml
 					ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::Text(GL::raw_name_of(GL::AlphaTest));
-					ImGui::SameLine(); ImGui::Text(")");
+					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -923,7 +924,7 @@ namespace ml
 						alpha->coeff,
 						"Specifies the reference value that incoming alpha values are compared to"
 					));
-					ImGui::SameLine(); ImGui::Text(")");
+					ImGui::SameLine(); ImGui::Text(");");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -955,7 +956,7 @@ namespace ml
 					ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::Text(GL::raw_name_of(GL::Blend));
-					ImGui::SameLine(); ImGui::Text(")");
+					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -965,7 +966,9 @@ namespace ml
 						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
 					}
 					ImGuiExt::Tooltip("Specify pixel arithmetic for RGB and alpha components separately");
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::SameLine(); ImGui::Text("("); //ImGui::SameLine();
+
+					ImGui::Indent();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1037,7 +1040,9 @@ namespace ml
 						util::to_hex<uint32_t>(blend->dfactorAlpha),
 						"Specifies how the alpha destination blending factor is computed"
 					));
-					ImGui::SameLine(); ImGui::Text(")");
+					
+					ImGui::Unindent();
+					ImGui::Text(");");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1068,7 +1073,7 @@ namespace ml
 					ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::Text(GL::raw_name_of(GL::CullFace));
-					ImGui::SameLine(); ImGui::Text(")");
+					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -1096,7 +1101,7 @@ namespace ml
 						util::to_hex<uint32_t>(cull->mode),
 						GL::desc_of(cull->mode)
 					));
-					ImGui::SameLine(); ImGui::Text(")");
+					ImGui::SameLine(); ImGui::Text(");");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 
@@ -1127,7 +1132,7 @@ namespace ml
 					ImGuiExt::Tooltip("If enabled, do depth comparisons and update the depth buffer.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::Text(GL::raw_name_of(GL::DepthTest));
-					ImGui::SameLine(); ImGui::Text(")");
+					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -1136,7 +1141,7 @@ namespace ml
 					ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::Text(depth->mask ? "true" : "false");
-					ImGui::SameLine(); ImGui::Text(")");
+					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
 					/* * * * * * * * * * * * * * * * * * * * */
@@ -1164,7 +1169,7 @@ namespace ml
 						util::to_hex<uint32_t>(depth->func),
 						GL::desc_of(depth->func)
 					));
-					ImGui::SameLine(); ImGui::Text(")");
+					ImGui::SameLine(); ImGui::Text(");");
 
 					/* * * * * * * * * * * * * * * * * * * * */
 

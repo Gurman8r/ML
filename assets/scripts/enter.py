@@ -28,7 +28,7 @@ if (ml.config.system_name() == "Windows"):
     ml.plugins.load_all([
  	    "Noobs_$(Configuration)_$(PlatformTarget).dll",
  	    "CommandSuite_$(Configuration)_$(PlatformTarget).dll",
- 	    #"TestPlugin_$(Configuration)_$(PlatformTarget).dll",
+ 	    "TestPlugin_$(Configuration)_$(PlatformTarget).dll",
  	    ])
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

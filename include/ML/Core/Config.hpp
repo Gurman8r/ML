@@ -7,7 +7,7 @@
 
 # define ML_PROJECT_AUTH	"Melody Gurman"
 # define ML_PROJECT_NAME	"MemeLib"
-# define ML_PROJECT_VER		"Alpha"
+# define ML_PROJECT_VER		"Beta"
 # define ML_PROJECT_URL		"https://www.github.com/Gurman8r/ML"
 # define ML_PROJECT_DATE	__DATE__
 # define ML_PROJECT_TIME	__TIME__

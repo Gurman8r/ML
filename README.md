@@ -1,8 +1,8 @@
 # MemeLib (ML)
 
-- ML is a C++ application framework.
-	- ML is my personal working collection of C++ libraries, therefore everything should be considered experimental
-	- ML is very much a work in progress and is constantly evolving
+- ML is a simple C++ game engine.
+	- Everything should be considered experimental
+	- Everything is a work in progress and is subject to change
 - Downloads: https://bit.ly/ml_noobs
 - Old Repo: https://github.com/Gurman8r/CppSandbox
 - ML uses OpenGL 4.6

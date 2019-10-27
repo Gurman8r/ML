@@ -9,11 +9,8 @@ set ExePath=.\bin\%Configuration%\%PlatformTarget%\
 
 set ExeName=ML_Launcher_%Configuration%_%PlatformTarget%.exe
 
-if not exist %ExePath%%ExeName% (
-	echo File Not Found: "%ExePath%%ExeName%"
-	pause
-	exit 1
-) else (
-	cd %ExePath%
-	start %ExeName% %*
-)
+cd %ExePath%
+
+start %ExeName% %*
+
+if %ERRORLEVEL% NEQ 0 ( pause )

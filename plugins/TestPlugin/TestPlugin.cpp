@@ -32,7 +32,7 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(this));
 					if (ImGui::BeginMenu(nameof<>::filter_namespace(get_type_info().name()).c_str()))
 					{
-						ImGui::Text("This plugin is intentionally left empty.");
+						ImGui::Text("Sample text.");
 						ImGui::EndMenu();
 					}
 					ImGui::PopID();

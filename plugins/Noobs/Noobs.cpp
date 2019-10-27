@@ -141,35 +141,31 @@ namespace ml
 					if (ImGui::BeginMenu(nameof<>::filter_namespace(get_type_info().name()).c_str()))
 					{
 						// Show Editor
-						ImGui::MenuItem("Show Editor", "", &m_editor_open);
+						ImGui::Checkbox("Show Editor", &m_editor_open);
 						ImGuiExt::Tooltip("Toggle editor visibility");
 						
 						// Show Display
-						ImGui::MenuItem("Show Display", "", &m_display_open);
+						ImGui::Checkbox("Show Display", &m_display_open);
 						ImGuiExt::Tooltip("Toggle display visibility");
 						
 						// Use Main Camera
-						ImGui::MenuItem("Use Main Camera", "", &m_use_main_camera);
+						ImGui::Checkbox("Use Main Camera", &m_use_main_camera);
 						ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
 
 						ImGui::Separator();
 
 						// Entity
-						const bool show_entity { ImGui::BeginMenu("Entity") };
-						ImGuiExt::Tooltip("Entity Settings");
-						if (show_entity)
+						/* * * * * * * * * * * * * * * * * * * * */
+						const Entity * e { m_entity.get() };
+						if (PropertyDrawer<Entity>()("##TargetEntity", e) && e)
 						{
-							const Entity * e { m_entity.get() };
-							if (PropertyDrawer<Entity>()("##TargetEntity", e) && e)
-							{
-								m_entity.update(e);
-								reset_sources().generate_sources();
-							}
-							ImGuiExt::Tooltip("Select the target entity");
-							ImGui::EndMenu();
+							m_entity.update(e);
+							reset_sources().generate_sources();
 						}
+						ImGuiExt::Tooltip("Select target entity");
 						
 						// Renderer
+						/* * * * * * * * * * * * * * * * * * * * */
 						if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
 						{
 							ImGui::PushID(ML_ADDRESSOF(r));
@@ -178,8 +174,10 @@ namespace ml
 							if (show_renderer)
 							{
 								bool enabled { r->enabled() };
-								if (ImGui::Checkbox("Enabled", &enabled)) { r->setEnabled(enabled); }
-								ImGuiExt::Tooltip("Enable or disable the target entity's Renderer");
+								if (ImGui::Checkbox("Enabled##Renderer", &enabled))
+								{
+									r->setEnabled(enabled); 
+								}
 								auto mdl { r->model() };
 								if (PropertyDrawer<Model>()("Model##Renderer", (const Model *&)mdl))
 								{
@@ -215,6 +213,7 @@ namespace ml
 						
 						
 						// Transform
+						/* * * * * * * * * * * * * * * * * * * * */
 						if (auto t { m_entity ? m_entity->get<Transform>() : nullptr })
 						{
 							ImGui::PushID(ML_ADDRESSOF(t));
@@ -223,14 +222,31 @@ namespace ml
 							if (show_transform)
 							{
 								bool enabled { t->enabled() };
-								if (ImGui::Checkbox("Enabled", &enabled)) { t->setEnabled(enabled); }
+								if (ImGui::Checkbox("Enabled##Transform", &enabled))
+								{
+									t->setEnabled(enabled); 
+								}
 								ImGuiExt::Tooltip(
-									"Enable or disable the target entity's Transform\n"
-									"If enabled, the transform will attempt to override the uniforms:\n"
-									"\tvec3 u_position\n"
-									"\tvec3 u_scale\n"
-									"\tvec4 u_rotation\n"
+									"If enabled, the following uniforms will be overridden\n"
+									" vec3 u_position\n"
+									" vec3 u_scale\n"
+									" vec4 u_rotation\n"
 								);
+								vec3 pos = t->position();
+								if (ImGui::DragFloat3("Position##Transform", &pos[0], 0.005f))
+								{
+									t->setPosition(pos);
+								}
+								vec3 scl = t->scale();
+								if (ImGui::DragFloat3("Scale##Transform", &scl[0], 0.005f))
+								{
+									t->setScale(scl);
+								}
+								vec4 rot = t->rotation();
+								if (ImGui::DragFloat4("Rotation##Transform", &rot[0], 0.005f))
+								{
+									t->setRotation(rot);
+								}
 								ImGui::EndMenu();
 							}
 							ImGui::PopID();

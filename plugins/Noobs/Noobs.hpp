@@ -137,9 +137,9 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			ShaderFile(FileType type, const String & text)
+			ShaderFile(FileType type)
 				: type	{ type }
-				, text	{ text }
+				, text	{}
 				, name	{ Names[type] }
 				, open	{ false }
 				, dirty { false }
@@ -153,7 +153,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
-		using FileList = Array<ShaderFile *, ShaderFile::MAX_DEMO_FILE>;
+		using FileArray = Array<ShaderFile *, ShaderFile::MAX_DEMO_FILE>;
 
 
 		// EDITOR
@@ -162,7 +162,7 @@ namespace ml
 		bool		m_display_open		{ true };
 		bool		m_use_main_camera	{ true };
 		Ref<Entity> m_entity			{};
-		FileList	m_files				{ 0 };
+		FileArray	m_files				{ 0 };
 		bool		m_freeAspect		{ true };
 		vec2		m_viewport			{ 1920, 1080 };
 
@@ -178,8 +178,8 @@ namespace ml
 		void draw_uniforms_tab();
 		void draw_settings_tab();
 
-		bool compile_sources();
-		bool dispose_files();
+		Noobs & compile_sources();
+		Noobs & dispose_files();
 		Noobs & generate_sources();
 		Noobs & reset_sources();
 

@@ -161,10 +161,10 @@ namespace ml
 			class Arg0, class ... Args
 		> inline self_type & format(const Arg0 & arg0, Args && ... args)
 		{
-			sstream_type ss {};
-			ss << arg0 << endl;
-			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; 
-			(void)sink;
+			sstream_type ss {}; ss << arg0 << endl;
+			
+			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; (void)sink;
+			
 			return this->format(ss);
 		}
 
@@ -185,7 +185,7 @@ namespace ml
 			class Arg0, class ... Args
 		> inline self_type format(const Arg0 & arg0, Args && ... args) const
 		{
-			return self_type(*this).format(arg0, _STD forward<Args>(args)...);
+			return self_type{ *this }.format(arg0, _STD forward<Args>(args)...);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -205,7 +205,7 @@ namespace ml
 
 		inline self_type replace_all(const self_type & f, const self_type & r) const
 		{
-			return self_type(*this).replace_all(f, r);
+			return self_type{ *this }.replace_all(f, r);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -217,25 +217,38 @@ namespace ml
 
 		inline self_type remove_all(const self_type & to_remove) const
 		{
-			return self_type(*this).remove_all(to_remove);
+			return self_type{ *this }.remove_all(to_remove);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
+		inline self_type & trim(Ch c)
+		{
+			while (!this->empty() && (this->front() == c)) { this->erase(this->begin()); }
+			
+			while (!this->empty() && (this->back() == c)) { this->pop_back(); }
+			
+			return (*this);
+		}
+		
 		inline self_type & trim()
 		{
-			auto is_whitespace = [&](Ch c) 
-			{
-				return (!this->empty() && ((c == (Ch)' ') || (c == (Ch)'\t')));
-			};
-			while (is_whitespace(this->front())) this->erase(this->begin());
-			while (is_whitespace(this->back()))  this->pop_back();
-			return (*this);
+			return (*this)
+				.trim(static_cast<Ch>(' '))
+				.trim(static_cast<Ch>('\t'))
+				.trim(static_cast<Ch>('\r'))
+				.trim(static_cast<Ch>('\n'))
+				;
 		}
 
 		inline self_type trim() const
 		{
-			return self_type(*this).trim();
+			return self_type{ *this }.trim();
+		}
+
+		inline self_type trim(Ch c) const
+		{
+			return self_type { *this }.trim(c);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

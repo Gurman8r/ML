@@ -8,7 +8,8 @@ uniform float	u_camera.near	{ 0.001 }
 uniform float	u_camera.far	{ 1000.0 }
 uniform vec2	u_camera.view	{ 1920.0, 1080.0 }
 
-uniform color	u_color			{ 1.0, 1.0, 1.0, 1.0 }
+uniform color	u_color			{ 1, 1, 1, 1 }
 uniform sampler	u_texture0		{ tex/sky/starfield } 
+uniform vec4	u_rotation		{ 0, 1, 0, 0.01 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

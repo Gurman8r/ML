@@ -224,7 +224,6 @@ namespace ImGui
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		TextEditor();
-		TextEditor(const std::string & text);
 		~TextEditor();
 
 	public:

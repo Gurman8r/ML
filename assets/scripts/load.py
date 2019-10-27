@@ -34,20 +34,21 @@ ml.content.load_all([
 
 # Shaders
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "ml::Shader", "name": "gl/2D/basic",          "file": PATH + "/shaders/basic.2D.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/boxes",          "file": PATH + "/shaders/boxes.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/clouds",         "file": PATH + "/shaders/clouds.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/flames",         "file": PATH + "/shaders/flames.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/lines",          "file": PATH + "/shaders/lines.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/spirals",      	"file": PATH + "/shaders/spirals.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/swirly",         "file": PATH + "/shaders/swirly.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/sparkles",       "file": PATH + "/shaders/sparkles.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/hypertunnel",    "file": PATH + "/shaders/hypertunnel.shader" },
-    { "type": "ml::Shader", "name": "gl/2D/wrainbow",       "file": PATH + "/shaders/wrainbow.shader" },
-    { "type": "ml::Shader", "name": "gl/3D/basic",          "vert": PATH + "/shaders/basic.3D.vs.shader", "frag": PATH + "/shaders/basic.3D.fs.shader" },
-    { "type": "ml::Shader", "name": "gl/3D/skybox",         "file": PATH + "/shaders/skybox.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/basic",          "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/basic.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/boxes",          "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/boxes.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/clouds",         "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/clouds.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/flames",         "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/flames.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/lines",          "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/lines.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/spirals",      	"vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/spirals.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/swirly",         "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/swirly.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/sparkles",       "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/sparkles.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/hypertunnel",    "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/hypertunnel.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/2D/wrainbow",       "vert": PATH + "/shaders/2D.vs.shader", "frag": PATH + "/shaders/wrainbow.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/3D/basic",          "vert": PATH + "/shaders/3D.vs.shader", "frag": PATH + "/shaders/basic.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/3D/phong",          "vert": PATH + "/shaders/3D.vs.shader", "frag": PATH + "/shaders/phong.fs.shader" },
+    { "type": "ml::Shader", "name": "gl/3D/skybox",         "vert": PATH + "/shaders/skybox.vs.shader", "frag": PATH + "/shaders/skybox.fs.shader" },
     { "type": "ml::Shader", "name": "gl/util/surface",      "file": PATH + "/shaders/surface.shader" },
-    #{ "type": "ml::Shader", "name": "gl/geometry",          "file": PATH + "/shaders/geometry.shader" },
+    #{ "type": "ml::Shader", "name": "gl/test/geometry",     "file": PATH + "/shaders/geometry.shader" },
 
 # Textures
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
@@ -141,21 +142,27 @@ ml.content.load_all([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     {
         "type": "ml::Material",
-        "name": "mat/skybox",
+        "name": "mat/2D/basic",
         "defaults": "True",
-        "uniforms": PATH + "/materials/skybox.3D.mat"
+        "uniforms": PATH + "/materials/basic.2D.mat"
     },
     {
         "type": "ml::Material",
-        "name": "mat/3D",
+        "name": "mat/3D/basic",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.3D.mat"
     },
     {
         "type": "ml::Material",
-        "name": "mat/2D",
+        "name": "mat/3D/phong",
         "defaults": "True",
-        "uniforms": PATH + "/materials/basic.2D.mat"
+        "uniforms": PATH + "/materials/phong.3D.mat"
+    },
+    {
+        "type": "ml::Material",
+        "name": "mat/3D/skybox",
+        "defaults": "True",
+        "uniforms": PATH + "/materials/skybox.3D.mat"
     },
     {
         "type": "ml::Material",
@@ -165,7 +172,7 @@ ml.content.load_all([
     },
     #{
     #    "type": "ml::Material",
-    #    "name": "mat_geometry",
+    #    "name": "mat/geometry",
     #    "defaults": "False",
     #    "uniforms": PATH + "/materials/geometry.mat"
     #},
@@ -175,16 +182,16 @@ ml.content.load_all([
     { 
         "type": "ml::Surface", 
         "name": "surf/main", 
+        "model": "obj/default/quad", 
         "material": "mat/surface",
         "shader": "gl/util/surface",
-        "model": "obj/default/quad", 
     },
     { 
         "type": "ml::Surface", 
         "name": "surf/post", 
+        "model": "obj/default/quad", 
         "material": "mat/surface",
         "shader": "gl/util/surface",
-        "model": "obj/default/quad", 
     },
 
 # Scripts
@@ -215,37 +222,40 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "_skybox_"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
+    if ml.ecs.add_component(name, "ml::Transform"):
+        ml.ecs.transform_attr(name, "self",     "enabled",      "True")
+        ml.ecs.transform_attr(name, "self",     "rotation",     "0.0 1.0 0.0 0.01")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/skybox")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D/skybox")
         ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/3D/skybox")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/skybox")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "False")
 
 # Primary Demo
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-name = "ent_demo"
+name = "ent_demo_A"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "True")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/2D")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/2D/basic")
         ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/2D/basic")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/quad")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
 
 # "Advanced" Demo
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-name = "ent_demo_advanced"
+name = "ent_demo_B"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
     if ml.ecs.add_component(name, "ml::Transform"):
         ml.ecs.transform_attr(name, "self",     "enabled",      "False")
         ml.ecs.transform_attr(name, "self",     "position",     "0.0 0.0 0.0")
         ml.ecs.transform_attr(name, "self",     "scale",        "0.3 0.3 0.3")
-        ml.ecs.transform_attr(name, "self",     "rotation",     "0.0 1.0 0.0 1.0")
+        ml.ecs.transform_attr(name, "self",     "rotation",     "0.0 1.0 0.0 0.25")
     if ml.ecs.add_component(name, "ml::Renderer"):
         ml.ecs.renderer_attr(name,  "self",     "enabled",      "False")
-        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D")
-        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/3D/basic")
+        ml.ecs.renderer_attr(name,  "self",     "material",     "mat/3D/phong")
+        ml.ecs.renderer_attr(name,  "self",     "shader",       "gl/3D/phong")
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/sphere32x24")
         ml.ecs.renderer_attr(name,  "alpha",    "enabled",      "True")
         ml.ecs.renderer_attr(name,  "alpha",    "func",         "GL_GREATER")
@@ -262,8 +272,8 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
 if 0: # switch target entities
-    ml.prefs.set("Noobs", "target_entity", "ent_demo_advanced")
-    ml.ecs.renderer_attr("ent_demo", "self", "enabled", "False")
-    ml.ecs.renderer_attr("ent_demo_advanced", "self", "enabled", "True")
+    ml.prefs.set("Noobs", "target_entity", "ent_demo_B")
+    ml.ecs.renderer_attr("ent_demo_A", "self", "enabled", "False")
+    ml.ecs.renderer_attr("ent_demo_B", "self", "enabled", "True")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

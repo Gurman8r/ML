@@ -1,30 +1,4 @@
-#shader vertex
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#version 460 core
-
-layout(location = 0) in vec3 a_position;
-layout(location = 1) in vec4 a_normal;
-layout(location = 2) in vec2 a_texcoord;
-
-out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
-
-uniform mat4 u_proj;	// Projection Matrix
-uniform mat4 u_view;	// View Matrix
-uniform mat4 u_model;	// Model Matrix
-
-void main()
-{
-	V.position = a_position;
-	V.normal = a_normal;
-	V.texcoord = a_texcoord;
-	gl_Position = (u_proj * u_view * u_model) * vec4(V.position, 1.0);
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #shader fragment
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 // Source: https://www.shadertoy.com/view/wdG3Wh
 
 #version 460 core
@@ -33,9 +7,7 @@ in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-uniform vec4		u_mouse;		// Mouse Position (xy) and Input (zw)
+uniform vec4		u_mouse;		// Mouse State
 uniform float		u_delta;		// Delta Time
 uniform int			u_frame;		// Frame Index
 uniform float		u_fps;			// Frame Rate
@@ -43,8 +15,6 @@ uniform float		u_time;			// Total Time
 uniform	vec4		u_color;		// Main Color
 uniform sampler2D	u_texture0;		// Main Texture
 uniform vec2 		u_resolution;	// Display Size
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 vec2 hash(vec2 p) // replace this by something better
 {
@@ -68,8 +38,6 @@ float noise(in vec2 p)
 	return dot(n, vec3(70.0));
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
 	vec2 uv = ((fragCoord - 0.5).xy * u_resolution.xy) / u_resolution.y;
@@ -87,11 +55,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 	fragColor = vec4(col, 1.0);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 void main()
 {
 	mainImage(gl_Color, V.texcoord);
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

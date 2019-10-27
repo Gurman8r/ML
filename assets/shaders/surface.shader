@@ -27,22 +27,16 @@ in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
-/* * * * * * * * * * * * * * * * * * * * */
-
 uniform vec4		u_color;
 uniform sampler2D	u_texture0;
 uniform int			u_effect;
 uniform mat3		u_kernel;
 
-/* * * * * * * * * * * * * * * * * * * * */
-
-#define MODE_DEFAULT		0
-#define MODE_GRAYSCALE		1
-#define MODE_BLUR			2
-#define MODE_KERNEL			3
-#define MODE_INVERTED		4
-
-/* * * * * * * * * * * * * * * * * * * * */
+#define MODE_DEFAULT	0
+#define MODE_GRAYSCALE	1
+#define MODE_BLUR		2
+#define MODE_KERNEL		3
+#define MODE_INVERTED	4
 
 vec4 drawKernel(in mat3 kernel)
 {
@@ -74,8 +68,6 @@ vec4 drawKernel(in mat3 kernel)
 
 	return vec4(color, 1.0);
 }
-
-/* * * * * * * * * * * * * * * * * * * * */
 
 void main()
 {
@@ -109,5 +101,3 @@ void main()
 		break;
 	};
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

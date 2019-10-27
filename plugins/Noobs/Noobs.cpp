@@ -557,11 +557,11 @@ namespace ml
 							case ShaderFile::Frag: src = &r->shader()->sources().fs; break;
 							case ShaderFile::Geom: src = &r->shader()->sources().gs; break;
 							}
-							if (src) { file->text.SetText(*src); }
+							file->text.SetText((*src).trim());
 							ImGui::CloseCurrentPopup();
 						}
 						// Copy
-						if (ImGui::MenuItem(("Copy to Clipboard##" + file->name).c_str()))
+						if (ImGui::MenuItem(("Copy##" + file->name).c_str()))
 						{
 							ML_Engine.window().setClipboardString(file->text.GetText());
 							ImGui::CloseCurrentPopup();
@@ -1259,82 +1259,59 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Noobs::compile_sources()
+	Noobs & Noobs::compile_sources()
 	{
-		if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
-		{
-			if (r->material())
-			{
-				if (auto s { r->shader() })
-				{
-					for (auto & f : m_files)
-					{
-						f->dirty = false;
-						f->errs.clear();
-						f->text.SetErrorMarkers({});
-					}
-
-					return s->loadFromMemory(
-						m_files[ShaderFile::Vert]->open ? m_files[ShaderFile::Vert]->text.GetText() : "",
-						m_files[ShaderFile::Geom]->open ? m_files[ShaderFile::Geom]->text.GetText() : "",
-						m_files[ShaderFile::Frag]->open ? m_files[ShaderFile::Frag]->text.GetText() : ""
-					);
-				}
-			}
-		}
-		return false;
-	}
-
-	bool Noobs::dispose_files()
-	{
-		for (auto & file : m_files)
-		{
-			if (file) delete file;
-		}
-		return true;
-	}
-
-	Noobs & Noobs::generate_sources()
-	{
-		auto setup_file = [&](ShaderFile::FileType type, const String & src)
-		{
-			if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
-			{
-				if (r->material() && r->shader())
-				{
-					if (!m_files[type])
-					{
-						m_files[type] = new ShaderFile(type, src);
-					}
-					else
-					{
-						m_files[type]->text.SetText(src);
-					}
-					return m_files[type];
-				}
-			}
-			return (ShaderFile *)nullptr;
-		};
-
 		if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
 		{
 			if (auto s { r->shader() })
 			{
-				if (auto vert { setup_file(ShaderFile::Vert, s->sources().vs) })
+				for (auto & f : m_files)
 				{
-					vert->open = s->sources().vs;
+					f->dirty = false;
+					f->errs.clear();
+					f->text.SetErrorMarkers({});
 				}
-				if (auto frag { setup_file(ShaderFile::Frag, s->sources().fs) })
+
+				if (!s->loadFromMemory(
+					m_files[ShaderFile::Vert]->open ? m_files[ShaderFile::Vert]->text.GetText() : "",
+					m_files[ShaderFile::Geom]->open ? m_files[ShaderFile::Geom]->text.GetText() : "",
+					m_files[ShaderFile::Frag]->open ? m_files[ShaderFile::Frag]->text.GetText() : ""
+				))
 				{
-					frag->open = s->sources().fs;
-				}
-				if (auto geom { setup_file(ShaderFile::Geom, s->sources().gs) })
-				{
-					geom->open = s->sources().gs;
+					/* error */
 				}
 			}
 		}
+		return (*this);
+	}
 
+	Noobs & Noobs::dispose_files()
+	{
+		for (auto & file : m_files)
+		{
+			if (file) { delete file; }
+		}
+		return (*this);
+	}
+
+	Noobs & Noobs::generate_sources()
+	{
+		if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
+		{
+			if (auto s { r->shader() })
+			{
+				auto setup_file = ([&](ShaderFile::FileType type, const String & src) {
+					if (!m_files[type]) { m_files[type] = new ShaderFile { type }; }
+					m_files[type]->text.SetText(src.trim());
+					m_files[type]->open = !src.empty();
+					return m_files[type];
+					});
+
+				auto vert { setup_file(ShaderFile::Vert, s->sources().vs) };
+				auto frag { setup_file(ShaderFile::Frag, s->sources().fs) };
+				auto geom { setup_file(ShaderFile::Geom, s->sources().gs) };
+			}
+		}
 		return (*this);
 	}
 
@@ -1344,7 +1321,7 @@ namespace ml
 		{
 			if (!f) continue;
 			f->open = false;
-			f->text.SetText(String());
+			f->text.SetText({});
 			f->text.SetErrorMarkers({});
 		}
 		return (*this);

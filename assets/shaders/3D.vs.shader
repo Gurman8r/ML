@@ -1,5 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader vertex
 #version 460 core
 
 layout(location = 0) in vec3 a_position;
@@ -8,7 +7,20 @@ layout(location = 2) in vec2 a_texcoord;
 
 out Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+uniform struct Camera
+{
+	vec3	pos;	// Camera Position
+	vec3	dir;	// Camera Direction
+	float	fov;	// Field of View
+	float	near;	// Near Clipping Distance
+	float	far;	// Far Clipping Distance
+	vec2	view;	// Display Size
+} u_camera;
+
+uniform float	u_time;		// Total Time
+uniform vec3	u_position;	// Model Position
+uniform vec3	u_scale;	// Model Scale
+uniform vec4	u_rotation; // Model Rotation
 
 mat4 transform(vec3 pos, vec4 rot)
 {
@@ -49,32 +61,10 @@ mat4 perspective(float fov, float aspect, float near, float far)
 	);
 }
 
-/* * * * * * * * * * * * * * * * * * * * */
-
-// These values are overwritten by the main camera
-uniform struct Camera
-{
-	vec3	pos;	// Camera Position
-	vec3	dir;	// Camera Direction
-	float	fov;	// Field of View
-	float	near;	// Near Clipping Distance
-	float	far;	// Far Clipping Distance
-	vec2	view;	// Display Size
-} u_camera;
-
-uniform vec4	u_mouse;	// Mouse Position (xy) and Input (zw)
-uniform float	u_delta;	// Delta Time
-uniform int		u_frame;	// Frame Index
-uniform float	u_fps;		// Frame Rate
-uniform float	u_time;		// Total Time
-uniform vec3	u_position;	// Model Position
-uniform vec3	u_scale;	// Model Scale
-uniform vec4	u_rotation; // Model Rotation
-
 void main()
 {
 	// Model Matrix
-	mat4 m = transform(u_position, vec4(u_rotation.xyz, u_time * 0.33));
+	mat4 m = transform(u_position, vec4(u_rotation.xyz, u_rotation.w * u_time));
 
 	// View Matrix
 	mat4 v = look_at(u_camera.pos, u_camera.dir);
@@ -90,5 +80,3 @@ void main()
 	V.normal	= transpose(inverse(m)) * a_normal;
 	V.texcoord	= a_texcoord;
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

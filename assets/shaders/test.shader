@@ -35,7 +35,7 @@ out vec4 gl_Color;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-uniform vec4		u_mouse;		// Mouse Position (xy) and Input (zw)
+uniform vec4		u_mouse;		// Mouse State
 uniform float		u_delta;		// Delta Time
 uniform int			u_frame;		// Frame Index
 uniform float		u_fps;			// Frame Rate

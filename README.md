@@ -1,6 +1,6 @@
 # MemeLib (ML)
 
-- ML is an STL-based C++ framework for games.
+- ML is a C++ application framework.
 	- ML is my personal working collection of C++ libraries, therefore everything should be considered experimental
 	- ML is very much a work in progress and is constantly evolving
 - Downloads: https://bit.ly/ml_noobs

@@ -118,12 +118,6 @@ namespace ImGui
 		mLines.push_back(Line());
 	}
 
-	TextEditor::TextEditor(const std::string & text)
-		: TextEditor()
-	{
-		this->SetText(text);
-	}
-
 	TextEditor::~TextEditor()
 	{
 	}

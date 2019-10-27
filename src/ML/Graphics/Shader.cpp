@@ -193,31 +193,40 @@ namespace ml
 	bool Shader::loadFromMemory(const String & value)
 	{
 		SStream v, g, f;
-		return ShaderParser::parseShader(value, v, g, f) &&
-			loadFromMemory(v.str(), g.str(), f.str());
+		return 
+			ShaderParser::parseShader(value, v, g, f) &&
+			loadFromMemory(v.str(), g.str(), f.str())
+			;
 	}
 
 	bool Shader::loadFromMemory(const String & source, GL::ShaderType type)
 	{
 		switch (type)
 		{
-		case GL::FragmentShader	: return loadFromMemory({}, {}, source);
-		case GL::VertexShader	: return loadFromMemory(source, {}, {});
-		case GL::GeometryShader	: return loadFromMemory({}, source, {});
+		case GL::FragmentShader: 
+			return loadFromMemory({}, {}, ShaderParser::parseShader(source));
+		
+		case GL::VertexShader: 
+			return loadFromMemory(ShaderParser::parseShader(source), {}, {});
+		
+		case GL::GeometryShader: 
+			return loadFromMemory({}, ShaderParser::parseShader(source), {});
 		}
 		return false;
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & fs)
 	{
-		return loadFromMemory(vs, {}, fs);
+		return loadFromMemory(
+			ShaderParser::parseShader(vs), {}, ShaderParser::parseShader(fs)
+		);
 	}
 
 	bool Shader::loadFromMemory(const String & vs, const String & gs, const String & fs)
 	{
-		m_sources.vs = vs ? ShaderParser::parseShader(vs) : String();
-		m_sources.gs = gs ? ShaderParser::parseShader(gs) : String();
-		m_sources.fs = fs ? ShaderParser::parseShader(fs) : String();
+		m_sources.vs = (vs ? ShaderParser::parseShader(vs) : String());
+		m_sources.gs = (gs ? ShaderParser::parseShader(gs) : String());
+		m_sources.fs = (fs ? ShaderParser::parseShader(fs) : String());
 		return
 			((vs && fs && gs) && compile(vs.c_str(), gs.c_str(), fs.c_str())) ||
 			((vs && fs) && compile(vs.c_str(), nullptr, fs.c_str())) ||

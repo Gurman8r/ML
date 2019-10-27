@@ -1,14 +1,10 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#shader fragment
 #version 460 core
 
 in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-// These values are overwritten by the main camera
 uniform struct Camera
 {
 	vec3	pos;	// Camera Position
@@ -19,11 +15,6 @@ uniform struct Camera
 	vec2	view;	// Display Size
 } u_camera;
 
-uniform vec4		u_mouse;		// Mouse Position (xy) and Input (zw)
-uniform float		u_delta;		// Delta Time
-uniform int			u_frame;		// Frame Index
-uniform float		u_fps;			// Frame Rate
-uniform float		u_time;			// Total Time
 uniform vec4		u_color;		// Main Color
 uniform vec3		u_lightPos;		// Light Position
 uniform vec4		u_diffuse;		// Diffuse Color
@@ -32,9 +23,6 @@ uniform vec4		u_ambient;		// Ambient Color
 uniform float		u_shininess;	// Shininess
 uniform sampler2D	u_texture0;		// Diffuse Texture
 uniform sampler2D	u_texture1;		// Specular Texture
-uniform vec3		u_position;		// Model Position
-uniform vec3		u_scale;		// Model Scale
-uniform vec4		u_rotation;		// Model Rotation
 
 void main()
 {
@@ -45,18 +33,16 @@ void main()
 	vec3  diff_nml = normalize(V.normal.xyz);
 	vec3  diff_dir = normalize(u_lightPos - V.position);
 	float diff_amt = max(dot(diff_nml, diff_dir), 0.0);
-	vec4  diff_col = vec4(diff_amt * u_diffuse.rgb, 1.0);
-	vec4  diffuse  = texture(u_texture0, V.texcoord) * diff_col;
+	vec4  diff_col = u_diffuse * diff_amt;
+	vec4  diffuse = diff_col * texture(u_texture0, V.texcoord);
 
 	// Specular
 	vec3  spec_nml = normalize(u_camera.pos - V.position);
 	vec3  spec_dir = reflect(-diff_dir, diff_nml);
 	float spec_amt = pow(max(dot(spec_nml, spec_dir), 0.0), u_shininess);
-	vec4  spec_col = vec4(spec_amt * u_specular.rgb, 1.0);
-	vec4  specular = texture(u_texture1, V.texcoord) * spec_col;
+	vec4  spec_col = u_specular * spec_amt;
+	vec4  specular = spec_col * texture(u_texture1, V.texcoord);
 
 	// Output
 	gl_Color = u_color * (ambient + diffuse + specular);
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

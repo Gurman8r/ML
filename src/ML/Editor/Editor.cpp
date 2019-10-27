@@ -313,154 +313,60 @@ namespace ml
 		{
 			auto & io { ImGui::GetIO() };
 
-			if (ImGui::BeginMenu("Configuration"))
+			if (ImGui::BeginMenu("Backend Flags"))
 			{
-				if (ImGui::BeginMenu("Backend Flags"))
-				{
-					ImGuiExt::HelpMarker("These flags are set internally and specify the backend's capabilities.");
+				ImGuiExt::HelpMarker("These flags are set internally and specify the backend's capabilities.");
 
-					ImGuiBackendFlags backend_flags { io.BackendFlags }; // Make a local copy to avoid modifying actual back-end flags.
+				ImGuiBackendFlags backend_flags { io.BackendFlags }; // Make a local copy to avoid modifying actual back-end flags.
 
-					ImGui::CheckboxFlags("Has Gamepad", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasGamepad);
-					ImGuiExt::Tooltip(
-						"Platform supports gamepad and currently has one connected."
-					);
+				ImGui::CheckboxFlags("Has Gamepad", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasGamepad);
+				ImGuiExt::Tooltip(
+					"Platform supports gamepad and currently has one connected."
+				);
 
-					ImGui::CheckboxFlags("Has Mouse Cursors", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasMouseCursors);
-					ImGuiExt::Tooltip(
-						"Platform supports honoring GetMouseCursor() value to change the OS cursor shape."
-					);
+				ImGui::CheckboxFlags("Has Mouse Cursors", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasMouseCursors);
+				ImGuiExt::Tooltip(
+					"Platform supports honoring GetMouseCursor() value to change the OS cursor shape."
+				);
 
-					ImGui::CheckboxFlags("Has Set Mouse Position", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasSetMousePos);
-					ImGuiExt::Tooltip(
-						"Platform supports io.WantSetMousePos requests to reposition the OS mouse position"
-					);
+				ImGui::CheckboxFlags("Has Set Mouse Position", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasSetMousePos);
+				ImGuiExt::Tooltip(
+					"Platform supports io.WantSetMousePos requests to reposition the OS mouse position"
+				);
 
-					ImGui::CheckboxFlags("Platform Has Viewports", (uint32_t *)&backend_flags, ImGuiBackendFlags_PlatformHasViewports);
-					ImGuiExt::Tooltip(
-						"Platform supports multiple viewports."
-					);
+				ImGui::CheckboxFlags("Platform Has Viewports", (uint32_t *)&backend_flags, ImGuiBackendFlags_PlatformHasViewports);
+				ImGuiExt::Tooltip(
+					"Platform supports multiple viewports."
+				);
 
-					ImGui::CheckboxFlags("Has Mouse Hovered Viewport", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasMouseHoveredViewport);
-					ImGuiExt::Tooltip(
-						"Back-end Platform supports setting io.MouseHoveredViewport to the viewport directly under the mouse IGNORING viewports with the \'No Inputs\' flag and REGARDLESS of whether another viewport is focused and may be capturing the mouse.\n"
-						"This information is NOT EASY to provide correctly with most high-level engines! Don't set this without studying how the examples/ back-end handle it!"
-					);
+				ImGui::CheckboxFlags("Has Mouse Hovered Viewport", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasMouseHoveredViewport);
+				ImGuiExt::Tooltip(
+					"Back-end Platform supports setting io.MouseHoveredViewport to the viewport directly under the mouse IGNORING viewports with the \'No Inputs\' flag and REGARDLESS of whether another viewport is focused and may be capturing the mouse.\n"
+					"This information is NOT EASY to provide correctly with most high-level engines! Don't set this without studying how the examples/ back-end handle it!"
+				);
 
-					ImGui::CheckboxFlags("Renderer Has Vertex Offset", (uint32_t *)&backend_flags, ImGuiBackendFlags_RendererHasVtxOffset);
-					ImGuiExt::Tooltip(
-						"Renderer supports ImDrawCmd::VtxOffset. This enables output of large meshes (64K+ vertices) while still using 16-bits indices."
-					);
+				ImGui::CheckboxFlags("Renderer Has Vertex Offset", (uint32_t *)&backend_flags, ImGuiBackendFlags_RendererHasVtxOffset);
+				ImGuiExt::Tooltip(
+					"Renderer supports ImDrawCmd::VtxOffset. This enables output of large meshes (64K+ vertices) while still using 16-bits indices."
+				);
 
-					ImGui::CheckboxFlags("Renderer Has Viewports", (uint32_t *)&backend_flags, ImGuiBackendFlags_RendererHasViewports);
-					ImGuiExt::Tooltip(
-						"Renderer supports multiple viewports."
-					);
-
-					ImGui::EndMenu();
-				}
-
-				if (ImGui::BeginMenu("Docking"))
-				{
-					ImGui::CheckboxFlags("Auto Hide Tab Bar", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_AutoHideTabBar);
-					ImGuiExt::Tooltip(
-						"Tab bar will automatically hide when there is a single window in the dock node."
-					);
-
-					ImGui::CheckboxFlags("No Resize", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_NoResize);
-					ImGuiExt::Tooltip(
-						"Disable resizing node using the splitter/separators. Useful with programatically setup dockspaces. "
-					);
-
-					if (ImGui::CheckboxFlags("No Split", (uint32_t *)&m_dockspace.m_dockflags, ImGuiDockNodeFlags_NoSplit))
-					{
-						io.ConfigDockingNoSplit = (m_dockspace.m_dockflags & ImGuiDockNodeFlags_NoSplit);
-					}
-					ImGuiExt::Tooltip(
-						"Simplified docking mode: disable window splitting, so docking is limited to merging multiple windows together into tab-bars."
-					);
-
-					ImGui::Checkbox("Dock With Shift", &io.ConfigDockingWithShift);
-					ImGuiExt::Tooltip(
-						"Enable docking when holding Shift only (allows to drop in wider space, reduce visual noise)"
-					);
-
-					ImGui::Checkbox("Tab Bar On Single Windows", &io.ConfigDockingTabBarOnSingleWindows);
-					ImGuiExt::Tooltip(
-						"Create a docking node and tab-bar on single floating windows."
-					);
-
-					ImGui::Checkbox("Transparent Payload", &io.ConfigDockingTransparentPayload);
-					ImGuiExt::Tooltip(
-						"Make window or viewport transparent when docking and only display docking boxes on the target viewport."
-						"Useful if rendering of multiple viewport cannot be synced."
-						"Best used with ConfigViewportsNoAutoMerge."
-					);
-
-					ImGui::EndMenu();
-				}
-
-				if (ImGui::BeginMenu("Navigation"))
-				{
-					ImGui::CheckboxFlags("Enable Keyboard Navigation", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableKeyboard);
-					ImGuiExt::Tooltip(
-						"Master keyboard navigation enable flag."
-					);
-
-					ImGui::CheckboxFlags("Enable Gamepad Navigation", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableGamepad);
-					ImGuiExt::Tooltip(
-						"Required back-end to feed in gamepad inputs in io.NavInputs[] and set io.BackendFlags |= ImGuiBackendFlags_HasGamepad.\n\nRead instructions in imgui.cpp for details."
-					);
-
-					ImGui::CheckboxFlags("Enable Set Mouse Position", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NavEnableSetMousePos);
-					ImGuiExt::Tooltip(
-						"Instruct navigation to move the mouse cursor. See comment for ImGuiConfigFlags_NavEnableSetMousePos."
-					);
-
-					ImGui::CheckboxFlags("No Mouse Cursor Change", (uint32_t *)&io.ConfigFlags, ImGuiConfigFlags_NoMouseCursorChange);
-					ImGuiExt::Tooltip(
-						"Instruct back-end to not alter mouse cursor shape and visibility."
-					);
-
-					ImGui::Checkbox("Input Text Cursor Blink", &io.ConfigInputTextCursorBlink);
-					ImGuiExt::Tooltip(
-						"Set to false to disable blinking cursor, for users who consider it distracting"
-					);
-
-					ImGui::Checkbox("Windows Resize From Edges", &io.ConfigWindowsResizeFromEdges);
-					ImGuiExt::Tooltip(
-						"Enable resizing of windows from their edges and from the lower-left corner.\n"
-						"This requires (io.BackendFlags & ImGuiBackendFlags_HasMouseCursors) because it needs mouse cursor feedback."
-					);
-
-					ImGui::Checkbox("Windows Move From Title Bar Only", &io.ConfigWindowsMoveFromTitleBarOnly);
-					ImGuiExt::Tooltip(
-						"[BETA]\n"
-						"Set to true to only allow moving windows when clicked+dragged from the title bar.\n"
-						"Windows without a title bar are not affected."
-					);
-
-					ImGui::Checkbox("Mouse Draw Cursor", &io.MouseDrawCursor);
-					ImGuiExt::Tooltip(
-						"Instruct Dear ImGui to render a mouse cursor for you.\n"
-						"Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n"
-						"\n"
-						"Some desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something)."
-					);
-
-					ImGui::EndMenu();
-				}
-
-				if (ImGui::BeginMenu("Style"))
-				{
-					ImGui::ShowStyleEditor();
-					ImGui::EndMenu();
-				}
+				ImGui::CheckboxFlags("Renderer Has Viewports", (uint32_t *)&backend_flags, ImGuiBackendFlags_RendererHasViewports);
+				ImGuiExt::Tooltip(
+					"Renderer supports multiple viewports."
+				);
 
 				ImGui::EndMenu();
 			}
 
-			ImGui::Separator();
+			if (ImGui::BeginMenu("Style"))
+			{
+				if (ImGui::BeginMenu("Style Editor"))
+				{
+					ImGui::ShowStyleEditor();
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenu();
+			}
 
 			bool fullScreen { ML_Engine.window().is_fullscreen() };
 			if (ImGui::MenuItem("Fullscreen", "F11", &fullScreen))

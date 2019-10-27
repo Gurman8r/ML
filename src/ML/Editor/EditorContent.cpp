@@ -168,6 +168,7 @@ namespace ml
 			);
 			ImGui::BeginTabBar(
 				"Content Type Tabs", 
+				ImGuiTabBarFlags_TabListPopupButton |
 				ImGuiTabBarFlags_FittingPolicyScroll
 			);
 			Layout::draw_list<Entity>();

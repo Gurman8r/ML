@@ -1,4 +1,3 @@
-# advanced.mat
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 uniform vec3	u_camera.pos	{ 0, 0, 3 }

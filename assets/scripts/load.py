@@ -130,11 +130,14 @@ ml.content.load_all([
 
 # Models
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+    { "type": "ml::Model", "name": "obj/cessna",        "file": PATH + "/meshes/cessna.obj" },
     { "type": "ml::Model", "name": "obj/cube",          "file": PATH + "/meshes/cube.obj" },
+    { "type": "ml::Model", "name": "obj/minicooper",    "file": PATH + "/meshes/minicooper.obj" },
     { "type": "ml::Model", "name": "obj/sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "ml::Model", "name": "obj/sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
-    { "type": "ml::Model", "name": "obj/cow",           "file": PATH + "/meshes/cow.obj" },
     { "type": "ml::Model", "name": "obj/monkey",        "file": PATH + "/meshes/monkey.obj" },
+
+    { "type": "ml::Model", "name": "obj/cow",           "file": PATH + "/meshes/cow.obj" },
     { "type": "ml::Model", "name": "obj/teapot",        "file": PATH + "/meshes/teapot.obj" },
     { "type": "ml::Model", "name": "obj/teddy",         "file": PATH + "/meshes/teddy.obj" },
 

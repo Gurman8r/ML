@@ -343,36 +343,9 @@ namespace ml
 					ImGui::EndTabBar();
 				}
 			}
-			else if (m_entity && !r)
+			else
 			{
-				ImGui::Text("The target entity does not have a renderer attached.");
-
-				const bool add_new
-				{
-					ImGui::Button("Attach Renderer") && (r = m_entity->add<Renderer>())
-				};
-				if (add_new) { reset_sources().generate_sources(); }
-
-				void * e { nullptr };
-				if (!e && PropertyDrawer<Entity>()("Select Another Entity##Noobs", (const Entity *&)e) && e)
-				{
-					m_entity.update((const Entity *)e);
-					reset_sources().generate_sources();
-				}
-			}
-			else if (m_entity && r)
-			{
-				ImGui::Text("No Entity Selected");
-
-				void * e { nullptr };
-				if ((!e && PropertyDrawer<Entity>()("Select Target##Noobs", (const Entity *&)e) && e) ||
-					(!e && PropertyDrawer<Entity>()("Create New##Noobs", (Entity *&)e) && e))
-				{
-					m_entity.update((const Entity *)e);
-					reset_sources().generate_sources();
-				}
-
-				if (m_entity) { reset_sources().generate_sources(); }
+				ImGui::Text("Nothing Selected");
 			}
 		}
 		ImGui::End();
@@ -422,10 +395,6 @@ namespace ml
 							: ImGuiTabItemFlags_None)
 					) };
 
-					ImGuiExt::Tooltip((
-						"" + file->name + " Shader Source"
-						).c_str());
-
 					// Tab Context Item
 					if (ImGui::BeginPopupContextItem())
 					{
@@ -435,6 +404,7 @@ namespace ml
 							file->open = false;
 							ImGui::CloseCurrentPopup();
 						}
+
 						// Reload
 						if (ImGui::MenuItem(("Reload##" + file->name).c_str(), "F5"))
 						{
@@ -448,14 +418,22 @@ namespace ml
 							file->text.SetText((*src).trim());
 							ImGui::CloseCurrentPopup();
 						}
+
 						// Copy
-						if (ImGui::MenuItem(("Copy##" + file->name).c_str()))
+						if (ImGui::MenuItem(("Copy to Clipboard##" + file->name).c_str()))
 						{
 							ML_Engine.window().setClipboardString(file->text.GetText());
 							ImGui::CloseCurrentPopup();
 						}
 
-						// Style
+						// Show Whitespace
+						bool show_whitespace { file->text.IsShowingWhitespaces() };
+						if (ImGui::Checkbox("Show Whitespace", &show_whitespace))
+						{
+							file->text.SetShowWhitespaces(show_whitespace);
+						}
+
+						// Palette
 						int32_t editor_style {
 							((file->text.GetPalette() == TextEditor::GetDarkPalette())
 								? 0
@@ -464,7 +442,7 @@ namespace ml
 									: (((file->text.GetPalette() == TextEditor::GetRetroBluePalette())
 										? 2 : 2
 										)))) };
-						if (ImGui::Combo("##TextEditorStyle", &editor_style, "Dark\0Light\0Retro"))
+						if (ImGui::Combo("##Palette", &editor_style, "Dark\0Light\0Retro"))
 						{
 							switch (editor_style)
 							{
@@ -759,433 +737,432 @@ namespace ml
 		ImGui::BeginChildFrame(ImGui::GetID("##Settings##Content"), { 0, 0 }, 0);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		if (auto r { (m_entity ? m_entity->get<Renderer>() : nullptr) })
 		{
-			if (ImGui::CollapsingHeader("General", ImGuiTreeNodeFlags_DefaultOpen))
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+			// Select Material
+			const Material * mtl { r ? r->material() : nullptr };
+			if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 			{
-				// Select Material
-				const Material * mtl { r ? r->material() : nullptr };
-				if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
+				r->setMaterial(mtl);
+				reset_sources().generate_sources();
+			}
+			ImGuiExt::Tooltip("Materials contain the list uniforms applied to the shader.");
+			ImGui::Separator();
+
+			// Select Shader
+			const Shader * shd { r ? r->shader() : nullptr };
+			if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
+			{
+				r->setShader(shd);
+				reset_sources().generate_sources();
+			}
+			ImGuiExt::Tooltip("Shaders provide the code for the programmable stages of the rendering pipeline.");
+			ImGui::Separator();
+
+			// Select Model
+			const Model * mdl { r ? r->model() : nullptr };
+			if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
+			{
+				r->setModel(mdl);
+			}
+			ImGuiExt::Tooltip("Models specify the geometry to be rendered.");
+			ImGui::Separator();
+
+			// Camera Settings
+			if (auto c { Camera::mainCamera() })
+			{
+				// Get Video Modes
+				static const List<VideoMode> & mode_values { Window::getFullscreenModes() };
+
+				// Get Video Names
+				static const List<String> & mode_names = [&]
 				{
-					r->setMaterial(mtl);
-					reset_sources().generate_sources();
+					static List<String> temp { "Automatic", "Manual" };
+					for (const auto & elem : mode_values)
+						temp.push_back(util::to_string(elem.size));
+					return temp;
+				}();
+
+				// Viewport
+				static int32_t index { 0 };
+				if (ImGuiExt::Combo("Resolution", &index, mode_names))
+				{
+					if (index == 0)
+					{
+						m_displayMode = DisplayMode::Automatic;
+					}
+					else if (index == 1)
+					{
+						m_displayMode = DisplayMode::Manual;
+					}
+					else
+					{
+						m_displayMode = DisplayMode::Fixed;
+					}
 				}
-				ImGuiExt::Tooltip("Materials contain the list uniforms applied to the shader.");
+				if (m_displayMode == DisplayMode::Manual)
+				{
+					ImGui::Indent();
+					vec2 v { (vec2)c->viewport().size() };
+					if (ImGui::DragFloat2("##Resolution", &v[0]))
+					{
+						if (v[0] <= 0.f) v[0] = FLT_MIN;
+						if (v[1] <= 0.f) v[1] = FLT_MIN;
+						c->setViewport((vec2i)v);
+					}
+					ImGui::Unindent();
+				}
+				if (m_displayMode == DisplayMode::Fixed)
+				{
+					c->setViewport((vec2i)mode_values[index - 2].size);
+				}
+				ImGuiExt::Tooltip("Specify the display resolution.");
+
 				ImGui::Separator();
 
-				// Select Shader
-				const Shader * shd { r ? r->shader() : nullptr };
-				if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
+				// Background Color
+				vec4 background { c->background() };
+				if (ImGui::ColorEdit4("Background", &background[0]))
 				{
-					r->setShader(shd);
-					reset_sources().generate_sources();
+					c->setBackground(background);
 				}
-				ImGuiExt::Tooltip("Shaders provide the code for the programmable stages of the rendering pipeline.");
+				ImGuiExt::Tooltip("Specify the display background color.");
+
 				ImGui::Separator();
-
-				// Select Model
-				const Model * mdl { r ? r->model() : nullptr };
-				if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
-				{
-					r->setModel(mdl);
-				}
-				ImGuiExt::Tooltip("Models specify the geometry to be rendered.");
-				ImGui::Separator();
-
-				// Camera Settings
-				if (auto c { Camera::mainCamera() })
-				{
-					// Get Video Modes
-					static const List<VideoMode> & mode_values { Window::getFullscreenModes() };
-
-					// Get Video Names
-					static const List<String> & mode_names = [&]
-					{
-						static List<String> temp { "Automatic", "Manual" };
-						for (const auto & elem : mode_values)
-							temp.push_back(util::to_string(elem.size));
-						return temp;
-					}();
-
-					// Viewport
-					static int32_t index { 0 };
-					if (ImGuiExt::Combo("Resolution", &index, mode_names))
-					{
-						if (index == 0)
-						{
-							m_displayMode = DisplayMode::Automatic;
-						}
-						else if (index == 1)
-						{
-							m_displayMode = DisplayMode::Manual;
-						}
-						else
-						{
-							m_displayMode = DisplayMode::Fixed;
-						}
-					}
-					if (m_displayMode == DisplayMode::Manual)
-					{
-						ImGui::Indent();
-						vec2 v { (vec2)c->viewport().size() };
-						if (ImGui::DragFloat2("##Resolution", &v[0]))
-						{
-							if (v[0] <= 0.f) v[0] = FLT_MIN;
-							if (v[1] <= 0.f) v[1] = FLT_MIN;
-							c->setViewport((vec2i)v);
-						}
-						ImGui::Unindent();
-					}
-					if (m_displayMode == DisplayMode::Fixed)
-					{
-						c->setViewport((vec2i)mode_values[index - 2].size);
-					}
-					ImGuiExt::Tooltip("Specify the display resolution.");
-
-					ImGui::Separator();
-
-					// Background Color
-					vec4 background { c->background() };
-					if (ImGui::ColorEdit4("Background", &background[0]))
-					{
-						c->setBackground(background);
-					}
-					ImGuiExt::Tooltip("Specify the display background color.");
-
-					ImGui::Separator();
-				}
-				else
-				{
-					ImGui::Text("No Camera Found");
-				}
+			}
+			else
+			{
+				ImGui::Text("No Camera Found");
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-			if (ImGui::CollapsingHeader("Rendering", ImGuiTreeNodeFlags_DefaultOpen))
-			{
-				ImGui::BeginChildFrame(ImGui::GetID("NoobsRenderStates"), { 0, 0 }, 0);
+			ImGui::BeginChildFrame(ImGui::GetID("NoobsRenderStates"), { 0, 0 }, 0);
 
-				// Alpha State
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				([](AlphaState * alpha) {
-					if (!alpha) { return; }
+			// Alpha State
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			([](AlphaState * alpha) {
+				if (!alpha) { return; }
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID("##AlphaState");
-					ImGui::NewLine();
-					ImGui::PushItemWidth(150);
+				ImGui::PushID("##AlphaState");
+				ImGui::NewLine();
+				ImGui::PushItemWidth(150);
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox(alpha->enabled
-						? "glEnable" : "glDisable",
-						&alpha->enabled
-					);
-					ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::Text(GL::raw_name_of(GL::AlphaTest));
-					ImGui::SameLine(); ImGui::Text(");");
-					ImGui::NewLine();
+				ImGui::Checkbox(alpha->enabled
+					? "glEnable" : "glDisable",
+					&alpha->enabled
+				);
+				ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
+				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+				ImGui::Text(GL::raw_name_of(GL::AlphaTest));
+				ImGui::SameLine(); ImGui::Text(");");
+				ImGui::NewLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::Button("glAlphaFunc"))
-					{
-						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glAlphaFunc.xml");
-					}
-					ImGuiExt::Tooltip("Specify the alpha test function");
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+				if (ImGui::Button("glAlphaFunc"))
+				{
+					Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glAlphaFunc.xml");
+				}
+				ImGuiExt::Tooltip("Specify the alpha test function");
+				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t func = GL::index_of(alpha->func);
-					if (ImGuiExt::Combo("##Predicate", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
-					{
-						alpha->func = GL::value_at<GL::Predicate>(func);
-					}
-					ImGuiExt::Tooltip(String(
-						"Param: \'func\'\n\n"
-						"Value: {0} (0x{1})\n\n"
-						"Brief: {2}\n"
-					).format(
-						GL::raw_name_of(alpha->func),
-						util::to_hex<uint32_t>(alpha->func),
-						GL::desc_of(alpha->func)
-					));
-					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+				int32_t func = GL::index_of(alpha->func);
+				if (ImGuiExt::Combo("##Predicate", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
+				{
+					alpha->func = GL::value_at<GL::Predicate>(func);
+				}
+				ImGuiExt::Tooltip(String(
+					"Param: \'func\'\n\n"
+					"Value: {0} (0x{1})\n\n"
+					"Brief: {2}\n"
+				).format(
+					GL::raw_name_of(alpha->func),
+					util::to_hex<uint32_t>(alpha->func),
+					GL::desc_of(alpha->func)
+				));
+				ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::DragFloat("##Coefficient", &alpha->coeff);
-					ImGuiExt::Tooltip(String(
-						"Param: \'ref\'\n\n"
-						"Value: {0}\n\n"
-						"Brief: {1}\n"
-					).format(
-						alpha->coeff,
-						"Specifies the reference value that incoming alpha values are compared to"
-					));
-					ImGui::SameLine(); ImGui::Text(");");
+				ImGui::DragFloat("##Coefficient", &alpha->coeff);
+				ImGuiExt::Tooltip(String(
+					"Param: \'ref\'\n\n"
+					"Value: {0}\n\n"
+					"Brief: {1}\n"
+				).format(
+					alpha->coeff,
+					"Specifies the reference value that incoming alpha values are compared to"
+				));
+				ImGui::SameLine(); ImGui::Text(");");
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PopItemWidth();
-					ImGui::PopID();
-					ImGui::NewLine(); ImGui::Separator();
+				ImGui::PopItemWidth();
+				ImGui::PopID();
+				ImGui::NewLine(); ImGui::Separator();
 
-					/* * * * * * * * * * * * * * * * * * * * */
-					})(&r->states().alpha());
+				/* * * * * * * * * * * * * * * * * * * * */
+				})(&r->states().alpha());
 
 
-				// Blend State
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				([](BlendState * blend) {
-					if (!blend) { return; }
+			// Blend State
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			([](BlendState * blend) {
+				if (!blend) { return; }
 				
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID("##BlendState");
-					ImGui::NewLine();
-					ImGui::PushItemWidth(150);
+				ImGui::PushID("##BlendState");
+				ImGui::NewLine();
+				ImGui::PushItemWidth(150);
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox(blend->enabled
-						? "glEnable" : "glDisable",
-						&blend->enabled
-					);
-					ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::Text(GL::raw_name_of(GL::Blend));
-					ImGui::SameLine(); ImGui::Text(");");
-					ImGui::NewLine();
+				ImGui::Checkbox(blend->enabled
+					? "glEnable" : "glDisable",
+					&blend->enabled
+				);
+				ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
+				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+				ImGui::Text(GL::raw_name_of(GL::Blend));
+				ImGui::SameLine(); ImGui::Text(");");
+				ImGui::NewLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::Button("glBlendFuncSeparate"))
-					{
-						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
-					}
-					ImGuiExt::Tooltip("Specify pixel arithmetic for RGB and alpha components separately");
-					ImGui::SameLine(); ImGui::Text("("); //ImGui::SameLine();
+				if (ImGui::Button("glBlendFuncSeparate"))
+				{
+					Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
+				}
+				ImGuiExt::Tooltip("Specify pixel arithmetic for RGB and alpha components separately");
+				ImGui::SameLine(); ImGui::Text("("); //ImGui::SameLine();
 
-					ImGui::Indent();
+				ImGui::Indent();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t sfactorRGB = GL::index_of(blend->sfactorRGB);
-					if (ImGuiExt::Combo("##SrcRGB", &sfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
-					{
-						blend->sfactorRGB = GL::value_at<GL::Factor>(sfactorRGB);
-					}
-					ImGuiExt::Tooltip(String(
-						"Param: \'sfactorRGB\'\n\n"
-						"Value: {0} (0x{1})\n\n"
-						"Brief: {2}\n"
-					).format(
-						GL::raw_name_of(blend->sfactorRGB),
-						util::to_hex<uint32_t>(blend->sfactorRGB),
-						"Specifies how the red, green, and blue blending factors are computed"
-					));
-					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+				int32_t sfactorRGB = GL::index_of(blend->sfactorRGB);
+				if (ImGuiExt::Combo("##SrcRGB", &sfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+				{
+					blend->sfactorRGB = GL::value_at<GL::Factor>(sfactorRGB);
+				}
+				ImGuiExt::Tooltip(String(
+					"Param: \'sfactorRGB\'\n\n"
+					"Value: {0} (0x{1})\n\n"
+					"Brief: {2}\n"
+				).format(
+					GL::raw_name_of(blend->sfactorRGB),
+					util::to_hex<uint32_t>(blend->sfactorRGB),
+					"Specifies how the red, green, and blue blending factors are computed"
+				));
+				ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t dfactorRGB = GL::index_of(blend->dfactorRGB);
-					if (ImGuiExt::Combo("##DstRGB", &dfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
-					{
-						blend->dfactorRGB = GL::value_at<GL::Factor>(dfactorRGB);
-					}
-					ImGuiExt::Tooltip(String(
-						"Param: \'dfactorRGB\'\n\n"
-						"Value: {0} (0x{1})\n\n"
-						"Brief: {2}\n"
-					).format(
-						GL::raw_name_of(blend->dfactorRGB),
-						util::to_hex<uint32_t>(blend->dfactorRGB),
-						"Specifies how the red, green, and blue destination blending factors are computed"
-					));
-					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+				int32_t dfactorRGB = GL::index_of(blend->dfactorRGB);
+				if (ImGuiExt::Combo("##DstRGB", &dfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+				{
+					blend->dfactorRGB = GL::value_at<GL::Factor>(dfactorRGB);
+				}
+				ImGuiExt::Tooltip(String(
+					"Param: \'dfactorRGB\'\n\n"
+					"Value: {0} (0x{1})\n\n"
+					"Brief: {2}\n"
+				).format(
+					GL::raw_name_of(blend->dfactorRGB),
+					util::to_hex<uint32_t>(blend->dfactorRGB),
+					"Specifies how the red, green, and blue destination blending factors are computed"
+				));
+				ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t sfactorAlpha = GL::index_of(blend->sfactorAlpha);
-					if (ImGuiExt::Combo("##SrcAlpha", &sfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
-					{
-						blend->sfactorAlpha = GL::value_at<GL::Factor>(sfactorAlpha);
-					}
-					ImGuiExt::Tooltip(String(
-						"Param: \'sfactorAlpha\'\n\n"
-						"Value: {0} (0x{1})\n\n"
-						"Brief: {2}\n"
-					).format(
-						GL::raw_name_of(blend->sfactorAlpha),
-						util::to_hex<uint32_t>(blend->sfactorAlpha),
-						"Specifies how the alpha source blending factor is computed"
-					));
-					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+				int32_t sfactorAlpha = GL::index_of(blend->sfactorAlpha);
+				if (ImGuiExt::Combo("##SrcAlpha", &sfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+				{
+					blend->sfactorAlpha = GL::value_at<GL::Factor>(sfactorAlpha);
+				}
+				ImGuiExt::Tooltip(String(
+					"Param: \'sfactorAlpha\'\n\n"
+					"Value: {0} (0x{1})\n\n"
+					"Brief: {2}\n"
+				).format(
+					GL::raw_name_of(blend->sfactorAlpha),
+					util::to_hex<uint32_t>(blend->sfactorAlpha),
+					"Specifies how the alpha source blending factor is computed"
+				));
+				ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t dfactorAlpha = GL::index_of(blend->dfactorAlpha);
-					if (ImGuiExt::Combo("##DstAlpha", &dfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
-					{
-						blend->dfactorAlpha = GL::value_at<GL::Factor>(dfactorAlpha);
-					}
-					ImGuiExt::Tooltip(String(
-						"Param: \'dfactorAlpha\'\n\n"
-						"Value: {0} (0x{1})\n\n"
-						"Brief: {2}\n"
-					).format(
-						GL::raw_name_of(blend->dfactorAlpha),
-						util::to_hex<uint32_t>(blend->dfactorAlpha),
-						"Specifies how the alpha destination blending factor is computed"
-					));
+				int32_t dfactorAlpha = GL::index_of(blend->dfactorAlpha);
+				if (ImGuiExt::Combo("##DstAlpha", &dfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+				{
+					blend->dfactorAlpha = GL::value_at<GL::Factor>(dfactorAlpha);
+				}
+				ImGuiExt::Tooltip(String(
+					"Param: \'dfactorAlpha\'\n\n"
+					"Value: {0} (0x{1})\n\n"
+					"Brief: {2}\n"
+				).format(
+					GL::raw_name_of(blend->dfactorAlpha),
+					util::to_hex<uint32_t>(blend->dfactorAlpha),
+					"Specifies how the alpha destination blending factor is computed"
+				));
 					
-					ImGui::Unindent();
-					ImGui::Text(");");
+				ImGui::Unindent();
+				ImGui::Text(");");
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PopItemWidth();
-					ImGui::PopID();
-					ImGui::NewLine(); ImGui::Separator();
+				ImGui::PopItemWidth();
+				ImGui::PopID();
+				ImGui::NewLine(); ImGui::Separator();
 
-					/* * * * * * * * * * * * * * * * * * * * */
-					})(&r->states().blend());
-
-
-				// Cull State
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				([](CullState * cull) {
-					if (!cull) { return; }
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					ImGui::PushID("##CullState");
-					ImGui::NewLine();
-					ImGui::PushItemWidth(150);
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					ImGui::Checkbox(cull->enabled
-						? "glEnable" : "glDisable",
-						&cull->enabled
-					);
-					ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::Text(GL::raw_name_of(GL::CullFace));
-					ImGui::SameLine(); ImGui::Text(");");
-					ImGui::NewLine();
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::Button("glCullFace"))
-					{
-						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
-					}
-					ImGuiExt::Tooltip("Specify which faces can be culled");
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					int32_t mode = GL::index_of(cull->mode);
-					if (ImGuiExt::Combo("##Face", &mode, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
-					{
-						cull->mode = GL::value_at<GL::Face>(mode);
-					}
-					ImGuiExt::Tooltip(String(
-						"Param: \'mode\'\n\n"
-						"Value: {0} (0x{1})\n\n"
-						"Brief: {2}\n"
-					).format(
-						GL::raw_name_of(cull->mode),
-						util::to_hex<uint32_t>(cull->mode),
-						GL::desc_of(cull->mode)
-					));
-					ImGui::SameLine(); ImGui::Text(");");
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					ImGui::PopItemWidth();
-					ImGui::PopID();
-					ImGui::NewLine(); ImGui::Separator();
-
-					/* * * * * * * * * * * * * * * * * * * * */
-					})(&r->states().cull());
+				/* * * * * * * * * * * * * * * * * * * * */
+				})(&r->states().blend());
 
 
-				// Depth State
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-				([](DepthState * depth) {
-					if (!depth) { return; }
-					/* * * * * * * * * * * * * * * * * * * * */
+			// Cull State
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			([](CullState * cull) {
+				if (!cull) { return; }
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::PushID("##DepthState");
-					ImGui::NewLine();
-					ImGui::PushItemWidth(150);
+				ImGui::PushID("##CullState");
+				ImGui::NewLine();
+				ImGui::PushItemWidth(150);
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox(depth->enabled
-						? "glEnable" : "glDisable",
-						&depth->enabled
-					); 
-					ImGuiExt::Tooltip("If enabled, do depth comparisons and update the depth buffer.");
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::Text(GL::raw_name_of(GL::DepthTest));
-					ImGui::SameLine(); ImGui::Text(");");
-					ImGui::NewLine();
+				ImGui::Checkbox(cull->enabled
+					? "glEnable" : "glDisable",
+					&cull->enabled
+				);
+				ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
+				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+				ImGui::Text(GL::raw_name_of(GL::CullFace));
+				ImGui::SameLine(); ImGui::Text(");");
+				ImGui::NewLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					ImGui::Checkbox("glDepthMask", &depth->mask); 
-					ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::Text(depth->mask ? "true" : "false");
-					ImGui::SameLine(); ImGui::Text(");");
-					ImGui::NewLine();
+				if (ImGui::Button("glCullFace"))
+				{
+					Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
+				}
+				ImGuiExt::Tooltip("Specify which faces can be culled");
+				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					if (ImGui::Button("glDepthFunc"))
-					{
-						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
-					}
-					ImGuiExt::Tooltip("Specify the value used for depth buffer comparisons");
-					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+				int32_t mode = GL::index_of(cull->mode);
+				if (ImGuiExt::Combo("##Face", &mode, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
+				{
+					cull->mode = GL::value_at<GL::Face>(mode);
+				}
+				ImGuiExt::Tooltip(String(
+					"Param: \'mode\'\n\n"
+					"Value: {0} (0x{1})\n\n"
+					"Brief: {2}\n"
+				).format(
+					GL::raw_name_of(cull->mode),
+					util::to_hex<uint32_t>(cull->mode),
+					GL::desc_of(cull->mode)
+				));
+				ImGui::SameLine(); ImGui::Text(");");
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
 
-					int32_t func = GL::index_of(depth->func);
-					if (ImGuiExt::Combo("##Predicate", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
-					{
-						depth->func = GL::value_at<GL::Predicate>(func);
-					}
-					ImGuiExt::Tooltip(String(
-						"Param: \'func\'\n\n"
-						"Value: {0} (0x{1})\n\n"
-						"Brief: {2}\n"
-					).format(
-						GL::raw_name_of(depth->func),
-						util::to_hex<uint32_t>(depth->func),
-						GL::desc_of(depth->func)
-					));
-					ImGui::SameLine(); ImGui::Text(");");
+				ImGui::PopItemWidth();
+				ImGui::PopID();
+				ImGui::NewLine(); ImGui::Separator();
 
-					/* * * * * * * * * * * * * * * * * * * * */
+				/* * * * * * * * * * * * * * * * * * * * */
+				})(&r->states().cull());
 
-					ImGui::PopItemWidth();
-					ImGui::PopID();
 
-					/* * * * * * * * * * * * * * * * * * * * */
-					})(&r->states().depth());
+			// Depth State
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+			([](DepthState * depth) {
+				if (!depth) { return; }
+				/* * * * * * * * * * * * * * * * * * * * */
 
-				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+				ImGui::PushID("##DepthState");
+				ImGui::NewLine();
+				ImGui::PushItemWidth(150);
 
-				ImGui::EndChildFrame();
-			}
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::Checkbox(depth->enabled
+					? "glEnable" : "glDisable",
+					&depth->enabled
+				); 
+				ImGuiExt::Tooltip("If enabled, do depth comparisons and update the depth buffer.");
+				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+				ImGui::Text(GL::raw_name_of(GL::DepthTest));
+				ImGui::SameLine(); ImGui::Text(");");
+				ImGui::NewLine();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::Checkbox("glDepthMask", &depth->mask); 
+				ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
+				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+				ImGui::Text(depth->mask ? "true" : "false");
+				ImGui::SameLine(); ImGui::Text(");");
+				ImGui::NewLine();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (ImGui::Button("glDepthFunc"))
+				{
+					Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
+				}
+				ImGuiExt::Tooltip("Specify the value used for depth buffer comparisons");
+				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				int32_t func = GL::index_of(depth->func);
+				if (ImGuiExt::Combo("##Predicate", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
+				{
+					depth->func = GL::value_at<GL::Predicate>(func);
+				}
+				ImGuiExt::Tooltip(String(
+					"Param: \'func\'\n\n"
+					"Value: {0} (0x{1})\n\n"
+					"Brief: {2}\n"
+				).format(
+					GL::raw_name_of(depth->func),
+					util::to_hex<uint32_t>(depth->func),
+					GL::desc_of(depth->func)
+				));
+				ImGui::SameLine(); ImGui::Text(");");
+
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::PopItemWidth();
+				ImGui::PopID();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+				})(&r->states().depth());
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+			ImGui::EndChildFrame();
+
+			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

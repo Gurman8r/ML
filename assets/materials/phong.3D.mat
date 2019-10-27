@@ -1,4 +1,3 @@
-# advanced.mat
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 uniform vec3	u_camera.pos	{ 0, 0, 3 }
@@ -10,10 +9,10 @@ uniform vec2	u_camera.view	{ 1920.0, 1080.0 }
 
 uniform color	u_color			{ 1.0, 1.0, 1.0, 1.0 }
 uniform vec3	u_lightPos		{ 0.0, 0.0, 30.0 }
-uniform color	u_ambient		{ 0.08, 0.08, 0.08, 1.0 }
+uniform color   u_ambient       { 0.01, 0.01, 0.01, 1 }
 uniform color	u_diffuse		{ 1.0, 1.0, 0.75, 1.0 }
-uniform color	u_specular		{ 0.1, 0.1, 0.1, 1.0 }
 uniform float	u_shininess		{ 8.0 }
+uniform color   u_specular      { 0.08, 0.08, 0.08, 1 }
 uniform sampler	u_texture0		{ tex/default }
 uniform sampler	u_texture1		{ tex/default }
 

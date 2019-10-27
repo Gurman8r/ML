@@ -33,7 +33,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	ML_REGISTER(Camera,		{ "Component" }) { return new Camera {}; }
-	ML_REGISTER(Light,		{ "Component" }) { return new Light {}; }
+	//ML_REGISTER(Light,		{ "Component" }) { return new Light {}; }
 	ML_REGISTER(Renderer,	{ "Component" }) { return new Renderer {}; }
 	ML_REGISTER(Transform,	{ "Component" }) { return new Transform {}; }
 	

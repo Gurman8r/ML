@@ -1,4 +1,3 @@
-# surface.mat
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
 uniform int		u_effect	{ 0 }

@@ -27,7 +27,7 @@ namespace ml
 			friend ML_SERIALIZE(std::ostream & out, const Record & value);
 		};
 
-		using RecordMap = typename HashMap<void *, Record *>;
+		using RecordMap = typename Map<void *, Record *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

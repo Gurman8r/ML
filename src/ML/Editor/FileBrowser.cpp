@@ -105,7 +105,7 @@ namespace ml
 						}
 						if (ImGui::Button("Browse"))
 						{
-							Debug::execute("open", get_selected_path());
+							Debug::execute("open", ML_FS.getFilePath(get_selected_path()));
 							ImGui::CloseCurrentPopup();
 						}
 						ImGui::EndPopup();

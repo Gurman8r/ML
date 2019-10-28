@@ -7,7 +7,7 @@ rem 2015 / 2017 / 2019
 set vs_version=%1
 
 rem Enterprise / Community
-set vs_release=%2
+set vs_edition=%2
 
 rem Debug / Release
 set config=%3
@@ -21,13 +21,13 @@ set toolset=%5
 rem Console / Windows
 set subsystem=%6
 
-echo Version 	Visual Studio %vs_version% %vs_release%
+echo Version 	Visual Studio %vs_version% %vs_edition%
 echo Configure 	%config%
 echo Platform 	%platform%
 echo Toolset 	%toolset%
 echo Subsystem 	%subsystem%
 
-set msbuild_path=%ProgramFiles(x86)%\Microsoft Visual Studio\%vs_version%\%vs_release%\
+set msbuild_path=%ProgramFiles(x86)%\Microsoft Visual Studio\%vs_version%\%vs_edition%\
 
 cd %msbuild_path%VC\Auxiliary\Build\
 if "%platform%" == "x86" 	( call "vcvarsall.bat" x86 )

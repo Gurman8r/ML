@@ -5,7 +5,7 @@
 group "MemeLib"
 project "Graphics"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{prj_dir}")
+	location		("%{prj_dir}ML/%{prj.name}/")
 	targetdir		("%{bin_lib}")
 	objdir			("%{bin_obj}")
 	kind			("SharedLib")

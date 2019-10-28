@@ -24,7 +24,7 @@ namespace ml
 	public:
 		struct GraphLines
 		{
-			Array<float_t, 512> values { NULL };
+			Array<float_t, 256> values { NULL };
 
 			int32_t	offset	{ 0 };
 			float_t	refresh	{ 0.0f };

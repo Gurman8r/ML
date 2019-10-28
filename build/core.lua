@@ -7,7 +7,7 @@ project "Core"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	targetdir		("%{bin_lib}")
 	objdir			("%{bin_obj}")
-	location		("%{prj_dir}")
+	location		("%{prj_dir}ML/%{prj.name}/")
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")

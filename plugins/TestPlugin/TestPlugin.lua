@@ -3,7 +3,7 @@
 group "Plugins"
 project "TestPlugin"
 	targetname 		("%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	location		("%{sln_dir}proj/plugins/%{prj.name}")
+	location		("%{prj_dir}plugins/%{prj.name}")
 	targetdir		("%{bin_lib}")
 	objdir			("%{bin_obj}")
 	kind			("SharedLib")

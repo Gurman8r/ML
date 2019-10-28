@@ -1,17 +1,20 @@
 #ifndef _ML_COMMAND_REGISTRY_HPP_
 #define _ML_COMMAND_REGISTRY_HPP_
 
+#include <ML/Core/Disposable.hpp>
+#include <ML/Core/StringUtility.hpp>
 #include <ML/Engine/CommandExecutor.hpp>
 #include <ML/Engine/CommandDescriptor.hpp>
-#include <ML/Core/StringUtility.hpp>
-
-#define ML_CommandRegistry ::ml::CommandRegistry::getInstance()
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API CommandRegistry final : public Singleton<CommandRegistry>
+	class Engine;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_ENGINE_API CommandRegistry final : public Newable, public NonCopyable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -19,6 +22,18 @@ namespace ml
 		using command_list		= typename List<value_type>;
 		using iterator			= typename command_list::iterator;
 		using const_iterator	= typename command_list::const_iterator;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool dispose() override
+		{
+			for (auto & elem : m_cmd)
+			{
+				if (elem) { delete elem; }
+			}
+			m_cmd.clear();
+			return true;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -84,11 +99,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct Singleton<CommandRegistry>;
-
+		friend class Engine;
 		CommandRegistry() : m_cmd() {}
 		~CommandRegistry() {}
-
 		command_list m_cmd;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

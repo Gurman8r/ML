@@ -1,7 +1,7 @@
 #ifndef _ML_REF_HPP_
 #define _ML_REF_HPP_
 
-#include <ML/Engine/ContentManager.hpp>
+#include <ML/Engine/Engine.hpp>
 
 namespace ml
 {
@@ -56,7 +56,7 @@ namespace ml
 
 		inline self_type & update(const_pointer value)
 		{
-			if (const String name { ML_Content.get_name(value) })
+			if (const String name { ML_Engine.content().get_name(value) })
 			{
 				m_name = name;
 				m_data = std::remove_cv_t<pointer>(value);
@@ -67,22 +67,22 @@ namespace ml
 		template <class ... Args>
 		inline pointer create(Args && ... args)
 		{
-			return (m_data = ML_Content.create<value_type>(m_name, std::forward<Args>(args)...));
+			return (m_data = ML_Engine.content().create<value_type>(m_name, std::forward<Args>(args)...));
 		}
 
 		inline pointer get() 
 		{ 
-			return (m_data = ML_Content.get<value_type>(m_name));
+			return (m_data = ML_Engine.content().get<value_type>(m_name));
 		}
 
 		inline const_pointer get() const 
 		{
-			return (m_data = ML_Content.get<value_type>(m_name));
+			return (m_data = ML_Engine.content().get<value_type>(m_name));
 		}
 
 		inline bool destroy()
 		{
-			return ML_Content.destroy<value_type>(m_name);
+			return ML_Engine.content().destroy<value_type>(m_name);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

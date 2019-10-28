@@ -2,7 +2,7 @@
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Engine/ContentManager.hpp>
+#include <ML/Engine/Ref.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
@@ -30,7 +30,7 @@ namespace ml
 		{
 			if (!ptr) return;
 			ImGui::PushID(typeof<T>::name.c_str());
-			ImGui::PushID(ML_ADDRESSOF(&ML_Content.data<T>()));
+			ImGui::PushID(ML_ADDRESSOF(&ML_Engine.content().data<T>()));
 			ImGui::PushID(ptr);
 			PropertyDrawer<T>()(
 				(typeof<T>::name.str() + "##" + name + " ##Inspector"),

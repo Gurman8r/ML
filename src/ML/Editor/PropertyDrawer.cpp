@@ -58,9 +58,9 @@ namespace ml
 		template <class T>
 		static inline bool select_combo(const String & label, const T *& value)
 		{
-			int32_t index { ML_Content.get_index_of<T>(value) };
-			return (ImGuiExt::Combo(label.c_str(), &index, ML_Content.get_keys<T>())
-				? (value = ML_Content.find_by_index<T>(index))
+			int32_t index { ML_Engine.content().get_index_of<T>(value) };
+			return (ImGuiExt::Combo(label.c_str(), &index, ML_Engine.content().get_keys<T>())
+				? (value = ML_Engine.content().find_by_index<T>(index))
 				: false
 			);
 		}
@@ -78,7 +78,7 @@ namespace ml
 			{
 				ML_Editor.inspector().Focus(true);
 				ML_Editor.content().select_item(
-					typeof<T>::name, ML_Content.get_name(value), (void *)value
+					typeof<T>::name, ML_Engine.content().get_name(value), (void *)value
 				);
 			}
 			ImGui::PopID();
@@ -150,7 +150,7 @@ namespace ml
 			const bool cancel { ImGui::Button("Cancel") };
 			if (submit && !value)
 			{
-				value = ML_Content.create<value_type>(name);
+				value = ML_Engine.content().create<value_type>(name);
 			}
 			if (submit || cancel)
 			{
@@ -740,7 +740,7 @@ namespace ml
 				}
 				if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<value_type>(name, asset_path);
+					value = ML_Engine.content().create<value_type>(name, asset_path);
 				}
 			}
 			ImGui::SameLine();
@@ -894,11 +894,11 @@ namespace ml
 			{
 				if (copy)
 				{
-					value = ML_Content.create<value_type>(name, (*copy));
+					value = ML_Engine.content().create<value_type>(name, (*copy));
 				}
 				else if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<value_type>(name, asset_path);
+					value = ML_Engine.content().create<value_type>(name, asset_path);
 				}
 			}
 			ImGui::SameLine();
@@ -1024,11 +1024,11 @@ namespace ml
 			const bool submit { ImGui::Button("Submit") };
 			if (submit && !value)
 			{
-				if (value = ML_Content.create<Material>(name))
+				if (value = ML_Engine.content().create<Material>(name))
 				{
 					if (globals)
 					{
-						for (const auto & pair : ML_Content.data<Uniform>())
+						for (const auto & pair : ML_Engine.content().data<Uniform>())
 						{
 							if (auto u { (const Uniform *)pair.second })
 							{
@@ -1047,7 +1047,7 @@ namespace ml
 					{
 						value->loadFromFile(
 							asset_path, 
-							(const Map<String, Texture *> *) & ML_Content.data<Texture>()
+							(const Map<String, Texture *> *) & ML_Engine.content().data<Texture>()
 						);
 					}
 				}
@@ -1244,11 +1244,11 @@ namespace ml
 			{
 				if (copy)
 				{
-					value = ML_Content.create<value_type>(name, (*copy));
+					value = ML_Engine.content().create<value_type>(name, (*copy));
 				}
 				else if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<value_type>(name, asset_path);
+					value = ML_Engine.content().create<value_type>(name, asset_path);
 				}
 			}
 			ImGui::SameLine();
@@ -1478,15 +1478,15 @@ namespace ml
 			{
 				if (copy)
 				{
-					value = ML_Content.create<value_type>(name, (*copy));
+					value = ML_Engine.content().create<value_type>(name, (*copy));
 				}
 				else if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<value_type>(name, asset_path);
+					value = ML_Engine.content().create<value_type>(name, asset_path);
 				}
 				else
 				{
-					value = ML_Content.create<value_type>(name);
+					value = ML_Engine.content().create<value_type>(name);
 				}
 			}
 			ImGui::SameLine();
@@ -1663,11 +1663,11 @@ namespace ml
 			{
 				if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<value_type>(name, asset_path);
+					value = ML_Engine.content().create<value_type>(name, asset_path);
 				}
 				else if (copy[0] || copy[1] || copy[2])
 				{
-					(value = ML_Content.create<value_type>(name))->loadFromMemory(
+					(value = ML_Engine.content().create<value_type>(name))->loadFromMemory(
 						(copy[0] ? copy[0]->vertSrc() : String{}),
 						(copy[1] ? copy[1]->geomSrc() : String{}),
 						(copy[2] ? copy[2]->fragSrc() : String{})
@@ -1675,7 +1675,7 @@ namespace ml
 				}
 				else
 				{
-					value = ML_Content.create<value_type>(name);
+					value = ML_Engine.content().create<value_type>(name);
 				}
 			}
 			ImGui::SameLine();
@@ -1831,11 +1831,11 @@ namespace ml
 			{
 				if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<value_type>(name, asset_path);
+					value = ML_Engine.content().create<value_type>(name, asset_path);
 				}
 				else
 				{
-					value = ML_Content.create<value_type>(name);
+					value = ML_Engine.content().create<value_type>(name);
 				}
 			}
 			if (submit || cancel)
@@ -1944,15 +1944,15 @@ namespace ml
 			{
 				if (copy)
 				{
-					value = ML_Content.create<value_type>(name, (*copy));
+					value = ML_Engine.content().create<value_type>(name, (*copy));
 				}
 				else if (ML_FS.fileExists(asset_path))
 				{
-					value = ML_Content.create<value_type>(name, asset_path);
+					value = ML_Engine.content().create<value_type>(name, asset_path);
 				}
 				else
 				{
-					value = ML_Content.create<value_type>(name);
+					value = ML_Engine.content().create<value_type>(name);
 				}
 			}
 			ImGui::SameLine();
@@ -2091,11 +2091,11 @@ namespace ml
 			{
 				if (copy)
 				{
-					value = ML_Content.create<value_type>(name, (*copy));
+					value = ML_Engine.content().create<value_type>(name, (*copy));
 				}
 				else
 				{
-					value = ML_Content.create<value_type>(name);
+					value = ML_Engine.content().create<value_type>(name);
 				}
 			}
 			ImGui::SameLine();
@@ -2314,13 +2314,13 @@ namespace ml
 			{
 				if (sampler_type == 0)
 				{
-					if (image[0] && (value = ML_Content.create<Texture>(name, image[0]->getFormat(), true, false)))
+					if (image[0] && (value = ML_Engine.content().create<Texture>(name, image[0]->getFormat(), true, false)))
 					{
 						value->loadFromImage(*image[0]);
 					}
 					else if (ML_FS.fileExists(asset_path))
 					{
-						if (value = ML_Content.create<value_type>(name))
+						if (value = ML_Engine.content().create<value_type>(name))
 						{
 							value->loadFromFile(asset_path);
 						}
@@ -2335,7 +2335,7 @@ namespace ml
 					value = new Texture { GL::TextureCubeMap, true, false };
 					if (value->loadFromFaces(image))
 					{
-						ML_Content.insert<Texture>(name, value);
+						ML_Engine.content().insert<Texture>(name, value);
 					}
 					else { delete value; }
 				}
@@ -2612,7 +2612,7 @@ namespace ml
 
 			//if (value && (flags & (1 << 0))) 
 			//{ 
-			//	ML_Content.insert<Uniform>(value->name, value); 
+			//	ML_Engine.content().insert<Uniform>(value->name, value); 
 			//}
 
 			return Layout::end_prop(this, submit || cancel);

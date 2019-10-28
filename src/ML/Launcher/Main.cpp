@@ -65,10 +65,14 @@ ml::int32_t main()
 	using namespace ml;
 
 	// Check Version
-	static_assert(check_version()); ML_ASSERT(check_version());
+	static_assert(check_version());
+	ML_ASSERT(check_version());
 
-	// Initialize Systems
-	Timer::master(); ML_EventSystem; ML_Engine; ML_Editor;
+	// Init Systems
+	Timer::master();
+	ML_EventSystem;
+	ML_Engine;
+	ML_Editor;
 
 	// Enter
 	ML_EventSystem.fireEvent<EnterEvent>();

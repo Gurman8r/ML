@@ -1,11 +1,12 @@
 #ifndef _ML_ENGINE_HPP_
 #define _ML_ENGINE_HPP_
 
-#include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Engine/Ref.hpp>
+#include <ML/Engine/ContentManager.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
+#include <ML/Engine/CommandRegistry.hpp>
+#include <ML/Graphics/RenderWindow.hpp>
 
 #ifndef ML_CONFIG_INI
 #define ML_CONFIG_INI "../../../ML.ini"
@@ -24,10 +25,9 @@ namespace ml
 		friend struct Singleton<Engine>;
 
 		Engine();
-		~Engine() {}
-		
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		~Engine();
+		
 		void onEvent(const Event & value) override;
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -45,16 +45,20 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Preferences		m_prefs;
-		GameTime		m_time;
-		RenderWindow	m_window;
+		CommandRegistry * m_commands	{ nullptr };
+		ContentManager	* m_content		{ nullptr };
+		Preferences		* m_prefs		{ nullptr };
+		GameTime		* m_time		{ nullptr };
+		RenderWindow	* m_window		{ nullptr };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline auto & prefs()	{ return m_prefs; }
-		inline auto & time()	{ return m_time; }
-		inline auto & window()	{ return m_window; }
+		inline auto & commands()	{ return (*m_commands); }
+		inline auto & content()		{ return (*m_content); }
+		inline auto & prefs()		{ return (*m_prefs); }
+		inline auto & time()		{ return (*m_time); }
+		inline auto & window()		{ return (*m_window); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

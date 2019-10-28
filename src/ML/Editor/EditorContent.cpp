@@ -2,7 +2,7 @@
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Engine/ContentManager.hpp>
+#include <ML/Engine/Ref.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
@@ -31,7 +31,7 @@ namespace ml
 		static inline void draw_list()
 		{
 			// Database
-			static auto & db { ML_Content.data<T>() };
+			static auto & db { ML_Engine.content().data<T>() };
 
 			// Plural Name
 			static const String plural { ([&](String name)
@@ -123,7 +123,7 @@ namespace ml
 			}
 			if (to_remove != db.end())
 			{
-				ML_Content.destroy<T>(to_remove->first);
+				ML_Engine.content().destroy<T>(to_remove->first);
 				ML_Editor.content().select_none();
 			}
 			if (to_select != db.end())

@@ -5,15 +5,17 @@
 #include <ML/Engine/Metadata.hpp>
 #include <ML/Engine/Registry.hpp>
 
-#define ML_Content ::ml::ContentManager::getInstance()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	class Engine;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	// Global bank of shared resources.
 	// Anything can be stored in Content as long as it derives Newable.
-	struct ML_ENGINE_API ContentManager final : public Singleton<ContentManager>, public Disposable
+	struct ML_ENGINE_API ContentManager final : public Newable, public NonCopyable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -208,7 +210,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend struct Singleton<ContentManager>;
+		friend class Engine;
 		ContentManager();
 		~ContentManager();
 		mutable TypeMap m_data; // The Data

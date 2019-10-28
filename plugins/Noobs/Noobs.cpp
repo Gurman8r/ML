@@ -10,8 +10,6 @@
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Entity.hpp>
-#include <ML/Engine/Engine.hpp>
-#include <ML/Engine/ContentManager.hpp>
 #include <ML/Engine/Registry.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Graphics/Model.hpp>
@@ -176,7 +174,7 @@ namespace ml
 		// Setup Editor
 		if (const String ent_name { ML_Engine.prefs().get_string("Noobs", "target_entity", "") })
 		{
-			m_entity.update(ML_Content.get<Entity>(ent_name));
+			m_entity.update(ML_Engine.content().get<Entity>(ent_name));
 		}
 		if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
 		{
@@ -201,7 +199,7 @@ namespace ml
 				// Update Camera Uniforms
 				if (m_use_main_camera)
 				{
-					for (auto & [key, value] : ML_Content.data<Material>())
+					for (auto & [key, value] : ML_Engine.content().data<Material>())
 					{
 						if (auto m { (Material *)value })
 						{
@@ -236,7 +234,7 @@ namespace ml
 			if (camera) camera->apply();
 
 			// Draw Renderers
-			for (auto & [key, value] : ML_Content.data<Entity>())
+			for (auto & [key, value] : ML_Engine.content().data<Entity>())
 			{
 				if (auto ent { (Entity *)value })
 				{
@@ -577,7 +575,7 @@ namespace ml
 						case uni_mat2::ID: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
 						case uni_mat3::ID: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
 						case uni_mat4::ID: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
-						case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Content.get_name(*a); break;
+						case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Engine.content().get_name(*a); break;
 						}
 						if (ss.str().back() != ' ') ss << ' ';
 						ss << "}" << endl;

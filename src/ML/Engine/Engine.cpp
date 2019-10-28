@@ -5,7 +5,6 @@
 #include <ML/Core/CoreEvents.hpp>
 #include <ML/Engine/Ref.hpp>
 #include <ML/Engine/MetadataParser.hpp>
-#include <ML/Engine/CommandRegistry.hpp>
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/EngineEvents.hpp>
@@ -29,10 +28,13 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Engine::Engine()
-		: m_prefs{ ML_CONFIG_INI }
-		, m_time{}
-		, m_window{}
 	{
+		m_time		= new GameTime {};
+		m_prefs		= new Preferences { ML_CONFIG_INI };
+		m_content	= new ContentManager {};
+		m_commands	= new CommandRegistry {};
+		m_window	= new RenderWindow {};
+
 		ML_EventSystem.addListener<EnterEvent>(this);
 		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<BeginStepEvent>(this);
@@ -45,6 +47,15 @@ namespace ml
 		ML_EventSystem.addListener<ExitEvent>(this);
 		ML_EventSystem.addListener<CommandEvent>(this);
 		ML_EventSystem.addListener<KeyEvent>(this);
+	}
+
+	Engine::~Engine()
+	{
+		delete m_window;
+		delete m_commands;
+		delete m_content;
+		delete m_prefs;
+		delete m_time;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -65,7 +76,7 @@ namespace ml
 		case ExitEvent::ID		: return onExit(*value.as<ExitEvent>());
 
 		case CommandEvent::ID:
-			ML_CommandRegistry.execute(value.as<CommandEvent>()->cmd);
+			m_commands->execute(value.as<CommandEvent>()->cmd);
 			break;
 
 		case KeyEvent::ID:
@@ -98,13 +109,13 @@ namespace ml
 		// Start Python
 		ML_ASSERT(
 			"Starting Python" &&
-			ML_Py.init(ML_ARGV[0], ML_FS.pathTo(m_prefs.get_string(
+			ML_Py.init(ML_ARGV[0], ML_FS.pathTo(m_prefs->get_string(
 				"Engine", "python_home", ""
 			)))
 		);
 
 		// Run Boot Script
-		if (Script scr_enter { m_prefs.get_string("Engine", "enter_script", "") })
+		if (Script scr_enter { m_prefs->get_string("Engine", "enter_script", "") })
 		{
 			scr_enter.execute();
 		}
@@ -112,31 +123,31 @@ namespace ml
 		// Create Window
 		ML_ASSERT(
 			"Creating Window" &&
-			m_window.create(
-				m_prefs.get_string	("Window", "title",				"MemeLib"), { 
-				m_prefs.get_uint	("Window", "width",				1280),
-				m_prefs.get_uint	("Window", "height",			720),
-				m_prefs.get_uint	("Window", "bits_per_pixel",	32) }, {
-				m_prefs.get_bool	("Window", "resizable",			true),
-				m_prefs.get_bool	("Window", "visible",			false),
-				m_prefs.get_bool	("Window", "decorated",			true),
-				m_prefs.get_bool	("Window", "focused",			true),
-				m_prefs.get_bool	("Window", "auto_iconify",		true),
-				m_prefs.get_bool	("Window", "floating",			false),
-				m_prefs.get_bool	("Window", "maximized",			true) }, {
-				m_prefs.get_uint	("Window", "major_version",		3),
-				m_prefs.get_uint	("Window", "minor_version",		3),
-				m_prefs.get_uint	("Window", "context_profile",	ContextSettings::Compat),
-				m_prefs.get_uint	("Window", "depth_bits",		24),
-				m_prefs.get_uint	("Window", "stencil_bits",		8),
-				m_prefs.get_bool	("Window", "multisample",		false),
-				m_prefs.get_bool	("Window", "srgb_capable",		false)
+			m_window->create(
+				m_prefs->get_string	("Window", "title",				"MemeLib"), { 
+				m_prefs->get_uint	("Window", "width",				1280),
+				m_prefs->get_uint	("Window", "height",			720),
+				m_prefs->get_uint	("Window", "bits_per_pixel",	32) }, {
+				m_prefs->get_bool	("Window", "resizable",			true),
+				m_prefs->get_bool	("Window", "visible",			false),
+				m_prefs->get_bool	("Window", "decorated",			true),
+				m_prefs->get_bool	("Window", "focused",			true),
+				m_prefs->get_bool	("Window", "auto_iconify",		true),
+				m_prefs->get_bool	("Window", "floating",			false),
+				m_prefs->get_bool	("Window", "maximized",			true) }, {
+				m_prefs->get_uint	("Window", "major_version",		3),
+				m_prefs->get_uint	("Window", "minor_version",		3),
+				m_prefs->get_uint	("Window", "context_profile",	ContextSettings::Compat),
+				m_prefs->get_uint	("Window", "depth_bits",		24),
+				m_prefs->get_uint	("Window", "stencil_bits",		8),
+				m_prefs->get_bool	("Window", "multisample",		false),
+				m_prefs->get_bool	("Window", "srgb_capable",		false)
 			})
 		);
 		
-		if (m_prefs.get_bool("Window", "fullscreen", false))
+		if (m_prefs->get_bool("Window", "fullscreen", false))
 		{
-			m_window.setFullscreen(true);
+			m_window->setFullscreen(true);
 		}
 	}
 
@@ -144,62 +155,62 @@ namespace ml
 	{
 		// Load Defaults
 		/* * * * * * * * * * * * * * * * * * * * */
-		ML_Content.create<Texture>("tex/default")->loadFromImage
+		m_content->create<Texture>("tex/default")->loadFromImage
 		(
-			*ML_Content.create<Image>("img/default", Image::Default)
+			*m_content->create<Image>("img/default", Image::Default)
 		);
 
-		ML_Content.create<Model>("obj/default/triangle")->loadFromMemory
+		m_content->create<Model>("obj/default/triangle")->loadFromMemory
 		(
 			geo::triangle_static::vertices, geo::triangle_static::indices
 		);
 		
-		ML_Content.create<Model>("obj/default/quad")->loadFromMemory
+		m_content->create<Model>("obj/default/quad")->loadFromMemory
 		(
 			geo::quad_static::vertices, geo::quad_static::indices
 		);
 		
-		ML_Content.create<Model>("obj/default/cube")->loadFromMemory
+		m_content->create<Model>("obj/default/cube")->loadFromMemory
 		(
 			geo::cube_static::vertices, geo::cube_static::indices
 		);
 		
-		ML_Content.create<Model>("obj/default/skybox")->loadFromMemory
+		m_content->create<Model>("obj/default/skybox")->loadFromMemory
 		(
 			geo::skybox_static::vertices
 		);
 
-		ML_Content.insert<Uniform>("u_delta", new uni_float_clbk {
+		m_content->insert<Uniform>("u_delta", new uni_float_clbk {
 			"u_delta", [&]() {
-				return m_time.deltaTime();
+				return m_time->deltaTime();
 			} });
 
-		ML_Content.insert<Uniform>("u_fps", new uni_float_clbk {
+		m_content->insert<Uniform>("u_fps", new uni_float_clbk {
 			"u_fps", [&]() {
-				return m_time.frameRate();
+				return m_time->frameRate();
 			} });
 
-		ML_Content.insert<Uniform>("u_frame", new uni_int_clbk {
+		m_content->insert<Uniform>("u_frame", new uni_int_clbk {
 			"u_frame", [&]() {
-				return (int32_t)m_time.frameCount();
+				return (int32_t)m_time->frameCount();
 			} });
 
-		ML_Content.insert<Uniform>("u_mouse", new uni_vec4_clbk {
+		m_content->insert<Uniform>("u_mouse", new uni_vec4_clbk {
 			"u_mouse", [&]() {
 				return vec4 {
-					m_window.getCursorPos()[0],
-					m_window.getCursorPos()[1],
-					(float_t)m_window.getMouseButton(MouseButton::Button0),
-					(float_t)m_window.getMouseButton(MouseButton::Button1)
+					m_window->getCursorPos()[0],
+					m_window->getCursorPos()[1],
+					(float_t)m_window->getMouseButton(MouseButton::Button0),
+					(float_t)m_window->getMouseButton(MouseButton::Button1)
 				};
 			} });
 
-		ML_Content.insert<Uniform>("u_time", new uni_float_clbk {
+		m_content->insert<Uniform>("u_time", new uni_float_clbk {
 			"u_time", [&]() {
-				return m_time.totalTime();
+				return m_time->totalTime();
 			} });
 
-		ML_Content.insert<Uniform>("u_resolution", new uni_vec2_clbk {
+		m_content->insert<Uniform>("u_resolution", new uni_vec2_clbk {
 			"u_resolution", [&]() {
 				if (auto c { Camera::mainCamera() }) { return (vec2)c->viewport().size(); }
 				return vec2{};
@@ -208,7 +219,7 @@ namespace ml
 
 		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (Script scr_load { m_prefs.get_string("Engine", "load_script", "") })
+		if (Script scr_load { m_prefs->get_string("Engine", "load_script", "") })
 		{
 			scr_load.execute();
 		}
@@ -217,29 +228,29 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (Ref<Image> icon { "_app_icon_" })
 		{
-			m_window.setIcon(icon->width(), icon->height(), icon->data());
+			m_window->setIcon(icon->width(), icon->height(), icon->data());
 		}
 	}
 
 	void Engine::onBeginStep(const BeginStepEvent & ev)
 	{
-		m_time.beginStep();
+		m_time->beginStep();
 
-		m_window.pollEvents();
+		m_window->pollEvents();
 	}
 
 	void Engine::onUpdate(const UpdateEvent & ev)
 	{
 		// Update Window Title
-		static const String original_title { m_window.getTitle() };
+		static const String original_title { m_window->getTitle() };
 		static Timer tm {};
 		static float_t dt { 0 };
 		if (tm.elapsed().count() > 0.25)
 		{
-			dt = m_time.deltaTime();
+			dt = m_time->deltaTime();
 			tm.reset();
 		}
-		m_window.setTitle(String{ "{0} | {1} | {2} | {3}s/frame" }.format(
+		m_window->setTitle(String{ "{0} | {1} | {2} | {3}s/frame" }.format(
 			original_title, 
 			ML_CONFIGURATION, 
 			ML_PLATFORM_TARGET, 
@@ -261,19 +272,19 @@ namespace ml
 
 	void Engine::onEndStep(const EndStepEvent & ev)
 	{
-		m_window.swapBuffers();
+		m_window->swapBuffers();
 
-		m_time.endStep();
+		m_time->endStep();
 	}
 
 	void Engine::onUnload(const UnloadEvent & ev)
 	{
-		ML_Content.dispose();
+		m_content->dispose();
 	}
 
 	void Engine::onExit(const ExitEvent & ev)
 	{
-		m_window.dispose();
+		m_window->dispose();
 		ML_Lua.dispose();
 		ML_Py.dispose();
 	}

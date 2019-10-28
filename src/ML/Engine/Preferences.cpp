@@ -12,19 +12,6 @@ namespace ml
 	{
 	}
 
-	Preferences::Preferences(const Preferences & copy)
-		: m_ini { nullptr }
-		, m_filename { copy.m_filename }
-	{
-		if (!m_ini && copy.m_ini)
-		{
-			if (auto ini { static_cast<INIReader *>(m_ini = new INIReader())})
-			{
-				ini->Copy(*static_cast<const INIReader *>(copy.m_ini));
-			}
-		}
-	}
-
 	Preferences::Preferences(const String & filename)
 		: Preferences()
 	{

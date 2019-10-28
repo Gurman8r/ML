@@ -1,7 +1,7 @@
 #include <ML/Editor/EditorTerminal.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Engine/CommandRegistry.hpp>
+#include <ML/Engine/Ref.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -94,9 +94,9 @@ namespace ml
 
 			static const String labels[MAX_MODE]
 			{
-				String("[ " ML_MSG_LOG " ]"),
-				String("[ " ML_MSG_WRN " ]"),
-				String("[ " ML_MSG_ERR " ]"),
+				String("[" ML_MSG_LOG "]"),
+				String("[" ML_MSG_WRN "]"),
+				String("[" ML_MSG_ERR "]"),
 				String("# "),
 			};
 
@@ -307,7 +307,7 @@ namespace ml
 
 			// Build a list of candidates
 			ImVector<C_String> candidates;
-			static CommandRegistry & reg { ML_CommandRegistry };
+			static CommandRegistry & reg { ML_Engine.commands() };
 			for (size_t i = 0; i < reg.commands().size(); i++)
 			{
 				C_String cmd_name = reg.commands()[i]->getName().c_str();

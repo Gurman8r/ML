@@ -56,7 +56,7 @@ namespace ml
 			size_t		index		{ 0 };
 			float_t		rate		{ 0 };
 			float_t		accum		{ 0 };
-			float_t		buf[512]	{ 0 };
+			float_t		buf[90]		{ 0 };
 			uint64_t	count		{ 0 };
 		} m_frame;
 

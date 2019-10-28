@@ -5,8 +5,7 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Engine/CommandRegistry.hpp>
-#include <ML/Engine/Ref.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Engine/Lua.hpp>
 #include <ML/Engine/Python.hpp>
@@ -42,7 +41,7 @@ namespace ml
 
 				for (auto *& cmd : m_commands) 
 				{ 
-					cmd->install(ML_CommandRegistry);
+					cmd->install(ML_Engine.commands());
 				}
 			}
 			break;
@@ -52,7 +51,7 @@ namespace ml
 			{ 
 				for (auto *& cmd : m_commands)
 				{
-					cmd->uninstall(ML_CommandRegistry);
+					cmd->uninstall(ML_Engine.commands());
 
 					delete cmd;
 				}
@@ -177,11 +176,11 @@ namespace ml
 			{
 				switch (args.size())
 				{
-				case 1:	for (const auto & cmd : ML_CommandRegistry)
+				case 1:	for (const auto & cmd : ML_Engine.commands())
 					cout << cmd->getName() << endl;
 					return true;
 
-				case 2: if (auto cmd = ML_CommandRegistry.find_by_name(args[1]))
+				case 2: if (auto cmd = ML_Engine.commands().find_by_name(args[1]))
 					cout << (*cmd) << endl;
 					return true;
 				}
@@ -335,7 +334,7 @@ namespace ml
 			{
 				if (args.size() == 2)
 				{
-					if (Script * scr { ML_Content.get<Script>(args[1]) })
+					if (Script * scr { ML_Engine.content().get<Script>(args[1]) })
 					{
 						scr->execute();
 						return true;

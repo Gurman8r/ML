@@ -11,14 +11,11 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// INI Reader
-	struct ML_ENGINE_API Preferences final
-		: public Newable
-		, public Disposable
+	struct ML_ENGINE_API Preferences final : public Newable, public NonCopyable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Preferences();
-		explicit Preferences(const Preferences & copy);
 		explicit Preferences(const String & filename);
 		~Preferences() { dispose(); }
 

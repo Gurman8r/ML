@@ -61,9 +61,9 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Entity>(name))
+				if (!ML_Engine.content().get<Entity>(name))
 				{
-					return ML_Content.insert(name, new Entity{});
+					return ML_Engine.content().insert(name, new Entity{});
 				}
 			}
 		}
@@ -79,15 +79,15 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Font>(name))
+				if (!ML_Engine.content().get<Font>(name))
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Font{ ML_FS.pathTo(file) });
+						return ML_Engine.content().insert(name, new Font{ ML_FS.pathTo(file) });
 					}
 					else
 					{
-						return ML_Content.insert(name, new Font{});
+						return ML_Engine.content().insert(name, new Font{});
 					}
 				}
 			}
@@ -104,17 +104,17 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Image>(name))
+				if (!ML_Engine.content().get<Image>(name))
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name,
+						return ML_Engine.content().insert(name,
 							new Image(ML_FS.pathTo(file), md.getData("flip_v", true))
 						);
 					}
 					else
 					{
-						return ML_Content.insert(name, new Image{});
+						return ML_Engine.content().insert(name, new Image{});
 					}
 				}
 			}
@@ -131,17 +131,17 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Material>(name))
+				if (!ML_Engine.content().get<Material>(name))
 				{
 					// New Material
 					auto temp = new Material {
-						//ML_Content.get<Shader>(md.getData("shader")) // Shader
+						//ML_Engine.content().get<Shader>(md.getData("shader")) // Shader
 					};
 
 					// Default Uniforms
 					if (md.getData("defaults", true))
 					{
-						for (const auto & pair : ML_Content.data<Uniform>())
+						for (const auto & pair : ML_Engine.content().data<Uniform>())
 						{
 							if (auto u { (const Uniform *)pair.second })
 							{
@@ -153,13 +153,13 @@ namespace ml
 					// Load Uniforms
 					if (!temp->loadFromFile(
 						md.getData("uniforms").asString(),
-						(const Map<String, Texture *> *)&ML_Content.data<Texture>()
+						(const Map<String, Texture *> *)&ML_Engine.content().data<Texture>()
 					))
 					{
 						/* error */
 					}
 
-					return ML_Content.insert<Material>(name, temp);
+					return ML_Engine.content().insert<Material>(name, temp);
 				}
 			}
 		}
@@ -175,15 +175,15 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Model>(name))
+				if (!ML_Engine.content().get<Model>(name))
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Model{ ML_FS.pathTo(file) });
+						return ML_Engine.content().insert(name, new Model{ ML_FS.pathTo(file) });
 					}
 					else
 					{
-						return ML_Content.insert(name, new Model{});
+						return ML_Engine.content().insert(name, new Model{});
 					}
 				}
 			}
@@ -200,15 +200,15 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Script>(name))
+				if (!ML_Engine.content().get<Script>(name))
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Script{ ML_FS.pathTo(file) });
+						return ML_Engine.content().insert(name, new Script{ ML_FS.pathTo(file) });
 					}
 					else
 					{
-						return ML_Content.insert(name, new Script{});
+						return ML_Engine.content().insert(name, new Script{});
 					}
 				}
 			}
@@ -225,11 +225,11 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Shader>(name))
+				if (!ML_Engine.content().get<Shader>(name))
 				{
 					if (const String file { md.getData("file") })
 					{
-						return ML_Content.insert(name, new Shader{ ML_FS.pathTo(file) });
+						return ML_Engine.content().insert(name, new Shader{ ML_FS.pathTo(file) });
 					}
 					else
 					{
@@ -241,7 +241,7 @@ namespace ml
 							auto temp = new Shader();
 							if (temp->loadFromFile(vert, geom, frag))
 							{
-								return ML_Content.insert(name, temp);
+								return ML_Engine.content().insert(name, temp);
 							}
 							delete temp;
 						}
@@ -250,13 +250,13 @@ namespace ml
 							auto temp = new Shader();
 							if (temp->loadFromFile(vert, frag))
 							{
-								return ML_Content.insert(name, temp);
+								return ML_Engine.content().insert(name, temp);
 							}
 							delete temp;
 						}
 						else
 						{
-							return ML_Content.insert(name, new Shader{});
+							return ML_Engine.content().insert(name, new Shader{});
 						}
 					}
 				}
@@ -274,20 +274,20 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Sound>(name))
+				if (!ML_Engine.content().get<Sound>(name))
 				{
 					if (const String file { md.getData("file") })
 					{
 						auto temp = new Sound();
 						if (temp->loadFromFile(ML_FS.pathTo(file)))
 						{
-							return ML_Content.insert(name, temp);
+							return ML_Engine.content().insert(name, temp);
 						}
 						delete temp;
 					}
 					else
 					{
-						return ML_Content.insert(name, new Sound{});
+						return ML_Engine.content().insert(name, new Sound{});
 					}
 				}
 			}
@@ -304,23 +304,23 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Sprite>(name))
+				if (!ML_Engine.content().get<Sprite>(name))
 				{
 					if (const String file = md.getData("texture"))
 					{
-						if (const Texture * tex = ML_Content.get<Texture>(file))
+						if (const Texture * tex = ML_Engine.content().get<Texture>(file))
 						{
 							auto temp = new Sprite();
 							if (temp->loadFromMemory(tex))
 							{
-								return ML_Content.insert(name, temp);
+								return ML_Engine.content().insert(name, temp);
 							}
 							delete temp;
 						}
 					}
 					else
 					{
-						return ML_Content.insert(name, new Sprite{});
+						return ML_Engine.content().insert(name, new Sprite{});
 					}
 				}
 			}
@@ -337,12 +337,12 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Surface>(name))
+				if (!ML_Engine.content().get<Surface>(name))
 				{
-					return ML_Content.create<Surface>(name, 
-						ML_Content.get<Model>(md.getData("model")),
-						ML_Content.get<Material>(md.getData("material")),
-						ML_Content.get<Shader>(md.getData("shader"))
+					return ML_Engine.content().create<Surface>(name, 
+						ML_Engine.content().get<Model>(md.getData("model")),
+						ML_Engine.content().get<Material>(md.getData("material")),
+						ML_Engine.content().get<Shader>(md.getData("shader"))
 					);
 				}
 			}
@@ -359,11 +359,11 @@ namespace ml
 		{
 			if (const String name { md.getData("name") })
 			{
-				if (!ML_Content.get<Texture>(name))
+				if (!ML_Engine.content().get<Texture>(name))
 				{
-					if (const Texture * copy { ML_Content.get<Texture>(md.getData("copy")) })
+					if (const Texture * copy { ML_Engine.content().get<Texture>(md.getData("copy")) })
 					{
-						return ML_Content.create<Texture>(name, (*copy));
+						return ML_Engine.content().create<Texture>(name, (*copy));
 					}
 
 					// Smooth
@@ -416,20 +416,20 @@ namespace ml
 							};
 							if (temp->loadFromFile(ML_FS.pathTo(file)))
 							{
-								return ML_Content.insert<Texture>(name, temp);
+								return ML_Engine.content().insert<Texture>(name, temp);
 							}
 							delete temp;
 						}
 						else if (const String file = md.getData("image"))
 						{
-							if (const Image * img = ML_Content.get<Image>(file))
+							if (const Image * img = ML_Engine.content().get<Image>(file))
 							{
 								auto temp = new Texture {
 								sampler, format, smooth, repeat, mipmap, level, pixfmt
 								};
 								if (temp->loadFromImage(*img))
 								{
-									return ML_Content.insert(name, temp);
+									return ML_Engine.content().insert(name, temp);
 								}
 								delete temp;
 							}
@@ -473,7 +473,7 @@ namespace ml
 								&Image{ names[5] },
 							}))
 							{
-								return ML_Content.insert(name, temp);
+								return ML_Engine.content().insert(name, temp);
 							}
 							delete temp;
 						}
@@ -485,15 +485,15 @@ namespace ml
 							sampler, format, smooth, repeat, mipmap, level, pixfmt
 							};
 							if (temp->loadFromFaces({
-								ML_Content.get<Image>(names[0]),
-								ML_Content.get<Image>(names[1]),
-								ML_Content.get<Image>(names[2]),
-								ML_Content.get<Image>(names[3]),
-								ML_Content.get<Image>(names[4]),
-								ML_Content.get<Image>(names[5]),
+								ML_Engine.content().get<Image>(names[0]),
+								ML_Engine.content().get<Image>(names[1]),
+								ML_Engine.content().get<Image>(names[2]),
+								ML_Engine.content().get<Image>(names[3]),
+								ML_Engine.content().get<Image>(names[4]),
+								ML_Engine.content().get<Image>(names[5]),
 							}))
 							{
-								return ML_Content.insert(name, temp);
+								return ML_Engine.content().insert(name, temp);
 							}
 							delete temp;
 						}
@@ -502,12 +502,12 @@ namespace ml
 						case Hash("textures"):
 						{
 							Array<const Texture *, 6> tex {
-								ML_Content.get<Texture>(names[0]),
-								ML_Content.get<Texture>(names[1]),
-								ML_Content.get<Texture>(names[2]),
-								ML_Content.get<Texture>(names[3]),
-								ML_Content.get<Texture>(names[4]),
-								ML_Content.get<Texture>(names[5]),
+								ML_Engine.content().get<Texture>(names[0]),
+								ML_Engine.content().get<Texture>(names[1]),
+								ML_Engine.content().get<Texture>(names[2]),
+								ML_Engine.content().get<Texture>(names[3]),
+								ML_Engine.content().get<Texture>(names[4]),
+								ML_Engine.content().get<Texture>(names[5]),
 							};
 							Array<Image, 6> img {};
 							for (size_t i = 0; i < 6; i++)
@@ -519,7 +519,7 @@ namespace ml
 							};
 							if (temp->loadFromFaces(img))
 							{
-								return ML_Content.insert(name, temp);
+								return ML_Engine.content().insert(name, temp);
 							}
 							delete temp;
 						}
@@ -532,7 +532,7 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 					}
 
-					return ML_Content.insert(name, new Texture{});
+					return ML_Engine.content().insert(name, new Texture{});
 				}
 			}
 		}

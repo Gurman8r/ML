@@ -92,8 +92,9 @@ namespace ml
 		const String &	prefix,
 		const String &	message)
 	{
+		const auto & t { Timer::master().elapsed() };
 		out << FMT()
-			<< FG::Gray << "[" << Timer::master().elapsed() << "] "
+			//<< FG::Gray << "[" << t << "] "
 			<< FG::White << "[" << color << prefix << FG::White << "] "
 			<< FMT() << message
 			<< endl;

@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// just a wrapper for _STD basic_string<>
-	template <class Ch> struct BasicString: public _STD basic_string<
+	template <class Ch> struct BasicString final : public _STD basic_string<
 		Ch, _STD char_traits<Ch>, _STD allocator<Ch>
 	>
 	{
@@ -128,8 +128,6 @@ namespace ml
 			: base_type(copy.str())
 		{
 		}
-		
-		virtual ~BasicString() noexcept {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

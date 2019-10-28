@@ -102,9 +102,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_content { };
 		py::class_<ml_py_content>(m, "content")
-			.def_static("create",	[](str_t t, str_t n) { return (bool)ML_Content.generate(t, n); })
-			.def_static("destroy",	[](str_t t, str_t n) { return ML_Content.destroy(String(t).hash(), n); })
-			.def_static("exists",	[](str_t t, str_t n) { return ML_Content.exists(String(t).hash(), n); })
+			.def_static("create",	[](str_t t, str_t n) { return (bool)ML_Engine.content().generate(t, n); })
+			.def_static("destroy",	[](str_t t, str_t n) { return ML_Engine.content().destroy(String(t).hash(), n); })
+			.def_static("exists",	[](str_t t, str_t n) { return ML_Engine.content().exists(String(t).hash(), n); })
 			.def_static("load",		[](const dict_t & d) { return ContentImporter<>::loadMetadata(Metadata{ d }); })
 			.def_static("load_all", [](const table_t & t) { return ContentImporter<>::loadMetadata(t); })
 			;
@@ -172,11 +172,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_ecs {};
 		py::class_<ml_py_ecs>(m, "ecs")
-			.def_static("add_component", [](str_t n, str_t t) { Entity * e { ML_Content.get<Entity>(n) }; return (e && e->addByName(t)); })
-			.def_static("get_component", [](str_t n, str_t t) { Entity * e { ML_Content.get<Entity>(n) }; return (e && e->getByName(t)); })
+			.def_static("add_component", [](str_t n, str_t t) { Entity * e { ML_Engine.content().get<Entity>(n) }; return (e && e->addByName(t)); })
+			.def_static("get_component", [](str_t n, str_t t) { Entity * e { ML_Engine.content().get<Entity>(n) }; return (e && e->getByName(t)); })
 			.def_static("camera_attr", [](str_t name, str_t section, str_t key, str_t value)
 			{
-				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+				auto * e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
 				auto * c { e->get<Camera>() }; if (!c) return false;
 				switch (util::to_lower(section).hash())
 				{
@@ -202,7 +202,7 @@ namespace ml
 			})
 			.def_static("light_attr", [](str_t name, str_t section, str_t key, str_t value)
 			{
-				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+				auto * e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
 				auto * c { e->get<Light>() }; if (!c) return false;
 				switch (util::to_lower(section).hash())
 				{
@@ -222,7 +222,7 @@ namespace ml
 			})
 			.def_static("renderer_attr", [](str_t name, str_t section, str_t key, str_t value)
 			{
-				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+				auto * e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
 				auto * c { e->get<Renderer>() }; if (!c) return false;
 				switch (util::to_lower(section).hash())
 				{
@@ -231,9 +231,9 @@ namespace ml
 					switch (util::to_lower(key).hash())
 					{
 					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
-					case Hash("material"): c->setMaterial(ML_Content.get<Material>(value)); break;
-					case Hash("shader"): c->setShader(ML_Content.get<Shader>(value)); break;
-					case Hash("model"): c->setModel(ML_Content.get<Model>(value)); break;
+					case Hash("material"): c->setMaterial(ML_Engine.content().get<Material>(value)); break;
+					case Hash("shader"): c->setShader(ML_Engine.content().get<Shader>(value)); break;
+					case Hash("model"): c->setModel(ML_Engine.content().get<Model>(value)); break;
 					}
 				}
 				break;
@@ -309,7 +309,7 @@ namespace ml
 			})
 			.def_static("transform_attr", [](str_t name, str_t section, str_t key, str_t value)
 			{
-				auto * e { ML_Content.get<Entity>(name) }; if (!e) return false;
+				auto * e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
 				auto * c { e->get<Transform>() }; if (!c) return false;
 				switch (util::to_lower(section).hash())
 				{

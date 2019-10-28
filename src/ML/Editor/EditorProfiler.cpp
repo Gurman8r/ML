@@ -21,7 +21,7 @@ namespace ml
 		const float_t dt { ML_Engine.time().deltaTime() };
 		graphs[0].draw("Delta Time", dt, util::to_string(dt).c_str());
 
-		const float_t fr = { (float_t)ML_Engine.time().frameRate() };
+		const float_t fr { (float_t)ML_Engine.time().frameRate() };
 		graphs[1].draw("Frame Rate", fr, util::to_string(fr).c_str());
 	}
 
@@ -94,9 +94,9 @@ namespace ml
 	{
 		const float_t dt { ML_Engine.time().deltaTime() };
 
-		m_label		= label;
-		m_sample	= sample;
-		m_text		= text;
+		m_label = label;
+		m_sample = sample;
+		m_text = text;
 
 		if (m_sample >= max)
 		{

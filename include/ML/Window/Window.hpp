@@ -107,7 +107,7 @@ namespace ml
 
 		bool is_focused() const;
 		
-		bool is_fullscreen()	const;
+		bool is_fullscreen() const;
 		
 		bool is_open() const;
 		

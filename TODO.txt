@@ -7,7 +7,7 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ ] BUILD FROM SOURCE
+[ ] BUILD THE WORLD FROM SOURCE
 [ ] MORE PROPERTY DRAWERS
 [ ] INCREASE DATA DENSITY
 [ ] BETTER DESERIALIZATION

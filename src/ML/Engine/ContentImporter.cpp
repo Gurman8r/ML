@@ -12,11 +12,47 @@
 #include <ML/Engine/Script.hpp>
 #include <ML/Core/Debug.hpp>
 
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	bool ContentImporter<>::loadMetadata(const Metadata & value)
+	{
+		if (!([&]() {
+			switch (value.getData("type").asString().hash())
+			{
+			case Hash { "Manifest" }	: return true;
+			case typeof<Entity>::hash	: return (bool)ContentImporter<Entity>()(value);
+			case typeof<Font>::hash		: return (bool)ContentImporter<Font>()(value);
+			case typeof<Image>::hash	: return (bool)ContentImporter<Image>()(value);
+			case typeof<Material>::hash	: return (bool)ContentImporter<Material>()(value);
+			case typeof<Model>::hash	: return (bool)ContentImporter<Model>()(value);
+			case typeof<Script>::hash	: return (bool)ContentImporter<Script>()(value);
+			case typeof<Shader>::hash	: return (bool)ContentImporter<Shader>()(value);
+			case typeof<Sound>::hash	: return (bool)ContentImporter<Sound>()(value);
+			case typeof<Sprite>::hash	: return (bool)ContentImporter<Sprite>()(value);
+			case typeof<Surface>::hash	: return (bool)ContentImporter<Surface>()(value);
+			case typeof<Texture>::hash	: return (bool)ContentImporter<Texture>()(value);
+			} 
+			return false;
+		})())
+		{
+			return Debug::logError("Failed Loading [{0}]: {1}",
+				value.getData("type").asString(),
+				value.getData("name").asString()
+			);
+		}
+# if (ML_DEBUG)
+		return Debug::log("Loaded [{0}]: {1}",
+			value.getData("type").asString(),
+			value.getData("name").asString()
+		);
+# else
+		return true;
+# endif
+	}
+
+
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	Entity * ContentImporter<Entity>::operator()(const Metadata & md) const

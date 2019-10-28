@@ -49,7 +49,7 @@ namespace ml
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
 			// Scale
-			float scale { 0.8f };
+			float scale { 0.65f };
 			ImGui::SetWindowFontScale(scale);
 
 			// Filter

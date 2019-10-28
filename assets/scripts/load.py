@@ -3,8 +3,8 @@
 #   This script is called once after the window is created and after defaults are generated.
 #
 #   For more information see:
-#   https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/ContentImporter.cpp
 #   https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/Python.cpp
+#   https://github.com/Gurman8r/ML/blob/master/src/ML/Engine/ContentImporter.cpp
 #
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
@@ -132,10 +132,10 @@ ml.content.load_all([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     { "type": "ml::Model", "name": "obj/cessna",        "file": PATH + "/meshes/cessna.obj" },
     { "type": "ml::Model", "name": "obj/cube",          "file": PATH + "/meshes/cube.obj" },
-    { "type": "ml::Model", "name": "obj/minicooper",    "file": PATH + "/meshes/minicooper.obj" },
+    #{ "type": "ml::Model", "name": "obj/minicooper",    "file": PATH + "/meshes/minicooper.obj" },
+    { "type": "ml::Model", "name": "obj/monkey",        "file": PATH + "/meshes/monkey.obj" },
     { "type": "ml::Model", "name": "obj/sphere8x6",     "file": PATH + "/meshes/sphere8x6.obj" },
     { "type": "ml::Model", "name": "obj/sphere32x24",   "file": PATH + "/meshes/sphere32x24.obj" },
-    { "type": "ml::Model", "name": "obj/monkey",        "file": PATH + "/meshes/monkey.obj" },
 
     { "type": "ml::Model", "name": "obj/cow",           "file": PATH + "/meshes/cow.obj" },
     { "type": "ml::Model", "name": "obj/teapot",        "file": PATH + "/meshes/teapot.obj" },

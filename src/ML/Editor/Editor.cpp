@@ -29,6 +29,7 @@ namespace ml
 		, m_terminal	{ }
 	{
 		ML_EventSystem.addListener<EnterEvent>(this);
+		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<UpdateEvent>(this);
 		ML_EventSystem.addListener<BeginGuiEvent>(this);
 		ML_EventSystem.addListener<GuiEvent>(this);
@@ -46,6 +47,7 @@ namespace ml
 		switch (*value)
 		{
 		case EnterEvent::ID:	return onEnter(*value.as<EnterEvent>());
+		case LoadEvent::ID:		return onLoad(*value.as<LoadEvent>());
 		case UpdateEvent::ID:	return onUpdate(*value.as<UpdateEvent>());
 		case BeginGuiEvent::ID:	return onBeginGui(*value.as<BeginGuiEvent>());
 		case GuiEvent::ID:		return onGui(*value.as<GuiEvent>());
@@ -136,19 +138,16 @@ namespace ml
 
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
-		if (!ML_ImGuiImpl.Startup(
-			"#version 130", 
-			&ML_Engine.window(), 
-			true,
-			ML_Engine.prefs().get_bool("Editor", "use_imgui_ini", false),
-			ML_Engine.prefs().get_bool("Editor", "use_imgui_log", false)
-		))
-		{
-			return Debug::fatal("Failed starting ImGui instance");
-		}
-
-		// Capture Cout
-		m_terminal.redirect(cout);
+		ML_ASSERT(
+			"Starting ImGui" &&
+			ML_ImGuiImpl.Startup(
+				"#version 130",
+				&ML_Engine.window(),
+				true,
+				ML_Engine.prefs().get_bool("Editor", "use_imgui_ini", false),
+				ML_Engine.prefs().get_bool("Editor", "use_imgui_log", false)
+			)
+		);
 
 		// Get Preferences
 		m_about		.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about",		false));
@@ -158,6 +157,12 @@ namespace ml
 		m_manual	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual",	false));
 		m_profiler	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_profiler",	false));
 		m_terminal	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_terminal",	false));
+	}
+
+	void Editor::onLoad(const LoadEvent & ev)
+	{
+		// by now resources should be loaded
+		m_terminal.redirect(cout);
 	}
 
 	void Editor::onUpdate(const UpdateEvent & ev)

@@ -1,5 +1,6 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/Array.hpp>
+#include <ML/Core/Timer.hpp>
 
 # ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
@@ -28,12 +29,6 @@ namespace ml
 	void Debug::exit(int32_t exitCode)
 	{
 		std::exit(exitCode);
-	}
-
-	void Debug::fatal(const String & message)
-	{
-		Logger()(cerr, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
-		std::abort();
 	}
 
 	int32_t Debug::clear()
@@ -86,6 +81,23 @@ namespace ml
 #else
 		return nullptr;
 #endif
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	int32_t Debug::Logger::operator()(
+		std::ostream &	out,
+		const int32_t	exitCode,
+		const FMT &		color,
+		const String &	prefix,
+		const String &	message)
+	{
+		out << FMT()
+			<< FG::Gray << "[" << Timer::master().elapsed() << "] "
+			<< FG::White << "[" << color << prefix << FG::White << "] "
+			<< FMT() << message
+			<< endl;
+		return exitCode;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

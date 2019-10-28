@@ -4,28 +4,26 @@
 #include <ML/Core/Export.hpp>
 #include <ML/Core/StringUtility.hpp>
 
-// Log Codes
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_WARNING -1 // -1
-#define ML_FAILURE	0 //  0
-#define ML_SUCCESS	1 // +1
+# ifndef ML_ASSERT
+#	define ML_ASSERT(expr) assert(expr)
+# endif
 
-// Log Prefixes
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#define ML_MSG_LOG "info"	// Info
-#define ML_MSG_WRN "warn"	// Warning
-#define ML_MSG_ERR "error"	// Error
+# define ML_WARNING -1
+# define ML_FAILURE	 0
+# define ML_SUCCESS	+1
 
-// Breakpoint
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# if not ML_DEBUG
-#	define ML_BREAKPOINT
-# else
+# define ML_MSG_LOG "info"
+# define ML_MSG_WRN "warning"
+# define ML_MSG_ERR "error"
+
+# if (ML_DEBUG)
 #	if defined(ML_CC_MSC)
 #		define ML_BREAKPOINT __debugbreak()
 #	else
 #		define ML_BREAKPOINT raise(SIGTRAP)
 #	endif
+# else
+#	define ML_BREAKPOINT
 # endif
 
 namespace ml
@@ -129,10 +127,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static void		exit(int32_t exitCode);
-		static void		fatal(const String & message);
-		static int32_t	clear();
-		static int32_t	pause(int32_t exitCode);
+		static void exit(int32_t exitCode);
+		
+		static int32_t clear();
+		
+		static int32_t pause(int32_t exitCode);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -147,19 +146,13 @@ namespace ml
 		struct Logger final
 		{
 			Logger() = default;
-			inline int32_t operator()(
+			int32_t operator()(
 				std::ostream &	out,
 				const int32_t	exitCode,
 				const FMT &		color,
 				const String &	prefix,
-				const String &	message)
-			{
-				out << FMT()
-					<< FG::White << "[ " << color << prefix << FG::White << " ]"
-					<< FMT() << " " << message
-					<< endl;
-				return exitCode;
-			};
+				const String &	message
+			);
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

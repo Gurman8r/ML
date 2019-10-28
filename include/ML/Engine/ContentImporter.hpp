@@ -1,7 +1,8 @@
 #ifndef _ML_CONTENT_IMPORTER_HPP_
 #define _ML_CONTENT_IMPORTER_HPP_
 
-#include <ML/Engine/MetadataParser.hpp>
+#include <ML/Engine/Export.hpp>
+#include <ML/Engine/Metadata.hpp>
 
 #define ML_GEN_CONTENT_IMPORTER(T)									\
 using value_type		= typename _ML detail::decay_t<T>;			\
@@ -19,7 +20,21 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	template <class ... T> struct ContentImporter;
 
-	template <> struct ContentImporter<> { ContentImporter() = delete; };
+	template <> struct ContentImporter<> 
+	{
+		ContentImporter() = delete; 
+
+		static bool loadMetadata(const Metadata & value);
+
+		template <class S>
+		static inline int32_t loadMetadata(const List<Map<S, S>> & value)
+		{
+			int32_t count { 0 };
+			for (const auto & elem : value)
+				count += loadMetadata(Metadata { elem });
+			return count;
+		}
+	};
 
 
 	// Entity Importer

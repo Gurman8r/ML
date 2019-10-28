@@ -9,6 +9,7 @@
 
 # if defined(ML_HAS_CXX20)
 #	include <concepts>
+#	include <ranges>
 # endif
 
 # if defined(ML_HAS_CXX17)

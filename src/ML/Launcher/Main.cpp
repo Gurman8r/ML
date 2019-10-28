@@ -10,9 +10,11 @@
 
 namespace ml
 {
-	static constexpr bool check_version() 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	static constexpr bool check_version()
 	{
-		return true
+		return ("Check Version"
 			&& typeof<bool>::name			== "bool"
 			&& typeof<char>::name			== "char"
 			&& typeof<wchar_t>::name		== "wchar_t"
@@ -50,8 +52,10 @@ namespace ml
 			&& typeof<std::u16string>::name	== "std::u16string"
 			&& typeof<std::u32string>::name	== "std::u32string"
 # endif
-			;
+		);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -60,17 +64,25 @@ ml::int32_t main()
 {
 	using namespace ml;
 
-	static_assert(check_version());
+	// Check Version
+	static_assert(check_version()); ML_ASSERT(check_version());
 
 	// Initialize Systems
-	ML_EventSystem; ML_Engine; ML_Editor;
+	Timer::master(); ML_EventSystem; ML_Engine; ML_Editor;
 
-	// Startup Sequence
+	// Enter
 	ML_EventSystem.fireEvent<EnterEvent>();
+
+	// Load
+	Timer t { true };
 	ML_EventSystem.fireEvent<LoadEvent>();
+	t.stop();
+	Debug::log("Load Time: {0}s", t.elapsed().count());
+
+	// Start
 	ML_EventSystem.fireEvent<StartEvent>();
 
-	// Main Loop
+	// Loop
 	while (ML_Engine.window().is_open())
 	{
 		ML_EventSystem.fireEvent<BeginStepEvent>();
@@ -84,8 +96,10 @@ ml::int32_t main()
 		ML_EventSystem.fireEvent<EndStepEvent>();
 	}
 
-	// Shutdown Sequence
+	// Unload
 	ML_EventSystem.fireEvent<UnloadEvent>();
+
+	// Exit
 	ML_EventSystem.fireEvent<ExitEvent>();
 
 	// Goodbye!

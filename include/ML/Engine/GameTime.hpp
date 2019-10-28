@@ -22,19 +22,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const Timer & mainTimer() const { return m_main; }
-		inline const Timer & stepTimer() const { return m_step; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline float_t totalTime() const
 		{
-			return (m_totalTime = (float_t)m_main.elapsed().count());
+			return static_cast<float_t>(Timer::master().elapsed().count());
 		}
 
 		inline float_t deltaTime() const
 		{
-			return (m_deltaTime = (float_t)m_elapsed.count());
+			return static_cast<float_t>(m_elapsed.count());
 		}
 
 		inline uint64_t frameCount() const
@@ -50,12 +46,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		Timer m_main; // Master Timer
-		Timer m_step; // Frame Timer
+		Timer m_step;
 
-		mutable Duration	m_elapsed	{ 0 };
-		mutable float_t		m_deltaTime	{ 0 };
-		mutable float_t		m_totalTime	{ 0 };
+		mutable Duration m_elapsed { 0 };
 
 		struct FrameTracker final
 		{

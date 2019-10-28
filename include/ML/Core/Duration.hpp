@@ -85,6 +85,21 @@ namespace ml
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
+
+	inline ML_SERIALIZE(std::ostream & out, const Duration & dur)
+	{
+		const auto hr { (intmax_t)dur.hours().count() };
+		const auto m { (intmax_t)dur.minutes().count() };
+		const auto s { (intmax_t)dur.seconds().count() };
+		const auto ms { (intmax_t)dur.milliseconds().count() };
+		return out
+			<< (((hr % 24) / 10) % 10) << ((hr % 24) % 10) << ':'
+			<< (((m % 60) / 10) % 10) << ((m % 60) % 10) << ':'
+			<< (((s % 60) / 10) % 10) << ((s % 60) % 10) << ':'
+			<< ((ms % 1000) / 100) << ((ms % 100) / 10);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_DURATION_HPP_

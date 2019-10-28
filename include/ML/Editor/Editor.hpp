@@ -29,6 +29,7 @@ namespace ml
 		void onEvent(const Event & value) override;
 
 		void onEnter	(const EnterEvent & ev);
+		void onLoad		(const LoadEvent & ev);
 		void onUpdate	(const UpdateEvent & ev);
 		void onBeginGui	(const BeginGuiEvent & ev);
 		void onGui		(const GuiEvent & ev);

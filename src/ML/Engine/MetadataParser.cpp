@@ -38,24 +38,6 @@ namespace ml
 		return this->dispose() && readFile(filename, m_lists);
 	}
 
-	bool MetadataParser::loadElement(size_t index)
-	{
-		return (index < m_lists.size()) && parseMetadata(*m_lists[index]);
-	}
-
-	bool MetadataParser::loadAll(bool clearLists)
-	{
-		if (!m_lists.empty())
-		{
-			for (size_t i = 0; i < m_lists.size(); i++)
-			{
-				if (!loadElement(i)) { /* error */ }
-			}
-			return !clearLists || this->dispose();
-		}
-		return false;
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const List<Metadata *> & MetadataParser::loadLists(List<Metadata *> & data, const List<Map<String, String>>& value)
@@ -135,30 +117,6 @@ namespace ml
 		}
 		if (data) { delete data; }
 		return (data = nullptr);
-	}
-
-	bool MetadataParser::parseMetadata(const Metadata & data)
-	{
-		switch (data.getData("type").asString().hash())
-		{
-		case Hash { "Manifest" }:	return true;
-		case typeof<Entity	>::hash:return ContentImporter<Entity>()(data);
-		case typeof<Font	>::hash:return ContentImporter<Font>()(data);
-		case typeof<Image	>::hash:return ContentImporter<Image>()(data);
-		case typeof<Material>::hash:return ContentImporter<Material>()(data);
-		case typeof<Model	>::hash:return ContentImporter<Model>()(data);
-		case typeof<Script	>::hash:return ContentImporter<Script>()(data);
-		case typeof<Shader	>::hash:return ContentImporter<Shader>()(data);
-		case typeof<Sound	>::hash:return ContentImporter<Sound>()(data);
-		case typeof<Sprite	>::hash:return ContentImporter<Sprite>()(data);
-		case typeof<Surface	>::hash:return ContentImporter<Surface>()(data);
-		case typeof<Texture	>::hash:return ContentImporter<Texture>()(data);
-		default:
-			return Debug::logError("Failed Loading {0}:  \'{1}\'",
-				data.getData("type").asString(),
-				data.getData("name").asString()
-			);
-		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

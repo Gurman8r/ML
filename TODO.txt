@@ -12,11 +12,10 @@
 [ ] INCREASE DATA DENSITY
 [ ] BETTER DESERIALIZATION
 
-[ ] Dedicated error log (like Unity's)
-[ ] Real-time python scripts
-[ ] Json Editor Gui
-[ ] Text/String Database
-
+[?] Dedicated error log (like Unity's)
+[?] Real-time python scripts
+[?] Json Editor Gui
+[?] Text/String Database
 [?] Virtual File System
 [?] automatic/recursive asset loading
 [?] async asset loading (threaded w/ progress bar)

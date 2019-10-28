@@ -95,13 +95,13 @@ namespace ml
 
 	void Engine::onEnter(const EnterEvent & ev)
 	{
-		// Initialize Python
-		if (!ML_Py.init(ML_ARGV[0], ML_FS.pathTo(m_prefs.get_string(
-			"Engine", "python_home", ""
-		))))
-		{
-			Debug::fatal("Failed initializing Python");
-		}
+		// Start Python
+		ML_ASSERT(
+			"Starting Python" &&
+			ML_Py.init(ML_ARGV[0], ML_FS.pathTo(m_prefs.get_string(
+				"Engine", "python_home", ""
+			)))
+		);
 
 		// Run Boot Script
 		if (Script scr_enter { m_prefs.get_string("Engine", "enter_script", "") })
@@ -110,31 +110,31 @@ namespace ml
 		}
 
 		// Create Window
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (!m_window.create(
-			m_prefs.get_string	("Window", "title",				"MemeLib"), { 
-			m_prefs.get_uint	("Window", "width",				1280),
-			m_prefs.get_uint	("Window", "height",			720),
-			m_prefs.get_uint	("Window", "bits_per_pixel",	32) }, {
-			m_prefs.get_bool	("Window", "resizable",			true),
-			m_prefs.get_bool	("Window", "visible",			false),
-			m_prefs.get_bool	("Window", "decorated",			true),
-			m_prefs.get_bool	("Window", "focused",			true),
-			m_prefs.get_bool	("Window", "auto_iconify",		true),
-			m_prefs.get_bool	("Window", "floating",			false),
-			m_prefs.get_bool	("Window", "maximized",			true) }, {
-			m_prefs.get_uint	("Window", "major_version",		3),
-			m_prefs.get_uint	("Window", "minor_version",		3),
-			m_prefs.get_uint	("Window", "context_profile",	ContextSettings::Compat),
-			m_prefs.get_uint	("Window", "depth_bits",		24),
-			m_prefs.get_uint	("Window", "stencil_bits",		8),
-			m_prefs.get_bool	("Window", "multisample",		false),
-			m_prefs.get_bool	("Window", "srgb_capable",		false)
-		}))
-		{
-			Debug::fatal("Failed Creating Window");
-		}
-		else if (m_prefs.get_bool("Window", "fullscreen", false))
+		ML_ASSERT(
+			"Creating Window" &&
+			m_window.create(
+				m_prefs.get_string	("Window", "title",				"MemeLib"), { 
+				m_prefs.get_uint	("Window", "width",				1280),
+				m_prefs.get_uint	("Window", "height",			720),
+				m_prefs.get_uint	("Window", "bits_per_pixel",	32) }, {
+				m_prefs.get_bool	("Window", "resizable",			true),
+				m_prefs.get_bool	("Window", "visible",			false),
+				m_prefs.get_bool	("Window", "decorated",			true),
+				m_prefs.get_bool	("Window", "focused",			true),
+				m_prefs.get_bool	("Window", "auto_iconify",		true),
+				m_prefs.get_bool	("Window", "floating",			false),
+				m_prefs.get_bool	("Window", "maximized",			true) }, {
+				m_prefs.get_uint	("Window", "major_version",		3),
+				m_prefs.get_uint	("Window", "minor_version",		3),
+				m_prefs.get_uint	("Window", "context_profile",	ContextSettings::Compat),
+				m_prefs.get_uint	("Window", "depth_bits",		24),
+				m_prefs.get_uint	("Window", "stencil_bits",		8),
+				m_prefs.get_bool	("Window", "multisample",		false),
+				m_prefs.get_bool	("Window", "srgb_capable",		false)
+			})
+		);
+		
+		if (m_prefs.get_bool("Window", "fullscreen", false))
 		{
 			m_window.setFullscreen(true);
 		}
@@ -205,43 +205,7 @@ namespace ml
 				return vec2{};
 			} });
 
-		//ML_Content.insert<Uniform>("u_camera.pos", new uni_vec3_clbk {
-		//	"u_camera.pos", [&]() {
-		//		if (auto c { Camera::mainCamera() }) { return c->position(); }
-		//		return vec3{};
-		//	} });
-		//
-		//ML_Content.insert<Uniform>("u_camera.dir", new uni_vec3_clbk {
-		//	"u_camera.dir", [&]() {
-		//		if (auto c { Camera::mainCamera() }) { return c->direction(); }
-		//		return vec3{};
-		//	} });
-		//
-		//ML_Content.insert<Uniform>("u_camera.fov", new uni_float_clbk {
-		//	"u_camera.fov", [&]() {
-		//		if (auto c { Camera::mainCamera() }) { return c->fieldOfView(); }
-		//		return 0.f;
-		//	} });
-		//
-		//ML_Content.insert<Uniform>("u_camera.near", new uni_float_clbk {
-		//	"u_camera.near", [&]() {
-		//		if (auto c { Camera::mainCamera() }) { return c->clipNear(); }
-		//		return 0.f;
-		//	} });
-		//
-		//ML_Content.insert<Uniform>("u_camera.far", new uni_float_clbk {
-		//	"u_camera.far", [&]() {
-		//		if (auto c { Camera::mainCamera() }) { return c->clipFar(); }
-		//		return 0.f;
-		//	} });
-		//
-		//ML_Content.insert<Uniform>("u_camera.view", new uni_vec2_clbk {
-		//	"u_camera.view", [&]() {
-		//		if (auto c { Camera::mainCamera() }) { return (vec2)c->viewport().size(); }
-		//		return vec2{};
-		//	} });
 
-		
 		// Run Load Script
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (Script scr_load { m_prefs.get_string("Engine", "load_script", "") })

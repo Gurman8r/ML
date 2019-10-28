@@ -17,11 +17,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		Timer(bool startMe)
+			: Timer {}
+		{
+			if (startMe) { this->start(); }
+		}
+
 		Timer()
-			: m_paused	{ false }
-			, m_prev	{}
-			, m_next	{}
-			, m_elapsed	{ 0 }
+			: m_paused { false }
+			, m_prev {}
+			, m_next {}
+			, m_elapsed { 0 }
 		{
 		}
 
@@ -34,6 +40,14 @@ namespace ml
 		}
 
 		~Timer() {}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static const Timer & master()
+		{
+			static Timer temp { true };
+			return temp;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

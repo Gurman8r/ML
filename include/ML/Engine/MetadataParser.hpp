@@ -20,27 +20,18 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
+
 		bool loadFromFile(const String & filename);
-		bool loadElement(size_t index);
-		bool loadAll(bool clearLists);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		static const List<Metadata *> & loadLists(List<Metadata *> & data, const List<Map<String, String>> & value);
+		
 		static bool readFile(const String & filename, List<Metadata *> & list);
+		
 		static bool readLists(List<Metadata *> & list, std::istream & file, String & line);
+		
 		static bool readMetadata(Metadata *& data, std::istream & file, String & line);
-		static bool parseMetadata(const Metadata & data);
-
-		template <class S> inline static bool parseMetadata(const List<Map<S, S>> & value)
-		{
-			size_t count { 0 };
-			for (const auto & elem : value)
-			{
-				count += parseMetadata(Metadata { elem });
-			}
-			return count;
-		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

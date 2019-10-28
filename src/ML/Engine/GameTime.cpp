@@ -5,16 +5,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	GameTime::GameTime() 
-		: m_main {}
-		, m_step {}
-	{
-		m_main.start();
-	}
+	GameTime::GameTime() : m_step {} {}
 
-	GameTime::~GameTime()
-	{ 
-	}
+	GameTime::~GameTime() {}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

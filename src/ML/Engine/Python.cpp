@@ -7,7 +7,7 @@
 #include <ML/Engine/PluginManager.hpp>
 #include <ML/Engine/Ref.hpp>
 #include <ML/Engine/Registry.hpp>
-#include <ML/Engine/MetadataParser.hpp>
+#include <ML/Engine/ContentImporter.hpp>
 #include <ML/Engine/Entity.hpp>
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/Light.hpp>
@@ -105,8 +105,8 @@ namespace ml
 			.def_static("create",	[](str_t t, str_t n) { return (bool)ML_Content.generate(t, n); })
 			.def_static("destroy",	[](str_t t, str_t n) { return ML_Content.destroy(String(t).hash(), n); })
 			.def_static("exists",	[](str_t t, str_t n) { return ML_Content.exists(String(t).hash(), n); })
-			.def_static("load",		[](const dict_t & d) { return MetadataParser::parseMetadata(Metadata { d }); })
-			.def_static("load_all", [](const table_t & t) { return MetadataParser::parseMetadata(t); })
+			.def_static("load",		[](const dict_t & d) { return ContentImporter<>::loadMetadata(Metadata{ d }); })
+			.def_static("load_all", [](const table_t & t) { return ContentImporter<>::loadMetadata(t); })
 			;
 
 		// IO
@@ -115,7 +115,6 @@ namespace ml
 			.def_static("clear", []() { Debug::clear(); })
 			.def_static("command", [](str_t s) { ML_EventSystem.fireEvent<CommandEvent>(s.c_str()); })
 			.def_static("exit", []() { Debug::exit(0); })
-			.def_static("fatal", [](str_t s) { Debug::fatal(s); })
 			.def_static("pause", []() { Debug::pause(0); })
 			.def_static("print", [](str_t s) { cout << s; })
 			.def_static("printf", [](str_t s, const list_t & l) { cout << util::format(s, l); })

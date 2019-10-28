@@ -11,9 +11,9 @@
 // Source: https://github.com/SFML/SFML/blob/master/src/SFML/Graphics/GLCheck.hpp
 // The do loop is needed so that glCheck can be used as a single statement in branches
 # if ML_DEBUG == 1
-#	define glCheck(EX) do { EX; ML_GL.checkError(__FILE__, __LINE__, #EX); } while (0)
+#	define glCheck(expr) do { expr; ML_GL.checkError(__FILE__, __LINE__, #expr); } while (0)
 # else
-#	define glCheck(EX) (EX)
+#	define glCheck(expr) (expr)
 # endif
 
 /* * * * * * * * * * * * * * * * * * * * */

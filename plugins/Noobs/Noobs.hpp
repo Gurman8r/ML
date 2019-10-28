@@ -149,7 +149,6 @@ namespace ml
 				, errs	{}
 			{
 				this->text.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
-				this->text.SetShowWhitespaces(false);
 				this->text.SetPalette(TextEditor::GetLightPalette());
 			}
 

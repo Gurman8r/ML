@@ -17,23 +17,27 @@ workspace "ML"
 
 filter ("system:not windows")
 	sln_dir = "%{wks.location}/"
-	bin_dir = "%{sln_dir}bin/%{cfg.buildcfg}/%{cfg.platform}/"
-	lib_dir = "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/"
-	obj_dir = "%{sln_dir}obj/"
 	inc_dir = "%{sln_dir}include/ML/%{prj.name}/"
 	src_dir = "%{sln_dir}src/ML/%{prj.name}/"
 	prj_dir = "%{sln_dir}proj/ML/%{prj.name}/"
-	dep_dir = "%{sln_dir}thirdparty/"
+	bin_out = "%{sln_dir}bin/%{cfg.buildcfg}/%{cfg.platform}/"
+	bin_lib = "%{sln_dir}bin-lib/%{cfg.buildcfg}/%{cfg.platform}/"
+	bin_obj = "%{sln_dir}bin-obj/"
+	ext_dir = "%{sln_dir}ext/"
+	ext_bin = "%{sln_dir}ext-bin/"
+	ext_lib = "%{sln_dir}ext-lib/"
 	
 filter ("system:windows")
 	sln_dir = "%{wks.location}\\"
-	bin_dir = "%{sln_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\"
-	lib_dir = "%{sln_dir}lib\\%{cfg.buildcfg}\\%{cfg.platform}\\"
-	obj_dir = "%{sln_dir}obj\\"
 	inc_dir = "%{sln_dir}include\\ML\\%{prj.name}\\"
 	src_dir = "%{sln_dir}src\\ML\\%{prj.name}\\"
 	prj_dir = "%{sln_dir}proj\\ML\\%{prj.name}\\"
-	dep_dir = "%{sln_dir}thirdparty\\"
+	bin_out = "%{sln_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\"
+	bin_lib = "%{sln_dir}bin-lib\\%{cfg.buildcfg}\\%{cfg.platform}\\"
+	bin_obj = "%{sln_dir}bin-obj\\"
+	ext_dir = "%{sln_dir}ext\\"
+	ext_bin = "%{sln_dir}ext-bin\\"
+	ext_lib = "%{sln_dir}ext-lib\\"
 
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

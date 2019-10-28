@@ -325,6 +325,11 @@ namespace ml
 			{
 				if (!ML_Content.get<Texture>(name))
 				{
+					if (const Texture * copy { ML_Content.get<Texture>(md.getData("copy")) })
+					{
+						return ML_Content.create<Texture>(name, (*copy));
+					}
+
 					// Smooth
 					const bool smooth = md.getData("smooth", true);
 

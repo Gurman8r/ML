@@ -254,7 +254,8 @@ namespace ml
 							}
 						}
 					}
-					ML_Engine.window().draw(renderer);
+					
+					ev.target.draw(renderer);
 				}
 			}
 
@@ -281,7 +282,7 @@ namespace ml
 			}();
 
 			// Draw Scene Output
-			ML_Engine.window().draw(m_pipeline[Surf_Main]);
+			ev.target.draw(m_pipeline[Surf_Main]);
 
 			// Unbind Surface
 			m_pipeline[Surf_Post]->unbind();
@@ -844,11 +845,11 @@ namespace ml
 
 			// Alpha State
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-			([](AlphaState * alpha) {
-				if (!alpha) { return; }
-
+			([](AlphaState * alpha) 
+			{	if (!alpha) { return; }
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				ImGui::PushID(ML_ADDRESSOF(alpha));
 				ImGui::PushID("##AlphaState");
 				ImGui::NewLine();
 				ImGui::PushItemWidth(150);
@@ -877,7 +878,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				int32_t func = GL::index_of(alpha->func);
-				if (ImGuiExt::Combo("##Predicate", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
+				if (ImGuiExt::Combo("##Func", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
 				{
 					alpha->func = GL::value_at<GL::Predicate>(func);
 				}
@@ -894,7 +895,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ImGui::DragFloat("##Coefficient", &alpha->coeff);
+				ImGui::DragFloat("##Ref", &alpha->coeff);
 				ImGuiExt::Tooltip(String(
 					"Param: \'ref\'\n\n"
 					"Value: {0}\n\n"
@@ -909,19 +910,21 @@ namespace ml
 
 				ImGui::PopItemWidth();
 				ImGui::PopID();
-				ImGui::NewLine(); ImGui::Separator();
+				ImGui::PopID();
+				ImGui::NewLine(); 
 
 				/* * * * * * * * * * * * * * * * * * * * */
-				})(&r->states().alpha());
+			})(&r->states().alpha());
 
+			ImGui::Separator();
 
 			// Blend State
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-			([](BlendState * blend) {
-				if (!blend) { return; }
-				
+			([](BlendState * blend) 
+			{	if (!blend) { return; }
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				ImGui::PushID(ML_ADDRESSOF(blend));
 				ImGui::PushID("##BlendState");
 				ImGui::NewLine();
 				ImGui::PushItemWidth(150);
@@ -944,15 +947,16 @@ namespace ml
 				{
 					Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
 				}
-				ImGuiExt::Tooltip("Specify pixel arithmetic for RGB and alpha components separately");
-				ImGui::SameLine(); ImGui::Text("("); //ImGui::SameLine();
-
+				ImGuiExt::Tooltip(
+					"Specify pixel arithmetic for RGB and alpha components separately."
+				);
+				ImGui::SameLine(); ImGui::Text("(");
 				ImGui::Indent();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				int32_t sfactorRGB = GL::index_of(blend->sfactorRGB);
-				if (ImGuiExt::Combo("##SrcRGB", &sfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+				if (ImGuiExt::Combo("##sfactorRGB", &sfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 				{
 					blend->sfactorRGB = GL::value_at<GL::Factor>(sfactorRGB);
 				}
@@ -970,7 +974,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				int32_t dfactorRGB = GL::index_of(blend->dfactorRGB);
-				if (ImGuiExt::Combo("##DstRGB", &dfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+				if (ImGuiExt::Combo("##dfactorRGB", &dfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 				{
 					blend->dfactorRGB = GL::value_at<GL::Factor>(dfactorRGB);
 				}
@@ -988,7 +992,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				int32_t sfactorAlpha = GL::index_of(blend->sfactorAlpha);
-				if (ImGuiExt::Combo("##SrcAlpha", &sfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+				if (ImGuiExt::Combo("##sfactorAlpha", &sfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 				{
 					blend->sfactorAlpha = GL::value_at<GL::Factor>(sfactorAlpha);
 				}
@@ -1006,7 +1010,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				int32_t dfactorAlpha = GL::index_of(blend->dfactorAlpha);
-				if (ImGuiExt::Combo("##DstAlpha", &dfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+				if (ImGuiExt::Combo("##dfactorAlpha", &dfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
 				{
 					blend->dfactorAlpha = GL::value_at<GL::Factor>(dfactorAlpha);
 				}
@@ -1019,7 +1023,6 @@ namespace ml
 					util::to_hex<uint32_t>(blend->dfactorAlpha),
 					"Specifies how the alpha destination blending factor is computed"
 				));
-					
 				ImGui::Unindent();
 				ImGui::Text(");");
 
@@ -1027,18 +1030,21 @@ namespace ml
 
 				ImGui::PopItemWidth();
 				ImGui::PopID();
-				ImGui::NewLine(); ImGui::Separator();
+				ImGui::PopID();
+				ImGui::NewLine(); 
 
 				/* * * * * * * * * * * * * * * * * * * * */
-				})(&r->states().blend());
+			})(&r->states().blend());
 
+			ImGui::Separator();
 
 			// Cull State
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-			([](CullState * cull) {
-				if (!cull) { return; }
+			([](CullState * cull)
+			{	if (!cull) { return; }
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				ImGui::PushID(ML_ADDRESSOF(cull));
 				ImGui::PushID("##CullState");
 				ImGui::NewLine();
 				ImGui::PushItemWidth(150);
@@ -1061,13 +1067,13 @@ namespace ml
 				{
 					Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
 				}
-				ImGuiExt::Tooltip("Specify which faces can be culled");
+				ImGuiExt::Tooltip("Specify which facets are culled (as specified by mode) when facet culling is enabled.");
 				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				int32_t mode = GL::index_of(cull->mode);
-				if (ImGuiExt::Combo("##Face", &mode, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
+				if (ImGuiExt::Combo("##Mode", &mode, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
 				{
 					cull->mode = GL::value_at<GL::Face>(mode);
 				}
@@ -1086,18 +1092,21 @@ namespace ml
 
 				ImGui::PopItemWidth();
 				ImGui::PopID();
-				ImGui::NewLine(); ImGui::Separator();
+				ImGui::PopID();
+				ImGui::NewLine();
 
 				/* * * * * * * * * * * * * * * * * * * * */
-				})(&r->states().cull());
+			})(&r->states().cull());
 
+			ImGui::Separator();
 
 			// Depth State
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-			([](DepthState * depth) {
-				if (!depth) { return; }
+			([](DepthState * depth)
+			{	if (!depth) { return; }
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				ImGui::PushID(ML_ADDRESSOF(depth));
 				ImGui::PushID("##DepthState");
 				ImGui::NewLine();
 				ImGui::PushItemWidth(150);
@@ -1107,8 +1116,8 @@ namespace ml
 				ImGui::Checkbox(depth->enabled
 					? "glEnable" : "glDisable",
 					&depth->enabled
-				); 
-				ImGuiExt::Tooltip("If enabled, do depth comparisons and update the depth buffer.");
+				);
+				ImGuiExt::Tooltip(GL::desc_of(GL::DepthTest));
 				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 				ImGui::Text(GL::raw_name_of(GL::DepthTest));
 				ImGui::SameLine(); ImGui::Text(");");
@@ -1117,7 +1126,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				ImGui::Checkbox("glDepthMask", &depth->mask); 
-				ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing");
+				ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing.");
 				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 				ImGui::Text(depth->mask ? "true" : "false");
 				ImGui::SameLine(); ImGui::Text(");");
@@ -1129,13 +1138,15 @@ namespace ml
 				{
 					Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
 				}
-				ImGuiExt::Tooltip("Specify the value used for depth buffer comparisons");
+				ImGuiExt::Tooltip(
+					"Specify the function used to compare each incoming pixel depth value with the depth value present in the depth buffer."
+				);
 				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				int32_t func = GL::index_of(depth->func);
-				if (ImGuiExt::Combo("##Predicate", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
+				if (ImGuiExt::Combo("##Func", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
 				{
 					depth->func = GL::value_at<GL::Predicate>(func);
 				}
@@ -1150,13 +1161,12 @@ namespace ml
 				));
 				ImGui::SameLine(); ImGui::Text(");");
 
-				/* * * * * * * * * * * * * * * * * * * * */
-
 				ImGui::PopItemWidth();
+				ImGui::PopID();
 				ImGui::PopID();
 
 				/* * * * * * * * * * * * * * * * * * * * */
-				})(&r->states().depth());
+			})(&r->states().depth());
 
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

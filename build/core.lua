@@ -5,15 +5,15 @@
 group "MemeLib"
 project "Core"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
-	targetdir		("%{lib_dir}")
-	objdir			("%{obj_dir}")
+	targetdir		("%{bin_lib}")
+	objdir			("%{bin_obj}")
 	location		("%{prj_dir}")
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{ext_dir}" }
 	defines 		{ "ML_CORE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	files 
 	{
@@ -27,7 +27,7 @@ project "Core"
 	filter ("system:windows")
 		postbuildcommands 
 		{
-			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}"
+			"xcopy /y %{bin_lib}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_out}"
 		}
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

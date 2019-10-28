@@ -1,8 +1,3 @@
-// Implementation Based On:
-// https://github.com/SFML/SFML/blob/master/src/SFML/Graphics/Image.cpp
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Graphics/Image.hpp>
 #include <ML/Core/Debug.hpp>
 

@@ -7,14 +7,14 @@ in Vertex { vec3 position; vec4 normal; vec2 texcoord; } V;
 
 out vec4 gl_Color;
 
-uniform vec4		u_mouse;		// Mouse State
-uniform float		u_delta;		// Delta Time
-uniform int			u_frame;		// Frame Index
-uniform float		u_fps;			// Frame Rate
-uniform float		u_time;			// Total Time
-uniform	vec4		u_color;		// Main Color
-uniform sampler2D	u_texture0;		// Main Texture
-uniform vec2 		u_resolution;	// Display Size
+uniform vec4        u_mouse;        // Mouse State
+uniform float       u_delta;        // Delta Time
+uniform int         u_frame;        // Frame Index
+uniform float       u_fps;          // Frame Rate
+uniform float       u_time;         // Total Time
+uniform vec4        u_color;        // Main Color
+uniform sampler2D   u_texture0;     // Main Texture
+uniform vec2        u_resolution;   // Display Size
 
 // This is a combination of a semi-random noise gnerator 
 // from Art of Code on Youtube - https://www.youtube.com/channel/UCcAlTqd9zID6aNX3TzwxJXg/videos
@@ -36,7 +36,7 @@ vec4 NN14(float t) {
 
 float N11(float p) {
     float a = fract(p*345.65);
-	a += dot(a, a+34.45);
+    a += dot(a, a+34.45);
     return fract(a);
 }
 
@@ -51,7 +51,7 @@ vec3 hsv2rgb(vec3 c){  // taken from https://www.shadertoy.com/view/XdyXz3
 }
 
 float SmoothNoise(vec2 uv) {
- 	vec2 lv = fract(uv);
+     vec2 lv = fract(uv);
     vec2 id = floor(uv);
     
     lv = lv*lv*(3.-2.*lv);
@@ -71,7 +71,7 @@ float SmoothNoise2(vec2 uv,float d) {
     float uvscale = 4.;
     float detail = 1.;
     for (float i=1.;i<=d;i++) {
-    	c += SmoothNoise(uv*uvscale)*detail;
+        c += SmoothNoise(uv*uvscale)*detail;
         detail *= 0.5;
         uvscale *= 2.;
     }
@@ -91,18 +91,18 @@ float GetClouds(vec2 uv, float t, float d) {
     float c1 = SmoothNoise2(target1, d);
     float c2 = SmoothNoise2(target2, d);
     float c = mix(c1,c2,speed);                 
-	
+    
     return floor(c*LEVELS)/LEVELS;
 }
 
 vec3 DoClouds (vec2 uv) {
     uv *= .2;
-	float t = u_time*1.;
+    float t = u_time*1.;
     //vec2 offset = vec2(sin(t)*0.006,cos(t)*0.006);  // rotating lightsource. doesn't look so good without a visual light cue.
     vec2 offset = vec2(0.006,0.006);
     
     uv += u_time*0.02;  // slow diagonal move
-	float detail = 4.; // 1-6 working range
+    float detail = 4.; // 1-6 working range
 
     float c = GetClouds(uv,t,detail);
     float edge = GetClouds(uv+offset,t,detail);
@@ -120,10 +120,10 @@ vec3 DoClouds (vec2 uv) {
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     vec2 uv = ((fragCoord - 0.5).xy * u_resolution.xy) / u_resolution.y;
-	
-	uv *= 5.;
-	
-	vec4 col = vec4(.0);
+    
+    uv *= 5.;
+    
+    vec4 col = vec4(.0);
     
     col += vec4(DoClouds(uv),1.);
     
@@ -132,5 +132,5 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
 void main()
 {
-	mainImage(gl_Color, V.texcoord);
+    mainImage(gl_Color, V.texcoord);
 }

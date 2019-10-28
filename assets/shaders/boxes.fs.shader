@@ -9,14 +9,14 @@ out vec4 gl_Color;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-uniform vec4		u_mouse;		// Mouse State
-uniform float		u_delta;		// Delta Time
-uniform int			u_frame;		// Frame Index
-uniform float		u_fps;			// Frame Rate
-uniform float		u_time;			// Total Time
-uniform	vec4		u_color;		// Main Color
-uniform sampler2D	u_texture0;		// Main Texture
-uniform vec2 		u_resolution;	// Display Size
+uniform vec4        u_mouse;        // Mouse State
+uniform float       u_delta;        // Delta Time
+uniform int         u_frame;        // Frame Index
+uniform float       u_fps;          // Frame Rate
+uniform float       u_time;         // Total Time
+uniform vec4        u_color;        // Main Color
+uniform sampler2D   u_texture0;     // Main Texture
+uniform vec2        u_resolution;   // Display Size
 
 // This is a combination of a semi-random noise gnerator 
 // from Art of Code on Youtube - https://www.youtube.com/channel/UCcAlTqd9zID6aNX3TzwxJXg/videos
@@ -37,7 +37,7 @@ vec4 NN14(float t) {
 
 float N11(float p) {
     float a = fract(p*345.65);
-	a += dot(a, a+34.45);
+    a += dot(a, a+34.45);
     return fract(a);
 }
 
@@ -96,7 +96,7 @@ vec4 dots(vec2 uv,float t, vec4 rgba, float seed) {
         bm += RoundedBoxInnerMask(vec2(p.x,p.y),vec2(0.5,0.5),0.1);
         br += RoundedBoxRing(vec2(p.x,p.y),vec2(0.5,0.5),0.1);
     }
-	float maskring = clamp(1.-bm,0.,1.);
+    float maskring = clamp(1.-bm,0.,1.);
     return (b)-(maskring*br);
 }
 
@@ -106,8 +106,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     
     vec2 m = (u_mouse.xy / u_resolution) * vec2(1, -1);
     float  t = u_time*.6+m.x+6.;
-	uv *= 5.;
-	vec4 col = vec4(.0);
+    uv *= 5.;
+    vec4 col = vec4(.0);
     
     col += dots(uv,t,vec4(.1,.1,.35,.15),N11(54.)); // Add some boxes
     
@@ -116,5 +116,5 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
 void main()
 {
-	mainImage(gl_Color, V.texcoord);
+    mainImage(gl_Color, V.texcoord);
 }

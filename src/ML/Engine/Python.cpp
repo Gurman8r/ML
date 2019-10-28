@@ -15,6 +15,14 @@
 #include <ML/Graphics/Transform.hpp>
 #include <ML/Graphics/Model.hpp>
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#include <cpython/Include/Python.h>
+#include <pybind11/embed.h>
+#include <pybind11/stl.h>
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

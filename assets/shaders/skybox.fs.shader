@@ -10,5 +10,5 @@ uniform samplerCube u_texture0;
 
 void main()
 {
-	gl_Color = u_color * texture(u_texture0, V.position);
+    gl_Color = u_color * texture(u_texture0, V.position);
 }

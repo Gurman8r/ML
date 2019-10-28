@@ -235,7 +235,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/skybox")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "False")
 
-# Primary Demo
+# Demo A
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "ent_demo_A"
 if ml.content.load({ "type": "ml::Entity", "name": name }):
@@ -246,7 +246,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "self",     "model",        "obj/default/quad")
         ml.ecs.renderer_attr(name,  "cull",     "enabled",      "False")
 
-# "Advanced" Demo
+# Demo B
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 name = "ent_demo_B"
 if ml.content.load({ "type": "ml::Entity", "name": name }):

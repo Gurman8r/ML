@@ -9,6 +9,7 @@ namespace ml
 
 	struct	GameTime;
 	struct	Preferences;
+	struct	RenderTarget;
 	struct	RenderWindow;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -83,7 +84,11 @@ namespace ml
 
 	struct DrawEvent final : public EngineEvent<EngineEventType::EV_Draw>
 	{
-		constexpr DrawEvent() {}
+		const RenderTarget & target;
+		constexpr DrawEvent(const RenderTarget & target)
+			: target { target }
+		{
+		}
 	};
 
 	struct EndDrawEvent final : public EngineEvent<EngineEventType::EV_EndDraw>

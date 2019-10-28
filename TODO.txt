@@ -7,23 +7,24 @@
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
+[ ] BUILD FROM SOURCE
 [ ] MORE PROPERTY DRAWERS
 [ ] INCREASE DATA DENSITY
 [ ] BETTER DESERIALIZATION
-[ ] "Red Lines" in text editor
+
 [ ] Dedicated error log (like Unity's)
-[ ] Rework Texture to be able to be imported from other textures
-[ ] Shader error event handling
-[ ] Remove "RenderBatch"
 [ ] Real-time python scripts
 [ ] Json Editor Gui
-[ ] Temporary/Preview Assets
-[ ] Text Manager / Database
+[ ] Text/String Database
 
 [?] Virtual File System
 [?] automatic/recursive asset loading
 [?] async asset loading (threaded w/ progress bar)
 
+[x] Shader error event handling
+[x] Temporary/Preview Assets
+[x] Rework Texture to be able to be imported from other textures
+[x] Errors in shader editor
 [x] gui open file dialog
 [x] proper gui for creating/importing new assets
 [x] reimplement old math

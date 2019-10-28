@@ -6,9 +6,6 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
-#include <python/Python.h>
-#include <pybind11/embed.h>
-#include <pybind11/stl.h>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

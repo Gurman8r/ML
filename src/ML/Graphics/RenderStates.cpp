@@ -6,7 +6,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const RenderStates & RenderStates::apply() const
+	const RenderStates & RenderStates::operator()() const
 	{
 		if (m_enabled)
 		{
@@ -28,10 +28,7 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::AlphaTest, this->enabled))
 		{
-			if (this->func)
-			{
-				ML_GL.alphaFunc(this->func, this->coeff);
-			}
+			ML_GL.alphaFunc(this->func, this->coeff);
 		}
 		return (*this);
 	}
@@ -46,13 +43,10 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::Blend, this->enabled))
 		{
-			if (this->sfactorRGB && this->sfactorAlpha && this->dfactorRGB && this->dfactorAlpha)
-			{
-				ML_GL.blendFuncSeparate(
-					this->sfactorRGB, this->sfactorAlpha,
-					this->dfactorRGB, this->dfactorAlpha
-				);
-			}
+			ML_GL.blendFuncSeparate(
+				this->sfactorRGB, this->sfactorAlpha,
+				this->dfactorRGB, this->dfactorAlpha
+			);
 		}
 		return (*this);
 	}
@@ -67,10 +61,7 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::CullFace, this->enabled))
 		{
-			if (this->mode)
-			{
-				ML_GL.cullFace(this->mode);
-			}
+			ML_GL.cullFace(this->mode);
 		}
 		return (*this);
 	}
@@ -85,10 +76,7 @@ namespace ml
 		}
 		else if (ML_GL.enable(GL::DepthTest, this->enabled))
 		{
-			if (this->func)
-			{
-				ML_GL.depthFunc(this->func);
-			}
+			ML_GL.depthFunc(this->func);
 
 			ML_GL.depthMask(this->mask);
 		}

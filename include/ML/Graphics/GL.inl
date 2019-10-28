@@ -72,8 +72,8 @@ namespace ml
 		static constexpr C_String Flag_descriptions[] = {
 			"If enabled, cull polygons based on their winding in window coordinates",
 			"If enabled, do depth comparisons and update the depth buffer",
-			"If enabled, do alpha testing",
-			"If enabled, blend the computed fragment color values with the values in the color buffers",
+			"If enabled, discard fragments depending on the outcome of a comparison between an incoming fragment's alpha value and a constant reference value",
+			"If enabled, blend the incoming RGBA values with the RGBA values that are already in the frame buffer",
 			"If enabled, use multiple fragment samples in computing the final color of a pixel",
 			"If enabled, and the value of the framebuffer colorID corresponding to the destination buffer is sRGB",
 			"If enabled, discard fragments that are outside the scissor rectangle",

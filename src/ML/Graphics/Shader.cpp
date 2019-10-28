@@ -1,6 +1,3 @@
-// Implementation Based On:
-// https://github.com/SFML/SFML/blob/master/src/SFML/Graphics/Shader.cpp
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <ML/Graphics/Shader.hpp>

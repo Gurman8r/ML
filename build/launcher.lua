@@ -6,14 +6,14 @@ group "MemeLib"
 project "Launcher"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
-	targetdir		("%{lib_dir}")
-	objdir			("%{obj_dir}")
-	debugdir 		("%{bin_dir}")
+	targetdir		("%{bin_lib}")
+	objdir			("%{bin_obj}")
+	debugdir 		("%{bin_out}")
 	language		("C++")
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{ext_dir}" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window" }
 	files 
@@ -25,8 +25,8 @@ project "Launcher"
 	excludes { "assets/Lib/**.**" }
 	libdirs
 	{
-		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{
@@ -48,8 +48,8 @@ project "Launcher"
 	filter ("system:windows")
 		postbuildcommands 
 		{	
-			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.exe %{bin_dir}",
-			"xcopy /y %{dep_dir}bin\\%{cfg.buildcfg}\\pdcurses.dll %{bin_dir}"
+			"xcopy /y %{bin_lib}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.exe %{bin_out}",
+			"xcopy /y %{ext_bin}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}"
 		}
 
 

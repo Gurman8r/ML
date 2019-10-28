@@ -1,8 +1,3 @@
-// Implementation Based On:
-// https://github.com/SFML/SFML/blob/master/src/SFML/Graphics/Texture.cpp
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Graphics/Texture.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
@@ -520,12 +515,12 @@ namespace ml
 		std::swap(m_smooth,		other.m_smooth);
 		std::swap(m_repeated,	other.m_repeated);
 		std::swap(m_mipmapped,	other.m_mipmapped);
-		return other;
+		return (*this);
 	}
 	
 	Texture & Texture::operator=(const Texture & value)
 	{
-		Texture temp;
+		Texture temp { value };
 		return swap(temp);
 	}
 

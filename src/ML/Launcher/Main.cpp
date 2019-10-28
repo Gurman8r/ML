@@ -76,7 +76,7 @@ ml::int32_t main()
 		ML_EventSystem.fireEvent<BeginStepEvent>();
 		ML_EventSystem.fireEvent<UpdateEvent>();
 		ML_EventSystem.fireEvent<BeginDrawEvent>();
-		ML_EventSystem.fireEvent<DrawEvent>();
+		ML_EventSystem.fireEvent<DrawEvent>(ML_Engine.window());
 		ML_EventSystem.fireEvent<EndDrawEvent>();
 		ML_EventSystem.fireEvent<BeginGuiEvent>();
 		ML_EventSystem.fireEvent<GuiEvent>();

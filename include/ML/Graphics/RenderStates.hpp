@@ -193,9 +193,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const RenderStates & apply() const;
-
-		inline auto operator()() const { return this->apply(); }
+		const RenderStates & operator()() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

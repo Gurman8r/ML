@@ -4,14 +4,14 @@ group "Plugins"
 project "TestPlugin"
 	targetname 		("%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{sln_dir}proj/plugins/%{prj.name}")
-	targetdir		("%{lib_dir}")
-	objdir			("%{obj_dir}")
+	targetdir		("%{bin_lib}")
+	objdir			("%{bin_obj}")
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
 	staticruntime 	("Off")
 	systemversion 	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include", "%{sln_dir}plugins/%{prj.name}" }
+	includedirs 	{ "%{sln_dir}include", "%{ext_dir}", "%{sln_dir}plugins/%{prj.name}" }
 	defines 		{ "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Launcher" }
 	files 
@@ -29,8 +29,8 @@ project "TestPlugin"
 	}
 	libdirs
 	{
-		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{
@@ -44,6 +44,6 @@ project "TestPlugin"
 	}
 	filter "configurations:Debug" symbols ("On")
 	filter "configurations:Release" optimize ("Speed")
-	filter ("system:Windows") postbuildcommands { "xcopy /y %{lib_dir}%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}" }
+	filter ("system:Windows") postbuildcommands { "xcopy /y %{bin_lib}%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_out}" }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

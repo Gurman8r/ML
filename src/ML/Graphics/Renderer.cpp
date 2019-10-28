@@ -73,7 +73,7 @@ namespace ml
 	{
 		if (m_enabled && m_model && m_material && m_shader)
 		{
-			m_states.apply();
+			m_states();
 
 			m_shader->bind(false);
 

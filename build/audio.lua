@@ -6,14 +6,14 @@ group "MemeLib"
 project "Audio"
 	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
 	location		("%{prj_dir}")
-	targetdir		("%{lib_dir}")
-	objdir			("%{obj_dir}")
+	targetdir		("%{bin_lib}")
+	objdir			("%{bin_obj}")
 	kind			("SharedLib")
 	language		("C++")
 	cppdialect 		("C++17")
 	staticruntime	("Off")
 	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{dep_dir}include" }
+	includedirs 	{ "%{sln_dir}include", "%{ext_dir}" }
 	defines 		{ "ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	dependson 		{ "Core" }
 	files 
@@ -23,8 +23,8 @@ project "Audio"
 	}
 	libdirs
 	{
-		"%{sln_dir}lib/", "%{sln_dir}lib/%{cfg.buildcfg}/", "%{sln_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
-		"%{dep_dir}lib/", "%{dep_dir}lib/%{cfg.buildcfg}/", "%{dep_dir}lib/%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",
+		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
 	{
@@ -38,8 +38,8 @@ project "Audio"
 	filter ("system:windows")
 		postbuildcommands 
 		{	
-			"xcopy /y %{lib_dir}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_dir}",
-			"xcopy /y %{dep_dir}bin\\OpenAL32.dll %{bin_dir}"
+			"xcopy /y %{bin_lib}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_out}",
+			"xcopy /y %{ext_bin}OpenAL32.dll %{bin_out}"
 		}
 		
 		

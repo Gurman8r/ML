@@ -2,6 +2,8 @@
 /bin
 /lib
 /obj
+/bin-lib
+/bin-obj
 /proj
 /tmp
 __pycache__/

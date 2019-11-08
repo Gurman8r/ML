@@ -4,7 +4,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	VertexArray::VertexArray()
 		: Handle(NULL)
@@ -21,7 +21,7 @@ namespace ml
 		clean();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	VertexArray & VertexArray::clean()
 	{
@@ -43,7 +43,7 @@ namespace ml
 		return (*this);
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const VertexArray & VertexArray::bind() const
 	{
@@ -57,6 +57,6 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 }

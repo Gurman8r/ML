@@ -9,7 +9,7 @@ namespace ml
 	{
 	}
 
-	Scene::~Scene() { dispose(); }
+	Scene::~Scene() { this->dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

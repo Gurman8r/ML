@@ -22,7 +22,7 @@ namespace ml
 	{
 	}
 
-	MetadataParser::~MetadataParser() { dispose(); }
+	MetadataParser::~MetadataParser() { this->dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

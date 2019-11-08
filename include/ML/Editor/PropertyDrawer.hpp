@@ -5,6 +5,20 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/Metadata.hpp>
 
+namespace ml
+{
+	template <class T> struct PropertyInfo final
+	{
+		constexpr PropertyInfo() = default;
+
+		static constexpr auto hash { typeof<T>::hash };
+
+		static constexpr auto name { typeof<T>::name };
+
+		static constexpr auto brief_name { nameof<>::filter_namespace(name) };
+	};
+}
+
 #define ML_GEN_PROPERTY_DRAWER(T)									\
 using value_type		= typename _ML detail::decay_t<T>;			\
 using self_type			= typename _ML PropertyDrawer<value_type>;	\
@@ -13,7 +27,7 @@ using reference			= typename value_type &;					\
 using const_pointer		= typename const value_type *;				\
 using const_reference	= typename const value_type &;				\
 using Layout = typename PropertyDrawer<>::Layout;					\
-static constexpr typeof<> info() { return typeof<T>{}; }			\
+static constexpr auto info() { return PropertyInfo<T>{}; }			\
 PropertyDrawer() = default;
 
 namespace ml

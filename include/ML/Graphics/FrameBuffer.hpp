@@ -10,6 +10,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
+	struct Texture;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct ML_GRAPHICS_API FrameBuffer final
 		: public Newable
 		, public Handle<uint32_t>
@@ -23,16 +27,20 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		FrameBuffer & clean();
+
 		FrameBuffer & create();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const FrameBuffer & bind() const;
+
 		const FrameBuffer & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const FrameBuffer & setTexture(uint32_t attchment, uint32_t value, uint32_t sampler, int32_t level) const;
+		const FrameBuffer & setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const;
+
+		const FrameBuffer & setTexture(uint32_t attachment, const Texture & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

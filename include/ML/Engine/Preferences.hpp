@@ -17,7 +17,7 @@ namespace ml
 
 		Preferences();
 		explicit Preferences(const String & filename);
-		~Preferences() { dispose(); }
+		~Preferences() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

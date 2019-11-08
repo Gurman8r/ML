@@ -91,7 +91,7 @@ namespace ml
 		loadFromImage(image);
 	}
 
-	Texture::~Texture() { dispose(); }
+	Texture::~Texture() { this->dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -22,19 +22,30 @@ namespace ml
 
 	bool RenderWindow::setup()
 	{
-		if (Window::setup() && ML_GL.init())
+		if (!Window::setup())
 		{
-			// Validate OpenGL Version
-			ML_GL.validateVersion(m_context.major, m_context.minor);
-
-			// Setup States
-			RenderStates {}();
-			ML_GL.enable(GL::Multisample, m_context.multisample);
-			ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable);
-
-			return true;
+			return false; 
 		}
-		return Debug::logError("Failed Initializing GLEW");
+
+		if (!ML_GL.init())
+		{
+			return Debug::logError("Failed Initializing GLEW");
+		}
+
+		ML_GL.validateVersion(m_context.major, m_context.minor);
+
+		RenderStates {}();
+
+		ML_GL.enable(GL::Multisample, m_context.multisample);
+
+		ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable);
+
+		return true;
+	}
+
+	bool RenderWindow::dispose()
+	{
+		return Window::dispose();
 	}
 
 	void RenderWindow::onEvent(const Event & value)

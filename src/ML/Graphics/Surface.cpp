@@ -39,7 +39,7 @@ namespace ml
 	{
 	}
 
-	Surface::~Surface() { dispose(); }
+	Surface::~Surface() { this->dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -54,7 +54,7 @@ namespace ml
 	{
 		if (m_fbo || m_rbo || (m_size[0] == 0) || (m_size[1] == 0))
 		{
-			return false; 
+			return false;
 		}
 
 		// Setup Framebuffer
@@ -73,15 +73,11 @@ namespace ml
 			{
 				// Create Texture
 				m_texture.dispose();
+
 				m_texture.create(m_size);
 
 				// Attach to FBO
-				m_fbo.setTexture(
-					m_colorID,
-					m_texture,
-					m_texture.sampler(),
-					m_texture.level()
-				);
+				m_fbo.setTexture(m_colorID, m_texture);
 			}
 
 			// Unbind

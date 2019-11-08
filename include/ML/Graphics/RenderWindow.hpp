@@ -16,7 +16,9 @@ namespace ml
 		
 		virtual ~RenderWindow();
 
-		bool setup() override;
+		virtual bool setup() override;
+
+		virtual bool dispose() override;
 
 		virtual void onEvent(const Event & value) override;
 

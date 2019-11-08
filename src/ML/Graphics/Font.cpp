@@ -34,7 +34,7 @@ namespace ml
 		loadFromFile(filename);
 	}
 
-	Font::~Font() { dispose(); }
+	Font::~Font() { this->dispose(); }
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

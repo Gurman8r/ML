@@ -130,7 +130,7 @@ ml.content.load_all([
 
 # Models
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
-    { "type": "ml::Model", "name": "obj/cessna",        "file": PATH + "/meshes/cessna.obj" },
+    #{ "type": "ml::Model", "name": "obj/cessna",        "file": PATH + "/meshes/cessna.obj" },
     { "type": "ml::Model", "name": "obj/cube",          "file": PATH + "/meshes/cube.obj" },
     #{ "type": "ml::Model", "name": "obj/minicooper",    "file": PATH + "/meshes/minicooper.obj" },
     { "type": "ml::Model", "name": "obj/monkey",        "file": PATH + "/meshes/monkey.obj" },

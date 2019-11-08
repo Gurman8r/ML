@@ -92,7 +92,7 @@ namespace ml
 		const String &	prefix,
 		const String &	message)
 	{
-		const auto & t { Timer::master().elapsed() };
+		const auto & t { ML_Time.elapsed() };
 		out << FMT()
 			//<< FG::Gray << "[" << t << "] "
 			<< FG::White << "[" << color << prefix << FG::White << "] "

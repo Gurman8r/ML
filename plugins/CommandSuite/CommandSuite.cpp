@@ -39,7 +39,7 @@ namespace ml
 			{ 
 				initialize_commands();
 
-				for (auto *& cmd : m_commands) 
+				for (auto *& cmd : m_commands)
 				{ 
 					cmd->install(ML_Engine.commands());
 				}

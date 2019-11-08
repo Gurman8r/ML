@@ -61,7 +61,7 @@ namespace ml
 		friend struct Singleton<AssetPreview>;
 
 		AssetPreview() : m_previewMap {}, m_textureList {} {}
-		~AssetPreview() { dispose(); }
+		~AssetPreview() { this->dispose(); }
 
 		using PreviewMap = typename HashMap<void *, const Texture *>;
 		using TextureList = typename List<Texture *>;

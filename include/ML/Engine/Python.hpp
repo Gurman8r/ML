@@ -31,7 +31,8 @@ namespace ml
 		bool	init(const String & name, const String & home);
 		bool	restart();
 		bool	dispose() override;
-		int32_t doString(const String & value);
+		int32_t doString(const String & value) const;
+		int32_t doFile(const String & filename) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

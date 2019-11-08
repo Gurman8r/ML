@@ -30,7 +30,7 @@ namespace ml
 
 		ObjectPool() {}
 
-		~ObjectPool() { dispose(); }
+		~ObjectPool() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -14,7 +14,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API CommandRegistry final : public Newable, public NonCopyable, public Disposable
+	struct ML_ENGINE_API CommandRegistry final : public Newable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -22,18 +22,6 @@ namespace ml
 		using command_list		= typename List<value_type>;
 		using iterator			= typename command_list::iterator;
 		using const_iterator	= typename command_list::const_iterator;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline bool dispose() override
-		{
-			for (auto & elem : m_cmd)
-			{
-				if (elem) { delete elem; }
-			}
-			m_cmd.clear();
-			return true;
-		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

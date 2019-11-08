@@ -4,6 +4,8 @@
 #include <ML/Core/Duration.hpp>
 #include <ML/Core/Newable.hpp>
 
+#define ML_Time ::ml::Timer::master()
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */

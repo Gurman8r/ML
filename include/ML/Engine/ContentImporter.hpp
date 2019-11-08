@@ -22,7 +22,7 @@ namespace ml
 
 	template <> struct ContentImporter<> 
 	{
-		ContentImporter() = delete; 
+		ContentImporter() = delete;
 
 		static bool loadMetadata(const Metadata & value);
 
@@ -31,7 +31,9 @@ namespace ml
 		{
 			int32_t count { 0 };
 			for (const auto & elem : value)
+			{
 				count += loadMetadata(Metadata { elem });
+			}
 			return count;
 		}
 	};

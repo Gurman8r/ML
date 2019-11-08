@@ -23,7 +23,7 @@ namespace ml
 		Mesh();
 		Mesh(const List<Vertex> & vertices, const List<uint32_t> & indices, const List<const Texture *> & textures);
 		Mesh(const Mesh & copy);
-		~Mesh() { dispose(); }
+		~Mesh() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

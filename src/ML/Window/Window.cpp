@@ -1,41 +1,20 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
+#include <ML/Window/GLFW.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/StringUtility.hpp>
 #include <ML/Core/Debug.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// GLFW
-# include <GLFW/glfw3.h>
-# ifdef ML_SYSTEM_WINDOWS
-#	undef APIENTRY
-#	define GLFW_EXPOSE_NATIVE_WIN32
-#	include <GLFW/glfw3native.h>
-#	include <Windows.h>
-# endif
-
-#define GLFW_HAS_WINDOW_TOPMOST       (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ GLFW_FLOATING
-#define GLFW_HAS_WINDOW_HOVERED       (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_HOVERED
-#define GLFW_HAS_WINDOW_ALPHA         (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwSetWindowOpacity
-#define GLFW_HAS_PER_MONITOR_DPI      (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorContentScale
-#define GLFW_HAS_VULKAN               (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwCreateWindowSurface
-#define GLFW_HAS_FOCUS_WINDOW         (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwFocusWindow
-#define GLFW_HAS_FOCUS_ON_SHOW        (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_FOCUS_ON_SHOW
-#define GLFW_HAS_MONITOR_WORK_AREA    (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorWorkarea
-
-#define ML_WINDOW(ptr)	static_cast<GLFWwindow *>(ptr)
-#define ML_MONITOR(ptr) static_cast<GLFWmonitor *>(ptr)
-#define ML_CURSOR(ptr)	static_cast<GLFWcursor *>(ptr)
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
-	static const GLFWimage & map_image(uint32_t w, uint32_t h, const uint8_t * pixels)
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	static const GLFWimage & map_glfw_image(uint32_t w, uint32_t h, const uint8_t * pixels)
 	{
 		static HashMap<const uint8_t *, GLFWimage> cache {};
-		auto it = cache.find(pixels);
+		auto it { cache.find(pixels) };
 		if (it == cache.end())
 		{
 			it = cache.insert({
@@ -44,12 +23,7 @@ namespace ml
 		}
 		return it->second;
 	}
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
+	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::Window()
@@ -63,9 +37,9 @@ namespace ml
 		, m_char		{ 0 }
 	{
 #ifdef ML_SYSTEM_WINDOWS
-		if (HWND window = GetConsoleWindow())
+		if (HWND window { GetConsoleWindow() })
 		{
-			if (HMENU menu = GetSystemMenu(window, false))
+			if (HMENU menu { GetSystemMenu(window, false) })
 			{
 				EnableMenuItem(menu, SC_CLOSE, MF_GRAYED);
 			}
@@ -76,7 +50,7 @@ namespace ml
 		ML_EventSystem.addListener(CursorPosEvent::ID, this);
 		ML_EventSystem.addListener(FrameSizeEvent::ID, this);
 		ML_EventSystem.addListener(KeyEvent::ID, this);
-		ML_EventSystem.addListener(MouseButtonEvent::ID, this);
+		ML_EventSystem.addListener(MouseEvent::ID, this);
 		ML_EventSystem.addListener(ScrollEvent::ID, this);
 		ML_EventSystem.addListener(WindowCloseEvent::ID, this);
 		ML_EventSystem.addListener(WindowErrorEvent::ID, this);
@@ -87,14 +61,14 @@ namespace ml
 		ML_EventSystem.addListener(WindowFullscreenEvent::ID, this);
 	}
 	
-	Window::~Window() 
+	Window::~Window()
 	{
 		this->dispose();
 
 #ifdef ML_SYSTEM_WINDOWS
-		if (HWND window = GetConsoleWindow())
+		if (HWND window { GetConsoleWindow() })
 		{
-			if (HMENU menu = GetSystemMenu(window, false))
+			if (HMENU menu { GetSystemMenu(window, false) })
 			{
 				EnableMenuItem(menu, SC_CLOSE, MF_ENABLED);
 			}
@@ -131,17 +105,19 @@ namespace ml
 		glfwWindowHint(GLFW_STENCIL_BITS,			m_context.stencilBits);
 		glfwWindowHint(GLFW_SRGB_CAPABLE,			m_context.srgbCapable);
 
-		// Profile
-		static constexpr Array<int32_t, 4> profiles 
-		{
-			GLFW_OPENGL_ANY_PROFILE,
-			GLFW_OPENGL_CORE_PROFILE,
-			GLFW_OPENGL_COMPAT_PROFILE,
-			GLFW_OPENGL_DEBUG_CONTEXT
-		};
-		glfwWindowHint(GLFW_OPENGL_PROFILE, profiles[m_context.profile]);
+		// Renderer Profile
+		if (m_context.profile <= 3)
+			glfwWindowHint(GLFW_OPENGL_PROFILE, 
+				((m_context.profile == 0)
+					? GLFW_OPENGL_DEBUG_CONTEXT
+					: ((m_context.profile == 1)
+						? GLFW_OPENGL_CORE_PROFILE
+						: ((m_context.profile == 2)
+							? GLFW_OPENGL_COMPAT_PROFILE
+							: GLFW_OPENGL_ANY_PROFILE
+							))));
 		
-		// Style Settings
+		// Window Style
 		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable);
 		glfwWindowHint(GLFW_VISIBLE,		m_style.visible);
 		glfwWindowHint(GLFW_DECORATED,		m_style.decorated);
@@ -151,12 +127,12 @@ namespace ml
 		glfwWindowHint(GLFW_MAXIMIZED,		m_style.maximized);
 
 		// Create Window
-		if (m_window = ML_WINDOW(glfwCreateWindow(
+		if (m_window = static_cast<GLFWwindow *>(glfwCreateWindow(
 			this->getWidth(),
 			this->getHeight(),
 			this->getTitle().c_str(),
-			ML_MONITOR(m_monitor = nullptr),
-			ML_WINDOW(m_share = nullptr)
+			static_cast<GLFWmonitor *>(m_monitor = nullptr),
+			static_cast<GLFWwindow *>(m_share = nullptr)
 		)))
 		{
 			this->makeContextCurrent();
@@ -199,9 +175,9 @@ namespace ml
 
 		setErrorCallback([](int32_t code, C_String desc)
 		{
-#if ML_DEBUG == 1
+# if (ML_DEBUG == 1)
 			cerr << "GLFW Error " << code << ": \'" << desc << "\'" << endl;
-#endif
+# endif
 			ML_EventSystem.fireEvent<WindowErrorEvent>(code, desc);
 		});
 
@@ -212,7 +188,7 @@ namespace ml
 
 		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
-			ML_EventSystem.fireEvent<KeyEvent>(button, scan, action, bitmask_8 { {
+			ML_EventSystem.fireEvent<KeyEvent>(button, scan, action, BitMask_8 { {
 				(mods & ML_MOD_SHIFT),
 				(mods & ML_MOD_CTRL),
 				(mods & ML_MOD_ALT),
@@ -222,9 +198,9 @@ namespace ml
 			} });
 		});
 
-		setMouseButtonCallback([](void *, int32_t button, int32_t action, int32_t mods)
+		setMouseCallback([](void *, int32_t button, int32_t action, int32_t mods)
 		{
-			ML_EventSystem.fireEvent<MouseButtonEvent>(button, action, mods);
+			ML_EventSystem.fireEvent<MouseEvent>(button, action, mods);
 		});
 		
 		setScrollCallback([](void *, float64_t x, float64_t y)
@@ -277,8 +253,8 @@ namespace ml
 		case KeyEvent::ID:
 			if (auto ev = value.as<KeyEvent>()) {}
 			break;
-		case MouseButtonEvent::ID:
-			if (auto ev = value.as<MouseButtonEvent>()) {}
+		case MouseEvent::ID:
+			if (auto ev = value.as<MouseEvent>()) {}
 			break;
 		case ScrollEvent::ID:
 			if (auto ev = value.as<ScrollEvent>()) {}
@@ -317,7 +293,7 @@ namespace ml
 				{
 				case  0:
 				case  1: this->setFullscreen(ev->value); break;
-				case -1: this->setFullscreen(!this->is_fullscreen()); break;
+				case -1: this->setFullscreen(!this->isFullscreen()); break;
 				}
 			}
 			break;
@@ -342,7 +318,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwSetWindowShouldClose(ML_WINDOW(m_window), true);
+			glfwSetWindowShouldClose(static_cast<GLFWwindow *>(m_window), true);
 		}
 		return (*this);
 	}
@@ -351,7 +327,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwDestroyWindow(ML_WINDOW(m_window));
+			glfwDestroyWindow(static_cast<GLFWwindow *>(m_window));
 		}
 		return (*this);
 	}
@@ -360,7 +336,7 @@ namespace ml
 	{
 		if (m_window) 
 		{
-			glfwIconifyWindow(ML_WINDOW(m_window));
+			glfwIconifyWindow(static_cast<GLFWwindow *>(m_window));
 		}
 		return (*this);
 	}
@@ -375,7 +351,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwMaximizeWindow(ML_WINDOW(m_window));
+			glfwMaximizeWindow(static_cast<GLFWwindow *>(m_window));
 		}
 		return (*this);
 	}
@@ -384,7 +360,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwRestoreWindow(ML_WINDOW(m_window));
+			glfwRestoreWindow(static_cast<GLFWwindow *>(m_window));
 		}
 		return (*this);
 	}
@@ -393,7 +369,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwSwapBuffers(ML_WINDOW(m_window));
+			glfwSwapBuffers(static_cast<GLFWwindow *>(m_window));
 		}
 		return (*this);
 	}
@@ -418,7 +394,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwSetClipboardString(ML_WINDOW(m_window), value.c_str());
+			glfwSetClipboardString(static_cast<GLFWwindow *>(m_window), value.c_str());
 		}
 		return (*this);
 	}
@@ -427,7 +403,7 @@ namespace ml
 	{
 		if (m_window && value)
 		{
-			glfwSetCursor(ML_WINDOW(m_window), ML_CURSOR(value));
+			glfwSetCursor(static_cast<GLFWwindow *>(m_window), static_cast<GLFWcursor *>(value));
 		}
 		return (*this);
 	}
@@ -436,7 +412,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwSetInputMode(ML_WINDOW(m_window), GLFW_CURSOR, static_cast<int32_t>(value));
+			glfwSetInputMode(static_cast<GLFWwindow *>(m_window), GLFW_CURSOR, static_cast<int32_t>(value));
 		}
 		return (*this);
 	}
@@ -445,7 +421,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwSetCursorPos(ML_WINDOW(m_window), value[0], value[1]);
+			glfwSetCursorPos(static_cast<GLFWwindow *>(m_window), value[0], value[1]);
 		}
 		return (*this);
 	}
@@ -459,7 +435,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwSetWindowIcon(ML_WINDOW(m_window), 1, &map_image(w, h, pixels));
+			glfwSetWindowIcon(static_cast<GLFWwindow *>(m_window), 1, &map_glfw_image(w, h, pixels));
 		}
 		return (*this);
 	}
@@ -468,7 +444,7 @@ namespace ml
 	{
 		if (m_window)
 		{
-			glfwSetWindowPos(ML_WINDOW(m_window), value[0], value[1]);
+			glfwSetWindowPos(static_cast<GLFWwindow *>(m_window), value[0], value[1]);
 		}
 		return (*this);
 	}
@@ -479,11 +455,11 @@ namespace ml
 		{
 			if (m_monitor = value)
 			{
-				if (auto v = glfwGetVideoMode(ML_MONITOR(m_monitor)))
+				if (auto v = glfwGetVideoMode(static_cast<GLFWmonitor *>(m_monitor)))
 				{
 					glfwSetWindowMonitor(
-						ML_WINDOW(m_window),
-						ML_MONITOR(m_monitor),
+						static_cast<GLFWwindow *>(m_window),
+						static_cast<GLFWmonitor *>(m_monitor),
 						0, 0, v->width, v->height,
 						GLFW_DONT_CARE
 					);
@@ -492,8 +468,8 @@ namespace ml
 			else
 			{
 				glfwSetWindowMonitor(
-					ML_WINDOW(m_window),
-					ML_MONITOR(m_monitor),
+					static_cast<GLFWwindow *>(m_window),
+					static_cast<GLFWmonitor *>(m_monitor),
 					0, 0, getWidth(), getHeight(),
 					GLFW_DONT_CARE
 				);
@@ -507,7 +483,7 @@ namespace ml
 		m_videoMode.size = value;
 		if (m_window)
 		{
-			glfwSetWindowSize(ML_WINDOW(m_window), getWidth(), getHeight());
+			glfwSetWindowSize(static_cast<GLFWwindow *>(m_window), getWidth(), getHeight());
 		}
 		return (*this);
 	}
@@ -517,31 +493,31 @@ namespace ml
 		m_title = value;
 		if (m_window)
 		{
-			glfwSetWindowTitle(ML_WINDOW(m_window), m_title.c_str());
+			glfwSetWindowTitle(static_cast<GLFWwindow *>(m_window), m_title.c_str());
 		}
 		return (*this);
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Window::is_focused() const
+	bool Window::isFocused() const
 	{
 		return getAttribute(GLFW_FOCUSED);
 	}
 
-	bool Window::is_fullscreen() const
+	bool Window::isFullscreen() const
 	{
 		return m_window && m_monitor && (m_monitor == glfwGetPrimaryMonitor());
 	}
 
-	bool Window::is_open() const
+	bool Window::isOpen() const
 	{
-		return m_window && !glfwWindowShouldClose(ML_WINDOW(m_window));
+		return m_window && !glfwWindowShouldClose(static_cast<GLFWwindow *>(m_window));
 	}
 	
 	int32_t Window::getAttribute(int32_t value) const
 	{
-		return (m_window ? glfwGetWindowAttrib(ML_WINDOW(m_window), value) : NULL);
+		return (m_window ? glfwGetWindowAttrib(static_cast<GLFWwindow *>(m_window), value) : 0);
 	}
 
 	char Window::getChar() const
@@ -553,25 +529,28 @@ namespace ml
 
 	C_String Window::getClipboardString() const
 	{
-		return (m_window ? glfwGetClipboardString(ML_WINDOW(m_window)) : nullptr);
+		return (m_window 
+			? glfwGetClipboardString(static_cast<GLFWwindow *>(m_window)) 
+			: nullptr
+		);
 	}
 
 	vec2 Window::getCursorPos() const
 	{
-		vec2d temp { NULL };
+		vec2d temp { 0 };
 		if (m_window)
 		{
-			glfwGetCursorPos(ML_WINDOW(m_window), &temp[0], &temp[1]);
+			glfwGetCursorPos(static_cast<GLFWwindow *>(m_window), &temp[0], &temp[1]);
 		}
 		return (vec2)temp;
 	}
 
 	vec2i Window::getFrameSize() const
 	{
-		vec2i temp { NULL };
+		vec2i temp { 0 };
 		if (m_window)
 		{
-			glfwGetFramebufferSize(ML_WINDOW(m_window), &temp[0], &temp[1]);
+			glfwGetFramebufferSize(static_cast<GLFWwindow *>(m_window), &temp[0], &temp[1]);
 		}
 		return temp;
 	}
@@ -583,25 +562,25 @@ namespace ml
 
 	int32_t	Window::getKey(int32_t value) const
 	{
-		return (m_window ? glfwGetKey(ML_WINDOW(m_window), value) : NULL);
+		return (m_window ? glfwGetKey(static_cast<GLFWwindow *>(m_window), value) : 0);
 	}
 
 	int32_t Window::getInputMode() const
 	{
-		return (m_window ? glfwGetInputMode(ML_WINDOW(m_window), GLFW_CURSOR) : NULL);
+		return (m_window ? glfwGetInputMode(static_cast<GLFWwindow *>(m_window), GLFW_CURSOR) : 0);
 	}
 
 	int32_t	Window::getMouseButton(int32_t value) const
 	{
-		return (m_window ? glfwGetMouseButton(ML_WINDOW(m_window), value) : NULL);
+		return (m_window ? glfwGetMouseButton(static_cast<GLFWwindow *>(m_window), value) : 0);
 	}
 
 	vec2i Window::getPosition() const
 	{
-		vec2i temp { NULL };
+		vec2i temp { 0 };
 		if (m_window)
 		{
-			glfwGetWindowPos(ML_WINDOW(m_window), &temp[0], &temp[1]);
+			glfwGetWindowPos(static_cast<GLFWwindow *>(m_window), &temp[0], &temp[1]);
 		}
 		return temp;
 	}
@@ -609,7 +588,7 @@ namespace ml
 	void * Window::getRawHandle() const
 	{
 #ifdef ML_SYSTEM_WINDOWS
-		return glfwGetWin32Window(ML_WINDOW(m_window));
+		return glfwGetWin32Window(static_cast<GLFWwindow *>(m_window));
 #else
 		return m_window;
 #endif
@@ -617,24 +596,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Window::pollEvents()
-	{
-		glfwPollEvents();
-	}
-
-	float64_t Window::getTime()
-	{
-		return glfwGetTime();
-	}
-
-	void Window::setSwapInterval(int32_t value)
-	{
-		glfwSwapInterval(value);
-	}
-	
 	void * Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels)
 	{
-		return glfwCreateCursor(&map_image(w, h, pixels), w, h);
+		return glfwCreateCursor(&map_glfw_image(w, h, pixels), w, h);
 	}
 
 	void * Window::createStandardCursor(Cursor::Shape value)
@@ -644,37 +608,17 @@ namespace ml
 
 	bool Window::destroyCursor(void * value)
 	{
-		return (value ? ML_TRUE_EXPR(glfwDestroyCursor(ML_CURSOR(value))) : false);
+		return (value ? ML_TRUE_EXPR(glfwDestroyCursor(static_cast<GLFWcursor *>(value))) : false);
 	}
 
-	const List<void *> & Window::getMonitors()
+	int32_t Window::extensionSupported(C_String value)
 	{
-		static List<void *> temp {};
-		if (temp.empty())
-		{
-			int32_t count { 0 };
-			GLFWmonitor ** m { glfwGetMonitors(&count) };
-			for (size_t i = 0, imax = (size_t)count; i < imax; i++)
-			{
-				temp.push_back(m[i]);
-			}
-		}
-		return temp;
+		return glfwExtensionSupported(value);
 	}
 
 	void * Window::getContextCurrent()
 	{
 		return glfwGetCurrentContext();
-	}
-
-	bool Window::makeContextCurrent(void * value)
-	{
-		if (value)
-		{
-			glfwMakeContextCurrent(ML_WINDOW(value));
-			return true;
-		}
-		return false;
 	}
 
 	const VideoMode & Window::getDesktopMode()
@@ -720,13 +664,58 @@ namespace ml
 		return temp;
 	}
 
+	Window::ProcFun Window::getProcAddress(C_String value)
+	{
+		return reinterpret_cast<Window::ProcFun>(glfwGetProcAddress(value));
+	}
+
+	const List<void *> & Window::getMonitors()
+	{
+		static List<void *> temp {};
+		if (temp.empty())
+		{
+			int32_t count { 0 };
+			GLFWmonitor ** m { glfwGetMonitors(&count) };
+			for (size_t i = 0, imax = (size_t)count; i < imax; i++)
+			{
+				temp.push_back(m[i]);
+			}
+		}
+		return temp;
+	}
+
+	float64_t Window::getTime()
+	{
+		return glfwGetTime();
+	}
+
+	bool Window::makeContextCurrent(void * value)
+	{
+		if (value)
+		{
+			glfwMakeContextCurrent(static_cast<GLFWwindow *>(value));
+			return true;
+		}
+		return false;
+	}
+
+	void Window::pollEvents()
+	{
+		return glfwPollEvents();
+	}
+
+	void Window::swapInterval(int32_t value)
+	{
+		return glfwSwapInterval(value);
+	}
+	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Window::CharFun Window::setCharCallback(CharFun value)
 	{
 		return (m_window
 			? glfwSetCharCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWcharfun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -736,7 +725,7 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetCursorEnterCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWcursorenterfun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -746,7 +735,7 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetCursorPosCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWcursorposfun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -765,7 +754,7 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetFramebufferSizeCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWframebuffersizefun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -775,17 +764,17 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetKeyCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWkeyfun>(value)) ? value : nullptr
 			: nullptr
 		);
 	}
 	
-	Window::MouseButtonFun Window::setMouseButtonCallback(MouseButtonFun value)
+	Window::MouseFun Window::setMouseCallback(MouseFun value)
 	{
 		return (m_window
 			? glfwSetMouseButtonCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWmousebuttonfun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -795,7 +784,7 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetScrollCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWscrollfun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -805,7 +794,7 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetWindowCloseCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWwindowclosefun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -815,7 +804,7 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetWindowFocusCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWwindowfocusfun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -825,7 +814,7 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetWindowPosCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWwindowposfun>(value)) ? value : nullptr
 			: nullptr
 		);
@@ -835,7 +824,7 @@ namespace ml
 	{
 		return (m_window
 			? glfwSetWindowSizeCallback(
-				ML_WINDOW(m_window),
+				static_cast<GLFWwindow *>(m_window),
 				reinterpret_cast<GLFWwindowposfun>(value)) ? value : nullptr
 			: nullptr
 		);

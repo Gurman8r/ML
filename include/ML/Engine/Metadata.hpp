@@ -28,12 +28,12 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Metadata() 
-			: m_data()
+			: m_data {}
 		{
 		}
 
-		template <class Str> explicit Metadata(const Map<Str, Str> & values)
-			: m_data()
+		template <class S> explicit Metadata(const Map<S, S> & values)
+			: m_data {}
 		{
 			for (const auto & pair : values)
 			{
@@ -42,11 +42,11 @@ namespace ml
 		}
 
 		Metadata(const Metadata & copy)
-			: m_data(copy.m_data)
+			: m_data { copy.m_data }
 		{
 		}
 
-		~Metadata() { dispose(); }
+		~Metadata() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

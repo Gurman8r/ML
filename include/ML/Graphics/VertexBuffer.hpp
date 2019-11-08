@@ -28,16 +28,19 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const VertexBuffer & bind() const;
+		
 		const VertexBuffer & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const VertexBuffer & bufferData(const void * data, uint32_t size) const;
+		
 		const VertexBuffer & bufferData(const List<float_t> & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const VertexBuffer & bufferSubData(const void * data, uint32_t size, uint32_t offset) const;
+		
 		const VertexBuffer & bufferSubData(const List<float_t> & data, uint32_t offset) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

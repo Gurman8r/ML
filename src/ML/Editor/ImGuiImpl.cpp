@@ -52,7 +52,7 @@ namespace ml
 		g_Window = window;
 		g_Time = 0.0;
 
-		ImGuiIO & io { ImGui::GetIO() };
+		auto & io { ImGui::GetIO() };
 
 		// Backend
 		io.BackendPlatformName = "imgui_impl_glfw3";
@@ -112,20 +112,20 @@ namespace ml
 		};
 		io.ClipboardUserData = g_Window;
 
-		// Cursors
-		g_MouseCursors[ImGuiMouseCursor_Arrow] = g_Window->createStandardCursor(Cursor::Shape::Arrow);
-		g_MouseCursors[ImGuiMouseCursor_TextInput] = g_Window->createStandardCursor(Cursor::Shape::TextInput);
-		g_MouseCursors[ImGuiMouseCursor_ResizeAll] = g_Window->createStandardCursor(Cursor::Shape::Arrow);   // FIXME: GLFW doesn't have this.
-		g_MouseCursors[ImGuiMouseCursor_ResizeNS] = g_Window->createStandardCursor(Cursor::Shape::ResizeNS);
-		g_MouseCursors[ImGuiMouseCursor_ResizeEW] = g_Window->createStandardCursor(Cursor::Shape::ResizeEW);
-		g_MouseCursors[ImGuiMouseCursor_ResizeNESW] = g_Window->createStandardCursor(Cursor::Shape::ResizeNESW);  // FIXME: GLFW doesn't have this.
-		g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = g_Window->createStandardCursor(Cursor::Shape::ResizeNWSE);  // FIXME: GLFW doesn't have this.
-		g_MouseCursors[ImGuiMouseCursor_Hand] = g_Window->createStandardCursor(Cursor::Shape::Hand);
+		// Create Cursors
+		g_MouseCursors[ImGuiMouseCursor_Arrow] = Window::createStandardCursor(Cursor::Shape::Arrow);
+		g_MouseCursors[ImGuiMouseCursor_TextInput] = Window::createStandardCursor(Cursor::Shape::TextInput);
+		g_MouseCursors[ImGuiMouseCursor_ResizeAll] = Window::createStandardCursor(Cursor::Shape::Arrow);   // FIXME: GLFW doesn't have this.
+		g_MouseCursors[ImGuiMouseCursor_ResizeNS] = Window::createStandardCursor(Cursor::Shape::ResizeNS);
+		g_MouseCursors[ImGuiMouseCursor_ResizeEW] = Window::createStandardCursor(Cursor::Shape::ResizeEW);
+		g_MouseCursors[ImGuiMouseCursor_ResizeNESW] = Window::createStandardCursor(Cursor::Shape::ResizeNESW);  // FIXME: GLFW doesn't have this.
+		g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = Window::createStandardCursor(Cursor::Shape::ResizeNWSE);  // FIXME: GLFW doesn't have this.
+		g_MouseCursors[ImGuiMouseCursor_Hand] = Window::createStandardCursor(Cursor::Shape::Hand);
 
-		// Callbacks
+		// Install Callbacks
 		if (install_callbacks)
 		{
-			window->setMouseButtonCallback(this->MouseButtonCallback);
+			window->setMouseCallback(this->MouseButtonCallback);
 			window->setScrollCallback(this->ScrollCallback);
 			window->setKeyCallback(this->KeyCallback);
 			window->setCharCallback(this->CharCallback);
@@ -629,7 +629,7 @@ namespace ml
 		const ImVec2 mouse_pos_backup = io.MousePos;
 		io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
 
-		if (g_Window->is_focused())
+		if (g_Window->isFocused())
 		{
 			if (io.WantSetMousePos)
 			{
@@ -731,7 +731,7 @@ namespace ml
 			(button >= 0) &&
 			(button < IM_ARRAYSIZE(g_MousePressed)))
 			ML_ImGuiImpl.g_MousePressed[button] = true;
-		ML_EventSystem.fireEvent<MouseButtonEvent>(button, action, mods);
+		ML_EventSystem.fireEvent<MouseEvent>(button, action, mods);
 	}
 
 	void ImGuiImpl::ScrollCallback(void * window, float64_t xoffset, float64_t yoffset)
@@ -748,7 +748,7 @@ namespace ml
 		if (action == ML_KEY_PRESS) { io.KeysDown[key] = true; }
 		if (action == ML_KEY_RELEASE) { io.KeysDown[key] = false; }
 		if (key == KeyCode::KP_Enter) { io.KeysDown[KeyCode::Enter] = io.KeysDown[key]; }
-		ML_EventSystem.fireEvent<KeyEvent>(key, scancode, action, bitmask_8 { {
+		ML_EventSystem.fireEvent<KeyEvent>(key, scancode, action, BitMask_8 { {
 			io.KeyShift = io.KeysDown[KeyCode::LeftShift]	|| io.KeysDown[KeyCode::RightShift],
 			io.KeyCtrl	= io.KeysDown[KeyCode::LeftControl] || io.KeysDown[KeyCode::RightControl],
 			io.KeyAlt	= io.KeysDown[KeyCode::LeftAlt]		|| io.KeysDown[KeyCode::RightAlt],

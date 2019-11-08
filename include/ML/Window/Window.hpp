@@ -34,16 +34,18 @@ namespace ml
 		using ErrorFun			= typename void(*)(int32_t, C_String);
 		using FrameSizeFun		= typename void(*)(void *, int32_t, int32_t);
 		using KeyFun			= typename void(*)(void *, int32_t, int32_t, int32_t, int32_t);
-		using MouseButtonFun	= typename void(*)(void *, int32_t, int32_t, int32_t);
+		using MouseFun			= typename void(*)(void *, int32_t, int32_t, int32_t);
 		using ScrollFun			= typename void(*)(void *, float64_t, float64_t);
 		using CloseFun			= typename void(*)(void *);
 		using FocusFun			= typename void(*)(void *, int32_t);
 		using PositionFun		= typename void(*)(void *, int32_t, int32_t);
 		using SizeFun			= typename void(*)(void *, int32_t, int32_t);
+		using ProcFun			= typename void * (*)(void);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Window();
+
 		virtual ~Window();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -57,9 +59,9 @@ namespace ml
 
 		virtual bool setup();
 
-		virtual void onEvent(const Event & value) override;
-
 		virtual bool dispose() override;
+
+		virtual void onEvent(const Event & value) override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -105,11 +107,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool is_focused() const;
+		bool isFocused() const;
 		
-		bool is_fullscreen() const;
+		bool isFullscreen() const;
 		
-		bool is_open() const;
+		bool isOpen() const;
 		
 		int32_t	getAttribute(int32_t value) const;
 		
@@ -163,28 +165,32 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static void pollEvents();
-
-		static float64_t getTime();
-
-		static void setSwapInterval(int32_t value);
-		
 		static void * createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels);
 		
 		static void * createStandardCursor(Cursor::Shape value);
 		
 		static bool	destroyCursor(void * value);
 
-		static const List<void *> & getMonitors();
-		
+		static int32_t extensionSupported(C_String value);
+
 		static void * getContextCurrent();
 
-		static bool makeContextCurrent(void * value);
-		
 		static const VideoMode & getDesktopMode();
 		
 		static const List<VideoMode> & getFullscreenModes();
 
+		static ProcFun getProcAddress(C_String value);
+		
+		static const List<void *> & getMonitors();
+
+		static float64_t getTime();
+
+		static bool makeContextCurrent(void * value);
+
+		static void pollEvents();
+		
+		static void swapInterval(int32_t value);
+		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		CharFun			setCharCallback			(CharFun		value);
@@ -193,7 +199,7 @@ namespace ml
 		ErrorFun		setErrorCallback		(ErrorFun		value);
 		FrameSizeFun	setFrameSizeCallback	(FrameSizeFun	value);
 		KeyFun			setKeyCallback			(KeyFun			value);
-		MouseButtonFun	setMouseButtonCallback	(MouseButtonFun value);
+		MouseFun		setMouseCallback		(MouseFun		value);
 		ScrollFun		setScrollCallback		(ScrollFun		value);
 		CloseFun		setWindowCloseCallback	(CloseFun		value);
 		FocusFun		setWindowFocusCallback	(FocusFun		value);

@@ -23,11 +23,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		VertexArray & clean();
+
 		VertexArray & create(GL::Mode mode);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const VertexArray & bind() const;
+
 		const VertexArray & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

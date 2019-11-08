@@ -3,7 +3,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	IndexBuffer::IndexBuffer()
 		: Handle	(NULL)
@@ -28,7 +28,7 @@ namespace ml
 		clean();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	IndexBuffer & IndexBuffer::clean()
 	{
@@ -51,7 +51,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const IndexBuffer & IndexBuffer::bind() const
 	{
@@ -65,7 +65,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const IndexBuffer & IndexBuffer::bufferData(const uint32_t * data, uint32_t count) const
 	{
@@ -88,5 +88,5 @@ namespace ml
 		return bufferData(&data[0], (uint32_t)data.size());
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

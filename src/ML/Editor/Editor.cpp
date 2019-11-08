@@ -285,6 +285,7 @@ namespace ml
 		if (enabled && ImGui::BeginMenu("Edit"))
 		{
 			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Edit);
+
 			ImGui::EndMenu();
 		}
 	}
@@ -294,6 +295,7 @@ namespace ml
 		if (enabled && ImGui::BeginMenu("View"))
 		{
 			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::View);
+
 			ImGui::EndMenu();
 		}
 	}
@@ -303,11 +305,17 @@ namespace ml
 		if (enabled && ImGui::BeginMenu("Window"))
 		{
 			m_content.MenuItem();
+			
 			m_explorer.MenuItem();
+			
 			m_inspector.MenuItem();
+			
 			m_profiler.MenuItem();
+			
 			m_terminal.MenuItem();
+			
 			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Window);
+			
 			ImGui::EndMenu();
 		}
 	}
@@ -317,6 +325,56 @@ namespace ml
 		if (enabled && ImGui::BeginMenu("Options"))
 		{
 			auto & io { ImGui::GetIO() };
+
+			if (ImGui::BeginMenu("Style"))
+			{
+				if (ImGui::BeginMenu("Style Editor"))
+				{
+					ImGui::ShowStyleEditor();
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenu();
+			}
+
+			bool fullScreen { ML_Engine.window().isFullscreen() };
+			if (ImGui::MenuItem("Fullscreen", "F11", &fullScreen))
+			{
+				ML_Engine.window().setFullscreen(fullScreen);
+			}
+			
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Options);
+			
+			ImGui::EndMenu();
+		}
+	}
+
+	void Editor::draw_plugins_menu(bool enabled)
+	{
+		if (enabled && ImGui::BeginMenu("Plugins"))
+		{
+			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Plugins);
+			
+			ImGui::EndMenu();
+		}
+	}
+
+	void Editor::draw_help_menu(bool enabled)
+	{
+		if (enabled && ImGui::BeginMenu("Help"))
+		{
+			auto & io { ImGui::GetIO() };
+
+			m_about.MenuItem();
+
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Repository", "http://"))
+				Debug::execute("open", ML_PROJECT_URL);
+
+			if (ImGui::MenuItem("Downloads", "http://"))
+				Debug::execute("open", "https://bit.ly/ml_noobs");
+
+			ImGui::Separator();
 
 			if (ImGui::BeginMenu("Backend Flags"))
 			{
@@ -362,53 +420,6 @@ namespace ml
 
 				ImGui::EndMenu();
 			}
-
-			if (ImGui::BeginMenu("Style"))
-			{
-				if (ImGui::BeginMenu("Style Editor"))
-				{
-					ImGui::ShowStyleEditor();
-					ImGui::EndMenu();
-				}
-				ImGui::EndMenu();
-			}
-
-			bool fullScreen { ML_Engine.window().is_fullscreen() };
-			if (ImGui::MenuItem("Fullscreen", "F11", &fullScreen))
-			{
-				ML_Engine.window().setFullscreen(fullScreen);
-			}
-			
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Options);
-			
-			ImGui::EndMenu();
-		}
-	}
-
-	void Editor::draw_plugins_menu(bool enabled)
-	{
-		if (enabled && ImGui::BeginMenu("Plugins"))
-		{
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Plugins);
-			ImGui::EndMenu();
-		}
-	}
-
-	void Editor::draw_help_menu(bool enabled)
-	{
-		if (enabled && ImGui::BeginMenu("Help"))
-		{
-			m_about.MenuItem();
-
-			ImGui::Separator();
-
-			if (ImGui::MenuItem("Repository", "http://"))
-				Debug::execute("open", ML_PROJECT_URL);
-
-			if (ImGui::MenuItem("Downloads", "http://"))
-				Debug::execute("open", "https://bit.ly/ml_noobs");
-
-			ImGui::Separator();
 
 			ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
 

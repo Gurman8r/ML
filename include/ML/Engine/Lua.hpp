@@ -57,6 +57,11 @@ namespace ml
 		{
 			return ((value && getL()) ? luaL_dostring(getL(), value.c_str()) : 0);
 		}
+
+		inline int32_t doFile(const String & filename) const
+		{
+			return doString(ML_FS.getFileContents(filename));
+		}
 	};
 }
 

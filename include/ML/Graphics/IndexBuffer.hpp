@@ -24,16 +24,19 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		IndexBuffer & clean();
+
 		IndexBuffer & create(GL::Usage usage, GL::Type type);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const IndexBuffer & bind() const;
+
 		const IndexBuffer & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const IndexBuffer & bufferData(const uint32_t * data, uint32_t count) const;
+
 		const IndexBuffer & bufferData(const List<uint32_t> & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

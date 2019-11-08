@@ -42,7 +42,7 @@ namespace ml
 		EV_CursorPos,			// Cursor position changed
 		EV_FrameSize,			// Window frame size changed
 		EV_Key,					// Keyboard state changed
-		EV_MouseButton,			// Mouse button state changed
+		EV_Mouse,				// Mouse button state changed
 		EV_Scroll,				// Mouse scrollwheel state changed
 		EV_WindowClose,			// Fired when window is closed
 		EV_WindowError,			// Window error callback
@@ -103,7 +103,7 @@ namespace ml
 
 	struct KeyEvent final : public WindowEvent<WindowEventType::EV_Key>
 	{
-		using Mods = typename bitmask_8;
+		using Mods = typename BitMask_8;
 		const int32_t key, scan, action;
 		const Mods mods;
 
@@ -140,10 +140,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct MouseButtonEvent final : public WindowEvent<WindowEventType::EV_MouseButton>
+	struct MouseEvent final : public WindowEvent<WindowEventType::EV_Mouse>
 	{
 		const int32_t key, action, mod;
-		constexpr MouseButtonEvent(int32_t key, int32_t action, int32_t mod)
+		constexpr MouseEvent(int32_t key, int32_t action, int32_t mod)
 			: key(key)
 			, action(action)
 			, mod(mod)

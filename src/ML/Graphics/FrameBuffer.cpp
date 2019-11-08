@@ -1,9 +1,10 @@
 #include <ML/Graphics/FrameBuffer.hpp>
 #include <ML/Graphics/OpenGL.hpp>
+#include <ML/Graphics/Texture.hpp>
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	FrameBuffer::FrameBuffer()
 		: Handle(NULL)
@@ -20,7 +21,7 @@ namespace ml
 		clean();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	FrameBuffer & FrameBuffer::clean()
 	{
@@ -41,7 +42,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	const FrameBuffer & FrameBuffer::bind() const
 	{
@@ -55,22 +56,27 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const FrameBuffer & FrameBuffer::setTexture(uint32_t attchment, uint32_t value, uint32_t sampler, int32_t level) const
+	const FrameBuffer & FrameBuffer::setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const
 	{
 		if (*this)
 		{
 			ML_GL.framebufferTexture2D(
 				GL::Framebuffer,
-				attchment,
+				attachment,
 				sampler,
-				value, 
+				texture,
 				level
 			);
 		}
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	const FrameBuffer & FrameBuffer::setTexture(uint32_t attachment, const Texture & value) const
+	{
+		return setTexture(attachment, value, value.sampler(), value.level());
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

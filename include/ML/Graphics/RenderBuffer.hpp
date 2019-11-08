@@ -24,16 +24,19 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		RenderBuffer & clean();
+
 		RenderBuffer & create(const vec2i & size);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const RenderBuffer & bind() const;
+
 		const RenderBuffer & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		const RenderBuffer & bufferStorage(GL::Format internalFormat) const;
+
 		const RenderBuffer & setFramebuffer(GL::FrameID attachment) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

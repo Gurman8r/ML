@@ -124,24 +124,24 @@ namespace ml
 		ML_ASSERT(
 			"Creating Window" &&
 			m_window->create(
-				m_prefs->get_string	("Window", "title",				"MemeLib"), { 
-				m_prefs->get_uint	("Window", "width",				1280),
-				m_prefs->get_uint	("Window", "height",			720),
-				m_prefs->get_uint	("Window", "bits_per_pixel",	32) }, {
-				m_prefs->get_bool	("Window", "resizable",			true),
-				m_prefs->get_bool	("Window", "visible",			false),
-				m_prefs->get_bool	("Window", "decorated",			true),
-				m_prefs->get_bool	("Window", "focused",			true),
-				m_prefs->get_bool	("Window", "auto_iconify",		true),
-				m_prefs->get_bool	("Window", "floating",			false),
-				m_prefs->get_bool	("Window", "maximized",			true) }, {
-				m_prefs->get_uint	("Window", "major_version",		3),
-				m_prefs->get_uint	("Window", "minor_version",		3),
-				m_prefs->get_uint	("Window", "context_profile",	ContextSettings::Compat),
-				m_prefs->get_uint	("Window", "depth_bits",		24),
-				m_prefs->get_uint	("Window", "stencil_bits",		8),
-				m_prefs->get_bool	("Window", "multisample",		false),
-				m_prefs->get_bool	("Window", "srgb_capable",		false)
+				m_prefs->get_string	("Window", "title",			"MemeLib"), { 
+				m_prefs->get_uint	("Window", "width",			1280),
+				m_prefs->get_uint	("Window", "height",		720),
+				m_prefs->get_uint	("Window", "color_depth",	32) }, {
+				m_prefs->get_bool	("Window", "resizable",		true),
+				m_prefs->get_bool	("Window", "visible",		false),
+				m_prefs->get_bool	("Window", "decorated",		true),
+				m_prefs->get_bool	("Window", "focused",		true),
+				m_prefs->get_bool	("Window", "auto_iconify",	true),
+				m_prefs->get_bool	("Window", "floating",		false),
+				m_prefs->get_bool	("Window", "maximized",		true) }, {
+				m_prefs->get_uint	("Window", "major_version",	3),
+				m_prefs->get_uint	("Window", "minor_version",	3),
+				m_prefs->get_uint	("Window", "profile",		ContextSettings::Compat),
+				m_prefs->get_uint	("Window", "depth_bits",	24),
+				m_prefs->get_uint	("Window", "stencil_bits",	8),
+				m_prefs->get_bool	("Window", "multisample",	false),
+				m_prefs->get_bool	("Window", "srgb_capable",	false)
 			})
 		);
 		
@@ -285,7 +285,9 @@ namespace ml
 	void Engine::onExit(const ExitEvent & ev)
 	{
 		m_window->dispose();
+		
 		ML_Lua.dispose();
+		
 		ML_Py.dispose();
 	}
 	

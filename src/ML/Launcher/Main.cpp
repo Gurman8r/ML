@@ -69,12 +69,12 @@ ml::int32_t main()
 	ML_ASSERT(check_version());
 
 	// Init Systems
-	Timer::master();
+	ML_Time;
 	ML_EventSystem;
 	ML_Engine;
 	ML_Editor;
 
-	// Enter
+	// Enter Event
 	ML_EventSystem.fireEvent<EnterEvent>();
 
 	// Load
@@ -87,7 +87,7 @@ ml::int32_t main()
 	ML_EventSystem.fireEvent<StartEvent>();
 
 	// Loop
-	while (ML_Engine.window().is_open())
+	while (ML_Engine.window().isOpen())
 	{
 		ML_EventSystem.fireEvent<BeginStepEvent>();
 		ML_EventSystem.fireEvent<UpdateEvent>();

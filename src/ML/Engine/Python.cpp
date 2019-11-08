@@ -56,9 +56,14 @@ namespace ml
 		return false;
 	}
 
-	int32_t Py::doString(const String & value)
+	int32_t Py::doString(const String & value) const
 	{
 		return ((value && m_init) ? PyRun_SimpleString(value.c_str()) : 0);
+	}
+
+	int32_t Py::doFile(const String & filename) const
+	{
+		return doString(ML_FS.getFileContents(filename));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -150,9 +155,9 @@ namespace ml
 			.def_static("iconify", []() { ML_Engine.window().iconify(); })
 			.def_static("maximize", []() { ML_Engine.window().maximize(); })
 			.def_static("restore", []() { ML_Engine.window().restore(); })
-			.def_static("is_focused", []() { return ML_Engine.window().is_focused(); })
-			.def_static("is_fullscreen", []() { return ML_Engine.window().is_fullscreen(); })
-			.def_static("is_open", []() { return ML_Engine.window().is_open(); })
+			.def_static("is_focused", []() { return ML_Engine.window().isFocused(); })
+			.def_static("is_fullscreen", []() { return ML_Engine.window().isFullscreen(); })
+			.def_static("is_open", []() { return ML_Engine.window().isOpen(); })
 			.def_static("get_clipboard", []() { return (str_t)ML_Engine.window().getClipboardString(); })
 			.def_static("get_cursor", []() { return (coord_t)(vec2)ML_Engine.window().getCursorPos(); })
 			.def_static("get_key", [](int32_t i) { return ML_Engine.window().getKey(i); })

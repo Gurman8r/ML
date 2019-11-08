@@ -1,5 +1,5 @@
-#ifndef _ML_BITSET_HPP_
-#define _ML_BITSET_HPP_
+#ifndef _ML_BITMASK_HPP_
+#define _ML_BITMASK_HPP_
 
 #include <ML/Core/Array.hpp>
 
@@ -12,14 +12,14 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct bitmask final
+	template <class T> struct BitMask final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		enum : size_t { Size = sizeof(T) * 8 };
 
 		using value_type		= typename detail::decay_t<T>;
-		using self_type			= typename bitmask<value_type>;
+		using self_type			= typename BitMask<value_type>;
 		using array_type		= typename Array<bool, Size>;
 		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
@@ -28,29 +28,29 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr bitmask() noexcept
+		constexpr BitMask() noexcept
 			: m_value { 0 }
 		{
 		}
 
-		constexpr bitmask(const value_type value) noexcept
+		constexpr BitMask(const value_type value) noexcept
 			: m_value { value }
 		{
 		}
 
-		constexpr bitmask(const array_type & value) noexcept
+		constexpr BitMask(const array_type & value) noexcept
 			: m_value { from_bits<array_type, T, value.size()>(value) }
 		{
 		}
 
 		template <
 			class U, size_t N
-		> constexpr bitmask(const U(&value)[N]) noexcept
+		> constexpr BitMask(const U(&value)[N]) noexcept
 			: m_value { from_bits<const U(&)[N], U, N>(value) }
 		{
 		}
 
-		constexpr bitmask(const self_type & copy) noexcept
+		constexpr BitMask(const self_type & copy) noexcept
 			: m_value { copy.m_value }
 		{
 		}
@@ -99,21 +99,21 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using bitmask_8		= typename bitmask<uint8_t>;
-	using bitmask_16	= typename bitmask<uint16_t>;
-	using bitmask_32	= typename bitmask<uint32_t>;
-	using bitmask_64	= typename bitmask<uint64_t>;
+	using BitMask_8		= typename BitMask<uint8_t>;
+	using BitMask_16	= typename BitMask<uint16_t>;
+	using BitMask_32	= typename BitMask<uint32_t>;
+	using BitMask_64	= typename BitMask<uint64_t>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <class T>
-	inline ML_SERIALIZE(std::ostream & out, const bitmask<T> & value)
+	inline ML_SERIALIZE(std::ostream & out, const BitMask<T> & value)
 	{
 		return out << value.bits();
 	}
 
 	template <class T>
-	inline ML_DESERIALIZE(std::istream & in, bitmask<T> & value)
+	inline ML_DESERIALIZE(std::istream & in, BitMask<T> & value)
 	{
 		return in.good() ? (in >> value.data()) : in;
 	}

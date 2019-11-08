@@ -54,7 +54,7 @@ namespace ml
 		{
 		}
 
-		~BasicFile() { dispose(); }
+		~BasicFile() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

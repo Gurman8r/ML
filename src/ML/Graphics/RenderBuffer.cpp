@@ -3,7 +3,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderBuffer::RenderBuffer()
 		: Handle(NULL)
@@ -20,7 +20,7 @@ namespace ml
 		clean();
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	RenderBuffer & RenderBuffer::clean()
 	{
@@ -42,7 +42,7 @@ namespace ml
 		return (*this);
 	}
 	
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	const RenderBuffer & RenderBuffer::bind() const
 	{
@@ -56,7 +56,7 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const RenderBuffer & RenderBuffer::bufferStorage(GL::Format format) const
 	{
@@ -86,5 +86,5 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

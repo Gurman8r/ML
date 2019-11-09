@@ -4,7 +4,7 @@
 
 group "MemeLib"
 project "Launcher"
-	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}")
 	location		("%{prj_dir}ML/%{prj.name}/")
 	targetdir		("%{bin_lib}")
 	objdir			("%{bin_obj}")
@@ -30,13 +30,7 @@ project "Launcher"
 	}
 	links
 	{
-		"ML_Audio_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Editor_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Engine_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Network_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Audio", "ML_Core", "ML_Editor", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window", 
 		"pdcurses",
 	}
 	filter ("configurations:Debug") 
@@ -48,7 +42,7 @@ project "Launcher"
 	filter ("system:windows")
 		postbuildcommands 
 		{	
-			"xcopy /y %{bin_lib}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.exe %{bin_out}",
+			"xcopy /y %{bin_lib}ML_%{prj.name}.exe %{bin_out}",
 			"xcopy /y %{ext_bin}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}"
 		}
 

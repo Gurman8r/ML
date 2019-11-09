@@ -4,7 +4,7 @@
 
 group "MemeLib"
 project "Graphics"
-	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}")
 	location		("%{prj_dir}ML/%{prj.name}/")
 	targetdir		("%{bin_lib}")
 	objdir			("%{bin_obj}")
@@ -28,8 +28,7 @@ project "Graphics"
 	}
 	links
 	{
-		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}",
+		"ML_Core", "ML_Window", 
 		"glew32s", "opengl32", "assimp", "IrrXML", "zlibstatic",
 	}
 	filter ("configurations:Debug") 
@@ -40,7 +39,7 @@ project "Graphics"
 		linkoptions ("/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib")
 		postbuildcommands 
 		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_out}",
+			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
 			"xcopy /y %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}"
 		}
 		

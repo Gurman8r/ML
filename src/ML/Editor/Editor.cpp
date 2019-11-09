@@ -376,6 +376,8 @@ namespace ml
 
 			ImGui::Separator();
 
+			ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
+
 			if (ImGui::BeginMenu("Backend Flags"))
 			{
 				ImGuiExt::HelpMarker("These flags are set internally and specify the backend's capabilities.");
@@ -420,8 +422,6 @@ namespace ml
 
 				ImGui::EndMenu();
 			}
-
-			ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
 
 			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Help);
 

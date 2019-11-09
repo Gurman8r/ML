@@ -1,16 +1,4 @@
 @echo off
-cls
-
-set Configuration=Release
-
-set PlatformTarget=x64
-
-set ExePath=.\bin\%Configuration%\%PlatformTarget%\
-
-set ExeName=ML_Launcher_%Configuration%_%PlatformTarget%.exe
-
-cd %ExePath%
-
-start %ExeName% %*
-
+cd .\bin\Release\x64\
+start ML_Launcher.exe %*
 if %ERRORLEVEL% NEQ 0 ( pause )

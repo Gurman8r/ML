@@ -40,7 +40,7 @@ namespace ml
 		using FocusFun			= typename void(*)(void *, int32_t);
 		using PositionFun		= typename void(*)(void *, int32_t, int32_t);
 		using SizeFun			= typename void(*)(void *, int32_t, int32_t);
-		using ProcFun			= typename void * (*)(void);
+		using ProcFun			= typename void *(*)(void);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

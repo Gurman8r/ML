@@ -211,10 +211,10 @@ namespace ml
 	
 	bool Texture::create(const Texture & other)
 	{
-		return ((other)
-			? (create(other.size())
+		return (other
+			? create(other.size())
 				? update(other)
-				: Debug::logError("Failed to copy texture, failed to create new texture")) 
+				: Debug::logError("Failed to copy texture, failed to create new texture")
 			: false
 		);
 	}

@@ -2,10 +2,7 @@
 /bin
 /bin-lib
 /bin-obj
-/lib
-/obj
 /proj
-/tmp
 __pycache__/
 imgui.ini
 desktop.ini

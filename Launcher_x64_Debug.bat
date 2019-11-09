@@ -1,16 +1,4 @@
 @echo off
-cls
-
-set Configuration=Debug
-
-set PlatformTarget=x64
-
-set ExePath=.\bin\%Configuration%\%PlatformTarget%\
-
-set ExeName=ML_Launcher_%Configuration%_%PlatformTarget%.exe
-
-cd %ExePath%
-
-call %ExeName% %*
-
+cd .\bin\Debug\x64\
+call ML_Launcher.exe %*
 if %ERRORLEVEL% NEQ 0 ( pause )

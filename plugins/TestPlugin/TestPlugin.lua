@@ -2,7 +2,7 @@
 
 group "Plugins"
 project "TestPlugin"
-	targetname 		("%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("%{prj.name}")
 	location		("%{prj_dir}plugins/%{prj.name}")
 	targetdir		("%{bin_lib}")
 	objdir			("%{bin_obj}")
@@ -24,7 +24,7 @@ project "TestPlugin"
 	}
 	vpaths 
 	{ 
-		["Headers"] = { "**.h", "**.hpp", "**.inl", },
+		["Headers"] = { "**.h", "**.hpp", "**.inl" },
 		["Sources"] = { "**.c", "**.cpp" } 
 	}
 	libdirs
@@ -34,16 +34,10 @@ project "TestPlugin"
 	}
 	links
 	{
-		"ML_Audio_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Editor_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Engine_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Graphics_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Network_%{cfg.buildcfg}_%{cfg.platform}",
-		"ML_Window_%{cfg.buildcfg}_%{cfg.platform}"
+		"ML_Audio", "ML_Core", "ML_Editor", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window"
 	}
 	filter "configurations:Debug" symbols ("On")
 	filter "configurations:Release" optimize ("Speed")
-	filter ("system:Windows") postbuildcommands { "xcopy /y %{bin_lib}%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_out}" }
+	filter ("system:Windows") postbuildcommands { "xcopy /y %{bin_lib}%{prj.name}.dll %{bin_out}" }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

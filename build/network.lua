@@ -4,7 +4,7 @@
 
 group "MemeLib"
 project "Network"
-	targetname 		("ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}")
+	targetname 		("ML_%{prj.name}")
 	location		("%{prj_dir}ML/%{prj.name}/")
 	targetdir		("%{bin_lib}")
 	objdir			("%{bin_obj}")
@@ -28,7 +28,7 @@ project "Network"
 	}
 	links
 	{ 
-		"ML_Core_%{cfg.buildcfg}_%{cfg.platform}", 
+		"ML_Core", 
 		"RakNet", "ws2_32",
 	}
 	filter ("configurations:Debug") 
@@ -38,7 +38,7 @@ project "Network"
 	filter ("system:windows")
 		postbuildcommands
 		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}_%{cfg.buildcfg}_%{cfg.platform}.dll %{bin_out}"
+			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
 		}
 		
 

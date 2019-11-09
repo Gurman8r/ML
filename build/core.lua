@@ -17,17 +17,17 @@ project "Core"
 	defines 		{ "ML_CORE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
 	files 
 	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
-		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
 	}
-	filter ("configurations:Debug") 
+	filter { "configurations:Debug" } 
 		symbols ("On")
-	filter ("configurations:Release") 
+	filter { "configurations:Release" } 
 		optimize ("Speed")
-	filter ("system:windows")
-		postbuildcommands 
-		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
-		}
+	filter { "system:Windows" }
+		postbuildcommands { Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}") }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

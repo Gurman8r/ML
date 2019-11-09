@@ -18,9 +18,11 @@ project "Editor"
 	dependson 		{ "Audio", "Core", "Engine", "Graphics", "Network", "Window" }
 	files 
 	{ 
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl", 
-		"%{src_dir}**.c", "%{src_dir}**.cpp", 
-		"%{sln_dir}src/ML/%{prj.name}/**.cpp",
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
 		"%{ext_dir}imgui/**.h",
 		"%{ext_dir}imgui/**.cpp",
 		"%{ext_dir}ImGuiColorTextEdit/**.h",
@@ -35,15 +37,12 @@ project "Editor"
 	{
 		"ML_Audio", "ML_Core", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
 	}
-	filter ("configurations:Debug") 
+	filter { "configurations:Debug" } 
 		symbols ("On")
-	filter ("configurations:Release") 
+	filter { "configurations:Release" } 
 		optimize ("Speed")
-	filter ("system:windows")
-		postbuildcommands
-		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
-		}
+	filter { "system:Windows" }
+		postbuildcommands { Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}") }
 		
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

@@ -18,8 +18,11 @@ project "Graphics"
 	dependson 		{ "Core", "Window" }
 	files 
 	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
-		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
 	}
 	libdirs
 	{
@@ -31,16 +34,16 @@ project "Graphics"
 		"ML_Core", "ML_Window", 
 		"glew32s", "opengl32", "assimp", "IrrXML", "zlibstatic",
 	}
-	filter ("configurations:Debug") 
+	filter { "configurations:Debug" } 
 		symbols ("On")
-	filter ("configurations:Release") 
+	filter { "configurations:Release" } 
 		optimize ("Speed")
-	filter ("system:windows")
+	filter { "system:Windows" }
 		linkoptions ("/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib")
 		postbuildcommands 
 		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
-			"xcopy /y %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}"
+			Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}"),
+			Copy("assimp.dll", "%{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\", "%{bin_out}")
 		}
 		
 		

@@ -1,7 +1,7 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "Plugins"
-project "Noobs"
+project "CommandSuite"
 	targetname 		("%{prj.name}")
 	location		("%{prj_dir}plugins/%{prj.name}")
 	targetdir		("%{bin_lib}")
@@ -22,11 +22,6 @@ project "Noobs"
 		"%{sln_dir}plugins/%{prj.name}/**.c",
 		"%{sln_dir}plugins/%{prj.name}/**.cpp"
 	}
-	vpaths 
-	{ 
-		["Headers"] = { "**.h", "**.hpp", "**.inl" },
-		["Sources"] = { "**.c", "**.cpp" } 
-	}
 	libdirs
 	{
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",
@@ -38,6 +33,6 @@ project "Noobs"
 	}
 	filter "configurations:Debug" symbols ("On")
 	filter "configurations:Release" optimize ("Speed")
-	filter ("system:Windows") postbuildcommands { "xcopy /y %{bin_lib}%{prj.name}.dll %{bin_out}" }
+	filter { "system:Windows" } postbuildcommands { Copy("%{prj.name}.dll", "%{bin_lib}", "%{bin_out}") }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

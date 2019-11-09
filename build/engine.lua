@@ -18,9 +18,14 @@ project "Engine"
 	dependson 		{ "Audio", "Core", "Graphics", "Network", "Window" }
 	files 
 	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
-		"%{src_dir}**.c", "%{src_dir}**.cpp",
-		"%{ext_dir}lua/**.h", "%{ext_dir}lua/**.hpp", "%{ext_dir}lua/**.c",
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
+		"%{ext_dir}lua/**.h",
+		"%{ext_dir}lua/**.hpp",
+		"%{ext_dir}lua/**.c",
 	}
 	libdirs
 	{
@@ -31,19 +36,21 @@ project "Engine"
 	{
 		"ML_Audio", "ML_Core", "ML_Graphics", "ML_Network", "ML_Window",
 	}
-	filter ("configurations:Debug") 
+	filter { "configurations:Debug" }
 		symbols ("On")
 		links { "python39_d" }
-	filter ("configurations:Release") 
+	filter { "configurations:Release" } 
 		optimize ("Speed") 
 		links { "python39" }
-	filter ("system:windows")
+	filter { "system:Windows" }
 		linkoptions ("/NODEFAULTLIB:LIBCMT.lib")
 		postbuildcommands
 		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
-			"if %{cfg.buildcfg} == Debug ( xcopy /y %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out} )",
-			"if %{cfg.buildcfg} == Release ( xcopy /y %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out} )"
+			Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}"),
+			"if %{cfg.buildcfg} == Release ( " 
+				.. Copy("python39.dll", "%{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\", "%{bin_out}") .. " )",
+			"if %{cfg.buildcfg} == Debug ( " 
+				.. Copy("python39_d.dll", "%{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\", "%{bin_out}") .. " )",
 		}
 		
 		

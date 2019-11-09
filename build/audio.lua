@@ -18,8 +18,11 @@ project "Audio"
 	dependson 		{ "Core" }
 	files 
 	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
-		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
 	}
 	libdirs
 	{
@@ -31,15 +34,15 @@ project "Audio"
 		"ML_Core", 
 		"OpenAL32", "flac", "ogg", "vorbis", "vorbisenc", "vorbisfile",
 	}
-	filter ("configurations:Debug") 
+	filter { "configurations:Debug" } 
 		symbols ("On")
-	filter ("configurations:Release") 
+	filter { "configurations:Release" } 
 		optimize ("Speed")
-	filter ("system:windows")
+	filter { "system:Windows" }
 		postbuildcommands 
 		{	
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
-			"xcopy /y %{ext_bin}OpenAL32.dll %{bin_out}"
+			Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}"),
+			Copy("OpenAL32.dll", "%{ext_bin}", "%{bin_out}"),
 		}
 		
 		

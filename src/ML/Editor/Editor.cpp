@@ -115,7 +115,7 @@ namespace ml
 		// Setup Style
 		/* * * * * * * * * * * * * * * * * * * * */
 		const String styleConf = ML_Engine.prefs().get_string(
-			"Editor", "style_config", "Classic"
+			"Editor", "editor_style", "Classic"
 		);
 		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
 		else if (styleConf == "Dark") ImGui::StyleColorsDark();

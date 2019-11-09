@@ -18,8 +18,11 @@ project "Window"
 	dependson 		{ "Core" }
 	files 
 	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",
-		"%{src_dir}**.c", "%{src_dir}**.cpp",
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
 		"%{ext_dir}glfw/include/glfw/**.h",
 		"%{ext_dir}glfw/src/context.c", 
 		"%{ext_dir}glfw/src/glfw_config.h", 
@@ -41,12 +44,12 @@ project "Window"
 		"ML_Core", 
 		"opengl32",
 	}
-	filter ("configurations:Debug") 
+	filter { "configurations:Debug" }
 		symbols ("On") 
 		linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
-	filter ("configurations:Release") 
+	filter { "configurations:Release" } 
 		optimize ("Speed")
-	filter ("system:windows")
+	filter { "system:Windows" }
 		files
 		{
 			"%{ext_dir}glfw/src/egl_context.c",
@@ -64,10 +67,7 @@ project "Window"
 			"%{ext_dir}glfw/src/win32_time.c",
 			"%{ext_dir}glfw/src/win32_window.c",
 		}
-		postbuildcommands
-		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
-		}
+		postbuildcommands { Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}") }
 		
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

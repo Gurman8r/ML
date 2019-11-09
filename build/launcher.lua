@@ -18,9 +18,13 @@ project "Launcher"
 	dependson 		{ "Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window" }
 	files 
 	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl", 
-		"%{src_dir}**.c", "%{src_dir}**.cpp", 
-		"%{sln_dir}ML.ini", "%{sln_dir}assets/**.**", 
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
+		"%{sln_dir}assets/**.**", 
+		"%{sln_dir}ML.ini",
 	}
 	excludes { "assets/Lib/**.**" }
 	libdirs
@@ -33,17 +37,17 @@ project "Launcher"
 		"ML_Audio", "ML_Core", "ML_Editor", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window", 
 		"pdcurses",
 	}
-	filter ("configurations:Debug") 
+	filter { "configurations:Debug" } 
 		symbols ("On")
 		kind("ConsoleApp")
-	filter ("configurations:Release") 
+	filter { "configurations:Release" } 
 		optimize ("Speed")
 		kind("WindowedApp")
-	filter ("system:windows")
+	filter { "system:Windows" }
 		postbuildcommands 
 		{	
-			"xcopy /y %{bin_lib}ML_%{prj.name}.exe %{bin_out}",
-			"xcopy /y %{ext_bin}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}"
+			Copy("ML_%{prj.name}.exe", "%{bin_lib}", "%{bin_out}"),
+			Copy("pdcurses.dll", "%{ext_bin}%{cfg.buildcfg}\\", "%{bin_out}")
 		}
 
 

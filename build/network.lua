@@ -18,8 +18,11 @@ project "Network"
 	dependson 		{ "Core" }
 	files 
 	{
-		"%{inc_dir}**.h", "%{inc_dir}**.hpp", "%{inc_dir}**.inl",  
-		"%{src_dir}**.c", "%{src_dir}**.cpp" 
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
 	}
 	libdirs
 	{
@@ -31,15 +34,12 @@ project "Network"
 		"ML_Core", 
 		"RakNet", "ws2_32",
 	}
-	filter ("configurations:Debug") 
+	filter { "configurations:Debug" } 
 		symbols ("On")
-	filter ("configurations:Release") 
+	filter { "configurations:Release" } 
 		optimize ("Speed")
-	filter ("system:windows")
-		postbuildcommands
-		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
-		}
+	filter { "system:Windows" }
+		postbuildcommands { Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}") }
 		
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

@@ -110,7 +110,7 @@ namespace ml
 		ML_ASSERT(
 			"Starting Python" &&
 			ML_Py.init(ML_ARGV[0], ML_FS.pathTo(m_prefs->get_string(
-				"Engine", "python_home", ""
+				"Engine", "library_path", ""
 			)))
 		);
 

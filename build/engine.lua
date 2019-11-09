@@ -15,7 +15,7 @@ project "Engine"
 	systemversion	"latest"
 	dependson 
 	{
-		"Audio", "Core", "Engine", "Graphics", "Network", "Window",
+		"Audio", "Core", "Graphics", "Network", "Window",
 	}
 	defines
 	{

@@ -74,7 +74,7 @@ ml::int32_t main()
 	ML_Engine;
 	ML_Editor;
 
-	// Enter Event
+	// Enter
 	ML_EventSystem.fireEvent<EnterEvent>();
 
 	// Load

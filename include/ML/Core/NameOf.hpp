@@ -148,7 +148,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-# if not defined(ML_HAS_CONSTEXPR_17)
+# ifndef ML_HAS_CONSTEXPR_17
 template <> struct ml::nameof<std::string> final
 {
 	static constexpr auto value { "std::string" };

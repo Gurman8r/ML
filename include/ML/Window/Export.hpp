@@ -11,7 +11,9 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_WINDOW_EXPORTS)
+# if defined(ML_STATIC)
+#	define ML_WINDOW_API
+# elif defined(ML_WINDOW_EXPORTS)
 #	define ML_WINDOW_API ML_API_EXPORT
 # else
 #	define ML_WINDOW_API ML_API_IMPORT

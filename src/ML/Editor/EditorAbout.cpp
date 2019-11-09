@@ -71,11 +71,11 @@ namespace ml
 # endif
 
 # if defined (ML_API_EXPORT)
-			draw_def("define: ML_API_EXPORT", "%s", ML_STRINGIFY(ML_API_EXPORT));
+			draw_def("define: ML_API_EXPORT", "", "");
 # endif
 
 # if defined (ML_API_IMPORT)
-			draw_def("define: ML_API_IMPORT", "%s", ML_STRINGIFY(ML_API_IMPORT));
+			draw_def("define: ML_API_IMPORT", "", "");
 # endif
 
 			// Compiler

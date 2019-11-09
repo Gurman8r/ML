@@ -1,6 +1,5 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/Array.hpp>
-#include <ML/Core/Timer.hpp>
 
 # ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
@@ -81,24 +80,6 @@ namespace ml
 #else
 		return nullptr;
 #endif
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	int32_t Debug::Logger::operator()(
-		std::ostream &	out,
-		const int32_t	exitCode,
-		const FMT &		color,
-		const String &	prefix,
-		const String &	message)
-	{
-		const auto & t { ML_Time.elapsed() };
-		out << FMT()
-			//<< FG::Gray << "[" << t << "] "
-			<< FG::White << "[" << color << prefix << FG::White << "] "
-			<< FMT() << message
-			<< endl;
-		return exitCode;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

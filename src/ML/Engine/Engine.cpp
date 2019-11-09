@@ -108,7 +108,7 @@ namespace ml
 	{
 		// Start Python
 		ML_ASSERT(
-			"Starting Python" &&
+			"Failed Initializing Python\n" &&
 			ML_Py.init(ML_ARGV[0], ML_FS.pathTo(m_prefs->get_string(
 				"Engine", "library_path", ""
 			)))
@@ -122,7 +122,7 @@ namespace ml
 
 		// Create Window
 		ML_ASSERT(
-			"Creating Window" &&
+			"Failed Initializing Window\n" &&
 			m_window->create(
 				m_prefs->get_string	("Window", "title",			"MemeLib"), { 
 				m_prefs->get_uint	("Window", "width",			1280),

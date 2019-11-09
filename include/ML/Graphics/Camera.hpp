@@ -68,17 +68,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline Camera * mainCamera() 
-		{ 
-			return s_mainCamera; 
+		static inline Camera * mainCamera()
+		{
+			return mainCamera(nullptr, false);
 		}
 
-		static inline Camera * mainCamera(Camera * value)
+		static inline Camera * mainCamera(Camera * value, bool write = true)
 		{
-			return ((!s_mainCamera && value)
-				? (s_mainCamera = value)
-				: nullptr
-			);
+			static Camera * temp { nullptr };
+			return (write ? (temp = value) : temp);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -93,9 +91,7 @@ namespace ml
 		float_t		m_fieldOfView;	// 
 		float_t		m_clipNear;		// 
 		float_t		m_clipFar;		// 
-		IntRect		m_viewport;		// 
-
-		static Camera * s_mainCamera;
+		IntRect		m_viewport;		//
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

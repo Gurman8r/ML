@@ -139,7 +139,7 @@ namespace ml
 		// Startup
 		/* * * * * * * * * * * * * * * * * * * * */
 		ML_ASSERT(
-			"Starting ImGui" &&
+			"Failed Initializing ImGui\n" &&
 			ML_ImGuiImpl.Startup(
 				"#version 130",
 				&ML_Engine.window(),

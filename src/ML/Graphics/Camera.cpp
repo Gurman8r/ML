@@ -42,10 +42,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Camera * Camera::s_mainCamera { nullptr };
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	Camera::Camera()
 		: Camera { ClearFlags::SolidColor, Projection::Perspective }
 	{
@@ -57,15 +53,15 @@ namespace ml
 		, m_background	{ Colors::black }
 		, m_projection	{ projection }
 		, m_position	{ 0, 0, 5 }
-		, m_direction		{ 0, 0, -1 }
+		, m_direction	{ 0, 0, -1 }
 		, m_fieldOfView { 45.0f }
 		, m_clipNear	{ 0.001f }
 		, m_clipFar		{ 1000.0f }
 		, m_viewport	{ { 0, 0 }, { 1920, 1080 } }
 	{
-		if (!s_mainCamera)
+		if (!mainCamera())
 		{
-			s_mainCamera = this;
+			mainCamera(this);
 		}
 	}
 
@@ -83,9 +79,9 @@ namespace ml
 	
 	Camera::~Camera() 
 	{
-		if (s_mainCamera && (s_mainCamera == this))
+		if (mainCamera() == this)
 		{
-			s_mainCamera = nullptr;
+			mainCamera(nullptr);
 		}
 	}
 

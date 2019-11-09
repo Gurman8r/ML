@@ -13,8 +13,12 @@
 
 #pragma once
 
-#include <ML/Editor/Export.hpp>
-#define IMGUI_API ML_EDITOR_API
+# if __has_include(<ML/Editor/Export.hpp>)
+#	include <ML/Editor/Export.hpp>
+#	define IMGUI_API ML_EDITOR_API
+# else
+#	define IMGUI_API
+# endif
 
 //---- Define assertion handler. Defaults to calling assert().
 //#define IM_ASSERT(_EXPR)  MyAssert(_EXPR)

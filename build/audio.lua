@@ -4,25 +4,36 @@
 
 group "MemeLib"
 project "Audio"
-	targetname 		("ML_%{prj.name}")
-	location		("%{prj_dir}ML/%{prj.name}/")
-	targetdir		("%{bin_lib}")
-	objdir			("%{bin_obj}")
-	kind			("SharedLib")
-	language		("C++")
-	cppdialect 		("C++17")
-	staticruntime	("Off")
-	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}" }
-	defines 		{ "ML_AUDIO_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
-	dependson 		{ "Core" }
+	targetname 		"ML_%{prj.name}"
+	location		"%{prj_dir}ML/%{prj.name}/"
+	targetdir		"%{bin_lib}"
+	objdir			"%{bin_obj}"
+	kind			"SharedLib"
+	language		"C++"
+	cppdialect 		"C++17"
+	staticruntime	"Off"
+	systemversion	"latest"
+	dependson 
+	{
+		"Core",
+	}
+	defines
+	{
+		"ML_AUDIO_EXPORTS", 
+		"_CRT_SECURE_NO_WARNINGS",
+	}
+	includedirs
+	{
+		"%{sln_dir}include", 
+		"%{ext_dir}",
+	}
 	files 
 	{
-		"%{inc_dir}**.h", 
-		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.h",
+		"%{inc_dir}**.hpp",
 		"%{inc_dir}**.inl",  
-		"%{src_dir}**.c", 
-		"%{src_dir}**.cpp",
+		"%{src_dir}**.c",
+		"%{src_dir}**.cpp" 
 	}
 	libdirs
 	{
@@ -31,18 +42,21 @@ project "Audio"
 	}
 	links
 	{
-		"ML_Core", 
+		"ML_Core",
 		"OpenAL32", "flac", "ogg", "vorbis", "vorbisenc", "vorbisfile",
 	}
-	filter { "configurations:Debug" } 
-		symbols ("On")
+	
+	filter { "configurations:Debug" }
+		symbols "On"
+	
 	filter { "configurations:Release" } 
-		optimize ("Speed")
-	filter { "system:Windows" }
+		optimize "Speed"
+	
+	filter { "system:windows" }
 		postbuildcommands 
 		{	
-			Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}"),
-			Copy("OpenAL32.dll", "%{ext_bin}", "%{bin_out}"),
+			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
+			"xcopy /y %{ext_bin}OpenAL32.dll %{bin_out}"
 		}
 		
 		

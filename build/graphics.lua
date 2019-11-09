@@ -4,25 +4,36 @@
 
 group "MemeLib"
 project "Graphics"
-	targetname 		("ML_%{prj.name}")
-	location		("%{prj_dir}ML/%{prj.name}/")
-	targetdir		("%{bin_lib}")
-	objdir			("%{bin_obj}")
-	kind			("SharedLib")
-	language		("C++")
-	cppdialect 		("C++17")
-	staticruntime	("Off")
-	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}" }
-	defines 		{ "ML_GRAPHICS_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
-	dependson 		{ "Core", "Window" }
+	targetname 		"ML_%{prj.name}"
+	location		"%{prj_dir}ML/%{prj.name}/"
+	targetdir		"%{bin_lib}"
+	objdir			"%{bin_obj}"
+	kind			"SharedLib"
+	language		"C++"
+	cppdialect 		"C++17"
+	staticruntime	"Off"
+	systemversion	"latest"
+	dependson
+	{
+		"Core", "Window",
+	}
+	defines
+	{
+		"ML_GRAPHICS_EXPORTS", 
+		"_CRT_SECURE_NO_WARNINGS",
+	}
+	includedirs
+	{
+		"%{sln_dir}include",
+		"%{ext_dir}",
+	}
 	files 
 	{
 		"%{inc_dir}**.h", 
-		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.hpp",
 		"%{inc_dir}**.inl",  
-		"%{src_dir}**.c", 
-		"%{src_dir}**.cpp",
+		"%{src_dir}**.c",
+		"%{src_dir}**.cpp" 
 	}
 	libdirs
 	{
@@ -31,19 +42,22 @@ project "Graphics"
 	}
 	links
 	{
-		"ML_Core", "ML_Window", 
+		"ML_Core", "ML_Window",
 		"glew32s", "opengl32", "assimp", "IrrXML", "zlibstatic",
 	}
-	filter { "configurations:Debug" } 
-		symbols ("On")
+	
+	filter { "configurations:Debug" }
+		symbols "On"
+	
 	filter { "configurations:Release" } 
-		optimize ("Speed")
-	filter { "system:Windows" }
+		optimize "Speed"
+	
+	filter { "system:windows" }
 		linkoptions ("/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib")
 		postbuildcommands 
 		{
-			Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}"),
-			Copy("assimp.dll", "%{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\", "%{bin_out}")
+			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
+			"xcopy /y %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}"
 		}
 		
 		

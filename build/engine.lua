@@ -4,18 +4,30 @@
 
 group "MemeLib"
 project "Engine"
-	targetname 		("ML_%{prj.name}")
-	location		("%{prj_dir}ML/%{prj.name}/")
-	targetdir		("%{bin_lib}")
-	objdir			("%{bin_obj}")
-	kind			("SharedLib")
-	language		("C++")
-	cppdialect 		("C++17")
-	staticruntime	("Off")
-	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}", "%{ext_dir}cpython/Include" }
-	defines 		{ "ML_ENGINE_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
-	dependson 		{ "Audio", "Core", "Graphics", "Network", "Window" }
+	targetname 		"ML_%{prj.name}"
+	location		"%{prj_dir}ML/%{prj.name}/"
+	targetdir		"%{bin_lib}"
+	objdir			"%{bin_obj}"
+	kind			"SharedLib"
+	language		"C++"
+	cppdialect 		"C++17"
+	staticruntime	"Off"
+	systemversion	"latest"
+	dependson 
+	{
+		"Audio", "Core", "Engine", "Graphics", "Network", "Window",
+	}
+	defines
+	{
+		"ML_ENGINE_EXPORTS", 
+		"_CRT_SECURE_NO_WARNINGS",
+	}
+	includedirs
+	{
+		"%{sln_dir}include", 
+		"%{ext_dir}",
+		"%{ext_dir}cpython/include",
+	}
 	files 
 	{
 		"%{inc_dir}**.h", 
@@ -23,8 +35,8 @@ project "Engine"
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c", 
 		"%{src_dir}**.cpp",
-		"%{ext_dir}lua/**.h",
-		"%{ext_dir}lua/**.hpp",
+		"%{ext_dir}lua/**.h", 
+		"%{ext_dir}lua/**.hpp", 
 		"%{ext_dir}lua/**.c",
 	}
 	libdirs
@@ -35,22 +47,31 @@ project "Engine"
 	links
 	{
 		"ML_Audio", "ML_Core", "ML_Graphics", "ML_Network", "ML_Window",
+		"pdcurses"
 	}
+	
 	filter { "configurations:Debug" }
-		symbols ("On")
-		links { "python39_d" }
+		symbols "On" 
+		links
+		{
+			"python39_d"
+		}
+		
 	filter { "configurations:Release" } 
-		optimize ("Speed") 
-		links { "python39" }
-	filter { "system:Windows" }
+		optimize "Speed" 
+		links
+		{
+			"python39"
+		}
+		
+	filter { "system:windows" }
 		linkoptions ("/NODEFAULTLIB:LIBCMT.lib")
 		postbuildcommands
 		{
-			Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}"),
-			"if %{cfg.buildcfg} == Release ( " 
-				.. Copy("python39.dll", "%{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\", "%{bin_out}") .. " )",
-			"if %{cfg.buildcfg} == Debug ( " 
-				.. Copy("python39_d.dll", "%{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\", "%{bin_out}") .. " )",
+			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
+			"xcopy /y %{ext_bin}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",
+			"if %{cfg.buildcfg} == Debug ( xcopy /y %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out} )",
+			"if %{cfg.buildcfg} == Release ( xcopy /y %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out} )"
 		}
 		
 		

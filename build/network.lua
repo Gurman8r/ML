@@ -4,18 +4,30 @@
 
 group "MemeLib"
 project "Network"
-	targetname 		("ML_%{prj.name}")
-	location		("%{prj_dir}ML/%{prj.name}/")
-	targetdir		("%{bin_lib}")
-	objdir			("%{bin_obj}")
-	kind			("SharedLib")
-	language		("C++")
-	cppdialect 		("C++17")
-	staticruntime	("Off")
-	systemversion	("latest")
-	includedirs 	{ "%{sln_dir}include", "%{ext_dir}" }
-	defines 		{ "ML_NETWORK_EXPORTS", "_CRT_SECURE_NO_WARNINGS" }
-	dependson 		{ "Core" }
+	targetname 		"ML_%{prj.name}"
+	location		"%{prj_dir}ML/%{prj.name}/"
+	targetdir		"%{bin_lib}"
+	objdir			"%{bin_obj}"
+	kind			"SharedLib"
+	language		"C++"
+	cppdialect 		"C++17"
+	staticruntime	"Off"
+	systemversion	"latest"
+	dependson 
+	{
+		"Core"
+	}
+	defines
+	{
+		"ML_NETWORK_EXPORTS", 
+		"_CRT_SECURE_NO_WARNINGS",
+		"_WINSOCK_DEPRECATED_NO_WARNINGS",
+	}
+	includedirs
+	{
+		"%{sln_dir}include", 
+		"%{ext_dir}",
+	}
 	files 
 	{
 		"%{inc_dir}**.h", 
@@ -23,6 +35,8 @@ project "Network"
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c", 
 		"%{src_dir}**.cpp",
+		"%{ext_dir}RakNet/**.h",
+		"%{ext_dir}RakNet/**.cpp",
 	}
 	libdirs
 	{
@@ -31,15 +45,26 @@ project "Network"
 	}
 	links
 	{ 
-		"ML_Core", 
-		"RakNet", "ws2_32",
+		"ML_Core",
+		"ws2_32",
 	}
-	filter { "configurations:Debug" } 
-		symbols ("On")
+	
+	filter { "configurations:Debug" }
+		symbols "On"
+	
 	filter { "configurations:Release" } 
-		optimize ("Speed")
-	filter { "system:Windows" }
-		postbuildcommands { Copy("ML_%{prj.name}.dll", "%{bin_lib}", "%{bin_out}") }
+		optimize "Speed"
+	
+	filter { "system:windows" }
+		linkoptions
+		{
+			"/NODEFAULTLIB:LIBCMT.lib",
+			"/NODEFAULTLIB:LIBCMTD.lib",
+		}
+		postbuildcommands
+		{
+			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
+		}
 		
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

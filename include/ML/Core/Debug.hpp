@@ -143,33 +143,36 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct Logger final
+		static inline int32_t Logger(
+			std::ostream & out,
+			const int32_t	exitCode,
+			const FMT & color,
+			const String & prefix,
+			const String & message
+		)
 		{
-			Logger() = default;
-			int32_t operator()(
-				std::ostream &	out,
-				const int32_t	exitCode,
-				const FMT &		color,
-				const String &	prefix,
-				const String &	message
-			);
-		};
+			out << FMT()
+				<< FG::White << "[" << color << prefix << FG::White << "] "
+				<< FMT() << message
+				<< endl;
+			return exitCode;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static inline int32_t log(const String & message)
 		{
-			return Logger()(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
+			return Logger(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
 		}
 
 		static inline int32_t logError(const String & message)
 		{
-			return Logger()(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
+			return Logger(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
 		}
 
 		static inline int32_t logWarning(const String & message)
 		{
-			return Logger()(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
+			return Logger(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

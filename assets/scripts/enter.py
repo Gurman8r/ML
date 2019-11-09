@@ -19,7 +19,7 @@ if (ml.config.is_debug()):
         ml.config.project_date(),
         ml.config.project_time()
         ])
-    ml.prefs.set("Editor", "style_config", "../../../assets/styles/obsidian.style")
+    ml.prefs.set("Editor", "editor_style", "../../../assets/styles/obsidian.style")
     #ml.io.pause()
     #ml.io.exit()
 

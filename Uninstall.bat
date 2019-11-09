@@ -1,5 +1,7 @@
 @echo off
 
+if exist .\.vs rd /s /q .\.vs
+
 if exist .\bin rd /s /q .\bin
 
 if exist .\bin-lib rd /s /q .\bin-lib

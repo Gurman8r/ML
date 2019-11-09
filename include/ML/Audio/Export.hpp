@@ -9,13 +9,11 @@
 
 #include <ML/Core/Config.hpp>
 
-#ifdef __NULL_IMPORT_DESCRIPTOR
-#undef __NULL_IMPORT_DESCRIPTOR
-#endif // __NULL_IMPORT_DESCRIPTOR
-
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_AUDIO_EXPORTS)
+# if defined(ML_STATIC)
+#	define ML_AUDIO_API
+# elif defined(ML_AUDIO_EXPORTS)
 #	define ML_AUDIO_API ML_API_EXPORT
 # else
 #	define ML_AUDIO_API ML_API_IMPORT

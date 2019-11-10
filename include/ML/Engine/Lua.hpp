@@ -5,7 +5,12 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <lua/lua.hpp>
+
+extern "C" {
+#include <lua/lua.h>
+#include <lua/lualib.h>
+#include <lua/lauxlib.h>
+}
 
 #define ML_Lua ::ml::Lua::getInstance()
 
@@ -15,53 +20,25 @@ namespace ml
 {
 	class ML_ENGINE_API Lua final : public Singleton<Lua>, public Disposable
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		friend struct Singleton<Lua>;
-		mutable lua_State * m_L { nullptr };
+
+		lua_State * m_L { nullptr };
+
+		Lua() {}
+		~Lua() { this->dispose(); }
 
 	public:
-		inline bool dispose() override
-		{
-			if (m_L)
-			{
-				lua_close(m_L);
-				return true;
-			}
-			return false;
-		}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline lua_State * getL() const
-		{ 
-			auto my_print = ([](lua_State * L)
-			{
-				for (int32_t i = 1, imax = lua_gettop(L); i <= imax; ++i)
-				{
-					cout << lua_tostring(L, i);
-				}
-				return 0;
-			});
-			static const struct luaL_Reg lib[] = {
-				{ "print", my_print },
-				{ nullptr, nullptr }
-			};
-			if (!m_L && (m_L = luaL_newstate()))
-			{
-				luaL_openlibs(m_L);
-				lua_getglobal(m_L, "_G");
-				luaL_setfuncs(m_L, lib, 0);
-				lua_pop(m_L, 1);
-			}
-			return m_L;
-		}
+		lua_State * init();
+		lua_State * init(bool openLibs, const luaL_Reg * userLib);
+		bool		dispose() override;
+		int32_t		doString(const String & value) const;
+		int32_t		doFile(const String & filename) const;
 
-		inline int32_t doString(const String& value) const
-		{
-			return ((value && getL()) ? luaL_dostring(getL(), value.c_str()) : 0);
-		}
-
-		inline int32_t doFile(const String & filename) const
-		{
-			return doString(ML_FS.getFileContents(filename));
-		}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 }
 

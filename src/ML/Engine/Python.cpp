@@ -17,7 +17,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <cpython/Include/Python.h>
+#include <Python.h>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 
@@ -31,8 +31,8 @@ namespace ml
 	{
 		if (!m_init && name && ML_FS.dirExists(home))
 		{
-			Py_SetProgramName(util::widen(m_name = name).c_str());
-			Py_SetPythonHome(util::widen(m_home = home).c_str());
+			Py_SetProgramName(util::widen(name).c_str());
+			Py_SetPythonHome(util::widen(home).c_str());
 			Py_InitializeEx(Py_DontWriteBytecodeFlag);
 			m_init = true;
 			return true;

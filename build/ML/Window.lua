@@ -48,8 +48,7 @@ project "Window"
 		"%{ext_dir}glfw/src/internal.h", 
 		"%{ext_dir}glfw/src/mappings.h", 
 		"%{ext_dir}glfw/src/monitor.c", 
-		"%{ext_dir}glfw/src/vulkan.c", 
-		--"%{ext_dir}glfw/src/window.c",
+		"%{ext_dir}glfw/src/vulkan.c",
 	}
 	libdirs
 	{

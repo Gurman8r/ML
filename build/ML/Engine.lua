@@ -27,7 +27,9 @@ project "Engine"
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
-		"%{ext_dir}cpython/include",
+		"%{ext_dir}pybind11/include",
+		"%{ext_dir}cpython/Include",
+		"%{ext_dir}cpython/Include/internal",
 	}
 	files 
 	{
@@ -36,9 +38,9 @@ project "Engine"
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c", 
 		"%{src_dir}**.cpp",
-		"%{ext_dir}lua/**.h", 
-		"%{ext_dir}lua/**.hpp", 
-		"%{ext_dir}lua/**.c",
+		"%{ext_dir}lua/*.h", 
+		"%{ext_dir}lua/*.hpp", 
+		"%{ext_dir}lua/*.c",
 	}
 	libdirs
 	{
@@ -66,6 +68,10 @@ project "Engine"
 		}
 		
 	filter { "system:Windows" }
+		includedirs
+		{
+			"%{ext_dir}cpython/PC",
+		}
 		linkoptions { "/NODEFAULTLIB:LIBCMT.lib" }
 		postbuildcommands
 		{

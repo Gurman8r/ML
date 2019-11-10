@@ -26,6 +26,7 @@ project "Graphics"
 	{
 		"%{sln_dir}include",
 		"%{ext_dir}",
+		"%{ext_dir}assimp/include",
 	}
 	files 
 	{

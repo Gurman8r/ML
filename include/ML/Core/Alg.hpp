@@ -3,7 +3,7 @@
 
 #include <ML/Core/Pi.hpp>
 #include <ML/Core/Sqrt.hpp>
-#include <gcem/gcem.hpp>
+#include <gcem/include/gcem.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 

@@ -26,6 +26,7 @@ project "Audio"
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
+		"%{ext_dir}openal-soft/include",
 	}
 	files 
 	{

@@ -35,10 +35,10 @@ project "Editor"
 		"%{inc_dir}**.inl", 
 		"%{src_dir}**.c",
 		"%{src_dir}**.cpp", 
-		"%{ext_dir}imgui/**.h",
-		"%{ext_dir}imgui/**.cpp",
-		"%{ext_dir}ImGuiColorTextEdit/**.h",
-		"%{ext_dir}ImGuiColorTextEdit/**.cpp",
+		"%{ext_dir}imgui/*.h",
+		"%{ext_dir}imgui/*.cpp",
+		"%{ext_dir}ImGuiColorTextEdit/*.h",
+		"%{ext_dir}ImGuiColorTextEdit/*.cpp",
 	}
 	libdirs
 	{

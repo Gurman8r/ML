@@ -25,6 +25,7 @@ project "Core"
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
+		"%{ext_dir}gcem/include",
 	}
 	files 
 	{

@@ -9,9 +9,7 @@ namespace ml
 
 	template <
 		class Key, class ... Args
-	> struct StateMachine final
-		: public Newable
-		, public NonCopyable
+	> struct StateMachine final : public Newable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

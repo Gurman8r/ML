@@ -1,7 +1,7 @@
 #include <ML/Audio/OpenAL.hpp>
 #include <ML/Core/Debug.hpp>
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <al/al.h>
+#include <al/alc.h>
 
 namespace ml
 {

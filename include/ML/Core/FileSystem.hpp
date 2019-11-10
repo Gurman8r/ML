@@ -4,7 +4,7 @@
 #include <ML/Core/File.hpp>
 
 # ifdef ML_SYSTEM_WINDOWS
-#	include <dirent/dirent.h>
+#	include <dirent/include/dirent.h>
 # else
 #	include <dirent.h>
 # endif

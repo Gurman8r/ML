@@ -114,6 +114,12 @@ namespace ml
 			)))
 		);
 
+		// Start Lua
+		ML_ASSERT(
+			"Failed Initializing Lua\n" &&
+			ML_Lua.init()
+		);
+
 		// Run Boot Script
 		if (Script scr_enter { m_prefs->get_string("Engine", "enter_script", "") })
 		{
@@ -285,10 +291,6 @@ namespace ml
 	void Engine::onExit(const ExitEvent & ev)
 	{
 		m_window->dispose();
-		
-		ML_Lua.dispose();
-		
-		ML_Py.dispose();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

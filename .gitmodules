@@ -31,10 +31,10 @@
 	branch = docking
 [submodule "ext/glfw"]
 	path = ext/glfw
-	url = https://github.com/glfw/glfw.git
+	url = https://github.com/Gurman8r/glfw.git
 [submodule "ext/assimp"]
 	path = ext/assimp
-	url = https://github.com/assimp/assimp.git
+	url = https://github.com/Gurman8r/assimp.git
 [submodule "ext/inih"]
 	path = ext/inih
-	url = https://github.com/jtilly/inih.git
+	url = https://github.com/Gurman8r/inih.git

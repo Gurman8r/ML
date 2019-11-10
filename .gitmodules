@@ -31,3 +31,7 @@
 [submodule "ext/inih"]
 	path = ext/inih
 	url = https://github.com/jtilly/inih.git
+[submodule "ext/imgui"]
+	path = ext/imgui
+	url = https://github.com/ocornut/imgui
+	branch = docking

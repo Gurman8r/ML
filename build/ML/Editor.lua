@@ -22,6 +22,7 @@ project "Editor"
 	{
 		"ML_EDITOR_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
+		"IMGUI_USER_CONFIG=<ML/Editor/ImGuiConfig.hpp>",
 	}
 	includedirs
 	{

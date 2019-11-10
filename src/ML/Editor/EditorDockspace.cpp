@@ -15,7 +15,7 @@ namespace ml
 		, m_rounding	{ 0.0f }
 		, m_size		{ 0.f, 0.f }
 		, m_bgAlpha		{ 1.0f }
-		, m_dockflags		{ ImGuiDockNodeFlags_AutoHideTabBar }
+		, m_dockflags	{ ImGuiDockNodeFlags_AutoHideTabBar }
 	{
 	}
 

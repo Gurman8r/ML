@@ -22,9 +22,6 @@
 [submodule "ext/openal-soft"]
 	path = ext/openal-soft
 	url = https://github.com/kcat/openal-soft.git
-[submodule "ext/imgui"]
-	path = ext/imgui
-	url = https://github.com/ocornut/imgui
 [submodule "ext/ImGuiColorTextEdit"]
 	path = ext/ImGuiColorTextEdit
 	url = https://github.com/BalazsJako/ImGuiColorTextEdit.git

@@ -1,9 +1,9 @@
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --	
--- Audio
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
+-- Editor
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "MemeLib"
-project "Audio"
+project "Editor"
 	targetname 		"ML_%{prj.name}"
 	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
@@ -15,11 +15,12 @@ project "Audio"
 	systemversion	"latest"
 	dependson 
 	{
-		"Core",
+		"Audio", "Core", "Engine", "Graphics", "Network", "Window",
+		"ImGui",
 	}
 	defines
 	{
-		"ML_AUDIO_EXPORTS", 
+		"ML_EDITOR_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
 	}
 	includedirs
@@ -28,12 +29,16 @@ project "Audio"
 		"%{ext_dir}",
 	}
 	files 
-	{
+	{ 
 		"%{inc_dir}**.h",
 		"%{inc_dir}**.hpp",
-		"%{inc_dir}**.inl",  
+		"%{inc_dir}**.inl", 
 		"%{src_dir}**.c",
-		"%{src_dir}**.cpp" 
+		"%{src_dir}**.cpp", 
+		"%{ext_dir}imgui/**.h",
+		"%{ext_dir}imgui/**.cpp",
+		"%{ext_dir}ImGuiColorTextEdit/**.h",
+		"%{ext_dir}ImGuiColorTextEdit/**.cpp",
 	}
 	libdirs
 	{
@@ -42,8 +47,7 @@ project "Audio"
 	}
 	links
 	{
-		"ML_Core",
-		"OpenAL32", "flac", "ogg", "vorbis", "vorbisenc", "vorbisfile",
+		"ML_Audio", "ML_Core", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
 	}
 	
 	filter { "configurations:Debug" }
@@ -52,12 +56,10 @@ project "Audio"
 	filter { "configurations:Release" } 
 		optimize "Speed"
 	
-	filter { "system:windows" }
-		postbuildcommands 
-		{	
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
-			"xcopy /y %{ext_bin}OpenAL32.dll %{bin_out}"
+	filter { "system:Windows" }
+		postbuildcommands
+		{
+			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
 		}
-		
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

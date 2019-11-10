@@ -1,24 +1,24 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
--- Core
+-- Launcher
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "MemeLib"
-project "Core"
+project "Launcher"
 	targetname 		"ML_%{prj.name}"
+	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
-	location		"%{prj_dir}ML/%{prj.name}/"
-	kind			"SharedLib"
+	debugdir 		"%{bin_out}"
 	language		"C++"
 	cppdialect 		"C++17"
 	staticruntime	"Off"
 	systemversion	"latest"
 	dependson 
 	{
+		"Audio", "Core", "Editor", "Engine", "Graphics", "Network", "Window"
 	}
 	defines
 	{
-		"ML_CORE_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
 	}
 	includedirs
@@ -30,9 +30,11 @@ project "Core"
 	{
 		"%{inc_dir}**.h", 
 		"%{inc_dir}**.hpp", 
-		"%{inc_dir}**.inl",  
+		"%{inc_dir}**.inl", 
 		"%{src_dir}**.c", 
-		"%{src_dir}**.cpp" 
+		"%{src_dir}**.cpp", 
+		"%{sln_dir}ML.ini", 
+		"%{sln_dir}assets/**.**", 
 	}
 	libdirs
 	{
@@ -41,18 +43,22 @@ project "Core"
 	}
 	links
 	{
+		"ML_Audio", "ML_Core", "ML_Editor", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
 	}
 	
 	filter { "configurations:Debug" }
 		symbols "On"
+		kind("ConsoleApp")
 	
 	filter { "configurations:Release" } 
 		optimize "Speed"
+		kind("WindowedApp")
 	
-	filter { "system:windows" }
+	filter { "system:Windows" }
 		postbuildcommands 
-		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
+		{	
+			"%{ml_copy} %{bin_lib}ML_%{prj.name}.exe %{bin_out}",
 		}
-		
+
+
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

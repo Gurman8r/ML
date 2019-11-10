@@ -1,9 +1,9 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
--- Editor
+-- Engine
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "MemeLib"
-project "Editor"
+project "Engine"
 	targetname 		"ML_%{prj.name}"
 	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
@@ -15,29 +15,30 @@ project "Editor"
 	systemversion	"latest"
 	dependson 
 	{
-		"Audio", "Core", "Engine", "Graphics", "Network", "Window",
+		"Audio", "Core", "Graphics", "Network", "Window",
+		"Lua",
 	}
 	defines
 	{
-		"ML_EDITOR_EXPORTS", 
+		"ML_ENGINE_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
 	}
 	includedirs
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
+		"%{ext_dir}cpython/include",
 	}
 	files 
-	{ 
-		"%{inc_dir}**.h",
-		"%{inc_dir}**.hpp",
-		"%{inc_dir}**.inl", 
-		"%{src_dir}**.c",
-		"%{src_dir}**.cpp", 
-		"%{ext_dir}imgui/**.h",
-		"%{ext_dir}imgui/**.cpp",
-		"%{ext_dir}ImGuiColorTextEdit/**.h",
-		"%{ext_dir}ImGuiColorTextEdit/**.cpp",
+	{
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
+		"%{ext_dir}lua/**.h", 
+		"%{ext_dir}lua/**.hpp", 
+		"%{ext_dir}lua/**.c",
 	}
 	libdirs
 	{
@@ -46,19 +47,32 @@ project "Editor"
 	}
 	links
 	{
-		"ML_Audio", "ML_Core", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
+		"ML_Audio", "ML_Core", "ML_Graphics", "ML_Network", "ML_Window",
+		"pdcurses",
 	}
 	
 	filter { "configurations:Debug" }
-		symbols "On"
-	
+		symbols "On" 
+		links
+		{
+			"python39_d"
+		}
+		
 	filter { "configurations:Release" } 
-		optimize "Speed"
-	
-	filter { "system:windows" }
+		optimize "Speed" 
+		links
+		{
+			"python39"
+		}
+		
+	filter { "system:Windows" }
+		linkoptions { "/NODEFAULTLIB:LIBCMT.lib" }
 		postbuildcommands
 		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
+			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
+			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",
+			"if %{cfg.buildcfg} == Debug ( %{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out} )",
+			"if %{cfg.buildcfg} == Release ( %{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out} )"
 		}
 		
 		

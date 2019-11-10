@@ -47,7 +47,6 @@ namespace ml
 	{
 		major = (uint32_t)getInt(GL::MajorVersion);
 		minor = (uint32_t)getInt(GL::MinorVersion);
-
 		if (getError() == GL::InvalidEnum)
 		{
 			if (C_String version = getString(GL::Version))
@@ -64,34 +63,29 @@ namespace ml
 			}
 		}
 
+		if (!shadersAvailable())
+		{
+			Debug::logError("Shaders are not available on your system.");
+		}
+
+		if (geometryShadersAvailable())
+		{
+			Debug::logError("Geometry shaders are not available on your system.");
+		}
+
 		if (!framebuffersAvailable())
 		{
-			static bool warned = false;
-			if (!warned)
-			{
-				Debug::logWarning("Framebuffers Unavailable");
-				warned = true;
-			}
+			Debug::logWarning("Framebuffers Unavailable");
 		}
 
 		if (!edgeClampAvailable())
 		{
-			static bool warned = false;
-			if (!warned)
-			{
-				Debug::logWarning("Texture Edge Clamp Unavailable");
-				warned = true;
-			}
+			Debug::logWarning("Texture Edge Clamp Unavailable");
 		}
 
 		if (!textureSrgbAvailable())
 		{
-			static bool warned = false;
-			if (!warned)
-			{
-				Debug::logWarning("Texture sRGB Unavailable");
-				warned = true;
-			}
+			Debug::logWarning("Texture sRGB Unavailable");
 		}
 	}
 
@@ -634,6 +628,7 @@ namespace ml
 		static bool checked = false;
 		if (!checked)
 		{
+			GL_ARB_geometry_shader4;
 			checked = true;
 			available =
 				GL_ARB_multitexture &&
@@ -652,7 +647,7 @@ namespace ml
 		if (!checked)
 		{
 			checked = true;
-			available = shadersAvailable() && GL_GEOMETRY_SHADER_ARB;
+			available = shadersAvailable() && GL_ARB_geometry_shader4;
 		}
 		return available;
 	}

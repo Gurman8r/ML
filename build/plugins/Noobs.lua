@@ -5,7 +5,7 @@ project "Noobs"
 	targetname 		"%{prj.name}"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
-	location		"%{prj_dir}Plugins/%{prj.name}/"
+	location		"%{prj_dir}plugins/%{prj.name}/"
 	kind			"SharedLib"
 	language		"C++"
 	cppdialect 		"C++17"
@@ -21,9 +21,7 @@ project "Noobs"
 	}
 	includedirs
 	{
-		"%{sln_dir}include",
-		"%{ext_dir}",
-		"%{sln_dir}plugins/%{prj.name}"
+		"%{sln_dir}include", "%{ext_dir}", "%{sln_dir}plugins/%{prj.name}"
 	}
 	files 
 	{ 
@@ -42,8 +40,14 @@ project "Noobs"
 	{
 		"ML_Audio", "ML_Core", "ML_Editor", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
 	}
-	filter "configurations:Debug" symbols "On"
-	filter "configurations:Release" optimize "Speed"
-	filter { "system:Windows" } postbuildcommands { "xcopy /y %{bin_lib}%{prj.name}.dll %{bin_out}" }
+	
+	filter "configurations:Debug"
+		symbols "On"
+	
+	filter "configurations:Release"
+		optimize "Speed"
+	
+	filter { "system:Windows" }
+		postbuildcommands { "%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}" }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

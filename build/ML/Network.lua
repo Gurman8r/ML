@@ -15,7 +15,8 @@ project "Network"
 	systemversion	"latest"
 	dependson 
 	{
-		"Core"
+		"Core",
+		"RakNet",
 	}
 	defines
 	{
@@ -46,7 +47,6 @@ project "Network"
 	links
 	{ 
 		"ML_Core",
-		"ws2_32",
 	}
 	
 	filter { "configurations:Debug" }
@@ -55,15 +55,18 @@ project "Network"
 	filter { "configurations:Release" } 
 		optimize "Speed"
 	
-	filter { "system:windows" }
+	filter { "system:Windows" }
+		links
+		{
+			"ws2_32",
+		}
 		linkoptions
 		{
-			"/NODEFAULTLIB:LIBCMT.lib",
-			"/NODEFAULTLIB:LIBCMTD.lib",
+			"/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib",
 		}
 		postbuildcommands
 		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
+			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
 		}
 		
 

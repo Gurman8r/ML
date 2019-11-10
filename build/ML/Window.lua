@@ -15,7 +15,8 @@ project "Window"
 	systemversion	"latest"
 	dependson 
 	{
-		"Core"
+		"Core",
+		"GLFW",
 	}
 	defines
 	{
@@ -28,6 +29,7 @@ project "Window"
 		"%{sln_dir}include", 
 		"%{ext_dir}",
 		"%{ext_dir}glfw/include",
+		"%{ext_dir}glfw/include",
 		"%{ext_dir}glfw/src",
 	}
 	files 
@@ -39,7 +41,7 @@ project "Window"
 		"%{src_dir}**.cpp",
 		"%{ext_dir}glfw/include/glfw/**.h",
 		"%{ext_dir}glfw/src/context.c", 
-		"%{ext_dir}glfw/src/glfw_config.h", 
+		"%{ext_dir}glfw/src/glfw_config.h",  
 		"%{ext_dir}glfw/src/glfw_window.c",
 		"%{ext_dir}glfw/src/init.c", 
 		"%{ext_dir}glfw/src/input.c", 
@@ -47,6 +49,7 @@ project "Window"
 		"%{ext_dir}glfw/src/mappings.h", 
 		"%{ext_dir}glfw/src/monitor.c", 
 		"%{ext_dir}glfw/src/vulkan.c", 
+		--"%{ext_dir}glfw/src/window.c",
 	}
 	libdirs
 	{
@@ -55,8 +58,7 @@ project "Window"
 	}
 	links 
 	{
-		"ML_Core",
-		"opengl32", "glew32s"
+		"ML_Core", "opengl32", "glew32s",
 	}
 	
 	filter { "configurations:Debug" }
@@ -66,7 +68,7 @@ project "Window"
 	filter { "configurations:Release" }
 		optimize "Speed"
 		
-	filter { "system:windows" }
+	filter { "system:Windows" }
 		files
 		{
 			"%{ext_dir}glfw/src/egl_context.c",
@@ -86,8 +88,7 @@ project "Window"
 		}
 		postbuildcommands
 		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
+			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
 		}
-		
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

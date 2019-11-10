@@ -1,9 +1,9 @@
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
--- Graphics
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --	
+-- Audio
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "MemeLib"
-project "Graphics"
+project "Audio"
 	targetname 		"ML_%{prj.name}"
 	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
@@ -13,23 +13,23 @@ project "Graphics"
 	cppdialect 		"C++17"
 	staticruntime	"Off"
 	systemversion	"latest"
-	dependson
+	dependson 
 	{
-		"Core", "Window",
+		"Core",
 	}
 	defines
 	{
-		"ML_GRAPHICS_EXPORTS", 
+		"ML_AUDIO_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
 	}
 	includedirs
 	{
-		"%{sln_dir}include",
+		"%{sln_dir}include", 
 		"%{ext_dir}",
 	}
 	files 
 	{
-		"%{inc_dir}**.h", 
+		"%{inc_dir}**.h",
 		"%{inc_dir}**.hpp",
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c",
@@ -42,8 +42,8 @@ project "Graphics"
 	}
 	links
 	{
-		"ML_Core", "ML_Window",
-		"glew32s", "opengl32", "assimp", "IrrXML", "zlibstatic",
+		"ML_Core",
+		"OpenAL32", "flac", "ogg", "vorbis", "vorbisenc", "vorbisfile",
 	}
 	
 	filter { "configurations:Debug" }
@@ -52,12 +52,11 @@ project "Graphics"
 	filter { "configurations:Release" } 
 		optimize "Speed"
 	
-	filter { "system:windows" }
-		linkoptions ("/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:LIBCMTD.lib")
+	filter { "system:Windows" }
 		postbuildcommands 
-		{
-			"xcopy /y %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
-			"xcopy /y %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}"
+		{	
+			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
+			"%{ml_copy} %{ext_bin}OpenAL32.dll %{bin_out}"
 		}
 		
 		

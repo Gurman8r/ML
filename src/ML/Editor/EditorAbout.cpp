@@ -217,7 +217,7 @@ namespace ml
 			draw_lnk("GLM", "https://github.com/g-truc/glm");
 			draw_lnk("ImGui", "https://github.com/ocornut/imgui");
 			draw_lnk("ImGuiColorTextEdit", "https://github.com/BalazsJako/ImGuiColorTextEdit");
-			draw_lnk("INIReader", "https://github.com/benhoyt/inih");
+			draw_lnk("inih", "https://github.com/jtilly/inih");
 			draw_lnk("Lua", "https://github.com/lua/lua");
 			draw_lnk("ogg", "https://github.com/xiph/ogg");
 			draw_lnk("OpenAL", "https://www.openal.org/");

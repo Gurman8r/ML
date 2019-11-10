@@ -1,3 +1,6 @@
 [submodule "ext/cpython"]
 	path = ext/cpython
 	url = https://github.com/python/cpython.git
+[submodule "ext/assimp"]
+	path = ext/assimp
+	url = https://github.com/assimp/assimp.git

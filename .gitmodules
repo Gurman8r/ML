@@ -1,9 +1,6 @@
 [submodule "ext/cpython"]
 	path = ext/cpython
 	url = https://github.com/python/cpython.git
-[submodule "ext/assimp"]
-	path = ext/assimp
-	url = https://github.com/assimp/assimp.git
 [submodule "ext/stb"]
 	path = ext/stb
 	url = https://github.com/nothings/stb.git
@@ -28,9 +25,6 @@
 [submodule "ext/dirent"]
 	path = ext/dirent
 	url = https://github.com/tronkko/dirent.git
-[submodule "ext/inih"]
-	path = ext/inih
-	url = https://github.com/jtilly/inih.git
 [submodule "ext/imgui"]
 	path = ext/imgui
 	url = https://github.com/ocornut/imgui

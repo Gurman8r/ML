@@ -38,4 +38,3 @@
 [submodule "ext/ImGuiColorTextEdit"]
 	path = ext/ImGuiColorTextEdit
 	url = https://github.com/Gurman8r/ImGuiColorTextEdit.git
-	

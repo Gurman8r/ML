@@ -7,9 +7,6 @@
 [submodule "ext/stb"]
 	path = ext/stb
 	url = https://github.com/nothings/stb.git
-[submodule "ext/inih"]
-	path = ext/inih
-	url = https://github.com/benhoyt/inih
 [submodule "ext/pybind11"]
 	path = ext/pybind11
 	url = https://github.com/pybind/pybind11.git

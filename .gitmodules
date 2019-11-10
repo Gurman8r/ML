@@ -27,14 +27,14 @@
 	url = https://github.com/tronkko/dirent.git
 [submodule "ext/imgui"]
 	path = ext/imgui
-	url = https://github.com/ocornut/imgui
+	url = https://github.com/ocornut/imgui.git
 	branch = docking
 [submodule "ext/assimp"]
 	path = ext/assimp
-	url = https://github.com/Gurman8r/assimp
+	url = https://github.com/Gurman8r/assimp.git
 [submodule "ext/inih"]
 	path = ext/inih
-	url = https://github.com/Gurman8r/inih
+	url = https://github.com/Gurman8r/inih.git
 [submodule "ext/glfw"]
 	path = ext/glfw
-	url = https://github.com/Gurman8r/glfw
+	url = https://github.com/Gurman8r/glfw.git

@@ -38,3 +38,7 @@
 [submodule "ext/ImGuiColorTextEdit"]
 	path = ext/ImGuiColorTextEdit
 	url = https://github.com/Gurman8r/ImGuiColorTextEdit.git
+[submodule "ext/imgui"]
+	path = ext/imgui
+	url = https://github.com/Gurman8r/imgui.git
+	branch = docking

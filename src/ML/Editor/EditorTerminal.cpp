@@ -48,10 +48,6 @@ namespace ml
 
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			// Scale
-			float scale { 0.75f };
-			ImGui::SetWindowFontScale(scale);
-
 			// Filter
 			static ImGuiTextFilter filter {};
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 });
@@ -80,7 +76,6 @@ namespace ml
 				ImGuiWindowFlags_HorizontalScrollbar
 			);
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 4, 1 });
-			ImGui::SetWindowFontScale(scale);
 			
 			enum Mode { LOG, WRN, ERR, SYS, MAX_MODE };
 

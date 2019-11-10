@@ -31,3 +31,6 @@
 [submodule "ext/dirent"]
 	path = ext/dirent
 	url = https://github.com/tronkko/dirent.git
+[submodule "ext/inih"]
+	path = ext/inih
+	url = https://github.com/jtilly/inih.git

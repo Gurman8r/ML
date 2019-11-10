@@ -7,9 +7,6 @@
 [submodule "ext/pybind11"]
 	path = ext/pybind11
 	url = https://github.com/pybind/pybind11.git
-[submodule "ext/lua"]
-	path = ext/lua
-	url = https://github.com/lua/lua.git
 [submodule "ext/glm"]
 	path = ext/glm
 	url = https://github.com/g-truc/glm.git
@@ -19,15 +16,9 @@
 [submodule "ext/openal-soft"]
 	path = ext/openal-soft
 	url = https://github.com/kcat/openal-soft.git
-[submodule "ext/ImGuiColorTextEdit"]
-	path = ext/ImGuiColorTextEdit
-	url = https://github.com/BalazsJako/ImGuiColorTextEdit.git
 [submodule "ext/dirent"]
 	path = ext/dirent
 	url = https://github.com/tronkko/dirent.git
-[submodule "ext/imgui"]
-	path = ext/imgui
-	url = https://github.com/ocornut/imgui.git
 	branch = docking
 [submodule "ext/glfw"]
 	path = ext/glfw
@@ -38,3 +29,13 @@
 [submodule "ext/inih"]
 	path = ext/inih
 	url = https://github.com/Gurman8r/inih.git
+[submodule "ext/RakNet"]
+	path = ext/RakNet
+	url = https://github.com/Gurman8r/RakNet.git
+[submodule "ext/lua"]
+	path = ext/lua
+	url = https://github.com/Gurman8r/lua.git
+[submodule "ext/ImGuiColorTextEdit"]
+	path = ext/ImGuiColorTextEdit
+	url = https://github.com/Gurman8r/ImGuiColorTextEdit.git
+	

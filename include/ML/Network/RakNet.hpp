@@ -3,10 +3,10 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include <RakNet/RakPeerInterface.h>
-#include <RakNet/MessageIdentifiers.h>
-#include <RakNet/BitStream.h>
-#include <RakNet/RakNetTypes.h>
+#include <RakPeerInterface.h>
+#include <MessageIdentifiers.h>
+#include <BitStream.h>
+#include <RakNetTypes.h>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -1,9 +1,9 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
--- Editor
+-- Network
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "MemeLib"
-project "Editor"
+project "Network"
 	targetname 		"ML_%{prj.name}"
 	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
@@ -15,31 +15,30 @@ project "Editor"
 	systemversion	"latest"
 	dependson 
 	{
-		"Audio", "Core", "Engine", "Graphics", "Network", "Window",
-		"ImGui",
+		"Core",
+		"RakNet",
 	}
 	defines
 	{
-		"ML_EDITOR_EXPORTS", 
+		"ML_NETWORK_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
-		"IMGUI_USER_CONFIG=<ML/Editor/ImGuiConfig.hpp>",
+		"_WINSOCK_DEPRECATED_NO_WARNINGS",
 	}
 	includedirs
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
+		"%{ext_dir}RakNet/Source",
 	}
 	files 
-	{ 
-		"%{inc_dir}**.h",
-		"%{inc_dir}**.hpp",
-		"%{inc_dir}**.inl", 
-		"%{src_dir}**.c",
-		"%{src_dir}**.cpp", 
-		"%{ext_dir}imgui/*.h",
-		"%{ext_dir}imgui/*.cpp",
-		"%{ext_dir}ImGuiColorTextEdit/*.h",
-		"%{ext_dir}ImGuiColorTextEdit/*.cpp",
+	{
+		"%{inc_dir}**.h", 
+		"%{inc_dir}**.hpp", 
+		"%{inc_dir}**.inl",  
+		"%{src_dir}**.c", 
+		"%{src_dir}**.cpp",
+		"%{ext_dir}RakNet/Source/**.h",
+		"%{ext_dir}RakNet/Source/**.cpp",
 	}
 	libdirs
 	{
@@ -47,8 +46,8 @@ project "Editor"
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
-	{
-		"ML_Audio", "ML_Core", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
+	{ 
+		"ML_Core",
 	}
 	
 	filter { "configurations:Debug" }
@@ -58,9 +57,18 @@ project "Editor"
 		optimize "Speed"
 	
 	filter { "system:Windows" }
+		links
+		{
+			"ws2_32",
+		}
+		linkoptions
+		{
+			"/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib",
+		}
 		postbuildcommands
 		{
 			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
 		}
 		
+
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

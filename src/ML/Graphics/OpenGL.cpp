@@ -68,7 +68,7 @@ namespace ml
 			Debug::logError("Shaders are not available on your system.");
 		}
 
-		if (geometryShadersAvailable())
+		if (!geometryShadersAvailable())
 		{
 			Debug::logError("Geometry shaders are not available on your system.");
 		}
@@ -628,7 +628,6 @@ namespace ml
 		static bool checked = false;
 		if (!checked)
 		{
-			GL_ARB_geometry_shader4;
 			checked = true;
 			available =
 				GL_ARB_multitexture &&

@@ -2,9 +2,6 @@
 #include <ML/Network/NetworkEvents.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <RakNet/RakPeerInterface.h>
-#include <RakNet/MessageIdentifiers.h>
-#include <RakNet/BitStream.h>
 #include <ML/Network/RakNet.hpp>
 
 #define ML_PEER	static_cast<RakNet::RakPeerInterface *>

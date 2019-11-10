@@ -32,20 +32,26 @@ namespace ml
 
 	int32_t Debug::clear()
 	{
-#ifdef ML_SYSTEM_WINDOWS
+# if ML_DEBUG
+#	ifdef ML_SYSTEM_WINDOWS
 		return std::system("cls");
-#else
+#	else
 		return std::system("clear");
-#endif
+#	endif
+# else
+		return 0;
+# endif
 	}
 
 	int32_t Debug::pause(int32_t exitCode)
 	{
-#ifdef ML_SYSTEM_WINDOWS
+# if ML_DEBUG
+#	ifdef ML_SYSTEM_WINDOWS
 		std::system("pause");
-#else
+#	else
 		cin.get();
-#endif
+#	endif
+# endif
 		return exitCode;
 	}
 

@@ -224,7 +224,7 @@ namespace ml
 			draw_lnk("pdcurses", "https://github.com/wmcbrine/PDCurses");
 			draw_lnk("pybind11", "https://github.com/pybind/pybind11");
 			draw_lnk("premake5", "https://github.com/premake/premake-core");
-			draw_lnk("RakNet", "http://www.jenkinssoftware.com/");
+			draw_lnk("RakNet", "https://github.com/facebookarchive/RakNet");
 			draw_lnk("stb", "https://github.com/nothings/stb");
 			draw_lnk("vorbis", "https://github.com/xiph/vorbis");
 		}

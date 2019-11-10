@@ -1,9 +1,9 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
--- Network
+-- Engine
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "MemeLib"
-project "Network"
+project "Engine"
 	targetname 		"ML_%{prj.name}"
 	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
@@ -15,19 +15,22 @@ project "Network"
 	systemversion	"latest"
 	dependson 
 	{
-		"Core",
-		"RakNet",
+		"Audio", "Core", "Graphics", "Network", "Window",
+		"Lua",
 	}
 	defines
 	{
-		"ML_NETWORK_EXPORTS", 
+		"ML_ENGINE_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
-		"_WINSOCK_DEPRECATED_NO_WARNINGS",
+		"MAKE_LIB",
 	}
 	includedirs
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
+		"%{ext_dir}pybind11/include",
+		"%{ext_dir}cpython/Include",
+		"%{ext_dir}cpython/Include/internal",
 	}
 	files 
 	{
@@ -36,8 +39,8 @@ project "Network"
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c", 
 		"%{src_dir}**.cpp",
-		"%{ext_dir}RakNet/**.h",
-		"%{ext_dir}RakNet/**.cpp",
+		"%{ext_dir}lua/*.h", 
+		"%{ext_dir}lua/*.c",
 	}
 	libdirs
 	{
@@ -45,29 +48,38 @@ project "Network"
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links
-	{ 
-		"ML_Core",
+	{
+		"ML_Audio", "ML_Core", "ML_Graphics", "ML_Network", "ML_Window",
+		"pdcurses",
 	}
 	
 	filter { "configurations:Debug" }
-		symbols "On"
-	
-	filter { "configurations:Release" } 
-		optimize "Speed"
-	
-	filter { "system:Windows" }
+		symbols "On" 
 		links
 		{
-			"ws2_32",
-		}
-		linkoptions
-		{
-			"/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib",
-		}
-		postbuildcommands
-		{
-			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}"
+			"python39_d"
 		}
 		
-
+	filter { "configurations:Release" } 
+		optimize "Speed" 
+		links
+		{
+			"python39"
+		}
+		
+	filter { "system:Windows" }
+		includedirs
+		{
+			"%{ext_dir}cpython/PC",
+		}
+		linkoptions { "/NODEFAULTLIB:LIBCMT.lib" }
+		postbuildcommands
+		{
+			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}",
+			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",
+			"if %{cfg.buildcfg} == Debug ( %{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out} )",
+			"if %{cfg.buildcfg} == Release ( %{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out} )"
+		}
+		
+		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

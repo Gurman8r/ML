@@ -24,7 +24,7 @@ namespace ml
 		String	m_home {};
 
 		Py() {}
-		~Py() { this->dispose(); }
+		~Py() {}
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

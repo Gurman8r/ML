@@ -291,6 +291,10 @@ namespace ml
 	void Engine::onExit(const ExitEvent & ev)
 	{
 		m_window->dispose();
+
+		ML_Lua.dispose();
+
+		ML_Py.dispose();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

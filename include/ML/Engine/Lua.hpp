@@ -27,7 +27,7 @@ namespace ml
 		lua_State * m_L { nullptr };
 
 		Lua() {}
-		~Lua() { this->dispose(); }
+		~Lua() {}
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

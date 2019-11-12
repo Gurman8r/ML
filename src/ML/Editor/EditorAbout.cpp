@@ -220,7 +220,7 @@ namespace ml
 			draw_lnk("inih", "https://github.com/jtilly/inih");
 			draw_lnk("Lua", "https://github.com/lua/lua");
 			draw_lnk("ogg", "https://github.com/xiph/ogg");
-			draw_lnk("OpenAL", "https://www.openal.org/");
+			draw_lnk("OpenAL", "https://github.com/kcat/openal-soft");
 			draw_lnk("pdcurses", "https://github.com/wmcbrine/PDCurses");
 			draw_lnk("pybind11", "https://github.com/pybind/pybind11");
 			draw_lnk("premake5", "https://github.com/premake/premake-core");

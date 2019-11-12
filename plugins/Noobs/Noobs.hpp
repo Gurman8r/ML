@@ -149,7 +149,9 @@ namespace ml
 				, errs	{}
 			{
 				this->text.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
+#if (!ML_DEBUG)
 				this->text.SetPalette(TextEditor::GetLightPalette());
+#endif
 			}
 
 			/* * * * * * * * * * * * * * * * * * * * */

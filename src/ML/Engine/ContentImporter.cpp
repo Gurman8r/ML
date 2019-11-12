@@ -62,6 +62,9 @@ namespace ml
 		{
 			count += loadMetadata(elem);
 		}
+# if (ML_DEBUG)
+		Debug::logInfo("Done.\n");
+# endif
 		return count;
 	}
 

@@ -57,3 +57,6 @@
 [submodule "ext/premake-core"]
 	path = ext/premake-core
 	url = https://github.com/premake/premake-core.git
+[submodule "ext/glew"]
+	path = ext/glew
+	url = https://github.com/nigels-com/glew

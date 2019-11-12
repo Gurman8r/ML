@@ -1,4 +1,4 @@
 @echo off
 cd .\bin\Debug\x86\
-call ML_Launcher.exe %*
+call Launcher.exe %*
 if %ERRORLEVEL% NEQ 0 ( pause )

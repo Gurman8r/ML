@@ -12,10 +12,12 @@ workspace "ML_%{_ACTION}"
 	{ 
 		"x86", "x64" 
 	}
-	filter { "platforms:*32", "platforms:*86" }
-		architecture "x86"
 	filter { "platforms:*64" }
 		architecture "x64"
+	filter { "platforms:*32" }
+		architecture "x86"
+	filter { "platforms:*86" }
+		architecture "x86"
 		
 	
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

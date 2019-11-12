@@ -41,7 +41,7 @@ void main()
     vec3  spec_dir = reflect(-diff_dir, diff_nml);
     float spec_amt = pow(max(dot(spec_nml, spec_dir), 0.0), u_shininess);
     vec4  spec_col = u_specular * spec_amt;
-    vec4  specular = spec_col * texture(u_texture1, V.texcoord);
+    vec4  specular = spec_col * texture(u_texture1, V.texcoord).r;
 
     // Output
     gl_Color = u_color * (ambient + diffuse + specular);

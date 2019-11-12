@@ -66,9 +66,9 @@ dofile "./build/RakNet.lua"
 dofile "./build/MemeLib.lua"
 
 -- Examples
-dofile "./build/Launcher.lua"
-dofile "./build/Noobs.lua"
-dofile "./build/CommandSuite.lua"
-dofile "./build/TestPlugin.lua"
+dofile "./examples/Launcher/Launcher.lua"
+dofile "./examples/Noobs/Noobs.lua"
+dofile "./examples/CommandSuite/CommandSuite.lua"
+dofile "./examples/TestPlugin/TestPlugin.lua"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

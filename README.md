@@ -1,8 +1,8 @@
 # MemeLib (ML)
 
 - ML is a simple C++ game engine.
-	- Everything should be considered experimental
-	- Everything is a work in progress and is subject to change
+- Everything should be considered experimental
+- Everything is a work in progress and is subject to change
 - Downloads: https://bit.ly/ml_noobs
 - Old Repo: https://github.com/Gurman8r/CppSandbox
 - ML uses OpenGL 4.6

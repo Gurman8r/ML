@@ -709,8 +709,8 @@ namespace ml
 					{
 						if (ImGuiExt::Confirm(
 							"Delete Uniform",
-							ImGui::Button("X"),
-							"Are you sure you want to delete this Uniform?"
+							ImGui::Button("Delete"),
+							"Are you sure you want to delete uniform {0}?"_s.format(u->name)
 						) == ImGuiExt::Submitted)
 						{
 							to_remove = u;

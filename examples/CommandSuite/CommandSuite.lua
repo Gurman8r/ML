@@ -1,11 +1,11 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "Plugins"
+group "Examples"
 project "CommandSuite"
 	targetname 		"%{prj.name}"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
-	location		"%{prj_dir}plugins/%{prj.name}/"
+	location		"%{prj_dir}examples/%{prj.name}/"
 	kind			"SharedLib"
 	language		"C++"
 	cppdialect 		"C++17"
@@ -13,7 +13,7 @@ project "CommandSuite"
 	systemversion	"latest"
 	dependson
 	{
-		"Launcher",
+		"Example",
 	}
 	defines
 	{
@@ -21,15 +21,15 @@ project "CommandSuite"
 	}
 	includedirs
 	{
-		"%{sln_dir}include", "%{ext_dir}", "%{sln_dir}plugins/%{prj.name}"
+		"%{sln_dir}include", "%{ext_dir}", "%{sln_dir}examples/%{prj.name}"
 	}
 	files 
 	{ 
-		"%{sln_dir}plugins/%{prj.name}/**.h", 
-		"%{sln_dir}plugins/%{prj.name}/**.hpp",
-		"%{sln_dir}plugins/%{prj.name}/**.inl",
-		"%{sln_dir}plugins/%{prj.name}/**.c",
-		"%{sln_dir}plugins/%{prj.name}/**.cpp"
+		"%{sln_dir}examples/%{prj.name}/**.h", 
+		"%{sln_dir}examples/%{prj.name}/**.hpp",
+		"%{sln_dir}examples/%{prj.name}/**.inl",
+		"%{sln_dir}examples/%{prj.name}/**.c",
+		"%{sln_dir}examples/%{prj.name}/**.cpp"
 	}
 	libdirs
 	{
@@ -38,7 +38,7 @@ project "CommandSuite"
 	}
 	links
 	{
-		"ML_Audio", "ML_Core", "ML_Editor", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
+		"MemeLib"
 	}
 	
 	filter "configurations:Debug"

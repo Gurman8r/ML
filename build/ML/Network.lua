@@ -37,8 +37,6 @@ project "Network"
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c", 
 		"%{src_dir}**.cpp",
-		"%{ext_dir}RakNet/Source/**.h",
-		"%{ext_dir}RakNet/Source/**.cpp",
 	}
 	libdirs
 	{
@@ -48,6 +46,7 @@ project "Network"
 	links
 	{ 
 		"ML_Core",
+		"RakNet",
 	}
 	
 	filter { "configurations:Debug" }

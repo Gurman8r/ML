@@ -39,8 +39,6 @@ project "Engine"
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c", 
 		"%{src_dir}**.cpp",
-		"%{ext_dir}lua/*.h", 
-		"%{ext_dir}lua/*.c",
 	}
 	libdirs
 	{
@@ -50,7 +48,7 @@ project "Engine"
 	links
 	{
 		"ML_Audio", "ML_Core", "ML_Graphics", "ML_Network", "ML_Window",
-		"pdcurses",
+		"pdcurses", "lua",
 	}
 	
 	filter { "configurations:Debug" }

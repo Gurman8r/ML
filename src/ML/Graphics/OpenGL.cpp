@@ -666,14 +666,14 @@ namespace ml
 		return temp;
 	}
 
-	auto OpenGL::createProgramObject() -> uint32_t
+	auto OpenGL::createProgram() -> uint32_t
 	{
 		uint32_t temp{ 0 };
 		glCheck(temp = glCreateProgramObjectARB());
 		return temp;
 	}
 
-	auto OpenGL::createShaderObject(GL::ShaderType type) -> uint32_t
+	auto OpenGL::createShader(GL::ShaderType type) -> uint32_t
 	{
 		uint32_t temp{ 0 };
 		glCheck(temp = glCreateShaderObjectARB(type));
@@ -710,7 +710,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	void OpenGL::useShader(uint32_t obj)
+	void OpenGL::useProgram(uint32_t obj)
 	{
 		glCheck(glUseProgramObjectARB(obj));
 	}
@@ -755,7 +755,7 @@ namespace ml
 		{
 			return ML_WARNING; // -1 (true)
 		}
-		else if (obj = createShaderObject(type))
+		else if (obj = createShader(type))
 		{
 			shaderSource(obj, count, source, nullptr);
 			if (!compileShader(obj))
@@ -769,7 +769,7 @@ namespace ml
 		return ML_FAILURE; // 0 (false)
 	}
 
-	auto OpenGL::linkShader(uint32_t obj) -> int32_t
+	auto OpenGL::linkProgram(uint32_t obj) -> int32_t
 	{
 		glCheck(glLinkProgramARB(obj));
 

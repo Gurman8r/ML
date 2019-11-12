@@ -545,7 +545,7 @@ namespace ml
 		return temp;
 	}
 
-	void * Window::getHandle() const
+	void * Window::getHandle()
 	{
 		return m_window;
 	}

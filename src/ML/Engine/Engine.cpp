@@ -274,11 +274,11 @@ namespace ml
 
 	void Engine::onEndDraw(const EndDrawEvent & ev)
 	{
+		m_window->swapBuffers();
 	}
 
 	void Engine::onEndStep(const EndStepEvent & ev)
 	{
-		m_window->swapBuffers();
 
 		m_time->endStep();
 	}

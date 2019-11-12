@@ -144,14 +144,14 @@ namespace ml
 
 		static auto getProgramInfoLog(uint32_t obj) -> C_String;
 		static auto getProgramHandle(uint32_t name) -> uint32_t;
-		static auto createProgramObject() -> uint32_t;
-		static auto createShaderObject(GL::ShaderType type) -> uint32_t;
+		static auto createProgram() -> uint32_t;
+		static auto createShader(GL::ShaderType type) -> uint32_t;
 		static auto getProgramParameter(int32_t obj, GL::Status param) -> int32_t;
 		static auto getProgramiv(uint32_t program, uint32_t name) -> int32_t;
 		static auto getAttribLocation(uint32_t program, C_String name) -> int32_t;
 		static auto getUniformLocation(uint32_t program, C_String name) -> int32_t;
 
-		static void	useShader(uint32_t obj);
+		static void	useProgram(uint32_t obj);
 		static void	deleteShader(uint32_t obj);
 		static void	detachShader(uint32_t containerObj, uint32_t obj);
 		static void	attachShader(uint32_t containerObj, uint32_t obj);
@@ -159,7 +159,7 @@ namespace ml
 		static auto	compileShader(uint32_t obj) -> int32_t;
 		static auto	compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source) -> int32_t;
 		static auto	compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source, C_String & log) -> int32_t;
-		static auto	linkShader(uint32_t obj) -> int32_t;
+		static auto	linkProgram(uint32_t obj) -> int32_t;
 
 		static void	uniform1f(int32_t location, float_t value);
 		static void	uniform1i(int32_t location, int32_t value);

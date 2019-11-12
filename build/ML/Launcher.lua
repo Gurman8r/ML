@@ -49,10 +49,12 @@ project "Launcher"
 	filter { "configurations:Debug" }
 		symbols "On"
 		kind("ConsoleApp")
+		defines { "ML_SUBSYSTEM_CONSOLE" }
 	
 	filter { "configurations:Release" } 
 		optimize "Speed"
 		kind("WindowedApp")
+		defines { "ML_SUBSYSTEM_WINDOW" }
 	
 	filter { "system:Windows" }
 		defines { "NOMINMAX" }
@@ -60,6 +62,5 @@ project "Launcher"
 		{	
 			"%{ml_copy} %{bin_lib}ML_%{prj.name}.exe %{bin_out}",
 		}
-
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

@@ -6,29 +6,19 @@ project "Lua"
 	location		"%{prj_dir}ext/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
-	kind			"SharedLib"
+	kind			"StaticLib"
 	language		"C++"
 	cppdialect 		"C++17"
 	staticruntime	"Off"
 	systemversion	"latest"
-	dependson 
-	{
-		"Audio", "Core", "Graphics", "Network", "Window",
-		"Lua",
-	}
 	defines
 	{
-		"ML_ENGINE_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
 		"MAKE_LIB",
 	}
 	includedirs
 	{
-		"%{sln_dir}include", 
-		"%{ext_dir}",
-		"%{ext_dir}pybind11/include",
-		"%{ext_dir}cpython/Include",
-		"%{ext_dir}cpython/Include/internal",
+		"%{ext_dir}lua",
 	}
 	files 
 	{

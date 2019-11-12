@@ -33,9 +33,8 @@ namespace ml
 		m_meshes.reserve(copy.meshes().size());
 		for (const Mesh * mesh : copy.meshes())
 		{
-			auto temp { new Mesh { *mesh } };
-			temp->create();
-			m_meshes.push_back(std::move(temp));
+			m_meshes.push_back(new Mesh{ *mesh });
+			m_meshes.back()->create();
 		}
 	}
 

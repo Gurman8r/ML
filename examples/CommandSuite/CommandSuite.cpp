@@ -7,8 +7,6 @@
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/EngineEvents.hpp>
-#include <ML/Engine/Lua.hpp>
-#include <ML/Engine/Python.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Window/Window.hpp>
@@ -216,7 +214,7 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					return (bool)ML_Lua.doString(code);
+					return (bool)Script { Script::Language::Lua, code }.execute();
 				}
 				return false;
 			})
@@ -304,7 +302,7 @@ namespace ml
 					return (String)ss.str();
 				})())
 				{
-					return (bool)ML_Py.doString(code);
+					return (bool)Script{ Script::Language::Python, code }.execute();
 				}
 				return false;
 			})

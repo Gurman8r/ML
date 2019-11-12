@@ -5,6 +5,7 @@
 #include <ML/Engine/Engine.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/Meta.hpp>
+#include <ML/Editor/ImGuiConfig.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -64,81 +65,6 @@ namespace ml
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-namespace ml
-{
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	struct Base
-	{
-	};
-
-	struct Allocable
-	{	
-		virtual ~Allocable() {}
-
-		inline void * operator new(size_t size)		{ return std::malloc(size); }
-		inline void * operator new[](size_t size)	{ return std::malloc(size); }
-		inline void	  operator delete(void * ptr)	{ return std::free(ptr); }
-		inline void	  operator delete[](void * ptr) { return std::free(ptr); }
-	};
-
-	struct Serializable
-	{
-		virtual ~Serializable() {}
-
-		inline virtual std::ostream & serialize(std::ostream & out) const = 0;
-
-		inline virtual std::istream & deserialize(std::istream & in) = 0;
-
-		inline friend ML_SERIALIZE(std::ostream & out, const Serializable & value)
-		{
-			return value.serialize(out);
-		}
-
-		inline friend ML_DESERIALIZE(std::istream & in, Serializable & value)
-		{
-			return value.deserialize(in);
-		}
-	};
-
-	struct Child final
-		: public Base
-		, public Allocable
-		, public Serializable
-	{
-		String name;
-
-		Child() 
-			: name{}
-		{
-		}
-
-		Child(const String & name)
-			: name{ name }
-		{
-		}
-
-		Child(const Child & copy)
-			: name{ copy.name }
-		{
-		}
-
-		std::ostream & serialize(std::ostream & out) const override
-		{
-			return out << this->name;
-		}
-
-		std::istream & deserialize(std::istream & in) override
-		{
-			return in >> this->name;
-		}
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 ml::int32_t main()
 {
 	using namespace ml;
@@ -153,10 +79,7 @@ ml::int32_t main()
 	ML_EventSystem.fireEvent<EnterEvent>();
 
 	// Load
-	Timer t { true };
 	ML_EventSystem.fireEvent<LoadEvent>();
-	t.stop();
-	Debug::logInfo("Load Time: {0}s", t.elapsed().count());
 
 	// Start
 	ML_EventSystem.fireEvent<StartEvent>();
@@ -168,10 +91,10 @@ ml::int32_t main()
 		ML_EventSystem.fireEvent<UpdateEvent>();
 		ML_EventSystem.fireEvent<BeginDrawEvent>();
 		ML_EventSystem.fireEvent<DrawEvent>(ML_Engine.window());
-		ML_EventSystem.fireEvent<EndDrawEvent>();
 		ML_EventSystem.fireEvent<BeginGuiEvent>();
 		ML_EventSystem.fireEvent<GuiEvent>();
 		ML_EventSystem.fireEvent<EndGuiEvent>();
+		ML_EventSystem.fireEvent<EndDrawEvent>();
 		ML_EventSystem.fireEvent<EndStepEvent>();
 	}
 

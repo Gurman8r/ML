@@ -29,7 +29,6 @@ project "Window"
 		"%{sln_dir}include", 
 		"%{ext_dir}",
 		"%{ext_dir}glfw/include",
-		"%{ext_dir}glfw/include",
 	}
 	files 
 	{

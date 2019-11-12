@@ -16,7 +16,6 @@ project "Editor"
 	dependson 
 	{
 		"Audio", "Core", "Engine", "Graphics", "Network", "Window",
-		"ImGui",
 	}
 	defines
 	{
@@ -24,13 +23,13 @@ project "Editor"
 		"_CRT_SECURE_NO_WARNINGS",
 		"IMGUI_USER_CONFIG=<ML/Editor/ImGuiConfig.hpp>",
 		"IMGUI_IMPL_OPENGL_LOADER_GLEW",
-		"GLEW_STATIC",
 	}
 	includedirs
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
 		"%{ext_dir}imgui",
+		"%{ext_dir}imgui/examples",
 		"%{ext_dir}glfw/include",
 	}
 	files 
@@ -46,6 +45,7 @@ project "Editor"
 		"%{ext_dir}imgui/examples/imgui_impl_glfw.cpp",
 		"%{ext_dir}imgui/examples/imgui_impl_opengl3.h",
 		"%{ext_dir}imgui/examples/imgui_impl_opengl3.cpp",
+		"%{ext_dir}imgui/examples/example_glfw_opengl3/main.cpp",
 		"%{ext_dir}ImGuiColorTextEdit/*.h",
 		"%{ext_dir}ImGuiColorTextEdit/*.cpp",
 	}
@@ -57,7 +57,7 @@ project "Editor"
 	links
 	{
 		"ML_Audio", "ML_Core", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
-		"opengl32", "glew32s", "glfw",
+		"opengl32", "glew32s", "glfw.lib",
 	}
 	
 	filter { "configurations:Debug" }

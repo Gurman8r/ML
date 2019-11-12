@@ -121,8 +121,8 @@ namespace ml
 		
 		vec2i getFrameSize() const;
 		
-		void * getHandle() const;
-		
+		void * getHandle();
+
 		int32_t getKey(int32_t value) const;
 		
 		int32_t	getInputMode() const;

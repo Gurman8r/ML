@@ -2,7 +2,7 @@
 #include <ML/Engine/Engine.hpp>
 #include <ML/Editor/AssetPreview.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Editor/ImGuiImpl.hpp>
+#include <ML/Editor/ImGuiStyleLoader.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/Preferences.hpp>
@@ -13,6 +13,11 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Editor/PropertyDrawer.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
+
+#include <imgui/examples/imgui_impl_glfw.h>
+#include <imgui/examples/imgui_impl_opengl3.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 namespace ml
 {
@@ -108,11 +113,16 @@ namespace ml
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
-		// Initialize Implementation Instance
+		// Context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 
-		// Setup Style
+		auto & io{ ImGui::GetIO() };
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+		// Style
 		/* * * * * * * * * * * * * * * * * * * * */
 		const String styleConf = ML_Engine.prefs().get_string(
 			"Editor", "editor_style", "Classic"
@@ -120,13 +130,11 @@ namespace ml
 		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
 		else if (styleConf == "Dark") ImGui::StyleColorsDark();
 		else if (styleConf == "Light") ImGui::StyleColorsLight();
-		else if (!ML_ImGuiImpl.LoadStyle(ML_FS.pathTo(styleConf)))
+		else if (!ImGuiStyleLoader{ ML_FS.pathTo(styleConf) })
 		{
 			Debug::logError("Failed loading ImGui style");
 		}
 
-		// Setup Fonts
-		/* * * * * * * * * * * * * * * * * * * * */
 		if (String fontFile { ML_Engine.prefs().get_string("Editor", "font_file", "") })
 		{
 			float_t fontSize { ML_Engine.prefs().get_float("Editor", "font_size", 12.0f) };
@@ -136,20 +144,18 @@ namespace ml
 			}
 		}
 
-		// Startup
-		/* * * * * * * * * * * * * * * * * * * * */
-		ML_ASSERT(
-			"Failed Initializing ImGui\n" &&
-			ML_ImGuiImpl.Startup(
-				"#version 130",
-				&ML_Engine.window(),
-				true,
-				ML_Engine.prefs().get_bool("Editor", "use_imgui_ini", false),
-				ML_Engine.prefs().get_bool("Editor", "use_imgui_log", false)
-			)
-		);
+		auto & style{ ImGui::GetStyle() };
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
 
-		// Get Preferences
+		// Init
+		ImGui_ImplGlfw_InitForOpenGL((GLFWwindow *)ML_Engine.window().getHandle(), true);
+		ImGui_ImplOpenGL3_Init("#version 130");
+
+		// Enable Windows
 		m_about		.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about",		false));
 		m_content	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content",	false));
 		m_explorer	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer",	false));
@@ -179,7 +185,9 @@ namespace ml
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
 	{
-		ML_ImGuiImpl.NewFrame();
+		//ML_ImGuiImpl.NewFrame();
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
@@ -207,14 +215,33 @@ namespace ml
 
 	void Editor::onEndGui(const EndGuiEvent & ev)
 	{
+		auto window{ static_cast<GLFWwindow *>(ML_Engine.window().getHandle()) };
+		auto & io{ ImGui::GetIO() };
+		ImVec4 clear_color{ 0, 0, 0, 1 };
+
+		// Rendering
 		ImGui::Render();
-		ML_Engine.window().makeContextCurrent();
-		ML_ImGuiImpl.Render(ImGui::GetDrawData());
+		int display_w, display_h;
+		glfwGetFramebufferSize(window, &display_w, &display_h);
+		glViewport(0, 0, display_w, display_h);
+		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+		glClear(GL_COLOR_BUFFER_BIT);
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow * backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
 	}
 
 	void Editor::onUnload(const UnloadEvent & ev)
 	{
-		ML_ImGuiImpl.Shutdown();
+		//ML_ImGuiImpl.Shutdown();
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
 		ML_AssetPreview.dispose();
 	}
 

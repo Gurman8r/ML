@@ -56,18 +56,22 @@ filter { "system:Windows" }
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 dofile "./build/ext/GLFW.lua"
+dofile "./build/ext/Lua.lua"
+dofile "./build/ext/RakNet.lua"
 
-dofile "./build/ML/Audio.lua"
-dofile "./build/ML/Core.lua"
-dofile "./build/ML/Editor.lua"
-dofile "./build/ML/Engine.lua"
-dofile "./build/ML/Graphics.lua"
-dofile "./build/ML/Launcher.lua"
-dofile "./build/ML/Network.lua"
-dofile "./build/ML/Window.lua"
+--dofile "./build/ML/Audio.lua"
+--dofile "./build/ML/Core.lua"
+--dofile "./build/ML/Editor.lua"
+--dofile "./build/ML/Engine.lua"
+--dofile "./build/ML/Graphics.lua"
+--dofile "./build/ML/Launcher.lua"
+--dofile "./build/ML/Network.lua"
+--dofile "./build/ML/Window.lua"
+dofile "./build/ML/MemeLib.lua"
 
-dofile "./build/plugins/Noobs.lua"
-dofile "./build/plugins/CommandSuite.lua"
-dofile "./build/plugins/TestPlugin.lua"
+dofile "./examples/Launcher/Launcher.lua"
+dofile "./examples/Noobs/Noobs.lua"
+dofile "./examples/CommandSuite/CommandSuite.lua"
+dofile "./examples/TestPlugin/TestPlugin.lua"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

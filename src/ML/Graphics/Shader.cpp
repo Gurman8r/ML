@@ -30,7 +30,7 @@ namespace ml
 
 				if (program != cached)
 				{
-					ML_GL.useShader(program);
+					ML_GL.useProgram(program);
 				}
 
 				location = value->getUniformLocation(name);
@@ -41,7 +41,7 @@ namespace ml
 		{
 			if (program && (program != cached))
 			{
-				ML_GL.useShader(cached);
+				ML_GL.useProgram(cached);
 			}
 		}
 
@@ -114,7 +114,7 @@ namespace ml
 		m_textures.clear();
 		m_uniforms.clear();
 
-		ML_GL.useShader(NULL);
+		ML_GL.useProgram(NULL);
 		if (*this)
 		{
 			ML_GL.deleteShader(*this);
@@ -251,7 +251,7 @@ namespace ml
 	{
 		if (shader && (*shader))
 		{
-			ML_GL.useShader(*shader);
+			ML_GL.useProgram(*shader);
 
 			if (bindTextures)
 			{
@@ -268,7 +268,7 @@ namespace ml
 				}
 			}
 		}
-		else { ML_GL.useShader(NULL); }
+		else { ML_GL.useProgram(NULL); }
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -606,7 +606,7 @@ namespace ml
 		}
 
 		// Create Program
-		if (dispose() && set_handle(ML_GL.createProgramObject()))
+		if (dispose() && set_handle(ML_GL.createProgram()))
 		{
 			C_String log { nullptr };
 
@@ -657,7 +657,7 @@ namespace ml
 
 			// Link the program
 			/* * * * * * * * * * * * * * * * * * * * */
-			if (!ML_GL.linkShader(*this))
+			if (!ML_GL.linkProgram(*this))
 			{
 				log = ML_GL.getProgramInfoLog(*this);
 				ML_GL.deleteShader(*this);

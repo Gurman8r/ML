@@ -10,9 +10,6 @@
 [submodule "ext/ImGuiColorTextEdit"]
 	path = ext/ImGuiColorTextEdit
 	url = https://github.com/Gurman8r/ImGuiColorTextEdit.git
-[submodule "ext/lua"]
-	path = ext/lua
-	url = https://github.com/lua/lua.git
 [submodule "ext/cpython"]
 	path = ext/cpython
 	url = https://github.com/python/cpython.git

@@ -1,6 +1,6 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "Examples"
+group "Plugins"
 project "CommandSuite"
 	targetname 		"%{prj.name}"
 	targetdir		"%{bin_lib}"

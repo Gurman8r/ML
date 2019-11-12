@@ -1,6 +1,6 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "Examples"
+group ""
 project "Launcher"
 	targetname 		"%{prj.name}"
 	location		"%{prj_dir}ML/%{prj.name}/"

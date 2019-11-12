@@ -113,20 +113,31 @@ namespace ml
 
 	void Editor::onEnter(const EnterEvent & ev)
 	{
-		// Context
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		auto & io{ ImGui::GetIO() };
+		auto & style{ ImGui::GetStyle() };
+		
+		// Config
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
+
 		// Style
-		/* * * * * * * * * * * * * * * * * * * * */
-		const String styleConf = ML_Engine.prefs().get_string(
+		const String styleConf{ ML_Engine.prefs().get_string(
 			"Editor", "editor_style", "Classic"
-		);
+		) };
 		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
 		else if (styleConf == "Dark") ImGui::StyleColorsDark();
 		else if (styleConf == "Light") ImGui::StyleColorsLight();
@@ -135,6 +146,7 @@ namespace ml
 			Debug::logError("Failed loading ImGui style");
 		}
 
+		// Font
 		if (String fontFile { ML_Engine.prefs().get_string("Editor", "font_file", "") })
 		{
 			float_t fontSize { ML_Engine.prefs().get_float("Editor", "font_size", 12.0f) };
@@ -144,18 +156,13 @@ namespace ml
 			}
 		}
 
-		auto & style{ ImGui::GetStyle() };
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
-			style.WindowRounding = 0.0f;
-			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-		}
+		/* * * * * * * * * * * * * * * * * * * * */
 
-		// Init
 		ImGui_ImplGlfw_InitForOpenGL((GLFWwindow *)ML_Engine.window().getHandle(), true);
 		ImGui_ImplOpenGL3_Init("#version 130");
 
-		// Enable Windows
+		/* * * * * * * * * * * * * * * * * * * * */
+
 		m_about		.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about",		false));
 		m_content	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content",	false));
 		m_explorer	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer",	false));
@@ -163,6 +170,8 @@ namespace ml
 		m_manual	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual",	false));
 		m_profiler	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_profiler",	false));
 		m_terminal	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_terminal",	false));
+
+		/* * * * * * * * * * * * * * * * * * * * */
 	}
 
 	void Editor::onLoad(const LoadEvent & ev)
@@ -404,51 +413,6 @@ namespace ml
 			ImGui::Separator();
 
 			ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
-
-			if (ImGui::BeginMenu("Backend Flags"))
-			{
-				ImGuiExt::HelpMarker("These flags are set internally and specify the backend's capabilities.");
-
-				ImGuiBackendFlags backend_flags { io.BackendFlags }; // Make a local copy to avoid modifying actual back-end flags.
-
-				ImGui::CheckboxFlags("Has Gamepad", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasGamepad);
-				ImGuiExt::Tooltip(
-					"Platform supports gamepad and currently has one connected."
-				);
-
-				ImGui::CheckboxFlags("Has Mouse Cursors", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasMouseCursors);
-				ImGuiExt::Tooltip(
-					"Platform supports honoring GetMouseCursor() value to change the OS cursor shape."
-				);
-
-				ImGui::CheckboxFlags("Has Set Mouse Position", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasSetMousePos);
-				ImGuiExt::Tooltip(
-					"Platform supports io.WantSetMousePos requests to reposition the OS mouse position"
-				);
-
-				ImGui::CheckboxFlags("Platform Has Viewports", (uint32_t *)&backend_flags, ImGuiBackendFlags_PlatformHasViewports);
-				ImGuiExt::Tooltip(
-					"Platform supports multiple viewports."
-				);
-
-				ImGui::CheckboxFlags("Has Mouse Hovered Viewport", (uint32_t *)&backend_flags, ImGuiBackendFlags_HasMouseHoveredViewport);
-				ImGuiExt::Tooltip(
-					"Back-end Platform supports setting io.MouseHoveredViewport to the viewport directly under the mouse IGNORING viewports with the \'No Inputs\' flag and REGARDLESS of whether another viewport is focused and may be capturing the mouse.\n"
-					"This information is NOT EASY to provide correctly with most high-level engines! Don't set this without studying how the examples/ back-end handle it!"
-				);
-
-				ImGui::CheckboxFlags("Renderer Has Vertex Offset", (uint32_t *)&backend_flags, ImGuiBackendFlags_RendererHasVtxOffset);
-				ImGuiExt::Tooltip(
-					"Renderer supports ImDrawCmd::VtxOffset. This enables output of large meshes (64K+ vertices) while still using 16-bits indices."
-				);
-
-				ImGui::CheckboxFlags("Renderer Has Viewports", (uint32_t *)&backend_flags, ImGuiBackendFlags_RendererHasViewports);
-				ImGuiExt::Tooltip(
-					"Renderer supports multiple viewports."
-				);
-
-				ImGui::EndMenu();
-			}
 
 			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Help);
 

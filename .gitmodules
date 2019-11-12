@@ -45,3 +45,6 @@
 [submodule "ext/freetype2"]
 	path = ext/freetype2
 	url = https://github.com/aseprite/freetype2.git
+[submodule "ext/PDCurses"]
+	path = ext/PDCurses
+	url = https://github.com/wmcbrine/PDCurses

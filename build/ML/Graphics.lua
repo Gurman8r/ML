@@ -27,6 +27,8 @@ project "Graphics"
 		"%{sln_dir}include",
 		"%{ext_dir}",
 		"%{ext_dir}assimp/include",
+		"%{ext_dir}freetype2/include",
+		"%{ext_dir}freetype2/include/freetype",
 	}
 	files 
 	{
@@ -34,7 +36,10 @@ project "Graphics"
 		"%{inc_dir}**.hpp",
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c",
-		"%{src_dir}**.cpp" 
+		"%{src_dir}**.cpp",
+		--"%{ext_dir}freetype2/include/**.h",
+		--"%{ext_dir}freetype2/src/**.h",
+		--"%{ext_dir}freetype2/src/**.c",
 	}
 	libdirs
 	{
@@ -44,7 +49,7 @@ project "Graphics"
 	links
 	{
 		"ML_Core", "ML_Window",
-		"opengl32", "glew32s", "assimp", "IrrXML", "zlibstatic",
+		"opengl32", "glew32s", "freetype", "assimp", "IrrXML", "zlibstatic",
 	}
 	
 	filter { "configurations:Debug" }

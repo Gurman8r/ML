@@ -42,3 +42,6 @@
 	path = ext/imgui
 	url = https://github.com/Gurman8r/imgui.git
 	branch = docking
+[submodule "ext/freetype2"]
+	path = ext/freetype2
+	url = https://github.com/aseprite/freetype2.git

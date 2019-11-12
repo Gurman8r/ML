@@ -5,6 +5,7 @@
 /proj
 __pycache__/
 imgui.ini
+imgui.log
 desktop.ini
 *.log
 *.lastbuildstateslm

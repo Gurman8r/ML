@@ -14,5 +14,5 @@ uniform sampler2D u_texture0; // Main Texture
 // Main
 void main()
 {
-    gl_Color = u_color * texture(u_texture0, V.texcoord * 5);
+    gl_Color = u_color * texture(u_texture0, V.texcoord);
 }

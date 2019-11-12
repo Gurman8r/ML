@@ -157,26 +157,16 @@ namespace ml
 
 		enum class DisplayMode : int32_t { Automatic, Manual, Fixed };
 
-<<<<<<< HEAD
 		bool m_editor_open		{ true };
 		bool m_display_open		{ true };
 		bool m_use_main_camera	{ true };
 
-		ptr_t<Entity>	m_entity			{};
-		String			m_ent_name			{};
-		FileArray		m_files				{ 0 };
-		DisplayMode		m_displayMode		{ 0 };
-		int32_t			m_displayIndex		{ 0 };
-		DemoPipeline	m_pipeline;
-=======
-		bool		m_editor_open		{ true };
-		bool		m_display_open		{ true };
-		bool		m_use_main_camera	{ true };
-		Ref<Entity> m_entity			{};
-		FileArray	m_files				{ 0 };
-		DisplayMode	m_displayMode		{ 0 };
-		int32_t		m_displayIndex		{ 0 };
->>>>>>> f7c7043e8a25a18fb5a96df82e94d8eabbcf6a68
+		DemoPipeline	m_pipeline		{ 0 };
+		ptr_t<Entity>	m_entity		{ 0 };
+		String			m_ent_name		{ "" };
+		FileArray		m_files			{ 0 };
+		DisplayMode		m_displayMode	{ 0 };
+		int32_t			m_displayIndex	{ 0 };
 
 		static constexpr auto display_name { "Display##Noobs##DemoView" };
 		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };

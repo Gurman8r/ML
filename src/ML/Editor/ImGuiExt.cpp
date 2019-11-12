@@ -21,11 +21,8 @@ namespace ml
 			label,
 			index,
 			Util::get_vector,
-<<<<<<< HEAD
+
 			static_cast<ptr_t<void>>(&std::remove_cv_t<List<String> &>(arr)),
-=======
-			static_cast<void *>(&std::remove_cv_t<List<String> &>(arr)),
->>>>>>> f7c7043e8a25a18fb5a96df82e94d8eabbcf6a68
 			static_cast<int32_t>(arr.size()),
 			max_height
 		) };

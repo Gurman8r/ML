@@ -170,10 +170,8 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		m_pipeline = {
-			ML_Engine.content().get<Surface>("surf/main"),
-			ML_Engine.content().get<Surface>("surf/post")
-		};
+		m_pipeline[0] = ML_Engine.content().get<Surface>("surf/main");
+		m_pipeline[1] = ML_Engine.content().get<Surface>("surf/post");
 
 		if (m_ent_name = ML_Engine.prefs().get_string("Noobs", "target_entity", ""))
 		{

@@ -31,9 +31,9 @@ namespace ml
 	{
 		friend struct Singleton<OpenAL>;
 
-		bool	m_good;
-		void *	m_device;
-		void *	m_context;
+		bool		m_good;
+		ptr_t<void>	m_device;
+		ptr_t<void>	m_context;
 
 	public:
 
@@ -63,16 +63,16 @@ namespace ml
 		static auto	genBuffers(int32_t count) -> uint32_t;
 		static void	deleteBuffers(int32_t count, const uint32_t * buffers);
 		static bool	isBuffer(uint32_t id);
-		static void	bufferData(uint32_t id, int32_t format, const void * data, int32_t size, int32_t freq);
+		static void	bufferData(uint32_t id, int32_t format, const_ptr_t<void> data, int32_t size, int32_t freq);
 		
 		// Set Buffer Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void	bufferf(uint32_t id, int32_t param, float_t value);
 		static void	buffer3f(uint32_t id, int32_t param, float_t x, float_t y, float_t z);
-		static void	bufferfv(uint32_t id, int32_t param, const float_t * values);
+		static void	bufferfv(uint32_t id, int32_t param, const_ptr_t<float_t> values);
 		static void	bufferi(uint32_t id, int32_t param, int32_t value);
 		static void	buffer3i(uint32_t id, int32_t param, int32_t x, int32_t y, int32_t z);
-		static void	bufferiv(uint32_t id, int32_t param, const int32_t * values);
+		static void	bufferiv(uint32_t id, int32_t param, const_ptr_t<int32_t> values);
 
 		// Get Buffer Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -100,10 +100,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void	sourcef(uint32_t id, int32_t param, float_t value);
 		static void	source3f(uint32_t id, int32_t param, float_t x, float_t y, float_t z);
-		static void	sourcefv(uint32_t id, int32_t param, const float_t * values);
+		static void	sourcefv(uint32_t id, int32_t param, const_ptr_t<float_t> values);
 		static void	sourcei(uint32_t id, int32_t param, int32_t value);
 		static void	source3i(uint32_t id, int32_t param, int32_t x, int32_t y, int32_t z);
-		static void	sourceiv(uint32_t id, int32_t param, const int32_t * values);
+		static void	sourceiv(uint32_t id, int32_t param, const_ptr_t<int32_t> values);
 
 		// Get Source Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -132,10 +132,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void	listenerf(int32_t param, float_t value);
 		static void	listener3f(int32_t param, float_t x, float_t y, float_t z);
-		static void	listenerfv(int32_t param, const float_t * values);
+		static void	listenerfv(int32_t param, const_ptr_t<float_t> values);
 		static void	listeneri(int32_t param, int32_t value);
 		static void	listener3i(int32_t param, int32_t x, int32_t y, int32_t z);
-		static void	listeneriv(int32_t param, const int32_t * values);
+		static void	listeneriv(int32_t param, const_ptr_t<int32_t> values);
 
 		// Get Source Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

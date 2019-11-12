@@ -85,7 +85,7 @@ namespace ml
 
 		const Texture & unbind() const;
 
-		static void	bind(const Texture * value);
+		static void	bind(const_ptr_t<Texture> value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -20,9 +20,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		const RenderTarget & draw(const Drawable * value) const;
+		const RenderTarget & draw(const_ptr_t<Drawable> value) const;
 		
-		const RenderTarget & draw(const Drawable * value, RenderBatch & batch) const;
+		const RenderTarget & draw(const_ptr_t<Drawable> value, RenderBatch & batch) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -36,9 +36,9 @@ namespace ml
 		
 		const RenderTarget & draw(const List<float_t> & verts, RenderBatch & batch) const;
 		
-		const RenderTarget & draw(const float_t * verts, size_t count, RenderBatch & batch) const;
+		const RenderTarget & draw(const_ptr_t<float_t> verts, size_t count, RenderBatch & batch) const;
 		
-		const RenderTarget & draw(const float_t * verts, size_t count, const VAO * vao, const VBO * vbo) const;
+		const RenderTarget & draw(const_ptr_t<float_t> verts, size_t count, const VAO * vao, const VBO * vbo) const;
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 

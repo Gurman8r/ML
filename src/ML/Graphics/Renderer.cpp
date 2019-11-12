@@ -15,7 +15,7 @@ namespace ml
 	{
 	}
 
-	Renderer::Renderer(const Model * model, const Material * material, const Shader * shader)
+	Renderer::Renderer(const_ptr_t<Model> model, const_ptr_t<Material> material, const_ptr_t<Shader> shader)
 		: m_enabled	{ true }
 		, m_model	{ model }
 		, m_material{ material }
@@ -24,7 +24,7 @@ namespace ml
 	{
 	}
 
-	Renderer::Renderer(const Model * model, const Material * material, const Shader * shader, const RenderStates & states)
+	Renderer::Renderer(const_ptr_t<Model> model, const_ptr_t<Material> material, const_ptr_t<Shader> shader, const RenderStates & states)
 		: m_enabled	{ true }
 		, m_model	{ model }
 		, m_material{ material }
@@ -37,7 +37,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Renderer & Renderer::setModel(const Model * value)
+	Renderer & Renderer::setModel(const_ptr_t<Model> value)
 	{
 		m_model = value;
 		return (*this);
@@ -49,13 +49,13 @@ namespace ml
 		return (*this);
 	}
 
-	Renderer & Renderer::setMaterial(const Material * value)
+	Renderer & Renderer::setMaterial(const_ptr_t<Material> value)
 	{
 		m_material = value;
 		return (*this);
 	}
 
-	Renderer & Renderer::setShader(const Shader * value)
+	Renderer & Renderer::setShader(const_ptr_t<Shader> value)
 	{
 		m_shader = value;
 		return (*this);

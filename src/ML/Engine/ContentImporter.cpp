@@ -1,6 +1,6 @@
 #include <ML/Engine/ContentImporter.hpp>
 #include <ML/Core/FileSystem.hpp>
-#include <ML/Engine/Ref.hpp>
+#include <ML/Engine/Engine.hpp>
 
 #include <ML/Audio/Sound.hpp>
 #include <ML/Engine/Entity.hpp>
@@ -140,7 +140,7 @@ namespace ml
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Material * ContentImporter<Material>::operator()(const Metadata & md) const
+	ptr_t<Material> ContentImporter<Material>::operator()(const Metadata & md) const
 	{
 		if (info().hash == md.getData("type").asString().hash())
 		{
@@ -168,7 +168,7 @@ namespace ml
 					// Load Uniforms
 					if (!temp->loadFromFile(
 						md.getData("uniforms").asString(),
-						(const Map<String, Texture *> *)&ML_Engine.content().data<Texture>()
+						(const Map<String, ptr_t<Texture>> *)&ML_Engine.content().data<Texture>()
 					))
 					{
 						/* error */
@@ -184,7 +184,7 @@ namespace ml
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Model * ContentImporter<Model>::operator()(const Metadata & md) const
+	ptr_t<Model> ContentImporter<Model>::operator()(const Metadata & md) const
 	{
 		if (info().hash == md.getData("type").asString().hash())
 		{
@@ -209,7 +209,7 @@ namespace ml
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Script * ContentImporter<Script>::operator()(const Metadata & md) const
+	ptr_t<Script> ContentImporter<Script>::operator()(const Metadata & md) const
 	{
 		if (info().hash == md.getData("type").asString().hash())
 		{
@@ -234,7 +234,7 @@ namespace ml
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Shader * ContentImporter<Shader>::operator()(const Metadata & md) const
+	ptr_t<Shader> ContentImporter<Shader>::operator()(const Metadata & md) const
 	{
 		if (info().hash == md.getData("type").asString().hash())
 		{
@@ -323,7 +323,7 @@ namespace ml
 				{
 					if (const String file = md.getData("texture"))
 					{
-						if (const Texture * tex = ML_Engine.content().get<Texture>(file))
+						if (const_ptr_t<Texture> tex = ML_Engine.content().get<Texture>(file))
 						{
 							auto temp = new Sprite();
 							if (temp->loadFromMemory(tex))
@@ -368,7 +368,7 @@ namespace ml
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Texture * ContentImporter<Texture>::operator()(const Metadata & md) const
+	ptr_t<Texture> ContentImporter<Texture>::operator()(const Metadata & md) const
 	{
 		if (info().hash == md.getData("type").asString().hash())
 		{
@@ -376,7 +376,7 @@ namespace ml
 			{
 				if (!ML_Engine.content().get<Texture>(name))
 				{
-					if (const Texture * copy { ML_Engine.content().get<Texture>(md.getData("copy")) })
+					if (const_ptr_t<Texture> copy { ML_Engine.content().get<Texture>(md.getData("copy")) })
 					{
 						return ML_Engine.content().create<Texture>(name, (*copy));
 					}
@@ -516,7 +516,7 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 						case Hash("textures"):
 						{
-							Array<const Texture *, 6> tex {
+							Array<const_ptr_t<Texture>, 6> tex {
 								ML_Engine.content().get<Texture>(names[0]),
 								ML_Engine.content().get<Texture>(names[1]),
 								ML_Engine.content().get<Texture>(names[2]),

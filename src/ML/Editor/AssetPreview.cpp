@@ -21,7 +21,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const Texture * AssetPreview::getPreview(const typeof<> & type, void * value) const
+	const_ptr_t<Texture> AssetPreview::getPreview(const typeof<> & type, ptr_t<void> value) const
 	{
 		if (!value) { return nullptr; }
 		auto it { m_previewMap.find(value) };
@@ -49,7 +49,7 @@ namespace ml
 			}
 
 		case typeof<Texture>::hash:
-			if (auto temp { static_cast<const Texture *>(value) })
+			if (auto temp { static_cast<const_ptr_t<Texture>>(value) })
 			{
 				switch (temp->sampler())
 				{
@@ -63,7 +63,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void AssetPreview::drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk clbk) const
+	void AssetPreview::drawPreview(const typeof<> & type, ptr_t<void> value, const vec2 & size, Clbk clbk) const
 	{
 		ImGui::PushID((int32_t)type.hash);
 		ImGui::PushID(value);

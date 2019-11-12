@@ -25,7 +25,6 @@ project "MemeLib"
 		"ML_NETWORK_EXPORTS", 
 		"ML_WINDOW_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
-		"MAKE_LIB",
 		"IMGUI_USER_CONFIG=<ML/Editor/ImGuiConfig.hpp>",
 		"IMGUI_IMPL_OPENGL_LOADER_GLEW",
 		"_WINSOCK_DEPRECATED_NO_WARNINGS",
@@ -34,7 +33,7 @@ project "MemeLib"
 	}
 	includedirs
 	{
-		"%{sln_dir}include", 
+		"%{sln_dir}include",
 		"%{ext_dir}",
 		"%{ext_dir}openal-soft/al",
 		"%{ext_dir}openal-soft/alc",
@@ -83,15 +82,25 @@ project "MemeLib"
 	filter { "configurations:Debug" }
 		symbols "On"
 		links { "python39_d" }
+		filter { "system:Windows", "configurations:Debug" }
+			linkoptions
+			{ 
+				"/NODEFAULTLIB:MSVCRT.lib", 
+				"/NODEFAULTLIB:LIBCMTD.lib",
+			}
 	
 	filter { "configurations:Release" } 
 		optimize "Speed"
 		links { "python39" }
+		filter { "system:Windows", "configurations:Release" }
+			linkoptions
+			{ 
+				"/NODEFAULTLIB:LIBCMT.lib",
+			}
 	
 	filter { "system:Windows" }
 		defines { "NOMINMAX" }
 		includedirs { "%{ext_dir}cpython/PC" }
-		linkoptions { "/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:MSVCRT.lib /NODEFAULTLIB:LIBCMTD.lib" }
 		links { "ws2_32", }
 		postbuildcommands 
 		{	

@@ -6,7 +6,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	MemoryManager::Record::Record(size_t index, void * ptr, size_t size)
+	MemoryManager::Record::Record(size_t index, ptr_t<void> ptr, size_t size)
 		: ptr(ptr)
 		, index(index)
 		, size(size)
@@ -65,15 +65,15 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void * MemoryManager::allocate(size_t size)
+	ptr_t<void> MemoryManager::allocate(size_t size)
 	{
-		void * ptr { std::malloc(size) };
+		ptr_t<void> ptr { std::malloc(size) };
 		return m_records.insert({
 			ptr, new Record { m_currentID++, ptr, size }
 		}).first->second->ptr;
 	}
 
-	void MemoryManager::deallocate(void *& value)
+	void MemoryManager::deallocate(ptr_t<void> & value)
 	{
 		auto it { m_records.find(value) };
 		if (it != m_records.end())

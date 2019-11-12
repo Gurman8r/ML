@@ -17,7 +17,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using map_type			= typename Map<String, void *>;
+		using map_type			= typename Map<String, ptr_t<void>>;
 		using const_iterator	= typename map_type::const_iterator;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -31,7 +31,7 @@ namespace ml
 
 		bool	dispose() override;
 		bool	loadFromFile(const String & filename);
-		void *	loadFunction(const String & name);
+		ptr_t<void>	loadFunction(const String & name);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -49,7 +49,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const void *		instance()	const { return m_instance;	}
+		inline const_ptr_t<void>		instance()	const { return m_instance;	}
 		inline const String &	filename()	const { return m_filename;	}
 		inline const map_type &	functions() const { return m_functions; }
 
@@ -60,7 +60,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		void *		m_instance;
+		ptr_t<void>	m_instance;
 		String		m_filename;
 		map_type	m_functions;
 

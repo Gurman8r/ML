@@ -53,12 +53,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto meshes()		-> List<Mesh *> &		{ return m_meshes; }
-		inline auto meshes() const	-> const List<Mesh *> & { return m_meshes; }
+		inline auto meshes()		-> List<ptr_t<Mesh>> &		{ return m_meshes; }
+		inline auto meshes() const	-> const List<ptr_t<Mesh>> & { return m_meshes; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: List<Mesh *> m_meshes;
+	private: 
+		List<ptr_t<Mesh>> m_meshes;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

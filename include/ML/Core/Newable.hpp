@@ -24,10 +24,10 @@ namespace ml
 			return out << value.get_type_info().name();
 		}
 
-		inline void * operator new		(size_t size) { return ML_new(size); }
-		inline void * operator new[]    (size_t size) { return ML_new(size);  }
-		inline void	  operator delete   (void * ptr)  { return ML_delete(ptr); }
-		inline void	  operator delete[] (void * ptr)  { return ML_delete(ptr); }
+		inline ptr_t<void> operator new(size_t size) { return ML_new(size); }
+		inline ptr_t<void> operator new[](size_t size) { return ML_new(size);  }
+		inline void operator delete(ptr_t<void> ptr) { return ML_delete(ptr); }
+		inline void operator delete[] (ptr_t<void> ptr) { return ML_delete(ptr); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

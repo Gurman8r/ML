@@ -28,19 +28,19 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using CharFun			= typename void(*)(void *, uint32_t);
-		using CursorEnterFun	= typename void(*)(void *, int32_t);
-		using CursorPosFun		= typename void(*)(void *, float64_t, float64_t);
+		using CharFun			= typename void(*)(ptr_t<void>, uint32_t);
+		using CursorEnterFun	= typename void(*)(ptr_t<void>, int32_t);
+		using CursorPosFun		= typename void(*)(ptr_t<void>, float64_t, float64_t);
 		using ErrorFun			= typename void(*)(int32_t, C_String);
-		using FrameSizeFun		= typename void(*)(void *, int32_t, int32_t);
-		using KeyFun			= typename void(*)(void *, int32_t, int32_t, int32_t, int32_t);
-		using MouseFun			= typename void(*)(void *, int32_t, int32_t, int32_t);
-		using ScrollFun			= typename void(*)(void *, float64_t, float64_t);
-		using CloseFun			= typename void(*)(void *);
-		using FocusFun			= typename void(*)(void *, int32_t);
-		using PositionFun		= typename void(*)(void *, int32_t, int32_t);
-		using SizeFun			= typename void(*)(void *, int32_t, int32_t);
-		using ProcFun			= typename void *(*)(void);
+		using FrameSizeFun		= typename void(*)(ptr_t<void>, int32_t, int32_t);
+		using KeyFun			= typename void(*)(ptr_t<void>, int32_t, int32_t, int32_t, int32_t);
+		using MouseFun			= typename void(*)(ptr_t<void>, int32_t, int32_t, int32_t);
+		using ScrollFun			= typename void(*)(ptr_t<void>, float64_t, float64_t);
+		using CloseFun			= typename void(*)(ptr_t<void>);
+		using FocusFun			= typename void(*)(ptr_t<void>, int32_t);
+		using PositionFun		= typename void(*)(ptr_t<void>, int32_t, int32_t);
+		using SizeFun			= typename void(*)(ptr_t<void>, int32_t, int32_t);
+		using ProcFun			= typename ptr_t<void>(*)(void);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -85,7 +85,7 @@ namespace ml
 		
 		Window & setClipboardString(const String & value);
 		
-		Window & setCursor(void * value);
+		Window & setCursor(ptr_t<void> value);
 		
 		Window & setCursorMode(const Cursor::Mode value);
 		
@@ -97,7 +97,7 @@ namespace ml
 		
 		Window & setPosition(const vec2i & value);
 		
-		Window & setMonitor(void * value);
+		Window & setMonitor(ptr_t<void> value);
 		
 		Window & setSize(const vec2u & value);
 		
@@ -121,7 +121,7 @@ namespace ml
 		
 		vec2i getFrameSize() const;
 		
-		void * getHandle();
+		ptr_t<void> getHandle();
 
 		int32_t getKey(int32_t value) const;
 		
@@ -131,7 +131,7 @@ namespace ml
 		
 		vec2i getPosition() const;
 		
-		void * getRawHandle() const;
+		ptr_t<void> getRawHandle() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -147,9 +147,9 @@ namespace ml
 		
 		inline auto getHeight()	const -> const uint32_t	& { return getSize()[1]; }
 		
-		inline auto getMonitor() const -> const void * { return m_monitor; }
+		inline auto getMonitor() const -> const_ptr_t<void> { return m_monitor; }
 		
-		inline auto getShare() const -> const void * { return m_share; }
+		inline auto getShare() const -> const_ptr_t<void> { return m_share; }
 		
 		inline auto getSize() const -> const vec2u & { return getVideoMode().size; }
 		
@@ -163,15 +163,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static void * createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels);
+		static ptr_t<void> createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels);
 		
-		static void * createStandardCursor(Cursor::Shape value);
+		static ptr_t<void> createStandardCursor(Cursor::Shape value);
 		
-		static bool	destroyCursor(void * value);
+		static bool	destroyCursor(ptr_t<void> value);
 
 		static int32_t extensionSupported(C_String value);
 
-		static void * getContextCurrent();
+		static ptr_t<void> getContextCurrent();
 
 		static const VideoMode & getDesktopMode();
 		
@@ -179,11 +179,11 @@ namespace ml
 
 		static ProcFun getProcAddress(C_String value);
 		
-		static const List<void *> & getMonitors();
+		static const List<ptr_t<void>> & getMonitors();
 
 		static float64_t getTime();
 
-		static bool makeContextCurrent(void * value);
+		static bool makeContextCurrent(ptr_t<void> value);
 
 		static void pollEvents();
 		
@@ -209,9 +209,9 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		void *			m_window;		// 
-		void *			m_monitor;		// 
-		void *			m_share;		// 
+		ptr_t<void>		m_window;		// 
+		ptr_t<void>		m_monitor;		// 
+		ptr_t<void>		m_share;		// 
 		ContextSettings	m_context;		// 
 		WindowStyle		m_style;		// 
 		VideoMode		m_videoMode;	// 

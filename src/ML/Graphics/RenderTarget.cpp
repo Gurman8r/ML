@@ -5,12 +5,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const RenderTarget & RenderTarget::draw(const Drawable * value) const
+	const RenderTarget & RenderTarget::draw(const_ptr_t<Drawable> value) const
 	{
 		return (value) ? draw(*value) : (*this);
 	}
 
-	const RenderTarget & RenderTarget::draw(const Drawable * value, RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(const_ptr_t<Drawable> value, RenderBatch & batch) const
 	{
 		return (value) ? draw(*value, batch) : (*this);
 	}
@@ -41,7 +41,7 @@ namespace ml
 		return draw(verts.data(), verts.size(), batch);
 	}
 
-	const RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(const_ptr_t<float_t> verts, size_t count, RenderBatch & batch) const
 	{
 		//if (batch.mat) { batch.mat->bind(); }
 
@@ -52,7 +52,7 @@ namespace ml
 		return (*this);
 	}
 
-	const RenderTarget & RenderTarget::draw(const float_t * verts, size_t count, const VAO * vao, const VBO * vbo) const
+	const RenderTarget & RenderTarget::draw(const_ptr_t<float_t> verts, size_t count, const VAO * vao, const VBO * vbo) const
 	{
 		if (vbo) { (*vbo).bind().bufferSubData(verts, (uint32_t)count, 0).unbind(); }
 

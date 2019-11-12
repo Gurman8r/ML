@@ -31,7 +31,7 @@ namespace ml
 		: Model {}
 	{
 		m_meshes.reserve(copy.meshes().size());
-		for (const Mesh * mesh : copy.meshes())
+		for (const_ptr_t<Mesh> mesh : copy.meshes())
 		{
 			m_meshes.push_back(new Mesh{ *mesh });
 			m_meshes.back()->create();
@@ -44,7 +44,7 @@ namespace ml
 
 	bool Model::dispose()
 	{
-		for (Mesh *& elem : m_meshes) { delete elem; }
+		for (ptr_t<Mesh>& elem : m_meshes) { delete elem; }
 		m_meshes.clear();
 		return m_meshes.empty();
 	}
@@ -67,7 +67,7 @@ namespace ml
 		// Meshes
 		for (aiMesh ** m = &scene->mMeshes[0]; m != &scene->mMeshes[scene->mNumMeshes]; m++)
 		{
-			Mesh * temp { new Mesh() };
+			ptr_t<Mesh> temp { new Mesh() };
 			
 			// Faces
 			for (aiFace * f = &(*m)->mFaces[0]; f != &(*m)->mFaces[(*m)->mNumFaces]; f++)
@@ -116,7 +116,7 @@ namespace ml
 
 	void Model::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
-		for (const Mesh * elem : m_meshes)
+		for (const_ptr_t<Mesh> elem : m_meshes)
 		{
 			elem->draw(target, batch);
 		}

@@ -19,7 +19,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Surface();
-		Surface(const Model * model, const Material * material, const Shader * shader);
+		Surface(const_ptr_t<Model> model, const_ptr_t<Material> material, const_ptr_t<Shader> shader);
 		Surface(const Surface & copy);
 		~Surface();
 
@@ -39,9 +39,9 @@ namespace ml
 
 		Surface & setColorID(GL::ColorID value);
 		Surface & setFrameID(GL::FrameID value);
-		Surface & setModel(const Model * value);
-		Surface & setMaterial(const Material * value);
-		Surface & setShader(const Shader * value);
+		Surface & setModel(const_ptr_t<Model> value);
+		Surface & setMaterial(const_ptr_t<Material> value);
+		Surface & setShader(const_ptr_t<Shader> value);
 		Surface & setSize(const vec2i & value);
 		Surface & setStorage(GL::Format value);
 
@@ -51,10 +51,10 @@ namespace ml
 		inline auto frameID()	const -> GL::FrameID		{ return m_frameID; }
 		inline auto fbo()		const -> const FBO &		{ return m_fbo; }
 		inline auto height()	const -> int32_t			{ return m_size[1]; }
-		inline auto material()	const -> const Material *	{ return m_material; }
-		inline auto model()		const -> const Model *		{ return m_model; }
+		inline auto material()	const -> const_ptr_t<Material>	{ return m_material; }
+		inline auto model()		const -> const_ptr_t<Model>		{ return m_model; }
 		inline auto rbo()		const -> const RBO &		{ return m_rbo; }
-		inline auto shader()	const -> const Shader *		{ return m_shader; }
+		inline auto shader()	const -> const_ptr_t<Shader>		{ return m_shader; }
 		inline auto size()		const -> const vec2i &		{ return m_size; }
 		inline auto storage()	const -> GL::Format			{ return m_storage; }
 		inline auto texture()	const -> const Texture &	{ return m_texture; }
@@ -70,9 +70,9 @@ namespace ml
 		GL::ColorID		m_colorID;	// 
 		GL::FrameID		m_frameID;	// 
 		FBO				m_fbo;		// 
-		const Material *m_material;	// 
-		const Shader *	m_shader;	//
-		const Model *	m_model;	// 
+		const_ptr_t<Material>m_material;	// 
+		const_ptr_t<Shader>	m_shader;	//
+		const_ptr_t<Model>	m_model;	// 
 		RBO				m_rbo;		// 
 		vec2i			m_size;		// 
 		GL::Format		m_storage;	// 

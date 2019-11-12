@@ -31,7 +31,7 @@ namespace ml
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename);
-		bool loadFromFile(const String & filename, const Map<String, Texture *> * textures);
+		bool loadFromFile(const String & filename, const Map<String, ptr_t<Texture>> * textures);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

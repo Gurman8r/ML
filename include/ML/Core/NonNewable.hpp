@@ -23,10 +23,10 @@ namespace ml
 		}
 
 	private:
-		inline void * operator	new		 (size_t)	{ return nullptr; }
-		inline void * operator	new[]	 (size_t)	{ return nullptr; }
-		inline void	  operator	delete	 (void *)	{ return; }
-		inline void	  operator	delete[] (void *)	{ return; }
+		inline ptr_t<void> operator	new(size_t)		{ return nullptr; }
+		inline ptr_t<void> operator	new[](size_t)	{ return nullptr; }
+		inline void operator delete(ptr_t<void>)	{ return; }
+		inline void operator delete[](ptr_t<void>)	{ return; }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

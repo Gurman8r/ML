@@ -7,7 +7,7 @@
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main() { return new ml::TestPlugin {}; }
+ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main() { return new ml::TestPlugin {}; }
 
 namespace ml
 {

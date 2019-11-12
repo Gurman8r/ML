@@ -23,7 +23,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool loadFromFile(const String & filename);
-		bool loadFromMemory(const Texture * value);
+		bool loadFromMemory(const_ptr_t<Texture> value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -32,7 +32,7 @@ namespace ml
 		Sprite & setPosition(const vec2 &	value);
 		Sprite & setRotation(const float_t	value);
 		Sprite & setScale	(const vec2 &	value);
-		Sprite & setTexture	(const Texture *value);
+		Sprite & setTexture	(const_ptr_t<Texture>value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -46,13 +46,13 @@ namespace ml
 		inline auto rotation()	const -> float_t			{ return m_tf.rotation(); }
 		inline auto scale()		const -> const vec2 &		{ return m_tf.scale(); }
 		inline auto size()		const -> vec2				{ return scale() * m_texture->size(); }
-		inline auto texture()	const -> const Texture *	{ return m_texture; }
+		inline auto texture()	const -> const_ptr_t<Texture>	{ return m_texture; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		vec4			m_color;
-		const Texture * m_texture;
+		const_ptr_t<Texture> m_texture;
 		RectTransform	m_tf;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

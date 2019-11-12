@@ -51,14 +51,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Newable * ContentManager::insert(hash_t code, const String & name, void * value)
+	ptr_t<Newable> ContentManager::insert(hash_t code, const String & name, ptr_t<void> value)
 	{
-		return this->data(code).insert({ name, (Newable *)value }).first->second;
+		return this->data(code).insert({ name, (ptr_t<Newable>)value }).first->second;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Newable * ContentManager::generate(const String & type, const String & name)
+	ptr_t<Newable> ContentManager::generate(const String & type, const String & name)
 	{
 		if (const hash_t * code { ML_Registry.get_code(type) })
 		{
@@ -77,7 +77,7 @@ namespace ml
 		auto it { this->data(code).find(name) };
 		if (it != this->data(code).end())
 		{
-			Newable *& ptr { it->second };
+			ptr_t<Newable>& ptr { it->second };
 			delete ptr;
 			ptr = nullptr;
 			this->data(code).erase(it);

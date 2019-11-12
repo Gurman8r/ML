@@ -36,7 +36,7 @@ namespace ml
 		return true;
 	}
 
-	bool Sprite::loadFromMemory(const Texture * value)
+	bool Sprite::loadFromMemory(const_ptr_t<Texture> value)
 	{
 		if (value)
 		{
@@ -78,7 +78,7 @@ namespace ml
 		return (*this);
 	}
 
-	Sprite & Sprite::setTexture(const Texture * value)
+	Sprite & Sprite::setTexture(const_ptr_t<Texture> value)
 	{
 		m_texture = value;
 		return (*this);

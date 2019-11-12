@@ -25,7 +25,7 @@
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Editor/AssetPreview.hpp>
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main() { return new ml::Noobs {}; }
+ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main() { return new ml::Noobs {}; }
 
 namespace ml
 {
@@ -160,7 +160,6 @@ namespace ml
 		case SecretEvent::ID:
 			if (auto ev = value.as<SecretEvent>())
 			{
-				Debug::logInfo("I'm so proud.");
 				Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 			}
 			break;
@@ -171,11 +170,16 @@ namespace ml
 
 	void Noobs::onStart(const StartEvent & ev)
 	{
-		// Setup Editor
-		if (const String ent_name { ML_Engine.prefs().get_string("Noobs", "target_entity", "") })
+		m_pipeline = {
+			ML_Engine.content().get<Surface>("surf/main"),
+			ML_Engine.content().get<Surface>("surf/post")
+		};
+
+		if (m_ent_name = ML_Engine.prefs().get_string("Noobs", "target_entity", ""))
 		{
-			m_entity.update(ML_Engine.content().get<Entity>(ent_name));
+			m_entity = ML_Engine.content().get<Entity>(m_ent_name);
 		}
+
 		if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
 		{
 			generate_sources();
@@ -1317,10 +1321,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * */
 		if (ImGui::BeginMenu("Entity"))
 		{
-			const Entity * e { m_entity.get() };
+			const_ptr_t<Entity> e { m_entity };
 			if (PropertyDrawer<Entity>()("##TargetEntity", e) && e)
 			{
-				m_entity.update(e);
+				m_entity = std::remove_cv_t<ptr_t<Entity>>(e);
 				reset_sources().generate_sources();
 			}
 			ImGuiExt::Tooltip("Select the target entity");
@@ -1450,7 +1454,7 @@ namespace ml
 			}
 			else if (m_entity)
 			{
-				ImGui::PushID(ML_ADDRESSOF(m_entity.get()));
+				ImGui::PushID(ML_ADDRESSOF(m_entity));
 				if (ImGui::Button("Add Renderer"))
 				{
 					m_entity->add<Renderer>();
@@ -1499,7 +1503,7 @@ namespace ml
 			}
 			else if (m_entity)
 			{
-				ImGui::PushID(ML_ADDRESSOF(m_entity.get()));
+				ImGui::PushID(ML_ADDRESSOF(m_entity));
 				if (ImGui::Button("Add Transform")) { m_entity->add<Transform>(); }
 				ImGuiExt::Tooltip("Attach a Transform to the target Entity");
 				ImGui::PopID();

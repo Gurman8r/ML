@@ -12,7 +12,7 @@ namespace ml
 	}
 
 	Texture::Texture(GL::Sampler sampler) 
-		: Texture { sampler, true, false }
+		: Texture { sampler, true, true }
 	{
 	}
 
@@ -563,7 +563,7 @@ namespace ml
 		return (*this);
 	}
 
-	void Texture::bind(const Texture * value)
+	void Texture::bind(const_ptr_t<Texture> value)
 	{
 		return ((value)
 			? ML_GL.bindTexture(value->sampler(), (*value))

@@ -33,19 +33,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VertexBuffer & bufferData(const void * data, uint32_t size) const;
+		const VertexBuffer & bufferData(const_ptr_t<void> data, uint32_t size) const;
 		
 		const VertexBuffer & bufferData(const List<float_t> & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VertexBuffer & bufferSubData(const void * data, uint32_t size, uint32_t offset) const;
+		const VertexBuffer & bufferSubData(const_ptr_t<void> data, uint32_t size, uint32_t offset) const;
 		
 		const VertexBuffer & bufferSubData(const List<float_t> & data, uint32_t offset) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto	data()	const -> const void *		{ return m_data; }
+		inline auto	data()	const -> const_ptr_t<void>		{ return m_data; }
 		inline auto	usage() const -> const GL::Usage &	{ return m_usage; }
 		inline auto	size()	const -> const uint32_t &	{ return m_size; }
 		inline auto	count() const -> const int32_t &	{ return m_count; }
@@ -53,7 +53,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		mutable const void *	m_data;
+		mutable const_ptr_t<void>	m_data;
 		mutable GL::Usage		m_usage;
 		mutable uint32_t		m_size;		// total length of contiguous data
 		mutable int32_t			m_count;	// number of vertices

@@ -15,7 +15,7 @@ namespace ml
 	{
 		for (auto & [key, value] : m_data)
 		{
-			Newable *& ptr { value };
+			ptr_t<Newable>& ptr { value };
 			delete ptr;
 			ptr = nullptr;
 		}
@@ -30,7 +30,7 @@ namespace ml
 		auto it { m_data.find(code) };
 		if (it != m_data.end())
 		{
-			Newable *& ptr { it->second };
+			auto & ptr { it->second };
 			delete ptr;
 			ptr = nullptr;
 			m_data.erase(it);
@@ -46,15 +46,15 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void * Entity::addByCode(hash_t code, void * value)
+	ptr_t<void> Entity::addByCode(hash_t code, ptr_t<void> value)
 	{
 		return ((m_data.find(code) == m_data.end())
-			? m_data.insert({ code, static_cast<Newable *>(value) }).first->second
+			? m_data.insert({ code, static_cast<ptr_t<Newable>>(value) }).first->second
 			: nullptr
 			);
 	}
 
-	void * Entity::addByName(const String & name, void * value)
+	ptr_t<void> Entity::addByName(const String & name, ptr_t<void> value)
 	{
 		return ((m_data.find(name.hash()) == m_data.end())
 			? addByCode(name.hash(), value)
@@ -62,7 +62,7 @@ namespace ml
 			);
 	}
 
-	void * Entity::addByName(const String & name)
+	ptr_t<void> Entity::addByName(const String & name)
 	{
 		return ((m_data.find(name.hash()) == m_data.end())
 			? addByCode(name.hash(), ML_Registry.generate(name))
@@ -72,13 +72,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Newable * Entity::getByCode(hash_t value)
+	ptr_t<Newable> Entity::getByCode(hash_t value)
 	{
 		auto it { m_data.find(value) };
 		return ((it != cend()) ? it->second : nullptr);
 	}
 
-	const Newable * Entity::getByCode(hash_t value) const
+	const_ptr_t<Newable> Entity::getByCode(hash_t value) const
 	{
 		auto it { m_data.find(value) };
 		return ((it != cend()) ? it->second : nullptr);
@@ -86,12 +86,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	Newable * Entity::getByName(const String & value)
+	ptr_t<Newable> Entity::getByName(const String & value)
 	{
 		return getByCode(value.hash());
 	}
 
-	const Newable * Entity::getByName(const String & value) const
+	const_ptr_t<Newable> Entity::getByName(const String & value) const
 	{
 		return getByCode(value.hash());
 	}

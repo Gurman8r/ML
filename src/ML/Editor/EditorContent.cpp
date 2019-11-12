@@ -2,7 +2,7 @@
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Engine/Ref.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
@@ -52,7 +52,7 @@ namespace ml
 			// Tab Context Menu
 			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + plural).c_str()))
 			{
-				void * temp { nullptr };
+				ptr_t<void> temp { nullptr };
 				if (!std::is_same_v<T, Surface> && !std::is_same_v<T, Uniform>)
 				{
 					if (PropertyDrawer<T>()(("New {0}"_s).format(
@@ -78,7 +78,7 @@ namespace ml
 			auto to_remove { db.end() }, to_select { db.end() };
 			for (auto it = db.begin(); it != db.end(); it++)
 			{
-				if (!it->second || ImGuiExt::IsHidden(it->first)) { continue; }
+				if (!it->second) { continue; }
 				
 				ImGui::PushID(it->first.c_str());
 

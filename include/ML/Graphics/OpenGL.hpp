@@ -70,7 +70,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void clear(uint32_t mask);
 		static void clearColor(float_t r, float_t g, float_t b, float_t a);
-		static void drawElements(GL::Mode mode, int32_t count, GL::Type type, const void * indices);
+		static void drawElements(GL::Mode mode, int32_t count, GL::Type type, const_ptr_t<void> indices);
 		static void drawArrays(GL::Mode mode, int32_t first, int32_t count);
 		static void flush();
 
@@ -82,13 +82,13 @@ namespace ml
 		static auto genVertexArrays(uint32_t count) -> uint32_t;
 		static void	bindBuffer(uint32_t type, uint32_t buffer);
 		static void	bindVertexArray(uint32_t value);
-		static void	bufferData(uint32_t type, uint32_t size, const void * data, GL::Usage usage);
-		static void	bufferSubData(uint32_t target, int32_t offset, int32_t size, const void * data);
+		static void	bufferData(uint32_t type, uint32_t size, const_ptr_t<void> data, GL::Usage usage);
+		static void	bufferSubData(uint32_t target, int32_t offset, int32_t size, const_ptr_t<void> data);
 		static bool	deleteBuffer(const uint32_t * value);
 		static void	deleteBuffers(uint32_t count, const uint32_t * buffers);
 		static bool deleteVertexArray(const uint32_t * value);
 		static void	deleteVertexArrays(uint32_t count, const uint32_t * arrays);
-		static void	vertexAttribPointer(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, const void * pointer);
+		static void	vertexAttribPointer(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, const_ptr_t<void> pointer);
 		static void	vertexAttribPointer(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, uint32_t offset, uint32_t width);
 		static void	enableVertexAttribArray(uint32_t index);
 
@@ -106,10 +106,10 @@ namespace ml
 		static bool deleteTexture(const uint32_t * value);
 		static void	deleteTextures(uint32_t count, const uint32_t * id);
 		static void	bindTexture(uint32_t target, uint32_t id);
-		static void	texImage2D(uint32_t target, int32_t level, GL::Format internalFormat, int32_t width, int32_t height, int32_t border, GL::Format format, GL::Type type, const void * pixels);
-		static void	texSubImage2D(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t width, int32_t height, GL::Format format, GL::Type type, const void * pixels);
+		static void	texImage2D(uint32_t target, int32_t level, GL::Format internalFormat, int32_t width, int32_t height, int32_t border, GL::Format format, GL::Type type, const_ptr_t<void> pixels);
+		static void	texSubImage2D(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t width, int32_t height, GL::Format format, GL::Type type, const_ptr_t<void> pixels);
 		static void	texParameter(uint32_t target, uint32_t name, uint32_t param);
-		static void	getTexImage(uint32_t target, int32_t level, GL::Format format, GL::Type type, void * pixels);
+		static void	getTexImage(uint32_t target, int32_t level, GL::Format format, GL::Type type, ptr_t<void> pixels);
 		static void	generateMipmap(uint32_t target);
 		static void	pixelStore(uint32_t name, int32_t param);
 		static void	scissor(int32_t x, int32_t y, int32_t width, int32_t height);
@@ -155,7 +155,7 @@ namespace ml
 		static void	deleteShader(uint32_t obj);
 		static void	detachShader(uint32_t containerObj, uint32_t obj);
 		static void	attachShader(uint32_t containerObj, uint32_t obj);
-		static void	shaderSource(uint32_t obj, int32_t count, C_String const * src, const int32_t * length);
+		static void	shaderSource(uint32_t obj, int32_t count, C_String const * src, const_ptr_t<int32_t> length);
 		static auto	compileShader(uint32_t obj) -> int32_t;
 		static auto	compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source) -> int32_t;
 		static auto	compileShader(uint32_t & obj, GL::ShaderType type, int32_t count, const C_String * source, C_String & log) -> int32_t;
@@ -169,13 +169,13 @@ namespace ml
 		static void	uniform2i(int32_t location, int32_t x, int32_t y);
 		static void	uniform3i(int32_t location, int32_t x, int32_t y, int32_t z);
 		static void	uniform4i(int32_t location, int32_t x, int32_t y, int32_t z, int32_t w);
-		static void	uniform1fv(int32_t location, uint32_t count, const float_t * value);
-		static void	uniform2fv(int32_t location, uint32_t count, const float_t * value);
-		static void	uniform3fv(int32_t location, uint32_t count, const float_t * value);
-		static void	uniform4fv(int32_t location, uint32_t count, const float_t * value);
-		static void	uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
-		static void	uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
-		static void	uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const float_t * value);
+		static void	uniform1fv(int32_t location, uint32_t count, const_ptr_t<float_t> value);
+		static void	uniform2fv(int32_t location, uint32_t count, const_ptr_t<float_t> value);
+		static void	uniform3fv(int32_t location, uint32_t count, const_ptr_t<float_t> value);
+		static void	uniform4fv(int32_t location, uint32_t count, const_ptr_t<float_t> value);
+		static void	uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value);
+		static void	uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value);
+		static void	uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -12,7 +12,7 @@
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 
-ML_PLUGIN_API ml::Plugin * ML_Plugin_Main() { return new ml::CommandSuite {}; }
+ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main() { return new ml::CommandSuite {}; }
 
 namespace ml
 {
@@ -331,7 +331,7 @@ namespace ml
 			{
 				if (args.size() == 2)
 				{
-					if (Script * scr { ML_Engine.content().get<Script>(args[1]) })
+					if (ptr_t<Script> scr { ML_Engine.content().get<Script>(args[1]) })
 					{
 						scr->execute();
 						return true;

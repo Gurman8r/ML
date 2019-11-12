@@ -45,20 +45,20 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		CommandRegistry * m_commands	{ nullptr };
-		ContentManager	* m_content		{ nullptr };
-		Preferences		* m_prefs		{ nullptr };
-		GameTime		* m_time		{ nullptr };
-		RenderWindow	* m_window		{ nullptr };
+		CommandRegistry	m_commands;
+		ContentManager	m_content;
+		Preferences		m_prefs;
+		GameTime		m_time;
+		RenderWindow	m_window;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline auto & commands()	{ return (*m_commands); }
-		inline auto & content()		{ return (*m_content); }
-		inline auto & prefs()		{ return (*m_prefs); }
-		inline auto & time()		{ return (*m_time); }
-		inline auto & window()		{ return (*m_window); }
+		inline auto & commands()	{ return m_commands; }
+		inline auto & content()		{ return m_content; }
+		inline auto & prefs()		{ return m_prefs; }
+		inline auto & time()		{ return m_time; }
+		inline auto & window()		{ return m_window; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

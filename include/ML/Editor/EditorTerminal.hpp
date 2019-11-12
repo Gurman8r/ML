@@ -28,7 +28,7 @@ namespace ml
 		void	printl(const String & value);	// Print Line
 		void	printss(SStream & value);		// Print SStream
 		bool	redirect(std::ostream & value);
-		int32_t inputCallback(void * value);
+		int32_t inputCallback(ptr_t<void> value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

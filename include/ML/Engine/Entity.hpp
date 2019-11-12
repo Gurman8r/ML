@@ -11,7 +11,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using base_type = typename HashMap<hash_t, Newable *>;
+		using base_type = typename HashMap<hash_t, ptr_t<Newable>>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -24,29 +24,29 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline T * attach(T * value)
+		template <class T> inline ptr_t<T> attach(ptr_t<T> value)
 		{
 			return ((m_data.find(typeof<T>::hash) == m_data.end())
-				? static_cast<T *>(this->addByCode(typeof<T>::hash, value))
+				? static_cast<ptr_t<T>>(this->addByCode(typeof<T>::hash, value))
 				: nullptr
 			);
 		}
 
-		template <class T, class ... Args> inline T * add(Args && ... args)
+		template <class T, class ... Args> inline ptr_t<T> add(Args && ... args)
 		{
 			return this->attach<T>(new T { std::forward<Args>(args)... });
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline T * get()
+		template <class T> inline ptr_t<T> get()
 		{
-			return static_cast<T *>(getByCode(typeof<T>::hash));
+			return static_cast<ptr_t<T>>(getByCode(typeof<T>::hash));
 		}
 
-		template <class T> inline const T * get() const
+		template <class T> inline const_ptr_t<T> get() const
 		{
-			return static_cast<const T *>(getByCode(typeof<T>::hash));
+			return static_cast<const_ptr_t<T>>(getByCode(typeof<T>::hash));
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -61,23 +61,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void * addByCode(hash_t code, void * value);
+		ptr_t<void> addByCode(hash_t code, ptr_t<void> value);
 
-		void * addByName(const String & name, void * value);
+		ptr_t<void> addByName(const String & name, ptr_t<void> value);
 
-		void * addByName(const String & name);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		Newable * getByCode(hash_t value);
-
-		const Newable * getByCode(hash_t value) const;
+		ptr_t<void> addByName(const String & name);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Newable * getByName(const String & value);
+		ptr_t<Newable> getByCode(hash_t value);
 
-		const Newable * getByName(const String & value) const;
+		const_ptr_t<Newable> getByCode(hash_t value) const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		ptr_t<Newable> getByName(const String & value);
+
+		const_ptr_t<Newable> getByName(const String & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

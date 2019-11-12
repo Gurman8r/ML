@@ -30,7 +30,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto get_address() const -> void * { return ML_ADDRESSOF(m_handle); }
+		inline auto get_address() const -> ptr_t<void> { return ML_ADDRESSOF(m_handle); }
 		
 		inline auto get_handle() -> reference { return m_handle; }
 		

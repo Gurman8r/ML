@@ -1,7 +1,7 @@
 #ifndef _NOOBS_HPP_
 #define _NOOBS_HPP_
 
-#include <ML/Engine/Ref.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -9,7 +9,7 @@
 #include <ML/Graphics/Camera.hpp>
 #include <ImGuiColorTextEdit/TextEditor.h>
 
-extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
+extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main();
 
 namespace ml
 {
@@ -45,16 +45,9 @@ namespace ml
 		// PIPELINE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum : size_t 
-		{
-			Surf_Main, Surf_Post, MAX_DEMO_SURFACE
-		};
-		
-		Array<Ref<Surface>, MAX_DEMO_SURFACE> m_pipeline 
-		{
-			Ref<Surface> { "surf/main" },
-			Ref<Surface> { "surf/post" },
-		};
+		enum : size_t { Surf_Main, Surf_Post, MAX_DEMO_SURFACE };
+
+		using DemoPipeline = typename Array<ptr_t<Surface>, MAX_DEMO_SURFACE>;
 
 
 		// ERRORS
@@ -113,7 +106,6 @@ namespace ml
 		};
 
 
-
 		// FILES
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -157,7 +149,7 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 		};
 
-		using FileArray = Array<ShaderFile *, ShaderFile::MAX_DEMO_FILE>;
+		using FileArray = Array<ptr_t<ShaderFile>, ShaderFile::MAX_DEMO_FILE>;
 
 
 		// EDITOR
@@ -165,12 +157,16 @@ namespace ml
 
 		enum class DisplayMode : int32_t { Automatic, Manual, Fixed };
 
-		bool		m_editor_open		{ true };
-		bool		m_display_open		{ true };
-		bool		m_use_main_camera	{ true };
-		Ref<Entity> m_entity			{};
-		FileArray	m_files				{ 0 };
-		DisplayMode	m_displayMode		{ 0 };
+		bool m_editor_open		{ true };
+		bool m_display_open		{ true };
+		bool m_use_main_camera	{ true };
+
+		ptr_t<Entity>	m_entity			{};
+		String			m_ent_name			{};
+		FileArray		m_files				{ 0 };
+		DisplayMode		m_displayMode		{ 0 };
+		int32_t			m_displayIndex		{ 0 };
+		DemoPipeline	m_pipeline;
 
 		static constexpr auto display_name { "Display##Noobs##DemoView" };
 		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };

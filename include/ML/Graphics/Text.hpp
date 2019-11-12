@@ -57,7 +57,7 @@ namespace ml
 		vec4		m_color;
 
 		mutable bool m_changed;
-		mutable List<const Texture *> m_textures;
+		mutable List<const_ptr_t<Texture>> m_textures;
 		mutable List<geo::rect_quad> m_vertices;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

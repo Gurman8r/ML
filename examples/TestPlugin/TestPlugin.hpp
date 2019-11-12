@@ -3,7 +3,7 @@
 
 #include <ML/Engine/Plugin.hpp>
 
-extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main();
+extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main();
 
 namespace ml
 {

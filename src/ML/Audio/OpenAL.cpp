@@ -140,7 +140,7 @@ namespace ml
 		return temp;
 	}
 
-	void OpenAL::bufferData(uint32_t id, int32_t format, const void * data, int32_t size, int32_t freq)
+	void OpenAL::bufferData(uint32_t id, int32_t format, const_ptr_t<void> data, int32_t size, int32_t freq)
 	{
 		alCheck(alBufferData(id, format, data, size, freq));
 	}
@@ -159,7 +159,7 @@ namespace ml
 		alCheck(alBuffer3f(id, param, x, y, z));
 	}
 
-	void OpenAL::bufferfv(uint32_t id, int32_t param, const float_t * values)
+	void OpenAL::bufferfv(uint32_t id, int32_t param, const_ptr_t<float_t> values)
 	{
 		alCheck(alBufferfv(id, param, values));
 	}
@@ -174,7 +174,7 @@ namespace ml
 		alCheck(alBuffer3i(id, param, x, y, z));
 	}
 
-	void OpenAL::bufferiv(uint32_t id, int32_t param, const int32_t * values)
+	void OpenAL::bufferiv(uint32_t id, int32_t param, const_ptr_t<int32_t> values)
 	{
 		alCheck(alBufferiv(id, param, values));
 	}
@@ -286,7 +286,7 @@ namespace ml
 		alCheck(alSource3f(id, param, x, y, z));
 	}
 
-	void OpenAL::sourcefv(uint32_t id, int32_t param, const float_t * values)
+	void OpenAL::sourcefv(uint32_t id, int32_t param, const_ptr_t<float_t> values)
 	{
 		alCheck(alSourcefv(id, param, values));
 	}
@@ -301,7 +301,7 @@ namespace ml
 		alCheck(alSource3i(id, param, x, y, z));
 	}
 
-	void OpenAL::sourceiv(uint32_t id, int32_t param, const int32_t * values)
+	void OpenAL::sourceiv(uint32_t id, int32_t param, const_ptr_t<int32_t> values)
 	{
 		alCheck(alSourceiv(id, param, values));
 	}
@@ -414,7 +414,7 @@ namespace ml
 		alCheck(alListener3f(param, x, y, z));
 	}
 
-	void OpenAL::listenerfv(int32_t param, const float_t * values)
+	void OpenAL::listenerfv(int32_t param, const_ptr_t<float_t> values)
 	{
 		alCheck(alListenerfv(param, values));
 	}
@@ -429,7 +429,7 @@ namespace ml
 		alCheck(alListener3i(param, x, y, z));
 	}
 
-	void OpenAL::listeneriv(int32_t param, const int32_t * values)
+	void OpenAL::listeneriv(int32_t param, const_ptr_t<int32_t> values)
 	{
 		alCheck(alListeneriv(param, values));
 	}

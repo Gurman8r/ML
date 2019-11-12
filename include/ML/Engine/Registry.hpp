@@ -14,9 +14,9 @@ bool Registry<TYPE>::s_registered {				\
 }
 
 #define ML_REGISTER(TYPE, INFO)					\
-static void * ml_factory_##TYPE();				\
+static ptr_t<void> ml_factory_##TYPE();				\
 ML_REGISTER_EXT(TYPE, INFO, ml_factory_##TYPE);	\
-void * ml_factory_##TYPE()
+ptr_t<void> ml_factory_##TYPE()
 
 namespace ml
 {
@@ -46,7 +46,7 @@ namespace ml
 		using Code = typename hash_t;
 		using Name = typename String;
 		using Info = typename String;
-		using Func = typename std::function<void *(void)>;
+		using Func = typename std::function<ptr_t<void>(void)>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -57,13 +57,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * generate(const Name & name) const
+		inline ptr_t<void> generate(const Name & name) const
 		{
 			const Func func { get_func(name) };
 			return (func ? func() : nullptr);
 		}
 
-		inline void * generate(Code code) const
+		inline ptr_t<void> generate(Code code) const
 		{
 			const Func func { get_func(code) };
 			return (func ? func() : nullptr);

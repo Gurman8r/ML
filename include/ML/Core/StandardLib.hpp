@@ -59,12 +59,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_ARGC	__argc	// Pointer to number of command line arguments
-#define ML_ARGV	__argv	// Pointer to table of narrow command line arguments
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-# ifdef ML_CC_MSC // Deprecated Functions
+# ifdef ML_CC_MSC
 #	define popen	_popen
 #	define pclose	_pclose
 #	define strdup	_strdup
@@ -74,55 +69,84 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#define ML_SERIALIZE	_STD ostream & operator <<
+#define ML_DESERIALIZE	_STD istream & operator >>
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using int8_t		= typename ML_INT8;
-	using int16_t		= typename ML_INT16;
-	using int32_t		= typename ML_INT32;
-	using int64_t		= typename ML_INT64;
+	ML_USING	int8_t		= typename ML_INT8;
+	ML_USING	int16_t		= typename ML_INT16;
+	ML_USING	int32_t		= typename ML_INT32;
+	ML_USING	int64_t		= typename ML_INT64;
 
-	using uint8_t		= typename ML_UINT8;
-	using uint16_t		= typename ML_UINT16;
-	using uint32_t		= typename ML_UINT32;
-	using uint64_t		= typename ML_UINT64;
+	ML_USING	uint8_t		= typename ML_UINT8;
+	ML_USING	uint16_t	= typename ML_UINT16;
+	ML_USING	uint32_t	= typename ML_UINT32;
+	ML_USING	uint64_t	= typename ML_UINT64;
 
-	using float32_t		= typename ML_FLOAT32;
-	using float64_t		= typename ML_FLOAT64;
-	using float80_t		= typename ML_FLOAT80;
+	ML_USING	float32_t	= typename ML_FLOAT32;
+	ML_USING	float64_t	= typename ML_FLOAT64;
+	ML_USING	float80_t	= typename ML_FLOAT80;
 
-	using intmax_t		= typename ML_INTMAX;
-	using uintmax_t		= typename ML_UINTMAX;
+	ML_USING	intmax_t	= typename ML_INTMAX;
+	ML_USING	uintmax_t	= typename ML_UINTMAX;
 
-	using C_String		= typename const char *;
-	using CW_String		= typename const wchar_t *;
-	using C16_String	= typename const char16_t *;
-	using C32_String	= typename const char32_t *;
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	ML_USING	bool_t		= typename bool;
+	ML_USING	byte_t		= typename uint8_t;
+	ML_USING	float_t		= typename float32_t;
+	ML_USING	hash_t		= typename uint64_t;
+	ML_USING	intptr_t	= typename intmax_t;
+	ML_USING	ptrdiff_t	= typename intptr_t;
+	ML_USING	size_t		= typename uintmax_t;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	using byte_t		= typename uint8_t;		// Byte Type
-	using float_t		= typename float32_t;	// Float Type
-	using hash_t		= typename uint64_t;	// Hash Type
-	using intptr_t		= typename intmax_t;	// Int Pointer Type
-	using ptrdiff_t		= typename intptr_t;	// Pointer Difference Type
-	using size_t		= typename uintmax_t;	// Size Type
+	ML_USING_X	ptr_t		= typename X *;
+	ML_USING_X	ref_t		= typename X &;
+	ML_USING_X	const_ptr_t	= typename X const *;
+	ML_USING_X	const_ref_t = typename X const &;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	ML_USING	C_String	= typename const_ptr_t<char>;
+	ML_USING	CW_String	= typename const_ptr_t<wchar_t>;
+	ML_USING	C16_String	= typename const_ptr_t<char16_t>;
+	ML_USING	C32_String	= typename const_ptr_t<char32_t>;
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	ML_USING_XY HashMap		= typename _STD unordered_map<X, Y>;
+	ML_USING_X	List		= typename _STD vector<X>;
+	ML_USING_XY Map			= typename _STD map<X, Y>;
+	ML_USING_Ts Global		= typename _STD shared_ptr<Ts...>;
+	ML_USING_Ts Scope		= typename _STD unique_ptr<Ts...>;
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	template <class T, class ... Args>
+	static constexpr Global<T> make_global(Args && ... args)
+	{
+		return _STD make_shared<T>(_STD forward<Args>(args)...);
+	}
 	
-	ML_USING_XY HashMap	= typename _STD unordered_map	<X, Y>;
-	ML_USING_X	List	= typename _STD vector			<X>;
-	ML_USING_XY Map		= typename _STD map				<X, Y>;
+	template <class T, class ... Args>
+	static constexpr Scope<T> make_scope(Args && ... args)
+	{
+		return _STD make_unique<T>(_STD forward<Args>(args)...);
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_SERIALIZE	_STD ostream & operator<<
-#define ML_DESERIALIZE	_STD istream & operator>>
+	static _STD ostream & cout { _STD cout };
+	static _STD ostream & cerr { _STD cerr };
+	static _STD istream & cin  { _STD cin  };
 
-	static _STD ostream & cout { _STD cout }; // Output Handle
-	static _STD ostream & cerr { _STD cerr }; // Error Handle
-	static _STD istream & cin  { _STD cin  }; // Input Handle
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	template <
 		class Ch, class Tr = typename _STD char_traits<char>

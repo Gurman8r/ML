@@ -105,7 +105,7 @@ namespace ml
 			);
 		}
 
-		// Store the loaded fonts in our ugly void * :)
+		// Store the loaded fonts in our ugly Own<void> :)
 		m_face = face;
 
 		// Store the fonts information

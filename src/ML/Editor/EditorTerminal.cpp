@@ -1,7 +1,7 @@
 #include <ML/Editor/EditorTerminal.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
-#include <ML/Engine/Ref.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -143,7 +143,7 @@ namespace ml
 					ImGuiInputTextFlags_CallbackHistory
 				),
 				[](auto data) { return ((EditorTerminal *)(data->UserData))->inputCallback(data); },
-				static_cast<void *>(this))
+				static_cast<ptr_t<void>>(this))
 			)
 			{
 				auto strtrim = [](char * str)
@@ -272,7 +272,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	int32_t EditorTerminal::inputCallback(void * value)
+	int32_t EditorTerminal::inputCallback(ptr_t<void> value)
 	{
 		ImGuiInputTextCallbackData * data;
 		if (!(data = (ImGuiInputTextCallbackData *)(value))) 

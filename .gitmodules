@@ -1,3 +1,15 @@
+[submodule "ext/glfw"]
+	path = ext/glfw
+	url = https://github.com/Gurman8r/glfw.git
+[submodule "ext/assimp"]
+	path = ext/assimp
+	url = https://github.com/Gurman8r/assimp.git
+[submodule "ext/inih"]
+	path = ext/inih
+	url = https://github.com/Gurman8r/inih.git
+[submodule "ext/ImGuiColorTextEdit"]
+	path = ext/ImGuiColorTextEdit
+	url = https://github.com/Gurman8r/ImGuiColorTextEdit.git
 [submodule "ext/cpython"]
 	path = ext/cpython
 	url = https://github.com/python/cpython.git
@@ -20,27 +32,12 @@
 	path = ext/dirent
 	url = https://github.com/tronkko/dirent.git
 	branch = docking
-[submodule "ext/glfw"]
-	path = ext/glfw
-	url = https://github.com/Gurman8r/glfw.git
-[submodule "ext/assimp"]
-	path = ext/assimp
-	url = https://github.com/Gurman8r/assimp.git
-[submodule "ext/inih"]
-	path = ext/inih
-	url = https://github.com/Gurman8r/inih.git
 [submodule "ext/RakNet"]
 	path = ext/RakNet
-	url = https://github.com/Gurman8r/RakNet.git
-[submodule "ext/lua"]
-	path = ext/lua
-	url = https://github.com/Gurman8r/lua.git
-[submodule "ext/ImGuiColorTextEdit"]
-	path = ext/ImGuiColorTextEdit
-	url = https://github.com/Gurman8r/ImGuiColorTextEdit.git
+	url = https://github.com/facebookarchive/RakNet.git
 [submodule "ext/imgui"]
 	path = ext/imgui
-	url = https://github.com/Gurman8r/imgui.git
+	url = https://github.com/ocornut/imgui.git
 	branch = docking
 [submodule "ext/freetype2"]
 	path = ext/freetype2
@@ -60,3 +57,6 @@
 [submodule "ext/glew"]
 	path = ext/glew
 	url = https://github.com/nigels-com/glew
+[submodule "ext/lua"]
+	path = ext/lua
+	url = https://github.com/lua/lua

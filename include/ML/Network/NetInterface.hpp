@@ -60,7 +60,7 @@ namespace ml
 		Host	getAddressFromGUID(const GUID & value) const;
 
 	protected:
-		void * m_peer;
+		ptr_t<void> m_peer;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

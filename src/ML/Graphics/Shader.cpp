@@ -19,7 +19,7 @@ namespace ml
 		uint32_t	program;
 		int32_t		location;
 
-		UniformBinder(const Shader * value, const String & name)
+		UniformBinder(const_ptr_t<Shader> value, const String & name)
 			: cached { NULL }
 			, program { *value }
 			, location { -1 }
@@ -180,7 +180,7 @@ namespace ml
 		return loadFromMemory(vert.str(), geom.str(), frag.str());
 	}
 
-	bool Shader::loadFromMemory(const Shader::Source & value)
+	bool Shader::loadFromMemory(const Source & value)
 	{
 		return value.gs
 			? loadFromMemory(value.vs, value.gs, value.fs)
@@ -247,7 +247,7 @@ namespace ml
 		return (*this);
 	}
 
-	void Shader::bind(const Shader * shader, bool bindTextures)
+	void Shader::bind(const_ptr_t<Shader> shader, bool bindTextures)
 	{
 		if (shader && (*shader))
 		{
@@ -439,14 +439,14 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniform(const String & name, const Texture * value) const
+	bool Shader::setUniform(const String & name, const_ptr_t<Texture> value) const
 	{
 		return value ? setUniform(name, (*value)) : false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Shader::setUniformArray(const String & name, const int32_t count, const float_t * value) const
+	bool Shader::setUniformArray(const String & name, const int32_t count, const_ptr_t<float_t> value) const
 	{
 		UniformBinder u { this, name };
 		if (u)
@@ -456,7 +456,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(const String & name, const int32_t count, const vec2 * value) const
+	bool Shader::setUniformArray(const String & name, const int32_t count, const_ptr_t<vec2> value) const
 	{
 		UniformBinder u { this, name };
 		if (u)
@@ -466,7 +466,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(const String & name, const int32_t count, const vec3 * value) const
+	bool Shader::setUniformArray(const String & name, const int32_t count, const_ptr_t<vec3> value) const
 	{
 		UniformBinder u { this, name };
 		if (u)
@@ -476,7 +476,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(const String & name, const int32_t count, const vec4 * value) const
+	bool Shader::setUniformArray(const String & name, const int32_t count, const_ptr_t<vec4> value) const
 	{
 		UniformBinder u { this, name };
 		if (u)
@@ -486,7 +486,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(const String & name, const int32_t count, const mat2 * value) const
+	bool Shader::setUniformArray(const String & name, const int32_t count, const_ptr_t<mat2> value) const
 	{
 		UniformBinder u { this, name };
 		if (u)
@@ -496,7 +496,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(const String & name, const int32_t count, const mat3 * value) const
+	bool Shader::setUniformArray(const String & name, const int32_t count, const_ptr_t<mat3> value) const
 	{
 		UniformBinder u { this, name };
 		if (u)
@@ -506,7 +506,7 @@ namespace ml
 		return u;
 	}
 
-	bool Shader::setUniformArray(const String & name, const int32_t count, const mat4 * value) const
+	bool Shader::setUniformArray(const String & name, const int32_t count, const_ptr_t<mat4> value) const
 	{
 		UniformBinder u { this, name };
 		if (u)

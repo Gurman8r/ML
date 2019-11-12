@@ -244,7 +244,7 @@ namespace ml
 		glCheck(glClearColor(r, g, b, a));
 	}
 
-	void OpenGL::drawElements(GL::Mode mode, int32_t count, GL::Type type, const void * indices)
+	void OpenGL::drawElements(GL::Mode mode, int32_t count, GL::Type type, const_ptr_t<void> indices)
 	{
 		glCheck(glDrawElements(mode, count, type, indices));
 	}
@@ -298,12 +298,12 @@ namespace ml
 		glCheck(glBindVertexArray(value));
 	}
 
-	void OpenGL::bufferData(uint32_t type, uint32_t size, const void * data, GL::Usage usage)
+	void OpenGL::bufferData(uint32_t type, uint32_t size, const_ptr_t<void> data, GL::Usage usage)
 	{
 		glCheck(glBufferData(type, size, data, usage));
 	}
 
-	void OpenGL::bufferSubData(uint32_t target, int32_t offset, int32_t size, const void * data)
+	void OpenGL::bufferSubData(uint32_t target, int32_t offset, int32_t size, const_ptr_t<void> data)
 	{
 		glCheck(glBufferSubData(target, offset, size, data));
 	}
@@ -328,7 +328,7 @@ namespace ml
 		glCheck(glDeleteVertexArrays(count, arrays));
 	}
 
-	void OpenGL::vertexAttribPointer(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, const void * pointer)
+	void OpenGL::vertexAttribPointer(uint32_t index, uint32_t size, GL::Type type, bool normalized, uint32_t stride, const_ptr_t<void> pointer)
 	{
 		glCheck(glVertexAttribPointer(
 			index,
@@ -470,12 +470,12 @@ namespace ml
 		glCheck(glBindTexture(target, id));
 	}
 
-	void OpenGL::texImage2D(uint32_t target, int32_t level, GL::Format internalFormat, int32_t width, int32_t height, int32_t border, GL::Format format, GL::Type type, const void * pixels)
+	void OpenGL::texImage2D(uint32_t target, int32_t level, GL::Format internalFormat, int32_t width, int32_t height, int32_t border, GL::Format format, GL::Type type, const_ptr_t<void> pixels)
 	{
 		glCheck(glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixels));
 	}
 
-	void OpenGL::texSubImage2D(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t width, int32_t height, GL::Format format, GL::Type type, const void * pixels)
+	void OpenGL::texSubImage2D(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t width, int32_t height, GL::Format format, GL::Type type, const_ptr_t<void> pixels)
 	{
 		glCheck(glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels));
 	}
@@ -485,7 +485,7 @@ namespace ml
 		glCheck(glTexParameteri(target, name, param));
 	}
 
-	void OpenGL::getTexImage(uint32_t target, int32_t level, GL::Format format, GL::Type type, void * pixels)
+	void OpenGL::getTexImage(uint32_t target, int32_t level, GL::Format format, GL::Type type, ptr_t<void> pixels)
 	{
 		glCheck(glGetTexImage(target, level, format, type, pixels));
 	}
@@ -730,7 +730,7 @@ namespace ml
 		glCheck(glAttachObjectARB(containerObj, obj));
 	}
 
-	void OpenGL::shaderSource(uint32_t obj, int32_t count, C_String const * src, const int32_t * length)
+	void OpenGL::shaderSource(uint32_t obj, int32_t count, C_String const * src, const_ptr_t<int32_t> length)
 	{
 		glCheck(glShaderSource(obj, count, &src[0], length));
 	}
@@ -818,37 +818,37 @@ namespace ml
 		glCheck(glUniform4iARB(location, x, y, z, w));
 	}
 
-	void OpenGL::uniform1fv(int32_t location, uint32_t count, const float_t * value)
+	void OpenGL::uniform1fv(int32_t location, uint32_t count, const_ptr_t<float_t> value)
 	{
 		glCheck(glUniform1fvARB(location, count, value));
 	}
 
-	void OpenGL::uniform2fv(int32_t location, uint32_t count, const float_t * value)
+	void OpenGL::uniform2fv(int32_t location, uint32_t count, const_ptr_t<float_t> value)
 	{
 		glCheck(glUniform2fvARB(location, count, value));
 	}
 
-	void OpenGL::uniform3fv(int32_t location, uint32_t count, const float_t * value)
+	void OpenGL::uniform3fv(int32_t location, uint32_t count, const_ptr_t<float_t> value)
 	{
 		glCheck(glUniform3fvARB(location, count, value));
 	}
 
-	void OpenGL::uniform4fv(int32_t location, uint32_t count, const float_t * value)
+	void OpenGL::uniform4fv(int32_t location, uint32_t count, const_ptr_t<float_t> value)
 	{
 		glCheck(glUniform4fvARB(location, count, value));
 	}
 
-	void OpenGL::uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const float_t * value)
+	void OpenGL::uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value)
 	{
 		glCheck(glUniformMatrix2fvARB(location, count, transpose, value));
 	}
 
-	void OpenGL::uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const float_t * value)
+	void OpenGL::uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value)
 	{
 		glCheck(glUniformMatrix3fvARB(location, count, transpose, value));
 	}
 
-	void OpenGL::uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const float_t * value)
+	void OpenGL::uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value)
 	{
 		glCheck(glUniformMatrix4fvARB(location, count, transpose, value));
 	}

@@ -51,7 +51,7 @@ namespace ml
 		return loadFromFile(filename, nullptr);
 	}
 
-	bool Material::loadFromFile(const String & filename, const Map<String, Texture *> * textures)
+	bool Material::loadFromFile(const String & filename, const Map<String, ptr_t<Texture>> * textures)
 	{
 		// Load uniforms from file
 		if (std::ifstream file { filename })
@@ -153,7 +153,7 @@ namespace ml
 						case uni_mat4::ID:	return u = new uni_mat4(name, input<mat4>()(ss));
 						case uni_sampler::ID:
 						{
-							Map<String, Texture *>::const_iterator it;
+							Map<String, ptr_t<Texture>>::const_iterator it;
 							return (t && ((it = t->find(String(ss.str()).trim())) != t->end()))
 								? u = new uni_sampler(name, it->second)
 								: u = new uni_sampler(name, nullptr);

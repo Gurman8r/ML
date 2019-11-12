@@ -55,8 +55,8 @@ namespace ml
 		mutable PageTable m_pages;
 		
 		Info	m_info;
-		void *	m_library;
-		void *	m_face;
+		ptr_t<void>	m_library;
+		ptr_t<void>	m_face;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

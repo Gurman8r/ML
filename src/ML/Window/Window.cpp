@@ -158,17 +158,17 @@ namespace ml
 
 	bool Window::setup()
 	{
-		setCharCallback([](void *, uint32_t c)
+		setCharCallback([](ptr_t<void>, uint32_t c)
 		{
 			ML_EventSystem.fireEvent<CharEvent>(c);
 		});
 
-		setCursorEnterCallback([](void *, int32_t entered)
+		setCursorEnterCallback([](ptr_t<void>, int32_t entered)
 		{
 			ML_EventSystem.fireEvent<CursorEnterEvent>(entered);
 		});
 
-		setCursorPosCallback([](void *, float64_t x, float64_t y)
+		setCursorPosCallback([](ptr_t<void>, float64_t x, float64_t y)
 		{
 			ML_EventSystem.fireEvent<CursorPosEvent>(x, y);
 		});
@@ -181,12 +181,12 @@ namespace ml
 			ML_EventSystem.fireEvent<WindowErrorEvent>(code, desc);
 		});
 
-		setFrameSizeCallback([](void *, int32_t w, int32_t h)
+		setFrameSizeCallback([](ptr_t<void>, int32_t w, int32_t h)
 		{
 			ML_EventSystem.fireEvent<FrameSizeEvent>(w, h);
 		});
 
-		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
+		setKeyCallback([](ptr_t<void>, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
 			ML_EventSystem.fireEvent<KeyEvent>(button, scan, action, BitMask_8 { {
 				(mods & ML_MOD_SHIFT),
@@ -198,32 +198,32 @@ namespace ml
 			} });
 		});
 
-		setMouseCallback([](void *, int32_t button, int32_t action, int32_t mods)
+		setMouseCallback([](ptr_t<void>, int32_t button, int32_t action, int32_t mods)
 		{
 			ML_EventSystem.fireEvent<MouseEvent>(button, action, mods);
 		});
 		
-		setScrollCallback([](void *, float64_t x, float64_t y)
+		setScrollCallback([](ptr_t<void>, float64_t x, float64_t y)
 		{
 			ML_EventSystem.fireEvent<ScrollEvent>(x, y);
 		});
 
-		setWindowCloseCallback([](void *)
+		setWindowCloseCallback([](ptr_t<void>)
 		{
 			ML_EventSystem.fireEvent<WindowCloseEvent>();
 		});
 
-		setWindowFocusCallback([](void *, int32_t focused)
+		setWindowFocusCallback([](ptr_t<void>, int32_t focused)
 		{
 			ML_EventSystem.fireEvent<WindowFocusEvent>(focused);
 		});
 		
-		setWindowPosCallback([](void *, int32_t x, int32_t y)
+		setWindowPosCallback([](ptr_t<void>, int32_t x, int32_t y)
 		{
 			ML_EventSystem.fireEvent<WindowPosEvent>(x, y);
 		});
 
-		setWindowSizeCallback([](void *, int32_t width, int32_t height)
+		setWindowSizeCallback([](ptr_t<void>, int32_t width, int32_t height)
 		{
 			ML_EventSystem.fireEvent<WindowSizeEvent>(width, height);
 		});
@@ -389,7 +389,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setCursor(void * value)
+	Window & Window::setCursor(ptr_t<void> value)
 	{
 		if (m_window && value)
 		{
@@ -439,7 +439,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setMonitor(void * value)
+	Window & Window::setMonitor(ptr_t<void> value)
 	{
 		if (m_window && (m_monitor != value))
 		{
@@ -545,7 +545,7 @@ namespace ml
 		return temp;
 	}
 
-	void * Window::getHandle()
+	ptr_t<void> Window::getHandle()
 	{
 		return m_window;
 	}
@@ -575,7 +575,7 @@ namespace ml
 		return temp;
 	}
 
-	void * Window::getRawHandle() const
+	ptr_t<void> Window::getRawHandle() const
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		return glfwGetWin32Window(static_cast<GLFWwindow *>(m_window));
@@ -586,17 +586,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void * Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels)
+	ptr_t<void> Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels)
 	{
 		return glfwCreateCursor(&map_glfw_image(w, h, pixels), w, h);
 	}
 
-	void * Window::createStandardCursor(Cursor::Shape value)
+	ptr_t<void> Window::createStandardCursor(Cursor::Shape value)
 	{
 		return glfwCreateStandardCursor((int32_t)value);
 	}
 
-	bool Window::destroyCursor(void * value)
+	bool Window::destroyCursor(ptr_t<void> value)
 	{
 		return (value ? ML_TRUE_EXPR(glfwDestroyCursor(static_cast<GLFWcursor *>(value))) : false);
 	}
@@ -606,7 +606,7 @@ namespace ml
 		return glfwExtensionSupported(value);
 	}
 
-	void * Window::getContextCurrent()
+	ptr_t<void> Window::getContextCurrent()
 	{
 		return glfwGetCurrentContext();
 	}
@@ -659,9 +659,9 @@ namespace ml
 		return reinterpret_cast<Window::ProcFun>(glfwGetProcAddress(value));
 	}
 
-	const List<void *> & Window::getMonitors()
+	const List<ptr_t<void>> & Window::getMonitors()
 	{
-		static List<void *> temp {};
+		static List<ptr_t<void>> temp {};
 		if (temp.empty())
 		{
 			int32_t count { 0 };
@@ -679,7 +679,7 @@ namespace ml
 		return glfwGetTime();
 	}
 
-	bool Window::makeContextCurrent(void * value)
+	bool Window::makeContextCurrent(ptr_t<void> value)
 	{
 		if (value)
 		{

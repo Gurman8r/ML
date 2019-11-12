@@ -21,7 +21,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Mesh();
-		Mesh(const List<Vertex> & vertices, const List<uint32_t> & indices, const List<const Texture *> & textures);
+		Mesh(const List<Vertex> & vertices, const List<uint32_t> & indices, const List<const_ptr_t<Texture>> & textures);
 		Mesh(const Mesh & copy);
 		~Mesh() { this->dispose(); }
 
@@ -42,7 +42,7 @@ namespace ml
 
 		inline auto vertices()	const -> const List<Vertex> &			{ return m_vertices; }
 		inline auto indices()	const -> const List<uint32_t> &			{ return m_indices; }
-		inline auto textures()	const -> const List<const Texture *> &	{ return m_textures; }
+		inline auto textures()	const -> const List<const_ptr_t<Texture>> &	{ return m_textures; }
 		inline auto layout()	const -> const BufferLayout &			{ return m_layout; }
 		inline auto vao()		const -> const VAO &					{ return m_vao; }
 		inline auto vbo()		const -> const VBO &					{ return m_vbo; }
@@ -53,7 +53,7 @@ namespace ml
 	private:
 		List<Vertex>			m_vertices;
 		List<uint32_t>			m_indices;
-		List<const Texture *>	m_textures;
+		List<const_ptr_t<Texture>>	m_textures;
 		
 		BufferLayout m_layout;
 		

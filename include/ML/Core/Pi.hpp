@@ -19,13 +19,13 @@ namespace ml
 
 		using self_type = typename pi<type>;
 
-		static constexpr type value		{ static_cast<type>(3.14159265358979323846264338327L) };
-		static constexpr type two		{ value * cast<type>::two };
-		static constexpr type half		{ value * cast<type>::half };
-		static constexpr type quarter	{ value * cast<type>::quarter };
-		static constexpr type third		{ value * cast<type>::third };
-		static constexpr type deg2rad	{ value / cast<type>::one_eighty };
-		static constexpr type rad2deg	{ cast<type>::one_eighty / value };
+		static constexpr auto value		{ static_cast<type>(3.14159265358979323846264338327L) };
+		static constexpr auto two		{ value * cast<type>::two };
+		static constexpr auto half		{ value * cast<type>::half };
+		static constexpr auto quarter	{ value * cast<type>::quarter };
+		static constexpr auto third		{ value * cast<type>::third };
+		static constexpr auto deg2rad	{ value / cast<type>::one_eighty };
+		static constexpr auto rad2deg	{ cast<type>::one_eighty / value };
 
 		constexpr pi() noexcept = default;
 

@@ -186,12 +186,6 @@
 // Types
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# define	ML_BOOL		bool
-# define	ML_CHAR		char
-# define	ML_WCHAR	wchar_t
-# define	ML_CHAR16	char16_t
-# define	ML_CHAR32	char32_t
-
 # if defined(ML_CC_MSC)
 #	define	ML_INT8		signed __int8
 #	define	ML_INT16	signed __int16
@@ -230,18 +224,19 @@
 
 # define _ML ::ml::
 
-# define ML_ADDRESSOF(ptr)		((void *)(ML_INTMAX)ptr)
+# define ML_ADDRESSOF(ptr)		((ptr_t<void>)(ML_INTMAX)ptr)
 # define ML_ARRAYSIZE(arr)		(sizeof(arr) / sizeof(*arr))
 # define ML_CONCAT(a, b)		a##b
 # define ML_STRINGIFY(str)		ML_TOSTRING(str)
 # define ML_TOSTRING(str)		#str
 
 # define ML_TEMPLATE(...)		template<##__VA_ARGS__>
-# define ML_USING_VA(...)		ML_TEMPLATE(##__VA_ARGS__) using
+# define ML_USING				using
+# define ML_USING_VA(...)		ML_TEMPLATE(##__VA_ARGS__) ML_USING
 # define ML_USING_X				ML_USING_VA(class X)
 # define ML_USING_XY			ML_USING_VA(class X, class Y)
 # define ML_USING_XYZ			ML_USING_VA(class X, class Y, class Z)
-# define ML_USING_TS			ML_USING_VA(class ... Ts)
+# define ML_USING_Ts			ML_USING_VA(class ... Ts)
 
 # define ML_TRUE_EXPR(expr)		(([&](){ expr; return true; })())
 # define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
@@ -258,29 +253,30 @@
 #	define ML_CONFIGURATION	"Release"
 # endif
 
-# if defined(ML_CC_MSC)
-#	define ML_API_EXPORT __declspec(dllexport)
-#	define ML_API_IMPORT __declspec(dllimport)
-#	pragma warning(disable: 4031)	// second formal parameter list longer than the first list
-#	pragma warning(disable: 4067)	// unexpected tokens following preprocessor directive - expected a newline
-#	pragma warning(disable: 4251)	// type1 needs to have dll-interface to be used by type2
-#	pragma warning(disable: 4307)	// integral constant overflow
-#	pragma warning(disable: 4308)	// negative integral constant converted to unsigned type
-#	pragma warning(disable: 4309)	// truncation of constant value
-#	pragma warning(disable: 4723)	// potential divide by zero
-#	pragma warning(disable: 6282)	// incorrect operator
-#	pragma warning(disable: 6301)	// return value ignored
-#	pragma warning(disable: 26437)	// do not slice
-#	pragma warning(disable: 26451)	// arithmetic overflow
-#	pragma warning(disable: 26495)	// value may be uninitialized
-#	pragma warning(disable: 26812)	// unscoped enum
-# elif defined(ML_CC_GCC) && (ML_CC_GCC >= 4)
-#	define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
-#	define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
+# ifndef ML_STATIC
+#	if defined(ML_CC_MSC)
+#		define ML_API_EXPORT __declspec(dllexport)
+#		define ML_API_IMPORT __declspec(dllimport)
+#		pragma warning(disable: 4031)	// second formal parameter list longer than the first list
+#		pragma warning(disable: 4067)	// unexpected tokens following preprocessor directive - expected a newline
+#		pragma warning(disable: 4251)	// type1 needs to have dll-interface to be used by type2
+#		pragma warning(disable: 4307)	// integral constant overflow
+#		pragma warning(disable: 4308)	// negative integral constant converted to unsigned type
+#		pragma warning(disable: 4309)	// truncation of constant value
+#		pragma warning(disable: 4723)	// potential divide by zero
+#		pragma warning(disable: 6282)	// incorrect operator
+#		pragma warning(disable: 6301)	// return value ignored
+#		pragma warning(disable: 26437)	// do not slice
+#		pragma warning(disable: 26451)	// arithmetic overflow
+#		pragma warning(disable: 26495)	// value may be uninitialized
+#		pragma warning(disable: 26812)	// unscoped enum
+#	elif defined(ML_CC_GCC) && (ML_CC_GCC >= 4)
+#		define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
+#		define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
+#	endif
 # else
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
 # endif
-
 
 # endif // !_ML_CONFIG_HPP_

@@ -7,9 +7,9 @@
 #define ML_GEN_CONTENT_IMPORTER(T)									\
 using value_type		= typename _ML detail::decay_t<T>;			\
 using self_type			= typename _ML ContentImporter<value_type>;	\
-using pointer			= typename value_type *;					\
+using pointer			= typename ptr_t<value_type>;				\
 using reference			= typename value_type &;					\
-using const_pointer		= typename const value_type *;				\
+using const_pointer		= typename const_ptr_t<value_type>;			\
 using const_reference	= typename const value_type &;				\
 static constexpr typeof<> info() { return typeof<T>{}; }			\
 ContentImporter() = default;
@@ -77,7 +77,7 @@ namespace ml
 	template <> struct ML_ENGINE_API ContentImporter<Material> final
 	{
 		ML_GEN_CONTENT_IMPORTER(Material);
-		Material * operator()(const Metadata & md) const;
+		ptr_t<Material> operator()(const Metadata & md) const;
 	};
 
 
@@ -87,7 +87,7 @@ namespace ml
 	template <> struct ML_ENGINE_API ContentImporter<Model> final
 	{
 		ML_GEN_CONTENT_IMPORTER(Model);
-		Model * operator()(const Metadata & md) const;
+		ptr_t<Model> operator()(const Metadata & md) const;
 	};
 
 
@@ -97,7 +97,7 @@ namespace ml
 	template <> struct ML_ENGINE_API ContentImporter<Script> final
 	{
 		ML_GEN_CONTENT_IMPORTER(Script);
-		Script * operator()(const Metadata & md) const;
+		ptr_t<Script> operator()(const Metadata & md) const;
 	};
 
 
@@ -107,7 +107,7 @@ namespace ml
 	template <> struct ML_ENGINE_API ContentImporter<Shader> final
 	{
 		ML_GEN_CONTENT_IMPORTER(Shader);
-		Shader * operator()(const Metadata & md) const;
+		ptr_t<Shader> operator()(const Metadata & md) const;
 	};
 
 
@@ -147,7 +147,7 @@ namespace ml
 	template <> struct ML_ENGINE_API ContentImporter<Texture> final
 	{
 		ML_GEN_CONTENT_IMPORTER(Texture);
-		Texture * operator()(const Metadata & md) const;
+		ptr_t<Texture> operator()(const Metadata & md) const;
 	};
 }
 

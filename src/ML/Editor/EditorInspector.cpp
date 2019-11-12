@@ -2,7 +2,7 @@
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
-#include <ML/Engine/Ref.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
@@ -26,7 +26,7 @@ namespace ml
 	struct EditorInspector::Layout
 	{
 		template <class T>
-		inline static void draw_item(void * ptr, const String & name)
+		inline static void draw_item(ptr_t<void> ptr, const String & name)
 		{
 			if (!ptr) return;
 			ImGui::PushID(typeof<T>::name.c_str());

@@ -91,10 +91,10 @@ namespace ml
 	{
 		virtual ~Allocable() {}
 
-		inline void * operator new(size_t size) { return std::malloc(size); }
-		inline void * operator new[](size_t size) { return std::malloc(size); }
-		inline void	  operator delete(void * ptr) { return std::free(ptr); }
-		inline void	  operator delete[](void * ptr) { return std::free(ptr); }
+		inline ptr_t<void> operator new(size_t size) { return std::malloc(size); }
+		inline ptr_t<void> operator new[](size_t size) { return std::malloc(size); }
+		inline void	  operator delete(ptr_t<void> ptr) { return std::free(ptr); }
+		inline void	  operator delete[](ptr_t<void> ptr) { return std::free(ptr); }
 	};
 
 	struct Serializable

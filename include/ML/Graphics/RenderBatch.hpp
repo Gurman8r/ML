@@ -17,9 +17,9 @@ namespace ml
 
 		const VAO * vao	{ nullptr };
 		const VBO * vbo	{ nullptr };
-		Material * mat	{ nullptr };
+		ptr_t<Material> mat	{ nullptr };
 
-		constexpr RenderBatch(const VAO * vao, const VBO * vbo, Material * mat) noexcept
+		constexpr RenderBatch(const VAO * vao, const VBO * vbo, ptr_t<Material> mat) noexcept
 			: vao { vao }
 			, vbo { vbo }
 			, mat { mat }

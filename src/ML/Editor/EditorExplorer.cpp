@@ -26,6 +26,8 @@ namespace ml
 
 	bool EditorExplorer::draw()
 	{
+		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
+
 		if (beginDraw(ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			m_browser.render(

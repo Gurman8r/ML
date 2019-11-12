@@ -16,7 +16,6 @@
 
 #include <imgui/examples/imgui_impl_glfw.h>
 #include <imgui/examples/imgui_impl_opengl3.h>
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 namespace ml
@@ -65,6 +64,7 @@ namespace ml
 			if (auto ev = value.as<DockspaceEvent>())
 			{
 				EditorDockspace & d { ev->dockspace };
+				if (!d.isOpen()) return;
 				d.dockWindow(m_explorer	.getTitle(), d.getNode(d.RightUp));
 				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.LeftDn));
 				d.dockWindow(m_inspector.getTitle(), d.getNode(d.RightUp));
@@ -135,13 +135,13 @@ namespace ml
 		}
 
 		// Ini File
-		if (ML_Engine.prefs().get_bool("Editor", "disable_ini", false))
+		if (!ML_Engine.prefs().get_bool("Editor", "enable_ini", true))
 		{
 			io.IniFilename = nullptr;
 		}
 		
 		// Log File
-		if (ML_Engine.prefs().get_bool("Editor", "disable_log", false))
+		if (!ML_Engine.prefs().get_bool("Editor", "enable_log", true))
 		{
 			io.LogFilename = nullptr;
 		}
@@ -177,6 +177,7 @@ namespace ml
 
 		m_about		.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about",		false));
 		m_content	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content",	false));
+		m_dockspace	.setOpen(ML_Engine.prefs().get_bool("Editor", "enable_docking", true));
 		m_explorer	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer",	false));
 		m_inspector	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_inspector",	false));
 		m_manual	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual",	false));
@@ -206,9 +207,10 @@ namespace ml
 
 	void Editor::onBeginGui(const BeginGuiEvent & ev)
 	{
-		//ML_ImGuiImpl.NewFrame();
 		ImGui_ImplOpenGL3_NewFrame();
+		
 		ImGui_ImplGlfw_NewFrame();
+		
 		ImGui::NewFrame();
 	}
 
@@ -222,34 +224,25 @@ namespace ml
 		// ImGui Demo
 		if (m_show_imgui_demo) { ImGui::ShowDemoWindow(&m_show_imgui_demo); }
 
-		/*	Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw();
-		/*	About		*/	if (m_about.isOpen())		m_about.draw();
-		/*	Content		*/	if (m_content.isOpen())		m_content.draw();
-		/*	Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw();
-		/*	Inspector	*/	if (m_inspector.isOpen())	m_inspector.draw();
-		/*	Manual		*/	if (m_manual.isOpen())		m_manual.draw();
-		/*	Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw();
-		/*	Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw();
+		/*	Show Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw();
+		/*	Show About		*/	if (m_about.isOpen())		m_about.draw();
+		/*	Show Content	*/	if (m_content.isOpen())		m_content.draw();
+		/*	Show Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw();
+		/*	Show Inspector	*/	if (m_inspector.isOpen())	m_inspector.draw();
+		/*	Show Manual		*/	if (m_manual.isOpen())		m_manual.draw();
+		/*	Show Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw();
+		/*	Show Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw();
 
 		ImGui::PopID();
 	}
 
 	void Editor::onEndGui(const EndGuiEvent & ev)
 	{
-		auto window{ static_cast<GLFWwindow *>(ML_Engine.window().getHandle()) };
-		auto & io{ ImGui::GetIO() };
-		ImVec4 clear_color{ 0, 0, 0, 1 };
-
-		// Rendering
 		ImGui::Render();
-		int display_w, display_h;
-		glfwGetFramebufferSize(window, &display_w, &display_h);
-		glViewport(0, 0, display_w, display_h);
-		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-		glClear(GL_COLOR_BUFFER_BIT);
+
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			GLFWwindow * backup_current_context = glfwGetCurrentContext();
 			ImGui::UpdatePlatformWindows();

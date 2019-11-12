@@ -18,7 +18,8 @@ namespace ml
 
 	bool EditorManual::draw()
 	{
-		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_Once);
+		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
+
 		if (beginDraw(0))
 		{
 			ImGui::Columns(2);

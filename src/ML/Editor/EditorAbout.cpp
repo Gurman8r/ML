@@ -22,6 +22,8 @@ namespace ml
 
 	bool EditorAbout::draw()
 	{
+		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
+
 		if (!beginDraw(ImGuiWindowFlags_MenuBar)) { return endDraw(); }
 
 		// Menu Bar

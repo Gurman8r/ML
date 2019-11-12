@@ -57,6 +57,8 @@ namespace ml
 
 	bool EditorInspector::draw()
 	{
+		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
+
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
 			EditorContent & c { ML_Editor.content() };

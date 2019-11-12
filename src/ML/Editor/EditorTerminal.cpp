@@ -46,6 +46,8 @@ namespace ml
 			this->printss(m_coutStr);
 		}
 
+		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
+
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
 			// Filter

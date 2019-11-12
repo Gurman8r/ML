@@ -3,8 +3,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Graphics/GraphicsEvents.hpp>
 
-#define GLEW_STATIC
-#include <glew/glew.h>
+#include <GL/glew.h>
 
 namespace ml
 {

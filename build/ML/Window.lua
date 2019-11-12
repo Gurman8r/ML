@@ -30,7 +30,6 @@ project "Window"
 		"%{ext_dir}",
 		"%{ext_dir}glfw/include",
 		"%{ext_dir}glfw/include",
-		"%{ext_dir}glfw/src",
 	}
 	files 
 	{
@@ -39,16 +38,6 @@ project "Window"
 		"%{inc_dir}**.inl",
 		"%{src_dir}**.c", 
 		"%{src_dir}**.cpp",
-		"%{ext_dir}glfw/include/glfw/**.h",
-		"%{ext_dir}glfw/src/context.c", 
-		"%{ext_dir}glfw/src/glfw_config.h",  
-		"%{ext_dir}glfw/src/glfw_window.c",
-		"%{ext_dir}glfw/src/init.c", 
-		"%{ext_dir}glfw/src/input.c", 
-		"%{ext_dir}glfw/src/internal.h", 
-		"%{ext_dir}glfw/src/mappings.h", 
-		"%{ext_dir}glfw/src/monitor.c", 
-		"%{ext_dir}glfw/src/vulkan.c",
 	}
 	libdirs
 	{
@@ -57,35 +46,18 @@ project "Window"
 	}
 	links 
 	{
-		"ML_Core", "opengl32", "glew32s",
+		"ML_Core", "opengl32", "glew32s", "glfw",
 	}
 	
 	filter { "configurations:Debug" }
 		symbols "On" 
-		linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
 		
 	filter { "configurations:Release" }
 		optimize "Speed"
 		
 	filter { "system:Windows" }
 		defines { "NOMINMAX" }
-		files
-		{
-			"%{ext_dir}glfw/src/egl_context.c",
-			"%{ext_dir}glfw/src/egl_context.h",
-			"%{ext_dir}glfw/src/osmesa_context.c",
-			"%{ext_dir}glfw/src/osmesa_context.h",
-			"%{ext_dir}glfw/src/wgl_context.c",
-			"%{ext_dir}glfw/src/wgl_context.h",
-			"%{ext_dir}glfw/src/win32_init.c",
-			"%{ext_dir}glfw/src/win32_joystick.c",
-			"%{ext_dir}glfw/src/win32_joystick.h",
-			"%{ext_dir}glfw/src/win32_monitor.c",
-			"%{ext_dir}glfw/src/win32_platform.h",
-			"%{ext_dir}glfw/src/win32_thread.c",
-			"%{ext_dir}glfw/src/win32_time.c",
-			"%{ext_dir}glfw/src/win32_window.c",
-		}
+		linkoptions { "/NODEFAULTLIB:MSVCRT.lib", }
 		postbuildcommands
 		{
 			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}"

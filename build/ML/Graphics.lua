@@ -21,6 +21,7 @@ project "Graphics"
 	{
 		"ML_GRAPHICS_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
+		"GLEW_STATIC",
 	}
 	includedirs
 	{

@@ -23,12 +23,15 @@ project "Editor"
 		"ML_EDITOR_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
 		"IMGUI_USER_CONFIG=<ML/Editor/ImGuiConfig.hpp>",
+		"IMGUI_IMPL_OPENGL_LOADER_GLEW",
+		"GLEW_STATIC",
 	}
 	includedirs
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
 		"%{ext_dir}imgui",
+		"%{ext_dir}glfw/include",
 	}
 	files 
 	{ 
@@ -39,6 +42,10 @@ project "Editor"
 		"%{src_dir}**.cpp", 
 		"%{ext_dir}imgui/*.h",
 		"%{ext_dir}imgui/*.cpp",
+		"%{ext_dir}imgui/examples/imgui_impl_glfw.h",
+		"%{ext_dir}imgui/examples/imgui_impl_glfw.cpp",
+		"%{ext_dir}imgui/examples/imgui_impl_opengl3.h",
+		"%{ext_dir}imgui/examples/imgui_impl_opengl3.cpp",
 		"%{ext_dir}ImGuiColorTextEdit/*.h",
 		"%{ext_dir}ImGuiColorTextEdit/*.cpp",
 	}
@@ -50,6 +57,7 @@ project "Editor"
 	links
 	{
 		"ML_Audio", "ML_Core", "ML_Engine", "ML_Graphics", "ML_Network", "ML_Window",
+		"opengl32", "glew32s", "glfw",
 	}
 	
 	filter { "configurations:Debug" }
@@ -60,6 +68,7 @@ project "Editor"
 	
 	filter { "system:Windows" }
 		defines { "NOMINMAX" }
+		linkoptions { "/NODEFAULTLIB:LIBCMT.lib /NODEFAULTLIB:MSVCRT.lib" }
 		postbuildcommands
 		{
 			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}"

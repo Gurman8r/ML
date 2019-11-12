@@ -55,6 +55,8 @@ filter { "system:Windows" }
 -- Generate Project Files
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
+dofile "./build/ext/GLFW.lua"
+
 dofile "./build/ML/Audio.lua"
 dofile "./build/ML/Core.lua"
 dofile "./build/ML/Editor.lua"

@@ -54,3 +54,6 @@
 [submodule "ext/ImGuizmo"]
 	path = ext/ImGuizmo
 	url = https://github.com/CedricGuillemet/ImGuizmo
+[submodule "ext/premake-core"]
+	path = ext/premake-core
+	url = https://github.com/premake/premake-core.git

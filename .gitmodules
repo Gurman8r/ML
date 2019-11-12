@@ -57,3 +57,6 @@
 [submodule "ext/glew"]
 	path = ext/glew
 	url = https://github.com/nigels-com/glew
+[submodule "ext/lua"]
+	path = ext/lua
+	url = https://github.com/lua/lua

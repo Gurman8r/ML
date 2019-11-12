@@ -6,16 +6,6 @@
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	PluginManager::PluginManager()
-		: m_path{}
-		, m_files{}
-		, m_libraries{}
-		, m_plugins{}
-	{
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	bool PluginManager::dispose()
 	{

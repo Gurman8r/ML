@@ -6,6 +6,7 @@
 #include <ML/Engine/GameTime.hpp>
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Engine/CommandRegistry.hpp>
+#include <ML/Engine/PluginManager.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
 #ifndef ML_CONFIG_INI
@@ -47,6 +48,7 @@ namespace ml
 
 		CommandRegistry	m_commands;
 		ContentManager	m_content;
+		PluginManager	m_plugins;
 		Preferences		m_prefs;
 		GameTime		m_time;
 		RenderWindow	m_window;
@@ -56,6 +58,7 @@ namespace ml
 	public:
 		inline auto & commands()	{ return m_commands; }
 		inline auto & content()		{ return m_content; }
+		inline auto & plugins()		{ return m_plugins; }
 		inline auto & prefs()		{ return m_prefs; }
 		inline auto & time()		{ return m_time; }
 		inline auto & window()		{ return m_window; }

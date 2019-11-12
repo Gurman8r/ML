@@ -28,11 +28,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Engine::Engine()
-		: m_time{}
-		, m_prefs{ ML_CONFIG_INI }
-		, m_content{}
+		: m_time	{}
+		, m_prefs	{ ML_CONFIG_INI }
+		, m_plugins	{}
+		, m_content	{}
 		, m_commands{}
-		, m_window{}
+		, m_window	{}
 	{
 		ML_EventSystem.addListener<EnterEvent>(this);
 		ML_EventSystem.addListener<LoadEvent>(this);
@@ -290,7 +291,7 @@ namespace ml
 
 		ML_Py.dispose();
 
-		ML_Plugins.dispose();
+		plugins().dispose();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

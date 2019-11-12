@@ -4,22 +4,16 @@
 #include <ML/Engine/Plugin.hpp>
 #include <ML/Engine/SharedLibrary.hpp>
 
-#define ML_Plugins ::ml::PluginManager::getInstance()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	// Used to load and store plugin instances
-	// Stages broken out into separate functions
-	struct ML_ENGINE_API PluginManager final : public Singleton<PluginManager>, public Disposable
+	class Engine;
+
+	/* * * * * * * * * * * * * * * * * * * * */
+
+	struct ML_ENGINE_API PluginManager final : public Newable, public Disposable
 	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		explicit PluginManager();
-		
-		~PluginManager() { this->dispose(); }
-
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
@@ -44,6 +38,18 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		friend class Engine;
+		
+		PluginManager()
+			: m_path{}
+			, m_files{}
+			, m_libraries{}
+			, m_plugins{}
+		{
+		};
+		
+		~PluginManager() { this->dispose(); }
+
 		String m_path;
 		List<String> m_files;
 		List<ptr_t<SharedLibrary>> m_libraries;

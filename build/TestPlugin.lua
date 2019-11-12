@@ -1,6 +1,6 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "Plugins"
+group "Examples"
 project "TestPlugin"
 	targetname 		"%{prj.name}"
 	targetdir		"%{bin_lib}"

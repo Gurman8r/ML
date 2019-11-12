@@ -48,3 +48,6 @@
 [submodule "ext/PDCurses"]
 	path = ext/PDCurses
 	url = https://github.com/wmcbrine/PDCurses
+[submodule "ext/megasdk"]
+	path = ext/megasdk
+	url = https://github.com/meganz/sdk.git

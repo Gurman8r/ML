@@ -13,8 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	TestPlugin::TestPlugin()
-		: Plugin {}
+	TestPlugin::TestPlugin() : Plugin {}
 	{
 		ML_EventSystem.addListener<MainMenuBarEvent>(this);
 	}

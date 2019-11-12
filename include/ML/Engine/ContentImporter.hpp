@@ -26,15 +26,18 @@ namespace ml
 
 		static bool loadMetadata(const Metadata & value);
 
+		static int32_t loadMetadata(const List<Metadata> & value);
+
 		template <class S>
 		static inline int32_t loadMetadata(const List<Map<S, S>> & value)
 		{
-			int32_t count { 0 };
+			List<Metadata> md{};
+			md.reserve(value.size());
 			for (const auto & elem : value)
 			{
-				count += loadMetadata(Metadata { elem });
+				md.push_back(Metadata{ elem });
 			}
-			return count;
+			return loadMetadata(md);
 		}
 	};
 

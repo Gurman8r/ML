@@ -29,7 +29,7 @@ namespace ml
 		case ServerRecievePacketEvent::ID:
 			if (auto ev = value.as<ServerRecievePacketEvent>())
 			{
-				Debug::log("SERVER -> {0}", ev->data);
+				Debug::logInfo("SERVER -> {0}", ev->data);
 			}
 			break;
 		}
@@ -40,7 +40,7 @@ namespace ml
 		switch (value.data[0])
 		{
 		case ID_REMOTE_DISCONNECTION_NOTIFICATION:
-			Debug::log("Remote Disconnection");
+			Debug::logInfo("Remote Disconnection");
 			break;
 	
 		case ID_REMOTE_CONNECTION_LOST:
@@ -48,11 +48,11 @@ namespace ml
 			break;
 	
 		case ID_REMOTE_NEW_INCOMING_CONNECTION:
-			Debug::log("Remote New Incoming Connection");
+			Debug::logInfo("Remote New Incoming Connection");
 			break;
 	
 		case ID_NEW_INCOMING_CONNECTION:
-			Debug::log("New Incoming Connection");
+			Debug::logInfo("New Incoming Connection");
 			break;
 	
 		case ID_NO_FREE_INCOMING_CONNECTIONS:
@@ -60,7 +60,7 @@ namespace ml
 			break;
 	
 		case ID_DISCONNECTION_NOTIFICATION:
-			Debug::log("Disconnected");
+			Debug::logInfo("Disconnected");
 			break;
 	
 		case ID_CONNECTION_LOST:
@@ -87,7 +87,7 @@ namespace ml
 			{
 			case RakNet::RAKNET_STARTED:
 				m_running = true;
-				return Debug::log("RAKNET_STARTED");
+				return Debug::logInfo("RAKNET_STARTED");
 
 			case RakNet::RAKNET_ALREADY_STARTED:
 				return Debug::logWarning("RAKNET_ALREADY_STARTED");

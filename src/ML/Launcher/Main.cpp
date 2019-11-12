@@ -64,6 +64,81 @@ namespace ml
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+namespace ml
+{
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	struct Base
+	{
+	};
+
+	struct Allocable
+	{	
+		virtual ~Allocable() {}
+
+		inline void * operator new(size_t size)		{ return std::malloc(size); }
+		inline void * operator new[](size_t size)	{ return std::malloc(size); }
+		inline void	  operator delete(void * ptr)	{ return std::free(ptr); }
+		inline void	  operator delete[](void * ptr) { return std::free(ptr); }
+	};
+
+	struct Serializable
+	{
+		virtual ~Serializable() {}
+
+		inline virtual std::ostream & serialize(std::ostream & out) const = 0;
+
+		inline virtual std::istream & deserialize(std::istream & in) = 0;
+
+		inline friend ML_SERIALIZE(std::ostream & out, const Serializable & value)
+		{
+			return value.serialize(out);
+		}
+
+		inline friend ML_DESERIALIZE(std::istream & in, Serializable & value)
+		{
+			return value.deserialize(in);
+		}
+	};
+
+	struct Child final
+		: public Base
+		, public Allocable
+		, public Serializable
+	{
+		String name;
+
+		Child() 
+			: name{}
+		{
+		}
+
+		Child(const String & name)
+			: name{ name }
+		{
+		}
+
+		Child(const Child & copy)
+			: name{ copy.name }
+		{
+		}
+
+		std::ostream & serialize(std::ostream & out) const override
+		{
+			return out << this->name;
+		}
+
+		std::istream & deserialize(std::istream & in) override
+		{
+			return in >> this->name;
+		}
+	};
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 ml::int32_t main()
 {
 	using namespace ml;
@@ -81,7 +156,7 @@ ml::int32_t main()
 	Timer t { true };
 	ML_EventSystem.fireEvent<LoadEvent>();
 	t.stop();
-	Debug::log("Load Time: {0}s", t.elapsed().count());
+	Debug::logInfo("Load Time: {0}s", t.elapsed().count());
 
 	// Start
 	ML_EventSystem.fireEvent<StartEvent>();

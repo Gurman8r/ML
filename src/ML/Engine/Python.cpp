@@ -124,7 +124,7 @@ namespace ml
 			.def_static("print", [](str_t s) { cout << s; })
 			.def_static("printf", [](str_t s, const list_t & l) { cout << util::format(s, l); })
 			.def_static("printl", [](str_t s) { cout << s << endl; })
-			.def_static("log", [](str_t s) { Debug::log(s); })
+			.def_static("log", [](str_t s) { Debug::logInfo(s); })
 			.def_static("warning", [](str_t s) { Debug::logWarning(s); })
 			.def_static("error", [](str_t s) { Debug::logError(s); })
 			;

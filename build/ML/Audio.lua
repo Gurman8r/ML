@@ -26,6 +26,14 @@ project "Audio"
 	{
 		"%{sln_dir}include", 
 		"%{ext_dir}",
+		--"%{ext_dir}openal-soft",
+		"%{ext_dir}openal-soft/al",
+		"%{ext_dir}openal-soft/alc",
+		--"%{ext_dir}openal-soft/alc/backends",
+		--"%{ext_dir}openal-soft/alc/effects",
+		--"%{ext_dir}openal-soft/alc/filters",
+		--"%{ext_dir}openal-soft/alc/mixer",
+		--"%{ext_dir}openal-soft/common",
 		"%{ext_dir}openal-soft/include",
 	}
 	files 
@@ -34,7 +42,14 @@ project "Audio"
 		"%{inc_dir}**.hpp",
 		"%{inc_dir}**.inl",  
 		"%{src_dir}**.c",
-		"%{src_dir}**.cpp" 
+		"%{src_dir}**.cpp",
+		--"%{ext_dir}openal-soft/al/**.h",
+		--"%{ext_dir}openal-soft/al/**.cpp",
+		--"%{ext_dir}openal-soft/alc/**.h",
+		--"%{ext_dir}openal-soft/alc/**.cpp",
+		--"%{ext_dir}openal-soft/common/**.h",
+		--"%{ext_dir}openal-soft/common/**.cpp",
+		--"%{ext_dir}openal-soft/include/**.h",
 	}
 	libdirs
 	{
@@ -54,6 +69,7 @@ project "Audio"
 		optimize "Speed"
 	
 	filter { "system:Windows" }
+		defines { "NOMINMAX" }
 		postbuildcommands 
 		{	
 			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}",

@@ -57,6 +57,7 @@ project "Network"
 		optimize "Speed"
 	
 	filter { "system:Windows" }
+		defines { "NOMINMAX" }
 		links
 		{
 			"ws2_32",

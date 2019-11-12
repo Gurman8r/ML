@@ -19,7 +19,7 @@ namespace ml
 		using reference			= typename value_type &;
 		using const_pointer		= typename const value_type *;
 		using const_reference	= typename const value_type &;
-		using map_type			= typename Map<String, pointer>;
+		using map_type			= typename Map<String, value_type>;
 		using init_type			= typename std::initializer_list<std::pair<String, value_type>>;
 		using pair_type			= typename map_type::value_type;
 		using iterator			= typename map_type::iterator;
@@ -52,10 +52,6 @@ namespace ml
 
 		inline bool dispose() override
 		{
-			for (pair_type & pair : m_data)
-			{
-				if (pair.second) delete pair.second;
-			}
 			m_data.clear();
 			return m_data.empty();
 		}
@@ -66,10 +62,10 @@ namespace ml
 			class T = typename String
 		> inline const_reference getData(const String & name, const T & dv = T()) const
 		{
-			const_iterator it;
-			return (((it = m_data.find(name)) != this->cend())
-				? (*it->second)
-				: (*m_data.insert({ name, new value_type(dv) }).first->second)
+			auto it{ m_data.find(name) };
+			return (it != this->cend()
+				? it->second
+				: m_data.insert({ name, value_type{ dv } }).first->second
 			);
 		}
 
@@ -79,9 +75,9 @@ namespace ml
 		{
 			if (!m.empty())
 			{
-				if (const String str = util::to_lower(getData(value, String())))
+				if (const String str = util::to_lower(getData(value, String{})))
 				{
-					auto it = m.find(str);
+					auto it{ m.find(str) };
 					if (it != m.cend())
 					{
 						return it->second;
@@ -93,10 +89,9 @@ namespace ml
 
 		inline Metadata & removeData(const String & name)
 		{
-			iterator it;
-			if ((it = m_data.find(name)) != this->end())
+			auto it{ m_data.find(name) };
+			if (it != this->end())
 			{
-				delete it->second;
 				m_data.erase(it);
 			}
 			return (*this);
@@ -106,12 +101,12 @@ namespace ml
 			class ... Args
 		> inline const_reference & setData(const String & name, Args && ... args)
 		{
-			iterator it;
-			if ((it = m_data.find(name)) == m_data.end())
+			auto it{ m_data.find(name) };
+			if (it == m_data.end())
 			{
-				it = m_data.insert({ name, new value_type() }).first;
+				it = m_data.insert({ name, value_type {} }).first;
 			}
-			return ((*it->second) = value_type { std::forward<Args>(args)... });
+			return ((it->second) = value_type { std::forward<Args>(args)... });
 		}
 
 		inline const_reference & setData(const std::pair<String, String> & pair)
@@ -141,7 +136,7 @@ namespace ml
 	{
 		for (const auto & pair : value)
 		{
-			out << "[" << pair.first << "] | " << (*pair.second) << endl;
+			out << "[" << pair.first << "] | " << pair.second << endl;
 		}
 		return out;
 	}

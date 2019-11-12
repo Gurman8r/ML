@@ -68,6 +68,7 @@ project "Window"
 		optimize "Speed"
 		
 	filter { "system:Windows" }
+		defines { "NOMINMAX" }
 		files
 		{
 			"%{ext_dir}glfw/src/egl_context.c",

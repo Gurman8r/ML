@@ -78,8 +78,6 @@ namespace ml
 		Window & restore();
 		
 		Window & swapBuffers();
-		
-		Window & terminate();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -190,6 +188,8 @@ namespace ml
 		static void pollEvents();
 		
 		static void swapInterval(int32_t value);
+
+		static void terminate();
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		

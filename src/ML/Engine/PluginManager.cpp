@@ -80,7 +80,7 @@ namespace ml
 					ML_TOSTRING(ML_Plugin_Main), ML_EventSystem
 				))
 				{
-					Debug::log("Loaded Plugin: \'{0}\'", m_files[i]);
+					Debug::logInfo("Loaded Plugin: \'{0}\'", m_files[i]);
 					m_plugins.push_back(plugin);
 				}
 				else

@@ -43,7 +43,7 @@ namespace ml
 			);
 		}
 # if (ML_DEBUG)
-		return Debug::log("Loaded [{0}]: {1}",
+		return Debug::logInfo("Loaded [{0}]: {1}",
 			value.getData("type").asString(),
 			value.getData("name").asString()
 		);
@@ -52,6 +52,18 @@ namespace ml
 # endif
 	}
 
+	int32_t ContentImporter<>::loadMetadata(const List<Metadata> & value)
+	{
+# if (ML_DEBUG)
+		Debug::logInfo("Loading {0} items...", value.size());
+# endif
+		int32_t count{ 0 };
+		for (const auto & elem : value)
+		{
+			count += loadMetadata(elem);
+		}
+		return count;
+	}
 
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -27,7 +27,7 @@ namespace ml
 		case ClientRecievePacketEvent::ID:
 			if (auto ev = value.as<ClientRecievePacketEvent>())
 			{
-				Debug::log("CLIENT -> {0}", ev->data);
+				Debug::logInfo("CLIENT -> {0}", ev->data);
 			}
 			break;
 		}
@@ -38,7 +38,7 @@ namespace ml
 		switch (value.data[0])
 		{
 		case ID_CONNECTION_REQUEST_ACCEPTED:
-			Debug::log("Connection Request Accepted");
+			Debug::logInfo("Connection Request Accepted");
 			m_connected = true;
 			break;
 
@@ -47,7 +47,7 @@ namespace ml
 			break;
 
 		case ID_DISCONNECTION_NOTIFICATION:
-			Debug::log("Disconnected");
+			Debug::logInfo("Disconnected");
 			break;
 
 		case ID_CONNECTION_LOST:
@@ -76,7 +76,7 @@ namespace ml
 				(int32_t)pass.size()))
 			{
 			case RakNet::CONNECTION_ATTEMPT_STARTED:
-				return Debug::log("CONNECTION_ATTEMPT_STARTED");
+				return Debug::logInfo("CONNECTION_ATTEMPT_STARTED");
 
 			case RakNet::INVALID_PARAMETER:
 				return Debug::logError("INVALID_PARAMETER");

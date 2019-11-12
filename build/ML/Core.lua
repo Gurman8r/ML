@@ -51,6 +51,7 @@ project "Core"
 		optimize "Speed"
 	
 	filter { "system:Windows" }
+		defines { "NOMINMAX" }
 		postbuildcommands 
 		{
 			"%{ml_copy} %{bin_lib}ML_%{prj.name}.dll %{bin_out}"

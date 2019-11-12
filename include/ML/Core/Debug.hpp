@@ -143,7 +143,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline int32_t Logger(
+		static inline int32_t StreamLogger(
 			std::ostream & out,
 			const int32_t	exitCode,
 			const FMT & color,
@@ -160,28 +160,28 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline int32_t log(const String & message)
+		static inline int32_t logInfo(const String & message)
 		{
-			return Logger(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
+			return StreamLogger(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
 		}
 
 		static inline int32_t logError(const String & message)
 		{
-			return Logger(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
+			return StreamLogger(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
 		}
 
 		static inline int32_t logWarning(const String & message)
 		{
-			return Logger(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
+			return StreamLogger(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class T, class ... Args
-		> static inline int32_t log(const String & fmt, const T & arg0, Args && ... args)
+		> static inline int32_t logInfo(const String & fmt, const T & arg0, Args && ... args)
 		{
-			return Debug::log(fmt.format(arg0, std::forward<Args>(args)...));
+			return Debug::logInfo(fmt.format(arg0, std::forward<Args>(args)...));
 		}
 
 		template <

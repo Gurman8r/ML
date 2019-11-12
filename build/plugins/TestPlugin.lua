@@ -48,6 +48,7 @@ project "TestPlugin"
 		optimize "Speed"
 	
 	filter { "system:Windows" }
+		defines { "NOMINMAX" }
 		postbuildcommands { "%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}" }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

@@ -303,11 +303,10 @@ namespace ml
 	bool Window::dispose()
 	{
 		this->destroy();
+
 		this->terminate();
 
-		m_window	= nullptr;
-		m_monitor	= nullptr;
-		m_share		= nullptr;
+		m_window = m_monitor = m_share	= nullptr;
 
 		return true;
 	}
@@ -370,15 +369,6 @@ namespace ml
 		if (m_window)
 		{
 			glfwSwapBuffers(static_cast<GLFWwindow *>(m_window));
-		}
-		return (*this);
-	}
-
-	Window & Window::terminate()
-	{
-		if (m_window)
-		{
-			glfwTerminate();
 		}
 		return (*this);
 	}
@@ -707,6 +697,11 @@ namespace ml
 	void Window::swapInterval(int32_t value)
 	{
 		return glfwSwapInterval(value);
+	}
+
+	void Window::terminate()
+	{
+		return glfwTerminate();
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

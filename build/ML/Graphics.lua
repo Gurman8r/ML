@@ -54,6 +54,7 @@ project "Graphics"
 		optimize "Speed"
 	
 	filter { "system:Windows" }
+		defines { "NOMINMAX" }
 		linkoptions
 		{
 			"/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib",

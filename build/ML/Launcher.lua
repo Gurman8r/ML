@@ -55,6 +55,7 @@ project "Launcher"
 		kind("WindowedApp")
 	
 	filter { "system:Windows" }
+		defines { "NOMINMAX" }
 		postbuildcommands 
 		{	
 			"%{ml_copy} %{bin_lib}ML_%{prj.name}.exe %{bin_out}",

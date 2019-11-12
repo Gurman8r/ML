@@ -65,9 +65,6 @@
   || defined(__MINGW32__) || defined(__MINGW64__)
 #	define ML_SYSTEM_WINDOWS
 #	define ML_SYSTEM_NAME "Windows"
-#	ifndef NOMINMAX
-#		define NOMINMAX
-#	endif
 # elif defined(__APPLE__) && defined(__MACH__)
 #	define ML_SYSTEM_APPLE
 #	define ML_SYSTEM_NAME "Apple"

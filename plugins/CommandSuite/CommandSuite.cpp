@@ -20,8 +20,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	CommandSuite::CommandSuite()
-		: Plugin {}
+	CommandSuite::CommandSuite() : Plugin {}
 	{
 		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<UnloadEvent>(this);

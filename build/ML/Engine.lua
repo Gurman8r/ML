@@ -68,6 +68,7 @@ project "Engine"
 		}
 		
 	filter { "system:Windows" }
+		defines { "NOMINMAX" }
 		includedirs
 		{
 			"%{ext_dir}cpython/PC",

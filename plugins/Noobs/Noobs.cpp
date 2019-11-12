@@ -71,12 +71,12 @@ namespace ml
 						String line;
 						while (std::getline(ss, line, '\n'))
 						{
-							const ShaderError err { ev->type, line };
+							const ShaderError err{ ev->type, line };
 							switch (ev->type)
 							{
-							case GL::VertexShader: m_files[ShaderFile::Vert]->errs.push_back(err); break;
-							case GL::FragmentShader: m_files[ShaderFile::Frag]->errs.push_back(err); break;
-							case GL::GeometryShader: m_files[ShaderFile::Geom]->errs.push_back(err); break;
+								case GL::VertexShader: m_files[ShaderFile::Vert]->errs.push_back(err); break;
+								case GL::FragmentShader: m_files[ShaderFile::Frag]->errs.push_back(err); break;
+								case GL::GeometryShader: m_files[ShaderFile::Geom]->errs.push_back(err); break;
 							}
 						}
 
@@ -160,7 +160,7 @@ namespace ml
 		case SecretEvent::ID:
 			if (auto ev = value.as<SecretEvent>())
 			{
-				Debug::log("I'm so proud.");
+				Debug::logInfo("I'm so proud.");
 				Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 			}
 			break;

@@ -48,8 +48,8 @@ namespace ml
 		{
 		}
 
-		explicit MetadataValue(const MetadataValue & copy)
-			: m_data { copy.m_data }
+		MetadataValue(const MetadataValue & copy)
+			: m_data{ copy.m_data }
 		{
 		}
 

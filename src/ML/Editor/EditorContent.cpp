@@ -78,7 +78,7 @@ namespace ml
 			auto to_remove { db.end() }, to_select { db.end() };
 			for (auto it = db.begin(); it != db.end(); it++)
 			{
-				if (!it->second || ImGuiExt::IsHidden(it->first)) { continue; }
+				if (!it->second) { continue; }
 				
 				ImGui::PushID(it->first.c_str());
 

@@ -134,13 +134,25 @@ namespace ml
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
+		// Ini File
+		if (ML_Engine.prefs().get_bool("Editor", "disable_ini", false))
+		{
+			io.IniFilename = nullptr;
+		}
+		
+		// Log File
+		if (ML_Engine.prefs().get_bool("Editor", "disable_log", false))
+		{
+			io.LogFilename = nullptr;
+		}
+
 		// Style
 		const String styleConf{ ML_Engine.prefs().get_string(
 			"Editor", "editor_style", "Classic"
 		) };
-		if (styleConf == "Classic")  ImGui::StyleColorsClassic();
-		else if (styleConf == "Dark") ImGui::StyleColorsDark();
-		else if (styleConf == "Light") ImGui::StyleColorsLight();
+		if (styleConf == "Classic") { ImGui::StyleColorsClassic(); }
+		else if (styleConf == "Dark") { ImGui::StyleColorsDark(); }
+		else if (styleConf == "Light") { ImGui::StyleColorsLight(); }
 		else if (!ImGuiStyleLoader{ ML_FS.pathTo(styleConf) })
 		{
 			Debug::logError("Failed loading ImGui style");
@@ -149,7 +161,7 @@ namespace ml
 		// Font
 		if (String fontFile { ML_Engine.prefs().get_string("Editor", "font_file", "") })
 		{
-			float_t fontSize { ML_Engine.prefs().get_float("Editor", "font_size", 12.0f) };
+			float_t fontSize { ML_Engine.prefs().get_float("Editor", "font_size", 20.f) };
 			if (fontSize > 0.0f)
 			{
 				ImGui::GetIO().Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);

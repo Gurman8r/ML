@@ -12,7 +12,7 @@ namespace ml
 	}
 
 	Texture::Texture(GL::Sampler sampler) 
-		: Texture { sampler, true, false }
+		: Texture { sampler, true, true }
 	{
 	}
 

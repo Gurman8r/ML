@@ -57,23 +57,18 @@ filter { "system:Windows" }
 -- Generate Project Files
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-dofile "./build/ext/GLFW.lua"
-dofile "./build/ext/Lua.lua"
-dofile "./build/ext/RakNet.lua"
+-- Vendor
+dofile "./build/GLFW.lua"
+dofile "./build/Lua.lua"
+dofile "./build/RakNet.lua"
 
---dofile "./build/ML/Audio.lua"
---dofile "./build/ML/Core.lua"
---dofile "./build/ML/Editor.lua"
---dofile "./build/ML/Engine.lua"
---dofile "./build/ML/Graphics.lua"
---dofile "./build/ML/Launcher.lua"
---dofile "./build/ML/Network.lua"
---dofile "./build/ML/Window.lua"
-dofile "./build/ML/MemeLib.lua"
+-- MemeLib
+dofile "./build/MemeLib.lua"
 
-dofile "./examples/Launcher/Launcher.lua"
-dofile "./examples/Noobs/Noobs.lua"
-dofile "./examples/CommandSuite/CommandSuite.lua"
-dofile "./examples/TestPlugin/TestPlugin.lua"
+-- Examples
+dofile "./build/Launcher.lua"
+dofile "./build/Noobs.lua"
+dofile "./build/CommandSuite.lua"
+dofile "./build/TestPlugin.lua"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

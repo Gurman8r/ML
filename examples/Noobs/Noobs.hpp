@@ -171,6 +171,7 @@ namespace ml
 		Ref<Entity> m_entity			{};
 		FileArray	m_files				{ 0 };
 		DisplayMode	m_displayMode		{ 0 };
+		int32_t		m_displayIndex		{ 0 };
 
 		static constexpr auto display_name { "Display##Noobs##DemoView" };
 		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };

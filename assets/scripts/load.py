@@ -145,6 +145,12 @@ ml.content.load_all([
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
     {
         "type": "ml::Material",
+        "name": "mat/demo",
+        "defaults": "True",
+        "uniforms": PATH + "/materials/demo.mat"
+    },
+    {
+        "type": "ml::Material",
         "name": "mat/2D/basic",
         "defaults": "True",
         "uniforms": PATH + "/materials/basic.2D.mat"

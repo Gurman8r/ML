@@ -336,6 +336,11 @@ namespace ml
 			return ss.str();
 		}
 
+		template <class T> static inline C_String to_cstring(const T & value)
+		{
+			return to_string<T>(value).c_str();
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class S> static inline String format(String fmt, const List<S> & args)

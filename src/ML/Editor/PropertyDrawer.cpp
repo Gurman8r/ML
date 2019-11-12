@@ -717,7 +717,7 @@ namespace ml
 			);
 			ImGui::SameLine();
 			static String open_path;
-			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 			{
 				if (ML_FS.fileExists(open_path))
 				{
@@ -878,7 +878,7 @@ namespace ml
 			);
 			ImGui::SameLine();
 			static String open_path;
-			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 			{
 				if (ML_FS.fileExists(open_path))
 				{
@@ -1010,7 +1010,7 @@ namespace ml
 			);
 			ImGui::SameLine();
 			static String open_path;
-			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 			{
 				if (ML_FS.fileExists(open_path))
 				{
@@ -1125,13 +1125,15 @@ namespace ml
 						ImGuiWindowFlags_NoScrollbar |
 						ImGuiWindowFlags_NoScrollWithMouse
 					);
-					if (PropertyDrawer<Uniform>()(name, (Uniform &) * *it))
+					const bool canEdit{ PropertyDrawer<Uniform>()(name, (Uniform &)(**it)) };
+					ImGui::SameLine();
+					if (canEdit && ImGui::Button(("Remove##" + name).c_str()))
 					{
-						ImGui::SameLine();
-						if (ImGui::Button(("Remove##" + name).c_str()))
-						{
-							toRemove = it;
-						}
+						toRemove = it;
+					}
+					else
+					{
+						ImGuiExt::HelpMarker("This uniform cannot be modified.");
 					}
 					ImGui::EndChild();
 					ImGui::PopID();
@@ -1228,7 +1230,7 @@ namespace ml
 			);
 			ImGui::SameLine();
 			static String open_path;
-			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 			{
 				if (ML_FS.fileExists(open_path))
 				{
@@ -1462,7 +1464,7 @@ namespace ml
 			);
 			ImGui::SameLine();
 			static String open_path;
-			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 			{
 				if (ML_FS.fileExists(open_path))
 				{
@@ -1646,7 +1648,7 @@ namespace ml
 			);
 			ImGui::SameLine();
 			static String open_path;
-			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 			{
 				if (ML_FS.fileExists(open_path))
 				{
@@ -1814,7 +1816,7 @@ namespace ml
 			);
 			ImGui::SameLine();
 			static String open_path;
-			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 			{
 				if (ML_FS.fileExists(open_path))
 				{
@@ -1928,7 +1930,7 @@ namespace ml
 			);
 			ImGui::SameLine();
 			static String open_path;
-			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+			if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 			{
 				if (ML_FS.fileExists(open_path))
 				{
@@ -2284,7 +2286,7 @@ namespace ml
 					ML_MAX_PATH
 				);
 				ImGui::SameLine();
-				if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }))
+				if (ImGuiExt::OpenFile(("Browse##" + label), open_path, { 1280, 720 }) == 1)
 				{
 					if (ML_FS.fileExists(open_path))
 					{
@@ -2610,11 +2612,6 @@ namespace ml
 
 			ImGui::EndPopup();
 
-			//if (value && (flags & (1 << 0))) 
-			//{ 
-			//	ML_Engine.content().insert<Uniform>(value->name, value); 
-			//}
-
 			return Layout::end_prop(this, submit || cancel);
 		}
 		return Layout::end_prop(this, false);
@@ -2622,10 +2619,11 @@ namespace ml
 
 	bool PropertyDrawer<Uniform>::operator()(const String & label, reference value) const
 	{
+		constexpr float_t spd{ 0.005f };
+		constexpr C_String fmt { "%.4f" };
+		
 		Layout::begin_prop(this, label, value);
 
-		constexpr float_t speed = 0.005f;
-		constexpr C_String fmt { "%.4f" };
 		switch (value.getID())
 		{
 		case uni_bool::ID:
@@ -2647,7 +2645,7 @@ namespace ml
 			{
 				auto copy { *data };
 				const String name = "##" + label + "##Float##Uni" + value.name;
-				ImGui::DragFloat(name.c_str(), &copy, speed, 0, 0, fmt);
+				ImGui::DragFloat(name.c_str(), &copy, spd, 0, 0, fmt);
 				if (auto u = value.as<uni_float>())
 				{
 					u->data = copy;
@@ -2676,7 +2674,7 @@ namespace ml
 			{
 				auto copy { *data };
 				const String name = "##" + label + "##Vec2##Uni" + value.name;
-				ImGui::DragFloat2(name.c_str(), &copy[0], speed, 0, 0, fmt);
+				ImGui::DragFloat2(name.c_str(), &copy[0], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_vec2>())
 				{
 					u->data = copy; 
@@ -2690,7 +2688,7 @@ namespace ml
 			{
 				auto copy { *data };
 				const String name = "##" + label + "##Vec3##Uni" + value.name;
-				ImGui::DragFloat3(name.c_str(), &copy[0], speed, 0, 0, fmt);
+				ImGui::DragFloat3(name.c_str(), &copy[0], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_vec3>())
 				{
 					u->data = copy;
@@ -2704,7 +2702,7 @@ namespace ml
 			{
 				auto copy { *data };
 				const String name = "##" + label + "##Vec4##Uni" + value.name;
-				ImGui::DragFloat4(name.c_str(), &copy[0], speed, 0, 0, fmt);
+				ImGui::DragFloat4(name.c_str(), &copy[0], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_vec4>())
 				{
 					u->data = copy; 
@@ -2732,8 +2730,8 @@ namespace ml
 			{
 				auto copy { *data };
 				const String name = "##" + label + "##Mat2##Uni" + value.name;
-				ImGui::DragFloat2((name + "##00").c_str(), &copy[0], speed, 0, 0, fmt);
-				ImGui::DragFloat2((name + "##02").c_str(), &copy[2], speed, 0, 0, fmt);
+				ImGui::DragFloat2((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
+				ImGui::DragFloat2((name + "##02").c_str(), &copy[2], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_mat2>())
 				{
 					u->data = copy;
@@ -2747,9 +2745,9 @@ namespace ml
 			{
 				auto copy { *data };
 				const String name = "##" + label + "##Mat3##Uni" + value.name;
-				ImGui::DragFloat3((name + "##00").c_str(), &copy[0], speed, 0, 0, fmt);
-				ImGui::DragFloat3((name + "##03").c_str(), &copy[3], speed, 0, 0, fmt);
-				ImGui::DragFloat3((name + "##06").c_str(), &copy[6], speed, 0, 0, fmt);
+				ImGui::DragFloat3((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
+				ImGui::DragFloat3((name + "##03").c_str(), &copy[3], spd, 0, 0, fmt);
+				ImGui::DragFloat3((name + "##06").c_str(), &copy[6], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_mat3>())
 				{
 					u->data = (copy); 
@@ -2763,10 +2761,10 @@ namespace ml
 			{
 				auto copy { *data };
 				const String name = "##" + label + "##Mat4##Uni" + value.name;
-				ImGui::DragFloat4((name + "##00").c_str(), &copy[0],  speed, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##04").c_str(), &copy[4],  speed, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##08").c_str(), &copy[8],  speed, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##12").c_str(), &copy[12], speed, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##00").c_str(), &copy[0],  spd, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##04").c_str(), &copy[4],  spd, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##08").c_str(), &copy[8],  spd, 0, 0, fmt);
+				ImGui::DragFloat4((name + "##12").c_str(), &copy[12], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_mat4>())
 				{
 					u->data = copy; 
@@ -2791,8 +2789,7 @@ namespace ml
 			}
 			break;
 		}
-		ImGui::SameLine();
-		ImGuiExt::HelpMarker("This uniform cannot be modified.");
+
 		return Layout::end_prop(this, false);
 	}
 }

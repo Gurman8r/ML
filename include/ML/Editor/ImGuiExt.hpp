@@ -10,8 +10,23 @@ namespace ml
 {
 	struct ML_EDITOR_API ImGuiExt final
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		ImGuiExt() = delete;
+
 	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		enum PopupState { Canceled = -1, None = 0, Submitted = 1 };
+
+		static inline int32_t GetState(bool submit, bool cancel)
+		{
+			return (submit 
+				? PopupState::Submitted 
+				: (cancel ? PopupState::Canceled : PopupState::None)
+			);
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static vec2 GetContentRegionAvail();
@@ -26,33 +41,31 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		static int32_t Confirm(bool trigger, C_String label, bool * p_open, C_String message, int32_t popup_flags);
+
 		static int32_t Confirm(const String & label, bool trigger, const String & message);
 
 		static void HelpMarker(const String & message);
 
-		static bool OpenFile(const String & label, String & path, const vec2 & size);
+		static int32_t OpenFile(const String & label, String & path, const vec2 & size);
 
 		static void Tooltip(const String & message);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline static bool IsHidden(const String & value)
+		struct Util final
 		{
-			return ((value.size() >= 2) && (value.substr(0, 2) == "##"));
-		}
-
-		static inline bool vector_getter(void * vec, int32_t index, C_String * out)
-		{
-			if (auto * vector { static_cast<List<String> *>(vec) })
+			static inline bool get_vector(void * value, int32_t i, C_String * out)
 			{
-				if ((index >= 0) && (index < static_cast<int32_t>(vector->size())))
+				auto * vector{ static_cast<List<String> *>(value) };
+				if (vector && (i >= 0) && (i < static_cast<int32_t>(vector->size())))
 				{
-					(*out) = vector->at(index).c_str();
+					(*out) = vector->at(i).c_str();
 					return true;
 				}
+				return false;
 			}
-			return false;
-		}
+		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

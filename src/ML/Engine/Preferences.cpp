@@ -132,8 +132,8 @@ namespace ml
 	String Preferences::get_string(const String & section, const String & name, const String & dv) const
 	{
 		return ((m_ini)
-			? static_cast<INIReader *>(m_ini)->Get(section, name, (String)dv)
-			: (String)dv
+			? (String)static_cast<INIReader *>(m_ini)->Get(section, name, dv)
+			: dv
 		);
 	}
 

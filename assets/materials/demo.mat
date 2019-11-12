@@ -1,0 +1,15 @@
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
+
+uniform bool	u_bool		{ 0 }
+uniform int		u_int		{ 0 }
+uniform float	u_float		{ 0 }
+uniform vec2	u_vec2		{ 0 }
+uniform vec3	u_vec3		{ 0 }
+uniform vec4	u_vec4		{ 0 }
+uniform color	u_color		{ 0 }
+uniform mat2	u_mat2		{ 0 }
+uniform mat3	u_mat3		{ 0 }
+uniform mat4	u_mat4		{ 0 }
+uniform sampler u_sampler	{ tex/default }
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

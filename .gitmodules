@@ -40,7 +40,7 @@
 	url = https://github.com/Gurman8r/ImGuiColorTextEdit.git
 [submodule "ext/imgui"]
 	path = ext/imgui
-	url = https://github.com/Gurman8r/imgui.git
+	url = https://github.com/ocornut/imgui.git
 	branch = docking
 [submodule "ext/freetype2"]
 	path = ext/freetype2

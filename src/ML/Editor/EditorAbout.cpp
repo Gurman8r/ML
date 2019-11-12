@@ -212,7 +212,7 @@ namespace ml
 			draw_lnk("cpython", "https://github.com/python/cpython");
 			draw_lnk("dirent", "https://github.com/tronkko/dirent");
 			draw_lnk("flac", "https://github.com/xiph/flac");
-			draw_lnk("FreeType", "https://www.freetype.org/");
+			draw_lnk("freetype2", "https://github.com/aseprite/freetype2");
 			draw_lnk("GCEM", "https://github.com/kthohr/gcem");
 			draw_lnk("GLEW", "https://github.com/nigels-com/glew");
 			draw_lnk("GLFW", "https://github.com/glfw/glfw");

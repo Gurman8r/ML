@@ -35,6 +35,8 @@ git submodule sync
 
 [ ! -d "./glew" ] && git submodule add --force https://github.com/nigels-com/glew.git
 
+[ ! -d "./glew" ] && git submodule add --force https://github.com/Gurman8r/glfw.git
+
 [ ! -d "./lua" ] && git submodule add --force https://github.com/lua/lua.git
 
 [ ! -d "./RakNet" ] && git submodule add --force https://github.com/facebookarchive/RakNet.git

@@ -56,3 +56,6 @@
 [submodule "ext/RakNet"]
 	path = ext/RakNet
 	url = https://github.com/facebookarchive/RakNet.git
+[submodule "ext/glfw"]
+	path = ext/glfw
+	url = https://github.com/Gurman8r/glfw.git

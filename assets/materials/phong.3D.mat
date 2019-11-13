@@ -17,7 +17,7 @@ uniform sampler	u_texture0		{ tex/default }
 uniform sampler	u_texture1		{ tex/default }
 
 uniform vec3	u_position		{ 0.0, 0.0, 0.0 }
-uniform vec3	u_scale			{ 0.5, 0.5, 0.5 }
+uniform vec3	u_scale			{ 0.75, 0.75, 0.75 }
 uniform vec4	u_rotation		{ 0.0, 0.1, 0.0, 0.25 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

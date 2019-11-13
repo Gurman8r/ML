@@ -1,19 +1,19 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "Examples"
-project "TestPlugin"
+project "Launcher"
 	targetname 		"%{prj.name}"
+	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
-	location		"%{prj_dir}examples/%{prj.name}/"
-	kind			"SharedLib"
+	debugdir 		"%{bin_out}"
 	language		"C++"
 	cppdialect 		"C++17"
 	staticruntime	"Off"
 	systemversion	"latest"
-	dependson
+	dependson 
 	{
-		"Example",
+		"MemeLib",
 	}
 	defines
 	{
@@ -21,15 +21,19 @@ project "TestPlugin"
 	}
 	includedirs
 	{
-		"%{sln_dir}include", "%{ext_dir}", "%{sln_dir}examples/%{prj.name}"
+		"%{sln_dir}include", 
+		"%{ext_dir}",
 	}
 	files 
-	{ 
+	{
+		"%{sln_dir}build/%{prj.name}/%{prj.name}.lua",
 		"%{sln_dir}examples/%{prj.name}/**.h", 
 		"%{sln_dir}examples/%{prj.name}/**.hpp",
 		"%{sln_dir}examples/%{prj.name}/**.inl",
 		"%{sln_dir}examples/%{prj.name}/**.c",
-		"%{sln_dir}examples/%{prj.name}/**.cpp"
+		"%{sln_dir}examples/%{prj.name}/**.cpp",
+		"%{sln_dir}ML.ini", 
+		"%{sln_dir}assets/**.**", 
 	}
 	libdirs
 	{
@@ -41,14 +45,19 @@ project "TestPlugin"
 		"MemeLib"
 	}
 	
-	filter "configurations:Debug"
+	filter { "configurations:Debug" }
 		symbols "On"
+		kind "ConsoleApp"
 	
-	filter "configurations:Release"
+	filter { "configurations:Release" } 
 		optimize "Speed"
+		kind "WindowedApp"
 	
 	filter { "system:Windows" }
 		defines { "NOMINMAX" }
-		postbuildcommands { "%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}" }
-		
+		postbuildcommands 
+		{	
+			"%{ml_copy} %{bin_lib}%{prj.name}.exe %{bin_out}",
+		}
+
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

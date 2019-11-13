@@ -51,7 +51,7 @@ filter { "system:Windows" }
 	ext_lib = "%{sln_dir}ext-lib\\"
 	ml_copy	= "xcopy /y"
 	ml_move = "move /y"
-
+	
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 -- Generate Project Files
@@ -66,9 +66,9 @@ dofile "./build/RakNet.lua"
 dofile "./build/MemeLib.lua"
 
 -- Examples
-dofile "./examples/Launcher/Launcher.lua"
-dofile "./examples/Noobs/Noobs.lua"
-dofile "./examples/CommandSuite/CommandSuite.lua"
-dofile "./examples/TestPlugin/TestPlugin.lua"
+dofile "./build/Launcher.lua"
+dofile "./build/Noobs.lua"
+dofile "./build/CommandSuite.lua"
+dofile "./build/TestPlugin.lua"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

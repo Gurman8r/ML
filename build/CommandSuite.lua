@@ -1,7 +1,7 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "Examples"
-project "Noobs"
+project "CommandSuite"
 	targetname 		"%{prj.name}"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
@@ -24,12 +24,13 @@ project "Noobs"
 		"%{sln_dir}include", "%{ext_dir}", "%{sln_dir}examples/%{prj.name}"
 	}
 	files 
-	{ 
+	{
+		"%{sln_dir}build/%{prj.name}/%{prj.name}.lua",
 		"%{sln_dir}examples/%{prj.name}/**.h", 
 		"%{sln_dir}examples/%{prj.name}/**.hpp",
 		"%{sln_dir}examples/%{prj.name}/**.inl",
 		"%{sln_dir}examples/%{prj.name}/**.c",
-		"%{sln_dir}examples/%{prj.name}/**.cpp"
+		"%{sln_dir}examples/%{prj.name}/**.cpp",
 	}
 	libdirs
 	{

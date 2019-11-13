@@ -3,7 +3,7 @@
 group "MemeLib"
 project "MemeLib"
 	targetname 		"%{prj.name}"
-	location		"%{prj_dir}ML/%{prj.name}/"
+	location		"%{prj_dir}MemeLib/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
 	kind			"SharedLib"

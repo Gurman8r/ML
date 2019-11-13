@@ -1,7 +1,7 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "Common"
-project "Build"
+project "Tools"
 	kind		"Utility"
 	targetname 	"%{prj.name}"
 	location	"%{prj_dir}common/%{prj.name}/"

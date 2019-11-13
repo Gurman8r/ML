@@ -51,7 +51,7 @@ filter { "system:Windows" }
 
 -- Common
 dofile "./build/Assets.lua"
-dofile "./build/Build.lua"
+dofile "./build/Tools.lua"
 
 -- Vendor
 dofile "./build/GLFW.lua"

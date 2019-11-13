@@ -123,28 +123,25 @@ namespace ml
 	ML_USING_XY HashMap		= typename _STD unordered_map<X, Y>;
 	ML_USING_X	List		= typename _STD vector<X>;
 	ML_USING_XY Map			= typename _STD map<X, Y>;
-	ML_USING_Ts Global		= typename _STD shared_ptr<Ts...>;
-	ML_USING_Ts Scope		= typename _STD unique_ptr<Ts...>;
+	ML_USING_Ts Shared		= typename _STD shared_ptr<Ts...>;
+	ML_USING_Ts Scoped		= typename _STD unique_ptr<Ts...>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	template <class T, class ... Args>
-	static constexpr Global<T> make_global(Args && ... args)
+	namespace make
 	{
-		return _STD make_shared<T>(_STD forward<Args>(args)...);
-	}
-	
-	template <class T, class ... Args>
-	static constexpr Scope<T> make_scope(Args && ... args)
-	{
-		return _STD make_unique<T>(_STD forward<Args>(args)...);
-	}
+		template <class T, class ... Args>
+		static constexpr Shared<T> shared(Args && ... args)
+		{
+			return _STD make_shared<T>(_STD forward<Args>(args)...);
+		}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	static _STD ostream & cout { _STD cout };
-	static _STD ostream & cerr { _STD cerr };
-	static _STD istream & cin  { _STD cin  };
+		template <class T, class ... Args>
+		static constexpr Scoped<T> scoped(Args && ... args)
+		{
+			return _STD make_unique<T>(_STD forward<Args>(args)...);
+		}
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -156,6 +153,10 @@ namespace ml
 		out.flush();
 		return out;
 	}
+
+	static _STD ostream & cout { _STD cout };
+	static _STD ostream & cerr { _STD cerr };
+	static _STD istream & cin  { _STD cin  };
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

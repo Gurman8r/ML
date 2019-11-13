@@ -106,11 +106,11 @@ project "MemeLib"
 		postbuildcommands 
 		{	
 			"%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}",
-			"%{ml_copy} %{ext_bin}OpenAL32.dll %{bin_out}",
-			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",
-			"if %{cfg.buildcfg} == Debug ( %{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out} )",
-			"if %{cfg.buildcfg} == Release ( %{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out} )",
-			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}",
+			"%{ml_copy} %{ext_lib}OpenAL32.dll %{bin_out}",
+			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",
+			"if %{cfg.buildcfg} == Debug ( %{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out} )",
+			"if %{cfg.buildcfg} == Release ( %{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out} )",
+			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}",
 		}
 		
 		

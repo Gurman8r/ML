@@ -55,11 +55,7 @@ namespace ml
 # endif
 		);
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	static_assert(check_version());
-
+	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
@@ -68,6 +64,8 @@ namespace ml
 ml::int32_t main()
 {
 	using namespace ml;
+	static_assert(check_version());
+	ML_ASSERT(check_version());
 
 	// Init Systems
 	ML_Time;

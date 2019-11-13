@@ -280,7 +280,7 @@ if ml.content.load({ "type": "ml::Entity", "name": name }):
         ml.ecs.renderer_attr(name,  "depth",    "func",         "GL_LESS")
         ml.ecs.renderer_attr(name,  "depth",    "mask",         "True")
 
-if 0: # switch target entities
+if ml.config.is_debug(): # switch target entities
     ml.prefs.set("Noobs", "target_entity", "ent_demo_B")
     ml.ecs.renderer_attr("ent_demo_A", "self", "enabled", "False")
     ml.ecs.renderer_attr("ent_demo_B", "self", "enabled", "True")

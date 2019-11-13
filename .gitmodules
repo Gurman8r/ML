@@ -47,3 +47,6 @@
 [submodule "ext/pybind11"]
 	path = ext/pybind11
 	url = https://github.com/pybind/pybind11.git
+[submodule "ext/lua"]
+	path = ext/lua
+	url = https://github.com/lua/lua.git

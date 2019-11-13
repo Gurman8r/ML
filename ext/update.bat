@@ -1,5 +1,21 @@
 @echo off
-git submodule sync
-git submodule update --init --recursive
-git pull
-if %ERRORLEVEL% NEQ 0 ( pause )
+
+rem git submodule add --force -b docking https://github.com/ocornut/imgui.git
+rem git submodule add --force https://github.com/Gurman8r/assimp.git
+rem git submodule add --force https://github.com/Gurman8r/inih.git
+rem git submodule add --force https://github.com/Gurman8r/ImGuiColorTextEdit.git
+rem git submodule add --force https://github.com/python/cpython.git
+rem git submodule add --force https://github.com/nothings/stb.git
+rem git submodule add --force https://github.com/pybind/pybind11.git
+rem git submodule add --force https://github.com/g-truc/glm.git
+rem git submodule add --force https://github.com/kthohr/gcem.git
+rem git submodule add --force https://github.com/kcat/openal-soft.git
+rem git submodule add --force https://github.com/tronkko/dirent.git
+rem git submodule add --force https://github.com/aseprite/freetype2.git
+rem git submodule add --force https://github.com/wmcbrine/PDCurses
+rem git submodule add --force https://github.com/meganz/sdk.git
+rem git submodule add --force https://github.com/CedricGuillemet/ImGuizmo
+rem git submodule add --force https://github.com/premake/premake-core.git
+rem git submodule add --force https://github.com/nigels-com/glew
+rem git submodule add --force https://github.com/lua/lua
+rem git submodule add --force https://github.com/facebookarchive/RakNet

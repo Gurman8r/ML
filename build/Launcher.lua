@@ -3,7 +3,7 @@
 group "Examples"
 project "Launcher"
 	targetname 		"%{prj.name}"
-	location		"%{prj_dir}ML/%{prj.name}/"
+	location		"%{prj_dir}examples/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
 	debugdir 		"%{bin_out}"

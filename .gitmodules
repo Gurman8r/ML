@@ -31,11 +31,6 @@
 [submodule "ext/dirent"]
 	path = ext/dirent
 	url = https://github.com/tronkko/dirent.git
-	branch = docking
-[submodule "ext/imgui"]
-	path = ext/imgui
-	url = https://github.com/ocornut/imgui.git
-	branch = docking
 [submodule "ext/freetype2"]
 	path = ext/freetype2
 	url = https://github.com/aseprite/freetype2.git
@@ -57,3 +52,6 @@
 [submodule "ext/lua"]
 	path = ext/lua
 	url = https://github.com/lua/lua
+[submodule "ext/RakNet"]
+	path = ext/RakNet
+	url = https://github.com/facebookarchive/RakNet

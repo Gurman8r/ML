@@ -37,7 +37,3 @@
 [submodule "ext/RakNet"]
 	path = ext/RakNet
 	url = https://github.com/facebookarchive/RakNet
-[submodule "imgui"]
-	path = imgui
-	url = https://github.com/ocornut/imgui
-	branch = docking

@@ -59,3 +59,6 @@
 [submodule "ext/mega-sdk"]
 	path = ext/mega-sdk
 	url = https://github.com/meganz/sdk.git
+[submodule "ext/inih"]
+	path = ext/inih
+	url = https://github.com/Gurman8r/inih.git

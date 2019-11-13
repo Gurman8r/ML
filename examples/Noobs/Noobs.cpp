@@ -870,7 +870,7 @@ namespace ml
 				);
 				ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
 				ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-				ImGui::ButtonEx(GL::raw_name_of(GL::AlphaTest), { 0, 0 }, ImGuiButtonFlags_Disabled);
+				ImGui::Text(GL::raw_name_of(GL::AlphaTest));
 				ImGui::SameLine(); ImGui::Text(");");
 				ImGui::NewLine();
 

@@ -1,9 +1,9 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "MemeLib"
+group "Common"
 project "MemeLib"
 	targetname 		"%{prj.name}"
-	location		"%{prj_dir}MemeLib/%{prj.name}/"
+	location		"%{prj_dir}common/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
 	kind			"SharedLib"

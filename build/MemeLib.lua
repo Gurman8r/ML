@@ -11,12 +11,10 @@ project "MemeLib"
 	cppdialect 		"C++17"
 	staticruntime	"Off"
 	systemversion	"latest"
-	dependson 
-	{
+	dependson {
 		"GLFW", "Lua", "RakNet",
 	}
-	defines
-	{
+	defines {
 		"ML_AUDIO_EXPORTS", 
 		"ML_CORE_EXPORTS", 
 		"ML_EDITOR_EXPORTS", 
@@ -31,8 +29,7 @@ project "MemeLib"
 		"_GLFW_USE_CONFIG_H",
 		"GLEW_STATIC",
 	}
-	includedirs
-	{
+	includedirs {
 		"%{sln_dir}include",
 		"%{ext_dir}",
 		"%{ext_dir}openal-soft/al",
@@ -49,8 +46,7 @@ project "MemeLib"
 		"%{ext_dir}glfw/include",
 		"%{ext_dir}RakNet/Source",
 	}
-	files 
-	{
+	files {
 		"%{sln_dir}include/ML/**.h",
 		"%{sln_dir}include/ML/**.hpp",
 		"%{sln_dir}include/ML/**.inl",  
@@ -65,45 +61,46 @@ project "MemeLib"
 		"%{ext_dir}ImGuiColorTextEdit/*.h",
 		"%{ext_dir}ImGuiColorTextEdit/*.cpp",
 	}
-	libdirs
-	{
+	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
-	links
-	{
-		"opengl32", "glew32s", "glfw",
-		"OpenAL32", "flac", "ogg", "vorbis", "vorbisenc", "vorbisfile",
-		"pdcurses", "lua",
-		"freetype", "assimp", "IrrXML", "zlibstatic",
+	links {
+		"opengl32",
+		"glew32s", 
+		"glfw",
+		"OpenAL32", 
+		"flac", 
+		"ogg",
+		"vorbis", 
+		"vorbisenc", 
+		"vorbisfile",
+		"pdcurses", 
+		"lua",
+		"freetype", 
+		"assimp", 
+		"IrrXML", 
+		"zlibstatic",
 		"RakNet",
 	}
 	
 	filter { "configurations:Debug" }
 		symbols "On"
-		links { "python39_d" }
-		filter { "system:Windows", "configurations:Debug" }
-			linkoptions
-			{ 
-				"/NODEFAULTLIB:MSVCRT.lib", 
-				"/NODEFAULTLIB:LIBCMTD.lib",
-			}
+		links { "python39_d", }
+		filter { "system:Windows", "configurations:Debug", }
+			linkoptions { "/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMTD.lib", }
 	
 	filter { "configurations:Release" } 
 		optimize "Speed"
-		links { "python39" }
-		filter { "system:Windows", "configurations:Release" }
-			linkoptions
-			{ 
-				"/NODEFAULTLIB:LIBCMT.lib",
-			}
+		links { "python39", }
+		filter { "system:Windows", "configurations:Release", }
+			linkoptions { "/NODEFAULTLIB:LIBCMT.lib", }
 	
 	filter { "system:Windows" }
-		defines { "NOMINMAX" }
-		includedirs { "%{ext_dir}cpython/PC" }
+		defines { "NOMINMAX", }
+		includedirs { "%{ext_dir}cpython/PC", }
 		links { "ws2_32", }
-		postbuildcommands 
-		{	
+		postbuildcommands {	
 			"%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}",
 			"%{ml_copy} %{ext_lib}OpenAL32.dll %{bin_out}",
 			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",

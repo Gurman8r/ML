@@ -11,17 +11,14 @@ project "Lua"
 	cppdialect 		"C++17"
 	staticruntime	"Off"
 	systemversion	"latest"
-	defines
-	{
+	defines {
 		"_CRT_SECURE_NO_WARNINGS",
 		"MAKE_LIB",
 	}
-	includedirs
-	{
+	includedirs {
 		"%{ext_dir}lua",
 	}
-	files 
-	{
+	files {
 		"%{ext_dir}lua/lapi.h", "%{ext_dir}lua/lauxlib.h", "%{ext_dir}lua/lcode.h", "%{ext_dir}lua/lctype.h",
 		"%{ext_dir}lua/ldebug.h", "%{ext_dir}lua/ldo.h", "%{ext_dir}lua/lfunc.h", "%{ext_dir}lua/lgc.h",
 		"%{ext_dir}lua/ljumptab.h", "%{ext_dir}lua/llex.h", "%{ext_dir}lua/llimits.h", "%{ext_dir}lua/lmem.h",
@@ -39,12 +36,10 @@ project "Lua"
 		"%{ext_dir}lua/ltm.c", "%{ext_dir}lua/lua.c", "%{ext_dir}lua/lundump.c", "%{ext_dir}lua/lutf8lib.c",
 		"%{ext_dir}lua/lvm.c", "%{ext_dir}lua/lzio.c",
 	}
-	excludes
-	{ 
+	excludes { 
 		"onelua.c",
 	}
-	libdirs
-	{
+	libdirs {
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	
@@ -56,6 +51,5 @@ project "Lua"
 		
 	filter { "system:Windows" }
 		defines { "NOMINMAX" }
-		
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

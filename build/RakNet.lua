@@ -3,7 +3,7 @@
 group "Vendor"
 project "RakNet"
 	targetname 		"RakNet"
-	location		"%{prj_dir}ML/%{prj.name}/"
+	location		"%{prj_dir}vendor/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
 	kind			"StaticLib"
@@ -22,7 +22,6 @@ project "RakNet"
 	}
 	files 
 	{
-		"%{sln_dir}build/%{prj.name}.lua",
 		"%{inc_dir}**.h", 
 		"%{inc_dir}**.hpp", 
 		"%{inc_dir}**.inl",  

@@ -3,7 +3,7 @@
 
 #include <ML/Core/Pi.hpp>
 #include <ML/Core/Sqrt.hpp>
-#include <gcem/include/gcem.hpp>
+#include <gcem.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -24,71 +24,6 @@ namespace ml
 		{
 			return ((*value) ? (1 + alg::strlen(value + 1)) : 0);
 		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	// Trigonometry
-	namespace alg
-	{
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class T> static constexpr T cos(const T & value)
-		{
-			return gcem::cos<T>(value);
-		}
-
-		template <class T> static constexpr T sin(const T & value)
-		{
-			return gcem::sin<T>(value);
-		}
-
-		template <class T> static constexpr T tan(const T value)
-		{
-			return gcem::tan<T>(value);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class T> static constexpr T acos(const T & value)
-		{
-			return gcem::acos<T>(value);
-		}
-
-		template <class T> static constexpr T asin(const T & value)
-		{
-			return gcem::asin<T>(value);
-		}
-
-		template <class T> static constexpr T atan(const T & value)
-		{
-			return gcem::atan<T>(value);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <
-			class T, class Tx, class Ty
-		> static constexpr T acos2(const Tx & x, const Ty & y)
-		{
-			return static_cast<T>(gcem::acos2<Tx, Ty>(x, y));
-		}
-
-		template <
-			class T, class Tx, class Ty
-		> static constexpr T asin2(const Tx & x, const Ty & y)
-		{
-			return static_cast<T>(gcem::asin2<Tx, Ty>(x, y));
-		}
-
-		template <
-			class T, class Tx, class Ty
-		> static constexpr T atan2(const Tx & x, const Ty & y)
-		{
-			return static_cast<T>(gcem::atan2<Tx, Ty>(x, y));
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -138,18 +73,18 @@ namespace ml
 		{
 			return ((value > (T)1) ? value * _ML alg::fact(value - (T)1) : (T)1);
 		}
+
+		template <class T> static constexpr const T & min(const T & lhs, const T & rhs)
+		{
+			return (lhs <= rhs) ? lhs : rhs;
+		}
 			
 		template <class T> static constexpr const T & max(const T & lhs, const T & rhs)
 		{
 			return (lhs >= rhs) ? lhs : rhs;
 		}
 
-		template <class T> static constexpr const T & min(const T & lhs, const T & rhs)
-		{
-			return (lhs <= rhs) ? lhs : rhs;
-		}
-
-		template <class T> static constexpr T clamp(const T & value, const T & mn, const T & mx)
+		template <class T> static constexpr auto clamp(const T & value, const T & mn, const T & mx)
 		{
 			return _ML alg::min(_ML alg::max(value, mn), mx);
 		}

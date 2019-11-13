@@ -35,6 +35,7 @@ project "MemeLib"
 	{
 		"%{sln_dir}include",
 		"%{ext_dir}",
+		"%{ext_dir}gcem/include",
 		"%{ext_dir}openal-soft/al",
 		"%{ext_dir}openal-soft/alc",
 		"%{ext_dir}openal-soft/include",
@@ -56,7 +57,6 @@ project "MemeLib"
 		"%{sln_dir}include/ML/**.inl",  
 		"%{sln_dir}src/ML/**.c",
 		"%{sln_dir}src/ML/**.cpp",
-		"%{sln_dir}build/%{prj.name}.lua",
 		"%{ext_dir}imgui/*.h",
 		"%{ext_dir}imgui/*.cpp",
 		"%{ext_dir}imgui/examples/imgui_impl_glfw.h",

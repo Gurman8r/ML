@@ -55,6 +55,8 @@ filter { "system:Windows" }
 -- Generate Project Files
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
+dofile "./build/Common.lua"
+
 -- Vendor
 dofile "./build/GLFW.lua"
 dofile "./build/Lua.lua"

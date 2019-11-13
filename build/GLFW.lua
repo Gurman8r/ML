@@ -3,7 +3,7 @@
 group "Vendor"
 project "GLFW"
 	targetname 		"glfw"
-	location		"%{prj_dir}ext/%{prj.name}/"
+	location		"%{prj_dir}vendor/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
 	kind			"StaticLib"
@@ -27,7 +27,6 @@ project "GLFW"
 	}
 	files 
 	{
-		"%{sln_dir}build/%{prj.name}.lua",
 		"%{ext_dir}glfw/include/glfw/**.h",
 		"%{ext_dir}glfw/src/context.c", 
 		"%{ext_dir}glfw/src/glfw_config.h",  

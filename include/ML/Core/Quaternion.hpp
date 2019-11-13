@@ -60,7 +60,7 @@ namespace ml
 
 		constexpr value_type angle() const
 		{
-			return alg::acos(this->real()) * 2.0f;
+			return gcem::acos(this->real()) * 2.0f;
 		}
 
 		constexpr complex_type axis() const
@@ -85,7 +85,7 @@ namespace ml
 
 		constexpr value_type pitch() const
 		{
-			return alg::atan2<value_type>(
+			return gcem::atan2<value_type>(
 				(2.0f * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
 				(this->real() * this->real() - (*this)[0] *
 					(*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
@@ -94,7 +94,7 @@ namespace ml
 
 		constexpr value_type roll() const
 		{
-			return alg::atan2<value_type>(
+			return gcem::atan2<value_type>(
 				(2.0f * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
 				(this->real() * this->real() + (*this)[0] * (*this)[0] -
 					(*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
@@ -103,7 +103,7 @@ namespace ml
 
 		constexpr value_type yaw() const
 		{
-			return alg::asin<value_type>(alg::clamp(
+			return gcem::asin<value_type>(alg::clamp(
 				(2.0f * ((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
 				-1.0f,
 				1.0f
@@ -144,20 +144,25 @@ namespace ml
 		static constexpr self_type angleAxis(value_type angle, const complex_type & axis)
 		{
 			const value_type half_angle { angle * 0.5f };
-			const value_type temp { alg::sin(half_angle) };
+			const value_type temp { gcem::sin(half_angle) };
 			return self_type {
 				axis[0] * temp,
 				axis[1] * temp,
 				axis[2] * temp,
-				alg::cos(half_angle)
+				gcem::cos(half_angle)
 			};
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		constexpr operator base_type() const
+		constexpr operator base_type &()
 		{
-			return base_type { (*this)[0], (*this)[1], (*this)[2], (*this)[3] };
+			return static_cast<base_type &>(*this);
+		}
+		
+		constexpr operator const base_type &() const
+		{
+			return static_cast<const base_type &>(*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

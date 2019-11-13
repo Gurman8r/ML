@@ -1,2 +1,4 @@
 ext/* linguist-vendored=true
+ext-lib/* linguist-vendored=true
 lib/* linguist-vendored=true
+Lib/* linguist-vendored=true

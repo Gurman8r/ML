@@ -32,9 +32,6 @@
 	path = ext/dirent
 	url = https://github.com/tronkko/dirent.git
 	branch = docking
-[submodule "ext/RakNet"]
-	path = ext/RakNet
-	url = https://github.com/facebookarchive/RakNet.git
 [submodule "ext/imgui"]
 	path = ext/imgui
 	url = https://github.com/ocornut/imgui.git

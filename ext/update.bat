@@ -2,4 +2,4 @@
 git submodule sync
 git submodule update --init --recursive
 git pull
-exit
+if %ERRORLEVEL% NEQ 0 ( pause )

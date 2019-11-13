@@ -2,15 +2,14 @@
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
 [ ] = In Progress
-[x] = Complete
 [?] = Considering
+[x] = Complete
 
 # * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ ] BUILD THE WORLD FROM SOURCE
-[ ] MORE PROPERTY DRAWERS
-[ ] INCREASE DATA DENSITY
-[ ] BETTER DESERIALIZATION
+[ ] BUILD ALL FROM SOURCE
+[ ] INCREASE DATA DENSITY 	(dense hash map)
+[ ] BETTER DESERIALIZATION 	(refl)
 
 [?] Dedicated error log (like Unity's)
 [?] Real-time python scripts

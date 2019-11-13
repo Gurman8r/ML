@@ -35,7 +35,6 @@ project "MemeLib"
 	{
 		"%{sln_dir}include",
 		"%{ext_dir}",
-		"%{ext_dir}gcem/include",
 		"%{ext_dir}openal-soft/al",
 		"%{ext_dir}openal-soft/alc",
 		"%{ext_dir}openal-soft/include",

@@ -50,3 +50,12 @@
 [submodule "ext/lua"]
 	path = ext/lua
 	url = https://github.com/lua/lua.git
+[submodule "ext/sdk"]
+	path = ext/sdk
+	url = https://github.com/meganz/sdk.git
+[submodule "ext/premake-core"]
+	path = ext/premake-core
+	url = https://github.com/premake/premake-core.git
+[submodule "ext/mega-sdk"]
+	path = ext/mega-sdk
+	url = https://github.com/meganz/sdk.git

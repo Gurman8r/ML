@@ -25,7 +25,7 @@ project "CommandSuite"
 	}
 	files 
 	{
-		"%{sln_dir}build/%{prj.name}/%{prj.name}.lua",
+		"%{sln_dir}build/%{prj.name}.lua",
 		"%{sln_dir}examples/%{prj.name}/**.h", 
 		"%{sln_dir}examples/%{prj.name}/**.hpp",
 		"%{sln_dir}examples/%{prj.name}/**.inl",

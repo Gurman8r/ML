@@ -22,7 +22,7 @@ project "RakNet"
 	}
 	files 
 	{
-		"%{sln_dir}build/%{prj.name}/%{prj.name}.lua",
+		"%{sln_dir}build/%{prj.name}.lua",
 		"%{inc_dir}**.h", 
 		"%{inc_dir}**.hpp", 
 		"%{inc_dir}**.inl",  

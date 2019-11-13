@@ -1,6 +1,8 @@
 @echo off
 
-if not exist ".\imgui" ( git submodule add -b docking https://github.com/ocornut/imgui.git )
+git submodule sync
+
+if not exist ".\imgui" ( git submodule add -b docking https://github.com/Gurman8r/imgui.git )
 
 if not exist ".\assimp" ( git submodule add https://github.com/Gurman8r/assimp.git )
 

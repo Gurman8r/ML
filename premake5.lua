@@ -4,14 +4,8 @@
 
 workspace "ML_%{_ACTION}"
 	startproject "Launcher"
-	configurations 
-	{ 
-		"Debug", "Release" 
-	}
-	platforms
-	{ 
-		"x86", "x64" 
-	}
+	configurations { "Debug", "Release" }
+	platforms { "x86", "x64" }
 	filter { "platforms:*64" }
 		architecture "x64"
 	filter { "platforms:*32" }

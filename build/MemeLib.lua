@@ -47,7 +47,6 @@ project "MemeLib"
 		"%{ext_dir}assimp/include",
 		"%{ext_dir}freetype2/include",
 		"%{ext_dir}freetype2/include/freetype",
-		"%{ext_dir}RakNet/Source",
 		"%{ext_dir}glfw/include",
 	}
 	files 

@@ -37,11 +37,11 @@ if "%platform%" == "Win64" 	( call "vcvarsall.bat" x64 )
 
 cd %msbuild_path%
 call msbuild.exe ^
- "%CWD%..\ML_vs%vs_version%.sln" ^
- "/p:Configuration=%config%" ^
- "/p:PlatformTarget=%platform%" ^
- "/p:PlatformToolset=%toolset%" ^
- "/p:Subsystem=%subsystem%"
+"%CWD%..\ML_vs%vs_version%.sln" ^
+"/p:Configuration=%config%" ^
+"/p:PlatformTarget=%platform%" ^
+"/p:PlatformToolset=%toolset%" ^
+"/p:Subsystem=%subsystem%"
 
 popd
 if %ERRORLEVEL% NEQ 0 ( pause )

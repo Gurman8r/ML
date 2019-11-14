@@ -1127,9 +1127,12 @@ namespace ml
 					);
 					const bool canEdit{ PropertyDrawer<Uniform>()(name, (Uniform &)(**it)) };
 					ImGui::SameLine();
-					if (canEdit && ImGui::Button(("Remove##" + name).c_str()))
+					if (canEdit)
 					{
-						toRemove = it;
+						if (ImGui::Button(("Remove##" + name).c_str()))
+						{ 
+							toRemove = it;
+						}
 					}
 					else
 					{

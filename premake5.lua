@@ -20,8 +20,6 @@ workspace "ML_%{_ACTION}"
 
 filter { "system:Unix", "system:Mac" }
 	sln_dir = "%{wks.location}/"
-	inc_dir = "%{sln_dir}include/ML/%{prj.name}/"
-	src_dir = "%{sln_dir}src/ML/%{prj.name}/"
 	prj_dir = "%{sln_dir}proj/%{_ACTION}/"
 	bin_out = "%{sln_dir}bin/%{cfg.buildcfg}/%{cfg.platform}/"
 	bin_lib = "%{sln_dir}bin-lib/%{cfg.buildcfg}/%{cfg.platform}/"
@@ -33,8 +31,6 @@ filter { "system:Unix", "system:Mac" }
 	
 filter { "system:Windows" }
 	sln_dir = "%{wks.location}\\"
-	inc_dir = "%{sln_dir}include\\ML\\%{prj.name}\\"
-	src_dir = "%{sln_dir}src\\ML\\%{prj.name}\\"
 	prj_dir = "%{sln_dir}proj\\%{_ACTION}\\"
 	bin_out = "%{sln_dir}bin\\%{cfg.buildcfg}\\%{cfg.platform}\\"
 	bin_lib = "%{sln_dir}bin-lib\\%{cfg.buildcfg}\\%{cfg.platform}\\"
@@ -49,20 +45,14 @@ filter { "system:Windows" }
 -- Generate Project Files
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
--- Common
-dofile "./build/Assets.lua"
-dofile "./build/Tools.lua"
-
--- Vendor
 dofile "./build/GLFW.lua"
 dofile "./build/Lua.lua"
 dofile "./build/RakNet.lua"
 
--- MemeLib
+dofile "./build/Assets.lua"
 dofile "./build/MemeLib.lua"
-
--- Examples
 dofile "./build/Launcher.lua"
+
 dofile "./build/Noobs.lua"
 dofile "./build/CommandSuite.lua"
 dofile "./build/TestPlugin.lua"

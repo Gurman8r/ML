@@ -1,9 +1,9 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "Examples"
+group "MemeLib"
 project "Launcher"
 	targetname 		"%{prj.name}"
-	location		"%{prj_dir}examples/%{prj.name}/"
+	location		"%{prj_dir}memelib/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
 	debugdir 		"%{bin_out}"
@@ -22,11 +22,7 @@ project "Launcher"
 		"%{ext_dir}",
 	}
 	files {
-		"%{sln_dir}examples/%{prj.name}/**.h", 
-		"%{sln_dir}examples/%{prj.name}/**.hpp",
-		"%{sln_dir}examples/%{prj.name}/**.inl",
-		"%{sln_dir}examples/%{prj.name}/**.c",
-		"%{sln_dir}examples/%{prj.name}/**.cpp",
+		"%{sln_dir}src/%{prj.name}/**.cpp",
 	}
 	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",

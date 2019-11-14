@@ -25,4 +25,5 @@ git submodule add --force https://github.com/facebookarchive/RakNet.git
 
 git submodule update --init --recursive
 git pull
-if %ERRORLEVEL% NEQ 0" ( pause )
+
+if %ERRORLEVEL% NEQ 0 ( pause )

@@ -1,9 +1,9 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "Common"
+group "MemeLib"
 project "MemeLib"
 	targetname 		"%{prj.name}"
-	location		"%{prj_dir}common/%{prj.name}/"
+	location		"%{prj_dir}memelib/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
 	kind			"SharedLib"
@@ -47,10 +47,8 @@ project "MemeLib"
 		"%{ext_dir}RakNet/Source",
 	}
 	files {
-		"%{sln_dir}include/ML/**.h",
 		"%{sln_dir}include/ML/**.hpp",
-		"%{sln_dir}include/ML/**.inl",  
-		"%{sln_dir}src/ML/**.c",
+		"%{sln_dir}include/ML/**.inl",
 		"%{sln_dir}src/ML/**.cpp",
 		"%{ext_dir}imgui/*.h",
 		"%{ext_dir}imgui/*.cpp",

@@ -25,4 +25,5 @@ git submodule add --force https://github.com/facebookarchive/RakNet.git
 
 git submodule update --init --recursive
 git pull
-exit 0
+
+exit $?

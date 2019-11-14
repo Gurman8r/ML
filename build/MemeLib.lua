@@ -12,7 +12,7 @@ project "MemeLib"
 	staticruntime	"Off"
 	systemversion	"latest"
 	dependson {
-		"Common", "GLFW", "Lua", "RakNet",
+		"GLFW", "Lua", "RakNet",
 	}
 	defines {
 		"ML_AUDIO_EXPORTS", 

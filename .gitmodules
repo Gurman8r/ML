@@ -59,3 +59,12 @@
 [submodule "ext/glfw"]
 	path = ext/glfw
 	url = https://github.com/Gurman8r/glfw.git
+[submodule "ext/flac"]
+	path = ext/flac
+	url = https://github.com/xiph/flac.git
+[submodule "ext/ogg"]
+	path = ext/ogg
+	url = https://github.com/xiph/ogg.git
+[submodule "ext/vorbis"]
+	path = ext/vorbis
+	url = https://github.com/xiph/vorbis.git

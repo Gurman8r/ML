@@ -18,13 +18,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend struct Singleton<Py>;
+
+		Py() {}
+		~Py() {}
 		
 		bool	m_init { false };
 		String	m_name {};
 		String	m_home {};
-
-		Py() {}
-		~Py() {}
 
 	public:
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

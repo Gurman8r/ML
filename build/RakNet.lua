@@ -31,14 +31,22 @@ project "RakNet"
 	
 	filter { "configurations:Debug" }
 		symbols "On"
+
+	filter { "system:Windows", "configurations:Debug" }
+		linkoptions { 
+			"/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib" 
+		}
 		
 	filter { "configurations:Release" }
 		optimize "Speed"
+
+	filter { "system:Windows", "configurations:Release" }
+		linkoptions { 
+			"/NODEFAULTLIB:LIBCMT.lib",
+		}
 		
 	filter { "system:Windows" }
-		linkoptions { "/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib" }
-		links {
-			"ws2_32",
-		}
+		linkoptions {  }
+		links { "ws2_32" }
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

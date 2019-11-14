@@ -28,7 +28,6 @@ project "glfw3"
 		"%{ext_dir}glfw/src/egl_context.c",
 		"%{ext_dir}glfw/src/egl_context.h",
 		"%{ext_dir}glfw/src/glfw_config.h",  
-		"%{ext_dir}glfw/src/glfw_window.c",
 		"%{ext_dir}glfw/src/init.c", 
 		"%{ext_dir}glfw/src/input.c", 
 		"%{ext_dir}glfw/src/internal.h", 
@@ -39,6 +38,7 @@ project "glfw3"
 		"%{ext_dir}glfw/src/vulkan.c",
 		"%{ext_dir}glfw/src/wgl_context.c",
 		"%{ext_dir}glfw/src/wgl_context.h",
+		"%{ext_dir}glfw/src/window.c",
 	}
 	libdirs {
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",

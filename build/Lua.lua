@@ -12,12 +12,7 @@ project "lua"
 	staticruntime	"Off"
 	systemversion	"latest"
 	defines {
-		"_CRT_SECURE_NO_WARNINGS",
-		"NOMINMAX",
-		"MAKE_LIB",
-	}
-	includedirs {
-		"%{ext_dir}lua",
+		"_CRT_SECURE_NO_WARNINGS", "NOMINMAX", "MAKE_LIB",
 	}
 	files {
 		"%{sln_dir}build/%{prj.name}.lua",
@@ -37,9 +32,6 @@ project "lua"
 		"%{ext_dir}lua/lstrlib.c", "%{ext_dir}lua/ltable.c", "%{ext_dir}lua/ltablib.c", "%{ext_dir}lua/ltests.c",
 		"%{ext_dir}lua/ltm.c", "%{ext_dir}lua/lua.c", "%{ext_dir}lua/lundump.c", "%{ext_dir}lua/lutf8lib.c",
 		"%{ext_dir}lua/lvm.c", "%{ext_dir}lua/lzio.c",
-	}
-	excludes { 
-		"onelua.c",
 	}
 	libdirs {
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",

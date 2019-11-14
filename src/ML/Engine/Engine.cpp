@@ -136,9 +136,9 @@ namespace ml
 						(float_t)window().getMouseButton(MouseButton::Button1)
 					};
 				} });
-				content().insert<Uniform>("u_scroll", new uni_vec2_clbk{ "u_scroll", [&]() {
-					return window().getScroll();
-				} });
+				//content().insert<Uniform>("u_scroll", new uni_vec2_clbk{ "u_scroll", [&]() {
+				//	return window().getScroll();
+				//} });
 				content().insert<Uniform>("u_time", new uni_float_clbk{ "u_time", [&]() {
 					return time().totalTime();
 				} });

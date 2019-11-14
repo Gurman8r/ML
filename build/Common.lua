@@ -11,8 +11,8 @@ project "Common"
 		"%{sln_dir}assets/**.**", 
 		"%{sln_dir}build/**.lua",
 		"%{sln_dir}tools/**.**",
-		"%{sln_dir}premake5.lua",
 		"%{sln_dir}ML.ini", 
+		"%{sln_dir}premake5.lua",
 	}
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

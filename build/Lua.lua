@@ -13,6 +13,7 @@ project "Lua"
 	systemversion	"latest"
 	defines {
 		"_CRT_SECURE_NO_WARNINGS",
+		"NOMINMAX",
 		"MAKE_LIB",
 	}
 	includedirs {
@@ -46,10 +47,7 @@ project "Lua"
 	filter { "configurations:Debug" }
 		symbols "On" 
 		
-	filter { "configurations:Release" } 
+	filter { "configurations:Release" }
 		optimize "Speed" 
-		
-	filter { "system:Windows" }
-		defines { "NOMINMAX" }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

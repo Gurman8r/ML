@@ -13,6 +13,7 @@ project "RakNet"
 	systemversion	"latest"
 	defines {
 		"_CRT_SECURE_NO_WARNINGS",
+		"NOMINMAX",
 		"_WINSOCK_DEPRECATED_NO_WARNINGS",
 	}
 	includedirs {
@@ -34,7 +35,6 @@ project "RakNet"
 		optimize "Speed"
 	
 	filter { "system:Windows" }
-		defines { "NOMINMAX" }
 		links {
 			"ws2_32",
 		}

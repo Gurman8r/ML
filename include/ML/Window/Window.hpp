@@ -113,8 +113,6 @@ namespace ml
 		
 		int32_t	getAttribute(int32_t value) const;
 		
-		char getChar() const;
-		
 		C_String getClipboardString() const;
 		
 		vec2 getCursorPos() const;
@@ -132,8 +130,6 @@ namespace ml
 		vec2i getPosition() const;
 		
 		ptr_t<void> getRawHandle() const;
-
-		vec2 getScroll() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -218,8 +214,6 @@ namespace ml
 		WindowStyle		m_style;		// 
 		VideoMode		m_videoMode;	// 
 		String			m_title;		// 
-		mutable vec2	m_scroll;		//
-		mutable char	m_char;			// 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

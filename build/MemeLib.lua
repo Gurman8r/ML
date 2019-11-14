@@ -12,7 +12,7 @@ project "MemeLib"
 	staticruntime	"Off"
 	systemversion	"latest"
 	dependson {
-		"GLFW", "Lua", "RakNet",
+		"Common", "GLFW", "Lua", "RakNet",
 	}
 	defines {
 		"ML_AUDIO_EXPORTS", 
@@ -23,6 +23,7 @@ project "MemeLib"
 		"ML_NETWORK_EXPORTS", 
 		"ML_WINDOW_EXPORTS", 
 		"_CRT_SECURE_NO_WARNINGS",
+		"NOMINMAX",
 		"IMGUI_USER_CONFIG=<ML/Editor/ImGuiConfig.hpp>",
 		"IMGUI_IMPL_OPENGL_LOADER_GLEW",
 		"_WINSOCK_DEPRECATED_NO_WARNINGS",
@@ -48,7 +49,6 @@ project "MemeLib"
 	}
 	files {
 		"%{sln_dir}include/ML/**.hpp",
-		"%{sln_dir}include/ML/**.inl",
 		"%{sln_dir}src/ML/**.cpp",
 		"%{ext_dir}imgui/*.h",
 		"%{ext_dir}imgui/*.cpp",
@@ -95,7 +95,6 @@ project "MemeLib"
 			linkoptions { "/NODEFAULTLIB:LIBCMT.lib"  }
 	
 	filter { "system:Windows" }
-		defines { "NOMINMAX", }
 		includedirs { "%{ext_dir}cpython/PC", }
 		links { "ws2_32", }
 		postbuildcommands {	

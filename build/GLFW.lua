@@ -13,6 +13,7 @@ project "GLFW"
 	systemversion	"latest"
 	defines {
 		"_CRT_SECURE_NO_WARNINGS",
+		"NOMINMAX",
 		"_GLFW_USE_CONFIG_H",
 	}
 	includedirs {
@@ -23,6 +24,8 @@ project "GLFW"
 	files {
 		"%{ext_dir}glfw/include/glfw/**.h",
 		"%{ext_dir}glfw/src/context.c", 
+		"%{ext_dir}glfw/src/egl_context.c",
+		"%{ext_dir}glfw/src/egl_context.h",
 		"%{ext_dir}glfw/src/glfw_config.h",  
 		"%{ext_dir}glfw/src/glfw_window.c",
 		"%{ext_dir}glfw/src/init.c", 
@@ -30,7 +33,11 @@ project "GLFW"
 		"%{ext_dir}glfw/src/internal.h", 
 		"%{ext_dir}glfw/src/mappings.h", 
 		"%{ext_dir}glfw/src/monitor.c", 
+		"%{ext_dir}glfw/src/osmesa_context.c",
+		"%{ext_dir}glfw/src/osmesa_context.h",
 		"%{ext_dir}glfw/src/vulkan.c",
+		"%{ext_dir}glfw/src/wgl_context.c",
+		"%{ext_dir}glfw/src/wgl_context.h",
 	}
 	libdirs {
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
@@ -47,14 +54,7 @@ project "GLFW"
 		optimize "Speed"
 		
 	filter { "system:Windows" }
-		defines { "NOMINMAX" }
 		files {
-			"%{ext_dir}glfw/src/egl_context.c",
-			"%{ext_dir}glfw/src/egl_context.h",
-			"%{ext_dir}glfw/src/osmesa_context.c",
-			"%{ext_dir}glfw/src/osmesa_context.h",
-			"%{ext_dir}glfw/src/wgl_context.c",
-			"%{ext_dir}glfw/src/wgl_context.h",
 			"%{ext_dir}glfw/src/win32_init.c",
 			"%{ext_dir}glfw/src/win32_joystick.c",
 			"%{ext_dir}glfw/src/win32_joystick.h",

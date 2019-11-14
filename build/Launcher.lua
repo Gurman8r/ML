@@ -12,10 +12,11 @@ project "Launcher"
 	staticruntime	"Off"
 	systemversion	"latest"
 	dependson {
-		"MemeLib",
+		"MemeLib"
 	}
 	defines {
 		"_CRT_SECURE_NO_WARNINGS",
+		"NOMINMAX",
 	}
 	includedirs {
 		"%{sln_dir}include", 
@@ -41,7 +42,6 @@ project "Launcher"
 		kind "WindowedApp"
 	
 	filter { "system:Windows" }
-		defines { "NOMINMAX" }
 		postbuildcommands {	"%{ml_copy} %{bin_lib}%{prj.name}.exe %{bin_out}", }
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

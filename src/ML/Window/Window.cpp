@@ -54,8 +54,6 @@ namespace ml
 		, m_context		{}
 		, m_style		{}
 		, m_videoMode	{}
-		, m_char		{ 0 }
-		, m_scroll		{ 0.f }
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		if (HWND window { GetConsoleWindow() })
@@ -66,19 +64,9 @@ namespace ml
 			}
 		}
 #endif
-		ML_EventSystem.addListener(CharEvent::ID, this);
-		ML_EventSystem.addListener(CursorEnterEvent::ID, this);
-		ML_EventSystem.addListener(CursorPosEvent::ID, this);
-		ML_EventSystem.addListener(FrameSizeEvent::ID, this);
-		ML_EventSystem.addListener(KeyEvent::ID, this);
-		ML_EventSystem.addListener(MouseEvent::ID, this);
-		ML_EventSystem.addListener(ScrollEvent::ID, this);
-		ML_EventSystem.addListener(WindowCloseEvent::ID, this);
 		ML_EventSystem.addListener(WindowErrorEvent::ID, this);
-		ML_EventSystem.addListener(WindowFocusEvent::ID, this);
 		ML_EventSystem.addListener(WindowKillEvent::ID, this);
 		ML_EventSystem.addListener(WindowSizeEvent::ID, this);
-		ML_EventSystem.addListener(WindowPosEvent::ID, this);
 		ML_EventSystem.addListener(WindowFullscreenEvent::ID, this);
 	}
 	
@@ -256,72 +244,27 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case CharEvent::ID:
-			if (auto ev = value.as<CharEvent>())
-			{
-				m_char = (char)ev->value;
-			}
-			break;
-		case CursorEnterEvent::ID:
-			if (auto ev = value.as<CursorEnterEvent>()) {}
-			break;
-		case CursorPosEvent::ID:
-			if (auto ev = value.as<CursorPosEvent>()) {}
-			break;
-		case FrameSizeEvent::ID:
-			if (auto ev = value.as<FrameSizeEvent>()) {}
-			break;
-		case KeyEvent::ID:
-			if (auto ev = value.as<KeyEvent>()) {}
-			break;
-		case MouseEvent::ID:
-			if (auto ev = value.as<MouseEvent>()) {}
-			break;
-		case ScrollEvent::ID:
-			if (auto ev = value.as<ScrollEvent>()) 
-			{
-				m_scroll[0] = (float_t)ev->x;
-				m_scroll[1] = (float_t)ev->y;
-			}
-			break;
-		case WindowCloseEvent::ID:
-			if (auto ev = value.as<WindowCloseEvent>()) {}
-			break;
-		case WindowErrorEvent::ID:
-			if (auto ev = value.as<WindowErrorEvent>())
+			case WindowErrorEvent::ID: if (auto ev = value.as<WindowErrorEvent>())
 			{
 				Debug::logError("GLFW Error {0}: \'{1}\'", ev->code, ev->desc);
-			}
-			break;
-		case WindowFocusEvent::ID:
-			if (auto ev = value.as<WindowFocusEvent>()) {}
-			break;
-		case WindowKillEvent::ID:
-			if (auto ev = value.as<WindowKillEvent>()) 
+			} break;
+			case WindowKillEvent::ID: if (auto ev = value.as<WindowKillEvent>())
 			{
 				this->close();
-			}
-			break;
-		case WindowPosEvent::ID:
-			if (auto ev = value.as<WindowPosEvent>()) {}
-			break;
-		case WindowSizeEvent::ID:
-			if (auto ev = value.as<WindowSizeEvent>())
+			} break;
+			case WindowSizeEvent::ID: if (auto ev = value.as<WindowSizeEvent>())
 			{
 				m_videoMode.size = { (uint32_t)ev->width, (uint32_t)ev->height };
-			}
-			break;
-		case WindowFullscreenEvent::ID:
-			if (auto ev = value.as<WindowFullscreenEvent>())
+			} break;
+			case WindowFullscreenEvent::ID: if (auto ev = value.as<WindowFullscreenEvent>())
 			{
 				switch (ev->value)
 				{
-				case  0:
-				case  1: this->setFullscreen(ev->value); break;
-				case -1: this->setFullscreen(!this->isFullscreen()); break;
+					case  0:
+					case  1: this->setFullscreen(ev->value); break;
+					case -1: this->setFullscreen(!this->isFullscreen()); break;
 				}
-			}
-			break;
+			} break;
 		}
 	}
 
@@ -535,13 +478,6 @@ namespace ml
 		return (m_window ? glfwGetWindowAttrib(static_cast<GLFWwindow *>(m_window), value) : 0);
 	}
 
-	char Window::getChar() const
-	{
-		char temp { m_char };
-		m_char = '\0';
-		return m_char;
-	}
-
 	C_String Window::getClipboardString() const
 	{
 		return (m_window 
@@ -607,13 +543,6 @@ namespace ml
 #else
 		return m_window;
 #endif
-	}
-
-	vec2 Window::getScroll() const
-	{
-		vec2 temp{ m_scroll };
-		m_scroll = { 0 };
-		return m_scroll;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

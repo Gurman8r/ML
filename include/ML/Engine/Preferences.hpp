@@ -6,6 +6,10 @@
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
+#ifndef ML_INI_FILENAME
+#define ML_INI_FILENAME "ML.ini"
+#endif
+
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */

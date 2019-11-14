@@ -25,6 +25,7 @@ git submodule add --force https://github.com/facebookarchive/RakNet.git
 git submodule add --force https://github.com/xiph/flac.git
 git submodule add --force https://github.com/xiph/ogg.git
 git submodule add --force https://github.com/xiph/vorbis.git
+git submodule add --force https://github.com/madler/zlib
 
 git submodule update --init --recursive
 git pull

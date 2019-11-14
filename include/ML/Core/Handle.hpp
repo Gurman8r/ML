@@ -32,19 +32,17 @@ namespace ml
 
 		inline auto get_address() const -> ptr_t<void> { return ML_ADDRESSOF(m_handle); }
 		
-		inline auto get_handle() -> reference { return m_handle; }
-		
 		inline auto get_handle() const -> const_reference { return m_handle; }
 
 		inline auto set_handle(value_type value) -> self_type & { m_handle = value; return (*this); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const			{ return m_handle;	}
-		inline operator pointer()				{ return &m_handle; }
-		inline operator reference()				{ return m_handle;	}
-		inline operator const_pointer() const	{ return &m_handle; }
-		inline operator const_reference() const	{ return m_handle;	}
+		inline operator bool() const { return m_handle;	}
+		
+		inline operator const_pointer() const { return &m_handle; }
+		
+		inline operator const_reference() const { return m_handle;	}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

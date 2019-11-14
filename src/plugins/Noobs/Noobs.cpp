@@ -664,7 +664,7 @@ namespace ml
 
 					// Uniform Type
 					/* * * * * * * * * * * * * * * * * * * * */
-					ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(color_ref, 0.8f, 0.8f));
+					ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(color_ref, 0.9f, 0.9f));
 					ImGui::ButtonEx(util::to_string(*u).c_str(), { ImGui::GetContentRegionAvailWidth(), 0 }, ImGuiButtonFlags_Disabled);
 					ImGui::PopStyleColor();
 					ImGui::NextColumn();

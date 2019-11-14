@@ -30,7 +30,7 @@ namespace ml
 		
 		m_frame.rate = ((m_frame.accum > 0.0f)
 			? (1.0f / (m_frame.accum / (float_t)ML_ARRAYSIZE(m_frame.buf)))
-			: 0.0f
+			: FLT_MAX
 		);
 
 		m_frame.count++;

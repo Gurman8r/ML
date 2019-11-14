@@ -2,7 +2,7 @@
 
 group "Vendor"
 project "RakNet"
-	targetname 		"RakNet"
+	targetname 		"%{prj.name}"
 	location		"%{prj_dir}vendor/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
@@ -20,6 +20,7 @@ project "RakNet"
 		"%{ext_dir}RakNet/Source",
 	}
 	files {
+		"%{sln_dir}build/%{prj.name}.lua",
 		"%{ext_dir}RakNet/Source/**.h",
 		"%{ext_dir}RakNet/Source/**.cpp",
 	}
@@ -30,17 +31,14 @@ project "RakNet"
 	
 	filter { "configurations:Debug" }
 		symbols "On"
-	
-	filter { "configurations:Release" } 
+		
+	filter { "configurations:Release" }
 		optimize "Speed"
-	
+		
 	filter { "system:Windows" }
+		linkoptions { "/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib" }
 		links {
 			"ws2_32",
 		}
-		linkoptions {
-			"/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib",
-		}
-		
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

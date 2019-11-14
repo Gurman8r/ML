@@ -10,9 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API VertexBuffer final
-		: public Newable
-		, public Handle<uint32_t>
+	struct ML_GRAPHICS_API VertexBuffer final : public Newable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -23,6 +21,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		VertexBuffer & clean();
+
 		VertexBuffer & create(GL::Usage usage);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

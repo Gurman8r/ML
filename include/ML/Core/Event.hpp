@@ -35,8 +35,7 @@ namespace ml
 
 		template <class T> inline auto as() { return static_cast<T *>(this); }
 
-		template <class T> inline auto as() const { return static_cast<const T *>(this); 
-		}
+		template <class T> inline auto as() const { return static_cast<const T *>(this); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

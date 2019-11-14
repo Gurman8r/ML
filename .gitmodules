@@ -68,3 +68,6 @@
 [submodule "ext/vorbis"]
 	path = ext/vorbis
 	url = https://github.com/xiph/vorbis.git
+[submodule "ext/zlib"]
+	path = ext/zlib
+	url = https://github.com/madler/zlib

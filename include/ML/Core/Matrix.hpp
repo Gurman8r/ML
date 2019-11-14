@@ -14,13 +14,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static_assert(0 < (X * Y),
-			"Matrix : size negative or zero"
+			"size negative or zero"
 			);
 		static_assert(std::is_trivial_v<T>, 
-			"Matrix : type must be trivial"
+			"type must be trivial"
 			);
 		static_assert(std::is_trivially_copyable_v<T>, 
-			"Matrix : type must be trivially copyable"
+			"type must be trivially copyable"
 			);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -17,12 +17,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Timer(bool startMe = false)
-			: m_paused	{ !startMe }
+		Timer() : Timer{ false } {}
+
+		Timer(bool startMe)
+			: m_paused	{ false }
 			, m_prev	{}
 			, m_next	{}
-			, m_elapsed { 0 }
+			, m_elapsed	{ 0 }
 		{
+			if (startMe) { this->start(); }
 		}
 
 		Timer(const Timer & copy)
@@ -65,7 +68,7 @@ namespace ml
 
 		inline Timer & reset()
 		{
-			return stop().start();
+			return this->stop().start();
 		}
 
 		inline Timer & start()

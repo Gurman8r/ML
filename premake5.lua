@@ -45,11 +45,11 @@ filter { "system:Windows" }
 -- Generate Project Files
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-dofile "./build/GLFW.lua"
-dofile "./build/Lua.lua"
+dofile "./build/glfw3.lua"
+dofile "./build/lua.lua"
 dofile "./build/RakNet.lua"
+dofile "./build/ImGui.lua"
 
-dofile "./build/Common.lua"
 dofile "./build/MemeLib.lua"
 dofile "./build/Launcher.lua"
 

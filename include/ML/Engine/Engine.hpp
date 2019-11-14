@@ -9,10 +9,6 @@
 #include <ML/Engine/PluginManager.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
-#ifndef ML_CONFIG_INI
-#define ML_CONFIG_INI "../../../ML.ini"
-#endif
-
 #define ML_Engine ::ml::Engine::getInstance()
 
 namespace ml

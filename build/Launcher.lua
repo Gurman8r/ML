@@ -1,11 +1,11 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "MemeLib"
+group ""
 project "Launcher"
 	targetname 		"%{prj.name}"
-	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
+	location		"%{prj_dir}%{prj.name}/"
 	debugdir 		"%{bin_out}"
 	language		"C++"
 	cppdialect 		"C++17"
@@ -15,15 +15,13 @@ project "Launcher"
 		"MemeLib"
 	}
 	defines {
-		"_CRT_SECURE_NO_WARNINGS",
-		"NOMINMAX",
+		"_CRT_SECURE_NO_WARNINGS", "NOMINMAX",
 	}
 	includedirs {
-		"%{sln_dir}include", 
-		"%{ext_dir}",
+		"%{sln_dir}include", "%{ext_dir}",
 	}
 	files {
-		"%{sln_dir}src/%{prj.name}/**.cpp",
+		"%{sln_dir}build/%{prj.name}.lua", "%{sln_dir}src/%{prj.name}/**.**",
 	}
 	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",
@@ -42,6 +40,6 @@ project "Launcher"
 		kind "WindowedApp"
 	
 	filter { "system:Windows" }
-		postbuildcommands {	"%{ml_copy} %{bin_lib}%{prj.name}.exe %{bin_out}", }
+		postbuildcommands { "%{ml_copy} %{bin_lib}%{prj.name}.exe %{bin_out}" }
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

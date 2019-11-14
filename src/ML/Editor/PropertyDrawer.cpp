@@ -2623,7 +2623,7 @@ namespace ml
 	bool PropertyDrawer<Uniform>::operator()(const String & label, reference value) const
 	{
 		constexpr float_t spd{ 0.005f };
-		constexpr C_String fmt { "%.5f" };
+		constexpr C_String fmt { "%.4f" };
 		
 		Layout::begin_prop(this, label, value);
 

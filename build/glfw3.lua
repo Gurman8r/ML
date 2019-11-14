@@ -1,8 +1,8 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "Vendor"
-project "GLFW"
-	targetname 		"glfw"
+project "glfw3"
+	targetname 		"%{prj.name}"
 	location		"%{prj_dir}vendor/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
@@ -14,7 +14,7 @@ project "GLFW"
 	defines {
 		"_CRT_SECURE_NO_WARNINGS",
 		"NOMINMAX",
-		"_GLFW_USE_CONFIG_H",
+		"_GLFW_WIN32=1",
 	}
 	includedirs {
 		"%{ext_dir}glfw/include",
@@ -22,6 +22,7 @@ project "GLFW"
 		"%{ext_dir}glfw/src",
 	}
 	files {
+		"%{sln_dir}build/%{prj.name}.lua",
 		"%{ext_dir}glfw/include/glfw/**.h",
 		"%{ext_dir}glfw/src/context.c", 
 		"%{ext_dir}glfw/src/egl_context.c",
@@ -48,7 +49,9 @@ project "GLFW"
 	
 	filter { "configurations:Debug" }
 		symbols "On" 
-		linkoptions ("/NODEFAULTLIB:MSVCRT.lib")
+	
+	filter { "system:Windows", "configurations:Debug" }
+		linkoptions { "/NODEFAULTLIB:MSVCRT.lib" }
 		
 	filter { "configurations:Release" }
 		optimize "Speed"

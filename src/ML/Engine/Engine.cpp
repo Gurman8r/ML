@@ -29,7 +29,7 @@ namespace ml
 
 	Engine::Engine()
 		: m_time	{}
-		, m_prefs	{ ML_CONFIG_INI }
+		, m_prefs	{ ML_INI_FILENAME }
 		, m_plugins	{}
 		, m_content	{}
 		, m_commands{}

@@ -5,7 +5,6 @@
 #include <ML/Engine/Engine.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/Meta.hpp>
-#include <ML/Editor/ImGuiConfig.hpp>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

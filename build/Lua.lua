@@ -1,8 +1,8 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "Vendor"
-project "Lua"
-	targetname 		"lua"
+project "lua"
+	targetname 		"%{prj.name}"
 	location		"%{prj_dir}vendor/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
@@ -20,6 +20,7 @@ project "Lua"
 		"%{ext_dir}lua",
 	}
 	files {
+		"%{sln_dir}build/%{prj.name}.lua",
 		"%{ext_dir}lua/lapi.h", "%{ext_dir}lua/lauxlib.h", "%{ext_dir}lua/lcode.h", "%{ext_dir}lua/lctype.h",
 		"%{ext_dir}lua/ldebug.h", "%{ext_dir}lua/ldo.h", "%{ext_dir}lua/lfunc.h", "%{ext_dir}lua/lgc.h",
 		"%{ext_dir}lua/ljumptab.h", "%{ext_dir}lua/llex.h", "%{ext_dir}lua/llimits.h", "%{ext_dir}lua/lmem.h",
@@ -45,9 +46,9 @@ project "Lua"
 	}
 	
 	filter { "configurations:Debug" }
-		symbols "On" 
+		symbols "On"
 		
 	filter { "configurations:Release" }
-		optimize "Speed" 
+		optimize "Speed"
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

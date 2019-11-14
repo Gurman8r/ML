@@ -13,7 +13,7 @@
 # define ML_SUCCESS	+1
 
 # define ML_MSG_LOG "info"
-# define ML_MSG_WRN "warning"
+# define ML_MSG_WRN "warn"
 # define ML_MSG_ERR "error"
 
 # if (ML_DEBUG)

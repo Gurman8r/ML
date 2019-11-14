@@ -9,8 +9,6 @@ project "TestPlugin"
 	kind			"SharedLib"
 	language		"C++"
 	cppdialect 		"C++17"
-	staticruntime	"Off"
-	systemversion	"latest"
 	dependson {
 		"Launcher"
 	}
@@ -21,14 +19,14 @@ project "TestPlugin"
 		"%{sln_dir}include", "%{ext_dir}", "%{sln_dir}plugins/%{prj.name}"
 	}
 	files {
-		"%{sln_dir}plugins/%{prj.name}/**.hpp", "%{sln_dir}plugins/%{prj.name}/**.cpp",
+		"%{sln_dir}build/%{prj.name}.lua", "%{sln_dir}src/plugins/%{prj.name}/**.**",
 	}
 	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links {
-		"MemeLib",
+		"MemeLib"
 	}
 	
 	filter "configurations:Debug"
@@ -37,7 +35,7 @@ project "TestPlugin"
 	filter "configurations:Release"
 		optimize "Speed"
 	
-	filter { "system:Windows" }		defines { "NOMINMAX" }
+	filter { "system:Windows" }
 		postbuildcommands { "%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}" }
 		
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --

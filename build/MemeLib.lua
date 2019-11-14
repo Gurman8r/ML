@@ -1,6 +1,6 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group "MemeLib"
+group "ML"
 project "MemeLib"
 	targetname 		"%{prj.name}"
 	location		"%{prj_dir}ML/%{prj.name}/"
@@ -12,7 +12,7 @@ project "MemeLib"
 	staticruntime	"Off"
 	systemversion	"latest"
 	dependson {
-		"GLFW", "Lua", "RakNet",
+		"glfw3", "ImGui", "lua", "RakNet",
 	}
 	defines {
 		"ML_AUDIO_EXPORTS", 
@@ -22,12 +22,9 @@ project "MemeLib"
 		"ML_GRAPHICS_EXPORTS", 
 		"ML_NETWORK_EXPORTS", 
 		"ML_WINDOW_EXPORTS", 
+		"ML_INI_FILENAME=\"../../../ML.ini\"",
 		"_CRT_SECURE_NO_WARNINGS",
 		"NOMINMAX",
-		"IMGUI_USER_CONFIG=<ML/Editor/ImGuiConfig.hpp>",
-		"IMGUI_IMPL_OPENGL_LOADER_GLEW",
-		"_WINSOCK_DEPRECATED_NO_WARNINGS",
-		"_GLFW_USE_CONFIG_H",
 		"GLEW_STATIC",
 	}
 	includedirs {
@@ -37,7 +34,6 @@ project "MemeLib"
 		"%{ext_dir}openal-soft/alc",
 		"%{ext_dir}openal-soft/include",
 		"%{ext_dir}imgui",
-		"%{ext_dir}imgui/examples",
 		"%{ext_dir}pybind11/include",
 		"%{ext_dir}cpython/Include",
 		"%{ext_dir}cpython/Include/internal",
@@ -48,25 +44,25 @@ project "MemeLib"
 		"%{ext_dir}RakNet/Source",
 	}
 	files {
+		"%{sln_dir}build/%{prj.name}.lua",
+		"%{sln_dir}assets/**.**", 
 		"%{sln_dir}include/ML/**.hpp",
 		"%{sln_dir}src/ML/**.cpp",
-		"%{ext_dir}imgui/*.h",
-		"%{ext_dir}imgui/*.cpp",
-		"%{ext_dir}imgui/examples/imgui_impl_glfw.h",
-		"%{ext_dir}imgui/examples/imgui_impl_glfw.cpp",
-		"%{ext_dir}imgui/examples/imgui_impl_opengl3.h",
-		"%{ext_dir}imgui/examples/imgui_impl_opengl3.cpp",
-		"%{ext_dir}ImGuiColorTextEdit/*.h",
-		"%{ext_dir}ImGuiColorTextEdit/*.cpp",
+		"%{sln_dir}tools/**.**",
+		"%{sln_dir}ML.ini", 
+		"%{sln_dir}premake5.lua",
 	}
 	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links {
+		"lua",
+		"RakNet",
+		"ImGui",
+		"glfw3",
 		"opengl32",
 		"glew32s", 
-		"glfw",
 		"OpenAL32", 
 		"flac", 
 		"ogg",
@@ -74,25 +70,31 @@ project "MemeLib"
 		"vorbisenc", 
 		"vorbisfile",
 		"pdcurses", 
-		"lua",
 		"freetype", 
 		"assimp", 
 		"IrrXML", 
 		"zlibstatic",
-		"RakNet",
 	}
 	
 	filter { "configurations:Debug" }
 		symbols "On"
 		links { "python39_d", }
-		filter { "system:Windows", "configurations:Debug", }
-			linkoptions { "/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMTD.lib" }
+		postbuildcommands {	
+			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out}",
+		}
+	
+	filter { "system:Windows", "configurations:Debug" }
+		linkoptions { "/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib" }
 	
 	filter { "configurations:Release" } 
 		optimize "Speed"
 		links { "python39", }
-		filter { "system:Windows", "configurations:Release", }
-			linkoptions { "/NODEFAULTLIB:LIBCMT.lib"  }
+		postbuildcommands {	
+			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out}",
+		}
+	
+	filter { "system:Windows", "configurations:Release" }
+		linkoptions { "/NODEFAULTLIB:LIBCMT.lib"  }
 	
 	filter { "system:Windows" }
 		includedirs { "%{ext_dir}cpython/PC", }
@@ -101,8 +103,6 @@ project "MemeLib"
 			"%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}",
 			"%{ml_copy} %{ext_lib}OpenAL32.dll %{bin_out}",
 			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",
-			"if %{cfg.buildcfg} == Debug ( %{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out} )",
-			"if %{cfg.buildcfg} == Release ( %{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out} )",
 			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}",
 		}
 		

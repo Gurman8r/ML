@@ -1,7 +1,7 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
 group "MemeLib"
-project "Assets"
+project "Common"
 	kind		"Utility"
 	targetname 	"%{prj.name}"
 	location	"%{prj_dir}memelib/%{prj.name}/"

@@ -49,7 +49,7 @@ dofile "./build/GLFW.lua"
 dofile "./build/Lua.lua"
 dofile "./build/RakNet.lua"
 
-dofile "./build/Assets.lua"
+dofile "./build/Common.lua"
 dofile "./build/MemeLib.lua"
 dofile "./build/Launcher.lua"
 

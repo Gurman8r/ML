@@ -68,3 +68,6 @@
 [submodule "ext/zlib"]
 	path = ext/zlib
 	url = https://github.com/madler/zlib
+[submodule "ext/glfw"]
+	path = ext/glfw
+	url = https://github.com/glfw/glfw.git

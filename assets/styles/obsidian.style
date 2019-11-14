@@ -1,6 +1,6 @@
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 
-[ImGuiStyle] FrameBorderSize = { 1.0 }
+#[ImGuiStyle] FrameBorderSize = { 1.0 }
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #
 

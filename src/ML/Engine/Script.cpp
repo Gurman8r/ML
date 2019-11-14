@@ -60,20 +60,13 @@ namespace ml
 
 	int32_t Script::execute() const
 	{
-		return execute({});
-	}
-
-	int32_t Script::execute(const List<String>& args) const
-	{
 		switch (m_lang)
 		{
-		case Language::Lua: return ML_Lua.doString(m_text);
-		case Language::Python: return ML_Py.doString(m_text);
-		default: return 0;
+			case Language::Lua: return ML_Lua.doString(m_text);
+			case Language::Python: return ML_Py.doString(m_text);
+			default: return 0;
 		}
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Script & Script::setLanguage(Language value)
 	{

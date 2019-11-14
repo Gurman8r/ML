@@ -28,12 +28,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool loadFromFile(const String & filename);
+		
 		int32_t execute() const;
-		int32_t execute(const List<String> & args) const;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Script & setLanguage(Language value);
+		
 		Script & setText(const String & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -133,6 +133,8 @@ namespace ml
 		
 		ptr_t<void> getRawHandle() const;
 
+		vec2 getScroll() const;
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto getAspect() const -> float_t { return ML_ASPECT_2(getSize()); };
@@ -148,7 +150,7 @@ namespace ml
 		inline auto getHeight()	const -> const uint32_t	& { return getSize()[1]; }
 		
 		inline auto getMonitor() const -> const_ptr_t<void> { return m_monitor; }
-		
+
 		inline auto getShare() const -> const_ptr_t<void> { return m_share; }
 		
 		inline auto getSize() const -> const vec2u & { return getVideoMode().size; }
@@ -216,6 +218,7 @@ namespace ml
 		WindowStyle		m_style;		// 
 		VideoMode		m_videoMode;	// 
 		String			m_title;		// 
+		mutable vec2	m_scroll;		//
 		mutable char	m_char;			// 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

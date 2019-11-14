@@ -55,6 +55,7 @@ namespace ml
 		, m_style		{}
 		, m_videoMode	{}
 		, m_char		{ 0 }
+		, m_scroll		{ 0.f }
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		if (HWND window { GetConsoleWindow() })
@@ -277,7 +278,11 @@ namespace ml
 			if (auto ev = value.as<MouseEvent>()) {}
 			break;
 		case ScrollEvent::ID:
-			if (auto ev = value.as<ScrollEvent>()) {}
+			if (auto ev = value.as<ScrollEvent>()) 
+			{
+				m_scroll[0] = (float_t)ev->x;
+				m_scroll[1] = (float_t)ev->y;
+			}
 			break;
 		case WindowCloseEvent::ID:
 			if (auto ev = value.as<WindowCloseEvent>()) {}
@@ -602,6 +607,13 @@ namespace ml
 #else
 		return m_window;
 #endif
+	}
+
+	vec2 Window::getScroll() const
+	{
+		vec2 temp{ m_scroll };
+		m_scroll = { 0 };
+		return temp;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

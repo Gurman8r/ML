@@ -48,7 +48,7 @@ namespace ml
 	{
 		if (!m_isRegistered)
 		{
-			CommandRegistry::iterator it = reg.find(m_name);
+			auto it{ reg.find(m_name) };
 			if (it == reg.end())
 			{
 				reg.commands().push_back(this);
@@ -63,7 +63,7 @@ namespace ml
 	{
 		if (m_isRegistered)
 		{
-			CommandRegistry::iterator it = reg.find(m_name);
+			auto it{ reg.find(m_name) };
 			if (it != reg.end())
 			{
 				reg.commands().erase(it);

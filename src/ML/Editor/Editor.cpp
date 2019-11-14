@@ -39,7 +39,6 @@ namespace ml
 		ML_EventSystem.addListener<GuiEvent>(this);
 		ML_EventSystem.addListener<EndGuiEvent>(this);
 		ML_EventSystem.addListener<UnloadEvent>(this);
-		ML_EventSystem.addListener<ExitEvent>(this);
 		ML_EventSystem.addListener<DockspaceEvent>(this);
 		ML_EventSystem.addListener<KeyEvent>(this);
 	}
@@ -50,19 +49,166 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case EnterEvent::ID:	return onEnter(*value.as<EnterEvent>());
-		case LoadEvent::ID:		return onLoad(*value.as<LoadEvent>());
-		case UpdateEvent::ID:	return onUpdate(*value.as<UpdateEvent>());
-		case BeginGuiEvent::ID:	return onBeginGui(*value.as<BeginGuiEvent>());
-		case GuiEvent::ID:		return onGui(*value.as<GuiEvent>());
-		case EndGuiEvent::ID:	return onEndGui(*value.as<EndGuiEvent>());
-		case UnloadEvent::ID:	return onUnload(*value.as<UnloadEvent>());
-		case ExitEvent::ID:		return onExit(*value.as<ExitEvent>());
-
-			// Dockspace
-		case DockspaceEvent::ID:
-			if (auto ev = value.as<DockspaceEvent>())
+			case EnterEvent::ID: if (auto ev{ value.as<EnterEvent>() })
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				// Create ImGui Context
+				IMGUI_CHECKVERSION();
+				ImGui::CreateContext();
+
+				auto & io{ ImGui::GetIO() };
+				auto & style{ ImGui::GetStyle() };
+
+				// Config
+				io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+				io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+				io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+				if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+				{
+					style.WindowRounding = 0.0f;
+					style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+				}
+
+				// Ini File
+				if (!ML_Engine.prefs().get_bool("Editor", "enable_ini", true))
+				{
+					io.IniFilename = nullptr;
+				}
+		
+				// Log File
+				if (!ML_Engine.prefs().get_bool("Editor", "enable_log", true))
+				{
+					io.LogFilename = nullptr;
+				}
+
+				// Style
+				const String styleConf{ ML_Engine.prefs().get_string(
+					"Editor", "editor_style", "Classic"
+				) };
+				switch (util::to_lower(styleConf).hash())
+				{
+					case Hash("classic"): { ImGui::StyleColorsClassic(); } break;
+					case Hash("dark"): { ImGui::StyleColorsDark(); } break;
+					case Hash("light"): { ImGui::StyleColorsLight(); } break;
+				}
+				ImGuiStyleLoader().loadFromFile(ML_FS.pathTo(styleConf));
+			
+				// Font
+				if (String fontFile { ML_Engine.prefs().get_string("Editor", "font_file", "") })
+				{
+					float_t fontSize { ML_Engine.prefs().get_float("Editor", "font_size", 20.f) };
+					if (fontSize > 0.0f)
+					{
+						ImGui::GetIO().Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);
+					}
+				}
+
+				// Imgui GLFW Init for OpenGL
+				ML_ASSERT(ImGui_ImplGlfw_InitForOpenGL(
+					(GLFWwindow *)ML_Engine.window().getHandle(), true
+				));
+			
+				// Imgui OpenGL3 Init
+				ML_ASSERT(ImGui_ImplOpenGL3_Init(
+					"#version 130"
+				));
+
+				// Setup Windows
+				m_about		.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about",		false));
+				m_content	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content",	false));
+				m_dockspace	.setOpen(ML_Engine.prefs().get_bool("Editor", "enable_docking", true));
+				m_explorer	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer",	false));
+				m_inspector	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_inspector",	false));
+				m_manual	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual",	false));
+				m_profiler	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_profiler",	false));
+				m_terminal	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_terminal",	false));
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case LoadEvent::ID: if (auto ev{ value.as<LoadEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				m_terminal.redirect(cout);
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case UpdateEvent::ID: if (auto ev{ value.as<UpdateEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				m_about.update();
+				m_content.update();
+				m_explorer.update();
+				m_dockspace.update();
+				m_inspector.update();
+				m_manual.update();
+				m_profiler.update();
+				m_terminal.update();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case BeginGuiEvent::ID: if (auto ev{ value.as<BeginGuiEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui_ImplOpenGL3_NewFrame();
+				ImGui_ImplGlfw_NewFrame();
+				ImGui::NewFrame();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case GuiEvent::ID: if (auto ev{ value.as<GuiEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::PushID(ML_ADDRESSOF(this));
+				/*	Menu Bar	*/	if (m_show_main_menu_bar)	draw_main_menu_bar();
+				/*	ImGui Demo	*/	if (m_show_imgui_demo)		ImGui::ShowDemoWindow(&m_show_imgui_demo);
+				/*	Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw();
+				/*	About		*/	if (m_about.isOpen())		m_about.draw();
+				/*	Content		*/	if (m_content.isOpen())		m_content.draw();
+				/*	Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw();
+				/*	Inspector	*/	if (m_inspector.isOpen())	m_inspector.draw();
+				/*	Manual		*/	if (m_manual.isOpen())		m_manual.draw();
+				/*	Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw();
+				/*	Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw();
+				ImGui::PopID();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case EndGuiEvent::ID: if (auto ev{ value.as<EndGuiEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::Render();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+				if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+				{
+					GLFWwindow * backup_current_context = glfwGetCurrentContext();
+					ImGui::UpdatePlatformWindows();
+					ImGui::RenderPlatformWindowsDefault();
+					glfwMakeContextCurrent(backup_current_context);
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				m_terminal.redirect(cout);
+				ImGui_ImplOpenGL3_Shutdown();
+				ImGui_ImplGlfw_Shutdown();
+				ML_AssetPreview.dispose();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case DockspaceEvent::ID: if (auto ev = value.as<DockspaceEvent>())
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				EditorDockspace & d { ev->dockspace };
 				if (!d.isOpen()) return;
 				d.dockWindow(m_explorer	.getTitle(), d.getNode(d.RightUp));
@@ -71,12 +217,10 @@ namespace ml
 				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightDn));
 				d.dockWindow(m_terminal	.getTitle(), d.getNode(d.LeftDn));
 				d.dockWindow(m_about	.getTitle(), d.getNode(d.LeftUp));
-			}
-			break;
 
-			// Key
-		case KeyEvent::ID:
-			if (auto ev = value.as<KeyEvent>())
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -104,165 +248,8 @@ namespace ml
 				if (ev->getPress(KeyCode::T, ctrl_alt)) m_terminal.toggleOpen();
 
 				/* * * * * * * * * * * * * * * * * * * * */
-			}
-			break;
+			} break;
 		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void Editor::onEnter(const EnterEvent & ev)
-	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		auto & io{ ImGui::GetIO() };
-		auto & style{ ImGui::GetStyle() };
-		
-		// Config
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
-			style.WindowRounding = 0.0f;
-			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-		}
-
-		// Ini File
-		if (!ML_Engine.prefs().get_bool("Editor", "enable_ini", true))
-		{
-			io.IniFilename = nullptr;
-		}
-		
-		// Log File
-		if (!ML_Engine.prefs().get_bool("Editor", "enable_log", true))
-		{
-			io.LogFilename = nullptr;
-		}
-
-		// Style
-		const String styleConf{ ML_Engine.prefs().get_string(
-			"Editor", "editor_style", "Classic"
-		) };
-		if (styleConf == "Classic") { ImGui::StyleColorsClassic(); }
-		else if (styleConf == "Dark") { ImGui::StyleColorsDark(); }
-		else if (styleConf == "Light") { ImGui::StyleColorsLight(); }
-		else if (!ImGuiStyleLoader{ ML_FS.pathTo(styleConf) })
-		{
-			Debug::logError("Failed loading ImGui style");
-		}
-
-		// Font
-		if (String fontFile { ML_Engine.prefs().get_string("Editor", "font_file", "") })
-		{
-			float_t fontSize { ML_Engine.prefs().get_float("Editor", "font_size", 20.f) };
-			if (fontSize > 0.0f)
-			{
-				ImGui::GetIO().Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);
-			}
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		ImGui_ImplGlfw_InitForOpenGL((GLFWwindow *)ML_Engine.window().getHandle(), true);
-		ImGui_ImplOpenGL3_Init("#version 130");
-
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		m_about		.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about",		false));
-		m_content	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content",	false));
-		m_dockspace	.setOpen(ML_Engine.prefs().get_bool("Editor", "enable_docking", true));
-		m_explorer	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer",	false));
-		m_inspector	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_inspector",	false));
-		m_manual	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual",	false));
-		m_profiler	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_profiler",	false));
-		m_terminal	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_terminal",	false));
-
-		/* * * * * * * * * * * * * * * * * * * * */
-	}
-
-	void Editor::onLoad(const LoadEvent & ev)
-	{
-		// by now resources should be loaded
-		m_terminal.redirect(cout);
-	}
-
-	void Editor::onUpdate(const UpdateEvent & ev)
-	{
-		m_about.update();
-		m_content.update();
-		m_explorer.update();
-		m_dockspace.update();
-		m_inspector.update();
-		m_manual.update();
-		m_profiler.update();
-		m_terminal.update();
-	}
-
-	void Editor::onBeginGui(const BeginGuiEvent & ev)
-	{
-		ImGui_ImplOpenGL3_NewFrame();
-		
-		ImGui_ImplGlfw_NewFrame();
-		
-		ImGui::NewFrame();
-	}
-
-	void Editor::onGui(const GuiEvent & ev)
-	{
-		ImGui::PushID(ML_ADDRESSOF(this));
-
-		// Main Menu Bar
-		if (m_show_main_menu_bar) { draw_main_menu_bar(); }
-
-		// ImGui Demo
-		if (m_show_imgui_demo) { ImGui::ShowDemoWindow(&m_show_imgui_demo); }
-
-		/*	Show Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw();
-		/*	Show About		*/	if (m_about.isOpen())		m_about.draw();
-		/*	Show Content	*/	if (m_content.isOpen())		m_content.draw();
-		/*	Show Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw();
-		/*	Show Inspector	*/	if (m_inspector.isOpen())	m_inspector.draw();
-		/*	Show Manual		*/	if (m_manual.isOpen())		m_manual.draw();
-		/*	Show Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw();
-		/*	Show Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw();
-
-		ImGui::PopID();
-	}
-
-	void Editor::onEndGui(const EndGuiEvent & ev)
-	{
-		ImGui::Render();
-
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-		if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
-			GLFWwindow * backup_current_context = glfwGetCurrentContext();
-			ImGui::UpdatePlatformWindows();
-			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(backup_current_context);
-		}
-	}
-
-	void Editor::onUnload(const UnloadEvent & ev)
-	{
-		//ML_ImGuiImpl.Shutdown();
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
-		ML_AssetPreview.dispose();
-	}
-
-	void Editor::onExit(const ExitEvent & ev)
-	{
-		// Release Cout
-		m_terminal.redirect(cout);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

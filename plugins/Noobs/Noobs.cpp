@@ -51,15 +51,149 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case StartEvent::ID	: return onStart(*value.as<StartEvent>());
-		case UpdateEvent::ID: return onUpdate(*value.as<UpdateEvent>());
-		case DrawEvent::ID	: return onDraw(*value.as<DrawEvent>());
-		case GuiEvent::ID	: return onGui(*value.as<GuiEvent>());
-		case UnloadEvent::ID: return onUnload(*value.as<UnloadEvent>());
-
-		case ShaderErrorEvent::ID:
-			if (auto ev = value.as<ShaderErrorEvent>())
+			case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				m_pipeline[0] = ML_Engine.content().get<Surface>("surf/main");
+				m_pipeline[1] = ML_Engine.content().get<Surface>("surf/post");
+				if (m_ent_name = ML_Engine.prefs().get_string("Noobs", "target_entity", ""))
+				{
+					m_entity = ML_Engine.content().get<Entity>(m_ent_name);
+				}
+				if (auto r{ m_entity ? m_entity->get<Renderer>() : nullptr })
+				{
+					generate_sources();
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case UpdateEvent::ID: if (auto ev{ value.as<UpdateEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (auto c{ Camera::mainCamera() })
+				{
+					if (c->enabled())
+					{
+						// Update Pipeline
+						for (auto & surf : m_pipeline)
+						{
+							surf->update((vec2)c->viewport().size());
+						}
+
+						// Update Camera Uniforms
+						if (m_use_main_camera)
+						{
+							for (auto & [key, value] : ML_Engine.content().data<Material>())
+							{
+								if (auto m{ (Material *)value })
+								{
+									m->set<uni_vec3>("u_camera.pos", c->position());
+									m->set<uni_vec3>("u_camera.dir", c->direction());
+									m->set<uni_float>("u_camera.fov", c->fieldOfView());
+									m->set<uni_float>("u_camera.near", c->clipNear());
+									m->set<uni_float>("u_camera.far", c->clipFar());
+									m->set<uni_vec2>("u_camera.view", (vec2)c->viewport().size());
+								}
+							}
+						}
+					}
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case DrawEvent::ID: if (auto ev{ value.as<DrawEvent>()})
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				// Get Camera
+				const Camera * camera{ Camera::mainCamera() };
+
+				// Render Main Scene
+				if (m_pipeline[Surf_Main])
+				{
+					// Bind Surface
+					m_pipeline[Surf_Main]->bind();
+					
+					// Apply Camera
+					if (camera) camera->apply();
+					
+					// Draw Renderers
+					for (auto & [key, value] : ML_Engine.content().data<Entity>())
+					{
+						if (auto ent{ (Entity *)value })
+						{
+							auto renderer{ ent->get<Renderer>() };
+							if (renderer && (*renderer))
+							{
+								auto transform{ ent->get<Transform>() };
+								if (transform && (*transform))
+								{
+									if (auto m{ (Material *)renderer->material() })
+									{
+										m->set<uni_vec3>("u_position", transform->position());
+										m->set<uni_vec4>("u_rotation", transform->rotation());
+										m->set<uni_vec3>("u_scale", transform->scale());
+									}
+								}
+							}
+							ML_Engine.window().draw(renderer);
+						}
+					}
+					
+					// Unbind Surface
+					m_pipeline[Surf_Main]->unbind();
+				}
+
+				// Render Post Processing
+				if (m_pipeline[Surf_Post])
+				{
+					// Bind Surface
+					m_pipeline[Surf_Post]->bind();
+					
+					// Apply Camera
+					if (camera) camera->apply();
+					
+					// Reset States
+					RenderStates{
+						AlphaState	{ true, GL::Greater, 0.01f },
+						BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+						CullState	{ false },
+						DepthState	{ false },
+					}();
+					
+					// Draw Scene Output
+					ML_Engine.window().draw(m_pipeline[Surf_Main]);
+					
+					// Unbind Surface
+					m_pipeline[Surf_Post]->unbind();
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case GuiEvent::ID: if (auto ev{ value.as<GuiEvent>()})
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				draw_display(display_name, m_pipeline[Surf_Post]);
+
+				draw_editor(editor_name);
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>()})
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				dispose_files();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case ShaderErrorEvent::ID: if (auto ev = value.as<ShaderErrorEvent>())
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
 				{
 					if (ev->obj && (ev->obj == r->shader()))
@@ -92,12 +226,13 @@ namespace ml
 						}
 					}
 				}
-			}
-			break;
 
-		case KeyEvent::ID:
-			if (auto ev = value.as<KeyEvent>())
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				// Toggle Fullscreen
 				if (ev->getPress(KeyCode::F11))
 				{
@@ -115,12 +250,13 @@ namespace ml
 				{
 					compile_sources();
 				}
-			}
-			break;
 
-		case MainMenuBarEvent::ID:
-			if (auto ev = value.as<MainMenuBarEvent>())
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case MainMenuBarEvent::ID: if (auto ev = value.as<MainMenuBarEvent>())
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+				
 				switch (ev->submenu)
 				{
 				case MainMenuBarEvent::Window:
@@ -145,164 +281,28 @@ namespace ml
 					ImGui::PopID();
 					break;
 				}
-			}
-			break;
 
-		case DockspaceEvent::ID:
-			if (auto ev = value.as<DockspaceEvent>())
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case DockspaceEvent::ID: if (auto ev = value.as<DockspaceEvent>())
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				EditorDockspace & d { ev->dockspace };
 				d.dockWindow(display_name, d.getNode(d.LeftUp));
 				d.dockWindow(editor_name, d.getNode(d.RightUp));
-			}
-			break;
 
-		case SecretEvent::ID:
-			if (auto ev = value.as<SecretEvent>())
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case SecretEvent::ID: if (auto ev = value.as<SecretEvent>())
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-			}
-			break;
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
 		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void Noobs::onStart(const StartEvent & ev)
-	{
-		m_pipeline[0] = ML_Engine.content().get<Surface>("surf/main");
-		m_pipeline[1] = ML_Engine.content().get<Surface>("surf/post");
-
-		if (m_ent_name = ML_Engine.prefs().get_string("Noobs", "target_entity", ""))
-		{
-			m_entity = ML_Engine.content().get<Entity>(m_ent_name);
-		}
-
-		if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
-		{
-			generate_sources();
-		}
-	}
-
-	void Noobs::onUpdate(const UpdateEvent & ev)
-	{
-		/* * * * * * * * * * * * * * * * * * * * */
-
-		if (auto c { Camera::mainCamera() })
-		{
-			if (c->enabled())
-			{
-				// Update Pipeline
-				for (auto & surf : m_pipeline)
-				{
-					surf->update((vec2)c->viewport().size());
-				}
-
-				// Update Camera Uniforms
-				if (m_use_main_camera)
-				{
-					for (auto & [key, value] : ML_Engine.content().data<Material>())
-					{
-						if (auto m { (Material *)value })
-						{
-							m->set<uni_vec3>("u_camera.pos", c->position());
-							m->set<uni_vec3>("u_camera.dir", c->direction());
-							m->set<uni_float>("u_camera.fov", c->fieldOfView());
-							m->set<uni_float>("u_camera.near", c->clipNear());
-							m->set<uni_float>("u_camera.far", c->clipFar());
-							m->set<uni_vec2>("u_camera.view", (vec2)c->viewport().size());
-						}
-					}
-				}
-			}
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-	}
-
-	void Noobs::onDraw(const DrawEvent & ev)
-	{
-		// Get Camera
-		const Camera * camera { Camera::mainCamera() };
-
-		// Render Main Scene
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (m_pipeline[Surf_Main])
-		{
-			// Bind Surface
-			m_pipeline[Surf_Main]->bind();
-
-			// Apply Camera
-			if (camera) camera->apply();
-
-			// Draw Renderers
-			for (auto & [key, value] : ML_Engine.content().data<Entity>())
-			{
-				if (auto ent { (Entity *)value })
-				{
-					auto renderer { ent->get<Renderer>() };
-					if (renderer && (*renderer))
-					{
-						auto transform { ent->get<Transform>() };
-						if (transform && (*transform))
-						{
-							if (auto m { (Material *)renderer->material() })
-							{
-								m->set<uni_vec3>("u_position", transform->position());
-								m->set<uni_vec4>("u_rotation", transform->rotation());
-								m->set<uni_vec3>("u_scale", transform->scale());
-							}
-						}
-					}
-					
-					ev.target.draw(renderer);
-				}
-			}
-
-			// Unbind Surface
-			m_pipeline[Surf_Main]->unbind();
-		}
-
-		// Render Post Processing
-		/* * * * * * * * * * * * * * * * * * * * */
-		if (m_pipeline[Surf_Post])
-		{
-			// Bind Surface
-			m_pipeline[Surf_Post]->bind();
-
-			// Apply Camera
-			if (camera) camera->apply();
-
-			// Reset States
-			RenderStates {
-				AlphaState	{ true, GL::Greater, 0.01f },
-				BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-				CullState	{ false },
-				DepthState	{ false },
-			}();
-
-			// Draw Scene Output
-			ev.target.draw(m_pipeline[Surf_Main]);
-
-			// Unbind Surface
-			m_pipeline[Surf_Post]->unbind();
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * */
-	}
-
-	void Noobs::onGui(const GuiEvent & ev)
-	{
-		// Render Scene
-		draw_display(display_name, m_pipeline[Surf_Post]);
-
-		// Render Editor
-		draw_editor(editor_name);
-	}
-
-	void Noobs::onUnload(const UnloadEvent & ev)
-	{
-		dispose_files();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

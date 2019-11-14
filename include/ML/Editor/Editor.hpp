@@ -24,18 +24,10 @@ namespace ml
 		friend struct Singleton<Editor>;
 
 		Editor();
+
 		~Editor() {}
 
 		void onEvent(const Event & value) override;
-
-		void onEnter	(const EnterEvent & ev);
-		void onLoad		(const LoadEvent & ev);
-		void onUpdate	(const UpdateEvent & ev);
-		void onBeginGui	(const BeginGuiEvent & ev);
-		void onGui		(const GuiEvent & ev);
-		void onEndGui	(const EndGuiEvent & ev);
-		void onUnload	(const UnloadEvent & ev);
-		void onExit		(const ExitEvent & ev);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -48,7 +48,7 @@ namespace ml
 
 		template <
 			class Arg0, class ... Args
-		> inline SStream ssink(const Arg0 & arg0, Args && ... args)
+		> inline SStream sink(const Arg0 & arg0, Args && ... args)
 		{
 			SStream ss {}; ss << arg0 << endl;
 			int32_t i[] = { 0, ((void)(ss << args << endl), 0)... }; (void)i;
@@ -70,7 +70,7 @@ namespace ml
 
 		static inline String narrow(const W_String & value)
 		{ 
-			return str_convert<char>(value); 
+			return str_convert<char>(value);
 		}
 
 		static inline W_String widen(const String & value)

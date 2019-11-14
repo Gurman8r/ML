@@ -613,7 +613,7 @@ namespace ml
 	{
 		vec2 temp{ m_scroll };
 		m_scroll = { 0 };
-		return temp;
+		return m_scroll;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

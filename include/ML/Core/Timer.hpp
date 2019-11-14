@@ -4,8 +4,6 @@
 #include <ML/Core/Duration.hpp>
 #include <ML/Core/Newable.hpp>
 
-#define ML_Time ::ml::Timer::master()
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -42,14 +40,6 @@ namespace ml
 		}
 
 		~Timer() {}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		static const Timer & master()
-		{
-			static Timer temp { true };
-			return temp;
-		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

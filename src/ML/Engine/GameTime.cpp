@@ -5,7 +5,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	GameTime::GameTime() : m_step {} {}
+	GameTime::GameTime() : m_step{}, m_main{ true }{}
 
 	GameTime::~GameTime() {}
 

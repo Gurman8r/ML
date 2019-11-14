@@ -30,10 +30,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto path()		const -> const String &					{ return m_path; }
-		inline auto files()		const -> const List<String> &			{ return m_files; }
+		inline auto path()		const -> const String & { return m_path; }
+		inline auto files()		const -> const List<String> & { return m_files; }
 		inline auto libraries()	const -> const List<ptr_t<SharedLibrary>> &	{ return m_libraries; }
-		inline auto plugins()	const -> const List<ptr_t<Plugin>> &			{ return m_plugins; }
+		inline auto plugins()	const -> const List<ptr_t<Plugin>> & { return m_plugins; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

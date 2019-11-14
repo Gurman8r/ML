@@ -36,11 +36,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		void onStart	(const StartEvent	& ev);
-		void onUpdate	(const UpdateEvent	& ev);
-		void onDraw		(const DrawEvent	& ev);
-		void onGui		(const GuiEvent		& ev);
-		void onUnload	(const UnloadEvent	& ev);
 
 		// PIPELINE
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

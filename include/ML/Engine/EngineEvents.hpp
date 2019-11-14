@@ -50,7 +50,13 @@ namespace ml
 
 	struct EnterEvent final : public EngineEvent<EngineEventType::EV_Enter>
 	{
-		constexpr EnterEvent() {}
+		int32_t argc;
+		const C_String * argv;
+		constexpr EnterEvent(int32_t argc, const C_String * argv)
+			: argc { argc }
+			, argv { argv }
+		{
+		}
 	};
 
 	struct LoadEvent final : public EngineEvent<EngineEventType::EV_Load>
@@ -84,11 +90,7 @@ namespace ml
 
 	struct DrawEvent final : public EngineEvent<EngineEventType::EV_Draw>
 	{
-		const RenderTarget & target;
-		constexpr DrawEvent(const RenderTarget & target)
-			: target { target }
-		{
-		}
+		constexpr DrawEvent() {}
 	};
 
 	struct EndDrawEvent final : public EngineEvent<EngineEventType::EV_EndDraw>

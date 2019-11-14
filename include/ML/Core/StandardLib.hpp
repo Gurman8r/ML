@@ -59,18 +59,19 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+# define ML_ARGC		__argc
+# define ML_ARGV		__argv
+# define ML_WARGV		__wargv
+
+# define ML_DESERIALIZE	::std::istream & operator >>
+# define ML_SERIALIZE	::std::ostream & operator <<
+
 # ifdef ML_CC_MSC
-#	define popen	_popen
-#	define pclose	_pclose
-#	define strdup	_strdup
-#	define snprintf	_snprintf
-# else
+#	define popen		_popen
+#	define pclose		_pclose
+#	define strdup		_strdup
+#	define snprintf		_snprintf
 # endif
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#define ML_SERIALIZE	_STD ostream & operator <<
-#define ML_DESERIALIZE	_STD istream & operator >>
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -124,24 +125,7 @@ namespace ml
 	ML_USING_X	List		= typename _STD vector<X>;
 	ML_USING_XY Map			= typename _STD map<X, Y>;
 	ML_USING_Ts Shared		= typename _STD shared_ptr<Ts...>;
-	ML_USING_Ts Scoped		= typename _STD unique_ptr<Ts...>;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	namespace make
-	{
-		template <class T, class ... Args>
-		static constexpr Shared<T> shared(Args && ... args)
-		{
-			return _STD make_shared<T>(_STD forward<Args>(args)...);
-		}
-
-		template <class T, class ... Args>
-		static constexpr Scoped<T> scoped(Args && ... args)
-		{
-			return _STD make_unique<T>(_STD forward<Args>(args)...);
-		}
-	}
+	ML_USING_Ts Unique		= typename _STD unique_ptr<Ts...>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

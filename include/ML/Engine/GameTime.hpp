@@ -25,7 +25,7 @@ namespace ml
 
 		inline float_t totalTime() const
 		{
-			return static_cast<float_t>(ML_Time.elapsed().count());
+			return static_cast<float_t>(m_main.elapsed().count());
 		}
 
 		inline float_t deltaTime() const
@@ -46,6 +46,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
+		Timer m_main;
 		Timer m_step;
 
 		mutable Duration m_elapsed { 0 };

@@ -27,22 +27,9 @@ namespace ml
 
 		Engine();
 
-		~Engine();
+		~Engine() {};
 		
 		void onEvent(const Event & value) override;
-		
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		void onEnter		(const EnterEvent & ev);
-		void onLoad			(const LoadEvent & ev);
-		void onBeginStep	(const BeginStepEvent & ev);
-		void onUpdate		(const UpdateEvent & ev);
-		void onBeginDraw	(const BeginDrawEvent & ev);
-		void onDraw			(const DrawEvent & ev);
-		void onEndDraw		(const EndDrawEvent & ev);
-		void onEndStep		(const EndStepEvent & ev);
-		void onUnload		(const UnloadEvent & ev);
-		void onExit			(const ExitEvent & ev);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

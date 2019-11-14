@@ -46,7 +46,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline String pathTo(const String & value) const 
+		inline String pathTo(const String & value) const
 		{ 
 			return (m_path + ML_PATH_DELIM + value);
 		}

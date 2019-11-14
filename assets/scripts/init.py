@@ -25,10 +25,8 @@ if ml.config.is_debug():
 
 # Load Plugins
 if (ml.config.system_name() == "Windows"):
-    ml.plugins.load_all([
- 	    "Noobs.dll",
- 	    "CommandSuite.dll",
- 	    #"TestPlugin.dll",
- 	    ])
+    ml.plugins.load("Noobs.dll")
+    ml.plugins.load("CommandSuite.dll")
+    ml.plugins.load("TestPlugin.dll")
 
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * #

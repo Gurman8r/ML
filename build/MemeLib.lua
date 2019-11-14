@@ -86,17 +86,16 @@ project "MemeLib"
 		symbols "On"
 		links { "python39_d", }
 		filter { "system:Windows", "configurations:Debug", }
-			linkoptions { "/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMTD.lib", }
 	
 	filter { "configurations:Release" } 
 		optimize "Speed"
 		links { "python39", }
 		filter { "system:Windows", "configurations:Release", }
-			linkoptions { "/NODEFAULTLIB:LIBCMT.lib", }
 	
 	filter { "system:Windows" }
 		defines { "NOMINMAX", }
 		includedirs { "%{ext_dir}cpython/PC", }
+		linkoptions { "/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib", }
 		links { "ws2_32", }
 		postbuildcommands {	
 			"%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}",

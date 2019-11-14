@@ -3,7 +3,7 @@
 group "MemeLib"
 project "Launcher"
 	targetname 		"%{prj.name}"
-	location		"%{prj_dir}memelib/%{prj.name}/"
+	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
 	debugdir 		"%{bin_out}"

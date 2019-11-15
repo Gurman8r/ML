@@ -119,7 +119,7 @@ namespace ml
 				, dirty { false }
 				, errs	{}
 			{
-# if (ML_DEBUG)
+# if (!ML_DEBUG)
 				this->text.SetPalette(TextEditor::GetLightPalette());
 # endif
 				this->text.SetLanguageDefinition(TextEditor::LanguageDefinition::GLSL());
@@ -1744,7 +1744,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
+extern "C"
 {
-	return new ml::Noobs{}; 
+	ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
+	{
+		return new ml::Noobs{};
+	}
 }

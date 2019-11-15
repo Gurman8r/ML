@@ -342,7 +342,10 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main() 
-{ 
-	return new ml::CommandSuite {}; 
+extern "C"
+{
+	ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
+	{
+		return new ml::CommandSuite{};
+	}
 }

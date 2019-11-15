@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Terminal::Editor_Terminal()
-		: EditorComponent	{ "Terminal", "Ctrl+Alt+T", false }
+		: EditorComponent { "Terminal", "Ctrl+Alt+T", ML_Engine.prefs().get_bool("Editor", "show_terminal", false) }
 		, m_coutBuf		{ nullptr }
 		, m_coutPtr		{ nullptr }
 		, m_coutStr		{}

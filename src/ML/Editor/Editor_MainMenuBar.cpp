@@ -2,16 +2,19 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Engine/Engine.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_MainMenuBar::Editor_MainMenuBar()
-		: EditorComponent{ "Main Menu", "", true }
+		: EditorComponent{ "Main Menu", "", ML_Engine.prefs().get_bool("Editor", "show_main_menu", true) }
 		, m_menus{}
 	{
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Editor_MainMenuBar::dispose()
 	{
@@ -19,42 +22,36 @@ namespace ml
 		return m_menus.empty();
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	void Editor_MainMenuBar::update()
 	{
 	}
 
 	bool Editor_MainMenuBar::beginDraw(int32_t flags)
 	{
-		ImGui::PushID((int32_t)typeof<>(*this).hash);
-		ImGui::PushID(ML_ADDRESSOF(this));
-		ImGui::PushID(getTitle());
-		return m_good = ImGui::BeginMainMenuBar();
+		if (m_good = m_open)
+		{
+			ImGui::PushID((int32_t)typeof<>(*this).hash);
+			ImGui::PushID(ML_ADDRESSOF(this));
+			ImGui::PushID(getTitle());
+			m_good = ImGui::BeginMainMenuBar();
+		}
+		return m_good;
 	}
 
 	bool Editor_MainMenuBar::draw()
 	{
 		if (beginDraw(0))
 		{
-			for (auto it = m_menus.begin(); 
-				it != m_menus.end(); 
-				it = m_menus.upper_bound(it->first))
+			for (auto & pair : m_menus)
 			{
-				String name{ it->first.second };
-				ImGui::PushID(name.c_str());
-				if (ImGui::BeginMenu(name.c_str()))
+				if (ImGui::BeginMenu(pair.first.c_str()))
 				{
-					auto funcs{ m_menus.equal_range(it->first) };
-					for (auto cur = funcs.first; cur != funcs.second; ++cur)
+					for (auto & func : pair.second)
 					{
-						ImGui::PushID(ML_ADDRESSOF(&cur->second));
-						cur->second();
-						ImGui::PopID();
+						func();
 					}
 					ImGui::EndMenu();
 				}
-				ImGui::PopID();
 			}
 		}
 		return endDraw();
@@ -67,6 +64,22 @@ namespace ml
 		ImGui::PopID();
 		ImGui::PopID();
 		return m_good;
+	}
+
+	auto Editor_MainMenuBar::addMenu(const String & name, std::function<void()> && fun)
+		-> decltype(m_menus)::iterator
+	{
+		auto it{ std::find_if(m_menus.begin(), m_menus.end(), [&](auto elem)
+		{
+			return elem.first == name;
+		}) };
+		if (it == m_menus.end())
+		{
+			m_menus.push_back({ name, {} });
+			it = (m_menus.end() - 1);
+		}
+		it->second.push_back(fun);
+		return it;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

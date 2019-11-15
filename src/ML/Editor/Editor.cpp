@@ -115,16 +115,6 @@ namespace ml
 					"#version 130"
 				));
 
-				// Setup Windows
-				m_about.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about", false));
-				m_content.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content", false));
-				m_dockspace.setOpen(ML_Engine.prefs().get_bool("Editor", "enable_docking", true));
-				m_explorer.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer", false));
-				m_inspector.setOpen(ML_Engine.prefs().get_bool("Editor", "show_inspector", false));
-				m_manual.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual", false));
-				m_profiler.setOpen(ML_Engine.prefs().get_bool("Editor", "show_profiler", false));
-				m_terminal.setOpen(ML_Engine.prefs().get_bool("Editor", "show_terminal", false));
-
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
 			case LoadEvent::ID: if (auto ev{ value.as<LoadEvent>() })

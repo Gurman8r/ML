@@ -6,14 +6,15 @@
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Core/SizeOf.hpp>
+#include <ML/Engine/Engine.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Explorer::Editor_Explorer()
-		: EditorComponent	{ "Explorer", "Ctrl+Alt+E", false }
-		, m_browser		{ }
+		: EditorComponent { "Explorer", "Ctrl+Alt+E", ML_Engine.prefs().get_bool("Editor", "show_explorer", false) }
+		, m_browser	{ }
 	{
 	}
 

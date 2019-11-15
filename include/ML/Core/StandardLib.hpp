@@ -121,9 +121,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ML_USING_XY HashMap		= typename _STD unordered_map<X, Y>;
-	ML_USING_X	List		= typename _STD vector<X>;
-	ML_USING_XY Map			= typename _STD map<X, Y>;
+	ML_USING_Ts HashMap		= typename _STD unordered_map<Ts...>;
+	ML_USING_Ts List		= typename _STD vector<Ts...>;
+	ML_USING_Ts Map			= typename _STD map<Ts...>;
 	ML_USING_Ts Shared		= typename _STD shared_ptr<Ts...>;
 	ML_USING_Ts Unique		= typename _STD unique_ptr<Ts...>;
 

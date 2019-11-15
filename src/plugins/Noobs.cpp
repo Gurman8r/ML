@@ -176,7 +176,7 @@ namespace ml
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					ML_Editor.mainMenuBar().addMenu("Window", [&]() 
+					ML_Editor.mainMenuBar().addMenu("Window", [&]()
 					{
 						ImGui::PushID(ML_ADDRESSOF(this));
 						ImGui::Separator();
@@ -185,7 +185,7 @@ namespace ml
 						ImGui::PopID();
 					});
 
-					ML_Editor.mainMenuBar().addMenu("Plugins", [&]() 
+					ML_Editor.mainMenuBar().addMenu("Plugins", [&]()
 					{
 						ImGui::PushID(ML_ADDRESSOF(this));
 						if (ImGui::BeginMenu("Noobs"))
@@ -203,12 +203,9 @@ namespace ml
 					if (m_ent_name = ML_Engine.prefs().get_string("Noobs", "target_entity", ""))
 					{
 						m_entity = ML_Engine.content().get<Entity>(m_ent_name);
-
-						if (auto r{ m_entity->get<Renderer>() })
-						{
-							generate_sources();
-						}
 					}
+
+					generate_sources();
 
 					/* * * * * * * * * * * * * * * * * * * * */
 				} break;
@@ -216,32 +213,27 @@ namespace ml
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					auto camera{ Camera::mainCamera() };
-
-					if (camera)
+					if (auto camera{ Camera::mainCamera() }; camera && camera->enabled())
 					{
-						if (camera->enabled())
+						// Update Pipeline
+						for (auto & surf : m_pipeline)
 						{
-							// Update Pipeline
-							for (auto & surf : m_pipeline)
-							{
-								surf->update((vec2)camera->viewport().size());
-							}
+							surf->update((vec2)camera->viewport().size());
+						}
 
-							// Update Camera Uniforms
-							if (m_use_main_camera)
+						// Update Camera Uniforms
+						if (m_use_main_camera)
+						{
+							for (auto & [key, value] : ML_Engine.content().data<Material>())
 							{
-								for (auto & [key, value] : ML_Engine.content().data<Material>())
+								if (auto m{ (Material *)value })
 								{
-									if (auto m{ (Material *)value })
-									{
-										m->set<uni_vec3>("u_camera.pos", camera->position());
-										m->set<uni_vec3>("u_camera.dir", camera->direction());
-										m->set<uni_float>("u_camera.fov", camera->fieldOfView());
-										m->set<uni_float>("u_camera.near", camera->clipNear());
-										m->set<uni_float>("u_camera.far", camera->clipFar());
-										m->set<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
-									}
+									m->set<uni_vec3>("u_camera.pos", camera->position());
+									m->set<uni_vec3>("u_camera.dir", camera->direction());
+									m->set<uni_float>("u_camera.fov", camera->fieldOfView());
+									m->set<uni_float>("u_camera.near", camera->clipNear());
+									m->set<uni_float>("u_camera.far", camera->clipFar());
+									m->set<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
 								}
 							}
 						}
@@ -267,23 +259,21 @@ namespace ml
 						// Draw Renderers
 						for (auto & [key, value] : ML_Engine.content().data<Entity>())
 						{
-							if (auto ent{ (Entity *)value })
+							if (auto e{ (Entity *)value })
 							{
-								auto renderer{ ent->get<Renderer>() };
-								if (renderer && (*renderer))
+								if (auto r{ e->get<Renderer>() }; r && (*r))
 								{
-									auto transform{ ent->get<Transform>() };
-									if (transform && (*transform))
+									if (auto t{ e->get<Transform>() }; t && (*t))
 									{
-										if (auto m{ (Material *)renderer->material() })
+										if (auto m{ (Material *)r->material() })
 										{
-											m->set<uni_vec3>("u_position", transform->position());
-											m->set<uni_vec4>("u_rotation", transform->rotation());
-											m->set<uni_vec3>("u_scale", transform->scale());
+											m->set<uni_vec3>("u_position", t->position());
+											m->set<uni_vec4>("u_rotation", t->rotation());
+											m->set<uni_vec3>("u_scale", t->scale());
 										}
 									}
+									ML_Engine.window().draw(r);
 								}
-								ML_Engine.window().draw(renderer);
 							}
 						}
 					

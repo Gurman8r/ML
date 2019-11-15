@@ -1,4 +1,5 @@
 #include <ML/Editor/Editor_Dockspace.hpp>
+#include <ML/Engine/Engine.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -9,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Dockspace::Editor_Dockspace()
-		: EditorComponent	{ "Dockspace", "", true }
+		: EditorComponent { "Dockspace", "", ML_Engine.prefs().get_bool("Editor", "show_dockspace", false) }
 		, m_border		{ 0.0f }
 		, m_padding		{ 0.f, 0.f }
 		, m_rounding	{ 0.0f }

@@ -4,13 +4,14 @@
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
+#include <ML/Engine/Engine.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_About::Editor_About()
-		: EditorComponent { "About", "Ctrl+Alt+A", false }
+		: EditorComponent { "About", "Ctrl+Alt+A", ML_Engine.prefs().get_bool("Editor", "show_about", false) }
 	{
 	}
 

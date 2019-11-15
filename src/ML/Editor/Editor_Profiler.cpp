@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Profiler::Editor_Profiler()
-		: EditorComponent { "Profiler", "Ctrl+Alt+P", false }
+		: EditorComponent { "Profiler", "Ctrl+Alt+P", ML_Engine.prefs().get_bool("Editor", "show_profiler", false) }
 		, graphs {}
 	{
 	}

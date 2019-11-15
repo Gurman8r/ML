@@ -1,12 +1,13 @@
 #include <ML/Editor/Editor_Manual.hpp>
 #include <ML/Editor/ImGui.hpp>
+#include <ML/Engine/Engine.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Manual::Editor_Manual()
-		: EditorComponent { "Manual", "Ctrl+Alt+M", false }
+		: EditorComponent { "Manual", "Ctrl+Alt+M", ML_Engine.prefs().get_bool("Editor", "show_manual", false) }
 	{
 	}
 

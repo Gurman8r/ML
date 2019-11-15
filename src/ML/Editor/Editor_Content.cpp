@@ -141,7 +141,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Content::Editor_Content()
-		: EditorComponent { "Content", "Ctrl+Alt+C", false }
+		: EditorComponent { "Content", "Ctrl+Alt+C", ML_Engine.prefs().get_bool("Editor", "show_content", false) }
 	{
 	}
 

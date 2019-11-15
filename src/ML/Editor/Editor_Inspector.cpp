@@ -45,7 +45,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Inspector::Editor_Inspector()
-		: EditorComponent { "Inspector", "Ctrl+Alt+I", false }
+		: EditorComponent { "Inspector", "Ctrl+Alt+I", ML_Engine.prefs().get_bool("Editor", "show_inspector", false) }
 	{
 	}
 

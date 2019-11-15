@@ -1,6 +1,6 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * --
 
-group ""
+group "ML"
 project "Launcher"
 	targetname 		"%{prj.name}"
 	targetdir		"%{bin_lib}"
@@ -21,7 +21,8 @@ project "Launcher"
 		"%{sln_dir}include", "%{ext_dir}",
 	}
 	files {
-		"%{sln_dir}build/%{prj.name}.lua", "%{sln_dir}src/%{prj.name}/**.**",
+		"%{sln_dir}build/%{prj.name}.lua", 
+		"%{sln_dir}src/%{prj.name}/**.**",
 	}
 	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",

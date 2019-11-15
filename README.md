@@ -1,10 +1,10 @@
 # MemeLib (ML)
 
-- ML is a simple C++ game engine.
-- Everything should be considered experimental
-- Everything is a work in progress and is subject to change
+- MemeLib is a simple C++ game engine.
 - Downloads: https://bit.ly/ml_noobs
 - Old Repo: https://github.com/Gurman8r/CppSandbox
+- Everything should be considered experimental
+- Everything is a work in progress and is subject to change
 - ML uses OpenGL 4.6
 	- Try updating your graphics drivers if you're having difficulties
 - Building for Windows with VS2019
@@ -15,22 +15,6 @@
 	- I only included the libraries needed to get going
 	- Python libraries can be added to the python/Lib folder, or the home path can be changed in ML.ini
 	- Additional encodings can be found in python/Lib/encodings/encodings.7z
-
-# Projects
-
-- Libraries
-  - Audio (WIP)
-  - Core
-  - Editor
-  - Engine
-  - Graphics
-  - Launcher
-  - Network (WIP)
-  - Window
-- Plugins
-  - CommandSuite
-  - Noobs
-  - TestPlugin
 
 # Screenshots
 

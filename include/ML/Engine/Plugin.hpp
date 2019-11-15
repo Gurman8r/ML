@@ -20,9 +20,9 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Plugin();
+		Plugin() {}
 		
-		virtual ~Plugin();
+		virtual ~Plugin() {}
 
 		virtual void onEvent(const Event & value) override = 0;
 

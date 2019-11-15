@@ -35,13 +35,28 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline iterator find(const String & name)
+		{
+			return std::find_if(begin(), end(), [&](auto u)
+			{
+				return u && (u->name == name);
+			});
+		}
+
+		inline const_iterator find(const String & name) const
+		{
+			return std::find_if(begin(), end(), [&](auto u) 
+			{
+				return u && (u->name == name);
+			});
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline Uniform * insert(Uniform * value)
 		{
 			if (!value) { return nullptr; }
-			auto it { std::find_if(begin(), end(), [&](auto u)
-			{
-				return u && (u->name == value->name);
-			}) };
+			auto it { find(value->name) };
 			if (it == end())
 			{
 				m_uniforms.push_back(std::move(value));
@@ -54,10 +69,7 @@ namespace ml
 		inline Uniform * insert(const String & name, const T & value)
 		{
 			if (!name) { return nullptr; }
-			auto it { std::find_if(begin(), end(), [&](auto u)
-			{
-				return u && (u->name == name);
-			}) };
+			auto it{ find(value->name) };
 			if (it == end())
 			{
 				m_uniforms.push_back(new U { name, value });
@@ -75,10 +87,7 @@ namespace ml
 
 		inline bool erase(const String & name)
 		{
-			iterator it { std::find_if(begin(), end(), [&](auto u)
-			{
-				return u && (u->name == name);
-			}) };
+			auto it{ find(name) };
 			if (it != end())
 			{
 				if (*it) { delete (*it); }
@@ -92,19 +101,13 @@ namespace ml
 
 		template <class U = typename Uniform> inline U * get(const String & name)
 		{
-			iterator it { std::find_if(begin(), end(), [&](auto u)
-			{
-				return u && (u->name == name);
-			}) };
+			auto it{ find(name) };
 			return (it != end()) ? dynamic_cast<U *>(*it) : nullptr;
 		}
 
 		template <class U = typename Uniform> inline const U * get(const String & name) const
 		{
-			const_iterator it { std::find_if(cbegin(), cend(), [&](auto u)
-			{
-				return u && (u->name == name);
-			}) };
+			auto it{ find(name) };
 			return (it != cend()) ? dynamic_cast<const U *>(*it) : nullptr;
 		}
 
@@ -121,6 +124,7 @@ namespace ml
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		inline auto uniforms()			-> List<Uniform *> &		{ return m_uniforms; }
 		inline auto uniforms()	const	-> const List<Uniform *> &	{ return m_uniforms; }
 

@@ -47,18 +47,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto colorID()	const -> GL::ColorID		{ return m_colorID; }
-		inline auto frameID()	const -> GL::FrameID		{ return m_frameID; }
-		inline auto fbo()		const -> const FBO &		{ return m_fbo; }
-		inline auto height()	const -> int32_t			{ return m_size[1]; }
+		inline auto colorID()	const -> GL::ColorID			{ return m_colorID; }
+		inline auto frameID()	const -> GL::FrameID			{ return m_frameID; }
+		inline auto fbo()		const -> const_ref_t<FBO>		{ return m_fbo; }
+		inline auto height()	const -> int32_t				{ return m_size[1]; }
 		inline auto material()	const -> const_ptr_t<Material>	{ return m_material; }
 		inline auto model()		const -> const_ptr_t<Model>		{ return m_model; }
-		inline auto rbo()		const -> const RBO &		{ return m_rbo; }
-		inline auto shader()	const -> const_ptr_t<Shader>		{ return m_shader; }
-		inline auto size()		const -> const vec2i &		{ return m_size; }
-		inline auto storage()	const -> GL::Format			{ return m_storage; }
-		inline auto texture()	const -> const Texture &	{ return m_texture; }
-		inline auto width()		const -> int32_t			{ return m_size[0]; }
+		inline auto rbo()		const -> const_ref_t<RBO>		{ return m_rbo; }
+		inline auto shader()	const -> const_ptr_t<Shader>	{ return m_shader; }
+		inline auto size()		const -> const_ref_t<vec2i>		{ return m_size; }
+		inline auto storage()	const -> GL::Format				{ return m_storage; }
+		inline auto texture()	const -> const_ref_t<Texture>	{ return m_texture; }
+		inline auto width()		const -> int32_t				{ return m_size[0]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -67,16 +67,16 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		GL::ColorID		m_colorID;	// 
-		GL::FrameID		m_frameID;	// 
-		FBO				m_fbo;		// 
-		const_ptr_t<Material>m_material;	// 
-		const_ptr_t<Shader>	m_shader;	//
-		const_ptr_t<Model>	m_model;	// 
-		RBO				m_rbo;		// 
-		vec2i			m_size;		// 
-		GL::Format		m_storage;	// 
-		Texture			m_texture;	// 
+		GL::ColorID				m_colorID;	// 
+		GL::FrameID				m_frameID;	// 
+		FBO						m_fbo;		// 
+		const_ptr_t<Material>	m_material;	// 
+		const_ptr_t<Shader>		m_shader;	//
+		const_ptr_t<Model>		m_model;	// 
+		RBO						m_rbo;		// 
+		vec2i					m_size;		// 
+		GL::Format				m_storage;	// 
+		Texture					m_texture;	// 
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

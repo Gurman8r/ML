@@ -227,6 +227,8 @@
 # define ML_ADDRESSOF(ptr)		((ptr_t<void>)(ML_INTMAX)ptr)
 # define ML_ARRAYSIZE(arr)		(sizeof(arr) / sizeof(*arr))
 # define ML_CONCAT(a, b)		a##b
+# define ML_FILE				__FILE__
+# define ML_LINE				__LINE__
 # define ML_STRINGIFY(str)		ML_TOSTRING(str)
 # define ML_TOSTRING(str)		#str
 

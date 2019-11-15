@@ -9,6 +9,8 @@ project "TestPlugin"
 	kind			"SharedLib"
 	language		"C++"
 	cppdialect 		"C++17"
+	staticruntime	"Off"
+	systemversion	"latest"
 	dependson {
 		"Launcher"
 	}
@@ -16,10 +18,11 @@ project "TestPlugin"
 		"_CRT_SECURE_NO_WARNINGS", "NOMINMAX",
 	}
 	includedirs {
-		"%{sln_dir}include", "%{ext_dir}", "%{sln_dir}plugins/%{prj.name}"
+		"%{sln_dir}include", "%{ext_dir}", "%{sln_dir}plugins"
 	}
 	files {
-		"%{sln_dir}build/%{prj.name}.lua", "%{sln_dir}src/plugins/%{prj.name}/**.**",
+		"%{sln_dir}build/%{prj.name}.lua",
+		"%{sln_dir}src/plugins/%{prj.name}.**",
 	}
 	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",

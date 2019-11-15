@@ -17,13 +17,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Timer() : Timer{ false } {}
-
-		Timer(bool startMe)
+		Timer()
 			: m_paused	{ false }
 			, m_prev	{}
 			, m_next	{}
 			, m_elapsed	{ 0 }
+		{
+		}
+
+		Timer(bool startMe) : Timer{}
 		{
 			if (startMe) { this->start(); }
 		}

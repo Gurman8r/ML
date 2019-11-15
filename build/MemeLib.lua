@@ -3,9 +3,9 @@
 group "ML"
 project "MemeLib"
 	targetname 		"%{prj.name}"
-	location		"%{prj_dir}ML/%{prj.name}/"
 	targetdir		"%{bin_lib}"
 	objdir			"%{bin_obj}"
+	location		"%{prj_dir}ML/%{prj.name}/"
 	kind			"SharedLib"
 	language		"C++"
 	cppdialect 		"C++17"
@@ -28,6 +28,7 @@ project "MemeLib"
 		"GLEW_STATIC",
 	}
 	includedirs {
+		"%{sln_dir}build/%{prj.name}.lua",
 		"%{sln_dir}include",
 		"%{ext_dir}",
 		"%{ext_dir}openal-soft/al",
@@ -45,12 +46,14 @@ project "MemeLib"
 	}
 	files {
 		"%{sln_dir}build/%{prj.name}.lua",
+		"%{sln_dir}build/%{prj.name}.lua",
 		"%{sln_dir}assets/**.**", 
 		"%{sln_dir}include/ML/**.hpp",
 		"%{sln_dir}src/ML/**.cpp",
 		"%{sln_dir}tools/**.**",
 		"%{sln_dir}ML.ini", 
 		"%{sln_dir}premake5.lua",
+		"%{sln_dir}README.md",
 	}
 	libdirs {
 		"%{bin_lib}", "%{bin_lib}%{cfg.buildcfg}/", "%{bin_lib}%{cfg.buildcfg}/%{cfg.platform}/",

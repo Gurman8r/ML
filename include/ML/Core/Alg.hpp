@@ -301,7 +301,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr T magnitude(const A<T, N...> & value)
 		{
-			return static_cast<T>(sqrt<T> {}(_ML alg::sqr_magnitude(value)));
+			return sqrt<T> {}(_ML alg::sqr_magnitude<A, T, N...>(value));
 		}
 
 		template <
@@ -321,7 +321,7 @@ namespace ml
 			template <class, size_t ...> class A, class T, size_t ... N
 		> static constexpr A<T, N...> normalize(const A<T, N...> & value)
 		{
-			return (value / _ML alg::magnitude(value));
+			return (value / _ML alg::magnitude<A, T, N...>(value));
 		}
 
 		template <
@@ -344,7 +344,7 @@ namespace ml
 			template <class, size_t, size_t> class M, class T
 		> static constexpr M<T, 4, 4> inverse(const M<T, 4, 4> & v)
 		{
-			const T det { _ML alg::determinant(v) };
+			const T det { _ML alg::determinant<M, T>(v) };
 			return ((det != (T)0)
 				? M<T, 4, 4> {	
 					+(v[15] * v[5] - v[7] * v[13]) / det,

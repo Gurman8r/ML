@@ -9,21 +9,16 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Materials are collections of uniforms
-	struct ML_GRAPHICS_API Material final
-		: public Newable
-		, public Disposable
+	struct ML_GRAPHICS_API Material final : public Newable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using iterator					= typename List<Uniform *>::iterator;
-		using const_iterator			= typename List<Uniform *>::const_iterator;
-		using reverse_iterator			= typename List<Uniform *>::reverse_iterator;
-		using const_reverse_iterator	= typename List<Uniform *>::const_reverse_iterator;
+		using base_type = typename List<Uniform *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Material();
-		Material(List<Uniform *> && uniforms);
+		Material(base_type && uniforms);
 		Material(const Material & copy);
 		~Material();
 
@@ -35,19 +30,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline iterator find(const String & name)
+		inline base_type::iterator find(const String & name)
 		{
 			return std::find_if(begin(), end(), [&](auto u)
 			{
-				return u && (u->name == name);
+				return (u && u->getName() == name);
 			});
 		}
 
-		inline const_iterator find(const String & name) const
+		inline base_type::const_iterator find(const String & name) const
 		{
-			return std::find_if(begin(), end(), [&](auto u) 
+			return std::find_if(begin(), end(), [&](auto u)
 			{
-				return u && (u->name == name);
+				return (u && u->getName() == name);
 			});
 		}
 
@@ -56,7 +51,7 @@ namespace ml
 		inline Uniform * insert(Uniform * value)
 		{
 			if (!value) { return nullptr; }
-			auto it { find(value->name) };
+			auto it { this->find(value->getName()) };
 			if (it == end())
 			{
 				m_uniforms.push_back(std::move(value));
@@ -69,7 +64,7 @@ namespace ml
 		inline Uniform * insert(const String & name, const T & value)
 		{
 			if (!name) { return nullptr; }
-			auto it{ find(value->name) };
+			auto it { this->find(value->getName()) };
 			if (it == end())
 			{
 				m_uniforms.push_back(new U { name, value });
@@ -82,12 +77,12 @@ namespace ml
 
 		inline bool erase(Uniform * value)
 		{
-			return (value && value->name) && erase(value->name);
+			return (value && value->getName()) && erase(value->getName());
 		}
 
 		inline bool erase(const String & name)
 		{
-			auto it{ find(name) };
+			auto it { this->find(name) };
 			if (it != end())
 			{
 				if (*it) { delete (*it); }
@@ -101,13 +96,13 @@ namespace ml
 
 		template <class U = typename Uniform> inline U * get(const String & name)
 		{
-			auto it{ find(name) };
+			auto it { this->find(name) };
 			return (it != end()) ? dynamic_cast<U *>(*it) : nullptr;
 		}
 
 		template <class U = typename Uniform> inline const U * get(const String & name) const
 		{
-			auto it{ find(name) };
+			auto it { this->find(name) };
 			return (it != cend()) ? dynamic_cast<const U *>(*it) : nullptr;
 		}
 
@@ -117,7 +112,7 @@ namespace ml
 		{
 			if (auto * u { get<U>(name) })
 			{
-				u->data = value; 
+				u->setData(value);
 				return true;
 			}
 			return false;
@@ -125,22 +120,36 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto uniforms()			-> List<Uniform *> &		{ return m_uniforms; }
-		inline auto uniforms()	const	-> const List<Uniform *> &	{ return m_uniforms; }
+		inline bool rename(const String & from, const String & to)
+		{
+			auto it{ this->find(from) };
+			if ((it != end()) && (to && (this->find(to) == end())))
+			{
+				(*it)->setName(to);
+				return true;
+			}
+			return false;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto begin()				-> iterator			{ return m_uniforms.begin(); }
-		inline auto begin()		const	-> const_iterator	{ return m_uniforms.begin(); }
-		inline auto cbegin()	const	-> const_iterator	{ return m_uniforms.cbegin(); }
-		inline auto end() 				-> iterator			{ return m_uniforms.end(); }
-		inline auto end()		const	-> const_iterator	{ return m_uniforms.end(); }
-		inline auto cend()		const	-> const_iterator	{ return m_uniforms.cend(); }
+		inline bool empty() const { return m_uniforms.empty(); }
+		
+		inline auto size() const -> size_t { return m_uniforms.size(); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto begin()			-> base_type::iterator			{ return m_uniforms.begin(); }
+		inline auto begin() const	-> base_type::const_iterator	{ return m_uniforms.begin(); }
+		inline auto cbegin() const	-> base_type::const_iterator	{ return m_uniforms.cbegin(); }
+		inline auto end()			-> base_type::iterator			{ return m_uniforms.end(); }
+		inline auto end() const		-> base_type::const_iterator	{ return m_uniforms.end(); }
+		inline auto cend() const	-> base_type::const_iterator	{ return m_uniforms.cend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		List<Uniform *>	m_uniforms;
+		base_type	m_uniforms;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

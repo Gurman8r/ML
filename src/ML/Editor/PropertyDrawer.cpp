@@ -1038,9 +1038,9 @@ namespace ml
 					}
 					if (copy)
 					{
-						for (const auto * u : (*copy))
+						for (const auto & u : (*copy))
 						{
-							if (!value->get(u->name)) { value->insert(u->clone()); }
+							if (!value->get(u->getName())) { value->insert(u->clone()); }
 						}
 					}
 					if (ML_FS.fileExists(asset_path))
@@ -1090,17 +1090,14 @@ namespace ml
 		}
 
 		// do nothing if empty
-		if (!value.uniforms().empty())
-		{
-			ImGui::Separator();
-		}
+		if (!value.empty()) { ImGui::Separator(); }
 
 		// to remove
-		Material::iterator toRemove { value.end() };
-		for (auto it = value.begin(); it != value.end(); it++)
+		Uniform * to_remove{ nullptr };
+		for (auto & u : value)
 		{
 			// name
-			const String name("##Uni##" + (*it)->name + "##Material##" + label);
+			const String name("##Uni##" + u->getName() + "##Material##" + label);
 
 			// Uniform Header
 			ImGui::PushStyleColor(
@@ -1108,14 +1105,14 @@ namespace ml
 				{ 0.367f, 0.258f, 0.489f, 0.580f }
 			);
 
-			if (ImGui::TreeNode(((*it)->name + name).c_str()))
+			if (ImGui::TreeNode((u->getName() + name).c_str()))
 			{
 				ImGui::PopStyleColor();
-				if ((*it))
+				if (u)
 				{
 					float_t height = 1;
-					if ((*it)->getID() == uni_mat3::ID) { height = 3; }
-					else if ((*it)->getID() == uni_mat4::ID) { height = 4; }
+					if (u->getID() == uni_mat3::ID) { height = 3; }
+					else if (u->getID() == uni_mat4::ID) { height = 4; }
 
 					ImGui::PushID(name.c_str());
 					ImGui::BeginChild(
@@ -1125,13 +1122,13 @@ namespace ml
 						ImGuiWindowFlags_NoScrollbar |
 						ImGuiWindowFlags_NoScrollWithMouse
 					);
-					const bool canEdit{ PropertyDrawer<Uniform>()(name, (Uniform &)(**it)) };
+					const bool canEdit{ PropertyDrawer<Uniform>()(name, (Uniform &)(*u)) };
 					ImGui::SameLine();
 					if (canEdit)
 					{
 						if (ImGui::Button(("Remove##" + name).c_str()))
 						{ 
-							toRemove = it;
+							to_remove = u;
 						}
 					}
 					else
@@ -1151,15 +1148,8 @@ namespace ml
 
 			ImGui::Separator();
 		}
-
-		if (toRemove != value.end())
-		{
-			delete (*toRemove);
-			value.uniforms().erase(toRemove);
-		}
-
+		value.erase(to_remove);
 		ImGui::PopID();
-
 		return Layout::end_prop(this, false);
 	}
 
@@ -2633,11 +2623,11 @@ namespace ml
 			if (auto data = detail::as_bool(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Bool##Uni" + value.name;
+				const String name = "##" + label + "##Bool##Uni" + value.getName();
 				ImGui::Checkbox(name.c_str(), &copy);
 				if (auto u = value.as<uni_bool>())
 				{
-					u->data = copy;
+					u->setData(copy);
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2647,11 +2637,11 @@ namespace ml
 			if (auto data = detail::as_float(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Float##Uni" + value.name;
+				const String name = "##" + label + "##Float##Uni" + value.getName();
 				ImGui::DragFloat(name.c_str(), &copy, spd, 0, 0, fmt);
 				if (auto u = value.as<uni_float>())
 				{
-					u->data = copy;
+					u->setData(copy);
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2661,12 +2651,12 @@ namespace ml
 			if (auto data = detail::as_int(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Int##Uni" + value.name;
+				const String name = "##" + label + "##Int##Uni" + value.getName();
 				if (value.isModifiable()) ImGui::InputInt(name.c_str(), &copy);
 				else ImGui::DragInt(name.c_str(), &copy);
 				if (auto u = value.as<uni_int>())
 				{
-					u->data = copy;
+					u->setData(copy);
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2676,11 +2666,11 @@ namespace ml
 			if (auto data = detail::as_vec2(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Vec2##Uni" + value.name;
+				const String name = "##" + label + "##Vec2##Uni" + value.getName();
 				ImGui::DragFloat2(name.c_str(), &copy[0], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_vec2>())
 				{
-					u->data = copy; 
+					u->setData(copy); 
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2690,11 +2680,11 @@ namespace ml
 			if (auto data = detail::as_vec3(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Vec3##Uni" + value.name;
+				const String name = "##" + label + "##Vec3##Uni" + value.getName();
 				ImGui::DragFloat3(name.c_str(), &copy[0], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_vec3>())
 				{
-					u->data = copy;
+					u->setData(copy);
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2704,11 +2694,11 @@ namespace ml
 			if (auto data = detail::as_vec4(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Vec4##Uni" + value.name;
+				const String name = "##" + label + "##Vec4##Uni" + value.getName();
 				ImGui::DragFloat4(name.c_str(), &copy[0], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_vec4>())
 				{
-					u->data = copy; 
+					u->setData(copy); 
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2718,11 +2708,11 @@ namespace ml
 			if (auto data = detail::as_color(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Color##Uni" + value.name;
+				const String name = "##" + label + "##Color##Uni" + value.getName();
 				ImGui::ColorEdit4(name.c_str(), &copy[0], ImGuiColorEditFlags_Float);
 				if (auto u = value.as<uni_color>())
 				{
-					u->data = copy; 
+					u->setData(copy); 
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2732,12 +2722,12 @@ namespace ml
 			if (auto data = detail::as_mat2(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Mat2##Uni" + value.name;
+				const String name = "##" + label + "##Mat2##Uni" + value.getName();
 				ImGui::DragFloat2((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
 				ImGui::DragFloat2((name + "##02").c_str(), &copy[2], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_mat2>())
 				{
-					u->data = copy;
+					u->setData(copy);
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2747,13 +2737,13 @@ namespace ml
 			if (auto data = detail::as_mat3(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Mat3##Uni" + value.name;
+				const String name = "##" + label + "##Mat3##Uni" + value.getName();
 				ImGui::DragFloat3((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
 				ImGui::DragFloat3((name + "##03").c_str(), &copy[3], spd, 0, 0, fmt);
 				ImGui::DragFloat3((name + "##06").c_str(), &copy[6], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_mat3>())
 				{
-					u->data = (copy); 
+					u->setData(copy); 
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2763,14 +2753,14 @@ namespace ml
 			if (auto data = detail::as_mat4(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Mat4##Uni" + value.name;
+				const String name = "##" + label + "##Mat4##Uni" + value.getName();
 				ImGui::DragFloat4((name + "##00").c_str(), &copy[0],  spd, 0, 0, fmt);
 				ImGui::DragFloat4((name + "##04").c_str(), &copy[4],  spd, 0, 0, fmt);
 				ImGui::DragFloat4((name + "##08").c_str(), &copy[8],  spd, 0, 0, fmt);
 				ImGui::DragFloat4((name + "##12").c_str(), &copy[12], spd, 0, 0, fmt);
 				if (auto u = value.as<uni_mat4>())
 				{
-					u->data = copy; 
+					u->setData(copy); 
 					return Layout::end_prop(this, true);
 				}
 			}
@@ -2780,12 +2770,12 @@ namespace ml
 			if (auto data = detail::as_sampler(&value))
 			{
 				auto copy { *data };
-				const String name = "##" + label + "##Sampler##Uni" + value.name;
+				const String name = "##" + label + "##Sampler##Uni" + value.getName();
 				if (PropertyDrawer<Texture>()(name, copy))
 				{
 					if (auto u = value.as<uni_sampler>())
 					{
-						u->data = copy;
+						u->setData(copy);
 					}
 				}
 				return Layout::end_prop(this, true);

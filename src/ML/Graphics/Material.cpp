@@ -14,19 +14,15 @@ namespace ml
 	{
 	}
 
-	Material::Material(List<Uniform *> && uniforms)
-		: m_uniforms {}
+	Material::Material(base_type && uniforms)
+		: m_uniforms { std::move(uniforms) }
 	{
-		for (auto & u : uniforms)
-		{
-			this->insert(std::move(u));
-		}
 	}
 
 	Material::Material(const Material & copy)
 		: m_uniforms {}
 	{
-		for (const Uniform * u : copy)
+		for (const auto & u : copy)
 		{
 			this->insert(u->clone());
 		}
@@ -38,9 +34,9 @@ namespace ml
 
 	bool Material::dispose()
 	{
-		for (auto & elem : m_uniforms)
+		for (auto & u : m_uniforms)
 		{
-			delete elem;
+			if (u) { delete u; }
 		}
 		m_uniforms.clear();
 		return m_uniforms.empty();
@@ -134,44 +130,38 @@ namespace ml
 					/* * * * * * * * * * * * * * * * * * * * */
 					if (Uniform * u = ([](int32_t type, const String & name, SStream & ss, const auto * t)
 					{
-						Uniform * u;
-						if ((type == -1) || name.empty() || ss.str().empty())
-						{
-							return u = nullptr;
-						}
+						Uniform * u{ nullptr };
+						if ((type == -1) || name.empty() || ss.str().empty()) { return u; }
 						switch (type)
 						{
-						case uni_bool::ID:	return u = new uni_bool(name, input<bool>()(ss));
-						case uni_int::ID:	return u = new uni_int(name, input<int32_t>()(ss));
-						case uni_float::ID: return u = new uni_float(name, input<float_t>()(ss));
-						case uni_vec2::ID:	return u = new uni_vec2(name, input<vec2>()(ss));
-						case uni_vec3::ID:	return u = new uni_vec3(name, input<vec3>()(ss));
-						case uni_vec4::ID:	return u = new uni_vec4(name, input<vec4>()(ss));
-						case uni_color::ID: return u = new uni_color(name, input<vec4>()(ss));
-						case uni_mat2::ID:	return u = new uni_mat2(name, input<mat2>()(ss));
-						case uni_mat3::ID:	return u = new uni_mat3(name, input<mat3>()(ss));
-						case uni_mat4::ID:	return u = new uni_mat4(name, input<mat4>()(ss));
+						case uni_bool::ID	: return u = new uni_bool(name, input<bool>()(ss));
+						case uni_int::ID	: return u = new uni_int(name, input<int32_t>()(ss));
+						case uni_float::ID	: return u = new uni_float(name, input<float_t>()(ss));
+						case uni_vec2::ID	: return u = new uni_vec2(name, input<vec2>()(ss));
+						case uni_vec3::ID	: return u = new uni_vec3(name, input<vec3>()(ss));
+						case uni_vec4::ID	: return u = new uni_vec4(name, input<vec4>()(ss));
+						case uni_color::ID	: return u = new uni_color(name, input<vec4>()(ss));
+						case uni_mat2::ID	: return u = new uni_mat2(name, input<mat2>()(ss));
+						case uni_mat3::ID	: return u = new uni_mat3(name, input<mat3>()(ss));
+						case uni_mat4::ID	: return u = new uni_mat4(name, input<mat4>()(ss));
 						case uni_sampler::ID:
-						{
-							Map<String, ptr_t<Texture>>::const_iterator it;
-							return (t && ((it = t->find(String(ss.str()).trim())) != t->end()))
-								? u = new uni_sampler(name, it->second)
-								: u = new uni_sampler(name, nullptr);
+							if (t)
+							{
+								auto it{ t->find(String(ss.str()).trim()) };
+								return (it != t->end())
+									? u = new uni_sampler(name, it->second)
+									: u = new uni_sampler(name, nullptr);
+							}
 						}
-						}
-						return u = nullptr;
+						return (u = nullptr);
 					})(u_type, u_name, u_data, textures))
 					{
-						m_uniforms.push_back(u);
+						this->insert(u);
 					}
 				}
 			}
 
 			file.close();
-
-			std::sort(begin(), end(),
-				[&](auto lhs, auto rhs) { return lhs->name < rhs->name; });
-
 			return true;
 		}
 		return false;

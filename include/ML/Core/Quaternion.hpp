@@ -85,25 +85,23 @@ namespace ml
 
 		constexpr value_type pitch() const
 		{
-			return gcem::atan2<value_type>(
+			return gcem::atan2(
 				(2.0f * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
-				(this->real() * this->real() - (*this)[0] *
-					(*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
+				(this->real() * this->real() - (*this)[0] * (*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
 			);
 		}
 
 		constexpr value_type roll() const
 		{
-			return gcem::atan2<value_type>(
+			return gcem::atan2(
 				(2.0f * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
-				(this->real() * this->real() + (*this)[0] * (*this)[0] -
-					(*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
+				(this->real() * this->real() + (*this)[0] * (*this)[0] - (*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
 			);
 		}
 
 		constexpr value_type yaw() const
 		{
-			return gcem::asin<value_type>(alg::clamp(
+			return gcem::asin(alg::clamp(
 				(2.0f * ((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
 				-1.0f,
 				1.0f
@@ -116,15 +114,15 @@ namespace ml
 		{
 			// not sure if this is correct
 			return tmat3<value_type> {
-				(1.0f - 2.0f	 * ((*this)[1] * (*this)[1]) - 2.0f   * ((*this)[2] * (*this)[2])),
-				(2.0f * ((*this)[0] * (*this)[1]) - 2.0f   * ((*this)[2] * (*this)[3])),
-				(2.0f * ((*this)[0] * (*this)[2]) + 2.0f   * ((*this)[1] * (*this)[3])),
-				(2.0f * ((*this)[0] * (*this)[1]) + 2.0f   * ((*this)[2] * (*this)[3])),
-				(1.0f - 2.0f   * ((*this)[0] * (*this)[0]) - 2.0f   * ((*this)[2] * (*this)[2])),
-				(2.0f * ((*this)[1] * (*this)[2]) - 2.0f   * ((*this)[0] * (*this)[3])),
-				(2.0f * ((*this)[0] * (*this)[2]) - 2.0f   * ((*this)[1] * (*this)[3])),
-				(2.0f * ((*this)[1] * (*this)[2]) + 2.0f   * ((*this)[0] * (*this)[3])),
-				(1.0f - 2.0f   * ((*this)[0] * (*this)[0]) - 2.0f   * ((*this)[1] * (*this)[1]))
+				(1.0f - 2.0f * ((*this)[1] * (*this)[1]) - 2.0f   * ((*this)[2] * (*this)[2])),
+				(2.0f * ((*this)[0] * (*this)[1]) - 2.0f * ((*this)[2] * (*this)[3])),
+				(2.0f * ((*this)[0] * (*this)[2]) + 2.0f * ((*this)[1] * (*this)[3])),
+				(2.0f * ((*this)[0] * (*this)[1]) + 2.0f * ((*this)[2] * (*this)[3])),
+				(1.0f - 2.0f * ((*this)[0] * (*this)[0]) - 2.0f   * ((*this)[2] * (*this)[2])),
+				(2.0f * ((*this)[1] * (*this)[2]) - 2.0f * ((*this)[0] * (*this)[3])),
+				(2.0f * ((*this)[0] * (*this)[2]) - 2.0f * ((*this)[1] * (*this)[3])),
+				(2.0f * ((*this)[1] * (*this)[2]) + 2.0f * ((*this)[0] * (*this)[3])),
+				(1.0f - 2.0f * ((*this)[0] * (*this)[0]) - 2.0f   * ((*this)[1] * (*this)[1]))
 			};
 		}
 

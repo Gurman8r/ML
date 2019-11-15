@@ -58,21 +58,25 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		String name;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		explicit Uniform(const String & name) : name { name } {}
+		explicit Uniform(const String & name) : m_name { name } {}
 
 		virtual ~Uniform() {}
 
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		virtual Uniform * clone() const = 0;
 		
-		virtual const hash_t & getID() const = 0;
+		virtual hash_t getID() const = 0;
 
-		virtual const typeof<> & getType() const = 0;
+		virtual typeof<> getInfo() const = 0;
 		
 		virtual bool_t isModifiable() const = 0;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline auto getName() const -> const String & { return m_name; }
+
+		inline auto setName(const String & value) -> const String & { return (m_name = value); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -93,7 +97,7 @@ namespace ml
 
 		inline friend bool_t operator<(const Uniform & lhs, const Uniform & rhs)
 		{
-			return ((lhs.getID() < rhs.getID()) || (lhs.name < rhs.name));
+			return ((lhs.getID() < rhs.getID()) || (lhs.getName() < rhs.getName()));
 		}
 
 		inline friend bool_t operator==(const Uniform & lhs, const Uniform & rhs)
@@ -105,6 +109,11 @@ namespace ml
 		{
 			return !(lhs == rhs);
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private:
+		String m_name;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -122,46 +131,47 @@ namespace ml
 		
 		using self_type = typename UniformImpl<base_type, value_type>;
 
-		static constexpr hash_t ID { Uniform::category<base_type>() };
-
-		static constexpr typeof<> type { typeof<value_type>() };
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		value_type data;
+		static constexpr hash_t ID{ Uniform::category<base_type>() };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		explicit UniformImpl(const String & name, value_type data)
-			: Uniform { name }, data { data }
+			: Uniform { name }, m_data { data }
 		{
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline self_type * clone() const override
 		{
-			return new self_type { name, data }; 
+			return new self_type { getName(), getData() }; 
 		}
 
-		inline const hash_t & getID() const override
-		{
-			return self_type::ID;
-		}
+		inline hash_t getID() const override { return self_type::ID; }
 
-		inline const typeof<> & getType() const override
-		{
-			return self_type::type;
-		}
+		inline typeof<> getInfo() const override { return typeof<value_type>{}; }
 
 		inline bool_t isModifiable() const override
 		{
 			// uniform owns its value and is not a function
 			static const bool_t is_fun { 
-				getType().name.str().find("function") != String::npos
+				getInfo().name.str().find("function") != String::npos
 			};
 			return (std::is_same_v<value_type, detail::decay_t<value_type>> 
 				|| std::is_same_v<value_type, const_ptr_t<Texture>>)
 				&& !is_fun;
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline const_ref_t<value_type> getData() const { return m_data; }
+
+		inline const_ref_t<value_type> setData(value_type value) { return (m_data = value); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private:
+		value_type m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -214,16 +224,16 @@ namespace ml
 		{
 			static bool_t temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<bool_t>::hash:
-				return &(temp = static_cast<const uni_bool *>(value)->data);
+				return &(temp = static_cast<const uni_bool *>(value)->getData());
 			
 			case typeof<const_ptr_t<bool_t>>::hash:
-				return &(temp = *(static_cast<const uni_bool_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_bool_ptr *>(value)->getData()));
 
 			case typeof<std::function<bool_t()>>::hash:
-				return &(temp = static_cast<const uni_bool_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_bool_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -232,16 +242,16 @@ namespace ml
 		{
 			static float_t temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<float_t>::hash:
-				return &(temp = static_cast<const uni_float *>(value)->data);
+				return &(temp = static_cast<const uni_float *>(value)->getData());
 			
 			case typeof<const_ptr_t<float_t>>::hash:
-				return &(temp = *(static_cast<const uni_float_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_float_ptr *>(value)->getData()));
 
 			case typeof<std::function<float_t()>>::hash:
-				return &(temp = static_cast<const uni_float_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_float_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -250,16 +260,16 @@ namespace ml
 		{
 			static int32_t temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<int32_t>::hash:
-				return &(temp = static_cast<const uni_int *>(value)->data);
+				return &(temp = static_cast<const uni_int *>(value)->getData());
 
 			case typeof<const_ptr_t<int32_t>>::hash:
-				return &(temp = *(static_cast<const uni_int_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_int_ptr *>(value)->getData()));
 
 			case typeof<std::function<int32_t()>>::hash:
-				return &(temp = static_cast<const uni_int_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_int_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -268,16 +278,16 @@ namespace ml
 		{
 			static vec2 temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<vec2>::hash:
-				return &(temp = static_cast<const uni_vec2 *>(value)->data);
+				return &(temp = static_cast<const uni_vec2 *>(value)->getData());
 			
 			case typeof<const_ptr_t<vec2>>::hash:
-				return &(temp = *(static_cast<const uni_vec2_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_vec2_ptr *>(value)->getData()));
 
 			case typeof<std::function<vec2()>>::hash:
-				return &(temp = static_cast<const uni_vec2_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_vec2_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -286,16 +296,16 @@ namespace ml
 		{
 			static vec3 temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<vec3>::hash:
-				return &(temp = static_cast<const uni_vec3 *>(value)->data);
+				return &(temp = static_cast<const uni_vec3 *>(value)->getData());
 			
 			case typeof<const_ptr_t<vec3>>::hash:
-				return &(temp = *(static_cast<const uni_vec3_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_vec3_ptr *>(value)->getData()));
 
 			case typeof<std::function<vec3()>>::hash:
-				return &(temp = static_cast<const uni_vec3_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_vec3_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -304,16 +314,16 @@ namespace ml
 		{
 			static vec4 temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<vec4>::hash:
-				return &(temp = static_cast<const uni_vec4 *>(value)->data);
+				return &(temp = static_cast<const uni_vec4 *>(value)->getData());
 			
 			case typeof<const_ptr_t<vec4>>::hash:
-				return &(temp = *(static_cast<const uni_vec4_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_vec4_ptr *>(value)->getData()));
 
 			case typeof<std::function<vec4()>>::hash:
-				return &(temp = static_cast<const uni_vec4_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_vec4_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -322,16 +332,16 @@ namespace ml
 		{
 			static Color temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<Color>::hash:
-				return &(temp = static_cast<const uni_color *>(value)->data);
+				return &(temp = static_cast<const uni_color *>(value)->getData());
 			
 			case typeof<const_ptr_t<Color>>::hash:
-				return &(temp = *(static_cast<const uni_color_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_color_ptr *>(value)->getData()));
 
 			case typeof<std::function<Color()>>::hash:
-				return &(temp = static_cast<const uni_color_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_color_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -340,16 +350,16 @@ namespace ml
 		{
 			static mat2 temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<mat2>::hash:
-				return &(temp = static_cast<const uni_mat2 *>(value)->data);
+				return &(temp = static_cast<const uni_mat2 *>(value)->getData());
 			
 			case typeof<const_ptr_t<mat2>>::hash:
-				return &(temp = *(static_cast<const uni_mat2_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_mat2_ptr *>(value)->getData()));
 
 			case typeof<std::function<mat2()>>::hash:
-				return &(temp = static_cast<const uni_mat2_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_mat2_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -358,16 +368,16 @@ namespace ml
 		{
 			static mat3 temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<mat3>::hash:
-				return &(temp = static_cast<const uni_mat3 *>(value)->data);
+				return &(temp = static_cast<const uni_mat3 *>(value)->getData());
 			
 			case typeof<const_ptr_t<mat3>>::hash:
-				return &(temp = *(static_cast<const uni_mat3_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_mat3_ptr *>(value)->getData()));
 
 			case typeof<std::function<mat3()>>::hash:
-				return &(temp = static_cast<const uni_mat3_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_mat3_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -376,16 +386,16 @@ namespace ml
 		{
 			static mat4 temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<mat4>::hash:
-				return &(temp = static_cast<const uni_mat4 *>(value)->data);
+				return &(temp = static_cast<const uni_mat4 *>(value)->getData());
 			
 			case typeof<const_ptr_t<mat4>>::hash:
-				return &(temp = *(static_cast<const uni_mat4_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_mat4_ptr *>(value)->getData()));
 
 			case typeof<std::function<mat4()>>::hash:
-				return &(temp = static_cast<const uni_mat4_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_mat4_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}
@@ -394,16 +404,16 @@ namespace ml
 		{
 			static const_ptr_t<Texture> temp { 0 };
 			if (!value) return nullptr;
-			switch (value->getType().hash)
+			switch (value->getInfo().hash)
 			{
 			case typeof<const_ptr_t<Texture>>::hash:
-				return &(temp = static_cast<const uni_sampler *>(value)->data);
+				return &(temp = static_cast<const uni_sampler *>(value)->getData());
 
 			case typeof<const_ptr_t<const_ptr_t<Texture>>>::hash:
-				return &(temp = *(static_cast<const uni_sampler_ptr *>(value)->data));
+				return &(temp = *(static_cast<const uni_sampler_ptr *>(value)->getData()));
 
 			case typeof<std::function<const_ptr_t<Texture>()>>::hash:
-				return &(temp = static_cast<const uni_sampler_clbk *>(value)->data());
+				return &(temp = static_cast<const uni_sampler_clbk *>(value)->getData()());
 			}
 			return nullptr;
 		}

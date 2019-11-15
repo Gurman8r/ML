@@ -695,7 +695,7 @@ namespace ml
 						if (to_add && !m->insert(to_add))
 						{
 							Debug::logError("A uniform with the name \'{0}\' already exists",
-								to_add->name
+								to_add->getName()
 							);
 							delete to_add;
 						}
@@ -713,7 +713,7 @@ namespace ml
 							ss << std::left
 								<< "uniform "
 								<< std::setw(7) << util::to_string(*u) << " "
-								<< std::setw(15) << u->name << " "
+								<< std::setw(15) << u->getName() << " "
 								<< "{ ";
 							switch (u->getID())
 							{
@@ -767,12 +767,12 @@ namespace ml
 						auto sort_name_ascending = ([&]() { std::sort(
 							m->begin(),
 							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->name) < (rhs->name); }); });
+							[](auto lhs, auto rhs) { return (lhs->getName()) < (rhs->getName()); }); });
 
 						auto sort_name_descending = ([&]() { std::sort(
 							m->begin(),
 							m->end(),
-							[](auto lhs, auto rhs) { return (lhs->name) > (rhs->name); }); });
+							[](auto lhs, auto rhs) { return (lhs->getName()) > (rhs->getName()); }); });
 
 						static bool state { 0 };
 						if (state = !state) { sort_name_ascending(); }
@@ -809,7 +809,7 @@ namespace ml
 					{
 						if (!u) continue;
 						ImGui::Columns(3, "##Uni##Columns");
-						const String label { "##Uni##" + u->name };
+						const String label { "##Uni##" + u->getName() };
 						const float_t color_ref{ (float_t)u->getID() / (float_t)Uniform::MAX_UNIFORM_TYPE };
 
 						// Uniform Type
@@ -825,7 +825,7 @@ namespace ml
 						if (u->isModifiable())
 						{
 							static char name[32] = "";
-							std::strcpy(name, u->name.c_str());
+							std::strcpy(name, u->getName().c_str());
 							const bool input_submit{ ImGui::InputText(
 								(label + "##Name").c_str(),
 								name,
@@ -834,13 +834,15 @@ namespace ml
 							) };
 							if (input_submit)
 							{
-								if (!m->get(name)) { u->name = name; }
-								else { Debug::logError("A uniform with that name already exists"); }
+								if (!m->rename(u->getName(), name))
+								{
+									Debug::logError("A uniform with that name already exists"); 
+								}
 							}
 						}
 						else
 						{
-							ImGui::Text(u->name.c_str());
+							ImGui::Text(u->getName().c_str());
 						}
 						ImGui::PopItemWidth();
 						ImGui::NextColumn();
@@ -858,7 +860,7 @@ namespace ml
 							if (ImGuiExt::Confirm(
 								"Delete Uniform",
 								ImGui::Button("Delete"),
-								"Are you sure you want to delete uniform {0}?"_s.format(u->name)
+								"Are you sure you want to delete uniform {0}?"_s.format(u->getName())
 							) == ImGuiExt::Submitted)
 							{
 								to_remove = u;

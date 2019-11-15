@@ -1,9 +1,10 @@
-#ifndef _ML_EDITOR_FORM_HPP_
-#define _ML_EDITOR_FORM_HPP_
+#ifndef _ML_EDITOR_COMPONENT_HPP_
+#define _ML_EDITOR_COMPONENT_HPP_
 
 #include <ML/Editor/Export.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Editor/EditorEvents.hpp>
+#include <ML/Core/Disposable.hpp>
 #include <ML/Core/Newable.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
@@ -12,7 +13,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorWindow : public NonCopyable
+	class ML_EDITOR_API EditorComponent : public NonCopyable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -21,10 +22,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		EditorWindow(C_String title, C_String hotkey, bool startOpen);
+		EditorComponent(C_String title, C_String hotkey, bool startOpen);
 
-		virtual ~EditorWindow() {}
+		virtual ~EditorComponent() {}
 
+		virtual bool dispose() override;
 		virtual void update() = 0;
 		virtual bool beginDraw(int32_t flags);
 		virtual bool draw() = 0;
@@ -62,4 +64,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_EDITOR_FORM_HPP_
+#endif // !_ML_EDITOR_COMPONENT_HPP_

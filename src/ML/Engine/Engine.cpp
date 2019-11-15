@@ -131,14 +131,12 @@ namespace ml
 				} });
 				content().insert<Uniform>("u_mouse", new uni_vec4_clbk{ "u_mouse", [&]() {
 					return vec4 {
-						window().getCursorPos()[0], window().getCursorPos()[1],
+						window().getCursorPos()[0],
+						window().getCursorPos()[1],
 						(float_t)window().getMouseButton(MouseButton::Button0),
 						(float_t)window().getMouseButton(MouseButton::Button1)
 					};
 				} });
-				//content().insert<Uniform>("u_scroll", new uni_vec2_clbk{ "u_scroll", [&]() {
-				//	return window().getScroll();
-				//} });
 				content().insert<Uniform>("u_time", new uni_float_clbk{ "u_time", [&]() {
 					return time().totalTime();
 				} });

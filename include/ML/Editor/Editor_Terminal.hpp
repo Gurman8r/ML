@@ -1,19 +1,19 @@
 #ifndef _ML_EDITOR_TERMINAL_HPP_
 #define _ML_EDITOR_TERMINAL_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorComponent.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorTerminal final : public EditorWindow
+	class ML_EDITOR_API Editor_Terminal final : public EditorComponent
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
-		EditorTerminal();
+		Editor_Terminal();
 
 		void update() override;
 		

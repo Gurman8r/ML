@@ -5,6 +5,7 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/EditorEvents.hpp>
+#include <ML/Editor/Editor.hpp>
 
 namespace ml
 {
@@ -14,7 +15,7 @@ namespace ml
 	{
 		TestPlugin() : Plugin {}
 		{
-			ML_EventSystem.addListener<MainMenuBarEvent>(this);
+			ML_EventSystem.addListener<StartEvent>(this);
 		}
 
 		~TestPlugin() {}
@@ -23,23 +24,19 @@ namespace ml
 		{
 			switch (*value)
 			{
-			case MainMenuBarEvent::ID:
-				if (auto ev = value.as<MainMenuBarEvent>())
+				case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
 				{
-					switch (ev->submenu)
+					ML_Editor.mainMenuBar().addMenu("Plugins", [&]() 
 					{
-					case MainMenuBarEvent::Plugins:
 						ImGui::PushID(ML_ADDRESSOF(this));
-						if (ImGui::BeginMenu(nameof<>::filter_namespace(get_type_info().name()).c_str()))
+						if (ImGui::BeginMenu("Test Plugin"))
 						{
 							ImGui::Text("Sample text.");
 							ImGui::EndMenu();
 						}
 						ImGui::PopID();
-						break;
-					}
-				}
-				break;
+					});
+				} break;
 			}
 		}
 	};

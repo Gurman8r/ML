@@ -10,8 +10,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	RenderWindow::RenderWindow()
-		: Window {}
+	RenderWindow::RenderWindow() : Window {}
 	{
 		ML_EventSystem.addListener(OpenGLErrorEvent::ID, this);
 	}
@@ -22,14 +21,9 @@ namespace ml
 
 	bool RenderWindow::setup()
 	{
-		if (!Window::setup())
+		if (!Window::setup() || !ML_GL.init())
 		{
-			return false; 
-		}
-
-		if (!ML_GL.init())
-		{
-			return Debug::logError("Failed Initializing GLEW");
+			return Debug::logError("Failed Initializing Render Window");
 		}
 
 		ML_GL.validateVersion(m_context.major, m_context.minor);

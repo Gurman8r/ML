@@ -1,19 +1,19 @@
 #ifndef _ML_EDITOR_PROFILER_HPP_
 #define _ML_EDITOR_PROFILER_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorComponent.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorProfiler final : public EditorWindow
+	class ML_EDITOR_API Editor_Profiler final : public EditorComponent
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
-		EditorProfiler();
+		Editor_Profiler();
 
 		void update() override;
 

@@ -9,7 +9,7 @@ namespace ml
 
 	class	Editor;
 	struct	GameTime;
-	class	EditorDockspace;
+	class	Editor_Dockspace;
 	struct	RenderWindow;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -21,7 +21,6 @@ namespace ml
 		EV_BeginGui,
 		EV_Gui,
 		EV_EndGui,
-		EV_MainMenuBar,
 		EV_Dockspace,
 
 		MAX_EDITOR_EVENT
@@ -56,25 +55,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct MainMenuBarEvent final : public EditorEvent<EditorEventType::EV_MainMenuBar>
-	{
-		enum Menu : int32_t
-		{ 
-			File, Edit, View, Window, Options, Plugins, Help, User,
-			MAX_MAIN_MENU_BAR_MENU
-		};
-
-		const Menu submenu;
-		constexpr MainMenuBarEvent(const Menu submenu) 
-			: submenu(submenu)
-		{
-		}
-	};
-
 	struct DockspaceEvent final : public EditorEvent<EditorEventType::EV_Dockspace>
 	{
-		EditorDockspace & dockspace;
-		constexpr DockspaceEvent(EditorDockspace & dockspace)
+		Editor_Dockspace & dockspace;
+		constexpr DockspaceEvent(Editor_Dockspace & dockspace)
 			: dockspace(dockspace)
 		{
 		}

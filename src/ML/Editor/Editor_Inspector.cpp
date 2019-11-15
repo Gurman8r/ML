@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorContent.hpp>
+#include <ML/Editor/Editor_Content.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -23,7 +23,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct EditorInspector::Layout
+	struct Editor_Inspector::Layout
 	{
 		template <class T>
 		inline static void draw_item(ptr_t<void> ptr, const String & name)
@@ -44,24 +44,24 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorInspector::EditorInspector()
-		: EditorWindow { "Inspector", "Ctrl+Alt+I", false }
+	Editor_Inspector::Editor_Inspector()
+		: EditorComponent { "Inspector", "Ctrl+Alt+I", false }
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorInspector::update()
+	void Editor_Inspector::update()
 	{
 	}
 
-	bool EditorInspector::draw()
+	bool Editor_Inspector::draw()
 	{
 		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
 
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
-			EditorContent & c { ML_Editor.content() };
+			Editor_Content & c { ML_Editor.content() };
 
 			/* * * * * * * * * * * * * * * * * * * * */
 

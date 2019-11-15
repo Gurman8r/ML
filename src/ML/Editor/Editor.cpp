@@ -23,14 +23,15 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor()
-		: m_about		{ }
-		, m_dockspace	{ }
-		, m_explorer	{ }
-		, m_content		{ }
-		, m_inspector	{ }
-		, m_manual		{ }
-		, m_profiler	{ }
-		, m_terminal	{ }
+		: m_about{}
+		, m_dockspace{}
+		, m_explorer{}
+		, m_content{}
+		, m_inspector{}
+		, m_manual{}
+		, m_mainMenuBar{}
+		, m_profiler{}
+		, m_terminal{}
 	{
 		ML_EventSystem.addListener<EnterEvent>(this);
 		ML_EventSystem.addListener<LoadEvent>(this);
@@ -75,7 +76,7 @@ namespace ml
 				{
 					io.IniFilename = nullptr;
 				}
-		
+
 				// Log File
 				if (!ML_Engine.prefs().get_bool("Editor", "enable_log", true))
 				{
@@ -93,11 +94,11 @@ namespace ml
 					case Hash("light"): { ImGui::StyleColorsLight(); } break;
 				}
 				ImGuiStyleLoader().loadFromFile(ML_FS.pathTo(styleConf));
-			
+
 				// Font
-				if (String fontFile { ML_Engine.prefs().get_string("Editor", "font_file", "") })
+				if (String fontFile{ ML_Engine.prefs().get_string("Editor", "font_file", "") })
 				{
-					float_t fontSize { ML_Engine.prefs().get_float("Editor", "font_size", 20.f) };
+					float_t fontSize{ ML_Engine.prefs().get_float("Editor", "font_size", 20.f) };
 					if (fontSize > 0.0f)
 					{
 						ImGui::GetIO().Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);
@@ -108,21 +109,21 @@ namespace ml
 				ML_ASSERT(ImGui_ImplGlfw_InitForOpenGL(
 					(GLFWwindow *)ML_Engine.window().getHandle(), true
 				));
-			
+
 				// Imgui OpenGL3 Init
 				ML_ASSERT(ImGui_ImplOpenGL3_Init(
 					"#version 130"
 				));
 
 				// Setup Windows
-				m_about		.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about",		false));
-				m_content	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content",	false));
-				m_dockspace	.setOpen(ML_Engine.prefs().get_bool("Editor", "enable_docking", true));
-				m_explorer	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer",	false));
-				m_inspector	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_inspector",	false));
-				m_manual	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual",	false));
-				m_profiler	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_profiler",	false));
-				m_terminal	.setOpen(ML_Engine.prefs().get_bool("Editor", "show_terminal",	false));
+				m_about.setOpen(ML_Engine.prefs().get_bool("Editor", "show_about", false));
+				m_content.setOpen(ML_Engine.prefs().get_bool("Editor", "show_content", false));
+				m_dockspace.setOpen(ML_Engine.prefs().get_bool("Editor", "enable_docking", true));
+				m_explorer.setOpen(ML_Engine.prefs().get_bool("Editor", "show_explorer", false));
+				m_inspector.setOpen(ML_Engine.prefs().get_bool("Editor", "show_inspector", false));
+				m_manual.setOpen(ML_Engine.prefs().get_bool("Editor", "show_manual", false));
+				m_profiler.setOpen(ML_Engine.prefs().get_bool("Editor", "show_profiler", false));
+				m_terminal.setOpen(ML_Engine.prefs().get_bool("Editor", "show_terminal", false));
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
@@ -133,6 +134,73 @@ namespace ml
 				m_terminal.redirect(cout);
 
 				/* * * * * * * * * * * * * * * * * * * * */
+
+				m_mainMenuBar.addMenu("File", [&]()
+				{
+					if (ImGui::BeginMenu("New"))
+					{
+						ptr_t<void> temp{ nullptr };
+						if ((PropertyDrawer<Entity>()("Entity##File##Create", (ptr_t<Entity> &)temp)) ||
+							(PropertyDrawer<Font>()("Font##File##Create", (ptr_t<Font> &)temp)) ||
+							(PropertyDrawer<Image>()("Image##File##Create", (ptr_t<Image> &)temp)) ||
+							(PropertyDrawer<Material>()("Material##File##Create", (ptr_t<Material> &)temp)) ||
+							(PropertyDrawer<Model>()("Model##File##Create", (ptr_t<Model> &)temp)) ||
+							(PropertyDrawer<Shader>()("Shader##File##Create", (ptr_t<Shader> &)temp)) ||
+							(PropertyDrawer<Script>()("Script##File##Create", (ptr_t<Script> &)temp)) ||
+							(PropertyDrawer<Texture>()("Texture##File##Create", (ptr_t<Texture> &)temp))
+							)
+						{
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::EndMenu();
+					}
+					ImGui::Separator();
+					if (ImGui::MenuItem("Quit", "Alt+F4"))
+					{
+						ML_EventSystem.fireEvent<WindowKillEvent>();
+					}
+				});
+				m_mainMenuBar.addMenu("Window", [&]()
+				{
+					m_content.MenuItem();
+					m_explorer.MenuItem();
+					m_inspector.MenuItem();
+					m_profiler.MenuItem();
+					m_terminal.MenuItem();
+				});
+				m_mainMenuBar.addMenu("Options", [&]()
+				{
+					auto & io{ ImGui::GetIO() };
+					if (ImGui::BeginMenu("Style"))
+					{
+						if (ImGui::BeginMenu("Style Editor"))
+						{
+							ImGui::ShowStyleEditor();
+							ImGui::EndMenu();
+						}
+						ImGui::EndMenu();
+					}
+					bool fullScreen{ ML_Engine.window().isFullscreen() };
+					if (ImGui::MenuItem("Fullscreen", "F11", &fullScreen))
+					{
+						ML_Engine.window().setFullscreen(fullScreen);
+					}
+				});
+				m_mainMenuBar.addMenu("Plugins", [&]()
+				{
+				});
+				m_mainMenuBar.addMenu("Help", [&]()
+				{
+					auto & io{ ImGui::GetIO() };
+					m_about.MenuItem();
+					ImGui::Separator();
+					if (ImGui::MenuItem("Repository", "http://")) { Debug::execute("open", ML_PROJECT_URL); }
+					if (ImGui::MenuItem("Downloads", "http://")) { Debug::execute("open", "https://bit.ly/ml_noobs"); }
+					ImGui::Separator();
+					ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
+				});
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
 			case UpdateEvent::ID: if (auto ev{ value.as<UpdateEvent>() })
 			{
@@ -140,9 +208,10 @@ namespace ml
 
 				m_about.update();
 				m_content.update();
-				m_explorer.update();
 				m_dockspace.update();
+				m_explorer.update();
 				m_inspector.update();
+				m_mainMenuBar.update();
 				m_manual.update();
 				m_profiler.update();
 				m_terminal.update();
@@ -164,9 +233,9 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				ImGui::PushID(ML_ADDRESSOF(this));
-				/*	Menu Bar	*/	if (m_show_main_menu_bar)	draw_main_menu_bar();
-				/*	ImGui Demo	*/	if (m_show_imgui_demo)		ImGui::ShowDemoWindow(&m_show_imgui_demo);
+				/*	Menu Bar	*/	if (m_mainMenuBar.isOpen())	m_mainMenuBar.draw();
 				/*	Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw();
+				/*	ImGui Demo	*/	if (m_show_imgui_demo)		ImGui::ShowDemoWindow(&m_show_imgui_demo);
 				/*	About		*/	if (m_about.isOpen())		m_about.draw();
 				/*	Content		*/	if (m_content.isOpen())		m_content.draw();
 				/*	Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw();
@@ -198,6 +267,7 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				m_mainMenuBar.dispose();
 				m_terminal.redirect(cout);
 				ImGui_ImplOpenGL3_Shutdown();
 				ImGui_ImplGlfw_Shutdown();
@@ -209,14 +279,14 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				EditorDockspace & d { ev->dockspace };
+				Editor_Dockspace & d{ ev->dockspace };
 				if (!d.isOpen()) return;
-				d.dockWindow(m_explorer	.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_profiler	.getTitle(), d.getNode(d.LeftDn));
+				d.dockWindow(m_explorer.getTitle(), d.getNode(d.RightUp));
+				d.dockWindow(m_profiler.getTitle(), d.getNode(d.LeftDn));
 				d.dockWindow(m_inspector.getTitle(), d.getNode(d.RightUp));
-				d.dockWindow(m_content	.getTitle(), d.getNode(d.RightDn));
-				d.dockWindow(m_terminal	.getTitle(), d.getNode(d.LeftDn));
-				d.dockWindow(m_about	.getTitle(), d.getNode(d.LeftUp));
+				d.dockWindow(m_content.getTitle(), d.getNode(d.RightDn));
+				d.dockWindow(m_terminal.getTitle(), d.getNode(d.LeftDn));
+				d.dockWindow(m_about.getTitle(), d.getNode(d.LeftUp));
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
@@ -224,7 +294,7 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				constexpr KeyEvent::Mods ctrl_alt { { 0, 1, 1, 0 } };
+				constexpr KeyEvent::Mods ctrl_alt{ { 0, 1, 1, 0 } };
 
 				// Show About | Ctrl + Alt + A
 				if (ev->getPress(KeyCode::A, ctrl_alt)) m_about.toggleOpen();
@@ -249,166 +319,6 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
-		}
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void Editor::draw_main_menu_bar()
-	{
-		if (ImGui::BeginMainMenuBar())
-		{
-			draw_file_menu		(true);
-			draw_edit_menu		(false);
-			draw_view_menu		(false);
-			draw_window_menu	(true);
-			draw_options_menu	(true);
-			draw_plugins_menu	(true);
-			draw_help_menu		(true);
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::User);
-			ImGui::EndMainMenuBar();
-		}
-	}
-
-	void Editor::draw_file_menu(bool enabled)
-	{
-		if (ImGui::BeginMenu("File"))
-		{
-			// File -> Create
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginMenu("New"))
-			{
-				ptr_t<void> temp { nullptr };
-				if ((PropertyDrawer<Entity>()("Entity##File##Create", (ptr_t<Entity> &)temp)) ||
-					(PropertyDrawer<Font>()("Font##File##Create", (ptr_t<Font> &)temp)) ||
-					(PropertyDrawer<Image>()("Image##File##Create", (ptr_t<Image> &)temp)) ||
-					(PropertyDrawer<Material>()("Material##File##Create", (ptr_t<Material> &)temp)) ||
-					(PropertyDrawer<Model>()("Model##File##Create", (ptr_t<Model> &)temp)) ||
-					(PropertyDrawer<Shader>()("Shader##File##Create", (ptr_t<Shader> &)temp)) ||
-					(PropertyDrawer<Script>()("Script##File##Create", (ptr_t<Script> &)temp)) ||
-					(PropertyDrawer<Texture>()("Texture##File##Create", (ptr_t<Texture> &)temp))
-					)
-				{
-					ImGui::CloseCurrentPopup();
-				}
-				ImGui::EndMenu();
-			}
-
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::File);
-
-			ImGui::Separator();
-
-			// File -> Quit
-			if (ImGui::MenuItem("Quit", "Alt+F4"))
-			{
-				ML_EventSystem.fireEvent<WindowKillEvent>();
-			}
-
-			ImGui::EndMenu();
-		}
-	}
-
-	void Editor::draw_edit_menu(bool enabled)
-	{
-		if (enabled && ImGui::BeginMenu("Edit"))
-		{
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Edit);
-
-			ImGui::EndMenu();
-		}
-	}
-
-	void Editor::draw_view_menu(bool enabled)
-	{
-		if (enabled && ImGui::BeginMenu("View"))
-		{
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::View);
-
-			ImGui::EndMenu();
-		}
-	}
-
-	void Editor::draw_window_menu(bool enabled)
-	{
-		if (enabled && ImGui::BeginMenu("Window"))
-		{
-			m_content.MenuItem();
-			
-			m_explorer.MenuItem();
-			
-			m_inspector.MenuItem();
-			
-			m_profiler.MenuItem();
-			
-			m_terminal.MenuItem();
-			
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Window);
-			
-			ImGui::EndMenu();
-		}
-	}
-
-	void Editor::draw_options_menu(bool enabled)
-	{
-		if (enabled && ImGui::BeginMenu("Options"))
-		{
-			auto & io { ImGui::GetIO() };
-
-			if (ImGui::BeginMenu("Style"))
-			{
-				if (ImGui::BeginMenu("Style Editor"))
-				{
-					ImGui::ShowStyleEditor();
-					ImGui::EndMenu();
-				}
-				ImGui::EndMenu();
-			}
-
-			bool fullScreen { ML_Engine.window().isFullscreen() };
-			if (ImGui::MenuItem("Fullscreen", "F11", &fullScreen))
-			{
-				ML_Engine.window().setFullscreen(fullScreen);
-			}
-			
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Options);
-			
-			ImGui::EndMenu();
-		}
-	}
-
-	void Editor::draw_plugins_menu(bool enabled)
-	{
-		if (enabled && ImGui::BeginMenu("Plugins"))
-		{
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Plugins);
-			
-			ImGui::EndMenu();
-		}
-	}
-
-	void Editor::draw_help_menu(bool enabled)
-	{
-		if (enabled && ImGui::BeginMenu("Help"))
-		{
-			auto & io { ImGui::GetIO() };
-
-			m_about.MenuItem();
-
-			ImGui::Separator();
-
-			if (ImGui::MenuItem("Repository", "http://"))
-				Debug::execute("open", ML_PROJECT_URL);
-
-			if (ImGui::MenuItem("Downloads", "http://"))
-				Debug::execute("open", "https://bit.ly/ml_noobs");
-
-			ImGui::Separator();
-
-			ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
-
-			ML_EventSystem.fireEvent<MainMenuBarEvent>(MainMenuBarEvent::Help);
-
-			ImGui::EndMenu();
 		}
 	}
 

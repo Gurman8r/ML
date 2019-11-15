@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorDockspace.hpp>
+#include <ML/Editor/Editor_Dockspace.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -8,8 +8,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorDockspace::EditorDockspace()
-		: EditorWindow	{ "Dockspace", "", true }
+	Editor_Dockspace::Editor_Dockspace()
+		: EditorComponent	{ "Dockspace", "", true }
 		, m_border		{ 0.0f }
 		, m_padding		{ 0.f, 0.f }
 		, m_rounding	{ 0.0f }
@@ -21,11 +21,11 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorDockspace::update()
+	void Editor_Dockspace::update()
 	{
 	}
 
-	bool EditorDockspace::beginDraw(int32_t flags)
+	bool Editor_Dockspace::beginDraw(int32_t flags)
 	{
 		if (m_good = (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable))
 		{
@@ -42,7 +42,7 @@ namespace ml
 			ImGui::SetNextWindowBgAlpha(m_bgAlpha);
 
 			// Begin
-			if (EditorWindow::beginDraw(flags))
+			if (EditorComponent::beginDraw(flags))
 			{
 				ImGui::PopStyleVar(3);
 			}
@@ -50,7 +50,7 @@ namespace ml
 		return m_good;
 	}
 
-	bool EditorDockspace::draw()
+	bool Editor_Dockspace::draw()
 	{
 		if (this->beginDraw(
 			ImGuiWindowFlags_NoTitleBar |
@@ -61,7 +61,7 @@ namespace ml
 			ImGuiWindowFlags_NoNavFocus |
 			ImGuiWindowFlags_NoDocking |
 			ImGuiWindowFlags_NoBackground |
-			ImGuiWindowFlags_MenuBar
+			(ML_Editor.mainMenuBar().isOpen() ? ImGuiWindowFlags_MenuBar : 0)
 		))
 		{
 			if (m_nodes[Root] = beginBuilder(m_dockflags))
@@ -81,7 +81,7 @@ namespace ml
 		return this->endDraw();
 	}
 
-	bool EditorDockspace::endDraw()
+	bool Editor_Dockspace::endDraw()
 	{
 		if (m_good)
 		{
@@ -92,12 +92,12 @@ namespace ml
 				m_dockflags
 			);
 		}
-		return EditorWindow::endDraw();
+		return EditorComponent::endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	uint32_t EditorDockspace::beginBuilder(int32_t flags)
+	uint32_t Editor_Dockspace::beginBuilder(int32_t flags)
 	{
 		if (uint32_t root { ImGui::GetID(getTitle()) })
 		{
@@ -111,7 +111,7 @@ namespace ml
 		return NULL;
 	}
 
-	uint32_t EditorDockspace::endBuilder(uint32_t root)
+	uint32_t Editor_Dockspace::endBuilder(uint32_t root)
 	{
 		if (root)
 		{
@@ -120,7 +120,7 @@ namespace ml
 		return root;
 	}
 
-	uint32_t EditorDockspace::dockWindow(C_String name, uint32_t id)
+	uint32_t Editor_Dockspace::dockWindow(C_String name, uint32_t id)
 	{
 		if (name && id)
 		{
@@ -130,12 +130,12 @@ namespace ml
 		return NULL;
 	}
 
-	uint32_t EditorDockspace::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * other)
+	uint32_t Editor_Dockspace::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * other)
 	{
 		return splitNode(id, dir, ratio, nullptr, other);
 	}
 
-	uint32_t EditorDockspace::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * out, uint32_t * other)
+	uint32_t Editor_Dockspace::splitNode(uint32_t id, int32_t dir, float_t ratio, uint32_t * out, uint32_t * other)
 	{
 		return ImGui::DockBuilderSplitNode(id, dir, ratio, out, other);
 	}

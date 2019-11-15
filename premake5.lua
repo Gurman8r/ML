@@ -26,7 +26,8 @@ filter { "system:Unix", "system:Mac" }
 	bin_obj = "%{sln_dir}bin-obj/"
 	ext_dir = "%{sln_dir}ext/"
 	ext_lib = "%{sln_dir}ext-lib/"
-	ml_copy	= "cp -rf"	
+	ext_bin = "%{sln_dir}ext-bin/"
+	ml_copy = "cp -rf"	
 	ml_move = "mv -f"
 	
 filter { "system:Windows" }
@@ -37,7 +38,8 @@ filter { "system:Windows" }
 	bin_obj = "%{sln_dir}bin-obj\\"
 	ext_dir = "%{sln_dir}ext\\"
 	ext_lib = "%{sln_dir}ext-lib\\"
-	ml_copy	= "xcopy /y"
+	ext_bin = "%{sln_dir}ext-bin\\"
+	ml_copy = "xcopy /y"
 	ml_move = "move /y"
 	
 

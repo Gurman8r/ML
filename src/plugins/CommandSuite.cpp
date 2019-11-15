@@ -12,6 +12,7 @@
 #include <ML/Engine/Preferences.hpp>
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
+#include <ML/Editor/Editor.hpp>
 
 namespace ml
 {
@@ -23,8 +24,7 @@ namespace ml
 
 		CommandSuite() : Plugin {}
 		{
-			ML_EventSystem.addListener<LoadEvent>(this);
-			ML_EventSystem.addListener<MainMenuBarEvent>(this);
+			ML_EventSystem.addListener<StartEvent>(this);
 		}
 
 		~CommandSuite() {}
@@ -33,9 +33,25 @@ namespace ml
 		{
 			switch (*value)
 			{
-			case LoadEvent::ID:
-				if (auto ev = value.as<LoadEvent>())
+				case StartEvent::ID: if (auto ev = value.as<StartEvent>())
 				{
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ML_Editor.mainMenuBar().addMenu("Plugins", [&]() 
+					{
+						ImGui::PushID(ML_ADDRESSOF(this));
+						if (ImGui::BeginMenu("Command Suite"))
+						{
+							for (auto & cmd : ML_Engine.commands())
+							{
+								ImGui::MenuItem(cmd->getName().c_str(), "");
+								ImGuiExt::Tooltip(util::to_string(*cmd));
+							}
+							ImGui::EndMenu();
+						}
+						ImGui::PopID();
+					});
+
 					/* * * * * * * * * * * * * * * * * * * * */
 
 					List<CommandImpl *> cmd;
@@ -309,28 +325,6 @@ namespace ml
 					}
 
 					/* * * * * * * * * * * * * * * * * * * * */
-				}
-				break;
-
-			case MainMenuBarEvent::ID:
-				if (auto ev = value.as<MainMenuBarEvent>())
-				{
-					switch (ev->submenu)
-					{
-					case MainMenuBarEvent::Plugins:
-						ImGui::PushID(ML_ADDRESSOF(this));
-						if (ImGui::BeginMenu(nameof<>::filter_namespace(get_type_info().name()).c_str()))
-						{
-							for (auto & cmd : ML_Engine.commands())
-							{
-								ImGui::MenuItem(cmd->getName().c_str(), "");
-								ImGuiExt::Tooltip(util::to_string(*cmd));
-							}
-							ImGui::EndMenu();
-						}
-						ImGui::PopID();
-						break;
-					}
 				}
 				break;
 			}

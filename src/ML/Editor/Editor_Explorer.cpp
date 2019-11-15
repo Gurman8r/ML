@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorExplorer.hpp>
+#include <ML/Editor/Editor_Explorer.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
@@ -11,20 +11,20 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorExplorer::EditorExplorer()
-		: EditorWindow	{ "Explorer", "Ctrl+Alt+E", false }
+	Editor_Explorer::Editor_Explorer()
+		: EditorComponent	{ "Explorer", "Ctrl+Alt+E", false }
 		, m_browser		{ }
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorExplorer::update()
+	void Editor_Explorer::update()
 	{
 		m_browser.update();
 	}
 
-	bool EditorExplorer::draw()
+	bool Editor_Explorer::draw()
 	{
 		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
 

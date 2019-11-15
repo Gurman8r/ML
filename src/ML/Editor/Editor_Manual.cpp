@@ -1,22 +1,22 @@
-#include <ML/Editor/EditorManual.hpp>
+#include <ML/Editor/Editor_Manual.hpp>
 #include <ML/Editor/ImGui.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorManual::EditorManual()
-		: EditorWindow { "Manual", "Ctrl+Alt+M", false }
+	Editor_Manual::Editor_Manual()
+		: EditorComponent { "Manual", "Ctrl+Alt+M", false }
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorManual::update()
+	void Editor_Manual::update()
 	{
 	}
 
-	bool EditorManual::draw()
+	bool Editor_Manual::draw()
 	{
 		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
 

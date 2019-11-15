@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorTerminal.hpp>
+#include <ML/Editor/Editor_Terminal.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -12,8 +12,8 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorTerminal::EditorTerminal()
-		: EditorWindow	{ "Terminal", "Ctrl+Alt+T", false }
+	Editor_Terminal::Editor_Terminal()
+		: EditorComponent	{ "Terminal", "Ctrl+Alt+T", false }
 		, m_coutBuf		{ nullptr }
 		, m_coutPtr		{ nullptr }
 		, m_coutStr		{}
@@ -35,11 +35,11 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorTerminal::update()
+	void Editor_Terminal::update()
 	{
 	}
 
-	bool EditorTerminal::draw()
+	bool Editor_Terminal::draw()
 	{
 		if (m_coutBuf)
 		{
@@ -144,7 +144,7 @@ namespace ml
 					ImGuiInputTextFlags_CallbackCompletion |
 					ImGuiInputTextFlags_CallbackHistory
 				),
-				[](auto data) { return ((EditorTerminal *)(data->UserData))->inputCallback(data); },
+				[](auto data) { return ((Editor_Terminal *)(data->UserData))->inputCallback(data); },
 				static_cast<ptr_t<void>>(this))
 			)
 			{
@@ -176,13 +176,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorTerminal::clear()
+	void Editor_Terminal::clear()
 	{
 		m_lines.clear();
 		m_scrollToBot = true;
 	}
 
-	void EditorTerminal::execute(C_String value)
+	void Editor_Terminal::execute(C_String value)
 	{
 		this->printf("# %s\n", value);
 
@@ -218,7 +218,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorTerminal::printf(C_String value, ...)
+	void Editor_Terminal::printf(C_String value, ...)
 	{
 		char buf[1024];
 		va_list args;
@@ -229,14 +229,14 @@ namespace ml
 		this->printl(buf);
 	}
 
-	void EditorTerminal::printl(const String & value)
+	void Editor_Terminal::printl(const String & value)
 	{
 		if (m_paused) return;
 		m_lines.push_back(value);
 		m_scrollToBot = true;
 	}
 
-	void EditorTerminal::printss(SStream & value)
+	void Editor_Terminal::printss(SStream & value)
 	{
 		if (const String & text = value.str())
 		{
@@ -250,7 +250,7 @@ namespace ml
 		}
 	}
 
-	bool EditorTerminal::redirect(std::ostream & value)
+	bool Editor_Terminal::redirect(std::ostream & value)
 	{
 		if (m_coutBuf && (m_coutPtr == &value))
 		{
@@ -274,7 +274,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	int32_t EditorTerminal::inputCallback(ptr_t<void> value)
+	int32_t Editor_Terminal::inputCallback(ptr_t<void> value)
 	{
 		ImGuiInputTextCallbackData * data;
 		if (!(data = (ImGuiInputTextCallbackData *)(value))) 

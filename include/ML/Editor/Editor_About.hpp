@@ -1,29 +1,25 @@
-#ifndef _ML_EDITOR_INSPECTOR_HPP_
-#define _ML_EDITOR_INSPECTOR_HPP_
+#ifndef _ML_EDITOR_ABOUT_HPP_
+#define _ML_EDITOR_ABOUT_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorComponent.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorInspector final : public EditorWindow
+	class ML_EDITOR_API Editor_About final : public EditorComponent
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
-		struct Layout;
+		Editor_About();
 
-		EditorInspector();
+		~Editor_About() {}
 
 		void update() override;
 
 		bool draw() override;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	public:
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -31,4 +27,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_EDITOR_INSPECTOR_HPP_
+#endif // !_ML_EDITOR_ABOUT_HPP_

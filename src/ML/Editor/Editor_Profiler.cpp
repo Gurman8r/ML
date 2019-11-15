@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorProfiler.hpp>
+#include <ML/Editor/Editor_Profiler.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Engine.hpp>
@@ -8,15 +8,15 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorProfiler::EditorProfiler()
-		: EditorWindow { "Profiler", "Ctrl+Alt+P", false }
+	Editor_Profiler::Editor_Profiler()
+		: EditorComponent { "Profiler", "Ctrl+Alt+P", false }
 		, graphs {}
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorProfiler::update()
+	void Editor_Profiler::update()
 	{
 		const float_t dt { ML_Engine.time().deltaTime() };
 		graphs[0].draw("Delta Time", dt, util::to_string(dt).c_str());
@@ -25,7 +25,7 @@ namespace ml
 		graphs[1].draw("Frame Rate", fr, util::to_string(fr).c_str());
 	}
 
-	bool EditorProfiler::draw()
+	bool Editor_Profiler::draw()
 	{
 		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
 
@@ -92,7 +92,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorProfiler::GraphLines::draw(C_String label, float_t sample, C_String text)
+	void Editor_Profiler::GraphLines::draw(C_String label, float_t sample, C_String text)
 	{
 		const float_t dt { ML_Engine.time().deltaTime() };
 
@@ -121,7 +121,7 @@ namespace ml
 		}
 	}
 
-	void EditorProfiler::GraphLines::render()
+	void Editor_Profiler::GraphLines::render()
 	{
 		size[0] =
 			(ImGui::GetContentRegionAvail().x -

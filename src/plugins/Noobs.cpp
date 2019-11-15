@@ -2,7 +2,6 @@
 
 #include <ML/Engine/Engine.hpp>
 #include <ML/Engine/Plugin.hpp>
-#include <ML/Core/PerformanceTracker.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Graphics/Material.hpp>
@@ -147,8 +146,6 @@ namespace ml
 		DisplayMode		m_displayMode	{ 0 };
 		int32_t			m_displayIndex	{ 0 };
 
-		List<std::pair<C_String, float64_t>> m_trackers{};
-
 		static constexpr auto display_name { "Display##Noobs##DemoView" };
 		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };
 
@@ -156,14 +153,12 @@ namespace ml
 
 		Noobs() : Plugin {}
 		{
-			ML_EventSystem.addListener<EndStepEvent>(this);
 			ML_EventSystem.addListener<StartEvent>(this);
 			ML_EventSystem.addListener<UpdateEvent>(this);
 			ML_EventSystem.addListener<DrawEvent>(this);
 			ML_EventSystem.addListener<GuiEvent>(this);
 			ML_EventSystem.addListener<UnloadEvent>(this);
 			ML_EventSystem.addListener<KeyEvent>(this);
-			ML_EventSystem.addListener<MainMenuBarEvent>(this);
 			ML_EventSystem.addListener<DockspaceEvent>(this);
 			ML_EventSystem.addListener<ShaderErrorEvent>(this);
 			ML_EventSystem.addListener<SecretEvent>(this);
@@ -180,6 +175,26 @@ namespace ml
 				case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
+
+					ML_Editor.mainMenuBar().addMenu("Window", [&]() 
+					{
+						ImGui::PushID(ML_ADDRESSOF(this));
+						ImGui::Separator();
+						ImGui::MenuItem("Editor##Noobs", "", &m_editor_open);
+						ImGui::MenuItem("Display##Noobs", "", &m_display_open);
+						ImGui::PopID();
+					});
+
+					ML_Editor.mainMenuBar().addMenu("Plugins", [&]() 
+					{
+						ImGui::PushID(ML_ADDRESSOF(this));
+						if (ImGui::BeginMenu("Noobs"))
+						{
+							draw_plugin_menu();
+							ImGui::EndMenu();
+						}
+						ImGui::PopID();
+					});
 
 					m_pipeline[0] = ML_Engine.content().get<Surface>("surf/main");
 					
@@ -310,26 +325,6 @@ namespace ml
 
 					draw_editor(editor_name);
 
-					if (!m_trackers.empty())
-					{
-						if (ImGui::Begin("Performance Tracker", 0, ImGuiWindowFlags_AlwaysAutoResize))
-						{
-							for (const auto & e : m_trackers)
-							{
-								ImGui::Text("%s : %.3fms", e.first, e.second);
-							}
-						}
-						ImGui::End();
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-				} break;
-				case EndStepEvent::ID: if (auto ev{ value.as<EndStepEvent>() })
-				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					m_trackers.clear();
-
 					/* * * * * * * * * * * * * * * * * * * * */
 				} break;
 				case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>()})
@@ -403,42 +398,11 @@ namespace ml
 
 					/* * * * * * * * * * * * * * * * * * * * */
 				} break;
-				case MainMenuBarEvent::ID: if (auto ev = value.as<MainMenuBarEvent>())
-				{
-					/* * * * * * * * * * * * * * * * * * * * */
-				
-					switch (ev->submenu)
-					{
-					case MainMenuBarEvent::Window:
-						ImGui::PushID(ML_ADDRESSOF(this));
-						ImGui::PushID(ev->submenu);
-						ImGui::Separator();
-						ImGui::MenuItem("Editor##Noobs", "", &m_editor_open);
-						ImGui::MenuItem("Display##Noobs", "", &m_display_open);
-						ImGui::PopID();
-						ImGui::PopID();
-						break;
-
-					case MainMenuBarEvent::Plugins:
-						ImGui::PushID(ML_ADDRESSOF(this));
-						ImGui::PushID(ev->submenu);
-						if (ImGui::BeginMenu(nameof<>::filter_namespace(get_type_info().name()).c_str()))
-						{
-							draw_plugin_menu();
-							ImGui::EndMenu();
-						}
-						ImGui::PopID();
-						ImGui::PopID();
-						break;
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
-				} break;
 				case DockspaceEvent::ID: if (auto ev = value.as<DockspaceEvent>())
 				{
 					/* * * * * * * * * * * * * * * * * * * * */
 
-					EditorDockspace & d { ev->dockspace };
+					Editor_Dockspace & d { ev->dockspace };
 					d.dockWindow(display_name, d.getNode(d.LeftUp));
 					d.dockWindow(editor_name, d.getNode(d.RightUp));
 
@@ -676,7 +640,7 @@ namespace ml
 
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (auto r { (m_entity ? m_entity->get<Renderer>() : nullptr) })
+			if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
 			{
 				if (auto m { r->material() })
 				{

@@ -1,21 +1,20 @@
-#ifndef _ML_EDITOR_MANUAL_HPP_
-#define _ML_EDITOR_MANUAL_HPP_
+#ifndef _ML_EDITOR_EXPLORER_HPP_
+#define _ML_EDITOR_EXPLORER_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorComponent.hpp>
+#include <ML/Editor/FileBrowser.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorManual final : public EditorWindow
+	class ML_EDITOR_API Editor_Explorer final : public EditorComponent
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 
-		EditorManual();
-
-		~EditorManual() {}
+		Editor_Explorer();
 
 		void update() override;
 
@@ -23,7 +22,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
+	private:
+		FileBrowser m_browser;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -31,4 +31,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_EDITOR_ABOUT_HPP_
+#endif // !_ML_EDITOR_EXPLORER_HPP_

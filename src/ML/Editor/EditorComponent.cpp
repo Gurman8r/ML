@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorComponent.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorWindow::EditorWindow(C_String title, C_String hotkey, bool startOpen)
+	EditorComponent::EditorComponent(C_String title, C_String hotkey, bool startOpen)
 		: m_title	{ title }
 		, m_hotkey	{ hotkey }
 		, m_open	{ startOpen }
@@ -20,7 +20,12 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorWindow::beginDraw(int32_t flags)
+	bool EditorComponent::dispose()
+	{
+		return true;
+	}
+
+	bool EditorComponent::beginDraw(int32_t flags)
 	{
 		ImGui::PushID((int32_t)typeof<>(*this).hash);
 		ImGui::PushID(ML_ADDRESSOF(this));
@@ -28,7 +33,7 @@ namespace ml
 		return m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags));
 	}
 
-	bool EditorWindow::endDraw()
+	bool EditorComponent::endDraw()
 	{
 		ImGui::End();
 		ImGui::PopID();
@@ -39,7 +44,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorWindow::Focus(bool value)
+	bool EditorComponent::Focus(bool value)
 	{
 		if (setOpen(value))
 		{
@@ -49,7 +54,7 @@ namespace ml
 		return false;
 	}
 
-	bool EditorWindow::MenuItem(bool showHotkey)
+	bool EditorComponent::MenuItem(bool showHotkey)
 	{
 		return ImGui::MenuItem(getTitle(), (showHotkey ? getHotkey() : nullptr), openPtr());
 	}

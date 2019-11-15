@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorContent.hpp>
+#include <ML/Editor/Editor_Content.hpp>
 #include <ML/Audio/Sound.hpp>
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -23,7 +23,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct EditorContent::Layout
+	struct Editor_Content::Layout
 	{
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -140,18 +140,18 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorContent::EditorContent()
-		: EditorWindow { "Content", "Ctrl+Alt+C", false }
+	Editor_Content::Editor_Content()
+		: EditorComponent { "Content", "Ctrl+Alt+C", false }
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorContent::update()
+	void Editor_Content::update()
 	{
 	}
 
-	bool EditorContent::draw()
+	bool Editor_Content::draw()
 	{
 		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
 

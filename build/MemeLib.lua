@@ -83,7 +83,7 @@ project "MemeLib"
 		symbols "On"
 		links { "python39_d", }
 		postbuildcommands {	
-			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out}",
+			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out}",
 		}
 	
 	filter { "system:Windows", "configurations:Debug" }
@@ -93,7 +93,7 @@ project "MemeLib"
 		optimize "Speed"
 		links { "python39", }
 		postbuildcommands {	
-			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out}",
+			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out}",
 		}
 	
 	filter { "system:Windows", "configurations:Release" }
@@ -104,9 +104,9 @@ project "MemeLib"
 		links { "ws2_32", }
 		postbuildcommands {	
 			"%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}",
-			"%{ml_copy} %{ext_lib}OpenAL32.dll %{bin_out}",
-			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",
-			"%{ml_copy} %{ext_lib}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}",
+			"%{ml_copy} %{ext_bin}OpenAL32.dll %{bin_out}",
+			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\pdcurses.dll %{bin_out}",
+			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\assimp.dll %{bin_out}",
 		}
 		
 		

@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorAbout.hpp>
+#include <ML/Editor/Editor_About.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 #include <ML/Graphics/OpenGL.hpp>
@@ -9,18 +9,18 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorAbout::EditorAbout()
-		: EditorWindow { "About", "Ctrl+Alt+A", false }
+	Editor_About::Editor_About()
+		: EditorComponent { "About", "Ctrl+Alt+A", false }
 	{
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void EditorAbout::update()
+	void Editor_About::update()
 	{
 	}
 
-	bool EditorAbout::draw()
+	bool Editor_About::draw()
 	{
 		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
 

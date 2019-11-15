@@ -1,19 +1,19 @@
 #ifndef _ML_EDITOR_DOCKSPACE_HPP_
 #define _ML_EDITOR_DOCKSPACE_HPP_
 
-#include <ML/Editor/EditorWindow.hpp>
+#include <ML/Editor/EditorComponent.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorDockspace final : public EditorWindow
+	class ML_EDITOR_API Editor_Dockspace final : public EditorComponent
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		friend class Editor;
 		
-		EditorDockspace();
+		Editor_Dockspace();
 
 		void update() override;
 

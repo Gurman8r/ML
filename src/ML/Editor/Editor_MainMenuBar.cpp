@@ -41,8 +41,9 @@ namespace ml
 				it != m_menus.end(); 
 				it = m_menus.upper_bound(it->first))
 			{
-				ImGui::PushID(it->first.c_str());
-				if (ImGui::BeginMenu(it->first.c_str()))
+				String name{ it->first.second };
+				ImGui::PushID(name.c_str());
+				if (ImGui::BeginMenu(name.c_str()))
 				{
 					auto funcs{ m_menus.equal_range(it->first) };
 					for (auto cur = funcs.first; cur != funcs.second; ++cur)

@@ -133,8 +133,6 @@ namespace ml
 
 				m_terminal.redirect(cout);
 
-				/* * * * * * * * * * * * * * * * * * * * */
-
 				m_mainMenuBar.addMenu("File", [&]()
 				{
 					if (ImGui::BeginMenu("New"))
@@ -160,6 +158,7 @@ namespace ml
 						ML_EventSystem.fireEvent<WindowKillEvent>();
 					}
 				});
+				
 				m_mainMenuBar.addMenu("Window", [&]()
 				{
 					m_content.MenuItem();
@@ -168,6 +167,7 @@ namespace ml
 					m_profiler.MenuItem();
 					m_terminal.MenuItem();
 				});
+				
 				m_mainMenuBar.addMenu("Options", [&]()
 				{
 					auto & io{ ImGui::GetIO() };
@@ -186,9 +186,9 @@ namespace ml
 						ML_Engine.window().setFullscreen(fullScreen);
 					}
 				});
-				m_mainMenuBar.addMenu("Plugins", [&]()
-				{
-				});
+				
+				m_mainMenuBar.addMenu("Plugins", [&]() {});
+				
 				m_mainMenuBar.addMenu("Help", [&]()
 				{
 					auto & io{ ImGui::GetIO() };

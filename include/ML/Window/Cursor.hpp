@@ -6,7 +6,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct Cursor final
 	{
@@ -79,82 +79,56 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Mode	mode;
-		Shape	shape;
-
-		constexpr Cursor(Mode mode, Shape shape)
-			: mode { mode }
-			, shape { shape }
+		static constexpr bool value_at(int32_t i, Cursor::Mode & value)
 		{
+			return alg::value_at(i, value, Cursor::Mode_values);
 		}
 
-		constexpr Cursor(const Cursor & copy)
-			: Cursor { copy.mode, copy.shape }
+		static constexpr int32_t index_of(const Cursor::Mode & value)
 		{
+			return alg::index_of(value, Cursor::Mode_values);
 		}
 
-		constexpr Cursor()
-			: Cursor { Mode::Normal, Shape::Arrow }
+		static constexpr C_String name_of(const Cursor::Mode & value)
 		{
+			const int32_t i = index_of(value);
+			return (i >= 0) ? Cursor::Mode_names[i] : "";
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		static constexpr bool value_at(int32_t i, Cursor::Shape & value)
+		{
+			return alg::value_at(i, value, Cursor::Shape_values);
+		}
+
+		static constexpr int32_t index_of(const Cursor::Shape & value)
+		{
+			return alg::index_of(value, Cursor::Shape_values);
+		}
+
+		static constexpr C_String name_of(const Cursor::Shape & value)
+		{
+			const int32_t i = index_of(value);
+			return (i >= 0) ? Cursor::Shape_names[i] : "";
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline friend ML_SERIALIZE(std::ostream & out, const Cursor::Mode & value)
+		{
+			return out << Cursor::name_of(value);
+		}
+
+		inline friend ML_SERIALIZE(std::ostream & out, const Cursor::Shape & value)
+		{
+			return out << Cursor::name_of(value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	static constexpr bool value_at(int32_t i, Cursor::Mode & value)
-	{
-		return alg::value_at(i, value, Cursor::Mode_values);
-	}
-
-	static constexpr int32_t index_of(const Cursor::Mode & value)
-	{
-		return alg::index_of(value, Cursor::Mode_values);
-	}
-
-	static constexpr C_String name_of(const Cursor::Mode & value)
-	{
-		const int32_t i = index_of(value);
-		return (i >= 0) ? Cursor::Mode_names[i] : "";
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	static constexpr bool value_at(int32_t i, Cursor::Shape & value)
-	{
-		return alg::value_at(i, value, Cursor::Shape_values);
-	}
-
-	static constexpr int32_t index_of(const Cursor::Shape & value)
-	{
-		return alg::index_of(value, Cursor::Shape_values);
-	}
-
-	static constexpr C_String name_of(const Cursor::Shape & value)
-	{
-		const int32_t i = index_of(value);
-		return (i >= 0) ? Cursor::Shape_names[i] : "";
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	inline ML_SERIALIZE(std::ostream & out, const Cursor::Mode & value)
-	{
-		return out << name_of(value);
-	}
-
-	inline ML_SERIALIZE(std::ostream & out, const Cursor::Shape & value)
-	{
-		return out << name_of(value);
-	}
-
-	inline ML_SERIALIZE(std::ostream & out, const Cursor & value)
-	{
-		return out << value.mode << " " << value.shape;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_CURSOR_HPP_

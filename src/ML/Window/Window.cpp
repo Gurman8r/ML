@@ -20,14 +20,14 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define GLFW_HAS_WINDOW_TOPMOST	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ GLFW_FLOATING
-#define GLFW_HAS_WINDOW_HOVERED	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_HOVERED
+#define GLFW_HAS_WINDOW_TOPMOST		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ GLFW_FLOATING
+#define GLFW_HAS_WINDOW_HOVERED		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_HOVERED
 #define GLFW_HAS_WINDOW_ALPHA		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwSetWindowOpacity
 #define GLFW_HAS_PER_MONITOR_DPI	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorContentScale
-#define GLFW_HAS_VULKAN			(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwCreateWindowSurface
+#define GLFW_HAS_VULKAN				(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwCreateWindowSurface
 #define GLFW_HAS_FOCUS_WINDOW		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwFocusWindow
 #define GLFW_HAS_FOCUS_ON_SHOW		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_FOCUS_ON_SHOW
-#define GLFW_HAS_MONITOR_WORK_AREA (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorWorkarea
+#define GLFW_HAS_MONITOR_WORK_AREA	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorWorkarea
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -119,25 +119,24 @@ namespace ml
 		glfwWindowHint(GLFW_SRGB_CAPABLE,			m_context.srgbCapable);
 
 		// Renderer Profile
-		if (m_context.profile <= 3)
-			glfwWindowHint(GLFW_OPENGL_PROFILE, 
-				((m_context.profile == 0)
-					? GLFW_OPENGL_DEBUG_CONTEXT
-					: ((m_context.profile == 1)
-						? GLFW_OPENGL_CORE_PROFILE
-						: ((m_context.profile == 2)
-							? GLFW_OPENGL_COMPAT_PROFILE
-							: GLFW_OPENGL_ANY_PROFILE
-							))));
+		glfwWindowHint(GLFW_OPENGL_PROFILE, 
+			((m_context.profile == 0)
+				? GLFW_OPENGL_DEBUG_CONTEXT
+				: ((m_context.profile == 1)
+					? GLFW_OPENGL_CORE_PROFILE
+					: ((m_context.profile == 2)
+						? GLFW_OPENGL_COMPAT_PROFILE
+						: GLFW_OPENGL_ANY_PROFILE
+						))));
 		
 		// Window Style
-		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable);
-		glfwWindowHint(GLFW_VISIBLE,		m_style.visible);
-		glfwWindowHint(GLFW_DECORATED,		m_style.decorated);
-		glfwWindowHint(GLFW_FOCUSED,		m_style.focused);
-		glfwWindowHint(GLFW_AUTO_ICONIFY,	m_style.autoIconify);
-		glfwWindowHint(GLFW_FLOATING,		m_style.floating);
-		glfwWindowHint(GLFW_MAXIMIZED,		m_style.maximized);
+		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable());
+		glfwWindowHint(GLFW_VISIBLE,		m_style.visible());
+		glfwWindowHint(GLFW_DECORATED,		m_style.decorated());
+		glfwWindowHint(GLFW_FOCUSED,		m_style.focused());
+		glfwWindowHint(GLFW_AUTO_ICONIFY,	m_style.autoIconify());
+		glfwWindowHint(GLFW_FLOATING,		m_style.floating());
+		glfwWindowHint(GLFW_MAXIMIZED,		m_style.maximized());
 
 		// Create Window
 		if (m_window = static_cast<GLFWwindow *>(glfwCreateWindow(
@@ -154,7 +153,7 @@ namespace ml
 
 			this->setCursorMode(Cursor::Mode::Normal);
 
-			if (this->getStyle().maximized)
+			if (this->getStyle().maximized())
 			{
 				this->maximize(); // Maximized
 			}

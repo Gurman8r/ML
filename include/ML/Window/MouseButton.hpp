@@ -30,25 +30,6 @@ namespace ml
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		int32_t value;
-
-		constexpr MouseButton(int32_t value)
-			: value { value }
-		{
-		}
-
-		constexpr MouseButton(const MouseButton & copy)
-			: MouseButton { copy.value }
-		{
-		}
-
-		constexpr MouseButton()
-			: MouseButton { INVALID_MOUSE_BUTTON }
-		{
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

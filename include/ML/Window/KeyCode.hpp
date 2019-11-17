@@ -6,6 +6,8 @@
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	struct KeyCode final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -140,33 +142,9 @@ namespace ml
 		};
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		int32_t value;
-
-		constexpr KeyCode(int32_t value)
-			: value { value }
-		{
-		}
-
-		constexpr KeyCode(const KeyCode & copy)
-			: KeyCode { copy.value }
-		{
-		}
-
-		constexpr KeyCode()
-			: KeyCode { INVALID_KEY_CODE }
-		{
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		constexpr operator bool() const
-		{
-			return (value >= (int32_t)MIN_KEYCODE && value < (int32_t)MAX_KEYCODE);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
+
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_KEY_CODE_HPP_

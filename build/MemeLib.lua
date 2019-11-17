@@ -72,7 +72,7 @@ project "MemeLib"
 	
 	filter { "configurations:Debug" }
 		symbols "On"
-		links { "python39_d", }
+		links { "python39_d" }
 		postbuildcommands {	
 			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out}",
 		}
@@ -84,7 +84,7 @@ project "MemeLib"
 	
 	filter { "configurations:Release" } 
 		optimize "Speed"
-		links { "python39", }
+		links { "python39" }
 		postbuildcommands {	
 			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out}",
 		}
@@ -95,8 +95,8 @@ project "MemeLib"
 		}
 	
 	filter { "system:Windows" }
-		includedirs { "%{ext_dir}cpython/PC", }
-		links { "ws2_32", }
+		includedirs { "%{ext_dir}cpython/PC" }
+		links { "ws2_32" }
 		postbuildcommands {	
 			"%{ml_copy} %{bin_lib}%{prj.name}.dll %{bin_out}",
 			"%{ml_copy} %{ext_bin}OpenAL32.dll %{bin_out}",

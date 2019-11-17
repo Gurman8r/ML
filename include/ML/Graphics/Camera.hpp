@@ -64,10 +64,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator bool() const { return enabled(); }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		static inline Camera * mainCamera()
 		{
 			return mainCamera(nullptr, false);

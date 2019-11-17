@@ -7,20 +7,20 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_HAS_CXX20)
+#if defined(ML_HAS_CXX20)
 #	include <concepts>
 #	include <ranges>
-# endif
+#endif
 
-# if defined(ML_HAS_CXX17)
+#if defined(ML_HAS_CXX17)
 #	include <any>
 #	include <filesystem>
 #	include <optional>
 #	include <string_view>
 #	include <variant>
-# endif
+#endif
 
-# if defined(ML_HAS_CXX14)
+#if defined(ML_HAS_CXX14)
 #	include <algorithm>
 #	include <array>
 #	include <atomic>
@@ -55,23 +55,23 @@
 #	include <unordered_set>
 #	include <utility>
 #	include <vector>
-# endif
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# define ML_ARGC		__argc
-# define ML_ARGV		__argv
-# define ML_WARGV		__wargv
+#define ML_ARGC		__argc
+#define ML_ARGV		__argv
+#define ML_WARGV		__wargv
 
-# define ML_DESERIALIZE	::std::istream & operator >>
-# define ML_SERIALIZE	::std::ostream & operator <<
+#define ML_DESERIALIZE	::std::istream & operator >>
+#define ML_SERIALIZE	::std::ostream & operator <<
 
 # ifdef ML_CC_MSC
 #	define popen		_popen
 #	define pclose		_pclose
 #	define strdup		_strdup
 #	define snprintf		_snprintf
-# endif
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -108,9 +108,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	ML_USING_X	ptr_t		= typename X *;
-	ML_USING_X	ref_t		= typename X &;
 	ML_USING_X	const_ptr_t	= typename X const *;
-	ML_USING_X	const_ref_t = typename X const &;
+	ML_USING	voidptr_t 	= typename void *;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

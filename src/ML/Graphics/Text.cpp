@@ -6,23 +6,23 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Text::Text()
-		: m_font	(nullptr)
-		, m_fontSize(0)
-		, m_position({ 0.f, 0.f })
-		, m_scale	({ 1.f, 1.f })
-		, m_string	(String())
-		, m_color	(Colors::white)
+		: m_font	{ nullptr }
+		, m_fontSize{ 0 }
+		, m_position{ 0.f, 0.f }
+		, m_scale	{ 1.f, 1.f }
+		, m_string	{ String() }
+		, m_color	{ Colors::white.rgba() }
 
 	{
 	}
 	
 	Text::Text(const Text & copy)
-		: m_font	(copy.m_font)
-		, m_fontSize(copy.m_fontSize)
-		, m_position(copy.m_position)
-		, m_scale	(copy.m_scale)
-		, m_string	(copy.m_string)
-		, m_color	(copy.m_color)
+		: m_font	{ copy.m_font }
+		, m_fontSize{ copy.m_fontSize }
+		, m_position{ copy.m_position }
+		, m_scale	{ copy.m_scale }
+		, m_string	{ copy.m_string }
+		, m_color	{ copy.m_color }
 	{
 	}
 	
@@ -56,7 +56,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Text & Text::setFont(const Font * value)
+	Text & Text::setFont(const_ptr_t<Font> value)
 	{
 		if (m_font != value)
 		{

@@ -133,7 +133,7 @@ namespace ml
 
 		enum class DisplayMode : int32_t { Automatic, Manual, Fixed };
 
-		using FileArray = Array<ptr_t<ShaderFile>, ShaderFile::MAX_DEMO_FILE>;
+		using FileArray = typename Array<ptr_t<ShaderFile>, ShaderFile::MAX_DEMO_FILE>;
 
 		bool m_editor_open		{ true };
 		bool m_display_open		{ true };
@@ -178,8 +178,8 @@ namespace ml
 
 					ML_Editor.mainMenuBar().addMenu("Window", [&]()
 					{
-						ImGui::PushID(ML_ADDRESSOF(this));
 						ImGui::Separator();
+						ImGui::PushID(ML_ADDRESSOF(this));
 						ImGui::MenuItem("Editor##Noobs", "", &m_editor_open);
 						ImGui::MenuItem("Display##Noobs", "", &m_display_open);
 						ImGui::PopID();
@@ -243,27 +243,22 @@ namespace ml
 				} break;
 				case DrawEvent::ID: if (auto ev{ value.as<DrawEvent>()})
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
 					auto camera{ Camera::mainCamera() };
-
+					
 					// Render Main Scene
-					if (m_pipeline[Surf_Main])
+					if (m_pipeline[Surf_Main] && m_pipeline[Surf_Main]->bind())
 					{
-						// Bind Surface
-						m_pipeline[Surf_Main]->bind();
-					
 						// Apply Camera
-						if (camera) camera->apply();
-					
+						if (camera) { camera->apply(); }
+						
 						// Draw Renderers
 						for (auto & [key, value] : ML_Engine.content().data<Entity>())
 						{
 							if (auto e{ (Entity *)value })
 							{
-								if (auto r{ e->get<Renderer>() }; r && (*r))
+								if (auto r{ e->get<Renderer>() }; r && r->enabled())
 								{
-									if (auto t{ e->get<Transform>() }; t && (*t))
+									if (auto t{ e->get<Transform>() }; t && t->enabled())
 									{
 										if (auto m{ (Material *)r->material() })
 										{
@@ -276,20 +271,17 @@ namespace ml
 								}
 							}
 						}
-					
-						// Unbind Surface
+
+						// Unbind
 						m_pipeline[Surf_Main]->unbind();
 					}
 
 					// Render Post Processing
-					if (m_pipeline[Surf_Post])
+					if (m_pipeline[Surf_Post] && m_pipeline[Surf_Post]->bind())
 					{
-						// Bind Surface
-						m_pipeline[Surf_Post]->bind();
-					
 						// Apply Camera
-						if (camera) camera->apply();
-					
+						if (camera) { camera->apply(); }
+						
 						// Reset States
 						RenderStates{
 							AlphaState	{ true, GL::Greater, 0.01f },
@@ -297,11 +289,11 @@ namespace ml
 							CullState	{ false },
 							DepthState	{ false },
 						}();
-					
+
 						// Draw Scene Output
 						ML_Engine.window().draw(m_pipeline[Surf_Main]);
-					
-						// Unbind Surface
+
+						// Unbind
 						m_pipeline[Surf_Post]->unbind();
 					}
 
@@ -309,21 +301,12 @@ namespace ml
 				} break;
 				case GuiEvent::ID: if (auto ev{ value.as<GuiEvent>()})
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
 					draw_display(display_name, m_pipeline[Surf_Post]);
-
 					draw_editor(editor_name);
-
-					/* * * * * * * * * * * * * * * * * * * * */
 				} break;
 				case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>()})
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
 					dispose_files();
-
-					/* * * * * * * * * * * * * * * * * * * * */
 				} break;
 				case ShaderErrorEvent::ID: if (auto ev = value.as<ShaderErrorEvent>())
 				{
@@ -366,8 +349,6 @@ namespace ml
 				} break;
 				case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
 					// Toggle Fullscreen
 					if (ev->getPress(KeyCode::F11))
 					{
@@ -385,26 +366,16 @@ namespace ml
 					{
 						compile_sources();
 					}
-
-					/* * * * * * * * * * * * * * * * * * * * */
 				} break;
 				case DockspaceEvent::ID: if (auto ev = value.as<DockspaceEvent>())
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
 					Editor_Dockspace & d { ev->dockspace };
 					d.dockWindow(display_name, d.getNode(d.LeftUp));
 					d.dockWindow(editor_name, d.getNode(d.RightUp));
-
-					/* * * * * * * * * * * * * * * * * * * * */
 				} break;
 				case SecretEvent::ID: if (auto ev = value.as<SecretEvent>())
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
 					Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-
-					/* * * * * * * * * * * * * * * * * * * * */
 				} break;
 			}
 		}
@@ -1307,6 +1278,10 @@ namespace ml
 			ImGui::Checkbox("Show Display", &m_display_open);
 			ImGuiExt::Tooltip("Toggle display visibility");
 
+			// Use Main Camera
+			ImGui::Checkbox("Apply Camera Uniforms", &m_use_main_camera);
+			ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
+
 			ImGui::Separator();
 
 			// Camera
@@ -1335,11 +1310,6 @@ namespace ml
 						c->setEnabled(enabled);
 					}
 					ImGuiExt::Tooltip("If enabled, the camera be applied.");
-					ImGui::SameLine();
-
-					// Use Main Camera
-					ImGui::Checkbox("Apply Uniforms", &m_use_main_camera);
-					ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
 
 					// Clear Flags
 					if (ImGuiExt::Combo(
@@ -1620,8 +1590,6 @@ namespace ml
 				}
 				ImGui::EndMenu();
 			}
-		
-			ImGui::Separator();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

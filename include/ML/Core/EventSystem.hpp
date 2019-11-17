@@ -30,6 +30,8 @@ namespace ml
 		{
 			return addListener(Ev::ID, listener);
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		bool fireEvent(const Event & value);
 

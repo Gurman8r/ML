@@ -76,7 +76,7 @@ namespace ml
 			ML_GL.bufferData(
 				GL::ElementArrayBuffer,
 				(m_count * sizeof(uint32_t)),
-				m_data,
+				(voidptr_t)m_data,
 				m_usage
 			);
 		}

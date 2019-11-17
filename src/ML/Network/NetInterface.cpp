@@ -36,7 +36,7 @@ namespace ml
 
 	void NetInterface::poll()
 	{
-		for (ptr_t<void> packet = ML_PEER(m_peer)->Receive();
+		for (voidptr_t packet = ML_PEER(m_peer)->Receive();
 			(packet != nullptr);
 			(ML_PEER(m_peer)->DeallocatePacket(ML_PACKET(packet))),
 			(packet = ML_PEER(m_peer)->Receive()))

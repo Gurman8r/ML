@@ -9,10 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Renderer final
-		: public Newable
-		, public Drawable
-		, public NonCopyable
+	struct ML_GRAPHICS_API Renderer final : public Newable, public Drawable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -44,10 +41,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void draw(const RenderTarget & target, RenderBatch & batch) const override;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline operator bool() const { return enabled(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

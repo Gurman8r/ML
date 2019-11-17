@@ -11,84 +11,60 @@ namespace ml
 
 	struct ML_NETWORK_API Host final : public NonNewable
 	{
-		C_String	addr;
+		StringView	addr;
 		uint16_t	port;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr Host(C_String addr, uint16_t port)
-			: addr { addr } 
-			, port { port } 
-		{
-		}
+		constexpr Host(const StringView & addr, uint16_t port) : addr { addr }, port { port } {}
 
-		constexpr Host(C_String addr)
-			: Host { addr, 0 }
-		{
-		}
+		constexpr Host(const StringView & addr) : Host { addr, 0 } {}
 
-		constexpr Host(const Host & copy)
-			: Host { copy.addr, copy.port }
-		{
-		}
+		constexpr Host(const Host & copy) : Host { copy.addr, copy.port } {}
 
-		constexpr Host()
-			: Host { "", 0 }
-		{
-		}
+		constexpr Host() : Host { "", 0 } {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr operator bool() const 
-		{ 
-			return (addr && port); 
+		constexpr operator bool() const { return (this->addr && this->port); }
+
+		inline friend ML_SERIALIZE(std::ostream & out, const Host & value)
+		{
+			return out << value.addr;
+		}
+
+		constexpr bool operator==(const Host & other)
+		{
+			return !((*this) < other) && !(other < (*this));
+		}
+
+		constexpr bool operator!=(const Host & other)
+		{
+			return !((*this) == other);
+		}
+
+		constexpr bool operator<(const Host & other)
+		{
+			return (this->port < other.port) && (this->addr < other.addr);
+		}
+
+		constexpr bool operator>(const Host & other)
+		{
+			return !((*this) < other);
+		}
+
+		constexpr bool operator<=(const Host & other)
+		{
+			return ((*this) == other) || ((*this) < other);
+		}
+
+		constexpr bool operator>=(const Host & other)
+		{
+			return ((*this) == other) || ((*this) > other);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	inline ML_SERIALIZE(std::ostream & out, const Host & value)
-	{
-		return out << value.addr;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	constexpr bool operator==(const Host & lhs, const Host & rhs)
-	{
-		return
-			(lhs.port == rhs.port) &&
-			((StringView)lhs.addr == (StringView)rhs.addr);
-	}
-
-	constexpr bool operator!=(const Host & lhs, const Host & rhs)
-	{
-		return !(lhs == rhs);
-	}
-
-	constexpr bool operator<(const Host & lhs, const Host & rhs)
-	{
-		return
-			(lhs.port < rhs.port) &&
-			((StringView)lhs.addr < (StringView)rhs.addr);
-	}
-
-	constexpr bool operator>(const Host & lhs, const Host & rhs)
-	{
-		return !(lhs < rhs);
-	}
-
-	constexpr bool operator<=(const Host & lhs, const Host & rhs)
-	{
-		return (lhs == rhs) || (lhs < rhs);
-	}
-
-	constexpr bool operator>=(const Host & lhs, const Host & rhs)
-	{
-		return (lhs == rhs) || (lhs > rhs);
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

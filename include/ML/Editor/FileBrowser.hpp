@@ -38,7 +38,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void	set_selected(char type, size_t index);
+		void 	set_selected(char type, size_t index);
 		String	get_selected_name() const;
 		String	get_selected_path() const;
 		String	get_selected_type() const;

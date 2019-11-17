@@ -621,7 +621,7 @@ namespace ml
 				break;
 			case ML_FAILURE:
 				ML_EventSystem.fireEvent<ShaderErrorEvent>(this, GL::VertexShader, log);
-				ML_GL.deleteShader(*this); 
+				ML_GL.deleteShader(*this);
 				return false;
 			}
 

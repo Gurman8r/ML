@@ -25,7 +25,7 @@ namespace ml
 		(int32_t)GraphicsEventType::MAX_GRAPHICS_EVENT <
 		(int32_t)GraphicsEventType::MIN_GRAPHICS_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
-		);
+	);
 
 	template <GraphicsEventType ID> struct GraphicsEvent : public T_Event<GraphicsEventType, ID>
 	{

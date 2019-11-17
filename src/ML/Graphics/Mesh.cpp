@@ -8,36 +8,36 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Mesh::Mesh()
-		: m_vertices()
-		, m_indices	()
-		, m_textures()
-		, m_layout	(BufferLayout::get_default())
-		, m_vao		()
-		, m_vbo		()
-		, m_ibo		()
+		: m_vertices{}
+		, m_indices	{}
+		, m_textures{}
+		, m_layout	{ BufferLayout::get_default() }
+		, m_vao		{}
+		, m_vbo		{}
+		, m_ibo		{}
 	{
 	}
 
 	Mesh::Mesh(const List<Vertex> & vertices, const List<uint32_t> & indices, const List<const_ptr_t<Texture>> & textures)
-		: m_vertices(vertices)
-		, m_indices	(indices)
-		, m_textures(textures)
-		, m_layout	(BufferLayout::get_default())
-		, m_vao		()
-		, m_vbo		()
-		, m_ibo		()
+		: m_vertices{ vertices }
+		, m_indices	{ indices }
+		, m_textures{ textures }
+		, m_layout	{ BufferLayout::get_default() }
+		, m_vao		{}
+		, m_vbo		{}
+		, m_ibo		{}
 	{
 		create();
 	}
 
 	Mesh::Mesh(const Mesh & copy)
-		: m_vertices(copy.m_vertices)
-		, m_indices	(copy.m_indices)
-		, m_textures(copy.m_textures)
-		, m_layout	(copy.m_layout)
-		, m_vao		()
-		, m_vbo		()
-		, m_ibo		()
+		: m_vertices{ copy.m_vertices }
+		, m_indices	{ copy.m_indices }
+		, m_textures{ copy.m_textures }
+		, m_layout	{ copy.m_layout }
+		, m_vao		{}
+		, m_vbo		{}
+		, m_ibo		{}
 	{
 	}
 

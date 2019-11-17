@@ -7,11 +7,11 @@
 #	define ML_FREE_LIBRARY(inst)		FreeLibrary(static_cast<HINSTANCE>(inst))
 #	define ML_LOAD_LIBRARY(file)		LoadLibraryA(file)
 #	define ML_LOAD_FUNCTION(inst, name) GetProcAddress(static_cast<HINSTANCE>(inst), name)
-# else
+#else
 #	define ML_LOAD_LIBRARY(file)		(0)
 #	define ML_FREE_LIBRARY(inst)		(0)
 #	define ML_LOAD_FUNCTION(inst, name) (0)
-# endif
+#endif
 
 namespace ml
 {
@@ -58,7 +58,7 @@ namespace ml
 			(m_instance = ML_LOAD_LIBRARY(m_filename.c_str()));
 	}
 
-	ptr_t<void> SharedLibrary::loadFunction(const String & name)
+	voidptr_t SharedLibrary::loadFunction(const String & name)
 	{
 		auto it { m_functions.find(name) };
 		if (it != m_functions.end())
@@ -67,7 +67,7 @@ namespace ml
 		}
 		else if (m_instance)
 		{
-			ptr_t<void> location { ML_LOAD_FUNCTION(m_instance, name.c_str()) };
+			voidptr_t location { ML_LOAD_FUNCTION(m_instance, name.c_str()) };
 			if (!location)
 			{
 				Debug::logWarning("Function, \'{0}\', not found in \'{1}\'.", 

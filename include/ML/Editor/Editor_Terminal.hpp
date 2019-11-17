@@ -22,13 +22,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		void    clear();
-		void    execute(C_String value);
-		void    printf(C_String value, ...);	// Print Format
-		void	printl(const String & value);	// Print Line
-		void	printss(SStream & value);		// Print SStream
-		bool	redirect(std::ostream & value);
-		int32_t inputCallback(ptr_t<void> value);
+		void clear();
+		void execute(C_String value);
+		void printf(C_String value, ...);	// Print Format
+		void printl(const String & value);	// Print Line
+		void printss(SStream & value);		// Print SStream
+		bool redirect(std::ostream & value);
+		int32_t inputCallback(voidptr_t value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -30,7 +30,7 @@ namespace ml
 		(int32_t)EditorEventType::MAX_EDITOR_EVENT < 
 		(int32_t)EditorEventType::MIN_EDITOR_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
-		);
+	);
 
 	template <EditorEventType ID> struct EditorEvent : public T_Event<EditorEventType, ID>
 	{

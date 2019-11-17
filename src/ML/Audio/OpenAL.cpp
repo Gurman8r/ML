@@ -140,7 +140,7 @@ namespace ml
 		return temp;
 	}
 
-	void OpenAL::bufferData(uint32_t id, int32_t format, const_ptr_t<void> data, int32_t size, int32_t freq)
+	void OpenAL::bufferData(uint32_t id, int32_t format, voidptr_t data, int32_t size, int32_t freq)
 	{
 		alCheck(alBufferData(id, format, data, size, freq));
 	}

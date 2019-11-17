@@ -8,39 +8,40 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	RenderWindow::RenderWindow() : Window {}
 	{
-		ML_EventSystem.addListener(OpenGLErrorEvent::ID, this);
+		ML_EventSystem.addListener<OpenGLErrorEvent>(this);
 	}
 
 	RenderWindow::~RenderWindow() {}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool RenderWindow::setup()
+	bool RenderWindow::create(const String & title, const VideoMode & videoMode, const WindowStyle & style, const ContextSettings & context)
 	{
-		if (!Window::setup() || !ML_GL.init())
+		if (Window::create(title, videoMode, style, context))
 		{
-			return Debug::logError("Failed Initializing Render Window");
+			if (!ML_GL.init())
+			{
+				return Debug::logError("Failed initializing OpenGL");
+			}
+
+			ML_GL.validateVersion(m_context.major, m_context.minor);
+
+			RenderStates{}();
+
+			ML_GL.enable(GL::Multisample, m_context.multisample);
+
+			ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable);
+
+			return true;
 		}
-
-		ML_GL.validateVersion(m_context.major, m_context.minor);
-
-		RenderStates {}();
-
-		ML_GL.enable(GL::Multisample, m_context.multisample);
-
-		ML_GL.enable(GL::FramebufferSRGB, m_context.srgbCapable);
-
-		return true;
+		return false;
 	}
 
-	bool RenderWindow::dispose()
-	{
-		return Window::dispose();
-	}
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void RenderWindow::onEvent(const Event & value)
 	{
@@ -48,8 +49,7 @@ namespace ml
 
 		switch (*value)
 		{
-		case OpenGLErrorEvent::ID:
-			if (auto ev = value.as<OpenGLErrorEvent>())
+			case OpenGLErrorEvent::ID: if (auto ev = value.as<OpenGLErrorEvent>())
 			{
 				// Error location
 				String filename { ev->file };
@@ -65,10 +65,9 @@ namespace ml
 					<< FG::White	<< "\n\t" << GL::name_of((GL::Err)ev->code)
 					<< FG::White	<< "\n\t" << GL::desc_of((GL::Err)ev->code)
 					<< FMT()		<< endl;
-			}
-			break;
+			} break;
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

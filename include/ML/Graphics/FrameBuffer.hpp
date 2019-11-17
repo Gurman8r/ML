@@ -14,9 +14,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API FrameBuffer final
-		: public Newable
-		, public Handle<uint32_t>
+	struct ML_GRAPHICS_API FrameBuffer final : public Newable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

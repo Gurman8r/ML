@@ -61,11 +61,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ptr_t<void> addByCode(hash_t code, ptr_t<void> value);
+		voidptr_t addByCode(hash_t code, voidptr_t value);
 
-		ptr_t<void> addByName(const String & name, ptr_t<void> value);
+		voidptr_t addByName(const String & name, voidptr_t value);
 
-		ptr_t<void> addByName(const String & name);
+		voidptr_t addByName(const String & name);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

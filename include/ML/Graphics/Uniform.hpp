@@ -164,9 +164,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline const_ref_t<value_type> getData() const { return m_data; }
+		inline const value_type & getData() const { return m_data; }
 
-		inline const_ref_t<value_type> setData(value_type value) { return (m_data = value); }
+		inline const value_type & setData(value_type value) { return (m_data = value); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

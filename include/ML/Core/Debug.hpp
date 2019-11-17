@@ -6,25 +6,25 @@
 
 # ifndef ML_ASSERT
 #	define ML_ASSERT(expr) assert(expr)
-# endif
+#endif
 
-# define ML_WARNING -1
-# define ML_FAILURE	 0
-# define ML_SUCCESS	+1
+#define ML_WARNING -1
+#define ML_FAILURE	 0
+#define ML_SUCCESS	+1
 
-# define ML_MSG_LOG "info"
-# define ML_MSG_WRN "warn"
-# define ML_MSG_ERR "error"
+#define ML_MSG_LOG "info"
+#define ML_MSG_WRN "warn"
+#define ML_MSG_ERR "error"
 
-# if (ML_DEBUG)
+#if (ML_DEBUG)
 #	if defined(ML_CC_MSC)
 #		define ML_BREAKPOINT __debugbreak()
 #	else
 #		define ML_BREAKPOINT raise(SIGTRAP)
 #	endif
-# else
+#else
 #	define ML_BREAKPOINT
-# endif
+#endif
 
 namespace ml
 {
@@ -135,17 +135,17 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static ptr_t<void> execute(const String & cmd);
-		static ptr_t<void> execute(const String & cmd, const String & file);
-		static ptr_t<void> execute(const String & cmd, const String & file, const String & args);
-		static ptr_t<void> execute(const String & cmd, const String & file, const String & args, const String & path);
-		static ptr_t<void> execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags);
+		static voidptr_t execute(const String & cmd);
+		static voidptr_t execute(const String & cmd, const String & file);
+		static voidptr_t execute(const String & cmd, const String & file, const String & args);
+		static voidptr_t execute(const String & cmd, const String & file, const String & args, const String & path);
+		static voidptr_t execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline int32_t StreamLogger(
+		static inline int32_t DebugLogger(
 			std::ostream & out,
-			const int32_t	exitCode,
+			int32_t exitCode,
 			const FMT & color,
 			const String & prefix,
 			const String & message
@@ -162,17 +162,17 @@ namespace ml
 
 		static inline int32_t logInfo(const String & message)
 		{
-			return StreamLogger(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
+			return DebugLogger(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
 		}
 
 		static inline int32_t logError(const String & message)
 		{
-			return StreamLogger(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
+			return DebugLogger(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
 		}
 
 		static inline int32_t logWarning(const String & message)
 		{
-			return StreamLogger(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
+			return DebugLogger(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

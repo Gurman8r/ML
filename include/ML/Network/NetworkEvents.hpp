@@ -21,7 +21,7 @@ namespace ml
 		(int32_t)NetworkEventType::MAX_NETWORK_EVENT < 
 		(int32_t)NetworkEventType::MIN_NETWORK_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
-		);
+	);
 
 	template <NetworkEventType ID> struct NetworkEvent : public T_Event<NetworkEventType, ID>
 	{

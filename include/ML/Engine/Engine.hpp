@@ -9,6 +9,10 @@
 #include <ML/Engine/PluginManager.hpp>
 #include <ML/Graphics/RenderWindow.hpp>
 
+#ifndef ML_INI_FILENAME
+#define ML_INI_FILENAME "ML.ini"
+#endif
+
 #define ML_Engine ::ml::Engine::getInstance()
 
 namespace ml
@@ -23,7 +27,7 @@ namespace ml
 
 		Engine();
 
-		~Engine() {};
+		~Engine();
 		
 		void onEvent(const Event & value) override;
 

@@ -58,9 +58,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ptr_t<Newable> insert(hash_t code, const String & name, ptr_t<void> value);
+		ptr_t<Newable> insert(hash_t code, const String & name, voidptr_t value);
 
-		template <hash_t H> inline ptr_t<Newable> insert(const String & name, ptr_t<void> value)
+		template <hash_t H> inline ptr_t<Newable> insert(const String & name, voidptr_t value)
 		{
 			return this->insert(H, name, value);
 		}
@@ -211,8 +211,11 @@ namespace ml
 
 	private:
 		friend class Engine;
-		ContentManager();
-		~ContentManager();
+		
+		ContentManager() : m_data{} {}
+		
+		~ContentManager() { this->dispose(); }
+		
 		mutable TypeMap m_data; // The Data
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

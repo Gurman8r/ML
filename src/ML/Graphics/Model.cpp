@@ -116,7 +116,7 @@ namespace ml
 
 	void Model::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
-		for (const_ptr_t<Mesh> elem : m_meshes)
+		for (const auto & elem : m_meshes)
 		{
 			elem->draw(target, batch);
 		}

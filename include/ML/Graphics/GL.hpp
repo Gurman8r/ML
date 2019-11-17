@@ -1,8 +1,12 @@
 #ifndef _ML_GL_HPP_
 #define _ML_GL_HPP_
 
+/* * * * * * * * * * * * * * * * * * * * */
+
 #include <ML/Core/StandardLib.hpp>
 #include <ML/Core/Alg.hpp>
+
+/* * * * * * * * * * * * * * * * * * * * */
 
 namespace ml
 {
@@ -1836,8 +1840,8 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-// OpenGL Enum Functions
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 namespace ml
 {
 	namespace GL

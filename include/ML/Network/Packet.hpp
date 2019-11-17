@@ -24,12 +24,12 @@ namespace ml
 		}
 
 		constexpr Packet(const Packet & copy)
-			: Packet(copy.host, copy.guid, copy.size, copy.data)
+			: Packet{ copy.host, copy.guid, copy.size, copy.data }
 		{
 		}
 
 		constexpr Packet()
-			: Packet(Host(), GUID(), 0, nullptr)
+			: Packet{ Host(), GUID(), 0, nullptr }
 		{
 		}
 

@@ -10,8 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP
-	struct ML_GRAPHICS_API Transform final
-		: public Newable
+	struct ML_GRAPHICS_API Transform final : public Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -32,10 +31,6 @@ namespace ml
 		inline auto position()	const -> const vec3 & { return m_pos; }
 		inline auto rotation()	const -> const vec4 & { return m_rot; }
 		inline auto scale()		const -> const vec3 & { return m_scl; }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline operator bool() const { return enabled(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -78,7 +78,7 @@ namespace ml
 			{
 				ML_Editor.inspector().Focus(true);
 				ML_Editor.content().select_item(
-					typeof<T>::name, ML_Engine.content().get_name(value), (ptr_t<void>)value
+					typeof<T>::name, ML_Engine.content().get_name(value), (voidptr_t)value
 				);
 			}
 			ImGui::PopID();
@@ -206,7 +206,7 @@ namespace ml
 				{
 					if (const hash_t * code { ML_Registry.get_code(pair.first) })
 					{
-						ptr_t<void> temp { ML_Registry.generate(pair.first) };
+						voidptr_t temp { ML_Registry.generate(pair.first) };
 						if (!value.addByCode(*code, temp))
 						{
 							Debug::logError("Failed Creating \'{0}\'", pair.first);
@@ -227,11 +227,13 @@ namespace ml
 		}
 
 		// Transform
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		if (Transform * t { value.get<Transform>() })
+		if (auto t{ value.get<Transform>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(t));
-			const bool header_open { ImGui::CollapsingHeader("Transform") };
+			if (ImGui::CollapsingHeader("Transform"))
+			{
+				PropertyDrawer<Transform>()(label, *t);
+			}
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Transform##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Transform#Button##" + label).c_str()))
@@ -241,58 +243,17 @@ namespace ml
 				}
 				ImGui::EndPopup();
 			}
-			if (header_open)
-			{
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				constexpr float_t speed { 0.005f };
-
-				bool enabled = t->enabled();
-				vec3 pos = t->position();
-				vec3 scl = t->scale();
-				vec4 rot = t->rotation();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				ImGui::BeginChildFrame(
-					ImGui::GetID(("##Transform##" + label).c_str()),
-					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
-					true
-				);
-
-				if (ImGui::Checkbox(("Enabled##Transform##" + label).c_str(), &enabled))
-				{
-					t->setEnabled(enabled);
-				}
-
-				if (ImGui::DragFloat3(("Position##Transform##" + label).c_str(), &pos[0], speed))
-				{
-					t->setPosition(pos);
-				}
-
-				if (ImGui::DragFloat3(("Scale##Transform##" + label).c_str(), &scl[0], speed))
-				{
-					t->setScale(scl);
-				}
-
-				if (ImGui::DragFloat4(("Rotation##Transform##" + label).c_str(), &rot[0], speed))
-				{
-					t->setRotation(rot);
-				}
-
-				ImGui::EndChildFrame();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-			}
 			ImGui::PopID();
 		}
 
 		// Camera
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		if (Camera * c = value.get<Camera>())
+		if (auto c{ value.get<Camera>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(c));
-			const bool header_open { ImGui::CollapsingHeader("Camera") };
+			if (ImGui::CollapsingHeader("Camera"))
+			{
+				PropertyDrawer<Camera>()(label, *c);
+			}
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Camera##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Camera#Button##" + label).c_str()))
@@ -302,136 +263,17 @@ namespace ml
 				}
 				ImGui::EndPopup();
 			}
-			if (header_open)
-			{
-				constexpr float_t speed { 0.005f };
-
-				bool	enabled		= c->enabled();
-				int32_t clearFlags	= c->clearFlags();
-				int32_t projection	= c->projection();
-				vec3	position	= c->position();
-				vec3	forward		= c->direction();
-				vec4	background	= c->background();
-				float_t fieldOfView = c->fieldOfView();
-				float_t clipNear	= c->clipNear();
-				float_t clipFar		= c->clipFar();
-				vec2	viewport	= (vec2)c->viewport().size();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				ImGui::BeginChildFrame(
-					ImGui::GetID(("##Camera##" + label).c_str()),
-					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 10.0f },
-					true
-				);
-
-				// Enabled
-				if (ImGui::Checkbox(("Enabled##Camera##" + label).c_str(), &enabled))
-				{
-					c->setEnabled(enabled);
-				}
-				ImGuiExt::Tooltip("If enabled, the camera be applied.");
-
-				ImGui::SameLine();
-				if (auto mc { Camera::mainCamera() })
-				{
-					if (mc == c) { ImGuiExt::HelpMarker("This is the main camera."); }
-				}
-				else if (ImGui::Button("Make this the main camera"))
-				{
-					Camera::mainCamera(c);
-				}
-
-				// Clear Flags
-				if (ImGuiExt::Combo(
-					("Clear Flags##Camera##" + label).c_str(),
-					&clearFlags, 
-					"Solid Color\0Depth Only\0Don't Clear"
-				))
-				{
-					c->setClearFlags((Camera::ClearFlags)clearFlags);
-				}
-				ImGuiExt::Tooltip("Specify how the screen should be cleared.");
-
-				// Projection
-				if (ImGuiExt::Combo(
-					("Projection##Camera##" + label).c_str(),
-					&projection, 
-					"Perspective\0"
-				))
-				{
-					c->setProjection((Camera::Projection)projection);
-				}
-				ImGuiExt::Tooltip("Specify which projection to use.");
-
-				// Background
-				if (ImGui::ColorEdit4(("Background##Camera##" + label).c_str(), &background[0]))
-				{
-					c->setBackground(background);
-				}
-				ImGuiExt::Tooltip("Specify the color to apply when using \'Solid Color\'.");
-
-				ImGui::Separator();
-
-				// Position
-				if (ImGui::DragFloat3(("Position##Camera##" + label).c_str(), &position[0], speed))
-				{
-					c->setPosition(position);
-				}
-				ImGuiExt::Tooltip("Set the position of the camera.");
-
-				// Direction
-				if (ImGui::DragFloat3(("Direction##Camera##" + label).c_str(), &forward[0], speed))
-				{
-					c->setDirection(forward);
-				}
-				ImGuiExt::Tooltip("Set the direction the camera is facing.");
-
-				ImGui::Separator();
-
-				// Field of View
-				if (ImGui::DragFloat(("Field of View##Camera##" + label).c_str(), &fieldOfView, speed))
-				{
-					c->setFieldOfView(fieldOfView);
-				}
-				ImGuiExt::Tooltip("Specify the field of view.");
-
-				// Clip Near
-				if (ImGui::DragFloat(("Clip Near##Camera##" + label).c_str(), &clipNear, speed))
-				{
-					c->setClipNear(clipNear);
-				}
-				ImGuiExt::Tooltip("Specify the near clipping plane.");
-
-				// Clip Far
-				if (ImGui::DragFloat(("Clip Far##Camera##" + label).c_str(), &clipFar, speed))
-				{
-					c->setClipFar(clipFar);
-				}
-				ImGuiExt::Tooltip("Specify the far clipping plane.");
-
-				// Viewport
-				if (ImGui::DragFloat2(("Viewport##Camera##" + label).c_str(), &viewport[0], speed))
-				{
-					if (viewport[0] <= 0.f) viewport[0] = FLT_MIN;
-					if (viewport[1] <= 0.f) viewport[1] = FLT_MIN;
-					c->setViewport((vec2i)viewport);
-				}
-				ImGuiExt::Tooltip("Specify the viewport size.");
-
-				ImGui::EndChildFrame();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-			}
 			ImGui::PopID();
 		}
 
 		// Light
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		if (Light * l = value.get<Light>())
+		if (auto l{ value.get<Light>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(l));
-			const bool header_open { ImGui::CollapsingHeader("Light (WIP)") };
+			if (ImGui::CollapsingHeader("Light (WIP)"))
+			{
+				PropertyDrawer<Light>()(label, *l);
+			}
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Light##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Light#Button##" + label).c_str()))
@@ -441,54 +283,17 @@ namespace ml
 				}
 				ImGui::EndPopup();
 			}
-			if (header_open)
-			{
-				bool enabled = l->enabled();
-				vec4 color = l->color();
-				float_t intensity = l->intensity();
-				int32_t mode = l->mode();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				ImGui::BeginChildFrame(
-					ImGui::GetID(("##Light##" + label).c_str()),
-					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
-					true
-				);
-
-				if (ImGui::Checkbox(("Enabled##Light##" + label).c_str(), &enabled))
-				{
-					l->setEnabled(enabled);
-				}
-				
-				if (ImGui::ColorEdit4(("Color##Light##" + label).c_str(), &color[0]))
-				{
-					l->setColor(color);
-				}
-
-				if (ImGui::DragFloat(("Intensity##Light##" + label).c_str(), &intensity))
-				{
-					l->setIntensity(intensity);
-				}
-
-				if (ImGuiExt::Combo(("Mode##Light##" + label).c_str(), &mode, "Realtime"))
-				{
-					l->setMode((Light::Mode)mode);
-				}
-
-				ImGui::EndChildFrame();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-			}
 			ImGui::PopID();
 		}
 
 		// Renderer
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		if (Renderer * r = value.get<Renderer>())
+		if (auto r{ value.get<Renderer>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(r));
-			const bool header_open { ImGui::CollapsingHeader("Renderer") };
+			if (ImGui::CollapsingHeader("Renderer"))
+			{
+				PropertyDrawer<Renderer>()(label, *r);
+			}
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Renderer##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Renderer#Button##" + label).c_str()))
@@ -498,154 +303,372 @@ namespace ml
 				}
 				ImGui::EndPopup();
 			}
-			if (header_open)
-			{
-				ImGui::BeginChildFrame(
-					ImGui::GetID(("##Renderer##" + label).c_str()),
-					{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 8.f },
-					true
-				);
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				bool enabled { r->enabled() };
-				if (ImGui::Checkbox(("Enabled##Renderer##" + label).c_str(), &enabled))
-				{
-					r->setEnabled(enabled);
-				}
-
-				const_ptr_t<Material> material { r->material() };
-				if (PropertyDrawer<Material>()("Material##Renderer", material))
-				{
-					r->setMaterial(material);
-				}
-
-				const_ptr_t<Shader> shader { r->shader() };
-				if (PropertyDrawer<Shader>()("Shader##Renderer", shader))
-				{
-					r->setShader(shader);
-				}
-
-				const_ptr_t<Model> model { r->model() };
-				if (PropertyDrawer<Model>()("Model##Renderer", model))
-				{
-					r->setModel(model);
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::TreeNode("Alpha"))
-				{
-					ImGui::Checkbox("Enabled##AlphaState", &r->states().alpha().enabled);
-
-					int32_t index = GL::index_of(r->states().alpha().func);
-					if (ImGuiExt::Combo(
-						"Comparison##Alpha Testing",
-						&index,
-						GL::Predicate_names,
-						ML_ARRAYSIZE(GL::Predicate_names)
-					))
-					{
-						GL::value_at(index, r->states().alpha().func);
-					}
-					ImGui::DragFloat("Coeff##AlphaState", &r->states().alpha().coeff);
-
-					ImGui::TreePop();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::TreeNode("Blend"))
-				{
-					ImGui::Checkbox("Enabled##BlendState", &r->states().blend().enabled);
-
-					auto factor_combo = [](C_String label, int32_t & index)
-					{
-						return ImGuiExt::Combo(
-							label,
-							&index,
-							GL::Factor_names,
-							ML_ARRAYSIZE(GL::Factor_names)
-						);
-					};
-
-					int32_t sfactorRGB = GL::index_of(r->states().blend().sfactorRGB);
-					if (factor_combo("Src RGB##BlendState", sfactorRGB))
-					{
-						GL::value_at(sfactorRGB, r->states().blend().sfactorRGB);
-					}
-
-					int32_t sfactorAlpha = GL::index_of(r->states().blend().sfactorAlpha);
-					if (factor_combo("Src Alpha##BlendState", sfactorAlpha))
-					{
-						GL::value_at(sfactorAlpha, r->states().blend().sfactorAlpha);
-					}
-
-					int32_t dfactorRGB = GL::index_of(r->states().blend().dfactorRGB);
-					if (factor_combo("Dst RGB##BlendState", dfactorRGB))
-					{
-						GL::value_at(dfactorRGB, r->states().blend().dfactorRGB);
-					}
-
-					int32_t dfactorAlpha = GL::index_of(r->states().blend().dfactorAlpha);
-					if (factor_combo("Dst Alpha##BlendState", dfactorAlpha))
-					{
-						GL::value_at(dfactorAlpha, r->states().blend().dfactorAlpha);
-					}
-					ImGui::TreePop();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::TreeNode("Cull"))
-				{
-					ImGui::Checkbox("Enabled##CullState", &r->states().cull().enabled);
-
-					int32_t index = GL::index_of(r->states().cull().mode);
-					if (ImGuiExt::Combo(
-						"Face##Cull",
-						&index,
-						GL::Face_names,
-						ML_ARRAYSIZE(GL::Face_names)
-					))
-					{
-						GL::value_at(index, r->states().cull().mode);
-					}
-
-					ImGui::TreePop();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				if (ImGui::TreeNode("Depth"))
-				{
-					ImGui::Checkbox("Enabled##DepthState", &r->states().depth().enabled);
-
-					ImGui::Checkbox("Mask##DepthState", &r->states().depth().mask);
-
-					int32_t index = GL::index_of(r->states().depth().func);
-					if (ImGuiExt::Combo(
-						"Comparison##Depth",
-						&index,
-						GL::Predicate_names,
-						ML_ARRAYSIZE(GL::Predicate_names)
-					))
-					{
-						GL::value_at(index, r->states().depth().func);
-					}
-
-					ImGui::TreePop();
-				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				ImGui::EndChildFrame();
-			}
 			ImGui::PopID();
 		}
 
 		return Layout::end_prop(this, false);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	bool PropertyDrawer<Camera>::operator()(const String & label, reference value) const
+	{
+		constexpr float_t speed{ 0.005f };
+
+		Layout::begin_prop(this, label, value);
+
+		bool	enabled = value.enabled();
+		int32_t clearFlags = value.clearFlags();
+		int32_t projection = value.projection();
+		vec3	position = value.position();
+		vec3	forward = value.direction();
+		vec4	background = value.background();
+		float_t fieldOfView = value.fieldOfView();
+		float_t clipNear = value.clipNear();
+		float_t clipFar = value.clipFar();
+		vec2	viewport = (vec2)value.viewport().size();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		ImGui::BeginChildFrame(
+			ImGui::GetID(("##Camera##" + label).c_str()),
+			{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 10.0f },
+			true
+		);
+
+		// Enabled
+		if (ImGui::Checkbox(("Enabled##Camera##" + label).c_str(), &enabled))
+		{
+			value.setEnabled(enabled);
+		}
+		ImGuiExt::Tooltip("If enabled, the camera be applied.");
+
+		// Clear Flags
+		if (ImGuiExt::Combo(
+			("Clear Flags##Camera##" + label).c_str(),
+			&clearFlags,
+			"Solid Color\0Depth Only\0Don't Clear"
+		))
+		{
+			value.setClearFlags((Camera::ClearFlags)clearFlags);
+		}
+		ImGuiExt::Tooltip("Specify how the screen should be cleared.");
+
+		// Projection
+		if (ImGuiExt::Combo(
+			("Projection##Camera##" + label).c_str(),
+			&projection,
+			"Perspective\0"
+		))
+		{
+			value.setProjection((Camera::Projection)projection);
+		}
+		ImGuiExt::Tooltip("Specify which projection to use.");
+
+		// Background
+		if (ImGui::ColorEdit4(("Background##Camera##" + label).c_str(), &background[0]))
+		{
+			value.setBackground(background);
+		}
+		ImGuiExt::Tooltip("Specify the color to apply when using \'Solid Color\'.");
+
+		ImGui::Separator();
+
+		// Position
+		if (ImGui::DragFloat3(("Position##Camera##" + label).c_str(), &position[0], speed))
+		{
+			value.setPosition(position);
+		}
+		ImGuiExt::Tooltip("Set the position of the camera.");
+
+		// Direction
+		if (ImGui::DragFloat3(("Direction##Camera##" + label).c_str(), &forward[0], speed))
+		{
+			value.setDirection(forward);
+		}
+		ImGuiExt::Tooltip("Set the direction the camera is facing.");
+
+		ImGui::Separator();
+
+		// Field of View
+		if (ImGui::DragFloat(("Field of View##Camera##" + label).c_str(), &fieldOfView, speed))
+		{
+			value.setFieldOfView(fieldOfView);
+		}
+		ImGuiExt::Tooltip("Specify the field of view.");
+
+		// Clip Near
+		if (ImGui::DragFloat(("Clip Near##Camera##" + label).c_str(), &clipNear, speed))
+		{
+			value.setClipNear(clipNear);
+		}
+		ImGuiExt::Tooltip("Specify the near clipping plane.");
+
+		// Clip Far
+		if (ImGui::DragFloat(("Clip Far##Camera##" + label).c_str(), &clipFar, speed))
+		{
+			value.setClipFar(clipFar);
+		}
+		ImGuiExt::Tooltip("Specify the far clipping plane.");
+
+		// Viewport
+		if (ImGui::DragFloat2(("Viewport##Camera##" + label).c_str(), &viewport[0], speed))
+		{
+			if (viewport[0] <= 0.f) viewport[0] = FLT_MIN;
+			if (viewport[1] <= 0.f) viewport[1] = FLT_MIN;
+			value.setViewport((vec2i)viewport);
+		}
+		ImGuiExt::Tooltip("Specify the viewport size.");
+
+		ImGui::EndChildFrame();
+		return Layout::end_prop(this, false);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	bool PropertyDrawer<Light>::operator()(const String & label, reference value) const
+	{
+		Layout::begin_prop(this, label, value);
+
+		bool enabled = value.enabled();
+		vec4 color = value.color();
+		float_t intensity = value.intensity();
+		int32_t mode = value.mode();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		ImGui::BeginChildFrame(
+			ImGui::GetID(("##Light##" + label).c_str()),
+			{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
+			true
+		);
+
+		if (ImGui::Checkbox(("Enabled##Light##" + label).c_str(), &enabled))
+		{
+			value.setEnabled(enabled);
+		}
+
+		if (ImGui::ColorEdit4(("Color##Light##" + label).c_str(), &color[0]))
+		{
+			value.setColor(color);
+		}
+
+		if (ImGui::DragFloat(("Intensity##Light##" + label).c_str(), &intensity))
+		{
+			value.setIntensity(intensity);
+		}
+
+		if (ImGuiExt::Combo(("Mode##Light##" + label).c_str(), &mode, "Realtime"))
+		{
+			value.setMode((Light::Mode)mode);
+		}
+
+		ImGui::EndChildFrame();
+
+		return Layout::end_prop(this, false);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	bool PropertyDrawer<Renderer>::operator()(const String & label, reference value) const
+	{
+		Layout::begin_prop(this, label, value);
+
+		ImGui::BeginChildFrame(
+			ImGui::GetID(("##Renderer##" + label).c_str()),
+			{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 8.f },
+			true
+		);
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		bool enabled{ value.enabled() };
+		if (ImGui::Checkbox(("Enabled##Renderer##" + label).c_str(), &enabled))
+		{
+			value.setEnabled(enabled);
+		}
+
+		const_ptr_t<Material> material{ value.material() };
+		if (PropertyDrawer<Material>()("Material##Renderer", material))
+		{
+			value.setMaterial(material);
+		}
+
+		const_ptr_t<Shader> shader{ value.shader() };
+		if (PropertyDrawer<Shader>()("Shader##Renderer", shader))
+		{
+			value.setShader(shader);
+		}
+
+		const_ptr_t<Model> model{ value.model() };
+		if (PropertyDrawer<Model>()("Model##Renderer", model))
+		{
+			value.setModel(model);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		if (ImGui::TreeNode("Alpha"))
+		{
+			ImGui::Checkbox("Enabled##AlphaState", &value.states().alpha().enabled);
+
+			int32_t index = GL::index_of(value.states().alpha().func);
+			if (ImGuiExt::Combo(
+				"Comparison##Alpha Testing",
+				&index,
+				GL::Predicate_names,
+				ML_ARRAYSIZE(GL::Predicate_names)
+			))
+			{
+				GL::value_at(index, value.states().alpha().func);
+			}
+			ImGui::DragFloat("Coeff##AlphaState", &value.states().alpha().coeff);
+
+			ImGui::TreePop();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		if (ImGui::TreeNode("Blend"))
+		{
+			ImGui::Checkbox("Enabled##BlendState", &value.states().blend().enabled);
+
+			auto factor_combo = [](C_String label, int32_t & index)
+			{
+				return ImGuiExt::Combo(
+					label,
+					&index,
+					GL::Factor_names,
+					ML_ARRAYSIZE(GL::Factor_names)
+				);
+			};
+
+			int32_t sfactorRGB = GL::index_of(value.states().blend().sfactorRGB);
+			if (factor_combo("Src RGB##BlendState", sfactorRGB))
+			{
+				GL::value_at(sfactorRGB, value.states().blend().sfactorRGB);
+			}
+
+			int32_t sfactorAlpha = GL::index_of(value.states().blend().sfactorAlpha);
+			if (factor_combo("Src Alpha##BlendState", sfactorAlpha))
+			{
+				GL::value_at(sfactorAlpha, value.states().blend().sfactorAlpha);
+			}
+
+			int32_t dfactorRGB = GL::index_of(value.states().blend().dfactorRGB);
+			if (factor_combo("Dst RGB##BlendState", dfactorRGB))
+			{
+				GL::value_at(dfactorRGB, value.states().blend().dfactorRGB);
+			}
+
+			int32_t dfactorAlpha = GL::index_of(value.states().blend().dfactorAlpha);
+			if (factor_combo("Dst Alpha##BlendState", dfactorAlpha))
+			{
+				GL::value_at(dfactorAlpha, value.states().blend().dfactorAlpha);
+			}
+			ImGui::TreePop();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		if (ImGui::TreeNode("Cull"))
+		{
+			ImGui::Checkbox("Enabled##CullState", &value.states().cull().enabled);
+
+			int32_t index = GL::index_of(value.states().cull().mode);
+			if (ImGuiExt::Combo(
+				"Face##Cull",
+				&index,
+				GL::Face_names,
+				ML_ARRAYSIZE(GL::Face_names)
+			))
+			{
+				GL::value_at(index, value.states().cull().mode);
+			}
+
+			ImGui::TreePop();
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		if (ImGui::TreeNode("Depth"))
+		{
+			ImGui::Checkbox("Enabled##DepthState", &value.states().depth().enabled);
+
+			ImGui::Checkbox("Mask##DepthState", &value.states().depth().mask);
+
+			int32_t index = GL::index_of(value.states().depth().func);
+			if (ImGuiExt::Combo(
+				"Comparison##Depth",
+				&index,
+				GL::Predicate_names,
+				ML_ARRAYSIZE(GL::Predicate_names)
+			))
+			{
+				GL::value_at(index, value.states().depth().func);
+			}
+
+			ImGui::TreePop();
+		}
+
+		ImGui::EndChildFrame();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		return Layout::end_prop(this, false);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	bool PropertyDrawer<Transform>::operator()(const String & label, reference value) const
+	{
+		Layout::begin_prop(this, label, value);
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		constexpr float_t speed{ 0.005f };
+
+		bool enabled = value.enabled();
+		vec3 pos = value.position();
+		vec3 scl = value.scale();
+		vec4 rot = value.rotation();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		ImGui::BeginChildFrame(
+			ImGui::GetID(("##Transform##" + label).c_str()),
+			{ 0, (ImGui::GetTextLineHeightWithSpacing() * 1.25f) * 4.0f },
+			true
+		);
+
+		if (ImGui::Checkbox(("Enabled##Transform##" + label).c_str(), &enabled))
+		{
+			value.setEnabled(enabled);
+		}
+
+		if (ImGui::DragFloat3(("Position##Transform##" + label).c_str(), &pos[0], speed))
+		{
+			value.setPosition(pos);
+		}
+
+		if (ImGui::DragFloat3(("Scale##Transform##" + label).c_str(), &scl[0], speed))
+		{
+			value.setScale(scl);
+		}
+
+		if (ImGui::DragFloat4(("Rotation##Transform##" + label).c_str(), &rot[0], speed))
+		{
+			value.setRotation(rot);
+		}
+
+		ImGui::EndChildFrame();
+
+		/* * * * * * * * * * * * * * * * * * * * */
+
+		return Layout::end_prop(this, false);
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
 	// Font Drawer
@@ -2235,7 +2258,7 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char name[32] = "";
-			static Array<const Image *, 6> image { nullptr };
+			static Array<const_ptr_t<Image>, 6> image { nullptr };
 			static int32_t sampler_type { 0 };
 			static char asset_path[ML_MAX_PATH] = "";
 			static String open_path;
@@ -2267,7 +2290,7 @@ namespace ml
 			if (sampler_type == 0)
 			{
 				// Copy
-				if (PropertyDrawer<Image>()(("Image##" + label), (const Image *&)image[0]))
+				if (PropertyDrawer<Image>()(("Image##" + label), (const_ptr_t<Image>&)image[0]))
 				{
 					std::strcpy(asset_path, "");
 				}
@@ -2295,12 +2318,12 @@ namespace ml
 			}
 			else if (sampler_type == 2)
 			{
-				PropertyDrawer<Image>()(("Right##Image##" + label), (const Image *&)image[0]);
-				PropertyDrawer<Image>()(("Left##Image##" + label), (const Image *&)image[1]);
-				PropertyDrawer<Image>()(("Top##Image##" + label), (const Image *&)image[2]);
-				PropertyDrawer<Image>()(("Bottom##Image##" + label), (const Image *&)image[3]);
-				PropertyDrawer<Image>()(("Front##Image##" + label), (const Image *&)image[4]);
-				PropertyDrawer<Image>()(("Back##Image##" + label), (const Image *&)image[5]);
+				PropertyDrawer<Image>()(("Right##Image##" + label), (const_ptr_t<Image>&)image[0]);
+				PropertyDrawer<Image>()(("Left##Image##" + label), (const_ptr_t<Image>&)image[1]);
+				PropertyDrawer<Image>()(("Top##Image##" + label), (const_ptr_t<Image>&)image[2]);
+				PropertyDrawer<Image>()(("Bottom##Image##" + label), (const_ptr_t<Image>&)image[3]);
+				PropertyDrawer<Image>()(("Front##Image##" + label), (const_ptr_t<Image>&)image[4]);
+				PropertyDrawer<Image>()(("Back##Image##" + label), (const_ptr_t<Image>&)image[5]);
 			}
 
 			// Submit

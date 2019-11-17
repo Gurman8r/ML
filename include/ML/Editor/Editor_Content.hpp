@@ -27,12 +27,12 @@ namespace ml
 
 		String m_typename { "Type" };
 		String m_itemname { "Name" };
-		ptr_t<void> m_selected { nullptr };
+		voidptr_t m_selected { nullptr };
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline auto select_item(const String & type, const String & name, ptr_t<void> obj)
+		inline auto select_item(const String & type, const String & name, voidptr_t obj)
 		{
 			m_typename = type;
 			m_itemname = name;

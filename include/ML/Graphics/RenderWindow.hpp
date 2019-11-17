@@ -16,9 +16,12 @@ namespace ml
 		
 		virtual ~RenderWindow();
 
-		virtual bool setup() override;
-
-		virtual bool dispose() override;
+		virtual bool create(
+			const String & title,
+			const VideoMode & videoMode,
+			const WindowStyle & style,
+			const ContextSettings & context
+		) override;
 
 		virtual void onEvent(const Event & value) override;
 

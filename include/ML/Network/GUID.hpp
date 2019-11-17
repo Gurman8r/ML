@@ -14,103 +14,21 @@ namespace ml
 
 		uint64_t id;
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		constexpr GUID(uint64_t id) : id { id } {}
 
-		constexpr GUID(const uint64_t id)
-			: id { id }
+		constexpr GUID(const GUID & copy) : GUID { copy.id } {}
+
+		constexpr GUID() : GUID { 0 } {}
+
+		constexpr operator uint64_t() const { return this->id; }
+
+		inline friend ML_SERIALIZE(std::ostream & out, const GUID & value)
 		{
-		}
-
-		constexpr GUID(const GUID & copy)
-			: GUID { copy.id }
-		{
-		}
-
-		constexpr GUID()
-			: GUID { 0 }
-		{
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		constexpr operator uint64_t() const
-		{ 
-			return this->id; 
+			return out << value.id;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	inline ML_SERIALIZE(std::ostream & out, const GUID & value)
-	{
-		return out << value.id;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	constexpr bool operator==(const GUID & lhs, const uint64_t & rhs)
-	{
-		return lhs.id == rhs;
-	}
-
-	constexpr bool operator!=(const GUID & lhs, const uint64_t & rhs)
-	{
-		return !(lhs == rhs);
-	}
-
-	constexpr bool operator<(const GUID & lhs, const uint64_t & rhs)
-	{
-		return lhs.id < rhs;
-	}
-
-	constexpr bool operator>(const GUID & lhs, const uint64_t & rhs)
-	{
-		return !(lhs < rhs);
-	}
-
-	constexpr bool operator<=(const GUID & lhs, const uint64_t & rhs)
-	{
-		return (lhs == rhs) || (lhs < rhs);
-	}
-
-	constexpr bool operator>=(const GUID & lhs, const uint64_t & rhs)
-	{
-		return (lhs == rhs) || (lhs > rhs);
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	constexpr bool operator==(const GUID & lhs, const GUID & rhs)
-	{
-		return lhs == rhs.id;
-	}
-
-	constexpr bool operator!=(const GUID & lhs, const GUID & rhs)
-	{
-		return !(lhs == rhs);
-	}
-
-	constexpr bool operator<(const GUID & lhs, const GUID & rhs)
-	{
-		return lhs < rhs.id;
-	}
-
-	constexpr bool operator>(const GUID & lhs, const GUID & rhs)
-	{
-		return !(lhs < rhs);
-	}
-
-	constexpr bool operator<=(const GUID & lhs, const GUID & rhs)
-	{
-		return (lhs == rhs) || (lhs < rhs);
-	}
-
-	constexpr bool operator>=(const GUID & lhs, const GUID & rhs)
-	{
-		return (lhs == rhs) || (lhs > rhs);
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

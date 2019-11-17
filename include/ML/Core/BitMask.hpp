@@ -64,9 +64,37 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr bool operator[](size_t i) const { return ML_BITREAD(m_value, i); }
-
 		constexpr operator const_reference() const { return m_value; }
+
+		constexpr bool operator[](size_t i) const { return this->read(i); }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr const self_type & read(size_t i) const
+		{
+			ML_BITREAD(m_value, i);
+			return (*this);
+		}
+
+		inline self_type & clear(size_t i)
+		{
+			ML_BITCLEAR(m_value, i);
+			return (*this);
+		}
+
+		inline self_type & set(size_t i)
+		{
+			ML_BITSET(m_value, i);
+			return (*this);
+		}
+
+		inline self_type & write(size_t i, bool value)
+		{
+			ML_BITWRITE(m_value, i, value);
+			return (*this);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <
 			class In, class U, size_t N

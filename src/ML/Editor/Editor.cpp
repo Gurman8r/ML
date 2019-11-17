@@ -14,24 +14,31 @@
 #include <ML/Editor/PropertyDrawer.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 
-#include <imgui/examples/imgui_impl_glfw.h>
-#include <imgui/examples/imgui_impl_opengl3.h>
-#include <GLFW/glfw3.h>
+#if defined(ML_IMPL_RENDERER_OPENGL3) && defined(ML_IMPL_PLATFORM_GLFW)
+#	include <GLFW/glfw3.h>
+#	include <imgui/examples/imgui_impl_glfw.h>
+#	include <imgui/examples/imgui_impl_opengl3.h>
+#	define ML_IMGUI_INIT_PLATFORM(win) ImGui_ImplGlfw_InitForOpenGL((GLFWwindow *)win, true)
+#	define ML_IMGUI_INIT_RENDERER(ver) ImGui_ImplOpenGL3_Init(ver)
+#else
+#define ML_IMGUI_INIT_RENDERER(ver)
+#define ML_IMGUI_INIT_PLATFORM(win)
+#endif
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor::Editor()
-		: m_about{}
-		, m_dockspace{}
-		, m_explorer{}
-		, m_content{}
-		, m_inspector{}
-		, m_manual{}
-		, m_mainMenuBar{}
-		, m_profiler{}
-		, m_terminal{}
+		: m_about		{}
+		, m_dockspace	{}
+		, m_explorer	{}
+		, m_content		{}
+		, m_inspector	{}
+		, m_manual		{}
+		, m_mainMenuBar	{}
+		, m_profiler	{}
+		, m_terminal	{}
 	{
 		ML_EventSystem.addListener<EnterEvent>(this);
 		ML_EventSystem.addListener<LoadEvent>(this);
@@ -43,6 +50,8 @@ namespace ml
 		ML_EventSystem.addListener<DockspaceEvent>(this);
 		ML_EventSystem.addListener<KeyEvent>(this);
 	}
+
+	Editor::~Editor() {}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -90,30 +99,29 @@ namespace ml
 				switch (util::to_lower(styleConf).hash())
 				{
 					case Hash("classic"): { ImGui::StyleColorsClassic(); } break;
-					case Hash("dark"): { ImGui::StyleColorsDark(); } break;
-					case Hash("light"): { ImGui::StyleColorsLight(); } break;
+					case Hash("dark")	: { ImGui::StyleColorsDark(); } break;
+					case Hash("light")	: { ImGui::StyleColorsLight(); } break;
 				}
 				ImGuiStyleLoader().loadFromFile(ML_FS.pathTo(styleConf));
 
 				// Font
-				if (String fontFile{ ML_Engine.prefs().get_string("Editor", "font_file", "") })
+				if (const String fontFile{ ML_Engine.prefs().get_string(
+					"Editor", "font_file", ""
+				) })
 				{
-					float_t fontSize{ ML_Engine.prefs().get_float("Editor", "font_size", 20.f) };
-					if (fontSize > 0.0f)
+					if (const float_t fontSize{ ML_Engine.prefs().get_float(
+						"Editor", "font_size", 20.f
+					) }; fontSize > 0.0f)
 					{
 						ImGui::GetIO().Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);
 					}
 				}
 
-				// Imgui GLFW Init for OpenGL
-				ML_ASSERT(ImGui_ImplGlfw_InitForOpenGL(
-					(GLFWwindow *)ML_Engine.window().getHandle(), true
-				));
+				// Init Imgui Platform
+				ML_ASSERT(ML_IMGUI_INIT_PLATFORM(ML_Engine.window().getHandle()));
 
-				// Imgui OpenGL3 Init
-				ML_ASSERT(ImGui_ImplOpenGL3_Init(
-					"#version 130"
-				));
+				// Init Imgui Renderer
+				ML_ASSERT(ML_IMGUI_INIT_RENDERER("#version 130"));
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
@@ -127,7 +135,7 @@ namespace ml
 				{
 					if (ImGui::BeginMenu("New"))
 					{
-						ptr_t<void> temp{ nullptr };
+						voidptr_t temp{ nullptr };
 						if ((PropertyDrawer<Entity>()("Entity##File##Create", (ptr_t<Entity> &)temp)) ||
 							(PropertyDrawer<Font>()("Font##File##Create", (ptr_t<Font> &)temp)) ||
 							(PropertyDrawer<Image>()("Image##File##Create", (ptr_t<Image> &)temp)) ||

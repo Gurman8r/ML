@@ -12,7 +12,7 @@ namespace ml
 	{
 		static inline T & getInstance()
 		{
-			static T instance; 
+			static T instance;
 			return instance;
 		}
 	};

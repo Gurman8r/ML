@@ -19,21 +19,21 @@ namespace ml
 		struct Record final : public NonCopyable
 		{
 			size_t		index;	// Index
-			ptr_t<void>	ptr;	// Value
+			voidptr_t	ptr;	// Value
 			size_t		size;	// Size
 
-			Record(size_t index, ptr_t<void> ptr, size_t size);
+			Record(size_t index, voidptr_t ptr, size_t size);
 
 			friend ML_SERIALIZE(std::ostream & out, const Record & value);
 		};
 
-		using RecordMap = typename HashMap<ptr_t<void>, Record *>;
+		using RecordMap = typename HashMap<voidptr_t, Record *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ptr_t<void> allocate(size_t size);
+		voidptr_t allocate(size_t size);
 
-		void deallocate(ptr_t<void> & ptr);
+		void deallocate(voidptr_t & ptr);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

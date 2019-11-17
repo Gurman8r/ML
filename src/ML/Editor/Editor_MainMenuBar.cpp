@@ -66,21 +66,5 @@ namespace ml
 		return m_good;
 	}
 
-	auto Editor_MainMenuBar::addMenu(const String & name, std::function<void()> && fun)
-		-> decltype(m_menus)::iterator
-	{
-		auto it{ std::find_if(m_menus.begin(), m_menus.end(), [&](auto elem)
-		{
-			return elem.first == name;
-		}) };
-		if (it == m_menus.end())
-		{
-			m_menus.push_back({ name, {} });
-			it = (m_menus.end() - 1);
-		}
-		it->second.push_back(fun);
-		return it;
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

@@ -5,18 +5,18 @@
 //	Project Information
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# define ML_PROJECT_AUTH	"Melody Gurman"
-# define ML_PROJECT_NAME	"MemeLib"
-# define ML_PROJECT_VER		"Beta"
-# define ML_PROJECT_URL		"https://www.github.com/Gurman8r/ML"
-# define ML_PROJECT_DATE	__DATE__
-# define ML_PROJECT_TIME	__TIME__
+#define ML_PROJECT_AUTH	"Melody Gurman"
+#define ML_PROJECT_NAME	"MemeLib"
+#define ML_PROJECT_VER		"Beta"
+#define ML_PROJECT_URL		"https://www.github.com/Gurman8r/ML"
+#define ML_PROJECT_DATE	__DATE__
+#define ML_PROJECT_TIME	__TIME__
 
 
 //	Language
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(__cplusplus)
+#if defined(__cplusplus)
 #	if defined(_MSVC_LANG)
 #		define ML_CPP _MSVC_LANG
 #	else
@@ -34,11 +34,11 @@
 #	if (ML_CPP >= 201907L)
 #		define ML_HAS_CXX20	// C++20
 #	endif
-# else
+#else
 #	error This system does not support C++.
-# endif
+#endif
 
-# if defined(__cpp_constexpr)
+#if defined(__cpp_constexpr)
 #	define ML_CPP_CONSTEXPR __cpp_constexpr
 #	if (ML_CPP_CONSTEXPR >= 201907L)
 #		define ML_HAS_CONSTEXPR_20	// trivial default initialization and asm-declaration in constexpr functions
@@ -52,23 +52,23 @@
 #	if (ML_CPP_CONSTEXPR >= 200704L)
 #		define ML_HAS_CONSTEXPR_11	// constexpr
 #	endif
-# else
+#else
 #	error This compiler does not support constexpr.
-# endif
+#endif
 
 
 //	System
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(_WIN32) || defined(_WIN64) \
+#if defined(_WIN32) || defined(_WIN64) \
   || defined(WIN32) || defined(WIN64) \
   || defined(__MINGW32__) || defined(__MINGW64__)
 #	define ML_SYSTEM_WINDOWS
 #	define ML_SYSTEM_NAME "Windows"
-# elif defined(__APPLE__) && defined(__MACH__)
+#elif defined(__APPLE__) && defined(__MACH__)
 #	define ML_SYSTEM_APPLE
 #	define ML_SYSTEM_NAME "Apple"
-# elif defined(__unix__)
+#elif defined(__unix__)
 #	define ML_SYSTEM_UNIX
 #	if defined(__ANDROID__)
 #		define ML_SYSTEM_ANDROID
@@ -80,23 +80,23 @@
 #		define ML_SYSTEM_FREEBSD
 #		define ML_SYSTEM_NAME "FreeBSD"
 #	endif
-# else
+#else
 #	error This system is not supported.
-# endif
+#endif
 
 
 //	Platform / Architecture
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(__x86_64__) || defined(_M_X64) || defined(_x64)
+#if defined(__x86_64__) || defined(_M_X64) || defined(_x64)
 #	define ML_X64
 #	define ML_ARCHITECTURE 64
 #	define ML_PLATFORM_TARGET "x64"
-# elif defined(__i386__) || defined(_M_IX86)
+#elif defined(__i386__) || defined(_M_IX86)
 #	define ML_X86
 #	define ML_ARCHITECTURE 32
 #	define ML_PLATFORM_TARGET "x86"
-# elif defined(__arm__) || defined(_M_ARM) || defined(__aarch64__)
+#elif defined(__arm__) || defined(_M_ARM) || defined(__aarch64__)
 #	if defined(__aarch64__)
 #		define ML_ARM64
 #		define ML_ARCHITECTURE 64
@@ -106,7 +106,7 @@
 #		define ML_ARCHITECTURE 32
 #		define ML_PLATFORM_TARGET "arm32"
 #	endif
-# elif defined(ppc) || defined(_M_PPC) || defined(__ppc64__)
+#elif defined(ppc) || defined(_M_PPC) || defined(__ppc64__)
 #	if defined(__ppc64__)
 #		define ML_PPC64
 #		define ML_ARCHITECTURE 64
@@ -116,15 +116,15 @@
 #		define ML_ARCHITECTURE 32
 #		define ML_PLATFORM_TARGET "ppc32"
 #	endif
-# else
+#else
 #	error Unable to detect platform architecture.
-# endif
+#endif
 
 
 //	Compiler
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(_MSC_VER)
+#if defined(_MSC_VER)
 #	define ML_CC_MSC _MSC_VER
 #	define ML_CC_VER ML_CC_MSC
 #	if (ML_CC_VER >= 1920)
@@ -138,11 +138,11 @@
 #	else
 #		error This version of Visual Studio is not supported.
 #	endif
-# elif defined(__clang__)
+#elif defined(__clang__)
 #	define ML_CC_CLANG __clang__
 #	define ML_CC_VER ML_CC_CLANG
 #	define ML_CC_NAME "Clang/LLVM"
-# elif defined(__GNUC__) || defined(__GNUG__)
+#elif defined(__GNUC__) || defined(__GNUG__)
 #	if defined(__GNUC__)
 #		define ML_CC_GCC __GNUC__
 #	else
@@ -150,7 +150,7 @@
 #	endif
 #	define ML_CC_VER ML_CC_GCC
 #	define ML_CC_NAME "GCC"
-# elif defined(__ICC) || defined(__INTEL_COMPILER)
+#elif defined(__ICC) || defined(__INTEL_COMPILER)
 #	if defined(__ICC)
 #		define ML_CC_INTEL __ICC
 #	else
@@ -158,11 +158,11 @@
 #	endif
 #	define ML_CC_VER ML_CC_INTEL
 #	define ML_CC_NAME "Intel"
-# elif defined(__EMSCRIPTEN__)
+#elif defined(__EMSCRIPTEN__)
 #	define ML_CC_EMSCRIPTEN
 #	define ML_CC_VER ML_CC_EMSCRIPTEN
 #	define ML_CC_NAME "Emscripten"
-# elif defined(__MINGW32__) || defined(__MINGW64__)
+#elif defined(__MINGW32__) || defined(__MINGW64__)
 #	if defined(__MINGW64__)
 #		define ML_CC_MINGW __MINGW64__
 #	else
@@ -170,23 +170,23 @@
 #	endif
 #	define ML_CC_VER ML_CC_MINGW
 #	define ML_CC_NAME "MinGW"
-# elif defined(__asmjs__)
+#elif defined(__asmjs__)
 #	define ML_CC_ASMJS
 #	define ML_CC_VER ML_CC_ASMJS
 #	define ML_CC_NAME "asm.js"
-# elif defined(__wasm__)
+#elif defined(__wasm__)
 #	define ML_CC_WASM
 #	define ML_CC_VER ML_CC_WASM
 #	define ML_CC_NAME "WebAssembly"
-# else
+#else
 #	error This compiler is not supported.
-# endif
+#endif
 
 
 // Types
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_CC_MSC)
+#if defined(ML_CC_MSC)
 #	define	ML_INT8		signed __int8
 #	define	ML_INT16	signed __int16
 #	define	ML_INT32	signed __int32
@@ -195,7 +195,7 @@
 #	define	ML_UINT16	unsigned __int16
 #	define	ML_UINT32	unsigned __int32
 #	define	ML_UINT64	unsigned __int64
-# else
+#else
 #	define	ML_INT8		signed char
 #	define	ML_INT16	signed short
 #	define	ML_INT32	signed int
@@ -204,56 +204,56 @@
 #	define	ML_UINT16	unsigned short
 #	define	ML_UINT32	unsigned int
 #	define	ML_UINT64	unsigned long long
-# endif
+#endif
 
-# define	ML_FLOAT32	float
-# define	ML_FLOAT64	double
-# define	ML_FLOAT80	long double // 8, 10, 12, or 16 bytes (CC Dependant)
+#define	ML_FLOAT32	float
+#define	ML_FLOAT64	double
+#define	ML_FLOAT80	long double // 8, 10, 12, or 16 bytes (CC Dependant)
 
-# if (ML_ARCHITECTURE == 32)
+#if (ML_ARCHITECTURE == 32)
 #	define ML_INTMAX	ML_INT32
 #	define ML_UINTMAX	ML_UINT32
-# else
+#else
 #	define ML_INTMAX	ML_INT64
 #	define ML_UINTMAX	ML_UINT64
-# endif
+#endif
 
 
 //	Preprocessor
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# define _ML ::ml::
+#define _ML ::ml::
 
-# define ML_ADDRESSOF(ptr)		((ptr_t<void>)(ML_INTMAX)ptr)
-# define ML_ARRAYSIZE(arr)		(sizeof(arr) / sizeof(*arr))
-# define ML_CONCAT(a, b)		a##b
-# define ML_FILE				__FILE__
-# define ML_LINE				__LINE__
-# define ML_STRINGIFY(str)		ML_TOSTRING(str)
-# define ML_TOSTRING(str)		#str
+#define ML_ADDRESSOF(ptr)		((void *)(ML_INTMAX)ptr)
+#define ML_ARRAYSIZE(arr)		(sizeof(arr) / sizeof(*arr))
+#define ML_CONCAT(a, b)		a##b
+#define ML_FILE				__FILE__
+#define ML_LINE				__LINE__
+#define ML_STRINGIFY(str)		ML_TOSTRING(str)
+#define ML_TOSTRING(str)		#str
 
-# define ML_TEMPLATE(...)		template<##__VA_ARGS__>
-# define ML_USING				using
-# define ML_USING_VA(...)		ML_TEMPLATE(##__VA_ARGS__) ML_USING
-# define ML_USING_X				ML_USING_VA(class X)
-# define ML_USING_XY			ML_USING_VA(class X, class Y)
-# define ML_USING_XYZ			ML_USING_VA(class X, class Y, class Z)
-# define ML_USING_Ts			ML_USING_VA(class ... Ts)
+#define ML_TEMPLATE(...)		template<##__VA_ARGS__>
+#define ML_USING				using
+#define ML_USING_VA(...)		ML_TEMPLATE(##__VA_ARGS__) ML_USING
+#define ML_USING_X				ML_USING_VA(class X)
+#define ML_USING_XY			ML_USING_VA(class X, class Y)
+#define ML_USING_XYZ			ML_USING_VA(class X, class Y, class Z)
+#define ML_USING_Ts			ML_USING_VA(class ... Ts)
 
-# define ML_TRUE_EXPR(expr)		(([&](){ expr; return true; })())
-# define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
+#define ML_TRUE_EXPR(expr)		(([&](){ expr; return true; })())
+#define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
 
 
 //	Build
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(_DEBUG)
+#if defined(_DEBUG)
 #	define ML_DEBUG			true
 #	define ML_CONFIGURATION	"Debug"
-# else
+#else
 #	define ML_DEBUG			false
 #	define ML_CONFIGURATION	"Release"
-# endif
+#endif
 
 # ifndef ML_STATIC
 #	if defined(ML_CC_MSC)
@@ -276,9 +276,9 @@
 #		define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
 #		define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
 #	endif
-# else
+#else
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
-# endif
+#endif
 
-# endif // !_ML_CONFIG_HPP_
+#endif // !_ML_CONFIG_HPP_

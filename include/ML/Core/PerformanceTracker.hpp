@@ -9,7 +9,7 @@ namespace ml
 {
 	struct PerformanceTracker final : public Newable, public NonCopyable
 	{
-		using Callback = typename std::function<void(const_ref_t<C_String>, const_ref_t<Duration>)>;
+		using Callback = typename std::function<void(C_String, Duration)>;
 
 		Callback	callback;
 		C_String	name;

@@ -126,7 +126,6 @@ namespace ml
 			m_viewport.size()[1]
 		);
 		return (*this);
-
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

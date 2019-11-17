@@ -187,9 +187,17 @@ namespace ml
 		{
 		}
 
-		constexpr RenderStates(bool enabled) : RenderStates { enabled, {}, {}, {}, {} } {}
+		constexpr RenderStates(bool enabled) : RenderStates { 
+			enabled, {}, {}, {}, {} 
+		}
+		{
+		}
 
-		constexpr RenderStates() : RenderStates { true } {}
+		constexpr RenderStates() : RenderStates { 
+			true
+		}
+		{
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

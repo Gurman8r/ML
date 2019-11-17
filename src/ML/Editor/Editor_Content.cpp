@@ -52,7 +52,7 @@ namespace ml
 			// Tab Context Menu
 			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + plural).c_str()))
 			{
-				ptr_t<void> temp { nullptr };
+				voidptr_t temp { nullptr };
 				if (!std::is_same_v<T, Surface> && !std::is_same_v<T, Uniform>)
 				{
 					if (PropertyDrawer<T>()(("New {0}"_s).format(

@@ -11,13 +11,13 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_STATIC)
+#if defined(ML_STATIC)
 #	define ML_GRAPHICS_API
-# elif defined(ML_GRAPHICS_EXPORTS)
+#elif defined(ML_GRAPHICS_EXPORTS)
 #	define ML_GRAPHICS_API ML_API_EXPORT
-# else
+#else
 #	define ML_GRAPHICS_API ML_API_IMPORT
-# endif
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * */
 

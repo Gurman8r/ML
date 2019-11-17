@@ -26,7 +26,7 @@ namespace ml
 
 		Editor();
 
-		~Editor() {}
+		~Editor();
 
 		void onEvent(const Event & value) override;
 

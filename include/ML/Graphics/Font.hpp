@@ -36,7 +36,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-
 		const Glyph & getGlyph(uint32_t c, uint32_t characterSize) const;
 
 		Page & getPage(uint32_t characterSize) const;
@@ -54,9 +53,9 @@ namespace ml
 	private:
 		mutable PageTable m_pages;
 		
-		Info	m_info;
-		ptr_t<void>	m_library;
-		ptr_t<void>	m_face;
+		Info		m_info;
+		voidptr_t	m_library;
+		voidptr_t	m_face;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

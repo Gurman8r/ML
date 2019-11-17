@@ -8,22 +8,22 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	Sprite::Sprite()
-		: m_color(Colors::white)
-		, m_texture(nullptr)
-		, m_tf()
+		: m_color	{ Colors::white.rgba() }
+		, m_texture	{ nullptr }
+		, m_tf		{}
 	{
 	}
 
 	Sprite::Sprite(const String & filename)
-		: Sprite()
+		: Sprite{}
 	{
 		loadFromFile(filename);
 	}
 
 	Sprite::Sprite(const Sprite & copy)
-		: m_color(copy.m_color)
-		, m_texture(copy.m_texture)
-		, m_tf(copy.m_tf)
+		: m_color	{ copy.m_color }
+		, m_texture	{ copy.m_texture }
+		, m_tf		{ copy.m_tf }
 	{
 	}
 

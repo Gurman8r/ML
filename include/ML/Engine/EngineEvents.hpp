@@ -38,7 +38,7 @@ namespace ml
 		(int32_t)EngineEventType::MAX_ENGINE_EVENT < 
 		(int32_t)EngineEventType::MIN_ENGINE_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
-		);
+	);
 
 	template <EngineEventType ID> struct EngineEvent : public T_Event<EngineEventType, ID> 
 	{

@@ -28,13 +28,13 @@ namespace ml
 		Text & setPosition(const vec2 & value);
 		Text & setScale(const vec2 & value);
 		Text & setColor(const vec4 & value);
-		Text & setFont(const Font * value);
+		Text & setFont(const_ptr_t<Font> value);
 		Text & setFontSize(uint32_t value);
 		Text & setString(const String & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getFont()		const -> const Font *		{ return m_font; }
+		inline auto getFont()		const -> const_ptr_t<Font>		{ return m_font; }
 		inline auto getFontSize()	const -> const uint32_t		{ return m_fontSize; }
 		inline auto getPosition()	const -> const vec2 &		{ return m_position; }
 		inline auto getScale()		const -> const vec2 &		{ return m_scale; }
@@ -49,7 +49,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const Font *m_font;
+		const_ptr_t<Font> m_font;
 		uint32_t	m_fontSize;
 		vec2		m_position;
 		vec2		m_scale;

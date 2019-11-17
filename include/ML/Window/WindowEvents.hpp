@@ -59,7 +59,7 @@ namespace ml
 		(int32_t)WindowEventType::MAX_WINDOW_EVENT < 
 		(int32_t)WindowEventType::MIN_WINDOW_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
-		);
+	);
 
 	template <WindowEventType ID> struct WindowEvent : public T_Event<WindowEventType, ID>
 	{

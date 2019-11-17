@@ -14,11 +14,11 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if (ML_DEBUG)
+#if (ML_DEBUG)
 #	define alCheck(expr) do { expr; ML_AL.checkError(__FILE__, __LINE__, #expr); } while (false)
-# else
+#else
 #	define alCheck(expr) (expr)
-# endif
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -32,8 +32,8 @@ namespace ml
 		friend struct Singleton<OpenAL>;
 
 		bool		m_good;
-		ptr_t<void>	m_device;
-		ptr_t<void>	m_context;
+		voidptr_t	m_device;
+		voidptr_t	m_context;
 
 	public:
 
@@ -61,9 +61,9 @@ namespace ml
 		// Buffers
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	genBuffers(int32_t count) -> uint32_t;
-		static void	deleteBuffers(int32_t count, const uint32_t * buffers);
+		static void deleteBuffers(int32_t count, const uint32_t * buffers);
 		static bool	isBuffer(uint32_t id);
-		static void	bufferData(uint32_t id, int32_t format, const_ptr_t<void> data, int32_t size, int32_t freq);
+		static void bufferData(uint32_t id, int32_t format, voidptr_t data, int32_t size, int32_t freq);
 		
 		// Set Buffer Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -85,25 +85,25 @@ namespace ml
 
 		// Global Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void	dopplerFactor(float_t value);
-		static void	dopplerVelocity(float_t value);
-		static void	speedOfSound(float_t value);
-		static void	distanceModel(int32_t value);
+		static void dopplerFactor(float_t value);
+		static void dopplerVelocity(float_t value);
+		static void speedOfSound(float_t value);
+		static void distanceModel(int32_t value);
 
 		// Sources
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	genSources(int32_t count) -> uint32_t;
-		static void	deleteSources(int32_t count, const uint32_t * sources);
+		static void deleteSources(int32_t count, const uint32_t * sources);
 		static bool	isSource(uint32_t id);
 
 		// Set Source Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void	sourcef(uint32_t id, int32_t param, float_t value);
-		static void	source3f(uint32_t id, int32_t param, float_t x, float_t y, float_t z);
-		static void	sourcefv(uint32_t id, int32_t param, const_ptr_t<float_t> values);
-		static void	sourcei(uint32_t id, int32_t param, int32_t value);
-		static void	source3i(uint32_t id, int32_t param, int32_t x, int32_t y, int32_t z);
-		static void	sourceiv(uint32_t id, int32_t param, const_ptr_t<int32_t> values);
+		static void sourcef(uint32_t id, int32_t param, float_t value);
+		static void source3f(uint32_t id, int32_t param, float_t x, float_t y, float_t z);
+		static void sourcefv(uint32_t id, int32_t param, const_ptr_t<float_t> values);
+		static void sourcei(uint32_t id, int32_t param, int32_t value);
+		static void source3i(uint32_t id, int32_t param, int32_t x, int32_t y, int32_t z);
+		static void sourceiv(uint32_t id, int32_t param, const_ptr_t<int32_t> values);
 
 		// Get Source Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -116,26 +116,26 @@ namespace ml
 
 		// Source Based Playback calls
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void	sourcePlay(uint32_t id);
-		static void	sourceStop(uint32_t id);
-		static void	sourceRewind(uint32_t id);
-		static void	sourcePause(uint32_t id);
+		static void sourcePlay(uint32_t id);
+		static void sourceStop(uint32_t id);
+		static void sourceRewind(uint32_t id);
+		static void sourcePause(uint32_t id);
 
 		// Source Based Playback calls
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void	sourcePlay(int32_t ns, const uint32_t * sids);
-		static void	sourceStop(int32_t ns, const uint32_t * sids);
-		static void	sourceRewind(int32_t ns, const uint32_t * sids);
-		static void	sourcePause(int32_t ns, const uint32_t * sids);
+		static void sourcePlay(int32_t ns, const uint32_t * sids);
+		static void sourceStop(int32_t ns, const uint32_t * sids);
+		static void sourceRewind(int32_t ns, const uint32_t * sids);
+		static void sourcePause(int32_t ns, const uint32_t * sids);
 
 		// Set Listener Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void	listenerf(int32_t param, float_t value);
-		static void	listener3f(int32_t param, float_t x, float_t y, float_t z);
-		static void	listenerfv(int32_t param, const_ptr_t<float_t> values);
-		static void	listeneri(int32_t param, int32_t value);
-		static void	listener3i(int32_t param, int32_t x, int32_t y, int32_t z);
-		static void	listeneriv(int32_t param, const_ptr_t<int32_t> values);
+		static void listenerf(int32_t param, float_t value);
+		static void listener3f(int32_t param, float_t x, float_t y, float_t z);
+		static void listenerfv(int32_t param, const_ptr_t<float_t> values);
+		static void listeneri(int32_t param, int32_t value);
+		static void listener3i(int32_t param, int32_t x, int32_t y, int32_t z);
+		static void listeneriv(int32_t param, const_ptr_t<int32_t> values);
 
 		// Get Source Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

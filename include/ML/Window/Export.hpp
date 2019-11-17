@@ -11,13 +11,13 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_STATIC)
+#if defined(ML_STATIC)
 #	define ML_WINDOW_API
-# elif defined(ML_WINDOW_EXPORTS)
+#elif defined(ML_WINDOW_EXPORTS)
 #	define ML_WINDOW_API ML_API_EXPORT
-# else
+#else
 #	define ML_WINDOW_API ML_API_IMPORT
-# endif
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * */
 

@@ -12,8 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP
-	struct ML_GRAPHICS_API Light final
-		: public Newable
+	struct ML_GRAPHICS_API Light final : public Newable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -26,7 +26,7 @@ namespace ml
 	struct Editor_Inspector::Layout
 	{
 		template <class T>
-		inline static void draw_item(ptr_t<void> ptr, const String & name)
+		inline static void draw_item(voidptr_t ptr, const String & name)
 		{
 			if (!ptr) return;
 			ImGui::PushID(typeof<T>::name.c_str());

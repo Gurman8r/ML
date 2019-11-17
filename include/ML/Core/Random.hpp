@@ -10,17 +10,10 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Random final : public Singleton<Random>
+	struct Random final : public Singleton<Random>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		friend struct Singleton<Random>;
-
-		Random() { std::srand((uint32_t)std::time(nullptr)); }
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	public:
 		template <
 			class T
 		> inline T roll() const
@@ -41,6 +34,13 @@ namespace ml
 		{
 			return (min + (roll<T>(max) * (max - min)));
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private:
+		friend struct Singleton<Random>;
+
+		Random() { std::srand((uint32_t)std::time(nullptr)); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -20,7 +20,7 @@ namespace ml
 		(int32_t)CoreEventType::MAX_CORE_EVENT < 
 		(int32_t)CoreEventType::MIN_CORE_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
-		);
+	);
 
 	template <CoreEventType ID> struct CoreEvent : public T_Event<CoreEventType, ID>
 	{

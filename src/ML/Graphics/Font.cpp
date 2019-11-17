@@ -4,15 +4,12 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-# include <ft2build.h>
-# include FT_FREETYPE_H
-# include FT_GLYPH_H
-# include FT_OUTLINE_H
-# include FT_BITMAP_H
-# include FT_STROKER_H
-# ifdef ML_SYSTEM_WINDOWS
-#	pragma comment(lib, "freetype.lib")
-# endif
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include FT_GLYPH_H
+#include FT_OUTLINE_H
+#include FT_BITMAP_H
+#include FT_STROKER_H
 
 /* * * * * * * * * * * * * * * * * * * * */
 
@@ -105,7 +102,7 @@ namespace ml
 			);
 		}
 
-		// Store the loaded fonts in our ugly Own<void> :)
+		// Store the loaded fonts in our ugly Own<voidptr_t > :)
 		m_face = face;
 
 		// Store the fonts information

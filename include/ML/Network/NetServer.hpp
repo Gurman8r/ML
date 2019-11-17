@@ -7,36 +7,43 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_NETWORK_API NetServer final
-		: public Newable
-		, public NetInterface
+	struct ML_NETWORK_API NetServer final : public Newable, public NetInterface
 	{
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		enum { ID = 1 };
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		NetServer();
 		~NetServer();
 
-	public:
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		void onEvent(const Event & value) override;
 
 		void onPacket(const Packet & value) override;
 
 		bool start(const Host & host, uint32_t maxClients);
 
-	public:
-		inline bool		running()		const { return m_running; }
-		inline uint32_t maxClients()	const { return m_maxClients; }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline bool running() const { return m_running; }
+
+		inline auto maxClients() const -> uint32_t { return m_maxClients; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		bool		m_running;
 		uint32_t	m_maxClients;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
 #endif // !_ML_SERVER_HPP_

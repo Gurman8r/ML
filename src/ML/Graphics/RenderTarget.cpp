@@ -54,7 +54,10 @@ namespace ml
 
 	const RenderTarget & RenderTarget::draw(const_ptr_t<float_t> verts, size_t count, const VAO * vao, const VBO * vbo) const
 	{
-		if (vbo) { (*vbo).bind().bufferSubData(verts, (uint32_t)count, 0).unbind(); }
+		if (vbo) (*vbo)
+			.bind()
+			.bufferSubData((voidptr_t)verts, (uint32_t)count, 0)
+			.unbind();
 
 		return ((vao && vbo) ? draw((*vao), (*vbo)) : (*this));
 	}

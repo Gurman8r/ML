@@ -7,12 +7,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ContentManager::ContentManager() : m_data {} {}
-
-	ContentManager::~ContentManager() { this->dispose(); }
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	bool ContentManager::dispose()
 	{
 		for (auto & types : m_data)
@@ -35,7 +29,7 @@ namespace ml
 		return ((it != m_data.end())
 			? it->second
 			: m_data.insert({ code, {} }).first->second
-			);
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -46,12 +40,12 @@ namespace ml
 		return ((it != m_data.end())
 			? it->second
 			: m_data.insert({ code, {} }).first->second
-			);
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ptr_t<Newable> ContentManager::insert(hash_t code, const String & name, ptr_t<void> value)
+	ptr_t<Newable> ContentManager::insert(hash_t code, const String & name, voidptr_t value)
 	{
 		return this->data(code).insert({ name, (ptr_t<Newable>)value }).first->second;
 	}
@@ -77,9 +71,8 @@ namespace ml
 		auto it { this->data(code).find(name) };
 		if (it != this->data(code).end())
 		{
-			ptr_t<Newable>& ptr { it->second };
+			ptr_t<Newable> & ptr { it->second };
 			delete ptr;
-			ptr = nullptr;
 			this->data(code).erase(it);
 			return true;
 		}

@@ -1,3 +1,7 @@
+#if defined(ML_IMPL_PLATFORM_GLFW)
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include <ML/Window/Window.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Core/EventSystem.hpp>
@@ -12,18 +16,18 @@
 #	define GLFW_EXPOSE_NATIVE_WIN32
 #	include <glfw/glfw3native.h>
 #	include <Windows.h>
-# endif
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# define GLFW_HAS_WINDOW_TOPMOST	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ GLFW_FLOATING
-# define GLFW_HAS_WINDOW_HOVERED	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_HOVERED
-# define GLFW_HAS_WINDOW_ALPHA		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwSetWindowOpacity
-# define GLFW_HAS_PER_MONITOR_DPI	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorContentScale
-# define GLFW_HAS_VULKAN			(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwCreateWindowSurface
-# define GLFW_HAS_FOCUS_WINDOW		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwFocusWindow
-# define GLFW_HAS_FOCUS_ON_SHOW		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_FOCUS_ON_SHOW
-# define GLFW_HAS_MONITOR_WORK_AREA (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorWorkarea
+#define GLFW_HAS_WINDOW_TOPMOST	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ GLFW_FLOATING
+#define GLFW_HAS_WINDOW_HOVERED	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_HOVERED
+#define GLFW_HAS_WINDOW_ALPHA		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwSetWindowOpacity
+#define GLFW_HAS_PER_MONITOR_DPI	(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorContentScale
+#define GLFW_HAS_VULKAN			(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwCreateWindowSurface
+#define GLFW_HAS_FOCUS_WINDOW		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3200) // 3.2+ glfwFocusWindow
+#define GLFW_HAS_FOCUS_ON_SHOW		(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ GLFW_FOCUS_ON_SHOW
+#define GLFW_HAS_MONITOR_WORK_AREA (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 >= 3300) // 3.3+ glfwGetMonitorWorkarea
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -146,56 +150,55 @@ namespace ml
 		{
 			this->makeContextCurrent();
 
-			if (this->setup())
-			{
-				this->setCursorMode(Cursor::Mode::Normal);
+			this->install_callbacks();
 
-				if (this->getStyle().maximized)
-				{
-					this->maximize(); // Maximized
-				}
-				else
-				{
-					this->setCentered(); // Centered
-				}
-				
-				return true;
+			this->setCursorMode(Cursor::Mode::Normal);
+
+			if (this->getStyle().maximized)
+			{
+				this->maximize(); // Maximized
 			}
+			else
+			{
+				this->setCentered(); // Centered
+			}
+
+			return true;
 		}
 		return false;
 	}
 
-	bool Window::setup()
+	void Window::install_callbacks()
 	{
-		setCharCallback([](ptr_t<void>, uint32_t c)
+		setCharCallback([](voidptr_t, uint32_t c)
 		{
 			ML_EventSystem.fireEvent<CharEvent>(c);
 		});
 
-		setCursorEnterCallback([](ptr_t<void>, int32_t entered)
+		setCursorEnterCallback([](voidptr_t, int32_t entered)
 		{
 			ML_EventSystem.fireEvent<CursorEnterEvent>(entered);
 		});
 
-		setCursorPosCallback([](ptr_t<void>, float64_t x, float64_t y)
+		setCursorPosCallback([](voidptr_t, float64_t x, float64_t y)
 		{
 			ML_EventSystem.fireEvent<CursorPosEvent>(x, y);
 		});
 
 		setErrorCallback([](int32_t code, C_String desc)
 		{
-# if (ML_DEBUG == 1)
+#if (ML_DEBUG == 1)
 			cerr << "GLFW Error " << code << ": \'" << desc << "\'" << endl;
-# endif
+#endif
 			ML_EventSystem.fireEvent<WindowErrorEvent>(code, desc);
 		});
 
-		setFrameSizeCallback([](ptr_t<void>, int32_t w, int32_t h)
+		setFrameSizeCallback([](voidptr_t, int32_t w, int32_t h)
 		{
 			ML_EventSystem.fireEvent<FrameSizeEvent>(w, h);
 		});
 
-		setKeyCallback([](ptr_t<void>, int32_t button, int32_t scan, int32_t action, int32_t mods)
+		setKeyCallback([](voidptr_t, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
 			ML_EventSystem.fireEvent<KeyEvent>(button, scan, action, BitMask_8 { {
 				(mods & ML_MOD_SHIFT),
@@ -207,37 +210,35 @@ namespace ml
 			} });
 		});
 
-		setMouseCallback([](ptr_t<void>, int32_t button, int32_t action, int32_t mods)
+		setMouseCallback([](voidptr_t, int32_t button, int32_t action, int32_t mods)
 		{
 			ML_EventSystem.fireEvent<MouseEvent>(button, action, mods);
 		});
 		
-		setScrollCallback([](ptr_t<void>, float64_t x, float64_t y)
+		setScrollCallback([](voidptr_t, float64_t x, float64_t y)
 		{
 			ML_EventSystem.fireEvent<ScrollEvent>(x, y);
 		});
 
-		setWindowCloseCallback([](ptr_t<void>)
+		setWindowCloseCallback([](voidptr_t)
 		{
 			ML_EventSystem.fireEvent<WindowCloseEvent>();
 		});
 
-		setWindowFocusCallback([](ptr_t<void>, int32_t focused)
+		setWindowFocusCallback([](voidptr_t, int32_t focused)
 		{
 			ML_EventSystem.fireEvent<WindowFocusEvent>(focused);
 		});
 		
-		setWindowPosCallback([](ptr_t<void>, int32_t x, int32_t y)
+		setWindowPosCallback([](voidptr_t, int32_t x, int32_t y)
 		{
 			ML_EventSystem.fireEvent<WindowPosEvent>(x, y);
 		});
 
-		setWindowSizeCallback([](ptr_t<void>, int32_t width, int32_t height)
+		setWindowSizeCallback([](voidptr_t, int32_t width, int32_t height)
 		{
 			ML_EventSystem.fireEvent<WindowSizeEvent>(width, height);
 		});
-
-		return true;
 	}
 
 	void Window::onEvent(const Event & value)
@@ -357,7 +358,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setCursor(ptr_t<void> value)
+	Window & Window::setCursor(voidptr_t value)
 	{
 		if (m_window && value)
 		{
@@ -407,7 +408,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setMonitor(ptr_t<void> value)
+	Window & Window::setMonitor(voidptr_t value)
 	{
 		if (m_window && (m_monitor != value))
 		{
@@ -506,7 +507,7 @@ namespace ml
 		return temp;
 	}
 
-	ptr_t<void> Window::getHandle()
+	voidptr_t Window::getHandle() const
 	{
 		return m_window;
 	}
@@ -536,7 +537,7 @@ namespace ml
 		return temp;
 	}
 
-	ptr_t<void> Window::getRawHandle() const
+	voidptr_t Window::getRawHandle() const
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		return glfwGetWin32Window(static_cast<GLFWwindow *>(m_window));
@@ -547,17 +548,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ptr_t<void> Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels)
+	voidptr_t Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels)
 	{
 		return glfwCreateCursor(&map_glfw_image(w, h, pixels), w, h);
 	}
 
-	ptr_t<void> Window::createStandardCursor(Cursor::Shape value)
+	voidptr_t Window::createStandardCursor(Cursor::Shape value)
 	{
 		return glfwCreateStandardCursor((int32_t)value);
 	}
 
-	bool Window::destroyCursor(ptr_t<void> value)
+	bool Window::destroyCursor(voidptr_t value)
 	{
 		return (value ? ML_TRUE_EXPR(glfwDestroyCursor(static_cast<GLFWcursor *>(value))) : false);
 	}
@@ -567,7 +568,7 @@ namespace ml
 		return glfwExtensionSupported(value);
 	}
 
-	ptr_t<void> Window::getContextCurrent()
+	voidptr_t Window::getContextCurrent()
 	{
 		return glfwGetCurrentContext();
 	}
@@ -620,9 +621,9 @@ namespace ml
 		return reinterpret_cast<Window::ProcFun>(glfwGetProcAddress(value));
 	}
 
-	const List<ptr_t<void>> & Window::getMonitors()
+	const List<voidptr_t> & Window::getMonitors()
 	{
-		static List<ptr_t<void>> temp {};
+		static List<voidptr_t> temp {};
 		if (temp.empty())
 		{
 			int32_t count { 0 };
@@ -640,7 +641,7 @@ namespace ml
 		return glfwGetTime();
 	}
 
-	bool Window::makeContextCurrent(ptr_t<void> value)
+	bool Window::makeContextCurrent(voidptr_t value)
 	{
 		if (value)
 		{
@@ -788,3 +789,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#endif

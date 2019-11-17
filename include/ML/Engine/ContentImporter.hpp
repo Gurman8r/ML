@@ -18,9 +18,17 @@ namespace ml
 {
 	// Content Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	template <class ... T> struct ContentImporter;
 
-	template <> struct ContentImporter<> 
+	template <class ... T> struct BaseContentImporter;
+
+	template <> struct BaseContentImporter<>
+	{
+		BaseContentImporter() = delete;
+	};
+
+	template <> struct ContentImporter<> : public BaseContentImporter<>
 	{
 		ContentImporter() = delete;
 
@@ -41,112 +49,118 @@ namespace ml
 		}
 	};
 
+	template <class T> struct BaseContentImporter<T>
+	{
+		using value_type		= typename detail::decay_t<T>;
+		using self_type			= typename ContentImporter<value_type>;
+		using pointer			= typename ptr_t<value_type>;
+		using reference			= typename value_type &;
+		using const_pointer		= typename const_ptr_t<value_type>;
+		using const_reference	= typename const value_type &;
+
+		struct Info final
+		{
+			static constexpr auto hash	{ typeof<value_type>::hash };
+			static constexpr auto name	{ typeof<value_type>::name };
+			static constexpr auto brief	{ nameof<>::filter_namespace(name) };
+		} info;
+	};
+
 
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Entity;
-	template <> struct ML_ENGINE_API ContentImporter<Entity> final
+	struct Entity; template <
+	> struct ML_ENGINE_API ContentImporter<Entity> final : public BaseContentImporter<Entity>
 	{
-		ML_GEN_CONTENT_IMPORTER(Entity);
-		Entity * operator()(const Metadata & md) const;
+		ptr_t<Entity> operator()(const Metadata & md) const;
 	};
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Font;
-	template <> struct ML_ENGINE_API ContentImporter<Font> final
+	struct Font; template <
+	> struct ML_ENGINE_API ContentImporter<Font> final : public BaseContentImporter<Font>
 	{
-		ML_GEN_CONTENT_IMPORTER(Font);
-		Font * operator()(const Metadata & md) const;
+		ptr_t<Font> operator()(const Metadata & md) const;
 	};
 
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Image;
-	template <> struct ML_ENGINE_API ContentImporter<Image> final
+	struct Image; template <
+	> struct ML_ENGINE_API ContentImporter<Image> final : public BaseContentImporter<Image>
 	{
-		ML_GEN_CONTENT_IMPORTER(Image);
-		Image * operator()(const Metadata & md) const;
+		ptr_t<Image> operator()(const Metadata & md) const;
 	};
 
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Material;
-	template <> struct ML_ENGINE_API ContentImporter<Material> final
+	struct Material; template <
+	> struct ML_ENGINE_API ContentImporter<Material> final : public BaseContentImporter<Material>
 	{
-		ML_GEN_CONTENT_IMPORTER(Material);
 		ptr_t<Material> operator()(const Metadata & md) const;
 	};
 
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Model;
-	template <> struct ML_ENGINE_API ContentImporter<Model> final
+	struct Model; template <
+	> struct ML_ENGINE_API ContentImporter<Model> final : public BaseContentImporter<Model>
 	{
-		ML_GEN_CONTENT_IMPORTER(Model);
 		ptr_t<Model> operator()(const Metadata & md) const;
 	};
 
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Script;
-	template <> struct ML_ENGINE_API ContentImporter<Script> final
+	struct Script; template <
+	> struct ML_ENGINE_API ContentImporter<Script> final : public BaseContentImporter<Script>
 	{
-		ML_GEN_CONTENT_IMPORTER(Script);
 		ptr_t<Script> operator()(const Metadata & md) const;
 	};
 
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Shader;
-	template <> struct ML_ENGINE_API ContentImporter<Shader> final
+	struct Shader; template <
+	> struct ML_ENGINE_API ContentImporter<Shader> final : public BaseContentImporter<Shader>
 	{
-		ML_GEN_CONTENT_IMPORTER(Shader);
 		ptr_t<Shader> operator()(const Metadata & md) const;
 	};
 
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Sound;
-	template <> struct ML_ENGINE_API ContentImporter<Sound> final
+	struct Sound; template <
+	> struct ML_ENGINE_API ContentImporter<Sound> final : public BaseContentImporter<Sound>
 	{
-		ML_GEN_CONTENT_IMPORTER(Sound);
-		Sound * operator()(const Metadata & md) const;
+		ptr_t<Sound> operator()(const Metadata & md) const;
 	};
 
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Sprite;
-	template <> struct ML_ENGINE_API ContentImporter<Sprite> final
+	struct Sprite; template <
+	> struct ML_ENGINE_API ContentImporter<Sprite> final : public BaseContentImporter<Sprite>
 	{
-		ML_GEN_CONTENT_IMPORTER(Sprite);
-		Sprite * operator()(const Metadata & md) const;
+		ptr_t<Sprite> operator()(const Metadata & md) const;
 	};
 
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Surface;
-	template <> struct ML_ENGINE_API ContentImporter<Surface> final
+	struct Surface; template <
+	> struct ML_ENGINE_API ContentImporter<Surface> final : public BaseContentImporter<Surface>
 	{
-		ML_GEN_CONTENT_IMPORTER(Surface);
-		Surface * operator()(const Metadata & md) const;
+		ptr_t<Surface> operator()(const Metadata & md) const;
 	};
 
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	struct Texture;
-	template <> struct ML_ENGINE_API ContentImporter<Texture> final
+	struct Texture; template <
+	> struct ML_ENGINE_API ContentImporter<Texture> final : public BaseContentImporter<Texture>
 	{
-		ML_GEN_CONTENT_IMPORTER(Texture);
 		ptr_t<Texture> operator()(const Metadata & md) const;
 	};
 }

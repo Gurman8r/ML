@@ -42,37 +42,37 @@ namespace ml
 				value.getData("name").asString()
 			);
 		}
-# if (ML_DEBUG)
+#if (ML_DEBUG)
 		return Debug::logInfo("Loaded [{0}]: {1}",
 			value.getData("type").asString(),
 			value.getData("name").asString()
 		);
-# else
+#else
 		return true;
-# endif
+#endif
 	}
 
 	int32_t ContentImporter<>::loadMetadata(const List<Metadata> & value)
 	{
-# if (ML_DEBUG)
-		Debug::logInfo("Loading {0} items...", value.size());
-# endif
+#if (ML_DEBUG)
+		Debug::logInfo("Preparing {0} items...", value.size());
+#endif
 		int32_t count{ 0 };
 		for (const auto & elem : value)
 		{
 			count += loadMetadata(elem);
 		}
-# if (ML_DEBUG)
+#if (ML_DEBUG)
 		Debug::logInfo("Done.\n");
-# endif
+#endif
 		return count;
 	}
 
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Entity * ContentImporter<Entity>::operator()(const Metadata & md) const
+	ptr_t<Entity> ContentImporter<Entity>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -88,9 +88,9 @@ namespace ml
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Font * ContentImporter<Font>::operator()(const Metadata & md) const
+	ptr_t<Font> ContentImporter<Font>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -113,9 +113,9 @@ namespace ml
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Image * ContentImporter<Image>::operator()(const Metadata & md) const
+	ptr_t<Image> ContentImporter<Image>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -142,7 +142,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ptr_t<Material> ContentImporter<Material>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -186,7 +186,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ptr_t<Model> ContentImporter<Model>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -211,7 +211,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ptr_t<Script> ContentImporter<Script>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -236,7 +236,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ptr_t<Shader> ContentImporter<Shader>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -283,9 +283,9 @@ namespace ml
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Sound * ContentImporter<Sound>::operator()(const Metadata & md) const
+	ptr_t<Sound> ContentImporter<Sound>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -313,9 +313,9 @@ namespace ml
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Sprite * ContentImporter<Sprite>::operator()(const Metadata & md) const
+	ptr_t<Sprite> ContentImporter<Sprite>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -346,9 +346,9 @@ namespace ml
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	Surface * ContentImporter<Surface>::operator()(const Metadata & md) const
+	ptr_t<Surface> ContentImporter<Surface>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -370,7 +370,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	ptr_t<Texture> ContentImporter<Texture>::operator()(const Metadata & md) const
 	{
-		if (info().hash == md.getData("type").asString().hash())
+		if (this->info.hash == md.getData("type").asString().hash())
 		{
 			if (const String name { md.getData("name") })
 			{
@@ -437,7 +437,7 @@ namespace ml
 						}
 						else if (const String file = md.getData("image"))
 						{
-							if (const Image * img = ML_Engine.content().get<Image>(file))
+							if (const_ptr_t<Image> img = ML_Engine.content().get<Image>(file))
 							{
 								auto temp = new Texture {
 								sampler, format, smooth, repeat, mipmap, level, pixfmt

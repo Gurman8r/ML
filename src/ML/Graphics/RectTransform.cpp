@@ -5,32 +5,32 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	RectTransform::RectTransform()
-		: m_changed	(true)
-		, m_matrix	()
-		, m_position({ 0.0f, 0.0f })
-		, m_scale	({ 1.0f, 1.0f })
-		, m_rotation(0.0f)
-		, m_origin	({ 0.5f, 0.5f })
+		: m_changed	{ true }
+		, m_matrix	{}
+		, m_position{ 0.0f, 0.0f }
+		, m_scale	{ 1.0f, 1.0f }
+		, m_rotation{ 0.0f }
+		, m_origin	{ 0.5f, 0.5f }
 	{
 	}
 
 	RectTransform::RectTransform(const vec2 & position, const vec2 & scale, const float_t rotation, const vec2 & origin)
-		: m_changed	(true)
-		, m_matrix	()
-		, m_position(position)
-		, m_scale	(scale)
-		, m_rotation(rotation)
-		, m_origin	(origin)
+		: m_changed	{ true }
+		, m_matrix	{}
+		, m_position{ position }
+		, m_scale	{ scale }
+		, m_rotation{ rotation }
+		, m_origin	{ origin }
 	{
 	}
 
 	RectTransform::RectTransform(const RectTransform & copy)
-		: m_changed	(copy.m_changed)
-		, m_matrix	(copy.m_matrix)
-		, m_position(copy.m_position)
-		, m_scale	(copy.m_scale)
-		, m_rotation(copy.m_rotation)
-		, m_origin	(copy.m_origin)
+		: m_changed	{ copy.m_changed }
+		, m_matrix	{ copy.m_matrix }
+		, m_position{ copy.m_position }
+		, m_scale	{ copy.m_scale }
+		, m_rotation{ copy.m_rotation }
+		, m_origin	{ copy.m_origin }
 	{
 	}
 

@@ -47,6 +47,8 @@ namespace ml
 		ML_EventSystem.addListener<KeyEvent>(this);
 	}
 
+	Engine::~Engine() {}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Engine::onEvent(const Event & value)

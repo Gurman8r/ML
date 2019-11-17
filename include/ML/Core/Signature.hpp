@@ -13,30 +13,30 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-# if defined(ML_CC_MSC)
+#if defined(ML_CC_MSC)
 #	define ML_SIGNATURE					__FUNCSIG__
 #	define ML_TYPE_SIGNATURE_PREFIX		"struct ml::StringView __cdecl ml::signature::type<"
 #	define ML_TYPE_SIGNATURE_SUFFIX		">(void)"
 #	define ML_VALUE_SIGNATURE_PREFIX	"struct ml::StringView __cdecl ml::signature::value<"
 #	define ML_VALUE_SIGNATURE_SEPARATOR	"; T Value = "
 #	define ML_VALUE_SIGNATURE_SUFFIX	">(void)"
-# elif defined(ML_CC_GCC)
+#elif defined(ML_CC_GCC)
 #	define ML_SIGNATURE					__PRETTY_FUNCTION__
 #	define ML_TYPE_SIGNATURE_PREFIX		"constexpr ml::StringView ml::signature::type() [with T = "
 #	define ML_TYPE_SIGNATURE_SUFFIX		"]"
 #	define ML_VALUE_SIGNATURE_PREFIX	"constexpr ml::StringView ml::signature::value() [with T = "
 #	define ML_VALUE_SIGNATURE_SEPARATOR	"; Value = "
 #	define ML_VALUE_SIGNATURE_SUFFIX	"]"
-# elif defined(ML_CC_CLANG)
+#elif defined(ML_CC_CLANG)
 #	define ML_SIGNATURE					__PRETTY_FUNCTION__
 #	define ML_TYPE_SIGNATURE_PREFIX		"ml::StringView ml::signature::type() [T = "
 #	define ML_TYPE_SIGNATURE_SUFFIX		"]"
 #	define ML_VALUE_SIGNATURE_PREFIX	"ml::StringView ml::signature::value() [T = "
 #	define ML_VALUE_SIGNATUTE_SEPARATOR	"; Value = "
 #	define ML_VALUE_SIGNATURE_SUFFIX	"]"
-# else
+#else
 #	error Type information is not available.
-# endif
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

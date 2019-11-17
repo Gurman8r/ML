@@ -81,23 +81,21 @@ namespace ml
 				std::get<0>(signature::detail::type)),
 				std::get<1>(signature::detail::type)
 			);
-# else
-#	if defined(ML_CC_MSC)
-			const auto lhs { value.find_first_of('<') };
-			const auto rhs { value.find_last_of('>') };
+#elif defined(ML_CC_MSC)
+			const auto lhs{ value.find_first_of('<') };
+			const auto rhs{ value.find_last_of('>') };
 			return (((lhs != StringView::npos) && (rhs != StringView::npos))
 				? value.substr((lhs + 1), (rhs - lhs) - 1)
 				: value
 			);
-#	else
-			const auto lhs { value.find_first_of('=') };
-			const auto rhs { value.find_last_of(']') };
+#else
+			const auto lhs{ value.find_first_of('=') };
+			const auto rhs{ value.find_last_of(']') };
 			return (((lhs != StringView::npos) && (rhs != StringView::npos))
 				? value.substr((lhs + 2), (rhs - lhs) - 1)
 				: value
 			);
-#	endif
-# endif
+#endif
 		}
 
 		static constexpr StringView filter_namespace(const StringView & value) noexcept
@@ -168,6 +166,6 @@ template <> struct ml::nameof<std::u32string> final
 {
 	static constexpr auto value { "std::u32string" };
 };
-# endif
+#endif
 
 #endif // !_ML_NAMEOF_HPP_

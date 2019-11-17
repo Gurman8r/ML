@@ -19,7 +19,7 @@ namespace ml
 		(int32_t)AudioEventType::MAX_AUDIO_EVENT <
 		(int32_t)AudioEventType::MIN_AUDIO_EVENT + Event::MAX_LIBRARY_EVENTS,
 		"too many library event types specified in " __FILE__
-		);
+	);
 
 	template <AudioEventType ID> struct AudioEvent : public T_Event<AudioEventType, ID>
 	{

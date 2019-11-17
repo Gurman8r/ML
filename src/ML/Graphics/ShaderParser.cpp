@@ -65,8 +65,7 @@ namespace ml
 
 	String ShaderParser::parseIncludes(const String & src)
 	{
-		auto clbk = ([](const String & name)
-		{
+		auto clbk = ([](const String & name) {
 			if (String file { ML_FS.getFileContents(ML_FS.pathTo(name)) })
 			{
 				return file;
@@ -103,16 +102,11 @@ namespace ml
 				static constexpr StringView inc { "include" };
 				if (line.trim().substr(0, inc.size()) == inc.str())
 				{
-					size_t a;
-					if ((a = line.find_first_of(lhs)) != String::npos)
+					if (const size_t a{ line.find_first_of(lhs) }; a != String::npos)
 					{
-						size_t b;
-						if ((b = line.find_last_of(rhs)) != String::npos)
+						if (const size_t b{ line.find_last_of(rhs) }; b != String::npos)
 						{
-							if (a != b)
-							{
-								return callback(line.substr(a + 1, b - a - 1));
-							}
+							if (a != b) { return callback(line.substr(a + 1, b - a - 1)); }
 						}
 					}
 				}

@@ -46,28 +46,28 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ptr_t<void> Entity::addByCode(hash_t code, ptr_t<void> value)
+	voidptr_t Entity::addByCode(hash_t code, voidptr_t value)
 	{
 		return ((m_data.find(code) == m_data.end())
 			? m_data.insert({ code, static_cast<ptr_t<Newable>>(value) }).first->second
 			: nullptr
-			);
+		);
 	}
 
-	ptr_t<void> Entity::addByName(const String & name, ptr_t<void> value)
+	voidptr_t Entity::addByName(const String & name, voidptr_t value)
 	{
 		return ((m_data.find(name.hash()) == m_data.end())
 			? addByCode(name.hash(), value)
 			: nullptr
-			);
+		);
 	}
 
-	ptr_t<void> Entity::addByName(const String & name)
+	voidptr_t Entity::addByName(const String & name)
 	{
 		return ((m_data.find(name.hash()) == m_data.end())
 			? addByCode(name.hash(), ML_Registry.generate(name))
 			: nullptr
-			);
+		);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

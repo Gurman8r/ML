@@ -120,7 +120,7 @@ namespace ml
 		return create(value.size()) && update(value);
 	}
 
-	bool Texture::loadFromFaces(const Array<const Image *, 6> & faces)
+	bool Texture::loadFromFaces(const Array<const_ptr_t<Image>, 6> & faces)
 	{
 		// Validate Sampler
 		if (m_sampler != GL::TextureCubeMap)
@@ -178,7 +178,7 @@ namespace ml
 					0,
 					m_cFormat,
 					m_pixType,
-					faces[i]->data()
+					(voidptr_t)faces[i]->data()
 				);
 			}
 			
@@ -234,12 +234,12 @@ namespace ml
 		return create(image.data(), w, h);
 	}
 
-	bool Texture::create(const byte_t * pixels, const vec2u & size)
+	bool Texture::create(const_ptr_t<byte_t> pixels, const vec2u & size)
 	{
 		return create(pixels, size[0], size[1]);
 	}
 
-	bool Texture::create(const byte_t * pixels, uint32_t w, uint32_t h)
+	bool Texture::create(const_ptr_t<byte_t> pixels, uint32_t w, uint32_t h)
 	{
 		if (w && h)
 		{
@@ -265,15 +265,15 @@ namespace ml
 				bind();
 
 				ML_GL.texImage2D(
-					m_sampler,		// 
-					m_level,		// 
-					m_iFormat,		// 
-					m_size[0],		//  
-					m_size[1],		// 
-					0,				// border: "This value must be 0" -khronos.org
-					m_cFormat,		// 
-					m_pixType,		// 
-					pixels			// 
+					m_sampler,
+					m_level,
+					m_iFormat,
+					m_size[0],
+					m_size[1],
+					0, // border: "This value must be 0" -khronos.org
+					m_cFormat,
+					m_pixType,
+					(voidptr_t)pixels
 				);
 				
 				unbind();
@@ -345,22 +345,22 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Texture::update(const byte_t * pixels)
+	bool Texture::update(const_ptr_t<byte_t> pixels)
 	{
 		return update(pixels, UintRect { width(), height() });
 	}
 
-	bool Texture::update(const byte_t * pixels, const UintRect & area)
+	bool Texture::update(const_ptr_t<byte_t> pixels, const UintRect & area)
 	{
 		return update(pixels, area.position(), area.size());
 	}
 
-	bool Texture::update(const byte_t * pixels, const vec2u & position, const vec2u & size)
+	bool Texture::update(const_ptr_t<byte_t> pixels, const vec2u & position, const vec2u & size)
 	{
 		return update(pixels, position[0], position[1], size[0], size[1]);
 	}
 
-	bool Texture::update(const byte_t * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+	bool Texture::update(const_ptr_t<byte_t> pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
 		if (w && h)
 		{
@@ -369,15 +369,15 @@ namespace ml
 				bind();
 
 				ML_GL.texSubImage2D(
-					m_sampler,	// 
-					m_level,	// 
-					x,			//  
-					y,			// 
-					w,			//  
-					h,			// 
-					m_iFormat,	// 
-					m_pixType,	// 
-					pixels		// 
+					m_sampler,
+					m_level,
+					x,
+					y,
+					w,
+					h,
+					m_iFormat,
+					m_pixType,
+					(voidptr_t)pixels
 				);
 
 				unbind();

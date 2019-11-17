@@ -6,10 +6,6 @@
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
-#ifndef ML_INI_FILENAME
-#define ML_INI_FILENAME "ML.ini"
-#endif
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
@@ -51,7 +47,7 @@ namespace ml
 
 	private: 
 		String m_filename;
-		ptr_t<void> m_ini;
+		voidptr_t m_ini;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -23,9 +23,12 @@ project "MemeLib"
 		"ML_NETWORK_EXPORTS", 
 		"ML_WINDOW_EXPORTS", 
 		"ML_INI_FILENAME=\"../../../ML.ini\"",
+		"ML_IMPL_PLATFORM_GLFW",
+		"ML_IMPL_RENDERER_OPENGL3",
+		"ML_IMPL_OPENGL_LOADER_GLEW",
+		"GLEW_STATIC",
 		"_CRT_SECURE_NO_WARNINGS",
 		"NOMINMAX",
-		"GLEW_STATIC",
 	}
 	includedirs {
 		"%{sln_dir}build/%{prj.name}.lua",
@@ -60,23 +63,11 @@ project "MemeLib"
 		"%{ext_lib}", "%{ext_lib}%{cfg.buildcfg}/", "%{ext_lib}%{cfg.buildcfg}/%{cfg.platform}/",
 	}
 	links {
-		"lua",
-		"RakNet",
-		"ImGui",
-		"glfw3",
-		"opengl32",
-		"glew32s", 
-		"OpenAL32", 
-		"flac", 
-		"ogg",
-		"vorbis", 
-		"vorbisenc", 
-		"vorbisfile",
+		"lua", "RakNet", "ImGui", "glfw3",
+		"opengl32", "glew32s", 
+		"assimp", "IrrXML", "zlibstatic", "freetype", 
+		"OpenAL32", "flac", "ogg", "vorbis", "vorbisenc", "vorbisfile",
 		"pdcurses", 
-		"freetype", 
-		"assimp", 
-		"IrrXML", 
-		"zlibstatic",
 	}
 	
 	filter { "configurations:Debug" }
@@ -87,7 +78,9 @@ project "MemeLib"
 		}
 	
 	filter { "system:Windows", "configurations:Debug" }
-		linkoptions { "/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib" }
+		linkoptions { 
+			"/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib"
+		}
 	
 	filter { "configurations:Release" } 
 		optimize "Speed"
@@ -97,7 +90,9 @@ project "MemeLib"
 		}
 	
 	filter { "system:Windows", "configurations:Release" }
-		linkoptions { "/NODEFAULTLIB:LIBCMT.lib"  }
+		linkoptions {
+			"/NODEFAULTLIB:LIBCMT.lib"
+		}
 	
 	filter { "system:Windows" }
 		includedirs { "%{ext_dir}cpython/PC", }

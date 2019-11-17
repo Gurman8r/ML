@@ -5,19 +5,19 @@
 
 # ifdef ML_SYSTEM_WINDOWS
 #	include <dirent/include/dirent.h>
-# else
+#else
 #	include <dirent.h>
-# endif
+#endif
 
 #define ML_FS ::ml::FileSystem::getInstance()
 
-# if defined(ML_SYSTEM_WINDOWS)
+#if defined(ML_SYSTEM_WINDOWS)
 #	define ML_MAX_PATH		260
 #	define ML_PATH_DELIM	"\\"
-# else
+#else
 #	define ML_MAX_PATH		255
 #	define ML_PATH_DELIM	"/"
-# endif
+#endif
 
 namespace ml
 {
@@ -130,7 +130,7 @@ namespace ml
 
 		inline bool getFileContents(const String & filename, List<char> & value) const
 		{
-			static File file;
+			File file;
 			file.loadFromFile(filename);
 			value = file.data();
 			return file;
@@ -138,7 +138,7 @@ namespace ml
 
 		inline bool getFileContents(const String & filename, String & value) const
 		{
-			static File file;
+			File file;
 			file.loadFromFile(filename);
 			value = file.str();
 			return file;
@@ -153,7 +153,7 @@ namespace ml
 
 		inline bool getFileContents(const String & filename, SStream & value) const
 		{
-			static File file;
+			File file;
 			file.loadFromFile(filename);
 			value = file.sstr();
 			return file;

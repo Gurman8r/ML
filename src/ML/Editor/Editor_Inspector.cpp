@@ -65,7 +65,7 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			ML_Editor.mainMenuBar().addMenu("Window", [&]()
+			ML_Editor.mainMenuBar().addMenu("View", [&]()
 			{
 				ImGui::PushID(ML_ADDRESSOF(this));
 				ImGui::MenuItem(getTitle(), getHotkey(), openPtr());

@@ -118,7 +118,7 @@ namespace ml
 	{
 		for (const auto & elem : m_meshes)
 		{
-			elem->draw(target, batch);
+			target.draw(elem, batch);
 		}
 	}
 

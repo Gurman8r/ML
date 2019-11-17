@@ -160,7 +160,7 @@ namespace ml
 				ImGui::PopID();
 			});
 
-			mainMenuBar().addMenu("Window", nullptr);
+			mainMenuBar().addMenu("View", nullptr);
 
 			mainMenuBar().addMenu("Options", [&]()
 			{

@@ -13,6 +13,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		GameTime() : m_step{}, m_main{ true }{}
+
 		~GameTime() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -45,26 +46,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		inline float_t totalTime() const { return static_cast<float_t>(m_main.elapsed().count()); }
 
-		inline float_t totalTime() const
-		{
-			return static_cast<float_t>(m_main.elapsed().count());
-		}
+		inline float_t deltaTime() const { return static_cast<float_t>(m_elapsed.count()); }
 
-		inline float_t deltaTime() const
-		{
-			return static_cast<float_t>(m_elapsed.count());
-		}
+		inline uint64_t frameCount() const { return m_frame.count; }
 
-		inline uint64_t frameCount() const
-		{
-			return m_frame.count;
-		}
-
-		inline float_t frameRate() const
-		{
-			return m_frame.rate;
-		}
+		inline float_t frameRate() const { return m_frame.rate; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

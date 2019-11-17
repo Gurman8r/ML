@@ -271,7 +271,7 @@ namespace ml
 					}
 
 					// Draw Renderers
-					for (auto & [name, value] : ML_Engine.content().data<Entity>())
+					for (auto & [ name, value ] : ML_Engine.content().data<Entity>())
 					{
 						if (auto e{ (ptr_t<Entity>)value })
 						{

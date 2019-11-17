@@ -310,10 +310,7 @@ namespace ml
 					}();
 
 					// Draw Previous
-					if (auto prev{ m_pipeline.at(0) })
-					{
-						ML_Engine.window().draw(prev);
-					}
+					ML_Engine.window().draw(m_pipeline.at(0));
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */

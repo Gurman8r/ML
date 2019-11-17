@@ -70,7 +70,7 @@ namespace ml
 		if (m_peer)
 		{
 			switch (ML_PEER(m_peer)->Connect(
-				host.addr,
+				host.addr.str().c_str(),
 				host.port,
 				pass.c_str(),
 				(int32_t)pass.size()))

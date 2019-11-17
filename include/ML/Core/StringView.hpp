@@ -63,6 +63,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		constexpr operator bool() const
+		{
+			return size();
+		}
+
 		constexpr const_reference operator[](size_t i) const 
 		{ 
 			return at(i); 

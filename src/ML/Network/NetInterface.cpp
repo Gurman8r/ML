@@ -77,7 +77,7 @@ namespace ml
 			(PacketPriority)settings.priority,
 			(PacketReliability)settings.reliability,
 			settings.ordering,
-			RakNet::SystemAddress{ host.addr, host.port },
+			RakNet::SystemAddress{ host.addr.str().c_str(), host.port },
 			settings.broadcast,
 			settings.receiptNumber
 		);
@@ -93,7 +93,7 @@ namespace ml
 	GUID NetInterface::getGUIDFromAddress(const Host & value) const
 	{
 		return { ML_PEER(m_peer)->GetGuidFromSystemAddress(
-			RakNet::SystemAddress { value.addr, value.port }
+			RakNet::SystemAddress { value.addr.str().c_str(), value.port }
 		).g };
 	}
 

@@ -80,7 +80,7 @@ namespace ml
 	{
 		if (m_peer && (m_maxClients = maxClients))
 		{
-			RakNet::SocketDescriptor socket(host.port, host.addr);
+			RakNet::SocketDescriptor socket{ host.port, host.addr.str().c_str() };
 			switch (ML_PEER(m_peer)->Startup(m_maxClients, &socket, 1))
 			{
 			case RakNet::RAKNET_STARTED:

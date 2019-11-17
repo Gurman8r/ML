@@ -75,13 +75,16 @@ namespace ml
 		if (m_enabled && m_model && m_material && m_shader)
 		{
 			m_states();
+
 			if (const ScopedBinder<Shader> binder{ m_shader, false })
 			{
 				for (const auto & u : (*m_material))
 				{
 					binder->setUniform(u);
 				}
-				binder->bind(true);
+				
+				binder->bind(true); // bind textures
+
 				target.draw(m_model, batch);
 			}
 		}

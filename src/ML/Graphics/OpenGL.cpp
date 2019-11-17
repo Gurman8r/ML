@@ -69,9 +69,10 @@ namespace ml
 	{
 		major = (uint32_t)getInt(GL::MajorVersion);
 		minor = (uint32_t)getInt(GL::MinorVersion);
+
 		if (getError() == GL::InvalidEnum)
 		{
-			if (C_String version = getString(GL::Version))
+			if (auto version{ getString(GL::Version) })
 			{
 				major = version[0] - '0';
 				minor = version[2] - '0';

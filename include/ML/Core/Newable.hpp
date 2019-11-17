@@ -13,35 +13,15 @@ namespace ml
 	{
 		virtual ~Newable() {}
 
-		inline const std::type_info & get_type_info() const
-		{
-			return typeid(*this);
-		}
+		inline const std::type_info & get_type_info() const { return typeid(*this); }
 
-		inline friend ML_SERIALIZE(std::ostream & out, const Newable & value)
-		{
-			return out << value.get_type_info().name();
-		}
+		inline voidptr_t operator new(size_t size) { return ML_Memory.allocate(size); }
 
-		inline voidptr_t operator new(size_t size)
-		{
-			return ML_Memory.allocate(size);
-		}
+		inline voidptr_t operator new[](size_t size) { return ML_Memory.allocate(size); }
 
-		inline voidptr_t operator new[](size_t size)
-		{
-			return ML_Memory.allocate(size);
-		}
-
-		inline void operator delete(voidptr_t ptr)
-		{
-			return ML_Memory.deallocate(ptr);
-		}
-
-		inline void operator delete[](voidptr_t ptr)
-		{
-			return ML_Memory.deallocate(ptr);
-		}
+		inline void operator delete(voidptr_t ptr) { return ML_Memory.deallocate(ptr); }
+		
+		inline void operator delete[](voidptr_t ptr) { return ML_Memory.deallocate(ptr); }
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

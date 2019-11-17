@@ -17,7 +17,9 @@
 #define ML_MSG_ERR "error"
 
 #if (ML_DEBUG)
-#	if defined(ML_CC_MSC)
+#	if defined(ML_IMPL_BREAKPOINT_CUSTOM)
+#		define ML_BREAKPOINT ML_IMPL_BREAKPOINT_CUSTOM
+#	elif defined(ML_CC_MSC)
 #		define ML_BREAKPOINT __debugbreak()
 #	else
 #		define ML_BREAKPOINT raise(SIGTRAP)
@@ -80,28 +82,23 @@ namespace ml
 
 	struct ML_CORE_API FMT final
 	{
-		FG fg;
-		BG bg;
+		FG fg; BG bg;
 
-		constexpr FMT()							: FMT { FG::Normal, BG::Black } {}
-		constexpr FMT(const FG fg)				: FMT { fg,			BG::Black }	{}
-		constexpr FMT(const BG bg)				: FMT { FG::Normal, bg }		{}
-		constexpr FMT(const FMT & copy)			: FMT { copy.fg,	copy.bg }	{}
-		constexpr FMT(const FG fg, const BG bg) : fg  { fg },		bg { bg }	{}
+		constexpr FMT() : FMT{ FG::Normal, BG::Black } {}
+		constexpr FMT(FG fg) : FMT{ fg, BG::Black } {}
+		constexpr FMT(BG bg) : FMT{ FG::Normal, bg } {}
+		constexpr FMT(const FMT & copy) : FMT{ copy.fg, copy.bg } {}
+		constexpr FMT(FG fg, BG bg) : fg{ fg }, bg{ bg } {}
 
 		constexpr uint16_t operator*() const
 		{
-			// Foreground and Background
 			return (((this->fg != FG::None) && (this->bg != BG::None))
-				? ((uint16_t)this->fg | (uint16_t)this->bg) 
-				// Foreground Only
+				? ((uint16_t)this->fg | (uint16_t)this->bg)
 				: ((this->fg != FG::None)
 					? ((uint16_t)this->fg) 
-					// Background Only
 					: ((this->bg != BG::None)
 						? ((uint16_t)this->bg) 
-						// Default
-						: ((uint16_t)FG::Normal | (uint16_t)BG::Black) 
+						: ((uint16_t)FG::Normal | (uint16_t)BG::Black)
 						)));
 		}
 
@@ -154,7 +151,7 @@ namespace ml
 			out << FMT()
 				<< FG::White << "[" << color << prefix << FG::White << "] "
 				<< FMT() << message
-				<< endl;
+				<< std::endl;
 			return exitCode;
 		}
 
@@ -162,17 +159,17 @@ namespace ml
 
 		static inline int32_t logInfo(const String & message)
 		{
-			return DebugLogger(cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
+			return DebugLogger(std::cout, ML_SUCCESS, FG::Green, ML_MSG_LOG, message);
 		}
 
 		static inline int32_t logError(const String & message)
 		{
-			return DebugLogger(cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
+			return DebugLogger(std::cout, ML_FAILURE, FG::Red, ML_MSG_ERR, message);
 		}
 
 		static inline int32_t logWarning(const String & message)
 		{
-			return DebugLogger(cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
+			return DebugLogger(std::cout, ML_WARNING, FG::Yellow, ML_MSG_WRN, message);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

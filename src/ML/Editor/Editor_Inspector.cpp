@@ -29,7 +29,7 @@ namespace ml
 		inline static void draw_item(voidptr_t ptr, const String & name)
 		{
 			if (!ptr) return;
-			ImGui::PushID(typeof<T>::name.c_str());
+			ImGui::PushID(typeof<T>::name.data());
 			ImGui::PushID(ML_ADDRESSOF(&ML_Engine.content().data<T>()));
 			ImGui::PushID(ptr);
 			PropertyDrawer<T>()(
@@ -93,7 +93,7 @@ namespace ml
 				}
 				ImGui::EndMenuBar();
 			}
-			switch (Hash { c.type_name().data(), c.type_name().size() })
+			switch (Hash{}(c.type_name().data(), c.type_name().size()))
 			{
 			case typeof<Entity>::hash:	Layout::draw_item<Entity>(c.selected(), c.item_name()); break;
 			case typeof<Font>::hash:	Layout::draw_item<Font>(c.selected(), c.item_name()); break;

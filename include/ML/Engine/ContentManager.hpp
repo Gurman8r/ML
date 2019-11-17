@@ -24,11 +24,30 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool dispose() override;
+		bool dispose() override
+		{
+			for (auto & types : m_data)
+			{
+				for (auto & elem : types.second)
+				{
+					if (elem.second) { delete elem.second; }
+				}
+				types.second.clear();
+			}
+			m_data.clear();
+			return m_data.empty();
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		AssetMap & data(hash_t code);
+		inline AssetMap & data(hash_t code)
+		{
+			auto it{ m_data.find(code) };
+			return ((it != m_data.end())
+				? it->second
+				: m_data.insert({ code, {} }).first->second
+			);
+		}
 
 		template <hash_t H> inline AssetMap & data()
 		{
@@ -43,7 +62,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		const AssetMap & data(hash_t code) const;
+		inline const AssetMap & data(hash_t code) const
+		{
+			auto it{ m_data.find(code) };
+			return ((it != m_data.end())
+				? it->second
+				: m_data.insert({ code, {} }).first->second
+			);
+		}
 
 		template <hash_t H> inline const AssetMap & data() const
 		{
@@ -58,7 +84,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ptr_t<Newable> insert(hash_t code, const String & name, voidptr_t value);
+		inline ptr_t<Newable> insert(hash_t code, const String & name, voidptr_t value)
+		{
+			return this->data(code).insert({ name, (ptr_t<Newable>)value }).first->second;
+		}
 
 		template <hash_t H> inline ptr_t<Newable> insert(const String & name, voidptr_t value)
 		{
@@ -80,11 +109,32 @@ namespace ml
 			);
 		}
 
-		ptr_t<Newable> generate(const String & type, const String & name);
+		inline ptr_t<Newable> generate(const String & type, const String & name)
+		{
+			if (const hash_t * code{ ML_Registry.get_code(type) })
+			{
+				if (!this->exists(*code, name))
+				{
+					return this->insert(*code, name, ML_Registry.generate(*code));
+				}
+			}
+			return nullptr;
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool destroy(hash_t code, const String & name);
+		inline bool destroy(hash_t code, const String & name)
+		{
+			auto it{ this->data(code).find(name) };
+			if (it != this->data(code).end())
+			{
+				ptr_t<Newable> & ptr{ it->second };
+				delete ptr;
+				this->data(code).erase(it);
+				return true;
+			}
+			return false;
+		}
 
 		template <hash_t H> inline bool destroy(const String & name)
 		{
@@ -98,7 +148,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool exists(hash_t code, const String & name) const;
+		inline bool exists(hash_t code, const String & name) const
+		{
+			return (this->data(code).find(name) != this->data(code).cend());
+		}
 
 		template <hash_t H> inline bool exists(const String & name) const
 		{
@@ -112,14 +165,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline auto find(const String & name)
-			-> AssetMap::iterator
+		template <class T> inline AssetMap::iterator find(const String & name)
 		{
 			return name ? this->data<T>().find(name) : this->end<T>();
 		}
 
-		template <class T> inline auto find(const String & name) const
-			-> AssetMap::const_iterator
+		template <class T> inline AssetMap::const_iterator find(const String & name) const
 		{
 			return name ? this->data<T>().find(name) : this->end<T>();
 		}
@@ -142,7 +193,7 @@ namespace ml
 
 		template <class T> inline List<String> get_keys() const
 		{
-			List<String> temp;
+			List<String> temp{};
 			temp.reserve(this->size<T>());
 			for (const auto & pair : this->data<T>())
 			{
@@ -157,7 +208,7 @@ namespace ml
 			return (i >= 0) ? this->get_keys<T>()[(hash_t)i] : String();
 		}
 
-		template <class T> inline auto get_iter_at_index(int32_t index) const
+		template <class T> inline AssetMap::const_iterator get_iter_at_index(int32_t index) const
 		{
 			if ((index >= 0) && ((hash_t)index < this->size<T>()))
 			{
@@ -182,9 +233,9 @@ namespace ml
 			if (value)
 			{
 				int32_t index { 0 };
-				for (const auto & pair : this->data<T>())
+				for (const auto & [ name, ptr ] : this->data<T>())
 				{
-					if (pair.second == value)
+					if (ptr == value)
 					{
 						return index;
 					}

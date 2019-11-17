@@ -49,7 +49,7 @@ namespace ml
 #	if defined(ML_SYSTEM_WINDOWS)
 		std::system("pause");
 #	else
-		cin.get();
+		std::cin.get();
 #	endif
 #endif
 		return exitCode;

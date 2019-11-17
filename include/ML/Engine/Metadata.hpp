@@ -136,7 +136,7 @@ namespace ml
 	{
 		for (const auto & pair : value)
 		{
-			out << "[" << pair.first << "] | " << pair.second << endl;
+			out << "[" << pair.first << "] | " << pair.second << std::endl;
 		}
 		return out;
 	}

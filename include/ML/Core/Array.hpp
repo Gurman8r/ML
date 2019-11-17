@@ -46,7 +46,7 @@ namespace ml
 		constexpr auto end()		const	-> const_iterator	{ return data() + size(); }
 		constexpr auto front()				-> reference		{ return (*begin()); }
 		constexpr auto front()		const	-> const_reference	{ return (*cbegin()); }
-		constexpr auto hash()		const	-> hash_t			{ return Hash { data(), size() }; }
+		constexpr auto hash()		const	-> hash_t			{ return Hash{}(data(), size()); }
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -213,16 +213,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-template <class T, _STD size_t N> struct _STD hash<_ML Array<T, N>>
-{
-	inline _STD size_t operator()(const _ML Array<T, N> & value) const noexcept
-	{
-		return static_cast<_STD size_t>(value.hash());
-	}
-};
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

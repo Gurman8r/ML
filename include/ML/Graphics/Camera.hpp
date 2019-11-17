@@ -100,9 +100,9 @@ namespace ml
 		{
 			switch (util::to_lower(value).hash())
 			{
-			case Hash("solidcolor"): return Camera::SolidColor;
-			case Hash("depthonly"): return Camera::DepthOnly;
-			case Hash("dontclear"): return Camera::DontClear;
+			case Hash{}("solidcolor"): return Camera::SolidColor;
+			case Hash{}("depthonly"): return Camera::DepthOnly;
+			case Hash{}("dontclear"): return Camera::DontClear;
 			default: return (Camera::ClearFlags)0;
 			}
 		}
@@ -116,8 +116,8 @@ namespace ml
 		{
 			switch (util::to_lower(value).hash())
 			{
-			case Hash("orthographic"): return Camera::Orthographic;
-			case Hash("perspective"): return Camera::Perspective;
+			case Hash{}("orthographic"): return Camera::Orthographic;
+			case Hash{}("perspective"): return Camera::Perspective;
 			default: return (Camera::Projection)0;
 			}
 		}

@@ -61,7 +61,7 @@
 
 #define ML_ARGC		__argc
 #define ML_ARGV		__argv
-#define ML_WARGV		__wargv
+#define ML_WARGV	__wargv
 
 #define ML_DESERIALIZE	::std::istream & operator >>
 #define ML_SERIALIZE	::std::ostream & operator <<
@@ -122,23 +122,6 @@ namespace ml
 	ML_USING_Ts HashMap		= typename _STD unordered_map<Ts...>;
 	ML_USING_Ts List		= typename _STD vector<Ts...>;
 	ML_USING_Ts Map			= typename _STD map<Ts...>;
-	ML_USING_Ts Shared		= typename _STD shared_ptr<Ts...>;
-	ML_USING_Ts Unique		= typename _STD unique_ptr<Ts...>;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	template <
-		class Ch, class Tr = typename _STD char_traits<char>
-	> inline _STD basic_ostream<Ch, Tr> & endl(_STD basic_ostream<Ch, Tr> & out)
-	{
-		out.put(out.widen('\n'));
-		out.flush();
-		return out;
-	}
-
-	static _STD ostream & cout { _STD cout };
-	static _STD ostream & cerr { _STD cerr };
-	static _STD istream & cin  { _STD cin  };
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

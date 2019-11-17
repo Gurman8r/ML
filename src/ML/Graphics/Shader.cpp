@@ -557,38 +557,24 @@ namespace ml
 
 	int32_t Shader::getAttributeLocation(const String & name) const
 	{
-		Map<String, int32_t>::iterator it;
-		if ((it = m_attribs.find(name)) != m_attribs.end())
+		if (auto it{ m_attribs.find(name) }; it != m_attribs.end())
 		{
 			return it->second;
 		}
-		else
-		{
-			int32_t value { ML_GL.getAttribLocation((*this), name.c_str()) };
-			if (value == -1)
-			{
-				//Debug::logWarning("Attribute not found: \'{0}\'", name);
-			}
-			return m_attribs.insert({ name, value }).first->second;
-		}
+		return m_attribs.insert({ 
+			name, ML_GL.getAttribLocation((*this), name.c_str())
+		}).first->second;
 	}
 
 	int32_t Shader::getUniformLocation(const String & name) const
 	{
-		Map<String, int32_t>::iterator it;
-		if ((it = m_uniforms.find(name)) != m_uniforms.end())
+		if (auto it{ m_uniforms.find(name) }; it != m_uniforms.end())
 		{
 			return it->second;
 		}
-		else
-		{
-			int32_t value { ML_GL.getUniformLocation((*this), name.c_str()) };
-			if (value == -1)
-			{
-				//Debug::logWarning("Uniform not found: \'{0}\'", name);
-			}
-			return m_uniforms.insert({ name, value }).first->second;
-		}
+		return m_uniforms.insert({
+			name, ML_GL.getUniformLocation((*this), name.c_str())
+		}).first->second;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -662,7 +648,7 @@ namespace ml
 				log = ML_GL.getProgramInfoLog(*this);
 				ML_GL.deleteShader(*this);
 				Debug::logError("Failed linking shader");
-				cout << log << endl;
+				std::cout << log << std::endl;
 				ML_GL.flush();
 				return false;
 			}

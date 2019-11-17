@@ -50,8 +50,8 @@ namespace ml
 			class Arg0, class ... Args
 		> inline SStream sink(const Arg0 & arg0, Args && ... args)
 		{
-			SStream ss {}; ss << arg0 << endl;
-			int32_t i[] = { 0, ((void)(ss << args << endl), 0)... }; (void)i;
+			SStream ss {}; ss << arg0 << std::endl;
+			int32_t i[] = { 0, ((void)(ss << args << std::endl), 0)... }; (void)i;
 			return ss;
 		}
 
@@ -158,14 +158,14 @@ namespace ml
 		{
 			switch (to_lower(value).hash())
 			{
-			case Hash("1"):
-			case Hash("true"):
-			case Hash("on"):
-			case Hash("yes"):
-			case Hash("0"):
-			case Hash("false"):
-			case Hash("off"):
-			case Hash("no"):
+			case Hash{}("1"):
+			case Hash{}("true"):
+			case Hash{}("on"):
+			case Hash{}("yes"):
+			case Hash{}("0"):
+			case Hash{}("false"):
+			case Hash{}("off"):
+			case Hash{}("no"):
 				return true;
 
 			default: return false;
@@ -221,16 +221,16 @@ namespace ml
 		{
 			switch (to_lower(value).hash())
 			{
-			case Hash("1"):
-			case Hash("true"):
-			case Hash("on"):
-			case Hash("yes"):
+			case Hash{}("1"):
+			case Hash{}("true"):
+			case Hash{}("on"):
+			case Hash{}("yes"):
 				return true;
 
-			case Hash("0"):
-			case Hash("false"):
-			case Hash("off"):
-			case Hash("no"):
+			case Hash{}("0"):
+			case Hash{}("false"):
+			case Hash{}("off"):
+			case Hash{}("no"):
 				return false;
 			
 			default: return dv;

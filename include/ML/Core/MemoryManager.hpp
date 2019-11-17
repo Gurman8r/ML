@@ -39,10 +39,8 @@ namespace ml
 
 	private:
 		friend Singleton<MemoryManager>;
-
 		MemoryManager();
 		~MemoryManager();
-
 		size_t m_current;
 		RecordMap m_records;
 	};

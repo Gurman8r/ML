@@ -56,7 +56,7 @@ namespace ml
 				filename = filename.substr(filename.find_last_of("\\/") + 1);
 
 				// Decode the error
-				cout<< FG::Red		<< "An OpenGL call failed in \'" << ev->file << "\' (" << ev->line << ")"
+				std::cout<< FG::Red		<< "An OpenGL call failed in \'" << ev->file << "\' (" << ev->line << ")"
 					<< FG::Yellow	<< "\nCode: "
 					<< FG::White	<< "\n\t" << ev->code
 					<< FG::Yellow	<< "\nExpression: "
@@ -64,7 +64,7 @@ namespace ml
 					<< FG::Yellow	<< "\nDescription:"
 					<< FG::White	<< "\n\t" << GL::name_of((GL::Err)ev->code)
 					<< FG::White	<< "\n\t" << GL::desc_of((GL::Err)ev->code)
-					<< FMT()		<< endl;
+					<< FMT()		<< std::endl;
 			} break;
 		}
 	}

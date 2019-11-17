@@ -187,7 +187,7 @@ namespace ml
 		setErrorCallback([](int32_t code, C_String desc)
 		{
 #if (ML_DEBUG)
-			cerr << "GLFW Error " << code << ": \'" << desc << "\'" << endl;
+			std::cerr << "GLFW Error " << code << ": \'" << desc << "\'" << std::endl;
 #endif
 			ML_EventSystem.fireEvent<WindowErrorEvent>(code, desc);
 		});

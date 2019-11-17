@@ -13,18 +13,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		static constexpr auto basis { static_cast<hash_t>(14695981039346656037ULL) };
+
 		static constexpr auto prime { static_cast<hash_t>(1099511628211ULL) };
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		template <class ... Args> constexpr Hash(Args && ... args) noexcept
-			: m_value { (*this)(std::forward<Args>(args)...) }
-		{
-		}
-
-		constexpr Hash() noexcept : m_value { 0 } {}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		constexpr Hash() noexcept = default;
 
 		template <
 			class T
@@ -49,20 +41,6 @@ namespace ml
 		{
 			return (*this)(value, (N - 1));
 		}
-
-		constexpr const hash_t & operator()() const noexcept
-		{
-			return m_value;
-		}
-
-		constexpr operator const hash_t &() const noexcept
-		{
-			return (*this)();
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	private: hash_t m_value;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

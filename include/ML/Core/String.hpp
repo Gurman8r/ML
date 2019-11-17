@@ -150,7 +150,7 @@ namespace ml
 
 		inline hash_t hash() const
 		{
-			return Hash { this->data(), this->size() };
+			return Hash{}(this->data(), this->size());
 		}
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -159,9 +159,9 @@ namespace ml
 			class Arg0, class ... Args
 		> inline self_type & format(const Arg0 & arg0, Args && ... args)
 		{
-			sstream_type ss {}; ss << arg0 << endl;
+			sstream_type ss {}; ss << arg0 << std::endl;
 			
-			int32_t sink[] = { 0, ((void)(ss << args << endl), 0)... }; (void)sink;
+			int32_t sink[] = { 0, ((void)(ss << args << std::endl), 0)... }; (void)sink;
 			
 			return this->format(ss);
 		}

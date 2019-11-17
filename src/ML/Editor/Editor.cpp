@@ -95,9 +95,9 @@ namespace ml
 				) };
 				switch (util::to_lower(styleConf).hash())
 				{
-					case Hash("classic"): { ImGui::StyleColorsClassic(); } break;
-					case Hash("dark")	: { ImGui::StyleColorsDark(); } break;
-					case Hash("light")	: { ImGui::StyleColorsLight(); } break;
+					case Hash{}("classic"): { ImGui::StyleColorsClassic(); } break;
+					case Hash{}("dark")	: { ImGui::StyleColorsDark(); } break;
+					case Hash{}("light")	: { ImGui::StyleColorsLight(); } break;
 				}
 				ImGuiStyleLoader().loadFromFile(ML_FS.pathTo(styleConf));
 
@@ -126,7 +126,7 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				m_terminal.redirect(cout);
+				m_terminal.redirect(std::cout);
 
 				m_mainMenuBar.addMenu("File", [&]()
 				{
@@ -263,7 +263,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				m_mainMenuBar.dispose();
-				m_terminal.redirect(cout);
+				m_terminal.redirect(std::cout);
 				ImGui_ImplOpenGL3_Shutdown();
 				ImGui_ImplGlfw_Shutdown();
 				ML_AssetPreview.dispose();

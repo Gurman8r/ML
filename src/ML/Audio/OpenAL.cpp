@@ -42,7 +42,7 @@ namespace ml
 
 	std::ostream & OpenAL::checkError(C_String file, uint32_t line, C_String expr)
 	{
-		return checkError(cout, file, line, expr);
+		return checkError(std::cout, file, line, expr);
 	}
 
 	std::ostream & OpenAL::checkError(std::ostream & out, C_String file, uint32_t line, C_String expr)
@@ -64,7 +64,7 @@ namespace ml
 				<< FG::Yellow	<< "\nDescription:"
 				<< FG::White	<< "\n\t" << AL::name_of(code)
 				<< FG::White	<< "\n\t" << AL::desc_of(code)
-				<< FMT()		<< endl;
+				<< FMT()		<< std::endl;
 		}
 		return out;
 	}

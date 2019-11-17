@@ -316,7 +316,7 @@ namespace ml
 					{
 						if (ev->obj && (ev->obj == r->shader()))
 						{
-							cout << ev->error;
+							std::cout << ev->error;
 
 							// Decode Errors
 							SStream ss { String{ ev->error } };
@@ -651,7 +651,7 @@ namespace ml
 								case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Engine.content().get_name(*a); break;
 								}
 								if (ss.str().back() != ' ') ss << ' ';
-								ss << "}" << endl;
+								ss << "}" << std::endl;
 							}
 							ML_Engine.window().setClipboardString(ss.str());
 						}

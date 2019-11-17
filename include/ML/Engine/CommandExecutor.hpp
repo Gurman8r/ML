@@ -30,7 +30,10 @@ namespace ml
 
 		FunctionExecutor(fun_type && fun) : m_fun(fun) {}
 
-		bool onCommand(const CommandDescriptor & cmd, const List<String> & args) const override;
+		inline bool onCommand(const CommandDescriptor & cmd, const List<String> & args) const override
+		{
+			return m_fun ? m_fun(cmd, args) : false;
+		}
 
 	private: fun_type m_fun;
 	};

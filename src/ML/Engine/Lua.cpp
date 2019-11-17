@@ -8,7 +8,7 @@ namespace ml
 		auto my_print{ ([](lua_State * L)
 		{
 			for (int32_t i = 1, imax = lua_gettop(L); i <= imax; ++i)
-				cout << lua_tostring(L, i);
+				std::cout << lua_tostring(L, i);
 			return EXIT_SUCCESS;
 		}) };
 

@@ -62,19 +62,16 @@ namespace ml
 							ImGui::Text("Type"); ImGui::NextColumn();
 							ImGui::Separator();
 
-							for (const auto & pair : ML_Memory.records())
+							for (const auto & [ ptr, rec ] : ML_Memory.records())
 							{
-								const MemoryManager::Record * r { pair.second };
-								const Newable * ptr { static_cast<const Newable *>(r->ptr) };
-
 								ImGui::Columns(4, "Allocations##Columns");
-								ImGui::Text("%p", r->ptr);
+								ImGui::Text("%p", rec->ptr);
 								ImGui::NextColumn();
-								ImGui::Text("%u", r->index);
+								ImGui::Text("%u", rec->index);
 								ImGui::NextColumn();
-								ImGui::Text("%u", r->size);
+								ImGui::Text("%u", rec->size);
 								ImGui::NextColumn();
-								ImGui::Text("%s", ptr->get_type_info().name());
+								ImGui::Text("%s", ((const Newable *)rec->ptr)->get_type_info().name());
 								ImGui::Columns(1);
 							}
 						}

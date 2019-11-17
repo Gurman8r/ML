@@ -34,7 +34,7 @@ namespace ml
 
 		inline auto operator()() const
 		{
-			return (*this)(cin);
+			return (*this)(std::cin);
 		}
 	};
 

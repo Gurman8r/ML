@@ -13,15 +13,9 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static_assert(0 < (X * Y),
-			"size negative or zero"
-			);
-		static_assert(std::is_trivial_v<T>, 
-			"type must be trivial"
-			);
-		static_assert(std::is_trivially_copyable_v<T>, 
-			"type must be trivially copyable"
-			);
+		static_assert(0 < (X * Y), "size negative or zero");
+		
+		static_assert(std::is_trivial_v<T>, "type must be trivial");
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -516,13 +510,5 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
-
-template <class T, _STD size_t X, _STD size_t Y> struct _STD hash<_ML Matrix<T, X, Y>>
-{
-	inline _STD size_t operator()(const _ML Matrix<T, X, Y> & value) const noexcept
-	{
-		return static_cast<_STD size_t>(value.hash());
-	}
-};
 
 #endif // !_ML_MATRIX_HPP_

@@ -21,7 +21,7 @@ namespace ml
 		if (!([&]() {
 			switch (value.getData("type").asString().hash())
 			{
-			case Hash { "Manifest" }	: return true;
+			case Hash{}("Manifest")		: return true;
 			case typeof<Entity>::hash	: return (bool)ContentImporter<Entity>()(value);
 			case typeof<Font>::hash		: return (bool)ContentImporter<Font>()(value);
 			case typeof<Image>::hash	: return (bool)ContentImporter<Image>()(value);
@@ -474,7 +474,7 @@ namespace ml
 						switch (util::to_lower(source).hash())
 						{
 						/* * * * * * * * * * * * * * * * * * * * */
-						case Hash("files"):
+						case Hash{}("files"):
 						{
 							auto temp = new Texture {
 							sampler, format, smooth, repeat, mipmap, level, pixfmt
@@ -494,7 +494,7 @@ namespace ml
 						}
 						break;
 						/* * * * * * * * * * * * * * * * * * * * */
-						case Hash("images"):
+						case Hash{}("images"):
 						{
 							auto temp = new Texture {
 							sampler, format, smooth, repeat, mipmap, level, pixfmt
@@ -514,7 +514,7 @@ namespace ml
 						}
 						break;
 						/* * * * * * * * * * * * * * * * * * * * */
-						case Hash("textures"):
+						case Hash{}("textures"):
 						{
 							Array<const_ptr_t<Texture>, 6> tex {
 								ML_Engine.content().get<Texture>(names[0]),

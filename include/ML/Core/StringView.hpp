@@ -53,22 +53,20 @@ namespace ml
 		constexpr auto begin()		const -> const_iterator		{ return m_data; }
 		constexpr auto cbegin()		const -> const_iterator		{ return m_data; }
 		constexpr auto cend()		const -> const_iterator		{ return m_data + m_size; }
-		constexpr auto c_str()		const -> const_pointer		{ return m_data; }
 		constexpr auto data()		const -> const_pointer		{ return m_data; }
 		constexpr auto empty()		const -> bool				{ return (m_size == 0); }
 		constexpr auto end()		const -> const_iterator		{ return m_data + m_size; }
 		constexpr auto front()		const -> const_reference	{ return (*cbegin()); }
-		constexpr auto hash()		const -> hash_t				{ return Hash { m_data, m_size }; }
+		constexpr auto hash()		const -> hash_t				{ return Hash{}(m_data, m_size); }
 		constexpr auto size()		const -> size_t				{ return m_size; }
 		inline	  auto str()		const -> std::string		{ return { m_data, m_size }; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr const_reference operator[](size_t i) const { return at(i); }
-
-		constexpr operator const_pointer() const { return data(); }
-
-		inline operator std::string() const { return str(); }
+		constexpr const_reference operator[](size_t i) const 
+		{ 
+			return at(i); 
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -199,44 +197,6 @@ namespace ml
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	constexpr bool operator==(const StringView & lhs, const std::string & rhs)
-	{
-		return (lhs == rhs.c_str());
-	}
-
-	constexpr bool operator!=(const StringView & lhs, const std::string & rhs)
-	{
-		return (lhs != rhs.c_str());
-	}
-
-	constexpr bool operator<(const StringView & lhs, const std::string & rhs)
-	{
-		return (lhs < rhs.c_str());
-	}
-
-	constexpr bool operator>(const StringView & lhs, const std::string & rhs)
-	{
-		return (lhs < rhs.c_str());
-	}
-
-	constexpr bool operator<=(const StringView & lhs, const std::string & rhs)
-	{
-		return (lhs <= rhs.c_str());
-	}
-
-	constexpr bool operator>=(const StringView & lhs, const std::string & rhs)
-	{
-		return (lhs >= rhs.c_str());
-	}
 }
-
-template<> struct _STD hash<_ML StringView>
-{
-	inline _STD size_t operator()(const _ML StringView & value) const noexcept
-	{
-		return static_cast<_STD size_t>(value.hash());
-	}
-};
 
 #endif // !_ML_STRING_VIEW_HPP_

@@ -207,7 +207,7 @@ namespace ml
 		{
 			for (C_String e : m_history)
 			{
-				cout << e << endl;
+				std::cout << e << std::endl;
 			}
 		}
 		else

@@ -23,9 +23,9 @@ namespace ml
 
 		constexpr cast() = default;
 
-		template <class T> constexpr auto operator()(T && value) const
+		template <class T> constexpr auto operator()(T value) const
 		{
-			return static_cast<type>(std::forward<T>(value));
+			return static_cast<type>(value);
 		}
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

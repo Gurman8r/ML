@@ -3,7 +3,7 @@
 
 #include <ML/Engine/Export.hpp>
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/StringUtility.hpp>
 
 #define ML_Registry ::ml::Registry<>::getInstance()

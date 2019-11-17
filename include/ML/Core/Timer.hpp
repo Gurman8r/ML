@@ -2,13 +2,13 @@
 #define _ML_TIMER_HPP_
 
 #include <ML/Core/Duration.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Timer final : public Newable
+	struct Timer final : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -2,7 +2,7 @@
 #define _ML_OBJECT_POOL_HPP_
 
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Array.hpp>
 
 namespace ml
@@ -12,7 +12,7 @@ namespace ml
 	// WIP
 	template <class T, size_t N> struct ObjectPool final
 		: public Disposable
-		, public Newable
+		, public Trackable
 		, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

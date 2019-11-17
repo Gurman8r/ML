@@ -12,7 +12,7 @@ namespace ml
 
 	// Surface is used to render a texture
 	struct ML_GRAPHICS_API Surface final
-		: public Newable
+		: public Trackable
 		, public Disposable
 		, public Drawable
 	{

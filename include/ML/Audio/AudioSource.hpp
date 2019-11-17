@@ -2,7 +2,7 @@
 #define _ML_AUDIO_SOURCE_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Handle.hpp>
 
 namespace ml
@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_AUDIO_API AudioSource
-		: public Newable
+		: public Trackable
 		, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

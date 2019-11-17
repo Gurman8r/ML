@@ -4,7 +4,7 @@
 #include <ML/Engine/Export.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Core/EventListener.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 
 #define ML_PLUGIN_API ML_API_EXPORT
 
@@ -16,7 +16,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API Plugin : public Newable, public NonCopyable, public EventListener
+	struct ML_ENGINE_API Plugin : public Trackable, public NonCopyable, public EventListener
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

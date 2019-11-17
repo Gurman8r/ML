@@ -7,11 +7,11 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_ENGINE_API Entity final : public Newable, public Disposable, public NonCopyable
+	struct ML_ENGINE_API Entity final : public Trackable, public Disposable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using base_type = typename HashMap<hash_t, ptr_t<Newable>>;
+		using base_type = typename HashMap<hash_t, ptr_t<Trackable>>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +25,7 @@ namespace ml
 		{
 			for (auto & [key, value] : m_data)
 			{
-				ptr_t<Newable> & ptr{ value };
+				ptr_t<Trackable> & ptr{ value };
 				delete ptr;
 				ptr = nullptr;
 			}
@@ -95,7 +95,7 @@ namespace ml
 		inline voidptr_t addByCode(hash_t code, voidptr_t value)
 		{
 			return (m_data.find(code) == m_data.end())
-				? m_data.insert({ code, static_cast<ptr_t<Newable>>(value) }).first->second
+				? m_data.insert({ code, static_cast<ptr_t<Trackable>>(value) }).first->second
 				: nullptr;
 		}
 
@@ -117,13 +117,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline ptr_t<Newable> getByCode(hash_t value)
+		inline ptr_t<Trackable> getByCode(hash_t value)
 		{
 			auto it{ m_data.find(value) };
 			return ((it != cend()) ? it->second : nullptr);
 		}
 
-		inline const_ptr_t<Newable> getByCode(hash_t value) const
+		inline const_ptr_t<Trackable> getByCode(hash_t value) const
 		{
 			auto it{ m_data.find(value) };
 			return ((it != cend()) ? it->second : nullptr);
@@ -131,12 +131,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline ptr_t<Newable> getByName(const String & value)
+		inline ptr_t<Trackable> getByName(const String & value)
 		{
 			return getByCode(value.hash());
 		}
 
-		inline const_ptr_t<Newable> getByName(const String & value) const
+		inline const_ptr_t<Trackable> getByName(const String & value) const
 		{
 			return getByCode(value.hash());
 		}

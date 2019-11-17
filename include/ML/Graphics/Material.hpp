@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Materials are collections of uniforms
-	struct ML_GRAPHICS_API Material final : public Newable, public Disposable
+	struct ML_GRAPHICS_API Material final : public Trackable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

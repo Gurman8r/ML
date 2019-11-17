@@ -1,9 +1,16 @@
 #include <ML/Core/MemoryManager.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
 {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	const std::type_info & MemoryManager::Record::get_type_info() const
+	{
+		return ((const_ptr_t<Trackable>)this->ptr)->get_type_info();
+	}
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	MemoryManager::MemoryManager()
@@ -29,16 +36,13 @@ namespace ml
 
 			for (const auto & [ ptr, rec ] : m_records)
 			{
-				if (auto obj{ static_cast<Newable *>(rec->ptr) })
-				{
-					std::cerr
-						<< std::left
-						<< FG::Green << std::setw(6) << rec->index
-						<< FG::Cyan << std::setw(sizeof(size_t) * 2) << rec->size
-						<< FG::Yellow << std::setw(sizeof(size_t) * 3) << rec->ptr
-						<< FG::Normal << std::setw(10) << ((const Newable *)rec->ptr)->get_type_info().name()
-						<< FMT() << std::endl;
-				}
+				std::cerr
+					<< std::left
+					<< FG::Green << std::setw(6) << rec->index
+					<< FG::Cyan << std::setw(sizeof(size_t) * 2) << rec->size
+					<< FG::Yellow << std::setw(sizeof(size_t) * 3) << rec->ptr
+					<< FG::Normal << std::setw(10) << rec->get_type_info().name()
+					<< FMT() << std::endl;
 			}
 
 			Debug::pause(EXIT_FAILURE);

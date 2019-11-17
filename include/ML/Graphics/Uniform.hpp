@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/Color.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/BitMask.hpp>
 
 
@@ -16,7 +16,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// Base Uniform
-	struct Uniform : public Newable, public NonCopyable
+	struct Uniform : public Trackable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

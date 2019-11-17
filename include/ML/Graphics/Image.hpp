@@ -4,7 +4,7 @@
 #include <ML/Graphics/Color.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Rect.hpp>
 #include <ML/Core/String.hpp>
 
@@ -12,7 +12,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Image final : public Newable, public Disposable
+	struct ML_GRAPHICS_API Image final : public Trackable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Font final
-		: public Newable
+		: public Trackable
 		, public Disposable
 		, public NonCopyable
 	{

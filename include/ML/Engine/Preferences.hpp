@@ -2,7 +2,7 @@
 #define _ML_PREFERENCES_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// INI Reader
-	struct ML_ENGINE_API Preferences final : public Newable, public NonCopyable, public Disposable
+	struct ML_ENGINE_API Preferences final : public Trackable, public NonCopyable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

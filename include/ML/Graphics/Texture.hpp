@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Texture final
-		: public Newable
+		: public Trackable
 		, public Disposable
 		, public Handle<uint32_t>
 	{

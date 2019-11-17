@@ -3,13 +3,13 @@
 
 #include <ML/Editor/Export.hpp>
 #include <ML/Editor/EditorEvents.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 
 namespace ml
 {
 	// WIP
 	struct ML_EDITOR_API JsonEditor final
-		: public Newable
+		: public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

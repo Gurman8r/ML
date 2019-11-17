@@ -2,7 +2,7 @@
 #define _ML_TRANSFORM_HPP_
 
 #include <ML/Graphics/Export.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Quaternion.hpp>
 
 namespace ml
@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP
-	struct ML_GRAPHICS_API Transform final : public Newable
+	struct ML_GRAPHICS_API Transform final : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

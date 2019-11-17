@@ -7,7 +7,7 @@
 
 namespace ml
 {
-	struct PerformanceTracker final : public Newable, public NonCopyable
+	struct PerformanceTracker final : public Trackable, public NonCopyable
 	{
 		using Callback = typename std::function<void(C_String, Duration)>;
 

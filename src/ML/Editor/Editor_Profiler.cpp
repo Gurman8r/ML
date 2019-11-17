@@ -123,7 +123,7 @@ namespace ml
 								ImGui::NextColumn();
 								ImGui::Text("%u", rec->size);
 								ImGui::NextColumn();
-								ImGui::Text("%s", ((const Newable *)rec->ptr)->get_type_info().name());
+								ImGui::Text("%s", rec->get_type_info().name());
 								ImGui::Columns(1);
 							}
 						}

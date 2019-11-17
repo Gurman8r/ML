@@ -1,7 +1,7 @@
 #ifndef _ML_FILE_HPP_
 #define _ML_FILE_HPP_
 
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Stores the contents of a text file
-	template <class Ch> struct BasicFile final : public Newable, public Disposable
+	template <class Ch> struct BasicFile final : public Trackable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

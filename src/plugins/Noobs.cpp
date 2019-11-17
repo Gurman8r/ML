@@ -40,7 +40,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		struct ShaderError final : public Newable
+		struct ShaderError final : public Trackable
 		{
 			String	file;
 			int32_t line;
@@ -96,7 +96,7 @@ namespace ml
 
 		using TextEditor = ImGui::TextEditor;
 
-		struct ShaderFile final : public Newable, public NonCopyable
+		struct ShaderFile final : public Trackable, public NonCopyable
 		{
 			enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 

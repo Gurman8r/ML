@@ -2,14 +2,14 @@
 #define _ML_CLIENT_HPP_
 
 #include <ML/Core/Singleton.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Network/NetInterface.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API NetClient final : public Newable, public NetInterface
+	struct ML_NETWORK_API NetClient final : public Trackable, public NetInterface
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

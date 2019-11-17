@@ -9,9 +9,9 @@ namespace ml
 
 	// "Memory Leak Insurance"
 	// Base class for anything which might be dynamically allocated.
-	struct ML_CORE_API Newable
+	struct ML_CORE_API Trackable
 	{
-		virtual ~Newable() {}
+		virtual ~Trackable() {}
 
 		inline const std::type_info & get_type_info() const { return typeid(*this); }
 

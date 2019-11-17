@@ -14,7 +14,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API Mesh final
-		: public Newable
+		: public Trackable
 		, public Disposable
 		, public Drawable
 	{

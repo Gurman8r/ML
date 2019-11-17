@@ -8,7 +8,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Glyph final : public Newable
+	struct ML_GRAPHICS_API Glyph final : public Trackable
 	{
 		enum { Size = 6U };
 

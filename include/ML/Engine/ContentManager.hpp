@@ -10,12 +10,12 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Bank of shared resources.
-	// Anything can be stored in Content as long as it derives Newable.
-	struct ML_ENGINE_API ContentManager final : public Newable, public NonCopyable, public Disposable
+	// Anything can be stored in Content as long as it derives Trackable.
+	struct ML_ENGINE_API ContentManager final : public Trackable, public NonCopyable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using AssetMap	= typename Map<String, ptr_t<Newable>>;
+		using AssetMap	= typename Map<String, ptr_t<Trackable>>;
 		using TypeMap	= typename HashMap<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -86,12 +86,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline ptr_t<Newable> insert(hash_t code, const String & name, voidptr_t value)
+		inline ptr_t<Trackable> insert(hash_t code, const String & name, voidptr_t value)
 		{
-			return this->data(code).insert({ name, (ptr_t<Newable>)value }).first->second;
+			return this->data(code).insert({ name, (ptr_t<Trackable>)value }).first->second;
 		}
 
-		template <hash_t H> inline ptr_t<Newable> insert(const String & name, voidptr_t value)
+		template <hash_t H> inline ptr_t<Trackable> insert(const String & name, voidptr_t value)
 		{
 			return this->insert(H, name, value);
 		}
@@ -111,7 +111,7 @@ namespace ml
 			);
 		}
 
-		inline ptr_t<Newable> generate(const String & type, const String & name)
+		inline ptr_t<Trackable> generate(const String & type, const String & name)
 		{
 			if (const hash_t * code{ ML_Registry.get_code(type) })
 			{
@@ -130,7 +130,7 @@ namespace ml
 			auto it{ this->data(code).find(name) };
 			if (it != this->data(code).end())
 			{
-				ptr_t<Newable> & ptr{ it->second };
+				ptr_t<Trackable> & ptr{ it->second };
 				delete ptr;
 				this->data(code).erase(it);
 				return true;

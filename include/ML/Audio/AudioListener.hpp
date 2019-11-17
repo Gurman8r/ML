@@ -2,12 +2,12 @@
 #define _ML_AUDIO_LISTENER_HPP_
 
 #include <ML/Audio/Export.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 
 namespace ml
 {
 	struct ML_AUDIO_API AudioListener final
-		: public Newable
+		: public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

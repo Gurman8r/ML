@@ -9,7 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API Renderer final : public Newable, public Drawable, public NonCopyable
+	struct ML_GRAPHICS_API Renderer final : public Trackable, public Drawable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

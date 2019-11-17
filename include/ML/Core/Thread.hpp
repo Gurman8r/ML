@@ -3,14 +3,14 @@
 
 #include <ML/Core/Duration.hpp>
 #include <ML/Core/Disposable.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// Wrapper and manager for std::thread
-	struct Thread final : public Newable, public Disposable, public NonCopyable
+	struct Thread final : public Trackable, public Disposable, public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

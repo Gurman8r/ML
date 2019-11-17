@@ -19,7 +19,13 @@ namespace ml
 			size_t		index;	// Index
 			size_t		size;	// Size
 			voidptr_t	ptr;	// Value
+
+			Record() = default;
+
+			const std::type_info & get_type_info() const;
 		};
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using RecordMap = typename HashMap<voidptr_t, Record *>;
 

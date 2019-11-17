@@ -8,7 +8,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	// WIP
-	struct ML_GRAPHICS_API RectTransform final : public Newable
+	struct ML_GRAPHICS_API RectTransform final : public Trackable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -3,14 +3,14 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Handle.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API VertexArray final : public Newable, public Handle<uint32_t>
+	struct ML_GRAPHICS_API VertexArray final : public Trackable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

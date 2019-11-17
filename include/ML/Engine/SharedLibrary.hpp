@@ -2,7 +2,7 @@
 #define _ML_SHARED_LIBRARY_HPP_
 
 #include <ML/Engine/Export.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/String.hpp>
 
@@ -11,7 +11,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API SharedLibrary final
-		: public Newable
+		: public Trackable
 		, public Disposable
 		, public NonCopyable
 	{

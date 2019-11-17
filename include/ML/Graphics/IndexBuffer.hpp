@@ -4,7 +4,7 @@
 #include <ML/Graphics/Export.hpp>
 #include <ML/Graphics/GL.hpp>
 #include <ML/Graphics/Vertex.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/Trackable.hpp>
 #include <ML/Core/Handle.hpp>
 
 namespace ml
@@ -12,7 +12,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_GRAPHICS_API IndexBuffer final
-		: public Newable
+		: public Trackable
 		, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -172,212 +172,212 @@ namespace ml
 		{
 			switch (*value)
 			{
-				case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
+			case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				ML_Editor.mainMenuBar().addMenu("Window", [&]()
 				{
-					/* * * * * * * * * * * * * * * * * * * * */
+					ImGui::Separator();
+					ImGui::PushID(ML_ADDRESSOF(this));
+					ImGui::MenuItem("Editor##Noobs", "", &m_editor_open);
+					ImGui::MenuItem("Display##Noobs", "", &m_display_open);
+					ImGui::PopID();
+				});
 
-					ML_Editor.mainMenuBar().addMenu("Window", [&]()
+				ML_Editor.mainMenuBar().addMenu("Plugins", [&]()
+				{
+					ImGui::PushID(ML_ADDRESSOF(this));
+					if (ImGui::BeginMenu("Noobs"))
 					{
-						ImGui::Separator();
-						ImGui::PushID(ML_ADDRESSOF(this));
-						ImGui::MenuItem("Editor##Noobs", "", &m_editor_open);
-						ImGui::MenuItem("Display##Noobs", "", &m_display_open);
-						ImGui::PopID();
-					});
+						draw_plugin_menu();
+						ImGui::EndMenu();
+					}
+					ImGui::PopID();
+				});
 
-					ML_Editor.mainMenuBar().addMenu("Plugins", [&]()
-					{
-						ImGui::PushID(ML_ADDRESSOF(this));
-						if (ImGui::BeginMenu("Noobs"))
-						{
-							draw_plugin_menu();
-							ImGui::EndMenu();
-						}
-						ImGui::PopID();
-					});
-
-					m_pipeline[0] = ML_Engine.content().get<Surface>("surf/main");
+				m_pipeline[0] = ML_Engine.content().get<Surface>("surf/main");
 					
-					m_pipeline[1] = ML_Engine.content().get<Surface>("surf/post");
+				m_pipeline[1] = ML_Engine.content().get<Surface>("surf/post");
 					
-					if (m_ent_name = ML_Engine.prefs().get_string("Noobs", "target_entity", ""))
+				if (m_ent_name = ML_Engine.prefs().get_string("Noobs", "target_entity", ""))
+				{
+					m_entity = ML_Engine.content().get<Entity>(m_ent_name);
+				}
+
+				generate_sources();
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case UpdateEvent::ID: if (auto ev{ value.as<UpdateEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (auto camera{ Camera::mainCamera() }; camera && camera->enabled())
+				{
+					// Update Pipeline
+					for (auto & surf : m_pipeline)
 					{
-						m_entity = ML_Engine.content().get<Entity>(m_ent_name);
+						surf->update((vec2)camera->viewport().size());
 					}
 
-					generate_sources();
-
-					/* * * * * * * * * * * * * * * * * * * * */
-				} break;
-				case UpdateEvent::ID: if (auto ev{ value.as<UpdateEvent>() })
-				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (auto camera{ Camera::mainCamera() }; camera && camera->enabled())
+					// Update Camera Uniforms
+					if (m_use_main_camera)
 					{
-						// Update Pipeline
-						for (auto & surf : m_pipeline)
+						for (auto & [key, value] : ML_Engine.content().data<Material>())
 						{
-							surf->update((vec2)camera->viewport().size());
-						}
-
-						// Update Camera Uniforms
-						if (m_use_main_camera)
-						{
-							for (auto & [key, value] : ML_Engine.content().data<Material>())
+							if (auto m{ (Material *)value })
 							{
-								if (auto m{ (Material *)value })
-								{
-									m->set<uni_vec3>("u_camera.pos", camera->position());
-									m->set<uni_vec3>("u_camera.dir", camera->direction());
-									m->set<uni_float>("u_camera.fov", camera->fieldOfView());
-									m->set<uni_float>("u_camera.near", camera->clipNear());
-									m->set<uni_float>("u_camera.far", camera->clipFar());
-									m->set<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
-								}
+								m->set<uni_vec3>("u_camera.pos", camera->position());
+								m->set<uni_vec3>("u_camera.dir", camera->direction());
+								m->set<uni_float>("u_camera.fov", camera->fieldOfView());
+								m->set<uni_float>("u_camera.near", camera->clipNear());
+								m->set<uni_float>("u_camera.far", camera->clipFar());
+								m->set<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
 							}
 						}
 					}
+				}
 
-					/* * * * * * * * * * * * * * * * * * * * */
-				} break;
-				case DrawEvent::ID: if (auto ev{ value.as<DrawEvent>()})
-				{
-					auto camera{ Camera::mainCamera() };
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case DrawEvent::ID: if (auto ev{ value.as<DrawEvent>()})
+			{
+				auto camera{ Camera::mainCamera() };
 					
-					// Render Main Scene
-					if (m_pipeline[Surf_Main] && m_pipeline[Surf_Main]->bind())
-					{
-						// Apply Camera
-						if (camera) { camera->apply(); }
+				// Render Main Scene
+				if (m_pipeline[Surf_Main] && m_pipeline[Surf_Main]->bind())
+				{
+					// Apply Camera
+					if (camera) { camera->apply(); }
 						
-						// Draw Renderers
-						for (auto & [key, value] : ML_Engine.content().data<Entity>())
+					// Draw Renderers
+					for (auto & [key, value] : ML_Engine.content().data<Entity>())
+					{
+						if (auto e{ (Entity *)value })
 						{
-							if (auto e{ (Entity *)value })
+							if (auto r{ e->get<Renderer>() }; r && r->enabled())
 							{
-								if (auto r{ e->get<Renderer>() }; r && r->enabled())
+								if (auto t{ e->get<Transform>() }; t && t->enabled())
 								{
-									if (auto t{ e->get<Transform>() }; t && t->enabled())
+									if (auto m{ (Material *)r->material() })
 									{
-										if (auto m{ (Material *)r->material() })
-										{
-											m->set<uni_vec3>("u_position", t->position());
-											m->set<uni_vec4>("u_rotation", t->rotation());
-											m->set<uni_vec3>("u_scale", t->scale());
-										}
+										m->set<uni_vec3>("u_position", t->position());
+										m->set<uni_vec4>("u_rotation", t->rotation());
+										m->set<uni_vec3>("u_scale", t->scale());
 									}
-									ML_Engine.window().draw(r);
 								}
+								ML_Engine.window().draw(r);
 							}
 						}
-
-						// Unbind
-						m_pipeline[Surf_Main]->unbind();
 					}
 
-					// Render Post Processing
-					if (m_pipeline[Surf_Post] && m_pipeline[Surf_Post]->bind())
-					{
-						// Apply Camera
-						if (camera) { camera->apply(); }
+					// Unbind
+					m_pipeline[Surf_Main]->unbind();
+				}
+
+				// Render Post Processing
+				if (m_pipeline[Surf_Post] && m_pipeline[Surf_Post]->bind())
+				{
+					// Apply Camera
+					if (camera) { camera->apply(); }
 						
-						// Reset States
-						RenderStates{
-							AlphaState	{ true, GL::Greater, 0.01f },
-							BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
-							CullState	{ false },
-							DepthState	{ false },
-						}();
+					// Reset States
+					RenderStates{
+						AlphaState	{ true, GL::Greater, 0.01f },
+						BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
+						CullState	{ false },
+						DepthState	{ false },
+					}();
 
-						// Draw Scene Output
-						ML_Engine.window().draw(m_pipeline[Surf_Main]);
+					// Draw Scene Output
+					ML_Engine.window().draw(m_pipeline[Surf_Main]);
 
-						// Unbind
-						m_pipeline[Surf_Post]->unbind();
-					}
+					// Unbind
+					m_pipeline[Surf_Post]->unbind();
+				}
 
-					/* * * * * * * * * * * * * * * * * * * * */
-				} break;
-				case GuiEvent::ID: if (auto ev{ value.as<GuiEvent>()})
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case GuiEvent::ID: if (auto ev{ value.as<GuiEvent>()})
+			{
+				draw_display(display_name, m_pipeline[Surf_Post]);
+				draw_editor(editor_name);
+			} break;
+			case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>()})
+			{
+				dispose_files();
+			} break;
+			case ShaderErrorEvent::ID: if (auto ev = value.as<ShaderErrorEvent>())
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
 				{
-					draw_display(display_name, m_pipeline[Surf_Post]);
-					draw_editor(editor_name);
-				} break;
-				case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>()})
-				{
-					dispose_files();
-				} break;
-				case ShaderErrorEvent::ID: if (auto ev = value.as<ShaderErrorEvent>())
-				{
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
+					if (ev->obj && (ev->obj == r->shader()))
 					{
-						if (ev->obj && (ev->obj == r->shader()))
+						std::cout << ev->error;
+
+						// Decode Errors
+						SStream ss { String{ ev->error } };
+						String line;
+						while (std::getline(ss, line, '\n'))
 						{
-							std::cout << ev->error;
-
-							// Decode Errors
-							SStream ss { String{ ev->error } };
-							String line;
-							while (std::getline(ss, line, '\n'))
+							const ShaderError err{ ev->type, line };
+							switch (ev->type)
 							{
-								const ShaderError err{ ev->type, line };
-								switch (ev->type)
-								{
-									case GL::VertexShader: m_files[ShaderFile::Vert]->errs.push_back(err); break;
-									case GL::FragmentShader: m_files[ShaderFile::Frag]->errs.push_back(err); break;
-									case GL::GeometryShader: m_files[ShaderFile::Geom]->errs.push_back(err); break;
-								}
-							}
-
-							// Set Markers
-							for (auto & file : m_files)
-							{
-								TextEditor::ErrorMarkers markers;
-								for (auto & err : file->errs)
-								{
-									markers.insert({ err.line, err.code + ": " + err.desc });
-								}
-								file->text.SetErrorMarkers(markers);
+								case GL::VertexShader: m_files[ShaderFile::Vert]->errs.push_back(err); break;
+								case GL::FragmentShader: m_files[ShaderFile::Frag]->errs.push_back(err); break;
+								case GL::GeometryShader: m_files[ShaderFile::Geom]->errs.push_back(err); break;
 							}
 						}
-					}
 
-					/* * * * * * * * * * * * * * * * * * * * */
-				} break;
-				case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
-				{
-					// Toggle Fullscreen
-					if (ev->getPress(KeyCode::F11))
-					{
-						ML_EventSystem.fireEvent<WindowFullscreenEvent>(-1);
+						// Set Markers
+						for (auto & file : m_files)
+						{
+							TextEditor::ErrorMarkers markers;
+							for (auto & err : file->errs)
+							{
+								markers.insert({ err.line, err.code + ": " + err.desc });
+							}
+							file->text.SetErrorMarkers(markers);
+						}
 					}
+				}
 
-					// Refresh Sources
-					if (ev->getPress(KeyCode::F5))
-					{
-						reset_sources().generate_sources();
-					}
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
+			{
+				// Toggle Fullscreen
+				if (ev->getPress(KeyCode::F11))
+				{
+					ML_EventSystem.fireEvent<WindowFullscreenEvent>(-1);
+				}
 
-					// Compile Sources
-					if (ev->isSave())
-					{
-						compile_sources();
-					}
-				} break;
-				case DockspaceEvent::ID: if (auto ev = value.as<DockspaceEvent>())
+				// Refresh Sources
+				if (ev->getPress(KeyCode::F5))
 				{
-					Editor_Dockspace & d { ev->dockspace };
-					d.dockWindow(display_name, d.getNode(d.LeftUp));
-					d.dockWindow(editor_name, d.getNode(d.RightUp));
-				} break;
-				case SecretEvent::ID: if (auto ev = value.as<SecretEvent>())
+					reset_sources().generate_sources();
+				}
+
+				// Compile Sources
+				if (ev->isSave())
 				{
-					Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-				} break;
-			}
+					compile_sources();
+				}
+			} break;
+			case DockspaceEvent::ID: if (auto ev = value.as<DockspaceEvent>())
+			{
+				Editor_Dockspace & d { ev->dockspace };
+				d.dockWindow(display_name, d.getNode(d.LeftUp));
+				d.dockWindow(editor_name, d.getNode(d.RightUp));
+			} break;
+			case SecretEvent::ID: if (auto ev = value.as<SecretEvent>())
+			{
+				Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+			} break;
+		}
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

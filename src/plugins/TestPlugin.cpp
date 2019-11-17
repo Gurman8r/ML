@@ -24,19 +24,19 @@ namespace ml
 		{
 			switch (*value)
 			{
-				case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
+			case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
+			{
+				ML_Editor.mainMenuBar().addMenu("Plugins", [&]() 
 				{
-					ML_Editor.mainMenuBar().addMenu("Plugins", [&]() 
+					ImGui::PushID(ML_ADDRESSOF(this));
+					if (ImGui::BeginMenu("Test Plugin"))
 					{
-						ImGui::PushID(ML_ADDRESSOF(this));
-						if (ImGui::BeginMenu("Test Plugin"))
-						{
-							ImGui::Text("Sample text.");
-							ImGui::EndMenu();
-						}
-						ImGui::PopID();
-					});
-				} break;
+						ImGui::Text("Sample text.");
+						ImGui::EndMenu();
+					}
+					ImGui::PopID();
+				});
+			} break;
 			}
 		}
 	};

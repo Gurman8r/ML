@@ -20,12 +20,12 @@ namespace ml
 	{
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	void Editor_Dockspace::onEvent(const Event & value)
 	{
 		Editor_Base::onEvent(value);
 	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Editor_Dockspace::beginDraw(int32_t flags)
 	{

@@ -158,16 +158,7 @@ namespace ml
 				ImGui::PopID();
 			});
 
-			mainMenuBar().addMenu("Window", [&]()
-			{
-				ImGui::PushID(ML_ADDRESSOF(this));
-				content().drawMenuItem();
-				explorer().drawMenuItem();
-				inspector().drawMenuItem();
-				profiler().drawMenuItem();
-				terminal().drawMenuItem();
-				ImGui::PopID();
-			});
+			mainMenuBar().addMenu("Window", nullptr);
 
 			mainMenuBar().addMenu("Options", [&]()
 			{
@@ -190,9 +181,6 @@ namespace ml
 			mainMenuBar().addMenu("Help", [&]()
 			{
 				ImGui::PushID(ML_ADDRESSOF(this));
-				auto & io{ ImGui::GetIO() };
-				about().drawMenuItem();
-				ImGui::Separator();
 				if (ImGui::MenuItem("Repository", "http://")) { Debug::execute("open", ML_PROJECT_URL); }
 				if (ImGui::MenuItem("Downloads", "http://")) { Debug::execute("open", "https://bit.ly/ml_noobs"); }
 				ImGui::Separator();

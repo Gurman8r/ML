@@ -36,7 +36,6 @@ namespace ml
 
 	public:
 		bool setFocused(bool value);
-		bool drawMenuItem(bool showHotkey = true);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

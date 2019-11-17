@@ -65,10 +65,5 @@ namespace ml
 		return false;
 	}
 
-	bool Editor_Base::drawMenuItem(bool showHotkey)
-	{
-		return ImGui::MenuItem(getTitle(), (showHotkey ? getHotkey() : nullptr), openPtr());
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

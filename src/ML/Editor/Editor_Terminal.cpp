@@ -46,11 +46,16 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			this->redirect(std::cout);
+			if (m_coutBuf = std::cout.rdbuf(m_coutStr.rdbuf()))
+			{
+				m_coutPtr = &std::cout;
+			}
 
 			ML_Editor.mainMenuBar().addMenu("Window", [&]()
 			{
-				this->drawMenuItem();
+				ImGui::PushID(ML_ADDRESSOF(this));
+				ImGui::MenuItem(getTitle(), getHotkey(), openPtr());
+				ImGui::PopID();
 			});
 
 			/* * * * * * * * * * * * * * * * * * * * */
@@ -59,7 +64,12 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			this->redirect(std::cout);
+			if (m_coutBuf && (m_coutPtr == &std::cout))
+			{
+				std::cout.rdbuf(m_coutBuf);
+				m_coutBuf = nullptr;
+				m_coutPtr = nullptr;
+			}
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
@@ -278,27 +288,8 @@ namespace ml
 			{
 				this->printl(line);
 			}
-			value.str(String());
+			value.str({});
 		}
-	}
-
-	bool Editor_Terminal::redirect(std::ostream & value)
-	{
-		if (m_coutBuf && (m_coutPtr == &value))
-		{
-			// Release std::ostream
-			value.rdbuf(m_coutBuf);
-			m_coutBuf = nullptr;
-			m_coutPtr = nullptr;
-			return true;
-		}
-		else if (m_coutBuf = value.rdbuf(m_coutStr.rdbuf()))
-		{
-			// Capture std::ostream
-			m_coutPtr = &value;
-			return true;
-		}
-		return false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -13,6 +13,7 @@ namespace ml
 	Editor_Manual::Editor_Manual()
 		: Editor_Base { "Manual", "Ctrl+Alt+M", ML_Engine.prefs().get_bool("Editor", "show_manual", false) }
 	{
+		ML_EventSystem.addListener<LoadEvent>(this);
 		ML_EventSystem.addListener<DockspaceEvent>(this);
 		ML_EventSystem.addListener<KeyEvent>(this);
 	}
@@ -25,6 +26,19 @@ namespace ml
 
 		switch (*value)
 		{
+		case LoadEvent::ID: if (auto ev{ value.as<LoadEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			//ML_Editor.mainMenuBar().addMenu("Window", [&]()
+			//{
+			//	ImGui::PushID(ML_ADDRESSOF(this));
+			//	ImGui::MenuItem(getTitle(), getHotkey(), openPtr());
+			//	ImGui::PopID();
+			//});
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
 		case KeyEvent::ID: if (auto ev{ value.as<KeyEvent>() })
 		{
 			/* * * * * * * * * * * * * * * * * * * * */

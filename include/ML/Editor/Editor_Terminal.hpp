@@ -32,8 +32,6 @@ namespace ml
 		
 		void printss(SStream & value);
 		
-		bool redirect(std::ostream & value);
-		
 		int32_t inputCallback(voidptr_t value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

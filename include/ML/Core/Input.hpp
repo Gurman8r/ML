@@ -3,7 +3,7 @@
 
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/StringUtility.hpp>
-#include <ML/Core/NonNewable.hpp>
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {

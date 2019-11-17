@@ -2,7 +2,7 @@
 #define _ML_SEND_SETTINGS_HPP_
 
 #include <ML/Network/Export.hpp>
-#include <ML/Core/Newable.hpp>
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {
@@ -36,13 +36,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API SendSettings final : public NonNewable
+	struct SendSettings final
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Priority	priority;
 		Reliability reliability;
 		char		ordering;
 		bool		broadcast;
 		uint32_t	receiptNumber;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr SendSettings(const SendSettings & copy) : SendSettings(
 			copy.priority,
@@ -61,43 +65,63 @@ namespace ml
 			, receiptNumber(receiptNumber)
 		{
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline friend ML_SERIALIZE(std::ostream & out, const SendSettings & value)
+		{
+			return out
+				<< value.priority << " "
+				<< value.reliability << " "
+				<< value.ordering << " "
+				<< value.broadcast << " "
+				<< value.receiptNumber << " ";
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr bool operator==(const SendSettings & other)
+		{
+			return
+				this->priority == other.priority &&
+				this->reliability == other.reliability &&
+				this->ordering == other.ordering &&
+				this->broadcast == other.broadcast &&
+				this->receiptNumber == other.receiptNumber;
+		}
+
+		constexpr bool operator!=(const SendSettings & other)
+		{
+			return !((*this) == other);
+		}
+
+		constexpr bool operator<(const SendSettings & other)
+		{
+			return
+				this->priority < other.priority &&
+				this->reliability < other.reliability &&
+				this->ordering < other.ordering &&
+				this->broadcast < other.broadcast &&
+				this->receiptNumber < other.receiptNumber;
+		}
+
+		constexpr bool operator>(const SendSettings & other)
+		{
+			return !((*this) < other);
+		}
+
+		constexpr bool operator<=(const SendSettings & other)
+		{
+			return ((*this) == other) || ((*this) < other);
+		}
+
+		constexpr bool operator>=(const SendSettings & other)
+		{
+			return ((*this) == other) || ((*this) > other);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	inline ML_SERIALIZE(std::ostream & out, const SendSettings & value)
-	{
-		return out
-			<< value.priority		<< " "
-			<< value.reliability	<< " "
-			<< value.ordering		<< " "
-			<< value.broadcast		<< " "
-			<< value.receiptNumber	<< " ";
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	constexpr bool operator==(const SendSettings & lhs, const SendSettings & rhs)
-	{
-		return
-			lhs.priority		== rhs.priority &&
-			lhs.reliability		== rhs.reliability &&
-			lhs.ordering		== rhs.ordering &&
-			lhs.broadcast		== rhs.broadcast &&
-			lhs.receiptNumber	== rhs.receiptNumber;
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	constexpr bool operator<(const SendSettings & lhs, const SendSettings & rhs)
-	{
-		return
-			lhs.priority		< rhs.priority &&
-			lhs.reliability		< rhs.reliability &&
-			lhs.ordering		< rhs.ordering &&
-			lhs.broadcast		< rhs.broadcast &&
-			lhs.receiptNumber	< rhs.receiptNumber;
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

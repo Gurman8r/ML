@@ -4,9 +4,7 @@
 #include <ML/Core/Export.hpp>
 #include <ML/Core/Singleton.hpp>
 
-#define ML_Memory		::ml::MemoryManager::getInstance()
-#define ML_new(size)	ML_Memory.allocate(size)
-#define ML_delete(ptr)	ML_Memory.deallocate(ptr)
+#define ML_Memory ::ml::MemoryManager::getInstance()
 
 namespace ml
 {
@@ -16,15 +14,11 @@ namespace ml
 	{	
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		struct Record final : public NonCopyable
+		struct Record final
 		{
 			size_t		index;	// Index
-			voidptr_t	ptr;	// Value
 			size_t		size;	// Size
-
-			Record(size_t index, voidptr_t ptr, size_t size);
-
-			friend ML_SERIALIZE(std::ostream & out, const Record & value);
+			voidptr_t	ptr;	// Value
 		};
 
 		using RecordMap = typename HashMap<voidptr_t, Record *>;
@@ -33,11 +27,11 @@ namespace ml
 
 		voidptr_t allocate(size_t size);
 
-		void deallocate(voidptr_t & ptr);
+		void deallocate(voidptr_t value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto currentID() const -> const size_t & { return m_currentID; }
+		inline auto current() const -> size_t { return m_current; }
 
 		inline auto records() const -> const RecordMap & { return m_records; }
 
@@ -49,8 +43,8 @@ namespace ml
 		MemoryManager();
 		~MemoryManager();
 
+		size_t m_current;
 		RecordMap m_records;
-		size_t m_currentID;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -34,7 +34,7 @@ namespace ml
 			ImGui::PushID(ptr);
 			PropertyDrawer<T>()(
 				(typeof<T>::name.str() + "##" + name + " ##Inspector"),
-				((T &)*static_cast<T *>(ptr))
+				(T &)(*((ptr_t<T>)ptr))
 			);
 			ImGui::PopID();
 			ImGui::PopID();

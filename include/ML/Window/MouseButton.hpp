@@ -2,13 +2,13 @@
 #define _ML_MOUSE_BUTTON_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/NonNewable.hpp>
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct MouseButton final : public NonNewable
+	struct MouseButton final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

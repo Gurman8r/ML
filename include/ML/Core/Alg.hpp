@@ -7,12 +7,6 @@
 
 /* * * * * * * * * * * * * * * * * * * * */
 
-#define ML_MIN(lhs, rhs) ((lhs <= rhs) ? lhs : rhs)
-#define ML_MAX(lhs, rhs) ((lhs >= rhs) ? lhs : rhs)
-#define ML_CLAMP(value, minimum, maximum) (ML_MIN(ML_MAX(value, minimum), maximum))
-
-/* * * * * * * * * * * * * * * * * * * * */
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -51,6 +45,11 @@ namespace ml
 			);
 		}
 
+		template <class T> static constexpr T fact(const T & value)
+		{
+			return ((value > (T)1) ? value * _ML alg::fact(value - (T)1) : (T)1);
+		}
+
 		template <
 			class Base, class Exp
 		> static constexpr Base pow(const Base & base, const Exp & exp)
@@ -69,24 +68,25 @@ namespace ml
 						)));
 		}
 
-		template <class T> static constexpr T fact(const T & value)
-		{
-			return ((value > (T)1) ? value * _ML alg::fact(value - (T)1) : (T)1);
-		}
-
-		template <class T> static constexpr const T & min(const T & lhs, const T & rhs)
+		template <
+			class Tx, class Ty
+		> static constexpr const auto & min(const Tx & lhs, const Ty & rhs)
 		{
 			return (lhs <= rhs) ? lhs : rhs;
 		}
-			
-		template <class T> static constexpr const T & max(const T & lhs, const T & rhs)
+
+		template <
+			class Tx, class Ty
+		> static constexpr const auto & max(const Tx lhs, const Ty & rhs)
 		{
 			return (lhs >= rhs) ? lhs : rhs;
 		}
 
-		template <class T> static constexpr auto clamp(const T & value, const T & mn, const T & mx)
+		template <
+			class T, class Tx, class Ty
+		> static constexpr auto clamp(const T & value, const Tx & lower, const Ty & upper)
 		{
-			return _ML alg::min(_ML alg::max(value, mn), mx);
+			return _ML alg::min(_ML alg::max(value, lower), upper);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

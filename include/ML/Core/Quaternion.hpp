@@ -65,44 +65,40 @@ namespace ml
 
 		constexpr complex_type axis() const
 		{
-			const value_type temp { 1.0f - this->real() * this->real() };
-			if (temp < 0.0f)
-			{
-				return complex_type { 0, 0, 1 };
-			}
-			else
-			{
-				return this->complex() * (1.0f / alg::sqrt<value_type>()(temp));
-			}
+			const auto temp { 1.0f - this->real() * this->real() };
+			return ((temp < 0.0f)
+				? complex_type{ 0, 0, 1 }
+				: this->complex() * (1.0f / alg::sqrt<value_type>()(temp))
+			);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr complex_type eulerAngles() const
 		{
-			return complex_type { pitch(), roll(), yaw() };
+			return { pitch(), roll(), yaw() };
 		}
 
 		constexpr value_type pitch() const
 		{
 			return gcem::atan2(
-				(2.0f * ((*this)[1] * (*this)[2] + this->real() * (*this)[0])),
-				(this->real() * this->real() - (*this)[0] * (*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
+				(2.0f * ((*this)[1] * (*this)[2] + (*this)[3] * (*this)[0])),
+				((*this)[3] * (*this)[3] - (*this)[0] * (*this)[0] - (*this)[1] * (*this)[1] + (*this)[2] * (*this)[2])
 			);
 		}
 
 		constexpr value_type roll() const
 		{
 			return gcem::atan2(
-				(2.0f * ((*this)[0] * (*this)[1] + this->real() * (*this)[2])),
-				(this->real() * this->real() + (*this)[0] * (*this)[0] - (*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
+				(2.0f * ((*this)[0] * (*this)[1] + (*this)[3] * (*this)[2])),
+				((*this)[3] * (*this)[3] + (*this)[0] * (*this)[0] - (*this)[1] * (*this)[1] - (*this)[2] * (*this)[2])
 			);
 		}
 
 		constexpr value_type yaw() const
 		{
 			return gcem::asin(alg::clamp(
-				(2.0f * ((*this)[0] * (*this)[2] - this->real() * (*this)[1])),
+				(2.0f * ((*this)[0] * (*this)[2] - (*this)[3] * (*this)[1])),
 				-1.0f,
 				1.0f
 			));
@@ -128,7 +124,7 @@ namespace ml
 
 		constexpr tmat4<value_type> as_mat4() const
 		{
-			const tmat3<value_type> temp = as_mat3();
+			const auto temp{ as_mat3() };
 			return tmat4<value_type> {
 				temp[0],	temp[1],	temp[2],	0.0f,
 				temp[3],	temp[4],	temp[5],	0.0f,
@@ -141,8 +137,8 @@ namespace ml
 
 		static constexpr self_type angleAxis(value_type angle, const complex_type & axis)
 		{
-			const value_type half_angle { angle * 0.5f };
-			const value_type temp { gcem::sin(half_angle) };
+			const auto half_angle { angle * 0.5f };
+			const auto temp { gcem::sin(half_angle) };
 			return self_type {
 				axis[0] * temp,
 				axis[1] * temp,

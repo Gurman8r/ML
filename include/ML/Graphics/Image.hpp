@@ -110,18 +110,18 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto begin()				-> iterator					{ return m_pixels.begin(); }
-		inline auto begin()		const	-> const_iterator			{ return m_pixels.begin(); }
-		inline auto cbegin()	const	-> const_iterator			{ return m_pixels.cbegin(); }
-		inline auto cend()		const	-> const_iterator			{ return m_pixels.cend(); }
-		inline auto crbegin()	const	-> const_reverse_iterator	{ return m_pixels.crbegin(); }
-		inline auto crend()		const	-> const_reverse_iterator	{ return m_pixels.crend(); }
-		inline auto end()				-> iterator					{ return m_pixels.end(); }
-		inline auto end()		const	-> const_iterator			{ return m_pixels.end(); }
-		inline auto rbegin()			-> reverse_iterator			{ return m_pixels.rbegin(); }
-		inline auto rbegin()	const	-> const_reverse_iterator	{ return m_pixels.rbegin(); }
-		inline auto rend()				-> reverse_iterator			{ return m_pixels.rend(); }
-		inline auto rend()		const	-> const_reverse_iterator	{ return m_pixels.rend(); }
+		inline auto begin()				{ return m_pixels.begin(); }
+		inline auto begin()		const	{ return m_pixels.begin(); }
+		inline auto cbegin()	const	{ return m_pixels.cbegin(); }
+		inline auto cend()		const	{ return m_pixels.cend(); }
+		inline auto crbegin()	const	{ return m_pixels.crbegin(); }
+		inline auto crend()		const	{ return m_pixels.crend(); }
+		inline auto end()				{ return m_pixels.end(); }
+		inline auto end()		const	{ return m_pixels.end(); }
+		inline auto rbegin()			{ return m_pixels.rbegin(); }
+		inline auto rbegin()	const	{ return m_pixels.rbegin(); }
+		inline auto rend()				{ return m_pixels.rend(); }
+		inline auto rend()		const	{ return m_pixels.rend(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -8,12 +8,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_NETWORK_API Packet final : public NonNewable
+	struct Packet final
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		Host		host;
 		GUID		guid;
 		uint32_t	size;
 		uint8_t *	data;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr Packet(const Host & addr, const GUID & guid, uint32_t size, uint8_t * data)
 			: host(addr)
@@ -29,63 +33,64 @@ namespace ml
 		}
 
 		constexpr Packet()
-			: Packet{ Host(), GUID(), 0, nullptr }
+			: Packet{ {}, {}, 0, nullptr }
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline friend ML_SERIALIZE(std::ostream & out, const Packet & value)
+		{
+			return out
+				<< value.host << " "
+				<< value.guid << " "
+				<< value.size << " "
+				<< value.data << " ";
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		constexpr bool operator==(const Packet & other)
+		{
+
+			return
+				this->host == other.host &&
+				this->guid == other.guid &&
+				this->size == other.size &&
+				this->data == other.data;
+		}
+
+		constexpr bool operator!=(const Packet & other)
+		{
+			return !((*this) == other);
+		}
+
+		constexpr bool operator<(const Packet & other)
+		{
+			return
+				this->host < other.host &&
+				this->guid < other.guid &&
+				this->size < other.size &&
+				this->data < other.data;
+		}
+
+		constexpr bool operator>(const Packet & other)
+		{
+			return !((*this) < other);
+		}
+
+		constexpr bool operator<=(const Packet & other)
+		{
+			return ((*this) == other) || ((*this) < other);
+		}
+
+		constexpr bool operator>=(const Packet & other)
+		{
+			return ((*this) == other) || ((*this) > other);
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	inline ML_SERIALIZE(std::ostream & out, const Packet & value)
-	{
-		return out 
-			<< value.host << " "
-			<< value.guid << " "
-			<< value.size << " "
-			<< value.data << " ";
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	constexpr bool operator==(const Packet & lhs, const Packet & rhs)
-	{
-		return
-			lhs.host == rhs.host &&
-			lhs.guid == rhs.guid &&
-			lhs.size == rhs.size &&
-			lhs.data == rhs.data;
-	}
-
-	constexpr bool operator!=(const Packet & lhs, const Packet & rhs)
-	{
-		return !(lhs == rhs);
-	}
-
-	constexpr bool operator<(const Packet & lhs, const Packet & rhs)
-	{
-		return
-			lhs.host < rhs.host &&
-			lhs.guid < rhs.guid &&
-			lhs.size < rhs.size &&
-			lhs.data < rhs.data;
-	}
-
-	constexpr bool operator>(const Packet & lhs, const Packet & rhs)
-	{
-		return !(lhs < rhs);
-	}
-
-	constexpr bool operator<=(const Packet & lhs, const Packet & rhs)
-	{
-		return (lhs == rhs) || (lhs < rhs);
-	}
-
-	constexpr bool operator>=(const Packet & lhs, const Packet & rhs)
-	{
-		return (lhs == rhs) || (lhs > rhs);
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

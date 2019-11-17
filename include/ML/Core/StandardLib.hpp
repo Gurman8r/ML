@@ -97,7 +97,6 @@ namespace ml
 	ML_USING	uintmax_t	= typename ML_UINTMAX;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_USING	bool_t		= typename bool;
 	ML_USING	byte_t		= typename uint8_t;
 	ML_USING	float_t		= typename float32_t;
 	ML_USING	hash_t		= typename uint64_t;
@@ -109,7 +108,7 @@ namespace ml
 
 	ML_USING_X	ptr_t		= typename X *;
 	ML_USING_X	const_ptr_t	= typename X const *;
-	ML_USING	voidptr_t 	= typename void *;
+	ML_USING	voidptr_t 	= typename ptr_t<void>;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

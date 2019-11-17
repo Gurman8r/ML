@@ -6,60 +6,43 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	MemoryManager::Record::Record(size_t index, voidptr_t ptr, size_t size)
-		: ptr(ptr)
-		, index(index)
-		, size(size)
-	{
-	}
-
-	ML_SERIALIZE(std::ostream & out, const MemoryManager::Record & value)
-	{
-		auto object { static_cast<Newable *>(value.ptr) };
-		return out << std::left
-			<< FG::Green << std::setw(6) << value.index
-			<< FG::Cyan << std::setw(sizeof(size_t) * 2) << value.size
-			<< FG::Yellow << std::setw(sizeof(size_t) * 3) << value.ptr
-			<< FG::Normal << std::setw(10) << (object ? object->get_type_info().name() : "?")
-			<< FMT();
-	}
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-}
-
-/* * * * * * * * * * * * * * * * * * * * */
-
-namespace ml
-{
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	MemoryManager::MemoryManager()
-		: m_records {}
-		, m_currentID { 0 }
+		: m_current { 0 }
+		, m_records {}
 	{
 	}
 
 	MemoryManager::~MemoryManager() 
 	{
-#if (ML_DEBUG == 1)
+#if (ML_DEBUG)
 		if (!m_records.empty())
 		{
-			Debug::logError("Memory leaks detected:");
+			Debug::logError("MEMORY LEAKS DETECTED");
 
-			cerr << std::left
+			cerr<< std::left
 				<< FG::Green << std::setw(6) << "Index"
 				<< FG::Cyan << std::setw(sizeof(size_t) * 2) << "Size"
 				<< FG::Yellow << std::setw(sizeof(size_t) * 3) << "Address"
 				<< FG::Normal << std::setw(10) << "Type"
 				<< FMT() << endl;
 
-			for (const auto & pair : m_records)
+			for (const auto & [ ptr, rec ] : m_records)
 			{
-				cerr << (*pair.second) << endl;
+				if (auto obj{ static_cast<Newable *>(rec->ptr) })
+				{
+					cerr<< std::left
+						<< FG::Green << std::setw(6) << rec->index
+						<< FG::Cyan << std::setw(sizeof(size_t) * 2) << rec->size
+						<< FG::Yellow << std::setw(sizeof(size_t) * 3) << rec->ptr
+						<< FG::Normal << std::setw(10) << (obj ? obj->get_type_info().name() : "?")
+						<< FMT() << endl;
+				}
 			}
 
 			Debug::pause(EXIT_FAILURE);
 		}
+#else
+		ML_ASSERT("MEMORY LEAKS DETECTED" && m_records.empty());
 #endif
 	}
 
@@ -67,23 +50,22 @@ namespace ml
 
 	voidptr_t MemoryManager::allocate(size_t size)
 	{
-		voidptr_t ptr { std::malloc(size) };
+		auto ptr { std::malloc(size) };
 		return m_records.insert({
-			ptr, new Record { m_currentID++, ptr, size }
+			ptr, ::new Record { m_current++, size, ptr }
 		}).first->second->ptr;
 	}
 
-	void MemoryManager::deallocate(voidptr_t & value)
+	void MemoryManager::deallocate(voidptr_t value)
 	{
-		auto it { m_records.find(value) };
-		if (it != m_records.end())
+		if (auto it{ m_records.find(value) }; it != m_records.end())
 		{
 			// free the pointer
 			std::free(it->second->ptr);
-			it->second->ptr = value = nullptr;
+			it->second->ptr = nullptr;
 			
 			// delete the record
-			delete it->second;
+			::delete it->second;
 			it->second = nullptr;
 			m_records.erase(it);
 		}

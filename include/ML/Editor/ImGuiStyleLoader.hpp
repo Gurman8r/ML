@@ -2,14 +2,14 @@
 #define _ML_STYLE_LOADER_HPP_
 
 #include <ML/Editor/Export.hpp>
-#include <ML/Core/NonNewable.hpp>
+#include <ML/Core/StandardLib.hpp>
 #include <ML/Core/String.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_EDITOR_API ImGuiStyleLoader final : public NonNewable
+	struct ML_EDITOR_API ImGuiStyleLoader final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

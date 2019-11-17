@@ -59,7 +59,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniform(const Uniform * value) const;
+		bool setUniform(const_ptr_t<Uniform> value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 

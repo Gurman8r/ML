@@ -273,7 +273,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Shader::setUniform(const Uniform * value) const
+	bool Shader::setUniform(const_ptr_t<Uniform> value) const
 	{
 		if (!value || !value->getName()) return false;
 		switch (value->getID())

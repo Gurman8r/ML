@@ -14,7 +14,7 @@
 #include <ML/Editor/PropertyDrawer.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
 
-#if defined(ML_IMPL_RENDERER_OPENGL3) && defined(ML_IMPL_PLATFORM_GLFW)
+#if defined(ML_IMPL_RENDERER_OPENGL) && defined(ML_IMPL_PLATFORM_GLFW)
 #	include <imgui/examples/imgui_impl_glfw.h>
 #	include <imgui/examples/imgui_impl_opengl3.h>
 #else

@@ -84,10 +84,10 @@ namespace ml
 		static void	bindVertexArray(uint32_t value);
 		static void	bufferData(uint32_t type, uint32_t size, voidptr_t data, uint32_t usage);
 		static void	bufferSubData(uint32_t target, int32_t offset, int32_t size, voidptr_t data);
-		static bool	deleteBuffer(const uint32_t * value);
-		static void	deleteBuffers(uint32_t count, const uint32_t * buffers);
-		static bool deleteVertexArray(const uint32_t * value);
-		static void	deleteVertexArrays(uint32_t count, const uint32_t * arrays);
+		static bool	deleteBuffer(const_ptr_t<uint32_t> value);
+		static void	deleteBuffers(uint32_t count, const_ptr_t<uint32_t> buffers);
+		static bool deleteVertexArray(const_ptr_t<uint32_t> value);
+		static void	deleteVertexArrays(uint32_t count, const_ptr_t<uint32_t> arrays);
 		static void	vertexAttribPointer(uint32_t index, uint32_t size, uint32_t type, bool normalized, uint32_t stride, voidptr_t pointer);
 		static void	vertexAttribPointer(uint32_t index, uint32_t size, uint32_t type, bool normalized, uint32_t stride, uint32_t offset, uint32_t width);
 		static void	enableVertexAttribArray(uint32_t index);
@@ -103,8 +103,8 @@ namespace ml
 
 		static auto genTexture() -> uint32_t;
 		static auto genTextures(uint32_t count) -> uint32_t;
-		static bool deleteTexture(const uint32_t * value);
-		static void	deleteTextures(uint32_t count, const uint32_t * id);
+		static bool deleteTexture(const_ptr_t<uint32_t> value);
+		static void	deleteTextures(uint32_t count, const_ptr_t<uint32_t> id);
 		static void	bindTexture(uint32_t target, uint32_t id);
 		static void	texImage2D(uint32_t target, int32_t level, uint32_t internalFormat, int32_t width, int32_t height, int32_t border, uint32_t format, uint32_t type, voidptr_t pixels);
 		static void	texSubImage2D(uint32_t target, int32_t level, int32_t xoffset, int32_t yoffset, int32_t width, int32_t height, uint32_t format, uint32_t type, voidptr_t pixels);
@@ -122,17 +122,17 @@ namespace ml
 		static auto genFramebuffers(uint32_t count) -> uint32_t;
 		static auto	checkFramebufferStatus(uint32_t target) -> uint32_t;
 		static void	bindFramebuffer(uint32_t target, uint32_t framebuffer);
-		static bool deleteFramebuffer(const uint32_t * value);
-		static void	deleteFramebuffers(uint32_t count, const uint32_t * framebuffers);
-		static void	blitFramebuffer(int32_t srcX0, int32_t srcY0, int32_t srcX1, int32_t srcY1, int32_t dstX0, int32_t dstY0, int32_t dstX1, int32_t dstY1, GL::Mask mask, uint32_t filter);
+		static bool deleteFramebuffer(const_ptr_t<uint32_t> value);
+		static void	deleteFramebuffers(uint32_t count, const_ptr_t<uint32_t> framebuffers);
+		static void	blitFramebuffer(int32_t srcX0, int32_t srcY0, int32_t srcX1, int32_t srcY1, int32_t dstX0, int32_t dstY0, int32_t dstX1, int32_t dstY1, uint8_t mask, uint32_t filter);
 		static void	framebufferTexture2D(uint32_t target, uint32_t attachment, uint32_t textarget, uint32_t texture, int32_t level);
 
 		// Renderbuffers
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto genRenderbuffer() -> uint32_t;
 		static auto genRenderbuffers(uint32_t count) -> uint32_t;
-		static bool deleteRenderbuffer(const uint32_t * value);
-		static void	deleteRenderbuffers(uint32_t count, const uint32_t * renderbuffers);
+		static bool deleteRenderbuffer(const_ptr_t<uint32_t> value);
+		static void	deleteRenderbuffers(uint32_t count, const_ptr_t<uint32_t> renderbuffers);
 		static void	bindRenderbuffer(uint32_t target, uint32_t renderbuffer);
 		static void	renderbufferStorage(uint32_t target, uint32_t value, int32_t width, int32_t height);
 		static void	framebufferRenderbuffer(uint32_t target, uint32_t attachment, uint32_t renderbuffertarget, uint32_t renderbuffer);

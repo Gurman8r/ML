@@ -2,13 +2,13 @@
 #define _ML_EVENT_HPP_
 
 #include <ML/Core/Export.hpp>
-#include <ML/Core/NonNewable.hpp>
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct Event : public NonNewable
+	struct Event
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -29,7 +29,7 @@ namespace ml
 
 		constexpr Event(int32_t value) noexcept : m_id { value } {}
 
-		constexpr const int32_t & operator*() const noexcept { return m_id; }
+		constexpr int32_t operator*() const noexcept { return m_id; }
 
 		constexpr operator bool() const noexcept { return (m_id > (int32_t)EV_INVALID); }
 

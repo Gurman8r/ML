@@ -11,7 +11,7 @@ namespace ml
 
 	// Used to render multiple objects with a shared state.
 	// Currently only utilized by Sprite and Text.
-	struct ML_GRAPHICS_API RenderBatch final : public NonNewable
+	struct ML_GRAPHICS_API RenderBatch final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

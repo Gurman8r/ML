@@ -4,7 +4,7 @@
 # ifdef ML_SYSTEM_WINDOWS
 #	include <Windows.h>
 #	include <shellapi.h>
-# endif
+#endif
 
 namespace ml
 {
@@ -32,26 +32,26 @@ namespace ml
 
 	int32_t Debug::clear()
 	{
-# if ML_DEBUG
-#	ifdef ML_SYSTEM_WINDOWS
+#if (ML_DEBUG)
+#	if defined(ML_SYSTEM_WINDOWS)
 		return std::system("cls");
 #	else
 		return std::system("clear");
 #	endif
-# else
+#else
 		return 0;
-# endif
+#endif
 	}
 
 	int32_t Debug::pause(int32_t exitCode)
 	{
-# if ML_DEBUG
-#	ifdef ML_SYSTEM_WINDOWS
+#if (ML_DEBUG)
+#	if defined(ML_SYSTEM_WINDOWS)
 		std::system("pause");
 #	else
 		cin.get();
 #	endif
-# endif
+#endif
 		return exitCode;
 	}
 
@@ -59,17 +59,17 @@ namespace ml
 
 	voidptr_t Debug::execute(const String & cmd)
 	{
-		return execute(cmd, String());
+		return execute(cmd, {});
 	}
 
 	voidptr_t Debug::execute(const String & cmd, const String & file)
 	{
-		return execute(cmd, file, String());
+		return execute(cmd, file, {});
 	}
 
 	voidptr_t Debug::execute(const String & cmd, const String & file, const String & args)
 	{
-		return execute(cmd, file, args, String());
+		return execute(cmd, file, args, {});
 	}
 
 	voidptr_t Debug::execute(const String & cmd, const String & file, const String & args, const String & path)

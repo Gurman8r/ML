@@ -128,9 +128,9 @@ namespace ml
 
 					// Generate Uniform
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (Uniform * u = ([](int32_t type, const String & name, SStream & ss, const auto * t)
+					if (ptr_t<Uniform> u = ([](int32_t type, const String & name, SStream & ss, const auto * t)
 					{
-						Uniform * u{ nullptr };
+						ptr_t<Uniform> u{ nullptr };
 						if ((type == -1) || name.empty() || ss.str().empty()) { return u; }
 						switch (type)
 						{

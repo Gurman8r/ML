@@ -3,7 +3,7 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Core/Matrix.hpp>
-#include <ML/Core/NonNewable.hpp>
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {
@@ -41,7 +41,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 	
-	template <class T> struct BasicColor final : public NonNewable
+	template <class T> struct BasicColor final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

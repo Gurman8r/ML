@@ -35,9 +35,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static const GLFWimage & map_glfw_image(uint32_t w, uint32_t h, const uint8_t * pixels)
+	static const GLFWimage & map_glfw_image(uint32_t w, uint32_t h, const_ptr_t<byte_t> pixels)
 	{
-		static HashMap<const uint8_t *, GLFWimage> cache {};
+		static HashMap<const_ptr_t<byte_t>, GLFWimage> cache {};
 		auto it { cache.find(pixels) };
 		if (it == cache.end())
 		{
@@ -150,7 +150,7 @@ namespace ml
 		{
 			this->makeContextCurrent();
 
-			this->install_callbacks();
+			this->installCallbacks();
 
 			this->setCursorMode(Cursor::Mode::Normal);
 
@@ -168,7 +168,7 @@ namespace ml
 		return false;
 	}
 
-	void Window::install_callbacks()
+	void Window::installCallbacks()
 	{
 		setCharCallback([](voidptr_t, uint32_t c)
 		{
@@ -187,7 +187,7 @@ namespace ml
 
 		setErrorCallback([](int32_t code, C_String desc)
 		{
-#if (ML_DEBUG == 1)
+#if (ML_DEBUG)
 			cerr << "GLFW Error " << code << ": \'" << desc << "\'" << endl;
 #endif
 			ML_EventSystem.fireEvent<WindowErrorEvent>(code, desc);
@@ -390,7 +390,7 @@ namespace ml
 		return setMonitor(value ? glfwGetPrimaryMonitor() : nullptr);
 	}
 
-	Window & Window::setIcon(uint32_t w, uint32_t h, const uint8_t * pixels)
+	Window & Window::setIcon(uint32_t w, uint32_t h, const_ptr_t<byte_t> pixels)
 	{
 		if (m_window)
 		{
@@ -548,7 +548,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	voidptr_t Window::createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels)
+	voidptr_t Window::createCustomCursor(uint32_t w, uint32_t h, const_ptr_t<byte_t> pixels)
 	{
 		return glfwCreateCursor(&map_glfw_image(w, h, pixels), w, h);
 	}
@@ -591,7 +591,7 @@ namespace ml
 		return temp;
 	}
 
-	const List<VideoMode>& Window::getFullscreenModes()
+	const List<VideoMode> & Window::getFullscreenModes()
 	{
 		static List<VideoMode> temp {};
 		static bool once { true };

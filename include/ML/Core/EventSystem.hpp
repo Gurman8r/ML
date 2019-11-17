@@ -18,27 +18,11 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		using map_type	= typename std::multimap<int32_t, EventListener *>;
-		using iterator	= typename map_type::iterator;
-		using pair_type = typename std::pair<iterator, iterator>;
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		EventListener * addListener(const int32_t type, EventListener * listener);
-
-		template <class Ev> inline auto addListener(EventListener * listener)
-		{
-			return addListener(Ev::ID, listener);
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
 		bool fireEvent(const Event & value);
 
-		template <class Ev, class ... Args> inline bool fireEvent(Args && ... args)
-		{
-			return fireEvent(Ev { std::forward<Args>(args)... });
-		}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool removeListener(const int32_t & type, EventListener * listener);
 		
@@ -46,11 +30,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+		template <class Ev> inline auto addListener(EventListener * listener)
+		{
+			return addListener(Ev::ID, listener);
+		}
+
+		template <class Ev, class ... Args> inline bool fireEvent(Args && ... args)
+		{
+			return fireEvent(Ev{ std::forward<Args>(args)... });
+		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	private:
 		friend struct Singleton<EventSystem>;
 		EventSystem() {}
 		~EventSystem() {}
-		map_type m_listeners;
+		std::multimap<int32_t, EventListener *> m_listeners;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

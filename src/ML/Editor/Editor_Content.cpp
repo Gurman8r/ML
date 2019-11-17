@@ -57,7 +57,7 @@ namespace ml
 				{
 					if (PropertyDrawer<T>()(("New {0}"_s).format(
 						nameof<>::filter_namespace(typeof<T>::name)
-					), (T *&)temp))
+					), (ptr_t<T> &)temp))
 					{
 						ImGui::CloseCurrentPopup();
 					}
@@ -98,7 +98,7 @@ namespace ml
 
 					if (std::is_same_v<T, Uniform>)
 					{
-						if (auto u { static_cast<Uniform *>(it->second) })
+						if (auto u { (ptr_t<Uniform>)it->second })
 						{
 							no_delete = !u->isModifiable();
 						}

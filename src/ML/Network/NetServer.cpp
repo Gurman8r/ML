@@ -4,14 +4,12 @@
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Network/RakNet.hpp>
 
-#define ML_PEER	static_cast<RakNet::RakPeerInterface *>
-
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	NetServer::NetServer()
-		: m_running(false)
+		: m_running{ false }
 	{
 		ML_EventSystem.addListener<ServerRecievePacketEvent>(this);
 	}
@@ -67,7 +65,7 @@ namespace ml
 			Debug::logError("Connection Lost");
 			break;
 	
-		case ML_SERVER_RECIEVE:
+		case (ID_USER_PACKET_ENUM + NetServer::ID):
 			RakNet::BitStream bitStream(value.data, value.size, false);
 			RakNet::RakString str;
 			if (bitStream.Read(str))

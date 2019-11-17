@@ -67,7 +67,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBuffer & IndexBuffer::bufferData(const uint32_t * data, uint32_t count) const
+	const IndexBuffer & IndexBuffer::bufferData(const_ptr_t<uint32_t> data, uint32_t count) const
 	{
 		if (*this)
 		{

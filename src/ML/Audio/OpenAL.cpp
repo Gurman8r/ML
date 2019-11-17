@@ -128,7 +128,7 @@ namespace ml
 		return temp;
 	}
 
-	void OpenAL::deleteBuffers(int32_t count, const uint32_t * buffers)
+	void OpenAL::deleteBuffers(int32_t count, const_ptr_t<uint32_t> buffers)
 	{
 		alCheck(alDeleteBuffers(count, buffers));
 	}
@@ -260,7 +260,7 @@ namespace ml
 		return temp;
 	}
 
-	void OpenAL::deleteSources(int32_t count, const uint32_t * sources)
+	void OpenAL::deleteSources(int32_t count, const_ptr_t<uint32_t> sources)
 	{
 		alCheck(alDeleteSources(count, sources));
 	}
@@ -380,22 +380,22 @@ namespace ml
 	/* Source vector based playback calls
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenAL::sourcePlay(int32_t ns, const uint32_t * sids)
+	void OpenAL::sourcePlay(int32_t ns, const_ptr_t<uint32_t> sids)
 	{
 		alCheck(alSourcePlayv(ns, sids));
 	}
 
-	void OpenAL::sourceStop(int32_t ns, const uint32_t * sids)
+	void OpenAL::sourceStop(int32_t ns, const_ptr_t<uint32_t> sids)
 	{
 		alCheck(alSourceStopv(ns, sids));
 	}
 
-	void OpenAL::sourceRewind(int32_t ns, const uint32_t * sids)
+	void OpenAL::sourceRewind(int32_t ns, const_ptr_t<uint32_t> sids)
 	{
 		alCheck(alSourceRewindv(ns, sids));
 	}
 
-	void OpenAL::sourcePause(int32_t ns, const uint32_t * sids)
+	void OpenAL::sourcePause(int32_t ns, const_ptr_t<uint32_t> sids)
 	{
 		alCheck(alSourcePausev(ns, sids));
 	}

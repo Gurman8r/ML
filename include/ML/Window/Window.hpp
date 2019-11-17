@@ -5,7 +5,6 @@
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/Newable.hpp>
 #include <ML/Core/StringUtility.hpp>
-#include <ML/Core/Matrix.hpp>
 #include <ML/Window/ContextSettings.hpp>
 #include <ML/Window/Cursor.hpp>
 #include <ML/Window/KeyCode.hpp>
@@ -57,7 +56,7 @@ namespace ml
 			const ContextSettings & context
 		);
 
-		virtual void install_callbacks();
+		virtual void installCallbacks();
 
 		virtual bool dispose() override;
 
@@ -93,7 +92,7 @@ namespace ml
 		
 		Window & setFullscreen(bool value);
 		
-		Window & setIcon(uint32_t w, uint32_t h, const uint8_t * pixels);
+		Window & setIcon(uint32_t w, uint32_t h, const_ptr_t<byte_t> pixels);
 		
 		Window & setPosition(const vec2i & value);
 		
@@ -143,7 +142,7 @@ namespace ml
 		
 		inline auto getFrameWidth()	const -> int32_t { return getFrameSize()[0]; }
 		
-		inline auto getHeight()	const -> const uint32_t	& { return getSize()[1]; }
+		inline auto getHeight()	const -> uint32_t { return getSize()[1]; }
 		
 		inline auto getMonitor() const -> voidptr_t { return m_monitor; }
 
@@ -157,11 +156,11 @@ namespace ml
 		
 		inline auto getVideoMode() const -> const VideoMode & { return m_videoMode; }
 		
-		inline auto getWidth() const -> const uint32_t	& { return getSize()[0]; }
+		inline auto getWidth() const -> uint32_t { return getSize()[0]; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static voidptr_t createCustomCursor(uint32_t w, uint32_t h, const uint8_t * pixels);
+		static voidptr_t createCustomCursor(uint32_t w, uint32_t h, const_ptr_t<byte_t> pixels);
 		
 		static voidptr_t createStandardCursor(Cursor::Shape value);
 		

@@ -158,7 +158,7 @@ namespace ml
 					{
 						for (const auto & pair : ML_Engine.content().data<Uniform>())
 						{
-							if (auto u { (const Uniform *)pair.second })
+							if (auto u { (const_ptr_t<Uniform>)pair.second })
 							{
 								temp->insert(u->clone());
 							}

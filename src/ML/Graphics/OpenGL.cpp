@@ -1,4 +1,4 @@
-#if defined(ML_IMPL_RENDERER_OPENGL3)
+#if defined(ML_IMPL_RENDERER_OPENGL)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -331,22 +331,22 @@ namespace ml
 		glCheck(glBufferSubData(target, offset, size, data));
 	}
 
-	bool OpenGL::deleteBuffer(const uint32_t * value)
+	bool OpenGL::deleteBuffer(const_ptr_t<uint32_t> value)
 	{
 		return value ? ML_TRUE_EXPR(deleteBuffers(1, value)) : false;
 	}
 
-	void OpenGL::deleteBuffers(uint32_t count, const uint32_t * buffers)
+	void OpenGL::deleteBuffers(uint32_t count, const_ptr_t<uint32_t> buffers)
 	{
 		glCheck(glDeleteBuffers(count, buffers));
 	}
 
-	bool OpenGL::deleteVertexArray(const uint32_t * value)
+	bool OpenGL::deleteVertexArray(const_ptr_t<uint32_t> value)
 	{
 		return value ? ML_TRUE_EXPR(deleteVertexArrays(1, value)) : false;
 	}
 
-	void OpenGL::deleteVertexArrays(uint32_t count, const uint32_t * arrays)
+	void OpenGL::deleteVertexArrays(uint32_t count, const_ptr_t<uint32_t> arrays)
 	{
 		glCheck(glDeleteVertexArrays(count, arrays));
 	}
@@ -473,12 +473,12 @@ namespace ml
 		return temp;
 	}
 
-	bool OpenGL::deleteTexture(const uint32_t * value)
+	bool OpenGL::deleteTexture(const_ptr_t<uint32_t> value)
 	{
 		return value ? ML_TRUE_EXPR(deleteTextures(1, value)) : false;
 	}
 
-	void OpenGL::deleteTextures(uint32_t count, const uint32_t * id)
+	void OpenGL::deleteTextures(uint32_t count, const_ptr_t<uint32_t> id)
 	{
 		glCheck(glDeleteTextures(count, id));
 	}
@@ -568,17 +568,17 @@ namespace ml
 		glCheck(glBindFramebuffer(target, framebuffer));
 	}
 
-	bool OpenGL::deleteFramebuffer(const uint32_t * value)
+	bool OpenGL::deleteFramebuffer(const_ptr_t<uint32_t> value)
 	{
 		return value ? ML_TRUE_EXPR(deleteFramebuffers(1, value)) : false;
 	}
 
-	void OpenGL::deleteFramebuffers(uint32_t count, const uint32_t * framebuffers)
+	void OpenGL::deleteFramebuffers(uint32_t count, const_ptr_t<uint32_t> framebuffers)
 	{
 		glCheck(glDeleteFramebuffers(count, framebuffers));
 	}
 
-	void OpenGL::blitFramebuffer(int32_t srcX0, int32_t srcY0, int32_t srcX1, int32_t srcY1, int32_t dstX0, int32_t dstY0, int32_t dstX1, int32_t dstY1, GL::Mask mask, uint32_t filter)
+	void OpenGL::blitFramebuffer(int32_t srcX0, int32_t srcY0, int32_t srcX1, int32_t srcY1, int32_t dstX0, int32_t dstY0, int32_t dstX1, int32_t dstY1, uint8_t mask, uint32_t filter)
 	{
 		glCheck(glBlitFramebuffer(
 			srcX0, srcY0, srcX1, srcY1,
@@ -609,12 +609,12 @@ namespace ml
 		return temp;
 	}
 
-	bool OpenGL::deleteRenderbuffer(const uint32_t * value)
+	bool OpenGL::deleteRenderbuffer(const_ptr_t<uint32_t> value)
 	{
 		return value ? ML_TRUE_EXPR(deleteRenderbuffers(1, value)) : false;
 	}
 
-	void OpenGL::deleteRenderbuffers(uint32_t count, const uint32_t * renderbuffers)
+	void OpenGL::deleteRenderbuffers(uint32_t count, const_ptr_t<uint32_t> renderbuffers)
 	{
 		glCheck(glDeleteRenderbuffers(count, renderbuffers));
 	}

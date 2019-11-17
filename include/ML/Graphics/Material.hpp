@@ -13,7 +13,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using base_type = typename List<Uniform *>;
+		using base_type = typename List<ptr_t<Uniform>>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -48,7 +48,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline Uniform * insert(Uniform * value)
+		inline ptr_t<Uniform> insert(ptr_t<Uniform> value)
 		{
 			if (!value) { return nullptr; }
 			auto it { this->find(value->getName()) };
@@ -61,7 +61,7 @@ namespace ml
 		}
 
 		template <class U, class T> 
-		inline Uniform * insert(const String & name, const T & value)
+		inline ptr_t<Uniform> insert(const String & name, const T & value)
 		{
 			if (!name) { return nullptr; }
 			auto it { this->find(value->getName()) };
@@ -75,7 +75,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool erase(Uniform * value)
+		inline bool erase(ptr_t<Uniform> value)
 		{
 			return (value && value->getName()) && erase(value->getName());
 		}
@@ -94,16 +94,20 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class U = typename Uniform> inline U * get(const String & name)
+		template <
+			class U = typename Uniform
+		> inline ptr_t<U> get(const String & name)
 		{
 			auto it { this->find(name) };
-			return (it != end()) ? dynamic_cast<U *>(*it) : nullptr;
+			return (it != end()) ? dynamic_cast<ptr_t<U>>(*it) : nullptr;
 		}
 
-		template <class U = typename Uniform> inline const U * get(const String & name) const
+		template <
+			class U = typename Uniform
+		> inline const ptr_t<U> get(const String & name) const
 		{
 			auto it { this->find(name) };
-			return (it != cend()) ? dynamic_cast<const U *>(*it) : nullptr;
+			return (it != cend()) ? dynamic_cast<const ptr_t<U>>(*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

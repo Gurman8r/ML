@@ -224,20 +224,20 @@
 
 #define _ML ::ml::
 
-#define ML_ADDRESSOF(ptr)		((void *)(ML_INTMAX)ptr)
-#define ML_ARRAYSIZE(arr)		(sizeof(arr) / sizeof(*arr))
+#define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
+#define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
 #define ML_CONCAT(a, b)		a##b
 #define ML_FILE				__FILE__
 #define ML_LINE				__LINE__
-#define ML_STRINGIFY(str)		ML_TOSTRING(str)
-#define ML_TOSTRING(str)		#str
+#define ML_STRINGIFY(str)	ML_TOSTRING(str)
+#define ML_TOSTRING(str)	#str
 
-#define ML_TEMPLATE(...)		template<##__VA_ARGS__>
-#define ML_USING				using
-#define ML_USING_VA(...)		ML_TEMPLATE(##__VA_ARGS__) ML_USING
-#define ML_USING_X				ML_USING_VA(class X)
+#define ML_TEMPLATE(...)	template<##__VA_ARGS__>
+#define ML_USING			using
+#define ML_USING_VA(...)	ML_TEMPLATE(##__VA_ARGS__) ML_USING
+#define ML_USING_X			ML_USING_VA(class X)
 #define ML_USING_XY			ML_USING_VA(class X, class Y)
-#define ML_USING_XYZ			ML_USING_VA(class X, class Y, class Z)
+#define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
 #define ML_USING_Ts			ML_USING_VA(class ... Ts)
 
 #define ML_TRUE_EXPR(expr)		(([&](){ expr; return true; })())

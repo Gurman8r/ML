@@ -71,20 +71,20 @@ namespace ml
 
 #if defined(ML_STATIC)
 			draw_def("define: ML_STATIC", "", "");
-# endif
+#endif
 
-# if defined (ML_API_EXPORT)
+#if defined (ML_API_EXPORT)
 			draw_def("define: ML_API_EXPORT", "", "");
-# endif
+#endif
 
-# if defined (ML_API_IMPORT)
+#if defined (ML_API_IMPORT)
 			draw_def("define: ML_API_IMPORT", "", "");
-# endif
+#endif
 
 			// Compiler
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("Compiler");
-# if defined(ML_CC_MSC)
+#if defined(ML_CC_MSC)
 			draw_def("define: ML_CC_MSC", "", "");
 # elif defined(ML_CC_CLANG)
 			draw_def("define: ML_CC_CLANG", "", "");
@@ -94,7 +94,7 @@ namespace ml
 			draw_def("define: ML_CC_INTEL", "", "");
 # elif defined(ML_CC_EMSCRIPTEN)
 			draw_def("define: ML_CC_EMSCRIPTEN", "", "");
-# endif
+#endif
 			draw_def("define: ML_CC_NAME", "%s", ML_CC_NAME);
 			draw_def("define: ML_CC_VER", "%u", ML_CC_VER);
 
@@ -111,7 +111,7 @@ namespace ml
 			draw_def("define: ML_CPP", "%u", ML_CPP);
 # ifdef ML_HAS_CXX11
 			draw_def("define: ML_HAS_CXX11", "", "");
-# endif
+#endif
 #ifdef ML_HAS_CXX14
 			draw_def("define: ML_HAS_CXX14", "", "");
 #endif
@@ -161,7 +161,7 @@ namespace ml
 			// System
 			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			draw_head("System");
-# if defined(ML_SYSTEM_WINDOWS)
+#if defined(ML_SYSTEM_WINDOWS)
 			draw_def("define: ML_SYSTEM_WINDOWS", "", "");
 # elif defined(ML_SYSTEM_APPLE)
 			draw_def("define: ML_SYSTEM_APPLE", "", "");
@@ -174,7 +174,7 @@ namespace ml
 #	elif defined(ML_SYSTEM_FREEBSD"
 			draw_def("define: ML_SYSTEM_FREEBSD", "", "");
 #	endif
-# endif
+#endif
 			draw_def("define: ML_SYSTEM_NAME", "%s", ML_SYSTEM_NAME);
 
 			ImGui::NextColumn();

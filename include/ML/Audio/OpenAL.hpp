@@ -61,7 +61,7 @@ namespace ml
 		// Buffers
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	genBuffers(int32_t count) -> uint32_t;
-		static void deleteBuffers(int32_t count, const uint32_t * buffers);
+		static void deleteBuffers(int32_t count, const_ptr_t<uint32_t> buffers);
 		static bool	isBuffer(uint32_t id);
 		static void bufferData(uint32_t id, int32_t format, voidptr_t data, int32_t size, int32_t freq);
 		
@@ -93,7 +93,7 @@ namespace ml
 		// Sources
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	genSources(int32_t count) -> uint32_t;
-		static void deleteSources(int32_t count, const uint32_t * sources);
+		static void deleteSources(int32_t count, const_ptr_t<uint32_t> sources);
 		static bool	isSource(uint32_t id);
 
 		// Set Source Parameters
@@ -123,10 +123,10 @@ namespace ml
 
 		// Source Based Playback calls
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void sourcePlay(int32_t ns, const uint32_t * sids);
-		static void sourceStop(int32_t ns, const uint32_t * sids);
-		static void sourceRewind(int32_t ns, const uint32_t * sids);
-		static void sourcePause(int32_t ns, const uint32_t * sids);
+		static void sourcePlay(int32_t ns, const_ptr_t<uint32_t> sids);
+		static void sourceStop(int32_t ns, const_ptr_t<uint32_t> sids);
+		static void sourceRewind(int32_t ns, const_ptr_t<uint32_t> sids);
+		static void sourcePause(int32_t ns, const_ptr_t<uint32_t> sids);
 
 		// Set Listener Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

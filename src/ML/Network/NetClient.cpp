@@ -9,7 +9,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	NetClient::NetClient()
-		: m_connected(false)
+		: m_connected{ false }
 	{
 		ML_EventSystem.addListener<ClientRecievePacketEvent>(this);
 	}
@@ -54,7 +54,7 @@ namespace ml
 			Debug::logError("Connection Lost");
 			break;
 
-		case ML_CLIENT_RECIEVE:
+		case (ID_USER_PACKET_ENUM + NetClient::ID):
 			RakNet::BitStream bitStream(value.data, value.size, false);
 			RakNet::RakString str;
 			if (bitStream.Read(str))

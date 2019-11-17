@@ -15,32 +15,25 @@ namespace ml
 	
 	bool EventSystem::fireEvent(const Event & value)
 	{
-		if (value)
+		if (!value) { return false; }
+		auto found{ m_listeners.equal_range(*value) };
+		for (auto it = found.first; it != found.second; it++)
 		{
-			pair_type found { m_listeners.equal_range(*value) };
-
-			for (iterator it = found.first; it != found.second; ++it)
-			{
-				if (it->second) { it->second->onEvent(value); }
-			}
-
-			return true;
+			if (it->second) { it->second->onEvent(value); }
 		}
-		return false;
+		return true;
 	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool EventSystem::removeListener(const int32_t & type, EventListener * listener)
 	{
-		pair_type found { m_listeners.equal_range(type) };
-
-		for (iterator it = found.first; it != found.second; ++it)
+		auto found { m_listeners.equal_range(type) };
+		for (auto it = found.first; it != found.second; it++)
 		{
 			if (it->second == listener)
 			{
 				m_listeners.erase(it);
-
 				return true;
 			}
 		}
@@ -49,23 +42,22 @@ namespace ml
 	
 	bool EventSystem::removeListenerFromAllEvents(EventListener * listener)
 	{
-		bool allTheWayThrough = false;
-		while (!allTheWayThrough)
+		bool done { false };
+		while (!done)
 		{
-			allTheWayThrough = true;
-
-			for (iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
+			done = true;
+			for (auto it = m_listeners.begin(); it != m_listeners.end(); it++)
 			{
 				if (it->second == listener)
 				{
-					// break to prevent using invalidated iterator.
+					// break to prevent using invalidated iterator
 					m_listeners.erase(it);
-					allTheWayThrough = false; 
+					done = false; 
 					break;
 				}
 			}
 		}
-		return allTheWayThrough;
+		return done;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

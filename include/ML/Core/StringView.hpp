@@ -66,7 +66,7 @@ namespace ml
 
 		constexpr const_reference operator[](size_t i) const { return at(i); }
 
-		constexpr operator const const_pointer &() const { return data(); }
+		constexpr operator const_pointer() const { return data(); }
 
 		inline operator std::string() const { return str(); }
 

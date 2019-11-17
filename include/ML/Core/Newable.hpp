@@ -9,7 +9,6 @@ namespace ml
 
 	// "Memory Leak Insurance"
 	// Base class for anything which might be dynamically allocated.
-	// Use in conjunction with NonNewable to help ensure memory safety.
 	struct ML_CORE_API Newable
 	{
 		virtual ~Newable() {}
@@ -24,13 +23,25 @@ namespace ml
 			return out << value.get_type_info().name();
 		}
 
-		inline voidptr_t operator new(size_t size) { return ML_new(size); }
-		
-		inline voidptr_t operator new[](size_t size) { return ML_new(size);  }
-		
-		inline void operator delete(voidptr_t ptr) { return ML_delete(ptr); }
-		
-		inline void operator delete[](voidptr_t ptr) { return ML_delete(ptr); }
+		inline voidptr_t operator new(size_t size)
+		{
+			return ML_Memory.allocate(size);
+		}
+
+		inline voidptr_t operator new[](size_t size)
+		{
+			return ML_Memory.allocate(size);
+		}
+
+		inline void operator delete(voidptr_t ptr)
+		{
+			return ML_Memory.deallocate(ptr);
+		}
+
+		inline void operator delete[](voidptr_t ptr)
+		{
+			return ML_Memory.deallocate(ptr);
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

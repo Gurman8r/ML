@@ -2,11 +2,11 @@
 #define _ML_KEY_CODE_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/NonNewable.hpp>
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {
-	struct KeyCode final : public NonNewable
+	struct KeyCode final
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

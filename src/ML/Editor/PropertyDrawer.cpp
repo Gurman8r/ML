@@ -1053,7 +1053,7 @@ namespace ml
 					{
 						for (const auto & pair : ML_Engine.content().data<Uniform>())
 						{
-							if (auto u { (const Uniform *)pair.second })
+							if (auto u { (const_ptr_t<Uniform>)pair.second })
 							{
 								value->insert(u->clone());
 							}
@@ -1099,10 +1099,10 @@ namespace ml
 		ImGui::PushID(label.c_str());
 
 		// new uniform editor
-		Uniform * u = nullptr;
+		ptr_t<Uniform> u = nullptr;
 		if (PropertyDrawer<Uniform>()(
 			("New Uniform##Material##" + label).c_str(),
-			(Uniform *&)u
+			(ptr_t<Uniform>&)u
 			))
 		{
 			if (u && !value.insert(u))
@@ -1116,7 +1116,7 @@ namespace ml
 		if (!value.empty()) { ImGui::Separator(); }
 
 		// to remove
-		Uniform * to_remove{ nullptr };
+		ptr_t<Uniform> to_remove{ nullptr };
 		for (auto & u : value)
 		{
 			// name
@@ -2597,19 +2597,19 @@ namespace ml
 				{
 					switch (type)
 					{
-					case uni_bool	::ID: return (Uniform *)new uni_bool	{ name, {} };
-					case uni_float	::ID: return (Uniform *)new uni_float	{ name, {} };
-					case uni_int	::ID: return (Uniform *)new uni_int		{ name, {} };
-					case uni_vec2	::ID: return (Uniform *)new uni_vec2	{ name, {} };
-					case uni_vec3	::ID: return (Uniform *)new uni_vec3	{ name, {} };
-					case uni_vec4	::ID: return (Uniform *)new uni_vec4	{ name, {} };
-					case uni_color	::ID: return (Uniform *)new uni_color	{ name, {} };
-					case uni_mat2	::ID: return (Uniform *)new uni_mat2	{ name, {} };
-					case uni_mat3	::ID: return (Uniform *)new uni_mat3	{ name, {} };
-					case uni_mat4	::ID: return (Uniform *)new uni_mat4	{ name, {} };
-					case uni_sampler::ID: return (Uniform *)new uni_sampler	{ name, {} };
+					case uni_bool	::ID: return (ptr_t<Uniform>)new uni_bool	{ name, {} };
+					case uni_float	::ID: return (ptr_t<Uniform>)new uni_float	{ name, {} };
+					case uni_int	::ID: return (ptr_t<Uniform>)new uni_int		{ name, {} };
+					case uni_vec2	::ID: return (ptr_t<Uniform>)new uni_vec2	{ name, {} };
+					case uni_vec3	::ID: return (ptr_t<Uniform>)new uni_vec3	{ name, {} };
+					case uni_vec4	::ID: return (ptr_t<Uniform>)new uni_vec4	{ name, {} };
+					case uni_color	::ID: return (ptr_t<Uniform>)new uni_color	{ name, {} };
+					case uni_mat2	::ID: return (ptr_t<Uniform>)new uni_mat2	{ name, {} };
+					case uni_mat3	::ID: return (ptr_t<Uniform>)new uni_mat3	{ name, {} };
+					case uni_mat4	::ID: return (ptr_t<Uniform>)new uni_mat4	{ name, {} };
+					case uni_sampler::ID: return (ptr_t<Uniform>)new uni_sampler	{ name, {} };
 					}
-					return (Uniform *)nullptr;
+					return (ptr_t<Uniform>)nullptr;
 				})();
 
 				if (value)

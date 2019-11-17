@@ -33,7 +33,7 @@ namespace ml
 
 		constexpr operator bool() const noexcept { return (m_id > (int32_t)EV_INVALID); }
 
-		template <class T> constexpr auto as() const { return static_cast<const T *>(this); }
+		template <class T> constexpr auto as() const { return static_cast<const_ptr_t<T>>(this); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

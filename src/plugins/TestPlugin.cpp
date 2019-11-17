@@ -26,7 +26,7 @@ namespace ml
 			{
 			case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
 			{
-				ML_Editor.mainMenuBar().addMenu("Plugins", [&]() 
+				ML_Editor.mainMenuBar().addMenu("Plugins", [&]()
 				{
 					ImGui::PushID(ML_ADDRESSOF(this));
 					if (ImGui::BeginMenu("Test Plugin"))

@@ -243,6 +243,8 @@ namespace ml
 			} break;
 			case DrawEvent::ID: if (auto ev{ value.as<DrawEvent>()})
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				auto camera{ Camera::mainCamera() };
 					
 				// Render Main Scene
@@ -301,54 +303,67 @@ namespace ml
 			} break;
 			case GuiEvent::ID: if (auto ev{ value.as<GuiEvent>()})
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				draw_display(display_name, m_pipeline[Surf_Post]);
 				draw_editor(editor_name);
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
 			case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>()})
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				dispose_files();
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
-			case ShaderErrorEvent::ID: if (auto ev = value.as<ShaderErrorEvent>())
+			case ShaderErrorEvent::ID: if (auto ev{ value.as<ShaderErrorEvent>() })
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
+				if (auto e{ m_entity ? m_entity : (m_entity = ML_Engine.content().get<Entity>(m_ent_name)) })
 				{
-					if (ev->obj && (ev->obj == r->shader()))
+					if (auto r{ e ? e->get<Renderer>() : nullptr })
 					{
-						std::cout << ev->error;
-
-						// Decode Errors
-						SStream ss { String{ ev->error } };
-						String line;
-						while (std::getline(ss, line, '\n'))
+						if (ev->obj && (ev->obj == r->shader()))
 						{
-							const ShaderError err{ ev->type, line };
-							switch (ev->type)
+							std::cout << ev->error;
+
+							// Decode Errors
+							SStream ss{ String{ ev->error } };
+							String line;
+							while (std::getline(ss, line, '\n'))
 							{
+								const ShaderError err{ ev->type, line };
+								switch (ev->type)
+								{
 								case GL::VertexShader: m_files[ShaderFile::Vert]->errs.push_back(err); break;
 								case GL::FragmentShader: m_files[ShaderFile::Frag]->errs.push_back(err); break;
 								case GL::GeometryShader: m_files[ShaderFile::Geom]->errs.push_back(err); break;
+								}
 							}
-						}
 
-						// Set Markers
-						for (auto & file : m_files)
-						{
-							TextEditor::ErrorMarkers markers;
-							for (auto & err : file->errs)
+							// Set Markers
+							for (auto & file : m_files)
 							{
-								markers.insert({ err.line, err.code + ": " + err.desc });
+								TextEditor::ErrorMarkers markers;
+								for (auto & err : file->errs)
+								{
+									markers.insert({ err.line, err.code + ": " + err.desc });
+								}
+								file->text.SetErrorMarkers(markers);
 							}
-							file->text.SetErrorMarkers(markers);
 						}
 					}
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
-			case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
+			case KeyEvent::ID: if (auto ev{ value.as<KeyEvent>() })
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				// Toggle Fullscreen
 				if (ev->getPress(KeyCode::F11))
 				{
@@ -366,16 +381,28 @@ namespace ml
 				{
 					compile_sources();
 				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
-			case DockspaceEvent::ID: if (auto ev = value.as<DockspaceEvent>())
+			case DockspaceEvent::ID: if (auto ev{ value.as<DockspaceEvent>() })
 			{
-				Editor_Dockspace & d { ev->dockspace };
-				d.dockWindow(display_name, d.getNode(d.LeftUp));
-				d.dockWindow(editor_name, d.getNode(d.RightUp));
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+				{
+					d.dockWindow(display_name, d.getNode(d.LeftUp));
+					d.dockWindow(editor_name, d.getNode(d.RightUp));
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
-			case SecretEvent::ID: if (auto ev = value.as<SecretEvent>())
+			case SecretEvent::ID: if (auto ev{ value.as<SecretEvent>() })
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
 		}
 		}

@@ -33,7 +33,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline Editor_MainMenuBar & addMenu(const String & name, std::function<void()> && fun)
+		inline Editor_MainMenuBar & addMenu(const String & name, const std::function<void()> & fun)
 		{
 			auto it{ std::find_if(m_menus.begin(), m_menus.end(), [&](auto elem)
 			{

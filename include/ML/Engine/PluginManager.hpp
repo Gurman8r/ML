@@ -8,12 +8,20 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Engine;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	struct ML_ENGINE_API PluginManager final : public Newable, public Disposable
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		PluginManager()
+			: m_path{}
+			, m_files{}
+			, m_libraries{}
+			, m_plugins{}
+		{
+		};
+
+		~PluginManager() { this->dispose(); }
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		bool dispose() override;
@@ -38,18 +46,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend class Engine;
-		
-		PluginManager()
-			: m_path{}
-			, m_files{}
-			, m_libraries{}
-			, m_plugins{}
-		{
-		};
-		
-		~PluginManager() { this->dispose(); }
-
 		String m_path;
 		List<String> m_files;
 		List<ptr_t<SharedLibrary>> m_libraries;

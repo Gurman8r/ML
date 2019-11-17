@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_MAIN_MENU_HPP_
 #define _ML_EDITOR_MAIN_MENU_HPP_
 
-#include <ML/Editor/EditorComponent.hpp>
+#include <ML/Editor/Editor_Base.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_MainMenuBar final : public EditorComponent
+	class ML_EDITOR_API Editor_MainMenuBar final : public Editor_Base
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -15,11 +15,7 @@ namespace ml
 
 		Editor_MainMenuBar();
 
-		~Editor_MainMenuBar() { this->dispose(); }
-
-		bool dispose() override;
-
-		void update() override;
+		void onEvent(const Event & value) override;
 
 		bool beginDraw(int32_t flags) override;
 
@@ -37,7 +33,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline decltype(m_menus)::iterator addMenu(const String & name, std::function<void()> fun)
+		inline Editor_MainMenuBar & addMenu(const String & name, std::function<void()> && fun)
 		{
 			auto it{ std::find_if(m_menus.begin(), m_menus.end(), [&](auto elem)
 			{
@@ -48,8 +44,11 @@ namespace ml
 				m_menus.push_back({ name, {} });
 				it = (m_menus.end() - 1);
 			}
-			if (fun) { it->second.push_back(fun); }
-			return it;
+			if (fun) 
+			{ 
+				it->second.push_back(fun); 
+			}
+			return (*this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

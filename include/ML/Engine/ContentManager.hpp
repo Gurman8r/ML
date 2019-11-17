@@ -9,11 +9,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Engine;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	// Global bank of shared resources.
+	// Bank of shared resources.
 	// Anything can be stored in Content as long as it derives Newable.
 	struct ML_ENGINE_API ContentManager final : public Newable, public NonCopyable, public Disposable
 	{
@@ -21,6 +17,12 @@ namespace ml
 
 		using AssetMap	= typename Map<String, ptr_t<Newable>>;
 		using TypeMap	= typename HashMap<hash_t, AssetMap>;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		
+		ContentManager() : m_data{} {}
+
+		~ContentManager() { this->dispose(); }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -260,14 +262,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
-		friend class Engine;
-		
-		ContentManager() : m_data{} {}
-		
-		~ContentManager() { this->dispose(); }
-		
-		mutable TypeMap m_data; // The Data
+	private: mutable TypeMap m_data;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

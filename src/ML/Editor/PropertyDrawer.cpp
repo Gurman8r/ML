@@ -76,7 +76,7 @@ namespace ml
 			)).c_str()) };
 			if (out)
 			{
-				ML_Editor.inspector().Focus(true);
+				ML_Editor.inspector().setFocused(true);
 				ML_Editor.content().select_item(
 					typeof<T>::name, ML_Engine.content().get_name(value), (voidptr_t)value
 				);

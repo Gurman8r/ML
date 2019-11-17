@@ -3,6 +3,7 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Engine/Engine.hpp>
+#include <ML/Window/WindowEvents.hpp>
 #include <ML/Editor/Editor.hpp>
 #include <ML/Editor/EditorEvents.hpp>
 #include <ML/Editor/ImGuiExt.hpp>
@@ -45,14 +46,40 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Inspector::Editor_Inspector()
-		: EditorComponent { "Inspector", "Ctrl+Alt+I", ML_Engine.prefs().get_bool("Editor", "show_inspector", false) }
+		: Editor_Base { "Inspector", "Ctrl+Alt+I", ML_Engine.prefs().get_bool("Editor", "show_inspector", false) }
 	{
+		ML_EventSystem.addListener<DockspaceEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Inspector::update()
+	void Editor_Inspector::onEvent(const Event & value)
 	{
+		Editor_Base::onEvent(value);
+
+		switch (*value)
+		{
+		case DockspaceEvent::ID: if (auto ev{ value.as<DockspaceEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+			{
+				d.dockWindow(getTitle(), d.getNode(d.RightUp));
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (ev->getPress(KeyCode::I, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		}
 	}
 
 	bool Editor_Inspector::draw()

@@ -1,20 +1,39 @@
 #include <ML/Editor/Editor_Manual.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Engine.hpp>
+#include <ML/Editor/Editor.hpp>
+#include <ML/Editor/EditorEvents.hpp>
+#include <ML/Core/EventSystem.hpp>
+#include <ML/Window/WindowEvents.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Manual::Editor_Manual()
-		: EditorComponent { "Manual", "Ctrl+Alt+M", ML_Engine.prefs().get_bool("Editor", "show_manual", false) }
+		: Editor_Base { "Manual", "Ctrl+Alt+M", ML_Engine.prefs().get_bool("Editor", "show_manual", false) }
 	{
+		ML_EventSystem.addListener<DockspaceEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Manual::update()
+	void Editor_Manual::onEvent(const Event & value)
 	{
+		Editor_Base::onEvent(value);
+
+		switch (*value)
+		{
+		case KeyEvent::ID: if (auto ev{ value.as<KeyEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (ev->getPress(KeyCode::M, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		}
 	}
 
 	bool Editor_Manual::draw()

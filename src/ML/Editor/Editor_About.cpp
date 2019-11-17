@@ -5,20 +5,50 @@
 #include <ML/Core/Debug.hpp>
 #include <ML/Core/FileSystem.hpp>
 #include <ML/Engine/Engine.hpp>
+#include <ML/Editor/Editor.hpp>
+#include <ML/Editor/EditorEvents.hpp>
+#include <ML/Core/EventSystem.hpp>
+#include <ML/Window/WindowEvents.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_About::Editor_About()
-		: EditorComponent { "About", "Ctrl+Alt+A", ML_Engine.prefs().get_bool("Editor", "show_about", false) }
+		: Editor_Base { "About", "Ctrl+Alt+A", ML_Engine.prefs().get_bool("Editor", "show_about", false) }
 	{
+		ML_EventSystem.addListener<DockspaceEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_About::update()
+	void Editor_About::onEvent(const Event & value)
 	{
+		Editor_Base::onEvent(value);
+
+		switch (*value)
+		{
+		case DockspaceEvent::ID: if (auto ev{ value.as<DockspaceEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+			{
+				d.dockWindow(getTitle(), d.getNode(d.LeftUp));
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (ev->getPress(KeyCode::A, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		}
 	}
 
 	bool Editor_About::draw()

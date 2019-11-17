@@ -18,6 +18,7 @@
 #include <ML/Graphics/RenderWindow.hpp>
 #include <ML/Engine/Script.hpp>
 #include <ML/Editor/PropertyDrawer.hpp>
+#include <ML/Window/WindowEvents.hpp>
 
 namespace ml
 {
@@ -128,7 +129,7 @@ namespace ml
 			}
 			if (to_select != db.end())
 			{
-				ML_Editor.inspector().Focus(true);
+				ML_Editor.inspector().setFocused(true);
 				ML_Editor.content().select_item(typeof<T>::name, to_select->first, to_select->second);
 			}
 			ImGui::PopID();
@@ -141,14 +142,40 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Content::Editor_Content()
-		: EditorComponent { "Content", "Ctrl+Alt+C", ML_Engine.prefs().get_bool("Editor", "show_content", false) }
+		: Editor_Base { "Content", "Ctrl+Alt+C", ML_Engine.prefs().get_bool("Editor", "show_content", false) }
 	{
+		ML_EventSystem.addListener<DockspaceEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Content::update()
+	void Editor_Content::onEvent(const Event & value)
 	{
+		Editor_Base::onEvent(value);
+
+		switch (*value)
+		{
+		case DockspaceEvent::ID: if (auto ev{ value.as<DockspaceEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+			{
+				d.dockWindow(getTitle(), d.getNode(d.RightDn));
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (ev->getPress(KeyCode::C, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		}
 	}
 
 	bool Editor_Content::draw()

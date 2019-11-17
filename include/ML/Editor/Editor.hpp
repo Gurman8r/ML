@@ -32,29 +32,30 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Editor_About		m_about;
-		Editor_Dockspace	m_dockspace;
-		Editor_Content		m_content;
-		Editor_Explorer		m_explorer;
-		Editor_Inspector	m_inspector;
-		Editor_MainMenuBar	m_mainMenuBar;
-		Editor_Manual		m_manual;
-		Editor_Profiler		m_profiler;
-		Editor_Terminal		m_terminal;
+		bool m_show_imgui_demo{ false };
 
-		bool m_show_imgui_demo { false };
+		ptr_t<Editor_About		> m_about;
+		ptr_t<Editor_Dockspace	> m_dockspace;
+		ptr_t<Editor_Content	> m_content;
+		ptr_t<Editor_Explorer	> m_explorer;
+		ptr_t<Editor_Inspector	> m_inspector;
+		ptr_t<Editor_MainMenuBar> m_mainMenuBar;
+		ptr_t<Editor_Manual		> m_manual;
+		ptr_t<Editor_Profiler	> m_profiler;
+		ptr_t<Editor_Terminal	> m_terminal;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline auto & about()		{ return m_about; }
-		inline auto & content()		{ return m_content; }
-		inline auto & dockspace()	{ return m_dockspace; }
-		inline auto & explorer()	{ return m_explorer; }
-		inline auto & inspector()	{ return m_inspector; }
-		inline auto & mainMenuBar()	{ return m_mainMenuBar; }
-		inline auto & profiler()	{ return m_profiler; }
-		inline auto & terminal()	{ return m_terminal; }
+		inline auto & about()		{ return *m_about; }
+		inline auto & content()		{ return *m_content; }
+		inline auto & dockspace()	{ return *m_dockspace; }
+		inline auto & explorer()	{ return *m_explorer; }
+		inline auto & inspector()	{ return *m_inspector; }
+		inline auto & mainMenuBar()	{ return *m_mainMenuBar; }
+		inline auto & manual()		{ return *m_manual; }
+		inline auto & profiler()	{ return *m_profiler; }
+		inline auto & terminal()	{ return *m_terminal; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

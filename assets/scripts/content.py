@@ -146,7 +146,7 @@ ml.content.load_all([
     {
         "type": "ml::Material",
         "name": "mat/demo",
-        "defaults": "True",
+        "defaults": "False",
         "uniforms": PATH + "/materials/demo.mat"
     },
     {

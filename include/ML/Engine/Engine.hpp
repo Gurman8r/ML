@@ -33,22 +33,22 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		CommandRegistry	m_commands;
-		ContentManager	m_content;
-		PluginManager	m_plugins;
-		Preferences		m_prefs;
-		GameTime		m_time;
-		RenderWindow	m_window;
+		ptr_t<CommandRegistry	> m_commands;
+		ptr_t<ContentManager	> m_content;
+		ptr_t<PluginManager		> m_plugins;
+		ptr_t<Preferences		> m_prefs;
+		ptr_t<GameTime			> m_time;
+		ptr_t<RenderWindow		> m_window;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline auto & commands()	{ return m_commands; }
-		inline auto & content()		{ return m_content; }
-		inline auto & plugins()		{ return m_plugins; }
-		inline auto & prefs()		{ return m_prefs; }
-		inline auto & time()		{ return m_time; }
-		inline auto & window()		{ return m_window; }
+		inline auto & commands()	{ return *m_commands; }
+		inline auto & content()		{ return *m_content; }
+		inline auto & plugins()		{ return *m_plugins; }
+		inline auto & prefs()		{ return *m_prefs; }
+		inline auto & time()		{ return *m_time; }
+		inline auto & window()		{ return *m_window; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

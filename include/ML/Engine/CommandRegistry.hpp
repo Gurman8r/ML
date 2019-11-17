@@ -10,10 +10,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class Engine;
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	struct ML_ENGINE_API CommandRegistry final : public Newable, public NonCopyable, public Disposable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -22,6 +18,12 @@ namespace ml
 		using command_list		= typename List<value_type>;
 		using iterator			= typename command_list::iterator;
 		using const_iterator	= typename command_list::const_iterator;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		CommandRegistry() : m_cmd() {}
+
+		~CommandRegistry() {}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -99,9 +101,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		friend class Engine;
-		CommandRegistry() : m_cmd() {}
-		~CommandRegistry() {}
 		command_list m_cmd;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

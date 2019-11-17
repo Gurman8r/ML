@@ -105,7 +105,8 @@ namespace ml
 						"clear",
 						new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 						{
-							return true; // See EditorTerminal.cpp
+							ML_Editor.terminal().clear();
+							return true;
 						})
 					});
 
@@ -165,6 +166,10 @@ namespace ml
 						"history",
 						new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
 						{
+							for (C_String h : ML_Editor.terminal().history())
+							{
+								std::cout << h << std::endl;
+							}
 							return true; // See EditorTerminal.cpp
 						})
 					});

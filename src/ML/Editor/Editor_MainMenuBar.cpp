@@ -9,21 +9,29 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_MainMenuBar::Editor_MainMenuBar()
-		: EditorComponent{ "Main Menu", "", ML_Engine.prefs().get_bool("Editor", "show_main_menu", true) }
+		: Editor_Base{ "Main Menu Bar", "", ML_Engine.prefs().get_bool("Editor", "show_main_menu", true) }
 		, m_menus{}
 	{
+		ML_EventSystem.addListener<UnloadEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Editor_MainMenuBar::dispose()
+	void Editor_MainMenuBar::onEvent(const Event & value)
 	{
-		m_menus.clear();
-		return m_menus.empty();
-	}
+		Editor_Base::onEvent(value);
 
-	void Editor_MainMenuBar::update()
-	{
+		switch (*value)
+		{
+		case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			m_menus.clear();
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		}
 	}
 
 	bool Editor_MainMenuBar::beginDraw(int32_t flags)
@@ -44,16 +52,13 @@ namespace ml
 		{
 			for (auto & pair : m_menus)
 			{
-				if (!pair.second.empty())
+				if (!pair.second.empty() && ImGui::BeginMenu(pair.first.c_str()))
 				{
-					if (ImGui::BeginMenu(pair.first.c_str()))
+					for (auto & func : pair.second)
 					{
-						for (auto & func : pair.second)
-						{
-							if (func) { func(); }
-						}
-						ImGui::EndMenu();
+						if (func) { func(); }
 					}
+					ImGui::EndMenu();
 				}
 			}
 		}

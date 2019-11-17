@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_PROFILER_HPP_
 #define _ML_EDITOR_PROFILER_HPP_
 
-#include <ML/Editor/EditorComponent.hpp>
+#include <ML/Editor/Editor_Base.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_Profiler final : public EditorComponent
+	class ML_EDITOR_API Editor_Profiler final : public Editor_Base
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -15,7 +15,9 @@ namespace ml
 
 		Editor_Profiler();
 
-		void update() override;
+		~Editor_Profiler() {}
+
+		void onEvent(const Event & value) override;
 
 		bool draw() override;
 

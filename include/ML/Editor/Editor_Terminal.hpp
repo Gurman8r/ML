@@ -1,13 +1,13 @@
 #ifndef _ML_EDITOR_TERMINAL_HPP_
 #define _ML_EDITOR_TERMINAL_HPP_
 
-#include <ML/Editor/EditorComponent.hpp>
+#include <ML/Editor/Editor_Base.hpp>
 
 namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API Editor_Terminal final : public EditorComponent
+	class ML_EDITOR_API Editor_Terminal final : public Editor_Base
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -15,19 +15,25 @@ namespace ml
 
 		Editor_Terminal();
 
-		void update() override;
-		
+		void onEvent(const Event & value) override;
+
 		bool draw() override;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
 		void clear();
+		
 		void execute(C_String value);
-		void printf(C_String value, ...);	// Print Format
-		void printl(const String & value);	// Print Line
-		void printss(SStream & value);		// Print SStream
+		
+		void printf(C_String value, ...);
+		
+		void printl(const String & value);
+		
+		void printss(SStream & value);
+		
 		bool redirect(std::ostream & value);
+		
 		int32_t inputCallback(voidptr_t value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

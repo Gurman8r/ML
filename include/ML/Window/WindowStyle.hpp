@@ -2,7 +2,7 @@
 #define _ML_WINDOW_STYLE_HPP_
 
 #include <ML/Window/Export.hpp>
-#include <ML/Core/BitMask.hpp>
+#include <ML/Core/StandardLib.hpp>
 
 namespace ml
 {
@@ -14,16 +14,18 @@ namespace ml
 
 		enum Flag : uint32_t
 		{
-			Resizable,
-			Visible,
-			Decorated,
-			Focused,
-			AutoIconify,
-			Floating,
-			Maximized,
+			None		= (0 << 0),
+			Resizable	= (1 << 0),
+			Visible		= (1 << 1),
+			Decorated	= (1 << 2),
+			Focused		= (1 << 3),
+			AutoIconify = (1 << 4),
+			Floating	= (1 << 5),
+			Maximized	= (1 << 6),
 		};
 
 		static constexpr Flag Flag_values[] = {
+			Flag::None,
 			Flag::Resizable,
 			Flag::Visible,
 			Flag::Decorated,
@@ -34,6 +36,7 @@ namespace ml
 		};
 
 		static constexpr C_String Flag_names[] = {
+			"None",
 			"Resizable",
 			"Visible",
 			"Decorated",
@@ -45,43 +48,113 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr WindowStyle(const BitMask_8 & value)
-			: m_bits{ value }
-		{
-		}
+		bool resizable;		// Resizable
+		bool visible;		// Visible
+		bool decorated;		// Decorated
+		bool focused;		// Focused
+		bool autoIconify;	// AutoIconify
+		bool floating;		// Floating
+		bool maximized;		// Maximized
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		constexpr WindowStyle(
-			bool resizable, bool visible, bool decorated, bool focused, bool autoIconify, bool floating, bool maximized
-		) : m_bits{ {
-			resizable, visible, decorated, focused, autoIconify, floating, maximized, 0
-		} }
+			bool resizable,
+			bool visible,
+			bool decorated,
+			bool focused,
+			bool autoIconify,
+			bool floating,
+			bool maximized
+		)	: resizable{ resizable }
+			, visible{ visible }
+			, decorated{ decorated }
+			, focused{ focused }
+			, autoIconify{ autoIconify }
+			, floating{ floating }
+			, maximized{ maximized }
 		{
 		}
 
-		constexpr WindowStyle(const WindowStyle & copy)
-			: WindowStyle{ copy.m_bits }
+		constexpr WindowStyle(uint32_t value) : WindowStyle{
+			(value & Flag::Resizable),
+			(value & Flag::Visible),
+			(value & Flag::Decorated),
+			(value & Flag::Focused),
+			(value & Flag::AutoIconify),
+			(value & Flag::Floating),
+			(value & Flag::Maximized)
+		}
 		{
 		}
 
-		constexpr WindowStyle()
-			: WindowStyle{ true, true, true, true, true, false, false }
+		constexpr WindowStyle(const WindowStyle & copy) : WindowStyle{
+			copy.resizable,
+			copy.visible,
+			copy.decorated,
+			copy.focused,
+			copy.autoIconify,
+			copy.floating,
+			copy.maximized
+		}
+		{
+		}
+
+		constexpr WindowStyle() : WindowStyle{
+			true, true, true, true, true, false, false
+		}
 		{
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr bool resizable()		const { return m_bits[0]; }
-		constexpr bool visible()		const { return m_bits[1]; }
-		constexpr bool decorated()		const { return m_bits[2]; }
-		constexpr bool focused()		const { return m_bits[3]; }
-		constexpr bool autoIconify()	const { return m_bits[4]; }
-		constexpr bool floating()		const { return m_bits[5]; }
-		constexpr bool maximized()		const { return m_bits[6]; }
+		constexpr uint32_t flags() const
+		{
+			return Flag::None
+				| (resizable ? Flag::Resizable : 0)
+				| (visible ? Flag::Visible : 0)
+				| (decorated ? Flag::Decorated : 0)
+				| (focused ? Flag::Focused : 0)
+				| (autoIconify ? Flag::AutoIconify : 0)
+				| (floating ? Flag::Floating : 0)
+				| (maximized ? Flag::Maximized : 0)
+				;
+		}
 
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+		constexpr bool operator[](Flag i) const
+		{
+			return this->flags() & static_cast<uint32_t>(i);
+		}
 
-	private:
-		BitMask_8 m_bits;
+		constexpr bool operator==(const WindowStyle & other) const
+		{
+			return this->flags() == other.flags();
+		}
+
+		constexpr bool operator!=(const WindowStyle & other) const
+		{
+			return !((*this) == other);
+		}
+
+		constexpr bool operator<(const WindowStyle & other) const
+		{
+			return this->flags() < other.flags();
+		}
+
+		constexpr bool operator>(const WindowStyle & other) const
+		{
+			return !((*this) < other);
+		}
+
+		constexpr bool operator<=(const WindowStyle & other) const
+		{
+			return ((*this) == other) || ((*this) < other);
+		}
+
+		constexpr bool operator>=(const WindowStyle & other) const
+		{
+			return ((*this) == other) || ((*this) > other);
+		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

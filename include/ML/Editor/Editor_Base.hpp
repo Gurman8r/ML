@@ -4,6 +4,7 @@
 #include <ML/Editor/Export.hpp>
 #include <ML/Engine/EngineEvents.hpp>
 #include <ML/Editor/EditorEvents.hpp>
+#include <ML/Core/EventListener.hpp>
 #include <ML/Core/Disposable.hpp>
 #include <ML/Core/Newable.hpp>
 #include <ML/Core/Rect.hpp>
@@ -13,7 +14,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	class ML_EDITOR_API EditorComponent : public NonCopyable, public Disposable
+	class ML_EDITOR_API Editor_Base : public NonCopyable, public EventListener
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -22,12 +23,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		EditorComponent(C_String title, C_String hotkey, bool startOpen);
+		Editor_Base(C_String title, C_String hotkey, bool startOpen);
 
-		virtual ~EditorComponent() {}
+		virtual ~Editor_Base() {}
 
-		virtual bool dispose() override;
-		virtual void update() = 0;
+		virtual void onEvent(const Event & value) override;
 		virtual bool beginDraw(int32_t flags);
 		virtual bool draw() = 0;
 		virtual bool endDraw();
@@ -35,8 +35,8 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		bool Focus(bool value);
-		bool MenuItem(bool showHotkey = true);
+		bool setFocused(bool value);
+		bool drawMenuItem(bool showHotkey = true);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -10,7 +10,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Dockspace::Editor_Dockspace()
-		: EditorComponent { "Dockspace", "", ML_Engine.prefs().get_bool("Editor", "show_dockspace", false) }
+		: Editor_Base { "Dockspace", "", ML_Engine.prefs().get_bool("Editor", "show_dockspace", false) }
 		, m_border		{ 0.0f }
 		, m_padding		{ 0.f, 0.f }
 		, m_rounding	{ 0.0f }
@@ -20,11 +20,12 @@ namespace ml
 	{
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	void Editor_Dockspace::update()
+	void Editor_Dockspace::onEvent(const Event & value)
 	{
+		Editor_Base::onEvent(value);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Editor_Dockspace::beginDraw(int32_t flags)
 	{
@@ -43,7 +44,7 @@ namespace ml
 			ImGui::SetNextWindowBgAlpha(m_bgAlpha);
 
 			// Begin
-			if (EditorComponent::beginDraw(flags))
+			if (Editor_Base::beginDraw(flags))
 			{
 				ImGui::PopStyleVar(3);
 			}
@@ -93,7 +94,7 @@ namespace ml
 				m_dockflags
 			);
 		}
-		return EditorComponent::endDraw();
+		return Editor_Base::endDraw();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

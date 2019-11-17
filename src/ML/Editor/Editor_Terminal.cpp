@@ -13,7 +13,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Terminal::Editor_Terminal()
-		: EditorComponent { "Terminal", "Ctrl+Alt+T", ML_Engine.prefs().get_bool("Editor", "show_terminal", false) }
+		: Editor_Base { "Terminal", "Ctrl+Alt+T", ML_Engine.prefs().get_bool("Editor", "show_terminal", false) }
 		, m_coutBuf		{ nullptr }
 		, m_coutPtr		{ nullptr }
 		, m_coutStr		{}
@@ -25,18 +25,64 @@ namespace ml
 		, m_autoFill	{}
 		, m_paused		{ false }
 	{
+		ML_EventSystem.addListener<LoadEvent>(this);
+		ML_EventSystem.addListener<UnloadEvent>(this);
+		ML_EventSystem.addListener<DockspaceEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
+
 		this->clear();
-
-		m_autoFill.push_back("clear");
-		m_autoFill.push_back("history");
-
 		this->printf("# Type \'help\' for a list of commands.");
 	}
-	
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Terminal::update()
+	void Editor_Terminal::onEvent(const Event & value)
 	{
+		Editor_Base::onEvent(value);
+
+		switch (*value)
+		{
+		case LoadEvent::ID: if (auto ev{ value.as<LoadEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			this->redirect(std::cout);
+
+			ML_Editor.mainMenuBar().addMenu("Window", [&]()
+			{
+				this->drawMenuItem();
+			});
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			this->redirect(std::cout);
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		case DockspaceEvent::ID: if (auto ev{ value.as<DockspaceEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+			{
+				d.dockWindow(getTitle(), d.getNode(d.LeftDn));
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (ev->getPress(KeyCode::T, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		}
 	}
 
 	bool Editor_Terminal::draw()
@@ -199,21 +245,7 @@ namespace ml
 		}
 		m_history.push_back(strdup(value));
 
-		if (!std::strcmp(value, "clear"))
-		{
-			this->clear();
-		}
-		else if (!std::strcmp(value, "history"))
-		{
-			for (C_String e : m_history)
-			{
-				std::cout << e << std::endl;
-			}
-		}
-		else
-		{
-			ML_EventSystem.fireEvent<CommandEvent>(value);
-		}
+		ML_EventSystem.fireEvent<CommandEvent>(value);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -266,10 +298,7 @@ namespace ml
 			m_coutPtr = &value;
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

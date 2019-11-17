@@ -1,4 +1,4 @@
-#include <ML/Editor/EditorComponent.hpp>
+#include <ML/Editor/Editor_Base.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Core/EventSystem.hpp>
 #include <ML/Editor/Editor.hpp>
@@ -9,31 +9,42 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	EditorComponent::EditorComponent(C_String title, C_String hotkey, bool startOpen)
+	Editor_Base::Editor_Base(C_String title, C_String hotkey, bool startOpen)
 		: m_title	{ title }
 		, m_hotkey	{ hotkey }
 		, m_open	{ startOpen }
 		, m_good	{ false }
 		, m_flags	{ ImGuiWindowFlags_None }
 	{
+		ML_EventSystem.addListener<GuiEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorComponent::dispose()
+	void Editor_Base::onEvent(const Event & value)
 	{
-		return true;
+		switch (*value)
+		{
+		case GuiEvent::ID: if (auto ev{ value.as<GuiEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (this->isOpen()) { this->draw(); }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		}
 	}
 
-	bool EditorComponent::beginDraw(int32_t flags)
+	bool Editor_Base::beginDraw(int32_t flags)
 	{
 		ImGui::PushID((int32_t)typeof<>(*this).hash);
 		ImGui::PushID(ML_ADDRESSOF(this));
 		ImGui::PushID(getTitle());
-		return m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags));
+		return (m_good = ImGui::Begin(m_title, &m_open, (m_flags = flags)));
 	}
 
-	bool EditorComponent::endDraw()
+	bool Editor_Base::endDraw()
 	{
 		ImGui::End();
 		ImGui::PopID();
@@ -44,7 +55,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EditorComponent::Focus(bool value)
+	bool Editor_Base::setFocused(bool value)
 	{
 		if (setOpen(value))
 		{
@@ -54,7 +65,7 @@ namespace ml
 		return false;
 	}
 
-	bool EditorComponent::MenuItem(bool showHotkey)
+	bool Editor_Base::drawMenuItem(bool showHotkey)
 	{
 		return ImGui::MenuItem(getTitle(), (showHotkey ? getHotkey() : nullptr), openPtr());
 	}

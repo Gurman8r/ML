@@ -180,7 +180,7 @@ namespace ml
 
 		static float64_t getTime();
 
-		static bool makeContextCurrent(voidptr_t value);
+		static void makeContextCurrent(voidptr_t value);
 
 		static void pollEvents();
 		

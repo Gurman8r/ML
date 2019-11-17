@@ -985,12 +985,9 @@ namespace ml
 						ImGui::PopItemWidth();
 						ImGui::PopID();
 						ImGui::PopID();
-						ImGui::NewLine(); 
 
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(&r->states().alpha());
-
-					ImGui::Separator();
 
 					// Blend State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1105,12 +1102,9 @@ namespace ml
 						ImGui::PopItemWidth();
 						ImGui::PopID();
 						ImGui::PopID();
-						ImGui::NewLine(); 
 
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(&r->states().blend());
-
-					ImGui::Separator();
 
 					// Cull State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1167,12 +1161,9 @@ namespace ml
 						ImGui::PopItemWidth();
 						ImGui::PopID();
 						ImGui::PopID();
-						ImGui::NewLine();
 
 						/* * * * * * * * * * * * * * * * * * * * */
 					})(&r->states().cull());
-
-					ImGui::Separator();
 
 					// Depth State
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1389,6 +1380,9 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 			if (ImGui::BeginMenu("Entity"))
 			{
+				ImGui::PushID(ML_ADDRESSOF(m_entity));
+
+				// Entity
 				const_ptr_t<Entity> e { m_entity };
 				if (PropertyDrawer<Entity>()("##TargetEntity", e) && e)
 				{
@@ -1402,134 +1396,17 @@ namespace ml
 				{
 					if (ImGui::CollapsingHeader("Renderer"))
 					{
-						ImGui::PushID(ML_ADDRESSOF(r));
-						ImGui::Indent();
-						/* * * * * * * * * * * * * * * * * * * * */
-						bool enabled { r->enabled() };
-						if (ImGui::Checkbox("Enabled##Renderer", &enabled))
-						{
-							r->setEnabled(enabled);
-						}
-						/* * * * * * * * * * * * * * * * * * * * */
-						auto mat { r->material() };
-						if (PropertyDrawer<Material>()("Material##Renderer", (const Material *&)mat))
-						{
-							r->setMaterial(mat);
-							reset_sources().generate_sources();
-						}
-						/* * * * * * * * * * * * * * * * * * * * */
-						auto shd { r->shader() };
-						if (PropertyDrawer<Shader>()("Shader##Renderer", (const Shader *&)shd))
-						{
-							r->setShader(shd);
-							reset_sources().generate_sources();
-						}
-						/* * * * * * * * * * * * * * * * * * * * */
-						auto mdl { r->model() };
-						if (PropertyDrawer<Model>()("Model##Renderer", (const Model *&)mdl))
-						{
-							r->setModel(mdl);
-						}
-						/* * * * * * * * * * * * * * * * * * * * */
-						if (ImGui::TreeNode("Alpha"))
-						{
-							ImGui::Checkbox("Enabled##AlphaState", &r->states().alpha().enabled);
-							int32_t index = GL::index_of(r->states().alpha().func);
-							if (ImGuiExt::Combo(
-								"Comparison##Alpha Testing",
-								&index,
-								GL::Predicate_names,
-								ML_ARRAYSIZE(GL::Predicate_names)
-							))
-							{
-								GL::value_at(index, r->states().alpha().func);
-							}
-							ImGui::DragFloat("Coeff##AlphaState", &r->states().alpha().coeff);
-							ImGui::TreePop();
-						}
-						/* * * * * * * * * * * * * * * * * * * * */
-						if (ImGui::TreeNode("Blend"))
-						{
-							ImGui::Checkbox("Enabled##BlendState", &r->states().blend().enabled);
-							auto factor_combo = [](C_String label, int32_t & index)
-							{
-								return ImGuiExt::Combo(
-									label,
-									&index,
-									GL::Factor_names,
-									ML_ARRAYSIZE(GL::Factor_names)
-								);
-							};
-							int32_t sfactorRGB = GL::index_of(r->states().blend().sfactorRGB);
-							if (factor_combo("Src RGB##BlendState", sfactorRGB))
-							{
-								GL::value_at(sfactorRGB, r->states().blend().sfactorRGB);
-							}
-							int32_t sfactorAlpha = GL::index_of(r->states().blend().sfactorAlpha);
-							if (factor_combo("Src Alpha##BlendState", sfactorAlpha))
-							{
-								GL::value_at(sfactorAlpha, r->states().blend().sfactorAlpha);
-							}
-							int32_t dfactorRGB = GL::index_of(r->states().blend().dfactorRGB);
-							if (factor_combo("Dst RGB##BlendState", dfactorRGB))
-							{
-								GL::value_at(dfactorRGB, r->states().blend().dfactorRGB);
-							}
-							int32_t dfactorAlpha = GL::index_of(r->states().blend().dfactorAlpha);
-							if (factor_combo("Dst Alpha##BlendState", dfactorAlpha))
-							{
-								GL::value_at(dfactorAlpha, r->states().blend().dfactorAlpha);
-							}
-							ImGui::TreePop();
-						}
-						/* * * * * * * * * * * * * * * * * * * * */
-						if (ImGui::TreeNode("Cull"))
-						{
-							ImGui::Checkbox("Enabled##CullState", &r->states().cull().enabled);
-							int32_t index = GL::index_of(r->states().cull().mode);
-							if (ImGuiExt::Combo(
-								"Face##Cull",
-								&index,
-								GL::Face_names,
-								ML_ARRAYSIZE(GL::Face_names)
-							))
-							{
-								GL::value_at(index, r->states().cull().mode);
-							}
-							ImGui::TreePop();
-						}
-						/* * * * * * * * * * * * * * * * * * * * */
-						if (ImGui::TreeNode("Depth"))
-						{
-							ImGui::Checkbox("Enabled##DepthState", &r->states().depth().enabled);
-							ImGui::Checkbox("Mask##DepthState", &r->states().depth().mask);
-							int32_t index = GL::index_of(r->states().depth().func);
-							if (ImGuiExt::Combo(
-								"Comparison##Depth",
-								&index,
-								GL::Predicate_names,
-								ML_ARRAYSIZE(GL::Predicate_names)
-							))
-							{
-								GL::value_at(index, r->states().depth().func);
-							}
-							ImGui::TreePop();
-						}
-						/* * * * * * * * * * * * * * * * * * * * */
-						ImGui::Unindent();
-						ImGui::PopID();
+						PropertyDrawer<Renderer>()("Renderer", *r);
 					}
 				}
 				else if (m_entity)
 				{
-					ImGui::PushID(ML_ADDRESSOF(m_entity));
 					if (ImGui::Button("Add Renderer"))
 					{
 						m_entity->add<Renderer>();
 						reset_sources().generate_sources();
 					}
 					ImGuiExt::Tooltip("Attach a Renderer to the target Entity");
-					ImGui::PopID();
 				}
 
 				// Transform
@@ -1537,45 +1414,15 @@ namespace ml
 				{
 					if (ImGui::CollapsingHeader("Transform"))
 					{
-						ImGui::PushID(ML_ADDRESSOF(t));
-						ImGui::Indent();
-						bool enabled { t->enabled() };
-						if (ImGui::Checkbox("Enabled##Transform", &enabled))
-						{
-							t->setEnabled(enabled);
-						}
-						ImGuiExt::Tooltip(
-							"If enabled, the following uniforms will be overridden\n"
-							" vec3 u_position\n"
-							" vec3 u_scale\n"
-							" vec4 u_rotation\n"
-						);
-						vec3 pos = t->position();
-						if (ImGui::DragFloat3("Position##Transform", &pos[0], 0.005f))
-						{
-							t->setPosition(pos);
-						}
-						vec3 scl = t->scale();
-						if (ImGui::DragFloat3("Scale##Transform", &scl[0], 0.005f))
-						{
-							t->setScale(scl);
-						}
-						vec4 rot = t->rotation();
-						if (ImGui::DragFloat4("Rotation##Transform", &rot[0], 0.005f))
-						{
-							t->setRotation(rot);
-						}
-						ImGui::Unindent();
-						ImGui::PopID();
+						PropertyDrawer<Transform>()("Transform", *t);
 					}
 				}
 				else if (m_entity)
 				{
-					ImGui::PushID(ML_ADDRESSOF(m_entity));
 					if (ImGui::Button("Add Transform")) { m_entity->add<Transform>(); }
 					ImGuiExt::Tooltip("Attach a Transform to the target Entity");
-					ImGui::PopID();
 				}
+				ImGui::PopID();
 				ImGui::EndMenu();
 			}
 		}

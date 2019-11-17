@@ -1,5 +1,8 @@
 #include <ML/Editor/Editor_Profiler.hpp>
 #include <ML/Editor/Editor.hpp>
+#include <ML/Editor/EditorEvents.hpp>
+#include <ML/Core/EventSystem.hpp>
+#include <ML/Window/WindowEvents.hpp>
 #include <ML/Editor/ImGui.hpp>
 #include <ML/Engine/Engine.hpp>
 #include <ML/Core/StringUtility.hpp>
@@ -9,26 +12,61 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	Editor_Profiler::Editor_Profiler()
-		: EditorComponent { "Profiler", "Ctrl+Alt+P", ML_Engine.prefs().get_bool("Editor", "show_profiler", false) }
+		: Editor_Base { "Profiler", "Ctrl+Alt+P", ML_Engine.prefs().get_bool("Editor", "show_profiler", false) }
 		, graphs {}
 	{
+		ML_EventSystem.addListener<UpdateEvent>(this);
+		ML_EventSystem.addListener<DockspaceEvent>(this);
+		ML_EventSystem.addListener<KeyEvent>(this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void Editor_Profiler::update()
+	void Editor_Profiler::onEvent(const Event & value)
 	{
-		const float_t dt { ML_Engine.time().deltaTime() };
-		graphs[0].draw("Delta Time", dt, util::to_string(dt).c_str());
+		Editor_Base::onEvent(value);
 
-		const float_t fr { (float_t)ML_Engine.time().frameRate() };
-		graphs[1].draw("Frame Rate", fr, util::to_string(fr).c_str());
+		switch (*value)
+		{
+		case UpdateEvent::ID: if (auto ev{ value.as<UpdateEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			const float_t dt{ ML_Engine.time().deltaTime() };
+			graphs[0].draw("Delta Time", dt, util::to_string(dt).c_str());
+
+			const float_t fr{ (float_t)ML_Engine.time().frameRate() };
+			graphs[1].draw("Frame Rate", fr, util::to_string(fr).c_str());
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		case DockspaceEvent::ID: if (auto ev{ value.as<DockspaceEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+			{
+				d.dockWindow(getTitle(), d.getNode(d.LeftDn));
+			}
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		case KeyEvent::ID: if (auto ev = value.as<KeyEvent>())
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			if (ev->getPress(KeyCode::P, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
+		}
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Editor_Profiler::draw()
 	{
 		ImGui::SetNextWindowSize({ 640, 480 }, ImGuiCond_FirstUseEver);
-
 		if (beginDraw(ImGuiWindowFlags_None))
 		{
 			ImGuiStyle & style = ImGui::GetStyle();

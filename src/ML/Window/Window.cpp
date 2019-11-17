@@ -130,13 +130,13 @@ namespace ml
 						))));
 		
 		// Window Style
-		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable());
-		glfwWindowHint(GLFW_VISIBLE,		m_style.visible());
-		glfwWindowHint(GLFW_DECORATED,		m_style.decorated());
-		glfwWindowHint(GLFW_FOCUSED,		m_style.focused());
-		glfwWindowHint(GLFW_AUTO_ICONIFY,	m_style.autoIconify());
-		glfwWindowHint(GLFW_FLOATING,		m_style.floating());
-		glfwWindowHint(GLFW_MAXIMIZED,		m_style.maximized());
+		glfwWindowHint(GLFW_RESIZABLE,		m_style.resizable);
+		glfwWindowHint(GLFW_VISIBLE,		m_style.visible);
+		glfwWindowHint(GLFW_DECORATED,		m_style.decorated);
+		glfwWindowHint(GLFW_FOCUSED,		m_style.focused);
+		glfwWindowHint(GLFW_AUTO_ICONIFY,	m_style.autoIconify);
+		glfwWindowHint(GLFW_FLOATING,		m_style.floating);
+		glfwWindowHint(GLFW_MAXIMIZED,		m_style.maximized);
 
 		// Create Window
 		if (m_window = static_cast<GLFWwindow *>(glfwCreateWindow(
@@ -153,7 +153,7 @@ namespace ml
 
 			this->setCursorMode(Cursor::Mode::Normal);
 
-			if (this->getStyle().maximized())
+			if (this->getStyle().maximized)
 			{
 				this->maximize(); // Maximized
 			}
@@ -640,14 +640,9 @@ namespace ml
 		return glfwGetTime();
 	}
 
-	bool Window::makeContextCurrent(voidptr_t value)
+	void Window::makeContextCurrent(voidptr_t value)
 	{
-		if (value)
-		{
-			glfwMakeContextCurrent(static_cast<GLFWwindow *>(value));
-			return true;
-		}
-		return false;
+		return glfwMakeContextCurrent(static_cast<GLFWwindow *>(value));
 	}
 
 	void Window::pollEvents()

@@ -43,7 +43,7 @@ namespace ml
 
 		template <
 			class T, class F
-		> inline void drawPreview(const T * value, const vec2 & size, F && fun) const
+		> inline void drawPreview(const_ptr_t<T> value, const vec2 & size, F && fun) const
 		{
 			return drawPreview(typeof<T>(), (voidptr_t)value, size, fun);
 		}

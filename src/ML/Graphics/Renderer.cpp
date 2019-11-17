@@ -1,5 +1,6 @@
 #include <ML/Graphics/Renderer.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
+#include <ML/Graphics/ScopedBinder.hpp>
 #include <ML/Core/Debug.hpp>
 
 namespace ml
@@ -67,28 +68,24 @@ namespace ml
 		return (*this);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	void Renderer::draw(const RenderTarget & target, RenderBatch & batch) const
 	{
 		if (m_enabled && m_model && m_material && m_shader)
 		{
 			m_states();
-
-			m_shader->bind(false);
-
-			for (const auto & u : (*m_material))
+			if (const ScopedBinder<Shader> binder{ m_shader, false })
 			{
-				m_shader->setUniform(u);
+				for (const auto & u : (*m_material))
+				{
+					binder->setUniform(u);
+				}
+				binder->bind(true);
+				target.draw(m_model, batch);
 			}
-			
-			m_shader->bind(true);
-
-			target.draw(m_model, batch);
-
-			m_shader->unbind();
 		}
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

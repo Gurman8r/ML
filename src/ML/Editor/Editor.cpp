@@ -95,17 +95,20 @@ namespace ml
 				io.LogFilename = nullptr;
 			}
 
-			// Style
-			const String styleConf{ ML_Engine.prefs().get_string(
-				"Editor", "editor_style", "Classic"
-			) };
-			switch (util::to_lower(styleConf).hash())
+			// Default Style
+			switch (util::to_lower(ML_Engine.prefs().get_string(
+				"Editor", "default_style", "Classic"
+			)).hash())
 			{
-				case Hash{}("classic") : { ImGui::StyleColorsClassic(); } break;
-					case Hash{}("dark") : { ImGui::StyleColorsDark(); } break;
-						case Hash{}("light") : { ImGui::StyleColorsLight(); } break;
+			case Hash()("classic"): { ImGui::StyleColorsClassic(); } break;
+			case Hash()("dark"):	{ ImGui::StyleColorsDark(); } break;
+			case Hash()("light"):	{ ImGui::StyleColorsLight(); } break;
 			}
-			ImGuiStyleLoader().loadFromFile(ML_FS.pathTo(styleConf));
+
+			// Custom Style
+			ImGuiStyleLoader().loadFromFile(ML_FS.pathTo(
+				ML_Engine.prefs().get_string("Editor", "custom_style", "")
+			));
 
 			// Font
 			if (const String fontFile{ ML_Engine.prefs().get_string(

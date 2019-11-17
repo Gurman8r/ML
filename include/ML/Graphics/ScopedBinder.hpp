@@ -12,10 +12,14 @@ namespace ml
 
 	template <> struct ScopedBinder<> final { ScopedBinder() = delete; };
 
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	template <class T> struct ML_GRAPHICS_API ScopedBinder<T> final
 	{
-		template <class ... Args> ScopedBinder(ptr_t<T> value, Args && ... args) 
-			: m_value{ value }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		template <class ... Args>
+		ScopedBinder(const_ptr_t<T> value, Args && ... args) : m_value{ value }
 		{
 			if (m_value) { m_value->bind(std::forward<Args>(args)...); }
 		}
@@ -25,15 +29,17 @@ namespace ml
 			if (m_value) { m_value->unbind(); }
 		}
 
-		inline operator ptr_t<T>() { return m_value; }
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline operator const_ptr_t<T>() const { return m_value; }
 
-		inline ptr_t<T> operator->() { return m_value; }
-
 		inline const_ptr_t<T> operator->() const { return m_value; }
 
-	private: ptr_t<T> m_value;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	private: const_ptr_t<T> m_value;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -19,9 +19,11 @@ if ml.config.is_debug():
         ml.config.project_date(),
         ml.config.project_time()
         ])
-    ml.prefs.set("Editor", "editor_style", "../../../assets/styles/obsidian.style")
+    ml.prefs.set("Editor", "custom_style", "../../../assets/styles/obsidian.style")
     #ml.io.pause()
     #ml.io.exit()
+else:
+    ml.prefs.set("Editor", "custom_style", "../../../assets/styles/border.style")
 
 # Load Plugins
 if (ml.config.system_name() == "Windows"):

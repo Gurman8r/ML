@@ -198,7 +198,7 @@ namespace ml
 						ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
 
 						auto e{  ML_Engine.content().cget<Entity>(m_target_name) };
-						if (PropertyDrawer<Entity>()("Target##Entity", e) && e)
+						if (PropertyDrawer<Entity>()("Target Entity", e) && e)
 						{
 							m_target_name = ML_Engine.content().get_name(e);
 							reset_sources().generate_sources();
@@ -286,8 +286,6 @@ namespace ml
 					}
 				}
 
-				/* * * * * * * * * * * * * * * * * * * * */
-
 				// Render Post Processing
 				if (const ScopedBinder<Surface> binder{ m_pipeline.at(1) })
 				{
@@ -306,7 +304,7 @@ namespace ml
 					}();
 
 					// Draw Previous
-					if (auto prev{ (const_ptr_t<Surface>)m_pipeline.at(0) })
+					if (auto prev{ m_pipeline.at(0) })
 					{
 						ML_Engine.window().draw(prev);
 					}
@@ -318,9 +316,51 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				draw_display();
+				// Draw Display
+				if (m_display_open)
+				{
+					ImGui::PushID(ML_ADDRESSOF(this));
+					ImGui::PushID("Display##Noobs");
+					if (ImGui::Begin(display_name, &m_display_open, 0))
+					{
+						ML_AssetPreview.drawPreview<Surface>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
+						{
+							if (m_displayMode == DisplayMode::Automatic)
+							{
+								if (auto c{ Camera::mainCamera() })
+								{
+									c->setViewport((vec2i)ImGuiExt::GetContentRegionAvail());
+								}
+							}
+						});
+					}
+					ImGui::End();
+					ImGui::PopID();
+					ImGui::PopID();
+				}
 
-				draw_editor();
+				// Draw Editor
+				if (m_editor_open)
+				{
+					ImGui::PushID(ML_ADDRESSOF(this));
+					ImGui::PushID("Editor##Noobs");
+					if (ImGui::Begin(editor_name, &m_editor_open, 0))
+					{
+						if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
+						{
+							if (ImGui::BeginTabBar("Editor##Noobs##MainTabBar", ImGuiTabBarFlags_Reorderable))
+							{
+								if (ImGui::BeginTabItem("Code")) { draw_code_tab(e); ImGui::EndTabItem(); }
+								if (ImGui::BeginTabItem("Uniforms")) { draw_uniforms_tab(e); ImGui::EndTabItem(); }
+								if (ImGui::BeginTabItem("Settings")) { draw_settings_tab(e); ImGui::EndTabItem(); }
+								ImGui::EndTabBar();
+							}
+						}
+					}
+					ImGui::End();
+					ImGui::PopID();
+					ImGui::PopID();
+				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
@@ -421,54 +461,6 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
 		}
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		void Noobs::draw_display()
-		{
-			if (!m_display_open) { return; }
-			ImGui::PushID(ML_ADDRESSOF(this));
-			ImGui::PushID("Display##Noobs");
-			if (ImGui::Begin(display_name, &m_display_open, 0))
-			{
-				ML_AssetPreview.drawPreview(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
-				{
-					if (m_displayMode == DisplayMode::Automatic)
-					{ 
-						if (auto c { Camera::mainCamera() })
-						{
-							c->setViewport((vec2i)ImGuiExt::GetContentRegionAvail());
-						}
-					}
-				});
-			}
-			ImGui::End();
-			ImGui::PopID();
-			ImGui::PopID();
-		}
-	
-		void Noobs::draw_editor()
-		{
-			if (!m_editor_open) { return; }
-			ImGui::PushID(ML_ADDRESSOF(this));
-			ImGui::PushID("Editor##Noobs");
-			if (ImGui::Begin(editor_name, &m_editor_open, 0))
-			{
-				if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
-				{
-					if (ImGui::BeginTabBar("Editor##Noobs##TabBar", ImGuiTabBarFlags_Reorderable))
-					{
-						if (ImGui::BeginTabItem("Code")) { draw_code_tab(e); ImGui::EndTabItem(); }
-						if (ImGui::BeginTabItem("Uniforms")) { draw_uniforms_tab(e); ImGui::EndTabItem(); }
-						if (ImGui::BeginTabItem("Settings")) { draw_settings_tab(e); ImGui::EndTabItem(); }
-						ImGui::EndTabBar();
-					}
-				}
-			}
-			ImGui::End();
-			ImGui::PopID();
-			ImGui::PopID();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -850,18 +842,8 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-				// Select Material
-				auto mtl { r ? (const_ptr_t<Material>)r->material() : nullptr };
-				if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
-				{
-					r->setMaterial(mtl);
-					reset_sources().generate_sources();
-				}
-				ImGuiExt::Tooltip("Materials contain the list uniforms applied to the shader.");
-				ImGui::Separator();
-
 				// Select Shader
-				auto shd { r ? (const_ptr_t<Shader>)r->shader() : nullptr };
+				const_ptr_t<Shader> shd{ r ? r->shader() : nullptr };
 				if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
 				{
 					r->setShader(shd);
@@ -870,8 +852,18 @@ namespace ml
 				ImGuiExt::Tooltip("Shaders provide the code for the programmable stages of the rendering pipeline.");
 				ImGui::Separator();
 
+				// Select Material
+				const_ptr_t<Material> mtl { r ? r->material() : nullptr };
+				if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
+				{
+					r->setMaterial(mtl);
+					reset_sources().generate_sources();
+				}
+				ImGuiExt::Tooltip("Materials contain the list uniforms applied to the shader.");
+				ImGui::Separator();
+
 				// Select Model
-				auto mdl { r ? (const_ptr_t<Model>)r->model() : nullptr };
+				const_ptr_t<Model> mdl { r ? r->model() : nullptr };
 				if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 				{
 					r->setModel(mdl);
@@ -966,9 +958,18 @@ namespace ml
 						? "glEnable" : "glDisable",
 						&alpha->enabled
 					);
-					ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
+					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-					ImGui::Text(GL::raw_name_of(GL::AlphaTest));
+					ImGui::Text(GL::raw_name_of(GL::AlphaTest)); 
+					ImGuiExt::Tooltip(String(
+						"Param: \'cap\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(GL::AlphaTest),
+						util::to_hex<uint32_t>(GL::AlphaTest),
+						GL::desc_of(GL::AlphaTest)
+					));
 					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
@@ -1038,9 +1039,18 @@ namespace ml
 						? "glEnable" : "glDisable",
 						&blend->enabled
 					);
-					ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
+					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::Text(GL::raw_name_of(GL::Blend));
+					ImGuiExt::Tooltip(String(
+						"Param: \'cap\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(GL::Blend),
+						util::to_hex<uint32_t>(GL::Blend),
+						GL::desc_of(GL::Blend)
+					));
 					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
@@ -1155,9 +1165,18 @@ namespace ml
 						? "glEnable" : "glDisable",
 						&cull->enabled
 					);
-					ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
+					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::Text(GL::raw_name_of(GL::CullFace));
+					ImGuiExt::Tooltip(String(
+						"Param: \'cap\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(GL::CullFace),
+						util::to_hex<uint32_t>(GL::CullFace),
+						GL::desc_of(GL::CullFace)
+					));
 					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 
@@ -1214,9 +1233,18 @@ namespace ml
 						? "glEnable" : "glDisable",
 						&depth->enabled
 					);
-					ImGuiExt::Tooltip(GL::desc_of(GL::DepthTest));
+					ImGuiExt::Tooltip("Enable and disable various capabilities.");
 					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
 					ImGui::Text(GL::raw_name_of(GL::DepthTest));
+					ImGuiExt::Tooltip(String(
+						"Param: \'cap\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(GL::DepthTest),
+						util::to_hex<uint32_t>(GL::DepthTest),
+						GL::desc_of(GL::DepthTest)
+					));
 					ImGui::SameLine(); ImGui::Text(");");
 					ImGui::NewLine();
 

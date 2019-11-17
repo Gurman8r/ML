@@ -44,13 +44,16 @@ namespace ml
 		{
 			for (auto & pair : m_menus)
 			{
-				if (ImGui::BeginMenu(pair.first.c_str()))
+				if (!pair.second.empty())
 				{
-					for (auto & func : pair.second)
+					if (ImGui::BeginMenu(pair.first.c_str()))
 					{
-						func();
+						for (auto & func : pair.second)
+						{
+							if (func) { func(); }
+						}
+						ImGui::EndMenu();
 					}
-					ImGui::EndMenu();
 				}
 			}
 		}

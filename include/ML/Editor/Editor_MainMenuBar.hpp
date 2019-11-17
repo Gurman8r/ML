@@ -37,7 +37,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public:
-		inline decltype(m_menus)::iterator addMenu(const String & name, std::function<void()> && fun)
+		inline decltype(m_menus)::iterator addMenu(const String & name, std::function<void()> fun)
 		{
 			auto it{ std::find_if(m_menus.begin(), m_menus.end(), [&](auto elem)
 			{
@@ -48,7 +48,7 @@ namespace ml
 				m_menus.push_back({ name, {} });
 				it = (m_menus.end() - 1);
 			}
-			it->second.push_back(fun);
+			if (fun) { it->second.push_back(fun); }
 			return it;
 		}
 

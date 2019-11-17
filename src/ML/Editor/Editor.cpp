@@ -15,11 +15,8 @@
 #include <ML/Editor/ImGuiExt.hpp>
 
 #if defined(ML_IMPL_RENDERER_OPENGL3) && defined(ML_IMPL_PLATFORM_GLFW)
-#	include <GLFW/glfw3.h>
 #	include <imgui/examples/imgui_impl_glfw.h>
 #	include <imgui/examples/imgui_impl_opengl3.h>
-#	define ML_IMGUI_INIT_PLATFORM(win) ImGui_ImplGlfw_InitForOpenGL((GLFWwindow *)win, true)
-#	define ML_IMGUI_INIT_RENDERER(ver) ImGui_ImplOpenGL3_Init(ver)
 #else
 #define ML_IMGUI_INIT_RENDERER(ver)
 #define ML_IMGUI_INIT_PLATFORM(win)
@@ -117,11 +114,11 @@ namespace ml
 					}
 				}
 
-				// Init Imgui Platform
-				ML_ASSERT(ML_IMGUI_INIT_PLATFORM(ML_Engine.window().getHandle()));
+				// Init ImGui Platform
+				ML_ASSERT(ImGui_ImplGlfw_InitForOpenGL((struct GLFWwindow *)ML_Engine.window().getHandle(), true));
 
-				// Init Imgui Renderer
-				ML_ASSERT(ML_IMGUI_INIT_RENDERER("#version 130"));
+				// Init ImGui Renderer
+				ML_ASSERT(ImGui_ImplOpenGL3_Init("#version 130"));
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
@@ -185,7 +182,7 @@ namespace ml
 					}
 				});
 				
-				m_mainMenuBar.addMenu("Plugins", [&]() {});
+				m_mainMenuBar.addMenu("Plugins", nullptr);
 				
 				m_mainMenuBar.addMenu("Help", [&]()
 				{
@@ -231,16 +228,16 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				ImGui::PushID(ML_ADDRESSOF(this));
-				/*	Menu Bar	*/	if (m_mainMenuBar.isOpen())	m_mainMenuBar.draw();
-				/*	Dockspace	*/	if (m_dockspace.isOpen())	m_dockspace.draw();
-				/*	ImGui Demo	*/	if (m_show_imgui_demo)		ImGui::ShowDemoWindow(&m_show_imgui_demo);
-				/*	About		*/	if (m_about.isOpen())		m_about.draw();
-				/*	Content		*/	if (m_content.isOpen())		m_content.draw();
-				/*	Explorer	*/	if (m_explorer.isOpen())	m_explorer.draw();
-				/*	Inspector	*/	if (m_inspector.isOpen())	m_inspector.draw();
-				/*	Manual		*/	if (m_manual.isOpen())		m_manual.draw();
-				/*	Profiler	*/	if (m_profiler.isOpen())	m_profiler.draw();
-				/*	Terminal	*/	if (m_terminal.isOpen())	m_terminal.draw();
+				if (m_mainMenuBar.isOpen())	m_mainMenuBar.draw();
+				if (m_dockspace.isOpen())	m_dockspace.draw();
+				if (m_show_imgui_demo)		ImGui::ShowDemoWindow(&m_show_imgui_demo);
+				if (m_about.isOpen())		m_about.draw();
+				if (m_content.isOpen())		m_content.draw();
+				if (m_explorer.isOpen())	m_explorer.draw();
+				if (m_inspector.isOpen())	m_inspector.draw();
+				if (m_manual.isOpen())		m_manual.draw();
+				if (m_profiler.isOpen())	m_profiler.draw();
+				if (m_terminal.isOpen())	m_terminal.draw();
 				ImGui::PopID();
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -253,10 +250,10 @@ namespace ml
 				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 				if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 				{
-					GLFWwindow * backup_current_context = glfwGetCurrentContext();
+					auto context{ Window::getContextCurrent() };
 					ImGui::UpdatePlatformWindows();
 					ImGui::RenderPlatformWindowsDefault();
-					glfwMakeContextCurrent(backup_current_context);
+					Window::makeContextCurrent(context);
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */

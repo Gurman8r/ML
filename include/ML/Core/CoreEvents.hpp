@@ -11,7 +11,7 @@ namespace ml
 	{
 		MIN_CORE_EVENT = Event::EV_CORE,
 
-		EV_Secret,
+		// ...
 
 		MAX_CORE_EVENT
 	};
@@ -24,13 +24,6 @@ namespace ml
 
 	template <CoreEventType ID> struct CoreEvent : public T_Event<CoreEventType, ID>
 	{
-	};
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	struct SecretEvent final : public CoreEvent<CoreEventType::EV_Secret>
-	{
-		constexpr SecretEvent() {}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

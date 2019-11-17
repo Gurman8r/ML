@@ -262,7 +262,7 @@ namespace ml
 			{
 				if (secret == "uuddlrlrba")
 				{
-					ML_EventSystem.fireEvent<SecretEvent>();
+					Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 				}
 				secret.clear();
 			}

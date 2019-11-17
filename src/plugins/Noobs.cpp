@@ -161,7 +161,6 @@ namespace ml
 			ML_EventSystem.addListener<KeyEvent>(this);
 			ML_EventSystem.addListener<DockspaceEvent>(this);
 			ML_EventSystem.addListener<ShaderErrorEvent>(this);
-			ML_EventSystem.addListener<SecretEvent>(this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -449,14 +448,6 @@ namespace ml
 					d.dockWindow(display_name, d.getNode(d.LeftUp));
 					d.dockWindow(editor_name, d.getNode(d.RightUp));
 				}
-
-				/* * * * * * * * * * * * * * * * * * * * */
-			} break;
-			case SecretEvent::ID: if (auto ev{ value.as<SecretEvent>() })
-			{
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				Debug::execute("open", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
@@ -1312,7 +1303,7 @@ namespace ml
 			{
 				if (auto r{ e ? e->get<Renderer>() : nullptr })
 				{
-					if (auto s{ r->shader() })
+					if (auto s{ (ptr_t<Shader>)r->shader() })
 					{
 						for (auto & f : m_files)
 						{
@@ -1350,7 +1341,7 @@ namespace ml
 			{
 				if (auto r{ e ? e->get<Renderer>() : nullptr })
 				{
-					if (auto s{ r->shader() })
+					if (auto s{ (ptr_t<Shader>)r->shader() })
 					{
 						auto setup_file = ([&](ShaderFile::FileType type, const String & src) {
 							if (!m_files[type]) { (m_files[type] = new ShaderFile{ type }); }

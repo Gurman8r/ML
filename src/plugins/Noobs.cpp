@@ -244,6 +244,7 @@ namespace ml
 						{
 							if (auto m{ (ptr_t<Material>)value })
 							{
+								// FIXME: slow
 								m->set<uni_vec3>("u_camera.pos", c->position());
 								m->set<uni_vec3>("u_camera.dir", c->direction());
 								m->set<uni_float>("u_camera.fov", c->fieldOfView());
@@ -281,6 +282,7 @@ namespace ml
 								{
 									if (auto m{ (ptr_t<Material>)r->material() })
 									{
+										// FIXME: slow
 										m->set<uni_vec3>("u_position", t->position());
 										m->set<uni_vec4>("u_rotation", t->rotation());
 										m->set<uni_vec3>("u_scale", t->scale());
@@ -319,10 +321,11 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				ImGui::PushID(ML_ADDRESSOF(this));
+				
 				// Draw Display
 				if (m_display_open)
 				{
-					ImGui::PushID(ML_ADDRESSOF(this));
 					ImGui::PushID("Display##Noobs");
 					if (ImGui::Begin(display_name, &m_display_open, 0))
 					{
@@ -339,13 +342,11 @@ namespace ml
 					}
 					ImGui::End();
 					ImGui::PopID();
-					ImGui::PopID();
 				}
 
 				// Draw Editor
 				if (m_editor_open)
 				{
-					ImGui::PushID(ML_ADDRESSOF(this));
 					ImGui::PushID("Editor##Noobs");
 					if (ImGui::Begin(editor_name, &m_editor_open, 0))
 					{
@@ -362,8 +363,9 @@ namespace ml
 					}
 					ImGui::End();
 					ImGui::PopID();
-					ImGui::PopID();
 				}
+
+				ImGui::PopID();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;

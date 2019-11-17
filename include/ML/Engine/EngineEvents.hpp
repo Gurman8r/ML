@@ -50,7 +50,7 @@ namespace ml
 
 	struct EnterEvent final : public EngineEvent<EngineEventType::EV_Enter>
 	{
-		int32_t argc;
+		const int32_t argc;
 		const C_String * argv;
 		constexpr EnterEvent(int32_t argc, const C_String * argv)
 			: argc { argc }

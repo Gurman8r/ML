@@ -14,9 +14,7 @@ namespace ml
 
 	template <class T> struct ML_GRAPHICS_API ScopedBinder<T> final
 	{
-		template <
-			class ... Args
-		> ScopedBinder(ptr_t<T> value, Args && ... args) 
+		template <class ... Args> ScopedBinder(ptr_t<T> value, Args && ... args) 
 			: m_value{ value }
 		{
 			if (m_value) { m_value->bind(std::forward<Args>(args)...); }

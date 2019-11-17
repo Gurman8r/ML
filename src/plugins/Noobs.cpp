@@ -234,7 +234,7 @@ namespace ml
 					// Update Camera Uniforms
 					if (m_apply_camera)
 					{
-						for (auto & [key, value] : ML_Engine.content().data<Material>())
+						for (auto & [name, value] : ML_Engine.content().data<Material>())
 						{
 							if (auto m{ (ptr_t<Material>)value })
 							{
@@ -255,6 +255,7 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
+				// Render Main Scene
 				if (const ScopedBinder<Surface> binder{ m_pipeline.at(0) })
 				{
 					// Apply Camera
@@ -264,7 +265,7 @@ namespace ml
 					}
 
 					// Draw Renderers
-					for (auto & [key, value] : ML_Engine.content().data<Entity>())
+					for (auto & [name, value] : ML_Engine.content().data<Entity>())
 					{
 						if (auto e{ (ptr_t<Entity>)value })
 						{
@@ -305,7 +306,7 @@ namespace ml
 					}();
 
 					// Draw Previous
-					if (auto prev{ m_pipeline.at(0) })
+					if (auto prev{ (const_ptr_t<Surface>)m_pipeline.at(0) })
 					{
 						ML_Engine.window().draw(prev);
 					}
@@ -317,9 +318,9 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				draw_display(display_name, m_pipeline.back());
+				draw_display();
 
-				draw_editor(editor_name);
+				draw_editor();
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
@@ -424,13 +425,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void Noobs::draw_display(C_String title, const Surface * surf)
+		void Noobs::draw_display()
 		{
 			if (!m_display_open) { return; }
 			ImGui::PushID(ML_ADDRESSOF(this));
-			if (ImGui::Begin(title, &m_display_open, 0))
+			ImGui::PushID("Display##Noobs");
+			if (ImGui::Begin(display_name, &m_display_open, 0))
 			{
-				ML_AssetPreview.drawPreview(surf, ImGuiExt::GetContentRegionAvail(), [&] 
+				ML_AssetPreview.drawPreview(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
 				{
 					if (m_displayMode == DisplayMode::Automatic)
 					{ 
@@ -443,405 +445,395 @@ namespace ml
 			}
 			ImGui::End();
 			ImGui::PopID();
+			ImGui::PopID();
 		}
 	
-		void Noobs::draw_editor(C_String title)
+		void Noobs::draw_editor()
 		{
 			if (!m_editor_open) { return; }
 			ImGui::PushID(ML_ADDRESSOF(this));
-			if (ImGui::Begin(title, &m_editor_open, 0))
+			ImGui::PushID("Editor##Noobs");
+			if (ImGui::Begin(editor_name, &m_editor_open, 0))
 			{
 				if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 				{
-					if (auto r{ e ? e->get<Renderer>() : nullptr })
+					if (ImGui::BeginTabBar("Editor##Noobs##TabBar", ImGuiTabBarFlags_Reorderable))
 					{
-						if (ImGui::BeginTabBar("DemoEditor##TabBar##Main", ImGuiTabBarFlags_Reorderable))
-						{
-							if (ImGui::BeginTabItem("Code")) { draw_code_tab(); ImGui::EndTabItem(); }
-							if (ImGui::BeginTabItem("Uniforms")) { draw_uniforms_tab(); ImGui::EndTabItem(); }
-							if (ImGui::BeginTabItem("Settings")) { draw_settings_tab(); ImGui::EndTabItem(); }
-							ImGui::EndTabBar();
-						}
-					}
-					else
-					{
-						ImGui::Text("Nothing Selected");
+						if (ImGui::BeginTabItem("Code")) { draw_code_tab(e); ImGui::EndTabItem(); }
+						if (ImGui::BeginTabItem("Uniforms")) { draw_uniforms_tab(e); ImGui::EndTabItem(); }
+						if (ImGui::BeginTabItem("Settings")) { draw_settings_tab(e); ImGui::EndTabItem(); }
+						ImGui::EndTabBar();
 					}
 				}
 			}
 			ImGui::End();
 			ImGui::PopID();
+			ImGui::PopID();
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void Noobs::draw_code_tab()
+		void draw_code_tab(ptr_t<Entity> e)
 		{
-			ImGui::PushID("##Code");
-			ImGui::BeginChild("##Code##Content", { 0, 0 }, false, ImGuiWindowFlags_NoScrollbar);
+			ImGui::PushID("##CodeTab");
+			ImGui::BeginChild("##CodeTab##Content", { 0, 0 }, false, ImGuiWindowFlags_NoScrollbar);
 		
-			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
+			if (auto r { e ? e->get<Renderer>() : nullptr })
 			{
-				if (auto r { e ? e->get<Renderer>() : nullptr })
+				const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
+				const float_t tools_height { ImGui::GetTextLineHeightWithSpacing() * 1.5f };
+
+				// Text Editors
+				/* * * * * * * * * * * * * * * * * * * * */
+				if (ImGui::BeginChildFrame(
+					ImGui::GetID("ShaderFile##TextEditors"),
+					{ max_size[0], max_size[1] - tools_height },
+					ImGuiWindowFlags_NoScrollbar
+				) && ImGui::BeginTabBar(
+					"Demo File Tab Bar",
+					ImGuiTabBarFlags_Reorderable
+				))
 				{
-					const vec2 max_size { ImGuiExt::GetContentRegionAvail() };
-					const float_t tools_height { ImGui::GetTextLineHeightWithSpacing() * 1.5f };
-
-					// Text Editors
-					/* * * * * * * * * * * * * * * * * * * * */
-					if (ImGui::BeginChildFrame(
-						ImGui::GetID("ShaderFile##TextEditors"),
-						{ max_size[0], max_size[1] - tools_height },
-						ImGuiWindowFlags_NoScrollbar
-					) && ImGui::BeginTabBar(
-						"Demo File Tab Bar",
-						ImGuiTabBarFlags_Reorderable
-					))
+					// Demo File Tab Bar
+					for (auto & file : m_files)
 					{
-						// Demo File Tab Bar
-						for (auto & file : m_files)
+						if (!file || !file->open) continue;
+
+						ImGui::PushID(ML_ADDRESSOF(file));
+
+						// Text Editor Tab
+						const bool tab_open { ImGui::BeginTabItem(
+							file->name.c_str(),
+							nullptr,
+							(file->dirty
+								? ImGuiTabItemFlags_UnsavedDocument
+								: ImGuiTabItemFlags_None)
+						) };
+
+						// Tab Context Item
+						if (ImGui::BeginPopupContextItem())
 						{
-							if (!file || !file->open) continue;
-
-							ImGui::PushID(ML_ADDRESSOF(file));
-
-							// Text Editor Tab
-							const bool tab_open { ImGui::BeginTabItem(
-								file->name.c_str(),
-								nullptr,
-								(file->dirty
-									? ImGuiTabItemFlags_UnsavedDocument
-									: ImGuiTabItemFlags_None)
-							) };
-
-							// Tab Context Item
-							if (ImGui::BeginPopupContextItem())
+							// Close
+							if (ImGui::MenuItem(("Close##" + file->name).c_str()))
 							{
-								// Close
-								if (ImGui::MenuItem(("Close##" + file->name).c_str()))
-								{
-									file->open = false;
-									ImGui::CloseCurrentPopup();
-								}
-
-								// Reload
-								if (ImGui::MenuItem(("Reload##" + file->name).c_str(), "F5"))
-								{
-									const String * src { nullptr };
-									switch (file->type)
-									{
-									case ShaderFile::Vert: src = &r->shader()->sources().vs; break;
-									case ShaderFile::Frag: src = &r->shader()->sources().fs; break;
-									case ShaderFile::Geom: src = &r->shader()->sources().gs; break;
-									}
-									file->text.SetText((*src).trim());
-									ImGui::CloseCurrentPopup();
-								}
-
-								// Copy
-								if (ImGui::MenuItem(("Copy to Clipboard##" + file->name).c_str()))
-								{
-									ML_Engine.window().setClipboardString(file->text.GetText());
-									ImGui::CloseCurrentPopup();
-								}
-
-								// Show Whitespace
-								bool show_whitespace { file->text.IsShowingWhitespaces() };
-								if (ImGui::Checkbox("Show Whitespace", &show_whitespace))
-								{
-									file->text.SetShowWhitespaces(show_whitespace);
-								}
-
-								// Palette
-								int32_t editor_style {
-									((file->text.GetPalette() == TextEditor::GetDarkPalette())
-										? 0
-										: ((file->text.GetPalette() == TextEditor::GetLightPalette())
-											? 1
-											: (((file->text.GetPalette() == TextEditor::GetRetroBluePalette())
-												? 2 : 2
-												)))) };
-								if (ImGui::Combo("##Palette", &editor_style, "Dark\0Light\0Retro"))
-								{
-									switch (editor_style)
-									{
-									case 0: file->text.SetPalette(TextEditor::GetDarkPalette()); break;
-									case 1: file->text.SetPalette(TextEditor::GetLightPalette()); break;
-									case 2: file->text.SetPalette(TextEditor::GetRetroBluePalette()); break;
-									}
-									ImGui::CloseCurrentPopup();
-								}
-
-								ImGui::EndPopup();
+								file->open = false;
+								ImGui::CloseCurrentPopup();
 							}
 
-							// Tab Contents
-							if (tab_open)
+							// Reload
+							if (ImGui::MenuItem(("Reload##" + file->name).c_str(), "F5"))
 							{
-								// Text Editor 
-								file->text.Render(
-									("##ShaderFile##" + file->name + "##TextEditor").c_str(),
-									{ 0, 0 },
-									true
-								);
-
-								if (file->text.IsTextChanged())
+								const String * src { nullptr };
+								switch (file->type)
 								{
-									file->dirty = true;
+								case ShaderFile::Vert: src = &r->shader()->sources().vs; break;
+								case ShaderFile::Frag: src = &r->shader()->sources().fs; break;
+								case ShaderFile::Geom: src = &r->shader()->sources().gs; break;
 								}
-
-								ImGui::EndTabItem();
+								file->text.SetText((*src).trim());
+								ImGui::CloseCurrentPopup();
 							}
 
-							ImGui::PopID();
+							// Copy
+							if (ImGui::MenuItem(("Copy to Clipboard##" + file->name).c_str()))
+							{
+								ML_Engine.window().setClipboardString(file->text.GetText());
+								ImGui::CloseCurrentPopup();
+							}
+
+							// Show Whitespace
+							bool show_whitespace { file->text.IsShowingWhitespaces() };
+							if (ImGui::Checkbox("Show Whitespace", &show_whitespace))
+							{
+								file->text.SetShowWhitespaces(show_whitespace);
+							}
+
+							// Palette
+							int32_t editor_style {
+								((file->text.GetPalette() == TextEditor::GetDarkPalette())
+									? 0
+									: ((file->text.GetPalette() == TextEditor::GetLightPalette())
+										? 1
+										: (((file->text.GetPalette() == TextEditor::GetRetroBluePalette())
+											? 2 : 2
+											)))) };
+							if (ImGui::Combo("##Palette", &editor_style, "Dark\0Light\0Retro"))
+							{
+								switch (editor_style)
+								{
+								case 0: file->text.SetPalette(TextEditor::GetDarkPalette()); break;
+								case 1: file->text.SetPalette(TextEditor::GetLightPalette()); break;
+								case 2: file->text.SetPalette(TextEditor::GetRetroBluePalette()); break;
+								}
+								ImGui::CloseCurrentPopup();
+							}
+
+							ImGui::EndPopup();
 						}
-						ImGui::EndTabBar();
-					}
-					ImGui::EndChildFrame();
 
-					// Toolbar
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					if (ImGui::BeginChildFrame(
-						ImGui::GetID("ShaderFile##Toolbar"),
-						{ max_size[0], 0 },
-						ImGuiWindowFlags_NoScrollbar
-					))
-					{
-						if (ImGui::Button("Compile"))
+						// Tab Contents
+						if (tab_open)
 						{
-							compile_sources();
-						}
-						ImGuiExt::Tooltip("Build shader source code (Ctrl+S)");
+							// Text Editor 
+							file->text.Render(
+								("##ShaderFile##" + file->name + "##TextEditor").c_str(),
+								{ 0, 0 },
+								true
+							);
 
-						ImGui::SameLine();
+							if (file->text.IsTextChanged())
+							{
+								file->dirty = true;
+							}
 
-						// Toggle Files
-						for (size_t i = 0; i < m_files.size(); i++)
-						{
-							if (!m_files[i]) { continue; }
-							if (i > 0) { ImGui::SameLine(); }
-							ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
+							ImGui::EndTabItem();
 						}
+
+						ImGui::PopID();
 					}
-					ImGui::EndChildFrame();
+					ImGui::EndTabBar();
 				}
+				ImGui::EndChildFrame();
+
+				// Toolbar
+				/* * * * * * * * * * * * * * * * * * * * */
+
+				if (ImGui::BeginChildFrame(
+					ImGui::GetID("ShaderFile##Toolbar"),
+					{ max_size[0], 0 },
+					ImGuiWindowFlags_NoScrollbar
+				))
+				{
+					if (ImGui::Button("Compile"))
+					{
+						compile_sources();
+					}
+					ImGuiExt::Tooltip("Build shader source code (Ctrl+S)");
+
+					ImGui::SameLine();
+
+					// Toggle Files
+					for (size_t i = 0; i < m_files.size(); i++)
+					{
+						if (!m_files[i]) { continue; }
+						if (i > 0) { ImGui::SameLine(); }
+						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
+					}
+				}
+				ImGui::EndChildFrame();
 			}
 
 			ImGui::EndChild();
 			ImGui::PopID();
 		}
 
-		void Noobs::draw_uniforms_tab()
+		void draw_uniforms_tab(ptr_t<Entity> e)
 		{
-			ImGui::PushID("##Uniforms");
-			ImGui::BeginChildFrame(ImGui::GetID("##Uniforms##Content"), { 0, 0 }, 0);
+			ImGui::PushID("##UniformsTab");
+			ImGui::BeginChildFrame(ImGui::GetID("##UniformsTab##Content"), { 0, 0 }, 0);
 
-			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
+			if (auto r { e ? e->get<Renderer>() : nullptr })
 			{
-				if (auto r { e ? e->get<Renderer>() : nullptr })
+				if (auto m { r->material() })
 				{
-					if (auto m { r->material() })
+					ImGuiExt::HelpMarker(
+						"** Note:\n"
+						"Some values may be overwritten internally,\n"
+						"even if they aren't marked as read-only.\n"
+					);
+					ImGui::SameLine();
+
+					// New Uniform Popup
+					Uniform * to_add { nullptr };
+					if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (ptr_t<Uniform> &)to_add))
 					{
-						ImGuiExt::HelpMarker(
-							"** Note:\n"
-							"Some values may be overwritten internally,\n"
-							"even if they aren't marked as read-only.\n"
-						);
-						ImGui::SameLine();
-
-						// New Uniform Popup
-						Uniform * to_add { nullptr };
-						if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (ptr_t<Uniform> &)to_add))
+						// Already Exists
+						if (to_add && !m->insert(to_add))
 						{
-							// Already Exists
-							if (to_add && !m->insert(to_add))
-							{
-								Debug::logError("A uniform with the name \'{0}\' already exists",
-									to_add->getName()
-								);
-								delete to_add;
-							}
+							Debug::logError("A uniform with the name \'{0}\' already exists",
+								to_add->getName()
+							);
+							delete to_add;
 						}
+					}
 
-						ImGui::SameLine();
+					ImGui::SameLine();
 
-						// Copy to Clipboard
-						if (ImGui::Button("Copy to Clipboard"))
-						{
-							SStream ss;
-							for (const auto & u : (*m))
-							{
-								if (!u) continue;
-								ss << std::left
-									<< "uniform "
-									<< std::setw(7) << util::to_string(*u) << " "
-									<< std::setw(15) << u->getName() << " "
-									<< "{ ";
-								switch (u->getID())
-								{
-								case uni_bool::ID	: if (auto a { detail::as_bool(u) }) ss << (*a); break;
-								case uni_float::ID	: if (auto a { detail::as_float(u) }) ss << (*a); break;
-								case uni_int::ID	: if (auto a { detail::as_int(u) }) ss << (*a); break;
-								case uni_vec2::ID	: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
-								case uni_vec3::ID	: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
-								case uni_vec4::ID	: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
-								case uni_color::ID	: if (auto a { detail::as_color(u) }) ss << (*a); break;
-								case uni_mat2::ID	: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
-								case uni_mat3::ID	: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
-								case uni_mat4::ID	: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
-								case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Engine.content().get_name(*a); break;
-								}
-								if (ss.str().back() != ' ') ss << ' ';
-								ss << "}" << std::endl;
-							}
-							ML_Engine.window().setClipboardString(ss.str());
-						}
-
-						ImGui::Separator();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						static bool setup_uni_columns { false };
-
-						// Uniform Column Headers
-						ImGui::Columns(3, "##Uni##Columns");
-						if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.1f); }
-						if (ImGui::Selectable("Type"))
-						{
-							auto sort_type_ascending = ([&]() { std::sort(
-								m->begin(),
-								m->end(),
-								[](auto lhs, auto rhs) { return (lhs->getID()) < (rhs->getID()); }); });
-
-							auto sort_type_descending = ([&]() { std::sort(
-								m->begin(),
-								m->end(),
-								[](auto lhs, auto rhs) { return (lhs->getID()) > (rhs->getID()); }); });
-
-							static bool state { 0 };
-							if (state = !state) { sort_type_ascending(); }
-							else { sort_type_descending(); }
-						}
-						ImGui::NextColumn();
-						if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.15f); }
-						if (ImGui::Selectable("Name"))
-						{
-							auto sort_name_ascending = ([&]() { std::sort(
-								m->begin(),
-								m->end(),
-								[](auto lhs, auto rhs) { return (lhs->getName()) < (rhs->getName()); }); });
-
-							auto sort_name_descending = ([&]() { std::sort(
-								m->begin(),
-								m->end(),
-								[](auto lhs, auto rhs) { return (lhs->getName()) > (rhs->getName()); }); });
-
-							static bool state { 0 };
-							if (state = !state) { sort_name_ascending(); }
-							else { sort_name_descending(); }
-						}
-						ImGui::NextColumn();
-						if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.75f); }
-						if (ImGui::Selectable("Value"))
-						{
-							auto sort_value_ascending = ([&]() { std::sort(
-								m->begin(),
-								m->end(),
-								[](auto lhs, auto rhs) { return (lhs->isModifiable()) < (rhs->isModifiable()); }); });
-
-							auto sort_value_descending = ([&]() { std::sort(
-								m->begin(),
-								m->end(),
-								[](auto lhs, auto rhs) { return (lhs->isModifiable()) > (rhs->isModifiable()); }); });
-
-							static bool state { 0 };
-							if (state = !state) { sort_value_ascending(); }
-							else { sort_value_descending(); }
-						}
-						ImGui::NextColumn();
-						ImGui::Separator();
-						ImGui::Columns(1);
-						if (!setup_uni_columns) { setup_uni_columns = true; }
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						// Uniform List
-						Uniform * to_remove { nullptr };
-						for (auto & u : (*m))
+					// Copy to Clipboard
+					if (ImGui::Button("Copy to Clipboard"))
+					{
+						SStream ss;
+						for (const auto & u : (*m))
 						{
 							if (!u) continue;
-							ImGui::Columns(3, "##Uni##Columns");
-							const String label { "##Uni##" + u->getName() };
-							const float_t color_ref{ (float_t)u->getID() / (float_t)Uniform::MAX_UNIFORM_TYPE };
-
-							// Uniform Type
-							/* * * * * * * * * * * * * * * * * * * * */
-							ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(color_ref, 0.9f, 0.9f));
-							ImGui::ButtonEx(util::to_string(*u).c_str(), { ImGui::GetContentRegionAvailWidth(), 0 }, ImGuiButtonFlags_Disabled);
-							ImGui::PopStyleColor();
-							ImGui::NextColumn();
-
-							// Uniform Name
-							/* * * * * * * * * * * * * * * * * * * * */
-							ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
-							if (u->isModifiable())
+							ss << std::left
+								<< "uniform "
+								<< std::setw(7) << util::to_string(*u) << " "
+								<< std::setw(15) << u->getName() << " "
+								<< "{ ";
+							switch (u->getID())
 							{
-								static char name[32] = "";
-								std::strcpy(name, u->getName().c_str());
-								const bool input_submit{ ImGui::InputText(
-									(label + "##Name").c_str(),
-									name,
-									ML_ARRAYSIZE(name),
-									ImGuiInputTextFlags_EnterReturnsTrue
-								) };
-								if (input_submit)
-								{
-									if (!m->rename(u->getName(), name))
-									{
-										Debug::logError("A uniform with that name already exists"); 
-									}
-								}
+							case uni_bool::ID	: if (auto a { detail::as_bool(u) }) ss << (*a); break;
+							case uni_float::ID	: if (auto a { detail::as_float(u) }) ss << (*a); break;
+							case uni_int::ID	: if (auto a { detail::as_int(u) }) ss << (*a); break;
+							case uni_vec2::ID	: if (auto a { detail::as_vec2(u) }) ss << (*a); break;
+							case uni_vec3::ID	: if (auto a { detail::as_vec3(u) }) ss << (*a); break;
+							case uni_vec4::ID	: if (auto a { detail::as_vec4(u) }) ss << (*a); break;
+							case uni_color::ID	: if (auto a { detail::as_color(u) }) ss << (*a); break;
+							case uni_mat2::ID	: if (auto a { detail::as_mat2(u) }) ss << (*a); break;
+							case uni_mat3::ID	: if (auto a { detail::as_mat3(u) }) ss << (*a); break;
+							case uni_mat4::ID	: if (auto a { detail::as_mat4(u) }) ss << (*a); break;
+							case uni_sampler::ID: if (auto a { detail::as_sampler(u) }) ss << ML_Engine.content().get_name(*a); break;
 							}
-							else
-							{
-								ImGui::Text(u->getName().c_str());
-							}
-							ImGui::PopItemWidth();
-							ImGui::NextColumn();
-
-							// Uniform Value
-							/* * * * * * * * * * * * * * * * * * * * */
-							ImGui::PushID(label.c_str());
-							ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() * 0.9f);
-							const bool canEdit{ PropertyDrawer<Uniform>()(label, (Uniform &)(*u)) };
-							ImGui::PopItemWidth();
-							ImGui::SameLine();
-							ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() * 0.1f);
-							if (canEdit)
-							{
-								if (ImGuiExt::Confirm(
-									"Delete Uniform",
-									ImGui::Button("Delete"),
-									"Are you sure you want to delete uniform {0}?"_s.format(u->getName())
-								) == ImGuiExt::Submitted)
-								{
-									to_remove = u;
-								}
-								ImGuiExt::Tooltip("Delete this uniform");
-							}
-							else
-							{
-								ImGuiExt::HelpMarker("This uniform cannot be modified.");
-							}
-							ImGui::PopItemWidth();
-							ImGui::PopID();
-							ImGui::NextColumn();
-							ImGui::Columns(1);
-							ImGui::Separator();
+							if (ss.str().back() != ' ') ss << ' ';
+							ss << "}" << std::endl;
 						}
-						if (to_remove) { m->erase(to_remove); }
+						ML_Engine.window().setClipboardString(ss.str());
 					}
+
+					ImGui::Separator();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					static bool setup_uni_columns { false };
+
+					// Uniform Column Headers
+					ImGui::Columns(3, "##Uni##Columns");
+					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.1f); }
+					if (ImGui::Selectable("Type"))
+					{
+						auto sort_type_ascending = ([&]() { std::sort(
+							m->begin(),
+							m->end(),
+							[](auto lhs, auto rhs) { return (lhs->getID()) < (rhs->getID()); }); });
+
+						auto sort_type_descending = ([&]() { std::sort(
+							m->begin(),
+							m->end(),
+							[](auto lhs, auto rhs) { return (lhs->getID()) > (rhs->getID()); }); });
+
+						static bool state { 0 };
+						if (state = !state) { sort_type_ascending(); }
+						else { sort_type_descending(); }
+					}
+					ImGui::NextColumn();
+					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.15f); }
+					if (ImGui::Selectable("Name"))
+					{
+						auto sort_name_ascending = ([&]() { std::sort(
+							m->begin(),
+							m->end(),
+							[](auto lhs, auto rhs) { return (lhs->getName()) < (rhs->getName()); }); });
+
+						auto sort_name_descending = ([&]() { std::sort(
+							m->begin(),
+							m->end(),
+							[](auto lhs, auto rhs) { return (lhs->getName()) > (rhs->getName()); }); });
+
+						static bool state { 0 };
+						if (state = !state) { sort_name_ascending(); }
+						else { sort_name_descending(); }
+					}
+					ImGui::NextColumn();
+					if (!setup_uni_columns) { ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.75f); }
+					if (ImGui::Selectable("Value"))
+					{
+						auto sort_value_ascending = ([&]() { std::sort(
+							m->begin(),
+							m->end(),
+							[](auto lhs, auto rhs) { return (lhs->isModifiable()) < (rhs->isModifiable()); }); });
+
+						auto sort_value_descending = ([&]() { std::sort(
+							m->begin(),
+							m->end(),
+							[](auto lhs, auto rhs) { return (lhs->isModifiable()) > (rhs->isModifiable()); }); });
+
+						static bool state { 0 };
+						if (state = !state) { sort_value_ascending(); }
+						else { sort_value_descending(); }
+					}
+					ImGui::NextColumn();
+					ImGui::Separator();
+					ImGui::Columns(1);
+					if (!setup_uni_columns) { setup_uni_columns = true; }
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					// Uniform List
+					Uniform * to_remove { nullptr };
+					for (auto & u : (*m))
+					{
+						if (!u) continue;
+						ImGui::Columns(3, "##Uni##Columns");
+						const String label { "##Uni##" + u->getName() };
+						const float_t color_ref{ (float_t)u->getID() / (float_t)Uniform::MAX_UNIFORM_TYPE };
+
+						// Uniform Type
+						/* * * * * * * * * * * * * * * * * * * * */
+						ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(color_ref, 0.9f, 0.9f));
+						ImGui::ButtonEx(util::to_string(*u).c_str(), { ImGui::GetContentRegionAvailWidth(), 0 }, ImGuiButtonFlags_Disabled);
+						ImGui::PopStyleColor();
+						ImGui::NextColumn();
+
+						// Uniform Name
+						/* * * * * * * * * * * * * * * * * * * * */
+						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth());
+						if (u->isModifiable())
+						{
+							static char name[32] = "";
+							std::strcpy(name, u->getName().c_str());
+							const bool input_submit{ ImGui::InputText(
+								(label + "##Name").c_str(),
+								name,
+								ML_ARRAYSIZE(name),
+								ImGuiInputTextFlags_EnterReturnsTrue
+							) };
+							if (input_submit)
+							{
+								if (!m->rename(u->getName(), name))
+								{
+									Debug::logError("A uniform with that name already exists"); 
+								}
+							}
+						}
+						else
+						{
+							ImGui::Text(u->getName().c_str());
+						}
+						ImGui::PopItemWidth();
+						ImGui::NextColumn();
+
+						// Uniform Value
+						/* * * * * * * * * * * * * * * * * * * * */
+						ImGui::PushID(label.c_str());
+						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() * 0.9f);
+						const bool canEdit{ PropertyDrawer<Uniform>()(label, (Uniform &)(*u)) };
+						ImGui::PopItemWidth();
+						ImGui::SameLine();
+						ImGui::PushItemWidth(ImGui::GetContentRegionAvailWidth() * 0.1f);
+						if (canEdit)
+						{
+							if (ImGuiExt::Confirm(
+								"Delete Uniform",
+								ImGui::Button("Delete"),
+								"Are you sure you want to delete uniform {0}?"_s.format(u->getName())
+							) == ImGuiExt::Submitted)
+							{
+								to_remove = u;
+							}
+							ImGuiExt::Tooltip("Delete this uniform");
+						}
+						else
+						{
+							ImGuiExt::HelpMarker("This uniform cannot be modified.");
+						}
+						ImGui::PopItemWidth();
+						ImGui::PopID();
+						ImGui::NextColumn();
+						ImGui::Columns(1);
+						ImGui::Separator();
+					}
+					if (to_remove) { m->erase(to_remove); }
 				}
 			}
 
@@ -849,438 +841,435 @@ namespace ml
 			ImGui::PopID();
 		}
 
-		void Noobs::draw_settings_tab()
+		void draw_settings_tab(ptr_t<Entity> e)
 		{
-			ImGui::PushID("##Settings");
-			ImGui::BeginChildFrame(ImGui::GetID("##Settings##Content"), { 0, 0 }, 0);
+			ImGui::PushID("##SettingsTab");
+			ImGui::BeginChildFrame(ImGui::GetID("##SettingsTab##Content"), { 0, 0 }, 0);
 
-			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
+			if (auto r { e ? e->get<Renderer>() : nullptr })
 			{
-				if (auto r { e ? e->get<Renderer>() : nullptr })
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+				// Select Material
+				auto mtl { r ? (const_ptr_t<Material>)r->material() : nullptr };
+				if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 				{
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-					// Select Material
-					auto mtl { r ? (const_ptr_t<Material>)r->material() : nullptr };
-					if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
-					{
-						r->setMaterial(mtl);
-						reset_sources().generate_sources();
-					}
-					ImGuiExt::Tooltip("Materials contain the list uniforms applied to the shader.");
-					ImGui::Separator();
-
-					// Select Shader
-					auto shd { r ? (const_ptr_t<Shader>)r->shader() : nullptr };
-					if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
-					{
-						r->setShader(shd);
-						reset_sources().generate_sources();
-					}
-					ImGuiExt::Tooltip("Shaders provide the code for the programmable stages of the rendering pipeline.");
-					ImGui::Separator();
-
-					// Select Model
-					auto mdl { r ? (const_ptr_t<Model>)r->model() : nullptr };
-					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
-					{
-						r->setModel(mdl);
-					}
-					ImGuiExt::Tooltip("Models specify the geometry to be rendered.");
-					ImGui::Separator();
-
-					// Camera Settings
-					if (auto c { Camera::mainCamera() })
-					{
-						// Get Video Modes
-						static const List<VideoMode> & mode_values { Window::getFullscreenModes() };
-
-						// Get Video Names
-						static const List<String> & mode_names = [&]
-						{
-							static List<String> temp { "Automatic", "Manual" };
-							for (const auto & elem : mode_values)
-								temp.push_back(util::to_string(elem.size));
-							return temp;
-						}();
-
-						// Viewport
-						if (ImGuiExt::Combo("Resolution", &m_displayIndex, mode_names))
-						{
-							if (m_displayIndex == 0)
-							{
-								m_displayMode = DisplayMode::Automatic;
-							}
-							else if (m_displayIndex == 1)
-							{
-								m_displayMode = DisplayMode::Manual;
-							}
-							else
-							{
-								m_displayMode = DisplayMode::Fixed;
-							}
-						}
-						if (m_displayMode == DisplayMode::Manual)
-						{
-							ImGui::Indent();
-							vec2 v { (vec2)c->viewport().size() };
-							if (ImGui::DragFloat2("##Resolution", &v[0]))
-							{
-								if (v[0] <= 0.f) v[0] = FLT_MIN;
-								if (v[1] <= 0.f) v[1] = FLT_MIN;
-								c->setViewport((vec2i)v);
-							}
-							ImGui::Unindent();
-						}
-						if (m_displayMode == DisplayMode::Fixed)
-						{
-							c->setViewport((vec2i)mode_values[m_displayIndex - 2].size);
-						}
-						ImGuiExt::Tooltip("Specify the display resolution.");
-
-						ImGui::Separator();
-
-						// Background Color
-						vec4 background { c->background() };
-						if (ImGui::ColorEdit4("Background", &background[0]))
-						{
-							c->setBackground(background);
-						}
-						ImGuiExt::Tooltip("Specify the display background color.");
-
-						ImGui::Separator();
-					}
-					else
-					{
-						ImGui::Text("No Camera Found");
-					}
-
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-					ImGui::BeginChildFrame(ImGui::GetID("NoobsRenderStates"), { 0, 0 }, 0);
-
-					// Alpha State
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					([](AlphaState * alpha) 
-					{	if (!alpha) { return; }
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::PushID(ML_ADDRESSOF(alpha));
-						ImGui::PushID("##AlphaState");
-						ImGui::NewLine();
-						ImGui::PushItemWidth(150);
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::Checkbox(alpha->enabled
-							? "glEnable" : "glDisable",
-							&alpha->enabled
-						);
-						ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
-						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::Text(GL::raw_name_of(GL::AlphaTest));
-						ImGui::SameLine(); ImGui::Text(");");
-						ImGui::NewLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						if (ImGui::Button("glAlphaFunc"))
-						{
-							Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glAlphaFunc.xml");
-						}
-						ImGuiExt::Tooltip("Specify the alpha test function");
-						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						int32_t func = GL::index_of(alpha->func);
-						if (ImGuiExt::Combo("##Func", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
-						{
-							alpha->func = GL::value_at<GL::Predicate>(func);
-						}
-						ImGuiExt::Tooltip(String(
-							"Param: \'func\'\n\n"
-							"Value: {0} (0x{1})\n\n"
-							"Brief: {2}\n"
-						).format(
-							GL::raw_name_of(alpha->func),
-							util::to_hex<uint32_t>(alpha->func),
-							GL::desc_of(alpha->func)
-						));
-						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::DragFloat("##Ref", &alpha->coeff);
-						ImGuiExt::Tooltip(String(
-							"Param: \'ref\'\n\n"
-							"Value: {0}\n\n"
-							"Brief: {1}\n"
-						).format(
-							alpha->coeff,
-							"Specifies the reference value that incoming alpha values are compared to"
-						));
-						ImGui::SameLine(); ImGui::Text(");");
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::PopItemWidth();
-						ImGui::PopID();
-						ImGui::PopID();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-					})(&r->states().alpha());
-
-					// Blend State
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					([](BlendState * blend) 
-					{	if (!blend) { return; }
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::PushID(ML_ADDRESSOF(blend));
-						ImGui::PushID("##BlendState");
-						ImGui::NewLine();
-						ImGui::PushItemWidth(150);
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::Checkbox(blend->enabled
-							? "glEnable" : "glDisable",
-							&blend->enabled
-						);
-						ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
-						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::Text(GL::raw_name_of(GL::Blend));
-						ImGui::SameLine(); ImGui::Text(");");
-						ImGui::NewLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						if (ImGui::Button("glBlendFuncSeparate"))
-						{
-							Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
-						}
-						ImGuiExt::Tooltip(
-							"Specify pixel arithmetic for RGB and alpha components separately."
-						);
-						ImGui::SameLine(); ImGui::Text("(");
-						ImGui::Indent();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						int32_t sfactorRGB = GL::index_of(blend->sfactorRGB);
-						if (ImGuiExt::Combo("##sfactorRGB", &sfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
-						{
-							blend->sfactorRGB = GL::value_at<GL::Factor>(sfactorRGB);
-						}
-						ImGuiExt::Tooltip(String(
-							"Param: \'sfactorRGB\'\n\n"
-							"Value: {0} (0x{1})\n\n"
-							"Brief: {2}\n"
-						).format(
-							GL::raw_name_of(blend->sfactorRGB),
-							util::to_hex<uint32_t>(blend->sfactorRGB),
-							"Specifies how the red, green, and blue blending factors are computed"
-						));
-						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						int32_t dfactorRGB = GL::index_of(blend->dfactorRGB);
-						if (ImGuiExt::Combo("##dfactorRGB", &dfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
-						{
-							blend->dfactorRGB = GL::value_at<GL::Factor>(dfactorRGB);
-						}
-						ImGuiExt::Tooltip(String(
-							"Param: \'dfactorRGB\'\n\n"
-							"Value: {0} (0x{1})\n\n"
-							"Brief: {2}\n"
-						).format(
-							GL::raw_name_of(blend->dfactorRGB),
-							util::to_hex<uint32_t>(blend->dfactorRGB),
-							"Specifies how the red, green, and blue destination blending factors are computed"
-						));
-						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						int32_t sfactorAlpha = GL::index_of(blend->sfactorAlpha);
-						if (ImGuiExt::Combo("##sfactorAlpha", &sfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
-						{
-							blend->sfactorAlpha = GL::value_at<GL::Factor>(sfactorAlpha);
-						}
-						ImGuiExt::Tooltip(String(
-							"Param: \'sfactorAlpha\'\n\n"
-							"Value: {0} (0x{1})\n\n"
-							"Brief: {2}\n"
-						).format(
-							GL::raw_name_of(blend->sfactorAlpha),
-							util::to_hex<uint32_t>(blend->sfactorAlpha),
-							"Specifies how the alpha source blending factor is computed"
-						));
-						ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						int32_t dfactorAlpha = GL::index_of(blend->dfactorAlpha);
-						if (ImGuiExt::Combo("##dfactorAlpha", &dfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
-						{
-							blend->dfactorAlpha = GL::value_at<GL::Factor>(dfactorAlpha);
-						}
-						ImGuiExt::Tooltip(String(
-							"Param: \'dfactorAlpha\'\n\n"
-							"Value: {0} (0x{1})\n\n"
-							"Brief: {2}\n"
-						).format(
-							GL::raw_name_of(blend->dfactorAlpha),
-							util::to_hex<uint32_t>(blend->dfactorAlpha),
-							"Specifies how the alpha destination blending factor is computed"
-						));
-						ImGui::Unindent();
-						ImGui::Text(");");
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::PopItemWidth();
-						ImGui::PopID();
-						ImGui::PopID();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-					})(&r->states().blend());
-
-					// Cull State
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					([](CullState * cull)
-					{	if (!cull) { return; }
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::PushID(ML_ADDRESSOF(cull));
-						ImGui::PushID("##CullState");
-						ImGui::NewLine();
-						ImGui::PushItemWidth(150);
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::Checkbox(cull->enabled
-							? "glEnable" : "glDisable",
-							&cull->enabled
-						);
-						ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
-						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::Text(GL::raw_name_of(GL::CullFace));
-						ImGui::SameLine(); ImGui::Text(");");
-						ImGui::NewLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						if (ImGui::Button("glCullFace"))
-						{
-							Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
-						}
-						ImGuiExt::Tooltip("Specify which facets are culled (as specified by mode) when facet culling is enabled.");
-						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						int32_t mode = GL::index_of(cull->mode);
-						if (ImGuiExt::Combo("##Mode", &mode, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
-						{
-							cull->mode = GL::value_at<GL::Face>(mode);
-						}
-						ImGuiExt::Tooltip(String(
-							"Param: \'mode\'\n\n"
-							"Value: {0} (0x{1})\n\n"
-							"Brief: {2}\n"
-						).format(
-							GL::raw_name_of(cull->mode),
-							util::to_hex<uint32_t>(cull->mode),
-							GL::desc_of(cull->mode)
-						));
-						ImGui::SameLine(); ImGui::Text(");");
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::PopItemWidth();
-						ImGui::PopID();
-						ImGui::PopID();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-					})(&r->states().cull());
-
-					// Depth State
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-					([](DepthState * depth)
-					{	if (!depth) { return; }
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::PushID(ML_ADDRESSOF(depth));
-						ImGui::PushID("##DepthState");
-						ImGui::NewLine();
-						ImGui::PushItemWidth(150);
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::Checkbox(depth->enabled
-							? "glEnable" : "glDisable",
-							&depth->enabled
-						);
-						ImGuiExt::Tooltip(GL::desc_of(GL::DepthTest));
-						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::Text(GL::raw_name_of(GL::DepthTest));
-						ImGui::SameLine(); ImGui::Text(");");
-						ImGui::NewLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						ImGui::Checkbox("glDepthMask", &depth->mask); 
-						ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing.");
-						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-						ImGui::Text(depth->mask ? "true" : "false");
-						ImGui::SameLine(); ImGui::Text(");");
-						ImGui::NewLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						if (ImGui::Button("glDepthFunc"))
-						{
-							Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
-						}
-						ImGuiExt::Tooltip(
-							"Specify the function used to compare each incoming pixel depth value with the depth value present in the depth buffer."
-						);
-						ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-
-						int32_t func = GL::index_of(depth->func);
-						if (ImGuiExt::Combo("##Func", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
-						{
-							depth->func = GL::value_at<GL::Predicate>(func);
-						}
-						ImGuiExt::Tooltip(String(
-							"Param: \'func\'\n\n"
-							"Value: {0} (0x{1})\n\n"
-							"Brief: {2}\n"
-						).format(
-							GL::raw_name_of(depth->func),
-							util::to_hex<uint32_t>(depth->func),
-							GL::desc_of(depth->func)
-						));
-						ImGui::SameLine(); ImGui::Text(");");
-
-						ImGui::PopItemWidth();
-						ImGui::PopID();
-						ImGui::PopID();
-
-						/* * * * * * * * * * * * * * * * * * * * */
-					})(&r->states().depth());
-
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-					ImGui::EndChildFrame();
-
-					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+					r->setMaterial(mtl);
+					reset_sources().generate_sources();
 				}
+				ImGuiExt::Tooltip("Materials contain the list uniforms applied to the shader.");
+				ImGui::Separator();
+
+				// Select Shader
+				auto shd { r ? (const_ptr_t<Shader>)r->shader() : nullptr };
+				if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
+				{
+					r->setShader(shd);
+					reset_sources().generate_sources();
+				}
+				ImGuiExt::Tooltip("Shaders provide the code for the programmable stages of the rendering pipeline.");
+				ImGui::Separator();
+
+				// Select Model
+				auto mdl { r ? (const_ptr_t<Model>)r->model() : nullptr };
+				if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
+				{
+					r->setModel(mdl);
+				}
+				ImGuiExt::Tooltip("Models specify the geometry to be rendered.");
+				ImGui::Separator();
+
+				// Camera Settings
+				if (auto c { Camera::mainCamera() })
+				{
+					// Get Video Modes
+					static const List<VideoMode> & mode_values { Window::getFullscreenModes() };
+
+					// Get Video Names
+					static const List<String> & mode_names = [&]
+					{
+						static List<String> temp { "Automatic", "Manual" };
+						for (const auto & elem : mode_values)
+							temp.push_back(util::to_string(elem.size));
+						return temp;
+					}();
+
+					// Viewport
+					if (ImGuiExt::Combo("Resolution", &m_displayIndex, mode_names))
+					{
+						if (m_displayIndex == 0)
+						{
+							m_displayMode = DisplayMode::Automatic;
+						}
+						else if (m_displayIndex == 1)
+						{
+							m_displayMode = DisplayMode::Manual;
+						}
+						else
+						{
+							m_displayMode = DisplayMode::Fixed;
+						}
+					}
+					if (m_displayMode == DisplayMode::Manual)
+					{
+						ImGui::Indent();
+						vec2 v { (vec2)c->viewport().size() };
+						if (ImGui::DragFloat2("##Resolution", &v[0]))
+						{
+							if (v[0] <= 0.f) v[0] = FLT_MIN;
+							if (v[1] <= 0.f) v[1] = FLT_MIN;
+							c->setViewport((vec2i)v);
+						}
+						ImGui::Unindent();
+					}
+					if (m_displayMode == DisplayMode::Fixed)
+					{
+						c->setViewport((vec2i)mode_values[m_displayIndex - 2].size);
+					}
+					ImGuiExt::Tooltip("Specify the display resolution.");
+
+					ImGui::Separator();
+
+					// Background Color
+					vec4 background { c->background() };
+					if (ImGui::ColorEdit4("Background", &background[0]))
+					{
+						c->setBackground(background);
+					}
+					ImGuiExt::Tooltip("Specify the display background color.");
+
+					ImGui::Separator();
+				}
+				else
+				{
+					ImGui::Text("No Camera Found");
+				}
+
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::BeginChildFrame(ImGui::GetID("NoobsRenderStates"), { 0, 0 }, 0);
+
+				// Alpha State
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+				([](AlphaState * alpha) 
+				{	if (!alpha) { return; }
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PushID(ML_ADDRESSOF(alpha));
+					ImGui::PushID("##AlphaState");
+					ImGui::NewLine();
+					ImGui::PushItemWidth(150);
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::Checkbox(alpha->enabled
+						? "glEnable" : "glDisable",
+						&alpha->enabled
+					);
+					ImGuiExt::Tooltip(GL::desc_of(GL::AlphaTest));
+					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::Text(GL::raw_name_of(GL::AlphaTest));
+					ImGui::SameLine(); ImGui::Text(");");
+					ImGui::NewLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::Button("glAlphaFunc"))
+					{
+						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glAlphaFunc.xml");
+					}
+					ImGuiExt::Tooltip("Specify the alpha test function");
+					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					int32_t func = GL::index_of(alpha->func);
+					if (ImGuiExt::Combo("##Func", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
+					{
+						alpha->func = GL::value_at<GL::Predicate>(func);
+					}
+					ImGuiExt::Tooltip(String(
+						"Param: \'func\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(alpha->func),
+						util::to_hex<uint32_t>(alpha->func),
+						GL::desc_of(alpha->func)
+					));
+					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::DragFloat("##Ref", &alpha->coeff);
+					ImGuiExt::Tooltip(String(
+						"Param: \'ref\'\n\n"
+						"Value: {0}\n\n"
+						"Brief: {1}\n"
+					).format(
+						alpha->coeff,
+						"Specifies the reference value that incoming alpha values are compared to"
+					));
+					ImGui::SameLine(); ImGui::Text(");");
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PopItemWidth();
+					ImGui::PopID();
+					ImGui::PopID();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+				})(&r->states().alpha());
+
+				// Blend State
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+				([](BlendState * blend) 
+				{	if (!blend) { return; }
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PushID(ML_ADDRESSOF(blend));
+					ImGui::PushID("##BlendState");
+					ImGui::NewLine();
+					ImGui::PushItemWidth(150);
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::Checkbox(blend->enabled
+						? "glEnable" : "glDisable",
+						&blend->enabled
+					);
+					ImGuiExt::Tooltip(GL::desc_of(GL::Blend));
+					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::Text(GL::raw_name_of(GL::Blend));
+					ImGui::SameLine(); ImGui::Text(");");
+					ImGui::NewLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::Button("glBlendFuncSeparate"))
+					{
+						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glBlendFuncSeparate.xml");
+					}
+					ImGuiExt::Tooltip(
+						"Specify pixel arithmetic for RGB and alpha components separately."
+					);
+					ImGui::SameLine(); ImGui::Text("(");
+					ImGui::Indent();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					int32_t sfactorRGB = GL::index_of(blend->sfactorRGB);
+					if (ImGuiExt::Combo("##sfactorRGB", &sfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+					{
+						blend->sfactorRGB = GL::value_at<GL::Factor>(sfactorRGB);
+					}
+					ImGuiExt::Tooltip(String(
+						"Param: \'sfactorRGB\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(blend->sfactorRGB),
+						util::to_hex<uint32_t>(blend->sfactorRGB),
+						"Specifies how the red, green, and blue blending factors are computed"
+					));
+					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					int32_t dfactorRGB = GL::index_of(blend->dfactorRGB);
+					if (ImGuiExt::Combo("##dfactorRGB", &dfactorRGB, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+					{
+						blend->dfactorRGB = GL::value_at<GL::Factor>(dfactorRGB);
+					}
+					ImGuiExt::Tooltip(String(
+						"Param: \'dfactorRGB\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(blend->dfactorRGB),
+						util::to_hex<uint32_t>(blend->dfactorRGB),
+						"Specifies how the red, green, and blue destination blending factors are computed"
+					));
+					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					int32_t sfactorAlpha = GL::index_of(blend->sfactorAlpha);
+					if (ImGuiExt::Combo("##sfactorAlpha", &sfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+					{
+						blend->sfactorAlpha = GL::value_at<GL::Factor>(sfactorAlpha);
+					}
+					ImGuiExt::Tooltip(String(
+						"Param: \'sfactorAlpha\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(blend->sfactorAlpha),
+						util::to_hex<uint32_t>(blend->sfactorAlpha),
+						"Specifies how the alpha source blending factor is computed"
+					));
+					ImGui::SameLine(); ImGui::Text(","); ImGui::SameLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					int32_t dfactorAlpha = GL::index_of(blend->dfactorAlpha);
+					if (ImGuiExt::Combo("##dfactorAlpha", &dfactorAlpha, GL::Factor_raw_names, ML_ARRAYSIZE(GL::Factor_raw_names)))
+					{
+						blend->dfactorAlpha = GL::value_at<GL::Factor>(dfactorAlpha);
+					}
+					ImGuiExt::Tooltip(String(
+						"Param: \'dfactorAlpha\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(blend->dfactorAlpha),
+						util::to_hex<uint32_t>(blend->dfactorAlpha),
+						"Specifies how the alpha destination blending factor is computed"
+					));
+					ImGui::Unindent();
+					ImGui::Text(");");
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PopItemWidth();
+					ImGui::PopID();
+					ImGui::PopID();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+				})(&r->states().blend());
+
+				// Cull State
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+				([](CullState * cull)
+				{	if (!cull) { return; }
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PushID(ML_ADDRESSOF(cull));
+					ImGui::PushID("##CullState");
+					ImGui::NewLine();
+					ImGui::PushItemWidth(150);
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::Checkbox(cull->enabled
+						? "glEnable" : "glDisable",
+						&cull->enabled
+					);
+					ImGuiExt::Tooltip(GL::desc_of(GL::CullFace));
+					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::Text(GL::raw_name_of(GL::CullFace));
+					ImGui::SameLine(); ImGui::Text(");");
+					ImGui::NewLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::Button("glCullFace"))
+					{
+						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glCullFace.xml");
+					}
+					ImGuiExt::Tooltip("Specify which facets are culled (as specified by mode) when facet culling is enabled.");
+					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					int32_t mode = GL::index_of(cull->mode);
+					if (ImGuiExt::Combo("##Mode", &mode, GL::Face_raw_names, ML_ARRAYSIZE(GL::Face_raw_names)))
+					{
+						cull->mode = GL::value_at<GL::Face>(mode);
+					}
+					ImGuiExt::Tooltip(String(
+						"Param: \'mode\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(cull->mode),
+						util::to_hex<uint32_t>(cull->mode),
+						GL::desc_of(cull->mode)
+					));
+					ImGui::SameLine(); ImGui::Text(");");
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PopItemWidth();
+					ImGui::PopID();
+					ImGui::PopID();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+				})(&r->states().cull());
+
+				// Depth State
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+				([](DepthState * depth)
+				{	if (!depth) { return; }
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::PushID(ML_ADDRESSOF(depth));
+					ImGui::PushID("##DepthState");
+					ImGui::NewLine();
+					ImGui::PushItemWidth(150);
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::Checkbox(depth->enabled
+						? "glEnable" : "glDisable",
+						&depth->enabled
+					);
+					ImGuiExt::Tooltip(GL::desc_of(GL::DepthTest));
+					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::Text(GL::raw_name_of(GL::DepthTest));
+					ImGui::SameLine(); ImGui::Text(");");
+					ImGui::NewLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					ImGui::Checkbox("glDepthMask", &depth->mask); 
+					ImGuiExt::Tooltip("Specifies whether the depth buffer is enabled for writing.");
+					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+					ImGui::Text(depth->mask ? "true" : "false");
+					ImGui::SameLine(); ImGui::Text(");");
+					ImGui::NewLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					if (ImGui::Button("glDepthFunc"))
+					{
+						Debug::execute("open", "https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glDepthFunc.xml");
+					}
+					ImGuiExt::Tooltip(
+						"Specify the function used to compare each incoming pixel depth value with the depth value present in the depth buffer."
+					);
+					ImGui::SameLine(); ImGui::Text("("); ImGui::SameLine();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+
+					int32_t func = GL::index_of(depth->func);
+					if (ImGuiExt::Combo("##Func", &func, GL::Predicate_raw_names, ML_ARRAYSIZE(GL::Predicate_raw_names)))
+					{
+						depth->func = GL::value_at<GL::Predicate>(func);
+					}
+					ImGuiExt::Tooltip(String(
+						"Param: \'func\'\n\n"
+						"Value: {0} (0x{1})\n\n"
+						"Brief: {2}\n"
+					).format(
+						GL::raw_name_of(depth->func),
+						util::to_hex<uint32_t>(depth->func),
+						GL::desc_of(depth->func)
+					));
+					ImGui::SameLine(); ImGui::Text(");");
+
+					ImGui::PopItemWidth();
+					ImGui::PopID();
+					ImGui::PopID();
+
+					/* * * * * * * * * * * * * * * * * * * * */
+				})(&r->states().depth());
+
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+				ImGui::EndChildFrame();
+
+				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 			}
 			
 			ImGui::EndChildFrame();
@@ -1289,7 +1278,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		Noobs & Noobs::compile_sources()
+		Noobs & compile_sources()
 		{
 			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 			{
@@ -1318,7 +1307,7 @@ namespace ml
 			return (*this);
 		}
 
-		Noobs & Noobs::dispose_files()
+		Noobs & dispose_files()
 		{
 			for (auto & file : m_files)
 			{
@@ -1327,7 +1316,7 @@ namespace ml
 			return (*this);
 		}
 
-		Noobs & Noobs::generate_sources()
+		Noobs & generate_sources()
 		{
 			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 			{
@@ -1351,7 +1340,7 @@ namespace ml
 			return (*this);
 		}
 
-		Noobs & Noobs::reset_sources()
+		Noobs & reset_sources()
 		{
 			for (auto & f : m_files)
 			{

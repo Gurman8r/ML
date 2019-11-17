@@ -24,7 +24,7 @@ namespace ml
 
 		CommandSuite() : Plugin {}
 		{
-			ML_EventSystem.addListener<StartEvent>(this);
+			ML_EventSystem.addListener<LoadEvent>(this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -33,7 +33,7 @@ namespace ml
 		{
 			switch (*value)
 			{
-			case StartEvent::ID: if (auto ev = value.as<StartEvent>())
+			case LoadEvent::ID: if (auto ev = value.as<LoadEvent>())
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 

@@ -153,6 +153,7 @@ namespace ml
 
 		Noobs() : Plugin {}
 		{
+			ML_EventSystem.addListener<LoadEvent>(this);
 			ML_EventSystem.addListener<StartEvent>(this);
 			ML_EventSystem.addListener<UpdateEvent>(this);
 			ML_EventSystem.addListener<DrawEvent>(this);
@@ -169,7 +170,7 @@ namespace ml
 		{
 			switch (*value)
 			{
-			case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
+			case LoadEvent::ID: if (auto ev{ value.as<LoadEvent>() })
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
@@ -196,7 +197,7 @@ namespace ml
 						ImGui::Checkbox("Update Camera", &m_apply_camera);
 						ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
 
-						auto e{  ML_Engine.content().cget<Entity>(m_target_name) };
+						auto e{ ML_Engine.content().cget<Entity>(m_target_name) };
 						if (PropertyDrawer<Entity>()("Target Entity", e) && e)
 						{
 							m_target_name = ML_Engine.content().get_name(e);
@@ -207,6 +208,12 @@ namespace ml
 					}
 					ImGui::PopID();
 				});
+
+				/* * * * * * * * * * * * * * * * * * * * */
+			} break;
+			case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
+			{
+				/* * * * * * * * * * * * * * * * * * * * */
 
 				m_pipeline.push_back(ML_Engine.content().get<Surface>("surf/main"));
 
@@ -233,7 +240,7 @@ namespace ml
 					// Update Camera Uniforms
 					if (m_apply_camera)
 					{
-						for (auto & [name, value] : ML_Engine.content().data<Material>())
+						for (auto & [ name, value ] : ML_Engine.content().data<Material>())
 						{
 							if (auto m{ (ptr_t<Material>)value })
 							{
@@ -446,6 +453,7 @@ namespace ml
 				if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
 				{
 					d.dockWindow(display_name, d.getNode(d.LeftUp));
+
 					d.dockWindow(editor_name, d.getNode(d.RightUp));
 				}
 

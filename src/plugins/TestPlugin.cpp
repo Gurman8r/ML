@@ -17,7 +17,7 @@ namespace ml
 
 		TestPlugin() : Plugin {}
 		{
-			ML_EventSystem.addListener<StartEvent>(this);
+			ML_EventSystem.addListener<LoadEvent>(this);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -26,8 +26,10 @@ namespace ml
 		{
 			switch (*value)
 			{
-			case StartEvent::ID: if (auto ev{ value.as<StartEvent>() })
+			case LoadEvent::ID: if (auto ev{ value.as<LoadEvent>() })
 			{
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				ML_Editor.mainMenuBar().addMenu("Plugins", [&]()
 				{
 					ImGui::PushID(ML_ADDRESSOF(this));
@@ -38,6 +40,8 @@ namespace ml
 					}
 					ImGui::PopID();
 				});
+
+				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
 			}
 		}

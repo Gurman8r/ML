@@ -1,5 +1,5 @@
-#ifndef _ML_NEWABLE_HPP_
-#define _ML_NEWABLE_HPP_
+#ifndef _ML_TRACKABLE_HPP_
+#define _ML_TRACKABLE_HPP_
 
 #include <ML/Core/MemoryManager.hpp>
 
@@ -27,4 +27,4 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-#endif // !_ML_NEWABLE_HPP_
+#endif // !_ML_TRACKABLE_HPP_

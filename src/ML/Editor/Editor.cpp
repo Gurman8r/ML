@@ -15,7 +15,6 @@
 #include <ML/Editor/ImGuiExt.hpp>
 
 #if defined(ML_IMPL_RENDERER_OPENGL) && defined(ML_IMPL_PLATFORM_GLFW)
-#	include <glfw/glfw3.h>
 #	include <imgui/examples/imgui_impl_glfw.h>
 #	include <imgui/examples/imgui_impl_opengl3.h>
 #endif
@@ -36,8 +35,8 @@ namespace ml
 		m_dockspace		= new Editor_Dockspace{};
 		m_mainMenuBar	= new Editor_MainMenuBar{};
 		m_about			= new Editor_About{};
-		m_explorer		= new Editor_Explorer{};
 		m_content		= new Editor_Content{};
+		m_explorer		= new Editor_Explorer{};
 		m_inspector		= new Editor_Inspector{};
 		m_manual		= new Editor_Manual{};
 		m_profiler		= new Editor_Profiler{};

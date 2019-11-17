@@ -60,6 +60,11 @@ namespace ml
 			return static_cast<const_ptr_t<T>>(getByCode(typeof<T>::hash));
 		}
 
+		template <class T> inline const_ptr_t<T> cget() const
+		{
+			return return this->get<T>();
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline bool remove(hash_t code)

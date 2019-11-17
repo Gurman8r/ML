@@ -230,10 +230,7 @@ namespace ml
 		if (auto t{ value.get<Transform>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(t));
-			if (ImGui::CollapsingHeader("Transform"))
-			{
-				PropertyDrawer<Transform>()(label, *t);
-			}
+			const bool header_open{ ImGui::CollapsingHeader("Transform") };
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Transform##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Transform#Button##" + label).c_str()))
@@ -243,6 +240,10 @@ namespace ml
 				}
 				ImGui::EndPopup();
 			}
+			if (header_open)
+			{
+				PropertyDrawer<Transform>()(label, *t);
+			}
 			ImGui::PopID();
 		}
 
@@ -250,10 +251,7 @@ namespace ml
 		if (auto c{ value.get<Camera>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(c));
-			if (ImGui::CollapsingHeader("Camera"))
-			{
-				PropertyDrawer<Camera>()(label, *c);
-			}
+			const bool header_open{ ImGui::CollapsingHeader("Camera") };
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Camera##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Camera#Button##" + label).c_str()))
@@ -263,6 +261,10 @@ namespace ml
 				}
 				ImGui::EndPopup();
 			}
+			if (header_open)
+			{
+				PropertyDrawer<Camera>()(label, *c);
+			}
 			ImGui::PopID();
 		}
 
@@ -270,10 +272,7 @@ namespace ml
 		if (auto l{ value.get<Light>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(l));
-			if (ImGui::CollapsingHeader("Light (WIP)"))
-			{
-				PropertyDrawer<Light>()(label, *l);
-			}
+			const bool header_open{ ImGui::CollapsingHeader("Light (WIP)") };
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Light##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Light#Button##" + label).c_str()))
@@ -283,6 +282,10 @@ namespace ml
 				}
 				ImGui::EndPopup();
 			}
+			if (header_open)
+			{
+				PropertyDrawer<Light>()(label, *l);
+			}
 			ImGui::PopID();
 		}
 
@@ -290,10 +293,7 @@ namespace ml
 		if (auto r{ value.get<Renderer>() })
 		{
 			ImGui::PushID(ML_ADDRESSOF(r));
-			if (ImGui::CollapsingHeader("Renderer"))
-			{
-				PropertyDrawer<Renderer>()(label, *r);
-			}
+			const bool header_open{ ImGui::CollapsingHeader("Renderer") };
 			if (ImGui::BeginPopupContextItem(("##ContextMenu##Renderer##" + label).c_str()))
 			{
 				if (ImGui::Button(("Remove##Renderer#Button##" + label).c_str()))
@@ -302,6 +302,10 @@ namespace ml
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::EndPopup();
+			}
+			if (header_open)
+			{
+				PropertyDrawer<Renderer>()(label, *r);
 			}
 			ImGui::PopID();
 		}

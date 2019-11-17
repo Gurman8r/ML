@@ -13,12 +13,14 @@ namespace ml
 
 	struct ML_PLUGIN_API TestPlugin final : public Plugin
 	{
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 		TestPlugin() : Plugin {}
 		{
 			ML_EventSystem.addListener<StartEvent>(this);
 		}
 
-		~TestPlugin() {}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void onEvent(const Event & value) override
 		{
@@ -39,15 +41,14 @@ namespace ml
 			} break;
 			}
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-extern "C"
+extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
 {
-	ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
-	{
-		return new ml::TestPlugin{};
-	}
+	return new ml::TestPlugin{};
 }

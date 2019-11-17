@@ -16,7 +16,7 @@
 
 namespace ml
 {
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_PLUGIN_API CommandSuite final : public Plugin
 	{
@@ -27,7 +27,7 @@ namespace ml
 			ML_EventSystem.addListener<StartEvent>(this);
 		}
 
-		~CommandSuite() {}
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void onEvent(const Event & value) override
 		{
@@ -338,13 +338,10 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-extern "C"
+extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
 {
-	ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
-	{
-		return new ml::CommandSuite{};
-	}
+	return new ml::CommandSuite{};
 }

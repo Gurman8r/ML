@@ -26,6 +26,7 @@
 #include <ML/Graphics/Geometry.hpp>
 #include <ML/Graphics/Sprite.hpp>
 #include <ML/Graphics/Light.hpp>
+#include <ML/Graphics/ScopedBinder.hpp>
 #include <ML/Graphics/Transform.hpp>
 #include <ML/Window/WindowEvents.hpp>
 #include <ML/Editor/AssetPreview.hpp>
@@ -129,19 +130,18 @@ namespace ml
 
 		enum : size_t { Surf_Main, Surf_Post, MAX_DEMO_SURFACE };
 
-		using DemoPipeline = typename Array<ptr_t<Surface>, MAX_DEMO_SURFACE>;
+		using DemoPipeline = typename List<ptr_t<Surface>>;
 
 		enum class DisplayMode : int32_t { Automatic, Manual, Fixed };
 
 		using FileArray = typename Array<ptr_t<ShaderFile>, ShaderFile::MAX_DEMO_FILE>;
 
-		bool m_editor_open		{ true };
-		bool m_display_open		{ true };
-		bool m_use_main_camera	{ true };
+		bool m_editor_open	{ true };
+		bool m_display_open	{ true };
+		bool m_apply_camera	{ true };
 
-		DemoPipeline	m_pipeline		{ 0 };
-		ptr_t<Entity>	m_entity		{ 0 };
-		String			m_ent_name		{ "" };
+		DemoPipeline	m_pipeline		{};
+		String			m_target_name	{ "" };
 		FileArray		m_files			{ 0 };
 		DisplayMode		m_displayMode	{ 0 };
 		int32_t			m_displayIndex	{ 0 };
@@ -164,8 +164,6 @@ namespace ml
 			ML_EventSystem.addListener<SecretEvent>(this);
 		}
 
-		~Noobs() {}
-		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		void onEvent(const Event & value) override
@@ -178,10 +176,10 @@ namespace ml
 
 				ML_Editor.mainMenuBar().addMenu("Window", [&]()
 				{
-					ImGui::Separator();
 					ImGui::PushID(ML_ADDRESSOF(this));
-					ImGui::MenuItem("Editor##Noobs", "", &m_editor_open);
-					ImGui::MenuItem("Display##Noobs", "", &m_display_open);
+					ImGui::Separator();
+					ImGui::MenuItem("Editor", "", &m_editor_open);
+					ImGui::MenuItem("Display", "", &m_display_open);
 					ImGui::PopID();
 				});
 
@@ -190,20 +188,32 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(this));
 					if (ImGui::BeginMenu("Noobs"))
 					{
-						draw_plugin_menu();
+						ImGui::Checkbox("Show Display", &m_display_open);
+						ImGuiExt::Tooltip("Toggle display visibility");
+
+						ImGui::Checkbox("Show Editor", &m_editor_open);
+						ImGuiExt::Tooltip("Toggle editor visibility");
+
+						ImGui::Checkbox("Update Camera", &m_apply_camera);
+						ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
+
+						auto e{  ML_Engine.content().cget<Entity>(m_target_name) };
+						if (PropertyDrawer<Entity>()("Target##Entity", e) && e)
+						{
+							m_target_name = ML_Engine.content().get_name(e);
+							reset_sources().generate_sources();
+						}
+						ImGuiExt::Tooltip("Select the target entity");
 						ImGui::EndMenu();
 					}
 					ImGui::PopID();
 				});
 
-				m_pipeline[0] = ML_Engine.content().get<Surface>("surf/main");
+				m_pipeline.push_back(ML_Engine.content().get<Surface>("surf/main"));
+
+				m_pipeline.push_back(ML_Engine.content().get<Surface>("surf/post"));
 					
-				m_pipeline[1] = ML_Engine.content().get<Surface>("surf/post");
-					
-				if (m_ent_name = ML_Engine.prefs().get_string("Noobs", "target_entity", ""))
-				{
-					m_entity = ML_Engine.content().get<Entity>(m_ent_name);
-				}
+				m_target_name = ML_Engine.prefs().get_string("Noobs", "target_entity", "");
 
 				generate_sources();
 
@@ -213,27 +223,27 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (auto camera{ Camera::mainCamera() }; camera && camera->enabled())
+				if (auto c{ Camera::mainCamera() }; c && c->enabled())
 				{
 					// Update Pipeline
 					for (auto & surf : m_pipeline)
 					{
-						surf->update((vec2)camera->viewport().size());
+						surf->update((vec2)c->viewport().size());
 					}
 
 					// Update Camera Uniforms
-					if (m_use_main_camera)
+					if (m_apply_camera)
 					{
 						for (auto & [key, value] : ML_Engine.content().data<Material>())
 						{
-							if (auto m{ (Material *)value })
+							if (auto m{ (ptr_t<Material>)value })
 							{
-								m->set<uni_vec3>("u_camera.pos", camera->position());
-								m->set<uni_vec3>("u_camera.dir", camera->direction());
-								m->set<uni_float>("u_camera.fov", camera->fieldOfView());
-								m->set<uni_float>("u_camera.near", camera->clipNear());
-								m->set<uni_float>("u_camera.far", camera->clipFar());
-								m->set<uni_vec2>("u_camera.view", (vec2)camera->viewport().size());
+								m->set<uni_vec3>("u_camera.pos", c->position());
+								m->set<uni_vec3>("u_camera.dir", c->direction());
+								m->set<uni_float>("u_camera.fov", c->fieldOfView());
+								m->set<uni_float>("u_camera.near", c->clipNear());
+								m->set<uni_float>("u_camera.far", c->clipFar());
+								m->set<uni_vec2>("u_camera.view", (vec2)c->viewport().size());
 							}
 						}
 					}
@@ -245,24 +255,24 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				auto camera{ Camera::mainCamera() };
-					
-				// Render Main Scene
-				if (m_pipeline[Surf_Main] && m_pipeline[Surf_Main]->bind())
+				if (const ScopedBinder<Surface> binder{ m_pipeline.at(0) })
 				{
 					// Apply Camera
-					if (camera) { camera->apply(); }
-						
+					if (auto c{ Camera::mainCamera() }; c && c->enabled())
+					{
+						c->applyClear().applyViewport();
+					}
+
 					// Draw Renderers
 					for (auto & [key, value] : ML_Engine.content().data<Entity>())
 					{
-						if (auto e{ (Entity *)value })
+						if (auto e{ (ptr_t<Entity>)value })
 						{
 							if (auto r{ e->get<Renderer>() }; r && r->enabled())
 							{
 								if (auto t{ e->get<Transform>() }; t && t->enabled())
 								{
-									if (auto m{ (Material *)r->material() })
+									if (auto m{ (ptr_t<Material>)r->material() })
 									{
 										m->set<uni_vec3>("u_position", t->position());
 										m->set<uni_vec4>("u_rotation", t->rotation());
@@ -273,18 +283,20 @@ namespace ml
 							}
 						}
 					}
-
-					// Unbind
-					m_pipeline[Surf_Main]->unbind();
 				}
 
+				/* * * * * * * * * * * * * * * * * * * * */
+
 				// Render Post Processing
-				if (m_pipeline[Surf_Post] && m_pipeline[Surf_Post]->bind())
+				if (const ScopedBinder<Surface> binder{ m_pipeline.at(1) })
 				{
 					// Apply Camera
-					if (camera) { camera->apply(); }
-						
-					// Reset States
+					if (auto c{ Camera::mainCamera() }; c && c->enabled())
+					{
+						c->applyClear().applyViewport();
+					}
+
+					// Apply States
 					RenderStates{
 						AlphaState	{ true, GL::Greater, 0.01f },
 						BlendState	{ true, GL::SrcAlpha, GL::OneMinusSrcAlpha },
@@ -292,11 +304,11 @@ namespace ml
 						DepthState	{ false },
 					}();
 
-					// Draw Scene Output
-					ML_Engine.window().draw(m_pipeline[Surf_Main]);
-
-					// Unbind
-					m_pipeline[Surf_Post]->unbind();
+					// Draw Previous
+					if (auto prev{ m_pipeline.at(0) })
+					{
+						ML_Engine.window().draw(prev);
+					}
 				}
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -305,7 +317,8 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				draw_display(display_name, m_pipeline[Surf_Post]);
+				draw_display(display_name, m_pipeline.back());
+
 				draw_editor(editor_name);
 
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -316,13 +329,15 @@ namespace ml
 
 				dispose_files();
 
+				m_pipeline.clear();
+
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
 			case ShaderErrorEvent::ID: if (auto ev{ value.as<ShaderErrorEvent>() })
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (auto e{ m_entity ? m_entity : (m_entity = ML_Engine.content().get<Entity>(m_ent_name)) })
+				if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 				{
 					if (auto r{ e ? e->get<Renderer>() : nullptr })
 					{
@@ -436,7 +451,7 @@ namespace ml
 			ImGui::PushID(ML_ADDRESSOF(this));
 			if (ImGui::Begin(title, &m_editor_open, 0))
 			{
-				if (auto e{ m_entity ? m_entity : (m_entity = ML_Engine.content().get<Entity>(m_ent_name)) })
+				if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 				{
 					if (auto r{ e ? e->get<Renderer>() : nullptr })
 					{
@@ -465,7 +480,7 @@ namespace ml
 			ImGui::PushID("##Code");
 			ImGui::BeginChild("##Code##Content", { 0, 0 }, false, ImGuiWindowFlags_NoScrollbar);
 		
-			if (auto e{ m_entity ? m_entity : (m_entity = ML_Engine.content().get<Entity>(m_ent_name)) })
+			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 			{
 				if (auto r { e ? e->get<Renderer>() : nullptr })
 				{
@@ -622,7 +637,7 @@ namespace ml
 			ImGui::PushID("##Uniforms");
 			ImGui::BeginChildFrame(ImGui::GetID("##Uniforms##Content"), { 0, 0 }, 0);
 
-			if (auto e{ m_entity ? m_entity : (m_entity = ML_Engine.content().get<Entity>(m_ent_name)) })
+			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 			{
 				if (auto r { e ? e->get<Renderer>() : nullptr })
 				{
@@ -839,14 +854,14 @@ namespace ml
 			ImGui::PushID("##Settings");
 			ImGui::BeginChildFrame(ImGui::GetID("##Settings##Content"), { 0, 0 }, 0);
 
-			if (auto e{ m_entity ? m_entity : (m_entity = ML_Engine.content().get<Entity>(m_ent_name)) })
+			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 			{
 				if (auto r { e ? e->get<Renderer>() : nullptr })
 				{
 					/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 					// Select Material
-					const Material * mtl { r ? r->material() : nullptr };
+					auto mtl { r ? (const_ptr_t<Material>)r->material() : nullptr };
 					if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 					{
 						r->setMaterial(mtl);
@@ -856,7 +871,7 @@ namespace ml
 					ImGui::Separator();
 
 					// Select Shader
-					const Shader * shd { r ? r->shader() : nullptr };
+					auto shd { r ? (const_ptr_t<Shader>)r->shader() : nullptr };
 					if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
 					{
 						r->setShader(shd);
@@ -866,7 +881,7 @@ namespace ml
 					ImGui::Separator();
 
 					// Select Model
-					const Model * mdl { r ? r->model() : nullptr };
+					auto mdl { r ? (const_ptr_t<Model>)r->model() : nullptr };
 					if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 					{
 						r->setModel(mdl);
@@ -1274,191 +1289,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void Noobs::draw_plugin_menu()
-		{
-			// Show Editor
-			ImGui::Checkbox("Show Editor", &m_editor_open);
-			ImGuiExt::Tooltip("Toggle editor visibility");
-
-			// Show Display
-			ImGui::Checkbox("Show Display", &m_display_open);
-			ImGuiExt::Tooltip("Toggle display visibility");
-
-			// Use Main Camera
-			ImGui::Checkbox("Apply Camera Uniforms", &m_use_main_camera);
-			ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
-
-			ImGui::Separator();
-
-			// Camera
-			if (ImGui::BeginMenu("Camera"))
-			{
-				if (auto c { Camera::mainCamera() })
-				{
-					constexpr float_t speed { 0.005f };
-
-					bool	enabled = c->enabled();
-					int32_t clearFlags = c->clearFlags();
-					int32_t projection = c->projection();
-					vec3	position = c->position();
-					vec3	forward = c->direction();
-					vec4	background = c->background();
-					float_t fieldOfView = c->fieldOfView();
-					float_t clipNear = c->clipNear();
-					float_t clipFar = c->clipFar();
-					vec2	viewport = (vec2)c->viewport().size();
-
-					/* * * * * * * * * * * * * * * * * * * * */
-
-					// Enabled
-					if (ImGui::Checkbox(("Enabled##Camera##Noobs"), &enabled))
-					{
-						c->setEnabled(enabled);
-					}
-					ImGuiExt::Tooltip("If enabled, the camera be applied.");
-
-					// Clear Flags
-					if (ImGuiExt::Combo(
-						("Clear Flags##Camera##Noobs"),
-						&clearFlags,
-						"Solid Color\0Depth Only\0Don't Clear"
-					))
-					{
-						c->setClearFlags((Camera::ClearFlags)clearFlags);
-					}
-					ImGuiExt::Tooltip("Specify how the screen should be cleared.");
-
-					// Projection
-					if (ImGuiExt::Combo(
-						("Projection##Camera##Noobs"),
-						&projection,
-						"Perspective\0"
-					))
-					{
-						c->setProjection((Camera::Projection)projection);
-					}
-					ImGuiExt::Tooltip("Specify which projection to use.");
-
-					// Background
-					if (ImGui::ColorEdit4(("Background##Camera##Noobs"), &background[0]))
-					{
-						c->setBackground(background);
-					}
-					ImGuiExt::Tooltip("Specify the color to apply when using \'Solid Color\'.");
-
-					ImGui::Separator();
-
-					// Position
-					if (ImGui::DragFloat3(("Position##Camera##Noobs"), &position[0], speed))
-					{
-						c->setPosition(position);
-					}
-					ImGuiExt::Tooltip("Set the position of the camera.");
-
-					// Direction
-					if (ImGui::DragFloat3(("Direction##Camera##Noobs"), &forward[0], speed))
-					{
-						c->setDirection(forward);
-					}
-					ImGuiExt::Tooltip("Set the direction the camera is facing.");
-
-					ImGui::Separator();
-
-					// Field of View
-					if (ImGui::DragFloat(("Field of View##Camera##Noobs"), &fieldOfView, speed))
-					{
-						c->setFieldOfView(fieldOfView);
-					}
-					ImGuiExt::Tooltip("Specify the field of view.");
-
-					// Clip Near
-					if (ImGui::DragFloat(("Clip Near##Camera##Noobs"), &clipNear, speed))
-					{
-						c->setClipNear(clipNear);
-					}
-					ImGuiExt::Tooltip("Specify the near clipping plane.");
-
-					// Clip Far
-					if (ImGui::DragFloat(("Clip Far##Camera##Noobs"), &clipFar, speed))
-					{
-						c->setClipFar(clipFar);
-					}
-					ImGuiExt::Tooltip("Specify the far clipping plane.");
-
-					// Viewport
-					if (ImGui::DragFloat2(("Viewport##Camera##Noobs"), &viewport[0], speed))
-					{
-						if (viewport[0] <= 0.f) viewport[0] = FLT_MIN;
-						if (viewport[1] <= 0.f) viewport[1] = FLT_MIN;
-						c->setViewport((vec2i)viewport);
-					}
-					ImGuiExt::Tooltip("Specify the viewport size.");
-				}
-				else
-				{
-					ImGui::Text("Main Camera Not Found");
-				}
-				ImGui::EndMenu();
-			}
-		
-			ImGui::Separator();
-
-			// Entity
-			/* * * * * * * * * * * * * * * * * * * * */
-			if (ImGui::BeginMenu("Entity"))
-			{
-				ImGui::PushID(ML_ADDRESSOF(m_entity));
-
-				// Entity
-				const_ptr_t<Entity> e { m_entity };
-				if (PropertyDrawer<Entity>()("##TargetEntity", e) && e)
-				{
-					m_entity = std::remove_cv_t<ptr_t<Entity>>(e);
-					reset_sources().generate_sources();
-				}
-				ImGuiExt::Tooltip("Select the target entity");
-
-				// Renderer
-				if (auto r { m_entity ? m_entity->get<Renderer>() : nullptr })
-				{
-					if (ImGui::CollapsingHeader("Renderer"))
-					{
-						PropertyDrawer<Renderer>()("Renderer", *r);
-					}
-				}
-				else if (m_entity)
-				{
-					if (ImGui::Button("Add Renderer"))
-					{
-						m_entity->add<Renderer>();
-						reset_sources().generate_sources();
-					}
-					ImGuiExt::Tooltip("Attach a Renderer to the target Entity");
-				}
-
-				// Transform
-				if (auto t { m_entity ? m_entity->get<Transform>() : nullptr })
-				{
-					if (ImGui::CollapsingHeader("Transform"))
-					{
-						PropertyDrawer<Transform>()("Transform", *t);
-					}
-				}
-				else if (m_entity)
-				{
-					if (ImGui::Button("Add Transform")) { m_entity->add<Transform>(); }
-					ImGuiExt::Tooltip("Attach a Transform to the target Entity");
-				}
-				ImGui::PopID();
-				ImGui::EndMenu();
-			}
-		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 		Noobs & Noobs::compile_sources()
 		{
-			if (auto e{ m_entity ? m_entity : (m_entity = ML_Engine.content().get<Entity>(m_ent_name)) })
+			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 			{
 				if (auto r{ e ? e->get<Renderer>() : nullptr })
 				{
@@ -1496,7 +1329,7 @@ namespace ml
 
 		Noobs & Noobs::generate_sources()
 		{
-			if (auto e{ m_entity ? m_entity : (m_entity = ML_Engine.content().get<Entity>(m_ent_name)) })
+			if (auto e{ ML_Engine.content().get<Entity>(m_target_name) })
 			{
 				if (auto r{ e ? e->get<Renderer>() : nullptr })
 				{
@@ -1536,10 +1369,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-extern "C"
+extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
 {
-	ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
-	{
-		return new ml::Noobs{};
-	}
+	return new ml::Noobs{};
 }

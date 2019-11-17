@@ -27,7 +27,9 @@ namespace ml
 			EV_CUSTOM	= (MAX_LIBRARY_EVENTS * 8),
 		};
 
-		constexpr Event(int32_t value) noexcept : m_id { value } {}
+		constexpr Event(int32_t value) noexcept : m_id{ value } {}
+
+		constexpr Event() noexcept : Event{ EV_INVALID } {}
 
 		constexpr int32_t operator*() const noexcept { return m_id; }
 

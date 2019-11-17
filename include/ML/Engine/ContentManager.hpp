@@ -191,6 +191,11 @@ namespace ml
 			return ((it != this->end<T>()) ? (const_ptr_t<T>)it->second : nullptr);
 		}
 
+		template <class T> inline const_ptr_t<T> cget(const String & name) const
+		{
+			return this->get<T>(name);
+		}
+
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class T> inline List<String> get_keys() const

@@ -32,8 +32,8 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr auto at(size_t i)			-> reference		{ return m_data[i]; }
-		constexpr auto at(size_t i) const	-> const_reference	{ return m_data[i]; }
+		constexpr auto at(size_t i)			-> reference		{ return *(m_data + i); }
+		constexpr auto at(size_t i) const	-> const_reference	{ return *(m_data + i); }
 		constexpr auto back()				-> reference		{ return (*end()); }
 		constexpr auto back()		const	-> const_reference	{ return (*cend()); }
 		constexpr auto begin()				-> iterator			{ return data(); }

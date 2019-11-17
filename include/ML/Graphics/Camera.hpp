@@ -29,7 +29,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const Camera & apply() const;
 		const Camera & applyClear() const;
 		const Camera & applyViewport() const;
 
@@ -64,15 +63,15 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline Camera * mainCamera()
+		static inline ptr_t<Camera> mainCamera()
 		{
 			return mainCamera(nullptr, false);
 		}
 
-		static inline Camera * mainCamera(Camera * value, bool write = true)
+		static inline ptr_t<Camera> mainCamera(ptr_t<Camera> value, bool overwrite = true)
 		{
-			static Camera * temp { nullptr };
-			return (write ? (temp = value) : temp);
+			static ptr_t<Camera> temp { nullptr };
+			return (overwrite ? (temp = value) : temp);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

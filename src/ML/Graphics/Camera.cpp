@@ -87,11 +87,6 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const Camera & Camera::apply() const
-	{
-		return m_enabled ? applyClear().applyViewport() : (*this);
-	}
-
 	const Camera & Camera::applyClear() const
 	{
 		switch (m_clearFlags)

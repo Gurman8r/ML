@@ -46,7 +46,7 @@ namespace ml
 		constexpr auto end()		const	-> const_iterator	{ return data() + size(); }
 		constexpr auto front()				-> reference		{ return (*begin()); }
 		constexpr auto front()		const	-> const_reference	{ return (*cbegin()); }
-		constexpr auto hash()		const	-> hash_t			{ return Hash{}(data(), size()); }
+		constexpr auto hash()		const	-> hash_t			{ return Hash(data(), size()); }
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -10,37 +10,37 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API VertexBuffer final : public Trackable, public Handle<uint32_t>
+	struct ML_GRAPHICS_API VertexBufferObject final : public Trackable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		VertexBuffer();
-		VertexBuffer(const VertexBuffer & copy);
-		~VertexBuffer();
+		VertexBufferObject();
+		VertexBufferObject(const VertexBufferObject & copy);
+		~VertexBufferObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		VertexBuffer & clean();
+		VertexBufferObject & clean();
 
-		VertexBuffer & create(GL::Usage usage);
+		VertexBufferObject & create(GL::Usage usage);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VertexBuffer & bind() const;
+		const VertexBufferObject & bind() const;
 		
-		const VertexBuffer & unbind() const;
+		const VertexBufferObject & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VertexBuffer & bufferData(voidptr_t data, uint32_t size) const;
+		const VertexBufferObject & bufferData(voidptr_t data, uint32_t size) const;
 		
-		const VertexBuffer & bufferData(const List<float_t> & data) const;
+		const VertexBufferObject & bufferData(const List<float_t> & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VertexBuffer & bufferSubData(voidptr_t data, uint32_t size, uint32_t offset) const;
+		const VertexBufferObject & bufferSubData(voidptr_t data, uint32_t size, uint32_t offset) const;
 		
-		const VertexBuffer & bufferSubData(const List<float_t> & data, uint32_t offset) const;
+		const VertexBufferObject & bufferSubData(const List<float_t> & data, uint32_t offset) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -62,7 +62,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using VBO = typename VertexBuffer;
+	using VBO = typename VertexBufferObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

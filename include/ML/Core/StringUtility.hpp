@@ -158,14 +158,14 @@ namespace ml
 		{
 			switch (to_lower(value).hash())
 			{
-			case Hash{}("1"):
-			case Hash{}("true"):
-			case Hash{}("on"):
-			case Hash{}("yes"):
-			case Hash{}("0"):
-			case Hash{}("false"):
-			case Hash{}("off"):
-			case Hash{}("no"):
+			case Hash("1"):
+			case Hash("true"):
+			case Hash("on"):
+			case Hash("yes"):
+			case Hash("0"):
+			case Hash("false"):
+			case Hash("off"):
+			case Hash("no"):
 				return true;
 
 			default: return false;
@@ -221,16 +221,16 @@ namespace ml
 		{
 			switch (to_lower(value).hash())
 			{
-			case Hash{}("1"):
-			case Hash{}("true"):
-			case Hash{}("on"):
-			case Hash{}("yes"):
+			case Hash("1"):
+			case Hash("true"):
+			case Hash("on"):
+			case Hash("yes"):
 				return true;
 
-			case Hash{}("0"):
-			case Hash{}("false"):
-			case Hash{}("off"):
-			case Hash{}("no"):
+			case Hash("0"):
+			case Hash("false"):
+			case Hash("off"):
+			case Hash("no"):
 				return false;
 			
 			default: return dv;

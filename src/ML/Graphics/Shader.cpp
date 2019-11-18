@@ -1,5 +1,3 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #include <ML/Graphics/Shader.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Core/Debug.hpp>
@@ -278,17 +276,17 @@ namespace ml
 		if (!value || !value->getName()) return false;
 		switch (value->getID())
 		{
-		case uni_bool	::ID: if (auto * a { detail::as_bool(value) }) return setUniform(value->getName(), (*a));
-		case uni_float	::ID: if (auto * a { detail::as_float(value) }) return setUniform(value->getName(), (*a));
-		case uni_int	::ID: if (auto * a { detail::as_int(value) }) return setUniform(value->getName(), (*a));
-		case uni_vec2	::ID: if (auto * a { detail::as_vec2(value) }) return setUniform(value->getName(), (*a));
-		case uni_vec3	::ID: if (auto * a { detail::as_vec3(value) }) return setUniform(value->getName(), (*a));
-		case uni_vec4	::ID: if (auto * a { detail::as_vec4(value) }) return setUniform(value->getName(), (*a));
-		case uni_color	::ID: if (auto * a { detail::as_color(value) }) return setUniform(value->getName(), (*a));
-		case uni_mat2	::ID: if (auto * a { detail::as_mat2(value) }) return setUniform(value->getName(), (*a));
-		case uni_mat3	::ID: if (auto * a { detail::as_mat3(value) }) return setUniform(value->getName(), (*a));
-		case uni_mat4	::ID: if (auto * a { detail::as_mat4(value) }) return setUniform(value->getName(), (*a));
-		case uni_sampler::ID: if (auto * a { detail::as_sampler(value) }) return setUniform(value->getName(), (*a));
+		case uni_bool	::ID: if (auto a { detail::as_bool(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_float	::ID: if (auto a { detail::as_float(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_int	::ID: if (auto a { detail::as_int(value) })		{ return setUniform(value->getName(), (*a)); }
+		case uni_vec2	::ID: if (auto a { detail::as_vec2(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_vec3	::ID: if (auto a { detail::as_vec3(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_vec4	::ID: if (auto a { detail::as_vec4(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_color	::ID: if (auto a { detail::as_color(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_mat2	::ID: if (auto a { detail::as_mat2(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_mat3	::ID: if (auto a { detail::as_mat3(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_mat4	::ID: if (auto a { detail::as_mat4(value) })	{ return setUniform(value->getName(), (*a)); }
+		case uni_sampler::ID: if (auto a { detail::as_sampler(value) }) { return setUniform(value->getName(), (*a)); }
 		}
 		return false;
 	}

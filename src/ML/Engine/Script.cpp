@@ -49,8 +49,8 @@ namespace ml
 		{
 			switch (ML_FS.getFileType(m_path).hash())
 			{
-			case Hash{}("py"): m_lang = Language::Python; break;
-			case Hash{}("lua"): m_lang = Language::Lua; break;
+			case Hash("py"): m_lang = Language::Python; break;
+			case Hash("lua"): m_lang = Language::Lua; break;
 			default: m_lang = Language::Unknown; break;
 			}
 			return true;

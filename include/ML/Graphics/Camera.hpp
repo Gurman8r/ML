@@ -99,11 +99,11 @@ namespace ml
 		{
 			switch (util::to_lower(value).hash())
 			{
-			case Hash{}("solidcolor"): return Camera::SolidColor;
-			case Hash{}("depthonly"): return Camera::DepthOnly;
-			case Hash{}("dontclear"): return Camera::DontClear;
-			default: return (Camera::ClearFlags)0;
+			case Hash("solidcolor"): return Camera::SolidColor;
+			case Hash("depthonly"): return Camera::DepthOnly;
+			case Hash("dontclear"): return Camera::DontClear;
 			}
+			return (Camera::ClearFlags)0;
 		}
 	};
 
@@ -111,14 +111,14 @@ namespace ml
 
 	template <> struct input<Camera::Projection> final
 	{
-		inline Camera::Projection operator()(const String & value) const
+		inline auto operator()(const String & value) const
 		{
 			switch (util::to_lower(value).hash())
 			{
-			case Hash{}("orthographic"): return Camera::Orthographic;
-			case Hash{}("perspective"): return Camera::Perspective;
-			default: return (Camera::Projection)0;
+			case Hash("orthographic"): return Camera::Orthographic;
+			case Hash("perspective"): return Camera::Perspective;
 			}
+			return (Camera::Projection)0;
 		}
 	};
 

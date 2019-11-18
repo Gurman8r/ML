@@ -14,38 +14,38 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API FrameBuffer final : public Trackable, public Handle<uint32_t>
+	struct ML_GRAPHICS_API FrameBufferObject final : public Trackable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		FrameBuffer();
-		FrameBuffer(const FrameBuffer & copy);
-		~FrameBuffer();
+		FrameBufferObject();
+		FrameBufferObject(const FrameBufferObject & copy);
+		~FrameBufferObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		FrameBuffer & clean();
+		FrameBufferObject & clean();
 
-		FrameBuffer & create();
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		const FrameBuffer & bind() const;
-
-		const FrameBuffer & unbind() const;
+		FrameBufferObject & create();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const FrameBuffer & setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const;
+		const FrameBufferObject & bind() const;
 
-		const FrameBuffer & setTexture(uint32_t attachment, const Texture & value) const;
+		const FrameBufferObject & unbind() const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		const FrameBufferObject & setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const;
+
+		const FrameBufferObject & setTexture(uint32_t attachment, const Texture & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using FBO = typename FrameBuffer;
+	using FBO = typename FrameBufferObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

@@ -57,9 +57,9 @@ namespace ml
 		{
 			switch (util::to_lower(str).hash())
 			{
-			case Hash{}("realtime"): return Light::Realtime;
-			default: return (Light::Mode)0;
+			case Hash("realtime"): return Light::Realtime;
 			}
+			return (Light::Mode)0;
 		}
 	};
 

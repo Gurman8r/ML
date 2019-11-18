@@ -27,13 +27,13 @@ namespace ml
 
 	void Debug::exit(int32_t exitCode)
 	{
-		std::exit(exitCode);
+		return std::exit(exitCode);
 	}
 
 	int32_t Debug::clear()
 	{
 #if (ML_DEBUG)
-#	if defined(ML_SYSTEM_WINDOWS)
+#	ifdef ML_SYSTEM_WINDOWS
 		return std::system("cls");
 #	else
 		return std::system("clear");
@@ -46,7 +46,7 @@ namespace ml
 	int32_t Debug::pause(int32_t exitCode)
 	{
 #if (ML_DEBUG)
-#	if defined(ML_SYSTEM_WINDOWS)
+#	ifdef ML_SYSTEM_WINDOWS
 		std::system("pause");
 #	else
 		std::cin.get();
@@ -79,7 +79,7 @@ namespace ml
 
 	voidptr_t Debug::execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags)
 	{
-#if defined(ML_SYSTEM_WINDOWS)
+#ifdef ML_SYSTEM_WINDOWS
 		return ShellExecuteA(
 			GetDesktopWindow(), cmd.c_str(), file.c_str(), args.c_str(), path.c_str(), flags
 		);

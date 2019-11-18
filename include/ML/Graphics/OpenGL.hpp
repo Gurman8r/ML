@@ -48,14 +48,14 @@ namespace ml
 		static auto getString(uint32_t name, uint32_t index) -> C_String;
 		static bool	getBool(uint32_t name);
 		static auto	getDouble(uint32_t name) -> float64_t;
-		static auto	getFloat(uint32_t name)	-> float_t;
+		static auto	getFloat(uint32_t name)	-> float32_t;
 		static auto	getInt(uint32_t name) -> int32_t;
 		static auto	getIntv(uint32_t name, int32_t * params) -> int32_t *;
 
 		// Functions
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void	activeTexture(uint32_t value);
-		static void	alphaFunc(uint32_t func, float_t value);
+		static void	alphaFunc(uint32_t func, float32_t value);
 		static void	blendFunc(uint32_t sFactor, uint32_t dFactor);
 		static void	blendEquation(uint32_t equation);
 		static void	cullFace(uint32_t value);
@@ -69,7 +69,7 @@ namespace ml
 		// Drawing
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void clear(uint32_t mask);
-		static void clearColor(float_t r, float_t g, float_t b, float_t a);
+		static void clearColor(float32_t r, float32_t g, float32_t b, float32_t a);
 		static void drawElements(uint32_t mode, int32_t count, uint32_t type, voidptr_t indices);
 		static void drawArrays(uint32_t mode, int32_t first, int32_t count);
 		static void flush();
@@ -161,21 +161,21 @@ namespace ml
 		static auto	compileShader(uint32_t & obj, uint32_t type, int32_t count, const C_String * source, C_String & log) -> int32_t;
 		static auto	linkProgram(uint32_t obj) -> int32_t;
 
-		static void	uniform1f(int32_t location, float_t value);
 		static void	uniform1i(int32_t location, int32_t value);
-		static void	uniform2f(int32_t location, float_t x, float_t y);
-		static void	uniform3f(int32_t location, float_t x, float_t y, float_t z);
-		static void	uniform4f(int32_t location, float_t x, float_t y, float_t z, float_t w);
 		static void	uniform2i(int32_t location, int32_t x, int32_t y);
 		static void	uniform3i(int32_t location, int32_t x, int32_t y, int32_t z);
 		static void	uniform4i(int32_t location, int32_t x, int32_t y, int32_t z, int32_t w);
-		static void	uniform1fv(int32_t location, uint32_t count, const_ptr_t<float_t> value);
-		static void	uniform2fv(int32_t location, uint32_t count, const_ptr_t<float_t> value);
-		static void	uniform3fv(int32_t location, uint32_t count, const_ptr_t<float_t> value);
-		static void	uniform4fv(int32_t location, uint32_t count, const_ptr_t<float_t> value);
-		static void	uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value);
-		static void	uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value);
-		static void	uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value);
+		static void	uniform1f(int32_t location, float32_t value);
+		static void	uniform2f(int32_t location, float32_t x, float32_t y);
+		static void	uniform3f(int32_t location, float32_t x, float32_t y, float32_t z);
+		static void	uniform4f(int32_t location, float32_t x, float32_t y, float32_t z, float32_t w);
+		static void	uniform1fv(int32_t location, uint32_t count, const_ptr_t<float32_t> value);
+		static void	uniform2fv(int32_t location, uint32_t count, const_ptr_t<float32_t> value);
+		static void	uniform3fv(int32_t location, uint32_t count, const_ptr_t<float32_t> value);
+		static void	uniform4fv(int32_t location, uint32_t count, const_ptr_t<float32_t> value);
+		static void	uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float32_t> value);
+		static void	uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float32_t> value);
+		static void	uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float32_t> value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

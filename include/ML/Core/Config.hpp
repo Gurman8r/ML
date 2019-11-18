@@ -222,7 +222,9 @@
 //	Preprocessor
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define _ML ::ml::
+#define _ML					::ml::
+#define _ML_BEGIN			namespace ml {
+#define _ML_END				}
 
 #define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
 #define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
@@ -240,7 +242,7 @@
 #define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
 #define ML_USING_Ts			ML_USING_VA(class ... Ts)
 
-#define ML_TRUE_EXPR(expr)		(([&](){ expr; return true; })())
+#define ML_TRUE_EXPR(expr)	(([&](){ expr; return true; })())
 #define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
 
 
@@ -255,10 +257,10 @@
 #	define ML_CONFIGURATION	"Release"
 #endif
 
-# ifndef ML_STATIC
-#	if defined(ML_CC_MSC)
-#		define ML_API_EXPORT __declspec(dllexport)
-#		define ML_API_IMPORT __declspec(dllimport)
+#ifdef ML_SYSTEM_WINDOWS
+#	define ML_API_EXPORT __declspec(dllexport)
+#	define ML_API_IMPORT __declspec(dllimport)
+#	ifdef ML_CC_MSC
 #		pragma warning(disable: 4031)	// second formal parameter list longer than the first list
 #		pragma warning(disable: 4067)	// unexpected tokens following preprocessor directive - expected a newline
 #		pragma warning(disable: 4251)	// type1 needs to have dll-interface to be used by type2
@@ -272,10 +274,10 @@
 #		pragma warning(disable: 26451)	// arithmetic overflow
 #		pragma warning(disable: 26495)	// value may be uninitialized
 #		pragma warning(disable: 26812)	// unscoped enum
-#	elif defined(ML_CC_GCC) && (ML_CC_GCC >= 4)
-#		define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
-#		define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
 #	endif
+#elif defined(ML_CC_GCC) && (ML_CC_GCC >= 4)
+#	define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
+#	define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
 #else
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT

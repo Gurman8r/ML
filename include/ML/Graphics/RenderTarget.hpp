@@ -2,11 +2,11 @@
 #define _ML_RENDER_TARGET_HPP_
 
 #include <ML/Graphics/Drawable.hpp>
-#include <ML/Graphics/VertexArray.hpp>
-#include <ML/Graphics/VertexBuffer.hpp>
-#include <ML/Graphics/IndexBuffer.hpp>
-#include <ML/Graphics/FrameBuffer.hpp>
-#include <ML/Graphics/RenderBuffer.hpp>
+#include <ML/Graphics/VertexArrayObject.hpp>
+#include <ML/Graphics/VertexBufferObject.hpp>
+#include <ML/Graphics/IndexBufferObject.hpp>
+#include <ML/Graphics/FrameBufferObject.hpp>
+#include <ML/Graphics/RenderBufferObject.hpp>
 
 namespace ml
 {

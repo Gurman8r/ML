@@ -43,7 +43,7 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (ev->getPress(KeyCode::M, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+			if (ev.getPress(KeyCode::M, { { 0, 1, 1, 0 } })) { toggleOpen(); }
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;

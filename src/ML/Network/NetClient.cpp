@@ -24,12 +24,14 @@ namespace ml
 	{
 		switch (*value)
 		{
-		case ClientRecievePacketEvent::ID:
-			if (auto ev = value.as<ClientRecievePacketEvent>())
-			{
-				Debug::logInfo("CLIENT -> {0}", ev->data);
-			}
-			break;
+		case ClientRecievePacketEvent::ID: if (auto ev{ value.as<ClientRecievePacketEvent>() })
+		{
+			/* * * * * * * * * * * * * * * * * * * * */
+
+			Debug::logInfo("CLIENT -> {0}", ev.data);
+
+			/* * * * * * * * * * * * * * * * * * * * */
+		} break;
 		}
 	}
 

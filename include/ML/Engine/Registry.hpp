@@ -32,11 +32,6 @@ namespace ml
 	protected: static bool s_registered;
 	};
 
-	template <hash_t H> struct TestReg
-	{
-
-	};
-
 	/* * * * * * * * * * * * * * * * * * * * */
 
 	template <> struct ML_ENGINE_API Registry<> final : public Singleton<Registry<>>

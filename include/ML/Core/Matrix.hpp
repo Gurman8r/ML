@@ -99,10 +99,10 @@ namespace ml
 			{
 				const size_t x { i % temp.width() };
 				const size_t y { i / temp.width() };
-				using UU = cast<U>;
 				temp[i] = ((y < Rows && x < Cols)
 					? static_cast<U>((*this)[y * Cols + x]) 
-					: (U)0);
+					: static_cast<U>(0)
+				);
 			}
 			return temp;
 		}

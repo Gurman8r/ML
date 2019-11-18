@@ -77,7 +77,7 @@ namespace ml
 		{
 			m_prev = m_next = Clock::now();
 			m_elapsed = 0.0;
-			return pause(false);
+			return this->pause(false);
 		}
 
 		inline Timer & stop()

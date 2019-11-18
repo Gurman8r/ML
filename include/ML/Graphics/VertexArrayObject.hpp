@@ -10,25 +10,25 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API VertexArray final : public Trackable, public Handle<uint32_t>
+	struct ML_GRAPHICS_API VertexArrayObject final : public Trackable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		VertexArray();
-		VertexArray(const VertexArray & copy);
-		~VertexArray();
+		VertexArrayObject();
+		VertexArrayObject(const VertexArrayObject & copy);
+		~VertexArrayObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		VertexArray & clean();
+		VertexArrayObject & clean();
 
-		VertexArray & create(GL::Mode mode);
+		VertexArrayObject & create(GL::Mode mode);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VertexArray & bind() const;
+		const VertexArrayObject & bind() const;
 
-		const VertexArray & unbind() const;
+		const VertexArrayObject & unbind() const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -44,7 +44,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using VAO = typename VertexArray;
+	using VAO = typename VertexArrayObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

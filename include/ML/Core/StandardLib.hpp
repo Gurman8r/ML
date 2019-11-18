@@ -59,12 +59,9 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define ML_ARGC		__argc
-#define ML_ARGV		__argv
-#define ML_WARGV	__wargv
-
-#define ML_DESERIALIZE	::std::istream & operator >>
-#define ML_SERIALIZE	::std::ostream & operator <<
+#define ML_ARGC			__argc
+#define ML_ARGV			__argv
+#define ML_WARGV		__wargv
 
 # ifdef ML_CC_MSC
 #	define popen		_popen
@@ -72,6 +69,9 @@
 #	define strdup		_strdup
 #	define snprintf		_snprintf
 #endif
+
+#define ML_DESERIALIZE	::std::istream & operator >>
+#define ML_SERIALIZE	::std::ostream & operator <<
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

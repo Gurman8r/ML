@@ -57,7 +57,7 @@ namespace ml
 		constexpr auto empty()		const -> bool				{ return (m_size == 0); }
 		constexpr auto end()		const -> const_iterator		{ return m_data + m_size; }
 		constexpr auto front()		const -> const_reference	{ return (*cbegin()); }
-		constexpr auto hash()		const -> hash_t				{ return Hash{}(m_data, m_size); }
+		constexpr auto hash()		const -> hash_t				{ return Hash(m_data, m_size); }
 		constexpr auto size()		const -> size_t				{ return m_size; }
 		inline	  auto str()		const -> std::string		{ return { m_data, m_size }; }
 

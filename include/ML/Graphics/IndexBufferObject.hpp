@@ -11,33 +11,31 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	struct ML_GRAPHICS_API IndexBuffer final
-		: public Trackable
-		, public Handle<uint32_t>
+	struct ML_GRAPHICS_API IndexBufferObject final : public Trackable, public Handle<uint32_t>
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		IndexBuffer();
-		IndexBuffer(const IndexBuffer & copy);
-		~IndexBuffer();
+		IndexBufferObject();
+		IndexBufferObject(const IndexBufferObject & copy);
+		~IndexBufferObject();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		IndexBuffer & clean();
+		IndexBufferObject & clean();
 
-		IndexBuffer & create(GL::Usage usage, GL::Type type);
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		const IndexBuffer & bind() const;
-
-		const IndexBuffer & unbind() const;
+		IndexBufferObject & create(GL::Usage usage, GL::Type type);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const IndexBuffer & bufferData(const_ptr_t<uint32_t> data, uint32_t count) const;
+		const IndexBufferObject & bind() const;
 
-		const IndexBuffer & bufferData(const List<uint32_t> & data) const;
+		const IndexBufferObject & unbind() const;
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		const IndexBufferObject & bufferData(const_ptr_t<uint32_t> data, uint32_t count) const;
+
+		const IndexBufferObject & bufferData(const List<uint32_t> & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -59,7 +57,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using IBO = typename IndexBuffer;
+	using IBO = typename IndexBufferObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

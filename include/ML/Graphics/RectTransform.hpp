@@ -23,10 +23,10 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		RectTransform & setOrigin	(const vec2 &	value);
-		RectTransform & setPosition	(const vec2 &	value);
-		RectTransform & setRotation	(const float_t	value);
-		RectTransform & setScale	(const vec2 &	value);
+		RectTransform & setOrigin(const vec2 & value);
+		RectTransform & setPosition(const vec2 & value);
+		RectTransform & setRotation(float_t value);
+		RectTransform & setScale(const vec2 & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

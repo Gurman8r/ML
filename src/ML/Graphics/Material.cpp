@@ -52,14 +52,14 @@ namespace ml
 		// Load uniforms from file
 		if (std::ifstream file { filename })
 		{
-			auto pop_front = [](List<String> & toks)
+			auto pop_front = ([](List<String> & toks)
 			{
 				// Erase begin and return front
-				if (toks.empty()) return String();
-				String temp = toks.front();
+				if (toks.empty()) return String{};
+				const String temp{ toks.front() };
 				toks.erase(toks.begin());
 				return temp;
-			};
+			});
 
 			String line;
 			while (std::getline(file, line))
@@ -71,7 +71,7 @@ namespace ml
 
 				// Parse tokens from line
 				/* * * * * * * * * * * * * * * * * * * * */
-				List<String> tokens = ([](String line)
+				List<String> tokens{ ([](String line)
 				{
 					List<String> toks;
 					if (!line) return toks;
@@ -87,7 +87,7 @@ namespace ml
 					}
 					if (line) toks.push_back(line);
 					return toks;
-				})(line);
+				})(line) };
 
 				// Parse uniform from tokens
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -95,22 +95,22 @@ namespace ml
 				{
 					// Uniform Type
 					/* * * * * * * * * * * * * * * * * * * * */
-					const int32_t u_type = ([](C_String type)
+					const int32_t u_type{ ([](C_String type)
 					{
 						if (!type) return -1;
 						for (size_t i = 0; i < ML_ARRAYSIZE(Uniform::Type_names); i++)
 							if (std::strcmp(type, Uniform::Type_names[i]) == 0)
 								return (int32_t)i;
 						return -1;
-					})(pop_front(tokens).c_str());
+					})(pop_front(tokens).c_str()) };
 
 					// Uniform Name
 					/* * * * * * * * * * * * * * * * * * * * */
-					const String u_name = pop_front(tokens);
+					const String u_name{ pop_front(tokens) };
 
 					// Uniform Data
 					/* * * * * * * * * * * * * * * * * * * * */
-					SStream u_data = ([](List<String> & toks)
+					SStream u_data{ ([](List<String> & toks)
 					{
 						SStream out;
 						if ((toks.size() > 2 && toks.front() == "{" && toks.back() == "}"))
@@ -124,37 +124,38 @@ namespace ml
 							}
 						}
 						return out;
-					})(tokens);
+					})(tokens) };
 
 					// Generate Uniform
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (ptr_t<Uniform> u = ([](int32_t type, const String & name, SStream & ss, const auto * t)
+					if (ptr_t<Uniform> u{ ([](int32_t type, const String & name, SStream & ss, auto t)
 					{
 						ptr_t<Uniform> u{ nullptr };
 						if ((type == -1) || name.empty() || ss.str().empty()) { return u; }
 						switch (type)
 						{
-						case uni_bool::ID	: return u = new uni_bool(name, input<bool>()(ss));
-						case uni_int::ID	: return u = new uni_int(name, input<int32_t>()(ss));
-						case uni_float::ID	: return u = new uni_float(name, input<float_t>()(ss));
-						case uni_vec2::ID	: return u = new uni_vec2(name, input<vec2>()(ss));
-						case uni_vec3::ID	: return u = new uni_vec3(name, input<vec3>()(ss));
-						case uni_vec4::ID	: return u = new uni_vec4(name, input<vec4>()(ss));
-						case uni_color::ID	: return u = new uni_color(name, input<vec4>()(ss));
-						case uni_mat2::ID	: return u = new uni_mat2(name, input<mat2>()(ss));
-						case uni_mat3::ID	: return u = new uni_mat3(name, input<mat3>()(ss));
-						case uni_mat4::ID	: return u = new uni_mat4(name, input<mat4>()(ss));
+						case uni_bool::ID	: return u = new uni_bool{ name, input<bool>()(ss) };
+						case uni_int::ID	: return u = new uni_int{ name, input<int32_t>()(ss) };
+						case uni_float::ID	: return u = new uni_float{ name, input<float_t>()(ss) };
+						case uni_vec2::ID	: return u = new uni_vec2{ name, input<vec2>()(ss) };
+						case uni_vec3::ID	: return u = new uni_vec3{ name, input<vec3>()(ss) };
+						case uni_vec4::ID	: return u = new uni_vec4{ name, input<vec4>()(ss) };
+						case uni_color::ID	: return u = new uni_color{ name, input<vec4>()(ss) };
+						case uni_mat2::ID	: return u = new uni_mat2{ name, input<mat2>()(ss) };
+						case uni_mat3::ID	: return u = new uni_mat3{ name, input<mat3>()(ss) };
+						case uni_mat4::ID	: return u = new uni_mat4{ name, input<mat4>()(ss) };
 						case uni_sampler::ID:
 							if (t)
 							{
-								auto it{ t->find(String(ss.str()).trim()) };
-								return (it != t->end())
-									? u = new uni_sampler(name, it->second)
-									: u = new uni_sampler(name, nullptr);
+								auto it{ t->find(String{ ss.str() }.trim()) };
+								return ((it != t->end())
+									? u = new uni_sampler{ name, it->second }
+									: u = new uni_sampler{ name, nullptr }
+								);
 							}
 						}
 						return (u = nullptr);
-					})(u_type, u_name, u_data, textures))
+					})(u_type, u_name, u_data, textures)})
 					{
 						this->insert(u);
 					}

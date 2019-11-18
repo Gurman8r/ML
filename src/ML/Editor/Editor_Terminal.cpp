@@ -77,7 +77,7 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+			if (Editor_Dockspace & d{ ev.dockspace }; d.isOpen())
 			{
 				d.dockWindow(getTitle(), d.getNode(d.LeftDn));
 			}
@@ -88,7 +88,7 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (ev->getPress(KeyCode::T, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+			if (ev.getPress(KeyCode::T, { { 0, 1, 1, 0 } })) { toggleOpen(); }
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;

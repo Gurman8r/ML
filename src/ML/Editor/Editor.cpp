@@ -135,60 +135,57 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			mainMenuBar().addMenu("File", [&]()
-			{
-				ImGui::PushID(ML_ADDRESSOF(this));
-				if (ImGui::BeginMenu("New"))
+			mainMenuBar()
+				.addMenu("File", [&]()
 				{
-					voidptr_t temp{ nullptr };
-					if ((PropertyDrawer<Entity>()("Entity##File##Create", (ptr_t<Entity> &)temp)) ||
-						(PropertyDrawer<Font>()("Font##File##Create", (ptr_t<Font> &)temp)) ||
-						(PropertyDrawer<Image>()("Image##File##Create", (ptr_t<Image> &)temp)) ||
-						(PropertyDrawer<Material>()("Material##File##Create", (ptr_t<Material> &)temp)) ||
-						(PropertyDrawer<Model>()("Model##File##Create", (ptr_t<Model> &)temp)) ||
-						(PropertyDrawer<Shader>()("Shader##File##Create", (ptr_t<Shader> &)temp)) ||
-						(PropertyDrawer<Script>()("Script##File##Create", (ptr_t<Script> &)temp)) ||
-						(PropertyDrawer<Texture>()("Texture##File##Create", (ptr_t<Texture> &)temp))
-					) ImGui::CloseCurrentPopup();
-					ImGui::EndMenu();
-				}
-				ImGui::Separator();
-				if (ImGui::MenuItem("Quit", "Alt+F4"))
+					ImGui::PushID(ML_ADDRESSOF(this));
+					if (ImGui::BeginMenu("New"))
+					{
+						voidptr_t temp{ nullptr };
+						if ((PropertyDrawer<Entity>()("Entity##File##Create", (ptr_t<Entity> &)temp)) ||
+							(PropertyDrawer<Font>()("Font##File##Create", (ptr_t<Font> &)temp)) ||
+							(PropertyDrawer<Image>()("Image##File##Create", (ptr_t<Image> &)temp)) ||
+							(PropertyDrawer<Material>()("Material##File##Create", (ptr_t<Material> &)temp)) ||
+							(PropertyDrawer<Model>()("Model##File##Create", (ptr_t<Model> &)temp)) ||
+							(PropertyDrawer<Shader>()("Shader##File##Create", (ptr_t<Shader> &)temp)) ||
+							(PropertyDrawer<Script>()("Script##File##Create", (ptr_t<Script> &)temp)) ||
+							(PropertyDrawer<Texture>()("Texture##File##Create", (ptr_t<Texture> &)temp))
+						) ImGui::CloseCurrentPopup();
+						ImGui::EndMenu();
+					}
+					ImGui::Separator();
+					if (ImGui::MenuItem("Quit", "Alt+F4"))
+					{
+						ML_EventSystem.fireEvent<WindowKillEvent>();
+					}
+					ImGui::PopID();
+				})
+				.addMenu("View", nullptr)
+				.addMenu("Options", [&]()
 				{
-					ML_EventSystem.fireEvent<WindowKillEvent>();
-				}
-				ImGui::PopID();
-			});
-
-			mainMenuBar().addMenu("View", nullptr);
-
-			mainMenuBar().addMenu("Options", [&]()
-			{
-				ImGui::PushID(ML_ADDRESSOF(this));
-				if (ImGui::BeginMenu("Style Editor"))
+					ImGui::PushID(ML_ADDRESSOF(this));
+					if (ImGui::BeginMenu("Style Editor"))
+					{
+						ImGui::ShowStyleEditor();
+						ImGui::EndMenu();
+					}
+					bool fullScreen{ ML_Engine.window().isFullscreen() };
+					if (ImGui::MenuItem("Fullscreen", "F11", &fullScreen))
+					{
+						ML_Engine.window().setFullscreen(fullScreen);
+					}
+					ImGui::PopID();
+				})
+				.addMenu("Plugins", nullptr)
+				.addMenu("Help", [&]()
 				{
-					ImGui::ShowStyleEditor();
-					ImGui::EndMenu();
-				}
-				bool fullScreen{ ML_Engine.window().isFullscreen() };
-				if (ImGui::MenuItem("Fullscreen", "F11", &fullScreen))
-				{
-					ML_Engine.window().setFullscreen(fullScreen);
-				}
-				ImGui::PopID();
-			});
-
-			mainMenuBar().addMenu("Plugins", nullptr);
-
-			mainMenuBar().addMenu("Help", [&]()
-			{
-				ImGui::PushID(ML_ADDRESSOF(this));
-				if (ImGui::MenuItem("Repository", "http://")) { Debug::execute("open", ML_PROJECT_URL); }
-				if (ImGui::MenuItem("Downloads", "http://")) { Debug::execute("open", "https://bit.ly/ml_noobs"); }
-				ImGui::Separator();
-				ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
-				ImGui::PopID();
-			});
+					ImGui::PushID(ML_ADDRESSOF(this));
+					if (ImGui::MenuItem("Repository", "http://")) { Debug::execute("open", ML_PROJECT_URL); }
+					if (ImGui::MenuItem("Downloads", "http://")) { Debug::execute("open", "https://bit.ly/ml_noobs"); }
+					ImGui::Separator();
+					ImGui::MenuItem("ImGui Demo", "", &m_show_imgui_demo);
+					ImGui::PopID();
+				});
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
@@ -207,10 +204,9 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			ImGui::PushID(ML_ADDRESSOF(this));
-			if (m_show_imgui_demo) 
-			{ 
-				ImGui::ShowDemoWindow(&m_show_imgui_demo);
-			}
+			
+			if (m_show_imgui_demo) { ImGui::ShowDemoWindow(&m_show_imgui_demo); }
+
 			ImGui::PopID();
 
 			/* * * * * * * * * * * * * * * * * * * * */

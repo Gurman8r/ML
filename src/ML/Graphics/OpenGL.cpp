@@ -175,9 +175,9 @@ namespace ml
 		return temp;
 	}
 
-	auto OpenGL::getFloat(uint32_t name) -> float_t
+	auto OpenGL::getFloat(uint32_t name) -> float32_t
 	{
-		float_t temp{ 0 };
+		float32_t temp{ 0 };
 		glCheck(glGetFloatv(name, &temp));
 		return temp;
 	}
@@ -204,7 +204,7 @@ namespace ml
 		glCheck(glActiveTexture(value));
 	}
 
-	void OpenGL::alphaFunc(uint32_t func, float_t value)
+	void OpenGL::alphaFunc(uint32_t func, float32_t value)
 	{
 		glCheck(glAlphaFunc(func, value));
 	}
@@ -263,7 +263,7 @@ namespace ml
 		glCheck(glClear(mask));
 	}
 
-	void OpenGL::clearColor(float_t r, float_t g, float_t b, float_t a)
+	void OpenGL::clearColor(float32_t r, float32_t g, float32_t b, float32_t a)
 	{
 		glCheck(glClearColor(r, g, b, a));
 	}
@@ -796,29 +796,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	void OpenGL::uniform1f(int32_t location, float_t value)
-	{
-		glCheck(glUniform1fARB(location, value));
-	}
-
 	void OpenGL::uniform1i(int32_t location, int32_t value)
 	{
 		glCheck(glUniform1iARB(location, value));
-	}
-
-	void OpenGL::uniform2f(int32_t location, float_t x, float_t y)
-	{
-		glCheck(glUniform2fARB(location, x, y));
-	}
-
-	void OpenGL::uniform3f(int32_t location, float_t x, float_t y, float_t z)
-	{
-		glCheck(glUniform3fARB(location, x, y, z));
-	}
-
-	void OpenGL::uniform4f(int32_t location, float_t x, float_t y, float_t z, float_t w)
-	{
-		glCheck(glUniform4fARB(location, x, y, z, w));
 	}
 
 	void OpenGL::uniform2i(int32_t location, int32_t x, int32_t y)
@@ -836,37 +816,57 @@ namespace ml
 		glCheck(glUniform4iARB(location, x, y, z, w));
 	}
 
-	void OpenGL::uniform1fv(int32_t location, uint32_t count, const_ptr_t<float_t> value)
+	void OpenGL::uniform1f(int32_t location, float32_t value)
+	{
+		glCheck(glUniform1fARB(location, value));
+	}
+
+	void OpenGL::uniform2f(int32_t location, float32_t x, float32_t y)
+	{
+		glCheck(glUniform2fARB(location, x, y));
+	}
+
+	void OpenGL::uniform3f(int32_t location, float32_t x, float32_t y, float32_t z)
+	{
+		glCheck(glUniform3fARB(location, x, y, z));
+	}
+
+	void OpenGL::uniform4f(int32_t location, float32_t x, float32_t y, float32_t z, float32_t w)
+	{
+		glCheck(glUniform4fARB(location, x, y, z, w));
+	}
+
+	void OpenGL::uniform1fv(int32_t location, uint32_t count, const_ptr_t<float32_t> value)
 	{
 		glCheck(glUniform1fvARB(location, count, value));
 	}
 
-	void OpenGL::uniform2fv(int32_t location, uint32_t count, const_ptr_t<float_t> value)
+	void OpenGL::uniform2fv(int32_t location, uint32_t count, const_ptr_t<float32_t> value)
 	{
 		glCheck(glUniform2fvARB(location, count, value));
 	}
 
-	void OpenGL::uniform3fv(int32_t location, uint32_t count, const_ptr_t<float_t> value)
+	void OpenGL::uniform3fv(int32_t location, uint32_t count, const_ptr_t<float32_t> value)
 	{
 		glCheck(glUniform3fvARB(location, count, value));
 	}
 
-	void OpenGL::uniform4fv(int32_t location, uint32_t count, const_ptr_t<float_t> value)
+	void OpenGL::uniform4fv(int32_t location, uint32_t count, const_ptr_t<float32_t> value)
 	{
 		glCheck(glUniform4fvARB(location, count, value));
 	}
 
-	void OpenGL::uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value)
+	void OpenGL::uniformMatrix2fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float32_t> value)
 	{
 		glCheck(glUniformMatrix2fvARB(location, count, transpose, value));
 	}
 
-	void OpenGL::uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value)
+	void OpenGL::uniformMatrix3fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float32_t> value)
 	{
 		glCheck(glUniformMatrix3fvARB(location, count, transpose, value));
 	}
 
-	void OpenGL::uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float_t> value)
+	void OpenGL::uniformMatrix4fv(int32_t location, uint32_t count, bool transpose, const_ptr_t<float32_t> value)
 	{
 		glCheck(glUniformMatrix4fvARB(location, count, transpose, value));
 	}

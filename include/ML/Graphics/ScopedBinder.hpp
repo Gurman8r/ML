@@ -10,6 +10,8 @@ namespace ml
 
 	template <class ... T> struct ScopedBinder;
 
+	/* * * * * * * * * * * * * * * * * * * * */
+
 	template <> struct ScopedBinder<> final { ScopedBinder() = delete; };
 
 	/* * * * * * * * * * * * * * * * * * * * */

@@ -52,18 +52,19 @@ namespace ml
 			case OpenGLErrorEvent::ID: if (auto ev = value.as<OpenGLErrorEvent>())
 			{
 				// Error location
-				String filename { ev->file };
+				String filename { ev.file };
 				filename = filename.substr(filename.find_last_of("\\/") + 1);
 
 				// Decode the error
-				std::cout<< FG::Red		<< "An OpenGL call failed in \'" << ev->file << "\' (" << ev->line << ")"
+				std::cout
+					<< FG::Red		<< "An OpenGL call failed in \'" << ev.file << "\' (" << ev.line << ")"
 					<< FG::Yellow	<< "\nCode: "
-					<< FG::White	<< "\n\t" << ev->code
+					<< FG::White	<< "\n\t" << ev.code
 					<< FG::Yellow	<< "\nExpression: "
-					<< FG::White	<< "\n\t" << ev->expr
+					<< FG::White	<< "\n\t" << ev.expr
 					<< FG::Yellow	<< "\nDescription:"
-					<< FG::White	<< "\n\t" << GL::name_of((GL::Err)ev->code)
-					<< FG::White	<< "\n\t" << GL::desc_of((GL::Err)ev->code)
+					<< FG::White	<< "\n\t" << GL::name_of((GL::Err)ev.code)
+					<< FG::White	<< "\n\t" << GL::desc_of((GL::Err)ev.code)
 					<< FMT()		<< std::endl;
 			} break;
 		}

@@ -81,12 +81,10 @@ namespace ml
 
 	PYBIND11_EMBEDDED_MODULE(MEMELIB, m)
 	{
-		namespace py = pybind11;
-
 		// Config
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_config {};
-		py::class_<ml_py_config>(m, "config")
+		pybind11::class_<ml_py_config>(m, "config")
 			.def_static("architecture", []() { return ML_ARCHITECTURE; })
 			.def_static("compiler_name", []() { return ML_CC_NAME; })
 			.def_static("compiler_version", []() { return ML_CC_VER; })
@@ -106,17 +104,17 @@ namespace ml
 		// Content
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_content { };
-		py::class_<ml_py_content>(m, "content")
-			.def_static("create",	[](str_t t, str_t n) { return (bool)ML_Engine.content().generate(t, n); })
-			.def_static("destroy",	[](str_t t, str_t n) { return ML_Engine.content().destroy(String(t).hash(), n); })
-			.def_static("exists",	[](str_t t, str_t n) { return ML_Engine.content().exists(String(t).hash(), n); })
-			.def_static("load",		[](const dict_t & d) { return ContentImporter<>::loadMetadata(Metadata{ d }); })
+		pybind11::class_<ml_py_content>(m, "content")
+			.def_static("create", [](str_t t, str_t n) { return (bool)ML_Engine.content().generate(t, n); })
+			.def_static("destroy", [](str_t t, str_t n) { return ML_Engine.content().destroy(String(t).hash(), n); })
+			.def_static("exists", [](str_t t, str_t n) { return ML_Engine.content().exists(String(t).hash(), n); })
+			.def_static("load", [](const dict_t & d) { return ContentImporter<>::loadMetadata(Metadata{ d }); })
 			.def_static("load_all", [](const table_t & t) { return ContentImporter<>::loadMetadata(t); })
 			;
 
 		// IO
 		struct ml_py_io {};
-		py::class_<ml_py_io>(m, "io")
+		pybind11::class_<ml_py_io>(m, "io")
 			.def_static("clear", []() { Debug::clear(); })
 			.def_static("command", [](str_t s) { ML_EventSystem.fireEvent<CommandEvent>(s.c_str()); })
 			.def_static("exit", []() { Debug::exit(0); })
@@ -132,15 +130,15 @@ namespace ml
 		// Plugins
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_plugins {};
-		py::class_<ml_py_plugins>(m, "plugins")
-			.def_static("load",		[](str_t s) { return ML_Engine.plugins().loadOneShot(s); })
+		pybind11::class_<ml_py_plugins>(m, "plugins")
+			.def_static("load", [](str_t s) { return ML_Engine.plugins().loadOneShot(s); })
 			.def_static("load_all", [](const list_t & l) { return ML_Engine.plugins().loadList(l); })
 			;
 
 		// Prefs
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_prefs {};
-		py::class_<ml_py_prefs>(m, "prefs")
+		pybind11::class_<ml_py_prefs>(m, "prefs")
 			.def_static("load", [](str_t s) { return ML_Engine.prefs().loadFromFile(s); })
 			//.def_static("save", [](str_t s) { return ML_Engine.prefs().saveToFile(s); })
 			.def_static("get", [](str_t s, str_t n, str_t v) { return (str_t)ML_Engine.prefs().get_string(s, n, v); })
@@ -150,7 +148,7 @@ namespace ml
 		// Window
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		struct ml_py_window {};
-		py::class_<ml_py_window>(m, "window")
+		pybind11::class_<ml_py_window>(m, "window")
 			.def_static("close", []() { ML_Engine.window().close(); })
 			.def_static("iconify", []() { ML_Engine.window().iconify(); })
 			.def_static("maximize", []() { ML_Engine.window().maximize(); })
@@ -175,157 +173,133 @@ namespace ml
 
 		// ECS
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		struct ml_py_ecs {};
-		py::class_<ml_py_ecs>(m, "ecs")
-			.def_static("add_component", [](str_t n, str_t t) { ptr_t<Entity> e { ML_Engine.content().get<Entity>(n) }; return (e && e->addByName(t)); })
-			.def_static("get_component", [](str_t n, str_t t) { ptr_t<Entity> e { ML_Engine.content().get<Entity>(n) }; return (e && e->getByName(t)); })
-			.def_static("camera_attr", [](str_t name, str_t section, str_t key, str_t value)
-			{
-				auto * e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
-				auto * c { e->get<Camera>() }; if (!c) return false;
+		struct ml_py_ecs {}; 
+		pybind11::class_<ml_py_ecs>(m, "ecs")
+			.def_static("add_component", [](str_t n, str_t t) {
+				auto e { ML_Engine.content().get<Entity>(n) }; 
+				return (e && e->addByName(t)); 
+			})
+			.def_static("get_component", [](str_t n, str_t t) { 
+				auto e { ML_Engine.content().get<Entity>(n) }; 
+				return (e && e->getByName(t)); 
+			})
+			.def_static("camera_attr", [](str_t name, str_t section, str_t key, str_t value) {
+				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
+				auto c { e->get<Camera>() }; if (!c) return false;
 				switch (util::to_lower(section).hash())
 				{
-				case Hash{}("self"):
+				case Hash("self"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash{}("enabled"): c->setEnabled(input<bool>()(value)); break;
-					case Hash{}("clearflags"): c->setClearFlags(input<Camera::ClearFlags>()(value)); break;
-					case Hash{}("background"): c->setBackground(input<vec4>()(value)); break;
-					case Hash{}("projection"): c->setProjection(input<Camera::Projection>()(value)); break;
-					case Hash{}("position"):	c->setPosition(input<vec3>()(value)); break;
-					case Hash{}("direction"):	c->setDirection(input<vec3>()(value)); break;
-					case Hash{}("fov"): c->setFieldOfView(input<float_t>()(value)); break;
-					case Hash{}("near"): c->setClipNear(input<float_t>()(value)); break;
-					case Hash{}("far"): c->setClipFar(input<float_t>()(value)); break;
-					case Hash{}("viewport"): c->setViewport(input<IntRect>()(value)); break;
+					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
+					case Hash("clearflags"): c->setClearFlags(input<Camera::ClearFlags>()(value)); break;
+					case Hash("background"): c->setBackground(input<vec4>()(value)); break;
+					case Hash("projection"): c->setProjection(input<Camera::Projection>()(value)); break;
+					case Hash("position"): c->setPosition(input<vec3>()(value)); break;
+					case Hash("direction"): c->setDirection(input<vec3>()(value)); break;
+					case Hash("fov"): c->setFieldOfView(input<float_t>()(value)); break;
+					case Hash("near"): c->setClipNear(input<float_t>()(value)); break;
+					case Hash("far"): c->setClipFar(input<float_t>()(value)); break;
+					case Hash("viewport"): c->setViewport(input<IntRect>()(value)); break;
 					}
 				}
 				break;
 				}
 				return true;
 			})
-			.def_static("light_attr", [](str_t name, str_t section, str_t key, str_t value)
-			{
-				auto * e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
-				auto * c { e->get<Light>() }; if (!c) return false;
+			.def_static("light_attr", [](str_t name, str_t section, str_t key, str_t value) {
+				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
+				auto c { e->get<Light>() }; if (!c) return false;
 				switch (util::to_lower(section).hash())
 				{
-				case Hash{}("self"):
+				case Hash("self"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash{}("enabled"): c->setEnabled(input<bool>()(value)); break;
-					case Hash{}("color"): c->setColor(input<vec4>()(value)); break;
-					case Hash{}("intensity"): c->setIntensity(input<float_t>()(value)); break;
-					case Hash{}("mode"): c->setMode(input<Light::Mode>()(value)); break;
+					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
+					case Hash("color"): c->setColor(input<vec4>()(value)); break;
+					case Hash("intensity"): c->setIntensity(input<float_t>()(value)); break;
+					case Hash("mode"): c->setMode(input<Light::Mode>()(value)); break;
 					}
 				}
 				break;
 				}
 				return true;
 			})
-			.def_static("renderer_attr", [](str_t name, str_t section, str_t key, str_t value)
-			{
-				auto * e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
-				auto * c { e->get<Renderer>() }; if (!c) return false;
+			.def_static("renderer_attr", [](str_t name, str_t section, str_t key, str_t value) {
+				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
+				auto c { e->get<Renderer>() }; if (!c) return false;
 				switch (util::to_lower(section).hash())
 				{
-				case Hash{}("self"):
+				case Hash("self"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash{}("enabled"): c->setEnabled(input<bool>()(value)); break;
-					case Hash{}("material"): c->setMaterial(ML_Engine.content().get<Material>(value)); break;
-					case Hash{}("shader"): c->setShader(ML_Engine.content().get<Shader>(value)); break;
-					case Hash{}("model"): c->setModel(ML_Engine.content().get<Model>(value)); break;
+					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
+					case Hash("material"): c->setMaterial(ML_Engine.content().get<Material>(value)); break;
+					case Hash("shader"): c->setShader(ML_Engine.content().get<Shader>(value)); break;
+					case Hash("model"): c->setModel(ML_Engine.content().get<Model>(value)); break;
 					}
 				}
 				break;
-				case Hash{}("alpha"):
+				case Hash("alpha"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash{}("enabled"): 
-						c->states().alpha().enabled = input<bool>()(value); 
-						break;
-					case Hash{}("func"): 
-						c->states().alpha().func = GL::find_by_raw_name(value.c_str(), GL::Greater);
-						break;
-					case Hash{}("coeff"): 
-						c->states().alpha().coeff = input<float_t>()(value);
-						break;
+					case Hash("enabled"): c->states().alpha().enabled = input<bool>()(value); break;
+					case Hash("func"): c->states().alpha().func = GL::find_by_raw_name(value.c_str(), GL::Greater); break;
+					case Hash("coeff"): c->states().alpha().coeff = input<float_t>()(value); break;
 					}
 				}
 				break;
-				case Hash{}("blend"):
+				case Hash("blend"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash{}("enabled"): 
-						c->states().blend().enabled = input<bool>()(value); 
-						break;
-					case Hash{}("sfactorRGB"):
-						c->states().blend().sfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
-						break;
-					case Hash{}("sfactorAlpha"):
-						c->states().blend().sfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
-						break;
-					case Hash{}("dfactorRGB"):
-						c->states().blend().dfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha);
-						break;
-					case Hash{}("dfactorAlpha"): 
-						c->states().blend().dfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha);
-						break;
+					case Hash("enabled"): c->states().blend().enabled = input<bool>()(value); break;
+					case Hash("sfactorRGB"): c->states().blend().sfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha); break;
+					case Hash("sfactorAlpha"): c->states().blend().sfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha); break;
+					case Hash("dfactorRGB"): c->states().blend().dfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha); break;
+					case Hash("dfactorAlpha"):  c->states().blend().dfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha); break;
 					}
 				}
 				break;
-				case Hash{}("cull"):
+				case Hash("cull"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash{}("enabled"): 
-						c->states().cull().enabled = input<bool>()(value); 
-						break;
-					case Hash{}("mode"):
-						c->states().cull().mode = GL::find_by_raw_name(value.c_str(), GL::Back);
-						break;
+					case Hash("enabled"): c->states().cull().enabled = input<bool>()(value); break;
+					case Hash("mode"): c->states().cull().mode = GL::find_by_raw_name(value.c_str(), GL::Back); break;
 					}
 				}
 				break;
-				case Hash{}("depth"):
+				case Hash("depth"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash{}("enabled"): 
-						c->states().depth().enabled = input<bool>()(value);
-						break;
-					case Hash{}("func"): 
-						c->states().depth().func = GL::find_by_raw_name(value.c_str(), GL::Less);
-						break;
-					case Hash{}("mask"): 
-						c->states().depth().mask = input<bool>()(value); 
-						break;
+					case Hash("enabled"): c->states().depth().enabled = input<bool>()(value); break;
+					case Hash("func"): c->states().depth().func = GL::find_by_raw_name(value.c_str(), GL::Less); break;
+					case Hash("mask"): c->states().depth().mask = input<bool>()(value); break;
 					}
 				}
 				break;
 				}
 				return true;
 			})
-			.def_static("transform_attr", [](str_t name, str_t section, str_t key, str_t value)
-			{
-				auto * e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
-				auto * c { e->get<Transform>() }; if (!c) return false;
+			.def_static("transform_attr", [](str_t name, str_t section, str_t key, str_t value) {
+				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
+				auto c { e->get<Transform>() }; if (!c) return false;
 				switch (util::to_lower(section).hash())
 				{
-				case Hash{}("self"):
+				case Hash("self"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash{}("enabled"):	c->setEnabled(input<bool>()(value)); break;
-					case Hash{}("position"):	c->setPosition(input<vec3>()(value)); break;
-					case Hash{}("scale"):		c->setScale(input<vec3>()(value)); break;
-					case Hash{}("rotation"):	c->setRotation(input<vec4>()(value)); break;
+					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
+					case Hash("position"): c->setPosition(input<vec3>()(value)); break;
+					case Hash("scale"): c->setScale(input<vec3>()(value)); break;
+					case Hash("rotation"): c->setRotation(input<vec4>()(value)); break;
 					}
 				}
 				break;

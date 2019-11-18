@@ -21,11 +21,15 @@ namespace ml
 	struct ML_PLUGIN_API CommandSuite final : public Plugin
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+		
 		CommandSuite() : Plugin {}
 		{
 			ML_EventSystem.addListener<LoadEvent>(this);
 		}
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		List<CommandImpl *> m_cmd;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -42,10 +46,10 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(this));
 					if (ImGui::BeginMenu("Command Suite"))
 					{
-						for (auto & cmd : ML_Engine.commands())
+						for (auto & m_cmd : ML_Engine.commands())
 						{
-							ImGui::MenuItem(cmd->getName().c_str(), "");
-							ImGuiExt::Tooltip(util::to_string(*cmd));
+							ImGui::MenuItem(m_cmd->getName().c_str(), "");
+							ImGuiExt::Tooltip(util::to_string(*m_cmd));
 						}
 						ImGui::EndMenu();
 					}
@@ -54,15 +58,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				List<CommandImpl *> cmd;
-
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"cat",
 					"Display the contents of a file",
 					"cat [FILE]",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						if (args.size() == 2)
 						{
@@ -79,11 +79,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"cd",
 					"Set the current working directory",
 					"cd [DIR]...",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						const String path = ([&]()
 						{
@@ -99,11 +99,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"clear",
 					"Clear the terminal screen",
 					"clear",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						ML_Editor.terminal().clear();
 						return true;
@@ -112,11 +112,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"cwd",
 					"Display the current working directory",
 					"cwd",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						std::cout << ML_FS.getPath() << std::endl;
 						return true;
@@ -125,11 +125,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"exit",
 					"Close the application",
 					"exit",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						ML_EventSystem.fireEvent<WindowKillEvent>();
 						return true;
@@ -138,20 +138,20 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"help",
 					"Display information about commands.",
-					"help [CMD]",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					"help [COMMAND]",
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						switch (args.size())
 						{
-						case 1:	for (const auto & cmd : ML_Engine.commands())
-							std::cout << cmd->getName() << std::endl;
+						case 1:	for (const auto & m_cmd : ML_Engine.commands())
+							std::cout << m_cmd->getName() << std::endl;
 							return true;
 
-						case 2: if (auto cmd = ML_Engine.commands().find_by_name(args[1]))
-							std::cout << (*cmd) << std::endl;
+						case 2: if (auto m_cmd = ML_Engine.commands().find_by_name(args[1]))
+							std::cout << (*m_cmd) << std::endl;
 							return true;
 						}
 						return false;
@@ -160,11 +160,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"history",
 					"Display or manipulate history list",
 					"history",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						for (C_String h : ML_Editor.terminal().history())
 						{
@@ -176,11 +176,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"lua",
 					"Execute lua string",
-					"lua [STR]...",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					"lua [CODE]...",
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						if (const String code = ([&]()
 						{
@@ -199,11 +199,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"ls",
 					"List directory contents",
 					"ls [DIR]...",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						if (const String path = ([&]()
 						{
@@ -231,11 +231,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"os",
 					"Execute operating system commands",
 					"os [CMD] [FILE] [ARGS] [PATH] [FLAGS]",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						switch (args.size())
 						{
@@ -251,11 +251,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"pause",
 					"Pause the console subsystem",
 					"pause",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						Debug::pause(0);
 						return true;
@@ -264,11 +264,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"py",
 					"Execute python code.",
 					"py [CODE]...",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						if (const String code = ([&]()
 						{
@@ -287,11 +287,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"pause",
 					"Pause the console subsystem",
 					"pause",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						Debug::pause(0);
 						return false;
@@ -300,11 +300,11 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				cmd.push_back(new CommandImpl {
+				m_cmd.push_back(new CommandImpl {
 					"execute",
 					"Execute a script",
-					"execute [SCR]...",
-					new FunctionExecutor([](const CommandDescriptor & cmd, const List<String> & args)
+					"execute [NAME]",
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
 					{
 						if (args.size() == 2)
 						{
@@ -321,7 +321,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				// Install All
-				for (auto *& elem : cmd)
+				for (auto *& elem : m_cmd)
 				{
 					if (elem && !elem->install(ML_Engine.commands()))
 					{

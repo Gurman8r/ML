@@ -79,10 +79,7 @@ namespace ml
 			}
 
 			ShaderError(const String & file, int32_t line, const String & code, const String & expr)
-				: file{ file }
-				, line{ line }
-				, code{ code }
-				, desc{ expr }
+				: file{ file }, line{ line }, code{ code }, desc{ expr }
 			{
 			}
 
@@ -112,12 +109,7 @@ namespace ml
 			Errors		errs;
 
 			ShaderFile(FileType type)
-				: type	{ type }
-				, text	{}
-				, name	{ Names[type] }
-				, open	{ false }
-				, dirty { false }
-				, errs	{}
+				: type{ type }, text{}, name{ Names[type] }, open{ false }, dirty{ false }, errs{}
 			{
 # if (!ML_DEBUG)
 				this->text.SetPalette(TextEditor::GetLightPalette());
@@ -128,23 +120,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		enum : size_t { Surf_Main, Surf_Post, MAX_DEMO_SURFACE };
-
-		using DemoPipeline = typename List<ptr_t<Surface>>;
-
-		enum class DisplayMode : int32_t { Automatic, Manual, Fixed };
+		using Pipeline = typename List<ptr_t<Surface>>;
 
 		using FileArray = typename Array<ptr_t<ShaderFile>, ShaderFile::MAX_DEMO_FILE>;
+
+		enum class DisplayMode : int32_t { Automatic, Manual, Fixed };
 
 		bool m_editor_open	{ true };
 		bool m_display_open	{ true };
 		bool m_apply_camera	{ true };
 
-		DemoPipeline	m_pipeline		{};
-		String			m_target_name	{ "" };
-		FileArray		m_files			{ 0 };
-		DisplayMode		m_displayMode	{ 0 };
-		int32_t			m_displayIndex	{ 0 };
+		Pipeline	m_pipeline		{};
+		String		m_target_name	{ "" };
+		FileArray	m_files			{ 0 };
+		DisplayMode	m_displayMode	{ 0 };
+		int32_t		m_displayIndex	{ 0 };
 
 		static constexpr auto display_name { "Display##Noobs##DemoView" };
 		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };
@@ -174,40 +164,40 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				ML_Editor.mainMenuBar().addMenu("View", [&]()
-				{
-					ImGui::PushID(ML_ADDRESSOF(this));
-					ImGui::Separator();
-					ImGui::MenuItem("Editor", "", &m_editor_open);
-					ImGui::MenuItem("Display", "", &m_display_open);
-					ImGui::PopID();
-				});
-
-				ML_Editor.mainMenuBar().addMenu("Plugins", [&]()
-				{
-					ImGui::PushID(ML_ADDRESSOF(this));
-					if (ImGui::BeginMenu("Noobs"))
+				ML_Editor.mainMenuBar()
+					.addMenu("View", [&]()
 					{
-						ImGui::Checkbox("Show Display", &m_display_open);
-						ImGuiExt::Tooltip("Toggle display visibility");
-
-						ImGui::Checkbox("Show Editor", &m_editor_open);
-						ImGuiExt::Tooltip("Toggle editor visibility");
-
-						ImGui::Checkbox("Update Camera", &m_apply_camera);
-						ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
-
-						auto e{ ML_Engine.content().cget<Entity>(m_target_name) };
-						if (PropertyDrawer<Entity>()("Target Entity", e) && e)
+						ImGui::PushID(ML_ADDRESSOF(this));
+						ImGui::Separator();
+						ImGui::MenuItem("Editor", "", &m_editor_open);
+						ImGui::MenuItem("Display", "", &m_display_open);
+						ImGui::PopID();
+					})
+					.addMenu("Plugins", [&]()
+					{
+						ImGui::PushID(ML_ADDRESSOF(this));
+						if (ImGui::BeginMenu("Noobs"))
 						{
-							m_target_name = ML_Engine.content().get_name(e);
-							reset_sources().generate_sources();
+							ImGui::Checkbox("Show Display", &m_display_open);
+							ImGuiExt::Tooltip("Toggle display visibility");
+
+							ImGui::Checkbox("Show Editor", &m_editor_open);
+							ImGuiExt::Tooltip("Toggle editor visibility");
+
+							ImGui::Checkbox("Update Camera", &m_apply_camera);
+							ImGuiExt::Tooltip("If enabled, \'u_camera\' will be automatically updated");
+
+							auto e{ ML_Engine.content().cget<Entity>(m_target_name) };
+							if (PropertyDrawer<Entity>()("Target Entity", e) && e)
+							{
+								m_target_name = ML_Engine.content().get_name(e);
+								reset_sources().generate_sources();
+							}
+							ImGuiExt::Tooltip("Select the target entity");
+							ImGui::EndMenu();
 						}
-						ImGuiExt::Tooltip("Select the target entity");
-						ImGui::EndMenu();
-					}
-					ImGui::PopID();
-				});
+						ImGui::PopID();
+					});
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
@@ -272,7 +262,7 @@ namespace ml
 					}
 
 					// Draw Renderers
-					for (auto & [ name, value ] : ML_Engine.content().data<Entity>())
+					for (auto & [ key, value ] : ML_Engine.content().data<Entity>())
 					{
 						if (auto e{ (ptr_t<Entity>)value })
 						{
@@ -331,12 +321,9 @@ namespace ml
 					{
 						ML_AssetPreview.drawPreview<Surface>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
 						{
-							if (m_displayMode == DisplayMode::Automatic)
+							if (auto c{ Camera::mainCamera() }; c && (m_displayMode == DisplayMode::Automatic))
 							{
-								if (auto c{ Camera::mainCamera() })
-								{
-									c->setViewport((vec2i)ImGuiExt::GetContentRegionAvail());
-								}
+								c->setViewport((vec2i)ImGuiExt::GetContentRegionAvail());
 							}
 						});
 					}
@@ -387,17 +374,17 @@ namespace ml
 				{
 					if (auto r{ e ? e->get<Renderer>() : nullptr })
 					{
-						if (ev->obj && (ev->obj == r->shader()))
+						if (ev.obj && (ev.obj == r->shader()))
 						{
-							std::cout << ev->error;
+							std::cout << ev.error;
 
 							// Decode Errors
-							SStream ss{ String{ ev->error } };
+							SStream ss{ String{ ev.error } };
 							String line;
 							while (std::getline(ss, line, '\n'))
 							{
-								const ShaderError err{ ev->type, line };
-								switch (ev->type)
+								const ShaderError err{ ev.type, line };
+								switch (ev.type)
 								{
 								case GL::VertexShader: m_files[ShaderFile::Vert]->errs.push_back(err); break;
 								case GL::FragmentShader: m_files[ShaderFile::Frag]->errs.push_back(err); break;
@@ -426,19 +413,19 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * */
 
 				// Toggle Fullscreen
-				if (ev->getPress(KeyCode::F11))
+				if (ev.getPress(KeyCode::F11))
 				{
 					ML_EventSystem.fireEvent<WindowFullscreenEvent>(-1);
 				}
 
 				// Refresh Sources
-				if (ev->getPress(KeyCode::F5))
+				if (ev.getPress(KeyCode::F5))
 				{
 					reset_sources().generate_sources();
 				}
 
 				// Compile Sources
-				if (ev->isSave())
+				if (ev.isSave())
 				{
 					compile_sources();
 				}
@@ -449,7 +436,7 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+				if (Editor_Dockspace & d{ ev.dockspace }; d.isOpen())
 				{
 					d.dockWindow(display_name, d.getNode(d.LeftUp));
 
@@ -458,7 +445,7 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
-		}
+			}
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

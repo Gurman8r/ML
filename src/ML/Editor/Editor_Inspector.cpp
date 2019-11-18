@@ -78,7 +78,7 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (Editor_Dockspace & d{ ev->dockspace }; d.isOpen())
+			if (Editor_Dockspace & d{ ev.dockspace }; d.isOpen())
 			{
 				d.dockWindow(getTitle(), d.getNode(d.RightUp));
 			}
@@ -89,7 +89,7 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			if (ev->getPress(KeyCode::I, { { 0, 1, 1, 0 } })) { toggleOpen(); }
+			if (ev.getPress(KeyCode::I, { { 0, 1, 1, 0 } })) { toggleOpen(); }
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
@@ -134,7 +134,7 @@ namespace ml
 				}
 				ImGui::EndMenuBar();
 			}
-			switch (Hash{}(c.type_name().data(), c.type_name().size()))
+			switch (Hash(c.type_name().data(), c.type_name().size()))
 			{
 			case typeof<Entity>::hash:	Layout::draw_item<Entity>(c.selected(), c.item_name()); break;
 			case typeof<Font>::hash:	Layout::draw_item<Font>(c.selected(), c.item_name()); break;

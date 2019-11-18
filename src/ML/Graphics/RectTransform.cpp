@@ -34,9 +34,7 @@ namespace ml
 	{
 	}
 
-	RectTransform::~RectTransform()
-	{
-	}
+	RectTransform::~RectTransform() {}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
@@ -90,7 +88,7 @@ namespace ml
 		return (*this);
 	}
 
-	RectTransform & RectTransform::setRotation(const float_t value)
+	RectTransform & RectTransform::setRotation(float_t value)
 	{
 		if (m_rotation != value)
 		{

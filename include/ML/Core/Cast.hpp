@@ -21,9 +21,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		constexpr cast() = default;
+		constexpr cast() noexcept = default;
 
-		template <class T> constexpr auto operator()(T value) const
+		template <class T> constexpr auto operator()(T value) const noexcept
 		{
 			return static_cast<type>(value);
 		}

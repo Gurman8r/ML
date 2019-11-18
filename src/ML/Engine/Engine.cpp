@@ -40,8 +40,8 @@ namespace ml
 		ML_EventSystem.addListener<CommandEvent>(this);
 		ML_EventSystem.addListener<KeyEvent>(this);
 		
-		m_time		= new GameTime{};
 		m_prefs		= new Preferences{ ML_INI_FILENAME };
+		m_time		= new GameTime{};
 		m_content	= new ContentManager{};
 		m_commands	= new CommandRegistry{};
 		m_window	= new RenderWindow{};
@@ -54,8 +54,8 @@ namespace ml
 		delete m_window;
 		delete m_commands;
 		delete m_content;
-		delete m_prefs;
 		delete m_time;
+		delete m_prefs;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -68,12 +68,11 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			// Init Lua
-			ML_ASSERT(ML_Lua.init());
+			ML_ASSERT(ML_Lua.init( // Init Lua
+			));
 
-			// Init Python
-			ML_ASSERT(ML_Py.init(
-				ev->argv[0],
+			ML_ASSERT(ML_Py.init( // Init Python
+				ev.argv[0],
 				ML_FS.pathTo(prefs().get_string("Engine", "library_path", ""))
 			));
 
@@ -104,10 +103,8 @@ namespace ml
 				prefs().get_bool	("Window", "multisample",	false),
 				prefs().get_bool	("Window", "srgb_capable",	false)
 			}));
-			if (prefs().get_bool("Window", "fullscreen", false))
-			{
-				window().setFullscreen(true);
-			}
+			
+			window().setFullscreen(prefs().get_bool("Window", "fullscreen", false));
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
@@ -193,7 +190,7 @@ namespace ml
 				dt = time().deltaTime();
 				tm.reset();
 			}
-			window().setTitle("{0} | {1} | {2} | {3}s/frame"_s.format(
+			window().setTitle(String("{0} | {1} | {2} | {3}s/frame").format(
 				original_title, ML_CONFIGURATION, ML_PLATFORM_TARGET, dt
 			));
 
@@ -243,7 +240,7 @@ namespace ml
 		{
 			/* * * * * * * * * * * * * * * * * * * * */
 
-			commands().execute(value.as<CommandEvent>()->cmd);
+			commands().execute(ev.cmd);
 
 			/* * * * * * * * * * * * * * * * * * * * */
 		} break;
@@ -252,13 +249,13 @@ namespace ml
 			/* * * * * * * * * * * * * * * * * * * * */
 
 			static String secret{ "" };
-			if (ev->getPress(KeyCode::Up)) secret += "u";
-			if (ev->getPress(KeyCode::Down)) secret += "d";
-			if (ev->getPress(KeyCode::Left)) secret += "l";
-			if (ev->getPress(KeyCode::Right)) secret += "r";
-			if (ev->getPress(KeyCode::A)) secret += "a";
-			if (ev->getPress(KeyCode::B)) secret += "b";
-			if (ev->getPress(KeyCode::Enter))
+			if (ev.getPress(KeyCode::Up)) secret += "u";
+			if (ev.getPress(KeyCode::Down)) secret += "d";
+			if (ev.getPress(KeyCode::Left)) secret += "l";
+			if (ev.getPress(KeyCode::Right)) secret += "r";
+			if (ev.getPress(KeyCode::A)) secret += "a";
+			if (ev.getPress(KeyCode::B)) secret += "b";
+			if (ev.getPress(KeyCode::Enter))
 			{
 				if (secret == "uuddlrlrba")
 				{

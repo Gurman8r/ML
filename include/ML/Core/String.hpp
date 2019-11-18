@@ -150,7 +150,7 @@ namespace ml
 
 		inline hash_t hash() const
 		{
-			return Hash{}(this->data(), this->size());
+			return Hash(this->data(), this->size());
 		}
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

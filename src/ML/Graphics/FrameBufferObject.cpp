@@ -1,4 +1,4 @@
-#include <ML/Graphics/FrameBuffer.hpp>
+#include <ML/Graphics/FrameBufferObject.hpp>
 #include <ML/Graphics/OpenGL.hpp>
 #include <ML/Graphics/Texture.hpp>
 
@@ -6,24 +6,24 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	FrameBuffer::FrameBuffer()
+	FrameBufferObject::FrameBufferObject()
 		: Handle(NULL)
 	{
 	}
 
-	FrameBuffer::FrameBuffer(const FrameBuffer & copy)
+	FrameBufferObject::FrameBufferObject(const FrameBufferObject & copy)
 		: Handle(copy)
 	{
 	}
 
-	FrameBuffer::~FrameBuffer()
+	FrameBufferObject::~FrameBufferObject()
 	{
 		clean();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	FrameBuffer & FrameBuffer::clean()
+	FrameBufferObject & FrameBufferObject::clean()
 	{
 		if ((*this))
 		{
@@ -33,7 +33,7 @@ namespace ml
 		return (*this);
 	}
 
-	FrameBuffer & FrameBuffer::create()
+	FrameBufferObject & FrameBufferObject::create()
 	{
 		if (this->set_handle(ML_GL.genFramebuffer()))
 		{
@@ -44,13 +44,13 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	const FrameBuffer & FrameBuffer::bind() const
+	const FrameBufferObject & FrameBufferObject::bind() const
 	{
 		ML_GL.bindFramebuffer(GL::Framebuffer, (*this));
 		return (*this);
 	}
 
-	const FrameBuffer & FrameBuffer::unbind() const
+	const FrameBufferObject & FrameBufferObject::unbind() const
 	{
 		ML_GL.bindFramebuffer(GL::Framebuffer, NULL);
 		return (*this);
@@ -58,7 +58,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const FrameBuffer & FrameBuffer::setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const
+	const FrameBufferObject & FrameBufferObject::setTexture(uint32_t attachment, uint32_t texture, uint32_t sampler, int32_t level) const
 	{
 		if (*this)
 		{
@@ -73,7 +73,7 @@ namespace ml
 		return (*this);
 	}
 
-	const FrameBuffer & FrameBuffer::setTexture(uint32_t attachment, const Texture & value) const
+	const FrameBufferObject & FrameBufferObject::setTexture(uint32_t attachment, const Texture & value) const
 	{
 		return setTexture(attachment, value, value.sampler(), value.level());
 	}

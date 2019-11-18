@@ -70,26 +70,22 @@ project "MemeLib"
 		"pdcurses", 
 	}
 	
-	filter { "configurations:Debug" }
+	filter { "system:Windows", "configurations:Debug" }
 		symbols "On"
 		links { "python39_d" }
 		postbuildcommands {	
 			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39_d.dll %{bin_out}",
 		}
-	
-	filter { "system:Windows", "configurations:Debug" }
 		linkoptions { 
 			"/NODEFAULTLIB:MSVCRT.lib", "/NODEFAULTLIB:LIBCMT.lib", "/NODEFAULTLIB:LIBCMTD.lib"
 		}
 	
-	filter { "configurations:Release" } 
+	filter { "system:Windows", "configurations:Release" }
 		optimize "Speed"
 		links { "python39" }
 		postbuildcommands {	
 			"%{ml_copy} %{ext_bin}%{cfg.buildcfg}\\%{cfg.platform}\\python39.dll %{bin_out}",
 		}
-	
-	filter { "system:Windows", "configurations:Release" }
 		linkoptions {
 			"/NODEFAULTLIB:LIBCMT.lib"
 		}

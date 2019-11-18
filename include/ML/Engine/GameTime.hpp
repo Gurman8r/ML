@@ -18,13 +18,23 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		GameTime & beginStep()
+		inline float_t totalTime() const { return static_cast<float_t>(m_main.elapsed().count()); }
+
+		inline float_t deltaTime() const { return static_cast<float_t>(m_elapsed.count()); }
+
+		inline uint64_t frameCount() const { return m_frame.count; }
+
+		inline float_t frameRate() const { return m_frame.rate; }
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		inline GameTime & beginStep()
 		{
 			m_step.start();
 			return (*this);
 		}
 
-		GameTime & endStep()
+		inline GameTime & endStep()
 		{
 			m_elapsed = m_step.stop().elapsed();
 
@@ -36,23 +46,13 @@ namespace ml
 
 			m_frame.rate = ((m_frame.accum > 0.0f)
 				? (1.0f / (m_frame.accum / (float_t)ML_ARRAYSIZE(m_frame.buf)))
-				: FLT_MAX
-				);
+				: limits<float_t>::max
+			);
 
 			m_frame.count++;
 
 			return (*this);
 		}
-
-		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-		inline float_t totalTime() const { return static_cast<float_t>(m_main.elapsed().count()); }
-
-		inline float_t deltaTime() const { return static_cast<float_t>(m_elapsed.count()); }
-
-		inline uint64_t frameCount() const { return m_frame.count; }
-
-		inline float_t frameRate() const { return m_frame.rate; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

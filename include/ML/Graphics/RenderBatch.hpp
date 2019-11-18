@@ -1,8 +1,8 @@
 #ifndef _ML_RENDER_BATCH_HPP_
 #define _ML_RENDER_BATCH_HPP_
 
-#include <ML/Graphics/VertexArray.hpp>
-#include <ML/Graphics/VertexBuffer.hpp>
+#include <ML/Graphics/VertexArrayObject.hpp>
+#include <ML/Graphics/VertexBufferObject.hpp>
 #include <ML/Graphics/Material.hpp>
 
 namespace ml

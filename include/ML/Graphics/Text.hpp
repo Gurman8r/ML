@@ -5,8 +5,8 @@
 #include <ML/Graphics/Font.hpp>
 #include <ML/Graphics/Vertex.hpp>
 #include <ML/Graphics/RenderTarget.hpp>
-#include <ML/Graphics/VertexArray.hpp>
-#include <ML/Graphics/VertexBuffer.hpp>
+#include <ML/Graphics/VertexArrayObject.hpp>
+#include <ML/Graphics/VertexBufferObject.hpp>
 #include <ML/Graphics/Geometry.hpp>
 
 namespace ml

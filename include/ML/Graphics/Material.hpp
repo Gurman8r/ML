@@ -32,7 +32,7 @@ namespace ml
 
 		inline base_type::iterator find(const String & name)
 		{
-			return std::find_if(begin(), end(), [&](auto u)
+			return std::find_if(this->begin(), this->end(), [&](auto u)
 			{
 				return (u && u->getName() == name);
 			});
@@ -40,7 +40,7 @@ namespace ml
 
 		inline base_type::const_iterator find(const String & name) const
 		{
-			return std::find_if(begin(), end(), [&](auto u)
+			return std::find_if(this->cbegin(), this->cend(), [&](auto u)
 			{
 				return (u && u->getName() == name);
 			});
@@ -52,7 +52,7 @@ namespace ml
 		{
 			if (!value) { return nullptr; }
 			auto it { this->find(value->getName()) };
-			if (it == end())
+			if (it == this->end())
 			{
 				m_uniforms.push_back(std::move(value));
 				return m_uniforms.back();
@@ -65,7 +65,7 @@ namespace ml
 		{
 			if (!name) { return nullptr; }
 			auto it { this->find(value->getName()) };
-			if (it == end())
+			if (it == this->end())
 			{
 				m_uniforms.push_back(new U { name, value });
 				return m_uniforms.back();
@@ -83,7 +83,7 @@ namespace ml
 		inline bool erase(const String & name)
 		{
 			auto it { this->find(name) };
-			if (it != end())
+			if (it != this->end())
 			{
 				if (*it) { delete (*it); }
 				m_uniforms.erase(it);
@@ -99,7 +99,7 @@ namespace ml
 		> inline ptr_t<U> get(const String & name)
 		{
 			auto it { this->find(name) };
-			return (it != end()) ? dynamic_cast<ptr_t<U>>(*it) : nullptr;
+			return (it != this->end()) ? dynamic_cast<ptr_t<U>>(*it) : nullptr;
 		}
 
 		template <
@@ -107,14 +107,14 @@ namespace ml
 		> inline const ptr_t<U> get(const String & name) const
 		{
 			auto it { this->find(name) };
-			return (it != cend()) ? dynamic_cast<const ptr_t<U>>(*it) : nullptr;
+			return (it != this->cend()) ? dynamic_cast<const ptr_t<U>>(*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		template <class U, class T> inline bool set(const String & name, const T & value)
 		{
-			if (auto * u { get<U>(name) })
+			if (auto u { this->get<U>(name) })
 			{
 				u->setData(value);
 				return true;
@@ -127,7 +127,7 @@ namespace ml
 		inline bool rename(const String & from, const String & to)
 		{
 			auto it{ this->find(from) };
-			if ((it != end()) && (to && (this->find(to) == end())))
+			if ((it != end()) && (to && (this->find(to) == this->end())))
 			{
 				(*it)->setName(to);
 				return true;

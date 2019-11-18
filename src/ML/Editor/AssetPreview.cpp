@@ -79,7 +79,7 @@ namespace ml
 
 			const vec2 pos { ((dst - scl) * 0.5f) };
 
-			if (clbk) clbk();
+			if (clbk) { clbk(); }
 			
 			ImGui::BeginChild(
 				("##AssetPreview##" + type.name.str() + "##").c_str(), 

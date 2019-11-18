@@ -17,7 +17,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct ML_GRAPHICS_API ScopedBinder<T> final : public NonCopyable
+	template <class T> struct ML_GRAPHICS_API ScopedBinder<T> : public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +25,7 @@ namespace ml
 
 		template <
 			class ... Args
-		> explicit ScopedBinder(const_ptr_t<T> value, Args && ... args) 
+		> explicit ScopedBinder(const_ptr_t<T> value, Args && ... args)
 			: m_value{ value }
 		{
 			if (m_value) { m_value->bind(std::forward<Args>(args)...); }

@@ -44,34 +44,27 @@ namespace ml
 
 	const RenderTarget & RenderTarget::draw(const_ptr_t<float_t> verts, size_t count, RenderBatch & batch) const
 	{
-		//if (batch.mat) { batch.mat->bind(); }
-
-		draw(verts, count, batch.vao, batch.vbo);
-
-		//if (batch.mat) { batch.mat->unbind(); }
-
-		return (*this);
+		return draw(verts, count, batch.vao, batch.vbo);
 	}
 
-	const RenderTarget & RenderTarget::draw(const_ptr_t<float_t> verts, size_t count, const VAO * vao, const VBO * vbo) const
+	const RenderTarget & RenderTarget::draw(const_ptr_t<float_t> verts, size_t count, const_ptr_t<VAO> vao, const_ptr_t<VBO> vbo) const
 	{
-		if (vbo) (*vbo)
-			.bind()
-			.bufferSubData((voidptr_t)verts, (uint32_t)count, 0)
-			.unbind();
-
-		return ((vao && vbo) ? draw((*vao), (*vbo)) : (*this));
+		if (const ScopedBinder<VBO> b{ vbo })
+		{
+			b->bufferSubData((voidptr_t)verts, (uint32_t)count, 0);
+		}
+		return (vao && vbo) ? draw(*vao, *vbo) : (*this);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	const RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo, const IBO & ibo) const
 	{
-		if (const ScopedBinder<VAO> _a{ vao })
+		if (const ScopedBinder<VAO> a{ vao })
 		{
-			if (const ScopedBinder<VBO> _b{ vbo })
+			if (const ScopedBinder<VBO> b{ vbo })
 			{
-				if (const ScopedBinder<IBO> _i{ ibo })
+				if (const ScopedBinder<IBO> i{ ibo })
 				{
 					ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), nullptr);
 				}
@@ -82,9 +75,9 @@ namespace ml
 	
 	const RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo) const
 	{
-		if (const ScopedBinder<VAO> _a{ vao })
+		if (const ScopedBinder<VAO> a{ vao })
 		{
-			if (const ScopedBinder<VBO> _b{ vbo })
+			if (const ScopedBinder<VBO> b{ vbo })
 			{
 				ML_GL.drawArrays(vao.mode(), 0, vbo.size());
 			}

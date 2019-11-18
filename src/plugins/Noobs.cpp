@@ -93,20 +93,19 @@ namespace ml
 
 		struct ShaderFile final : public Trackable, public NonCopyable
 		{
-			enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 
 			static constexpr C_String Names[] = { "Fragment", "Vertex", "Geometry" };
 
 			using Errors = typename List<ShaderError>;
 
-			FileType	type;
+			size_t		type;
 			TextEditor	text;
 			String		name;
 			bool		open;
 			bool		dirty;
 			Errors		errs;
 
-			ShaderFile(FileType type)
+			ShaderFile(size_t type)
 				: type{ type }, text{}, name{ Names[type] }, open{ false }, dirty{ false }, errs{}
 			{
 # if (!ML_DEBUG)
@@ -120,19 +119,21 @@ namespace ml
 
 		using Pipeline = typename List<ptr_t<Surface>>;
 
-		using FileArray = typename Array<ptr_t<ShaderFile>, ShaderFile::MAX_DEMO_FILE>;
+		enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 
-		enum class DisplayMode : int32_t { Automatic, Manual, Fixed };
+		using FileArray = typename Array<ShaderFile, MAX_DEMO_FILE>;
+
+		enum DisplayMode : int32_t { Automatic, Manual, Fixed };
 
 		bool m_editor_open	{ true };
 		bool m_display_open	{ true };
 		bool m_apply_camera	{ true };
 
-		Pipeline	m_pipeline		{};
-		String		m_target_name	{ "" };
-		FileArray	m_files			{ 0 };
-		DisplayMode	m_displayMode	{ 0 };
-		int32_t		m_displayIndex	{ 0 };
+		Pipeline	m_pipeline;
+		String		m_target_name;
+		FileArray	m_files;
+		DisplayMode	m_displayMode;
+		int32_t		m_displayIndex;
 
 		static constexpr auto display_name { "Display##Noobs##DemoView" };
 		static constexpr auto editor_name { "Editor##Noobs##DemoEditor" };
@@ -140,13 +141,17 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Noobs() : Plugin {}
+			, m_pipeline{}
+			, m_target_name{}
+			, m_files{ ShaderFile{ Frag }, ShaderFile{ Vert }, ShaderFile{ Geom } }
+			, m_displayMode{}
+			, m_displayIndex{}
 		{
 			ML_EventSystem.addListener<LoadEvent>(this);
 			ML_EventSystem.addListener<StartEvent>(this);
 			ML_EventSystem.addListener<UpdateEvent>(this);
 			ML_EventSystem.addListener<DrawEvent>(this);
 			ML_EventSystem.addListener<GuiEvent>(this);
-			ML_EventSystem.addListener<UnloadEvent>(this);
 			ML_EventSystem.addListener<KeyEvent>(this);
 			ML_EventSystem.addListener<DockspaceEvent>(this);
 			ML_EventSystem.addListener<ShaderErrorEvent>(this);
@@ -189,7 +194,7 @@ namespace ml
 							if (PropertyDrawer<Entity>()("Target Entity", e) && e)
 							{
 								m_target_name = ML_Engine.content().get_name(e);
-								reset_sources().generate_sources();
+								generate_sources();
 							}
 							ImGuiExt::Tooltip("Select the target entity");
 							ImGui::EndMenu();
@@ -319,7 +324,7 @@ namespace ml
 					{
 						ML_AssetPreview.drawPreview<Surface>(m_pipeline.back(), ImGuiExt::GetContentRegionAvail(), [&]
 						{
-							if (auto c{ Camera::mainCamera() }; c && (m_displayMode == DisplayMode::Automatic))
+							if (auto c{ Camera::mainCamera() }; c && (m_displayMode == Automatic))
 							{
 								c->setViewport((vec2i)ImGuiExt::GetContentRegionAvail());
 							}
@@ -354,19 +359,6 @@ namespace ml
 
 				/* * * * * * * * * * * * * * * * * * * * */
 			} break;
-			case UnloadEvent::ID: if (auto ev{ value.as<UnloadEvent>()})
-			{
-				/* * * * * * * * * * * * * * * * * * * * */
-
-				for (auto & file : m_files)
-				{
-					if (file) { delete file; }
-				}
-
-				m_pipeline.clear();
-
-				/* * * * * * * * * * * * * * * * * * * * */
-			} break;
 			case ShaderErrorEvent::ID: if (auto ev{ value.as<ShaderErrorEvent>() })
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
@@ -387,9 +379,9 @@ namespace ml
 								const ShaderError err{ ev.type, line };
 								switch (ev.type)
 								{
-								case GL::VertexShader: m_files[ShaderFile::Vert]->errs.push_back(err); break;
-								case GL::FragmentShader: m_files[ShaderFile::Frag]->errs.push_back(err); break;
-								case GL::GeometryShader: m_files[ShaderFile::Geom]->errs.push_back(err); break;
+								case GL::VertexShader: m_files[Vert].errs.push_back(err); break;
+								case GL::FragmentShader: m_files[Frag].errs.push_back(err); break;
+								case GL::GeometryShader: m_files[Geom].errs.push_back(err); break;
 								}
 							}
 
@@ -397,11 +389,11 @@ namespace ml
 							for (auto & file : m_files)
 							{
 								TextEditor::ErrorMarkers markers;
-								for (auto & err : file->errs)
+								for (auto & err : file.errs)
 								{
 									markers.insert({ err.line, err.code + ": " + err.desc });
 								}
-								file->text.SetErrorMarkers(markers);
+								file.text.SetErrorMarkers(markers);
 							}
 						}
 					}
@@ -422,7 +414,7 @@ namespace ml
 				// Refresh Sources
 				if (ev.getPress(KeyCode::F5))
 				{
-					reset_sources().generate_sources();
+					generate_sources();
 				}
 
 				// Compile Sources
@@ -475,15 +467,15 @@ namespace ml
 					// Demo File Tab Bar
 					for (auto & file : m_files)
 					{
-						if (!file || !file->open) continue;
+						if (!file.open) continue;
 
-						ImGui::PushID(ML_ADDRESSOF(file));
+						ImGui::PushID(ML_ADDRESSOF(&file));
 
 						// Text Editor Tab
 						const bool tab_open { ImGui::BeginTabItem(
-							file->name.c_str(),
+							file.name.c_str(),
 							nullptr,
-							(file->dirty
+							(file.dirty
 								? ImGuiTabItemFlags_UnsavedDocument
 								: ImGuiTabItemFlags_None)
 						) };
@@ -492,56 +484,56 @@ namespace ml
 						if (ImGui::BeginPopupContextItem())
 						{
 							// Close
-							if (ImGui::MenuItem(("Close##" + file->name).c_str()))
+							if (ImGui::MenuItem(("Close##" + file.name).c_str()))
 							{
-								file->open = false;
+								file.open = false;
 								ImGui::CloseCurrentPopup();
 							}
 
 							// Reload
-							if (ImGui::MenuItem(("Reload##" + file->name).c_str(), "F5"))
+							if (ImGui::MenuItem(("Reload##" + file.name).c_str(), "F5"))
 							{
 								const String * src { nullptr };
-								switch (file->type)
+								switch (file.type)
 								{
-								case ShaderFile::Vert: src = &r->shader()->sources().vs; break;
-								case ShaderFile::Frag: src = &r->shader()->sources().fs; break;
-								case ShaderFile::Geom: src = &r->shader()->sources().gs; break;
+								case Vert: src = &r->shader()->sources().vs; break;
+								case Frag: src = &r->shader()->sources().fs; break;
+								case Geom: src = &r->shader()->sources().gs; break;
 								}
-								file->text.SetText((*src).trim());
+								file.text.SetText((*src).trim());
 								ImGui::CloseCurrentPopup();
 							}
 
 							// Copy
-							if (ImGui::MenuItem(("Copy to Clipboard##" + file->name).c_str()))
+							if (ImGui::MenuItem(("Copy to Clipboard##" + file.name).c_str()))
 							{
-								ML_Engine.window().setClipboardString(file->text.GetText());
+								ML_Engine.window().setClipboardString(file.text.GetText());
 								ImGui::CloseCurrentPopup();
 							}
 
 							// Show Whitespace
-							bool show_whitespace { file->text.IsShowingWhitespaces() };
+							bool show_whitespace { file.text.IsShowingWhitespaces() };
 							if (ImGui::Checkbox("Show Whitespace", &show_whitespace))
 							{
-								file->text.SetShowWhitespaces(show_whitespace);
+								file.text.SetShowWhitespaces(show_whitespace);
 							}
 
 							// Palette
 							int32_t editor_style {
-								((file->text.GetPalette() == TextEditor::GetDarkPalette())
+								((file.text.GetPalette() == TextEditor::GetDarkPalette())
 									? 0
-									: ((file->text.GetPalette() == TextEditor::GetLightPalette())
+									: ((file.text.GetPalette() == TextEditor::GetLightPalette())
 										? 1
-										: (((file->text.GetPalette() == TextEditor::GetRetroBluePalette())
+										: (((file.text.GetPalette() == TextEditor::GetRetroBluePalette())
 											? 2 : 2
 											)))) };
 							if (ImGui::Combo("##Palette", &editor_style, "Dark\0Light\0Retro"))
 							{
 								switch (editor_style)
 								{
-								case 0: file->text.SetPalette(TextEditor::GetDarkPalette()); break;
-								case 1: file->text.SetPalette(TextEditor::GetLightPalette()); break;
-								case 2: file->text.SetPalette(TextEditor::GetRetroBluePalette()); break;
+								case 0: file.text.SetPalette(TextEditor::GetDarkPalette()); break;
+								case 1: file.text.SetPalette(TextEditor::GetLightPalette()); break;
+								case 2: file.text.SetPalette(TextEditor::GetRetroBluePalette()); break;
 								}
 								ImGui::CloseCurrentPopup();
 							}
@@ -553,15 +545,15 @@ namespace ml
 						if (tab_open)
 						{
 							// Text Editor 
-							file->text.Render(
-								("##ShaderFile##" + file->name + "##TextEditor").c_str(),
+							file.text.Render(
+								("##ShaderFile##" + file.name + "##TextEditor").c_str(),
 								{ 0, 0 },
 								true
 							);
 
-							if (file->text.IsTextChanged())
+							if (file.text.IsTextChanged())
 							{
-								file->dirty = true;
+								file.dirty = true;
 							}
 
 							ImGui::EndTabItem();
@@ -593,9 +585,8 @@ namespace ml
 					// Toggle Files
 					for (size_t i = 0; i < m_files.size(); i++)
 					{
-						if (!m_files[i]) { continue; }
 						if (i > 0) { ImGui::SameLine(); }
-						ImGui::Checkbox(m_files[i]->name.c_str(), &m_files[i]->open);
+						ImGui::Checkbox(m_files[i].name.c_str(), &m_files[i].open);
 					}
 				}
 				ImGui::EndChildFrame();
@@ -833,7 +824,7 @@ namespace ml
 				if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
 				{
 					r->setShader(shd);
-					reset_sources().generate_sources();
+					generate_sources();
 				}
 				ImGuiExt::Tooltip("Shaders provide the code for the programmable stages of the rendering pipeline.");
 				ImGui::Separator();
@@ -843,7 +834,7 @@ namespace ml
 				if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 				{
 					r->setMaterial(mtl);
-					reset_sources().generate_sources();
+					generate_sources();
 				}
 				ImGuiExt::Tooltip("Materials contain the list uniforms applied to the shader.");
 				ImGui::Separator();
@@ -875,20 +866,14 @@ namespace ml
 					// Viewport
 					if (ImGuiExt::Combo("Resolution", &m_displayIndex, mode_names))
 					{
-						if (m_displayIndex == 0)
+						switch (m_displayIndex)
 						{
-							m_displayMode = DisplayMode::Automatic;
-						}
-						else if (m_displayIndex == 1)
-						{
-							m_displayMode = DisplayMode::Manual;
-						}
-						else
-						{
-							m_displayMode = DisplayMode::Fixed;
+						case 0: m_displayMode = Automatic; break;
+						case 1: m_displayMode = Manual; break;
+						default: m_displayMode = Fixed; break;
 						}
 					}
-					if (m_displayMode == DisplayMode::Manual)
+					if (m_displayMode == Manual)
 					{
 						ImGui::Indent();
 						vec2 v { (vec2)c->viewport().size() };
@@ -900,7 +885,7 @@ namespace ml
 						}
 						ImGui::Unindent();
 					}
-					if (m_displayMode == DisplayMode::Fixed)
+					else if (m_displayMode == Fixed)
 					{
 						c->setViewport((vec2i)mode_values[m_displayIndex - 2].size);
 					}
@@ -1302,15 +1287,15 @@ namespace ml
 					{
 						for (auto & f : m_files)
 						{
-							f->dirty = false;
-							f->errs.clear();
-							f->text.SetErrorMarkers({});
+							f.dirty = false;
+							f.errs.clear();
+							f.text.SetErrorMarkers({});
 						}
 
 						if (!s->loadFromMemory(
-							m_files[ShaderFile::Vert]->open ? m_files[ShaderFile::Vert]->text.GetText() : "",
-							m_files[ShaderFile::Geom]->open ? m_files[ShaderFile::Geom]->text.GetText() : "",
-							m_files[ShaderFile::Frag]->open ? m_files[ShaderFile::Frag]->text.GetText() : ""
+							m_files[Vert].open ? m_files[Vert].text.GetText() : "",
+							m_files[Geom].open ? m_files[Geom].text.GetText() : "",
+							m_files[Frag].open ? m_files[Frag].text.GetText() : ""
 						))
 						{
 							/* error */
@@ -1329,30 +1314,19 @@ namespace ml
 				{
 					if (auto s{ (ptr_t<Shader>)r->shader() })
 					{
-						auto setup_file = ([&](ShaderFile::FileType type, const String & src) {
-							if (!m_files[type]) { (m_files[type] = new ShaderFile{ type }); }
-							m_files[type]->text.SetText(src.trim());
-							m_files[type]->open = !src.empty();
-							return m_files[type];
+						auto setup_file = ([&](size_t type, const String & src)
+						{
+							m_files[type].dirty = false;
+							m_files[type].open = !src.empty();
+							m_files[type].text.SetText(src.empty() ? String{} : src.trim());
+							m_files[type].text.SetErrorMarkers({});
 						});
 
-						auto vert{ setup_file(ShaderFile::Vert, s->sources().vs) };
-						auto frag{ setup_file(ShaderFile::Frag, s->sources().fs) };
-						auto geom{ setup_file(ShaderFile::Geom, s->sources().gs) };
+						setup_file(Vert, s->sources().vs);
+						setup_file(Frag, s->sources().fs);
+						setup_file(Geom, s->sources().gs);
 					}
 				}
-			}
-			return (*this);
-		}
-
-		Noobs & reset_sources()
-		{
-			for (auto & f : m_files)
-			{
-				if (!f) continue;
-				f->open = false;
-				f->text.SetText({});
-				f->text.SetErrorMarkers({});
 			}
 			return (*this);
 		}

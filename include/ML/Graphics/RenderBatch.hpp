@@ -15,11 +15,11 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const VAO * vao	{ nullptr };
-		const VBO * vbo	{ nullptr };
-		ptr_t<Material> mat	{ nullptr };
+		const_ptr_t<VAO>	vao	{ nullptr };
+		const_ptr_t<VBO>	vbo	{ nullptr };
+		ptr_t<Material>		mat	{ nullptr };
 
-		constexpr RenderBatch(const VAO * vao, const VBO * vbo, ptr_t<Material> mat) noexcept
+		constexpr RenderBatch(const_ptr_t<VAO> vao, const_ptr_t<VBO> vbo, ptr_t<Material> mat) noexcept
 			: vao { vao }
 			, vbo { vbo }
 			, mat { mat }

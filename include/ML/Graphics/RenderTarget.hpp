@@ -38,7 +38,7 @@ namespace ml
 		
 		const RenderTarget & draw(const_ptr_t<float_t> verts, size_t count, RenderBatch & batch) const;
 		
-		const RenderTarget & draw(const_ptr_t<float_t> verts, size_t count, const VAO * vao, const VBO * vbo) const;
+		const RenderTarget & draw(const_ptr_t<float_t> verts, size_t count, const_ptr_t<VAO> vao, const_ptr_t<VBO> vbo) const;
 		
 		/* * * * * * * * * * * * * * * * * * * * */
 

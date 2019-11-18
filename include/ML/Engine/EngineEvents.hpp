@@ -7,13 +7,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	struct	GameTime;
-	struct	Preferences;
-	struct	RenderTarget;
-	struct	RenderWindow;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	enum class EngineEventType
 	{
 		MIN_ENGINE_EVENT = Event::EV_ENGINE,
@@ -51,8 +44,8 @@ namespace ml
 	struct EnterEvent final : public EngineEvent<EngineEventType::EV_Enter>
 	{
 		const int32_t argc;
-		const C_String * argv;
-		constexpr EnterEvent(int32_t argc, const C_String * argv)
+		const_ptr_t<C_String> argv;
+		constexpr EnterEvent(int32_t argc, const_ptr_t<C_String> argv)
 			: argc { argc }
 			, argv { argv }
 		{
@@ -123,7 +116,7 @@ namespace ml
 
 	struct CommandEvent final : public EngineEvent<EngineEventType::EV_Command>
 	{
-		C_String cmd;
+		const C_String cmd;
 		constexpr CommandEvent(C_String cmd) : cmd(cmd) {}
 	};
 

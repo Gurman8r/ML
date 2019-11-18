@@ -100,9 +100,9 @@ namespace ml
 				"Editor", "default_style", "Classic"
 			)).hash())
 			{
-			case Hash()("classic"): { ImGui::StyleColorsClassic(); } break;
-			case Hash()("dark"):	{ ImGui::StyleColorsDark(); } break;
-			case Hash()("light"):	{ ImGui::StyleColorsLight(); } break;
+			case Hash("classic"): { ImGui::StyleColorsClassic(); } break;
+			case Hash("dark")	: { ImGui::StyleColorsDark(); } break;
+			case Hash("light")	: { ImGui::StyleColorsLight(); } break;
 			}
 
 			// Custom Style
@@ -119,7 +119,7 @@ namespace ml
 					"Editor", "font_size", 20.f
 				) }; fontSize > 0.0f)
 				{
-					ImGui::GetIO().Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);
+					io.Fonts->AddFontFromFileTTF(fontFile.c_str(), fontSize);
 				}
 			}
 

@@ -2643,171 +2643,139 @@ namespace ml
 		constexpr C_String fmt { "%.4f" };
 		
 		Layout::begin_prop(this, label, value);
-
+		
 		switch (value.getID())
 		{
-		case uni_bool::ID:
-			if (auto data = detail::as_bool(&value))
+		case uni_bool::ID: if (auto data{ detail::as_bool(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Bool##Uni##" + value.getName() };
+			ImGui::Checkbox(name.c_str(), &copy);
+			if (auto u{ dynamic_cast<ptr_t<uni_bool>>(&value) })
 			{
-				auto copy { *data };
-				const String name = "##" + label + "##Bool##Uni" + value.getName();
-				ImGui::Checkbox(name.c_str(), &copy);
-				if (auto u = value.as<uni_bool>())
-				{
-					u->setData(copy);
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_float::ID:
-			if (auto data = detail::as_float(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Float##Uni" + value.getName();
-				ImGui::DragFloat(name.c_str(), &copy, spd, 0, 0, fmt);
-				if (auto u = value.as<uni_float>())
-				{
-					u->setData(copy);
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_int::ID:
-			if (auto data = detail::as_int(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Int##Uni" + value.getName();
-				if (value.isModifiable()) ImGui::InputInt(name.c_str(), &copy);
-				else ImGui::DragInt(name.c_str(), &copy);
-				if (auto u = value.as<uni_int>())
-				{
-					u->setData(copy);
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_vec2::ID:
-			if (auto data = detail::as_vec2(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Vec2##Uni" + value.getName();
-				ImGui::DragFloat2(name.c_str(), &copy[0], spd, 0, 0, fmt);
-				if (auto u = value.as<uni_vec2>())
-				{
-					u->setData(copy); 
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_vec3::ID:
-			if (auto data = detail::as_vec3(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Vec3##Uni" + value.getName();
-				ImGui::DragFloat3(name.c_str(), &copy[0], spd, 0, 0, fmt);
-				if (auto u = value.as<uni_vec3>())
-				{
-					u->setData(copy);
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_vec4::ID:
-			if (auto data = detail::as_vec4(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Vec4##Uni" + value.getName();
-				ImGui::DragFloat4(name.c_str(), &copy[0], spd, 0, 0, fmt);
-				if (auto u = value.as<uni_vec4>())
-				{
-					u->setData(copy); 
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_color::ID:
-			if (auto data = detail::as_color(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Color##Uni" + value.getName();
-				ImGui::ColorEdit4(name.c_str(), &copy[0], ImGuiColorEditFlags_Float);
-				if (auto u = value.as<uni_color>())
-				{
-					u->setData(copy); 
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_mat2::ID:
-			if (auto data = detail::as_mat2(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Mat2##Uni" + value.getName();
-				ImGui::DragFloat2((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
-				ImGui::DragFloat2((name + "##02").c_str(), &copy[2], spd, 0, 0, fmt);
-				if (auto u = value.as<uni_mat2>())
-				{
-					u->setData(copy);
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_mat3::ID:
-			if (auto data = detail::as_mat3(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Mat3##Uni" + value.getName();
-				ImGui::DragFloat3((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
-				ImGui::DragFloat3((name + "##03").c_str(), &copy[3], spd, 0, 0, fmt);
-				ImGui::DragFloat3((name + "##06").c_str(), &copy[6], spd, 0, 0, fmt);
-				if (auto u = value.as<uni_mat3>())
-				{
-					u->setData(copy); 
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_mat4::ID:
-			if (auto data = detail::as_mat4(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Mat4##Uni" + value.getName();
-				ImGui::DragFloat4((name + "##00").c_str(), &copy[0],  spd, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##04").c_str(), &copy[4],  spd, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##08").c_str(), &copy[8],  spd, 0, 0, fmt);
-				ImGui::DragFloat4((name + "##12").c_str(), &copy[12], spd, 0, 0, fmt);
-				if (auto u = value.as<uni_mat4>())
-				{
-					u->setData(copy); 
-					return Layout::end_prop(this, true);
-				}
-			}
-			break;
-
-		case uni_sampler::ID:
-			if (auto data = detail::as_sampler(&value))
-			{
-				auto copy { *data };
-				const String name = "##" + label + "##Sampler##Uni" + value.getName();
-				if (PropertyDrawer<Texture>()(name, copy))
-				{
-					if (auto u = value.as<uni_sampler>())
-					{
-						u->setData(copy);
-					}
-				}
+				u->setData(copy);
 				return Layout::end_prop(this, true);
 			}
-			break;
+		} break;
+		case uni_float::ID: if (auto data{ detail::as_float(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Float##Uni##" + value.getName() };
+			ImGui::DragFloat(name.c_str(), &copy, spd, 0, 0, fmt);
+			if (auto u{ dynamic_cast<ptr_t<uni_float>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_int::ID: if (auto data{ detail::as_int(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Int##Uni##" + value.getName() };
+			if (value.isModifiable()) ImGui::InputInt(name.c_str(), &copy);
+			else ImGui::DragInt(name.c_str(), &copy);
+			if (auto u{ dynamic_cast<ptr_t<uni_int>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_vec2::ID: if (auto data{ detail::as_vec2(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Vec2##Uni##" + value.getName() };
+			ImGui::DragFloat2(name.c_str(), &copy[0], spd, 0, 0, fmt);
+			if (auto u{ dynamic_cast<ptr_t<uni_vec2>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_vec3::ID: if (auto data{ detail::as_vec3(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Vec3##Uni##" + value.getName() };
+			ImGui::DragFloat3(name.c_str(), &copy[0], spd, 0, 0, fmt);
+			if (auto u{ dynamic_cast<ptr_t<uni_vec3>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_vec4::ID: if (auto data{ detail::as_vec4(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Vec4##Uni##" + value.getName() };
+			ImGui::DragFloat4(name.c_str(), &copy[0], spd, 0, 0, fmt);
+			if (auto u{ dynamic_cast<ptr_t<uni_vec4>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_color::ID: if (auto data{ detail::as_color(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Color##Uni##" + value.getName() };
+			ImGui::ColorEdit4(name.c_str(), &copy[0], ImGuiColorEditFlags_Float);
+			if (auto u{ dynamic_cast<ptr_t<uni_color>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_mat2::ID: if (auto data{ detail::as_mat2(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Mat2##Uni##" + value.getName() };
+			ImGui::DragFloat2((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
+			ImGui::DragFloat2((name + "##02").c_str(), &copy[2], spd, 0, 0, fmt);
+			if (auto u{ dynamic_cast<ptr_t<uni_mat2>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_mat3::ID: if (auto data{ detail::as_mat3(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Mat3##Uni##" + value.getName() };
+			ImGui::DragFloat3((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
+			ImGui::DragFloat3((name + "##03").c_str(), &copy[3], spd, 0, 0, fmt);
+			ImGui::DragFloat3((name + "##06").c_str(), &copy[6], spd, 0, 0, fmt);
+			if (auto u{ dynamic_cast<ptr_t<uni_mat3>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_mat4::ID: if (auto data{ detail::as_mat4(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Mat4##Uni##" + value.getName() };
+			ImGui::DragFloat4((name + "##00").c_str(), &copy[0],  spd, 0, 0, fmt);
+			ImGui::DragFloat4((name + "##04").c_str(), &copy[4],  spd, 0, 0, fmt);
+			ImGui::DragFloat4((name + "##08").c_str(), &copy[8],  spd, 0, 0, fmt);
+			ImGui::DragFloat4((name + "##12").c_str(), &copy[12], spd, 0, 0, fmt);
+			if (auto u{ dynamic_cast<ptr_t<uni_mat4>>(&value) })
+			{
+				u->setData(copy);
+				return Layout::end_prop(this, true);
+			}
+		} break;
+		case uni_sampler::ID: if (auto data{ detail::as_sampler(&value) })
+		{
+			auto copy { *data };
+			const String name{ "##" + label + "##Sampler##Uni##" + value.getName() };
+			if (PropertyDrawer<Texture>()(name, copy))
+			{
+				if (auto u{ dynamic_cast<ptr_t<uni_sampler>>(&value) })
+				{
+					u->setData(copy);
+				}
+			}
+			return Layout::end_prop(this, true);
+		} break;
 		}
 
 		return Layout::end_prop(this, false);

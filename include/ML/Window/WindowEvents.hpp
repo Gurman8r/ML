@@ -115,9 +115,14 @@ namespace ml
 		{
 		}
 
-		constexpr bool getPress	(int32_t k)	const { return (key == k && action == ML_KEY_PRESS); }
-		constexpr bool getDown	(int32_t k) const { return (key == k && action == ML_KEY_REPEAT); }
-		constexpr bool getUp	(int32_t k)	const { return (key == k && action == ML_KEY_RELEASE); }
+		constexpr bool getKeyAction(int32_t k, int32_t a) const
+		{
+			return (key == k) && (action == a);
+		}
+
+		constexpr bool getPress	(int32_t k)	const { return getKeyAction(k, ML_KEY_PRESS); }
+		constexpr bool getDown	(int32_t k) const { return getKeyAction(k, ML_KEY_REPEAT); }
+		constexpr bool getUp	(int32_t k)	const { return getKeyAction(k, ML_KEY_RELEASE); }
 
 		constexpr bool getPress	(int32_t k, const Mods & m)	const { return getPress(k) && (mods == m); }
 		constexpr bool getDown	(int32_t k, const Mods & m) const { return getDown(k) && (mods == m); }

@@ -1,4 +1,4 @@
-#if defined(ML_IMPL_PLATFORM_GLFW)
+#ifdef ML_IMPL_PLATFORM_GLFW
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

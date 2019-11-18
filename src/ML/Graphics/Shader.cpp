@@ -253,40 +253,41 @@ namespace ml
 
 			if (bindTextures)
 			{
-				uint32_t i { 0 };
-				for (const auto & pair : shader->m_textures)
+				uint32_t index{ 0 };
+				for (const auto & [ key, value ] : shader->m_textures)
 				{
-					ML_GL.uniform1i(pair.first, i);
+					ML_GL.uniform1i(key, index);
 
-					ML_GL.activeTexture(GL::Texture0 + i);
+					ML_GL.activeTexture(GL::Texture0 + (index++));
 
-					Texture::bind(pair.second);
-
-					i++;
+					Texture::bind(value);
 				}
 			}
 		}
-		else { ML_GL.useProgram(NULL); }
+		else 
+		{
+			ML_GL.useProgram(NULL);
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	bool Shader::setUniform(const_ptr_t<Uniform> value) const
 	{
-		if (!value || !value->getName()) return false;
+		if (!value || !value->getName()) { return false; }
 		switch (value->getID())
 		{
-		case uni_bool	::ID: if (auto a { detail::as_bool(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_float	::ID: if (auto a { detail::as_float(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_int	::ID: if (auto a { detail::as_int(value) })		{ return setUniform(value->getName(), (*a)); }
-		case uni_vec2	::ID: if (auto a { detail::as_vec2(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_vec3	::ID: if (auto a { detail::as_vec3(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_vec4	::ID: if (auto a { detail::as_vec4(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_color	::ID: if (auto a { detail::as_color(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_mat2	::ID: if (auto a { detail::as_mat2(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_mat3	::ID: if (auto a { detail::as_mat3(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_mat4	::ID: if (auto a { detail::as_mat4(value) })	{ return setUniform(value->getName(), (*a)); }
-		case uni_sampler::ID: if (auto a { detail::as_sampler(value) }) { return setUniform(value->getName(), (*a)); }
+		case uni_bool	::ID: return setUniform(value->getName(), (*detail::as_bool(value)));
+		case uni_float	::ID: return setUniform(value->getName(), (*detail::as_float(value)));
+		case uni_int	::ID: return setUniform(value->getName(), (*detail::as_int(value)));
+		case uni_vec2	::ID: return setUniform(value->getName(), (*detail::as_vec2(value)));
+		case uni_vec3	::ID: return setUniform(value->getName(), (*detail::as_vec3(value)));
+		case uni_vec4	::ID: return setUniform(value->getName(), (*detail::as_vec4(value)));
+		case uni_color	::ID: return setUniform(value->getName(), (*detail::as_color(value)));
+		case uni_mat2	::ID: return setUniform(value->getName(), (*detail::as_mat2(value)));
+		case uni_mat3	::ID: return setUniform(value->getName(), (*detail::as_mat3(value)));
+		case uni_mat4	::ID: return setUniform(value->getName(), (*detail::as_mat4(value)));
+		case uni_sampler::ID: return setUniform(value->getName(), (*detail::as_sampler(value)));
 		}
 		return false;
 	}

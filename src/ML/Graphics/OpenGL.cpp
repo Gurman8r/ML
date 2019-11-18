@@ -1,4 +1,4 @@
-#if defined(ML_IMPL_RENDERER_OPENGL)
+#ifdef ML_IMPL_RENDERER_OPENGL
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -59,19 +59,17 @@ namespace ml
 				case GL::VertexShader: this->file = "Vertex"; break;
 				default: this->file = "Unknown"; break;
 				}
-				size_t a, b;
-				if ((a = str.find_first_of('(')) != String::npos)
+				if (const size_t a{ str.find_first_of('(') }; a != String::npos)
 				{
-					if ((b = str.find_first_of(')', a + 1)) != String::npos)
+					if (const size_t b{ str.find_first_of(')', a + 1) }; b != String::npos)
 					{
-						this->line = util::to_i32(str.substr(a + 1, b - a - 1));
-
-						if ((a = str.find_first_of(':', b)) != String::npos)
+						if (const size_t c{ str.find_first_of(':', b) }; c != String::npos)
 						{
-							if ((b = str.find_first_of(':', a + 1)) != String::npos)
+							if (const size_t d{ str.find_first_of(':', c + 1) }; d != String::npos)
 							{
-								this->code = str.substr(a + 2, b - a - 2);
-								this->desc = str.substr(b + 2);
+								this->line = util::to_i32(str.substr(a + 1, b - a - 1));
+								this->code = str.substr(c + 2, d - c - 2);
+								this->desc = str.substr(d + 2);
 							}
 						}
 					}

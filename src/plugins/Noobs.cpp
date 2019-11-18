@@ -228,7 +228,7 @@ namespace ml
 					// Update Camera Uniforms
 					if (m_apply_camera)
 					{
-						for (auto & [ name, value ] : ML_Engine.content().data<Material>())
+						for (auto & [ key, value ] : ML_Engine.content().data<Material>())
 						{
 							if (auto m{ (ptr_t<Material>)value })
 							{
@@ -358,7 +358,10 @@ namespace ml
 			{
 				/* * * * * * * * * * * * * * * * * * * * */
 
-				dispose_files();
+				for (auto & file : m_files)
+				{
+					if (file) { delete file; }
+				}
 
 				m_pipeline.clear();
 
@@ -1314,15 +1317,6 @@ namespace ml
 						}
 					}
 				}
-			}
-			return (*this);
-		}
-
-		Noobs & dispose_files()
-		{
-			for (auto & file : m_files)
-			{
-				if (file) { delete file; }
 			}
 			return (*this);
 		}

@@ -1,5 +1,6 @@
 #include <ML/Graphics/RenderTarget.hpp>
 #include <ML/Graphics/OpenGL.hpp>
+#include <ML/Graphics/ScopedBinder.hpp>
 
 namespace ml
 {
@@ -66,28 +67,27 @@ namespace ml
 
 	const RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo, const IBO & ibo) const
 	{
-		if (vao && vbo && ibo)
+		if (const ScopedBinder<VAO> _a{ vao })
 		{
-			vao.bind();
-			vbo.bind();
-			ibo.bind();
-			ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), nullptr);
-			ibo.unbind();
-			vbo.unbind();
-			vao.unbind();
+			if (const ScopedBinder<VBO> _b{ vbo })
+			{
+				if (const ScopedBinder<IBO> _i{ ibo })
+				{
+					ML_GL.drawElements(vao.mode(), ibo.count(), ibo.type(), nullptr);
+				}
+			}
 		}
 		return (*this);
 	}
 	
 	const RenderTarget & RenderTarget::draw(const VAO & vao, const VBO & vbo) const
 	{
-		if (vao && vbo)
+		if (const ScopedBinder<VAO> _a{ vao })
 		{
-			vao.bind();
-			vbo.bind();
-			ML_GL.drawArrays(vao.mode(), 0, vbo.size());
-			vbo.unbind();
-			vao.unbind();
+			if (const ScopedBinder<VBO> _b{ vbo })
+			{
+				ML_GL.drawArrays(vao.mode(), 0, vbo.size());
+			}
 		}
 		return (*this);
 	}

@@ -184,8 +184,8 @@ namespace ml
 				return (e && e->getByName(t)); 
 			})
 			.def_static("camera_attr", [](str_t name, str_t section, str_t key, str_t value) {
-				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
-				auto c { e->get<Camera>() }; if (!c) return false;
+				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) { return false; }
+				auto c { e->get<Camera>() }; if (!c) { return false; }
 				switch (util::to_lower(section).hash())
 				{
 				case Hash("self"):
@@ -209,18 +209,18 @@ namespace ml
 				return true;
 			})
 			.def_static("light_attr", [](str_t name, str_t section, str_t key, str_t value) {
-				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
-				auto c { e->get<Light>() }; if (!c) return false;
+				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) { return false; }
+				auto l { e->get<Light>() }; if (!l) { return false; }
 				switch (util::to_lower(section).hash())
 				{
 				case Hash("self"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
-					case Hash("color"): c->setColor(input<vec4>()(value)); break;
-					case Hash("intensity"): c->setIntensity(input<float_t>()(value)); break;
-					case Hash("mode"): c->setMode(input<Light::Mode>()(value)); break;
+					case Hash("enabled"): l->setEnabled(input<bool>()(value)); break;
+					case Hash("color"): l->setColor(input<vec4>()(value)); break;
+					case Hash("intensity"): l->setIntensity(input<float_t>()(value)); break;
+					case Hash("mode"): l->setMode(input<Light::Mode>()(value)); break;
 					}
 				}
 				break;
@@ -228,18 +228,18 @@ namespace ml
 				return true;
 			})
 			.def_static("renderer_attr", [](str_t name, str_t section, str_t key, str_t value) {
-				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
-				auto c { e->get<Renderer>() }; if (!c) return false;
+				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) { return false; }
+				auto r { e->get<Renderer>() }; if (!r) { return false; }
 				switch (util::to_lower(section).hash())
 				{
 				case Hash("self"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
-					case Hash("material"): c->setMaterial(ML_Engine.content().get<Material>(value)); break;
-					case Hash("shader"): c->setShader(ML_Engine.content().get<Shader>(value)); break;
-					case Hash("model"): c->setModel(ML_Engine.content().get<Model>(value)); break;
+					case Hash("enabled"): r->setEnabled(input<bool>()(value)); break;
+					case Hash("material"): r->setMaterial(ML_Engine.content().get<Material>(value)); break;
+					case Hash("shader"): r->setShader(ML_Engine.content().get<Shader>(value)); break;
+					case Hash("model"): r->setModel(ML_Engine.content().get<Model>(value)); break;
 					}
 				}
 				break;
@@ -247,9 +247,9 @@ namespace ml
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->states().alpha().enabled = input<bool>()(value); break;
-					case Hash("func"): c->states().alpha().func = GL::find_by_raw_name(value.c_str(), GL::Greater); break;
-					case Hash("coeff"): c->states().alpha().coeff = input<float_t>()(value); break;
+					case Hash("enabled"): r->states().alpha().enabled = input<bool>()(value); break;
+					case Hash("func"): r->states().alpha().func = GL::find_by_raw_name(value.c_str(), GL::Greater); break;
+					case Hash("coeff"): r->states().alpha().coeff = input<float_t>()(value); break;
 					}
 				}
 				break;
@@ -257,11 +257,11 @@ namespace ml
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->states().blend().enabled = input<bool>()(value); break;
-					case Hash("sfactorRGB"): c->states().blend().sfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha); break;
-					case Hash("sfactorAlpha"): c->states().blend().sfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha); break;
-					case Hash("dfactorRGB"): c->states().blend().dfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha); break;
-					case Hash("dfactorAlpha"):  c->states().blend().dfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha); break;
+					case Hash("enabled"): r->states().blend().enabled = input<bool>()(value); break;
+					case Hash("sfactorRGB"): r->states().blend().sfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha); break;
+					case Hash("sfactorAlpha"): r->states().blend().sfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha); break;
+					case Hash("dfactorRGB"): r->states().blend().dfactorRGB = GL::find_by_raw_name(value.c_str(), GL::SrcAlpha); break;
+					case Hash("dfactorAlpha"):  r->states().blend().dfactorAlpha = GL::find_by_raw_name(value.c_str(), GL::OneMinusSrcAlpha); break;
 					}
 				}
 				break;
@@ -269,8 +269,8 @@ namespace ml
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->states().cull().enabled = input<bool>()(value); break;
-					case Hash("mode"): c->states().cull().mode = GL::find_by_raw_name(value.c_str(), GL::Back); break;
+					case Hash("enabled"): r->states().cull().enabled = input<bool>()(value); break;
+					case Hash("mode"): r->states().cull().mode = GL::find_by_raw_name(value.c_str(), GL::Back); break;
 					}
 				}
 				break;
@@ -278,9 +278,9 @@ namespace ml
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->states().depth().enabled = input<bool>()(value); break;
-					case Hash("func"): c->states().depth().func = GL::find_by_raw_name(value.c_str(), GL::Less); break;
-					case Hash("mask"): c->states().depth().mask = input<bool>()(value); break;
+					case Hash("enabled"): r->states().depth().enabled = input<bool>()(value); break;
+					case Hash("func"): r->states().depth().func = GL::find_by_raw_name(value.c_str(), GL::Less); break;
+					case Hash("mask"): r->states().depth().mask = input<bool>()(value); break;
 					}
 				}
 				break;
@@ -288,18 +288,18 @@ namespace ml
 				return true;
 			})
 			.def_static("transform_attr", [](str_t name, str_t section, str_t key, str_t value) {
-				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) return false;
-				auto c { e->get<Transform>() }; if (!c) return false;
+				auto e { ML_Engine.content().get<Entity>(name) }; if (!e) { return false; }
+				auto t { e->get<Transform>() }; if (!t) { return false; }
 				switch (util::to_lower(section).hash())
 				{
 				case Hash("self"):
 				{
 					switch (util::to_lower(key).hash())
 					{
-					case Hash("enabled"): c->setEnabled(input<bool>()(value)); break;
-					case Hash("position"): c->setPosition(input<vec3>()(value)); break;
-					case Hash("scale"): c->setScale(input<vec3>()(value)); break;
-					case Hash("rotation"): c->setRotation(input<vec4>()(value)); break;
+					case Hash("enabled"): t->setEnabled(input<bool>()(value)); break;
+					case Hash("position"): t->setPosition(input<vec3>()(value)); break;
+					case Hash("scale"): t->setScale(input<vec3>()(value)); break;
+					case Hash("rotation"): t->setRotation(input<vec4>()(value)); break;
 					}
 				}
 				break;

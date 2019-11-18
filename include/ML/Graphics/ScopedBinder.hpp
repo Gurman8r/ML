@@ -3,6 +3,7 @@
 
 #include <ML/Graphics/Export.hpp>
 #include <ML/Core/StandardLib.hpp>
+#include <ML/Core/NonCopyable.hpp>
 
 namespace ml
 {
@@ -16,14 +17,25 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> struct ML_GRAPHICS_API ScopedBinder<T> final
+	template <class T> struct ML_GRAPHICS_API ScopedBinder<T> final : public NonCopyable
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class ... Args>
-		ScopedBinder(const_ptr_t<T> value, Args && ... args) : m_value{ value }
+		ScopedBinder() = delete;
+
+		template <
+			class ... Args
+		> explicit ScopedBinder(const_ptr_t<T> value, Args && ... args) 
+			: m_value{ value }
 		{
 			if (m_value) { m_value->bind(std::forward<Args>(args)...); }
+		}
+
+		template <
+			class ... Args
+		> explicit ScopedBinder(const T & value, Args && ... args)
+			: ScopedBinder { (value ? &value : nullptr), std::forward<Args>(args)... }
+		{
 		}
 
 		~ScopedBinder()

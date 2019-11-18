@@ -51,9 +51,8 @@ namespace ml
 		{
 			for (const String & elem : sections())
 			{
-
+				// WIP
 			}
-			
 			file.close();
 		}
 		return false;
@@ -68,7 +67,7 @@ namespace ml
 
 	std::set<String> Preferences::sections() const
 	{
-		if (auto ini { static_cast<const INIReader *>(m_ini) })
+		if (auto ini { static_cast<const_ptr_t<INIReader>>(m_ini) })
 		{
 			return reinterpret_cast<const std::set<String> &>(ini->Sections());
 		}
@@ -77,7 +76,7 @@ namespace ml
 
 	Map<String, String> Preferences::values() const
 	{
-		if (auto ini { static_cast<const INIReader *>(m_ini) })
+		if (auto ini { static_cast<const_ptr_t<INIReader>>(m_ini) })
 		{
 			return Map<String, String> { ini->Values().begin(), ini->Values().end() };
 		}

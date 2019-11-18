@@ -75,20 +75,22 @@ namespace ml
 				// Indices
 				for (uint32_t * i = &f->mIndices[0]; i != &f->mIndices[f->mNumIndices]; i++)
 				{
-					const aiVector3D * vp { (*m)->mVertices ? &(*m)->mVertices[*i] : nullptr };
-					const aiVector3D * vn { (*m)->mNormals ? &(*m)->mNormals[*i] : nullptr };
-					const aiVector3D * uv { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][*i] : nullptr };
+					const_ptr_t<aiVector3D> vp { (*m)->mVertices ? &(*m)->mVertices[*i] : nullptr };
+					const_ptr_t<aiVector3D> vn { (*m)->mNormals ? &(*m)->mNormals[*i] : nullptr };
+					const_ptr_t<aiVector3D> uv { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][*i] : nullptr };
 
 					temp->addVertex(Vertex {
-						vp ? vec3 { vp->x, vp->y, vp->z } : vec3::zero(),
+						vp ? vec3 { vp->x, vp->y, vp->z }		: vec3::zero(),
 						vn ? vec4 { vn->x, vn->y, vn->z, 1.0f } : vec4::one(),
-						uv ? vec2 { uv->x, uv->y } : vec2::one()
+						uv ? vec2 { uv->x, uv->y }				: vec2::one()
 					});
 				}
 			}
 			
 			temp->setLayout(BufferLayout::get_default());
+			
 			temp->create();
+			
 			m_meshes.push_back(temp);
 		}
 		return !m_meshes.empty();

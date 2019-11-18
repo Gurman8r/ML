@@ -51,9 +51,9 @@ namespace ml
 
 	const BufferLayout & BufferLayout::bind() const
 	{
-		for (const Element & elem : this->elements()) 
+		for (const auto & elem : this->elements()) 
 		{ 
-			elem(); 
+			elem();
 		}
 		return (*this);
 	}

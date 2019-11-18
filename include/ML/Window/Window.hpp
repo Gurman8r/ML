@@ -206,13 +206,13 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	protected:
-		voidptr_t 		m_window;		// 
-		voidptr_t 		m_monitor;		// 
-		voidptr_t 		m_share;		// 
-		ContextSettings	m_context;		// 
-		WindowStyle		m_style;		// 
-		VideoMode		m_videoMode;	// 
-		String			m_title;		// 
+		voidptr_t 		m_window;		//
+		voidptr_t 		m_monitor;		//
+		voidptr_t 		m_share;		//
+		ContextSettings	m_context;		//
+		WindowStyle		m_style;		//
+		VideoMode		m_videoMode;	//
+		String			m_title;		//
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

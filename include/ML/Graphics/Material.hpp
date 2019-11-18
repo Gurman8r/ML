@@ -18,7 +18,6 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		Material();
-		Material(base_type && uniforms);
 		Material(const Material & copy);
 		~Material();
 
@@ -51,8 +50,7 @@ namespace ml
 		inline ptr_t<Uniform> insert(ptr_t<Uniform> value)
 		{
 			if (!value) { return nullptr; }
-			auto it { this->find(value->getName()) };
-			if (it == this->end())
+			if (auto it{ this->find(value->getName()) }; it == this->end())
 			{
 				m_uniforms.push_back(std::move(value));
 				return m_uniforms.back();
@@ -64,8 +62,7 @@ namespace ml
 		inline ptr_t<Uniform> insert(const String & name, const T & value)
 		{
 			if (!name) { return nullptr; }
-			auto it { this->find(value->getName()) };
-			if (it == this->end())
+			if (auto it{ this->find(value->getName()) }; it == this->end())
 			{
 				m_uniforms.push_back(new U { name, value });
 				return m_uniforms.back();
@@ -82,8 +79,7 @@ namespace ml
 
 		inline bool erase(const String & name)
 		{
-			auto it { this->find(name) };
-			if (it != this->end())
+			if (auto it{ this->find(name) }; it != this->end())
 			{
 				if (*it) { delete (*it); }
 				m_uniforms.erase(it);
@@ -104,10 +100,10 @@ namespace ml
 
 		template <
 			class U = typename Uniform
-		> inline const ptr_t<U> get(const String & name) const
+		> inline const_ptr_t<U> get(const String & name) const
 		{
 			auto it { this->find(name) };
-			return (it != this->cend()) ? dynamic_cast<const ptr_t<U>>(*it) : nullptr;
+			return (it != this->cend()) ? dynamic_cast<const_ptr_t<U>>(*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -14,11 +14,6 @@ namespace ml
 	{
 	}
 
-	Material::Material(base_type && uniforms)
-		: m_uniforms { std::move(uniforms) }
-	{
-	}
-
 	Material::Material(const Material & copy)
 		: m_uniforms {}
 	{

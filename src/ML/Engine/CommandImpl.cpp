@@ -48,7 +48,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool CommandImpl::execute(const List<String>& args) const
+	bool CommandImpl::execute(ArrayList<String> const & args) const
 	{
 		return m_executor && m_executor->onCommand((*this), args);
 	}

@@ -13,7 +13,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using base_type = typename List<Uniform *>;
+		using base_type = typename ArrayList<Uniform *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +25,7 @@ namespace ml
 
 		bool dispose() override;
 		bool loadFromFile(String const & filename);
-		bool loadFromFile(String const & filename, const Map<String, Texture *> * textures);
+		bool loadFromFile(String const & filename, const Dict<String, Texture *> * textures);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -148,8 +148,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private:
-		base_type	m_uniforms;
+	private: base_type m_uniforms;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

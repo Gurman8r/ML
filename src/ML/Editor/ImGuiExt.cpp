@@ -14,14 +14,14 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool ImGuiExt::Combo(C_String label, int32_t * index, const List<String> & arr, int32_t max_height)
+	bool ImGuiExt::Combo(C_String label, int32_t * index, ArrayList<String> const & arr, int32_t max_height)
 	{
 		ImGui::PushID(label);
 		const bool retval { ImGui::Combo(
 			label,
 			index,
 			Util::get_vector,
-			static_cast<void *>(&std::remove_cv_t<List<String> &>(arr)),
+			static_cast<void *>(&std::remove_cv_t<ArrayList<String> &>(arr)),
 			static_cast<int32_t>(arr.size()),
 			max_height
 		) };

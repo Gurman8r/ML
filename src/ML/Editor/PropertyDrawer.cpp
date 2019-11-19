@@ -1074,7 +1074,7 @@ namespace ml
 					{
 						value->loadFromFile(
 							asset_path, 
-							(const Map<String, Texture *> *) & ML_Engine.content().data<Texture>()
+							(const Dict<String, Texture *> *) & ML_Engine.content().data<Texture>()
 						);
 					}
 				}

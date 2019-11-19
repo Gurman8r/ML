@@ -2,7 +2,7 @@
 #define _ML_CONFIG_HPP_
 
 
-//	Project Information
+// Project Information
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define ML_PROJECT_AUTH	"Melody Gurman"
@@ -13,7 +13,7 @@
 #define ML_PROJECT_TIME	__TIME__
 
 
-//	Language
+// Language
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #if defined(__cplusplus)
@@ -57,7 +57,7 @@
 #endif
 
 
-//	System
+// System
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #if defined(_WIN32) || defined(_WIN64) \
@@ -85,7 +85,7 @@
 #endif
 
 
-//	Platform / Architecture
+// Platform / Architecture
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #if defined(__x86_64__) || defined(_M_X64) || defined(_x64)
@@ -121,7 +121,7 @@
 #endif
 
 
-//	Compiler
+// Compiler
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #if defined(_MSC_VER)
@@ -219,64 +219,86 @@
 #endif
 
 
-//	Preprocessor
+// Preprocessor
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#define _ML					::ml::
-#define ML_ADDRESSOF(ptr)	((void *)(ML_INTMAX)ptr)
-#define ML_ARRAYSIZE(arr)	(sizeof(arr) / sizeof(*arr))
-#define ML_CONCAT(a, b)		a##b
-#define ML_FILE				__FILE__
-#define ML_LINE				__LINE__
-#define ML_STRINGIFY(str)	ML_TOSTRING(str)
-#define ML_TOSTRING(str)	#str
-
-#define ML_USING			using
-#define ML_USING_VA(...)	template <##__VA_ARGS__> ML_USING
-#define ML_USING_X			ML_USING_VA(class X)
-#define ML_USING_XY			ML_USING_VA(class X, class Y)
-#define ML_USING_XYZ		ML_USING_VA(class X, class Y, class Z)
-#define ML_USING_Ts			ML_USING_VA(class ... Ts)
-
-#define ML_TRUE_EXPR(expr)	(([&](){ expr; return true; })())
-#define ML_FALSE_EXPR(expr)	(([&](){ expr; return false; })())
-
-
-//	Build
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+// Build
 #if defined(_DEBUG)
-#	define ML_DEBUG			true
+#	define ML_DEBUG			1
 #	define ML_CONFIGURATION	"Debug"
 #else
-#	define ML_DEBUG			false
+#	define ML_DEBUG			0
 #	define ML_CONFIGURATION	"Release"
 #endif
 
-#ifdef ML_SYSTEM_WINDOWS
+// Utility
+#define _ML						::ml::
+#define ML_ADDRESSOF(ptr)		((void *)(ML_INTMAX)ptr)
+#define ML_ARRAYSIZE(arr)		(sizeof(arr) / sizeof(*arr))
+#define ML_CONCAT_IMPL(a, b)	a##b
+#define ML_CONCAT(a, b)			ML_CONCAT_IMPL(a, b)
+#define ML_STRINGIFY(str)		ML_TOSTRING(str)
+#define ML_TOSTRING(str)		#str
+#define ML_TRUE_EXPR(expr)		(([&](){ expr; return true; })())
+#define ML_FALSE_EXPR(expr)		(([&](){ expr; return false; })())
+
+// Typedefs
+#define ML_USING				using
+#define ML_USING_T_(...)		template <##__VA_ARGS__> ML_USING
+#define ML_USING_X				ML_USING_T_(class X)
+#define ML_USING_XY				ML_USING_T_(class X, class Y)
+#define ML_USING_XYZ			ML_USING_T_(class X, class Y, class Z)
+#define ML_USING_Ts				ML_USING_T_(class ... Ts)
+
+// Anonymous
+#ifdef __COUNTER__
+#	define ML_ANONYMOUS(str) ML_CONCAT(str, __COUNTER__)
+#else
+#	define ML_ANONYMOUS(str) ML_CONCAT(str, __LINE__)
+#endif
+
+// Inlining
+#ifdef ML_CC_MSC
+#	define ML_ALWAYS_INLINE __forceinline
+#	define ML_NEVER_INLINE __declspec(noinline)
+#elif defined(ML_CC_GCC) || defined(ML_CC_CLANG)
+#	define ML_ALWAYS_INLINE inline __attribute__((__always_inline__))
+#	define ML_NEVER_INLINE __attribute__((__noinline__))
+#else
+#	define ML_ALWAYS_INLINE
+#	define ML_NEVER_INLINE
+#endif
+
+// Export
+#ifdef ML_CC_MSC
 #	define ML_API_EXPORT __declspec(dllexport)
 #	define ML_API_IMPORT __declspec(dllimport)
-#	ifdef ML_CC_MSC
-#		pragma warning(disable: 4031)	// second formal parameter list longer than the first list
-#		pragma warning(disable: 4067)	// unexpected tokens following preprocessor directive - expected a newline
-#		pragma warning(disable: 4251)	// type1 needs to have dll-interface to be used by type2
-#		pragma warning(disable: 4307)	// integral constant overflow
-#		pragma warning(disable: 4308)	// negative integral constant converted to unsigned type
-#		pragma warning(disable: 4309)	// truncation of constant value
-#		pragma warning(disable: 4723)	// potential divide by zero
-#		pragma warning(disable: 6282)	// incorrect operator
-#		pragma warning(disable: 6301)	// return value ignored
-#		pragma warning(disable: 26437)	// do not slice
-#		pragma warning(disable: 26451)	// arithmetic overflow
-#		pragma warning(disable: 26495)	// value may be uninitialized
-#		pragma warning(disable: 26812)	// unscoped enum
-#	endif
-#elif defined(ML_CC_GCC) && (ML_CC_GCC >= 4)
+#elif ((defined(ML_CC_GCC) || defined(ML_CC_CLANG)) && (ML_CC_VER >= 4))
 #	define ML_API_EXPORT __attribute__ ((__visibility__ ("default")))
 #	define ML_API_IMPORT __attribute__ ((__visibility__ ("default")))
 #else
 #	define ML_API_EXPORT
 #	define ML_API_IMPORT
+#endif
+
+
+// Warnings
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#ifdef ML_CC_MSC
+#	pragma warning(disable: 4031)	// second formal parameter list longer than the first list
+#	pragma warning(disable: 4067)	// unexpected tokens following preprocessor directive - expected a newline
+#	pragma warning(disable: 4251)	// type1 needs to have dll-interface to be used by type2
+#	pragma warning(disable: 4307)	// integral constant overflow
+#	pragma warning(disable: 4308)	// negative integral constant converted to unsigned type
+#	pragma warning(disable: 4309)	// truncation of constant value
+#	pragma warning(disable: 4723)	// potential divide by zero
+#	pragma warning(disable: 6282)	// incorrect operator
+#	pragma warning(disable: 6301)	// return value ignored
+#	pragma warning(disable: 26437)	// do not slice
+#	pragma warning(disable: 26451)	// arithmetic overflow
+#	pragma warning(disable: 26495)	// value may be uninitialized
+#	pragma warning(disable: 26812)	// unscoped enum
 #endif
 
 #endif // !_ML_CONFIG_HPP_

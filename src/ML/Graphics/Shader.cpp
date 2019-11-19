@@ -56,9 +56,9 @@ namespace ml
 	template <
 		template <class, size_t, size_t> class M,
 		class T, size_t X, size_t Y
-	> static inline List<T> makeContiguous(const M<T, X, Y> * value, const size_t length)
+	> static inline ArrayList<T> makeContiguous(const M<T, X, Y> * value, const size_t length)
 	{
-		List<T> temp;
+		ArrayList<T> temp;
 		if (value)
 		{
 			if (const size_t imax = (length * (X * Y)))
@@ -517,37 +517,37 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool Shader::setUniformList(String const & name, const List<float_t> & value) const
+	bool Shader::setUniformList(String const & name, ArrayList<float_t> const & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
 
-	bool Shader::setUniformList(String const & name, const List<vec2> & value) const
+	bool Shader::setUniformList(String const & name, ArrayList<vec2> const & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
 
-	bool Shader::setUniformList(String const & name, const List<vec3> & value) const
+	bool Shader::setUniformList(String const & name, ArrayList<vec3> const & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
 
-	bool Shader::setUniformList(String const & name, const List<vec4> & value) const
+	bool Shader::setUniformList(String const & name, ArrayList<vec4> const & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
 
-	bool Shader::setUniformList(String const & name, const List<mat2> & value) const
+	bool Shader::setUniformList(String const & name, ArrayList<mat2> const & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
 
-	bool Shader::setUniformList(String const & name, const List<mat3> & value) const
+	bool Shader::setUniformList(String const & name, ArrayList<mat3> const & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}
 
-	bool Shader::setUniformList(String const & name, const List<mat4> & value) const
+	bool Shader::setUniformList(String const & name, ArrayList<mat4> const & value) const
 	{
 		return setUniformArray(name, (int32_t)value.size(), value.data());
 	}

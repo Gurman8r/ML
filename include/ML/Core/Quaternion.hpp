@@ -164,9 +164,8 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	template <class T> 
-	using tquat = Quaternion<T>;
-	using quat	= tquat<float32_t>;
+	ML_USING_X tquat = Quaternion<X>;
+	ML_USING quat = tquat<float32_t>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

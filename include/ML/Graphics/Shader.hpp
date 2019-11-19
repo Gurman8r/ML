@@ -90,13 +90,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniformList(String const & name, const List<float_t> & value) const;
-		bool setUniformList(String const & name, const List<vec2> & value) const;
-		bool setUniformList(String const & name, const List<vec3> & value) const;
-		bool setUniformList(String const & name, const List<vec4> & value) const;
-		bool setUniformList(String const & name, const List<mat2> & value) const;
-		bool setUniformList(String const & name, const List<mat3> & value) const;
-		bool setUniformList(String const & name, const List<mat4> & value) const;
+		bool setUniformList(String const & name, ArrayList<float_t> const & value) const;
+		bool setUniformList(String const & name, const ArrayList<vec2> & value) const;
+		bool setUniformList(String const & name, const ArrayList<vec3> & value) const;
+		bool setUniformList(String const & name, const ArrayList<vec4> & value) const;
+		bool setUniformList(String const & name, const ArrayList<mat2> & value) const;
+		bool setUniformList(String const & name, const ArrayList<mat3> & value) const;
+		bool setUniformList(String const & name, const ArrayList<mat4> & value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -110,9 +110,9 @@ namespace ml
 
 		struct UniformBinder;
 
-		using AttribTable	= Map<String, int32_t>;
-		using TextureTable	= Map<int32_t, Texture const *>;
-		using UniformTable	= Map<String, int32_t>;
+		using AttribTable	= Dict<String, int32_t>;
+		using TextureTable	= Dict<int32_t, Texture const *>;
+		using UniformTable	= Dict<String, int32_t>;
 
 		mutable AttribTable		m_attribs;	// Attribute Cache
 		mutable TextureTable	m_textures; // Texture Cache

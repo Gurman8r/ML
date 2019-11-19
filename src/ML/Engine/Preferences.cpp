@@ -74,13 +74,13 @@ namespace ml
 		return std::set<String>();
 	}
 
-	Map<String, String> Preferences::values() const
+	Dict<String, String> Preferences::values() const
 	{
 		if (auto ini { static_cast<INIReader const *>(m_ini) })
 		{
-			return Map<String, String> { ini->Values().begin(), ini->Values().end() };
+			return Dict<String, String> { ini->Values().begin(), ini->Values().end() };
 		}
-		return Map<String, String>();
+		return Dict<String, String>();
 	}
 
 	bool Preferences::set_string(String const & section, String const & name, String const & value)

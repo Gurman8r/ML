@@ -45,7 +45,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using FBO = typename FrameBufferObject;
+	ML_USING FBO = typename FrameBufferObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

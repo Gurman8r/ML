@@ -35,7 +35,7 @@ namespace ml
 
 		IndexBufferObject const & bufferData(uint32_t const * data, uint32_t count) const;
 
-		IndexBufferObject const & bufferData(const List<uint32_t> & data) const;
+		IndexBufferObject const & bufferData(ArrayList<uint32_t> const & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -57,7 +57,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using IBO = typename IndexBufferObject;
+	ML_USING IBO = typename IndexBufferObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

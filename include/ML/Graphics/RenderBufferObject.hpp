@@ -53,7 +53,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using RBO = typename RenderBufferObject;
+	ML_USING RBO = typename RenderBufferObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

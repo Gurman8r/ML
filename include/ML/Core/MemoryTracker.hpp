@@ -27,7 +27,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using RecordTable = typename HashMap<void *, Record *>;
+		using RecordTable = typename Dict<void *, Record *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -40,47 +40,22 @@ namespace ml
 	private:
 		friend struct Singleton<MemoryTracker>;
 		friend struct Trackable;
-		
-		size_t		m_current; // Current Allocation
-		RecordTable	m_records; // Allocation Records
-
-		MemoryTracker() : m_current{ 0 }, m_records{}
-		{
-		}
-
-#if (ML_DEBUG)
-		~MemoryTracker();
-#else
-		~MemoryTracker()
-		{
-			ML_ASSERT("MEMORY LEAKS DETECTED" && m_records.empty());
-		}
-#endif
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline void * allocate(size_t size)
-		{
-			auto value{ ML_IMPL_NEW(size) };
-			return m_records.insert({
-				value, ::new Record { m_current++, size, value }
-			}).first->second->value;
-		}
+		MemoryTracker() = default;
+		~MemoryTracker();
 
-		inline void deallocate(void * value)
-		{
-			if (auto it{ m_records.find(value) }; it != m_records.end())
-			{
-				// free the pointer
-				ML_IMPL_DELETE(it->second->value);
-				it->second->value = nullptr;
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-				// erase the record
-				::delete it->second;
-				it->second = nullptr;
-				m_records.erase(it);
-			}
-		}
+		size_t		m_current{ 0 };
+		RecordTable	m_records{};
+
+		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+		void * allocate(size_t size);
+
+		void deallocate(void * value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
@@ -109,13 +84,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};
-
-	/* * * * * * * * * * * * * * * * * * * * */
-
-	std::type_info const & MemoryTracker::Record::target_type() const
-	{
-		return (static_cast<Trackable const *>(this->value))->target_type();
-	}
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

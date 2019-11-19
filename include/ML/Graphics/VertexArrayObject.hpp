@@ -44,7 +44,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using VAO = typename VertexArrayObject;
+	ML_USING VAO = typename VertexArrayObject;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

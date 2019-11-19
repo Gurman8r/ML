@@ -606,9 +606,9 @@ namespace ml
 		return temp;
 	}
 
-	const List<VideoMode> & Window::getFullscreenModes()
+	ArrayList<VideoMode> const & Window::getFullscreenModes()
 	{
-		static List<VideoMode> temp {};
+		static ArrayList<VideoMode> temp {};
 		static bool once { true };
 		if (once && !(once = false))
 		{
@@ -636,9 +636,9 @@ namespace ml
 		return reinterpret_cast<Window::ProcFun>(glfwGetProcAddress(value));
 	}
 
-	const List<void *> & Window::getMonitors()
+	ArrayList<void *> const & Window::getMonitors()
 	{
-		static List<void *> temp {};
+		static ArrayList<void *> temp {};
 		if (temp.empty())
 		{
 			int32_t count { 0 };

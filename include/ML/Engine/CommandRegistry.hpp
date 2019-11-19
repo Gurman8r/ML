@@ -15,7 +15,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		using value_type		= typename CommandDescriptor *;
-		using command_list		= typename List<value_type>;
+		using command_list		= typename ArrayList<value_type>;
 		using iterator			= typename command_list::iterator;
 		using const_iterator	= typename command_list::const_iterator;
 

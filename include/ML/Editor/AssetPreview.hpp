@@ -64,7 +64,7 @@ namespace ml
 		~AssetPreview() { this->dispose(); }
 
 		using PreviewMap = typename HashMap<void *, Texture const *>;
-		using TextureList = typename List<Texture *>;
+		using TextureList = typename ArrayList<Texture *>;
 
 		mutable PreviewMap	m_previewMap;
 		mutable TextureList m_textureList;

@@ -63,7 +63,7 @@ namespace ml
 			for (auto const & pair : m_dir)
 			{
 				char const & type = pair.first;
-				const List<String> & list = pair.second;
+				ArrayList<String> const & list = pair.second;
 
 				ImVec4 color;
 				switch (type)

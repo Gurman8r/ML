@@ -29,7 +29,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		List<CommandImpl *> m_cmd;
+		ArrayList<CommandImpl *> m_cmd;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -62,7 +62,7 @@ namespace ml
 					"cat",
 					"Display the contents of a file",
 					"cat [FILE]",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						if (args.size() == 2)
 						{
@@ -83,7 +83,7 @@ namespace ml
 					"cd",
 					"Set the current working directory",
 					"cd [DIR]...",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						const String path = ([&]()
 						{
@@ -103,7 +103,7 @@ namespace ml
 					"clear",
 					"Clear the terminal screen",
 					"clear",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						ML_Editor.terminal().clear();
 						return true;
@@ -116,7 +116,7 @@ namespace ml
 					"cwd",
 					"Display the current working directory",
 					"cwd",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						std::cout << ML_FS.getPath() << std::endl;
 						return true;
@@ -129,7 +129,7 @@ namespace ml
 					"exit",
 					"Close the application",
 					"exit",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						ML_EventSystem.fireEvent<WindowKillEvent>();
 						return true;
@@ -142,7 +142,7 @@ namespace ml
 					"help",
 					"Display information about commands.",
 					"help [COMMAND]",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						switch (args.size())
 						{
@@ -164,7 +164,7 @@ namespace ml
 					"history",
 					"Display or manipulate history list",
 					"history",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						for (C_String h : ML_Editor.terminal().history())
 						{
@@ -180,7 +180,7 @@ namespace ml
 					"lua",
 					"Execute lua string",
 					"lua [CODE]...",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						if (const String code = ([&]()
 						{
@@ -201,9 +201,9 @@ namespace ml
 
 				m_cmd.push_back(new CommandImpl {
 					"ls",
-					"List directory contents",
+					"ArrayList directory contents",
 					"ls [DIR]...",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						if (const String path = ([&]()
 						{
@@ -235,7 +235,7 @@ namespace ml
 					"os",
 					"Execute operating system commands",
 					"os [CMD] [FILE] [ARGS] [PATH] [FLAGS]",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						switch (args.size())
 						{
@@ -255,7 +255,7 @@ namespace ml
 					"pause",
 					"Pause the console subsystem",
 					"pause",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						Debug::pause(0);
 						return true;
@@ -268,7 +268,7 @@ namespace ml
 					"py",
 					"Execute python code.",
 					"py [CODE]...",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						if (const String code = ([&]()
 						{
@@ -291,7 +291,7 @@ namespace ml
 					"pause",
 					"Pause the console subsystem",
 					"pause",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						Debug::pause(0);
 						return false;
@@ -304,7 +304,7 @@ namespace ml
 					"execute",
 					"Execute a script",
 					"execute [NAME]",
-					new FunctionExecutor([](const CommandDescriptor & m_cmd, const List<String> & args)
+					new FunctionExecutor([](const CommandDescriptor & m_cmd, const ArrayList<String> & args)
 					{
 						if (args.size() == 2)
 						{

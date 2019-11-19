@@ -27,7 +27,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Directory = typename HashMap<char, List<String>>;
+		using Directory = typename HashMap<char, ArrayList<String>>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -60,7 +60,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool getDirContents(String const & dirName, List<char> & value) const
+		inline bool getDirContents(String const & dirName, ArrayList<char> & value) const
 		{
 			static String temp;
 			if (getDirContents(dirName, temp))
@@ -128,7 +128,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool getFileContents(String const & filename, List<char> & value) const
+		inline bool getFileContents(String const & filename, ArrayList<char> & value) const
 		{
 			File file;
 			file.loadFromFile(filename);

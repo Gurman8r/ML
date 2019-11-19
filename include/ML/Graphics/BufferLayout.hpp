@@ -36,7 +36,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		BufferLayout();
-		BufferLayout(const List<Element> & elements);
+		BufferLayout(ArrayList<Element> const & elements);
 		BufferLayout(const std::initializer_list<Element> & elements);
 		BufferLayout(BufferLayout const & copy);
 		~BufferLayout();
@@ -49,11 +49,11 @@ namespace ml
 
 		BufferLayout & push_back(Element const & value);
 		
-		inline const List<Element> & elements() const { return m_elements; }
+		inline ArrayList<Element> const & elements() const { return m_elements; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: List<Element> m_elements;
+	private: ArrayList<Element> m_elements;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

@@ -154,8 +154,8 @@ namespace ml
 {
 	// MATRIX NxN
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ML_USING_VA(class T, size_t N) tmatn = Matrix<T, N, N>;
-	ML_USING_VA(class T, size_t N) tvecn = Matrix<T, N, 1>;
+	ML_USING_T_(class T, size_t N) tmatn = Matrix<T, N, N>;
+	ML_USING_T_(class T, size_t N) tvecn = Matrix<T, N, 1>;
 
 
 	// MATRIX 2x2

@@ -16,7 +16,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pixels					= typename List<byte_t>;
+		using Pixels					= typename ArrayList<byte_t>;
 		using iterator					= typename Pixels::iterator;
 		using const_iterator			= typename Pixels::const_iterator;
 		using reverse_iterator			= typename Pixels::reverse_iterator;

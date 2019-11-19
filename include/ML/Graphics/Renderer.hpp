@@ -45,11 +45,11 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		bool					m_enabled;
+		bool				m_enabled;
 		Model const *		m_model;
 		Material const *	m_material;
 		Shader const *		m_shader;
-		RenderStates			m_states;
+		RenderStates		m_states;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

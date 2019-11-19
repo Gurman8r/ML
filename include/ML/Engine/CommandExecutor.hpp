@@ -19,18 +19,18 @@ namespace ml
 
 		virtual ~CommandExecutor() {}
 
-		virtual bool onCommand(CommandDescriptor const & cmd, const List<String> & args) const = 0;
+		virtual bool onCommand(CommandDescriptor const & cmd, ArrayList<String> const & args) const = 0;
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	struct ML_ENGINE_API FunctionExecutor final : public CommandExecutor
 	{
-		using fun_type = typename bool(*)(CommandDescriptor const &, const List<String> &);
+		using fun_type = typename bool(*)(CommandDescriptor const &, ArrayList<String> const &);
 
 		FunctionExecutor(fun_type && fun) : m_fun(fun) {}
 
-		inline bool onCommand(CommandDescriptor const & cmd, const List<String> & args) const override
+		inline bool onCommand(CommandDescriptor const & cmd, ArrayList<String> const & args) const override
 		{
 			return m_fun ? m_fun(cmd, args) : false;
 		}

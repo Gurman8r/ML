@@ -96,7 +96,7 @@ namespace ml
 
 			static constexpr C_String Names[] = { "Fragment", "Vertex", "Geometry" };
 
-			using Errors = typename List<ShaderError>;
+			using Errors = typename ArrayList<ShaderError>;
 
 			size_t		type;
 			TextEditor	text;
@@ -117,7 +117,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pipeline = typename List<Surface *>;
+		using Pipeline = typename ArrayList<Surface *>;
 
 		enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 
@@ -852,12 +852,12 @@ namespace ml
 				if (auto c { Camera::mainCamera() })
 				{
 					// Get Video Modes
-					static const List<VideoMode> & mode_values { Window::getFullscreenModes() };
+					static ArrayList<VideoMode> const & mode_values { Window::getFullscreenModes() };
 
 					// Get Video Names
-					static const List<String> & mode_names = [&]
+					static ArrayList<String> const & mode_names = [&]
 					{
-						static List<String> temp { "Automatic", "Manual" };
+						static ArrayList<String> temp { "Automatic", "Manual" };
 						for (const auto & elem : mode_values)
 							temp.push_back(util::to_string(elem.size));
 						return temp;

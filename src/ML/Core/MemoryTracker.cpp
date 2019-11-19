@@ -5,9 +5,16 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#if (ML_DEBUG)
+	std::type_info const & MemoryTracker::Record::target_type() const
+	{
+		return static_cast<Trackable const *>(value)->target_type();
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	MemoryTracker::~MemoryTracker()
 	{
+#if (ML_DEBUG)
 		if (!m_records.empty())
 		{
 			Debug::logError("MEMORY LEAKS DETECTED");
@@ -33,8 +40,34 @@ namespace ml
 
 			Debug::pause(EXIT_FAILURE);
 		}
-	}
 #endif
+		ML_ASSERT("MEMORY LEAKS DETECTED" && m_records.empty());
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	void * MemoryTracker::allocate(size_t size)
+	{
+		auto value{ ML_IMPL_NEW(size) };
+		return m_records.insert({
+			value, ::new Record { m_current++, size, value }
+		}).first->second->value;
+	}
+
+	void MemoryTracker::deallocate(void * value)
+	{
+		if (auto it{ m_records.find(value) }; it != m_records.end())
+		{
+			// free the pointer
+			ML_IMPL_DELETE(it->second->value);
+			it->second->value = nullptr;
+
+			// erase the record
+			::delete it->second;
+			it->second = nullptr;
+			m_records.erase(it);
+		}
+	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }

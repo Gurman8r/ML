@@ -15,7 +15,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using AssetMap	= typename Map<String, Trackable *>;
+		using AssetMap	= typename Dict<String, Trackable *>;
 		using TypeMap	= typename HashMap<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -198,9 +198,9 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline List<String> get_keys() const
+		template <class T> inline ArrayList<String> get_keys() const
 		{
-			List<String> temp{};
+			ArrayList<String> temp{};
 			temp.reserve(this->size<T>());
 			for (auto const & pair : this->data<T>())
 			{

@@ -20,7 +20,7 @@ namespace ml
 		using sstream_type		= typename string_type::sstream_type;
 		using ifstream_type		= typename std::basic_ifstream<value_type>;
 		using ofstream_type		= typename std::basic_ofstream<value_type>;
-		using list_type			= typename List<value_type>;
+		using list_type			= typename ArrayList<value_type>;
 		using iterator			= typename list_type::iterator;
 		using const_iterator	= typename list_type::const_iterator;
 		using pointer			= typename list_type::pointer;
@@ -150,7 +150,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using File = typename BasicFile<char>;
+	ML_USING File = typename BasicFile<char>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 

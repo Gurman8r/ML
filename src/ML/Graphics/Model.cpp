@@ -96,7 +96,7 @@ namespace ml
 		return !m_meshes.empty();
 	}
 
-	bool Model::loadFromMemory(const List<Vertex> & vertices)
+	bool Model::loadFromMemory(ArrayList<Vertex> const & vertices)
 	{
 		if (dispose())
 		{
@@ -105,7 +105,7 @@ namespace ml
 		return !m_meshes.empty();
 	}
 
-	bool Model::loadFromMemory(const List<Vertex> & vertices, const List<uint32_t> & indices)
+	bool Model::loadFromMemory(ArrayList<Vertex> const & vertices, ArrayList<uint32_t> const & indices)
 	{
 		if (dispose())
 		{

@@ -33,7 +33,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static bool Combo(C_String label, int32_t * index, const List<String> & arr, int32_t max_height = -1);
+		static bool Combo(C_String label, int32_t * index, ArrayList<String> const & arr, int32_t max_height = -1);
 
 		static bool Combo(C_String label, int32_t * index, C_String const * arr, int32_t max_height = -1);
 
@@ -57,7 +57,7 @@ namespace ml
 		{
 			static inline bool get_vector(void * value, int32_t i, C_String * out)
 			{
-				auto * vector{ static_cast<List<String> *>(value) };
+				auto * vector{ static_cast<ArrayList<String> *>(value) };
 				if (vector && (i >= 0) && (i < static_cast<int32_t>(vector->size())))
 				{
 					(*out) = vector->at(i).c_str();

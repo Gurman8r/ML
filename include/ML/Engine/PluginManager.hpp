@@ -39,17 +39,17 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		inline auto path()		const -> String const & { return m_path; }
-		inline auto files()		const -> const List<String> & { return m_files; }
-		inline auto libraries()	const -> const List<SharedLibrary *> &	{ return m_libraries; }
-		inline auto plugins()	const -> const List<Plugin *> & { return m_plugins; }
+		inline auto files()		const -> ArrayList<String> const & { return m_files; }
+		inline auto libraries()	const -> ArrayList<SharedLibrary *> const &	{ return m_libraries; }
+		inline auto plugins()	const -> ArrayList<Plugin *> const & { return m_plugins; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		String m_path;
-		List<String> m_files;
-		List<SharedLibrary *> m_libraries;
-		List<Plugin *> m_plugins;
+		ArrayList<String> m_files;
+		ArrayList<SharedLibrary *> m_libraries;
+		ArrayList<Plugin *> m_plugins;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

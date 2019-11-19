@@ -29,7 +29,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		std::set<String> sections() const;
-		Map<String, String> values() const;
+		Dict<String, String> values() const;
 
 		bool		set_string	(String const & section, String const & name, String const & value);
 		bool		get_bool	(String const & section, String const & name, bool dv) const;

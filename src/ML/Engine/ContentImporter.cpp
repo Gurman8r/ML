@@ -52,7 +52,7 @@ namespace ml
 #endif
 	}
 
-	int32_t ContentImporter<>::loadMetadata(const List<Metadata> & value)
+	int32_t ContentImporter<>::loadMetadata(ArrayList<Metadata> const & value)
 	{
 #if (ML_DEBUG)
 		Debug::logInfo("Preparing {0} items...", value.size());
@@ -168,7 +168,7 @@ namespace ml
 					// Load Uniforms
 					if (!temp->loadFromFile(
 						md.getData("uniforms").asString(),
-						(const Map<String, Texture *> *)&ML_Engine.content().data<Texture>()
+						(const Dict<String, Texture *> *)&ML_Engine.content().data<Texture>()
 					))
 					{
 						/* error */

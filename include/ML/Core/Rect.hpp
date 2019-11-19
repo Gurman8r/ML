@@ -88,9 +88,9 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	using FloatRect = Rect<float_t>;
-	using IntRect	= Rect<int32_t>;
-	using UintRect	= Rect<uint32_t>;
+	ML_USING FloatRect = Rect<float_t>;
+	ML_USING IntRect	= Rect<int32_t>;
+	ML_USING UintRect	= Rect<uint32_t>;
 
 	/* * * * * * * * * * * * * * * * * * * * */
 }

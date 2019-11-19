@@ -20,7 +20,7 @@ namespace ml
 	{
 	}
 
-	BufferLayout::BufferLayout(const List<Element> & elements)
+	BufferLayout::BufferLayout(ArrayList<Element> const & elements)
 		: m_elements { elements }
 	{
 	}

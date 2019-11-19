@@ -14,7 +14,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 		MetadataParser();
-		explicit MetadataParser(const List<Metadata *> & data);
+		explicit MetadataParser(ArrayList<Metadata *> const & data);
 		~MetadataParser();
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -25,21 +25,21 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		static const List<Metadata *> & loadLists(List<Metadata *> & data, const List<Map<String, String>> & value);
+		static ArrayList<Metadata *> const & loadLists(ArrayList<Metadata *> & data, ArrayList<Dict<String, String>> const & value);
 		
-		static bool readFile(String const & filename, List<Metadata *> & list);
+		static bool readFile(String const & filename, ArrayList<Metadata *> & list);
 		
-		static bool readLists(List<Metadata *> & list, std::istream & file, String & line);
+		static bool readLists(ArrayList<Metadata *> & list, std::istream & file, String & line);
 		
 		static bool readMetadata(Metadata *& data, std::istream & file, String & line);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto lists() const -> const List<Metadata *> & { return m_lists; }
+		inline auto lists() const -> ArrayList<Metadata *> const & { return m_lists; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: List<Metadata *> m_lists;
+	private: ArrayList<Metadata *> m_lists;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

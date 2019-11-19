@@ -34,12 +34,12 @@ namespace ml
 
 		static bool loadMetadata(Metadata const & value);
 
-		static int32_t loadMetadata(const List<Metadata> & value);
+		static int32_t loadMetadata(ArrayList<Metadata> const & value);
 
 		template <class S>
-		static inline int32_t loadMetadata(const List<Map<S, S>> & value)
+		static inline int32_t loadMetadata(ArrayList<Dict<S, S>> const & value)
 		{
-			List<Metadata> md{};
+			ArrayList<Metadata> md{};
 			md.reserve(value.size());
 			for (auto const & elem : value)
 			{

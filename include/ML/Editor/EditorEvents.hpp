@@ -7,13 +7,6 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class	Editor;
-	struct	GameTime;
-	class	Editor_Dockspace;
-	struct	RenderWindow;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 	enum class EditorEventType
 	{
 		MIN_EDITOR_EVENT = Event::EV_EDITOR,
@@ -55,6 +48,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	class Editor_Dockspace;
 	struct DockspaceEvent final : public EditorEvent<EditorEventType::EV_Dockspace>
 	{
 		Editor_Dockspace & dockspace;

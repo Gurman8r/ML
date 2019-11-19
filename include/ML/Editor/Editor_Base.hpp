@@ -39,7 +39,6 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public:
 		inline auto getTitle()		const	-> C_String	{ return m_title; }
 		inline auto getHotkey()		const	-> C_String { return m_hotkey; }
 		inline auto getFlags()		const	-> int32_t	{ return m_flags; }

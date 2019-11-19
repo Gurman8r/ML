@@ -35,10 +35,10 @@ namespace ml
 
 	struct OpenGLErrorEvent final : public GraphicsEvent<GraphicsEventType::EV_OpenGLError>
 	{
-		C_String file;
-		uint32_t line;
-		C_String expr;
-		uint32_t code;
+		const C_String file;
+		const uint32_t line;
+		const C_String expr;
+		const uint32_t code;
 		constexpr OpenGLErrorEvent(C_String file, uint32_t line, C_String expr, uint32_t code)
 			: file { file }
 			, line { line }
@@ -52,11 +52,11 @@ namespace ml
 
 	struct ShaderErrorEvent final : public GraphicsEvent<GraphicsEventType::EV_ShaderError>
 	{
-		Shader const * obj;
+		Shader const * shader;
 		uint32_t type;
 		C_String error;
-		constexpr ShaderErrorEvent(Shader const * obj, uint32_t type, C_String error)
-			: obj	{ obj }
+		constexpr ShaderErrorEvent(Shader const * shader, uint32_t type, C_String error)
+			: shader{ shader }
 			, type	{ type }
 			, error { error } 
 		{

@@ -367,7 +367,7 @@ namespace ml
 				{
 					if (auto r{ e ? e->get<Renderer>() : nullptr })
 					{
-						if (ev.obj && (ev.obj == r->shader()))
+						if (ev.shader && (ev.shader == r->shader()))
 						{
 							std::cout << ev.error;
 

@@ -11,7 +11,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using base_type = typename HashMap<hash_t, ptr_t<Trackable>>;
+		using base_type = typename HashMap<hash_t, Trackable *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +25,7 @@ namespace ml
 		{
 			for (auto & [key, value] : m_data)
 			{
-				ptr_t<Trackable> & ptr{ value };
+				Trackable * & ptr{ value };
 				delete ptr;
 				ptr = nullptr;
 			}
@@ -35,32 +35,32 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline ptr_t<T> attach(ptr_t<T> value)
+		template <class T> inline T * attach(T * value)
 		{
 			return ((m_data.find(typeof<T>::hash) == m_data.end())
-				? static_cast<ptr_t<T>>(this->addByCode(typeof<T>::hash, value))
+				? static_cast<T *>(this->addByCode(typeof<T>::hash, value))
 				: nullptr
 			);
 		}
 
-		template <class T, class ... Args> inline ptr_t<T> add(Args && ... args)
+		template <class T, class ... Args> inline T * add(Args && ... args)
 		{
 			return this->attach<T>(new T { std::forward<Args>(args)... });
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline ptr_t<T> get()
+		template <class T> inline T * get()
 		{
-			return static_cast<ptr_t<T>>(getByCode(typeof<T>::hash));
+			return static_cast<T *>(getByCode(typeof<T>::hash));
 		}
 
-		template <class T> inline const_ptr_t<T> get() const
+		template <class T> inline T const * get() const
 		{
-			return static_cast<const_ptr_t<T>>(getByCode(typeof<T>::hash));
+			return static_cast<T const *>(getByCode(typeof<T>::hash));
 		}
 
-		template <class T> inline const_ptr_t<T> cget() const
+		template <class T> inline T const * cget() const
 		{
 			return return this->get<T>();
 		}
@@ -92,14 +92,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline voidptr_t addByCode(hash_t code, voidptr_t value)
+		inline void * addByCode(hash_t code, void * value)
 		{
 			return (m_data.find(code) == m_data.end())
-				? m_data.insert({ code, static_cast<ptr_t<Trackable>>(value) }).first->second
+				? m_data.insert({ code, static_cast<Trackable *>(value) }).first->second
 				: nullptr;
 		}
 
-		inline voidptr_t addByName(const String & name, voidptr_t value)
+		inline void * addByName(const String & name, void * value)
 		{
 			return ((m_data.find(name.hash()) == m_data.end())
 				? addByCode(name.hash(), value)
@@ -107,7 +107,7 @@ namespace ml
 				);
 		}
 
-		inline voidptr_t addByName(const String & name)
+		inline void * addByName(const String & name)
 		{
 			return ((m_data.find(name.hash()) == m_data.end())
 				? addByCode(name.hash(), ML_Registry.generate(name))
@@ -117,13 +117,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline ptr_t<Trackable> getByCode(hash_t value)
+		inline Trackable * getByCode(hash_t value)
 		{
 			auto it{ m_data.find(value) };
 			return ((it != cend()) ? it->second : nullptr);
 		}
 
-		inline const_ptr_t<Trackable> getByCode(hash_t value) const
+		inline Trackable const * getByCode(hash_t value) const
 		{
 			auto it{ m_data.find(value) };
 			return ((it != cend()) ? it->second : nullptr);
@@ -131,12 +131,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline ptr_t<Trackable> getByName(const String & value)
+		inline Trackable * getByName(const String & value)
 		{
 			return getByCode(value.hash());
 		}
 
-		inline const_ptr_t<Trackable> getByName(const String & value) const
+		inline Trackable const * getByName(const String & value) const
 		{
 			return getByCode(value.hash());
 		}

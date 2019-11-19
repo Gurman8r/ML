@@ -201,7 +201,7 @@ namespace ml
 					ImGuiInputTextFlags_CallbackHistory
 				),
 				[](auto data) { return ((Editor_Terminal *)(data->UserData))->inputCallback(data); },
-				static_cast<voidptr_t>(this))
+				static_cast<void *>(this))
 			)
 			{
 				auto strtrim = [](char * str)
@@ -294,7 +294,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	int32_t Editor_Terminal::inputCallback(voidptr_t value)
+	int32_t Editor_Terminal::inputCallback(void * value)
 	{
 		ImGuiInputTextCallbackData * data;
 		if (!(data = (ImGuiInputTextCallbackData *)(value))) 

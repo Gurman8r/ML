@@ -35,9 +35,9 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	static const GLFWimage & map_glfw_image(uint32_t w, uint32_t h, const_ptr_t<byte_t> pixels)
+	static const GLFWimage & map_glfw_image(uint32_t w, uint32_t h, byte_t const * pixels)
 	{
-		static HashMap<const_ptr_t<byte_t>, GLFWimage> cache {};
+		static HashMap<byte_t const *, GLFWimage> cache {};
 		auto it { cache.find(pixels) };
 		if (it == cache.end())
 		{
@@ -169,17 +169,17 @@ namespace ml
 
 	void Window::installCallbacks()
 	{
-		setCharCallback([](voidptr_t, uint32_t c)
+		setCharCallback([](void *, uint32_t c)
 		{
 			ML_EventSystem.fireEvent<CharEvent>(c);
 		});
 
-		setCursorEnterCallback([](voidptr_t, int32_t entered)
+		setCursorEnterCallback([](void *, int32_t entered)
 		{
 			ML_EventSystem.fireEvent<CursorEnterEvent>(entered);
 		});
 
-		setCursorPosCallback([](voidptr_t, float64_t x, float64_t y)
+		setCursorPosCallback([](void *, float64_t x, float64_t y)
 		{
 			ML_EventSystem.fireEvent<CursorPosEvent>(x, y);
 		});
@@ -192,12 +192,12 @@ namespace ml
 			ML_EventSystem.fireEvent<WindowErrorEvent>(code, desc);
 		});
 
-		setFrameSizeCallback([](voidptr_t, int32_t w, int32_t h)
+		setFrameSizeCallback([](void *, int32_t w, int32_t h)
 		{
 			ML_EventSystem.fireEvent<FrameSizeEvent>(w, h);
 		});
 
-		setKeyCallback([](voidptr_t, int32_t button, int32_t scan, int32_t action, int32_t mods)
+		setKeyCallback([](void *, int32_t button, int32_t scan, int32_t action, int32_t mods)
 		{
 			ML_EventSystem.fireEvent<KeyEvent>(button, scan, action, BitMask_8 { {
 				(mods & ML_MOD_SHIFT),
@@ -209,32 +209,32 @@ namespace ml
 			} });
 		});
 
-		setMouseCallback([](voidptr_t, int32_t button, int32_t action, int32_t mods)
+		setMouseCallback([](void *, int32_t button, int32_t action, int32_t mods)
 		{
 			ML_EventSystem.fireEvent<MouseEvent>(button, action, mods);
 		});
 		
-		setScrollCallback([](voidptr_t, float64_t x, float64_t y)
+		setScrollCallback([](void *, float64_t x, float64_t y)
 		{
 			ML_EventSystem.fireEvent<ScrollEvent>(x, y);
 		});
 
-		setWindowCloseCallback([](voidptr_t)
+		setWindowCloseCallback([](void *)
 		{
 			ML_EventSystem.fireEvent<WindowCloseEvent>();
 		});
 
-		setWindowFocusCallback([](voidptr_t, int32_t focused)
+		setWindowFocusCallback([](void *, int32_t focused)
 		{
 			ML_EventSystem.fireEvent<WindowFocusEvent>(focused);
 		});
 		
-		setWindowPosCallback([](voidptr_t, int32_t x, int32_t y)
+		setWindowPosCallback([](void *, int32_t x, int32_t y)
 		{
 			ML_EventSystem.fireEvent<WindowPosEvent>(x, y);
 		});
 
-		setWindowSizeCallback([](voidptr_t, int32_t width, int32_t height)
+		setWindowSizeCallback([](void *, int32_t width, int32_t height)
 		{
 			ML_EventSystem.fireEvent<WindowSizeEvent>(width, height);
 		});
@@ -373,7 +373,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setCursor(voidptr_t value)
+	Window & Window::setCursor(void * value)
 	{
 		if (m_window && value)
 		{
@@ -405,7 +405,7 @@ namespace ml
 		return setMonitor(value ? glfwGetPrimaryMonitor() : nullptr);
 	}
 
-	Window & Window::setIcon(uint32_t w, uint32_t h, const_ptr_t<byte_t> pixels)
+	Window & Window::setIcon(uint32_t w, uint32_t h, byte_t const * pixels)
 	{
 		if (m_window)
 		{
@@ -423,7 +423,7 @@ namespace ml
 		return (*this);
 	}
 
-	Window & Window::setMonitor(voidptr_t value)
+	Window & Window::setMonitor(void * value)
 	{
 		if (m_window && (m_monitor != value))
 		{
@@ -522,7 +522,7 @@ namespace ml
 		return temp;
 	}
 
-	voidptr_t Window::getHandle() const
+	void * Window::getHandle() const
 	{
 		return m_window;
 	}
@@ -552,7 +552,7 @@ namespace ml
 		return temp;
 	}
 
-	voidptr_t Window::getRawHandle() const
+	void * Window::getRawHandle() const
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		return glfwGetWin32Window(static_cast<GLFWwindow *>(m_window));
@@ -563,17 +563,17 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	voidptr_t Window::createCustomCursor(uint32_t w, uint32_t h, const_ptr_t<byte_t> pixels)
+	void * Window::createCustomCursor(uint32_t w, uint32_t h, byte_t const * pixels)
 	{
 		return glfwCreateCursor(&map_glfw_image(w, h, pixels), w, h);
 	}
 
-	voidptr_t Window::createStandardCursor(Cursor::Shape value)
+	void * Window::createStandardCursor(Cursor::Shape value)
 	{
 		return glfwCreateStandardCursor((int32_t)value);
 	}
 
-	bool Window::destroyCursor(voidptr_t value)
+	bool Window::destroyCursor(void * value)
 	{
 		return (value ? ML_TRUE_EXPR(glfwDestroyCursor(static_cast<GLFWcursor *>(value))) : false);
 	}
@@ -583,7 +583,7 @@ namespace ml
 		return glfwExtensionSupported(value);
 	}
 
-	voidptr_t Window::getContextCurrent()
+	void * Window::getContextCurrent()
 	{
 		return glfwGetCurrentContext();
 	}
@@ -636,9 +636,9 @@ namespace ml
 		return reinterpret_cast<Window::ProcFun>(glfwGetProcAddress(value));
 	}
 
-	const List<voidptr_t> & Window::getMonitors()
+	const List<void *> & Window::getMonitors()
 	{
-		static List<voidptr_t> temp {};
+		static List<void *> temp {};
 		if (temp.empty())
 		{
 			int32_t count { 0 };
@@ -656,7 +656,7 @@ namespace ml
 		return glfwGetTime();
 	}
 
-	void Window::makeContextCurrent(voidptr_t value)
+	void Window::makeContextCurrent(void * value)
 	{
 		return glfwMakeContextCurrent(static_cast<GLFWwindow *>(value));
 	}

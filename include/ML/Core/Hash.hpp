@@ -29,7 +29,7 @@ namespace ml
 
 		template <
 			class T
-		> constexpr hash_t operator()(const_ptr_t<T> arr, hash_t size, hash_t seed) noexcept
+		> constexpr hash_t operator()(T const * arr, hash_t size, hash_t seed) noexcept
 		{
 			return ((size > 0)
 				? (*this)((arr + 1), (size - 1), (seed ^ static_cast<hash_t>(*arr)) * fnv1a_prime)
@@ -39,7 +39,7 @@ namespace ml
 
 		template <
 			class T
-		> constexpr hash_t operator()(const_ptr_t<T> arr, hash_t size) noexcept
+		> constexpr hash_t operator()(T const * arr, hash_t size) noexcept
 		{
 			return (*this)(arr, size, fnv1a_basis);
 		}

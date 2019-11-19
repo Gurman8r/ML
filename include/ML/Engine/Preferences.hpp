@@ -47,7 +47,7 @@ namespace ml
 
 	private: 
 		String m_filename;
-		voidptr_t m_ini;
+		void * m_ini;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

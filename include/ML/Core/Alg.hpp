@@ -117,12 +117,12 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T, size_t N> static constexpr const_ptr_t<T> begin(const T(&value)[N])
+		template <class T, size_t N> static constexpr T const * begin(const T(&value)[N])
 		{
 			return (&value[0]);
 		}
 
-		template <class T, size_t N> static constexpr const_ptr_t<T> end(const T(&value)[N])
+		template <class T, size_t N> static constexpr T const * end(const T(&value)[N])
 		{
 			return (&value[N]);
 		}

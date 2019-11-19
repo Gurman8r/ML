@@ -32,8 +32,8 @@ namespace ml
 		friend struct Singleton<OpenAL>;
 
 		bool		m_good;
-		voidptr_t	m_device;
-		voidptr_t	m_context;
+		void *	m_device;
+		void *	m_context;
 
 	public:
 
@@ -61,18 +61,18 @@ namespace ml
 		// Buffers
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	genBuffers(int32_t count) -> uint32_t;
-		static void deleteBuffers(int32_t count, const_ptr_t<uint32_t> buffers);
+		static void deleteBuffers(int32_t count, uint32_t const * buffers);
 		static bool	isBuffer(uint32_t id);
-		static void bufferData(uint32_t id, int32_t format, voidptr_t data, int32_t size, int32_t freq);
+		static void bufferData(uint32_t id, int32_t format, void * data, int32_t size, int32_t freq);
 		
 		// Set Buffer Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void	bufferf(uint32_t id, int32_t param, float_t value);
 		static void	buffer3f(uint32_t id, int32_t param, float_t x, float_t y, float_t z);
-		static void	bufferfv(uint32_t id, int32_t param, const_ptr_t<float_t> values);
+		static void	bufferfv(uint32_t id, int32_t param, float_t const * values);
 		static void	bufferi(uint32_t id, int32_t param, int32_t value);
 		static void	buffer3i(uint32_t id, int32_t param, int32_t x, int32_t y, int32_t z);
-		static void	bufferiv(uint32_t id, int32_t param, const_ptr_t<int32_t> values);
+		static void	bufferiv(uint32_t id, int32_t param, int32_t const * values);
 
 		// Get Buffer Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -93,17 +93,17 @@ namespace ml
 		// Sources
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static auto	genSources(int32_t count) -> uint32_t;
-		static void deleteSources(int32_t count, const_ptr_t<uint32_t> sources);
+		static void deleteSources(int32_t count, uint32_t const * sources);
 		static bool	isSource(uint32_t id);
 
 		// Set Source Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void sourcef(uint32_t id, int32_t param, float_t value);
 		static void source3f(uint32_t id, int32_t param, float_t x, float_t y, float_t z);
-		static void sourcefv(uint32_t id, int32_t param, const_ptr_t<float_t> values);
+		static void sourcefv(uint32_t id, int32_t param, float_t const * values);
 		static void sourcei(uint32_t id, int32_t param, int32_t value);
 		static void source3i(uint32_t id, int32_t param, int32_t x, int32_t y, int32_t z);
-		static void sourceiv(uint32_t id, int32_t param, const_ptr_t<int32_t> values);
+		static void sourceiv(uint32_t id, int32_t param, int32_t const * values);
 
 		// Get Source Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -123,19 +123,19 @@ namespace ml
 
 		// Source Based Playback calls
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-		static void sourcePlay(int32_t ns, const_ptr_t<uint32_t> sids);
-		static void sourceStop(int32_t ns, const_ptr_t<uint32_t> sids);
-		static void sourceRewind(int32_t ns, const_ptr_t<uint32_t> sids);
-		static void sourcePause(int32_t ns, const_ptr_t<uint32_t> sids);
+		static void sourcePlay(int32_t ns, uint32_t const * sids);
+		static void sourceStop(int32_t ns, uint32_t const * sids);
+		static void sourceRewind(int32_t ns, uint32_t const * sids);
+		static void sourcePause(int32_t ns, uint32_t const * sids);
 
 		// Set Listener Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		static void listenerf(int32_t param, float_t value);
 		static void listener3f(int32_t param, float_t x, float_t y, float_t z);
-		static void listenerfv(int32_t param, const_ptr_t<float_t> values);
+		static void listenerfv(int32_t param, float_t const * values);
 		static void listeneri(int32_t param, int32_t value);
 		static void listener3i(int32_t param, int32_t x, int32_t y, int32_t z);
-		static void listeneriv(int32_t param, const_ptr_t<int32_t> values);
+		static void listeneriv(int32_t param, int32_t const * values);
 
 		// Get Source Parameters
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

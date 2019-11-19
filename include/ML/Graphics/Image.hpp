@@ -73,7 +73,7 @@ namespace ml
 		inline auto bounds()	const -> UintRect			{ return UintRect { { 0, 0 }, size() }; }
 		inline auto capacity()	const -> uint32_t			{ return width() * height() * channels(); }
 		inline auto channels()	const -> const uint32_t	&	{ return m_channels; }
-		inline auto data()		const -> const_ptr_t<byte_t>{ return m_pixels.data(); }
+		inline auto data()		const -> byte_t const *{ return m_pixels.data(); }
 		inline auto empty()		const -> bool				{ return m_pixels.empty(); }
 		inline auto height()	const -> const uint32_t &	{ return m_size[1]; }
 		inline auto pixels()	const -> const Pixels &		{ return m_pixels; }

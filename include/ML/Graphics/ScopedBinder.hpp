@@ -25,7 +25,7 @@ namespace ml
 
 		template <
 			class ... Args
-		> explicit ScopedBinder(const_ptr_t<T> value, Args && ... args)
+		> explicit ScopedBinder(T const * value, Args && ... args)
 			: m_value{ value }
 		{
 			if (m_value) { m_value->bind(std::forward<Args>(args)...); }
@@ -45,13 +45,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline operator const_ptr_t<T>() const { return m_value; }
+		inline operator T const *() const { return m_value; }
 
-		inline const_ptr_t<T> operator->() const { return m_value; }
+		inline T const * operator->() const { return m_value; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	private: const_ptr_t<T> m_value;
+	private: T const * m_value;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

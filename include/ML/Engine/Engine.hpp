@@ -33,12 +33,12 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		ptr_t<CommandRegistry	> m_commands;
-		ptr_t<ContentManager	> m_content;
-		ptr_t<PluginManager		> m_plugins;
-		ptr_t<Preferences		> m_prefs;
-		ptr_t<GameTime			> m_time;
-		ptr_t<RenderWindow		> m_window;
+		CommandRegistry	* m_commands;
+		ContentManager	* m_content;
+		PluginManager	* m_plugins;
+		Preferences		* m_prefs;
+		GameTime		* m_time;
+		RenderWindow	* m_window;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

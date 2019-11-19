@@ -67,7 +67,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const IndexBufferObject & IndexBufferObject::bufferData(const_ptr_t<uint32_t> data, uint32_t count) const
+	const IndexBufferObject & IndexBufferObject::bufferData(uint32_t const * data, uint32_t count) const
 	{
 		if (*this)
 		{
@@ -76,7 +76,7 @@ namespace ml
 			ML_GL.bufferData(
 				GL::ElementArrayBuffer,
 				(m_count * sizeof(uint32_t)),
-				(voidptr_t)m_data,
+				(void *)m_data,
 				m_usage
 			);
 		}

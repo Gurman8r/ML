@@ -141,15 +141,15 @@ namespace ml
 					ImGui::PushID(ML_ADDRESSOF(this));
 					if (ImGui::BeginMenu("New"))
 					{
-						voidptr_t temp{ nullptr };
-						if ((PropertyDrawer<Entity>()("Entity##File##Create", (ptr_t<Entity> &)temp)) ||
-							(PropertyDrawer<Font>()("Font##File##Create", (ptr_t<Font> &)temp)) ||
-							(PropertyDrawer<Image>()("Image##File##Create", (ptr_t<Image> &)temp)) ||
-							(PropertyDrawer<Material>()("Material##File##Create", (ptr_t<Material> &)temp)) ||
-							(PropertyDrawer<Model>()("Model##File##Create", (ptr_t<Model> &)temp)) ||
-							(PropertyDrawer<Shader>()("Shader##File##Create", (ptr_t<Shader> &)temp)) ||
-							(PropertyDrawer<Script>()("Script##File##Create", (ptr_t<Script> &)temp)) ||
-							(PropertyDrawer<Texture>()("Texture##File##Create", (ptr_t<Texture> &)temp))
+						void * temp{ nullptr };
+						if ((PropertyDrawer<Entity>()("Entity##File##Create", (Entity * &)temp)) ||
+							(PropertyDrawer<Font>()("Font##File##Create", (Font * &)temp)) ||
+							(PropertyDrawer<Image>()("Image##File##Create", (Image * &)temp)) ||
+							(PropertyDrawer<Material>()("Material##File##Create", (Material * &)temp)) ||
+							(PropertyDrawer<Model>()("Model##File##Create", (Model * &)temp)) ||
+							(PropertyDrawer<Shader>()("Shader##File##Create", (Shader * &)temp)) ||
+							(PropertyDrawer<Script>()("Script##File##Create", (Script * &)temp)) ||
+							(PropertyDrawer<Texture>()("Texture##File##Create", (Texture * &)temp))
 						) ImGui::CloseCurrentPopup();
 						ImGui::EndMenu();
 					}

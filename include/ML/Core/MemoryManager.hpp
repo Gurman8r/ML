@@ -18,7 +18,7 @@ namespace ml
 		{
 			size_t		index;	// Index
 			size_t		size;	// Size
-			voidptr_t	ptr;	// Value
+			void *	ptr;	// Value
 
 			Record() = default;
 
@@ -27,13 +27,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using RecordMap = typename HashMap<voidptr_t, Record *>;
+		using RecordMap = typename HashMap<void *, Record *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		voidptr_t allocate(size_t size);
+		void * allocate(size_t size);
 
-		void deallocate(voidptr_t value);
+		void deallocate(void * value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

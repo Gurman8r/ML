@@ -5,7 +5,7 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ptr_t<EventListener> EventSystem::addListener(const int32_t type, ptr_t<EventListener> listener)
+	EventListener * EventSystem::addListener(const int32_t type, EventListener * listener)
 	{
 		return ((listener)
 			? m_listeners.insert({ type, listener })->second
@@ -26,7 +26,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	bool EventSystem::removeListener(const int32_t & type, ptr_t<EventListener> listener)
+	bool EventSystem::removeListener(const int32_t & type, EventListener * listener)
 	{
 		auto found { m_listeners.equal_range(type) };
 		for (auto it = found.first; it != found.second; it++)
@@ -40,7 +40,7 @@ namespace ml
 		return false;
 	}
 	
-	bool EventSystem::removeListenerFromAllEvents(ptr_t<EventListener> listener)
+	bool EventSystem::removeListenerFromAllEvents(EventListener * listener)
 	{
 		bool done { false };
 		while (!done)

@@ -33,13 +33,13 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const IndexBufferObject & bufferData(const_ptr_t<uint32_t> data, uint32_t count) const;
+		const IndexBufferObject & bufferData(uint32_t const * data, uint32_t count) const;
 
 		const IndexBufferObject & bufferData(const List<uint32_t> & data) const;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto data()	const -> const_ptr_t<uint32_t>	{ return m_data; }
+		inline auto data()	const -> uint32_t const *	{ return m_data; }
 		inline auto count() const -> uint32_t			{ return m_count; }
 		inline auto usage() const -> GL::Usage			{ return m_usage; }
 		inline auto type()	const -> GL::Type			{ return m_type; }
@@ -47,7 +47,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
 	private:
-		mutable const_ptr_t<uint32_t>	m_data;
+		mutable uint32_t const *	m_data;
 		mutable uint32_t			m_count;
 		mutable GL::Usage			m_usage;
 		mutable GL::Type			m_type;

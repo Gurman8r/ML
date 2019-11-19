@@ -32,7 +32,7 @@ namespace ml
 		
 		void printss(SStream & value);
 		
-		int32_t inputCallback(voidptr_t value);
+		int32_t inputCallback(void * value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

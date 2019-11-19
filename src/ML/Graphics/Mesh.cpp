@@ -18,7 +18,7 @@ namespace ml
 	{
 	}
 
-	Mesh::Mesh(const List<Vertex> & vertices, const List<uint32_t> & indices, const List<const_ptr_t<Texture>> & textures)
+	Mesh::Mesh(const List<Vertex> & vertices, const List<uint32_t> & indices, const List<Texture const *> & textures)
 		: m_vertices{ vertices }
 		, m_indices	{ indices }
 		, m_textures{ textures }

@@ -66,7 +66,7 @@ namespace ml
 			for (size_t i = 0; i < m_libraries.size(); i++)
 			{
 				// Load Plugin
-				if (ptr_t<Plugin> plugin = m_libraries[i]->callFunction<ptr_t<Plugin>>(
+				if (Plugin * plugin = m_libraries[i]->callFunction<Plugin *>(
 					ML_TOSTRING(ML_Plugin_Main), ML_EventSystem
 				))
 				{
@@ -101,7 +101,7 @@ namespace ml
 		m_libraries.push_back(new SharedLibrary(m_files.back()));
 
 		// Load Plugin
-		if (ptr_t<Plugin> plugin { m_libraries.back()->callFunction<ptr_t<Plugin>>("ML_Plugin_Main") })
+		if (Plugin * plugin { m_libraries.back()->callFunction<Plugin *>("ML_Plugin_Main") })
 		{
 			m_plugins.push_back(plugin);
 		}

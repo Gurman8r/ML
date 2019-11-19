@@ -35,7 +35,7 @@ namespace ml
 		bool dispose() override;
 		bool loadFromFile(const String & filename);
 		bool loadFromImage(const Image & value);
-		bool loadFromFaces(const Array<const_ptr_t<Image>, 6> & faces);
+		bool loadFromFaces(const Array<Image const *, 6> & faces);
 		bool loadFromFaces(const Array<Image, 6> & faces);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -44,8 +44,8 @@ namespace ml
 		bool create(const vec2u & size);
 		bool create(const Image & image, const vec2u & size);
 		bool create(const Image & image, uint32_t w, uint32_t h);
-		bool create(const_ptr_t<byte_t> pixels, const vec2u & size);
-		bool create(const_ptr_t<byte_t> pixels, uint32_t w, uint32_t h);
+		bool create(byte_t const * pixels, const vec2u & size);
+		bool create(byte_t const * pixels, uint32_t w, uint32_t h);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -59,10 +59,10 @@ namespace ml
 		bool update(const Image & image, const vec2u & position, const vec2u & size);
 		bool update(const Image & image, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 		
-		bool update(const_ptr_t<byte_t> pixels);
-		bool update(const_ptr_t<byte_t> pixels, const UintRect & area);
-		bool update(const_ptr_t<byte_t> pixels, const vec2u & position, const vec2u & size);
-		bool update(const_ptr_t<byte_t> pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+		bool update(byte_t const * pixels);
+		bool update(byte_t const * pixels, const UintRect & area);
+		bool update(byte_t const * pixels, const vec2u & position, const vec2u & size);
+		bool update(byte_t const * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -85,7 +85,7 @@ namespace ml
 
 		const Texture & unbind() const;
 
-		static void bind(const_ptr_t<Texture> value);
+		static void bind(Texture const * value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

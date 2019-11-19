@@ -12,7 +12,7 @@ namespace ml
 	{
 	}
 
-	Surface::Surface(const_ptr_t<Model> model, const_ptr_t<Material> material, const_ptr_t<Shader> shader)
+	Surface::Surface(Model const * model, Material const * material, Shader const * shader)
 		: m_colorID	{ GL::ColorAttachment0 }
 		, m_frameID { GL::DepthStencil }
 		, m_fbo		{ }
@@ -145,19 +145,19 @@ namespace ml
 		return (*this);
 	}
 
-	Surface & Surface::setMaterial(const_ptr_t<Material> value)
+	Surface & Surface::setMaterial(Material const * value)
 	{
 		m_material = value;
 		return (*this);
 	}
 
-	Surface & Surface::setShader(const_ptr_t<Shader> value)
+	Surface & Surface::setShader(Shader const * value)
 	{
 		m_shader = value;
 		return (*this);
 	}
 
-	Surface & Surface::setModel(const_ptr_t<Model> value)
+	Surface & Surface::setModel(Model const * value)
 	{
 		m_model = value;
 		return (*this);

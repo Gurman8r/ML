@@ -8,7 +8,7 @@ namespace ml
 
 	const std::type_info & MemoryManager::Record::get_type_info() const
 	{
-		return ((const_ptr_t<Trackable>)this->ptr)->get_type_info();
+		return ((Trackable const *)this->ptr)->get_type_info();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -54,7 +54,7 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	voidptr_t MemoryManager::allocate(size_t size)
+	void * MemoryManager::allocate(size_t size)
 	{
 		auto ptr { std::malloc(size) };
 		return m_records.insert({
@@ -62,7 +62,7 @@ namespace ml
 		}).first->second->ptr;
 	}
 
-	void MemoryManager::deallocate(voidptr_t value)
+	void MemoryManager::deallocate(void * value)
 	{
 		if (auto it{ m_records.find(value) }; it != m_records.end())
 		{

@@ -44,8 +44,8 @@ namespace ml
 	struct EnterEvent final : public EngineEvent<EngineEventType::EV_Enter>
 	{
 		const int32_t argc;
-		const_ptr_t<C_String> argv;
-		constexpr EnterEvent(int32_t argc, const_ptr_t<C_String> argv)
+		C_String const * argv;
+		constexpr EnterEvent(int32_t argc, C_String const * argv)
 			: argc { argc }
 			, argv { argv }
 		{

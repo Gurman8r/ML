@@ -55,7 +55,7 @@ namespace ml
 
 		struct Util final
 		{
-			static inline bool get_vector(voidptr_t value, int32_t i, C_String * out)
+			static inline bool get_vector(void * value, int32_t i, C_String * out)
 			{
 				auto * vector{ static_cast<List<String> *>(value) };
 				if (vector && (i >= 0) && (i < static_cast<int32_t>(vector->size())))

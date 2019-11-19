@@ -7,9 +7,9 @@
 #define ML_GEN_CONTENT_IMPORTER(T)									\
 using value_type		= typename _ML detail::decay_t<T>;			\
 using self_type			= typename _ML ContentImporter<value_type>;	\
-using pointer			= typename ptr_t<value_type>;				\
+using pointer			= typename value_type *;				\
 using reference			= typename value_type &;					\
-using const_pointer		= typename const_ptr_t<value_type>;			\
+using const_pointer		= typename value_type const *;			\
 using const_reference	= typename const value_type &;				\
 static constexpr typeof<> info() { return typeof<T>{}; }			\
 ContentImporter() = default;
@@ -53,9 +53,9 @@ namespace ml
 	{
 		using value_type		= typename detail::decay_t<T>;
 		using self_type			= typename ContentImporter<value_type>;
-		using pointer			= typename ptr_t<value_type>;
+		using pointer			= typename value_type *;
 		using reference			= typename value_type &;
-		using const_pointer		= typename const_ptr_t<value_type>;
+		using const_pointer		= typename value_type const *;
 		using const_reference	= typename const value_type &;
 
 		struct Info final
@@ -72,7 +72,7 @@ namespace ml
 	struct Entity; template <
 	> struct ML_ENGINE_API ContentImporter<Entity> final : public BaseContentImporter<Entity>
 	{
-		ptr_t<Entity> operator()(const Metadata & md) const;
+		Entity * operator()(const Metadata & md) const;
 	};
 
 	// Font Importer
@@ -80,7 +80,7 @@ namespace ml
 	struct Font; template <
 	> struct ML_ENGINE_API ContentImporter<Font> final : public BaseContentImporter<Font>
 	{
-		ptr_t<Font> operator()(const Metadata & md) const;
+		Font * operator()(const Metadata & md) const;
 	};
 
 
@@ -89,7 +89,7 @@ namespace ml
 	struct Image; template <
 	> struct ML_ENGINE_API ContentImporter<Image> final : public BaseContentImporter<Image>
 	{
-		ptr_t<Image> operator()(const Metadata & md) const;
+		Image * operator()(const Metadata & md) const;
 	};
 
 
@@ -98,7 +98,7 @@ namespace ml
 	struct Material; template <
 	> struct ML_ENGINE_API ContentImporter<Material> final : public BaseContentImporter<Material>
 	{
-		ptr_t<Material> operator()(const Metadata & md) const;
+		Material * operator()(const Metadata & md) const;
 	};
 
 
@@ -107,7 +107,7 @@ namespace ml
 	struct Model; template <
 	> struct ML_ENGINE_API ContentImporter<Model> final : public BaseContentImporter<Model>
 	{
-		ptr_t<Model> operator()(const Metadata & md) const;
+		Model * operator()(const Metadata & md) const;
 	};
 
 
@@ -116,7 +116,7 @@ namespace ml
 	struct Script; template <
 	> struct ML_ENGINE_API ContentImporter<Script> final : public BaseContentImporter<Script>
 	{
-		ptr_t<Script> operator()(const Metadata & md) const;
+		Script * operator()(const Metadata & md) const;
 	};
 
 
@@ -125,7 +125,7 @@ namespace ml
 	struct Shader; template <
 	> struct ML_ENGINE_API ContentImporter<Shader> final : public BaseContentImporter<Shader>
 	{
-		ptr_t<Shader> operator()(const Metadata & md) const;
+		Shader * operator()(const Metadata & md) const;
 	};
 
 
@@ -134,7 +134,7 @@ namespace ml
 	struct Sound; template <
 	> struct ML_ENGINE_API ContentImporter<Sound> final : public BaseContentImporter<Sound>
 	{
-		ptr_t<Sound> operator()(const Metadata & md) const;
+		Sound * operator()(const Metadata & md) const;
 	};
 
 
@@ -143,7 +143,7 @@ namespace ml
 	struct Sprite; template <
 	> struct ML_ENGINE_API ContentImporter<Sprite> final : public BaseContentImporter<Sprite>
 	{
-		ptr_t<Sprite> operator()(const Metadata & md) const;
+		Sprite * operator()(const Metadata & md) const;
 	};
 
 
@@ -152,7 +152,7 @@ namespace ml
 	struct Surface; template <
 	> struct ML_ENGINE_API ContentImporter<Surface> final : public BaseContentImporter<Surface>
 	{
-		ptr_t<Surface> operator()(const Metadata & md) const;
+		Surface * operator()(const Metadata & md) const;
 	};
 
 
@@ -161,7 +161,7 @@ namespace ml
 	struct Texture; template <
 	> struct ML_ENGINE_API ContentImporter<Texture> final : public BaseContentImporter<Texture>
 	{
-		ptr_t<Texture> operator()(const Metadata & md) const;
+		Texture * operator()(const Metadata & md) const;
 	};
 }
 

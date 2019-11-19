@@ -70,7 +70,7 @@ namespace ml
 
 	// Entity Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Entity> ContentImporter<Entity>::operator()(const Metadata & md) const
+	Entity * ContentImporter<Entity>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -88,7 +88,7 @@ namespace ml
 
 	// Font Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Font> ContentImporter<Font>::operator()(const Metadata & md) const
+	Font * ContentImporter<Font>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -113,7 +113,7 @@ namespace ml
 
 	// Image Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Image> ContentImporter<Image>::operator()(const Metadata & md) const
+	Image * ContentImporter<Image>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -140,7 +140,7 @@ namespace ml
 
 	// Material Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Material> ContentImporter<Material>::operator()(const Metadata & md) const
+	Material * ContentImporter<Material>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -158,7 +158,7 @@ namespace ml
 					{
 						for (const auto & pair : ML_Engine.content().data<Uniform>())
 						{
-							if (auto u { (const_ptr_t<Uniform>)pair.second })
+							if (auto u { (Uniform const *)pair.second })
 							{
 								temp->insert(u->clone());
 							}
@@ -168,7 +168,7 @@ namespace ml
 					// Load Uniforms
 					if (!temp->loadFromFile(
 						md.getData("uniforms").asString(),
-						(const Map<String, ptr_t<Texture>> *)&ML_Engine.content().data<Texture>()
+						(const Map<String, Texture *> *)&ML_Engine.content().data<Texture>()
 					))
 					{
 						/* error */
@@ -184,7 +184,7 @@ namespace ml
 
 	// Model Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Model> ContentImporter<Model>::operator()(const Metadata & md) const
+	Model * ContentImporter<Model>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -209,7 +209,7 @@ namespace ml
 
 	// Script Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Script> ContentImporter<Script>::operator()(const Metadata & md) const
+	Script * ContentImporter<Script>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -234,7 +234,7 @@ namespace ml
 
 	// Shader Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Shader> ContentImporter<Shader>::operator()(const Metadata & md) const
+	Shader * ContentImporter<Shader>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -283,7 +283,7 @@ namespace ml
 
 	// Sound Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Sound> ContentImporter<Sound>::operator()(const Metadata & md) const
+	Sound * ContentImporter<Sound>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -313,7 +313,7 @@ namespace ml
 
 	// Sprite Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Sprite> ContentImporter<Sprite>::operator()(const Metadata & md) const
+	Sprite * ContentImporter<Sprite>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -323,7 +323,7 @@ namespace ml
 				{
 					if (const String file = md.getData("texture"))
 					{
-						if (const_ptr_t<Texture> tex = ML_Engine.content().get<Texture>(file))
+						if (Texture const * tex = ML_Engine.content().get<Texture>(file))
 						{
 							auto temp = new Sprite();
 							if (temp->loadFromMemory(tex))
@@ -346,7 +346,7 @@ namespace ml
 
 	// Surface Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Surface> ContentImporter<Surface>::operator()(const Metadata & md) const
+	Surface * ContentImporter<Surface>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -368,7 +368,7 @@ namespace ml
 
 	// Texture Importer
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	ptr_t<Texture> ContentImporter<Texture>::operator()(const Metadata & md) const
+	Texture * ContentImporter<Texture>::operator()(const Metadata & md) const
 	{
 		if (this->info.hash == md.getData("type").asString().hash())
 		{
@@ -376,7 +376,7 @@ namespace ml
 			{
 				if (!ML_Engine.content().get<Texture>(name))
 				{
-					if (const_ptr_t<Texture> copy { ML_Engine.content().get<Texture>(md.getData("copy")) })
+					if (Texture const * copy { ML_Engine.content().get<Texture>(md.getData("copy")) })
 					{
 						return ML_Engine.content().create<Texture>(name, (*copy));
 					}
@@ -437,7 +437,7 @@ namespace ml
 						}
 						else if (const String file = md.getData("image"))
 						{
-							if (const_ptr_t<Image> img = ML_Engine.content().get<Image>(file))
+							if (Image const * img = ML_Engine.content().get<Image>(file))
 							{
 								auto temp = new Texture {
 								sampler, format, smooth, repeat, mipmap, level, pixfmt
@@ -516,7 +516,7 @@ namespace ml
 						/* * * * * * * * * * * * * * * * * * * * */
 						case Hash("textures"):
 						{
-							Array<const_ptr_t<Texture>, 6> tex {
+							Array<Texture const *, 6> tex {
 								ML_Engine.content().get<Texture>(names[0]),
 								ML_Engine.content().get<Texture>(names[1]),
 								ML_Engine.content().get<Texture>(names[2]),

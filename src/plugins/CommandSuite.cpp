@@ -308,7 +308,7 @@ namespace ml
 					{
 						if (args.size() == 2)
 						{
-							if (ptr_t<Script> scr { ML_Engine.content().get<Script>(args[1]) })
+							if (Script * scr { ML_Engine.content().get<Script>(args[1]) })
 							{
 								scr->execute();
 								return true;
@@ -341,7 +341,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * */
 }
 
-extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
+extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main()
 {
 	return new ml::CommandSuite{};
 }

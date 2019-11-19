@@ -40,16 +40,16 @@ namespace ml
 
 		inline auto path()		const -> const String & { return m_path; }
 		inline auto files()		const -> const List<String> & { return m_files; }
-		inline auto libraries()	const -> const List<ptr_t<SharedLibrary>> &	{ return m_libraries; }
-		inline auto plugins()	const -> const List<ptr_t<Plugin>> & { return m_plugins; }
+		inline auto libraries()	const -> const List<SharedLibrary *> &	{ return m_libraries; }
+		inline auto plugins()	const -> const List<Plugin *> & { return m_plugins; }
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
 		String m_path;
 		List<String> m_files;
-		List<ptr_t<SharedLibrary>> m_libraries;
-		List<ptr_t<Plugin>> m_plugins;
+		List<SharedLibrary *> m_libraries;
+		List<Plugin *> m_plugins;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

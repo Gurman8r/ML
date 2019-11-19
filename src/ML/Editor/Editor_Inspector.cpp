@@ -27,7 +27,7 @@ namespace ml
 	struct Editor_Inspector::Layout
 	{
 		template <class T>
-		inline static void draw_item(voidptr_t ptr, const String & name)
+		inline static void draw_item(void * ptr, const String & name)
 		{
 			if (!ptr) return;
 			ImGui::PushID(typeof<T>::name.data());
@@ -35,7 +35,7 @@ namespace ml
 			ImGui::PushID(ptr);
 			PropertyDrawer<T>()(
 				(typeof<T>::name.str() + "##" + name + " ##Inspector"),
-				(T &)(*((ptr_t<T>)ptr))
+				(T &)(*((T *)ptr))
 			);
 			ImGui::PopID();
 			ImGui::PopID();

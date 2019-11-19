@@ -56,7 +56,7 @@ namespace ml
 		return (*this);
 	}
 	
-	Text & Text::setFont(const_ptr_t<Font> value)
+	Text & Text::setFont(Font const * value)
 	{
 		if (m_font != value)
 		{

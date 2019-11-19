@@ -42,7 +42,7 @@ namespace ml
 		return loadFromFile(filename, nullptr);
 	}
 
-	bool Material::loadFromFile(const String & filename, const Map<String, ptr_t<Texture>> * textures)
+	bool Material::loadFromFile(const String & filename, const Map<String, Texture *> * textures)
 	{
 		// Load uniforms from file
 		if (std::ifstream file { filename })
@@ -123,9 +123,9 @@ namespace ml
 
 					// Generate Uniform
 					/* * * * * * * * * * * * * * * * * * * * */
-					if (ptr_t<Uniform> u{ ([](int32_t type, const String & name, SStream & ss, auto t)
+					if (Uniform * u{ ([](int32_t type, const String & name, SStream & ss, auto t)
 					{
-						ptr_t<Uniform> u{ nullptr };
+						Uniform * u{ nullptr };
 						if ((type == -1) || name.empty() || ss.str().empty()) { return u; }
 						switch (type)
 						{

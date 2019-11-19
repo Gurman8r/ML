@@ -48,7 +48,7 @@ namespace ml
 		
 		const Shader & unbind() const;
 
-		static void bind(const_ptr_t<Shader> shader, bool bindTextures = true);
+		static void bind(Shader const * shader, bool bindTextures = true);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -59,7 +59,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniform(const_ptr_t<Uniform> value) const;
+		bool setUniform(Uniform const * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -76,17 +76,17 @@ namespace ml
 		bool setUniform(const String & name, const mat3 & value) const;
 		bool setUniform(const String & name, const mat4 & value) const;
 		bool setUniform(const String & name, const Texture & value) const;
-		bool setUniform(const String & name, const_ptr_t<Texture> value) const;
+		bool setUniform(const String & name, Texture const * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
-		bool setUniformArray(const String & name, const int32_t count, const_ptr_t<float_t> value) const;
-		bool setUniformArray(const String & name, const int32_t count, const_ptr_t<vec2> value) const;
-		bool setUniformArray(const String & name, const int32_t count, const_ptr_t<vec3> value) const;
-		bool setUniformArray(const String & name, const int32_t count, const_ptr_t<vec4> value) const;
-		bool setUniformArray(const String & name, const int32_t count, const_ptr_t<mat2> value) const;
-		bool setUniformArray(const String & name, const int32_t count, const_ptr_t<mat3> value) const;
-		bool setUniformArray(const String & name, const int32_t count, const_ptr_t<mat4> value) const;
+		bool setUniformArray(const String & name, const int32_t count, float_t const * value) const;
+		bool setUniformArray(const String & name, const int32_t count, vec2 const * value) const;
+		bool setUniformArray(const String & name, const int32_t count, vec3 const * value) const;
+		bool setUniformArray(const String & name, const int32_t count, vec4 const * value) const;
+		bool setUniformArray(const String & name, const int32_t count, mat2 const * value) const;
+		bool setUniformArray(const String & name, const int32_t count, mat3 const * value) const;
+		bool setUniformArray(const String & name, const int32_t count, mat4 const * value) const;
 
 		/* * * * * * * * * * * * * * * * * * * * */
 
@@ -111,7 +111,7 @@ namespace ml
 		struct UniformBinder;
 
 		using AttribTable	= Map<String, int32_t>;
-		using TextureTable	= Map<int32_t, const_ptr_t<Texture>>;
+		using TextureTable	= Map<int32_t, Texture const *>;
 		using UniformTable	= Map<String, int32_t>;
 
 		mutable AttribTable		m_attribs;	// Attribute Cache

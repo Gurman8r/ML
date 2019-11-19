@@ -6,12 +6,12 @@ namespace ml
 {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	const RenderTarget & RenderTarget::draw(const_ptr_t<Drawable> value) const
+	const RenderTarget & RenderTarget::draw(Drawable const * value) const
 	{
 		return (value) ? draw(*value) : (*this);
 	}
 
-	const RenderTarget & RenderTarget::draw(const_ptr_t<Drawable> value, RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(Drawable const * value, RenderBatch & batch) const
 	{
 		return (value) ? draw(*value, batch) : (*this);
 	}
@@ -42,16 +42,16 @@ namespace ml
 		return draw(verts.data(), verts.size(), batch);
 	}
 
-	const RenderTarget & RenderTarget::draw(const_ptr_t<float_t> verts, size_t count, RenderBatch & batch) const
+	const RenderTarget & RenderTarget::draw(float_t const * verts, size_t count, RenderBatch & batch) const
 	{
 		return draw(verts, count, batch.vao, batch.vbo);
 	}
 
-	const RenderTarget & RenderTarget::draw(const_ptr_t<float_t> verts, size_t count, const_ptr_t<VAO> vao, const_ptr_t<VBO> vbo) const
+	const RenderTarget & RenderTarget::draw(float_t const * verts, size_t count, VAO const * vao, VBO const * vbo) const
 	{
 		if (const ScopedBinder<VBO> b{ vbo })
 		{
-			b->bufferSubData((voidptr_t)verts, (uint32_t)count, 0);
+			b->bufferSubData((void *)verts, (uint32_t)count, 0);
 		}
 		return (vao && vbo) ? draw(*vao, *vbo) : (*this);
 	}

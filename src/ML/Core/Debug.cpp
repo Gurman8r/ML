@@ -57,27 +57,27 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	voidptr_t Debug::execute(const String & cmd)
+	void * Debug::execute(const String & cmd)
 	{
 		return execute(cmd, {});
 	}
 
-	voidptr_t Debug::execute(const String & cmd, const String & file)
+	void * Debug::execute(const String & cmd, const String & file)
 	{
 		return execute(cmd, file, {});
 	}
 
-	voidptr_t Debug::execute(const String & cmd, const String & file, const String & args)
+	void * Debug::execute(const String & cmd, const String & file, const String & args)
 	{
 		return execute(cmd, file, args, {});
 	}
 
-	voidptr_t Debug::execute(const String & cmd, const String & file, const String & args, const String & path)
+	void * Debug::execute(const String & cmd, const String & file, const String & args, const String & path)
 	{
 		return execute(cmd, file, args, path, 5); // SW_SHOW
 	}
 
-	voidptr_t Debug::execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags)
+	void * Debug::execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags)
 	{
 #ifdef ML_SYSTEM_WINDOWS
 		return ShellExecuteA(

@@ -53,12 +53,12 @@ namespace ml
 			// Tab Context Menu
 			if (ImGui::BeginPopupContextItem(("##TabContextMenu##" + plural).c_str()))
 			{
-				voidptr_t temp { nullptr };
+				void * temp { nullptr };
 				if (!std::is_same_v<T, Surface> && !std::is_same_v<T, Uniform>)
 				{
 					if (PropertyDrawer<T>()(("New {0}"_s).format(
 						nameof<>::filter_namespace(typeof<T>::name)
-					), (ptr_t<T> &)temp))
+					), (T * &)temp))
 					{
 						ImGui::CloseCurrentPopup();
 					}
@@ -99,7 +99,7 @@ namespace ml
 
 					if (std::is_same_v<T, Uniform>)
 					{
-						if (auto u { (ptr_t<Uniform>)it->second })
+						if (auto u { (Uniform *)it->second })
 						{
 							no_delete = !u->isModifiable();
 						}

@@ -132,11 +132,11 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static voidptr_t execute(const String & cmd);
-		static voidptr_t execute(const String & cmd, const String & file);
-		static voidptr_t execute(const String & cmd, const String & file, const String & args);
-		static voidptr_t execute(const String & cmd, const String & file, const String & args, const String & path);
-		static voidptr_t execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags);
+		static void * execute(const String & cmd);
+		static void * execute(const String & cmd, const String & file);
+		static void * execute(const String & cmd, const String & file, const String & args);
+		static void * execute(const String & cmd, const String & file, const String & args, const String & path);
+		static void * execute(const String & cmd, const String & file, const String & args, const String & path, int32_t flags);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

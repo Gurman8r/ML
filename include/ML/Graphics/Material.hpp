@@ -13,7 +13,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using base_type = typename List<ptr_t<Uniform>>;
+		using base_type = typename List<Uniform *>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -25,7 +25,7 @@ namespace ml
 
 		bool dispose() override;
 		bool loadFromFile(const String & filename);
-		bool loadFromFile(const String & filename, const Map<String, ptr_t<Texture>> * textures);
+		bool loadFromFile(const String & filename, const Map<String, Texture *> * textures);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -47,7 +47,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline ptr_t<Uniform> insert(ptr_t<Uniform> value)
+		inline Uniform * insert(Uniform * value)
 		{
 			if (!value) { return nullptr; }
 			if (auto it{ this->find(value->getName()) }; it == this->end())
@@ -59,7 +59,7 @@ namespace ml
 		}
 
 		template <class U, class T> 
-		inline ptr_t<Uniform> insert(const String & name, const T & value)
+		inline Uniform * insert(const String & name, const T & value)
 		{
 			if (!name) { return nullptr; }
 			if (auto it{ this->find(value->getName()) }; it == this->end())
@@ -72,7 +72,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline bool erase(ptr_t<Uniform> value)
+		inline bool erase(Uniform * value)
 		{
 			return (value && value->getName()) && erase(value->getName());
 		}
@@ -92,18 +92,18 @@ namespace ml
 
 		template <
 			class U = typename Uniform
-		> inline ptr_t<U> get(const String & name)
+		> inline U * get(const String & name)
 		{
 			auto it { this->find(name) };
-			return (it != this->end()) ? dynamic_cast<ptr_t<U>>(*it) : nullptr;
+			return (it != this->end()) ? dynamic_cast<U *>(*it) : nullptr;
 		}
 
 		template <
 			class U = typename Uniform
-		> inline const_ptr_t<U> get(const String & name) const
+		> inline U const * get(const String & name) const
 		{
 			auto it { this->find(name) };
-			return (it != this->cend()) ? dynamic_cast<const_ptr_t<U>>(*it) : nullptr;
+			return (it != this->cend()) ? dynamic_cast<U const *>(*it) : nullptr;
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -63,14 +63,14 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		static inline ptr_t<Camera> mainCamera()
+		static inline Camera * mainCamera()
 		{
 			return mainCamera(nullptr, false);
 		}
 
-		static inline ptr_t<Camera> mainCamera(ptr_t<Camera> value, bool overwrite = true)
+		static inline Camera * mainCamera(Camera * value, bool overwrite = true)
 		{
-			static ptr_t<Camera> temp { nullptr };
+			static Camera * temp { nullptr };
 			return (overwrite ? (temp = value) : temp);
 		}
 

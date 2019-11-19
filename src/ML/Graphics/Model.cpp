@@ -31,7 +31,7 @@ namespace ml
 		: Model {}
 	{
 		m_meshes.reserve(copy.meshes().size());
-		for (const_ptr_t<Mesh> mesh : copy.meshes())
+		for (Mesh const * mesh : copy.meshes())
 		{
 			m_meshes.push_back(new Mesh{ *mesh });
 			m_meshes.back()->create();
@@ -44,7 +44,7 @@ namespace ml
 
 	bool Model::dispose()
 	{
-		for (ptr_t<Mesh>& elem : m_meshes) { delete elem; }
+		for (Mesh *& elem : m_meshes) { delete elem; }
 		m_meshes.clear();
 		return m_meshes.empty();
 	}
@@ -67,7 +67,7 @@ namespace ml
 		// Meshes
 		for (aiMesh ** m = &scene->mMeshes[0]; m != &scene->mMeshes[scene->mNumMeshes]; m++)
 		{
-			ptr_t<Mesh> temp { new Mesh() };
+			Mesh * temp { new Mesh() };
 			
 			// Faces
 			for (aiFace * f = &(*m)->mFaces[0]; f != &(*m)->mFaces[(*m)->mNumFaces]; f++)
@@ -75,9 +75,9 @@ namespace ml
 				// Indices
 				for (uint32_t * i = &f->mIndices[0]; i != &f->mIndices[f->mNumIndices]; i++)
 				{
-					const_ptr_t<aiVector3D> vp { (*m)->mVertices ? &(*m)->mVertices[*i] : nullptr };
-					const_ptr_t<aiVector3D> vn { (*m)->mNormals ? &(*m)->mNormals[*i] : nullptr };
-					const_ptr_t<aiVector3D> uv { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][*i] : nullptr };
+					aiVector3D const * vp { (*m)->mVertices ? &(*m)->mVertices[*i] : nullptr };
+					aiVector3D const * vn { (*m)->mNormals ? &(*m)->mNormals[*i] : nullptr };
+					aiVector3D const * uv { (*m)->HasTextureCoords(0) ? &(*m)->mTextureCoords[0][*i] : nullptr };
 
 					temp->addVertex(Vertex {
 						vp ? vec3 { vp->x, vp->y, vp->z }		: vec3::zero(),

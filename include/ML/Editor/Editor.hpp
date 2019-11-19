@@ -34,15 +34,15 @@ namespace ml
 
 		bool m_show_imgui_demo{ false };
 
-		ptr_t<Editor_About		> m_about;
-		ptr_t<Editor_Dockspace	> m_dockspace;
-		ptr_t<Editor_Content	> m_content;
-		ptr_t<Editor_Explorer	> m_explorer;
-		ptr_t<Editor_Inspector	> m_inspector;
-		ptr_t<Editor_MainMenuBar> m_mainMenuBar;
-		ptr_t<Editor_Manual		> m_manual;
-		ptr_t<Editor_Profiler	> m_profiler;
-		ptr_t<Editor_Terminal	> m_terminal;
+		Editor_About		* m_about;
+		Editor_Dockspace	* m_dockspace;
+		Editor_Content		* m_content;
+		Editor_Explorer		* m_explorer;
+		Editor_Inspector	* m_inspector;
+		Editor_MainMenuBar	* m_mainMenuBar;
+		Editor_Manual		* m_manual;
+		Editor_Profiler		* m_profiler;
+		Editor_Terminal		* m_terminal;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

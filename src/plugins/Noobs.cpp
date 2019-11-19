@@ -117,7 +117,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using Pipeline = typename List<ptr_t<Surface>>;
+		using Pipeline = typename List<Surface *>;
 
 		enum FileType : size_t { Frag, Vert, Geom, MAX_DEMO_FILE };
 
@@ -235,7 +235,7 @@ namespace ml
 					{
 						for (auto & [ key, value ] : ML_Engine.content().data<Material>())
 						{
-							if (auto m{ (ptr_t<Material>)value })
+							if (auto m{ (Material *)value })
 							{
 								// FIXME: slow
 								m->set<uni_vec3>("u_camera.pos", c->position());
@@ -267,13 +267,13 @@ namespace ml
 					// Draw Renderers
 					for (auto & [ key, value ] : ML_Engine.content().data<Entity>())
 					{
-						if (auto e{ (ptr_t<Entity>)value })
+						if (auto e{ (Entity *)value })
 						{
 							if (auto r{ e->get<Renderer>() }; r && r->enabled())
 							{
 								if (auto t{ e->get<Transform>() }; t && t->enabled())
 								{
-									if (auto m{ (ptr_t<Material>)r->material() })
+									if (auto m{ (Material *)r->material() })
 									{
 										// FIXME: slow
 										m->set<uni_vec3>("u_position", t->position());
@@ -443,7 +443,7 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		void draw_code_tab(ptr_t<Entity> e)
+		void draw_code_tab(Entity * e)
 		{
 			ImGui::PushID("##CodeTab");
 			ImGui::BeginChild("##CodeTab##Content", { 0, 0 }, false, ImGuiWindowFlags_NoScrollbar);
@@ -596,7 +596,7 @@ namespace ml
 			ImGui::PopID();
 		}
 
-		void draw_uniforms_tab(ptr_t<Entity> e)
+		void draw_uniforms_tab(Entity * e)
 		{
 			ImGui::PushID("##UniformsTab");
 			ImGui::BeginChildFrame(ImGui::GetID("##UniformsTab##Content"), { 0, 0 }, 0);
@@ -614,7 +614,7 @@ namespace ml
 
 					// New Uniform Popup
 					Uniform * to_add { nullptr };
-					if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (ptr_t<Uniform> &)to_add))
+					if (PropertyDrawer<Uniform>()("New Uniform##Noobs", (Uniform * &)to_add))
 					{
 						// Already Exists
 						if (to_add && !m->insert(to_add))
@@ -810,7 +810,7 @@ namespace ml
 			ImGui::PopID();
 		}
 
-		void draw_settings_tab(ptr_t<Entity> e)
+		void draw_settings_tab(Entity * e)
 		{
 			ImGui::PushID("##SettingsTab");
 			ImGui::BeginChildFrame(ImGui::GetID("##SettingsTab##Content"), { 0, 0 }, 0);
@@ -820,7 +820,7 @@ namespace ml
 				/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 				// Select Shader
-				const_ptr_t<Shader> shd{ r ? r->shader() : nullptr };
+				Shader const * shd{ r ? r->shader() : nullptr };
 				if (PropertyDrawer<Shader>()("Shader##Renderer##Noobs", shd))
 				{
 					r->setShader(shd);
@@ -830,7 +830,7 @@ namespace ml
 				ImGui::Separator();
 
 				// Select Material
-				const_ptr_t<Material> mtl { r ? r->material() : nullptr };
+				Material const * mtl { r ? r->material() : nullptr };
 				if (PropertyDrawer<Material>()("Material##Renderer##Noobs", mtl))
 				{
 					r->setMaterial(mtl);
@@ -840,7 +840,7 @@ namespace ml
 				ImGui::Separator();
 
 				// Select Model
-				const_ptr_t<Model> mdl { r ? r->model() : nullptr };
+				Model const * mdl { r ? r->model() : nullptr };
 				if (PropertyDrawer<Model>()("Model##Renderer##Noobs", mdl))
 				{
 					r->setModel(mdl);
@@ -1283,7 +1283,7 @@ namespace ml
 			{
 				if (auto r{ e ? e->get<Renderer>() : nullptr })
 				{
-					if (auto s{ (ptr_t<Shader>)r->shader() })
+					if (auto s{ (Shader *)r->shader() })
 					{
 						for (auto & f : m_files)
 						{
@@ -1312,7 +1312,7 @@ namespace ml
 			{
 				if (auto r{ e ? e->get<Renderer>() : nullptr })
 				{
-					if (auto s{ (ptr_t<Shader>)r->shader() })
+					if (auto s{ (Shader *)r->shader() })
 					{
 						auto setup_file = ([&](size_t type, const String & src)
 						{
@@ -1337,7 +1337,7 @@ namespace ml
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-extern "C" ML_PLUGIN_API ml::ptr_t<ml::Plugin> ML_Plugin_Main()
+extern "C" ML_PLUGIN_API ml::Plugin * ML_Plugin_Main()
 {
 	return new ml::Noobs{};
 }

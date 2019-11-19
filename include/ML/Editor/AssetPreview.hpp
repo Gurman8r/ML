@@ -18,19 +18,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		const_ptr_t<Texture> getPreview(const typeof<> & type, voidptr_t value) const;
+		Texture const * getPreview(const typeof<> & type, void * value) const;
 
-		template <class T> inline const_ptr_t<Texture> getPreview(voidptr_t value) const
+		template <class T> inline Texture const * getPreview(void * value) const
 		{
 			return getPreview(typeof<T>(), value);
 		}
 
-		template <class T> inline const_ptr_t<Texture> getPreview(const T * value) const
+		template <class T> inline Texture const * getPreview(const T * value) const
 		{
-			return getPreview<T>((voidptr_t)value);
+			return getPreview<T>((void *)value);
 		}
 
-		template <class T> inline const_ptr_t<Texture> getPreview(const T & value) const
+		template <class T> inline Texture const * getPreview(const T & value) const
 		{
 			return getPreview<T>(&value);
 		}
@@ -39,13 +39,13 @@ namespace ml
 
 		using Clbk = std::function<void()>;
 
-		void drawPreview(const typeof<> & type, voidptr_t value, const vec2 & size, Clbk fun) const;
+		void drawPreview(const typeof<> & type, void * value, const vec2 & size, Clbk fun) const;
 
 		template <
 			class T, class F
-		> inline void drawPreview(const_ptr_t<T> value, const vec2 & size, F && fun) const
+		> inline void drawPreview(T const * value, const vec2 & size, F && fun) const
 		{
-			return drawPreview(typeof<T>(), (voidptr_t)value, size, fun);
+			return drawPreview(typeof<T>(), (void *)value, size, fun);
 		}
 
 		template <
@@ -63,19 +63,19 @@ namespace ml
 		AssetPreview() : m_previewMap {}, m_textureList {} {}
 		~AssetPreview() { this->dispose(); }
 
-		using PreviewMap = typename HashMap<voidptr_t, const_ptr_t<Texture>>;
-		using TextureList = typename List<ptr_t<Texture>>;
+		using PreviewMap = typename HashMap<void *, Texture const *>;
+		using TextureList = typename List<Texture *>;
 
 		mutable PreviewMap	m_previewMap;
 		mutable TextureList m_textureList;
 
-		template <class ... Args> inline ptr_t<Texture> loadTemp(Args && ... args) const
+		template <class ... Args> inline Texture * loadTemp(Args && ... args) const
 		{
 			m_textureList.push_back(new Texture { std::forward<Args>(args)... });
 			return m_textureList.back();
 		}
 
-		inline const_ptr_t<Texture> insertPreview(voidptr_t value, const_ptr_t<Texture> preview) const
+		inline Texture const * insertPreview(void * value, Texture const * preview) const
 		{
 			return m_previewMap.insert({ value, preview }).first->second;
 		}

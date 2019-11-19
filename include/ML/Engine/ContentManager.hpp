@@ -15,7 +15,7 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		using AssetMap	= typename Map<String, ptr_t<Trackable>>;
+		using AssetMap	= typename Map<String, Trackable *>;
 		using TypeMap	= typename HashMap<hash_t, AssetMap>;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -86,24 +86,24 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline ptr_t<Trackable> insert(hash_t code, const String & name, voidptr_t value)
+		inline Trackable * insert(hash_t code, const String & name, void * value)
 		{
-			return this->data(code).insert({ name, (ptr_t<Trackable>)value }).first->second;
+			return this->data(code).insert({ name, (Trackable *)value }).first->second;
 		}
 
-		template <hash_t H> inline ptr_t<Trackable> insert(const String & name, voidptr_t value)
+		template <hash_t H> inline Trackable * insert(const String & name, void * value)
 		{
 			return this->insert(H, name, value);
 		}
 
-		template <class T> inline ptr_t<T> insert(const String & name, ptr_t<T> value)
+		template <class T> inline T * insert(const String & name, T * value)
 		{
-			return (ptr_t<T>)this->insert<typeof<T>::hash>(name, value);
+			return (T *)this->insert<typeof<T>::hash>(name, value);
 		}
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T, class ... A> inline ptr_t<T> create(const String & name, A && ... args)
+		template <class T, class ... A> inline T * create(const String & name, A && ... args)
 		{
 			return (!this->exists<T>(name)
 				? this->insert(name, new T { std::forward<A>(args)... })
@@ -111,7 +111,7 @@ namespace ml
 			);
 		}
 
-		inline ptr_t<Trackable> generate(const String & type, const String & name)
+		inline Trackable * generate(const String & type, const String & name)
 		{
 			if (const hash_t * code{ ML_Registry.get_code(type) })
 			{
@@ -130,7 +130,7 @@ namespace ml
 			auto it{ this->data(code).find(name) };
 			if (it != this->data(code).end())
 			{
-				ptr_t<Trackable> & ptr{ it->second };
+				Trackable * & ptr{ it->second };
 				delete ptr;
 				this->data(code).erase(it);
 				return true;
@@ -179,19 +179,19 @@ namespace ml
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class T> inline ptr_t<T> get(const String & name)
+		template <class T> inline T * get(const String & name)
 		{
 			auto it { this->find<T>(name) };
-			return ((it != this->end<T>()) ? (ptr_t<T>)it->second : nullptr);
+			return ((it != this->end<T>()) ? (T *)it->second : nullptr);
 		}
 
-		template <class T> inline const_ptr_t<T> get(const String & name) const
+		template <class T> inline T const * get(const String & name) const
 		{
 			auto it { this->find<T>(name) };
-			return ((it != this->end<T>()) ? (const_ptr_t<T>)it->second : nullptr);
+			return ((it != this->end<T>()) ? (T const *)it->second : nullptr);
 		}
 
-		template <class T> inline const_ptr_t<T> cget(const String & name) const
+		template <class T> inline T const * cget(const String & name) const
 		{
 			return this->get<T>(name);
 		}
@@ -209,7 +209,7 @@ namespace ml
 			return temp;
 		}
 
-		template <class T> inline String get_name(const_ptr_t<T> value) const
+		template <class T> inline String get_name(T const * value) const
 		{
 			const int32_t i { this->get_index_of<T>(value) };
 			return (i >= 0) ? this->get_keys<T>()[(hash_t)i] : String();
@@ -229,13 +229,13 @@ namespace ml
 			return this->end<T>();
 		}
 
-		template <class T> inline const_ptr_t<T> find_by_index(int32_t index) const
+		template <class T> inline T const * find_by_index(int32_t index) const
 		{
 			auto it { this->get_iter_at_index<T>(index) };
-			return ((it != this->end<T>()) ? (const_ptr_t<T>)it->second : nullptr);
+			return ((it != this->end<T>()) ? (T const *)it->second : nullptr);
 		}
 
-		template <class T> inline int32_t get_index_of(const_ptr_t<T> value) const
+		template <class T> inline int32_t get_index_of(T const * value) const
 		{
 			if (value)
 			{

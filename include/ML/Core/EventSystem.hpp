@@ -18,19 +18,19 @@ namespace ml
 	{
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 		
-		ptr_t<EventListener> addListener(const int32_t type, ptr_t<EventListener> listener);
+		EventListener * addListener(const int32_t type, EventListener * listener);
 		
 		bool fireEvent(const Event & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		bool removeListener(const int32_t & type, ptr_t<EventListener> listener);
+		bool removeListener(const int32_t & type, EventListener * listener);
 		
-		bool removeListenerFromAllEvents(ptr_t<EventListener> listener);
+		bool removeListenerFromAllEvents(EventListener * listener);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		template <class Ev> inline auto addListener(ptr_t<EventListener> listener)
+		template <class Ev> inline auto addListener(EventListener * listener)
 		{
 			return addListener(Ev::ID, listener);
 		}
@@ -46,7 +46,7 @@ namespace ml
 		friend struct Singleton<EventSystem>;
 		EventSystem() {}
 		~EventSystem() {}
-		std::multimap<int32_t, ptr_t<EventListener>> m_listeners;
+		std::multimap<int32_t, EventListener *> m_listeners;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	};

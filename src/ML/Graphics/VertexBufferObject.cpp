@@ -64,7 +64,7 @@ namespace ml
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	
-	const VertexBufferObject & VertexBufferObject::bufferData(voidptr_t data, uint32_t size) const
+	const VertexBufferObject & VertexBufferObject::bufferData(void * data, uint32_t size) const
 	{
 		if (*this)
 		{
@@ -83,10 +83,10 @@ namespace ml
 	
 	const VertexBufferObject & VertexBufferObject::bufferData(const List<float_t> & data) const
 	{
-		return bufferData((voidptr_t)&data[0], (uint32_t)data.size());
+		return bufferData((void *)&data[0], (uint32_t)data.size());
 	}
 	
-	const VertexBufferObject & VertexBufferObject::bufferSubData(voidptr_t data, uint32_t size, uint32_t offset) const
+	const VertexBufferObject & VertexBufferObject::bufferSubData(void * data, uint32_t size, uint32_t offset) const
 	{
 		if (*this)
 		{
@@ -105,7 +105,7 @@ namespace ml
 	
 	const VertexBufferObject & VertexBufferObject::bufferSubData(const List<float_t> & data, uint32_t offset) const
 	{
-		return bufferSubData((voidptr_t)&data[0], (uint32_t)data.size(), offset);
+		return bufferSubData((void *)&data[0], (uint32_t)data.size(), offset);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

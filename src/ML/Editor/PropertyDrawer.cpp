@@ -78,7 +78,7 @@ namespace ml
 			{
 				ML_Editor.inspector().setFocused(true);
 				ML_Editor.content().select_item(
-					typeof<T>::name, ML_Engine.content().get_name(value), (voidptr_t)value
+					typeof<T>::name, ML_Engine.content().get_name(value), (void *)value
 				);
 			}
 			ImGui::PopID();
@@ -206,7 +206,7 @@ namespace ml
 				{
 					if (const hash_t * code { ML_Registry.get_code(pair.first) })
 					{
-						voidptr_t temp { ML_Registry.generate(pair.first) };
+						void * temp { ML_Registry.generate(pair.first) };
 						if (!value.addByCode(*code, temp))
 						{
 							Debug::logError("Failed Creating \'{0}\'", pair.first);
@@ -492,19 +492,19 @@ namespace ml
 			value.setEnabled(enabled);
 		}
 
-		const_ptr_t<Material> material{ value.material() };
+		Material const * material{ value.material() };
 		if (PropertyDrawer<Material>()("Material##Renderer", material))
 		{
 			value.setMaterial(material);
 		}
 
-		const_ptr_t<Shader> shader{ value.shader() };
+		Shader const * shader{ value.shader() };
 		if (PropertyDrawer<Shader>()("Shader##Renderer", shader))
 		{
 			value.setShader(shader);
 		}
 
-		const_ptr_t<Model> model{ value.model() };
+		Model const * model{ value.model() };
 		if (PropertyDrawer<Model>()("Model##Renderer", model))
 		{
 			value.setModel(model);
@@ -999,7 +999,7 @@ namespace ml
 			static bool popup_open { false };
 			static char name[32] = "";
 			static bool globals { false };
-			static const_ptr_t<Material> copy { nullptr };
+			static Material const * copy { nullptr };
 			static char asset_path[ML_MAX_PATH] = "";
 
 			// Popup Opened
@@ -1026,7 +1026,7 @@ namespace ml
 			);
 
 			// Copy
-			PropertyDrawer<Material>()(("Copy Uniforms##" + label), (const_ptr_t<Material>&)copy);
+			PropertyDrawer<Material>()(("Copy Uniforms##" + label), (Material const *&)copy);
 			ImGuiExt::Tooltip("Select an existing material to copy uniforms from");
 
 			// Path
@@ -1057,7 +1057,7 @@ namespace ml
 					{
 						for (const auto & pair : ML_Engine.content().data<Uniform>())
 						{
-							if (auto u { (const_ptr_t<Uniform>)pair.second })
+							if (auto u { (Uniform const *)pair.second })
 							{
 								value->insert(u->clone());
 							}
@@ -1074,7 +1074,7 @@ namespace ml
 					{
 						value->loadFromFile(
 							asset_path, 
-							(const Map<String, ptr_t<Texture>> *) & ML_Engine.content().data<Texture>()
+							(const Map<String, Texture *> *) & ML_Engine.content().data<Texture>()
 						);
 					}
 				}
@@ -1103,10 +1103,10 @@ namespace ml
 		ImGui::PushID(label.c_str());
 
 		// new uniform editor
-		ptr_t<Uniform> u = nullptr;
+		Uniform * u = nullptr;
 		if (PropertyDrawer<Uniform>()(
 			("New Uniform##Material##" + label).c_str(),
-			(ptr_t<Uniform>&)u
+			(Uniform *&)u
 			))
 		{
 			if (u && !value.insert(u))
@@ -1120,7 +1120,7 @@ namespace ml
 		if (!value.empty()) { ImGui::Separator(); }
 
 		// to remove
-		ptr_t<Uniform> to_remove{ nullptr };
+		Uniform * to_remove{ nullptr };
 		for (auto & u : value)
 		{
 			// name
@@ -1298,7 +1298,7 @@ namespace ml
 		ImGui::Text("Meshes: %u", value.meshes().size());
 		for (size_t i = 0; i < value.meshes().size(); i++)
 		{
-			const_ptr_t<Mesh> mesh { value.meshes()[i] };
+			Mesh const * mesh { value.meshes()[i] };
 			ImGui::PushID(ML_ADDRESSOF(mesh));
 
 			const String meshID { String("Mesh [" + std::to_string(i) + "]##" + label) };
@@ -2037,7 +2037,7 @@ namespace ml
 			changed = true;
 		}
 
-		const_ptr_t<Texture> tex = value.texture();
+		Texture const * tex = value.texture();
 		if (PropertyDrawer<Texture>()("Texture##Sprite", tex))
 		{
 			value.setTexture(tex);
@@ -2163,19 +2163,19 @@ namespace ml
 			value.setFrameID(GL::value_at<GL::FrameID>(frameID));
 		}
 
-		const_ptr_t<Material> material { value.material() };
+		Material const * material { value.material() };
 		if (PropertyDrawer<Material>()(("Material##Surface##" + label), material))
 		{
 			value.setMaterial(material); changed = true;
 		}
 
-		const_ptr_t<Model> model { value.model() };
+		Model const * model { value.model() };
 		if (PropertyDrawer<Model>()(("Model##Surface##" + label), model))
 		{
 			value.setModel(model); changed = true;
 		}
 
-		const_ptr_t<Shader> shader { value.shader() };
+		Shader const * shader { value.shader() };
 		if (PropertyDrawer<Shader>()(("Shader##Surface##" + label), shader))
 		{
 			value.setShader(shader); changed = true;
@@ -2262,7 +2262,7 @@ namespace ml
 			// State
 			static bool popup_open { false };
 			static char name[32] = "";
-			static Array<const_ptr_t<Image>, 6> image { nullptr };
+			static Array<Image const *, 6> image { nullptr };
 			static int32_t sampler_type { 0 };
 			static char asset_path[ML_MAX_PATH] = "";
 			static String open_path;
@@ -2294,7 +2294,7 @@ namespace ml
 			if (sampler_type == 0)
 			{
 				// Copy
-				if (PropertyDrawer<Image>()(("Image##" + label), (const_ptr_t<Image>&)image[0]))
+				if (PropertyDrawer<Image>()(("Image##" + label), (Image const *&)image[0]))
 				{
 					std::strcpy(asset_path, "");
 				}
@@ -2322,12 +2322,12 @@ namespace ml
 			}
 			else if (sampler_type == 2)
 			{
-				PropertyDrawer<Image>()(("Right##Image##" + label), (const_ptr_t<Image>&)image[0]);
-				PropertyDrawer<Image>()(("Left##Image##" + label), (const_ptr_t<Image>&)image[1]);
-				PropertyDrawer<Image>()(("Top##Image##" + label), (const_ptr_t<Image>&)image[2]);
-				PropertyDrawer<Image>()(("Bottom##Image##" + label), (const_ptr_t<Image>&)image[3]);
-				PropertyDrawer<Image>()(("Front##Image##" + label), (const_ptr_t<Image>&)image[4]);
-				PropertyDrawer<Image>()(("Back##Image##" + label), (const_ptr_t<Image>&)image[5]);
+				PropertyDrawer<Image>()(("Right##Image##" + label), (Image const *&)image[0]);
+				PropertyDrawer<Image>()(("Left##Image##" + label), (Image const *&)image[1]);
+				PropertyDrawer<Image>()(("Top##Image##" + label), (Image const *&)image[2]);
+				PropertyDrawer<Image>()(("Bottom##Image##" + label), (Image const *&)image[3]);
+				PropertyDrawer<Image>()(("Front##Image##" + label), (Image const *&)image[4]);
+				PropertyDrawer<Image>()(("Back##Image##" + label), (Image const *&)image[5]);
 			}
 
 			// Submit
@@ -2601,19 +2601,19 @@ namespace ml
 				{
 					switch (type)
 					{
-					case uni_bool	::ID: return (ptr_t<Uniform>)new uni_bool	{ name, {} };
-					case uni_float	::ID: return (ptr_t<Uniform>)new uni_float	{ name, {} };
-					case uni_int	::ID: return (ptr_t<Uniform>)new uni_int		{ name, {} };
-					case uni_vec2	::ID: return (ptr_t<Uniform>)new uni_vec2	{ name, {} };
-					case uni_vec3	::ID: return (ptr_t<Uniform>)new uni_vec3	{ name, {} };
-					case uni_vec4	::ID: return (ptr_t<Uniform>)new uni_vec4	{ name, {} };
-					case uni_color	::ID: return (ptr_t<Uniform>)new uni_color	{ name, {} };
-					case uni_mat2	::ID: return (ptr_t<Uniform>)new uni_mat2	{ name, {} };
-					case uni_mat3	::ID: return (ptr_t<Uniform>)new uni_mat3	{ name, {} };
-					case uni_mat4	::ID: return (ptr_t<Uniform>)new uni_mat4	{ name, {} };
-					case uni_sampler::ID: return (ptr_t<Uniform>)new uni_sampler	{ name, {} };
+					case uni_bool	::ID: return (Uniform *)new uni_bool	{ name, {} };
+					case uni_float	::ID: return (Uniform *)new uni_float	{ name, {} };
+					case uni_int	::ID: return (Uniform *)new uni_int		{ name, {} };
+					case uni_vec2	::ID: return (Uniform *)new uni_vec2	{ name, {} };
+					case uni_vec3	::ID: return (Uniform *)new uni_vec3	{ name, {} };
+					case uni_vec4	::ID: return (Uniform *)new uni_vec4	{ name, {} };
+					case uni_color	::ID: return (Uniform *)new uni_color	{ name, {} };
+					case uni_mat2	::ID: return (Uniform *)new uni_mat2	{ name, {} };
+					case uni_mat3	::ID: return (Uniform *)new uni_mat3	{ name, {} };
+					case uni_mat4	::ID: return (Uniform *)new uni_mat4	{ name, {} };
+					case uni_sampler::ID: return (Uniform *)new uni_sampler	{ name, {} };
 					}
-					return (ptr_t<Uniform>)nullptr;
+					return (Uniform *)nullptr;
 				})();
 
 				if (value)
@@ -2651,7 +2651,7 @@ namespace ml
 			auto copy { *data };
 			const String name{ "##" + label + "##Bool##Uni##" + value.getName() };
 			ImGui::Checkbox(name.c_str(), &copy);
-			if (auto u{ dynamic_cast<ptr_t<uni_bool>>(&value) })
+			if (auto u{ dynamic_cast<uni_bool *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2662,7 +2662,7 @@ namespace ml
 			auto copy { *data };
 			const String name{ "##" + label + "##Float##Uni##" + value.getName() };
 			ImGui::DragFloat(name.c_str(), &copy, spd, 0, 0, fmt);
-			if (auto u{ dynamic_cast<ptr_t<uni_float>>(&value) })
+			if (auto u{ dynamic_cast<uni_float *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2674,7 +2674,7 @@ namespace ml
 			const String name{ "##" + label + "##Int##Uni##" + value.getName() };
 			if (value.isModifiable()) ImGui::InputInt(name.c_str(), &copy);
 			else ImGui::DragInt(name.c_str(), &copy);
-			if (auto u{ dynamic_cast<ptr_t<uni_int>>(&value) })
+			if (auto u{ dynamic_cast<uni_int *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2685,7 +2685,7 @@ namespace ml
 			auto copy { *data };
 			const String name{ "##" + label + "##Vec2##Uni##" + value.getName() };
 			ImGui::DragFloat2(name.c_str(), &copy[0], spd, 0, 0, fmt);
-			if (auto u{ dynamic_cast<ptr_t<uni_vec2>>(&value) })
+			if (auto u{ dynamic_cast<uni_vec2 *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2696,7 +2696,7 @@ namespace ml
 			auto copy { *data };
 			const String name{ "##" + label + "##Vec3##Uni##" + value.getName() };
 			ImGui::DragFloat3(name.c_str(), &copy[0], spd, 0, 0, fmt);
-			if (auto u{ dynamic_cast<ptr_t<uni_vec3>>(&value) })
+			if (auto u{ dynamic_cast<uni_vec3 *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2707,7 +2707,7 @@ namespace ml
 			auto copy { *data };
 			const String name{ "##" + label + "##Vec4##Uni##" + value.getName() };
 			ImGui::DragFloat4(name.c_str(), &copy[0], spd, 0, 0, fmt);
-			if (auto u{ dynamic_cast<ptr_t<uni_vec4>>(&value) })
+			if (auto u{ dynamic_cast<uni_vec4 *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2718,7 +2718,7 @@ namespace ml
 			auto copy { *data };
 			const String name{ "##" + label + "##Color##Uni##" + value.getName() };
 			ImGui::ColorEdit4(name.c_str(), &copy[0], ImGuiColorEditFlags_Float);
-			if (auto u{ dynamic_cast<ptr_t<uni_color>>(&value) })
+			if (auto u{ dynamic_cast<uni_color *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2730,7 +2730,7 @@ namespace ml
 			const String name{ "##" + label + "##Mat2##Uni##" + value.getName() };
 			ImGui::DragFloat2((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
 			ImGui::DragFloat2((name + "##02").c_str(), &copy[2], spd, 0, 0, fmt);
-			if (auto u{ dynamic_cast<ptr_t<uni_mat2>>(&value) })
+			if (auto u{ dynamic_cast<uni_mat2 *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2743,7 +2743,7 @@ namespace ml
 			ImGui::DragFloat3((name + "##00").c_str(), &copy[0], spd, 0, 0, fmt);
 			ImGui::DragFloat3((name + "##03").c_str(), &copy[3], spd, 0, 0, fmt);
 			ImGui::DragFloat3((name + "##06").c_str(), &copy[6], spd, 0, 0, fmt);
-			if (auto u{ dynamic_cast<ptr_t<uni_mat3>>(&value) })
+			if (auto u{ dynamic_cast<uni_mat3 *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2757,7 +2757,7 @@ namespace ml
 			ImGui::DragFloat4((name + "##04").c_str(), &copy[4],  spd, 0, 0, fmt);
 			ImGui::DragFloat4((name + "##08").c_str(), &copy[8],  spd, 0, 0, fmt);
 			ImGui::DragFloat4((name + "##12").c_str(), &copy[12], spd, 0, 0, fmt);
-			if (auto u{ dynamic_cast<ptr_t<uni_mat4>>(&value) })
+			if (auto u{ dynamic_cast<uni_mat4 *>(&value) })
 			{
 				u->setData(copy);
 				return Layout::end_prop(this, true);
@@ -2769,7 +2769,7 @@ namespace ml
 			const String name{ "##" + label + "##Sampler##Uni##" + value.getName() };
 			if (PropertyDrawer<Texture>()(name, copy))
 			{
-				if (auto u{ dynamic_cast<ptr_t<uni_sampler>>(&value) })
+				if (auto u{ dynamic_cast<uni_sampler *>(&value) })
 				{
 					u->setData(copy);
 				}

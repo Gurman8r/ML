@@ -28,13 +28,13 @@ namespace ml
 		Text & setPosition(const vec2 & value);
 		Text & setScale(const vec2 & value);
 		Text & setColor(const vec4 & value);
-		Text & setFont(const_ptr_t<Font> value);
+		Text & setFont(Font const * value);
 		Text & setFontSize(uint32_t value);
 		Text & setString(const String & value);
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-		inline auto getFont()		const -> const_ptr_t<Font>		{ return m_font; }
+		inline auto getFont()		const -> Font const *		{ return m_font; }
 		inline auto getFontSize()	const -> const uint32_t		{ return m_fontSize; }
 		inline auto getPosition()	const -> const vec2 &		{ return m_position; }
 		inline auto getScale()		const -> const vec2 &		{ return m_scale; }
@@ -49,7 +49,7 @@ namespace ml
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	private:
-		const_ptr_t<Font> m_font;
+		Font const * m_font;
 		uint32_t	m_fontSize;
 		vec2		m_position;
 		vec2		m_scale;
@@ -57,7 +57,7 @@ namespace ml
 		vec4		m_color;
 
 		mutable bool m_changed;
-		mutable List<const_ptr_t<Texture>> m_textures;
+		mutable List<Texture const *> m_textures;
 		mutable List<geo::rect_quad> m_vertices;
 
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -120,7 +120,7 @@ namespace ml
 		return create(value.size()) && update(value);
 	}
 
-	bool Texture::loadFromFaces(const Array<const_ptr_t<Image>, 6> & faces)
+	bool Texture::loadFromFaces(const Array<Image const *, 6> & faces)
 	{
 		// Validate Sampler
 		if (m_sampler != GL::TextureCubeMap)
@@ -178,7 +178,7 @@ namespace ml
 					0,
 					m_cFormat,
 					m_pixType,
-					(voidptr_t)faces[i]->data()
+					(void *)faces[i]->data()
 				);
 			}
 			
@@ -234,12 +234,12 @@ namespace ml
 		return create(image.data(), w, h);
 	}
 
-	bool Texture::create(const_ptr_t<byte_t> pixels, const vec2u & size)
+	bool Texture::create(byte_t const * pixels, const vec2u & size)
 	{
 		return create(pixels, size[0], size[1]);
 	}
 
-	bool Texture::create(const_ptr_t<byte_t> pixels, uint32_t w, uint32_t h)
+	bool Texture::create(byte_t const * pixels, uint32_t w, uint32_t h)
 	{
 		if (w && h)
 		{
@@ -273,7 +273,7 @@ namespace ml
 					0, // border: "This value must be 0" -khronos.org
 					m_cFormat,
 					m_pixType,
-					(voidptr_t)pixels
+					(void *)pixels
 				);
 				
 				unbind();
@@ -345,22 +345,22 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * */
 
-	bool Texture::update(const_ptr_t<byte_t> pixels)
+	bool Texture::update(byte_t const * pixels)
 	{
 		return update(pixels, UintRect { width(), height() });
 	}
 
-	bool Texture::update(const_ptr_t<byte_t> pixels, const UintRect & area)
+	bool Texture::update(byte_t const * pixels, const UintRect & area)
 	{
 		return update(pixels, area.position(), area.size());
 	}
 
-	bool Texture::update(const_ptr_t<byte_t> pixels, const vec2u & position, const vec2u & size)
+	bool Texture::update(byte_t const * pixels, const vec2u & position, const vec2u & size)
 	{
 		return update(pixels, position[0], position[1], size[0], size[1]);
 	}
 
-	bool Texture::update(const_ptr_t<byte_t> pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+	bool Texture::update(byte_t const * pixels, uint32_t x, uint32_t y, uint32_t w, uint32_t h)
 	{
 		if (w && h)
 		{
@@ -377,7 +377,7 @@ namespace ml
 					h,
 					m_iFormat,
 					m_pixType,
-					(voidptr_t)pixels
+					(void *)pixels
 				);
 
 				unbind();
@@ -563,7 +563,7 @@ namespace ml
 		return (*this);
 	}
 
-	void Texture::bind(const_ptr_t<Texture> value)
+	void Texture::bind(Texture const * value)
 	{
 		return ((value)
 			? ML_GL.bindTexture(value->sampler(), (*value))

@@ -97,6 +97,7 @@ namespace ml
 	ML_USING	uintmax_t	= typename ML_UINTMAX;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	ML_USING	byte_t		= typename uint8_t;
 	ML_USING	float_t		= typename float32_t;
 	ML_USING	hash_t		= typename uint64_t;
@@ -106,16 +107,10 @@ namespace ml
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	ML_USING_X	ptr_t		= typename X *;
-	ML_USING_X	const_ptr_t	= typename X const *;
-	ML_USING	voidptr_t 	= typename ptr_t<void>;
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	ML_USING	C_String	= typename const_ptr_t<char>;
-	ML_USING	CW_String	= typename const_ptr_t<wchar_t>;
-	ML_USING	C16_String	= typename const_ptr_t<char16_t>;
-	ML_USING	C32_String	= typename const_ptr_t<char32_t>;
+	ML_USING	C_String	= typename char const *;
+	ML_USING	CW_String	= typename wchar_t const *;
+	ML_USING	C16_String	= typename char16_t const *;
+	ML_USING	C32_String	= typename char32_t const *;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
